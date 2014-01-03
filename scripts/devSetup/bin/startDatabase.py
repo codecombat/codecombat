@@ -68,14 +68,20 @@ def which(cmd, mode=os.F_OK | os.X_OK, path=None):
 
 #TODO: Upgrade this so it works on windows
 #These scripts will be placed in coco/bin
+
 current_directory = os.path.dirname(os.path.realpath(sys.argv[0]))
 if which("mongod") and "v2.5.4" in subprocess.check_output("mongod --version",shell=True):
     mongo_executable = "mongod"
 else:
+    mongo_executable = None
     print("Mongod 2.5.4 wasn't found. Searching in bin directory...")
 
 mongo_directory = current_directory + os.sep + u"mongo"
-mongo_executable = os.environ.get("COCO_MONGOD_PATH",mongo_directory + os.sep + u"mongod")
+if not mongo_executable:
+    mongo_executable = os.environ.get("COCO_MONGOD_PATH",mongo_directory + os.sep + u"mongod")
+    if not os.path.exists(mongo_executable):
+        raise FileNotFoundError("Mongo executable not found.")
+    print("Using mongo executable: " + str(mongo_executable))
 mongo_db_path = os.path.abspath(os.path.join(current_directory,os.pardir)) + os.sep + u"mongo"
 if not os.path.exists(mongo_db_path):
     os.mkdir(mongo_db_path)
