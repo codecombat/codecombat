@@ -1,7 +1,7 @@
 mongoose = require('mongoose')
 jsonschema = require('../schemas/user')
 crypto = require('crypto')
-{salt} = require('../../server_config')
+{salt, isProduction} = require('../../server_config')
 
 UserSchema = new mongoose.Schema({
   dateCreated:
@@ -26,6 +26,7 @@ UserSchema.methods.isAdmin = ->
   return p and 'admin' in p
   
 UserSchema.statics.updateMailChimp = (doc, callback) ->
+  return callback?() unless isProduction
   return callback?() if doc.updatedMailChimp
   return callback?() unless doc.get('email')
   existingProps = doc.get('mailChimp')
