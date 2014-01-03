@@ -6,6 +6,7 @@ User = require('../models/User')
 Handler = require('./Handler')
 languages = require '../languages'
 mongoose = require 'mongoose'
+config = require '../../server_config'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = ['permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID', 'music', 'volume']
@@ -20,6 +21,10 @@ UserHandler = class UserHandler extends Handler
   ]
 
   jsonSchema: schema
+  
+  constructor: ->
+    super(arguments...)
+    @editableProperties.push('permissions') unless config.isProduction
 
   formatEntity: (req, document) ->
     return null unless document?

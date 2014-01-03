@@ -5,13 +5,13 @@ forms = require('lib/forms')
 User = require('models/User')
 
 module.exports = class SettingsView extends View
-  id: "account-settings-view"
+  id: 'account-settings-view'
   template: template
 
   events:
-    "click #save-button": "save"
-    "change #settings-panes input": "save"
-    "change input[type='range']": "updateWizardColor"
+    'click #save-button': 'save'
+    'change #settings-panes input': 'save'
+    'change input[type="range"]': 'updateWizardColor'
     'click #toggle-all-button': 'toggleEmailSubscriptions'
 
   constructor: (options) ->
@@ -54,7 +54,6 @@ module.exports = class SettingsView extends View
     $('.tab-pane').removeClass('active')
     pane.addClass('active')
     @currentTab = category
-    console.log "chooseTab", category
 
   getRenderData: ->
     c = super()
@@ -128,3 +127,9 @@ module.exports = class SettingsView extends View
     me.set('email', $('#email', @$el).val())
     me.set('wizardColor1', @getWizardColor())
     me.set('emailSubscriptions', @getSubscriptions())
+
+    adminCheckbox = @$el.find('#admin')
+    if adminCheckbox.length
+      permissions = []
+      permissions.push 'admin' if adminCheckbox.prop('checked')
+      me.set('permissions', permissions)

@@ -34,6 +34,12 @@ block content
               label.control-label(for="email", data-i18n="forms.email") Email
               .controls
                 input#email.input-large(name="email", type="text", value="#{me.get('email')}")
+            if !isProduction
+              .control-group
+                label.control-label(for="email", data-i18n="forms.admin") Admin
+                .controls
+                  input#admin.input-large(name="admin", type="checkbox", checked=me.get('permissions').indexOf('admin')>-1))
+              
   
       #picture-pane.tab-pane
         h3(data-i18n="account_settings.gravatar_select") Select which Gravatar photo to use
