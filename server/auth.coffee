@@ -69,7 +69,7 @@ module.exports.setupRoutes = (app) ->
       user.set('passwordReset', Math.random().toString(36).slice(2,7).toUpperCase())
       user.save (err) =>
         return returnServerError(res) if err
-        if config.isProduction or true
+        if config.isProduction
           transport = createSMTPTransport()
           options = createMailOptions req.body.email, user.get('passwordReset')
           transport.sendMail options, (error, response) ->

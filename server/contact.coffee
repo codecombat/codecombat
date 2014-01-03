@@ -5,7 +5,7 @@ nodemailer = require 'nodemailer'
 module.exports.setupRoutes = (app) ->
   app.post '/contact', (req, res) ->
     winston.info "Sending mail from #{req.body.email} saying #{req.body.message}"
-    if config.isProduction or true
+    if config.isProduction
       transport = createSMTPTransport()
       options = createMailOptions req.body.email, req.body.message, req.user
       transport.sendMail options, (error, response) ->
