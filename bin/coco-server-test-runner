@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#sleep 5
+cd ~/Desktop/coco
+node_modules/jasmine-node/bin/jasmine-node test/server/ --coffee --autotest --captureExceptions

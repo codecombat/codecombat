@@ -1,0 +1,19 @@
+extends /templates/base
+
+block content
+  if levels
+    h3 Version History for: "#{levels[0].name}"
+  
+    table.table
+      tr
+        th Name
+        th Version
+        th Commit Message
+    
+      for level in levels
+        tr
+          td
+            a(href="/editor/level/#{level.slug || level._id}")
+              | #{level.name}
+          td #{level.version.major}.#{level.version.minor}
+          td #{level.commitMessage}

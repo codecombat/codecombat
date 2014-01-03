@@ -1,0 +1,16 @@
+table.table
+  tr
+    th(colspan=3) Results: #{documents.length}
+  
+  tr
+    th Name
+    th Description
+    th Version
+  
+  for level in documents
+    tr
+      td
+        a(href="/editor/level/#{level.slug || level._id}")
+          | #{level.name}
+      td.body-row #{level.description}
+      td #{level.version.major}.#{level.version.minor}

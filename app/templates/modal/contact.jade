@@ -1,0 +1,28 @@
+.modal-header
+  .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+  h3(data-i18n="contact.contact_us") Contact CodeCombat...
+
+.modal-body
+  p
+    span(data-i18n="contact.welcome") Good to hear from you! Use this form to send us email. 
+    span(data-i18n="contact.contribute_prefix") If you're interested in contributing, check out our 
+    a(href="/contribute", data-dismiss="modal", data-i18n="contact.contribute_page") contribute page
+    span(data-i18n="contact.contribute_suffix") !
+  p
+    span(data-i18n="contact.forum_prefix") For anything public, please try 
+    a(href="http://discourse.codecombat.com/", data-i18n="contact.forum_page") our forum
+    span(data-i18n="contact.forum_suffix")  instead.
+  .form-inline
+    .control-group
+      label.control-label(for="contact-email", data-i18n="forms.email") Email
+      .controls
+        input#contact-email.input-block-level(name="email", type="email", value="#{me.get('anonymous') ? '' : me.get('email')}", placeholder="Where should we reply?")
+    .control-group
+      label.control-label(for="contact-message", data-i18n="forms.message") Message
+      .controls
+        textarea#contact-message.input-block-level(name="message", rows=8)
+
+.modal-footer
+  span.sending-indicator.pull-left.hide(data-i18n="contact.sending") Sending...
+  a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="forms.cancel").btn Cancel
+  button.btn.btn-primary#contact-submit-button(data-i18n="contact.send") Send Feedback

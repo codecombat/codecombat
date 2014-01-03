@@ -1,0 +1,53 @@
+extends /templates/base
+
+block outer_content
+  .outer-content
+
+    .top-controls-area
+      h2.level-title-header
+        span Level Editor: 
+        span.level-title #{level.attributes.name}
+    
+      .level-control-buttons
+        button.btn.btn-primary#commit-level-start-button Save
+        button.btn.btn-primary#fork-level-start-button Fork
+        .btn-group.play-button-group
+          button#play-button.btn.btn-inverse.banner(title="⌃↩ or ⌘↩: Play preview of current level") Play!
+          button.btn.btn-inverse.banner.dropdown-toggle(data-toggle="dropdown")
+            i.icon-cog.icon-white
+      
+          ul.dropdown-menu
+            li
+              span.dropdown-menu-header Some Options?
+            li.divider
+            li
+              a(data-delay="1000", href="#") 1 second
+              a(data-delay="3000", href="#") 3 seconds
+              a(data-delay="5000", href="#") 5 seconds
+              a(data-delay="90019001", href="#") Manual
+      .clearfix
+    
+      ul.nav.nav-tabs
+        li.active
+          a(href="#editor-level-thangs-tab-view", data-toggle="tab") Thangs
+        li
+          a(href="#editor-level-scripts-tab-view", data-toggle="tab") Scripts
+        li
+          a(href="#editor-level-settings-tab-view", data-toggle="tab") Settings
+        li
+          a(href="#editor-level-components-tab-view", data-toggle="tab") Components
+        li
+          a(href="#editor-level-systems-tab-view", data-toggle="tab") Systems
+  
+    div.tab-content
+      div.tab-pane.active#editor-level-thangs-tab-view
+        
+      div.tab-pane#editor-level-scripts-tab-view
+  
+      div.tab-pane#editor-level-settings-tab-view
+
+      div.tab-pane#editor-level-components-tab-view
+
+      div.tab-pane#editor-level-systems-tab-view
+
+block footer

@@ -1,0 +1,28 @@
+@import "../../../bootstrap/mixins"
+
+.spell-palette-entry-view
+  display: inline-block
+  margin: 0px 4px
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+  font-size: 12px
+
+  // Pulling these colors from the most relevant textmate-theme classes
+  &.function
+    // twilight: color: #7587A6
+    color: #0000A2
+  &.object
+    // twilight: color: #AC885B
+    color: rgb(6, 150, 14)
+  &.string
+    // twilight: color: #CDA869
+    color: rgb(3, 106, 7)
+  &.number
+    // twilight: color: #F9EE98
+    color: rgb(0, 0, 205)
+  &.boolean
+    // twilight: color: #C9CEA8
+    color: rgb(88, 92, 246)
+  &.undefined
+    // twilight: color: #CF6A4C
+    color: rgb(197, 6, 11)
+

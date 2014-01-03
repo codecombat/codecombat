@@ -1,0 +1,16 @@
+table.table
+  tr
+    th(colspan=3) Results: #{documents.length}
+  
+  tr
+    th Name
+    th Body
+    th Version
+  
+  for article in documents
+    tr
+      td
+        a(href="/editor/article/#{article.slug || article._id}")
+          | #{article.name}
+      td.body-row #{article.body}
+      td #{article.version.major}.#{article.version.minor}

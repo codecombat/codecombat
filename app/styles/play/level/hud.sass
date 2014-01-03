@@ -1,0 +1,266 @@
+@import "app/styles/bootstrap/mixins"
+
+#thang-hud.no-selection
+  .center
+    > *
+      display: none
+
+    .no-selection-message
+      //display: block  // we fade this in
+      margin: auto
+      width: 100%
+      height: 100%
+      text-align: center
+      background: transparent url(/images/level/no_selection_pointer.png) no-repeat 50% 40%
+      background-size: 40px 37px
+      @include opacity(75)
+
+      &:hover
+        @include opacity(100)
+
+      div
+        padding-top: 70px
+        font-size: 14px
+
+#thang-hud
+  width: 55%
+  height: 120px
+  position: relative
+   
+  .left-wing
+    position: absolute
+    width: 50%
+    height: 100%
+    left: 0
+    top: 0
+    z-index: -1
+    background-image: url(/images/level/hud_left_wing.png)
+    background-position: right
+
+  .right-wing
+    position: absolute
+    width: 50%
+    height: 100%
+    right: 0
+    top: 0
+    z-index: -1
+    background-image: url(/images/level/hud_right_wing.png)
+    background-position: left
+  
+  .center
+    width: 520px
+    height: 116px
+    padding: 4px 20px 0 20px
+    margin: auto
+    background-image: url(/images/level/hud_center.png)
+    color: #BEBEBE
+    font-size: 12px
+    overflow: hidden
+
+    .no-selection-message
+      display: none
+
+    .thang-image-wrapper, .speaker-image-wrapper
+      width: 100px
+      height: 100px
+      border: 1px solid darkred
+      margin: 7px 7px 7px 22px
+      float: left
+      border-radius: 4px
+      overflow: hidden
+
+      &.team-humans
+        border-color: darkred
+
+      &.team-ogres
+        border-color: darkblue
+    
+    .thang-props
+      width: 144px
+      height: 100px
+      margin: 8px 8px 0 0
+      overflow-y: scroll
+      float: left
+
+      .prop
+        img
+          margin-right: 5px
+  
+      .text-prop
+        width: 50%
+  
+      .prop-value.bar-prop
+        width: 100px
+        display: inline-block
+        height: 6px
+        background: #ddd
+        border: 1px solid black
+        border-radius: 6px
+        overflow: hidden
+    
+        .bar
+          background: black
+          width: 100%
+          height: 100%
+  
+      .prop[name="health"] .bar
+        background: #C5362B
+      
+      .message
+        text-align: center
+        display: table
+        height: 100%
+        width: 100%
+  
+        p
+          display: table-cell
+          vertical-align: middle
+          font-size: 20px
+  
+    .thang-actions
+      width: 212px
+      height: 100px
+      margin: 8px 24px 8px 0
+      float: left
+      overflow-y: scroll
+      overflow-x: hidden
+
+      .table-container
+        position: relative
+        
+        .progress-indicator
+          position: absolute
+          right: 45px
+          background-color: #fce
+          z-index: 1
+
+        .progress-arrow
+          width: 14px
+          height: 6px
+          top: -6px
+          // Could put top: 0 to make the arrow go inside, but it doesn't have enough contrast over the bar
+          right: 39px
+          background: transparent url(/images/level/action_timeline_indicator.png) no-repeat center
+
+        .progress-line
+          width: 1px
+          height: 100%
+          top: 0
+          background-color: #A4A198
+  
+        table
+          border: 1px solid #5B5855
+          border-radius: 2px
+          line-height: 17px
+          width: 100%
+          
+          tr
+            border: 1px solid #5b5855
+  
+          .action-indicator
+            width: 10px
+  
+          .action-label
+            width: 75px
+  
+          .action-timeline
+            padding: 0
+  
+            .timeline-wrapper
+              position: relative
+              width: 100%
+              height: 19px
+  
+              div
+                @include box-sizing(border-box)
+                background-color: #6BA1C8
+                height: 100%
+                border-bottom: 2px groove #201B15
+                border-right: 1px solid #201B15
+                position: absolute
+                top: 0
+  
+        .current-action
+          font-weight: bold
+  
+          .action-indicator
+            background: #4B4133 url(/images/level/current_action_indicator.png) no-repeat center
+  
+          td
+            background-color: #4B4133
+        
+    .dialogue-area
+      opacity: 0.0
+      position: relative
+      height: 100%
+      width: 100%
+      
+      .bubble
+        position: absolute
+        left: 140px
+        right: 8px
+        top: 8px
+        bottom: 0px
+        padding: 10px
+        color: black
+        font-weight: bold
+        background: #FFFFFF
+        border: black solid 1px
+        border-radius: 10px
+        font-size: 14px
+        line-height: 18px
+        
+        strong
+          color: #09B057
+        
+        .enter
+          position: absolute
+          right: 7px
+          bottom: 7px
+          div.dot
+            background: #337
+            width: 8px
+            height: 8px
+            position: absolute
+            right: 8px
+            top: 9px
+            border-radius: 5px
+          
+        button, .alert
+          padding: 2px 5px
+          
+        .enter button.with-dot
+          padding-right: 20px
+        
+        h3
+          margin: 0 0 5px
+          font-size: 16px
+          line-height: 16px
+          color: #338
+        
+        button
+          margin-left: 10px
+              
+      .bubble:after
+        content: ""
+        position: absolute
+        top: 55px
+        left: -27px
+        border-style: solid
+        border-width: 11px 27px 11px 0
+        border-color: transparent #FFFFFF
+        display: block
+        width: 0
+        z-index: 1
+      
+      .bubble:before
+        content: ""
+        position: absolute
+        top: 55px
+        left: -28px
+        border-style: solid
+        border-width: 11px 27px 11px 0
+        border-color: transparent black
+        display: block
+        width: 0
+        z-index: 0

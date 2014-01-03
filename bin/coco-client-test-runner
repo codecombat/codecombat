@@ -1,0 +1,8 @@
+#!/bin/bash
+
+sleep 5
+cd ~/Desktop/coco
+until node_modules/karma/bin/karma start; do
+    echo "Karma crashed with exit code $?.  Respawning.." >&2
+    sleep 1
+done

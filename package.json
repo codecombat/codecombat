@@ -1,0 +1,87 @@
+{
+  "name": "codecombat",
+  "description": "A multiplayer programming game for learning how to code.",
+  "author": "Nick Winter <nick@codecombat.com>",
+  "homepage": "https://github.com/codecombat/codecombat",
+  "domains": [
+    "codecombat.com"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codecombat/codecombat"
+  },
+  "contributors": [
+    {
+      "name": "Nick Winter",
+      "email": "nick@codecombat.com"
+    },
+    {
+      "name": "Scott Erickson",
+      "email": "scott@codecombat.com"
+    },
+    {
+      "name": "George Saines",
+      "email": "george@codecombat.com"
+    }
+  ],
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "brunch test",
+    "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping brunch build --production",
+    "postdeploy": "echo Deployed. Unclench."
+  },
+  "main": "index.js",
+  "keywords": [
+    "learning",
+    "live coding",
+    "game",
+    "multiplayer"
+  ],
+  "dependencies": {
+    "express": "~3.0.6",
+    "winston": "0.6.x",
+    "passport": "0.1.x",
+    "passport-local": "0.1.x",
+    "mongodb": "1.2.x",
+    "mongoose": "3.6.x",
+    "mongoose-text-search": "~0.0.2",
+    "request": "2.12.x",
+    "tv4": "",
+    "lodash": "~2.0.0",
+    "underscore.string": "2.3.x",
+    "async": "0.2.x",
+    "connect": "2.7.x",
+    "nodemailer": "0.4.x",
+    "coffee-script": "",
+    "graceful-fs": "~2.0.1",
+    "node-force-domain": "~0.1.0",
+    "mailchimp-api": "",
+    "express-useragent": "~0.0.9",
+    "gridfs-stream": ""
+  },
+  "devDependencies": {
+    "jade": "0.33.x",
+    "javascript-brunch": "> 1.0 < 1.8",
+    "coffee-script-brunch": "> 1.0 < 1.8",
+    "coffeelint-brunch": "> 1.0 < 1.8",
+    "sass-brunch": "> 1.0 < 1.8",
+    "css-brunch": "> 1.0 < 1.8",
+    "jade-brunch": "> 1.0 < 1.8",
+    "uglify-js-brunch": "~1.7.4",
+    "clean-css-brunch": "> 1.0 < 1.8",
+    "auto-reload-brunch": "> 1.0 < 1.8",
+    "brunch": "~1.7.4",
+    "karma": "~0.8.0",
+    "jasmine-node": "",
+    "nodemon": "0.7.5",
+    "marked": "0.2.x",
+    "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
+    "bower": "~1.2.8",
+    "bless-brunch": "~1.6.1"
+  },
+  "license": "Copyright © 2014 CodeCombat",
+  "private": true,
+  "engines": {
+    "node": "0.10.x"
+  }
+}

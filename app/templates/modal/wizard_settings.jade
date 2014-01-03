@@ -1,0 +1,21 @@
+extends /templates/modal/modal_base
+
+block modal-body-content
+  h4 Customize Your Avatar
+  
+  canvas(width="120px", height="150px")
+  .settings
+    .form-vertical
+      .control-group
+        label.control-label(for="name")
+          | Name
+          button.btn.btn-mini.btn-primary#random-name Random
+        .controls
+          input#wizard-settings-name.input-large(name="name", type="text", value="#{me.get('name')||''}")
+    .control-group
+      label.control-label(for="wizardColor1") Hat Color
+      .controls
+        .selector#wizard-settings-color-1
+
+block modal-footer-content
+  button.btn.btn-primary.btn-large#wizard-settings-done(type="button", data-dismiss="modal", aria-hidden="true") Done

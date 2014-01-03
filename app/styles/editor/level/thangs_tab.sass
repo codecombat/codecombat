@@ -1,0 +1,117 @@
+@import "../../bootstrap/mixins"
+
+#editor-level-thangs-tab-view
+  position: relative
+
+  $addPaletteIconColumns: 3
+  $extantThangsWidth: 300px
+  $addPaletteIconWidth: 50px
+  $addPaletteIconPadding: 5px
+  $addPaletteWidth: ($addPaletteIconWidth + 2 * $addPaletteIconPadding) * $addPaletteIconColumns
+
+  .thangs-container
+    width: $extantThangsWidth
+    position: absolute
+    left: 0
+    top: 0
+    bottom: 0
+    
+    h3
+      margin: 0 -20px 0 0
+      
+    #thangs-treema
+      position: absolute
+      top: 40px
+      left: 0
+      right: 0
+      bottom: 0
+      overflow: scroll
+    
+    .treema-children .treema-row *
+      cursor: pointer !important
+
+  .world-container
+    margin-left: $extantThangsWidth
+    margin-right: $addPaletteWidth
+    padding: 0 20px
+    box-sizing: border-box
+
+    h3
+      margin: 0 -10px 0 0
+
+  .add-thangs-palette
+    width: $addPaletteWidth
+    box-sizing: border-box
+    position: absolute
+    right: 0
+    top: 0
+    bottom: 0
+    
+    #thangs-list
+      position: absolute
+      right: 0
+      top: 40px
+      bottom: 0
+      overflow: scroll
+
+    h3
+      margin: 0 -20px 0 0
+      width: 100%
+
+    .add-thang-palette-icon
+      // real img stuff
+      margin: $addPaletteIconPadding
+      max-width: $addPaletteIconWidth
+      max-height: $addPaletteIconWidth
+      cursor: pointer
+      transition: box-shadow 0.25s ease-out
+
+      // temp, text
+      display: inline-block
+      overflow: hidden
+      text-overflow: ellipsis
+      max-width: $addPaletteWidth
+  
+      &.selected
+        border: 1px solid blue
+        margin: $addPaletteIconPadding - 1px
+        @include box-shadow(0px 5px 25px rgba(79, 79, 213, 0.6))
+
+      &.flipped
+        -webkit-transform: scaleX(-1)
+        -moz-transform: scaleX(-1)
+        -ms-transform: scaleX(-1)
+        -o-transform: scaleX(-1)
+        transform: scaleX(-1)
+
+  #canvas-wrapper
+    width: 100%
+    position: relative
+
+  // Below snatched from play/level.sass; should refactor?
+
+  canvas#surface
+    background-color: #ddd
+    width: 100%
+    display: block
+    z-index: 1
+    
+  $GI: 0.5  // gradient intensity; can tweak this 0-1
+
+  .gradient
+    position: absolute
+    z-index: 10
+
+  #canvas-left-gradient
+    left: 0px
+    width: 5px
+    background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+    bottom: 0
+    top: 0
+
+  #canvas-top-gradient
+    top: 0
+    height: 5px
+    left: 0
+    right: 0
+    background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)

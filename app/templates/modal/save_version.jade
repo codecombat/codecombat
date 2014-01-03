@@ -1,0 +1,27 @@
+.modal-header
+  h3 Save
+.modal-body
+  block content
+    form.form-horizontal
+      .control-group
+        label.control-label(for="commitMessage") Commit Message
+        .controls
+          textarea#commit-message.input-large(name="commitMessage", type="text")
+      .control-group
+        label.control-label(for="level-version-is-major") New Major Version
+        .controls
+          input#major-version.input-large(name="version-is-major", type="checkbox")
+          span.help-block
+.modal-footer
+  #accept-cla-wrapper.alert.alert-info
+    | To save changes, first you must agree to  
+    strong#cla-link our CLA
+    | .
+    button.btn#agreement-button I AGREE
+    
+  button.btn(data-dismiss="modal") Cancel
+  button.btn.btn-primary#save-version-button Save
+.modal-body.wait.hide
+  h3 Saving...
+  .progress.progress-striped.active
+    .bar

@@ -1,0 +1,62 @@
+body
+  #fb-root
+  block header
+    .navbar.navbar-fixed-top
+      .navbar-inner
+        .content.clearfix
+          a.brand(href='/') 
+            img(src="/images/pages/base/logo.png", title="CodeCombat", alt="CodeCombat")
+ 
+          select.language-dropdown
+
+          if me.get('anonymous')
+            button.btn.btn-primary.navbuttontext(data-toggle="coco-modal", data-target="modal/signup", data-i18n="nav.sign_up") Create Account
+            button.btn.btn-primary.navbuttontext(data-toggle="coco-modal", data-target="modal/login", data-i18n="nav.log_in") Log In
+          else
+            button.btn.btn-primary.navbuttontext#logout-button(data-i18n="nav.log_out") Logout
+            a.btn.btn-primary.navbuttontext(href="/account/profile/#{me.id}")
+              | #{me.displayName()} 
+              i.icon-cog.icon-white.big
+
+          ul(class='navbar-link-text').nav.pull-right
+            li.play
+              a(href='/play', data-i18n="nav.play") Levels
+            li.editor
+              a(href='/editor', data-i18n="nav.editor") Editor
+            li.blog
+              a(href='http://code-combat.tumblr.com/', data-i18n="nav.blog") Blog
+            li.forum
+              a(href='http://discourse.codecombat.com/', data-i18n="nav.forum") Forum
+            if me.isAdmin()
+              li.admin
+                a(href='/admin', data-i18n="nav.admin") Admin
+
+  block outer_content
+    #outer-content-wrapper
+      #inner-content-wrapper
+        .main-content-area
+          block content
+            p If this is showing, you dun goofed
+
+  block footer
+    .footer
+      .content
+        p(class='footer-link-text')
+          a(href='/', title='Home', tabindex=-1, data-i18n="nav.home") Home
+          |  | 
+          a(href='/contribute', title='Contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
+          |  | 
+          a(href='/legal', title='Legal', tabindex=-1, data-i18n="nav.legal") Legal
+          |  | 
+          a(href='/about', title='About', tabindex=-1, data-i18n="nav.about") About
+          |  | 
+          a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Contact
+
+          
+      .share-buttons
+        .g-plusone(data-href="http://codecombat.com")
+        .fb-like(data-href="https://www.facebook.com/codecombat", data-send="false", data-layout="button_count", data-width="350", data-show-faces="true", data-ref="coco_footer_#{fbRef}")
+        a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow") Follow
+        //iframe(src="https://www.lendyour.net/embed/lendbutton?account_id=6&campaign_id=7", frameBorder="0")
+        a.mixpanel-badge(href="https://mixpanel.com/f/partner")
+          img(src="//cdn.mxpnl.com/site_media/images/partner/badge_light.png", alt="Mobile Analytics")

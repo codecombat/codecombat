@@ -1,0 +1,13 @@
+div.well
+  a#all-thangs-link Back To All Thangs
+  span#thang-props
+    a#thang-name-link
+      span= thang.id
+      input.hide(value=thang.id)
+    |  ( Type: 
+    a#thang-type-link
+      span= thang.thangType
+      input.hide(value=thang.thangType)
+    |  ) 
+
+#thang-components-edit-view

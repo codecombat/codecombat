@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir -p ~/Desktop/coco/mongo
+mongod --setParameter textSearchEnabled=true --dbpath ~/Desktop/coco/mongo

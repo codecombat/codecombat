@@ -1,0 +1,84 @@
+@import "../../../bootstrap/mixins"
+
+// keyframes mixin from https://gist.github.com/ericam/1607696
+=keyframes($name)
+  @-webkit-keyframes #{$name}
+    @content
+  @-moz-keyframes #{$name}
+    @content
+  @-ms-keyframes #{$name}
+    @content
+  @-o-keyframes #{$name}
+    @content
+  @keyframes #{$name}
+    @content
+
++keyframes(castablePulse)
+  from
+    @include box-shadow(0px 0px 8px #333)
+  50%
+    @include box-shadow(0px 0px 35px skyblue)
+  to
+    @include box-shadow(0px 0px 8px #333)
+
++keyframes(castablePulseButton)
+  from
+    color: white
+  50%
+    color: skyblue
+  to
+    color: white
+
+#cast-button-view
+  .cast-button-group
+    position: absolute
+    // Bottom/right margins must appear to scroll to size of any paper gashes
+    top: 2%
+    right: 4%
+    @include opacity(77)
+    
+    .button-progress-overlay
+      position: absolute
+      left: 0
+      top: 0
+      bottom: 0
+      // This transition time should roughly match the world progress update interval
+      @include transition(width .2s linear)
+
+    &.castable .button-progress-overlay, &.casting .button-progress-overlay
+      background-color: rgba(255, 255, 255, 0.5)
+
+    &:hover, &.castable
+      @include opacity(100)
+
+    &.castable
+      -webkit-animation-name: castablePulse
+      -webkit-animation-duration: 3s
+      -webkit-animation-iteration-count: infinite
+
+      .cast-button
+        font-weight: bold
+        -webkit-animation-name: castablePulseButton
+        -webkit-animation-duration: 3s
+        -webkit-animation-iteration-count: infinite
+
+    &:not(.castable):not(:hover)
+      .cast-options-button
+        // Mimic the disabled visuals
+        @include opacity(65)
+        background-image: none
+        @include box-shadow(none)
+        
+    .btn
+      padding: 3px 10px
+
+    .cast-button
+      width: 90px
+
+    .autocast-delays
+      min-width: 0
+      li
+        a, .dropdown-menu-header
+          padding: 3px 15px
+        a.selected
+          font-weight: bold

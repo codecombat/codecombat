@@ -1,0 +1,20 @@
+@import "../../../bootstrap/mixins"
+
+.thang-list-entry-view
+  @include opacity(90)
+  cursor: pointer
+  float: left
+  box-sizing: border-box
+  width: 20%
+  max-width: 100px
+
+  &.dead
+    @include opacity(50)
+
+  &.disabled
+    @include opacity(25)
+    cursor: default
+
+  &:hover:not(.disabled)
+    @include opacity(100)
+

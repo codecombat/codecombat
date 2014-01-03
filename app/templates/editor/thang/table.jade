@@ -1,0 +1,14 @@
+table.table
+  tr
+    th(colspan=3) Results: #{documents.length}
+  
+  tr
+    th Name
+    th Version
+  
+  for thang in documents
+    tr
+      td
+        a(href="/editor/thang/#{thang.slug || thang._id}")
+          | #{thang.name}
+      td #{thang.version.major}.#{thang.version.minor}

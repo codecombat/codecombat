@@ -1,0 +1,144 @@
+extends /templates/base
+
+block content
+  
+  h2(data-i18n="account_settings.title") Account Settings
+  
+  if me.get('anonymous')
+    p(data-i18n="account_settings.not_logged_in") Log in or create an account to change your settings.
+
+  else
+    button.btn#save-button.disabled.hide(data-i18n="account_settings.autosave") Changes Save Automatically
+  
+    ul.nav.nav-tabs#settings-tabs
+      li
+        a(href="#general-pane", data-toggle="tab", data-i18n="account_settings.me_tab") Me
+      li
+        a(href="#picture-pane", data-toggle="tab", data-i18n="account_settings.picture_tab") Picture
+      li
+        a(href="#wizard-pane", data-toggle="tab", data-i18n="account_settings.wizard_tab") Wizard
+      li
+        a(href="#password-pane", data-toggle="tab", data-i18n="account_settings.password_tab") Password
+      li
+        a(href="#email-pane", data-toggle="tab", data-i18n="account_settings.emails_tab") Emails
+
+    .tab-content#settings-panes
+      #general-pane.tab-pane
+        p
+          .form-horizontal
+            .control-group
+              label.control-label(for="name", data-i18n="forms.name") Name
+              .controls
+                input#name.input-large(name="name", type="text", value="#{me.get('name')||''}", placeholder="#{gravatarName}")
+            .control-group
+              label.control-label(for="email", data-i18n="forms.email") Email
+              .controls
+                input#email.input-large(name="email", type="text", value="#{me.get('email')}")
+  
+      #picture-pane.tab-pane
+        h3(data-i18n="account_settings.gravatar_select") Select which Gravatar photo to use
+        p
+          if !photos
+            span(data-i18n="account_settings.gravatar_add_photos") Add thumbnails and photos to a Gravatar account for your email to choose an image.
+          
+          else
+            .thumbnails
+              each photo, i in photos
+                .span2
+                  label(for="photo-#{i}")
+                    img(src=photo).img-polaroid
+                  input(type="radio", name="photoURL", value="#{photo}", id="photo-#{i}", checked=photo==chosenPhoto)
+            p
+              a(href="http://en.gravatar.com/profiles/edit/?noclose#your-images", target="_blank", data-i18n="account_settings.gravatar_add_more_photos") Add more photos to your Gravatar account to access them here.
+      
+      #wizard-pane.tab-pane
+        .form-horizontal
+          .control-group
+            label.control-label(for="wizardColor1", data-i18n="account_settings.wizard_color") Wizard Clothes Color
+            .controls
+              input#name(name="wizardColor1", type="range", value="#{100*me.get('wizardColor1')}")#wizard-color-1.range
+              div.range-color#range-color-1
+
+      #password-pane.tab-pane
+        p
+          .form-horizontal
+            .control-group
+              label.control-label(for="password", data-i18n="account_settings.new_password") New Password
+              .controls
+                input#password.input-large(name="password", type="password")
+            .control-group
+              label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
+              .controls
+                input#password2.input-large(name="password2", type="password")
+                      
+      #email-pane.tab-pane
+        h3(data-i18n="account_settings.email_subscriptions") Email Subscriptions
+
+        p
+          .form-horizontal
+            .control-group
+              label.control-label(for="email_announcement", data-i18n="account_settings.email_announcements") Announcements
+              .controls
+                input#email_announcement(name="email_announcement", type="checkbox", checked=subs.announcement)
+                span.help-inline(data-i18n="account_settings.email_announcements_description") Get emails on the latest news and developments at CodeCombat.
+            
+            hr
+
+          .form-horizontal
+            h4(data-i18n="account_settings.contributor_emails") Contributor Class Emails
+
+            span(data-i18n="account_settings.contribute_prefix") We're looking for people to join our party! Check out the 
+            a(href="/contribute", data-i18n="account_settings.contribute_page") contribute page
+            span(data-i18n="account_settings.contribute_suffix")  to find out more.
+            br
+            br
+
+            .control-group
+              label.control-label(for="email_developer") Archmage
+                br
+                | (Coder)
+              .controls
+                input#email_developer(name="email_developer", type="checkbox", checked=subs.developer)
+                span.help-inline Get emails about general news and announcements about CodeCombat.
+
+            .control-group
+              label.control-label(for="email_level_creator") Artisan
+                br
+                | (Level Builder)
+              .controls
+                input#email_level_creator(name="email_level_creator", type="checkbox", checked=subs.level_creator)
+                span.help-inline Get emails on level editor updates and announcements.
+
+            .control-group
+              label.control-label(for="email_tester") Adventurer 
+                br 
+                | (Level Playtester)
+              .controls
+                input#email_tester(name="email_tester", type="checkbox", checked=subs.tester)
+                span.help-inline Get emails when there are new levels to test.
+
+            .control-group
+              label.control-label(for="email_article_editor") Scribe 
+                br
+                | (Artile Editor)
+              .controls
+                input#email_article_editor(name="email_article_editor", type="checkbox", checked=subs.article_editor)
+                span.help-inline Get emails about article writing announcements.
+
+            .control-group
+              label.control-label(for="email_translator") Diplomat 
+                br
+                | (Translator)
+              .controls
+                input#email_translator(name="email_translator", type="checkbox", checked=subs.translator)
+                span.help-inline Get emails about i18n developments and, eventually, levels to translate.
+
+            .control-group
+              label.control-label(for="email_support") Ambassador 
+                br
+                | (Support)
+              .controls
+                input#email_support(name="email_support", type="checkbox", checked=subs.support)
+                span.help-inline Get emails on support updates and multiplayer developments.
+                  
+        button.btn#toggle-all-button(data-i18n="account_settings.email_toggle") Toggle All

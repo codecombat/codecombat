@@ -1,0 +1,11 @@
+.prop(name="#{prop}")
+  if hasIcon
+    img.prop-label(src="/images/level/prop_#{prop}.png", alt="#{prop}")
+  else
+    span.prop-label #{prop}: 
+    
+  if hasBar
+    span.prop-value.bar-prop
+      .bar
+  else
+    span.prop-value

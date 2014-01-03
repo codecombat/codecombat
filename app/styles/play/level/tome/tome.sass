@@ -1,0 +1,35 @@
+@import "../../../bootstrap/mixins"
+
+#tome-view
+  height: 100%
+
+  .popover
+    padding: 10px
+    max-width: 400px
+    background: transparent url(/images/level/popover_background.png)
+    background-size: 100% 100%
+    border: 0
+    @include box-shadow(0 0 0 #000)
+
+    h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+
+    .popover-title
+      background-color: transparent
+      margin: 0 14px
+      padding: 8px 0
+      border-bottom-color: #ccc
+
+    .popover-content
+      img
+        float: right
+
+    &.top .arrow
+      bottom: -2%
+    &.bottom .arrow
+      top: -2%
+    &.left .arrow
+      right: 0%
+    &.right .arrow
+      left: -3%
+

@@ -1,0 +1,226 @@
+@import "bootstrap/variables"
+@import "bootstrap/mixins"
+
+h1 h2 h3 h4
+  letter-spacing: 2px
+
+#widget-bounds
+  display: none
+
+.navbar a.brand
+  padding: 4px 20px 0px 20px
+
+.main-content-area
+  position: relative
+  width: 1024px
+  margin: 56px auto 0
+  min-height: 600px
+  padding: 14px 12px 5px 12px
+  @include box-sizing(border-box)
+
+.navbuttontext, .fancy-select .trigger
+  font-family: 'Bangers', cursive
+  font-size: 20px
+  font-weight: normal
+  letter-spacing: 1px
+
+.navbar .nav.navbar-link-text, .navbar .nav.navbar-link-text > li > a
+  font-family: 'Bangers', cursive
+  font-weight: normal
+  font-size: 25px
+  letter-spacing: 2px
+
+.navbar .btn, .navbar .btn-group, .navbar .fancy-select
+  margin-top: 13px
+  
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus
+  background-color: #eee
+  
+.nav-tabs > li
+  cursor: pointer
+
+#outer-content-wrapper
+  background: #8cc63f url(/images/pages/base/repeat-tile.png) top center
+
+#inner-content-wrapper
+  background: url(/images/pages/base/background_texture.png) top center no-repeat
+
+.navbar-inner
+  font-size: 25px
+  a:not(.btn)
+    line-height: 25px
+
+  .btn, .fancy-select
+    float: right
+    margin-left: 10px
+
+  select
+    opacity: 0
+
+  .fancy-select
+    .trigger
+      padding: 5px 25px 3px 10px
+      width: auto
+      &:after
+        top: 13px
+      max-width: 140px
+
+#front-summary-points-left
+  width: 250px
+  margin: 0px 20px 10px 15px
+
+#front-summary-points-left p.lead
+  margin-bottom: 5px
+
+#front-screenshot
+  width: 710px
+
+.content
+  width: 1024px
+  margin: 0 auto
+
+.footer
+  height: 75px
+  border-top: 1px solid black
+  background-color: #2f261d
+  p
+    margin: 0
+    padding-top: 25px
+    text-align: center
+
+  .mixpanel-badge
+    display: block
+    width: 100px
+    margin: 10px auto 0px
+
+.footer-link-text a
+  font-family: 'Bangers', cursive
+  font-weight: normal
+  font-size: 25px
+  letter-spacing: 1px
+  color: #ffffff
+
+a[data-toggle="modal"]
+  cursor: pointer
+
+.share-buttons
+  margin-top: 10px
+  text-align: center
+  @include opacity(75)
+
+  &.fade-in
+    @include opacity(0)
+
+  &:hover, &:active
+    @include opacity(100)
+    @include transition(opacity .10s linear)
+
+.error
+  left: 8px
+
+.selectable
+  cursor: pointer
+
+.modal
+  padding: 5px
+  background: transparent url(/images/pages/base/modal_background.png)
+  background-size: 100% 100%
+  border: 0
+  @include box-shadow(0 0 0 #000)
+
+  .modal-header
+    margin: 0 14px
+    padding: 8px 0
+    border-bottom-color: #ccc
+
+    .close
+      font-size: 28px
+      @include opacity(60)
+      &:hover
+        @include opacity(100)
+
+  .modal-footer
+    background-color: transparent
+    margin: 0 14px
+    border-bottom-color: #ccc
+
+// Bigger versions of some Bootstrap icons
+// TODO: make the non-white versions of these if we ever need them
+.icon.big
+  background-image: url(/images/pages/base/glyphicons-simplified.png)
+
+.icon-white.big
+  background-image: url(/images/pages/base/glyphicons-simplified.png)
+
+.icon.big, .icon-white.big
+  width: 19px
+  height: 19px
+  line-height: 19px
+
+.icon-pause.big
+  background-position: -114px 0px
+
+.icon-play.big
+  background-position: -95px 0px
+
+.icon-repeat.big
+  background-position: -76px 0px
+
+.icon-volume-off.big
+  background-position: -57px 0px
+
+.icon-volume-down.big
+  background-position: -38px 0px
+
+.icon-volume-up.big
+  background-position: -19px 0px
+
+.icon-cog.big
+  background-position: 0px 0px
+
+.loading-screen
+  text-align: center
+  .progress
+    width: 50%
+    margin: 0 25%
+  .bar
+    width: 100%
+  
+.modal
+  .wait
+    h3 
+      text-align: center
+    .progress
+      width: 50%
+      margin: 10px auto
+    .bar
+      width: 100%
+
+table.table
+  background-color: white
+
+.ui-autocomplete
+  z-index: $zindexAutocomplete
+  
+div.fancy-select
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+  div.trigger
+    background-color: #9d8f5a
+    background-image: linear-gradient(to bottom, #a4955e, #948754)
+    background-repeat: repeat-x
+    border: 1px solid #cccccc
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25)
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05)
+    color: white
+    &:after
+      border-top-color: white
+    &.open
+      background-color: #8B7F51
+      color: #ebebeb
+      &:after
+        border-top-color: #ebebeb
+  ul.options
+    max-height: 415px
+    background-color: #9d8f5a
+    li
+      color: #ebebeb

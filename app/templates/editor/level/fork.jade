@@ -1,0 +1,15 @@
+extends /templates/modal/modal_base
+
+block modal-body-content
+  form#save-level-form.form-horizontal
+    .control-group
+      label.control-label(for="level-name") Name
+      .controls
+        textarea#level-name.input-large(name="name", type="text")
+
+block modal-footer-content
+  button.btn(data-dismiss="modal") Cancel
+  button.btn.btn-primary#fork-level-confirm-button Save
+    
+block modal-body-wait-content
+  h3 Creating Fork...

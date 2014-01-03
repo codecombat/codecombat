@@ -1,0 +1,28 @@
+extends /templates/base
+
+block content
+
+  div
+    
+    h1#site-slogan(data-i18n="home.slogan") Learn to Code JavaScript by Playing a Game
+
+    #front-screenshot
+      img(src="/images/pages/home/front_screenshot_01.png", alt="")
+
+  .clearfix
+
+  .alert.lt-ie10
+    h2(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 9 or older. Sorry!
+  if isMobile
+    .alert.mobile
+      h2(data-i18n="home.no_mobile") CodeCombat wasn't designed for mobile devices and may not work!
+  if isOldBrowser
+    .alert.old-browser
+      h2(data-i18n="home.old_browser") Uh oh, your browser is too old to run CodeCombat. Sorry!
+      h5 You can try anyway, but it probably won't work.
+  div#homepage_button_container
+
+    div.homepage_button
+      a#beginner-campaign.btn.btn-warning.btn-large.highlight(href="/play/level/rescue-mission")
+        canvas(width="100px", height="100px")
+        span(data-i18n="home.play") Play

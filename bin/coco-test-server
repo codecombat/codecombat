@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/Desktop/coco
+node_modules/.bin/nodemon . --ext ".coffee|.js" --watch server --watch server.coffee --unittest

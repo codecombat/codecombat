@@ -1,0 +1,19 @@
+.thangs-container.thangs-column
+  h3 Current Thangs
+  #thangs-treema(title="Double click to configure a thang")
+
+.world-container.thangs-column
+  h3 World Starting Conditions
+  #canvas-wrapper
+    canvas(width=924, height=589)#surface
+    #canvas-left-gradient.gradient
+    #canvas-top-gradient.gradient
+
+.add-thangs-palette.thangs-column
+  h3 Add Thangs
+  #thangs-list
+    for thangType in thangTypes
+      //img(title="Add " + thangType.name, src=thangType.image, alt="", data-thang-type=thangType.name, class="add-thang-palette-icon" + (thangType.flipped ? " flipped" : ""))
+      code(title="Add " + thangType.name, alt="", data-thang-type=thangType.name, class="add-thang-palette-icon")= thangType.name
+
+#editor-level-thang-edit.hide

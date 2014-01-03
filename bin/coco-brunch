@@ -1,0 +1,8 @@
+#!/bin/bash
+
+ulimit -n 10000
+cd ~/Desktop/coco
+until brunch w --config brunch.coffee; do
+    echo "Brunch Crashed. Recompiling entire project. Press Ctrl-C quickly to quit." >&2
+    sleep 1
+done

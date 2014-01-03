@@ -1,0 +1,162 @@
+@import "../bootstrap/mixins"
+
+@mixin gradient-banner-button($topBottomColor: #2C446A, $middleColor: #3A537F)
+  background-color: mix($topBottomColor, $middleColor, 80%)
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($topBottomColor), color-stop(16%, $topBottomColor), color-stop(17%, $middleColor), color-stop(83%, $middleColor), color-stop(84%, $topBottomColor), to($topBottomColor))
+  background-image: -webkit-linear-gradient($topBottomColor, $topBottomColor 16%, $middleColor 16%, $middleColor 83%, $topBottomColor 84%, $topBottomColor)
+  background-image: -moz-linear-gradient(top, $topBottomColor, $topBottomColor 16%, $middleColor 16%, $middleColor 83%, $topBottomColor 84%, $topBottomColor)
+  background-image: -o-linear-gradient($topBottomColor, $topBottomColor 16%, $middleColor 16%, $middleColor 83%, $topBottomColor 84%, $topBottomColor)
+  background-image: linear-gradient($topBottomColor, $topBottomColor 16%, $middleColor 16%, $middleColor 83%, $topBottomColor 84%, $topBottomColor)
+  background-repeat: no-repeat
+
+@mixin banner-button($backgroundColor: #3A537F, $textColor: #FFF)
+  $topBottomColor: darken($backgroundColor, 9%)
+  @include gradient-banner-button($topBottomColor, $backgroundColor)
+  color: $textColor
+
+  &:hover:not(.disabled):not([disabled]), &:focus:not(.disabled):not([disabled])
+    @include gradient-banner-button(lighten($topBottomColor, 6%), lighten($backgroundColor, 6%))
+
+  &.active, &:active
+    background-image: none
+    outline: 0
+    @include box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05))
+
+  // Disabled state
+  &.disabled, &[disabled]
+    cursor: default
+    background-image: none
+    @include opacity(65)
+    @include box-shadow(none)
+
+
+#level-view
+  margin: 0 auto
+  @include user-select(none)
+
+  .level-content
+    position: relative
+
+  #canvas-wrapper
+    width: 55%
+    position: relative
+    
+  canvas#surface
+    background-color: #ddd
+    width: 100%
+    display: block
+    z-index: 1
+    
+    
+  //max-width: 1680px   // guideline, but for now let's let it stretch out
+  min-width: 1024px
+  position: relative
+
+  #code-area
+    @include box-sizing(border-box)
+    padding: 10px 1%
+    width: 45%
+    background: transparent url(/images/level/wood_texture.png)
+    background-size: 100% 100%
+    position: absolute
+    right: 0
+    top: 0px
+    bottom: 0
+    
+  #pointer
+    position: absolute
+    left: 0
+    top: 0
+    height: 100px
+    opacity: 0.0
+    pointer-events: none
+    z-index: 10
+  
+  // Level Docs
+  .ui-effects-transfer
+    border: 2px dotted gray
+  
+  .modal
+    img
+      float: right
+
+    img.diagram
+      float: none
+
+  #multiplayer-join-link
+    font-size: 12px
+      
+  #level-done-button
+    position: absolute
+    right: 46%
+    top: 43px
+    @include box-shadow(4px 4px 15px black)
+
+  // Custom Buttons
+  .btn.banner
+    @include banner-button(#FFF, #333)
+    @include box-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))
+    border: 1px solid black
+    text-shadow: none
+
+    $buttonConfig: 'primary' #6CA8EA, 'info' #71AACC, 'success' #90B236, 'warning' #CD6800, 'danger' #B43C20, 'inverse' #3A537F
+    @each $tuple in $buttonConfig
+      &.btn-#{nth($tuple, 1)}
+        @include banner-button(nth($tuple, 2), #FFF)
+
+  .footer .footer-link-text a
+    @include opacity(75)
+    @include transition(opacity .10s linear)
+
+    &:hover, &:active
+      @include opacity(100)
+    
+  $GI: 0.5  // gradient intensity; can tweak this 0-1
+
+  .gradient
+    position: absolute
+    z-index: 10
+
+  #code-area-gradient
+    top: 0px
+    width: 3px
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,$GI) 100%)
+    left: -3px
+    bottom: 0
+    
+  #hud-top-gradient
+    top: -32px
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+    left: 0
+    right: 0
+    bottom: 0
+    height: 3px
+
+  #canvas-left-gradient
+    left: 0px
+    width: 5px
+    background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+    bottom: -30px
+    top: 0
+
+  #canvas-top-gradient
+    top: 0
+    height: 5px
+    left: 0
+    right: 0
+    background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+
+  #hud-left-gradient
+    background: linear-gradient(to right, rgba(0,0,0,$GI) 0%,rgba(0,0,0,0) 100%)
+    left: 0
+    top: 0
+    height: 100%
+    width: 2%
+
+  #hud-right-gradient
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,$GI) 100%)
+    right: 0
+    position: absolute
+    top: 0
+    height: 100%
+    width: 2%
