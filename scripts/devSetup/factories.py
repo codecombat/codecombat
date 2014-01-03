@@ -60,7 +60,7 @@ class SetupFactory(object):
         self.config.directory.remove_directories()
         print("Changing permissions of files...")
         #TODO: Make this more robust and portable(doesn't pose security risk though)
-        subprocess.call("chmod -R 0777 " + self.config.directory.root_dir + os.sep + "coco" + os.sep + "bin",shell=True)
+        subprocess.call("chmod -R 755 " + self.config.directory.root_dir + os.sep + "coco" + os.sep + "bin",shell=True)
 
         print("Done! If you want to start the server, head into /coco/bin and run ")
         print("1. sudo python startDatabase.py")
