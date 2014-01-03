@@ -74,8 +74,6 @@ exports.config =
           level: "ignore"  # PyCharm can't just autostrip for .coffee, needed for .jade
         no_unnecessary_fat_arrows:
           level: "ignore"
-    # https://gist.github.com/toolmantim/4958966
     uglify:
       output:
-        beautify: true
-        indent_level: 0
+        semicolons: false
