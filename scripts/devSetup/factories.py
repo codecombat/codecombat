@@ -10,17 +10,19 @@ import shutil
 import os
 import glob
 import subprocess
+def print_computer_information(os_name,address_width):
+  print(os_name + " detected, architecture: " + str(address_width) + " bit")
 def constructSetup():
     config = configuration.Configuration()
+    address_width = config.system.get_virtual_memory_address_width()
     if config.system.operating_system == u"mac":
-        print("Mac detected, architecture: " + str(config.system.get_virtual_memory_address_width()) + " bit")
+        print_computer_information("Mac",address_width)
         return MacSetup(config)
     elif config.system.operating_system == u"win":
-        print("Windows detected, architecture: " + str(config.system.get_virtual_memory_address_width())+ " bit")
+        print_computer_information("Windows",address_width)
         raise NotImplementedError("Windows is not supported at this time.")
-        #return WinSetup(config)
     elif config.system.operating_system == u"linux":
-        print("Linux detected, architecture: " + str(config.system.get_virtual_memory_address_width())+ " bit")
+        print_computer_information("Linux",address_width)
         return LinuxSetup(config)
 
 class SetupFactory(object):
@@ -60,12 +62,8 @@ class SetupFactory(object):
         print("2. ./coco-brunch")
         print("3. ./coco-dev-server")
         print("Once brunch is done, visit http://localhost:3000!")
-        #print self.mongo.bashrc_string()
-        #print self.node.bashrc_string()
-        #print "COCO_DIR="+ self.config.directory.root_dir + os.sep + "coco"
     def cleanup(self):
         self.config.directory.remove_directories()
-
 
 class MacSetup(SetupFactory):
     def setup(self):

@@ -12,7 +12,6 @@ class DirectoryController(object):
 
     @property
     def root_install_directory(self):
-        #return self.root_dir + os.sep + u"codecombat"
         return self.root_dir + os.sep + "coco" + os.sep + "bin"
     @property
     def tmp_directory(self):
@@ -31,14 +30,16 @@ class DirectoryController(object):
         os.mkdir(full_path)
 
     def create_base_directories(self):
+        shutil.rmtree(self.root_dir + os.sep + "coco" + os.sep + "node_modules",ignore_errors=True) #just in case
         try:
           if os.path.exists(self.tmp_directory):
-            shutil.rmtree(self.tmp_directory)
+            self.remove_directories()
           os.mkdir(self.tmp_directory)
         except:
           raise errors.CoCoError(u"There was an error creating the directory structure, do you have correct permissions? Please remove all and start over.")
 
     def remove_directories(self):
-        print u"Removed directories created!"
         shutil.rmtree(self.tmp_directory)
-        #shutil.rmtree(self.root_install_directory)
+        shutil.rmtree(self.bin_directory + os.sep + "node",ignore_errors=True)
+        shutil.rmtree(self.bin_directory + os.sep + "mongo",ignore_errors=True)
+
