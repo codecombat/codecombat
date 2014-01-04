@@ -63,8 +63,8 @@ class SetupFactory(object):
         subprocess.call("chmod -R 755 " + self.config.directory.root_dir + os.sep + "coco" + os.sep + "bin",shell=True)
 
         print("Done! If you want to start the server, head into /coco/bin and run ")
-        print("1. sudo python startDatabase.py")
-        print("2. sudo python startBrunch.py")
+        print("1. sudo ./coco-mongodb")
+        print("2. sudo ./coco-brunch")
         print("3. python startApp.py")
         print("Once brunch is done, visit http://localhost:3000!")
         #print self.mongo.bashrc_string()
