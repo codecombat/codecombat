@@ -14,6 +14,6 @@ module.exports = class DiplomatSuggestionView extends View
     currentSubscriptions = me.get("emailSubscriptions")
     me.set("emailSubscriptions", currentSubscriptions.concat ["translator"]) if "translator" not in currentSubscriptions
     me.save()
-    $("#email_translator").attr("checked", 1)
+    $("#email_translator").prop("checked", 1)
     @hide()
     return

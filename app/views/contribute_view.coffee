@@ -15,11 +15,11 @@ module.exports = class ContributeView extends View
     _.forEach checkboxes, (el) ->
       el = $(el)
       if el.attr('name') in me.get('emailSubscriptions')
-        el.attr('checked', true)
+        el.prop('checked', true)
 
   onCheckboxChanged: (e) ->
     el = $(e.target)
-    checked = el.attr('checked')
+    checked = el.prop('checked')
     subscription = el.attr('name')
     subscriptions = me.get('emailSubscriptions')
     if checked and not (subscription in subscriptions)

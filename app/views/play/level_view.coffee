@@ -353,7 +353,7 @@ module.exports = class PlayLevelView extends View
     # Need to set this team stuff before the Tome loads... let's think about this with Scott.
     #@setTeam @world.teamForPlayer(@bus.countPlayers()) unless me.team
     #$('#multiplayer-team-selection').toggle(@world.playableTeams.length > 1)
-    #  .find('input').attr('checked', -> $(@).val() is me.team)
+    #  .find('input').prop('checked', -> $(@).val() is me.team)
     #  .bind('change', @setTeam)
 
   onSessionWillSave: (e) ->
