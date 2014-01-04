@@ -31,18 +31,12 @@ class DirectoryController(object):
         os.mkdir(full_path)
 
     def create_base_directories(self):
-        #first create the directory for the development environment to be installed in
         try:
-            #os.mkdir(self.root_install_directory)
-            #then the tmp directory for file downloads and the like
-            os.mkdir(self.tmp_directory)
-            #then the bin directory for binaries(also includes binaries for dependencies?
-            #os.mkdir(self.bin_directory)
+          if os.path.exists(self.tmp_directory):
+            shutil.rmtree(self.tmp_directory)
+          os.mkdir(self.tmp_directory)
         except:
-            #cleanup whatever we created
-            #self.remove_directories()
-            raise errors.CoCoError(u"There was an error creating the directory structure, do you have correct permissions? Please remove all and start over.")
-
+          raise errors.CoCoError(u"There was an error creating the directory structure, do you have correct permissions? Please remove all and start over.")
 
     def remove_directories(self):
         print u"Removed directories created!"
