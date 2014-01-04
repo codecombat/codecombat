@@ -21,6 +21,7 @@ module.exports = class ThangType extends CocoModel
   requiredRawAnimations: ->
     required = []
     for name, action of @get('actions')
+      continue if name is 'portrait'
       allActions = [action].concat(_.values (action.relatedActions ? {}))
       for a in allActions when a.animation
         scale = if name is 'portrait' then a.scale or 1 else a.scale or @get('scale') or 1
@@ -59,80 +60,87 @@ module.exports = class ThangType extends CocoModel
     options
 
   buildSpriteSheet: (options) ->
-    options = @fillOptions options
+    @initBuild(options)
+#    @options.portraitOnly = true
+    @addGeneralFrames() unless @options.portraitOnly
+    @addPortrait()
+    @finishBuild()
+
+  initBuild: (options) ->
     @buildActions() if not @actions
-    unless @requiredRawAnimations().length or _.find @actions, 'container'
-      return null if @.get('name') is 'Invisible'
-      console.warn "Can't build a CocoSprite with no animations or containers!", @
+    @options = @fillOptions options
+    @vectorParser = new SpriteBuilder(@)
+    @builder = new createjs.SpriteSheetBuilder()
+    @builder.padding = 2
+    @frames = {}
+    
+  addPortrait: ->
+    # The portrait is built very differently than the other animations, so it gets a separate function.
+    portrait = @actions.portrait
+    return unless portrait
+    scale = portrait.scale or 1
+    pt = portrait.positions?.registration
+    rect = new createjs.Rectangle(pt?.x/scale or 0, pt?.y/scale or 0, 100/scale, 100/scale)
+    if portrait.animation
+      mc = @vectorParser.buildMovieClip portrait.animation
+      mc.nominalBounds = mc.frameBounds = null # override what the movie clip says on bounding
+      @builder.addMovieClip(mc, rect, scale)
+      frames = @builder._animations[portrait.animation].frames
+      frames = @normalizeFrames(portrait.frames, frames[0]) if portrait.frames?
+      portrait.frames = frames
+      @builder.addAnimation 'portrait', frames, true
+    else if portrait.container
+      s = @vectorParser.buildContainerFromStore(portrait.container)
+      frame = @builder.addFrame(s, rect, scale)
+      @builder.addAnimation 'portrait', [frame], false
 
-    vectorParser = new SpriteBuilder(@)
-    builder = new createjs.SpriteSheetBuilder()
-    builder.padding = 2
-
-    # First we add the frames from the raw animations to the sprite sheet builder
+  addGeneralFrames: ->
     framesMap = {}
     for animation in @requiredRawAnimations()
       name = animation.animation
-      movieClip = vectorParser.buildMovieClip name
-      if animation.portrait
-        movieClip.nominalBounds = null
-        movieClip.frameBounds = null
-        pt = @actions.portrait.positions?.registration
-        rect = new createjs.Rectangle(pt?.x/animation.scale or 0, pt?.y/animation.scale or 0, 100/animation.scale, 100/animation.scale)
-        builder.addMovieClip(movieClip, rect, animation.scale)
-      else
-        builder.addMovieClip movieClip, null, animation.scale * options.resolutionFactor
-      framesMap[animation.scale + "_" + name] = builder._animations[name].frames
+      mc = @vectorParser.buildMovieClip name
+      @builder.addMovieClip mc, null, animation.scale * @options.resolutionFactor
+      framesMap[animation.scale + "_" + name] = @builder._animations[name].frames
 
-    # Then we add real animations for our actions with our desired configuration
     for name, action of @actions when action.animation
-      if name is 'portrait'
-        scale = action.scale ? 1
-      else
-        scale = action.scale ? @get('scale') ? 1
-      keptFrames = framesMap[scale + "_" + action.animation]
-      if action.frames
-        frames = action.frames
-        frames = frames.split(',') if _.isString(frames)
-        newFrames = (parseInt(f, 10) for f in frames)
-        keptFrames = (f + keptFrames[0] for f in newFrames)
-      action.frames = keptFrames  # Keep generated frame numbers around
+      continue if name is 'portrait'
+      scale = action.scale ? @get('scale') ? 1
+      frames = framesMap[scale + "_" + action.animation]
+      frames = @mapFrames(action.frames, frames[0]) if action.frames?
+      action.frames = frames  # Keep generated frame numbers around
       next = true
-      if action.goesTo
-        console.warn "Haven't figured out what action.goesTo should do yet"
-        next = action.goesTo  # TODO: what should this be? action? animation?
-      else if action.loops is false
-        next = false
-      builder.addAnimation name, keptFrames, next
-
+      next = action.goesTo if action.goesTo
+      next = false if action.loops is false
+      @builder.addAnimation name, frames, next
+      
     for name, action of @actions when action.container and not action.animation
-      scale = options.resolutionFactor * (action.scale or @get('scale') or 1)
-      s = vectorParser.buildContainerFromStore(action.container)
-      if action.name is 'portrait'
-        scale = action.scale or 1
-        pt = action?.positions?.registration
-        rect = new createjs.Rectangle(pt?.x/scale or 0, pt?.y/scale or 0, 100/scale, 100/scale)
-        frame = builder.addFrame(s, rect, scale)
-      else
-        frame = builder.addFrame(s, s.bounds, scale)
-      builder.addAnimation name, [frame], false
+      continue if name is 'portrait'
+      scale = @options.resolutionFactor * (action.scale or @get('scale') or 1)
+      s = @vectorParser.buildContainerFromStore(action.container)
+      frame = @builder.addFrame(s, s.bounds, scale)
+      @builder.addAnimation name, [frame], false
+      
+  mapFrames: (frames, frameOffset) ->
+    return frames unless _.isString(frames) # don't accidentally do this again
+    (parseInt(f, 10) + frameOffset for f in frames.split(','))
 
+  finishBuild: ->
+    return if _.isEmpty(@builder._animations)
+    key = @spriteSheetKey(@options)
     spriteSheet = null
-    if options.async
-      builder.buildAsync()
-      builder.on 'complete', @onBuildSpriteSheetComplete, @, true, @spriteSheetKey(options)
+    if @options.async
+      @builder.buildAsync()
+      @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
       return true
-    else
-      console.warn 'Building', @get('name'), 'and blocking the main thread. LevelLoader should have it built asynchronously instead.'
-      spriteSheet = builder.build()
-    @spriteSheets[@spriteSheetKey(options)] = spriteSheet
-#    console.log "Generated fresh spritesheet", @spriteSheetKey(options)
+    
+    console.warn 'Building', @get('name'), 'and blocking the main thread. LevelLoader should have it built asynchronously instead.'
+    spriteSheet = @builder.build()
+    @spriteSheets[key] = spriteSheet
     spriteSheet
     
   onBuildSpriteSheetComplete: (e, key) ->
     @spriteSheets[key] = e.target.spriteSheet
     @trigger 'build-complete'
-#    $('body').append(@getPortrait(key))
 
   spriteSheetKey: (options) ->
     "#{@get('name')} - #{options.resolutionFactor}"
