@@ -12,7 +12,7 @@ class MongoDB(Dependency):
         super(self.__class__, self).__init__(configuration)
         operating_system = configuration.system.operating_system
         self.config.directory.create_directory_in_tmp(u"mongo")
-        #self.config.directory.create_directory_in_bin("mongo")
+
         if operating_system == u"mac":
             self.downloader = MacMongoDBDownloader(self)
         elif operating_system == u"win":
