@@ -54,8 +54,8 @@ class SetupFactory(object):
         script_location =self.config.directory.root_dir + os.sep + "coco" + os.sep + "scripts" + os.sep + "devSetup" + os.sep + "bin"
         #print("Script location: " + script_location)
         #print("Destination: "+ self.config.directory.root_install_directory)
-        for filename in glob.glob(os.path.join(script_location, '*.*')):
-            shutil.copy(filename, self.config.directory.root_install_directory)
+        #for filename in glob.glob(os.path.join(script_location, '*.*')):
+        #    shutil.copy(filename, self.config.directory.root_install_directory)
         print("Removing temporary directories")
         self.config.directory.remove_directories()
         print("Changing permissions of files...")
