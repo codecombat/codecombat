@@ -72,7 +72,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
 
   contact:
     contact_us: "Contact CodeCombat"
-    welcome: "Good to hear from you! Use this form to send us email."
+    welcome: "Good to hear from you! Use this form to send us email. "
     contribute_prefix: "If you're interested in contributing, check out our "
     contribute_page: "contribute page"
     contribute_suffix: "!"
