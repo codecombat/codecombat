@@ -21,8 +21,7 @@ module.exports = class WizardSprite extends IndieSprite
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
     'me:synced': 'onMeSynced'
-    'surface:sprite-selected': 'onSpriteSelected'
-    'surface:ticked': 'onSurfaceTicked'
+    'surface:sprite-selected': 'onSpriteSelected'    
     'echo-self-wizard-sprite': 'onEchoSelfWizardSprite'
     'echo-all-wizard-sprites': 'onEchoAllWizardSprites'
 
@@ -102,8 +101,7 @@ module.exports = class WizardSprite extends IndieSprite
   onEchoSelfWizardSprite: (e) -> e.payload = @ if @isSelf
   onEchoAllWizardSprites: (e) -> e.payload.push @
   defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @spriteZOffset
-  getZOffset: -> @thang.depth / 2 + @spriteZOffset + Math.sin @ticker / 20  # Cloud bobbing.
-  onSurfaceTicked: -> @ticker += 1
+  getZOffset: -> @thang.depth / 2 + @spriteZOffset + Math.sin @ticker / 20  # Cloud bobbing.  
   move: (pos, duration) -> @setTarget(pos, duration)
 
   setTarget: (newTarget, duration) ->

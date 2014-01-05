@@ -52,9 +52,10 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     'level-sprite-dialogue': 'onDialogue'
     'level-sprite-clear-dialogue': 'onClearDialogue'
     'level-set-letterbox': 'onSetLetterbox'
+    'surface:ticked': 'onSurfaceTicked'
 
   constructor: (@thangType, options) ->
-    super()
+    super()    
     @options = _.extend(_.cloneDeep(@options), options)
     @setThang @options.thang
     console.error @toString(), "has no ThangType!" unless @thangType
@@ -63,6 +64,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @labels = {}
     @actions = @thangType.getActions()
     @buildFromSpriteSheet @buildSpriteSheet()
+    @ticker = 0
 
   destroy: ->
     super()
@@ -112,6 +114,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @playNextAction()
 
   onActionEnd: (e) => @playNextAction()
+  onSurfaceTicked: -> @ticker += 1
 
   playNextAction: ->
     @playAction(@actionQueue.splice(0,1)[0]) if @actionQueue.length
@@ -147,6 +150,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   updatePosition: ->
     return unless @thang?.pos and @options.camera?
+    if @thang.bobHeight                        
+      @thang.pos.z = @thang.pos.z + (Math.sin @ticker /  @thang.bobTime) * 0.1 * @thang.bobHeight
     [p0, p1] = [@lastPos, @thang.pos]
     return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo
     wop = x: p1.x, y: p1.y, z: if @thang.isLand then 0 else p1.z - @thang.depth / 2
