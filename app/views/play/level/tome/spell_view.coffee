@@ -53,6 +53,8 @@ module.exports = class SpellView extends View
     @aceSession.setMode 'ace/mode/javascript'
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
+    @aceSession.setNewLineMode "unix"
+    @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
     @ace.setDisplayIndentGuides false
     @ace.setShowPrintMargin false
@@ -79,7 +81,7 @@ module.exports = class SpellView extends View
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
       exec: -> Backbone.Mediator.publish 'level:escape-pressed'
-        
+
     # TODO: These don't work on, for example, Danish keyboards. Figure out a more universal solution.
 #    @ace.commands.addCommand
 #      name: 'toggle-grid'
