@@ -29,6 +29,7 @@ module.exports = class ContributeView extends View
         @openModalView new SignupModalView()
     if not checked
       subscriptions = _.without subscriptions, subscription
+    el.parent().find('.saved-notification').finish().show('fast').delay(3000).fadeOut(2000)
 
     me.set('emailSubscriptions', subscriptions)
     me.save()
