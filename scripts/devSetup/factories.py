@@ -63,7 +63,7 @@ class SetupFactory(object):
         print("3. ./coco-dev-server")
         print("Once brunch is done, visit http://localhost:3000!")
     def cleanup(self):
-        self.config.directory.remove_directories()
+        self.config.directory.remove_tmp_directory()
 
 class MacSetup(SetupFactory):
     def setup(self):
