@@ -1,7 +1,14 @@
 #!/bin/bash
 
+# full script path include his name
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+ 
+# Script location path (dir)
+_base="$(dirname $_script)"
+
 sleep 5
-cd ~/Desktop/coco
+cd $_base
+cd ../
 until node_modules/karma/bin/karma start; do
     echo "Karma crashed with exit code $?.  Respawning.." >&2
     sleep 1

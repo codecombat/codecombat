@@ -39,7 +39,10 @@ class DirectoryController(object):
           raise errors.CoCoError(u"There was an error creating the directory structure, do you have correct permissions? Please remove all and start over.")
 
     def remove_directories(self):
-        shutil.rmtree(self.tmp_directory)
         shutil.rmtree(self.bin_directory + os.sep + "node",ignore_errors=True)
         shutil.rmtree(self.bin_directory + os.sep + "mongo",ignore_errors=True)
+    def remove_tmp_directory(self):
+        shutil.rmtree(self.tmp_directory)
+
+
 
