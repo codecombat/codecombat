@@ -1,5 +1,11 @@
 #!/bin/bash
 
-#sleep 5
-cd ~/Desktop/coco
+# full script path include his name
+_script="$(readlink -f ${BASH_SOURCE[0]})"
+ 
+# Script location path (dir)
+_base="$(dirname $_script)"
+ 
+cd $_base
+cd ../
 node_modules/jasmine-node/bin/jasmine-node test/server/ --coffee --autotest --captureExceptions
