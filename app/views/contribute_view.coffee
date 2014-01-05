@@ -1,6 +1,7 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/contribute'
-{me} = require('lib/auth')
+{me} = require 'lib/auth'
+SignupModalView = require 'views/modal/signup_modal'
 
 module.exports = class ContributeView extends View
   id: "contribute-view"
@@ -21,9 +22,11 @@ module.exports = class ContributeView extends View
     el = $(e.target)
     checked = el.prop('checked')
     subscription = el.attr('name')
-    subscriptions = me.get('emailSubscriptions')
+    subscriptions = me.get('emailSubscriptions') ? []
     if checked and not (subscription in subscriptions)
       subscriptions.push(subscription)
+      if me.get 'anonymous'
+        @openModalView new SignupModalView()
     if not checked
       subscriptions = _.without subscriptions, subscription
 
