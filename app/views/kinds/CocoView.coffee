@@ -57,7 +57,7 @@ module.exports = class CocoView extends Backbone.View
     @hidden = false
     @listenToShortcuts()
     view.didReappear() for id, view of @subviews
-      
+
   # View Rendering
 
   render: =>
@@ -86,7 +86,7 @@ module.exports = class CocoView extends Backbone.View
   # Modals
 
   toggleModal: (e) ->
-    if $(event.currentTarget).prop('target') is '_blank'
+    if $(e.currentTarget).prop('target') is '_blank'
       return true
     # special handler for opening modals that are dynamically loaded, rather than static in the page. It works (or should work) like Bootstrap's modals, except use coco-modal for the data-toggle value.
     elem = $(e.target)
@@ -133,7 +133,7 @@ module.exports = class CocoView extends Backbone.View
       visibleModal.$el.addClass('hide')
       waitingModal = null
       @modalClosed()
-      
+
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
@@ -148,7 +148,7 @@ module.exports = class CocoView extends Backbone.View
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hide')
     @_lastLoading = null
-    
+
   # Loading ModalViews
 
   enableModalInProgress: (modal) ->
@@ -194,7 +194,7 @@ module.exports = class CocoView extends Backbone.View
     return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ["", "true"]) and not (el.readOnly or el.disabled)
 
   # Subviews
-    
+
   insertSubView: (view) ->
     @subviews[view.id].destroy() if view.id of @subviews
     @$el.find('#'+view.id).after(view.el).remove()
