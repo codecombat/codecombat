@@ -6,6 +6,9 @@ Mark = require './Mark'
 Label = require './Label'
 AudioPlayer = require 'lib/AudioPlayer'
 
+#For bobbing
+ticker = 0
+
 # We'll get rid of this once level's teams actually have colors
 healthColors =
   ogres: [64, 128, 212]
@@ -147,13 +150,16 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   updatePosition: ->
     return unless @thang?.pos and @options.camera?
+    if 'bobs' in @thang.trackedPropertiesKeys
+      ticker++      
+      @thang.pos.z = @thang.pos.z + (Math.sin ticker / (1 / @thang.bobSpeed) * .01 * @thang.bobHeight
     [p0, p1] = [@lastPos, @thang.pos]
     return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo
     wop = x: p1.x, y: p1.y, z: if @thang.isLand then 0 else p1.z - @thang.depth / 2
     sup = @options.camera.worldToSurface wop
     [@displayObject.x, @displayObject.y] = [sup.x, sup.y]
     @lastPos = _.clone(p1)
-    @hasMoved = true
+    @hasMoved = true    
 
   updateScale: ->
     if @thangType.get('matchWorldDimensions') and @thang
@@ -173,7 +179,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return unless @thang?.alpha?
     @imageObject.alpha = @thang.alpha
     if @options.showInvisible
-      @imageObject.alpha = Math.max 0.5, @imageObject.alpha
+      @imageObject.alpha = Math.max 0.5, @imageObject.alpha 
 
   updateRotation: (imageObject) ->
     rotationType = @thangType.get('rotationType')
