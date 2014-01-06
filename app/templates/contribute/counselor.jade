@@ -1,0 +1,39 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    include /templates/contribute/contribute_nav
+
+    div.class-main#sounselor-main
+      
+      .class_image
+          img(src="/images/pages/contribute/counselor.png", alt="")
+
+      h2 Counselor (Expert)
+      p Do you have life experience?
+        | A different perspective on things that can help us decide how to shape CodeCombat?
+        | Of all these roles, this will probably take the least time, but
+        | individually you may make the most difference.
+        | We're on the lookout for wisened sages, particularly in areas like: teaching,
+        | game development, open source project management, technical recruiting, entrepreneurship,
+        | or design.
+      
+      p Or really anything that is relevant to the development of CodeCombat.
+        | If you have knowledge and want to share it to help grow this project, then
+        | this class might be for you.
+  
+      h4 Class Attributes
+      ul
+        li Experience, in any of the areas above or something you think might be helpful.
+        li A little bit of free time!
+  
+      h4 How to Join 
+      p 
+        a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact") Contact us
+        | , tell us a little about yourself, what you've done and what you'd
+        | be interested in doing. We'll put you in our contact list and be in touch
+        | when we could use advice (not too often).      
+
+    div.clearfix
