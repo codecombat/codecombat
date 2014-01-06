@@ -52,7 +52,7 @@ class SetupFactory(object):
         bower_path = self.config.directory.root_dir + os.sep + "coco" + os.sep + "node_modules" + os.sep + ".bin" + os.sep + "bower"
         subprocess.call(bower_path + " --allow-root install",shell=True,cwd=self.config.directory.root_dir + os.sep + "coco")
         print("Removing temporary directories")
-        self.config.directory.remove_directories()
+        self.config.directory.remove_tmp_directory()
         print("Changing permissions of files...")
         #TODO: Make this more robust and portable(doesn't pose security risk though)
         subprocess.call("chmod -R 755 " + self.config.directory.root_dir + os.sep + "coco" + os.sep + "bin",shell=True)
