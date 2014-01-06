@@ -29,7 +29,7 @@ class SystemConfiguration(object):
         if is64Bit:
             return 64
         else:
-            if self.operating_system != u"linux" or self.operating_system !=u"windows":
+            if self.operating_system == u"mac":
                 raise NotSupportedError(u"Your processor is determined to have a maxSize of" + sys.maxsize +
                                         u",\n which doesn't correspond with a 64-bit architecture.")
             return 32

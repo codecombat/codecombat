@@ -10,17 +10,19 @@ import shutil
 import os
 import glob
 import subprocess
+def print_computer_information(os_name,address_width):
+  print(os_name + " detected, architecture: " + str(address_width) + " bit")
 def constructSetup():
     config = configuration.Configuration()
+    address_width = config.system.get_virtual_memory_address_width()
     if config.system.operating_system == u"mac":
-        print("Mac detected, architecture: " + str(config.system.get_virtual_memory_address_width()) + " bit")
+        print_computer_information("Mac",address_width)
         return MacSetup(config)
     elif config.system.operating_system == u"win":
-        print("Windows detected, architecture: " + str(config.system.get_virtual_memory_address_width())+ " bit")
+        print_computer_information("Windows",address_width)
         raise NotImplementedError("Windows is not supported at this time.")
-        #return WinSetup(config)
     elif config.system.operating_system == u"linux":
-        print("Linux detected, architecture: " + str(config.system.get_virtual_memory_address_width())+ " bit")
+        print_computer_information("Linux",address_width)
         return LinuxSetup(config)
 
 class SetupFactory(object):
@@ -49,13 +51,6 @@ class SetupFactory(object):
         print ("Doing initial bower install...")
         bower_path = self.config.directory.root_dir + os.sep + "coco" + os.sep + "node_modules" + os.sep + ".bin" + os.sep + "bower"
         subprocess.call(bower_path + " --allow-root install",shell=True,cwd=self.config.directory.root_dir + os.sep + "coco")
-        print("Copying bin scripts...")
-
-        script_location =self.config.directory.root_dir + os.sep + "coco" + os.sep + "scripts" + os.sep + "devSetup" + os.sep + "bin"
-        #print("Script location: " + script_location)
-        #print("Destination: "+ self.config.directory.root_install_directory)
-        #for filename in glob.glob(os.path.join(script_location, '*.*')):
-        #    shutil.copy(filename, self.config.directory.root_install_directory)
         print("Removing temporary directories")
         self.config.directory.remove_directories()
         print("Changing permissions of files...")
@@ -67,12 +62,8 @@ class SetupFactory(object):
         print("2. ./coco-brunch")
         print("3. ./coco-dev-server")
         print("Once brunch is done, visit http://localhost:3000!")
-        #print self.mongo.bashrc_string()
-        #print self.node.bashrc_string()
-        #print "COCO_DIR="+ self.config.directory.root_dir + os.sep + "coco"
     def cleanup(self):
-        self.config.directory.remove_directories()
-
+        self.config.directory.remove_tmp_directory()
 
 class MacSetup(SetupFactory):
     def setup(self):

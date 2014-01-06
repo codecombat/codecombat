@@ -73,7 +73,7 @@ module.exports = class CastButtonView extends View
     else
       s = $.i18n.t("play_level.tome_cast_button_cast", defaultValue: "Spell Cast")
     @castButton.text s
-    @castButton.attr 'disabled', not castable
+    @castButton.prop 'disabled', not castable
 
   setAutocastDelay: (delay) ->
     #console.log "Set autocast delay to", delay

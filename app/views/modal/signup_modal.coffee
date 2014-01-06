@@ -37,17 +37,20 @@ module.exports = class SignupModalView extends View
     @enableModalInProgress(modal) # TODO: part of forms
 
   checkAge: (e) ->
-    $("#signup-button", @$el).attr 'disabled', not $(e.target).attr('checked')
+    $("#signup-button", @$el).prop 'disabled', not $(e.target).prop('checked')
 
   createAccount: (e) =>
     forms.clearFormAlerts(@$el)
     userObject = forms.formToObject @$el
     delete userObject.subscribe
     delete userObject["confirm-age"]
-    for key, val of me.attributes when key in ["preferredLanguage", "testGroupNumber", "dateCreated", "wizardColor1", "name", "music", "volume"]
+    for key, val of me.attributes when key in ["preferredLanguage", "testGroupNumber", "dateCreated", "wizardColor1", "name", "music", "volume", "emailSubscriptions"]
       userObject[key] ?= val
-    subscribe = @$el.find('#signup-subscribe').attr('checked')
-    userObject.emailSubscriptions = if subscribe then ['announcement'] else []
+    subscribe = @$el.find('#signup-subscribe').prop('checked')
+    if subscribe
+      (userObject.emailSubscriptions ?= []).push 'announcement'
+    else
+      userObject.emailSubscriptions = _.without (userObject.emailSubscriptions ? []), 'announcement'
     res = tv4.validateMultiple userObject, User.schema.attributes
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     window.tracker?.trackEvent 'Finished Signup'

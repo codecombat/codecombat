@@ -27,10 +27,10 @@ module.exports = class ThangTypeEditView extends View
     'click #upload-button': -> @$el.find('input#real-upload-button').click()
     'change #real-upload-button': 'animationFileChosen'
     'change #animations-select': 'showAnimation'
-    
+
   subscriptions:
     'save-new-version': 'saveNewThangType'
-    
+
   # init / render
 
   constructor: (options, @thangTypeID) ->
@@ -160,7 +160,7 @@ module.exports = class ThangTypeEditView extends View
     @file = e.target.files[0]
     return unless @file
     return unless @file.type is 'text/javascript'
-    @$el.find('#upload-button').val('disabled', true)
+    @$el.find('#upload-button').prop('disabled', true)
     @reader = new FileReader()
     @reader.onload = @onFileLoad
     @reader.readAsText(@file)
@@ -205,7 +205,7 @@ module.exports = class ThangTypeEditView extends View
       movieClip.regX = -reg.x
       movieClip.regY = -reg.y
     @showDisplayObject(movieClip)
-    
+
   getSpriteOptions: -> { resolutionFactor: @resolution, thang: @mockThang}
 
   showSprite: (actionName) ->
@@ -215,14 +215,14 @@ module.exports = class ThangTypeEditView extends View
     @currentSprite?.destroy()
     @currentSprite = sprite
     @showDisplayObject(sprite.displayObject)
-    
+
   updatePortrait: ->
     options = @getSpriteOptions()
     portrait = @thangType.getPortrait(options)
     return unless portrait
     portrait?.attr('id', 'portrait').addClass('img-polaroid')
     $('#portrait').replaceWith(portrait)
-    
+
   showDisplayObject: (displayObject) ->
     @clearDisplayObject()
     displayObject.x = CENTER.x

@@ -77,13 +77,13 @@ module.exports = class SettingsView extends View
   getSubscriptions: ->
     inputs = $('#email-pane input[type="checkbox"]', @$el)
     inputs = ($(i) for i in inputs)
-    subs = (i.attr('name') for i in inputs when i.attr('checked'))
+    subs = (i.attr('name') for i in inputs when i.prop('checked'))
     subs = (s.replace('email_', '') for s in subs)
     subs
 
   toggleEmailSubscriptions: =>
     subs = @getSubscriptions()
-    $('#email-pane input[type="checkbox"]', @$el).attr('checked', not Boolean(subs.length))
+    $('#email-pane input[type="checkbox"]', @$el).prop('checked', not Boolean(subs.length))
     @save()
 
   save: =>

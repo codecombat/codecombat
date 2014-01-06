@@ -8,7 +8,7 @@ module.exports = class MultiplayerModal extends View
   events:
     'click textarea': 'onClickLink'
     'change #multiplayer': 'updateLinkSection'
-  
+
   constructor: (options) ->
     super(options)
     @session = options.session
@@ -21,19 +21,20 @@ module.exports = class MultiplayerModal extends View
       @session.id)
     c.multiplayer = @session.get('multiplayer')
     c
-  
+
   afterRender: ->
     super()
     @updateLinkSection()
-    
+
   onClickLink: (e) =>
     e.target.select()
-    
+
   updateLinkSection: =>
-    multiplayer = @$el.find('#multiplayer').attr('checked')
+    multiplayer = @$el.find('#multiplayer').prop('checked')
     la = @$el.find('#link-area')
     if multiplayer then la.show() else la.hide()
+    true
 
   onHidden: ->
-    multiplayer = Boolean(@$el.find('#multiplayer').attr('checked'))
+    multiplayer = Boolean(@$el.find('#multiplayer').prop('checked'))
     @session.set('multiplayer', multiplayer)

@@ -95,4 +95,4 @@ module.exports = class SpellListEntryView extends View
     disabled = not enabled
     # Should refactor the disabling list so we can target the spell list separately?
     # Should not call it 'editor' any more?
-    @$el.toggleClass('disabled', disabled).find('*').attr('disabled', disabled)
+    @$el.toggleClass('disabled', disabled).find('*').prop('disabled', disabled)
