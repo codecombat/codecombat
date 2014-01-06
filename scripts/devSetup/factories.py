@@ -59,8 +59,9 @@ class SetupFactory(object):
 
         print("Done! If you want to start the server, head into /coco/bin and run ")
         print("1. ./coco-mongodb")
-        print("2. ./coco-brunch")
+        print("2. ./coco-brunch ")
         print("3. ./coco-dev-server")
+        print("NOTE: brunch may need to be run as sudo if it doesn't work (ulimit needs to be set higher than default)")
         print("Once brunch is done, visit http://localhost:3000!")
     def cleanup(self):
         self.config.directory.remove_tmp_directory()
