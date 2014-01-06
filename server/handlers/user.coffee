@@ -130,7 +130,7 @@ UserHandler = class UserHandler extends Handler
       email: req.user.get 'email'
       name: req.user.get 'name'
       githubUsername: req.body.githubUsername
-      created: new Date()
+      created: new Date()+''
     collection = mongoose.connection.db.collection 'cla.submissions', (err, collection) ->
       return @sendDatabaseError(res, err) if err
       collection.insert doc, (err) ->
