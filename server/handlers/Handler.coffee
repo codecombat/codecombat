@@ -94,6 +94,7 @@ module.exports = class Handler
     unless @modelClass.schema.uses_coco_search
       return @sendNotFoundError(res)
 
+    project = {original:1, name:1, version:1}
     term = req.query.term
     matchedObjects = []
     filters = [{filter: {index: true}}]
@@ -111,9 +112,10 @@ module.exports = class Handler
           res.send matchedObjects
           res.end()
       if term
+        filter.project = project
         @modelClass.textSearch term, filter, callback
       else
-        @modelClass.find(filter.filter).limit(100).exec callback
+        @modelClass.find(filter.filter, project).limit(100).exec callback
 
   versions: (req, res, id) ->
     # TODO: a flexible system for doing GAE-like cursors for these sort of paginating queries
