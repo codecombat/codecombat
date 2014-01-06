@@ -1,7 +1,7 @@
-View = require 'views/kinds/RootView'
+ContributeClassView = require 'views/contribute/contribute_class_view'
 template = require 'templates/contribute/counselor'
 {me} = require('lib/auth')
 
-module.exports = class ArchmageView extends View
+module.exports = class CounselorView extends ContributeClassView
   id: "counselor-view"
   template: template

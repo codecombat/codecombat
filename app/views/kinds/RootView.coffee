@@ -16,7 +16,7 @@ module.exports = class RootView extends CocoView
   events:
     "click #logout-button": "logoutAccount"
     'change .language-dropdown': 'showDiplomatSuggestionModal'
-
+    
   shortcuts:
     'backspace, delete': 'preventBackspace'
 #    'backspace': 'preventBackspace'
@@ -56,7 +56,7 @@ module.exports = class RootView extends CocoView
         code2 isnt code and code2.split('-')[0] is code)
     for code, localeInfo of locale when not (code in genericCodes) or code is preferred
       $select.append(
-        $("<option></option>").val(code).text(localeInfo.nativeDescription))
+        $("<option></option>").attr("value", code).text(localeInfo.nativeDescription))
     $select.val(preferred).fancySelect()
 
   showDiplomatSuggestionModal: ->
