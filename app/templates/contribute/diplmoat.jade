@@ -1,0 +1,71 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    ul.contribute_class.affix.nav.nav-list.nav-pills#contribute-nav
+      li
+        h3 Character Classes
+      li
+        a(href="//contribute#archmage") Archmage (Coder)
+      li
+        a(href="//contribute#artisan") Artisan (Level Builder)
+      li
+        a(href="//contribute#adventurer") Adventurer (Level Playtester)
+      li
+        a(href="//contribute#scribe") Scribe (Article Editor)
+      li 
+        a(href="//contribute#diplomat") Diplomat (Translator)
+      li
+        a(href="//contribute#ambassador") Ambassador (Support)
+      li
+        a(href="//contribute#counselor") Counselor (Expert/Teacher)
+
+    div.class-main#diplomat-main
+      
+      .class_image
+          img(src="/images/pages/contribute/diplomat.png", alt="")
+
+      h3 Diplomat (Translator)
+      p So, if there's one thing we learned from the 
+        a(href="blog.codecombat.com/post/64658141307/codecombat-in-y-combinator") launch in October
+        | , it's that there
+        | is sizeable interest in CodeCombat in other countries, particularly Brazil!
+        | We're building a corps of translators eager to turn one set of words into
+        | another set of words to get CodeCombat as accessible across the world as possible.
+        | If you like getting sneak peeks at upcoming content and getting these levels to
+        | your fellow nationals ASAP, then this class might be for you.
+  
+      h4 Class Attributes
+      ul
+        li Fluency in English and the language you would like to translate to.
+          | When conveying complicated ideas, it's important to have a strong grasp in both!
+      
+      h4 How to Join
+      p We've started a lot of initial translations at 
+        a(href="https://docs.google.com/a/codecombat.com/spreadsheet/ccc?key=0AjsR1nOoMQ4MdFBqS1NqUmRTVG1hbEMxWTZEd1JrNXc&usp=drive_web#gid=0") this Google Doc
+        | , so check it out and add things for your language. Also, check this box below to 
+        | keep up-to-date on new internationalization developments!
+
+      if me.attributes.anonymous
+        div#sign-up.alert.alert-info
+          strong Hey there! 
+          | To subscribe for class emails, you'll need to 
+          a(data-toggle="coco-modal", data-target="modal/signup") create an account
+          |  first .
+          
+      label.checkbox(for="translator").well
+        input(type='checkbox', name="translator", id="translator")
+        | Get emails about i18n developments and levels to translate.
+        .saved-notification  ✓ Saved
+
+      h4 Changes are saved automatically when you toggle checkboxes.
+
+      #Contributors
+        h3 Our Magical Archmages:
+        ul.archmages
+          li David Golds
+          li Zach Martin
+
+    div.clearfix
