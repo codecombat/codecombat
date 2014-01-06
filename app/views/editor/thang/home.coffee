@@ -7,4 +7,8 @@ module.exports = class ThangTypeHomeView extends SearchView
   modelURL: '/db/thang.type'
   tableTemplate: require 'templates/editor/thang/table'
 
+  onSearchChange: =>
+    super()
+    @$el.find("img").error(-> $(this).hide())
+
   # TODO: do the new thing on click, not just enter

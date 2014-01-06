@@ -286,7 +286,7 @@ module.exports = class ThangTypeEditView extends View
 
     res = newThangType.save()
     return unless res
-    modal = @$el.find('#save-modal')
+    modal = $('#save-version-modal')
     @enableModalInProgress(modal)
 
     res.error =>
@@ -294,7 +294,8 @@ module.exports = class ThangTypeEditView extends View
 
     res.success =>
       url = "/editor/thang/#{newThangType.get('slug') or newThangType.id}"
-      document.location.href = url
+      newThangType.uploadGenericPortrait =>
+        document.location.href = url
 
   clearRawData: ->
     @thangType.resetRawData()

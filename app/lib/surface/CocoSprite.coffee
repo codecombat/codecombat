@@ -84,7 +84,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     else
       sprite = new createjs.Shape()
     sprite.scaleX = sprite.scaleY = 1 / @options.resolutionFactor
-    if @thangType.get('name') in ['Dungeon Floor', 'Grass', 'Goal Trigger', 'Obstacle']  # temp, until these are re-exported with perspective
+    # temp, until these are re-exported with perspective
+    if @options.camera and @thangType.get('name') in ['Dungeon Floor', 'Grass', 'Goal Trigger', 'Obstacle']  
       sprite.scaleY *= @options.camera.y2x
     @displayObject = new createjs.Container()
     @imageObject = sprite

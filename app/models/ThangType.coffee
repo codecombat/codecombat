@@ -148,7 +148,7 @@ module.exports = class ThangType extends CocoModel
 
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
-    $('<img />').attr('src', url)
+    $('<img />').attr('src', src)
 
   getPortraitSource: (spriteOptionsOrKey, size=100) ->
     key = spriteOptionsOrKey
@@ -167,7 +167,7 @@ module.exports = class ThangType extends CocoModel
     stage.update()
     stage.toDataURL()
     
-  uploadGenericPortrait: ->
+  uploadGenericPortrait: (callback) ->
     src = @getPortraitSource()
     return unless src
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
@@ -177,7 +177,7 @@ module.exports = class ThangType extends CocoModel
       path: "db/thang.type/#{@get('original')}"
       b64png: src
       force: 'true'
-    $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
+    $.ajax('/file', { type: 'POST', data: body, success: callback or @onFileUploaded })
 
   onFileUploaded: =>
     console.log 'Image uploaded'
