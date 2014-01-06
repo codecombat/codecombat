@@ -1,0 +1,78 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    ul.contribute_class.affix.nav.nav-list.nav-pills#contribute-nav
+      li
+        h3 Character Classes
+      li
+        a(href="//contribute#archmage") Archmage (Coder)
+      li
+        a(href="//contribute#artisan") Artisan (Level Builder)
+      li
+        a(href="//contribute#adventurer") Adventurer (Level Playtester)
+      li
+        a(href="//contribute#scribe") Scribe (Article Editor)
+      li 
+        a(href="//contribute#diplomat") Diplomat (Translator)
+      li
+        a(href="//contribute#ambassador") Ambassador (Support)
+      li
+        a(href="//contribute#counselor") Counselor (Expert/Teacher)
+
+    div.class-main#adventurer-main
+      
+      .class_image
+          img(src="/images/pages/contribute/adventurer.png", alt="")
+
+      h2 Adventurer (Level Playtester)
+      p Let's be clear about your role: you are the tank. You're going to take heavy damage.
+        | We need people to try out brand-new levels and help identify how to make things better.
+        | The pain will be enormous; making good games is a long process and no one gets
+        | it right the first time.
+        | If you can endure and have a high constitution score, then this class might be for you.
+      
+      h4 Class Attributes
+      ul
+        li A thirst for learning. You want to learn how to code and we want to teach you how to code.
+          | You'll probably be doing most of the teaching in this case, though.
+        li Charismatic. Be gentle but articulate about what needs improving, and offer suggestions
+          | on how to improve.
+    
+      h4 How To Join
+      p Either get together with (or recruit!) an Artisan and work with them, or
+        | check the box below to receive emails when there are new levels to test.
+        | We'll also be posting about levels to review on our networks like 
+        a(href="http://discourse.codecombat.com/category/adventurer") our forum
+        | , 
+        a(href="https://www.facebook.com/codecombat") Facebook
+        | , 
+        a(href="http://www.reddit.com/r/CodeCombat/") Reddit
+        | , 
+        a(href="https://twitter.com/CodeCombat") Twitter
+        | , and 
+        a(href="https://plus.google.com/115285980638641924488/posts") Google+
+        | , so if you prefer to be notified those ways, sign up there!
+
+      if me.attributes.anonymous
+        div#sign-up.alert.alert-info
+          strong Hey there! 
+          | To subscribe for class emails, you'll need to 
+          a(data-toggle="coco-modal", data-target="modal/signup") create an account
+          |  first .
+
+      label.checkbox(for="tester").well
+        input(type='checkbox', name="tester", id="tester")
+        | Get emails when there are new levels to test.
+        .saved-notification  ✓ Saved
+
+      h4 Changes are saved automatically when you toggle checkboxes.
+
+      #Contributors
+        h3 Our Brave Adventurers:
+        ul.adventurers
+          li Kieizroe          
+
+    div.clearfix

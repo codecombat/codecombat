@@ -1,0 +1,89 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    ul.contribute_class.affix.nav.nav-list.nav-pills#contribute-nav
+      li
+        h3 Character Classes
+      li
+        a(href="//contribute#archmage") Archmage (Coder)
+      li
+        a(href="//contribute#artisan") Artisan (Level Builder)
+      li
+        a(href="//contribute#adventurer") Adventurer (Level Playtester)
+      li
+        a(href="//contribute#scribe") Scribe (Article Editor)
+      li 
+        a(href="//contribute#diplomat") Diplomat (Translator)
+      li
+        a(href="//contribute#ambassador") Ambassador (Support)
+      li
+        a(href="//contribute#counselor") Counselor (Expert/Teacher)
+
+    div.class-main#archmage-main
+    
+      .class_image
+        img(src="/images/pages/contribute/archmage.png", alt="")
+
+      h2 Archmage (Coder)
+      p One of the best parts about building games is they synthesize so many different things.
+        | Graphics, sound, real-time networking, social networking, and of course many of the
+        | more common aspects of programming, from low-level database management, 
+        | and server administration to user facing design and interface building. 
+        | There's a lot to do, and if you're an experienced programmer with a hankering
+        | to really dive into the nitty-gritty of CodeCombat, this class might be for you.
+
+      p Right now we have open-sourced two of our tools on the project: 
+        a(href="https://github.com/codecombat/aether") Aether
+        |  and 
+        a(href="https://github.com/codecombat/treema") Treema
+        | . We are also open sourcing everything momentarily, so stay tuned for access to the main repo!
+        | We would love to have your help building out the best programming game ever.
+    
+      h4 Class Attributes
+      ul
+        li Knowledge in 
+          a(href="http://coffeescript.org/") CoffeeScript
+          | , or a desire to learn. Most of our code is in this language.
+          | If you're a fan of Ruby or Python, you'll feel right at home.
+          | It's just JavaScript, but with a nicer syntax.
+        li Some experience in programming and personal initiative.
+          | We'll help you get oriented, but we can't spend much time training you.
+      
+      h4 How To Join
+      
+      p
+        | Anyone can help out! Just check out our 
+        a(title='GitHub', tabindex=-1) GitHub
+        |  to get started, and check the box below to mark yourself as a brave Archmage.
+        | Want to chat about what to do or how to get more deeply involved? 
+        a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact") Contact us
+        | , tell us a little about yourself, what you've done and what you'd
+        | be interested in working on. We'll go from there!
+
+      if me.attributes.anonymous
+        div#sign-up.alert.alert-info
+          strong Hey there! 
+          | To subscribe for class emails, you'll need to 
+          a(data-toggle="coco-modal", data-target="modal/signup") create an account
+          |  first .
+
+      label.checkbox(for="developer").well
+          input(type='checkbox', name="developer", id="developer")
+          | Get emails on new coding opportunities and announcements.
+          .saved-notification  ✓ Saved
+
+      h4 Changes are saved automatically when you toggle checkboxes.
+
+      #Contributors
+        h3 Our Magical Archmages:
+        ul.archmages
+          li David Golds
+          li Zach Martin
+          li Tom Steinbrecher
+          li Mischa Lewis-Norelle
+          li Sébastien Moratinos
+
+    div.clearfix
