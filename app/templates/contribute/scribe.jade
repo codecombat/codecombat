@@ -1,0 +1,54 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    include /templates/contribute/contribute_nav
+
+    div.class-main#scribe-main
+      
+      .class_image
+          img(src="/images/pages/contribute/scribe.png", alt="")
+
+      h2 Scribe (Article Editor)
+      p CodeCombat isn't just going to be a bunch of levels.
+        | It will also include a resource for knowledge, a wiki of programming concepts that levels can hook into.
+        | That way rather than each Artisan having to describe in detail what a comparison operator is, they
+        | can simply link their level to the Article describing them that is already written for the player's edification.
+        | Something along the lines of what the 
+        a(href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide") Mozilla Developer Network 
+        | has built. If your idea of fun is articulating the concepts of programming in Markdown form,
+        | then this class might be for you.
+  
+      h4 Class Attributes
+      ul
+        li Skill in words is pretty much all you need.
+          | Not only grammar and spelling, but able to convey complicated ideas to others.
+      
+      h4 How To Join
+      p
+        a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact") Contact us
+        | , tell us a little about yourself, your experience with programming and
+        | what sort of things you'd like to write about. We'll go from there!
+
+      if me.attributes.anonymous
+        div#sign-up.alert.alert-info
+          strong Hey there! 
+          | To subscribe for class emails, you'll need to 
+          a(data-toggle="coco-modal", data-target="modal/signup") create an account
+          |  first .
+
+      label.checkbox(for="article_editor").well
+        input(type='checkbox', name="article_editor", id="article_editor")
+        | Get emails about article writing announcements.
+        .saved-notification  ✓ Saved
+
+      h4 Changes are saved automatically when you toggle checkboxes.
+
+      #Contributors
+        h3 Our Diligent Scribes:
+        ul.scribes
+          li Ryan Faidley
+
+    div.clearfix

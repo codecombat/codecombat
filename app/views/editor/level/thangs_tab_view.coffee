@@ -42,6 +42,7 @@ module.exports = class ThangsTabView extends View
     'sprite:dragged': 'onSpriteDragged'
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
+    'surface:stage-mouse-down': 'onStageMouseDown'
 
   constructor: (options) ->
     super options
@@ -118,7 +119,13 @@ module.exports = class ThangsTabView extends View
     @surface?.spriteBoss?.selectSprite null, null
 
   onSpriteMouseDown: (e) ->
-    #console.log "mouse down", e
+    # Sprite clicks happen after stage clicks, but we need to know whether a sprite is being clicked.
+    clearTimeout @backgroundAddClickTimeout
+
+  onStageMouseDown: (e) ->
+    if @addThangSprite
+      # If we click on the background, we need to add @addThangSprite, but not if onSpriteMouseDown will fire.
+      @backgroundAddClickTimeout = _.defer => @onExtantThangSelected {}
 
   onSpriteDragged: (e) ->
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id

@@ -1,0 +1,53 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    include /templates/contribute/contribute_nav
+
+    div.class-main#ambassador-main
+      
+      .class_image
+          img(src="/images/pages/contribute/ambassador.png", alt="")
+
+      h2 Ambassador (Support)
+      p This is a community we're building, and you are the connections.
+        | We've got Olark chats, emails, and social networks with lots of people to talk with
+        | and help get acquainted with the game and learn from.
+        | If you want to help people get involved and have fun, and get a good feel of the pulse of
+        | CodeCombat and where we're going, then this class might be for you.
+  
+      h4 Class Attributes
+      ul
+        li Communication skills. Be able to identify the problems players are having
+          | and help them solve them. Also, keep the rest of us informed about what
+          | players are saying, what they like and don't like and want more of!
+  
+      h4 How to Join
+      p
+        a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact") Contact us
+        | , tell us a little about yourself, what you've done and what you'd
+        | be interested in doing. We'll go from there!
+  
+      p
+        strong Note
+        | : One of our top priorities is to build multiplayer where players having difficulty
+        | solving levels can summon higher level wizards to help them.
+        | This will be a great way for ambassadors to do their thing. We'll keep you posted!
+
+      if me.attributes.anonymous
+        div#sign-up.alert.alert-info
+          strong Hey there! 
+          | To subscribe for class emails, you'll need to 
+          a(data-toggle="coco-modal", data-target="modal/signup") create an account
+          |  first .
+
+      label.checkbox(for="support").well
+        input(type='checkbox', name="support", id="support")
+        | Get emails on support updates and multiplayer developments.
+        .saved-notification  ✓ Saved
+
+      h4 Changes are saved automatically when you toggle checkboxes.
+
+    div.clearfix
