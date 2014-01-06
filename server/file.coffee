@@ -54,6 +54,7 @@ postFileSchema =
     # source
     url: { type: 'string', description: 'The url to download the file from.' }
     postName: { type: 'string', description: 'The input field this file was sent on.' }
+    b64png: { type: 'string', description: 'Raw png data to upload.' }
 
     # options
     force: { type: 'string', 'default': '', description: 'Whether to overwrite existing files (as opposed to throwing an error).' }
@@ -72,15 +73,16 @@ filePost = (req, res) ->
   options = req.body
   tv4 = require('tv4').tv4
   valid = tv4.validate(options, postFileSchema)
-  hasSource = options.url or options.postName
+  hasSource = options.url or options.postName or options.b64png
   return returnBadInput(res) if (not valid) or (not hasSource)
   return saveURL(req, res) if options.url
   return saveFile(req, res) if options.postName
+  return savePNG(req, res) if options.b64png
 
 saveURL = (req, res) ->
   options = createPostOptions(req)
   checkExistence options, res, req.body.force, (err) ->
-    return if err
+    return returnServerError(res) if err
     writestream = Grid.gfs.createWriteStream(options)
     request(req.body.url).pipe(writestream)
     handleStreamEnd(res, writestream)
@@ -93,6 +95,18 @@ saveFile = (req, res) ->
     f = req.files[req.body.postName]
     fileStream = fs.createReadStream(f.path)
     fileStream.pipe(writestream)
+    handleStreamEnd(res, writestream)
+
+savePNG = (req, res) ->
+  options = createPostOptions(req)
+  checkExistence options, res, req.body.force, (err) ->
+    return returnServerError(res) if err
+    writestream = Grid.gfs.createWriteStream(options)
+    img = new Buffer(req.body.b64png, 'base64')
+    streamBuffers = require 'stream-buffers'
+    myReadableStreamBuffer = new streamBuffers.ReadableStreamBuffer({frequency: 10,chunkSize: 2048})
+    myReadableStreamBuffer.put(img)
+    myReadableStreamBuffer.pipe(writestream)
     handleStreamEnd(res, writestream)
 
 checkExistence = (options, res, force, done) ->

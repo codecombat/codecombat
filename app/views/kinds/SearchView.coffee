@@ -65,7 +65,7 @@ module.exports = class ThangTypeHomeView extends View
 
   onSearchChange: =>
     @hideLoading()
-    documents = (m.attributes for m in @collection.models)
+    documents = @collection.models
     table = $(@tableTemplate(documents:documents))
     @$el.find('table').replaceWith(table)
 

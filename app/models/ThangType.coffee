@@ -76,6 +76,7 @@ module.exports = class ThangType extends CocoModel
     
   addPortrait: ->
     # The portrait is built very differently than the other animations, so it gets a separate function.
+    return unless @actions
     portrait = @actions.portrait
     return unless portrait
     scale = portrait.scale or 1
@@ -145,10 +146,15 @@ module.exports = class ThangType extends CocoModel
   spriteSheetKey: (options) ->
     "#{@get('name')} - #{options.resolutionFactor}"
 
-  getPortrait: (spriteOptionsOrKey, size=100) ->
+  getPortraitImage: (spriteOptionsOrKey, size=100) ->
+    src = @getPortraitSource(spriteOptionsOrKey, size)
+    $('<img />').attr('src', url)
+
+  getPortraitSource: (spriteOptionsOrKey, size=100) ->
     key = spriteOptionsOrKey
     key = if _.isObject(key) then @spriteSheetKey(key) else key
     spriteSheet = @spriteSheets[key]
+    spriteSheet ?= @buildSpriteSheet({portraitOnly:true})
     return unless spriteSheet
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
     stage = new createjs.Stage(canvas[0])
@@ -159,5 +165,20 @@ module.exports = class ThangType extends CocoModel
     sprite.gotoAndStop 'portrait'
     stage.addChild(sprite)
     stage.update()
-    url = stage.toDataURL()
-    img = $('<img />').attr('src', url)
+    stage.toDataURL()
+    
+  uploadGenericPortrait: ->
+    src = @getPortraitSource()
+    return unless src
+    src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
+    body =
+      filename: 'portrait.png'
+      mimetype: 'image/png'
+      path: "db/thang.type/#{@get('original')}"
+      b64png: src
+      force: 'true'
+    $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
+
+  onFileUploaded: =>
+    console.log 'Image uploaded'
+

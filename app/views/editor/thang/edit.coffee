@@ -218,7 +218,7 @@ module.exports = class ThangTypeEditView extends View
 
   updatePortrait: ->
     options = @getSpriteOptions()
-    portrait = @thangType.getPortrait(options)
+    portrait = @thangType.getPortraitImage(options)
     return unless portrait
     portrait?.attr('id', 'portrait').addClass('img-polaroid')
     $('#portrait').replaceWith(portrait)

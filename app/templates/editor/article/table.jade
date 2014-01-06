@@ -8,6 +8,7 @@ table.table
     th Version
   
   for article in documents
+    - article = article.attributes;
     tr
       td
         a(href="/editor/article/#{article.slug || article._id}")

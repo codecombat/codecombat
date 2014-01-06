@@ -8,6 +8,7 @@ table.table
     th Version
   
   for level in documents
+    - level = level.attributes;
     tr
       td
         a(href="/editor/level/#{level.slug || level._id}")

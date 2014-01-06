@@ -57,7 +57,8 @@
     "node-force-domain": "~0.1.0",
     "mailchimp-api": "",
     "express-useragent": "~0.0.9",
-    "gridfs-stream": ""
+    "gridfs-stream": "",
+    "stream-buffers": ""
   },
   "devDependencies": {
     "jade": "0.33.x",
