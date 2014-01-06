@@ -36,6 +36,7 @@ class Node(Dependency):
         return "COCO_NODE_PATH=" + self.config.directory.bin_directory + os.sep + u"node" + os.sep + "bin" + os.sep +"node"
     def install_dependencies(self):
         install_directory = self.config.directory.bin_directory + os.sep + u"node"
+        #check for node here
         unzipped_node_path = self.findUnzippedNodePath()
         if self.config.system.operating_system in ["mac","linux"] and not which("node"):
             print "Copying node into /usr/local/bin/..."

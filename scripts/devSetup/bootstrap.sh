@@ -1,6 +1,6 @@
 #!/bin/bash
 
-repositoryUrl=https://github.com/codecombat/codecombat.git
+repositoryUrl=${1:-https://github.com/codecombat/codecombat.git}
 deps=( git python )
 function checkDependencies { #usage: checkDependencies [name of dependency array] [name of error checking function]
     declare -a dependencyArray=("${!1}")
@@ -32,6 +32,6 @@ function checkIsRoot {
 #checkIsRoot
 checkDependencies deps[@] basicDependenciesErrorHandling
 #install git repository
-git clone https://github.com/codecombat/codecombat.git coco
+git clone $repositoryUrl coco
 #python ./coco/scripts/devSetup/setup.py
 echo "Now copy and paste 'sudo python ./coco/scripts/devSetup/setup.py' into the terminal!"
