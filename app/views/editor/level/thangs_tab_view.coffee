@@ -43,6 +43,9 @@ module.exports = class ThangsTabView extends View
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-down': 'onStageMouseDown'
+  
+  shortcuts:
+    'esc': -> @selectAddThang()
 
   constructor: (options) ->
     super options
@@ -175,6 +178,7 @@ module.exports = class ThangsTabView extends View
   selectAddThang: (e) =>
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
     return true if target.attr('id') is 'surface'
+    target = target.closest('.add-thang-palette-icon')
     wasSelected = target.hasClass 'selected'
     @$el.find('.add-thangs-palette .add-thang-palette-icon.selected').removeClass('selected')
     @selectAddThangType(if wasSelected then null else target.attr 'data-thang-type')

@@ -6,7 +6,7 @@ app = require('application')
 class SearchCollection extends Backbone.Collection
   initialize: (modelURL, @model, @term) ->
     @url = "#{modelURL}/search"
-    @url += "?term=#{term}" if @term
+    @url += "?term=#{term}&project=yes" if @term
 
 module.exports = class ThangTypeHomeView extends View
   template: template

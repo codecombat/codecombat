@@ -13,7 +13,8 @@
   h3 Add Thangs
   #thangs-list
     for thangType in thangTypes
-      //img(title="Add " + thangType.name, src=thangType.image, alt="", data-thang-type=thangType.name, class="add-thang-palette-icon" + (thangType.flipped ? " flipped" : ""))
-      code(title="Add " + thangType.name, alt="", data-thang-type=thangType.name, class="add-thang-palette-icon")= thangType.name
+      div.add-thang-palette-icon(data-thang-type=thangType.name)
+        - path = '/file/db/thang.type/'+thangType.original+'/portrait.png'
+        img(title="Add " + thangType.name, src=path, alt="")
 
 #editor-level-thang-edit.hide
