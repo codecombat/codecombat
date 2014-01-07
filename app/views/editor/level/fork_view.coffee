@@ -2,7 +2,6 @@ View = require 'views/kinds/ModalView'
 template = require 'templates/editor/level/fork'
 forms = require 'lib/forms'
 Level = require 'models/Level'
-application = require('application')
 
 module.exports = class LevelForkView extends View
   id: "editor-level-fork-modal"
@@ -44,4 +43,4 @@ module.exports = class LevelForkView extends View
       forms.applyErrorsToForm(@$el.find('form'), JSON.parse(res.responseText))
     res.success =>
       @hide()
-      application.router.navigate('editor/level/' + newLevel.get('slug'), {trigger: true}) 
+      application.router.navigate('editor/level/' + newLevel.get('slug'), {trigger: true})

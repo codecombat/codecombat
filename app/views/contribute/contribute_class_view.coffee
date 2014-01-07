@@ -1,3 +1,4 @@
+SignupModalView = require 'views/modal/signup_modal'
 View = require 'views/kinds/RootView'
 {me} = require('lib/auth')
 

@@ -1,4 +1,3 @@
-application = require 'application'
 SuperModel = require 'models/SuperModel'
 utils = require 'lib/utils'
 CocoClass = require 'lib/CocoClass'

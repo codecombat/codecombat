@@ -1,7 +1,6 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/play/level'
 {me} = require('lib/auth')
-application = require('application')
 ThangType = require 'models/ThangType'
 
 # temp hard coded data
@@ -202,7 +201,6 @@ module.exports = class PlayLevelView extends View
       window.tracker?.identify {skipBreakThePrison: skip}
       url = '/play/level/taunt' if skip
 
-#    application.router.navigate url, trigger: true
     Backbone.Mediator.publish 'router:navigate', {
       route: url,
       viewClass: PlayLevelView,

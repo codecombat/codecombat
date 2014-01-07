@@ -1,4 +1,3 @@
-application = require 'application'
 {me} = require 'lib/auth'
 
 gplusClientID = "800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com"
@@ -62,7 +61,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @renderLoginButtons()
 
   renderLoginButtons: ->
-    $('.share-buttons').addClass('fade-in').delay(10000).removeClass('fade-in', 5000)
+    $('.share-buttons, .partner-badges').addClass('fade-in').delay(10000).removeClass('fade-in', 5000)
     setTimeout(FB.XFBML.parse, 10) if FB?  # Handles FB login and Like
     twttr?.widgets?.load()
 

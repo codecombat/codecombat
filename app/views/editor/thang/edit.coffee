@@ -4,7 +4,6 @@ ThangType = require 'models/ThangType'
 SpriteParser = require 'lib/sprites/SpriteParser'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoSprite = require 'lib/surface/CocoSprite'
-app = require 'application'
 Camera = require 'lib/surface/Camera'
 ThangComponentEditView = require 'views/editor/components/main'
 DocumentFiles = require 'collections/DocumentFiles'
@@ -104,7 +103,7 @@ module.exports = class ThangTypeEditView extends View
 
     createjs.Ticker.setFPS(30)
     createjs.Ticker.addEventListener("tick", @stage)
-    
+
   toggleDots: ->
     @showDots = not @showDots
     @updateDots()

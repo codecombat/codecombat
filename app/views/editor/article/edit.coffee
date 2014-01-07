@@ -1,7 +1,6 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
-app = require 'application'
 
 module.exports = class ArticleEditView extends View
   id: "editor-article-edit-view"
@@ -10,7 +9,7 @@ module.exports = class ArticleEditView extends View
 
   events:
     'click #preview-button': 'openPreview'
-    
+
   subscriptions:
     'save-new-version': 'saveNewArticle'
 
@@ -40,7 +39,7 @@ module.exports = class ArticleEditView extends View
         change: @pushChangesToPreview
     options.readOnly = true unless me.isAdmin()
     @treema = @$el.find('#article-treema').treema(options)
-    
+
     @treema.build()
 
   pushChangesToPreview: =>
@@ -65,7 +64,7 @@ module.exports = class ArticleEditView extends View
     @treema.endExistingEdits()
     for key, value of @treema.data
       @article.set(key, value)
-    
+
     newArticle = if e.major then @article.cloneNewMajorVersion() else @article.cloneNewMinorVersion()
     newArticle.set('commitMessage', e.commitMessage)
     res = newArticle.save()

@@ -3,7 +3,6 @@ template = require 'templates/editor/level/edit'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
 World = require 'lib/world/world'
-app = require 'application'
 DocumentFiles = require 'collections/DocumentFiles'
 
 ThangsTabView = require './thangs_tab_view'

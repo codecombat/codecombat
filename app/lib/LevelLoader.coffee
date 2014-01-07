@@ -14,13 +14,13 @@ app = require 'application'
 #  * Connecting to Firebase
 
 module.exports = class LevelLoader extends CocoClass
-  
+
   spriteSheetsBuilt: 0
   spriteSheetsToBuild: 0
-  
+
   subscriptions:
     'god:new-world-created': 'loadSoundsForWorld'
-  
+
   constructor: (@levelID, @supermodel, @sessionID) ->
     super()
     @loadSession()
@@ -28,20 +28,20 @@ module.exports = class LevelLoader extends CocoClass
     @loadAudio()
     @playJingle()
     setTimeout (=> @update()), 1 # lets everything else resolve first
-    
+
   playJingle: ->
     jingles = ["ident_1", "ident_2"]
     AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length]
 
   # Session Loading
-    
+
   loadSession: ->
     url = if @sessionID then "/db/level_session/#{@sessionID}" else "/db/level/#{@levelID}/session"
     @session = new LevelSession()
     @session.url = -> url
     @session.fetch()
     @session.once 'sync', @onSessionLoaded
-    
+
   onSessionLoaded: =>
     # TODO: maybe have all non versioned models do this? Or make it work to PUT/PATCH to relative urls
     @session.url = -> '/db/level.session/' + @id
@@ -54,20 +54,20 @@ module.exports = class LevelLoader extends CocoClass
     @supermodel.on 'loaded-one', @onSupermodelLoadedOne
     @supermodel.once 'error', @onSupermodelError
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
-    
+
     @supermodel.shouldPopulate = (model) =>
       # if left unchecked, the supermodel would load this level
       # and every level next on the chain. This limits the population
       handles = [model.id, model.get 'slug']
       return model.constructor.className isnt "Level" or @levelID in handles
-  
+
     @supermodel.populateModel @level
-      
+
   onSupermodelError: =>
     msg = $.i18n.t('play_level.level_load_error',
       defaultValue: "Level could not be loaded.")
     @$el.html('<div class="alert">' + msg + '</div>')
-    
+
   onSupermodelLoadedOne: (e) =>
     @notifyProgress()
     if e.model.type() is 'ThangType'
@@ -83,8 +83,8 @@ module.exports = class LevelLoader extends CocoClass
     @trigger 'loaded-supermodel'
     @stopListening(@supermodel)
     @update()
-    
-  # Things to do when either the Session or Supermodel load 
+
+  # Things to do when either the Session or Supermodel load
 
   update: ->
     @notifyProgress()
@@ -95,7 +95,7 @@ module.exports = class LevelLoader extends CocoClass
     @loadLevelSounds()
     app.tracker.updatePlayState(@level, @session)
     @updateCompleted = true
-    
+
   denormalizeSession: ->
     return if @session.get 'levelName'
     patch =
@@ -108,12 +108,12 @@ module.exports = class LevelLoader extends CocoClass
     tempSession = new LevelSession _id: @session.id
     tempSession.save(patch, {patch: true})
     @sessionDenormalized = true
-    
+
   # Initial Sound Loading
 
   loadAudio: ->
     AudioPlayer.preloadInterfaceSounds ["victory"]
-  
+
   loadLevelSounds: ->
     scripts = @level.get 'scripts'
     return unless scripts
@@ -129,7 +129,7 @@ module.exports = class LevelLoader extends CocoClass
         AudioPlayer.preloadSoundReference sound for sound in sounds
 
   # Dynamic sound loading
-          
+
   loadSoundsForWorld: (e) ->
     world = e.world
     thangTypes = @supermodel.getModels(ThangType)
@@ -137,12 +137,12 @@ module.exports = class LevelLoader extends CocoClass
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       filename = AudioPlayer.preloadSoundReference sound
-      
+
   # everything else sound wise is loaded as needed as worlds are generated
-    
+
   allDone: ->
     @supermodel.finished() and @session.loaded and @spriteSheetsBuilt is @spriteSheetsToBuild
-  
+
   progress: ->
     return 0 unless @level.loaded
     overallProgress = 0
@@ -161,4 +161,3 @@ module.exports = class LevelLoader extends CocoClass
   destroy: ->
     @supermodel.off 'loaded-one', @onSupermodelLoadedOne
     super()
-  

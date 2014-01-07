@@ -3,7 +3,6 @@ template = require 'templates/editor/level/save'
 forms = require 'lib/forms'
 LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
-application = require('application')
 
 module.exports = class LevelSaveView extends SaveVersionModal
   template: template
