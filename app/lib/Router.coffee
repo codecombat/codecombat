@@ -26,7 +26,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
   home:           -> @openRoute('home')
   general: (name) ->
-    console.log 'general', arguments
     @openRoute(name)
 
   editorModelView: (modelName, slugOrId, subview) ->
