@@ -35,29 +35,24 @@ module.exports.logoutUser = ->
   res.fail(genericFailure)
 
 init = ->
-  # load the user from local storage, and refresh it from the server.
-  # If the server info doesn't match the local storage, refresh the page.
+  # Load the user from local storage, and refresh it from the server.
   # Also refresh and cache the gravatar info.
 
-  loadedUser = loadObjectFromStorage(CURRENT_USER_KEY)
-  module.exports.me = window.me = if loadedUser then new User(loadedUser) else null
-  me.set('wizardColor1', Math.random()) if me and not me.get('wizardColor1')
-  $.get('/auth/whoami', (downloadedUser) ->
-    trackFirstArrival() # should happen after trackEvent has loaded, due to the callback
-    changedState = Boolean(downloadedUser) isnt Boolean(loadedUser)
-    switchedUser = downloadedUser and loadedUser and downloadedUser._id isnt loadedUser._id
-    if changedState or switchedUser
-      saveObjectToStorage(CURRENT_USER_KEY, downloadedUser)
-      window.location.reload()
+  storedUser = loadObjectFromStorage(CURRENT_USER_KEY)
+  firstTime = not storedUser
+  module.exports.me = window.me = new User(storedUser)
+  me.url = -> '/auth/whoami'
+  me.fetch()
+  me.on 'sync', ->
+    trackFirstArrival() if firstTime
     if me and not me.get('testGroupNumber')?
       # Assign testGroupNumber to returning visitors; new ones in server/handlers/user
       me.set 'testGroupNumber', Math.floor(Math.random() * 256)
       me.save()
-    saveObjectToStorage(CURRENT_USER_KEY, downloadedUser)
-  )
-  if module.exports.me
-    module.exports.me.loadGravatarProfile()
-    module.exports.me.on('sync', userSynced)
+    saveObjectToStorage(CURRENT_USER_KEY, me.attributes)
+
+  me.loadGravatarProfile() if me.get('email')
+  me.on('sync', userSynced)
 
 userSynced = (user) ->
   Backbone.Mediator.publish('me:synced', {me:user})
@@ -77,5 +72,5 @@ trackFirstArrival = ->
   # but can at least not track logouts as first arrivals using local storage
   beenHereBefore = loadObjectFromStorage(BEEN_HERE_BEFORE_KEY)
   return if beenHereBefore
-  window.tracker?.trackEvent 'First Arrived' if not me
+  window.tracker?.trackEvent 'First Arrived'
   saveObjectToStorage(BEEN_HERE_BEFORE_KEY, true)
