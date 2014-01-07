@@ -23,6 +23,9 @@ module.exports = class SpellView extends View
     'tome:reload-code': 'onCodeReload'
     'modal-closed': 'focus'
     'focus-editor': 'focus'
+    
+  events:
+    'click .ace': -> console.log 'clicked ace', @
 
   constructor: (options) ->
     super options

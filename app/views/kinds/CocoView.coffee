@@ -181,18 +181,6 @@ module.exports = class CocoView extends Backbone.View
       for viewID, view of @subviews
         view.stopListeningToShortcuts()
 
-  preventBackspace: (event) ->
-    event.preventDefault() if event.keyCode is 8 and not @elementAcceptsKeystrokes(event.srcElement or event.target)
-
-  elementAcceptsKeystrokes: (el) ->
-    # http://stackoverflow.com/questions/1495219/how-can-i-prevent-the-backspace-key-from-navigating-back
-    el ?= document.activeElement
-    tag = el.tagName.toLowerCase()
-    type = el.type?.toLowerCase()
-    textInputTypes = ['text', 'password', 'file', 'number', 'search', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetimelocal']
-    # not radio, checkbox, range, or color
-    return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ["", "true"]) and not (el.readOnly or el.disabled)
-
   # Subviews
 
   insertSubView: (view) ->

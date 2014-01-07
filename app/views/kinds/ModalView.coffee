@@ -9,7 +9,6 @@ module.exports = class ModalView extends CocoView
   
   shortcuts:
     'esc': 'hide'
-    'backspace, delete': 'preventBackspace'
 
   constructor: (options) ->
     options ?= {}

@@ -17,10 +17,6 @@ module.exports = class RootView extends CocoView
     "click #logout-button": "logoutAccount"
     'change .language-dropdown': 'showDiplomatSuggestionModal'
 
-  shortcuts:
-    'backspace, delete': 'preventBackspace'
-#    'backspace': 'preventBackspace'
-
   afterRender: ->
     super()
     @buildLanguages()
