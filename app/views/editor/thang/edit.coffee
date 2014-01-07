@@ -27,6 +27,7 @@ module.exports = class ThangTypeEditView extends View
     'click #upload-button': -> @$el.find('input#real-upload-button').click()
     'change #real-upload-button': 'animationFileChosen'
     'change #animations-select': 'showAnimation'
+    'click #marker-button': 'toggleDots'
 
   subscriptions:
     'save-new-version': 'saveNewThangType'
@@ -96,16 +97,22 @@ module.exports = class ThangTypeEditView extends View
     @torsoDot = @makeDot('blue')
     @mouthDot = @makeDot('yellow')
     @aboveHeadDot = @makeDot('green')
-    @stage.addChild(@makeDot('red'), @torsoDot, @mouthDot, @aboveHeadDot)
+    @groundDot = @makeDot('red')
+    @stage.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
     @updateGrid()
     @refreshAnimation()
 
     createjs.Ticker.setFPS(30)
     createjs.Ticker.addEventListener("tick", @stage)
+    
+  toggleDots: ->
+    @showDots = not @showDots
+    @updateDots()
 
   updateDots: ->
-    @stage.removeChild(@torsoDot, @mouthDot, @aboveHeadDot)
+    @stage.removeChild(@torsoDot, @mouthDot, @aboveHeadDot, @groundDot)
     return unless @currentSprite
+    return unless @showDots
     torso = @currentSprite.getOffset 'torso'
     mouth = @currentSprite.getOffset 'mouth'
     aboveHead = @currentSprite.getOffset 'aboveHead'
@@ -115,13 +122,13 @@ module.exports = class ThangTypeEditView extends View
     @mouthDot.y = CENTER.y + mouth.y * @scale
     @aboveHeadDot.x = CENTER.x + aboveHead.x * @scale
     @aboveHeadDot.y = CENTER.y + aboveHead.y * @scale
-    @stage.addChild(@torsoDot, @mouthDot, @aboveHeadDot)
+    @stage.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
 
   updateGrid: ->
     grid = new createjs.Container()
     line = new createjs.Shape()
     width = 1000
-    line.graphics.beginFill('#000000').drawRect(-width/2, -0.5, width, 1)
+    line.graphics.beginFill('#666666').drawRect(-width/2, -0.5, width, 0.5)
 
     line.x = CENTER.x
     line.y = CENTER.y
@@ -343,14 +350,20 @@ module.exports = class ThangTypeEditView extends View
     if obj?.bounds
       obj.regX = obj.bounds.x + obj.bounds.width / 2
       obj.regY = obj.bounds.y + obj.bounds.height / 2
+    else if obj?.frameBounds?[0]
+      bounds = obj.frameBounds[0]
+      obj.regX = bounds.x + bounds.width / 2
+      obj.regY = bounds.y + bounds.height / 2
     @showDisplayObject(obj) if obj
     obj.y = 200 if obj # truly center the container
     @showingSelectedNode = true
     @currentSprite?.destroy()
     @currentSprite = null
     @updateScale()
+    @grid.alpha = 0.0
 
   stopShowingSelectedNode: ->
     return unless @showingSelectedNode
+    @grid.alpha = 1.0
     @showAnimation()
     @showingSelectedNode = false
