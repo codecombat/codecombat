@@ -35,7 +35,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     log_in: "Connexion"
     sign_up: "Créer un nouveau compte"
     or: ", ou "
-    recover: "recréer son compte"
+    recover: "Recréer son compte"
 
   signup:
     description: "C'est gratuit. Simplement quelques informations et vous pourrez commencer :"
@@ -62,7 +62,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     campaign_beginner_description: "... dans laquelle vous apprendrez le côté magique de la programmation."
     campaign_dev: "Niveaux aléatoires plus difficiles"
     campaign_dev_description: "... dans lesquels vous apprendrez à utiliser l'interface en faisant quelque chose d'un petit peu plus dur."
-#    campaign_multiplayer: "Multiplayer Arenas"
+    campaign_multiplayer: "Zones multi-joueurs"
 #    campaign_multiplayer_description: "... in which you code head-to-head against other players."
 #    campaign_player_created: "Player-Created"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
@@ -83,9 +83,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   diplomat_suggestion:
     title: "Aidez à traduire CodeCombat!"
     sub_heading: "Nous avons besoin de vos connaissances des langues."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in French but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into French."
+    pitch_body: "Nous développons CodeCombat en Anglais, mais nous avons déjà des joueurs de partout dans le monde. Beaucoup d'entre eux veulent jouer en Français mais ne parlent pas un mot d'Anglais, donc si vous parlez aussi bien l'Anglais que le Français, aidez-nous en devant diplomate et aidez à traduire aussi bien le site que tous les niveaux, en Français."
     missing_translations: "Until we can translate everything into French, you'll see English when French isn't available."
-#    learn_more: "Learn more about being a Diplomat"
+    learn_more: "Apprenez en plus sur comment devenir un diplomate!"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 #
 #  account_settings:
