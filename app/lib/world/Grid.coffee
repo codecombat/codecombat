@@ -52,26 +52,3 @@ module.exports = class Grid
     upsideDown = _.clone @grid
     upsideDown.reverse()
     (((if thangs.length then ("" + thangs.length) else " ") for thangs in row).join(" ") for row in upsideDown).join("\n")
-
-  wallNameFor: (gx, gy, tileSize) ->
-    # This doesn't work because we need to be able to place more than one tile at once
-    # Also since refactoring grid to have @left and @bottom, this logic doesn't work.
-    wallNames = ["dungeon_wall_000011011", "dungeon_wall_000110110", "dungeon_wall_000111111", "dungeon_wall_011011000", "dungeon_wall_110110000", "dungeon_wall_011011011", "dungeon_wall_110110110", "dungeon_wall_011111111", "dungeon_wall_110111111", "dungeon_wall_111111000", "dungeon_wall_111111011", "dungeon_wall_111111110", "dungeon_wall_111111111"]
-    s = "dungeon_wall_"
-    for y in [gy - tileSize, gy, gy + tileSize]
-      for x in [gx - tileSize, gx, gx + tileSize]
-        thangs = @grid[y][x]
-        if thangs.length is 0
-          if y == gy and x == gx
-            s += "1"  # the center wall we're placing
-          else
-            s += "0"
-        else if thangs.length is 1 and (thangs[0].spriteName is "Dungeon Wall" or thangs[0].spriteName.match "dungeon_wall")
-          s += "1"
-        else
-          return null
-    if s is "dungeon_wall_000010000"
-      s = "dungeon_wall_111111000"
-    if s not in wallNames
-      return null
-    return s
