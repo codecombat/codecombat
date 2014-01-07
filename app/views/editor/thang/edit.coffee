@@ -221,6 +221,7 @@ module.exports = class ThangTypeEditView extends View
     portrait = @thangType.getPortraitImage(options)
     return unless portrait
     portrait?.attr('id', 'portrait').addClass('img-polaroid')
+    portrait.addClass 'img-polaroid'
     $('#portrait').replaceWith(portrait)
 
   showDisplayObject: (displayObject) ->
@@ -246,7 +247,7 @@ module.exports = class ThangTypeEditView extends View
   initSliders: ->
     @rotationSlider = @initSlider $("#rotation-slider", @$el), 50, @updateRotation
     @scaleSlider = @initSlider $('#scale-slider', @$el), 29, @updateScale
-    @resolutionSlider = @initSlider $('#resolution-slider', @$el), 19, @updateResolution
+    @resolutionSlider = @initSlider $('#resolution-slider', @$el), 39, @updateResolution
     @healthSlider = @initSlider $('#health-slider', @$el), 100, @updateHealth
 
   updateRotation: =>

@@ -2,6 +2,8 @@ extends /templates/base
 
 block content
 
+  img#portrait.img-polaroid
+
   button.btn.btn-primary#save-button(data-toggle="coco-modal", data-target="modal/save_version")
     | Save
   
@@ -12,52 +14,55 @@ block content
       a(href="#editor-thang-main-tab-view", data-toggle="tab") Main
     li
       a(href="#editor-thang-components-tab-view", data-toggle="tab") Components
+    li
+      a(href="#editor-thang-canvases-view", data-toggle="tab") Canvases
 
   div.tab-content
     div.tab-pane.active#editor-thang-main-tab-view
 
-      div.main-area
-        div.controls
-          div.control-row#animation-row
-            select#animations-select
-              for animation in animations
-                option #{animation}
-            button.btn.btn-small.btn-primary#upload-button
-              i.icon-upload
-            button.btn.btn-small.btn-primary#clear-button
-              i.icon-remove
-            input#real-upload-button(type="file")
-    
-      canvas#canvas(width="400", height="400", style="background-color:#999999")
-      
-      div#settings-col
-        div#thang-type-treema
+      div.main-area.well
+        div.file-controls
+          select#animations-select
+            for animation in animations
+              option #{animation}
+          button.btn.btn-small.btn-primary#upload-button
+            i.icon-upload
+          button.btn.btn-small.btn-primary#clear-button
+            i.icon-remove
+          input#real-upload-button(type="file")
+        
         div.slider-cell
           | Rotation:
           span.rotation-label
           .selector#rotation-slider
-    
         div.slider-cell
           | Scale:
           span.scale-label
           .selector#scale-slider
-    
         div.slider-cell
           | Resolution:
           span.resolution-label  4.0x
           .selector#resolution-slider
-    
         div.slider-cell
           | Health:
           span.health-label  10hp
           .selector#health-slider
-    
-      img#portrait
-    
-      div#canvases
-    
+      
+        .clearfix
+
+      div#settings-col
+        div#thang-type-treema
+      
+      canvas#canvas(width="400", height="400", style="background-color:#999999")
+
+      .clearfix
+
     div.tab-pane#editor-thang-components-tab-view
   
       #thang-components-edit-view
+
+    div.tab-pane#editor-thang-canvases-view
+      
+      div#canvases
 
   .clearfix
