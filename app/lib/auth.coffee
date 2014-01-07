@@ -44,6 +44,7 @@ init = ->
   me.url = -> '/auth/whoami'
   me.fetch()
   me.on 'sync', ->
+    me.url = -> "/db/user/#{me.id}"
     trackFirstArrival() if firstTime
     if me and not me.get('testGroupNumber')?
       # Assign testGroupNumber to returning visitors; new ones in server/handlers/user
