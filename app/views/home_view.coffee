@@ -8,7 +8,8 @@ module.exports = class HomeView extends View
   template: template
 
   events:
-    'hover #beginner-campaign': 'onHover'
+    'mouseover #beginner-campaign': 'onMouseOverButton'
+    'mouseout #beginner-campaign': 'onMouseOutButton'
 
   getRenderData: ->
     c = super()
@@ -45,7 +46,6 @@ module.exports = class HomeView extends View
     spriteOptions = thangID: "Beginner Wizard", resolutionFactor: scale
     @wizardSprite = new WizardSprite @wizardType, spriteOptions
     @wizardSprite.update()
-    #@wizardSprite.setColorHue(me.get('wizardColor1'))
     wizardDisplayObject = @wizardSprite.displayObject
     wizardDisplayObject.x = 50
     wizardDisplayObject.y = 85
@@ -53,12 +53,11 @@ module.exports = class HomeView extends View
     @stage.addChild wizardDisplayObject
     @stage.update()
 
-  onHover: (e) =>
-    if e.type is 'mouseenter'
-      @wizardSprite.queueAction 'cast'
-    else
-      @wizardSprite.queueAction 'idle'
-      @stage.update()
+  onMouseOverButton: ->
+    @wizardSprite.queueAction 'cast'
+
+  onMouseOutButton: ->
+    @wizardSprite.queueAction 'idle'
 
   updateStage: =>
     @stage.update()
