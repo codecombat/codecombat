@@ -51,7 +51,7 @@ UserHandler = class UserHandler extends Handler
       fbAT = req.query.facebookAccessToken
       return callback(null, req, user) unless fbID and fbAT
       url = "https://graph.facebook.com/me?access_token=#{fbAT}"
-      request(url, (error, response, body) =>
+      request(url, (error, response, body) ->
         body = JSON.parse(body)
         emailsMatch = req.body.email is body.email
         return callback(res:'Invalid Facebook Access Token.', code:422) unless emailsMatch
@@ -64,7 +64,7 @@ UserHandler = class UserHandler extends Handler
       gpAT = req.query.gplusAccessToken
       return callback(null, req, user) unless gpID and gpAT
       url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=#{gpAT}"
-      request(url, (error, response, body) =>
+      request(url, (error, response, body) ->
         body = JSON.parse(body)
         emailsMatch = req.body.email is body.email
         return callback(res:'Invalid G+ Access Token.', code:422) unless emailsMatch

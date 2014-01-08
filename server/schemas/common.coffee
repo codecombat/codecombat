@@ -14,7 +14,8 @@ me.array = (ext, items) -> combine {type: 'array', items: items or {}}, ext
 me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
 me.date = (ext) -> combine({type: 'string', format: 'date-time'}, ext)
-me.objectId = (ext) -> schema = combine({type: ['object', 'string'] }, ext)  # should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
+# should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
+me.objectId = (ext) -> schema = combine({type: ['object', 'string'] }, ext)
 
 PointSchema = me.object {title: "Point", description: "An {x, y} coordinate point.", format: "point2d", required: ["x", "y"]},
   x: {title: "x", description: "The x coordinate.", type: "number", "default": 15}
@@ -69,7 +70,8 @@ versionedProps = (linkFragment) ->
       minor: { type: 'number', minimum: 0 }
       isLatestMajor: { type: 'boolean' }
       isLatestMinor: { type: 'boolean' }
-  original: me.objectId(links: [{rel: 'extra', href: "/db/#{linkFragment}/{($)}"}], format: 'hidden')  # TODO: figure out useful 'rel' values here
+  # TODO: figure out useful 'rel' values here
+  original: me.objectId(links: [{rel: 'extra', href: "/db/#{linkFragment}/{($)}"}], format: 'hidden')
   parent: me.objectId(links: [{rel: 'extra', href: "/db/#{linkFragment}/{($)}"}], format: 'hidden')
   creator: me.objectId(links: [{rel: 'extra', href: "/db/user/{($)}"}], format: 'hidden')
   created: me.date( { title: 'Created', readOnly: true })
@@ -133,7 +135,11 @@ me.FunctionArgumentSchema = me.object {
   required: ['name', 'type', 'example', 'description', 'default']
 },
   name: {type: 'string', pattern: me.identifierPattern, title: "Name", description: "Name of the function argument."}
-  type: me.shortString(title: "Type", description: "Intended type of the argument.")  # not actual JS types, just whatever they describe...
+  # not actual JS types, just whatever they describe...
+  type: me.shortString(title: "Type", description: "Intended type of the argument.")
   example: me.shortString(title: "Example", description: "Example value for the argument.")
   description: {type: 'string', description: "Description of the argument.", maxLength: 1000}
-  "default": {title: "Default", description: "Default value of the argument. (Your code should set this.)", "default": null}
+  "default":
+    title: "Default"
+    description: "Default value of the argument. (Your code should set this.)"
+    "default": null
