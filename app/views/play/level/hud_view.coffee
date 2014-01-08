@@ -174,6 +174,8 @@ module.exports = class HUDView extends View
         response.button = $('button:last', group)
     else
       s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (press shift-space)")
+      if @shiftSpacePressed > 4
+        group.append('<span class="hud-hint">Press esc to skip dialog</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
     @bubble.append($("<h3>#{@speaker ? 'Captain Anya'}</h3>"))
@@ -196,6 +198,7 @@ module.exports = class HUDView extends View
     @animator.tick()
 
   onShiftSpacePressed: (e) ->
+    @shiftSpacePressed = (@shiftSpacePressed || 0) + 1
     # We don't need to handle end-current-script--that's done--but if we do have
     # custom buttons, then we need to trigger the one that should fire (the last one).
     # If we decide that always having the last one fire is bad, we should make it smarter.
