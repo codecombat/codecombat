@@ -1,12 +1,12 @@
 # Put lodash and underscore.string into the global namespace
-GLOBAL._ = require('lodash')
-_.str = require('underscore.string')
-_.mixin(_.str.exports())
+GLOBAL._ = require 'lodash' 
+_.str = require 'underscore.string' 
+_.mixin _.str.exports() 
 
-express = require('express')
-path = require('path')
-winston = require('winston')
-passport = require('passport')
+express = require 'express' 
+path = require 'path' 
+winston = require 'winston' 
+passport = require 'passport' 
 useragent = require 'express-useragent'
 
 auth = require './server/auth'
@@ -19,11 +19,11 @@ sprites = require './server/sprites'
 contact = require './server/contact'
 languages = require './server/languages'
 
-https = require('https')
-http = require('http')
-fs = require('graceful-fs')
+https = require 'https' 
+http = require 'http' 
+fs = require 'graceful-fs' 
 
-config = require('./server_config')
+config = require './server_config'
 
 logging.setup()
 db.connectDatabase()
