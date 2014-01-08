@@ -9,14 +9,15 @@ body
  
           select.language-dropdown
 
-          if me.get('anonymous')
-            button.btn.btn-primary.navbuttontext(data-toggle="coco-modal", data-target="modal/signup", data-i18n="nav.sign_up") Create Account
-            button.btn.btn-primary.navbuttontext(data-toggle="coco-modal", data-target="modal/login", data-i18n="nav.log_in") Log In
-          else
-            button.btn.btn-primary.navbuttontext#logout-button(data-i18n="nav.log_out") Logout
+          if me.get('anonymous') === false
+            button.btn.btn-primary.navbuttontext#logout-button(data-i18n="nav.log_out") Log Out
             a.btn.btn-primary.navbuttontext(href="/account/profile/#{me.id}")
               | #{me.displayName()} 
               i.icon-cog.icon-white.big
+
+          else
+            button.btn.btn-primary.navbuttontext(data-toggle="coco-modal", data-target="modal/signup", data-i18n="nav.sign_up") Create Account
+            button.btn.btn-primary.navbuttontext(data-toggle="coco-modal", data-target="modal/login", data-i18n="nav.log_in") Log In
 
           ul(class='navbar-link-text').nav.pull-right
             li.play
