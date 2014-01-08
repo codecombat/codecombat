@@ -26,7 +26,7 @@
   width: 55%
   height: 120px
   position: relative
-   
+
   .left-wing
     position: absolute
     width: 50%
@@ -46,7 +46,7 @@
     z-index: -1
     background-image: url(/images/level/hud_right_wing.png)
     background-position: left
-  
+
   .center
     width: 520px
     height: 116px
@@ -74,7 +74,7 @@
 
       &.team-ogres
         border-color: darkblue
-    
+
     .thang-props
       width: 144px
       height: 100px
@@ -85,10 +85,10 @@
       .prop
         img
           margin-right: 5px
-  
+
       .text-prop
         width: 50%
-  
+
       .prop-value.bar-prop
         width: 100px
         display: inline-block
@@ -97,26 +97,26 @@
         border: 1px solid black
         border-radius: 6px
         overflow: hidden
-    
+
         .bar
           background: black
           width: 100%
           height: 100%
-  
+
       .prop[name="health"] .bar
         background: #C5362B
-      
+
       .message
         text-align: center
         display: table
         height: 100%
         width: 100%
-  
+
         p
           display: table-cell
           vertical-align: middle
           font-size: 20px
-  
+
     .thang-actions
       width: 212px
       height: 100px
@@ -127,7 +127,7 @@
 
       .table-container
         position: relative
-        
+
         .progress-indicator
           position: absolute
           right: 45px
@@ -147,30 +147,30 @@
           height: 100%
           top: 0
           background-color: #A4A198
-  
+
         table
           border: 1px solid #5B5855
           border-radius: 2px
           line-height: 17px
           width: 100%
-          
+
           tr
             border: 1px solid #5b5855
-  
+
           .action-indicator
             width: 10px
-  
+
           .action-label
             width: 75px
-  
+
           .action-timeline
             padding: 0
-  
+
             .timeline-wrapper
               position: relative
               width: 100%
               height: 19px
-  
+
               div
                 @include box-sizing(border-box)
                 background-color: #6BA1C8
@@ -179,22 +179,22 @@
                 border-right: 1px solid #201B15
                 position: absolute
                 top: 0
-  
+
         .current-action
           font-weight: bold
-  
+
           .action-indicator
             background: #4B4133 url(/images/level/current_action_indicator.png) no-repeat center
-  
+
           td
             background-color: #4B4133
-        
+
     .dialogue-area
       opacity: 0.0
       position: relative
       height: 100%
       width: 100%
-      
+
       .bubble
         position: absolute
         left: 140px
@@ -209,10 +209,14 @@
         border-radius: 10px
         font-size: 14px
         line-height: 18px
-        
+
         strong
           color: #09B057
-        
+
+        .hud-hint
+          font-weight: normal
+          color: #888888
+
         .enter
           position: absolute
           right: 7px
@@ -225,22 +229,22 @@
             right: 8px
             top: 9px
             border-radius: 5px
-          
+
         button, .alert
           padding: 2px 5px
-          
+
         .enter button.with-dot
           padding-right: 20px
-        
+
         h3
           margin: 0 0 5px
           font-size: 16px
           line-height: 16px
           color: #338
-        
+
         button
           margin-left: 10px
-              
+
       .bubble:after
         content: ""
         position: absolute
@@ -252,7 +256,7 @@
         display: block
         width: 0
         z-index: 1
-      
+
       .bubble:before
         content: ""
         position: absolute
