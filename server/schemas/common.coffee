@@ -17,8 +17,7 @@ me.date = (ext) -> combine({type: 'string', format: 'date-time'}, ext)
 # should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
 me.objectId = (ext) -> schema = combine({type: ['object', 'string'] }, ext)
 
-PointSchema = me.object
-  title: "Point", description: "An {x, y} coordinate point.", format: "point2d", required: ["x", "y"]
+PointSchema = me.object {title: "Point", description: "An {x, y} coordinate point.", format: "point2d", required: ["x", "y"]},
   x: {title: "x", description: "The x coordinate.", type: "number", "default": 15}
   y: {title: "y", description: "The y coordinate.", type: "number", "default": 20}
 
