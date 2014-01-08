@@ -7,4 +7,6 @@ CampaignHandler = class CampaignHandler extends Handler
   modelClass: Campaign
   editableProperties: ['name', 'description', 'levels']
 
+
+
 module.exports = new CampaignHandler()

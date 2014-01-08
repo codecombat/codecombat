@@ -114,12 +114,25 @@ _.extend ThangTypeSchema.properties,
   rotationType: { title: 'Rotation', type: 'string', enum: ['isometric', 'fixed']}
   matchWorldDimensions: { title: 'Match World Dimensions', type: 'boolean' }
   shadow: { title: 'Shadow Diameter', type: 'number', format: 'meters', description: "Shadow diameter in meters" }
-  layerPriority: { title: 'Layer Priority', type: 'integer', description: "Within its layer, sprites are sorted by layer priority, then y, then z." }
-  scale: { title: 'Scale', type: 'number' }
+  layerPriority:
+    title: 'Layer Priority'
+    type: 'integer'
+    description: "Within its layer, sprites are sorted by layer priority, then y, then z."
+  scale:
+    title: 'Scale'
+    type: 'number'
   positions: PositionsSchema
   snap: c.object { title: "Snap", description: "In the level editor, snap positioning to these intervals.", required: ['x', 'y'] },
-    x: { title: "Snap X", type: 'number', description: "Snap to this many meters in the x-direction.", default: 4}
-    y: { title: "Snap Y", type: 'number', description: "Snap to this many meters in the y-direction.", default: 4 }
+    x:
+      title: "Snap X"
+      type: 'number'
+      description: "Snap to this many meters in the x-direction."
+      default: 4
+    y:
+      title: "Snap Y"
+      type: 'number'
+      description: "Snap to this many meters in the y-direction."
+      default: 4
   components: c.array {title: "Components", description: "Thangs are configured by changing the Components attached to them.", uniqueItems: true, format: 'thang-components-array'}, ThangComponentSchema  # TODO: uniqueness should be based on "original", not whole thing
 
 ThangTypeSchema.definitions =
