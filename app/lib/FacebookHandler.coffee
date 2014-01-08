@@ -42,16 +42,20 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
       return
 
     oldEmail = me.get('email')
-    me.set('firstName', r.first_name) if r.first_name
-    me.set('lastName', r.last_name) if r.last_name
-    me.set('gender', r.gender) if r.gender
-    me.set('email', r.email) if r.email
-    me.set('facebookID', r.id) if r.id
+    patch = {}
+    patch.firstName = r.first_name if r.first_name
+    patch.lastName = r.last_name if r.last_name
+    patch.gender = r.gender if r.gender
+    patch.email = r.email if r.email
+    patch.facebookID = r.id if r.id
+    me.set(patch)
+    patch._id = me.id
 
     Backbone.Mediator.publish('logging-in-with-facebook')
     window.tracker?.trackEvent 'Facebook Login'
     window.tracker?.identify()
-    me.save({}, {
+    me.save(patch, {
+      patch: true
       error: backboneFailure,
       url: "/db/user?facebookID=#{r.id}&facebookAccessToken=#{@authResponse.accessToken}"
       success: (model) ->
