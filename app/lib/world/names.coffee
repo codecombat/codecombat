@@ -116,6 +116,7 @@ module.exports.thangNames = thangNames =
     "Thabt"
     "Iyert"
     "Palt"
+    "Snortt"
   ]
   "Ogre": [
     "Krogg"
