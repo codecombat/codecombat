@@ -73,8 +73,7 @@ module.exports = class CocoRouter extends Backbone.Router
         clientid:gplusClientID,
         cookiepolicy:"single_host_origin",
         scope:"https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email",
-        height:"short",
-        width:"standard",
+        size:"medium",
       }
       if gapi.signin
         gapi.signin.render(gplusButton, params)

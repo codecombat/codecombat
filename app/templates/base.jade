@@ -4,9 +4,9 @@ body
     .navbar.navbar-fixed-top
       .navbar-inner
         .content.clearfix
-          a.brand(href='/') 
+          a.brand(href='/')
             img(src="/images/pages/base/logo.png", title="CodeCombat", alt="CodeCombat")
- 
+
           select.language-dropdown
 
           if me.get('anonymous')
@@ -15,7 +15,7 @@ body
           else
             button.btn.btn-primary.navbuttontext#logout-button(data-i18n="nav.log_out") Logout
             a.btn.btn-primary.navbuttontext(href="/account/profile/#{me.id}")
-              | #{me.displayName()} 
+              | #{me.displayName()}
               i.icon-cog.icon-white.big
 
           ul(class='navbar-link-text').nav.pull-right
@@ -43,18 +43,18 @@ body
       .content
         p(class='footer-link-text')
           a(href='/', title='Home', tabindex=-1, data-i18n="nav.home") Home
-          |  | 
+          |  |
           a(href='/contribute', title='Contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
-          |  | 
+          |  |
           a(href='/legal', title='Legal', tabindex=-1, data-i18n="nav.legal") Legal
-          |  | 
+          |  |
           a(href='/about', title='About', tabindex=-1, data-i18n="nav.about") About
-          |  | 
+          |  |
           a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Contact
 
-          
+
       .share-buttons
-        .g-plusone(data-href="http://codecombat.com")
+        .g-plusone(data-href="http://codecombat.com", data-size="medium")
         .fb-like(data-href="https://www.facebook.com/codecombat", data-send="false", data-layout="button_count", data-width="350", data-show-faces="true", data-ref="coco_footer_#{fbRef}")
         a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow") Follow
         //iframe(src="https://www.lendyour.net/embed/lendbutton?account_id=6&campaign_id=7", frameBorder="0")

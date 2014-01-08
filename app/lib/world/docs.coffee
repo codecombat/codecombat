@@ -174,7 +174,7 @@ module.exports.Level = class Level
     """
     buttons += """
     <div class="share-buttons">
-      <div class="g-plusone" data-href="http://codecombat.com"></div>
+      <div class="g-plusone" data-href="http://codecombat.com" data-size="medium"></div>
       <div class="fb-like" data-href="http://codecombat.com" data-send="false" data-layout="button_count" data-width="350" data-show-faces="true"></div>
       </div>
     """
