@@ -70,6 +70,8 @@ module.exports.thangNames = thangNames =
     "Tabitha"
     "Regan"
     "Yusef"
+    "Hingle"
+    "Azgot"
   ]
   "Archer": [
     "Phoebe"
