@@ -2,6 +2,7 @@
 
 repositoryUrl=${1:-https://github.com/codecombat/codecombat.git}
 deps=( git python )
+NODE_VERSION=v0.10
 function checkDependencies { #usage: checkDependencies [name of dependency array] [name of error checking function]
     declare -a dependencyArray=("${!1}")
     for i in "${dependencyArray[@]}"
@@ -23,14 +24,27 @@ function basicDependenciesErrorHandling {
     esac
  }
 
+
 function checkIsRoot {
     if [[ $EUID -ne 0 ]]; then
         echo "This script must be run as root (run 'sudo ./$me $installDirectory')" 1>&2
         exit 1
     fi
 }
-#checkIsRoot
+
+function checkNodeVersion {
+    #thanks https://gist.github.com/phatblat/1713458
+    node --version | grep ${NODE_VERSION}
+    if [[ $? != 0 ]] ; then
+        echo "Node was found, but not version 0.10. Make sure 0.10 is installed before running the install script."
+        echo "Also, make sure `sudo node -v` also returns v0.10.x."
+        exit 1
+    fi
+}
+
 checkDependencies deps[@] basicDependenciesErrorHandling
+#check for node
+checkNodeVersion
 #install git repository
 git clone $repositoryUrl coco
 #python ./coco/scripts/devSetup/setup.py
