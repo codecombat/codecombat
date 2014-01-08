@@ -56,6 +56,9 @@ class SetupFactory(object):
         print("Changing permissions of files...")
         #TODO: Make this more robust and portable(doesn't pose security risk though)
         subprocess.call("chmod -R 755 " + self.config.directory.root_dir + os.sep + "coco" + os.sep + "bin",shell=True)
+        chown_command = "chown -R " + os.getenv("SUDO_USER") + " bower_components"
+        chown_directory = self.config.directory.root_dir + os.sep + "coco"
+        subprocess.call(chown_command,shell=True,cwd=chown_directory)
 
         print("Done! If you want to start the server, head into /coco/bin and run ")
         print("1. ./coco-mongodb")
