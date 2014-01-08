@@ -21,7 +21,6 @@ module.exports.thangNames = thangNames =
     "Thelonious"
     "Miles"
     "Bill"
-    "Will"
     "Kumar"
     "Ricardo"
     "Maxwell"
@@ -72,6 +71,10 @@ module.exports.thangNames = thangNames =
     "Yusef"
     "Hingle"
     "Azgot"
+    "Piers"
+    "Carlton"
+    "Giselle"
+    "Bernadette"
   ]
   "Archer": [
     "Phoebe"
