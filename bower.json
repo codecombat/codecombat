@@ -33,7 +33,8 @@
     "marked": "~0.3.0",
     "moment": "~2.5.0",
     "aether": "~0.0.1",
-    "underscore.string": "~2.3.3"
+    "underscore.string": "~2.3.3",
+    "firebase": "~1.0.2"
   },
   "overrides": {
     "backbone": {
