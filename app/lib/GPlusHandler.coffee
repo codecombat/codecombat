@@ -64,7 +64,12 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
     gplusID = me.get('gplusID')
     window.tracker?.trackEvent 'Google Login'
     window.tracker?.identify()
-    me.save({}, {
+    patch = {}
+    patch[key] = me.get(key) for gplusKey, key of userPropsToSave
+    patch._id = me.id
+    patch.email = me.get('email')
+    me.save(patch, {
+      patch: true
       error: backboneFailure,
       url: "/db/user?gplusID=#{gplusID}&gplusAccessToken=#{@accessToken}"
       success: (model) ->

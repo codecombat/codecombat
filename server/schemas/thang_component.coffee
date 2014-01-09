@@ -12,4 +12,10 @@ module.exports = ThangComponentSchema = c.object {
 },
   original: c.objectId(title: "Original", description: "A reference to the original Component being configured.", format: "hidden")
   config: c.object {title: "Configuration", description: "Component-specific configuration properties.", additionalProperties: true, format: 'thang-component-configuration'}
-  majorVersion: {title: "Major Version", description: "Which major version of the Component is being used.", type: 'integer', minimum: 0, default: 0, format: "hidden"}
+  majorVersion:
+    title: "Major Version"
+    description: "Which major version of the Component is being used."
+    type: 'integer'
+    minimum: 0
+    default: 0
+    format: "hidden"
