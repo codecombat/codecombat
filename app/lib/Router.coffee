@@ -62,11 +62,11 @@ module.exports = class CocoRouter extends Backbone.Router
 
   renderLoginButtons: ->
     $('.share-buttons, .partner-badges').addClass('fade-in').delay(10000).removeClass('fade-in', 5000)
-    setTimeout(FB.XFBML.parse, 10) if FB?  # Handles FB login and Like
-    twttr?.widgets?.load()
+    setTimeout(FB.XFBML.parse, 10) if FB?.XFBML?.parse  # Handles FB login and Like
+    twttr?.widgets?.load?()
 
     return unless gapi?.plusone?
-    gapi.plusone.go()  # Handles +1 button
+    gapi.plusone.go?()  # Handles +1 button
     for gplusButton in $('.gplus-login-button')
       params = {
         callback:"signinCallback",
@@ -75,7 +75,7 @@ module.exports = class CocoRouter extends Backbone.Router
         scope:"https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email",
         size:"medium",
       }
-      if gapi.signin
+      if gapi.signin?.render
         gapi.signin.render(gplusButton, params)
       else
         console.warn "Didn't have gapi.signin to render G+ login button. (DoNotTrackMe extension?)"

@@ -27,7 +27,7 @@ module.exports.loginUser = (userObject, failure=genericFailure) ->
   jqxhr.fail(failure)
 
 module.exports.logoutUser = ->
-  FB.logout()
+  FB?.logout?()
   res = $.post('/auth/logout', {}, ->
     saveObjectToStorage(CURRENT_USER_KEY, null)
     window.location.reload()
