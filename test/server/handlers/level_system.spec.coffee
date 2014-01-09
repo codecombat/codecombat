@@ -24,7 +24,7 @@ describe 'LevelSystem', ->
 
   it 'can make a LevelSystem, without setting official.', (done) ->
     loginJoe (joe) ->
-      request.post {uri:url, json:system}, (err, res, body) ->
+      request.post {uri:url, json:systems}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         expect(body.official).toBeUndefined()
         systems[0] = body
