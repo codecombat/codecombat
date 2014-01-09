@@ -155,7 +155,7 @@ module.exports = class ThangType extends CocoModel
 
   getPortraitStage: (spriteOptionsOrKey, size=100) ->
     key = spriteOptionsOrKey
-    key = if _.isObject(key) then @spriteSheetKey(key) else key
+    key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
     spriteSheet = @spriteSheets[key]
     spriteSheet ?= @buildSpriteSheet({portraitOnly:true})
     return unless spriteSheet
@@ -170,15 +170,19 @@ module.exports = class ThangType extends CocoModel
     stage.update()
     stage.startTalking = ->
       sprite.gotoAndPlay 'portrait'
+      return if @tick
       @tick = => @update()
       createjs.Ticker.addEventListener 'tick', @tick
     stage.stopTalking = ->
+      sprite.gotoAndStop 'portrait'
+      @update()
       createjs.Ticker.removeEventListener 'tick', @tick
+      @tick = null
     stage
     
   uploadGenericPortrait: (callback) ->
     src = @getPortraitSource()
-    return unless src
+    return callback?() unless src
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =
       filename: 'portrait.png'

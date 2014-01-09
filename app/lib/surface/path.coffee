@@ -179,7 +179,7 @@ module.exports.Trailmaster = class Trailmaster
         animation = sprite.getActionDirection(animation) ? animation  # no idea if this ever works
         clone.gotoAndStop animation.name
         # TODO: use action-specific framerate here?
-        clone.currentAnimationFrame = Math.min(@clock % (animation.frames.length * 3), animation.frames.length - 1)
+#        clone.currentAnimationFrame = Math.min(@clock % (animation.frames.length * 3), animation.frames.length - 1)
       sprites.push(clone)
       lastPos = x: thang.pos.x, y: thang.pos.y
       lastAction = action.name

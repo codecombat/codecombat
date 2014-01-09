@@ -166,7 +166,7 @@ module.exports = class ThangTypeEditView extends View
     @file = e.target.files[0]
     return unless @file
     return unless @file.type is 'text/javascript'
-    @$el.find('#upload-button').prop('disabled', true)
+#    @$el.find('#upload-button').prop('disabled', true)
     @reader = new FileReader()
     @reader.onload = @onFileLoad
     @reader.readAsText(@file)
