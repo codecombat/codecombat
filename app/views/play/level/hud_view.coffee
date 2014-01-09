@@ -18,6 +18,7 @@ module.exports = class HUDView extends View
     'sprite:speech-updated': 'onSpriteDialogue'
     'level-sprite-clear-dialogue': 'onSpriteClearDialogue'
     'level:shift-space-pressed': 'onShiftSpacePressed'
+    'level:escape-pressed': 'onEscapePressed'
     'dialogue-sound-completed': 'onDialogueSoundCompleted'
     'thang-began-talking': 'onThangBeganTalking'
     'thang-finished-talking': 'onThangFinishedTalking'
@@ -157,7 +158,7 @@ module.exports = class HUDView extends View
         response.button = $('button:last', group)
     else
       s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (press shift-space)")
-      if @shiftSpacePressed > 4
+      if @shiftSpacePressed > 4 && !@escapePressed
         group.append('<span class="hud-hint">Press esc to skip dialog</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
@@ -188,6 +189,9 @@ module.exports = class HUDView extends View
     return unless @lastResponses?.length
     r = @lastResponses[@lastResponses.length - 1]
     _.delay (-> Backbone.Mediator.publish(r.channel, r.event)), 10
+
+  onEscapePressed: (e) ->
+    @escapePressed = true
 
   animateEnterButton: =>
     return unless @bubble

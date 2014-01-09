@@ -92,9 +92,9 @@ module.exports = class VictoryModal extends View
   afterInsert: ->
     super()
     Backbone.Mediator.publish 'play-sound', trigger: "victory"
-    gapi?.plusone.go @$el[0]
-    FB?.XFBML.parse @$el[0]
-    twttr?.widgets?.load()
+    gapi?.plusone?.go? @$el[0]
+    FB?.XFBML?.parse? @$el[0]
+    twttr?.widgets?.load?()
 
   onHidden: ->
     Backbone.Mediator.publish 'level:victory-hidden'

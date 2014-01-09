@@ -33,7 +33,7 @@ class DirectoryController(object):
         shutil.rmtree(self.root_dir + os.sep + "coco" + os.sep + "node_modules",ignore_errors=True) #just in case
         try:
           if os.path.exists(self.tmp_directory):
-            self.remove_directories()
+            self.remove_tmp_directory()
           os.mkdir(self.tmp_directory)
         except:
           raise errors.CoCoError(u"There was an error creating the directory structure, do you have correct permissions? Please remove all and start over.")

@@ -54,10 +54,10 @@ module.exports = class HomeView extends View
     @stage.update()
 
   onMouseOverButton: ->
-    @wizardSprite.queueAction 'cast'
+    @wizardSprite?.queueAction 'cast'
 
   onMouseOutButton: ->
-    @wizardSprite.queueAction 'idle'
+    @wizardSprite?.queueAction 'idle'
 
   updateStage: =>
     @stage.update()
