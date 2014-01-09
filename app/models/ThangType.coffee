@@ -18,19 +18,6 @@ module.exports = class ThangType extends CocoModel
   resetRawData: ->
     @set('raw', {shapes:{}, containers:{}, animations:{}})
 
-  requiredRawAnimations: ->
-    required = []
-    for name, action of @get('actions')
-      continue if name is 'portrait'
-      allActions = [action].concat(_.values (action.relatedActions ? {}))
-      for a in allActions when a.animation
-        scale = if name is 'portrait' then a.scale or 1 else a.scale or @get('scale') or 1
-        animation = {animation: a.animation, scale: scale}
-        animation.portrait = name is 'portrait'
-        unless _.find(required, (r) -> _.isEqual r, animation)
-          required.push animation
-    required
-    
   resetSpriteSheetCache: ->
     @buildActions()
     @spriteSheets = {}
@@ -87,8 +74,7 @@ module.exports = class ThangType extends CocoModel
       mc.nominalBounds = mc.frameBounds = null # override what the movie clip says on bounding
       @builder.addMovieClip(mc, rect, scale)
       frames = @builder._animations[portrait.animation].frames
-      frames = @normalizeFrames(portrait.frames, frames[0]) if portrait.frames?
-      portrait.frames = frames
+      frames = @mapFrames(portrait.frames, frames[0]) if portrait.frames?
       @builder.addAnimation 'portrait', frames, true
     else if portrait.container
       s = @vectorParser.buildContainerFromStore(portrait.container)
@@ -108,7 +94,6 @@ module.exports = class ThangType extends CocoModel
       scale = action.scale ? @get('scale') ? 1
       frames = framesMap[scale + "_" + action.animation]
       frames = @mapFrames(action.frames, frames[0]) if action.frames?
-      action.frames = frames  # Keep generated frame numbers around
       next = true
       next = action.goesTo if action.goesTo
       next = false if action.loops is false
@@ -120,7 +105,20 @@ module.exports = class ThangType extends CocoModel
       s = @vectorParser.buildContainerFromStore(action.container)
       frame = @builder.addFrame(s, s.bounds, scale)
       @builder.addAnimation name, [frame], false
-      
+
+  requiredRawAnimations: ->
+    required = []
+    for name, action of @get('actions')
+      continue if name is 'portrait'
+      allActions = [action].concat(_.values (action.relatedActions ? {}))
+      for a in allActions when a.animation
+        scale = if name is 'portrait' then a.scale or 1 else a.scale or @get('scale') or 1
+        animation = {animation: a.animation, scale: scale}
+        animation.portrait = name is 'portrait'
+        unless _.find(required, (r) -> _.isEqual r, animation)
+          required.push animation
+    required
+
   mapFrames: (frames, frameOffset) ->
     return frames unless _.isString(frames) # don't accidentally do this again
     (parseInt(f, 10) + frameOffset for f in frames.split(','))
@@ -148,11 +146,16 @@ module.exports = class ThangType extends CocoModel
 
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
+    return null unless src
     $('<img />').attr('src', src)
 
   getPortraitSource: (spriteOptionsOrKey, size=100) ->
+    stage = @getPortraitStage(spriteOptionsOrKey, size)
+    stage?.toDataURL()
+
+  getPortraitStage: (spriteOptionsOrKey, size=100) ->
     key = spriteOptionsOrKey
-    key = if _.isObject(key) then @spriteSheetKey(key) else key
+    key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
     spriteSheet = @spriteSheets[key]
     spriteSheet ?= @buildSpriteSheet({portraitOnly:true})
     return unless spriteSheet
@@ -165,11 +168,21 @@ module.exports = class ThangType extends CocoModel
     sprite.gotoAndStop 'portrait'
     stage.addChild(sprite)
     stage.update()
-    stage.toDataURL()
+    stage.startTalking = ->
+      sprite.gotoAndPlay 'portrait'
+      return if @tick
+      @tick = => @update()
+      createjs.Ticker.addEventListener 'tick', @tick
+    stage.stopTalking = ->
+      sprite.gotoAndStop 'portrait'
+      @update()
+      createjs.Ticker.removeEventListener 'tick', @tick
+      @tick = null
+    stage
     
   uploadGenericPortrait: (callback) ->
     src = @getPortraitSource()
-    return unless src
+    return callback?() unless src
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =
       filename: 'portrait.png'

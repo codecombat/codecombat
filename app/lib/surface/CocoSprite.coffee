@@ -129,7 +129,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     reg = @getOffset 'registration'
     @imageObject.regX = -reg.x
     @imageObject.regY = -reg.y
-    if @currentRootAction.name is 'move'
+    if @currentRootAction.name is 'move' and action.frames
       start = Math.floor(Math.random() * action.frames.length)
       @imageObject.currentAnimationFrame = start
 
@@ -375,6 +375,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     e = _.clone(e)
     e.sprite = @
     e.blurb ?= '...'
+    e.thang = @thang
     Backbone.Mediator.publish 'sprite:speech-updated', e
 
   isTalking: ->
@@ -427,5 +428,5 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.getFPS() else 0
     name = AudioPlayer.nameForSoundReference sound
     instance = createjs.Sound.play name, "none", delay, 0, 0, volume
-    #console.log @thang?.id, "played sound", name, "with delay", delay, "volume", volume, "and got sound instance", instance
+#    console.log @thang?.id, "played sound", name, "with delay", delay, "volume", volume, "and got sound instance", instance
     instance
