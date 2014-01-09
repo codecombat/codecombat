@@ -82,7 +82,7 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     sending: "Отправка..."
     send: "Отправить отзыв"
 
-diplomat_suggestion:
+  diplomat_suggestion:
     title: "Помогите перевести CodeCombat!"
     sub_heading: "Нам нужен ваш языковой талант."
     pitch_body: "Мы создаём CodeCombat на английском, но у нас уже есть игроки со всего мира. Многие из них хотели бы играть на русском, но не знают английского, так что если вы знаете оба этих языка - зарегистрируйтесь как Дипломат и помогите перевести сайт CodeCombat и все уровни на русский язык."
@@ -180,4 +180,4 @@ diplomat_suggestion:
     tome_select_spell: "Выбрать заклинание"
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
-    hud_continue: Продолжить (нажмите Shift+Space)"
+    hud_continue: "Продолжить (нажмите Shift+Space)"
