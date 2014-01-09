@@ -81,7 +81,8 @@ describe 'PUT /db/user', ->
         done()
       form = req.form()
       form.append('_id', joe.id)
-      form.append('email', "farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl")
+      form.append('email', "farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlar
+ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl")
 
   it 'logs in as admin', (done) ->
     loginAdmin -> done()

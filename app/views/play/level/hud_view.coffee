@@ -157,7 +157,7 @@ module.exports = class HUDView extends View
         response.button = $('button:last', group)
     else
       s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (press shift-space)")
-      if @shiftSpacePressed > 4 && !@escapePressed
+      if @shiftSpacePressed > 4 and not @escapePressed
         group.append('<span class="hud-hint">Press esc to skip dialog</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
