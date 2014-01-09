@@ -301,7 +301,7 @@ module.exports = class ThangTypeEditView extends View
 
     res.success =>
       url = "/editor/thang/#{newThangType.get('slug') or newThangType.id}"
-      newThangType.uploadGenericPortrait =>
+      newThangType.uploadGenericPortrait ->
         document.location.href = url
 
   clearRawData: ->

@@ -82,6 +82,7 @@ module.exports = class SpriteParser
     shortKey = @shapeLongKeys[longKey]
     unless shortKey?
       shortKey = '' + _.size @thangType.shapes
+      shortKey += '+' while @thangType.shapes[shortKey]
       @thangType.shapes[shortKey] = shape
       @shapeLongKeys[longKey] = shortKey
     return shortKey

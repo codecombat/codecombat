@@ -119,6 +119,7 @@ checkExistence = (options, res, force, done) ->
       returnConflict(res)
       done(true)
     else if files.length
+      q = { _id: files[0]._id }
       q.root = 'media'
       Grid.gfs.remove q, (err) ->
         return returnServerError(res) if err
