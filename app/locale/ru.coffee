@@ -180,4 +180,4 @@ diplomat_suggestion:
     tome_select_spell: "Выбрать заклинание"
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
-    hud_continue: Продолжить (нажмите Shift+Space)"
+    hud_continue: "Продолжить (нажмите Shift+Space)"
