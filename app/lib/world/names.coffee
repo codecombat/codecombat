@@ -75,6 +75,7 @@ module.exports.thangNames = thangNames =
     "Carlton"
     "Giselle"
     "Bernadette"
+    "Hershell"
   ]
   "Archer": [
     "Phoebe"
@@ -137,6 +138,7 @@ module.exports.thangNames = thangNames =
     "Axe Ox"
     "Nareng"
     "Morthrug"
+    "Glonc"
   ]
   "Ogre Brawler": [
     "Grul'thock"
