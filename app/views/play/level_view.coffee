@@ -128,7 +128,7 @@ module.exports = class PlayLevelView extends View
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
     @insertSubView new PlaybackView {}
     @insertSubView new GoalsView {}
     @insertSubView new HUDView {}

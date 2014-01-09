@@ -59,7 +59,7 @@ module.exports = class SpellListView extends View
       theseThangs = _.keys(spell.thangs)
       changedThangs = not lastThangs or not _.isEqual theseThangs, lastThangs
       lastThangs = theseThangs
-      @entries.push entry = new SpellListEntryView spell: spell, showTopDivider: changedThangs
+      @entries.push entry = new SpellListEntryView spell: spell, showTopDivider: changedThangs, supermodel: @supermodel
     for entry in @entries
       @$el.append entry.el
       entry.render()  # Render after appending so that we can access parent container for popover

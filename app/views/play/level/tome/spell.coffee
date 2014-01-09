@@ -7,7 +7,7 @@ module.exports = class Spell
   view: null
   entryView: null
 
-  constructor: (programmableMethod, @spellKey, @pathComponents, @session) ->
+  constructor: (programmableMethod, @spellKey, @pathComponents, @session, @supermodel) ->
     p = programmableMethod
     @name = p.name
     @source = @session.getSourceFor(@spellKey) ? p.source
@@ -17,7 +17,8 @@ module.exports = class Spell
     @thangs = {}
     @view = new SpellView {spell: @, session: @session}
     @view.render()  # Get it ready and code loaded in advance
-    @tabView = new SpellListTabEntryView spell: @
+    console.log 'spell creates tab entry view', @supermodel
+    @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel
     @tabView.render()
 
   addThang: (thang) ->

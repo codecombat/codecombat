@@ -1,7 +1,6 @@
 SpellListEntryView = require './spell_list_entry_view'
 ThangAvatarView = require 'views/play/level/thang_avatar_view'
 template = require 'templates/play/level/tome/spell_list_tab_entry'
-{createAvatarURL} = require 'lib/surface/sprite_utils'
 Docs = require 'lib/world/docs'
 
 module.exports = class SpellListTabEntryView extends SpellListEntryView
@@ -35,7 +34,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     @buildDocs() unless @docsBuilt
 
   buildAvatar: ->
-    avatar = new ThangAvatarView thang: @thang, includeName: false
+    avatar = new ThangAvatarView thang: @thang, includeName: false, supermodel: @supermodel
     if @avatar
       @avatar.$el.replaceWith avatar.$el
       @avatar.destroy()

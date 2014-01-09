@@ -3,7 +3,6 @@ template = require 'templates/play/level/hud'
 prop_template = require 'templates/play/level/hud_prop'
 action_template = require 'templates/play/level/hud_action'
 DialogueAnimator = require './dialogue_animator'
-spriteUtils = require 'lib/surface/sprite_utils'
 
 module.exports = class HUDView extends View
   id: 'thang-hud'

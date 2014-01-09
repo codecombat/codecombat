@@ -42,7 +42,7 @@ module.exports = class ThangListEntryView extends View
 
   afterRender: ->
     super()
-    @avatar = new ThangAvatarView thang: @thang, includeName: true
+    @avatar = new ThangAvatarView thang: @thang, includeName: true, supermodel: @supermodel
     @$el.append @avatar.el  # Before rendering, so render can use parent for popover
     @avatar.render()
     @avatar.setSharedThangs @spells.length  # A bit weird to call it sharedThangs; could refactor if we like this

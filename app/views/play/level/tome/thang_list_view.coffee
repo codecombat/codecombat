@@ -62,7 +62,7 @@ module.exports = class ThangListView extends View
       section = @$el.find(section).toggle thangs.length > 0
       for thang in thangs
         spells = _.filter @spells, (s) -> thang.id of s.thangs
-        entry = new ThangListEntryView thang: thang, spells: spells, permission: permission
+        entry = new ThangListEntryView thang: thang, spells: spells, permission: permission, supermodel: @supermodel
         section.find('.thang-list').append entry.el  # Render after appending so that we can access parent container for popover
         entry.render()
         @entries.push entry
