@@ -108,7 +108,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     email_subscriptions: "邮箱验证"
     email_announcements: "通知"
     email_announcements_description: "接收关于 CodeCombat 最近的新闻和发展的邮件。"
-    contributor_emails: "Contributor Class Emails"
+#    contributor_emails: ""
     contribute_prefix: "我们在寻找志同道合的人！请到 "
     contribute_page: "贡献页面"
     contribute_suffix: " 查看更多信息。"
@@ -131,7 +131,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     gravatar_not_found_other: "哎呀，没有与这个人的邮箱相关的资料。"
     gravatar_contact: "联系"
     gravatar_websites: "网站"
-    gravatar_accounts: "As Seen On"
+#    gravatar_accounts: ""
     gravatar_profile_link: "完善 Gravatar 资料"
 
   play_level:
