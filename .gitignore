@@ -69,5 +69,7 @@ coverage/
 .floo
 FLOOBITS_README.md
 
+# mongodb
+db/
 
 ### If you add something here, copy it to the end of .npmignore, too. ###
