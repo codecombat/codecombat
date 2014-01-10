@@ -65,7 +65,7 @@ module.exports = class HUDView extends View
     unless @speaker
       if not thang? and not @thang? then return
       if thang? and @thang? and thang.id is @thang.id then return
-        
+
     @thang = thang
     @thangType = thangType
     @$el.toggleClass 'no-selection', not @thang?
@@ -91,7 +91,7 @@ module.exports = class HUDView extends View
   clearSpeaker: ->
     if not @thang
       @$el.addClass 'no-selection'
-    @setThang @thang
+    @setThang @thang, @thangType
     @switchToThangElements()
     @speaker = null
     @speakerSprite = null
@@ -108,8 +108,6 @@ module.exports = class HUDView extends View
     stage.update()
     @stage?.stopTalking()
     @stage = stage
-    f = => console.log 'new canvas style timeout', newCanvas.attr 'style'
-    setTimeout f, 1000
 
   onThangBeganTalking: (e) ->
     return unless @stage and @thang is e.thang
