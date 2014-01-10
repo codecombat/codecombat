@@ -6,7 +6,6 @@ ThangType = require 'models/ThangType'
 module.exports = class WizardSettingsView extends View
   id: "wizard-settings-modal"
   template: template
-  modalTitle: "Wizard Settings"
   closesOnClickOutside: false
 
   events:

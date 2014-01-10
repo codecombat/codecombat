@@ -12,8 +12,7 @@ filterKeyboardEvents = (allowedEvents, func) ->
 module.exports = class RecoverModalView extends View
   id: "recover-modal"
   template: template
-  modalTitle: "Recover Account"
-
+  
   events:
     "click #recover-button": "recoverAccount"
     "keydown input": "recoverAccount"

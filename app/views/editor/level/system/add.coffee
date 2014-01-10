@@ -12,7 +12,6 @@ module.exports = class LevelSystemAddView extends View
   id: "editor-level-system-add-modal"
   template: template
   instant: true
-  modalTitle: "Add Systems to Level"
 
   events:
     'click .available-systems-list li': 'onAddSystem'

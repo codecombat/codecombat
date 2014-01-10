@@ -2,7 +2,6 @@ CocoView = require './CocoView'
 
 module.exports = class ModalView extends CocoView
   className: "modal hide fade"
-  modalTitle: "Man Bites God"
   closeButton: true
   closesOnClickOutside: true
   modalWidthPercent: null
@@ -14,14 +13,12 @@ module.exports = class ModalView extends CocoView
     options ?= {}
     @className = @className.replace " fade", "" if options.instant
     @closeButton = options.closeButton if options.closeButton?
-    @modalTitle = options.modalTitle if options.modalTitle
     @modalWidthPercent = options.modalWidthPercent if options.modalWidthPercent
     super options
 
   getRenderData: (context={}) =>
     context = super(context)
     context.closeButton = @closeButton
-    context.modalTitle = @modalTitle
     context
 
   subscriptions:

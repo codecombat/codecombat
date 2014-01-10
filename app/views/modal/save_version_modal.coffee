@@ -4,7 +4,6 @@ template = require 'templates/modal/save_version'
 module.exports = class SaveVersionModal extends ModalView
   id: 'save-version-modal'
   template: template
-  modalTitle: 'Save New Version'
 
   events:
     'click #save-version-button': 'onClickSaveButton'
