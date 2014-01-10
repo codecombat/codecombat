@@ -13,7 +13,6 @@ filterKeyboardEvents = (allowedEvents, func) ->
 module.exports = class SignupModalView extends View
   id: "signup-modal"
   template: template
-  modalTitle: "Create Account to Save Progress"
 
   events:
     "click #signup-confirm-age": "checkAge"

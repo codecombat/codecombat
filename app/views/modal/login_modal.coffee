@@ -13,7 +13,6 @@ filterKeyboardEvents = (allowedEvents, func) ->
 module.exports = class LoginModalView extends View
   id: "login-modal"
   template: template
-  modalTitle: "Log In"
 
   events:
     "click #login-button": "loginAccount"

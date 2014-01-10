@@ -8,7 +8,6 @@ forms = require 'lib/forms'
 module.exports = class LevelComponentNewView extends View
   id: "editor-level-component-new-modal"
   template: template
-  modalTitle: "Create New Component"
   instant: false
   modalWidthPercent: 60
 

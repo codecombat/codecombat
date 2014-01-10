@@ -8,7 +8,6 @@ forms = require 'lib/forms'
 module.exports = class LevelSystemNewView extends View
   id: "editor-level-system-new-modal"
   template: template
-  modalTitle: "Create New System"
   instant: false
   modalWidthPercent: 60
 
