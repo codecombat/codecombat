@@ -26,40 +26,6 @@ module.exports = class HomeView extends View
     @$el.find('.modal').on 'shown', ->
       $('input:visible:first', @).focus()
 
-    wizOriginal = "52a00d55cf1818f2be00000b"
-    url = "/db/thang_type/#{wizOriginal}/version"
-    @wizardType = new ThangType()
-    @wizardType.url = -> url
-    @wizardType.fetch()
-    @wizardType.once 'sync', @initCanvas
-
-  initCanvas: =>
-    @stage = new createjs.Stage($('#beginner-campaign canvas', @$el)[0])
-    @createWizard -10, 2, 2.6
-    @turnOnStageUpdates()
-
-  turnOnStageUpdates: ->
-    @interval = setInterval(@updateStage, 40) unless @interval
-
-  createWizard: (x=0, y=0, scale=1.0) ->
-    spriteOptions = thangID: "Beginner Wizard", resolutionFactor: scale
-    @wizardSprite = new WizardSprite @wizardType, spriteOptions
-    @wizardSprite.update()
-    #@wizardSprite.setColorHue(me.get('wizardColor1'))
-    wizardDisplayObject = @wizardSprite.displayObject
-    wizardDisplayObject.x = 50
-    wizardDisplayObject.y = 85
-    wizardDisplayObject.scaleX = wizardDisplayObject.scaleY = scale
-    @stage.addChild wizardDisplayObject
-    @stage.update()
-
-  onHover: (e) =>
-    if e.type is 'mouseenter'
-      @wizardSprite.queueAction 'cast'
-    else
-      @wizardSprite.queueAction 'idle'
-      @stage.update()
-
   updateStage: =>
     @stage.update()
 
