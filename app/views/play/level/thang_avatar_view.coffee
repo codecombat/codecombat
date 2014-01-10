@@ -1,6 +1,6 @@
 View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/thang_avatar'
-{createAvatarURL} = require 'lib/surface/sprite_utils'
+ThangType = require 'models/ThangType'
 
 module.exports = class ThangAvatarView extends View
   className: 'thang-avatar-view'
@@ -17,7 +17,10 @@ module.exports = class ThangAvatarView extends View
   getRenderData: (context={}) =>
     context = super context
     context.thang = @thang
-    context.avatarURL = createAvatarURL @thang.spriteName
+    thangs = @supermodel.getModels(ThangType)
+    thangs = (t for t in thangs when t.get('name') is @thang.spriteName)
+    thang = thangs[0]
+    context.avatarURL = thang.getPortraitSource()
     context.includeName = @includeName
     context
 

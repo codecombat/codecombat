@@ -166,7 +166,7 @@ module.exports = class ThangTypeEditView extends View
     @file = e.target.files[0]
     return unless @file
     return unless @file.type is 'text/javascript'
-    @$el.find('#upload-button').prop('disabled', true)
+#    @$el.find('#upload-button').prop('disabled', true)
     @reader = new FileReader()
     @reader.onload = @onFileLoad
     @reader.readAsText(@file)
@@ -301,7 +301,7 @@ module.exports = class ThangTypeEditView extends View
 
     res.success =>
       url = "/editor/thang/#{newThangType.get('slug') or newThangType.id}"
-      newThangType.uploadGenericPortrait =>
+      newThangType.uploadGenericPortrait ->
         document.location.href = url
 
   clearRawData: ->

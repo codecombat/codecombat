@@ -233,13 +233,20 @@ module.exports = class SpriteBoss extends CocoClass
       sprite?.selected = true
       @selectedSprite = sprite
     alive = sprite?.thang.health > 0
-    sprite.playSound 'selected' if alive and not @suppressSelectionSounds
+
     Backbone.Mediator.publish "surface:sprite-selected",
       thang: if sprite then sprite.thang else null
       sprite: sprite
       spellName: spellName ? e?.spellName
       originalEvent: e
       worldPos: worldPos
+
+    if alive and not @suppressSelectionSounds
+      instance = sprite.playSound 'selected'
+      if instance?.playState is 'playSucceeded'
+        Backbone.Mediator.publish 'thang-began-talking', thang: sprite?.thang
+        instance.addEventListener 'complete', ->
+          Backbone.Mediator.publish 'thang-finished-talking', thang: sprite?.thang
 
   # Marks
 

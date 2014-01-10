@@ -23,7 +23,7 @@ module.exports = class SpellListEntryThangsView extends View
     @avatars = []
     spellName = @spell.name
     for thang in @thangs
-      avatar = new ThangAvatarView thang: thang, includeName: true
+      avatar = new ThangAvatarView thang: thang, includeName: true, supermodel: @supermodel
       @$el.append avatar.el
       avatar.render()
       avatar.setSelected thang is @thang

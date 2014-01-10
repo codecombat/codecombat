@@ -52,15 +52,12 @@ module.exports = class TomeView extends View
     'click #spell-view': 'onSpellViewClick'
     'click': -> Backbone.Mediator.publish 'focus-editor'
 
-  constructor: (options) ->
-    super options
-
   afterRender: ->
     super()
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
     @createSpells programmableThangs  # Do before spellList, thangList, and castButton
-    @spellList = @insertSubView new SpellListView spells: @spells
-    @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs
+    @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
+    @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
     @castButton = @insertSubView new CastButtonView spells: @spells
 
   createSpells: (programmableThangs) ->
@@ -80,7 +77,7 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          spell = @spells[spellKey] = new Spell method, spellKey, pathPrefixComponents.concat(pathComponents), @options.session
+          spell = @spells[spellKey] = new Spell method, spellKey, pathPrefixComponents.concat(pathComponents), @options.session, @supermodel
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID(thangID)
       @spells[spellKey].addThang thang for spellKey in spellKeys

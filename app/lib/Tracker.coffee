@@ -24,7 +24,7 @@ module.exports = class Tracker
     return if me.get("anonymous")
     olark 'api.visitor.updateEmailAddress', emailAddress: me.get("email")
     olark 'api.chat.updateVisitorNickname', snippet: me.displayName()
-    
+
   updatePlayState: (level, session) ->
     link = "codecombat.com/play/level/#{level.get('slug') or level.id}?session=#{session.id}"
     snippet = [
@@ -32,10 +32,10 @@ module.exports = class Tracker
       "User ID: #{me.id}"
       "Session ID: #{session.id}"
       "Level: #{level.get('name')}"
-      
+
     ]
-    olark 'api.chat.updateVisitorStatus', snippet: snippet 
-    
+    olark 'api.chat.updateVisitorStatus', snippet: snippet
+
   trackPageView: ->
     return unless @isProduction and analytics?
     url = Backbone.history.getFragment()

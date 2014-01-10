@@ -45,7 +45,7 @@ module.exports = class SpellListEntryView extends View
     super()
     return unless @options.showTopDivider  # Don't repeat Thang avatars when not changed from previous entry
     return unless spellThang = @getPrimarySpellThang()
-    @avatar = new ThangAvatarView thang: spellThang.thang, includeName: false
+    @avatar = new ThangAvatarView thang: spellThang.thang, includeName: false, supermodel: @supermodel
     @$el.prepend @avatar.el  # Before rendering, so render can use parent for popover
     @avatar.render()
     @avatar.setSharedThangs _.size @spell.thangs
@@ -69,7 +69,7 @@ module.exports = class SpellListEntryView extends View
   showThangs: =>
     clearTimeout @hideThangsTimeout if @hideThangsTimeout
     return if @thangsView
-    @thangsView = new SpellListEntryThangsView thangs: (spellThang.thang for thangID, spellThang of @spell.thangs), thang: @getPrimarySpellThang().thang, spell: @spell
+    @thangsView = new SpellListEntryThangsView thangs: (spellThang.thang for thangID, spellThang of @spell.thangs), thang: @getPrimarySpellThang().thang, spell: @spell, supermodel: @supermodel
     @thangsView.render()
     @$el.append @thangsView.el
     @thangsView.$el.mouseenter (e) => @onMouseEnterAvatar()

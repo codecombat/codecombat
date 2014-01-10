@@ -3,31 +3,31 @@ template = require 'templates/play/level/hud'
 prop_template = require 'templates/play/level/hud_prop'
 action_template = require 'templates/play/level/hud_action'
 DialogueAnimator = require './dialogue_animator'
-spriteUtils = require 'lib/surface/sprite_utils'
 
 module.exports = class HUDView extends View
   id: 'thang-hud'
   template: template
   dialogueMode: false
 
-  constructor: (options) ->
-    @thangIDMap = {}
-    super options
-
   subscriptions:
     'surface:frame-changed': 'onFrameChanged'
+    'level-disable-controls': 'onDisableControls'
+    'level-enable-controls': 'onEnableControls'
     'surface:sprite-selected': 'onSpriteSelected'
     'sprite:speech-updated': 'onSpriteDialogue'
     'level-sprite-clear-dialogue': 'onSpriteClearDialogue'
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
     'level:shift-space-pressed': 'onShiftSpacePressed'
-    'god:new-world-created': 'onNewWorldCreated'
-    'surface:ticked': 'onTick'
+    'level:escape-pressed': 'onEscapePressed'
     'dialogue-sound-completed': 'onDialogueSoundCompleted'
+    'thang-began-talking': 'onThangBeganTalking'
+    'thang-finished-talking': 'onThangFinishedTalking'
 
   events:
     'click': -> Backbone.Mediator.publish 'focus-editor'
+
+  afterRender: =>
+    super()
+    @$el.addClass 'no-selection'
 
   onFrameChanged: (e) ->
     @timeProgress = e.progress
@@ -41,100 +41,81 @@ module.exports = class HUDView extends View
     return if e.controls and not ('hud' in e.controls)
     @disabled = false
 
-  onNewWorldCreated: (e) ->
-    @thangIDMap = {}
-    for thang in e.world.thangs
-      if @thang?.id is thang.id
-        #console.log('HUD updated thang for', thang.id)
-        @thang = thang
-        @createActions()
-      @thangIDMap[thang.id] = thang.spriteName
-
   onSpriteSelected: (e) ->
     # TODO: this allows the surface and HUD selection to get out of sync if we select another unit while in dialogue mode
     return if @disabled or @dialogueMode
     @switchToThangElements()
-    @setThang e.thang
+    @setThang e.thang, e.sprite?.thangType
 
   onSpriteDialogue: (e) ->
     return unless e.message
     spriteID = e.sprite.thang.id
-    spriteName = e.sprite.thangType?.get('name') or e.sprite.thang.spriteName
-    @setSpeaker spriteID, spriteName
-    @startAnimation spriteID
+    @setSpeaker e.sprite
+    @stage?.startTalking()
     @setMessage(e.message, e.mood, e.responses)
     window.tracker?.trackEvent 'Heard Sprite', {speaker: spriteID, message: e.message, label: e.message}, ['Google Analytics']
 
-  startAnimation: (spriteID) =>
-    @speakerStage.removeAllChildren()
-
-    #spriteData = spriteMap.dataForThang(spriteID)
-    spriteData = null  # we deleted SpriteMap, but haven't refactored to use vector animated portraits yet
-
-    canvas = $('canvas', @$el)
-    image = $('.speaker-image', @$el)
-    if spriteData?.sprite_data?.animations.portrait
-      image.hide()
-      canvas.show()
-    else
-      image.show()
-      canvas.hide()
-      return
-
   onDialogueSoundCompleted: ->
-    return unless @portraitSprite
-    @portraitSprite.gotoAndPlay('portrait_idle')
-
-  onTick: ->
-    @speakerStage.update()
+    @stage?.stopTalking()
 
   onSpriteClearDialogue: ->
     @clearSpeaker()
 
-  afterRender: =>
-    super()
-    @$el.addClass 'no-selection'
-    @speakerStage = new createjs.Stage($('canvas', @$el)[0])
-
-  setThang: (thang) ->
+  setThang: (thang, thangType) ->
     unless @speaker
       if not thang? and not @thang? then return
       if thang? and @thang? and thang.id is @thang.id then return
+
     @thang = thang
+    @thangType = thangType
     @$el.toggleClass 'no-selection', not @thang?
     clearTimeout @hintNextSelectionTimeout
     @$el.find('.no-selection-message').hide()
     if not @thang
       @hintNextSelectionTimeout = _.delay((=> @$el.find('.no-selection-message').slideDown('slow')), 10000)
       return
-    @createAvatar @thang.id, @sprite
+    @createAvatar thangType
     @createProperties()
     @createActions()
     @update()
     @speaker = null
 
-  setSpeaker: (speaker, speakerType) ->
-    return if speaker is @speaker
-    image = @$el.find '.speaker-image'
-    spriteUtils.createAvatar @thangIDMap[speakerType] or speakerType, image
-    @speaker = speaker
+  setSpeaker: (speakerSprite) ->
+    return if speakerSprite is @speakerSprite
+    @speakerSprite = speakerSprite
+    @speaker = @speakerSprite.thang.id
+    @createAvatar @speakerSprite.thangType
     @$el.removeClass 'no-selection'
     @switchToDialogueElements()
 
   clearSpeaker: ->
     if not @thang
       @$el.addClass 'no-selection'
-    #console.log "clearSpeaker and have thang", @thang
-    @setThang @thang
+    @setThang @thang, @thangType
     @switchToThangElements()
     @speaker = null
+    @speakerSprite = null
     @bubble = null
     @update()
 
-  createAvatar: (id) ->
-    image = @$el.find '.thang-image'
-    spriteUtils.createAvatar @thangIDMap[id] or id, image
-    image.attr('title', id).parent().removeClass('team-ogres').removeClass('team-humans').addClass('team-' + @thang.team)
+  createAvatar: (thangType) ->
+    stage = thangType.getPortraitStage()
+    wrapper = @$el.find '.thang-canvas-wrapper'
+    newCanvas = $(stage.canvas).addClass('thang-canvas')
+    wrapper.empty().append(newCanvas)
+    team = @thang?.team or @speakerSprite?.thang?.team
+    newCanvas.parent().removeClass('team-ogres').removeClass('team-humans').addClass("team-#{team}")
+    stage.update()
+    @stage?.stopTalking()
+    @stage = stage
+
+  onThangBeganTalking: (e) ->
+    return unless @stage and @thang is e.thang
+    @stage?.startTalking()
+
+  onThangFinishedTalking: (e) ->
+    return unless @stage and @thang is e.thang
+    @stage?.stopTalking()
 
   createProperties: ->
     props = @$el.find('.thang-props')
@@ -174,7 +155,7 @@ module.exports = class HUDView extends View
         response.button = $('button:last', group)
     else
       s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (press shift-space)")
-      if @shiftSpacePressed > 4
+      if @shiftSpacePressed > 4 and not @escapePressed
         group.append('<span class="hud-hint">Press esc to skip dialog</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
@@ -206,6 +187,9 @@ module.exports = class HUDView extends View
     r = @lastResponses[@lastResponses.length - 1]
     _.delay (-> Backbone.Mediator.publish(r.channel, r.event)), 10
 
+  onEscapePressed: (e) ->
+    @escapePressed = true
+
   animateEnterButton: =>
     return unless @bubble
     button = $('.enter', @bubble)
@@ -215,6 +199,7 @@ module.exports = class HUDView extends View
   switchToDialogueElements: ->
     @dialogueMode = true
     $('.thang-elem', @$el).addClass('hide')
+    @$el.find('.thang-canvas-wrapper').removeClass('hide')
     $('.dialogue-area', @$el)
       .removeClass('hide')
       .animate({opacity:1.0}, 200)
@@ -231,11 +216,8 @@ module.exports = class HUDView extends View
 
   update: ->
     return unless @thang and not @speaker
-    # Update avatar?
-
     # Update properties
     @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
-
     # Update action timeline
     @updateActions()
 
@@ -339,3 +321,7 @@ module.exports = class HUDView extends View
       timeline.append bar
 
     ael
+
+  destroy: ->
+    super()
+    @stage?.stopTalking()
