@@ -6,12 +6,12 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     close: "Zamknij"
     okay: "Ok"
 
-#  not_found:
-#    page_not_found: ""
+  not_found:
+    page_not_found: "Strona nie istnieje"
 
   nav:
     # Header
-    sign_up: ""
+    sign_up: "Stwórz Konto"
     log_in: "Zaloguj się"
     log_out: "Wyloguj się"
     play: "Graj"
