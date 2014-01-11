@@ -122,6 +122,12 @@ _.extend ThangTypeSchema.properties,
     title: 'Scale'
     type: 'number'
   positions: PositionsSchema
+  colorGroups: c.object 
+    title: 'Color Groups'
+    additionalProperties:
+      type:'array'
+      format: 'thang-color-group'
+      items: {type:'string'} 
   snap: c.object { title: "Snap", description: "In the level editor, snap positioning to these intervals.", required: ['x', 'y'] },
     x:
       title: "Snap X"

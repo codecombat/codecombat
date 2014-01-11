@@ -1,0 +1,55 @@
+$height: 550px
+
+#editor-thang-colors-tab-view
+  #color-group-settings
+    width: 75%
+    box-sizing: border-box
+    float: right
+
+  #color-groups-treema
+    float: left
+    width: 25%
+    height: $height
+    box-sizing: border-box
+    margin-bottom: 20px
+      
+  #shape-buttons
+    border: 1px solid saddlebrown
+    margin: 0 20px 0 10px
+    width: 30%
+    float: left
+    height: $height
+    overflow: scroll
+    background: sandybrown
+    padding: 5px
+    box-sizing: border-box
+    
+    button
+      width: 20px
+      height: 25px
+      border: 2px solid white
+      margin: 1px
+      
+      &.selected
+        border: 2px solid black
+        
+  #controls
+    //clear: both
+    float: left
+    width: 60%
+    text-align: center
+    background-color: aliceblue
+    border: 1px solid blue
+    
+    .slider-cell
+      margin: 20px 10px
+      border-color: black
+      .ui-slider
+        border: 1px solid black
+      .ui-slider-handle
+        border: 1px solid black
+    
+  canvas
+    width: 60%
+    background: steelblue
+    border: 1px solid darkblue

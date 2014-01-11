@@ -8,6 +8,8 @@ Camera = require 'lib/surface/Camera'
 ThangComponentEditView = require 'views/editor/components/main'
 DocumentFiles = require 'collections/DocumentFiles'
 
+ColorsTabView = require './colors_tab_view'
+
 CENTER = {x:200, y:300}
 
 module.exports = class ThangTypeEditView extends View
@@ -66,6 +68,7 @@ module.exports = class ThangTypeEditView extends View
     @buildTreema()
     @initSliders()
     @initComponents()
+    @insertSubView(new ColorsTabView(@thangType))
 
   initComponents: =>
     options =
@@ -242,13 +245,6 @@ module.exports = class ThangTypeEditView extends View
     @stage.removeChild(@currentObject) if @currentObject?
 
   # sliders
-
-  initSlider: ($el, startValue, changeCallback) ->
-    slider = $el.slider({ animate: "fast" })
-    slider.slider('value', startValue)
-    slider.on('slide',changeCallback)
-    slider.on('slidechange',changeCallback)
-    slider
 
   initSliders: ->
     @rotationSlider = @initSlider $("#rotation-slider", @$el), 50, @updateRotation
