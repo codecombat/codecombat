@@ -1,9 +1,13 @@
+{hexToHSL, hslToHex} = require 'lib/utils'
+
 module.exports = class SpriteBuilder
   constructor: (@thangType, @options) ->
+    @options ?= {}
     raw = _.cloneDeep(@thangType.get('raw'))
     @shapeStore = raw.shapes
     @containerStore = raw.containers
     @animationStore = raw.animations
+    @buildColorMaps()
 
   setOptions: (@options) ->
 
@@ -93,7 +97,7 @@ module.exports = class SpriteBuilder
     if shapeData.lf?
       shape.graphics.lf shapeData.lf...
     else if shapeData.fc?
-      shape.graphics.f shapeData.fc
+      shape.graphics.f @colorMap[shapeKey] or shapeData.fc
     if shapeData.ls?
       shape.graphics.ls shapeData.ls...
     else if shapeData.sc?
@@ -118,3 +122,64 @@ module.exports = class SpriteBuilder
       cont.addChild(child)
     cont.bounds = new createjs.Rectangle(contData.b...)
     cont
+    
+  buildColorMaps: ->
+    @colorMap = {}
+    colorGroups = @thangType.get('colorGroups')
+    return if _.isEmpty colorGroups
+    colorConfig = @options.colorConfig
+#    colorConfig ?= {team: {hue:0.4, saturation: -0.5, lightness: -0.5}} # test config
+    return if not colorConfig
+
+    for group, config of colorConfig
+      continue unless colorGroups[group] # color group not found...
+      @buildColorMapForGroup(colorGroups[group], config)
+      
+  buildColorMapForGroup: (shapes, config) ->
+    return unless shapes.length
+    colors = @initColorMap(shapes)
+    @adjustHuesForColorMap(colors, config.hue)
+    @adjustColorMap(colors, 1, config.lightness)
+    @adjustColorMap(colors, 2, config.saturation)
+    @applyColorMap(shapes, colors)
+    
+  initColorMap: (shapes) ->
+    colors = {}
+    for shapeKey in shapes
+      shape = @shapeStore[shapeKey]
+      continue if (not shape.fc?) or colors[shape.fc]
+      hsl = hexToHSL(shape.fc)
+      colors[shape.fc] = hsl
+    colors
+
+  adjustHuesForColorMap: (colors, targetHue) ->
+    hues = (hsl[0] for hex, hsl of colors)
+    
+    # 'rotate' the hue spectrum so averaging works
+    if Math.max(hues) - Math.min(hues) > 0.5
+      hues = (if h < 0.5 then h + 1.0 else h for h in hues)
+    averageHue = sum(hues) / hues.length
+    averageHue %= 1
+    # end result should be something like a hue array of [0.9, 0.3] gets an average of 0.1
+    
+    targetHue ?= 0
+    diff = targetHue - averageHue
+    hsl[0] = (hsl[0] + diff + 1) % 1 for hex, hsl of colors
+
+  adjustColorMap: (colorMap, index, adjustment) ->
+    return unless adjustment
+    for hex, hsl of colorMap
+      value = hsl[index]
+      if adjustment > 0
+        hsl[index] = value + (1 - value) * adjustment
+      else
+        hsl[index] = value + value * adjustment
+
+  applyColorMap: (shapes, colors) ->
+    for shapeKey in shapes
+      shape = @shapeStore[shapeKey]
+      continue if (not shape.fc?) or not(colors[shape.fc])
+      @colorMap[shapeKey] = hslToHex(colors[shape.fc])
+
+
+sum = (nums) -> _.reduce(nums, (s, num) -> s + num)

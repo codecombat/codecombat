@@ -29,3 +29,19 @@ module.exports.normalizeFunc = (func_thing, object) ->
       return => null # always return a func, or Mediator will go boom
     func_thing = func
   return func_thing 
+  
+module.exports.hexToHSL = (hex) ->
+  rgbToHsl(hexToR(hex), hexToG(hex), hexToB(hex))
+
+hexToR = (h) -> parseInt (cutHex(h)).substring(0, 2), 16
+hexToG = (h) -> parseInt (cutHex(h)).substring(2, 4), 16
+hexToB = (h) -> parseInt (cutHex(h)).substring(4, 6), 16
+cutHex = (h) -> (if (h.charAt(0) is "#") then h.substring(1, 7) else h)
+  
+module.exports.hslToHex = (hsl) ->
+  '#' + (toHex(n) for n in hslToRgb(hsl...)).join('')
+  
+toHex = (n) ->
+  h = Math.floor(n).toString(16)
+  h = '0'+h if h.length is 1
+  h

@@ -19,6 +19,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'positions',
     'snap',
     'components'
+    'colorGroups'
   ]
 
   hasAccess: (req) ->
