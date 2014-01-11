@@ -6,13 +6,14 @@ Rand = require './rand'
 module.exports = class Thang
   @className: "Thang"
   @random = new Rand 0
+  # Random ordering for each sprite name
   @ordering: (spriteName) ->
     Thang.orders ?= {}
     names = thangNames[spriteName]
     if names
       len = names.length
       array = Thang.orders[spriteName]
-      if !array?
+      if not array?
         array = @random.randArray len
         Thang.orders[spriteName] = array
     else
