@@ -1,83 +1,82 @@
 // Testacular configuration
 // Generated on Fri Feb 15 2013 18:38:33 GMT-0500 (EST)
 
+module.exports = function(config) {
 
-// base path, that will be used to resolve files and exclude
-basePath = '.';
+  config.set({
+    // base path, that will be used to resolve files and exclude
+    basePath : '',
 
+    frameworks: ['jasmine'],
 
-// list of files / patterns to load in the browser
-files = [
-  JASMINE,
-  JASMINE_ADAPTER,
+    // list of files / patterns to load in the browser
+    files : [
+      'public/javascripts/vendor.js',
+      'public/lib/ace/ace.js',
+      'public/javascripts/app.js',
 
-  'public/javascripts/vendor.js',
-  'public/lib/ace/ace.js',
-  'public/javascripts/app.js',
+      'test/app/**/*.coffee'
+    ],
 
-  'test/app/**/*.coffee'
-];
+    preprocessors : {
+      '**/*.coffee': 'coffee',
+      '**/javascripts/app.js': 'coverage'
+    },
 
+    // list of files to exclude
+    exclude : [],
 
-// list of files to exclude
-exclude = [
-  
-];
+    // test results reporter to use
+    // possible values: 'dots', 'progress', 'junit'
+    reporters : ['progress', 'coverage'],
 
+    // web server port
+    port : 9050,
 
-// test results reporter to use
-// possible values: 'dots', 'progress', 'junit'
-reporters = ['progress', 'coverage'];
-//reporters = ['progress'];
+    // cli runner port
+    runnerPort : 9051,
 
+    // enable / disable colors in the output (reporters and logs)
+    colors : true,
 
-// web server port
-port = 9050;
+    // level of logging
+    // possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
+    logLevel : config.LOG_INFO,
 
+    // enable / disable watching file and executing tests whenever any file changes
+    autoWatch : true,
 
-// cli runner port
-runnerPort = 9051;
-
-
-// enable / disable colors in the output (reporters and logs)
-colors = true;
-
-
-// level of logging
-// possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
-logLevel = LOG_INFO;
-
-
-// enable / disable watching file and executing tests whenever any file changes
-autoWatch = true;
-
-
-// Start these browsers, currently available:
-// - Chrome
-// - ChromeCanary
-// - Firefox
-// - Opera
-// - Safari (only Mac)
-// - PhantomJS
-// - IE (only Windows)
-browsers = ['Chrome'];
+    // Start these browsers, currently available:
+    // - Chrome
+    // - ChromeCanary
+    // - Firefox
+    // - Opera
+    // - Safari (only Mac)
+    // - PhantomJS
+    // - IE (only Windows)
+    browsers : ['Chrome'],
 
 
-// If browser does not capture in given timeout [ms], kill it
-captureTimeout = 5000;
+    // If browser does not capture in given timeout [ms], kill it
+    captureTimeout : 5000,
 
 
-// Continuous Integration mode
-// if true, it capture browsers, run tests and exit
-singleRun = false;
+    // Continuous Integration mode
+    // if true, it capture browsers, run tests and executing
+    singleRun : false,
 
+    coverageReporter : {
+      type : 'html',
+      dir : 'coverage/'
+    },
 
-preprocessors = {
-  '**/*.coffee': 'coffee',
-  '**/javascripts/app.js': 'coverage'
-};
+    plugins : [
+      'karma-jasmine',
+      'karma-chrome-launcher',
+      'karma-phantomjs-launcher',
+      'karma-coffee-preprocessor',
+      'karma-coverage'
+    ]
+  });
 
-coverageReporter = {
-  type : 'html',
-  dir : 'coverage/'
 };
