@@ -8,7 +8,6 @@ module.exports = class LevelSaveView extends SaveVersionModal
   template: template
   instant: false
   modalWidthPercent: 60
-  modalTitle: "Save New Version"
 
   events:
     'click #save-version-button': 'commitLevel'

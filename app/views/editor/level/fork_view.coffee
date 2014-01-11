@@ -8,7 +8,6 @@ module.exports = class LevelForkView extends View
   template: template
   instant: false
   modalWidthPercent: 60
-  modalTitle: "Fork New Version"
 
   events:
     'click #fork-level-confirm-button': 'forkLevel'

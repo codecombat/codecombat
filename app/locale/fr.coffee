@@ -179,3 +179,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    hud_continue: "Continue (press shift-space)"
+
+  editor:
+    new_component_title: "creér un composant"

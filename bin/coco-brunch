@@ -11,6 +11,6 @@ coco_path = os.getenv("COCO_DIR",os.path.join(current_directory,os.pardir))
 brunch_path = coco_path + os.sep + "node_modules" + os.sep + ".bin" + os.sep + "brunch"
 subprocess.Popen("ulimit -n 10000",shell=True)
 while True:
-    call(brunch_path + " w --config " + coco_path + os.sep + "brunch.coffee",shell=True,cwd=coco_path)
+    call(brunch_path + " w",shell=True,cwd=coco_path)
     print("Brunch crashed. Press control+C within 1 second to quit.")
     time.sleep(1)
