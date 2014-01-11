@@ -22,6 +22,7 @@ contactSchema =
 module.exports = class ContactView extends View
   id: "contact-modal"
   template: template
+  closeButton: true
 
   events:
     "click #contact-submit-button": "contact"

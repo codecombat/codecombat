@@ -1,11 +1,9 @@
-block modal-header-content
-  h3(data-i18n="contact.contact_modal_title") Contact
+extends /templates/modal/modal_base
 
-.modal-header
-  .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+block modal-header-content
   h3(data-i18n="contact.contact_us") Contact CodeCombat...
 
-.modal-body
+block modal-body-content
   p
     span(data-i18n="contact.welcome") Good to hear from you! Use this form to send us email. 
     span(data-i18n="contact.contribute_prefix") If you're interested in contributing, check out our 
@@ -25,7 +23,7 @@ block modal-header-content
       .controls
         textarea#contact-message.input-block-level(name="message", rows=8)
 
-.modal-footer
+block modal-footer-content
   span.sending-indicator.pull-left.hide(data-i18n="contact.sending") Sending...
   a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="forms.cancel").btn Cancel
   button.btn.btn-primary#contact-submit-button(data-i18n="contact.send") Send Feedback

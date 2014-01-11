@@ -1,9 +1,6 @@
 extends /templates/modal/save_version
 
-block modal-header-content
-  h3(data-i18n="editor.save_view_title") Save New Version
-
-block content
+block modal-body-content
   h3= "Level: " + level.get('name') + " - " + (levelNeedsSave ? "Modified" : "Not Modified")
   if levelNeedsSave
     form#save-level-form.form-horizontal
