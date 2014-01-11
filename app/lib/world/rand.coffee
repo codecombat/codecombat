@@ -32,7 +32,7 @@ class Rand
   rand2: (min, max) =>
     min + @rand max - min
 
-  # return an array of randomly shuffled numbers from 0 to n, exclusive
+  # return an array of numbers from 0 to n-1, shuffled
   randArray: (n) =>
     array = ( i for i in [0..(n-1)] )
 
