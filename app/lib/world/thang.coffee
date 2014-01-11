@@ -6,6 +6,7 @@ Rand = require './rand'
 module.exports = class Thang
   @className: "Thang"
   @random = new Rand 0
+
   # Random ordering for each sprite name
   @ordering: (spriteName) ->
     Thang.orders ?= {}
@@ -18,6 +19,8 @@ module.exports = class Thang
         Thang.orders[spriteName] = array
     else
       array = []
+    array
+
   @nextID: (spriteName) ->
     Thang.lastIDNums ?= {}
     names = thangNames[spriteName]
@@ -26,6 +29,7 @@ module.exports = class Thang
       lastIDNum = Thang.lastIDNums[spriteName]
       idNum = (if lastIDNum? then lastIDNum + 1 else 0)
       Thang.lastIDNums[spriteName] = idNum
+      console.log order
       id = names[order[idNum % names.length]]
       if idNum >= names.length
         id += Math.floor(idNum / names.length) + 1
@@ -33,6 +37,7 @@ module.exports = class Thang
       Thang.lastIDNums[spriteName] = if Thang.lastIDNums[spriteName]? then Thang.lastIDNums[spriteName] + 1 else 0
       id = spriteName + (Thang.lastIDNums[spriteName] or '')
     id
+    
   @resetThangIDs: -> Thang.lastIDNums = {}
 
   constructor: (@world, @spriteName, @id) ->
