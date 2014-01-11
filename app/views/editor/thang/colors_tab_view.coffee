@@ -66,7 +66,6 @@ module.exports = class ColorsTabView extends CocoView
     @stage.removeChild(@movieClip) if @movieClip
     options = {colorConfig: {}}
     options.colorConfig[@currentColorGroupTreema.keyForParent] = @colorConfig
-    console.log 'options are', options
     @spriteBuilder.setOptions options
     @spriteBuilder.buildColorMaps()
     @movieClip = @spriteBuilder.buildMovieClip animation
@@ -75,7 +74,6 @@ module.exports = class ColorsTabView extends CocoView
     @movieClip.scaleY = larger
     @movieClip.regX = @movieClip.nominalBounds.x
     @movieClip.regY = @movieClip.nominalBounds.y
-    console.log 'added movie clip', @movieClip
     @stage.addChild @movieClip
 
   createShapeButtons: ->
@@ -97,7 +95,6 @@ module.exports = class ColorsTabView extends CocoView
       $(e.target).toggleClass('selected')
       @updateColorGroup()
     @$el.find('#shape-buttons').replaceWith(buttons)
-    console.log 'making buttons'
     @buttons = buttons
 
   tryToBuild: ->
@@ -117,14 +114,12 @@ module.exports = class ColorsTabView extends CocoView
     @colorGroups.build()
     @colorGroups.open()
     keys = Object.keys @colorGroups.childrenTreemas
-    console.log 'selected?'
     @colorGroups.childrenTreemas[keys[0]]?.$el.click() if keys[0]
 
   onColorGroupsChanged: =>
     @thangType.set('colorGroups', @colorGroups.data)
 
   onColorGroupSelected: (e, selected) =>
-    console.log 'selected!'
     @$el.find('#color-group-settings').toggleClass('hide', not selected.length)
     treema = @colorGroups.getLastSelectedTreema()
     return unless treema
@@ -138,7 +133,6 @@ module.exports = class ColorsTabView extends CocoView
       continue unless shape.fc?
       colors[shape.fc] = true if shapes[key]
     
-    console.log 'buttons?', @buttons
     @buttons.find('button').removeClass('selected')
     @buttons.find('button').each (i, button) ->
       $(button).addClass('selected') if colors[$(button).val()]
