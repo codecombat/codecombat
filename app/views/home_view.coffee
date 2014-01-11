@@ -39,6 +39,7 @@ module.exports = class HomeView extends View
     @createWizard -10, 2, 2.6
 
   turnOnStageUpdates: ->
+    clearInterval @turnOff
     @interval = setInterval(@updateStage, 40) unless @interval
 
   turnOffStageUpdates: ->
@@ -79,4 +80,3 @@ module.exports = class HomeView extends View
   didReappear: ->
     super()
     @turnOnStageUpdates()
-
