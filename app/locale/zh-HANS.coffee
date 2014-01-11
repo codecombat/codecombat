@@ -21,7 +21,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     admin: "超级管理员"
     # Footer
     home: "首页"
-    contribute: ""
+    contribute: "贡献"
     legal: "法律"
     about: "关于"
     contact: "联系我们"
