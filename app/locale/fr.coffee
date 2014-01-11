@@ -68,6 +68,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
 #    level_difficulty: "Difficulty: "
 
+  contribute:
+    character_classes_title: "Classes de personnages"
+    page_title: "Contribuer"
+    introduction_desc_intro: "Nous avons de grands espoirs pour CodeCombat."
+    alert_account_message_intro: "Salut!"
+    archmage_subscribe_descr: "Recevoir des courriels sur de nouvelles opportunités et des annonces de programmation."
+
   contact:
     contact_us: "Contacter CodeCombat"
 #    welcome: "Good to hear from you! Use this form to send us email."
@@ -88,7 +95,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     learn_more: "Apprenez en plus sur comment devenir un diplomate!"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 #
-#  account_settings:
+  account_settings:
+    archmage_title_pref: "Archmage"
+    archmage_title_suf: "(Codeur)"
+    archmage_desc: "Obtenez des courriels au sujet des nouvelles et des annonces sur les CodeCombat général."
 #    title: "Account Settings"
 #    not_logged_in: "Log in or create an account to change your settings."
 #    autosave: "Changes Save Automatically"
@@ -181,4 +191,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    hud_continue: "Continue (press shift-space)"
 
   editor:
-    new_component_title: "creér un composant"
+    new_component_title: "Créer un nouveau composant"
+    new_component_field_system: "Système"
+    new_component_field_name: "Nom"
+    new_component_btn_cancel: "Annuler"
+    new_component_btn_create: "Créer"
+    level_btn_save: "Sauver"
+    level_component_edit_title: "Editer le composant"

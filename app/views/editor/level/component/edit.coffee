@@ -16,7 +16,7 @@ module.exports = class LevelComponentEditView extends View
 
   getRenderData: (context={}) =>
     context = super(context)
-    context.editTitle = "Edit Component: #{@levelComponent.get('system')}.#{@levelComponent.get('name')}"
+    context.editTitle = "#{@levelComponent.get('system')}.#{@levelComponent.get('name')}"
     context
 
   afterRender: ->

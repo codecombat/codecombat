@@ -100,51 +100,69 @@ block content
             br
 
             .control-group
-              label.control-label(for="email_developer") Archmage
+              label.control-label(for="email_developer")
+                span(data-i18n="account_settings.archmage_title_pref")
+                  | Archmage
                 br
-                | (Coder)
+                span(data-i18n="account_settings.archmage_title_suf")
+                  | (Coder)
               .controls
                 input#email_developer(name="email_developer", type="checkbox", checked=subs.developer)
-                span.help-inline Get emails about general news and announcements about CodeCombat.
+                span(data-i18n="account_settings.archmage_desc").help-inline Get emails about general news and announcements about CodeCombat.
 
             .control-group
-              label.control-label(for="email_level_creator") Artisan
+              label.control-label(for="email_level_creator")
+                span(data-i18n="account_settings.artisan_title_pref")
+                  | Artisan
                 br
-                | (Level Builder)
+                span(data-i18n="account_settings.artisan_title_suf")
+                  | (Level Builder)
               .controls
                 input#email_level_creator(name="email_level_creator", type="checkbox", checked=subs.level_creator)
-                span.help-inline Get emails on level editor updates and announcements.
+                span(data-i18n="account_settings.artisan_desc").help-inline Get emails on level editor updates and announcements.
 
             .control-group
-              label.control-label(for="email_tester") Adventurer 
-                br 
-                | (Level Playtester)
+              label.control-label(for="email_tester")
+                span(data-i18n="account_settings.adventurer_title_pref")
+                  | Adventurer
+                br
+                span(data-i18n="account_settings.adventurer_title_suf") 
+                  | (Level Playtester)
               .controls
                 input#email_tester(name="email_tester", type="checkbox", checked=subs.tester)
-                span.help-inline Get emails when there are new levels to test.
+                span(data-i18n="account_settings.adventurer_desc").help-inline Get emails when there are new levels to test.
 
             .control-group
-              label.control-label(for="email_article_editor") Scribe 
+              label.control-label(for="email_article_editor")
+                span(data-i18n="account_settings.scribe_title_pref")
+                  | Scribe
                 br
-                | (Artile Editor)
+                span(data-i18n="account_settings.scribe_title_suf")
+                  | (Article Editor)
               .controls
                 input#email_article_editor(name="email_article_editor", type="checkbox", checked=subs.article_editor)
-                span.help-inline Get emails about article writing announcements.
+                span(data-i18n="account_settings.scribe_desc").help-inline Get emails about article writing announcements.
 
             .control-group
-              label.control-label(for="email_translator") Diplomat 
+              label.control-label(for="email_translator")
+                span(data-i18n="account_settings.diplomat_title_pref")
+                  | Diplomat
                 br
-                | (Translator)
+                span(data-i18n="account_settings.diplomat_title_suf")
+                  | (Translator)
               .controls
                 input#email_translator(name="email_translator", type="checkbox", checked=subs.translator)
-                span.help-inline Get emails about i18n developments and, eventually, levels to translate.
+                span(data-i18n="account_settings.diplomat_title_pref").help-inline Get emails about i18n developments and, eventually, levels to translate.
 
             .control-group
-              label.control-label(for="email_support") Ambassador 
+              label.control-label(for="email_support")
+                span(data-i18n="account_settings.ambassador_title_pref")
+                  | Ambassador
                 br
-                | (Support)
+                span(data-i18n="account_settings.ambassador_title_suf")
+                  | (Support)
               .controls
                 input#email_support(name="email_support", type="checkbox", checked=subs.support)
-                span.help-inline Get emails on support updates and multiplayer developments.
+                span(data-i18n="account_settings.ambassador_desc").help-inline Get emails on support updates and multiplayer developments.
                   
         button.btn#toggle-all-button(data-i18n="account_settings.email_toggle") Toggle All

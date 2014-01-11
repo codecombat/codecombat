@@ -11,49 +11,73 @@ block content
       .class_image
           img(src="/images/pages/contribute/diplomat.png", alt="")
 
-      h2 Diplomat (Translator)
-      p So, if there's one thing we learned from the 
-        a(href="blog.codecombat.com/post/64658141307/codecombat-in-y-combinator") launch in October
-        | , it's that there
-        | is sizeable interest in CodeCombat in other countries, particularly Brazil!
-        | We're building a corps of translators eager to turn one set of words into
-        | another set of words to get CodeCombat as accessible across the world as possible.
-        | If you like getting sneak peeks at upcoming content and getting these levels to
-        | your fellow nationals ASAP, then this class might be for you.
+      h2
+        span(data-i18n="account_settings.diplomat_title_pref") Diplomat
+        span  
+        span(data-i18n="account_settings.diplomat_title_suf") (Translator)
+      p
+        span(data-i18n="contribute.diplomat_introduction_pref")
+          | So, if there's one thing we learned from the 
+        a(href="blog.codecombat.com/post/64658141307/codecombat-in-y-combinator", data-i18n="contribute.diplomat_launch_url")
+          | launch in October
+        span , 
+        span(data-i18n="contribute.diplomat_introduction_suf")
+          | it's that there
+          | is sizeable interest in CodeCombat in other countries, particularly Brazil!
+          | We're building a corps of translators eager to turn one set of words into
+          | another set of words to get CodeCombat as accessible across the world as possible.
+          | If you like getting sneak peeks at upcoming content and getting these levels to
+          | your fellow nationals ASAP, then this class might be for you.
   
-      h4 Class Attributes
+      h4(data-i18n="contribute.class_attributes") Class Attributes
       ul
-        li Fluency in English and the language you would like to translate to.
+        li(data-i18n="contribute.diplomat_attribute_1")
+          | Fluency in English and the language you would like to translate to.
           | When conveying complicated ideas, it's important to have a strong grasp in both!
       
-      h4 How to Join
-      p We've started a lot of initial translations at 
-        a(href="https://docs.google.com/a/codecombat.com/spreadsheet/ccc?key=0AjsR1nOoMQ4MdFBqS1NqUmRTVG1hbEMxWTZEd1JrNXc&usp=drive_web#gid=0") this Google Doc
-        | , so check it out and add things for your language. Also, check this box below to 
-        | keep up-to-date on new internationalization developments!
+      h4(data-i18n="contribute.how_to_join") How to Join
+      p
+        span(data-i18n="contribute.diplomat_join_pref")
+          | We've started a lot of initial translations at 
+        a(href="https://docs.google.com/a/codecombat.com/spreadsheet/ccc?key=0AjsR1nOoMQ4MdFBqS1NqUmRTVG1hbEMxWTZEd1JrNXc&usp=drive_web#gid=0", data-i18n="contribute.diplomat_doc_url")
+          | this Google Doc
+        span , 
+        span(data-i18n="contribute.diplomat_join_suf")
+          | so check it out and add things for your language. Also, check this box below to 
+          | keep up-to-date on new internationalization developments!
 
       if me.attributes.anonymous
         div#sign-up.alert.alert-info
-          strong Hey there! 
-          | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup") create an account
-          |  first .
-          
+          strong(data-i18n="contribute.alert_account_message_intro")
+            | Hey there!
+          span  
+          span(data-i18n="contribute.alert_account_message_pref") 
+            | To subscribe for class emails, you'll need to 
+          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
+            | create an account
+          span  
+          span(data-i18n="contribute.alert_account_message_suf")
+          | first.
+
       label.checkbox(for="translator").well
         input(type='checkbox', name="translator", id="translator")
-        | Get emails about i18n developments and levels to translate.
+        span(data-i18n="contribute.diplomat_subscribe_desc")
+          | Get emails about i18n developments and levels to translate.
         .saved-notification  ✓ Saved
 
-      h4 Changes are saved automatically when you toggle checkboxes.
+      h4(data-i18n="contribute.changes_auto_save")
+        | Changes are saved automatically when you toggle checkboxes.
 
       #Contributors
-        h3 Our Translating Diplomats:
+        h3(data-i18n="contribute.translating_diplomates")
+          | Our Translating Diplomats:
         ul.diplomats
           li Turkish - Nazım Gediz Aydındoğmuş
           li Brazilian Portuguese - Gutenberg Barros, Kieizroe, Matthew Burt
           li Portugal Portuguese - Matthew Burt
           li German - Dirk, Anon
           li Thai - Kamolchanok Jittrepit
+          li Vietnamese - An Nguyen Hoang Thien
           li Greek - Stergios
           li Latin American Spanish - Jesús Ruppel, Matthew Burt, Mariano Luzza
           li Spain Spanish - Matthew Burt, Anon
