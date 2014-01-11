@@ -1,17 +1,31 @@
 ThangState = require './thang_state'
 {thangNames} = require './names'
 {ArgumentError} = require './errors'
+Rand = require './rand'
 
 module.exports = class Thang
   @className: "Thang"
+  @random = new Rand 0
+  @ordering: (spriteName) ->
+    Thang.orders ?= {}
+    names = thangNames[spriteName]
+    if names
+      len = names.length
+      array = Thang.orders[spriteName]
+      if !array?
+        array = @random.randArray len
+        Thang.orders[spriteName] = array
+    else
+      array = []
   @nextID: (spriteName) ->
     Thang.lastIDNums ?= {}
     names = thangNames[spriteName]
+    order = @ordering spriteName
     if names
       lastIDNum = Thang.lastIDNums[spriteName]
       idNum = (if lastIDNum? then lastIDNum + 1 else 0)
       Thang.lastIDNums[spriteName] = idNum
-      id = names[idNum % names.length]
+      id = names[order[idNum % names.length]]
       if idNum >= names.length
         id += Math.floor(idNum / names.length) + 1
     else
