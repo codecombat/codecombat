@@ -2,61 +2,67 @@ extends /templates/base
 
 block content
   
-  h3 Introducing The CodeCombat Level Editor
+  h3(data-i18n="editor.ep_intro_title")  Introducing The CodeCombat Level Editor
   
-  p
-  | Since we launched the prototype in June, 2013, we've been hard at work making
-  | systems for producing much, much more content.
-  | The centerpiece of these efforts is the new 
-  strong Level Editor
-  | , which makes building levels and their many constituent parts a snap.
+  p 
+    span(data-i18n="editor.ep_intro_desc_top_pref")
+    | Since we launched the prototype in June, 2013, we've been hard at work making
+    | systems for producing much, much more content.
+    | The centerpiece of these efforts is the new 
+    strong
+      span(data-i18n="editor.ep_intro_desc_top_strong_editor")
+      | Level Editor
+    span(data-i18n="editor.ep_intro_desc_top_suf")
+    | , which makes building levels and their many constituent parts a snap.
   
   div.images
     div
       img(src="/file/52602a6ba36ab808aa000007", alt="Articles").img-polaroid
       br
-      span.label.label-info Write Articles
+      span(data-i18n="editor.ep_img_desc_articles").label.label-info Write Articles
     div
       img(src="/file/526032dca36ab808aa000009", alt="Map").img-polaroid
       br
-      span.label.label-info Construct Maps
+      span(data-i18n="editor.ep_img_desc_maps").label.label-info Construct Maps
     div
       img(src="/file/52603311a36ab808aa00000c", alt="Scripting").img-polaroid
       br
-      span.label.label-info Build Scripts
+      span(data-i18n="editor.ep_img_desc_scripts").label.label-info Build Scripts
     div
       img(src="/file/52603434a36ab808aa00000e", alt="Units").img-polaroid
       br
-      span.label.label-info Configure Units
+      span(data-i18n="editor.ep_img_desc_units").label.label-info Configure Units
 
-  p#after-images
+  p(data-i18n="editor.ep_intro_desc_bottom")#after-images
   | Eventually, you'll be able to build all manners of challenges, with custom sounds,
   | music, artwork, units, maps, scripts, documentation, and yes, even code.
   | It's got a long way to go, but it's just starting to get usable and we're itching to use it.
   | Expect (and demand!) new levels at regular intervals as we continue to grow.
 
-  h3 Watch it In Action
+  h3(data-i18n="editor.ep_watch_title") Watch it In Action
   
   div.screencast-wrapper
     <object width="640" height="400"><param name="movie" value="//www.youtube.com/v/H5u5ga5dHm8?hl=en_US&amp;version=3&amp;hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="//www.youtube.com/v/H5u5ga5dHm8?hl=en_US&amp;version=3&amp;hd=1" type="application/x-shockwave-flash" width="640" height="400" allowscriptaccess="always" allowfullscreen="true"></embed></object>
   
-  h3 When Can I Use It?
+  h3(data-i18n="editor.ep_use_title") When Can I Use It?
   
   p
+    span(data-i18n="editor.ep_use_desc_pref")
     | Now! We've opened it for general use, possibly against our better judgment.
     | It's still very broken, but we're seeking people to try it out and help us make it better,
     | so we're throwing it out there.
     | Learn more about the role of 
-    a(href="/contribute#artisan") Artisan
+    a(href="/contribute#artisan", data-i18n="editor.ep_use_artisan_url") Artisan
+    span(data-i18n="editor.ep_use_desc_suf")
     |  in the 
-    a(href="/contribute") contribute page
+    a(href="/contribute", data-i18n="editor.ep_use_contribute_url") contribute page
     | .
   
   hr
   div#editor-links
-    a(href="/editor/level").btn Edit Levels
+    a(href="/editor/level", data-i18n="editor.ep_url_edit_levels").btn Edit Levels
     if me.isAdmin()
-      a(href="/editor/article").btn Edit Articles
+      a(href="/editor/article", data-i18n="editor.ep_url_edit_articles").btn Edit Articles
       
   .modal.hide.fade#image-modal
     .modal-body

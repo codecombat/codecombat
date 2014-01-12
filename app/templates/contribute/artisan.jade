@@ -11,49 +11,76 @@ block content
       .class_image
           img(src="/images/pages/contribute/artisan.png", alt="")
 
-      h2 Artisan (Level Builder)
-      p We must construct additional levels!
-        | People be clamoring for more content, and we can only build so many ourselves.
-        | Right now your workstation is level one; our level editor is barely
-        | usable even by its creators, so be wary.
-        | If you have visions of campaigns spanning for-loops to 
-        a(href="http://stackoverflow.com/questions/758088/seeking-contrived-example-code-continuations/758105#758105") Mondo Bizzaro 
-        | to then this class might be for you.
+      h2
+        span(data-i18n="classes.artisan_title") Artisan
+        span  
+        span(data-i18n="classes.artisan_title_description") (Level Builder)
+      p
+        span(data-i18n="contribute.artisan_introduction_pref")
+          | We must construct additional levels!
+          | People be clamoring for more content, and we can only build so many ourselves.
+          | Right now your workstation is level one; our level editor is barely
+          | usable even by its creators, so be wary.
+          | If you have visions of campaigns spanning for-loops to
+        span  
+        a(href="http://stackoverflow.com/questions/758088/seeking-contrived-example-code-continuations/758105#758105")
+          |  Mondo Bizzaro 
+        span  
+        span(data-i18n="contribute.artisan_introduction_suf")
+          | to then this class might be for you.
     
-      h4 Class Attributes
+      h4(data-i18n="contribute.class_attributes") Class Attributes
       ul
-        li Any experience in building content like this would be nice, such as using
+        li(data-i18n="contribute.artisan_attribute_1")
+          | Any experience in building content like this would be nice, such as using
           | Blizzard's level editors. But not required!
-        li A hankering to do a whole lot of testing and iteration.
+        li(data-i18n="contribute.artisan_attribute_2")
+          | A hankering to do a whole lot of testing and iteration.
           | To make good levels, you need to take it to others and watch them play it,
           | and be prepared to find a lot of things to fix.
-        li For the time being, endurance en par with an Adventurer.
+        li(data-i18n="contribute.artisan_attribute_3")
+          | For the time being, endurance en par with an Adventurer.
           | Our Level Editor is super preliminary and frustrating to use. You have been warned!
     
-      h4 How To Join
-      p The Level Editor is live! Go forth and fiddle with it.
-        | Right now for the sake of security, you can't make Components (the most powerful part of level building)
-        | but be in touch with us and we'll see if we can make what you need.
-        | See the 
-        a(href="https://docs.google.com/document/d/117tMcL95T1KY8BDisr0iGi5Frb2ZvBJTC0us5hyQkJY/edit?usp=sharing") preliminary documentation 
-        | for more info, and please comment on it so we can make the whole system better.
+      h4(data-i18n="contribute.how_to_join") How To Join
+      p
+        span(data-i18n="contribute.artisan_join_desc_pref")
+          | The Level Editor is live! Go forth and fiddle with it.
+          | Right now for the sake of security, you can't make Components (the most powerful part of level building)
+          | but be in touch with us and we'll see if we can make what you need.
+          | See the
+        span  
+        a(href="https://docs.google.com/document/d/117tMcL95T1KY8BDisr0iGi5Frb2ZvBJTC0us5hyQkJY/edit?usp=sharing", data-i18n="contribute.artisan_url_documentation")
+          | preliminary documentation 
+        span  
+        span(data-i18n="contribute.artisan_join_desc_suf")
+          | for more info, and please comment on it so we can make the whole system better.
 
       if me.attributes.anonymous
         div#sign-up.alert.alert-info
-          strong Hey there! 
-          | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup") create an account
-          |  first .
+          strong(data-i18n="contribute.alert_account_message_intro")
+            | Hey there!
+          span  
+          span(data-i18n="contribute.alert_account_message_pref") 
+            | To subscribe for class emails, you'll need to 
+          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
+            | create an account
+          span  
+          span(data-i18n="contribute.alert_account_message_suf")
+          | first.
 
       label.checkbox(for="level_creator").well
         input(type='checkbox', name="level_creator", id="level_creator")
-        | Get emails on level editor updates and announcements.
+        span(data-i18n="contribute.artisan_subscribe_desc")
+          | Get emails on level editor updates and announcements.
         .saved-notification  ✓ Saved
 
-      h4 Changes are saved automatically when you toggle checkboxes.
+      h4(data-i18n="contribute.changes_auto_save")
+        | Changes are saved automatically when you toggle checkboxes.
 
       #Contributors
-        h3 Our Creative Artisans:
+        h3(data-i18n="contribute.creative_artisans")
+          | Our Creative Artisans:
         ul.artisans
           li Sootn
           li Zach Martin
