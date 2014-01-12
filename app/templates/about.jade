@@ -6,26 +6,74 @@ block content
 
     .span5
 
-      h2 Who is CodeCombat?
+      h2(data-i18n="about.who_is_codecombat")
+        | Who is CodeCombat?
     
-      :markdown
-        [George](http://georgesaines.com/), [Scott](http://scotterickson.info), and [Nick](http://www.nickwinter.net) together started CodeCombat in 2013. We also created [Skritter](http://www.skritter.com/) in 2008, growing it to the #1 web and iOS application for learning to write Chinese and Japanese characters.
+      p
+        a(href="http://georgesaines.com/") George
+        span , 
+        a(href="http://scotterickson.info/") Scott
+        span , 
+        span(data-i18n="general.and") and
+        span  
+        a(href="http://scotterickson.info/") Nick
+        span  
+        span(data-i18n="about.who_description_prefix")
+          | together started CodeCombat in 2013. We also created 
+        a(href="http://www.skritter.com/") Skritter
+        span  
+        span(data-i18n="about.who_description_sufix")
+          | in 2008, growing it to the #1 web and iOS application 
+          | for learning to write Chinese and Japanese characters.
 
-      p Now it's time to teach people to write code.
+      p(data-i18n="about.who_description_ending")
+        | Now it's time to teach people to write code.
     
-      h2 Why CodeCombat?
+      h2(data-i18n="about.why_codecombat")
+        | Why CodeCombat?
       
-      p When making Skritter, George didn't know how to program and was constantly frustrated by his inability to implement his ideas. Afterwards, he tried learning, but the lessons were too slow. His housemate, wanting to reskill and stop teaching, tried Codecademy, but "got bored." Each week another friend started Codecademy, then dropped off. We realized it was the same problem we'd solved with Skritter: people learning a skill via slow, intensive lessons when what they need is fast, extensive practice. We know how to fix that.
+      p(data-i18n="about.why_paragraph_1")
+        | When making Skritter, George didn't know how to program and was constantly 
+        | frustrated by his inability to implement his ideas. Afterwards, 
+        | he tried learning, but the lessons were too slow. His housemate, 
+        | wanting to reskill and stop teaching, tried Codecademy, but "got bored." 
+        | Each week another friend started Codecademy, then dropped off. 
+        | We realized it was the same problem we'd solved with Skritter: 
+        | people learning a skill via slow, intensive lessons when what they need is fast, 
+        | extensive practice. We know how to fix that.
     
-      p Need to learn to code? You don't need lessons. You need to write a lot of code and have a great time doing it.
+      p(data-i18n="about.why_paragraph_2")
+        | Need to learn to code? You don't need lessons. 
+        | You need to write a lot of code and have a great time doing it.
 
-      :markdown
-        That's what programming is about. It's gotta be fun. Not fun like _yay a badge_ but fun like _NO MOM I HAVE TO FINISH THE LEVEL!_ That's why CodeCombat is a multiplayer game, not a gamified lesson course. We *won't* stop until you *can't* stop--but this time, that's a good thing.
+      p
+        span(data-i18n="about.why_paragraph_3_prefix")
+          | That's what programming is about. It's gotta be fun.
+          | Not fun like
+        span  
+        i(data-i18n="about.why_paragraph_3_italic")
+          | yay a badge
+        span  
+        span(data-i18n="about.why_paragraph_3_center")
+          | but fun like
+        span  
+        i(data-i18n="about.why_paragraph_3_italic_caps")
+          | NO MOM I HAVE TO FINISH THE LEVEL!
+        span  
+        span(data-i18n="about.why_paragraph_3_sufix")
+          | That's why CodeCombat is a multiplayer game,
+          | not a gamified lesson course. We won't stop 
+          | until you can't stop--but this time, that's a good thing.
 
-      p If you're going to get addicted to some game, get addicted to this one and become one of the wizards of the tech age.
+      p(data-i18n="about.why_paragraph_4")
+        | If you're going to get addicted to some game, 
+        | get addicted to this one and become one of the wizards of the tech age.
 
-      p.lead And hey, it's free. 
-        a(href="/") Start wizarding now!
+      p.lead
+        span(data-i18n="about.why_ending")
+          | And hey, it's free. 
+        a(href="/", data-i18n="about.why_ending_url")
+          | Start wizarding now!
     
 
     ul.span5.team-column
@@ -41,7 +89,9 @@ block content
             h3
               a(href="http://georgesaines.com") George Saines
 
-            p CEO, business guy, web designer, game designer, and champion of beginning programmers everywhere.
+            p(data-i18n="about.george_description")
+              | CEO, business guy, web designer, game designer, 
+              | and champion of beginning programmers everywhere.
     
         li
 
@@ -52,7 +102,10 @@ block content
             h3
               a(href="http://scotterickson.info") Scott Erickson
   
-            p Programmer extraordinaire, software architect, kitchen wizard, and master of finances. Scott is the reasonable one.
+            p(data-i18n="about.scott_description")
+              | Programmer extraordinaire, software architect, 
+              | kitchen wizard, and master of finances. 
+              | Scott is the reasonable one.
     
         li
     
@@ -63,7 +116,10 @@ block content
             h3
               a(href="http://www.nickwinter.net") Nick Winter
     
-            p Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat.
+            p(data-i18n="about.nick_description")
+              | Programming wizard, eccentric motivation mage, 
+              | and upside-down experimenter. 
+              | Nick can do anything and chooses to build CodeCombat.
 
         li
     
@@ -74,7 +130,10 @@ block content
             h3
               Jeremy Arns
     
-            p Customer support mage, usability tester, and community organizer, you've probably already spoken with Jeremy.
+            p(data-i18n="about.jeremy_description")
+              | Customer support mage, usability tester, 
+              | and community organizer, you've probably 
+              | already spoken with Jeremy.
 
         li
     
@@ -85,6 +144,8 @@ block content
             h3
               a(href="http://michaelschmatz.com/") Michael Schmatz
     
-            p Programmer, sys admin, and undergrad technical wunderkind, Michael is the person keeping our servers online.
+            p(data-i18n="about.michael_description")
+              | Programmer, sys admin, and undergrad technical wunderkind, 
+              | Michael is the person keeping our servers online.
 
 

@@ -11,49 +11,73 @@ block content
       .class_image
           img(src="/images/pages/contribute/adventurer.png", alt="")
 
-      h2 Adventurer (Level Playtester)
-      p Let's be clear about your role: you are the tank. You're going to take heavy damage.
+      h2
+        span(data-i18n="classes.adventurer_title") Adventurer
+        span  
+        span(data-i18n="classes.adventurer_title_description") (Level Playtester)
+      p(data-i18n="account_settings.adventurer_introduction")
+        | Let's be clear about your role: you are the tank. You're going to take heavy damage.
         | We need people to try out brand-new levels and help identify how to make things better.
         | The pain will be enormous; making good games is a long process and no one gets
         | it right the first time.
         | If you can endure and have a high constitution score, then this class might be for you.
       
-      h4 Class Attributes
+      h4(data-i18n="contribute.class_attributes") Class Attributes
       ul
-        li A thirst for learning. You want to learn how to code and we want to teach you how to code.
+        li(data-i18n="account_settings.adventurer_attribute_1")
+          | A thirst for learning. You want to learn how to code and we want to teach you how to code.
           | You'll probably be doing most of the teaching in this case, though.
-        li Charismatic. Be gentle but articulate about what needs improving, and offer suggestions
+        li(data-i18n="account_settings.adventurer_attribute_2")
+          | Charismatic. Be gentle but articulate about what needs improving, and offer suggestions
           | on how to improve.
     
-      h4 How To Join
-      p Either get together with (or recruit!) an Artisan and work with them, or
-        | check the box below to receive emails when there are new levels to test.
-        | We'll also be posting about levels to review on our networks like 
-        a(href="http://discourse.codecombat.com/category/adventurer") our forum
-        | , 
-        a(href="https://www.facebook.com/codecombat") Facebook
-        | , 
-        a(href="https://twitter.com/CodeCombat") Twitter
-        | , and 
-        a(href="https://plus.google.com/115285980638641924488/posts") Google+
-        | , so if you prefer to be notified those ways, sign up there!
+      h4(data-i18n="contribute.how_to_join") How To Join
+      p
+        span(data-i18n="contribute.adventurer_join_pref")
+          | Either get together with (or recruit!) an Artisan and work with them, or
+          | check the box below to receive emails when there are new levels to test.
+          | We'll also be posting about levels to review on our networks like
+        span  
+        a(href="http://discourse.codecombat.com/category/adventurer", data-i18n="contribute.adventurer_forum_url")
+          | our forum
+        span , 
+        a(href="https://www.facebook.com/codecombat", data-i18n="contribute.adventurer_facebook_url")
+          | Facebook
+        span , 
+        a(href="https://twitter.com/CodeCombat", data-i18n="contribute.adventurer_twitter_url")
+          | Twitter
+        span , and 
+        a(href="https://plus.google.com/115285980638641924488/posts", data-i18n="contribute.adventurer_gplus_url")
+          | Google+
+        span , 
+        span(data-i18n="contribute.adventurer_join_suf")
+          | so if you prefer to be notified those ways, sign up there!
 
       if me.attributes.anonymous
         div#sign-up.alert.alert-info
-          strong Hey there! 
-          | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup") create an account
-          |  first .
+          strong(data-i18n="contribute.alert_account_message_intro")
+            | Hey there!
+          span  
+          span(data-i18n="contribute.alert_account_message_pref") 
+            | To subscribe for class emails, you'll need to 
+          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
+            | create an account
+          span  
+          span(data-i18n="contribute.alert_account_message_suf")
+          | first.
 
       label.checkbox(for="tester").well
         input(type='checkbox', name="tester", id="tester")
-        | Get emails when there are new levels to test.
+        span(data-i18n="contribute.adventurer_subscribe_desc")  
+          | Get emails when there are new levels to test.
         .saved-notification  ✓ Saved
 
-      h4 Changes are saved automatically when you toggle checkboxes.
+      h4(data-i18n="contribute.changes_auto_save")
+        | Changes are saved automatically when you toggle checkboxes.
 
       #Contributors
-        h3 Our Brave Adventurers:
+        h3(data-i18n="contribute.brave_adventurers")
+          | Our Brave Adventurers:
         ul.adventurers
           li Kieizroe          
 
