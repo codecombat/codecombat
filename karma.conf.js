@@ -75,7 +75,8 @@ module.exports = function(config) {
       'karma-chrome-launcher',
       'karma-phantomjs-launcher',
       'karma-coffee-preprocessor',
-      'karma-coverage'
+      'karma-coverage',
+      'karma-firefox-launcher'
     ]
   });
 

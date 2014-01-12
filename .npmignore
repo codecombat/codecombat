@@ -86,6 +86,9 @@ dump.rdb
 
 # Mongo
 mongo/
+bin/node/
+bin/mongo/
+
 
 # Karma coverage
 coverage/
