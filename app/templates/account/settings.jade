@@ -58,12 +58,7 @@ block content
               a(href="http://en.gravatar.com/profiles/edit/?noclose#your-images", target="_blank", data-i18n="account_settings.gravatar_add_more_photos") Add more photos to your Gravatar account to access them here.
       
       #wizard-pane.tab-pane
-        .form-horizontal
-          .control-group
-            label.control-label(for="wizardColor1", data-i18n="account_settings.wizard_color") Wizard Clothes Color
-            .controls
-              input#name(name="wizardColor1", type="range", value="#{100*me.get('wizardColor1')}")#wizard-color-1.range
-              div.range-color#range-color-1
+        #wizard-settings-tab-view
 
       #password-pane.tab-pane
         p

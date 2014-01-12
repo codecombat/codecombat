@@ -4,6 +4,8 @@ template = require 'templates/account/settings'
 forms = require('lib/forms')
 User = require('models/User')
 
+WizardSettingsTabView = require './wizard_settings_tab_view'
+
 module.exports = class SettingsView extends View
   id: 'account-settings-view'
   template: template
@@ -44,6 +46,9 @@ module.exports = class SettingsView extends View
 
     @chooseTab(location.hash.replace('#',''))
     @updateWizardColor()
+    wizardSettingsTabView = new WizardSettingsTabView()
+    wizardSettingsTabView.on 'change', @save, @
+    @insertSubView wizardSettingsTabView 
 
   chooseTab: (category) ->
     id = "##{category}-pane"

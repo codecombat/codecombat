@@ -29,8 +29,17 @@ SoundSchema = me.object { format: 'sound' },
 
 me.sound = (props) ->
   obj = _.cloneDeep(SoundSchema)
-  for prop of props
-    obj.properties[prop] = props[prop]
+  obj.properties[prop] = props[prop] for prop of props
+  obj
+  
+ColorConfigSchema = me.object { format: 'color-sound' },
+  hue: { format: 'range', type: 'number', minimum: 0, maximum: 1 }
+  saturation: { format: 'range', type: 'number', minimum: 0, maximum: 1 }
+  lightness: { format: 'range', type: 'number', minimum: 0, maximum: 1 }
+  
+me.colorConfig = (props) ->
+  obj = _.cloneDeep(ColorConfigSchema)
+  obj.properties[prop] = props[prop] for prop of props
   obj
 
 # BASICS
