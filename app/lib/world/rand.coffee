@@ -34,12 +34,6 @@ class Rand
 
   # return an array of numbers from 0 to n-1, shuffled
   randArray: (n) =>
-    array = ( i for i in [0..(n-1)] )
-
-    for i in [0..(n-1)]
-      r = @rand n
-      [ array[i], array[r] ] = [ array[r], array[i] ]
-
-    array
+    _.shuffle [0...n]
 
 module.exports = Rand
