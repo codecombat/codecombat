@@ -1,0 +1,13 @@
+nguage: node_js
+node_js:
+  - 0.10
+before_script:
+  - "npm install"
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - "./node_modules/.bin/bower install"
+  - "gem install sass"
+  - "./node_modules/.bin/brunch b"
+
+script:
+  - "./node_modules/.bin/karma start --browsers Firefox --single-run"

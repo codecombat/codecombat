@@ -55,6 +55,7 @@ class Node(Dependency):
                     wants_to_upgrade = strtobool(user_input)
                 except:
                     print u"Please enter y or n. "
+                    user_input = raw_input()
                     continue
                 break
         if wants_to_upgrade:
