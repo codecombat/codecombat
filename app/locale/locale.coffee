@@ -49,3 +49,4 @@ module.exports =
   uk: require './uk'             # українська мова, Ukranian
   hi: require './hi'             # मानक हिन्दी, Hindi
   ur: require './ur'             # اُردُو, Urdu
+  ms-BA: require './ms-BA'             # Bahasa Melayu, Bahasa Malaysia
