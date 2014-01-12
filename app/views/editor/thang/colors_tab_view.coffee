@@ -13,7 +13,7 @@ module.exports = class ColorsTabView extends CocoView
   constructor: (@thangType, options) ->
     @thangType.once 'sync', @tryToBuild, @
     @thangType.schema().once 'sync', @tryToBuild, @
-    @colorConfig = { hue: 0, saturation: 0, lightness: 0 }
+    @colorConfig = { hue: 0, saturation: 0.5, lightness: 0.5 }
     @spriteBuilder = new SpriteBuilder(@thangType)
     f = => 
       @offset++
@@ -31,22 +31,15 @@ module.exports = class ColorsTabView extends CocoView
   # sliders
 
   initSliders: ->
-    @hueSlider = @initSlider $("#hue-slider", @$el), 0, @updateHue
-    @saturationSlider = @initSlider $("#saturation-slider", @$el), 50, @updateSaturation
-    @lightnessSlider = @initSlider $("#lightness-slider", @$el), 50, @updateLightness
+    @hueSlider = @initSlider $("#hue-slider", @$el), 0, @makeSliderCallback 'hue'
+    @saturationSlider = @initSlider $("#saturation-slider", @$el), 50, @makeSliderCallback 'saturation'
+    @lightnessSlider = @initSlider $("#lightness-slider", @$el), 50, @makeSliderCallback 'lightness'
     
-  updateHue: =>
-    @colorConfig.hue = @hueSlider.slider('value') / 100
-    @updateMovieClip()
-    
-  updateSaturation: =>
-    @colorConfig.saturation = (@saturationSlider.slider('value') / 50) - 1
-    @updateMovieClip()
-
-  updateLightness: =>
-    @colorConfig.lightness = (@lightnessSlider.slider('value') / 50) - 1
-    @updateMovieClip()
-    
+  makeSliderCallback: (property) ->
+    (e, result) =>
+      @colorConfig[property] = result.value / 100
+      @updateMovieClip()
+        
   # movie clip
   
   initStage: ->

@@ -17,7 +17,8 @@ UserHandler = class UserHandler extends Handler
   editableProperties: [
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
     'firstName', 'lastName', 'gender', 'facebookID', 'emailSubscriptions',
-    'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage'
+    'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
+    'wizard'
   ]
 
   jsonSchema: schema
