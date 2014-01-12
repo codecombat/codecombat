@@ -56,7 +56,7 @@ module.exports = class ThangType extends CocoModel
   initBuild: (options) ->
     @buildActions() if not @actions
     @options = @fillOptions options
-    @vectorParser = new SpriteBuilder(@)
+    @vectorParser = new SpriteBuilder(@, options)
     @builder = new createjs.SpriteSheetBuilder()
     @builder.padding = 2
     @frames = {}
@@ -142,7 +142,11 @@ module.exports = class ThangType extends CocoModel
     @trigger 'build-complete'
 
   spriteSheetKey: (options) ->
-    "#{@get('name')} - #{options.resolutionFactor}"
+    colorConfigs = []
+    for groupName, config of options.colorConfig or {}
+      colorConfigs.push "#{groupName}:#{config.hue}|#{config.saturation}|#{config.lightness}"
+    colorConfigs = colorConfigs.join ','
+    "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs}"
 
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)

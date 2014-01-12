@@ -26,6 +26,8 @@ module.exports = class WizardSprite extends IndieSprite
     'echo-all-wizard-sprites': 'onEchoAllWizardSprites'
 
   constructor: (thangType, options) ->
+    if options?.isSelf
+      options.colorConfig = me.get('wizard')?.colorConfig or {}
     super thangType, options
     @isSelf = options.isSelf
     @targetPos = @thang.pos
