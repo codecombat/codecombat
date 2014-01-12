@@ -194,13 +194,6 @@ module.exports = class PlayLevelView extends View
     nextLevel = @getNextLevel()
     nextLevelID = nextLevel.get('slug') or nextLevel.id
     url = "/play/level/#{nextLevelID}"
-    if @level.get('name') is 'It\'s a Trap!'
-      # A/B test Break the Prison vs. skipping it and going to Taunt
-      skip = Boolean(me.get('testGroupNumber') & 1)  # odds
-      window.tracker?.trackEvent 'Skip Break the Prison', skip: skip
-      window.tracker?.identify {skipBreakThePrison: skip}
-      url = '/play/level/taunt' if skip
-
     Backbone.Mediator.publish 'router:navigate', {
       route: url,
       viewClass: PlayLevelView,
