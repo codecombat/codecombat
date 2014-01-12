@@ -87,6 +87,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    sending: "Sending..."
 #    send: "Send Feedback"
 #
+  classes:
+    archmage_title: "Archmage"
+    archmage_title_description: "(Codeur)"
+    archmage_email_description: "Obtenez des courriels au sujet des nouvelles et des annonces sur les CodeCombat général."
+
   diplomat_suggestion:
     title: "Aidez à traduire CodeCombat!"
     sub_heading: "Nous avons besoin de vos connaissances des langues."
@@ -95,10 +100,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     learn_more: "Apprenez en plus sur comment devenir un diplomate!"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 #
-  account_settings:
-    archmage_title_pref: "Archmage"
-    archmage_title_suf: "(Codeur)"
-    archmage_desc: "Obtenez des courriels au sujet des nouvelles et des annonces sur les CodeCombat général."
+# account_settings:
 #    title: "Account Settings"
 #    not_logged_in: "Log in or create an account to change your settings."
 #    autosave: "Changes Save Automatically"
