@@ -1,5 +1,4 @@
 CocoClass = require 'lib/CocoClass'
-SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 {createProgressBar} = require './sprite_utils'
 Camera = require './Camera'
 Mark = require './Mark'

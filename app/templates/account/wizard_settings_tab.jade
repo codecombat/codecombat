@@ -1,0 +1,21 @@
+canvas#tinting-display(width=200, height=200).img-rounded
+
+.form-horizontal
+  for group in colorGroups
+    .color-group(data-name=group.name)
+      h2
+        span(data-i18n=group.dasherized)= group.humanized
+        input(type='checkbox', checked=group.exists).color-group-checkbox
+      .sliders
+        .control-group
+          label.control-label(for=group.humanized+"_hue", data-i18n="hue") Hue
+          .controls
+            .selector(id=group.humanized+"_hue", name=group.name+'.hue', data-key='hue')
+        .control-group
+          label.control-label(for=group.humanized+"_saturation", data-i18n="saturation") Saturation
+          .controls
+            .selector(id=group.humanized+"_saturation", name=group.name+'.saturation', data-key='saturation')
+        .control-group
+          label.control-label(for=group.humanized+"_lightness", data-i18n="lightness") Lightness
+          .controls
+            .selector(id=group.humanized+"_lightness", name=group.name+'.lightness', data-key='lightness')

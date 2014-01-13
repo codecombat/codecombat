@@ -1,6 +1,6 @@
 describe('World', ->
   GoalManager = require 'lib/world/GoalManager'
-  validator = require 'validators/goal'
+  #validator = require 'validators/goal'
 
   killGoal = { name: 'Kill Guy', killGuy: ['Guy1', 'Guy2'], id:'killguy'}
   saveGoal = { name: 'Save Guy', saveGuy: ['Guy1', 'Guy2'], id:'saveguy'}
@@ -11,7 +11,7 @@ describe('World', ->
   getItemGoal = { name: 'Mine', getItem: {who:'Grabby', itemID:'Sandwich'}, id:'id'}
   keepItemGoal = { name: 'Not Yours', keepFromGettingItem: {who:'Grabby', itemID:'Sandwich'}, id:'id'}
 
-  it 'uses valid goals', ->
+  xit 'uses valid goals', ->
     goals = [
       killGoal, saveGoal,
       getToLocGoal, keepFromLocGoal,

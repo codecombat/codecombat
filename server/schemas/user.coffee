@@ -42,6 +42,8 @@ UserSchema = c.object {},
   preferredLanguage: {type: 'string', default: 'en', 'enum': c.getLanguageCodeArray()}
   
   signedCLA: c.date({title: 'Date Signed the CLA'})
+  wizard: c.object {},
+    colorConfig: c.object {additionalProperties: c.colorConfig()}
 
 c.extendBasicProperties UserSchema, 'user'
 

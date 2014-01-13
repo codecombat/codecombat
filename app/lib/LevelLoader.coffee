@@ -72,7 +72,10 @@ module.exports = class LevelLoader extends CocoClass
     @notifyProgress()
     if e.model.type() is 'ThangType'
       thangType = e.model
-      building = thangType.buildSpriteSheet {async: true}
+      options = {async: true}
+      if thangType.get('name') is 'Wizard'
+        options.colorConfig = me.get('wizard')?.colorConfig or {}
+      building = thangType.buildSpriteSheet options
       if building
         @spriteSheetsToBuild += 1
         thangType.on 'build-complete', =>

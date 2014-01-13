@@ -1,10 +1,12 @@
 div.well
-  a#all-thangs-link Back To All Thangs
+  a(data-i18n="editor.level_components_title")#all-thangs-link Back To All Thangs
   span#thang-props
     a#thang-name-link
       span= thang.id
       input.hide(value=thang.id)
-    |  ( Type: 
+    |  ( 
+    span(data-i18n="editor.level_components_type") Type
+    | : 
     a#thang-type-link
       span= thang.thangType
       input.hide(value=thang.thangType)

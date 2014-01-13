@@ -6,14 +6,14 @@ block modal-header-content
 block modal-body-content
   form.form-horizontal
     .control-group
-      label.control-label(for="level-component-system") System
+      label(for="level-component-system", data-i18n="editor.new_component_field_system").control-label System
       .controls
         input#level-component-system.input-large(name="system", type="text")
     .control-group
-      label.control-label(for="level-component-name") Name
+      label(for="level-component-name", data-i18n="editor.new_component_field_name").control-label Name
       .controls
         input#level-component-name.input-large(name="name", type="text")
 
 block modal-footer-content
-  button.btn(data-dismiss="modal") Cancel
-  button.btn.btn-primary#new-level-component-submit Create
+  button(data-dismiss="modal", data-i18n="editor.new_component_btn_cancel").btn Cancel
+  button(data-i18n="editor.new_component_btn_create").btn.btn-primary#new-level-component-submit Create

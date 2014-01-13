@@ -139,8 +139,8 @@ module.exports = class SpriteBuilder
     return unless shapes.length
     colors = @initColorMap(shapes)
     @adjustHuesForColorMap(colors, config.hue)
-    @adjustColorMap(colors, 1, config.lightness)
-    @adjustColorMap(colors, 2, config.saturation)
+    @adjustValueForColorMap(colors, 1, config.lightness)
+    @adjustValueForColorMap(colors, 2, config.saturation)
     @applyColorMap(shapes, colors)
     
   initColorMap: (shapes) ->
@@ -165,15 +165,14 @@ module.exports = class SpriteBuilder
     targetHue ?= 0
     diff = targetHue - averageHue
     hsl[0] = (hsl[0] + diff + 1) % 1 for hex, hsl of colors
-
-  adjustColorMap: (colorMap, index, adjustment) ->
-    return unless adjustment
-    for hex, hsl of colorMap
-      value = hsl[index]
-      if adjustment > 0
-        hsl[index] = value + (1 - value) * adjustment
-      else
-        hsl[index] = value + value * adjustment
+    
+  adjustValueForColorMap: (colors, index, targetValue) ->
+    values = (hsl[index] for hex, hsl of colors)
+    averageValue = sum(values) / values.length
+    targetValue ?= 0.5
+    diff = targetValue - averageValue
+    for hex, hsl of colors
+      hsl[index] = Math.max(0, Math.min(1, hsl[index] + diff))
 
   applyColorMap: (shapes, colors) ->
     for shapeKey in shapes

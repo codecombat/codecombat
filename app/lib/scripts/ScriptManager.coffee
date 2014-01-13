@@ -13,7 +13,6 @@ GoalScriptsModule = require './GoalsScriptModule'
 allScriptModules.push(GoalScriptsModule)
 allScriptModules.push(require './SoundScriptModule')
 
-commonScripts = require './commonScripts'
 
 DEFAULT_BOT_MOVE_DURATION = 500
 DEFAULT_SCRUB_DURATION = 1000
@@ -66,7 +65,6 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @ended = []
     @noteGroupQueue = []
     @scripts = _.cloneDeep(@originalScripts)
-    @scripts = @scripts.concat(_.cloneDeep(commonScripts))
 
   addScriptSubscriptions: ->
     idNum = 0
