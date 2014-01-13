@@ -12,5 +12,7 @@ module.exports.scriptMatchesEventPrereqs = scriptMatchesEventPrereqs = (script, 
     return false if ap.lessThanOrEqualTo? and not (v <= ap.lessThanOrEqualTo)
     return false if ap.containingString? and v?.search(ap.containingString) == -1
     return false if ap.notContainingString? and v?.search(ap.containingString) != -1
+    return false if ap.containingRegexp? and v?.search(new RegExp(ap.containingRegexp)) == -1
+    return false if ap.notContainingRegexp? and v?.search(new RegExp(ap.notContainingRegexp)) != -1
 
   return true
