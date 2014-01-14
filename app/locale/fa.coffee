@@ -49,10 +49,10 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    log_in: "ورود"
 #    sign_up: "ایجاد حساب کاربری"
 #    or: ", یا "
-#    recover: "بازگردانی حساب کاربری"
+#    recover: "بازیابی حساب کاربری"
 
 #  recover:
-#    recover_account_title: "بازگردانی حساب کاربری"
+#    recover_account_title: "بازیابی حساب کاربری"
 #    send_password: "Send Recovery Password"
 
 #  signup:
