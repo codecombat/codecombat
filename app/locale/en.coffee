@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "English", englishDescription: "English", translation:
   common:
     loading: "Loading..."
+    saving: "Saving..."
+    sending: "Sending..."
 
   modal:
     close: "Close"
@@ -33,14 +35,30 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email: "Email"
     message: "Message"
     cancel: "Cancel"
+    save: "Save"
+
+  versions:
+    save_version_title: "Save New Version"
+    commit_message: "Commit Message"
+    new_major_version: "New Major Version"
+    cla_prefix: "To save changes, first you must agree to our"
+    cla_url: "CLA"
+    cla_suffix: "."
+    cla_agree: "I AGREE"
 
   login:
+    login_modal_title: "Log In"
     log_in: "Log In"
     sign_up: "create new account"
     or: ", or "
     recover: "recover account"
 
+  recover:
+    recover_account_title: "Recover Account"
+    send_password: "Send Recovery Password"
+
   signup:
+    create_account_title: "Create Account to Save Progress"
     description: "It's free. Just need a couple things and you'll be good to go:"
     email_announcements: "Receive announcements by email"
     coppa: "13+ or non-USA "
@@ -90,6 +108,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
     learn_more: "Learn more about being a Diplomat"
     subscribe_as_diplomat: "Subscribe as a Diplomat"
+
+  wizard_settings:
+    title: "Wizard Settings"
+    customize_avatar: "Customize Your Avatar"
 
   account_settings:
     title: "Account Settings"
@@ -231,9 +253,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_components_type: "Type"
     level_component_edit_title: "Edit Component"
     level_system_edit_title: "Edit System"
+    create_system_title: "Create New System"
     create_system_field_name: "Name"
     create_system_btn_cancel: "Cancel"
     create_system_btn_create: "Create"
+    new_component_title: "Create New Component"
     new_component_field_system: "System"
     new_component_field_name: "Name"
     new_component_btn_cancel: "Cancel"
