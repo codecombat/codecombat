@@ -22,7 +22,7 @@ module.exports = class ArticleVersionsView extends View
   onArticleSync: =>
     @collection = new ArticleVersionsCollection(@article.attributes.original)
     @collection.fetch()
-    @collection.on('reset', @onVersionFetched)
+    @collection.on('sync', @onVersionFetched)
 
   onVersionFetched: =>
     @startsLoading = false

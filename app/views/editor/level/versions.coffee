@@ -22,7 +22,7 @@ module.exports = class LevelVersionsView extends View
   onLevelSync: =>
     @collection = new LevelVersionsCollection(@level.attributes.original)
     @collection.fetch()
-    @collection.on('reset', @onVersionFetched)
+    @collection.on('sync', @onVersionFetched)
 
   onVersionFetched: =>
     @startsLoading = false
