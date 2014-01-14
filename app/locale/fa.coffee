@@ -1,59 +1,59 @@
 module.exports = nativeDescription: "فارسی", englishDescription: "Persian", translation:
   common:
     loading: "...در حال بارگذاری"
-#    saving: "...در حال ذخیره سازی"
-#    sending: "...در حال ارسال"
+    saving: "...در حال ذخیره سازی"
+    sending: "...در حال ارسال"
 
-#  modal:
-#    close: "بستن"
-#    okay: "تایید"
+  modal:
+    close: "بستن"
+    okay: "تایید"
 
-#  not_found:
-#    page_not_found: "صفحه پیدا نشد"
+  not_found:
+    page_not_found: "صفحه پیدا نشد"
 
-#  nav:
-#    sign_up: "ایجاد حساب کاربری"
-#    log_in: "ورود"
-#    log_out: "خروج"
-#    play: "سطوح"
-#    editor: "ویرایشگر"
-#    blog: "بلاگ"
-#    forum: "انجمن"
-#    admin: "مدیر"
-#    home: "خانه"
-#    contribute: "همکاری"
-#    legal: "موارد قانونی"
-#    about: "درباره"
-#    contact: "تماس "
-#    twitter_follow: "دنبال کردن"
-#    employers: "Employers"
+  nav:
+    sign_up: "ایجاد حساب کاربری"
+    log_in: "ورود"
+    log_out: "خروج"
+    play: "سطوح"
+    editor: "ویرایشگر"
+    blog: "بلاگ"
+    forum: "انجمن"
+    admin: "مدیر"
+    home: "خانه"
+    contribute: "همکاری"
+    legal: "موارد قانونی"
+    about: "درباره"
+    contact: "تماس "
+    twitter_follow: "دنبال کردن"
+    employers: "Employers"
 
-#  forms:
-#    name: "نام"
-#    email: "ایمیل"
-#    message: "پیام"
-#    cancel: "لغو"
-#    save: "ذخیره "
+  forms:
+    name: "نام"
+    email: "ایمیل"
+    message: "پیام"
+    cancel: "لغو"
+    save: "ذخیره "
 
-#  versions:
-#    save_version_title: "ذخیره کردن نسخه جدید"
-#    commit_message: "Commit Message"
-#    new_major_version: "New Major Version"
-#    cla_prefix: "To save changes, first you must agree to our"
-#    cla_url: "CLA"
-#    cla_suffix: "."
-#    cla_agree: "I AGREE"
+  versions:
+    save_version_title: "ذخیره کردن نسخه جدید"
+    commit_message: "Commit Message"
+    new_major_version: "New Major Version"
+    cla_prefix: "To save changes, first you must agree to our"
+    cla_url: "CLA"
+    cla_suffix: "."
+    cla_agree: "موافقم"
 
-#  login:
-#    login_modal_title: "ورود"
-#    log_in: "ورود"
-#    sign_up: "ایجاد حساب کاربری"
-#    or: ", یا "
-#    recover: "بازیابی حساب کاربری"
+  login:
+    login_modal_title: "ورود"
+    log_in: "ورود"
+    sign_up: "ایجاد حساب کاربری"
+    or: ", یا "
+    recover: "بازیابی حساب کاربری"
 
-#  recover:
-#    recover_account_title: "بازیابی حساب کاربری"
-#    send_password: "Send Recovery Password"
+  recover:
+    recover_account_title: "بازیابی حساب کاربری"
+    send_password: "ارسال رمز عبور بازیابی شده"
 
 #  signup:
 #    create_account_title: "Create Account to Save Progress"
