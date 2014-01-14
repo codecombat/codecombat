@@ -1,18 +1,18 @@
 module.exports = nativeDescription: "فارسی", englishDescription: "Persian", translation:
   common:
-    loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    loading: "...در حال بارگذاری"
+#    saving: "...در حال ذخیره سازی"
+#    sending: "...در حال ارسال."
 
 #  modal:
-#    close: "Close"
-#    okay: "Okay"
+#    close: "بسن"
+#    okay: "تایید"
 
 #  not_found:
-#    page_not_found: "Page not found"
+#    page_not_found: "صفحه یافت نشد"
 
 #  nav:
-#    sign_up: "Create Account"
+#    sign_up: "ایجاد حساب کاربری"
 #    log_in: "Log In"
 #    log_out: "Log Out"
 #    play: "Levels"
