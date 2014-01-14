@@ -21,22 +21,22 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    forum: "انجمن"
 #    admin: "مدیر"
 #    home: "خانه"
-#    contribute: "Contribute"
-#    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
+#    contribute: "همکاری"
+#    legal: "موارد قانونی"
+#    about: "درباره"
+#    contact: "تماس "
+#    twitter_follow: "دنبال کردن"
 #    employers: "Employers"
 
 #  forms:
-#    name: "Name"
-#    email: "Email"
-#    message: "Message"
-#    cancel: "Cancel"
-#    save: "Save"
+#    name: "نام"
+#    email: "ایمیل"
+#    message: "پیام"
+#    cancel: "لغو"
+#    save: "ذخیره "
 
 #  versions:
-#    save_version_title: "Save New Version"
+#    save_version_title: "ذخیره کردن نسخه جدید"
 #    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
@@ -45,14 +45,14 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    cla_agree: "I AGREE"
 
 #  login:
-#    login_modal_title: "Log In"
-#    log_in: "Log In"
-#    sign_up: "create new account"
-#    or: ", or "
-#    recover: "recover account"
+#    login_modal_title: "ورود"
+#    log_in: "ورود"
+#    sign_up: "ایجاد حساب کاربری"
+#    or: ", یا "
+#    recover: "بازگردانی حساب کاربری"
 
 #  recover:
-#    recover_account_title: "Recover Account"
+#    recover_account_title: "بازگردانی حساب کارکار"
 #    send_password: "Send Recovery Password"
 
 #  signup:
