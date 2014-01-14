@@ -43,18 +43,17 @@ block content
           | Our Level Editor is super preliminary and frustrating to use. You have been warned!
     
       h4(data-i18n="contribute.how_to_join") How To Join
-      p
-        span(data-i18n="contribute.artisan_join_desc_pref")
-          | The Level Editor is live! Go forth and fiddle with it.
-          | Right now for the sake of security, you can't make Components (the most powerful part of level building)
-          | but be in touch with us and we'll see if we can make what you need.
-          | See the
-        span  
-        a(href="https://docs.google.com/document/d/117tMcL95T1KY8BDisr0iGi5Frb2ZvBJTC0us5hyQkJY/edit?usp=sharing", data-i18n="contribute.artisan_url_documentation")
-          | preliminary documentation 
-        span  
-        span(data-i18n="contribute.artisan_join_desc_suf")
-          | for more info, and please comment on it so we can make the whole system better.
+      span(data-i18n="contribute.artisan_join_desc")
+        | Use the Level Editor in these steps, give or take:
+      ul
+        li
+          a(href="https://docs.google.com/document/d/117tMcL95T1KY8BDisr0iGi5Frb2ZvBJTC0us5hyQkJY/edit?usp=sharing", data-i18n="contribute.artisan_join_step1") Read the documentation.
+        li
+          a(href="/editor/level", data-i18n="contribute.artisan_join_step2") Create a new level and explore existing levels.
+        li
+          a(href="http://www.hipchat.com/g3plnOKqa", data-i18n="contribute.artisan_join_step3") Find us in our public HipChat room for help.
+        li
+          a(href="http://discourse.codecombat.com", data-i18n="contribute.artisan_join_step4") Post your levels on the forum for feedback.
 
       if me.attributes.anonymous
         div#sign-up.alert.alert-info
