@@ -1,26 +1,26 @@
 module.exports = nativeDescription: "فارسی", englishDescription: "Persian", translation:
   common:
-    loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    loading: "...در حال بارگذاری"
+#    saving: "...در حال ذخیره سازی"
+#    sending: "...در حال ارسال"
 
 #  modal:
-#    close: "Close"
-#    okay: "Okay"
+#    close: "بستن"
+#    okay: "تایید"
 
 #  not_found:
-#    page_not_found: "Page not found"
+#    page_not_found: "صفحه پیدا نشد"
 
 #  nav:
-#    sign_up: "Create Account"
-#    log_in: "Log In"
-#    log_out: "Log Out"
-#    play: "Levels"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    admin: "Admin"
-#    home: "Home"
+#    sign_up: "ایجاد حساب کاربری"
+#    log_in: "ورود"
+#    log_out: "خروج"
+#    play: "سطوح"
+#    editor: "ویرایشگر"
+#    blog: "بلاگ"
+#    forum: "انجمن"
+#    admin: "مدیر"
+#    home: "خانه"
 #    contribute: "Contribute"
 #    legal: "Legal"
 #    about: "About"
