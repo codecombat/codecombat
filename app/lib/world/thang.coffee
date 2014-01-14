@@ -36,7 +36,7 @@ module.exports = class Thang
       Thang.lastIDNums[spriteName] = if Thang.lastIDNums[spriteName]? then Thang.lastIDNums[spriteName] + 1 else 0
       id = spriteName + (Thang.lastIDNums[spriteName] or '')
     id
-    
+
   @resetThangIDs: -> Thang.lastIDNums = {}
 
   constructor: (@world, @spriteName, @id) ->
@@ -157,12 +157,10 @@ module.exports = class Thang
       # TODO: take some (but not all) of deserialize logic from ThangState to handle other types
       t[prop] = val
     t
-    
+
   getSpriteOptions: ->
     colorConfigs = @world?.getTeamColors() or {}
     options = {}
     if @team and colorConfigs[@team]
       options.colorConfig = {team: colorConfigs[@team]}
-    if @spriteName is 'Tharin'
-      console.log 'THARIN made options', options, colorConfigs, @world
     options
