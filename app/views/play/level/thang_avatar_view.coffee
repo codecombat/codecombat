@@ -20,7 +20,7 @@ module.exports = class ThangAvatarView extends View
     thangs = @supermodel.getModels(ThangType)
     thangs = (t for t in thangs when t.get('name') is @thang.spriteName)
     thang = thangs[0]
-    context.avatarURL = thang.getPortraitSource()
+    context.avatarURL = thang.getPortraitSource(@thang.spriteOptions)
     context.includeName = @includeName
     context
 

@@ -115,10 +115,9 @@ module.exports = class Mark extends CocoClass
 
   buildSprite: ->
     #console.log "building", @name, "with thangtype", @thangType
-    options = resolutionFactor: 4
     CocoSprite = require './CocoSprite'
-    markSprite = new CocoSprite @thangType, options
-    markSprite.queueAction "idle"
+    markSprite = new CocoSprite @thangType, @thangType.spriteOptions
+    markSprite.queueAction 'idle'
     @mark = markSprite.displayObject
 
   update: (pos=null) ->

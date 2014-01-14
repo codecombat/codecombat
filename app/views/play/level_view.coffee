@@ -74,6 +74,7 @@ module.exports = class PlayLevelView extends View
     sessionID = @getQueryVariable "session"
     @levelLoader = new LevelLoader(@levelID, @supermodel, sessionID)
     @levelLoader.once 'ready-to-init-world', @onReadyToInitWorld
+    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
 
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', =>
@@ -96,11 +97,12 @@ module.exports = class PlayLevelView extends View
     @loadingScreen.show()
     super()
 
-  onReadyToInitWorld: =>
+  onLevelLoaderLoaded: =>
     @session = @levelLoader.session
     @level = @levelLoader.level
+    @world = @levelLoader.world
     @loadingScreen.destroy()
-    @initWorld()
+#    @initWorld()
     @initSurface()
     @initGod()
     @initGoalManager()

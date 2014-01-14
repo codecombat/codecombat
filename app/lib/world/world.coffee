@@ -457,3 +457,9 @@ module.exports = class World
       lastAction = action
     @actionsForThangCache[cacheKey] = actions
     return actions
+
+  getTeamColors: ->
+    teamConfigs = @teamConfigs or {}
+    colorConfigs = {}
+    colorConfigs[teamName] = config.color for teamName, config of teamConfigs
+    colorConfigs

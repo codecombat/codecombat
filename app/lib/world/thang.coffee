@@ -157,3 +157,12 @@ module.exports = class Thang
       # TODO: take some (but not all) of deserialize logic from ThangState to handle other types
       t[prop] = val
     t
+    
+  getSpriteOptions: ->
+    colorConfigs = @world?.getTeamColors() or {}
+    options = {}
+    if @team and colorConfigs[@team]
+      options.colorConfig = {team: colorConfigs[@team]}
+    if @spriteName is 'Tharin'
+      console.log 'THARIN made options', options, colorConfigs, @world
+    options
