@@ -92,8 +92,6 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
     req = request.put getURL('/db/user'),
     (err, res) ->
       expect(res.statusCode).toBe(404)
-      expect(res.body).toBe('Resource not found.')
-      done()
       done()
     form = req.form()
     form.append('_id', '513108d4cb8b610000000004')
