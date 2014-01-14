@@ -26,6 +26,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
+    employers: "Employers"
 
   forms:
     name: "Name"
@@ -192,7 +193,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lg_title: "Latest Games"
 
   editor:
+    main_title: "CodeCombat Editors"
+    main_description: "Build your own levels, campaigns, units and educational content. We provide all the tools you need!"
+    article_title: "Article Editor"
+    article_description: "Write articles that give players overviews of programming concepts which can be used across a variety of levels and campaigns."
+    thang_title: "Thang Editor"
+    thang_description: "Build units, defining their default logic, graphics and audio. Currently only supports importing Flash exported vector graphics."
     level_title: "Level Editor"
+    level_description: "Includes the tools for scripting, uploading audio, and constructing custom logic to create all sorts of levels. Everything we use ourselves!"
+    security_notice: "Many major features in these editors are not currently enabled by default. As we improve the security of these systems, they will be made generally available. If you'd like to use these features sooner, "
+    contact_us: "contact us!"
+    hipchat_prefix: "You can also find us in our"
+    hipchat_url: "HipChat room."
     level_btn_save: "Save"
     level_btn_fork: "Fork"
     level_btn_play: "Play"

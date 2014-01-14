@@ -42,17 +42,15 @@ body
   block footer
     .footer
       .content
-        p(class='footer-link-text')
-          a(href='/', title='Home', tabindex=-1, data-i18n="nav.home") Home
-          |  |
+        p.footer-link-text
+          if pathname == "/"
+            a(href='/employers', title='Home', tabindex=-1, data-i18n="nav.employers") Employers
+          else
+            a(href='/', title='Home', tabindex=-1, data-i18n="nav.home") Home
           a(href='/contribute', title='Contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
-          |  |
           a(href='/legal', title='Legal', tabindex=-1, data-i18n="nav.legal") Legal
-          |  |
           a(href='/about', title='About', tabindex=-1, data-i18n="nav.about") About
-          |  |
           a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Contact
-
 
       .share-buttons
         .g-plusone(data-href="http://codecombat.com", data-size="medium")
