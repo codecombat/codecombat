@@ -52,7 +52,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    recover: "بازگردانی حساب کاربری"
 
 #  recover:
-#    recover_account_title: "بازگردانی حساب کارکار"
+#    recover_account_title: "بازگردانی حساب کاربری"
 #    send_password: "Send Recovery Password"
 
 #  signup:
