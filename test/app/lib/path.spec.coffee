@@ -4,9 +4,9 @@ describe('Path.createPath', ->
     points = [[0,0], [1,1], [2,2]]
     g = new createjs.Graphics()
     g.lineTo = jasmine.createSpy('graphicz')
-    path.createPath(points, {tail_color:[100,100,100,0.0]}, g)
-    expect(g.lineTo.calls.length).toBe(2)
-    expect(g.lineTo.calls[0].args[0]).toBe(points[1][0])
+    path.createPath(points, {tailColor:[100,100,100,0.0]}, g)
+    expect(g.lineTo.calls.length).toBe(1)
+    expect(g.lineTo.calls[0].args[0]).toBe(points[2])
   )
   
 #  # BROKEN

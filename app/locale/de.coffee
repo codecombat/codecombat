@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "Deutsch", englishDescription: "German", translation:
   common:
-    loading: "Laden..."
+    loading: "Lade..."
 
   modal:
     close: "Schliessen"
@@ -10,14 +10,14 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     page_not_found: "Seite nicht gefunden"
 
   nav:
-    sign_up: "Anmelden"
+    sign_up: "Registrieren"
     log_in: "Einloggen"
     log_out: "Ausloggen"
-    play: "Start"
+    play: "Spielen"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
-    admin: "Admin"
+    admin: "Administration"
     home: "Home"
     contribute: "Helfen"
     legal: "Rechtliches"
@@ -48,14 +48,14 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     log_in: "mit Passwort einloggen"
 
   home:
-    slogan: "Lern spielend JavaScript"
-    no_ie: "CodeCombat läuft nicht im Internet Explorer 9 oder älteren Browsern. Tut uns Leid!"
+    slogan: "Lerne spielend JavaScript"
+    no_ie: "CodeCombat läuft nicht im IE8 oder älteren Browsern. Tut uns Leid!"
     no_mobile: "CodeCombat ist nicht für Mobilgeräte optimiert und funktioniert möglicherweise nicht."
-    play: "Play"
+    play: "Spielen"
 
   play:
     choose_your_level: "Wähle Deinen Level"
-    adventurer_prefix: "Du kannst zu jedem Level springen, oder die Levels diskutieren "
+    adventurer_prefix: "Du kannst zu jedem Level springen oder diskutiere die Level "
     adventurer_forum: "im Abenteurerforum"
     adventurer_suffix: "."
     campaign_beginner: "Anfängerkampagne"
@@ -77,7 +77,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     forum_prefix: "Für alle öffentlichen Themen, benutze "
     forum_page: "unser Forum"
     forum_suffix: " stattdessen."
-    sending: "Senden..."
+    sending: "Sende..."
     send: "Sende Feedback"
 
   diplomat_suggestion:
@@ -113,7 +113,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     contribute_suffix: " an um mehr zu erfahren."
     email_toggle: "Alles wählen"
     language: "Sprache"
-    saving: "Saving..."
+    saving: "Speichere..."
     error_saving: "Fehler beim Speichern"
     saved: "Änderungen gespeichert"
     password_mismatch: "Passwörter stimmen nicht überein."
@@ -139,14 +139,14 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     grid: "Raster"
     customize_wizard: "Bearbeite den Zauberer"
     home: "Home"
-    guide: "Führung"
+    guide: "Hilfe"
     multiplayer: "Multiplayer"
     restart: "Neustart"
     goals: "Ziele"
     action_timeline: "Aktionszeitstrahl"
     click_to_select: "Klicke auf eine Einheit, um sie auszuwählen."
     reload_title: "Gesamten Code neu laden?"
-    reload_really: "Bist Du sicher, dass Du das Level zum Neuanfang neu laden willst?"
+    reload_really: "Bist Du sicher, dass Du das Level neu beginnen willst?"
     reload_confirm: "Alles neu laden"
     victory_title_prefix: ""
     victory_title_suffix: " Abgeschlossen"
@@ -163,7 +163,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     multiplayer_hint_label: "Hinweis:"
     multiplayer_hint: " Klick den Link um alles auszuwählen, dann drück ⌘-C oder Strg-C um den Link zu kopieren."
     multiplayer_coming_soon: "Mehr Multiplayerfeatures werden kommen!"
-    guide_title: "Führung"
+    guide_title: "Anleitung"
     tome_minion_spells: "Die Zaubersprüche Deiner Knechte"
     tome_read_only_spells: "Nur-lesen Zauberspüche"
     tome_other_units: "Andere Einheiten"
@@ -178,4 +178,4 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     tome_select_spell: "Wähle einen Zauber"
     tome_select_a_thang: "Wähle jemanden aus um "
     tome_available_spells: "Verfügbare Zauber"
-    hud_continue: "Weiter (drücke Shift+Space)"
+    hud_continue: "Weiter (drücke Enter)"

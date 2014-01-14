@@ -1,5 +1,5 @@
 xdescribe 'GoalManager', ->
-  GoalManager = require('lib/goal_manager')
+  GoalManager = require('lib/world/GoalManager')
 
   liveState =
     stateMap:

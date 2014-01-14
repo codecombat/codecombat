@@ -189,6 +189,7 @@ module.exports.Trailmaster = class Trailmaster
 
 
 
+
 createPath = (points, options={}, g=null) ->
   options = options or {}
   tailColor = options.tailColor ? options.headColor
@@ -205,7 +206,6 @@ createPath = (points, options={}, g=null) ->
 
   points = points.slice(-maxLength * 2) if maxLength isnt 0
   points = points.slice(((points.length / 2 + dotOffset) % PATH_SEGMENT_LENGTH) * 2) if dotOffset
-
   g = new createjs.Graphics() unless g
   return new createjs.Shape(g) if not points
 
@@ -289,3 +289,7 @@ colorForThang = (team, brightness=100, alpha=1.0) =>
   color = _.map(multipliers, (m) -> return parseInt(m * brightness))
   color.push(alpha)
   return color
+
+module.exports.createPath = createPath
+
+
