@@ -3,23 +3,31 @@ require './common'
 describe '/file', ->
   url = getURL('/file')
   files = []
-  
-  it 'deletes all the files first', (done) ->
+  options = {
+    uri:url
+    json: {
+      url: 'http://scotterickson.info/images/where-are-you.jpg'
+      filename: 'where-are-you.jpg'
+      mimetype: 'image/jpeg'
+      description: 'None!'
+    }
+  }
+  filepath = 'tmp/file' # TODO Warning hard coded path !!!
+
+  jsonOptions= {
+    path: 'my_path'
+    postName: 'my_buffer'
+    filename: 'ittybitty.data'
+    mimetype: 'application/octet-stream'
+    description: 'rando-info'
+    my_buffer_url: 'http://scotterickson.info/images/where-are-you.jpg'
+  }
+
+  it 'preparing test : deletes all the files first', (done) ->
     dropGridFS ->
       done()
 
-
-  it 'no admin users can\'t post files', (done) ->
-    options = {
-      uri:url
-      json: {
-        url: 'http://scotterickson.info/images/where-are-you.jpg'
-        filename: 'where-are-you.jpg'
-        mimetype: 'image/jpeg'
-        description: 'None!'
-      }
-    }
-
+  it 'can\'t be created by ordinary users.', (done) ->
     func = (err, res, body) ->
       expect(res.statusCode).toBe(403)
       expect(body.metadata).toBeUndefined()
@@ -27,87 +35,91 @@ describe '/file', ->
 
     request.post(options, func)
 
-# FIXME fatal error
-  xit 'posts good', (done) ->
-    options = {
-      uri:url
-      json: {
-        url: 'http://scotterickson.info/images/where-are-you.jpg'
-        filename: 'where-are-you.jpg'
-        mimetype: 'image/jpeg'
-        description: 'None!'
-      }
-    }
+  it 'can\'t be created if invalid (property path is required)', (done) ->
+    func = (err, res, body) ->
+      expect(res.statusCode).toBe(422)
+      done()
 
+    loginAdmin (joe) ->
+      request.post(options, func)
+
+  it 'can be created by an admin', (done) ->
     func = (err, res, body) ->
       expect(res.statusCode).toBe(200)
-      expect(body.metadata.description).toBe('None!')
+      expect(body._id).toBeDefined()
+      expect(body.filename).toBe(options.json.filename)
+      expect(body.contentType).toBe(options.json.mimetype)
+      expect(body.length).toBeDefined()
+      expect(body.uploadDate).toBeDefined()
+      expect(body.metadata).toBeDefined()
+      expect(body.metadata.name).toBeDefined()
+      expect(body.metadata.path).toBe(options.json.path)
+      expect(body.metadata.creator).toBeDefined()
+      expect(body.metadata.description).toBe(options.json.description)
+      expect(body.md5).toBeDefined()
       files.push(body)
+      done()
 
-      collection = mongoose.connection.db.collection('media.files')
-      collection.findOne {}, (err, result) ->
-        expect(result.metadata.name).toBe('Where are you')
-        expect(result.metadata.createdFor+'').toBe([]+'')
-        done()
-
+    options.json.path = filepath
     request.post(options, func)
-    
-  it 'gets good', (done) ->
+
+  it 'can be read by an admin.', (done) ->
     request.get {uri:url+'/'+files[0]._id}, (err, res) ->
       expect(res.statusCode).toBe(200)
-      expect(res.headers['content-type']).toBe('image/jpeg')
+      expect(res.headers['content-type']).toBe(files[0].contentType)
       done()
-    
-      
+
   it 'returns 404 for missing files', (done) ->
     id = '000000000000000000000000'
     request.get {uri:url+'/'+id}, (err, res) ->
       expect(res.statusCode).toBe(404)
       done()
-    
+
   it 'returns 404 for invalid ids', (done) ->
     request.get {uri:url+'/thiswillnotwork'}, (err, res) ->
       expect(res.statusCode).toBe(404)
       done()
 
-# FIXME fatal error
-  xit 'posts data directly', (done) ->
-    options = {
+  it 'can be created directly with form parameters', (done) ->
+    options2 = {
       uri:url
     }
-
 
     func = (err, res, body) ->
       expect(res.statusCode).toBe(200)
       body = JSON.parse(body)
-
-      expect(body.metadata.description).toBe('rando-info')
+      expect(body._id).toBeDefined()
+      expect(body.filename).toBe(jsonOptions.filename)
+      expect(body.contentType).toBe(jsonOptions.mimetype)
+      expect(body.length).toBeDefined()
+      expect(body.uploadDate).toBeDefined()
+      expect(body.metadata).toBeDefined()
+      expect(body.metadata.name).toBeDefined()
+      expect(body.metadata.path).toBe(jsonOptions.path)
+      expect(body.metadata.creator).toBeDefined()
+      expect(body.metadata.description).toBe(jsonOptions.description)
+      expect(body.md5).toBeDefined()
       files.push(body)
-
-      collection = mongoose.connection.db.collection('media.files')
-      collection.find({_id:mongoose.Types.ObjectId(body._id)}).toArray (err, results) ->
-        expect(results[0].metadata.name).toBe('Ittybitty')
-        done()
+      done()
 
     # the only way I could figure out how to get request to do what I wanted...
-    r = request.post(options, func)
+    r = request.post(options2, func)
     form = r.form()
-    form.append('postName', 'my_buffer')
-    form.append('filename', 'ittybitty.data')
-    form.append('mimetype', 'application/octet-stream')
-    form.append('description', 'rando-info')
-    form.append('my_buffer', request('http://scotterickson.info/images/where-are-you.jpg'))
-    
+    form.append('path', jsonOptions.path)
+    form.append('postName', jsonOptions.postName)
+    form.append('filename', jsonOptions.filename)
+    form.append('mimetype', jsonOptions.mimetype)
+    form.append('description', jsonOptions.description)
+    form.append('my_buffer', request(jsonOptions.my_buffer_url))
+
+  it 'created directly, can be read', (done) ->
+    request.get {uri:url+'/'+files[1]._id}, (err, res) ->
+      expect(res.statusCode).toBe(200)
+      expect(res.headers['content-type']).toBe(files[1].contentType)
+      done()
+
   it 'does not overwrite existing files', (done) ->
-    options = {
-      uri:url
-      json: {
-        url: 'http://scotterickson.info/images/scott.jpg'
-        filename: 'where-are-you.jpg'
-        mimetype: 'image/jpeg'
-        description: 'Face'
-      }
-    }
+    options.json.description = 'Face'
 
     func = (err, res, body) ->
       expect(res.statusCode).toBe(409)
@@ -122,16 +134,7 @@ describe '/file', ->
     request.post(options, func)
 
   it 'does overwrite existing files if force is true', (done) ->
-    options = {
-      uri:url
-      json: {
-        url: 'http://scotterickson.info/images/scott.jpg'
-        filename: 'where-are-you.jpg'
-        mimetype: 'image/jpeg'
-        description: 'Face'
-        force: true
-      }
-    }
+    options.json.force = "true" # TODO ask why it's a string and not a boolean ?
 
     func = (err, res, body) ->
       expect(res.statusCode).toBe(200)
@@ -146,6 +149,20 @@ describe '/file', ->
         done()
 
     request.post(options, func)
-    
-  
-  # TODO: test server errors, see what they do
+
+  it ' can\'t be requested with HTTP PUT method', (done) ->
+    request.put {uri:url}, (err, res) ->
+      expect(res.statusCode).toBe(405)
+      done()
+
+  it ' can\'t be requested with HTTP HEAD method', (done) ->
+    request.head {uri:url}, (err, res) ->
+      expect(res.statusCode).toBe(405)
+      done()
+
+  it ' can\'t be requested with HTTP DEL method', (done) ->
+    request.del {uri:url}, (err, res) ->
+      expect(res.statusCode).toBe(405)
+      done()
+
+# TODO: test server errors, see what they do

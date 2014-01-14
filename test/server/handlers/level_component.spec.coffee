@@ -48,7 +48,7 @@ describe 'LevelComponent', ->
         expect(res.statusCode).toBe(422)
         done()
 
-  it 'can read by an admin.', (done) ->
+  it 'can be read by an admin.', (done) ->
     loginAdmin (joe) ->
       request.get {uri:url+'/'+components[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
@@ -124,3 +124,18 @@ describe 'LevelComponent', ->
           expect(body.version.isLatestMinor).toBe(false)
           expect(body.version.isLatestMajor).toBe(false)
           done()
+
+  xit ' can\'t be requested with HTTP PUT method', (done) ->
+    request.put {uri:url+'/'+components[0]._id}, (err, res) ->
+      expect(res.statusCode).toBe(404)
+      done()
+
+  it ' can\'t be requested with HTTP HEAD method', (done) ->
+    request.head {uri:url+'/'+components[0]._id}, (err, res) ->
+      expect(res.statusCode).toBe(404)
+      done()
+
+  it ' can\'t be requested with HTTP DEL method', (done) ->
+    request.del {uri:url+'/'+components[0]._id}, (err, res) ->
+      expect(res.statusCode).toBe(404)
+      done()
