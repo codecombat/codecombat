@@ -78,34 +78,37 @@
         @include box-shadow(0px 5px 25px rgba(79, 79, 213, 0.6))
         background: #add8e6
 
-  #canvas-wrapper
-    width: 100%
+  .world-container
     position: relative
 
-  // Below snatched from play/level.sass; should refactor?
-
-  canvas#surface
-    background-color: #ddd
-    width: 100%
-    display: block
-    z-index: 1
-    
-  $GI: 0.5  // gradient intensity; can tweak this 0-1
-
-  .gradient
-    position: absolute
-    z-index: 10
-
-  #canvas-left-gradient
-    left: 0px
-    width: 5px
-    background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
-    bottom: 0
-    top: 0
-
-  #canvas-top-gradient
-    top: 0
-    height: 5px
-    left: 0
-    right: 0
-    background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+    #canvas-wrapper
+      width: 100%
+      position: relative
+  
+    // Below snatched from play/level.sass; should refactor?
+  
+    canvas#surface
+      background-color: #ddd
+      width: 100%
+      display: block
+      z-index: 1
+      
+    $GI: 0.5  // gradient intensity; can tweak this 0-1
+  
+    .gradient
+      position: absolute
+      z-index: 10
+  
+    #canvas-left-gradient
+      left: 0px
+      width: 5px
+      background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+      bottom: 0
+      top: 0
+  
+    #canvas-top-gradient
+      top: 0
+      height: 5px
+      left: 0
+      right: 0
+      background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)

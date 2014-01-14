@@ -1,6 +1,8 @@
 module.exports = nativeDescription: "English", englishDescription: "English", translation:
   common:
     loading: "Loading..."
+    saving: "Saving..."
+    sending: "Sending..."
 
   modal:
     close: "Close"
@@ -26,20 +28,37 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
+    employers: "Employers"
 
   forms:
     name: "Name"
     email: "Email"
     message: "Message"
     cancel: "Cancel"
+    save: "Save"
+
+  versions:
+    save_version_title: "Save New Version"
+    commit_message: "Commit Message"
+    new_major_version: "New Major Version"
+    cla_prefix: "To save changes, first you must agree to our"
+    cla_url: "CLA"
+    cla_suffix: "."
+    cla_agree: "I AGREE"
 
   login:
+    login_modal_title: "Log In"
     log_in: "Log In"
     sign_up: "create new account"
     or: ", or "
     recover: "recover account"
 
+  recover:
+    recover_account_title: "Recover Account"
+    send_password: "Send Recovery Password"
+
   signup:
+    create_account_title: "Create Account to Save Progress"
     description: "It's free. Just need a couple things and you'll be good to go:"
     email_announcements: "Receive announcements by email"
     coppa: "13+ or non-USA "
@@ -89,6 +108,10 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
     learn_more: "Learn more about being a Diplomat"
     subscribe_as_diplomat: "Subscribe as a Diplomat"
+
+  wizard_settings:
+    title: "Wizard Settings"
+    customize_avatar: "Customize Your Avatar"
 
   account_settings:
     title: "Account Settings"
@@ -192,7 +215,18 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lg_title: "Latest Games"
 
   editor:
+    main_title: "CodeCombat Editors"
+    main_description: "Build your own levels, campaigns, units and educational content. We provide all the tools you need!"
+    article_title: "Article Editor"
+    article_description: "Write articles that give players overviews of programming concepts which can be used across a variety of levels and campaigns."
+    thang_title: "Thang Editor"
+    thang_description: "Build units, defining their default logic, graphics and audio. Currently only supports importing Flash exported vector graphics."
     level_title: "Level Editor"
+    level_description: "Includes the tools for scripting, uploading audio, and constructing custom logic to create all sorts of levels. Everything we use ourselves!"
+    security_notice: "Many major features in these editors are not currently enabled by default. As we improve the security of these systems, they will be made generally available. If you'd like to use these features sooner, "
+    contact_us: "contact us!"
+    hipchat_prefix: "You can also find us in our"
+    hipchat_url: "HipChat room."
     level_btn_save: "Save"
     level_btn_fork: "Fork"
     level_btn_play: "Play"
@@ -219,9 +253,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_components_type: "Type"
     level_component_edit_title: "Edit Component"
     level_system_edit_title: "Edit System"
+    create_system_title: "Create New System"
     create_system_field_name: "Name"
     create_system_btn_cancel: "Cancel"
     create_system_btn_create: "Create"
+    new_component_title: "Create New Component"
     new_component_field_system: "System"
     new_component_field_name: "Name"
     new_component_btn_cancel: "Cancel"

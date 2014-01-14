@@ -38,6 +38,7 @@ module.exports =
   da: require './da'             # dansk, Danish
   ko: require './ko'             # 한국어, Korean
   sk: require './sk'             # slovenčina, Slovak
+  sl: require './sl'             # slovenščina, Slovene
   fi: require './fi'             # suomi, Finnish
   bg: require './bg'             # български език, Bulgarian
   no: require './no'             # Norsk, Norwegian
@@ -49,4 +50,4 @@ module.exports =
   uk: require './uk'             # українська мова, Ukranian
   hi: require './hi'             # मानक हिन्दी, Hindi
   ur: require './ur'             # اُردُو, Urdu
-  'ms-BA': require './ms-BA'             # Bahasa Melayu, Bahasa Malaysia
+  'ms-BA': require './ms-BA'     # Bahasa Melayu, Bahasa Malaysia
