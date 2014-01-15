@@ -1,15 +1,15 @@
 module.exports = nativeDescription: "français", englishDescription: "French", translation:
   common:
     loading: "Chargement..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    saving: "Saugegarde..."
+    sending: "Envoi..."
 
   modal:
     close: "Fermer"
     okay: "Ok"
 
   not_found:
-    page_not_found: "Page absente"
+    page_not_found: "Page non trouvée"
 
   nav:
     sign_up: "Créer un compte"
@@ -26,14 +26,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     about: "À propos"
     contact: "Contact"
     twitter_follow: "Suivre"
-#    employers: "Employers"
+    employers: "Employés"
 
   forms:
     name: "Nom"
     email: "Courriel"
     message: "Message"
     cancel: "Annuler"
-#    save: "Save"
+    save: "Sauvegarde"
 
 #  versions:
 #    save_version_title: "Save New Version"
@@ -45,18 +45,18 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    login_modal_title: "Se connecter"
     log_in: "Connexion"
     sign_up: "Créer un nouveau compte"
     or: ", ou "
     recover: "récupérer son compte"
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+  recover:
+    recover_account_title: "Récupérer son compte"
+    send_password: "Mot de passe oublié"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "Veuillez créer un compte pour sauvegarder votre progression"
     description: "C'est gratuit. Simplement quelques informations et vous pourrez commencer :"
     email_announcements: "Recevoir les annonces par courriel"
     coppa: "13+ ou hors É-U"
@@ -73,7 +73,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     play: "Jouer"
 
   play:
-    choose_your_level: "Choisir Votre Niveau"
+    choose_your_level: "Choisissez votre niveau"
     adventurer_prefix: "Vous pouvez passer à n'importe quel niveau ci-dessous, ou discuter des niveaux sur "
     adventurer_forum: "le forum de l'Aventurier"
     adventurer_suffix: "."
@@ -107,9 +107,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     learn_more: "Apprenez en plus sur les Traducteurs"
     subscribe_as_diplomat: "Souscrire en tant que traducteur"
 
-#  wizard_settings:
+  wizard_settings:
 #    title: "Wizard Settings"
-#    customize_avatar: "Customize Your Avatar"
+    customize_avatar: "Personnalisez Votre Avatar"
 
   account_settings:
     title: "Préférences du compte"
@@ -276,14 +276,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
-#  general:
-#    and: "and"
+  general:
+    and: "et"
 
-#  about:
-#    who_is_codecombat: "Who is CodeCombat?"
-#    why_codecombat: "Why CodeCombat?"
-#    who_description_prefix: "together started CodeCombat in 2013. We also created "
-#    who_description_suffix: "in 2008, growing it to the #1 web and iOS application for learning to write Chinese and Japanese characters."
+  about:
+     who_is_codecombat: "Qui est CodeCombat?"
+     why_codecombat: "Pourquoi CodeCombat?"
+     who_description_prefix: "avons commencé ensembles en 2013. Nous avons aussi créé "
+     who_description_suffix: "en 2008, qui a grandi jusqu'à devenir la première application web et iOS pour apprendre à écrire les caractères chinois et japonais."
 #    who_description_ending: "Now it's time to teach people to write code."
 #    why_paragraph_1: "When making Skritter, George didn't know how to program and was constantly frustrated by his inability to implement his ideas. Afterwards, he tried learning, but the lessons were too slow. His housemate, wanting to reskill and stop teaching, tried Codecademy, but \"got bored.\" Each week another friend started Codecademy, then dropped off. We realized it was the same problem we'd solved with Skritter: people learning a skill via slow, intensive lessons when what they need is fast, extensive practice. We know how to fix that."
 #    why_paragraph_2: "Need to learn to code? You don't need lessons. You need to write a lot of code and have a great time doing it."
@@ -293,7 +293,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    why_paragraph_3_italic_caps: "NO MOM I HAVE TO FINISH THE LEVEL!"
 #    why_paragraph_3_suffix: "That's why CodeCombat is a multiplayer game, not a gamified lesson course. We won't stop until you can't stop--but this time, that's a good thing."
 #    why_paragraph_4: "If you're going to get addicted to some game, get addicted to this one and become one of the wizards of the tech age."
-#    why_ending: "And hey, it's free. "
+     why_ending: "Et au fait, c'est gratuit. "
 #    why_ending_url: "Start wizarding now!"
 #    george_description: "CEO, business guy, web designer, game designer, and champion of beginning programmers everywhere."
 #    scott_description: "Programmer extraordinaire, software architect, kitchen wizard, and master of finances. Scott is the reasonable one."
