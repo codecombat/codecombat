@@ -15,7 +15,7 @@ table.table
     - data = data.attributes;
     tr
       td
-        a(href="/editor/#{page}/#{data.slug || data._id}")
+        a(href="/editor/level/#{data.slug || data._id}")
           | #{data.name}
       td.body-row #{data.description}
       td #{data.version.major}.#{data.version.minor}

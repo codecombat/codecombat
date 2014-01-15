@@ -5,5 +5,4 @@ module.exports = class ThangTypeHomeView extends SearchView
   modelLabel: 'Level'
   model: require 'models/Level'
   modelURL: '/db/level'
-  page: 'level'
-  tableTemplate: require 'templates/kinds/table' 
+  tableTemplate: require 'templates/editor/level/table' 
