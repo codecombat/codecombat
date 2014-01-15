@@ -16,6 +16,7 @@ module.exports = class ThangTypeHomeView extends View
   modelLabel: '' # 'Article'
   model: null # Article
   modelURL: null # '/db/article'
+  page: 'page'
   tableTemplate: null # require 'templates/editor/article/table'
 
   events:
@@ -26,6 +27,7 @@ module.exports = class ThangTypeHomeView extends View
 
   getRenderData: ->
     c = super()
+    c.page = @page
     c.modelLabel = @modelLabel
     c
 

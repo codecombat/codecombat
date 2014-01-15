@@ -5,4 +5,5 @@ module.exports = class ThangTypeHomeView extends SearchView
   modelLabel: 'Article'
   model: require 'models/Article'
   modelURL: '/db/article'
+  page: "article"
   tableTemplate: require 'templates/kinds/table'
