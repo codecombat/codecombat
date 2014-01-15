@@ -1,15 +1,15 @@
 module.exports = nativeDescription: "français", englishDescription: "French", translation:
   common:
     loading: "Chargement..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    saving: "Sauvegarde..."
+    sending: "Envoi..."
 
   modal:
     close: "Fermer"
     okay: "Ok"
 
   not_found:
-    page_not_found: "Page absente"
+    page_not_found: "Page non-trouvée"
 
   nav:
     sign_up: "Créer un compte"
@@ -33,19 +33,19 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     email: "Courriel"
     message: "Message"
     cancel: "Annuler"
-#    save: "Save"
+    save: "Sauvegarder"
 
-#  versions:
-#    save_version_title: "Save New Version"
+  versions:
+    save_version_title: "Sauvegarder Nouvelle Version"
 #    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
 #    cla_suffix: "."
-#    cla_agree: "I AGREE"
+    cla_agree: "J'ACCEPTE"
 
   login:
-#    login_modal_title: "Log In"
+    login_modal_title: "Se connecter"
     log_in: "Connexion"
     sign_up: "Créer un nouveau compte"
     or: ", ou "
@@ -56,7 +56,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    send_password: "Send Recovery Password"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "Créer un compte pour sauvegarder"
     description: "C'est gratuit. Simplement quelques informations et vous pourrez commencer :"
     email_announcements: "Recevoir les annonces par courriel"
     coppa: "13+ ou hors É-U"
@@ -107,9 +107,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     learn_more: "Apprenez en plus sur les Traducteurs"
     subscribe_as_diplomat: "Souscrire en tant que traducteur"
 
-#  wizard_settings:
-#    title: "Wizard Settings"
-#    customize_avatar: "Customize Your Avatar"
+  wizard_settings:
+    title: "Options du Magicien"
+    customize_avatar: "Personnaliser votre avatar"
 
   account_settings:
     title: "Préférences du compte"
@@ -250,34 +250,34 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    level_components_title: "Back to All Thangs"
 #    level_components_type: "Type"
     level_component_edit_title: "Editer le composant"
-#    level_system_edit_title: "Edit System"
-#    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
+    level_system_edit_title: "Editer le système"
+    create_system_title: "Créer un nouveau système"
+    create_system_field_name: "Nom"
+    create_system_btn_cancel: "Annuler"
+    create_system_btn_create: "Créer"
     new_component_title: "Créer un nouveau composant"
     new_component_field_system: "Système"
     new_component_field_name: "Nom"
     new_component_btn_cancel: "Annuler"
     new_component_btn_create: "Créer"
 
-#  level:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_description: "Description"
-#    index_table_version: "Version"
+  level:
+    index_table_results: "Résultats"
+    index_table_name: "Nom"
+    index_table_description: "Description"
+    index_table_version: "Version"
 
-#  article:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_body: "Body"
-#    index_table_version: "Version"
-#    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
-#    edit_article_title: "Edit Article"
+  article:
+    index_table_results: "Résultats"
+    index_table_name: "Nom"
+    index_table_body: "Corps"
+    index_table_version: "Version"
+    edit_btn_preview: "Prévisualiser"
+    edit_btn_save: "Sauvegarder"
+    edit_article_title: "Editer l'article"
 
-#  general:
-#    and: "and"
+  general:
+    and: "et"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
