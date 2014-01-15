@@ -55,22 +55,22 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     recover_account_title: "بازیابی حساب کاربری"
     send_password: "ارسال رمز عبور بازیابی شده"
 
-#  signup:
-#    create_account_title: "Create Account to Save Progress"
-#    description: "It's free. Just need a couple things and you'll be good to go:"
-#    email_announcements: "Receive announcements by email"
-#    coppa: "13+ or non-USA "
-#    coppa_why: "(Why?)"
-#    creating: "Creating Account..."
-#    sign_up: "Sign Up"
-#    or: "or "
-#    log_in: "log in with password"
+  signup:
+    create_account_title: "ایجاد حساب کاربری برای ذخیره سازی پیشرفت ها"
+    description: ":ثبت نام رایگان است و برای شروع مقداری اطلاعات لازم داریم"
+    email_announcements: "دریافت اطلاعیه ها توسط ایمیل"
+    coppa: "حداقل ۱۳ سال دارم یا امریکایی نیستم"
+    coppa_why: "(چرا؟)"
+    creating: "...در حال ایجاد حساب کاربری"
+    sign_up: "ثبت نام"
+    or: " یا"
+    log_in: "ورود به وسیله رمز عبور"
 
-#  home:
-#    slogan: "Learn to Code JavaScript by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
-#    play: "Play"
+  home:
+    slogan: "کد نویسی به زبان جاوااسکریپت را با بازی بیاموزید"
+    no_ie: "متاسفیم اما بازی بر روی مرورگر های اینترنت اکسپلورر نسخه ۹ به قبل اجرا نمی شود"
+    no_mobile: "این بازی برای دستگاه های موبایل طراحی نشده است و بر روی آن ها اجرا نمی شود"
+    play: "شروع بازی"
 
 #  play:
 #    choose_your_level: "Choose Your Level"
