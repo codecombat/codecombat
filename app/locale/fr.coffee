@@ -280,10 +280,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     and: "et"
 
   about:
-     who_is_codecombat: "Qui est CodeCombat?"
-     why_codecombat: "Pourquoi CodeCombat?"
-     who_description_prefix: "avons commencé ensembles en 2013. Nous avons aussi créé "
-     who_description_suffix: "en 2008, qui a grandi jusqu'à devenir la première application web et iOS pour apprendre à écrire les caractères chinois et japonais."
+    who_is_codecombat: "Qui est CodeCombat?"
+    why_codecombat: "Pourquoi CodeCombat?"
+    who_description_prefix: "avons commencé ensembles en 2013. Nous avons aussi créé "
+    who_description_suffix: "en 2008, qui a grandi jusqu'à devenir la première application web et iOS pour apprendre à écrire les caractères chinois et japonais."
 #    who_description_ending: "Now it's time to teach people to write code."
 #    why_paragraph_1: "When making Skritter, George didn't know how to program and was constantly frustrated by his inability to implement his ideas. Afterwards, he tried learning, but the lessons were too slow. His housemate, wanting to reskill and stop teaching, tried Codecademy, but \"got bored.\" Each week another friend started Codecademy, then dropped off. We realized it was the same problem we'd solved with Skritter: people learning a skill via slow, intensive lessons when what they need is fast, extensive practice. We know how to fix that."
 #    why_paragraph_2: "Need to learn to code? You don't need lessons. You need to write a lot of code and have a great time doing it."
@@ -293,7 +293,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    why_paragraph_3_italic_caps: "NO MOM I HAVE TO FINISH THE LEVEL!"
 #    why_paragraph_3_suffix: "That's why CodeCombat is a multiplayer game, not a gamified lesson course. We won't stop until you can't stop--but this time, that's a good thing."
 #    why_paragraph_4: "If you're going to get addicted to some game, get addicted to this one and become one of the wizards of the tech age."
-     why_ending: "Et au fait, c'est gratuit. "
+    why_ending: "Et au fait, c'est gratuit. "
 #    why_ending_url: "Start wizarding now!"
 #    george_description: "CEO, business guy, web designer, game designer, and champion of beginning programmers everywhere."
 #    scott_description: "Programmer extraordinaire, software architect, kitchen wizard, and master of finances. Scott is the reasonable one."

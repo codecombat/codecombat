@@ -18,6 +18,7 @@ module.exports = class God
     @angels = []
     @firstWorld = true
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
+    console.log @id, "initialized with world", @world.id
 
   onTomeCast: (e) ->
     return if @dead
@@ -92,6 +93,7 @@ module.exports = class God
     for scriptNote in @world.scriptNotes
       Backbone.Mediator.publish scriptNote.channel, scriptNote.event
     @firstWorld = false
+    @testWorld = null
 
   getUserCodeMap: ->
     userCodeMap = {}

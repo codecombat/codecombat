@@ -8,6 +8,7 @@ module.exports = class ThangAvatarView extends View
 
   subscriptions:
     'tome:problems-updated': "onProblemsUpdated"
+    'god:new-world-created': 'onNewWorld'
 
   constructor: (options) ->
     super options
@@ -50,3 +51,6 @@ module.exports = class ThangAvatarView extends View
       worstLevel = level
       break
     @setProblems myProblems.length, worstLevel
+
+  onNewWorld: (e) ->
+    @options.thang = @thang = e.world.thangMap[@thang.id] if @thang
