@@ -90,7 +90,7 @@
     "karma": "~0.10.9",
     "karma-coverage": "~0.1.4"
   },
-  "license": "Copyright © 2014 CodeCombat",
+  "licenses": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
     "node": "0.10.x"
