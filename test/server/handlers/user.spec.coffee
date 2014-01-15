@@ -1,8 +1,11 @@
 require '../common'
+request = require 'request'
+
+urlUser = '/db/user'
 
 describe 'POST /db/user', ->
-  request = require 'request'
-  it 'clears the db first', (done) ->
+
+  it 'preparing test : clears the db first', (done) ->
     clearModels [User], (err) ->
       throw err if err
       done()
@@ -13,13 +16,13 @@ describe 'POST /db/user', ->
       expect(user.get('password')).toBeUndefined()
       expect(user?.get('passwordHash')).not.toBeUndefined()
       if user?.get('passwordHash')?
-        expect(user.get('passwordHash')[..5]).toBe('948c7e')
+        expect(user.get('passwordHash')[..5]).toBe('31dc3d')
         expect(user.get('permissions').length).toBe(0)
       done()
 
   it 'serves the user through /db/user/id', (done) ->
     unittest.getNormalJoe (user) ->
-      url = getURL('/db/user/'+user._id)
+      url = getURL(urlUser+'/'+user._id)
       request.get url, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         user = JSON.parse(body)
@@ -40,7 +43,7 @@ describe 'POST /db/user', ->
     loginJoe ->
       unittest.getAdmin (user) ->
 
-        url = getURL('/db/user/'+user._id)
+        url = getURL(urlUser+'/'+user._id)
         request.get url, (err, res, body) ->
           expect(res.statusCode).toBe(200)
           user = JSON.parse(body)
@@ -55,7 +58,7 @@ describe 'PUT /db/user', ->
     req = request.post getURL('/auth/logout'),
       (err, res) ->
         expect(res.statusCode).toBe(200)
-        req = request.put getURL('/db/user'),
+        req = request.put getURL(urlUser),
           (err, res) ->
             expect(res.statusCode).toBe(422)
             expect(res.body).toBe('No input.')
@@ -66,7 +69,7 @@ describe 'PUT /db/user', ->
 
   it 'denies requests to edit someone who is not joe', (done) ->
     unittest.getAdmin (admin) ->
-      req = request.put getURL('/db/user'),
+      req = request.put getURL(urlUser),
       (err, res) ->
         expect(res.statusCode).toBe(403)
         done()
@@ -74,7 +77,7 @@ describe 'PUT /db/user', ->
 
   it 'denies invalid data', (done) ->
     unittest.getNormalJoe (joe) ->
-      req = request.put getURL('/db/user'),
+      req = request.put getURL(urlUser),
       (err, res) ->
         expect(res.statusCode).toBe(422)
         expect(res.body.indexOf('too long')).toBeGreaterThan(-1)
@@ -87,13 +90,10 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
   it 'logs in as admin', (done) ->
     loginAdmin -> done()
 
-
   it 'denies non-existent ids', (done) ->
-    req = request.put getURL('/db/user'),
+    req = request.put getURL(urlUser),
     (err, res) ->
       expect(res.statusCode).toBe(404)
-      expect(res.body).toBe('Resource not found.')
-      done()
       done()
     form = req.form()
     form.append('_id', '513108d4cb8b610000000004')
@@ -102,7 +102,7 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
   it 'denies if the email being changed is already taken', (done) ->
     unittest.getNormalJoe (joe) ->
       unittest.getAdmin (admin) ->
-        req = request.put getURL('/db/user'), (err, res) ->
+        req = request.put getURL(urlUser), (err, res) ->
           expect(res.statusCode).toBe(409)
           expect(res.body.indexOf('already used')).toBeGreaterThan(-1)
           done()
@@ -112,7 +112,7 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
 
   it 'works', (done) ->
     unittest.getNormalJoe (joe) ->
-      req = request.put getURL('/db/user'), (err, res) ->
+      req = request.put getURL(urlUser), (err, res) ->
         expect(res.statusCode).toBe(200)
         unittest.getUser('New@email.com', 'null', (joe) ->
           expect(joe.get('name')).toBe('Wilhelm')
@@ -124,8 +124,9 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
       form.append('email', 'New@email.com')
       form.append('name', 'Wilhelm')
 
+
 describe 'GET /db/user', ->
-  request = require 'request'
+
   it 'logs in as admin', (done) ->
     req = request.post(getURL('/auth/login'), (error, response) ->
       expect(response.statusCode).toBe(200)
@@ -143,7 +144,7 @@ describe 'GET /db/user', ->
       ['sort', '-dateCreated']
     ]
     options = {
-      url: getURL('/db/user')
+      url: getURL(urlUser)
       qs: {
         conditions: JSON.stringify(conditions)
       }
@@ -161,7 +162,7 @@ describe 'GET /db/user', ->
       ['lime', 20]
     ]
     options = {
-      url: getURL('/db/user')
+      url: getURL(urlUser)
       qs: {
         conditions: JSON.stringify(conditions)
       }

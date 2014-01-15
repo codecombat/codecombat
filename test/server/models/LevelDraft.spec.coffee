@@ -27,5 +27,5 @@ describe 'LevelDraft', ->
         throw err if err
 
         LevelDraft.findOne {_id:draft._id}, (err, fetched) ->
-          expect(fetched.level.original).not.toBeUndefined()
+          expect(fetched.level.original).toBeDefined()
           done()

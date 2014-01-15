@@ -15,7 +15,7 @@ describe 'Level', ->
       done()
 
   it 'can make a Level.', (done) ->
-    loginJoe (joe) ->
+    loginJoe ->
       request.post {uri:url, json:level}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         done()
