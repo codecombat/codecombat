@@ -40,7 +40,7 @@ describe '/file', ->
       expect(res.statusCode).toBe(422)
       done()
 
-    loginAdmin (joe) ->
+    loginAdmin  ->
       request.post(options, func)
 
   it 'can be created by an admin', (done) ->
