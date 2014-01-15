@@ -74,6 +74,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   buildSpriteSheet: ->
     options = @thang?.getSpriteOptions() or {}
+    options.colorConfig = @options.colorConfig if @options.colorConfig
     options.async = false
     @thangType.getSpriteSheet options
 
