@@ -1,9 +1,9 @@
 VersionsView = require 'views/kinds/VersionsView'
 
 module.exports = class SuperVersionsView extends VersionsView
-  id: "editor-article-versions-view"
-  url: "/db/article/"
-  page: "article"
+  id: "editor-thang-versions-view"
+  url: "/db/thang.type/"
+  page: "thang"
 
   constructor: (options, @ID) ->
-    super options, ID, require 'models/Article'
+    super options, ID, require 'models/ThangType'
