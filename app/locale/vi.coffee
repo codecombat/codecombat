@@ -1,20 +1,20 @@
 module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietnamese", translation:
   common:
-    loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    loading: "Tải..."
+    saving: "Lưu..."
+    sending: "Gởi..."
 
-#  modal:
-#    close: "Close"
-#    okay: "Okay"
+  modal:
+    close: "Đóng"
+    okay: "Được rồi"
 
-#  not_found:
-#    page_not_found: "Page not found"
+  not_found:
+    page_not_found: "không tìm thấy trang"
 
-#  nav:
-#    sign_up: "Create Account"
-#    log_in: "Log In"
-#    log_out: "Log Out"
+  nav:
+    sign_up: "Tạo tài khoản"
+    log_in: "Đăng nhập"
+    log_out: "Đăng xuất"
 #    play: "Levels"
 #    editor: "Editor"
 #    blog: "Blog"
@@ -99,11 +99,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    sending: "Sending..."
 #    send: "Send Feedback"
 
-  diplomat_suggestion:
+#  diplomat_suggestion:
 #    title: "Help translate CodeCombat!"
 #    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Vietnamese but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Vietnamese."
-    missing_translations: "Until we can translate everything into Vietnamese, you'll see English when Vietnamese isn't available."
+#    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Vietnamese but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Vietnamese."
+#    missing_translations: "Until we can translate everything into Vietnamese, you'll see English when Vietnamese isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
@@ -261,23 +261,19 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    new_component_btn_cancel: "Cancel"
 #    new_component_btn_create: "Create"
 
-#  level:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_description: "Description"
-#    index_table_version: "Version"
-
 #  article:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_body: "Body"
-#    index_table_version: "Version"
 #    edit_btn_preview: "Preview"
 #    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
 #  general:
 #    and: "and"
+#    name: "Name"
+#    version: "Version"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
+#    results: "Results"
+#    description: "Description"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
