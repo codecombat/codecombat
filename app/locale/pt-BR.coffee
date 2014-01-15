@@ -1,8 +1,8 @@
 module.exports = nativeDescription: "português do Brasil", englishDescription: "Portuguese (Brazil)", translation:
   common:
     loading: "Carregando..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    saving: "Salvando..."
+    sending: "Enviando..."
 
   modal:
     close: "Fechar"
@@ -33,7 +33,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     email: "Email"
     message: "Mensagem"
     cancel: "Cancelar"
-#    save: "Save"
+    save: "Salvar"
 
 #  versions:
 #    save_version_title: "Save New Version"
@@ -45,18 +45,18 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    login_modal_title: "Entrar"
     log_in: "Entrar"
     sign_up: "Criar uma nova conta"
     or: ", ou "
     recover: "recuperar sua conta"
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+  recover:
+    recover_account_title: "Recuperar conta"
+    send_password: "Recuperar senha"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "Criar conta para salvar progresso"
     description: "É grátis. Precisamos apenas de umas coisinhas e você estará pronto para seguir:"
     email_announcements: "Receber notícias por email."
     coppa: "acima de 13 anos ou não estadunidense"
@@ -107,9 +107,9 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     learn_more: "Saiba mais sobre ser um Diplomata"
     subscribe_as_diplomat: "Assinar como um Diplomata"
 
-#  wizard_settings:
-#    title: "Wizard Settings"
-#    customize_avatar: "Customize Your Avatar"
+  wizard_settings:
+    title: "Configurações do Feiticeiro"
+    customize_avatar: "Personalize o seu Avatar"
 
   account_settings:
     title: "Configurações da Conta"
