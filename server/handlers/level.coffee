@@ -41,8 +41,7 @@ LevelHandler = class LevelHandler extends Handler
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         if doc
-          res.send(doc)
-          res.end()
+          @sendSuccess(res, doc)
           return
 
         initVals = sessionQuery
@@ -71,8 +70,7 @@ LevelHandler = class LevelHandler extends Handler
       Feedback.findOne(feedbackQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res) unless doc?
-        res.send(doc)
-        res.end()
+        @sendSuccess(res, doc)
         return
 
   postEditableProperties: ['name']

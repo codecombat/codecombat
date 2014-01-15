@@ -12,7 +12,7 @@ folderGet = (req, res) ->
   folder = req.path[7..]
   userfolder = "/user-#{req.user.id}/"
   folder = userfolder if folder is '/me/'
-  return errors.unauthorized(res) unless (folder is userfolder) or (req.user.isAdmin())
+  return errors.forbidden(res) unless (folder is userfolder) or (req.user.isAdmin())
     
   mongoose.connection.db.collection 'media.files', (errors, collection) ->
     collection.find({'metadata.path': folder}).toArray (err, results) ->

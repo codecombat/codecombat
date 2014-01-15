@@ -1,6 +1,7 @@
 async = require 'async'
 mongoose = require('mongoose')
 Grid = require 'gridfs-stream'
+errors = require '../errors'
 
 module.exports = class Handler
   # subclasses should override these properties
@@ -38,17 +39,14 @@ module.exports = class Handler
     props
 
   # sending functions
-  sendUnauthorizedError: (res) -> @sendError(res, 403, "Unauthorized.")
-  sendNotFoundError: (res) -> @sendError(res, 404, 'Resource not found.')
-  sendMethodNotAllowed: (res) -> @sendError(res, 405, 'Method not allowed.')
-  sendBadInputError: (res, message) -> @sendError(res, 422, message)
-  sendDatabaseError: (res, err) -> @sendError(res, 500, 'Database error.')
+  sendUnauthorizedError: (res) -> errors.forbidden(res) #TODO: rename sendUnauthorizedError to sendForbiddenError
+  sendNotFoundError: (res) -> errors.notFound(res)
+  sendMethodNotAllowed: (res) -> errors.badMethod(res)
+  sendBadInputError: (res, message) -> errors.badInput(res, message)
+  sendDatabaseError: (res, err) -> errors.serverError(res, 'Database error, ' + err)
 
   sendError: (res, code, message) ->
-    console.warn "Sending an error code", code, message
-    res.status(code)
-    res.send(message)
-    res.end()
+    errors.custom(res, code, message)
 
   sendSuccess: (res, message) ->
     res.send(message)

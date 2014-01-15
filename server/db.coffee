@@ -3,6 +3,7 @@ winston = require 'winston'
 mongoose = require 'mongoose'
 Grid = require 'gridfs-stream'
 async = require 'async'
+errors = require './errors'
 
 testing = '--unittest' in process.argv
 
@@ -42,9 +43,7 @@ module.exports.setupRoutes = (app) ->
     catch error
       winston.error("Error trying db method #{req.route.method} route #{parts} from #{name}: #{error}")
       winston.error(error)
-      res.status(404)
-      res.write("Route #{req.path} not found.")
-      res.end()
+      errors.notFound(res, "Route #{req.path} not found.")
 
 getSchema = (req, res, moduleName) ->
   try
@@ -55,6 +54,4 @@ getSchema = (req, res, moduleName) ->
 
   catch error
     winston.error("Error trying to grab schema from #{name}: #{error}")
-    res.status(404)
-    res.write("Schema #{moduleName} not found.")
-    res.end()
+    errors.notFound(res, "Schema #{moduleName} not found.")
