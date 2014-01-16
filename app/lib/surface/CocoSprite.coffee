@@ -72,10 +72,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
 
-  spriteSheetKey: ->
-    "#{@thangType.get('name')} - #{@options.resolutionFactor}"
-
-  buildSpriteSheet: -> @thangType.getSpriteSheet @options
+  buildSpriteSheet: ->
+    options = @thang?.getSpriteOptions() or {}
+    options.colorConfig = @options.colorConfig if @options.colorConfig
+    options.async = false
+    @thangType.getSpriteSheet options
 
   buildFromSpriteSheet: (spriteSheet) ->
     if spriteSheet

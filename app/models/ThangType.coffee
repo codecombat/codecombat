@@ -4,10 +4,11 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 module.exports = class ThangType extends CocoModel
   @className: "ThangType"
   urlRoot: "/db/thang.type"
-  building: 0
+  building: {}
 
   initialize: ->
     super()
+    @building = {}
     @setDefaults()
     @on 'sync', @setDefaults
     @spriteSheets = {}
@@ -47,15 +48,18 @@ module.exports = class ThangType extends CocoModel
     options
 
   buildSpriteSheet: (options) ->
+    @options = @fillOptions options
+    key = @spriteSheetKey(@options)
+    return if @building[key]
     @initBuild(options)
-#    @options.portraitOnly = true
     @addGeneralFrames() unless @options.portraitOnly
     @addPortrait()
-    @finishBuild()
+    @building[key] = true
+    result = @finishBuild()
+    return result
 
   initBuild: (options) ->
     @buildActions() if not @actions
-    @options = @fillOptions options
     @vectorParser = new SpriteBuilder(@, options)
     @builder = new createjs.SpriteSheetBuilder()
     @builder.padding = 2
@@ -131,8 +135,7 @@ module.exports = class ThangType extends CocoModel
       @builder.buildAsync()
       @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
       return true
-
-    console.warn 'Building', @get('name'), 'and blocking the main thread. LevelLoader should have it built asynchronously instead.'
+    console.warn 'Building', @get('name'), 'and blocking the main thread.'
     spriteSheet = @builder.build()
     @spriteSheets[key] = spriteSheet
     spriteSheet

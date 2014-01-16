@@ -78,7 +78,7 @@ module.exports = class HUDView extends View
     if not @thang
       @hintNextSelectionTimeout = _.delay((=> @$el.find('.no-selection-message').slideDown('slow')), 10000)
       return
-    @createAvatar thangType
+    @createAvatar thangType, @thang
     @createProperties()
     @createActions()
     @update()
@@ -88,7 +88,7 @@ module.exports = class HUDView extends View
     return if speakerSprite is @speakerSprite
     @speakerSprite = speakerSprite
     @speaker = @speakerSprite.thang.id
-    @createAvatar @speakerSprite.thangType
+    @createAvatar @speakerSprite.thangType, @speakerSprite.thang
     @$el.removeClass 'no-selection'
     @switchToDialogueElements()
 
@@ -102,8 +102,10 @@ module.exports = class HUDView extends View
     @bubble = null
     @update()
 
-  createAvatar: (thangType) ->
-    stage = thangType.getPortraitStage()
+  createAvatar: (thangType, thang) ->
+    options = thang.getSpriteOptions() or {}
+    options.async = false
+    stage = thangType.getPortraitStage options
     wrapper = @$el.find '.thang-canvas-wrapper'
     newCanvas = $(stage.canvas).addClass('thang-canvas')
     wrapper.empty().append(newCanvas)

@@ -252,9 +252,8 @@ module.exports = class World
     # Code hotspot; optimize it
     if @frames.length < @totalFrames then worldShouldBeOverBeforeSerialization
     [transferableObjects, nontransferableObjects] = [0, 0]
-    o = {name: @name, totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}}
-
-    o[prop] = @[prop] for prop in @trackedProperties or []
+    o = {name: @name, totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
+    o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
       serializedMethods = o.userCodeMap[thangID] = {}
@@ -348,7 +347,8 @@ module.exports = class World
     perf.t0 = now()
     w = new World o.name, o.userCodeMap, classMap
     [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory]
-    [w.showCoordinates, w.showGrid, w.showPaths, w.indieSprites] = [o.showCoordinates, o.showGrid, o.showPaths, o.indieSprites]
+    w[prop] = val for prop, val of o.trackedProperties
+
     perf.t1 = now()
     w.thangs = (Thang.deserialize(thang, w, classMap) for thang in o.thangs)
     w.setThang thang for thang in w.thangs
@@ -457,3 +457,9 @@ module.exports = class World
       lastAction = action
     @actionsForThangCache[cacheKey] = actions
     return actions
+
+  getTeamColors: ->
+    teamConfigs = @teamConfigs or {}
+    colorConfigs = {}
+    colorConfigs[teamName] = config.color for teamName, config of teamConfigs
+    colorConfigs
