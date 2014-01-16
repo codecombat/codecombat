@@ -18,7 +18,6 @@ module.exports = class God
     @angels = []
     @firstWorld = true
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
-    console.log @id, "initialized with world", @world.id
 
   onTomeCast: (e) ->
     return if @dead

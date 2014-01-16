@@ -28,7 +28,6 @@ module.exports = class World
     @scriptNotes = []
     @rand = new Rand 0
     @frames = [new WorldFrame(@, 0)]
-    @id = Math.random()
   age: 0
   ended: false
 
