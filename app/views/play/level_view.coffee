@@ -78,13 +78,13 @@ module.exports = class PlayLevelView extends View
       msg = $.i18n.t('play_level.level_load_error', defaultValue: "Level could not be loaded.")
       @$el.html('<div class="alert">' + msg + '</div>')
     @saveScreenshot = _.throttle @saveScreenshot, 30000
-    
+
     @load() unless @isEditorPreview
 
   setLevel: (@level, @supermodel) ->
     @god?.level = @level.serialize @supermodel
     @load()
-  
+
   load: ->
     @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
     @levelLoader.once 'ready-to-init-world', @onReadyToInitWorld
@@ -106,7 +106,7 @@ module.exports = class PlayLevelView extends View
     @level = @levelLoader.level
     @world = @levelLoader.world
     @loadingScreen.destroy()
-#    @initWorld()
+    @setTeam @world.teamForPlayer 1  # We don't know which player we are; this will go away--temp TODO
     @initSurface()
     @initGod()
     @initGoalManager()
@@ -290,12 +290,6 @@ module.exports = class PlayLevelView extends View
     p = $('#pointer')
     return if p.length
     @$el.append($('<img src="/images/level/pointer.png" id="pointer">'))
-
-  initWorld: ->
-    @world ?= new World @level.get('name')
-    serializedLevel = @level.serialize(@supermodel)
-    @world.loadFromLevel serializedLevel, false
-    @setTeam @world.teamForPlayer 1  # We don't know which player we are; this will go away--temp TODO
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)

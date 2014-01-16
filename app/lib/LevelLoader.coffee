@@ -112,7 +112,7 @@ module.exports = class LevelLoader extends CocoClass
     tempSession = new LevelSession _id: @session.id
     tempSession.save(patch, {patch: true})
     @sessionDenormalized = true
-    
+
   # World init
 
   initWorld: ->
@@ -120,18 +120,17 @@ module.exports = class LevelLoader extends CocoClass
     @world = new World @level.get('name')
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
-#    @setTeam @world.teamForPlayer 1  # We don't know which player we are; this will go away--temp TODO
     @buildSpriteSheets()
-    
+
   buildSpriteSheets: ->
     thangTypes = {}
     thangTypes[tt.get('name')] = tt for tt in @supermodel.getModels(ThangType)
 
     colorConfigs = @world.getTeamColors()
-    
+
     thangsProduced = {}
     baseOptions = {resolutionFactor: 4, async: true}
-    
+
     for thang in @world.thangs
       continue unless thang.spriteName
       thangType = thangTypes[thang.spriteName]
@@ -139,7 +138,7 @@ module.exports = class LevelLoader extends CocoClass
       options.async = true
       thangsProduced[thang.spriteName] = true
       @buildSpriteSheet(thangType, options)
-          
+
     for thangName, thangType of thangTypes
       continue if thangsProduced[thangName]
       thangType.spriteOptions = {resolutionFactor: 4, async: true}
@@ -155,7 +154,7 @@ module.exports = class LevelLoader extends CocoClass
     thangType.on 'build-complete', =>
       @spriteSheetsBuilt += 1
       @notifyProgress()
-      
+
   # Initial Sound Loading
 
   loadAudio: ->
