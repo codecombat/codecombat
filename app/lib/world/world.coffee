@@ -349,7 +349,6 @@ module.exports = class World
     [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory]
     w[prop] = val for prop, val of o.trackedProperties
 
-    [w.showCoordinates, w.showGrid, w.showPaths, w.indieSprites] = [o.showCoordinates, o.showGrid, o.showPaths, o.indieSprites]
     perf.t1 = now()
     w.thangs = (Thang.deserialize(thang, w, classMap) for thang in o.thangs)
     w.setThang thang for thang in w.thangs
