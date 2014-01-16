@@ -63,6 +63,7 @@ module.exports = class TomeView extends View
       @castButton = @insertSubView new CastButtonView spells: @spells
     else
       @cast()
+      console.log "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
 
   createSpells: (programmableThangs) ->
     # If needed, we could make this able to update when programmableThangs changes.
