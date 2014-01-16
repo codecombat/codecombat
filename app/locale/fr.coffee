@@ -9,7 +9,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     okay: "Ok"
 
   not_found:
-    page_not_found: "Page non trouvée"
+    page_not_found: "Page non-trouvée"
 
   nav:
     sign_up: "Créer un compte"
@@ -46,6 +46,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   login:
     login_modal_title: "Connexion"
+
     log_in: "Connexion"
     sign_up: "Créer un nouveau compte"
     or: ", ou "
@@ -57,6 +58,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   signup:
     create_account_title: "Créer un compte pour sauvegarder votre progression"
+
     description: "C'est gratuit. Simplement quelques informations et vous pourrez commencer :"
     email_announcements: "Recevoir les annonces par courriel"
     coppa: "13+ ou hors É-U"
@@ -109,6 +111,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   wizard_settings:
     title: "Paramètres du Wizard"
+
     customize_avatar: "Personnaliser votre avatar"
 
   account_settings:
@@ -250,7 +253,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     level_components_title: "Retourner à tous les Thangs"
     level_components_type: "Type"
     level_component_edit_title: "Editer le composant"
-    level_system_edit_title: "Editer le systeme"
+    level_system_edit_title: "Editer le système"
     create_system_title: "Créer un nouveau système"
     create_system_field_name: "Nom"
     create_system_btn_cancel: "Annuler"
@@ -272,7 +275,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     index_table_name: "Nom"
     index_table_body: "Corps"
     index_table_version: "Version"
-    edit_btn_preview: "Aperçu"
+    edit_btn_preview: "Prévisualiser"
     edit_btn_save: "Sauvegarder"
     edit_article_title: "Editer l'article"
 
