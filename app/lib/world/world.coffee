@@ -255,7 +255,7 @@ module.exports = class World
     o = {name: @name, totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}}
 
     o[prop] = @[prop] for prop in @trackedProperties or []
-    
+
     for thangID, methods of @userCodeMap
       serializedMethods = o.userCodeMap[thangID] = {}
       for methodName, method of methods

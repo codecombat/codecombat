@@ -19,13 +19,13 @@ describe 'LevelComponent', ->
       done()
 
   it 'can\'t be created by ordinary users.', (done) ->
-    loginJoe (joe) ->
+    loginJoe ->
       request.post {uri:url, json:component}, (err, res, body) ->
         expect(res.statusCode).toBe(403)
         done()
 
   it 'can be created by an admin.', (done) ->
-    loginAdmin (joe) ->
+    loginAdmin ->
       request.post {uri:url, json:component}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         expect(body._id).toBeDefined()
@@ -43,13 +43,13 @@ describe 'LevelComponent', ->
         done()
 
   it 'have a unique name.', (done) ->
-    loginAdmin (joe) ->
+    loginAdmin ->
       request.post {uri:url, json:component}, (err, res, body) ->
         expect(res.statusCode).toBe(422)
         done()
 
-  it 'can read by an admin.', (done) ->
-    loginAdmin (joe) ->
+  it 'can be read by an admin.', (done) ->
+    loginAdmin ->
       request.get {uri:url+'/'+components[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
@@ -57,7 +57,7 @@ describe 'LevelComponent', ->
         done()
 
   it 'can be read by ordinary users.', (done) ->
-    loginJoe (joe) ->
+    loginJoe ->
       request.get {uri:url+'/'+components[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
@@ -81,7 +81,7 @@ describe 'LevelComponent', ->
         done()
 
   it 'is unofficial by default', (done) ->
-    loginJoe (joe) ->
+    loginJoe ->
       request.get {uri:url+'/'+components[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
@@ -90,7 +90,7 @@ describe 'LevelComponent', ->
         done()
 
   it 'has system ai by default', (done) ->
-    loginJoe (joe) ->
+    loginJoe ->
       request.get {uri:url+'/'+components[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
@@ -100,14 +100,14 @@ describe 'LevelComponent', ->
 
   it 'official property isn\'t editable by an ordinary user.', (done) ->
     components[0].official = true
-    loginJoe (joe) ->
+    loginJoe ->
       request.post {uri:url, json:components[0]}, (err, res, body) ->
         expect(res.statusCode).toBe(403)
         done()
 
   it 'official property is editable by an admin.', (done) ->
     components[0].official = true
-    loginAdmin (joe) ->
+    loginAdmin ->
       request.post {uri:url, json:components[0]}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         expect(body.official).toBe(true)
@@ -124,3 +124,18 @@ describe 'LevelComponent', ->
           expect(body.version.isLatestMinor).toBe(false)
           expect(body.version.isLatestMajor).toBe(false)
           done()
+
+  xit ' can\'t be requested with HTTP PUT method', (done) ->
+    request.put {uri:url+'/'+components[0]._id}, (err, res) ->
+      expect(res.statusCode).toBe(404)
+      done()
+
+  it ' can\'t be requested with HTTP HEAD method', (done) ->
+    request.head {uri:url+'/'+components[0]._id}, (err, res) ->
+      expect(res.statusCode).toBe(404)
+      done()
+
+  it ' can\'t be requested with HTTP DEL method', (done) ->
+    request.del {uri:url+'/'+components[0]._id}, (err, res) ->
+      expect(res.statusCode).toBe(404)
+      done()

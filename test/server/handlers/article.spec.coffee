@@ -21,11 +21,11 @@ describe '/db/article', ->
     loginAdmin ->
       request.post {uri:url, json:article}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
-        expect(body.slug).not.toBeUndefined()
-        expect(body.body).not.toBeUndefined()
-        expect(body.name).not.toBeUndefined()
-        expect(body.original).not.toBeUndefined()
-        expect(body.creator).not.toBeUndefined()
+        expect(body.slug).toBeDefined()
+        expect(body.body).toBeDefined()
+        expect(body.name).toBeDefined()
+        expect(body.original).toBeDefined()
+        expect(body.creator).toBeDefined()
         articles[0] = body
         done()
 
@@ -38,7 +38,7 @@ describe '/db/article', ->
       expect(body.version.minor).toBe(1)
       expect(body._id).not.toBe(articles[0]._id)
       expect(body.parent).toBe(articles[0]._id)
-      expect(body.creator).not.toBeUndefined()
+      expect(body.creator).toBeDefined()
       articles[1] = body
       done()
 

@@ -21,6 +21,7 @@ module.exports = class HUDView extends View
     'dialogue-sound-completed': 'onDialogueSoundCompleted'
     'thang-began-talking': 'onThangBeganTalking'
     'thang-finished-talking': 'onThangFinishedTalking'
+    'god:new-world-created': 'onNewWorld'
 
   events:
     'click': -> Backbone.Mediator.publish 'focus-editor'
@@ -60,6 +61,9 @@ module.exports = class HUDView extends View
 
   onSpriteClearDialogue: ->
     @clearSpeaker()
+
+  onNewWorld: (e) ->
+    @thang = e.world.thangMap[@thang.id] if @thang
 
   setThang: (thang, thangType) ->
     unless @speaker

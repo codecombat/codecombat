@@ -51,6 +51,6 @@ module.exports = class SpellPaletteEntryView extends View
 
   onFrameChanged: (e) ->
     return unless e.selectedThang?.id is @thang.id
-    @thang = e.selectedThang  # Update our thang to the current version
-    @doc = Docs.getDocsFor(@thang, [@doc.prop])[0]
+    @options.thang = @thang = e.selectedThang  # Update our thang to the current version
+    @options.doc = @doc = Docs.getDocsFor(@thang, [@doc.prop])[0]
     @$el.find("code.current-value").text(@doc.formatValue())  # Don't call any functions. (?? What does this mean?)

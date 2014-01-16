@@ -85,7 +85,7 @@ block content
         p
           span(data-i18n="contribute.join_desc_1")
             | Anyone can help out! Just check out our 
-          a(title='GitHub', href="https://github.com/codecombat/codecombat", tabindex=-1, data-i18n="contribute.join_url_github")
+          a(title='GitHub', href="https://github.com/codecombat/codecombat", tabindex=-1)
             | GitHub
           span  
           span(data-i18n="contribute.join_desc_2")  
@@ -108,8 +108,9 @@ block content
           input(type='checkbox', name="developer", id="developer")
           span(data-i18n="contribute.archmage_subscribe_desc")
             | Get emails on new coding opportunities and announcements.
-          .saved-notification  ✓ Saved
-
+          .saved-notification
+            |  ✓
+            span(data-i18n="contribute.saved") Saved
 
       #artisan
 
@@ -149,17 +150,17 @@ block content
       
         h4(data-i18n="contribute.how_to_join") How To Join
         p
-          span(data-i18n="contribute.artisan_join_desc_pref")
-            | The Level Editor is live! Go forth and fiddle with it.
-            | Right now for the sake of security, you can't make Components (the most powerful part of level building)
-            | but be in touch with us and we'll see if we can make what you need.
-            | See the
-          span  
-          a(href="https://docs.google.com/document/d/117tMcL95T1KY8BDisr0iGi5Frb2ZvBJTC0us5hyQkJY/edit?usp=sharing", data-i18n="contribute.artisan_url_documentation")
-            | preliminary documentation 
-          span  
-          span(data-i18n="contribute.artisan_join_desc_suf")
-            | for more info, and please comment on it so we can make the whole system better.
+          span(data-i18n="contribute.artisan_join_desc")
+            | Use the Level Editor in these steps, give or take:
+          ul
+            li
+              a(href="https://docs.google.com/document/d/117tMcL95T1KY8BDisr0iGi5Frb2ZvBJTC0us5hyQkJY/edit?usp=sharing", data-i18n="contribute.artisan_join_step1") Read the documentation.
+            li
+              a(href="/editor/level", data-i18n="contribute.artisan_join_step2") Create a new level and explore existing levels.
+            li
+              a(href="http://www.hipchat.com/g3plnOKqa", data-i18n="contribute.artisan_join_step3") Find us in our public HipChat room for help.
+            li
+              a(href="http://discourse.codecombat.com", data-i18n="contribute.artisan_join_step4") Post your levels on the forum for feedback.
 
         a(href="/contribute/artisan")
           h3(data-i18n="contribute.more_about_artisan")
@@ -169,7 +170,9 @@ block content
           input(type='checkbox', name="level_creator", id="level_creator")
           span(data-i18n="contribute.artisan_subscribe_desc")
             | Get emails on level editor updates and announcements.
-          .saved-notification  ✓ Saved
+          .saved-notification
+            |  ✓
+            span(data-i18n="contribute.saved") Saved
 
       #adventurer
 
@@ -180,7 +183,7 @@ block content
           span(data-i18n="classes.adventurer_title") Adventurer
           span  
           span(data-i18n="classes.adventurer_title_description") (Level Playtester)
-        p(data-i18n="account_settings.adventurer_introduction")
+        p(data-i18n="contribute.adventurer_introduction")
           | Let's be clear about your role: you are the tank. You're going to take heavy damage.
           | We need people to try out brand-new levels and help identify how to make things better.
           | The pain will be enormous; making good games is a long process and no one gets
@@ -189,10 +192,10 @@ block content
         
         h4(data-i18n="contribute.class_attributes") Class Attributes
         ul
-          li(data-i18n="account_settings.adventurer_attribute_1")
+          li(data-i18n="contribute.adventurer_attribute_1")
             | A thirst for learning. You want to learn how to code and we want to teach you how to code.
             | You'll probably be doing most of the teaching in this case, though.
-          li(data-i18n="account_settings.adventurer_attribute_2")
+          li(data-i18n="contribute.adventurer_attribute_2")
             | Charismatic. Be gentle but articulate about what needs improving, and offer suggestions
             | on how to improve.
       
@@ -206,13 +209,15 @@ block content
           a(href="http://discourse.codecombat.com/category/adventurer", data-i18n="contribute.adventurer_forum_url")
             | our forum
           span , 
-          a(href="https://www.facebook.com/codecombat", data-i18n="contribute.adventurer_facebook_url")
+          a(href="https://www.facebook.com/codecombat")
             | Facebook
           span , 
-          a(href="https://twitter.com/CodeCombat", data-i18n="contribute.adventurer_twitter_url")
+          a(href="https://twitter.com/CodeCombat")
             | Twitter
-          span , and 
-          a(href="https://plus.google.com/115285980638641924488/posts", data-i18n="contribute.adventurer_gplus_url")
+          span , 
+          span(data=i18n="general.and") and 
+          span  
+          a(href="https://plus.google.com/115285980638641924488/posts")
             | Google+
           span , 
           span(data-i18n="contribute.adventurer_join_suf")
@@ -226,7 +231,9 @@ block content
           input(type='checkbox', name="tester", id="tester")
           span(data-i18n="contribute.adventurer_subscribe_desc")  
             | Get emails when there are new levels to test.
-          .saved-notification  ✓ Saved
+          .saved-notification
+            |  ✓
+            span(data-i18n="contribute.saved") Saved
     
       #scribe
 
@@ -238,16 +245,16 @@ block content
           span  
           span(data-i18n="classes.scribe_title_description") (Article Editor)
         p
-          span(data-i18n="account_settings.scribe_introduction_pref")
+          span(data-i18n="contribute.scribe_introduction_pref")
             | CodeCombat isn't just going to be a bunch of levels.
             | It will also include a resource for knowledge, a wiki of programming concepts that levels can hook into.
             | That way rather than each Artisan having to describe in detail what a comparison operator is, they
             | can simply link their level to the Article describing them that is already written for the player's edification.
             | Something along the lines of what the 
           a(href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide", data-i18n="contribute.scribe_introduction_url_mozilla")
-            | Mozilla Developer Network 
-          span(data-i18n="account_settings.scribe_introduction_suf")  
-            | has built. If your idea of fun is articulating the concepts of programming in Markdown form,
+            | Mozilla Developer Network
+          span(data-i18n="contribute.scribe_introduction_suf")  
+            |  has built. If your idea of fun is articulating the concepts of programming in Markdown form,
             | then this class might be for you.
     
         h4(data-i18n="contribute.class_attributes") Class Attributes
@@ -273,9 +280,9 @@ block content
           input(type='checkbox', name="article_editor", id="article_editor")
           span(data-i18n="contribute.scribe_subscribe_desc")
             | Get emails about article writing announcements.
-          .saved-notification  ✓ Saved
-
-
+          .saved-notification
+            |  ✓
+            span(data-i18n="contribute.saved") Saved
 
       #diplomat
 
@@ -309,9 +316,9 @@ block content
         h4(data-i18n="contribute.how_to_join") How to Join
         p
           span(data-i18n="contribute.diplomat_join_pref")
-            | We've started a lot of initial translations at 
-          a(href="https://docs.google.com/a/codecombat.com/spreadsheet/ccc?key=0AjsR1nOoMQ4MdFBqS1NqUmRTVG1hbEMxWTZEd1JrNXc&usp=drive_web#gid=0", data-i18n="contribute.diplomat_doc_url")
-            | this Google Doc
+            | We're keeping the up-to-date contribution instructions at 
+          a(href="http://discourse.codecombat.com/t/category-definition-for-diplomat/60/14", data-i18n="contribute.diplomat_doc_url")
+            | this forum post
           span , 
           span(data-i18n="contribute.diplomat_join_suf")
             | so check it out and add things for your language. Also, check this box below to 
@@ -325,7 +332,9 @@ block content
           input(type='checkbox', name="translator", id="translator")
           span(data-i18n="contribute.diplomat_subscribe_desc")
             | Get emails about i18n developments and levels to translate.
-          .saved-notification  ✓ Saved
+          .saved-notification
+            |  ✓
+            span(data-i18n="contribute.saved") Saved
       
       #ambassador
 
@@ -352,7 +361,7 @@ block content
     
         h4(data-i18n="contribute.how_to_join") How to Join
         p
-          a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="contact_us_url")
+          a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="contribute.contact_us_url")
             | Contact us
           span , 
           span(data-i18n="contribute.ambassador_join_desc")
@@ -376,7 +385,9 @@ block content
           input(type='checkbox', name="support", id="support")
           span(data-i18n="contribute.ambassador_subscribe_desc")
             | Get emails on support updates and multiplayer developments.
-          .saved-notification  ✓ Saved
+          .saved-notification
+            |  ✓
+            span(data-i18n="contribute.saved") Saved
     
       #counselor
 
@@ -410,7 +421,7 @@ block content
     
         h4(data-i18n="contribute.how_to_join") How to Join 
         p 
-          a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="contact_us_url")
+          a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="contribute.contact_us_url")
             | Contact us
           span , 
           span(data-i18n="contribute.counselor_join_desc")

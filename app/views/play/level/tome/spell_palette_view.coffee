@@ -55,7 +55,7 @@ module.exports = class SpellPaletteView extends View
 
   onFrameChanged: (e) ->
     return unless e.selectedThang?.id is @thang.id
-    @thang = e.selectedThang  # Update our thang to the current version
+    @options.thang = @thang = e.selectedThang  # Update our thang to the current version
 
   destroy: ->
     super()

@@ -24,7 +24,7 @@ module.exports = class ThangType extends CocoModel
 
   getActions: ->
     return @actions or @buildActions()
-    
+
   buildActions: ->
     @actions = _.cloneDeep(@get('actions'))
     for name, action of @actions
@@ -33,12 +33,12 @@ module.exports = class ThangType extends CocoModel
         relatedAction.name = action.name + "_" + relatedName
         @actions[relatedAction.name] = relatedAction
     @actions
-    
+
   getSpriteSheet: (options) ->
     options = @fillOptions options
     key = @spriteSheetKey(options)
     return @spriteSheets[key] or @buildSpriteSheet(options)
-    
+
   fillOptions: (options) ->
     options ?= {}
     options = _.clone options
@@ -60,7 +60,7 @@ module.exports = class ThangType extends CocoModel
     @builder = new createjs.SpriteSheetBuilder()
     @builder.padding = 2
     @frames = {}
-    
+
   addPortrait: ->
     # The portrait is built very differently than the other animations, so it gets a separate function.
     return unless @actions
@@ -98,7 +98,7 @@ module.exports = class ThangType extends CocoModel
       next = action.goesTo if action.goesTo
       next = false if action.loops is false
       @builder.addAnimation name, frames, next
-      
+
     for name, action of @actions when action.container and not action.animation
       continue if name is 'portrait'
       scale = @options.resolutionFactor * (action.scale or @get('scale') or 1)
@@ -131,15 +131,17 @@ module.exports = class ThangType extends CocoModel
       @builder.buildAsync()
       @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
       return true
-    
+
     console.warn 'Building', @get('name'), 'and blocking the main thread. LevelLoader should have it built asynchronously instead.'
     spriteSheet = @builder.build()
     @spriteSheets[key] = spriteSheet
     spriteSheet
-    
+
   onBuildSpriteSheetComplete: (e, key) ->
     @spriteSheets[key] = e.target.spriteSheet
     @trigger 'build-complete'
+    @builder = null
+    @vectorParser = null
 
   spriteSheetKey: (options) ->
     colorConfigs = []
@@ -183,7 +185,7 @@ module.exports = class ThangType extends CocoModel
       createjs.Ticker.removeEventListener 'tick', @tick
       @tick = null
     stage
-    
+
   uploadGenericPortrait: (callback) ->
     src = @getPortraitSource()
     return callback?() unless src
@@ -198,4 +200,3 @@ module.exports = class ThangType extends CocoModel
 
   onFileUploaded: =>
     console.log 'Image uploaded'
-
