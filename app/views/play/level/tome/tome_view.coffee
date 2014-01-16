@@ -55,7 +55,7 @@ module.exports = class TomeView extends View
   afterRender: ->
     super()
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
-    
+
     if programmableThangs.length
       @createSpells programmableThangs  # Do before spellList, thangList, and castButton
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
@@ -114,12 +114,12 @@ module.exports = class TomeView extends View
     @spellTabView?.$el.after('<div id="' + @spellTabView.id + '"></div>').detach()
     @spellTabView = null
     @removeSubView @spellPaletteView if @spellPaletteView
-    @thangList.$el.show()
+    @thangList?.$el.show()
 
   onSpriteSelected: (e) ->
     thang = e.thang
     spellName = e.spellName
-    @spellList.$el.hide()
+    @spellList?.$el.hide()
     return @clearSpellView() unless thang?.isProgrammable
     selectedThangSpells = (@spells[spellKey] for spellKey in @thangSpells[thang.id])
     if spellName
