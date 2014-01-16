@@ -40,7 +40,7 @@ module.exports = class ThangAvatarView extends View
     @$el.toggleClass 'selected', Boolean(selected)
 
   onProblemsUpdated: (e) ->
-    return unless @thang.id of e.spell.thangs
+    return unless @thang?.id of e.spell.thangs
     myProblems = []
     for thangID, spellThang of e.spell.thangs when thangID is @thang.id
       #aether = if e.isCast and spellThang.castAether then spellThang.castAether else spellThang.aether
