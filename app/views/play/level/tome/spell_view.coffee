@@ -21,6 +21,7 @@ module.exports = class SpellView extends View
     'god:user-code-problem': 'onUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
     'tome:reload-code': 'onCodeReload'
+    'tome:spell-changed': 'onSpellChanged'
     'modal-closed': 'focus'
     'focus-editor': 'focus'
     
@@ -315,6 +316,9 @@ module.exports = class SpellView extends View
     #  console.log "not valid, but so we'll wait to do it in", @autocastDelay + "ms"
     #else
     #  console.log "valid but not at end of line; recompile in", @autocastDelay + "ms"
+
+  onSpellChanged: (e) ->
+    $('#spell-view #save-status').css('visibility', 'visible')
 
   onUserCodeProblem: (e) ->
     return @onInfiniteLoop e if e.problem.id is "runtime_InfiniteLoop"
