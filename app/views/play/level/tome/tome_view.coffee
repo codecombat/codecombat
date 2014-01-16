@@ -58,9 +58,9 @@ module.exports = class TomeView extends View
     
     if programmableThangs.length
       @createSpells programmableThangs  # Do before spellList, thangList, and castButton
-      #@spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
-      #@thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
-      #@castButton = @insertSubView new CastButtonView spells: @spells
+      @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
+      @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
+      @castButton = @insertSubView new CastButtonView spells: @spells
     else
       @cast()
 
