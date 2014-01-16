@@ -71,19 +71,24 @@ module.exports = class PlayLevelView extends View
       window.tracker?.trackEvent 'Hour of Code Begin', {}
 
     @isEditorPreview = @getQueryVariable "dev"
-    sessionID = @getQueryVariable "session"
-    @levelLoader = new LevelLoader(@levelID, @supermodel, sessionID)
-    @levelLoader.once 'ready-to-init-world', @onReadyToInitWorld
+    @sessionID = @getQueryVariable "session"
 
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', =>
       msg = $.i18n.t('play_level.level_load_error', defaultValue: "Level could not be loaded.")
       @$el.html('<div class="alert">' + msg + '</div>')
     @saveScreenshot = _.throttle @saveScreenshot, 30000
+    
+    @load() unless @isEditorPreview
 
   setLevel: (@level, @supermodel) ->
     @god?.level = @level.serialize @supermodel
-    @initWorld()
+    @load()
+  
+  load: ->
+    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
+    @levelLoader.once 'ready-to-init-world', @onReadyToInitWorld
+    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
 
   getRenderData: ->
     c = super()
@@ -96,11 +101,12 @@ module.exports = class PlayLevelView extends View
     @loadingScreen.show()
     super()
 
-  onReadyToInitWorld: =>
+  onLevelLoaderLoaded: =>
     @session = @levelLoader.session
     @level = @levelLoader.level
+    @world = @levelLoader.world
     @loadingScreen.destroy()
-    @initWorld()
+#    @initWorld()
     @initSurface()
     @initGod()
     @initGoalManager()
