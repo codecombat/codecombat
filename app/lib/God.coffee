@@ -92,6 +92,7 @@ module.exports = class God
     for scriptNote in @world.scriptNotes
       Backbone.Mediator.publish scriptNote.channel, scriptNote.event
     @firstWorld = false
+    @testWorld = null
 
   getUserCodeMap: ->
     userCodeMap = {}

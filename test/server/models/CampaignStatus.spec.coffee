@@ -23,8 +23,8 @@ describe 'CampaignStatus', ->
       .populate('campaign')
       .exec (err, c) ->
         expect(err).toBe(null)
-        expect(c.user.get('name')).not.toBeUndefined()
-        expect(c.campaign.get('name')).not.toBeUndefined()
+        expect(c.user.get('name')).toBeDefined()
+        expect(c.campaign.get('name')).toBeDefined()
         done()
 
   it 'rejects duplicates', (done) ->

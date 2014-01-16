@@ -1,76 +1,76 @@
 module.exports = nativeDescription: "فارسی", englishDescription: "Persian", translation:
   common:
-    loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    loading: "...در حال بارگذاری"
+    saving: "...در حال ذخیره سازی"
+    sending: "...در حال ارسال"
 
-#  modal:
-#    close: "Close"
-#    okay: "Okay"
+  modal:
+    close: "بستن"
+    okay: "تایید"
 
-#  not_found:
-#    page_not_found: "Page not found"
+  not_found:
+    page_not_found: "صفحه پیدا نشد"
 
-#  nav:
-#    sign_up: "Create Account"
-#    log_in: "Log In"
-#    log_out: "Log Out"
-#    play: "Levels"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    admin: "Admin"
-#    home: "Home"
-#    contribute: "Contribute"
-#    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
-#    employers: "Employers"
+  nav:
+    sign_up: "ایجاد حساب کاربری"
+    log_in: "ورود"
+    log_out: "خروج"
+    play: "سطوح"
+    editor: "ویرایشگر"
+    blog: "بلاگ"
+    forum: "انجمن"
+    admin: "مدیر"
+    home: "خانه"
+    contribute: "همکاری"
+    legal: "موارد قانونی"
+    about: "درباره"
+    contact: "تماس "
+    twitter_follow: "دنبال کردن"
+    employers: "Employers"
 
-#  forms:
-#    name: "Name"
-#    email: "Email"
-#    message: "Message"
-#    cancel: "Cancel"
-#    save: "Save"
+  forms:
+    name: "نام"
+    email: "ایمیل"
+    message: "پیام"
+    cancel: "لغو"
+    save: "ذخیره "
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
-#    new_major_version: "New Major Version"
-#    cla_prefix: "To save changes, first you must agree to our"
-#    cla_url: "CLA"
-#    cla_suffix: "."
-#    cla_agree: "I AGREE"
+  versions:
+    save_version_title: "ذخیره کردن نسخه جدید"
+    commit_message: "Commit Message"
+    new_major_version: "New Major Version"
+    cla_prefix: "To save changes, first you must agree to our"
+    cla_url: "CLA"
+    cla_suffix: "."
+    cla_agree: "موافقم"
 
-#  login:
-#    login_modal_title: "Log In"
-#    log_in: "Log In"
-#    sign_up: "create new account"
-#    or: ", or "
-#    recover: "recover account"
+  login:
+    login_modal_title: "ورود"
+    log_in: "ورود"
+    sign_up: "ایجاد حساب کاربری"
+    or: ", یا "
+    recover: "بازیابی حساب کاربری"
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+  recover:
+    recover_account_title: "بازیابی حساب کاربری"
+    send_password: "ارسال رمز عبور بازیابی شده"
 
-#  signup:
-#    create_account_title: "Create Account to Save Progress"
-#    description: "It's free. Just need a couple things and you'll be good to go:"
-#    email_announcements: "Receive announcements by email"
-#    coppa: "13+ or non-USA "
-#    coppa_why: "(Why?)"
-#    creating: "Creating Account..."
-#    sign_up: "Sign Up"
-#    or: "or "
-#    log_in: "log in with password"
+  signup:
+    create_account_title: "ایجاد حساب کاربری برای ذخیره سازی پیشرفت ها"
+    description: ":ثبت نام رایگان است و برای شروع مقداری اطلاعات لازم داریم"
+    email_announcements: "دریافت اطلاعیه ها توسط ایمیل"
+    coppa: "حداقل ۱۳ سال دارم یا امریکایی نیستم"
+    coppa_why: "(چرا؟)"
+    creating: "...در حال ایجاد حساب کاربری"
+    sign_up: "ثبت نام"
+    or: " یا"
+    log_in: "ورود به وسیله رمز عبور"
 
-#  home:
-#    slogan: "Learn to Code JavaScript by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
-#    play: "Play"
+  home:
+    slogan: "کد نویسی به زبان جاوااسکریپت را با بازی بیاموزید"
+    no_ie: "متاسفیم اما بازی بر روی مرورگر های اینترنت اکسپلورر نسخه ۹ به قبل اجرا نمی شود"
+    no_mobile: "این بازی برای دستگاه های موبایل طراحی نشده است و بر روی آن ها اجرا نمی شود"
+    play: "شروع بازی"
 
 #  play:
 #    choose_your_level: "Choose Your Level"

@@ -14,7 +14,8 @@ module.exports = class SpellListView extends View
   id: 'spell-list-view'
   template: template
 
-  subscriptions: {}
+  subscriptions:
+    'god:new-world-created': 'onNewWorld'
 
   constructor: (options) ->
     super options
@@ -63,6 +64,9 @@ module.exports = class SpellListView extends View
     for entry in @entries
       @$el.append entry.el
       entry.render()  # Render after appending so that we can access parent container for popover
+
+  onNewWorld: (e) ->
+    @thang = e.world.thangMap[@thang.id] if @thang
 
   setThangAndSpell: (@thang, @spell) ->
     @entries[0]?.setSelected false

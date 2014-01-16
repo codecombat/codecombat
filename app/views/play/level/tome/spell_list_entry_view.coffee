@@ -15,6 +15,7 @@ module.exports = class SpellListEntryView extends View
     'tome:problems-updated': "onProblemsUpdated"
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
+    'god:new-world-created': 'onNewWorld'
 
   events:
     'click': 'onClick'
@@ -96,3 +97,6 @@ module.exports = class SpellListEntryView extends View
     # Should refactor the disabling list so we can target the spell list separately?
     # Should not call it 'editor' any more?
     @$el.toggleClass('disabled', disabled).find('*').prop('disabled', disabled)
+
+  onNewWorld: (e) ->
+    @lastSelectedThang = e.world.thangMap[@lastSelectedThang.id] if @lastSelectedThang

@@ -49,7 +49,7 @@ module.exports = class WizardSettingsTabView extends RootView
     
     @$el.find('.selector').each (i, slider) =>
       [groupName, prop] = $(slider).attr('name').split('.')
-      value = 100 * (wizardSettings.colorConfig[groupName]?[prop] or 0)
+      value = 100 * (wizardSettings.colorConfig[groupName]?[prop] ? 0.5)
       @initSlider $(slider), value, @onSliderChanged
       
     @$el.find('.color-group').each (i, colorGroup) =>
@@ -82,7 +82,9 @@ module.exports = class WizardSettingsTabView extends RootView
   initStage: ->
     @stage = new createjs.Stage(@$el.find('canvas')[0])
     @updateMovieClip()
-
+    createjs.Ticker.setFPS 20
+    createjs.Ticker.addEventListener("tick", @stage)
+    
   updateMovieClip: ->
     return unless @wizardThangType.loaded
     wizardSettings = me.get('wizard') or {}
@@ -92,13 +94,16 @@ module.exports = class WizardSettingsTabView extends RootView
     options = {colorConfig: wizardSettings.colorConfig}
     @spriteBuilder.setOptions options
     @spriteBuilder.buildColorMaps()
-    portraitAction = @wizardThangType.get('actions')?.portrait
-    return unless portraitAction?.animation
-    @movieClip = @spriteBuilder.buildMovieClip portraitAction.animation
-    @movieClip.scaleY = @movieClip.scaleX = 2 * (portraitAction.scale or 1)
-    reg = portraitAction.positions?.registration
+    castAction = @wizardThangType.get('actions')?.cast
+    return unless castAction?.animation
+    @movieClip = @spriteBuilder.buildMovieClip castAction.animation
+    @movieClip.scaleY = @movieClip.scaleX = 1.7 * (castAction.scale or 1)
+    reg = castAction.positions?.registration
     if reg
       @movieClip.regX = reg.x 
       @movieClip.regY = reg.y
     @stage.addChild @movieClip
     @stage.update()
+
+  destroy: ->
+    @stage?.removeAllEventListeners()

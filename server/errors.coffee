@@ -1,31 +1,35 @@
 
-module.exports.notFound = (req, res, message) ->
-  res.status(404)
-  message = "Route #{req.path} not found." unless message
-  res.write(message)
-  res.end()
 
-module.exports.badMethod = (res) ->
-  res.status(405)
-  res.send('Method not allowed.')
-  res.end()
+module.exports.custom = (res, code=500, message='Internal Server Error') ->
+  res.send code, message
+  res.end
 
-module.exports.badInput = (res) ->
-  res.status(422)
-  res.send('Bad post input.')
-  res.end()
+module.exports.unauthorized = (res, message='Unauthorized') ->
+  # TODO: The response MUST include a WWW-Authenticate header field
+  res.send 401, message
+  res.end
 
-module.exports.conflict = (res) ->
-  res.status(409)
-  res.send('File exists.')
-  res.end()
+module.exports.forbidden = (res, message='Forbidden') ->
+  res.send 403, message
+  res.end
 
-module.exports.serverError = (res) ->
-  res.status(500)
-  res.send('Server error.')
-  res.end()
+module.exports.notFound = (res, message='Not found.') ->
+  res.send 404, message
+  res.end
 
-module.exports.unauthorized = (res) ->
-  res.status(403)
-  res.send('Unauthorized.')
-  res.end()
+module.exports.badMethod = (res, message='Method Not Allowed') ->
+  # TODO: The response MUST include an Allow header containing a list of valid methods for the requested resource
+  res.send 405, message
+  res.end
+
+module.exports.conflict = (res, message='Conflict. File exists') ->
+  res.send 409, message
+  res.end
+
+module.exports.badInput = (res, message='Unprocessable Entity. Bad Input.') ->
+  res.send 422, message
+  res.end
+
+module.exports.serverError = (res, message='Internal Server Error') ->
+  res.send 500, message
+  res.end

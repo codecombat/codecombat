@@ -139,8 +139,7 @@ UserHandler = class UserHandler extends Handler
         req.user.set('signedCLA', doc.created)
         req.user.save (err) ->
           return @sendDatabaseError(res, err) if err
-          res.send({result:'success'})
-          res.end()
+          @sendSuccess(res, {result:'success'})
 
 module.exports = new UserHandler()
 
@@ -157,17 +156,14 @@ module.exports.setupMiddleware = (app) ->
 loginUser = (req, res, user, send=true, next=null) ->
   user.save((err) ->
     if err
-      res.status(500)
-      return res.end()
+      return @sendDatabaseError(res, err)
 
     req.logIn(user, (err) ->
       if err
-        res.status(500)
-        return res.end()
+        return @sendDatabaseError(res, err)
 
       if send
-        res.send(user)
-        return res.end()
+        return @sendSuccess(res, user)
       next() if next
     )
   )

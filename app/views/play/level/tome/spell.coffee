@@ -17,7 +17,6 @@ module.exports = class Spell
     @thangs = {}
     @view = new SpellView {spell: @, session: @session}
     @view.render()  # Get it ready and code loaded in advance
-    console.log 'spell creates tab entry view', @supermodel
     @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel
     @tabView.render()
 

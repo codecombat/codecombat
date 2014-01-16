@@ -259,7 +259,7 @@ describe 'VersionedPlugin', ->
                   expect(results.length).toBe(3)
                   expect(results[2].slug).toBeUndefined()
                   expect(results[1].slug).toBeUndefined()
-                  expect(results[0].slug).not.toBeUndefined()
+                  expect(results[0].slug).toBeDefined()
                   done()
 
 
