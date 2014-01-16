@@ -22,6 +22,7 @@ module.exports = class SpellView extends View
     'tome:manual-cast': 'onManualCast'
     'tome:reload-code': 'onCodeReload'
     'tome:spell-changed': 'onSpellChanged'
+    'level:session-will-save': 'onSessionWillSave'
     'modal-closed': 'focus'
     'focus-editor': 'focus'
     
@@ -318,7 +319,21 @@ module.exports = class SpellView extends View
     #  console.log "valid but not at end of line; recompile in", @autocastDelay + "ms"
 
   onSpellChanged: (e) ->
-    $('#spell-view #save-status').css('visibility', 'visible')
+    @spellHasChanged = true
+
+  onSessionWillSave: (e) ->
+    setTimeout(->
+      if not @spellHasChanged
+        $('#spell-view #save-status').delay(3000).fadeOut(2000)
+    , 3000)
+
+    if @spellHasChanged
+      # Keep showing the text by stopping the fade animation
+      $('#spell-view #save-status').show('fast')
+      $('#spell-view #save-status').css('visibility', 'visible')
+      $('#spell-view #save-status').stop(true, true)
+
+    @spellHasChanged = false
 
   onUserCodeProblem: (e) ->
     return @onInfiniteLoop e if e.problem.id is "runtime_InfiniteLoop"
