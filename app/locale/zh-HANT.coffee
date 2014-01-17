@@ -1,8 +1,8 @@
 module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese (Traditional)", translation:
   common:
     loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    saving: "儲存中..."
+    sending: "發送中...."
 
   modal:
     close: "關閉"
@@ -45,21 +45,21 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    login_modal_title: "登錄"
     log_in: "登錄"
     sign_up: "註冊"
     or: "，或"
     recover: "找回帳戶"
 
-#  recover:
-#    recover_account_title: "Recover Account"
+  recover:
+    recover_account_title: "復原帳戶"
 #    send_password: "Send Recovery Password"
 
   signup:
 #    create_account_title: "Create Account to Save Progress"
     description: "這是免費的。超簡單的喲："
     email_announcements: "通過郵件接收通知"
-#    coppa: "13+ or non-USA "
+    coppa: "13歲以上或非美國公民"
     coppa_why: "爲什麽？"
     creating: "帳戶創建中..."
     sign_up: "註冊"
@@ -103,9 +103,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     title: "幫我們翻譯CodeCombat"
     sub_heading: "我們需要您的語言技能"
     pitch_body: "我們開發了CodeCombat的英文版，但是現在我們的玩家遍佈全球。很多人想玩中文（繁体）版的，卻不會說英文，所以如果你中英文都會，請考慮一下參加我們的翻譯工作，幫忙把 CodeCombat 網站還有所有的關卡翻譯成中文（繁体）。"
-#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    missing_translations: "直至所有正體中文的翻譯完畢，當無法提供正體中文時還會以英文顯示。"
+    learn_more: "關於成為外交官"
+    subscribe_as_diplomat: "註冊成為外交官"
 
 #  wizard_settings:
 #    title: "Wizard Settings"
@@ -129,7 +129,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     email_subscriptions: "郵箱驗證"
     email_announcements: "通知"
     email_announcements_description: "接收關於 CodeCombat 最近的新聞和發展的郵件。"
-#    contributor_emails: "Contributor Class Emails"
+    contributor_emails: "貢獻者電郵"
     contribute_prefix: "我們在尋找志同道合的人！請到 "
     contribute_page: "貢獻頁面"
     contribute_suffix: " 查看更多信息。"
@@ -152,7 +152,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     gravatar_not_found_other: "哎呦，沒有與這個人的郵箱相關的資料。"
     gravatar_contact: "聯繫"
     gravatar_websites: "網站"
-#    gravatar_accounts: "As Seen On"
+    gravatar_accounts: "顯示為"
     gravatar_profile_link: "完善 Gravatar 資料"
 
   play_level:
