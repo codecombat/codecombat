@@ -45,7 +45,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     cla_agree: "KABUL EDİYORUM"
 
   login:
-#    login_modal_title: "Log In"
+    login_modal_title: "Giriş Yap"
     log_in: "Giriş Yap"
     sign_up: "Yeni hesap oluşturabilir,"
     or: " ya da mevcut hesabınızın şifresini unuttuysanız"
