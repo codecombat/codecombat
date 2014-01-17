@@ -442,7 +442,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     counselor_join_desc: "parlez-nous un peu de vous, de ce que vous avez fait et ce que vous aimeriez faire. Nous vous mettrons dans notre liste de contacts et ferons appel à vous quand nous aurons besoin de conseils (pas trop souvent)."
     more_about_counselor: "En apprendre plus sur devenir un précieux Conseiller"
     changes_auto_save: "Les changements sont sauvegardés automatiquement quand vous changez l'état des cases à cocher."
-    diligent_scribes: "Nos Scribes assidus :"
+    diligent_scribes: "Nos Scribes assidus :" 
     powerful_archmages: "Nos puissants Archimages :"
     creative_artisans: "Nos Artisans créatifs :"
     brave_adventurers: "Nos braves Aventuriers :"
