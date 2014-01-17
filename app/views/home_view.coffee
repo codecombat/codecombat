@@ -36,7 +36,7 @@ module.exports = class HomeView extends View
 
   initCanvas: =>
     @stage = new createjs.Stage($('#beginner-campaign canvas', @$el)[0])
-    @createWizard -10, 2, 2.6
+    @createWizard()
 
   turnOnStageUpdates: ->
     clearInterval @turnOff
@@ -50,13 +50,13 @@ module.exports = class HomeView extends View
       @turnOff = null
     @turnOff = setInterval turnOffFunc, 2000
 
-  createWizard: (x=0, y=0, scale=1.0) ->
+  createWizard: (scale=1.0) ->
     spriteOptions = thangID: "Beginner Wizard", resolutionFactor: scale
     @wizardSprite = new WizardSprite @wizardType, spriteOptions
     @wizardSprite.update()
     wizardDisplayObject = @wizardSprite.displayObject
-    wizardDisplayObject.x = 50
-    wizardDisplayObject.y = 85
+    wizardDisplayObject.x = 120
+    wizardDisplayObject.y = 35
     wizardDisplayObject.scaleX = wizardDisplayObject.scaleY = scale
     @stage.addChild wizardDisplayObject
     @stage.update()
