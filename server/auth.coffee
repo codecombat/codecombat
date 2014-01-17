@@ -79,6 +79,22 @@ module.exports.setupRoutes = (app) ->
           return res.end()
     )
   )
+  
+  app.get '/auth/unsubscribe', (req, res) ->
+    email = req.query.email
+    unless req.query.email
+      return errors.badInput res, 'No email provided to unsubscribe.'
+      
+    User.findOne({emailLower:req.query.email.toLowerCase()}).exec (err, user) ->
+      if not user
+        return errors.notFound res, "No user found with email '#{req.query.email}'"
+
+      user.set('emailSubscriptions', [])
+      user.save (err) =>
+        return errors.serverError res, 'Database failure.' if err
+
+        res.send "Unsubscribed #{req.query.email} from all CodeCombat emails. Sorry to see you go! <p><a href='/account/settings'>Account settings</a></p>"
+        res.end()
 
 createMailOptions = (receiver, password) ->
   # TODO: use email templates here
