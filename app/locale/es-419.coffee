@@ -1,8 +1,8 @@
 module.exports = nativeDescription: "español (América Latina)", englishDescription: "Spanish (Latin America)", translation:
   common:
     loading: "Cargando..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    saving: "Guardando..."
+    sending: "Enviando..."
 
   modal:
     close: "Cerrar"
@@ -45,14 +45,14 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    login_modal_title: "Iniciar sesión"
     log_in: "Iniciar sesión"
     sign_up: "crear nueva cuenta"
     or: ", o "
     recover: "recuperar cuenta"
 
-#  recover:
-#    recover_account_title: "Recover Account"
+  recover:
+    recover_account_title: "recuperar cuenta"
 #    send_password: "Send Recovery Password"
 
   signup:
