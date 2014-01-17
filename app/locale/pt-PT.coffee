@@ -1,8 +1,8 @@
 module.exports = nativeDescription: "Português europeu", englishDescription: "Portuguese (Portugal)", translation:
   common:
     loading: "A carregar..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    saving: "A guardar..."
+    sending: "A enviar..."
 
   modal:
     close: "Fechar"
@@ -45,14 +45,14 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    login_modal_title: "Iniciar sessão"
     log_in: "Iniciar sessão"
     sign_up: "criar nova conta"
     or: ", ou "
     recover: "recuperar conta"
 
-#  recover:
-#    recover_account_title: "Recover Account"
+  recover:
+    recover_account_title: "recuperar conta"
 #    send_password: "Send Recovery Password"
 
   signup:
