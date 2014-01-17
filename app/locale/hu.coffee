@@ -1,8 +1,8 @@
 module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", translation:
   common:
     loading: "Töltés..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    saving: "Mentés..."
+    sending: "Küldés..."
 
   modal:
     close: "Mégse"
@@ -45,14 +45,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    login_modal_title: "Bejelentkezés"
     log_in: "Bejelentkezés"
     sign_up: "Új fiók regisztrálása"
     or: ", vagy "
     recover: "meglévő fiók visszaéllítása"
 
-#  recover:
-#    recover_account_title: "Recover Account"
+  recover:
+    recover_account_title: "meglévő fiók visszaéllítása"
 #    send_password: "Send Recovery Password"
 
   signup:
@@ -149,7 +149,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    gravatar_not_found_email_suffix: "."
     gravatar_signup_prefix: "Regisztrálj a "
     gravatar_signup_suffix: " oldalon!"
-#    gravatar_not_found_other: "Alas, there's no profile associated with this person's email address."
+#    gravatar_not_found_other: "Nem találtunk profilt ezzel a címmel:"
 #    gravatar_contact: "Contact"
 #    gravatar_websites: "Websites"
 #    gravatar_accounts: "As Seen On"
