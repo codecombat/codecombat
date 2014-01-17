@@ -1,8 +1,8 @@
 module.exports = nativeDescription: "русский язык", englishDescription: "Russian", translation:
   common:
     loading: "Загрузка..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    saving: "Сохранение..."
+    sending: "Отправка..."
 
   modal:
     close: "Закрыть"
@@ -26,17 +26,17 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     about: "О нас"
     contact: "Контакты"
     twitter_follow: "Подписаться"
-#    employers: "Employers"
+    employers: "Работодателям"
 
   forms:
     name: "Имя"
     email: "Email"
     message: "Сообщение"
     cancel: "Отмена"
-#    save: "Save"
+    save: "Сохранить"
 
 #  versions:
-#    save_version_title: "Save New Version"
+    save_version_title: "Сохранить новую версию"
 #    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
