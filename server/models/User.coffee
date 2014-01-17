@@ -3,6 +3,8 @@ jsonschema = require('../schemas/user')
 crypto = require('crypto')
 {salt, isProduction} = require('../../server_config')
 
+sendwithus = require '../sendwithus'
+
 UserSchema = new mongoose.Schema({
   dateCreated:
     type: Date
@@ -32,7 +34,7 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
   existingProps = doc.get('mailChimp')
   emailChanged = (not existingProps) or existingProps?.email isnt doc.get('email')
   emailSubs = doc.get('emailSubscriptions')
-  newGroups = (groupingMap[name] for name in emailSubs)
+  newGroups = (groupingMap[name] for name in emailSubs when groupingMap[name]?)
   if (not existingProps) and newGroups.length is 0
     return callback?() # don't add totally unsubscribed people to the list
   subsChanged = doc.currentSubscriptions isnt JSON.stringify(emailSubs)
@@ -65,7 +67,14 @@ UserSchema.pre('save', (next) ->
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
     @set('password', undefined)
-  @set('anonymous', false) if @get('email')
+  if @get('email') and @get('anonymous')
+    @set('anonymous', false)
+    data =
+      email_id: sendwithus.templates.welcome_email
+      recipient:
+        address: @get 'email'        
+    sendwithus.api.send data, (err, result) ->
+      console.log 'error', err, 'result', result
   next()
 )
 

@@ -58,7 +58,8 @@
     "mailchimp-api": "",
     "express-useragent": "~0.0.9",
     "gridfs-stream": "",
-    "stream-buffers": ""
+    "stream-buffers": "",
+    "sendwithus": ""
   },
   "devDependencies": {
     "jade": "0.33.x",
