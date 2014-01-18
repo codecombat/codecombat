@@ -202,15 +202,15 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tome_available_spells: "Kullanılabilir Büyüler"
     hud_continue: "Devam (ÜstKarakter+Boşluk)"
 
-#  admin:
-#    av_title: "Admin Views"
-#    av_entities_sub_title: "Entities"
-#    av_entities_users_url: "Users"
-#    av_entities_active_instances_url: "Active Instances"
-#    av_other_sub_title: "Other"
-#    av_other_debug_base_url: "Base (for debugging base.jade)"
-#    u_title: "User List"
-#    lg_title: "Latest Games"
+  admin:
+    av_title: "Yönetici Görünümleri"
+    av_entities_sub_title: "Ortaklıklar"
+    av_entities_users_url: "Kullanıcılar"
+    av_entities_active_instances_url: "Aktif Örnekler"
+    av_other_sub_title: "Başka"
+    av_other_debug_base_url: "Temel (base.jade hata kontrolü)"
+    u_title: "Kullanıcı Listesi"
+    lg_title: "Yeni Oyunlar"
 
   editor:
     main_title: "CodeCombat Düzenleyici"
@@ -280,8 +280,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     and: "ve"
 
 #  about:
-#    who_is_codecombat: "Who is CodeCombat?"
-#    why_codecombat: "Why CodeCombat?"
+#    who_is_codecombat: "CodeCombat kimdir?"
+#    why_codecombat: "Neden CodeCombat?"
 #    who_description_prefix: "together started CodeCombat in 2013. We also created "
 #    who_description_suffix: "in 2008, growing it to the #1 web and iOS application for learning to write Chinese and Japanese characters."
 #    who_description_ending: "Now it's time to teach people to write code."
