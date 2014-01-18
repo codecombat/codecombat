@@ -200,7 +200,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tome_select_spell: "Selecione um Feitiço"
     tome_select_a_thang: "Selecione alguém para "
     tome_available_spells: "Feitiços Disponíveis"
-    hud_continue: "Continue (tecle Shift+Space)"
+    hud_continue: "Continue (tecle Shift+Space)" 
 
 #  admin:
 #    av_title: "Admin Views"
