@@ -1,8 +1,8 @@
 module.exports = nativeDescription: "简体中文", englishDescription: "Chinese (Simplified)", translation:
-#  common:
-#    loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+  common:
+    loading: "读取中..."
+    saving: "保存中……"
+    sending: "发送中..."
 
   modal:
     close: "关闭"
@@ -45,21 +45,21 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    login_modal_title: "登录"
     log_in: "登录"
     sign_up: "注册"
     or: "，或"
     recover: "找回账户"
 
-#  recover:
-#    recover_account_title: "Recover Account"
+  recover:
+    recover_account_title: "找回账户"
 #    send_password: "Send Recovery Password"
 
   signup:
 #    create_account_title: "Create Account to Save Progress"
     description: "这是免费的。简单易学："
     email_announcements: "通过邮件接收通知"
-#    coppa: "13+ or non-USA "
+    coppa: "13 岁以上或非美国用户"
     coppa_why: "为什么？"
     creating: "账户创建中..."
     sign_up: "注册"
@@ -103,9 +103,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     title: "帮我们翻译CodeCombat"
     sub_heading: "我们需要您的语言技能"
     pitch_body: "我们开发了CodeCombat的英文版，但是现在我们的玩家遍布全球。很多人想玩中文（简体）版的，却不会说英语，所以如果你中英文都会，请考虑一下参加我们的翻译工作，帮忙把 CodeCombat 网站还有所有的关卡翻译成中文（简体）。"
-#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    missing_translations: "未翻译的文本将显示为英文。"
+    learn_more: "了解更多有关成为翻译人员的说明"
+    subscribe_as_diplomat: "提交翻译人员申请"
 
 #  wizard_settings:
 #    title: "Wizard Settings"
@@ -129,7 +129,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     email_subscriptions: "邮箱验证"
     email_announcements: "通知"
     email_announcements_description: "接收关于 CodeCombat 最近的新闻和发展的邮件。"
-#    contributor_emails: "Contributor Class Emails"
+    contributor_emails: "贡献者通知"
     contribute_prefix: "我们在寻找志同道合的人！请到 "
     contribute_page: "贡献页面"
     contribute_suffix: " 查看更多信息。"
@@ -152,7 +152,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     gravatar_not_found_other: "哎呀，没有与这个人的邮箱相关的资料。"
     gravatar_contact: "联系"
     gravatar_websites: "网站"
-#    gravatar_accounts: "As Seen On"
+    gravatar_accounts: "显示为"
     gravatar_profile_link: "完善 Gravatar 资料"
 
   play_level:

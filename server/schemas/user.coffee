@@ -1,5 +1,5 @@
 c = require './common'
-emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support']
+emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification']
 
 UserSchema = c.object {},
   name: c.shortString({title: 'Display Name', default:''})

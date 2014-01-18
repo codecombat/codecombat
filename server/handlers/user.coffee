@@ -132,12 +132,12 @@ UserHandler = class UserHandler extends Handler
       name: req.user.get 'name'
       githubUsername: req.body.githubUsername
       created: new Date()+''
-    collection = mongoose.connection.db.collection 'cla.submissions', (err, collection) ->
+    collection = mongoose.connection.db.collection 'cla.submissions', (err, collection) =>
       return @sendDatabaseError(res, err) if err
-      collection.insert doc, (err) ->
+      collection.insert doc, (err) =>
         return @sendDatabaseError(res, err) if err
         req.user.set('signedCLA', doc.created)
-        req.user.save (err) ->
+        req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result:'success'})
 

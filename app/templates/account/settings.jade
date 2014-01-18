@@ -82,7 +82,13 @@ block content
               .controls
                 input#email_announcement(name="email_announcement", type="checkbox", checked=subs.announcement)
                 span.help-inline(data-i18n="account_settings.email_announcements_description") Get emails on the latest news and developments at CodeCombat.
-            
+
+          .form-horizontal
+            .control-group
+              label.control-label(for="email_notification", data-i18n="account_settings.email_notifications") Notifications
+              .controls
+                input#email_notification(name="email_notification", type="checkbox", checked=subs.notification)
+                span.help-inline(data-i18n="account_settings.email_notifications_description") Get periodic notifications for your account.
             hr
 
           .form-horizontal
