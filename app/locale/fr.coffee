@@ -300,7 +300,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     why_ending_url: "Commence ton apprentissage maintenant!"
     george_description: "PDG, homme d'affaire, web designer, game designer, et champion des programmeurs débutants."
     scott_description: "Programmeur extraordinaire, architecte logiciel, assistant cuisinier, et maitre de la finance. Scott est le raisonnable."
-    nick_description: "Assistant programmeur, mage à la motivation excentrique, et technicien sans dessus-dessous. Nick peut faire n'importe quoi mais il a choisi CodeCombat."
+    nick_description: "Assistant programmeur, mage à la motivation excentrique, et bidouilleur de l'extrême. Nick peut faire n'importe quoi mais il a choisi CodeCombat."
     jeremy_description: "Mage de l'assistance client, testeur de maniabilité, et community manager; vous avez probablement déjà parlé avec Jeremy."
     michael_description: "Programmeur, administrateur réseau, et l'enfant prodige du premier cycle, Michael est la personne qui maintient nos serveurs en ligne."
 
