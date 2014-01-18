@@ -35,7 +35,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     cancel: "İptal"
     save: "Kaydet"
 
-#  versions:
+  versions:
     save_version_title: "Yeni Sürümü Kaydet"
     commit_message: "Gönderme İletisi"
     new_major_version: "Yeni Önemli Sürüm"
@@ -141,7 +141,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   account_profile:
     edit_settings: "Ayarları Düzenle"
-#    profile_for_prefix: ""
+    profile_for_prefix: ""
     profile_for_suffix: " Kullanıcısının Profili"
     profile: "Profil"
     user_not_found: "Kullanıcı bulunamadı. URL'den emin misiniz?"
@@ -170,7 +170,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     reload_title: "Tüm kod yeniden yüklensin mi?"
     reload_really: "Bu seviyeyi en baştan yüklemek istediğinizden emin misiniz?"
     reload_confirm: "Tümünü Yeniden Yükle"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: "Tamamlandı "
     victory_sign_up: " Güncellemelere Abone Ol"
     victory_sign_up_poke: "Son haberleri e-postanızda görmek ister misiniz? Ücretsiz bir hesap oluşturmanız durumunda sizi bilgilendirebiliriz."
@@ -279,9 +279,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
   general:
     and: "ve"
 
-#  about:
-#    who_is_codecombat: "CodeCombat kimdir?"
-#    why_codecombat: "Neden CodeCombat?"
+  about:
+    who_is_codecombat: "CodeCombat kimdir?"
+    why_codecombat: "Neden CodeCombat?"
 #    who_description_prefix: "together started CodeCombat in 2013. We also created "
 #    who_description_suffix: "in 2008, growing it to the #1 web and iOS application for learning to write Chinese and Japanese characters."
 #    who_description_ending: "Now it's time to teach people to write code."
@@ -446,7 +446,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  classes:
+  classes:
     archmage_title: "Büyük Büyücü"
     archmage_title_description: "(Kod Yazarı)"
     artisan_title: "Zanaatkar"
