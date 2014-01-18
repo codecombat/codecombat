@@ -103,7 +103,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     title: "Aidez à traduire CodeCombat!"
     sub_heading: "Nous avons besoin de vos compétences en langues."
     pitch_body: "Nous développons CodeCombat en Anglais, mais nous avons déjà des joueurs de partout dans le monde. Beaucoup d'entre eux veulent jouer en Français mais ne parlent pas l'anglais, donc si vous parlez aussi bien l'anglais que le français, aidez-nous en devenant traducteur et aidez à traduire aussi bien le site que tous les niveaux en français."
-    missing_translations: "Jusqu'a ce que nous ayons tout traduit en français, vous verrez de l'anglais quand le français ne sera pas disponible."
+    missing_translations: "Jusqu'à ce que nous ayons tout traduit en français, vous verrez de l'anglais quand le français ne sera pas disponible."
     learn_more: "Apprenez en plus sur les Traducteurs"
     subscribe_as_diplomat: "Souscrire en tant que traducteur"
 
@@ -140,7 +140,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     password_mismatch: "Le mot de passe ne correspond pas."
 
   account_profile:
-    edit_settings: "Editer les préférences"
+    edit_settings: "Éditer les préférences"
     profile_for_prefix: "Profil pour "
     profile_for_suffix: ""
     profile: "Profil"
@@ -176,7 +176,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_sign_up_poke: "Vous voulez recevoir les dernières actualités par mail? Créez un compte gratuitement et nous vous tiendrons informés!"
     victory_rate_the_level: "Notez ce niveau: "
     victory_play_next_level: "Jouer au prochain niveau"
-    victory_go_home: "Retourner à l'&ccueil"
+    victory_go_home: "Retourner à l'accueil"
     victory_review: "Dites-nous en plus!"
     victory_hour_of_code_done: "Déjà fini ?"
     victory_hour_of_code_done_yes: "Oui, j'ai fini mon heure de code!"
