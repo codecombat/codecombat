@@ -52,8 +52,8 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     recover: "восстановить аккаунт"
 
 #  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+    recover_account_title: "Восстановить аккаунт"
+    send_password: "Отправить пароль для восстановления"
 
   signup:
 #    create_account_title: "Create Account to Save Progress"
@@ -108,7 +108,7 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     subscribe_as_diplomat: "Зарегистрироваться как Дипломат"
 
 #  wizard_settings:
-#    title: "Wizard Settings"
+    title: "Мастер настройки"
 #    customize_avatar: "Customize Your Avatar"
 
   account_settings:
@@ -447,17 +447,17 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
 #  classes:
-#    archmage_title: "Archmage"
-#    archmage_title_description: "(Coder)"
-#    artisan_title: "Artisan"
-#    artisan_title_description: "(Level Builder)"
-#    adventurer_title: "Adventurer"
-#    adventurer_title_description: "(Level Playtester)"
-#    scribe_title: "Scribe"
-#    scribe_title_description: "(Article Editor)"
-#    diplomat_title: "Diplomat"
-#    diplomat_title_description: "(Translator)"
-#    ambassador_title: "Ambassador"
-#    ambassador_title_description: "(Support)"
-#    counselor_title: "Counselor"
-#    counselor_title_description: "(Expert/Teacher)"
+    archmage_title: "Верховный маг"
+    archmage_title_description: "(программист)"
+    artisan_title: "Ремесленник"
+    artisan_title_description: "(строитель уровней)"
+    adventurer_title: "Авантюрист"
+    adventurer_title_description: "(Тестировщик уровней)"
+    scribe_title: "Писарь"
+    scribe_title_description: "(редактор статей)"
+    diplomat_title: "Дипломат"
+    diplomat_title_description: "(переводчик)"
+    ambassador_title: "Посол"
+    ambassador_title_description: "(поддержка)"
+    counselor_title: "Советник"
+    counselor_title_description: "(эксперт/учитель)"
