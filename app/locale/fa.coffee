@@ -72,24 +72,24 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     no_mobile: "این بازی برای دستگاه های موبایل طراحی نشده است و بر روی آن ها اجرا نمی شود"
     play: "شروع بازی"
 
-#  play:
-#    choose_your_level: "Choose Your Level"
-#    adventurer_prefix: "You can jump to any level below, or discuss the levels on "
-#    adventurer_forum: "the Adventurer forum"
-#    adventurer_suffix: "."
-#    campaign_beginner: "Beginner Campaign"
-#    campaign_beginner_description: "... in which you learn the wizardry of programming."
-#    campaign_dev: "Random Harder Levels"
+  play:
+    choose_your_level: "مرحله خود را انتخاب کنید"
+    adventurer_prefix: "شما می توانید به هرکدام از مراحل زیر پرش کنید یا ,در مورد آن مرحله بحث کنید"
+    adventurer_forum: "انجمن ماجراجو ها"
+    adventurer_suffix: "."
+    campaign_beginner: "کمپین تازه کارها"
+    campaign_beginner_description: ".که شما در آن می توانید جادوگری به وسیله برنامه نویسی را یادبگیرید..."
+    campaign_dev: "مراحل سخت تصادفی"
 #    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
-#    campaign_multiplayer: "Multiplayer Arenas"
+    campaign_multiplayer: "مسابقات چند نفره"
 #    campaign_multiplayer_description: "... in which you code head-to-head against other players."
-#    campaign_player_created: "Player-Created"
+    campaign_player_created: "ایجاد بازیکن"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
 #    level_difficulty: "Difficulty: "
 
-#  contact:
-#    contact_us: "Contact CodeCombat"
-#    welcome: "Good to hear from you! Use this form to send us email. "
+  contact:
+    contact_us: "CodeCombatتماس با "
+    welcome: "خوب است از شما بشنویم, از طریق این فرم برای ما ایمیل ارسال کنید"
 #    contribute_prefix: "If you're interested in contributing, check out our "
 #    contribute_page: "contribute page"
 #    contribute_suffix: "!"
