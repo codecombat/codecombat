@@ -3,6 +3,14 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     loading: "...در حال بارگذاری"
     saving: "...در حال ذخیره سازی"
     sending: "...در حال ارسال"
+    cancel: "لغو"
+    save: "ذخیره "
+#    delay_1_sec: "1 second"
+#    delay_3_sec: "3 seconds"
+#    delay_5_sec: "5 seconds"
+#    manual: "Manual"
+#    fork: "Fork"
+    play: "سطوح"
 
   modal:
     close: "بستن"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     page_not_found: "صفحه پیدا نشد"
 
   nav:
-    sign_up: "ایجاد حساب کاربری"
-    log_in: "ورود"
-    log_out: "خروج"
     play: "سطوح"
     editor: "ویرایشگر"
     blog: "بلاگ"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     twitter_follow: "دنبال کردن"
     employers: "Employers"
 
-  forms:
-    name: "نام"
-    email: "ایمیل"
-    message: "پیام"
-    cancel: "لغو"
-    save: "ذخیره "
-
   versions:
     save_version_title: "ذخیره کردن نسخه جدید"
-    commit_message: "Commit Message"
     new_major_version: "New Major Version"
     cla_prefix: "To save changes, first you must agree to our"
     cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     cla_agree: "موافقم"
 
   login:
-    login_modal_title: "ورود"
-    log_in: "ورود"
     sign_up: "ایجاد حساب کاربری"
-    or: ", یا "
+    log_in: "ورود"
+    log_out: "خروج"
     recover: "بازیابی حساب کاربری"
 
   recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     coppa_why: "(چرا؟)"
     creating: "...در حال ایجاد حساب کاربری"
     sign_up: "ثبت نام"
-    or: " یا"
     log_in: "ورود به وسیله رمز عبور"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    forum_prefix: "For anything public, please try "
 #    forum_page: "our forum"
 #    forum_suffix: " instead."
-#    sending: "Sending..."
 #    send: "Send Feedback"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    new_password_verify: "Verify"
 #    email_subscriptions: "Email Subscriptions"
 #    email_announcements: "Announcements"
+#    email_notifications_description: "Get periodic notifications for your account."
 #    email_announcements_description: "Get emails on the latest news and developments at CodeCombat."
 #    contributor_emails: "Contributor Class Emails"
 #    contribute_prefix: "We're looking for people to join our party! Check out the "
 #    contribute_page: "contribute page"
 #    contribute_suffix: " to find out more."
 #    email_toggle: "Toggle All"
-#    saving: "Saving..."
 #    error_saving: "Error Saving"
 #    saved: "Changes Saved"
 #    password_mismatch: "Password does not match."
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    tome_cast_button_casting: "Casting"
 #    tome_cast_button_cast: "Spell Cast"
 #    tome_autocast_delay: "Autocast Delay"
-#    tome_autocast_1: "1 second"
-#    tome_autocast_3: "3 seconds"
-#    tome_autocast_5: "5 seconds"
-#    tome_autocast_manual: "Manual"
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    hud_continue: "Continue (press shift-space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,29 +236,25 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
 
 #  article:
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
-#    name: "Name"
+    or: "یا"
+    name: "نام"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
+    email: "ایمیل"
+    message: "پیام"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"

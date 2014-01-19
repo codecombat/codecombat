@@ -3,6 +3,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     loading: "Töltés..."
     saving: "Mentés..."
     sending: "Küldés..."
+    cancel: "Mégse"
+    save: "Mentés"
+    delay_1_sec: "1 másodperc"
+    delay_3_sec: "2 másodperc"
+    delay_5_sec: "3 másodperc"
+    manual: "Kézi"
+#    fork: "Fork"
+    play: "Játék"
 
   modal:
     close: "Mégse"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     page_not_found: "Az oldal nem található"
 
   nav:
-    sign_up: "Regisztráció"
-    log_in: "Bejelentkezés"
-    log_out: "Kijelentkezés"
     play: "Játék"
     editor: "Szerkesztő"
     blog: "Blog"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     twitter_follow: "Követés"
 #    employers: "Employers"
 
-  forms:
-    name: "Név"
-    email: "Email cím"
-    message: "Üzenet"
-    cancel: "Mégse"
-    save: "Mentés"
-
   versions:
     save_version_title: "Új verzió mentése"
-    commit_message: "Megjegyzés"
     new_major_version: "Új főverzió"
     cla_prefix: "A módosítások elmentéséhez el kell fogadnod a "
     cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     cla_agree: "ELFOGADOM"
 
   login:
-    login_modal_title: "Bejelentkezés"
+    sign_up: "Regisztráció"
     log_in: "Bejelentkezés"
-    sign_up: "Új fiók létrehozása"
-    or: ", vagy "
+    log_out: "Kijelentkezés"
     recover: "meglévő fiók visszaállítása"
 
   recover:
@@ -62,7 +58,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     coppa_why: "(Miért?)"
     creating: "Fiók létrehozása"
     sign_up: "Regisztráció"
-    or: "vagy "
     log_in: "belépés meglévő fiókkal"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     forum_prefix: "Ha publikus dologról van szó, megpróbálhatod a "
     forum_page: "fórumban"
     forum_suffix: " is."
-    sending: "Küldés..."
     send: "Visszajelzés küldése"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     new_password_verify: "Mégegyszer"
     email_subscriptions: "Hírlevél feliratkozások"
     email_announcements: "Bejelentések"
+#    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "Szeretnél levelet kapni a legújabb fejlesztéseinkről?"
     contributor_emails: "Hozzájárulóknak szóló levelek"
     contribute_prefix: "Folyamatosan keresünk embereket, hogy csatlakozzanak hozzánk. Nézz rá a "
     contribute_page: "segítők oldalára"
     contribute_suffix: " információkért."
     email_toggle: "Az összes megjelölése"
-    saving: "Mentés..."
     error_saving: "Hiba a mentés során"
     saved: "Változtatások elmentve"
     password_mismatch: "A jelszavak nem egyeznek."
@@ -165,9 +159,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     multiplayer: "Többjátékos"
     restart: "Előről"
     goals: "Célok"
-#   "Tettvonal" sounds like "line of a crime" or something. "Akció idővonal" a little better but even not the best. I'll think about it later (csuvasregal - Sárosi Gergely)
-    action_timeline: "Akció - Idővonal"
-#   action_timeline: "Tettvonal"
+    action_timeline: "Akció - Idővonal" # or "Tettvonal" #   "Tettvonal" sounds like "line of a crime" or something. "Akció idővonal" a little better but even not the best. I'll think about it later (csuvasregal - Sárosi Gergely)
     click_to_select: "Kattints egy egységre, hogy kijelöld!"
     reload_title: "Újra kezded mindet?"
     reload_really: "Biztos vagy benne, hogy előről szeretnéd kezdeni az egész pályát?"
@@ -195,14 +187,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tome_cast_button_casting: "Casting"
 #    tome_cast_button_cast: "Spell Cast"
     tome_autocast_delay: "Auto varázslás késleltetés"
-    tome_autocast_1: "1 másodperc"
-    tome_autocast_3: "2 másodperc"
-    tome_autocast_5: "3 másodperc"
-    tome_autocast_manual: "Kézi"
     tome_select_spell: "Válassz egy varázslatot"
     tome_select_a_thang: "Válassz ki valakit "
     tome_available_spells: "Elérhető varázslatok"
     hud_continue: "Folytatás (shift+space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -227,14 +216,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -254,29 +236,25 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
 
 #  article:
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
-#    name: "Name"
+    or: "vagy "
+    name: "Név"
 #    body: "Body"
 #    version: "Version"
-#    commit_msg: "Commit Message"
+    commit_msg: "Megjegyzés"
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
+    email: "Email cím"
+    message: "Üzenet"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
