@@ -220,7 +220,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    thang_title: "Thang Editor"
     thang_description: "Entwerfe Einheiten, definiere ihre Standardlogik, Grafiken und Töne. Zurzeit werden nur Flash Vektorgrafiken unterstützt."
     level_title: "Level Editor"
-   level_description: "Beinhaltet die Werkzeuge zum Scripten, Hochladen von Tönen und zur Konstruktion eigener Logik, damit jedes erdenkliches Level erstellt werden kann. Genau die Sachen, die wir selber benutzen!"
+    level_description: "Beinhaltet die Werkzeuge zum Scripten, Hochladen von Tönen und zur Konstruktion eigener Logik, damit jedes erdenkliches Level erstellt werden kann. Genau die Sachen, die wir selber benutzen!"
     security_notice: "Viele Hauptfunktionen der Editoren sind standardmäßig noch nicht aktiviert. Sobald die Sicherheit dieser Systeme gewährleistet ist, werden sie generell freigeschaltet. Falls Du diese Funktionen früher nutzen möchtest, "
     contact_us: "setze dich mit uns in Verbindung!" # kontaktiere uns!
     hipchat_prefix: "Besuche uns auch in unserem"
