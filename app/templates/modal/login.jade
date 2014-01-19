@@ -6,7 +6,7 @@ block modal-header-content
 block modal-body-content
   .form-inline
     .control-group
-      label.control-label(for="login-email", data-i18n="forms.email") Email
+      label.control-label(for="login-email", data-i18n="general.email") Email
       .controls
         input#login-email.input-large(name="email", type="email")
     .control-group
@@ -28,5 +28,7 @@ block modal-footer
       .gplus-login-button#gplus-login-button
     div
       a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="login.sign_up")#link-to-signup create new account
-      span(data-i18n="login.or") , or 
+      span , 
+      span(data-i18n="general.or") or
+      span 
       a(data-toggle="coco-modal", data-target="modal/recover", data-i18n="login.recover")#link-to-recover recover account

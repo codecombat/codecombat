@@ -27,11 +27,11 @@ block content
         p
           .form-horizontal
             .control-group
-              label.control-label(for="name", data-i18n="forms.name") Name
+              label.control-label(for="name", data-i18n="general.name") Name
               .controls
                 input#name.input-large(name="name", type="text", value="#{me.get('name')||''}", placeholder="#{gravatarName}")
             .control-group
-              label.control-label(for="email", data-i18n="forms.email") Email
+              label.control-label(for="email", data-i18n="general.email") Email
               .controls
                 input#email.input-large(name="email", type="text", value="#{me.get('email')}")
             if !isProduction

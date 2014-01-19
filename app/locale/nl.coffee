@@ -3,6 +3,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     loading: "Aan het laden..."
     saving: "Opslaan..."
     sending: "Verzenden..."
+    cancel: "Annuleren"
+    save: "Opslagen"
 
   modal:
     close: "Sluiten"
@@ -28,13 +30,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     twitter_follow: "Volgen"
     employers: "Werknemers"
 
-  forms:
-    name: "Naam"
-    email: "Email"
-    message: "Bericht"
-    cancel: "Annuleren"
-    save: "Opslagen"
-
   versions:
     save_version_title: "Nieuwe versie opslagen"
     commit_message: "Commit Bericht"
@@ -48,11 +43,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     login_modal_title: "Log In"
     log_in: "Inloggen"
     sign_up: "nieuw account aanmaken"
-    or: ", of "
     recover: "account herstellen"
 
   recover:
-    recover_account_title: "Herkrijg Account"
+    recover_account_title: "Herstel Account"
     send_password: "Verzend nieuw wachtwoord"
 
   signup:
@@ -63,7 +57,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     coppa_why: "(Waarom?)"
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
-    or: "of "
     log_in: "inloggen met wachtwoord"
 
   home:
@@ -96,7 +89,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     forum_prefix: "Voor iets publiekelijks, probeer dan "
     forum_page: "ons forum"
     forum_suffix: "."
-    sending: "Verzenden..."
     send: "Feedback Verzonden"
 
   diplomat_suggestion:
@@ -134,7 +126,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     contribute_page: "contributie pagina"
     contribute_suffix: " om meer te weten te komen."
     email_toggle: "Vink alles aan/af"
-    saving: "Opslaan..."
     error_saving: "Fout Tijdens Het Opslaan"
     saved: "Aanpassingen Opgeslagen"
     password_mismatch: "Het wachtwoord komt niet overeen."
@@ -252,18 +243,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     level_component_edit_title: "Wijzig Component"
     level_system_edit_title: "Wijzig Systeem"
     create_system_title: "Maak een nieuw Systeem aan"
-    create_system_field_name: "Naam"
-    create_system_btn_cancel: "Annuleren"
-    create_system_btn_create: "Aanmaken"
     new_component_title: "Maak een nieuw Component aan"
     new_component_field_system: "Systeem"
-    new_component_field_name: "naam"
-    new_component_btn_cancel: "Annuleren"
-    new_component_btn_create: "Aanmaken"
 
   article:
     edit_btn_preview: "Voorbeeld"
-    edit_btn_save: "Opslaan"
     edit_article_title: "Wijzig Artikel"
 
   general:
@@ -275,6 +259,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     commit_msg: "Commit Bericht"
     version_history_for: "Versie geschiedenis voor: "
     body: "Inhoud"
+    or: "of"
+    email: "Email"
+    message: "Bericht"
 
   about:
     who_is_codecombat: "Wie is CodeCombat?"

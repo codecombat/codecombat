@@ -15,15 +15,15 @@ block modal-body-content
     span(data-i18n="contact.forum_suffix")  instead.
   .form-inline
     .control-group
-      label.control-label(for="contact-email", data-i18n="forms.email") Email
+      label.control-label(for="contact-email", data-i18n="general.email") Email
       .controls
         input#contact-email.input-block-level(name="email", type="email", value="#{me.get('anonymous') ? '' : me.get('email')}", placeholder="Where should we reply?")
     .control-group
-      label.control-label(for="contact-message", data-i18n="forms.message") Message
+      label.control-label(for="contact-message", data-i18n="general.message") Message
       .controls
         textarea#contact-message.input-block-level(name="message", rows=8)
 
 block modal-footer-content
-  span.sending-indicator.pull-left.hide(data-i18n="contact.sending") Sending...
-  a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="forms.cancel").btn Cancel
+  span.sending-indicator.pull-left.hide(data-i18n="common.sending") Sending...
+  a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="common.cancel").btn Cancel
   button.btn.btn-primary#contact-submit-button(data-i18n="contact.send") Send Feedback
