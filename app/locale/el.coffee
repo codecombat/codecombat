@@ -3,6 +3,8 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     loading: "Φορτώνει..."
     saving: "Γίνεται αποθήκευση"
     sending: "Αποστολή ..."
+    cancel: "Ακύρωση"
+#    save: "Save"
 
   modal:
     close: "Κλείσε"
@@ -12,9 +14,6 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     page_not_found: "Η σελίδα δεν βρέθηκε"
 
   nav:
-    sign_up: "Δημιούργησε Λογαριασμό"
-    log_in: "Σύνδεση"
-    log_out: "Αποσύνδεση"
 #    play: "Levels"
 #    editor: "Editor"
     blog: "Μπλόγκ"
@@ -28,13 +27,6 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     twitter_follow: "Follow"
 #    employers: "Employers"
 
-  forms:
-    name: "Όνομα"
-    email: "Email "
-    message: "Μήνυμα"
-    cancel: "Ακύρωση"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
 #    commit_message: "Commit Message"
@@ -45,10 +37,9 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    cla_agree: "I AGREE"
 
   login:
-    login_modal_title: "Σύνδεση"
+    sign_up: "Δημιούργησε Λογαριασμό"
     log_in: "Σύνδεση"
-    sign_up: "Δημιουργήστε λογαριασμό"
-    or: "ή"
+    log_out: "Αποσύνδεση"
     recover: "Κάντε ανάκτηση του λογαριασμού σας"
 
   recover:
@@ -268,13 +259,16 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 
 #  general:
 #    and: "and"
-#    name: "Name"
+    name: "Όνομα"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
+    or: "ή"
+    email: "Email "
+    message: "Μήνυμα"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"

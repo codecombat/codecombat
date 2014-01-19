@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "čeština", englishDescription: "Czech", translation:
   common:
-#    loading: "Loading..."
+    loading: "Loading..."
 #    saving: "Saving..."
 #    sending: "Sending..."
 #    cancel: "Cancel"
