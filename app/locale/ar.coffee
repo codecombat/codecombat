@@ -5,6 +5,8 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    sending: "Sending..."
 #    cancel: "Cancel"
 #    save: "Save"
+#    fork: "Fork"
+#    play: "Play"
 
 #  modal:
 #    close: "Close"
@@ -117,6 +119,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    new_password_verify: "Verify"
 #    email_subscriptions: "Email Subscriptions"
 #    email_announcements: "Announcements"
+#    email_notifications_description: "Get periodic notifications for your account."
 #    email_announcements_description: "Get emails on the latest news and developments at CodeCombat."
 #    contributor_emails: "Contributor Class Emails"
 #    contribute_prefix: "We're looking for people to join our party! Check out the "
@@ -213,9 +216,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
 #    level_options_1_second: "1 second"
 #    level_options_3_seconds: "3 seconds"
