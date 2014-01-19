@@ -83,7 +83,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     campaign_dev_description: "... dans lesquels vous apprendrez à utiliser l'interface en faisant quelque chose d'un petit peu plus dur."
     campaign_multiplayer: "Campagne multi-joueurs"
     campaign_multiplayer_description: "... dans laquelle vous codez en face à face contre d'autre joueurs."
-    campaign_player_created: "Joueur créé"
+    campaign_player_created: "Niveaux créés par les joueurs"
     campaign_player_created_description: "... Dans laquelle vous serz confrontés à la créativité des votres.<a href=\"/contribute#artisan\">Artisan Wizards</a>."
     level_difficulty: "Difficulté: "
 
