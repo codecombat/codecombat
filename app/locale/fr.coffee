@@ -363,6 +363,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   contribute:
     page_title: "Contribution"
+#    character_classes_title: "Character Classes"
     introduction_desc_intro: "Nous avons beaucoup d'espoir pour CodeCombat."
     introduction_desc_pref: "Nous voulons être l'endroit où les développeurs de tous horizons viennent pour apprendre et jouer ensemble, présenter les autres au monde du développement, et refléter le meilleur de la communauté. Nous ne pouvons et ne voulons pas faire ça seuls ; ce qui rend super les projets comme GitHub, Stack Overflow et Linux, est que les gens qui l'utilisent le construisent. Dans ce but, "
     introduction_desc_github_url: "CodeCombat est totalement open source"
