@@ -33,16 +33,16 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     email: "Email cím"
     message: "Üzenet"
     cancel: "Mégse"
-#    save: "Save"
+    save: "Mentés"
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
-#    new_major_version: "New Major Version"
-#    cla_prefix: "To save changes, first you must agree to our"
-#    cla_url: "CLA"
-#    cla_suffix: "."
-#    cla_agree: "I AGREE"
+  versions:
+    save_version_title: "Új verzió mentése"
+    commit_message: "Megjegyzés"
+    new_major_version: "Új főverzió"
+    cla_prefix: "A módosítások elmentéséhez el kell fogadnod a "
+    cla_url: "CLA"
+    cla_suffix: "tartalmát."
+    cla_agree: "ELFOGADOM"
 
   login:
     login_modal_title: "Bejelentkezés"
@@ -67,16 +67,16 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   home:
     slogan: "Tanulj meg JavaScript nyelven programozni, miközben játszol!"
-    no_ie: "A CodeCombat nem fut Internet Explorer 9, vagy idősebb böngészőben. Bocsi!"
+    no_ie: "A CodeCombat nem támogatja az Internet Explorer 9, vagy korábbi verzióit. Bocsi!"
     no_mobile: "A CodeCombat nem mobil eszközökre lett tervezve. Valószínűleg nem működik helyesen."
     play: "Játssz!"
 
   play:
     choose_your_level: "Válaszd ki a pályát!"
     adventurer_prefix: "Továbbugorhatsz bármelyik pályára, amit lent látsz. Vagy megbeszélheted a pályát a többiekkel "
-#   I don't really get this separation, I'll check it later. "Fórumá" word has no meaning "Fóruma" is the forum of something and "Fórumán" is ON the forum of something ... the "n" requires to change "a" to "á"
-    adventurer_forum: "a Kalandozók Fórumá"
-    adventurer_suffix: " n."
+#   fixed separation
+    adventurer_forum: "a Kalandozók Fórumán"
+    adventurer_suffix: "."
     campaign_beginner: "Kezdő Kampány"
     campaign_beginner_description: "... amelyben megtanulhatod a programozás varázslatait."
     campaign_dev: "Véletlenszerű Nehezebb Pályák"
@@ -133,7 +133,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     contribute_prefix: "Folyamatosan keresünk embereket, hogy csatlakozzanak hozzánk. Nézz rá a "
     contribute_page: "segítők oldalára"
     contribute_suffix: " információkért."
-    email_toggle: "Az összes megjelőlése"
+    email_toggle: "Az összes megjelölése"
     saving: "Mentés..."
     error_saving: "Hiba a mentés során"
     saved: "Változtatások elmentve"
@@ -144,14 +144,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    profile_for_prefix: "Profile for "
 #    profile_for_suffix: ""
     profile: "Profil"
-#    user_not_found: "No user found. Check the URL?"
+    user_not_found: "Nincs ilyen felhasználó! Jó az URL?"
     gravatar_not_found_mine: "Nem találtunk profilt ezzel a címmel:"
 #    gravatar_not_found_email_suffix: "."
     gravatar_signup_prefix: "Regisztrálj az "
     gravatar_signup_suffix: " oldalon!"
 #    gravatar_not_found_other: "Nem találtunk profilt ezzel a címmel:"
-#    gravatar_contact: "Contact"
-#    gravatar_websites: "Websites"
+    gravatar_contact: "Kapcsolat"
+    gravatar_websites: "Weboldalak"
 #    gravatar_accounts: "As Seen On"
 #    gravatar_profile_link: "Full Gravatar Profile"
 
@@ -214,9 +214,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    u_title: "User List"
 #    lg_title: "Latest Games"
 
-#  editor:
-#    main_title: "CodeCombat Editors"
-#    main_description: "Build your own levels, campaigns, units and educational content. We provide all the tools you need!"
+  editor:
+    main_title: "CodeCombat szerkesztők"
+    main_description: "KLészíts saját pályákat, hadjáratokat, egységeket és oktatési célú tartalmakat. Mi megadunk hozzá minden eszközt amire csak szükséged lehet!"
 #    article_title: "Article Editor"
 #    article_description: "Write articles that give players overviews of programming concepts which can be used across a variety of levels and campaigns."
 #    thang_title: "Thang Editor"
