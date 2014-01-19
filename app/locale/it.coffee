@@ -261,23 +261,20 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     new_component_btn_cancel: "Annulla"
     new_component_btn_create: "Crea"
 
-  level:
-    index_table_results: "Risultati"
-    index_table_name: "Nome"
-    index_table_description: "Descrizione"
-    index_table_version: "Versione"
-
   article:
-    index_table_results: "Risultati"
-    index_table_name: "Nome"
-    index_table_body: "Testo"
-    index_table_version: "Versione"
     edit_btn_preview: "Anteprima"
     edit_btn_save: "Salva"
     edit_article_title: "Modifica articolo"
 
   general:
     and: "e"
+    name: "Nome"
+    body: "Testo"
+    version: "Versione"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
+    results: "Risultati"
+    description: "Descrizione"
 
   about:
     who_is_codecombat: "Chi c'è inCodeCombat?"

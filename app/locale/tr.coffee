@@ -261,23 +261,20 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     new_component_btn_cancel: "İptal"
     new_component_btn_create: "Oluştur"
 
-  level:
-    index_table_results: "Sonuçlar"
-    index_table_name: "İsim"
-    index_table_description: "Açıklama"
-    index_table_version: "Sürüm"
-
   article:
-    index_table_results: "Sonuçlar"
-    index_table_name: "İsim"
-    index_table_body: "Gövde"
-    index_table_version: "Sürüm"
     edit_btn_preview: "Önizleme"
     edit_btn_save: "Kaynet"
     edit_article_title: "Makaleyi Düzenle"
 
   general:
     and: "ve"
+    name: "İsim"
+    body: "Gövde"
+    version: "Sürüm"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
+    results: "Sonuçlar"
+    description: "Açıklama"
 
   about:
     who_is_codecombat: "CodeCombat kimdir?"

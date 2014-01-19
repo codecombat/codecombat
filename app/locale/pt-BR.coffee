@@ -261,23 +261,20 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    new_component_btn_cancel: "Cancel"
 #    new_component_btn_create: "Create"
 
-#  level:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_description: "Description"
-#    index_table_version: "Version"
-
 #  article:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_body: "Body"
-#    index_table_version: "Version"
 #    edit_btn_preview: "Preview"
 #    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
 #  general:
 #    and: "and"
+#    name: "Name"
+#    body: "Body"
+#    version: "Version"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
+#    results: "Results"
+#    description: "Description"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"

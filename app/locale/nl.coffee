@@ -272,6 +272,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     name: "Naam"
     description: "Beschrijving"
     version: "Versie"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
     body: "Inhoud"
 
   about:

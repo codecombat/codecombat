@@ -263,24 +263,20 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     new_component_btn_cancel: "Annuler"
     new_component_btn_create: "Créer"
 
-  level:
-    index_table_results: "Résultats"
-    index_table_name: "Nom"
-    index_table_description: "Description"
-    index_table_version: "Version"
-
   article:
-    index_table_results: "Résultats"
-    index_table_name: "Nom"
-    index_table_body: "Corps"
-    index_table_version: "Version"
     edit_btn_save: "Sauvegarder"
     edit_btn_preview: "Prévisualiser"
     edit_article_title: "Éditer l'article"
 
-
   general:
     and: "et"
+    name: "Nom"
+    body: "Corps"
+    version: "Version"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
+    results: "Résultats"
+    description: "Description"
 
   about:
     who_is_codecombat: "Qui est CodeCombat?"
