@@ -107,7 +107,7 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     learn_more: "Узнать о том, как стать Дипломатом"
     subscribe_as_diplomat: "Зарегистрироваться как Дипломат"
 
-#  wizard_settings:
+  wizard_settings:
     title: "Мастер настройки"
 #    customize_avatar: "Customize Your Avatar"
 
@@ -446,7 +446,7 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  classes:
+  classes:
     archmage_title: "Верховный маг"
     archmage_title_description: "(программист)"
     artisan_title: "Ремесленник"
