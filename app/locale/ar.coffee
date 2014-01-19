@@ -5,6 +5,10 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    sending: "Sending..."
 #    cancel: "Cancel"
 #    save: "Save"
+#    delay_1_sec: "1 second"
+#    delay_3_sec: "3 seconds"
+#    delay_5_sec: "5 seconds"
+#    manual: "Manual"
 #    fork: "Fork"
 #    play: "Play"
 
@@ -31,7 +35,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -184,14 +187,11 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    tome_cast_button_casting: "Casting"
 #    tome_cast_button_cast: "Spell Cast"
 #    tome_autocast_delay: "Autocast Delay"
-#    tome_autocast_1: "1 second"
-#    tome_autocast_3: "3 seconds"
-#    tome_autocast_5: "5 seconds"
-#    tome_autocast_manual: "Manual"
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    hud_continue: "Continue (press shift-space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -217,10 +217,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"

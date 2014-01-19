@@ -191,6 +191,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tome_select_a_thang: "Selecteer Iemand voor "
     tome_available_spells: "Beschikbare spreuken"
     hud_continue: "Ga verder (druk shift-space)"
+    spell_saved: "Spreuk Opgeslagen"
 
   admin:
     av_title: "Administrator panels"

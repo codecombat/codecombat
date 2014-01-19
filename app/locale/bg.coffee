@@ -191,6 +191,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    hud_continue: "Continue (press shift-space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
