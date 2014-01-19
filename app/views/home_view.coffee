@@ -44,6 +44,8 @@ module.exports = class HomeView extends View
           href[href.length-1] = lastLevel if href.length isnt 0
           href = href.join("/")
           playLink.attr("href", href)
+    else
+      console.log("TODO: Insert here code to get latest level played from the database. If this can't be found, we just let the user play the first level.")
 
   initCanvas: =>
     @stage = new createjs.Stage($('#beginner-campaign canvas', @$el)[0])
