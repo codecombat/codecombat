@@ -12,7 +12,8 @@ body
           if me.get('anonymous') === false
             button.btn.btn-primary.navbuttontext#logout-button(data-i18n="nav.log_out") Log Out
             a.btn.btn-primary.navbuttontext(href="/account/profile/#{me.id}")
-              | #{me.displayName()}
+              div.navbuttontext-user-name
+                | #{me.displayName()}
               i.icon-cog.icon-white.big
 
           else
