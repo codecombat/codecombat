@@ -4,6 +4,7 @@ template = require 'templates/play/level/tome/spell'
 filters = require 'lib/image_filter'
 Range = ace.require("ace/range").Range
 Problem = require './problem'
+DebugView = require './debug_view'
 
 module.exports = class SpellView extends View
   id: 'spell-view'
@@ -48,6 +49,7 @@ module.exports = class SpellView extends View
     else
       # needs to happen after the code generating this view is complete
       setTimeout @onLoaded, 1
+    @createDebugView()
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -144,6 +146,10 @@ module.exports = class SpellView extends View
     @spell.loaded = true
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
     @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
+
+  createDebugView: ->
+    @debugView = new DebugView ace: @ace
+    @$el.append @debugView.render().$el.hide()
 
   getSource: ->
     @ace.getValue()  # could also do @firepad.getText()
@@ -378,7 +384,7 @@ module.exports = class SpellView extends View
         executed.pop()
         break
       executed.push []
-      for state, statementNumber in callState
+      for state, statementNumber in callState.statements
         if state.userInfo?.time > @thang.world.age
           matched = true
           break
@@ -397,6 +403,7 @@ module.exports = class SpellView extends View
       markerRange.end.detach()
       @aceSession.removeMarker markerRange.id
     @markerRanges = []
+    @debugView.setVariableStates {}
     @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
     $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
     return unless executed.length
@@ -410,6 +417,9 @@ module.exports = class SpellView extends View
         continue if marked[key] > 2  # don't allow more than three of the same marker
         marked[key] ?= 0
         ++marked[key]
+      else
+        @debugView.setVariableStates state.variables
+        console.log "at", state.userInfo.time, "vars are now:", state.variables
       [start, end] = [offsetToPos(state.range[0]), offsetToPos(state.range[1])]
       markerRange = new Range(start.row, start.column, end.row, end.column)
       markerRange.start = @aceDoc.createAnchor markerRange.start
@@ -454,3 +464,4 @@ module.exports = class SpellView extends View
     super()
     @firepad?.dispose()
     @ace.destroy()
+    @debugView.destroy()

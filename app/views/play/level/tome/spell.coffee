@@ -64,6 +64,7 @@ module.exports = class Spell
       functionParameters: @parameters
       yieldConditionally: thang.plan?
       requiresThis: thang.requiresThis
+      includeFlow: true
     if @name is 'chooseAction' or not (me.team in @permissions.readwrite) or thang.id is 'Thoktar'  # Gridmancer can't handle it
       #console.log "Turning off includeFlow for", @spellKey
       aetherOptions.includeFlow = false
