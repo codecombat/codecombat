@@ -3,6 +3,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     loading: "Chargement..."
     saving: "Sauvegarde..."
     sending: "Envoi..."
+    cancel: "Annuler"
+    save: "Sauvegarder"
+    delay_1_sec: "1 seconde"
+    delay_3_sec: "3 secondes"
+    delay_5_sec: "5 secondes"
+    manual: "Manuel"
+    fork: "Fork"
+    play: "Jouer"
 
   modal:
     close: "Fermer"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     page_not_found: "Page non trouvée"
 
   nav:
-    sign_up: "Créer un compte"
-    log_in: "Connexion"
-    log_out: "Déconnexion"
     play: "Jouer"
     editor: "Éditeur"
     blog: "Blog"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     twitter_follow: "Suivre"
     employers: "Employeurs"
 
-  forms:
-    name: "Nom"
-    email: "Courriel"
-    message: "Message"
-    cancel: "Annuler"
-    save: "Sauvegarder"
-
   versions:
     save_version_title: "Enregistrer une nouvelle version"
-    commit_message: "Message de mise à jour"
     new_major_version: "Nouvelle version majeure"
     cla_prefix: "Pour enregistrer vos modifications vous devez d'abord accepter notre"
     cla_url: "Licence de Copyright"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     cla_agree: "J'accepte"
 
   login:
-    login_modal_title: "Connexion"
+    sign_up: "Créer un compte"
     log_in: "Connexion"
-    sign_up: "Créer un nouveau compte"
-    or: ", ou "
+    log_out: "Déconnexion"
     recover: "récupérer son compte"
 
   recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     coppa_why: "(Pourquoi?)"
     creating: "Création du compte en cours..."
     sign_up: "S'abonner"
-    or: "ou "
     log_in: "se connecter avec votre mot de passe"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     forum_prefix: "Pour tout sujet d'ordre publique, merci d'utiliser "
     forum_page: "notre forum"
     forum_suffix: " à la place."
-    sending: "Envoi..."
     send: "Envoyer un commentaire"
 
   diplomat_suggestion:
@@ -135,7 +129,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     contribute_page: "page de contribution"
     contribute_suffix: " pour en savoir plus."
     email_toggle: "Tout basculer"
-    saving: "Enregistrement..."
     error_saving: "Probleme d'enregistrement"
     saved: "Changements sauvegardés"
     password_mismatch: "Le mot de passe ne correspond pas."
@@ -194,14 +187,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tome_cast_button_casting: "Sort en court"
     tome_cast_button_cast: "Sort jeté"
     tome_autocast_delay: "Temps de recharge"
-    tome_autocast_1: "1 seconde"
-    tome_autocast_3: "3 secondes"
-    tome_autocast_5: "5 secondes"
-    tome_autocast_manual: "Manuel"
     tome_select_spell: "Choisissez un sort"
     tome_select_a_thang: "Sélectionnez une unité pour"
     tome_available_spells: "Sorts diponibles"
     hud_continue: "Continuer (appuie sur shift-espace)"
+#    spell_saved: "Spell Saved"
 
   admin:
     av_title: "Vues d'administrateurs"
@@ -226,15 +216,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     contact_us: "contactez nous!"
     hipchat_prefix: "Vous pouvez aussi nous trouver dans notre "
     hipchat_url: "conversation HipChat."
-    level_btn_save: "Sauver"
-    level_btn_fork: "Fork"
-    level_btn_play: "Jouer"
     level_some_options: "Quelques options?"
-
-    level_options_1_second: "1 seconde"
-    level_options_3_seconds: "3 secondes"
-    level_options_5_seconds: "5 secondes"
-    level_options_manual: "Manuel"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Scripts"
     level_tab_settings: "Paramètres"
@@ -253,31 +235,26 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     level_components_type: "Type"
     level_component_edit_title: "Éditer le composant"
     level_system_edit_title: "Éditer le système"
-
     create_system_title: "Créer un nouveau système"
-    create_system_field_name: "Nom"
-    create_system_btn_cancel: "Annuler"
-    create_system_btn_create: "Créer"
     new_component_title: "Créer un nouveau composant"
     new_component_field_system: "Système"
-    new_component_field_name: "Nom"
-    new_component_btn_cancel: "Annuler"
-    new_component_btn_create: "Créer"
 
   article:
-    edit_btn_save: "Sauvegarder"
     edit_btn_preview: "Prévisualiser"
     edit_article_title: "Éditer l'article"
 
   general:
     and: "et"
+    or: "ou"
     name: "Nom"
     body: "Corps"
     version: "Version"
-#    commit_msg: "Commit Message"
+    commit_msg: "Message de mise à jour"
 #    version_history_for: "Version History for: "
     results: "Résultats"
     description: "Description"
+    email: "Courriel"
+    message: "Message"
 
   about:
     who_is_codecombat: "Qui est CodeCombat?"
