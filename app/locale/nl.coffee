@@ -14,9 +14,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     page_not_found: "Pagina niet gevonden"
 
   nav:
-    sign_up: "Account Maken"
-    log_in: "Inloggen"
-    log_out: "Uitloggen"
     play: "Spelen"
     editor: "Editor"
     blog: "Blog"
@@ -32,7 +29,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   versions:
     save_version_title: "Nieuwe versie opslagen"
-    commit_message: "Commit Bericht"
     new_major_version: "Nieuwe hoofd versie"
     cla_prefix: "Om bewerkingen op te slagen, moet je eerst akkoord gaan met onze"
     cla_url: "CLA"
@@ -40,9 +36,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     cla_agree: "IK GA AKKOORD"
 
   login:
-    login_modal_title: "Log In"
     log_in: "Inloggen"
-    sign_up: "nieuw account aanmaken"
+    log_out: "Uitloggen"
+    sign_up: "Account Maken"
     recover: "account herstellen"
 
   recover:

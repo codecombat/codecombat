@@ -3,6 +3,8 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     loading: "Loading..."
 #    saving: "Saving..."
 #    sending: "Sending..."
+#    cancel: "Cancel"
+#    save: "Save"
 
 #  modal:
 #    close: "Close"
@@ -12,9 +14,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    page_not_found: "Page not found"
 
 #  nav:
-#    sign_up: "Create Account"
-#    log_in: "Log In"
-#    log_out: "Log Out"
 #    play: "Levels"
 #    editor: "Editor"
 #    blog: "Blog"
@@ -28,13 +27,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    twitter_follow: "Follow"
 #    employers: "Employers"
 
-#  forms:
-#    name: "Name"
-#    email: "Email"
-#    message: "Message"
-#    cancel: "Cancel"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
 #    commit_message: "Commit Message"
@@ -45,10 +37,9 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    cla_agree: "I AGREE"
 
 #  login:
-#    login_modal_title: "Log In"
 #    log_in: "Log In"
-#    sign_up: "create new account"
-#    or: ", or "
+#    log_out: "Log Out"
+#    sign_up: "Create An Account"
 #    recover: "recover account"
 
 #  recover:
@@ -63,7 +54,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    coppa_why: "(Why?)"
 #    creating: "Creating Account..."
 #    sign_up: "Sign Up"
-#    or: "or "
 #    log_in: "log in with password"
 
 #  home:
@@ -96,7 +86,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    forum_prefix: "For anything public, please try "
 #    forum_page: "our forum"
 #    forum_suffix: " instead."
-#    sending: "Sending..."
 #    send: "Send Feedback"
 
   diplomat_suggestion:
@@ -134,7 +123,6 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    contribute_page: "contribute page"
 #    contribute_suffix: " to find out more."
 #    email_toggle: "Toggle All"
-#    saving: "Saving..."
 #    error_saving: "Error Saving"
 #    saved: "Changes Saved"
 #    password_mismatch: "Password does not match."
@@ -252,18 +240,11 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
 
 #  article:
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
 #  general:
@@ -275,6 +256,9 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
+#    or: "or"
+#    email: "Email"
+#    message: "Message"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
