@@ -3,6 +3,14 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     loading: "Caricamento in corso..."
     saving: "Salvataggio in corso..."
     sending: "Invio in corso..."
+    cancel: "Annulla"
+    save: "Salva"
+    delay_1_sec: "1 secondo"
+    delay_3_sec: "3 secondi"
+    delay_5_sec: "5 secondi"
+    manual: "Manuale"
+#    fork: "Fork"
+    play: "Gioca"
 
   modal:
     close: "Chiudi"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     page_not_found: "Pagina non trovata"
 
   nav:
-    sign_up: "Crea account"
-    log_in: "Accedi"
-    log_out: "Disconnetti"
     play: "Gioca"
     editor: "Editor"
     blog: "Blog"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     twitter_follow: "Segui"
     employers: "Impiegati"
 
-  forms:
-    name: "Nome"
-    email: "Email"
-    message: "Messaggio"
-    cancel: "Annulla"
-    save: "Salva"
-
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 #    cla_agree: "I AGREE"
 
   login:
-    login_modal_title: "Accedi"
+    sign_up: "Crea account"
     log_in: "Accedi"
-    sign_up: "Crea un nuovo account"
-    or: ", o "
+    log_out: "Disconnetti"
     recover: "Recupera account"
 
   recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     coppa_why: "(Perché?)"
     creating: "Creazione account..."
     sign_up: "Registrati"
-    or: "o "
     log_in: "accedi con password"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     forum_prefix: "Per discussioni pubbliche, puoi provare "
     forum_page: "il nostro forum"
     forum_suffix: " invece."
-    sending: "Invio in corso..."
     send: "Invia feedback"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     new_password_verify: "Verifica"
     email_subscriptions: "Sottoscrizioni email"
     email_announcements: "Annunci"
+#    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "Ricevi email con le ultime novità e sviluppi a CodeCombat."
     contributor_emails: "Email dei collaboratori"
     contribute_prefix: "Stiamo cercando persone che si uniscano al nostro gruppo! Dai un'occhiata alla "
     contribute_page: "pagina dei collaboratori"
     contribute_suffix: " per saperne di più."
     email_toggle: "Attiva tutti"
-    saving: "Salvo..."
     error_saving: "Errore durante il salvataggio"
     saved: "Modifiche salvate"
     password_mismatch: "La password non corrisponde."
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     tome_cast_button_casting: "Lanciando"
     tome_cast_button_cast: "Incantesimi"
     tome_autocast_delay: "Ritardo di lancio"
-    tome_autocast_1: "1 secondo"
-    tome_autocast_3: "3 secondi"
-    tome_autocast_5: "5 secondi"
-    tome_autocast_manual: "Manuale"
     tome_select_spell: "Seleziona un incantesimo"
     tome_select_a_thang: "Seleziona qualcuno per "
     tome_available_spells: "Incantesimi disponibili"
     hud_continue: "Continua (premi Maiusc-Spazio)"
+#    spell_saved: "Spell Saved"
 
   admin:
     av_title: "Vista amministratore"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     contact_us: "scrivici!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-    level_btn_save: "Salva"
-#    level_btn_fork: "Fork"
-    level_btn_play: "Gioca"
     level_some_options: "Opzioni??"
-    level_options_1_second: "1 secondo"
-    level_options_3_seconds: "3 secondi"
-    level_options_5_seconds: "5 secondi"
-    level_options_manual: "Manuale"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Script"
     level_tab_settings: "Impostazioni"
@@ -252,22 +236,16 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     level_component_edit_title: "Modifica componente"
     level_system_edit_title: "Modifica sistema"
     create_system_title: "Crea nuovo sistema"
-    create_system_field_name: "Nome"
-    create_system_btn_cancel: "Annulla"
-    create_system_btn_create: "Crea"
     new_component_title: "Crea nuovo componente"
     new_component_field_system: "Sistema"
-    new_component_field_name: "Nome"
-    new_component_btn_cancel: "Annulla"
-    new_component_btn_create: "Crea"
 
   article:
     edit_btn_preview: "Anteprima"
-    edit_btn_save: "Salva"
     edit_article_title: "Modifica articolo"
 
   general:
     and: "e"
+    or: "o"
     name: "Nome"
     body: "Testo"
     version: "Versione"
@@ -275,6 +253,8 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 #    version_history_for: "Version History for: "
     results: "Risultati"
     description: "Descrizione"
+    email: "Email"
+    message: "Messaggio"
 
   about:
     who_is_codecombat: "Chi c'è inCodeCombat?"

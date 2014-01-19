@@ -3,6 +3,14 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     loading: "Laster..."
 #    saving: "Saving..."
 #    sending: "Sending..."
+    cancel: "Avbryt"
+#    save: "Save"
+    delay_1_sec: "1 sekunder"
+    delay_3_sec: "3 sekunder"
+    delay_5_sec: "5 sekunder"
+    manual: "Manuelt"
+#    fork: "Fork"
+    play: "Spill"
 
   modal:
     close: "Lukk"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     page_not_found: "Finner ikke siden"
 
   nav:
-    sign_up: "Lag konto"
-    log_in: "Logg Inn"
-    log_out: "Logg Ut"
     play: "Spill"
     editor: "Editor"
     blog: "Blogg"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     twitter_follow: "Følg"
 #    employers: "Employers"
 
-  forms:
-    name: "Navn"
-    email: "Epost"
-    message: "Melding"
-    cancel: "Avbryt"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    sign_up: "Lag konto"
     log_in: "Logg Inn"
-    sign_up: "lag ny konto"
-    or: ", eller "
+    log_out: "Logg Ut"
     recover: "gjenåpne konto"
 
 #  recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     coppa_why: "(Hvorfor?)"
     creating: "Oppretter Konto..."
     sign_up: "Registrer deg"
-    or: "eller "
     log_in: "logg inn med passord"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     forum_prefix: "For allment tilgjengelige henvendelser, vennligst prøv "
     forum_page: "forumet vårt"
     forum_suffix: " i steden."
-    sending: "Sender..."
     send: "Send Tilbakemelding"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     new_password_verify: "Verifiser"
     email_subscriptions: "Epost Abonnement"
     email_announcements: "Kunngjøringer"
+#    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "Få epost om siste nytt og utvikling fra CodeCombat."
     contributor_emails: "Contributor Klasse Epost"
     contribute_prefix: "Vi leter etter folk som vil delta på festen vår! Sjekk ut "
     contribute_page: "bidra siden"
     contribute_suffix: " for å finne ut mer."
     email_toggle: "Vis Alle"
-    saving: "Lagrer..."
     error_saving: "Lagring Feilet"
     saved: "Endringer Lagret"
     password_mismatch: "Passordene er ikke like."
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tome_cast_button_casting: "Kaster"
     tome_cast_button_cast: "Kast Trylleformular"
     tome_autocast_delay: "Automatisk Forsinkelse"
-    tome_autocast_1: "1 sekunder"
-    tome_autocast_3: "3 sekunder"
-    tome_autocast_5: "5 sekunder"
-    tome_autocast_manual: "Manuelt"
     tome_select_spell: "Velg et Trylleformular"
     tome_select_a_thang: "Velg Noe for å "
     tome_available_spells: "Tilgjenglige Trylleformularer"
     hud_continue: "Fortsett (trykk shift-mellomrom)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,29 +236,25 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
 
 #  article:
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
-#    name: "Name"
+    or: "eller"
+    name: "Navn"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
+    email: "Epost"
+    message: "Melding"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
