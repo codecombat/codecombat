@@ -269,6 +269,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #  general:
 #    and: "and"
 #    name: "Name"
+#    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
