@@ -1,8 +1,16 @@
 module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", translation:
   common:
     loading: "Laddar..."
-#    saving: "Saving..."
+    saving: "Sparar..."
 #    sending: "Sending..."
+    cancel: "Avbryt"
+#    save: "Save"
+    delay_1_sec: "1 sekund"
+    delay_3_sec: "3 sekunder"
+    delay_5_sec: "5 sekunder"
+    manual: "Manuellt"
+#    fork: "Fork"
+#    play: "Play"
 
   modal:
     close: "Stäng"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     page_not_found: "Sidan kan inte hittas"
 
   nav:
-    sign_up: "Skapa Konto"
-    log_in: "Logga In"
-    log_out: "Logga Ut"
     play: "Spela"
     editor: "Nivåredigerare"
     blog: "Blogg"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     twitter_follow: "Följ oss på Twitter"
 #    employers: "Employers"
 
-  forms:
-    name: "Namn"
-    email: "E-post"
-    message: "Meddelande"
-    cancel: "Avbryt"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    sign_up: "Skapa Konto"
     log_in: "Logga In"
-    sign_up: "skapa konto"
-    or: ", eller "
+    log_out: "Logga Ut"
     recover: "glömt lösenord"
 
 #  recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     coppa_why: "(Varför?)"
     creating: "Skapar Konto..."
     sign_up: "Skapa Konto"
-    or: "eller "
     log_in: "logga in med lösenord"
 
   home:
@@ -134,7 +129,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     contribute_page: "bidragarsida"
     contribute_suffix: " tför att få veta mer."
     email_toggle: "Växla Alla"
-    saving: "Sparar..."
     error_saving: "Ett Fel Uppstod Vid Sparningen"
     saved: "Ändringar Sparade"
     password_mismatch: "De angivna lösenorden stämmer inte överens."
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    tome_cast_button_casting: "Casting"
 #    tome_cast_button_cast: "Spell Cast"
 #    tome_autocast_delay: "Autocast Delay"
-    tome_autocast_1: "1 sekund"
-    tome_autocast_3: "3 sekunder"
-    tome_autocast_5: "5 sekunder"
-    tome_autocast_manual: "Manuellt"
     tome_select_spell: "Välj en Förmåga"
     tome_select_a_thang: "Välj Någon för "
     tome_available_spells: "Tillgängliga Förmågor"
 #    hud_continue: "Continue (press shift-space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,29 +236,25 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
 
 #  article:
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
 #  general:
 #    and: "and"
-#    name: "Name"
+    or: "eller"
+    name: "Namn"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
+    email: "E-post"
+    message: "Meddelande"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"

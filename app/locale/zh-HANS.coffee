@@ -3,6 +3,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     loading: "读取中..."
     saving: "保存中……"
     sending: "发送中..."
+    cancel: "退出"
+#    save: "Save"
+    delay_1_sec: "1 秒"
+    delay_3_sec: "3 秒"
+    delay_5_sec: "5 秒"
+    manual: "手动"
+#    fork: "Fork"
+    play: "玩"
 
   modal:
     close: "关闭"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     page_not_found: "找不到网页"
 
   nav:
-    sign_up: "注册"
-    log_in: "登录"
-    log_out: "登出"
     play: "玩"
     editor: "编辑"
     blog: "博客"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     twitter_follow: "关注"
 #    employers: "Employers"
 
-  forms:
-    name: "名字"
-    email: "邮箱"
-    message: "留言"
-    cancel: "退出"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    cla_agree: "I AGREE"
 
   login:
-    login_modal_title: "登录"
-    log_in: "登录"
     sign_up: "注册"
-    or: "，或"
+    log_in: "登录"
+    log_out: "登出"
     recover: "找回账户"
 
   recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     coppa_why: "为什么？"
     creating: "账户创建中..."
     sign_up: "注册"
-    or: "或"
     log_in: "登录"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     forum_prefix: "对任何公共部分，放手去干吧 "
     forum_page: "我们的论坛"
     forum_suffix: "代替。"
-    sending: "发送中。。。"
     send: "意见反馈"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     new_password_verify: "核实"
     email_subscriptions: "邮箱验证"
     email_announcements: "通知"
+#    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "接收关于 CodeCombat 最近的新闻和发展的邮件。"
     contributor_emails: "贡献者通知"
     contribute_prefix: "我们在寻找志同道合的人！请到 "
     contribute_page: "贡献页面"
     contribute_suffix: " 查看更多信息。"
     email_toggle: "切换所有"
-    saving: "保存中..."
     error_saving: "保存时出错"
     saved: "保存修改"
     password_mismatch: "密码不匹配。"
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_cast_button_casting: "发动中"
     tome_cast_button_cast: "发动咒语"
     tome_autocast_delay: "自动施法延迟"
-    tome_autocast_1: "1 秒"
-    tome_autocast_3: "3 秒"
-    tome_autocast_5: "5 秒"
-    tome_autocast_manual: "手动"
     tome_select_spell: "选择一个法术"
     tome_select_a_thang: "选择人物来 "
     tome_available_spells: "可用的法术"
     hud_continue: "继续 (按 shift-空格)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,29 +236,25 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
 
 #  article:
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
 #  general:
 #    and: "and"
-#    name: "Name"
+    or: "或"
+    name: "名字"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
+    email: "邮箱"
+    message: "留言"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"

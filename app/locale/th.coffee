@@ -3,6 +3,14 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     loading: "รอสักครู่..."
 #    saving: "Saving..."
 #    sending: "Sending..."
+    cancel: "ยกเลิก"
+#    save: "Save"
+    delay_1_sec: "1 วินาที"
+    delay_3_sec: "3 วินาที"
+    delay_5_sec: "5 วินาที"
+#    manual: "Manual"
+#    fork: "Fork"
+    play: "เล่น"
 
   modal:
     close: "ปิด"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     page_not_found: "ขออภัย ไม่พบหน้าเว็บที่คุณต้องการ"
 
   nav:
-    sign_up: "ลงทะเบียนใหม่"
-    log_in: "ลงชื่อเข้าใช้"
-    log_out: "ลงชื่ื่อออก"
     play: "เล่น"
     editor: "Editor"
     blog: "บล็อก"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     twitter_follow: "Follow me!"
 #    employers: "Employers"
 
-  forms:
-    name: "ชื่อ"
-    email: "อีเมลล์"
-    message: "ข้อความ"
-    cancel: "ยกเลิก"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
-    log_in: "ลงชื่อเข้าใช้"
     sign_up: "ลงทะเบียนใหม่"
-    or: "หรือ"
+    log_in: "ลงชื่อเข้าใช้"
+    log_out: "ลงชื่ื่อออก"
     recover: "กู้บัญชีการใช้งาน"
 
 #  recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     coppa_why: "(ทำไม?)"
 #    creating: "Creating Account..."
     sign_up: "สมัคร"
-    or: "หรือ"
     log_in: "เข้าสู่ระบบด้วยรหัสผ่าน"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    forum_prefix: "For anything public, please try "
 #    forum_page: "our forum"
 #    forum_suffix: " instead."
-#    sending: "Sending..."
 #    send: "Send Feedback"
 
   diplomat_suggestion:
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    tome_cast_button_casting: "Casting"
 #    tome_cast_button_cast: "Spell Cast"
 #    tome_autocast_delay: "Autocast Delay"
-    tome_autocast_1: "1 วินาที"
-    tome_autocast_3: "3 วินาที"
-    tome_autocast_5: "5 วินาที"
-#    tome_autocast_manual: "Manual"
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    hud_continue: "Continue (press shift-space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,29 +236,25 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
 
 #  article:
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
 #  general:
 #    and: "and"
-#    name: "Name"
+    or: "หรือ"
+    name: "ชื่อ"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
+    email: "อีเมลล์"
+    message: "ข้อความ"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"

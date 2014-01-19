@@ -3,6 +3,14 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     loading: "Загрузка..."
     saving: "Сохранение..."
     sending: "Отправка..."
+    cancel: "Отмена"
+    save: "Сохранить"
+    delay_1_sec: "1 секунда"
+    delay_3_sec: "3 секунды"
+    delay_5_sec: "5 секунд"
+    manual: "Вручную"
+#    fork: "Fork"
+    play: "Играть"
 
   modal:
     close: "Закрыть"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     page_not_found: "Страница не найдена"
 
   nav:
-    sign_up: "Создать Профиль"
-    log_in: "Войти"
-    log_out: "Выйти"
     play: "Играть"
     editor: "Редактор"
     blog: "Блог"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     twitter_follow: "Подписаться"
     employers: "Работодателям"
 
-  forms:
-    name: "Имя"
-    email: "Email"
-    message: "Сообщение"
-    cancel: "Отмена"
-    save: "Сохранить"
-
 #  versions:
     save_version_title: "Сохранить новую версию"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,13 +42,12 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    sign_up: "Создать Профиль"
     log_in: "Войти"
-    sign_up: "создать аккаунт"
-    or: ", или"
+    log_out: "Выйти"
     recover: "восстановить аккаунт"
 
-#  recover:
+  recover:
     recover_account_title: "Восстановить аккаунт"
     send_password: "Отправить пароль для восстановления"
 
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     coppa_why: "(Почему?)"
     creating: "Создание аккаунта..."
     sign_up: "Регистрация"
-    or: "или "
     log_in: "вход с паролем"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     forum_prefix: "Для любых публичных обсуждений, пожалуйста, используйте "
     forum_page: "наш форум"
     forum_suffix: "."
-    sending: "Отправка..."
     send: "Отправить отзыв"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     new_password_verify: "Подтверждение пароля"
     email_subscriptions: "Email-подписки"
     email_announcements: "Оповещения"
+#    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "Получать email-оповещения о последних новостях CodeCombat."
     contributor_emails: "Рассылки по классам участников"
     contribute_prefix: "Нам нужны люди, которые присоединятся к нашей команде! Зайдите на "
     contribute_page: "страницу участников,"
     contribute_suffix: " чтобы узнать больше."
     email_toggle: "Отметить всё"
-    saving: "Сохранение..."
     error_saving: "Ошибка сохранения"
     saved: "Изменения сохранены"
     password_mismatch: "Пароли не совпадают."
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     tome_cast_button_casting: "Заклинание читается"
     tome_cast_button_cast: "Заклинание прочитано"
     tome_autocast_delay: "Задержка автоматического чтения"
-    tome_autocast_1: "1 секунда"
-    tome_autocast_3: "3 секунды"
-    tome_autocast_5: "5 секунд"
-    tome_autocast_manual: "Вручную"
     tome_select_spell: "Выбрать заклинание"
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     hud_continue: "Продолжить (нажмите Shift+Space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,29 +236,25 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
 
 #  article:
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
-#    name: "Name"
+    or: "или"
+    name: "Имя"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
+    email: "Email"
+    message: "Сообщение"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"

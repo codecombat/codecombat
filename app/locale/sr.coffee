@@ -3,6 +3,14 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     loading: "Учитавање"
     saving: "Чување..."
     sending: "Шаље се..."
+    cancel: "Откажи"
+#    save: "Save"
+    delay_1_sec: "1 секунда"
+    delay_3_sec: "3 секунде"
+    delay_5_sec: "5 секунди"
+    manual: "Упутство"
+#    fork: "Fork"
+    play: "Нивои"
 
   modal:
     close: "Затвори"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     page_not_found: "Страница није нађена"
 
   nav:
-    sign_up: "Направи Налог"
-    log_in: "Улогуј Се"
-    log_out: "Излогуј Се"
     play: "Нивои"
     editor: "Уређивач"
     blog: "Блог"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     twitter_follow: "Прати"
 #    employers: "Employers"
 
-  forms:
-    name: "Име"
-    email: "Мејл"
-    message: "Порука"
-    cancel: "Откажи"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    cla_agree: "I AGREE"
 
   login:
-    login_modal_title: "Улогуј се"
-    log_in: "Улогуј се"
-    sign_up: "Направи нови налог"
-    or: "или "
+    sign_up: "Направи Налог"
+    log_in: "Улогуј Се"
+    log_out: "Излогуј Се"
     recover: "Поврати налог"
 
   recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     coppa_why: "(Зашто?)"
     creating: "Прављење налога..."
     sign_up: "Упиши се"
-    or: "или "
     log_in: "улогуј се са шифром"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     forum_prefix: "За било шта јавно, посети "
     forum_page: "наш форум."
 #    forum_suffix: " instead."
-    sending: "Шаље се..."
     send: "Пошаљи повратну информацију"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     new_password_verify: "Потврди"
     email_subscriptions: "Мејл претплате"
     email_announcements: "Обавештења"
+#    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "Прими мејл за најновије вести и достигнућа на CodeCombat-у"
     contributor_emails: "Мејлови реда сарадника"
     contribute_prefix: "Тражимо људе који би нам се придружили! Погледај "
     contribute_page: "страницу за сарадњу"
     contribute_suffix: " да сазнаш више о томе."
     email_toggle: "Обухвати све"
-    saving: "Чување..."
     error_saving: "Чување грешке..."
     saved: "Измене су сачуване"
     password_mismatch: "Шифре се не слажу."
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     tome_cast_button_casting: "Бацање"
     tome_cast_button_cast: "Баци чини"
     tome_autocast_delay: "Размак између аутоматског бацања чини"
-    tome_autocast_1: "1 секунда"
-    tome_autocast_3: "3 секунде"
-    tome_autocast_5: "5 секунди"
-    tome_autocast_manual: "Упутство"
     tome_select_spell: "Изабери чин"
     tome_select_a_thang: "Изабери неког за "
     tome_available_spells: "Доступне чини"
     hud_continue: "Настави (притисни ентер)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,29 +236,25 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
 
 #  article:
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
-#    name: "Name"
+    or: "или"
+    name: "Име"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
+    email: "Мејл"
+    message: "Порука"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
