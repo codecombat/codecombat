@@ -261,11 +261,11 @@ module.exports = class Handler
 
   getDocumentForIdOrSlug: (idOrSlug, done) ->
     idOrSlug = idOrSlug+''
-    try
-      mongoose.Types.ObjectId.createFromHexString(idOrSlug)  # throw error if not a valid ID (probably a slug)
+    isID = idOrSlug.length is 24 and idOrSlug.match(/[a-z0-9]/gi)?.length is 24
+    if isID
       @modelClass.findById(idOrSlug).exec (err, document) ->
         done(err, document)
-    catch e
+    else
       @modelClass.findOne {slug: idOrSlug}, (err, document) ->
         done(err, document)
 
