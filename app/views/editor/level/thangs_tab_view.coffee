@@ -43,7 +43,7 @@ module.exports = class ThangsTabView extends View
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-down': 'onStageMouseDown'
-  
+
   shortcuts:
     'esc': -> @selectAddThang()
 
@@ -70,11 +70,16 @@ module.exports = class ThangsTabView extends View
     return if @startsLoading
     super()
     $('.tab-content').click @selectAddThang
+    $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     key 'left', _.bind @moveAddThangSelection, @, -1
     key 'right', _.bind @moveAddThangSelection, @, 1
     key 'delete, del, backspace', @deleteSelectedExtantThang
     key 'f', => Backbone.Mediator.publish('level-set-debug', debug: not @surface.debug)
     key 'g', => Backbone.Mediator.publish('level-set-grid', grid: not @surface.gridShowing())
+
+  preventBodyScrollingInThangList: (e) ->
+    @scrollTop += (if e.deltaY < 0 then 1 else -1) * 30
+    e.preventDefault()
 
   onLevelLoaded: (e) ->
     @level = e.level
