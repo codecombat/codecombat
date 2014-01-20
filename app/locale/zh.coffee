@@ -1,5 +1,5 @@
 module.exports = nativeDescription: "中文", englishDescription: "Chinese", translation:
-#  common:
+  common:
 #    loading: "Loading..."
 #    saving: "Saving..."
     sending: "在发送中。。。"
@@ -243,7 +243,7 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
 #    edit_btn_preview: "Preview"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
     or: "或"
     name: "名字"
