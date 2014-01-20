@@ -1,8 +1,16 @@
 module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese (Traditional)", translation:
   common:
     loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
+    saving: "儲存中..."
+    sending: "發送中...."
+    cancel: "退出"
+#    save: "Save"
+    delay_1_sec: "1 秒"
+    delay_3_sec: "3 秒"
+    delay_5_sec: "5 秒"
+    manual: "手動手动"
+#    fork: "Fork"
+    play: "玩"
 
   modal:
     close: "關閉"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     page_not_found: "找不到網頁"
 
   nav:
-    sign_up: "註冊"
-    log_in: "登錄"
-    log_out: "退出"
     play: "玩"
     editor: "編輯"
     blog: "博客"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     twitter_follow: "關注"
 #    employers: "Employers"
 
-  forms:
-    name: "名字"
-    email: "郵箱"
-    message: "留言"
-    cancel: "退出"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,25 +42,23 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
-    log_in: "登錄"
     sign_up: "註冊"
-    or: "，或"
+    log_in: "登錄"
+    log_out: "退出"
     recover: "找回帳戶"
 
-#  recover:
-#    recover_account_title: "Recover Account"
+  recover:
+    recover_account_title: "復原帳戶"
 #    send_password: "Send Recovery Password"
 
   signup:
 #    create_account_title: "Create Account to Save Progress"
     description: "這是免費的。超簡單的喲："
     email_announcements: "通過郵件接收通知"
-#    coppa: "13+ or non-USA "
+    coppa: "13歲以上或非美國公民"
     coppa_why: "爲什麽？"
     creating: "帳戶創建中..."
     sign_up: "註冊"
-    or: "或"
     log_in: "登錄"
 
   home:
@@ -103,9 +98,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     title: "幫我們翻譯CodeCombat"
     sub_heading: "我們需要您的語言技能"
     pitch_body: "我們開發了CodeCombat的英文版，但是現在我們的玩家遍佈全球。很多人想玩中文（繁体）版的，卻不會說英文，所以如果你中英文都會，請考慮一下參加我們的翻譯工作，幫忙把 CodeCombat 網站還有所有的關卡翻譯成中文（繁体）。"
-#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
-#    learn_more: "Learn more about being a Diplomat"
-#    subscribe_as_diplomat: "Subscribe as a Diplomat"
+    missing_translations: "直至所有正體中文的翻譯完畢，當無法提供正體中文時還會以英文顯示。"
+    learn_more: "關於成為外交官"
+    subscribe_as_diplomat: "註冊成為外交官"
 
 #  wizard_settings:
 #    title: "Wizard Settings"
@@ -129,12 +124,11 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     email_subscriptions: "郵箱驗證"
     email_announcements: "通知"
     email_announcements_description: "接收關於 CodeCombat 最近的新聞和發展的郵件。"
-#    contributor_emails: "Contributor Class Emails"
+    contributor_emails: "貢獻者電郵"
     contribute_prefix: "我們在尋找志同道合的人！請到 "
     contribute_page: "貢獻頁面"
     contribute_suffix: " 查看更多信息。"
     email_toggle: "切換所有"
-    saving: "保存中..."
     error_saving: "保存時出錯"
     saved: "保存修改"
     password_mismatch: "密碼不匹配。"
@@ -152,7 +146,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     gravatar_not_found_other: "哎呦，沒有與這個人的郵箱相關的資料。"
     gravatar_contact: "聯繫"
     gravatar_websites: "網站"
-#    gravatar_accounts: "As Seen On"
+    gravatar_accounts: "顯示為"
     gravatar_profile_link: "完善 Gravatar 資料"
 
   play_level:
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     tome_cast_button_casting: "發動中"
     tome_cast_button_cast: "咒語"
     tome_autocast_delay: "自動施法延遲"
-    tome_autocast_1: "1 秒"
-    tome_autocast_3: "3 秒"
-    tome_autocast_5: "5 秒"
-    tome_autocast_manual: "手動手动"
     tome_select_spell: "選擇一個法術"
     tome_select_a_thang: "選擇人物來 "
     tome_available_spells: "可用的法術"
     hud_continue: "繼續 (按 shift-空格)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,32 +236,25 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
-
-#  level:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_description: "Description"
-#    index_table_version: "Version"
 
 #  article:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_body: "Body"
-#    index_table_version: "Version"
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
 #  general:
 #    and: "and"
+    or: "或"
+    name: "名字"
+#    body: "Body"
+#    version: "Version"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
+#    results: "Results"
+#    description: "Description"
+    email: "郵箱"
+    message: "留言"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
@@ -364,6 +341,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
 #  contribute:
 #    page_title: "Contributing"
+#    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
 #    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
 #    introduction_desc_github_url: "CodeCombat is totally open source"

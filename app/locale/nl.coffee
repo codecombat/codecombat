@@ -3,6 +3,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     loading: "Aan het laden..."
     saving: "Opslaan..."
     sending: "Verzenden..."
+    cancel: "Annuleren"
+    save: "Opslagen"
+    fork: "Fork"
+    play: "Spelen"
+    delay_1_sec: "1 seconde"
+    delay_3_sec: "3 secondes"
+    delay_5_sec: "5 secondes"
+    manual: "Handboek"
 
   modal:
     close: "Sluiten"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     page_not_found: "Pagina niet gevonden"
 
   nav:
-    sign_up: "Account Maken"
-    log_in: "Inloggen"
-    log_out: "Uitloggen"
     play: "Spelen"
     editor: "Editor"
     blog: "Blog"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     twitter_follow: "Volgen"
     employers: "Werknemers"
 
-  forms:
-    name: "Naam"
-    email: "Email"
-    message: "Bericht"
-    cancel: "Annuleren"
-    save: "Opslagen"
-
   versions:
     save_version_title: "Nieuwe versie opslagen"
-    commit_message: "Commit Bericht"
     new_major_version: "Nieuwe hoofd versie"
     cla_prefix: "Om bewerkingen op te slagen, moet je eerst akkoord gaan met onze"
     cla_url: "CLA"
@@ -45,14 +42,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     cla_agree: "IK GA AKKOORD"
 
   login:
-    login_modal_title: "Log In"
     log_in: "Inloggen"
-    sign_up: "nieuw account aanmaken"
-    or: ", of "
+    log_out: "Uitloggen"
+    sign_up: "Account Maken"
     recover: "account herstellen"
 
   recover:
-    recover_account_title: "Herkrijg Account"
+    recover_account_title: "Herstel Account"
     send_password: "Verzend nieuw wachtwoord"
 
   signup:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     coppa_why: "(Waarom?)"
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
-    or: "of "
     log_in: "inloggen met wachtwoord"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     forum_prefix: "Voor iets publiekelijks, probeer dan "
     forum_page: "ons forum"
     forum_suffix: "."
-    sending: "Verzenden..."
     send: "Feedback Verzonden"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     new_password_verify: "Verifieer"
     email_subscriptions: "Email Abonnementen"
     email_announcements: "Aankondegingen"
+    email_notifications_description: "Krijg periodieke meldingen voor jouw account."
     email_announcements_description: "Verkrijg emails over het laatste nieuws en de ontwikkelingen bij CodeCombat."
     contributor_emails: "Medewerker Klasse emails"
     contribute_prefix: "We zoeken mensen om bij ons feest aan te voegen! Bekijk de "
     contribute_page: "contributie pagina"
     contribute_suffix: " om meer te weten te komen."
     email_toggle: "Vink alles aan/af"
-    saving: "Opslaan..."
     error_saving: "Fout Tijdens Het Opslaan"
     saved: "Aanpassingen Opgeslagen"
     password_mismatch: "Het wachtwoord komt niet overeen."
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tome_cast_button_casting: "Aan het uitvoeren"
     tome_cast_button_cast: "Spreuk uitvoeren"
     tome_autocast_delay: "Spreuk Uitvoeren vertraging"
-    tome_autocast_1: "1 seconde"
-    tome_autocast_3: "3 seconde"
-    tome_autocast_5: "5 seconde"
-    tome_autocast_manual: "Handmatig"
     tome_select_spell: "Selecteer een Spreuk"
     tome_select_a_thang: "Selecteer Iemand voor "
     tome_available_spells: "Beschikbare spreuken"
     hud_continue: "Ga verder (druk shift-space)"
+    spell_saved: "Spreuk Opgeslagen"
 
   admin:
     av_title: "Administrator panels"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     contact_us: "contacteer ons!"
     hipchat_prefix: "Je kan ons ook vinden in ons"
     hipchat_url: "(Engelstalig) HipChat kanaal."
-    level_btn_save: "Opslaan"
-    level_btn_fork: "Fork"
-    level_btn_play: "Spelen"
     level_some_options: "Enkele opties?"
-    level_options_1_second: "1 seconde"
-    level_options_3_seconds: "3 secondes"
-    level_options_5_seconds: "5 secondes"
-    level_options_manual: "Handboek"
     level_tab_thangs: "Elementen"
     level_tab_scripts: "Scripts"
     level_tab_settings: "Instellingen"
@@ -252,18 +236,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     level_component_edit_title: "Wijzig Component"
     level_system_edit_title: "Wijzig Systeem"
     create_system_title: "Maak een nieuw Systeem aan"
-    create_system_field_name: "Naam"
-    create_system_btn_cancel: "Annuleren"
-    create_system_btn_create: "Aanmaken"
     new_component_title: "Maak een nieuw Component aan"
     new_component_field_system: "Systeem"
-    new_component_field_name: "naam"
-    new_component_btn_cancel: "Annuleren"
-    new_component_btn_create: "Aanmaken"
 
   article:
     edit_btn_preview: "Voorbeeld"
-    edit_btn_save: "Opslaan"
     edit_article_title: "Wijzig Artikel"
 
   general:
@@ -272,7 +249,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     name: "Naam"
     description: "Beschrijving"
     version: "Versie"
+    commit_msg: "Commit Bericht"
+    version_history_for: "Versie geschiedenis voor: "
     body: "Inhoud"
+    or: "of"
+    email: "Email"
+    message: "Bericht"
 
   about:
     who_is_codecombat: "Wie is CodeCombat?"
@@ -383,19 +365,19 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     join_url_email: "E-mail ons"
     join_url_hipchat: "ons publiek (Engelstalig) HipChat kanaal"
     more_about_archmage: "Leer meer over hoe je een Machtige Tovenaar kan worden"
-    archmage_subscribe_desc: "Ontvang e-mails en nieuwe codeer oppurtiniteiten en aankondigingen."
+    archmage_subscribe_desc: "Ontvang e-mails met nieuwe codeer oppurtiniteiten en aankondigingen."
     artisan_introduction_pref: "We moeten meer levels bouwen! Mensen schreeuwen om meer inhoud, en er zijn ook maar zoveel levels dat wij kunnen maken. Momenteel is jouw werkplaats level een; onze level editor is amper gebruikt door zelfs ons, wees dus voorzichtig. Indien je visioenen hebt van campagnes, gaande van for-loops tot"
     artisan_introduction_suf: "dan is deze klasse waarschijnlijk iets voor jou."
-    artisan_attribute_1: "Any experience in building content like this would be nice, such as using Blizzard's level editors. But not required!"
-    artisan_attribute_2: "A hankering to do a whole lot of testing and iteration. To make good levels, you need to take it to others and watch them play it, and be prepared to find a lot of things to fix."
-    artisan_attribute_3: "For the time being, endurance en par with an Adventurer. Our Level Editor is super preliminary and frustrating to use. You have been warned!"
-    artisan_join_desc: "Use the Level Editor in these steps, give or take:"
-    artisan_join_step1: "Read the documentation."
-    artisan_join_step2: "Create a new level and explore existing levels."
-    artisan_join_step3: "Find us in our public HipChat room for help."
-    artisan_join_step4: "Post your levels on the forum for feedback."
-    more_about_artisan: "Learn More About Becoming A Creative Artisan"
-    artisan_subscribe_desc: "Get emails on level editor updates and announcements."
+    artisan_attribute_1: "Enige ervaring in het maken van gelijkbare inhoud. Bijvoorbeeld ervaring het gebruiken van Blizzard's level editor. Maar dit is niet vereist!"
+    artisan_attribute_2: "Tot in detail testen en itereren staat voor jou gelijk aan plezier. Om goede levels te maken, moet jet het door anderen laten spelen en bereid zijn om een hele boel aan te passen."
+    artisan_attribute_3: "Momenteel heb je nog veel geduld nodig, doordat onze editor nog vrij ruw is en op je frustraties kan werken. Samenwerken met een Adventurer kan jou ook veel helpen."
+    artisan_join_desc: "Gebruik de Level Editor in deze volgorde, min of meer:"
+    artisan_join_step1: "Lees de documentatie."
+    artisan_join_step2: "Maak een nieuw level en bestudeer reeds bestaande levels."
+    artisan_join_step3: "Praat met ons in ons publieke (Engelstalige) HipChat kanaal voor hulp. (optioneel)"
+    artisan_join_step4: "Maak een bericht over jou level op ons forum voor feedback."
+    more_about_artisan: "Leer meer over hoe je een Creatieve Ambachtsman kan worden."
+    artisan_subscribe_desc: "Ontvang e-mails met nieuws over de Level Editor."
     adventurer_introduction: "Let's be clear about your role: you are the tank. You're going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class might be for you."
     adventurer_attribute_1: "A thirst for learning. You want to learn how to code and we want to teach you how to code. You'll probably be doing most of the teaching in this case, though."
     adventurer_attribute_2: "Charismatic. Be gentle but articulate about what needs improving, and offer suggestions on how to improve."

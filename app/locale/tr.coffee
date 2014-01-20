@@ -3,6 +3,14 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     loading: "Yükleniyor..."
     saving: "Kaydediliyor..."
     sending: "Gönderiliyor..."
+    cancel: "İptal"
+    save: "Kaydet"
+    delay_1_sec: "1 saniye"
+    delay_3_sec: "3 saniye"
+    delay_5_sec: "5 saniye"
+    manual: "El ile"
+    fork: "Çatalla"
+    play: "Oyna"
 
   modal:
     close: "Kapat"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     page_not_found: "Sayfa bulunamadı"
 
   nav:
-    sign_up: "Kaydol"
-    log_in: "Giriş Yap"
-    log_out: "Çıkış Yap"
     play: "Oyna"
     editor: "Düzenleyici"
     blog: "Blog"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     twitter_follow: "Takip et"
     employers: "İş Verenler"
 
-  forms:
-    name: "İsim"
-    email: "E-posta"
-    message: "İleti"
-    cancel: "İptal"
-    save: "Kaydet"
-
-#  versions:
+  versions:
     save_version_title: "Yeni Sürümü Kaydet"
-    commit_message: "Gönderme İletisi"
     new_major_version: "Yeni Önemli Sürüm"
     cla_prefix: "Değişiklikleri kaydetmek için ilk olarak"
     cla_url: "KLA'mızı"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     cla_agree: "KABUL EDİYORUM"
 
   login:
-#    login_modal_title: "Log In"
+    sign_up: "Kaydol"
     log_in: "Giriş Yap"
-    sign_up: "Yeni hesap oluşturabilir,"
-    or: " ya da mevcut hesabınızın şifresini unuttuysanız"
+    log_out: "Çıkış Yap"
     recover: "şifrenizi sıfırlayabilirsiniz."
 
   recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     coppa_why: "(Bu nedir?)"
     creating: "Hesap oluşturuluyor..."
     sign_up: "Kaydol"
-    or: "Zaten hesabınız varsa"
     log_in: "buradan giriş yapabilirsiniz."
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     forum_prefix: "Daha kamuya açık soru ve görüşleriniz için "
     forum_page: "forumumuzu"
     forum_suffix: " kullanabilirsiniz."
-    sending: "Gönderiliyor."
     send: "Gönder"
 
   diplomat_suggestion:
@@ -128,20 +122,20 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     new_password_verify: "Teyit Et"
     email_subscriptions: "E-posta Abonelikleri"
     email_announcements: "Duyurular"
+#    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "CodeCombat ile ilgili son haberlere ve gelişmelere ulaşın."
     contributor_emails: "İştirakçi Sınıfı E-postaları"
     contribute_prefix: "Partimize katılmak üzere sizleri bekliyoruz ! Detaylı bilgi için "
     contribute_page: "katkı sayfasını"
     contribute_suffix: " ziyaret edebilirsiniz."
     email_toggle: "Tümünü Değiştir"
-    saving: "Kaydediliyor..."
     error_saving: "Kayıt Esnasında Hata"
     saved: "Değişiklikler Kaydedildi"
     password_mismatch: "Şifreler Uyuşmuyor"
 
   account_profile:
     edit_settings: "Ayarları Düzenle"
-#    profile_for_prefix: ""
+    profile_for_prefix: ""
     profile_for_suffix: " Kullanıcısının Profili"
     profile: "Profil"
     user_not_found: "Kullanıcı bulunamadı. URL'den emin misiniz?"
@@ -170,7 +164,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     reload_title: "Tüm kod yeniden yüklensin mi?"
     reload_really: "Bu seviyeyi en baştan yüklemek istediğinizden emin misiniz?"
     reload_confirm: "Tümünü Yeniden Yükle"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: "Tamamlandı "
     victory_sign_up: " Güncellemelere Abone Ol"
     victory_sign_up_poke: "Son haberleri e-postanızda görmek ister misiniz? Ücretsiz bir hesap oluşturmanız durumunda sizi bilgilendirebiliriz."
@@ -193,24 +187,21 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tome_cast_button_casting: "Fırlatılıyor"
     tome_cast_button_cast: "Fırlat"
     tome_autocast_delay: "Otomatik-Fırlatma Gecikmesi"
-    tome_autocast_1: "1 saniye"
-    tome_autocast_3: "3 saniye"
-    tome_autocast_5: "5 saniye"
-    tome_autocast_manual: "El ile"
     tome_select_spell: "Bir Büyü Seç"
     tome_select_a_thang: "Birini seç..."
     tome_available_spells: "Kullanılabilir Büyüler"
     hud_continue: "Devam (ÜstKarakter+Boşluk)"
+#    spell_saved: "Spell Saved"
 
-#  admin:
-#    av_title: "Admin Views"
-#    av_entities_sub_title: "Entities"
-#    av_entities_users_url: "Users"
-#    av_entities_active_instances_url: "Active Instances"
-#    av_other_sub_title: "Other"
-#    av_other_debug_base_url: "Base (for debugging base.jade)"
-#    u_title: "User List"
-#    lg_title: "Latest Games"
+  admin:
+    av_title: "Yönetici Görünümleri"
+    av_entities_sub_title: "Ortaklıklar"
+    av_entities_users_url: "Kullanıcılar"
+    av_entities_active_instances_url: "Aktif Örnekler"
+    av_other_sub_title: "Başka"
+    av_other_debug_base_url: "Temel (base.jade hata kontrolü)"
+    u_title: "Kullanıcı Listesi"
+    lg_title: "Yeni Oyunlar"
 
   editor:
     main_title: "CodeCombat Düzenleyici"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     contact_us: "bize ulaşın!"
     hipchat_prefix: "Bizi ayrıca"
     hipchat_url: "HipChat otasında bulabilirsiniz."
-    level_btn_save: "Kaydet"
-    level_btn_fork: "Çatalla"
-    level_btn_play: "Oyna"
     level_some_options: "Bazı Seçenekler?"
-    level_options_1_second: "1 saniye"
-    level_options_3_seconds: "3 saniye"
-    level_options_5_seconds: "5 saniye"
-    level_options_manual: "Kılavuz"
     level_tab_thangs: "Nesneler"
     level_tab_scripts: "Betikler"
     level_tab_settings: "Ayarlar"
@@ -252,36 +236,29 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     level_component_edit_title: "Bileşen Düzenle"
     level_system_edit_title: "Sistem Düzenle"
     create_system_title: "Yeni Sistem Oluştur"
-    create_system_field_name: "İsim"
-    create_system_btn_cancel: "İptal"
-    create_system_btn_create: "Oluştur"
     new_component_title: "Yeni Bileşen Oluştur"
     new_component_field_system: "Sistem"
-    new_component_field_name: "İsim"
-    new_component_btn_cancel: "İptal"
-    new_component_btn_create: "Oluştur"
-
-  level:
-    index_table_results: "Sonuçlar"
-    index_table_name: "İsim"
-    index_table_description: "Açıklama"
-    index_table_version: "Sürüm"
 
   article:
-    index_table_results: "Sonuçlar"
-    index_table_name: "İsim"
-    index_table_body: "Gövde"
-    index_table_version: "Sürüm"
     edit_btn_preview: "Önizleme"
-    edit_btn_save: "Kaynet"
     edit_article_title: "Makaleyi Düzenle"
 
   general:
     and: "ve"
+    or: "veya"
+    name: "İsim"
+    body: "Gövde"
+    version: "Sürüm"
+    commit_msg: "Gönderme İletisi"
+#    version_history_for: "Version History for: "
+    results: "Sonuçlar"
+    description: "Açıklama"
+    email: "E-posta"
+    message: "İleti"
 
-#  about:
-#    who_is_codecombat: "Who is CodeCombat?"
-#    why_codecombat: "Why CodeCombat?"
+  about:
+    who_is_codecombat: "CodeCombat kimdir?"
+    why_codecombat: "Neden CodeCombat?"
 #    who_description_prefix: "together started CodeCombat in 2013. We also created "
 #    who_description_suffix: "in 2008, growing it to the #1 web and iOS application for learning to write Chinese and Japanese characters."
 #    who_description_ending: "Now it's time to teach people to write code."
@@ -364,6 +341,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
 #  contribute:
 #    page_title: "Contributing"
+#    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
 #    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
 #    introduction_desc_github_url: "CodeCombat is totally open source"
@@ -446,7 +424,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  classes:
+  classes:
     archmage_title: "Büyük Büyücü"
     archmage_title_description: "(Kod Yazarı)"
     artisan_title: "Zanaatkar"

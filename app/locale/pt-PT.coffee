@@ -3,6 +3,14 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     loading: "A carregar..."
     saving: "A guardar..."
     sending: "A enviar..."
+    cancel: "Cancelar"
+#    save: "Save"
+#    delay_1_sec: "1 second"
+#    delay_3_sec: "3 seconds"
+#    delay_5_sec: "5 seconds"
+#    manual: "Manual"
+#    fork: "Fork"
+    play: "Jogar"
 
   modal:
     close: "Fechar"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     page_not_found: "Página não encontrada"
 
   nav:
-    sign_up: "Criar conta"
-    log_in: "Iniciar sessão"
-    log_out: "Terminar sessão"
     play: "Jogar"
     editor: "Editor"
     blog: "Blog"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     twitter_follow: "Seguir"
 #    employers: "Employers"
 
-  forms:
-    name: "Nome"
-    email: "E-mail"
-    message: "Mensagem"
-    cancel: "Cancelar"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    cla_agree: "I AGREE"
 
   login:
-    login_modal_title: "Iniciar sessão"
+    sign_up: "Criar conta"
     log_in: "Iniciar sessão"
-    sign_up: "criar nova conta"
-    or: ", ou "
+    log_out: "Terminar sessão"
     recover: "recuperar conta"
 
   recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     coppa_why: "(Porquê?)"
     creating: "A criar conta..."
     sign_up: "Registar"
-    or: "ou "
     log_in: "iniciar sessão com palavra-passe"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     forum_prefix: "Para algo público, por favor, usa o "
     forum_page: "nosso fórum"
     forum_suffix: " como alternativa."
-    sending: "A enviar..."
     send: "Enviar Feedback"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     new_password_verify: "Verificar"
     email_subscriptions: "Subscrições de E-mail"
     email_announcements: "Anúncios"
+#    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "Recebe e-mails sobre as últimas novidades e desenvolvimentos no CodeCombat."
     contributor_emails: "E-mails para Contribuintes"
     contribute_prefix: "Estamos à procura de pessoas para se juntarem a nós! Visita a "
     contribute_page: "página de contribuição"
     contribute_suffix: " para mais informação."
     email_toggle: "Alternar todos"
-    saving: "A guardar..."
     error_saving: "Erro ao guardar"
     saved: "Alterações guardadas"
     password_mismatch: "As palavras-passe não coincidem."
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    tome_cast_button_casting: "Casting"
 #    tome_cast_button_cast: "Spell Cast"
 #    tome_autocast_delay: "Autocast Delay"
-#    tome_autocast_1: "1 second"
-#    tome_autocast_3: "3 seconds"
-#    tome_autocast_5: "5 seconds"
-#    tome_autocast_manual: "Manual"
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    hud_continue: "Continue (press shift-space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,32 +236,25 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
-
-#  level:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_description: "Description"
-#    index_table_version: "Version"
 
 #  article:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_body: "Body"
-#    index_table_version: "Version"
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
+    or: "ou"
+    name: "Nome"
+#    body: "Body"
+#    version: "Version"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
+#    results: "Results"
+#    description: "Description"
+    email: "E-mail"
+    message: "Mensagem"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
@@ -364,6 +341,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 
 #  contribute:
 #    page_title: "Contributing"
+#    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
 #    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
 #    introduction_desc_github_url: "CodeCombat is totally open source"

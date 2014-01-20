@@ -2,7 +2,15 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   common:
     loading: "Načítava sa..."
 #    saving: "Saving..."
-#    sending: "Sending..."
+    sending: "Odosiela sa..."
+    cancel: "Zrušiť"
+#    save: "Save"
+#    delay_1_sec: "1 second"
+#    delay_3_sec: "3 seconds"
+#    delay_5_sec: "5 seconds"
+#    manual: "Manual"
+#    fork: "Fork"
+    play: "Hrať"
 
   modal:
     close: "Zatvoriť"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     page_not_found: "Stránka nenájdená"
 
   nav:
-    sign_up: "Vytvoriť účet"
-    log_in: "Prihlásiť sa"
-    log_out: "Odhlásiť sa"
     play: "Hrať"
     editor: "Editor"
     blog: "Blog"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     twitter_follow: "Sledovať"
 #    employers: "Employers"
 
-  forms:
-    name: "Meno"
-    email: "Email"
-    message: "Správa"
-    cancel: "Zrušiť"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    sign_up: "Vytvoriť účet"
     log_in: "Prihlásiť sa"
-    sign_up: "vytvoriť nový účet"
-    or: ", alebo o"
+    log_out: "Odhlásiť sa"
     recover: "obnoviť účet"
 
 #  recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     coppa_why: "(Prečo?)"
     creating: "Vytvára sa účet..."
     sign_up: "Registrovať sa"
-    or: "alebo "
     log_in: "prihlásiť sa pomocou hesla"
 
   home:
@@ -96,14 +91,13 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     forum_prefix: "Pre všetky ostatné verejné záležitosti, prosím vyskúšajte "
     forum_page: "naše fórum"
     forum_suffix: "."
-    sending: "Odosiela sa..."
     send: "Poslať odozvu"
 
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!"
 #    sub_heading: "We need your language skills."
     pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Slovak but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Slovak."
-#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
+    missing_translations: "Until we can translate everything into Slovak, you'll see English when Slovak isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    tome_cast_button_casting: "Casting"
 #    tome_cast_button_cast: "Spell Cast"
 #    tome_autocast_delay: "Autocast Delay"
-#    tome_autocast_1: "1 second"
-#    tome_autocast_3: "3 seconds"
-#    tome_autocast_5: "5 seconds"
-#    tome_autocast_manual: "Manual"
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    hud_continue: "Continue (press shift-space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,32 +236,25 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
-
-#  level:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_description: "Description"
-#    index_table_version: "Version"
 
 #  article:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_body: "Body"
-#    index_table_version: "Version"
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
+    or: "alebo"
+    name: "Meno"
+#    body: "Body"
+#    version: "Version"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
+#    results: "Results"
+#    description: "Description"
+    email: "Email"
+    message: "Správa"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
@@ -364,6 +341,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
 #  contribute:
 #    page_title: "Contributing"
+#    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
 #    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
 #    introduction_desc_github_url: "CodeCombat is totally open source"
