@@ -63,7 +63,24 @@ module.exports = class ThangsTabView extends View
 
   getRenderData: (context={}) =>
     context = super(context)
-    context.thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
+    thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
+    thangTypes = _.uniq thangTypes, false, 'original'
+    groupMap = {}
+    for thangType in thangTypes
+      groupMap[thangType.kind] ?= []
+      groupMap[thangType.kind].push thangType
+      
+    groups = []
+    for groupName in Object.keys(groupMap).sort()
+      someThangTypes = groupMap[groupName]
+      someThangTypes = _.sortBy someThangTypes, 'name'
+      group =
+        name: groupName
+        thangs: someThangTypes
+      groups.push group
+    
+    context.thangTypes = thangTypes
+    context.groups = groups
     context
 
   afterRender: ->

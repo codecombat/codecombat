@@ -92,7 +92,7 @@ module.exports = class Handler
     unless @modelClass.schema.uses_coco_search
       return @sendNotFoundError(res)
 
-    project = {original:1, name:1, version:1, description: 1, slug:1}
+    project = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
     term = req.query.term
     matchedObjects = []
     filters = [{filter: {index: true}}]
