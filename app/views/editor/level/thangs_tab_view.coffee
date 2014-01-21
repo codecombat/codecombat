@@ -207,9 +207,12 @@ module.exports = class ThangsTabView extends View
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos
-    else
-      # We clicked on the background, so deselect anything selected
-      @thangsTreema.deselectAll()
+      
+    # Commented out this bit so the extant thangs treema editor can select invisible thangs like arrows.
+    # Couldn't spot any bugs... But if there are any, better come up with a better solution.
+#    else
+#      # We clicked on the background, so deselect anything selected
+#      @thangsTreema.deselectAll()
 
   selectAddThang: (e) =>
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
