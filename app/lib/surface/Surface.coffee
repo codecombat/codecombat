@@ -114,6 +114,7 @@ module.exports = Surface = class Surface extends CocoClass
     
   showPathFinding: ->
     @hidePathFinding()
+    
     mesh = _.values(@world.navMeshes or {})[0]
     return unless mesh
     @navRectangles = new createjs.Container()
@@ -121,10 +122,12 @@ module.exports = Surface = class Surface extends CocoClass
     @addMeshRectanglesToContainer mesh, @navRectangles
     @surfaceLayer.addChild @navRectangles
     @surfaceLayer.updateLayerOrder()
-    return @surfaceLayer.updateLayerOrder() unless @world.graph
+    
+    graph = _.values(@world.graphs or {})[0]
+    return @surfaceLayer.updateLayerOrder() unless graph
     @navPaths = new createjs.Container()
     @navPaths.layerPriority = -1
-    @addNavPathsToContainer @world.graph, @navPaths
+    @addNavPathsToContainer graph, @navPaths
     @surfaceLayer.addChild @navPaths
     @surfaceLayer.updateLayerOrder()
     
