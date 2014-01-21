@@ -114,7 +114,7 @@ module.exports = class Handler
         @modelClass.textSearch term, filter, callback
       else
         args = [filter.filter]
-        args.push filter.project if req.query.project
+        args.push project if req.query.project
         @modelClass.find(args...).limit(100).exec callback
 
   versions: (req, res, id) ->
