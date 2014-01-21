@@ -43,9 +43,20 @@ module.exports = class ThangsTabView extends View
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-down': 'onStageMouseDown'
-
+    
+  events:
+    'click #extant-thangs-filter button': 'onFilterExtantThangs'
+    
   shortcuts:
     'esc': -> @selectAddThang()
+
+  onFilterExtantThangs: (e) ->
+    button = $(e.target).closest('button')
+    button.button('toggle')
+    val = button.val()
+    @thangsTreema.$el.removeClass(@lastHideClass) if @lastHideClass
+    @thangsTreema.$el.addClass(@lastHideClass = "hide-except-#{val}") if val
+      
 
   constructor: (options) ->
     super options
@@ -88,6 +99,9 @@ module.exports = class ThangsTabView extends View
     super()
     $('.tab-content').click @selectAddThang
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
+    @$el.find('#extant-thangs-filter button:first').button('toggle')
+    
+    # TODO: move these into the shortcuts list
     key 'left', _.bind @moveAddThangSelection, @, -1
     key 'right', _.bind @moveAddThangSelection, @, 1
     key 'delete, del, backspace', @deleteSelectedExtantThang
@@ -375,6 +389,7 @@ class ThangNode extends TreemaObjectNode
   valueClass: 'treema-thang'
   collection: false
   @thangNameMap: {}
+  @thangKindMap: {}
   buildValueForDisplay: (valEl) ->
     pos = _.find(@data.components, (c) -> c.config?.pos?)?.config.pos  # TODO: hack
     s = "#{@data.thangType}"
@@ -382,6 +397,9 @@ class ThangNode extends TreemaObjectNode
       unless name = ThangNode.thangNameMap[s]
         thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s
         name = ThangNode.thangNameMap[s] = thangType.get 'name'
+        ThangNode.thangKindMap[s] = thangType.get 'kind'
+      kind = ThangNode.thangKindMap[s]
+      @$el.addClass "treema-#{kind}"
       s = name
     s += " - " + @data.id if @data.id isnt s
     if pos
