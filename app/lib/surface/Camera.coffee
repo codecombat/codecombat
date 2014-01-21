@@ -218,7 +218,7 @@ module.exports = class Camera extends CocoClass
 
   updateZoom: (force=false) ->
     # Update when we're focusing on a Thang, tweening, or forcing it, unless we're locked
-    return if @locked or (not force and not @newTarget and not @target?.name)
+    return if (not force) and (@locked or (not @newTarget and not @target?.name))
     if @newTarget
       t = @tweenProgress
       @zoom = @oldZoom + t * (@newZoom - @oldZoom)

@@ -230,7 +230,7 @@ module.exports = class SpriteBoss extends CocoClass
       @selectedSprite = sprite
     alive = sprite?.thang.health > 0
 
-    Backbone.Mediator.publish "surface:sprite-selected",
+    Backbone.Mediator.publish 'surface:sprite-selected',
       thang: if sprite then sprite.thang else null
       sprite: sprite
       spellName: spellName ? e?.spellName
