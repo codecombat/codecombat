@@ -105,6 +105,7 @@ _.extend ThangTypeSchema.properties,
     shapes: c.object {title: 'Shapes', additionalProperties: ShapeObjectSchema}
     containers: c.object {title: 'Containers', additionalProperties: ContainerObjectSchema}
     animations: c.object {title: 'Animations', additionalProperties: RawAnimationObjectSchema}
+  kind: c.shortString { enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc'], default: 'Misc', title: 'Kind' }
 
   actions: c.object { title: 'Actions', additionalProperties: { $ref: '#/definitions/action' } }
   soundTriggers: c.object { title: "Sound Triggers", additionalProperties: c.array({}, { $ref: '#/definitions/sound' }) },
