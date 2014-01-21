@@ -7,6 +7,7 @@ table.table
         |: #{documents.length}
   
   tr
+    th#portrait-col
     th(data-i18n="general.name") Name
     th(data-i18n="general.description") Description
     th(data-i18n="general.version") Version
@@ -14,6 +15,9 @@ table.table
   for data in documents 
     - data = data.attributes;
     tr
+      td
+        - path = '/file/db/thang.type/'+data.original+'/portrait.png'
+        img(title="Add " + data.name, src=path, alt="").portrait
       td
         a(href="/editor/thang/#{data.slug || data._id}")
           | #{data.name}

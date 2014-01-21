@@ -81,9 +81,17 @@ module.exports = class PlayLevelView extends View
 
     @load() unless @isEditorPreview
 
+    # Save latest level played in local storage
+    if localStorage?
+      localStorage["lastLevel"] = @levelID
+
   setLevel: (@level, @supermodel) ->
     @god?.level = @level.serialize @supermodel
-    @load()
+    if @world
+      serializedLevel = @level.serialize(@supermodel)
+      @world.loadFromLevel serializedLevel, false
+    else
+      @load()
 
   load: ->
     @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)

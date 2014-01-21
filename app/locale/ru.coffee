@@ -3,6 +3,14 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     loading: "Загрузка..."
     saving: "Сохранение..."
     sending: "Отправка..."
+    cancel: "Отмена"
+    save: "Сохранить"
+    delay_1_sec: "1 секунда"
+    delay_3_sec: "3 секунды"
+    delay_5_sec: "5 секунд"
+    manual: "Вручную"
+#    fork: "Fork"
+    play: "Играть"
 
   modal:
     close: "Закрыть"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     page_not_found: "Страница не найдена"
 
   nav:
-    sign_up: "Создать Профиль"
-    log_in: "Войти"
-    log_out: "Выйти"
     play: "Играть"
     editor: "Редактор"
     blog: "Блог"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     twitter_follow: "Подписаться"
     employers: "Работодателям"
 
-  forms:
-    name: "Имя"
-    email: "Email"
-    message: "Сообщение"
-    cancel: "Отмена"
-    save: "Сохранить"
-
 #  versions:
     save_version_title: "Сохранить новую версию"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,15 +42,14 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 #    cla_agree: "I AGREE"
 
   login:
-#    login_modal_title: "Log In"
+    sign_up: "Создать Профиль"
     log_in: "Войти"
-    sign_up: "создать аккаунт"
-    or: ", или"
+    log_out: "Выйти"
     recover: "восстановить аккаунт"
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+  recover:
+    recover_account_title: "Восстановить аккаунт"
+    send_password: "Отправить пароль для восстановления"
 
   signup:
 #    create_account_title: "Create Account to Save Progress"
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     coppa_why: "(Почему?)"
     creating: "Создание аккаунта..."
     sign_up: "Регистрация"
-    or: "или "
     log_in: "вход с паролем"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     forum_prefix: "Для любых публичных обсуждений, пожалуйста, используйте "
     forum_page: "наш форум"
     forum_suffix: "."
-    sending: "Отправка..."
     send: "Отправить отзыв"
 
   diplomat_suggestion:
@@ -107,8 +101,8 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     learn_more: "Узнать о том, как стать Дипломатом"
     subscribe_as_diplomat: "Зарегистрироваться как Дипломат"
 
-#  wizard_settings:
-#    title: "Wizard Settings"
+  wizard_settings:
+    title: "Мастер настройки"
 #    customize_avatar: "Customize Your Avatar"
 
   account_settings:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     new_password_verify: "Подтверждение пароля"
     email_subscriptions: "Email-подписки"
     email_announcements: "Оповещения"
+#    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "Получать email-оповещения о последних новостях CodeCombat."
     contributor_emails: "Рассылки по классам участников"
     contribute_prefix: "Нам нужны люди, которые присоединятся к нашей команде! Зайдите на "
     contribute_page: "страницу участников,"
     contribute_suffix: " чтобы узнать больше."
     email_toggle: "Отметить всё"
-    saving: "Сохранение..."
     error_saving: "Ошибка сохранения"
     saved: "Изменения сохранены"
     password_mismatch: "Пароли не совпадают."
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     tome_cast_button_casting: "Заклинание читается"
     tome_cast_button_cast: "Заклинание прочитано"
     tome_autocast_delay: "Задержка автоматического чтения"
-    tome_autocast_1: "1 секунда"
-    tome_autocast_3: "3 секунды"
-    tome_autocast_5: "5 секунд"
-    tome_autocast_manual: "Вручную"
     tome_select_spell: "Выбрать заклинание"
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     hud_continue: "Продолжить (нажмите Shift+Space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,32 +236,25 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
-
-#  level:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_description: "Description"
-#    index_table_version: "Version"
 
 #  article:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_body: "Body"
-#    index_table_version: "Version"
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
+    or: "или"
+    name: "Имя"
+#    body: "Body"
+#    version: "Version"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
+#    results: "Results"
+#    description: "Description"
+    email: "Email"
+    message: "Сообщение"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
@@ -364,6 +341,7 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 
 #  contribute:
 #    page_title: "Contributing"
+#    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
 #    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
 #    introduction_desc_github_url: "CodeCombat is totally open source"
@@ -446,18 +424,18 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  classes:
-#    archmage_title: "Archmage"
-#    archmage_title_description: "(Coder)"
-#    artisan_title: "Artisan"
-#    artisan_title_description: "(Level Builder)"
-#    adventurer_title: "Adventurer"
-#    adventurer_title_description: "(Level Playtester)"
-#    scribe_title: "Scribe"
-#    scribe_title_description: "(Article Editor)"
-#    diplomat_title: "Diplomat"
-#    diplomat_title_description: "(Translator)"
-#    ambassador_title: "Ambassador"
-#    ambassador_title_description: "(Support)"
-#    counselor_title: "Counselor"
-#    counselor_title_description: "(Expert/Teacher)"
+  classes:
+    archmage_title: "Верховный маг"
+    archmage_title_description: "(программист)"
+    artisan_title: "Ремесленник"
+    artisan_title_description: "(строитель уровней)"
+    adventurer_title: "Авантюрист"
+    adventurer_title_description: "(Тестировщик уровней)"
+    scribe_title: "Писарь"
+    scribe_title_description: "(редактор статей)"
+    diplomat_title: "Дипломат"
+    diplomat_title_description: "(переводчик)"
+    ambassador_title: "Посол"
+    ambassador_title_description: "(поддержка)"
+    counselor_title: "Советник"
+    counselor_title_description: "(эксперт/учитель)"

@@ -65,6 +65,7 @@ module.exports = Surface = class Surface extends CocoClass
   shortcuts:
     '\\': 'onToggleDebug'
     'g': 'onToggleGrid'
+    'w': 'onTogglePathFinding'
 
   # external functions
 
@@ -100,6 +101,64 @@ module.exports = Surface = class Surface extends CocoClass
       @surfaceTextLayer.addChild new CoordinateDisplay camera: @camera
     @onFrameChanged()
     Backbone.Mediator.publish 'surface:world-set-up'
+
+  onTogglePathFinding: ->
+    @hidePathFinding()
+    @showingPathFinding = not @showingPathFinding
+    if @showingPathFinding then @showPathFinding() else @hidePathFinding()
+    
+  hidePathFinding: ->
+    @surfaceLayer.removeChild @navRectangles if @navRectangles
+    @surfaceLayer.removeChild @navPaths if @navPaths
+    @navRectangles = @navPaths = null
+    
+  showPathFinding: ->
+    @hidePathFinding()
+    
+    mesh = _.values(@world.navMeshes or {})[0]
+    return unless mesh
+    @navRectangles = new createjs.Container()
+    @navRectangles.layerPriority = -1
+    @addMeshRectanglesToContainer mesh, @navRectangles
+    @surfaceLayer.addChild @navRectangles
+    @surfaceLayer.updateLayerOrder()
+    
+    graph = _.values(@world.graphs or {})[0]
+    return @surfaceLayer.updateLayerOrder() unless graph
+    @navPaths = new createjs.Container()
+    @navPaths.layerPriority = -1
+    @addNavPathsToContainer graph, @navPaths
+    @surfaceLayer.addChild @navPaths
+    @surfaceLayer.updateLayerOrder()
+    
+  addMeshRectanglesToContainer: (mesh, container) ->
+    for rect in mesh
+      shape = new createjs.Shape()
+      pos = @camera.worldToSurface {x:rect.x, y:rect.y}
+      dim = @camera.worldToSurface {x:rect.width, y:rect.height}
+      shape.graphics
+        .setStrokeStyle(3)
+        .beginFill('rgba(0, 0, 128, 0.3)')
+        .beginStroke('rgba(0, 0, 128, 0.7)')
+        .drawRect(pos.x - dim.x/2, pos.y - dim.y/2, dim.x, dim.y)
+      container.addChild shape
+
+  addNavPathsToContainer: (graph, container) ->
+    for node in _.values graph
+      for edgeVertex in node.edges
+        @drawLine node.vertex, edgeVertex, container
+
+  drawLine: (v1, v2, container) ->
+    shape = new createjs.Shape()
+    v1 = @camera.worldToSurface v1
+    v2 = @camera.worldToSurface v2
+    shape.graphics
+      .setStrokeStyle(1)
+      .moveTo(v1.x, v1.y)
+      .beginStroke('rgba(128, 0, 0, 0.4)')
+      .lineTo(v2.x, v2.y)
+      .endStroke()
+    container.addChild shape
 
   setProgress: (progress, scrubDuration=500) ->
     progress = Math.max(Math.min(progress, 0.99), 0.0)

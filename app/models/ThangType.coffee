@@ -22,12 +22,13 @@ module.exports = class ThangType extends CocoModel
   resetSpriteSheetCache: ->
     @buildActions()
     @spriteSheets = {}
+    @building = {}
 
   getActions: ->
     return @actions or @buildActions()
 
   buildActions: ->
-    @actions = _.cloneDeep(@get('actions'))
+    @actions = _.cloneDeep(@get('actions') or {})
     for name, action of @actions
       action.name = name
       for relatedName, relatedAction of action.relatedActions ? {}
@@ -138,10 +139,12 @@ module.exports = class ThangType extends CocoModel
     console.warn 'Building', @get('name'), 'and blocking the main thread.'
     spriteSheet = @builder.build()
     @spriteSheets[key] = spriteSheet
+    delete @building[key]
     spriteSheet
 
   onBuildSpriteSheetComplete: (e, key) ->
     @spriteSheets[key] = e.target.spriteSheet
+    delete @building[key]
     @trigger 'build-complete'
     @builder = null
     @vectorParser = null

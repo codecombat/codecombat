@@ -3,6 +3,14 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     loading: "Φορτώνει..."
     saving: "Γίνεται αποθήκευση"
     sending: "Αποστολή ..."
+    cancel: "Ακύρωση"
+#    save: "Save"
+#    delay_1_sec: "1 second"
+#    delay_3_sec: "3 seconds"
+#    delay_5_sec: "5 seconds"
+#    manual: "Manual"
+#    fork: "Fork"
+#    play: "Play"
 
   modal:
     close: "Κλείσε"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     page_not_found: "Η σελίδα δεν βρέθηκε"
 
   nav:
-    sign_up: "Δημιούργησε Λογαριασμό"
-    log_in: "Σύνδεση"
-    log_out: "Αποσύνδεση"
 #    play: "Levels"
 #    editor: "Editor"
     blog: "Μπλόγκ"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     twitter_follow: "Follow"
 #    employers: "Employers"
 
-  forms:
-    name: "Όνομα"
-    email: "Email "
-    message: "Μήνυμα"
-    cancel: "Ακύρωση"
-#    save: "Save"
-
 #  versions:
 #    save_version_title: "Save New Version"
-#    commit_message: "Commit Message"
 #    new_major_version: "New Major Version"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    cla_agree: "I AGREE"
 
   login:
-    login_modal_title: "Σύνδεση"
+    sign_up: "Δημιούργησε Λογαριασμό"
     log_in: "Σύνδεση"
-    sign_up: "Δημιουργήστε λογαριασμό"
-    or: "ή"
+    log_out: "Αποσύνδεση"
     recover: "Κάντε ανάκτηση του λογαριασμού σας"
 
   recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     coppa_why: "(Γιάτι?)"
     creating: "Δημιουργία λογαριασμού"
     sign_up: "Εγγραγή"
-    or: "ή"
     log_in: "Σύνδεση με κώδικο"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     forum_prefix: "Για οτιδήποτε δημόσιο, δοκίμασε "
     forum_page: "το φόρουμ μας"
  #   forum_suffix: " instead."
-    sending: "Αποστολή ..."
     send: "Αποστολή σχολίων"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     new_password_verify: " Επαλήθευση  Κωδικού"
     email_subscriptions: "Συνδρομές Email"
     email_announcements: "Ανακοινώσεις"
+#    email_notifications_description: "Get periodic notifications for your account."
 #    email_announcements_description: "Λάβετε emails για τα τελευταία νέα και τις εξελίξεις του CodeCombat."
     contributor_emails: "Contributor Class Emails"
     contribute_prefix: "Αναζητούμε για ανθρώπους που θέλουν να  "
     contribute_page: "Σελίδα συνεισφοράς"
     contribute_suffix: " μάθε περισσότερα"
     email_toggle: "Επέλεξα όλα"
-    saving: "Γίνεται αποθήκευση"
     error_saving: "Σφάλμα αποθήκευσης"
     saved: "Οι αλλαγές αποθηκεύτηκαν"
     password_mismatch: "Οι κωδικοί δεν ταιριάζουν"
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    tome_cast_button_casting: "Casting"
 #    tome_cast_button_cast: "Spell Cast"
 #    tome_autocast_delay: "Autocast Delay"
-#    tome_autocast_1: "1 second"
-#    tome_autocast_3: "3 seconds"
-#    tome_autocast_5: "5 seconds"
-#    tome_autocast_manual: "Manual"
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
 #    hud_continue: "Continue (press shift-space)"
+#    spell_saved: "Spell Saved"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,32 +236,25 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
-
-#  level:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_description: "Description"
-#    index_table_version: "Version"
 
 #  article:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_body: "Body"
-#    index_table_version: "Version"
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
 #  general:
 #    and: "and"
+    name: "Όνομα"
+#    body: "Body"
+#    version: "Version"
+#    commit_msg: "Commit Message"
+#    version_history_for: "Version History for: "
+#    results: "Results"
+#    description: "Description"
+    or: "ή"
+    email: "Email "
+    message: "Μήνυμα"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
@@ -364,6 +341,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 
 #  contribute:
 #    page_title: "Contributing"
+#    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
 #    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
 #    introduction_desc_github_url: "CodeCombat is totally open source"

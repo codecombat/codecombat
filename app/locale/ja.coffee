@@ -3,6 +3,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     loading: "ロード中"
     saving: "保存中..."
     sending: "送信中..."
+    cancel: "キャンセル"
+    save: "保存"
+    delay_1_sec: "1秒"
+    delay_3_sec: "3秒"
+    delay_5_sec: "5秒"
+    manual: "手動"
+#    fork: "Fork"
+    play: "ゲームスタート"
 
   modal:
     close: "閉じる"
@@ -12,9 +20,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     page_not_found: "ページが見つかりません"
 
   nav:
-    sign_up: "アカウント登録"
-    log_in: "ログイン"
-    log_out: "ログアウト"
     play: "ゲームスタート"
     editor: "レベルエディタ"
     blog: "ブログ"
@@ -28,16 +33,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     twitter_follow: "フォロー"
 #    employers: "Employers"
 
-  forms:
-    name: "名前"
-    email: "メールアドレス"
-    message: "メッセージ"
-    cancel: "キャンセル"
-    save: "保存"
-
   versions:
     save_version_title: "新しいバージョンを保存"
-    commit_message: "コミットメッセージ"
     new_major_version: "メジャーバージョンを新しくする"
     cla_prefix: "変更を適用するには, 私達のCLAに同意する必要があります。"
 #    cla_url: "CLA"
@@ -45,10 +42,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     cla_agree: "同意する"
 
   login:
-    login_modal_title: "ログイン"
-    log_in: "ログイン"
     sign_up: "アカウント登録"
-    or: "または"
+    log_in: "ログイン"
+    log_out: "ログアウト"
     recover: "パスワードを忘れた場合はこちら"
 
   recover:
@@ -63,7 +59,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     coppa_why: "(COPPAって?)"
     creating: "アカウントを作成しています..."
     sign_up: "アカウント登録"
-    or: "または"
     log_in: "パスワードでログイン"
 
   home:
@@ -96,7 +91,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     forum_prefix: "公開で様々な人と議論したい場合は "
     forum_page: "こちらのフォーラム"
     forum_suffix: " でお願いします。"
-    sending: "送信中"
     send: "フィードバックを送信"
 
   diplomat_suggestion:
@@ -128,13 +122,13 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     new_password_verify: "新パスワードを再入力"
     email_subscriptions: "ニュースレターの購読"
     email_announcements: "お知らせ"
+#    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "CodeCombatの最新のニュースや進展をメールで受け取る"
     contributor_emails: "開発を手伝ってくれる人向けのメール"
     contribute_prefix: "私達は開発を手伝ってくれる人を探しています。 詳しくは "
     contribute_page: "こちらのページ"
     contribute_suffix: " を確認して下さい。"
     email_toggle: "すべて"
-    saving: "セーブ中"
     error_saving: "セーブ中にエラーが発生しました"
     saved: "変更しました"
     password_mismatch: "パスワードが違います"
@@ -193,14 +187,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tome_cast_button_casting: "キャスト中"
     tome_cast_button_cast: "呪文をキャスト"
     tome_autocast_delay: "自動実行待機時間"
-    tome_autocast_1: "1秒"
-    tome_autocast_3: "3秒"
-    tome_autocast_5: "5秒"
-    tome_autocast_manual: "手動"
     tome_select_spell: "呪文を選択"
 #    tome_select_a_thang: "Select Someone for "
     tome_available_spells: "利用できる呪文"
     hud_continue: "続く　（Shift+Spaceキー）"
+#    spell_saved: "Spell Saved"
 
   admin:
     av_title: "管理画面"
@@ -225,14 +216,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    contact_us: "contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
-#    level_btn_save: "Save"
-#    level_btn_fork: "Fork"
-#    level_btn_play: "Play"
 #    level_some_options: "Some Options?"
-#    level_options_1_second: "1 second"
-#    level_options_3_seconds: "3 seconds"
-#    level_options_5_seconds: "5 seconds"
-#    level_options_manual: "Manual"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
 #    level_tab_settings: "Settings"
@@ -252,32 +236,25 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    level_component_edit_title: "Edit Component"
 #    level_system_edit_title: "Edit System"
 #    create_system_title: "Create New System"
-#    create_system_field_name: "Name"
-#    create_system_btn_cancel: "Cancel"
-#    create_system_btn_create: "Create"
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
-#    new_component_field_name: "Name"
-#    new_component_btn_cancel: "Cancel"
-#    new_component_btn_create: "Create"
-
-#  level:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_description: "Description"
-#    index_table_version: "Version"
 
 #  article:
-#    index_table_results: "Results"
-#    index_table_name: "Name"
-#    index_table_body: "Body"
-#    index_table_version: "Version"
 #    edit_btn_preview: "Preview"
-#    edit_btn_save: "Save"
 #    edit_article_title: "Edit Article"
 
 #  general:
 #    and: "and"
+    or: "または"
+    name: "名前"
+#    body: "Body"
+#    version: "Version"
+    commit_msg: "コミットメッセージ"
+#    version_history_for: "Version History for: "
+#    results: "Results"
+#    description: "Description"
+    email: "メールアドレス"
+    message: "メッセージ"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
@@ -364,6 +341,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
 #  contribute:
 #    page_title: "Contributing"
+#    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
 #    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
 #    introduction_desc_github_url: "CodeCombat is totally open source"
