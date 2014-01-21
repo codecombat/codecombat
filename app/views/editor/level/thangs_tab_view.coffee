@@ -320,7 +320,7 @@ module.exports = class ThangsTabView extends View
     physical.config.pos = x: pos.x, y: pos.y, z: physical.config.pos.z if physical
     thang = thangType: thangType.get('original'), id: thangID, components: components
     @thangsTreema.insert '', thang
-    @supermodel.populateModel @level  # Make sure we grab any new data for the thang we just added
+    @supermodel.populateModel thangType  # Make sure we grab any new data for the thang we just added
 
   editThang: (e) ->
     if e.target  # click event
@@ -346,19 +346,21 @@ class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
   getChildren: ->
     children = super(arguments...)
-    # uncomment this if you want to hide all the walls in the the thangs treema
-    #children = (c for c in children when not _.string.startsWith(c[1].thangType, 'dungeon_wall'))
+    # TODO: add some filtering to only work with certain types of units at a time
     return children
 
 class ThangNode extends TreemaObjectNode
   valueClass: 'treema-thang'
   collection: false
+  @thangNameMap: {}
   buildValueForDisplay: (valEl) ->
     pos = _.find(@data.components, (c) -> c.config?.pos?)?.config.pos  # TODO: hack
     s = "#{@data.thangType}"
     if isObjectID s
-      thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s
-      s = thangType.get('name')
+      unless name = ThangNode.thangNameMap[s]
+        thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s
+        name = ThangNode.thangNameMap[s] = thangType.get 'name'
+      s = name
     s += " - " + @data.id if @data.id isnt s
     if pos
       s += " (#{Math.round(pos.x)}, #{Math.round(pos.y)})"
