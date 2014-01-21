@@ -32,10 +32,11 @@
 
   .ace_editor
     @include box-sizing(border-box)
+    margin-top: 40px
     width: 100%
-    height: 90%
-    height: -webkit-calc(100% - 60px)
-    height: calc(100% - 60px)
+    height: 83%
+    height: -webkit-calc(100% - 60px - 40px)
+    height: calc(100% - 60px - 40px)
     position: relative
     background-color: transparent
     line-height: 20px
@@ -79,3 +80,6 @@
       .ace_bracket
         // Override faint gray
         border-color: #8FF
+
+    .ace_identifier
+      background-color: rgba(255, 128, 128, 0.15)

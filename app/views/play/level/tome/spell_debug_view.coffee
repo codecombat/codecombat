@@ -1,13 +1,11 @@
 View = require 'views/kinds/CocoView'
-template = require 'templates/play/level/tome/debug'
+template = require 'templates/play/level/tome/spell_debug'
 Range = ace.require("ace/range").Range
 
 module.exports = class DebugView extends View
-  className: 'tome-debug-view'
+  className: 'spell-debug-view'
   template: template
-
   subscriptions: {}
-
   events: {}
 
   constructor: (options) ->
@@ -18,20 +16,30 @@ module.exports = class DebugView extends View
   afterRender: ->
     super()
     @ace.on "mousemove", @onMouseMove
+    #@ace.on "click", onClick  # same ACE API as mousemove
 
   setVariableStates: (@variableStates) ->
     @update()
 
   onMouseMove: (e) =>
     pos = e.getDocumentPosition()
-    token = e.editor.session.getTokenAt pos.row, pos.column
+    column = pos.column
+    until column < 0
+      if token = e.editor.session.getTokenAt pos.row, column
+        break if token.type is 'identifier'
+        column = token.start - 1
+      else
+        --column
     if token?.type is 'identifier' and token.value of @variableStates
       @variable = token.value
-      @pos = {left: e.domEvent.offsetX + 50, top: e.domEvent.offsetY + 10}
+      @pos = {left: e.domEvent.offsetX + 50, top: e.domEvent.offsetY + 50}
       @markerRange = new Range pos.row, token.start, pos.row, token.start + token.value.length
     else
-      @variable = null
-      @markerRange = null
+      @variable = @markerRange = null
+    @update()
+
+  onMouseOut: (e) =>
+    @variable = @markerRange = null
     @update()
 
   update: ->

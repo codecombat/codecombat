@@ -4,7 +4,8 @@ template = require 'templates/play/level/tome/spell'
 filters = require 'lib/image_filter'
 Range = ace.require("ace/range").Range
 Problem = require './problem'
-DebugView = require './debug_view'
+SpellDebugView = require './spell_debug_view'
+SpellToolbarView = require './spell_toolbar_view'
 
 module.exports = class SpellView extends View
   id: 'spell-view'
@@ -26,9 +27,10 @@ module.exports = class SpellView extends View
     'level:session-will-save': 'onSessionWillSave'
     'modal-closed': 'focus'
     'focus-editor': 'focus'
+    'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
 
   events:
-    'click .ace': -> console.log 'clicked ace', @
+    'mouseout': 'onMouseOut'
 
   constructor: (options) ->
     super options
@@ -88,24 +90,30 @@ module.exports = class SpellView extends View
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
       exec: -> Backbone.Mediator.publish 'level:escape-pressed'
-
-    # TODO: These don't work on, for example, Danish keyboards. Figure out a more universal solution.
-#    @ace.commands.addCommand
-#      name: 'toggle-grid'
-#      bindKey: {win: 'Alt-G', mac: 'Alt-G'}
-#      exec: -> Backbone.Mediator.publish 'level-toggle-grid'
-#    @ace.commands.addCommand
-#      name: 'toggle-debug'
-#      bindKey: {win: 'Alt-\\', mac: 'Alt-\\'}
-#      exec: -> Backbone.Mediator.publish 'level-toggle-debug'
-#    @ace.commands.addCommand
-#      name: 'level-scrub-forward'
-#      bindKey: {win: 'Alt-]', mac: 'Alt-]'}
-#      exec: -> Backbone.Mediator.publish 'level-scrub-forward'
-#    @ace.commands.addCommand
-#      name: 'level-scrub-back'
-#      bindKey: {win: 'Alt-[', mac: 'Alt-['}
-#      exec: -> Backbone.Mediator.publish 'level-scrub-back'
+    @ace.commands.addCommand
+      name: 'toggle-grid'
+      bindKey: {win: 'Ctrl-G', mac: 'Command-G|Ctrl-G'}
+      exec: -> Backbone.Mediator.publish 'level-toggle-grid'
+    @ace.commands.addCommand
+      name: 'toggle-debug'
+      bindKey: {win: 'Ctrl-\\', mac: 'Command-\\|Ctrl-\\'}
+      exec: -> Backbone.Mediator.publish 'level-toggle-debug'
+    @ace.commands.addCommand
+      name: 'level-scrub-forward'
+      bindKey: {win: 'Ctrl-]', mac: 'Command-]|Ctrl-]'}
+      exec: -> Backbone.Mediator.publish 'level-scrub-forward'
+    @ace.commands.addCommand
+      name: 'level-scrub-back'
+      bindKey: {win: 'Ctrl-[', mac: 'Command-[|Ctrl-]'}
+      exec: -> Backbone.Mediator.publish 'level-scrub-back'
+    @ace.commands.addCommand
+      name: 'spell-step-forward'
+      bindKey: {win: 'Ctrl-Alt-]', mac: 'Command-Alt-]|Ctrl-Alt-]'}
+      exec: -> Backbone.Mediator.publish 'spell-step-forward'
+    @ace.commands.addCommand
+      name: 'spell-step-backward'
+      bindKey: {win: 'Ctrl-Alt-[', mac: 'Command-Alt-[|Ctrl-Alt-]'}
+      exec: -> Backbone.Mediator.publish 'spell-step-backward'
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -148,8 +156,15 @@ module.exports = class SpellView extends View
     @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
 
   createDebugView: ->
-    @debugView = new DebugView ace: @ace
+    @debugView = new SpellDebugView ace: @ace
     @$el.append @debugView.render().$el.hide()
+
+  createToolbarView: ->
+    @toolbarView = new SpellToolbarView ace: @ace
+    @$el.prepend @toolbarView.render().$el
+
+  onMouseOut: (e) ->
+    @debugView.onMouseOut e
 
   getSource: ->
     @ace.getValue()  # could also do @firepad.getText()
@@ -374,12 +389,21 @@ module.exports = class SpellView extends View
     @thang = e.selectedThang  # update our thang to the current version
     @highlightCurrentLine()
 
+  onStatementIndexUpdated: (e) ->
+    return unless e.ace is @ace
+    @highlightCurrentLine()
+
   highlightCurrentLine: (flow) =>
+    # TODO: move this whole thing into SpellDebugView or somewhere?
     flow ?= @spellThang?.castAether?.flow
     return unless flow
     executed = []
     matched = false
-    for callState, callNumber in flow.states or []
+    states = flow.states ? []
+    currentCallIndex = null
+    for callState, callNumber in states
+      if not currentCallIndex? and callState.userInfo?.time > @thang.world.age
+        currentCallIndex = callNumber - 1
       if matched
         executed.pop()
         break
@@ -390,6 +414,8 @@ module.exports = class SpellView extends View
           break
         _.last(executed).push state
         #state.executing = true if state.userInfo?.time is @thang.world.age  # no work
+    currentCallIndex ?= callNumber - 1
+    #console.log "got call index", currentCallIndex, "for time", @thang.world.age, "out of", states.length
 
     # TODO: don't redo the markers if they haven't actually changed
     text = @aceDoc.getValue()
@@ -406,9 +432,17 @@ module.exports = class SpellView extends View
     @debugView.setVariableStates {}
     @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
     $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
-    return unless executed.length
+    unless executed.length
+      @toolbarView?.$el.hide()
+      return
+    unless @toolbarView or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
+      @createToolbarView()
     lastExecuted = _.last executed
+    @toolbarView?.$el.show()
+    statementIndex = Math.max 0, lastExecuted.length - 1
+    @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
     marked = {}
+    lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
     for state, i in lastExecuted
       #clazz = if state.executing then 'executing' else 'executed'  # doesn't work
       clazz = if i is lastExecuted.length - 1 then 'executing' else 'executed'
@@ -419,7 +453,7 @@ module.exports = class SpellView extends View
         ++marked[key]
       else
         @debugView.setVariableStates state.variables
-        console.log "at", state.userInfo.time, "vars are now:", state.variables
+        #console.log "at", state.userInfo.time, "vars are now:", state.variables
       [start, end] = [offsetToPos(state.range[0]), offsetToPos(state.range[1])]
       markerRange = new Range(start.row, start.column, end.row, end.column)
       markerRange.start = @aceDoc.createAnchor markerRange.start

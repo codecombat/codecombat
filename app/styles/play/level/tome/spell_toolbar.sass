@@ -1,0 +1,54 @@
+@import "../../../bootstrap/mixins"
+
+.spell-toolbar-view
+  position: absolute
+  z-index: 2
+  top: 2px
+  left: 5px
+  box-sizing: border-box
+  padding-left: 150px
+  height: 36px
+  width: 95%
+  width: -webkit-calc(95% - 5px)
+  width: calc(95% - 5px)
+  background-color: rgba(100, 45, 210, 0.05)
+
+  .spell-progress
+    position: relative
+    height: 100%
+    width: 50%
+    display: inline-block
+
+    .progress
+      position: absolute
+      left: 0px
+      top: 8px
+      bottom: 0px
+      width: 100%
+      cursor: pointer
+      overflow: visible
+
+      .bar
+        @include transition(width .0s linear)
+        position: relative
+        pointer-events: none
+        background-color: #67A4C8
+        width: 50%
+
+        .scrubber-handle
+          position: absolute
+          pointer-events: none
+          right: -16px
+          top: -7px
+          background: transparent url(/images/level/playback_thumb.png)
+          width: 32px
+          height: 32px
+
+  .btn-group
+    // I don't know, I can figure this out for real later
+    margin: -26px 0 0 18px
+
+  .metrics
+    display: inline-block
+    margin: -30px 0 0 10px
+    vertical-align: middle
