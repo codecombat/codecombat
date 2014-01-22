@@ -1,9 +1,9 @@
-config = require '../server_config'
+config = require '../../server_config'
 winston = require 'winston'
 mongoose = require 'mongoose'
 Grid = require 'gridfs-stream'
 async = require 'async'
-errors = require './errors'
+errors = require './../errors'
 
 testing = '--unittest' in process.argv
 
@@ -30,7 +30,7 @@ module.exports.setupRoutes = (app) ->
     return getSchema(req, res, module) if parts[1] is 'schema'
 
     try
-      name = "./handlers/#{module.replace '.', '_'}"
+      name = "../handlers/#{module.replace '.', '_'}"
       module = require(name)
       return module.getLatestVersion(req, res, parts[1], parts[3]) if parts[2] is 'version'
       return module.versions(req, res, parts[1]) if parts[2] is 'versions'

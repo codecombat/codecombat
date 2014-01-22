@@ -1,6 +1,6 @@
-errors = require './errors'
+errors = require './../errors'
 winston = require 'winston'
-locale = require '../app/locale/locale'  # requiring from app; will break if we stop serving from where app lives
+locale = require '../../app/locale/locale'  # requiring from app; will break if we stop serving from where app lives
 
 module.exports.setupRoutes = (app) ->
   app.all '/languages/add/:lang/:namespace', (req, res) ->
