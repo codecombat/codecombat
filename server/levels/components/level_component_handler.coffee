@@ -1,5 +1,3 @@
-winston = require('winston')
-request = require('request')
 LevelComponent = require('./LevelComponent')
 Handler = require('../../commons/Handler')
 

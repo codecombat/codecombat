@@ -1,5 +1,3 @@
-winston = require('winston')
-request = require('request')
 Level = require('./Level')
 Session = require('./sessions/LevelSession')
 SessionHandler = require('./sessions/level_session_handler')

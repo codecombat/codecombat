@@ -1,5 +1,3 @@
-winston = require('winston')
-request = require('request')
 Article = require('./Article')
 Handler = require('../commons/Handler')
 

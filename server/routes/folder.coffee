@@ -1,5 +1,3 @@
-fs = require 'fs'
-request = require 'request'
 mongoose = require('mongoose')
 errors = require '../commons/errors'
 
