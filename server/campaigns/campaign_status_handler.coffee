@@ -1,5 +1,3 @@
-winston = require('winston')
-request = require('request')
 CampaignStatus = require('./CampaignStatus')
 Handler = require('../commons/Handler')
 

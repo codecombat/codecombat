@@ -1,4 +1,3 @@
-winston = require('winston')
 schema = require('./user_schema')
 crypto = require('crypto')
 request = require('request')
