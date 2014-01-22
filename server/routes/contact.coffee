@@ -1,4 +1,4 @@
-config = require '../server_config'
+config = require '../../server_config'
 winston = require 'winston'
 nodemailer = require 'nodemailer'
 

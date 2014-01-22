@@ -4,7 +4,7 @@ crypto = require('crypto')
 request = require('request')
 User = require('../models/User')
 Handler = require('./Handler')
-languages = require '../languages'
+languages = require '../routes/languages'
 mongoose = require 'mongoose'
 config = require '../../server_config'
 

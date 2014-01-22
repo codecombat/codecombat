@@ -1,7 +1,7 @@
 fs = require 'fs'
 request = require 'request'
 mongoose = require('mongoose')
-errors = require './errors'
+errors = require './../errors'
 
 module.exports.setupRoutes = (app) ->
   app.all '/folder*', (req, res) ->
