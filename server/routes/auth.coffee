@@ -1,11 +1,11 @@
 passport = require('passport')
 winston = require('winston')
 LocalStrategy = require('passport-local').Strategy
-User = require('./../models/User')
-UserHandler = require('./../handlers/user')
+User = require('../users/User')
+UserHandler = require('../users/user_handler')
 config = require '../../server_config'
 nodemailer = require 'nodemailer'
-errors = require './../errors'
+errors = require '../commons/errors'
 
 module.exports.setupRoutes = (app) ->
   passport.serializeUser((user, done) -> done(null, user._id))

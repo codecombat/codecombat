@@ -3,9 +3,25 @@ winston = require 'winston'
 mongoose = require 'mongoose'
 Grid = require 'gridfs-stream'
 async = require 'async'
-errors = require './../errors'
+errors = require '../commons/errors'
 
 testing = '--unittest' in process.argv
+
+
+handlers =
+  'article': '../../server/articles/article_handler'
+  'campaign': '../../server/campaigns/campaign_handler'
+  'campaign_status': '../../server/campaigns/campaign_status_handler'
+  'file': '../../server/files/file_handler'
+  'level': '../../server/levels/level_handler'
+  'level_component': '../../server/levels/components/level_component_handler'
+  'level_draft': '../../server/levels/drafts/level_draft_handler'
+  'level_feedback': '../../server/levels/feedbacks/level_feedback_handler'
+  'level_session': '../../server/levels/sessions/level_session_handler'
+  'level_system': '../../server/levels/systems/level_system_handler'
+  'level_thang_type': '../../server/levels/thangs/level_thangType_handler'
+  'user': '../../server/users/user_handler'
+
 
 module.exports.connectDatabase = () ->
   dbName = config.mongo.db
@@ -30,7 +46,8 @@ module.exports.setupRoutes = (app) ->
     return getSchema(req, res, module) if parts[1] is 'schema'
 
     try
-      name = "../handlers/#{module.replace '.', '_'}"
+      moduleName = module.replace '.', '_'
+      name = handlers[moduleName]
       module = require(name)
       return module.getLatestVersion(req, res, parts[1], parts[3]) if parts[2] is 'version'
       return module.versions(req, res, parts[1]) if parts[2] is 'versions'
