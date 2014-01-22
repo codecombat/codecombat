@@ -24,7 +24,6 @@ module.exports = class CastButtonView extends View
     context.castShortcutVerbose = @castShortcutVerbose
     context
 
-
   afterRender: ->
     super()
     # TODO: use a User setting instead of localStorage

@@ -30,11 +30,13 @@
     color: white
 
 #cast-button-view
+  display: none
+
   .cast-button-group
     position: absolute
-    // Bottom/right margins must appear to scroll to size of any paper gashes
-    top: 2%
-    right: 4%
+    top: 55px
+    left: 20px
+    z-index: 2
     @include opacity(77)
     
     .button-progress-overlay

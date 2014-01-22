@@ -259,6 +259,6 @@ module.exports = class SpriteBoss extends CocoClass
     target = thang?.target
     targetPos = thang?.targetPos
     targetPos = null if targetPos?.isZero?()  # Null targetPos get serialized as (0, 0, 0)
-    @targetMark.toggle target or targetPos
     @targetMark.setSprite if target then @sprites[target.id] else null
+    @targetMark.toggle @targetMark.sprite or targetPos
     @targetMark.update if targetPos then @camera.worldToSurface targetPos else null

@@ -140,7 +140,7 @@ module.exports = class Mark extends CocoClass
         worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2
         @mark.alpha = 0.451 / Math.sqrt(worldZ / 2 + 1)
     else
-      pos ?= @sprite.displayObject
+      pos ?= @sprite?.displayObject
     @mark.x = pos.x
     @mark.y = pos.y
     if @name is 'highlight'

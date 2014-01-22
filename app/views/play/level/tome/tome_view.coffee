@@ -114,6 +114,7 @@ module.exports = class TomeView extends View
     @spellTabView?.$el.after('<div id="' + @spellTabView.id + '"></div>').detach()
     @spellTabView = null
     @removeSubView @spellPaletteView if @spellPaletteView
+    @castButton?.$el.hide()
     @thangList?.$el.show()
 
   onSpriteSelected: (e) ->
@@ -137,6 +138,7 @@ module.exports = class TomeView extends View
     @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
     @spellView.setThang thang
     @spellTabView.setThang thang
+    @castButton.$el.show()
     @thangList.$el.hide()
     @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
     @spellPaletteView.toggleControls {}, @spellView.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
