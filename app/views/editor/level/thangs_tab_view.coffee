@@ -43,9 +43,20 @@ module.exports = class ThangsTabView extends View
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-down': 'onStageMouseDown'
-  
+    
+  events:
+    'click #extant-thangs-filter button': 'onFilterExtantThangs'
+    
   shortcuts:
     'esc': -> @selectAddThang()
+
+  onFilterExtantThangs: (e) ->
+    button = $(e.target).closest('button')
+    button.button('toggle')
+    val = button.val()
+    @thangsTreema.$el.removeClass(@lastHideClass) if @lastHideClass
+    @thangsTreema.$el.addClass(@lastHideClass = "hide-except-#{val}") if val
+      
 
   constructor: (options) ->
     super options
@@ -87,11 +98,19 @@ module.exports = class ThangsTabView extends View
     return if @startsLoading
     super()
     $('.tab-content').click @selectAddThang
+    $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
+    @$el.find('#extant-thangs-filter button:first').button('toggle')
+    
+    # TODO: move these into the shortcuts list
     key 'left', _.bind @moveAddThangSelection, @, -1
     key 'right', _.bind @moveAddThangSelection, @, 1
     key 'delete, del, backspace', @deleteSelectedExtantThang
     key 'f', => Backbone.Mediator.publish('level-set-debug', debug: not @surface.debug)
     key 'g', => Backbone.Mediator.publish('level-set-grid', grid: not @surface.gridShowing())
+
+  preventBodyScrollingInThangList: (e) ->
+    @scrollTop += (if e.deltaY < 0 then 1 else -1) * 30
+    e.preventDefault()
 
   onLevelLoaded: (e) ->
     @level = e.level
@@ -188,9 +207,12 @@ module.exports = class ThangsTabView extends View
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos
-    else
-      # We clicked on the background, so deselect anything selected
-      @thangsTreema.deselectAll()
+      
+    # Commented out this bit so the extant thangs treema editor can select invisible thangs like arrows.
+    # Couldn't spot any bugs... But if there are any, better come up with a better solution.
+#    else
+#      # We clicked on the background, so deselect anything selected
+#      @thangsTreema.deselectAll()
 
   selectAddThang: (e) =>
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
@@ -370,6 +392,7 @@ class ThangNode extends TreemaObjectNode
   valueClass: 'treema-thang'
   collection: false
   @thangNameMap: {}
+  @thangKindMap: {}
   buildValueForDisplay: (valEl) ->
     pos = _.find(@data.components, (c) -> c.config?.pos?)?.config.pos  # TODO: hack
     s = "#{@data.thangType}"
@@ -377,6 +400,9 @@ class ThangNode extends TreemaObjectNode
       unless name = ThangNode.thangNameMap[s]
         thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s
         name = ThangNode.thangNameMap[s] = thangType.get 'name'
+        ThangNode.thangKindMap[s] = thangType.get 'kind'
+      kind = ThangNode.thangKindMap[s]
+      @$el.addClass "treema-#{kind}"
       s = name
     s += " - " + @data.id if @data.id isnt s
     if pos

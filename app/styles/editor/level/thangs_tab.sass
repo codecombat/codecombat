@@ -22,11 +22,41 @@
       
     #thangs-treema
       position: absolute
-      top: 40px
+      top: 80px
       left: 0
       right: 0
       bottom: 0
       overflow: scroll
+
+      &.hide-except-Unit
+        .treema-node
+          display: none
+        .treema-node.treema-Unit
+          display: block
+
+      &.hide-except-Doodad
+        .treema-node
+          display: none
+        .treema-node.treema-Doodad
+          display: block
+
+      &.hide-except-Floor
+        .treema-node
+          display: none
+        .treema-node.treema-Floor
+          display: block
+
+      &.hide-except-Wall
+        .treema-node
+          display: none
+        .treema-node.treema-Wall
+          display: block
+
+      &.hide-except-Misc
+        .treema-node
+          display: none
+        .treema-node.treema-Misc
+          display: block
     
     .treema-children .treema-row *
       cursor: pointer !important
