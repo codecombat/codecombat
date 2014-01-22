@@ -27,6 +27,7 @@ config.mail.service = process.env.COCO_MAIL_SERVICE_NAME || "Zoho";
 config.mail.username = process.env.COCO_MAIL_SERVICE_USERNAME || "";
 config.mail.password = process.env.COCO_MAIL_SERVICE_PASSWORD || "";
 config.mail.mailchimpAPIKey = process.env.COCO_MAILCHIMP_API_KEY || '';
+config.mail.sendwithusAPIKey = process.env.COCO_SENDWITHUS_API_KEY || '';
 
 config.salt = process.env.COCO_SALT || 'pepper';
 config.cookie_secret = process.env.COCO_COOKIE_SECRET || 'chips ahoy';

@@ -1,19 +1,25 @@
 table.table
   tr
-    th(colspan=3) #{documents.length} results
+    th(colspan=3)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
   
   tr
     th#portrait-col
-    th Name
-    th Version
+    th(data-i18n="general.name") Name
+    th(data-i18n="general.description") Description
+    th(data-i18n="general.version") Version
   
-  for thang in documents
-    - thang = thang.attributes;
-    - path = '/file/db/thang.type/'+thang.original+'/portrait.png'
+  for data in documents 
+    - data = data.attributes;
     tr
       td
-        img(src=path).portrait
+        - path = '/file/db/thang.type/'+data.original+'/portrait.png'
+        img(title="Add " + data.name, src=path, alt="").portrait
       td
-        a(href="/editor/thang/#{thang.slug || thang._id}")
-          | #{thang.name}
-      td #{thang.version.major}.#{thang.version.minor}
+        a(href="/editor/thang/#{data.slug || data._id}")
+          | #{data.name}
+      td.body-row #{data.description}
+      td #{data.version.major}.#{data.version.minor}

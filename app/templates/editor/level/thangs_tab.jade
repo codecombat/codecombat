@@ -1,9 +1,21 @@
 .thangs-container.thangs-column
   h3(data-i18n="editor.level_tab_thangs_title") Current Thangs
+  .btn-group(data-toggle="buttons-radio")#extant-thangs-filter
+    button.btn.btn-primary All
+    button.btn.btn-primary(value="Unit")
+      i.icon-user
+    button.btn.btn-primary(value="Wall")
+      i.icon-home
+    button.btn.btn-primary(value="Floor")
+      i.icon-globe
+    button.btn.btn-primary(value="Doodad")
+      i.icon-leaf
+    button.btn.btn-primary(value="Misc")
+      i.icon-question-sign
   #thangs-treema(title="Double click to configure a thang")
 
 .world-container.thangs-column
-  h3(data-i18n="editor.level_tab_thangs_conditions") World Starting Conditions
+  h3(data-i18n="editor.level_tab_thangs_conditions") Starting Conditions
   #canvas-wrapper
     canvas(width=924, height=589)#surface
     #canvas-left-gradient.gradient
@@ -12,9 +24,11 @@
 .add-thangs-palette.thangs-column
   h3(data-i18n="editor.level_tab_thangs_add") Add Thangs
   #thangs-list
-    for thangType in thangTypes
-      div.add-thang-palette-icon(data-thang-type=thangType.name)
-        - path = '/file/db/thang.type/'+thangType.original+'/portrait.png'
-        img(title="Add " + thangType.name, src=path, alt="")
-
+    for group in groups
+      h4= group.name
+      for thangType in group.thangs
+        div.add-thang-palette-icon(data-thang-type=thangType.name)
+          - path = '/file/db/thang.type/'+thangType.original+'/portrait.png'
+          img(title="Add " + thangType.name, src=path, alt="")
+      div.clearfix
 #editor-level-thang-edit.hide

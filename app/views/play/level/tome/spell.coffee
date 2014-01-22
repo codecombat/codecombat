@@ -17,7 +17,6 @@ module.exports = class Spell
     @thangs = {}
     @view = new SpellView {spell: @, session: @session}
     @view.render()  # Get it ready and code loaded in advance
-    console.log 'spell creates tab entry view', @supermodel
     @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel
     @tabView.render()
 
@@ -65,7 +64,11 @@ module.exports = class Spell
       functionParameters: @parameters
       yieldConditionally: thang.plan?
       requiresThis: thang.requiresThis
-    if @name is 'chooseAction' or not (me.team in @permissions.readwrite) or thang.id is 'Thoktar'  # Gridmancer can't handle it
+      includeFlow: true
+        #callIndex: 0
+        #timelessVariables: ['i']
+        #statementIndex: 9001
+    if not (me.team in @permissions.readwrite)# or @name is 'chooseAction' or thang.id is 'Thoktar'  # Gridmancer can't handle it
       #console.log "Turning off includeFlow for", @spellKey
       aetherOptions.includeFlow = false
     aether = new Aether aetherOptions

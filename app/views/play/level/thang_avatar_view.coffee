@@ -8,6 +8,7 @@ module.exports = class ThangAvatarView extends View
 
   subscriptions:
     'tome:problems-updated': "onProblemsUpdated"
+    'god:new-world-created': 'onNewWorld'
 
   constructor: (options) ->
     super options
@@ -20,7 +21,9 @@ module.exports = class ThangAvatarView extends View
     thangs = @supermodel.getModels(ThangType)
     thangs = (t for t in thangs when t.get('name') is @thang.spriteName)
     thang = thangs[0]
-    context.avatarURL = thang.getPortraitSource()
+    options = @thang?.getSpriteOptions() or {}
+    options.async = false
+    context.avatarURL = thang.getPortraitSource(options)
     context.includeName = @includeName
     context
 
@@ -39,7 +42,7 @@ module.exports = class ThangAvatarView extends View
     @$el.toggleClass 'selected', Boolean(selected)
 
   onProblemsUpdated: (e) ->
-    return unless @thang.id of e.spell.thangs
+    return unless @thang?.id of e.spell.thangs
     myProblems = []
     for thangID, spellThang of e.spell.thangs when thangID is @thang.id
       #aether = if e.isCast and spellThang.castAether then spellThang.castAether else spellThang.aether
@@ -50,3 +53,6 @@ module.exports = class ThangAvatarView extends View
       worstLevel = level
       break
     @setProblems myProblems.length, worstLevel
+
+  onNewWorld: (e) ->
+    @options.thang = @thang = e.world.thangMap[@thang.id] if @thang

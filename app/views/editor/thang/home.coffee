@@ -5,7 +5,7 @@ module.exports = class ThangTypeHomeView extends SearchView
   modelLabel: 'Thang Type'
   model: require 'models/ThangType'
   modelURL: '/db/thang.type'
-  tableTemplate: require 'templates/editor/thang/table'
+  tableTemplate: require 'templates/editor/thang/table' 
 
   onSearchChange: =>
     super()

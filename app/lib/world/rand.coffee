@@ -32,4 +32,8 @@ class Rand
   rand2: (min, max) =>
     min + @rand max - min
 
+  # return an array of numbers from 0 to n-1, shuffled
+  randArray: (n) =>
+    _.shuffle [0...n]
+
 module.exports = Rand

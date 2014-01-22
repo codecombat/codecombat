@@ -6,10 +6,10 @@ block modal-header-content
 block modal-body-content
   form.form-horizontal
     .control-group
-      label(for="level-system-name", data-i18n="editor.create_system_field_name").control-label Name
+      label(for="level-system-name", data-i18n="general.name").control-label Name
       .controls
         input#level-system-name.input-large(name="name", type="text")
 
 block modal-footer-content
-  button(data-dismiss="modal", data-i18n="editor.create_system_btn_cancel").btn Cancel
-  button(data-i18n="editor.create_system_btn_create").btn.btn-primary#new-level-system-submit Create
+  button(data-dismiss="modal", data-i18n="common.cancel").btn Cancel
+  button(data-i18n="common.create").btn.btn-primary#new-level-system-submit Create

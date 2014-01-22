@@ -71,9 +71,7 @@ module.exports = class PlayLevelView extends View
       window.tracker?.trackEvent 'Hour of Code Begin', {}
 
     @isEditorPreview = @getQueryVariable "dev"
-    sessionID = @getQueryVariable "session"
-    @levelLoader = new LevelLoader(@levelID, @supermodel, sessionID)
-    @levelLoader.once 'ready-to-init-world', @onReadyToInitWorld
+    @sessionID = @getQueryVariable "session"
 
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', =>
@@ -81,9 +79,24 @@ module.exports = class PlayLevelView extends View
       @$el.html('<div class="alert">' + msg + '</div>')
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
+    @load() unless @isEditorPreview
+
+    # Save latest level played in local storage
+    if localStorage?
+      localStorage["lastLevel"] = @levelID
+
   setLevel: (@level, @supermodel) ->
     @god?.level = @level.serialize @supermodel
-    @initWorld()
+    if @world
+      serializedLevel = @level.serialize(@supermodel)
+      @world.loadFromLevel serializedLevel, false
+    else
+      @load()
+
+  load: ->
+    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
+    @levelLoader.once 'ready-to-init-world', @onReadyToInitWorld
+    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
 
   getRenderData: ->
     c = super()
@@ -96,11 +109,12 @@ module.exports = class PlayLevelView extends View
     @loadingScreen.show()
     super()
 
-  onReadyToInitWorld: =>
+  onLevelLoaderLoaded: =>
     @session = @levelLoader.session
     @level = @levelLoader.level
+    @world = @levelLoader.world
     @loadingScreen.destroy()
-    @initWorld()
+    @setTeam @world.teamForPlayer 1  # We don't know which player we are; this will go away--temp TODO
     @initSurface()
     @initGod()
     @initGoalManager()
@@ -284,12 +298,6 @@ module.exports = class PlayLevelView extends View
     p = $('#pointer')
     return if p.length
     @$el.append($('<img src="/images/level/pointer.png" id="pointer">'))
-
-  initWorld: ->
-    @world ?= new World @level.get('name')
-    serializedLevel = @level.serialize(@supermodel)
-    @world.loadFromLevel serializedLevel, false
-    @setTeam @world.teamForPlayer 1  # We don't know which player we are; this will go away--temp TODO
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)

@@ -55,10 +55,15 @@ module.exports = class TomeView extends View
   afterRender: ->
     super()
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
-    @createSpells programmableThangs  # Do before spellList, thangList, and castButton
-    @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
-    @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
-    @castButton = @insertSubView new CastButtonView spells: @spells
+
+    if programmableThangs.length
+      @createSpells programmableThangs  # Do before spellList, thangList, and castButton
+      @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
+      @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
+      @castButton = @insertSubView new CastButtonView spells: @spells
+    else
+      @cast()
+      console.log "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
 
   createSpells: (programmableThangs) ->
     # If needed, we could make this able to update when programmableThangs changes.
@@ -109,12 +114,13 @@ module.exports = class TomeView extends View
     @spellTabView?.$el.after('<div id="' + @spellTabView.id + '"></div>').detach()
     @spellTabView = null
     @removeSubView @spellPaletteView if @spellPaletteView
-    @thangList.$el.show()
+    @castButton?.$el.hide()
+    @thangList?.$el.show()
 
   onSpriteSelected: (e) ->
     thang = e.thang
     spellName = e.spellName
-    @spellList.$el.hide()
+    @spellList?.$el.hide()
     return @clearSpellView() unless thang?.isProgrammable
     selectedThangSpells = (@spells[spellKey] for spellKey in @thangSpells[thang.id])
     if spellName
@@ -132,6 +138,7 @@ module.exports = class TomeView extends View
     @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
     @spellView.setThang thang
     @spellTabView.setThang thang
+    @castButton.$el.show()
     @thangList.$el.hide()
     @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
     @spellPaletteView.toggleControls {}, @spellView.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist

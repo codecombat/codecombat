@@ -61,9 +61,19 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @actionQueue = []
     @marks = {}
     @labels = {}
+    @ticker = 0
+    @displayObject = new createjs.Container()
+    if @thangType.get('actions')
+      @onThangTypeLoaded()
+    else
+      @stillLoading = true
+      @thangType.fetch()
+      @thangType.once 'sync', @onThangTypeLoaded, @
+        
+  onThangTypeLoaded: ->
+    @stillLoading = false
     @actions = @thangType.getActions()
     @buildFromSpriteSheet @buildSpriteSheet()
-    @ticker = 0
 
   destroy: ->
     super()
@@ -72,10 +82,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
 
-  spriteSheetKey: ->
-    "#{@thangType.get('name')} - #{@options.resolutionFactor}"
-
-  buildSpriteSheet: -> @thangType.getSpriteSheet @options
+  buildSpriteSheet: ->
+    options = @thang?.getSpriteOptions?() or {}
+    options.colorConfig = @options.colorConfig if @options.colorConfig
+    options.async = false
+    @thangType.getSpriteSheet options
 
   buildFromSpriteSheet: (spriteSheet) ->
     if spriteSheet
@@ -86,7 +97,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # temp, until these are re-exported with perspective
     if @options.camera and @thangType.get('name') in ['Dungeon Floor', 'Grass', 'Goal Trigger', 'Obstacle']  
       sprite.scaleY *= @options.camera.y2x
-    @displayObject = new createjs.Container()
     @imageObject = sprite
     @displayObject.addChild(sprite)
     @addHealthBar()
@@ -134,6 +144,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   update: ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
+    return if @stillLoading
     @updatePosition()
     @updateScale()
     @updateAlpha()

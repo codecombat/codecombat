@@ -1,6 +1,7 @@
 async = require 'async'
 mongoose = require('mongoose')
 Grid = require 'gridfs-stream'
+errors = require '../errors'
 
 module.exports = class Handler
   # subclasses should override these properties
@@ -38,17 +39,14 @@ module.exports = class Handler
     props
 
   # sending functions
-  sendUnauthorizedError: (res) -> @sendError(res, 403, "Unauthorized.")
-  sendNotFoundError: (res) -> @sendError(res, 404, 'Resource not found.')
-  sendMethodNotAllowed: (res) -> @sendError(res, 405, 'Method not allowed.')
-  sendBadInputError: (res, message) -> @sendError(res, 422, message)
-  sendDatabaseError: (res, err) -> @sendError(res, 500, 'Database error.')
+  sendUnauthorizedError: (res) -> errors.forbidden(res) #TODO: rename sendUnauthorizedError to sendForbiddenError
+  sendNotFoundError: (res) -> errors.notFound(res)
+  sendMethodNotAllowed: (res) -> errors.badMethod(res)
+  sendBadInputError: (res, message) -> errors.badInput(res, message)
+  sendDatabaseError: (res, err) -> errors.serverError(res, 'Database error, ' + err)
 
   sendError: (res, code, message) ->
-    console.warn "Sending an error code", code, message
-    res.status(code)
-    res.send(message)
-    res.end()
+    errors.custom(res, code, message)
 
   sendSuccess: (res, message) ->
     res.send(message)
@@ -94,7 +92,7 @@ module.exports = class Handler
     unless @modelClass.schema.uses_coco_search
       return @sendNotFoundError(res)
 
-    project = {original:1, name:1, version:1, description: 1, slug:1}
+    project = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
     term = req.query.term
     matchedObjects = []
     filters = [{filter: {index: true}}]
@@ -116,7 +114,7 @@ module.exports = class Handler
         @modelClass.textSearch term, filter, callback
       else
         args = [filter.filter]
-        args.push filter.project if req.query.project
+        args.push project if req.query.project
         @modelClass.find(args...).limit(100).exec callback
 
   versions: (req, res, id) ->
@@ -263,11 +261,11 @@ module.exports = class Handler
 
   getDocumentForIdOrSlug: (idOrSlug, done) ->
     idOrSlug = idOrSlug+''
-    try
-      mongoose.Types.ObjectId.createFromHexString(idOrSlug)  # throw error if not a valid ID (probably a slug)
+    isID = idOrSlug.length is 24 and idOrSlug.match(/[a-z0-9]/gi)?.length is 24
+    if isID
       @modelClass.findById(idOrSlug).exec (err, document) ->
         done(err, document)
-    catch e
+    else
       @modelClass.findOne {slug: idOrSlug}, (err, document) ->
         done(err, document)
 

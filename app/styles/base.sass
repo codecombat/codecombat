@@ -24,6 +24,16 @@ h1 h2 h3 h4
   font-weight: normal
   letter-spacing: 1px
 
+.navbuttontext-user-name
+  max-width: 125px
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+  display: inline-block
+  padding: 0
+  margin: 0
+  height: 18px
+
 .navbar .nav.navbar-link-text, .navbar .nav.navbar-link-text > li > a
   font-family: 'Bangers', cursive
   font-weight: normal
@@ -99,6 +109,7 @@ h1 h2 h3 h4
   letter-spacing: 1px
   color: #ffffff
   cursor: pointer
+  margin: 0px 10px
 
 a[data-toggle="modal"]
   cursor: pointer
@@ -114,6 +125,9 @@ a[data-toggle="modal"]
   &:hover, &:active
     @include opacity(100)
     @include transition(opacity .10s linear)
+
+  .github-star-button
+    margin-left: 20px
 
 .error
   left: 8px

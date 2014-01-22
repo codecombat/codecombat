@@ -10,6 +10,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   subscriptions:
     'tome:spell-loaded': "onSpellLoaded"
     'tome:spell-changed': "onSpellChanged"
+    'god:new-world-created': 'onNewWorld'
 
   events:
     'click .spell-list-button': 'onDropdownClick'
@@ -25,6 +26,9 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   afterRender: ->
     super()
     @$el.addClass 'spell-tab'
+
+  onNewWorld: (e) ->
+    @thang = e.world.thangMap[@thang.id] if @thang
 
   setThang: (thang) ->
     return if thang.id is @thang?.id

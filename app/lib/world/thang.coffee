@@ -1,23 +1,42 @@
 ThangState = require './thang_state'
 {thangNames} = require './names'
 {ArgumentError} = require './errors'
+Rand = require './rand'
 
 module.exports = class Thang
   @className: "Thang"
+  @random = new Rand
+
+  # Random ordering for each sprite name
+  @ordering: (spriteName) ->
+    Thang.orders ?= {}
+    names = thangNames[spriteName]
+    if names
+      len = names.length
+      array = Thang.orders[spriteName]
+      unless array?
+        array = @random.randArray len
+        Thang.orders[spriteName] = array
+    else
+      array = []
+    array
+
   @nextID: (spriteName) ->
     Thang.lastIDNums ?= {}
     names = thangNames[spriteName]
+    order = @ordering spriteName
     if names
       lastIDNum = Thang.lastIDNums[spriteName]
       idNum = (if lastIDNum? then lastIDNum + 1 else 0)
       Thang.lastIDNums[spriteName] = idNum
-      id = names[idNum % names.length]
+      id = names[order[idNum % names.length]]
       if idNum >= names.length
         id += Math.floor(idNum / names.length) + 1
     else
       Thang.lastIDNums[spriteName] = if Thang.lastIDNums[spriteName]? then Thang.lastIDNums[spriteName] + 1 else 0
       id = spriteName + (Thang.lastIDNums[spriteName] or '')
     id
+
   @resetThangIDs: -> Thang.lastIDNums = {}
 
   constructor: (@world, @spriteName, @id) ->
@@ -138,3 +157,10 @@ module.exports = class Thang
       # TODO: take some (but not all) of deserialize logic from ThangState to handle other types
       t[prop] = val
     t
+
+  getSpriteOptions: ->
+    colorConfigs = @world?.getTeamColors() or {}
+    options = {}
+    if @team and colorConfigs[@team]
+      options.colorConfig = {team: colorConfigs[@team]}
+    options

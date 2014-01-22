@@ -5,6 +5,7 @@ User = require('./models/User')
 UserHandler = require('./handlers/user')
 config = require '../server_config'
 nodemailer = require 'nodemailer'
+errors = require './errors'
 
 module.exports.setupRoutes = (app) ->
   passport.serializeUser((user, done) -> done(null, user._id))
@@ -32,9 +33,7 @@ module.exports.setupRoutes = (app) ->
     passport.authenticate('local', (err, user, info) ->
       return next(err) if err
       if not user
-        res.status(401)
-        res.send([{message:info.message, property:info.property}])
-        return res.end()
+        return errors.unauthorized(res, [{message:info.message, property:info.property}])
 
       req.logIn(user, (err) ->
         return next(err) if (err)
@@ -54,28 +53,25 @@ module.exports.setupRoutes = (app) ->
     req.logout()
     res.end()
   )
-  
+
   app.post('/auth/reset', (req, res) ->
     unless req.body.email
-      res.status(422)
-      res.send([{message:'Need an email specified.', property:email}])
-      return res.end()
+      return errors.badInput(res, [{message:'Need an email specified.', property:email}])
+
     User.findOne({emailLower:req.body.email.toLowerCase()}).exec((err, user) ->
       if not user
-        res.status(404)
-        res.send([{message:'not found.', property:'email'}])
-        return res.end()
+        return errors.notFound(res, [{message:'not found.', property:'email'}])
         
       user.set('passwordReset', Math.random().toString(36).slice(2,7).toUpperCase())
       user.save (err) =>
-        return returnServerError(res) if err
+        return errors.serverError(res) if err
         if config.isProduction
           transport = createSMTPTransport()
           options = createMailOptions req.body.email, user.get('passwordReset')
           transport.sendMail options, (error, response) ->
             if error
               console.error "Error sending mail: #{error.message or error}"
-              return returnServerError(res) if err
+              return errors.serverError(res) if err
             else
               return res.end()
         else
@@ -83,6 +79,22 @@ module.exports.setupRoutes = (app) ->
           return res.end()
     )
   )
+  
+  app.get '/auth/unsubscribe', (req, res) ->
+    email = req.query.email
+    unless req.query.email
+      return errors.badInput res, 'No email provided to unsubscribe.'
+      
+    User.findOne({emailLower:req.query.email.toLowerCase()}).exec (err, user) ->
+      if not user
+        return errors.notFound res, "No user found with email '#{req.query.email}'"
+
+      user.set('emailSubscriptions', [])
+      user.save (err) =>
+        return errors.serverError res, 'Database failure.' if err
+
+        res.send "Unsubscribed #{req.query.email} from all CodeCombat emails. Sorry to see you go! <p><a href='/account/settings'>Account settings</a></p>"
+        res.end()
 
 createMailOptions = (receiver, password) ->
   # TODO: use email templates here
@@ -102,9 +114,3 @@ createSMTPTransport = ->
     pass: config.mail.password
     authMethod: "LOGIN"
   smtpTransport
-
-returnServerError = (res) ->
-  res.status(500)
-  res.send('Server error.')
-  res.end()
-

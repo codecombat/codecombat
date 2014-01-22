@@ -87,7 +87,7 @@ module.exports = class SpriteBoss extends CocoClass
     @selectionMark = new Mark name: 'selection', camera: @camera, layer: @spriteLayers["Ground"], thangType: @thangTypeFor("Selection")
 
   createSpriteOptions: (options) ->
-    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers["Ground"], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers["Floating"], markThangTypes: @markThangTypes(), spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible
+    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers["Ground"], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers["Floating"], markThangTypes: @markThangTypes(), spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible, world: @world
 
   createIndieSprites: (indieSprites, withWizards) ->
     unless @indieSprites
@@ -179,15 +179,11 @@ module.exports = class SpriteBoss extends CocoClass
     wallSprites = (sprite for thangID, sprite of @sprites when sprite.thangType?.get('name') is 'Dungeon Wall')
     walls = (sprite.thang for sprite in wallSprites)
     @world.calculateBounds()
-    if @wallGrid and @wallGrid.width is @world.width and @wallGrid.height is @world.height
-      @wallGrid.update walls
-    else
-      @wallGrid = new Grid walls, @world.size()...
+    wallGrid = new Grid walls, @world.size()...
     for wallSprite in wallSprites
-      wallSprite.updateActionDirection @wallGrid
+      wallSprite.updateActionDirection wallGrid
       wallSprite.updateScale()
       wallSprite.updatePosition()
-      # TODO: there's some bug whereby a new wall isn't drawn properly when cached the first time
     #console.log @wallGrid.toString()
     @spriteLayers["Obstacle"].uncache() if @spriteLayers["Obstacle"].cacheID  # might have changed sizes
     @spriteLayers["Obstacle"].cache()
@@ -234,7 +230,7 @@ module.exports = class SpriteBoss extends CocoClass
       @selectedSprite = sprite
     alive = sprite?.thang.health > 0
 
-    Backbone.Mediator.publish "surface:sprite-selected",
+    Backbone.Mediator.publish 'surface:sprite-selected',
       thang: if sprite then sprite.thang else null
       sprite: sprite
       spellName: spellName ? e?.spellName
@@ -263,6 +259,6 @@ module.exports = class SpriteBoss extends CocoClass
     target = thang?.target
     targetPos = thang?.targetPos
     targetPos = null if targetPos?.isZero?()  # Null targetPos get serialized as (0, 0, 0)
-    @targetMark.toggle target or targetPos
     @targetMark.setSprite if target then @sprites[target.id] else null
+    @targetMark.toggle @targetMark.sprite or targetPos
     @targetMark.update if targetPos then @camera.worldToSurface targetPos else null

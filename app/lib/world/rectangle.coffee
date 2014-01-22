@@ -68,6 +68,7 @@ class Rectangle
 
   distanceSquaredToPoint: (p) ->
     # Doesn't handle rotation; just supposed to be faster than distanceToPoint
+    p = Vector.subtract(p, @getPos())
     dx = Math.max(Math.abs(p.x) - @width / 2, 0)
     dy = Math.max(Math.abs(p.y) - @height / 2, 0)
     dx * dx + dy * dy

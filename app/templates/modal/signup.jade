@@ -8,7 +8,7 @@ block modal-body-content
     p(data-i18n="signup.description") It's free. Just need a couple things and you'll be good to go:
     .form-inline
       .control-group
-        label.control-label(for="signup-email", data-i18n="forms.email") Email
+        label.control-label(for="signup-email", data-i18n="general.email") Email
         .controls
           input#signup-email.input-large(name="email", type="email")
       .control-group
@@ -40,5 +40,6 @@ block modal-footer
       .gplus-login-button#gplus-login-button
     // TODO does not work; the events (clicks, submissions) in new modal do not fire
     div
-      span(data-i18n="signup.or") or 
+      span(data-i18n="general.or") or
+      span  
       a(data-toggle="coco-modal", data-target="modal/login", data-i18n="signup.log_in")#link-to-login log in with password

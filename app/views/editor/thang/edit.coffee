@@ -188,10 +188,10 @@ module.exports = class ThangTypeEditView extends View
     options = @getSpriteOptions()
     @thangType.resetSpriteSheetCache()
     spriteSheet = @thangType.buildSpriteSheet(options)
-    $('#canvases').empty()
+    $('#spritesheets').empty()
     return unless spriteSheet
     for image in spriteSheet._images
-      $('#canvases').append(image)
+      $('#spritesheets').append(image)
     @showAnimation()
     @updatePortrait()
 

@@ -55,7 +55,7 @@ module.exports = class ColorsTabView extends CocoView
     animations = (a.animation for key, a of actionDict when a.animation)
     index = @offset % animations.length
     animation = animations[index]
-    return unless animation
+    return @updateContainer() unless animation
     @stage.removeChild(@movieClip) if @movieClip
     options = {colorConfig: {}}
     options.colorConfig[@currentColorGroupTreema.keyForParent] = @colorConfig
@@ -68,6 +68,23 @@ module.exports = class ColorsTabView extends CocoView
     @movieClip.regX = @movieClip.nominalBounds.x
     @movieClip.regY = @movieClip.nominalBounds.y
     @stage.addChild @movieClip
+
+  updateContainer: ->
+    actionDict = @thangType.getActions()
+    idle = actionDict.idle
+    @stage.removeChild(@container) if @container
+    return unless idle?.container
+    options = {colorConfig: {}}
+    options.colorConfig[@currentColorGroupTreema.keyForParent] = @colorConfig
+    @spriteBuilder.setOptions options
+    @spriteBuilder.buildColorMaps()
+    @container = @spriteBuilder.buildContainerFromStore idle.container
+    larger = Math.min(400 / @container.bounds.width, 400 / @container.bounds.height)
+    @container.scaleX = larger
+    @container.scaleY = larger
+    @container.regX = @container.bounds.x
+    @container.regY = @container.bounds.y
+    @stage.addChild @container
 
   createShapeButtons: ->
     buttons = $('<div></div>').prop('id', 'shape-buttons')
@@ -145,6 +162,7 @@ module.exports = class ColorsTabView extends CocoView
       shapes.push(key) if colors[shape.fc]
 
     @currentColorGroupTreema.set('/', shapes)
+    @updateMovieClip()
 
 class ColorGroupNode extends TreemaNode.nodeMap.array
   collection: false
