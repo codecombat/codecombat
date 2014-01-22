@@ -26,7 +26,7 @@ module.exports = class SpellToolbarView extends View
     return unless total = @callState?.statementsExecuted
     @statementIndex = Math.min(total - 1, Math.max(0, statementIndex))
     @statementRatio = @statementIndex / (total - 1)
-    @statementTime = @callState.statements[@statementIndex].userInfo.time
+    @statementTime = @callState.statements[@statementIndex]?.userInfo.time ? 0
     @$el.find('.bar').css('width', 100 * @statementRatio + '%')
     Backbone.Mediator.publish 'tome:spell-statement-index-updated', statementIndex: @statementIndex, ace: @ace
     @$el.find('.step-backward').prop('disabled', @statementIndex is 0)
@@ -83,7 +83,7 @@ module.exports = class SpellToolbarView extends View
   setCallState: (callState, statementIndex, @callIndex, @metrics) ->
     return if callState is @callState and statementIndex is @statementIndex
     return unless @callState = callState
-    if not @maintainIndexHover and not @maintainIndexScrub and statementIndex? and callState.statements[statementIndex].userInfo.time isnt @statementTime
+    if not @maintainIndexHover and not @maintainIndexScrub and statementIndex? and callState.statements[statementIndex]?.userInfo.time isnt @statementTime
       @setStatementIndex statementIndex
     else
       @setStatementRatio @statementRatio
