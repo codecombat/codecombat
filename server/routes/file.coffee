@@ -3,7 +3,7 @@ Grid = require 'gridfs-stream'
 fs = require 'fs'
 request = require 'request'
 mongoose = require('mongoose')
-errors = require './../errors'
+errors = require '../commons/errors'
 
 module.exports.setupRoutes = (app) ->
   app.all '/file*', (req, res) ->
