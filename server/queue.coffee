@@ -33,23 +33,32 @@ class AbstractQueue
     throw new Error "Subclasses must override the createSimulationQueue method"
 
 
-
-
 class RemoteQueue extends AbstractQueue
   constructor: (queueName) ->
     @configure()
     @sqs = @generateSQSInstance()
     @createSimulationQueueAndSetUrl queueName, (err, data) =>
-      @sendMessage "This is a new test message",5, (error,data) ->
-        if err?
-          winston.error "#{JSON.stringify error}"
       @enterReceieveMessageForeverLoop()
 
-
-
-
   configure: ->
-    aws.config.update @generateAWSConfigurationObject()
+    aws.config.update
+      accessKeyId: config.queue.accessKeyId
+      secretAccessKey: config.queue.secretAccessKey
+      region: config.queue.region
+
+  generateSQSInstance: ->
+    new aws.SQS()
+
+  createSimulationQueueAndSetUrl: (queueName, callback) ->
+    @sqs.createQueue {QueueName: queueName}, (err, data) =>
+      if err?
+        throw new Error "Failed to create queue \"#{queueName}\""
+      else
+        winston.info "Created queue, URL is #{data.QueueUrl}"
+        @queueUrl = data.QueueUrl
+        callback?(err,data)
+
+
 
   enterReceieveMessageForeverLoop: ->
     async.forever (asyncCallback) =>
@@ -62,19 +71,7 @@ class RemoteQueue extends AbstractQueue
             winston.info "Deleting message..."
             @deleteMessage data.Messages?[0].ReceiptHandle, ->
               winston.info "Deleted message!"
-          else
-            winston.info "No messages to receieve"
           asyncCallback(null)
-
-  createSimulationQueueAndSetUrl: (queueName, callback) ->
-    @sqs.createQueue {QueueName: queueName}, (err, data) =>
-      if err?
-        throw new Error "Failed to create queue \"#{queueName}\""
-      else
-        winston.info "Created queue, URL is #{data.QueueUrl}"
-        @queueUrl = data.QueueUrl
-        callback?(err,data)
-
 
   receiveMessage: (callback) ->
     @sqs.receiveMessage {QueueUrl: @queueUrl, WaitTimeSeconds: 20}, callback
@@ -84,17 +81,6 @@ class RemoteQueue extends AbstractQueue
 
   sendMessage: (messageBody, delaySeconds, callback) ->
     @sqs.sendMessage {QueueUrl: @queueUrl, MessageBody: messageBody, DelaySeconds: delaySeconds}, callback
-
-
-  generateAWSConfigurationObject: ->
-    awsConfigurationObject =
-      accessKeyId: config.queue.accessKeyId
-      secretAccessKey: config.queue.secretAccessKey
-      region: config.queue.region
-
-
-  generateSQSInstance: ->
-    new aws.SQS()
 
 
 
