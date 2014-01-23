@@ -29,6 +29,11 @@ config.mail.password = process.env.COCO_MAIL_SERVICE_PASSWORD || "";
 config.mail.mailchimpAPIKey = process.env.COCO_MAILCHIMP_API_KEY || '';
 config.mail.sendwithusAPIKey = process.env.COCO_SENDWITHUS_API_KEY || '';
 
+config.queue = {};
+config.queue.accessKeyId = process.env.AWS_ACCESS_KEY_ID || '';
+config.queue.secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY || '';
+config.queue.region = 'us-east-1';
+
 config.salt = process.env.COCO_SALT || 'pepper';
 config.cookie_secret = process.env.COCO_COOKIE_SECRET || 'chips ahoy';
 
