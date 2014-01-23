@@ -19,8 +19,23 @@ handlers =
   'level_feedback': '../../server/levels/feedbacks/level_feedback_handler'
   'level_session': '../../server/levels/sessions/level_session_handler'
   'level_system': '../../server/levels/systems/level_system_handler'
-  'level_thang_type': '../../server/levels/thangs/level_thangType_handler'
+  'thang_type': '../../server/levels/thangs/thang_type_handler'
   'user': '../../server/users/user_handler'
+
+schemas =
+  'article': '../../server/articles/article_schema'
+  'common': '../../server/commons/schemas'
+  #'file': '../../server/files/file_schema'
+  'i18n': '../../server/commons/i18n_schema'
+  'level': '../../server/levels/level_schema'
+  'level_component': '../../server/levels/components/level_component_schema'
+  'level_feedback': '../../server/levels/feedbacks/level_feedback_schema'
+  'level_session': '../../server/levels/sessions/level_session_schema'
+  'level_system': '../../server/levels/systems/level_system_schema'
+  'metaschema': '../../server/commons/metaschema'
+  'thang_component': '../../server/levels/thangs/thang_component_schema'
+  'thang_type': '../../server/levels/thangs/thang_type_schema'
+  'user': '../../server/users/user_schema'
 
 
 module.exports.connectDatabase = () ->
@@ -64,8 +79,9 @@ module.exports.setupRoutes = (app) ->
 
 getSchema = (req, res, moduleName) ->
   try
-    name = "./schemas/#{moduleName.replace '.', '_'}"
+    name = schemas[moduleName.replace '.', '_']
     schema = require(name)
+
     res.send(schema)
     res.end()
 
