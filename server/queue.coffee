@@ -5,9 +5,7 @@ async = require 'async'
 errors = require './errors'
 aws = require 'aws-sdk'
 
-testing = '--unittest' in process.argv
-
-queueInstance = undefined
+queueInstance = null
 
 module.exports.connect = ->
   queueInstance = generateQueueInstance()
