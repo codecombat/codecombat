@@ -33,6 +33,7 @@ config.queue = {};
 config.queue.accessKeyId = process.env.COCO_AWS_ACCESS_KEY_ID || '';
 config.queue.secretAccessKey = process.env.COCO_AWS_SECRET_ACCESS_KEY || '';
 config.queue.region = 'us-east-1';
+config.queue.simulationQueueName = "simulationQueue";
 
 config.salt = process.env.COCO_SALT || 'pepper';
 config.cookie_secret = process.env.COCO_COOKIE_SECRET || 'chips ahoy';

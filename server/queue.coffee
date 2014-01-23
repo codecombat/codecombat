@@ -7,16 +7,11 @@ aws = require 'aws-sdk'
 
 queueInstance = null
 
-module.exports.connect = ->
+module.exports.setupRoutes = (app) ->
   queueInstance = generateQueueInstance()
-  queueInstance.connect()
 
 
-module.exports.connectToRemoteQueue = ->
-  return
 
-module.exports.connectToLocalQueue = ->
-  return
 
 
 generateQueueInstance = ->
@@ -25,34 +20,61 @@ generateQueueInstance = ->
   else
     return new LocalQueue()
 
-class Queue
-  constructor: ->
-   @configure()
 
+
+class AbstractQueue
   configure: ->
-    return
+    throw new Error "Subclasses must override the configure method"
 
   connect: ->
-    throw new Error("Subclasses must override this method")
+    throw new Error "Subclasses must override the connect method"
+
+  createSimulationQueue: ->
+    throw new Error "Subclasses must override the createSimulationQueue method"
 
 
-class RemoteQueue extends Queue
+
+
+class RemoteQueue extends AbstractQueue
   constructor: ->
-    super()
+    @configure()
     @sqs = @generateSQSInstance()
-    @testConnection()
-
+    @createSimulationQueueAndSetUrl()
+    setTimeout @receiveMessage.bind(this), 5000
 
   configure: ->
-    super()
+    aws.config.update @generateAWSConfigurationObject()
+
+
+  createSimulationQueueAndSetUrl: ->
+    @sqs.createQueue {QueueName: config.queue.simulationQueueName}, (err, data) =>
+      if err?
+        winston.error "Failed to create simulation queue!"
+        throw new Error "Failed to create simulation queue."
+      else
+        winston.info "Created simulation queue, URL is #{data.QueueUrl}"
+        @simulationQueueUrl = data.QueueUrl
+
+
+  receiveMessage: ->
+    params =  {QueueUrl: @simulationQueueUrl, WaitTimeSeconds: 20}
+    console.log params
+    @sqs.receiveMessage params, (err, data) ->
+      if err?
+        winston.error "Error receiving message, reason: #{JSON.stringify err}"
+      else
+        winston.info "Received message, content: #{JSON.stringify data}"
+
+
+  generateAWSConfigurationObject: ->
     awsConfigurationObject =
       accessKeyId: config.queue.accessKeyId
       secretAccessKey: config.queue.secretAccessKey
       region: config.queue.region
-    aws.config.update remoteConfigurationObject
+
 
   generateSQSInstance: ->
-    return new aws.SQS()
+    new aws.SQS()
 
   testConnection: ->
     @sqs.listQueues {}, (err, data) ->
@@ -64,9 +86,9 @@ class RemoteQueue extends Queue
 
 
 
-class LocalQueue extends Queue
+class LocalQueue extends AbstractQueue
   constructor: ()->
-    super()
+    return
 
   configure: () ->
     super()
