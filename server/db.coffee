@@ -8,13 +8,7 @@ errors = require './errors'
 testing = '--unittest' in process.argv
 
 module.exports.connectDatabase = () ->
-  dbName = config.mongo.db
-  dbName += '_unittest' if testing
-  address = config.mongo.host + ":" + config.mongo.port
-  if config.mongo.username and config.mongo.password
-    address = config.mongo.username + ":" + config.mongo.password + "@" + address
-#    address = config.mongo.username + "@" + address # if connecting to production server
-  address = "mongodb://#{address}/#{dbName}"
+  address = exports.generateDatabaseAddress()
   console.log "got address:", address
   mongoose.connect address
   mongoose.connection.once 'open', ->
@@ -55,3 +49,15 @@ getSchema = (req, res, moduleName) ->
   catch error
     winston.error("Error trying to grab schema from #{name}: #{error}")
     errors.notFound(res, "Schema #{moduleName} not found.")
+
+
+module.exports.generateDatabaseAddress = ->
+  dbName = config.mongo.db
+  dbName += '_unittest' if testing
+  address = config.mongo.host + ":" + config.mongo.port
+  if config.mongo.username and config.mongo.password
+    address = config.mongo.username + ":" + config.mongo.password + "@" + address
+  #    address = config.mongo.username + "@" + address # if connecting to production server
+  address = "mongodb://#{address}/#{dbName}"
+
+
