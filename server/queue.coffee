@@ -4,8 +4,8 @@ mongoose = require 'mongoose'
 async = require 'async'
 errors = require './errors'
 aws = require 'aws-sdk'
-mubsub = require 'mubsub'
 db = require './db'
+mongoose = require 'mongoose'
 events = require 'events'
 
 queueClient = null
@@ -13,31 +13,22 @@ simulationQueue = null
 
 module.exports.setupRoutes = (app) ->
   generateQueueInstance()
-  queueClient.registerQueue "simulationQueue", {}, (err,data) ->
+  ###queueClient.registerQueue "simulationQueue", {}, (err,data) ->
     simulationQueue = data
     simulationQueue.subscribe 'message', (err, data) ->
-      winston.info "Receieved message #{data.Messages?[0].Body}"
-
-    simulationQueue.listenForever()
-
-
-
-
-
+      if data.Messages?
+        winston.info "Receieved message #{data.Messages?[0].Body}"
+        simulationQueue.deleteMessage data.Messages?[0].ReceiptHandle, ->
+          winston.info "Deleted message"
+###
 
 
 
 generateQueueInstance = ->
-  if config.isProduction || true
+  if config.isProduction
     queueClient = new SQSQueueClient()
   else
     queueClient = new MongoQueueClient()
-
-
-
-class AbstractQueueClient
-  registerQueue: (queueName, callback) ->
-    return
 
 
 class SQSQueueClient extends AbstractQueueClient
@@ -60,54 +51,28 @@ class SQSQueueClient extends AbstractQueueClient
       newQueue = new SQSQueue(queueName, data.QueueUrl, @sqs)
       callback err, newQueue
 
-
   generateSQSInstance: ->
     new aws.SQS()
-
-
-
-class MongoQueueClient extends AbstractQueueClient
-  constructor: ->
-    @configure()
-    @generateMubsubClientInstance()
-
-  registerQueue: (queueName, options, callback) ->
-    channel = @localQueueClient.channel(queueName, options)
-    callback(null, channel)
-
-  configure: ->
-    @databaseAddress = databaseAddress = db.generateDatabaseAddress()
-
-  generateMubsubClientInstance: ->
-    @localQueueClient = mubsub(@databaseAddress)
-
-
-
-
-
-class AbstractQueue
-  configure: ->
-    throw new Error "Subclasses must override the configure method"
-
 
 
 class SQSQueue extends events.EventEmitter
   constructor: (@queueName, @queueUrl, @sqs) ->
 
-
   subscribe: (eventName, callback) ->
-    this.on eventName, callback
+    @on eventName, callback
+    return {eventName, callback}
 
-  publish: (eventName) ->
-    return
+  unsubscribe: (subscriptionObject) ->
+    @removeListener subscriptionObject.eventName, subscriptionObject.callback
 
 
+  publish: (messageBody,delayInSeconds, callback) ->
+    @sendMessage messageBody, delayInSeconds, callback
 
   receiveMessage: (callback) ->
     @sqs.receiveMessage {QueueUrl: @queueUrl, WaitTimeSeconds: 20}, (err, data) =>
       if err? then @emit 'error',err,data else @emit 'message',err,data
       callback? err,data
-
 
   deleteMessage: (receiptHandle, callback) ->
     @sqs.deleteMessage {QueueUrl: @queueUrl, ReceiptHandle: receiptHandle}, (err, data) =>
@@ -123,26 +88,56 @@ class SQSQueue extends events.EventEmitter
   listenForever: =>
     async.forever (asyncCallback) =>
       @receiveMessage (err, data) ->
-          asyncCallback(null)
+        asyncCallback(null)
+
+
+
+
+class MongoQueueClient extends AbstractQueueClient
+  constructor: ->
+    @configure()
+
+  registerQueue: (queueName, options, callback) ->
+    channel = new MongoQueue queueName,options,this
+    callback(null, channel)
+
+  configure: ->
+    @databaseAddress = db.generateDatabaseAddress()
+    @mongoDatabaseName = config.mongoQueue.queueDatabaseName;
+    @createMongoConnection()
+
+  createMongoConnection: ->
+    @mongooseConnection = mongoose.createConnection "mongodb://#{@databaseAddress}/#{@mongoDatabaseName}"
+    @mongooseConnection.on 'error', ->
+      winston.error "There was an error connecting to the queue in MongoDB"
+    @mongooseConnection.once 'open', ->
+      winston.info "Successfully connected to MongoDB queue!"
+
+
+
+class MongoQueue extends events.EventEmitter
+  constructor: (@queueName, options, mubSubClient) ->
+    @channel = mubSubClient.channel queueName, options
+    @subscribe 'message', receieveMessage
+  subscribe: (eventName, callback) ->
+    @channel.subscribe eventName, callback
+
+  unsubscribe: (subscriptionObject) ->
+    subscriptionObject.unsubscribe()
+
+  publish: (messageBody, delayInSeconds, callback) ->
+    #TODO: Mongo-based persistence of delayed messages
+    setTimeout @channel.publish.bind(this), delayInSeconds * 1000, @queueName, messageBody, callback
+
+  receieveMessage: (callback) ->
+    throw new Error "MongoQueue does not support fetching one message, it continually listens"
+  deleteMessage: (callback) ->
+    throw new Error "MongoQueue "
 
 
 
 
 
-class LocalQueue extends AbstractQueue
-  constructor: (queueName)->
-    return
-
-  configure: () ->
-    @client = @generateMubsubClient
-
-
-  generateMubsubClient: ->
-
-    client = mubsub(databaseAddress)
-
-  registerQueueAndReturnChannel: (queueName) ->
-    return
 
 
 
