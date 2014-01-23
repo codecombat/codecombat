@@ -370,7 +370,7 @@ module.exports = class SpellView extends View
       #console.log thangID, "got new castAether with raw", aether.raw, "problems", aether.problems
       spellThang.castAether = aether
       spellThang.aether = @spell.createAether e.world.getThangByID(thangID)
-      #console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
+      console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
     @spell.transpile()
     @updateAether false, false
 
