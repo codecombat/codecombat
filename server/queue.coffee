@@ -39,14 +39,24 @@ class RemoteQueue extends AbstractQueue
   constructor: ->
     @configure()
     @sqs = @generateSQSInstance()
-    @createSimulationQueueAndSetUrl()
-    setTimeout @receiveMessage.bind(this), 5000
+    @createSimulationQueueAndSetUrl (err, data) =>
+      @sendMessage "This is a new test message",5, =>
+        winston.info "Sent test message!"
+    setTimeout @receiveMessage.bind(this, (err, data) =>
+      if err?
+        winston.error "Error receiving message, reason: #{JSON.stringify err}"
+      else
+        winston.info "Received message, content: #{JSON.stringify data}"
+        winston.info "Deleting message..."
+        @deleteMessage data.Messages?[0].ReceiptHandle, ->
+          winston.info "Deleted message!"
+    ), 5000
 
   configure: ->
     aws.config.update @generateAWSConfigurationObject()
 
 
-  createSimulationQueueAndSetUrl: ->
+  createSimulationQueueAndSetUrl: (callback) ->
     @sqs.createQueue {QueueName: config.queue.simulationQueueName}, (err, data) =>
       if err?
         winston.error "Failed to create simulation queue!"
@@ -54,16 +64,17 @@ class RemoteQueue extends AbstractQueue
       else
         winston.info "Created simulation queue, URL is #{data.QueueUrl}"
         @simulationQueueUrl = data.QueueUrl
+        callback?(null,data)
 
 
-  receiveMessage: ->
-    params =  {QueueUrl: @simulationQueueUrl, WaitTimeSeconds: 20}
-    console.log params
-    @sqs.receiveMessage params, (err, data) ->
-      if err?
-        winston.error "Error receiving message, reason: #{JSON.stringify err}"
-      else
-        winston.info "Received message, content: #{JSON.stringify data}"
+  receiveMessage: (callback) ->
+    @sqs.receiveMessage {QueueUrl: @simulationQueueUrl, WaitTimeSeconds: 20}, callback
+
+  deleteMessage: (receiptHandle, callback) ->
+    @sqs.deleteMessage {QueueUrl: @simulationQueueUrl, ReceiptHandle: receiptHandle}, callback
+
+  sendMessage: (messageBody, delaySeconds, callback) ->
+    @sqs.sendMessage {QueueUrl: @simulationQueueUrl, MessageBody: messageBody, DelaySeconds: delaySeconds}, callback
 
 
   generateAWSConfigurationObject: ->
