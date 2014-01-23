@@ -45,6 +45,7 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
   params.email = if existingProps then {leid:existingProps.leid} else {email:doc.get('email')}
   params.merge_vars = { groupings: [ {id: MAILCHIMP_GROUP_ID, groups: newGroups} ] }
   params.update_existing = true
+  params.double_optin = false
   
   onSuccess = (data) ->
     doc.set('mailChimp', data)
