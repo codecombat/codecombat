@@ -29,10 +29,6 @@ handleProfileUpdate = (user, post) ->
   mailChimpInfo = user.get 'mailChimp'
   mailChimpInfo.email = post.data.email
   user.set 'mailChimp', mailChimpInfo
-
-  badLog("Updating user object to: #{JSON.stringify(user.toObject(), null, '\t')}")
     
 handleUnsubscribe = (user) ->
   user.set 'emailSubscriptions', []
-
-  badLog("Unsubscribing user object to: #{JSON.stringify(user.toObject(), null, '\t')}") 
