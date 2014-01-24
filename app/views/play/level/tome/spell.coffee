@@ -56,7 +56,6 @@ module.exports = class Spell
 
   createAether: (thang) ->
     aetherOptions =
-      #thisValue: thang.createUserContext()   # slooow, and not useful I guess?
       problems:
         jshint_W040: {level: "ignore"}
         aether_MissingThis: {level: (if thang.requiresThis then 'error' else 'warning')}
@@ -68,7 +67,7 @@ module.exports = class Spell
         #callIndex: 0
         #timelessVariables: ['i']
         #statementIndex: 9001
-    if not (me.team in @permissions.readwrite)# or @name is 'chooseAction' or thang.id is 'Thoktar'  # Gridmancer can't handle it
+    if not (me.team in @permissions.readwrite) or window.currentView?.sessionID is "52bfb88099264e565d001349"  # temp fix for debugger explosion bug
       #console.log "Turning off includeFlow for", @spellKey
       aetherOptions.includeFlow = false
     aether = new Aether aetherOptions
