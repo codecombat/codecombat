@@ -2,6 +2,7 @@ mongoose = require('mongoose')
 jsonschema = require('./user_schema')
 crypto = require('crypto')
 {salt, isProduction} = require('../../server_config')
+mail = require '../commons/mail'
 
 sendwithus = require '../sendwithus'
 
@@ -34,16 +35,17 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
   existingProps = doc.get('mailChimp')
   emailChanged = (not existingProps) or existingProps?.email isnt doc.get('email')
   emailSubs = doc.get('emailSubscriptions')
-  newGroups = (groupingMap[name] for name in emailSubs when groupingMap[name]?)
+  gm = mail.MAILCHIMP_GROUP_MAP
+  newGroups = (gm[name] for name in emailSubs when gm[name]?)
   if (not existingProps) and newGroups.length is 0
     return callback?() # don't add totally unsubscribed people to the list
   subsChanged = doc.currentSubscriptions isnt JSON.stringify(emailSubs)
   return callback?() unless emailChanged or subsChanged
   
   params = {}
-  params.id = MAILCHIMP_LIST_ID
+  params.id = mail.MAILCHIMP_LIST_ID
   params.email = if existingProps then {leid:existingProps.leid} else {email:doc.get('email')}
-  params.merge_vars = { groupings: [ {id: MAILCHIMP_GROUP_ID, groups: newGroups} ] }
+  params.merge_vars = { groupings: [ {id: mail.MAILCHIMP_GROUP_ID, groups: newGroups} ] }
   params.update_existing = true
   params.double_optin = false
   
@@ -78,18 +80,6 @@ UserSchema.pre('save', (next) ->
       console.log 'error', err, 'result', result
   next()
 )
-
-MAILCHIMP_LIST_ID = 'e9851239eb'
-MAILCHIMP_GROUP_ID = '4529'
-
-groupingMap =
-  announcement: 'Announcements'
-  tester: 'Adventurers'
-  level_creator: 'Artisans'
-  developer: 'Archmages'
-  article_editor: 'Scribes'
-  translator: 'Diplomats'
-  support: 'Ambassadors'
 
 UserSchema.post 'save', (doc) ->
   UserSchema.statics.updateMailChimp(doc)

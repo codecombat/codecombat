@@ -4,8 +4,8 @@ LocalStrategy = require('passport-local').Strategy
 User = require('../users/User')
 UserHandler = require('../users/user_handler')
 config = require '../../server_config'
-nodemailer = require 'nodemailer'
 errors = require '../commons/errors'
+mail = require '../commons/mail'
 
 module.exports.setupRoutes = (app) ->
   passport.serializeUser((user, done) -> done(null, user._id))
@@ -66,9 +66,8 @@ module.exports.setupRoutes = (app) ->
       user.save (err) =>
         return errors.serverError(res) if err
         if config.isProduction
-          transport = createSMTPTransport()
           options = createMailOptions req.body.email, user.get('passwordReset')
-          transport.sendMail options, (error, response) ->
+          mail.transport.sendMail options, (error, response) ->
             if error
               console.error "Error sending mail: #{error.message or error}"
               return errors.serverError(res) if err
@@ -104,13 +103,4 @@ createMailOptions = (receiver, password) ->
     replyTo: config.mail.username
     subject: "[CodeCombat] Password Reset"
     text: "You can log into your account with: #{password}"
-#html: message.replace '\n', '<br>\n'
-
-createSMTPTransport = ->
-  return smtpTransport if smtpTransport
-  smtpTransport = nodemailer.createTransport "SMTP",
-    service: config.mail.service
-    user: config.mail.username
-    pass: config.mail.password
-    authMethod: "LOGIN"
-  smtpTransport
+#
