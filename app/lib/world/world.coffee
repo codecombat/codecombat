@@ -221,7 +221,7 @@ module.exports = class World
     channel = 'world:' + channel
     for script in @scripts
       continue if script.channel isnt channel
-      scriptNote = new WorldScriptNote script, event, world
+      scriptNote = new WorldScriptNote script, event
       continue if scriptNote.invalid
       @scriptNotes.push scriptNote
     return unless @goalManager
