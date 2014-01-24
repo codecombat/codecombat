@@ -158,6 +158,9 @@ module.exports = class Thang
       t[prop] = val
     t
 
+  serializeForAether: ->
+    {CN: @constructor.className, id: @id}
+
   getSpriteOptions: ->
     colorConfigs = @world?.getTeamColors() or {}
     options = {}

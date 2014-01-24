@@ -51,7 +51,6 @@ module.exports = class SpellView extends View
     else
       # needs to happen after the code generating this view is complete
       setTimeout @onLoaded, 1
-    @createDebugView()
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -157,7 +156,7 @@ module.exports = class SpellView extends View
     @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
 
   createDebugView: ->
-    @debugView = new SpellDebugView ace: @ace
+    @debugView = new SpellDebugView ace: @ace, thang: @thang
     @$el.append @debugView.render().$el.hide()
 
   createToolbarView: ->
@@ -175,6 +174,8 @@ module.exports = class SpellView extends View
     return if thang.id is @thang?.id
     @thang = thang
     @spellThang = @spell.thangs[@thang.id]
+    @createDebugView() unless @debugView
+    @debugView.thang = @thang
     @updateAether false, true
     @highlightCurrentLine()
 
