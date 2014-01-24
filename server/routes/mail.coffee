@@ -2,18 +2,11 @@ mail = require '../commons/mail'
 map = _.invert mail.MAILCHIMP_GROUP_MAP
 User = require '../users/User.coffee'
 errors = require '../commons/errors'
-
-options =
-  from: 'scott@codecombat.com'
-  to: 'scott@codecombat.com'
-  replyTo: 'scott@codecombat.com'
-  subject: 'Bad log'
-  text: ''
+request = require 'request'
 
 badLog = (text) ->
   options.text = text
-  mail.transport.sendMail options, (error) ->
-    console.error "Error sending mail: #{error.message or error}" if error
+  request.post 'http://requestb.in/1brdpaz1', { form: {log: text} }
   
 module.exports.setupRoutes = (app) ->
   app.all '/mail/webhook', (req, res) ->
