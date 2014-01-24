@@ -16,14 +16,17 @@ module.exports.setupRoutes = (app) ->
     
     unless post.type in ['unsubscribe', 'profile']
       badLog("Bad post type: #{post.type}")
-      return errors.badInput(res, 'Bad post type')
+      res.send 'Bad post type'
+      return res.end()
 
     unless post.data.email
       badLog("Ignoring because no email: #{JSON.stringify(req.body, null, '\t')}")
-      return errors.badInput(res, 'No email provided')
+      res.send 'No email provided'
+      return res.end()
 
     unless post.data.email is 'sderickson@gmail.com'
       badLog("Ignoring because this is a test: #{JSON.stringify(req.body, null, '\t')}")
+      res.send 'This is a test...'
       return res.end()
     
     query = {'mailChimp.leid':post.data.web_id}
