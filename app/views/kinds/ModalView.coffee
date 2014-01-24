@@ -1,7 +1,7 @@
 CocoView = require './CocoView'
 
 module.exports = class ModalView extends CocoView
-  className: "modal hide fade"
+  className: "modal fade"
   closeButton: true
   closesOnClickOutside: true
   modalWidthPercent: null
@@ -28,7 +28,7 @@ module.exports = class ModalView extends CocoView
     super()
     if @modalWidthPercent
       @$el.css width: "#{@modalWidthPercent}%", "margin-left": "#{-@modalWidthPercent / 2}%"
-    @$el.on 'hide', =>
+    @$el.on 'hide.bs.modal', =>      
       @onHidden() unless @hidden
       @hidden = true
       
@@ -42,7 +42,7 @@ module.exports = class ModalView extends CocoView
     $el = @$el.find('.modal-body') unless $el
     super($el)
 
-  hide: ->
+  hide: ->    
     @$el.removeClass('fade').modal "hide"
 
-  onHidden: ->
+  onHidden: ->    

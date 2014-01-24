@@ -14,14 +14,12 @@ block modal-body-content
     a(href="http://discourse.codecombat.com/", data-i18n="contact.forum_page") our forum
     span(data-i18n="contact.forum_suffix")  instead.
   .form-inline
+    .form-group
+      label.control-label(for="contact-email", data-i18n="general.email") Email      
+      input#contact-email.form-control(name="email", type="email", value="#{me.get('anonymous') ? '' : me.get('email')}", placeholder="Where should we reply?")
     .control-group
-      label.control-label(for="contact-email", data-i18n="general.email") Email
-      .controls
-        input#contact-email.input-block-level(name="email", type="email", value="#{me.get('anonymous') ? '' : me.get('email')}", placeholder="Where should we reply?")
-    .control-group
-      label.control-label(for="contact-message", data-i18n="general.message") Message
-      .controls
-        textarea#contact-message.input-block-level(name="message", rows=8)
+      label.control-label(for="contact-message", data-i18n="general.message") Message      
+      textarea#contact-message.form-control(name="message", rows=8)
 
 block modal-footer-content
   span.sending-indicator.pull-left.hide(data-i18n="common.sending") Sending...
