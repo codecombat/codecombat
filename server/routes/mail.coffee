@@ -30,7 +30,7 @@ module.exports.setupRoutes = (app) ->
       return errors.serverError(res) if err
       if not user
         badLog("could not find user for...: #{{'mailChimp.euid':post.data.id}}")
-        return errors.notFound(res) if err
+        return errors.notFound(res)
 
       handleProfileUpdate(user, post) if post.type is 'profile'
       handleUnsubscribe(user) if post.type is 'unsubscribe'
@@ -38,7 +38,7 @@ module.exports.setupRoutes = (app) ->
       user.updatedMailChimp = true # so as not to echo back to mailchimp
       user.save (err) ->
         return errors.serverError(res) if err
-        res.end()
+        res.end('Success')
 
 
 handleProfileUpdate = (user, post) ->
@@ -47,7 +47,7 @@ handleProfileUpdate = (user, post) ->
   user.set 'emailSubscriptions', groups
   
   mailChimpInfo = user.get 'mailChimp'
-  mailChimpInfo.email = post.data.email
+  mailChimpInfo.email = post.data.merges.EMAIL
   user.set 'mailChimp', mailChimpInfo
 
   badLog("Updating user object to: #{JSON.stringify(user.toObject(), null, '\t')}")
