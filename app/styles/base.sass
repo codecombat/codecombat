@@ -7,8 +7,9 @@ h1 h2 h3 h4
 #widget-bounds
   display: none
 
-.navbar a.brand
+.navbar a.navbar-brand
   padding: 4px 20px 0px 20px
+  margin-left: -20px
 
 .main-content-area
   position: relative
@@ -21,7 +22,7 @@ h1 h2 h3 h4
 .navbuttontext, .fancy-select .trigger
   font-family: 'Bangers', cursive
   font-size: 20px
-  font-weight: normal
+  font-weight: 400
   letter-spacing: 1px
 
 .navbuttontext-user-name
@@ -39,6 +40,9 @@ h1 h2 h3 h4
   font-weight: normal
   font-size: 25px
   letter-spacing: 2px
+  color: $white
+  &:hover
+    color: #f8e413
 
 .navbar .btn, .navbar .btn-group, .navbar .fancy-select
   margin-top: 13px
@@ -55,14 +59,19 @@ h1 h2 h3 h4
 #inner-content-wrapper
   background: url(/images/pages/base/background_texture.png) top center no-repeat
 
-.navbar-inner
+.navbar
   font-size: 25px
   a:not(.btn)
     line-height: 25px
 
+  .btn
+    font-size: 20px
+    padding: 4px 12px
+
   .btn, .fancy-select
     float: right
     margin-left: 10px
+    line-height: 20px
 
   select
     opacity: 0
@@ -110,6 +119,8 @@ h1 h2 h3 h4
   color: #ffffff
   cursor: pointer
   margin: 0px 10px
+  &:hover
+    color: $white
 
 a[data-toggle="modal"]
   cursor: pointer
@@ -135,13 +146,16 @@ a[data-toggle="modal"]
 .selectable
   cursor: pointer
 
-.modal
+.modal-dialog
   padding: 5px
   background: transparent url(/images/pages/base/modal_background.png)
   background-size: 100% 100%
   border: 0
   @include box-shadow(0 0 0 #000)
 
+  .modal-content
+    @include box-shadow(none)
+  
   .modal-header
     margin: 0 14px
     padding: 8px 0
@@ -214,7 +228,7 @@ table.table
   background-color: white
 
 .ui-autocomplete
-  z-index: $zindexAutocomplete
+  //z-index: $zindexAutocomplete
   
 div.fancy-select
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)

@@ -5,15 +5,13 @@ block modal-header-content
 
 block modal-body-content
   form.form-horizontal
+    .form-group
+      label.control-label(for="commitMessage", data-i18n="general.commit_msg") Commit Message      
+      textarea#commit-message.input-large.form-control(name="commitMessage", type="text")
     .control-group
-      label.control-label(for="commitMessage", data-i18n="general.commit_msg") Commit Message
-      .controls
-        textarea#commit-message.input-large(name="commitMessage", type="text")
-    .control-group
-      label.control-label(for="level-version-is-major", data-i18n="versions.new_major_version") New Major Version
-      .controls
-        input#major-version.input-large(name="version-is-major", type="checkbox")
-        span.help-block
+      label.control-label(for="level-version-is-major", data-i18n="versions.new_major_version") New Major Version      
+      input#major-version.input-large.form-control(name="version-is-major", type="checkbox")
+      span.help-block
 
 block modal-body-wait-content
   h3(data-i18n="common.saving") Saving...

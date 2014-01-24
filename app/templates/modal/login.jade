@@ -5,14 +5,12 @@ block modal-header-content
 
 block modal-body-content
   .form-inline
+    .form-group
+      label.control-label(for="login-email", data-i18n="general.email") Email      
+      input#login-email.input-large.form-control(name="email", type="email")
     .control-group
-      label.control-label(for="login-email", data-i18n="general.email") Email
-      .controls
-        input#login-email.input-large(name="email", type="email")
-    .control-group
-      label.control-label(for="login-password", data-i18n="forms.password") Password
-      .controls
-        input#login-password.input-large(name="password", type="password")
+      label.control-label(for="login-password", data-i18n="forms.password") Password      
+      input#login-password.input-large.form-control(name="password", type="password")
 
 block modal-body-wait-content
   h3(data-i18n="login.logging_in") Logging In
