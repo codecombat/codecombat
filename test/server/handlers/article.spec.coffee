@@ -77,3 +77,10 @@ describe '/db/article', ->
         expect(res.statusCode).toBe(200)
         expect(body.name).toBe(new_article.name)
         done()
+
+  it 'get schema', (done) ->
+    request.get {uri:url+'/schema'}, (err, res, body) ->
+      expect(res.statusCode).toBe(200)
+      body = JSON.parse(body)
+      expect(body.type).toBeDefined()
+      done()
