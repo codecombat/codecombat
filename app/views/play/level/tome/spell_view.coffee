@@ -69,6 +69,7 @@ module.exports = class SpellView extends View
     @ace.setShowPrintMargin false
     @ace.setShowInvisibles false
     @ace.setBehavioursEnabled false
+    @ace.setAnimatedScroll true
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -461,6 +462,7 @@ module.exports = class SpellView extends View
       markerRange.id = @aceSession.addMarker markerRange, clazz, "text"
       @markerRanges.push markerRange
       @aceSession.addGutterDecoration start.row, clazz if clazz is 'executing'
+    null
 
   onAnnotationClick: ->
     alertBox = $("<div class='alert alert-info fade in'>#{msg}</div>")
