@@ -63,6 +63,7 @@ module.exports = class SpellToolbarView extends View
     @setStatementRatio e.offsetX / @$el.find('.progress').width()
     @updateTime()
     @maintainIndexHover = true
+    @updateScroll()
 
   onProgressMouseOut: (e) ->
     @maintainIndexHover = false
@@ -73,12 +74,19 @@ module.exports = class SpellToolbarView extends View
     lastTime = @statementTime
     @setStatementIndex @statementIndex + delta
     @updateTime() if @statementIndex isnt lastTime
+    @updateScroll()
 
   updateTime: ->
     @maintainIndexScrub = true
     clearTimeout @maintainIndexScrubTimeout if @maintainIndexScrubTimeout
     @maintainIndexScrubTimeout = _.delay (=> @maintainIndexScrub = false), 500
     Backbone.Mediator.publish 'level-set-time', time: @statementTime, scrubDuration: 500
+
+  updateScroll: ->
+    return unless statementStart = @callState?.statements?[@statementIndex]?.range[0]
+    text = @ace.getValue()
+    currentLine = text.substr(0, statementStart).split('\n').length - 1
+    @ace.scrollToLine currentLine, true, true
 
   setCallState: (callState, statementIndex, @callIndex, @metrics) ->
     return if callState is @callState and statementIndex is @statementIndex
