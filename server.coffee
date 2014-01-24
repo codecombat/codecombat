@@ -9,15 +9,16 @@ winston = require 'winston'
 passport = require 'passport' 
 useragent = require 'express-useragent'
 
-auth = require './server/auth'
-db = require './server/db'
-file = require './server/file'
-folder = require './server/folder'
-user = require './server/handlers/user'
-logging = require './server/logging'
-sprites = require './server/sprites'
-contact = require './server/contact'
-languages = require './server/languages'
+auth = require './server/routes/auth'
+db = require './server/routes/db'
+file = require './server/routes/file'
+folder = require './server/routes/folder'
+user = require './server/users/user_handler'
+logging = require './server/commons/logging'
+sprites = require './server/routes/sprites'
+contact = require './server/routes/contact'
+languages = require './server/routes/languages'
+mail = require './server/routes/mail'
 
 https = require 'https' 
 http = require 'http' 
@@ -82,6 +83,7 @@ contact.setupRoutes(app)
 file.setupRoutes(app)
 folder.setupRoutes(app)
 languages.setupRoutes(app)
+mail.setupRoutes(app)
 
 # Some sort of cross-domain communication hack facebook requires
 app.get('/channel.html', (req, res) ->

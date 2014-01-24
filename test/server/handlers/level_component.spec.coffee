@@ -139,3 +139,10 @@ describe 'LevelComponent', ->
     request.del {uri:url+'/'+components[0]._id}, (err, res) ->
       expect(res.statusCode).toBe(404)
       done()
+
+  it 'get schema', (done) ->
+    request.get {uri:url+'/schema'}, (err, res, body) ->
+      expect(res.statusCode).toBe(200)
+      body = JSON.parse(body)
+      expect(body.type).toBeDefined()
+      done()

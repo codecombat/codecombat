@@ -136,6 +136,13 @@ describe 'GET /db/user', ->
     form.append('username', 'admin@afc.com')
     form.append('password', '80yqxpb38j')
 
+  it 'get schema', (done) ->
+    request.get {uri:getURL(urlUser+'/schema')}, (err, res, body) ->
+      expect(res.statusCode).toBe(200)
+      body = JSON.parse(body)
+      expect(body.type).toBeDefined()
+      done()
+
   it 'is able to do a sweet query', (done) ->
     conditions = [
       ['limit', 20]

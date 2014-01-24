@@ -56,7 +56,7 @@ module.exports = class Spell
 
   createAether: (thang) ->
     aetherOptions =
-      thisValue: thang.createUserContext()
+      #thisValue: thang.createUserContext()   # slooow, and not useful I guess?
       problems:
         jshint_W040: {level: "ignore"}
         aether_MissingThis: {level: (if thang.requiresThis then 'error' else 'warning')}
