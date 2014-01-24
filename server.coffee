@@ -18,6 +18,7 @@ logging = require './server/commons/logging'
 sprites = require './server/routes/sprites'
 contact = require './server/routes/contact'
 languages = require './server/routes/languages'
+mail = require './server/routes/mail'
 
 https = require 'https' 
 http = require 'http' 
@@ -82,6 +83,7 @@ contact.setupRoutes(app)
 file.setupRoutes(app)
 folder.setupRoutes(app)
 languages.setupRoutes(app)
+mail.setupRoutes(app)
 
 # Some sort of cross-domain communication hack facebook requires
 app.get('/channel.html', (req, res) ->
