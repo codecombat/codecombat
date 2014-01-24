@@ -26,10 +26,11 @@ module.exports.setupRoutes = (app) ->
       badLog("Ignoring because this is a test: #{JSON.stringify(req.body, null, '\t')}")
       return res.end()
     
-    User.findOne {'mailChimp.euid':post.data.id}, (err, user) ->
+    query = {'mailChimp.leid':post.data.web_id}
+    User.findOne query, (err, user) ->
       return errors.serverError(res) if err
       if not user
-        badLog("could not find user for...: #{{'mailChimp.euid':post.data.id}}")
+        badLog("could not find user for...: #{query}")
         return errors.notFound(res)
 
       handleProfileUpdate(user, post) if post.type is 'profile'
@@ -47,7 +48,8 @@ handleProfileUpdate = (user, post) ->
   user.set 'emailSubscriptions', groups
   
   mailChimpInfo = user.get 'mailChimp'
-  mailChimpInfo.email = post.data.merges.EMAIL
+  mailChimpInfo.email = post.data.email
+  mailChimpInfo.euid = post.data.id
   user.set 'mailChimp', mailChimpInfo
 
   badLog("Updating user object to: #{JSON.stringify(user.toObject(), null, '\t')}")
