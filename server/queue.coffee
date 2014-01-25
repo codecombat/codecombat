@@ -12,7 +12,6 @@ queueClient = null
 simulationQueue = null
 
 module.exports.setupRoutes = (app) ->
-  generateQueueInstance()
   ###queueClient.registerQueue "simulationQueue", {}, (err,data) ->
     simulationQueue = data
     simulationQueue.subscribe 'message', (err, data) ->
@@ -24,17 +23,20 @@ module.exports.setupRoutes = (app) ->
 
 
 
-generateQueueInstance = ->
+
+module.exports.generateQueueClient = ->
   if config.isProduction
     queueClient = new SQSQueueClient()
   else
     queueClient = new MongoQueueClient()
+  return queueClient
 
 
-class SQSQueueClient extends AbstractQueueClient
+class SQSQueueClient
   constructor: ->
     @configure()
     @sqs = @generateSQSInstance()
+
   ###Public API###
   registerQueue: (queueName, options, callback) ->
     #returns new queue in data argument of callback
@@ -89,7 +91,7 @@ class SQSQueue extends events.EventEmitter
 
 
 
-class MongoQueueClient extends AbstractQueueClient
+class MongoQueueClient
   constructor: ->
     @configure()
     @createMongoConnection()
@@ -155,7 +157,7 @@ class MongoQueue extends events.EventEmitter
       queue: @queueName
       scheduledVisibilityTime: Date.now() + (delaySeconds * 1000)
 
-    messageToSend.save (err) =>
+    messageToSend.save (err,data) =>
       if err? then @emit 'error',err,data else @emit 'sent',err, data
       callback? err,data
 
