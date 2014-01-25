@@ -446,21 +446,19 @@ module.exports = class SpellView extends View
     marked = {}
     lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
     for state, i in lastExecuted
-      #clazz = if state.executing then 'executing' else 'executed'  # doesn't work
+      [start, end] = [offsetToPos(state.range[0]), offsetToPos(state.range[1])]
       clazz = if i is lastExecuted.length - 1 then 'executing' else 'executed'
       if clazz is 'executed'
-        key = state.range[0] + '_' + state.range[1]
-        continue if marked[key] > 2  # don't allow more than three of the same marker
-        marked[key] ?= 0
-        ++marked[key]
+        continue if marked[start.row]
+        marked[start.row] = true
+        markerType = "fullLine"
       else
         @debugView.setVariableStates state.variables
-        #console.log "at", state.userInfo.time, "vars are now:", state.variables
-      [start, end] = [offsetToPos(state.range[0]), offsetToPos(state.range[1])]
+        markerType = "text"
       markerRange = new Range(start.row, start.column, end.row, end.column)
       markerRange.start = @aceDoc.createAnchor markerRange.start
       markerRange.end = @aceDoc.createAnchor markerRange.end
-      markerRange.id = @aceSession.addMarker markerRange, clazz, "text"
+      markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
       @aceSession.addGutterDecoration start.row, clazz if clazz is 'executing'
     null

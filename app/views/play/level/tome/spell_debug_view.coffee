@@ -25,18 +25,19 @@ module.exports = class DebugView extends View
   afterRender: ->
     super()
     @ace.on "mousemove", @onMouseMove
-    #@ace.on "click", onClick  # same ACE API as mousemove
 
   setVariableStates: (@variableStates) ->
     @update()
 
   onMouseMove: (e) =>
     pos = e.getDocumentPosition()
+    endOfDoc = pos.row is @ace.getSession().getDocument().getLength() - 1
     it = new TokenIterator e.editor.session, pos.row, pos.column
     isIdentifier = (t) -> t and (t.type is 'identifier' or t.value is 'this')
     while it.getCurrentTokenRow() is pos.row and not isIdentifier(token = it.getCurrentToken())
       it.stepBackward()
       break unless token
+      break if endOfDoc  # Don't iterate backward on last line, since we might be way below.
     if isIdentifier token
       # This could be a property access, like "enemy.target.pos" or "this.spawnedRectangles".
       # We have to realize this and dig into the nesting of the objects.
