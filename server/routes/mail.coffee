@@ -55,11 +55,9 @@ handleProfileUpdate = (user, post) ->
   lname = post.data.merges.LNAME
   user.set('lastName', lname) if lname
   
-  mailChimpInfo = user.get 'mailChimp'
-  mailChimpInfo.email = post.data.email
-  mailChimpInfo.euid = post.data.id
-  user.set 'mailChimp', mailChimpInfo
-
+  user.set 'mailChimp.email', post.data.email
+  user.set 'mailChimp.euid', post.data.id
+  
   badLog("Updating user object to: #{JSON.stringify(user.toObject(), null, '\t')}")
     
 handleUnsubscribe = (user) ->
