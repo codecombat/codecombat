@@ -99,7 +99,7 @@ class MongoQueueClient
 
   ###Public API###
   registerQueue: (queueName, options, callback) ->
-    newQueue = new MongoQueue queueName,options,this
+    newQueue = new MongoQueue queueName,options,@messageModel
     callback(null, newQueue)
   ###Public API###
 
@@ -107,7 +107,7 @@ class MongoQueueClient
     @databaseAddress = db.generateDatabaseAddress()
     @mongoDatabaseName = config.mongoQueue.queueDatabaseName;
 
-  createMongoConnection: ->
+  createMongoConnection:  ->
     @mongooseConnection = mongoose.createConnection "mongodb://#{@databaseAddress}/#{@mongoDatabaseName}"
     @mongooseConnection.on 'error', ->
       winston.error "There was an error connecting to the queue in MongoDB"
@@ -126,7 +126,10 @@ class MongoQueueClient
 
 
 class MongoQueue extends events.EventEmitter
-  constructor: (@queueName, options, @Message) ->
+  constructor: (queueName, options, messageModel) ->
+    @Message = messageModel
+    @queueName = queueName
+
 
   subscribe: (eventName, callback) -> @on eventName, callback
   unsubscribe: (eventName, callback) -> @removeListener eventName, callback
@@ -156,7 +159,6 @@ class MongoQueue extends events.EventEmitter
       processing: false
       queue: @queueName
       scheduledVisibilityTime: Date.now() + (delaySeconds * 1000)
-
     messageToSend.save (err,data) =>
       if err? then @emit 'error',err,data else @emit 'sent',err, data
       callback? err,data
