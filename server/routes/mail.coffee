@@ -2,17 +2,17 @@ mail = require '../commons/mail'
 map = _.invert mail.MAILCHIMP_GROUP_MAP
 User = require '../users/User.coffee'
 errors = require '../commons/errors'
-request = require 'request'
+#request = require 'request'
 config = require '../../server_config'
 
-badLog = (text) ->
-  console.log text
-  request.post 'http://requestb.in/1brdpaz1', { form: {log: text} }
+#badLog = (text) ->
+#  console.log text
+#  request.post 'http://requestb.in/1brdpaz1', { form: {log: text} }
   
 module.exports.setupRoutes = (app) ->
   app.all config.mail.mailchimpWebhook, (req, res) ->
     post = req.body
-    badLog("Got post data: #{JSON.stringify(post, null, '\t')}")
+#    badLog("Got post data: #{JSON.stringify(post, null, '\t')}")
     
     unless post.type in ['unsubscribe', 'profile']
       res.send 'Bad post type'
@@ -22,11 +22,6 @@ module.exports.setupRoutes = (app) ->
       res.send 'No email provided'
       return res.end()
 
-    unless _.startsWith post.data.email, 'sderickson'
-      badLog("Ignoring because this is a test: #{JSON.stringify(req.body, null, '\t')}")
-      res.send 'This is a test...'
-      return res.end()
-    
     query = {'mailChimp.leid':post.data.web_id}
     User.findOne query, (err, user) ->
       return errors.serverError(res) if err
@@ -58,9 +53,9 @@ handleProfileUpdate = (user, post) ->
   user.set 'mailChimp.email', post.data.email
   user.set 'mailChimp.euid', post.data.id
   
-  badLog("Updating user object to: #{JSON.stringify(user.toObject(), null, '\t')}")
+#  badLog("Updating user object to: #{JSON.stringify(user.toObject(), null, '\t')}")
     
 handleUnsubscribe = (user) ->
   user.set 'emailSubscriptions', []
 
-  badLog("Unsubscribing user object to: #{JSON.stringify(user.toObject(), null, '\t')}") 
+#  badLog("Unsubscribing user object to: #{JSON.stringify(user.toObject(), null, '\t')}") 
