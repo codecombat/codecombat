@@ -2,34 +2,30 @@ mail = require '../commons/mail'
 map = _.invert mail.MAILCHIMP_GROUP_MAP
 User = require '../users/User.coffee'
 errors = require '../commons/errors'
-request = require 'request'
+#request = require 'request'
 config = require '../../server_config'
 
-badLog = (text) ->
-  console.log text
-  request.post 'http://requestb.in/1brdpaz1', { form: {log: text} }
+#badLog = (text) ->
+#  console.log text
+#  request.post 'http://requestb.in/1brdpaz1', { form: {log: text} }
   
 module.exports.setupRoutes = (app) ->
   app.all config.mail.mailchimpWebhook, (req, res) ->
     post = req.body
-    badLog("Got post data: #{JSON.stringify(post, null, '\t')}")
+#    badLog("Got post data: #{JSON.stringify(post, null, '\t')}")
     
     unless post.type in ['unsubscribe', 'profile']
-      badLog("Bad post type: #{post.type}")
-      return errors.badInput(res, 'Bad post type')
+      res.send 'Bad post type'
+      return res.end()
 
     unless post.data.email
-      badLog("Ignoring because no email: #{JSON.stringify(req.body, null, '\t')}")
-      return errors.badInput(res, 'No email provided')
-
-    unless post.data.email is 'sderickson@gmail.com'
-      badLog("Ignoring because this is a test: #{JSON.stringify(req.body, null, '\t')}")
+      res.send 'No email provided'
       return res.end()
-    
-    User.findOne {'mailChimp.euid':post.data.id}, (err, user) ->
+
+    query = {'mailChimp.leid':post.data.web_id}
+    User.findOne query, (err, user) ->
       return errors.serverError(res) if err
       if not user
-        badLog("could not find user for...: #{{'mailChimp.euid':post.data.id}}")
         return errors.notFound(res)
 
       handleProfileUpdate(user, post) if post.type is 'profile'
@@ -44,15 +40,22 @@ module.exports.setupRoutes = (app) ->
 handleProfileUpdate = (user, post) ->
   groups = post.data.merges.INTERESTS.split(', ')
   groups = (map[g] for g in groups when map[g])
+  otherSubscriptions = (g for g in user.get('emailSubscriptions') when not mail.MAILCHIMP_GROUP_MAP[g])
+  groups = groups.concat otherSubscriptions
   user.set 'emailSubscriptions', groups
   
-  mailChimpInfo = user.get 'mailChimp'
-  mailChimpInfo.email = post.data.merges.EMAIL
-  user.set 'mailChimp', mailChimpInfo
+  fname = post.data.merges.FNAME
+  user.set('firstName', fname) if fname
 
-  badLog("Updating user object to: #{JSON.stringify(user.toObject(), null, '\t')}")
+  lname = post.data.merges.LNAME
+  user.set('lastName', lname) if lname
+  
+  user.set 'mailChimp.email', post.data.email
+  user.set 'mailChimp.euid', post.data.id
+  
+#  badLog("Updating user object to: #{JSON.stringify(user.toObject(), null, '\t')}")
     
 handleUnsubscribe = (user) ->
   user.set 'emailSubscriptions', []
 
-  badLog("Unsubscribing user object to: #{JSON.stringify(user.toObject(), null, '\t')}") 
+#  badLog("Unsubscribing user object to: #{JSON.stringify(user.toObject(), null, '\t')}") 
