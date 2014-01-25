@@ -15,16 +15,14 @@ module.exports.setupRoutes = (app) ->
     badLog("Got post data: #{JSON.stringify(post, null, '\t')}")
     
     unless post.type in ['unsubscribe', 'profile']
-      badLog("Bad post type: #{post.type}")
       res.send 'Bad post type'
       return res.end()
 
     unless post.data.email
-      badLog("Ignoring because no email: #{JSON.stringify(req.body, null, '\t')}")
       res.send 'No email provided'
       return res.end()
 
-    unless post.data.email is 'sderickson@gmail.com'
+    unless _.startsWith post.data.email, 'sderickson'
       badLog("Ignoring because this is a test: #{JSON.stringify(req.body, null, '\t')}")
       res.send 'This is a test...'
       return res.end()
@@ -33,7 +31,6 @@ module.exports.setupRoutes = (app) ->
     User.findOne query, (err, user) ->
       return errors.serverError(res) if err
       if not user
-        badLog("could not find user for...: #{query}")
         return errors.notFound(res)
 
       handleProfileUpdate(user, post) if post.type is 'profile'
@@ -48,7 +45,15 @@ module.exports.setupRoutes = (app) ->
 handleProfileUpdate = (user, post) ->
   groups = post.data.merges.INTERESTS.split(', ')
   groups = (map[g] for g in groups when map[g])
+  otherSubscriptions = (g for g in user.get('emailSubscriptions') when not mail.MAILCHIMP_GROUP_MAP[g])
+  groups = groups.concat otherSubscriptions
   user.set 'emailSubscriptions', groups
+  
+  fname = post.data.merges.FNAME
+  user.set('firstName', fname) if fname
+
+  lname = post.data.merges.LNAME
+  user.set('lastName', lname) if lname
   
   mailChimpInfo = user.get 'mailChimp'
   mailChimpInfo.email = post.data.email
