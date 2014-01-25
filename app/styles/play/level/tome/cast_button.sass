@@ -31,13 +31,13 @@
 
 #cast-button-view
   display: none
+  position: absolute
+  width: 35%
 
   .cast-button-group
-    position: absolute
-    top: 55px
-    left: 20px
     z-index: 2
     @include opacity(77)
+    width: 100%
     
     .button-progress-overlay
       position: absolute
@@ -75,7 +75,8 @@
       padding: 3px 10px
 
     .cast-button
-      width: 90px
+      width: 100%
+      height: 29px
 
     .autocast-delays
       min-width: 0

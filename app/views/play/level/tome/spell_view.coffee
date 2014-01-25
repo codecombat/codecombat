@@ -154,6 +154,7 @@ module.exports = class SpellView extends View
     @spell.loaded = true
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
     @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
+    @createToolbarView()
 
   createDebugView: ->
     @debugView = new SpellDebugView ace: @ace, thang: @thang
@@ -161,7 +162,7 @@ module.exports = class SpellView extends View
 
   createToolbarView: ->
     @toolbarView = new SpellToolbarView ace: @ace
-    @$el.prepend @toolbarView.render().$el
+    @$el.append @toolbarView.render().$el
 
   onMouseOut: (e) ->
     @debugView.onMouseOut e
@@ -345,6 +346,7 @@ module.exports = class SpellView extends View
     @spellHasChanged = true
 
   onSessionWillSave: (e) ->
+    return unless @spellHasChanged
     setTimeout(=>
       unless @spellHasChanged
         @$el.find('.save-status').finish().show().fadeOut(2000)
@@ -434,13 +436,11 @@ module.exports = class SpellView extends View
     @debugView.setVariableStates {}
     @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
     $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
-    unless executed.length
-      @toolbarView?.$el.hide()
+    if not executed.length or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
+      @toolbarView?.toggleFlow false
       return
-    unless @toolbarView or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
-      @createToolbarView()
     lastExecuted = _.last executed
-    @toolbarView?.$el.show()
+    @toolbarView?.toggleFlow true
     statementIndex = Math.max 0, lastExecuted.length - 1
     @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
     marked = {}

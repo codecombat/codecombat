@@ -21,18 +21,25 @@
 
   .save-status
     display: none
-    position: relative
-    padding-top: 2px
-    padding-left: 10px
+    position: absolute
+    bottom: 2%
+    left: 1%
 
   .firepad
-    width: 100%
-    height: 100%
     @include box-sizing(border-box)
+    // When Firepad is active, it wraps .ace_editor in .firepad.
+    width: 98%
+    height: 83%
+    height: -webkit-calc(100% - 60px - 40px)
+    height: calc(100% - 60px - 40px)
+
+    .ace_editor
+      width: 100%
+      height: 100%
 
   .ace_editor
     @include box-sizing(border-box)
-    margin-top: 40px
+    // When Firepad isn't active, .ace_editor needs the width/height set itself.
     width: 98%
     height: 83%
     height: -webkit-calc(100% - 60px - 40px)

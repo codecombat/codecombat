@@ -32,6 +32,9 @@ module.exports = class CastButtonView extends View
     delay ?= 5000
     @setAutocastDelay delay
 
+  attachTo: (spellView) ->
+    @$el.detach().prependTo(spellView.toolbarView.$el).show()
+
   hookUpButtons: ->
     # hook up cast button callbacks
     @castButton = $('.cast-button', @$el)
