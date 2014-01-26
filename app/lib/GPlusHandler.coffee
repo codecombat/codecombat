@@ -1,7 +1,7 @@
 CocoClass = require 'lib/CocoClass'
 {me, CURRENT_USER_KEY} = require 'lib/auth'
 {backboneFailure} = require 'lib/errors'
-{saveObjectToStorage} = require 'lib/storage'
+storage = require 'lib/storage'
 
 # gplus user object props to
 userPropsToSave =
@@ -73,7 +73,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       error: backboneFailure,
       url: "/db/user?gplusID=#{gplusID}&gplusAccessToken=#{@accessToken}"
       success: (model) ->
-        saveObjectToStorage(CURRENT_USER_KEY, model.attributes)
+        storage.save(CURRENT_USER_KEY, model.attributes)
         window.location.reload()
     })
 

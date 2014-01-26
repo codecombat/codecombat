@@ -1,6 +1,6 @@
 {backboneFailure, genericFailure} = require 'lib/errors'
 User = require 'models/User'
-{saveObjectToStorage, loadObjectFromStorage} = require 'lib/storage'
+storage = require 'lib/storage'
 
 module.exports.CURRENT_USER_KEY = CURRENT_USER_KEY = 'whoami'
 BEEN_HERE_BEFORE_KEY = 'beenHereBefore'
@@ -10,7 +10,7 @@ module.exports.createUser = (userObject, failure=backboneFailure) ->
   user.save({}, {
   error: failure,
   success: (model) ->
-    saveObjectToStorage(CURRENT_USER_KEY, model)
+    storage.save(CURRENT_USER_KEY, model)
     window.location.reload()
   })
 
@@ -21,7 +21,7 @@ module.exports.loginUser = (userObject, failure=genericFailure) ->
       password:userObject.password
     },
   (model) ->
-    saveObjectToStorage(CURRENT_USER_KEY, model)
+    storage.save(CURRENT_USER_KEY, model)
     window.location.reload()
   )
   jqxhr.fail(failure)
@@ -29,7 +29,7 @@ module.exports.loginUser = (userObject, failure=genericFailure) ->
 module.exports.logoutUser = ->
   FB?.logout?()
   res = $.post('/auth/logout', {}, ->
-    saveObjectToStorage(CURRENT_USER_KEY, null)
+    storage.save(CURRENT_USER_KEY, null)
     window.location.reload()
   )
   res.fail(genericFailure)
@@ -38,7 +38,7 @@ init = ->
   # Load the user from local storage, and refresh it from the server.
   # Also refresh and cache the gravatar info.
 
-  storedUser = loadObjectFromStorage(CURRENT_USER_KEY)
+  storedUser = storage.load(CURRENT_USER_KEY)
   firstTime = not storedUser
   module.exports.me = window.me = new User(storedUser)
   me.url = -> '/auth/whoami'
@@ -50,14 +50,14 @@ init = ->
       # Assign testGroupNumber to returning visitors; new ones in server/handlers/user
       me.set 'testGroupNumber', Math.floor(Math.random() * 256)
       me.save()
-    saveObjectToStorage(CURRENT_USER_KEY, me.attributes)
+    storage.save(CURRENT_USER_KEY, me.attributes)
 
   me.loadGravatarProfile() if me.get('email')
   me.on('sync', userSynced)
 
 userSynced = (user) ->
   Backbone.Mediator.publish('me:synced', {me:user})
-  saveObjectToStorage(CURRENT_USER_KEY, user)
+  storage.save(CURRENT_USER_KEY, user)
 
 init()
 
@@ -71,7 +71,7 @@ Backbone.Mediator.subscribe('level-set-volume', onSetVolume, module.exports)
 trackFirstArrival = ->
   # will have to filter out users who log in with existing accounts separately
   # but can at least not track logouts as first arrivals using local storage
-  beenHereBefore = loadObjectFromStorage(BEEN_HERE_BEFORE_KEY)
+  beenHereBefore = storage.load(BEEN_HERE_BEFORE_KEY)
   return if beenHereBefore
   window.tracker?.trackEvent 'First Arrived'
-  saveObjectToStorage(BEEN_HERE_BEFORE_KEY, true)
+  storage.save(BEEN_HERE_BEFORE_KEY, true)
