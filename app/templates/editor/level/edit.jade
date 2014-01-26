@@ -10,6 +10,7 @@ block outer_content
         span.level-title #{level.attributes.name}
     
       .level-control-buttons
+        button(data-toggle="coco-modal", data-target="modal/revert", data-i18n="revert.revert").btn.btn-primary#revert-button Revert
         button(data-i18n="common.save").btn.btn-primary#commit-level-start-button Save
         button(data-i18n="common.fork").btn.btn-primary#fork-level-start-button Fork
         .btn-group.play-button-group

@@ -36,6 +36,9 @@ module.exports = class EditorLevelView extends View
       return false if @levelsLoaded > 1
       return true
 
+    @supermodel.shouldSaveBackups = (model) ->
+      model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
+
     @level = new Level _id: @levelID
     @level.once 'sync', @onLevelLoaded
     @supermodel.populateModel @level

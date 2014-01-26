@@ -1,3 +1,5 @@
+storage = require 'lib/storage'
+
 class CocoSchema extends Backbone.Model
   constructor: (path, args...) ->
     super(args...)
@@ -9,6 +11,7 @@ class CocoModel extends Backbone.Model
   idAttribute: "_id"
   loaded: false
   loading: false
+  saveBackups: false
   @schema: null
 
   initialize: ->
@@ -20,15 +23,32 @@ class CocoModel extends Backbone.Model
       @addSchemaDefaults()
     else
       @loadSchema()
-    @once 'sync', @onLoaded
+    @once 'sync', @onLoaded, @
+    @saveBackup = _.debounce(@saveBackup, 500)
     
   type: ->
     @constructor.className
 
-  onLoaded: =>
+  onLoaded: ->
     @loaded = true
     @loading = false
     @markToRevert()
+    if @saveBackups
+      existing = storage.load @id
+      if existing
+        @set(existing, {silent:true}) 
+        CocoModel.backedUp[@id] = @
+    
+  set: ->
+    res = super(arguments...)
+    @saveBackup() if @saveBackups and @loaded
+    res
+    
+  saveBackup: ->
+    storage.save(@id, @attributes)
+    CocoModel.backedUp[@id] = @
+    
+  @backedUp = {}
 
   loadSchema: ->
     unless @constructor.schema
@@ -38,7 +58,6 @@ class CocoModel extends Backbone.Model
     @constructor.schema.on 'sync', =>
       @constructor.schema.loaded = true
       @addSchemaDefaults()
-      @markToRevert()
       @trigger 'schema-loaded'
 
   @hasSchema: -> return @schema?.loaded
@@ -57,6 +76,7 @@ class CocoModel extends Backbone.Model
       @trigger "save:success", @
       success(@, resp) if success
       @markToRevert()
+      @clearBackup()
     @trigger "save", @
     return super attrs, options
 
@@ -69,6 +89,10 @@ class CocoModel extends Backbone.Model
 
   revert: ->
     @set(@_revertAttributes, {silent: true}) if @_revertAttributes
+    @clearBackup()
+    
+  clearBackup: ->
+    storage.remove @id
 
   hasLocalChanges: ->
     not _.isEqual @attributes, @_revertAttributes
