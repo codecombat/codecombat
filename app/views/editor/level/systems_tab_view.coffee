@@ -30,6 +30,7 @@ module.exports = class SystemsTabView extends View
     for system in @buildDefaultSystems()
       url = "/db/level.system/#{system.original}/version/#{system.majorVersion}"
       ls = new LevelSystem()
+      ls.saveBackups = true
       do (url) -> ls.url = -> url
       continue if @supermodel.getModelByURL ls.url
       ls.fetch()
