@@ -25,7 +25,7 @@ module.exports = class Thang
     Thang.lastIDNums ?= {}
     names = thangNames[spriteName]
     order = @ordering spriteName
-    if names
+    if names and names.length
       lastIDNum = Thang.lastIDNums[spriteName]
       idNum = (if lastIDNum? then lastIDNum + 1 else 0)
       Thang.lastIDNums[spriteName] = idNum

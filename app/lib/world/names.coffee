@@ -1,5 +1,5 @@
 module.exports.thangNames = thangNames =
-  "Soldier": [
+  "Soldier M": [
     "William"
     "Lucas"
     "Marcus"
@@ -45,16 +45,18 @@ module.exports.thangNames = thangNames =
     "Sterling"
     "Alistair"
     "Remy"
-    "Lana"
     "Stormy"
     "Halle"
+    "Sage"
+  ]
+  "Soldier F": [
     "Sarah"
     "Alexandra"
     "Holly"
     "Trinity"
     "Nikita"
     "Alana"
-    "Sage"
+    "Lana"
   ]
   "Peasant": [
     "Yorik"
@@ -77,7 +79,7 @@ module.exports.thangNames = thangNames =
     "Bernadette"
     "Hershell"
   ]
-  "Archer": [
+  "Archer F": [
     "Phoebe"
     "Mira"
     "Agapi"
@@ -98,13 +100,15 @@ module.exports.thangNames = thangNames =
     "Clare"
     "Rowan"
     "Omar"
-    "Brian"
-    "Cole"
     "Alden"
     "Cairn"
     "Jensen"
   ]
-  "Ogre Munchkin": [
+  "Archer M": [
+    "Brian"
+    "Cole"
+  ]
+  "Ogre Munchkin M": [
     "Brack"
     "Gort"
     "Weeb"
@@ -128,7 +132,10 @@ module.exports.thangNames = thangNames =
     "Snortt"
     "Kog"
   ]
-  "Ogre": [
+  "Ogre Munchkin F": [
+    
+  ]
+  "Ogre M": [
     "Krogg"
     "Dronck"
     "Trogdor"
@@ -140,6 +147,9 @@ module.exports.thangNames = thangNames =
     "Nareng"
     "Morthrug"
     "Glonc"
+  ]
+  "Ogre F": [
+    
   ]
   "Ogre Brawler": [
     "Grul'thock"
