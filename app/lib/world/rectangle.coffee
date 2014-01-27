@@ -114,4 +114,7 @@ class Rectangle
   @deserialize: (o, world, classMap) ->
     new Rectangle o.x, o.y, o.w, o.h, o.r
 
+  serializeForAether: -> @serialize()
+  @deserializeFromAether: (o) -> @deserialize o
+
 module.exports = Rectangle

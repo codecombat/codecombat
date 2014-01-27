@@ -39,6 +39,7 @@ module.exports = class ThangTypeEditView extends View
     super options
     @mockThang = _.cloneDeep(@mockThang)
     @thangType = new ThangType(_id: @thangTypeID)
+    @thangType.saveBackups = true
     @thangType.fetch()
     @thangType.once('sync', @onThangTypeSync)
     @refreshAnimation = _.debounce @refreshAnimation, 500

@@ -119,4 +119,7 @@ class Vector
   @deserialize: (o, world, classMap) ->
     new Vector o.x, o.y, o.z
 
+  serializeForAether: -> @serialize()
+  @deserializeFromAether: (o) -> @deserialize o
+
 module.exports = Vector
