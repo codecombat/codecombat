@@ -186,6 +186,7 @@ module.exports = class Camera extends CocoClass
     # Target is either just a {x, y} pos or a display object with {x, y} that might change; surface coordinates.
     time = 0 if @instant
     newTarget ?= {x:0, y:0}
+    newTarget = (@newTarget or @target) if @locked 
     newZoom = Math.min((Math.max @minZoom, newZoom), MAX_ZOOM)
     return if @zoom is newZoom and newTarget is newTarget.x and newTarget.y is newTarget.y
 
