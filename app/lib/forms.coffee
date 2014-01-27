@@ -23,16 +23,15 @@ module.exports.applyErrorsToForm = (el, errors) ->
       prop = error.property
       
     input = $("[name='#{prop}']", el)
-    if not input[0]
+    if not input.length
       missingErrors.push(error)
       continue
-    controls = input.closest('.controls')
-    controls.append($("<span class='help-inline error-inline'>#{message}</span>"))
-    group = controls.closest('.control-group')
-    group.addClass('error')
+    formGroup = input.closest('.form-group')
+    formGroup.addClass 'has-error'
+    formGroup.append($("<span class='help-block'>#{message}</span>"))
   return missingErrors
 
 module.exports.clearFormAlerts = (el) ->
-  $('.error', el).removeClass('error')
-  $('.error-inline', el).remove()
+  $('.has-error', el).removeClass('has-error')
   $('.alert', el).remove()
+  el.find('.help-block').remove()
