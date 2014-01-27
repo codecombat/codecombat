@@ -101,7 +101,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     learn_more: "Aprende más sobre ser un Diplomático"
     subscribe_as_diplomat: "Suscríbete como Diplomático"
 
-#  wizard_settings:
+  wizard_settings:
     title: "Ajustes del mago"
     customize_avatar: "Personaliza tu Avatar"
 
@@ -203,7 +203,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    u_title: "User List"
 #    lg_title: "Latest Games"
 
-#  editor:
+  editor:
 #    main_title: "CodeCombat Editors"
     main_description: "Construye tus propios niveles, campañas, unidades y contenido educativo. ¡Nosotros te ofrecemos todas las herramientas que necesitas!"
     article_title: "Editor de artículos"
@@ -239,11 +239,11 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
 
-#  article:
+  article:
     edit_btn_preview: "Vista preliminar"
     edit_article_title: "Editar artículo"
 
-#  general:
+  general:
     and: "y"
     or: "o"
     name: "Nombre"
@@ -256,7 +256,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     email: "Correo electrónico"
     message: "Mensaje"
 
-#  about:
+  about:
     who_is_codecombat: "¿Qué es CodeCombat?"
     why_codecombat: "¿Por qué CodeCombat?"
 #    who_description_prefix: "together started CodeCombat in 2013. We also created "
@@ -268,7 +268,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     why_paragraph_3_italic: "¡bien una insignia!,"
     why_paragraph_3_center: "sino más bien como:"
     why_paragraph_3_italic_caps: "¡NO MAMA, TENGO QUE TERMINAR EL NIVEL!"
-    why_paragraph_3_suffix: "Por eso Codecombat es multijugador, no un curso con lecciones "gamificadas" . No pararemos hasta que tú no puedas parar... pero esta vez, eso será buena señal."
+    why_paragraph_3_suffix: "Por eso Codecombat es multijugador, no un curso con lecciones \"gamificadas\" . No pararemos hasta que tú no puedas parar... pero esta vez, eso será buena señal."
     why_paragraph_4: "Si vas a engancharte a algún juego, engánchate a este y conviértete en uno de los magos de la era tecnológica."
     why_ending: "Y, oye, es gratis. "
     why_ending_url: "Comienza a hacer magia ¡ya!"
@@ -278,7 +278,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
 
-#  legal:
+  legal:
     page_title: "Legal"
     opensource_intro: "CodeCombat es gratis y totalmente open source."
     opensource_description_prefix: "Echa un vistazo a "
@@ -339,7 +339,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
-#  contribute:
+  contribute:
     page_title: "Colaborar"
 #    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
@@ -424,7 +424,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  classes:
+  classes:
     archmage_title: "Archimago"
 #    archmage_title_description: "(Coder)"
 #    artisan_title: "Artisan"
