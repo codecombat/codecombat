@@ -8,10 +8,12 @@ db = require './db'
 mongoose = require 'mongoose'
 events = require 'events'
 
-queueClient = null
-simulationQueue = null
+queueClient = unefined
+module.exports.scoringTaskQueue = undefined
+module.exports.sendwithusQueue = undefined
 
-module.exports.setupRoutes = (app) ->
+#module.exports.setupRoutes = (app) ->
+#  app.get '/multiplayer/'
   ###queueClient.registerQueue "simulationQueue", {}, (err,data) ->
     simulationQueue = data
     simulationQueue.subscribe 'message', (err, data) ->
@@ -21,10 +23,31 @@ module.exports.setupRoutes = (app) ->
           winston.info "Deleted message"
 ###
 
+module.exports.initializeScoringTaskQueue = (cb) ->
+  queueClient = generateQueueClient() unless queueClient?
+  queueClient.registerQueue "scoring", {}, (err,data) ->
+    if err?
+      winston.error "There was an error registering the scoring queue."
+      throw new Error  "There was an error registering the scoring queue."
+    module.exports.scoringTaskQueue = data
+    cb? err, module.exports.scoringQueue
+
+
+module.exports.initializeSendwithusQueue = (cb) ->
+  queueClient = generateQueueClient() unless queueClient?
+  queueClient.registerQueue "sendwithus", {}, (err,data) ->
+    if err?
+      errorString = "There was an error registering the sendwithus queue."
+      winston.error errorString
+      throw new Error errorString
+    module.exports.sendwithusQueue = data
+    cb? err, module.exports.sendwithusQueue
 
 
 
-module.exports.generateQueueClient = ->
+
+
+generateQueueClient = ->
   if config.isProduction
     queueClient = new SQSQueueClient()
   else
@@ -117,7 +140,7 @@ class MongoQueueClient
   generateMessageModel: ->
     #do find something like: messages not processing, queue as current queue, visibility time before now, sort by insertion time, findOne
     schema = new mongoose.Schema
-      messageBody : Object,
+      messageBody: Object,
       processing: false,
       insertionTime: {type: Date, default: Date.now }
       queue: String
@@ -139,15 +162,15 @@ class MongoQueue extends events.EventEmitter
 
   receieveMessage: (callback) ->
     conditions = {queue: @queueName, processing: false, scheduledVisibilityTime: {$lt:Date.now()}}
-    options = {sort: 'insertionTime'}
-    update = {$set:{processing: true}}
+    options = {sort: 'scheduledVisibilityTime'}
+    update = {$set: {processing: true}}
     @Message.findOneAndUpdate conditions, update, options, =>
       if err? then @emit 'error',err,data else @emit 'message',err,data
       callback? err,data
 
   deleteMessage: (receiptHandle, callback) ->
     #receiptHandle in this case is an ID
-    conditions = {queue: @queueName, _id : receiptHandle}
+    conditions = {queue: @queueName, _id: receiptHandle}
     @Message.findOneAndRemove conditions, {}, =>
       if err? then @emit 'error',err,data else @emit 'message',err,data
       callback? err,data

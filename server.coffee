@@ -18,7 +18,8 @@ logging = require './server/logging'
 sprites = require './server/sprites'
 contact = require './server/contact'
 languages = require './server/languages'
-queue = require './server/queue'
+multiplayer = require './server/multiplayer'
+sendwithus = require './server/sendwithus'
 
 https = require 'https' 
 http = require 'http' 
@@ -76,6 +77,10 @@ app.configure(->
 
 app.configure('development', -> app.use(express.errorHandler()))
 
+multiplayer.connectToScoringQueue()
+sendwithus.setupQueue()
+
+
 auth.setupRoutes(app)
 db.setupRoutes(app)
 sprites.setupRoutes(app)
@@ -83,7 +88,8 @@ contact.setupRoutes(app)
 file.setupRoutes(app)
 folder.setupRoutes(app)
 languages.setupRoutes(app)
-queue.setupRoutes(app)
+multiplayer.setupRoutes(app)
+sendwithus.setupQueue app
 
 # Some sort of cross-domain communication hack facebook requires
 app.get('/channel.html', (req, res) ->
@@ -121,3 +127,5 @@ isOldBrowser = (req) ->
   return true if b is 'Firefox' and v < 21
   return true if b is 'IE' and v < 10
   false
+
+
