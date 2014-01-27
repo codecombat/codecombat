@@ -37,34 +37,35 @@ block content
           | Alas, there's no profile associated with this person's email address.
 
   else
-    div.row
-      div.span2
-        img(src=photoURL).img-polaroid
-        
-        p.about-me #{grav.aboutMe}
-
-      if grav.emails
-        div.span2
-          h3(data-i18n="account_profile.gravatar_contact") Contact
-          ul
-            each email in grav.emails
-              li #{email.value}
-                
-      if grav.urls && grav.urls.length
-        div.span2
-          h3(data-i18n="account_profile.gravatar_websites") Websites
-          ul
-            each url in grav.urls
-              li
-                a(href="#{url.value}") #{url.title} 
-                              
-      if grav.accounts
-        div.span2
-          h3(data-i18n="account_profile.gravatar_accounts") As Seen On
-          ul
-            each account in grav.accounts
-              li
-                a(href="#{account.url}") #{account.domain}
+    .container
+      div.row
+        div.col-xs-3
+          img(src=photoURL).img-polaroid
+          
+          p.about-me #{grav.aboutMe}
+  
+        if grav.emails
+          div.col-xs-3
+            h3(data-i18n="account_profile.gravatar_contact") Contact
+            ul
+              each email in grav.emails
+                li #{email.value}
+                  
+        if grav.urls && grav.urls.length
+          div.col-xs-3
+            h3(data-i18n="account_profile.gravatar_websites") Websites
+            ul
+              each url in grav.urls
+                li
+                  a(href="#{url.value}") #{url.title} 
+                                
+        if grav.accounts
+          div.col-xs-3
+            h3(data-i18n="account_profile.gravatar_accounts") As Seen On
+            ul
+              each account in grav.accounts
+                li
+                  a(href="#{account.url}") #{account.domain}
      
     hr
     p
