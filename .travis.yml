@@ -1,6 +1,10 @@
-nguage: node_js
+language: node_js
 node_js:
   - 0.10
+  
+services:
+  - mongodb
+  
 before_script:
   - "npm install"
   - export DISPLAY=:99.0
