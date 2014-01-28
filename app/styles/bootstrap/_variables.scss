@@ -343,7 +343,7 @@ $navbar-inverse-toggle-border-color:        #333 !default;
 // -------------------------
 
 $nav-link-padding:                          10px 15px !default;
-$nav-link-hover-bg:                         $navbar-default-bg;
+$nav-link-hover-bg:                         lighten(#948754, 8%);
 $nav-link-hover-color:                      #f8e413;
 
 $nav-disabled-link-color:                   $gray-light !default;
@@ -562,8 +562,8 @@ $panel-info-heading-bg:       $state-info-bg !default;
 // Thumbnails
 // -------------------------
 $thumbnail-padding:           4px !default;
-$thumbnail-bg:                $body-bg !default;
-$thumbnail-border:            #ddd !default;
+$thumbnail-bg:                #bbb !default;
+$thumbnail-border:            #999 !default;
 $thumbnail-border-radius:     $border-radius-base !default;
 
 $thumbnail-caption-color:     $text-color !default;

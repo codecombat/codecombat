@@ -28,10 +28,10 @@ module.exports.applyErrorsToForm = (el, errors) ->
       continue
     formGroup = input.closest('.form-group')
     formGroup.addClass 'has-error'
-    formGroup.append($("<span class='help-block'>#{message}</span>"))
+    formGroup.append($("<span class='help-block error-help-block'>#{message}</span>"))
   return missingErrors
 
 module.exports.clearFormAlerts = (el) ->
   $('.has-error', el).removeClass('has-error')
   $('.alert', el).remove()
-  el.find('.help-block').remove()
+  el.find('.help-block.error-help-block').remove()
