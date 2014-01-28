@@ -13,11 +13,11 @@ block modal-body-content
     span(data-i18n="contact.forum_prefix") For anything public, please try 
     a(href="http://discourse.codecombat.com/", data-i18n="contact.forum_page") our forum
     span(data-i18n="contact.forum_suffix")  instead.
-  .form-inline
+  .form
     .form-group
       label.control-label(for="contact-email", data-i18n="general.email") Email      
       input#contact-email.form-control(name="email", type="email", value="#{me.get('anonymous') ? '' : me.get('email')}", placeholder="Where should we reply?")
-    .control-group
+    .form-group
       label.control-label(for="contact-message", data-i18n="general.message") Message      
       textarea#contact-message.form-control(name="message", rows=8)
 
