@@ -3,7 +3,26 @@ extends /templates/base
 block outer_content
   .outer-content
 
-    .top-controls-area
+    nav.navbar.navbar-default
+      .navbar-header
+        a.navbar-brand
+          span(data-i18n="editor.level_title") Level Editor
+          span : 
+          span.level-title #{level.attributes.name}
+
+      ul.nav.nav-pills
+        li.active
+          a(href="#editor-level-thangs-tab-view", data-toggle="tab", data-i18n="editor.level_tab_thangs") Thangs
+        li
+          a(href="#editor-level-scripts-tab-view", data-toggle="tab", data-i18n="editor.level_tab_scripts") Scripts
+        li
+          a(href="#editor-level-settings-tab-view", data-toggle="tab", data-i18n="editor.level_tab_settings") Settings
+        li
+          a(href="#editor-level-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components") Components
+        li
+          a(href="#editor-level-systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems        
+    
+    //.top-controls-area
       h2.level-title-header
         span(data-i18n="editor.level_title") Level Editor
         span : 
