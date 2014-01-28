@@ -1,4 +1,4 @@
-emodule.exports = nativeDescription: "čeština", englishDescription: "Czech", translation: "Petr Vanek"
+module.exports = nativeDescription: "čeština", englishDescription: "Czech", translation: "Petr Vanek"
   common:
     loading: "Načítání..."
     saving: "Ukládání..."
