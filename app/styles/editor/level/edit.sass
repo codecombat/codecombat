@@ -1,14 +1,21 @@
 #editor-level-view
-  margin: 0 auto
-  min-width: 1024px
-  position: relative
+  position: absolute
+  top: 56px
+  left: 0
+  right: 0
+  bottom: 0
 
   $BG: rgba(228, 207, 140, 1.0)
 
   .outer-content
-    margin: 56px 20px 20px 20px
+    margin: 0px 20px 20px 20px
     padding: 10px 20px
     background-color: $BG
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
 
   .top-controls-area
     position: fixed
@@ -36,21 +43,12 @@
   // keeps the editor tabs a certain height
 
   #level-editor-tabs
-    margin-top: 108px
-    // keeps the tab content at a specific ratio
-    width: 100%
-    padding-bottom: 45%
-    position: relative
-    
-  .level-editor-tab-pane
-    // makes sure the pane itself fills the whole ratio'd space
     position: absolute
-    top: 0
-    bottom: 0
-    left: 0
-    right: 0
-    overflow: hidden
-
+    left: 20px
+    right: 20px
+    top: 118px
+    bottom: 20px
+    
   .treema-root
     background-color: white
     border-radius: 4px
