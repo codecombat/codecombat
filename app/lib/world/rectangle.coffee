@@ -8,6 +8,8 @@ class Rectangle
       Rectangle[name] = (a, b) ->
         a.copy()[name](b)
 
+  apiProperties: ['x', 'y', 'width', 'height', 'rotation', 'getPos', 'vertices', 'touchesRect', 'touchesPoint', 'distanceToPoint', 'containsPoint', 'copy']
+
   constructor: (@x=0, @y=0, @width=0, @height=0, @rotation=0) ->
 
   copy: ->

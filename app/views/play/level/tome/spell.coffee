@@ -7,8 +7,15 @@ module.exports = class Spell
   view: null
   entryView: null
 
-  constructor: (programmableMethod, @spellKey, @pathComponents, @session, @supermodel) ->
-    p = programmableMethod
+  constructor: (options) ->
+    @spellKey = options.spellKey
+    @pathComponents = options.pathComponents
+    @session = options.session
+    @supermodel = options.supermodel
+    @skipFlow = options.skipFlow
+    @skipProtectAPI = options.skipProtectAPI
+    p = options.programmableMethod
+
     @name = p.name
     @source = @session.getSourceFor(@spellKey) ? p.source
     @originalSource = p.source
@@ -63,7 +70,8 @@ module.exports = class Spell
       functionParameters: @parameters
       yieldConditionally: thang.plan?
       requiresThis: thang.requiresThis
-      includeFlow: true
+      protectAPI: not (@skipProtectAPI or window.currentView?.level.get('name').match("Gridmancer"))
+      includeFlow: not @skipFlow
         #callIndex: 0
         #timelessVariables: ['i']
         #statementIndex: 9001

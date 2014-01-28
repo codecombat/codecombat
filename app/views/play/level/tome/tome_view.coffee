@@ -82,7 +82,7 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          spell = @spells[spellKey] = new Spell method, spellKey, pathPrefixComponents.concat(pathComponents), @options.session, @supermodel
+          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: @getQueryVariable("skip_flow") is "true", skipProtectAPI: @getQueryVariable("skip_protect_api") is "true"
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID(thangID)
       @spells[spellKey].addThang thang for spellKey in spellKeys

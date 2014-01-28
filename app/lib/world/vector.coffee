@@ -8,6 +8,7 @@ class Vector
         a.copy()[name](b, useZ)
 
   isVector: true
+  apiProperties: ['x', 'y', 'z', 'magnitude', 'heading', 'distance', 'dot', 'equals', 'copy']
 
   constructor: (@x=0, @y=0, @z=0) ->
 
