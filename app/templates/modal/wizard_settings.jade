@@ -8,16 +8,14 @@ block modal-body-content
   
   canvas(width="120px", height="150px")
   .settings
-    .form-vertical
-      .control-group
+    .form-vertical.form
+      .form-group
         label.control-label(for="name")
           | Name
           button.btn.btn-mini.btn-primary#random-name Random
-        .controls
-          input#wizard-settings-name.input-large(name="name", type="text", value="#{me.get('name')||''}")
-    .control-group
-      label.control-label(for="wizardColor1") Hat Color
-      .controls
+        input#wizard-settings-name(name="name", type="text", value="#{me.get('name')||''}")
+      .form-group
+        label.control-label(for="wizardColor1") Hat Color
         .selector#wizard-settings-color-1
 
 block modal-footer-content

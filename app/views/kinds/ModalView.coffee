@@ -27,7 +27,7 @@ module.exports = class ModalView extends CocoView
   afterRender: ->
     super()
     if @modalWidthPercent
-      @$el.css width: "#{@modalWidthPercent}%", "margin-left": "#{-@modalWidthPercent / 2}%"
+      @$el.find('.modal-dialog').css width: "#{@modalWidthPercent}%"
     @$el.on 'hide.bs.modal', =>      
       @onHidden() unless @hidden
       @hidden = true

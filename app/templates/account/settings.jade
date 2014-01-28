@@ -25,7 +25,7 @@ block content
     .tab-content#settings-panes
       #general-pane.tab-pane
         p
-          .form.form-horizontal
+          .form
             .form-group
               label.control-label(for="name", data-i18n="general.name") Name
               input#name.form-control(name="name", type="text", value="#{me.get('name')||''}", placeholder="#{gravatarName}")
@@ -61,7 +61,7 @@ block content
 
       #password-pane.tab-pane
         p
-          .form-horizontal.form
+          .form
             .form-group
               label.control-label(for="password", data-i18n="account_settings.new_password") New Password
               input#password.form-control(name="password", type="password")
@@ -73,13 +73,13 @@ block content
         h3(data-i18n="account_settings.email_subscriptions") Email Subscriptions
 
         p
-          .form.form-horizontal
+          .form
             .form-group.checkbox
               label.control-label(for="email_announcement", data-i18n="account_settings.email_announcements") Announcements
               input#email_announcement(name="email_announcement", type="checkbox", checked=subs.announcement)
               span.help-block(data-i18n="account_settings.email_announcements_description") Get emails on the latest news and developments at CodeCombat.
 
-          .form.form-horizontal
+          .form
             .form-group.checkbox
               label.control-label(for="email_notification", data-i18n="account_settings.email_notifications") Notifications
               input#email_notification(name="email_notification", type="checkbox", checked=subs.notification)
@@ -91,7 +91,7 @@ block content
           a(href="/contribute", data-i18n="account_settings.contribute_page") contribute page
           span(data-i18n="account_settings.contribute_suffix")  to find out more.
 
-          .form.form-horizontal
+          .form
             .form-group.checkbox
               label.control-label(for="email_developer")
                 span(data-i18n="classes.archmage_title")

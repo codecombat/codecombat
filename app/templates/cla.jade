@@ -89,14 +89,13 @@
 
   else
     h3 SIGN HERE
-    .form-horizontal
-      .control-group
-        label.control-label Github Username
-        .controls
-          input(name="github-username", type="text")#github-username
-          span.help-block Please include if contributing to the 
-            a(href="github.com/codecombat/codecombat") Github repository
-            | .
+    .form
+      .form-group
+        label(for="github-username") Github Username
+        input(name="github-username", type="text")#github-username.form-control
+        span.help-block Please include if contributing to the 
+          p(href="github.com/codecombat/codecombat") Github repository
+           | .
     p
       | Please press I AGREE below to indicate your agreement.
     button.btn#agreement-button I AGREE

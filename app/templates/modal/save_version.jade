@@ -4,11 +4,11 @@ block modal-header-content
   h3(data-i18n="versions.save_version_title") Save New Version
 
 block modal-body-content
-  form.form-horizontal
+  form.form
     .form-group
       label.control-label(for="commitMessage", data-i18n="general.commit_msg") Commit Message      
       textarea#commit-message.input-large.form-control(name="commitMessage", type="text")
-    .control-group
+    .form-group
       label.control-label(for="level-version-is-major", data-i18n="versions.new_major_version") New Major Version      
       input#major-version.input-large.form-control(name="version-is-major", type="checkbox")
       span.help-block
