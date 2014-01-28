@@ -1,10 +1,7 @@
 language: node_js
 node_js:
   - 0.10
-  
-services:
-  - mongodb
-  
+
 before_script:
   - "npm install"
   - export DISPLAY=:99.0
@@ -12,7 +9,7 @@ before_script:
   - "./node_modules/.bin/bower install"
   - "gem install sass"
   - "./node_modules/.bin/brunch b"
-  - "./bin/coco-test-server &"
+
 script:
   - "./node_modules/.bin/karma start --browsers Firefox --single-run"
-  - "./bin/coco-server-test-runner"
+
