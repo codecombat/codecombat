@@ -8,6 +8,7 @@ before_script:
   - "./node_modules/.bin/bower install"
   - "gem install sass"
   - "./node_modules/.bin/brunch b"
-
+  - "./bin/coco-test-server &"
 script:
   - "./node_modules/.bin/karma start --browsers Firefox --single-run"
+  - "./bin/coco-server-test-runner"
