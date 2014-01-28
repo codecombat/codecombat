@@ -155,6 +155,7 @@ module.exports = class ThangsTabView extends View
     @surface.destroy()
 
   onViewSwitched: (e) ->
+    @selectAddThang()
     @surface?.spriteBoss?.selectSprite null, null
 
   onSpriteMouseDown: (e) ->
