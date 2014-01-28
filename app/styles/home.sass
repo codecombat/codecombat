@@ -23,7 +23,7 @@
       font-size: 40px
       width: 300px
       height: 80px      
-      @include transition(color .10s linear)
+      //@include transition(color .10s linear) // buggy in chrome, coloring doesn't get the right edge of the word
 
     &:hover a, &:active a
       color: #8090AA
