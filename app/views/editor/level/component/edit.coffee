@@ -5,7 +5,7 @@ LevelComponent = require 'models/LevelComponent'
 module.exports = class LevelComponentEditView extends View
   id: "editor-level-component-edit-view"
   template: template
-  editableSettings: ['name', 'description', 'system', 'language', 'dependencies', 'propertyDocumentation', 'i18n']  # not thangs or scripts or 
+  editableSettings: ['name', 'description', 'system', 'language', 'dependencies', 'propertyDocumentation', 'i18n']
 
   events:
     'click #done-editing-component-button': 'endEditing'
