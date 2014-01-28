@@ -4,12 +4,39 @@
 h1 h2 h3 h4
   letter-spacing: 2px
 
-#widget-bounds
-  display: none
+#top-nav
+  a.navbar-brand
+    padding: 4px 20px 0px 20px
+    margin-left: -20px
 
-.navbar a.navbar-brand
-  padding: 4px 20px 0px 20px
-  margin-left: -20px
+  .navbuttontext, .fancy-select .trigger
+    font-family: 'Bangers', cursive
+    font-size: 20px
+    font-weight: 400
+    letter-spacing: 1px
+  
+  .navbuttontext-user-name
+    max-width: 125px
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+    display: inline-block
+    padding: 0 5px 0 0
+    margin: 0
+    height: 18px
+
+  .nav.navbar-link-text, .nav.navbar-link-text > li > a
+    font-family: 'Bangers', cursive
+    font-weight: normal
+    font-size: 25px
+    letter-spacing: 2px
+    color: $white
+    &:hover
+      color: #f8e413
+      
+  .navbar-link-text a:hover
+    background: darken($body-bg, 3%)
+    
 
 .main-content-area
   position: relative
@@ -18,31 +45,6 @@ h1 h2 h3 h4
   min-height: 600px
   padding: 14px 12px 5px 12px
   @include box-sizing(border-box)
-
-.navbuttontext, .fancy-select .trigger
-  font-family: 'Bangers', cursive
-  font-size: 20px
-  font-weight: 400
-  letter-spacing: 1px
-
-.navbuttontext-user-name
-  max-width: 125px
-  overflow: hidden
-  text-overflow: ellipsis
-  white-space: nowrap
-  display: inline-block
-  padding: 0
-  margin: 0
-  height: 18px
-
-.navbar .nav.navbar-link-text, .navbar .nav.navbar-link-text > li > a
-  font-family: 'Bangers', cursive
-  font-weight: normal
-  font-size: 25px
-  letter-spacing: 2px
-  color: $white
-  &:hover
-    color: #f8e413
 
 .navbar .btn, .navbar .btn-group, .navbar .fancy-select
   margin-top: 13px

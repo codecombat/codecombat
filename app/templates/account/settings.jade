@@ -33,10 +33,9 @@ block content
               label.control-label(for="email", data-i18n="general.email") Email
               input#email.form-control(name="email", type="text", value="#{me.get('email')}")
             if !isProduction
-              .form-group
-                div.checkbox
-                  label(for="email", data-i18n="forms.admin") Admin
-                  input#admin(name="admin", type="checkbox", checked=me.get('permissions').indexOf('admin')>-1))
+              .form-group.checkbox
+                label(for="email", data-i18n="forms.admin") Admin
+                input#admin(name="admin", type="checkbox", checked=me.get('permissions').indexOf('admin')>-1))
               
   
       #picture-pane.tab-pane

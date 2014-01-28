@@ -343,7 +343,7 @@ $navbar-inverse-toggle-border-color:        #333 !default;
 // -------------------------
 
 $nav-link-padding:                          10px 15px !default;
-$nav-link-hover-bg:                         lighten(#948754, 8%);
+$nav-link-hover-bg:                         lighten($brand-primary, 8%);
 $nav-link-hover-color:                      #f8e413;
 
 $nav-disabled-link-color:                   $gray-light !default;
@@ -356,12 +356,12 @@ $nav-tabs-border-color:                     #ddd !default;
 
 $nav-tabs-link-hover-border-color:          $gray-lighter !default;
 
-$nav-tabs-active-link-hover-bg:             $body-bg !default;
-$nav-tabs-active-link-hover-color:          $gray !default;
+$nav-tabs-active-link-hover-bg:             $brand-primary !default;
+$nav-tabs-active-link-hover-color:          $gray-darker !default;
 $nav-tabs-active-link-hover-border-color:   #ddd !default;
 
 $nav-tabs-justified-link-border-color:            #ddd !default;
-$nav-tabs-justified-active-link-border-color:     $body-bg !default;
+$nav-tabs-justified-active-link-border-color:     $brand-primary !default;
 
 // Pills
 $nav-pills-border-radius:                   $border-radius-base !default;
