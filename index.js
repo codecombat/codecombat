@@ -1,3 +1,3 @@
 require('coffee-script');
-var app = require('./server');
-app.startServer();
+var server = require('./server');
+server.startServer();
