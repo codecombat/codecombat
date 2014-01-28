@@ -22,7 +22,7 @@ describe('World', ->
       result = validator(goal)
       expect(result.valid).toBe(true)
 
-  it('handles kill goal', ->
+  xit('handles kill goal', ->
     gm = new GoalManager()
     gm.setGoals([killGoal])
     gm.worldGenerationWillBegin()
@@ -42,7 +42,7 @@ describe('World', ->
     expect(goalStates.killguy.keyFrame).toBe(20)
   )
 
-  it('handles save goal', ->
+  xit('handles save goal', ->
     gm = new GoalManager()
     gm.setGoals([saveGoal])
     gm.worldGenerationWillBegin()
@@ -65,7 +65,7 @@ describe('World', ->
     expect(goalStates.saveguy.keyFrame).toBe('end')
   )
 
-  it 'handles getToLocation', ->
+  xit 'handles getToLocation', ->
     gm = new GoalManager()
     gm.setGoals([getToLocGoal])
     gm.worldGenerationWillBegin()
@@ -85,7 +85,7 @@ describe('World', ->
     expect(goalStates.id.arrived.Potato).toBe(true)
     expect(goalStates.id.keyFrame).toBe(10)
 
-  it 'handles keepFromLocation', ->
+  xit 'handles keepFromLocation', ->
     gm = new GoalManager()
     gm.setGoals([keepFromLocGoal])
     gm.worldGenerationWillBegin()
@@ -105,7 +105,7 @@ describe('World', ->
     expect(goalStates.id.arrived.Potato).toBe(false)
     expect(goalStates.id.keyFrame).toBe('end')
 
-  it 'handles leaveOffSide', ->
+  xit 'handles leaveOffSide', ->
     gm = new GoalManager()
     gm.setGoals([leaveMapGoal])
     gm.worldGenerationWillBegin()
@@ -125,7 +125,7 @@ describe('World', ->
     expect(goalStates.id.left.Yall).toBe(true)
     expect(goalStates.id.keyFrame).toBe(10)
 
-  it 'handles keepFromLeavingOffSide', ->
+  xit 'handles keepFromLeavingOffSide', ->
     gm = new GoalManager()
     gm.setGoals([stayMapGoal])
     gm.worldGenerationWillBegin()
@@ -145,7 +145,7 @@ describe('World', ->
     expect(goalStates.id.left.Yall).toBe(false)
     expect(goalStates.id.keyFrame).toBe('end')
 
-  it 'handles getItem', ->
+  xit 'handles getItem', ->
     gm = new GoalManager()
     gm.setGoals([getItemGoal])
     gm.worldGenerationWillBegin()
@@ -165,7 +165,7 @@ describe('World', ->
     expect(goalStates.id.collected.Grabby).toBe(true)
     expect(goalStates.id.keyFrame).toBe(10)
 
-  it 'handles keepFromGettingItem', ->
+  xit 'handles keepFromGettingItem', ->
     gm = new GoalManager()
     gm.setGoals([keepItemGoal])
     gm.worldGenerationWillBegin()
