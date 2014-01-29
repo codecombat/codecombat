@@ -70,6 +70,7 @@ module.exports = class Spell
       functionParameters: @parameters
       yieldConditionally: thang.plan?
       requiresThis: thang.requiresThis
+      # TODO: Gridmancer doesn't currently work with protectAPI, so hack it off
       protectAPI: not (@skipProtectAPI or window.currentView?.level.get('name').match("Gridmancer"))
       includeFlow: not @skipFlow
         #callIndex: 0

@@ -83,6 +83,40 @@ module.exports = class DebugView extends View
     if @markerRange
       @marker = @ace.getSession().addMarker @markerRange, "ace_bracket", "text"
 
+  stringifyValue: (value, depth) ->
+    return value if not value or _.isString value
+    if _.isFunction value
+      return if depth is 2 then undefined else "<Function>"
+    return "<this #{value.id}>" if value is @thang and depth
+    if depth is 2
+      if value.constructor?.className is "Thang"
+        value = "<#{value.spriteName} - #{value.id}, #{if value.pos then value.pos.toString() else 'non-physical'}>"
+      else
+        value = value.toString()
+      return value
+
+    isArray = _.isArray value
+    isObject = _.isObject value
+    return value.toString() unless isArray or isObject
+    brackets = if isArray then ["[", "]"] else ["{", "}"]
+    size = _.size value
+    return brackets.join "" unless size
+    values = []
+    if isArray
+      for v in value
+        s = @stringifyValue(v, depth + 1)
+        values.push "" + s unless s is undefined
+    else
+      for key in value.apiProperties ? _.keys value
+        s = @stringifyValue(value[key], depth + 1)
+        values.push key + ": " + s unless s is undefined
+    sep = '\n' + ("  " for i in [0 ... depth]).join('')
+    prefix = value.constructor?.className
+    prefix ?= "Array" if isArray
+    prefix ?= "Object" if isObject
+    prefix = if prefix then prefix + " " else ""
+    return "#{prefix}#{brackets[0]}#{sep}  #{values.join(sep + '  ')}#{sep}#{brackets[1]}"
+
   deserializeVariableChain: (chain) ->
     keys = []
     for prop, i in chain
@@ -98,11 +132,7 @@ module.exports = class DebugView extends View
           value = thang or "<Thang #{value.id} (non-existent)>"
         else
           value = theClass.deserializeFromAether(value)
-    if value and not _.isString value
-      if value.constructor?.className is "Thang"
-        value = "<#{value.spriteName} - #{value.id}, #{if value.pos then value.pos.toString() else 'non-physical'}>"
-      else
-        value = value.toString()
+    value = @stringifyValue value, 0
     key: keys.join("."), value: value
 
   destroy: ->
