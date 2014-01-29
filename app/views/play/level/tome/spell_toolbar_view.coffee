@@ -31,7 +31,7 @@ module.exports = class SpellToolbarView extends View
     @statementIndex = Math.min(total - 1, Math.max(0, statementIndex))
     @statementRatio = @statementIndex / (total - 1)
     @statementTime = @callState.statements[@statementIndex]?.userInfo.time ? 0
-    @$el.find('.bar').css('width', 100 * @statementRatio + '%')
+    @$el.find('.progress-bar').css('width', 100 * @statementRatio + '%')
     @$el.find('.step-backward').prop('disabled', @statementIndex is 0)
     @$el.find('.step-forward').prop('disabled', @statementIndex is total - 1)
     @updateMetrics()

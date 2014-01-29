@@ -133,13 +133,13 @@ a[data-toggle="modal"]
 .share-buttons, .partner-badges
   margin-top: 10px
   text-align: center
-  @include opacity(75)
+  @include opacity(0.75)
 
   &.fade-in
     @include opacity(0)
 
   &:hover, &:active
-    @include opacity(100)
+    @include opacity(1)
     @include transition(opacity .10s linear)
 
   .github-star-button
@@ -168,9 +168,9 @@ a[data-toggle="modal"]
 
     .close
       font-size: 28px
-      @include opacity(60)
+      @include opacity(0.60)
       &:hover
-        @include opacity(100)
+        @include opacity(1)
 
   .modal-footer
     background-color: transparent
@@ -226,7 +226,7 @@ a[data-toggle="modal"]
     .progress
       width: 50%
       margin: 10px auto
-    .bar
+    .progress-bar
       width: 100%
 
 table.table
