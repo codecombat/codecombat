@@ -71,7 +71,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     choose_your_level: "Wähle dein Level"
     adventurer_prefix: "Du kannst zu jedem Level springen oder diskutiere die Level "
     adventurer_forum: "im Abenteurerforum"
-#    adventurer_suffix: "."
+    adventurer_suffix: "."
     campaign_beginner: "Anfängerkampagne"
     campaign_beginner_description: "... in der Du die Zauberei der Programmierung lernst."
     campaign_dev: "Beliebiges schwierigeres Level"
@@ -216,7 +216,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     hipchat_prefix: "Besuche uns auch in unserem"
     hipchat_url: "HipChat room."
     level_some_options: "Einige Einstellungsmöglichkeiten?"
-#    level_tab_thangs: "Thangs" # Things?
+#    level_tab_thangs: "Thangs" # Things? # <= no Thangs are the components of the level. Check the editor if you're not sure what it is.
     level_tab_scripts: "Skripte"
     level_tab_settings: "Einstellungen"
     level_tab_components: "Komponenten"
