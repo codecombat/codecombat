@@ -25,7 +25,7 @@ module.exports = class PlaybackView extends View
     'click #debug-toggle': 'onToggleDebug'
     'click #grid-toggle': 'onToggleGrid'
     'click #edit-wizard-settings': 'onEditWizardSettings'
-    'click #music-button': -> 
+    'click #music-button': ->
       me.set('music', not me.get('music'))
       me.save()
     'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @disabled
@@ -33,12 +33,12 @@ module.exports = class PlaybackView extends View
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
     'click': -> Backbone.Mediator.publish 'focus-editor'
-  
+
   shortcuts:
     '⌘+p, p, ctrl+p': 'onTogglePlay'
     '[': 'onScrubBack'
     ']': 'onScrubForward'
-      
+
   constructor: ->
     super(arguments...)
     me.on('change:music', @updateMusicButton, @)
@@ -118,7 +118,7 @@ module.exports = class PlaybackView extends View
     button.addClass(classes[0]) if e.volume <= 0.0
     button.addClass(classes[1]) if e.volume > 0.0 and e.volume < 1.0
     button.addClass(classes[2]) if e.volume >= 1.0
-    
+
   onScrubForward: (e) ->
     e?.preventDefault()
     Backbone.Mediator.publish('level-set-time', ratioOffset: 0.05, scrubDuration: 500)
@@ -134,7 +134,7 @@ module.exports = class PlaybackView extends View
     @lastProgress = e.progress
 
   updateProgress: (progress) ->
-    $('.scrubber .bar', @$el).css('width', "#{progress*100}%")
+    $('.scrubber .progress-bar', @$el).css('width', "#{progress*100}%")
 
   updatePlayButton: (progress) ->
     if progress >= 1.0 and @lastProgress < 1.0
@@ -206,7 +206,7 @@ module.exports = class PlaybackView extends View
 
   getScrubRatio: ->
     bar = $('.scrubber .progress', @$el)
-    $('.bar', bar).width() / bar.width()
+    $('.progress-bar', bar).width() / bar.width()
 
   scrubTo: (ratio, duration=0) ->
     return if @disabled

@@ -163,7 +163,8 @@ module.exports = class SpriteBoss extends CocoClass
       if sprite = @sprites[thang.id]
         sprite.setThang thang  # make sure Sprite has latest Thang
       else
-        sprite = @addThangToSprites(thang) or updateOrder
+        sprite = @addThangToSprites(thang)
+        Backbone.Mediator.publish 'surface:new-thang-added', thang:thang, sprite:sprite
         updateCache = updateCache or sprite.displayObject.parent is @spriteLayers["Obstacle"]
         sprite.playSounds()
     for thangID, sprite of @sprites

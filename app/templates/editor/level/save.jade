@@ -3,22 +3,19 @@ extends /templates/modal/save_version
 block modal-body-content
   h3= "Level: " + level.get('name') + " - " + (levelNeedsSave ? "Modified" : "Not Modified")
   if levelNeedsSave
-    form#save-level-form.form-horizontal
-      .control-group
+    form#save-level-form.form
+      .form-group
         label.control-label(for="level-commit-message") Commit Message
-        .controls
-          textarea#level-commit-message.input-large(name="commit-message", type="text")
+        textarea.form-control#level-commit-message(name="commit-message", type="text")
       if level.isPublished()
-        .control-group
+        .form-group.checkbox
           label.control-label(for="level-version-is-major") Major Changes?
-          .controls
-            input#level-version-is-major.input-large(name="version-is-major", type="checkbox")
-            span.help-block (Could this update break old solutions of the level?)
+          input#level-version-is-major(name="version-is-major", type="checkbox")
+          span.help-block (Could this update break old solutions of the level?)
       if !level.isPublished()
-        .control-group
+        .form-group.checkbox
           label.control-label(for="level-publish") Publish This Level (irreversible)?
-          .controls
-            input#level-publish.input-large(name="publish", type="checkbox")
+          input#level-publish(name="publish", type="checkbox")
 
   if modifiedComponents.length
     hr
@@ -26,19 +23,17 @@ block modal-body-content
   each component in modifiedComponents
     - var id = component.get('_id')
     h4= "Component: " + component.get('system') + '.' + component.get('name')
-    form.component-form.form-horizontal(id="save-component-" + id + "-form")
+    form.component-form(id="save-component-" + id + "-form")
       input(name="component-original", type="hidden", value=component.get('original'))
       input(name="component-parent-major-version", type="hidden", value=component.get('version').major)
-      .control-group
+      .form-group
         label.control-label(for=id + "-commit-message") Commit Message
-        .controls
-          textarea.input-large(id=id + "-commit-message", name="commit-message", type="text")
+        textarea.form-control(id=id + "-commit-message", name="commit-message", type="text")
       if component.isPublished()
-        .control-group
+        .form-group.checkbox
           label.control-label(for=id + "-version-is-major") Major Changes?
-          .controls
-            input.input-large(id=id + "-version-is-major", name="version-is-major", type="checkbox")
-            span.help-block (Could this update break anything depending on this Component?)
+          input(id=id + "-version-is-major", name="version-is-major", type="checkbox")
+          span.help-block (Could this update break anything depending on this Component?)
 
   if modifiedSystems.length
     hr
@@ -46,16 +41,14 @@ block modal-body-content
   each system in modifiedSystems
     - var id = system.get('_id')
     h4= "System: " + system.get('name')
-    form.system-form.form-horizontal(id="save-system-" + id + "-form")
+    form.system-form(id="save-system-" + id + "-form")
       input(name="system-original", type="hidden", value=system.get('original'))
       input(name="system-parent-major-version", type="hidden", value=system.get('version').major)
-      .control-group
+      .form-group
         label.control-label(for=id + "-commit-message") Commit Message
-        .controls
-          textarea.input-large(id=id + "-commit-message", name="commit-message", type="text")
+        textarea.form-control(id=id + "-commit-message", name="commit-message", type="text")
       if system.isPublished()
-        .control-group
+        .form-group.checkbox
           label.control-label(for=id + "-version-is-major") Major Changes?
-          .controls
-            input.input-large(id=id + "-version-is-major", name="version-is-major", type="checkbox")
-            span.help-block (Could this update break anything depending on this System?)
+          input(id=id + "-version-is-major", name="version-is-major", type="checkbox")
+          span.help-block (Could this update break anything depending on this System?)

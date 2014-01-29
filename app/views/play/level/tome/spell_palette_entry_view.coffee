@@ -43,7 +43,7 @@ module.exports = class SpellPaletteEntryView extends View
   onMouseOver: (e) ->
     # Make sure the doc has the updated Thang so it can regenerate its prop value
     @doc.thang = @thang
-    @$el.data('popover').options.content = @doc.html()
+    @$el.data('bs.popover').options.content = @doc.html()
     @$el.popover('setContent')
 
   onClick: (e) ->
