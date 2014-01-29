@@ -11,7 +11,7 @@ block content
   .row
 
     each campaign in campaigns
-      .campaign-container.span5
+      .campaign-container.col-sm-6
         h1
           a(href="/play/level/#{campaign.levels[0].id}", data-i18n="play.campaign_#{campaign.id}")= campaign.name
         p.campaign-description(data-i18n="[html]play.campaign_#{campaign.id}_description")!= campaign.description

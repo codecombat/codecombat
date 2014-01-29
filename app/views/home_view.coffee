@@ -71,6 +71,7 @@ module.exports = class HomeView extends View
     wizardDisplayObject.x = 120
     wizardDisplayObject.y = 35
     wizardDisplayObject.scaleX = wizardDisplayObject.scaleY = scale
+    wizardDisplayObject.scaleX *= -1
     @stage.addChild wizardDisplayObject
     @stage.update()
 

@@ -85,6 +85,7 @@ module.exports = class ThangTypeHomeView extends View
     return unless res
 
     modal = @$el.find('.modal')
+    forms.clearFormAlerts(modal)
     @showLoading(modal.find('.modal-body'))
     res.error =>
       @hideLoading()
