@@ -124,16 +124,15 @@ module.exports.thangNames = thangNames =
     "Skoggen"
     "Treg"
     "Goreball"
-    "Shmeal"
     "Gert"
     "Thabt"
-    "Iyert"
-    "Palt"
     "Snortt"
     "Kog"
   ]
   "Ogre Munchkin F": [
-    
+    "Iyert"
+    "Palt"
+    "Shmeal"
   ]
   "Ogre M": [
     "Krogg"
@@ -144,12 +143,11 @@ module.exports.thangNames = thangNames =
     "Mak Fod"
     "Trung"
     "Axe Ox"
+  ]
+  "Ogre F": [
     "Nareng"
     "Morthrug"
     "Glonc"
-  ]
-  "Ogre F": [
-    
   ]
   "Ogre Brawler": [
     "Grul'thock"

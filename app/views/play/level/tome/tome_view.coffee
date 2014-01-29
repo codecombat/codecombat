@@ -47,6 +47,7 @@ module.exports = class TomeView extends View
     'tome:cast-spell': "onCastSpell"
     'tome:toggle-spell-list': 'onToggleSpellList'
     'surface:sprite-selected': 'onSpriteSelected'
+    'surface:new-thang-added': 'onNewThangAdded'
 
   events:
     'click #spell-view': 'onSpellViewClick'
@@ -65,14 +66,19 @@ module.exports = class TomeView extends View
       @cast()
       console.log "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
 
+  onNewThangAdded: (e) ->
+    return unless e.thang.isProgrammable
+    @createSpells [e.thang]
+
   createSpells: (programmableThangs) ->
     # If needed, we could make this able to update when programmableThangs changes.
     # We haven't done that yet, so call it just once on init.
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
-    @spells = {}
-    @thangSpells = {}
+    @spells ?= {}
+    @thangSpells ?= {}
     for thang in programmableThangs
       world = thang.world
+      continue if @thangSpells[thang.id]?
       @thangSpells[thang.id] = []
       for methodName, method of thang.programmableMethods
         pathComponents = [thang.id, methodName]

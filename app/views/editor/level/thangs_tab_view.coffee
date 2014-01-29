@@ -349,7 +349,7 @@ module.exports = class ThangsTabView extends View
     @editThang thangID: id if id
 
   addThang: (thangType, pos) ->
-    thangID = Thang.nextID(thangType.get('name')) until thangID and not @thangsTreema.get "id=#{thangID}"
+    thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
       @selectAddThang null

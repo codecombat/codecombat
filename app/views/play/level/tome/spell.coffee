@@ -21,7 +21,7 @@ module.exports = class Spell
     @tabView.render()
 
   addThang: (thang) ->
-    @thangs[thang.id] = {thang: thang, aether: @createAether(thang), castAether: null}
+    @thangs[thang.id] ?= {thang: thang, aether: @createAether(thang), castAether: null}
 
   canRead: (team) ->
     (team ? me.team) in @permissions.read or (team ? me.team) in @permissions.readwrite
