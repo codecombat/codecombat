@@ -1,14 +1,5 @@
-@import "../../bootstrap/mixins"
-
-@mixin gradient-radial-custom-stops($innerColor: #555, $innerStop: 20%, $outerColor: #333, $outerStop: 70%)
-  background-color: $outerColor
-  @include gradient-vertical($innerColor, $outerColor)  // IE6-9 fallback on vertical gradient
-  background-image: -webkit-gradient(radial, center center, 0, center center, 460, from($innerColor $innerStop), to($outerColor $outerStop))
-  background-image: -webkit-radial-gradient(circle, $innerColor $innerStop, $outerColor $outerStop)
-  background-image: -moz-radial-gradient(circle, $innerColor $innerStop, $outerColor $outerStop)
-  background-image: -o-radial-gradient(circle, $innerColor $innerStop, $outerColor $outerStop)
-  background-image: radial-gradient(circle, $innerColor $innerStop, $outerColor $outerStop)
-  background-repeat: no-repeat
+@import "app/styles/bootstrap/mixins"
+@import "app/styles/mixins"
 
 .thang-avatar-view
 
