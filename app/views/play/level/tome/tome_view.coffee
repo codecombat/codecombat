@@ -67,8 +67,10 @@ module.exports = class TomeView extends View
       console.log "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
 
   onNewThangAdded: (e) ->
-    return unless e.thang.isProgrammable
+    return unless e.thang.isProgrammable and not _.find @thangList.thangs, id: e.thang.id
     @createSpells [e.thang]
+    @spellList.addThang e.thang
+    @thangList.addThang e.thang
 
   createSpells: (programmableThangs) ->
     # If needed, we could make this able to update when programmableThangs changes.
