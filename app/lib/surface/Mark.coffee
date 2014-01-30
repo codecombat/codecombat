@@ -166,7 +166,7 @@ module.exports = class Mark extends CocoClass
       size += 60 if @name is 'selection'
       size += 60 if @name is 'repair'
       scale = size / {selection: 128, target: 128, repair: 320, highlight: 160}[@name]
-      if @sprite?.thang.spriteName.search(/dungeon.wall/i) isnt -1
+      if @sprite?.thang.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
         scale *= 2
     @mark.scaleX = @mark.scaleY = Math.min 1, scale
     if @name in ['selection', 'target', 'repair']
