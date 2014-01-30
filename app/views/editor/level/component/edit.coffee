@@ -87,3 +87,7 @@ module.exports = class LevelComponentEditView extends View
   endEditing: (e) ->
     Backbone.Mediator.publish 'level-component-editing-ended', levelComponent: @levelComponent
     null
+
+  destroy: ->
+    super()
+    @editor?.destroy()
