@@ -4,44 +4,29 @@ ThangState = require './thang_state'
 Rand = require './rand'
 
 module.exports = class Thang
-  @className: "Thang"
-  @random = new Rand
+  @className: 'Thang'
+  @remainingThangNames: {}
 
-  # Random ordering for each sprite name
-  @ordering: (spriteName) ->
-    Thang.orders ?= {}
-    names = thangNames[spriteName]
-    if names
-      len = names.length
-      array = Thang.orders[spriteName]
-      unless array?
-        array = @random.randArray len
-        Thang.orders[spriteName] = array
-    else
-      array = []
-    array
-
-  @nextID: (spriteName) ->
+  @nextID: (spriteName, world) ->
     Thang.lastIDNums ?= {}
-    names = thangNames[spriteName]
-    order = @ordering spriteName
-    if names
-      lastIDNum = Thang.lastIDNums[spriteName]
-      idNum = (if lastIDNum? then lastIDNum + 1 else 0)
-      Thang.lastIDNums[spriteName] = idNum
-      id = names[order[idNum % names.length]]
-      if idNum >= names.length
-        id += Math.floor(idNum / names.length) + 1
-    else
-      Thang.lastIDNums[spriteName] = if Thang.lastIDNums[spriteName]? then Thang.lastIDNums[spriteName] + 1 else 0
-      id = spriteName + (Thang.lastIDNums[spriteName] or '')
-    id
+    originals = thangNames[spriteName] or [spriteName]
+    remaining = Thang.remainingThangNames[spriteName]
+    remaining = Thang.remainingThangNames[spriteName] = originals.slice() unless remaining?.length
 
-  @resetThangIDs: -> Thang.lastIDNums = {}
+    baseName = remaining.splice(world.rand.rand(remaining.length), 1)[0]
+    i = 0
+    while true
+      name = if i then "#{baseName} #{i}" else baseName
+      extantThang = world.thangMap[name]
+      break unless extantThang
+      i++
+    name
+  
+  @resetThangIDs: -> Thang.remainingThangNames = {}
 
   constructor: (@world, @spriteName, @id) ->
     @spriteName ?= @constructor.className
-    @id ?= @constructor.nextID @spriteName
+    @id ?= @constructor.nextID @spriteName, @world
     @addTrackedProperties ['exists', 'boolean']  # TODO: move into Systems/Components, too?
     #console.log "Generated #{@toString()}."
 
@@ -157,6 +142,9 @@ module.exports = class Thang
       # TODO: take some (but not all) of deserialize logic from ThangState to handle other types
       t[prop] = val
     t
+
+  serializeForAether: ->
+    {CN: @constructor.className, id: @id}
 
   getSpriteOptions: ->
     colorConfigs = @world?.getTeamColors() or {}

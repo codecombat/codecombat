@@ -2,7 +2,7 @@ extends /templates/base
 
 block outer_content
   .outer-content
-
+    
     .top-controls-area
       h2.level-title-header
         span(data-i18n="editor.level_title") Level Editor
@@ -10,12 +10,14 @@ block outer_content
         span.level-title #{level.attributes.name}
     
       .level-control-buttons
+        button(data-toggle="coco-modal", data-target="modal/revert", data-i18n="revert.revert").btn.btn-primary#revert-button Revert
         button(data-i18n="common.save").btn.btn-primary#commit-level-start-button Save
         button(data-i18n="common.fork").btn.btn-primary#fork-level-start-button Fork
         .btn-group.play-button-group
           button(title="⌃↩ or ⌘↩: Play preview of current level", data-i18n="common.play")#play-button.btn.btn-inverse.banner Play!
           button.btn.btn-inverse.banner.dropdown-toggle(data-toggle="dropdown")
             i.icon-cog.icon-white
+          
       
           ul.dropdown-menu
             li
@@ -26,7 +28,6 @@ block outer_content
               a(data-delay="3000", href="#", data-i18n="common.delay_3_sec") 3 seconds
               a(data-delay="5000", href="#", data-i18n="common.delay_5_sec") 5 seconds
               a(data-delay="90019001", href="#", data-i18n="common.manual") Manual
-      .clearfix
     
       ul.nav.nav-tabs
         li.active
@@ -40,7 +41,7 @@ block outer_content
         li
           a(href="#editor-level-systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
   
-    div.tab-content
+    div.tab-content#level-editor-tabs
       div.tab-pane.active#editor-level-thangs-tab-view
         
       div.tab-pane#editor-level-scripts-tab-view

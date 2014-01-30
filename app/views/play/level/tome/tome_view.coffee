@@ -47,6 +47,7 @@ module.exports = class TomeView extends View
     'tome:cast-spell': "onCastSpell"
     'tome:toggle-spell-list': 'onToggleSpellList'
     'surface:sprite-selected': 'onSpriteSelected'
+    'surface:new-thang-added': 'onNewThangAdded'
 
   events:
     'click #spell-view': 'onSpellViewClick'
@@ -65,14 +66,21 @@ module.exports = class TomeView extends View
       @cast()
       console.log "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
 
+  onNewThangAdded: (e) ->
+    return unless e.thang.isProgrammable and not _.find @thangList.thangs, id: e.thang.id
+    @createSpells [e.thang]
+    @spellList.addThang e.thang
+    @thangList.addThang e.thang
+
   createSpells: (programmableThangs) ->
     # If needed, we could make this able to update when programmableThangs changes.
     # We haven't done that yet, so call it just once on init.
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
-    @spells = {}
-    @thangSpells = {}
+    @spells ?= {}
+    @thangSpells ?= {}
     for thang in programmableThangs
       world = thang.world
+      continue if @thangSpells[thang.id]?
       @thangSpells[thang.id] = []
       for methodName, method of thang.programmableMethods
         pathComponents = [thang.id, methodName]
@@ -82,7 +90,7 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          spell = @spells[spellKey] = new Spell method, spellKey, pathPrefixComponents.concat(pathComponents), @options.session, @supermodel
+          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: @getQueryVariable("skip_flow") is "true", skipProtectAPI: @getQueryVariable("skip_protect_api") is "true"
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID(thangID)
       @spells[spellKey].addThang thang for spellKey in spellKeys
@@ -138,7 +146,7 @@ module.exports = class TomeView extends View
     @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
     @spellView.setThang thang
     @spellTabView.setThang thang
-    @castButton.$el.show()
+    @castButton.attachTo @spellView
     @thangList.$el.hide()
     @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
     @spellPaletteView.toggleControls {}, @spellView.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist

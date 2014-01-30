@@ -5,9 +5,11 @@ LevelComponent = require 'models/LevelComponent'
 module.exports = class LevelComponentEditView extends View
   id: "editor-level-component-edit-view"
   template: template
+  editableSettings: ['name', 'description', 'system', 'language', 'dependencies', 'propertyDocumentation', 'i18n']
 
   events:
     'click #done-editing-component-button': 'endEditing'
+    'click .nav a': (e) -> $(e.target).tab('show')
 
   constructor: (options) ->
     super options
@@ -21,27 +23,64 @@ module.exports = class LevelComponentEditView extends View
 
   afterRender: ->
     super()
-    @buildTreema()
+    @buildSettingsTreema()
+    @buildConfigSchemaTreema()
+    @buildCodeEditor()
 
-  buildTreema: ->
-    data = $.extend(true, {}, @levelComponent.attributes)
+  buildSettingsTreema: ->
+    data = _.pick @levelComponent.attributes, (value, key) => key in @editableSettings
+    schema = _.cloneDeep LevelComponent.schema.attributes
+    schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
+    schema.required = _.intersection schema.required, @editableSettings
+
     treemaOptions =
       supermodel: @supermodel
-      schema: LevelComponent.schema.attributes
+      schema: schema
       data: data
-      callbacks: {change: @onComponentEdited}
-    unless me.isAdmin()
-      treemaOptions.readOnly = true
-    @componentTreema = @$el.find('#edit-component-treema').treema treemaOptions
-    @componentTreema.build()
-    @componentTreema.open()
-    # TODO: schema is not loaded for the first one here?
-    @componentTreema.tv4.addSchema('metaschema', LevelComponent.schema.get('properties').configSchema)
+      callbacks: {change: @onComponentSettingsEdited}
+    treemaOptions.readOnly = true unless me.isAdmin()
+    @componentSettingsTreema = @$el.find('#edit-component-treema').treema treemaOptions
+    @componentSettingsTreema.build()
+    @componentSettingsTreema.open()
 
-  onComponentEdited: (e) =>
+  onComponentSettingsEdited: =>
     # Make sure it validates first?
-    for key, value of @componentTreema.data
+    for key, value of @componentSettingsTreema.data
       @levelComponent.set key, value unless key is 'js' # will compile code if needed
+    Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
+    null
+
+  buildConfigSchemaTreema: ->
+    treemaOptions =
+      supermodel: @supermodel
+      schema: LevelComponent.schema.get('properties').configSchema
+      data: @levelComponent.get 'configSchema'
+      callbacks: {change: @onConfigSchemaEdited}
+    treemaOptions.readOnly = true unless me.isAdmin()
+    @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
+    @configSchemaTreema.build()
+    @configSchemaTreema.open()
+    # TODO: schema is not loaded for the first one here?
+    @configSchemaTreema.tv4.addSchema('metaschema', LevelComponent.schema.get('properties').configSchema)
+
+  onConfigSchemaEdited: =>
+    @levelComponent.set 'configSchema', @configSchemaTreema.data
+    Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
+
+  buildCodeEditor: ->
+    editorEl = @$el.find '#component-code-editor'
+    editorEl.text @levelComponent.get('code')
+    @editor = ace.edit(editorEl[0])
+    @editor.setReadOnly(not me.isAdmin())
+    session = @editor.getSession()
+    session.setMode 'ace/mode/coffee'
+    session.setTabSize 2
+    session.setNewLineMode = 'unix'
+    session.setUseSoftTabs true
+    @editor.on 'change', @onEditorChange
+    
+  onEditorChange: =>
+    @levelComponent.set 'code', @editor.getValue()
     Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
     null
 

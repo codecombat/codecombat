@@ -14,11 +14,11 @@
 // NAVBAR
 // -----------------------------------------------------
 
-.navbar {
+.navbar {  
 
   .brand {
     padding: 14px 20px 16px;
-    font-family: $headingsFontFamily;
+    font-family: $headings-font-family;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
   }
 
@@ -28,12 +28,12 @@
 
   .nav > li > a {
     padding: 16px 10px 14px;
-    font-family: $headingsFontFamily;
+    font-family: $headings-font-family;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
   }
 
   .search-query {
-    border: 1px solid darken($linkColor, 10%);
+    border: 1px solid darken($link-color, 10%);
     line-height: normal;
   }
 
@@ -49,23 +49,22 @@
 .navbar-inverse {
 
   .navbar-search .search-query {
-    color: $textColor;
+    color: $text-color;
   }
 }
 
-@media (max-width: $navbarCollapseWidth) {
+@media (max-width: $grid-float-breakpoint) {
 
   .navbar .nav-collapse {
 
-    .nav li > a {
+    .navbar-nav li > a {
 
-      font-family: $headingsFontFamily;
+      font-family: $headings-font-family;
       font-weight: normal;
       color: $white;
       text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
 
       &:hover {
-        background-color: #2B7CAC;
       }
     }
 
@@ -93,7 +92,7 @@
   .navbar-inverse .nav-collapse {
 
     .nav li > a {
-      color: $navbarInverseLinkColor;
+      color: $navbar-inverse-color;
 
       &:hover {
         background-color: rgba(0, 0, 0, 0.1);
@@ -110,13 +109,13 @@
 
 div.subnav {
 
-  font-family: $headingsFontFamily;
+  font-family: $headings-font-family;
   text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.2);
 
 }
 
 div.subnav-fixed {
-  top: $navbarHeight + 1;
+  top: $navbar-height + 1;
 }
 
 
@@ -136,28 +135,30 @@ div.subnav-fixed {
   }
 }
 
+//The following were oring buttonBackground
+
 .btn-primary {
-  @include buttonBackground(lighten($btnPrimaryBackground, 5%), $btnPrimaryBackground);
+  @include button-background(lighten($btn-primary-bg, 5%), $btn-primary-bg);
 }
 
 .btn-info {
-  @include buttonBackground(lighten($btnInfoBackground, 5%), $btnInfoBackground);
+  @include button-background(lighten($btn-info-bg, 5%), $btn-info-bg);
 }
 
 .btn-success {
-  @include buttonBackground(lighten($btnSuccessBackground, 5%), $btnSuccessBackground);
+  @include button-background(lighten($btn-success-bg, 5%), $btn-success-bg);
 }
 
 .btn-warning {
-  @include buttonBackground(lighten($btnWarningBackground, 5%), $btnWarningBackground);
+  @include button-background(lighten($btn-warning-bg, 5%), $btn-warning-bg);
 }
 
 .btn-danger {
-  @include buttonBackground(lighten($btnDangerBackground, 5%), $btnDangerBackground);
+  @include button-background(lighten($btn-danger-bg, 5%), $btn-danger-bg);
 }
 
 .btn-inverse {
-  @include buttonBackground(lighten($btnInverseBackground, 5%), $btnInverseBackground);
+  @include button-background(lighten($btn-default-color, 5%), $btn-default-color);//this should be btn-inverse but I can't find it at the moment
 }
 
 // TABLES

@@ -1,7 +1,22 @@
-h3.edit-component-name
-  span(data-i18n="editor.level_component_edit_title")
-    | Edit Component
-  span : 
-    | "#{editTitle}"
+.navbar
+  .navbar-inner
+    p.navbar-text
+      span(data-i18n="editor.level_component_edit_title")
+        | Edit Component
+      span : 
+        | "#{editTitle}"
+    ul.nav.nav-pills
+      li
+        a(href="#code" data-toggle="tab") Code
+      li
+        a(href="#config-schema" data-toggle="tab") Config Schema
+      li
+        a(href="#settings" data-toggle="tab") Settings
 
-#edit-component-treema
+.tab-content
+  .tab-pane.active#code
+    #component-code-editor
+  .tab-pane#config-schema
+    #config-schema-treema
+  .tab-pane#settings
+    #edit-component-treema

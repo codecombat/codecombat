@@ -39,6 +39,7 @@ module.exports = class ThangTypeEditView extends View
     super options
     @mockThang = _.cloneDeep(@mockThang)
     @thangType = new ThangType(_id: @thangTypeID)
+    @thangType.saveBackups = true
     @thangType.fetch()
     @thangType.once('sync', @onThangTypeSync)
     @refreshAnimation = _.debounce @refreshAnimation, 500
@@ -229,8 +230,8 @@ module.exports = class ThangTypeEditView extends View
     options = @getSpriteOptions()
     portrait = @thangType.getPortraitImage(options)
     return unless portrait
-    portrait?.attr('id', 'portrait').addClass('img-polaroid')
-    portrait.addClass 'img-polaroid'
+    portrait?.attr('id', 'portrait').addClass('img-thumbnail')
+    portrait.addClass 'img-thumbnail'
     $('#portrait').replaceWith(portrait)
 
   showDisplayObject: (displayObject) ->

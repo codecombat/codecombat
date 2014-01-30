@@ -155,6 +155,7 @@ module.exports = class ThangsTabView extends View
     @surface.destroy()
 
   onViewSwitched: (e) ->
+    @selectAddThang()
     @surface?.spriteBoss?.selectSprite null, null
 
   onSpriteMouseDown: (e) ->
@@ -220,7 +221,7 @@ module.exports = class ThangsTabView extends View
     target = target.closest('.add-thang-palette-icon')
     wasSelected = target.hasClass 'selected'
     @$el.find('.add-thangs-palette .add-thang-palette-icon.selected').removeClass('selected')
-    @selectAddThangType(if wasSelected then null else target.attr 'data-thang-type')
+    @selectAddThangType(if wasSelected then null else target.attr 'data-thang-type') unless key.alt or key.meta
     target.addClass('selected') if @addThangType
     false
 
@@ -239,7 +240,7 @@ module.exports = class ThangsTabView extends View
     @surface.spriteBoss.removeSprite @addThangSprite if @addThangSprite
     @addThangType = type
     if @addThangType
-      @surface.camera.lock()  # hmm, this interfere with zooming
+      @surface.camera.lock()
       thang = @createAddThang()
       @addThangSprite = @surface.spriteBoss.addThangToSprites thang, @surface.spriteBoss.spriteLayers["Floating"]
       @addThangSprite.notOfThisWorld = true
@@ -334,7 +335,7 @@ module.exports = class ThangsTabView extends View
     @world.loadFromLevel serializedLevel, false
     thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
     @surface?.setWorld @world
-    @selectAddThangType @addThangType if @addThangType  # make another addThang sprite, since the World just refreshed
+    @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
     Backbone.Mediator.publish 'level-thangs-changed', thangsData: @thangsTreema.data
     null
 
@@ -348,7 +349,7 @@ module.exports = class ThangsTabView extends View
     @editThang thangID: id if id
 
   addThang: (thangType, pos) ->
-    thangID = Thang.nextID(thangType.get('name')) until thangID and not @thangsTreema.get "id=#{thangID}"
+    thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
       @selectAddThang null

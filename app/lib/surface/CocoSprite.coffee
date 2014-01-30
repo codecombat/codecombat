@@ -95,7 +95,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       sprite = new createjs.Shape()
     sprite.scaleX = sprite.scaleY = 1 / @options.resolutionFactor
     # temp, until these are re-exported with perspective
-    if @options.camera and @thangType.get('name') in ['Dungeon Floor', 'Grass', 'Goal Trigger', 'Obstacle']  
+    if @options.camera and @thangType.get('name') in ['Dungeon Floor', 'Grass', 'Goal Trigger', 'Obstacle']
       sprite.scaleY *= @options.camera.y2x
     @imageObject = sprite
     @displayObject.addChild(sprite)
@@ -207,19 +207,10 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     rotation
 
   updateIsometricRotation: (rotation, imageObject) ->
-    action = @currentRootAction
-    return unless action
-#    @flipOccasionally() if action.name is 'idle'
-    imageObject ?= @imageObject
-    imageObject.scaleX *= -1 if imageObject.scaleX < 0 # normalize to point right
-    imageObject.scaleX *= -1 if Math.abs(rotation) >= 135
-#    imageObject.scaleX *= -1 if @flipped and action.name is 'idle'
-
-  flipOccasionally: ->
-    @flippedCount += 1
-    return unless _.random(0,1000) <= 15 and @flippedCount > 30
-    @flipped = not @flipped
-    @flippedCount = 0
+    return unless @currentAction
+    return if _.string.endsWith(@currentAction.name, 'back')
+    return if _.string.endsWith(@currentAction.name, 'fore')
+    @imageObject.scaleX *= -1 if Math.abs(rotation) >= 90
 
   ##################################################
   updateAction: ->

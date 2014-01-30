@@ -8,9 +8,9 @@ block content
     p(data-i18n="account_settings.not_logged_in") Log in or create an account to change your settings.
 
   else
-    button.btn#save-button.disabled.hide(data-i18n="account_settings.autosave") Changes Save Automatically
+    button.btn#save-button.disabled.hide(data-i18n="account_settings.saveBackups") Changes Save Automatically
   
-    ul.nav.nav-tabs#settings-tabs
+    ul.nav.nav-pills#settings-tabs
       li
         a(href="#general-pane", data-toggle="tab", data-i18n="account_settings.me_tab") Me
       li
@@ -25,20 +25,17 @@ block content
     .tab-content#settings-panes
       #general-pane.tab-pane
         p
-          .form-horizontal
-            .control-group
+          .form
+            .form-group
               label.control-label(for="name", data-i18n="general.name") Name
-              .controls
-                input#name.input-large(name="name", type="text", value="#{me.get('name')||''}", placeholder="#{gravatarName}")
-            .control-group
+              input#name.form-control(name="name", type="text", value="#{me.get('name')||''}", placeholder="#{gravatarName}")
+            .form-group
               label.control-label(for="email", data-i18n="general.email") Email
-              .controls
-                input#email.input-large(name="email", type="text", value="#{me.get('email')}")
+              input#email.form-control(name="email", type="text", value="#{me.get('email')}")
             if !isProduction
-              .control-group
-                label.control-label(for="email", data-i18n="forms.admin") Admin
-                .controls
-                  input#admin.input-large(name="admin", type="checkbox", checked=me.get('permissions').indexOf('admin')>-1))
+              .form-group.checkbox
+                label(for="email", data-i18n="forms.admin") Admin
+                input#admin(name="admin", type="checkbox", checked=me.get('permissions').indexOf('admin')>-1))
               
   
       #picture-pane.tab-pane
@@ -50,10 +47,12 @@ block content
           else
             .thumbnails
               each photo, i in photos
-                .span2
+                .thumbnail
                   label(for="photo-#{i}")
-                    img(src=photo).img-polaroid
+                    img(src=photo)
+                  br
                   input(type="radio", name="photoURL", value="#{photo}", id="photo-#{i}", checked=photo==chosenPhoto)
+            .clearfix
             p
               a(href="http://en.gravatar.com/profiles/edit/?noclose#your-images", target="_blank", data-i18n="account_settings.gravatar_add_more_photos") Add more photos to your Gravatar account to access them here.
       
@@ -62,108 +61,95 @@ block content
 
       #password-pane.tab-pane
         p
-          .form-horizontal
-            .control-group
+          .form
+            .form-group
               label.control-label(for="password", data-i18n="account_settings.new_password") New Password
-              .controls
-                input#password.input-large(name="password", type="password")
-            .control-group
+              input#password.form-control(name="password", type="password")
+            .form-group
               label.control-label(for="password2", data-i18n="account_settings.new_password_verify") Verify
-              .controls
-                input#password2.input-large(name="password2", type="password")
+              input#password2.form-control(name="password2", type="password")
                       
       #email-pane.tab-pane
         h3(data-i18n="account_settings.email_subscriptions") Email Subscriptions
 
         p
-          .form-horizontal
-            .control-group
+          .form
+            .form-group.checkbox
               label.control-label(for="email_announcement", data-i18n="account_settings.email_announcements") Announcements
-              .controls
-                input#email_announcement(name="email_announcement", type="checkbox", checked=subs.announcement)
-                span.help-inline(data-i18n="account_settings.email_announcements_description") Get emails on the latest news and developments at CodeCombat.
+              input#email_announcement(name="email_announcement", type="checkbox", checked=subs.announcement)
+              span.help-block(data-i18n="account_settings.email_announcements_description") Get emails on the latest news and developments at CodeCombat.
 
-          .form-horizontal
-            .control-group
+          .form
+            .form-group.checkbox
               label.control-label(for="email_notification", data-i18n="account_settings.email_notifications") Notifications
-              .controls
-                input#email_notification(name="email_notification", type="checkbox", checked=subs.notification)
-                span.help-inline(data-i18n="account_settings.email_notifications_description") Get periodic notifications for your account.
+              input#email_notification(name="email_notification", type="checkbox", checked=subs.notification)
+              span.help-block(data-i18n="account_settings.email_notifications_description") Get periodic notifications for your account.
             hr
 
-          .form-horizontal
-            h4(data-i18n="account_settings.contributor_emails") Contributor Class Emails
+          h4(data-i18n="account_settings.contributor_emails") Contributor Class Emails
+          span(data-i18n="account_settings.contribute_prefix") We're looking for people to join our party! Check out the 
+          a(href="/contribute", data-i18n="account_settings.contribute_page") contribute page
+          span(data-i18n="account_settings.contribute_suffix")  to find out more.
 
-            span(data-i18n="account_settings.contribute_prefix") We're looking for people to join our party! Check out the 
-            a(href="/contribute", data-i18n="account_settings.contribute_page") contribute page
-            span(data-i18n="account_settings.contribute_suffix")  to find out more.
-            br
-            br
-
-            .control-group
+          .form
+            .form-group.checkbox
               label.control-label(for="email_developer")
                 span(data-i18n="classes.archmage_title")
                   | Archmage
-                br
+                |  
                 span(data-i18n="classes.archmage_title_description")
                   | (Coder)
-              .controls
-                input#email_developer(name="email_developer", type="checkbox", checked=subs.developer)
-                span(data-i18n="contribute.archmage_subscribe_desc").help-inline Get emails about general news and announcements about CodeCombat.
+              input#email_developer(name="email_developer", type="checkbox", checked=subs.developer)
+              span(data-i18n="contribute.archmage_subscribe_desc").help-block Get emails about general news and announcements about CodeCombat.
 
-            .control-group
+            .form-group.checkbox
               label.control-label(for="email_level_creator")
                 span(data-i18n="classes.artisan_title")
                   | Artisan
-                br
+                |  
                 span(data-i18n="classes.artisan_title_description")
                   | (Level Builder)
-              .controls
-                input#email_level_creator(name="email_level_creator", type="checkbox", checked=subs.level_creator)
-                span(data-i18n="contribute.artisan_subscribe_desc").help-inline Get emails on level editor updates and announcements.
+              input#email_level_creator(name="email_level_creator", type="checkbox", checked=subs.level_creator)
+              span(data-i18n="contribute.artisan_subscribe_desc").help-block Get emails on level editor updates and announcements.
 
-            .control-group
+            .form-group.checkbox
               label.control-label(for="email_tester")
                 span(data-i18n="classes.adventurer_title")
                   | Adventurer
-                br
+                |  
                 span(data-i18n="classes.adventurer_title_description") 
                   | (Level Playtester)
-              .controls
-                input#email_tester(name="email_tester", type="checkbox", checked=subs.tester)
-                span(data-i18n="contribute.adventurer_subscribe_desc").help-inline Get emails when there are new levels to test.
+              input#email_tester(name="email_tester", type="checkbox", checked=subs.tester)
+              span(data-i18n="contribute.adventurer_subscribe_desc").help-block Get emails when there are new levels to test.
 
-            .control-group
+            .form-group.checkbox
               label.control-label(for="email_article_editor")
                 span(data-i18n="classes.scribe_title")
                   | Scribe
-                br
+                |  
                 span(data-i18n="classes.scribe_title_description")
                   | (Article Editor)
-              .controls
-                input#email_article_editor(name="email_article_editor", type="checkbox", checked=subs.article_editor)
-                span(data-i18n="contribute.scribe_subscribe_desc").help-inline Get emails about article writing announcements.
+              input#email_article_editor(name="email_article_editor", type="checkbox", checked=subs.article_editor)
+              span(data-i18n="contribute.scribe_subscribe_desc").help-block Get emails about article writing announcements.
 
-            .control-group
+            .form-group.checkbox
               label.control-label(for="email_translator")
                 span(data-i18n="classes.diplomat_title")
                   | Diplomat
-                br
+                |  
                 span(data-i18n="classes.diplomat_title_description")
                   | (Translator)
-              .controls
-                input#email_translator(name="email_translator", type="checkbox", checked=subs.translator)
-                span(data-i18n="contribute.diplomat_subscribe_desc").help-inline Get emails about i18n developments and, eventually, levels to translate.
+              input#email_translator(name="email_translator", type="checkbox", checked=subs.translator)
+              span(data-i18n="contribute.diplomat_subscribe_desc").help-block Get emails about i18n developments and, eventually, levels to translate.
 
-            .control-group
+            .form-group.checkbox
               label.control-label(for="email_support")
                 span(data-i18n="classes.ambassador_title")
                   | Ambassador
-                br
+                |  
                 span(data-i18n="classes.ambassador_title_description")
                   | (Support)
-              .controls
-                input#email_support(name="email_support", type="checkbox", checked=subs.support)
-                span(data-i18n="contribute.ambassador_subscribe_desc").help-inline Get emails on support updates and multiplayer developments.
+              input#email_support(name="email_support", type="checkbox", checked=subs.support)
+              span(data-i18n="contribute.ambassador_subscribe_desc").help-block Get emails on support updates and multiplayer developments.
                   
         button.btn#toggle-all-button(data-i18n="account_settings.email_toggle") Toggle All

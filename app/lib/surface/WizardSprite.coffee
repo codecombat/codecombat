@@ -227,10 +227,5 @@ module.exports = class WizardSprite extends IndieSprite
     if @targetSprite
       @pointToward(@targetSprite.thang.pos)
 
-  updateIsometricRotation: (rotation, imageObject) ->
-    super rotation, imageObject
-    imageObject ?= @imageObject
-    imageObject.scaleX *= -1 if Math.abs(rotation) <= 45 or Math.abs(rotation) >= 135  # reverse it
-
   updateMarks: ->
     super() if @displayObject.visible  # not if we hid the wiz

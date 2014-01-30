@@ -51,7 +51,6 @@ module.exports = class SpellView extends View
     else
       # needs to happen after the code generating this view is complete
       setTimeout @onLoaded, 1
-    @createDebugView()
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -69,6 +68,7 @@ module.exports = class SpellView extends View
     @ace.setShowPrintMargin false
     @ace.setShowInvisibles false
     @ace.setBehavioursEnabled false
+    @ace.setAnimatedScroll true
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -154,14 +154,15 @@ module.exports = class SpellView extends View
     @spell.loaded = true
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
     @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
+    @createToolbarView()
 
   createDebugView: ->
-    @debugView = new SpellDebugView ace: @ace
+    @debugView = new SpellDebugView ace: @ace, thang: @thang
     @$el.append @debugView.render().$el.hide()
 
   createToolbarView: ->
     @toolbarView = new SpellToolbarView ace: @ace
-    @$el.prepend @toolbarView.render().$el
+    @$el.append @toolbarView.render().$el
 
   onMouseOut: (e) ->
     @debugView.onMouseOut e
@@ -174,6 +175,8 @@ module.exports = class SpellView extends View
     return if thang.id is @thang?.id
     @thang = thang
     @spellThang = @spell.thangs[@thang.id]
+    @createDebugView() unless @debugView
+    @debugView.thang = @thang
     @updateAether false, true
     @highlightCurrentLine()
 
@@ -343,6 +346,7 @@ module.exports = class SpellView extends View
     @spellHasChanged = true
 
   onSessionWillSave: (e) ->
+    return unless @spellHasChanged
     setTimeout(=>
       unless @spellHasChanged
         @$el.find('.save-status').finish().show().fadeOut(2000)
@@ -432,35 +436,32 @@ module.exports = class SpellView extends View
     @debugView.setVariableStates {}
     @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
     $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
-    unless executed.length
-      @toolbarView?.$el.hide()
+    if not executed.length or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
+      @toolbarView?.toggleFlow false
       return
-    unless @toolbarView or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
-      @createToolbarView()
     lastExecuted = _.last executed
-    @toolbarView?.$el.show()
+    @toolbarView?.toggleFlow true
     statementIndex = Math.max 0, lastExecuted.length - 1
     @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
     marked = {}
     lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
     for state, i in lastExecuted
-      #clazz = if state.executing then 'executing' else 'executed'  # doesn't work
+      [start, end] = [offsetToPos(state.range[0]), offsetToPos(state.range[1])]
       clazz = if i is lastExecuted.length - 1 then 'executing' else 'executed'
       if clazz is 'executed'
-        key = state.range[0] + '_' + state.range[1]
-        continue if marked[key] > 2  # don't allow more than three of the same marker
-        marked[key] ?= 0
-        ++marked[key]
+        continue if marked[start.row]
+        marked[start.row] = true
+        markerType = "fullLine"
       else
         @debugView.setVariableStates state.variables
-        #console.log "at", state.userInfo.time, "vars are now:", state.variables
-      [start, end] = [offsetToPos(state.range[0]), offsetToPos(state.range[1])]
+        markerType = "text"
       markerRange = new Range(start.row, start.column, end.row, end.column)
       markerRange.start = @aceDoc.createAnchor markerRange.start
       markerRange.end = @aceDoc.createAnchor markerRange.end
-      markerRange.id = @aceSession.addMarker markerRange, clazz, "text"
+      markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
       @aceSession.addGutterDecoration start.row, clazz if clazz is 'executing'
+    null
 
   onAnnotationClick: ->
     alertBox = $("<div class='alert alert-info fade in'>#{msg}</div>")

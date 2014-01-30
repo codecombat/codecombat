@@ -36,10 +36,10 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
   versions:
     save_version_title: "Neue Version speichern"
     new_major_version: "Neue Hauptversion"
-#    cla_prefix: "Damit Änderungen gespeichert werden können, musst du unsere ... akzeptieren "  # To save changes, first you must agree to our" ...
-#    cla_url: "CLA" ? What is this?
-    cla_suffix: "."
-    cla_agree: "Ich akzeptiere" # die Bestimmungen / I agree the rules
+    cla_prefix: "Damit Änderungen gespeichert werden können, musst du unsere Lizenzbedingungen ("  #  To save changes, first you must agree to our ...
+    cla_url: "CLA" # ? CLA: What is this? -> CodeCombat Individual Contributor License Agreement
+    cla_suffix: ") akzeptieren."
+    cla_agree: "Ich stimme zu" # die Bestimmungen / I agree the rules
 
   login:
     sign_up: "Registrieren"
@@ -71,7 +71,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     choose_your_level: "Wähle dein Level"
     adventurer_prefix: "Du kannst zu jedem Level springen oder diskutiere die Level "
     adventurer_forum: "im Abenteurerforum"
-#    adventurer_suffix: "."
+    adventurer_suffix: "."
     campaign_beginner: "Anfängerkampagne"
     campaign_beginner_description: "... in der Du die Zauberei der Programmierung lernst."
     campaign_dev: "Beliebiges schwierigeres Level"
@@ -88,9 +88,9 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     contribute_prefix: "Wenn Du Interesse hast, uns zu unterstützen dann sieh dir die "
     contribute_page: "Unterstützer Seite"
     contribute_suffix: " an!"
-    forum_prefix: "Für alle öffentlichen Themen, benutze "
+    forum_prefix: "Für alle öffentlichen Themen, benutze stattdessen "
     forum_page: "unser Forum"
-    forum_suffix: " stattdessen."
+    forum_suffix: "."
     send: "Sende Feedback"
 
   diplomat_suggestion:
@@ -103,7 +103,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 
   wizard_settings:
     title: "Zauberer Einstellungen"
-    customize_avatar: "Individualisiere dein Avatar"
+    customize_avatar: "Individualisiere deinen Avatar"
 
   account_settings:
     title: "Accounteinstellungen"
@@ -115,16 +115,15 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     password_tab: "Passwort"
     emails_tab: "Emails"
     gravatar_select: "Wähle ein Gravatar Bild aus"
-    gravatar_add_photos: "Füge Vorschaubilder und Fotos zu Deinem Gravatar Account (für Deine Email) hinzu um ein Bild auswählen zu können"
+    gravatar_add_photos: "Füge Vorschaubilder und Fotos zu Deinem Gravatar Account (für Deine Email) hinzu, um ein Bild auswählen zu können"
     gravatar_add_more_photos: "Füge mehr Fotos bei deinem Gravatar Account hinzu, um hier mehr Bilder wählen zu können"
     wizard_color: "Die Farbe der Kleidung des Zauberers"
     new_password: "Neues Passwort"
     new_password_verify: "Passwort verifizieren"
     email_subscriptions: "Email Abonnements"
     email_announcements: "Ankündigungen"
-#    email_notifications_description: "Get periodic notifications for your account."
-    email_announcements_description: "Bekomme die aktuellesten Nachrichten und Entwicklungen bei CodeCombat."
-    contributor_emails: "Untersützer Emails"
+    email_announcements_description: "Erhalte regelmäßig Mitteilungen für deinen Account."
+    contributor_emails: "Unterstützer Email"
     contribute_prefix: "Wir suchen nach Leuten, die mitmachen! Schau dir die"
     contribute_page: "Unterstützer Seite"
     contribute_suffix: " an um mehr zu erfahren."
@@ -191,7 +190,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     tome_select_a_thang: "Wähle jemanden aus, um "
     tome_available_spells: "Verfügbare Zauber"
     hud_continue: "Weiter (drücke Shift + Leertaste)"
-#    spell_saved: "Spell Saved"
+    spell_saved: "Zauber gespeichert"
 
   admin:
     av_title: "Administrator Übersicht"
@@ -217,7 +216,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     hipchat_prefix: "Besuche uns auch in unserem"
     hipchat_url: "HipChat room."
     level_some_options: "Einige Einstellungsmöglichkeiten?"
-#    level_tab_thangs: "Thangs" # Things?
+#    level_tab_thangs: "Thangs" # Things? # <= no Thangs are the components of the level. Check the editor if you're not sure what it is.
     level_tab_scripts: "Skripte"
     level_tab_settings: "Einstellungen"
     level_tab_components: "Komponenten"
@@ -249,7 +248,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     body: "Inhalt"
     version: "Version"
     commit_msg: "Commit Nachricht"
-#    version_history_for: "Version History for: "
+    version_history_for: "Versionsgeschichte für: "
     results: "Ergebnisse"
     description: "Beschreibung"
     email: "Email"
@@ -278,32 +277,32 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
 
-#  legal:
-#    page_title: "Legal"
-#    opensource_intro: "CodeCombat is free to play and completely open source."
-#    opensource_description_prefix: "Check out "
-#    github_url: "our GitHub"
-#    opensource_description_center: "and help out if you like! CodeCombat is built on dozens of open source projects, and we love them. See "
-#    archmage_wiki_url: "our Archmage wiki"
-#    opensource_description_suffix: "for a list of the software that makes this game possible."
-#    practices_title: "Respectful Best Practices"
-#    practices_description: "These are our promises to you, the player, in slightly less legalese."
-#    privacy_title: "Privacy"
-#    privacy_description: "We will not sell any of your personal information. We intend to make money through recruitment eventually, but rest assured we will not distribute your personal information to interested companies without your explicit consent."
-#    security_title: "Security"
-#    security_description: "We strive to keep your personal information safe. As an open source project, our site is freely open to anyone to review and improve our security systems."
-#    email_title: "Email"
-#    email_description_prefix: "We will not inundate you with spam. Through"
-#    email_settings_url: "your email settings"
-#    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
-#    cost_title: "Cost"
-#    cost_description: "Currently, CodeCombat is 100% free! One of our main goals is to keep it that way, so that as many people can play as possible, regardless of place in life. If the sky darkens, we might have to charge subscriptions or for some content, but we'd rather not. With any luck, we'll be able to sustain the company with:"
-#    recruitment_title: "Recruitment"
-#    recruitment_description_prefix: "Here on CodeCombat, you're going to become a powerful wizard–not just in the game, but also in real life."
-#    url_hire_programmers: "No one can hire programmers fast enough"
-#    recruitment_description_suffix: "so once you've sharpened your skills and if you agree, we will demo your best coding accomplishments to the thousands of employers who are drooling for the chance to hire you. They pay us a little, they pay you"
-#    recruitment_description_italic: "a lot"
-#    recruitment_description_ending: "the site remains free and everybody's happy. That's the plan."
+  legal:
+    page_title: "Rechtliches"
+    opensource_intro: "CodeCombat ist Free-to-Play und vollständig Open Source."
+    opensource_description_prefix: "Schau dir "
+    github_url: "unsere GitHub-Seite"
+    opensource_description_center: " an und mach mit wenn Du möchtest! CodeCombat baut auf duzenden Open Source Projekten auf, und wir lieben sie. Schau dir die Liste in "
+    archmage_wiki_url: "unserem Erzmagier-Wiki"
+    opensource_description_suffix: " an, welche Software dieses Spiel möglich macht."
+    practices_title: "Best Practices"
+    practices_description: "Dies sind unsere Versprechen an dich, den Spieler, in weniger Fachchinesisch."
+    privacy_title: "Datenschutz"
+    privacy_description: "Wir werden deine persönlichen Daten nicht verkaufen. Letztenendes beabsichtigen wir, durch Vermittlung von Jobs zu verdienen, aber sei versichert, dass wir nicht deine persönlichen Daten ohne deine ausdrückliche Einwilligung interessierten Firmen zur Verfügung stellen werden."
+    security_title: "Datensicherheit"
+    security_description: "Wir streben an, deine persönlichen Daten sicher zu verwahren. Als Open Source Projekt ist unsere Site frei zugänglich für jedermann, auch um unsere Sicherheitsmaßnahmen in Augenschein zu nehmen und zu verbessern."
+    email_title: "Email"
+    email_description_prefix: "Wir werden dich nicht mit Spam überschwemmen. Mittels"
+    email_settings_url: "deiner Emaileinstellungen"
+    email_description_suffix: "oder durch von uns gesendete Links kannst du jederzeit deine Einstellungen ändern und Abonnements kündigen."
+    cost_title: "Kosten"
+    cost_description: "CodeCombat ist zur Zeit 100% kostenlos! Eines unserer Hauptziele ist, es dabei zu belassen, so dass es so viele Leute wie möglich spielen können, unabhängig davon in welcher Lebenssituation sie sich befinden. Falls dunkle Wolken aufziehen, könnten wir manche Inhalte im Rahmen eines Abonnements anbieten, aber lieber nicht. Mit etwas Glück können wir die Firma erhalten durch:"
+    recruitment_title: "Recruiting"
+    recruitment_description_prefix: "Hier bei CodeCombat kannst du ein mächtiger Zauberer werden, nicht nur Spiel, sondern auch in der Realität."
+    url_hire_programmers: "Niemand kann schnell genug Programmierer einstellen."
+    recruitment_description_suffix: "So wenn du deine Fähigkeiten entwickelt hast und zustimmst, werden wir deine besten Leistungen den tausenden Arbeitgebern demonstrieren, welche nur auf die Gelegentheit warten, dich einzustellen. Sie bezahlen uns ein bisschen, und sie bezahlen dir "
+    recruitment_description_italic: "jede Menge"
+    recruitment_description_ending: ", die Seite bleibt kostenlos und jeder ist glücklich. So der Plan."
 #    copyrights_title: "Copyrights and Licenses"
 #    contributor_title: "Contributor License Agreement"
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"

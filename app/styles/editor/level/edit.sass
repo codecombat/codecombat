@@ -1,56 +1,56 @@
 #editor-level-view
-  margin: 0 auto
-  min-width: 1024px
-  position: relative
+  #top-nav
+    display: none
+
+  position: absolute
+  top: 0px
+  left: 0px
+  right: 0px
+  bottom: 0px
 
   $BG: rgba(228, 207, 140, 1.0)
 
   .outer-content
-    margin: 56px 20px 20px 20px
-    padding: 10px 20px
     background-color: $BG
-
-  .top-controls-area
-    position: fixed
-    background-color: $BG
-    z-index: 100
-    left: 40px
-    right: 40px
-    margin-top: -10px
-    padding-top: 10px
-
-    .level-title-header
-      float: left
-      width: 500px
-      text-overflow: ellipsis
-      white-space: nowrap
-  
-    .level-control-buttons
-      float: right
-      & > *
-        margin: 10px 10px
-  
-    .nav-tabs
-      margin-bottom: 10px
-  
-  // keeps the editor tabs a certain height
-
-  .tab-content
-    margin-top: 108px
-    // keeps the tab content at a specific ratio
-    width: 100%
-    padding-bottom: 45%
-    position: relative
-    
-  .tab-pane
-    // makes sure the pane itself fills the whole ratio'd space
     position: absolute
     top: 0
     bottom: 0
     left: 0
     right: 0
-    overflow: hidden
 
+  .top-controls-area
+    position: fixed
+    background-color: $BG
+    z-index: 100
+    left: 20px
+    right: 20px
+    margin-top: -10px
+    padding-top: 10px
+
+    .level-title-header
+      float: left
+      text-overflow: ellipsis
+      white-space: nowrap
+  
+    .level-control-buttons
+      float: right
+      margin: 5px
+      & > *
+        margin: 10px 10px
+  
+    .nav-tabs
+      margin: 15px 30px
+      float: left
+  
+  // keeps the editor tabs a certain height
+
+  #level-editor-tabs
+    position: absolute
+    left: 20px
+    right: 20px
+    top: 80px
+    bottom: 20px
+    
   .treema-root
     background-color: white
     border-radius: 4px
