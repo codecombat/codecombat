@@ -499,4 +499,4 @@ module.exports = class SpellView extends View
     super()
     @firepad?.dispose()
     @ace.destroy()
-    @debugView.destroy()
+    @debugView?.destroy()
