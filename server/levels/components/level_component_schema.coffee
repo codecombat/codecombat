@@ -8,8 +8,8 @@ class AttacksSelf extends Component
     @attack @
 """
 systems = [
-  "action", "ai", "alliance", "collision", "combat", "display", "event", "existence", "hearing"
-  "inventory", "movement", "programming", "targeting", "ui", "vision", "misc", "physics"
+  'action', 'ai', 'alliance', 'collision', 'combat', 'display', 'event', 'existence', 'hearing'
+  'inventory', 'movement', 'programming', 'targeting', 'ui', 'vision', 'misc', 'physics', 'effect'
 ]
 
 PropertyDocumentationSchema = c.object {

@@ -1,4 +1,5 @@
 @import "app/styles/bootstrap/mixins"
+@import "app/styles/mixins"
 
 #thang-hud.no-selection
   .center
@@ -63,19 +64,24 @@
     .thang-canvas-wrapper, .speaker-image-wrapper
       width: 100px
       height: 100px
-      border: 1px solid darkred
       margin: 7px 7px 7px 22px
       float: left
-      border-radius: 4px
       overflow: hidden
+      border: 1px solid #888
+      border-radius: 4px
+      @include gradient-radial-custom-stops(hsla(205,0%,74%,1), 20%, hsla(205,0%,31%,1), 70%)
 
       &.team-humans
         border-color: darkred
-        background-color: rgba(255,100,100,0.5)
+        @include gradient-radial-custom-stops(hsla(4,80%,74%,1), 20%, hsla(4,80%,51%,1), 70%)
 
       &.team-ogres
         border-color: darkblue
-        background-color: rgba(100,100,255,0.5)
+        @include gradient-radial-custom-stops(hsla(205,100%,74%,1), 20%, hsla(205,100%,31%,1), 70%)
+
+      &.team-allies, &.team-minions
+        border-color: darkgreen
+        @include gradient-radial-custom-stops(hsla(116,80%,74%,1), 20%, hsla(116,80%,31%,1), 70%)
 
     .thang-props
       width: 144px
