@@ -5,7 +5,8 @@ setlocal
 set "temp-dir=C:\Coco-Temp"
 set install-log=%temp-dir%\coco-dev-install-log.txt
 set "tab-string=      "
-set "seperator-string=-------------------------------------------------------------"
+set "seperator-string=----------------------------------------------------------------------------"
+set "seperator-string-cmd=-------------------------------------------"
 
 :: Create The Temporary Directory
 IF EXIST %temp-dir% rmdir %temp-dir% /s /q
@@ -13,6 +14,11 @@ mkdir %temp-dir%
 
 :: Create Log File
 copy /y nul %install-log% > nul
+
+echo Full-Automatic Install of the CodeCombat Dev. Environment has begun...
+echo This can take a wile... Please stay tuned...
+echo Don't close any windows please...!
+echo %seperator-string-cmd%
 
 echo %seperator-string% >> %install-log%
 echo Full-Automatic Install has begun... Don't close any windows please! >> %install-log%
@@ -135,18 +141,33 @@ goto instal_dev_environment
 goto END
 
 :instal_dev_environment
+  echo %seperator-string-cmd%
+  echo Downloads complete...
+  echo Installation of the software begins now...
+  echo %seperator-string-cmd%
+  
   echo %seperator-string% >> %install-log%
   echo Downloads complete... Moving on to the installation! >> %install-log%
   echo %seperator-string% >> %install-log%
 goto git_rep_checkout
 
 :git_rep_checkout
+  echo %seperator-string-cmd%
+  echo Software has been installed...
+  echo Checking out the Git Repository....
+  echo %seperator-string-cmd%
+  
   echo %seperator-string% >> %install-log%
   echo Software Installations Complete... Moving on to the Code Combat Repository Checkout! >> %install-log%
   echo %seperator-string% >> %install-log%
 goto report_ok
 
 :report_ok
+  echo %seperator-string-cmd%
+  echo Installation of the Developers Environment is complete!
+  echo Bye Bye!
+  echo %seperator-string-cmd%
+  
   echo %seperator-string% >> %install-log%
   echo Installation of the Windows CodeCombat Developers environment succesfull... >> %install-log%
   echo Thank you in advance for your contribution! >> %install-log%
@@ -154,10 +175,20 @@ goto report_ok
 goto clean_up
 
 :warn_and_exit
+  echo %seperator-string-cmd%
+  echo OS Cannot be determined...
+  echo %seperator-string-cmd%
+  
   echo %seperator-string% >> %install-log%
   echo Machine OS cannot be determined... >> %install-log%
   echo Report your OS to the developers @ CodeCombat.com... >> %install-log%
   echo %seperator-string% >> %install-log%
+goto error_report
+
+:error_report
+  echo Installation has been stopped...
+  echo Please check the log file for details!
+  PAUSE
 goto END
 
 :: Clean Up The Mess
