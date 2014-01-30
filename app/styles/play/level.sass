@@ -26,7 +26,7 @@
   &.disabled, &[disabled]
     cursor: default
     background-image: none
-    @include opacity(65)
+    @include opacity(0.65)
     @include box-shadow(none)
 
 
@@ -105,11 +105,11 @@
         @include banner-button(nth($tuple, 2), #FFF)
 
   .footer .footer-link-text a
-    @include opacity(75)
+    @include opacity(0.75)
     @include transition(opacity .10s linear)
 
     &:hover, &:active
-      @include opacity(100)
+      @include opacity(1)
     
   $GI: 0.5  // gradient intensity; can tweak this 0-1
 
