@@ -16,6 +16,7 @@ module.exports = class CocoView extends Backbone.View
   events:
     'click a': 'toggleModal'
     'click button': 'toggleModal'
+    'click li': 'toggleModal'
 
   subscriptions: {}
   shortcuts: {}
