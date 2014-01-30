@@ -9,18 +9,18 @@ nav.navbar.navbar-default(role='navigation')
     .collapse.navbar-collapse
       ul.nav.navbar-nav.nav-tabs
         li.active
-          a(href="#code" data-toggle="tab") Code
+          a(href="#system-code" data-toggle="tab") Code
         li
-          a(href="#config-schema" data-toggle="tab") Config Schema
+          a(href="#system-config-schema" data-toggle="tab") Config Schema
         li
-          a(href="#settings" data-toggle="tab") Settings
+          a(href="#system-settings" data-toggle="tab") Settings
       ul.nav.navbar-nav.navbar-right
         li(data-i18n="editor.level_system_btn_new").btn.btn-primary.navbar-btn#create-new-system-button Create New System
   
 .tab-content
-  .tab-pane.active#code
+  .tab-pane.active#system-code
     #system-code-editor
-  .tab-pane#config-schema
+  .tab-pane#system-config-schema
     #config-schema-treema
-  .tab-pane#settings
+  .tab-pane#system-settings
     #edit-system-treema
