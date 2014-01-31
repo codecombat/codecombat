@@ -106,15 +106,15 @@ module.exports = Surface = class Surface extends CocoClass
     @hidePathFinding()
     @showingPathFinding = not @showingPathFinding
     if @showingPathFinding then @showPathFinding() else @hidePathFinding()
-    
+
   hidePathFinding: ->
     @surfaceLayer.removeChild @navRectangles if @navRectangles
     @surfaceLayer.removeChild @navPaths if @navPaths
     @navRectangles = @navPaths = null
-    
+
   showPathFinding: ->
     @hidePathFinding()
-    
+
     mesh = _.values(@world.navMeshes or {})[0]
     return unless mesh
     @navRectangles = new createjs.Container()
@@ -122,7 +122,7 @@ module.exports = Surface = class Surface extends CocoClass
     @addMeshRectanglesToContainer mesh, @navRectangles
     @surfaceLayer.addChild @navRectangles
     @surfaceLayer.updateLayerOrder()
-    
+
     graph = _.values(@world.graphs or {})[0]
     return @surfaceLayer.updateLayerOrder() unless graph
     @navPaths = new createjs.Container()
@@ -130,7 +130,7 @@ module.exports = Surface = class Surface extends CocoClass
     @addNavPathsToContainer graph, @navPaths
     @surfaceLayer.addChild @navPaths
     @surfaceLayer.updateLayerOrder()
-    
+
   addMeshRectanglesToContainer: (mesh, container) ->
     for rect in mesh
       shape = new createjs.Shape()
@@ -455,7 +455,7 @@ module.exports = Surface = class Surface extends CocoClass
     @drawCurrentFrame()
     @onFrameChanged()
     @updatePaths() if (@totalFramesDrawn % 2) is 0 or createjs.Ticker.getMeasuredFPS() > createjs.Ticker.getFPS() - 5
-    Backbone.Mediator.publish('surface:ticked', {})
+    Backbone.Mediator.publish('surface:ticked', {dt: @world.dt})
     mib = @stage.mouseInBounds
     if @mouseInBounds isnt mib
       Backbone.Mediator.publish('surface:mouse-' + (if mib then "over" else "out"), {})

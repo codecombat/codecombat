@@ -3,8 +3,6 @@ Camera = require './Camera'
 {me} = require 'lib/auth'
 
 module.exports = class WizardSprite extends IndieSprite
-  ticker: 0
-
   # Wizard targets are constantly changing, so a simple tween doesn't work.
   # Instead, the wizard stores its origin point and the (possibly) moving target.
   # Then it figures out its current position based on tween percentage and
@@ -16,12 +14,11 @@ module.exports = class WizardSprite extends IndieSprite
   reachedTarget: true
   spriteXOffset: 4  # meters from target sprite
   spriteYOffset: 0  # meters from target sprite
-  spriteZOffset: 1  # meters from ground (in middle of float)
 
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
     'me:synced': 'onMeSynced'
-    'surface:sprite-selected': 'onSpriteSelected'    
+    'surface:sprite-selected': 'onSpriteSelected'
     'echo-self-wizard-sprite': 'onEchoSelfWizardSprite'
     'echo-all-wizard-sprites': 'onEchoAllWizardSprites'
 
@@ -38,6 +35,8 @@ module.exports = class WizardSprite extends IndieSprite
   makeIndieThang: (thangType, thangID, pos) ->
     thang = super thangType, thangID, pos
     thang.isSelectable = false
+    thang.bobHeight = 1.5
+    thang.bobTime = 2
     thang
 
   onPlayerStatesChanged: (e) ->
@@ -102,8 +101,7 @@ module.exports = class WizardSprite extends IndieSprite
 
   onEchoSelfWizardSprite: (e) -> e.payload = @ if @isSelf
   onEchoAllWizardSprites: (e) -> e.payload.push @
-  defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @spriteZOffset
-  getZOffset: -> @thang.depth / 2 + @spriteZOffset + Math.sin @ticker / 20  # Cloud bobbing.  
+  defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @bobHeight
   move: (pos, duration) -> @setTarget(pos, duration)
 
   setTarget: (newTarget, duration) ->
@@ -185,7 +183,7 @@ module.exports = class WizardSprite extends IndieSprite
     return unless @options.camera
     @thang.pos = @getCurrentPosition()
     @faceTarget()
-    sup = @options.camera.worldToSurface x: @thang.pos.x, y: @thang.pos.y, z: @thang.pos.z - @thang.depth / 2
+    sup = @options.camera.worldToSurface x: @thang.pos.x, y: @thang.pos.y, z: @thang.pos.z - @thang.depth / 2 + @getBobOffset()
     @displayObject.x = sup.x
     @displayObject.y = sup.y
 
@@ -196,7 +194,7 @@ module.exports = class WizardSprite extends IndieSprite
     """
     @targetPos = @targetSprite.thang.pos if @targetSprite
     pos = _.clone(@targetPos)
-    pos.z = @getZOffset()
+    pos.z += @thang.bobHeight
     @adjustPositionToSideOfTarget(pos) if @targetSprite  # be off to the side depending on placement in world
     return pos if @reachedTarget  # stick like glue
 
