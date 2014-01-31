@@ -8,13 +8,13 @@ db = require './db'
 mongoose = require 'mongoose'
 events = require 'events'
 
-queueClient = unefined
+queueClient = undefined
 module.exports.scoringTaskQueue = undefined
 module.exports.sendwithusQueue = undefined
-
-#module.exports.setupRoutes = (app) ->
-#  app.get '/multiplayer/'
-  ###queueClient.registerQueue "simulationQueue", {}, (err,data) ->
+###
+module.exports.setupRoutes = (app) ->
+  app.get '/multiplayer/'
+  queueClient.registerQueue "simulationQueue", {}, (err,data) ->
     simulationQueue = data
     simulationQueue.subscribe 'message', (err, data) ->
       if data.Messages?
@@ -24,7 +24,7 @@ module.exports.sendwithusQueue = undefined
 ###
 
 module.exports.initializeScoringTaskQueue = (cb) ->
-  queueClient = generateQueueClient() unless queueClient?
+  queueClient = module.exports.generateQueueClient() unless queueClient?
   queueClient.registerQueue "scoring", {}, (err,data) ->
     if err?
       winston.error "There was an error registering the scoring queue."
@@ -34,7 +34,7 @@ module.exports.initializeScoringTaskQueue = (cb) ->
 
 
 module.exports.initializeSendwithusQueue = (cb) ->
-  queueClient = generateQueueClient() unless queueClient?
+  queueClient = module.exports.generateQueueClient() unless queueClient?
   queueClient.registerQueue "sendwithus", {}, (err,data) ->
     if err?
       errorString = "There was an error registering the sendwithus queue."
@@ -47,7 +47,7 @@ module.exports.initializeSendwithusQueue = (cb) ->
 
 
 
-generateQueueClient = ->
+module.exports.generateQueueClient = ->
   if config.isProduction
     queueClient = new SQSQueueClient()
   else
