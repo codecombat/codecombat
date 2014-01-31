@@ -306,13 +306,18 @@ module.exports = class ThangTypeEditView extends View
 
   clearRawData: ->
     @thangType.resetRawData()
+    @thangType.set 'actions', undefined
     @clearDisplayObject()
+    @treema.set('/', @getThangData())
+    
+  getThangData: ->
+    data = _.cloneDeep(@thangType.attributes)
+    data = _.pick data, (value, key) => not (key in ['components'])
 
   buildTreema: ->
-    data = _.cloneDeep(@thangType.attributes)
+    data = @getThangData()
     schema = _.cloneDeep ThangType.schema.attributes
     schema.properties = _.pick schema.properties, (value, key) => not (key in ['components'])
-    data = _.pick data, (value, key) => not (key in ['components'])
     options =
       data: data
       schema: schema
