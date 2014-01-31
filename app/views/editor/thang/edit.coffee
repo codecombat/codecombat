@@ -45,7 +45,7 @@ module.exports = class ThangTypeEditView extends View
     @thangType.once 'sync', @onThangTypeSync, @
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
-  onThangTypeSync: =>
+  onThangTypeSync: ->
     return unless @thangType.loaded and ThangType.hasSchema()
     @startsLoading = false
     @files = new DocumentFiles(@thangType)
