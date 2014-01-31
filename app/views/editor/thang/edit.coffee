@@ -210,6 +210,7 @@ module.exports = class ThangTypeEditView extends View
   showMovieClip: (animationName) ->
     vectorParser = new SpriteBuilder(@thangType)
     movieClip = vectorParser.buildMovieClip(animationName)
+    return unless movieClip
     reg = @thangType.get('positions')?.registration
     if reg
       movieClip.regX = -reg.x
