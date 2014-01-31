@@ -30,7 +30,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     legal: "Licence"
     about: "O programu"
     contact: "Kontakt"
-    twitter_follow: "Sledovat twitter"
+    twitter_follow: "Sledovat na twitteru"
     employers: "Pro zaměstnavatele"
 
   versions:
