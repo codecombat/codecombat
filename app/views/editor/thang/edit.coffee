@@ -41,10 +41,12 @@ module.exports = class ThangTypeEditView extends View
     @thangType = new ThangType(_id: @thangTypeID)
     @thangType.saveBackups = true
     @thangType.fetch()
-    @thangType.once('sync', @onThangTypeSync)
+    @thangType.schema().once 'sync', @onThangTypeSync, @
+    @thangType.once 'sync', @onThangTypeSync, @
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
   onThangTypeSync: =>
+    return unless @thangType.loaded and ThangType.hasSchema()
     @startsLoading = false
     @files = new DocumentFiles(@thangType)
     @files.fetch()
