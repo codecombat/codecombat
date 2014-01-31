@@ -54,7 +54,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     'surface:ticked': 'onSurfaceTicked'
 
   constructor: (@thangType, options) ->
-    super()    
+    super()
     @options = _.extend(_.cloneDeep(@options), options)
     @setThang @options.thang
     console.error @toString(), "has no ThangType!" unless @thangType
@@ -69,7 +69,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @stillLoading = true
       @thangType.fetch()
       @thangType.once 'sync', @onThangTypeLoaded, @
-        
+
   onThangTypeLoaded: ->
     @stillLoading = false
     @actions = @thangType.getActions()
@@ -95,7 +95,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       sprite = new createjs.Shape()
     sprite.scaleX = sprite.scaleY = 1 / @options.resolutionFactor
     # temp, until these are re-exported with perspective
-    if @options.camera and @thangType.get('name') in ['Dungeon Floor', 'Grass', 'Goal Trigger', 'Obstacle']
+    if @options.camera and @thangType.get('name') in ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Goal Trigger', 'Obstacle']
       sprite.scaleY *= @options.camera.y2x
     @imageObject = sprite
     @displayObject.addChild(sprite)
@@ -161,7 +161,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   updatePosition: ->
     return unless @thang?.pos and @options.camera?
-    if @thang.bobHeight                        
+    if @thang.bobHeight
       @thang.pos.z = @thang.pos.z + (Math.sin @ticker /  @thang.bobTime) * 0.1 * @thang.bobHeight
     [p0, p1] = [@lastPos, @thang.pos]
     return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo
