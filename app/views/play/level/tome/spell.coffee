@@ -71,8 +71,8 @@ module.exports = class Spell
       yieldConditionally: thang.plan?
       requiresThis: thang.requiresThis
       # TODO: Gridmancer doesn't currently work with protectAPI, so hack it off
-      protectAPI: not (@skipProtectAPI or window.currentView?.level.get('name').match("Gridmancer"))
-      includeFlow: not @skipFlow
+      protectAPI: not (@skipProtectAPI or window.currentView?.level.get('name').match("Gridmancer")) and @permissions.readwrite.length > 0  # If anyone can write to this method, we must protect it.
+      includeFlow: not @skipFlow and @canRead()
         #callIndex: 0
         #timelessVariables: ['i']
         #statementIndex: 9001
