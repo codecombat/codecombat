@@ -13,6 +13,7 @@ module.exports = class RevertModal extends ModalView
     id = $(e.target).val()
     CocoModel.backedUp[id].revert()
     $(e.target).closest('tr').remove()
+    @reloadOnClose = true
   
   getRenderData: ->
     c = super()
@@ -20,4 +21,7 @@ module.exports = class RevertModal extends ModalView
     models = (m for m in models when m.hasLocalChanges())
     c.models = models
     c
-    
+
+  onHidden: ->
+    console.log 'reload?', @reloadOnClose
+    location.reload() if @reloadOnClose

@@ -41,10 +41,12 @@ module.exports = class ThangTypeEditView extends View
     @thangType = new ThangType(_id: @thangTypeID)
     @thangType.saveBackups = true
     @thangType.fetch()
-    @thangType.once('sync', @onThangTypeSync)
+    @thangType.schema().once 'sync', @onThangTypeSync, @
+    @thangType.once 'sync', @onThangTypeSync, @
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
-  onThangTypeSync: =>
+  onThangTypeSync: ->
+    return unless @thangType.loaded and ThangType.hasSchema()
     @startsLoading = false
     @files = new DocumentFiles(@thangType)
     @files.fetch()
@@ -210,6 +212,7 @@ module.exports = class ThangTypeEditView extends View
   showMovieClip: (animationName) ->
     vectorParser = new SpriteBuilder(@thangType)
     movieClip = vectorParser.buildMovieClip(animationName)
+    return unless movieClip
     reg = @thangType.get('positions')?.registration
     if reg
       movieClip.regX = -reg.x
@@ -303,13 +306,18 @@ module.exports = class ThangTypeEditView extends View
 
   clearRawData: ->
     @thangType.resetRawData()
+    @thangType.set 'actions', undefined
     @clearDisplayObject()
+    @treema.set('/', @getThangData())
+    
+  getThangData: ->
+    data = _.cloneDeep(@thangType.attributes)
+    data = _.pick data, (value, key) => not (key in ['components'])
 
   buildTreema: ->
-    data = _.cloneDeep(@thangType.attributes)
+    data = @getThangData()
     schema = _.cloneDeep ThangType.schema.attributes
     schema.properties = _.pick schema.properties, (value, key) => not (key in ['components'])
-    data = _.pick data, (value, key) => not (key in ['components'])
     options =
       data: data
       schema: schema
