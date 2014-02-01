@@ -177,6 +177,7 @@ module.exports = class SpellView extends View
     @spellThang = @spell.thangs[@thang.id]
     @createDebugView() unless @debugView
     @debugView.thang = @thang
+    @toolbarView?.toggleFlow false
     @updateAether false, true
     @highlightCurrentLine()
 

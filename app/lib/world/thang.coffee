@@ -21,8 +21,10 @@ module.exports = class Thang
       break unless extantThang
       i++
     name
-  
+
   @resetThangIDs: -> Thang.remainingThangNames = {}
+
+  apiProperties: ['id', 'spriteName', 'health', 'pos', 'team']
 
   constructor: (@world, @spriteName, @id) ->
     @spriteName ?= @constructor.className

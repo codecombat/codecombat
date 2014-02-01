@@ -138,6 +138,11 @@ module.exports = class TomeView extends View
       #spell = selectedThangSpells[0]  # TODO: remember last selected spell for this thang
     return @clearSpellView() unless spell?.canRead()
     @spellList.setThangAndSpell thang, spell
+    @spellView?.setThang thang
+    @spellTabView?.setThang thang
+    if @spellPaletteView?.thang isnt thang
+      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
+      @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
     return if spell.view is @spellView
     @clearSpellView()
     @spellView = spell.view
@@ -148,8 +153,6 @@ module.exports = class TomeView extends View
     @spellTabView.setThang thang
     @castButton.attachTo @spellView
     @thangList.$el.hide()
-    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
-    @spellPaletteView.toggleControls {}, @spellView.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
     # New, good event
     Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
     # Bad, old one for old scripts (TODO)
