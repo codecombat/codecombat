@@ -55,6 +55,7 @@ module.exports = Surface = class Surface extends CocoClass
     'level-toggle-debug': 'onToggleDebug'
     'level-set-grid': 'onSetGrid'
     'level-toggle-grid': 'onToggleGrid'
+    'level-toggle-pathfinding': 'onTogglePathFinding'
     'level-set-time': 'onSetTime'
     'level-set-surface-camera': 'onSetCamera'
     'level:restarted': 'onLevelRestarted'
@@ -63,9 +64,9 @@ module.exports = Surface = class Surface extends CocoClass
     'level-set-letterbox': 'onSetLetterbox'
 
   shortcuts:
-    '\\': 'onToggleDebug'
-    'g': 'onToggleGrid'
-    'w': 'onTogglePathFinding'
+    'ctrl+\\, ⌘+\\': 'onToggleDebug'
+    'ctrl+g, ⌘+g': 'onToggleGrid'
+    'ctrl+o, ⌘+o': 'onTogglePathFinding'
 
   # external functions
 
@@ -102,7 +103,8 @@ module.exports = Surface = class Surface extends CocoClass
     @onFrameChanged()
     Backbone.Mediator.publish 'surface:world-set-up'
 
-  onTogglePathFinding: ->
+  onTogglePathFinding: (e) ->
+    e?.preventDefault?()
     @hidePathFinding()
     @showingPathFinding = not @showingPathFinding
     if @showingPathFinding then @showPathFinding() else @hidePathFinding()
@@ -397,14 +399,15 @@ module.exports = Surface = class Surface extends CocoClass
   gridShowing: ->
     @gridLayer?.parent?
 
-  onToggleGrid: ->
+  onToggleGrid: (e) ->
+    e?.preventDefault?()
     if @gridShowing() then @hideGrid() else @showGrid()
 
   onSetGrid: (e) ->
     if e.grid then @showGrid() else @hideGrid()
 
   onToggleDebug: (e) ->
-    e?.preventDefault()
+    e?.preventDefault?()
     Backbone.Mediator.publish 'level-set-debug', {debug: not @debug}
 
   onSetDebug: (e) ->
