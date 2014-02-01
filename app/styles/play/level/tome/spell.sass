@@ -1,5 +1,12 @@
 @import "../../../bootstrap/mixins"
 
+@mixin editor-height($extraHeight)
+  @include box-sizing(border-box)
+  width: 98%
+  height: 83%
+  height: unquote("-webkit-calc(100% - 60px -")$extraHeight unquote(")")
+  height: unquote("calc(100% - 60px -")$extraHeight unquote(")")
+
 #spell-view
   position: absolute
   left: 10px
@@ -21,34 +28,30 @@
     width: 100%
 
   .save-status
-    display: none
     position: absolute
-    bottom: 2%
-    left: 1%
+    top: 1%
+    right: 4%
 
   .firepad
-    @include box-sizing(border-box)
     // When Firepad is active, it wraps .ace_editor in .firepad.
+    @include editor-height(0px)
     width: 98%
-    height: 83%
-    height: -webkit-calc(100% - 60px - 40px)
-    height: calc(100% - 60px - 40px)
 
     .ace_editor
       width: 100%
       height: 100%
 
   .ace_editor
-    @include box-sizing(border-box)
     // When Firepad isn't active, .ace_editor needs the width/height set itself.
+    @include editor-height(0px)
     width: 98%
-    height: 83%
-    height: -webkit-calc(100% - 60px - 40px)
-    height: calc(100% - 60px - 40px)
     position: relative
     background-color: transparent
     line-height: 20px
     overflow: visible
+
+    &.user-code-problem
+      @include editor-height(40px)
 
     &.disabled
       @include opacity(80)
