@@ -28,6 +28,7 @@ module.exports = class WizardSprite extends IndieSprite
     super thangType, options
     @isSelf = options.isSelf
     @targetPos = @thang.pos
+    console.log "have @targetPos", @targetPos
     if @isSelf
       @setNameLabel me.displayName()
       @setColorHue me.get('wizardColor1')
@@ -37,6 +38,7 @@ module.exports = class WizardSprite extends IndieSprite
     thang.isSelectable = false
     thang.bobHeight = 1.5
     thang.bobTime = 2
+    thang.pos.z += thang.bobHeight
     thang
 
   onPlayerStatesChanged: (e) ->
@@ -72,18 +74,8 @@ module.exports = class WizardSprite extends IndieSprite
       .to({scaleX: 0, scaleY: 0, alpha: 0}, 1000, createjs.Ease.getPowInOut(2.2))
     tween.call(callback) if callback
 
-  # We need the generalizable tinting system included in spritesheet making
-  #updateColorFilters: ->
-  #  return if @colorHue is undefined
-  #  rgb = hslToRgb(@colorHue, 1.0, 0.75)
-  #  rgb = (parseInt(val) / 256 for val in rgb)
-  #  rgb = rgb.concat([1, 0, 0, 0, 0])
-  #  filter = new createjs.ColorFilter(rgb...)
-  #  dob = @imageObject
-  #  dob.filters = [filter]
-  #  dob.cache(0, 0, @data.width, @data.height, Math.abs(dob.scaleX*2))
-
   setColorHue: (newColorHue) ->
+    # TODO: is this needed any more?
     return if @colorHue is newColorHue
     @colorHue = newColorHue
     #@updateColorFilters()
@@ -101,7 +93,7 @@ module.exports = class WizardSprite extends IndieSprite
 
   onEchoSelfWizardSprite: (e) -> e.payload = @ if @isSelf
   onEchoAllWizardSprites: (e) -> e.payload.push @
-  defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @bobHeight
+  defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @thang.bobHeight
   move: (pos, duration) -> @setTarget(pos, duration)
 
   setTarget: (newTarget, duration) ->
@@ -183,7 +175,7 @@ module.exports = class WizardSprite extends IndieSprite
     return unless @options.camera
     @thang.pos = @getCurrentPosition()
     @faceTarget()
-    sup = @options.camera.worldToSurface x: @thang.pos.x, y: @thang.pos.y, z: @thang.pos.z - @thang.depth / 2 + @getBobOffset()
+    sup = @options.camera.worldToSurface x: @thang.pos.x, y: @thang.pos.y, z: @thang.pos.z - @thang.depth / 2
     @displayObject.x = sup.x
     @displayObject.y = sup.y
 
@@ -194,7 +186,7 @@ module.exports = class WizardSprite extends IndieSprite
     """
     @targetPos = @targetSprite.thang.pos if @targetSprite
     pos = _.clone(@targetPos)
-    pos.z += @thang.bobHeight
+    pos.z = @defaultPos().z + @getBobOffset()
     @adjustPositionToSideOfTarget(pos) if @targetSprite  # be off to the side depending on placement in world
     return pos if @reachedTarget  # stick like glue
 
