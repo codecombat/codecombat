@@ -34,9 +34,11 @@ echo %seperator-string% >> %install-log%
 :: downloads for all version...
 
 :: [TODO] The choice between Cygwin && Git ?! Is 
+
 echo downloading: Git... >> %install-log%
 echo %seperator-string% >> %install-log%
-%curl-app% "http://msysgit.googlecode.com/files/Git-1.8.5.2-preview20131230.exe" -o %temp-dir%\git-setup.exe
+
+call:install_software git "http://msysgit.googlecode.com/files/Git-1.8.5.2-preview20131230.exe"
 
 :: [TODO] Add downloads for windows visual studio ?!
 
@@ -45,11 +47,11 @@ echo %seperator-string% >> %install-log%
 IF EXIST "%PROGRAMFILES(X86)%" (GOTO 64BIT) ELSE (GOTO 32BIT)
 
 :64BIT
-  echo 32-bit computer detected... >> %install-log%
+  echo 64-bit computer detected... >> %install-log%
   
   echo %tab-string%downloading: node-js... >> %install-log%
   %curl-app% http://nodejs.org/dist/v0.10.24/x64/node-v0.10.24-x64.msi -o %temp-dir%\node-js-setup.exe
-  
+
   echo %tab-string%downloading: ruby... >> %install-log%
   %curl-app% http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353-x64.exe?direct -o %temp-dir%\ruby-setup.exe
   
@@ -80,12 +82,14 @@ IF EXIST "%PROGRAMFILES(X86)%" (GOTO 64BIT) ELSE (GOTO 32BIT)
 GOTO END
 
 :32BIT
-  echo 64-bit computer detected... >> %install-log%
+  echo 32-bit computer detected... >> %install-log%
   
   echo %tab-string%downloading: node-js... >> %install-log%
+  echo %tab-string%downloading: node-js...
   %curl-app% http://nodejs.org/dist/v0.10.24/node-v0.10.24-x86.msi -o %temp-dir%\node-js-setup.exe
   
   echo %tab-string%downloading: ruby... >> %install-log%
+  echo %tab-string%downloading: ruby...
   %curl-app% http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353.exe?direct -o %temp-dir%\ruby-setup.exe
   
   :: Some installations require specific windows versions
@@ -156,6 +160,11 @@ goto END
   echo %seperator-string% >> %install-log%
   echo Downloads complete... Moving on to the installation! >> %install-log%
   echo %seperator-string% >> %install-log%
+  
+  :: install node-js
+  start "" "%temp-dir%\git-setup.exe"
+  start "" "%temp-dir%\node-js-setup.exe"
+  PAUSE
 goto git_rep_checkout
 
 :git_rep_checkout
@@ -204,6 +213,18 @@ goto END
   echo %seperator-string% >> %install-log%
   ::rmdir %temp-dir% /s /q
 goto END
+
+:install_software
+call:log "downloading: %~1..."
+%curl-app% %~2 -o %temp-dir%\%~1-setup.exe
+call:log "installing: %~1..."
+START /WAIT %temp-dir%\%~1-setup.exe
+goto:eof
+
+:log
+echo %~1
+echo %~1 >> %install-log%
+goto:eof
 
 :END
 PAUSE
