@@ -81,7 +81,7 @@ call:log_lw_sse 2
 
 call:log_lw_sse 3
 
-call:install_software "git" "%%downloads[1]%%"
+call:install_software "git" "%%downloads[1]%%" exe
 
 :: [TODO] Add downloads for windows visual studio ?!
 
@@ -107,9 +107,9 @@ goto:eof
 :download_install_architecture_specific_software
   call:log_ds "%~1-bit computer detected..."
   
-  call:install_software "node-js" "%%downloads_%~1[1]%%"
+  call:install_software "node-js" "%%downloads_%~1[1]%%" msi
   call:draw_dss
-  call:install_software "ruby" "%%downloads_%~1[2]%%"
+  call:install_software "ruby" "%%downloads_%~1[2]%%" exe
   
   instal_swv_software %~1
 goto:eof
@@ -173,10 +173,10 @@ goto END
 :install_software
   call:get_lw word 4
   call:log "%word% %~1..."
-  %curl-app% -sS %~2 -o %temp-dir%\%~1-setup.exe
+  %curl-app% -sS -k %~2 -o %temp-dir%\%~1-setup.%~3
   call:get_lw word 5
   call:log "%word% %~1..."
-  START /WAIT %temp-dir%\%~1-setup.exe
+  START /WAIT %temp-dir%\%~1-setup.%~3
 goto:eof
 
 :: ============================== FUNCTIONS ====================================
