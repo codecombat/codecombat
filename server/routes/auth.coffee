@@ -74,7 +74,7 @@ module.exports.setupRoutes = (app) ->
             else
               return res.end()
         else
-          console.log 'new password is', user.get('passwordReset')
+          res.send user.get('passwordReset')
           return res.end()
     )
   )
