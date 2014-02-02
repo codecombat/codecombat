@@ -1,6 +1,12 @@
 Nederlands
-"Installatie is begonnen, dit kan een tijdje duren... Heb dus even geduld..."
-"Sluit geen enkel venster alstublieft, tenzij anders aangegeven is."
-"[3RD PARTY SOFTWARE AAN HET DOWNLOADEN EN INSTALLEREN]"
-downloaden:
-installeren:
+Installation has begun, this can take a while... Please stay tuned...
+Don't close any windows please, unless specified explicitly.
+[DOWNLOADING AND INSTALLING 3RD PARTY SOFTWARE]
+downloading:
+installing:
+CodeCombat is safely stored on a git repository.
+Therefore you need a git command-line application.
+Examples: git-bash, CygWin, ...
+Do you already have a git command-line application?
+Download and Installation cancelled...
+Enter the path to your Git CL Exectutable
