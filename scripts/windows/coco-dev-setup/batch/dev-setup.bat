@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal EnableDelayedExpansion
 
 :: Global Variables
 set "temp-dir=C:\Coco-Temp"
@@ -11,6 +11,10 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 ) ELSE (
 	set "curl-app=curl\32bit\curl.exe"
 )
+
+:: TIPS
+:: 	+ Ask user if he wants to install something
+::	+ Ask user to enter the path of the installed program (git, ...)
 	
 :: Create The Temporary Directory
 IF EXIST %temp-dir% rmdir %temp-dir% /s /q
@@ -19,15 +23,38 @@ mkdir %temp-dir%
 :: Create Log File
 copy /y nul %install-log% > nul
 
-call:log "Full-Automatic Install of the CodeCombat Dev. Environment has begun..."
-call:log "This can take a while... Please stay tuned..."
-call:log_sse "Don't close any windows please...!"
+call:log_sse "Welcome to the automated Installation of the CodeCombat Dev. Environment!"
+
+:: Read Language Index
+call:parse_file_new "localisation\languages" lang lang_c
+
+:: Parse all Localisation Files
+for /L %%i in (1,1,%lang_c%) do (
+  call:parse_file "localisation\%%lang[%%i]%%" languages languages_c
+)
+
+set /A "wc = %languages_c% / %lang_c%"
+
+:: Start install with language question (Localisation)
+call:log "Which language do you prefer?"
+
+set /A c=0
+for /L %%i in (1,%wc%,%languages_c%) do (
+  set /A "n = %%i - 1"
+  call:log "  [%%c%%] %%languages[%%i]%%"
+  set /A c+=1
+)
+
+set /p lang_id= "Enter the language ID and press <ENTER>: "
+
+call:log_lw_ss 1
+call:log_lw_sse 2
 
 :: downloads for all version...
 
 :: [TODO] The choice between Cygwin && Git ?! Is 
 
-call:log_sse "[DOWNLOADING AND INSTALLING 3RD PARTY SOFTWARE]"
+call:log_lw_sse 3
 
 call:install_software "git" "http://msysgit.googlecode.com/files/Git-1.8.5.2-preview20131230.exe"
 
@@ -121,11 +148,15 @@ goto END
 goto END
 
 :install_software
-  call:log "downloading: %~1..."
+  call:get_lw word 4
+  call:log "%word% %~1..."
   %curl-app% %~2 -o %temp-dir%\%~1-setup.exe
-  call:log "installing: %~1..."
+  call:get_lw word 5
+  call:log "%word% %~1..."
   START /WAIT %temp-dir%\%~1-setup.exe
 goto:eof
+
+:: ============================== FUNCTIONS ====================================
 
 :log
   echo %~1
@@ -154,6 +185,54 @@ goto:eof
   call:log_ss "%~1"
   call:draw_ss
 goto:eof
+
+:: ============================== IO FUNCTIONS ====================================
+
+:parse_file
+  set "file=%~1"
+  for /F "usebackq delims=" %%a in ("%file%") do (
+    set /A %~3+=1
+    call set %~2[%%%~3%%]=%%a
+  )
+goto:eof
+
+:parse_file_new
+  set /A %~3=0
+  call:parse_file %~1 %~2 %~3
+goto:eof
+
+:: ============================== LOCALISATION FUNCTIONS ===========================
+
+:get_lw
+  call:get_lw_id %~1 %lang_id% %~2
+goto:eof
+
+:get_lw_id
+  set /A count = %~2 * %wc% + %~3 + 1
+  set "%~1=!languages[%count%]!"
+goto:eof
+
+:log_lw
+  call:get_lw str %~1
+  call:log %str%
+goto:eof
+
+:log_lw_ss
+  call:get_lw str %~1
+  call:log_ss %str%
+goto:eof
+
+:log_lw_ds
+  call:get_lw str %~1
+  call:log_ds %str%
+goto:eof
+
+:log_lw_sse
+  call:get_lw str %~1
+  call:log_sse %str%
+goto:eof
+
+:: ============================== EOF ====================================
 
 :END
 endlocal
