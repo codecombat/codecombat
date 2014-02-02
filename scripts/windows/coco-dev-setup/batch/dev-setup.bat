@@ -28,6 +28,15 @@ call:log_sse "Welcome to the automated Installation of the CodeCombat Dev. Envir
 :: Read Language Index
 call:parse_file_new "localisation\languages" lang lang_c
 
+:: Read Download URLs
+call:parse_file_new "config\downloads" downloads n
+call:parse_file_new "config\downloads_32" downloads_32 n
+call:parse_file_new "config\downloads_64" downloads_64 n
+call:parse_file_new "config\downloads_vista_32" downloads_vista_32 n
+call:parse_file_new "config\downloads_vista_64" downloads_vista_64 n
+call:parse_file_new "config\downloads_7_32" downloads_7_32 n
+call:parse_file_new "config\downloads_7_64" downloads_7_64 n
+
 :: Parse all Localisation Files
 for /L %%i in (1,1,%lang_c%) do (
   call:parse_file "localisation\%%lang[%%i]%%" languages languages_c
@@ -45,9 +54,25 @@ for /L %%i in (1,%wc%,%languages_c%) do (
   set /A c+=1
 )
 
+set "lang_id=-1"
 set /p lang_id= "Enter the language ID and press <ENTER>: "
+goto:user_pick_language
 
-call:log_lw_ss 1
+:user_pick_language
+  set res=false
+  if %lang_id% LSS 0 set res=true
+  if %lang_id% GEQ %lang_c% set res=true
+  if "%res%"=="true" (
+    call:log "Invalid id! Please enter a correct id from the numbers listed above..."
+    call:draw_dss
+    set /p lang_id= "Enter the language ID and press <ENTER>: "
+    goto:user_pick_language
+  )
+  
+call:get_lw word 0
+call:log_ds "You choose '%word%', from now on all feedback will be logged in it."
+  
+call:log_lw 1
 call:log_lw_sse 2
 
 :: downloads for all version...
@@ -56,7 +81,7 @@ call:log_lw_sse 2
 
 call:log_lw_sse 3
 
-call:install_software "git" "http://msysgit.googlecode.com/files/Git-1.8.5.2-preview20131230.exe"
+call:install_software "git" "%%downloads[1]%%"
 
 :: [TODO] Add downloads for windows visual studio ?!
 
@@ -79,32 +104,30 @@ goto:eof
   GOTO warn_and_exit
 goto:eof
 
-:64BIT
-  call:log_ds "64-bit computer detected..."
+:download_install_architecture_specific_software
+  call:log_ds "%~1-bit computer detected..."
   
-  call:install_software "node-js" "http://nodejs.org/dist/v0.10.24/x64/node-v0.10.24-x64.msi"
+  call:install_software "node-js" "%%downloads_%~1[1]%%"
   call:draw_dss
-  call:install_software "ruby" "http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353-x64.exe?direct"
+  call:install_software "ruby" "%%downloads_%~1[2]%%"
   
-  instal_swv_software 64
+  instal_swv_software %~1
+goto:eof
+
+:64BIT
+  call:download_install_architecture_specific_software 64
 GOTO END
 
 :32BIT
-  call:log_ds "32-bit computer detected..."
-  
-  call:install_software "node-js" "http://nodejs.org/dist/v0.10.24/node-v0.10.24-x86.msi"
-  call:draw_dss
-  call:install_software "ruby" "http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353.exe?direct"
-  
-  instal_swv_software 32
+  call:download_install_architecture_specific_software 32
 GOTO END
 
 :ver_Win7_8_32
-  call:install_packed_software "mongo-db" "http://fastdl.mongodb.org/win32/mongodb-win32-i386-2.5.4.zip"
+  call:install_packed_software "mongo-db" "%%downloads_7_32[1]%%"
 goto git_rep_checkout
 
 :ver_Vista_32
-  call:install_packed_software "mongo-db" "http://fastdl.mongodb.org/win32/mongodb-win32-i386-2.5.4.zip"
+  call:install_packed_software "mongo-db" "%%downloads_vista_32[1]%%"
 goto git_rep_checkout
 
 :ver_XP_32
@@ -112,11 +135,11 @@ goto git_rep_checkout
 goto END
 
 :ver_Win7_8_64
-  call:install_packed_software "mongo-db" "http://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.5.4.zip"
+  call:install_packed_software "mongo-db" "%%downloads_7_64[1]%%"
 goto git_rep_checkout
 
 :ver_Vista_64
-  call:install_packed_software "mongo-db" "http://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2.5.4.zip"
+  call:install_packed_software "mongo-db" "%%downloads_vista_64[1]%%"
 goto git_rep_checkout
 
 :ver_XP_64
