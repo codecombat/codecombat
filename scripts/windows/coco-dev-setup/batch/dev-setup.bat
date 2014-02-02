@@ -92,17 +92,7 @@ call:log_lw_sse 3
 call:log_lw 6
 call:log_lw 7
 call:log_lw 8
-call:get_lw word 9
-set /p result="%word% [Y/N]: "
-call:draw_dss
-set res=false
-if "%result%"=="N" set res=true
-if "%result%"=="n" set res=true
-if "%res%"=="true" (
-  call:install_software "git" "%%downloads[1]%%" exe
-) else (
-  call:log_lw 10
-)
+call:install_software_o "git" "%%downloads[1]%%" exe 9
 call:draw_dss
 call:get_lw word 11
 set /p git_exe_path="%word%: "
@@ -117,82 +107,89 @@ IF EXIST "%PROGRAMFILES(X86)%" (GOTO 64BIT) ELSE (GOTO 32BIT)
   GOTO %~2
 goto:eof
 
-:instal_swv_software
+:64BIT
+  call:log_ds "64-bit computer detected..."
+  
+  call:install_software_o "node-js" "%%downloads_64[1]%%" msi 12
+  call:draw_dss
+  call:install_software_o "ruby" "%%downloads_64[2]%%" exe 13
+  
   :: Some installations require specific windows versions
   for /f "tokens=4-5 delims=. " %%i in ('ver') do set VERSION=%%i.%%j
-  if "%version%" == "5.2" ( call:go_to_platform "XP" ver_XP_%~1 )
-  if "%version%" == "6.0" ( call:go_to_platform "Vista" ver_Vista_%~1 )
-  if "%version%" == "6.1" ( call:go_to_platform "7" ver_Win7_8_%~1 )
-  if "%version%" == "6.2" ( call:go_to_platform "8.0" ver_Win7_8_%~1 )
-  if "%version%" == "6.3" ( call:go_to_platform "8.1" ver_Win7_8_%~1 )
+  if "%version%" == "5.2" ( call:go_to_platform "XP" ver_XP_64 )
+  if "%version%" == "6.0" ( call:go_to_platform "Vista" ver_Vista_64 )
+  if "%version%" == "6.1" ( call:go_to_platform "7" ver_Win7_8_64 )
+  if "%version%" == "6.2" ( call:go_to_platform "8.0" ver_Win7_8_64 )
+  if "%version%" == "6.3" ( call:go_to_platform "8.1" ver_Win7_8_64 )
   GOTO warn_and_exit
-goto:eof
-
-:download_install_architecture_specific_software
-  call:log_ds "%~1-bit computer detected..."
-  
-  call:install_software "node-js" "%%downloads_%~1[1]%%" msi
-  call:draw_dss
-  call:install_software "ruby" "%%downloads_%~1[2]%%" exe
-  
-  instal_swv_software %~1
-goto:eof
-
-:64BIT
-  call:download_install_architecture_specific_software 64
 GOTO END
 
 :32BIT
-  call:download_install_architecture_specific_software 32
+  call:log_ds "32-bit computer detected..."
+  
+  call:install_software_o "node-js" "%%downloads_32[1]%%" msi 12
+  call:draw_dss
+  call:install_software_o "ruby" "%%downloads_32[2]%%" exe 13
+  
+  :: Some installations require specific windows versions
+  for /f "tokens=4-5 delims=. " %%i in ('ver') do set VERSION=%%i.%%j
+  if "%version%" == "5.2" ( call:go_to_platform "XP" ver_XP_32 )
+  if "%version%" == "6.0" ( call:go_to_platform "Vista" ver_Vista_32 )
+  if "%version%" == "6.1" ( call:go_to_platform "7" ver_Win7_8_32 )
+  if "%version%" == "6.2" ( call:go_to_platform "8.0" ver_Win7_8_32 )
+  if "%version%" == "6.3" ( call:go_to_platform "8.1" ver_Win7_8_32 )
+  GOTO warn_and_exit
 GOTO END
 
 :ver_Win7_8_32
-  call:install_packed_software "mongo-db" "%%downloads_7_32[1]%%"
+  call:install_packed_software_o "mongo-db" "%%downloads_7_32[1]%%" 14
 goto git_rep_checkout
 
 :ver_Vista_32
-  call:install_packed_software "mongo-db" "%%downloads_vista_32[1]%%"
+  call:install_packed_software_o "mongo-db" "%%downloads_vista_32[1]%%" 14
 goto git_rep_checkout
 
 :ver_XP_32
-  call:log_ds "Sadly we can't support Windows XP... Please upgrade your OS!"
+  call:log_lw_ds 15
 goto END
 
 :ver_Win7_8_64
-  call:install_packed_software "mongo-db" "%%downloads_7_64[1]%%"
+  call:install_packed_software_o "mongo-db" "%%downloads_7_64[1]%%" 14
 goto git_rep_checkout
 
 :ver_Vista_64
-  call:install_packed_software "mongo-db" "%%downloads_vista_64[1]%%"
+  call:install_packed_software_o "mongo-db" "%%downloads_vista_64[1]%%" 14
 goto git_rep_checkout
 
 :ver_XP_64
-  call:log_ds "Sadly we can't support Windows XP... Please upgrade your OS!"
+  call:log_lw_ds 15
 goto END
 
 :git_rep_checkout
-  call:log_ss "Software has been installed..."
-  call:log_sse "Checking out the Git Repository..."
+  call:log_lw_ss 16
+  call:log_lw_sse 17
 goto report_ok
 
 :report_ok
-  call:log_ss "Installation of the Developers Environment is complete!"
-  call:log_sse "Bye Bye!"
+  call:log_lw_ss 18
+  call:log_lw_sse 19
 goto clean_up
 
 :warn_and_exit
-  call:log_ss "Machine OS cannot be determined..."
-  call:log_sse "Report your OS to the developers @ CodeCombat.com..."
+  call:log_lw_ss 20
+  call:log_lw_sse 21
 goto error_report
 
 :error_report
-  call:log_ds "Installation has been stopped..."
+  call:log_lw_ds 22
 goto END
 
 :clean_up
-  call:log_sse "... Cleaning up has been disabled... Terminating Script!"
+  call:log_lw_sse 23
   rmdir %temp-dir% /s /q
 goto END
+
+:: ============================ INSTALL SOFTWARE FUNCTIONS ======================
 
 :install_software
   call:get_lw word 4
@@ -201,6 +198,40 @@ goto END
   call:get_lw word 5
   call:log "%word% %~1..."
   START /WAIT %temp-dir%\%~1-setup.%~3
+goto:eof
+
+:install_software_o
+  call:get_lw word %~4
+  set /p result="%word% [Y/N]: "
+  call:draw_dss
+  set res=false
+  if "%result%"=="N" set res=true
+  if "%result%"=="n" set res=true
+  if "%res%"=="true" (
+    call:install_software %~1 %~2 %~3
+  ) else (
+    call:log_lw 10
+  )
+goto:eof
+
+:install_packed_software
+  :: 1) unpack software
+  :: 2) move unpacked directory
+  :: 3) ...
+goto:eof
+
+:install_packed_software_o
+  call:get_lw word %~3
+  set /p result="%word% [Y/N]: "
+  call:draw_dss
+  set res=false
+  if "%result%"=="N" set res=true
+  if "%result%"=="n" set res=true
+  if "%res%"=="true" (
+    call:install_packed_software %~1 %~2
+  ) else (
+    call:log_lw 10
+  )
 goto:eof
 
 :: ============================== FUNCTIONS ====================================
