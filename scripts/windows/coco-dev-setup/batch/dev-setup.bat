@@ -173,7 +173,7 @@ goto END
 :install_software
   call:get_lw word 4
   call:log "%word% %~1..."
-  %curl-app% %~2 -o %temp-dir%\%~1-setup.exe
+  %curl-app% -sS %~2 -o %temp-dir%\%~1-setup.exe
   call:get_lw word 5
   call:log "%word% %~1..."
   START /WAIT %temp-dir%\%~1-setup.exe
