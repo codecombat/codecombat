@@ -27,8 +27,31 @@ OutputDir=E:\GameDevelopment\opensource\codecombat\scripts\windows\coco-dev-setu
 OutputBaseFilename=codo-dev-setup
 SetupIconFile=E:\GameDevelopment\opensource\codecombat\scripts\windows\coco-dev-setup\installer\logo.ico
 Compression=lzma
-SolidCompression=yes
+SolidCompression=yes 
+ShowLanguageDialog=yes
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
+Name: "english"; MessagesFile: "compiler:Default.isl"  
 
+#include ReadReg(HKEY_LOCAL_MACHINE,'Software\Sherlock Software\InnoTools\Downloader','ScriptPath','');
+
+[Code]
+procedure InitializeWizard();
+begin
+ itd_init;
+
+ //Let's download two zipfiles from my website..
+ itd_addfile('http://www.sherlocksoftware.org/petz/files/dogz5.zip',expandconstant('{tmp}\dogz5.zip'));
+ itd_addfile('http://www.sherlocksoftware.org/petz/files/petz4.zip',expandconstant('{tmp}\petz4.zip'));
+
+ //Start the download after the "Ready to install" screen is shown
+ itd_downloadafter(wpReady);
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+ if CurStep=ssInstall then begin //Lets install those files that were downloaded for us
+  filecopy(expandconstant('{tmp}\dogz5.zip'),expandconstant('{app}\dogz5.zip'),false);
+  filecopy(expandconstant('{tmp}\petz4.zip'),expandconstant('{app}\petz4.zip'),false);
+ end;
+end;
