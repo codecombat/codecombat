@@ -15,6 +15,10 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 :: TIPS
 :: 	+ Ask user if he wants to install something
 ::	+ Ask user to enter the path of the installed program (git, ...)
+
+:: TODO
+::  + Ask for all software if users wants to install it yes or no...
+::  + When user has git, or after git is installed, let him enter the path to the git exe
 	
 :: Create The Temporary Directory
 IF EXIST %temp-dir% rmdir %temp-dir% /s /q
@@ -55,8 +59,12 @@ for /L %%i in (1,%wc%,%languages_c%) do (
 )
 
 set "lang_id=-1"
-set /p lang_id= "Enter the language ID and press <ENTER>: "
+call:user_enter_language_id
 goto:user_pick_language
+
+:user_enter_language_id
+  set /p lang_id= "Enter the language ID and press <ENTER>: "
+goto:eof
 
 :user_pick_language
   set res=false
@@ -65,7 +73,7 @@ goto:user_pick_language
   if "%res%"=="true" (
     call:log "Invalid id! Please enter a correct id from the numbers listed above..."
     call:draw_dss
-    set /p lang_id= "Enter the language ID and press <ENTER>: "
+    call:user_enter_language_id
     goto:user_pick_language
   )
   
@@ -81,7 +89,23 @@ call:log_lw_sse 2
 
 call:log_lw_sse 3
 
-call:install_software "git" "%%downloads[1]%%" exe
+call:log_lw 6
+call:log_lw 7
+call:log_lw 8
+call:get_lw word 9
+set /p result="%word% [Y/N]: "
+call:draw_dss
+set res=false
+if "%result%"=="N" set res=true
+if "%result%"=="n" set res=true
+if "%res%"=="true" (
+  call:install_software "git" "%%downloads[1]%%" exe
+) else (
+  call:log_lw 10
+)
+call:draw_dss
+call:get_lw word 11
+set /p git_exe_path="%word%: "
 
 :: [TODO] Add downloads for windows visual studio ?!
 
@@ -237,22 +261,22 @@ goto:eof
 
 :log_lw
   call:get_lw str %~1
-  call:log %str%
+  call:log "%str%"
 goto:eof
 
 :log_lw_ss
   call:get_lw str %~1
-  call:log_ss %str%
+  call:log_ss "%str%"
 goto:eof
 
 :log_lw_ds
   call:get_lw str %~1
-  call:log_ds %str%
+  call:log_ds "%str%"
 goto:eof
 
 :log_lw_sse
   call:get_lw str %~1
-  call:log_sse %str%
+  call:log_sse "%str%"
 goto:eof
 
 :: ============================== EOF ====================================
