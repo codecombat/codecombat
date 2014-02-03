@@ -24,7 +24,7 @@ module.exports = class HomeView extends View
 
   afterRender: ->
     super()
-    @$el.find('.modal').on 'shown', ->
+    @$el.find('.modal').on 'shown.bs.modal', ->
       $('input:visible:first', @).focus()
 
     wizOriginal = "52a00d55cf1818f2be00000b"

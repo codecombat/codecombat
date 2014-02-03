@@ -21,7 +21,7 @@ UserHandler = class UserHandler extends Handler
   ]
 
   jsonSchema: schema
-  
+
   constructor: ->
     super(arguments...)
     @editableProperties.push('permissions') unless config.isProduction
@@ -123,7 +123,7 @@ UserHandler = class UserHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
     return @sendNotFoundError(res)
-    
+
   agreeToCLA: (req, res) ->
     doc =
       user: req.user._id+''

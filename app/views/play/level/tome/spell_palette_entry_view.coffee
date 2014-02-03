@@ -34,7 +34,7 @@ module.exports = class SpellPaletteEntryView extends View
       content: @doc.html()
       container: @$el.parent().parent().parent()
     )
-    @$el.on 'show', =>
+    @$el.on 'show.bs.popover', =>
       # New, good event
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.prop
       # Bad, old one for old scripts (TODO)

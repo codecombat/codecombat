@@ -43,6 +43,12 @@ importScripts('/javascripts/world.js');
 //xhr.open("get", "script.js");
 //xhr.send();
 
+// We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
+Object.defineProperty(self, "XMLHttpRequest", {
+  get: function() { throw new Error("Access to XMLHttpRequest is forbidden."); },
+  configurable: false
+});
+
 self.transferableSupported = function transferableSupported() {
   // Not in IE, even in IE 11
   try {

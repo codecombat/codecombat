@@ -122,6 +122,7 @@ module.exports = class TomeView extends View
     @spellTabView?.$el.after('<div id="' + @spellTabView.id + '"></div>').detach()
     @spellTabView = null
     @removeSubView @spellPaletteView if @spellPaletteView
+    @spellPaletteView = null
     @castButton?.$el.hide()
     @thangList?.$el.show()
 
@@ -137,23 +138,21 @@ module.exports = class TomeView extends View
       spell = @thangList.topSpellForThang thang
       #spell = selectedThangSpells[0]  # TODO: remember last selected spell for this thang
     return @clearSpellView() unless spell?.canRead()
+    unless spell.view is @spellView
+      @clearSpellView()
+      @spellView = spell.view
+      @spellTabView = spell.tabView
+      @$el.find('#' + @spellView.id).after(@spellView.el).remove()
+      @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
+      @castButton.attachTo @spellView
+      @thangList.$el.hide()
+      Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
     @spellList.setThangAndSpell thang, spell
-    return if spell.view is @spellView
-    @clearSpellView()
-    @spellView = spell.view
-    @spellTabView = spell.tabView
-    @$el.find('#' + @spellView.id).after(@spellView.el).remove()
-    @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
-    @spellView.setThang thang
-    @spellTabView.setThang thang
-    @castButton.attachTo @spellView
-    @thangList.$el.hide()
-    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
-    @spellPaletteView.toggleControls {}, @spellView.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
-    # New, good event
-    Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
-    # Bad, old one for old scripts (TODO)
-    Backbone.Mediator.publish 'editor:tab-shown', thang: thang, methodName: spell.name
+    @spellView?.setThang thang
+    @spellTabView?.setThang thang
+    if @spellPaletteView?.thang isnt thang
+      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
+      @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
 
   reloadAllCode: ->
     spell.view.reloadCode false for spellKey, spell of @spells
