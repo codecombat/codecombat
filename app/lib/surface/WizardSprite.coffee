@@ -28,7 +28,6 @@ module.exports = class WizardSprite extends IndieSprite
     super thangType, options
     @isSelf = options.isSelf
     @targetPos = @thang.pos
-    console.log "have @targetPos", @targetPos
     if @isSelf
       @setNameLabel me.displayName()
       @setColorHue me.get('wizardColor1')
