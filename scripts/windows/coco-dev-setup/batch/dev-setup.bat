@@ -12,13 +12,18 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 	set "curl-app=curl\32bit\curl.exe"
 )
 
-:: TIPS
-:: 	+ Ask user if he wants to install something
-::	+ Ask user to enter the path of the installed program (git, ...)
-
-:: TODO
-::  + Ask for all software if users wants to install it yes or no...
-::  + When user has git, or after git is installed, let him enter the path to the git exe
+:: TODO:
+::  + Write unpack and move code for software like mongo-db
+::  + Write code to install vs if it's not yet installed on users pc
+::  + Write Git Checkout repository code:
+::      1) Let user specify destination
+::      2) do a git clone with the git application
+::  + Configuraton and installation checklist:
+::      1) ... ?!
+::  + Copy the automated dev batch file to root folder
+::      => Let user define mongo-db directory
+::  + Start the dev environment
+::  + Exit message and warn user that he can quit the window now
 	
 :: Create The Temporary Directory
 IF EXIST %temp-dir% rmdir %temp-dir% /s /q
