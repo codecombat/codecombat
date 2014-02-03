@@ -12,8 +12,10 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 	set "curl-app=utilities\curl\32bit\curl.exe"
 )
 
+set "ZU-app=utilities\7za.exe"
+
 :: TODO:
-::  + Write unpack and move code for software like mongo-db
+::  + Write code to set environment variables...
 ::  + Write code to install vs if it's not yet installed on users pc
 ::  + Write Git Checkout repository code:
 ::      1) Let user specify destination
@@ -100,6 +102,7 @@ call:log_lw 8
 call:install_software_o "git" "%%downloads[1]%%" exe 9
 call:draw_dss
 call:get_lw word 11
+:: [TODO] Check if that application exists, if not ask again with warning that the path is invalid!!! (SAFETYYYY)
 set /p git_exe_path="%word%: "
 
 :: [TODO] Add downloads for windows visual studio ?!
@@ -147,11 +150,13 @@ GOTO END
 GOTO END
 
 :ver_Win7_8_32
-  call:install_packed_software_o "mongo-db" "%%downloads_7_32[1]%%" 14
+  call:install_packed_software_o "mongo-db" "%%downloads_7_32[1]%%" 25 14
+  set "mong-db-path = %packed_software_path%"
 goto git_rep_checkout
 
 :ver_Vista_32
-  call:install_packed_software_o "mongo-db" "%%downloads_vista_32[1]%%" 14
+  call:install_packed_software_o "mongo-db" "%%downloads_vista_32[1]%%" 25 14
+  set "mong-db-path = %packed_software_path%"
 goto git_rep_checkout
 
 :ver_XP_32
@@ -159,11 +164,13 @@ goto git_rep_checkout
 goto END
 
 :ver_Win7_8_64
-  call:install_packed_software_o "mongo-db" "%%downloads_7_64[1]%%" 14
+  call:install_packed_software_o "mongo-db" "%%downloads_7_64[1]%%" 25 14
+  set "mong-db-path = %packed_software_path%"
 goto git_rep_checkout
 
 :ver_Vista_64
-  call:install_packed_software_o "mongo-db" "%%downloads_vista_64[1]%%" 14
+  call:install_packed_software_o "mongo-db" "%%downloads_vista_64[1]%%" 25 14
+  set "mong-db-path = %packed_software_path%"
 goto git_rep_checkout
 
 :ver_XP_64
@@ -196,10 +203,14 @@ goto END
 
 :: ============================ INSTALL SOFTWARE FUNCTIONS ======================
 
-:install_software
+:download_software
   call:get_lw word 4
   call:log "%word% %~1..."
   %curl-app% -sS -k %~2 -o %temp-dir%\%~1-setup.%~3
+goto:eof
+
+:install_software
+  call:download_software %~1 %~2 %~3
   call:get_lw word 5
   call:log "%word% %~1..."
   START /WAIT %temp-dir%\%~1-setup.%~3
@@ -220,20 +231,39 @@ goto:eof
 goto:eof
 
 :install_packed_software
-  :: 1) unpack software
-  :: 2) move unpacked directory
-  :: 3) ...
+  call:download_software %~1 %~2 zip
+  
+  call:draw_dss
+  
+  call:get_lw word %~3
+  
+  set /p packed_software_path="%word% "
+  
+  :: remove chosen directory of user if it already exists (to prevent a window from popping up)
+  IF EXIST %packed_software_path% rmdir %packed_software_path% /s /q
+  
+  %ZU-app% x %temp-dir%\%~1-setup.zip -o%packed_software_path%
+  
+  call:draw_dss
+
+  for /f "delims=" %%a in ('dir "%packed_software_path%\" /on /ad /b') do @set temp_dir=%%a
+  for /f "delims=" %%a in ('dir "%packed_software_path%\%temp_dir%\" /on /ad /b') do (
+    xcopy %packed_software_path%\%temp_dir% %packed_software_path%\ /S /E
+  )
+  
+  call:draw_dss
+  rmdir %packed_software_path%\%temp_dir%\ /s /q
 goto:eof
 
 :install_packed_software_o
-  call:get_lw word %~3
+  call:get_lw word %~4
   set /p result="%word% [Y/N]: "
   call:draw_dss
   set res=false
   if "%result%"=="N" set res=true
   if "%result%"=="n" set res=true
   if "%res%"=="true" (
-    call:install_packed_software %~1 %~2
+    call:install_packed_software %~1 %~2 %~3
   ) else (
     call:log_lw 10
   )
