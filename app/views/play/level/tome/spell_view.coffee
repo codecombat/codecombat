@@ -99,6 +99,10 @@ module.exports = class SpellView extends View
       bindKey: {win: 'Ctrl-\\', mac: 'Command-\\|Ctrl-\\'}
       exec: -> Backbone.Mediator.publish 'level-toggle-debug'
     @ace.commands.addCommand
+      name: 'toggle-pathfinding'
+      bindKey: {win: 'Ctrl-O', mac: 'Command-O|Ctrl-O'}
+      exec: -> Backbone.Mediator.publish 'level-toggle-pathfinding'
+    @ace.commands.addCommand
       name: 'level-scrub-forward'
       bindKey: {win: 'Ctrl-]', mac: 'Command-]|Ctrl-]'}
       exec: -> Backbone.Mediator.publish 'level-scrub-forward'
@@ -177,6 +181,7 @@ module.exports = class SpellView extends View
     @spellThang = @spell.thangs[@thang.id]
     @createDebugView() unless @debugView
     @debugView.thang = @thang
+    @toolbarView?.toggleFlow false
     @updateAether false, true
     @highlightCurrentLine()
 

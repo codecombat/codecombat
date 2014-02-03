@@ -70,7 +70,7 @@ module.exports = class EditorLevelView extends View
     return if @startsLoading
     super()
     new LevelSystem  # temp; trigger the LevelSystem schema to be loaded, if it isn't already
-    @$el.find('a[data-toggle="tab"]').on 'shown', (e) =>
+    @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'level:view-switched', e
     @thangsTab = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel
     @settingsTab = @insertSubView new SettingsTabView world: @world, supermodel: @supermodel

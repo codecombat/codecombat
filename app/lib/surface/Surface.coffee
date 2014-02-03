@@ -55,6 +55,7 @@ module.exports = Surface = class Surface extends CocoClass
     'level-toggle-debug': 'onToggleDebug'
     'level-set-grid': 'onSetGrid'
     'level-toggle-grid': 'onToggleGrid'
+    'level-toggle-pathfinding': 'onTogglePathFinding'
     'level-set-time': 'onSetTime'
     'level-set-surface-camera': 'onSetCamera'
     'level:restarted': 'onLevelRestarted'
@@ -63,9 +64,9 @@ module.exports = Surface = class Surface extends CocoClass
     'level-set-letterbox': 'onSetLetterbox'
 
   shortcuts:
-    '\\': 'onToggleDebug'
-    'g': 'onToggleGrid'
-    'w': 'onTogglePathFinding'
+    'ctrl+\\, ⌘+\\': 'onToggleDebug'
+    'ctrl+g, ⌘+g': 'onToggleGrid'
+    'ctrl+o, ⌘+o': 'onTogglePathFinding'
 
   # external functions
 
@@ -102,19 +103,20 @@ module.exports = Surface = class Surface extends CocoClass
     @onFrameChanged()
     Backbone.Mediator.publish 'surface:world-set-up'
 
-  onTogglePathFinding: ->
+  onTogglePathFinding: (e) ->
+    e?.preventDefault?()
     @hidePathFinding()
     @showingPathFinding = not @showingPathFinding
     if @showingPathFinding then @showPathFinding() else @hidePathFinding()
-    
+
   hidePathFinding: ->
     @surfaceLayer.removeChild @navRectangles if @navRectangles
     @surfaceLayer.removeChild @navPaths if @navPaths
     @navRectangles = @navPaths = null
-    
+
   showPathFinding: ->
     @hidePathFinding()
-    
+
     mesh = _.values(@world.navMeshes or {})[0]
     return unless mesh
     @navRectangles = new createjs.Container()
@@ -122,7 +124,7 @@ module.exports = Surface = class Surface extends CocoClass
     @addMeshRectanglesToContainer mesh, @navRectangles
     @surfaceLayer.addChild @navRectangles
     @surfaceLayer.updateLayerOrder()
-    
+
     graph = _.values(@world.graphs or {})[0]
     return @surfaceLayer.updateLayerOrder() unless graph
     @navPaths = new createjs.Container()
@@ -130,7 +132,7 @@ module.exports = Surface = class Surface extends CocoClass
     @addNavPathsToContainer graph, @navPaths
     @surfaceLayer.addChild @navPaths
     @surfaceLayer.updateLayerOrder()
-    
+
   addMeshRectanglesToContainer: (mesh, container) ->
     for rect in mesh
       shape = new createjs.Shape()
@@ -397,14 +399,15 @@ module.exports = Surface = class Surface extends CocoClass
   gridShowing: ->
     @gridLayer?.parent?
 
-  onToggleGrid: ->
+  onToggleGrid: (e) ->
+    e?.preventDefault?()
     if @gridShowing() then @hideGrid() else @showGrid()
 
   onSetGrid: (e) ->
     if e.grid then @showGrid() else @hideGrid()
 
   onToggleDebug: (e) ->
-    e?.preventDefault()
+    e?.preventDefault?()
     Backbone.Mediator.publish 'level-set-debug', {debug: not @debug}
 
   onSetDebug: (e) ->
@@ -455,7 +458,7 @@ module.exports = Surface = class Surface extends CocoClass
     @drawCurrentFrame()
     @onFrameChanged()
     @updatePaths() if (@totalFramesDrawn % 2) is 0 or createjs.Ticker.getMeasuredFPS() > createjs.Ticker.getFPS() - 5
-    Backbone.Mediator.publish('surface:ticked', {})
+    Backbone.Mediator.publish('surface:ticked', {dt: @world.dt})
     mib = @stage.mouseInBounds
     if @mouseInBounds isnt mib
       Backbone.Mediator.publish('surface:mouse-' + (if mib then "over" else "out"), {})

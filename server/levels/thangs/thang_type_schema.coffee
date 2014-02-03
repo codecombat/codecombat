@@ -105,7 +105,7 @@ _.extend ThangTypeSchema.properties,
     shapes: c.object {title: 'Shapes', additionalProperties: ShapeObjectSchema}
     containers: c.object {title: 'Containers', additionalProperties: ContainerObjectSchema}
     animations: c.object {title: 'Animations', additionalProperties: RawAnimationObjectSchema}
-  kind: c.shortString { enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc'], default: 'Misc', title: 'Kind' }
+  kind: c.shortString { enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc', 'Mark'], default: 'Misc', title: 'Kind' }
 
   actions: c.object { title: 'Actions', additionalProperties: { $ref: '#/definitions/action' } }
   soundTriggers: c.object { title: "Sound Triggers", additionalProperties: c.array({}, { $ref: '#/definitions/sound' }) },
@@ -123,12 +123,12 @@ _.extend ThangTypeSchema.properties,
     title: 'Scale'
     type: 'number'
   positions: PositionsSchema
-  colorGroups: c.object 
+  colorGroups: c.object
     title: 'Color Groups'
     additionalProperties:
       type:'array'
       format: 'thang-color-group'
-      items: {type:'string'} 
+      items: {type:'string'}
   snap: c.object { title: "Snap", description: "In the level editor, snap positioning to these intervals.", required: ['x', 'y'] },
     x:
       title: "Snap X"

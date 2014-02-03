@@ -137,7 +137,7 @@ module.exports = class Mark extends CocoClass
     if @name in ['shadow', 'debug']
       pos = @camera.worldToSurface x: @sprite.thang.pos.x, y: @sprite.thang.pos.y
       if @name is 'shadow'
-        worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2
+        worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2 + @sprite.getBobOffset()
         @mark.alpha = 0.451 / Math.sqrt(worldZ / 2 + 1)
     else
       pos ?= @sprite?.displayObject

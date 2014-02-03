@@ -43,10 +43,10 @@ module.exports = class ThangsTabView extends View
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-down': 'onStageMouseDown'
-    
+
   events:
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
-    
+
   shortcuts:
     'esc': -> @selectAddThang()
 
@@ -56,7 +56,7 @@ module.exports = class ThangsTabView extends View
     val = button.val()
     @thangsTreema.$el.removeClass(@lastHideClass) if @lastHideClass
     @thangsTreema.$el.addClass(@lastHideClass = "hide-except-#{val}") if val
-      
+
 
   constructor: (options) ->
     super options
@@ -76,11 +76,12 @@ module.exports = class ThangsTabView extends View
     context = super(context)
     thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
     thangTypes = _.uniq thangTypes, false, 'original'
+    thangTypes = _.reject thangTypes, kind: 'Mark'
     groupMap = {}
     for thangType in thangTypes
       groupMap[thangType.kind] ?= []
       groupMap[thangType.kind].push thangType
-      
+
     groups = []
     for groupName in Object.keys(groupMap).sort()
       someThangTypes = groupMap[groupName]
@@ -89,7 +90,7 @@ module.exports = class ThangsTabView extends View
         name: groupName
         thangs: someThangTypes
       groups.push group
-    
+
     context.thangTypes = thangTypes
     context.groups = groups
     context
@@ -100,7 +101,7 @@ module.exports = class ThangsTabView extends View
     $('.tab-content').click @selectAddThang
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
-    
+
     # TODO: move these into the shortcuts list
     key 'left', _.bind @moveAddThangSelection, @, -1
     key 'right', _.bind @moveAddThangSelection, @, 1
@@ -208,7 +209,7 @@ module.exports = class ThangsTabView extends View
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos
-      
+
     # Commented out this bit so the extant thangs treema editor can select invisible thangs like arrows.
     # Couldn't spot any bugs... But if there are any, better come up with a better solution.
 #    else
