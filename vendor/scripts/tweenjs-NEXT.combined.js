@@ -364,6 +364,7 @@ var p = EventDispatcher.prototype;
 		target.hasEventListener = p.hasEventListener;
 		target.dispatchEvent = p.dispatchEvent;
 		target._dispatchEvent = p._dispatchEvent;
+		target.willTrigger = p.willTrigger;
 	};
 	
 // constructor:
@@ -580,7 +581,7 @@ var p = EventDispatcher.prototype;
 	};
 
 	/**
-	 * Indicates whether there is at least one listener for the specified event type and `useCapture` value.
+	 * Indicates whether there is at least one listener for the specified event type.
 	 * @method hasEventListener
 	 * @param {String} type The string type of the event.
 	 * @return {Boolean} Returns true if there is at least one listener for the specified event.
@@ -588,6 +589,26 @@ var p = EventDispatcher.prototype;
 	p.hasEventListener = function(type) {
 		var listeners = this._listeners, captureListeners = this._captureListeners;
 		return !!((listeners && listeners[type]) || (captureListeners && captureListeners[type]));
+	};
+	
+	/**
+	 * Indicates whether there is at least one listener for the specified event type on this object or any of its
+	 * ancestors (parent, parent's parent, etc). A return value of true indicates that if a bubbling event of the
+	 * specified type is dispatched from this object, it will trigger at least one listener.
+	 * 
+	 * This is similar to {{#crossLink "EventDispatcher/hasEventListener"}}{{/crossLink}}, but it searches the entire
+	 * event flow for a listener, not just this object.
+	 * @method willTrigger
+	 * @param {String} type The string type of the event.
+	 * @return {Boolean} Returns `true` if there is at least one listener for the specified event.
+	 **/
+	p.willTrigger = function(type) {
+		var o = this;
+		while (o) {
+			if (o.hasEventListener(type)) { return true; }
+			o = o.parent;
+		}
+		return false;
 	};
 
 	/**
@@ -2726,7 +2747,7 @@ this.createjs = this.createjs || {};
 	 * @type String
 	 * @static
 	 **/
-	s.version = /*version*/"0.5.0"; // injected by build process
+	s.version = /*version*/"NEXT"; // injected by build process
 
 	/**
 	 * The build date for this release in UTC format.
@@ -2734,6 +2755,6 @@ this.createjs = this.createjs || {};
 	 * @type String
 	 * @static
 	 **/
-	s.buildDate = /*date*/"Wed, 25 Sep 2013 17:09:35 GMT"; // injected by build process
+	s.buildDate = /*date*/"Thu, 12 Dec 2013 23:37:07 GMT"; // injected by build process
 
 })();
