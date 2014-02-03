@@ -171,7 +171,7 @@ module.exports = class ThangTypeEditView extends View
   animationFileChosen: (e) ->
     @file = e.target.files[0]
     return unless @file
-    return unless @file.type is 'text/javascript'
+    return unless _.string.endsWith @file.type, 'javascript'
 #    @$el.find('#upload-button').prop('disabled', true)
     @reader = new FileReader()
     @reader.onload = @onFileLoad
