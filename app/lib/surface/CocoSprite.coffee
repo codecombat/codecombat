@@ -61,7 +61,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @actionQueue = []
     @marks = {}
     @labels = {}
-    @ticker = 0
+    @age = 0
     @displayObject = new createjs.Container()
     if @thangType.get('actions')
       @onThangTypeLoaded()
@@ -124,7 +124,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @playNextAction()
 
   onActionEnd: (e) => @playNextAction()
-  onSurfaceTicked: -> @ticker += 1
+  onSurfaceTicked: (e) -> @age += e.dt
 
   playNextAction: ->
     @playAction(@actionQueue.splice(0,1)[0]) if @actionQueue.length
@@ -159,16 +159,21 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @displayObject.cache 0, 0, bounds.width, bounds.height
     #console.log "just cached", @thang.id, "which was at", @imageObject.x, @imageObject.y, bounds.width, bounds.height, "with scale", Math.max(@imageObject.scaleX, @imageObject.scaleY)
 
+  getBobOffset: ->
+    return 0 unless @thang.bobHeight
+    @thang.bobHeight * (1 + Math.sin(@age * Math.PI / @thang.bobTime))
+
   updatePosition: ->
     return unless @thang?.pos and @options.camera?
-    if @thang.bobHeight
-      @thang.pos.z = @thang.pos.z + (Math.sin @ticker /  @thang.bobTime) * 0.1 * @thang.bobHeight
     [p0, p1] = [@lastPos, @thang.pos]
+    if bobOffset = @getBobOffset()
+      p1 = p1.copy?() or _.clone(p1)
+      p1.z += bobOffset
     return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo
     wop = x: p1.x, y: p1.y, z: if @thang.isLand then 0 else p1.z - @thang.depth / 2
     sup = @options.camera.worldToSurface wop
     [@displayObject.x, @displayObject.y] = [sup.x, sup.y]
-    @lastPos = _.clone(p1)
+    @lastPos = p1.copy?() or _.clone(p1)
     @hasMoved = true
 
   updateScale: ->

@@ -20,6 +20,8 @@ EventPrereqSchema = c.object {title: "Event Prerequisite", format: 'event-prereq
   lessThanOrEqualTo: {type: 'number', title: "<=", description: "Script requires the event's property chain value to be less than or equal to this value."}
   containingString: c.shortString(title: "Contains", description: "Script requires the event's property chain value to be a string containing this string.")
   notContainingString: c.shortString(title: "Does not contain", description: "Script requires the event's property chain value to *not* be a string containing this string.")
+  containingRegexp: c.shortString(title: "Contains Regexp", description: "Script requires the event's property chain value to be a string containing this regular expression.")
+  notContainingRegexp: c.shortString(title: "Does not contain regexp", description: "Script requires the event's property chain value to *not* be a string containing this regular expression.")
 
 GoalSchema = c.object {title: "Goal", description: "A goal that the player can accomplish.", required: ["name", "id"]},
   name: c.shortString(title: "Name", description: "Name of the goal that the player will see, like \"Defeat eighteen dragons\".")
