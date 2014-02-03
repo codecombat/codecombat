@@ -7,9 +7,9 @@ set install-log=%temp-dir%\coco-dev-install-log.txt
 
 :: set correct curl app
 IF EXIST "%PROGRAMFILES(X86)%" (
-	(set "curl-app=curl\64bit\curl.exe")
+	(set "curl-app=utilities\curl\64bit\curl.exe")
 ) ELSE (
-	set "curl-app=curl\32bit\curl.exe"
+	set "curl-app=utilities\curl\32bit\curl.exe"
 )
 
 :: TODO:
