@@ -1,4 +1,4 @@
-require '../common'
+require '../../common'
 
 describe 'Article', ->
 
