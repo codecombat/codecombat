@@ -33,7 +33,8 @@ describe '/file', ->
       expect(body.metadata).toBeUndefined()
       done()
 
-    request.post(options, func)
+    loginJoe ->
+      request.post(options, func)
 
   it 'can\'t be created if invalid (property path is required)', (done) ->
     func = (err, res, body) ->
