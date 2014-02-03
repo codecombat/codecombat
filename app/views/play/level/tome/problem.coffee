@@ -20,8 +20,8 @@ module.exports = class Problem
     text = @aetherProblem.message.replace /^Line \d+: /, ''
     start = @aetherProblem.ranges[0][0]
     @annotation =
-      row: start[0],
-      column: start[1],
+      row: start.row,
+      column: start.col,
       raw: text,
       text: text,
       type: @aetherProblem.level ? "error"
@@ -35,7 +35,7 @@ module.exports = class Problem
     return unless @aetherProblem.ranges
     [start, end] = @aetherProblem.ranges[0]
     clazz = "problem-marker-#{@aetherProblem.level}"
-    @markerRange = new Range(start[0], start[1], end[0], end[1])
+    @markerRange = new Range start.row, start.col, end.row, end.col
     @markerRange.start = @ace.getSession().getDocument().createAnchor @markerRange.start
     @markerRange.end = @ace.getSession().getDocument().createAnchor @markerRange.end
     @markerRange.id = @ace.getSession().addMarker @markerRange, clazz, "text"
