@@ -1,4 +1,4 @@
-require './common'
+require '../common'
 
 describe '/file', ->
   url = getURL('/file')
