@@ -56,7 +56,7 @@ module.exports.setupRoutes = (app) ->
 
   app.post('/auth/reset', (req, res) ->
     unless req.body.email
-      return errors.badInput(res, [{message:'Need an email specified.', property:email}])
+      return errors.badInput(res, [{message:'Need an email specified.', property:'email'}])
 
     User.findOne({emailLower:req.body.email.toLowerCase()}).exec((err, user) ->
       if not user
@@ -74,7 +74,7 @@ module.exports.setupRoutes = (app) ->
             else
               return res.end()
         else
-          console.log 'new password is', user.get('passwordReset')
+          res.send user.get('passwordReset')
           return res.end()
     )
   )
