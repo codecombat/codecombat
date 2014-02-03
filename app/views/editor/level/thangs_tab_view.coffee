@@ -333,7 +333,10 @@ module.exports = class ThangsTabView extends View
   onThangsChanged: (e) =>
     @level.set 'thangs', @thangsTreema.data
     serializedLevel = @level.serialize @supermodel
-    @world.loadFromLevel serializedLevel, false
+    try
+      @world.loadFromLevel serializedLevel, false
+    catch error
+      console.error 'Catastrophic error loading the level:', error
     thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
     @surface?.setWorld @world
     @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
