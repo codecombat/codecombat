@@ -10,6 +10,7 @@ config.mongo = {};
 config.mongo.port = process.env.COCO_MONGO_PORT || 27017;
 config.mongo.host = process.env.COCO_MONGO_HOST || 'localhost';
 config.mongo.db = process.env.COCO_MONGO_DATABASE_NAME || 'coco';
+config.mongo.mongoose_replica_string = process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING || '';
 
 if(config.unittest) {
   config.port += 1;
