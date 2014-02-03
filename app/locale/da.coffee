@@ -149,7 +149,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     gravatar_accounts: "Som set på"
     gravatar_profile_link: "Fuld Gravatar Profil"
 
-#  play_level:
+  play_level:
     level_load_error: "Banen kunne ikke indlæses."
     done: "Færdig"
     grid: "Gitter"
@@ -193,7 +193,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     hud_continue: "Fortsæt (tryk skift-mellemrum)"
     spell_saved: "Trylleformularen er gemt"
 
-#  admin:
+  admin:
 #    av_title: "Admin Views"
 #    av_entities_sub_title: "Entities"
     av_entities_users_url: "Brugere"
@@ -203,7 +203,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     u_title: "Brugerliste"
     lg_title: "Seneste spil"
 
-#  editor:
+  editor:
 #    main_title: "CodeCombat Editors"
 #    main_description: "Build your own levels, campaigns, units and educational content. We provide all the tools you need!"
 #    article_title: "Article Editor"
@@ -256,7 +256,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     message: "Besked"
     or: "eller"
 
-#  about:
+  about:
     who_is_codecombat: "Hvem er CodeCombat?"
     why_codecombat: "Hvorfor CodeCombat?"
 #    who_description_prefix: "together started CodeCombat in 2013. We also created "
@@ -339,7 +339,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
-#  contribute:
+  contribute:
 #    page_title: "Contributing"
 #    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
