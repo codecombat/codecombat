@@ -288,10 +288,12 @@ module.exports = class SpellView extends View
     return unless aether = @spellThang?.aether
     source = @getSource()
     codeHasChangedSignificantly = force or @spell.hasChangedSignificantly source, aether.raw
-    return unless codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
+    needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
+    return if not needsUpdate and aether is @displayedAether
     castAether = @spellThang.castAether
     codeIsAsCast = castAether and not @spell.hasChangedSignificantly source, castAether.raw
     aether = castAether if codeIsAsCast
+    return if not needsUpdate and aether is @displayedAether
 
     # Now that that's figured out, perform the update.
     @clearAetherDisplay()
@@ -307,6 +309,7 @@ module.exports = class SpellView extends View
     @highlightCurrentLine {}  # This'll remove all highlights
 
   displayAether: (aether) ->
+    @displayedAether = aether
     isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
     @problems = []
     annotations = []
@@ -379,7 +382,7 @@ module.exports = class SpellView extends View
       #console.log thangID, "got new castAether with raw", aether.raw, "problems", aether.problems
       spellThang.castAether = aether
       spellThang.aether = @spell.createAether e.world.getThangByID(thangID)
-      console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
+      #console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
     @spell.transpile()
     @updateAether false, false
 
@@ -427,12 +430,6 @@ module.exports = class SpellView extends View
     #console.log "got call index", currentCallIndex, "for time", @thang.world.age, "out of", states.length
 
     # TODO: don't redo the markers if they haven't actually changed
-    text = @aceDoc.getValue()
-    offsetToPos = (offset) ->
-      # TODO: use the nice conversion utils David put into Aether
-      rows = text.substr(0, offset).split '\n'
-      {row: rows.length - 1, column: _.last(rows).length}
-
     for markerRange in (@markerRanges ?= [])
       markerRange.start.detach()
       markerRange.end.detach()
@@ -451,7 +448,7 @@ module.exports = class SpellView extends View
     marked = {}
     lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
     for state, i in lastExecuted
-      [start, end] = [offsetToPos(state.range[0]), offsetToPos(state.range[1])]
+      [start, end] = state.range
       clazz = if i is lastExecuted.length - 1 then 'executing' else 'executed'
       if clazz is 'executed'
         continue if marked[start.row]
@@ -460,7 +457,7 @@ module.exports = class SpellView extends View
       else
         @debugView.setVariableStates state.variables
         markerType = "text"
-      markerRange = new Range(start.row, start.column, end.row, end.column)
+      markerRange = new Range start.row, start.col, end.row, end.col
       markerRange.start = @aceDoc.createAnchor markerRange.start
       markerRange.end = @aceDoc.createAnchor markerRange.end
       markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
