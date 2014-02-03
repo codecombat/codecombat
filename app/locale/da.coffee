@@ -437,5 +437,5 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     diplomat_title_description: "(Oversætter)"
     ambassador_title: "Ambassadør"
     ambassador_title_description: "(Brugerstøtte)"
-    counselor_title: "Rådmand"
+    counselor_title: "Rådgiver"
     counselor_title_description: "(Ekspert/Lærer)"
