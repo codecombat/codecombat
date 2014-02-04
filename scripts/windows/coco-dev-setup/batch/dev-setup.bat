@@ -19,9 +19,9 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 set "ZU-app=utilities\7za.exe"
 
 :: TODO:
-::  + Write code to add paths to the PATH variable...
 
 ::  + Write code to install vs if it's not yet installed on users pc
+
 ::  + Write Git Checkout repository code:
 ::      1) Let user specify destination
 ::      2) do a git clone with the git application
@@ -56,9 +56,9 @@ echo.
 call:parse_aa_and_draw "license.txt"
 echo.
 call:draw_dss
-call:user_yn_question "Have you read the license and do you agree with it?"  
+call:strict_user_yn_question "Have you read the license and do you agree with it?"  
 
-if "%res%"=="true" (
+if "%res%"=="false" (
   call:log "Sorry to hear that, have a good day..."
   call:log_sse "Installation and Setup of the CodeCombat environment is cancelled."
   GOTO:END
@@ -118,10 +118,9 @@ call:log_ds "You choose '%word%', from now on all feedback will be logged in it.
 call:log_lw 1
 call:log_lw_sse 2
 
-
 :: downloads for all version...
 
-:: [TODO] The choice between Cygwin && Git ?! Is 
+:: [TODO] The choice between Cygwin && Git ?! Is  => HAVE EXTERNAL GIT APPLICATION LIST!!!
 
 call:log_lw_sse 3
 
@@ -132,12 +131,27 @@ call:install_software_o "git" "%%downloads[1]%%" exe 9
 call:draw_dss
 call:get_lw word 11
 :: [TODO] Check if that application exists, if not ask again with warning that the path is invalid!!! (SAFETYYYY)
-set /p git_exe_path="%word%: "
+
+set git_exe="bin\sh.exe"
 
 :: [TODO] Add downloads for windows visual studio ?!
 
-:: architecture specific downloads...
-IF EXIST "%PROGRAMFILES(X86)%" (GOTO 64BIT) ELSE (GOTO 32BIT)
+call:user_set_git_path
+
+:user_set_git_path_fail
+  if not exist "%git_exe_path%" (
+    call:log_lw 27
+    call:draw_dss
+    call:user_set_git_path
+  )
+  :: architecture specific downloads...
+  IF EXIST "%PROGRAMFILES(X86)%" (GOTO 64BIT) ELSE (GOTO 32BIT)
+goto:eof
+
+:user_set_git_path
+  set /p git_exe_path="%word%: "
+  call:user_set_git_path_fail
+goto:eof
 
 :go_to_platform
   call:log_ds "Windows %~1 detected..."
@@ -213,6 +227,38 @@ goto END
 :git_rep_checkout
   call:log_lw_ss 16
   call:log_lw_sse 17
+  
+  ::Show user the correct steps to execute
+  call:log_lw 28
+  call:log_lw_prfx 29 "  1) "
+  call:log_lw_prfx 30 "      "
+  call:log_lw_prfx 31 "  2) "
+  
+  call:draw_dss
+  start /WAIT "%git_exe_path%\%git_exe% --login -i" 
+  call:draw_dss
+  
+  call:user_set_git_repository
+goto git_repo_configuration
+
+:user_set_git_repository
+  call:get_lw word 32
+  set /p git_repository_path="%word% "
+  call:user_set_git_repository_sc
+goto:eof
+
+:user_set_git_repository_sc
+  if not exist "%git_repository_path%" (
+    call:log_lw 33
+    call:draw_dss
+    call:user_set_git_repository
+  )
+  goto git_repo_configuration
+goto:eof
+
+:git_repo_configuration
+  call:log_lw_ss 35
+  call:log_lw_sse 36
 goto report_ok
 
 :report_ok
@@ -299,6 +345,22 @@ goto:eof
   set "res=false"
   if "%result%"=="N" (set "res=true")
   if "%result%"=="n" (set "res=true")
+goto:eof
+
+:strict_user_yn_question
+  set /p result="%~1 [Y/N]: "
+  call:draw_dss
+  set "res=unset"
+  if "%result%"=="N" (set "res=false")
+  if "%result%"=="n" (set "res=false")
+  if "%result%"=="Y" (set "res=true")
+  if "%result%"=="y" (set "res=true")
+  
+  if "%res%"=="unset" (
+    call:log "Please answer the question with either Y or N..."
+    call:draw_dss
+    call:strict_user_yn_question "%~1"
+  )
 goto:eof
 
 :install_packed_software_o
@@ -391,6 +453,11 @@ goto:eof
 :log_lw
   call:get_lw str %~1
   call:log "%str%"
+goto:eof
+
+:log_lw_prfx
+  call:get_lw str %~1
+  call:log "%~2%str%"
 goto:eof
 
 :log_lw_ss
