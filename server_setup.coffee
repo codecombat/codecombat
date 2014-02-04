@@ -4,6 +4,7 @@ passport = require 'passport'
 useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 
+database = require './server/commons/database'
 auth = require './server/routes/auth'
 db = require './server/routes/db'
 file = require './server/routes/file'
@@ -103,7 +104,7 @@ exports.setupLogging = ->
   logging.setup()
 
 exports.connectToDatabase = ->
-  db.connectDatabase()
+  database.connect()
 
 exports.setupMailchimp = ->
   mcapi = require 'mailchimp-api'
