@@ -1,6 +1,8 @@
 @echo off
 setlocal EnableDelayedExpansion
 
+Color 0A 
+
 mode con: cols=78 lines=60
 
 :: Global Variables
@@ -17,11 +19,7 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 set "ZU-app=utilities\7za.exe"
 
 :: TODO:
-::  + Agreement Contract
-::  + End sentence (you can close now)
-::  + Split sections better
-::  + Colored text
-::  + Write code to set environment variables...
+::  + Write code to add paths to the PATH variable...
 
 ::  + Write code to install vs if it's not yet installed on users pc
 ::  + Write Git Checkout repository code:
@@ -58,7 +56,13 @@ echo.
 call:parse_aa_and_draw "license.txt"
 echo.
 call:draw_dss
-call:user_yn_question "Have you read the license and do you agree with it?" res  
+call:user_yn_question "Have you read the license and do you agree with it?"  
+
+if "%res%"=="true" (
+  call:log "Sorry to hear that, have a good day..."
+  call:log_sse "Installation and Setup of the CodeCombat environment is cancelled."
+  GOTO:END
+)
 
 :: Read Language Index
 call:parse_file_new "localisation\languages" lang lang_c
@@ -113,6 +117,7 @@ call:log_ds "You choose '%word%', from now on all feedback will be logged in it.
   
 call:log_lw 1
 call:log_lw_sse 2
+
 
 :: downloads for all version...
 
@@ -251,7 +256,7 @@ goto:eof
 
 :install_software_o
   call:get_lw word %~4
-  call:user_yn_question "%word%" res
+  call:user_yn_question "%word%"
   if "%res%"=="true" (
     call:install_software %~1 %~2 %~3
   ) else (
@@ -287,14 +292,14 @@ goto:eof
 :user_yn_question
   set /p result="%~1 [Y/N]: "
   call:draw_dss
-  set %~2=false
-  if "%result%"=="N" set %~2==true
-  if "%result%"=="n" set %~2==true
+  set "res=false"
+  if "%result%"=="N" (set "res=true")
+  if "%result%"=="n" (set "res=true")
 goto:eof
 
 :install_packed_software_o
   call:get_lw word %~4
-  call:user_yn_question "%word%" res
+  call:user_yn_question "%word%"
   if "%res%"=="true" (
     call:install_packed_software %~1 %~2 %~3
   ) else (
@@ -310,11 +315,21 @@ goto:eof
 goto:eof
 
 :draw_ss
+  echo.
   call:log "-----------------------------------------------------------------------------"
+  echo.
 goto:eof
 
 :draw_dss
+  echo.
   call:log "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+  echo.
+goto:eof
+
+:draw_seperator
+  echo.
+  echo                            + + + + + + + +                           
+  echo.
 goto:eof
 
 :log_ss
@@ -358,7 +373,7 @@ goto:eof
   call:parse_file %~1 %~2 %~3
 goto:eof
 
-:: ============================== LOCALISATION FUNCTIONS ===========================
+:: ============================== LOCALISATION FUNCTIONS ================
 
 :get_lw
   call:get_lw_id %~1 %lang_id% %~2
@@ -389,7 +404,14 @@ goto:eof
   call:log_sse "%str%"
 goto:eof
 
+:: ============================== WINDOWS FUNCTIONS ======================
+
+:set_env_var
+  setx -m %~1 %~2
+goto:eof
+
 :: ============================== EOF ====================================
 
 :END
+  set /p input="You can close this window now..."
 endlocal
