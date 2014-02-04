@@ -1,4 +1,4 @@
-winston = require 'winston'
+log = require 'winston'
 routes = require('../commons/mapping').routes
 
 module.exports.setup = (app) ->
@@ -6,4 +6,4 @@ module.exports.setup = (app) ->
     do (route) ->
       module = require('../'+route)
       module.setup app
-      winston.info "route module #{route} setup"
+      log.debug "route module #{route} setup"

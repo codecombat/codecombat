@@ -1,5 +1,4 @@
-passport = require('passport')
-winston = require('winston')
+authentication = require('passport')
 LocalStrategy = require('passport-local').Strategy
 User = require('../users/User')
 UserHandler = require('../users/user_handler')
@@ -8,11 +7,11 @@ errors = require '../commons/errors'
 mail = require '../commons/mail'
 
 module.exports.setup = (app) ->
-  passport.serializeUser((user, done) -> done(null, user._id))
-  passport.deserializeUser((id, done) ->
+  authentication.serializeUser((user, done) -> done(null, user._id))
+  authentication.deserializeUser((id, done) ->
     User.findById(id, (err, user) -> done(err, user)))
 
-  passport.use(new LocalStrategy(
+  authentication.use(new LocalStrategy(
     (username, password, done) ->
       User.findOne({emailLower:username.toLowerCase()}).exec((err, user) ->
         return done(err) if err
@@ -30,7 +29,7 @@ module.exports.setup = (app) ->
   ))
 
   app.post('/auth/login', (req, res, next) ->
-    passport.authenticate('local', (err, user, info) ->
+    authentication.authenticate('local', (err, user, info) ->
       return next(err) if err
       if not user
         return errors.unauthorized(res, [{message:info.message, property:info.property}])

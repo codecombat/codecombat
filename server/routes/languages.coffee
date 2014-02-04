@@ -1,11 +1,11 @@
 errors = require '../commons/errors'
-winston = require 'winston'
+log = require 'winston'
 locale = require '../../app/locale/locale'  # requiring from app; will break if we stop serving from where app lives
 
 module.exports.setup = (app) ->
   app.all '/languages/add/:lang/:namespace', (req, res) ->
     # Should probably store these somewhere
-    winston.info "#{req.params.lang}.#{req.params.namespace} missing an i18n key:", req.body
+    log.info "#{req.params.lang}.#{req.params.namespace} missing an i18n key:", req.body
     res.send('')
     res.end()
 

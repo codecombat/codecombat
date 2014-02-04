@@ -1,4 +1,3 @@
-winston = require 'winston'
 Grid = require 'gridfs-stream'
 fs = require 'fs'
 request = require 'request'

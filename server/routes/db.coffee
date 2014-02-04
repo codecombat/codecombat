@@ -1,4 +1,4 @@
-winston = require 'winston'
+log = require 'winston'
 errors = require '../commons/errors'
 handlers = require('../commons/mapping').handlers
 schemas = require('../commons/mapping').schemas
@@ -15,18 +15,18 @@ module.exports.setup = (app) ->
     try
       moduleName = module.replace '.', '_'
       name = handlers[moduleName]
-      module = require('../' + name)
-      return module.getLatestVersion(req, res, parts[1], parts[3]) if parts[2] is 'version'
-      return module.versions(req, res, parts[1]) if parts[2] is 'versions'
-      return module.files(req, res, parts[1]) if parts[2] is 'files'
-      return module.search(req, res) if req.route.method is 'get' and parts[1] is 'search'
-      return module.getByRelationship(req, res, parts[1..]...) if parts.length > 2
-      return module.getById(req, res, parts[1]) if req.route.method is 'get' and parts[1]?
-      return module.patch(req, res, parts[1]) if req.route.method is 'patch' and parts[1]?
-      module[req.route.method](req, res)
+      handler = require('../' + name)
+      return handler.getLatestVersion(req, res, parts[1], parts[3]) if parts[2] is 'version'
+      return handler.versions(req, res, parts[1]) if parts[2] is 'versions'
+      return handler.files(req, res, parts[1]) if parts[2] is 'files'
+      return handler.search(req, res) if req.route.method is 'get' and parts[1] is 'search'
+      return handler.getByRelationship(req, res, parts[1..]...) if parts.length > 2
+      return handler.getById(req, res, parts[1]) if req.route.method is 'get' and parts[1]?
+      return handler.patch(req, res, parts[1]) if req.route.method is 'patch' and parts[1]?
+      handler[req.route.method](req, res)
     catch error
-      winston.error("Error trying db method #{req.route.method} route #{parts} from #{name}: #{error}")
-      winston.error(error)
+      log.error("Error trying db method #{req.route.method} route #{parts} from #{name}: #{error}")
+      log.error(error)
       errors.notFound(res, "Route #{req.path} not found.")
 
 getSchema = (req, res, moduleName) ->
@@ -38,5 +38,5 @@ getSchema = (req, res, moduleName) ->
     res.end()
 
   catch error
-    winston.error("Error trying to grab schema from #{name}: #{error}")
+    log.error("Error trying to grab schema from #{name}: #{error}")
     errors.notFound(res, "Schema #{moduleName} not found.")

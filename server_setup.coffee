@@ -1,6 +1,6 @@
 express = require 'express'
 path = require 'path'
-passport = require 'passport'
+authentication = require 'passport'
 useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 
@@ -33,8 +33,8 @@ setupExpressMiddleware = (app) ->
   app.use(express.cookieSession({secret:'defenestrate'}))
 
 setupPassportMiddleware = (app) ->
-  app.use(passport.initialize())
-  app.use(passport.session())
+  app.use(authentication.initialize())
+  app.use(authentication.session())
 
 setupOneSecondDelayMiddlware = (app) ->
   if(config.slow_down)
