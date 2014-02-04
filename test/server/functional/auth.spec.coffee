@@ -1,4 +1,4 @@
-require './common'
+require '../common'
 request = require 'request'
 
 urlLogin = getURL('/auth/login')
