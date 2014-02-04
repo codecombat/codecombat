@@ -31,8 +31,16 @@ module.exports = class ComponentsTabView extends View
         haveThisComponent.push thang.id if haveThisComponent.length < 100  # for performance when adding many Thangs
     return if _.isEqual presentComponents, @presentComponents
     @presentComponents = presentComponents
-    treemaData = _.sortBy ({original: key.split('.')[0], majorVersion: parseInt(key.split('.')[1], 10), thangs: value, count: value.length} for key, value of @presentComponents), "count"
-    treemaData.reverse()
+
+    componentModels = @supermodel.getModels LevelComponent
+    componentModelMap = {}
+    componentModelMap[comp.get('original')] = comp for comp in componentModels    
+    components = ({original: key.split('.')[0], majorVersion: parseInt(key.split('.')[1], 10), thangs: value, count: value.length} for key, value of @presentComponents)
+    treemaData = _.sortBy components, (comp) ->
+      comp = componentModelMap[comp.original]
+      res = [comp.get('system'), comp.get('name')]
+      return res
+      
     treemaOptions =
       supermodel: @supermodel
       schema: {type: 'array', items: {type: 'object', format: 'level-component'}}

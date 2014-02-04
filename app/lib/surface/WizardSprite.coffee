@@ -3,8 +3,6 @@ Camera = require './Camera'
 {me} = require 'lib/auth'
 
 module.exports = class WizardSprite extends IndieSprite
-  ticker: 0
-
   # Wizard targets are constantly changing, so a simple tween doesn't work.
   # Instead, the wizard stores its origin point and the (possibly) moving target.
   # Then it figures out its current position based on tween percentage and
@@ -16,12 +14,11 @@ module.exports = class WizardSprite extends IndieSprite
   reachedTarget: true
   spriteXOffset: 4  # meters from target sprite
   spriteYOffset: 0  # meters from target sprite
-  spriteZOffset: 1  # meters from ground (in middle of float)
 
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
     'me:synced': 'onMeSynced'
-    'surface:sprite-selected': 'onSpriteSelected'    
+    'surface:sprite-selected': 'onSpriteSelected'
     'echo-self-wizard-sprite': 'onEchoSelfWizardSprite'
     'echo-all-wizard-sprites': 'onEchoAllWizardSprites'
 
@@ -38,6 +35,9 @@ module.exports = class WizardSprite extends IndieSprite
   makeIndieThang: (thangType, thangID, pos) ->
     thang = super thangType, thangID, pos
     thang.isSelectable = false
+    thang.bobHeight = 1.5
+    thang.bobTime = 2
+    thang.pos.z += thang.bobHeight
     thang
 
   onPlayerStatesChanged: (e) ->
@@ -73,18 +73,8 @@ module.exports = class WizardSprite extends IndieSprite
       .to({scaleX: 0, scaleY: 0, alpha: 0}, 1000, createjs.Ease.getPowInOut(2.2))
     tween.call(callback) if callback
 
-  # We need the generalizable tinting system included in spritesheet making
-  #updateColorFilters: ->
-  #  return if @colorHue is undefined
-  #  rgb = hslToRgb(@colorHue, 1.0, 0.75)
-  #  rgb = (parseInt(val) / 256 for val in rgb)
-  #  rgb = rgb.concat([1, 0, 0, 0, 0])
-  #  filter = new createjs.ColorFilter(rgb...)
-  #  dob = @imageObject
-  #  dob.filters = [filter]
-  #  dob.cache(0, 0, @data.width, @data.height, Math.abs(dob.scaleX*2))
-
   setColorHue: (newColorHue) ->
+    # TODO: is this needed any more?
     return if @colorHue is newColorHue
     @colorHue = newColorHue
     #@updateColorFilters()
@@ -102,8 +92,7 @@ module.exports = class WizardSprite extends IndieSprite
 
   onEchoSelfWizardSprite: (e) -> e.payload = @ if @isSelf
   onEchoAllWizardSprites: (e) -> e.payload.push @
-  defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @spriteZOffset
-  getZOffset: -> @thang.depth / 2 + @spriteZOffset + Math.sin @ticker / 20  # Cloud bobbing.  
+  defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @thang.bobHeight
   move: (pos, duration) -> @setTarget(pos, duration)
 
   setTarget: (newTarget, duration) ->
@@ -196,7 +185,7 @@ module.exports = class WizardSprite extends IndieSprite
     """
     @targetPos = @targetSprite.thang.pos if @targetSprite
     pos = _.clone(@targetPos)
-    pos.z = @getZOffset()
+    pos.z = @defaultPos().z + @getBobOffset()
     @adjustPositionToSideOfTarget(pos) if @targetSprite  # be off to the side depending on placement in world
     return pos if @reachedTarget  # stick like glue
 
@@ -226,11 +215,6 @@ module.exports = class WizardSprite extends IndieSprite
   faceTarget: ->
     if @targetSprite
       @pointToward(@targetSprite.thang.pos)
-
-  updateIsometricRotation: (rotation, imageObject) ->
-    super rotation, imageObject
-    imageObject ?= @imageObject
-    imageObject.scaleX *= -1 if Math.abs(rotation) <= 45 or Math.abs(rotation) >= 135  # reverse it
 
   updateMarks: ->
     super() if @displayObject.visible  # not if we hid the wiz

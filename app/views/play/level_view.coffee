@@ -70,8 +70,8 @@ module.exports = class PlayLevelView extends View
       $('body').append($("<img src='http://code.org/api/hour/begin_codecombat.png' style='visibility: hidden;'>"))
       window.tracker?.trackEvent 'Hour of Code Begin', {}
 
-    @isEditorPreview = @getQueryVariable "dev"
-    @sessionID = @getQueryVariable "session"
+    @isEditorPreview = @getQueryVariable 'dev'
+    @sessionID = @getQueryVariable 'session'
 
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', =>
@@ -79,7 +79,14 @@ module.exports = class PlayLevelView extends View
       @$el.html('<div class="alert">' + msg + '</div>')
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
-    @load() unless @isEditorPreview
+    if @isEditorPreview
+      f = =>
+        @supermodel.shouldSaveBackups = (model) ->
+          model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
+        @load() unless @levelLoader
+      setTimeout f, 100
+    else
+      @load()
 
     # Save latest level played in local storage
     if localStorage?

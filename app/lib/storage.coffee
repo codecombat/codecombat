@@ -1,4 +1,4 @@
-module.exports.loadObjectFromStorage = (key) ->
+module.exports.load = (key) ->
   s = localStorage.getItem(key)
   return null unless s
   try
@@ -8,6 +8,8 @@ module.exports.loadObjectFromStorage = (key) ->
     console.warning('error loading from storage', key)
     return null
 
-module.exports.saveObjectToStorage = (key, value) ->
+module.exports.save = (key, value) ->
   s = JSON.stringify(value)
   localStorage.setItem(key, s)
+  
+module.exports.remove = (key) -> localStorage.removeItem key

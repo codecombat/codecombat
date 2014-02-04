@@ -7,8 +7,15 @@ module.exports = class Spell
   view: null
   entryView: null
 
-  constructor: (programmableMethod, @spellKey, @pathComponents, @session, @supermodel) ->
-    p = programmableMethod
+  constructor: (options) ->
+    @spellKey = options.spellKey
+    @pathComponents = options.pathComponents
+    @session = options.session
+    @supermodel = options.supermodel
+    @skipFlow = options.skipFlow
+    @skipProtectAPI = options.skipProtectAPI
+    p = options.programmableMethod
+
     @name = p.name
     @source = @session.getSourceFor(@spellKey) ? p.source
     @originalSource = p.source
@@ -21,7 +28,7 @@ module.exports = class Spell
     @tabView.render()
 
   addThang: (thang) ->
-    @thangs[thang.id] = {thang: thang, aether: @createAether(thang), castAether: null}
+    @thangs[thang.id] ?= {thang: thang, aether: @createAether(thang), castAether: null}
 
   canRead: (team) ->
     (team ? me.team) in @permissions.read or (team ? me.team) in @permissions.readwrite
@@ -56,19 +63,21 @@ module.exports = class Spell
 
   createAether: (thang) ->
     aetherOptions =
-      thisValue: thang.createUserContext()
       problems:
         jshint_W040: {level: "ignore"}
+        jshint_W030: {level: "ignore"}  # aether_NoEffect instead
         aether_MissingThis: {level: (if thang.requiresThis then 'error' else 'warning')}
       functionName: @name
       functionParameters: @parameters
       yieldConditionally: thang.plan?
       requiresThis: thang.requiresThis
-      includeFlow: true
+      # TODO: Gridmancer doesn't currently work with protectAPI, so hack it off
+      protectAPI: not (@skipProtectAPI or window.currentView?.level.get('name').match("Gridmancer")) and @permissions.readwrite.length > 0  # If anyone can write to this method, we must protect it.
+      includeFlow: not @skipFlow and @canRead()
         #callIndex: 0
         #timelessVariables: ['i']
         #statementIndex: 9001
-    if not (me.team in @permissions.readwrite)# or @name is 'chooseAction' or thang.id is 'Thoktar'  # Gridmancer can't handle it
+    if not (me.team in @permissions.readwrite) or window.currentView?.sessionID is "52bfb88099264e565d001349"  # temp fix for debugger explosion bug
       #console.log "Turning off includeFlow for", @spellKey
       aetherOptions.includeFlow = false
     aether = new Aether aetherOptions

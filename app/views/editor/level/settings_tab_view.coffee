@@ -36,4 +36,3 @@ module.exports = class SettingsTabView extends View
     $('.level-title').text @settingsTreema.data.name
     for key in @editableSettings
       @level.set key, @settingsTreema.data[key]
-    @supermodel.populateModel @level  # Make sure we grab any new data for, say, the background setting?

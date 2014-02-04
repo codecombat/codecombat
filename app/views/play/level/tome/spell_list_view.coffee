@@ -19,12 +19,11 @@ module.exports = class SpellListView extends View
 
   constructor: (options) ->
     super options
-    @spells = options.spells
     @sortSpells()
 
   sortSpells: ->
     # Keep only spells for which we have permissions
-    spells = _.filter @spells, (s) -> s.canRead()
+    spells = _.filter @options.spells, (s) -> s.canRead()
     @spells = _.sortBy spells, @sortScoreForSpell
     #console.log "Kept sorted spells", @spells
 
@@ -54,14 +53,17 @@ module.exports = class SpellListView extends View
     @addSpellListEntries()
 
   addSpellListEntries: ->
-    @entries = []
+    @entries ?= []
+    newEntries = []
     lastThangs = null
     for spell, index in @spells
+      continue if _.find @entries, spell: spell
       theseThangs = _.keys(spell.thangs)
       changedThangs = not lastThangs or not _.isEqual theseThangs, lastThangs
       lastThangs = theseThangs
-      @entries.push entry = new SpellListEntryView spell: spell, showTopDivider: changedThangs, supermodel: @supermodel
-    for entry in @entries
+      newEntries.push entry = new SpellListEntryView spell: spell, showTopDivider: changedThangs, supermodel: @supermodel
+      @entries.push entry
+    for entry in newEntries
       @$el.append entry.el
       entry.render()  # Render after appending so that we can access parent container for popover
 
@@ -73,3 +75,7 @@ module.exports = class SpellListView extends View
     @sortSpells()
     @sortEntries()
     @entries[0].setSelected true, @thang
+
+  addThang: (thang) ->
+    @sortSpells()
+    @addSpellListEntries()

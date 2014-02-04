@@ -1,24 +1,20 @@
 @import "../../bootstrap/mixins"
 
 #playback-view
-
   width: 55%
   height: 30px
-  @include box-sizing(border-box)
   position: relative
   background: #383434
 
   button
     height: 26px
+    background: transparent
+    @include opacity(0.50)
     i
       position: relative
-      // TODO: need actual bigger button images
-      //@include scale(1.5)
-    background: transparent
-    @include opacity(50)
 
   button:hover
-    @include opacity(75)
+    @include opacity(0.75)
     
   #play-button, #volume-button, #music-button
     float: left
@@ -28,22 +24,26 @@
     position: relative
     
   #music-button
-    @include opacity(25)
+    @include opacity(0.25)
     font-size: 20px
     &:hover
-      @include opacity(50)
+      @include opacity(0.50)
     &.music-on
-      @include opacity(50)
+      @include opacity(0.50)
       &:hover
-        @include opacity(75)
+        @include opacity(0.75)
     
   #play-button, #volume-button
     i
       display: none
       position: absolute
       left: 2px
-      top: 4px
-    
+      top: 2px
+ 
+  #settings-button
+    padding-left: 4px
+    padding-right: 4px
+
   #playback-settings
     float: right
     position: relative
@@ -65,9 +65,9 @@
     display: inline-block
   #volume-button.vol-off i.icon-volume-off
     display: inline-block
-    @include opacity(50)
+    @include opacity(0.50)
     &:hover
-      @include opacity(75)
+      @include opacity(0.75)
   #volume-button.vol-down i.icon-volume-down
     display: inline-block
 
@@ -92,7 +92,7 @@
       border-radius: 0
       border: 0
 
-      .bar
+      .progress-bar
         @include transition(width .0s linear)
         position: relative
         pointer-events: none

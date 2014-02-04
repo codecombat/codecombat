@@ -91,7 +91,7 @@ module.exports = class ThangListEntryView extends View
 
   showSpells: =>
     @sortSpells()
-    @$el.data('popover').options.content = @getSpellListHTML()
+    @$el.data('bs.popover').options.content = @getSpellListHTML()
     @$el.popover('setContent').popover('show')
     @$el.parent().parent().parent().i18n()
     clearTimeout @hideSpellsTimeout if @hideSpellsTimeout

@@ -76,7 +76,7 @@ module.exports = class SpriteBoss extends CocoClass
     id ?= sprite.thang.id
     console.error "Sprite collision! Already have:", id if @sprites[id]
     @sprites[id] = sprite
-    layer ?= @spriteLayers["Obstacle"] if sprite.thang?.spriteName.search(/dungeon.wall/i) isnt -1
+    layer ?= @spriteLayers["Obstacle"] if sprite.thang?.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
     layer ?= @layerForChild sprite.displayObject, sprite
     layer.addChild sprite.displayObject
     layer.updateLayerOrder()
@@ -163,7 +163,8 @@ module.exports = class SpriteBoss extends CocoClass
       if sprite = @sprites[thang.id]
         sprite.setThang thang  # make sure Sprite has latest Thang
       else
-        sprite = @addThangToSprites(thang) or updateOrder
+        sprite = @addThangToSprites(thang)
+        Backbone.Mediator.publish 'surface:new-thang-added', thang:thang, sprite:sprite
         updateCache = updateCache or sprite.displayObject.parent is @spriteLayers["Obstacle"]
         sprite.playSounds()
     for thangID, sprite of @sprites
@@ -176,7 +177,7 @@ module.exports = class SpriteBoss extends CocoClass
 
   cache: (update=false) ->
     return if @cached and not update
-    wallSprites = (sprite for thangID, sprite of @sprites when sprite.thangType?.get('name') is 'Dungeon Wall')
+    wallSprites = (sprite for thangID, sprite of @sprites when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
     walls = (sprite.thang for sprite in wallSprites)
     @world.calculateBounds()
     wallGrid = new Grid walls, @world.size()...

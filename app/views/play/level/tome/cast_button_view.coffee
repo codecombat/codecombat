@@ -32,6 +32,9 @@ module.exports = class CastButtonView extends View
     delay ?= 5000
     @setAutocastDelay delay
 
+  attachTo: (spellView) ->
+    @$el.detach().prependTo(spellView.toolbarView.$el).show()
+
   hookUpButtons: ->
     # hook up cast button callbacks
     @castButton = $('.cast-button', @$el)
@@ -55,7 +58,7 @@ module.exports = class CastButtonView extends View
 
   onWorldLoadProgressChanged: (e) ->
     overlay = @castButtonGroup.find '.button-progress-overlay'
-    overlay.css 'width', e.progress * @castButtonGroup.width()
+    overlay.css 'width', e.progress * @castButtonGroup.width() - 6
 
   onNewWorld: (e) ->
     @casting = false

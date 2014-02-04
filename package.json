@@ -43,7 +43,7 @@
     "passport": "0.1.x",
     "passport-local": "0.1.x",
     "mongodb": "1.2.x",
-    "mongoose": "3.6.x",
+    "mongoose": "3.8.x",
     "mongoose-text-search": "~0.0.2",
     "request": "2.12.x",
     "tv4": "1.0.x",
