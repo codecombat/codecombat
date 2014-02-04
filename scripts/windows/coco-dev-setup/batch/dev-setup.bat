@@ -1,6 +1,8 @@
 @echo off
 setlocal EnableDelayedExpansion
 
+mode con: cols=78 lines=60
+
 :: Global Variables
 set "temp-dir=C:\Coco-Temp"
 set install-log=%temp-dir%\coco-dev-install-log.txt
@@ -15,8 +17,12 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 set "ZU-app=utilities\7za.exe"
 
 :: TODO:
-::  + Full Automatic Package bat file.
+::  + Agreement Contract
+::  + End sentence (you can close now)
+::  + Split sections better
+::  + Colored text
 ::  + Write code to set environment variables...
+
 ::  + Write code to install vs if it's not yet installed on users pc
 ::  + Write Git Checkout repository code:
 ::      1) Let user specify destination
@@ -42,6 +48,17 @@ call:parse_file_new "config\config" cnfg n
 
 call:log "Welcome to the automated Installation of the CodeCombat Dev. Environment!"
 call:log_sse "v%%cnfg[1]%% authored by %%cnfg[2]%% and published by %%cnfg[3]%%."
+
+:: Language Agreement Stuff
+
+call:log "In order to continue the installation of the developers environment"
+call:log "you will have to read and agree with the following license:
+call:draw_dss
+echo.
+call:parse_aa_and_draw "license.txt"
+echo.
+call:draw_dss
+call:user_yn_question "Have you read the license and do you agree with it?" res  
 
 :: Read Language Index
 call:parse_file_new "localisation\languages" lang lang_c
@@ -199,7 +216,7 @@ goto report_ok
 goto clean_up
 
 :open_readme
-  call:open_txt_file "config/README.txt"
+  call:open_txt_file "config/info"
 goto:eof
 
 :warn_and_exit
@@ -234,11 +251,7 @@ goto:eof
 
 :install_software_o
   call:get_lw word %~4
-  set /p result="%word% [Y/N]: "
-  call:draw_dss
-  set res=false
-  if "%result%"=="N" set res=true
-  if "%result%"=="n" set res=true
+  call:user_yn_question "%word%" res
   if "%res%"=="true" (
     call:install_software %~1 %~2 %~3
   ) else (
@@ -271,13 +284,17 @@ goto:eof
   rmdir %packed_software_path%\%temp_dir%\ /s /q
 goto:eof
 
+:user_yn_question
+  set /p result="%~1 [Y/N]: "
+  call:draw_dss
+  set %~2=false
+  if "%result%"=="N" set %~2==true
+  if "%result%"=="n" set %~2==true
+goto:eof
+
 :install_packed_software_o
   call:get_lw word %~4
-  set /p result="%word% [Y/N]: "
-  call:draw_dss
-  set res=false
-  if "%result%"=="N" set res=true
-  if "%result%"=="n" set res=true
+  call:user_yn_question "%word%" res
   if "%res%"=="true" (
     call:install_packed_software %~1 %~2 %~3
   ) else (
@@ -323,7 +340,7 @@ goto:eof
 
 :parse_aa_and_draw
   set "file=%~1"
-  for /F "usebackq delims=" %%a in ("%file%") do (
+  for /f "usebackq tokens=* delims=;" %%a in ("%file%") do (
     echo.%%a
   )
 goto:eof
