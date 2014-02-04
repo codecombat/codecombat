@@ -150,6 +150,8 @@ goto:eof
   call:install_software_o "node-js" "%%downloads_64[1]%%" msi 12
   call:draw_dss
   call:install_software_o "ruby" "%%downloads_64[2]%%" exe 13
+  call:draw_dss
+  call:install_software_o "python" "%%downloads_64[3]%%" msi 26
   
   :: Some installations require specific windows versions
   for /f "tokens=4-5 delims=. " %%i in ('ver') do set VERSION=%%i.%%j
@@ -167,6 +169,8 @@ GOTO END
   call:install_software_o "node-js" "%%downloads_32[1]%%" msi 12
   call:draw_dss
   call:install_software_o "ruby" "%%downloads_32[2]%%" exe 13
+  call:draw_dss
+  call:install_software_o "python" "%%downloads_32[3]%%" msi 26
   
   :: Some installations require specific windows versions
   for /f "tokens=4-5 delims=. " %%i in ('ver') do set VERSION=%%i.%%j
