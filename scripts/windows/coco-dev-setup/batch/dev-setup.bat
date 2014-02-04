@@ -15,6 +15,7 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 set "ZU-app=utilities\7za.exe"
 
 :: TODO:
+::  + Download 7zip exe!!
 ::  + Write code to set environment variables...
 ::  + Write code to install vs if it's not yet installed on users pc
 ::  + Write Git Checkout repository code:
