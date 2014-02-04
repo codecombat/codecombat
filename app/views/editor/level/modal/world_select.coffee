@@ -42,8 +42,8 @@ module.exports = class WorldSelectModal extends View
 
   initSurface: ->
     canvas = @$el.find('canvas')
-    canvas.attr('width', @$el.width()-40)
-    canvas.attr('height', parseInt($('body').height()*.6))
+    canvas.attr('width', currentView.$el.width()*.8-70)
+    canvas.attr('height', currentView.$el.height()*.6)
     @surface = new Surface @world, canvas, {
       wizards: false
       paths: false

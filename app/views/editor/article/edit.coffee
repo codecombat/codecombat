@@ -16,6 +16,7 @@ module.exports = class ArticleEditView extends View
   constructor: (options, @articleID) ->
     super options
     @article = new Article(_id: @articleID)
+    @article.saveBackups = true
     @article.fetch()
     @article.once('sync', @onArticleSync)
     @article.on('schema-loaded', @buildTreema)
@@ -43,6 +44,8 @@ module.exports = class ArticleEditView extends View
     @treema.build()
 
   pushChangesToPreview: =>
+    for key, value of @treema.data
+      @article.set(key, value)
     return unless @treema and @preview
     m = marked(@treema.data.body)
     b = $(@preview.document.body)

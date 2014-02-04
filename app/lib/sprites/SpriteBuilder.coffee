@@ -13,7 +13,9 @@ module.exports = class SpriteBuilder
 
   buildMovieClip: (animationName, movieClipArgs...) ->
     animData = @animationStore[animationName]
-    console.log "couldn't find animData from", @animationStore, "for", animationName unless animData
+    unless animData
+      console.error "couldn't find animData from", @animationStore, "for", animationName
+      return null
     locals = {}
     _.extend locals, @buildMovieClipShapes(animData.shapes)
     _.extend locals, @buildMovieClipContainers(animData.containers)

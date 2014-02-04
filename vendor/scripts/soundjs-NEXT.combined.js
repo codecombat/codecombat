@@ -27,7 +27,7 @@ this.createjs = this.createjs || {};
 	 * @type String
 	 * @static
 	 **/
-	s.buildDate = /*date*/"Wed, 27 Nov 2013 19:49:18 GMT"; // injected by build process
+	s.buildDate = /*date*/"Tue, 21 Jan 2014 18:00:36 GMT"; // injected by build process
 
 })();
 /*
@@ -142,6 +142,7 @@ var p = EventDispatcher.prototype;
 		target.hasEventListener = p.hasEventListener;
 		target.dispatchEvent = p.dispatchEvent;
 		target._dispatchEvent = p._dispatchEvent;
+		target.willTrigger = p.willTrigger;
 	};
 	
 // constructor:
@@ -358,7 +359,7 @@ var p = EventDispatcher.prototype;
 	};
 
 	/**
-	 * Indicates whether there is at least one listener for the specified event type and `useCapture` value.
+	 * Indicates whether there is at least one listener for the specified event type.
 	 * @method hasEventListener
 	 * @param {String} type The string type of the event.
 	 * @return {Boolean} Returns true if there is at least one listener for the specified event.
@@ -366,6 +367,26 @@ var p = EventDispatcher.prototype;
 	p.hasEventListener = function(type) {
 		var listeners = this._listeners, captureListeners = this._captureListeners;
 		return !!((listeners && listeners[type]) || (captureListeners && captureListeners[type]));
+	};
+	
+	/**
+	 * Indicates whether there is at least one listener for the specified event type on this object or any of its
+	 * ancestors (parent, parent's parent, etc). A return value of true indicates that if a bubbling event of the
+	 * specified type is dispatched from this object, it will trigger at least one listener.
+	 * 
+	 * This is similar to {{#crossLink "EventDispatcher/hasEventListener"}}{{/crossLink}}, but it searches the entire
+	 * event flow for a listener, not just this object.
+	 * @method willTrigger
+	 * @param {String} type The string type of the event.
+	 * @return {Boolean} Returns `true` if there is at least one listener for the specified event.
+	 **/
+	p.willTrigger = function(type) {
+		var o = this;
+		while (o) {
+			if (o.hasEventListener(type)) { return true; }
+			o = o.parent;
+		}
+		return false;
 	};
 
 	/**
@@ -880,9 +901,6 @@ this.createjs = this.createjs || {};
  *      <li>Master volume, mute, and stop controls for all sounds at once</li>
  * </ul>
  *
- * <b>Please note that as of version 0.4.0, the "SoundJS" object only provides version information. All APIs from
- * SoundJS are now available on the {{#crossLink "Sound"}}{{/crossLink}} class.</b>
- *
  * <b>Controlling Sounds</b><br />
  * Playing sounds creates {{#crossLink "SoundInstance"}}{{/crossLink}} instances, which can be controlled individually.
  * <ul><li>Pause, resume, seek, and stop sounds</li>
@@ -997,7 +1015,7 @@ this.createjs = this.createjs || {};
 	 * <b>Firefox 25 Web Audio limitations</b>
 	 * <ul><li>mp3 audio files do not load properly on all windows machines, reported
 	 * <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=929969" target="_blank">here</a>. </br>
-	 * For this reason it is recommended to pass ogg file first until this bug is resolved, if possible.</li></ul>
+	 * For this reason it is recommended to pass another FF supported type (ie ogg) first until this bug is resolved, if possible.</li></ul>
 
 	 * <b>Safari limitations</b><br />
 	 * <ul><li>Safari requires Quicktime to be installed for audio playback.</li></ul>
@@ -1005,10 +1023,9 @@ this.createjs = this.createjs || {};
 	 * <b>iOS 6 Web Audio limitations</b><br />
 	 * <ul><li>Sound is initially muted and will only unmute through play being called inside a user initiated event
 	 * (touch/click).</li>
-	 * <li>Despite suggestions to the opposite, we have control over audio volume through our gain nodes.</li>
-	 * <li>A bug exists that will distort un-cached web audio when a video element is present in the DOM.</li>
+	 * <li>A bug exists that will distort un-cached web audio when a video element is present in the DOM that has audio at a different sampleRate.</li>
 	 * <li>Note HTMLAudioPlugin is not supported on iOS by default.  See {{#crossLink "HTMLAudioPlugin"}}{{/crossLink}}
-	 * for more details.<li>
+	 * for more details.</li>
 	 * </ul>
 	 *
 	 * <b>Android HTML Audio limitations</b><br />
@@ -1028,8 +1045,10 @@ this.createjs = this.createjs || {};
 	var s = Sound;
 
 	/**
+	 * DEPRECATED
 	 * This approach has is being replaced by {{#crossLink "Sound/alternateExtensions:property"}}{{/crossLink}}, and
 	 * support will be removed in the next version.
+	 *
 	 * The character (or characters) that are used to split multiple paths from an audio source.
 	 * @property DELIMITER
 	 * @type {String}
@@ -1038,16 +1057,6 @@ this.createjs = this.createjs || {};
 	 * @deprecated
 	 */
 	s.DELIMITER = "|";
-
-	/**
-	 * The duration in milliseconds to determine a timeout.
-	 * @property AUDIO_TIMEOUT
-	 * @static
-	 * @type {Number}
-	 * @default 8000
-	 * @protected
-	 */
-	s.AUDIO_TIMEOUT = 8000; // TODO: This is not implemented  // OJR remove property? doc'd as protected to remove from docs for now
 
 	/**
 	 * The interrupt value to interrupt any currently playing instance with the same source, if the maximum number of
@@ -1143,12 +1152,12 @@ this.createjs = this.createjs || {};
 	 *
 	 * NOTE this does not currently work for {{#crossLink "FlashPlugin"}}{{/crossLink}}.
 	 *
-	 * More details on file formats can be found at http://en.wikipedia.org/wiki/Audio_file_format. A very detailed
-	 * list of file formats can be found at http://www.fileinfo.com/filetypes/audio. A useful list of extensions for
-	 * each format can be found at http://html5doctor.com/html5-audio-the-state-of-play/
+	 * More details on file formats can be found at <a href="http://en.wikipedia.org/wiki/Audio_file_format" target="_blank">http://en.wikipedia.org/wiki/Audio_file_format</a>.<br />
+	 * A very detailed list of file formats can be found at <a href="http://www.fileinfo.com/filetypes/audio" target="_blank">http://www.fileinfo.com/filetypes/audio</a>.
 	 * @property SUPPORTED_EXTENSIONS
 	 * @type {Array[String]}
 	 * @default ["mp3", "ogg", "mpeg", "wav", "m4a", "mp4", "aiff", "wma", "mid"]
+	 * @since 0.4.0
 	 */
 	s.SUPPORTED_EXTENSIONS = ["mp3", "ogg", "mpeg", "wav", "m4a", "mp4", "aiff", "wma", "mid"];  // OJR FlashPlugin does not currently support
 
@@ -1156,9 +1165,12 @@ this.createjs = this.createjs || {};
 	 * Some extensions use another type of extension support to play (one of them is a codex).  This allows you to map
 	 * that support so plugins can accurately determine if an extension is supported.  Adding to this list can help
 	 * plugins determine more accurately if an extension is supported.
+	 *
+ 	 * A useful list of extensions for each format can be found at <a href="http://html5doctor.com/html5-audio-the-state-of-play/" target="_blank">http://html5doctor.com/html5-audio-the-state-of-play/</a>.
 	 * @property EXTENSION_MAP
 	 * @type {Object}
 	 * @since 0.4.0
+	 * @default {m4a:"mp4"}
 	 */
 	s.EXTENSION_MAP = {
 		m4a:"mp4"
@@ -1181,7 +1193,7 @@ this.createjs = this.createjs || {};
 	 * is called without passing a value for interrupt.
 	 * @property defaultInterruptBehavior
 	 * @type {String}
-	 * @default none
+	 * @default Sound.INTERRUPT_NONE, or "none"
 	 * @static
 	 * @since 0.4.0
 	 */
@@ -1190,19 +1202,21 @@ this.createjs = this.createjs || {};
 	/**
 	 * An array of extensions to attempt to use when loading sound, if the default is unsupported by the active plugin.
 	 * These are applied in order, so if you try to Load Thunder.ogg in a browser that does not support ogg, and your
-	 * extensions array is ["mp3", "m4a", "wav"] it will check mp3 support, then m4a, then wav. These audio files need
-	 * to exist in the same location.
+	 * extensions array is ["mp3", "m4a", "wav"] it will check mp3 support, then m4a, then wav. The audio files need
+	 * to exist in the same location, as only the extension is altered.
 	 *
+	 * Note that regardless of which file is loaded, you can call {{#crossLink "Sound/createInstance"}}{{/crossLink}}
+	 * and {{#crossLink "Sound/play"}}{{/crossLink}} using the same id or full source path passed for loading.
 	 * <h4>Example</h4>
-	 *      var manifest = [
-	 *          {src:"asset0.ogg", id:"example"},
-	 *      ];
-	 * 		createjs.Sound.alternateExtensions = ["mp3"];	// now if ogg is not supported, SoundJS will try asset0.mp3
-	 *      createjs.Sound.addEventListener("fileload", handleLoad); // call handleLoad when each sound loads
-	 *      createjs.Sound.registerManifest(manifest, assetPath);
+	 *	var manifest = [
+	 *		{src:"myPath/mySound.ogg", id:"example"},
+	 *	];
+	 *	createjs.Sound.alternateExtensions = ["mp3"]; // now if ogg is not supported, SoundJS will try asset0.mp3
+	 *	createjs.Sound.addEventListener("fileload", handleLoad); // call handleLoad when each sound loads
+	 *	createjs.Sound.registerManifest(manifest, assetPath);
+	 *	// ...
+	 *	createjs.Sound.play("myPath/mySound.ogg"); // works regardless of what extension is supported.  Note calling with ID is a better approach
 	 *
-	 * Note that regardless of which file is loaded, you can create and play instances using the id or the same
-	 * assetPath + src passed for loading.
 	 * @property alternateExtensions
 	 * @type {Array}
 	 * @since 0.5.2
@@ -1211,12 +1225,12 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Used internally to assign unique IDs to each SoundInstance.
-	 * @property lastID
+	 * @property _lastID
 	 * @type {Number}
 	 * @static
 	 * @protected
 	 */
-	s.lastId = 0;
+	s._lastID = 0;
 
 	/**
 	 * The currently active plugin. If this is null, then no plugin could be initialized. If no plugin was specified,
@@ -1232,80 +1246,80 @@ this.createjs = this.createjs || {};
 	 * Determines if the plugins have been registered. If false, the first call to play() will instantiate the default
 	 * plugins ({{#crossLink "WebAudioPlugin"}}{{/crossLink}}, followed by {{#crossLink "HTMLAudioPlugin"}}{{/crossLink}}).
 	 * If plugins have been registered, but none are applicable, then sound playback will fail.
-	 * @property pluginsRegistered
+	 * @property _pluginsRegistered
 	 * @type {Boolean}
 	 * @default false
 	 * @static
 	 * @protected
 	 */
-	s.pluginsRegistered = false;
+	s._pluginsRegistered = false;
 
 	/**
 	 * The master volume value, which affects all sounds. Use {{#crossLink "Sound/getVolume"}}{{/crossLink}} and
 	 * {{#crossLink "Sound/setVolume"}}{{/crossLink}} to modify the volume of all audio.
-	 * @property masterVolume
+	 * @property _masterVolume
 	 * @type {Number}
 	 * @default 1
 	 * @protected
 	 * @since 0.4.0
 	 */
-	s.masterVolume = 1;
+	s._masterVolume = 1;
 
 	/**
 	 * The master mute value, which affects all sounds.  This is applies to all sound instances.  This value can be set
 	 * through {{#crossLink "Sound/setMute"}}{{/crossLink}} and accessed via {{#crossLink "Sound/getMute"}}{{/crossLink}}.
-	 * @property masterMute
+	 * @property _masterMute
 	 * @type {Boolean}
 	 * @default false
 	 * @protected
 	 * @static
 	 * @since 0.4.0
 	 */
-	s.masterMute = false;
+	s._masterMute = false;
 
 	/**
 	 * An array containing all currently playing instances. This allows Sound to control the volume, mute, and playback of
 	 * all instances when using static APIs like {{#crossLink "Sound/stop"}}{{/crossLink}} and {{#crossLink "Sound/setVolume"}}{{/crossLink}}.
 	 * When an instance has finished playback, it gets removed via the {{#crossLink "Sound/finishedPlaying"}}{{/crossLink}}
-	 * method. If the user replays an instance, it gets added back in via the {{#crossLink "Sound/beginPlaying"}}{{/crossLink}}
+	 * method. If the user replays an instance, it gets added back in via the {{#crossLink "Sound/_beginPlaying"}}{{/crossLink}}
 	 * method.
-	 * @property instances
+	 * @property _instances
 	 * @type {Array}
 	 * @protected
 	 * @static
 	 */
-	s.instances = [];
+	s._instances = [];
 
 	/**
 	 * An object hash storing sound sources via there corresponding ID.
-	 * @property idHash
+	 * @property _idHash
 	 * @type {Object}
 	 * @protected
 	 * @static
 	 */
-	s.idHash = {};
+	s._idHash = {};
 
 	/**
 	 * An object hash that stores preloading sound sources via the parsed source that is passed to the plugin.  Contains the
 	 * source, id, and data that was passed in by the user.  Parsed sources can contain multiple instances of source, id,
 	 * and data.
-	 * @property preloadHash
+	 * @property _preloadHash
 	 * @type {Object}
 	 * @protected
 	 * @static
 	 */
-	s.preloadHash = {};
+	s._preloadHash = {};
 
 	/**
 	 * An object that stands in for audio that fails to play. This allows developers to continue to call methods
 	 * on the failed instance without having to check if it is valid first. The instance is instantiated once, and
 	 * shared to keep the memory footprint down.
-	 * @property defaultSoundInstance
+	 * @property _defaultSoundInstance
 	 * @type {Object}
 	 * @protected
 	 * @static
 	 */
-	s.defaultSoundInstance = null;
+	s._defaultSoundInstance = null;
 
 // mix-ins:
 	// EventDispatcher methods:
@@ -1344,19 +1358,19 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Used by external plugins to dispatch file load events.
-	 * @method sendFileLoadEvent
+	 * @method _sendFileLoadEvent
 	 * @param {String} src A sound file has completed loading, and should be dispatched.
 	 * @protected
 	 * @static
 	 * @since 0.4.1
 	 */
-	s.sendFileLoadEvent = function (src) {
-		if (!s.preloadHash[src]) {
+	s._sendFileLoadEvent = function (src) {
+		if (!s._preloadHash[src]) {
 			return;
 		}
-		for (var i = 0, l = s.preloadHash[src].length; i < l; i++) {
-			var item = s.preloadHash[src][i];
-			s.preloadHash[src][i] = true;
+		for (var i = 0, l = s._preloadHash[src].length; i < l; i++) {
+			var item = s._preloadHash[src][i];
+			s._preloadHash[src][i] = true;
 
 			if (!s.hasEventListener("fileload")) { continue; }
 
@@ -1402,6 +1416,11 @@ this.createjs = this.createjs || {};
 	 * @deprecated
 	 */
 	s.registerPlugin = function (plugin) {
+		try {
+			console.log("createjs.Sound.registerPlugin has been deprecated. Please use registerPlugins.");
+		} catch (err) {
+			// you are in IE with the console closed, you monster
+		}
 		return s._registerPlugin(plugin);
 	};
 
@@ -1422,7 +1441,7 @@ this.createjs = this.createjs || {};
 	 * @private
 	 */
 	s._registerPlugin = function (plugin) {
-		s.pluginsRegistered = true;
+		s._pluginsRegistered = true;
 		if (plugin == null) {
 			return false;
 		}
@@ -1462,19 +1481,18 @@ this.createjs = this.createjs || {};
 	 * the user has manually registered plugins, and enables Sound to work without manual plugin setup. Currently, the
 	 * default plugins are {{#crossLink "WebAudioPlugin"}}{{/crossLink}} followed by {{#crossLink "HTMLAudioPlugin"}}{{/crossLink}}.
 	 *
-	 *  * <h4>Example</h4>
-	 *      if (!createjs.initializeDefaultPlugins()) { return; }
+	 * <h4>Example</h4>
+	 * 	if (!createjs.initializeDefaultPlugins()) { return; }
 	 *
 	 * @method initializeDefaultPlugins
-	 * @returns {Boolean} If a plugin is initialized (true) or not (false). If the browser does not have the
-	 * capabilities to initialize any available plugins, this will return false.
+	 * @returns {Boolean} True if a plugin was initialized, false otherwise.
 	 * @since 0.4.0
 	 */
 	s.initializeDefaultPlugins = function () {
 		if (s.activePlugin != null) {
 			return true;
 		}
-		if (s.pluginsRegistered) {
+		if (s._pluginsRegistered) {
 			return false;
 		}
 		if (s.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin])) {
@@ -1489,10 +1507,10 @@ this.createjs = this.createjs || {};
 	 * <h4>Example</h4>
 	 * This example sets up a Flash fallback, but only if there is no plugin specified yet.
 	 *
-	 *      if (!createjs.Sound.isReady()) {
-	 *			createjs.FlashPlugin.swfPath = "../src/SoundJS/";
-	 *      	createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin, createjs.FlashPlugin]);
-	 *      }
+	 * 	if (!createjs.Sound.isReady()) {
+	 *		createjs.FlashPlugin.swfPath = "../src/SoundJS/";
+	 * 		createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.HTMLAudioPlugin, createjs.FlashPlugin]);
+	 *	}
 	 *
 	 * @method isReady
 	 * @return {Boolean} If Sound has initialized a plugin.
@@ -1508,6 +1526,9 @@ this.createjs = this.createjs || {};
 	 * <ul>
 	 *     <li><b>panning:</b> If the plugin can pan audio from left to right</li>
 	 *     <li><b>volume;</b> If the plugin can control audio volume.</li>
+	 *     <li><b>tracks:</b> The maximum number of audio tracks that can be played back at a time. This will be -1
+	 *     if there is no known limit.</li>
+	 * <br />An entry for each file type in {{#crossLink "Sound/SUPPORTED_EXTENSIONS:property"}}{{/crossLink}}:
 	 *     <li><b>mp3:</b> If MP3 audio is supported.</li>
 	 *     <li><b>ogg:</b> If OGG audio is supported.</li>
 	 *     <li><b>wav:</b> If WAV audio is supported.</li>
@@ -1517,8 +1538,7 @@ this.createjs = this.createjs || {};
 	 *     <li><b>aiff:</b> If aiff audio is supported.</li>
 	 *     <li><b>wma:</b> If wma audio is supported.</li>
 	 *     <li><b>mid:</b> If mid audio is supported.</li>
-	 *     <li><b>tracks:</b> The maximum number of audio tracks that can be played back at a time. This will be -1
-	 *     if there is no known limit.</li>
+	 * </ul>
 	 * @method getCapabilities
 	 * @return {Object} An object containing the capabilities of the active plugin.
 	 * @static
@@ -1527,7 +1547,7 @@ this.createjs = this.createjs || {};
 		if (s.activePlugin == null) {
 			return null;
 		}
-		return s.activePlugin.capabilities;
+		return s.activePlugin._capabilities;
 	};
 
 	/**
@@ -1547,7 +1567,7 @@ this.createjs = this.createjs || {};
 		if (s.activePlugin == null) {
 			return null;
 		}
-		return s.activePlugin.capabilities[key];
+		return s.activePlugin._capabilities[key];
 	};
 
 	/**
@@ -1594,7 +1614,7 @@ this.createjs = this.createjs || {};
 	 * channels for an audio instance, however a "channels" property can be appended to the data object if it is used
 	 * for other information. The audio channels will set a default based on plugin if no value is found.
 	 * @param {Boolean} [preload=true] If the sound should be internally preloaded so that it can be played back
-	 * without an external preloader.
+	 * without an external preloader.  This is currently used by PreloadJS when loading sounds to disable internal preloading.
 	 * @param {string} basePath Set a path that will be prepended to src for loading.
 	 * @return {Object} An object with the modified values that were passed in, which defines the sound.
 	 * Returns false if the source cannot be parsed or no plugins can be initialized.
@@ -1618,17 +1638,20 @@ this.createjs = this.createjs || {};
 
 		// branch to different parse based on alternate formats setting
 		if (s.alternateExtensions.length) {
-			var details = s.parsePath2(src, "sound", id, data);
+			var details = s._parsePath2(src, "sound", id, data);
 		} else {
-			var details = s.parsePath(src, "sound", id, data);
+			var details = s._parsePath(src, "sound", id, data);
 		}
 		if (details == null) {
 			return false;
 		}
-		if (basePath != null) {details.src = basePath + details.src;}
+		if (basePath != null) {
+			src = basePath + src;
+			details.src = basePath + details.src;
+		}
 
 		if (id != null) {
-			s.idHash[id] = details.src;
+			s._idHash[id] = details.src;
 		}
 
 		var numChannels = null; // null tells SoundChannel to set this to it's internal maxDefault
@@ -1656,6 +1679,7 @@ this.createjs = this.createjs || {};
 			}
 
 			// If the loader returns a tag, return it instead for preloading.
+			// OJR all loaders currently use tags?
 			if (loader.tag != null) {
 				details.tag = loader.tag;
 			} else if (loader.src) {
@@ -1671,16 +1695,16 @@ this.createjs = this.createjs || {};
 		}
 
 		if (preload != false) {
-			if (!s.preloadHash[details.src]) {
-				s.preloadHash[details.src] = [];
+			if (!s._preloadHash[details.src]) {
+				s._preloadHash[details.src] = [];
 			}  // we do this so we can store multiple id's and data if needed
-			s.preloadHash[details.src].push({src:src, id:id, data:data});  // keep this data so we can return it in fileload event
-			if (s.preloadHash[details.src].length == 1) {
+			s._preloadHash[details.src].push({src:src, id:id, data:data});  // keep this data so we can return it in fileload event
+			if (s._preloadHash[details.src].length == 1) {
 				// if already loaded once, don't load a second time  // OJR note this will disallow reloading a sound if loading fails or the source changes
 				s.activePlugin.preload(details.src, loader);
 			} else {
 				// if src already loaded successfully, return true
-				if (s.preloadHash[details.src][0] == true) {return true;}
+				if (s._preloadHash[details.src][0] == true) {return true;}
 			}
 		}
 
@@ -1704,13 +1728,13 @@ this.createjs = this.createjs || {};
 	 *
 	 * @method registerManifest
 	 * @param {Array} manifest An array of objects to load. Objects are expected to be in the format needed for
-	 * {{#crossLink "Sound/registerSound"}}{{/crossLink}}: <code>{src:srcURI, id:ID, data:Data, preload:UseInternalPreloader}</code>
-	 * with "id", "data", and "preload" being optional.
-	 * @param {string} basePath Set a path that will be prepended to each src when loading.  When creating or playing
+	 * {{#crossLink "Sound/registerSound"}}{{/crossLink}}: <code>{src:srcURI, id:ID, data:Data}</code>
+	 * with "id" and "data" being optional.
+	 * @param {string} basePath Set a path that will be prepended to each src when loading.  When creating, playing, or removing
 	 * audio that was loaded with a basePath by src, the basePath must be included.
 	 * @return {Object} An array of objects with the modified values that were passed in, which defines each sound.
-	 * Like registerSound, it will return false for any values that the source cannot be parsed or if no plugins can be initialized.
-	 * Also, it will returns true for any values that the source is already loaded.
+	 * Like registerSound, it will return false for any values when the source cannot be parsed or if no plugins can be initialized.
+	 * Also, it will return true for any values when the source is already loaded.
 	 * @static
 	 * @since 0.4.0
 	 */
@@ -1718,15 +1742,15 @@ this.createjs = this.createjs || {};
 		var returnValues = [];
 		for (var i = 0, l = manifest.length; i < l; i++) {
 			returnValues[i] = createjs.Sound.registerSound(manifest[i].src, manifest[i].id, manifest[i].data, manifest[i].preload, basePath);
-		}
+		}	// OJR consider removing .preload from args, as it is only used by PreloadJS
 		return returnValues;
 	};
 
 	/**
 	 * Remove a sound that has been registered with {{#crossLink "Sound/registerSound"}}{{/crossLink}} or
 	 * {{#crossLink "Sound/registerManifest"}}{{/crossLink}}.
-	 * Note this will stop playback on active instances playing this sound before deleting them.
-	 * Note if you passed in a basePath, you need to prepend it to the src here.
+	 * <br />Note this will stop playback on active instances playing this sound before deleting them.
+	 * <br />Note if you passed in a basePath, you need to pass it or prepend it to the src here.
 	 *
 	 * <h4>Example</h4>
 	 *      createjs.Sound.removeSound("myAudioBasePath/mySound.ogg");
@@ -1747,12 +1771,12 @@ this.createjs = this.createjs || {};
 		if (src instanceof Object) {
 			src = src.src;
 		}
-		src = s.getSrcById(src);
+		src = s._getSrcById(src);
 
 		if (s.alternateExtensions.length) {
-			var details = s.parsePath2(src);
+			var details = s._parsePath2(src);
 		} else {
-			var details = s.parsePath(src);
+			var details = s._parsePath(src);
 		}
 		if (details == null) {
 			return false;
@@ -1760,18 +1784,18 @@ this.createjs = this.createjs || {};
 		if (basePath != null) {details.src = basePath + details.src;}
 		src = details.src;
 
-		// remove src from idHash	// Note "for in" can be a slow operation
-		for(var prop in s.idHash){
-			if(s.idHash[prop] == src) {
-				delete(s.idHash[prop]);
+		// remove src from _idHash	// Note "for in" can be a slow operation
+		for(var prop in s._idHash){
+			if(s._idHash[prop] == src) {
+				delete(s._idHash[prop]);
 			}
 		}
 
 		// clear from SoundChannel, which also stops and deletes all instances
 		SoundChannel.removeSrc(src);
 
-		// remove src from preloadHash
-		delete(s.preloadHash[src]);
+		// remove src from _preloadHash
+		delete(s._preloadHash[src]);
 
 		// activePlugin cleanup
 		s.activePlugin.removeSound(src);
@@ -1782,8 +1806,8 @@ this.createjs = this.createjs || {};
 	/**
 	 * Remove a manifest of audio files that have been registered with {{#crossLink "Sound/registerSound"}}{{/crossLink}} or
 	 * {{#crossLink "Sound/registerManifest"}}{{/crossLink}}.
-	 * Note this will stop playback on active instances playing this audio before deleting them.
-	 * Note if you passed in a basePath, you do not need to pass it or add it to the src here.
+	 * <br />Note this will stop playback on active instances playing this audio before deleting them.
+	 * <br />Note if you passed in a basePath, you need to pass it or prepend it to the src here.
 	 *
 	 * <h4>Example</h4>
 	 *      var manifest = [
@@ -1813,7 +1837,7 @@ this.createjs = this.createjs || {};
 	/**
 	 * Remove all sounds that have been registered with {{#crossLink "Sound/registerSound"}}{{/crossLink}} or
 	 * {{#crossLink "Sound/registerManifest"}}{{/crossLink}}.
-	 * Note this will stop playback on all active sound instances before deleting them.
+	 * <br />Note this will stop playback on all active sound instances before deleting them.
 	 *
 	 * <h4>Example</h4>
 	 *     createjs.Sound.removeAllSounds();
@@ -1823,8 +1847,8 @@ this.createjs = this.createjs || {};
 	 * @since 0.4.1
 	 */
 	s.removeAllSounds = function() {
-		s.idHash = {};
-		s.preloadHash = {};
+		s._idHash = {};
+		s._preloadHash = {};
 		SoundChannel.removeAll();
 		s.activePlugin.removeAllSounds();
 	};
@@ -1846,16 +1870,16 @@ this.createjs = this.createjs || {};
 	 */
 	s.loadComplete = function (src) {
 		if (s.alternateExtensions.length) {
-			var details = s.parsePath2(src, "sound");
+			var details = s._parsePath2(src, "sound");
 		} else {
-			var details = s.parsePath(src, "sound");
+			var details = s._parsePath(src, "sound");
 		}
 		if (details) {
-			src = s.getSrcById(details.src);
+			src = s._getSrcById(details.src);
 		} else {
-			src = s.getSrcById(src);
+			src = s._getSrcById(src);
 		}
-		return (s.preloadHash[src][0] == true);  // src only loads once, so if it's true for the first it's true for all
+		return (s._preloadHash[src][0] == true);  // src only loads once, so if it's true for the first it's true for all
 	};
 
 	/**
@@ -1863,7 +1887,7 @@ this.createjs = this.createjs || {};
 	 * composite paths using {{#crossLink "Sound/DELIMITER:property"}}{{/crossLink}}, which defaults to "|". The first path supported by the
 	 * current browser/plugin will be used.
 	 * NOTE the "|" approach is deprecated and will be removed in the next version
-	 * @method parsePath
+	 * @method _parsePath
 	 * @param {String} value The path to an audio source.
 	 * @param {String} [type] The type of path. This will typically be "sound" or null.
 	 * @param {String} [id] The user-specified sound ID. This may be null, in which case the src will be used instead.
@@ -1873,9 +1897,16 @@ this.createjs = this.createjs || {};
 	 * and returned to a preloader like <a href="http://preloadjs.com" target="_blank">PreloadJS</a>.
 	 * @protected
 	 */
-	s.parsePath = function (value, type, id, data) {
+	s._parsePath = function (value, type, id, data) {
         if (typeof(value) != "string") {value = value.toString();}
 		var sounds = value.split(s.DELIMITER);
+		if (sounds.length > 1) {
+			try {
+				console.log("createjs.Sound.DELIMITER \"|\" loading approach has been deprecated. Please use the new alternateExtensions property.");
+			} catch (err) {
+				// you are in IE with the console closed, you monster
+			}
+		}
 		var ret = {type:type || "sound", id:id, data:data};
 		var c = s.getCapabilities();
 		for (var i = 0, l = sounds.length; i < l; i++) {
@@ -1898,8 +1929,8 @@ this.createjs = this.createjs || {};
 		return null;
 	};
 
-	// new approach, when old approach is deprecated this will become parsePath
-	s.parsePath2 = function (value, type, id, data) {
+	// new approach, when old approach is deprecated this will become _parsePath
+	s._parsePath2 = function (value, type, id, data) {
 		if (typeof(value) != "string") {value = value.toString();}
 
 		var match = value.match(s.FILE_PATTERN);
@@ -1932,18 +1963,17 @@ this.createjs = this.createjs || {};
 	 * SoundInstance will still be returned, and have a playState of {{#crossLink "Sound/PLAY_FAILED:property"}}{{/crossLink}}.
 	 * Note that even on sounds with failed playback, you may still be able to call SoundInstance {{#crossLink "SoundInstance/play"}}{{/crossLink}},
 	 * since the failure could be due to lack of available channels. If the src does not have a supported extension or
-	 * if there is no available plugin, {{#crossLink "Sound/defaultSoundInstance:property"}}{{/crossLink}} will be
-	 * returned, which will not play any audio, but will not generate errors.
+	 * if there is no available plugin, a default SoundInstance will be returned which will not play any audio, but will not generate errors.
 	 *
 	 * <h4>Example</h4>
 	 *      createjs.Sound.addEventListener("fileload", handleLoad);
 	 *      createjs.Sound.registerSound("myAudioPath/mySound.mp3", "myID", 3);
 	 *      function handleLoad(event) {
 	 *      	createjs.Sound.play("myID");
-	 *      	// alternately we could call the following
+	 *      	// we can pass in options we want to set inside of an object, and store off SoundInstance for controlling
+	 *      	var myInstance = createjs.Sound.play("myID", {interrupt: createjs.Sound.INTERRUPT_ANY, loop:-1});
+	 *      	// alternately, we can pass full source path and specify each argument individually
 	 *      	var myInstance = createjs.Sound.play("myAudioPath/mySound.mp3", createjs.Sound.INTERRUPT_ANY, 0, 0, -1, 1, 0);
-	 *      	// another alternative is to pass in just the options we want to set inside of an object
-	 *      	var myInstance = createjs.Sound.play("myAudioPath/mySound.mp3", {interrupt: createjs.Sound.INTERRUPT_ANY, loop:-1});
 	 *      }
 	 *
 	 * @method play
@@ -1967,7 +1997,7 @@ this.createjs = this.createjs || {};
 	s.play = function (src, interrupt, delay, offset, loop, volume, pan) {
 		var instance = s.createInstance(src);
 
-		var ok = s.playInstance(instance, interrupt, delay, offset, loop, volume, pan);
+		var ok = s._playInstance(instance, interrupt, delay, offset, loop, volume, pan);
 		if (!ok) {
 			instance.playFailed();
 		}
@@ -1976,8 +2006,8 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Creates a {{#crossLink "SoundInstance"}}{{/crossLink}} using the passed in src. If the src does not have a
-	 * supported extension or if there is no available plugin, a {{#crossLink "Sound/defaultSoundInstance:property"}}{{/crossLink}}
-	 * will be returned that can be called safely but does nothing.
+	 * supported extension or if there is no available plugin, a default SoundInstance will be returned that can be
+	 * called safely but does nothing.
 	 *
 	 * <h4>Example</h4>
 	 *      var myInstance = null;
@@ -1997,15 +2027,15 @@ this.createjs = this.createjs || {};
 	 */
 	s.createInstance = function (src) {
 		if (!s.initializeDefaultPlugins()) {
-			return s.defaultSoundInstance;
+			return s._defaultSoundInstance;
 		}
 
-		src = s.getSrcById(src);
+		src = s._getSrcById(src);
 
 		if (s.alternateExtensions.length) {
-			var details = s.parsePath2(src, "sound");
+			var details = s._parsePath2(src, "sound");
 		} else {
-			var details = s.parsePath(src, "sound");
+			var details = s._parsePath(src, "sound");
 		}
 
 		var instance = null;
@@ -2016,11 +2046,11 @@ this.createjs = this.createjs || {};
 		} else {
 			// the src is not supported, so give back a dummy instance.
 			// This can happen if PreloadJS fails because the plugin does not support the ext, and was passed an id which
-			// will not get added to the idHash.
-			instance = Sound.defaultSoundInstance;
+			// will not get added to the _idHash.
+			instance = Sound._defaultSoundInstance;
 		}
 
-		instance.uniqueId = s.lastId++;  // OJR moved this here so we can have multiple plugins active in theory
+		instance.uniqueId = s._lastID++;
 
 		return instance;
 	};
@@ -2042,9 +2072,9 @@ this.createjs = this.createjs || {};
 			return false;
 		}
 		value = Math.max(0, Math.min(1, value));
-		s.masterVolume = value;
+		s._masterVolume = value;
 		if (!this.activePlugin || !this.activePlugin.setVolume || !this.activePlugin.setVolume(value)) {
-			var instances = this.instances;  // OJR does this impact garbage collection more than it helps performance?
+			var instances = this._instances;  // OJR does this impact garbage collection more than it helps performance?
 			for (var i = 0, l = instances.length; i < l; i++) {
 				instances[i].setMasterVolume(value);
 			}
@@ -2053,7 +2083,7 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Get the master volume of Sound. The master volume is multiplied against each sound's individual volume.
-	 * To get individual sound volume, use SoundInstance {{#crossLink "SoundInstance/volume"}}{{/crossLink}} instead.
+	 * To get individual sound volume, use SoundInstance {{#crossLink "SoundInstance/volume:property"}}{{/crossLink}} instead.
 	 *
 	 * <h4>Example</h4>
 	 *     var masterVolume = createjs.Sound.getVolume();
@@ -2063,7 +2093,7 @@ this.createjs = this.createjs || {};
 	 * @static
 	 */
 	s.getVolume = function () {
-		return s.masterVolume;
+		return s._masterVolume;
 	};
 
 	/**
@@ -2093,22 +2123,22 @@ this.createjs = this.createjs || {};
 			return false;
 		}
 
-		this.masterMute = value;
+		this._masterMute = value;
 		if (!this.activePlugin || !this.activePlugin.setMute || !this.activePlugin.setMute(value)) {
-			var instances = this.instances;
+			var instances = this._instances;
 			for (var i = 0, l = instances.length; i < l; i++) {
 				instances[i].setMasterMute(value);
 			}
 		}
 		return true;
-	}
+	};
 
 	/**
 	 * Returns the global mute value. To get the mute value of an individual instance, use SoundInstance
 	 * {{#crossLink "SoundInstance/getMute"}}{{/crossLink}} instead.
 	 *
 	 * <h4>Example</h4>
-	 *     var masterMute = createjs.Sound.getMute();
+	 *     var muted = createjs.Sound.getMute();
 	 *
 	 * @method getMute
 	 * @return {Boolean} The mute value of Sound.
@@ -2116,12 +2146,12 @@ this.createjs = this.createjs || {};
 	 * @since 0.4.0
 	 */
 	s.getMute = function () {
-		return this.masterMute;
+		return this._masterMute;
 	};
 
 	/**
 	 * Stop all audio (global stop). Stopped audio is reset, and not paused. To play audio that has been stopped,
-	 * call {{#crossLink "SoundInstance.play"}}{{/crossLink}}.
+	 * call SoundInstance {{#crossLink "SoundInstance/play"}}{{/crossLink}}.
 	 *
 	 * <h4>Example</h4>
 	 *     createjs.Sound.stop();
@@ -2130,9 +2160,9 @@ this.createjs = this.createjs || {};
 	 * @static
 	 */
 	s.stop = function () {
-		var instances = this.instances;
+		var instances = this._instances;
 		for (var i = instances.length; i--; ) {
-			instances[i].stop();  // NOTE stop removes instance from this.instances
+			instances[i].stop();  // NOTE stop removes instance from this._instances
 		}
 	};
 
@@ -2143,7 +2173,7 @@ this.createjs = this.createjs || {};
 	/**
 	 * Play an instance. This is called by the static API, as well as from plugins. This allows the core class to
 	 * control delays.
-	 * @method playInstance
+	 * @method _playInstance
 	 * @param {SoundInstance} instance The {{#crossLink "SoundInstance"}}{{/crossLink}} to start playing.
 	 * @param {String | Object} [interrupt="none"|options] How to interrupt any currently playing instances of audio with the same source,
 	 * if the maximum number of instances of the sound are already playing. Values are defined as <code>INTERRUPT_TYPE</code>
@@ -2162,13 +2192,14 @@ this.createjs = this.createjs || {};
 	 * @protected
 	 * @static
 	 */
-	s.playInstance = function (instance, interrupt, delay, offset, loop, volume, pan) {
+	s._playInstance = function (instance, interrupt, delay, offset, loop, volume, pan) {
 		if (interrupt instanceof Object) {
 			delay = interrupt.delay;
 			offset = interrupt.offset;
 			loop = interrupt.loop;
 			volume = interrupt.volume;
 			pan = interrupt.pan;
+			interrupt = interrupt.interrupt;
 		}
 
 		interrupt = interrupt || s.defaultInterruptBehavior;
@@ -2179,7 +2210,7 @@ this.createjs = this.createjs || {};
 		if (pan == null) {pan = instance.pan;}
 
 		if (delay == 0) {
-			var ok = s.beginPlaying(instance, interrupt, offset, loop, volume, pan);
+			var ok = s._beginPlaying(instance, interrupt, offset, loop, volume, pan);
 			if (!ok) {
 				return false;
 			}
@@ -2187,19 +2218,19 @@ this.createjs = this.createjs || {};
 			//Note that we can't pass arguments to proxy OR setTimeout (IE only), so just wrap the function call.
 			// OJR WebAudio may want to handle this differently, so it might make sense to move this functionality into the plugins in the future
 			var delayTimeoutId = setTimeout(function () {
-				s.beginPlaying(instance, interrupt, offset, loop, volume, pan);
+				s._beginPlaying(instance, interrupt, offset, loop, volume, pan);
 			}, delay);
-			instance.delayTimeoutId = delayTimeoutId;
+			instance._delayTimeoutId = delayTimeoutId;
 		}
 
-		this.instances.push(instance);
+		this._instances.push(instance);
 
 		return true;
 	};
 
 	/**
 	 * Begin playback. This is called immediately or after delay by {{#crossLink "Sound/playInstance"}}{{/crossLink}}.
-	 * @method beginPlaying
+	 * @method _beginPlaying
 	 * @param {SoundInstance} instance A {{#crossLink "SoundInstance"}}{{/crossLink}} to begin playback.
 	 * @param {String} [interrupt=none] How this sound interrupts other instances with the same source. Defaults to
 	 * {{#crossLink "Sound/INTERRUPT_NONE:property"}}{{/crossLink}}. Interrupts are defined as <code>INTERRUPT_TYPE</code>
@@ -2214,16 +2245,16 @@ this.createjs = this.createjs || {};
 	 * @protected
 	 * @static
 	 */
-	s.beginPlaying = function (instance, interrupt, offset, loop, volume, pan) {
+	s._beginPlaying = function (instance, interrupt, offset, loop, volume, pan) {
 		if (!SoundChannel.add(instance, interrupt)) {
 			return false;
 		}
-		var result = instance.beginPlaying(offset, loop, volume, pan);
+		var result = instance._beginPlaying(offset, loop, volume, pan);
 		if (!result) {
 			//LM: Should we remove this from the SoundChannel (see finishedPlaying)
-			var index = createjs.indexOf(this.instances, instance);
+			var index = createjs.indexOf(this._instances, instance);
 			if (index > -1) {
-				this.instances.splice(index, 1);
+				this._instances.splice(index, 1);
 			}
 			return false;
 		}
@@ -2233,45 +2264,35 @@ this.createjs = this.createjs || {};
 	/**
 	 * Get the source of a sound via the ID passed in with a register call. If no ID is found the value is returned
 	 * instead.
-	 * @method getSrcById
+	 * @method _getSrcById
 	 * @param {String} value The ID the sound was registered with.
 	 * @return {String} The source of the sound.  Returns null if src has been registered with this id.
 	 * @protected
 	 * @static
 	 */
-	s.getSrcById = function (value) {
-		if (s.idHash == null || s.idHash[value] == null) {
+	s._getSrcById = function (value) {
+		if (s._idHash == null || s._idHash[value] == null) {
 			return value;
 		}
-		return s.idHash[value];
+		return s._idHash[value];
 	};
 
 	/**
 	 * A sound has completed playback, been interrupted, failed, or been stopped. This method removes the instance from
 	 * Sound management. It will be added again, if the sound re-plays. Note that this method is called from the
 	 * instances themselves.
-	 * @method playFinished
+	 * @method _playFinished
 	 * @param {SoundInstance} instance The instance that finished playback.
 	 * @protected
 	 * @static
 	 */
-	s.playFinished = function (instance) {
+	s._playFinished = function (instance) {
 		SoundChannel.remove(instance);
-		var index = createjs.indexOf(this.instances, instance);
+		var index = createjs.indexOf(this._instances, instance);
 		if (index > -1) {
-			this.instances.splice(index, 1);
+			this._instances.splice(index, 1);
 		}
 	};
-
-	/**
-	 * REMOVED.  Please use createjs.proxy instead
-	 * @method proxy
-	 * @param {Function} method The function to call
-	 * @param {Object} scope The scope to call the method name on
-	 * @protected
-	 * @static
-	 * @deprecated Deprecated in favor of createjs.proxy.
-	 */
 
 	createjs.Sound = Sound;
 
@@ -2443,7 +2464,7 @@ this.createjs = this.createjs || {};
 		if (this.max == -1) {
 			this.max = this.maxDefault;
 		}
-		this.instances = [];
+		this._instances = [];
 	};
 
 	/**
@@ -2453,7 +2474,7 @@ this.createjs = this.createjs || {};
 	 * @return {SoundInstance} The SoundInstance at a specific instance.
 	 */
 	p.get = function (index) {
-		return this.instances[index];
+		return this._instances[index];
 	};
 
 	/**
@@ -2466,7 +2487,7 @@ this.createjs = this.createjs || {};
 		if (!this.getSlot(interrupt, instance)) {
 			return false;
 		}
-		this.instances.push(instance);
+		this._instances.push(instance);
 		this.length++;
 		return true;
 	};
@@ -2479,11 +2500,11 @@ this.createjs = this.createjs || {};
 	 * return false.
 	 */
 	p.remove = function (instance) {
-		var index = createjs.indexOf(this.instances, instance);
+		var index = createjs.indexOf(this._instances, instance);
 		if (index == -1) {
 			return false;
 		}
-		this.instances.splice(index, 1);
+		this._instances.splice(index, 1);
 		this.length--;
 		return true;
 	};
@@ -2495,7 +2516,7 @@ this.createjs = this.createjs || {};
 	p.removeAll = function () {
 		// Note that stop() removes the item from the list, but we don't want to assume that.
 		for (var i=this.length-1; i>=0; i--) {
-			this.instances[i].stop();
+			this._instances[i].stop();
 		}
 	};
 
@@ -2541,7 +2562,7 @@ this.createjs = this.createjs || {};
 		}
 
 		if (replacement != null) {
-			replacement.interrupt();
+			replacement._interrupt();
 			this.remove(replacement);
 			return true;
 		}
@@ -2558,7 +2579,7 @@ this.createjs = this.createjs || {};
 	// This is a dummy sound instance, which allows Sound to return something so developers don't need to check nulls.
 	function SoundInstance() {
 		this.isDefault = true;
-		this.addEventListener = this.removeEventListener = this.removeAllEventListeners = this.dispatchEvent = this.hasEventListener = this._listeners = this.interrupt = this.playFailed = this.pause = this.resume = this.play = this.beginPlaying = this.cleanUp = this.stop = this.setMasterVolume = this.setVolume = this.mute = this.setMute = this.getMute = this.setPan = this.getPosition = this.setPosition = function () {
+		this.addEventListener = this.removeEventListener = this.removeAllEventListeners = this.dispatchEvent = this.hasEventListener = this._listeners = this._interrupt = this._playFailed = this.pause = this.resume = this.play = this._beginPlaying = this._cleanUp = this.stop = this.setMasterVolume = this.setVolume = this.mute = this.setMute = this.getMute = this.setPan = this.getPosition = this.setPosition = this.playFailed = function () {
 			return false;
 		};
 		this.getVolume = this.getPan = this.getDuration = function () {
@@ -2570,14 +2591,7 @@ this.createjs = this.createjs || {};
 		}
 	}
 
-	Sound.defaultSoundInstance = new SoundInstance();
-
-	//TODO: Moved to createjs/utils/Proxy.js. Deprecate on next version.
-	if (createjs.proxy == null) {
-		createjs.proxy = function() {
-			throw("Proxy has been moved to an external file, and must be included separately.");
-		}
-	}
+	Sound._defaultSoundInstance = new SoundInstance();
 
 
 	/**
@@ -2653,22 +2667,15 @@ this.createjs = this.createjs || {};
 	"use strict";
 
 	/**
-	 * Play sounds using Web Audio in the browser. The WebAudio plugin has been successfully tested with:
-	 * <ul><li>Google Chrome, version 23+ on OS X and Windows</li>
-	 *      <li>Safari 6+ on OS X</li>
-	 *      <li>Mobile Safari on iOS 6+</li>
-	 *      <li>Firefox 25+ on OS X, Windows, and Fx OS</li>
-	 * </ul>
-	 *
-	 * The WebAudioPlugin is currently the default plugin, and will be used anywhere that it is supported. Currently
-	 * Chrome and Safari offer support.  Firefox and Android Chrome both offer support for web audio in upcoming
-	 * releases.  To change plugin priority, check out the Sound API {{#crossLink "Sound/registerPlugins"}}{{/crossLink}} method.
+	 * Play sounds using Web Audio in the browser. The WebAudioPlugin is currently the default plugin, and will be used
+	 * anywhere that it is supported. To change plugin priority, check out the Sound API
+	 * {{#crossLink "Sound/registerPlugins"}}{{/crossLink}} method.
 
-	 * <h4>Known Browser and OS issues for Web Audio Plugin</h4>
+	 * <h4>Known Browser and OS issues for Web Audio</h4>
 	 * <b>Firefox 25</b>
 	 * <ul><li>mp3 audio files do not load properly on all windows machines, reported
 	 * <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=929969" target="_blank">here</a>. </br>
-	 * For this reason it is recommended to pass ogg file first until this bug is resolved, if possible.</li></ul>
+	 * For this reason it is recommended to pass another FF supported type (ie ogg) first until this bug is resolved, if possible.</li></ul>
 	 * <br />
 	 * <b>Webkit (Chrome and Safari)</b>
 	 * <ul><li>AudioNode.disconnect does not always seem to work.  This can cause the file size to grow over time if you
@@ -2676,30 +2683,30 @@ this.createjs = this.createjs || {};
 	 * <br />
 	 * <b>iOS 6 limitations</b>
 	 * 	<ul><li>Sound is initially muted and will only unmute through play being called inside a user initiated event (touch/click).</li>
-	 *  <li>Despite suggestions to the opposite, we have relative control over audio volume through the gain nodes.</li>
-	 *	<li>A bug exists that will distort uncached audio when a video element is present in the DOM.</li>
+	 *	<li>A bug exists that will distort uncached audio when a video element is present in the DOM.  You can avoid this bug
+	 * 	by ensuring the audio and video audio share the same sampleRate.</li>
 	 * </ul>
 	 * @class WebAudioPlugin
 	 * @constructor
 	 * @since 0.4.0
 	 */
 	function WebAudioPlugin() {
-		this.init();
+		this._init();
 	}
 
 
 	var s = WebAudioPlugin;
 
 	/**
-	 * The capabilities of the plugin. This is generated via the {{#crossLink "WebAudioPlugin/generateCapabilities:method"}}{{/crossLink}}
+	 * The capabilities of the plugin. This is generated via the {{#crossLink "WebAudioPlugin/_generateCapabilities:method"}}{{/crossLink}}
 	 * method and is used internally.
-	 * @property capabilities
+	 * @property _capabilities
 	 * @type {Object}
 	 * @default null
 	 * @protected
 	 * @static
 	 */
-	s.capabilities = null;
+	s._capabilities = null;
 
 	/**
 	 * Determine if the plugin can be used in the current browser/OS.
@@ -2710,9 +2717,9 @@ this.createjs = this.createjs || {};
 	s.isSupported = function () {
 		// check if this is some kind of mobile device, Web Audio works with local protocol under PhoneGap and it is unlikely someone is trying to run a local file
 		var isMobilePhoneGap = createjs.Sound.BrowserDetect.isIOS || createjs.Sound.BrowserDetect.isAndroid || createjs.Sound.BrowserDetect.isBlackberry;
-		// OJR isMobile may be redundant with isFileXHRSupported available.  Consider removing.
-		if (location.protocol == "file:" && !isMobilePhoneGap && !this.isFileXHRSupported()) { return false; }  // Web Audio requires XHR, which is not usually available locally
-		s.generateCapabilities();
+		// OJR isMobile may be redundant with _isFileXHRSupported available.  Consider removing.
+		if (location.protocol == "file:" && !isMobilePhoneGap && !this._isFileXHRSupported()) { return false; }  // Web Audio requires XHR, which is not usually available locally
+		s._generateCapabilities();
 		if (s.context == null) {
 			return false;
 		}
@@ -2721,14 +2728,14 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Determine if XHR is supported, which is necessary for web audio.
-	 * @method isFileXHRSupported
+	 * @method _isFileXHRSupported
 	 * @return {Boolean} If XHR is supported.
 	 * @since 0.4.2
 	 * @protected
 	 * @static
 	 */
-	s.isFileXHRSupported = function() {
-		// it's much easier to detect when something goes wrong, so let's start optimisticaly
+	s._isFileXHRSupported = function() {
+		// it's much easier to detect when something goes wrong, so let's start optimistically
 		var supported = true;
 
 		var xhr = new XMLHttpRequest();
@@ -2755,12 +2762,12 @@ this.createjs = this.createjs || {};
 	/**
 	 * Determine the capabilities of the plugin. Used internally. Please see the Sound API {{#crossLink "Sound/getCapabilities"}}{{/crossLink}}
 	 * method for an overview of plugin capabilities.
-	 * @method generateCapabiities
+	 * @method _generateCapabilities
 	 * @static
 	 * @protected
 	 */
-	s.generateCapabilities = function () {
-		if (s.capabilities != null) {
+	s._generateCapabilities = function () {
+		if (s._capabilities != null) {
 			return;
 		}
 		// Web Audio can be in any formats supported by the audio element, from http://www.w3.org/TR/webaudio/#AudioContext-section,
@@ -2782,12 +2789,12 @@ this.createjs = this.createjs || {};
 		}
 
 		// this handles if only deprecated Web Audio API calls are supported
-		s.compatibilitySetUp();
+		s._compatibilitySetUp();
 
 		// playing this inside of a touch event will enable audio on iOS, which starts muted
 		s.playEmptySound();
 
-		s.capabilities = {
+		s._capabilities = {
 			panning:true,
 			volume:true,
 			tracks:-1
@@ -2799,13 +2806,13 @@ this.createjs = this.createjs || {};
 		for (var i = 0, l = supportedExtensions.length; i < l; i++) {
 			var ext = supportedExtensions[i];
 			var playType = extensionMap[ext] || ext;
-			s.capabilities[ext] = (t.canPlayType("audio/" + ext) != "no" && t.canPlayType("audio/" + ext) != "") || (t.canPlayType("audio/" + playType) != "no" && t.canPlayType("audio/" + playType) != "");
+			s._capabilities[ext] = (t.canPlayType("audio/" + ext) != "no" && t.canPlayType("audio/" + ext) != "") || (t.canPlayType("audio/" + playType) != "no" && t.canPlayType("audio/" + playType) != "");
 		}  // OJR another way to do this might be canPlayType:"m4a", codex: mp4
 
 		// 0=no output, 1=mono, 2=stereo, 4=surround, 6=5.1 surround.
 		// See http://www.w3.org/TR/webaudio/#AudioChannelSplitter for more details on channels.
 		if (s.context.destination.numberOfChannels < 2) {
-			s.capabilities.panning = false;
+			s._capabilities.panning = false;
 		}
 
 		// set up AudioNodes that all of our source audio will connect to
@@ -2821,11 +2828,11 @@ this.createjs = this.createjs || {};
 	 * Needed so we can support new browsers that don't support deprecated calls (Firefox) as well as old browsers that
 	 * don't support new calls.
 	 *
-	 * @method compatibilitySetUp
+	 * @method _compatibilitySetUp
 	 * @protected
 	 * @since 0.4.2
 	 */
-	s.compatibilitySetUp = function() {
+	s._compatibilitySetUp = function() {
 		//assume that if one new call is supported, they all are
 		if (s.context.createGain) { return; }
 
@@ -2838,7 +2845,7 @@ this.createjs = this.createjs || {};
 		audioNode.__proto__.stop = audioNode.__proto__.noteOff;
 
 		// panningModel
-		this.panningModel = 0;
+		this._panningModel = 0;
 	};
 
 	/**
@@ -2872,17 +2879,17 @@ this.createjs = this.createjs || {};
 
 	var p = WebAudioPlugin.prototype;
 
-	p.capabilities = null; // doc'd above
+	p._capabilities = null; // doc'd above
 
 	/**
-	 * The internal volume value of the plugin.
-	 * @property volume
+	 * The internal master volume value of the plugin.
+	 * @property _volume
 	 * @type {Number}
 	 * @default 1
 	 * @protected
 	 */
 	// TODO refactor Sound.js so we can use getter setter for volume
-	p.volume = 1;
+	p._volume = 1;
 
 	/**
 	 * The web audio context, which WebAudio uses to play audio. All nodes that interact with the WebAudioPlugin
@@ -2894,22 +2901,22 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Value to set panning model to equal power for SoundInstance.  Can be "equalpower" or 0 depending on browser implementation.
-	 * @property panningModel
+	 * @property _panningModel
 	 * @type {Number / String}
 	 * @protected
 	 */
-	p.panningModel = "equalpower";
+	p._panningModel = "equalpower";
 
 	/**
-	 * A DynamicsCompressorNode, which is used to improve sound quality and prevent audio distortion according to
-	 * http://www.w3.org/TR/webaudio/#DynamicsCompressorNode. It is connected to <code>context.destination</code>.
+	 * A DynamicsCompressorNode, which is used to improve sound quality and prevent audio distortion.
+	 * It is connected to <code>context.destination</code>.
 	 * @property dynamicsCompressorNode
 	 * @type {AudioNode}
 	 */
 	p.dynamicsCompressorNode = null;
 
 	/**
-	 * A GainNode for controlling master volume. It is connected to {{#crossLink "WebAudioPlugin/dynamicsCompressorNode:property"}}{{/crossLink}}.
+	 * A GainNode for controlling master _volume. It is connected to {{#crossLink "WebAudioPlugin/dynamicsCompressorNode:property"}}{{/crossLink}}.
 	 * @property gainNode
 	 * @type {AudioGainNode}
 	 */
@@ -2920,20 +2927,20 @@ this.createjs = this.createjs || {};
 	 * prevents having to load and decode audio files more than once. If a load has been started on a file,
 	 * <code>arrayBuffers[src]</code> will be set to true. Once load is complete, it is set the the loaded
 	 * ArrayBuffer instance.
-	 * @property arrayBuffers
+	 * @property _arrayBuffers
 	 * @type {Object}
 	 * @protected
 	 */
-	p.arrayBuffers = null;
+	p._arrayBuffers = null;
 
 	/**
 	 * An initialization function run by the constructor
-	 * @method init
+	 * @method _init
 	 * @protected
 	 */
-	p.init = function () {
-		this.capabilities = s.capabilities;
-		this.arrayBuffers = {};
+	p._init = function () {
+		this._capabilities = s._capabilities;
+		this._arrayBuffers = {};
 
 		this.context = s.context;
 		this.gainNode = s.gainNode;
@@ -2942,7 +2949,7 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Pre-register a sound for preloading and setup. This is called by {{#crossLink "Sound"}}{{/crossLink}}.
-	 * Note that WebAudio provides a <code>Loader</code> instance, which <a href="http://preloadjs.com">PreloadJS</a>
+	 * Note that WebAudio provides a <code>Loader</code> instance, which <a href="http://preloadjs.com" target="_blank">PreloadJS</a>
 	 * can use to assist with preloading.
 	 * @method register
 	 * @param {String} src The source of the audio
@@ -2951,7 +2958,7 @@ this.createjs = this.createjs || {};
 	 * @return {Object} A result object, containing a "tag" for preloading purposes.
 	 */
 	p.register = function (src, instances) {
-		this.arrayBuffers[src] = true;  // This is needed for PreloadJS
+		this._arrayBuffers[src] = true;  // This is needed for PreloadJS
 		var tag = new createjs.WebAudioPlugin.Loader(src, this);
 		return {
 			tag:tag
@@ -2966,7 +2973,7 @@ this.createjs = this.createjs || {};
 	 * @return {Boolean}
 	 */
 	p.isPreloadStarted = function (src) {
-		return (this.arrayBuffers[src] != null);
+		return (this._arrayBuffers[src] != null);
 	};
 
 	/**
@@ -2976,17 +2983,7 @@ this.createjs = this.createjs || {};
 	 * @return {Boolean}
 	 */
 	p.isPreloadComplete = function (src) {
-		return (!(this.arrayBuffers[src] == null || this.arrayBuffers[src] == true));
-	};
-
-	/**
-	 * Remove a source from our preload list. Note this does not cancel a preload.
-	 * @method removeFromPreload
-	 * @param {String} src The sound URI to unload.
-	 * @deprecated
-	 */
-	p.removeFromPreload = function (src) {
-		delete(this.arrayBuffers[src]);
+		return (!(this._arrayBuffers[src] == null || this._arrayBuffers[src] == true));
 	};
 
 	/**
@@ -2996,7 +2993,7 @@ this.createjs = this.createjs || {};
 	 * @since 0.4.1
 	 */
 	p.removeSound = function (src) {
-		delete(this.arrayBuffers[src]);
+		delete(this._arrayBuffers[src]);
 	};
 
 	/**
@@ -3006,7 +3003,7 @@ this.createjs = this.createjs || {};
 	 * @since 0.4.1
 	 */
 	p.removeAllSounds = function () {
-		this.arrayBuffers = {};
+		this._arrayBuffers = {};
 	};
 
 	/**
@@ -3016,17 +3013,17 @@ this.createjs = this.createjs || {};
 	 * @return {Boolean}
 	 */
 	p.addPreloadResults = function (src, result) {
-		this.arrayBuffers[src] = result;
+		this._arrayBuffers[src] = result;
 	};
 
 	/**
 	 * Handles internal preload completion.
-	 * @method handlePreloadComplete
+	 * @method _handlePreloadComplete
 	 * @protected
 	 */
-	p.handlePreloadComplete = function () {
+	p._handlePreloadComplete = function () {
 		//LM: I would recommend having the Loader include an "event" in the onload, and properly binding this callback.
-		createjs.Sound.sendFileLoadEvent(this.src);  // fire event or callback on Sound
+		createjs.Sound._sendFileLoadEvent(this.src);  // fire event or callback on Sound
 		// note "this" will reference Loader object
 	};
 
@@ -3035,12 +3032,11 @@ this.createjs = this.createjs || {};
 	 * @method preload
 	 * @param {String} src The sound URI to load.
 	 * @param {Object} instance Not used in this plugin.
-	 * @protected
 	 */
 	p.preload = function (src, instance) {
-		this.arrayBuffers[src] = true;
+		this._arrayBuffers[src] = true;
 		var loader = new createjs.WebAudioPlugin.Loader(src, this);
-		loader.onload = this.handlePreloadComplete;
+		loader.onload = this._handlePreloadComplete;
 		loader.load();
 	};
 
@@ -3065,18 +3061,18 @@ this.createjs = this.createjs || {};
 	 * instances manually otherwise.
 	 */
 	p.setVolume = function (value) {
-		this.volume = value;
-		this.updateVolume();
+		this._volume = value;
+		this._updateVolume();
 		return true;
 	};
 
 	/**
 	 * Set the gain value for master audio. Should not be called externally.
-	 * @method updateVolume
+	 * @method _updateVolume
 	 * @protected
 	 */
-	p.updateVolume = function () {
-		var newVolume = createjs.Sound.masterMute ? 0 : this.volume;
+	p._updateVolume = function () {
+		var newVolume = createjs.Sound._masterMute ? 0 : this._volume;
 		if (newVolume != this.gainNode.gain.value) {
 			this.gainNode.gain.value = newVolume;
 		}
@@ -3088,7 +3084,7 @@ this.createjs = this.createjs || {};
 	 * @return The volume level, between 0 and 1.
 	 */
 	p.getVolume = function () {
-		return this.volume;
+		return this._volume;
 	};
 
 	/**
@@ -3099,7 +3095,7 @@ this.createjs = this.createjs || {};
 	 * @return {Boolean} If the mute call succeeds.
 	 */
 	p.setMute = function (value) {
-		this.updateVolume();
+		this._updateVolume();
 		return true;
 	};
 
@@ -3132,10 +3128,10 @@ this.createjs = this.createjs || {};
 	 * playback has completed, a simple call to the {{#crossLink "SoundInstance/play"}}{{/crossLink}} instance method
 	 * will rebuild the references the Sound class need to control it.
 	 *
-	 *      var myInstance = createjs.Sound.play("myAssetPath/mySrcFile.mp3");
-	 *      myInstance.addEventListener("complete", playAgain);
-	 *      function playAgain(event) {
-	 *          myInstance.play();
+	 *      var myInstance = createjs.Sound.play("myAssetPath/mySrcFile.mp3", {loop:2});
+	 *      myInstance.addEventListener("loop", handleLoop);
+	 *      function handleLoop(event) {
+	 *          myInstance.volume = myInstance.volume * 0.5;
 	 *      }
 	 *
 	 * Events are dispatched from the instance to notify when the sound has completed, looped, or when playback fails
@@ -3153,7 +3149,7 @@ this.createjs = this.createjs || {};
 	 * @constructor
 	 */
 	function SoundInstance(src, owner) {
-		this.init(src, owner);
+		this._init(src, owner);
 	}
 
 	var p = SoundInstance.prototype = new createjs.EventDispatcher();
@@ -3163,7 +3159,6 @@ this.createjs = this.createjs || {};
 	 * @property src
 	 * @type {String}
 	 * @default null
-	 * @protected
 	 */
 	p.src = null;
 
@@ -3185,38 +3180,37 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * The plugin that created the instance
-	 * @property owner
+	 * @property _owner
 	 * @type {WebAudioPlugin}
 	 * @default null
 	 * @protected
 	 */
-	p.owner = null;
+	p._owner = null;
 
 	/**
 	 * How far into the sound to begin playback in milliseconds. This is passed in when play is called and used by
 	 * pause and setPosition to track where the sound should be at.
 	 * Note this is converted from milliseconds to seconds for consistency with the WebAudio API.
-	 * @property offset
+	 * @property _offset
 	 * @type {Number}
 	 * @default 0
 	 * @protected
 	 */
-	p.offset = 0;
+	p._offset = 0;
 
 	/**
 	 * The time in milliseconds before the sound starts.
 	 * Note this is handled by {{#crossLink "Sound"}}{{/crossLink}}.
-	 * @property delay
+	 * @property _delay
 	 * @type {Number}
 	 * @default 0
 	 * @protected
 	 */
-	p.delay = 0;
-
+	p._delay = 0;	// OJR remove this property from SoundInstance as it is not used here?
 
 	/**
 	 * The volume of the sound, between 0 and 1.
-	 * Note this uses a getter setter, which is not supported by Firefox versions 3.6 or lower and Opera versions 11.50 or lower,
+	 * <br />Note this uses a getter setter, which is not supported by Firefox versions 3.6 or lower and Opera versions 11.50 or lower,
 	 * and Internet Explorer 8 or lower.  Instead use {{#crossLink "SoundInstance/setVolume"}}{{/crossLink}} and {{#crossLink "SoundInstance/getVolume"}}{{/crossLink}}.
 	 *
 	 * The actual output volume of a sound can be calculated using:
@@ -3237,7 +3231,7 @@ this.createjs = this.createjs || {};
 			if (Number(value) == null) {return false}
 			value = Math.max(0, Math.min(1, value));
 			this._volume = value;
-			this.updateVolume();
+			this._updateVolume();
 		}
 		});
 	} catch (e) {
@@ -3245,10 +3239,11 @@ this.createjs = this.createjs || {};
 	};
 
 	/**
-	 * The pan of the sound, between -1 (left) and 1 (right). Note that pan does not work for HTML Audio.
-	 * Note this uses a getter setter, which is not supported by Firefox versions 3.6 or lower, Opera versions 11.50 or lower,
+	 * The pan of the sound, between -1 (left) and 1 (right). Note that pan is not supported by HTML Audio.
+	 *
+	 * <br />Note this uses a getter setter, which is not supported by Firefox versions 3.6 or lower, Opera versions 11.50 or lower,
 	 * and Internet Explorer 8 or lower.  Instead use {{#crossLink "SoundInstance/setPan"}}{{/crossLink}} and {{#crossLink "SoundInstance/getPan"}}{{/crossLink}}.
-	 * Note in WebAudioPlugin this only gives us the "x" value of what is actually 3D audio.
+	 * <br />Note in WebAudioPlugin this only gives us the "x" value of what is actually 3D audio.
 	 *
 	 * @property pan
 	 * @type {Number}
@@ -3262,7 +3257,7 @@ this.createjs = this.createjs || {};
 				return this._pan;
 			},
 			set: function(value) {
-				if (!this.owner.capabilities.panning || Number(value) == null) {return false;}
+				if (!this._owner._capabilities.panning || Number(value) == null) {return false;}
 
 				value = Math.max(-1, Math.min(1, value));	// force pan to stay in the -1 to 1 range
 				// Note that panning in WebAudioPlugin can support 3D audio, but our implementation does not.
@@ -3278,51 +3273,50 @@ this.createjs = this.createjs || {};
 /**
 	 * The length of the audio clip, in milliseconds.
 	 * Use {{#crossLink "SoundInstance/getDuration:method"}}{{/crossLink}} to access.
-	 * @property pan
+	 * @property _duration
 	 * @type {Number}
 	 * @default 0
 	 * @protected
 	 */
-	p.duration = 0;
+	p._duration = 0;
 
 	/**
 	 * The number of play loops remaining. Negative values will loop infinitely.
-	 * @property remainingLoops
+	 * @property _remainingLoops
 	 * @type {Number}
 	 * @default 0
 	 * @protected
 	 */
-	p.remainingLoops = 0;
+	p._remainingLoops = 0;
 
 	/**
 	 * A Timeout created by {{#crossLink "Sound"}}{{/crossLink}} when this SoundInstance is played with a delay.
 	 * This allows SoundInstance to remove the delay if stop or pause or cleanup are called before playback begins.
-	 * @property delayTimeoutId
+	 * @property _delayTimeoutId
 	 * @type {timeoutVariable}
 	 * @default null
 	 * @protected
 	 * @since 0.4.0
 	 */
-	p.delayTimeoutId = null;
+	p._delayTimeoutId = null;
 
 	/**
 	 * Timeout that is created internally to handle sound playing to completion. Stored so we can remove it when
 	 * stop, pause, or cleanup are called
-	 * @property soundCompleteTimeout
+	 * @property _soundCompleteTimeout
 	 * @type {timeoutVariable}
 	 * @default null
 	 * @protected
 	 * @since 0.4.0
 	 */
-	p.soundCompleteTimeout = null;
+	p._soundCompleteTimeout = null;
 
 	/**
 	 * NOTE this only exists as a {{#crossLink "WebAudioPlugin"}}{{/crossLink}} property and is only intended for use by advanced users.
-	 * GainNode for controlling <code>SoundInstance</code> volume. Connected to the WebAudioPlugin {{#crossLink "WebAudioPlugin/gainNode:property"}}{{/crossLink}}
+	 * <br />GainNode for controlling <code>SoundInstance</code> volume. Connected to the WebAudioPlugin {{#crossLink "WebAudioPlugin/gainNode:property"}}{{/crossLink}}
 	 * that sequences to <code>context.destination</code>.
 	 * @property gainNode
 	 * @type {AudioGainNode}
-	 * @default null
 	 * @since 0.4.0
 	 *
 	 */
@@ -3330,20 +3324,18 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * NOTE this only exists as a {{#crossLink "WebAudioPlugin"}}{{/crossLink}} property and is only intended for use by advanced users.
-	 * A panNode allowing left and right audio channel panning only. Connected to SoundInstance {{#crossLink "SoundInstance/gainNode:property"}}{{/crossLink}}.
+	 * <br />A panNode allowing left and right audio channel panning only. Connected to SoundInstance {{#crossLink "SoundInstance/gainNode:property"}}{{/crossLink}}.
 	 * @property panNode
 	 * @type {AudioPannerNode}
-	 * @default null
 	 * @since 0.4.0
 	 */
 	p.panNode = null;
 
 	/**
 	 * NOTE this only exists as a {{#crossLink "WebAudioPlugin"}}{{/crossLink}} property and is only intended for use by advanced users.
-	 * sourceNode is the audio source. Connected to {{#crossLink "SoundInstance/gainNode:property"}}{{/crossLink}}.
+	 * <br />sourceNode is the audio source. Connected to SoundInstance {{#crossLink "SoundInstance/panNode:property"}}{{/crossLink}}.
 	 * @property sourceNode
 	 * @type {AudioNode}
-	 * @default null
 	 * @since 0.4.0
 	 *
 	 */
@@ -3351,62 +3343,51 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * NOTE this only exists as a {{#crossLink "WebAudioPlugin"}}{{/crossLink}} property and is only intended for use by advanced users.
-	 * sourceNodeNext is the audio source for the next loop, inserted in a look ahead approach to allow for smooth
+	 * _sourceNodeNext is the audio source for the next loop, inserted in a look ahead approach to allow for smooth
 	 * looping. Connected to {{#crossLink "SoundInstance/gainNode:property"}}{{/crossLink}}.
-	 * @property sourceNodeNext
+	 * @property _sourceNodeNext
 	 * @type {AudioNode}
 	 * @default null
 	 * @protected
 	 * @since 0.4.1
 	 *
 	 */
-	p.sourceNodeNext = null;
+	p._sourceNodeNext = null;
 
 	/**
 	 * Determines if the audio is currently muted.
 	 * Use {{#crossLink "SoundInstance/getMute:method"}}{{/crossLink}} and {{#crossLink "SoundInstance/setMute:method"}}{{/crossLink}} to access.
-	 * @property muted
+	 * @property _muted
 	 * @type {Boolean}
 	 * @default false
 	 * @protected
 	 */
-	p.muted = false;
+	p._muted = false;
 
 	/**
-	 * Determines if the audio is currently paused.
+	 * Read only value that tells you if the audio is currently paused.
 	 * Use {{#crossLink "SoundInstance/pause:method"}}{{/crossLink}} and {{#crossLink "SoundInstance/resume:method"}}{{/crossLink}} to set.
 	 * @property paused
 	 * @type {Boolean}
-	 * @default false
-	 * @protected
 	 */
-	p.paused = false;
+	p.paused = false;	// this value will not be used, and is only set
+	p._paused = false;	// this value is used internally for setting paused
 
 	/**
 	 * WebAudioPlugin only.
 	 * Time audio started playback, in seconds. Used to handle set position, get position, and resuming from paused.
-	 * @property startTime
+	 * @property _startTime
 	 * @type {Number}
 	 * @default 0
 	 * @protected
 	 * @since 0.4.0
 	 */
-	p.startTime = 0;
+	p._startTime = 0;
 
 	// Proxies, make removing listeners easier.
-	p.endedHandler = null;
-	p.readyHandler = null;
-	p.stalledHandler = null;
+	p._endedHandler = null;
 
 // Events
-	/**
-	 * The event that is fired when a sound is ready to play.
-	 * @event ready
-	 * @param {Object} target The object that dispatched the event.
-	 * @param {String} type The event type.
-	 * @since 0.4.0
-	 */
-
 	/**
 	 * The event that is fired when playback has started successfully.
 	 * @event succeeded
@@ -3453,13 +3434,6 @@ this.createjs = this.createjs || {};
 
 	//TODO: Deprecated
 	/**
-	 * REMOVED. Use {{#crossLink "EventDispatcher/addEventListener"}}{{/crossLink}} and the {{#crossLink "SoundInstance/ready:event"}}{{/crossLink}}
-	 * event.
-	 * @property onReady
-	 * @type {Function}
-	 * @deprecated Use addEventListener and the "ready" event.
-	 */
-	/**
 	 * REMOVED. Use {{#crossLink "EventDispatcher/addEventListener"}}{{/crossLink}} and the {{#crossLink "SoundInstance/succeeded:event"}}{{/crossLink}}
 	 * event.
 	 * @property onPlaySucceeded
@@ -3497,11 +3471,11 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * A helper method that dispatches all events for SoundInstance.
-	 * @method sendEvent
+	 * @method _sendEvent
 	 * @param {String} type The event type
 	 * @protected
 	 */
-	p.sendEvent = function (type) {
+	p._sendEvent = function (type) {
 		var event = new createjs.Event(type);
 		this.dispatchEvent(event);
 	};
@@ -3509,39 +3483,37 @@ this.createjs = this.createjs || {};
 // Constructor
 	/**
 	 * Initialize the SoundInstance. This is called from the constructor.
-	 * @method init
+	 * @method _init
 	 * @param {string} src The source of the audio.
 	 * @param {Class} owner The plugin that created this instance.
 	 * @protected
 	 */
-	p.init = function (src, owner) {
-		this.owner = owner;
+	p._init = function (src, owner) {
+		this._owner = owner;
 		this.src = src;
 
-		this.gainNode = this.owner.context.createGain();
+		this.gainNode = this._owner.context.createGain();
 
-		this.panNode = this.owner.context.createPanner();  //TODO test how this affects when we have mono audio
-		this.panNode.panningModel = this.owner.panningModel;
+		this.panNode = this._owner.context.createPanner();  //TODO test how this affects when we have mono audio
+		this.panNode.panningModel = this._owner._panningModel;
 		this.panNode.connect(this.gainNode);
 
-		if (this.owner.isPreloadComplete(this.src)) {
-			this.duration = this.owner.arrayBuffers[this.src].duration * 1000;
+		if (this._owner.isPreloadComplete(this.src)) {
+			this._duration = this._owner._arrayBuffers[this.src].duration * 1000;
 		}
 
-		this.endedHandler = createjs.proxy(this.handleSoundComplete, this);
-		this.readyHandler = createjs.proxy(this.handleSoundReady, this);
-		this.stalledHandler = createjs.proxy(this.handleSoundStalled, this);
+		this._endedHandler = createjs.proxy(this._handleSoundComplete, this);
 	};
 
 	/**
 	 * Clean up the instance. Remove references and clean up any additional properties such as timers.
-	 * @method cleanup
+	 * @method _cleanUp
 	 * @protected
 	 */
-	p.cleanUp = function () {
+	p._cleanUp = function () {
 		if (this.sourceNode && this.playState == createjs.Sound.PLAY_SUCCEEDED) {
-			this.sourceNode = this.cleanUpAudioNode(this.sourceNode);
-			this.sourceNodeNext = this.cleanUpAudioNode(this.sourceNodeNext);
+			this.sourceNode = this._cleanUpAudioNode(this.sourceNode);
+			this._sourceNodeNext = this._cleanUpAudioNode(this._sourceNodeNext);
 		}
 
 		if (this.gainNode.numberOfOutputs != 0) {
@@ -3549,25 +3521,26 @@ this.createjs = this.createjs || {};
 		}  // this works because we only have one connection, and it returns 0 if we've already disconnected it.
 		// OJR there appears to be a bug that this doesn't always work in webkit (Chrome and Safari). According to the documentation, this should work.
 
-		clearTimeout(this.delayTimeoutId); // clear timeout that plays delayed sound
-		clearTimeout(this.soundCompleteTimeout);  // clear timeout that triggers sound complete
+		clearTimeout(this._delayTimeoutId); // clear timeout that plays delayed sound
+		clearTimeout(this._soundCompleteTimeout);  // clear timeout that triggers sound complete
 
-		this.startTime = 0;	// This is used by getPosition
+		this._startTime = 0;	// This is used by getPosition
 
 		if (window.createjs == null) {
 			return;
 		}
-		createjs.Sound.playFinished(this);
+		createjs.Sound._playFinished(this);
 	};
 
 	/**
 	 * Turn off and disconnect an audioNode, then set reference to null to release it for garbage collection
+	 * @method _cleanUpAudioNode
 	 * @param audioNode
 	 * @return {audioNode}
 	 * @protected
 	 * @since 0.4.1
 	 */
-	p.cleanUpAudioNode = function(audioNode) {
+	p._cleanUpAudioNode = function(audioNode) {
 		if(audioNode) {
 			audioNode.stop(0);
 			audioNode.disconnect(this.panNode);
@@ -3578,68 +3551,64 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * The sound has been interrupted.
-	 * @method interrupt
+	 * @method _interrupt
 	 * @protected
 	 */
-	p.interrupt = function () {
-		this.cleanUp();
+	p._interrupt = function () {
+		this._cleanUp();
 		this.playState = createjs.Sound.PLAY_INTERRUPTED;
-		this.paused = false;
-		this.sendEvent("interrupted");
+		this.paused = this._paused = false;
+		this._sendEvent("interrupted");
 	};
 
-	// Playback has stalled, and therefore failed.
-	p.handleSoundStalled = function (event) {
-		this.sendEvent("failed");
-	};
-
-	// The sound is ready for playing
-	p.handleSoundReady = function (event) {
+	/**
+	 * Handles starting playback when the sound is ready for playing.
+	 * @method _handleSoundReady
+	 * @protected
+ 	 */
+	p._handleSoundReady = function (event) {
 		if (window.createjs == null) {
 			return;
 		}
 
-		if ((this.offset*1000) > this.getDuration()) {	// converting offset to ms
+		if ((this._offset*1000) > this.getDuration()) {	// converting offset to ms
 			this.playFailed();
 			return;
-		} else if (this.offset < 0) {  // may not need this check if play ignores negative values, this is not specified in the API http://www.w3.org/TR/webaudio/#AudioBufferSourceNode
-			this.offset = 0;
+		} else if (this._offset < 0) {  // may not need this check if play ignores negative values, this is not specified in the API http://www.w3.org/TR/webaudio/#AudioBufferSourceNode
+			this._offset = 0;
 		}
 
 		this.playState = createjs.Sound.PLAY_SUCCEEDED;
-		this.paused = false;
+		this.paused = this._paused = false;
 
-		this.gainNode.connect(this.owner.gainNode);  // this line can cause a memory leak.  Nodes need to be disconnected from the audioDestination or any sequence that leads to it.
+		this.gainNode.connect(this._owner.gainNode);  // this line can cause a memory leak.  Nodes need to be disconnected from the audioDestination or any sequence that leads to it.
 
-		var dur = this.owner.arrayBuffers[this.src].duration;
-		this.sourceNode = this.createAndPlayAudioNode((this.owner.context.currentTime - dur), this.offset);
-		this.duration = dur * 1000;	// NOTE *1000 because WebAudio reports everything in seconds but js uses milliseconds
-		this.startTime = this.sourceNode.startTime - this.offset;
+		var dur = this._owner._arrayBuffers[this.src].duration;
+		this.sourceNode = this._createAndPlayAudioNode((this._owner.context.currentTime - dur), this._offset);
+		this._duration = dur * 1000;	// NOTE *1000 because WebAudio reports everything in seconds but js uses milliseconds
+		this._startTime = this.sourceNode.startTime - this._offset;
 
-		this.soundCompleteTimeout = setTimeout(this.endedHandler, (dur - this.offset) * 1000);
+		this._soundCompleteTimeout = setTimeout(this._endedHandler, (dur - this._offset) * 1000);
 
-		if(this.remainingLoops != 0) {
-			this.sourceNodeNext = this.createAndPlayAudioNode(this.startTime, 0);
+		if(this._remainingLoops != 0) {
+			this._sourceNodeNext = this._createAndPlayAudioNode(this._startTime, 0);
 		}
 	};
 
 	/**
 	 * Creates an audio node using the current src and context, connects it to the gain node, and starts playback.
-	 * @method createAudioNode
+	 * @method _createAndPlayAudioNode
 	 * @param {Number} startTime The time to add this to the web audio context, in seconds.
 	 * @param {Number} offset The amount of time into the src audio to start playback, in seconds.
 	 * @return {audioNode}
 	 * @protected
 	 * @since 0.4.1
 	 */
-	p.createAndPlayAudioNode = function(startTime, offset) {
-		// WebAudio supports BufferSource, MediaElementSource, and MediaStreamSource.
-		// NOTE MediaElementSource requires different commands to play, pause, and stop because it uses audio tags.
-		// The same is assumed for MediaStreamSource, although it may share the same commands as MediaElementSource.
-		var audioNode = this.owner.context.createBufferSource();
-		audioNode.buffer = this.owner.arrayBuffers[this.src];
+	p._createAndPlayAudioNode = function(startTime, offset) {
+		var audioNode = this._owner.context.createBufferSource();
+		audioNode.buffer = this._owner._arrayBuffers[this.src];
 		audioNode.connect(this.panNode);
-		var currentTime = this.owner.context.currentTime;
+		var currentTime = this._owner.context.currentTime;
 		audioNode.startTime = startTime + audioNode.buffer.duration;	//currentTime + audioNode.buffer.duration - (currentTime - startTime);
 		audioNode.start(audioNode.startTime, offset, audioNode.buffer.duration - offset);
 		return audioNode;
@@ -3652,14 +3621,13 @@ this.createjs = this.createjs || {};
 	 *
 	 * <h4>Example</h4>
 	 *      var myInstance = createjs.Sound.createInstance(mySrc);
-	 *      myInstance.play(createjs.Sound.INTERRUPT_ANY);
-	 *      // alternatively, we can pass in options we want to set in an object
-	 *      myInstance.play({offset:1, loop:2, pan:0.5});
+	 *      myInstance.play({offset:1, loop:2, pan:0.5});	// options as object properties
+	 *      myInstance.play(createjs.Sound.INTERRUPT_ANY);	// options as parameters
 	 *
 	 * @method play
 	 * @param {String | Object} [interrupt="none"|options] How to interrupt any currently playing instances of audio with the same source,
 	 * if the maximum number of instances of the sound are already playing. Values are defined as <code>INTERRUPT_TYPE</code>
-	 * constants on the Sound class, with the default defined by {{#crossLink "Sound/defaultInterruptBehavior"}}{{/crossLink}}.
+	 * constants on the Sound class, with the default defined by Sound {{#crossLink "Sound/defaultInterruptBehavior:property"}}{{/crossLink}}.
 	 * <br /><strong>OR</strong><br />
 	 * This parameter can be an object that contains any or all optional properties by name, including: interrupt,
 	 * delay, offset, loop, volume, and pan (see the above code sample).
@@ -3671,21 +3639,21 @@ this.createjs = this.createjs || {};
 	 * for HTML Audio.
 	 */
 	p.play = function (interrupt, delay, offset, loop, volume, pan) {
-		this.cleanUp();
-		createjs.Sound.playInstance(this, interrupt, delay, offset, loop, volume, pan);
+		this._cleanUp();
+		createjs.Sound._playInstance(this, interrupt, delay, offset, loop, volume, pan);
 	};
 
 	/**
 	 * Called by the Sound class when the audio is ready to play (delay has completed). Starts sound playing if the
 	 * src is loaded, otherwise playback will fail.
-	 * @method beginPlaying
+	 * @method _beginPlaying
 	 * @param {Number} offset How far into the sound to begin playback, in milliseconds.
 	 * @param {Number} loop The number of times to loop the audio. Use -1 for infinite loops.
 	 * @param {Number} volume The volume of the sound, between 0 and 1.
 	 * @param {Number} pan The pan of the sound between -1 (left) and 1 (right). Note that pan does not work for HTML Audio.
 	 * @protected
 	 */
-	p.beginPlaying = function (offset, loop, volume, pan) {
+	p._beginPlaying = function (offset, loop, volume, pan) {
 		if (window.createjs == null) {
 			return;
 		}
@@ -3694,14 +3662,14 @@ this.createjs = this.createjs || {};
 			return;
 		}
 
-		this.offset = offset / 1000;  //convert ms to sec
-		this.remainingLoops = loop;
+		this._offset = offset / 1000;  //convert ms to sec
+		this._remainingLoops = loop;
 		this.volume = volume;
 		this.pan = pan;
 
-		if (this.owner.isPreloadComplete(this.src)) {
-			this.handleSoundReady(null);
-			this.sendEvent("succeeded");
+		if (this._owner.isPreloadComplete(this.src)) {
+			this._handleSoundReady(null);
+			this._sendEvent("succeeded");
 			return 1;
 		} else {
 			this.playFailed();
@@ -3721,19 +3689,19 @@ this.createjs = this.createjs || {};
 	 * @return {Boolean} If the pause call succeeds. This will return false if the sound isn't currently playing.
 	 */
 	p.pause = function () {
-		if (!this.paused && this.playState == createjs.Sound.PLAY_SUCCEEDED) {
-			this.paused = true;
+		if (!this._paused && this.playState == createjs.Sound.PLAY_SUCCEEDED) {
+			this.paused = this._paused = true;
 
-			this.offset = this.owner.context.currentTime - this.startTime;  // this allows us to restart the sound at the same point in playback
-			this.cleanUpAudioNode(this.sourceNode);
-			this.cleanUpAudioNode(this.sourceNodeNext);
+			this._offset = this._owner.context.currentTime - this._startTime;  // this allows us to restart the sound at the same point in playback
+			this.sourceNode = this._cleanUpAudioNode(this.sourceNode);
+			this.sourceNodeNext = this._cleanUpAudioNode(this._sourceNodeNext);
 
 			if (this.gainNode.numberOfOutputs != 0) {
 				this.gainNode.disconnect();
 			}  // this works because we only have one connection, and it returns 0 if we've already disconnected it.
 
-			clearTimeout(this.delayTimeoutId); // clear timeout that plays delayed sound
-			clearTimeout(this.soundCompleteTimeout);  // clear timeout that triggers sound complete
+			clearTimeout(this._delayTimeoutId); // clear timeout that plays delayed sound
+			clearTimeout(this._soundCompleteTimeout);  // clear timeout that triggers sound complete
 			return true;
 		}
 		return false;
@@ -3753,10 +3721,10 @@ this.createjs = this.createjs || {};
 	 * @return {Boolean} If the resume call succeeds. This will return false if called on a sound that is not paused.
 	 */
 	p.resume = function () {
-		if (!this.paused) {
+		if (!this._paused) {
 			return false;
 		}
-		this.handleSoundReady(null);
+		this._handleSoundReady(null);
 		return true;
 	};
 
@@ -3772,14 +3740,15 @@ this.createjs = this.createjs || {};
 	 * @return {Boolean} If the stop call succeeds.
 	 */
 	p.stop = function () {
-		this.cleanUp();
+		this.paused = this._paused = false;
+		this._cleanUp();
 		this.playState = createjs.Sound.PLAY_FINISHED;
-		this.offset = 0;  // set audio to start at the beginning
+		this._offset = 0;  // set audio to start at the beginning
 		return true;
 	};
 
 	/**
-	 * NOTE that you can set volume directly, and setVolume remains to allow support for IE8 with FlashPlugin.
+	 * NOTE that you can set volume directly as a property, and setVolume remains to allow support for IE8 with FlashPlugin.
 	 * Set the volume of the instance. You can retrieve the volume using {{#crossLink "SoundInstance/getVolume"}}{{/crossLink}}.
 	 *
 	 * <h4>Example</h4>
@@ -3801,12 +3770,12 @@ this.createjs = this.createjs || {};
 	/**
 	 * Internal function used to update the volume based on the instance volume, master volume, instance mute value,
 	 * and master mute value.
-	 * @method updateVolume
+	 * @method _updateVolume
 	 * @return {Boolean} if the volume was updated.
 	 * @protected
 	 */
-	p.updateVolume = function () {
-		var newVolume = this.muted ? 0 : this._volume;
+	p._updateVolume = function () {
+		var newVolume = this._muted ? 0 : this._volume;
 		if (newVolume != this.gainNode.gain.value) {
 			this.gainNode.gain.value = newVolume;
 			return true;
@@ -3815,7 +3784,7 @@ this.createjs = this.createjs || {};
 	};
 
 	/**
-	 * NOTE that you can get volume directly, and getVolume remains to allow support for IE8 with FlashPlugin.
+	 * NOTE that you can access volume directly as a property, and getVolume remains to allow support for IE8 with FlashPlugin.
 	 *
 	 * Get the volume of the instance. The actual output volume of a sound can be calculated using:
 	 * <code>myInstance.getVolume() * createjs.Sound.getVolume();</code>
@@ -3826,14 +3795,6 @@ this.createjs = this.createjs || {};
 	p.getVolume = function () {
 		return this.volume;
 	};
-
-	/**
-	 * REMOVED. <strong>Please use {{#crossLink "SoundInstance/setMute"}}{{/crossLink}} instead</strong>.
-	 * @method mute
-	 * @param {Boolean} value If the sound should be muted or not.
-	 * @return {Boolean} If the mute call succeeds.
-	 * @deprecated This method has been replaced by setMute.
-	 */
 
 	/**
 	 * Mute and unmute the sound. Muted sounds will still play at 0 volume. Note that an unmuted sound may still be
@@ -3853,8 +3814,8 @@ this.createjs = this.createjs || {};
 			return false;
 		}
 
-		this.muted = value;
-		this.updateVolume();
+		this._muted = value;
+		this._updateVolume();
 		return true;
 	};
 
@@ -3870,11 +3831,11 @@ this.createjs = this.createjs || {};
 	 * @since 0.4.0
 	 */
 	p.getMute = function () {
-		return this.muted;
+		return this._muted;
 	};
 
 	/**
-	 * NOTE that you can set pan directly, and getPan remains to allow support for IE8 with FlashPlugin.
+	 * NOTE that you can set pan directly as a property, and getPan remains to allow support for IE8 with FlashPlugin.
 	 *
 	 * Set the left(-1)/right(+1) pan of the instance. Note that {{#crossLink "HTMLAudioPlugin"}}{{/crossLink}} does not
 	 * support panning, and only simple left/right panning has been implemented for {{#crossLink "WebAudioPlugin"}}{{/crossLink}}.
@@ -3894,7 +3855,7 @@ this.createjs = this.createjs || {};
 	};
 
 	/**
-	 * NOTE that you can get volume directly, and getPan remains to allow support for IE8 with FlashPlugin.
+	 * NOTE that you can access pan directly as a property, and getPan remains to allow support for IE8 with FlashPlugin.
 	 *
 	 * Get the left/right pan of the instance. Note in WebAudioPlugin this only gives us the "x" value of what is
 	 * actually 3D audio.
@@ -3911,7 +3872,7 @@ this.createjs = this.createjs || {};
 	};
 
 	/**
-	 * Get the position of the playhead in the instance in milliseconds.
+	 * Get the position of the playhead of the instance in milliseconds.
 	 *
 	 * <h4>Example</h4>
 	 *
@@ -3921,17 +3882,17 @@ this.createjs = this.createjs || {};
 	 * @return {Number} The position of the playhead in the sound, in milliseconds.
 	 */
 	p.getPosition = function () {
-		if (this.paused || this.sourceNode == null) {
-			var pos = this.offset;
+		if (this._paused || this.sourceNode == null) {
+			var pos = this._offset;
 		} else {
-			var pos = this.owner.context.currentTime - this.startTime;
+			var pos = this._owner.context.currentTime - this._startTime;
 		}
 
 		return pos * 1000; // pos in seconds * 1000 to give milliseconds
 	};
 
 	/**
-	 * Set the position of the playhead in the instance. This can be set while a sound is playing, paused, or even
+	 * Set the position of the playhead in the instance. This can be set while a sound is playing, paused, or
 	 * stopped.
 	 *
 	 * <h4>Example</h4>
@@ -3942,17 +3903,17 @@ this.createjs = this.createjs || {};
 	 * @param {Number} value The position to place the playhead, in milliseconds.
 	 */
 	p.setPosition = function (value) {
-		this.offset = value / 1000; // convert milliseconds to seconds
+		this._offset = value / 1000; // convert milliseconds to seconds
 
 		if (this.sourceNode && this.playState == createjs.Sound.PLAY_SUCCEEDED) {
 			// we need to stop this sound from continuing to play, as we need to recreate the sourceNode to change position
-			this.cleanUpAudioNode(this.sourceNode);
-			this.cleanUpAudioNode(this.sourceNodeNext);
-			clearTimeout(this.soundCompleteTimeout);  // clear timeout that triggers sound complete
-		}  // NOTE we cannot just call cleanup because it also calls the Sound function playFinished which releases this instance in SoundChannel
+			this.sourceNode = this._cleanUpAudioNode(this.sourceNode);
+			this._sourceNodeNext = this._cleanUpAudioNode(this._sourceNodeNext);
+			clearTimeout(this._soundCompleteTimeout);  // clear timeout that triggers sound complete
+		}  // NOTE we cannot just call cleanup because it also calls the Sound function _playFinished which releases this instance in SoundChannel
 
-		if (!this.paused && this.playState == createjs.Sound.PLAY_SUCCEEDED) {
-			this.handleSoundReady(null);
+		if (!this._paused && this.playState == createjs.Sound.PLAY_SUCCEEDED) {
+			this._handleSoundReady(null);
 		}
 
 		return true;
@@ -3960,7 +3921,7 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Get the duration of the instance, in milliseconds. Note in most cases, you need to play a sound using
-	 * {{#crossLink "SoundInstance/play"}}{{/crossLink}} or the Sound API {{#crossLink "Sound.play"}}{{/crossLink}}
+	 * {{#crossLink "SoundInstance/play"}}{{/crossLink}} or the Sound API {{#crossLink "Sound/play"}}{{/crossLink}}
 	 * method before its duration can be reported accurately.
 	 *
 	 * <h4>Example</h4>
@@ -3971,43 +3932,47 @@ this.createjs = this.createjs || {};
 	 * @return {Number} The duration of the sound instance in milliseconds.
 	 */
 	p.getDuration = function () {
-		return this.duration;
+		return this._duration;
 	};
 
-	// Audio has finished playing. Manually loop it if required.
-	// called internally by soundCompleteTimeout in WebAudioPlugin
-	p.handleSoundComplete = function (event) {
-		this.offset = 0;  // have to set this as it can be set by pause during playback
+	/**
+	 * Audio has finished playing. Manually loop it if required.
+	 * @method _handleSoundComplete
+	 * @param event
+	 * @protected
+	 */
+	 // called internally by _soundCompleteTimeout in WebAudioPlugin
+	p._handleSoundComplete = function (event) {
+		this._offset = 0;  // have to set this as it can be set by pause during playback
 
+		if (this._remainingLoops != 0) {
+			this._remainingLoops--;  // NOTE this introduces a theoretical limit on loops = float max size x 2 - 1
 
-		if (this.remainingLoops != 0) {
-			this.remainingLoops--;  // NOTE this introduces a theoretical limit on loops = float max size x 2 - 1
-
-			// OJR we are using a look ahead approach to ensure smooth looping.  We add sourceNodeNext to the audio
+			// OJR we are using a look ahead approach to ensure smooth looping.  We add _sourceNodeNext to the audio
 			// context so that it starts playing even if this callback is delayed.  This technique and the reasons for
 			// using it are described in greater detail here:  http://www.html5rocks.com/en/tutorials/audio/scheduling/
 			// NOTE the cost of this is that our audio loop may not always match the loop event timing precisely.
-			if(this.sourceNodeNext) { // this can be set to null, but this should not happen when looping
-				this.cleanUpAudioNode(this.sourceNode);
-				this.sourceNode = this.sourceNodeNext;
-				this.startTime = this.sourceNode.startTime;
-				this.sourceNodeNext = this.createAndPlayAudioNode(this.startTime, 0);
-				this.soundCompleteTimeout = setTimeout(this.endedHandler, this.duration);
+			if(this._sourceNodeNext) { // this can be set to null, but this should not happen when looping
+				this._cleanUpAudioNode(this.sourceNode);
+				this.sourceNode = this._sourceNodeNext;
+				this._startTime = this.sourceNode.startTime;
+				this._sourceNodeNext = this._createAndPlayAudioNode(this._startTime, 0);
+				this._soundCompleteTimeout = setTimeout(this._endedHandler, this._duration);
 			}
 			else {
-				this.handleSoundReady(null);
+				this._handleSoundReady(null);
 			}
 
-			this.sendEvent("loop");
+			this._sendEvent("loop");
 			return;
 		}
 
 		if (window.createjs == null) {
 			return;
 		}
-		this.cleanUp();
+		this._cleanUp();
 		this.playState = createjs.Sound.PLAY_FINISHED;
-		this.sendEvent("complete");
+		this._sendEvent("complete");
 	};
 
 	// Play has failed, which can happen for a variety of reasons.
@@ -4015,9 +3980,9 @@ this.createjs = this.createjs || {};
 		if (window.createjs == null) {
 			return;
 		}
-		this.cleanUp();
+		this._cleanUp();
 		this.playState = createjs.Sound.PLAY_FAILED;
-		this.sendEvent("failed");
+		this._sendEvent("failed");
 	};
 
 	p.toString = function () {
@@ -4040,7 +4005,7 @@ this.createjs = this.createjs || {};
 	 * @constructor
 	 */
 	function Loader(src, owner) {
-		this.init(src, owner);
+		this._init(src, owner);
 	}
 
 	var p = Loader.prototype;
@@ -4097,7 +4062,7 @@ this.createjs = this.createjs || {};
 	p.onError = null;
 
 	// constructor
-	p.init = function (src, owner) {
+	p._init = function (src, owner) {
 		this.src = src;
 		this.originalSrc = src;
 		this.owner = owner;
@@ -4229,7 +4194,7 @@ this.createjs = this.createjs || {};
 	 * <b>All browsers</b><br />
 	 * Testing has shown in all browsers there is a limit to how many audio tag instances you are allowed.  If you exceed
 	 * this limit, you can expect to see unpredictable results.  This will be seen as soon as you register sounds, as
-	 * tags are precreated to all Chrome to load them.  Please use {{#crossLink "Sound.MAX_INSTANCES"}}{{/crossLink}} as
+	 * tags are precreated to allow Chrome to load them.  Please use {{#crossLink "Sound.MAX_INSTANCES"}}{{/crossLink}} as
 	 * a guide to how many total audio tags you can safely use in all browsers.
 	 *
      * <b>IE 9 html limitations</b><br />
@@ -4245,15 +4210,19 @@ this.createjs = this.createjs || {};
 	 * <ul><li>Safari requires Quicktime to be installed for audio playback.</li></ul>
 	 *
 	 * <b>iOS 6 limitations</b><br />
-	 * Note it is recommended to use {{#crossLink "WebAudioPlugin"}}{{/crossLink}} for iOS (6+). HTML Audio is disabled by
-	 * default as it can only have one &lt;audio&gt; tag, can not preload or autoplay the audio, can not cache the audio,
-	 * and can not play the audio except inside a user initiated event.
-	 *<br /><br />
-	 * <b>Android HTML Audio limitations</b><br />
+	 * <ul><li>Note it is recommended to use {{#crossLink "WebAudioPlugin"}}{{/crossLink}} for iOS (6+)</li>
+	 * 		<li>HTML Audio is disabled by default because</li>
+	 * 		<li>can only have one &lt;audio&gt; tag</li>
+	 * 		<li>can not preload or autoplay the audio</li>
+	 * 		<li>can not cache the audio</li>
+	 * 		<li>can not play the audio except inside a user initiated event.</li>
+	 * </ul>
+	 *
+	 * <b>Android Native Browser limitations</b><br />
 	 * <ul><li>We have no control over audio volume. Only the user can set volume on their device.</li>
-	 *      <li>We can only play audio inside a user event (touch/click).  This currently means you cannot loop sound or use a delay.</li>
+	 *      <li>We can only play audio inside a user event (touch/click).  This currently means you cannot loop sound or use a delay.</li></ul>
 	 * <b> Android Chrome 26.0.1410.58 specific limitations</b><br />
-	 * 		<li>Chrome reports true when you run createjs.Sound.BrowserDetect.isChrome, but is a different browser
+	 * <ul><li>Chrome reports true when you run createjs.Sound.BrowserDetect.isChrome, but is a different browser
 	 *      with different abilities.</li>
 	 *      <li>Can only play 1 sound at a time.</li>
 	 *      <li>Sound is not cached.</li>
@@ -4267,7 +4236,7 @@ this.createjs = this.createjs || {};
 	 * @constructor
 	 */
 	function HTMLAudioPlugin() {
-		this.init();
+		this._init();
 	}
 
 	var s = HTMLAudioPlugin;
@@ -4283,61 +4252,55 @@ this.createjs = this.createjs || {};
 	s.MAX_INSTANCES = 30;
 
 	/**
-	 * The capabilities of the plugin. This is generated via the the SoundInstance {{#crossLink "HTMLAudioPlugin/generateCapabilities"}}{{/crossLink}}
+	 * Event constant for the "canPlayThrough" event for cleaner code.
+	 * @property _AUDIO_READY
+	 * @type {String}
+	 * @default canplaythrough
+	 * @static
+	 * @protected
+	 */
+	s._AUDIO_READY = "canplaythrough";
+
+	/**
+	 * Event constant for the "ended" event for cleaner code.
+	 * @property _AUDIO_ENDED
+	 * @type {String}
+	 * @default ended
+	 * @static
+	 * @protected
+	 */
+	s._AUDIO_ENDED = "ended";
+
+	/**
+	 * Event constant for the "seeked" event for cleaner code.  We utilize this event for maintaining loop events.
+	 * @property _AUDIO_SEEKED
+	 * @type {String}
+	 * @default seeked
+	 * @static
+	 * @protected
+	 */
+	s._AUDIO_SEEKED = "seeked";
+
+	/**
+	 * Event constant for the "stalled" event for cleaner code.
+	 * @property _AUDIO_STALLED
+	 * @type {String}
+	 * @default stalled
+	 * @static
+	 * @protected
+	 */
+	s._AUDIO_STALLED = "stalled";
+
+	/**
+	 * The capabilities of the plugin. This is generated via the the SoundInstance {{#crossLink "HTMLAudioPlugin/_generateCapabilities"}}{{/crossLink}}
 	 * method. Please see the Sound {{#crossLink "Sound/getCapabilities"}}{{/crossLink}} method for an overview of all
 	 * of the available properties.
-	 * @property capabilities
+	 * @property _capabilities
 	 * @type {Object}
 	 * @protected
 	 * @static
 	 */
-	s.capabilities = null;
-
-	/**
-	 * Event constant for the "canPlayThrough" event for cleaner code.
-	 * @property AUDIO_READY
-	 * @type {String}
-	 * @default canplaythrough
-	 * @static
-	 */
-	s.AUDIO_READY = "canplaythrough";
-
-	/**
-	 * Event constant for the "ended" event for cleaner code.
-	 * @property AUDIO_ENDED
-	 * @type {String}
-	 * @default ended
-	 * @static
-	 */
-	s.AUDIO_ENDED = "ended";
-
-	/**
-	 * Event constant for the "seeked" event for cleaner code.  We utilize this event for maintaining loop events.
-	 * @property AUDIO_SEEKED
-	 * @type {String}
-	 * @default seeked
-	 * @static
-	 */
-	s.AUDIO_SEEKED = "seeked";
-
-	/**
-	 * Event constant for the "error" event for cleaner code.
-	 * @property AUDIO_ERROR
-	 * @type {String}
-	 * @default error
-	 * @static
-	 */
-	s.AUDIO_ERROR = "error"; //TODO: Handle error cases
-
-	/**
-	 * Event constant for the "stalled" event for cleaner code.
-	 * @property AUDIO_STALLED
-	 * @type {String}
-	 * @default stalled
-	 * @static
-	 */
-	s.AUDIO_STALLED = "stalled";
-
+	s._capabilities = null;
 
 	/**
 	 * Allows users to enable HTML audio on IOS, which is disabled by default.
@@ -4362,15 +4325,12 @@ this.createjs = this.createjs || {};
 	 * @static
 	 */
 	s.isSupported = function () {
-		// HTML audio can be enable on iOS by removing this if statement, but it is not recommended due to the limitations:
-		// iOS can only have a single <audio> instance, cannot preload or autoplay, cannot cache sound, and can only be
-		// played in response to a user event (click)
 		if (createjs.Sound.BrowserDetect.isIOS && !s.enableIOS) {
 			return false;
 		}
-		s.generateCapabilities();
+		s._generateCapabilities();
 		var t = s.tag;  // OJR do we still need this check, when cap will already be null if this is the case
-		if (t == null || s.capabilities == null) {
+		if (t == null || s._capabilities == null) {
 			return false;
 		}
 		return true;
@@ -4379,12 +4339,12 @@ this.createjs = this.createjs || {};
 	/**
 	 * Determine the capabilities of the plugin. Used internally. Please see the Sound API {{#crossLink "Sound/getCapabilities"}}{{/crossLink}}
 	 * method for an overview of plugin capabilities.
-	 * @method generateCapabiities
+	 * @method _generateCapabilities
 	 * @static
 	 * @protected
 	 */
-	s.generateCapabilities = function () {
-		if (s.capabilities != null) {
+	s._generateCapabilities = function () {
+		if (s._capabilities != null) {
 			return;
 		}
 		var t = s.tag = document.createElement("audio");
@@ -4392,7 +4352,7 @@ this.createjs = this.createjs || {};
 			return null;
 		}
 
-		s.capabilities = {
+		s._capabilities = {
 			panning:true,
 			volume:true,
 			tracks:-1
@@ -4404,23 +4364,23 @@ this.createjs = this.createjs || {};
 		for (var i = 0, l = supportedExtensions.length; i < l; i++) {
 			var ext = supportedExtensions[i];
 			var playType = extensionMap[ext] || ext;
-			s.capabilities[ext] = (t.canPlayType("audio/" + ext) != "no" && t.canPlayType("audio/" + ext) != "") || (t.canPlayType("audio/" + playType) != "no" && t.canPlayType("audio/" + playType) != "");
+			s._capabilities[ext] = (t.canPlayType("audio/" + ext) != "no" && t.canPlayType("audio/" + ext) != "") || (t.canPlayType("audio/" + playType) != "no" && t.canPlayType("audio/" + playType) != "");
 		}  // OJR another way to do this might be canPlayType:"m4a", codex: mp4
 	}
 
 	var p = HTMLAudioPlugin.prototype;
 
 	// doc'd above
-	p.capabilities = null;
+	p._capabilities = null;
 
 	/**
 	 * Object hash indexed by the source of each file to indicate if an audio source is loaded, or loading.
-	 * @property audioSources
+	 * @property _audioSources
 	 * @type {Object}
 	 * @protected
 	 * @since 0.4.0
 	 */
-	p.audioSources = null;
+	p._audioSources = null;
 
 	/**
 	 * The default number of instances to allow.  Passed back to {{#crossLink "Sound"}}{{/crossLink}} when a source
@@ -4440,18 +4400,18 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * An initialization function run by the constructor
-	 * @method init
+	 * @method _init
 	 * @protected
 	 */
-	p.init = function () {
-		this.capabilities = s.capabilities;
-		this.audioSources = {};
+	p._init = function () {
+		this._capabilities = s._capabilities;
+		this._audioSources = {};
 	};
 
 	/**
 	 * Pre-register a sound instance when preloading/setup. This is called by {{#crossLink "Sound"}}{{/crossLink}}.
 	 * Note that this provides an object containing a tag used for preloading purposes, which
-	 * <a href="http://preloadjs.com">PreloadJS</a> can use to assist with preloading.
+	 * <a href="http://preloadjs.com" target="_blank">PreloadJS</a> can use to assist with preloading.
 	 * @method register
 	 * @param {String} src The source of the audio
 	 * @param {Number} instances The number of concurrently playing instances to allow for the channel at any time.
@@ -4459,17 +4419,17 @@ this.createjs = this.createjs || {};
 	 * controlling how many instances of a source can be played by default.
 	 */
 	p.register = function (src, instances) {
-		this.audioSources[src] = true;  // Note this does not mean preloading has started
+		this._audioSources[src] = true;  // Note this does not mean preloading has started
 		var channel = createjs.HTMLAudioPlugin.TagPool.get(src);
 		var tag = null;
 		var l = instances || this.defaultNumChannels;
 		for (var i = 0; i < l; i++) {  // OJR should we be enforcing s.MAX_INSTANCES here?  Does the chrome bug still exist, or can we change this code?
-			tag = this.createTag(src);
+			tag = this._createTag(src);
 			channel.add(tag);
 		}
 
 		tag.id = src;	// co-opting id as we need a way to store original src in case it is changed before loading
-		this.loadedHandler = createjs.proxy(this.handleTagLoad, this);  // we need this bind to be able to remove event listeners
+		this.loadedHandler = createjs.proxy(this._handleTagLoad, this);  // we need this bind to be able to remove event listeners
 		tag.addEventListener && tag.addEventListener("canplaythrough", this.loadedHandler);
 		if(tag.onreadystatechange == null) {
 			tag.onreadystatechange = this.loadedHandler;
@@ -4488,14 +4448,17 @@ this.createjs = this.createjs || {};
 		};
 	};
 
+	// TODO remove this when | approach is removed
 	/**
+	 * Deprecated as this will not be required with new approach to basePath.
 	 * Checks if src was changed on tag used to create instances in TagPool before loading
 	 * Currently PreloadJS does this when a basePath is set, so we are replicating that behavior for internal preloading.
-	 * @method handleTagLoad
+	 * @method _handleTagLoad
 	 * @param event
 	 * @protected
+	 * @deprecated
 	 */
-	p.handleTagLoad = function(event) {
+	p._handleTagLoad = function(event) {
 		// cleanup and so we don't send the event more than once
 		event.target.removeEventListener && event.target.removeEventListener("canplaythrough", this.loadedHandler);
 		event.target.onreadystatechange = null;
@@ -4507,12 +4470,12 @@ this.createjs = this.createjs || {};
 
 	/**
 	 * Create an HTML audio tag.
-	 * @method createTag
+	 * @method _createTag
 	 * @param {String} src The source file to set for the audio tag.
 	 * @return {HTMLElement} Returns an HTML audio tag.
 	 * @protected
 	 */
-	p.createTag = function (src) {
+	p._createTag = function (src) {
 		var tag = document.createElement("audio");
 		tag.autoplay = false;
 		tag.preload = "none";
@@ -4529,7 +4492,7 @@ this.createjs = this.createjs || {};
 	 * @since 0.4.1
 	 */
 	p.removeSound = function (src) {
-		delete(this.audioSources[src]);
+		delete(this._audioSources[src]);
 		createjs.HTMLAudioPlugin.TagPool.remove(src);
 	};
 
@@ -4540,7 +4503,7 @@ this.createjs = this.createjs || {};
 	 * @since 0.4.1
 	 */
 	p.removeAllSounds = function () {
-		this.audioSources = {};	// this drops all references, in theory freeing them for garbage collection
+		this._audioSources = {};	// this drops all references, in theory freeing them for garbage collection
 		createjs.HTMLAudioPlugin.TagPool.removeAll();
 	};
 
@@ -4554,7 +4517,7 @@ this.createjs = this.createjs || {};
 		// if this sound has not be registered, create a tag and preload it
 		if (!this.isPreloadStarted(src)) {
 			var channel = createjs.HTMLAudioPlugin.TagPool.get(src);
-			var tag = this.createTag(src);
+			var tag = this._createTag(src);
 			tag.id = src;
 			channel.add(tag);
 			this.preload(src, {tag:tag});
@@ -4571,7 +4534,7 @@ this.createjs = this.createjs || {};
 	 * @since 0.4.0
 	 */
 	p.isPreloadStarted = function (src) {
-		return (this.audioSources[src] != null);
+		return (this._audioSources[src] != null);
 	};
 
 	/**
@@ -4582,7 +4545,7 @@ this.createjs = this.createjs || {};
 	 * @since 0.4.0
 	 */
 	p.preload = function (src, instance) {
-		this.audioSources[src] = true;
+		this._audioSources[src] = true;
 		new createjs.HTMLAudioPlugin.Loader(src, instance.tag);
 	};
 
@@ -4601,18 +4564,18 @@ this.createjs = this.createjs || {};
 	// NOTE Documentation for the SoundInstance class in WebAudioPlugin file. Each plugin generates a SoundInstance that
 	// follows the same interface.
 	function SoundInstance(src, owner) {
-		this.init(src, owner);
+		this._init(src, owner);
 	}
 
 	var p = SoundInstance.prototype = new createjs.EventDispatcher();
 
-	p.src = null,
+	p.src = null;
 	p.uniqueId = -1;
 	p.playState = null;
-	p.owner = null;
+	p._owner = null;
 	p.loaded = false;
-	p.offset = 0;
-	p.delay = 0;
+	p._offset = 0;
+	p._delay = 0;
 	p._volume =  1;
 	// IE8 has Object.defineProperty, but only for DOM objects, so check if fails to suppress errors
 	try {
@@ -4624,49 +4587,50 @@ this.createjs = this.createjs || {};
 				if (Number(value) == null) {return;}
 				value = Math.max(0, Math.min(1, value));
 				this._volume = value;
-				this.updateVolume();
+				this._updateVolume();
 			}
 		});
 	} catch (e) {
 		// dispatch message or error?
 	};
 	p.pan = 0;
-	p.duration = 0;
-	p.remainingLoops = 0;
-	p.delayTimeoutId = null;
+	p._duration = 0;
+	p._remainingLoops = 0;
+	p._delayTimeoutId = null;
 	p.tag = null;
-	p.muted = false;
+	p._muted = false;
 	p.paused = false;
+	p._paused = false;
 
 	// Proxies, make removing listeners easier.
-	p.endedHandler = null;
-	p.readyHandler = null;
-	p.stalledHandler = null;
+	p._endedHandler = null;
+	p._readyHandler = null;
+	p._stalledHandler = null;
 	p.loopHandler = null;
 
 // Constructor
-	p.init = function (src, owner) {
+	p._init = function (src, owner) {
 		this.src = src;
-		this.owner = owner;
+		this._owner = owner;
 
-		this.endedHandler = createjs.proxy(this.handleSoundComplete, this);
-		this.readyHandler = createjs.proxy(this.handleSoundReady, this);
-		this.stalledHandler = createjs.proxy(this.handleSoundStalled, this);
+		this._endedHandler = createjs.proxy(this._handleSoundComplete, this);
+		this._readyHandler = createjs.proxy(this._handleSoundReady, this);
+		this._stalledHandler = createjs.proxy(this._handleSoundStalled, this);
 		this.loopHandler = createjs.proxy(this.handleSoundLoop, this);
 	};
 
-	p.sendEvent = function (type) {
+	p._sendEvent = function (type) {
 		var event = new createjs.Event(type);
 		this.dispatchEvent(event);
 	};
 
-	p.cleanUp = function () {
+	p._cleanUp = function () {
 		var tag = this.tag;
 		if (tag != null) {
 			tag.pause();
-			tag.removeEventListener(createjs.HTMLAudioPlugin.AUDIO_ENDED, this.endedHandler, false);
-			tag.removeEventListener(createjs.HTMLAudioPlugin.AUDIO_READY, this.readyHandler, false);
-			tag.removeEventListener(createjs.HTMLAudioPlugin.AUDIO_SEEKED, this.loopHandler, false);
+			tag.removeEventListener(createjs.HTMLAudioPlugin._AUDIO_ENDED, this._endedHandler, false);
+			tag.removeEventListener(createjs.HTMLAudioPlugin._AUDIO_READY, this._readyHandler, false);
+			tag.removeEventListener(createjs.HTMLAudioPlugin._AUDIO_SEEKED, this.loopHandler, false);
 			try {
 				tag.currentTime = 0;
 			} catch (e) {
@@ -4675,30 +4639,30 @@ this.createjs = this.createjs || {};
 			this.tag = null;
 		}
 
-		clearTimeout(this.delayTimeoutId);
+		clearTimeout(this._delayTimeoutId);
 		if (window.createjs == null) {
 			return;
 		}
-		createjs.Sound.playFinished(this);
+		createjs.Sound._playFinished(this);
 	};
 
-	p.interrupt = function () {
+	p._interrupt = function () {
 		if (this.tag == null) {
 			return;
 		}
 		this.playState = createjs.Sound.PLAY_INTERRUPTED;
-		this.cleanUp();
-		this.paused = false;
-		this.sendEvent("interrupted");
+		this._cleanUp();
+		this.paused = this._paused = false;
+		this._sendEvent("interrupted");
 	};
 
 // Public API
 	p.play = function (interrupt, delay, offset, loop, volume, pan) {
-		this.cleanUp(); //LM: Is this redundant?
-		createjs.Sound.playInstance(this, interrupt, delay, offset, loop, volume, pan);
+		this._cleanUp(); //LM: Is this redundant?
+		createjs.Sound._playInstance(this, interrupt, delay, offset, loop, volume, pan);
 	};
 
-	p.beginPlaying = function (offset, loop, volume, pan) {
+	p._beginPlaying = function (offset, loop, volume, pan) {
 		if (window.createjs == null) {
 			return -1;
 		}
@@ -4708,70 +4672,70 @@ this.createjs = this.createjs || {};
 			return -1;
 		}
 
-		tag.addEventListener(createjs.HTMLAudioPlugin.AUDIO_ENDED, this.endedHandler, false);
+		tag.addEventListener(createjs.HTMLAudioPlugin._AUDIO_ENDED, this._endedHandler, false);
 
 		// Reset this instance.
-		this.offset = offset;
+		this._offset = offset;
 		this.volume = volume;
 		this.pan = pan;	// not pan has no effect
-		this.updateVolume();  // note this will set for mute and masterMute
-		this.remainingLoops = loop;
+		this._updateVolume();  // note this will set for mute and _masterMute
+		this._remainingLoops = loop;
 
 		if (tag.readyState !== 4) {
-			tag.addEventListener(createjs.HTMLAudioPlugin.AUDIO_READY, this.readyHandler, false);
-			tag.addEventListener(createjs.HTMLAudioPlugin.AUDIO_STALLED, this.stalledHandler, false);
+			tag.addEventListener(createjs.HTMLAudioPlugin._AUDIO_READY, this._readyHandler, false);
+			tag.addEventListener(createjs.HTMLAudioPlugin._AUDIO_STALLED, this._stalledHandler, false);
 			tag.preload = "auto"; // This is necessary for Firefox, as it won't ever "load" until this is set.
 			tag.load();
 		} else {
-			this.handleSoundReady(null);
+			this._handleSoundReady(null);
 		}
 
-		this.sendEvent("succeeded");
+		this._sendEvent("succeeded");
 		return 1;
 	};
 
 	// Note: Sounds stall when trying to begin playback of a new audio instance when the existing instances
 	//  has not loaded yet. This doesn't mean the sound will not play.
-	p.handleSoundStalled = function (event) {
-		this.cleanUp();  // OJR NOTE this will stop playback, and I think we should remove this and let the developer decide how to handle stalled instances
-		this.sendEvent("failed");
+	p._handleSoundStalled = function (event) {
+		this._cleanUp();  // OJR NOTE this will stop playback, and I think we should remove this and let the developer decide how to handle stalled instances
+		this._sendEvent("failed");
 	};
 
-	p.handleSoundReady = function (event) {
+	p._handleSoundReady = function (event) {
 		if (window.createjs == null) {
 			return;
 		}
 
-		// OJR would like a cleaner way to do this in init, discuss with LM
-		this.duration = this.tag.duration * 1000;  // need this for setPosition on stopped sounds
+		// OJR would like a cleaner way to do this in _init, discuss with LM
+		this._duration = this.tag.duration * 1000;  // need this for setPosition on stopped sounds
 
 		this.playState = createjs.Sound.PLAY_SUCCEEDED;
-		this.paused = false;
-		this.tag.removeEventListener(createjs.HTMLAudioPlugin.AUDIO_READY, this.readyHandler, false);
+		this.paused = this._paused = false;
+		this.tag.removeEventListener(createjs.HTMLAudioPlugin._AUDIO_READY, this._readyHandler, false);
 
-		if (this.offset >= this.getDuration()) {
+		if (this._offset >= this.getDuration()) {
 			this.playFailed();  // OJR: throw error?
 			return;
-		} else if (this.offset > 0) {
-			this.tag.currentTime = this.offset * 0.001;
+		} else if (this._offset > 0) {
+			this.tag.currentTime = this._offset * 0.001;
 		}
-		if (this.remainingLoops == -1) {
+		if (this._remainingLoops == -1) {
 			this.tag.loop = true;
 		}
-		if(this.remainingLoops != 0) {
-			this.tag.addEventListener(createjs.HTMLAudioPlugin.AUDIO_SEEKED, this.loopHandler, false);
+		if(this._remainingLoops != 0) {
+			this.tag.addEventListener(createjs.HTMLAudioPlugin._AUDIO_SEEKED, this.loopHandler, false);
 			this.tag.loop = true;
 		}
 		this.tag.play();
 	};
 
 	p.pause = function () {
-		if (!this.paused && this.playState == createjs.Sound.PLAY_SUCCEEDED && this.tag != null) {
-			this.paused = true;
+		if (!this._paused && this.playState == createjs.Sound.PLAY_SUCCEEDED && this.tag != null) {
+			this.paused = this._paused = true;
 			// Note: when paused by user, we hold a reference to our tag. We do not release it until stopped.
 			this.tag.pause();
 
-			clearTimeout(this.delayTimeoutId);
+			clearTimeout(this._delayTimeoutId);
 
 			return true;
 		}
@@ -4779,24 +4743,24 @@ this.createjs = this.createjs || {};
 	};
 
 	p.resume = function () {
-		if (!this.paused || this.tag == null) {
+		if (!this._paused || this.tag == null) {
 			return false;
 		}
-		this.paused = false;
+		this.paused = this._paused = false;
 		this.tag.play();
 		return true;
 	};
 
 	p.stop = function () {
-		this.offset = 0;
+		this._offset = 0;
 		this.pause();
 		this.playState = createjs.Sound.PLAY_FINISHED;
-		this.cleanUp();
+		this._cleanUp();
 		return true;
 	};
 
 	p.setMasterVolume = function (value) {
-		this.updateVolume();
+		this._updateVolume();
 		return true;
 	};
 
@@ -4805,9 +4769,9 @@ this.createjs = this.createjs || {};
 		return true;
 	};
 
-	p.updateVolume = function () {
+	p._updateVolume = function () {
 		if (this.tag != null) {
-			var newVolume = (this.muted || createjs.Sound.masterMute) ? 0 : this._volume * createjs.Sound.masterVolume;
+			var newVolume = (this._muted || createjs.Sound._masterMute) ? 0 : this._volume * createjs.Sound._masterVolume;
 			if (newVolume != this.tag.volume) {
 				this.tag.volume = newVolume;
 			}
@@ -4822,7 +4786,7 @@ this.createjs = this.createjs || {};
 	};
 
 	p.setMasterMute = function (isMuted) {
-		this.updateVolume();
+		this._updateVolume();
 		return true;
 	};
 
@@ -4831,13 +4795,13 @@ this.createjs = this.createjs || {};
 			return false;
 		}
 
-		this.muted = isMuted;
-		this.updateVolume();
+		this._muted = isMuted;
+		this._updateVolume();
 		return true;
 	};
 
 	p.getMute = function () {
-		return this.muted;
+		return this._muted;
 	};
 
 	// Can not set pan in HTML
@@ -4851,53 +4815,53 @@ this.createjs = this.createjs || {};
 
 	p.getPosition = function () {
 		if (this.tag == null) {
-			return this.offset;
+			return this._offset;
 		}
 		return this.tag.currentTime * 1000;
 	};
 
 	p.setPosition = function (value) {
 		if (this.tag == null) {
-			this.offset = value
+			this._offset = value
 		} else {
-			this.tag.removeEventListener(createjs.HTMLAudioPlugin.AUDIO_SEEKED, this.loopHandler, false);
+			this.tag.removeEventListener(createjs.HTMLAudioPlugin._AUDIO_SEEKED, this.loopHandler, false);
 			try {
 				this.tag.currentTime = value * 0.001;
 			} catch (error) { // Out of range
 				return false;
 			}
-			this.tag.addEventListener(createjs.HTMLAudioPlugin.AUDIO_SEEKED, this.loopHandler, false);
+			this.tag.addEventListener(createjs.HTMLAudioPlugin._AUDIO_SEEKED, this.loopHandler, false);
 		}
 		return true;
 	};
 
 	p.getDuration = function () {  // NOTE this will always return 0 until sound has been played.
-		return this.duration;
+		return this._duration;
 	};
 
-	p.handleSoundComplete = function (event) {
-		this.offset = 0;
+	p._handleSoundComplete = function (event) {
+		this._offset = 0;
 
 		if (window.createjs == null) {
 			return;
 		}
 		this.playState = createjs.Sound.PLAY_FINISHED;
-		this.cleanUp();
-		this.sendEvent("complete");
+		this._cleanUp();
+		this._sendEvent("complete");
 	};
 
 	// handles looping functionality
 	// NOTE with this approach audio will loop as reliably as the browser allows
 	// but we could end up sending the loop event after next loop playback begins
 	p.handleSoundLoop = function (event) {
-		this.offset = 0;
+		this._offset = 0;
 
-		this.remainingLoops--;
-		if(this.remainingLoops == 0) {
+		this._remainingLoops--;
+		if(this._remainingLoops == 0) {
 			this.tag.loop = false;
-			this.tag.removeEventListener(createjs.HTMLAudioPlugin.AUDIO_SEEKED, this.loopHandler, false);
+			this.tag.removeEventListener(createjs.HTMLAudioPlugin._AUDIO_SEEKED, this.loopHandler, false);
 		}
-		this.sendEvent("loop");
+		this._sendEvent("loop");
 	};
 
 	p.playFailed = function () {
@@ -4905,8 +4869,8 @@ this.createjs = this.createjs || {};
 			return;
 		}
 		this.playState = createjs.Sound.PLAY_FAILED;
-		this.cleanUp();
-		this.sendEvent("failed");
+		this._cleanUp();
+		this._sendEvent("failed");
 	};
 
 	p.toString = function () {
@@ -4934,8 +4898,8 @@ this.createjs = this.createjs || {};
 	 * @since 0.4.0
 	 */
 	function Loader(src, tag) {
-		this.init(src, tag);
-	}
+		this._init(src, tag);
+	};
 
 	var p = Loader.prototype;
 
@@ -4970,7 +4934,7 @@ this.createjs = this.createjs || {};
 	p.loadedHandler = null;
 
 	// constructor
-	p.init = function (src, tag) {
+	p._init = function (src, tag) {
 		this.src = src;
 		this.tag = tag;
 
@@ -5029,13 +4993,13 @@ this.createjs = this.createjs || {};
 	p.sendLoadedEvent = function (evt) {
 		this.tag.removeEventListener && this.tag.removeEventListener("canplaythrough", this.loadedHandler);  // cleanup and so we don't send the event more than once
 		this.tag.onreadystatechange = null;  // cleanup and so we don't send the event more than once
-		createjs.Sound.sendFileLoadEvent(this.src);  // fire event or callback on Sound
+		createjs.Sound._sendFileLoadEvent(this.src);  // fire event or callback on Sound
 	};
 
 	// used for debugging
 	p.toString = function () {
 		return "[HTMLAudioPlugin Loader]";
-	}
+	};
 
 	createjs.HTMLAudioPlugin.Loader = Loader;
 
@@ -5055,7 +5019,7 @@ this.createjs = this.createjs || {};
 	 * @protected
 	 */
 	function TagPool(src) {
-		this.init(src);
+		this._init(src);
 	}
 
 	var s = TagPool;
@@ -5081,7 +5045,7 @@ this.createjs = this.createjs || {};
 			channel = s.tags[src] = new TagPool(src);
 		}
 		return channel;
-	}
+	};
 
 	/**
 	 * Delete a TagPool and all related tags. Note that if the TagPool does not exist, this will fail.
@@ -5098,7 +5062,7 @@ this.createjs = this.createjs || {};
 		channel.removeAll();
 		delete(s.tags[src]);
 		return true;
-	}
+	};
 
 	/**
 	 * Delete all TagPools and all related tags.
@@ -5110,7 +5074,7 @@ this.createjs = this.createjs || {};
 			s.tags[channel].removeAll();	// this stops and removes all active instances
 		}
 		s.tags = {};
-	}
+	};
 
 	/**
 	 * Get a tag instance. This is a shortcut method.
@@ -5125,7 +5089,7 @@ this.createjs = this.createjs || {};
 			return null;
 		}
 		return channel.get();
-	}
+	};
 
 	/**
 	 * Return a tag instance. This is a shortcut method.
@@ -5141,7 +5105,7 @@ this.createjs = this.createjs || {};
 			return null;
 		}
 		return channel.set(tag);
-	}
+	};
 
 	/**
 	 * A function to check if src has changed in the loaded audio tag.
@@ -5158,7 +5122,7 @@ this.createjs = this.createjs || {};
 			return null;
 		}
 		channel.checkSrcChange();
-	}
+	};
 
 	var p = TagPool.prototype;
 
@@ -5198,7 +5162,7 @@ this.createjs = this.createjs || {};
 	p.tags = null;
 
 	// constructor
-	p.init = function (src) {
+	p._init = function (src) {
 		this.src = src;
 		this.tags = [];
 	};
@@ -5275,7 +5239,7 @@ this.createjs = this.createjs || {};
 
 	p.toString = function () {
 		return "[HTMLAudioPlugin TagPool]";
-	}
+	};
 
 	createjs.HTMLAudioPlugin.TagPool = TagPool;
 

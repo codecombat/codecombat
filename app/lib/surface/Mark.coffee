@@ -137,10 +137,10 @@ module.exports = class Mark extends CocoClass
     if @name in ['shadow', 'debug']
       pos = @camera.worldToSurface x: @sprite.thang.pos.x, y: @sprite.thang.pos.y
       if @name is 'shadow'
-        worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2
+        worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2 + @sprite.getBobOffset()
         @mark.alpha = 0.451 / Math.sqrt(worldZ / 2 + 1)
     else
-      pos ?= @sprite.displayObject
+      pos ?= @sprite?.displayObject
     @mark.x = pos.x
     @mark.y = pos.y
     if @name is 'highlight'
@@ -166,7 +166,7 @@ module.exports = class Mark extends CocoClass
       size += 60 if @name is 'selection'
       size += 60 if @name is 'repair'
       scale = size / {selection: 128, target: 128, repair: 320, highlight: 160}[@name]
-      if @sprite?.thang.spriteName.search(/dungeon.wall/i) isnt -1
+      if @sprite?.thang.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
         scale *= 2
     @mark.scaleX = @mark.scaleY = Math.min 1, scale
     if @name in ['selection', 'target', 'repair']

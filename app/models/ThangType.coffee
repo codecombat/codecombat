@@ -22,12 +22,13 @@ module.exports = class ThangType extends CocoModel
   resetSpriteSheetCache: ->
     @buildActions()
     @spriteSheets = {}
+    @building = {}
 
   getActions: ->
     return @actions or @buildActions()
 
   buildActions: ->
-    @actions = _.cloneDeep(@get('actions'))
+    @actions = _.cloneDeep(@get('actions') or {})
     for name, action of @actions
       action.name = name
       for relatedName, relatedAction of action.relatedActions ? {}
@@ -90,6 +91,7 @@ module.exports = class ThangType extends CocoModel
     for animation in @requiredRawAnimations()
       name = animation.animation
       mc = @vectorParser.buildMovieClip name
+      continue unless mc
       @builder.addMovieClip mc, null, animation.scale * @options.resolutionFactor
       framesMap[animation.scale + "_" + name] = @builder._animations[name].frames
 
@@ -97,6 +99,7 @@ module.exports = class ThangType extends CocoModel
       continue if name is 'portrait'
       scale = action.scale ? @get('scale') ? 1
       frames = framesMap[scale + "_" + action.animation]
+      continue unless frames
       frames = @mapFrames(action.frames, frames[0]) if action.frames?
       next = true
       next = action.goesTo if action.goesTo
@@ -107,6 +110,7 @@ module.exports = class ThangType extends CocoModel
       continue if name is 'portrait'
       scale = @options.resolutionFactor * (action.scale or @get('scale') or 1)
       s = @vectorParser.buildContainerFromStore(action.container)
+      continue unless s
       frame = @builder.addFrame(s, s.bounds, scale)
       @builder.addAnimation name, [frame], false
 
@@ -138,10 +142,12 @@ module.exports = class ThangType extends CocoModel
     console.warn 'Building', @get('name'), 'and blocking the main thread.'
     spriteSheet = @builder.build()
     @spriteSheets[key] = spriteSheet
+    delete @building[key]
     spriteSheet
 
   onBuildSpriteSheetComplete: (e, key) ->
     @spriteSheets[key] = e.target.spriteSheet
+    delete @building[key]
     @trigger 'build-complete'
     @builder = null
     @vectorParser = null

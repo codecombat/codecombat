@@ -8,6 +8,8 @@ CocoView = require 'views/kinds/CocoView'
 preventBackspace = (event) ->
   if event.keyCode is 8 and not elementAcceptsKeystrokes(event.srcElement or event.target)
     event.preventDefault()
+  else if (key.ctrl or key.command) and not key.alt and event.keyCode in [219, 221]  # prevent Ctrl/Cmd + [ / ]
+    event.preventDefault()
 
 elementAcceptsKeystrokes = (el) ->
   # http://stackoverflow.com/questions/1495219/how-can-i-prevent-the-backspace-key-from-navigating-back

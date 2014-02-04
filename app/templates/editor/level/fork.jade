@@ -4,11 +4,10 @@ block modal-header-content
   h3(data-i18n="editor.fork_title") Fork New Version
 
 block modal-body-content
-  form#save-level-form.form-horizontal
-    .control-group
-      label.control-label(for="level-name") Name
-      .controls
-        textarea#level-name.input-large(name="name", type="text")
+  form#save-level-form.form
+    .form-group
+      label(for="level-name") Name
+      input#level-name(name="name", type="text").form-control
 
 block modal-footer-content
   button.btn(data-dismiss="modal") Cancel

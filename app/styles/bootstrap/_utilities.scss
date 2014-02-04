@@ -3,43 +3,54 @@
 // --------------------------------------------------
 
 
-// Quick floats
-.pull-right {
-  float: right;
-}
-.pull-left {
-  float: left;
-}
+// Floats
+// -------------------------
 
-// Toggling content
-.hide {
-  display: none;
-}
-.show {
-  display: block;
-}
-
-// Visibility
-.invisible {
-  visibility: hidden;
-}
-
-// For Affix plugin
-.affix {
-  position: fixed;
-}
-
-// Clearing floats
 .clearfix {
   @include clearfix();
 }
-
-// Accessible yet invisible text
-.hide-text {
-  @include hide-text();
+.center-block {
+  @include center-block();
+}
+.pull-right {
+  float: right !important;
+}
+.pull-left {
+  float: left !important;
 }
 
-// Uses box-sizing mixin, so must be defined here
-.input-block-level {
-  @include input-block-level();
+
+// Toggling content
+// -------------------------
+
+// Note: Deprecated .hide in favor of .hidden or .sr-only (as appropriate) in v3.0.1
+.hide {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+.invisible {
+  visibility: hidden;
+}
+.text-hide {
+  @include text-hide();
+}
+
+
+// Hide from screenreaders and browsers
+//
+// Credit: HTML5 Boilerplate
+
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+
+// For Affix plugin
+// -------------------------
+
+.affix {
+  position: fixed;
 }

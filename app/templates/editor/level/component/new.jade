@@ -4,16 +4,14 @@ block modal-header-content
   h3(data-i18n="editor.new_component_title") Create New Component
 
 block modal-body-content
-  form.form-horizontal
-    .control-group
+  form.form
+    .form-group
       label(for="level-component-system", data-i18n="editor.new_component_field_system").control-label System
-      .controls
-        input#level-component-system.input-large(name="system", type="text")
-    .control-group
-      label(for="level-component-name", data-i18n="editor.new_component_field_name").control-label Name
-      .controls
-        input#level-component-name.input-large(name="name", type="text")
+      input.form-control#level-component-system(name="system", type="text")
+    .form-group
+      label(for="level-component-name", data-i18n="general.name").control-label Name
+      input.form-control#level-component-name(name="name", type="text")
 
 block modal-footer-content
-  button(data-dismiss="modal", data-i18n="editor.new_component_btn_cancel").btn Cancel
-  button(data-i18n="editor.new_component_btn_create").btn.btn-primary#new-level-component-submit Create
+  button(data-dismiss="modal", data-i18n="common.cancel").btn Cancel
+  button(data-i18n="common.create").btn.btn-primary#new-level-component-submit Create

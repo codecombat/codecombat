@@ -1,7 +1,26 @@
-h3.edit-system-name
-  span(data-i18n="editor.level_system_edit_title")
-    | Edit System
-  span : 
-    | "#{editTitle}"
-
-#edit-system-treema
+nav.navbar.navbar-default(role='navigation')
+  .container-fluid
+    .navbar-header
+      span.navbar-brand
+        span(data-i18n="editor.level_system_edit_title")
+          | Edit System
+        span : 
+          | "#{editTitle}"
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav.nav-tabs
+        li.active
+          a(href="#system-code" data-toggle="tab") Code
+        li
+          a(href="#system-config-schema" data-toggle="tab") Config Schema
+        li
+          a(href="#system-settings" data-toggle="tab") Settings
+      ul.nav.navbar-nav.navbar-right
+        li(data-i18n="editor.level_system_btn_new").btn.btn-primary.navbar-btn#create-new-system-button Create New System
+  
+.tab-content
+  .tab-pane.active#system-code
+    #system-code-editor
+  .tab-pane#system-config-schema
+    #config-schema-treema
+  .tab-pane#system-settings
+    #edit-system-treema

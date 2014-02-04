@@ -110,7 +110,8 @@ module.exports = class HUDView extends View
     newCanvas = $(stage.canvas).addClass('thang-canvas')
     wrapper.empty().append(newCanvas)
     team = @thang?.team or @speakerSprite?.thang?.team
-    newCanvas.parent().removeClass('team-ogres').removeClass('team-humans').addClass("team-#{team}")
+    wrapper.removeClass (i, css) -> (css.match(/\bteam-\S+/g) or []).join ' '
+    wrapper.addClass "team-#{team}"
     stage.update()
     @stage?.stopTalking()
     @stage = stage
@@ -270,8 +271,8 @@ module.exports = class HUDView extends View
       if val.id
         return val.id
       else if val.x and val.y
-        #return "x: #{val.x.toFixed(0)} y: #{val.y.toFixed(0)}"
-        return "x: #{val.x.toFixed(0)} y: #{val.y.toFixed(0)}, z: #{val.z.toFixed(0)}"  # Debugging: include z
+        return "x: #{val.x.toFixed(0)} y: #{val.y.toFixed(0)}"
+        #return "x: #{val.x.toFixed(0)} y: #{val.y.toFixed(0)}, z: #{val.z.toFixed(0)}"  # Debugging: include z
     else if not val?
       return "No " + prop
     return val

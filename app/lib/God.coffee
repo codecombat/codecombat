@@ -152,7 +152,7 @@ class Angel
     @ids[@lastID]
 
   # https://github.com/codecombat/codecombat/issues/81 -- TODO: we need to wait for worker initialization first
-  infiniteLoopIntervalDuration: 15000  # check this often (must be more than the others added)
+  infiniteLoopIntervalDuration: 1500000  # check this often (must be more than the others added)
   infiniteLoopTimeoutDuration: 1500  # wait this long when we check
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
   constructor: (@god) ->

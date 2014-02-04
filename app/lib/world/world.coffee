@@ -14,6 +14,9 @@ DESERIALIZATION_INTERVAL = 20
 
 module.exports = class World
   @className: "World"
+  age: 0
+  ended: false
+  apiProperties: ['age', 'dt']
   constructor: (name, @userCodeMap, classMap) ->
     # classMap is needed for deserializing Worlds, Thangs, and other classes
     @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang}
@@ -28,8 +31,6 @@ module.exports = class World
     @scriptNotes = []
     @rand = new Rand 0
     @frames = [new WorldFrame(@, 0)]
-  age: 0
-  ended: false
 
   # --- This config needs to move into Systems config --- TODO
   playableTeams: ["humans"]
@@ -221,7 +222,7 @@ module.exports = class World
     channel = 'world:' + channel
     for script in @scripts
       continue if script.channel isnt channel
-      scriptNote = new WorldScriptNote script, event, world
+      scriptNote = new WorldScriptNote script, event
       continue if scriptNote.invalid
       @scriptNotes.push scriptNote
     return unless @goalManager

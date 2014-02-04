@@ -30,18 +30,22 @@
     color: white
 
 #cast-button-view
+  display: none
+  position: absolute
+  width: 35%
+
   .cast-button-group
-    position: absolute
-    // Bottom/right margins must appear to scroll to size of any paper gashes
-    top: 2%
-    right: 4%
-    @include opacity(77)
+    z-index: 2
+    @include opacity(0.77)
+    width: 100%
+    border-radius: 6px
     
     .button-progress-overlay
       position: absolute
       left: 0
       top: 0
       bottom: 0
+      border-radius: 6px
       // This transition time should roughly match the world progress update interval
       @include transition(width .2s linear)
 
@@ -49,7 +53,7 @@
       background-color: rgba(255, 255, 255, 0.5)
 
     &:hover, &.castable
-      @include opacity(100)
+      @include opacity(1)
 
     &.castable
       -webkit-animation-name: castablePulse
@@ -65,18 +69,28 @@
     &:not(.castable):not(:hover)
       .cast-options-button
         // Mimic the disabled visuals
-        @include opacity(65)
+        @include opacity(0.65)
         background-image: none
         @include box-shadow(none)
         
     .btn
       padding: 3px 10px
+      height: 40px
 
     .cast-button
-      width: 90px
+      width: 80%
+      width: -webkit-calc(100% - 40px)
+      width: calc(100% - 40px)
+
+    .cast-options-button
+      width: 20%
+      width: -webkit-calc(40px)
+      width: calc(40px)
 
     .autocast-delays
       min-width: 0
+      right: 0
+      left: auto
       li
         a, .dropdown-menu-header
           padding: 3px 15px

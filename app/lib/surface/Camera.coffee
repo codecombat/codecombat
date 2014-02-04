@@ -186,6 +186,7 @@ module.exports = class Camera extends CocoClass
     # Target is either just a {x, y} pos or a display object with {x, y} that might change; surface coordinates.
     time = 0 if @instant
     newTarget ?= {x:0, y:0}
+    newTarget = (@newTarget or @target) if @locked 
     newZoom = Math.min((Math.max @minZoom, newZoom), MAX_ZOOM)
     return if @zoom is newZoom and newTarget is newTarget.x and newTarget.y is newTarget.y
 
@@ -218,7 +219,7 @@ module.exports = class Camera extends CocoClass
 
   updateZoom: (force=false) ->
     # Update when we're focusing on a Thang, tweening, or forcing it, unless we're locked
-    return if @locked or (not force and not @newTarget and not @target?.name)
+    return if (not force) and (@locked or (not @newTarget and not @target?.name))
     if @newTarget
       t = @tweenProgress
       @zoom = @oldZoom + t * (@newZoom - @oldZoom)

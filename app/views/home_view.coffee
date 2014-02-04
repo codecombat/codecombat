@@ -24,7 +24,7 @@ module.exports = class HomeView extends View
 
   afterRender: ->
     super()
-    @$el.find('.modal').on 'shown', ->
+    @$el.find('.modal').on 'shown.bs.modal', ->
       $('input:visible:first', @).focus()
 
     wizOriginal = "52a00d55cf1818f2be00000b"
@@ -33,6 +33,19 @@ module.exports = class HomeView extends View
     @wizardType.url = -> url
     @wizardType.fetch()
     @wizardType.once 'sync', @initCanvas
+
+    # Try to find latest level and set "Play" link to go to that level
+    if localStorage?
+      lastLevel = localStorage["lastLevel"]
+      if lastLevel? and lastLevel isnt ""
+        playLink = @$el.find("#beginner-campaign")
+        if playLink?
+          href = playLink.attr("href").split("/")
+          href[href.length-1] = lastLevel if href.length isnt 0
+          href = href.join("/")
+          playLink.attr("href", href)
+    else
+      console.log("TODO: Insert here code to get latest level played from the database. If this can't be found, we just let the user play the first level.")
 
   initCanvas: =>
     @stage = new createjs.Stage($('#beginner-campaign canvas', @$el)[0])
@@ -58,6 +71,7 @@ module.exports = class HomeView extends View
     wizardDisplayObject.x = 120
     wizardDisplayObject.y = 35
     wizardDisplayObject.scaleX = wizardDisplayObject.scaleY = scale
+    wizardDisplayObject.scaleX *= -1
     @stage.addChild wizardDisplayObject
     @stage.update()
 

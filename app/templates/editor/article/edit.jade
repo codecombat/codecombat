@@ -1,8 +1,9 @@
 extends /templates/base
 
 block content
+  button(data-toggle="coco-modal", data-target="modal/revert", data-i18n="revert.revert").btn.btn-primary#revert-button Revert
   button(data-i18n="article.edit_btn_preview").btn.btn-primary#preview-button Preview
-  button(data-toggle="coco-modal", data-target="modal/save_version", data-i18n="article.edit_btn_save").btn.btn-primary#save-button Save
+  button(data-toggle="coco-modal", data-target="modal/save_version", data-i18n="common.save").btn.btn-primary#save-button Save
 
   h3(data-i18n="article.edit_article_title") Edit Article
     span

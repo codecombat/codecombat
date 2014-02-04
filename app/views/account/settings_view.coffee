@@ -101,7 +101,7 @@ module.exports = class SettingsView extends View
 
     res = me.save()
     return unless res
-    save = $('#save-button', @$el).text($.i18n.t('account_settings.saving', defaultValue: 'Saving...'))
+    save = $('#save-button', @$el).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
       .addClass('btn-info').removeClass('hide').removeClass('btn-danger')
 
     res.error ->

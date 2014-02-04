@@ -19,7 +19,7 @@ componentOriginals =
   "physics.Physical"          : "524b75ad7fc0f6d519000001"
 
 class ThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang_type/search'
+  url: '/db/thang_type/search?project=true'
   model: ThangType
 
 module.exports = class ThangsTabView extends View
@@ -43,9 +43,20 @@ module.exports = class ThangsTabView extends View
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-down': 'onStageMouseDown'
-  
+
+  events:
+    'click #extant-thangs-filter button': 'onFilterExtantThangs'
+
   shortcuts:
     'esc': -> @selectAddThang()
+
+  onFilterExtantThangs: (e) ->
+    button = $(e.target).closest('button')
+    button.button('toggle')
+    val = button.val()
+    @thangsTreema.$el.removeClass(@lastHideClass) if @lastHideClass
+    @thangsTreema.$el.addClass(@lastHideClass = "hide-except-#{val}") if val
+
 
   constructor: (options) ->
     super options
@@ -63,18 +74,44 @@ module.exports = class ThangsTabView extends View
 
   getRenderData: (context={}) =>
     context = super(context)
-    context.thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType) when not _.isEmpty thangType.get('actions'))
+    thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
+    thangTypes = _.uniq thangTypes, false, 'original'
+    thangTypes = _.reject thangTypes, kind: 'Mark'
+    groupMap = {}
+    for thangType in thangTypes
+      groupMap[thangType.kind] ?= []
+      groupMap[thangType.kind].push thangType
+
+    groups = []
+    for groupName in Object.keys(groupMap).sort()
+      someThangTypes = groupMap[groupName]
+      someThangTypes = _.sortBy someThangTypes, 'name'
+      group =
+        name: groupName
+        thangs: someThangTypes
+      groups.push group
+
+    context.thangTypes = thangTypes
+    context.groups = groups
     context
 
   afterRender: ->
     return if @startsLoading
     super()
     $('.tab-content').click @selectAddThang
+    $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
+    @$el.find('#extant-thangs-filter button:first').button('toggle')
+
+    # TODO: move these into the shortcuts list
     key 'left', _.bind @moveAddThangSelection, @, -1
     key 'right', _.bind @moveAddThangSelection, @, 1
     key 'delete, del, backspace', @deleteSelectedExtantThang
     key 'f', => Backbone.Mediator.publish('level-set-debug', debug: not @surface.debug)
     key 'g', => Backbone.Mediator.publish('level-set-grid', grid: not @surface.gridShowing())
+
+  preventBodyScrollingInThangList: (e) ->
+    @scrollTop += (if e.deltaY < 0 then 1 else -1) * 30
+    e.preventDefault()
 
   onLevelLoaded: (e) ->
     @level = e.level
@@ -119,6 +156,7 @@ module.exports = class ThangsTabView extends View
     @surface.destroy()
 
   onViewSwitched: (e) ->
+    @selectAddThang()
     @surface?.spriteBoss?.selectSprite null, null
 
   onSpriteMouseDown: (e) ->
@@ -171,9 +209,12 @@ module.exports = class ThangsTabView extends View
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos
-    else
-      # We clicked on the background, so deselect anything selected
-      @thangsTreema.deselectAll()
+
+    # Commented out this bit so the extant thangs treema editor can select invisible thangs like arrows.
+    # Couldn't spot any bugs... But if there are any, better come up with a better solution.
+#    else
+#      # We clicked on the background, so deselect anything selected
+#      @thangsTreema.deselectAll()
 
   selectAddThang: (e) =>
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
@@ -181,7 +222,7 @@ module.exports = class ThangsTabView extends View
     target = target.closest('.add-thang-palette-icon')
     wasSelected = target.hasClass 'selected'
     @$el.find('.add-thangs-palette .add-thang-palette-icon.selected').removeClass('selected')
-    @selectAddThangType(if wasSelected then null else target.attr 'data-thang-type')
+    @selectAddThangType(if wasSelected then null else target.attr 'data-thang-type') unless key.alt or key.meta
     target.addClass('selected') if @addThangType
     false
 
@@ -200,7 +241,7 @@ module.exports = class ThangsTabView extends View
     @surface.spriteBoss.removeSprite @addThangSprite if @addThangSprite
     @addThangType = type
     if @addThangType
-      @surface.camera.lock()  # hmm, this interfere with zooming
+      @surface.camera.lock()
       thang = @createAddThang()
       @addThangSprite = @surface.spriteBoss.addThangToSprites thang, @surface.spriteBoss.spriteLayers["Floating"]
       @addThangSprite.notOfThisWorld = true
@@ -292,10 +333,13 @@ module.exports = class ThangsTabView extends View
   onThangsChanged: (e) =>
     @level.set 'thangs', @thangsTreema.data
     serializedLevel = @level.serialize @supermodel
-    @world.loadFromLevel serializedLevel, false
+    try
+      @world.loadFromLevel serializedLevel, false
+    catch error
+      console.error 'Catastrophic error loading the level:', error
     thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
     @surface?.setWorld @world
-    @selectAddThangType @addThangType if @addThangType  # make another addThang sprite, since the World just refreshed
+    @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
     Backbone.Mediator.publish 'level-thangs-changed', thangsData: @thangsTreema.data
     null
 
@@ -309,7 +353,7 @@ module.exports = class ThangsTabView extends View
     @editThang thangID: id if id
 
   addThang: (thangType, pos) ->
-    thangID = Thang.nextID(thangType.get('name')) until thangID and not @thangsTreema.get "id=#{thangID}"
+    thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
       @selectAddThang null
@@ -320,7 +364,7 @@ module.exports = class ThangsTabView extends View
     physical.config.pos = x: pos.x, y: pos.y, z: physical.config.pos.z if physical
     thang = thangType: thangType.get('original'), id: thangID, components: components
     @thangsTreema.insert '', thang
-    @supermodel.populateModel @level  # Make sure we grab any new data for the thang we just added
+    @supermodel.populateModel thangType  # Make sure we grab any new data for the thang we just added
 
   editThang: (e) ->
     if e.target  # click event
@@ -346,19 +390,25 @@ class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
   getChildren: ->
     children = super(arguments...)
-    # uncomment this if you want to hide all the walls in the the thangs treema
-    #children = (c for c in children when not _.string.startsWith(c[1].thangType, 'dungeon_wall'))
+    # TODO: add some filtering to only work with certain types of units at a time
     return children
 
 class ThangNode extends TreemaObjectNode
   valueClass: 'treema-thang'
   collection: false
+  @thangNameMap: {}
+  @thangKindMap: {}
   buildValueForDisplay: (valEl) ->
     pos = _.find(@data.components, (c) -> c.config?.pos?)?.config.pos  # TODO: hack
     s = "#{@data.thangType}"
     if isObjectID s
-      thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s
-      s = thangType.get('name')
+      unless name = ThangNode.thangNameMap[s]
+        thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s
+        name = ThangNode.thangNameMap[s] = thangType.get 'name'
+        ThangNode.thangKindMap[s] = thangType.get 'kind'
+      kind = ThangNode.thangKindMap[s]
+      @$el.addClass "treema-#{kind}"
+      s = name
     s += " - " + @data.id if @data.id isnt s
     if pos
       s += " (#{Math.round(pos.x)}, #{Math.round(pos.y)})"

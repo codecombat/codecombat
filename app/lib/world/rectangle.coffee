@@ -8,6 +8,8 @@ class Rectangle
       Rectangle[name] = (a, b) ->
         a.copy()[name](b)
 
+  apiProperties: ['x', 'y', 'width', 'height', 'rotation', 'getPos', 'vertices', 'touchesRect', 'touchesPoint', 'distanceToPoint', 'containsPoint', 'copy']
+
   constructor: (@x=0, @y=0, @width=0, @height=0, @rotation=0) ->
 
   copy: ->
@@ -68,6 +70,7 @@ class Rectangle
 
   distanceSquaredToPoint: (p) ->
     # Doesn't handle rotation; just supposed to be faster than distanceToPoint
+    p = Vector.subtract(p, @getPos())
     dx = Math.max(Math.abs(p.x) - @width / 2, 0)
     dy = Math.max(Math.abs(p.y) - @height / 2, 0)
     dx * dx + dy * dy
@@ -112,5 +115,8 @@ class Rectangle
 
   @deserialize: (o, world, classMap) ->
     new Rectangle o.x, o.y, o.w, o.h, o.r
+
+  serializeForAether: -> @serialize()
+  @deserializeFromAether: (o) -> @deserialize o
 
 module.exports = Rectangle
