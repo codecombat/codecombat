@@ -15,6 +15,7 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 set "ZU-app=utilities\7za.exe"
 
 :: TODO:
+::  + Full Automatic Package bat file.
 ::  + Write code to set environment variables...
 ::  + Write code to install vs if it's not yet installed on users pc
 ::  + Write Git Checkout repository code:
@@ -37,7 +38,10 @@ copy /y nul %install-log% > nul
 call:parse_aa_and_draw "config\header"
 call:draw_dss
 
-call:log_sse "Welcome to the automated Installation of the CodeCombat Dev. Environment!"
+call:parse_file_new "config\config" cnfg n
+
+call:log "Welcome to the automated Installation of the CodeCombat Dev. Environment!"
+call:log_sse "v%%cnfg[1]%% authored by %%cnfg[2]%% and published by %%cnfg[3]%%."
 
 :: Read Language Index
 call:parse_file_new "localisation\languages" lang lang_c
