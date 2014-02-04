@@ -2,7 +2,7 @@ config = require '../../server_config'
 winston = require 'winston'
 mail = require '../commons/mail'
 
-module.exports.setupRoutes = (app) ->
+module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->
     winston.info "Sending mail from #{req.body.email} saying #{req.body.message}"
     if config.isProduction

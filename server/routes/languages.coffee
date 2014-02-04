@@ -2,7 +2,7 @@ errors = require '../commons/errors'
 winston = require 'winston'
 locale = require '../../app/locale/locale'  # requiring from app; will break if we stop serving from where app lives
 
-module.exports.setupRoutes = (app) ->
+module.exports.setup = (app) ->
   app.all '/languages/add/:lang/:namespace', (req, res) ->
     # Should probably store these somewhere
     winston.info "#{req.params.lang}.#{req.params.namespace} missing an i18n key:", req.body

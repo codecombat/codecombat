@@ -5,16 +5,9 @@ useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 
 database = require './server/commons/database'
-auth = require './server/routes/auth'
-db = require './server/routes/db'
-file = require './server/routes/file'
-folder = require './server/routes/folder'
+baseRoute = require './server/routes/base'
 user = require './server/users/user_handler'
 logging = require './server/commons/logging'
-sprites = require './server/routes/sprites'
-contact = require './server/routes/contact'
-languages = require './server/routes/languages'
-mail = require './server/routes/mail'
 
 config = require './server_config'
 
@@ -87,14 +80,7 @@ setupFacebookCrossDomainCommunicationRoute = (app) ->
 
 exports.setupRoutes = (app) ->
   app.use app.router
-  auth.setupRoutes app
-  db.setupRoutes app
-  sprites.setupRoutes app
-  contact.setupRoutes app
-  file.setupRoutes app
-  folder.setupRoutes app
-  languages.setupRoutes app
-  mail.setupRoutes app
+  baseRoute.setup app
   setupFacebookCrossDomainCommunicationRoute app
   setupFallbackRouteToIndex app
 

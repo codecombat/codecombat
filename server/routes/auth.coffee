@@ -7,7 +7,7 @@ config = require '../../server_config'
 errors = require '../commons/errors'
 mail = require '../commons/mail'
 
-module.exports.setupRoutes = (app) ->
+module.exports.setup = (app) ->
   passport.serializeUser((user, done) -> done(null, user._id))
   passport.deserializeUser((id, done) ->
     User.findById(id, (err, user) -> done(err, user)))
