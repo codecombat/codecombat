@@ -20,12 +20,25 @@ module.exports = class CocoRouter extends Backbone.Router
     'db/*path': 'routeToServer'
     'file/*path': 'routeToServer'
 
+
+    #multiplayer routes
+    'scoring/queue': 'routeToServer'
+    'play/level/:levelID/leaderboard/:teamID/:startRank/:endRank': 'getPaginatedLevelRank'
+    'play/level/:levelID/player/:playerID': 'getPlayerLevelInfo'
+
     # most go through here
     '*name': 'general'
 
   home:           -> @openRoute('home')
   general: (name) ->
     @openRoute(name)
+
+  getPaginatedLevelRank: (levelID,teamID,startRank,endRank) ->
+    return
+
+  getPlayerLevelInfo: (levelID,playerID) ->
+    return
+
 
   editorModelView: (modelName, slugOrId, subview) ->
     modulePrefix = "views/editor/#{modelName}/"
