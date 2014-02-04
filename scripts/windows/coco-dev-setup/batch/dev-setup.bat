@@ -15,7 +15,6 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 set "ZU-app=utilities\7za.exe"
 
 :: TODO:
-::  + Download 7zip exe!!
 ::  + Write code to set environment variables...
 ::  + Write code to install vs if it's not yet installed on users pc
 ::  + Write Git Checkout repository code:
@@ -34,6 +33,9 @@ mkdir %temp-dir%
 
 :: Create Log File
 copy /y nul %install-log% > nul
+
+call:parse_aa_and_draw "config\header"
+call:draw_dss
 
 call:log_sse "Welcome to the automated Installation of the CodeCombat Dev. Environment!"
 
@@ -184,9 +186,17 @@ goto END
 goto report_ok
 
 :report_ok
-  call:log_lw_ss 18
+  call:log_lw 18
   call:log_lw_sse 19
+  
+  :: Open README file
+  call:open_readme
+  
 goto clean_up
+
+:open_readme
+  call:open_txt_file "config/README.txt"
+goto:eof
 
 :warn_and_exit
   call:log_lw_ss 20
@@ -200,6 +210,7 @@ goto END
 :clean_up
   call:log_lw_sse 23
   rmdir %temp-dir% /s /q
+  PAUSE
 goto END
 
 :: ============================ INSTALL SOFTWARE FUNCTIONS ======================
@@ -278,11 +289,11 @@ goto:eof
 goto:eof
 
 :draw_ss
-  call:log "----------------------------------------------------------------------------"
+  call:log "-----------------------------------------------------------------------------"
 goto:eof
 
 :draw_dss
-  call:log "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+  call:log "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
 goto:eof
 
 :log_ss
@@ -301,6 +312,17 @@ goto:eof
 goto:eof
 
 :: ============================== IO FUNCTIONS ====================================
+
+:open_txt_file
+  start "" notepad.exe %~1
+goto:eof
+
+:parse_aa_and_draw
+  set "file=%~1"
+  for /F "usebackq delims=" %%a in ("%file%") do (
+    echo.%%a
+  )
+goto:eof
 
 :parse_file
   set "file=%~1"
