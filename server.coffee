@@ -25,14 +25,3 @@ createAndConfigureApp = ->
   serverSetup.setupRoutes app
   app
 
-
-
-
-
-
-
-
-
-
-
-
