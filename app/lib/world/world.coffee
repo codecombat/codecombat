@@ -259,7 +259,7 @@ module.exports = class World
     for thangID, methods of @userCodeMap
       serializedMethods = o.userCodeMap[thangID] = {}
       for methodName, method of methods
-        serializedMethods[methodName] = method.serialize()
+        serializedMethods[methodName] = method.serialize?() ? method # serialize the method again if it has been deserialized
 
     t0 = now()
     o.trackedPropertiesThangIDs = []
