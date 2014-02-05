@@ -18,10 +18,13 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 
 set "ZU-app=utilities\7za.exe"
 
+:: DEBUG:
+    + DEBUG FLOW OF PROGRAM
+    + DEBUG & GET GIT AUTOMATIC WORKING
+
 :: TODO:
-
 ::  + Write code to install vs if it's not yet installed on users pc
-
+::  + Write Tips...
 ::  + Write Git Checkout repository code:
 ::      1) Let user specify destination
 ::      2) do a git clone with the git application
@@ -63,6 +66,14 @@ if "%res%"=="false" (
   call:log_sse "Installation and Setup of the CodeCombat environment is cancelled."
   GOTO:END
 )
+
+:: Tips
+call:log "Before we start the installation, here are some tips:"
+echo.
+
+call:parse_aa_and_draw "config\tips"
+
+call:draw_ss
 
 :: Read Language Index
 call:parse_file_new "localisation\languages" lang lang_c
@@ -130,9 +141,6 @@ call:log_lw 8
 call:install_software_o "git" "%%downloads[1]%%" exe 9
 call:draw_dss
 call:get_lw word 11
-:: [TODO] Check if that application exists, if not ask again with warning that the path is invalid!!! (SAFETYYYY)
-
-set git_exe="bin\sh.exe"
 
 :: [TODO] Add downloads for windows visual studio ?!
 
@@ -228,18 +236,11 @@ goto END
   call:log_lw_ss 16
   call:log_lw_sse 17
   
-  ::Show user the correct steps to execute
-  call:log_lw 28
-  call:log_lw_prfx 29 "  1) "
-  call:log_lw_prfx 30 "      "
-  call:log_lw_prfx 31 "  2) "
-  
-  call:draw_dss
-  start /WAIT "%git_exe_path%\%git_exe% --login -i" 
-  call:draw_dss
+  call:set_system_path "%git_exe_path%\bin"
+  call:set_system_path "%git_exe_path%\cmd"
   
   call:user_set_git_repository
-goto git_repo_configuration
+goto git_rep_checkout_auto
 
 :user_set_git_repository
   call:get_lw word 32
@@ -253,8 +254,12 @@ goto:eof
     call:draw_dss
     call:user_set_git_repository
   )
-  goto git_repo_configuration
+  goto git_rep_checkout_auto
 goto:eof
+
+:git_rep_checkout_auto
+  git clone https://github.com/codecombat/codecombat.git "%git_repository_path%"
+goto:git_repo_configuration
 
 :git_repo_configuration
   call:log_lw_ss 35
@@ -479,6 +484,10 @@ goto:eof
 
 :set_env_var
   setx -m %~1 %~2
+goto:eof
+
+:set_system_path
+  set PATH=%PATH%;%~1 /M
 goto:eof
 
 :: ============================== EOF ====================================
