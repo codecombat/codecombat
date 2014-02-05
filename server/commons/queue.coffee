@@ -7,21 +7,12 @@ aws = require 'aws-sdk'
 db = require './../routes/db'
 mongoose = require 'mongoose'
 events = require 'events'
-
 queueClient = undefined
 module.exports.scoringTaskQueue = undefined
 module.exports.sendwithusQueue = undefined
-###
-module.exports.setupRoutes = (app) ->
-  app.get '/multiplayer/'
-  queueClient.registerQueue "simulationQueue", {}, (err,data) ->
-    simulationQueue = data
-    simulationQueue.subscribe 'message', (err, data) ->
-      if data.Messages?
-        winston.info "Receieved message #{data.Messages?[0].Body}"
-        simulationQueue.deleteMessage data.Messages?[0].ReceiptHandle, ->
-          winston.info "Deleted message"
-###
+
+
+
 
 module.exports.initializeScoringTaskQueue = (cb) ->
   queueClient = module.exports.generateQueueClient() unless queueClient?
@@ -48,11 +39,32 @@ module.exports.initializeSendwithusQueue = (cb) ->
 
 
 module.exports.generateQueueClient = ->
-  if config.isProduction
+  if config.queue.accessKeyId
     queueClient = new SQSQueueClient()
   else
     queueClient = new MongoQueueClient()
   return queueClient
+
+
+class MessageObject
+  constructor: () ->
+    return
+
+  getBody: ->
+    return
+
+  getID: ->
+    return
+  removeFromQueue: ->
+    return
+
+  requeue: ->
+    return
+
+  changeMessageVisibilityTimeout: (secondsFromFunctionCall) ->
+    return
+
+
 
 
 class SQSQueueClient
@@ -92,12 +104,20 @@ class SQSQueue extends events.EventEmitter
 
   receiveMessage: (callback) ->
     @sqs.receiveMessage {QueueUrl: @queueUrl, WaitTimeSeconds: 20}, (err, data) =>
-      if err? then @emit 'error',err,data else @emit 'message',err,data
+      originalData = data
+      data = new SQSMessage originalData, this
+
+      if err? then @emit 'error',err,originalData else @emit 'message',err,data
       callback? err,data
 
   deleteMessage: (receiptHandle, callback) ->
     @sqs.deleteMessage {QueueUrl: @queueUrl, ReceiptHandle: receiptHandle}, (err, data) =>
       if err? then @emit 'error',err,data else @emit 'message',err,data
+      callback? err,data
+
+  changeMessageVisibilityTimeout: (secondsFromNow, receiptHandle, callback) ->
+    @sqs.changeMessageVisibility {QueueUrl: @queueUrl, ReceiptHandle: receiptHandle, VisibilityTimeout: secondsFromNow}, (err, data) =>
+      if err? then @emit 'error',err,data else @emit 'edited',err,data
       callback? err,data
 
 
@@ -110,6 +130,24 @@ class SQSQueue extends events.EventEmitter
     async.forever (asyncCallback) =>
       @receiveMessage (err, data) ->
         asyncCallback(null)
+
+  class SQSMessage extends MessageObject
+    constructor: (@originalMessage, @parentQueue) ->
+
+    isEmpty: -> not @originalMessage.Messages?[0]?
+
+    getBody: -> @originalMessage.Messages[0].Body
+
+    getID: -> @originalMessage.Messages[0].MessageId
+
+    removeFromQueue: (callback) -> parentQueue.deleteMessage @getReceiptHandle(), callback
+
+    requeue: (callback) -> parentQueue.changeMessageVisibilityTimeout 0, @getReceiptHandle(), callback
+
+    changeMessageVisibilityTimeout: (secondsFromFunctionCall, callback) ->
+      parentQueue.changeMessageVisibilityTimeout secondsFromFunctionCall,@getReceiptHandle(), callback
+
+    getReceiptHandle: -> @originalMessage.Messages[0].ReceiptHandle
 
 
 
@@ -190,6 +228,7 @@ class MongoQueue extends events.EventEmitter
     async.forever (asyncCallback) =>
       @recieveMessage (err, data) ->
         asyncCallback(null)
+
 
 
 
