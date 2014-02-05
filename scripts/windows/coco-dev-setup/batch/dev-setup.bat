@@ -19,8 +19,8 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 set "ZU-app=utilities\7za.exe"
 
 :: DEBUG:
-    + DEBUG FLOW OF PROGRAM
-    + DEBUG & GET GIT AUTOMATIC WORKING
+    :: + DEBUG FLOW OF PROGRAM
+    :: + DEBUG & GET GIT AUTOMATIC WORKING
 
 :: TODO:
 ::  + Write code to install vs if it's not yet installed on users pc
@@ -236,8 +236,7 @@ goto END
   call:log_lw_ss 16
   call:log_lw_sse 17
   
-  call:set_system_path "%git_exe_path%\bin"
-  call:set_system_path "%git_exe_path%\cmd"
+  set "PATH=%PATH%;%git_exe_path%\bin;%git_exe_path%\cmd" /M
   
   call:user_set_git_repository
 goto git_rep_checkout_auto
@@ -249,7 +248,7 @@ goto git_rep_checkout_auto
 goto:eof
 
 :user_set_git_repository_sc
-  if not exist "%git_repository_path%" (
+  if exist "%git_repository_path%" (
     call:log_lw 33
     call:draw_dss
     call:user_set_git_repository
@@ -484,10 +483,6 @@ goto:eof
 
 :set_env_var
   setx -m %~1 %~2
-goto:eof
-
-:set_system_path
-  set PATH=%PATH%;%~1 /M
 goto:eof
 
 :: ============================== EOF ====================================
