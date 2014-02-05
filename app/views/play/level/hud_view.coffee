@@ -64,6 +64,8 @@ module.exports = class HUDView extends View
 
   onNewWorld: (e) ->
     @thang = e.world.thangMap[@thang.id] if @thang
+    if not @thang
+      @setThang null, null
 
   setThang: (thang, thangType) ->
     unless @speaker
@@ -281,7 +283,7 @@ module.exports = class HUDView extends View
     return unless @thang.world and not _.isEmpty @thang.actions
     @buildActionTimespans() unless @timespans
     for actionName, action of @thang.actions
-      @updateActionElement(actionName, @timespans[actionName], @thang.action.name is actionName)
+      @updateActionElement(actionName, @timespans[actionName], @thang.action is actionName)
     tableContainer = @$el.find('.table-container')
     timelineWidth = tableContainer.find('.action-timeline').width()
     right = (1 - (@timeProgress ? 0)) * timelineWidth
