@@ -18,15 +18,12 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 
 set "ZU-app=utilities\7za.exe"
 
-:: DEBUG:
-    :: + DEBUG FLOW OF PROGRAM
-    :: + DEBUG & GET GIT AUTOMATIC WORKING
-
 :: TODO:
 ::  + Write code to install vs if it's not yet installed on users pc
 ::  + Write Tips...
 ::  + Write Git Checkout repository code:
 ::      1) Let user specify destination
+::      3) Let user specify his username etc...
 ::      2) do a git clone with the git application
 ::  + Configuraton and installation checklist:
 ::      1) ... ?!
@@ -238,8 +235,19 @@ goto END
   
   set "PATH=%PATH%;%git_exe_path%\bin;%git_exe_path%\cmd" /M
   
+  call:log_lw 36
+  call:log_lw 37
+  call:log_lw 38
+  
+  call:draw_dss
+  
+  call:get_lw word 39
+  set /p git_username="%word% "
+  
+  call:draw_dss
+    
   call:user_set_git_repository
-goto git_rep_checkout_auto
+goto:eof
 
 :user_set_git_repository
   call:get_lw word 32
@@ -257,7 +265,7 @@ goto:eof
 goto:eof
 
 :git_rep_checkout_auto
-  git clone https://github.com/codecombat/codecombat.git "%git_repository_path%"
+  git clone https://github.com/%git_username%/codecombat.git "%git_repository_path%"
 goto:git_repo_configuration
 
 :git_repo_configuration
@@ -290,7 +298,6 @@ goto END
 :clean_up
   call:log_lw_sse 23
   rmdir %temp-dir% /s /q
-  PAUSE
 goto END
 
 :: ============================ INSTALL SOFTWARE FUNCTIONS ======================
@@ -488,5 +495,7 @@ goto:eof
 :: ============================== EOF ====================================
 
 :END
-  set /p input="You can close this window now..."
+  exit
+goto:eof
+
 endlocal
