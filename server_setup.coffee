@@ -14,6 +14,7 @@ sprites = require './server/routes/sprites'
 contact = require './server/routes/contact'
 languages = require './server/routes/languages'
 mail = require './server/routes/mail'
+scoring = require './server/routes/scoring'
 
 config = require './server_config'
 
@@ -94,6 +95,7 @@ exports.setupRoutes = (app) ->
   folder.setupRoutes app
   languages.setupRoutes app
   mail.setupRoutes app
+  scoring.setupRoutes app
   setupFacebookCrossDomainCommunicationRoute app
   setupFallbackRouteToIndex app
 

@@ -1,10 +1,10 @@
-config = require '../server_config'
+config = require '../../server_config'
 winston = require 'winston'
 mongoose = require 'mongoose'
 async = require 'async'
-errors = require './commons/errors'
+errors = require './errors'
 aws = require 'aws-sdk'
-db = require './routes/db'
+db = require './../routes/db'
 mongoose = require 'mongoose'
 events = require 'events'
 

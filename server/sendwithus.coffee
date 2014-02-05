@@ -1,7 +1,7 @@
 config = require '../server_config'
 sendwithusAPI = require 'sendwithus'
 swuAPIKey = config.mail.sendwithusAPIKey
-queues = require './queue'
+queues = require './commons/queue'
 
 module.exports.setupQueue = -> queues.initializeSendwithusQueue() unless queues.sendwithusQueue?
 
