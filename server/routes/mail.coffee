@@ -9,7 +9,7 @@ config = require '../../server_config'
 #  console.log text
 #  request.post 'http://requestb.in/1brdpaz1', { form: {log: text} }
   
-module.exports.setupRoutes = (app) ->
+module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, (req, res) ->
     post = req.body
 #    badLog("Got post data: #{JSON.stringify(post, null, '\t')}")

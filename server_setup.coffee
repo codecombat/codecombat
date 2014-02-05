@@ -1,20 +1,13 @@
 express = require 'express'
 path = require 'path'
-passport = require 'passport'
+authentication = require 'passport'
 useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 
-auth = require './server/routes/auth'
-db = require './server/routes/db'
-file = require './server/routes/file'
-folder = require './server/routes/folder'
+database = require './server/commons/database'
+baseRoute = require './server/routes/base'
 user = require './server/users/user_handler'
 logging = require './server/commons/logging'
-sprites = require './server/routes/sprites'
-contact = require './server/routes/contact'
-languages = require './server/routes/languages'
-mail = require './server/routes/mail'
-scoring = require './server/routes/scoring'
 
 config = require './server_config'
 
@@ -40,8 +33,8 @@ setupExpressMiddleware = (app) ->
   app.use(express.cookieSession({secret:'defenestrate'}))
 
 setupPassportMiddleware = (app) ->
-  app.use(passport.initialize())
-  app.use(passport.session())
+  app.use(authentication.initialize())
+  app.use(authentication.session())
 
 setupOneSecondDelayMiddlware = (app) ->
   if(config.slow_down)
@@ -87,15 +80,8 @@ setupFacebookCrossDomainCommunicationRoute = (app) ->
 
 exports.setupRoutes = (app) ->
   app.use app.router
-  auth.setupRoutes app
-  db.setupRoutes app
-  sprites.setupRoutes app
-  contact.setupRoutes app
-  file.setupRoutes app
-  folder.setupRoutes app
-  languages.setupRoutes app
-  mail.setupRoutes app
-  scoring.setupRoutes app
+
+  baseRoute.setup app
   setupFacebookCrossDomainCommunicationRoute app
   setupFallbackRouteToIndex app
 
@@ -105,7 +91,7 @@ exports.setupLogging = ->
   logging.setup()
 
 exports.connectToDatabase = ->
-  db.connectDatabase()
+  database.connect()
 
 exports.setupMailchimp = ->
   mcapi = require 'mailchimp-api'
