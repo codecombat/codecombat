@@ -10,12 +10,9 @@ path = require('path')
 
 models_path = [
   '../../server/articles/Article'
-  '../../server/campaigns/Campaign'
-  '../../server/campaigns/CampaignStatus'
   '../../server/levels/Level'
   '../../server/levels/components/LevelComponent'
   '../../server/levels/systems/LevelSystem'
-  '../../server/levels/drafts/LevelDraft'
   '../../server/levels/sessions/LevelSession'
   '../../server/levels/thangs/LevelThangType'
   '../../server/users/User'
