@@ -72,7 +72,11 @@ module.exports = class ThangListView extends View
       return entry.spells[0]
     null
 
-  addThang: (thang) ->
-    @thangs.push thang
+  adjustThangs: (spells, thangs, toRemove, toAdd) ->
+    for entry in @entries when _.find toRemove, {id: entry.thang.id}
+      entry.$el.remove()
+      entry.destroy()
+    @spells = @options.spells = spells
+    @thangs = @options.thangs = _.filter thangs, 'isSelectable'
     @sortThangs()
-    @addThangListEntries [thang]
+    @addThangListEntries toAdd
