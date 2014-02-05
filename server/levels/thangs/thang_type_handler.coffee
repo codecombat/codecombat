@@ -1,5 +1,3 @@
-winston = require('winston')
-request = require('request')
 ThangType = require('./ThangType')
 Handler = require('../../commons/Handler')
 
