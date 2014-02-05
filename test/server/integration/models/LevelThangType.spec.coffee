@@ -1,19 +1,17 @@
-require '../common'
+require '../../common'
 
-describe 'LevelSession', ->
+describe 'LevelThangType', ->
 
-  session = new LevelSession(
+  thang_type = new LevelThangType(
     permissions: simplePermissions
   )
 
   it 'clears things first', (done) ->
-    clearModels [LevelSession], (err) ->
+    clearModels [LevelThangType], (err) ->
       expect(err).toBeNull()
       done()
 
   it 'saves', (done) ->
-    session.save (err) ->
+    thang_type.save (err) ->
       throw err if err
       done()
-
-
