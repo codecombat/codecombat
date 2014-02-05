@@ -30,6 +30,9 @@ module.exports = class Spell
   addThang: (thang) ->
     @thangs[thang.id] ?= {thang: thang, aether: @createAether(thang), castAether: null}
 
+  removeThangID: (thangID) ->
+    delete @thangs[thangID]
+
   canRead: (team) ->
     (team ? me.team) in @permissions.read or (team ? me.team) in @permissions.readwrite
 

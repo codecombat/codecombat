@@ -46,6 +46,7 @@ module.exports = class ThangListEntryView extends View
     @$el.append @avatar.el  # Before rendering, so render can use parent for popover
     @avatar.render()
     @avatar.setSharedThangs @spells.length  # A bit weird to call it sharedThangs; could refactor if we like this
+    @$el.toggle Boolean(@thang.exists)
     @$el.popover(
       animation: false
       html: true
