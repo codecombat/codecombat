@@ -4,7 +4,7 @@ mongoose = require 'mongoose'
 async = require 'async'
 errors = require '../commons/errors'
 aws = require 'aws-sdk'
-db = require './db'
+db = require './../routes/db'
 mongoose = require 'mongoose'
 events = require 'events'
 queues = require '../commons/queue'
@@ -17,35 +17,36 @@ connectToScoringQueue = ->
 
 module.exports.setup = (app) ->
   connectToScoringQueue()
-  app.get '/scoring/queue', (req,res) ->
-    #must also include the
-    queues.scoringTaskQueue.receiveMessage (err, message) ->
-      #check if message is empty!!!!!!!!!
-      if message.isEmpty()
-        sendResponseObject req, res, {"error":"No messages were received."}
-      else
-        messageBody = JSON.parse message.getBody()
-        constructTaskObject messageBody, (taskConstructionError, taskObject) ->
-          if taskConstructionError?
-            sendResponseObject req, res, {"error":taskConstructionError}
-          else
-            sendResponseObject req, res, taskObject
+
+module.exports.dispatchTaskToConsumer = (req, res) ->
+  queues.scoringTaskQueue.receiveMessage (err, message) ->
+
+    if message.isEmpty()
+      #TODO: Set message code as 504 Gateway Timeout
+      sendResponseObject req, res, {"error":"No messages were received."}
+    else
+      messageBody = JSON.parse message.getBody()
+      constructTaskObject messageBody, (taskConstructionError, taskObject) ->
+        if taskConstructionError?
+          sendResponseObject req, res, {"error":taskConstructionError}
+        else
+          sendResponseObject req, res, taskObject
 
 
-  app.post '/scoring/queue', (req, res) ->
-    clientResponseObject = req.body
-    ###
-    sampleClientResponseObject =
-      "processorUserID": "51eb2714fa058cb20d0006ef" #user ID of the person processing
-      "processingTime": 2745 #time in milliseconds
-      "processedSessionID": "52dfeb17c8b5f435c7000025" #the processed session
-      "processedSessionChangedTime": ISODate("2014-01-22T16:28:12.450Z") #to see if the session processed is the one in the database
-      "playerResults": [
-        {"ID":"51eb2714fa058cb20d0006ef", "team":"humans","metrics": {"reachedGoal":false, "rank":2}}
-        {"ID":"51eb2714fa058cb20d00fedg", "team":"ogres","metrics": {"reachedGoal":true, "rank":1}}
-      ]
-    ###
-    res.end("You posted an object to score!")
+module.exports.processTaskResult = (req, res) ->
+  clientResponseObject = JSON.parse req.body
+  res.end("You posted an object to score!")
+  ###
+  sampleClientResponseObject =
+    "processorUserID": "51eb2714fa058cb20d0006ef" #user ID of the person processing
+    "processingTime": 2745 #time in milliseconds
+    "processedSessionID": "52dfeb17c8b5f435c7000025" #the processed session
+    "processedSessionChangedTime": ISODate("2014-01-22T16:28:12.450Z") #to see if the session processed is the one in the database
+    "playerResults": [
+      {"ID":"51eb2714fa058cb20d0006ef", "team":"humans","metrics": {"reachedGoal":false, "rank":2}}
+      {"ID":"51eb2714fa058cb20d00fedg", "team":"ogres","metrics": {"reachedGoal":true, "rank":1}}
+    ]
+  ###
 
 
 
