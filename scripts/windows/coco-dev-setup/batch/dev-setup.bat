@@ -18,19 +18,25 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 
 set "ZU-app=utilities\7za.exe"
 
+:: BUGS: 
+  ::  + DEBUG ALL STEPS UNTILL NOW DONE
+
+
 :: TODO:
 ::  + Write code to install vs if it's not yet installed on users pc
-::  + Write Tips...
-::  + Write Git Checkout repository code:
-::      1) Let user specify destination
-::      3) Let user specify his username etc...
-::      2) do a git clone with the git application
+
 ::  + Configuraton and installation checklist:
-::      1) ... ?!
+::      1) cd codecombat
+::      2) npm install -g bower brunch nodemon sendwithus
+::      3) bower install
+::      4) gem install sass
+::      5) npm install
+::      6) brunch -w
+::      Extra... @ Fail run npm install
+
 ::  + Copy the automated dev batch file to root folder
 ::      => Let user define mongo-db directory
 ::  + Start the dev environment
-::  + Exit message and warn user that he can quit the window now
 	
 :: Create The Temporary Directory
 IF EXIST %temp-dir% rmdir %temp-dir% /s /q
@@ -168,6 +174,11 @@ goto:eof
   
   call:install_software_o "node-js" "%%downloads_64[1]%%" msi 12
   call:draw_dss
+  
+  call:get_path_from_user 41 42
+  set "node_js_path=%user_tmp_path%"
+  Call:draw_dss
+  
   call:install_software_o "ruby" "%%downloads_64[2]%%" exe 13
   call:draw_dss
   call:install_software_o "python" "%%downloads_64[3]%%" msi 26
@@ -187,6 +198,11 @@ GOTO END
   
   call:install_software_o "node-js" "%%downloads_32[1]%%" msi 12
   call:draw_dss
+  
+  call:get_path_from_user 41 42
+  set "node_js_path=%user_tmp_path%"
+  Call:draw_dss
+  
   call:install_software_o "ruby" "%%downloads_32[2]%%" exe 13
   call:draw_dss
   call:install_software_o "python" "%%downloads_32[3]%%" msi 26
@@ -246,23 +262,10 @@ goto END
   
   call:draw_dss
     
-  call:user_set_git_repository
-goto:eof
-
-:user_set_git_repository
-  call:get_lw word 32
-  set /p git_repository_path="%word% "
-  call:user_set_git_repository_sc
-goto:eof
-
-:user_set_git_repository_sc
-  if exist "%git_repository_path%" (
-    call:log_lw 33
-    call:draw_dss
-    call:user_set_git_repository
-  )
-  goto git_rep_checkout_auto
-goto:eof
+  call:get_empty_path_from_user 32
+  set "git_repository_path=%user_tmp_path%"
+  
+goto:git_rep_checkout_auto
 
 :git_rep_checkout_auto
   git clone https://github.com/%git_username%/codecombat.git "%git_repository_path%"
@@ -271,6 +274,13 @@ goto:git_repo_configuration
 :git_repo_configuration
   call:log_lw_ss 35
   call:log_lw_sse 36
+  
+  SET "PATH=%PATH%;%node_js_path%" /M
+  setx -m git "%git_exe_path%\bin"
+
+  call:log_lw 40
+  start cmd /k "npm install -g bower brunch nodemon sendwithus & exit"
+  
 goto report_ok
 
 :report_ok
@@ -381,6 +391,28 @@ goto:eof
     call:install_packed_software %~1 %~2 %~3
   ) else (
     call:log_lw 10
+  )
+goto:eof
+
+:: ===================== USER - INTERACTION - FUNCTIONS ========================
+
+:get_path_from_user
+  call:get_lw word %~1
+  set /p user_tmp_path="%word% "
+  if not exist "%user_tmp_path%" (
+    call:log_lw 43
+    call:draw_dss
+    call:get_path_from_user %~1 %~2
+  )
+goto:eof
+
+:get_empty_path_from_user
+  call:get_lw word %~1
+  set /p user_tmp_path="%word% "
+  if exist "%user_tmp_path%" (
+    call:log_lw 33
+    call:draw_dss
+    call:get_path_from_user %~1
   )
 goto:eof
 
