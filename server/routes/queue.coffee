@@ -19,6 +19,7 @@ module.exports.setup = (app) ->
       else
         sendMethodNotSupportedError req, res
     catch error
+      log.error error
       sendQueueNotFoundError req, res
 
 setResponseHeaderToJSONContentType = (res) -> res.setHeader('Content-Type', 'application/json')

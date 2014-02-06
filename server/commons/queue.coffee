@@ -7,22 +7,16 @@ aws = require 'aws-sdk'
 db = require './../routes/db'
 mongoose = require 'mongoose'
 events = require 'events'
-queueClient = undefined
-module.exports.scoringTaskQueue = undefined
+
+module.exports.queueClient = undefined
+
 module.exports.sendwithusQueue = undefined
 
 
 
-
-module.exports.initializeScoringTaskQueue = (cb) ->
-  queueClient = module.exports.generateQueueClient() unless queueClient?
-  queueClient.registerQueue "scoring", {}, (err,data) ->
-    if err?
-      winston.error "There was an error registering the scoring queue."
-      throw new Error  "There was an error registering the scoring queue."
-    module.exports.scoringTaskQueue = data
-    cb? err, module.exports.scoringQueue
-
+module.exports.initializeQueueClient = (cb) ->
+  module.exports.queueClient = module.exports.generateQueueClient() unless queueClient?
+  cb?()
 
 module.exports.initializeSendwithusQueue = (cb) ->
   queueClient = module.exports.generateQueueClient() unless queueClient?
@@ -131,23 +125,26 @@ class SQSQueue extends events.EventEmitter
       @receiveMessage (err, data) ->
         asyncCallback(null)
 
-  class SQSMessage extends MessageObject
-    constructor: (@originalMessage, @parentQueue) ->
+class SQSMessage extends MessageObject
+  constructor: (@originalMessage, @parentQueue) ->
 
-    isEmpty: -> not @originalMessage.Messages?[0]?
+  isEmpty: -> not @originalMessage.Messages?[0]?
 
-    getBody: -> @originalMessage.Messages[0].Body
+  getBody: -> @originalMessage.Messages[0].Body
 
-    getID: -> @originalMessage.Messages[0].MessageId
+  getID: -> @originalMessage.Messages[0].MessageId
 
-    removeFromQueue: (callback) -> parentQueue.deleteMessage @getReceiptHandle(), callback
+  removeFromQueue: (callback) -> parentQueue.deleteMessage @getReceiptHandle(), callback
 
-    requeue: (callback) -> parentQueue.changeMessageVisibilityTimeout 0, @getReceiptHandle(), callback
+  requeue: (callback) -> parentQueue.changeMessageVisibilityTimeout 0, @getReceiptHandle(), callback
 
-    changeMessageVisibilityTimeout: (secondsFromFunctionCall, callback) ->
-      parentQueue.changeMessageVisibilityTimeout secondsFromFunctionCall,@getReceiptHandle(), callback
+  changeMessageVisibilityTimeout: (secondsFromFunctionCall, callback) ->
+    parentQueue.changeMessageVisibilityTimeout secondsFromFunctionCall,@getReceiptHandle(), callback
 
-    getReceiptHandle: -> @originalMessage.Messages[0].ReceiptHandle
+  getReceiptHandle: -> @originalMessage.Messages[0].ReceiptHandle
+
+      
+
 
 
 

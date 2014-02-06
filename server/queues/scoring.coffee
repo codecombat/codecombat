@@ -10,22 +10,33 @@ events = require 'events'
 queues = require '../commons/queue'
 LevelSession = require '../levels/sessions/LevelSession'
 
+scoringTaskQueue = undefined
+
 connectToScoringQueue = ->
-  unless queues.scoringTaskQueue
-    queues.initializeScoringTaskQueue (err, data) ->
+  queues.initializeQueueClient ->
+    queues.queueClient.registerQueue "scoring", {}, (err,data) ->
+      if err?
+        winston.error "There was an error registering the scoring queue."
+        throw new Error  "There was an error registering the scoring queue."
+      scoringTaskQueue = data
       winston.info "Connected to scoring task queue!"  unless err?
 
 module.exports.setup = (app) ->
   connectToScoringQueue()
 
 module.exports.dispatchTaskToConsumer = (req, res) ->
-  queues.scoringTaskQueue.receiveMessage (err, message) ->
-
+  scoringTaskQueue.receiveMessage (err, message) ->
+    ###Using Test Message
+    { "sessionID": "52dfeb17c8b5f435c7000025" }
+    ###
     if message.isEmpty()
       #TODO: Set message code as 504 Gateway Timeout
       sendResponseObject req, res, {"error":"No messages were received."}
     else
-      messageBody = JSON.parse message.getBody()
+      try
+        messageBody = JSON.parse message.getBody()
+      catch
+        return sendResponseObject req, res, {"error":"There was an error parsing the task."}
       constructTaskObject messageBody, (taskConstructionError, taskObject) ->
         if taskConstructionError?
           sendResponseObject req, res, {"error":taskConstructionError}
@@ -34,21 +45,8 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
 
 
 module.exports.processTaskResult = (req, res) ->
-  clientResponseObject = JSON.parse req.body
+  #clientResponseObject = JSON.parse req.body
   res.end("You posted an object to score!")
-  ###
-  sampleClientResponseObject =
-    "processorUserID": "51eb2714fa058cb20d0006ef" #user ID of the person processing
-    "processingTime": 2745 #time in milliseconds
-    "processedSessionID": "52dfeb17c8b5f435c7000025" #the processed session
-    "processedSessionChangedTime": ISODate("2014-01-22T16:28:12.450Z") #to see if the session processed is the one in the database
-    "playerResults": [
-      {"ID":"51eb2714fa058cb20d0006ef", "team":"humans","metrics": {"reachedGoal":false, "rank":2}}
-      {"ID":"51eb2714fa058cb20d00fedg", "team":"ogres","metrics": {"reachedGoal":true, "rank":1}}
-    ]
-  ###
-
-
 
 
 sendResponseObject = (req,res,object) ->
