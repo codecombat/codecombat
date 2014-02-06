@@ -116,7 +116,8 @@ module.exports = class LevelLoader extends CocoClass
   # World init
 
   initWorld: ->
-    return if @world
+    return if @initialized
+    @initialized = true
     @world = new World @level.get('name')
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
@@ -203,9 +204,9 @@ module.exports = class LevelLoader extends CocoClass
   notifyProgress: ->
     Backbone.Mediator.publish 'level-loader:progress-changed', progress: @progress()
     @initWorld() if @allDone()
-#    @trigger 'ready-to-init-world' if @allDone()
     @trigger 'loaded-all' if @progress() is 1
 
   destroy: ->
+    @world = null  # don't hold onto garbage
     @supermodel.off 'loaded-one', @onSupermodelLoadedOne
     super()

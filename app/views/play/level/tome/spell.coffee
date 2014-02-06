@@ -28,7 +28,10 @@ module.exports = class Spell
     @tabView.render()
 
   addThang: (thang) ->
-    @thangs[thang.id] ?= {thang: thang, aether: @createAether(thang), castAether: null}
+    if @thangs[thang.id]
+      @thangs[thang.id].thang = thang
+    else
+      @thangs[thang.id] = {thang: thang, aether: @createAether(thang), castAether: null}
 
   removeThangID: (thangID) ->
     delete @thangs[thangID]

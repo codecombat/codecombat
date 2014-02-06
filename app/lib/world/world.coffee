@@ -78,7 +78,7 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback) =>
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback) ->
     return if @aborted
     unless @thangs.length
       console.log "Warning: loadFrames called on empty World (no thangs)."

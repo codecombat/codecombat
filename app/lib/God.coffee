@@ -3,7 +3,7 @@
 ## Uncomment to imitate IE9 (and in world_utils.coffee)
 #window.Worker = null
 #window.Float32Array = null
-# (except that we won't have included vendor_with_box2d.js, so Collision won't run, things won't move, etc.)
+# Also uncomment vendor_with_box2d.js in index.html if you want Collision to run and things to move.
 
 module.exports = class God
   @ids: ['Athena', 'Baldr', 'Crom', 'Dagr', 'Eris', 'Freyja', 'Great Gish', 'Hades', 'Ishtar', 'Janus', 'Khronos', 'Loki', 'Marduk', 'Negafook', 'Odin', 'Poseidon', 'Quetzalcoatl', 'Ra', 'Shiva', 'Thor', 'Umvelinqangi', 'Týr', 'Vishnu', 'Wepwawet', 'Xipe Totec', 'Yahweh', 'Zeus', '上帝', 'Tiamat', '盘古', 'Phoebe', 'Artemis', 'Osiris', "嫦娥", 'Anhur', 'Teshub', 'Enlil', 'Perkele', 'Aether', 'Chaos', 'Hera', 'Iris', 'Theia', 'Uranus', 'Stribog', 'Sabazios', 'Izanagi', 'Ao', 'Tāwhirimātea', 'Tengri', 'Inmar', 'Torngarsuk', 'Centzonhuitznahua', 'Hunab Ku', 'Apollo', 'Helios', 'Thoth', 'Hyperion', 'Alectrona', 'Eos', 'Mitra', 'Saranyu', 'Freyr', 'Koyash', 'Atropos', 'Clotho', 'Lachesis', 'Tyche', 'Skuld', 'Urðr', 'Verðandi', 'Camaxtli', 'Huhetotl', 'Set', 'Anu', 'Allah', 'Anshar', 'Hermes', 'Lugh', 'Brigit', 'Manannan Mac Lir', 'Persephone', 'Mercury', 'Venus', 'Mars', 'Azrael', 'He-Man', 'Anansi', 'Issek', 'Mog', 'Kos', 'Amaterasu Omikami', 'Raijin', 'Susanowo', 'Blind Io', 'The Lady', 'Offler', 'Ptah', 'Anubis', 'Ereshkigal', 'Nergal', 'Thanatos', 'Macaria', 'Angelos', 'Erebus', 'Hecate', 'Hel', 'Orcus', 'Ishtar-Deela Nakh', 'Prometheus', 'Hephaestos', 'Sekhmet', 'Ares', 'Enyo', 'Otrera', 'Pele', 'Hadúr', 'Hachiman', 'Dayisun Tngri', 'Ullr', 'Lua', 'Minerva']
@@ -25,17 +25,22 @@ module.exports = class God
     @createWorld()
 
   getAngel: ->
+    freeAngel = null
     for angel in @angels
-      return angel.enslave() unless angel.busy
+      if angel.busy
+        angel.abort()
+      else
+        freeAngel ?= angel
+    return freeAngel.enslave() if freeAngel
     maxedOut = @angels.length is @maxAngels
     if not maxedOut
       angel = new Angel @
       @angels.push angel
       return angel.enslave()
-    oldestAngel = {started: new Date(2099, 1, 1)}
-    for angel in @angels
-      oldestAngel = angel if angel.started < oldestAngel.started
-    oldestAngel.abort()
+    #oldestAngel = {started: new Date(2099, 1, 1)}
+    #for angel in @angels
+    #  oldestAngel = angel if angel.started < oldestAngel.started
+    #oldestAngel.abort()
     null
 
   angelInfinitelyLooped: (angel) ->
@@ -65,6 +70,13 @@ module.exports = class God
     else
       @worldWaiting = true
       return
+    console.log "about to post message", @getUserCodeMap(), @level, @firstWorld, @goalManager?.getGoals(), JSON.stringify({
+      worldName: @world.name
+      userCodeMap: @getUserCodeMap()
+      level: @level
+      firstWorld: @firstWorld
+      goals: @goalManager?.getGoals()
+    }).length
     angel.worker.postMessage {func: 'runWorld', args: {
       worldName: @world.name
       userCodeMap: @getUserCodeMap()
@@ -91,8 +103,11 @@ module.exports = class God
     Backbone.Mediator.publish('god:new-world-created', world: @world, firstWorld: @firstWorld, errorCount: errorCount, goalStates: @latestGoalStates)
     for scriptNote in @world.scriptNotes
       Backbone.Mediator.publish scriptNote.channel, scriptNote.event
+    @goalManager?.world = newWorld
     @firstWorld = false
     @testWorld = null
+    unless _.find @angels, 'busy'
+      @spells = null  # Don't hold onto old spells; memory leaks
 
   getUserCodeMap: ->
     userCodeMap = {}
@@ -171,6 +186,7 @@ class Angel
     @busy = true
     @started = new Date()
     @purgatoryTimer = setInterval @testWorker, @infiniteLoopIntervalDuration
+    @spawnWorker() unless @worker
     @
 
   free: ->
@@ -178,6 +194,8 @@ class Angel
     @started = null
     clearInterval @purgatoryTimer
     @purgatoryTimer = null
+    @worker.terminate()
+    @worker = null
     @
 
   abort: ->
@@ -186,8 +204,8 @@ class Angel
 
   terminate: =>
     @worker.terminate()
+    @worker = null
     return if @dead
-    @spawnWorker()
     @free()
     @god.angelAborted @
 
@@ -219,7 +237,9 @@ class Angel
           clearTimeout @abortTimeout
           @free()
           @god.angelAborted @
-          @worker.terminate() if @god.dead
+          if @god.dead
+            @worker.terminate()
+            @worker = null
         when 'reportIn'
           clearTimeout @condemnTimeout
         else

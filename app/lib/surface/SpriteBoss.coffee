@@ -19,6 +19,7 @@ module.exports = class SpriteBoss extends CocoClass
     'level-suppress-selection-sounds': 'onSuppressSelectionSounds'
     'level-lock-select': 'onSetLockSelect'
     'level:restarted': 'onLevelRestarted'
+    'god:new-world-created': 'onNewWorld'
 
   constructor: (@options) ->
     super()
@@ -87,7 +88,7 @@ module.exports = class SpriteBoss extends CocoClass
     @selectionMark = new Mark name: 'selection', camera: @camera, layer: @spriteLayers["Ground"], thangType: @thangTypeFor("Selection")
 
   createSpriteOptions: (options) ->
-    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers["Ground"], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers["Floating"], markThangTypes: @markThangTypes(), spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible, world: @world
+    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers["Ground"], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers["Floating"], markThangTypes: @markThangTypes(), spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible
 
   createIndieSprites: (indieSprites, withWizards) ->
     unless @indieSprites
@@ -194,6 +195,9 @@ module.exports = class SpriteBoss extends CocoClass
     @cached = true
 
   spriteFor: (thangID) -> @sprites[thangID]
+
+  onNewWorld: (e) ->
+    @world = @options.world = e.world
 
   # Selection
 

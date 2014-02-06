@@ -50,6 +50,7 @@ module.exports = class PlayLevelView extends View
     'level-focus-dom': 'onFocusDom'
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
+    'god:new-world-created': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
     'bus:connected': 'onBusConnected'
     'level-reload-from-data': 'onLevelReloadFromData'
@@ -102,7 +103,6 @@ module.exports = class PlayLevelView extends View
 
   load: ->
     @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
-    @levelLoader.once 'ready-to-init-world', @onReadyToInitWorld
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
 
   getRenderData: ->
@@ -120,6 +120,8 @@ module.exports = class PlayLevelView extends View
     @session = @levelLoader.session
     @level = @levelLoader.level
     @world = @levelLoader.world
+    @levelLoader.destroy()
+    @levelLoader = null
     @loadingScreen.destroy()
     @setTeam @world.teamForPlayer 1  # We don't know which player we are; this will go away--temp TODO
     @initSurface()
@@ -205,6 +207,9 @@ module.exports = class PlayLevelView extends View
     Backbone.Mediator.publish 'level:restarted'
     $('#level-done-button', @$el).hide()
     window.tracker?.trackEvent 'Confirmed Restart', level: @world.name, label: @world.name
+
+  onNewWorld: (e) ->
+    @world = e.world
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
@@ -378,7 +383,7 @@ module.exports = class PlayLevelView extends View
 
   destroy: ->
     super()
-    @levelLoader.destroy()
+    @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
     @goalManager?.destroy()
