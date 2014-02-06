@@ -67,12 +67,10 @@ module.exports = class TomeView extends View
       console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
 
   onNewWorld: (e) ->
-    oldThangs = @thangList.thangs
-    newThangs = e.world.thangs
-    toRemove = (thang for thang in oldThangs when not e.world.getThangByID thang.id)
-    toAdd = (thang for thang in newThangs when not _.find oldThangs, id: thang.id)
-    @createSpells toAdd, e.world
-    @thangList.adjustThangs @spells, newThangs, toRemove, toAdd
+    thangs = _.filter e.world.thangs, 'isSelectable'
+    programmableThangs = _.filter thangs, 'isProgrammable'
+    @createSpells programmableThangs, e.world
+    @thangList.adjustThangs @spells, thangs
     @spellList.adjustSpells @spells
 
   createSpells: (programmableThangs, world) ->
