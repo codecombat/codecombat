@@ -187,8 +187,10 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
     scaleFactor = @thang.scaleFactor ? 1
-    @imageObject.scaleX = @originalScaleX * scaleX * scaleFactor
-    @imageObject.scaleY = @originalScaleY * scaleY * scaleFactor
+    scaleFactorX = @thang.scaleFactorX ? scaleFactor
+    scaleFactorY = @thang.scaleFactorY ? scaleFactor
+    @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
+    @imageObject.scaleY = @originalScaleY * scaleY * scaleFactorY
 
   updateAlpha: ->
     return unless @thang?.alpha?

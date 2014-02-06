@@ -1,11 +1,10 @@
-winston = require 'winston'
 Grid = require 'gridfs-stream'
 fs = require 'fs'
 request = require 'request'
 mongoose = require('mongoose')
 errors = require '../commons/errors'
 
-module.exports.setupRoutes = (app) ->
+module.exports.setup = (app) ->
   app.all '/file*', (req, res) ->
     return fileGet(req, res) if req.route.method is 'get'
     return filePost(req, res) if req.route.method is 'post'

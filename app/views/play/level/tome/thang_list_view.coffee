@@ -52,7 +52,7 @@ module.exports = class ThangListView extends View
     super()
     @addThangListEntries()
 
-  addThangListEntries: (forThangs) ->
+  addThangListEntries: ->
     @entries = []
     for [thangs, section, permission] in [
       [@readwriteThangs, "#readwrite-thangs", "readwrite"]  # Your Minions
@@ -60,7 +60,7 @@ module.exports = class ThangListView extends View
       [@muggleThangs, "#muggle-thangs", null]  # Non-Castable
     ]
       section = @$el.find(section).toggle thangs.length > 0
-      for thang in thangs when not forThangs or thang in forThangs
+      for thang in thangs
         spells = _.filter @spells, (s) -> thang.id of s.thangs
         entry = new ThangListEntryView thang: thang, spells: spells, permission: permission, supermodel: @supermodel
         section.find('.thang-list').append entry.el  # Render after appending so that we can access parent container for popover
@@ -72,7 +72,11 @@ module.exports = class ThangListView extends View
       return entry.spells[0]
     null
 
-  addThang: (thang) ->
-    @thangs.push thang
+  adjustThangs: (spells, thangs) ->
+    @spells = @options.spells = spells
+    for entry in @entries
+      entry.$el.remove()
+      entry.destroy()
+    @thangs = @options.thangs = thangs
     @sortThangs()
-    @addThangListEntries [thang]
+    @addThangListEntries()

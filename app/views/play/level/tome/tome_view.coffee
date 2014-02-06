@@ -47,7 +47,7 @@ module.exports = class TomeView extends View
     'tome:cast-spell': "onCastSpell"
     'tome:toggle-spell-list': 'onToggleSpellList'
     'surface:sprite-selected': 'onSpriteSelected'
-    'surface:new-thang-added': 'onNewThangAdded'
+    'god:new-world-created': 'onNewWorld'
 
   events:
     'click #spell-view': 'onSpellViewClick'
@@ -58,28 +58,26 @@ module.exports = class TomeView extends View
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
 
     if programmableThangs.length
-      @createSpells programmableThangs  # Do before spellList, thangList, and castButton
+      @createSpells programmableThangs, programmableThangs[0].world  # Do before spellList, thangList, and castButton
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
       @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
       @castButton = @insertSubView new CastButtonView spells: @spells
     else
       @cast()
-      console.log "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
+      console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
 
-  onNewThangAdded: (e) ->
-    return unless e.thang.isProgrammable and not _.find @thangList.thangs, id: e.thang.id
-    @createSpells [e.thang]
-    @spellList.addThang e.thang
-    @thangList.addThang e.thang
+  onNewWorld: (e) ->
+    thangs = _.filter e.world.thangs, 'isSelectable'
+    programmableThangs = _.filter thangs, 'isProgrammable'
+    @createSpells programmableThangs, e.world
+    @thangList.adjustThangs @spells, thangs
+    @spellList.adjustSpells @spells
 
-  createSpells: (programmableThangs) ->
-    # If needed, we could make this able to update when programmableThangs changes.
-    # We haven't done that yet, so call it just once on init.
+  createSpells: (programmableThangs, world) ->
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
     @thangSpells ?= {}
     for thang in programmableThangs
-      world = thang.world
       continue if @thangSpells[thang.id]?
       @thangSpells[thang.id] = []
       for methodName, method of thang.programmableMethods
@@ -92,8 +90,12 @@ module.exports = class TomeView extends View
         unless method.cloneOf
           spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: @getQueryVariable("skip_flow") is "true", skipProtectAPI: @getQueryVariable("skip_protect_api") is "true"
     for thangID, spellKeys of @thangSpells
-      thang = world.getThangByID(thangID)
-      @spells[spellKey].addThang thang for spellKey in spellKeys
+      thang = world.getThangByID thangID
+      if thang
+        @spells[spellKey].addThang thang for spellKey in spellKeys
+      else
+        delete @thangSpells[thangID]
+        @spells[spellKey].removeThangID thangID for spellKey in spellKeys
     null
 
   onSpellLoaded: (e) ->

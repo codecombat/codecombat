@@ -41,7 +41,7 @@ class CocoModel extends Backbone.Model
     
   set: ->
     res = super(arguments...)
-    @saveBackup() if @saveBackups and @loaded
+    @saveBackup() if @saveBackups and @loaded and @hasLocalChanges()
     res
     
   saveBackup: ->

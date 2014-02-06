@@ -79,3 +79,11 @@ module.exports = class SpellListView extends View
   addThang: (thang) ->
     @sortSpells()
     @addSpellListEntries()
+
+  adjustSpells: (spells) ->
+    for entry in @entries when _.isEmpty entry.spell.thangs
+      entry.$el.remove()
+      entry.destroy()
+    @spells = @options.spells = spells
+    @sortSpells()
+    @addSpellListEntries()

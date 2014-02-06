@@ -30,6 +30,9 @@ module.exports = class Spell
   addThang: (thang) ->
     @thangs[thang.id] ?= {thang: thang, aether: @createAether(thang), castAether: null}
 
+  removeThangID: (thangID) ->
+    delete @thangs[thangID]
+
   canRead: (team) ->
     (team ? me.team) in @permissions.read or (team ? me.team) in @permissions.readwrite
 
@@ -65,6 +68,7 @@ module.exports = class Spell
     aetherOptions =
       problems:
         jshint_W040: {level: "ignore"}
+        jshint_W030: {level: "ignore"}  # aether_NoEffect instead
         aether_MissingThis: {level: (if thang.requiresThis then 'error' else 'warning')}
       functionName: @name
       functionParameters: @parameters

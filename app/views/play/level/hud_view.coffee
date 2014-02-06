@@ -64,6 +64,8 @@ module.exports = class HUDView extends View
 
   onNewWorld: (e) ->
     @thang = e.world.thangMap[@thang.id] if @thang
+    if not @thang
+      @setThang null, null
 
   setThang: (thang, thangType) ->
     unless @speaker
@@ -163,7 +165,7 @@ module.exports = class HUDView extends View
     else
       s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (press shift-space)")
       if @shiftSpacePressed > 4 and not @escapePressed
-        group.append('<span class="hud-hint">Press esc to skip dialog</span>')
+        @bubble.append('<span class="hud-hint">skip: esc</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
     @bubble.append($("<h3>#{@speaker ? 'Captain Anya'}</h3>"))
@@ -281,7 +283,7 @@ module.exports = class HUDView extends View
     return unless @thang.world and not _.isEmpty @thang.actions
     @buildActionTimespans() unless @timespans
     for actionName, action of @thang.actions
-      @updateActionElement(actionName, @timespans[actionName], @thang.action.name is actionName)
+      @updateActionElement(actionName, @timespans[actionName], @thang.action is actionName)
     tableContainer = @$el.find('.table-container')
     timelineWidth = tableContainer.find('.action-timeline').width()
     right = (1 - (@timeProgress ? 0)) * timelineWidth
