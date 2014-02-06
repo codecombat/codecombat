@@ -16,13 +16,11 @@ module.exports = class LevelSaveView extends SaveVersionModal
   constructor: (options) ->
     super options
     @level = options.level
-    @originalLevelAttributes = options.originalLevelAttributes
-    @levelNeedsSave = not _.isEqual @level.attributes, @originalLevelAttributes
-
+    
   getRenderData: (context={}) =>
     context = super(context)
     context.level = @level
-    context.levelNeedsSave = @levelNeedsSave
+    context.levelNeedsSave = @level.hasLocalChanges()
     context.modifiedComponents = _.filter @supermodel.getModels(LevelComponent), @shouldSaveEntity
     context.modifiedSystems = _.filter @supermodel.getModels(LevelSystem), @shouldSaveEntity
     context
