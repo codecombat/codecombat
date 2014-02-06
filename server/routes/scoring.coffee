@@ -13,7 +13,7 @@ LevelSession = require '../levels/sessions/LevelSession'
 connectToScoringQueue = ->
   unless queues.scoringTaskQueue
     queues.initializeScoringTaskQueue (err, data) ->
-     winston.info "Connected to scoring task queue!"  unless err?
+      winston.info "Connected to scoring task queue!"  unless err?
 
 module.exports.setup = (app) ->
   connectToScoringQueue()
@@ -24,13 +24,14 @@ module.exports.setup = (app) ->
       if message.isEmpty()
         sendResponseObject req, res, {"error":"No messages were received."}
       else
-        constructTaskObject message.getBody(), (taskConstructionError, taskObject) ->
+        messageBody = JSON.parse message.getBody()
+        constructTaskObject messageBody, (taskConstructionError, taskObject) ->
           if taskConstructionError?
             sendResponseObject req, res, {"error":taskConstructionError}
           else
             sendResponseObject req, res, taskObject
 
-            
+
   app.post '/scoring/queue', (req, res) ->
     clientResponseObject = req.body
     ###
@@ -44,9 +45,6 @@ module.exports.setup = (app) ->
         {"ID":"51eb2714fa058cb20d00fedg", "team":"ogres","metrics": {"reachedGoal":true, "rank":1}}
       ]
     ###
-
-
-
     res.end("You posted an object to score!")
 
 
@@ -68,26 +66,27 @@ constructTaskObject = (taskMessageBody, callback) ->
       "taskGeneratingPlayerID": sessionInformation.creator
       "code": sessionInformation.code
       "players": sessionInformation.players
+
     callback err, taskObject
-
-      ###
-      "players" : [
-        {"ID":"51eb2714fa058cb20d0006ef", "team":"humans", "userCodeMap": "code goes here"}
-        {"ID":"51eb2714fa058cb20d00fedg", "team":"ogres","userCodeMap": "code goes here"}
-      ]
-      ###
-
+    ###
+    "players" : [
+      {"ID":"51eb2714fa058cb20d0006ef", "team":"humans", "userCodeMap": "code goes here"}
+      {"ID":"51eb2714fa058cb20d00fedg", "team":"ogres","userCodeMap": "code goes here"}
+    ]
+    ###
 
 
-getSessionInformation = (sessionID, callback) ->
-  LevelSession.findOne {"_id": mongoose.Types.ObjectId(sessionID)}, (err, session) ->
+
+getSessionInformation = (sessionIDString, callback) ->
+  LevelSession.findOne {"_id": sessionIDString }, (err, session) ->
     if err?
       callback err, {"error":"There was an error retrieving the session."}
     else
+      session = session.toJSON()
       sessionInformation =
         "sessionID": session._id
-        "players": session.players
-        "code": session.code
+        "players": _.cloneDeep session.players
+        "code": _.cloneDeep session.code
         "changed": session.changed
         "creator": session.creator
       callback err, sessionInformation
