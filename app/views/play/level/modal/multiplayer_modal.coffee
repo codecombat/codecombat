@@ -1,5 +1,6 @@
 View = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/multiplayer'
+{me} = require('lib/auth')
 
 module.exports = class MultiplayerModal extends View
   id: 'level-multiplayer-modal'
@@ -13,6 +14,7 @@ module.exports = class MultiplayerModal extends View
     super(options)
     @session = options.session
     @session.on 'change:multiplayer', @updateLinkSection
+    @playableTeams = options.playableTeams
 
   getRenderData: ->
     c = super()
@@ -20,13 +22,17 @@ module.exports = class MultiplayerModal extends View
       '?session=' +
       @session.id)
     c.multiplayer = @session.get('multiplayer')
+    c.playableTeams = @playableTeams
     c
 
   afterRender: ->
     super()
     @updateLinkSection()
+    @$el.find('#multiplayer-team-selection input')
+      .prop('checked', -> $(@).val() is me.team)
+      .bind('change', -> Backbone.Mediator.publish 'level:set-team', team: $(@).val())
 
-  onClickLink: (e) =>
+  onClickLink: (e) ->
     e.target.select()
 
   updateLinkSection: =>

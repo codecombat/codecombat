@@ -31,6 +31,7 @@ module.exports = class ControlBarView extends View
     @worldName = options.worldName
     @session = options.session
     @level = options.level
+    @playableTeams = options.playableTeams
     super options
 
   setBus: (@bus) ->
@@ -55,7 +56,7 @@ module.exports = class ControlBarView extends View
     @openModalView(new DocsModal(options))
 
   showMultiplayerModal: ->
-    @openModalView(new MultiplayerModal(session: @session))
+    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams))
 
   showRestartModal: ->
     @openModalView(new ReloadModal())
