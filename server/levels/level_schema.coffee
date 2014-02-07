@@ -30,6 +30,7 @@ GoalSchema = c.object {title: "Goal", description: "A goal that the player can a
   worldEndsAfter: {title: 'World Ends After', description: "When included, ends the world this many seconds after this goal succeeds or fails.", type: 'number', minimum: 0, exclusiveMinimum: true, maximum: 300, default: 3}
   howMany: {title: "How Many", description: "When included, require only this many of the listed goal targets instead of all of them.", type: 'integer', minimum: 1}
   hiddenGoal: {title: "Hidden", description: "Hidden goals don't show up in the goals area for the player until they're failed. (Usually they're obvious, like 'don't die'.)", 'type': 'boolean', default: false}
+  team: c.shortString(title: 'Team', description: 'Name of the team this goal is for, if it is not for all of the playable teams.')
   killThangs: c.array {title: "Kill Thangs", description: "A list of Thang IDs the player should kill, or team names.", uniqueItems: true, minItems: 1, "default": ["ogres"]}, thang
   saveThangs: c.array {title: "Save Thangs", description: "A list of Thang IDs the player should save, or team names", uniqueItems: true, minItems: 1, "default": ["humans"]}, thang
   getToLocations: c.object {title: "Get To Locations", description: "TODO: explain", required: ["who", "targets"]},

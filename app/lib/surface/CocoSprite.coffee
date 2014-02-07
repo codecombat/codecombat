@@ -83,7 +83,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   toString: -> "<CocoSprite: #{@thang?.id}>"
 
   buildSpriteSheet: ->
-    options = @thang?.getSpriteOptions?() or {}
+    options = @thang?.getSpriteOptions?() or @options
     options.colorConfig = @options.colorConfig if @options.colorConfig
     options.async = false
     @thangType.getSpriteSheet options
@@ -131,6 +131,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   playAction: (action) ->
     @currentAction = action
+    return @hide() unless action.animation or action.container or action.relatedActions
+    @show()
     return @updateActionDirection() unless action.animation or action.container
     m = if action.container then "gotoAndStop" else "gotoAndPlay"
     @imageObject[m] action.name
@@ -141,6 +143,14 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if @currentRootAction.name is 'move' and action.frames
       start = Math.floor(Math.random() * action.frames.length)
       @imageObject.currentAnimationFrame = start
+
+  hide: ->
+    @hiding = true
+    @updateAlpha()
+    
+  show: ->
+    @hiding = false
+    @updateAlpha()
 
   update: ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
@@ -193,6 +203,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @imageObject.scaleY = @originalScaleY * scaleY * scaleFactorY
 
   updateAlpha: ->
+    @imageObject.alpha = if @hiding then 0 else 1
     return unless @thang?.alpha?
     @imageObject.alpha = @thang.alpha
     if @options.showInvisible

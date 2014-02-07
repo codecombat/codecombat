@@ -26,6 +26,7 @@ module.exports = class Tracker
     olark 'api.chat.updateVisitorNickname', snippet: me.displayName()
 
   updatePlayState: (level, session) ->
+    return unless olark?
     link = "codecombat.com/play/level/#{level.get('slug') or level.id}?session=#{session.id}"
     snippet = [
       "#{link}"

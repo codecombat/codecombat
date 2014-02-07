@@ -134,3 +134,7 @@ module.exports = class ThangListEntryView extends View
     return unless currentThang = e.world.thangMap[@thang.id]
     @$el.toggle Boolean(currentThang.exists)
     @$el.toggleClass 'dead', currentThang.health <= 0 if currentThang.exists
+
+  destroy: ->
+    super()
+    @avatar.destroy()

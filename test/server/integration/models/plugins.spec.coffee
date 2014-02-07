@@ -328,27 +328,3 @@ describe 'SearchablePlugin', ->
       target:'not_the_public'
       access:'owner'
     ]
-
-  campaign = new Campaign(raw)
-
-  it 'clears things first', (done) ->
-    Campaign.remove {}, (err) ->
-      expect(err).toBeNull()
-      done()
-
-  it 'hides private entities from public searches', (done) ->
-    campaign.save (err) ->
-      throw err if err
-      done()
-
-      Campaign.textSearch 'battlefield', {filter:{ index: true}}, (err, results) ->
-        expect(results.results.length).toBe(0)
-        done()
-
-  it 'allows private searches for owning users', (done) ->
-    campaign.save (err) ->
-      throw err if err
-
-      Campaign.textSearch 'battlefield', {filter: { index: 'not_the_public' }}, (err, results) ->
-        expect(results.results.length).toBeGreaterThan(0)
-        done()

@@ -65,6 +65,7 @@ module.exports = class TomeView extends View
     else
       @cast()
       console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
+    delete @options.thangs
 
   onNewWorld: (e) ->
     thangs = _.filter e.world.thangs, 'isSelectable'
@@ -95,7 +96,7 @@ module.exports = class TomeView extends View
         @spells[spellKey].addThang thang for spellKey in spellKeys
       else
         delete @thangSpells[thangID]
-        @spells[spellKey].removeThangID thangID for spellKey in spellKeys
+        spell.removeThangID thangID for spell in @spells
     null
 
   onSpellLoaded: (e) ->

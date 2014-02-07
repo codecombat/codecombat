@@ -1,12 +1,8 @@
 
 module.exports.handlers =
   'article': 'articles/article_handler'
-  'campaign': 'campaigns/campaign_handler'
-  'campaign_status': 'campaigns/campaign_status_handler'
-  'file': 'files/file_handler'
   'level': 'levels/level_handler'
   'level_component': 'levels/components/level_component_handler'
-  'level_draft': 'levels/drafts/level_draft_handler'
   'level_feedback': 'levels/feedbacks/level_feedback_handler'
   'level_session': 'levels/sessions/level_session_handler'
   'level_system': 'levels/systems/level_system_handler'
@@ -16,7 +12,6 @@ module.exports.handlers =
 module.exports.schemas =
   'article': 'articles/article_schema'
   'common': 'commons/schemas'
-#'file': 'files/file_schema'
   'i18n': 'commons/i18n_schema'
   'level': 'levels/level_schema'
   'level_component': 'levels/components/level_component_schema'

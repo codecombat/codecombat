@@ -90,6 +90,7 @@ module.exports = class GoalManager extends CocoClass
   # passes the word along
   onNewWorldCreated: (e) =>
     @updateGoalStates(e.goalStates) if e.goalStates?
+    @world = e.world
 
   updateGoalStates: (newGoalStates) ->
     for goalID, goalState of newGoalStates
