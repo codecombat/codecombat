@@ -44,22 +44,25 @@ parseTaskQueueMessage = (req, res, message) ->
   try
     return messageBody = JSON.parse message.getBody()
   catch e
-    sendResponseObject req, res, {"error":"There was an error parsing the task."}
+    sendResponseObject req, res, {"error":"There was an error parsing the task.Error: #{e}" }
     null
 
 
 constructTaskObject = (taskMessageBody, callback) ->
-  getSessionInformation taskMessageBody.sessionID, (err, sessionInformation) ->
+  async.map taskMessageBody.sessions, getSessionInformation, (err, sessions) ->
     return callback err, data if err?
 
     taskObject =
       "messageGenerated": Date.now()
-      "sessionID": sessionInformation.sessionID
-      "sessionChangedTime": sessionInformation.changed
-      "taskGeneratingPlayerID": sessionInformation.creator
-      "code": sessionInformation.code
-      "players": sessionInformation.players
+      "players": []
 
+    for session in sessions
+      sessionInformation =
+        "sessionID": session.sessionID
+        "sessionChangedTime": session.changed
+        "team": session.team? "No team"
+        "code": session.code
+      taskObject.players.push sessionInformation
     callback err, taskObject
 
 
@@ -70,10 +73,11 @@ getSessionInformation = (sessionIDString, callback) ->
     session = session.toJSON()
     sessionInformation =
       "sessionID": session._id
-      "players": _.cloneDeep session.players
       "code": _.cloneDeep session.code
       "changed": session.changed
       "creator": session.creator
+      "team": session.team
+
 
     callback err, sessionInformation
 
@@ -84,17 +88,41 @@ sendResponseObject = (req,res,object) ->
   res.end()
 
 module.exports.processTaskResult = (req, res) ->
-  #clientResponseObject = JSON.parse req.body
-  #check for timeout
+  clientResponseObject = parseClientResponseObject req, res
 
-  res.end("You posted an object to score!")
+  if clientResponseObject?
+    return handleTimedOutTask clientResponseObject if hasTaskTimedOut clientResponseObject
 
+    logTaskComputation clientResponseObject
+    updateScores clientResponseObject
+
+
+hasTaskTimedOut = (taskBody) ->
+  return false
+
+handleTimedOutTask = (taskBody) ->
+  #probably mark the task log as incomplete
+  return false
+
+parseClientResponseObject = (req, res) ->
+  try
+    return JSON.parse req.body
+  catch e
+    errors.badInput res, "Unprocessable task response object."
+    return null
+
+logTaskComputation = (taskObject) ->
+  return
+
+updateScores = (taskObject) ->
+  return
 
 
 ###Sample Messages
 sampleQueueMessage =
   sessions: [
     "52dfeb17c8b5f435c7000025"
+    "52dfe03ac8b5f435c7000009"
   ]
 
 sampleUndoneTaskObject =
@@ -138,6 +166,7 @@ sampleTaskLogObject=
   "_id":ObjectId("507f191e810c19729de860ea") #datestamp is built into objectId
   "calculatedBy":ObjectId("51eb2714fa058cb20d0006ef")
   "calculationTime":3201
+  timedOut: false
   "sessions":[
     {
       "ID":ObjectId("52dfeb17c8b5f435c7000025")

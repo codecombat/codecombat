@@ -134,12 +134,12 @@ class SQSMessage extends MessageObject
 
   getID: -> @originalMessage.Messages[0].MessageId
 
-  removeFromQueue: (callback) -> parentQueue.deleteMessage @getReceiptHandle(), callback
+  removeFromQueue: (callback) -> @parentQueue.deleteMessage @getReceiptHandle(), callback
 
-  requeue: (callback) -> parentQueue.changeMessageVisibilityTimeout 0, @getReceiptHandle(), callback
+  requeue: (callback) -> @parentQueue.changeMessageVisibilityTimeout 0, @getReceiptHandle(), callback
 
   changeMessageVisibilityTimeout: (secondsFromFunctionCall, callback) ->
-    parentQueue.changeMessageVisibilityTimeout secondsFromFunctionCall,@getReceiptHandle(), callback
+    @parentQueue.changeMessageVisibilityTimeout secondsFromFunctionCall,@getReceiptHandle(), callback
 
   getReceiptHandle: -> @originalMessage.Messages[0].ReceiptHandle
 
