@@ -37,10 +37,6 @@ module.exports = class God
       angel = new Angel @
       @angels.push angel
       return angel.enslave()
-    #oldestAngel = {started: new Date(2099, 1, 1)}
-    #for angel in @angels
-    #  oldestAngel = angel if angel.started < oldestAngel.started
-    #oldestAngel.abort()
     null
 
   angelInfinitelyLooped: (angel) ->
@@ -70,13 +66,6 @@ module.exports = class God
     else
       @worldWaiting = true
       return
-    console.log "about to post message", @getUserCodeMap(), @level, @firstWorld, @goalManager?.getGoals(), JSON.stringify({
-      worldName: @world.name
-      userCodeMap: @getUserCodeMap()
-      level: @level
-      firstWorld: @firstWorld
-      goals: @goalManager?.getGoals()
-    }).length
     angel.worker.postMessage {func: 'runWorld', args: {
       worldName: @world.name
       userCodeMap: @getUserCodeMap()
@@ -194,7 +183,7 @@ class Angel
     @started = null
     clearInterval @purgatoryTimer
     @purgatoryTimer = null
-    @worker.terminate()
+    @worker?.terminate()
     @worker = null
     @
 

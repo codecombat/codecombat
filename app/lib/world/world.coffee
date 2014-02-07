@@ -32,12 +32,6 @@ module.exports = class World
     @rand = new Rand 0
     @frames = [new WorldFrame(@, 0)]
 
-  # --- This config needs to move into Systems config --- TODO
-  playableTeams: ["humans"]
-  teamForPlayer: (n) ->
-    @playableTeams[n % @playableTeams.length]
-  # -----------------------------------------------------
-
   getFrame: (frameIndex) ->
     # Optimize it a bit--assume we have all if @ended and are at the previous frame otherwise
     frames = @frames
@@ -464,3 +458,7 @@ module.exports = class World
     colorConfigs = {}
     colorConfigs[teamName] = config.color for teamName, config of teamConfigs
     colorConfigs
+
+  teamForPlayer: (n) ->
+    playableTeams = @playableTeams ? ['humans']
+    playableTeams[n % playableTeams.length]

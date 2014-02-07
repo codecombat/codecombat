@@ -301,6 +301,7 @@ module.exports = class HUDView extends View
       [newFrame, newAction] = [hist.frame, hist.name]
       continue if newAction is lastAction
       if newFrame > lastFrame
+        # TODO: don't push it if it didn't exist until then
         (@timespans[lastAction] ?= []).push [lastFrame * dt, newFrame * dt]
       [lastFrame, lastAction] = [newFrame, newAction]
 
