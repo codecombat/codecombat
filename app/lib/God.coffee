@@ -192,7 +192,7 @@ class Angel
     @worker.postMessage {func: 'abort'}
 
   terminate: =>
-    @worker.terminate()
+    @worker?.terminate()
     @worker = null
     return if @dead
     @free()
