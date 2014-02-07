@@ -23,6 +23,7 @@ LevelHandler = class LevelHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @getSession(req, res, args[0]) if args[1] is 'session'
+    return @getLeaderboard(req, res, args[0]) if args[1] is 'leaderboard'
     return @getAllSessions(req, res, args[0]) if args[1] is 'all_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
     return @sendNotFoundError(res)
@@ -72,7 +73,14 @@ LevelHandler = class LevelHandler extends Handler
       Session.find(sessionQuery).exec (err, results) =>
         return @sendDatabaseError(res, err) if err
         res.send(results)
-        return res.end()
+        res.end()
+        
+  getLeaderboard: (req, res, id) ->
+    # stub handler
+#    [original, version] = id.split('.')
+#    version = parseInt version
+#    console.log 'get leaderboard for', original, version, req.query
+    return res.send([])
 
   getFeedback: (req, res, id) ->
     @getDocumentForIdOrSlug id, (err, level) =>
