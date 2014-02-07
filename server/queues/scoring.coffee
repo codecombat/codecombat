@@ -33,6 +33,7 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
 
     messageBody = parseTaskQueueMessage req, res, message
     return errors.serverError res, "There was an error parsing the queue message" unless messageBody?
+    #Create task record here in database
 
     constructTaskObject messageBody, (taskConstructionError, taskObject) ->
       return errors.serverError res, "There was an error constructing the scoring task" if taskConstructionError?
