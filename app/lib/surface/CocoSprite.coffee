@@ -120,6 +120,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @actionQueue.push @currentRootAction.relatedActions.end if @currentRootAction?.relatedActions?.end
     @actionQueue.push action.relatedActions.begin if action.relatedActions?.begin
     @actionQueue.push action
+    if action.goesTo and nextAction = @actions[action.goesTo]
+      @actionQueue.push nextAction if nextAction
     @currentRootAction = action
     @playNextAction()
 
