@@ -8,6 +8,7 @@ db = require './../routes/db'
 mongoose = require 'mongoose'
 queues = require '../commons/queue'
 LevelSession = require '../levels/sessions/LevelSession'
+TaskLog = require './task/ScoringTask'
 
 scoringTaskQueue = undefined
 scoringTaskTimeoutInSeconds = 20
@@ -28,17 +29,28 @@ module.exports.setup = (app) -> connectToScoringQueue()
 
 
 module.exports.dispatchTaskToConsumer = (req, res) ->
-  scoringTaskQueue.receiveMessage (err, message) ->
-    return errors.gatewayTimeoutError res, "No messages were receieved from the queue" if message.isEmpty()
+
+  userID = getUserIDFromRequest req
+  return errors.forbidden res, "You need to be logged in to simulate games" unless userID?
+
+  scoringTaskQueue.receiveMessage (taskQueueReceiveError, message) ->
+    if message.isEmpty() or taskQueueReceiveError?
+      return errors.gatewayTimeoutError res, "No messages were receieved from the queue.#{taskQueueReceiveError}"
 
     messageBody = parseTaskQueueMessage req, res, message
     return errors.serverError res, "There was an error parsing the queue message" unless messageBody?
-    #Create task record here in database
 
     constructTaskObject messageBody, (taskConstructionError, taskObject) ->
       return errors.serverError res, "There was an error constructing the scoring task" if taskConstructionError?
-      message.changeMessageVisibilityTimeout scoringTaskTimeoutInSeconds
-      sendResponseObject req, res, taskObject
+
+      message.changeMessageVisibilityTimeout scoringTaskTimeoutInSeconds + 10 #10 seconds processing time
+
+      constructTaskLogObject userID,message.getReceiptHandle(), (taskLogError, taskLogObject) ->
+        return errors.serverError res, "There was an error creating the task log object." if taskLogError?
+
+        taskObject.taskLogID = taskLogObject._id
+
+        sendResponseObject req, res, taskObject
 
 
 parseTaskQueueMessage = (req, res, message) ->
@@ -46,8 +58,21 @@ parseTaskQueueMessage = (req, res, message) ->
     return messageBody = JSON.parse message.getBody()
   catch e
     sendResponseObject req, res, {"error":"There was an error parsing the task.Error: #{e}" }
-    null
+    return null
 
+getUserIDFromRequest = (req) ->
+  if req.user? and req.user._id?
+    return req.user._id
+  else
+    return null
+
+constructTaskLogObject = (calculatorUserID, messageIdentifierString, callback) ->
+  taskLogObject = new TaskLog
+    "calculator":calculatorUserID
+    "sentDate": Date.now()
+    "messageIdentifierString":messageIdentifierString
+
+  taskLogObject.save callback
 
 constructTaskObject = (taskMessageBody, callback) ->
   async.map taskMessageBody.sessions, getSessionInformation, (err, sessions) ->
@@ -55,7 +80,7 @@ constructTaskObject = (taskMessageBody, callback) ->
 
     taskObject =
       "messageGenerated": Date.now()
-      "players": []
+      "sessions": []
 
     for session in sessions
       sessionInformation =
@@ -63,7 +88,7 @@ constructTaskObject = (taskMessageBody, callback) ->
         "sessionChangedTime": session.changed
         "team": session.team? "No team"
         "code": session.code
-      taskObject.players.push sessionInformation
+      taskObject.sessions.push sessionInformation
     callback err, taskObject
 
 
@@ -92,18 +117,21 @@ module.exports.processTaskResult = (req, res) ->
   clientResponseObject = parseClientResponseObject req, res
 
   if clientResponseObject?
-    return handleTimedOutTask clientResponseObject if hasTaskTimedOut clientResponseObject
+
+    return handleTimedOutTask req, res, clientResponseObject if hasTaskTimedOut clientResponseObject
 
     logTaskComputation clientResponseObject
     updateScores clientResponseObject
 
 
 hasTaskTimedOut = (taskBody) ->
-  return false
 
-handleTimedOutTask = (taskBody) ->
-  #probably mark the task log as incomplete
-  return false
+  taskBody.messageGenerated + scoringTaskTimeoutInSeconds < Date.now()
+
+handleTimedOutTask = (req, res, taskBody) ->
+  errors.clientError res, "The task results were not provided within a timely manner"
+
+
 
 parseClientResponseObject = (req, res) ->
   try
@@ -119,6 +147,8 @@ updateScores = (taskObject) ->
   return
 
 
+
+
 ###Sample Messages
 sampleQueueMessage =
   sessions: [
@@ -128,6 +158,7 @@ sampleQueueMessage =
 
 sampleUndoneTaskObject =
   "taskID": "507f191e810c19729de860ea"
+  "messageGenerated": 1391811773418
   "sessions" : [
     {
       "ID":"52dfeb17c8b5f435c7000025"
