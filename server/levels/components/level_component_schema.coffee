@@ -9,7 +9,8 @@ class AttacksSelf extends Component
 """
 systems = [
   'action', 'ai', 'alliance', 'collision', 'combat', 'display', 'event', 'existence', 'hearing'
-  'inventory', 'movement', 'programming', 'targeting', 'ui', 'vision', 'misc', 'physics', 'effect'
+  'inventory', 'movement', 'programming', 'targeting', 'ui', 'vision', 'misc', 'physics', 'effect',
+  'magic'
 ]
 
 PropertyDocumentationSchema = c.object {

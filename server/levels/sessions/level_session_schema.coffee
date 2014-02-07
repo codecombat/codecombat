@@ -25,6 +25,7 @@ _.extend LevelSessionSchema.properties,
   creator: c.objectId(links: [{rel: 'extra', href: "/db/user/{($)}"}])
   created: c.date( { title: 'Created', readOnly: true })
   changed: c.date( { title: 'Changed', readOnly: true })
+  team: c.shortString()
   level: LevelSessionLevelSchema
   screenshot: { type: 'string' }
   state: c.object {}, {

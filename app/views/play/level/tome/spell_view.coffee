@@ -377,11 +377,12 @@ module.exports = class SpellView extends View
     @updateAether false, false
 
   onNewWorld: (e) ->
+    @spell.removeThangID thangID for thangID of @spell.thangs when not e.world.getThangByID thangID
     for thangID, spellThang of @spell.thangs
-      aether = e.world.userCodeMap[thangID][@spell.name]
-      #console.log thangID, "got new castAether with raw", aether.raw, "problems", aether.problems
+      thang = e.world.getThangByID(thangID)
+      aether = e.world.userCodeMap[thangID]?[@spell.name]  # Might not be there if this is a new Programmable Thang.
       spellThang.castAether = aether
-      spellThang.aether = @spell.createAether e.world.getThangByID(thangID)
+      spellThang.aether = @spell.createAether thang
       #console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
     @spell.transpile()
     @updateAether false, false

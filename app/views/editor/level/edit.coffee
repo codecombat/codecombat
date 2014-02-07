@@ -52,7 +52,6 @@ module.exports = class EditorLevelView extends View
     @files.fetch()
 
   onAllLoaded: =>
-    @originalLevelAttributes = _.cloneDeep @level.attributes
     @level.unset('nextLevel') if _.isString(@level.get('nextLevel'))
     @initWorld()
     @startsLoading = false
@@ -93,7 +92,7 @@ module.exports = class EditorLevelView extends View
     @childWindow.focus()
 
   startCommittingLevel: (e) ->
-    levelSaveView = new LevelSaveView level: @level, supermodel: @supermodel, originalLevelAttributes: @originalLevelAttributes
+    levelSaveView = new LevelSaveView level: @level, supermodel: @supermodel
     @openModalView levelSaveView
     Backbone.Mediator.publish 'level:view-switched', e
 

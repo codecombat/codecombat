@@ -46,6 +46,7 @@ module.exports = class ThangListEntryView extends View
     @$el.append @avatar.el  # Before rendering, so render can use parent for popover
     @avatar.render()
     @avatar.setSharedThangs @spells.length  # A bit weird to call it sharedThangs; could refactor if we like this
+    @$el.toggle Boolean(@thang.exists)
     @$el.popover(
       animation: false
       html: true
@@ -133,3 +134,7 @@ module.exports = class ThangListEntryView extends View
     return unless currentThang = e.world.thangMap[@thang.id]
     @$el.toggle Boolean(currentThang.exists)
     @$el.toggleClass 'dead', currentThang.health <= 0 if currentThang.exists
+
+  destroy: ->
+    super()
+    @avatar.destroy()
