@@ -28,9 +28,6 @@ module.exports = class MultiplayerModal extends View
   afterRender: ->
     super()
     @updateLinkSection()
-    @$el.find('#multiplayer-team-selection input')
-      .prop('checked', -> $(@).val() is me.team)
-      .bind('change', -> Backbone.Mediator.publish 'level:set-team', team: $(@).val())
 
   onClickLink: (e) ->
     e.target.select()
