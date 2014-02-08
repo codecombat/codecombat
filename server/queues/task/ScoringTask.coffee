@@ -2,7 +2,7 @@ mongoose = require('mongoose')
 
 ScoringTaskSchema = new mongoose.Schema(
   calculator: {type:mongoose.Schema.Types.ObjectId}
-  sentDate: {type: Date}
+  sentDate: {type: Number}
   messageIdentifierString: {type: String}
   calculationTimeMS: {type: Number, default: 0}
   sessions: {type: Array, default: []}

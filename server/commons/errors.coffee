@@ -39,4 +39,5 @@ module.exports.gatewayTimeoutError = (res, message="Gateway timeout") ->
   res.end()
 
 module.exports.clientTimeout = (res, message="The server did not recieve the client response in a timely manner") ->
-  res.send 408
+  res.send 408, message
+  res.end()

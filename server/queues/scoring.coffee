@@ -9,9 +9,10 @@ mongoose = require 'mongoose'
 queues = require '../commons/queue'
 LevelSession = require '../levels/sessions/LevelSession'
 TaskLog = require './task/ScoringTask'
+bayes = new (require 'bayesian-battle')()
 
 scoringTaskQueue = undefined
-scoringTaskTimeoutInSeconds = 20
+scoringTaskTimeoutInSeconds = 400
 
 connectToScoringQueue = ->
   queues.initializeQueueClient ->
@@ -43,15 +44,19 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
     constructTaskObject messageBody, (taskConstructionError, taskObject) ->
       return errors.serverError res, "There was an error constructing the scoring task" if taskConstructionError?
 
-      message.changeMessageVisibilityTimeout scoringTaskTimeoutInSeconds + 10 #10 seconds processing time
+      taskProcessingTimeInSeconds = 10
+      message.changeMessageVisibilityTimeout scoringTaskTimeoutInSeconds + taskProcessingTimeInSeconds
 
       constructTaskLogObject userID,message.getReceiptHandle(), (taskLogError, taskLogObject) ->
         return errors.serverError res, "There was an error creating the task log object." if taskLogError?
 
-        taskObject.taskLogID = taskLogObject._id
+        setTaskObjectTaskLogID taskObject, taskLogObject._id
 
         sendResponseObject req, res, taskObject
 
+
+
+setTaskObjectTaskLogID = (taskObject, taskLogObjectID) -> taskObject.taskID = taskLogObjectID
 
 parseTaskQueueMessage = (req, res, message) ->
   try
@@ -96,7 +101,7 @@ getSessionInformation = (sessionIDString, callback) ->
   LevelSession.findOne {"_id": sessionIDString }, (err, session) ->
     return callback err, {"error":"There was an error retrieving the session."} if err?
 
-    session = session.toJSON()
+    session = session.toObject()
     sessionInformation =
       "sessionID": session._id
       "code": _.cloneDeep session.code
@@ -114,37 +119,75 @@ sendResponseObject = (req,res,object) ->
   res.end()
 
 module.exports.processTaskResult = (req, res) ->
-  clientResponseObject = parseClientResponseObject req, res
+  clientResponseObject = verifyClientResponse req.body, res
 
   if clientResponseObject?
+    TaskLog.findOne {"_id": clientResponseObject.taskID}, (err, taskLog) ->
+      return errors.serverError res, "There was an error retrieiving the task log object" if err?
 
-    return handleTimedOutTask req, res, clientResponseObject if hasTaskTimedOut clientResponseObject
+      taskLogJSON = taskLog.toObject()
 
-    logTaskComputation clientResponseObject
-    updateScores clientResponseObject
+      return errors.badInput res, "That computational task has already been performed" if taskLogJSON.calculationTimeMS
+      return handleTimedOutTask req, res, clientResponseObject if hasTaskTimedOut taskLogJSON.sentDate
+
+      logTaskComputation clientResponseObject, taskLog, (loggingError) ->
+        errors.serverError res, "There as a problem logging the task computation" if loggingError?
+        updateScores clientResponseObject, (updatingScoresError, newScores) ->
+          return errors.serverError res, "There was an error updating the scores.#{updatingScoresError}" if updatingScoresError?
+          sendResponseObject req, res, newScores
 
 
-hasTaskTimedOut = (taskBody) ->
 
-  taskBody.messageGenerated + scoringTaskTimeoutInSeconds < Date.now()
+hasTaskTimedOut = (taskSentTimestamp) -> taskSentTimestamp + scoringTaskTimeoutInSeconds * 1000 < Date.now()
 
 handleTimedOutTask = (req, res, taskBody) ->
-  errors.clientError res, "The task results were not provided within a timely manner"
+  errors.clientTimeout res, "The task results were not provided within a timely manner"
 
 
-
-parseClientResponseObject = (req, res) ->
-  try
-    return JSON.parse req.body
-  catch e
-    errors.badInput res, "Unprocessable task response object."
+verifyClientResponse = (responseObject, res) ->
+  unless typeof responseObject is "object"
+    errors.badInput res, "The response to that query is required to be a JSON object."
     return null
+  return responseObject
 
-logTaskComputation = (taskObject) ->
+
+
+logTaskComputation = (taskObject,taskLogObject, callback) ->
+  taskLogObject.calculationTimeMS = taskObject.calculationTimeMS
+  taskLogObject.sessions = taskObject.sessions
+  taskLogObject.save (err) -> callback err
+
+  winston.info "Game successfully simulated in #{taskObject.calculationTimeMS}, logging result"
+
+
+updateScores = (taskObject,callback) ->
+  winston.info "Updating scores"
+  sessionIDs = _.pluck taskObject.sessions, 'sessionID'
+  async.map sessionIDs, retrieveOldScoreMetrics, (err, oldScores) ->
+    callback err, {"error": "There was an error retrieving the old scores"} if err?
+    oldScores = _.indexBy oldScores, 'id'
+    for sessions in taskObject.sessions
+      oldScores[session.ID].gameRanking = session.metrics.rank
+
+    newScores = bayes.updatePlayerSkills oldScores
+    callback err, newScores
+
+
   return
 
-updateScores = (taskObject) ->
-  return
+retrieveOldScoreMetrics = (sessionID, callback) ->
+  LevelSession.findOne {"_id":sessionID}, (err, session) ->
+    return callback err, {"error":"There was an error retrieving the session."} if err?
+
+    oldScoreObject =
+      "standardDeviation":session.standardDeviation ? 25/3
+      "meanStrength":session.meanStrength ? 25
+      "totalScore":session.totalScore ? 25 - 1.8*(25/3)
+      "id" = sessionID
+
+    callback err, oldScoreObject
+
+
 
 
 
@@ -158,7 +201,6 @@ sampleQueueMessage =
 
 sampleUndoneTaskObject =
   "taskID": "507f191e810c19729de860ea"
-  "messageGenerated": 1391811773418
   "sessions" : [
     {
       "ID":"52dfeb17c8b5f435c7000025"
