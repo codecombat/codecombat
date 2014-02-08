@@ -1,31 +1,31 @@
 module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", translation:
   common:
-    loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
-#    cancel: "Cancel"
-#    save: "Save"
-#    delay_1_sec: "1 second"
-#    delay_3_sec: "3 seconds"
-#    delay_5_sec: "5 seconds"
-#    manual: "Manual"
+    loading: "...טוען"
+    saving: "...שומר"
+    sending: "...שולח"
+    cancel: "ביטול"
+    save: "שמור"
+    delay_1_sec: "שניה אחת"
+    delay_3_sec: "שלוש שניות"
+    delay_5_sec: "חמש שניות"
+    manual: "מדריך"
 #    fork: "Fork"
-#    play: "Play"
+    play: "שחק"
 
-#  modal:
-#    close: "Close"
-#    okay: "Okay"
+  modal:
+    close: "סגור"
+    okay: "אישור"
 
-#  not_found:
-#    page_not_found: "Page not found"
+  not_found:
+    page_not_found: "העמוד לא נמצא"
 
-#  nav:
-#    play: "Levels"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    admin: "Admin"
-#    home: "Home"
+  nav:
+    play: "שלבים"
+    editor: "עורך"
+    blog: "בלוג"
+    forum: "פורום"
+    admin: "אדמין"
+    home: "בית"
 #    contribute: "Contribute"
 #    legal: "Legal"
 #    about: "About"
