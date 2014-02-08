@@ -123,7 +123,8 @@ module.exports = class PlayLevelView extends View
     @levelLoader.destroy()
     @levelLoader = null
     @loadingScreen.destroy()
-    @setTeam @world.teamForPlayer _.size @session.get 'players'   # TODO: players aren't initialized yet?
+    #@setTeam @world.teamForPlayer _.size @session.get 'players'   # TODO: players aren't initialized yet?
+    @setTeam @getQueryVariable("team") ? @world.teamForPlayer(0)
     @initSurface()
     @initGod()
     @initGoalManager()
