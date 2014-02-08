@@ -9,7 +9,7 @@ module.exports = class ArtisanView extends ContributeClassView
   contributors: [
     {name: "Sootn", avatar: ""}
     {name: "Zach Martin", avatar: ""}
-    {name: "Afterman", avatar: ""}
+    {name: "Aftermath", avatar: ""}
     {name: "mcdavid1991", avatar: ""}
     {name: "dwhittaker", avatar: ""}
     {name: "Zacharias Fisches", avatar: ""}
@@ -18,4 +18,5 @@ module.exports = class ArtisanView extends ContributeClassView
     {name: "Andrew Witcher", avatar: "andrew"}
     {name: "Axandre Oge", avatar: "axandre"}
     {name: "Katharine Chan", avatar: "katharine"}
+    {name: "Derek Wong", avatar: "derek"}
   ]
