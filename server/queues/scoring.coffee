@@ -173,17 +173,16 @@ updateScores = (taskObject,callback) ->
     callback err, newScores
 
 
-  return
-
 retrieveOldScoreMetrics = (sessionID, callback) ->
   LevelSession.findOne {"_id":sessionID}, (err, session) ->
     return callback err, {"error":"There was an error retrieving the session."} if err?
-
+    defaultScore = (25 - 1.8*(25/3))
+    defaultStandardDeviation = 25/3
     oldScoreObject =
-      "standardDeviation":session.standardDeviation ? 25/3
+      "standardDeviation":session.standardDeviation ? defaultStandardDeviation
       "meanStrength":session.meanStrength ? 25
-      "totalScore":session.totalScore ? 25 - 1.8*(25/3)
-      "id" = sessionID
+      "totalScore":session.totalScore ? defaultScore
+      "id": sessionID
 
     callback err, oldScoreObject
 
