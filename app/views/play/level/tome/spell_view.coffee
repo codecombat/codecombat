@@ -248,7 +248,7 @@ module.exports = class SpellView extends View
     ]
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
-      if @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw
+      if not @spellThang or @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw
         callback() for callback in onSignificantChange  # Do these first
       callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
