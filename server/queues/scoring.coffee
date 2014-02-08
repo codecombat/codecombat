@@ -73,6 +73,7 @@ getUserIDFromRequest = (req) ->
 
 constructTaskLogObject = (calculatorUserID, messageIdentifierString, callback) ->
   taskLogObject = new TaskLog
+    "createdAt": new Date()
     "calculator":calculatorUserID
     "sentDate": Date.now()
     "messageIdentifierString":messageIdentifierString
@@ -127,11 +128,11 @@ module.exports.processTaskResult = (req, res) ->
 
       taskLogJSON = taskLog.toObject()
 
-      return errors.badInput res, "That computational task has already been performed" if taskLogJSON.calculationTimeMS
-      return handleTimedOutTask req, res, clientResponseObject if hasTaskTimedOut taskLogJSON.sentDate
+      #return errors.badInput res, "That computational task has already been performed" if taskLogJSON.calculationTimeMS
+      #return handleTimedOutTask req, res, clientResponseObject if hasTaskTimedOut taskLogJSON.sentDate
 
       logTaskComputation clientResponseObject, taskLog, (loggingError) ->
-        errors.serverError res, "There as a problem logging the task computation" if loggingError?
+        return errors.serverError res, "There as a problem logging the task computation: #{loggingError}" if loggingError?
         updateScores clientResponseObject, (updatingScoresError, newScores) ->
           return errors.serverError res, "There was an error updating the scores.#{updatingScoresError}" if updatingScoresError?
           sendResponseObject req, res, newScores
@@ -157,7 +158,6 @@ logTaskComputation = (taskObject,taskLogObject, callback) ->
   taskLogObject.sessions = taskObject.sessions
   taskLogObject.save (err) -> callback err
 
-  winston.info "Game successfully simulated in #{taskObject.calculationTimeMS}, logging result"
 
 
 updateScores = (taskObject,callback) ->
@@ -165,13 +165,19 @@ updateScores = (taskObject,callback) ->
   sessionIDs = _.pluck taskObject.sessions, 'sessionID'
   async.map sessionIDs, retrieveOldScoreMetrics, (err, oldScores) ->
     callback err, {"error": "There was an error retrieving the old scores"} if err?
-    oldScores = _.indexBy oldScores, 'id'
-    for sessions in taskObject.sessions
-      oldScores[session.ID].gameRanking = session.metrics.rank
+    oldScoreArray = _.toArray putRankingFromMetricsIntoScoreObject taskObject, oldScores
 
-    newScores = bayes.updatePlayerSkills oldScores
-    callback err, newScores
+    newScoreArray = bayes.updatePlayerSkills oldScoreArray
+    
+    #TODO: database persistence here
+    callback err, newScoreArray
 
+putRankingFromMetricsIntoScoreObject = (taskObject,scoreObject) ->
+  scoreObject = _.indexBy scoreObject, 'id'
+  for session in taskObject.sessions
+    scoreObject[session.sessionID].gameRanking = session.metrics.rank
+
+  return scoreObject
 
 retrieveOldScoreMetrics = (sessionID, callback) ->
   LevelSession.findOne {"_id":sessionID}, (err, session) ->
