@@ -79,25 +79,15 @@ block content
       #Contributors
         h3(data-i18n="contribute.powerful_archmages")
           | Our Powerful Archmages:
-        ul.archmages
-          li Tom Steinbrecher
-          li Glen De Cauwsemaecker
-          li Sébastien Moratinos
-          li Ronnie Cheng
-          li phansch
-          li Zach Martin
-          li David Golds
-          li deepak1556
-          li Chloe Fan
-          li Rachel Xiang
-          li Dan Ristic
-          li gabceb
-          li Laura Watiker
-          li Shiying Zheng
-          li Mischa Lewis-Norelle
-          li Paul Buser
-          li Benjamin Stern
-          li Alex Cotsarelis
-          li MDP66
+        .row
+          for contributor in contributors
+            .col-xs-6.col-md-3
+              .thumbnail
+                if contributor.avatar
+                  img.img-responsive(src="/images/pages/contribute/archmage/" + contributor.avatar + "_small.png", alt="")
+                else
+                  img.img-responsive(src="/images/pages/contribute/archmage.png", alt="")
+                .caption
+                  h4= contributor.name
 
     div.clearfix

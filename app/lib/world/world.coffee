@@ -420,7 +420,7 @@ module.exports = class World
           pos = camera.worldToSurface {x: pos.x, y: pos.y} if camera  # without z
           if not lastPos.x? or (Math.abs(lastPos.x - pos.x) + Math.abs(lastPos.y - pos.y)) > 1
             lastPos = pos
-        allPoints.push lastPos.y, lastPos.x
+        allPoints.push lastPos.y, lastPos.x unless lastPos.y is 0 and lastPos.x is 0
       allPoints.reverse()
       @pointsForThangCache[cacheKey] = allPoints
 

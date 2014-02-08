@@ -11,6 +11,7 @@ module.exports = class ContributeClassView extends View
   getRenderData: ->
     c = super()
     c.navPrefix = @navPrefix
+    c.contributors = @contributors
     c
 
   afterRender: ->
@@ -36,3 +37,5 @@ module.exports = class ContributeClassView extends View
 
     me.set('emailSubscriptions', subscriptions)
     me.save()
+
+  contributors: []
