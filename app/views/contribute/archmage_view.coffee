@@ -4,3 +4,25 @@ template = require 'templates/contribute/archmage'
 module.exports = class ArchmageView extends ContributeClassView
   id: "archmage-view"
   template: template
+
+  contributors: [
+    {name: "Tom Steinbrecher", avatar: "tom"}
+    {name: "Glen De Cauwsemaecker", avatar: "glen"}
+    {name: "Sébastien Moratinos", avatar: "sebastien"}
+    {name: "deepak1556", avatar: "deepak"}
+    {name: "Ronnie Cheng", avatar: "ronald"}
+    {name: "Chloe Fan", avatar: "chloe"}
+    {name: "Rachel Xiang", avatar: "rachel"}
+    {name: "Dan Ristic", avatar: "dan"}
+    {name: "Laura Watiker", avatar: "laura"}
+    {name: "Shiying Zheng", avatar: "shiying"}
+    {name: "Mischa Lewis-Norelle", avatar: "mischa"}
+    {name: "Paul Buser", avatar: "paul"}
+    {name: "Benjamin Stern", avatar: "ben"}
+    {name: "Alex Cotsarelis", avatar: "alex"}
+    {name: "phansch", avatar: ""}
+    {name: "Zach Martin", avatar: ""}
+    {name: "David Golds", avatar: ""}
+    {name: "gabceb", avatar: ""}
+    {name: "MDP66", avatar: ""}
+  ]

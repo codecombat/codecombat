@@ -77,17 +77,17 @@ block content
       #Contributors
         h3(data-i18n="contribute.creative_artisans")
           | Our Creative Artisans:
-        ul.artisans
-          li Sootn
-          li Zach Martin
-          li Aftermath
-          li mcdavid1991
-          li dwhittaker
-          li Zacharias Fisches
-          li Tom Setliff
-          li Robert Moreton
-          li Andrew Witcher
-          li Axandre Oge
-          li Katharine Chan
+        .row
+          for contributor in contributors
+            .col-xs-8.col-md-4
+              .thumbnail
+                if contributor.avatar
+                  img.img-responsive(src="/images/pages/contribute/artisan/" + contributor.avatar + "_small.png", alt="")
+                else
+                  img.img-responsive(src="/images/pages/contribute/artisan.png", alt="")
+                .caption
+                  h4= contributor.name
 
     div.clearfix
+
+
