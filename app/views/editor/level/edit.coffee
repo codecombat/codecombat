@@ -36,6 +36,9 @@ module.exports = class EditorLevelView extends View
       return false if @levelsLoaded > 1
       return true
 
+    @supermodel.shouldSaveBackups = (model) ->
+      model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
+
     @level = new Level _id: @levelID
     @level.once 'sync', @onLevelLoaded
     @supermodel.populateModel @level
@@ -49,7 +52,6 @@ module.exports = class EditorLevelView extends View
     @files.fetch()
 
   onAllLoaded: =>
-    @originalLevelAttributes = _.cloneDeep @level.attributes
     @level.unset('nextLevel') if _.isString(@level.get('nextLevel'))
     @initWorld()
     @startsLoading = false
@@ -67,7 +69,7 @@ module.exports = class EditorLevelView extends View
     return if @startsLoading
     super()
     new LevelSystem  # temp; trigger the LevelSystem schema to be loaded, if it isn't already
-    @$el.find('a[data-toggle="tab"]').on 'shown', (e) =>
+    @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'level:view-switched', e
     @thangsTab = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel
     @settingsTab = @insertSubView new SettingsTabView world: @world, supermodel: @supermodel
@@ -90,7 +92,7 @@ module.exports = class EditorLevelView extends View
     @childWindow.focus()
 
   startCommittingLevel: (e) ->
-    levelSaveView = new LevelSaveView level: @level, supermodel: @supermodel, originalLevelAttributes: @originalLevelAttributes
+    levelSaveView = new LevelSaveView level: @level, supermodel: @supermodel
     @openModalView levelSaveView
     Backbone.Mediator.publish 'level:view-switched', e
 

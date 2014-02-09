@@ -38,11 +38,11 @@ module.exports = class WorldFrame
     map = ((' ' for x in [0 .. @world.width])  \
            for y in [0 .. @world.height])
     symbols = ".ox@dfga[]/D"
-    for thang, i in @thangs
+    for thang, i in @world.thangs when thang.rectangle
       rect = thang.rectangle().axisAlignedBoundingBox()
       for y in [Math.floor(rect.y - rect.height / 2) ... Math.ceil(rect.y + rect.height / 2)]
         for x in [Math.floor(rect.x - rect.width / 2) ... Math.ceil(rect.x + rect.width / 2)]
-          map[y][x] = symbols[i]
+          map[y][x] = symbols[i % symbols.length] if 0 <= y < @world.height and 0 <= x < @world.width
     @time + "\n" + (xs.join(' ') for xs in map).join('\n') + '\n'
 
   serialize: (frameIndex, trackedPropertiesThangIDs, trackedPropertiesPerThangIndices, trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, specialValuesToKeys, specialKeysToValues) ->

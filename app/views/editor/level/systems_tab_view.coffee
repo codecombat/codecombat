@@ -30,6 +30,7 @@ module.exports = class SystemsTabView extends View
     for system in @buildDefaultSystems()
       url = "/db/level.system/#{system.original}/version/#{system.majorVersion}"
       ls = new LevelSystem()
+      ls.saveBackups = true
       do (url) -> ls.url = -> url
       continue if @supermodel.getModelByURL ls.url
       ls.fetch()
@@ -57,7 +58,12 @@ module.exports = class SystemsTabView extends View
     unless systems.length
       systems = @buildDefaultSystems()
       insertedDefaults = true
-    systems = _.sortBy systems, "name"
+
+    systemModels = @supermodel.getModels LevelSystem
+    systemModelMap = {}
+    systemModelMap[sys.get('original')] = sys.get('name') for sys in systemModels
+    systems = _.sortBy systems, (sys) -> systemModelMap[sys.original]
+    
     treemaOptions =
       # TODO: somehow get rid of the + button, or repurpose it to open the LevelSystemAddView instead
       supermodel: @supermodel

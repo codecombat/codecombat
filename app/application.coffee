@@ -20,7 +20,7 @@ elementAcceptsKeystrokes = (el) ->
   # not radio, checkbox, range, or color
   return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ["", "true"]) and not (el.readOnly or el.disabled)
 
-COMMON_FILES = ['/images/modal_background.png', '/images/level/code_palette_background.png']
+COMMON_FILES = ['/images/pages/base/modal_background.png', '/images/level/code_palette_background.png']
 preload = (arrayOfImages) ->
   $(arrayOfImages).each ->
     $('<img/>')[0].src = @

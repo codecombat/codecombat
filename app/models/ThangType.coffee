@@ -91,6 +91,7 @@ module.exports = class ThangType extends CocoModel
     for animation in @requiredRawAnimations()
       name = animation.animation
       mc = @vectorParser.buildMovieClip name
+      continue unless mc
       @builder.addMovieClip mc, null, animation.scale * @options.resolutionFactor
       framesMap[animation.scale + "_" + name] = @builder._animations[name].frames
 
@@ -98,6 +99,7 @@ module.exports = class ThangType extends CocoModel
       continue if name is 'portrait'
       scale = action.scale ? @get('scale') ? 1
       frames = framesMap[scale + "_" + action.animation]
+      continue unless frames
       frames = @mapFrames(action.frames, frames[0]) if action.frames?
       next = true
       next = action.goesTo if action.goesTo
@@ -108,6 +110,7 @@ module.exports = class ThangType extends CocoModel
       continue if name is 'portrait'
       scale = @options.resolutionFactor * (action.scale or @get('scale') or 1)
       s = @vectorParser.buildContainerFromStore(action.container)
+      continue unless s
       frame = @builder.addFrame(s, s.bounds, scale)
       @builder.addAnimation name, [frame], false
 

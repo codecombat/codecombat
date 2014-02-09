@@ -71,3 +71,12 @@ module.exports = class ThangListView extends View
     for entry in @entries when entry.thang.id is thang.id
       return entry.spells[0]
     null
+
+  adjustThangs: (spells, thangs) ->
+    @spells = @options.spells = spells
+    for entry in @entries
+      entry.$el.remove()
+      entry.destroy()
+    @thangs = @options.thangs = thangs
+    @sortThangs()
+    @addThangListEntries()

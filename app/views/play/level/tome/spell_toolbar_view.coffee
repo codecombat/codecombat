@@ -4,14 +4,15 @@ template = require 'templates/play/level/tome/spell_toolbar'
 module.exports = class SpellToolbarView extends View
   className: 'spell-toolbar-view'
   template: template
+  progressHoverDelay: 500
 
   subscriptions:
     'spell-step-backward': 'onStepBackward'
     'spell-step-forward': 'onStepForward'
 
   events:
-    'mousemove .progress': 'onProgressHover'
-    'mouseout .progress': 'onProgressMouseOut'
+    'mousemove .spell-progress': 'onProgressHover'
+    'mouseout .spell-progress': 'onProgressMouseOut'
     'click .step-backward': 'onStepBackward'
     'click .step-forward': 'onStepForward'
 
@@ -22,20 +23,25 @@ module.exports = class SpellToolbarView extends View
   afterRender: ->
     super()
 
+  toggleFlow: (to) ->
+    @$el.find(".flow").toggle to
+
   setStatementIndex: (statementIndex) ->
     return unless total = @callState?.statementsExecuted
     @statementIndex = Math.min(total - 1, Math.max(0, statementIndex))
     @statementRatio = @statementIndex / (total - 1)
-    @statementTime = @callState.statements[@statementIndex].userInfo.time
-    @$el.find('.bar').css('width', 100 * @statementRatio + '%')
-    Backbone.Mediator.publish 'tome:spell-statement-index-updated', statementIndex: @statementIndex, ace: @ace
+    @statementTime = @callState.statements[@statementIndex]?.userInfo.time ? 0
+    @$el.find('.progress-bar').css('width', 100 * @statementRatio + '%')
     @$el.find('.step-backward').prop('disabled', @statementIndex is 0)
     @$el.find('.step-forward').prop('disabled', @statementIndex is total - 1)
     @updateMetrics()
+    _.defer =>
+      Backbone.Mediator.publish 'tome:spell-statement-index-updated', statementIndex: @statementIndex, ace: @ace
 
   updateMetrics: ->
     statementsExecuted = @callState.statementsExecuted
     $metrics = @$el.find('.metrics')
+    return $metrics.hide() if @suppressMetricsUpdates or not (statementsExecuted or @metrics.statementsExecuted)
     if @metrics.callsExecuted > 1
       $metrics.find('.call-index').text @callIndex + 1
       $metrics.find('.calls-executed').text @metrics.callsExecuted
@@ -54,25 +60,40 @@ module.exports = class SpellToolbarView extends View
       $metrics.find('.statements-metric').show().attr('title', "Statement #{@statementIndex + 1} of #{statementsExecuted} this call#{titleSuffix}")
     else
       $metrics.find('.statements-metric').hide()
+    left = @$el.find('.scrubber-handle').position().left + @$el.find('.spell-progress').position().left
+    $metrics.finish().show().css({left: left - $metrics.width() / 2}).delay(2000).fadeOut('fast')
 
   setStatementRatio: (ratio) ->
     return unless total = @callState?.statementsExecuted
-    @setStatementIndex Math.floor ratio * total
+    statementIndex = Math.floor ratio * total
+    @setStatementIndex statementIndex unless statementIndex is @statementIndex
 
   onProgressHover: (e) ->
+    return @onProgressHoverLong(e) if @maintainIndexHover
+    @lastHoverEvent = e
+    @hoverTimeout = _.delay @onProgressHoverLong, @progressHoverDelay unless @hoverTimeout
+
+  onProgressHoverLong: (e) =>
+    e ?= @lastHoverEvent
+    @hoverTimeout = null
     @setStatementRatio e.offsetX / @$el.find('.progress').width()
     @updateTime()
     @maintainIndexHover = true
+    @updateScroll()
 
   onProgressMouseOut: (e) ->
     @maintainIndexHover = false
+    if @hoverTimeout
+      clearTimeout @hoverTimeout
+      @hoverTimeout = null
 
   onStepBackward: (e) -> @step -1
   onStepForward: (e) -> @step 1
   step: (delta) ->
     lastTime = @statementTime
     @setStatementIndex @statementIndex + delta
-    @updateTime() if @statementIndex isnt lastTime
+    @updateTime() if @statementTime isnt lastTime
+    @updateScroll()
 
   updateTime: ->
     @maintainIndexScrub = true
@@ -80,15 +101,18 @@ module.exports = class SpellToolbarView extends View
     @maintainIndexScrubTimeout = _.delay (=> @maintainIndexScrub = false), 500
     Backbone.Mediator.publish 'level-set-time', time: @statementTime, scrubDuration: 500
 
+  updateScroll: ->
+    return unless statementStart = @callState?.statements?[@statementIndex]?.range[0]
+    text = @ace.getValue()
+    currentLine = text.substr(0, statementStart).split('\n').length - 1
+    @ace.scrollToLine currentLine, true, true
+
   setCallState: (callState, statementIndex, @callIndex, @metrics) ->
     return if callState is @callState and statementIndex is @statementIndex
     return unless @callState = callState
-    if not @maintainIndexHover and not @maintainIndexScrub and statementIndex? and callState.statements[statementIndex].userInfo.time isnt @statementTime
+    @suppressMetricsUpdates = true
+    if not @maintainIndexHover and not @maintainIndexScrub and statementIndex? and callState.statements[statementIndex]?.userInfo.time isnt @statementTime
       @setStatementIndex statementIndex
     else
       @setStatementRatio @statementRatio
-    # Not sure yet whether it's better to maintain @statementIndex or @statementRatio
-    #else if @statementRatio is 1 or not @statementIndex?
-    #  @setStatementRatio 1
-    #else
-    #  @setStatementIndex @statementIndex
+    @suppressMetricsUpdates = false

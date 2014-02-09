@@ -1,5 +1,12 @@
 @import "../../../bootstrap/mixins"
 
+@mixin editor-height($extraHeight)
+  @include box-sizing(border-box)
+  width: 98%
+  height: 83%
+  height: unquote("-webkit-calc(100% - 60px -")$extraHeight unquote(")")
+  height: unquote("calc(100% - 60px -")$extraHeight unquote(")")
+
 #spell-view
   position: absolute
   left: 10px
@@ -18,29 +25,34 @@
     position: absolute
     top: 0
     height: 100%
+    width: 100%
 
   .save-status
     display: none
-    position: relative
-    padding-top: 2px
-    padding-left: 10px
+    position: absolute
+    top: 1%
+    right: 4%
 
   .firepad
-    width: 100%
-    height: 100%
-    @include box-sizing(border-box)
+    // When Firepad is active, it wraps .ace_editor in .firepad.
+    @include editor-height(0px)
+    width: 98%
+
+    .ace_editor
+      width: 100%
+      height: 100%
 
   .ace_editor
-    @include box-sizing(border-box)
-    margin-top: 40px
-    width: 100%
-    height: 83%
-    height: -webkit-calc(100% - 60px - 40px)
-    height: calc(100% - 60px - 40px)
+    // When Firepad isn't active, .ace_editor needs the width/height set itself.
+    @include editor-height(0px)
+    width: 98%
     position: relative
     background-color: transparent
     line-height: 20px
     overflow: visible
+
+    &.user-code-problem
+      @include editor-height(40px)
 
     &.disabled
       @include opacity(80)
@@ -61,9 +73,9 @@
       .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error
         position: absolute
     .executing
-      background-color: rgba(216, 255, 255, 0.55)
+      background-color: rgba(216, 255, 255, 0.85)
     .executed
-      background-color: rgba(216, 255, 255, 0.25)
+      background-color: rgba(245, 255, 6, 0.18)
     .problem-marker-info
       background-color: rgba(96, 63, 84, 0.25)
     .problem-marker-warning
@@ -71,7 +83,7 @@
     .problem-marker-error
       background-color: rgba(110, 45, 27, 0.25)
 
-    .ace_gutter-cell.executing
+    .ace_gutter-cell.executing:not(.ace_error)
       margin-left: 1px
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMjgwMTE3NDA3MjA2ODExOEE2REU4Q0M1MTM1MkIxRiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQjVEQUNDMzQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQjVEQUNDMjQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTU1MjE3RDIzMTIwNjgxMThEQkI4NTlBMjQ1QTEwOTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMThBNkRFOENDNTEzNTJCMUYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7SazaGAAAAiElEQVR42mL8//8/AzUBEwOVweA3kAWboI2jCyhgDwBx4ZH9ey5Qy4UOQHweaHg/EAtQ08sFUIMDqBmGCkC8HmgoCCtQM1ICoK5toGYsg8KzHmjo+UGbDj8AcSMwORkSnQ7xgA3QtPmApISNBTyAGrSBGl6eAMSGxBhGyIVkZT3G0fKQYgAQYACL+C2ZM6PC7AAAAABJRU5ErkJggg==)
       background-position: 0px center
@@ -79,7 +91,7 @@
     .ace_marker-layer
       .ace_bracket
         // Override faint gray
-        border-color: #8FF
+        border-color: #BFF
 
     .ace_identifier
-      background-color: rgba(255, 128, 128, 0.15)
+      border-bottom: 1px dotted rgba(255, 128, 128, 0.45)

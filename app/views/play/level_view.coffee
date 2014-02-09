@@ -50,13 +50,14 @@ module.exports = class PlayLevelView extends View
     'level-focus-dom': 'onFocusDom'
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
+    'god:new-world-created': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
-    'bus:connected': 'onBusConnected'
     'level-reload-from-data': 'onLevelReloadFromData'
     'play-next-level': 'onPlayNextLevel'
     'edit-wizard-settings': 'showWizardSettingsModal'
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:session-will-save': 'onSessionWillSave'
+    'level:set-team': 'setTeam'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -70,8 +71,8 @@ module.exports = class PlayLevelView extends View
       $('body').append($("<img src='http://code.org/api/hour/begin_codecombat.png' style='visibility: hidden;'>"))
       window.tracker?.trackEvent 'Hour of Code Begin', {}
 
-    @isEditorPreview = @getQueryVariable "dev"
-    @sessionID = @getQueryVariable "session"
+    @isEditorPreview = @getQueryVariable 'dev'
+    @sessionID = @getQueryVariable 'session'
 
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', =>
@@ -79,7 +80,14 @@ module.exports = class PlayLevelView extends View
       @$el.html('<div class="alert">' + msg + '</div>')
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
-    @load() unless @isEditorPreview
+    if @isEditorPreview
+      f = =>
+        @supermodel.shouldSaveBackups = (model) ->
+          model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
+        @load() unless @levelLoader
+      setTimeout f, 100
+    else
+      @load()
 
     # Save latest level played in local storage
     if localStorage?
@@ -95,7 +103,6 @@ module.exports = class PlayLevelView extends View
 
   load: ->
     @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
-    @levelLoader.once 'ready-to-init-world', @onReadyToInitWorld
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
 
   getRenderData: ->
@@ -113,8 +120,11 @@ module.exports = class PlayLevelView extends View
     @session = @levelLoader.session
     @level = @levelLoader.level
     @world = @levelLoader.world
+    @levelLoader.destroy()
+    @levelLoader = null
     @loadingScreen.destroy()
-    @setTeam @world.teamForPlayer 1  # We don't know which player we are; this will go away--temp TODO
+    #@setTeam @world.teamForPlayer _.size @session.get 'players'   # TODO: players aren't initialized yet?
+    @setTeam @getQueryVariable("team") ? @world.teamForPlayer(0)
     @initSurface()
     @initGod()
     @initGoalManager()
@@ -148,7 +158,7 @@ module.exports = class PlayLevelView extends View
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
+    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams}
     #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 
   afterInsert: ->
@@ -198,6 +208,9 @@ module.exports = class PlayLevelView extends View
     Backbone.Mediator.publish 'level:restarted'
     $('#level-done-button', @$el).hide()
     window.tracker?.trackEvent 'Confirmed Restart', level: @world.name, label: @world.name
+
+  onNewWorld: (e) ->
+    @world = e.world
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
@@ -348,13 +361,6 @@ module.exports = class PlayLevelView extends View
     @bus.setSession(@session)
     @bus.connect() if @session.get('multiplayer')
 
-  onBusConnected: ->
-    # Need to set this team stuff before the Tome loads... let's think about this with Scott.
-    #@setTeam @world.teamForPlayer(@bus.countPlayers()) unless me.team
-    #$('#multiplayer-team-selection').toggle(@world.playableTeams.length > 1)
-    #  .find('input').prop('checked', -> $(@).val() is me.team)
-    #  .bind('change', @setTeam)
-
   onSessionWillSave: (e) ->
     # Something interesting has happened, so (at a lower frequency), we'll save a screenshot.
     @saveScreenshot e.session
@@ -365,13 +371,14 @@ module.exports = class PlayLevelView extends View
     session.save {screenshot: screenshot}, {patch: true}
 
   setTeam: (team) ->
-    team = $(@).val() unless _.isString team
+    team = team?.team unless _.isString team
+    team ?= 'humans'
     me.team = team
     Backbone.Mediator.publish 'level:team-set', team: team
 
   destroy: ->
     super()
-    @levelLoader.destroy()
+    @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
     @goalManager?.destroy()

@@ -9,7 +9,7 @@ block content
     div.class-main#artisan-main
       
       .class_image
-          img(src="/images/pages/contribute/artisan.png", alt="")
+          img.img-responsive(src="/images/pages/contribute/artisan.png", alt="")
 
       h2
         span(data-i18n="classes.artisan_title") Artisan
@@ -47,7 +47,7 @@ block content
         | Use the Level Editor in these steps, give or take:
       ul
         li
-          a(href="https://docs.google.com/document/d/117tMcL95T1KY8BDisr0iGi5Frb2ZvBJTC0us5hyQkJY/edit?usp=sharing", data-i18n="contribute.artisan_join_step1") Read the documentation.
+          a(href="https://github.com/codecombat/codecombat/wiki/Artisan-Home", data-i18n="contribute.artisan_join_step1") Read the documentation.
         li
           a(href="/editor/level", data-i18n="contribute.artisan_join_step2") Create a new level and explore existing levels.
         li
@@ -74,16 +74,20 @@ block content
           | Get emails on level editor updates and announcements.
         .saved-notification  ✓ Saved
 
-      h4(data-i18n="contribute.changes_auto_save")
-        | Changes are saved automatically when you toggle checkboxes.
-
       #Contributors
         h3(data-i18n="contribute.creative_artisans")
           | Our Creative Artisans:
-        ul.artisans
-          li Sootn
-          li Zach Martin
-          li Aftermath
-          li mcdavid1991
+        .row
+          for contributor in contributors
+            .col-xs-6.col-md-3
+              .thumbnail
+                if contributor.avatar
+                  img.img-responsive(src="/images/pages/contribute/artisan/" + contributor.avatar + "_small.png", alt="")
+                else
+                  img.img-responsive(src="/images/pages/contribute/artisan.png", alt="")
+                .caption
+                  h4= contributor.name
 
     div.clearfix
+
+

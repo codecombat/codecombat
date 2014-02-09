@@ -1,54 +1,85 @@
 @import "../../../bootstrap/mixins"
 
 .spell-toolbar-view
-  position: absolute
-  z-index: 2
-  top: 2px
-  left: 5px
+  position: relative
   box-sizing: border-box
-  padding-left: 150px
-  height: 36px
-  width: 95%
-  width: -webkit-calc(95% - 5px)
-  width: calc(95% - 5px)
-  background-color: rgba(100, 45, 210, 0.05)
+  margin: 4px 1%
+  height: 45px
+  width: 97%
+  //background-color: rgba(100, 45, 210, 0.15)
 
-  .spell-progress
-    position: relative
-    height: 100%
-    width: 50%
-    display: inline-block
+  .flow
+    &:hover .spell-progress
+      opacity: 1
 
-    .progress
+    .spell-progress
       position: absolute
-      left: 0px
-      top: 8px
-      bottom: 0px
-      width: 100%
+      height: 100%
+      width: 40%
+      left: 45%
+      display: inline-block
       cursor: pointer
-      overflow: visible
-
-      .bar
-        @include transition(width .0s linear)
-        position: relative
+      box-sizing: border-box
+      opacity: 0.25
+  
+      .progress
+        position: absolute
+        left: 0px
+        top: 17.5px
+        bottom: 0px
+        width: 100%
+        height: 4px
+        overflow: visible
         pointer-events: none
-        background-color: #67A4C8
-        width: 50%
-
-        .scrubber-handle
-          position: absolute
+  
+        .progress-bar
+          @include transition(width .0s linear)
+          position: relative
           pointer-events: none
-          right: -16px
-          top: -7px
-          background: transparent url(/images/level/playback_thumb.png)
-          width: 32px
-          height: 32px
+          background: linear-gradient(#2c3e5f, #2c3e5f 16%, #3a537f 16%, #3a537f 83%, #2c3e5f 84%, #2c3e5f)
+          width: 50%
+          pointer-events: none
+  
+          .scrubber-handle
+            position: absolute
+            pointer-events: none
+            right: -5px
+            top: -17.5px
+            background: linear-gradient(#2c3e5f, #2c3e5f 16%, #3a537f 16%, #3a537f 83%, #2c3e5f 84%, #2c3e5f)
+            width: 14px
+            height: 40px
+            border-radius: 3px
+            box-sizing: border-box
+            border: 1px solid black
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5)
+  
+    &:hover .steppers
+      opacity: 1
 
-  .btn-group
-    // I don't know, I can figure this out for real later
-    margin: -26px 0 0 18px
-
-  .metrics
-    display: inline-block
-    margin: -30px 0 0 10px
-    vertical-align: middle
+    .steppers
+      position: absolute
+      z-index: 2
+      width: 60px
+      right: 2%
+      box-sizing: border-box
+      opacity: 0.25
+  
+      button
+        box-sizing: border-box
+        height: 40px
+        width: 30px
+        padding: 2px
+  
+    .metrics
+      display: none
+      top: 30px
+      position: absolute
+      z-index: 10
+      pointer-events: none
+      padding: 10px
+      background: transparent url(/images/level/popover_background.png)
+      background-size: 100% 100%
+      font-variant: small-caps
+      text-overflow: ellipsis
+      font-size: 13px
+      white-space: nowrap

@@ -6,24 +6,22 @@ _.str = require('underscore.string')
 _.mixin(_.str.exports())
 GLOBAL.mongoose = require 'mongoose'
 mongoose.connect('mongodb://localhost/coco_unittest')
+path = require('path')
 
-models_path = '../../server/models/'
-
-include_models = [
-  'Article'
-  'Campaign'
-  'CampaignStatus'
-  'Level'
-  'LevelComponent'
-  'LevelSystem'
-  'LevelDraft'
-  'LevelSession'
-  'LevelThangType'
-  'User'
+models_path = [
+  '../../server/articles/Article'
+  '../../server/levels/Level'
+  '../../server/levels/components/LevelComponent'
+  '../../server/levels/systems/LevelSystem'
+  '../../server/levels/sessions/LevelSession'
+  '../../server/levels/thangs/LevelThangType'
+  '../../server/users/User'
 ]
 
-for m in include_models
-  GLOBAL[m] = require models_path+m
+for m in models_path
+  model = path.basename(m)
+  #console.log('model=' + model)
+  GLOBAL[model] = require m
 
 async = require 'async'
 

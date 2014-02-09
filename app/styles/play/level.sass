@@ -1,34 +1,5 @@
-@import "../bootstrap/mixins"
-
-@mixin gradient-banner-button($topBottomColor: #2C446A, $middleColor: #3A537F)
-  background-color: mix($topBottomColor, $middleColor, 80%)
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($topBottomColor), color-stop(16%, $topBottomColor), color-stop(17%, $middleColor), color-stop(83%, $middleColor), color-stop(84%, $topBottomColor), to($topBottomColor))
-  background-image: -webkit-linear-gradient($topBottomColor, $topBottomColor 16%, $middleColor 16%, $middleColor 83%, $topBottomColor 84%, $topBottomColor)
-  background-image: -moz-linear-gradient(top, $topBottomColor, $topBottomColor 16%, $middleColor 16%, $middleColor 83%, $topBottomColor 84%, $topBottomColor)
-  background-image: -o-linear-gradient($topBottomColor, $topBottomColor 16%, $middleColor 16%, $middleColor 83%, $topBottomColor 84%, $topBottomColor)
-  background-image: linear-gradient($topBottomColor, $topBottomColor 16%, $middleColor 16%, $middleColor 83%, $topBottomColor 84%, $topBottomColor)
-  background-repeat: no-repeat
-
-@mixin banner-button($backgroundColor: #3A537F, $textColor: #FFF)
-  $topBottomColor: darken($backgroundColor, 9%)
-  @include gradient-banner-button($topBottomColor, $backgroundColor)
-  color: $textColor
-
-  &:hover:not(.disabled):not([disabled]), &:focus:not(.disabled):not([disabled])
-    @include gradient-banner-button(lighten($topBottomColor, 6%), lighten($backgroundColor, 6%))
-
-  &.active, &:active
-    background-image: none
-    outline: 0
-    @include box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05))
-
-  // Disabled state
-  &.disabled, &[disabled]
-    cursor: default
-    background-image: none
-    @include opacity(65)
-    @include box-shadow(none)
-
+@import "app/styles/bootstrap/mixins"
+@import "app/styles/mixins"
 
 #level-view
   margin: 0 auto
@@ -105,11 +76,11 @@
         @include banner-button(nth($tuple, 2), #FFF)
 
   .footer .footer-link-text a
-    @include opacity(75)
+    @include opacity(0.75)
     @include transition(opacity .10s linear)
 
     &:hover, &:active
-      @include opacity(100)
+      @include opacity(1)
     
   $GI: 0.5  // gradient intensity; can tweak this 0-1
 

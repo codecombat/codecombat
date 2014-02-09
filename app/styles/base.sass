@@ -4,12 +4,6 @@
 h1 h2 h3 h4
   letter-spacing: 2px
 
-#widget-bounds
-  display: none
-
-.navbar a.brand
-  padding: 4px 20px 0px 20px
-
 .main-content-area
   position: relative
   width: 1024px
@@ -18,62 +12,11 @@ h1 h2 h3 h4
   padding: 14px 12px 5px 12px
   @include box-sizing(border-box)
 
-.navbuttontext, .fancy-select .trigger
-  font-family: 'Bangers', cursive
-  font-size: 20px
-  font-weight: normal
-  letter-spacing: 1px
-
-.navbuttontext-user-name
-  max-width: 125px
-  overflow: hidden
-  text-overflow: ellipsis
-  white-space: nowrap
-  display: inline-block
-  padding: 0
-  margin: 0
-  height: 18px
-
-.navbar .nav.navbar-link-text, .navbar .nav.navbar-link-text > li > a
-  font-family: 'Bangers', cursive
-  font-weight: normal
-  font-size: 25px
-  letter-spacing: 2px
-
-.navbar .btn, .navbar .btn-group, .navbar .fancy-select
-  margin-top: 13px
-  
-.nav-tabs > .active > a, .nav-tabs > .active > a:hover, .nav-tabs > .active > a:focus
-  background-color: #eee
-  
-.nav-tabs > li
-  cursor: pointer
-
 #outer-content-wrapper
   background: #8cc63f url(/images/pages/base/repeat-tile.png) top center
 
 #inner-content-wrapper
   background: url(/images/pages/base/background_texture.png) top center no-repeat
-
-.navbar-inner
-  font-size: 25px
-  a:not(.btn)
-    line-height: 25px
-
-  .btn, .fancy-select
-    float: right
-    margin-left: 10px
-
-  select
-    opacity: 0
-
-  .fancy-select
-    .trigger
-      padding: 5px 25px 3px 10px
-      width: auto
-      &:after
-        top: 13px
-      max-width: 140px
 
 #front-summary-points-left
   width: 250px
@@ -110,6 +53,8 @@ h1 h2 h3 h4
   color: #ffffff
   cursor: pointer
   margin: 0px 10px
+  &:hover
+    color: $white
 
 a[data-toggle="modal"]
   cursor: pointer
@@ -117,13 +62,13 @@ a[data-toggle="modal"]
 .share-buttons, .partner-badges
   margin-top: 10px
   text-align: center
-  @include opacity(75)
+  @include opacity(0.75)
 
   &.fade-in
     @include opacity(0)
 
   &:hover, &:active
-    @include opacity(100)
+    @include opacity(1)
     @include transition(opacity .10s linear)
 
   .github-star-button
@@ -135,13 +80,16 @@ a[data-toggle="modal"]
 .selectable
   cursor: pointer
 
-.modal
+.modal-dialog
   padding: 5px
   background: transparent url(/images/pages/base/modal_background.png)
   background-size: 100% 100%
   border: 0
   @include box-shadow(0 0 0 #000)
 
+  .modal-content
+    @include box-shadow(none)
+  
   .modal-header
     margin: 0 14px
     padding: 8px 0
@@ -149,9 +97,9 @@ a[data-toggle="modal"]
 
     .close
       font-size: 28px
-      @include opacity(60)
+      @include opacity(0.60)
       &:hover
-        @include opacity(100)
+        @include opacity(1)
 
   .modal-footer
     background-color: transparent
@@ -197,7 +145,7 @@ a[data-toggle="modal"]
   .progress
     width: 50%
     margin: 0 25%
-  .bar
+  .progress-bar
     width: 100%
   
 .modal
@@ -207,44 +155,15 @@ a[data-toggle="modal"]
     .progress
       width: 50%
       margin: 10px auto
-    .bar
+    .progress-bar
       width: 100%
 
 table.table
   background-color: white
 
-.ui-autocomplete
-  z-index: $zindexAutocomplete
+//.ui-autocomplete
+//  z-index: $zindexAutocomplete
   
-div.fancy-select
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
-  div.trigger
-    background-color: #9d8f5a
-    background-image: linear-gradient(to bottom, #a4955e, #948754)
-    background-repeat: repeat-x
-    border: 1px solid #cccccc
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25)
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05)
-    color: white
-    &:after
-      border-top-color: white
-    &.open
-      background-color: #8B7F51
-      color: #ebebeb
-      &:after
-        border-top-color: #ebebeb
-  ul.options
-    max-height: 415px
-    background-color: #9d8f5a
-    right: 0
-    left: auto
-    overflow-x: hidden
-    &.open
-      top: 36px
-    li
-      color: #ebebeb
-      padding: 8px 20px
-
 .ui-slider
   border: 1px solid black
 .ui-slider-handle

@@ -84,7 +84,7 @@ describe 'Camera (Surface point of view)', ->
   testAngles = [0, Math.PI / 4, null, Math.PI / 2]
   testFOVs = [Math.PI / 6, Math.PI / 3, Math.PI / 2, Math.PI]
 
-  it 'handles lots of different cases correctly', ->
+  xit 'handles lots of different cases correctly', ->
     for wop in testWops
       for size in testCanvasSizes
         for zoom in testZooms
@@ -115,7 +115,7 @@ describe 'Camera (Surface point of view)', ->
     expect(cam.x2z).toBeGreaterThan 9001
     expect(cam.z2y).toBeCloseTo 0
 
-  it 'works at default angle of asin(0.75) ~= 48.9 degrees', ->
+  xit 'works at default angle of asin(0.75) ~= 48.9 degrees', ->
     cam = new Camera 100, 100, 100 * Camera.MPP, 100 * Camera.MPP, testLayer, 1
     angle = 1 / Math.cos angle
     expect(cam.angle).toBeCloseTo angle
@@ -123,7 +123,7 @@ describe 'Camera (Surface point of view)', ->
     expect(cam.x2z).toBeGreaterThan 9001
     expect(cam.z2y).toBeCloseTo 0
 
-  it 'works at 2x zoom, 90 degrees', ->
+  xit 'works at 2x zoom, 90 degrees', ->
     cam = new Camera 100, 100, 100 * Camera.MPP, 100 * Camera.MPP, testLayer, 2, null, Math.PI / 2
     checkCameraPos cam
     wop = x: 5, y: 2.5, z: 7
@@ -143,7 +143,7 @@ describe 'Camera (Surface point of view)', ->
     cap = cam.worldToCanvas wop
     expectPositionsEqual cap, {x: 0, y: 50}
 
-  it 'works at 2x zoom, 30 degrees', ->
+  xit 'works at 2x zoom, 30 degrees', ->
     cam = new Camera 100, 100, 100 * Camera.MPP, 2 * 100 * Camera.MPP, testLayer, 2, null, Math.PI / 6
     expect(cam.x2y).toBeCloseTo 1
     expect(cam.x2z).toBeGreaterThan 9001
@@ -172,7 +172,7 @@ describe 'Camera (Surface point of view)', ->
     cam = new Camera 100, 63.041494, 100 * Camera.MPP, 63.041494 * Camera.MPP, testLayer, 2, null, null, Math.PI / 3
     checkCameraPos cam
 
-  it 'works on a surface wider than it is tall, 30 degrees, default viewing upper left corner', ->
+  xit 'works on a surface wider than it is tall, 30 degrees, default viewing upper left corner', ->
     cam = new Camera 100, 100, 200 * Camera.MPP, 2 * 50 * Camera.MPP, testLayer, 1, {x: 0, y: 0}, Math.PI / 6
     checkCameraPos cam
     expect(cam.zoom).toBeCloseTo 2

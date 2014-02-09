@@ -3,12 +3,8 @@ template = require 'templates/editor/components/main'
 
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
-CocoCollection = require 'models/CocoCollection'
+ComponentsCollection = require 'collections/ComponentsCollection'
 ComponentConfigView = require './config'
-
-class ComponentsSearchCollection extends CocoCollection
-  url: '/db/level_component/search'
-  model: LevelComponent
 
 module.exports = class ThangComponentEditView extends CocoView
   id: "thang-components-edit-view"
@@ -25,7 +21,7 @@ module.exports = class ThangComponentEditView extends CocoView
     for model in [Level, LevelComponent]
       (new model()).on 'schema-loaded', @render unless model.schema?.loaded
     if not @componentCollection
-      @componentCollection = @supermodel.getCollection new ComponentsSearchCollection()
+      @componentCollection = @supermodel.getCollection new ComponentsCollection()
     unless @componentCollection.loaded
       @componentCollection.once 'sync', @onComponentsSync
       @componentCollection.fetch()

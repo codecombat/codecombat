@@ -14,6 +14,9 @@ DESERIALIZATION_INTERVAL = 20
 
 module.exports = class World
   @className: "World"
+  age: 0
+  ended: false
+  apiProperties: ['age', 'dt']
   constructor: (name, @userCodeMap, classMap) ->
     # classMap is needed for deserializing Worlds, Thangs, and other classes
     @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang}
@@ -28,14 +31,6 @@ module.exports = class World
     @scriptNotes = []
     @rand = new Rand 0
     @frames = [new WorldFrame(@, 0)]
-  age: 0
-  ended: false
-
-  # --- This config needs to move into Systems config --- TODO
-  playableTeams: ["humans"]
-  teamForPlayer: (n) ->
-    @playableTeams[n % @playableTeams.length]
-  # -----------------------------------------------------
 
   getFrame: (frameIndex) ->
     # Optimize it a bit--assume we have all if @ended and are at the previous frame otherwise
@@ -77,7 +72,7 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback) =>
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback) ->
     return if @aborted
     unless @thangs.length
       console.log "Warning: loadFrames called on empty World (no thangs)."
@@ -221,7 +216,7 @@ module.exports = class World
     channel = 'world:' + channel
     for script in @scripts
       continue if script.channel isnt channel
-      scriptNote = new WorldScriptNote script, event, world
+      scriptNote = new WorldScriptNote script, event
       continue if scriptNote.invalid
       @scriptNotes.push scriptNote
     return unless @goalManager
@@ -258,7 +253,7 @@ module.exports = class World
     for thangID, methods of @userCodeMap
       serializedMethods = o.userCodeMap[thangID] = {}
       for methodName, method of methods
-        serializedMethods[methodName] = method.serialize()
+        serializedMethods[methodName] = method.serialize?() ? method # serialize the method again if it has been deserialized
 
     t0 = now()
     o.trackedPropertiesThangIDs = []
@@ -425,7 +420,7 @@ module.exports = class World
           pos = camera.worldToSurface {x: pos.x, y: pos.y} if camera  # without z
           if not lastPos.x? or (Math.abs(lastPos.x - pos.x) + Math.abs(lastPos.y - pos.y)) > 1
             lastPos = pos
-        allPoints.push lastPos.y, lastPos.x
+        allPoints.push lastPos.y, lastPos.x unless lastPos.y is 0 and lastPos.x is 0
       allPoints.reverse()
       @pointsForThangCache[cacheKey] = allPoints
 
@@ -463,3 +458,7 @@ module.exports = class World
     colorConfigs = {}
     colorConfigs[teamName] = config.color for teamName, config of teamConfigs
     colorConfigs
+
+  teamForPlayer: (n) ->
+    playableTeams = @playableTeams ? ['humans']
+    playableTeams[n % playableTeams.length]

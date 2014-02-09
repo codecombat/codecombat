@@ -51,7 +51,6 @@ module.exports = class SpellView extends View
     else
       # needs to happen after the code generating this view is complete
       setTimeout @onLoaded, 1
-    @createDebugView()
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -69,6 +68,7 @@ module.exports = class SpellView extends View
     @ace.setShowPrintMargin false
     @ace.setShowInvisibles false
     @ace.setBehavioursEnabled false
+    @ace.setAnimatedScroll true
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -98,6 +98,10 @@ module.exports = class SpellView extends View
       name: 'toggle-debug'
       bindKey: {win: 'Ctrl-\\', mac: 'Command-\\|Ctrl-\\'}
       exec: -> Backbone.Mediator.publish 'level-toggle-debug'
+    @ace.commands.addCommand
+      name: 'toggle-pathfinding'
+      bindKey: {win: 'Ctrl-O', mac: 'Command-O|Ctrl-O'}
+      exec: -> Backbone.Mediator.publish 'level-toggle-pathfinding'
     @ace.commands.addCommand
       name: 'level-scrub-forward'
       bindKey: {win: 'Ctrl-]', mac: 'Command-]|Ctrl-]'}
@@ -154,14 +158,15 @@ module.exports = class SpellView extends View
     @spell.loaded = true
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
     @eventsSuppressed = false  # Now that the initial change is in, we can start running any changed code
+    @createToolbarView()
 
   createDebugView: ->
-    @debugView = new SpellDebugView ace: @ace
+    @debugView = new SpellDebugView ace: @ace, thang: @thang
     @$el.append @debugView.render().$el.hide()
 
   createToolbarView: ->
     @toolbarView = new SpellToolbarView ace: @ace
-    @$el.prepend @toolbarView.render().$el
+    @$el.append @toolbarView.render().$el
 
   onMouseOut: (e) ->
     @debugView.onMouseOut e
@@ -174,6 +179,9 @@ module.exports = class SpellView extends View
     return if thang.id is @thang?.id
     @thang = thang
     @spellThang = @spell.thangs[@thang.id]
+    @createDebugView() unless @debugView
+    @debugView.thang = @thang
+    @toolbarView?.toggleFlow false
     @updateAether false, true
     @highlightCurrentLine()
 
@@ -240,7 +248,7 @@ module.exports = class SpellView extends View
     ]
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
-      if @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw
+      if not @spellThang or @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw
         callback() for callback in onSignificantChange  # Do these first
       callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
@@ -280,10 +288,12 @@ module.exports = class SpellView extends View
     return unless aether = @spellThang?.aether
     source = @getSource()
     codeHasChangedSignificantly = force or @spell.hasChangedSignificantly source, aether.raw
-    return unless codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
+    needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
+    return if not needsUpdate and aether is @displayedAether
     castAether = @spellThang.castAether
     codeIsAsCast = castAether and not @spell.hasChangedSignificantly source, castAether.raw
     aether = castAether if codeIsAsCast
+    return if not needsUpdate and aether is @displayedAether
 
     # Now that that's figured out, perform the update.
     @clearAetherDisplay()
@@ -299,6 +309,7 @@ module.exports = class SpellView extends View
     @highlightCurrentLine {}  # This'll remove all highlights
 
   displayAether: (aether) ->
+    @displayedAether = aether
     isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
     @problems = []
     annotations = []
@@ -343,6 +354,7 @@ module.exports = class SpellView extends View
     @spellHasChanged = true
 
   onSessionWillSave: (e) ->
+    return unless @spellHasChanged
     setTimeout(=>
       unless @spellHasChanged
         @$el.find('.save-status').finish().show().fadeOut(2000)
@@ -365,11 +377,12 @@ module.exports = class SpellView extends View
     @updateAether false, false
 
   onNewWorld: (e) ->
+    @spell.removeThangID thangID for thangID of @spell.thangs when not e.world.getThangByID thangID
     for thangID, spellThang of @spell.thangs
-      aether = e.world.userCodeMap[thangID][@spell.name]
-      #console.log thangID, "got new castAether with raw", aether.raw, "problems", aether.problems
+      thang = e.world.getThangByID(thangID)
+      aether = e.world.userCodeMap[thangID]?[@spell.name]  # Might not be there if this is a new Programmable Thang.
       spellThang.castAether = aether
-      spellThang.aether = @spell.createAether e.world.getThangByID(thangID)
+      spellThang.aether = @spell.createAether thang
       #console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
     @spell.transpile()
     @updateAether false, false
@@ -418,12 +431,6 @@ module.exports = class SpellView extends View
     #console.log "got call index", currentCallIndex, "for time", @thang.world.age, "out of", states.length
 
     # TODO: don't redo the markers if they haven't actually changed
-    text = @aceDoc.getValue()
-    offsetToPos = (offset) ->
-      # TODO: use the nice conversion utils David put into Aether
-      rows = text.substr(0, offset).split '\n'
-      {row: rows.length - 1, column: _.last(rows).length}
-
     for markerRange in (@markerRanges ?= [])
       markerRange.start.detach()
       markerRange.end.detach()
@@ -432,35 +439,32 @@ module.exports = class SpellView extends View
     @debugView.setVariableStates {}
     @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
     $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
-    unless executed.length
-      @toolbarView?.$el.hide()
+    if not executed.length or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
+      @toolbarView?.toggleFlow false
       return
-    unless @toolbarView or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
-      @createToolbarView()
     lastExecuted = _.last executed
-    @toolbarView?.$el.show()
+    @toolbarView?.toggleFlow true
     statementIndex = Math.max 0, lastExecuted.length - 1
     @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
     marked = {}
     lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
     for state, i in lastExecuted
-      #clazz = if state.executing then 'executing' else 'executed'  # doesn't work
+      [start, end] = state.range
       clazz = if i is lastExecuted.length - 1 then 'executing' else 'executed'
       if clazz is 'executed'
-        key = state.range[0] + '_' + state.range[1]
-        continue if marked[key] > 2  # don't allow more than three of the same marker
-        marked[key] ?= 0
-        ++marked[key]
+        continue if marked[start.row]
+        marked[start.row] = true
+        markerType = "fullLine"
       else
         @debugView.setVariableStates state.variables
-        #console.log "at", state.userInfo.time, "vars are now:", state.variables
-      [start, end] = [offsetToPos(state.range[0]), offsetToPos(state.range[1])]
-      markerRange = new Range(start.row, start.column, end.row, end.column)
+        markerType = "text"
+      markerRange = new Range start.row, start.col, end.row, end.col
       markerRange.start = @aceDoc.createAnchor markerRange.start
       markerRange.end = @aceDoc.createAnchor markerRange.end
-      markerRange.id = @aceSession.addMarker markerRange, clazz, "text"
+      markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
       @aceSession.addGutterDecoration start.row, clazz if clazz is 'executing'
+    null
 
   onAnnotationClick: ->
     alertBox = $("<div class='alert alert-info fade in'>#{msg}</div>")
@@ -498,4 +502,4 @@ module.exports = class SpellView extends View
     super()
     @firepad?.dispose()
     @ace.destroy()
-    @debugView.destroy()
+    @debugView?.destroy()

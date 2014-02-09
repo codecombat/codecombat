@@ -16,6 +16,7 @@ module.exports = class CocoView extends Backbone.View
   events:
     'click a': 'toggleModal'
     'click button': 'toggleModal'
+    'click li': 'toggleModal'
 
   subscriptions: {}
   shortcuts: {}
@@ -84,21 +85,21 @@ module.exports = class CocoView extends Backbone.View
 
   # Modals
 
-  toggleModal: (e) ->
+  toggleModal: (e) ->    
     if $(e.currentTarget).prop('target') is '_blank'
       return true
-    # special handler for opening modals that are dynamically loaded, rather than static in the page. It works (or should work) like Bootstrap's modals, except use coco-modal for the data-toggle value.
+    # special handler for opening modals that are dynamically loaded, rather than static in the page. It works (or should work) like Bootstrap's modals, except use coco-modal for the data-toggle value.    
     elem = $(e.target)
     return unless elem.data('toggle') is 'coco-modal'
     target = elem.data('target')
-    view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to
+    view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to    
     @openModalView(view)
 
   registerModalsWithin: (e...) ->
     # TODO: Get rid of this part
-    for modal in $('.modal', @$el)
+    for modal in $('.modal', @$el)      
 #      console.warn 'Registered modal to get rid of...', modal
-      $(modal).on('show', @clearModals)
+      $(modal).on('show.bs.modal', @clearModals)
 
   openModalView: (modalView) ->
     return if @waitingModal # can only have one waiting at once
@@ -106,20 +107,20 @@ module.exports = class CocoView extends Backbone.View
       waitingModal = modalView
       visibleModal.hide()
       return
-    modalView.render()
+    modalView.render()    
     $('#modal-wrapper').empty().append modalView.el
     modalView.afterInsert()
     visibleModal = modalView
     modalOptions = {show: true, backdrop: if modalView.closesOnClickOutside then true else 'static'}
-    $('#modal-wrapper .modal').modal(modalOptions).on('hidden', => @modalClosed())
+    $('#modal-wrapper .modal').modal(modalOptions).on('hidden.bs.modal', => @modalClosed())
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
 
-  modalClosed: =>
+  modalClosed: =>      
     visibleModal.willDisappear() if visibleModal
     visibleModal.destroy()
     visibleModal = null
-    if waitingModal
+    if waitingModal      
       wm = waitingModal
       waitingModal = null
       @openModalView(wm)
@@ -127,8 +128,8 @@ module.exports = class CocoView extends Backbone.View
       @getRootView().listenToShortcuts(true)
       Backbone.Mediator.publish 'modal-closed'
 
-  clearModals: =>
-    if visibleModal
+  clearModals: =>    
+    if visibleModal      
       visibleModal.$el.addClass('hide')
       waitingModal = null
       @modalClosed()
@@ -139,7 +140,7 @@ module.exports = class CocoView extends Backbone.View
     $el.find('>').addClass('hide')
     $el.append($('<div class="loading-screen"></div>')
     .append('<h2>Loading</h2>')
-    .append('<div class="progress progress-striped active loading"><div class="bar"></div></div>'))
+    .append('<div class="progress progress-striped active loading"><div class="progress-bar"></div></div>'))
     @_lastLoading = $el
 
   hideLoading: ->

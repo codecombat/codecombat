@@ -47,6 +47,7 @@ module.exports = class TomeView extends View
     'tome:cast-spell': "onCastSpell"
     'tome:toggle-spell-list': 'onToggleSpellList'
     'surface:sprite-selected': 'onSpriteSelected'
+    'god:new-world-created': 'onNewWorld'
 
   events:
     'click #spell-view': 'onSpellViewClick'
@@ -57,22 +58,28 @@ module.exports = class TomeView extends View
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
 
     if programmableThangs.length
-      @createSpells programmableThangs  # Do before spellList, thangList, and castButton
+      @createSpells programmableThangs, programmableThangs[0].world  # Do before spellList, thangList, and castButton
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
       @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
       @castButton = @insertSubView new CastButtonView spells: @spells
     else
       @cast()
-      console.log "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
+      console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
+    delete @options.thangs
 
-  createSpells: (programmableThangs) ->
-    # If needed, we could make this able to update when programmableThangs changes.
-    # We haven't done that yet, so call it just once on init.
+  onNewWorld: (e) ->
+    thangs = _.filter e.world.thangs, 'isSelectable'
+    programmableThangs = _.filter thangs, 'isProgrammable'
+    @createSpells programmableThangs, e.world
+    @thangList.adjustThangs @spells, thangs
+    @spellList.adjustSpells @spells
+
+  createSpells: (programmableThangs, world) ->
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
-    @spells = {}
-    @thangSpells = {}
+    @spells ?= {}
+    @thangSpells ?= {}
     for thang in programmableThangs
-      world = thang.world
+      continue if @thangSpells[thang.id]?
       @thangSpells[thang.id] = []
       for methodName, method of thang.programmableMethods
         pathComponents = [thang.id, methodName]
@@ -82,10 +89,14 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          spell = @spells[spellKey] = new Spell method, spellKey, pathPrefixComponents.concat(pathComponents), @options.session, @supermodel
+          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: @getQueryVariable("skip_flow") is "true", skipProtectAPI: @getQueryVariable("skip_protect_api") is "true"
     for thangID, spellKeys of @thangSpells
-      thang = world.getThangByID(thangID)
-      @spells[spellKey].addThang thang for spellKey in spellKeys
+      thang = world.getThangByID thangID
+      if thang
+        @spells[spellKey].addThang thang for spellKey in spellKeys
+      else
+        delete @thangSpells[thangID]
+        spell.removeThangID thangID for spell in @spells
     null
 
   onSpellLoaded: (e) ->
@@ -114,6 +125,7 @@ module.exports = class TomeView extends View
     @spellTabView?.$el.after('<div id="' + @spellTabView.id + '"></div>').detach()
     @spellTabView = null
     @removeSubView @spellPaletteView if @spellPaletteView
+    @spellPaletteView = null
     @castButton?.$el.hide()
     @thangList?.$el.show()
 
@@ -129,23 +141,21 @@ module.exports = class TomeView extends View
       spell = @thangList.topSpellForThang thang
       #spell = selectedThangSpells[0]  # TODO: remember last selected spell for this thang
     return @clearSpellView() unless spell?.canRead()
+    unless spell.view is @spellView
+      @clearSpellView()
+      @spellView = spell.view
+      @spellTabView = spell.tabView
+      @$el.find('#' + @spellView.id).after(@spellView.el).remove()
+      @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
+      @castButton.attachTo @spellView
+      @thangList.$el.hide()
+      Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
     @spellList.setThangAndSpell thang, spell
-    return if spell.view is @spellView
-    @clearSpellView()
-    @spellView = spell.view
-    @spellTabView = spell.tabView
-    @$el.find('#' + @spellView.id).after(@spellView.el).remove()
-    @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
-    @spellView.setThang thang
-    @spellTabView.setThang thang
-    @castButton.$el.show()
-    @thangList.$el.hide()
-    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
-    @spellPaletteView.toggleControls {}, @spellView.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
-    # New, good event
-    Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
-    # Bad, old one for old scripts (TODO)
-    Backbone.Mediator.publish 'editor:tab-shown', thang: thang, methodName: spell.name
+    @spellView?.setThang thang
+    @spellTabView?.setThang thang
+    if @spellPaletteView?.thang isnt thang
+      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
+      @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
 
   reloadAllCode: ->
     spell.view.reloadCode false for spellKey, spell of @spells
