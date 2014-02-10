@@ -1,3 +1,4 @@
+from __future__ import print_function
 __author__ = u'schmatz'
 from downloader import Downloader
 import tarfile
@@ -6,6 +7,8 @@ import warnings
 import os
 from configuration import Configuration
 from dependency import Dependency
+import sys
+
 
 class MongoDB(Dependency):
     def __init__(self,configuration):
@@ -39,7 +42,7 @@ class MongoDB(Dependency):
 
     def findUnzippedMongoBinPath(self):
         return self.downloader.download_directory + os.sep + \
-               (os.walk(self.downloader.download_directory).next()[1])[0] + os.sep + u"bin"
+               (next(os.walk(self.downloader.download_directory))[1])[0] + os.sep + u"bin"
 
 
 
@@ -55,15 +58,15 @@ class MongoDBDownloader(Downloader):
     def downloaded_file_path(self):
         return self.download_directory + os.sep + u"mongodb.tgz"
     def download(self):
-        print u"Downloading MongoDB from URL " + self.download_url
+        print(u"Downloading MongoDB from URL " + self.download_url)
         self.download_file(self.download_url,self.downloaded_file_path)
         self.check_download()
     def decompress(self):
-        print u"Decompressing MongoDB..."
+        print(u"Decompressing MongoDB...")
         tfile = tarfile.open(self.downloaded_file_path)
         #TODO: make directory handler class
         tfile.extractall(self.download_directory)
-        print u"Decompressed MongoDB into " + self.download_directory
+        print(u"Decompressed MongoDB into " + self.download_directory)
 
     def check_download(self):
         isFileValid = tarfile.is_tarfile(self.downloaded_file_path)

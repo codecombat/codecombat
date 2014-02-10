@@ -1,0 +1,5 @@
+#!/bin/bash
+
+./coco-mongodb &
+./coco-brunch &
+./coco-dev-server
