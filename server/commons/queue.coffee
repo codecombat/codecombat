@@ -21,7 +21,8 @@ module.exports.initializeQueueClient = (cb) ->
 
 
 generateQueueClient = ->
-  if config.queue.accessKeyId
+  #if config.queue.accessKeyId
+  if false #TODO: revert this
     queueClient = new SQSQueueClient()
   else
     queueClient = new MongoQueueClient()
@@ -172,7 +173,7 @@ class MongoQueueClient
       scheduledVisibilityTime: {type: Date, index: true}
       receiptHandle: {type: String, index: true}
 
-    @mongooseConnection.model 'MessageQueue',schema
+    @mongooseConnection.model 'messageQueue',schema
 
 
 class MongoQueue extends events.EventEmitter
@@ -185,7 +186,7 @@ class MongoQueue extends events.EventEmitter
   unsubscribe: (eventName, callback) -> @removeListener eventName, callback
 
 
-  receieveMessage: (callback) ->
+  receiveMessage: (callback) ->
     conditions =
       queue: @queueName
       scheduledVisibilityTime:
@@ -199,9 +200,12 @@ class MongoQueue extends events.EventEmitter
         receiptHandle: @_generateRandomReceiptHandle()
         scheduledVisibilityTime: @_constructDefaultVisibilityTimeoutDate()
 
-    @Message.findOneAndUpdate conditions, update, options, =>
-      if err? then @emit 'error',err,data else @emit 'message',err,data
+    @Message.findOneAndUpdate conditions, update, options, (err, data) =>
+      return @emit 'error',err,data if err?
 
+      originalData = data
+      data = new MongoMessage originalData, this
+      @emit 'message',err,data
       callback? err,data
 
 

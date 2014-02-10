@@ -9,5 +9,4 @@ ScoringTaskSchema = new mongoose.Schema(
   sessions: {type: Array, default: []}
 )
 
-#ScoringTaskSchema.set 'capped', 104857600 #100MB capped collection
 module.exports = mongoose.model('scoringTask', ScoringTaskSchema)

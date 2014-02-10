@@ -8,11 +8,10 @@ testing = '--unittest' in process.argv
 
 module.exports.connect = () ->
   address = module.exports.generateMongoConnectionString()
+  winston.info "Connecting to Mongo with connection string #{address}"
 
-  winston.info "Connecting to standalone server #{address}"
   mongoose.connect address
-  mongoose.connection.once 'open', ->
-    Grid.gfs = Grid(mongoose.connection.db, mongoose.mongo)
+  mongoose.connection.once 'open', -> Grid.gfs = Grid(mongoose.connection.db, mongoose.mongo)
 
 
 module.exports.generateMongoConnectionString = ->

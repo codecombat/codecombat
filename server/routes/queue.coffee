@@ -14,13 +14,15 @@ module.exports.setup = (app) ->
       handler = loadQueueHandler queueName
       if isHTTPMethodGet req
         handler.dispatchTaskToConsumer req,res
-      else if isHTTPMethodPost req
+      else if isHTTPMethodPut req
         handler.processTaskResult req,res
+      else if isHTTPMethodPost req
+        handler.createNewTask req, res #TODO: do not use this in production
       else
         sendMethodNotSupportedError req, res
     catch error
       log.error error
-      sendQueueNotFoundError req, res
+      sendQueueError req, res, error
 
 setResponseHeaderToJSONContentType = (res) -> res.setHeader('Content-Type', 'application/json')
 
@@ -38,8 +40,11 @@ isHTTPMethodGet = (req) -> return req.route.method is 'get'
 
 isHTTPMethodPost = (req) -> return req.route.method is 'post'
 
+isHTTPMethodPut = (req) -> return req.route.method is 'put'
+
 
 sendMethodNotSupportedError = (req, res) -> errors.badMethod(res,"Queues do not support the HTTP method used." )
 
-sendQueueNotFoundError = (req,res) -> errors.notFound(res, "Route #{req.path} not found.")
+sendQueueError = (req,res, error) -> errors.serverError(res, "Route #{req.path} had a problem: #{error}")
+
 

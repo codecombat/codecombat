@@ -26,6 +26,8 @@ module.exports = class Spell
     @view.render()  # Get it ready and code loaded in advance
     @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel
     @tabView.render()
+    @team = @permissions.readwrite[0] ? "common"
+    Backbone.Mediator.publish 'tome:spell-created', spell: @
 
   addThang: (thang) ->
     if @thangs[thang.id]

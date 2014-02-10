@@ -21,6 +21,7 @@ module.exports = class LevelBus extends Bus
     'thang-code-ran': 'onCodeRan'
     'level-show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
+    'tome:spell-created': 'onSpellCreated'
 
   constructor: ->
     super(arguments...)
@@ -88,14 +89,27 @@ module.exports = class LevelBus extends Bus
 
   onSpellChanged: (e) ->
     return unless @onPoint()
+    console.log "Spell Changed:",e.spell.spellKey
     code = @session.get('code')
     code ?= {}
     parts = e.spell.spellKey.split('/')
+
     code[parts[0]] ?= {}
     code[parts[0]][parts[1]] = e.spell.getSource()
     @changedSessionProperties.code = true
     @session.set({'code': code})
     @saveSession()
+
+  onSpellCreated: (e) ->
+    #return unless @onPoint()
+    teamSpells = @session.get 'teamSpells'
+    spellTeam = e.spell.team
+    teamSpells[spellTeam] ?= []
+
+    unless e.spell.spellKey in teamSpells[spellTeam]
+      teamSpells[spellTeam].push e.spell.spellKey
+      console.log "Assigned spell #{e.spell.spellKey} to team #{spellTeam}"
+
 
   onScriptStateChanged: (e) ->
     return unless @onPoint()
