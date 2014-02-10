@@ -45,7 +45,7 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
       return errors.serverError res, "There was an error constructing the scoring task" if taskConstructionError?
 
       taskProcessingTimeInSeconds = 10
-      message.changeMessageVisibilityTimeout scoringTaskTimeoutInSeconds + taskProcessingTimeInSeconds
+      message.changeMessageVisibilityTimeout 10
 
       constructTaskLogObject userID,message.getReceiptHandle(), (taskLogError, taskLogObject) ->
         return errors.serverError res, "There was an error creating the task log object." if taskLogError?
@@ -135,7 +135,8 @@ module.exports.processTaskResult = (req, res) ->
         return errors.serverError res, "There as a problem logging the task computation: #{loggingError}" if loggingError?
         updateScores clientResponseObject, (updatingScoresError, newScores) ->
           return errors.serverError res, "There was an error updating the scores.#{updatingScoresError}" if updatingScoresError?
-          sendResponseObject req, res, newScores
+          sendResponseObject req, res, {"message":"The scores were updated successfully!"}
+
 
 
 
@@ -168,9 +169,29 @@ updateScores = (taskObject,callback) ->
     oldScoreArray = _.toArray putRankingFromMetricsIntoScoreObject taskObject, oldScores
 
     newScoreArray = bayes.updatePlayerSkills oldScoreArray
-    
-    #TODO: database persistence here
-    callback err, newScoreArray
+
+    saveNewScoresToDatabase newScoreArray, callback
+
+
+saveNewScoresToDatabase = (newScoreArray, callback) ->
+  async.eachSeries newScoreArray, updateScoreInSession, (err) ->
+    return callback err, null if err?
+
+    callback err, {"message":"All scores were saved successfully."}
+
+
+updateScoreInSession = (scoreObject,callback) ->
+  LevelSession.findOne {"_id": scoreObject.id}, (err, session) ->
+    return callback err, null if err?
+
+    session.meanStrength = scoreObject.meanStrength
+    session.standardDeviation = scoreObject.standardDeviation
+    session.totalScore = scoreObject.meanStrength - 1.8 * scoreObject.standardDeviation
+
+    winston.info "Saving session!"
+
+    session.save callback
+
 
 putRankingFromMetricsIntoScoreObject = (taskObject,scoreObject) ->
   scoreObject = _.indexBy scoreObject, 'id'

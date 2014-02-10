@@ -3,8 +3,6 @@ sendwithusAPI = require 'sendwithus'
 swuAPIKey = config.mail.sendwithusAPIKey
 queues = require './commons/queue'
 
-module.exports.setupQueue = -> queues.initializeSendwithusQueue() unless queues.sendwithusQueue?
-
 module.exports.setupRoutes = (app) ->
   return
 
