@@ -183,8 +183,10 @@ class Angel
     @started = null
     clearInterval @purgatoryTimer
     @purgatoryTimer = null
-    @worker?.terminate()
-    @worker = null
+    if @worker
+      worker = @worker
+      _.defer -> worker.terminate
+      @worker = null
     @
 
   abort: ->
