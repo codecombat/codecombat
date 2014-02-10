@@ -84,7 +84,7 @@ module.exports = class HomeView extends View
     @wizardSprite?.queueAction 'idle'
 
   updateStage: =>
-    @stage.update()
+    @stage?.update()
 
   willDisappear: ->
     super()
