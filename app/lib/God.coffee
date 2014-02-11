@@ -40,7 +40,6 @@ module.exports = class God
     @createWorker()
 
   createWorker: ->
-    console.log "yo create worker"
     new Worker '/javascripts/workers/worker_world.js'
 
   getAngel: ->
@@ -190,7 +189,6 @@ class Angel
 
   spawnWorker: ->
     @worker = @god.getWorker()
-    console.log "yo got worker", @worker
     @listen()
 
   enslave: ->
@@ -212,6 +210,7 @@ class Angel
     @
 
   abort: ->
+    return unless @worker
     @abortTimeout = _.delay @terminate, @abortTimeoutDuration
     @worker.postMessage {func: 'abort'}
 
@@ -250,9 +249,6 @@ class Angel
           clearTimeout @abortTimeout
           @free()
           @god.angelAborted @
-          if @god.dead
-            @worker.terminate()
-            @worker = null
         when 'reportIn'
           clearTimeout @condemnTimeout
         else

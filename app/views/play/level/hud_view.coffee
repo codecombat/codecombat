@@ -235,7 +235,7 @@ module.exports = class HUDView extends View
       return null  # included in the bar
     context =
       prop: prop
-      hasIcon: prop in ["health", "pos", "target", "inventory"]
+      hasIcon: prop in ["health", "pos", "target", "inventory", "gold"]
       hasBar: prop in ["health"]
     $(prop_template(context))
 

@@ -56,3 +56,6 @@ module.exports = class ThangAvatarView extends View
 
   onNewWorld: (e) ->
     @options.thang = @thang = e.world.thangMap[@thang.id] if @thang
+
+  destroy: ->
+    super()

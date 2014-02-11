@@ -87,3 +87,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'read-only', not enabled
+
+  destroy: ->
+    @avatar?.destroy()
+    super()

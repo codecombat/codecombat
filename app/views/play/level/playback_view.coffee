@@ -239,4 +239,5 @@ module.exports = class PlaybackView extends View
 
   destroy: ->
     super()
+    me.off('change:music', @updateMusicButton, @)
     $(window).off('resize', @onWindowResize)

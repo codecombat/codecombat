@@ -80,3 +80,8 @@ module.exports = class ThangListView extends View
     @thangs = @options.thangs = thangs
     @sortThangs()
     @addThangListEntries()
+
+  destroy: ->
+    super()
+    entry.destroy() for entry in @entries
+

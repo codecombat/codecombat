@@ -29,6 +29,12 @@ module.exports = class Spell
     @team = @permissions.readwrite[0] ? "common"
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
+    
+  destroy: ->
+    @view.destroy()
+    @tabView.destroy()
+
+
   addThang: (thang) ->
     if @thangs[thang.id]
       @thangs[thang.id].thang = thang
