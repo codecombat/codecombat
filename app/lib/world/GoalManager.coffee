@@ -79,7 +79,7 @@ module.exports = class GoalManager extends CocoClass
     func = @backgroundSubscriptions[channel]
     func = utils.normalizeFunc(func, @)
     return unless func
-    func(event, frameNumber)
+    func.call(@, event, frameNumber)
 
   # after world generation, generated goal states
   # are grabbed to send back to main instance
@@ -142,41 +142,41 @@ module.exports = class GoalManager extends CocoClass
       @initGoalState(state, [goal.collectThangs?.who, goal.keepFromCollectingThangs?.who], 'collected')
       @goalStates[goal.id] = state
 
-  onThangDied: (e, frameNumber) =>
+  onThangDied: (e, frameNumber) ->
     for goal in @goals ? []
       @checkKillThangs(goal.id, goal.killThangs, e.thang, frameNumber) if goal.killThangs?
       @checkKillThangs(goal.id, goal.saveThangs, e.thang, frameNumber) if goal.saveThangs?
 
-  checkKillThangs: (goalID, targets, thang, frameNumber) =>
+  checkKillThangs: (goalID, targets, thang, frameNumber) ->
     return unless thang.id in targets or thang.team in targets
     @updateGoalState(goalID, thang.id, 'killed', frameNumber)
 
-  onThangTouchedGoal: (e, frameNumber) =>
+  onThangTouchedGoal: (e, frameNumber) ->
     for goal in @goals ? []
       @checkArrived(goal.id, goal.getToLocations.who, goal.getToLocations.targets, e.actor.id, e.touched.id, frameNumber) if goal.getToLocations?
       @checkArrived(goal.id, goal.keepFromLocations.who, goal.keepFromLocations.targets, e.actor.id, e.touched.id, frameNumber) if goal.keepFromLocations?
 
-  checkArrived: (goalID, who, targets, thangID, touchedID, frameNumber) =>
+  checkArrived: (goalID, who, targets, thangID, touchedID, frameNumber) ->
     return unless touchedID in targets
     return unless thangID in who
     @updateGoalState(goalID, thangID, 'arrived', frameNumber)
 
-  onThangLeftMap: (e, frameNumber) =>
+  onThangLeftMap: (e, frameNumber) ->
     for goal in @goals ? []
       @checkLeft(goal.id, goal.leaveOffSides.who, goal.leaveOffSides.sides, e.thang.id, e.side, frameNumber) if goal.leaveOffSides?
       @checkLeft(goal.id, goal.keepFromLeavingOffSides.who, goal.keepFromLeavingOffSides.sides, e.thang.id, e.side, frameNumber) if goal.keepFromLeavingOffSides?
 
-  checkLeft: (goalID, who, sides, thangID, side, frameNumber) =>
+  checkLeft: (goalID, who, sides, thangID, side, frameNumber) ->
     return if sides and side and not (side in sides)
     return unless thangID in who
     @updateGoalState(goalID, thangID, 'left', frameNumber)
 
-  onThangCollectedItem: (e, frameNumber) =>
+  onThangCollectedItem: (e, frameNumber) ->
     for goal in @goals ? []
       @checkCollected(goal.id, goal.collectThangs.who, goal.collectThangs.targets, e.actor.id, e.item.id, frameNumber) if goal.collectThangs?
       @checkCollected(goal.id, goal.keepFromCollectingThangs.who, goal.keepFromCollectingThangs.targets, e.actor.id, e.item.id, frameNumber) if goal.keepFromCollectingThangs?
 
-  checkCollected: (goalID, who, targets, thangID, itemID, frameNumber) =>
+  checkCollected: (goalID, who, targets, thangID, itemID, frameNumber) ->
     return unless itemID in targets
     return unless thangID in who
     @updateGoalState(goalID, thangID, 'collected', frameNumber)

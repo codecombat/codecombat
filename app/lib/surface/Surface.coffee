@@ -251,14 +251,14 @@ module.exports = Surface = class Surface extends CocoClass
   onSetLetterbox: (e) ->
     @setDisabled e.on
 
-  onSetPlaying: (e) =>
+  onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
     if @playing and @currentFrame >= (@world.totalFrames - 5)
       @currentFrame = 0
     if @fastForwarding and not @playing
       @setProgress @currentFrame / @world.totalFrames
 
-  onSetTime: (e) =>
+  onSetTime: (e) ->
     toFrame = @currentFrame
     if e.time?
       @worldLifespan = @world.totalFrames / @world.frameRate

@@ -222,7 +222,7 @@ module.exports = class SpriteBoss extends CocoClass
   selectThang: (thangID, spellName=null) ->
     @selectSprite null, @sprites[thangID], spellName
 
-  selectSprite: (e, sprite=null, spellName=null) =>
+  selectSprite: (e, sprite=null, spellName=null) ->
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = sprite?.thang?.pos
     worldPos ?= @camera.canvasToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
