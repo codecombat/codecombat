@@ -89,6 +89,9 @@ constructTaskObject = (taskMessageBody, callback) ->
         "sessionChangedTime": session.changed
         "team": session.team? "No team"
         "code": session.code
+        "teamSpells": session.teamSpells ? {}
+        "levelID": session.levelID
+
       taskObject.sessions.push sessionInformation
     callback err, taskObject
 
@@ -104,7 +107,8 @@ getSessionInformation = (sessionIDString, callback) ->
       "changed": session.changed
       "creator": session.creator
       "team": session.team
-
+      "teamSpells": session.teamSpells
+      "levelID": session.levelID
 
     callback err, sessionInformation
 

@@ -3,6 +3,8 @@ template = require 'templates/home'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
 
+God = require 'lib/God'
+
 module.exports = class HomeView extends View
   id: 'home-view'
   template: template
@@ -10,6 +12,7 @@ module.exports = class HomeView extends View
   events:
     'mouseover #beginner-campaign': 'onMouseOverButton'
     'mouseout #beginner-campaign': 'onMouseOutButton'
+    'click #simulate-button': 'onSimulateButtonClick'
 
   getRenderData: ->
     c = super()
@@ -94,3 +97,11 @@ module.exports = class HomeView extends View
   didReappear: ->
     super()
     @turnOnStageUpdates()
+
+  onSimulateButtonClick: (e) ->
+    $.get "/queue/scoring", (data) ->
+      levelName = data.levelID
+      world = {}
+      god = new God(world,levelName)
+
+
