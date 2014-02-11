@@ -63,7 +63,6 @@ module.exports = class TomeView extends View
       @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
       @castButton = @insertSubView new CastButtonView spells: @spells
       @teamSpellMap = @generateTeamSpellMap(@spells)
-      console.log "Team spell map generated", @teamSpellMap
     else
       @cast()
       console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."

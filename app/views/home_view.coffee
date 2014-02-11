@@ -2,6 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/home'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
+LevelLoader = require 'lib/LevelLoader'
 
 God = require 'lib/God'
 
@@ -99,9 +100,111 @@ module.exports = class HomeView extends View
     @turnOnStageUpdates()
 
   onSimulateButtonClick: (e) ->
-    $.get "/queue/scoring", (data) ->
-      levelName = data.levelID
+    $.get "/queue/scoring", (data) =>
+      levelName = data.sessions[0].levelID
+      console.log data
+
       world = {}
-      god = new God(world,levelName)
+      god = new God()
+      levelLoader = new LevelLoader(levelName, @supermodel, data.sessions[0].sessionID)
+      levelLoader.once 'loaded-all', =>
+        world = levelLoader.world
+        level = levelLoader.level
+        levelLoader.destroy()
+        programmableThangs = @filterProgrammableComponents level.attributes.thangs
+        console.log "Programmable Components:"
+        console.log programmableThangs
+        #generate spell
+        #spells = @createSpells programmableThangs
+        #console.log spells
+
+        god.level = level.serialize @supermodel
+        god.worldClassMap = world.classMap
+
+        god.createWorld()
+
+
+
+  filterProgrammableComponents: (thangs) ->
+    programmableComponents = {}
+    for thang in thangs
+      isTemplate = false
+      for component in thang.components
+        if component.config? and _.has component.config,'programmableMethods'
+          programmableComponents[thang.id] ?= {}
+          programmableComponents[thang.id].programmableMethods ?= []
+          for methodName, method of component.config.programmableMethods
+            if typeof method is 'string'
+              console.log thang.id,"is a template"
+              delete programmableComponents[thang.id]
+              isTemplate = true
+              break
+            methodObject = {}
+            methodObject[methodName] = method
+            programmableComponents[thang.id].programmableMethods.push methodObject
+          if isTemplate
+            break
+
+    programmableComponents
+
+
+  createSpells: (programmableThangs) ->
+    thangSpells = {}
+    spells = {}
+    for thang in programmableThangs
+      continue if thangSpells[thang.id]?
+      thangSpells[thang.id] = []
+      console.log thang
+      for methodName, method of thang.programmableMethods
+        continue if method.cloneOf?
+        spellKey = [thang.id,methodName].join '/'
+        console.log spellKey
+        thangSpells[thang.id].push spellKey
+
+        spells[spellKey] = {spellKey: spellKey, programmableMethod: method, aether: null}
+    thangSpells
+
+
+
+
+
+
+    #spells must have spellKey: spell
+    #spell must have spell.thangs as thangID: spellThang and spell.name
+    #spellThang must have spellThang.aether as an Aether instance
+
+
+    #god.level =
+    ###
+    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
+    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
+    @god = new God()
+    god.spells = data.code #mock to have it work
+
+    @god.level = @level.serialize @supermodel
+    @god.worldClassMap = @world.classMap
+
+    god.createWorld()
+
+    Listen for finished event, should be able to pull out goal states, somehow.
+
+    Level has a list of thangs. You must find which one of the thangs has programmable components.
+    The programmable thangs you would create the aether instance for each one for each of its programmable
+    methods. Like tome_view.coffee/createSpells is doing. The world will reconstruct the clones, so if it is
+    a cloneOf, just skip it. Any programmable method where the method is actually like something that has a name
+    and a source, you must create an aether out of it. spellkeys must be created, so once you have that
+    you can find matching spellkeys and go get the code.
+    To make an aether instance, look at spell.coffee
+
+    protectAPI: false
+    includeFlow: false
+
+    Look in level.thangs and world.coffee
+    loadFromLevel is slow but works
+    Find every thang which has a component which has an original of the ID of the original programmable component
+    The config property will have original, then config.
+
+
+    ###
 
 
