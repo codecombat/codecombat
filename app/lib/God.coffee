@@ -247,9 +247,6 @@ class Angel
           clearTimeout @abortTimeout
           @free()
           @god.angelAborted @
-          if @god.dead
-            @worker.terminate()
-            @worker = null
         when 'reportIn'
           clearTimeout @condemnTimeout
         else
