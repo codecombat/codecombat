@@ -109,6 +109,10 @@ module.exports = class LevelBus extends Bus
     unless e.spell.spellKey in @teamSpellMap[spellTeam]
       @teamSpellMap[spellTeam].push e.spell.spellKey
       console.log "Assigned spell #{e.spell.spellKey} to team #{spellTeam}"
+    @changedSessionProperties.teamSpells = true
+    @session.set({'teamSpells': @teamSpellMap})
+    @saveSession()
+
 
 
   onScriptStateChanged: (e) ->
@@ -235,3 +239,6 @@ module.exports = class LevelBus extends Bus
   setTeamSpellMap: (spellMap) ->
     @teamSpellMap = spellMap
     console.log @teamSpellMap
+    @changedSessionProperties.teamSpells = true
+    @session.set({'teamSpells': @teamSpellMap})
+    @saveSession()
