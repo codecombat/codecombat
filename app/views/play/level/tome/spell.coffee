@@ -30,6 +30,7 @@ module.exports = class Spell
   destroy: ->
     @view.destroy()
     @tabView.destroy()
+    @thangs = null
 
   addThang: (thang) ->
     if @thangs[thang.id]

@@ -94,3 +94,7 @@ module.exports = class HomeView extends View
   didReappear: ->
     super()
     @turnOnStageUpdates()
+
+  destroy: ->
+    super()
+    @wizardSprite?.destroy()

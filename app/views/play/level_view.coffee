@@ -134,7 +134,7 @@ module.exports = class PlayLevelView extends View
     @initScriptManager()
     @insertSubviews()
     @initVolume()
-    @session.on 'change:multiplayer', @onMultiplayerChanged
+    @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @originalSessionState = _.cloneDeep(@session.get('state'))
     @register()
     @controlBar.setBus(@bus)
@@ -302,7 +302,7 @@ module.exports = class PlayLevelView extends View
     $('#pointer').css('opacity', 0.0)
     clearInterval(@pointerInterval)
 
-  onMultiplayerChanged: (e) =>
+  onMultiplayerChanged: (e) ->
     if @session.get('multiplayer')
       @bus.connect()
     else
@@ -391,3 +391,4 @@ module.exports = class PlayLevelView extends View
     @bus?.destroy()
     #@instance.save() unless @instance.loading
     console.profileEnd?() if PROFILE_ME
+    @session.off 'change:multiplayer', @onMultiplayerChanged, @

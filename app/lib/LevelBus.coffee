@@ -32,7 +32,7 @@ module.exports = class LevelBus extends Bus
     @fireScriptsRef = @fireRef?.child('scripts')
 
   setSession: (@session) ->
-    @session.on('change:multiplayer', @onMultiplayerChanged)
+    @session.on 'change:multiplayer', @onMultiplayerChanged, @
 
   onPoint: ->
     return true unless @session?.get('multiplayer')
@@ -198,7 +198,7 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.chat = true
     @saveSession()
 
-  onMultiplayerChanged: =>
+  onMultiplayerChanged: ->
     @changedSessionProperties.multiplayer = true
     @session.updatePermissions()
     @changedSessionProperties.permissions = true
@@ -217,3 +217,7 @@ module.exports = class LevelBus extends Bus
     # don't let what the server returns overwrite changes since the save began
     tempSession = new LevelSession _id:@session.id
     tempSession.save(patch, {patch: true})
+
+  destroy: ->
+    super()
+    @session.off 'change:multiplayer', @onMultiplayerChanged, @
