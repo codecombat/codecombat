@@ -33,7 +33,7 @@ class Media
 
 class AudioPlayer extends CocoClass
   subscriptions:
-    'play-sound': (e) -> @playInterfaceSound e.trigger
+    'play-sound': (e) -> @playInterfaceSound e.trigger, e.volume
 
   constructor: () ->
     super()
