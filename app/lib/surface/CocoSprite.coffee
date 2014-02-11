@@ -149,7 +149,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   hide: ->
     @hiding = true
     @updateAlpha()
-    
+
   show: ->
     @hiding = false
     @updateAlpha()
@@ -432,6 +432,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   playSounds: (withDelay=true, volume=1.0) ->
     for event in @thang.currentEvents ? []
       @playSound event, withDelay, volume
+      if event is 'pay-bounty-gold' and @thang.bountyGold > 25
+        AudioPlayer.playInterfaceSound 'coin_1', 0.25
     if @thang.actionActivated and (action = @thang.getActionName()) isnt 'say'
       @playSound action, withDelay, volume
     if @thang.sayMessage and withDelay  # don't play sayMessages while scrubbing, annoying
