@@ -2,6 +2,10 @@ View = require 'views/kinds/RootView'
 template = require 'templates/home'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
+LevelLoader = require 'lib/LevelLoader'
+God = require 'lib/God'
+
+GoalManager = require 'lib/world/GoalManager'
 
 module.exports = class HomeView extends View
   id: 'home-view'
@@ -10,6 +14,7 @@ module.exports = class HomeView extends View
   events:
     'mouseover #beginner-campaign': 'onMouseOverButton'
     'mouseout #beginner-campaign': 'onMouseOutButton'
+    'click #simulate-button': 'onSimulateButtonClick'
 
   getRenderData: ->
     c = super()
@@ -98,3 +103,90 @@ module.exports = class HomeView extends View
   destroy: ->
     super()
     @wizardSprite?.destroy()
+
+  onSimulateButtonClick: (e) =>
+    $.get "/queue/scoring", (data) =>
+      levelName = data.sessions[0].levelID
+      #TODO: Refactor. So much refactor.
+      world = {}
+      god = new God()
+      levelLoader = new LevelLoader(levelName, @supermodel, data.sessions[0].sessionID)
+      levelLoader.once 'loaded-all', =>
+        world = levelLoader.world
+        level = levelLoader.level
+        levelLoader.destroy()
+        god.level = level.serialize @supermodel
+        god.worldClassMap = world.classMap
+        god.goalManager = new GoalManager(world)
+        #move goals in here
+        goalsToAdd = god.goalManager.world.scripts[0].noteChain[0].goals.add
+        god.goalManager.goals = goalsToAdd
+        god.goalManager.goalStates =
+          "destroy-humans":
+            keyFrame: 0
+            killed:
+              "Human Base": false
+            status: "incomplete"
+          "destroy-ogres":
+            keyFrame:0
+            killed:
+              "Ogre Base": false
+            status: "incomplete"
+        god.spells = @filterProgrammableComponents level.attributes.thangs, @generateSpellToSourceMap data.sessions
+        god.createWorld()
+
+        Backbone.Mediator.subscribe 'god:new-world-created', @onWorldCreated, @
+
+  onWorldCreated: (data) ->
+    console.log "GOAL STATES"
+    console.log data
+
+
+  filterProgrammableComponents: (thangs, spellToSourceMap) =>
+    spells = {}
+    for thang in thangs
+      isTemplate = false
+      for component in thang.components
+        if component.config? and _.has component.config,'programmableMethods'
+          for methodName, method of component.config.programmableMethods
+            if typeof method is 'string'
+              isTemplate = true
+              break
+
+            pathComponents = [thang.id,methodName]
+            pathComponents[0] = _.string.slugify pathComponents[0]
+            spellKey = pathComponents.join '/'
+            spells[spellKey] ?= {}
+            spells[spellKey].thangs ?= {}
+            spells[spellKey].name = methodName
+            thangID = _.string.slugify thang.id
+            spells[spellKey].thangs[thang.id] ?= {}
+            spells[spellKey].thangs[thang.id].aether = @createAether methodName, method
+            if spellToSourceMap[thangID]? then source = spellToSourceMap[thangID][methodName] else source = ""
+            spells[spellKey].thangs[thang.id].aether.transpile source
+          if isTemplate
+            break
+
+    spells
+
+  createAether : (methodName, method) ->
+    aetherOptions =
+      functionName: methodName
+      protectAPI: false
+      includeFlow: false
+    return new Aether aetherOptions
+
+  generateSpellToSourceMap: (sessions) ->
+    spellKeyToSourceMap = {}
+    spellSources = {}
+    for session in sessions
+      teamSpells = session.teamSpells[session.team]
+      _.merge spellSources, _.pick(session.code, teamSpells)
+
+      #merge common ones, this overwrites until the last session
+      commonSpells = session.teamSpells["common"]
+      if commonSpells?
+        _.merge spellSources, _.pick(session.code, commonSpells)
+
+    spellSources
+

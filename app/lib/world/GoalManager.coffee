@@ -135,7 +135,6 @@ module.exports = class GoalManager extends CocoClass
         status: null # should eventually be either 'success', 'failure', or 'incomplete'
         keyFrame: 0 # when it became a 'success' or 'failure'
       }
-
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
       @initGoalState(state, [goal.getToLocations?.who, goal.keepFromLocations?.who], 'arrived')
       @initGoalState(state, [goal.leaveOffSides?.who, goal.keepFromLeavingOffSides?.who], 'left')
