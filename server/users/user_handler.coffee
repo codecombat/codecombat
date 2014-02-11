@@ -122,6 +122,7 @@ UserHandler = class UserHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
+    return @avatar(req, res, args[0]) if args[1] is 'avatar'
     return @sendNotFoundError(res)
 
   agreeToCLA: (req, res) ->
@@ -139,6 +140,12 @@ UserHandler = class UserHandler extends Handler
         req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result:'success'})
+
+  avatar: (req, res, id) ->
+    @modelClass.findById(id).exec (err, document) ->
+      return @sendDatabaseError(res, err) if err
+      res.redirect(document?.get('photoURL') or '/images/generic-wizard-icon.png')
+      res.end()
 
 module.exports = new UserHandler()
 

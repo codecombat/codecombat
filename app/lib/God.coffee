@@ -1,4 +1,5 @@
-{now} = require './world/world_utils'
+{now} = require 'lib/world/world_utils'
+World = require 'lib/world/world'
 
 ## Uncomment to imitate IE9 (and in world_utils.coffee)
 #window.Worker = null
@@ -13,16 +14,34 @@ module.exports = class God
 
   maxAngels: 2  # how many concurrent web workers to use; if set past 8, make up more names
   worldWaiting: false  # whether we're waiting for a worker to free up and run the world
-  constructor: (@world, @level) ->
+  constructor: ->
     @id = God.nextID()
     @angels = []
     @firstWorld = true
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
+    @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
+    @fillWorkerPool()
 
   onTomeCast: (e) ->
     return if @dead
     @spells = e.spells
     @createWorld()
+
+  fillWorkerPool: =>
+    return unless Worker
+    @workerPool ?= []
+    while @workerPool.length < @maxAngels
+      @workerPool.push @createWorker()
+
+  getWorker: ->
+    @fillWorkerPool()
+    worker = @workerPool.shift()
+    return worker if worker
+    @createWorker()
+
+  createWorker: ->
+    console.log "yo create worker"
+    new Worker '/javascripts/workers/worker_world.js'
 
   getAngel: ->
     freeAngel = null
@@ -67,7 +86,7 @@ module.exports = class God
       @worldWaiting = true
       return
     angel.worker.postMessage {func: 'runWorld', args: {
-      worldName: @world.name
+      worldName: @level.name
       userCodeMap: @getUserCodeMap()
       level: @level
       firstWorld: @firstWorld
@@ -81,7 +100,7 @@ module.exports = class God
     @latestWorldCreation = worldCreation
     @latestGoalStates = goalStates
     window.BOX2D_ENABLED = false  # Flip this off so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment
-    @world.constructor.deserialize serialized, @world.classMap, @lastSerializedWorldFrames, worldCreation, @finishBeholdingWorld
+    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, worldCreation, @finishBeholdingWorld
     window.BOX2D_ENABLED = true
     @lastSerializedWorldFrames = serialized.frames
 
@@ -133,7 +152,7 @@ module.exports = class God
     @latestGoalStates = @testGM?.getGoalStates()
     serialized = @testWorld.serialize().serializedWorld
     window.BOX2D_ENABLED = false
-    @testWorld.constructor.deserialize serialized, @world.classMap, @lastSerializedWorldFrames, @t0, @finishBeholdingWorld
+    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, @t0, @finishBeholdingWorld
     window.BOX2D_ENABLED = true
     @lastSerializedWorldFrames = serialized.frames
 
@@ -168,7 +187,8 @@ class Angel
     @spawnWorker()
 
   spawnWorker: ->
-    @worker = new Worker '/javascripts/workers/worker_world.js'
+    @worker = @god.getWorker()
+    console.log "yo got worker", @worker
     @listen()
 
   enslave: ->
@@ -183,8 +203,10 @@ class Angel
     @started = null
     clearInterval @purgatoryTimer
     @purgatoryTimer = null
-    @worker?.terminate()
-    @worker = null
+    if @worker
+      worker = @worker
+      _.defer -> worker.terminate
+      @worker = null
     @
 
   abort: ->

@@ -28,8 +28,11 @@
     if playableTeams.length > 1
       #multiplayer-team-selection
         for team in playableTeams
-          label(for="multiplayer_team_"+team)= team
-          input(id="multiplayer_team_"+team, type="radio", name="multiplayer", value=team)
+          h4
+            if team == me.team
+              em= "Playing as " + team
+            else
+              a(href=joinLink + "&skip_protect_api=true&team=" + team)= "Play as " + team
   
   .modal-footer
     a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close
