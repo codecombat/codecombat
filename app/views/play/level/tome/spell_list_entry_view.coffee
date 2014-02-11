@@ -46,6 +46,7 @@ module.exports = class SpellListEntryView extends View
     super()
     return unless @options.showTopDivider  # Don't repeat Thang avatars when not changed from previous entry
     return unless spellThang = @getPrimarySpellThang()
+    @avatar?.destroy()
     @avatar = new ThangAvatarView thang: spellThang.thang, includeName: false, supermodel: @supermodel
     @$el.prepend @avatar.el  # Before rendering, so render can use parent for popover
     @avatar.render()
@@ -100,3 +101,7 @@ module.exports = class SpellListEntryView extends View
 
   onNewWorld: (e) ->
     @lastSelectedThang = e.world.thangMap[@lastSelectedThang.id] if @lastSelectedThang
+    
+  destroy: ->
+    super()
+    @avatar?.destroy()

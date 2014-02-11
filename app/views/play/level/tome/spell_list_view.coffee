@@ -19,6 +19,7 @@ module.exports = class SpellListView extends View
 
   constructor: (options) ->
     super options
+    @entries = []
     @sortSpells()
 
   sortSpells: ->
@@ -53,7 +54,6 @@ module.exports = class SpellListView extends View
     @addSpellListEntries()
 
   addSpellListEntries: ->
-    @entries ?= []
     newEntries = []
     lastThangs = null
     for spell, index in @spells
@@ -87,3 +87,7 @@ module.exports = class SpellListView extends View
     @spells = @options.spells = spells
     @sortSpells()
     @addSpellListEntries()
+
+  destroy: ->
+    super()
+    entry.destroy() for entry in @entries

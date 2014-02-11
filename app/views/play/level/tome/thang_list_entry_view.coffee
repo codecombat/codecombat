@@ -42,6 +42,7 @@ module.exports = class ThangListEntryView extends View
 
   afterRender: ->
     super()
+    @avatar?.destroy()
     @avatar = new ThangAvatarView thang: @thang, includeName: true, supermodel: @supermodel
     @$el.append @avatar.el  # Before rendering, so render can use parent for popover
     @avatar.render()
@@ -137,4 +138,4 @@ module.exports = class ThangListEntryView extends View
 
   destroy: ->
     super()
-    @avatar.destroy()
+    @avatar?.destroy()
