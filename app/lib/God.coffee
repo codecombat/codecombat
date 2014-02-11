@@ -40,7 +40,6 @@ module.exports = class God
     @createWorker()
 
   createWorker: ->
-    console.log "yo create worker"
     new Worker '/javascripts/workers/worker_world.js'
 
   getAngel: ->
@@ -188,7 +187,6 @@ class Angel
 
   spawnWorker: ->
     @worker = @god.getWorker()
-    console.log "yo got worker", @worker
     @listen()
 
   enslave: ->
