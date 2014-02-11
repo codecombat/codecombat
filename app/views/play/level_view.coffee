@@ -26,6 +26,7 @@ HUDView = require './level/hud_view'
 ControlBarView = require './level/control_bar_view'
 PlaybackView = require './level/playback_view'
 GoalsView = require './level/goals_view'
+GoldView = require './level/gold_view'
 VictoryModal = require './level/modal/victory_modal'
 InfiniteLoopModal = require './level/modal/infinite_loop_modal'
 
@@ -157,6 +158,7 @@ module.exports = class PlayLevelView extends View
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
     @insertSubView new PlaybackView {}
     @insertSubView new GoalsView {}
+    @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')

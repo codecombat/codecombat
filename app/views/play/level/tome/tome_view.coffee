@@ -112,6 +112,9 @@ module.exports = class TomeView extends View
     @cast()
 
   cast: ->
+    for spellKey, spell of @spells
+      for thangID, spellThang of spell.thangs
+        spellThang.aether.options.includeFlow = spellThang.aether.originalOptions.includeFlow = spellThang is @spellView?.spellThang
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   onToggleSpellList: (e) ->

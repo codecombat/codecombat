@@ -4,6 +4,7 @@ Camera = require './Camera'
 Mark = require './Mark'
 Label = require './Label'
 AudioPlayer = require 'lib/AudioPlayer'
+{me} = require 'lib/auth'
 
 # We'll get rid of this once level's teams actually have colors
 healthColors =
@@ -165,6 +166,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @updateStats()
     @updateMarks()
     @updateLabels()
+    @updateGold()
 
   cache: ->
     bounds = @imageObject.getBounds()
@@ -429,10 +431,19 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @notifySpeechUpdated blurb: blurb
     label.update() for name, label of @labels
 
+  updateGold: ->
+    # TODO: eventually this should be moved into some sort of team-based update
+    # rather than an each-thang-that-shows-gold-per-team thing.
+    return if @thang.gold is @lastGold
+    gold = Math.floor @thang.gold
+    return if gold is @lastGold
+    @lastGold = gold
+    Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold}
+
   playSounds: (withDelay=true, volume=1.0) ->
     for event in @thang.currentEvents ? []
       @playSound event, withDelay, volume
-      if event is 'pay-bounty-gold' and @thang.bountyGold > 25
+      if event is 'pay-bounty-gold' and @thang.bountyGold > 25 and @thang.team isnt me.team
         AudioPlayer.playInterfaceSound 'coin_1', 0.25
     if @thang.actionActivated and (action = @thang.getActionName()) isnt 'say'
       @playSound action, withDelay, volume

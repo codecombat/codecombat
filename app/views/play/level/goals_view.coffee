@@ -18,7 +18,7 @@ module.exports = class GoalsView extends View
   events:
     'click': 'toggleCollapse'
 
-  toggleCollapse: (e) =>
+  toggleCollapse: (e) ->
     @$el.toggleClass('expanded').toggleClass('collapsed')
 
   onNewGoalStates: (e) ->
