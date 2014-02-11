@@ -3,7 +3,6 @@ template = require 'templates/home'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
 LevelLoader = require 'lib/LevelLoader'
-
 God = require 'lib/God'
 
 module.exports = class HomeView extends View
@@ -111,9 +110,8 @@ module.exports = class HomeView extends View
         world = levelLoader.world
         level = levelLoader.level
         levelLoader.destroy()
-        programmableThangs = @filterProgrammableComponents level.attributes.thangs
-        console.log "Programmable Components:"
-        console.log programmableThangs
+        god.spells = @filterProgrammableComponents level.attributes.thangs, @generateSpellToSourceMap data.sessions
+
         #generate spell
         #spells = @createSpells programmableThangs
         #console.log spells
@@ -125,49 +123,53 @@ module.exports = class HomeView extends View
 
 
 
-  filterProgrammableComponents: (thangs) ->
-    programmableComponents = {}
+  filterProgrammableComponents: (thangs, spellToSourceMap) =>
+    spells = {}
     for thang in thangs
       isTemplate = false
       for component in thang.components
         if component.config? and _.has component.config,'programmableMethods'
-          programmableComponents[thang.id] ?= {}
-          programmableComponents[thang.id].programmableMethods ?= []
           for methodName, method of component.config.programmableMethods
             if typeof method is 'string'
-              console.log thang.id,"is a template"
-              delete programmableComponents[thang.id]
               isTemplate = true
               break
-            methodObject = {}
-            methodObject[methodName] = method
-            programmableComponents[thang.id].programmableMethods.push methodObject
+
+            pathComponents = [thang.id,methodName]
+            pathComponents[0] = _.string.slugify pathComponents[0]
+            spellKey = pathComponents.join '/'
+            spells[spellKey] ?= {}
+            spells[spellKey].thangs ?= {}
+            spells[spellKey].name = methodName
+            thangID = _.string.slugify thang.id
+            spells[spellKey].thangs[thang.id] ?= {}
+            spells[spellKey].thangs[thang.id].aether = @createAether methodName, method
+            if spellToSourceMap[thangID]? then source = spellToSourceMap[thangID][methodName] else source = ""
+            spells[spellKey].thangs[thang.id].aether.transpile source
           if isTemplate
             break
 
-    programmableComponents
+    spells
 
+  createAether : (methodName, method) ->
+    aetherOptions =
+      functionName: methodName
+      protectAPI: false
+      includeFlow: false
+    return new Aether aetherOptions
 
-  createSpells: (programmableThangs) ->
-    thangSpells = {}
-    spells = {}
-    for thang in programmableThangs
-      continue if thangSpells[thang.id]?
-      thangSpells[thang.id] = []
-      console.log thang
-      for methodName, method of thang.programmableMethods
-        continue if method.cloneOf?
-        spellKey = [thang.id,methodName].join '/'
-        console.log spellKey
-        thangSpells[thang.id].push spellKey
+  generateSpellToSourceMap: (sessions) ->
+    spellKeyToSourceMap = {}
+    spellSources = {}
+    for session in sessions
+      teamSpells = session.teamSpells[session.team]
+      _.merge spellSources, _.pick(session.code, teamSpells)
 
-        spells[spellKey] = {spellKey: spellKey, programmableMethod: method, aether: null}
-    thangSpells
+      #merge common ones, this overwrites until the last session
+      commonSpells = session.teamSpells["common"]
+      if commonSpells?
+        _.merge spellSources, _.pick(session.code, commonSpells)
 
-
-
-
-
+    spellSources
 
     #spells must have spellKey: spell
     #spell must have spell.thangs as thangID: spellThang and spell.name

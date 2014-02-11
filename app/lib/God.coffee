@@ -118,12 +118,12 @@ module.exports = class God
       @spells = null  # Don't hold onto old spells; memory leaks
 
   getUserCodeMap: ->
-    console.log "Spells at user codemap step:"
-    console.log @spells
+    console.log "userCodeMap is "
     userCodeMap = {}
     for spellKey, spell of @spells
       for thangID, spellThang of spell.thangs
         (userCodeMap[thangID] ?= {})[spell.name] = spellThang.aether.serialize()
+    console.log userCodeMap
     userCodeMap
 
   destroy: ->

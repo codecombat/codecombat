@@ -87,7 +87,7 @@ constructTaskObject = (taskMessageBody, callback) ->
       sessionInformation =
         "sessionID": session.sessionID
         "sessionChangedTime": session.changed
-        "team": session.team? "No team"
+        "team": session.team ? "No team"
         "code": session.code
         "teamSpells": session.teamSpells ? {}
         "levelID": session.levelID
