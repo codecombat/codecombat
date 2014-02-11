@@ -210,6 +210,7 @@ class Angel
     @
 
   abort: ->
+    return unless @worker
     @abortTimeout = _.delay @terminate, @abortTimeoutDuration
     @worker.postMessage {func: 'abort'}
 
