@@ -5,6 +5,8 @@ ThangType = require 'models/ThangType'
 LevelLoader = require 'lib/LevelLoader'
 God = require 'lib/God'
 
+GoalManager = require 'lib/world/GoalManager'
+
 module.exports = class HomeView extends View
   id: 'home-view'
   template: template
@@ -110,22 +112,31 @@ module.exports = class HomeView extends View
         world = levelLoader.world
         level = levelLoader.level
         levelLoader.destroy()
-        god.spells = @filterProgrammableComponents level.attributes.thangs, @generateSpellToSourceMap data.sessions
-
-        #generate spell
-        #spells = @createSpells programmableThangs
-        #console.log spells
-
         god.level = level.serialize @supermodel
         god.worldClassMap = world.classMap
-
+        god.goalManager = new GoalManager(world)
+        #move goals in here
+        goalsToAdd = god.goalManager.world.scripts[0].noteChain[0].goals.add
+        god.goalManager.goals = goalsToAdd
+        god.goalManager.goalStates =
+          "destroy-humans":
+            keyFrame: 0
+            killed:
+              "Human Base": false
+            status: "incomplete"
+          "destroy-ogres":
+            keyFrame:0
+            killed:
+              "Ogre Base": false
+            status: "incomplete"
+        god.spells = @filterProgrammableComponents level.attributes.thangs, @generateSpellToSourceMap data.sessions
         god.createWorld()
 
         Backbone.Mediator.subscribe 'god:new-world-created', @onWorldCreated, @
 
   onWorldCreated: (data) ->
     console.log "GOAL STATES"
-    console.log data.goalStates
+    console.log data
 
 
   filterProgrammableComponents: (thangs, spellToSourceMap) =>
@@ -175,43 +186,5 @@ module.exports = class HomeView extends View
         _.merge spellSources, _.pick(session.code, commonSpells)
 
     spellSources
-
-    #spells must have spellKey: spell
-    #spell must have spell.thangs as thangID: spellThang and spell.name
-    #spellThang must have spellThang.aether as an Aether instance
-
-
-    #god.level =
-    ###
-    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
-    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
-    @god = new God()
-    god.spells = data.code #mock to have it work
-
-    @god.level = @level.serialize @supermodel
-    @god.worldClassMap = @world.classMap
-
-    god.createWorld()
-
-    Listen for finished event, should be able to pull out goal states, somehow.
-
-    Level has a list of thangs. You must find which one of the thangs has programmable components.
-    The programmable thangs you would create the aether instance for each one for each of its programmable
-    methods. Like tome_view.coffee/createSpells is doing. The world will reconstruct the clones, so if it is
-    a cloneOf, just skip it. Any programmable method where the method is actually like something that has a name
-    and a source, you must create an aether out of it. spellkeys must be created, so once you have that
-    you can find matching spellkeys and go get the code.
-    To make an aether instance, look at spell.coffee
-
-    protectAPI: false
-    includeFlow: false
-
-    Look in level.thangs and world.coffee
-    loadFromLevel is slow but works
-    Find every thang which has a component which has an original of the ID of the original programmable component
-    The config property will have original, then config.
-
-
-    ###
 
 
