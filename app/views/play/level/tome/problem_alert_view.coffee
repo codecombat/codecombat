@@ -15,7 +15,7 @@ module.exports = class ProblemAlertView extends View
     super options
     @problem = options.problem
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.message = @problem.aetherProblem.message.replace("\n", "<br>")
     context.hint = @problem.aetherProblem.hint?.replace("\n", "<br>")

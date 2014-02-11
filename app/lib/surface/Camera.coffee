@@ -260,3 +260,7 @@ module.exports = class Camera extends CocoClass
     @locked = true
   unlock: ->
     @locked = false
+
+  destroy: ->
+    super()
+    @onTweenEnd = null

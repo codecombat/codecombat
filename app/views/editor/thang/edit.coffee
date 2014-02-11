@@ -52,7 +52,7 @@ module.exports = class ThangTypeEditView extends View
     @files.fetch()
     @render()
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.thangType = @thangType
     context.animations = @getAnimationNames()
@@ -97,6 +97,7 @@ module.exports = class ThangTypeEditView extends View
     @stage = new createjs.Stage(canvas[0])
     canvasWidth = parseInt(canvas.attr('width'), 10)
     canvasHeight = parseInt(canvas.attr('height'), 10)
+    @camera?.destroy()
     @camera = new Camera canvasWidth, canvasHeight
 
     @torsoDot = @makeDot('blue')
@@ -371,3 +372,7 @@ module.exports = class ThangTypeEditView extends View
     @grid.alpha = 1.0
     @showAnimation()
     @showingSelectedNode = false
+
+  destroy: ->
+    super()
+    @camera?.destroy()

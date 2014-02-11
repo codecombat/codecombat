@@ -18,14 +18,14 @@ module.exports = class LevelChatView extends View
   constructor: (options) ->
     @levelID = options.levelID
     @session = options.session
-    @session.on 'change:multiplayer', @updateMultiplayerVisibility
+    @session.on 'change:multiplayer', @updateMultiplayerVisibility, @
     @sessionID = options.sessionID
     @bus = LevelBus.get(@levelID, @sessionID)
     super()
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
 
-  updateMultiplayerVisibility: =>
+  updateMultiplayerVisibility: ->
     return unless @$el?
     if @session.get('multiplayer')
       @$el.removeClass('hide')
@@ -47,7 +47,7 @@ module.exports = class LevelChatView extends View
       if new Date().getTime() - added > 60 * 1000
         row.fadeOut(1000, -> $(this).remove())
 
-  onNewMessage: (e) =>
+  onNewMessage: (e) ->
     @$el.removeClass('hide') unless e.message.system
     @addOne(e.message)
     @trimClosedPanel()
@@ -99,7 +99,7 @@ module.exports = class LevelChatView extends View
       break if rows.length - i <= limit
       row.remove()
 
-  onChatKeydown: (e) =>
+  onChatKeydown: (e) ->
     if key.isPressed('enter')
       message = _.string.strip($(e.target).val())
       return false unless message
@@ -107,7 +107,7 @@ module.exports = class LevelChatView extends View
       $(e.target).val('')
       return false
 
-  onIconClick: =>
+  onIconClick: ->
     openPanel = $('.open-chat-area', @$el)
     closedPanel = $('.closed-chat-area', @$el)
     @open = not @open
@@ -130,6 +130,8 @@ module.exports = class LevelChatView extends View
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
   destroy: ->
-    console.log('DESTROY CHAT', @levelID)
     super()
     key.deleteScope('level')
+    @session.off 'change:multiplayer', @updateMultiplayerVisibility, @
+    clearInterval @clearOldMessagesInterval if @clearOldMessagesInterval
+    @clearOldMessages = null

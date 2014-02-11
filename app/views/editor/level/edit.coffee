@@ -60,7 +60,7 @@ module.exports = class EditorLevelView extends View
   initWorld: ->
     @world = new World @level.name
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.level = @level
     context

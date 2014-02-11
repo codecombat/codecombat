@@ -13,7 +13,7 @@ module.exports = class SpellListEntryThangsView extends View
     @spell = options.spell
     @avatars = []
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.thangs = @thangs
     context.spell = @spell

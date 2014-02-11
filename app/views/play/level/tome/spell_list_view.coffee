@@ -91,3 +91,4 @@ module.exports = class SpellListView extends View
   destroy: ->
     super()
     entry.destroy() for entry in @entries
+    @sortScoreForSpell = null

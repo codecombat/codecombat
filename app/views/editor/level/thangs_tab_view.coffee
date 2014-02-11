@@ -72,7 +72,7 @@ module.exports = class ThangsTabView extends View
     @render()  # do it again but without the loading screen
     @onLevelLoaded level: @level if @level
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
     thangTypes = _.uniq thangTypes, false, 'original'

@@ -19,7 +19,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   constructor: (options) ->
     super options
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context
 

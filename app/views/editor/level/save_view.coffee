@@ -17,7 +17,7 @@ module.exports = class LevelSaveView extends SaveVersionModal
     super options
     @level = options.level
     
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.level = @level
     context.levelNeedsSave = @level.hasLocalChanges()

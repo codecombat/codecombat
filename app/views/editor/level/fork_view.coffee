@@ -17,7 +17,7 @@ module.exports = class LevelForkView extends View
     super options
     @level = options.level
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.level = @level
     context

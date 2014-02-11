@@ -81,6 +81,7 @@ module.exports = Surface = class Surface extends CocoClass
   destroy: ->
     super()
     @dead = true
+    @camera?.destroy()
     createjs.Ticker.removeEventListener("tick", @tick)
     createjs.Sound.stop()
     layer.destroy() for layer in @layers
@@ -324,6 +325,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage = new createjs.Stage(@canvas[0])
     canvasWidth = parseInt(@canvas.attr('width'), 10)
     canvasHeight = parseInt(@canvas.attr('height'), 10)
+    @camera?.destroy()
     @camera = new Camera canvasWidth, canvasHeight
     @layers.push @surfaceLayer = new Layer name: "Surface", layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @layers.push @surfaceTextLayer = new Layer name: "Surface Text", layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera

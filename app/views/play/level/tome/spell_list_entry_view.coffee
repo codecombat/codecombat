@@ -27,7 +27,7 @@ module.exports = class SpellListEntryView extends View
     @spell = options.spell
     @showTopDivider = options.showTopDivider
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.spell = @spell
     context.parameters = (@spell.parameters or []).join ', '
@@ -68,7 +68,7 @@ module.exports = class SpellListEntryView extends View
     return unless @controlsEnabled and _.size(@spell.thangs) > 1
     @hideThangsTimeout = _.delay @hideThangs, 100
 
-  showThangs: =>
+  showThangs: ->
     clearTimeout @hideThangsTimeout if @hideThangsTimeout
     return if @thangsView
     @thangsView = new SpellListEntryThangsView thangs: (spellThang.thang for thangID, spellThang of @spell.thangs), thang: @getPrimarySpellThang().thang, spell: @spell, supermodel: @supermodel
@@ -105,3 +105,4 @@ module.exports = class SpellListEntryView extends View
   destroy: ->
     super()
     @avatar?.destroy()
+    @hideThangs = null

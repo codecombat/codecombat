@@ -34,7 +34,7 @@ module.exports = class ThangListEntryView extends View
     @reasonsToBeDisabled = {}
     @sortSpells()
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.thang = @thang
     context.spell = @spells
