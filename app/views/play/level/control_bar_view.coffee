@@ -45,7 +45,7 @@ module.exports = class ControlBarView extends View
     text += " (#{numPlayers})" if numPlayers > 1
     $('#multiplayer-button', @$el).text(text)
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     super context
     context.worldName = @worldName
     context.multiplayerEnabled = @session.get('multiplayer')

@@ -385,6 +385,7 @@ module.exports = class PlayLevelView extends View
     @goalManager?.destroy()
     @scriptManager?.destroy()
     $(window).off('resize', @onWindowResize)
+    delete window.world # not sure where this is set, but this is one way to clean it up
 
     clearInterval(@pointerInterval)
     @bus?.destroy()

@@ -11,7 +11,7 @@ makeScopeName = -> "view-scope-#{classCount++}"
 module.exports = class CocoView extends Backbone.View
   startsLoading: false
   cache: true # signals to the router to keep this view around
-  template: => ''
+  template: -> ''
 
   events:
     'click a': 'toggleModal'
@@ -41,6 +41,7 @@ module.exports = class CocoView extends Backbone.View
     @stopListeningToShortcuts()
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
+    @modalClosed = null
 
   afterInsert: ->
 
@@ -60,7 +61,7 @@ module.exports = class CocoView extends Backbone.View
 
   # View Rendering
 
-  render: =>
+  render: ->
     return @ unless me
     super()
     return @template if _.isString(@template)
@@ -70,7 +71,7 @@ module.exports = class CocoView extends Backbone.View
     @$el.i18n()
     @
 
-  getRenderData: (context) =>
+  getRenderData: (context) ->
     context ?= {}
     context.isProduction = document.location.href.search(/codecombat.com/) isnt -1
     context.me = me
@@ -81,7 +82,6 @@ module.exports = class CocoView extends Backbone.View
     context
 
   afterRender: ->
-    @registerModalsWithin()
 
   # Modals
 
@@ -95,12 +95,6 @@ module.exports = class CocoView extends Backbone.View
     view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to    
     @openModalView(view)
 
-  registerModalsWithin: (e...) ->
-    # TODO: Get rid of this part
-    for modal in $('.modal', @$el)      
-#      console.warn 'Registered modal to get rid of...', modal
-      $(modal).on('show.bs.modal', @clearModals)
-
   openModalView: (modalView) ->
     return if @waitingModal # can only have one waiting at once
     if visibleModal
@@ -112,11 +106,11 @@ module.exports = class CocoView extends Backbone.View
     modalView.afterInsert()
     visibleModal = modalView
     modalOptions = {show: true, backdrop: if modalView.closesOnClickOutside then true else 'static'}
-    $('#modal-wrapper .modal').modal(modalOptions).on('hidden.bs.modal', => @modalClosed())
+    $('#modal-wrapper .modal').modal(modalOptions).on('hidden.bs.modal', @modalClosed)
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
 
-  modalClosed: =>      
+  modalClosed: =>
     visibleModal.willDisappear() if visibleModal
     visibleModal.destroy()
     visibleModal = null
@@ -127,12 +121,6 @@ module.exports = class CocoView extends Backbone.View
     else
       @getRootView().listenToShortcuts(true)
       Backbone.Mediator.publish 'modal-closed'
-
-  clearModals: =>    
-    if visibleModal      
-      visibleModal.$el.addClass('hide')
-      waitingModal = null
-      @modalClosed()
 
   # Loading RootViews
 

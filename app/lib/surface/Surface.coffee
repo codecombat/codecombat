@@ -92,6 +92,10 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.removeEventListener 'stagemousemove', @onMouseMove
     @stage.removeEventListener 'stagemousedown', @onMouseDown
     @stage.removeAllEventListeners()
+    @playScrubbedSounds = null
+    @onMouseMove = null
+    @onMouseDown = null
+    @tick = null
     
   setWorld: (@world) ->
     @worldLoaded = true
