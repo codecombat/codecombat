@@ -13,6 +13,7 @@ module.exports = class God
     @ids[@lastID]
 
   maxAngels: 2  # how many concurrent web workers to use; if set past 8, make up more names
+  maxWorkerPoolSize: 2  # ~20MB per idle worker
   worldWaiting: false  # whether we're waiting for a worker to free up and run the world
   constructor: ->
     @id = God.nextID()
@@ -30,8 +31,10 @@ module.exports = class God
   fillWorkerPool: =>
     return unless Worker
     @workerPool ?= []
-    while @workerPool.length < @maxAngels
+    if @workerPool.length < @maxWorkerPoolSize
       @workerPool.push @createWorker()
+    if @workerPool.length < @maxWorkerPoolSize
+      @fillWorkerPool()
 
   getWorker: ->
     @fillWorkerPool()

@@ -54,6 +54,7 @@ module.exports = class CastButtonView extends View
 
   onCastSpells: (e) ->
     @casting = true
+    Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.25
     @updateCastButton()
 
   onWorldLoadProgressChanged: (e) ->
