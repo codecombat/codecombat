@@ -26,6 +26,7 @@ module.exports = class LevelBus extends Bus
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
+    console.log "Level bus constructed!"
     @saveSession = _.debounce(@saveSession, 1000, {maxWait: 5000})
     
   init: ->
@@ -101,13 +102,12 @@ module.exports = class LevelBus extends Bus
     @saveSession()
 
   onSpellCreated: (e) ->
-    #return unless @onPoint()
-    teamSpells = @session.get 'teamSpells'
+    return unless @onPoint()
     spellTeam = e.spell.team
-    teamSpells[spellTeam] ?= []
+    @teamSpellMap[spellTeam] ?= []
 
-    unless e.spell.spellKey in teamSpells[spellTeam]
-      teamSpells[spellTeam].push e.spell.spellKey
+    unless e.spell.spellKey in @teamSpellMap[spellTeam]
+      @teamSpellMap[spellTeam].push e.spell.spellKey
       console.log "Assigned spell #{e.spell.spellKey} to team #{spellTeam}"
 
 
@@ -231,3 +231,7 @@ module.exports = class LevelBus extends Bus
     # don't let what the server returns overwrite changes since the save began
     tempSession = new LevelSession _id:@session.id
     tempSession.save(patch, {patch: true})
+
+  setTeamSpellMap: (spellMap) ->
+    @teamSpellMap = spellMap
+    console.log @teamSpellMap

@@ -62,6 +62,8 @@ module.exports = class TomeView extends View
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
       @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
       @castButton = @insertSubView new CastButtonView spells: @spells
+      @teamSpellMap = @generateTeamSpellMap(@spells)
+      console.log "Team spell map generated", @teamSpellMap
     else
       @cast()
       console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
@@ -73,6 +75,21 @@ module.exports = class TomeView extends View
     @createSpells programmableThangs, e.world
     @thangList.adjustThangs @spells, thangs
     @spellList.adjustSpells @spells
+
+  generateTeamSpellMap: (spellObject) ->
+    teamSpellMap = {}
+    for spellName, spell of spellObject
+      teamName = spell.team
+      teamSpellMap[teamName] ?= []
+
+      spellNameElements = spellName.split '/'
+      thangName = spellNameElements[0]
+      spellName = spellNameElements[1]
+
+      teamSpellMap[teamName].push thangName if thangName not in teamSpellMap[teamName]
+
+    return teamSpellMap
+
 
   createSpells: (programmableThangs, world) ->
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
