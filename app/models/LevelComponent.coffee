@@ -13,7 +13,7 @@ module.exports = class LevelComponent extends CocoModel
       attrs.js = @compile attrs.code
     super attrs, options
 
-  onLoaded: =>
+  onLoaded: ->
     super()
     @set 'js', @compile(@get 'code') unless @get 'js'
 

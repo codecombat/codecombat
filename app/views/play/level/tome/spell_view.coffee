@@ -506,3 +506,4 @@ module.exports = class SpellView extends View
     @debugView?.destroy()
     @spell = null
     @session.off 'change:multiplayer', @onMultiplayerChanged, @
+    @onLoaded = null

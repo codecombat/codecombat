@@ -41,9 +41,9 @@ module.exports = class LevelLoader extends CocoClass
     @session = new LevelSession()
     @session.url = -> url
     @session.fetch()
-    @session.once 'sync', @onSessionLoaded
+    @session.once 'sync', @onSessionLoaded, @
 
-  onSessionLoaded: =>
+  onSessionLoaded: ->
     # TODO: maybe have all non versioned models do this? Or make it work to PUT/PATCH to relative urls
     @session.url = -> '/db/level.session/' + @id
     @update()
@@ -51,9 +51,9 @@ module.exports = class LevelLoader extends CocoClass
   # Supermodel (Level) Loading
 
   loadLevelModels: ->
-    @supermodel.once 'loaded-all', @onSupermodelLoadedAll
-    @supermodel.on 'loaded-one', @onSupermodelLoadedOne
-    @supermodel.once 'error', @onSupermodelError
+    @supermodel.once 'loaded-all', @onSupermodelLoadedAll, @
+    @supermodel.on 'loaded-one', @onSupermodelLoadedOne, @
+    @supermodel.once 'error', @onSupermodelError, @
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
     levelID = @levelID
 
@@ -65,12 +65,12 @@ module.exports = class LevelLoader extends CocoClass
 
     @supermodel.populateModel @level
 
-  onSupermodelError: =>
+  onSupermodelError: ->
     msg = $.i18n.t('play_level.level_load_error',
       defaultValue: "Level could not be loaded.")
     @$el.html('<div class="alert">' + msg + '</div>')
 
-  onSupermodelLoadedOne: (e) =>
+  onSupermodelLoadedOne: (e) ->
     @notifyProgress()
 #    if e.model.type() is 'ThangType'
 #      thangType = e.model
@@ -84,7 +84,7 @@ module.exports = class LevelLoader extends CocoClass
 #          @spriteSheetsBuilt += 1
 #          @notifyProgress()
 
-  onSupermodelLoadedAll: =>
+  onSupermodelLoadedAll: ->
     @trigger 'loaded-supermodel'
     @stopListening(@supermodel)
     @update()
@@ -209,5 +209,8 @@ module.exports = class LevelLoader extends CocoClass
 
   destroy: ->
     @world = null  # don't hold onto garbage
-    @supermodel.off 'loaded-one', @onSupermodelLoadedOne
+    @supermodel.off 'loaded-all', @onSupermodelLoadedAll, @
+    @supermodel.off 'loaded-one', @onSupermodelLoadedOne, @
+    @supermodel.off 'error', @onSupermodelError, @
+    @session.off 'sync', @onSessionLoaded, @
     super()
