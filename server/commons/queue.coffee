@@ -22,7 +22,7 @@ module.exports.initializeQueueClient = (cb) ->
 
 generateQueueClient = ->
   #if config.queue.accessKeyId
-  if false #TODO: revert this
+  if false #TODO: Change this in production
     queueClient = new SQSQueueClient()
   else
     queueClient = new MongoQueueClient()

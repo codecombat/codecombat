@@ -103,8 +103,7 @@ module.exports = class HomeView extends View
   onSimulateButtonClick: (e) =>
     $.get "/queue/scoring", (data) =>
       levelName = data.sessions[0].levelID
-      console.log data
-
+      #TODO: Refactor. So much refactor.
       world = {}
       god = new God()
       levelLoader = new LevelLoader(levelName, @supermodel, data.sessions[0].sessionID)
