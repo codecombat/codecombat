@@ -46,7 +46,7 @@ module.exports = class GoalManager extends CocoClass
     'world:thang-collected-item': 'onThangCollectedItem'
     'world:ended': 'onWorldEnded'
 
-  onLevelRestarted: =>
+  onLevelRestarted: ->
     @goals = []
     @goalStates = {}
     @userCodeMap = {}
@@ -55,12 +55,12 @@ module.exports = class GoalManager extends CocoClass
   # INTERFACE AND LIFETIME OVERVIEW
 
   # main instance receives goal updates from the script manager
-  onAddGoals: (e) =>
+  onAddGoals: (e) ->
     return unless e.worldName is @world.name
     goals = e.goals
     @addGoal(goal) for goal in goals
 
-  onRemoveGoals: (e) =>
+  onRemoveGoals: (e) ->
     if e.goal in @goals
       @goals.remove(e.goal)
       delete @goalStates[e.goal]
@@ -88,7 +88,7 @@ module.exports = class GoalManager extends CocoClass
 
   # main instance gets them and updates their existing goal states,
   # passes the word along
-  onNewWorldCreated: (e) =>
+  onNewWorldCreated: (e) ->
     @updateGoalStates(e.goalStates) if e.goalStates?
     @world = e.world
 

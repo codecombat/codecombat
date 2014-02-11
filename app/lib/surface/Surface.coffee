@@ -89,7 +89,10 @@ module.exports = Surface = class Surface extends CocoClass
     @dimmer?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
-
+    @stage.removeEventListener 'stagemousemove', @onMouseMove
+    @stage.removeEventListener 'stagemousedown', @onMouseDown
+    @stage.removeAllEventListeners()
+    
   setWorld: (@world) ->
     @worldLoaded = true
     @world.getFrame(Math.min(@getCurrentFrame(), @world.totalFrames - 1)).restoreState() unless @options.choosing
