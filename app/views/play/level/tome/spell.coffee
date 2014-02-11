@@ -26,6 +26,10 @@ module.exports = class Spell
     @view.render()  # Get it ready and code loaded in advance
     @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel
     @tabView.render()
+    
+  destroy: ->
+    @view.destroy()
+    @tabView.destroy()
 
   addThang: (thang) ->
     if @thangs[thang.id]

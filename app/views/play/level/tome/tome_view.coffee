@@ -166,4 +166,4 @@ module.exports = class TomeView extends View
   destroy: ->
     super()
     for spellKey, spell of @spells
-      spell.view.destroy()
+      spell.destroy()
