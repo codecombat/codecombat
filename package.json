@@ -52,7 +52,7 @@
     "async": "0.2.x",
     "connect": "2.7.x",
     "nodemailer": "0.4.x",
-    "coffee-script": "1.6.x",
+    "coffee-script": "1.7.x",
     "graceful-fs": "~2.0.1",
     "node-force-domain": "~0.1.0",
     "mailchimp-api": "2.0.x",
@@ -64,7 +64,7 @@
   "devDependencies": {
     "jade": "0.33.x",
     "javascript-brunch": "> 1.0 < 1.8",
-    "coffee-script-brunch": "> 1.0 < 1.8",
+    "coffee-script-brunch": "https://github.com/brunch/coffee-script-brunch/tarball/master",
     "coffeelint-brunch": "> 1.0 < 1.8",
     "sass-brunch": "1.7.0",
     "css-brunch": "> 1.0 < 1.8",
