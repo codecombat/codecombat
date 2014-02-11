@@ -104,6 +104,7 @@ module.exports = class PlayLevelView extends View
   load: ->
     @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
+    @god = new God()
 
   getRenderData: ->
     c = super()
@@ -118,15 +119,16 @@ module.exports = class PlayLevelView extends View
 
   onLevelLoaderLoaded: =>
     @session = @levelLoader.session
-    @level = @levelLoader.level
     @world = @levelLoader.world
+    @level = @levelLoader.level
     @levelLoader.destroy()
     @levelLoader = null
     @loadingScreen.destroy()
+    @god.level = @level.serialize @supermodel
+    @god.worldClassMap = @world.classMap
     #@setTeam @world.teamForPlayer _.size @session.get 'players'   # TODO: players aren't initialized yet?
     @setTeam @getQueryVariable("team") ? @world.teamForPlayer(0)
     @initSurface()
-    @initGod()
     @initGoalManager()
     @initScriptManager()
     @insertSubviews()
@@ -319,9 +321,6 @@ module.exports = class PlayLevelView extends View
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
     @surface.camera.zoomTo({x:0, y:0}, 0.1, 0)
-
-  initGod: ->
-    @god = new God @world, @level.serialize @supermodel
 
   initGoalManager: ->
     @goalManager = new GoalManager(@world)
