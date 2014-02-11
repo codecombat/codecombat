@@ -98,7 +98,7 @@ module.exports = class HomeView extends View
     super()
     @turnOnStageUpdates()
 
-  onSimulateButtonClick: (e) ->
+  onSimulateButtonClick: (e) =>
     $.get "/queue/scoring", (data) =>
       levelName = data.sessions[0].levelID
       console.log data
@@ -121,6 +121,11 @@ module.exports = class HomeView extends View
 
         god.createWorld()
 
+        Backbone.Mediator.subscribe 'god:new-world-created', @onWorldCreated, @
+
+  onWorldCreated: (data) ->
+    console.log "GOAL STATES"
+    console.log data.goalStates
 
 
   filterProgrammableComponents: (thangs, spellToSourceMap) =>
