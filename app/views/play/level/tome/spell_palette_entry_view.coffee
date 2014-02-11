@@ -54,3 +54,7 @@ module.exports = class SpellPaletteEntryView extends View
     @options.thang = @thang = e.selectedThang  # Update our thang to the current version
     @options.doc = @doc = Docs.getDocsFor(@thang, [@doc.prop])[0]
     @$el.find("code.current-value").text(@doc.formatValue())  # Don't call any functions. (?? What does this mean?)
+
+  destroy: ->
+    @$el.off()
+    super()
