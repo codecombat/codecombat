@@ -46,7 +46,7 @@
     "mongoose": "3.8.x",
     "mongoose-text-search": "~0.0.2",
     "request": "2.12.x",
-    "tv4": "1.0.x",
+    "tv4": "1.0.11",
     "lodash": "~2.0.0",
     "underscore.string": "2.3.x",
     "async": "0.2.x",
