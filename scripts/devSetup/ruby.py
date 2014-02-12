@@ -1,3 +1,4 @@
+from __future__ import print_function
 __author__ = u'root'
 
 import dependency
@@ -18,7 +19,7 @@ class Ruby(dependency.Dependency):
         elif not is_ruby_installed:
             self.install_ruby()
         elif is_ruby_installed and is_gem_installed:
-            print u"Ruby found."
+            print(u"Ruby found.")
     def check_if_ruby_exists(self):
         ruby_path = which(u"ruby")
         return bool(ruby_path)
