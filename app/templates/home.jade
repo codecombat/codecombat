@@ -26,3 +26,5 @@ block content
       a#beginner-campaign(href="/play/level/rescue-mission")
         canvas(width="125", height="150")
         button(data-i18n="home.play").btn.btn-warning.btn-lg.highlight Play
+  if me.isAdmin()
+    button.btn.btn-warning.btn-lg.highlight#simulate-button SIMULATE

@@ -33,4 +33,5 @@ module.exports.routes =
     'routes/languages'
     'routes/mail'
     'routes/sprites'
+    'routes/queue'
   ]

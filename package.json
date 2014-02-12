@@ -59,7 +59,9 @@
     "express-useragent": "~0.0.9",
     "gridfs-stream": "0.4.x",
     "stream-buffers": "0.2.x",
-    "sendwithus": "2.0.x"
+    "sendwithus": "2.0.x",
+    "aws-sdk":"~2.0.0",
+    "bayesian-battle":"0.0.x"
   },
   "devDependencies": {
     "jade": "0.33.x",

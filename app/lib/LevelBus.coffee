@@ -21,6 +21,7 @@ module.exports = class LevelBus extends Bus
     'thang-code-ran': 'onCodeRan'
     'level-show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
+    'tome:spell-created': 'onSpellCreated'
 
   constructor: ->
     super(arguments...)
@@ -91,11 +92,25 @@ module.exports = class LevelBus extends Bus
     code = @session.get('code')
     code ?= {}
     parts = e.spell.spellKey.split('/')
+
     code[parts[0]] ?= {}
     code[parts[0]][parts[1]] = e.spell.getSource()
     @changedSessionProperties.code = true
     @session.set({'code': code})
     @saveSession()
+
+  onSpellCreated: (e) ->
+    return unless @onPoint()
+    spellTeam = e.spell.team
+    @teamSpellMap[spellTeam] ?= []
+
+    unless e.spell.spellKey in @teamSpellMap[spellTeam]
+      @teamSpellMap[spellTeam].push e.spell.spellKey
+    @changedSessionProperties.teamSpells = true
+    @session.set({'teamSpells': @teamSpellMap})
+    @saveSession()
+
+
 
   onScriptStateChanged: (e) ->
     return unless @onPoint()
@@ -221,3 +236,11 @@ module.exports = class LevelBus extends Bus
   destroy: ->
     super()
     @session.off 'change:multiplayer', @onMultiplayerChanged, @
+
+  setTeamSpellMap: (spellMap) ->
+    @teamSpellMap = spellMap
+    console.log @teamSpellMap
+    @changedSessionProperties.teamSpells = true
+    @session.set({'teamSpells': @teamSpellMap})
+    @saveSession()
+

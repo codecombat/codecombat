@@ -360,6 +360,7 @@ module.exports = class PlayLevelView extends View
   register: ->
     @bus = LevelBus.get(@levelID, @session.id)
     @bus.setSession(@session)
+    @bus.setTeamSpellMap @tome.teamSpellMap
     @bus.connect() if @session.get('multiplayer')
 
   onSessionWillSave: (e) ->
