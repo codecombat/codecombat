@@ -28,7 +28,7 @@ module.exports = class LevelLoader extends CocoClass
     @loadLevelModels()
     @loadAudio()
     @playJingle()
-    setTimeout (=> @update()), 1 # lets everything else resolve first
+    _.defer @update  # Lets everything else resolve first
 
   playJingle: ->
     jingles = ["ident_1", "ident_2"]
@@ -41,9 +41,9 @@ module.exports = class LevelLoader extends CocoClass
     @session = new LevelSession()
     @session.url = -> url
     @session.fetch()
-    @session.once 'sync', @onSessionLoaded
+    @session.once 'sync', @onSessionLoaded, @
 
-  onSessionLoaded: =>
+  onSessionLoaded: ->
     # TODO: maybe have all non versioned models do this? Or make it work to PUT/PATCH to relative urls
     @session.url = -> '/db/level.session/' + @id
     @update()
@@ -51,9 +51,9 @@ module.exports = class LevelLoader extends CocoClass
   # Supermodel (Level) Loading
 
   loadLevelModels: ->
-    @supermodel.once 'loaded-all', @onSupermodelLoadedAll
-    @supermodel.on 'loaded-one', @onSupermodelLoadedOne
-    @supermodel.once 'error', @onSupermodelError
+    @supermodel.once 'loaded-all', @onSupermodelLoadedAll, @
+    @supermodel.on 'loaded-one', @onSupermodelLoadedOne, @
+    @supermodel.once 'error', @onSupermodelError, @
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
     levelID = @levelID
 
@@ -65,12 +65,12 @@ module.exports = class LevelLoader extends CocoClass
 
     @supermodel.populateModel @level
 
-  onSupermodelError: =>
+  onSupermodelError: ->
     msg = $.i18n.t('play_level.level_load_error',
       defaultValue: "Level could not be loaded.")
     @$el.html('<div class="alert">' + msg + '</div>')
 
-  onSupermodelLoadedOne: (e) =>
+  onSupermodelLoadedOne: (e) ->
     @notifyProgress()
 #    if e.model.type() is 'ThangType'
 #      thangType = e.model
@@ -80,18 +80,18 @@ module.exports = class LevelLoader extends CocoClass
 #      building = thangType.buildSpriteSheet options
 #      if building
 #        @spriteSheetsToBuild += 1
-#        thangType.on 'build-complete', =>
+#        thangType.once 'build-complete', =>
 #          @spriteSheetsBuilt += 1
 #          @notifyProgress()
 
-  onSupermodelLoadedAll: =>
+  onSupermodelLoadedAll: ->
     @trigger 'loaded-supermodel'
     @stopListening(@supermodel)
     @update()
 
   # Things to do when either the Session or Supermodel load
 
-  update: ->
+  update: =>
     @notifyProgress()
 
     return if @updateCompleted
@@ -153,7 +153,7 @@ module.exports = class LevelLoader extends CocoClass
     return unless building
     console.log 'Building:', thangType.get('name'), options
     @spriteSheetsToBuild += 1
-    thangType.on 'build-complete', =>
+    thangType.once 'build-complete', =>
       @spriteSheetsBuilt += 1
       @notifyProgress()
 
@@ -208,6 +208,8 @@ module.exports = class LevelLoader extends CocoClass
     @trigger 'loaded-all' if @progress() is 1
 
   destroy: ->
+    super()
     @world = null  # don't hold onto garbage
     @supermodel.off 'loaded-one', @onSupermodelLoadedOne
-    super()
+    @onSupermodelLoadedOne = null
+    @notifyProgress = null

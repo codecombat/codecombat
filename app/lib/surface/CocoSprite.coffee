@@ -80,6 +80,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     super()
     mark.destroy() for name, mark of @marks
     label.destroy() for name, label of @labels
+    @imageObject?.off 'animationend', @playNextAction
+    @playNextAction = null
+    @displayObject?.off()
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
 
@@ -108,7 +111,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @displayObject.sprite = @
     @displayObject.layerPriority = @thangType.get 'layerPriority'
     @displayObject.name = @thang?.spriteName or @thangType.get 'name'
-    @imageObject.on 'animationend', @onActionEnd
+    @imageObject.on 'animationend', @playNextAction
 
   ##################################################
   # QUEUEING AND PLAYING ACTIONS
@@ -126,10 +129,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @currentRootAction = action
     @playNextAction()
 
-  onActionEnd: (e) => @playNextAction()
   onSurfaceTicked: (e) -> @age += e.dt
 
-  playNextAction: ->
+  playNextAction: =>
     @playAction(@actionQueue.splice(0,1)[0]) if @actionQueue.length
 
   playAction: (action) ->
@@ -411,7 +413,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
     @instance?.stop()
     if @instance = @playSound sound, false
-      @instance.addEventListener "complete", => Backbone.Mediator.publish 'dialogue-sound-completed'
+      @instance.addEventListener "complete", -> Backbone.Mediator.publish 'dialogue-sound-completed'
     @notifySpeechUpdated e
 
   onClearDialogue: (e) ->

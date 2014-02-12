@@ -223,6 +223,7 @@ _.extend LevelSchema.properties,
   victory: c.object {title: "Victory Screen", default: {}, properties: {'body': {type: 'string', format: 'markdown', title: 'Body Text', description: 'Inserted into the Victory Modal once this level is complete. Tell the player they did a good job and what they accomplished!'}, i18n: {type: "object", format: 'i18n', props: ['body'], description: "Help translate this victory message"}}}
   i18n: {type: "object", format: 'i18n', props: ['name', 'description'], description: "Help translate this level"}
   icon: { type: 'string', format: 'image-file', title: 'Icon' }
+  goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
 
 
 c.extendBasicProperties LevelSchema, 'level'
