@@ -43,7 +43,7 @@ module.exports = class PlaybackView extends View
     super(arguments...)
     me.on('change:music', @updateMusicButton, @)
 
-  afterRender: =>
+  afterRender: ->
     super()
     @hookUpScrubber()
     @updateMusicButton()
@@ -62,7 +62,7 @@ module.exports = class PlaybackView extends View
   onWindowResize: (s...) =>
     @barWidth = $('.progress', @$el).width()
 
-  onNewWorld: (e) =>
+  onNewWorld: (e) ->
     pct = parseInt(100 * e.world.totalFrames / e.world.maxTotalFrames) + '%'
     @barWidth = $('.progress', @$el).css('width', pct).removeClass('hide').width()
 
@@ -79,7 +79,7 @@ module.exports = class PlaybackView extends View
   onEditWizardSettings: ->
     Backbone.Mediator.publish 'edit-wizard-settings'
 
-  onDisableControls: (e) =>
+  onDisableControls: (e) ->
     if not e.controls or 'playback' in e.controls
       @disabled = true
       $('button', @$el).addClass('disabled')
@@ -91,7 +91,7 @@ module.exports = class PlaybackView extends View
       @hoverDisabled = true
     $('#volume-button', @$el).removeClass('disabled')
 
-  onEnableControls: (e) =>
+  onEnableControls: (e) ->
     if not e.controls or 'playback' in e.controls
       @disabled = false
       $('button', @$el).removeClass('disabled')
@@ -102,7 +102,7 @@ module.exports = class PlaybackView extends View
     if not e.controls or 'playback-hover' in e.controls
       @hoverDisabled = false
 
-  onSetPlaying: (e) =>
+  onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
     button = @$el.find '#play-button'
     ended = button.hasClass 'ended'
@@ -239,4 +239,9 @@ module.exports = class PlaybackView extends View
 
   destroy: ->
     super()
+    me.off('change:music', @updateMusicButton, @)
     $(window).off('resize', @onWindowResize)
+    @onWindowResize = null
+    @onProgressMouseOver = null
+    @onProgressMouseLeave = null
+    @onProgressMouseMove = null

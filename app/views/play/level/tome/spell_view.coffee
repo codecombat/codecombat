@@ -35,7 +35,7 @@ module.exports = class SpellView extends View
   constructor: (options) ->
     super options
     @session = options.session
-    @session.on 'change:multiplayer', @onMultiplayerChanged
+    @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @spell = options.spell
     @problems = {}
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
@@ -123,7 +123,7 @@ module.exports = class SpellView extends View
     @ace.setValue @spell.source
     @ace.clearSelection()
 
-  onMultiplayerChanged: =>
+  onMultiplayerChanged: ->
     if @session.get 'multiplayer'
       @createFirepad()
     else
@@ -248,7 +248,7 @@ module.exports = class SpellView extends View
     ]
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
-      if @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw
+      if not @spellThang or @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw
         callback() for callback in onSignificantChange  # Do these first
       callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
@@ -502,4 +502,7 @@ module.exports = class SpellView extends View
     super()
     @firepad?.dispose()
     @ace.destroy()
+    @ace = null
     @debugView?.destroy()
+    @spell = null
+    @session.off 'change:multiplayer', @onMultiplayerChanged, @

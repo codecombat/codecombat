@@ -1,0 +1,44 @@
+@import "app/styles/mixins"
+
+#gold-view
+  position: absolute
+  right: 46%
+  top: 42px
+  user-select: none
+  -webkit-user-select: none
+
+  h3
+    font-size: 16px
+    margin: 0
+    line-height: 20px
+    color: hsla(205,0%,31%,1)
+    text-shadow: 0px 1px 1px white, 0px -1px 1px white, 1px 0px 1px white, -1px 0px 1px white
+
+    &.team-humans
+      color: hsla(4,80%,51%,1)
+
+    &.team-ogres
+      color: hsla(205,100%,31%,1)
+
+    &.team-allies, &.team-minions
+      color: hsla(116,80%,31%,1)
+
+    img
+      width: 16px
+      height: 16px
+      border-radius: 2px
+      padding: 2px
+      @include gradient-radial-custom-stops(hsla(205,0%,74%,1), 20%, hsla(205,0%,31%,1), 70%)
+  
+    &.team-humans img
+      @include gradient-radial-custom-stops(hsla(4,80%,74%,1), 20%, hsla(4,80%,51%,1), 70%)
+
+    &.team-ogres img
+      @include gradient-radial-custom-stops(hsla(205,100%,74%,1), 20%, hsla(205,100%,31%,1), 70%)
+
+    &.team-allies img, &.team-minions img
+      @include gradient-radial-custom-stops(hsla(116,80%,74%,1), 20%, hsla(116,80%,31%,1), 70%)
+
+    .gold-amount
+      display: inline-block
+      width: 20px

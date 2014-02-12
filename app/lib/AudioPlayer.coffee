@@ -33,7 +33,7 @@ class Media
 
 class AudioPlayer extends CocoClass
   subscriptions:
-    'play-sound': (e) -> @playInterfaceSound e.trigger
+    'play-sound': (e) -> @playInterfaceSound e.trigger, e.volume
 
   constructor: () ->
     super()
@@ -70,17 +70,17 @@ class AudioPlayer extends CocoClass
       filename = "/file/interface/#{name}#{@ext}"
       @preloadSound filename, name
 
-  playInterfaceSound: (name) ->
+  playInterfaceSound: (name, volume=1) ->
     filename = "/file/interface/#{name}#{@ext}"
     if filename of cache and createjs.Sound.loadComplete filename
-      @playSound name
+      @playSound name, volume
       createjs.Sound.play name
     else
       @preloadInterfaceSounds [name] unless filename of cache
-      @soundsToPlayWhenLoaded[name] = true
-      
-  playSound: (name) ->
-    createjs.Sound.play name, {volume: me.get('volume')}
+      @soundsToPlayWhenLoaded[name] = volume
+
+  playSound: (name, volume=1) ->
+    createjs.Sound.play name, {volume: me.get('volume') * volume}
 
 #  # TODO: load Interface sounds somehow, somewhere, somewhen
 
@@ -108,8 +108,8 @@ class AudioPlayer extends CocoClass
     return if not media
     media.loaded = true
     media.progress = 1.0
-    if @soundsToPlayWhenLoaded[media.name]
-      @playSound media.name
+    if volume = @soundsToPlayWhenLoaded[media.name]
+      @playSound media.name, volume
       @soundsToPlayWhenLoaded[media.name] = false
     @notifyProgressChanged()
 
@@ -124,9 +124,3 @@ class AudioPlayer extends CocoClass
 
 
 module.exports = new AudioPlayer()
-
-average = (numbers) ->
-  return 0 if numbers.length is 0
-  sum = 0
-  sum += num for num in numbers
-  return sum / numbers.length

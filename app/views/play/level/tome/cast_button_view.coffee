@@ -19,7 +19,7 @@ module.exports = class CastButtonView extends View
     @castShortcut = "⇧↩"
     @castShortcutVerbose = "Shift+Enter"
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.castShortcutVerbose = @castShortcutVerbose
     context
@@ -54,6 +54,7 @@ module.exports = class CastButtonView extends View
 
   onCastSpells: (e) ->
     @casting = true
+    Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.25
     @updateCastButton()
 
   onWorldLoadProgressChanged: (e) ->

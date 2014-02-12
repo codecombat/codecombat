@@ -16,7 +16,7 @@ module.exports = class ModalView extends CocoView
     @modalWidthPercent = options.modalWidthPercent if options.modalWidthPercent
     super options
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.closeButton = @closeButton
     context

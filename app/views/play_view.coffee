@@ -5,7 +5,7 @@ module.exports = class PlayView extends View
   id: "play-view"
   template: template
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.home = true
 

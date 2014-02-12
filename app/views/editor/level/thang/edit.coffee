@@ -28,7 +28,7 @@ module.exports = class LevelThangEditView extends View
     @level = options.level
     @oldID = @thangData.id
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.thang = @thangData
     context

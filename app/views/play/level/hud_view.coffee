@@ -26,7 +26,7 @@ module.exports = class HUDView extends View
   events:
     'click': -> Backbone.Mediator.publish 'focus-editor'
 
-  afterRender: =>
+  afterRender: ->
     super()
     @$el.addClass 'no-selection'
 
@@ -235,7 +235,7 @@ module.exports = class HUDView extends View
       return null  # included in the bar
     context =
       prop: prop
-      hasIcon: prop in ["health", "pos", "target", "inventory"]
+      hasIcon: prop in ["health", "pos", "target", "inventory", "gold"]
       hasBar: prop in ["health"]
     $(prop_template(context))
 
@@ -335,3 +335,6 @@ module.exports = class HUDView extends View
   destroy: ->
     super()
     @stage?.stopTalking()
+    @addMoreMessage = null
+    @animateEnterButton = null
+    clearInterval(@messageInterval) if @messageInterval

@@ -32,6 +32,9 @@ module.exports.CollisionCategory = class CollisionCategory
     # "ground_and_air_<team>" units don't hit ground or air units on their team (so missiles don't hit same team)
     sameTeam = @superteamIndex and cat.superteamIndex is @superteamIndex
     return false if sameTeam and @ground and @air
+    
+    # actually, "ground_and_air<team>" units don't hit any ground_and_air units (temp missile collision fix)
+    return false if @ground and @air and cat.ground and cat.air
 
     # "ground" collides with "ground"
     return true if cat.ground and @ground

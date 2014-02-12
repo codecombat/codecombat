@@ -55,9 +55,18 @@ _.extend LevelSessionSchema.properties,
   
   # TODO: specify this more
   code: { type: 'object' }
+  teamSpells:
+    type: 'object'
+    additionalProperties:
+      type: 'array'
+
+
   players: { type: 'object' }
   chat: { type: 'array' }
 
+  meanStrength: {type: 'number', default: 25}
+  standardDeviation: {type:'number', default:25/3, minimum: 0}
+  totalScore: {type: 'number', default: 10}
 
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'

@@ -26,6 +26,7 @@ HUDView = require './level/hud_view'
 ControlBarView = require './level/control_bar_view'
 PlaybackView = require './level/playback_view'
 GoalsView = require './level/goals_view'
+GoldView = require './level/gold_view'
 VictoryModal = require './level/modal/victory_modal'
 InfiniteLoopModal = require './level/modal/infinite_loop_modal'
 
@@ -104,6 +105,7 @@ module.exports = class PlayLevelView extends View
   load: ->
     @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
+    @god = new God()
 
   getRenderData: ->
     c = super()
@@ -118,20 +120,21 @@ module.exports = class PlayLevelView extends View
 
   onLevelLoaderLoaded: =>
     @session = @levelLoader.session
-    @level = @levelLoader.level
     @world = @levelLoader.world
+    @level = @levelLoader.level
     @levelLoader.destroy()
     @levelLoader = null
     @loadingScreen.destroy()
+    @god.level = @level.serialize @supermodel
+    @god.worldClassMap = @world.classMap
     #@setTeam @world.teamForPlayer _.size @session.get 'players'   # TODO: players aren't initialized yet?
     @setTeam @getQueryVariable("team") ? @world.teamForPlayer(0)
     @initSurface()
-    @initGod()
     @initGoalManager()
     @initScriptManager()
     @insertSubviews()
     @initVolume()
-    @session.on 'change:multiplayer', @onMultiplayerChanged
+    @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @originalSessionState = _.cloneDeep(@session.get('state'))
     @register()
     @controlBar.setBus(@bus)
@@ -155,6 +158,7 @@ module.exports = class PlayLevelView extends View
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
     @insertSubView new PlaybackView {}
     @insertSubView new GoalsView {}
+    @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
@@ -298,7 +302,7 @@ module.exports = class PlayLevelView extends View
     $('#pointer').css('opacity', 0.0)
     clearInterval(@pointerInterval)
 
-  onMultiplayerChanged: (e) =>
+  onMultiplayerChanged: (e) ->
     if @session.get('multiplayer')
       @bus.connect()
     else
@@ -319,9 +323,6 @@ module.exports = class PlayLevelView extends View
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
     @surface.camera.zoomTo({x:0, y:0}, 0.1, 0)
-
-  initGod: ->
-    @god = new God @world, @level.serialize @supermodel
 
   initGoalManager: ->
     @goalManager = new GoalManager(@world)
@@ -359,6 +360,7 @@ module.exports = class PlayLevelView extends View
   register: ->
     @bus = LevelBus.get(@levelID, @session.id)
     @bus.setSession(@session)
+    @bus.setTeamSpellMap @tome.teamSpellMap
     @bus.connect() if @session.get('multiplayer')
 
   onSessionWillSave: (e) ->
@@ -384,8 +386,10 @@ module.exports = class PlayLevelView extends View
     @goalManager?.destroy()
     @scriptManager?.destroy()
     $(window).off('resize', @onWindowResize)
+    delete window.world # not sure where this is set, but this is one way to clean it up
 
     clearInterval(@pointerInterval)
     @bus?.destroy()
     #@instance.save() unless @instance.loading
     console.profileEnd?() if PROFILE_ME
+    @session.off 'change:multiplayer', @onMultiplayerChanged, @

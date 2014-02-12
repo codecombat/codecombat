@@ -210,7 +210,13 @@ _.extend LevelSchema.properties,
     specificArticles: c.array {title: "Specific Articles", description: "Specific documentation articles that live only in this level.", uniqueItems: true, "default": []}, SpecificArticleSchema
     generalArticles: c.array {title: "General Articles", description: "General documentation articles that can be linked from multiple levels.", uniqueItems: true, "default": []}, GeneralArticleSchema
   background: c.objectId({format: 'hidden'})
-  nextLevel: c.objectId(links: [{rel: "extra", href: "/db/level/{($)}"}, {rel:'db', href: "/db/level/{(original)}/version/{(majorVersion)}"}], format: 'latest-version-reference', title: "Next Level", description: "Reference to the next level players will player after beating this one.")
+  nextLevel: {
+    type:'object',
+    links: [{rel: "extra", href: "/db/level/{($)}"}, {rel:'db', href: "/db/level/{(original)}/version/{(majorVersion)}"}],
+    format: 'latest-version-reference',
+    title: "Next Level",
+    description: "Reference to the next level players will player after beating this one."
+  }
   scripts: c.array {title: "Scripts", description: "An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.", "default": []}, ScriptSchema
   thangs: c.array {title: "Thangs", description: "An array of Thangs that make up the level.", "default": []}, LevelThangSchema
   systems: c.array {title: "Systems", description: "Levels are configured by changing the Systems attached to them.", uniqueItems: true, default: []}, LevelSystemSchema  # TODO: uniqueness should be based on "original", not whole thing

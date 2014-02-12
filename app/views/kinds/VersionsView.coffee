@@ -34,7 +34,7 @@ module.exports = class SuperVersionsView extends View
     @startsLoading = false
     @render()
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.page = @page
     context.dataList = (m.attributes for m in @collection.models) if @collection

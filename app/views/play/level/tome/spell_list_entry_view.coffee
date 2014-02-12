@@ -27,7 +27,7 @@ module.exports = class SpellListEntryView extends View
     @spell = options.spell
     @showTopDivider = options.showTopDivider
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.spell = @spell
     context.parameters = (@spell.parameters or []).join ', '
@@ -46,6 +46,7 @@ module.exports = class SpellListEntryView extends View
     super()
     return unless @options.showTopDivider  # Don't repeat Thang avatars when not changed from previous entry
     return unless spellThang = @getPrimarySpellThang()
+    @avatar?.destroy()
     @avatar = new ThangAvatarView thang: spellThang.thang, includeName: false, supermodel: @supermodel
     @$el.prepend @avatar.el  # Before rendering, so render can use parent for popover
     @avatar.render()
@@ -67,7 +68,7 @@ module.exports = class SpellListEntryView extends View
     return unless @controlsEnabled and _.size(@spell.thangs) > 1
     @hideThangsTimeout = _.delay @hideThangs, 100
 
-  showThangs: =>
+  showThangs: ->
     clearTimeout @hideThangsTimeout if @hideThangsTimeout
     return if @thangsView
     @thangsView = new SpellListEntryThangsView thangs: (spellThang.thang for thangID, spellThang of @spell.thangs), thang: @getPrimarySpellThang().thang, spell: @spell, supermodel: @supermodel
@@ -100,3 +101,8 @@ module.exports = class SpellListEntryView extends View
 
   onNewWorld: (e) ->
     @lastSelectedThang = e.world.thangMap[@lastSelectedThang.id] if @lastSelectedThang
+    
+  destroy: ->
+    super()
+    @avatar?.destroy()
+    @hideThangs = null

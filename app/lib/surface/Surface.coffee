@@ -81,6 +81,7 @@ module.exports = Surface = class Surface extends CocoClass
   destroy: ->
     super()
     @dead = true
+    @camera?.destroy()
     createjs.Ticker.removeEventListener("tick", @tick)
     createjs.Sound.stop()
     layer.destroy() for layer in @layers
@@ -89,7 +90,14 @@ module.exports = Surface = class Surface extends CocoClass
     @dimmer?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
-
+    @stage.removeEventListener 'stagemousemove', @onMouseMove
+    @stage.removeEventListener 'stagemousedown', @onMouseDown
+    @stage.removeAllEventListeners()
+    @playScrubbedSounds = null
+    @onMouseMove = null
+    @onMouseDown = null
+    @tick = null
+    
   setWorld: (@world) ->
     @worldLoaded = true
     @world.getFrame(Math.min(@getCurrentFrame(), @world.totalFrames - 1)).restoreState() unless @options.choosing
@@ -248,14 +256,14 @@ module.exports = Surface = class Surface extends CocoClass
   onSetLetterbox: (e) ->
     @setDisabled e.on
 
-  onSetPlaying: (e) =>
+  onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
     if @playing and @currentFrame >= (@world.totalFrames - 5)
       @currentFrame = 0
     if @fastForwarding and not @playing
       @setProgress @currentFrame / @world.totalFrames
 
-  onSetTime: (e) =>
+  onSetTime: (e) ->
     toFrame = @currentFrame
     if e.time?
       @worldLifespan = @world.totalFrames / @world.frameRate
@@ -317,6 +325,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage = new createjs.Stage(@canvas[0])
     canvasWidth = parseInt(@canvas.attr('width'), 10)
     canvasHeight = parseInt(@canvas.attr('height'), 10)
+    @camera?.destroy()
     @camera = new Camera canvasWidth, canvasHeight
     @layers.push @surfaceLayer = new Layer name: "Surface", layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @layers.push @surfaceTextLayer = new Layer name: "Surface Text", layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera

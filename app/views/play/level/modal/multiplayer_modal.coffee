@@ -13,7 +13,7 @@ module.exports = class MultiplayerModal extends View
   constructor: (options) ->
     super(options)
     @session = options.session
-    @session.on 'change:multiplayer', @updateLinkSection
+    @session.on 'change:multiplayer', @updateLinkSection, @
     @playableTeams = options.playableTeams
 
   getRenderData: ->
@@ -32,7 +32,7 @@ module.exports = class MultiplayerModal extends View
   onClickLink: (e) ->
     e.target.select()
 
-  updateLinkSection: =>
+  updateLinkSection: ->
     multiplayer = @$el.find('#multiplayer').prop('checked')
     la = @$el.find('#link-area')
     if multiplayer then la.show() else la.hide()
@@ -41,3 +41,7 @@ module.exports = class MultiplayerModal extends View
   onHidden: ->
     multiplayer = Boolean(@$el.find('#multiplayer').prop('checked'))
     @session.set('multiplayer', multiplayer)
+
+  destroy: ->
+    super()
+    @session.off 'change:multiplayer', @updateLinkSection, @

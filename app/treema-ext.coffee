@@ -284,7 +284,7 @@ class LatestVersionReferenceNode extends TreemaNode
     @lastTerm = term
     @getSearchResultsEl().empty().append('Searching')
     @collection = new LatestVersionCollection()
-    @collection.url = @url+'?term='+term
+    @collection.url = "#{@url}?term=#{term}&project=true"
     @collection.fetch()
     @collection.on 'sync', @searchCallback
 
