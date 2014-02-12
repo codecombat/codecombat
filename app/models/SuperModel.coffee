@@ -8,8 +8,8 @@ class SuperModel
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
     model.fetch() unless model.loaded or model.loading
-    model.once('sync', @modelLoaded) unless model.loaded
-    model.once('error', @modelErrored) unless model.loaded
+    model.once('sync', @modelLoaded, @) unless model.loaded
+    model.once('error', @modelErrored, @) unless model.loaded
     url = model.url()
     @models[url] = model unless @models[url]?
     @modelLoaded(model) if model.loaded
@@ -18,10 +18,11 @@ class SuperModel
   shouldPopulate: (url) -> return true
   shouldSaveBackups: (model) -> return false
 
-  modelErrored: (model) =>
+  modelErrored: (model) ->
     @trigger 'error'
+    @removeEventsFromModel(model)
 
-  modelLoaded: (model) =>
+  modelLoaded: (model) ->
     schema = model.schema()
     return schema.once('sync', => @modelLoaded(model)) unless schema.loaded
     refs = model.getReferencedModels(model.attributes, schema.attributes)
@@ -33,10 +34,15 @@ class SuperModel
       continue if @models[refURL]
       @models[refURL] = ref
       ref.fetch()
-      ref.once 'sync', @modelLoaded
+      ref.once 'sync', @modelLoaded, @
 
     @trigger 'loaded-one', model: model
     @trigger 'loaded-all' if @finished()
+    @removeEventsFromModel(model)
+
+  removeEventsFromModel: (model) ->
+    model.off 'sync', @modelLoaded, @
+    model.off 'error', @modelErrored, @
 
   getModel: (ModelClass_or_url, id) ->
     return @getModelByURL(ModelClass_or_url) if _.isString(ModelClass_or_url)
