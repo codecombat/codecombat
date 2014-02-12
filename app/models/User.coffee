@@ -28,7 +28,6 @@ module.exports = class User extends CocoModel
     profileUrl = "#{GRAVATAR_URL}#{emailHash}.json?callback=#{functionName}"
     script = $("<script src='#{profileUrl}' type='text/javascript'></script>")
     $('head').append(script)
-    $('body').on('load',(e)->console.log('we did it!', e))
     window[functionName] = (profile) =>
       @gravatarProfile = profile
       @trigger('change', @)

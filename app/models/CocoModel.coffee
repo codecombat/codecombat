@@ -25,7 +25,7 @@ class CocoModel extends Backbone.Model
       @loadSchema()
     @once 'sync', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
-    
+
   type: ->
     @constructor.className
 
@@ -36,18 +36,18 @@ class CocoModel extends Backbone.Model
     if @saveBackups
       existing = storage.load @id
       if existing
-        @set(existing, {silent:true}) 
+        @set(existing, {silent:true})
         CocoModel.backedUp[@id] = @
-    
+
   set: ->
     res = super(arguments...)
     @saveBackup() if @saveBackups and @loaded and @hasLocalChanges()
     res
-    
+
   saveBackup: ->
     storage.save(@id, @attributes)
     CocoModel.backedUp[@id] = @
-    
+
   @backedUp = {}
 
   loadSchema: ->
@@ -55,7 +55,7 @@ class CocoModel extends Backbone.Model
       @constructor.schema = new CocoSchema(@urlRoot)
       @constructor.schema.fetch()
 
-    @constructor.schema.on 'sync', =>
+    @constructor.schema.once 'sync', =>
       @constructor.schema.loaded = true
       @addSchemaDefaults()
       @trigger 'schema-loaded'
@@ -90,7 +90,7 @@ class CocoModel extends Backbone.Model
   revert: ->
     @set(@_revertAttributes, {silent: true}) if @_revertAttributes
     @clearBackup()
-    
+
   clearBackup: ->
     storage.remove @id
 

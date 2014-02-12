@@ -8,14 +8,14 @@ class SuperModel
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
     model.fetch() unless model.loaded or model.loading
-    model.on('sync', @modelLoaded) unless model.loaded
+    model.once('sync', @modelLoaded) unless model.loaded
     model.once('error', @modelErrored) unless model.loaded
     url = model.url()
     @models[url] = model unless @models[url]?
     @modelLoaded(model) if model.loaded
 
   # replace or overwrite
-  shouldPopulate: (url) -> return true 
+  shouldPopulate: (url) -> return true
   shouldSaveBackups: (model) -> return false
 
   modelErrored: (model) =>
@@ -23,7 +23,7 @@ class SuperModel
 
   modelLoaded: (model) =>
     schema = model.schema()
-    return schema.on('sync', => @modelLoaded(model)) unless schema.loaded
+    return schema.once('sync', => @modelLoaded(model)) unless schema.loaded
     refs = model.getReferencedModels(model.attributes, schema.attributes)
     refs = [] unless @mustPopulate is model or @shouldPopulate(model)
 #    console.log 'Loaded', model.get('name')
@@ -33,7 +33,7 @@ class SuperModel
       continue if @models[refURL]
       @models[refURL] = ref
       ref.fetch()
-      ref.on 'sync', @modelLoaded
+      ref.once 'sync', @modelLoaded
 
     @trigger 'loaded-one', model: model
     @trigger 'loaded-all' if @finished()

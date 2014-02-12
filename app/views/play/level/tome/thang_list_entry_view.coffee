@@ -97,12 +97,12 @@ module.exports = class ThangListEntryView extends View
     @$el.popover('setContent').popover('show')
     @$el.parent().parent().parent().i18n()
     clearTimeout @hideSpellsTimeout if @hideSpellsTimeout
-    popover = @$el.parent().parent().parent().find('.popover')
-    popover.off 'mouseenter mouseleave'
-    popover.mouseenter (e) => @onMouseEnter()
-    popover.mouseleave (e) => @onMouseLeave()
+    @popover = @$el.parent().parent().parent().find('.popover')
+    @popover.off 'mouseenter mouseleave'
+    @popover.mouseenter (e) => @onMouseEnter()
+    @popover.mouseleave (e) => @onMouseLeave()
     thangID = @thang.id
-    popover.find('code').click (e) ->
+    @popover.find('code').click (e) ->
       Backbone.Mediator.publish "level-select-sprite", thangID: thangID, spellName: $(@).data 'spell-name'
 
   hideSpells: =>
@@ -139,3 +139,5 @@ module.exports = class ThangListEntryView extends View
   destroy: ->
     super()
     @avatar?.destroy()
+    @popover?.off 'mouseenter mouseleave'
+    @popover?.find('code').off 'click'

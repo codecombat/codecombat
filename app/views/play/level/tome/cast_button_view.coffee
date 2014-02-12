@@ -11,6 +11,8 @@ module.exports = class CastButtonView extends View
     'tome:cast-spells': 'onCastSpells'
     'god:world-load-progress-changed': 'onWorldLoadProgressChanged'
     'god:new-world-created': 'onNewWorld'
+    'click .cast-button': -> Backbone.Mediator.publish 'tome:manual-cast', {}
+    'click .cast-options a': 'onCastOptionsClick'
 
   constructor: (options) ->
     super options
@@ -26,8 +28,10 @@ module.exports = class CastButtonView extends View
 
   afterRender: ->
     super()
+    @castButton = $('.cast-button', @$el)
+    @castButtonGroup = $('.cast-button-group', @$el)
+    @castOptions = $('.autocast-delays', @$el)
     # TODO: use a User setting instead of localStorage
-    @hookUpButtons()
     delay = localStorage.getItem 'autocastDelay'
     delay ?= 5000
     @setAutocastDelay delay
@@ -35,19 +39,11 @@ module.exports = class CastButtonView extends View
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
 
-  hookUpButtons: ->
-    # hook up cast button callbacks
-    @castButton = $('.cast-button', @$el)
-    @castButtonGroup = $('.cast-button-group', @$el)
-    @castOptions = $('.autocast-delays', @$el)
-
-    @castButton.click (e) =>
-      Backbone.Mediator.publish 'tome:manual-cast', {}
-    @castOptions.find('a').click (e) =>
-      Backbone.Mediator.publish 'focus-editor'
-      @castButtonGroup.removeClass 'open'
-      @setAutocastDelay $(e.target).attr 'data-delay'
-      false
+  onCastOptionsClick: (e) ->
+    Backbone.Mediator.publish 'focus-editor'
+    @castButtonGroup.removeClass 'open'
+    @setAutocastDelay $(e.target).attr 'data-delay'
+    false
 
   onSpellChanged: (e) ->
     @updateCastButton()

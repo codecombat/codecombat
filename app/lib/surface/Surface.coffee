@@ -90,14 +90,19 @@ module.exports = Surface = class Surface extends CocoClass
     @dimmer?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
+    @stage.removeAllChildren()
     @stage.removeEventListener 'stagemousemove', @onMouseMove
     @stage.removeEventListener 'stagemousedown', @onMouseDown
     @stage.removeAllEventListeners()
+    @stage.enableDOMEvents false
+    @stage.enableMouseOver 0
     @playScrubbedSounds = null
     @onMouseMove = null
     @onMouseDown = null
     @tick = null
-    
+    @canvas.off 'mousewheel', @onMouseWheel
+    @onMouseWheel = null
+
   setWorld: (@world) ->
     @worldLoaded = true
     @world.getFrame(Math.min(@getCurrentFrame(), @world.totalFrames - 1)).restoreState() unless @options.choosing
@@ -337,7 +342,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown
-    @hookUpZoomControls()
+    @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
     console.log "Setting fps", @world.frameRate unless @world.frameRate is 30
     createjs.Ticker.setFPS @world.frameRate
@@ -436,12 +441,11 @@ module.exports = Surface = class Surface extends CocoClass
     onBackground = not @stage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-down', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
 
-  hookUpZoomControls: ->
-    @canvas.bind 'mousewheel', (e) =>
-      # https://github.com/brandonaaron/jquery-mousewheel
-      e.preventDefault()
-      return if @disabled
-      Backbone.Mediator.publish 'surface:mouse-scrolled', deltaX: e.deltaX, deltaY: e.deltaY unless @disabled
+  onMouseWheel: (e) =>
+    # https://github.com/brandonaaron/jquery-mousewheel
+    e.preventDefault()
+    return if @disabled
+    Backbone.Mediator.publish 'surface:mouse-scrolled', deltaX: e.deltaX, deltaY: e.deltaY unless @disabled
 
   hookUpChooseControls: ->
     chooserOptions = stage: @stage, surfaceLayer: @surfaceLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'

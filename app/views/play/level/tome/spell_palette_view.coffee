@@ -60,3 +60,4 @@ module.exports = class SpellPaletteView extends View
   destroy: ->
     super()
     entry.destroy() for entry in @entries
+    @toggleBackground = null

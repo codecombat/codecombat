@@ -131,6 +131,8 @@ module.exports = class God
     @dead = true
     Backbone.Mediator.unsubscribe('tome:cast-spells', @onTomeCast, @)
     @goalManager = null
+    @fillWorkerPool = null
+    @simulateWorld = null
 
   #### Bad code for running worlds on main thread (profiling / IE9) ####
   simulateWorld: =>
@@ -207,6 +209,7 @@ class Angel
     if @worker
       worker = @worker
       _.defer -> worker.terminate
+      @worker.removeEventListener 'message', @onWorkerMessage
       @worker = null
     @
 
@@ -217,6 +220,7 @@ class Angel
 
   terminate: =>
     @worker?.terminate()
+    @worker?.removeEventListener 'message', @onWorkerMessage
     @worker = null
     return if @dead
     @free()
@@ -225,6 +229,10 @@ class Angel
   destroy: ->
     @dead = true
     @abort()
+    @terminate = null
+    @testWorker = null
+    @condemnWorker = null
+    @onWorkerMessage = null
 
   testWorker: =>
     @worker.postMessage {func: 'reportIn'}
@@ -235,22 +243,24 @@ class Angel
     @abort()
 
   listen: ->
-    @worker.addEventListener 'message', (event) =>
-      switch event.data.type
-        when 'new-world'
-          @god.beholdWorld @, event.data.serialized, event.data.goalStates
-        when 'world-load-progress-changed'
-          Backbone.Mediator.publish 'god:world-load-progress-changed', event.data unless @dead
-        when 'console-log'
-          console.log "|" + @god.id + "'s " + @id + "|", event.data.args...
-        when 'user-code-problem'
-          @god.angelUserCodeProblem @, event.data.problem
-        when 'abort'
-          #console.log @id, "aborted."
-          clearTimeout @abortTimeout
-          @free()
-          @god.angelAborted @
-        when 'reportIn'
-          clearTimeout @condemnTimeout
-        else
-          console.log "Unsupported message:", event.data
+    @worker.addEventListener 'message', @onWorkerMessage
+
+  onWorkerMessage: (event) =>
+    switch event.data.type
+      when 'new-world'
+        @god.beholdWorld @, event.data.serialized, event.data.goalStates
+      when 'world-load-progress-changed'
+        Backbone.Mediator.publish 'god:world-load-progress-changed', event.data unless @dead
+      when 'console-log'
+        console.log "|" + @god.id + "'s " + @id + "|", event.data.args...
+      when 'user-code-problem'
+        @god.angelUserCodeProblem @, event.data.problem
+      when 'abort'
+        #console.log @id, "aborted."
+        clearTimeout @abortTimeout
+        @free()
+        @god.angelAborted @
+      when 'reportIn'
+        clearTimeout @condemnTimeout
+      else
+        console.log "Unsupported message:", event.data

@@ -76,9 +76,7 @@ module.exports = class PlayLevelView extends View
     @sessionID = @getQueryVariable 'session'
 
     $(window).on('resize', @onWindowResize)
-    @supermodel.once 'error', =>
-      msg = $.i18n.t('play_level.level_load_error', defaultValue: "Level could not be loaded.")
-      @$el.html('<div class="alert">' + msg + '</div>')
+    @supermodel.once 'error', @onLevelLoadError
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
@@ -93,6 +91,10 @@ module.exports = class PlayLevelView extends View
     # Save latest level played in local storage
     if localStorage?
       localStorage["lastLevel"] = @levelID
+
+  onLevelLoadError: (e) =>
+    msg = $.i18n.t('play_level.level_load_error', defaultValue: "Level could not be loaded.")
+    @$el.html('<div class="alert">' + msg + '</div>')
 
   setLevel: (@level, @supermodel) ->
     @god?.level = @level.serialize @supermodel
@@ -181,21 +183,21 @@ module.exports = class PlayLevelView extends View
   onWindowResize: (s...) ->
     $('#pointer').css('opacity', 0.0)
 
-  onDisableControls: (e) =>
+  onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)
     @shortcutsEnabled = false
     @wasFocusedOn = document.activeElement
     $('body').focus()
 
-  onEnableControls: (e) =>
+  onEnableControls: (e) ->
     return if e.controls? and not ('level' in e.controls)
     @shortcutsEnabled = true
     $(@wasFocusedOn).focus() if @wasFocusedOn
     @wasFocusedOn = null
 
-  onDonePressed: => @showVictory()
+  onDonePressed: -> @showVictory()
 
-  onShowVictory: (e) =>
+  onShowVictory: (e) ->
     console.log 'show vict', e
     $('#level-done-button').show()
     @showVictory() if e.showModal
@@ -221,7 +223,7 @@ module.exports = class PlayLevelView extends View
     @openModalView new InfiniteLoopModal()
     window.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
 
-  onPlayNextLevel: =>
+  onPlayNextLevel: ->
     nextLevel = @getNextLevel()
     nextLevelID = nextLevel.get('slug') or nextLevel.id
     url = "/play/level/#{nextLevelID}"
@@ -235,7 +237,7 @@ module.exports = class PlayLevelView extends View
     levels = @supermodel.getModels(Level)
     return l for l in levels when l.get('original') is nextLevelOriginal
 
-  onHighlightDom: (e) =>
+  onHighlightDom: (e) ->
     if e.delay
       delay = e.delay
       delete e.delay
@@ -289,16 +291,16 @@ module.exports = class PlayLevelView extends View
     ), 1)
 
 
-  animatePointer: =>
+  animatePointer: ->
     pointer = $('#pointer')
     pointer.css('transition', 'all 0.6s ease-out')
     pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)")
     setTimeout((=>
       pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)").css('transition', 'all 0.4s ease-in')), 800)
 
-  onFocusDom: (e) => $(e.selector).focus()
+  onFocusDom: (e) -> $(e.selector).focus()
 
-  onEndHighlight: =>
+  onEndHighlight: ->
     $('#pointer').css('opacity', 0.0)
     clearInterval(@pointerInterval)
 
@@ -380,6 +382,8 @@ module.exports = class PlayLevelView extends View
 
   destroy: ->
     super()
+    @supermodel.off 'error', @onLevelLoadError
+    @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
     @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
@@ -393,3 +397,8 @@ module.exports = class PlayLevelView extends View
     #@instance.save() unless @instance.loading
     console.profileEnd?() if PROFILE_ME
     @session.off 'change:multiplayer', @onMultiplayerChanged, @
+    @onLevelLoadError = null
+    @onLevelLoaderLoaded = null
+    @onSupermodelLoadedOne = null
+    @preloadNextLevel = null
+    @saveScreenshot = null

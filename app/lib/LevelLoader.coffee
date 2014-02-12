@@ -28,7 +28,7 @@ module.exports = class LevelLoader extends CocoClass
     @loadLevelModels()
     @loadAudio()
     @playJingle()
-    setTimeout (=> @update()), 1 # lets everything else resolve first
+    _.defer @update  # Lets everything else resolve first
 
   playJingle: ->
     jingles = ["ident_1", "ident_2"]
@@ -80,7 +80,7 @@ module.exports = class LevelLoader extends CocoClass
 #      building = thangType.buildSpriteSheet options
 #      if building
 #        @spriteSheetsToBuild += 1
-#        thangType.on 'build-complete', =>
+#        thangType.once 'build-complete', =>
 #          @spriteSheetsBuilt += 1
 #          @notifyProgress()
 
@@ -91,7 +91,7 @@ module.exports = class LevelLoader extends CocoClass
 
   # Things to do when either the Session or Supermodel load
 
-  update: ->
+  update: =>
     @notifyProgress()
 
     return if @updateCompleted
@@ -153,7 +153,7 @@ module.exports = class LevelLoader extends CocoClass
     return unless building
     console.log 'Building:', thangType.get('name'), options
     @spriteSheetsToBuild += 1
-    thangType.on 'build-complete', =>
+    thangType.once 'build-complete', =>
       @spriteSheetsBuilt += 1
       @notifyProgress()
 
@@ -208,6 +208,11 @@ module.exports = class LevelLoader extends CocoClass
     @trigger 'loaded-all' if @progress() is 1
 
   destroy: ->
+    super()
     @world = null  # don't hold onto garbage
     @supermodel.off 'loaded-one', @onSupermodelLoadedOne
-    super()
+    @onSessionLoaded = null
+    @onSupermodelError = null
+    @onSupermodelLoadedOne = null
+    @onSupermodelLoadedAll = null
+    @notifyProgress = null
