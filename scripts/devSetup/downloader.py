@@ -1,6 +1,11 @@
+from __future__ import print_function
 __author__ = 'schmatz'
 from configuration import Configuration
-import urllib
+import sys
+if sys.version_info.major < 3:
+    import urllib
+else:
+    import urllib.request as urllib
 from dependency import Dependency
 class Downloader:
     def __init__(self,dependency):
@@ -27,10 +32,10 @@ class Downloader:
             progress_fraction = float(amount_of_data_downloaded_so_far) / float(totalsize)
             progress_percentage = progress_fraction * 1e2
             stringToDisplay = '\r[{0}] {1:.1f}%'.format('#'*int(bars_to_display*progress_fraction),progress_percentage)
-            print stringToDisplay,
+            print(stringToDisplay,end=' ')
             if amount_of_data_downloaded_so_far >= totalsize:
-                print "\n",
+                print("\n",end=' ')
         else:
             stringToDisplay = '\r File size unknown. Read {0} bytes.'.format(amount_of_data_downloaded_so_far)
-            print stringToDisplay,
+            print(stringToDisplay,end=' ')
 
