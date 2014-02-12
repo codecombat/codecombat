@@ -106,7 +106,7 @@ module.exports = class God
     window.BOX2D_ENABLED = true
     @lastSerializedWorldFrames = serialized.frames
 
-  finishBeholdingWorld: (newWorld) ->
+  finishBeholdingWorld: (newWorld) =>
     newWorld.findFirstChangedFrame @world
     @world = newWorld
     errorCount = (t for t in @world.thangs when t.errorsOut).length
@@ -224,6 +224,7 @@ class Angel
 
   destroy: ->
     @dead = true
+    @finishBeholdingWorld = null
     @abort()
 
   testWorker: =>
