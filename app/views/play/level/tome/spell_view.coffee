@@ -74,14 +74,15 @@ module.exports = class SpellView extends View
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
 
   createACEShortcuts: ->
-    @aceCommands = []
-    addCommand = (c) =>
-      @ace.commands.addCommand c
-      @aceCommands.push c.name
+    @aceCommands = aceCommands = []
+    ace = @ace
+    addCommand = (c) ->
+      ace.commands.addCommand c
+      aceCommands.push c.name
     addCommand
       name: 'run-code'
       bindKey: {win: 'Shift-Enter|Ctrl-Enter|Ctrl-S', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter|Command-S|Ctrl-S'}
-      exec: (e) => @recompile()
+      exec: -> Backbone.Mediator.publish 'tome:manual-cast', {}
     addCommand
       name: 'toggle-playing'
       bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
@@ -219,7 +220,7 @@ module.exports = class SpellView extends View
   recompileIfNeeded: =>
     @recompile() if @recompileNeeded
 
-  recompile: (cast=true) =>
+  recompile: (cast=true) ->
     @setRecompileNeeded false
     return if @spell.source is @getSource()
     @spell.transpile @getSource()
@@ -519,5 +520,5 @@ module.exports = class SpellView extends View
     @debugView?.destroy()
     @spell = null
     @session.off 'change:multiplayer', @onMultiplayerChanged, @
-    for fat in ['notifySpellChanged', 'notifyEditingEnded', 'notifyEditingBegan', 'onFirepadLoaded', 'onLoaded', 'recompile', 'toggleBackground', 'setRecompileNeeded', 'onCursorActivity', 'highlightCurrentLine', 'updateAether', 'onCodeChangeMetaHandler', 'recompileIfNeeded', 'currentAutocastHandler']
+    for fat in ['notifySpellChanged', 'notifyEditingEnded', 'notifyEditingBegan', 'onFirepadLoaded', 'onLoaded', 'toggleBackground', 'setRecompileNeeded', 'onCursorActivity', 'highlightCurrentLine', 'updateAether', 'onCodeChangeMetaHandler', 'recompileIfNeeded', 'currentAutocastHandler']
       @[fat] = null
