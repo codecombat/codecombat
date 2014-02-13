@@ -15,7 +15,7 @@ module.exports = class GoalManager extends CocoClass
 
   nextGoalID: 0
 
-  constructor: (@world) ->
+  constructor: (@world, @initialGoals) ->
     super()
     @init()
 
@@ -25,6 +25,7 @@ module.exports = class GoalManager extends CocoClass
     @userCodeMap = {} # @userCodeMap.thangID.methodName.aether.raw = codeString
     @thangTeams = {}
     @initThangTeams()
+    @addGoal goal for goal in @initialGoals if @initialGoals
 
   initThangTeams: ->
     return unless @world

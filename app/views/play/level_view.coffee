@@ -327,7 +327,7 @@ module.exports = class PlayLevelView extends View
     @surface.camera.zoomTo({x:0, y:0}, 0.1, 0)
 
   initGoalManager: ->
-    @goalManager = new GoalManager(@world)
+    @goalManager = new GoalManager(@world, @level.get('goals'))
     @god.goalManager = @goalManager
 
   initScriptManager: ->
