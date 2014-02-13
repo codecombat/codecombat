@@ -48,7 +48,7 @@ module.exports = class SettingsView extends View
     @updateWizardColor()
     wizardSettingsTabView = new WizardSettingsTabView()
     wizardSettingsTabView.on 'change', @save, @
-    @insertSubView wizardSettingsTabView 
+    @insertSubView wizardSettingsTabView
 
   chooseTab: (category) ->
     id = "##{category}-pane"
@@ -102,7 +102,7 @@ module.exports = class SettingsView extends View
     res = me.save()
     return unless res
     save = $('#save-button', @$el).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
-      .addClass('btn-info').removeClass('hide').removeClass('btn-danger')
+      .addClass('btn-info').show().removeClass('btn-danger')
 
     res.error ->
       errors = JSON.parse(res.responseText)

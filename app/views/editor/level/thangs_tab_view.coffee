@@ -374,7 +374,7 @@ module.exports = class ThangsTabView extends View
       thangData = @thangsTreema.get "id=#{e.thangID}"
     @editThangView = new LevelThangEditView thangData: thangData, supermodel: @supermodel, level: @level, world: @world
     @insertSubView @editThangView
-    @$el.find('.thangs-column').addClass('hide')
+    @$el.find('.thangs-column').hide()
     Backbone.Mediator.publish 'level:view-switched', e
 
   onLevelThangEdited: (e) ->
@@ -383,7 +383,7 @@ module.exports = class ThangsTabView extends View
 
   onLevelThangDoneEditing: ->
     @removeSubView @editThangView
-    @$el.find('.thangs-column').removeClass('hide')
+    @$el.find('.thangs-column').show()
 
 
 class ThangsNode extends TreemaNode.nodeMap.array

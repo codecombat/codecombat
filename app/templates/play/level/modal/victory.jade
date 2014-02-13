@@ -15,7 +15,7 @@
         button.btn.btn-success.sign-up-button.btn-large(data-toggle="coco-modal", data-target="modal/signup", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
         span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
     else
-      div.rating.hide
+      div.rating.secret
         span(data-i18n="play_level.victory_rate_the_level") Rate the level:
         i.icon-star-empty
         i.icon-star-empty
@@ -30,7 +30,7 @@
     else
       a.btn.btn-primary(href="/", data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
     if !me.get('anonymous')
-      div.review.hide
+      div.review.secret
         span(data-i18n="play_level.victory_review") Tell us more!
         br
         textarea

@@ -117,6 +117,7 @@ module.exports = class PlayLevelView extends View
     window.onPlayLevelViewLoaded? @  # still a hack
     @loadingScreen = new LoadingScreen(@$el.find('canvas')[0])
     @loadingScreen.show()
+    @$el.find('#level-done-button').hide()
     super()
 
   onLevelLoaderLoaded: =>
@@ -197,8 +198,7 @@ module.exports = class PlayLevelView extends View
   onDonePressed: -> @showVictory()
 
   onShowVictory: (e) ->
-    console.log 'show vict', e
-    $('#level-done-button').removeClass('hide')
+    $('#level-done-button').show()
     @showVictory() if e.showModal
     setTimeout(@preloadNextLevel, 3000)
 
