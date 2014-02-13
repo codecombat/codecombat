@@ -27,10 +27,7 @@ module.exports = class LevelChatView extends View
 
   updateMultiplayerVisibility: ->
     return unless @$el?
-    if @session.get('multiplayer')
-      @$el.removeClass('hide')
-    else
-      @$el.addClass('hide')
+    @$el.toggle Boolean @session.get('multiplayer')
 
   afterRender: ->
     @chatTables = $('table', @$el)
@@ -48,7 +45,7 @@ module.exports = class LevelChatView extends View
         row.fadeOut(1000, -> $(this).remove())
 
   onNewMessage: (e) ->
-    @$el.removeClass('hide') unless e.message.system
+    @$el.show() unless e.message.system
     @addOne(e.message)
     @trimClosedPanel()
     @playNoise() if e.message.authorID isnt me.id
@@ -108,16 +105,10 @@ module.exports = class LevelChatView extends View
       return false
 
   onIconClick: ->
-    openPanel = $('.open-chat-area', @$el)
-    closedPanel = $('.closed-chat-area', @$el)
     @open = not @open
-    if @open
-      closedPanel.addClass('hide')
-      openPanel.removeClass('hide')
-      @scrollDown()
-    else
-      openPanel.addClass('hide')
-      closedPanel.removeClass('hide')
+    openPanel = $('.open-chat-area', @$el).toggle @open
+    closedPanel = $('.closed-chat-area', @$el).toggle not @open
+    @scrollDown() if @open
     if window.getSelection?
       sel = window.getSelection()
       sel.empty?()

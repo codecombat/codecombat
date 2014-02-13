@@ -19,4 +19,4 @@ module.exports = class GoldView extends View
     goldEl.text(e.gold)
 
   onSetLetterbox: (e) ->
-    if e.on then @$el.hide() else @$el.show()
+    @$el.toggle not e.on

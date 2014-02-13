@@ -115,7 +115,7 @@ module.exports = class CocoView extends Backbone.View
     visibleModal.willDisappear() if visibleModal
     visibleModal.destroy()
     visibleModal = null
-    $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    #$('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
     if waitingModal
       wm = waitingModal
       waitingModal = null
@@ -127,7 +127,7 @@ module.exports = class CocoView extends Backbone.View
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
-    $el.find('>').addClass('hide')
+    $el.find('>').hide()
     $el.append($('<div class="loading-screen"></div>')
     .append('<h2>Loading</h2>')
     .append('<div class="progress progress-striped active loading"><div class="progress-bar"></div></div>'))
@@ -136,18 +136,18 @@ module.exports = class CocoView extends Backbone.View
   hideLoading: ->
     return unless @_lastLoading?
     @_lastLoading.find('.loading-screen').remove()
-    @_lastLoading.find('>').removeClass('hide')
+    @_lastLoading.find('>').show()
     @_lastLoading = null
 
   # Loading ModalViews
 
   enableModalInProgress: (modal) ->
-    $('> div', modal).addClass('hide')
-    $('.wait', modal).removeClass('hide')
+    $('> div', modal).hide()
+    $('.wait', modal).show()
 
   disableModalInProgress: (modal) ->
-    $('> div', modal).removeClass('hide')
-    $('.wait', modal).addClass('hide')
+    $('> div', modal).show()
+    $('.wait', modal).hide()
 
   # Subscriptions
 
