@@ -33,15 +33,15 @@ module.exports = class LadderView extends RootView
     @level.fetch()
     @level.once 'sync', @onLevelLoaded, @
     
-    @sessions = new LevelSessionsCollection(levelID)
-    @sessions.fetch({})
-    @sessions.once 'sync', @onMySessionsLoaded, @
+#    @sessions = new LevelSessionsCollection(levelID)
+#    @sessions.fetch({})
+#    @sessions.once 'sync', @onMySessionsLoaded, @
 
   onLevelLoaded: -> @startLoadingPhaseTwoMaybe()
   onMySessionsLoaded: -> @startLoadingPhaseTwoMaybe()
 
   startLoadingPhaseTwoMaybe: ->
-    return unless @level.loaded and @sessions.loaded
+    return unless @level.loaded # and @sessions.loaded
     @loadPhaseTwo()
     
   loadPhaseTwo: ->
@@ -55,17 +55,18 @@ module.exports = class LadderView extends RootView
     @leaderboards = {}
     @challengers = {}
     for team in teams
-      teamSession = _.find @sessions.models, (session) -> session.get('team') is team
+#      teamSession = _.find @sessions.models, (session) -> session.get('team') is team
+      teamSession = null
       @leaderboards[team] = new LeaderboardData(@level, team, teamSession)
       @leaderboards[team].once 'sync', @onLeaderboardLoaded, @
-      @challengers[team] = new ChallengersData(@level, team, teamSession)
-      @challengers[team].once 'sync', @onChallengersLoaded, @
+#      @challengers[team] = new ChallengersData(@level, team, teamSession)
+#      @challengers[team].once 'sync', @onChallengersLoaded, @
     
   onChallengersLoaded: -> @renderMaybe()
   onLeaderboardLoaded: -> @renderMaybe()
 
   renderMaybe: ->
-    loaders = _.values(@leaderboards).concat(_.values(@challengers))
+    loaders = _.values(@leaderboards) # .concat(_.values(@challengers))
     return unless _.every loaders, (loader) -> loader.loaded
     @startsLoading = false
     @render()
@@ -82,9 +83,9 @@ module.exports = class LadderView extends RootView
         id: team
         name: _.string.titleize(team)
         leaderboard: @leaderboards[team]
-        easyChallenger: @challengers[team].easyPlayer.models[0]
-        mediumChallenger: @challengers[team].mediumPlayer.models[0]
-        hardChallenger: @challengers[team].hardPlayer.models[0]
+#        easyChallenger: @challengers[team].easyPlayer.models[0]
+#        mediumChallenger: @challengers[team].mediumPlayer.models[0]
+#        hardChallenger: @challengers[team].hardPlayer.models[0]
       })
     ctx
     
@@ -94,23 +95,24 @@ module.exports = class LadderView extends RootView
       
 class LeaderboardData
   constructor: (@level, @team, @session) ->
+    console.log 'creating leaderboard data', @level, @team, @session
     _.extend @, Backbone.Events
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: if @session then 10 else 20})
     @topPlayers.fetch()
     @topPlayers.once 'sync', @leaderboardPartLoaded, @
     
-    if @session
-      score = @session.get('score') or 25
-      @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
-      @playersAbove.fetch()
-      @playersAbove.once 'sync', @leaderboardPartLoaded, @
-      @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
-      @playersBelow.fetch()
-      @playersBelow.once 'sync', @leaderboardPartLoaded, @
+#    if @session
+#      score = @session.get('score') or 25
+#      @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
+#      @playersAbove.fetch()
+#      @playersAbove.once 'sync', @leaderboardPartLoaded, @
+#      @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
+#      @playersBelow.fetch()
+#      @playersBelow.once 'sync', @leaderboardPartLoaded, @
 
   leaderboardPartLoaded: ->
     if @session
-      if @topPlayers.loaded and @playersAbove.loaded and @playersBelow.loaded
+      if @topPlayers.loaded # and @playersAbove.loaded and @playersBelow.loaded
         @loaded = true
         @trigger 'sync'
     else
