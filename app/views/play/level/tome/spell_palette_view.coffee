@@ -2,7 +2,6 @@ View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell_palette'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
-Docs = require 'lib/world/docs'
 SpellPaletteEntryView = require './spell_palette_entry_view'
 LevelComponent = require 'models/LevelComponent'
 
@@ -31,6 +30,7 @@ module.exports = class SpellPaletteView extends View
 
     props = @thang.programmableProperties ? []
     snippets = @thang.programmableSnippets ? []
+    console.log "yo got snippets", snippets
     shortenize = props.length + snippets.length > 6
     @entries = []
     @entries.push @addEntry(allDocs[prop] ? prop, shortenize) for prop in props

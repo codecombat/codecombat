@@ -139,7 +139,7 @@ me.FunctionArgumentSchema = me.object {
   description: "Documentation entry for a function argument."
   "default":
     name: "target"
-    type: "Thang"
+    type: "object"
     example: "this.getNearestEnemy()"
     description: "The target of this function."
     "default": null

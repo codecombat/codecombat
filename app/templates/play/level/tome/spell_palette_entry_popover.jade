@@ -5,14 +5,19 @@ h4
   if doc.type != 'function'
     |  (read-only)
 
-.description!= markedWithImages(doc.description || 'Still undocumented, sorry.')
+.description!= marked(doc.description || 'Still undocumented, sorry.')
 
-if doc.type == 'function'
+if doc.example
+  p.example
+    strong Example:
+    div!= marked("```\n" + doc.example + "```")
+else if doc.type == 'function'
   p.example
     strong Example:
     div
       code= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
-else
+
+if doc.type != 'function' && doc.type != 'snippet'
   p.value
     strong Current Value: 
     code.current-value(data-prop=doc.name)= value
@@ -30,8 +35,9 @@ if doc.args && doc.args.length
           code= arg.example
           | )
         if arg.description
-          div!= markedWithImages(arg.description)
+          div!= marked(arg.description)
         if arg.default
           div
             em Default value: 
             code= arg.default
+    

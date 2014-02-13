@@ -3,15 +3,10 @@ template = require 'templates/play/level/tome/spell_palette_entry'
 popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
-Docs = require 'lib/world/docs'
 {downTheChain} = require 'lib/world/world_utils'
 
 # If we use marked somewhere else, we'll have to make sure to preserve options
 marked.setOptions {gfm: true, sanitize: false, smartLists: true, breaks: true}
-
-markedWithImages = (s) ->
-  s = s.replace /!\[(.*?)\]\((.+)? (\d+) (\d+) ?(.*?)?\)/g, '<img src="/images/docs/$2" alt="$1" title="$1" style="width: $3px; height: $4px;" class="$5"></img>'  # setting width/height attrs doesn't prevent flickering, but inline css does
-  marked(s)
 
 module.exports = class SpellPaletteEntryView extends View
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
@@ -34,7 +29,7 @@ module.exports = class SpellPaletteEntryView extends View
     @doc.owner ?= 'this'
     if options.isSnippet
       @doc.type = 'snippet'
-      @doc.shortName = @doc.name
+      @doc.shortName = @doc.shorterName = @doc.title = @doc.name
     else
       suffix = if @doc.type is 'function' then '()' else ''
       @doc.shortName = "#{@doc.owner}.#{@doc.name}#{suffix};"
@@ -64,7 +59,7 @@ module.exports = class SpellPaletteEntryView extends View
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name
 
   formatPopover: ->
-    content = popoverTemplate doc: @doc, value: @formatValue(), marked: marked, markedWithImages: markedWithImages, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? [])
+    content = popoverTemplate doc: @doc, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? [])
     owner = if @doc.owner is 'this' then @thang else window[@doc.owner]
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
 
