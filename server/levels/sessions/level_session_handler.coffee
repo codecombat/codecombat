@@ -7,7 +7,7 @@ class LevelSessionHandler extends Handler
   modelClass: LevelSession
   editableProperties: ['multiplayer', 'players', 'code', 'completed', 'state',
                        'levelName', 'creatorName', 'levelID', 'screenshot',
-                       'chat', 'teamSpells']
+                       'chat', 'teamSpells','submitted']
 
   getByRelationship: (req, res, args...) ->
     return @sendNotFoundError(res) unless args.length is 2 and args[1] is 'active'

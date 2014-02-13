@@ -29,12 +29,29 @@ throwScoringQueueRegistrationError = (error) ->
   throw new Error  "There was an error registering the scoring queue."
 
 module.exports.createNewTask = (req, res) ->
-  scoringTaskQueue.sendMessage req.body, 0, (err, data) ->
-    return errors.badInput res, "There was an error creating the message, reason: #{err}" if err?
+  return errors.badInput res, "The session ID is invalid" unless typeof req.body.session is "string"
+  LevelSession.findOne { "_id": req.body.session}, (err, sessionToScore) ->
+    return errors.serverError res, "There was an error finding the given session." if err?
 
-    res.send data
-    res.end()
+    sessionToScore.submitted = true
+    LevelSession.update { "_id": req.body.session}, {"submitted":true}, (err, data) ->
+      return errors.serverError res, "There was an error saving the submitted bool of the session." if err?
+      LevelSession.find { "levelID": "project-dota", "submitted": true}, (err, submittedSessions) ->
+        taskPairs = []
+        for session in submittedSessions
+          if String(session._id) isnt req.body.session
+            taskPairs.push [req.body.session,String session._id]
+        async.each taskPairs, sendTaskPairToQueue, (taskPairError) ->
+          return errors.serverError res, "There was an error sending the task pairs to the queue" if taskPairError?
+          sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
 
+
+sendTaskPairToQueue = (taskPair, callback) ->
+  taskObject =
+    sessions: taskPair
+
+  scoringTaskQueue.sendMessage taskObject, 0, (err,data) ->
+    callback err,data
 
 module.exports.dispatchTaskToConsumer = (req, res) ->
   userID = getUserIDFromRequest req,res
