@@ -19,7 +19,10 @@ block content
             h4 Leaderboard
             table.table
               for session in team.leaderboard.topPlayers.models
-                tr= session.get('creatorName')
+                tr
+                  td.score-cell= parseInt(session.get('totalScore'))
+                  td= session.get('creatorName')
+
           //.challengers
           //  h4 Challengers
           //  
