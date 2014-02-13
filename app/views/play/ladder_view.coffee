@@ -20,7 +20,7 @@ class LeaderboardCollection extends CocoCollection
   constructor: (level, options) ->
     super()
     options ?= {}
-   @url = "/db/level/#{level.get('original')}.#{level.get('version').major}/leaderboard?#{$.param(options)}"
+    @url = "/db/level/#{level.get('original')}.#{level.get('version').major}/leaderboard?#{$.param(options)}"
     #@url = "/db/level/#{level.get('original')}/leaderboard?#{$.param(options)}"
 
 
@@ -58,7 +58,7 @@ module.exports = class LadderView extends RootView
     @leaderboards = {}
     @challengers = {}
     for team in teams
-      teamSession = _.find @sessions.models, (session) -> session.get('team') is team
+#      teamSession = _.find @sessions.models, (session) -> session.get('team') is team
       teamSession = null
       console.log "Team session: #{JSON.stringify teamSession}"
       @leaderboards[team] = new LeaderboardData(@level, team, teamSession)
