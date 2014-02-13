@@ -5,7 +5,6 @@ ThangType = require 'models/ThangType'
 
 # temp hard coded data
 World = require 'lib/world/world'
-docs = require 'lib/world/docs'
 
 # tools
 Surface = require 'lib/surface/Surface'
@@ -327,7 +326,7 @@ module.exports = class PlayLevelView extends View
     @surface.camera.zoomTo({x:0, y:0}, 0.1, 0)
 
   initGoalManager: ->
-    @goalManager = new GoalManager(@world)
+    @goalManager = new GoalManager(@world, @level.get('goals'))
     @god.goalManager = @goalManager
 
   initScriptManager: ->

@@ -64,7 +64,7 @@ self.transferableSupported = transferableSupported = ->
       if args.level
         self.world.loadFromLevel args.level, true
       self.goalManager = new GoalManager self.world
-      self.goalManager.setGoals args.goals
+      self.goalManager.setGoals args.level?.goals or args.goals
       self.goalManager.setCode args.userCodeMap
       self.goalManager.worldGenerationWillBegin()
       self.world.setGoalManager self.goalManager

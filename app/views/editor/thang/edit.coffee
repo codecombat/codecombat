@@ -29,6 +29,7 @@ module.exports = class ThangTypeEditView extends View
     'change #real-upload-button': 'animationFileChosen'
     'change #animations-select': 'showAnimation'
     'click #marker-button': 'toggleDots'
+    'click #end-button': 'endAnimation'
 
   subscriptions:
     'save-new-version': 'saveNewThangType'
@@ -129,6 +130,9 @@ module.exports = class ThangTypeEditView extends View
     @aboveHeadDot.x = CENTER.x + aboveHead.x * @scale
     @aboveHeadDot.y = CENTER.y + aboveHead.y * @scale
     @stage.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
+
+  endAnimation: ->
+    @currentSprite?.queueAction('idle')
 
   updateGrid: ->
     grid = new createjs.Container()
