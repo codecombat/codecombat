@@ -35,8 +35,6 @@ module.exports = class GoalManager extends CocoClass
       @thangTeams[thang.team].push(thang.id)
 
   subscriptions:
-    'level-add-goals': 'onAddGoals'
-    'level-remove-goals': 'onRemoveGoals'
     'god:new-world-created': 'onNewWorldCreated'
     'level:restarted': 'onLevelRestarted'
 
@@ -52,19 +50,9 @@ module.exports = class GoalManager extends CocoClass
     @goalStates = {}
     @userCodeMap = {}
     @notifyGoalChanges()
+    @addGoal goal for goal in @initialGoals if @initialGoals
 
   # INTERFACE AND LIFETIME OVERVIEW
-
-  # main instance receives goal updates from the script manager
-  onAddGoals: (e) ->
-    return unless e.worldName is @world.name
-    goals = e.goals
-    @addGoal(goal) for goal in goals
-
-  onRemoveGoals: (e) ->
-    if e.goal in @goals
-      @goals.remove(e.goal)
-      delete @goalStates[e.goal]
 
   # world generator gets current goals from the main instance
   getGoals: -> @goals

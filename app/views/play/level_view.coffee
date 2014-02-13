@@ -198,7 +198,7 @@ module.exports = class PlayLevelView extends View
 
   onShowVictory: (e) ->
     console.log 'show vict', e
-    $('#level-done-button').show()
+    $('#level-done-button').removeClass('hide')
     @showVictory() if e.showModal
     setTimeout(@preloadNextLevel, 3000)
 
