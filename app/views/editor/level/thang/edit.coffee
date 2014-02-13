@@ -9,10 +9,10 @@ module.exports = class LevelThangEditView extends View
   Everything below is part of the ThangComponentEditView, which is shared with the
   ThangType editor view.
   ###
-  
+
   id: "editor-level-thang-edit"
   template: template
-  
+
   events:
     'click #all-thangs-link': 'navigateToAllThangs'
     'click #thang-name-link span': 'toggleNameEdit'
@@ -32,7 +32,7 @@ module.exports = class LevelThangEditView extends View
     context = super(context)
     context.thang = @thangData
     context
-    
+
   afterRender: ->
     options =
       components: @thangData.components
@@ -40,7 +40,7 @@ module.exports = class LevelThangEditView extends View
       level: @level
       world: @world
       callback: @onComponentsChanged
-      
+
     @thangComponentEditView = new ThangComponentEditView options
     @insertSubView @thangComponentEditView
     thangTypeNames = (m.get('name') for m in @supermodel.getModels ThangType)
@@ -57,35 +57,35 @@ module.exports = class LevelThangEditView extends View
       thangData: @thangData
       id: @oldID
     Backbone.Mediator.publish 'level-thang-edited', event
-    
+
   navigateToAllThangs: ->
     Backbone.Mediator.publish 'level-thang-done-editing'
-    
+
   toggleNameEdit: ->
     link = @$el.find '#thang-name-link'
     wasEditing = link.find('input:visible').length
     span = link.find('span')
     input = link.find('input')
     if wasEditing then span.text(input.val()) else input.val(span.text())
-    link.find('span, input').toggleClass('hide')
+    link.find('span, input').toggle()
     input.select() unless wasEditing
     @thangData.id = span.text()
     @saveThang()
-    
+
   toggleTypeEdit: ->
     link = @$el.find '#thang-type-link'
     wasEditing = link.find('input:visible').length
     span = link.find('span')
     input = link.find('input')
-    span.text(input.val()) if wasEditing 
-    link.find('span, input').toggleClass('hide')
+    span.text(input.val()) if wasEditing
+    link.find('span, input').toggle()
     input.select() unless wasEditing
     thangTypeName = input.val()
     thangType = _.find @supermodel.getModels(ThangType), (m) -> m.get('name') is thangTypeName
     if thangType and wasEditing
       @thangData.thangType = thangType.get('original')
     @saveThang()
-    
+
   onComponentsChanged: (components) =>
     @thangData.components = components
     @saveThang()

@@ -55,8 +55,8 @@ module.exports = class PlaybackView extends View
     @$el.find('#music-button').toggleClass('music-on', me.get('music'))
 
   onSetLetterbox: (e) ->
-    button = @$el.find '#play-button, .scrubber-handle'
-    if e.on then button.css('visibility', 'hidden') else button.css('visibility', 'visible')
+    buttons = @$el.find '#play-button, .scrubber-handle'
+    buttons.css 'visibility', if e.on then 'hidden' else 'visible'
     @disabled = e.on
 
   onWindowResize: (s...) =>
@@ -64,17 +64,17 @@ module.exports = class PlaybackView extends View
 
   onNewWorld: (e) ->
     pct = parseInt(100 * e.world.totalFrames / e.world.maxTotalFrames) + '%'
-    @barWidth = $('.progress', @$el).css('width', pct).removeClass('hide').width()
+    @barWidth = $('.progress', @$el).css('width', pct).show().width()
 
   onToggleDebug: ->
     return if @shouldIgnore()
     flag = $('#debug-toggle i.icon-ok')
-    Backbone.Mediator.publish('level-set-debug', {debug: flag.hasClass('hide')})
+    Backbone.Mediator.publish('level-set-debug', {debug: flag.hasClass('invisible')})
 
   onToggleGrid: ->
     return if @shouldIgnore()
     flag = $('#grid-toggle i.icon-ok')
-    Backbone.Mediator.publish('level-set-grid', {grid: flag.hasClass('hide')})
+    Backbone.Mediator.publish('level-set-grid', {grid: flag.hasClass('invisible')})
 
   onEditWizardSettings: ->
     Backbone.Mediator.publish 'edit-wizard-settings'
@@ -145,13 +145,11 @@ module.exports = class PlaybackView extends View
 
   onSetDebug: (e) ->
     flag = $('#debug-toggle i.icon-ok')
-    flag.removeClass('hide')
-    flag.addClass('hide') unless e.debug
+    flag.toggleClass 'invisible', not e.debug
 
   onSetGrid: (e) ->
     flag = $('#grid-toggle i.icon-ok')
-    flag.removeClass('hide')
-    flag.addClass('hide') unless e.grid
+    flag.toggleClass 'invisible', not e.grid
 
   # to refactor
 

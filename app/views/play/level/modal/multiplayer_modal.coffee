@@ -35,7 +35,7 @@ module.exports = class MultiplayerModal extends View
   updateLinkSection: ->
     multiplayer = @$el.find('#multiplayer').prop('checked')
     la = @$el.find('#link-area')
-    if multiplayer then la.show() else la.hide()
+    la.toggle Boolean(multiplayer)
     true
 
   onHidden: ->

@@ -3,13 +3,13 @@ div.well
   span#thang-props
     a#thang-name-link
       span= thang.id
-      input.hide(value=thang.id)
+      input.secret(value=thang.id)
     |  ( 
     span(data-i18n="editor.level_components_type") Type
     | : 
     a#thang-type-link
       span= thang.thangType
-      input.hide(value=thang.thangType)
+      input.secret(value=thang.thangType)
     |  ) 
 
 #thang-components-edit-view
