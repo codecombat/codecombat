@@ -3,14 +3,14 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     loading: "Loading..."
     saving: "儲存中..."
     sending: "發送中...."
-    cancel: "退出"
-#    save: "Save"
+    cancel: "取消"
+    save: "存檔"
     delay_1_sec: "1 秒"
     delay_3_sec: "3 秒"
     delay_5_sec: "5 秒"
-    manual: "手動手动"
+    manual: "手動發動"
 #    fork: "Fork"
-    play: "玩"
+    play: "播放" # Play timeline in a level.
 
   modal:
     close: "關閉"
@@ -20,17 +20,17 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     page_not_found: "找不到網頁"
 
   nav:
-    play: "玩"
+    play: "開始遊戲"
     editor: "編輯"
-    blog: "博客"
-    forum: "論壇"
-    admin: "超級管理員"
+    blog: "部落格" # Official blog
+    forum: "論壇" # Official forum
+    admin: "系統管理員"
     home: "首頁"
     contribute: "貢獻"
-    legal: "法律"
+    legal: "版權聲明" # Copyright
     about: "關於"
     contact: "聯繫我們"
-    twitter_follow: "關注"
+    twitter_follow: "在Twitter關注"
 #    employers: "Employers"
 
 #  versions:
@@ -43,8 +43,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
   login:
     sign_up: "註冊"
-    log_in: "登錄"
-    log_out: "退出"
+    log_in: "登入"
+    log_out: "登出"
     recover: "找回帳戶"
 
   recover:
@@ -53,51 +53,51 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 
   signup:
 #    create_account_title: "Create Account to Save Progress"
-    description: "這是免費的。超簡單的喲："
+    description: "登入以儲存遊戲進度："
     email_announcements: "通過郵件接收通知"
     coppa: "13歲以上或非美國公民"
     coppa_why: "爲什麽？"
     creating: "帳戶創建中..."
     sign_up: "註冊"
-    log_in: "登錄"
+    log_in: "登入"
 
   home:
     slogan: "通過玩遊戲學習Javascript 腳本語言"
     no_ie: "抱歉！Internet Explorer 9 等舊的瀏覽器打不開此網站"
     no_mobile: "CodeCombat 不是針對手機設備設計的，所以可能會出問題！"
-    play: "玩"
+    play: "開始遊戲"
 
   play:
-    choose_your_level: "選取難度"
+    choose_your_level: "選取關卡"
     adventurer_prefix: "你可以選擇以下任意關卡，或者討論以上的關卡 "
     adventurer_forum: "冒險家論壇"
     adventurer_suffix: "."
-    campaign_beginner: "新手作戰"
+    campaign_beginner: "新手指南"
     campaign_beginner_description: "...在這裡可以學到編程技巧。"
     campaign_dev: "隨機關卡"
-    campaign_dev_description: "...在這裡你可以學到做一些複雜功能的接口。"
+    campaign_dev_description: "...在這裡你可以學到做一些較複雜的程式技巧。"
     campaign_multiplayer: "多人競技場"
-    campaign_multiplayer_description: "...在這裡你可以和其他玩家們進行代碼近戰。"
-    campaign_player_created: "已創建的玩家"
-    campaign_player_created_description: "...在這裡你可以與你的小夥伴的創造力戰鬥 <a href=\"/contribute#artisan\">技術指導</a>."
+    campaign_multiplayer_description: "...在這裡你可以和其他玩家進行對戰。"
+    campaign_player_created: "玩家建立的關卡"
+    campaign_player_created_description: "...挑戰同伴的創意 <a href=\"/contribute#artisan\">技術指導</a>."
     level_difficulty: "難度"
 
   contact:
     contact_us: "聯繫我們"
     welcome: "很高興收到你的信！用這個表格給我們發電郵。 "
-    contribute_prefix: "如果你想貢獻代碼，請看 "
-    contribute_page: "貢獻代碼頁面"
+    contribute_prefix: "如果你想貢獻程式，請看 "
+    contribute_page: "程式貢獻頁面"
     contribute_suffix: "！"
-    forum_prefix: "對於任何公共部份，放手去做吧 "
-    forum_page: "我們的論壇"
-    forum_suffix: "代替。"
+    forum_prefix: "如果有任何問題, 請至"
+    forum_page: "論壇"
+    forum_suffix: "討論。"
     sending: "發送中。。。"
     send: "意見反饋"
 
   diplomat_suggestion:
     title: "幫我們翻譯CodeCombat"
     sub_heading: "我們需要您的語言技能"
-    pitch_body: "我們開發了CodeCombat的英文版，但是現在我們的玩家遍佈全球。很多人想玩中文（繁体）版的，卻不會說英文，所以如果你中英文都會，請考慮一下參加我們的翻譯工作，幫忙把 CodeCombat 網站還有所有的關卡翻譯成中文（繁体）。"
+    pitch_body: "我們開發了CodeCombat的英文版，但是現在我們的玩家遍佈全球。很多人想玩中文版的，卻不會說英文，所以如果你中英文都會，請考慮一下參加我們的翻譯工作，幫忙把 CodeCombat 網站還有所有的關卡翻譯成中文（繁体）。"
     missing_translations: "直至所有正體中文的翻譯完畢，當無法提供正體中文時還會以英文顯示。"
     learn_more: "關於成為外交官"
     subscribe_as_diplomat: "註冊成為外交官"
@@ -107,21 +107,21 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    customize_avatar: "Customize Your Avatar"
 
   account_settings:
-    title: "帳戶設置"
+    title: "帳戶設定"
     not_logged_in: "登錄或創建一個帳戶來修改設置。"
     autosave: "自動保存修改"
     me_tab: "我"
-    picture_tab: "圖片"
+    picture_tab: "頭像"
     wizard_tab: "巫師"
     password_tab: "密碼"
-    emails_tab: "郵件"
-    gravatar_select: "選擇使用 Gravatar 照片"
+    emails_tab: "電子郵件"
+    gravatar_select: "選擇一個 Gravatar"
     gravatar_add_photos: "添加小圖和照片到一个 Gravatar 帳戶供你選擇。"
     gravatar_add_more_photos: "添加更多照片到你的 Gravatar 帳戶并查看。"
     wizard_color: "巫師 衣服 顏色"
     new_password: "新密碼"
-    new_password_verify: "核實"
-    email_subscriptions: "郵箱驗證"
+    new_password_verify: "確認密碼"
+    email_subscriptions: "訊息設定"
     email_announcements: "通知"
     email_announcements_description: "接收關於 CodeCombat 最近的新聞和發展的郵件。"
     contributor_emails: "貢獻者電郵"
@@ -134,7 +134,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     password_mismatch: "密碼不匹配。"
 
   account_profile:
-    edit_settings: "編輯設置"
+    edit_settings: "帳號設定"
     profile_for_prefix: "關於TA的基本資料："
 #    profile_for_suffix: ""
     profile: "基本資料"
@@ -253,8 +253,8 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    version_history_for: "Version History for: "
 #    results: "Results"
 #    description: "Description"
-    email: "郵箱"
-    message: "留言"
+    email: "Email"
+    message: "訊息"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
