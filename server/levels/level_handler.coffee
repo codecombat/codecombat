@@ -70,10 +70,10 @@ LevelHandler = class LevelHandler extends Handler
 
       sessionQuery = {
         level: {original: level.original.toString(), majorVersion: level.version.major}
-        creator: req.user.id
+        #creator: req.user.id
+        submitted: true
       }
-
-      Session.find(sessionQuery).exec (err, results) =>
+      Session.find sessionQuery, '_id totalScore submitted team creatorName', (err, results) =>
         return @sendDatabaseError(res, err) if err
         res.send(results)
         res.end()
@@ -83,7 +83,28 @@ LevelHandler = class LevelHandler extends Handler
 #    [original, version] = id.split('.')
 #    version = parseInt version
 #    console.log 'get leaderboard for', original, version, req.query
-    return res.send([])
+    @getDocumentForIdOrSlug id, (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
+      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, level)
+
+      if parseInt(req.query.order) is 1
+        scoreQuery = {"$gte":parseFloat req.query.scoreOffset}
+      else
+        scoreQuery = {"$lte": parseFloat req.query.scoreOffset}
+
+      sessionsQuery =
+        level: {original: level.original.toString(), majorVersion: level.version.major}
+        team: req.query.team
+        totalScore: scoreQuery
+        submitted: true
+      console.log sessionsQuery
+      query = Session.find(sessionsQuery).sort({"totalScore":parseInt(req.query.order)}).limit(parseInt req.query.limit)
+      Session.find sessionsQuery, '_id totalScore submitted team creatorName', (err, resultSessions) =>
+        return @sendDatabaseError(res, err) if err
+        if resultSessions
+          return @sendSuccess res, resultSessions
+        res.send([])
 
   getFeedback: (req, res, id) ->
     @getDocumentForIdOrSlug id, (err, level) =>

@@ -20,7 +20,9 @@ class LeaderboardCollection extends CocoCollection
   constructor: (level, options) ->
     super()
     options ?= {}
-    @url = "/db/level/#{level.get('original')}.#{level.get('version').major}/leaderboard?#{$.param(options)}"
+   #@url = "/db/level/#{level.get('original')}.#{level.get('version').major}/leaderboard?#{$.param(options)}"
+    @url = "/db/level/#{level.get('original')}/leaderboard?#{$.param(options)}"
+
 
 module.exports = class LadderView extends RootView
   id: 'ladder-view'
@@ -38,7 +40,8 @@ module.exports = class LadderView extends RootView
     @sessions.once 'sync', @onMySessionsLoaded, @
 
   onLevelLoaded: -> @startLoadingPhaseTwoMaybe()
-  onMySessionsLoaded: -> @startLoadingPhaseTwoMaybe()
+  onMySessionsLoaded: ->
+    @startLoadingPhaseTwoMaybe()
 
   startLoadingPhaseTwoMaybe: ->
     return unless @level.loaded and @sessions.loaded
@@ -56,6 +59,7 @@ module.exports = class LadderView extends RootView
     @challengers = {}
     for team in teams
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team
+      console.log "Team session: #{JSON.stringify teamSession}"
       @leaderboards[team] = new LeaderboardData(@level, team, teamSession)
       @leaderboards[team].once 'sync', @onLeaderboardLoaded, @
       @challengers[team] = new ChallengersData(@level, team, teamSession)
@@ -100,7 +104,7 @@ class LeaderboardData
     @topPlayers.once 'sync', @leaderboardPartLoaded, @
     
     if @session
-      score = @session.get('score') or 25
+      score = @session.get('totalScore') or 25
       @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
       @playersAbove.fetch()
       @playersAbove.once 'sync', @leaderboardPartLoaded, @
@@ -120,7 +124,7 @@ class LeaderboardData
 class ChallengersData
   constructor: (@level, @team, @session) ->
     _.extend @, Backbone.Events
-    score = @session?.get('score') or 25
+    score = @session?.get('totalScore') or 25
     @easyPlayer = new LeaderboardCollection(@level, {order:1, scoreOffset: score - 5, limit: 1, team: @team})
     @easyPlayer.fetch()
     @easyPlayer.once 'sync', @challengerLoaded, @
