@@ -106,11 +106,14 @@ module.exports = class HomeView extends View
 
   onSimulateButtonClick: (e) =>
     @alreadyPostedResults = false
+    console.log "Simulating world!"
     $.ajax
       url: "/queue/scoring"
       type: "GET"
       error: (data) =>
-        console.log "There are no games to score. Error: #{data}"
+        console.log "There are no games to score. Error: #{JSON.stringify data}"
+        console.log "Retrying in ten seconds..."
+        _.delay @onSimulateButtonClick, 10000
       success: (data) =>
         console.log data
         levelName = data.sessions[0].levelID
@@ -161,6 +164,7 @@ module.exports = class HomeView extends View
         console.log "TASK REGISTRATION ERROR:#{JSON.stringify error}"
       complete: (result) =>
         @alreadyPostedResults = true
+        @onSimulateButtonClick()
 
 
   translateGoalStatesIntoTaskResults: (goalStates) =>
