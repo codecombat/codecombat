@@ -37,6 +37,7 @@ module.exports = class ControlBarView extends View
   setBus: (@bus) ->
 
   onPlayerStatesChanged: (e) ->
+    # TODO: this doesn't fire any more. Replacement?
     return unless @bus is e.bus
     numPlayers = _.keys(e.players).length
     return if numPlayers is @numPlayers

@@ -60,7 +60,7 @@ module.exports = class DebugView extends View
       @variableChain = @markerRange = null
     @update()
 
-  onMouseOut: (e) =>
+  onMouseOut: (e) ->
     @variableChain = @markerRange = null
     @update()
 
@@ -138,3 +138,4 @@ module.exports = class DebugView extends View
   destroy: ->
     super()
     @ace?.removeEventListener "mousemove", @onMouseMove
+    @onMouseMove = null

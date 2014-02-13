@@ -1,7 +1,6 @@
 SpellListEntryView = require './spell_list_entry_view'
 ThangAvatarView = require 'views/play/level/thang_avatar_view'
 template = require 'templates/play/level/tome/spell_list_tab_entry'
-Docs = require 'lib/world/docs'
 
 module.exports = class SpellListTabEntryView extends SpellListEntryView
   template: template
@@ -48,15 +47,16 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     @avatar.render()
 
   buildDocs: ->
-    doc = Docs.getDocsFor(@thang, [@spell.name])[0]
-    @$el.find('code').attr('title', doc.title()).popover(
-      animation: true
-      html: true
-      placement: 'bottom'
-      trigger: 'hover'
-      content: doc.html()
-      container: @$el.parent()
-    )
+    # TODO
+    #doc = Docs.getDocsFor(@thang, [@spell.name])[0]
+    #@$el.find('code').attr('title', doc.title()).popover(
+    #  animation: true
+    #  html: true
+    #  placement: 'bottom'
+    #  trigger: 'hover'
+    #  content: doc.html()
+    #  container: @$el.parent()
+    #)
     @docsBuilt = true
 
   onMouseEnterAvatar: (e) ->  # Don't call super

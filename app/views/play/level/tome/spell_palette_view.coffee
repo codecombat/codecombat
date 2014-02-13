@@ -2,8 +2,8 @@ View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell_palette'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
-Docs = require 'lib/world/docs'
 SpellPaletteEntryView = require './spell_palette_entry_view'
+LevelComponent = require 'models/LevelComponent'
 
 module.exports = class SpellPaletteView extends View
   id: 'spell-palette-view'
@@ -24,13 +24,20 @@ module.exports = class SpellPaletteView extends View
     @createPalette()
 
   createPalette: ->
-    docs = Docs.getDocsFor @thang, @thang.programmableProperties
-    docs = docs.concat Docs.getDocsFor(@thang, @thang.programmableSnippets, true)
-    shortenize = docs.length > 6
-    @entries = (@addEntry doc, shortenize for doc in docs)
+    lcs = @supermodel.getModels LevelComponent
+    allDocs = {}
+    allDocs[doc.name] = doc for doc in (lc.get('propertyDocumentation') ? []) for lc in lcs
 
-  addEntry: (doc, shortenize) ->
-    entry = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize
+    props = @thang.programmableProperties ? []
+    snippets = @thang.programmableSnippets ? []
+    console.log "yo got snippets", snippets
+    shortenize = props.length + snippets.length > 6
+    @entries = []
+    @entries.push @addEntry(allDocs[prop] ? prop, shortenize) for prop in props
+    @entries.push @addEntry(allDocs[prop] ? prop, shortenize, true) for prop in snippets
+
+  addEntry: (doc, shortenize, isSnippet=false) ->
+    entry = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, isSnippet: isSnippet
     @$el.find('.properties').append entry.el
     entry.render()  # Render after appending so that we can access parent container for popover
     entry
@@ -60,3 +67,4 @@ module.exports = class SpellPaletteView extends View
   destroy: ->
     super()
     entry.destroy() for entry in @entries
+    @toggleBackground = null

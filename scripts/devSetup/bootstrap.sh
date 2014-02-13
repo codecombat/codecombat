@@ -44,7 +44,9 @@ function checkNodeVersion {
 
 checkDependencies deps[@] basicDependenciesErrorHandling
 #check for node
-checkNodeVersion
+if command -v node >/dev/null 2>&1; then
+    checkNodeVersion
+fi
 #install git repository
 git clone $repositoryUrl coco
 #python ./coco/scripts/devSetup/setup.py
