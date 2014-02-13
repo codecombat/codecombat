@@ -5,7 +5,6 @@ ThangType = require 'models/ThangType'
 
 # temp hard coded data
 World = require 'lib/world/world'
-docs = require 'lib/world/docs'
 
 # tools
 Surface = require 'lib/surface/Surface'
