@@ -25,7 +25,7 @@ module.exports = class MultiplayerModal extends View
       @session.id)
     c.multiplayer = @session.get('multiplayer')
     c.playableTeams = @playableTeams
-    c.ladderGame = @level?.get('name') is 'Project DotA'
+    c.ladderGame = @level?.get('name') is 'Project DotA' and not me.get('isAnonymous')
     c
 
   afterRender: ->

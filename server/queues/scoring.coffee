@@ -32,8 +32,9 @@ module.exports.createNewTask = (req, res) ->
   return errors.badInput res, "The session ID is invalid" unless typeof req.body.session is "string"
   LevelSession.findOne { "_id": req.body.session}, (err, sessionToScore) ->
     return errors.serverError res, "There was an error finding the given session." if err?
+    sessionToScore = sessionToScore.toJSON()
+    console.log "Ranking session of team #{sessionToScore.team}"
 
-    sessionToScore.submitted = true
     LevelSession.update { "_id": req.body.session}, {"submitted":true}, (err, data) ->
       return errors.serverError res, "There was an error saving the submitted bool of the session." if err?
       LevelSession.find { "levelID": "project-dota", "submitted": true}, (err, submittedSessions) ->

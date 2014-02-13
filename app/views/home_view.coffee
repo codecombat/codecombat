@@ -106,40 +106,45 @@ module.exports = class HomeView extends View
 
   onSimulateButtonClick: (e) =>
     @alreadyPostedResults = false
-    $.get "/queue/scoring", (data) =>
-      console.log data
-      levelName = data.sessions[0].levelID
-      #TODO: Refactor. So much refactor.
-      @taskData = data
-      @teamSessionMap = @generateTeamSessionMap data
-      world = {}
-      god = new God()
-      levelLoader = new LevelLoader(levelName, @supermodel, data.sessions[0].sessionID)
-      levelLoader.once 'loaded-all', =>
-        world = levelLoader.world
-        level = levelLoader.level
-        levelLoader.destroy()
-        god.level = level.serialize @supermodel
-        god.worldClassMap = world.classMap
-        god.goalManager = new GoalManager(world)
-        #move goals in here
-        goalsToAdd = god.goalManager.world.scripts[0].noteChain[0].goals.add
-        god.goalManager.goals = goalsToAdd
-        god.goalManager.goalStates =
-          "destroy-humans":
-            keyFrame: 0
-            killed:
-              "Human Base": false
-            status: "incomplete"
-          "destroy-ogres":
-            keyFrame:0
-            killed:
-              "Ogre Base": false
-            status: "incomplete"
-        god.spells = @filterProgrammableComponents level.attributes.thangs, @generateSpellToSourceMap data.sessions
-        god.createWorld()
+    $.ajax
+      url: "/queue/scoring"
+      type: "GET"
+      error: (data) =>
+        console.log "There are no games to score. Error: #{data}"
+      success: (data) =>
+        console.log data
+        levelName = data.sessions[0].levelID
+        #TODO: Refactor. So much refactor.
+        @taskData = data
+        @teamSessionMap = @generateTeamSessionMap data
+        world = {}
+        god = new God()
+        levelLoader = new LevelLoader(levelName, @supermodel, data.sessions[0].sessionID)
+        levelLoader.once 'loaded-all', =>
+          world = levelLoader.world
+          level = levelLoader.level
+          levelLoader.destroy()
+          god.level = level.serialize @supermodel
+          god.worldClassMap = world.classMap
+          god.goalManager = new GoalManager(world)
+          #move goals in here
+          goalsToAdd = god.goalManager.world.scripts[0].noteChain[0].goals.add
+          god.goalManager.goals = goalsToAdd
+          god.goalManager.goalStates =
+            "destroy-humans":
+              keyFrame: 0
+              killed:
+                "Human Base": false
+              status: "incomplete"
+            "destroy-ogres":
+              keyFrame:0
+              killed:
+                "Ogre Base": false
+              status: "incomplete"
+          god.spells = @filterProgrammableComponents level.attributes.thangs, @generateSpellToSourceMap data.sessions
+          god.createWorld()
 
-        Backbone.Mediator.subscribe 'god:new-world-created', @onWorldCreated, @
+          Backbone.Mediator.subscribe 'god:new-world-created', @onWorldCreated, @
 
   onWorldCreated: (data) ->
     return if @alreadyPostedResults
