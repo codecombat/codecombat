@@ -175,7 +175,7 @@ module.exports = class TomeView extends View
     @spellView?.setThang thang
     @spellTabView?.setThang thang
     if @spellPaletteView?.thang isnt thang
-      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
+      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel
       @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
 
   reloadAllCode: ->

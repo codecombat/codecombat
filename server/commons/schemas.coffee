@@ -31,12 +31,12 @@ me.sound = (props) ->
   obj = _.cloneDeep(SoundSchema)
   obj.properties[prop] = props[prop] for prop of props
   obj
-  
+
 ColorConfigSchema = me.object { format: 'color-sound' },
   hue: { format: 'range', type: 'number', minimum: 0, maximum: 1 }
   saturation: { format: 'range', type: 'number', minimum: 0, maximum: 1 }
   lightness: { format: 'range', type: 'number', minimum: 0, maximum: 1 }
-  
+
 me.colorConfig = (props) ->
   obj = _.cloneDeep(ColorConfigSchema)
   obj.properties[prop] = props[prop] for prop of props
@@ -131,6 +131,8 @@ me.getLanguagesObject = -> return Language
 
 me.classNamePattern = "^[A-Z][A-Za-z0-9]*$"  # starts with capital letter; just letters and numbers
 me.identifierPattern = "^[a-z][A-Za-z0-9]*$"  # starts with lowercase letter; just letters and numbers
+me.constantPattern = "^[A-Z0-9_]+$"  # just uppercase letters, underscores, and numbers
+me.identifierOrConstantPattern = "^([a-z][A-Za-z0-9]*|[A-Z0-9_]+)$"
 
 me.FunctionArgumentSchema = me.object {
   title: "Function Argument",
@@ -147,7 +149,7 @@ me.FunctionArgumentSchema = me.object {
   # not actual JS types, just whatever they describe...
   type: me.shortString(title: "Type", description: "Intended type of the argument.")
   example: me.shortString(title: "Example", description: "Example value for the argument.")
-  description: {type: 'string', description: "Description of the argument.", maxLength: 1000}
+  description: {title: "Description", type: 'string', description: "Description of the argument.", maxLength: 1000}
   "default":
     title: "Default"
     description: "Default value of the argument. (Your code should set this.)"

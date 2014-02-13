@@ -1,0 +1,37 @@
+h4
+  span= doc.shortName
+  |  - 
+  code.prop-type= doc.type == 'function' && doc.owner == 'this' ? 'method' : doc.type
+  if doc.type != 'function'
+    |  (read-only)
+
+.description!= markedWithImages(doc.description || 'Still undocumented, sorry.')
+
+if doc.type == 'function'
+  p.example
+    strong Example:
+    div
+      code= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
+else
+  p.value
+    strong Current Value: 
+    code.current-value(data-prop=doc.name)= value
+
+if doc.args && doc.args.length
+  p.args
+    strong Parameters: 
+    for arg in doc.args
+      div
+        code= arg.name
+        | : 
+        code= arg.type
+        if arg.example
+          |  (ex: 
+          code= arg.example
+          | )
+        if arg.description
+          div!= markedWithImages(arg.description)
+        if arg.default
+          div
+            em Default value: 
+            code= arg.default
