@@ -39,7 +39,10 @@ LevelHandler = class LevelHandler extends Handler
         creator: req.user.id
       }
 
-      sessionQuery.team = req.query.team if req.query.team
+      # TODO: generalize this for levels that need teams
+      team = req.query.team
+      team ?= 'humans' if level.name is 'Project DotA'
+      sessionQuery.team = team if team
       
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
@@ -50,7 +53,7 @@ LevelHandler = class LevelHandler extends Handler
         initVals = sessionQuery
         initVals.state = {complete:false, scripts:{currentScript:null}} # will not save empty objects
         initVals.permissions = [{target:req.user.id, access:'owner'}, {target:'public', access:'write'}]
-        initVals.team = req.query.team if req.query.team
+        initVals.team = team if team
         session = new Session(initVals)
         session.save (err) =>
           return @sendDatabaseError(res, err) if err
