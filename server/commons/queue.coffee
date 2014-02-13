@@ -10,7 +10,7 @@ crypto = require 'crypto'
 
 module.exports.queueClient = undefined
 
-defaultMessageVisibilityTimeoutInSeconds = 20
+defaultMessageVisibilityTimeoutInSeconds = 500
 defaultMessageReceiptTimeout = 10
 
 
@@ -190,7 +190,7 @@ class MongoQueue extends events.EventEmitter
     conditions =
       queue: @queueName
       scheduledVisibilityTime:
-        $lt: new Date()
+        $lte: new Date()
 
     options =
       sort: 'scheduledVisibilityTime'
@@ -214,7 +214,7 @@ class MongoQueue extends events.EventEmitter
       queue: @queueName
       receiptHandle: receiptHandle
       scheduledVisibilityTime:
-        $lt: new Date()
+        $gte: new Date()
 
     @Message.findOneAndRemove conditions, {}, (err, data) =>
       if err? then @emit 'error',err,data else @emit 'delete',err,data
@@ -237,14 +237,19 @@ class MongoQueue extends events.EventEmitter
       queue: @queueName
       receiptHandle: receiptHandle
       scheduledVisibilityTime:
-        $lt: new Date()
+        $gte: new Date()
 
     update =
       $set:
         scheduledVisibilityTime: @_constructDefaultVisibilityTimeoutDate secondsFromNow
 
     @Message.findOneAndUpdate conditions, update, (err, data) =>
-      if err? then @emit 'error',err,data else @emit 'update',err,data
+      if err?
+        log.error "There was a problem updating the message visibility timeout:#{err}"
+        @emit 'error',err,data
+      else
+        @emit 'update',err,data
+        log.info "The message visibility time was updated"
 
       callback? err, data
 

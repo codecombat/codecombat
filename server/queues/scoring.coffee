@@ -61,6 +61,7 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
     if (not message?) or message.isEmpty() or taskQueueReceiveError?
       return errors.gatewayTimeoutError res, "No messages were receieved from the queue. Msg:#{taskQueueReceiveError}"
 
+
     messageBody = parseTaskQueueMessage req, res, message
     return errors.serverError res, "There was an error parsing the queue message" unless messageBody?
 
@@ -73,6 +74,8 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
         return errors.serverError res, "There was an error creating the task log object." if taskLogError?
 
         setTaskObjectTaskLogID taskObject, taskLogObject._id
+
+        taskObject.receiptHandle = message.getReceiptHandle()
 
         sendResponseObject req, res, taskObject
 
@@ -159,16 +162,18 @@ module.exports.processTaskResult = (req, res) ->
 
       return errors.badInput res, "That computational task has already been performed" if taskLogJSON.calculationTimeMS
       return handleTimedOutTask req, res, clientResponseObject if hasTaskTimedOut taskLogJSON.sentDate
+      destroyQueueMessage clientResponseObject.receiptHandle, (err) ->
+        return errors.badInput res, "The queue message is already back in the queue, rejecting results." if err?
 
-      logTaskComputation clientResponseObject, taskLog, (loggingError) ->
-        if loggingError?
-          return errors.serverError res, "There as a problem logging the task computation: #{loggingError}"
+        logTaskComputation clientResponseObject, taskLog, (loggingError) ->
+          if loggingError?
+            return errors.serverError res, "There as a problem logging the task computation: #{loggingError}"
 
-        updateScores clientResponseObject, (updatingScoresError, newScores) ->
-          if updatingScoresError?
-            return errors.serverError res, "There was an error updating the scores.#{updatingScoresError}"
+          updateScores clientResponseObject, (updatingScoresError, newScores) ->
+            if updatingScoresError?
+              return errors.serverError res, "There was an error updating the scores.#{updatingScoresError}"
 
-          sendResponseObject req, res, {"message":"The scores were updated successfully!"}
+            sendResponseObject req, res, {"message":"The scores were updated successfully!"}
 
 
 
@@ -178,6 +183,7 @@ hasTaskTimedOut = (taskSentTimestamp) -> taskSentTimestamp + scoringTaskTimeoutI
 
 handleTimedOutTask = (req, res, taskBody) -> errors.clientTimeout res, "The results weren't provided within the timeout"
 
+destroyQueueMessage = (receiptHandle, callback) -> scoringTaskQueue.deleteMessage receiptHandle, callback
 
 verifyClientResponse = (responseObject, res) ->
   unless typeof responseObject is "object"
@@ -217,14 +223,12 @@ updateScoreInSession = (scoreObject,callback) ->
 
   LevelSession.findOne sessionObjectQuery, (err, session) ->
     return callback err, null if err?
-
-    session.meanStrength = scoreObject.meanStrength
-    session.standardDeviation = scoreObject.standardDeviation
-    session.totalScore = scoreObject.meanStrength - 1.8 * scoreObject.standardDeviation
-
-    log.info "Saving session #{session._id}!"
-
-    session.save callback
+    updateObject =
+      meanStrength: scoreObject.meanStrength
+      standardDeviation: scoreObject.standardDeviation
+      totalScore: scoreObject.meanStrength - 1.8 * scoreObject.standardDeviation
+    log.info "New total score for session #{scoreObject.id} is #{updateObject.totalScore}"
+    LevelSession.update sessionObjectQuery, updateObject, callback
 
 
 putRankingFromMetricsIntoScoreObject = (taskObject,scoreObject) ->

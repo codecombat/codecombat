@@ -105,9 +105,13 @@ module.exports = class HomeView extends View
     @wizardSprite?.destroy()
 
   onSimulateButtonClick: (e) =>
+    @alreadyPostedResults = false
     $.get "/queue/scoring", (data) =>
+      console.log data
       levelName = data.sessions[0].levelID
       #TODO: Refactor. So much refactor.
+      @taskData = data
+      @teamSessionMap = @generateTeamSessionMap data
       world = {}
       god = new God()
       levelLoader = new LevelLoader(levelName, @supermodel, data.sessions[0].sessionID)
@@ -138,8 +142,63 @@ module.exports = class HomeView extends View
         Backbone.Mediator.subscribe 'god:new-world-created', @onWorldCreated, @
 
   onWorldCreated: (data) ->
-    console.log "GOAL STATES"
-    console.log data
+    return if @alreadyPostedResults
+    taskResults = @translateGoalStatesIntoTaskResults data.goalStates
+    console.log "Task Results"
+    console.log taskResults
+    $.ajax
+      url: "/queue/scoring"
+      data: taskResults
+      type: 'PUT'
+      success: (result) =>
+        console.log "TASK REGISTRATION RESULT:#{JSON.stringify result}"
+      error: (error) =>
+        console.log "TASK REGISTRATION ERROR:#{JSON.stringify error}"
+      complete: (result) =>
+        @alreadyPostedResults = true
+
+
+  translateGoalStatesIntoTaskResults: (goalStates) =>
+    taskResults = {}
+    taskResults =
+      taskID: @taskData.taskID
+      receiptHandle: @taskData.receiptHandle
+      calculationTime: 500
+      sessions: []
+
+    for session in @taskData.sessions
+      sessionResult =
+        sessionID: session.sessionID
+        sessionChangedTime: session.sessionChangedTime
+        metrics:
+          rank: @calculateSessionRank session.sessionID, goalStates
+      taskResults.sessions.push sessionResult
+    taskResults
+
+  calculateSessionRank: (sessionID, goalStates) ->
+    humansDestroyed = goalStates["destroy-humans"].status is "success"
+    ogresDestroyed = goalStates["destroy-ogres"].status is "success"
+    console.log "Humans destroyed:#{humansDestroyed}"
+    console.log "Ogres destroyed:#{ogresDestroyed}"
+    console.log "Team Session Map: #{JSON.stringify @teamSessionMap}"
+    if humansDestroyed is ogresDestroyed
+      return 0
+    else if humansDestroyed and @teamSessionMap["ogres"] is sessionID
+      return 0
+    else if humansDestroyed and @teamSessionMap["ogres"] isnt sessionID
+      return 1
+    else if ogresDestroyed and @teamSessionMap["humans"] is sessionID
+      return 0
+    else
+      return 1
+
+
+  generateTeamSessionMap: (task) ->
+    teamSessionMap = {}
+    for session in @taskData.sessions
+      teamSessionMap[session.team] = session.sessionID
+    teamSessionMap
+
 
 
   filterProgrammableComponents: (thangs, spellToSourceMap) =>
