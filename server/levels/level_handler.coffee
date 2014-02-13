@@ -83,28 +83,34 @@ LevelHandler = class LevelHandler extends Handler
 #    [original, version] = id.split('.')
 #    version = parseInt version
 #    console.log 'get leaderboard for', original, version, req.query
-    @getDocumentForIdOrSlug id, (err, level) =>
+    [original, version] = id.split '.'
+    version = parseInt(version) or 0
+
+    req.query.order = parseInt(req.query.order) or -1
+    req.query.scoreOffset = parseInt(req.query.scoreOffset) ? 100000
+    req.query.team ?= 'humans'
+    req.query.limit ?= parseInt(req.query.limit) or 20
+
+
+    if parseInt(req.query.order) is 1
+      scoreQuery = {"$gte":parseFloat req.query.scoreOffset}
+    else
+      scoreQuery = {"$lte": parseFloat req.query.scoreOffset}
+
+    sessionsQuery =
+      level: {original: original, majorVersion: version}
+      team: req.query.team
+      totalScore: scoreQuery
+      submitted: true
+
+    sortObject =
+      "totalScore": parseInt(req.query.order)
+    query = Session.find(sessionsQuery).sort(sortObject).limit(parseInt req.query.limit)
+    Session.find sessionsQuery, 'totalScore creatorName creator', (err, resultSessions) =>
       return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res) unless level?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, level)
-
-      if parseInt(req.query.order) is 1
-        scoreQuery = {"$gte":parseFloat req.query.scoreOffset}
-      else
-        scoreQuery = {"$lte": parseFloat req.query.scoreOffset}
-
-      sessionsQuery =
-        level: {original: level.original.toString(), majorVersion: level.version.major}
-        team: req.query.team
-        totalScore: scoreQuery
-        submitted: true
-      console.log sessionsQuery
-      query = Session.find(sessionsQuery).sort({"totalScore":parseInt(req.query.order)}).limit(parseInt req.query.limit)
-      Session.find sessionsQuery, '_id totalScore submitted team creatorName', (err, resultSessions) =>
-        return @sendDatabaseError(res, err) if err
-        if resultSessions
-          return @sendSuccess res, resultSessions
-        res.send([])
+      if resultSessions
+        return @sendSuccess res, resultSessions
+      res.send([])
 
   getFeedback: (req, res, id) ->
     @getDocumentForIdOrSlug id, (err, level) =>

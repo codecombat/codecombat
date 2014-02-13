@@ -20,8 +20,8 @@ class LeaderboardCollection extends CocoCollection
   constructor: (level, options) ->
     super()
     options ?= {}
-   #@url = "/db/level/#{level.get('original')}.#{level.get('version').major}/leaderboard?#{$.param(options)}"
-    @url = "/db/level/#{level.get('original')}/leaderboard?#{$.param(options)}"
+   @url = "/db/level/#{level.get('original')}.#{level.get('version').major}/leaderboard?#{$.param(options)}"
+    #@url = "/db/level/#{level.get('original')}/leaderboard?#{$.param(options)}"
 
 
 module.exports = class LadderView extends RootView
