@@ -22,7 +22,7 @@ module.exports = class LevelLoader extends CocoClass
   subscriptions:
     'god:new-world-created': 'loadSoundsForWorld'
 
-  constructor: (@levelID, @supermodel, @sessionID) ->
+  constructor: (@levelID, @supermodel, @sessionID, @team) ->
     super()
     @loadSession()
     @loadLevelModels()
@@ -37,7 +37,12 @@ module.exports = class LevelLoader extends CocoClass
   # Session Loading
 
   loadSession: ->
-    url = if @sessionID then "/db/level_session/#{@sessionID}" else "/db/level/#{@levelID}/session"
+    if @sessionID
+      url = "/db/level_session/#{@sessionID}"
+    else
+      url = "/db/level/#{@levelID}/session"
+      url += "?team=#{@team}" if @team
+      
     @session = new LevelSession()
     @session.url = -> url
     @session.fetch()

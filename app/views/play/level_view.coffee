@@ -104,7 +104,7 @@ module.exports = class PlayLevelView extends View
       @load()
 
   load: ->
-    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
+    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID, @getQueryVariable("team"))
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
     @god = new God()
 
