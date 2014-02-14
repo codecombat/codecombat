@@ -142,8 +142,7 @@ me.FunctionArgumentSchema = me.object {
     type: "object"
     example: "this.getNearestEnemy()"
     description: "The target of this function."
-    "default": null
-  required: ['name', 'type', 'example', 'description', 'default']
+  required: ['name', 'type', 'example', 'description']
 },
   name: {type: 'string', pattern: me.identifierPattern, title: "Name", description: "Name of the function argument."}
   # not actual JS types, just whatever they describe...

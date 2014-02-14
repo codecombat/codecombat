@@ -20,7 +20,7 @@ PropertyDocumentationSchema = c.object {
   "default":
     name: "foo"
     type: "object"
-    description: "This Component provides a 'foo' property to satisfy all one's foobar needs. Use it wisely."
+    description: 'The `foo` property can satisfy all the #{spriteName}\'s foobar needs. Use it wisely.'
   required: ['name', 'type', 'description']
 },
   name: {type: 'string', title: "Name", description: "Name of the property."}

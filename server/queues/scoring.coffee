@@ -40,7 +40,10 @@ module.exports.createNewTask = (req, res) ->
       LevelSession.find { "levelID": "project-dota", "submitted": true}, (err, submittedSessions) ->
         taskPairs = []
         for session in submittedSessions
-          if String(session._id) isnt req.body.session and session.team isnt sessionToScore.team
+          session = session.toObject()
+          console.log "Attemping to add session of team #{session.team} to taskPairs..."
+          if String(session._id) isnt req.body.session and session.team isnt sessionToScore.team and session.team in ["ogres","humans"]
+            console.log "Adding game to taskPairs!"
             taskPairs.push [req.body.session,String session._id]
         async.each taskPairs, sendTaskPairToQueue, (taskPairError) ->
           return errors.serverError res, "There was an error sending the task pairs to the queue" if taskPairError?
