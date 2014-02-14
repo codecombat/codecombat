@@ -26,7 +26,7 @@
   "dependencies": {
     "jquery": "~2.0.3",
     "lodash": "~2.4.1",
-    "backbone": "~1.1.0",
+    "backbone": "1.1.0",
     "jquery-mousewheel": "~3.1.9",
     "i18next": "~1.7.1",
     "firepad": "~0.1.2",
