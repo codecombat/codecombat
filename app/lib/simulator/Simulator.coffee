@@ -1,12 +1,13 @@
 SuperModel = require 'models/SuperModel'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
+God = require 'lib/God'
 
 module.exports = class Simulator
+
   constructor: ->
     @retryDelayInSeconds = 10
-    @taskURL = "/queue/scoring"
-
+    @taskURL = '/queue/scoring'
 
   fetchAndSimulateTask: =>
     $.ajax
@@ -15,47 +16,44 @@ module.exports = class Simulator
       error: @handleFetchTaskError
       success: @setupSimulationAndLoadLevel
 
-  cleanupSimulation: ->
-
-
   handleFetchTaskError: (errorData) =>
     console.log "There were no games to score. Error: #{JSON.stringify errorData}"
     console.log "Retrying in #{@retryDelayInSeconds}"
-    _.delay @fetchAndSimulateTask, @retryDelayInSeconds * 1000
 
+    @simulateAnotherTaskAfterDelay()
+
+  simulateAnotherTaskAfterDelay: =>
+    retryDelayInMilliseconds = @retryDelayInSeconds * 1000
+    _.delay @fetchAndSimulateTask, retryDelayInMilliseconds
 
   setupSimulationAndLoadLevel: (taskData) =>
     @task = new SimulationTask(taskData)
-    @superModel = new SuperModel()
+    @supermodel = new SuperModel()
     @god = new God()
-    @levelLoader = new LevelLoader @task.getLevelName(), @superModel, @task.getFirstSessionID()
 
+    @levelLoader = new LevelLoader @task.getLevelName(), @supermodel, @task.getFirstSessionID()
     @levelLoader.once 'loaded-all', @simulateGame
-
-
 
   simulateGame: =>
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
     @setupGod()
+
     try
       @commenceSimulationAndSetupCallback()
-    catch e
-      console.log "There was an error in simulation. Trying again in #{retryDelayInSeconds} seconds"
-      console.log "Error #{e}"
-      _.delay @fetchAndSimulateTask, @retryDelayInSeconds * 1000
+    catch err
+      console.log "There was an error in simulation(#{err}). Trying again in #{retryDelayInSeconds} seconds"
+      @simulateAnotherTaskAfterDelay()
 
   assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->
     @world = @levelLoader.world
     @level = @levelLoader.level
     @levelLoader.destroy()
 
-
   setupGod: ->
     @god.level = @level.serialize @supermodel
-    @god.worldClassMap = world.classMap
+    @god.worldClassMap = @world.classMap
     @setupGoalManager()
     @setupGodSpells()
-
 
   setupGoalManager: ->
     @god.goalManager = new GoalManager @world
@@ -66,10 +64,9 @@ module.exports = class Simulator
     @god.createWorld()
     Backbone.Mediator.subscribeOnce 'god:new-world-created', @processResults, @
 
-
   processResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults
-    sendResultsBackToServer taskResults
+    @sendResultsBackToServer taskResults
 
   sendResultsBackToServer: (results) =>
     $.ajax
@@ -90,7 +87,7 @@ module.exports = class Simulator
     @cleanupSimulation()
     @fetchAndSimulateTask()
 
-
+  cleanupSimulation: ->
 
   formTaskResultsObject: (simulationResults) ->
     taskResults =
@@ -99,39 +96,32 @@ module.exports = class Simulator
       calculationTime: 500
       sessions: []
 
-    for session in @task.sessions
+    for session in @task.getSessions()
       sessionResult =
         sessionID: session.sessionID
         sessionChangedTime: session.sessionChangedTime
         metrics:
-          rank: @calculateSessionRank session.sessionID, simulationResults.goalStates
+          rank: @calculateSessionRank session.sessionID, simulationResults.goalStates, @task.generateTeamToSessionMap()
 
       taskResults.sessions.push sessionResult
 
     return taskResults
 
-
-  calculateSessionRank: (sessionID, goalStates) ->
+  calculateSessionRank: (sessionID, goalStates, teamSessionMap) ->
     humansDestroyed = goalStates["destroy-humans"].status is "success"
     ogresDestroyed = goalStates["destroy-ogres"].status is "success"
-    console.log "Humans destroyed:#{humansDestroyed}"
-    console.log "Ogres destroyed:#{ogresDestroyed}"
-    console.log "Team Session Map: #{JSON.stringify @teamSessionMap}"
     if humansDestroyed is ogresDestroyed
       return 0
-    else if humansDestroyed and @teamSessionMap["ogres"] is sessionID
+    else if humansDestroyed and teamSessionMap["ogres"] is sessionID
       return 0
-    else if humansDestroyed and @teamSessionMap["ogres"] isnt sessionID
+    else if humansDestroyed and teamSessionMap["ogres"] isnt sessionID
       return 1
-    else if ogresDestroyed and @teamSessionMap["humans"] is sessionID
+    else if ogresDestroyed and teamSessionMap["humans"] is sessionID
       return 0
     else
       return 1
 
-
-
   fetchGoalsFromWorldNoteChain: -> return @god.goalManager.world.scripts[0].noteChain[0].goals.add
-
 
   manuallyGenerateGoalStates: ->
     goalStates =
@@ -146,29 +136,24 @@ module.exports = class Simulator
           "Ogre Base": false
         status: "incomplete"
 
-
-
   setupGodSpells: ->
     @generateSpellsObject()
     @god.spells = @spells
 
-
-  generateSpellsObject: (currentUserCodeMap) ->
-    @userCodeMap = currentUserCodeMap
+  generateSpellsObject: ->
+    @currentUserCodeMap = @task.generateSpellKeyToSourceMap()
     @spells = {}
     for thang in @level.attributes.thangs
       continue if @thangIsATemplate thang
       @generateSpellKeyToSourceMapPropertiesFromThang thang
 
-
   thangIsATemplate: (thang) ->
     for component in thang.components
       continue unless @componentHasProgrammableMethods component
       for methodName, method of component.config.programmableMethods
-        return true if methodBelongsToTemplateThang method
+        return true if @methodBelongsToTemplateThang method
 
     return false
-
 
   componentHasProgrammableMethods: (component) -> component.config? and _.has component.config, 'programmableMethods'
 
@@ -185,17 +170,14 @@ module.exports = class Simulator
         @createSpellThang thang, method, spellKey
         @transpileSpell thang, spellKey, methodName
 
-
-
-
   generateSpellKeyFromThangIDAndMethodName: (thang, methodName) ->
     spellKeyComponents = [thang.id, methodName]
-    pathComponents[0] = _.string.slugify pathComponents[0]
-    pathComponents.join '/'
+    spellKeyComponents[0] = _.string.slugify spellKeyComponents[0]
+    spellKeyComponents.join '/'
 
   createSpellAndAssignName: (spellKey, spellName) ->
     @spells[spellKey] ?= {}
-    @spells[spellKey].name = methodName
+    @spells[spellKey].name = spellName
 
   createSpellThang: (thang, method, spellKey) ->
     @spells[spellKey].thangs ?= {}
@@ -207,12 +189,6 @@ module.exports = class Simulator
     source = @currentUserCodeMap[slugifiedThangID]?[methodName] ? ""
     @spells[spellKey].thangs[thang.id].aether.transpile source
 
-
-
-
-
-
-
   createAether: (methodName, method) ->
     aetherOptions =
       functionName: methodName
@@ -220,17 +196,8 @@ module.exports = class Simulator
       includeFlow: false
     return new Aether aetherOptions
 
-
-
-
-
-
-
-
-
 class SimulationTask
   constructor: (@rawData) ->
-
 
   getLevelName: ->
     levelName =  @rawData.sessions?[0]?.levelID
