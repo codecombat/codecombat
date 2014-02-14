@@ -105,6 +105,10 @@ class LeaderboardData
     _.extend @, Backbone.Events
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: if @session then 10 else 20})
     @topPlayers.fetch()
+    @topPlayers.comparator = (model) ->
+      return -model.get('totalScore')
+    @topPlayers.sort()
+
     @topPlayers.once 'sync', @leaderboardPartLoaded, @
     
 #    if @session

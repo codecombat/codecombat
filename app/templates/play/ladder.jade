@@ -20,7 +20,7 @@ block content
             table.table
               for session in team.leaderboard.topPlayers.models
                 tr
-                  td.score-cell= parseInt(session.get('totalScore'))
+                  td.score-cell= session.get('totalScore')
                   td= session.get('creatorName')
                   td
                     a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") COMPETE
