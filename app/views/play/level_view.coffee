@@ -104,7 +104,7 @@ module.exports = class PlayLevelView extends View
       @load()
 
   load: ->
-    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID, @getQueryVariable("team"))
+    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID, @getQueryVariable("team"), @getQueryVariable('opponent'))
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
     @god = new God()
 
@@ -124,6 +124,16 @@ module.exports = class PlayLevelView extends View
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
+    
+    if s = @levelLoader.opponentSession
+      spells = s.get('teamSpells')?[s.get('team')]
+      opponentCode = s.get('code')
+      myCode = @session.get('code')
+      for spell in spells
+        continue unless c = opponentCode[spell]
+        myCode[spell] = c
+      @session.set('code', myCode)
+        
     @levelLoader.destroy()
     @levelLoader = null
     @loadingScreen.destroy()

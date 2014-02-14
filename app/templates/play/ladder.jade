@@ -22,6 +22,8 @@ block content
                 tr
                   td.score-cell= parseInt(session.get('totalScore'))
                   td= session.get('creatorName')
+                  td
+                    a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") COMPETE
 
           //.challengers
           //  h4 Challengers

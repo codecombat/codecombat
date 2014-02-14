@@ -22,7 +22,7 @@ module.exports = class LevelLoader extends CocoClass
   subscriptions:
     'god:new-world-created': 'loadSoundsForWorld'
 
-  constructor: (@levelID, @supermodel, @sessionID, @team) ->
+  constructor: (@levelID, @supermodel, @sessionID, @team, @opponentSessionID) ->
     super()
     @loadSession()
     @loadLevelModels()
@@ -47,11 +47,21 @@ module.exports = class LevelLoader extends CocoClass
     @session.url = -> url
     @session.fetch()
     @session.once 'sync', @onSessionLoaded, @
+    
+    if @opponentSessionID
+      @opponentSession = new LevelSession()
+      @opponentSession.url = "/db/level_session/#{@opponentSessionID}"
+      @opponentSession.fetch()
+      @opponentSession.once 'sync', @onSessionLoaded, @
+      
+  sessionsLoaded: ->
+    @session.loaded and ((not @opponentSession) or @opponentSession.loaded)
 
   onSessionLoaded: ->
     # TODO: maybe have all non versioned models do this? Or make it work to PUT/PATCH to relative urls
-    @session.url = -> '/db/level.session/' + @id
-    @update()
+    if @session.loaded
+      @session.url = -> '/db/level.session/' + @id
+    @update() if @sessionsLoaded()
 
   # Supermodel (Level) Loading
 
@@ -100,7 +110,7 @@ module.exports = class LevelLoader extends CocoClass
     @notifyProgress()
 
     return if @updateCompleted
-    return unless @supermodel.finished() and @session.loaded
+    return unless @supermodel.finished() and @sessionsLoaded()
     @denormalizeSession()
     @loadLevelSounds()
     app.tracker.updatePlayState(@level, @session)
@@ -194,14 +204,14 @@ module.exports = class LevelLoader extends CocoClass
   # everything else sound wise is loaded as needed as worlds are generated
 
   allDone: ->
-    @supermodel.finished() and @session.loaded and @spriteSheetsBuilt is @spriteSheetsToBuild
+    @supermodel.finished() and @sessionsLoaded() and @spriteSheetsBuilt is @spriteSheetsToBuild
 
   progress: ->
     return 0 unless @level.loaded
     overallProgress = 0
     supermodelProgress = @supermodel.progress()
     overallProgress += supermodelProgress * 0.7
-    overallProgress += 0.1 if @session.loaded
+    overallProgress += 0.1 if @sessionsLoaded()
     spriteMapProgress = if supermodelProgress is 1 then 0.2 else 0
     spriteMapProgress *= @spriteSheetsBuilt / @spriteSheetsToBuild if @spriteSheetsToBuild
     overallProgress += spriteMapProgress

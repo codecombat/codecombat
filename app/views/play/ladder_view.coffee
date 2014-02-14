@@ -83,10 +83,12 @@ module.exports = class LadderView extends RootView
     ctx.link = "/play/level/#{@level.get('name')}"
     ctx.teams = []
     for team in @teams or []
+      otherTeam = if team is 'ogres' then 'humans' else 'ogres'
       ctx.teams.push({
         id: team
         name: _.string.titleize(team)
         leaderboard: @leaderboards[team]
+        otherTeam: otherTeam
 #        easyChallenger: @challengers[team].easyPlayer.models[0]
 #        mediumChallenger: @challengers[team].mediumPlayer.models[0]
 #        hardChallenger: @challengers[team].hardPlayer.models[0]
