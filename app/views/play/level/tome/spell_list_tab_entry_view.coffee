@@ -1,6 +1,9 @@
 SpellListEntryView = require './spell_list_entry_view'
 ThangAvatarView = require 'views/play/level/thang_avatar_view'
 template = require 'templates/play/level/tome/spell_list_tab_entry'
+popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
+LevelComponent = require 'models/LevelComponent'
+{downTheChain} = require 'lib/world/world_utils'
 
 module.exports = class SpellListTabEntryView extends SpellListEntryView
   template: template
@@ -47,17 +50,50 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     @avatar.render()
 
   buildDocs: ->
-    # TODO
-    #doc = Docs.getDocsFor(@thang, [@spell.name])[0]
-    #@$el.find('code').attr('title', doc.title()).popover(
-    #  animation: true
-    #  html: true
-    #  placement: 'bottom'
-    #  trigger: 'hover'
-    #  content: doc.html()
-    #  container: @$el.parent()
-    #)
     @docsBuilt = true
+    lcs = @supermodel.getModels LevelComponent
+    found = false
+    for lc in lcs when not found
+      for doc in lc.get('propertyDocumentation') ? []
+        if doc.name is @spell.name
+          found = true
+          break
+    return unless found
+    doc.owner = 'this'
+    doc.shortName = doc.shorterName = doc.title = "this.#{doc.name}();"
+    @$el.popover(
+      animation: true
+      html: true
+      placement: 'bottom'
+      trigger: 'hover'
+      content: @formatPopover doc
+      container: @$el.parent()
+    )
+
+  formatPopover: (doc) ->
+    content = popoverTemplate doc: doc, marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in doc.args ? [])
+    owner = @thang
+    content = content.replace /#{spriteName}/g, @thang.spriteName  # No quotes like we'd get with @formatValue
+    content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
+
+  formatValue: (v) ->
+    # TODO: refactor and move spell_palette_entry_view version of this somewhere else
+    # maybe think about making it common with what Aether does and the SpellDebugView, too
+    if _.isNumber v
+      if v == Math.round v
+        return v
+      return v.toFixed 2
+    if _.isString v
+      return "\"#{v}\""
+    if v?.id
+      return v.id
+    if v?.name
+      return v.name
+    if _.isArray v
+      return '[' + (@formatValue v2 for v2 in v).join(', ') + ']'
+    if _.isPlainObject v
+      return safeJSONStringify v, 2
+    v
 
   onMouseEnterAvatar: (e) ->  # Don't call super
   onMouseLeaveAvatar: (e) ->  # Don't call super
