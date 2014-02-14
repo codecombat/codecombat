@@ -183,7 +183,7 @@ module.exports = class WizardSprite extends IndieSprite
     Takes into account whether the wizard is in transit or not, and the bobbing up and down.
     Eventually will also adjust based on where other wizards are.
     """
-    @targetPos = @targetSprite.thang.pos if @targetSprite
+    @targetPos = @targetSprite.thang.pos if @targetSprite?.thang
     pos = _.clone(@targetPos)
     pos.z = @defaultPos().z + @getBobOffset()
     @adjustPositionToSideOfTarget(pos) if @targetSprite  # be off to the side depending on placement in world
@@ -213,7 +213,7 @@ module.exports = class WizardSprite extends IndieSprite
     targetPos.y += @spriteYOffset
 
   faceTarget: ->
-    if @targetSprite
+    if @targetSprite?.thang
       @pointToward(@targetSprite.thang.pos)
 
   updateMarks: ->
