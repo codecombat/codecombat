@@ -128,7 +128,7 @@ module.exports = class PlayLevelView extends View
     if s = @levelLoader.opponentSession
       spells = s.get('teamSpells')?[s.get('team')]
       opponentCode = s.get('code')
-      myCode = @session.get('code')
+      myCode = @session.get('code') or {}
       for spell in spells
         continue unless c = opponentCode[spell]
         myCode[spell] = c
