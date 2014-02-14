@@ -19,10 +19,12 @@ module.exports = class CocoClass
 
   destroy: ->
     # teardown subscriptions, prevent new ones
-    @destroyed = true
     @stopListening?()
     @unsubscribeAll()
     @stopListeningToShortcuts()
+    @[key] = undefined for key of @
+    @destroyed = true
+    @destroy = ->
 
   # subscriptions
     

@@ -36,13 +36,15 @@ module.exports = class CocoView extends Backbone.View
     super options
 
   destroy: ->
-    @destroyed = true
     @stopListening()
     @stopListeningToShortcuts()
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
     @modalClosed = null
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    @[key] = undefined for key, value of @
+    @destroyed = true
+    @destroy = ->
 
   afterInsert: ->
 

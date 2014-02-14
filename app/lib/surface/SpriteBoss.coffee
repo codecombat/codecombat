@@ -144,8 +144,8 @@ module.exports = class SpriteBoss extends CocoClass
 
   removeSprite: (sprite) ->
     sprite.displayObject.parent.removeChild sprite.displayObject
-    sprite.destroy()
     delete @sprites[sprite.thang.id]
+    sprite.destroy()
 
   updateSounds: ->
     sprite.playSounds() for thangID, sprite of @sprites  # hmm; doesn't work for sprites which we didn't add yet in adjustSpriteExistence
