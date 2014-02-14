@@ -147,13 +147,11 @@ module.exports = class HomeView extends View
           god.spells = @filterProgrammableComponents level.attributes.thangs, @generateSpellToSourceMap data.sessions
           god.createWorld()
           @god = god
-          Backbone.Mediator.subscribe 'god:new-world-created', @onWorldCreated, @
+          Backbone.Mediator.subscribeOnce 'god:new-world-created', @onWorldCreated, @
 
   onWorldCreated: (data) ->
     return if @alreadyPostedResults
     taskResults = @translateGoalStatesIntoTaskResults data.goalStates
-    console.log "Task Results"
-    console.log taskResults
     @god?.destroy()
 
     $.ajax
