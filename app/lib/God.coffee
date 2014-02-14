@@ -208,7 +208,7 @@ class Angel
     @purgatoryTimer = null
     if @worker
       worker = @worker
-      _.defer -> worker.terminate
+      _.defer -> worker.terminate()
       @worker.removeEventListener 'message', @onWorkerMessage
       @worker = null
     @
