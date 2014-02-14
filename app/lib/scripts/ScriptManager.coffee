@@ -120,8 +120,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @run() unless @worldLoading
 
   destroy: ->
-    super()
     @onEndAll()
+    super()
 
   # TRIGGERERING NOTES
 

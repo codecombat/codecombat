@@ -121,8 +121,8 @@ module.exports = class LevelChatView extends View
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
   destroy: ->
-    super()
     key.deleteScope('level')
     @session.off 'change:multiplayer', @updateMultiplayerVisibility, @
     clearInterval @clearOldMessagesInterval if @clearOldMessagesInterval
     @clearOldMessages = null
+    super()

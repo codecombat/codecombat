@@ -390,7 +390,6 @@ module.exports = class PlayLevelView extends View
     Backbone.Mediator.publish 'level:team-set', team: team
 
   destroy: ->
-    super()
     @supermodel.off 'error', @onLevelLoadError
     @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
     @levelLoader?.destroy()
@@ -400,7 +399,6 @@ module.exports = class PlayLevelView extends View
     @scriptManager?.destroy()
     $(window).off('resize', @onWindowResize)
     delete window.world # not sure where this is set, but this is one way to clean it up
-
     clearInterval(@pointerInterval)
     @bus?.destroy()
     #@instance.save() unless @instance.loading
@@ -411,3 +409,4 @@ module.exports = class PlayLevelView extends View
     @onSupermodelLoadedOne = null
     @preloadNextLevel = null
     @saveScreenshot = null
+    super()

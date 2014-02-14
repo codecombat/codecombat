@@ -320,7 +320,6 @@ module.exports = class SpectateLevelView extends View
     Backbone.Mediator.publish 'level:team-set', team: team
 
   destroy: ->
-    super()
     @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
@@ -334,3 +333,4 @@ module.exports = class SpectateLevelView extends View
     #@instance.save() unless @instance.loading
     console.profileEnd?() if PROFILE_ME
     @session.off 'change:multiplayer', @onMultiplayerChanged, @
+    super()

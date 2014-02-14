@@ -223,8 +223,9 @@ module.exports = class LevelLoader extends CocoClass
     @trigger 'loaded-all' if @progress() is 1
 
   destroy: ->
-    super()
     @world = null  # don't hold onto garbage
     @supermodel.off 'loaded-one', @onSupermodelLoadedOne
     @onSupermodelLoadedOne = null
     @notifyProgress = null
+    super()
+  

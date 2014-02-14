@@ -103,6 +103,6 @@ module.exports = class SpellListEntryView extends View
     @lastSelectedThang = e.world.thangMap[@lastSelectedThang.id] if @lastSelectedThang
     
   destroy: ->
-    super()
     @avatar?.destroy()
     @hideThangs = null
+    super()

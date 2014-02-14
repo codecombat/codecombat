@@ -101,8 +101,8 @@ module.exports = class HomeView extends View
     @turnOnStageUpdates()
 
   destroy: ->
-    super()
     @wizardSprite?.destroy()
+    super()
 
   onSimulateButtonClick: (e) =>
     @alreadyPostedResults = false

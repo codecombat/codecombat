@@ -53,5 +53,5 @@ module.exports = class MultiplayerModal extends View
     @session.set('multiplayer', multiplayer)
 
   destroy: ->
-    super()
     @session.off 'change:multiplayer', @updateLinkSection, @
+    super()

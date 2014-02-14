@@ -88,7 +88,7 @@ module.exports = class CastButtonView extends View
       $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)
 
   destroy: ->
-    super()
     @castButton.off 'click', @onCastButtonClick
     @castOptions.find('a').off 'click', @onCastOptionsClick
     @onCastOptionsClick = null
+    super()

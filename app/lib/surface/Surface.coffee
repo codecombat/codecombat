@@ -79,7 +79,6 @@ module.exports = Surface = class Surface extends CocoClass
     @initAudio()
 
   destroy: ->
-    super()
     @dead = true
     @camera?.destroy()
     createjs.Ticker.removeEventListener("tick", @tick)
@@ -102,6 +101,7 @@ module.exports = Surface = class Surface extends CocoClass
     @tick = null
     @canvas.off 'mousewheel', @onMouseWheel
     @onMouseWheel = null
+    super()
 
   setWorld: (@world) ->
     @worldLoaded = true

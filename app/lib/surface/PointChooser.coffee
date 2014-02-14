@@ -7,8 +7,8 @@ module.exports = class PointChooser extends CocoClass
     @options.stage.addEventListener 'stagemousedown', @onMouseDown
 
   destroy: ->
-    super()
     @options.stage.removeEventListener 'stagemousedown', @onMouseDown
+    super()
 
   # Called also from WorldSelectModal
   setPoint: (@point) ->

@@ -260,6 +260,6 @@ module.exports = class Camera extends CocoClass
     @locked = false
 
   destroy: ->
-    super()
     createjs.Tween.removeTweens @
     @finishTween = null
+    super()

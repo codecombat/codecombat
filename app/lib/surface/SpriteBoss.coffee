@@ -35,10 +35,10 @@ module.exports = class SpriteBoss extends CocoClass
     @spriteSheetCache = {}
 
   destroy: ->
-    super()
     @removeSprite sprite for thangID, sprite of @sprites
     @targetMark?.destroy()
     @selectionMark?.destroy()
+    super()
 
   toString: -> "<SpriteBoss: #{@sprites.length} sprites>"
 

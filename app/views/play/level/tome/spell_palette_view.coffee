@@ -64,6 +64,6 @@ module.exports = class SpellPaletteView extends View
     @options.thang = @thang = e.selectedThang  # Update our thang to the current version
 
   destroy: ->
-    super()
     entry.destroy() for entry in @entries
     @toggleBackground = null
+    super()

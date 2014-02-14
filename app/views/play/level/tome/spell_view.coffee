@@ -507,7 +507,6 @@ module.exports = class SpellView extends View
     @recompile() if @spell.hasChangedSignificantly @getSource()
 
   destroy: ->
-    super()
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
@@ -522,3 +521,4 @@ module.exports = class SpellView extends View
     @session.off 'change:multiplayer', @onMultiplayerChanged, @
     for fat in ['notifySpellChanged', 'notifyEditingEnded', 'notifyEditingBegan', 'onFirepadLoaded', 'onLoaded', 'toggleBackground', 'setRecompileNeeded', 'onCursorActivity', 'highlightCurrentLine', 'updateAether', 'onCodeChangeMetaHandler', 'recompileIfNeeded', 'currentAutocastHandler']
       @[fat] = null
+    super()
