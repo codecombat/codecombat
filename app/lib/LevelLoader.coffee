@@ -45,7 +45,10 @@ module.exports = class LevelLoader extends CocoClass
       
     @session = new LevelSession()
     @session.url = -> url
-    @session.fetch()
+
+    # Unless you specify cache:false, sometimes the browser will use a cached session
+    # and players will 'lose' code
+    @session.fetch({cache:false})
     @session.once 'sync', @onSessionLoaded, @
     
     if @opponentSessionID

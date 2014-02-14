@@ -81,7 +81,7 @@ class CocoModel extends Backbone.Model
     return super attrs, options
 
   fetch: ->
-    super()
+    super(arguments...)
     @loading = true
 
   markToRevert: ->
