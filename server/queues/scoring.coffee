@@ -227,6 +227,7 @@ updateScoreInSession = (scoreObject,callback) ->
 
   LevelSession.findOne sessionObjectQuery, (err, session) ->
     return callback err, null if err?
+    session = session.toObject()
     updateObject =
       meanStrength: scoreObject.meanStrength
       standardDeviation: scoreObject.standardDeviation
@@ -250,6 +251,7 @@ retrieveOldScoreMetrics = (sessionID, callback) ->
   LevelSession.findOne sessionQuery, (err, session) ->
     return callback err, {"error":"There was an error retrieving the session."} if err?
 
+    session = session.toObject()
     defaultScore = (25 - 1.8*(25/3))
     defaultStandardDeviation = 25/3
 

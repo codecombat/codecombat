@@ -146,7 +146,7 @@ module.exports = class HomeView extends View
               status: "incomplete"
           god.spells = @filterProgrammableComponents level.attributes.thangs, @generateSpellToSourceMap data.sessions
           god.createWorld()
-
+          @god = god
           Backbone.Mediator.subscribe 'god:new-world-created', @onWorldCreated, @
 
   onWorldCreated: (data) ->
@@ -154,6 +154,8 @@ module.exports = class HomeView extends View
     taskResults = @translateGoalStatesIntoTaskResults data.goalStates
     console.log "Task Results"
     console.log taskResults
+    @god?.destroy()
+
     $.ajax
       url: "/queue/scoring"
       data: taskResults
