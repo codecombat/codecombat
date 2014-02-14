@@ -3,10 +3,10 @@ LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 
 module.exports = class Simulator
+
   constructor: ->
     @retryDelayInSeconds = 10
-    @taskURL = "/queue/scoring"
-
+    @taskURL = '/queue/scoring'
 
   fetchAndSimulateTask: =>
     $.ajax
@@ -15,47 +15,44 @@ module.exports = class Simulator
       error: @handleFetchTaskError
       success: @setupSimulationAndLoadLevel
 
-  cleanupSimulation: ->
-
-
   handleFetchTaskError: (errorData) =>
     console.log "There were no games to score. Error: #{JSON.stringify errorData}"
     console.log "Retrying in #{@retryDelayInSeconds}"
-    _.delay @fetchAndSimulateTask, @retryDelayInSeconds * 1000
 
+    @simulateAnotherTaskAfterDelay()
+
+  simulateAnotherTaskAfterDelay: =>
+    retryDelayInMilliseconds = @retryDelayInSeconds * 1000
+    _.delay @fetchAndSimulateTask, retryDelayInMilliseconds
 
   setupSimulationAndLoadLevel: (taskData) =>
     @task = new SimulationTask(taskData)
     @superModel = new SuperModel()
     @god = new God()
+
     @levelLoader = new LevelLoader @task.getLevelName(), @superModel, @task.getFirstSessionID()
-
     @levelLoader.once 'loaded-all', @simulateGame
-
-
 
   simulateGame: =>
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
     @setupGod()
+
     try
       @commenceSimulationAndSetupCallback()
-    catch e
-      console.log "There was an error in simulation. Trying again in #{retryDelayInSeconds} seconds"
-      console.log "Error #{e}"
-      _.delay @fetchAndSimulateTask, @retryDelayInSeconds * 1000
+    catch err
+      console.log "There was an error in simulation(#{err}). Trying again in #{retryDelayInSeconds} seconds"
+      @simulateAnotherTaskAfterDelay()
 
   assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->
     @world = @levelLoader.world
     @level = @levelLoader.level
     @levelLoader.destroy()
 
-
   setupGod: ->
     @god.level = @level.serialize @supermodel
     @god.worldClassMap = world.classMap
     @setupGoalManager()
     @setupGodSpells()
-
 
   setupGoalManager: ->
     @god.goalManager = new GoalManager @world
@@ -65,7 +62,6 @@ module.exports = class Simulator
   commenceSimulationAndSetupCallback: ->
     @god.createWorld()
     Backbone.Mediator.subscribeOnce 'god:new-world-created', @processResults, @
-
 
   processResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults
@@ -90,7 +86,7 @@ module.exports = class Simulator
     @cleanupSimulation()
     @fetchAndSimulateTask()
 
-
+  cleanupSimulation: ->
 
   formTaskResultsObject: (simulationResults) ->
     taskResults =
