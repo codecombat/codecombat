@@ -28,6 +28,21 @@ module.exports = class LadderView extends RootView
   id: 'ladder-view'
   template: require 'templates/play/ladder'
   startsLoading: true
+
+  events:
+    'click #simulate-button': 'onSimulateButtonClick'
+
+  onSimulateButtonClick: (e) ->
+    submitIDs = _.pluck @leaderboards[@teams[0]].topPlayers.models, "id"
+    for ID in submitIDs
+      $.ajax
+        url: '/queue/scoring'
+        method: 'POST'
+        data:
+          session: ID
+    alert "Simulating all games!"
+    alert "(do not push more than once pls)"
+
   
   constructor: (options, levelID) ->
     super(options)

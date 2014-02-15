@@ -98,6 +98,7 @@ module.exports = class SpellPaletteEntryView extends View
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
 
   formatValue: (v) ->
+    return @thang.now() if @doc.name is 'now'
     return '[Function]' if not v and @doc.type is 'function'
     unless v?
       if @doc.owner is 'this'
