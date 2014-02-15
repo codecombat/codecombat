@@ -29,6 +29,7 @@ throwScoringQueueRegistrationError = (error) ->
   throw new Error  "There was an error registering the scoring queue."
 
 module.exports.createNewTask = (req, res) ->
+  return errors.forbidden res, "You need to be logged in to be added to the leaderboard" if isUserAnonymous req
   return errors.badInput res, "The session ID is invalid" unless typeof req.body.session is "string"
   LevelSession.findOne { "_id": req.body.session}, (err, sessionToScore) ->
     return errors.serverError res, "There was an error finding the given session." if err?
@@ -87,7 +88,7 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
 getUserIDFromRequest = (req) -> if req.user? then return req.user._id else return null
 
 
-isUserAnonymous = (req) -> if req.user? then return req.user.anonymous else return true
+isUserAnonymous = (req) -> if req.user? then return req.user.get('anonymous') else return true
 
 
 parseTaskQueueMessage = (req, res, message) ->
