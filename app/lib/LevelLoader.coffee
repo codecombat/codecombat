@@ -22,8 +22,15 @@ module.exports = class LevelLoader extends CocoClass
   subscriptions:
     'god:new-world-created': 'loadSoundsForWorld'
 
-  constructor: (@levelID, @supermodel, @sessionID, @team, @opponentSessionID) ->
+  constructor: (options) ->
     super()
+    @supermodel = options.supermodel
+    @levelID = options.levelID
+    @sessionID = options.sessionID
+    @opponentSessionID = options.opponentSessionID
+    @team = options.team
+    @headless = options.headless
+
     @loadSession()
     @loadLevelModels()
     @loadAudio()
@@ -31,6 +38,7 @@ module.exports = class LevelLoader extends CocoClass
     _.defer @update  # Lets everything else resolve first
 
   playJingle: ->
+    return if @headless
     jingles = ["ident_1", "ident_2"]
     AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length]
 
@@ -42,18 +50,18 @@ module.exports = class LevelLoader extends CocoClass
     else
       url = "/db/level/#{@levelID}/session"
       url += "?team=#{@team}" if @team
-      
+
     @session = new LevelSession()
     @session.url = -> url
     @session.fetch()
     @session.once 'sync', @onSessionLoaded, @
-    
+
     if @opponentSessionID
       @opponentSession = new LevelSession()
       @opponentSession.url = "/db/level_session/#{@opponentSessionID}"
       @opponentSession.fetch()
       @opponentSession.once 'sync', @onSessionLoaded, @
-      
+
   sessionsLoaded: ->
     @session.loaded and ((not @opponentSession) or @opponentSession.loaded)
 
@@ -71,12 +79,18 @@ module.exports = class LevelLoader extends CocoClass
     @supermodel.once 'error', @onSupermodelError, @
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
     levelID = @levelID
+    headless = @headless
 
     @supermodel.shouldPopulate = (model) ->
       # if left unchecked, the supermodel would load this level
       # and every level next on the chain. This limits the population
       handles = [model.id, model.get 'slug']
       return model.constructor.className isnt "Level" or levelID in handles
+
+    @supermodel.shouldLoadReference = (model) ->
+      #return false if headless and model.constructor.className is 'ThangType'
+      # would be great if we didn't have to load ThangTypes, but need their names
+      true
 
     @supermodel.populateModel @level
 
@@ -87,22 +101,11 @@ module.exports = class LevelLoader extends CocoClass
 
   onSupermodelLoadedOne: (e) ->
     @notifyProgress()
-#    if e.model.type() is 'ThangType'
-#      thangType = e.model
-#      options = {async: true}
-#      if thangType.get('name') is 'Wizard'
-#        options.colorConfig = me.get('wizard')?.colorConfig or {}
-#      building = thangType.buildSpriteSheet options
-#      if building
-#        @spriteSheetsToBuild += 1
-#        thangType.once 'build-complete', =>
-#          @spriteSheetsBuilt += 1
-#          @notifyProgress()
 
   onSupermodelLoadedAll: ->
     @trigger 'loaded-supermodel'
     @stopListening(@supermodel)
-    @update()
+    @update?()
 
   # Things to do when either the Session or Supermodel load
 
@@ -140,6 +143,7 @@ module.exports = class LevelLoader extends CocoClass
     @buildSpriteSheets()
 
   buildSpriteSheets: ->
+    return if @headless
     thangTypes = {}
     thangTypes[tt.get('name')] = tt for tt in @supermodel.getModels(ThangType)
 
@@ -175,9 +179,11 @@ module.exports = class LevelLoader extends CocoClass
   # Initial Sound Loading
 
   loadAudio: ->
+    return if @headless
     AudioPlayer.preloadInterfaceSounds ["victory"]
 
   loadLevelSounds: ->
+    return if @headless
     scripts = @level.get 'scripts'
     return unless scripts
 
@@ -194,6 +200,7 @@ module.exports = class LevelLoader extends CocoClass
   # Dynamic sound loading
 
   loadSoundsForWorld: (e) ->
+    return if @headless
     world = e.world
     thangTypes = @supermodel.getModels(ThangType)
     for [spriteName, message] in world.thangDialogueSounds()
@@ -212,8 +219,11 @@ module.exports = class LevelLoader extends CocoClass
     supermodelProgress = @supermodel.progress()
     overallProgress += supermodelProgress * 0.7
     overallProgress += 0.1 if @sessionsLoaded()
-    spriteMapProgress = if supermodelProgress is 1 then 0.2 else 0
-    spriteMapProgress *= @spriteSheetsBuilt / @spriteSheetsToBuild if @spriteSheetsToBuild
+    if @headless
+      spriteMapProgress = 0.2
+    else
+      spriteMapProgress = if supermodelProgress is 1 then 0.2 else 0
+      spriteMapProgress *= @spriteSheetsBuilt / @spriteSheetsToBuild if @spriteSheetsToBuild
     overallProgress += spriteMapProgress
     return overallProgress
 
@@ -223,8 +233,8 @@ module.exports = class LevelLoader extends CocoClass
     @trigger 'loaded-all' if @progress() is 1
 
   destroy: ->
-    super()
     @world = null  # don't hold onto garbage
     @supermodel.off 'loaded-one', @onSupermodelLoadedOne
     @onSupermodelLoadedOne = null
-    @notifyProgress = null
+    @update = null
+    super()

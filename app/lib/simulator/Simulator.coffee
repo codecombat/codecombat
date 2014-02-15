@@ -29,9 +29,8 @@ module.exports = class Simulator
   setupSimulationAndLoadLevel: (taskData) =>
     @task = new SimulationTask(taskData)
     @supermodel = new SuperModel()
-    @god = new God()
 
-    @levelLoader = new LevelLoader @task.getLevelName(), @supermodel, @task.getFirstSessionID()
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
     @levelLoader.once 'loaded-all', @simulateGame
 
   simulateGame: =>
@@ -48,8 +47,10 @@ module.exports = class Simulator
     @world = @levelLoader.world
     @level = @levelLoader.level
     @levelLoader.destroy()
+    @levelLoader = null
 
   setupGod: ->
+    @god = new God()
     @god.level = @level.serialize @supermodel
     @god.worldClassMap = @world.classMap
     @setupGoalManager()
@@ -88,6 +89,10 @@ module.exports = class Simulator
     @fetchAndSimulateTask()
 
   cleanupSimulation: ->
+    @god.destroy()
+    @god = null
+    @world = null
+    @level = null
 
   formTaskResultsObject: (simulationResults) ->
     taskResults =
@@ -234,4 +239,3 @@ class SimulationTask
       _.merge spellKeyToSourceMap, _.pick(session.code, commonSpells) if commonSpells?
 
     spellKeyToSourceMap
-
