@@ -148,7 +148,21 @@ module.exports = class Camera extends CocoClass
   onMouseScrolled: (e) ->
     ratio = 1 + 0.05 * Math.sqrt(Math.abs(e.deltaY))
     ratio = 1 / ratio if e.deltaY > 0
-    @zoomTo @target, @zoom * ratio, 0
+    newZoom = @zoom * ratio
+    if e.surfacePos
+      # zoom based on mouse position, adjusting the target so the point under the mouse stays the same
+      mousePoint = @canvasToSurface(e.surfacePos)
+      ratioPosX = (mousePoint.x - @surfaceViewport.x) / @surfaceViewport.width
+      ratioPosY = (mousePoint.y - @surfaceViewport.y) / @surfaceViewport.height
+      newWidth = @canvasWidth / newZoom
+      newHeight = @canvasHeight / newZoom
+      newTargetX = mousePoint.x - (newWidth * ratioPosX) + (newWidth / 2)
+      newTargetY = mousePoint.y - (newHeight * ratioPosY) + (newHeight / 2)
+      target = {x: newTargetX, y:newTargetY}
+    else
+      target = @target
+    @zoomTo target, newZoom, 0
+
   onLevelRestarted: ->
     @setBounds(@firstBounds)
 

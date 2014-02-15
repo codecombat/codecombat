@@ -433,6 +433,7 @@ module.exports = Surface = class Surface extends CocoClass
   # uh
 
   onMouseMove: (e) =>
+    @mouseSurfacePos = {x:e.stageX, y:e.stageY}
     return if @disabled
     Backbone.Mediator.publish 'surface:mouse-moved', x: e.stageX, y: e.stageY
 
@@ -445,7 +446,11 @@ module.exports = Surface = class Surface extends CocoClass
     # https://github.com/brandonaaron/jquery-mousewheel
     e.preventDefault()
     return if @disabled
-    Backbone.Mediator.publish 'surface:mouse-scrolled', deltaX: e.deltaX, deltaY: e.deltaY unless @disabled
+    event =
+      deltaX: e.deltaX
+      deltaY: e.deltaY
+      surfacePos: @mouseSurfacePos
+    Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
   hookUpChooseControls: ->
     chooserOptions = stage: @stage, surfaceLayer: @surfaceLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
