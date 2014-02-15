@@ -66,6 +66,9 @@ module.exports = class SpellListView extends View
     for entry in newEntries
       @$el.append entry.el
       entry.render()  # Render after appending so that we can access parent container for popover
+  
+  rerenderEntries: ->
+    entry.render() for entry in @entries
 
   onNewWorld: (e) ->
     @thang = e.world.thangMap[@thang.id] if @thang
