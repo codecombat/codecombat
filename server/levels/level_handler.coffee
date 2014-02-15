@@ -21,6 +21,8 @@ LevelHandler = class LevelHandler extends Handler
     'icon'
   ]
 
+  postEditableProperties: ['name']
+
   getByRelationship: (req, res, args...) ->
     return @getSession(req, res, args[0]) if args[1] is 'session'
     return @getLeaderboard(req, res, args[0]) if args[1] is 'leaderboard'
@@ -28,108 +30,134 @@ LevelHandler = class LevelHandler extends Handler
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
     return @sendNotFoundError(res)
 
-  getSession: (req, res, id) ->
-    @getDocumentForIdOrSlug id, (err, level) =>
-      return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res) unless level?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, level)
-
-      sessionQuery = {
-        level: {original: level.original.toString(), majorVersion: level.version.major}
-        creator: req.user.id
-      }
-
-      # TODO: generalize this for levels that need teams
-      team = req.query.team
-      team ?= 'humans' if level.name is 'Project DotA'
-      sessionQuery.team = team if team
-      
-      Session.findOne(sessionQuery).exec (err, doc) =>
-        return @sendDatabaseError(res, err) if err
-        if doc
-          @sendSuccess(res, doc)
-          return
-
-        initVals = sessionQuery
-        initVals.state = {complete:false, scripts:{currentScript:null}} # will not save empty objects
-        initVals.permissions = [{target:req.user.id, access:'owner'}, {target:'public', access:'write'}]
-        initVals.team = team if team
-        session = new Session(initVals)
-        session.save (err) =>
-          return @sendDatabaseError(res, err) if err
-          @sendSuccess(res, @formatEntity(req, session))
-          # TODO: tying things like @formatEntity and saveChangesToDocument don't make sense
-          # associated with the handler, because the handler might return a different type
-          # of model, like in this case. Refactor to move that logic to the model instead.
-
-  getAllSessions: (req, res, id) ->
-    @getDocumentForIdOrSlug id, (err, level) =>
-      return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res) unless level?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, level)
-
-      sessionQuery = {
-        level: {original: level.original.toString(), majorVersion: level.version.major}
-        #creator: req.user.id
-        submitted: true
-      }
-      Session.find sessionQuery, '_id totalScore submitted team creatorName', (err, results) =>
-        return @sendDatabaseError(res, err) if err
-        res.send(results)
-        res.end()
-        
-  getLeaderboard: (req, res, id) ->
-    # stub handler
-#    [original, version] = id.split('.')
-#    version = parseInt version
-#    console.log 'get leaderboard for', original, version, req.query
-    [original, version] = id.split '.'
-    version = parseInt(version) or 0
-
-    req.query.order = parseInt(req.query.order) or -1
-    req.query.scoreOffset = parseInt(req.query.scoreOffset) ? 100000
-    req.query.team ?= 'humans'
-    req.query.limit ?= parseInt(req.query.limit) or 20
-
-
-    if parseInt(req.query.order) is 1
-      scoreQuery = {"$gte":parseFloat req.query.scoreOffset}
-    else
-      scoreQuery = {"$lte": parseFloat req.query.scoreOffset}
-
-    sessionsQuery =
-      level: {original: original, majorVersion: version}
-      team: req.query.team
-      totalScore: scoreQuery
-      submitted: true
-
-    sortObject =
-      "totalScore": parseInt(req.query.order)
-    query = Session.find(sessionsQuery).sort(sortObject).limit(parseInt req.query.limit)
-    Session.find sessionsQuery, 'totalScore creatorName creator', (err, resultSessions) =>
-      return @sendDatabaseError(res, err) if err
-      if resultSessions
-        return @sendSuccess res, resultSessions
-      res.send([])
-
-  getFeedback: (req, res, id) ->
+  fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
     @getDocumentForIdOrSlug id, (err, level) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless level?
       return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, level, 'get')
+      callback err, level
 
-      feedbackQuery = {
+  getSession: (req, res, id) ->
+    @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
+      sessionQuery =
+        level:
+          original: level.original.toString()
+          majorVersion: level.version.major
+        creator: req.user.id
+
+      # TODO: generalize this for levels that need teams
+      if req.query.team?
+        sessionQuery.team = req.query.team
+      else if level.name is 'Project DotA'
+        sessionQuery.team = 'humans'
+      
+      Session.findOne(sessionQuery).exec (err, doc) =>
+        return @sendDatabaseError(res, err) if err
+        return @sendSuccess(res, doc) if doc?
+        @createAndSaveNewSession sessionQuery, req, res
+
+
+  createAndSaveNewSession: (sessionQuery, req, res) =>
+    initVals = sessionQuery
+
+    initVals.state =
+      complete:false
+      scripts:
+        currentScript:null # will not save empty objects
+
+    initVals.permissions = [
+      {
+        target:req.user.id
+        access:'owner'
+      }
+      {
+        target:'public'
+        access:'write'
+      }
+    ]
+    session = new Session(initVals)
+
+    session.save (err) =>
+      return @sendDatabaseError(res, err) if err
+      @sendSuccess(res, @formatEntity(req, session))
+      # TODO: tying things like @formatEntity and saveChangesToDocument don't make sense
+      # associated with the handler, because the handler might return a different type
+      # of model, like in this case. Refactor to move that logic to the model instead.
+
+  getAllSessions: (req, res, id) ->
+    @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
+      sessionQuery =
+        level:
+          original: level.original.toString()
+          majorVersion: level.version.major
+        submitted: true
+
+      propertiesToReturn = [
+        '_id'
+        'totalScore'
+        'submitted'
+        'team'
+        'creatorName'
+      ]
+
+      query = Session
+        .find(sessionQuery)
+        .select(propertiesToReturn.join ' ')
+
+      query.exec (err, results) =>
+        if err then @sendDatabaseError(res, err) else @sendSuccess res, results
+
+  getLeaderboard: (req, res, id) ->
+    @validateLeaderboardRequestParameters req
+    [original, version] = id.split '.'
+    version = parseInt(version) ? 0
+    scoreQuery = {}
+    scoreQuery[if req.query.order is 1 then "$gte" else "$lte"] = req.query.scoreOffset
+
+    sessionsQueryParameters =
+      level:
+        original: original
+        majorVersion: version
+      team: req.query.team
+      totalScore: scoreQuery
+      submitted: true
+
+    sortParameters =
+      "totalScore": req.query.order
+
+    selectProperties = [
+      'totalScore'
+      'creatorName'
+      'creator'
+    ]
+
+    query = Session
+      .find(sessionsQueryParameters)
+      .limit(req.query.limit)
+      .sort(sortParameters)
+      .select(selectProperties.join ' ')
+
+    query.exec (err, resultSessions) =>
+      return @sendDatabaseError(res, err) if err
+      resultSessions ?= []
+      @sendSuccess res, resultSessions
+
+  validateLeaderboardRequestParameters: (req) ->
+    req.query.order = parseInt(req.query.order) ? -1
+    req.query.scoreOffset = parseFloat(req.query.scoreOffset) ? 100000
+    req.query.team ?= 'humans'
+    req.query.limit = parseInt(req.query.limit) ? 20
+
+  getFeedback: (req, res, id) ->
+    @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
+      feedbackQuery =
         creator: mongoose.Types.ObjectId(req.user.id.toString())
         'level.original': level.original.toString()
         'level.majorVersion': level.version.major
-      }
 
       Feedback.findOne(feedbackQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res) unless doc?
         @sendSuccess(res, doc)
-        return
-
-  postEditableProperties: ['name']
 
 module.exports = new LevelHandler()
