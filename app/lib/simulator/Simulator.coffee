@@ -75,7 +75,7 @@ module.exports = class Simulator
       type: "PUT"
       success: @handleTaskResultsTransferSuccess
       error: @handleTaskResultsTransferError
-      complete: @cleanupAndSimulateAnotherTask()
+      complete: @cleanupAndSimulateAnotherTask
 
   handleTaskResultsTransferSuccess: (result) ->
     console.log "Task registration result: #{JSON.stringify result}"

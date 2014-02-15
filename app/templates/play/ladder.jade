@@ -5,7 +5,9 @@ block content
     h3= level.get('name')
     div#level-description
       !{description}
-  
+  if me.isAdmin()
+    button.btn.btn-warning.btn-lg.highlight#simulate-button(style="margin-bottom:10px") Simulate all games
+
   div#leaderboard-column
     ul.nav.nav-pills
       for team in teams
