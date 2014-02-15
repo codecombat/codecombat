@@ -98,8 +98,8 @@ module.exports = class HomeView extends View
     @turnOnStageUpdates()
 
   destroy: ->
-    super()
     @wizardSprite?.destroy()
+    super()
 
   onSimulateButtonClick: (e) =>
     simulator = new Simulator()

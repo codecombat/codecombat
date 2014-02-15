@@ -35,10 +35,10 @@ module.exports = class SpriteBoss extends CocoClass
     @spriteSheetCache = {}
 
   destroy: ->
-    super()
     @removeSprite sprite for thangID, sprite of @sprites
     @targetMark?.destroy()
     @selectionMark?.destroy()
+    super()
 
   toString: -> "<SpriteBoss: #{@sprites.length} sprites>"
 
@@ -144,8 +144,8 @@ module.exports = class SpriteBoss extends CocoClass
 
   removeSprite: (sprite) ->
     sprite.displayObject.parent.removeChild sprite.displayObject
-    sprite.destroy()
     delete @sprites[sprite.thang.id]
+    sprite.destroy()
 
   updateSounds: ->
     sprite.playSounds() for thangID, sprite of @sprites  # hmm; doesn't work for sprites which we didn't add yet in adjustSpriteExistence
@@ -252,7 +252,7 @@ module.exports = class SpriteBoss extends CocoClass
   # Marks
 
   updateSelection: ->
-    if @selectedSprite and (not @selectedSprite.thang.exists or not @world.getThangByID @selectedSprite.thang.id)
+    if @selectedSprite?.thang and (not @selectedSprite.thang.exists or not @world.getThangByID @selectedSprite.thang.id)
       @selectSprite null, null, null
     @updateTarget()
     return unless @selectionMark

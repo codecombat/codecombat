@@ -76,5 +76,5 @@ module.exports = class WizardSettingsView extends View
     me.save()
 
   destroy: ->
-    super()
     @wizardSprite?.destroy()
+    super()

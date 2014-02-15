@@ -9,10 +9,10 @@ module.exports = class RegionChooser extends CocoClass
     @options.stage.addEventListener 'stagemouseup', @onMouseUp
 
   destroy: ->
-    super()
     @options.stage.removeEventListener 'stagemousedown', @onMouseDown
     @options.stage.removeEventListener 'stagemousemove', @onMouseMove
     @options.stage.removeEventListener 'stagemouseup', @onMouseUp
+    super()
 
   onMouseDown: (e) =>
     return unless key.shift

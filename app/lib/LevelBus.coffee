@@ -234,8 +234,8 @@ module.exports = class LevelBus extends Bus
     tempSession.save(patch, {patch: true})
 
   destroy: ->
-    super()
     @session.off 'change:multiplayer', @onMultiplayerChanged, @
+    super()
 
   setTeamSpellMap: (spellMap) ->
     @teamSpellMap = spellMap

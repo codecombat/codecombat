@@ -40,7 +40,7 @@ module.exports = class Simulator
     try
       @commenceSimulationAndSetupCallback()
     catch err
-      console.log "There was an error in simulation(#{err}). Trying again in #{retryDelayInSeconds} seconds"
+      console.log "There was an error in simulation(#{err}). Trying again in #{@retryDelayInSeconds} seconds"
       @simulateAnotherTaskAfterDelay()
 
   assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->

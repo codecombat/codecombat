@@ -134,6 +134,7 @@ module.exports = class TomeView extends View
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   onToggleSpellList: (e) ->
+    @spellList.rerenderEntries()
     @spellList.$el.toggle()
 
   onSpellViewClick: (e) ->
@@ -183,6 +184,5 @@ module.exports = class TomeView extends View
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   destroy: ->
+    spell.destroy() for spellKey, spell of @spells
     super()
-    for spellKey, spell of @spells
-      spell.destroy()

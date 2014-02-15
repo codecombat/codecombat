@@ -77,12 +77,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @buildFromSpriteSheet @buildSpriteSheet()
 
   destroy: ->
-    super()
     mark.destroy() for name, mark of @marks
     label.destroy() for name, label of @labels
     @imageObject?.off 'animationend', @playNextAction
     @playNextAction = null
     @displayObject?.off()
+    super()
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
 

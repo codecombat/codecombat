@@ -236,10 +236,10 @@ module.exports = class PlaybackView extends View
     $(document.activeElement).blur()
 
   destroy: ->
-    super()
     me.off('change:music', @updateMusicButton, @)
     $(window).off('resize', @onWindowResize)
     @onWindowResize = null
     @onProgressMouseOver = null
     @onProgressMouseLeave = null
     @onProgressMouseMove = null
+    super()

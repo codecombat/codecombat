@@ -100,8 +100,8 @@ module.exports = class VictoryModal extends View
     Backbone.Mediator.publish 'level:victory-hidden'
 
   destroy: ->
-    super()
     @saveReview() if @$el.find('.review textarea').val()
+    super()
 
   # rating, review
 

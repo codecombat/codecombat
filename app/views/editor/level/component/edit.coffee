@@ -89,5 +89,5 @@ module.exports = class LevelComponentEditView extends View
     null
 
   destroy: ->
-    super()
     @editor?.destroy()
+    super()

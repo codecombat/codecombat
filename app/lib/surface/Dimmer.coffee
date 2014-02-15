@@ -21,9 +21,6 @@ module.exports = class Dimmer extends CocoClass
     @highlightedThangIDs = []
     @sprites = {}
 
-  destroy: ->
-    super()
-
   toString: -> "<Dimmer>"
 
   build: ->

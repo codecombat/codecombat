@@ -76,6 +76,3 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
         storage.save(CURRENT_USER_KEY, model.attributes)
         window.location.reload()
     })
-
-  destroy: ->
-    super()

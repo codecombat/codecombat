@@ -137,7 +137,7 @@ module.exports = class ThangListEntryView extends View
     @$el.toggleClass 'dead', currentThang.health <= 0 if currentThang.exists
 
   destroy: ->
-    super()
     @avatar?.destroy()
     @popover?.off 'mouseenter mouseleave'
     @popover?.find('code').off 'click'
+    super()
