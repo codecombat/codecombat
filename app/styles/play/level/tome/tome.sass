@@ -1,15 +1,24 @@
-@import "../../../bootstrap/mixins"
+@import "app/styles/bootstrap/mixins"
+@import "app/styles/mixins"
 
 #tome-view
   height: 100%
 
   .popover
     padding: 10px
-    max-width: 400px
+    min-width: 400px
     background: transparent url(/images/level/popover_background.png)
     background-size: 100% 100%
     border: 0
+    left: auto !important
+    top: auto !important
+    right: 100%
+    bottom: 151px
     @include box-shadow(0 0 0 #000)
+    @include user-select(text)
+
+    &.pinned
+      @include box-shadow(0 0 500px white)
 
     h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
       font-family: Menlo, Monaco, Consolas, "Courier New", monospace

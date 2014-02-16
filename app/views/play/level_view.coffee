@@ -387,7 +387,6 @@ module.exports = class PlayLevelView extends View
     team = team?.team unless _.isString team
     team ?= 'humans'
     me.team = team
-    console.log "level:team-set to", team
     Backbone.Mediator.publish 'level:team-set', team: team
 
   destroy: ->
