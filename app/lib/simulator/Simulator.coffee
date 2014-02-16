@@ -29,6 +29,7 @@ module.exports = class Simulator
   setupSimulationAndLoadLevel: (taskData) =>
     @task = new SimulationTask(taskData)
     @supermodel = new SuperModel()
+    @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
 
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
     @levelLoader.once 'loaded-all', @simulateGame
@@ -50,7 +51,6 @@ module.exports = class Simulator
     @levelLoader = null
 
   setupGod: ->
-    @god = new God()
     @god.level = @level.serialize @supermodel
     @god.worldClassMap = @world.classMap
     @setupGoalManager()

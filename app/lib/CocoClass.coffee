@@ -6,7 +6,7 @@ makeScopeName = -> "class-scope-#{classCount++}"
 module.exports = class CocoClass
   subscriptions: {}
   shortcuts: {}
-  
+
   # setup/teardown
 
   constructor: ->
@@ -27,7 +27,7 @@ module.exports = class CocoClass
     @destroy = ->
 
   # subscriptions
-    
+
   listenToSubscriptions: ->
     # for initting subscriptions
     return unless Backbone?.Mediator?
@@ -48,7 +48,7 @@ module.exports = class CocoClass
     for channel, func of @subscriptions
       func = utils.normalizeFunc(func, @)
       Backbone.Mediator.unsubscribe(channel, func, @)
-      
+
   # keymaster shortcuts
 
   listenToShortcuts: ->
@@ -56,7 +56,7 @@ module.exports = class CocoClass
     for shortcut, func of @shortcuts
       func = utils.normalizeFunc(func, @)
       key(shortcut, @scope, _.bind(func, @))
-      
+
   stopListeningToShortcuts: ->
     return unless key?
-    key.deleteScope(@scope)  
+    key.deleteScope(@scope)

@@ -77,7 +77,6 @@ module.exports = class LevelLoader extends CocoClass
   # Supermodel (Level) Loading
 
   loadLevelModels: ->
-    @supermodel.once 'loaded-all', @onSupermodelLoadedAll, @
     @supermodel.on 'loaded-one', @onSupermodelLoadedOne, @
     @supermodel.once 'error', @onSupermodelError, @
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
@@ -90,10 +89,9 @@ module.exports = class LevelLoader extends CocoClass
       handles = [model.id, model.get 'slug']
       return model.constructor.className isnt "Level" or levelID in handles
 
-    @supermodel.shouldLoadReference = (model) ->
-      #return false if headless and model.constructor.className is 'ThangType'
-      # would be great if we didn't have to load ThangTypes, but need their names
-      true
+    @supermodel.shouldLoadProjection = (model) ->
+      return true if headless and model.constructor.className is 'ThangType'
+      false
 
     @supermodel.populateModel @level
 
@@ -104,11 +102,6 @@ module.exports = class LevelLoader extends CocoClass
 
   onSupermodelLoadedOne: (e) ->
     @notifyProgress()
-
-  onSupermodelLoadedAll: ->
-    @trigger 'loaded-supermodel'
-    @stopListening(@supermodel)
-    @update?()
 
   # Things to do when either the Session or Supermodel load
 
@@ -236,8 +229,7 @@ module.exports = class LevelLoader extends CocoClass
     @trigger 'loaded-all' if @progress() is 1
 
   destroy: ->
-    @world = null  # don't hold onto garbage
     @supermodel.off 'loaded-one', @onSupermodelLoadedOne
-    @onSupermodelLoadedOne = null
+    @world = null  # don't hold onto garbage
     @update = null
     super()
