@@ -106,13 +106,13 @@ module.exports = class Level extends CocoModel
         height = c.height if c.height? and c.height > height
     return {width:width, height:height}
 
-  getReferencedModels: (data, schema, path='/') ->
-    models = super data, schema, path
+  getReferencedModels: (data, schema, path='/', shouldLoadProjection=null) ->
+    models = super data, schema, path, shouldLoadProjection
     if path.match(/\/systems\/\d+\/config\//) and data?.indieSprites?.length
       # Ugh, we need to make sure we grab the IndieSprite ThangTypes
       for indieSprite in data.indieSprites
         link = "/db/thang_type/#{indieSprite.thangType}/version"
-        model = CocoModel.getOrMakeModelFromLink link
+        model = CocoModel.getOrMakeModelFromLink link, shouldLoadProjection
         models.push model if model
     else if path is '/'
       # We also we need to make sure we grab the Wizard ThangType and the Marks. Hackitrooooid!
@@ -124,6 +124,6 @@ module.exports = class Level extends CocoModel
         ["Repair", "52bcc4591f766a891c000003"]
       ]
         link = "/db/thang_type/#{original}/version"
-        model = CocoModel.getOrMakeModelFromLink link
+        model = CocoModel.getOrMakeModelFromLink link, shouldLoadProjection
         models.push model if model
     models

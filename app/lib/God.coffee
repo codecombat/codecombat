@@ -12,11 +12,11 @@ module.exports = class God
     @lastID = (if @lastID? then @lastID + 1 else Math.floor(@ids.length * Math.random())) % @ids.length
     @ids[@lastID]
 
-  maxAngels: 2  # how many concurrent web workers to use; if set past 8, make up more names
-  maxWorkerPoolSize: 2  # ~20MB per idle worker
   worldWaiting: false  # whether we're waiting for a worker to free up and run the world
-  constructor: ->
+  constructor: (options) ->
     @id = God.nextID()
+    @maxAngels = options.maxAngels ? 2  # How many concurrent web workers to use; if set past 8, make up more names
+    @maxWorkerPoolSize = options.maxWorkerPoolSize ? 2  # ~20MB per idle worker
     @angels = []
     @firstWorld = true
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
@@ -38,7 +38,7 @@ module.exports = class God
 
   getWorker: ->
     @fillWorkerPool()
-    worker = @workerPool.shift()
+    worker = @workerPool?.shift()
     return worker if worker
     @createWorker()
 
@@ -110,7 +110,7 @@ module.exports = class God
     newWorld.findFirstChangedFrame @world
     @world = newWorld
     errorCount = (t for t in @world.thangs when t.errorsOut).length
-    Backbone.Mediator.publish('god:new-world-created', world: @world, firstWorld: @firstWorld, errorCount: errorCount, goalStates: @latestGoalStates)
+    Backbone.Mediator.publish('god:new-world-created', world: @world, firstWorld: @firstWorld, errorCount: errorCount, goalStates: @latestGoalStates, team: me.team)
     for scriptNote in @world.scriptNotes
       Backbone.Mediator.publish scriptNote.channel, scriptNote.event
     @goalManager?.world = newWorld
@@ -130,6 +130,7 @@ module.exports = class God
     angel.destroy() for angel in @angels
     @dead = true
     Backbone.Mediator.unsubscribe('tome:cast-spells', @onTomeCast, @)
+    @goalManager.destroy()
     @goalManager = null
     @fillWorkerPool = null
     @simulateWorld = null

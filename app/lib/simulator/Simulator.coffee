@@ -29,9 +29,9 @@ module.exports = class Simulator
   setupSimulationAndLoadLevel: (taskData) =>
     @task = new SimulationTask(taskData)
     @supermodel = new SuperModel()
-    @god = new God()
+    @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
 
-    @levelLoader = new LevelLoader @task.getLevelName(), @supermodel, @task.getFirstSessionID()
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
     @levelLoader.once 'loaded-all', @simulateGame
 
   simulateGame: =>
@@ -41,13 +41,14 @@ module.exports = class Simulator
     try
       @commenceSimulationAndSetupCallback()
     catch err
-      console.log "There was an error in simulation(#{err}). Trying again in #{retryDelayInSeconds} seconds"
+      console.log "There was an error in simulation(#{err}). Trying again in #{@retryDelayInSeconds} seconds"
       @simulateAnotherTaskAfterDelay()
 
   assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->
     @world = @levelLoader.world
     @level = @levelLoader.level
     @levelLoader.destroy()
+    @levelLoader = null
 
   setupGod: ->
     @god.level = @level.serialize @supermodel
@@ -88,6 +89,10 @@ module.exports = class Simulator
     @fetchAndSimulateTask()
 
   cleanupSimulation: ->
+    @god.destroy()
+    @god = null
+    @world = null
+    @level = null
 
   formTaskResultsObject: (simulationResults) ->
     taskResults =
@@ -234,4 +239,3 @@ class SimulationTask
       _.merge spellKeyToSourceMap, _.pick(session.code, commonSpells) if commonSpells?
 
     spellKeyToSourceMap
-

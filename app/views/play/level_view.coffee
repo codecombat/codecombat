@@ -104,7 +104,7 @@ module.exports = class PlayLevelView extends View
       @load()
 
   load: ->
-    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID, @getQueryVariable("team"), @getQueryVariable('opponent'))
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
     @god = new God()
 
@@ -124,7 +124,7 @@ module.exports = class PlayLevelView extends View
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
-    
+
     if s = @levelLoader.opponentSession
       spells = s.get('teamSpells')?[s.get('team')]
       opponentCode = s.get('code')
@@ -133,7 +133,7 @@ module.exports = class PlayLevelView extends View
         continue unless c = opponentCode[spell]
         myCode[spell] = c
       @session.set('code', myCode)
-        
+
     @levelLoader.destroy()
     @levelLoader = null
     @loadingScreen.destroy()
@@ -387,6 +387,7 @@ module.exports = class PlayLevelView extends View
     team = team?.team unless _.isString team
     team ?= 'humans'
     me.team = team
+    console.log "level:team-set to", team
     Backbone.Mediator.publish 'level:team-set', team: team
 
   destroy: ->
