@@ -29,12 +29,34 @@ throwScoringQueueRegistrationError = (error) ->
   throw new Error  "There was an error registering the scoring queue."
 
 module.exports.createNewTask = (req, res) ->
-  scoringTaskQueue.sendMessage req.body, 0, (err, data) ->
-    return errors.badInput res, "There was an error creating the message, reason: #{err}" if err?
+  return errors.forbidden res, "You need to be logged in to be added to the leaderboard" if isUserAnonymous req
+  return errors.badInput res, "The session ID is invalid" unless typeof req.body.session is "string"
+  LevelSession.findOne { "_id": req.body.session}, (err, sessionToScore) ->
+    return errors.serverError res, "There was an error finding the given session." if err?
+    sessionToScore = sessionToScore.toJSON()
+    console.log "Ranking session of team #{sessionToScore.team}"
 
-    res.send data
-    res.end()
+    LevelSession.update { "_id": req.body.session}, {"submitted":true}, (err, data) ->
+      return errors.serverError res, "There was an error saving the submitted bool of the session." if err?
+      LevelSession.find { "levelID": "project-dota", "submitted": true}, (err, submittedSessions) ->
+        taskPairs = []
+        for session in submittedSessions
+          session = session.toObject()
+          console.log "Attemping to add session of team #{session.team} to taskPairs..."
+          if String(session._id) isnt req.body.session and session.team isnt sessionToScore.team and session.team in ["ogres","humans"]
+            console.log "Adding game to taskPairs!"
+            taskPairs.push [req.body.session,String session._id]
+        async.each taskPairs, sendTaskPairToQueue, (taskPairError) ->
+          return errors.serverError res, "There was an error sending the task pairs to the queue" if taskPairError?
+          sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
 
+
+sendTaskPairToQueue = (taskPair, callback) ->
+  taskObject =
+    sessions: taskPair
+
+  scoringTaskQueue.sendMessage taskObject, 0, (err,data) ->
+    callback err,data
 
 module.exports.dispatchTaskToConsumer = (req, res) ->
   userID = getUserIDFromRequest req,res
@@ -43,6 +65,7 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
   scoringTaskQueue.receiveMessage (taskQueueReceiveError, message) ->
     if (not message?) or message.isEmpty() or taskQueueReceiveError?
       return errors.gatewayTimeoutError res, "No messages were receieved from the queue. Msg:#{taskQueueReceiveError}"
+
 
     messageBody = parseTaskQueueMessage req, res, message
     return errors.serverError res, "There was an error parsing the queue message" unless messageBody?
@@ -57,13 +80,15 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
 
         setTaskObjectTaskLogID taskObject, taskLogObject._id
 
+        taskObject.receiptHandle = message.getReceiptHandle()
+
         sendResponseObject req, res, taskObject
 
 
 getUserIDFromRequest = (req) -> if req.user? then return req.user._id else return null
 
 
-isUserAnonymous = (req) -> if req.user? then return req.user.anonymous else return true
+isUserAnonymous = (req) -> if req.user? then return req.user.get('anonymous') else return true
 
 
 parseTaskQueueMessage = (req, res, message) ->
@@ -142,16 +167,18 @@ module.exports.processTaskResult = (req, res) ->
 
       return errors.badInput res, "That computational task has already been performed" if taskLogJSON.calculationTimeMS
       return handleTimedOutTask req, res, clientResponseObject if hasTaskTimedOut taskLogJSON.sentDate
+      destroyQueueMessage clientResponseObject.receiptHandle, (err) ->
+        return errors.badInput res, "The queue message is already back in the queue, rejecting results." if err?
 
-      logTaskComputation clientResponseObject, taskLog, (loggingError) ->
-        if loggingError?
-          return errors.serverError res, "There as a problem logging the task computation: #{loggingError}"
+        logTaskComputation clientResponseObject, taskLog, (loggingError) ->
+          if loggingError?
+            return errors.serverError res, "There as a problem logging the task computation: #{loggingError}"
 
-        updateScores clientResponseObject, (updatingScoresError, newScores) ->
-          if updatingScoresError?
-            return errors.serverError res, "There was an error updating the scores.#{updatingScoresError}"
+          updateScores clientResponseObject, (updatingScoresError, newScores) ->
+            if updatingScoresError?
+              return errors.serverError res, "There was an error updating the scores.#{updatingScoresError}"
 
-          sendResponseObject req, res, {"message":"The scores were updated successfully!"}
+            sendResponseObject req, res, {"message":"The scores were updated successfully!"}
 
 
 
@@ -161,6 +188,7 @@ hasTaskTimedOut = (taskSentTimestamp) -> taskSentTimestamp + scoringTaskTimeoutI
 
 handleTimedOutTask = (req, res, taskBody) -> errors.clientTimeout res, "The results weren't provided within the timeout"
 
+destroyQueueMessage = (receiptHandle, callback) -> scoringTaskQueue.deleteMessage receiptHandle, callback
 
 verifyClientResponse = (responseObject, res) ->
   unless typeof responseObject is "object"
@@ -200,14 +228,13 @@ updateScoreInSession = (scoreObject,callback) ->
 
   LevelSession.findOne sessionObjectQuery, (err, session) ->
     return callback err, null if err?
-
-    session.meanStrength = scoreObject.meanStrength
-    session.standardDeviation = scoreObject.standardDeviation
-    session.totalScore = scoreObject.meanStrength - 1.8 * scoreObject.standardDeviation
-
-    log.info "Saving session #{session._id}!"
-
-    session.save callback
+    session = session.toObject()
+    updateObject =
+      meanStrength: scoreObject.meanStrength
+      standardDeviation: scoreObject.standardDeviation
+      totalScore: scoreObject.meanStrength - 1.8 * scoreObject.standardDeviation
+    log.info "New total score for session #{scoreObject.id} is #{updateObject.totalScore}"
+    LevelSession.update sessionObjectQuery, updateObject, callback
 
 
 putRankingFromMetricsIntoScoreObject = (taskObject,scoreObject) ->
@@ -225,6 +252,7 @@ retrieveOldScoreMetrics = (sessionID, callback) ->
   LevelSession.findOne sessionQuery, (err, session) ->
     return callback err, {"error":"There was an error retrieving the session."} if err?
 
+    session = session.toObject()
     defaultScore = (25 - 1.8*(25/3))
     defaultStandardDeviation = 25/3
 

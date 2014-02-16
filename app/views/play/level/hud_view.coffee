@@ -333,8 +333,8 @@ module.exports = class HUDView extends View
     ael
 
   destroy: ->
-    super()
     @stage?.stopTalking()
     @addMoreMessage = null
     @animateEnterButton = null
     clearInterval(@messageInterval) if @messageInterval
+    super()

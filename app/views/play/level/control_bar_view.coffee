@@ -57,7 +57,7 @@ module.exports = class ControlBarView extends View
     @openModalView(new DocsModal(options))
 
   showMultiplayerModal: ->
-    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams))
+    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level))
 
   showRestartModal: ->
     @openModalView(new ReloadModal())

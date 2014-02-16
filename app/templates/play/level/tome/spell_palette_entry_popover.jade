@@ -17,10 +17,11 @@ else if doc.type == 'function'
     div
       code= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
 
-if doc.type != 'function' && doc.type != 'snippet'
+if (doc.type != 'function' && doc.type != 'snippet') || doc.name == 'now'
   p.value
     strong Current Value: 
-    code.current-value(data-prop=doc.name)= value
+    pre
+      code.current-value(data-prop=doc.name)= value
 
 if doc.args && doc.args.length
   p.args

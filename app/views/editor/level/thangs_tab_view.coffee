@@ -151,9 +151,9 @@ module.exports = class ThangsTabView extends View
     @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
 
   destroy: ->
-    super()
     @selectAddThangType null
     @surface.destroy()
+    super()
 
   onViewSwitched: (e) ->
     @selectAddThang()

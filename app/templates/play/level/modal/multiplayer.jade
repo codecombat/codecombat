@@ -25,14 +25,11 @@
     
       p(data-i18n="play_level.multiplayer_coming_soon") More multiplayer features to come!
 
-    if playableTeams.length > 1
-      #multiplayer-team-selection
-        for team in playableTeams
-          h4
-            if team == me.team
-              em= "Playing as " + team
-            else
-              a(href=joinLink + "&skip_protect_api=true&team=" + team)= "Play as " + team
+    if ladderGame
+      if me.get('anonymous')
+        p Sign in or create an account and get your solution on the leaderboard!
+      else
+        #submit-session-button.btn.btn-primary Update Ladder Score
   
   .modal-footer
     a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close

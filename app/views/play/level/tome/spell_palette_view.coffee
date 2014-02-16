@@ -30,7 +30,6 @@ module.exports = class SpellPaletteView extends View
 
     props = @thang.programmableProperties ? []
     snippets = @thang.programmableSnippets ? []
-    console.log "yo got snippets", snippets
     shortenize = props.length + snippets.length > 6
     @entries = []
     @entries.push @addEntry(allDocs[prop] ? prop, shortenize) for prop in props
@@ -65,6 +64,6 @@ module.exports = class SpellPaletteView extends View
     @options.thang = @thang = e.selectedThang  # Update our thang to the current version
 
   destroy: ->
-    super()
     entry.destroy() for entry in @entries
     @toggleBackground = null
+    super()

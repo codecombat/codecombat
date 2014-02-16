@@ -11,5 +11,5 @@ module.exports.load = (key) ->
 module.exports.save = (key, value) ->
   s = JSON.stringify(value)
   localStorage.setItem(key, s)
-  
+
 module.exports.remove = (key) -> localStorage.removeItem key

@@ -2,6 +2,7 @@ async = require 'async'
 mongoose = require('mongoose')
 Grid = require 'gridfs-stream'
 errors = require './errors'
+PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
 
 module.exports = class Handler
   # subclasses should override these properties
@@ -92,7 +93,6 @@ module.exports = class Handler
     unless @modelClass.schema.uses_coco_search
       return @sendNotFoundError(res)
 
-    project = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
     term = req.query.term
     matchedObjects = []
     filters = [{filter: {index: true}}]
@@ -110,11 +110,11 @@ module.exports = class Handler
           res.send matchedObjects
           res.end()
       if term
-        filter.project = project if req.query.project
+        filter.project = PROJECT if req.query.project
         @modelClass.textSearch term, filter, callback
       else
         args = [filter.filter]
-        args.push project if req.query.project
+        args.push PROJECT if req.query.project
         @modelClass.find(args...).limit(100).exec callback
 
   versions: (req, res, id) ->
@@ -148,7 +148,9 @@ module.exports = class Handler
       query['version.major'] = majorVersion unless _.isNaN(majorVersion)
       query['version.minor'] = minorVersion unless _.isNaN(minorVersion)
     sort = { 'version.major': -1, 'version.minor': -1 }
-    @modelClass.findOne(query).sort(sort).exec (err, doc) =>
+    args = [query]
+    args.push PROJECT if req.query.project
+    @modelClass.findOne(args...).sort(sort).exec (err, doc) =>
       return @sendNotFoundError(res) unless doc?
       return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
       res.send(doc)

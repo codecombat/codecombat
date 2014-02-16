@@ -8,6 +8,39 @@ filters = require 'lib/image_filter'
 # If we use marked somewhere else, we'll have to make sure to preserve options
 marked.setOptions {gfm: true, sanitize: false, smartLists: true, breaks: true}
 
+safeJSONStringify = (input, maxDepth) ->
+  recursion = (input, path, depth) ->
+    output = {}
+    pPath = undefined
+    refIdx = undefined
+    path = path or ""
+    depth = depth or 0
+    depth++
+    return "{depth over " + maxDepth + "}"  if maxDepth and depth > maxDepth
+    for p of input
+      pPath = ((if path then (path + ".") else "")) + p
+      if typeof input[p] is "function"
+        output[p] = "{function}"
+      else if typeof input[p] is "object"
+        refIdx = refs.indexOf(input[p])
+        if -1 isnt refIdx
+          output[p] = "{reference to " + refsPaths[refIdx] + "}"
+        else
+          refs.push input[p]
+          refsPaths.push pPath
+          output[p] = recursion(input[p], pPath, depth)
+      else
+        output[p] = input[p]
+    output
+  refs = []
+  refsPaths = []
+  maxDepth = maxDepth or 5
+  if typeof input is "object"
+    output = recursion(input)
+  else
+    output = input
+  JSON.stringify output, null, 1
+
 module.exports = class SpellPaletteEntryView extends View
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
   className: 'spell-palette-entry-view'
@@ -61,16 +94,18 @@ module.exports = class SpellPaletteEntryView extends View
   formatPopover: ->
     content = popoverTemplate doc: @doc, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? [])
     owner = if @doc.owner is 'this' then @thang else window[@doc.owner]
+    content = content.replace /#{spriteName}/g, @thang.spriteName  # No quotes like we'd get with @formatValue
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
 
   formatValue: (v) ->
+    return @thang.now() if @doc.name is 'now'
     return '[Function]' if not v and @doc.type is 'function'
     unless v?
       if @doc.owner is 'this'
         v = @thang[@doc.name]
       else
         v = window[@doc.owner][@doc.name]
-    if @type is 'number' and not isNaN v
+    if @doc.type is 'number' and not isNaN v
       if v == Math.round v
         return v
       return v.toFixed 2
@@ -82,6 +117,8 @@ module.exports = class SpellPaletteEntryView extends View
       return v.name
     if _.isArray v
       return '[' + (@formatValue v2 for v2 in v).join(', ') + ']'
+    if _.isPlainObject v
+      return safeJSONStringify v, 2
     v
 
   onMouseOver: (e) ->
@@ -95,7 +132,6 @@ module.exports = class SpellPaletteEntryView extends View
   onFrameChanged: (e) ->
     return unless e.selectedThang?.id is @thang.id
     @options.thang = @thang = e.selectedThang  # Update our thang to the current version
-    @$el.find("code.current-value").text(@formatValue())
 
   destroy: ->
     @$el.off()

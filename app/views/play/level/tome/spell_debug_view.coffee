@@ -136,6 +136,6 @@ module.exports = class DebugView extends View
     key: keys.join("."), value: value
 
   destroy: ->
-    super()
     @ace?.removeEventListener "mousemove", @onMouseMove
     @onMouseMove = null
+    super()

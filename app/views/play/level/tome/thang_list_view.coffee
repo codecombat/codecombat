@@ -82,7 +82,7 @@ module.exports = class ThangListView extends View
     @addThangListEntries()
 
   destroy: ->
-    super()
     entry.destroy() for entry in @entries
     @sortScoreForThang = null
+    super()
 
