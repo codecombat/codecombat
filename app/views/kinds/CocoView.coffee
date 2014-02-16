@@ -144,12 +144,14 @@ module.exports = class CocoView extends Backbone.View
   # Loading ModalViews
 
   enableModalInProgress: (modal) ->
-    $('> div', modal).hide()
-    $('.wait', modal).show()
+    el = modal.find('.modal-content')
+    el.find('> div', modal).hide()
+    el.find('.wait', modal).show()
 
   disableModalInProgress: (modal) ->
-    $('> div', modal).show()
-    $('.wait', modal).hide()
+    el = modal.find('.modal-content')
+    el.find('> div', modal).show()
+    el.find('.wait', modal).hide()
 
   # Subscriptions
 
