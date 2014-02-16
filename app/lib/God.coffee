@@ -15,6 +15,7 @@ module.exports = class God
   worldWaiting: false  # whether we're waiting for a worker to free up and run the world
   constructor: (options) ->
     @id = God.nextID()
+    options ?= {}
     @maxAngels = options.maxAngels ? 2  # How many concurrent web workers to use; if set past 8, make up more names
     @maxWorkerPoolSize = options.maxWorkerPoolSize ? 2  # ~20MB per idle worker
     @angels = []
