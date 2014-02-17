@@ -135,7 +135,8 @@ _.extend LevelSessionSchema.properties,
     index:true
 
   submitDate:
-    type: 'date'
+    type: c.date
+      title: 'Submitted'
 
   submittedCode:
     type: 'object'
