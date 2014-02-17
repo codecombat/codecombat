@@ -109,7 +109,7 @@ module.exports = class LevelLoader extends CocoClass
     @notifyProgress()
 
     return if @updateCompleted
-    return unless @supermodel.finished() and @sessionsLoaded()
+    return unless @supermodel?.finished() and @sessionsLoaded()
     @denormalizeSession()
     @loadLevelSounds()
     app.tracker.updatePlayState(@level, @session)
