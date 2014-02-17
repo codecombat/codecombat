@@ -50,8 +50,8 @@ block content
           span(data-i18n="contribute.alert_account_message_suf")
             | first.
 
-      #archmage
-        .class_image.header-scrolling-fix
+      #archmage.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/archmage.png", alt="")
 
         h3.header-scrolling-fix
@@ -59,15 +59,15 @@ block content
           span  
           span(data-i18n="classes.archmage_title_description") (Coder)
         p(data-i18n="contribute.archmage_summary")
-          | Interested in working on database management, server administration, user facing 
-          | graphics and building interface? Want to help build a game to help other people learn
-          | what you are good at? We have a lot to do and if you are an experienced programmer and 
-          | want to develop for CodeCombat, this class is for you. We would love your help 
+          | Interested in working on game graphics, user interface design, database and server organization,
+          | multiplayer networking, physics, sound, or game engine performance? Want to help build a game to
+          | help other people learn what you are good at? We have a lot to do and if you are an experienced
+          | programmer and want to develop for CodeCombat, this class is for you. We would love your help
           | building the best programming game ever.
 
         a(href="/contribute/archmage")
-          h3(data-i18n="contribute.more_about_archmage")
-            | Learn More About Becoming An Archmage
+          p.lead(data-i18n="contribute.more_about_archmage")
+            | Learn More About Becoming an Archmage
 
         label.checkbox(for="developer").well
           input(type='checkbox', name="developer", id="developer")
@@ -77,9 +77,9 @@ block content
             |  ✓
             span(data-i18n="contribute.saved") Saved
 
-      #artisan
+      #artisan.header-scrolling-fix
 
-        .class_image.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/artisan.png", alt="")
 
         h3.header-scrolling-fix
@@ -97,10 +97,10 @@ block content
             |  Mondo Bizzaro 
           span  
           span(data-i18n="contribute.artisan_summary_suf")
-            | to then this class is for you.
+            | then this class is for you.
 
         a(href="/contribute/artisan")
-          h3(data-i18n="contribute.more_about_artisan")
+          p.lead(data-i18n="contribute.more_about_artisan")
             | Learn More About Becoming An Artisan
 
         label.checkbox(for="level_creator").well
@@ -111,9 +111,9 @@ block content
             |  ✓
             span(data-i18n="contribute.saved") Saved
 
-      #adventurer
+      #adventurer.header-scrolling-fix
 
-        .class_image.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/adventurer.png", alt="")
 
         h3.header-scrolling-fix
@@ -128,8 +128,8 @@ block content
           | If you can endure and have a high constitution score, then this class is for you.
         
         a(href="/contribute/adventurer")
-          h3(data-i18n="contribute.more_about_adventurer")
-            | Learn More About Becoming An Adventurer
+          p.lead(data-i18n="contribute.more_about_adventurer")
+            | Learn More About Becoming an Adventurer
 
         label.checkbox(for="tester").well
           input(type='checkbox', name="tester", id="tester")
@@ -139,9 +139,9 @@ block content
             |  ✓
             span(data-i18n="contribute.saved") Saved
     
-      #scribe
+      #scribe.header-scrolling-fix
 
-        .class_image.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/scribe.png", alt="")
 
         h3.header-scrolling-fix
@@ -152,16 +152,16 @@ block content
           span(data-i18n="contribute.scribe_summary_pref")
             | CodeCombat is not just going to be a bunch of levels. It will also be a resource of
             | programming knowledge that players can hook into. That way, each Artisan can link
-            | to a detailed article that is already written for the player's edification. 
-            | Documentation akin to the 
+            | to a detailed article that for the player's edification:
+            | documentation akin to what the 
           a(href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide", data-i18n="contribute.scribe_introduction_url_mozilla")
             | Mozilla Developer Network
           span(data-i18n="contribute.scribe_summary_suf")  
             |  has built. If you enjoy explaining programming concepts, then this class is for you.
     
         a(href="/contribute/scribe")
-          h3(data-i18n="contribute.more_about_scribe")
-            | Learn More About Becoming A Scribe
+          p.lead(data-i18n="contribute.more_about_scribe")
+            | Learn More About Becoming a Scribe
 
         label.checkbox(for="article_editor").well
           input(type='checkbox', name="article_editor", id="article_editor")
@@ -171,9 +171,9 @@ block content
             |  ✓
             span(data-i18n="contribute.saved") Saved
 
-      #diplomat
+      #diplomat.header-scrolling-fix
 
-        .class_image.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/diplomat.png", alt="")
 
         h3.header-scrolling-fix
@@ -189,8 +189,8 @@ block content
             | for you.
     
         a(href="/contribute/diplomat")
-          h3(data-i18n="contribute.more_about_diplomat")
-            | Learn More About Becoming A Diplomat
+          p.lead(data-i18n="contribute.more_about_diplomat")
+            | Learn More About Becoming a Diplomat
 
         label.checkbox(for="translator").well
           input(type='checkbox', name="translator", id="translator")
@@ -200,9 +200,9 @@ block content
             |  ✓
             span(data-i18n="contribute.saved") Saved
       
-      #ambassador
+      #ambassador.header-scrolling-fix
 
-        .class_image.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/ambassador.png", alt="")
 
         h3.header-scrolling-fix
@@ -216,8 +216,8 @@ block content
           | and learn some programming, then this class is for you.
 
         a(href="/contribute/ambassador")
-          h3(data-i18n="contribute.more_about_ambassador")
-            | Learn More About Becoming An Ambassador
+          p.lead(data-i18n="contribute.more_about_ambassador")
+            | Learn More About Becoming an Ambassador
 
         label.checkbox(for="support").well
           input(type='checkbox', name="support", id="support")
@@ -226,9 +226,10 @@ block content
           .saved-notification
             |  ✓
             span(data-i18n="contribute.saved") Saved
-      #counselor
 
-        .class_image.header-scrolling-fix
+      #counselor.header-scrolling-fix
+
+        .class_image
           img.img-responsive(src="/images/pages/contribute/counselor.png", alt="")
 
         h3.header-scrolling-fix
@@ -242,7 +243,7 @@ block content
           | that you think will be relevant to us, then this class is for you.
     
         a(href="/contribute/counselor")
-          h3(data-i18n="contribute.more_about_counselor")
-            | Learn More About Becoming A Counselor
+          p.lead(data-i18n="contribute.more_about_counselor")
+            | Learn More About Becoming a Counselor
 
     div.clearfix
