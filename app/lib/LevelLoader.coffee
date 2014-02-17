@@ -101,7 +101,7 @@ module.exports = class LevelLoader extends CocoClass
     @$el.html('<div class="alert">' + msg + '</div>')
 
   onSupermodelLoadedOne: (e) ->
-    @notifyProgress()
+    @update()
 
   # Things to do when either the Session or Supermodel load
 

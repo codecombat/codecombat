@@ -254,8 +254,10 @@ module.exports = class SpriteBoss extends CocoClass
   updateSelection: ->
     if @selectedSprite?.thang and (not @selectedSprite.thang.exists or not @world.getThangByID @selectedSprite.thang.id)
       @selectSprite null, null, null
+      @selectionMark?.toggle false
     @updateTarget()
     return unless @selectionMark
+    @selectedSprite = null unless @selectedSprite?.thang
     @selectionMark.toggle @selectedSprite?
     @selectionMark.setSprite @selectedSprite
     @selectionMark.update()
