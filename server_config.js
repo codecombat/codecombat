@@ -31,6 +31,14 @@ config.mail.mailchimpAPIKey = process.env.COCO_MAILCHIMP_API_KEY || '';
 config.mail.mailchimpWebhook = process.env.COCO_MAILCHIMP_WEBHOOK || '/mail/webhook';
 config.mail.sendwithusAPIKey = process.env.COCO_SENDWITHUS_API_KEY || '';
 
+config.queue = {};
+config.queue.accessKeyId = process.env.COCO_AWS_ACCESS_KEY_ID || '';
+config.queue.secretAccessKey = process.env.COCO_AWS_SECRET_ACCESS_KEY || '';
+config.queue.region = 'us-east-1';
+config.queue.simulationQueueName = "simulationQueue";
+config.mongoQueue = {};
+config.mongoQueue.queueDatabaseName = "coco_queue";
+
 config.salt = process.env.COCO_SALT || 'pepper';
 config.cookie_secret = process.env.COCO_COOKIE_SECRET || 'chips ahoy';
 

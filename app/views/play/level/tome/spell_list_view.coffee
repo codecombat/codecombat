@@ -19,6 +19,7 @@ module.exports = class SpellListView extends View
 
   constructor: (options) ->
     super options
+    @entries = []
     @sortSpells()
 
   sortSpells: ->
@@ -53,7 +54,6 @@ module.exports = class SpellListView extends View
     @addSpellListEntries()
 
   addSpellListEntries: ->
-    @entries ?= []
     newEntries = []
     lastThangs = null
     for spell, index in @spells
@@ -66,6 +66,9 @@ module.exports = class SpellListView extends View
     for entry in newEntries
       @$el.append entry.el
       entry.render()  # Render after appending so that we can access parent container for popover
+  
+  rerenderEntries: ->
+    entry.render() for entry in @entries
 
   onNewWorld: (e) ->
     @thang = e.world.thangMap[@thang.id] if @thang
@@ -87,3 +90,8 @@ module.exports = class SpellListView extends View
     @spells = @options.spells = spells
     @sortSpells()
     @addSpellListEntries()
+
+  destroy: ->
+    entry.destroy() for entry in @entries
+    @sortScoreForSpell = null
+    super()

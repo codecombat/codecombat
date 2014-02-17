@@ -22,79 +22,94 @@ module.exports = class LevelLoader extends CocoClass
   subscriptions:
     'god:new-world-created': 'loadSoundsForWorld'
 
-  constructor: (@levelID, @supermodel, @sessionID) ->
+  constructor: (options) ->
     super()
+    @supermodel = options.supermodel
+    @levelID = options.levelID
+    @sessionID = options.sessionID
+    @opponentSessionID = options.opponentSessionID
+    @team = options.team
+    @headless = options.headless
+
     @loadSession()
     @loadLevelModels()
     @loadAudio()
     @playJingle()
-    setTimeout (=> @update()), 1 # lets everything else resolve first
+    _.defer @update  # Lets everything else resolve first
 
   playJingle: ->
+    return if @headless
     jingles = ["ident_1", "ident_2"]
     AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length]
 
   # Session Loading
 
   loadSession: ->
-    url = if @sessionID then "/db/level_session/#{@sessionID}" else "/db/level/#{@levelID}/session"
+    if @sessionID
+      url = "/db/level_session/#{@sessionID}"
+    else
+      url = "/db/level/#{@levelID}/session"
+      url += "?team=#{@team}" if @team
+
     @session = new LevelSession()
     @session.url = -> url
-    @session.fetch()
-    @session.once 'sync', @onSessionLoaded
 
-  onSessionLoaded: =>
+    # Unless you specify cache:false, sometimes the browser will use a cached session
+    # and players will 'lose' code
+    @session.fetch({cache:false})
+    @session.once 'sync', @onSessionLoaded, @
+
+    if @opponentSessionID
+      @opponentSession = new LevelSession()
+      @opponentSession.url = "/db/level_session/#{@opponentSessionID}"
+      @opponentSession.fetch()
+      @opponentSession.once 'sync', @onSessionLoaded, @
+
+  sessionsLoaded: ->
+    @session.loaded and ((not @opponentSession) or @opponentSession.loaded)
+
+  onSessionLoaded: ->
     # TODO: maybe have all non versioned models do this? Or make it work to PUT/PATCH to relative urls
-    @session.url = -> '/db/level.session/' + @id
-    @update()
+    if @session.loaded
+      @session.url = -> '/db/level.session/' + @id
+    @update() if @sessionsLoaded()
 
   # Supermodel (Level) Loading
 
   loadLevelModels: ->
-    @supermodel.once 'loaded-all', @onSupermodelLoadedAll
-    @supermodel.on 'loaded-one', @onSupermodelLoadedOne
-    @supermodel.once 'error', @onSupermodelError
+    @supermodel.on 'loaded-one', @onSupermodelLoadedOne, @
+    @supermodel.once 'error', @onSupermodelError, @
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
+    levelID = @levelID
+    headless = @headless
 
-    @supermodel.shouldPopulate = (model) =>
+    @supermodel.shouldPopulate = (model) ->
       # if left unchecked, the supermodel would load this level
       # and every level next on the chain. This limits the population
       handles = [model.id, model.get 'slug']
-      return model.constructor.className isnt "Level" or @levelID in handles
+      return model.constructor.className isnt "Level" or levelID in handles
+
+    @supermodel.shouldLoadProjection = (model) ->
+      return true if headless and model.constructor.className is 'ThangType'
+      false
 
     @supermodel.populateModel @level
 
-  onSupermodelError: =>
+  onSupermodelError: ->
     msg = $.i18n.t('play_level.level_load_error',
       defaultValue: "Level could not be loaded.")
     @$el.html('<div class="alert">' + msg + '</div>')
 
-  onSupermodelLoadedOne: (e) =>
-    @notifyProgress()
-#    if e.model.type() is 'ThangType'
-#      thangType = e.model
-#      options = {async: true}
-#      if thangType.get('name') is 'Wizard'
-#        options.colorConfig = me.get('wizard')?.colorConfig or {}
-#      building = thangType.buildSpriteSheet options
-#      if building
-#        @spriteSheetsToBuild += 1
-#        thangType.on 'build-complete', =>
-#          @spriteSheetsBuilt += 1
-#          @notifyProgress()
-
-  onSupermodelLoadedAll: =>
-    @trigger 'loaded-supermodel'
-    @stopListening(@supermodel)
+  onSupermodelLoadedOne: (e) ->
     @update()
 
   # Things to do when either the Session or Supermodel load
 
-  update: ->
+  update: =>
     @notifyProgress()
 
     return if @updateCompleted
-    return unless @supermodel.finished() and @session.loaded
+    return unless @supermodel.finished() and @sessionsLoaded()
     @denormalizeSession()
     @loadLevelSounds()
     app.tracker.updatePlayState(@level, @session)
@@ -124,6 +139,7 @@ module.exports = class LevelLoader extends CocoClass
     @buildSpriteSheets()
 
   buildSpriteSheets: ->
+    return if @headless
     thangTypes = {}
     thangTypes[tt.get('name')] = tt for tt in @supermodel.getModels(ThangType)
 
@@ -152,16 +168,18 @@ module.exports = class LevelLoader extends CocoClass
     return unless building
     console.log 'Building:', thangType.get('name'), options
     @spriteSheetsToBuild += 1
-    thangType.on 'build-complete', =>
+    thangType.once 'build-complete', =>
       @spriteSheetsBuilt += 1
       @notifyProgress()
 
   # Initial Sound Loading
 
   loadAudio: ->
+    return if @headless
     AudioPlayer.preloadInterfaceSounds ["victory"]
 
   loadLevelSounds: ->
+    return if @headless
     scripts = @level.get 'scripts'
     return unless scripts
 
@@ -178,6 +196,7 @@ module.exports = class LevelLoader extends CocoClass
   # Dynamic sound loading
 
   loadSoundsForWorld: (e) ->
+    return if @headless
     world = e.world
     thangTypes = @supermodel.getModels(ThangType)
     for [spriteName, message] in world.thangDialogueSounds()
@@ -188,16 +207,19 @@ module.exports = class LevelLoader extends CocoClass
   # everything else sound wise is loaded as needed as worlds are generated
 
   allDone: ->
-    @supermodel.finished() and @session.loaded and @spriteSheetsBuilt is @spriteSheetsToBuild
+    @supermodel.finished() and @sessionsLoaded() and @spriteSheetsBuilt is @spriteSheetsToBuild
 
   progress: ->
     return 0 unless @level.loaded
     overallProgress = 0
     supermodelProgress = @supermodel.progress()
     overallProgress += supermodelProgress * 0.7
-    overallProgress += 0.1 if @session.loaded
-    spriteMapProgress = if supermodelProgress is 1 then 0.2 else 0
-    spriteMapProgress *= @spriteSheetsBuilt / @spriteSheetsToBuild if @spriteSheetsToBuild
+    overallProgress += 0.1 if @sessionsLoaded()
+    if @headless
+      spriteMapProgress = 0.2
+    else
+      spriteMapProgress = if supermodelProgress is 1 then 0.2 else 0
+      spriteMapProgress *= @spriteSheetsBuilt / @spriteSheetsToBuild if @spriteSheetsToBuild
     overallProgress += spriteMapProgress
     return overallProgress
 
@@ -207,6 +229,7 @@ module.exports = class LevelLoader extends CocoClass
     @trigger 'loaded-all' if @progress() is 1
 
   destroy: ->
-    @world = null  # don't hold onto garbage
     @supermodel.off 'loaded-one', @onSupermodelLoadedOne
+    @world = null  # don't hold onto garbage
+    @update = null
     super()

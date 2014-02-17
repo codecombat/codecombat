@@ -46,7 +46,6 @@ module.exports.Trailmaster = class Trailmaster
   clock: 0
 
   constructor: (@camera) ->
-    @listener = (e) => @tick(e)
 
   tick: ->
     @clock += 1

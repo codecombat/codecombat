@@ -15,7 +15,7 @@ module.exports = class GoalManager extends CocoClass
 
   nextGoalID: 0
 
-  constructor: (@world) ->
+  constructor: (@world, @initialGoals) ->
     super()
     @init()
 
@@ -25,6 +25,7 @@ module.exports = class GoalManager extends CocoClass
     @userCodeMap = {} # @userCodeMap.thangID.methodName.aether.raw = codeString
     @thangTeams = {}
     @initThangTeams()
+    @addGoal goal for goal in @initialGoals if @initialGoals
 
   initThangTeams: ->
     return unless @world
@@ -34,8 +35,6 @@ module.exports = class GoalManager extends CocoClass
       @thangTeams[thang.team].push(thang.id)
 
   subscriptions:
-    'level-add-goals': 'onAddGoals'
-    'level-remove-goals': 'onRemoveGoals'
     'god:new-world-created': 'onNewWorldCreated'
     'level:restarted': 'onLevelRestarted'
 
@@ -46,24 +45,14 @@ module.exports = class GoalManager extends CocoClass
     'world:thang-collected-item': 'onThangCollectedItem'
     'world:ended': 'onWorldEnded'
 
-  onLevelRestarted: =>
+  onLevelRestarted: ->
     @goals = []
     @goalStates = {}
     @userCodeMap = {}
     @notifyGoalChanges()
+    @addGoal goal for goal in @initialGoals if @initialGoals
 
   # INTERFACE AND LIFETIME OVERVIEW
-
-  # main instance receives goal updates from the script manager
-  onAddGoals: (e) =>
-    return unless e.worldName is @world.name
-    goals = e.goals
-    @addGoal(goal) for goal in goals
-
-  onRemoveGoals: (e) =>
-    if e.goal in @goals
-      @goals.remove(e.goal)
-      delete @goalStates[e.goal]
 
   # world generator gets current goals from the main instance
   getGoals: -> @goals
@@ -79,7 +68,7 @@ module.exports = class GoalManager extends CocoClass
     func = @backgroundSubscriptions[channel]
     func = utils.normalizeFunc(func, @)
     return unless func
-    func(event, frameNumber)
+    func.call(@, event, frameNumber)
 
   # after world generation, generated goal states
   # are grabbed to send back to main instance
@@ -88,7 +77,7 @@ module.exports = class GoalManager extends CocoClass
 
   # main instance gets them and updates their existing goal states,
   # passes the word along
-  onNewWorldCreated: (e) =>
+  onNewWorldCreated: (e) ->
     @updateGoalStates(e.goalStates) if e.goalStates?
     @world = e.world
 
@@ -101,6 +90,7 @@ module.exports = class GoalManager extends CocoClass
   # IMPLEMENTATION DETAILS
 
   addGoal: (goal) ->
+    goal = _.cloneDeep(goal)
     goal.id = @nextGoalID++ if not goal.id
     return if @goalStates[goal.id]?
     @goals.push(goal)
@@ -135,48 +125,47 @@ module.exports = class GoalManager extends CocoClass
         status: null # should eventually be either 'success', 'failure', or 'incomplete'
         keyFrame: 0 # when it became a 'success' or 'failure'
       }
-
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
       @initGoalState(state, [goal.getToLocations?.who, goal.keepFromLocations?.who], 'arrived')
       @initGoalState(state, [goal.leaveOffSides?.who, goal.keepFromLeavingOffSides?.who], 'left')
       @initGoalState(state, [goal.collectThangs?.who, goal.keepFromCollectingThangs?.who], 'collected')
       @goalStates[goal.id] = state
 
-  onThangDied: (e, frameNumber) =>
+  onThangDied: (e, frameNumber) ->
     for goal in @goals ? []
       @checkKillThangs(goal.id, goal.killThangs, e.thang, frameNumber) if goal.killThangs?
       @checkKillThangs(goal.id, goal.saveThangs, e.thang, frameNumber) if goal.saveThangs?
 
-  checkKillThangs: (goalID, targets, thang, frameNumber) =>
+  checkKillThangs: (goalID, targets, thang, frameNumber) ->
     return unless thang.id in targets or thang.team in targets
     @updateGoalState(goalID, thang.id, 'killed', frameNumber)
 
-  onThangTouchedGoal: (e, frameNumber) =>
+  onThangTouchedGoal: (e, frameNumber) ->
     for goal in @goals ? []
       @checkArrived(goal.id, goal.getToLocations.who, goal.getToLocations.targets, e.actor.id, e.touched.id, frameNumber) if goal.getToLocations?
       @checkArrived(goal.id, goal.keepFromLocations.who, goal.keepFromLocations.targets, e.actor.id, e.touched.id, frameNumber) if goal.keepFromLocations?
 
-  checkArrived: (goalID, who, targets, thangID, touchedID, frameNumber) =>
+  checkArrived: (goalID, who, targets, thangID, touchedID, frameNumber) ->
     return unless touchedID in targets
     return unless thangID in who
     @updateGoalState(goalID, thangID, 'arrived', frameNumber)
 
-  onThangLeftMap: (e, frameNumber) =>
+  onThangLeftMap: (e, frameNumber) ->
     for goal in @goals ? []
       @checkLeft(goal.id, goal.leaveOffSides.who, goal.leaveOffSides.sides, e.thang.id, e.side, frameNumber) if goal.leaveOffSides?
       @checkLeft(goal.id, goal.keepFromLeavingOffSides.who, goal.keepFromLeavingOffSides.sides, e.thang.id, e.side, frameNumber) if goal.keepFromLeavingOffSides?
 
-  checkLeft: (goalID, who, sides, thangID, side, frameNumber) =>
+  checkLeft: (goalID, who, sides, thangID, side, frameNumber) ->
     return if sides and side and not (side in sides)
     return unless thangID in who
     @updateGoalState(goalID, thangID, 'left', frameNumber)
 
-  onThangCollectedItem: (e, frameNumber) =>
+  onThangCollectedItem: (e, frameNumber) ->
     for goal in @goals ? []
       @checkCollected(goal.id, goal.collectThangs.who, goal.collectThangs.targets, e.actor.id, e.item.id, frameNumber) if goal.collectThangs?
       @checkCollected(goal.id, goal.keepFromCollectingThangs.who, goal.keepFromCollectingThangs.targets, e.actor.id, e.item.id, frameNumber) if goal.keepFromCollectingThangs?
 
-  checkCollected: (goalID, who, targets, thangID, itemID, frameNumber) =>
+  checkCollected: (goalID, who, targets, thangID, itemID, frameNumber) ->
     return unless itemID in targets
     return unless thangID in who
     @updateGoalState(goalID, thangID, 'collected', frameNumber)

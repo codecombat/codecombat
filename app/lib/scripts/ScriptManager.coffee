@@ -120,8 +120,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @run() unless @worldLoading
 
   destroy: ->
-    super()
     @onEndAll()
+    super()
 
   # TRIGGERERING NOTES
 
@@ -182,7 +182,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   # STARTING NOTES
 
-  run: =>
+  run: ->
     # catch all for analyzing the current state and doing whatever needs to happen next
     return if @scriptInProgress
     @skipAhead()

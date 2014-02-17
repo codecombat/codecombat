@@ -80,6 +80,7 @@ setupFacebookCrossDomainCommunicationRoute = (app) ->
 
 exports.setupRoutes = (app) ->
   app.use app.router
+
   baseRoute.setup app
   setupFacebookCrossDomainCommunicationRoute app
   setupFallbackRouteToIndex app

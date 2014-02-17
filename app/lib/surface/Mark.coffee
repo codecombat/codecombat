@@ -19,6 +19,8 @@ module.exports = class Mark extends CocoClass
 
   destroy: ->
     @mark?.parent?.removeChild @mark
+    @markSprite?.destroy()
+    @sprite = null
     super()
 
   toString: -> "<Mark #{@name}: Sprite #{@sprite?.thang?.id ? 'None'}>"
@@ -119,6 +121,7 @@ module.exports = class Mark extends CocoClass
     markSprite = new CocoSprite @thangType, @thangType.spriteOptions
     markSprite.queueAction 'idle'
     @mark = markSprite.displayObject
+    @markSprite = markSprite
 
   update: (pos=null) ->
     return false unless @on

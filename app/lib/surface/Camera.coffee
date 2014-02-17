@@ -148,7 +148,21 @@ module.exports = class Camera extends CocoClass
   onMouseScrolled: (e) ->
     ratio = 1 + 0.05 * Math.sqrt(Math.abs(e.deltaY))
     ratio = 1 / ratio if e.deltaY > 0
-    @zoomTo @target, @zoom * ratio, 0
+    newZoom = @zoom * ratio
+    if e.surfacePos
+      # zoom based on mouse position, adjusting the target so the point under the mouse stays the same
+      mousePoint = @canvasToSurface(e.surfacePos)
+      ratioPosX = (mousePoint.x - @surfaceViewport.x) / @surfaceViewport.width
+      ratioPosY = (mousePoint.y - @surfaceViewport.y) / @surfaceViewport.height
+      newWidth = @canvasWidth / newZoom
+      newHeight = @canvasHeight / newZoom
+      newTargetX = mousePoint.x - (newWidth * ratioPosX) + (newWidth / 2)
+      newTargetY = mousePoint.y - (newHeight * ratioPosY) + (newHeight / 2)
+      target = {x: newTargetX, y:newTargetY}
+    else
+      target = @target
+    @zoomTo target, newZoom, 0
+
   onLevelRestarted: ->
     @setBounds(@firstBounds)
 
@@ -186,7 +200,7 @@ module.exports = class Camera extends CocoClass
     # Target is either just a {x, y} pos or a display object with {x, y} that might change; surface coordinates.
     time = 0 if @instant
     newTarget ?= {x:0, y:0}
-    newTarget = (@newTarget or @target) if @locked 
+    newTarget = (@newTarget or @target) if @locked
     newZoom = Math.min((Math.max @minZoom, newZoom), MAX_ZOOM)
     return if @zoom is newZoom and newTarget is newTarget.x and newTarget.y is newTarget.y
 
@@ -199,14 +213,12 @@ module.exports = class Camera extends CocoClass
       @tweenProgress = 0.01
       createjs.Tween.get(@)
         .to({tweenProgress: 1.0}, time, createjs.Ease.getPowInOut(3))
-        .call @onTweenEnd
+        .call @finishTween
 
     else
       @target = newTarget
       @zoom = newZoom
       @updateZoom true
-
-  onTweenEnd: => @finishTween()
 
   finishTween: (abort=false) =>
     createjs.Tween.removeTweens(@)
@@ -260,3 +272,8 @@ module.exports = class Camera extends CocoClass
     @locked = true
   unlock: ->
     @locked = false
+
+  destroy: ->
+    createjs.Tween.removeTweens @
+    @finishTween = null
+    super()

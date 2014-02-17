@@ -22,7 +22,10 @@ class SystemConfiguration(object):
             raise NotSupportedError(u"Your platform," + sys.platform + u",isn't supported.")
 
     def get_current_working_directory(self):
-        return os.getcwdu()
+        if sys.version_info.major < 3:
+            return os.getcwdu()
+        else:
+            return os.getcwd()
 
     def get_virtual_memory_address_width(self):
         is64Bit = sys.maxsize/3 > 2**32

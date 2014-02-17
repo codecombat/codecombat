@@ -5,7 +5,9 @@ block content
     h3= level.get('name')
     div#level-description
       !{description}
-  
+  if me.isAdmin()
+    button.btn.btn-warning.btn-lg.highlight#simulate-button(style="margin-bottom:10px") Simulate all games
+
   div#leaderboard-column
     ul.nav.nav-pills
       for team in teams
@@ -19,13 +21,18 @@ block content
             h4 Leaderboard
             table.table
               for session in team.leaderboard.topPlayers.models
-                tr= session.get('creatorName')
-          .challengers
-            h4 Challengers
-            
-            if team.easyChallenger
-              div.challenger-select
-                | Easy challenger:
-                button
-                  a(href=link+'?team='+team.id+'&opponent='+team.easyChallenger.id)
-            //TODO: finish once the scoring system is finished
+                tr
+                  td.score-cell= session.get('totalScore')
+                  td= session.get('creatorName')
+                  td
+                    a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") COMPETE
+
+          //.challengers
+          //  h4 Challengers
+          //  
+          //  if team.easyChallenger
+          //    div.challenger-select
+          //      | Easy challenger:
+          //      button
+          //        a(href=link+'?team='+team.id+'&opponent='+team.easyChallenger.id)
+          //  TODO: finish once the scoring system is finished

@@ -7,14 +7,14 @@ CROSSFADE_LENGTH = 1500
 module.exports = class MusicPlayer extends CocoClass
   currentMusic: null
   standingBy: null
-  
+
   subscriptions:
     'level-play-music': 'onPlayMusic'
     'audio-player:loaded': 'onAudioLoaded'
-    
+
   constructor: ->
-    super(arguments...)
-    me.on('change:music', @onMusicSettingChanged, @)
+    super arguments...
+    me.on 'change:music', @onMusicSettingChanged, @
 
   onAudioLoaded: ->
     @onPlayMusic(@standingBy) if @standingBy
@@ -29,12 +29,12 @@ module.exports = class MusicPlayer extends CocoClass
         AudioPlayer.preloadSound(src)
         @standingBy = e
         return
-  
+
     @standingBy = null
     if @currentMusic
       f = -> @stop()
       createjs.Tween.get(@currentMusic).to({volume:0.0}, CROSSFADE_LENGTH).call(f)
-      
+
     @currentMusic = createjs.Sound.play(src, 'none', 0, 0, -1, 0.3) if src and e.play
     return unless @currentMusic
     @currentMusic.volume = 0.0
@@ -48,4 +48,8 @@ module.exports = class MusicPlayer extends CocoClass
     return unless @currentMusic
     createjs.Tween.removeTweens(@currentMusic)
     @currentMusic.volume = if me.get('music') then 1.0 else 0.0
+
+  destroy: ->
+    me.off 'change:music', @onMusicSettingChanged, @
+    super()
     

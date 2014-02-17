@@ -9,11 +9,13 @@ module.exports = class MultiplayerModal extends View
   events:
     'click textarea': 'onClickLink'
     'change #multiplayer': 'updateLinkSection'
+    'click #submit-session-button': 'submitSession'
 
   constructor: (options) ->
     super(options)
     @session = options.session
-    @session.on 'change:multiplayer', @updateLinkSection
+    @level = options.level
+    @session.on 'change:multiplayer', @updateLinkSection, @
     @playableTeams = options.playableTeams
 
   getRenderData: ->
@@ -23,6 +25,7 @@ module.exports = class MultiplayerModal extends View
       @session.id)
     c.multiplayer = @session.get('multiplayer')
     c.playableTeams = @playableTeams
+    c.ladderGame = @level?.get('name') is 'Project DotA' and not me.get('isAnonymous')
     c
 
   afterRender: ->
@@ -32,12 +35,23 @@ module.exports = class MultiplayerModal extends View
   onClickLink: (e) ->
     e.target.select()
 
-  updateLinkSection: =>
+  updateLinkSection: ->
     multiplayer = @$el.find('#multiplayer').prop('checked')
     la = @$el.find('#link-area')
-    if multiplayer then la.show() else la.hide()
+    la.toggle Boolean(multiplayer)
     true
+
+  submitSession: ->
+    $.ajax('/queue/scoring', {
+      method: 'POST'
+      data:
+        session: @session.id
+    })
 
   onHidden: ->
     multiplayer = Boolean(@$el.find('#multiplayer').prop('checked'))
     @session.set('multiplayer', multiplayer)
+
+  destroy: ->
+    @session.off 'change:multiplayer', @updateLinkSection, @
+    super()

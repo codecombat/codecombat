@@ -27,11 +27,11 @@ module.exports = class SpellListEntryView extends View
     @spell = options.spell
     @showTopDivider = options.showTopDivider
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.spell = @spell
     context.parameters = (@spell.parameters or []).join ', '
-    context.thangNames = (thangID for thangID of @spell.thangs).join(', ')  # + ", Marcus, Robert, Phoebe, Will Smith, Zap Brannigan, You, Gandaaaaalf"
+    context.thangNames = (thangID for thangID, spellThang of @spell.thangs when spellThang.thang.exists).join(', ')  # + ", Marcus, Robert, Phoebe, Will Smith, Zap Brannigan, You, Gandaaaaalf"
     context.showTopDivider = @showTopDivider
     context
 
@@ -40,12 +40,15 @@ module.exports = class SpellListEntryView extends View
       spellThang = _.find @spell.thangs, (spellThang) => spellThang.thang.id is @lastSelectedThang.id
       return spellThang if spellThang
     for thangID, spellThang of @spell.thangs
+      continue unless spellThang.thang.exists
       return spellThang  # Just do the first one else
-
+  
   afterRender: ->
     super()
     return unless @options.showTopDivider  # Don't repeat Thang avatars when not changed from previous entry
-    return unless spellThang = @getPrimarySpellThang()
+    return @$el.hide() unless spellThang = @getPrimarySpellThang()
+    @$el.show()
+    @avatar?.destroy()
     @avatar = new ThangAvatarView thang: spellThang.thang, includeName: false, supermodel: @supermodel
     @$el.prepend @avatar.el  # Before rendering, so render can use parent for popover
     @avatar.render()
@@ -67,10 +70,12 @@ module.exports = class SpellListEntryView extends View
     return unless @controlsEnabled and _.size(@spell.thangs) > 1
     @hideThangsTimeout = _.delay @hideThangs, 100
 
-  showThangs: =>
+  showThangs: ->
     clearTimeout @hideThangsTimeout if @hideThangsTimeout
     return if @thangsView
-    @thangsView = new SpellListEntryThangsView thangs: (spellThang.thang for thangID, spellThang of @spell.thangs), thang: @getPrimarySpellThang().thang, spell: @spell, supermodel: @supermodel
+    spellThang = @getPrimarySpellThang()
+    return unless spellThang
+    @thangsView = new SpellListEntryThangsView thangs: (spellThang.thang for thangID, spellThang of @spell.thangs), thang: spellTHang.thang, spell: @spell, supermodel: @supermodel
     @thangsView.render()
     @$el.append @thangsView.el
     @thangsView.$el.mouseenter (e) => @onMouseEnterAvatar()
@@ -100,3 +105,8 @@ module.exports = class SpellListEntryView extends View
 
   onNewWorld: (e) ->
     @lastSelectedThang = e.world.thangMap[@lastSelectedThang.id] if @lastSelectedThang
+    
+  destroy: ->
+    @avatar?.destroy()
+    @hideThangs = null
+    super()

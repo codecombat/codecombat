@@ -79,8 +79,8 @@ module.exports = Surface = class Surface extends CocoClass
     @initAudio()
 
   destroy: ->
-    super()
     @dead = true
+    @camera?.destroy()
     createjs.Ticker.removeEventListener("tick", @tick)
     createjs.Sound.stop()
     layer.destroy() for layer in @layers
@@ -89,6 +89,19 @@ module.exports = Surface = class Surface extends CocoClass
     @dimmer?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
+    @stage.removeAllChildren()
+    @stage.removeEventListener 'stagemousemove', @onMouseMove
+    @stage.removeEventListener 'stagemousedown', @onMouseDown
+    @stage.removeAllEventListeners()
+    @stage.enableDOMEvents false
+    @stage.enableMouseOver 0
+    @playScrubbedSounds = null
+    @onMouseMove = null
+    @onMouseDown = null
+    @tick = null
+    @canvas.off 'mousewheel', @onMouseWheel
+    @onMouseWheel = null
+    super()
 
   setWorld: (@world) ->
     @worldLoaded = true
@@ -248,14 +261,14 @@ module.exports = Surface = class Surface extends CocoClass
   onSetLetterbox: (e) ->
     @setDisabled e.on
 
-  onSetPlaying: (e) =>
+  onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
     if @playing and @currentFrame >= (@world.totalFrames - 5)
       @currentFrame = 0
     if @fastForwarding and not @playing
       @setProgress @currentFrame / @world.totalFrames
 
-  onSetTime: (e) =>
+  onSetTime: (e) ->
     toFrame = @currentFrame
     if e.time?
       @worldLifespan = @world.totalFrames / @world.frameRate
@@ -317,6 +330,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage = new createjs.Stage(@canvas[0])
     canvasWidth = parseInt(@canvas.attr('width'), 10)
     canvasHeight = parseInt(@canvas.attr('height'), 10)
+    @camera?.destroy()
     @camera = new Camera canvasWidth, canvasHeight
     @layers.push @surfaceLayer = new Layer name: "Surface", layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @layers.push @surfaceTextLayer = new Layer name: "Surface Text", layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
@@ -328,7 +342,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown
-    @hookUpZoomControls()
+    @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
     console.log "Setting fps", @world.frameRate unless @world.frameRate is 30
     createjs.Ticker.setFPS @world.frameRate
@@ -419,6 +433,7 @@ module.exports = Surface = class Surface extends CocoClass
   # uh
 
   onMouseMove: (e) =>
+    @mouseSurfacePos = {x:e.stageX, y:e.stageY}
     return if @disabled
     Backbone.Mediator.publish 'surface:mouse-moved', x: e.stageX, y: e.stageY
 
@@ -427,12 +442,15 @@ module.exports = Surface = class Surface extends CocoClass
     onBackground = not @stage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-down', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
 
-  hookUpZoomControls: ->
-    @canvas.bind 'mousewheel', (e) =>
-      # https://github.com/brandonaaron/jquery-mousewheel
-      e.preventDefault()
-      return if @disabled
-      Backbone.Mediator.publish 'surface:mouse-scrolled', deltaX: e.deltaX, deltaY: e.deltaY unless @disabled
+  onMouseWheel: (e) =>
+    # https://github.com/brandonaaron/jquery-mousewheel
+    e.preventDefault()
+    return if @disabled
+    event =
+      deltaX: e.deltaX
+      deltaY: e.deltaY
+      surfacePos: @mouseSurfacePos
+    Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
   hookUpChooseControls: ->
     chooserOptions = stage: @stage, surfaceLayer: @surfaceLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'

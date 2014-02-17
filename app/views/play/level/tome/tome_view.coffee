@@ -51,7 +51,7 @@ module.exports = class TomeView extends View
 
   events:
     'click #spell-view': 'onSpellViewClick'
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': 'onClick'
 
   afterRender: ->
     super()
@@ -62,6 +62,7 @@ module.exports = class TomeView extends View
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
       @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
       @castButton = @insertSubView new CastButtonView spells: @spells
+      @teamSpellMap = @generateTeamSpellMap(@spells)
     else
       @cast()
       console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
@@ -73,6 +74,21 @@ module.exports = class TomeView extends View
     @createSpells programmableThangs, e.world
     @thangList.adjustThangs @spells, thangs
     @spellList.adjustSpells @spells
+
+  generateTeamSpellMap: (spellObject) ->
+    teamSpellMap = {}
+    for spellName, spell of spellObject
+      teamName = spell.team
+      teamSpellMap[teamName] ?= []
+
+      spellNameElements = spellName.split '/'
+      thangName = spellNameElements[0]
+      spellName = spellNameElements[1]
+
+      teamSpellMap[teamName].push thangName if thangName not in teamSpellMap[teamName]
+
+    return teamSpellMap
+
 
   createSpells: (programmableThangs, world) ->
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
@@ -89,7 +105,9 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: @getQueryVariable("skip_flow") is "true", skipProtectAPI: @getQueryVariable("skip_protect_api") is "true"
+          skipProtectAPI = true  #@getQueryVariable("skip_protect_api") is "true"
+          skipFlow = @getQueryVariable("skip_flow") is "true" or @options.levelID is 'project-dota'
+          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
       if thang
@@ -110,13 +128,20 @@ module.exports = class TomeView extends View
     @cast()
 
   cast: ->
+    for spellKey, spell of @spells
+      for thangID, spellThang of spell.thangs
+        spellThang.aether.options.includeFlow = spellThang.aether.originalOptions.includeFlow = spellThang is @spellView?.spellThang
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   onToggleSpellList: (e) ->
+    @spellList.rerenderEntries()
     @spellList.$el.toggle()
 
   onSpellViewClick: (e) ->
     @spellList.$el.hide()
+
+  onClick: (e) ->
+    Backbone.Mediator.publish 'focus-editor' unless $(e.target).parents('.popover').length
 
   clearSpellView: ->
     @spellView?.dismiss()
@@ -154,7 +179,7 @@ module.exports = class TomeView extends View
     @spellView?.setThang thang
     @spellTabView?.setThang thang
     if @spellPaletteView?.thang isnt thang
-      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
+      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel
       @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
 
   reloadAllCode: ->
@@ -162,6 +187,5 @@ module.exports = class TomeView extends View
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   destroy: ->
+    spell.destroy() for spellKey, spell of @spells
     super()
-    for spellKey, spell of @spells
-      spell.view.destroy()

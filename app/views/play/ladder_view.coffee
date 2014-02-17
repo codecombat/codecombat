@@ -21,11 +21,28 @@ class LeaderboardCollection extends CocoCollection
     super()
     options ?= {}
     @url = "/db/level/#{level.get('original')}.#{level.get('version').major}/leaderboard?#{$.param(options)}"
+    #@url = "/db/level/#{level.get('original')}/leaderboard?#{$.param(options)}"
+
 
 module.exports = class LadderView extends RootView
   id: 'ladder-view'
   template: require 'templates/play/ladder'
   startsLoading: true
+
+  events:
+    'click #simulate-button': 'onSimulateButtonClick'
+
+  onSimulateButtonClick: (e) ->
+    submitIDs = _.pluck @leaderboards[@teams[0]].topPlayers.models, "id"
+    for ID in submitIDs
+      $.ajax
+        url: '/queue/scoring'
+        method: 'POST'
+        data:
+          session: ID
+    alert "Simulating all games!"
+    alert "(do not push more than once pls)"
+
   
   constructor: (options, levelID) ->
     super(options)
@@ -33,15 +50,16 @@ module.exports = class LadderView extends RootView
     @level.fetch()
     @level.once 'sync', @onLevelLoaded, @
     
-    @sessions = new LevelSessionsCollection(levelID)
-    @sessions.fetch({})
-    @sessions.once 'sync', @onMySessionsLoaded, @
+#    @sessions = new LevelSessionsCollection(levelID)
+#    @sessions.fetch({})
+#    @sessions.once 'sync', @onMySessionsLoaded, @
 
   onLevelLoaded: -> @startLoadingPhaseTwoMaybe()
-  onMySessionsLoaded: -> @startLoadingPhaseTwoMaybe()
+  onMySessionsLoaded: ->
+    @startLoadingPhaseTwoMaybe()
 
   startLoadingPhaseTwoMaybe: ->
-    return unless @level.loaded and @sessions.loaded
+    return unless @level.loaded # and @sessions.loaded
     @loadPhaseTwo()
     
   loadPhaseTwo: ->
@@ -55,17 +73,19 @@ module.exports = class LadderView extends RootView
     @leaderboards = {}
     @challengers = {}
     for team in teams
-      teamSession = _.find @sessions.models, (session) -> session.get('team') is team
+#      teamSession = _.find @sessions.models, (session) -> session.get('team') is team
+      teamSession = null
+      console.log "Team session: #{JSON.stringify teamSession}"
       @leaderboards[team] = new LeaderboardData(@level, team, teamSession)
       @leaderboards[team].once 'sync', @onLeaderboardLoaded, @
-      @challengers[team] = new ChallengersData(@level, team, teamSession)
-      @challengers[team].once 'sync', @onChallengersLoaded, @
+#      @challengers[team] = new ChallengersData(@level, team, teamSession)
+#      @challengers[team].once 'sync', @onChallengersLoaded, @
     
   onChallengersLoaded: -> @renderMaybe()
   onLeaderboardLoaded: -> @renderMaybe()
 
   renderMaybe: ->
-    loaders = _.values(@leaderboards).concat(_.values(@challengers))
+    loaders = _.values(@leaderboards) # .concat(_.values(@challengers))
     return unless _.every loaders, (loader) -> loader.loaded
     @startsLoading = false
     @render()
@@ -78,13 +98,15 @@ module.exports = class LadderView extends RootView
     ctx.link = "/play/level/#{@level.get('name')}"
     ctx.teams = []
     for team in @teams or []
+      otherTeam = if team is 'ogres' then 'humans' else 'ogres'
       ctx.teams.push({
         id: team
         name: _.string.titleize(team)
         leaderboard: @leaderboards[team]
-        easyChallenger: @challengers[team].easyPlayer.models[0]
-        mediumChallenger: @challengers[team].mediumPlayer.models[0]
-        hardChallenger: @challengers[team].hardPlayer.models[0]
+        otherTeam: otherTeam
+#        easyChallenger: @challengers[team].easyPlayer.models[0]
+#        mediumChallenger: @challengers[team].mediumPlayer.models[0]
+#        hardChallenger: @challengers[team].hardPlayer.models[0]
       })
     ctx
     
@@ -94,23 +116,28 @@ module.exports = class LadderView extends RootView
       
 class LeaderboardData
   constructor: (@level, @team, @session) ->
+    console.log 'creating leaderboard data', @level, @team, @session
     _.extend @, Backbone.Events
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: if @session then 10 else 20})
     @topPlayers.fetch()
+    @topPlayers.comparator = (model) ->
+      return -model.get('totalScore')
+    @topPlayers.sort()
+
     @topPlayers.once 'sync', @leaderboardPartLoaded, @
     
-    if @session
-      score = @session.get('score') or 25
-      @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
-      @playersAbove.fetch()
-      @playersAbove.once 'sync', @leaderboardPartLoaded, @
-      @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
-      @playersBelow.fetch()
-      @playersBelow.once 'sync', @leaderboardPartLoaded, @
+#    if @session
+#      score = @session.get('totalScore') or 25
+#      @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
+#      @playersAbove.fetch()
+#      @playersAbove.once 'sync', @leaderboardPartLoaded, @
+#      @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
+#      @playersBelow.fetch()
+#      @playersBelow.once 'sync', @leaderboardPartLoaded, @
 
   leaderboardPartLoaded: ->
     if @session
-      if @topPlayers.loaded and @playersAbove.loaded and @playersBelow.loaded
+      if @topPlayers.loaded # and @playersAbove.loaded and @playersBelow.loaded
         @loaded = true
         @trigger 'sync'
     else
@@ -120,7 +147,7 @@ class LeaderboardData
 class ChallengersData
   constructor: (@level, @team, @session) ->
     _.extend @, Backbone.Events
-    score = @session?.get('score') or 25
+    score = @session?.get('totalScore') or 25
     @easyPlayer = new LeaderboardCollection(@level, {order:1, scoreOffset: score - 5, limit: 1, team: @team})
     @easyPlayer.fetch()
     @easyPlayer.once 'sync', @challengerLoaded, @

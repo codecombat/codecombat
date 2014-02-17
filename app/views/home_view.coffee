@@ -2,6 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/home'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
+Simulator = require 'lib/simulator/Simulator'
 
 module.exports = class HomeView extends View
   id: 'home-view'
@@ -10,6 +11,7 @@ module.exports = class HomeView extends View
   events:
     'mouseover #beginner-campaign': 'onMouseOverButton'
     'mouseout #beginner-campaign': 'onMouseOutButton'
+    'click #simulate-button': 'onSimulateButtonClick'
 
   getRenderData: ->
     c = super()
@@ -84,7 +86,7 @@ module.exports = class HomeView extends View
     @wizardSprite?.queueAction 'idle'
 
   updateStage: =>
-    @stage.update()
+    @stage?.update()
 
   willDisappear: ->
     super()
@@ -94,3 +96,11 @@ module.exports = class HomeView extends View
   didReappear: ->
     super()
     @turnOnStageUpdates()
+
+  destroy: ->
+    @wizardSprite?.destroy()
+    super()
+
+  onSimulateButtonClick: (e) =>
+    simulator = new Simulator()
+    simulator.fetchAndSimulateTask()

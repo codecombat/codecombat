@@ -89,10 +89,13 @@
       margin: 8px 8px 0 0
       overflow-y: scroll
       float: left
+      @include user-select(text)
 
       .prop
         img
           margin-right: 5px
+          width: 16px
+          height: 16px
 
       .text-prop
         width: 50%

@@ -34,7 +34,7 @@ module.exports = class ThangListEntryView extends View
     @reasonsToBeDisabled = {}
     @sortSpells()
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.thang = @thang
     context.spell = @spells
@@ -42,6 +42,7 @@ module.exports = class ThangListEntryView extends View
 
   afterRender: ->
     super()
+    @avatar?.destroy()
     @avatar = new ThangAvatarView thang: @thang, includeName: true, supermodel: @supermodel
     @$el.append @avatar.el  # Before rendering, so render can use parent for popover
     @avatar.render()
@@ -96,12 +97,12 @@ module.exports = class ThangListEntryView extends View
     @$el.popover('setContent').popover('show')
     @$el.parent().parent().parent().i18n()
     clearTimeout @hideSpellsTimeout if @hideSpellsTimeout
-    popover = @$el.parent().parent().parent().find('.popover')
-    popover.off 'mouseenter mouseleave'
-    popover.mouseenter (e) => @onMouseEnter()
-    popover.mouseleave (e) => @onMouseLeave()
+    @popover = @$el.parent().parent().parent().find('.popover')
+    @popover.off 'mouseenter mouseleave'
+    @popover.mouseenter (e) => @onMouseEnter()
+    @popover.mouseleave (e) => @onMouseLeave()
     thangID = @thang.id
-    popover.find('code').click (e) ->
+    @popover.find('code').click (e) ->
       Backbone.Mediator.publish "level-select-sprite", thangID: thangID, spellName: $(@).data 'spell-name'
 
   hideSpells: =>
@@ -136,5 +137,7 @@ module.exports = class ThangListEntryView extends View
     @$el.toggleClass 'dead', currentThang.health <= 0 if currentThang.exists
 
   destroy: ->
+    @avatar?.destroy()
+    @popover?.off 'mouseenter mouseleave'
+    @popover?.find('code').off 'click'
     super()
-    @avatar.destroy()

@@ -37,6 +37,7 @@ module.exports = class ControlBarView extends View
   setBus: (@bus) ->
 
   onPlayerStatesChanged: (e) ->
+    # TODO: this doesn't fire any more. Replacement?
     return unless @bus is e.bus
     numPlayers = _.keys(e.players).length
     return if numPlayers is @numPlayers
@@ -45,7 +46,7 @@ module.exports = class ControlBarView extends View
     text += " (#{numPlayers})" if numPlayers > 1
     $('#multiplayer-button', @$el).text(text)
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     super context
     context.worldName = @worldName
     context.multiplayerEnabled = @session.get('multiplayer')
@@ -56,7 +57,7 @@ module.exports = class ControlBarView extends View
     @openModalView(new DocsModal(options))
 
   showMultiplayerModal: ->
-    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams))
+    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level))
 
   showRestartModal: ->
     @openModalView(new ReloadModal())

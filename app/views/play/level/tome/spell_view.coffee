@@ -35,7 +35,7 @@ module.exports = class SpellView extends View
   constructor: (options) ->
     super options
     @session = options.session
-    @session.on 'change:multiplayer', @onMultiplayerChanged
+    @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @spell = options.spell
     @problems = {}
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
@@ -74,47 +74,52 @@ module.exports = class SpellView extends View
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
 
   createACEShortcuts: ->
-    @ace.commands.addCommand
+    @aceCommands = aceCommands = []
+    ace = @ace
+    addCommand = (c) ->
+      ace.commands.addCommand c
+      aceCommands.push c.name
+    addCommand
       name: 'run-code'
       bindKey: {win: 'Shift-Enter|Ctrl-Enter|Ctrl-S', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter|Command-S|Ctrl-S'}
-      exec: (e) => @recompile()
-    @ace.commands.addCommand
+      exec: -> Backbone.Mediator.publish 'tome:manual-cast', {}
+    addCommand
       name: 'toggle-playing'
       bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
       exec: -> Backbone.Mediator.publish 'level-toggle-playing'
-    @ace.commands.addCommand
+    addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
       exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
-    @ace.commands.addCommand
+    addCommand
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
       exec: -> Backbone.Mediator.publish 'level:escape-pressed'
-    @ace.commands.addCommand
+    addCommand
       name: 'toggle-grid'
       bindKey: {win: 'Ctrl-G', mac: 'Command-G|Ctrl-G'}
       exec: -> Backbone.Mediator.publish 'level-toggle-grid'
-    @ace.commands.addCommand
+    addCommand
       name: 'toggle-debug'
       bindKey: {win: 'Ctrl-\\', mac: 'Command-\\|Ctrl-\\'}
       exec: -> Backbone.Mediator.publish 'level-toggle-debug'
-    @ace.commands.addCommand
+    addCommand
       name: 'toggle-pathfinding'
       bindKey: {win: 'Ctrl-O', mac: 'Command-O|Ctrl-O'}
       exec: -> Backbone.Mediator.publish 'level-toggle-pathfinding'
-    @ace.commands.addCommand
+    addCommand
       name: 'level-scrub-forward'
       bindKey: {win: 'Ctrl-]', mac: 'Command-]|Ctrl-]'}
       exec: -> Backbone.Mediator.publish 'level-scrub-forward'
-    @ace.commands.addCommand
+    addCommand
       name: 'level-scrub-back'
       bindKey: {win: 'Ctrl-[', mac: 'Command-[|Ctrl-]'}
       exec: -> Backbone.Mediator.publish 'level-scrub-back'
-    @ace.commands.addCommand
+    addCommand
       name: 'spell-step-forward'
       bindKey: {win: 'Ctrl-Alt-]', mac: 'Command-Alt-]|Ctrl-Alt-]'}
       exec: -> Backbone.Mediator.publish 'spell-step-forward'
-    @ace.commands.addCommand
+    addCommand
       name: 'spell-step-backward'
       bindKey: {win: 'Ctrl-Alt-[', mac: 'Command-Alt-[|Ctrl-Alt-]'}
       exec: -> Backbone.Mediator.publish 'spell-step-backward'
@@ -123,7 +128,7 @@ module.exports = class SpellView extends View
     @ace.setValue @spell.source
     @ace.clearSelection()
 
-  onMultiplayerChanged: =>
+  onMultiplayerChanged: ->
     if @session.get 'multiplayer'
       @createFirepad()
     else
@@ -212,7 +217,10 @@ module.exports = class SpellView extends View
     @updateACEText @spell.originalSource
     @recompile cast
 
-  recompile: (cast=true) =>
+  recompileIfNeeded: =>
+    @recompile() if @recompileNeeded
+
+  recompile: (cast=true) ->
     @setRecompileNeeded false
     return if @spell.source is @getSource()
     @spell.transpile @getSource()
@@ -238,7 +246,7 @@ module.exports = class SpellView extends View
     autocastDelay = @autocastDelay ? 3000
     onSignificantChange = [
       _.debounce @setRecompileNeeded, autocastDelay - 100
-      @currentAutocastHandler = _.debounce (=> @recompile() if @recompileNeeded), autocastDelay
+      @currentAutocastHandler = _.debounce @recompileIfNeeded, autocastDelay
     ]
     onAnyChange = [
       _.debounce @updateAether, 500
@@ -499,7 +507,18 @@ module.exports = class SpellView extends View
     @recompile() if @spell.hasChangedSignificantly @getSource()
 
   destroy: ->
-    super()
+    $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     @firepad?.dispose()
-    @ace.destroy()
+    @ace?.commands.removeCommand command for command in @aceCommands
+    @ace?.destroy()
+    @ace = null
+    @aceDoc?.off 'change', @onCodeChangeMetaHandler
+    @aceDoc = null
+    @aceSession?.selection.off 'changeCursor', @onCursorActivity
+    @aceSession = null
     @debugView?.destroy()
+    @spell = null
+    @session.off 'change:multiplayer', @onMultiplayerChanged, @
+    for fat in ['notifySpellChanged', 'notifyEditingEnded', 'notifyEditingBegan', 'onFirepadLoaded', 'onLoaded', 'toggleBackground', 'setRecompileNeeded', 'onCursorActivity', 'highlightCurrentLine', 'updateAether', 'onCodeChangeMetaHandler', 'recompileIfNeeded', 'currentAutocastHandler']
+      @[fat] = null
+    super()

@@ -24,11 +24,14 @@ module.exports = class HUDView extends View
     'god:new-world-created': 'onNewWorld'
 
   events:
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': 'onClick'
 
-  afterRender: =>
+  afterRender: ->
     super()
     @$el.addClass 'no-selection'
+
+  onClick: (e) ->
+    Backbone.Mediator.publish 'focus-editor' unless $(e.target).parents('.thang-props').length
 
   onFrameChanged: (e) ->
     @timeProgress = e.progress
@@ -153,7 +156,7 @@ module.exports = class HUDView extends View
     @bubble.removeClass(@lastMood) if @lastMood
     @lastMood = mood
     @bubble.text('')
-    group = $('<div class="enter hide"></div>')
+    group = $('<div class="enter secret"></div>')
     @bubble.append(group)
     if responses
       @lastResponses = responses
@@ -176,7 +179,7 @@ module.exports = class HUDView extends View
     if @animator.done()
       clearInterval(@messageInterval)
       @messageInterval = null
-      $('.enter', @bubble).removeClass("hide").css('opacity', 0.0).delay(500).animate({opacity:1.0}, 500, @animateEnterButton)
+      $('.enter', @bubble).removeClass("secret").css('opacity', 0.0).delay(500).animate({opacity:1.0}, 500, @animateEnterButton)
       if @lastResponses
         buttons = $('.enter button')
         for response, i in @lastResponses
@@ -207,10 +210,10 @@ module.exports = class HUDView extends View
 
   switchToDialogueElements: ->
     @dialogueMode = true
-    $('.thang-elem', @$el).addClass('hide')
-    @$el.find('.thang-canvas-wrapper').removeClass('hide')
+    $('.thang-elem', @$el).addClass('secret')
+    @$el.find('.thang-canvas-wrapper').removeClass('secret')
     $('.dialogue-area', @$el)
-      .removeClass('hide')
+      .removeClass('secret')
       .animate({opacity:1.0}, 200)
     $('.dialogue-bubble', @$el)
       .css('opacity', 0.0)
@@ -220,8 +223,8 @@ module.exports = class HUDView extends View
 
   switchToThangElements: ->
     @dialogueMode = false
-    $('.thang-elem', @$el).removeClass('hide')
-    $('.dialogue-area', @$el).addClass('hide')
+    $('.thang-elem', @$el).removeClass('secret')
+    $('.dialogue-area', @$el).addClass('secret')
 
   update: ->
     return unless @thang and not @speaker
@@ -235,7 +238,7 @@ module.exports = class HUDView extends View
       return null  # included in the bar
     context =
       prop: prop
-      hasIcon: prop in ["health", "pos", "target", "inventory"]
+      hasIcon: prop in ["health", "pos", "target", "inventory", "gold"]
       hasBar: prop in ["health"]
     $(prop_template(context))
 
@@ -321,7 +324,7 @@ module.exports = class HUDView extends View
           changed = true
           break
       return unless changed
-    ael.toggleClass 'hidden', not timespans.length
+    ael.toggleClass 'secret', not timespans.length
     @lastActionTimespans[action] = timespans
     timeline = ael.find('.action-timeline .timeline-wrapper').empty()
     lifespan = @thang.world.totalFrames / @thang.world.frameRate
@@ -333,5 +336,8 @@ module.exports = class HUDView extends View
     ael
 
   destroy: ->
-    super()
     @stage?.stopTalking()
+    @addMoreMessage = null
+    @animateEnterButton = null
+    clearInterval(@messageInterval) if @messageInterval
+    super()

@@ -43,7 +43,7 @@ module.exports = class PlaybackView extends View
     super(arguments...)
     me.on('change:music', @updateMusicButton, @)
 
-  afterRender: =>
+  afterRender: ->
     super()
     @hookUpScrubber()
     @updateMusicButton()
@@ -55,31 +55,31 @@ module.exports = class PlaybackView extends View
     @$el.find('#music-button').toggleClass('music-on', me.get('music'))
 
   onSetLetterbox: (e) ->
-    button = @$el.find '#play-button, .scrubber-handle'
-    if e.on then button.css('visibility', 'hidden') else button.css('visibility', 'visible')
+    buttons = @$el.find '#play-button, .scrubber-handle'
+    buttons.css 'visibility', if e.on then 'hidden' else 'visible'
     @disabled = e.on
 
   onWindowResize: (s...) =>
     @barWidth = $('.progress', @$el).width()
 
-  onNewWorld: (e) =>
+  onNewWorld: (e) ->
     pct = parseInt(100 * e.world.totalFrames / e.world.maxTotalFrames) + '%'
-    @barWidth = $('.progress', @$el).css('width', pct).removeClass('hide').width()
+    @barWidth = $('.progress', @$el).css('width', pct).show().width()
 
   onToggleDebug: ->
     return if @shouldIgnore()
     flag = $('#debug-toggle i.icon-ok')
-    Backbone.Mediator.publish('level-set-debug', {debug: flag.hasClass('hide')})
+    Backbone.Mediator.publish('level-set-debug', {debug: flag.hasClass('invisible')})
 
   onToggleGrid: ->
     return if @shouldIgnore()
     flag = $('#grid-toggle i.icon-ok')
-    Backbone.Mediator.publish('level-set-grid', {grid: flag.hasClass('hide')})
+    Backbone.Mediator.publish('level-set-grid', {grid: flag.hasClass('invisible')})
 
   onEditWizardSettings: ->
     Backbone.Mediator.publish 'edit-wizard-settings'
 
-  onDisableControls: (e) =>
+  onDisableControls: (e) ->
     if not e.controls or 'playback' in e.controls
       @disabled = true
       $('button', @$el).addClass('disabled')
@@ -91,7 +91,7 @@ module.exports = class PlaybackView extends View
       @hoverDisabled = true
     $('#volume-button', @$el).removeClass('disabled')
 
-  onEnableControls: (e) =>
+  onEnableControls: (e) ->
     if not e.controls or 'playback' in e.controls
       @disabled = false
       $('button', @$el).removeClass('disabled')
@@ -102,7 +102,7 @@ module.exports = class PlaybackView extends View
     if not e.controls or 'playback-hover' in e.controls
       @hoverDisabled = false
 
-  onSetPlaying: (e) =>
+  onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
     button = @$el.find '#play-button'
     ended = button.hasClass 'ended'
@@ -145,13 +145,11 @@ module.exports = class PlaybackView extends View
 
   onSetDebug: (e) ->
     flag = $('#debug-toggle i.icon-ok')
-    flag.removeClass('hide')
-    flag.addClass('hide') unless e.debug
+    flag.toggleClass 'invisible', not e.debug
 
   onSetGrid: (e) ->
     flag = $('#grid-toggle i.icon-ok')
-    flag.removeClass('hide')
-    flag.addClass('hide') unless e.grid
+    flag.toggleClass 'invisible', not e.grid
 
   # to refactor
 
@@ -238,5 +236,10 @@ module.exports = class PlaybackView extends View
     $(document.activeElement).blur()
 
   destroy: ->
-    super()
+    me.off('change:music', @updateMusicButton, @)
     $(window).off('resize', @onWindowResize)
+    @onWindowResize = null
+    @onProgressMouseOver = null
+    @onProgressMouseLeave = null
+    @onProgressMouseMove = null
+    super()

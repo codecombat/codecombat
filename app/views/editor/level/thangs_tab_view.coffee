@@ -72,7 +72,7 @@ module.exports = class ThangsTabView extends View
     @render()  # do it again but without the loading screen
     @onLevelLoaded level: @level if @level
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
     thangTypes = _.uniq thangTypes, false, 'original'
@@ -151,9 +151,9 @@ module.exports = class ThangsTabView extends View
     @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
 
   destroy: ->
-    super()
     @selectAddThangType null
     @surface.destroy()
+    super()
 
   onViewSwitched: (e) ->
     @selectAddThang()
@@ -374,7 +374,7 @@ module.exports = class ThangsTabView extends View
       thangData = @thangsTreema.get "id=#{e.thangID}"
     @editThangView = new LevelThangEditView thangData: thangData, supermodel: @supermodel, level: @level, world: @world
     @insertSubView @editThangView
-    @$el.find('.thangs-column').addClass('hide')
+    @$el.find('.thangs-column').hide()
     Backbone.Mediator.publish 'level:view-switched', e
 
   onLevelThangEdited: (e) ->
@@ -383,7 +383,7 @@ module.exports = class ThangsTabView extends View
 
   onLevelThangDoneEditing: ->
     @removeSubView @editThangView
-    @$el.find('.thangs-column').removeClass('hide')
+    @$el.find('.thangs-column').show()
 
 
 class ThangsNode extends TreemaNode.nodeMap.array

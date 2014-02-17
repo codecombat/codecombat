@@ -18,19 +18,16 @@ module.exports = class LevelChatView extends View
   constructor: (options) ->
     @levelID = options.levelID
     @session = options.session
-    @session.on 'change:multiplayer', @updateMultiplayerVisibility
+    @session.on 'change:multiplayer', @updateMultiplayerVisibility, @
     @sessionID = options.sessionID
     @bus = LevelBus.get(@levelID, @sessionID)
     super()
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
 
-  updateMultiplayerVisibility: =>
+  updateMultiplayerVisibility: ->
     return unless @$el?
-    if @session.get('multiplayer')
-      @$el.removeClass('hide')
-    else
-      @$el.addClass('hide')
+    @$el.toggle Boolean @session.get('multiplayer')
 
   afterRender: ->
     @chatTables = $('table', @$el)
@@ -47,8 +44,8 @@ module.exports = class LevelChatView extends View
       if new Date().getTime() - added > 60 * 1000
         row.fadeOut(1000, -> $(this).remove())
 
-  onNewMessage: (e) =>
-    @$el.removeClass('hide') unless e.message.system
+  onNewMessage: (e) ->
+    @$el.show() unless e.message.system
     @addOne(e.message)
     @trimClosedPanel()
     @playNoise() if e.message.authorID isnt me.id
@@ -99,7 +96,7 @@ module.exports = class LevelChatView extends View
       break if rows.length - i <= limit
       row.remove()
 
-  onChatKeydown: (e) =>
+  onChatKeydown: (e) ->
     if key.isPressed('enter')
       message = _.string.strip($(e.target).val())
       return false unless message
@@ -107,17 +104,11 @@ module.exports = class LevelChatView extends View
       $(e.target).val('')
       return false
 
-  onIconClick: =>
-    openPanel = $('.open-chat-area', @$el)
-    closedPanel = $('.closed-chat-area', @$el)
+  onIconClick: ->
     @open = not @open
-    if @open
-      closedPanel.addClass('hide')
-      openPanel.removeClass('hide')
-      @scrollDown()
-    else
-      openPanel.addClass('hide')
-      closedPanel.removeClass('hide')
+    openPanel = $('.open-chat-area', @$el).toggle @open
+    closedPanel = $('.closed-chat-area', @$el).toggle not @open
+    @scrollDown() if @open
     if window.getSelection?
       sel = window.getSelection()
       sel.empty?()
@@ -130,6 +121,8 @@ module.exports = class LevelChatView extends View
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
   destroy: ->
-    console.log('DESTROY CHAT', @levelID)
-    super()
     key.deleteScope('level')
+    @session.off 'change:multiplayer', @updateMultiplayerVisibility, @
+    clearInterval @clearOldMessagesInterval if @clearOldMessagesInterval
+    @clearOldMessages = null
+    super()

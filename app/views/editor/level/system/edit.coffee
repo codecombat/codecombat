@@ -16,7 +16,7 @@ module.exports = class LevelSystemEditView extends View
     @levelSystem = @supermodel.getModelByOriginalAndMajorVersion LevelSystem, options.original, options.majorVersion or 0
     console.log "Couldn't get levelSystem for", options, "from", @supermodel.models unless @levelSystem
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.editTitle = "#{@levelSystem.get('name')}"
     context
@@ -89,5 +89,5 @@ module.exports = class LevelSystemEditView extends View
     null
 
   destroy: ->
-    super()
     @editor?.destroy()
+    super()

@@ -35,10 +35,10 @@ module.exports = class SpriteBoss extends CocoClass
     @spriteSheetCache = {}
 
   destroy: ->
-    super()
     @removeSprite sprite for thangID, sprite of @sprites
     @targetMark?.destroy()
     @selectionMark?.destroy()
+    super()
 
   toString: -> "<SpriteBoss: #{@sprites.length} sprites>"
 
@@ -144,8 +144,8 @@ module.exports = class SpriteBoss extends CocoClass
 
   removeSprite: (sprite) ->
     sprite.displayObject.parent.removeChild sprite.displayObject
-    sprite.destroy()
     delete @sprites[sprite.thang.id]
+    sprite.destroy()
 
   updateSounds: ->
     sprite.playSounds() for thangID, sprite of @sprites  # hmm; doesn't work for sprites which we didn't add yet in adjustSpriteExistence
@@ -222,7 +222,7 @@ module.exports = class SpriteBoss extends CocoClass
   selectThang: (thangID, spellName=null) ->
     @selectSprite null, @sprites[thangID], spellName
 
-  selectSprite: (e, sprite=null, spellName=null) =>
+  selectSprite: (e, sprite=null, spellName=null) ->
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = sprite?.thang?.pos
     worldPos ?= @camera.canvasToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
@@ -252,10 +252,12 @@ module.exports = class SpriteBoss extends CocoClass
   # Marks
 
   updateSelection: ->
-    if @selectedSprite and (not @selectedSprite.thang.exists or not @world.getThangByID @selectedSprite.thang.id)
+    if @selectedSprite?.thang and (not @selectedSprite.thang.exists or not @world.getThangByID @selectedSprite.thang.id)
       @selectSprite null, null, null
+      @selectionMark?.toggle false
     @updateTarget()
     return unless @selectionMark
+    @selectedSprite = null unless @selectedSprite?.thang
     @selectionMark.toggle @selectedSprite?
     @selectionMark.setSprite @selectedSprite
     @selectionMark.update()

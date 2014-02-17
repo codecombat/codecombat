@@ -19,15 +19,19 @@ module.exports = class CastButtonView extends View
     @castShortcut = "⇧↩"
     @castShortcutVerbose = "Shift+Enter"
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.castShortcutVerbose = @castShortcutVerbose
     context
 
   afterRender: ->
     super()
+    @castButton = $('.cast-button', @$el)
+    @castButtonGroup = $('.cast-button-group', @$el)
+    @castOptions = $('.autocast-delays', @$el)
+    @castButton.on 'click', @onCastButtonClick
+    @castOptions.find('a').on 'click', @onCastOptionsClick
     # TODO: use a User setting instead of localStorage
-    @hookUpButtons()
     delay = localStorage.getItem 'autocastDelay'
     delay ?= 5000
     @setAutocastDelay delay
@@ -35,25 +39,22 @@ module.exports = class CastButtonView extends View
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
 
-  hookUpButtons: ->
-    # hook up cast button callbacks
-    @castButton = $('.cast-button', @$el)
-    @castButtonGroup = $('.cast-button-group', @$el)
-    @castOptions = $('.autocast-delays', @$el)
+  onCastButtonClick: (e) ->
+    Backbone.Mediator.publish 'tome:manual-cast', {}
 
-    @castButton.click (e) =>
-      Backbone.Mediator.publish 'tome:manual-cast', {}
-    @castOptions.find('a').click (e) =>
-      Backbone.Mediator.publish 'focus-editor'
-      @castButtonGroup.removeClass 'open'
-      @setAutocastDelay $(e.target).attr 'data-delay'
-      false
+  onCastOptionsClick: (e) =>
+    console.log 'cast options click', $(e.target)
+    Backbone.Mediator.publish 'focus-editor'
+    @castButtonGroup.removeClass 'open'
+    @setAutocastDelay $(e.target).attr 'data-delay'
+    false
 
   onSpellChanged: (e) ->
     @updateCastButton()
 
   onCastSpells: (e) ->
     @casting = true
+    Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.25
     @updateCastButton()
 
   onWorldLoadProgressChanged: (e) ->
@@ -87,4 +88,7 @@ module.exports = class CastButtonView extends View
       $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)
 
   destroy: ->
+    @castButton.off 'click', @onCastButtonClick
+    @castOptions.find('a').off 'click', @onCastOptionsClick
+    @onCastOptionsClick = null
     super()

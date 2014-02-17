@@ -16,8 +16,8 @@ module.exports = class LevelSaveView extends SaveVersionModal
   constructor: (options) ->
     super options
     @level = options.level
-    
-  getRenderData: (context={}) =>
+
+  getRenderData: (context={}) ->
     context = super(context)
     context.level = @level
     context.levelNeedsSave = @level.hasLocalChanges()
@@ -63,8 +63,8 @@ module.exports = class LevelSaveView extends SaveVersionModal
           console.log "Got errors:", JSON.parse(res.responseText)
           forms.applyErrorsToForm($(form), JSON.parse(res.responseText))
         res.success =>
-          @hide()
           modelsToSave = _.without modelsToSave, newModel
           unless modelsToSave.length
             url = "/editor/level/#{@level.get('slug') or @level.id}"
             document.location.href = url
+            @hide()  # This will destroy everything, so do it last

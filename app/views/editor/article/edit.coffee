@@ -52,7 +52,7 @@ module.exports = class ArticleEditView extends View
     b.find('#insert').html(m)
     b.find('#title').text(@treema.data.name)
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.article = @article
     context

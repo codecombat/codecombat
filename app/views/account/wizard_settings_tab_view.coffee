@@ -7,7 +7,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 module.exports = class WizardSettingsTabView extends RootView
   id: 'wizard-settings-tab-view'
   template: template
-  
+
   events:
     'change .color-group-checkbox': (e) ->
       colorGroup = $(e.target).closest('.color-group')
@@ -17,13 +17,13 @@ module.exports = class WizardSettingsTabView extends RootView
   constructor: ->
     super(arguments...)
     @loadWizard()
-    
+
   loadWizard: ->
     @wizardThangType = new ThangType()
     @wizardThangType.url = -> '/db/thang_type/wizard'
     @wizardThangType.fetch()
     @wizardThangType.once 'sync', @initCanvas, @
-    
+
   initCanvas: ->
     @render()
     @spriteBuilder = new SpriteBuilder(@wizardThangType)
@@ -32,9 +32,9 @@ module.exports = class WizardSettingsTabView extends RootView
   getRenderData: ->
     c = super()
     wizardSettings = me.get('wizard')?.colorConfig or {}
-    
+
     colorGroups = @wizardThangType.get('colorGroups') or {}
-    f = (name) -> { 
+    f = (name) -> {
       dasherized: _.string.dasherize(name)
       humanized: _.string.humanize name
       name: name
@@ -42,26 +42,26 @@ module.exports = class WizardSettingsTabView extends RootView
     }
     c.colorGroups = (f(colorName) for colorName in _.keys colorGroups)
     c
-    
+
   afterRender: ->
     wizardSettings = me.get('wizard') or {}
     wizardSettings.colorConfig ?= {}
-    
+
     @$el.find('.selector').each (i, slider) =>
       [groupName, prop] = $(slider).attr('name').split('.')
       value = 100 * (wizardSettings.colorConfig[groupName]?[prop] ? 0.5)
       @initSlider $(slider), value, @onSliderChanged
-      
+
     @$el.find('.color-group').each (i, colorGroup) =>
       @updateSliderVisibility($(colorGroup))
-      
+
   updateSliderVisibility: (colorGroup) ->
     enabled = colorGroup.find('.color-group-checkbox').prop('checked')
-    colorGroup.find('.sliders').toggleClass 'hide', not enabled
-    
+    colorGroup.find('.sliders').toggle Boolean(enabled)
+
   updateColorSettings: (colorGroup) ->
     wizardSettings = me.get('wizard') or {}
-    wizardSettings.colorConfig ?= {} 
+    wizardSettings.colorConfig ?= {}
     colorName = colorGroup.data('name')
     wizardSettings.colorConfig[colorName] ?= {}
     if colorGroup.find('.color-group-checkbox').prop('checked')
@@ -75,7 +75,7 @@ module.exports = class WizardSettingsTabView extends RootView
     me.set('wizard', wizardSettings)
     @updateMovieClip()
     @trigger 'change'
-    
+
   onSliderChanged: (e, result) =>
     @updateColorSettings $(result.handle).closest('.color-group')
 
@@ -84,12 +84,12 @@ module.exports = class WizardSettingsTabView extends RootView
     @updateMovieClip()
     createjs.Ticker.setFPS 20
     createjs.Ticker.addEventListener("tick", @stage)
-    
+
   updateMovieClip: ->
     return unless @wizardThangType.loaded
     wizardSettings = me.get('wizard') or {}
     wizardSettings.colorConfig ?= {}
-    
+
     @stage.removeChild(@movieClip) if @movieClip
     options = {colorConfig: wizardSettings.colorConfig}
     @spriteBuilder.setOptions options
@@ -100,7 +100,7 @@ module.exports = class WizardSettingsTabView extends RootView
     @movieClip.scaleY = @movieClip.scaleX = 1.7 * (castAction.scale or 1)
     reg = castAction.positions?.registration
     if reg
-      @movieClip.regX = reg.x 
+      @movieClip.regX = reg.x
       @movieClip.regY = reg.y
     @stage.addChild @movieClip
     @stage.update()

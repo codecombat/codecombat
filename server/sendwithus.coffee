@@ -1,6 +1,11 @@
 config = require '../server_config'
 sendwithusAPI = require 'sendwithus'
 swuAPIKey = config.mail.sendwithusAPIKey
+queues = require './commons/queue'
+
+module.exports.setupRoutes = (app) ->
+  return
+
 
 options = { DEBUG: not config.isProduction }
 module.exports.api = new sendwithusAPI swuAPIKey, options

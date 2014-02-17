@@ -20,7 +20,7 @@ module.exports = class ComponentConfigView extends CocoView
     @editing = options.editing
     @callback = options.callback
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.component = @component
     context.configProperties = []

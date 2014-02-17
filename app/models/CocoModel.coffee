@@ -25,7 +25,7 @@ class CocoModel extends Backbone.Model
       @loadSchema()
     @once 'sync', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
-    
+
   type: ->
     @constructor.className
 
@@ -36,18 +36,18 @@ class CocoModel extends Backbone.Model
     if @saveBackups
       existing = storage.load @id
       if existing
-        @set(existing, {silent:true}) 
+        @set(existing, {silent:true})
         CocoModel.backedUp[@id] = @
-    
+
   set: ->
     res = super(arguments...)
     @saveBackup() if @saveBackups and @loaded and @hasLocalChanges()
     res
-    
+
   saveBackup: ->
     storage.save(@id, @attributes)
     CocoModel.backedUp[@id] = @
-    
+
   @backedUp = {}
 
   loadSchema: ->
@@ -55,7 +55,7 @@ class CocoModel extends Backbone.Model
       @constructor.schema = new CocoSchema(@urlRoot)
       @constructor.schema.fetch()
 
-    @constructor.schema.on 'sync', =>
+    @constructor.schema.once 'sync', =>
       @constructor.schema.loaded = true
       @addSchemaDefaults()
       @trigger 'schema-loaded'
@@ -81,7 +81,7 @@ class CocoModel extends Backbone.Model
     return super attrs, options
 
   fetch: ->
-    super()
+    super(arguments...)
     @loading = true
 
   markToRevert: ->
@@ -90,7 +90,7 @@ class CocoModel extends Backbone.Model
   revert: ->
     @set(@_revertAttributes, {silent: true}) if @_revertAttributes
     @clearBackup()
-    
+
   clearBackup: ->
     storage.remove @id
 
@@ -127,7 +127,7 @@ class CocoModel extends Backbone.Model
       #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
       @set prop, sch.default if sch.default?
 
-  getReferencedModels: (data, schema, path='/') ->
+  getReferencedModels: (data, schema, path='/', shouldLoadProjection=null) ->
     # returns unfetched model shells for every referenced doc in this model
     # OPTIMIZE so that when loading models, it doesn't cause the site to stutter
     data ?= @attributes
@@ -136,18 +136,18 @@ class CocoModel extends Backbone.Model
 
     if $.isArray(data) and schema.items?
       for subData, i in data
-        models = models.concat(@getReferencedModels(subData, schema.items, path+i+'/'))
+        models = models.concat(@getReferencedModels(subData, schema.items, path+i+'/', shouldLoadProjection))
 
     if $.isPlainObject(data) and schema.properties?
       for key, subData of data
         continue unless schema.properties[key]
-        models = models.concat(@getReferencedModels(subData, schema.properties[key], path+key+'/'))
+        models = models.concat(@getReferencedModels(subData, schema.properties[key], path+key+'/', shouldLoadProjection))
 
-    model = CocoModel.getReferencedModel data, schema
+    model = CocoModel.getReferencedModel data, schema, shouldLoadProjection
     models.push model if model
     return models
 
-  @getReferencedModel: (data, schema) ->
+  @getReferencedModel: (data, schema, shouldLoadProjection=null) ->
     return null unless schema.links?
     linkObject = _.find schema.links, rel: "db"
     return null unless linkObject
@@ -158,9 +158,9 @@ class CocoModel extends Backbone.Model
     link = link.replace('{(original)}', data.original)
     link = link.replace('{(majorVersion)}', '' + (data.majorVersion ? 0))
     link = link.replace('{($)}', data)
-    @getOrMakeModelFromLink(link)
+    @getOrMakeModelFromLink(link, shouldLoadProjection)
 
-  @getOrMakeModelFromLink: (link) ->
+  @getOrMakeModelFromLink: (link, shouldLoadProjection=null) ->
     makeUrlFunc = (url) -> -> url
     modelUrl = link.split('/')[2]
     modelModule = _.string.classify(modelUrl)
@@ -175,6 +175,9 @@ class CocoModel extends Backbone.Model
       return
 
     model = new Model()
+    if shouldLoadProjection? model
+      sep = if link.search(/\?/) is -1 then "?" else "&"
+      link += sep + "project=true"
     model.url = makeUrlFunc(link)
     return model
 
