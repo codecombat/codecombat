@@ -3,6 +3,7 @@ mongoose = require('mongoose')
 Grid = require 'gridfs-stream'
 errors = require './errors'
 PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
+FETCH_LIMIT = 150
 
 module.exports = class Handler
   # subclasses should override these properties
@@ -115,14 +116,14 @@ module.exports = class Handler
       else
         args = [filter.filter]
         args.push PROJECT if req.query.project
-        @modelClass.find(args...).limit(100).exec callback
+        @modelClass.find(args...).limit(FETCH_LIMIT).exec callback
 
   versions: (req, res, id) ->
     # TODO: a flexible system for doing GAE-like cursors for these sort of paginating queries
-    # Keeping it simple for now and just allowing access to the first 100 results.
+    # Keeping it simple for now and just allowing access to the first FETCH_LIMIT results.
     query = {'original': mongoose.Types.ObjectId(id)}
     sort = {'created': -1}
-    @modelClass.find(query).limit(100).sort(sort).exec (err, results) =>
+    @modelClass.find(query).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
       for doc in results
         return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
       res.send(results)
