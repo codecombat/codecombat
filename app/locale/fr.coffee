@@ -104,14 +104,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   wizard_settings:
     title: "Paramètres du Magicien"
     customize_avatar: "Personnaliser votre avatar"
-#    clothes: "Clothes"
-#    trim: "Trim"
-#    cloud: "Cloud"
-#    spell: "Spell"
-#    boots: "Boots"
-#    hue: "Hue"
-#    saturation: "Saturation"
-#    lightness: "Lightness"
+    clothes: "Vêtements"
+    trim: "Tailleur"
+    cloud: "Nuage"
+    spell: "Sort"
+    boots: "Bottes"
+    hue: "Teinte"
+    saturation: "Saturation"
+    lightness: "Luminosité"
 
   account_settings:
     title: "Préférences du compte"
@@ -137,7 +137,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     contribute_page: "page de contributions"
     contribute_suffix: " pour en savoir plus."
     email_toggle: "Tout basculer"
-    error_saving: "Probleme d'enregistrement"
+    error_saving: "Problème d'enregistrement"
     saved: "Changements sauvegardés"
     password_mismatch: "Le mot de passe ne correspond pas."
 
