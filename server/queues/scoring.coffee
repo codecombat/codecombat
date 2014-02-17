@@ -174,7 +174,7 @@ module.exports.processTaskResult = (req, res) ->
           if loggingError?
             return errors.serverError res, "There as a problem logging the task computation: #{loggingError}"
 
-          updateScores clientResponseObject, (updatingScoresError, newScores) ->
+          updateSessions clientResponseObject, (updatingScoresError, newScores) ->
             if updatingScoresError?
               return errors.serverError res, "There was an error updating the scores.#{updatingScoresError}"
 
@@ -204,10 +204,10 @@ logTaskComputation = (taskObject,taskLogObject, callback) ->
   taskLogObject.save callback
 
 
-updateScores = (taskObject,callback) ->
+updateSessions = (taskObject,callback) ->
   sessionIDs = _.pluck taskObject.sessions, 'sessionID'
 
-  async.map sessionIDs, retrieveOldScoreMetrics, (err, oldScores) ->
+  async.map sessionIDs, retrieveOldSessionData, (err, oldScores) ->
     callback err, {"error": "There was an error retrieving the old scores"} if err?
 
     oldScoreArray = _.toArray putRankingFromMetricsIntoScoreObject taskObject, oldScores
@@ -245,7 +245,7 @@ putRankingFromMetricsIntoScoreObject = (taskObject,scoreObject) ->
 
   scoreObject
 
-retrieveOldScoreMetrics = (sessionID, callback) ->
+retrieveOldSessionData = (sessionID, callback) ->
   sessionQuery =
     "_id":sessionID
 
