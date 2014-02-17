@@ -244,10 +244,10 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    edit_btn_preview: "Preview"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
-#    or: "或"
-#    name: "名字"
+    or: "或"
+    name: "名字"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
@@ -255,7 +255,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    results: "Results"
 #    description: "Description"
 #    email: "Email"
-#    message: "訊息"
+    message: "訊息"
 
   about:
     who_is_codecombat: "什麼是CodeCombat?"

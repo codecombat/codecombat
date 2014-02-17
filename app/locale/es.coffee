@@ -136,7 +136,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
   account_profile:
     edit_settings: "Editar Ajustes"
     profile_for_prefix: "Perfil de "
-#    profile_for_suffix: ""
+    profile_for_suffix: ""
     profile: "Perfil"
     user_not_found: "No se encontró al usuario. ¿Comprueba la URL?"
     gravatar_not_found_mine: "No podemos encontrar el prefil asociado con:"
@@ -164,7 +164,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     reload_title: "¿Recargar todo el código?"
     reload_really: "¿Estas seguro que quieres reiniciar el nivel?"
     reload_confirm: "Recargarlo todo"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: " Completo"
     victory_sign_up: "Regístrate para recibir actualizaciones."
     victory_sign_up_poke: "¿Buscas recivir las últimas noticias en tu email? Create una cuente gratuita y recibe la correspondencia."

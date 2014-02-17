@@ -164,7 +164,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     reload_title: "Laste All Koden på Nytt?"
     reload_really: "Er du sikker på at du vil laste dette nivået på nytt, tilbake til begynnelsen?"
     reload_confirm: "Last Alle på Nytt"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: " Ferdig"
     victory_sign_up: "Tegn deg på for Oppdateringer"
     victory_sign_up_poke: "Vil du ha siste nytt på epost? Opprett en gratis konto, så vil vi holde deg oppdatert!"

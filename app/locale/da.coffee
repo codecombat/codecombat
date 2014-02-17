@@ -164,7 +164,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     reload_title: "Genindlæs alt kode?"
     reload_really: "Er du sikker på at du ønsker at genindlæse denne bane helt fra begyndelsen?"
     reload_confirm: "Genindlæs alt"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: " Færdig"
     victory_sign_up: "Opret dig for at gemme dit fremskridt"
     victory_sign_up_poke: "Ønsker du at gemme din kode? Opret en gratis konto!"

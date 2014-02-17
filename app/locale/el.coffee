@@ -123,7 +123,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     email_subscriptions: "Συνδρομές Email"
     email_announcements: "Ανακοινώσεις"
 #    email_notifications_description: "Get periodic notifications for your account."
-#    email_announcements_description: "Λάβετε emails για τα τελευταία νέα και τις εξελίξεις του CodeCombat."
+    email_announcements_description: "Λάβετε emails για τα τελευταία νέα και τις εξελίξεις του CodeCombat."
     contributor_emails: "Contributor Class Emails"
     contribute_prefix: "Αναζητούμε για ανθρώπους που θέλουν να  "
     contribute_page: "Σελίδα συνεισφοράς"

@@ -135,11 +135,11 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
   account_profile:
     edit_settings: "Einstellungen ändern"
     profile_for_prefix: "Profil von "
-#    profile_for_suffix: ""
+    profile_for_suffix: ""
     profile: "Profil"
     user_not_found: "Kein Nutzer gefunden. URL überprüft?"
     gravatar_not_found_mine: "Wir konnten dein Profil nicht finden, das mit folgender Email Adresse verbunden ist:"
-#    gravatar_not_found_email_suffix: "."
+    gravatar_not_found_email_suffix: "."
     gravatar_signup_prefix: "Melde dich an unter "
     gravatar_signup_suffix: " um los zu legen!"
     gravatar_not_found_other: "Leider ist kein Profil mit der Email Adresse verknüpft."
@@ -163,7 +163,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     reload_title: "Gesamten Code neu laden?"
     reload_really: "Bist Du sicher, dass Du das Level neu beginnen willst?"
     reload_confirm: "Alles neu laden"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: " Abgeschlossen"
     victory_sign_up: "Melde Dich an, um Fortschritte zu speichern"
     victory_sign_up_poke: "Möchtest Du Neuigkeiten per Mail erhalten? Erstelle einen kostenlosen Account und wir halten Dich auf dem Laufenden."
@@ -216,7 +216,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     hipchat_prefix: "Besuche uns auch in unserem"
     hipchat_url: "HipChat room."
     level_some_options: "Einige Einstellungsmöglichkeiten?"
-#    level_tab_thangs: "Thangs" # Things? # <= no Thangs are the components of the level. Check the editor if you're not sure what it is.
+    level_tab_thangs: "Thangs" # Things? # <= no Thangs are the components of the level. Check the editor if you're not sure what it is.
 #                                 rather dont't translate it
     level_tab_scripts: "Skripte"
     level_tab_settings: "Einstellungen"

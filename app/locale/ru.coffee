@@ -33,13 +33,13 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     twitter_follow: "Подписаться"
     employers: "Работодателям"
 
-#  versions:
+  versions:
     save_version_title: "Сохранить новую версию"
 #    new_major_version: "New Major Version"
-#    cla_prefix: "Чтобы сохранить изменения, первым делом вы должны согласиться с нашим"
+    cla_prefix: "Чтобы сохранить изменения, первым делом вы должны согласиться с нашим"
 #    cla_url: "CLA"
 #    cla_suffix: "."
-#    cla_agree: "Я СОГЛАСЕН"
+    cla_agree: "Я СОГЛАСЕН"
 
   login:
     sign_up: "Создать Профиль"
@@ -103,7 +103,7 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 
   wizard_settings:
     title: "Мастер настройки"
-#    customize_avatar: "Изменить свой аватар"
+    customize_avatar: "Изменить свой аватар"
 
   account_settings:
     title: "Настройки аккаунта"
@@ -122,7 +122,7 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     new_password_verify: "Подтверждение пароля"
     email_subscriptions: "Email-подписки"
     email_announcements: "Оповещения"
-#    email_notifications_description: "Получать периодические уведомления для вашего аккаунта."
+    email_notifications_description: "Получать периодические уведомления для вашего аккаунта."
     email_announcements_description: "Получать email-оповещения о последних новостях CodeCombat."
     contributor_emails: "Рассылки по классам участников"
     contribute_prefix: "Нам нужны люди, которые присоединятся к нашей команде! Зайдите на "
@@ -191,7 +191,7 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     hud_continue: "Продолжить (нажмите Shift+Space)"
-#    spell_saved: "Заклинание сохранено"
+    spell_saved: "Заклинание сохранено"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -244,15 +244,15 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
 #    edit_article_title: "Edit Article"
 
   general:
-#    and: "и"
+    and: "и"
     or: "или"
     name: "Имя"
 #    body: "Body"
-#    version: "Версия"
+    version: "Версия"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
-#    results: "Результаты"
-#    description: "Описание"
+    results: "Результаты"
+    description: "Описание"
     email: "Email"
     message: "Сообщение"
 
