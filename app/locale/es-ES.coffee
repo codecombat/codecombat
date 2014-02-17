@@ -104,6 +104,14 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   wizard_settings:
     title: "Ajustes del mago"
     customize_avatar: "Personaliza tu Avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Ajustes de la cuenta"

@@ -71,7 +71,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     choose_your_level: "レベル選択"
     adventurer_prefix: "別のレベルに移動することができます。レベルについて議論するにはこちら: "
     adventurer_forum: "冒険者の掲示板"
-#    adventurer_suffix: ""
+#    adventurer_suffix: "."
     campaign_beginner: "初心者のキャンペーン"
 #    campaign_beginner_description: "... in which you learn the wizardry of programming."
     campaign_dev: "いろんな難しいレベル"
@@ -104,6 +104,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   wizard_settings:
     title: "ウィザードの設定"
     customize_avatar: "アバターのカスタマイズ"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "アカウント設定"
@@ -135,13 +143,13 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   account_profile:
     edit_settings: "設定"
-#    profile_for_prefix: ""
+#    profile_for_prefix: "Profile for "
     profile_for_suffix: "のプロフィール"
     profile: "プロフィール"
     user_not_found: "ユーザーが見つかりません。URLを間違って入力していないか確認してください。"
-#    gravatar_not_found_mine: ""
+#    gravatar_not_found_mine: "We couldn't find your profile associated with:"
     gravatar_not_found_email_suffix: " のメールアドレスは Gravatar で見つけることができませんでした。"
-#    gravatar_signup_prefix: ""
+#    gravatar_signup_prefix: "Sign up at "
     gravatar_signup_suffix: " を登録"
     gravatar_not_found_other: "このメールアドレスには　プロフィールが関連付けられていません。"
 #    gravatar_contact: "Contact"

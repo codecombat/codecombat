@@ -104,6 +104,14 @@ module.exports = nativeDescription: "русский язык", englishDescriptio
   wizard_settings:
     title: "Мастер настройки"
     customize_avatar: "Изменить свой аватар"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Настройки аккаунта"

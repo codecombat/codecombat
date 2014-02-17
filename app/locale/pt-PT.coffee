@@ -104,6 +104,14 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
   wizard_settings:
     title: "Definições do Wizard"
     customize_avatar: "Altera o teu Avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Definições da Conta"

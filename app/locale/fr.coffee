@@ -104,6 +104,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   wizard_settings:
     title: "Paramètres du Magicien"
     customize_avatar: "Personnaliser votre avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Préférences du compte"

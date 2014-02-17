@@ -104,6 +104,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #  wizard_settings:
 #    title: "Wizard Settings"
 #    customize_avatar: "Customize Your Avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "账户设置"

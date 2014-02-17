@@ -104,6 +104,14 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
   wizard_settings:
     title: "Nastavení Kouzelníka"
     customize_avatar: "Upravte vás Avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Nastavení účtu"

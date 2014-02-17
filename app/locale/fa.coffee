@@ -104,6 +104,14 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
   wizard_settings:
     title: "تنظیمات جادویی"
     customize_avatar: "آواتار خود را شکل دهید"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "تنظیمات حساب کاربری"

@@ -104,6 +104,14 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
   wizard_settings:
     title: "Troldmandsinstillinger"
     customize_avatar: "Tilpas din avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Kontoindstillinger"

@@ -104,6 +104,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   wizard_settings:
     title: "Tovenaar instellingen"
     customize_avatar: "Bewerk jouw avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Account Instellingen"
@@ -142,7 +150,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     gravatar_not_found_mine: "We konden geen account vinden gekoppeld met:"
     gravatar_not_found_email_suffix: "."
     gravatar_signup_prefix: "Registreer op "
-#    gravatar_signup_suffix: ""
+#    gravatar_signup_suffix: " to get set up!"
     gravatar_not_found_other: "Alas, there's no profile associated with this person's email address."
     gravatar_contact: "Contact"
     gravatar_websites: "Websites"

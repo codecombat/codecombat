@@ -104,6 +104,14 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
   wizard_settings:
     title: "Zauberer Einstellungen"
     customize_avatar: "Individualisiere deinen Avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Accounteinstellungen"

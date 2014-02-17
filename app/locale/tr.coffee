@@ -104,6 +104,14 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
   wizard_settings:
     title: "Sihirbaz Ayarları"
     customize_avatar: "Avatar'ınızı Özelleştirin"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Hesap Ayarları"
@@ -135,7 +143,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   account_profile:
     edit_settings: "Ayarları Düzenle"
-#    profile_for_prefix: ""
+#    profile_for_prefix: "Profile for "
     profile_for_suffix: " Kullanıcısının Profili"
     profile: "Profil"
     user_not_found: "Kullanıcı bulunamadı. URL'den emin misiniz?"

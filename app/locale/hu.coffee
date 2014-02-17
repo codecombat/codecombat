@@ -104,6 +104,14 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   wizard_settings:
     title: "Varázsló beállításai"
     customize_avatar: "Állítsd be az Avatarod!"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Fiók beállítások"

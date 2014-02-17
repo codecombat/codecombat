@@ -104,6 +104,14 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
   wizard_settings:
     title: "Configurações do Feiticeiro"
     customize_avatar: "Personalize o seu Avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Configurações da Conta"
