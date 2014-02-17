@@ -98,7 +98,7 @@ module.exports = class LevelLoader extends CocoClass
   onSupermodelError: ->
     msg = $.i18n.t('play_level.level_load_error',
       defaultValue: "Level could not be loaded.")
-    @$el.html('<div class="alert">' + msg + '</div>')
+    $('body').append('<div class="alert">' + msg + '</div>')
 
   onSupermodelLoadedOne: (e) ->
     @update()
