@@ -100,9 +100,12 @@ _.extend LevelSessionSchema.properties,
                   type: 'object'
                 source:
                   type: 'string'
-  
-  # TODO: specify this more
+
+# TODO: specify this more
   code:
+    type: 'object'
+
+  submittedCode:
     type: 'object'
 
   teamSpells:
@@ -133,6 +136,38 @@ _.extend LevelSessionSchema.properties,
     type: 'boolean'
     default: false
     index:true
+
+  matches:
+    type: 'array'
+    items:
+      type: 'object'
+      properties:
+        date: c.date
+          title: 'Time'
+        metrics:
+          type: 'object'
+          properties:
+            rank:
+              type: 'number'
+        opponents:
+          type: 'array'
+          items:
+            type: 'object'
+            properties:
+              id:
+                type: ['object', 'string']
+              codeSubmitDate: c.date
+                title: 'Submitted'
+              metrics:
+                type: 'object'
+                properties:
+                  rank:
+                    type: 'number'
+
+
+
+
+
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
 c.extendPermissionsProperties LevelSessionSchema, 'level.session'
