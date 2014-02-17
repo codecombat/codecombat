@@ -25,6 +25,9 @@ module.exports = class WorldFrame
         #console.log "Frame", @time, "restoring state for", thang.id, "and saying it don't exist"
         thang.exists = false
 
+  restorePartialState: (ratio) ->
+    thangState.restorePartial ratio for thangID, thangState of @thangStateMap
+
   restoreStateForThang: (thang) ->
     thangState = @thangStateMap[thang.id]
     if not thangState

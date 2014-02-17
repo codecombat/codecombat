@@ -36,6 +36,7 @@ module.exports = Surface = class Surface extends CocoClass
   worldLoaded: false
   scrubbing: false
   debug: false
+  frameRate: 60
 
   defaults:
     wizards: true
@@ -190,7 +191,7 @@ module.exports = Surface = class Surface extends CocoClass
       createjs.Tween.removeTweens(@)
       @currentFrame = @scrubbingTo
 
-    @scrubbingTo = parseInt(progress * @world.totalFrames)
+    @scrubbingTo = Math.floor(progress * @world.totalFrames)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     if scrubDuration
       t = createjs.Tween
@@ -227,7 +228,7 @@ module.exports = Surface = class Surface extends CocoClass
     @onFrameChanged()
 
   getCurrentFrame: ->
-    return Math.max(0, Math.min(parseInt(@currentFrame), @world.totalFrames - 1))
+    return Math.max(0, Math.min(Math.floor(@currentFrame), @world.totalFrames - 1))
 
   getProgress: -> @currentFrame / @world.totalFrames
 
@@ -344,8 +345,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.addEventListener 'stagemousedown', @onMouseDown
     @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
-    console.log "Setting fps", @world.frameRate unless @world.frameRate is 30
-    createjs.Ticker.setFPS @world.frameRate
+    createjs.Ticker.setFPS @frameRate
 
   showLevel: ->
     return if @dead
@@ -467,16 +467,16 @@ module.exports = Surface = class Surface extends CocoClass
       @trailmaster.tick() if @trailmaster
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
       frameAdvanced = (@playing and @currentFrame < @world.totalFrames) or @totalFramesDrawn < 2
-      ++@currentFrame if frameAdvanced
+      @currentFrame += @world.frameRate / @frameRate if frameAdvanced
       @updateSpriteSounds() if frameAdvanced
       break unless Dropper.drop()
 
     # these are skipped for dropped frames
     @updateState @currentFrame isnt oldFrame
-    @drawCurrentFrame()
+    @drawCurrentFrame e
     @onFrameChanged()
-    @updatePaths() if (@totalFramesDrawn % 2) is 0 or createjs.Ticker.getMeasuredFPS() > createjs.Ticker.getFPS() - 5
-    Backbone.Mediator.publish('surface:ticked', {dt: @world.dt})
+    @updatePaths() if (@totalFramesDrawn % 4) is 0 or createjs.Ticker.getMeasuredFPS() > createjs.Ticker.getFPS() - 5
+    Backbone.Mediator.publish('surface:ticked', {dt: 1 / @frameRate})
     mib = @stage.mouseInBounds
     if @mouseInBounds isnt mib
       Backbone.Mediator.publish('surface:mouse-' + (if mib then "over" else "out"), {})
@@ -484,6 +484,11 @@ module.exports = Surface = class Surface extends CocoClass
 
   updateSpriteSounds: ->
     @world.getFrame(@getCurrentFrame()).restoreState()
+    current = Math.max(0, Math.min(@currentFrame, @world.totalFrames - 1))
+    if current - Math.floor(current) > 0.01
+      next = Math.ceil current
+      ratio = current % 1
+      @world.frames[next].restorePartialState ratio if next > 1
     @spriteBoss.updateSounds()
 
   updateState: (frameChanged) ->
@@ -492,9 +497,9 @@ module.exports = Surface = class Surface extends CocoClass
     @spriteBoss.update frameChanged
     @dimmer?.setSprites @spriteBoss.sprites
 
-  drawCurrentFrame: ->
+  drawCurrentFrame: (e) ->
     ++@totalFramesDrawn
-    @stage.update()
+    @stage.update e
 
   # paths - TODO: move to SpriteBoss? but only update on frame drawing instead of on every frame update?
 

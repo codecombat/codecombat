@@ -51,7 +51,7 @@ module.exports = class TomeView extends View
 
   events:
     'click #spell-view': 'onSpellViewClick'
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': 'onClick'
 
   afterRender: ->
     super()
@@ -139,6 +139,9 @@ module.exports = class TomeView extends View
 
   onSpellViewClick: (e) ->
     @spellList.$el.hide()
+
+  onClick: (e) ->
+    Backbone.Mediator.publish 'focus-editor' unless $(e.target).parents('.popover').length
 
   clearSpellView: ->
     @spellView?.dismiss()
