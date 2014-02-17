@@ -105,9 +105,6 @@ _.extend LevelSessionSchema.properties,
   code:
     type: 'object'
 
-  submittedCode:
-    type: 'object'
-
   teamSpells:
     type: 'object'
     additionalProperties:
@@ -136,6 +133,12 @@ _.extend LevelSessionSchema.properties,
     type: 'boolean'
     default: false
     index:true
+
+  submitDate:
+    type: 'date'
+
+  submittedCode:
+    type: 'object'
 
   matches:
     type: 'array'
