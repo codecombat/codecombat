@@ -127,7 +127,7 @@ class CocoModel extends Backbone.Model
       #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
       @set prop, sch.default if sch.default?
 
-  getReferencedModels: (data, schema, path='/') ->
+  getReferencedModels: (data, schema, path='/', shouldLoadProjection=null) ->
     # returns unfetched model shells for every referenced doc in this model
     # OPTIMIZE so that when loading models, it doesn't cause the site to stutter
     data ?= @attributes
@@ -136,18 +136,18 @@ class CocoModel extends Backbone.Model
 
     if $.isArray(data) and schema.items?
       for subData, i in data
-        models = models.concat(@getReferencedModels(subData, schema.items, path+i+'/'))
+        models = models.concat(@getReferencedModels(subData, schema.items, path+i+'/', shouldLoadProjection))
 
     if $.isPlainObject(data) and schema.properties?
       for key, subData of data
         continue unless schema.properties[key]
-        models = models.concat(@getReferencedModels(subData, schema.properties[key], path+key+'/'))
+        models = models.concat(@getReferencedModels(subData, schema.properties[key], path+key+'/', shouldLoadProjection))
 
-    model = CocoModel.getReferencedModel data, schema
+    model = CocoModel.getReferencedModel data, schema, shouldLoadProjection
     models.push model if model
     return models
 
-  @getReferencedModel: (data, schema) ->
+  @getReferencedModel: (data, schema, shouldLoadProjection=null) ->
     return null unless schema.links?
     linkObject = _.find schema.links, rel: "db"
     return null unless linkObject
@@ -158,9 +158,9 @@ class CocoModel extends Backbone.Model
     link = link.replace('{(original)}', data.original)
     link = link.replace('{(majorVersion)}', '' + (data.majorVersion ? 0))
     link = link.replace('{($)}', data)
-    @getOrMakeModelFromLink(link)
+    @getOrMakeModelFromLink(link, shouldLoadProjection)
 
-  @getOrMakeModelFromLink: (link) ->
+  @getOrMakeModelFromLink: (link, shouldLoadProjection=null) ->
     makeUrlFunc = (url) -> -> url
     modelUrl = link.split('/')[2]
     modelModule = _.string.classify(modelUrl)
@@ -175,6 +175,9 @@ class CocoModel extends Backbone.Model
       return
 
     model = new Model()
+    if shouldLoadProjection? model
+      sep = if link.search(/\?/) is -1 then "?" else "&"
+      link += sep + "project=true"
     model.url = makeUrlFunc(link)
     return model
 

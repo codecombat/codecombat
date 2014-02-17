@@ -208,7 +208,6 @@ sendResponseObject = (req,res,object) ->
   res.send(object)
   res.end()
 
-
 hasTaskTimedOut = (taskSentTimestamp) -> taskSentTimestamp + scoringTaskTimeoutInSeconds * 1000 < Date.now()
 
 handleTimedOutTask = (req, res, taskBody) -> errors.clientTimeout res, "The results weren't provided within the timeout"
@@ -226,6 +225,7 @@ logTaskComputation = (taskObject,taskLogObject, callback) ->
   taskLogObject.calculationTimeMS = taskObject.calculationTimeMS
   taskLogObject.sessions = taskObject.sessions
   taskLogObject.save callback
+
 
 updateSessions = (taskObject,callback) ->
   sessionIDs = _.pluck taskObject.sessions, 'sessionID'

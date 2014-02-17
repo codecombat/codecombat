@@ -2,7 +2,7 @@
 class Vector
   @className: "Vector"
   # Class methods for nondestructively operating
-  for name in ['add', 'subtract', 'multiply', 'divide']
+  for name in ['add', 'subtract', 'multiply', 'divide', 'limit', 'normalize']
     do (name) ->
       Vector[name] = (a, b, useZ) ->
         a.copy()[name](b, useZ)

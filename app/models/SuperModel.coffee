@@ -15,8 +15,10 @@ class SuperModel
     @modelLoaded(model) if model.loaded
 
   # replace or overwrite
-  shouldPopulate: (url) -> return true
-  shouldSaveBackups: (model) -> return false
+  shouldLoadReference: (model) -> true
+  shouldLoadProjection: (model) -> false
+  shouldPopulate: (url) -> true
+  shouldSaveBackups: (model) -> false
 
   modelErrored: (model) ->
     @trigger 'error'
@@ -25,10 +27,10 @@ class SuperModel
   modelLoaded: (model) ->
     schema = model.schema()
     return schema.once('sync', => @modelLoaded(model)) unless schema.loaded
-    refs = model.getReferencedModels(model.attributes, schema.attributes)
+    refs = model.getReferencedModels(model.attributes, schema.attributes, '/', @shouldLoadProjection)
     refs = [] unless @mustPopulate is model or @shouldPopulate(model)
 #    console.log 'Loaded', model.get('name')
-    for ref, i in refs
+    for ref, i in refs when @shouldLoadReference ref
       ref.saveBackups = @shouldSaveBackups(ref)
       refURL = ref.url()
       continue if @models[refURL]
