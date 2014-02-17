@@ -143,29 +143,43 @@ _.extend LevelSessionSchema.properties,
 
   matches:
     type: 'array'
+    title: 'Matches'
+    description: 'All of the matches a submitted session has played in its current state.'
     items:
       type: 'object'
       properties:
         date: c.date
-          title: 'Time'
+          title: 'Date computed'
+          description: 'The date a match was computed.'
         metrics:
           type: 'object'
+          title: 'Metrics'
+          description: 'Various information about the outcome of a match.'
           properties:
             rank:
+              title: 'Rank'
+              description: 'A 0-indexed ranking representing the player\'s standing in the outcome of a match'
               type: 'number'
         opponents:
           type: 'array'
+          title: 'Opponents'
+          description: 'An array containing information about the opponents\' sessions in a given match.'
           items:
             type: 'object'
             properties:
               id:
+                title: 'Opponent Session ID'
+                description: 'The session ID of an opponent.'
                 type: ['object', 'string']
               codeSubmitDate: c.date
                 title: 'Submitted'
+                description: 'The date which the opponent submitted their session (used to check if the match can be replayed)'
               metrics:
                 type: 'object'
                 properties:
                   rank:
+                    title: 'Opponent Rank'
+                    description: 'The opponent\'s ranking in a given match'
                     type: 'number'
 
 
