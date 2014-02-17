@@ -6,12 +6,10 @@
   left: 10px
   right: 10px
   height: 140px
-  padding-top: 50px
-  // Height and padding-top relate to .tab-content height
-  padding-left: 35px
-  padding-right: 60px
-  // Docs' popovers flicker when too far right, so we have big padding-right
-  // twilight: color: #E2E2E2
+  // Height relates to .tab-content height
+  padding-top: 35px
+  padding-left: 12px
+  padding-right: 4px
   color: #333
   // Get crazy with the backgrounds so that we can lower the opacity on the editor background above it, making a gradient of the disabled background color on the top around where it's usually covered
   background-color: transparent
@@ -36,3 +34,23 @@
     line-height: 16px
     margin: 0 4px
     font-weight: normal
+
+  .nav > li > a
+    padding: 2px 20px 0px 20px
+    margin-bottom: 3px
+
+  ul.nav.nav-pills
+    li.active a
+      background-color: transparent
+    &.multiple-tabs li.active a
+      background-color: lighten(rgb(230, 212, 146), 10%)
+    &.multiple-tabs li:not(.active) a
+      cursor: pointer
+
+  //.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus
+  //  background-color: lighten(rgb(230, 212, 146), 10%)
+
+  .property-entry-column
+    display: inline-block
+    margin-right: 3px
+    vertical-align: top

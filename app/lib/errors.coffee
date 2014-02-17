@@ -16,18 +16,18 @@ module.exports.genericFailure = (jqxhr) ->
   error = module.exports.parseServerError(jqxhr.responseText)
   message = error.message
   message = error.property + ' ' + message if error.property
-  res = errorModalTemplate(
-    status:jqxhr.status
-    statusText:jqxhr.statusText
-    message: message
-  )
   console.warn(jqxhr.status, jqxhr.statusText, error)
-  existingForm = $('.form-inline:visible:first')
+  existingForm = $('.form:visible:first')
   if existingForm[0]
     missingErrors = applyErrorsToForm(existingForm, [error])
     for error in missingErrors
       existingForm.append($('<div class="alert"></div>').text(error.message))
   else
+    res = errorModalTemplate(
+      status:jqxhr.status
+      statusText:jqxhr.statusText
+      message: message
+    )
     showErrorModal(res)
 
 module.exports.backboneFailure = (model, jqxhr, options) ->
