@@ -70,8 +70,9 @@ module.exports = class Simulator
     @sendResultsBackToServer taskResults
 
   sendResultsBackToServer: (results) =>
+    console.log "Sending result back to server!"
     $.ajax
-      url: @taskURL
+      url: "/queue/scoring"
       data: results
       type: "PUT"
       success: @handleTaskResultsTransferSuccess
@@ -104,7 +105,8 @@ module.exports = class Simulator
     for session in @task.getSessions()
       sessionResult =
         sessionID: session.sessionID
-        sessionChangedTime: session.sessionChangedTime
+        submitDate: session.submitDate
+        creator: session.creator
         metrics:
           rank: @calculateSessionRank session.sessionID, simulationResults.goalStates, @task.generateTeamToSessionMap()
 
