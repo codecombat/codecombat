@@ -146,19 +146,22 @@ module.exports = class LevelLoader extends CocoClass
     colorConfigs = @world.getTeamColors()
 
     thangsProduced = {}
-    baseOptions = {resolutionFactor: 4, async: true}
 
     for thang in @world.thangs
       continue unless thang.spriteName
       thangType = thangTypes[thang.spriteName]
       options = thang.getSpriteOptions(colorConfigs)
       options.async = true
+      if thangType.get('kind') is 'Floor'
+        options.resolutionFactor = 2
       thangsProduced[thang.spriteName] = true
       @buildSpriteSheet(thangType, options)
 
     for thangName, thangType of thangTypes
       continue if thangsProduced[thangName]
       thangType.spriteOptions = {resolutionFactor: 4, async: true}
+      if thangType.get('kind') is 'Floor'
+        thangType.spriteOptions.resolutionFactor = 2
       @buildSpriteSheet(thangType, thangType.spriteOptions)
 
   buildSpriteSheet: (thangType, options) ->

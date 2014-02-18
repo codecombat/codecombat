@@ -137,7 +137,9 @@ module.exports = class SpriteBoss extends CocoClass
   addThangToSprites: (thang, layer=null) ->
     return console.warn 'Tried to add Thang to the surface it already has:', thang.id if @sprites[thang.id]
     thangType = _.find @options.thangTypes, (m) -> m.get('name') is thang.spriteName
-    sprite = new CocoSprite thangType, @createSpriteOptions thang: thang
+    options = @createSpriteOptions thang: thang
+    options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else 4
+    sprite = new CocoSprite thangType, options
     @addSprite sprite, null, layer
     sprite.setDebug @debug
     sprite
