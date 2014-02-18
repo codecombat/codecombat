@@ -42,7 +42,7 @@ block content
               td.name-cell= match.opponentName
               td.time-cell= match.when
               td.battle-cell
-                a.button.btn(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{match.sessionID}") Battle!
+                a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{match.sessionID}") Battle!
       
       else
         div.alert.alert-warning

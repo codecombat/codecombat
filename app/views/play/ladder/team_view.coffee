@@ -73,8 +73,8 @@ module.exports = class LadderTeamView extends RootView
     ctx.challengers = if not @startsLoading then @getChallengers() else {}
     ctx.readyToRank = @readyToRank()
 
-    convertMatch = (match) ->
-      opponent = match.opponent[0]
+    convertMatch = (match) =>
+      opponent = match.opponents[0]
       state = 'win'
       state = 'loss' if match.metrics.rank > opponent.metrics.rank
       state = 'tie' if match.metrics.rank is opponent.metrics.rank
