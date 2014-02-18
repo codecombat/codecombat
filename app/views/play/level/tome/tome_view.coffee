@@ -36,6 +36,8 @@ ThangListView = require './thang_list_view'
 SpellPaletteView = require './spell_palette_view'
 CastButtonView = require './cast_button_view'
 
+window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.coffee'
+
 module.exports = class TomeView extends View
   id: 'tome-view'
   template: template
@@ -55,8 +57,8 @@ module.exports = class TomeView extends View
 
   afterRender: ->
     super()
+    @worker = @createWorker()
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
-
     if programmableThangs.length
       @createSpells programmableThangs, programmableThangs[0].world  # Do before spellList, thangList, and castButton
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
@@ -75,6 +77,21 @@ module.exports = class TomeView extends View
     @thangList.adjustThangs @spells, thangs
     @spellList.adjustSpells @spells
 
+  createWorker: ->
+    return
+    # In progress
+    worker = cw
+      initialize: (scope) ->
+        importScripts '/javascripts/lodash.min.js'
+        importScripts '/javascripts/aether.js'
+        console.log 'Tome worker initialized.'
+      doIt: (data, callback, scope) ->
+        console.log 'doing', what
+        a = new Aether()
+        callback 'good'
+        undefined
+    worker
+
   generateTeamSpellMap: (spellObject) ->
     teamSpellMap = {}
     for spellName, spell of spellObject
@@ -88,7 +105,6 @@ module.exports = class TomeView extends View
       teamSpellMap[teamName].push thangName if thangName not in teamSpellMap[teamName]
 
     return teamSpellMap
-
 
   createSpells: (programmableThangs, world) ->
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
@@ -107,7 +123,7 @@ module.exports = class TomeView extends View
         unless method.cloneOf
           skipProtectAPI = true  #@getQueryVariable("skip_protect_api") is "true"
           skipFlow = @getQueryVariable("skip_flow") is "true" or @options.levelID is 'project-dota'
-          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI
+          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI, worker: @worker
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
       if thang
@@ -188,4 +204,6 @@ module.exports = class TomeView extends View
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
+    @worker?._close()
+    @worker = null
     super()

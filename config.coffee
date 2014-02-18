@@ -26,11 +26,11 @@ exports.config =
         )///
         'javascripts/app.js': /^app/
         'javascripts/vendor.js': ///^(
-          vendor[\/\\](?!(scripts[\/\\]Box2d|scripts[\/\\]box2d))
+          vendor[\/\\](?!scripts[\/\\]Box2d)
           |bower_components
         )///
         'javascripts/vendor_with_box2d.js': ///^(
-          vendor[\/\\](?!scripts[\/\\]box2d)
+          vendor[\/\\]
           |bower_components  # include box2dweb for profiling (and for IE9...)
         )///
         'test/javascripts/test.js': /^test[\/\\](?!vendor)/
