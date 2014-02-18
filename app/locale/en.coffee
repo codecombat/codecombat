@@ -173,7 +173,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     victory_go_home: "Go Home"
     victory_review: "Tell us more!"
     victory_hour_of_code_done: "Are You Done?"
-    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code!"
+    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code<sup>TM</sup>!"
     multiplayer_title: "Multiplayer Settings"
     multiplayer_link_description: "Give this link to anyone to have them join you."
     multiplayer_hint_label: "Hint:"
