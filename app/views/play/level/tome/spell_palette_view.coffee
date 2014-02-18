@@ -42,15 +42,21 @@ module.exports = class SpellPaletteView extends View
   createPalette: ->
     lcs = @supermodel.getModels LevelComponent
     allDocs = {}
-    allDocs[doc.name] = doc for doc in (lc.get('propertyDocumentation') ? []) for lc in lcs
+    for lc in lcs
+      for doc in (lc.get('propertyDocumentation') ? [])
+        allDocs[doc.name] ?= []
+        allDocs[doc.name].push doc
+    #allDocs[doc.name] = doc for doc in (lc.get('propertyDocumentation') ? []) for lc in lcs
 
     props = _.sortBy @thang.programmableProperties ? []
     snippets = _.sortBy @thang.programmableSnippets ? []
     shortenize = props.length + snippets.length > 6
     tabbify = props.length + snippets.length >= 10
     @entries = []
-    @entries.push @addEntry(allDocs[prop] ? prop, shortenize, tabbify) for prop in props
-    @entries.push @addEntry(allDocs[prop] ? prop, shortenize, tabbify, true) for prop in snippets
+    for type, props of {props: props.slice(), snippets: snippets.slice()}
+      for prop in props
+        doc = allDocs[prop]?.shift() ? prop  # Add one doc per instance of the prop name (this is super gimp)
+        @entries.push @addEntry(doc, shortenize, tabbify, type is 'snippets')
     @entries = _.sortBy @entries, (entry) ->
       order = ['this', 'Math', 'Vector', 'snippets']
       index = order.indexOf entry.doc.owner

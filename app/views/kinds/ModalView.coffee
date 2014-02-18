@@ -5,7 +5,7 @@ module.exports = class ModalView extends CocoView
   closeButton: true
   closesOnClickOutside: true
   modalWidthPercent: null
-  
+
   shortcuts:
     'esc': 'hide'
 
@@ -28,10 +28,10 @@ module.exports = class ModalView extends CocoView
     super()
     if @modalWidthPercent
       @$el.find('.modal-dialog').css width: "#{@modalWidthPercent}%"
-    @$el.on 'hide.bs.modal', =>      
+    @$el.on 'hide.bs.modal', =>
       @onHidden() unless @hidden
       @hidden = true
-      
+
   afterInsert: ->
     super()
     # This makes sure if you press enter right after opening the players guide,
@@ -42,7 +42,12 @@ module.exports = class ModalView extends CocoView
     $el = @$el.find('.modal-body') unless $el
     super($el)
 
-  hide: ->    
+  hide: ->
     @$el.removeClass('fade').modal "hide"
 
-  onHidden: ->    
+  onHidden: ->
+
+  destroy: ->
+    @hide() unless @hidden
+    @$el.off 'hide.bs.modal'
+    super()
