@@ -65,13 +65,13 @@ module.exports = class HomeView extends View
       @turnOff = null
     @turnOff = setInterval turnOffFunc, 2000
 
-  createWizard: (scale=1.0) ->
+  createWizard: (scale=3.7) ->
     spriteOptions = thangID: "Beginner Wizard", resolutionFactor: scale
     @wizardSprite = new WizardSprite @wizardType, spriteOptions
     @wizardSprite.update()
     wizardDisplayObject = @wizardSprite.displayObject
-    wizardDisplayObject.x = 120
-    wizardDisplayObject.y = 35
+    wizardDisplayObject.x = 70
+    wizardDisplayObject.y = 120
     wizardDisplayObject.scaleX = wizardDisplayObject.scaleY = scale
     wizardDisplayObject.scaleX *= -1
     @stage.addChild wizardDisplayObject
