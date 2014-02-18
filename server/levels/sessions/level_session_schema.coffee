@@ -175,9 +175,6 @@ _.extend LevelSessionSchema.properties,
                 title: 'Opponent User ID'
                 description: 'The user ID of an opponent'
                 type: ['object','string']
-              codeSubmitDate: c.date
-                title: 'Submitted'
-                description: 'The date which the opponent submitted their session (used to check if the match can be replayed)'
               metrics:
                 type: 'object'
                 properties:
