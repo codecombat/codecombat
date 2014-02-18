@@ -8,11 +8,25 @@ block content
       a(href="/play/ladder/#{levelID}")= level.get('name')
     li.active= teamName
   
-  
+  p
+    | In this level, you play against everyone who has ever written strategies for the opposing forces.
+    | Choose from the suggested players on the right, playing as many and as long as you like,
+    | and when you're ready to test your grand strategy against the whole ladder, return and click the rank button.
+    
+  p
+    | After your first submission, your code will also continuously run against other players as they rank themselves.
       
   div#columns.row
     div#matches-column.col-md-6
-      h3 Ranked Games
+      h3.pull-left Ranked Games
+      button.btn.btn-warning.pull-right#rank-button
+        span.unavailable.hidden No New Code to Rank
+        span.rank.hidden Rank My Game!
+        span.ranking.hidden Submitting...
+        span.ranked.hidden Submitted for Ranking
+        span.failed.hidden Failed to Rank
+      
+      hr.clearfix(style="clear: both")
 
       if matches.length
         table.table.table-bordered.table-condensed

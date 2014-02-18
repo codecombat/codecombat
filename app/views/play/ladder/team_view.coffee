@@ -3,10 +3,13 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 
-module.exports = class LadderView extends RootView
+module.exports = class LadderTeamView extends RootView
   id: 'ladder-team-view'
   template: require 'templates/play/ladder/team'
   startsLoading: true
+  
+  events:
+    'click #rank-button': 'rankSession'
   
   # PART 1: Loading Level/Session
 
@@ -68,6 +71,7 @@ module.exports = class LadderView extends RootView
     ctx.teamName = _.string.titleize @team
     ctx.teamID = @team
     ctx.challengers = if not @startsLoading then @getChallengers() else {}
+    ctx.readyToRank = @readyToRank()
     
     convertMatch = (match) ->
       opponent = match.opponent[0]
@@ -83,9 +87,17 @@ module.exports = class LadderView extends RootView
       }
     
     ctx.matches = (convertMatch(match) for match in @session.get('matches') or [])
-    console.log 'context is', ctx
     ctx
-        
+    
+  afterRender: ->
+    super()
+    @setRankingButtonText(if @readyToRank() then 'rank' else 'unavailable')
+    
+  readyToRank: ->
+    c1 = @session.get('code')
+    c2 = @session.get('submittedCode')
+    c1 and not _.isEqual(c1, c2)
+
   getChallengers: ->
     # make an object of challengers to everything needed to link to them
     challengers = {}
@@ -108,6 +120,7 @@ module.exports = class LadderView extends RootView
     
   addChallenger: (info, challengers, title) ->
     # check for duplicates first
+    return unless info
     for key, value of challengers
       return if value.sessionID is info.sessionID
     challengers[title] = info
@@ -130,7 +143,26 @@ module.exports = class LadderView extends RootView
       opponentName: opponent.userName or 'Anoner'
       opponentID: opponent.userID
     }
+
+  rankSession: ->
+    return unless @readyToRank()
+    @setRankingButtonText('ranking')
     
+    success = => @setRankingButtonText('ranked')
+    failure = => @setRankingButtonText('failed')
+    
+    $.ajax '/queue/scoring', {
+      type: 'POST'
+      data: { session: @session.id }
+      success: success
+      failure: failure
+    }
+    
+  setRankingButtonText: (spanClass) ->
+    rankButton = $('#rank-button')
+    rankButton.find('span').addClass('hidden')
+    rankButton.find(".#{spanClass}").removeClass('hidden')
+    rankButton.toggleClass 'disabled', spanClass isnt 'rank'
 
 class ChallengersData
   constructor: (@level, @team, @session) ->
