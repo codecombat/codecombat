@@ -2,6 +2,8 @@ RootView = require 'views/kinds/RootView'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
+LeaderboardCollection  = require 'collections/LeaderboardCollection'
+{hslToHex} = require 'lib/utils'
 
 HIGHEST_SCORE = 1000000
 
@@ -12,17 +14,6 @@ class LevelSessionsCollection extends CocoCollection
   constructor: (levelID) ->
     super()
     @url = "/db/level/#{levelID}/all_sessions"
-    
-class LeaderboardCollection extends CocoCollection
-  url: ''
-  model: LevelSession
-  
-  constructor: (level, options) ->
-    super()
-    options ?= {}
-    @url = "/db/level/#{level.get('original')}.#{level.get('version').major}/leaderboard?#{$.param(options)}"
-    #@url = "/db/level/#{level.get('original')}/leaderboard?#{$.param(options)}"
-
 
 module.exports = class LadderView extends RootView
   id: 'ladder-view'
@@ -44,9 +35,9 @@ module.exports = class LadderView extends RootView
     alert "(do not push more than once pls)"
 
   
-  constructor: (options, levelID) ->
+  constructor: (options, @levelID) ->
     super(options)
-    @level = new Level(_id:levelID)
+    @level = new Level(_id:@levelID)
     @level.fetch()
     @level.once 'sync', @onLevelLoaded, @
     
@@ -69,6 +60,7 @@ module.exports = class LadderView extends RootView
       continue unless teamConfig.playable
       teams.push teamName
     @teams = teams
+    @teamConfigs = alliedSystem.config.teams
     
     @leaderboards = {}
     @challengers = {}
@@ -78,8 +70,6 @@ module.exports = class LadderView extends RootView
       console.log "Team session: #{JSON.stringify teamSession}"
       @leaderboards[team] = new LeaderboardData(@level, team, teamSession)
       @leaderboards[team].once 'sync', @onLeaderboardLoaded, @
-#      @challengers[team] = new ChallengersData(@level, team, teamSession)
-#      @challengers[team].once 'sync', @onChallengersLoaded, @
     
   onChallengersLoaded: -> @renderMaybe()
   onLeaderboardLoaded: -> @renderMaybe()
@@ -97,26 +87,24 @@ module.exports = class LadderView extends RootView
     ctx.description = if description then marked(description) else ''
     ctx.link = "/play/level/#{@level.get('name')}"
     ctx.teams = []
+    ctx.levelID = @levelID
     for team in @teams or []
       otherTeam = if team is 'ogres' then 'humans' else 'ogres'
+      color = @teamConfigs[team].color
+      bgColor = hslToHex([color.hue, color.saturation, color.lightness + (1 - color.lightness) * 0.5])
+      primaryColor = hslToHex([color.hue, 0.5, 0.5])
       ctx.teams.push({
         id: team
         name: _.string.titleize(team)
         leaderboard: @leaderboards[team]
         otherTeam: otherTeam
-#        easyChallenger: @challengers[team].easyPlayer.models[0]
-#        mediumChallenger: @challengers[team].mediumPlayer.models[0]
-#        hardChallenger: @challengers[team].hardPlayer.models[0]
+        bgColor: bgColor
+        primaryColor: primaryColor
       })
     ctx
     
-  afterRender: ->
-    super()
-    @$el.find('#leaderboard-column .nav a:first').tab('show')
-      
 class LeaderboardData
   constructor: (@level, @team, @session) ->
-    console.log 'creating leaderboard data', @level, @team, @session
     _.extend @, Backbone.Events
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: if @session then 10 else 20})
     @topPlayers.fetch()
@@ -139,10 +127,28 @@ class LeaderboardData
     if @session
       if @topPlayers.loaded # and @playersAbove.loaded and @playersBelow.loaded
         @loaded = true
-        @trigger 'sync'
+        @fetchNames()
     else
       @loaded = true
+      @fetchNames()
+      
+  fetchNames: ->
+    sessionCollections = [@topPlayers, @playersAbove, @playersBelow]
+    sessionCollections = (s for s in sessionCollections when s)
+    ids = []
+    for collection in sessionCollections
+      ids.push model.get('creator') for model in collection.models
+      
+    success = (nameMap) =>
+      for collection in sessionCollections
+        session.set('creatorName', nameMap[session.get('creator')]) for session in collection.models
       @trigger 'sync'
+    
+    $.ajax('/db/user/-/names', {
+      data: {ids: ids}
+      type: 'POST'
+      success: success
+    })
 
 class ChallengersData
   constructor: (@level, @team, @session) ->

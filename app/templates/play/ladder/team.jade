@@ -1,0 +1,83 @@
+extends /templates/base
+block content
+
+  ol.breadcrumb
+    li
+      a(href="/") Home
+    li
+      a(href="/play/ladder/#{levelID}")= level.get('name')
+    li.active= teamName
+  
+  
+      
+  div#columns.row
+    div#matches-column.col-md-6
+      h3 Ranked Games
+
+      if matches.length
+        table.table.table-bordered.table-condensed
+          for match in matches
+            tr
+              td.state-cell
+                if match.state === 'win'
+                  span.win Win
+                if match.state === 'loss'
+                  span.loss Loss
+                if match.state === 'tie'
+                  span.tie Tie
+              td.name-cell= match.opponentName
+              td.time-cell= match.when
+              td.battle-cell
+                a.button.btn(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{match.sessionID}") Battle!
+      
+      else
+        div.alert.alert-warning
+          | No ranked matches played yet!
+          | Play some competitors on the right and then come back to get your game ranked.
+      
+      // finish this once matches are available
+        
+    div#competitors-column.col-md-6
+      h3 Your Competitors
+
+      .well.text-muted
+        div.row
+          div.col-md-2
+            span.warmup Warmup
+            span : 
+          div.col-md-10
+            a(href="/play/level/#{levelID}?team=#{teamID}")
+              span.warmup Play vs Default
+
+      if challengers.easy
+        .well
+          div.row.text-info.bg-info
+            div.col-md-2
+              span.easy Easy
+              span : 
+            div.col-md-10
+              a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.easy.sessionID}")
+                span Play vs 
+                span= challengers.easy.opponentName
+            
+      if challengers.medium
+        .well
+          div.row.text-warning.bg-warning
+            div.col-md-2
+              span.medium Medium
+              span : 
+            div.col-md-10
+              a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.medium.sessionID}")
+                span Play vs 
+                span= challengers.medium.opponentName
+
+      if challengers.hard
+        .well
+          div.row.text-danger.bg-danger
+            div.col-md-2
+              span.hard Hard
+              span : 
+            div.col-md-10
+              a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.hard.sessionID}")
+                span Play vs 
+                span= challengers.hard.opponentName
