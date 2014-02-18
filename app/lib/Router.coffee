@@ -129,7 +129,7 @@ module.exports = class CocoRouter extends Backbone.Router
     view.render()
 
   closeCurrentView: ->
-    window.currentModal?.hide()
+    window.currentModal?.hide?()
     return unless window.currentView?
     if window.currentView.cache
       window.currentView.scrollY = window.scrollY

@@ -24,11 +24,14 @@ module.exports = class HUDView extends View
     'god:new-world-created': 'onNewWorld'
 
   events:
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': 'onClick'
 
   afterRender: ->
     super()
     @$el.addClass 'no-selection'
+
+  onClick: (e) ->
+    Backbone.Mediator.publish 'focus-editor' unless $(e.target).parents('.thang-props').length
 
   onFrameChanged: (e) ->
     @timeProgress = e.progress
@@ -129,7 +132,7 @@ module.exports = class HUDView extends View
   createProperties: ->
     props = @$el.find('.thang-props')
     props.find(":not(.thang-name)").remove()
-    props.find('.thang-name').text(if @thang.id is @thang.spriteName then @thang.id else "#{@thang.id} - #{@thang.spriteName}")
+    props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.spriteName}" else @thang.id)
     for prop in @thang.hudProperties ? []
       pel = @createPropElement prop
       continue unless pel?
@@ -333,8 +336,8 @@ module.exports = class HUDView extends View
     ael
 
   destroy: ->
-    super()
     @stage?.stopTalking()
     @addMoreMessage = null
     @animateEnterButton = null
     clearInterval(@messageInterval) if @messageInterval
+    super()

@@ -28,6 +28,21 @@ module.exports = class LadderView extends RootView
   id: 'ladder-view'
   template: require 'templates/play/ladder'
   startsLoading: true
+
+  events:
+    'click #simulate-button': 'onSimulateButtonClick'
+
+  onSimulateButtonClick: (e) ->
+    submitIDs = _.pluck @leaderboards[@teams[0]].topPlayers.models, "id"
+    for ID in submitIDs
+      $.ajax
+        url: '/queue/scoring'
+        method: 'POST'
+        data:
+          session: ID
+    alert "Simulating all games!"
+    alert "(do not push more than once pls)"
+
   
   constructor: (options, levelID) ->
     super(options)
@@ -83,10 +98,12 @@ module.exports = class LadderView extends RootView
     ctx.link = "/play/level/#{@level.get('name')}"
     ctx.teams = []
     for team in @teams or []
+      otherTeam = if team is 'ogres' then 'humans' else 'ogres'
       ctx.teams.push({
         id: team
         name: _.string.titleize(team)
         leaderboard: @leaderboards[team]
+        otherTeam: otherTeam
 #        easyChallenger: @challengers[team].easyPlayer.models[0]
 #        mediumChallenger: @challengers[team].mediumPlayer.models[0]
 #        hardChallenger: @challengers[team].hardPlayer.models[0]
@@ -103,6 +120,10 @@ class LeaderboardData
     _.extend @, Backbone.Events
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: if @session then 10 else 20})
     @topPlayers.fetch()
+    @topPlayers.comparator = (model) ->
+      return -model.get('totalScore')
+    @topPlayers.sort()
+
     @topPlayers.once 'sync', @leaderboardPartLoaded, @
     
 #    if @session

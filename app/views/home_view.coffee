@@ -2,10 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/home'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
-LevelLoader = require 'lib/LevelLoader'
-God = require 'lib/God'
-
-GoalManager = require 'lib/world/GoalManager'
+Simulator = require 'lib/simulator/Simulator'
 
 module.exports = class HomeView extends View
   id: 'home-view'
@@ -101,160 +98,9 @@ module.exports = class HomeView extends View
     @turnOnStageUpdates()
 
   destroy: ->
-    super()
     @wizardSprite?.destroy()
+    super()
 
   onSimulateButtonClick: (e) =>
-    @alreadyPostedResults = false
-    console.log "Simulating world!"
-    $.ajax
-      url: "/queue/scoring"
-      type: "GET"
-      error: (data) =>
-        console.log "There are no games to score. Error: #{JSON.stringify data}"
-        console.log "Retrying in ten seconds..."
-        _.delay @onSimulateButtonClick, 10000
-      success: (data) =>
-        console.log data
-        levelName = data.sessions[0].levelID
-        #TODO: Refactor. So much refactor.
-        @taskData = data
-        @teamSessionMap = @generateTeamSessionMap data
-        world = {}
-        god = new God()
-        levelLoader = new LevelLoader(levelName, @supermodel, data.sessions[0].sessionID)
-        levelLoader.once 'loaded-all', =>
-          world = levelLoader.world
-          level = levelLoader.level
-          levelLoader.destroy()
-          god.level = level.serialize @supermodel
-          god.worldClassMap = world.classMap
-          god.goalManager = new GoalManager(world)
-          #move goals in here
-          goalsToAdd = god.goalManager.world.scripts[0].noteChain[0].goals.add
-          god.goalManager.goals = goalsToAdd
-          god.goalManager.goalStates =
-            "destroy-humans":
-              keyFrame: 0
-              killed:
-                "Human Base": false
-              status: "incomplete"
-            "destroy-ogres":
-              keyFrame:0
-              killed:
-                "Ogre Base": false
-              status: "incomplete"
-          god.spells = @filterProgrammableComponents level.attributes.thangs, @generateSpellToSourceMap data.sessions
-          god.createWorld()
-
-          Backbone.Mediator.subscribe 'god:new-world-created', @onWorldCreated, @
-
-  onWorldCreated: (data) ->
-    return if @alreadyPostedResults
-    taskResults = @translateGoalStatesIntoTaskResults data.goalStates
-    console.log "Task Results"
-    console.log taskResults
-    $.ajax
-      url: "/queue/scoring"
-      data: taskResults
-      type: 'PUT'
-      success: (result) =>
-        console.log "TASK REGISTRATION RESULT:#{JSON.stringify result}"
-      error: (error) =>
-        console.log "TASK REGISTRATION ERROR:#{JSON.stringify error}"
-      complete: (result) =>
-        @alreadyPostedResults = true
-        @onSimulateButtonClick()
-
-
-  translateGoalStatesIntoTaskResults: (goalStates) =>
-    taskResults = {}
-    taskResults =
-      taskID: @taskData.taskID
-      receiptHandle: @taskData.receiptHandle
-      calculationTime: 500
-      sessions: []
-
-    for session in @taskData.sessions
-      sessionResult =
-        sessionID: session.sessionID
-        sessionChangedTime: session.sessionChangedTime
-        metrics:
-          rank: @calculateSessionRank session.sessionID, goalStates
-      taskResults.sessions.push sessionResult
-    taskResults
-
-  calculateSessionRank: (sessionID, goalStates) ->
-    humansDestroyed = goalStates["destroy-humans"].status is "success"
-    ogresDestroyed = goalStates["destroy-ogres"].status is "success"
-    console.log "Humans destroyed:#{humansDestroyed}"
-    console.log "Ogres destroyed:#{ogresDestroyed}"
-    console.log "Team Session Map: #{JSON.stringify @teamSessionMap}"
-    if humansDestroyed is ogresDestroyed
-      return 0
-    else if humansDestroyed and @teamSessionMap["ogres"] is sessionID
-      return 0
-    else if humansDestroyed and @teamSessionMap["ogres"] isnt sessionID
-      return 1
-    else if ogresDestroyed and @teamSessionMap["humans"] is sessionID
-      return 0
-    else
-      return 1
-
-
-  generateTeamSessionMap: (task) ->
-    teamSessionMap = {}
-    for session in @taskData.sessions
-      teamSessionMap[session.team] = session.sessionID
-    teamSessionMap
-
-
-
-  filterProgrammableComponents: (thangs, spellToSourceMap) =>
-    spells = {}
-    for thang in thangs
-      isTemplate = false
-      for component in thang.components
-        if component.config? and _.has component.config,'programmableMethods'
-          for methodName, method of component.config.programmableMethods
-            if typeof method is 'string'
-              isTemplate = true
-              break
-
-            pathComponents = [thang.id,methodName]
-            pathComponents[0] = _.string.slugify pathComponents[0]
-            spellKey = pathComponents.join '/'
-            spells[spellKey] ?= {}
-            spells[spellKey].thangs ?= {}
-            spells[spellKey].name = methodName
-            thangID = _.string.slugify thang.id
-            spells[spellKey].thangs[thang.id] ?= {}
-            spells[spellKey].thangs[thang.id].aether = @createAether methodName, method
-            if spellToSourceMap[thangID]? then source = spellToSourceMap[thangID][methodName] else source = ""
-            spells[spellKey].thangs[thang.id].aether.transpile source
-          if isTemplate
-            break
-
-    spells
-
-  createAether : (methodName, method) ->
-    aetherOptions =
-      functionName: methodName
-      protectAPI: false
-      includeFlow: false
-    return new Aether aetherOptions
-
-  generateSpellToSourceMap: (sessions) ->
-    spellKeyToSourceMap = {}
-    spellSources = {}
-    for session in sessions
-      teamSpells = session.teamSpells[session.team]
-      _.merge spellSources, _.pick(session.code, teamSpells)
-
-      #merge common ones, this overwrites until the last session
-      commonSpells = session.teamSpells["common"]
-      if commonSpells?
-        _.merge spellSources, _.pick(session.code, commonSpells)
-
-    spellSources
-
+    simulator = new Simulator()
+    simulator.fetchAndSimulateTask()

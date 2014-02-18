@@ -46,11 +46,11 @@ module.exports = class GoalsView extends View
       li.prepend($('<i></i>').addClass(stateIconMap[state.status]))
       list.append(li)
       goals.push goal
-    @$el.toggle goals.length > 0
+    @$el.removeClass('secret') if goals.length > 0
 
   render: ->
     super()
-    @$el.addClass('hide').addClass('expanded')
+    @$el.addClass('secret').addClass('expanded')
 
   onSetLetterbox: (e) ->
     @$el.toggle not e.on

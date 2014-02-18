@@ -61,10 +61,10 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     return unless found
     doc.owner = 'this'
     doc.shortName = doc.shorterName = doc.title = "this.#{doc.name}();"
-    @$el.popover(
+    @$el.find('code').popover(
       animation: true
       html: true
-      placement: 'bottom'
+      placement: 'left'
       trigger: 'hover'
       content: @formatPopover doc
       container: @$el.parent()
@@ -126,4 +126,5 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   destroy: ->
     @avatar?.destroy()
+    @$el.find('code').popover 'destroy'
     super()

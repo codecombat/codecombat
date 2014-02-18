@@ -36,13 +36,15 @@ module.exports = class CocoView extends Backbone.View
     super options
 
   destroy: ->
-    @destroyed = true
     @stopListening()
     @stopListeningToShortcuts()
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
     @modalClosed = null
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    @[key] = undefined for key, value of @
+    @destroyed = true
+    @destroy = ->
 
   afterInsert: ->
 
@@ -142,12 +144,14 @@ module.exports = class CocoView extends Backbone.View
   # Loading ModalViews
 
   enableModalInProgress: (modal) ->
-    $('> div', modal).hide()
-    $('.wait', modal).show()
+    el = modal.find('.modal-content')
+    el.find('> div', modal).hide()
+    el.find('.wait', modal).show()
 
   disableModalInProgress: (modal) ->
-    $('> div', modal).show()
-    $('.wait', modal).hide()
+    el = modal.find('.modal-content')
+    el.find('> div', modal).show()
+    el.find('.wait', modal).hide()
 
   # Subscriptions
 

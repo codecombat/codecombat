@@ -19,9 +19,9 @@ module.exports = class Mark extends CocoClass
 
   destroy: ->
     @mark?.parent?.removeChild @mark
-    super()
     @markSprite?.destroy()
     @sprite = null
+    super()
 
   toString: -> "<Mark #{@name}: Sprite #{@sprite?.thang?.id ? 'None'}>"
 

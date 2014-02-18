@@ -50,5 +50,6 @@ module.exports = class MusicPlayer extends CocoClass
     @currentMusic.volume = if me.get('music') then 1.0 else 0.0
 
   destroy: ->
-    super()
     me.off 'change:music', @onMusicSettingChanged, @
+    super()
+    

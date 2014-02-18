@@ -77,17 +77,17 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @buildFromSpriteSheet @buildSpriteSheet()
 
   destroy: ->
-    super()
     mark.destroy() for name, mark of @marks
     label.destroy() for name, label of @labels
     @imageObject?.off 'animationend', @playNextAction
     @playNextAction = null
     @displayObject?.off()
+    super()
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
 
   buildSpriteSheet: ->
-    options = @thang?.getSpriteOptions?() or @options
+    options = _.extend @options, @thang?.getSpriteOptions?() ? {}
     options.colorConfig = @options.colorConfig if @options.colorConfig
     options.async = false
     @thangType.getSpriteSheet options
@@ -140,8 +140,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @show()
     return @updateActionDirection() unless action.animation or action.container
     m = if action.container then "gotoAndStop" else "gotoAndPlay"
-    @imageObject[m] action.name
     @imageObject.framerate = action.framerate or 20
+    @imageObject[m] action.name
     reg = @getOffset 'registration'
     @imageObject.regX = -reg.x
     @imageObject.regY = -reg.y

@@ -76,14 +76,6 @@ module.exports = class VictoryModal extends View
       # Show the "I'm done" button if they get to the end, unless it's been over two hours
       tooMuch = elapsed >= 120 * 60 * 1000
       c.showHourOfCodeDoneButton = not c.hasNextLevel and not tooMuch
-
-    if c.hasNextLevel and me.lang().split('-')[0] is 'en'
-      # A/B test "Unlock Next Level" vs. "Play Next Level"
-      unlock = Boolean(me.get('testGroupNumber') & 2)  # 2, 3, 6, 7, 10, 11, ...
-      text = if unlock then "Unlock Next Level" else "Play Next Level"
-      window.tracker?.trackEvent 'Next Level Text', text: text
-      window.tracker?.identify {nextLevelText: text}
-      c.nextLevelText = text
     c
 
   afterRender: ->
@@ -100,8 +92,9 @@ module.exports = class VictoryModal extends View
     Backbone.Mediator.publish 'level:victory-hidden'
 
   destroy: ->
-    super()
     @saveReview() if @$el.find('.review textarea').val()
+    @feedback.off()
+    super()
 
   # rating, review
 

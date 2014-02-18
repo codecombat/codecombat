@@ -180,13 +180,14 @@ module.exports = class ThangType extends CocoModel
     pt = @actions.portrait?.positions?.registration
     sprite.regX = pt?.x or 0
     sprite.regY = pt?.y or 0
+    sprite.framerate = @actions.portrait?.framerate ? 20
     sprite.gotoAndStop 'portrait'
     stage.addChild(sprite)
     stage.update()
     stage.startTalking = ->
       sprite.gotoAndPlay 'portrait'
       return if @tick
-      @tick = => @update()
+      @tick = (e) => @update(e)
       createjs.Ticker.addEventListener 'tick', @tick
     stage.stopTalking = ->
       sprite.gotoAndStop 'portrait'

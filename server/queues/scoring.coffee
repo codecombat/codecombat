@@ -29,6 +29,7 @@ throwScoringQueueRegistrationError = (error) ->
   throw new Error  "There was an error registering the scoring queue."
 
 module.exports.createNewTask = (req, res) ->
+  return errors.forbidden res, "You need to be logged in to be added to the leaderboard" if isUserAnonymous req
   return errors.badInput res, "The session ID is invalid" unless typeof req.body.session is "string"
   LevelSession.findOne { "_id": req.body.session}, (err, sessionToScore) ->
     return errors.serverError res, "There was an error finding the given session." if err?
@@ -87,7 +88,7 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
 getUserIDFromRequest = (req) -> if req.user? then return req.user._id else return null
 
 
-isUserAnonymous = (req) -> if req.user? then return req.user.anonymous else return true
+isUserAnonymous = (req) -> if req.user? then return req.user.get('anonymous') else return true
 
 
 parseTaskQueueMessage = (req, res, message) ->
@@ -173,7 +174,7 @@ module.exports.processTaskResult = (req, res) ->
           if loggingError?
             return errors.serverError res, "There as a problem logging the task computation: #{loggingError}"
 
-          updateScores clientResponseObject, (updatingScoresError, newScores) ->
+          updateSessions clientResponseObject, (updatingScoresError, newScores) ->
             if updatingScoresError?
               return errors.serverError res, "There was an error updating the scores.#{updatingScoresError}"
 
@@ -203,10 +204,10 @@ logTaskComputation = (taskObject,taskLogObject, callback) ->
   taskLogObject.save callback
 
 
-updateScores = (taskObject,callback) ->
+updateSessions = (taskObject,callback) ->
   sessionIDs = _.pluck taskObject.sessions, 'sessionID'
 
-  async.map sessionIDs, retrieveOldScoreMetrics, (err, oldScores) ->
+  async.map sessionIDs, retrieveOldSessionData, (err, oldScores) ->
     callback err, {"error": "There was an error retrieving the old scores"} if err?
 
     oldScoreArray = _.toArray putRankingFromMetricsIntoScoreObject taskObject, oldScores
@@ -227,6 +228,7 @@ updateScoreInSession = (scoreObject,callback) ->
 
   LevelSession.findOne sessionObjectQuery, (err, session) ->
     return callback err, null if err?
+    session = session.toObject()
     updateObject =
       meanStrength: scoreObject.meanStrength
       standardDeviation: scoreObject.standardDeviation
@@ -243,13 +245,14 @@ putRankingFromMetricsIntoScoreObject = (taskObject,scoreObject) ->
 
   scoreObject
 
-retrieveOldScoreMetrics = (sessionID, callback) ->
+retrieveOldSessionData = (sessionID, callback) ->
   sessionQuery =
     "_id":sessionID
 
   LevelSession.findOne sessionQuery, (err, session) ->
     return callback err, {"error":"There was an error retrieving the session."} if err?
 
+    session = session.toObject()
     defaultScore = (25 - 1.8*(25/3))
     defaultStandardDeviation = 25/3
 

@@ -19,4 +19,8 @@ class LevelSessionHandler extends Handler
       documents = (@formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
 
+  hasAccessToDocument: (req, document, method=null) ->
+    return true if req.method is 'GET' and document.get('totalScore')
+    super(arguments...)
+
 module.exports = new LevelSessionHandler()

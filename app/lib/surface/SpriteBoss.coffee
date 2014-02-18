@@ -35,10 +35,10 @@ module.exports = class SpriteBoss extends CocoClass
     @spriteSheetCache = {}
 
   destroy: ->
-    super()
     @removeSprite sprite for thangID, sprite of @sprites
     @targetMark?.destroy()
     @selectionMark?.destroy()
+    super()
 
   toString: -> "<SpriteBoss: #{@sprites.length} sprites>"
 
@@ -137,15 +137,17 @@ module.exports = class SpriteBoss extends CocoClass
   addThangToSprites: (thang, layer=null) ->
     return console.warn 'Tried to add Thang to the surface it already has:', thang.id if @sprites[thang.id]
     thangType = _.find @options.thangTypes, (m) -> m.get('name') is thang.spriteName
-    sprite = new CocoSprite thangType, @createSpriteOptions thang: thang
+    options = @createSpriteOptions thang: thang
+    options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else 4
+    sprite = new CocoSprite thangType, options
     @addSprite sprite, null, layer
     sprite.setDebug @debug
     sprite
 
   removeSprite: (sprite) ->
     sprite.displayObject.parent.removeChild sprite.displayObject
-    sprite.destroy()
     delete @sprites[sprite.thang.id]
+    sprite.destroy()
 
   updateSounds: ->
     sprite.playSounds() for thangID, sprite of @sprites  # hmm; doesn't work for sprites which we didn't add yet in adjustSpriteExistence
@@ -252,10 +254,12 @@ module.exports = class SpriteBoss extends CocoClass
   # Marks
 
   updateSelection: ->
-    if @selectedSprite and (not @selectedSprite.thang.exists or not @world.getThangByID @selectedSprite.thang.id)
+    if @selectedSprite?.thang and (not @selectedSprite.thang.exists or not @world.getThangByID @selectedSprite.thang.id)
       @selectSprite null, null, null
+      @selectionMark?.toggle false
     @updateTarget()
     return unless @selectionMark
+    @selectedSprite = null unless @selectedSprite?.thang
     @selectionMark.toggle @selectedSprite?
     @selectionMark.setSprite @selectedSprite
     @selectionMark.update()

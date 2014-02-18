@@ -104,6 +104,14 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
   wizard_settings:
     title: "Configurações do Feiticeiro"
     customize_avatar: "Personalize o seu Avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Configurações da Conta"
@@ -245,7 +253,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 
   general:
     and: "e"
-    or: "ou"
     name: "Nome"
     body: "Principal"
     version: "Versão"
@@ -253,6 +260,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     version_history_for: "Histórico de Versão para: "
     results: "Resultados"
     description: "Descrição"
+    or: "ou"
     email: "Email"
     message: "Mensagem"
 
@@ -277,7 +285,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     nick_description: "Mago da programação, feiticeiro da motivação excêntrica e experimentador doido. Nick pode fazer qualquer coisa e escolheu desenvolver o CodeCombat."
     jeremy_description: "Mago em suporte ao consumidor, testador de usabilidade, e organizador da comunidade; você provavelmente já falou com o Jeremy."
     michael_description: "Programador, administrador de sistemas, e um técnico prodígio não graduado, Michael é a pessoa que mantém os servidores funcionando."
-
 
   legal:
     page_title: "Jurídico"
@@ -353,6 +360,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     alert_account_message_pref: "Para se inscrever para os emails de classe, você vai precisar, "
     alert_account_message_suf: "primeiro."
     alert_account_message_create_url: "criar uma conta"
+#    archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
     archmage_introduction: "Uma das melhores partes sobre a construção de jogos é que eles sintetizam diversas coisas diferentes. Gráficos, som, interação em tempo real, redes sociais, e, claro, muitos dos aspectos mais comuns da programação, desde a gestão em baixo nível de banco de dados, e administração do servidor até interação com o usuário e desenvolvimento da interface. Há muito a fazer, e se você é um programador experiente com um desejo ardente de realmente mergulhar no âmago da questão do CodeCombat, esta classe pode ser para você. Nós gostaríamos de ter sua ajuda para construir o melhor jogo de programação de todos os tempos."
     class_attributes: "Atributos da Classe"
     archmage_attribute_1_pref: "Conhecimento em "
@@ -367,6 +375,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     join_url_hipchat: "Sala de bate-papo pública no HipChat"
     more_about_archmage: "Saiba Mais Sobre Como Se Tornar Um Poderoso Arquimago"
     archmage_subscribe_desc: "Receba email sobre novas oportunidades para codificar e anúncios."
+#    artisan_summary_pref: "Want to design levels and expand CodeCombat's arsenal? People are playing through our content at a pace faster than we can build! Right now, our level editor is barebone, so be wary. Making levels will be a little challenging and buggy. If you have visions of campaigns spanning for-loops to"
+#    artisan_summary_suf: "then this class is for you."
     artisan_introduction_pref: "Nós devemos contruir níveis adicionais! Pessoas estão clamando por mais conteúdo, e só podemos contruir tantos de nós mesmos. Agora sua estação de trabalho é o nível um; nosso Editor de Níveis é pouco utilizável até mesmo para seus criadores, então fique esperto. Se você tem visões de campanhas abrangendo for-loops para"
     artisan_introduction_suf: "para, em seguida, esta classe pode ser para você."
     artisan_attribute_1: "Qualquer experiência em construir conteúdo como esse seria legal, como usando os editores de nível da Blizzard. Mas não é obrigatório!"
@@ -379,6 +389,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     artisan_join_step4: "Publique seus níveis no fórum para avaliação."
     more_about_artisan: "Saiba Mais Sobre Como Se Tornar Um Artesão Criativo"
     artisan_subscribe_desc: "Receba emails com novidades sobre o editor de níveis e anúncios."
+#    adventurer_sumamry: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
     adventurer_introduction: "Vamos ser claros sobre o seu papel: você é o tanque. Você vai tomar dano pesado. Precisamos de pessoas para experimentar níveis inéditos e ajudar a identificar como fazer as coisas melhorarem. A dor será enorme, fazer bons jogos é um processo longo e ninguém acerta na primeira vez. Se você pode suportar e ter uma alta pontuação de constituição, então esta classe pode ser para você."
     adventurer_attribute_1: "Sede de aprendizado. Você quer aprender a codificar e nós queremos ensiná-lo a codificar. Você provavelmente vai fazer a maior parte do ensino neste caso."
     adventurer_attribute_2: "Carismático. Seja gentil, mas articulado sobre o que precisa melhorar, e ofereça sugestões sobre como melhorar."
@@ -387,6 +398,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     adventurer_join_suf: "então se você prefere ser notificado dessas formas, inscreva-se lá!"
     more_about_adventurer: "Saiba Mais Sobre Como Se Tornar Um Valente Aventureiro"
     adventurer_subscribe_desc: "Receba emails quando houver novos níveis para testar."
+#    scribe_summary_pref: "CodeCombat is not just going to be a bunch of levels. It will also be a resource of programming knowledge that players can hook into. That way, each Artisan can link to a detailed article that for the player's edification: documentation akin to what the "
+#    scribe_summary_sufx: " has built. If you enjoy explaining programming concepts, then this class is for you."
     scribe_introduction_pref: "O CodeCombat não será apenas um monte de níveis. Ele também irá incluir uma fonte de conhecimento, um wiki de conceitos de programação que os níveis podem se basear. Dessa forma, em vez de cada Artesão ter que descrever em detalhes o que é um operador de comparação, eles podem simplesmente criar um link para o artigo que o descreve. Algo na linha do que a "
     scribe_introduction_url_mozilla: "Mozilla Developer Network"
     scribe_introduction_suf: " construiu. Se a sua idéia de diversão é articular os conceitos de programação em Markdown, então esta classe pode ser para você."
@@ -395,6 +408,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     scribe_join_description: "conte-nos um pouco sobre você, sua experiência com programação e que tipo de coisas você gostaria de escrever sobre. Nós começaremos a partir disso!"
     more_about_scribe: "Saiba Mais Sobre Como Se Tornar Um Escriba Aplicado"
     scribe_subscribe_desc: "Receba email sobre anúncios de escrita de artigos."
+#    diplomat_summary: "There is a large interest in CodeCombat in other countries that do not speak English! We are looking for translators who are willing to spend their time translating the site's corpus of words so that CodeCombat is accessible across the world as soon as possible. If you'd like to help getting CodeCombat international, then this class is for you."
     diplomat_introduction_pref: "Então, se há uma coisa que aprendemos com o  "
     diplomat_launch_url: "lançamento em Outubro"
     diplomat_introduction_suf: "é que há um interesse considerável no CodeCombat em outros países, especialmente no Brasil! Estamos construindo um corpo de tradutores ansiosos para transformar um conjunto de palavras em outro conjunto de palavras para tornar o CodeCombat tão acessível em todo o mundo quanto for possível. Se você gosta de obter cenas inéditas do próximo conteúdo e obter esses níveis para os seus compatriotas o mais rápido possível, então esta classe pode ser para você."
@@ -404,6 +418,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     diplomat_join_suf: "então confira a publicação e comece a adicionar coisas para o seu idioma. Além disso, marque a caixa abaixo para se manter atualizado sobre os novos desenvolvimentos da internacionalização!"
     more_about_diplomat: "Saiba Mais Sobre Como Se Tornar Um Ótimo Diplomata"
     diplomat_subscribe_desc: "Receba emails sobre o desenvolvimento da i18n e níveis para traduzir."
+#    ambassador_summary: "We are trying to build a community, and every community needs a support team when there are troubles. We have got chats, emails, and social networks so that our users can get acquainted with the game. If you want to help people get involved, have fun, and learn some programming, then this class is for you."
     ambassador_introduction: "Esta é uma comunidade que estamos construindo, e vocês são as conexões. Temos chats Olark, emails e redes sociais com muitas pessoas para conversar e ajudar a se familiarizar com o jogo e aprender. Se você quer ajudar as pessoas a se envolver e se divertir, e ter uma boa noção da pulsação do CodeCombat e para onde estamos indo em seguida, esta classe pode ser para você."
     ambassador_attribute_1: "Habilidades de comunicação. Ser capaz de identificar os problemas que os jogadores estão tendo e ajudar a resolvê-los, Além disso, manter o resto de nós informados sobre o que os jogadores estão dizendo, o que gostam e não gostam e do que querem mais!"
     ambassador_join_desc: "conte-nos um pouco sobre você, o que você fez e o que você estaria interessado em fazer. Nós começaremos a partir disso!"
@@ -411,6 +426,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     ambassador_join_note_desc: "Uma das nossas principais prioridades é a construção de um multiplayer onde os jogadores que estão com dificuldade para resolver um nível podem invocar feitiçeiros com nível mais alto para ajudá-los. Esta será uma ótima maneira para os embaixadores fazerem suas tarefas. Vamos mantê-lo informado!"
     more_about_ambassador: "Saiba Mais Sobre Como Se Tornar Um Embaixador Prestativo"
     ambassador_subscribe_desc: "Receba emails sobre atualização do suporte e desenvolvimento do multiplayer."
+#    counselor_summary: "None of the above roles fit what you are interested in? Do not worry, we are on the lookout for anybody who wants a hand in the development of CodeCombat! If you are interested in teaching, game development, open source management, or anything else that you think will be relevant to us, then this class is for you."
     counselor_introduction_1: "Você tem experiência de vida? Uma perspectiva diferente sobre as coisas podem nos ajudar a decidir como moldar o CodeCombat? De todos os papéis, este provavelmente vai demorar menos tempo, mas individualmente você pode fazer mais diferença. Estamos à procura de sábios, particularmente em áreas como: ensino, desenvolvimento de jogos, gerenciamente de projetos de código aberto, recrutamento técnico, empreendedorismo ou design."
     counselor_introduction_2: "Ou realmente tudo o que é relevante para o desenvolvimento do CodeCombat. Se você tem conhecimento e quer compartilhá-lo para ajudar este projeto a crescer, esta classe pode ser para você."
     counselor_attribute_1: "Experiência, em qualquer uma das áreas acima ou alguma coisa que você pense ser útil."
