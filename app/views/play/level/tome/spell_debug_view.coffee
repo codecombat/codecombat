@@ -54,7 +54,9 @@ module.exports = class DebugView extends View
         chain.unshift token.value
     if token and (token.value of @variableStates or token.value is "this")
       @variableChain = chain
-      @pos = {left: e.domEvent.offsetX + 50, top: e.domEvent.offsetY + 50}
+      offsetX = e.domEvent.offsetX ? e.clientX - $(e.domEvent.target).offset().left
+      offsetY = e.domEvent.offsetY ? e.clientY - $(e.domEvent.target).offset().top
+      @pos = {left: offsetX + 50, top: offsetY + 50}
       @markerRange = new Range pos.row, start, pos.row, end
     else
       @variableChain = @markerRange = null

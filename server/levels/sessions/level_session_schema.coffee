@@ -100,8 +100,8 @@ _.extend LevelSessionSchema.properties,
                   type: 'object'
                 source:
                   type: 'string'
-  
-  # TODO: specify this more
+
+# TODO: specify this more
   code:
     type: 'object'
 
@@ -133,6 +133,60 @@ _.extend LevelSessionSchema.properties,
     type: 'boolean'
     default: false
     index:true
+
+  submitDate:
+    type: c.date
+      title: 'Submitted'
+
+  submittedCode:
+    type: 'object'
+
+  matches:
+    type: 'array'
+    title: 'Matches'
+    description: 'All of the matches a submitted session has played in its current state.'
+    items:
+      type: 'object'
+      properties:
+        date: c.date
+          title: 'Date computed'
+          description: 'The date a match was computed.'
+        metrics:
+          type: 'object'
+          title: 'Metrics'
+          description: 'Various information about the outcome of a match.'
+          properties:
+            rank:
+              title: 'Rank'
+              description: 'A 0-indexed ranking representing the player\'s standing in the outcome of a match'
+              type: 'number'
+        opponents:
+          type: 'array'
+          title: 'Opponents'
+          description: 'An array containing information about the opponents\' sessions in a given match.'
+          items:
+            type: 'object'
+            properties:
+              sessionID:
+                title: 'Opponent Session ID'
+                description: 'The session ID of an opponent.'
+                type: ['object', 'string']
+              userID:
+                title: 'Opponent User ID'
+                description: 'The user ID of an opponent'
+                type: ['object','string']
+              metrics:
+                type: 'object'
+                properties:
+                  rank:
+                    title: 'Opponent Rank'
+                    description: 'The opponent\'s ranking in a given match'
+                    type: 'number'
+
+
+
+
+
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
 c.extendPermissionsProperties LevelSessionSchema, 'level.session'

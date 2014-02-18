@@ -26,12 +26,16 @@ exports.config =
         )///
         'javascripts/app.js': /^app/
         'javascripts/vendor.js': ///^(
-          vendor[\/\\](?!(scripts[\/\\]Box2d|scripts[\/\\]box2d))
+          vendor[\/\\](?!scripts[\/\\]Box2d)
           |bower_components
         )///
         'javascripts/vendor_with_box2d.js': ///^(
-          vendor[\/\\](?!scripts[\/\\]box2d)
+          vendor[\/\\]
           |bower_components  # include box2dweb for profiling (and for IE9...)
+        )///
+        'javascripts/tome_aether.js': ///^(
+          (bower_components[\/\\]lodash[\/\\]dist[\/\\]lodash.js)
+          |(bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
         )///
         'test/javascripts/test.js': /^test[\/\\](?!vendor)/
         'test/javascripts/test-vendor.js': /^test[\/\\](?=vendor)/

@@ -104,6 +104,14 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 #  wizard_settings:
 #    title: "Wizard Settings"
 #    customize_avatar: "Customize Your Avatar"
+#    clothes: "Clothes"
+#    trim: "Trim"
+#    cloud: "Cloud"
+#    spell: "Spell"
+#    boots: "Boots"
+#    hue: "Hue"
+#    saturation: "Saturation"
+#    lightness: "Lightness"
 
   account_settings:
     title: "Impostazioni account"
@@ -202,6 +210,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     av_other_debug_base_url: "Base (for debugging base.jade)"
     u_title: "Lista utenti"
     lg_title: "Ultime partite"
+
   editor:
     main_title: "Editor di CodeCombat"
     main_description: "Costruisci i tuoi livelli, le tue campagne, unità e contenuti educativi. Ti forniamo tutti gli attrezzi necessari!"
@@ -244,7 +253,6 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 
   general:
     and: "e"
-    or: "o"
     name: "Nome"
     body: "Testo"
     version: "Versione"
@@ -252,6 +260,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 #    version_history_for: "Version History for: "
     results: "Risultati"
     description: "Descrizione"
+    or: "o"
     email: "Email"
     message: "Messaggio"
 
@@ -313,7 +322,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     mit_license_url: "licenza MIT"
     code_description_suffix: "Ciò comprende tutto il codice in Sistemi e Componenti che è reso disponibile da CodeCombat allo scopo di creare nuovi livelli."
     art_title: "Grafica/musica - Creative Commons"
-    art_description_prefix: "Tutti i contenuti comuni sono resi disponibili con la" 
+    art_description_prefix: "Tutti i contenuti comuni sono resi disponibili con la"
     cc_license_url: "Creative Commons Attribution 4.0 International License"
     art_description_suffix: "I contenuti comuni sono quelli resi disponibili da CodeCombat allo scopo di creare livelli. Ciò include:"
     art_music: "Musica"
@@ -325,7 +334,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     art_paragraph_1: "Per l'attribuzione dei diritti, cita codecombat.com e metti un link nelle vicinanze della risorsa usata o dove è appropriato per l'oggetto in questione."
     use_list_1: "Se usato in un video o in un altro gioco, inserire codecombat.com nei crediti."
     use_list_2: "Se usato in un sito, inserire un link vicino alla risorsa; ad esempio sotto un'immagine, oppure in una apposita pagina di crediti dove potresti anche menzionare altri lavori CC e programmi OS usati nel sito. Se qualcosa fa già chiaro riferimento a CodeCombat, ad esempio un testo di blog che cita CodeCombat, non è necessario attribuire i crediti separatamente."
-#    art_paragraph_2: "Se il contenuto utilizzato non è stato creato da CodeCombat ma da un utente di codecombat.com, attribuiscilo a lui e segui le indicazioni dei crediti contenute nella descrizione di quella risorsa (se ci sono)."
+    art_paragraph_2: "Se il contenuto utilizzato non è stato creato da CodeCombat ma da un utente di codecombat.com, attribuiscilo a lui e segui le indicazioni dei crediti contenute nella descrizione di quella risorsa (se ci sono)."
     rights_title: "Diritti riservati"
     rights_desc: "Per i livelli stessi, tutti i diritti sono riservati. Ciò comprende"
     rights_scripts: "Script"
@@ -337,7 +346,6 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     nutshell_title: "In poche parole"
     nutshell_description: "Qualsiasi risorsa che inseriamo nell'Editor livelli è di libero uso per la creazione dei livelli. Ci riserviamo però il diritto di limitare la distribuzione dei livelli stessi (creati su codecombat.com) che quindi potranno essere a pagamento in futuro, se questo è ciò che finirà per succedere."
     canonical: "La versione inglese di questo documento è quella che fa fede. Se ci sono discrepanze tra le traduzioni, la versione inglese ha la precedenza."
-
 
   contribute:
     page_title: "Contribuire"
@@ -352,6 +360,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 #    alert_account_message_pref: "To subscribe for class emails, you'll need to "
 #    alert_account_message_suf: "first."
 #    alert_account_message_create_url: "create an account"
+#    archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
 #    class_attributes: "Class Attributes"
 #    archmage_attribute_1_pref: "Knowledge in "
@@ -366,8 +375,10 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 #    join_url_hipchat: "public HipChat room"
     more_about_archmage: "Leggi di più su cosa vuol dire diventare un potente Arcimago"
 #    archmage_subscribe_desc: "Get emails on new coding opportunities and announcements."
+#    artisan_summary_pref: "Want to design levels and expand CodeCombat's arsenal? People are playing through our content at a pace faster than we can build! Right now, our level editor is barebone, so be wary. Making levels will be a little challenging and buggy. If you have visions of campaigns spanning for-loops to"
+#    artisan_summary_suf: "then this class is for you."
 #    artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
-#    artisan_introduction_suf: "to then this class might be for you."
+#    artisan_introduction_suf: "then this class might be for you."
 #    artisan_attribute_1: "Any experience in building content like this would be nice, such as using Blizzard's level editors. But not required!"
 #    artisan_attribute_2: "A hankering to do a whole lot of testing and iteration. To make good levels, you need to take it to others and watch them play it, and be prepared to find a lot of things to fix."
 #    artisan_attribute_3: "For the time being, endurance en par with an Adventurer. Our Level Editor is super preliminary and frustrating to use. You have been warned!"
@@ -378,6 +389,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 #    artisan_join_step4: "Post your levels on the forum for feedback."
     more_about_artisan: "Leggi di più su cosa vuol dire diventare un creativo Artigiano"
 #    artisan_subscribe_desc: "Get emails on level editor updates and announcements."
+#    adventurer_sumamry: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
 #    adventurer_introduction: "Let's be clear about your role: you are the tank. You're going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class might be for you."
 #    adventurer_attribute_1: "A thirst for learning. You want to learn how to code and we want to teach you how to code. You'll probably be doing most of the teaching in this case, though."
 #    adventurer_attribute_2: "Charismatic. Be gentle but articulate about what needs improving, and offer suggestions on how to improve."
@@ -386,6 +398,8 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 #    adventurer_join_suf: "so if you prefer to be notified those ways, sign up there!"
     more_about_adventurer: "Leggi di più su cosa vuol dire diventare un coraggioso Avventuriero"
 #    adventurer_subscribe_desc: "Get emails when there are new levels to test."
+#    scribe_summary_pref: "CodeCombat is not just going to be a bunch of levels. It will also be a resource of programming knowledge that players can hook into. That way, each Artisan can link to a detailed article that for the player's edification: documentation akin to what the "
+#    scribe_summary_sufx: " has built. If you enjoy explaining programming concepts, then this class is for you."
 #    scribe_introduction_pref: "CodeCombat isn't just going to be a bunch of levels. It will also include a resource for knowledge, a wiki of programming concepts that levels can hook into. That way rather than each Artisan having to describe in detail what a comparison operator is, they can simply link their level to the Article describing them that is already written for the player's edification. Something along the lines of what the "
     scribe_introduction_url_mozilla: "Rete di sviluppo di Mozilla"
 #    scribe_introduction_suf: " has built. If your idea of fun is articulating the concepts of programming in Markdown form, then this class might be for you."
@@ -394,6 +408,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 #    scribe_join_description: "tell us a little about yourself, your experience with programming and what sort of things you'd like to write about. We'll go from there!"
     more_about_scribe: "Leggi di più su cosa vuol dire diventare un diligente Scrivano"
 #    scribe_subscribe_desc: "Get emails about article writing announcements."
+#    diplomat_summary: "There is a large interest in CodeCombat in other countries that do not speak English! We are looking for translators who are willing to spend their time translating the site's corpus of words so that CodeCombat is accessible across the world as soon as possible. If you'd like to help getting CodeCombat international, then this class is for you."
     diplomat_introduction_pref: "Se c'è una cosa che abbiamo imparato dal "
     diplomat_launch_url: "lancio di ottobre"
     diplomat_introduction_suf: "è che c'è un notevole interesse per CodeCombat negli altri paesi, in particolare in Brasile! Stiamo costruendo un corpo di traduttori per trasformare liste di parole in altre parole, per rendere CodeCombat accessibile il più possibile in tutto il mondo. Se ti piace l'idea di sbirciare nei contenuti futuri e di portare questi livelli ai tuoi connazionali il più presto possibile, questa categoria potrebbe essere la tua."
@@ -403,6 +418,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     diplomat_join_suf: "leggilo e aggiungi dettagli per la tua lingua. Segna anche la casella qui sotto per seguire gli aggiornamenti sullo sviluppo i18n!"
     more_about_diplomat: "Leggi di più su cosa vuol dire diventare un grande Diplomatico"
     diplomat_subscribe_desc: "Ricevi messaggi email sullo sviluppo i18n e i livelli da tradurre."
+#    ambassador_summary: "We are trying to build a community, and every community needs a support team when there are troubles. We have got chats, emails, and social networks so that our users can get acquainted with the game. If you want to help people get involved, have fun, and learn some programming, then this class is for you."
     ambassador_introduction: "Stiamo costruendo questa comunità, e voi siete i collegamenti. Abbiamo chat Olark, email e reti sociali con tanta gente con cui parlare ed aiutare a familiarizzare con il gioco, e da cui imparare. Se vuoi aiutare le persone a farsi coinvolgere e a divertirsi; se sei entrato nello spirito di CodeCombat e di dove stiamo andando, questa categoria può essere per te."
 #    ambassador_attribute_1: "Communication skills. Be able to identify the problems players are having and help them solve them. Also, keep the rest of us informed about what players are saying, what they like and don't like and want more of!"
 #    ambassador_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll go from there!"
@@ -410,6 +426,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 #    ambassador_join_note_desc: "One of our top priorities is to build multiplayer where players having difficulty solving levels can summon higher level wizards to help them. This will be a great way for ambassadors to do their thing. We'll keep you posted!"
     more_about_ambassador: "Leggi di più su cosa vuol dire diventare un servizievole Ambasciatore"
 #    ambassador_subscribe_desc: "Get emails on support updates and multiplayer developments."
+#    counselor_summary: "None of the above roles fit what you are interested in? Do not worry, we are on the lookout for anybody who wants a hand in the development of CodeCombat! If you are interested in teaching, game development, open source management, or anything else that you think will be relevant to us, then this class is for you."
 #    counselor_introduction_1: "Do you have life experience? A different perspective on things that can help us decide how to shape CodeCombat? Of all these roles, this will probably take the least time, but individually you may make the most difference. We're on the lookout for wisened sages, particularly in areas like: teaching, game development, open source project management, technical recruiting, entrepreneurship, or design."
 #    counselor_introduction_2: "Or really anything that is relevant to the development of CodeCombat. If you have knowledge and want to share it to help grow this project, then this class might be for you."
 #    counselor_attribute_1: "Experience, in any of the areas above or something you think might be helpful."

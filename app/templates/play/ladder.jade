@@ -5,34 +5,30 @@ block content
     h3= level.get('name')
     div#level-description
       !{description}
+  
+  hr
+  div#columns.row
+    for team in teams
+      div.column.col-md-6
+        a(href="/play/ladder/#{levelID}/team/#{team.id}", style="background-color: #{team.primaryColor}").play-button.btn.btn-danger.btn-block.btn-lg
+          span Play 
+          span= team.name
+
+        table.table.table-bordered.table-condensed
+          tr
+            th(colspan=3, style="color: #{team.primaryColor}")
+              span= team.name
+              span  Leaderboard
+
+          for session in team.leaderboard.topPlayers.models
+            - var myRow = session.get('creator') == me.id
+            tr(class=myRow ? "success" : "")
+              td.score-cell= session.get('totalScore').toFixed(2)
+              td= session.get('creatorName')
+              td
+                if(!myRow)
+                  a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") COMPETE
+
   if me.isAdmin()
+    hr
     button.btn.btn-warning.btn-lg.highlight#simulate-button(style="margin-bottom:10px") Simulate all games
-
-  div#leaderboard-column
-    ul.nav.nav-pills
-      for team in teams
-        li
-          a(href="#team-#{team.id}", data-toggle="tab")= team.name
-        
-    .tab-content
-      for team in teams
-        .tab-pane(id="team-#{team.id}")
-          .leaderboard
-            h4 Leaderboard
-            table.table
-              for session in team.leaderboard.topPlayers.models
-                tr
-                  td.score-cell= session.get('totalScore')
-                  td= session.get('creatorName')
-                  td
-                    a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") COMPETE
-
-          //.challengers
-          //  h4 Challengers
-          //  
-          //  if team.easyChallenger
-          //    div.challenger-select
-          //      | Easy challenger:
-          //      button
-          //        a(href=link+'?team='+team.id+'&opponent='+team.easyChallenger.id)
-          //  TODO: finish once the scoring system is finished

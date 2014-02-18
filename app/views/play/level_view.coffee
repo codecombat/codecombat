@@ -124,23 +124,27 @@ module.exports = class PlayLevelView extends View
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
+    team = @getQueryVariable("team") ? @world.teamForPlayer(0)
 
-    if s = @levelLoader.opponentSession
-      spells = s.get('teamSpells')?[s.get('team')]
-      opponentCode = s.get('code')
-      myCode = @session.get('code') or {}
-      for spell in spells
-        continue unless c = opponentCode[spell]
-        myCode[spell] = c
-      @session.set('code', myCode)
+    opponentSpells = []
+    for spellTeam, spells of @session.get('teamSpells') or {}
+      continue if spellTeam is team
+      opponentSpells = opponentSpells.concat spells
+
+    otherSession = @levelLoader.opponentSession
+    opponentCode = otherSession?.get('code') or {}
+    myCode = @session.get('code') or {}
+    for spell in opponentSpells
+      c = opponentCode[spell]
+      if c then myCode[spell] = c else delete myCode[spell]
+    @session.set('code', myCode)
 
     @levelLoader.destroy()
     @levelLoader = null
     @loadingScreen.destroy()
     @god.level = @level.serialize @supermodel
     @god.worldClassMap = @world.classMap
-    #@setTeam @world.teamForPlayer _.size @session.get 'players'   # TODO: players aren't initialized yet?
-    @setTeam @getQueryVariable("team") ? @world.teamForPlayer(0)
+    @setTeam team
     @initSurface()
     @initGoalManager()
     @initScriptManager()

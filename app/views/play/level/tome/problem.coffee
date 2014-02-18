@@ -11,8 +11,9 @@ module.exports = class Problem
     @buildMarkerRange() if withRange
 
   destroy: ->
-    @alertView?.$el.remove()
-    @alertView?.destroy()
+    unless @alertView?.destroyed
+      @alertView?.$el?.remove()
+      @alertView?.destroy()
     @removeMarkerRange()
 
   buildAnnotation: ->
