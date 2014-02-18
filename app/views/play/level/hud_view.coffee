@@ -132,7 +132,7 @@ module.exports = class HUDView extends View
   createProperties: ->
     props = @$el.find('.thang-props')
     props.find(":not(.thang-name)").remove()
-    props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.spriteName}" else @thang.id)
+    props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
     for prop in @thang.hudProperties ? []
       pel = @createPropElement prop
       continue unless pel?

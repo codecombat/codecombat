@@ -111,7 +111,7 @@ module.exports = class SpellPaletteEntryView extends View
   formatPopover: ->
     content = popoverTemplate doc: @doc, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? [])
     owner = if @doc.owner is 'this' then @thang else window[@doc.owner]
-    content = content.replace /#{spriteName}/g, @thang.spriteName  # No quotes like we'd get with @formatValue
+    content = content.replace /#{spriteName}/g, @thang.type ? @thang.spriteName  # Prefer type, and excluded the quotes we'd get with @formatValue
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
 
   formatValue: (v) ->
