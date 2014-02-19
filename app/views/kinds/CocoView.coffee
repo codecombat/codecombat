@@ -102,8 +102,8 @@ module.exports = class CocoView extends Backbone.View
     return if @waitingModal # can only have one waiting at once
     if visibleModal
       waitingModal = modalView
-      visibleModal.hide()
-      return
+      return visibleModal.hide() if visibleModal.$el.is(':visible') # close, then this will get called again
+      return @modalClosed(visibleModal) # was closed, but modalClosed was not called somehow
     modalView.render()
     $('#modal-wrapper').empty().append modalView.el
     modalView.afterInsert()
