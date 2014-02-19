@@ -93,7 +93,7 @@ module.exports = class HUDView extends View
     return if speakerSprite is @speakerSprite
     @speakerSprite = speakerSprite
     @speaker = @speakerSprite.thang.id
-    @createAvatar @speakerSprite.thangType, @speakerSprite.thang
+    @createAvatar @speakerSprite.thangType, @speakerSprite.thang, @speakerSprite.options.colorConfig
     @$el.removeClass 'no-selection'
     @switchToDialogueElements()
 
@@ -107,9 +107,10 @@ module.exports = class HUDView extends View
     @bubble = null
     @update()
 
-  createAvatar: (thangType, thang) ->
+  createAvatar: (thangType, thang, colorConfig) ->
     options = thang.getSpriteOptions() or {}
     options.async = false
+    options.colorConfig = colorConfig
     stage = thangType.getPortraitStage options
     wrapper = @$el.find '.thang-canvas-wrapper'
     newCanvas = $(stage.canvas).addClass('thang-canvas')
