@@ -49,10 +49,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   recover:
     recover_account_title: "找回账户"
-#    send_password: "Send Recovery Password"
+    send_password: "发送重置链接"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "创建一个账户来保存进度"
     description: "这是免费的，简单易学："
     email_announcements: "通过邮件接收通知"
     coppa: "13岁以上或非美国用户"
@@ -62,10 +62,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     log_in: "登录"
 
   home:
-    slogan: "通过玩儿游戏学到Javascript脚本语言"
+    slogan: "通过游戏学习 Javascript"
     no_ie: "抱歉！Internet Explorer 9等更旧的预览器打不开此网站。"
-    no_mobile: "CodeCombat 不是针对手机设备设计的，所以可能不好用！"
-    play: "玩"
+    no_mobile: "CodeCombat 不是针对手机设备设计的，所以可能无法达到做好的体验！"
+    play: "开始游戏"
 
   play:
     choose_your_level: "选取难度"
