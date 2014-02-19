@@ -205,6 +205,7 @@ module.exports = class Simulator
 
 class SimulationTask
   constructor: (@rawData) ->
+    console.log 'Simulating sessions', (session.id for session in @getSessions())
 
   getLevelName: ->
     levelName =  @rawData.sessions?[0]?.levelID
