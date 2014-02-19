@@ -130,7 +130,7 @@ module.exports = class PlayLevelView extends View
 
     opponentSpells = []
     for spellTeam, spells of @session.get('teamSpells') or {}
-      continue if spellTeam is team
+      continue if spellTeam is team or not team
       opponentSpells = opponentSpells.concat spells
 
     otherSession = @levelLoader.opponentSession
