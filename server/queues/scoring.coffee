@@ -106,7 +106,7 @@ addMatchToSessions = (clientResponseObject, newScoreObject, callback) ->
     matchObject.opponents[sessionID].sessionID = sessionID
     matchObject.opponents[sessionID].userID = session.creator
     matchObject.opponents[sessionID].metrics = {}
-    matchObject.opponents[sessionID].metrics.rank = newScoreObject[sessionID].gameRanking
+    matchObject.opponents[sessionID].metrics.rank = Number(newScoreObject[sessionID].gameRanking)
 
   log.info "Match object computed, result: #{matchObject}"
   log.info "Writing match object to database..."
