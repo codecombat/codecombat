@@ -17,6 +17,7 @@ LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 Camera = require 'lib/surface/Camera'
+AudioPlayer = require 'lib/AudioPlayer'
 
 # subviews
 TomeView = require './level/tome/tome_view'
@@ -58,6 +59,7 @@ module.exports = class PlayLevelView extends View
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:session-will-save': 'onSessionWillSave'
     'level:set-team': 'setTeam'
+    'god:new-world-created': 'loadSoundsForWorld'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -392,6 +394,17 @@ module.exports = class PlayLevelView extends View
     team ?= 'humans'
     me.team = team
     Backbone.Mediator.publish 'level:team-set', team: team
+
+  # Dynamic sound loading
+
+  loadSoundsForWorld: (e) ->
+    return if @headless
+    world = e.world
+    thangTypes = @supermodel.getModels(ThangType)
+    for [spriteName, message] in world.thangDialogueSounds()
+      continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
+      continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
+      AudioPlayer.preloadSoundReference sound
 
   destroy: ->
     @supermodel.off 'error', @onLevelLoadError

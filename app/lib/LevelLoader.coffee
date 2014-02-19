@@ -19,9 +19,6 @@ module.exports = class LevelLoader extends CocoClass
   spriteSheetsBuilt: 0
   spriteSheetsToBuild: 0
 
-  subscriptions:
-    'god:new-world-created': 'loadSoundsForWorld'
-
   constructor: (options) ->
     super()
     @supermodel = options.supermodel
@@ -195,17 +192,6 @@ module.exports = class LevelLoader extends CocoClass
     for thangType in thangTypes
       for trigger, sounds of thangType.get('soundTriggers') or {} when trigger isnt 'say'
         AudioPlayer.preloadSoundReference sound for sound in sounds
-
-  # Dynamic sound loading
-
-  loadSoundsForWorld: (e) ->
-    return if @headless
-    world = e.world
-    thangTypes = @supermodel.getModels(ThangType)
-    for [spriteName, message] in world.thangDialogueSounds()
-      continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
-      continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
-      filename = AudioPlayer.preloadSoundReference sound
 
   # everything else sound wise is loaded as needed as worlds are generated
 
