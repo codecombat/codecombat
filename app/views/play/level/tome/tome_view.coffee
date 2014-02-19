@@ -63,7 +63,7 @@ module.exports = class TomeView extends View
       @createSpells programmableThangs, programmableThangs[0].world  # Do before spellList, thangList, and castButton
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
       @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
-      @castButton = @insertSubView new CastButtonView spells: @spells
+      @castButton = @insertSubView new CastButtonView spells: @spells, levelID: @options.levelID
       @teamSpellMap = @generateTeamSpellMap(@spells)
     else
       @cast()

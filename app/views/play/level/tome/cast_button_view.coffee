@@ -15,6 +15,7 @@ module.exports = class CastButtonView extends View
   constructor: (options) ->
     super options
     @spells = options.spells
+    @levelID = options.levelID
     isMac = navigator.platform.toUpperCase().indexOf('MAC') isnt -1
     @castShortcut = "⇧↩"
     @castShortcutVerbose = "Shift+Enter"
@@ -34,6 +35,8 @@ module.exports = class CastButtonView extends View
     # TODO: use a User setting instead of localStorage
     delay = localStorage.getItem 'autocastDelay'
     delay ?= 5000
+    if @levelID is 'project-dota'
+      delay = 90019001
     @setAutocastDelay delay
 
   attachTo: (spellView) ->
