@@ -87,6 +87,7 @@ module.exports = class LadderTeamView extends RootView
       }
 
     ctx.matches = (convertMatch(match) for match in @session.get('matches') or [])
+    ctx.matches.reverse()
     ctx
 
   afterRender: ->
