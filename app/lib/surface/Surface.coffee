@@ -244,7 +244,7 @@ module.exports = Surface = class Surface extends CocoClass
       target = null
     @camera.setBounds e.bounds if e.bounds
     @cameraBorder.updateBounds @camera.bounds
-    @camera.zoomTo target, e.zoom, e.duration
+    @camera.zoomTo target, e.zoom, e.duration  # TODO: SurfaceScriptModule perhaps shouldn't assign e.zoom if not set
 
   setDisabled: (@disabled) ->
     @spriteBoss.disabled = @disabled
