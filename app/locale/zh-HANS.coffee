@@ -31,7 +31,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     about: "关于"
     contact: "联系我们"
     twitter_follow: "关注"
-#    employers: "Employers"
+    employers: "雇佣我们"
 
 #  versions:
 #    save_version_title: "Save New Version"
@@ -56,7 +56,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     description: "这是免费的，简单易学："
     email_announcements: "通过邮件接收通知"
     coppa: "13岁以上或非美国用户"
-    coppa_why: "为什么？"
+    coppa_why: " 为什么？"
     creating: "账户创建中……"
     sign_up: "注册"
     log_in: "登录"
