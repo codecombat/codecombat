@@ -11,7 +11,7 @@ HIGHEST_SCORE = 1000000
 class LevelSessionsCollection extends CocoCollection
   url: ''
   model: LevelSession
-  
+
   constructor: (levelID) ->
     super()
     @url = "/db/level/#{levelID}/all_sessions"
@@ -56,7 +56,7 @@ module.exports = class LadderView extends RootView
         @simulationStatus += "..."
     catch e
       console.log "There was a problem with the named simulation status: #{e}"
-    $("#simulationStatusText").text @simulationStatus
+    $("#simulation-status-text").text @simulationStatus
 
 
   constructor: (options, @levelID) ->
@@ -66,7 +66,7 @@ module.exports = class LadderView extends RootView
     @level.once 'sync', @onLevelLoaded, @
     @simulator = new Simulator()
     @simulator.on 'statusUpdate', @updateSimulationStatus, @
-    
+
 #    @sessions = new LevelSessionsCollection(levelID)
 #    @sessions.fetch({})
 #    @sessions.once 'sync', @onMySessionsLoaded, @
@@ -78,7 +78,7 @@ module.exports = class LadderView extends RootView
   startLoadingPhaseTwoMaybe: ->
     return unless @level.loaded # and @sessions.loaded
     @loadPhaseTwo()
-    
+
   loadPhaseTwo: ->
     alliedSystem = _.find @level.get('systems'), (value) -> value.config?.teams?
     teams = []
@@ -87,7 +87,7 @@ module.exports = class LadderView extends RootView
       teams.push teamName
     @teams = teams
     @teamConfigs = alliedSystem.config.teams
-    
+
     @leaderboards = {}
     @challengers = {}
     for team in teams
@@ -96,7 +96,7 @@ module.exports = class LadderView extends RootView
       console.log "Team session: #{JSON.stringify teamSession}"
       @leaderboards[team] = new LeaderboardData(@level, team, teamSession)
       @leaderboards[team].once 'sync', @onLeaderboardLoaded, @
-    
+
   onChallengersLoaded: -> @renderMaybe()
   onLeaderboardLoaded: -> @renderMaybe()
 
@@ -105,7 +105,7 @@ module.exports = class LadderView extends RootView
     return unless _.every loaders, (loader) -> loader.loaded
     @startsLoading = false
     @render()
-    
+
   getRenderData: ->
     ctx = super()
     ctx.level = @level
@@ -129,7 +129,7 @@ module.exports = class LadderView extends RootView
         primaryColor: primaryColor
       })
     ctx
-    
+
 class LeaderboardData
   constructor: (@level, @team, @session) ->
     _.extend @, Backbone.Events
@@ -140,7 +140,7 @@ class LeaderboardData
     @topPlayers.sort()
 
     @topPlayers.once 'sync', @leaderboardPartLoaded, @
-    
+
 #    if @session
 #      score = @session.get('totalScore') or 25
 #      @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
@@ -158,19 +158,19 @@ class LeaderboardData
     else
       @loaded = true
       @fetchNames()
-      
+
   fetchNames: ->
     sessionCollections = [@topPlayers, @playersAbove, @playersBelow]
     sessionCollections = (s for s in sessionCollections when s)
     ids = []
     for collection in sessionCollections
       ids.push model.get('creator') for model in collection.models
-      
+
     success = (nameMap) =>
       for collection in sessionCollections
         session.set('creatorName', nameMap[session.get('creator')]) for session in collection.models
       @trigger 'sync'
-    
+
     $.ajax('/db/user/-/names', {
       data: {ids: ids}
       type: 'POST'
@@ -195,4 +195,3 @@ class ChallengersData
     if @easyPlayer.loaded and @mediumPlayer.loaded and @hardPlayer.loaded
       @loaded = true
       @trigger 'sync'
-      

@@ -31,7 +31,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     about: "关于"
     contact: "联系我们"
     twitter_follow: "关注"
-#    employers: "Employers"
+    employers: "雇佣我们"
 
 #  versions:
 #    save_version_title: "Save New Version"
@@ -49,23 +49,23 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   recover:
     recover_account_title: "找回账户"
-#    send_password: "Send Recovery Password"
+    send_password: "发送重置链接"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "创建一个账户来保存进度"
     description: "这是免费的，简单易学："
     email_announcements: "通过邮件接收通知"
     coppa: "13岁以上或非美国用户"
-    coppa_why: "为什么？"
+    coppa_why: " 为什么？"
     creating: "账户创建中……"
     sign_up: "注册"
     log_in: "登录"
 
   home:
-    slogan: "通过玩儿游戏学到Javascript脚本语言"
+    slogan: "通过游戏学习 Javascript"
     no_ie: "抱歉！Internet Explorer 9等更旧的预览器打不开此网站。"
-    no_mobile: "CodeCombat 不是针对手机设备设计的，所以可能不好用！"
-    play: "玩"
+    no_mobile: "CodeCombat 不是针对手机设备设计的，所以可能无法达到做好的体验！"
+    play: "开始游戏"
 
   play:
     choose_your_level: "选取难度"
@@ -411,11 +411,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    diplomat_summary: "There is a large interest in CodeCombat in other countries that do not speak English! We are looking for translators who are willing to spend their time translating the site's corpus of words so that CodeCombat is accessible across the world as soon as possible. If you'd like to help getting CodeCombat international, then this class is for you."
 #    diplomat_introduction_pref: "So, if there's one thing we learned from the "
 #    diplomat_launch_url: "launch in October"
-#    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries, particularly Brazil! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
+#    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
 #    diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
-#    diplomat_join_pref: "We've started a lot of initial translations at "
-#    diplomat_doc_url: "this forum post"
-#    diplomat_join_suf: "so check it out and add things for your language. Also, check this box below to keep up-to-date on new internationalization developments!"
+#    diplomat_join_pref_github: "Find your language locale file "
+#    diplomat_github_url: "on GitHub"
+#    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"
 #    more_about_diplomat: "Learn More About Becoming a Diplomat"
 #    diplomat_subscribe_desc: "Get emails about i18n developments and levels to translate."
 #    ambassador_summary: "We are trying to build a community, and every community needs a support team when there are troubles. We have got chats, emails, and social networks so that our users can get acquainted with the game. If you want to help people get involved, have fun, and learn some programming, then this class is for you."

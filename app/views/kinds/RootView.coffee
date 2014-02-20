@@ -16,6 +16,7 @@ module.exports = class RootView extends CocoView
   events:
     "click #logout-button": "logoutAccount"
     'change .language-dropdown': 'showDiplomatSuggestionModal'
+    'click .toggle-fullscreen': 'toggleFullscreen'
 
   afterRender: ->
     super()
@@ -72,3 +73,28 @@ module.exports = class RootView extends CocoView
       console.warn "Error saving language:", errors
     res.success (model, response, options) ->
       #console.log "Saved language:", newLang
+
+  toggleFullscreen: (e) ->
+    # https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode?redirectlocale=en-US&redirectslug=Web/Guide/DOM/Using_full_screen_mode
+    # Whoa, even cooler: https://developer.mozilla.org/en-US/docs/WebAPI/Pointer_Lock
+    full = document.fullscreenElement or
+           document.mozFullScreenElement or
+           document.mozFullscreenElement or
+           document.webkitFullscreenElement or
+           document.msFullscreenElement
+    d = document.documentElement
+    if not full
+      req = d.requestFullScreen or
+            d.mozRequestFullScreen or
+            d.mozRequestFullscreen or
+            d.msRequestFullscreen or
+            (if d.webkitRequestFullscreen then -> d.webkitRequestFullscreen Element.ALLOW_KEYBOARD_INPUT else null)
+      req?.call d
+    else
+      nah = document.exitFullscreen or
+            document.mozCancelFullScreen or
+            document.mozCancelFullscreen or
+            document.msExitFullscreen or
+            document.webkitExitFullscreen
+      nah?.call document
+    return

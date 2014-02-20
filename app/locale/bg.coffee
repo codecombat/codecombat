@@ -1,29 +1,29 @@
 module.exports = nativeDescription: "български език", englishDescription: "Bulgarian", translation:
   common:
-    loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
-#    cancel: "Cancel"
-#    save: "Save"
-#    delay_1_sec: "1 second"
-#    delay_3_sec: "3 seconds"
-#    delay_5_sec: "5 seconds"
+    loading: "Зареждане..."
+    saving: "Записване..."
+    sending: "Изпращане..."
+    cancel: "Отказ"
+    save: "Запис"
+    delay_1_sec: "1 секунда"
+    delay_3_sec: "3 секунди"
+    delay_5_sec: "5 секунди"
 #    manual: "Manual"
 #    fork: "Fork"
 #    play: "Play"
 
-#  modal:
-#    close: "Close"
-#    okay: "Okay"
+  modal:
+    close: "Затвори"
+    okay: "Добре"
 
-#  not_found:
-#    page_not_found: "Page not found"
+  not_found:
+    page_not_found: "Страницата не е намерена"
 
-#  nav:
-#    play: "Levels"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
+  nav:
+    play: "Нива"
+    editor: "Редактор"
+    blog: "Блог"
+    forum: "Форум"
 #    admin: "Admin"
 #    home: "Home"
 #    contribute: "Contribute"
@@ -41,34 +41,34 @@ module.exports = nativeDescription: "български език", englishDescri
 #    cla_suffix: "."
 #    cla_agree: "I AGREE"
 
-#  login:
-#    sign_up: "Create Account"
-#    log_in: "Log In"
-#    log_out: "Log Out"
-#    recover: "recover account"
+  login:
+    sign_up: "Създай Профил"
+    log_in: "Вход"
+    log_out: "Изход"
+    recover: "Възстанови акаунт"
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+  recover:
+    recover_account_title: "Възстанови Акаунт"
+    send_password: "Изпрати парола за възстановяване"
 
-#  signup:
+  signup:
 #    create_account_title: "Create Account to Save Progress"
 #    description: "It's free. Just need a couple things and you'll be good to go:"
 #    email_announcements: "Receive announcements by email"
 #    coppa: "13+ or non-USA "
-#    coppa_why: "(Why?)"
-#    creating: "Creating Account..."
-#    sign_up: "Sign Up"
-#    log_in: "log in with password"
+    coppa_why: "(Защо?)"
+    creating: "Създаване на профил..."
+    sign_up: "Регистриране"
+    log_in: "Вход с парола"
 
-#  home:
-#    slogan: "Learn to Code JavaScript by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
-#    play: "Play"
+  home:
+    slogan: "Научи се да програмираш на JavaScript, докато играеш игра "
+    no_ie: "CodeCombat не работи под Internet Explorer 9 или по-стар. Съжалявам!"
+    no_mobile: "CodeCombat не е направен за мобилни устройства и може да не работи!"
+    play: "Играй"
 
-#  play:
-#    choose_your_level: "Choose Your Level"
+  play:
+    choose_your_level: "Избери своето ниво"
 #    adventurer_prefix: "You can jump to any level below, or discuss the levels on "
 #    adventurer_forum: "the Adventurer forum"
 #    adventurer_suffix: "."
@@ -141,12 +141,12 @@ module.exports = nativeDescription: "български език", englishDescri
 #    saved: "Changes Saved"
 #    password_mismatch: "Password does not match."
 
-#  account_profile:
-#    edit_settings: "Edit Settings"
+  account_profile:
+    edit_settings: "Промени настройките"
 #    profile_for_prefix: "Profile for "
 #    profile_for_suffix: ""
 #    profile: "Profile"
-#    user_not_found: "No user found. Check the URL?"
+    user_not_found: "Няма намерен потребител. Провери URL-а?"
 #    gravatar_not_found_mine: "We couldn't find your profile associated with:"
 #    gravatar_not_found_email_suffix: "."
 #    gravatar_signup_prefix: "Sign up at "
@@ -157,9 +157,9 @@ module.exports = nativeDescription: "български език", englishDescri
 #    gravatar_accounts: "As Seen On"
 #    gravatar_profile_link: "Full Gravatar Profile"
 
-#  play_level:
-#    level_load_error: "Level could not be loaded."
-#    done: "Done"
+  play_level:
+    level_load_error: "Нивото не може да бъде заредено."
+    done: "Готово"
 #    grid: "Grid"
 #    customize_wizard: "Customize Wizard"
 #    home: "Home"
@@ -181,7 +181,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    victory_go_home: "Go Home"
 #    victory_review: "Tell us more!"
 #    victory_hour_of_code_done: "Are You Done?"
-#    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code!"
+#    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
 #    multiplayer_title: "Multiplayer Settings"
 #    multiplayer_link_description: "Give this link to anyone to have them join you."
 #    multiplayer_hint_label: "Hint:"
@@ -191,7 +191,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    tome_minion_spells: "Your Minions' Spells"
 #    tome_read_only_spells: "Read-Only Spells"
 #    tome_other_units: "Other Units"
-#    tome_cast_button_castable: "Cast"
+#    tome_cast_button_castable: "Cast Spell"
 #    tome_cast_button_casting: "Casting"
 #    tome_cast_button_cast: "Spell Cast"
 #    tome_autocast_delay: "Autocast Delay"
@@ -247,22 +247,22 @@ module.exports = nativeDescription: "български език", englishDescri
 #    new_component_title: "Create New Component"
 #    new_component_field_system: "System"
 
-#  article:
-#    edit_btn_preview: "Preview"
-#    edit_article_title: "Edit Article"
+  article:
+    edit_btn_preview: "Преглед"
+    edit_article_title: "Промени статията"
 
-#  general:
-#    and: "and"
-#    name: "Name"
+  general:
+    and: "и"
+    name: "Име"
 #    body: "Body"
-#    version: "Version"
+    version: "Версия"
 #    commit_msg: "Commit Message"
 #    version_history_for: "Version History for: "
-#    results: "Results"
-#    description: "Description"
-#    or: "or"
-#    email: "Email"
-#    message: "Message"
+    results: "Резултати"
+    description: "Описание"
+    or: "или"
+    email: "Email"
+    message: "Съобщение"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
@@ -411,11 +411,11 @@ module.exports = nativeDescription: "български език", englishDescri
 #    diplomat_summary: "There is a large interest in CodeCombat in other countries that do not speak English! We are looking for translators who are willing to spend their time translating the site's corpus of words so that CodeCombat is accessible across the world as soon as possible. If you'd like to help getting CodeCombat international, then this class is for you."
 #    diplomat_introduction_pref: "So, if there's one thing we learned from the "
 #    diplomat_launch_url: "launch in October"
-#    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries, particularly Brazil! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
+#    diplomat_introduction_suf: "it's that there is sizeable interest in CodeCombat in other countries! We're building a corps of translators eager to turn one set of words into another set of words to get CodeCombat as accessible across the world as possible. If you like getting sneak peeks at upcoming content and getting these levels to your fellow nationals ASAP, then this class might be for you."
 #    diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
-#    diplomat_join_pref: "We've started a lot of initial translations at "
-#    diplomat_doc_url: "this forum post"
-#    diplomat_join_suf: "so check it out and add things for your language. Also, check this box below to keep up-to-date on new internationalization developments!"
+#    diplomat_join_pref_github: "Find your language locale file "
+#    diplomat_github_url: "on GitHub"
+#    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"
 #    more_about_diplomat: "Learn More About Becoming a Diplomat"
 #    diplomat_subscribe_desc: "Get emails about i18n developments and levels to translate."
 #    ambassador_summary: "We are trying to build a community, and every community needs a support team when there are troubles. We have got chats, emails, and social networks so that our users can get acquainted with the game. If you want to help people get involved, have fun, and learn some programming, then this class is for you."
