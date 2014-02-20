@@ -4,7 +4,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     saving: "Guardando..."
     sending: "Enviando..."
     cancel: "Cancelar"
-#    save: "Save": "Guardar"
+#    save: "Guardar"
     delay_1_sec: "1 segundo"
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
