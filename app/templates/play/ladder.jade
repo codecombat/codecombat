@@ -6,7 +6,7 @@ block content
     div#level-description
       !{description}
   
-    a(href="something").intro-button.btn.btn-primary.btn-lg Watch the Video
+    a(href="http://www.youtube.com/watch?v=IFvfZiJGDsw&list=HL1392928835&feature=mh_lolz").intro-button.btn.btn-primary.btn-lg Watch the Video
     
     a(href="/play/level/ladder-tutorial").intro-button.btn.btn-primary.btn-lg Play the Tutorial
 
@@ -19,6 +19,7 @@ block content
           span= team.name
 
         table.table.table-bordered.table-condensed.table-hover
+          //(style="background-color: #{team.bgColor}")
           tr
             th(colspan=3, style="color: #{team.primaryColor}")
               span= team.name
@@ -34,9 +35,9 @@ block content
               td= session.get('creatorName') || "Anonymous"
               td
                 if(!myRow)
-                  a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") Compete!
+                  a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") Battle as #{team.otherTeam}!
                 else
-                  a(href="/play/ladder/#{levelID}/team/#{team.id}") View details
+                  a(href="/play/ladder/#{levelID}/team/#{team.id}") View your #{team.id} matches.
 
   unless me.attributes.anonymous
     hr

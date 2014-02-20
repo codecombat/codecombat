@@ -15,6 +15,7 @@ module.exports = class LadderTeamView extends RootView
 
   constructor: (options, @levelID, @team) ->
     super(options)
+    @otherTeam = if team is 'ogres' then 'humans' else 'ogres'
     @level = new Level(_id:@levelID)
     @level.fetch()
     @level.once 'sync', @onLevelLoaded, @
@@ -36,7 +37,7 @@ module.exports = class LadderTeamView extends RootView
     if matches?.length then @loadNames() else @loadChallengers()
 
   loadChallengers: ->
-    @challengers = new ChallengersData(@level, @team, @session)
+    @challengers = new ChallengersData(@level, @team, @otherTeam, @session)
     @challengers.on 'sync', @loadNames, @
 
   # PART 3: Loading the names of the other users
@@ -70,6 +71,7 @@ module.exports = class LadderTeamView extends RootView
     ctx.levelID = @levelID
     ctx.teamName = _.string.titleize @team
     ctx.teamID = @team
+    ctx.otherTeamID = @otherTeam
     ctx.challengers = if not @startsLoading then @getChallengers() else {}
     ctx.readyToRank = @readyToRank()
 
@@ -166,17 +168,16 @@ module.exports = class LadderTeamView extends RootView
     rankButton.toggleClass 'disabled', spanClass isnt 'rank'
 
 class ChallengersData
-  constructor: (@level, @team, @session) ->
+  constructor: (@level, @team, @otherTeam, @session) ->
     _.extend @, Backbone.Events
     score = @session?.get('totalScore') or 25
-    otherTeam = if @team is 'ogres' then 'humans' else 'ogres'
-    @easyPlayer = new LeaderboardCollection(@level, {order:1, scoreOffset: score - 5, limit: 1, team: otherTeam})
+    @easyPlayer = new LeaderboardCollection(@level, {order:1, scoreOffset: score - 5, limit: 1, team: @otherTeam})
     @easyPlayer.fetch()
     @easyPlayer.once 'sync', @challengerLoaded, @
-    @mediumPlayer = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 1, team: otherTeam})
+    @mediumPlayer = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 1, team: @otherTeam})
     @mediumPlayer.fetch()
     @mediumPlayer.once 'sync', @challengerLoaded, @
-    @hardPlayer = new LeaderboardCollection(@level, {order:-1, scoreOffset: score + 5, limit: 1, team: otherTeam})
+    @hardPlayer = new LeaderboardCollection(@level, {order:-1, scoreOffset: score + 5, limit: 1, team: @otherTeam})
     @hardPlayer.fetch()
     @hardPlayer.once 'sync', @challengerLoaded, @
 
