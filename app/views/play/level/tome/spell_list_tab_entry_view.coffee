@@ -64,7 +64,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     @$el.find('code').popover(
       animation: true
       html: true
-      placement: 'left'
+      placement: 'bottom'
       trigger: 'hover'
       content: @formatPopover doc
       container: @$el.parent()

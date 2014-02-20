@@ -33,10 +33,13 @@ module.exports = class LadderView extends RootView
         method: 'POST'
         data:
           session: ID
-    alert "Simulating all games!"
-    alert "(do not push more than once pls)"
+    $("#simulate-all-button").prop "disabled", true
+    $("#simulate-all-button").text "Submitted all!"
 
   onSimulateButtonClick: (e) ->
+    $("#simulate-button").prop "disabled",true
+    $("#simulate-button").text "Simulating..."
+
     @simulator.fetchAndSimulateTask()
 
   updateSimulationStatus: (simulationStatus, sessions)->
@@ -53,7 +56,7 @@ module.exports = class LadderView extends RootView
         @simulationStatus += "..."
     catch e
       console.log "There was a problem with the named simulation status: #{e}"
-    @render()
+    $("#simulationStatusText").text @simulationStatus
 
 
   constructor: (options, @levelID) ->

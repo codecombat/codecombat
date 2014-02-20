@@ -39,7 +39,7 @@ block content
                   span.loss Loss
                 if match.state === 'tie'
                   span.tie Tie
-              td.name-cell= match.opponentName
+              td.name-cell= match.opponentName || "Anonymous"
               td.time-cell= match.when
               td.battle-cell
                 a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{match.sessionID}") Battle!

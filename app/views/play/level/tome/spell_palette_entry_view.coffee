@@ -64,6 +64,8 @@ module.exports = class SpellPaletteEntryView extends View
 
   subscriptions:
     'surface:frame-changed': "onFrameChanged"
+    'tome:palette-hovered': "onPaletteHovered"
+    'tome:palette-pin-toggled': "onPalettePinToggled"
 
   events:
     'mouseenter': 'onMouseEnter'
@@ -100,13 +102,13 @@ module.exports = class SpellPaletteEntryView extends View
     @$el.popover(
       animation: false
       html: true
-      placement: 'left'
+      placement: 'top'
       trigger: 'manual'  # Hover, until they click, which will then pin it until unclick.
       content: @formatPopover()
       container: '#tome-view'
     )
     @$el.on 'show.bs.popover', =>
-      Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name
+      Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
 
   formatPopover: ->
     content = popoverTemplate doc: @doc, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? [])
@@ -143,30 +145,44 @@ module.exports = class SpellPaletteEntryView extends View
     # Make sure the doc has the updated Thang so it can regenerate its prop value
     @$el.data('bs.popover').options.content = @formatPopover()
     @$el.popover('setContent')
-    @$el.popover 'show' unless @popoverPinned
+    @$el.popover 'show' unless @popoverPinned or @otherPopoverPinned
 
   onMouseLeave: (e) ->
-    @$el.popover 'hide' unless @popoverPinned
+    @$el.popover 'hide' unless @popoverPinned or @otherPopoverPinned
 
   togglePinned: ->
     if @popoverPinned
       @popoverPinned = false
       @$el.add('#tome-view .popover').removeClass 'pinned'
+      $('#tome-view .popover .close').remove()
       @$el.popover 'hide'
     else
       @popoverPinned = true
+      @$el.popover 'show'
       @$el.add('#tome-view .popover').addClass 'pinned'
+      x = $('<button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>')
+      $('#tome-view .popover').append x
+      x.on 'click', @onClick
+    Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
-  onClick: (e) ->
+  onClick: (e) =>
     unless @popoverPinned
       $(e.target).selectText()
       e.stopPropagation()  # don't re-focus editor since we might want to select text
     @togglePinned()
-    Backbone.Mediator.publish 'tome:palette-clicked', thang: @thang, prop: @doc.name
+    Backbone.Mediator.publish 'tome:palette-clicked', thang: @thang, prop: @doc.name, entry: @
 
   onFrameChanged: (e) ->
     return unless e.selectedThang?.id is @thang.id
     @options.thang = @thang = e.selectedThang  # Update our thang to the current version
+
+  onPaletteHovered: (e) ->
+    return if e.entry is @
+    @togglePinned() if @popoverPinned
+
+  onPalettePinToggled: (e) ->
+    return if e.entry is @
+    @otherPopoverPinned = e.pinned
 
   destroy: ->
     $('.popover.pinned').remove() if @popoverPinned  # @$el.popover('destroy') doesn't work
