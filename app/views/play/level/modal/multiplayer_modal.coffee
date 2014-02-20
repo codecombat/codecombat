@@ -9,7 +9,7 @@ module.exports = class MultiplayerModal extends View
   events:
     'click textarea': 'onClickLink'
     'change #multiplayer': 'updateLinkSection'
-    'click #submit-session-button': 'submitSession'
+
 
   constructor: (options) ->
     super(options)
@@ -24,6 +24,8 @@ module.exports = class MultiplayerModal extends View
       '?session=' +
       @session.id)
     c.multiplayer = @session.get('multiplayer')
+    c.team = @session.get 'team'
+    c.levelSlug = @level?.get('slug')
     c.playableTeams = @playableTeams
     c.ladderGame = @level?.get('name') is 'Project DotA' and not me.get('isAnonymous')
     c
@@ -40,13 +42,6 @@ module.exports = class MultiplayerModal extends View
     la = @$el.find('#link-area')
     la.toggle Boolean(multiplayer)
     true
-
-  submitSession: ->
-    $.ajax('/queue/scoring', {
-      method: 'POST'
-      data:
-        session: @session.id
-    })
 
   onHidden: ->
     multiplayer = Boolean(@$el.find('#multiplayer').prop('checked'))
