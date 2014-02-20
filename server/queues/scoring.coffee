@@ -101,17 +101,11 @@ module.exports.processTaskResult = (req, res) ->
 validatePermissions = (req, sessionID, callback) ->
   if isUserAnonymous req then return callback null, false
   if isUserAdmin req then return callback null, true
-  getIDOfSessionCreator sessionID, (err, sessionCreatorID) ->
-    if err? then return callback err, sessionCreatorID
-    callback null, sessionCreatorID is req.user?.id
-
-
-getIDOfSessionCreator = (session, callback) ->
-  LevelSession.findOne(_id:session).select('creator').lean().exec (err, data) ->
-    if err? then return callback err, data
-    callback err, data.creator
-
-
+  LevelSession.findOne(_id:sessionID).select('creator submittedCode code').lean().exec (err, retrievedSession) ->
+    if err? then return callback err, retrievedSession
+    code = retrievedSession.code
+    submittedCode = retrievedSession.submittedCode
+    callback null, (retrievedSession.creator is req.user?.id and not _.isEqual(code, submittedCode))
 
 addMatchToSessions = (clientResponseObject, newScoreObject, callback) ->
   matchObject = {}
