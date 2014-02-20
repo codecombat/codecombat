@@ -110,7 +110,7 @@ module.exports = class HUDView extends View
   createAvatar: (thangType, thang, colorConfig) ->
     options = thang.getSpriteOptions() or {}
     options.async = false
-    options.colorConfig = colorConfig
+    options.colorConfig = colorConfig if colorConfig
     stage = thangType.getPortraitStage options
     wrapper = @$el.find '.thang-canvas-wrapper'
     newCanvas = $(stage.canvas).addClass('thang-canvas')
