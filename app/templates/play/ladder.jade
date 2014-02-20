@@ -28,6 +28,8 @@ block content
               td
                 if(!myRow)
                   a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") COMPETE
+                else
+                  a(href="/play/ladder/#{levelID}/team/#{team.id}") View details
 
   unless me.attributes.anonymous
     hr
