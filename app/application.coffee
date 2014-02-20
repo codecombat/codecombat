@@ -11,6 +11,11 @@ preventBackspace = (event) ->
   else if (key.ctrl or key.command) and not key.alt and event.keyCode in [219, 221]  # prevent Ctrl/Cmd + [ / ]
     event.preventDefault()
 
+preventControlS = (event) ->
+  if event.ctrlKey || event.metaKey
+    if String.fromCharCode(event.which).toLowerCase() == "s"
+      event.preventDefault()
+
 elementAcceptsKeystrokes = (el) ->
   # http://stackoverflow.com/questions/1495219/how-can-i-prevent-the-backspace-key-from-navigating-back
   el ?= document.activeElement
@@ -31,6 +36,7 @@ Application = initialize: ->
   new FacebookHandler()
   new GPlusHandler()
   $(document).bind 'keydown', preventBackspace
+  $(document).bind 'keydown', preventControlS
 
   preload(COMMON_FILES)
   $.i18n.init {
