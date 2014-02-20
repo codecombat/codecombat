@@ -191,7 +191,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tome_minion_spells: "Your Minions' Spells"
     tome_read_only_spells: "Read-Only Spells"
     tome_other_units: "Other Units"
-    tome_cast_button_castable: "Cast"
+    tome_cast_button_castable: "Cast Spell"
     tome_cast_button_casting: "Casting"
     tome_cast_button_cast: "Spell Cast"
     tome_autocast_delay: "Autocast Delay"

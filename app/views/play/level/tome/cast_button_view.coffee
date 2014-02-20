@@ -76,7 +76,7 @@ module.exports = class CastButtonView extends View
     if @casting
       s = $.i18n.t("play_level.tome_cast_button_casting", defaultValue: "Casting")
     else if castable
-      s = $.i18n.t("play_level.tome_cast_button_castable", defaultValue: "Cast") + " " + @castShortcut
+      s = $.i18n.t("play_level.tome_cast_button_castable", defaultValue: "Cast Spell") + " " + @castShortcut
     else
       s = $.i18n.t("play_level.tome_cast_button_cast", defaultValue: "Spell Cast")
     @castButton.text s
