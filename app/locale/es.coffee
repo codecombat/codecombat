@@ -4,7 +4,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     saving: "Guardando..."
     sending: "Enviando..."
     cancel: "Cancelar"
-#    save: "Save"
+#    save: "Save": "Guardar"
     delay_1_sec: "1 segundo"
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
@@ -31,15 +31,15 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     about: "Sobre"
     contact: "Contacto"
     twitter_follow: "Seguir"
-#    employers: "Employers"
+#    employers: "Employers": "Empleados"
 
 #  versions:
-#    save_version_title: "Save New Version"
+#    save_version_title: "Save New Version": "Guardar Nueva Versión"
 #    new_major_version: "New Major Version"
-#    cla_prefix: "To save changes, first you must agree to our"
+#    cla_prefix: "To save changes, first you must agree to our": "Para poder guardar los cambios, primero debes aceptar nuestra"
 #    cla_url: "CLA"
 #    cla_suffix: "."
-#    cla_agree: "I AGREE"
+#    cla_agree: "I AGREE": "ACEPTO"
 
   login:
     sign_up: "Crear Cuenta"
@@ -48,11 +48,11 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     recover: "recuperar cuenta"
 
 #  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+#    recover_account_title: "Recover Account": "Recuperar cuenta"
+#    send_password: "Send Recovery Password": "Enviar contraseña olvidada"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+#    create_account_title: "Create Account to Save Progress": "Crea una cuenta para guardar el progreso"
     description: "Es gratis. Solo necesitas un par de cosas y estarás listo para comenzar:"
     email_announcements: "Recibe noticias por email"
     coppa: "más de 13 años o fuera de los Estados Unidos"
@@ -102,16 +102,16 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     subscribe_as_diplomat: "Suscribete como un Diplomático"
 
 #  wizard_settings:
-#    title: "Wizard Settings"
-#    customize_avatar: "Customize Your Avatar"
-#    clothes: "Clothes"
+#    title: "Wizard Settings": "Configuración del mago"
+#    customize_avatar: "Customize Your Avatar": "Personaliza tu avatar"
+#    clothes: "Clothes": "Ropa"
 #    trim: "Trim"
-#    cloud: "Cloud"
+#    cloud: "Cloud": "Nube"
 #    spell: "Spell"
-#    boots: "Boots"
+#    boots: "Boots": "Botas"
 #    hue: "Hue"
-#    saturation: "Saturation"
-#    lightness: "Lightness"
+#    saturation: "Saturation": "Satiración"
+#    lightness: "Lightness": "Brillo"
 
   account_settings:
     title: "Configuración de la Cuenta"
@@ -139,7 +139,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     email_toggle: "Activar todo"
     error_saving: "Error al guardar"
     saved: "Cambios guardados"
-    password_mismatch: "El password no coincide"
+    password_mismatch: "La contraseña no coincide"
 
   account_profile:
     edit_settings: "Editar Ajustes"
