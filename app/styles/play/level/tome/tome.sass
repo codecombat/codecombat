@@ -6,18 +6,33 @@
 
   > .popover
     // Only those popovers which are our direct children (spell documentation)
-    left: auto !important
-    top: auto !important
-    right: 100%
-    bottom: 151px
-    @include user-select(text)
-    // Wish I could set max-width and max-height (and override Bootstrap's stuff)
-    // but without explicitly setting height, child overflow-y: scroll doesn't work
-    min-width: 100%
-    height: 60%
+    max-width: 600px
 
     &.pinned
-      @include box-shadow(0 0 500px white)
+      left: auto !important
+      top: auto !important
+      right: 100%
+      bottom: 151px
+      @include user-select(text)
+      // Wish I could set max-width and max-height (and override Bootstrap's stuff)
+      // but without explicitly setting height, child overflow-y: scroll doesn't work
+      min-width: 100%
+      height: 60%
+
+      .arrow
+        display: none
+
+      .close
+        position: absolute
+        top: 5%
+        right: 5%
+        font-size: 28px
+        font-weight: bold
+        @include opacity(0.6)
+        text-shadow: 0 1px 0 white
+
+        &:hover
+          @include opacity(1)
 
   .popover
     padding: 10px 10px 30px 10px
