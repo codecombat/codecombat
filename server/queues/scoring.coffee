@@ -12,7 +12,7 @@ TaskLog = require './task/ScoringTask'
 bayes = new (require 'bayesian-battle')()
 
 scoringTaskQueue = undefined
-scoringTaskTimeoutInSeconds = 400
+scoringTaskTimeoutInSeconds = 120
 
 
 module.exports.setup = (app) -> connectToScoringQueue()
@@ -200,6 +200,7 @@ constructTaskObject = (taskMessageBody, callback) ->
         "teamSpells": session.teamSpells ? {}
         "levelID": session.levelID
         "creator": session.creator
+        "creatorName":session.creatorName
 
       taskObject.sessions.push sessionInformation
     callback err, taskObject

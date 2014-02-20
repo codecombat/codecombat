@@ -6,10 +6,13 @@ God = require 'lib/God'
 module.exports = class Simulator
 
   constructor: ->
+    _.extend @, Backbone.Events
+    @trigger 'statusUpdate', 'Starting simulation!'
     @retryDelayInSeconds = 10
     @taskURL = '/queue/scoring'
 
   fetchAndSimulateTask: =>
+    @trigger 'statusUpdate', 'Fetching simulation data!'
     $.ajax
       url: @taskURL
       type: "GET"
@@ -19,6 +22,7 @@ module.exports = class Simulator
   handleFetchTaskError: (errorData) =>
     console.log "There were no games to score. Error: #{JSON.stringify errorData}"
     console.log "Retrying in #{@retryDelayInSeconds}"
+    @trigger 'statusUpdate', 'There were no games to simulate! Trying again in 10 seconds.'
 
     @simulateAnotherTaskAfterDelay()
 
@@ -27,6 +31,7 @@ module.exports = class Simulator
     _.delay @fetchAndSimulateTask, retryDelayInMilliseconds
 
   setupSimulationAndLoadLevel: (taskData) =>
+    @trigger 'statusUpdate', 'Setting up simulation!'
     @task = new SimulationTask(taskData)
     @supermodel = new SuperModel()
     @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
@@ -35,6 +40,7 @@ module.exports = class Simulator
     @levelLoader.once 'loaded-all', @simulateGame
 
   simulateGame: =>
+    @trigger 'statusUpdate', 'All resources loaded, simulating!', @task.getSessions()
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
     @setupGod()
 
@@ -70,6 +76,7 @@ module.exports = class Simulator
     @sendResultsBackToServer taskResults
 
   sendResultsBackToServer: (results) =>
+    @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
     console.log "Sending result back to server!"
     $.ajax
       url: "/queue/scoring"
@@ -79,10 +86,12 @@ module.exports = class Simulator
       error: @handleTaskResultsTransferError
       complete: @cleanupAndSimulateAnotherTask
 
-  handleTaskResultsTransferSuccess: (result) ->
+  handleTaskResultsTransferSuccess: (result) =>
     console.log "Task registration result: #{JSON.stringify result}"
+    @trigger 'statusUpdate', 'Results were successfully sent back to server!'
 
-  handleTaskResultsTransferError: (error) ->
+  handleTaskResultsTransferError: (error) =>
+    @trigger 'statusUpdate', 'There was an error sending the results back to the server.'
     console.log "Task registration error: #{JSON.stringify error}"
 
   cleanupAndSimulateAnotherTask: =>
@@ -205,7 +214,7 @@ module.exports = class Simulator
 
 class SimulationTask
   constructor: (@rawData) ->
-    console.log 'Simulating sessions', (session.id for session in @getSessions())
+    console.log 'Simulating sessions', (session for session in @getSessions())
 
   getLevelName: ->
     levelName =  @rawData.sessions?[0]?.levelID

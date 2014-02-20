@@ -1,5 +1,6 @@
 RootView = require 'views/kinds/RootView'
 Level = require 'models/Level'
+Simulator = require 'lib/simulator/Simulator'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
@@ -22,8 +23,9 @@ module.exports = class LadderView extends RootView
 
   events:
     'click #simulate-button': 'onSimulateButtonClick'
+    'click #simulate-all-button': 'onSimulateAllButtonClick'
 
-  onSimulateButtonClick: (e) ->
+  onSimulateAllButtonClick: (e) ->
     submitIDs = _.pluck @leaderboards[@teams[0]].topPlayers.models, "id"
     for ID in submitIDs
       $.ajax
@@ -34,12 +36,33 @@ module.exports = class LadderView extends RootView
     alert "Simulating all games!"
     alert "(do not push more than once pls)"
 
-  
+  onSimulateButtonClick: (e) ->
+    @simulator.fetchAndSimulateTask()
+
+  updateSimulationStatus: (simulationStatus, sessions)->
+    @simulationStatus = simulationStatus
+    try
+      if sessions?
+        #TODO: Fetch names from Redis, the creatorName is denormalized
+        creatorNames = (session.creatorName for session in sessions)
+        @simulationStatus = "Simulating game between "
+        for index in [0...creatorNames.length]
+          unless creatorNames[index]
+            creatorNames[index] = "Anonymous"
+          @simulationStatus += " and " + creatorNames[index]
+        @simulationStatus += "..."
+    catch e
+      console.log "There was a problem with the named simulation status: #{e}"
+    @render()
+
+
   constructor: (options, @levelID) ->
     super(options)
     @level = new Level(_id:@levelID)
     @level.fetch()
     @level.once 'sync', @onLevelLoaded, @
+    @simulator = new Simulator()
+    @simulator.on 'statusUpdate', @updateSimulationStatus, @
     
 #    @sessions = new LevelSessionsCollection(levelID)
 #    @sessions.fetch({})
@@ -86,6 +109,7 @@ module.exports = class LadderView extends RootView
     description = @level.get('description')
     ctx.description = if description then marked(description) else ''
     ctx.link = "/play/level/#{@level.get('name')}"
+    ctx.simulationStatus = @simulationStatus
     ctx.teams = []
     ctx.levelID = @levelID
     for team in @teams or []

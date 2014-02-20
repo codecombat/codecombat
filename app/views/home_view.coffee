@@ -11,7 +11,6 @@ module.exports = class HomeView extends View
   events:
     'mouseover #beginner-campaign': 'onMouseOverButton'
     'mouseout #beginner-campaign': 'onMouseOutButton'
-    'click #simulate-button': 'onSimulateButtonClick'
 
   getRenderData: ->
     c = super()
@@ -100,7 +99,3 @@ module.exports = class HomeView extends View
   destroy: ->
     @wizardSprite?.destroy()
     super()
-
-  onSimulateButtonClick: (e) =>
-    simulator = new Simulator()
-    simulator.fetchAndSimulateTask()

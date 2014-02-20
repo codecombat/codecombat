@@ -29,6 +29,13 @@ block content
                 if(!myRow)
                   a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") COMPETE
 
-  if me.isAdmin()
+  unless me.attributes.anonymous
     hr
-    button.btn.btn-warning.btn-lg.highlight#simulate-button(style="margin-bottom:10px") Simulate all games
+    button.btn.btn-warning.btn-lg.highlight#simulate-button(style="margin-bottom:10px;") Simulate Games!
+    p(style="display:inline; margin-left:10px;")
+      if simulationStatus
+        | #{simulationStatus}
+      else
+        | By simulating games you can get your game ranked faster!
+  if me.isAdmin()
+    button.btn.btn-warning.btn-lg.highlight#simulate-all-button(style="margin-bottom:10px; float: right;") RESET AND SIMULATE GAMES
