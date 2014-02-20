@@ -164,16 +164,16 @@ module.exports = class Camera extends CocoClass
     @zoomTo target, newZoom, 0
 
   onLevelRestarted: ->
-    @setBounds(@firstBounds)
+    @setBounds(@firstBounds, false)
 
   # COMMANDS
 
-  setBounds: (worldBounds) ->
+  setBounds: (worldBounds, updateZoom=true) ->
     # receives an array of two world points. Normalize and apply them
     @firstBounds = worldBounds unless @firstBounds
     @bounds = @normalizeBounds(worldBounds)
     @calculateMinZoom()
-    @updateZoom true
+    @updateZoom true if updateZoom
     @target = @currentTarget unless @target.name
 
   normalizeBounds: (worldBounds) ->
