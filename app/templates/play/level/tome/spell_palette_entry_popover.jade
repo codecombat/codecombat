@@ -42,3 +42,14 @@ if doc.args && doc.args.length
             em Default value: 
             code= arg.default
     
+if doc.returns
+  p.returns
+    strong Returns: 
+    div
+      code= doc.returns.type
+      if doc.returns.example
+        |  (ex: 
+        code= doc.returns.example
+        | )
+      if doc.returns.description
+        div!= marked(doc.returns.description)
