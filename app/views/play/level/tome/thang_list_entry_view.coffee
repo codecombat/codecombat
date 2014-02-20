@@ -20,6 +20,7 @@ module.exports = class ThangListEntryView extends View
     'level-enable-controls': 'onEnableControls'
     'surface:frame-changed': "onFrameChanged"
     'level-set-letterbox': 'onSetLetterbox'
+    'tome:thang-list-entry-popover-shown': 'onThangListEntryPopoverShown'
 
   events:
     'click': 'onClick'
@@ -89,7 +90,14 @@ module.exports = class ThangListEntryView extends View
 
   onMouseLeave: (e) ->
     return unless @controlsEnabled and @spells.length
+    clearTimeout @hideSpellsTimeout if @hideSpellsTimeout
     @hideSpellsTimeout = _.delay @hideSpells, 100
+
+  onThangListEntryPopoverShown: (e) ->
+    # I couldn't figure out how to get the mouseenter / mouseleave to always work, so this is a fallback
+    # to hide our popover is another Thang's popover gets shown.
+    return if e.entry is @
+    @hideSpells()
 
   showSpells: =>
     @sortSpells()
@@ -97,6 +105,7 @@ module.exports = class ThangListEntryView extends View
     @$el.popover('setContent').popover('show')
     @$el.parent().parent().parent().i18n()
     clearTimeout @hideSpellsTimeout if @hideSpellsTimeout
+    @hideSpellsTimeout = null
     @popover = @$el.parent().parent().parent().find('.popover')
     @popover.off 'mouseenter mouseleave'
     @popover.mouseenter (e) => @onMouseEnter()
@@ -104,9 +113,11 @@ module.exports = class ThangListEntryView extends View
     thangID = @thang.id
     @popover.find('code').click (e) ->
       Backbone.Mediator.publish "level-select-sprite", thangID: thangID, spellName: $(@).data 'spell-name'
+    Backbone.Mediator.publish 'tome:thang-list-entry-popover-shown', entry: @
 
   hideSpells: =>
     @$el.popover('hide')
+    @hideSpellsTimeout = null
 
   getSpellListHTML: ->
     spellsPopoverTemplate {spells: @spells}
