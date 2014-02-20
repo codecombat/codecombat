@@ -11,7 +11,7 @@ block content
   p
     | In this level, you play against everyone who has ever written strategies for the opposing forces.
     | Choose from the suggested players on the right, playing as many and as long as you like,
-    | and when you're ready to test your grand strategy against the whole ladder, return and click the rank button.
+    | and when you are ready to test your grand strategy against the whole ladder, return and click the rank button.
     
   p
     | After your first submission, your code will also continuously run against other players as they rank themselves.
@@ -30,6 +30,10 @@ block content
 
       if matches.length
         table.table.table-bordered.table-condensed
+          tr
+            th Result
+            th Opponent
+            th When
           for match in matches
             tr
               td.state-cell
@@ -42,7 +46,8 @@ block content
               td.name-cell= match.opponentName || "Anonymous"
               td.time-cell= match.when
               td.battle-cell
-                a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{match.sessionID}") Battle!
+                - var text = match.state === 'win' ? 'Watch your victory' : 'Defeat the ' + otherTeamID
+                a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{match.sessionID}")= text
       
       else
         div.alert.alert-warning
@@ -61,7 +66,7 @@ block content
             span : 
           div.col-md-10
             a(href="/play/level/#{levelID}?team=#{teamID}")
-              span.warmup Play vs Default
+              span.warmup Play #{teamID} vs Default #{otherTeamID}
 
       if challengers.easy
         .well
@@ -71,8 +76,9 @@ block content
               span : 
             div.col-md-10
               a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.easy.sessionID}")
-                span Play vs 
-                span= challengers.easy.opponentName
+                span Play #{teamID} vs 
+                strong= challengers.easy.opponentName
+                span  #{otherTeamID}
             
       if challengers.medium
         .well
@@ -82,8 +88,9 @@ block content
               span : 
             div.col-md-10
               a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.medium.sessionID}")
-                span Play vs 
-                span= challengers.medium.opponentName
+                span Play #{teamID} vs 
+                strong= challengers.medium.opponentName
+                span  #{otherTeamID}
 
       if challengers.hard
         .well
@@ -93,5 +100,6 @@ block content
               span : 
             div.col-md-10
               a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.hard.sessionID}")
-                span Play vs 
-                span= challengers.hard.opponentName
+                span Play #{teamID} vs 
+                strong= challengers.hard.opponentName
+                span  #{otherTeamID}
