@@ -19,6 +19,7 @@ LevelHandler = class LevelHandler extends Handler
     'name'
     'i18n'
     'icon'
+    'goals'
   ]
 
   postEditableProperties: ['name']

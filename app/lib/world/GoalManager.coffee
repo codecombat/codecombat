@@ -142,13 +142,13 @@ module.exports = class GoalManager extends CocoClass
 
   onThangTouchedGoal: (e, frameNumber) ->
     for goal in @goals ? []
-      @checkArrived(goal.id, goal.getToLocations.who, goal.getToLocations.targets, e.actor.id, e.touched.id, frameNumber) if goal.getToLocations?
-      @checkArrived(goal.id, goal.keepFromLocations.who, goal.keepFromLocations.targets, e.actor.id, e.touched.id, frameNumber) if goal.keepFromLocations?
+      @checkArrived(goal.id, goal.getToLocations.who, goal.getToLocations.targets, e.actor, e.touched.id, frameNumber) if goal.getToLocations?
+      @checkArrived(goal.id, goal.keepFromLocations.who, goal.keepFromLocations.targets, e.actor, e.touched.id, frameNumber) if goal.keepFromLocations?
 
-  checkArrived: (goalID, who, targets, thangID, touchedID, frameNumber) ->
+  checkArrived: (goalID, who, targets, thang, touchedID, frameNumber) ->
     return unless touchedID in targets
-    return unless thangID in who
-    @updateGoalState(goalID, thangID, 'arrived', frameNumber)
+    return unless thang.id in who or thang.team in who
+    @updateGoalState(goalID, thang.id, 'arrived', frameNumber)
 
   onThangLeftMap: (e, frameNumber) ->
     for goal in @goals ? []
@@ -211,7 +211,7 @@ module.exports = class GoalManager extends CocoClass
     stateThangs[thangID] = true
     success = @goalIsPositive goalID
     if success
-      numNeeded = Math.max((goal.howMany ? 1), _.size stateThangs)
+      numNeeded = goal.howMany ? Math.max(1, _.size stateThangs)
     else
       # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be "done"
       numNeeded = _.size(stateThangs) - Math.min((goal.howMany ? 1), _.size stateThangs) + 1
