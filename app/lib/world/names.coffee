@@ -107,6 +107,9 @@ module.exports.thangNames = thangNames =
   "Archer M": [
     "Brian"
     "Cole"
+    "Roman"
+    "Hunter"
+    "Simon"
   ]
   "Ogre Munchkin M": [
     "Brack"
