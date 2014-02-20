@@ -59,10 +59,11 @@ module.exports = class CastButtonView extends View
     @casting = true
     Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.25
     @updateCastButton()
+    @onWorldLoadProgressChanged progress: 0
 
   onWorldLoadProgressChanged: (e) ->
     overlay = @castButtonGroup.find '.button-progress-overlay'
-    overlay.css 'width', e.progress * @castButtonGroup.width() - 6
+    overlay.css 'width', e.progress * @castButtonGroup.width() + 1
 
   onNewWorld: (e) ->
     @casting = false
