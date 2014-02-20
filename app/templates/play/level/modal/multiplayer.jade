@@ -29,7 +29,8 @@
       if me.get('anonymous')
         p Sign in or create an account and get your solution on the leaderboard!
       else
-        #submit-session-button.btn.btn-primary Update Ladder Score
+        a#go-to-leaderboard-button.btn.btn-primary(href="/play/ladder/#{levelSlug}/team/#{team}") Go to the leaderboard!
+        p You can submit your game to be ranked from the leaderboard page.
   
   .modal-footer
     a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close

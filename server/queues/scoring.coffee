@@ -26,23 +26,26 @@ connectToScoringQueue = ->
 
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
-  if isUserAnonymous req then return errors.forbidden res, "You need to be logged in to be added to the leaderboard"
-  return errors.badInput res, "The session ID is invalid" unless typeof requestSessionID is "string"
+  validatePermissions req, requestSessionID, (error, permissionsAreValid) ->
+    if err? then return errors.serverError res, "There was an error validating permissions"
+    unless permissionsAreValid then return errors.forbidden res, "You do not have the permissions to submit that game to the leaderboard"
 
-  fetchSessionToSubmit requestSessionID, (err, sessionToSubmit) ->
-    if err? then return errors.serverError res, "There was an error finding the given session."
+    return errors.badInput res, "The session ID is invalid" unless typeof requestSessionID is "string"
 
-    updateSessionToSubmit sessionToSubmit, (err, data) ->
-      if err? then return errors.serverError res, "There was an error updating the session"
+    fetchSessionToSubmit requestSessionID, (err, sessionToSubmit) ->
+      if err? then return errors.serverError res, "There was an error finding the given session."
 
-      fetchSessionsToRankAgainst (err, sessionsToRankAgainst) ->
-        if err? then return errors.serverError res, "There was an error fetching the sessions to rank against"
+      updateSessionToSubmit sessionToSubmit, (err, data) ->
+        if err? then return errors.serverError res, "There was an error updating the session"
 
-        taskPairs = generateTaskPairs(sessionsToRankAgainst, sessionToSubmit)
-        sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
-          if taskPairError? then return errors.serverError res, "There was an error sending the task pairs to the queue"
+        fetchSessionsToRankAgainst (err, sessionsToRankAgainst) ->
+          if err? then return errors.serverError res, "There was an error fetching the sessions to rank against"
 
-          sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
+          taskPairs = generateTaskPairs(sessionsToRankAgainst, sessionToSubmit)
+          sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
+            if taskPairError? then return errors.serverError res, "There was an error sending the task pairs to the queue"
+
+            sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
 
 module.exports.dispatchTaskToConsumer = (req, res) ->
   if isUserAnonymous(req) then return errors.forbidden res, "You need to be logged in to simulate games"
@@ -95,6 +98,14 @@ module.exports.processTaskResult = (req, res) ->
             console.log "Sending response object"
             sendResponseObject req, res, {"message":"The scores were updated successfully!"}
 
+validatePermissions = (req, sessionID, callback) ->
+  if isUserAnonymous req then return callback null, false
+  if isUserAdmin req then return callback null, true
+  LevelSession.findOne(_id:sessionID).select('creator submittedCode code').lean().exec (err, retrievedSession) ->
+    if err? then return callback err, retrievedSession
+    code = retrievedSession.code
+    submittedCode = retrievedSession.submittedCode
+    callback null, (retrievedSession.creator is req.user?.id and not _.isEqual(code, submittedCode))
 
 addMatchToSessions = (clientResponseObject, newScoreObject, callback) ->
   matchObject = {}
@@ -174,6 +185,8 @@ sendTaskPairToQueue = (taskPair, callback) ->
 getUserIDFromRequest = (req) -> if req.user? then return req.user._id else return null
 
 isUserAnonymous = (req) -> if req.user? then return req.user.get('anonymous') else return true
+
+isUserAdmin = (req) -> return Boolean(req.user?.isAdmin())
 
 parseTaskQueueMessage = (req, res, message) ->
   try

@@ -53,7 +53,7 @@ module.exports = class LadderView extends RootView
         @simulationStatus += "..."
     catch e
       console.log "There was a problem with the named simulation status: #{e}"
-    @render()
+    $("#simulationStatusText").text @simulationStatus
 
 
   constructor: (options, @levelID) ->
