@@ -416,6 +416,7 @@ module.exports = class SpellView extends View
 
   highlightCurrentLine: (flow) =>
     # TODO: move this whole thing into SpellDebugView or somewhere?
+    @highlightComments()
     flow ?= @spellThang?.castAether?.flow
     return unless flow
     executed = []
@@ -473,6 +474,15 @@ module.exports = class SpellView extends View
       @markerRanges.push markerRange
       @aceSession.addGutterDecoration start.row, clazz if clazz is 'executing'
     null
+
+  highlightComments: ->
+    lines = $(@ace.container).find('.ace_text-layer .ace_line_group')
+    session = @aceSession
+    $(@ace.container).find('.ace_gutter-cell').each (index, el) ->
+      line = $(lines[index])
+      session.removeGutterDecoration index, 'comment-line'
+      if line.find('.ace_comment').length
+        session.addGutterDecoration index, 'comment-line'
 
   onAnnotationClick: ->
     alertBox = $("<div class='alert alert-info fade in'>#{msg}</div>")
