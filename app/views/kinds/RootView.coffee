@@ -18,6 +18,10 @@ module.exports = class RootView extends CocoView
     'change .language-dropdown': 'showDiplomatSuggestionModal'
     'click .toggle-fullscreen': 'toggleFullscreen'
 
+  afterRender: ->
+    super()
+    @buildLanguages()
+
   logoutAccount: ->
     logoutUser($('#login-email').val())
 
