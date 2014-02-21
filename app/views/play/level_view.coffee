@@ -134,7 +134,7 @@ module.exports = class PlayLevelView extends View
       opponentSpells = opponentSpells.concat spells
 
     otherSession = @levelLoader.opponentSession
-    opponentCode = otherSession?.get('code') or {}
+    opponentCode = otherSession?.get('submittedCode') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
       c = opponentCode[spell]
