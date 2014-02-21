@@ -347,7 +347,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     nutshell_description: "Seviye editöründe sağladığımız tüm içerik, seviye düzenleme sırasında kullanmanız için uygundur. Fakat ileride bu öğelerin kullanımını kısıtlama hakkını saklı tutmaktayız."
     canonical: "Belirleyici, hukuki nitelikte olan, bu dökümanın İngilizce sürümüdür. Çeviriler arasında tutarsızlık olması halinde İngilizce dökümanda yer alan hüküm dikkate alınacaktır."
 
-  contribute:
+#  contribute:
 #    page_title: "Contributing"
 #    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
