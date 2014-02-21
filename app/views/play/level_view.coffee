@@ -64,6 +64,9 @@ module.exports = class PlayLevelView extends View
   events:
     'click #level-done-button': 'onDonePressed'
 
+  shortcuts:
+    'ctrl+s': 'onCtrlS'
+
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
     super options
@@ -188,6 +191,9 @@ module.exports = class PlayLevelView extends View
 #    @showWizardSettingsModal() if not me.get('name')
 
   # callbacks
+
+  onCtrlS: (e) ->
+    e.preventDefault()
 
   onLevelReloadFromData: (e) ->
     isReload = Boolean @world
