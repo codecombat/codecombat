@@ -416,7 +416,7 @@ module.exports = class SpellView extends View
 
   highlightCurrentLine: (flow) =>
     # TODO: move this whole thing into SpellDebugView or somewhere?
-    @highlightComments()
+    @highlightComments() unless @destroyed
     flow ?= @spellThang?.castAether?.flow
     return unless flow
     executed = []
