@@ -18,10 +18,6 @@ module.exports = class RootView extends CocoView
     'change .language-dropdown': 'showDiplomatSuggestionModal'
     'click .toggle-fullscreen': 'toggleFullscreen'
 
-  afterRender: ->
-    super()
-    @buildLanguages()
-
   logoutAccount: ->
     logoutUser($('#login-email').val())
 
@@ -41,11 +37,15 @@ module.exports = class RootView extends CocoView
     hash = location.hash
     location.hash = ''
     location.hash = hash
+    @buildLanguages()
 
     # TODO: automate tabs to put in hashes and navigate to them here
 
   buildLanguages: ->
     $select = @$el.find(".language-dropdown").empty()
+    if $select.hasClass("fancified")
+      $select.parent().find('.options,.trigger').remove()
+      $select.unwrap().removeClass("fancified")
     preferred = me.lang()
     codes = _.keys(locale)
     genericCodes = _.filter codes, (code) ->
