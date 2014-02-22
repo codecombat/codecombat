@@ -46,7 +46,7 @@ module.exports = class SpellView extends View
     @createACE()
     @createACEShortcuts()
     @fillACE()
-    if @session.get 'multiplayer'
+    if @session.get('multiplayer')
       @createFirepad()
     else
       # needs to happen after the code generating this view is complete
@@ -129,7 +129,7 @@ module.exports = class SpellView extends View
     @ace.clearSelection()
 
   onMultiplayerChanged: ->
-    if @session.get 'multiplayer'
+    if @session.get('multiplayer')
       @createFirepad()
     else
       @firepad?.dispose()

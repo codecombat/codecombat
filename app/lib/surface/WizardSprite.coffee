@@ -31,6 +31,8 @@ module.exports = class WizardSprite extends IndieSprite
     if @isSelf
       @setNameLabel me.displayName()
       @setColorHue me.get('wizardColor1')
+    else if options.name
+      @setNameLabel options.name
 
   makeIndieThang: (thangType, thangID, pos) ->
     thang = super thangType, thangID, pos

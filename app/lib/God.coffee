@@ -88,6 +88,7 @@ module.exports = class God
     else
       @worldWaiting = true
       return
+    #console.log "going to run world with code", @getUserCodeMap()
     angel.worker.postMessage {func: 'runWorld', args: {
       worldName: @level.name
       userCodeMap: @getUserCodeMap()

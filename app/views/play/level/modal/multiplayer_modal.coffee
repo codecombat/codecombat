@@ -17,6 +17,8 @@ module.exports = class MultiplayerModal extends View
     @level = options.level
     @session.on 'change:multiplayer', @updateLinkSection, @
     @playableTeams = options.playableTeams
+    @ladderGame = options.ladderGame
+    console.log 'ladder game is', @ladderGame
 
   getRenderData: ->
     c = super()
@@ -27,7 +29,8 @@ module.exports = class MultiplayerModal extends View
     c.team = @session.get 'team'
     c.levelSlug = @level?.get('slug')
     c.playableTeams = @playableTeams
-    c.ladderGame = @level?.get('name') is 'Project DotA' and not me.get('isAnonymous')
+    c.ladderGame = @ladderGame
+    # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
     c
 
   afterRender: ->

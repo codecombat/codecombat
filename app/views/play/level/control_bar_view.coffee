@@ -32,6 +32,7 @@ module.exports = class ControlBarView extends View
     @session = options.session
     @level = options.level
     @playableTeams = options.playableTeams
+    @ladderGame = options.ladderGame
     super options
 
   setBus: (@bus) ->
@@ -50,6 +51,7 @@ module.exports = class ControlBarView extends View
     super context
     context.worldName = @worldName
     context.multiplayerEnabled = @session.get('multiplayer')
+    context.ladderGame = @ladderGame
     context
 
   showGuideModal: ->
@@ -57,7 +59,7 @@ module.exports = class ControlBarView extends View
     @openModalView(new DocsModal(options))
 
   showMultiplayerModal: ->
-    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level))
+    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level, ladderGame: @ladderGame))
 
   showRestartModal: ->
     @openModalView(new ReloadModal())
