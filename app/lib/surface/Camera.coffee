@@ -44,6 +44,7 @@ module.exports = class Camera extends CocoClass
   # TODO: Fix tests to not use mainLayer
   constructor: (@canvasWidth, @canvasHeight, angle=Math.asin(0.75), hFOV=d2r(30)) ->
     super()
+    @offset = {x: 0, y:0}
     @calculateViewingAngle angle
     @calculateFieldOfView hFOV
     @calculateAxisConversionFactors()
@@ -149,7 +150,7 @@ module.exports = class Camera extends CocoClass
     ratio = 1 + 0.05 * Math.sqrt(Math.abs(e.deltaY))
     ratio = 1 / ratio if e.deltaY > 0
     newZoom = @zoom * ratio
-    if e.surfacePos
+    if e.surfacePos and not @focusedOnSprite()
       # zoom based on mouse position, adjusting the target so the point under the mouse stays the same
       mousePoint = @canvasToSurface(e.surfacePos)
       ratioPosX = (mousePoint.x - @surfaceViewport.x) / @surfaceViewport.width
@@ -174,7 +175,7 @@ module.exports = class Camera extends CocoClass
     @bounds = @normalizeBounds(worldBounds)
     @calculateMinZoom()
     @updateZoom true if updateZoom
-    @target = @currentTarget unless @target.name
+    @target = @currentTarget unless @focusedOnSprite()
 
   normalizeBounds: (worldBounds) ->
     return null unless worldBounds
@@ -202,6 +203,16 @@ module.exports = class Camera extends CocoClass
     newTarget ?= {x:0, y:0}
     newTarget = (@newTarget or @target) if @locked
     newZoom = Math.min((Math.max @minZoom, newZoom), MAX_ZOOM)
+    
+    thangType = @target?.sprite?.thangType
+    if thangType
+      @offset = _.clone(thangType.get('positions')?.torso or {x: 0, y:0})
+      scale = thangType.get('scale') or 1
+      @offset.x *= scale
+      @offset.y *= scale
+    else
+      @offset = {x: 0, y:0}
+      
     return if @zoom is newZoom and newTarget is newTarget.x and newTarget.y is newTarget.y
 
     @finishTween(true)
@@ -219,11 +230,14 @@ module.exports = class Camera extends CocoClass
       @target = newTarget
       @zoom = newZoom
       @updateZoom true
+      
+  focusedOnSprite: ->
+    return @target?.name
 
   finishTween: (abort=false) =>
     createjs.Tween.removeTweens(@)
     return unless @newTarget
-    unless abort
+    unless abort is true
       @target = @newTarget
       @zoom = @newZoom
     @newZoom = @oldZoom = @newTarget = @newTarget = @tweenProgress = null
@@ -231,7 +245,7 @@ module.exports = class Camera extends CocoClass
 
   updateZoom: (force=false) ->
     # Update when we're focusing on a Thang, tweening, or forcing it, unless we're locked
-    return if (not force) and (@locked or (not @newTarget and not @target?.name))
+    return if (not force) and (@locked or (not @newTarget and not @focusedOnSprite()))
     if @newTarget
       t = @tweenProgress
       @zoom = @oldZoom + t * (@newZoom - @oldZoom)
@@ -249,8 +263,8 @@ module.exports = class Camera extends CocoClass
     return pos unless @bounds
     marginX = (@canvasWidth / zoom / 2)
     marginY = (@canvasHeight / zoom / 2)
-    x = Math.min(Math.max(marginX + @bounds.x, pos.x), @bounds.x + @bounds.width - marginX)
-    y = Math.min(Math.max(marginY + @bounds.y, pos.y), @bounds.y + @bounds.height - marginY)
+    x = Math.min(Math.max(marginX + @bounds.x, pos.x + @offset.x), @bounds.x + @bounds.width - marginX)
+    y = Math.min(Math.max(marginY + @bounds.y, pos.y + @offset.y), @bounds.y + @bounds.height - marginY)
     {x: x, y: y}
 
   updateViewports: (target) ->
