@@ -116,6 +116,10 @@ module.exports = class PlayLevelView extends View
   getRenderData: ->
     c = super()
     c.world = @world
+    if me.get('hourOfCode') and me.lang() is 'en-US'
+      # Show the Hour of Code footer explanation until it's been more than a day
+      elapsed = (new Date() - new Date(me.get('dateCreated')))
+      c.explainHourOfCode = elapsed < 86400 * 1000
     c
 
   afterRender: ->
