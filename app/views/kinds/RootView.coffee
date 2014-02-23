@@ -15,12 +15,8 @@ filterKeyboardEvents = (allowedEvents, func) ->
 module.exports = class RootView extends CocoView
   events:
     "click #logout-button": "logoutAccount"
-    'change .language-dropdown': 'showDiplomatSuggestionModal'
+    'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
-
-  afterRender: ->
-    super()
-    @buildLanguages()
 
   logoutAccount: ->
     logoutUser($('#login-email').val())
@@ -41,11 +37,15 @@ module.exports = class RootView extends CocoView
     hash = location.hash
     location.hash = ''
     location.hash = hash
+    @buildLanguages()
 
     # TODO: automate tabs to put in hashes and navigate to them here
 
   buildLanguages: ->
     $select = @$el.find(".language-dropdown").empty()
+    if $select.hasClass("fancified")
+      $select.parent().find('.options,.trigger').remove()
+      $select.unwrap().removeClass("fancified")
     preferred = me.lang()
     codes = _.keys(locale)
     genericCodes = _.filter codes, (code) ->
@@ -56,11 +56,12 @@ module.exports = class RootView extends CocoView
         $("<option></option>").val(code).text(localeInfo.nativeDescription))
     $select.val(preferred).fancySelect()
 
-  showDiplomatSuggestionModal: ->
+  onLanguageChanged: ->
     newLang = $(".language-dropdown").val()
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
     @render()
+    @buildLanguages()
     unless newLang.split('-')[0] is "en"
       @openModalView(application.router.getView("modal/diplomat_suggestion", "_modal"))
 
