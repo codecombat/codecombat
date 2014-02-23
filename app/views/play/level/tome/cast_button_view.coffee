@@ -17,7 +17,7 @@ module.exports = class CastButtonView extends View
     @spells = options.spells
     @levelID = options.levelID
     isMac = navigator.platform.toUpperCase().indexOf('MAC') isnt -1
-    @castShortcut = "⇧↩"
+    @castShortcut = "⇧↵"
     @castShortcutVerbose = "Shift+Enter"
 
   getRenderData: (context={}) ->
@@ -35,7 +35,7 @@ module.exports = class CastButtonView extends View
     # TODO: use a User setting instead of localStorage
     delay = localStorage.getItem 'autocastDelay'
     delay ?= 5000
-    if @levelID is 'project-dota'
+    if @levelID in ['project-dota', 'brawlwood', 'ladder-tutorial']
       delay = 90019001
     @setAutocastDelay delay
 

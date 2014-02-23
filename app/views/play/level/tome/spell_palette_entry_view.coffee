@@ -83,7 +83,11 @@ module.exports = class SpellPaletteEntryView extends View
       @doc.shortName = @doc.shorterName = @doc.title = @doc.name
     else
       @doc.owner ?= 'this'
-      suffix = if @doc.type is 'function' then '()' else ''
+      suffix = ''
+      if @doc.type is 'function'
+        argNames = (arg.name for arg in @doc.args ? []).join(', ')
+        argNames = '...' if argNames.length > 6
+        suffix = "(#{argNames})"
       @doc.shortName = "#{@doc.owner}.#{@doc.name}#{suffix};"
       if @doc.owner is 'this' or options.tabbify
         @doc.shorterName = "#{@doc.name}#{suffix}"
