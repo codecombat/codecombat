@@ -28,6 +28,7 @@ module.exports = class SpellView extends View
     'modal-closed': 'focus'
     'focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
+    'spell-beautify': 'onSpellBeautify'
 
   events:
     'mouseout': 'onMouseOut'
@@ -123,6 +124,10 @@ module.exports = class SpellView extends View
       name: 'spell-step-backward'
       bindKey: {win: 'Ctrl-Alt-[', mac: 'Command-Alt-[|Ctrl-Alt-]'}
       exec: -> Backbone.Mediator.publish 'spell-step-backward'
+    addCommand
+      name: 'spell-beautify'
+      bindKey: {win: 'Ctrl-Shift-B', mac: 'Command-Shift-B|Ctrl-Shift-B'}
+      exec: -> Backbone.Mediator.publish 'spell-beautify'
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -332,6 +337,7 @@ module.exports = class SpellView extends View
     # Could use the user-code-problem style... or we could leave that to other places.
     @ace[if @problems.length then 'setStyle' else 'unsetStyle'] 'user-code-problem'
     Backbone.Mediator.publish 'tome:problems-updated', spell: @spell, problems: @problems, isCast: isCast
+    @ace.resize()
 
   # Autocast:
   # Goes immediately if the code is a) changed and b) complete/valid and c) the cursor is at beginning or end of a line
@@ -512,6 +518,12 @@ module.exports = class SpellView extends View
       return _.delay @toggleBackground, 100
     filters.revertImage background if @controlsEnabled
     filters.darkenImage background, 0.8 unless @controlsEnabled
+
+  onSpellBeautify: (e) ->
+    return unless @ace.isFocused() and @spellThang
+    ugly = @getSource()
+    pretty = @spellThang.aether.beautify ugly
+    @ace.setValue pretty
 
   dismiss: ->
     @recompile() if @spell.hasChangedSignificantly @getSource()

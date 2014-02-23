@@ -17,6 +17,8 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   destroy: ->
     Backbone.Mediator.unsubscribe(channel, @[func], @) for channel, func of @subscriptions
+    @show = null
+    @destroyed = true
 
   build: ->
     @mouseEnabled = @mouseChildren = false
@@ -46,7 +48,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @uncache()
 
   show: =>
-    return unless @mouseInBounds and @lastPos
+    return unless @mouseInBounds and @lastPos and not @destroyed
     @label.text = "(#{@lastPos.x}, #{@lastPos.y})"
     [width, height] = [@label.getMeasuredWidth(), @label.getMeasuredHeight()]
     @label.regX = width / 2
