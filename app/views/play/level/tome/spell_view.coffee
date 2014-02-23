@@ -352,7 +352,7 @@ module.exports = class SpellView extends View
     #@recompileValid = not aether.getAllProblems().length
     valid = not aether.getAllProblems().length
     cursorPosition = @ace.getCursorPosition()
-    currentLine = @aceDoc.$lines[cursorPosition.row].replace(/[ \t]*\/\/[^"']*/g, '').trimRight()  # trim // unless inside "
+    currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(/[ \t]*\/\/[^"']*/g, ''))  # trim // unless inside "
     endOfLine = cursorPosition.column >= currentLine.length  # just typed a semicolon or brace, for example
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     #console.log "finished?", valid, endOfLine, beginningOfLine, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine

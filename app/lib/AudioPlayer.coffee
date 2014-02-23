@@ -80,7 +80,7 @@ class AudioPlayer extends CocoClass
       @soundsToPlayWhenLoaded[name] = volume
 
   playSound: (name, volume=1) ->
-    createjs.Sound.play name, {volume: me.get('volume') * volume}
+    createjs.Sound.play name, {volume: (me.get('volume') ? 1) * volume}
 
 #  # TODO: load Interface sounds somehow, somewhere, somewhen
 
