@@ -15,12 +15,8 @@ filterKeyboardEvents = (allowedEvents, func) ->
 module.exports = class RootView extends CocoView
   events:
     "click #logout-button": "logoutAccount"
-    'change .language-dropdown': 'showDiplomatSuggestionModal'
+    'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
-
-  afterRender: ->
-    super()
-    @buildLanguages()
 
   logoutAccount: ->
     logoutUser($('#login-email').val())
@@ -60,11 +56,12 @@ module.exports = class RootView extends CocoView
         $("<option></option>").val(code).text(localeInfo.nativeDescription))
     $select.val(preferred).fancySelect()
 
-  showDiplomatSuggestionModal: ->
+  onLanguageChanged: ->
     newLang = $(".language-dropdown").val()
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
     @render()
+    @buildLanguages()
     unless newLang.split('-')[0] is "en"
       @openModalView(application.router.getView("modal/diplomat_suggestion", "_modal"))
 
