@@ -12,7 +12,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @camera = options.camera
     console.error "CoordinateDisplay needs camera." unless @camera
     @build()
-    @show = _.debounce @show, 250
+    @show = _.debounce @show, 125
     Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions
 
   destroy: ->
