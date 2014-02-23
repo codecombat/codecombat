@@ -336,6 +336,7 @@ module.exports = class SpellView extends View
     #console.log '  and we could do the visualization', aether.visualization unless _.isEmpty aether.visualization
     # Could use the user-code-problem style... or we could leave that to other places.
     @ace[if @problems.length then 'setStyle' else 'unsetStyle'] 'user-code-problem'
+    @ace[if isCast then 'setStyle' else 'unsetStyle'] 'spell-cast'
     Backbone.Mediator.publish 'tome:problems-updated', spell: @spell, problems: @problems, isCast: isCast
     @ace.resize()
 
