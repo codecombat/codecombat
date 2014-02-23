@@ -520,7 +520,7 @@ module.exports = class SpellView extends View
     filters.darkenImage background, 0.8 unless @controlsEnabled
 
   onSpellBeautify: (e) ->
-    return unless @ace.isFocused() and @spellThang
+    return unless @spellThang and (@ace.isFocused() or e.spell is @spell)
     ugly = @getSource()
     pretty = @spellThang.aether.beautify ugly
     @ace.setValue pretty
