@@ -26,11 +26,12 @@ module.exports = class SettingsView extends View
 
   refreshPicturePane: =>
     h = $(@template(@getRenderData()))
-    new_pane = $('#picture-pane', h)
-    old_pane = $('#picture-pane')
-    active = old_pane.hasClass('active')
-    old_pane.replaceWith(new_pane)
-    new_pane.addClass('active') if active
+    newPane = $('#picture-pane', h)
+    oldPane = $('#picture-pane')
+    active = oldPane.hasClass('active')
+    oldPane.replaceWith(newPane)
+    newPane.i18n()
+    newPane.addClass('active') if active
 
   afterRender: ->
     super()
