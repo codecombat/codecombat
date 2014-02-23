@@ -63,7 +63,7 @@ module.exports = class CastButtonView extends View
 
   onWorldLoadProgressChanged: (e) ->
     overlay = @castButtonGroup.find '.button-progress-overlay'
-    overlay.css 'width', e.progress * @castButtonGroup.width() + 1
+    overlay.css 'width', e.progress * @castButton.outerWidth() + 1
 
   onNewWorld: (e) ->
     @casting = false
