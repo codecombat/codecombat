@@ -101,7 +101,7 @@ module.exports = class DebugView extends View
     return "<this #{value.id}>" if value is @thang and depth
     if depth is 2
       if value.constructor?.className is "Thang"
-        value = "<#{value.spriteName} - #{value.id}, #{if value.pos then value.pos.toString() else 'non-physical'}>"
+        value = "<#{value.type or value.spriteName} - #{value.id}, #{if value.pos then value.pos.toString() else 'non-physical'}>"
       else
         value = value.toString()
       return value
