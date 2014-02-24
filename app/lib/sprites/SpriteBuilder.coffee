@@ -141,8 +141,8 @@ module.exports = class SpriteBuilder
     return unless shapes.length
     colors = @initColorMap(shapes)
     @adjustHuesForColorMap(colors, config.hue)
-    @adjustValueForColorMap(colors, 1, config.lightness)
-    @adjustValueForColorMap(colors, 2, config.saturation)
+    @adjustValueForColorMap(colors, 1, config.saturation)
+    @adjustValueForColorMap(colors, 2, config.lightness)
     @applyColorMap(shapes, colors)
     
   initColorMap: (shapes) ->
