@@ -8,7 +8,9 @@
   font-size: 12px
   border: 1px solid transparent
   cursor: pointer
-  @user-select(none)
+  @include user-select(all)
+  ::selection
+    background: transparent
 
   &:hover
     border: 1px solid #000000
