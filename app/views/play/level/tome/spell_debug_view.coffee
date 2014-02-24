@@ -21,6 +21,7 @@ module.exports = class DebugView extends View
     @ace = options.ace
     @thang = options.thang
     @variableStates = {}
+    @onMouseMove = _.throttle @onMouseMove, 25
 
   afterRender: ->
     super()
@@ -30,10 +31,11 @@ module.exports = class DebugView extends View
     @update()
 
   onMouseMove: (e) =>
+    return if @destroyed
     pos = e.getDocumentPosition()
     endOfDoc = pos.row is @ace.getSession().getDocument().getLength() - 1
     it = new TokenIterator e.editor.session, pos.row, pos.column
-    isIdentifier = (t) -> t and (t.type is 'identifier' or t.value is 'this')
+    isIdentifier = (t) -> t and (t.type is 'identifier' or t.value is 'this' or window[t.value])
     while it.getCurrentTokenRow() is pos.row and not isIdentifier(token = it.getCurrentToken())
       it.stepBackward()
       break unless token
@@ -52,7 +54,7 @@ module.exports = class DebugView extends View
         token = prev
         start = it.getCurrentTokenColumn()
         chain.unshift token.value
-    if token and (token.value of @variableStates or token.value is "this")
+    if token and (token.value of @variableStates or token.value is "this" or window[token.value])
       @variableChain = chain
       offsetX = e.domEvent.offsetX ? e.clientX - $(e.domEvent.target).offset().left
       offsetY = e.domEvent.offsetY ? e.clientY - $(e.domEvent.target).offset().top
@@ -76,6 +78,10 @@ module.exports = class DebugView extends View
       @$el.show().css(@pos)
     else
       @$el.hide()
+    if @variableChain?.length is 2
+      Backbone.Mediator.publish 'tome:spell-debug-property-hovered', property: @variableChain[1], owner: @variableChain[0]
+    else
+      Backbone.Mediator.publish 'tome:spell-debug-property-hovered', property: null
     @updateMarker()
 
   updateMarker: ->
@@ -124,8 +130,11 @@ module.exports = class DebugView extends View
     for prop, i in chain
       if prop is "this"
         value = @thang
+      else if i is 0
+        value = @variableStates[prop]
+        if typeof value is "undefined" then value = window[prop]
       else
-        value = (if i is 0 then @variableStates else value)[prop]
+        value = value[prop]
       keys.push prop
       break unless value
       if theClass = serializedClasses[value.CN]

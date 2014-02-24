@@ -66,6 +66,7 @@ module.exports = class SpellPaletteEntryView extends View
     'surface:frame-changed': "onFrameChanged"
     'tome:palette-hovered': "onPaletteHovered"
     'tome:palette-pin-toggled': "onPalettePinToggled"
+    'tome:spell-debug-property-hovered': 'onSpellDebugPropertyHovered'
 
   events:
     'mouseenter': 'onMouseEnter'
@@ -187,6 +188,16 @@ module.exports = class SpellPaletteEntryView extends View
   onPalettePinToggled: (e) ->
     return if e.entry is @
     @otherPopoverPinned = e.pinned
+
+  onSpellDebugPropertyHovered: (e) ->
+    matched = e.property is @doc.name and e.owner is @doc.owner
+    if matched and not @debugHovered
+      @debugHovered = true
+      @togglePinned() unless @popoverPinned
+    else if @debugHovered and not matched
+      @debugHovered = false
+      @togglePinned() if @popoverPinned
+    null
 
   destroy: ->
     $('.popover.pinned').remove() if @popoverPinned  # @$el.popover('destroy') doesn't work
