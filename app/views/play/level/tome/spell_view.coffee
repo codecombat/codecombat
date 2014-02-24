@@ -326,7 +326,10 @@ module.exports = class SpellView extends View
     isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
     @problems = []
     annotations = []
+    seenProblemKeys = {}
     for aetherProblem, problemIndex in aether.getAllProblems()
+      continue if aetherProblem.userInfo.key of seenProblemKeys
+      seenProblemKeys[aetherProblem.userInfo.key] = true
       @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations
