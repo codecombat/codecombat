@@ -8,6 +8,7 @@ CameraBorder = require './CameraBorder'
 Layer = require './Layer'
 Letterbox = require './Letterbox'
 Dimmer = require './Dimmer'
+CastingScreen = require './CastingScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
 SpriteBoss = require './SpriteBoss'
@@ -88,6 +89,7 @@ module.exports = Surface = class Surface extends CocoClass
     @spriteBoss.destroy()
     @chooser?.destroy()
     @dimmer?.destroy()
+    @castingScreen?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
     @stage.removeAllChildren()
@@ -299,11 +301,18 @@ module.exports = Surface = class Surface extends CocoClass
     @lastFrame = @currentFrame
 
   onCastSpells: (event) ->
+    @casting = true
+    @wasPlayingWhenCastingBegan = @playing
+    Backbone.Mediator.publish 'level-set-playing', { playing: false }
+    
     createjs.Tween.removeTweens(@surfaceLayer)
     createjs.Tween.get(@surfaceLayer).to({alpha:0.9}, 1000, createjs.Ease.getPowOut(4.0))
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
+    @casting = false
+    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan }
+    
     fastForwardTo = null
     if @playing
       fastForwardTo = Math.min event.world.firstChangedFrame, @currentFrame
@@ -340,6 +349,7 @@ module.exports = Surface = class Surface extends CocoClass
     @surfaceLayer.addChild @cameraBorder = new CameraBorder bounds: @camera.bounds
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
     @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
+    @castingScreen ?= new CastingScreen camera: @camera, layer: @screenLayer
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown
@@ -497,7 +507,7 @@ module.exports = Surface = class Surface extends CocoClass
   updateState: (frameChanged) ->
     # world state must have been restored in @updateSpriteSounds
     @camera.updateZoom()
-    @spriteBoss.update frameChanged
+    @spriteBoss.update frameChanged unless @casting
     @dimmer?.setSprites @spriteBoss.sprites
 
   drawCurrentFrame: (e) ->
@@ -508,6 +518,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   updatePaths: ->
     return unless @options.paths
+    return if @casting
     @hidePaths()
     selectedThang = @spriteBoss.selectedSprite?.thang
     return if @world.showPaths is 'never'

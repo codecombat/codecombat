@@ -174,3 +174,7 @@ module.exports = class Mark extends CocoClass
     @mark.scaleX = @mark.scaleY = Math.min 1, scale
     if @name in ['selection', 'target', 'repair']
       @mark.scaleY *= @camera.y2x  # code applies perspective
+
+  stop: -> @markSprite?.stop()
+  play: -> @markSprite?.play()
+

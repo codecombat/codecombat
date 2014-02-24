@@ -157,6 +157,14 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   show: ->
     @hiding = false
     @updateAlpha()
+    
+  stop: ->
+    @imageObject?.stop?()
+    mark.stop() for name, mark of @marks
+    
+  play: ->
+    @imageObject?.play?()
+    mark.play() for name, mark of @marks
 
   update: ->
     # Gets the sprite to reflect what the current state of the thangs and surface are

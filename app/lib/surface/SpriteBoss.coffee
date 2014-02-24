@@ -20,6 +20,7 @@ module.exports = class SpriteBoss extends CocoClass
     'level-lock-select': 'onSetLockSelect'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
+    'tome:cast-spells': 'onCastSpells'
 
   constructor: (@options) ->
     super()
@@ -205,6 +206,14 @@ module.exports = class SpriteBoss extends CocoClass
 
   onNewWorld: (e) ->
     @world = @options.world = e.world
+    sprite.imageObject.play() for thangID, sprite of @sprites
+    @selectionMark?.play()
+    @targetMark?.play()
+    
+  onCastSpells: ->
+    sprite.imageObject.stop() for thangID, sprite of @sprites
+    @selectionMark?.stop()
+    @targetMark?.stop()
 
   # Selection
 

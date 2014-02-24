@@ -96,4 +96,4 @@ module.exports = class LoadingScreen extends CocoClass
   
   destroy: ->
     @stage.canvas = null
-    super() 
+    super()
