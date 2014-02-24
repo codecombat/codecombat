@@ -36,8 +36,8 @@ module.exports = class PlaybackView extends View
 
   shortcuts:
     '⌘+p, p, ctrl+p': 'onTogglePlay'
-    '[': 'onScrubBack'
-    ']': 'onScrubForward'
+    '⌘+[, ctrl+[': 'onScrubBack'
+    '⌘+], ctrl+]': 'onScrubForward'
 
   constructor: ->
     super(arguments...)
