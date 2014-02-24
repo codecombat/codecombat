@@ -90,6 +90,7 @@ module.exports = class LadderTeamView extends RootView
 
     ctx.matches = (convertMatch(match) for match in @session.get('matches') or [])
     ctx.matches.reverse()
+    ctx.score = (@session.get('totalScore') or 10).toFixed(2)
     ctx
 
   afterRender: ->
