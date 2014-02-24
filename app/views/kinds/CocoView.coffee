@@ -129,7 +129,7 @@ module.exports = class CocoView extends Backbone.View
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
-    $el.find('>').hide()
+    $el.find('>').addClass('hidden')
     $el.append($('<div class="loading-screen"></div>')
     .append('<h2>Loading</h2>')
     .append('<div class="progress progress-striped active loading"><div class="progress-bar"></div></div>'))
@@ -138,7 +138,7 @@ module.exports = class CocoView extends Backbone.View
   hideLoading: ->
     return unless @_lastLoading?
     @_lastLoading.find('.loading-screen').remove()
-    @_lastLoading.find('>').show()
+    @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null
 
   # Loading ModalViews

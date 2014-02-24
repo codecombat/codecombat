@@ -26,8 +26,8 @@ module.exports = class RootView extends CocoView
     logoutUser($('#login-email').val())
 
   showWizardSettingsModal: ->
-    WizardSettingsView = require('views/modal/wizard_settings_modal')
-    subview = new WizardSettingsView {}
+    WizardSettingsModal = require('views/modal/wizard_settings_modal')
+    subview = new WizardSettingsModal {}
     @openModalView subview
 
   showLoading: ($el) ->

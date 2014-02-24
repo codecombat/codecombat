@@ -1,12 +1,13 @@
-RootView = require 'views/kinds/RootView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/account/wizard_settings'
 {me} = require('lib/auth')
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
-module.exports = class WizardSettingsView extends RootView
+module.exports = class WizardSettingsView extends CocoView
   id: 'wizard-settings-view'
   template: template
+  startsLoading: true
 
   events:
     'change .color-group-checkbox': (e) ->
@@ -25,6 +26,7 @@ module.exports = class WizardSettingsView extends RootView
     @wizardThangType.once 'sync', @initCanvas, @
 
   initCanvas: ->
+    @startsLoading = false
     @render()
     @spriteBuilder = new SpriteBuilder(@wizardThangType)
     @initStage()
@@ -44,6 +46,7 @@ module.exports = class WizardSettingsView extends RootView
     c
 
   afterRender: ->
+    return if @startsLoading
     wizardSettings = me.get('wizard') or {}
     wizardSettings.colorConfig ?= {}
 

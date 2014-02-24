@@ -5,7 +5,7 @@ ThangType = require 'models/ThangType'
 {me} = require 'lib/auth'
 forms = require('lib/forms')
 
-module.exports = class WizardSettingsView extends View
+module.exports = class WizardSettingsModal extends View
   id: "wizard-settings-modal"
   template: template
   closesOnClickOutside: false
@@ -23,7 +23,6 @@ module.exports = class WizardSettingsView extends View
     me.set('name', $('#wizard-settings-name').val())
 
   onWizardSettingsDone: ->
-    console.log 'saving changes'
     forms.clearFormAlerts(@$el)
     res = me.validate()
     if res?
@@ -37,12 +36,10 @@ module.exports = class WizardSettingsView extends View
 
     res.error =>
       errors = JSON.parse(res.responseText)
-      console.log 'resulting error!', errors
       forms.applyErrorsToForm(@$el, errors)
       @disableModalInProgress(@$el)
-    res.success (model, response, options) ->
-      console.log 'resulting success!'
-#      @hide()
+    res.success (model, response, options) =>
+      @hide()
 
     @enableModalInProgress(@$el)
     me.save()
