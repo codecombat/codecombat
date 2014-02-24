@@ -4,19 +4,12 @@ block modal-header-content
   h3(data-i18n="wizard_settings.title") Wizard Settings
 
 block modal-body-content
-  h4(data-i18n="wizard_settings.customize_avatar") Customize Your Avatar
-  
-  canvas(width="120px", height="150px")
-  .settings
-    .form-vertical.form
-      .form-group
-        label.control-label(for="name")
-          | Name
-          button.btn.btn-mini.btn-primary#random-name Random
-        input#wizard-settings-name(name="name", type="text", value="#{me.get('name')||''}")
-      .form-group
-        label.control-label(for="wizardColor1") Hat Color
-        .selector#wizard-settings-color-1
+  div.wizard-name-line.form-group
+    label.control-label(for="name")
+      | Name
+    input#wizard-settings-name(name="name", type="text", value="#{me.get('name')||''}")
+
+  #wizard-settings-view
 
 block modal-footer-content
-  button.btn.btn-primary.btn-large#wizard-settings-done(type="button", data-dismiss="modal", aria-hidden="true") Done
+  button.btn.btn-primary.btn-large#wizard-settings-done(type="button") Done

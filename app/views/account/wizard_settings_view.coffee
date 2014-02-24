@@ -1,11 +1,11 @@
 RootView = require 'views/kinds/RootView'
-template = require 'templates/account/wizard_settings_tab'
+template = require 'templates/account/wizard_settings'
 {me} = require('lib/auth')
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
-module.exports = class WizardSettingsTabView extends RootView
-  id: 'wizard-settings-tab-view'
+module.exports = class WizardSettingsView extends RootView
+  id: 'wizard-settings-view'
   template: template
 
   events:
@@ -107,3 +107,4 @@ module.exports = class WizardSettingsTabView extends RootView
 
   destroy: ->
     @stage?.removeAllEventListeners()
+    super()
