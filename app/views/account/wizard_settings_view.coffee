@@ -85,8 +85,6 @@ module.exports = class WizardSettingsView extends CocoView
   initStage: ->
     @stage = new createjs.Stage(@$el.find('canvas')[0])
     @updateMovieClip()
-    createjs.Ticker.setFPS 20
-    createjs.Ticker.addEventListener("tick", @stage)
 
   updateMovieClip: ->
     return unless @wizardThangType.loaded
@@ -107,7 +105,3 @@ module.exports = class WizardSettingsView extends CocoView
       @movieClip.regY = reg.y
     @stage.addChild @movieClip
     @stage.update()
-
-  destroy: ->
-    @stage?.removeAllEventListeners()
-    super()

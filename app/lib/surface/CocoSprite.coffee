@@ -65,13 +65,13 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @age = 0
     @displayObject = new createjs.Container()
     if @thangType.get('actions')
-      @onThangTypeLoaded()
+      @setupSprite()
     else
       @stillLoading = true
       @thangType.fetch()
-      @thangType.once 'sync', @onThangTypeLoaded, @
+      @thangType.once 'sync', @setupSprite, @
 
-  onThangTypeLoaded: ->
+  setupSprite: ->
     @stillLoading = false
     @actions = @thangType.getActions()
     @buildFromSpriteSheet @buildSpriteSheet()
@@ -101,6 +101,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # temp, until these are re-exported with perspective
     if @options.camera and @thangType.get('name') in ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Goal Trigger', 'Obstacle']
       sprite.scaleY *= @options.camera.y2x
+    @displayObject.removeChild(@imageObject) if @imageObject
     @imageObject = sprite
     @displayObject.addChild(sprite)
     @addHealthBar()

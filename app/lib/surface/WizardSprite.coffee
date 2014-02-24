@@ -24,7 +24,7 @@ module.exports = class WizardSprite extends IndieSprite
 
   constructor: (thangType, options) ->
     if options?.isSelf
-      options.colorConfig = me.get('wizard')?.colorConfig or {}
+      options.colorConfig = _.cloneDeep(me.get('wizard')?.colorConfig) or {}
     super thangType, options
     @isSelf = options.isSelf
     @targetPos = @thang.pos
@@ -59,7 +59,12 @@ module.exports = class WizardSprite extends IndieSprite
   onMeSynced: (e) ->
     return unless @isSelf
     @setNameLabel me.displayName() if @displayObject.visible  # not if we hid the wiz
-    @setColorHue me.get('wizardColor1')
+    newColorConfig = me.get('wizard')?.colorConfig or {}
+    shouldUpdate = not _.isEqual(newColorConfig, @options.colorConfig)
+    @options.colorConfig = _.cloneDeep(newColorConfig)
+    if shouldUpdate
+      @setupSprite()
+      @playAction(@currentAction)
 
   onSpriteSelected: (e) ->
     return unless @isSelf

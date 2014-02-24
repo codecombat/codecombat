@@ -198,7 +198,7 @@ module.exports = class PlayLevelView extends View
 
   afterInsert: ->
     super()
-#    @showWizardSettingsModal() if not me.get('name')
+    @showWizardSettingsModal() if not me.get('name')
 
   # callbacks
 
