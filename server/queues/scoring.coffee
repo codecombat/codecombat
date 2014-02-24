@@ -23,6 +23,25 @@ connectToScoringQueue = ->
       if error? then throw new Error  "There was an error registering the scoring queue: #{error}"
       scoringTaskQueue = data
       log.info "Connected to scoring task queue!"
+      
+module.exports.addPairwiseTaskToQueue = (req, res) ->
+  taskPair = req.body.sessions
+  #unless isUserAdmin req then return errors.forbidden res, "You do not have the permissions to submit that game to the leaderboard"
+  #fetch both sessions
+  LevelSession.findOne(_id:taskPair[0]).lean().exec (err, firstSession) =>
+    if err? then return errors.serverError res, "There was an error fetching the first session in the pair"
+    LevelSession.find(_id:taskPair[1]).exec (err, secondSession) =>
+      if err? then return errors.serverError res, "There was an error fetching the second session"
+      try
+        taskPairs = generateTaskPairs(secondSession, firstSession)
+      catch e
+        if e then return errors.serverError res, "There was an error generating the task pairs"
+      
+      sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
+        if taskPairError? then return errors.serverError res, "There was an error sending the task pairs to the queue"
+
+        sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
+  
 
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session

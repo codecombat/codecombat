@@ -6,9 +6,13 @@ scoringQueue = require '../queues/scoring'
 module.exports.setup = (app) ->
   scoringQueue.setup()
 
+  #app.post '/queue/scoring/pairwise', (req, res) ->
+  #  handler = loadQueueHandler 'scoring'
+  #  handler.addPairwiseTaskToQueue req, res
+    
   app.all '/queue/*', (req, res) ->
     setResponseHeaderToJSONContentType res
-
+      
     queueName = getQueueNameFromPath req.path
     try
       handler = loadQueueHandler queueName
@@ -23,6 +27,7 @@ module.exports.setup = (app) ->
     catch error
       log.error error
       sendQueueError req, res, error
+  
 
 setResponseHeaderToJSONContentType = (res) -> res.setHeader('Content-Type', 'application/json')
 
