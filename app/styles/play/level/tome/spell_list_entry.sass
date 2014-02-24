@@ -13,9 +13,9 @@
   $childMargin: 2px
   $childSize: $height - 2 * $childMargin
   height: $height
-  width: 70%
-  width: -webkit-calc(100% - 170px)
-  width: calc(100% - 170px)
+  width: 80%
+  width: -webkit-calc(100% - 100px)
+  width: calc(100% - 100px)
   padding: 0px 8px
   background: transparent url(/images/level/code_editor_tab_background.png) no-repeat
   background-size: 100% 100%
@@ -25,7 +25,7 @@
     background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.2) 100%), url(/images/level/code_editor_tab_background.png)
     background-size: 100% 100%
   
-  .spell-list-button, .thang-avatar-wrapper, .reload-code
+  .spell-list-button, .thang-avatar-wrapper, .reload-code, .beautify-code
     width: $childSize
     height: $childSize
     margin: $childMargin
@@ -38,6 +38,9 @@
     float: right
     display: none
 
+  .beautify-code
+    float: right
+
   .btn.btn-small
     background: transparent
     padding: 0
@@ -46,7 +49,7 @@
       border-color: transparent
       @include box-shadow(none)
 
-    .icon-chevron-down, .icon-repeat
+    .icon-chevron-down, .icon-repeat, .icon-magnet
       margin-top: 7px
     
   .thang-avatar-wrapper

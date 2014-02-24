@@ -116,6 +116,10 @@ module.exports = class PlayLevelView extends View
   getRenderData: ->
     c = super()
     c.world = @world
+    if me.get('hourOfCode') and me.lang() is 'en-US'
+      # Show the Hour of Code footer explanation until it's been more than a day
+      elapsed = (new Date() - new Date(me.get('dateCreated')))
+      c.explainHourOfCode = elapsed < 86400 * 1000
     c
 
   afterRender: ->
@@ -143,6 +147,9 @@ module.exports = class PlayLevelView extends View
       c = opponentCode[spell]
       if c then myCode[spell] = c else delete myCode[spell]
     @session.set('code', myCode)
+    if @session.get('multiplayer') and otherSession?
+      # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
+      @session.set 'multiplayer', false
 
     @levelLoader.destroy()
     @levelLoader = null
@@ -153,13 +160,16 @@ module.exports = class PlayLevelView extends View
     @initSurface()
     @initGoalManager()
     @initScriptManager()
-    @insertSubviews()
+    @insertSubviews ladderGame: otherSession?
     @initVolume()
     @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @originalSessionState = _.cloneDeep(@session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
+    if otherSession
+      # TODO: colorize name and cloud by team, colorize wizard by user's color config
+      @surface.createOpponentWizard id: otherSession.get('creator'), name: otherSession.get('creatorName'), team: otherSession.get('team')
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
@@ -175,15 +185,15 @@ module.exports = class PlayLevelView extends View
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
-  insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
+  insertSubviews: (subviewOptions) ->
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, ladderGame: subviewOptions.ladderGame
     @insertSubView new PlaybackView {}
     @insertSubView new GoalsView {}
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams}
+    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, ladderGame: subviewOptions.ladderGame}
     #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 
   afterInsert: ->

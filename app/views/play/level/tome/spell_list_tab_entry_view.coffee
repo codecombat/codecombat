@@ -17,6 +17,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   events:
     'click .spell-list-button': 'onDropdownClick'
     'click .reload-code': 'onCodeReload'
+    'click .beautify-code': 'onBeautifyClick'
 
   constructor: (options) ->
     super options
@@ -104,6 +105,9 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   onCodeReload: ->
     Backbone.Mediator.publish "tome:reload-code", spell: @spell
+
+  onBeautifyClick: ->
+    Backbone.Mediator.publish "spell-beautify", spell: @spell
 
   updateReloadButton: ->
     changed = @spell.hasChanged null, @spell.getSource()

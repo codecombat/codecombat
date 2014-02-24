@@ -9,16 +9,18 @@
   border: 1px solid transparent
   cursor: pointer
   @include user-select(all)
+  ::selection
+    background: transparent
 
   &:hover
-    border: 1px solid #BFF
+    border: 1px solid #000000
 
   &.pinned
-    background-color: darken(#BFF, 20%)
+    background-color: darken(#FFFFFF, 25%)
 
   // Pulling these colors from the most relevant textmate-theme classes
   &.function
-    color: #0000A2
+    color: #0066FF
   &.object
     color: rgb(6, 150, 14)
   &.string

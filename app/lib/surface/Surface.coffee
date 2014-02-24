@@ -361,6 +361,9 @@ module.exports = Surface = class Surface extends CocoClass
     createjs.Ticker.addEventListener "tick", @tick
     Backbone.Mediator.publish 'level:started'
 
+  createOpponentWizard: (opponent) ->
+    @spriteBoss.createOpponentWizard opponent
+
   initAudio: ->
     @musicPlayer = new MusicPlayer()
 

@@ -17,7 +17,7 @@ module.exports = class CastButtonView extends View
     @spells = options.spells
     @levelID = options.levelID
     isMac = navigator.platform.toUpperCase().indexOf('MAC') isnt -1
-    @castShortcut = "⇧↩"
+    @castShortcut = "⇧↵"
     @castShortcutVerbose = "Shift+Enter"
 
   getRenderData: (context={}) ->
@@ -35,7 +35,7 @@ module.exports = class CastButtonView extends View
     # TODO: use a User setting instead of localStorage
     delay = localStorage.getItem 'autocastDelay'
     delay ?= 5000
-    if @levelID is 'project-dota'
+    if @levelID in ['project-dota', 'brawlwood', 'ladder-tutorial']
       delay = 90019001
     @setAutocastDelay delay
 
@@ -57,16 +57,17 @@ module.exports = class CastButtonView extends View
 
   onCastSpells: (e) ->
     @casting = true
-    Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.25
+    Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.5
     @updateCastButton()
     @onWorldLoadProgressChanged progress: 0
 
   onWorldLoadProgressChanged: (e) ->
     overlay = @castButtonGroup.find '.button-progress-overlay'
-    overlay.css 'width', e.progress * @castButtonGroup.width() + 1
+    overlay.css 'width', e.progress * @castButton.outerWidth() + 1
 
   onNewWorld: (e) ->
     @casting = false
+    Backbone.Mediator.publish 'play-sound', trigger: 'cast-end', volume: 0.5
     @updateCastButton()
 
   updateCastButton: ->

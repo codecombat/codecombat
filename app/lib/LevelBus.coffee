@@ -27,7 +27,7 @@ module.exports = class LevelBus extends Bus
     super(arguments...)
     @changedSessionProperties = {}
     @saveSession = _.debounce(@saveSession, 1000, {maxWait: 5000})
-    
+
   init: ->
     super()
     @fireScriptsRef = @fireRef?.child('scripts')
@@ -55,14 +55,14 @@ module.exports = class LevelBus extends Bus
     @wizardRef?.child('targetPos').set(wizardSprite?.targetPos or null)
     @wizardRef?.child('targetSprite').set(wizardSprite?.targetSprite?.thang.id or null)
     @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
-    
+
   disconnect: ->
     @wizardRef?.off()
     @wizardRef = null
     @fireScriptsRef?.off()
     @fireScriptsRef = null
     super()
-    
+
   removeFirebaseData: (callback) ->
     return callback?() unless @myConnection
     @myConnection.child('connected')
@@ -78,11 +78,11 @@ module.exports = class LevelBus extends Bus
 
   onEditingBegan: -> @wizardRef?.child('editing').set(true)
   onEditingEnded: -> @wizardRef?.child('editing').set(false)
-  
+
   # HACK: Backbone does not work with nested documents, but we want to
   #   patch only those props that have changed. Look into plugins to
   #   give Backbone support for nested docs and update the code here.
-  
+
   # TODO: The LevelBus doesn't need to be in charge of updating the
   #   LevelSession object. Either break this off into a separate class
   #   or have the LevelSession object listen for all these events itself.
@@ -227,7 +227,7 @@ module.exports = class LevelBus extends Bus
     patch = {}
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties
     @changedSessionProperties = {}
-    
+
     # since updates are coming fast and loose for session objects
     # don't let what the server returns overwrite changes since the save began
     tempSession = new LevelSession _id:@session.id
@@ -243,4 +243,3 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.teamSpells = true
     @session.set({'teamSpells': @teamSpellMap})
     @saveSession()
-

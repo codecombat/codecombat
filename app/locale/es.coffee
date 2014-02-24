@@ -4,7 +4,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     saving: "Guardando..."
     sending: "Enviando..."
     cancel: "Cancelar"
-#    save: "Save"
+#    save: "Guardar"
     delay_1_sec: "1 segundo"
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
@@ -31,15 +31,15 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     about: "Sobre"
     contact: "Contacto"
     twitter_follow: "Seguir"
-#    employers: "Employers"
+#    employers: "Empleados"
 
 #  versions:
-#    save_version_title: "Save New Version"
+#    save_version_title: "Guardar Nueva Versión"
 #    new_major_version: "New Major Version"
-#    cla_prefix: "To save changes, first you must agree to our"
+#    cla_prefix: "Para poder guardar los cambios, primero debes aceptar nuestra"
 #    cla_url: "CLA"
 #    cla_suffix: "."
-#    cla_agree: "I AGREE"
+#    cla_agree: "ACEPTO"
 
   login:
     sign_up: "Crear Cuenta"
@@ -48,11 +48,11 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     recover: "recuperar cuenta"
 
 #  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+#    recover_account_title: "Recuperar cuenta"
+#    send_password: "Enviar contraseña olvidada"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+#    create_account_title: "Crea una cuenta para guardar el progreso"
     description: "Es gratis. Solo necesitas un par de cosas y estarás listo para comenzar:"
     email_announcements: "Recibe noticias por email"
     coppa: "más de 13 años o fuera de los Estados Unidos"
@@ -102,21 +102,21 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     subscribe_as_diplomat: "Suscribete como un Diplomático"
 
 #  wizard_settings:
-#    title: "Wizard Settings"
-#    customize_avatar: "Customize Your Avatar"
-#    clothes: "Clothes"
+#    title: "Configuración del mago"
+#    customize_avatar: "Personaliza tu avatar"
+#    clothes: "Ropa"
 #    trim: "Trim"
-#    cloud: "Cloud"
+#    cloud: "Nube"
 #    spell: "Spell"
-#    boots: "Boots"
+#    boots: "Botas"
 #    hue: "Hue"
-#    saturation: "Saturation"
-#    lightness: "Lightness"
+#    saturation: "Saturación"
+#    lightness: "Brillo"
 
   account_settings:
     title: "Configuración de la Cuenta"
     not_logged_in: "Inicia sesión o crea una cuenta para cambiar tu configuración."
-    autosave: "Cambios Guardados Automáticamente"
+    autosave: "Los cambios se guardan Automáticamente"
     me_tab: "Yo"
     picture_tab: "Imagen"
     wizard_tab: "Hechicero"
@@ -139,7 +139,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     email_toggle: "Activar todo"
     error_saving: "Error al guardar"
     saved: "Cambios guardados"
-    password_mismatch: "El password no coincide"
+    password_mismatch: "La contraseña no coincide"
 
   account_profile:
     edit_settings: "Editar Ajustes"
@@ -233,7 +233,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    level_tab_thangs_title: "Current Thangs"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
-#    level_settings_title: "Settings"
+#    level_settings_title: "Ajustes"
 #    level_component_tab_title: "Current Components"
 #    level_component_btn_new: "Create New Component"
 #    level_systems_tab_title: "Current Systems"

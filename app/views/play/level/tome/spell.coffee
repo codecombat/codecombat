@@ -103,6 +103,7 @@ module.exports = class Spell
     if not (me.team in @permissions.readwrite) or window.currentView?.sessionID is "52bfb88099264e565d001349"  # temp fix for debugger explosion bug
       #console.log "Turning off includeFlow for", @spellKey
       aetherOptions.includeFlow = false
+    #console.log "creating aether with options", aetherOptions
     aether = new Aether aetherOptions
     aether
 

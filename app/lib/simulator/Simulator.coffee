@@ -210,6 +210,17 @@ module.exports = class Simulator
       functionName: methodName
       protectAPI: false
       includeFlow: false
+      #includeFlow: true
+      requiresThis: true
+      yieldConditionally: false
+      problems:
+        jshint_W040: {level: "ignore"}
+        jshint_W030: {level: "ignore"}  # aether_NoEffect instead
+        aether_MissingThis: {level: 'error'}
+      #functionParameters: # TODOOOOO
+    if methodName is 'hear'
+      aetherOptions.functionParameters = ['speaker', 'message', 'data']
+    console.log "creating aether with options", aetherOptions
     return new Aether aetherOptions
 
 class SimulationTask

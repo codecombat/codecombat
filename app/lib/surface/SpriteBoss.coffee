@@ -107,6 +107,11 @@ module.exports = class SpriteBoss extends CocoClass
     sprite = new IndieSprite thangType, @createSpriteOptions {thangID: indieSprite.id, pos: indieSprite.pos, sprites: @sprites, colorConfig: indieSprite.colorConfig}
     @addSprite sprite, sprite.thang.id
 
+  createOpponentWizard: (opponent) ->
+    # TODO: colorize name and cloud by team, colorize wizard by user's color config, level-specific wizard spawn points
+    sprite = @createWizardSprite thangID: opponent.id, name: opponent.name
+    sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
+
   createWizardSprite: (options) ->
     sprite = new WizardSprite @thangTypeFor("Wizard"), @createSpriteOptions(options)
     @addSprite sprite, sprite.thang.id, @spriteLayers["Floating"]

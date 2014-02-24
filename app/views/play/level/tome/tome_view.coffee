@@ -151,9 +151,15 @@ module.exports = class TomeView extends View
     @cast()
 
   cast: ->
-    for spellKey, spell of @spells
-      for thangID, spellThang of spell.thangs
-        spellThang.aether.options.includeFlow = spellThang.aether.originalOptions.includeFlow = spellThang is @spellView?.spellThang
+    if @options.levelID is 'project-dota'
+      # For performance reasons, only includeFlow on the currently Thang.
+      for spellKey, spell of @spells
+        for thangID, spellThang of spell.thangs
+          hadFlow = Boolean spellThang.aether.options.includeFlow
+          willHaveFlow = spellThang is @spellView?.spellThang
+          spellThang.aether.options.includeFlow = spellThang.aether.originalOptions.includeFlow = willHaveFlow
+          spellThang.aether.transpile spell.source unless hadFlow is willHaveFlow
+          #console.log "set includeFlow to", spellThang.aether.options.includeFlow, "for", thangID, "of", spellKey
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   onToggleSpellList: (e) ->
