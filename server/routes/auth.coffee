@@ -5,6 +5,7 @@ UserHandler = require('../users/user_handler')
 config = require '../../server_config'
 errors = require '../commons/errors'
 mail = require '../commons/mail'
+languages = require '../routes/languages'
 
 module.exports.setup = (app) ->
   authentication.serializeUser((user, done) -> done(null, user._id))
@@ -43,10 +44,36 @@ module.exports.setup = (app) ->
   )
 
   app.get('/auth/whoami', (req, res) ->
-    res.setHeader('Content-Type', 'text/json');
+    if req.user
+      sendSelf(req, res)
+    else
+      user = new User({anonymous:true})
+      user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
+      user.set 'preferredLanguage', languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+      makeNext = (req, res) -> -> sendSelf(req, res)
+      next = makeNext(req, res)
+      loginUser(req, res, user, false, next)
+  )
+
+  sendSelf = (req, res) ->
+    res.setHeader('Content-Type', 'text/json')
     res.send(UserHandler.formatEntity(req, req.user))
     res.end()
-  )
+
+  loginUser = (req, res, user, send=true, next=null) ->
+    user.save((err) ->
+      if err
+        return @sendDatabaseError(res, err)
+  
+      req.logIn(user, (err) ->
+        if err
+          return @sendDatabaseError(res, err)
+  
+        if send
+          return @sendSuccess(res, user)
+        next() if next
+      )
+    )
 
   app.post('/auth/logout', (req, res) ->
     req.logout()

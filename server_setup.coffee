@@ -40,9 +40,6 @@ setupOneSecondDelayMiddlware = (app) ->
   if(config.slow_down)
     app.use((req, res, next) -> setTimeout((-> next()), 1000))
 
-setupUserMiddleware = (app) ->
-  user.setupMiddleware(app)
-
 setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
   isOldBrowser = (req) ->
     # https://github.com/biggora/express-useragent/blob/master/lib/express-useragent.js
@@ -66,7 +63,6 @@ exports.setupMiddleware = (app) ->
   setupExpressMiddleware app
   setupPassportMiddleware app
   setupOneSecondDelayMiddlware app
-  setupUserMiddleware app
 
 ###Routing function implementations###
 
