@@ -55,7 +55,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @label.regY = height / 2
     sup = @camera.worldToSurface @lastPos
     @x = sup.x
-    @y = sup.y
+    @y = sup.y - 7
     @addChild @label
     @cache -width / 2, -height / 2, width, height
     Backbone.Mediator.publish 'surface:coordinates-shown', {}
