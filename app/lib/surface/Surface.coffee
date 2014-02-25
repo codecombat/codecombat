@@ -311,7 +311,10 @@ module.exports = Surface = class Surface extends CocoClass
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
     @casting = false
-    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan }
+    
+    # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
+    # so only run it after the first world is created.
+    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan } unless event.firstWorld
 
     fastForwardTo = null
     if @playing
