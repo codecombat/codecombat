@@ -39,6 +39,7 @@ LevelHandler = class LevelHandler extends Handler
       callback err, level
 
   getSession: (req, res, id) ->
+    return @sendNotFoundError(res) unless req.user
     @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
       sessionQuery =
         level:
@@ -150,6 +151,7 @@ LevelHandler = class LevelHandler extends Handler
     req.query.limit = parseInt(req.query.limit) ? 20
 
   getFeedback: (req, res, id) ->
+    return @sendNotFoundError(res) unless req.user
     @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
       feedbackQuery =
         creator: mongoose.Types.ObjectId(req.user.id.toString())

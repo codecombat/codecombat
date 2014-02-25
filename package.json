@@ -77,7 +77,7 @@
     "clean-css-brunch": "> 1.0 < 1.8",
     "auto-reload-brunch": "> 1.0 < 1.8",
     "brunch": "~1.7.4",
-    "jasmine-node": "1.12.x",
+    "jasmine-node": "1.13.x",
     "nodemon": "0.7.5",
     "marked": "0.2.x",
     "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",

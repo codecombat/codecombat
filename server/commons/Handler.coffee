@@ -16,7 +16,7 @@ module.exports = class Handler
   # subclasses should override these methods
   hasAccess: (req) -> true
   hasAccessToDocument: (req, document, method=null) ->
-    return true if req.user.isAdmin()
+    return true if req.user?.isAdmin()
     if @modelClass.schema.uses_coco_permissions
       return document.hasPermissionsForMethod(req.user, method or req.method)
     return true
@@ -32,7 +32,7 @@ module.exports = class Handler
       # can only edit permissions if this is a brand new property,
       # or you are an owner of the old one
       isOwner = document.getAccessForUserObjectId(req.user._id) is 'owner'
-      if isBrandNew or isOwner or req.user.isAdmin()
+      if isBrandNew or isOwner or req.user?.isAdmin()
         props.push 'permissions'
 
     if @modelClass.schema.uses_coco_versions
@@ -57,7 +57,7 @@ module.exports = class Handler
   # generic handlers
   get: (req, res) ->
     # by default, ordinary users never get unfettered access to the database
-    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    return @sendUnauthorizedError(res) unless req.user?.isAdmin()
 
     # admins can send any sort of query down the wire, though
     conditions = JSON.parse(req.query.conditions || '[]')
@@ -97,7 +97,7 @@ module.exports = class Handler
     term = req.query.term
     matchedObjects = []
     filters = [{filter: {index: true}}]
-    if @modelClass.schema.uses_coco_permissions
+    if @modelClass.schema.uses_coco_permissions and req.user
       filters.push {filter: {index: req.user.get('id')}}
     for filter in filters
       callback = (err, results) =>

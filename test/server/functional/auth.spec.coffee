@@ -17,8 +17,9 @@ describe '/auth/login', ->
 
   it 'clears Users first', (done) ->
     User.remove {}, (err) ->
-      throw err if err
-      done()
+      request.get getURL('/auth/whoami'), ->
+        throw err if err
+        done()
 
   it 'finds no user', (done) ->
     req = request.post(urlLogin, (error, response) ->
@@ -92,9 +93,10 @@ describe '/auth/reset', ->
     form = req.form()
     form.append('email', 'unknow')
 
-  it 'reset user password', (done) ->
+  it 'resets user password', (done) ->
     req = request.post(urlReset, (error, response) ->
       expect(response).toBeDefined()
+      console.log 'status code is', response.statusCode
       expect(response.statusCode).toBe(200)
       expect(response.body).toBeDefined()
       passwordReset = response.body
