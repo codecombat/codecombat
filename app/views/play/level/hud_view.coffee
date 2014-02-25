@@ -66,8 +66,9 @@ module.exports = class HUDView extends View
     @clearSpeaker()
 
   onNewWorld: (e) ->
+    hadThang = @thang
     @thang = e.world.thangMap[@thang.id] if @thang
-    if not @thang
+    if hadThang and not @thang
       @setThang null, null
 
   setThang: (thang, thangType) ->
