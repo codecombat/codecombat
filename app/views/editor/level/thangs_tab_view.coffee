@@ -144,6 +144,7 @@ module.exports = class ThangsTabView extends View
     @surface.playing = false
     @surface.setWorld @world
     @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
+    @surface.camera.dragDisabled = true
 
   destroy: ->
     @selectAddThangType null

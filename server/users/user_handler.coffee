@@ -31,7 +31,7 @@ UserHandler = class UserHandler extends Handler
     return null unless document?
     obj = document.toObject()
     delete obj[prop] for prop in serverProperties
-    includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
+    includePrivates = req.user and (req.user?.isAdmin() or req.user?._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
 
     # emailHash is used by gravatar
@@ -105,7 +105,7 @@ UserHandler = class UserHandler extends Handler
   ]
 
   getById: (req, res, id) ->
-    if req.user and req.user._id.equals(id)
+    if req.user?._id.equals(id)
       return @sendSuccess(res, @formatEntity(req, req.user))
     super(req, res, id)
     
@@ -132,14 +132,15 @@ UserHandler = class UserHandler extends Handler
 
   post: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
+    return @sendBadInputError(res, 'Must have an anonymous user to post with.') unless req.user
     return @sendBadInputError(res, 'Existing users cannot create new ones.') unless req.user.get('anonymous')
     req.body._id = req.user._id if req.user.get('anonymous')
     @put(req, res)
 
   hasAccessToDocument: (req, document) ->
     if req.route.method in ['put', 'post', 'patch']
-      return true if req.user.isAdmin()
-      return req.user._id.equals(document._id)
+      return true if req.user?.isAdmin()
+      return req.user?._id.equals(document._id)
     return true
 
   getByRelationship: (req, res, args...) ->
@@ -149,6 +150,7 @@ UserHandler = class UserHandler extends Handler
     return @sendNotFoundError(res)
 
   agreeToCLA: (req, res) ->
+    return @sendUnauthorizedError(res) unless req.user
     doc =
       user: req.user._id+''
       email: req.user.get 'email'
