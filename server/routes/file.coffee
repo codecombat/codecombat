@@ -69,7 +69,7 @@ postFileSchema =
   required: ['filename', 'mimetype', 'path']
 
 filePost = (req, res) ->
-  return errors.forbidden(res) unless req.user.isAdmin()
+  return errors.forbidden(res) unless req.user?.isAdmin()
   options = req.body
   tv4 = require('tv4').tv4
   valid = tv4.validate(options, postFileSchema)

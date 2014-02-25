@@ -37,7 +37,7 @@ module.exports = class WizardSprite extends IndieSprite
   makeIndieThang: (thangType, thangID, pos) ->
     thang = super thangType, thangID, pos
     thang.isSelectable = false
-    thang.bobHeight = 1.5
+    thang.bobHeight = 0.75
     thang.bobTime = 2
     thang.pos.z += thang.bobHeight
     thang
