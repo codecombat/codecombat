@@ -135,17 +135,23 @@ module.exports = class PlayLevelView extends View
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
 
     opponentSpells = []
-    for spellTeam, spells of @session.get('teamSpells') or {}
+    for spellTeam, spells of @session.get('teamSpells') ? otherSession?.get('teamSpells') ? {}
       continue if spellTeam is team or not team
       opponentSpells = opponentSpells.concat spells
 
     otherSession = @levelLoader.opponentSession
     opponentCode = otherSession?.get('submittedCode') or {}
+    console.log "otherSession", otherSession, "opponentSpells", opponentSpells
     myCode = @session.get('code') or {}
     for spell in opponentSpells
-      c = opponentCode[spell]
-      if c then myCode[spell] = c else delete myCode[spell]
+      [thang, spell] = spell.split '/'
+      c = opponentCode[thang]?[spell]
+      console.log "Got opponent code", c, "for", spell, "and had my code", myCode[spell]
+      myCode[thang] ?= {}
+      if c then myCode[thang][spell] = c else delete myCode[thang][spell]
+    console.log "Going to set session code from", _.cloneDeep(myCode)
     @session.set('code', myCode)
+    console.log "Just set session code to", _.cloneDeep(@session.get('code'))
     if @session.get('multiplayer') and otherSession?
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
       @session.set 'multiplayer', false

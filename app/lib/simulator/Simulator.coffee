@@ -220,7 +220,7 @@ module.exports = class Simulator
       #functionParameters: # TODOOOOO
     if methodName is 'hear'
       aetherOptions.functionParameters = ['speaker', 'message', 'data']
-    console.log "creating aether with options", aetherOptions
+    #console.log "creating aether with options", aetherOptions
     return new Aether aetherOptions
 
 class SimulationTask
