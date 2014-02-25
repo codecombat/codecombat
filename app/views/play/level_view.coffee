@@ -97,8 +97,7 @@ module.exports = class PlayLevelView extends View
       localStorage["lastLevel"] = @levelID
 
   onLevelLoadError: (e) =>
-    msg = $.i18n.t('play_level.level_load_error', defaultValue: "Level could not be loaded.")
-    @$el.html('<div class="alert">' + msg + '</div>')
+    application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
     @god?.level = @level.serialize @supermodel
@@ -423,7 +422,7 @@ module.exports = class PlayLevelView extends View
       AudioPlayer.preloadSoundReference sound
 
   destroy: ->
-    @supermodel.off 'error', @onLevelLoadError
+    @supermodel?.off 'error', @onLevelLoadError
     @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
     @levelLoader?.destroy()
     @surface?.destroy()
@@ -436,7 +435,7 @@ module.exports = class PlayLevelView extends View
     @bus?.destroy()
     #@instance.save() unless @instance.loading
     console.profileEnd?() if PROFILE_ME
-    @session.off 'change:multiplayer', @onMultiplayerChanged, @
+    @session?.off 'change:multiplayer', @onMultiplayerChanged, @
     @onLevelLoadError = null
     @onLevelLoaderLoaded = null
     @onSupermodelLoadedOne = null

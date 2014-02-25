@@ -158,7 +158,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     gravatar_profile_link: "Perfil Gravatar Completo"
 
   play_level:
-    level_load_error: "El nivel no puede ser cargado."
+    level_load_error: "El nivel no puede ser cargado: "
     done: "Listo"
     grid: "Cuadricula"
     customize_wizard: "Personalizar Hechicero"

@@ -158,7 +158,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     gravatar_profile_link: "Hela Gravatar profilen"
 
   play_level:
-    level_load_error: "Nivån kunde inte laddas."
+    level_load_error: "Nivån kunde inte laddas: "
     done: "Klar"
     grid: "Rutnät"
     customize_wizard: "Finjustera Trollkarl"

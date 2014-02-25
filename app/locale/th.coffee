@@ -158,7 +158,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    gravatar_profile_link: "Full Gravatar Profile"
 
   play_level:
-#    level_load_error: "Level could not be loaded."
+#    level_load_error: "Level could not be loaded: "
     done: "เสร็จสิ้น"
 #    grid: "Grid"
 #    customize_wizard: "Customize Wizard"

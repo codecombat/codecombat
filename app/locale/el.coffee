@@ -158,7 +158,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     gravatar_profile_link: "Πλήρη προφίλ \"Gravatar\""
 
   play_level:
-    level_load_error: "Το επίπεδο δεν μπόρεσε να φορτωθεί"
+    level_load_error: "Το επίπεδο δεν μπόρεσε να φορτωθεί: "
     done: "Έτοιμο"
     grid: "Πλέγμα"
     customize_wizard: "Προσαρμόστε τον Μάγο"
