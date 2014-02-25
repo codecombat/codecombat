@@ -9,7 +9,6 @@ module.exports = class PlayView extends View
     context = super(context)
     context.home = true
     context.notFound = @getQueryVariable 'not_found'
-    context.notFoundMessage = $.i18n.t('play_level.level_load_error') + context.notFound
     tutorials = [
       {
         name: 'Rescue Mission'
