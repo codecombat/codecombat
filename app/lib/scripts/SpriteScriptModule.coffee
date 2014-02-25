@@ -33,7 +33,7 @@ module.exports = class SpritesScriptModule extends ScriptModule
   spriteSayNote: (sprite, script) ->
     return if @speakingSprites[sprite.id]
     responses = sprite.say.responses
-    responses = [] unless script.skippable
+    responses = [] unless script.skippable or responses
     for response in responses ? []
       response.text = response.i18n?[me.lang()]?.text ? response.text
     text = sprite.say.i18n?[me.lang()]?.text or sprite.say.text
