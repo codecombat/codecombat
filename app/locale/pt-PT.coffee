@@ -158,7 +158,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     gravatar_profile_link: "Perfil Gravatar completo"
 
   play_level:
-    level_load_error: "O nível não pôde ser carregado."
+    level_load_error: "O nível não pôde ser carregado: "
     done: "Concluir"
     grid: "Grelha"
     customize_wizard: "Personalizar Feiticeiro"

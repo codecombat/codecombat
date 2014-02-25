@@ -158,7 +158,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     gravatar_profile_link: "Fuld Gravatar Profil"
 
   play_level:
-    level_load_error: "Banen kunne ikke indlæses."
+    level_load_error: "Banen kunne ikke indlæses: "
     done: "Færdig"
     grid: "Gitter"
     customize_wizard: "Tilpas troldmand"

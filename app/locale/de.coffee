@@ -158,7 +158,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     gravatar_profile_link: "Gravatar Profil"
 
   play_level:
-    level_load_error: "Level konnte nicht geladen werden."
+    level_load_error: "Level konnte nicht geladen werden: "
     done: "Fertig"
     grid: "Raster"
     customize_wizard: "Bearbeite den Zauberer"

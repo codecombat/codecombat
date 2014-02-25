@@ -158,7 +158,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     gravatar_profile_link: "Účet Gravatar"
 
   play_level:
-    level_load_error: "Úroveň se nepodařilo otevřít."
+    level_load_error: "Úroveň se nepodařilo otevřít: "
     done: "Hotovo"
     grid: "Mřížka"
     customize_wizard: "Upravit Kouzelníka"

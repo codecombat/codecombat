@@ -158,7 +158,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     gravatar_profile_link: "Tam Gravatar Profili"
 
   play_level:
-    level_load_error: "Seviye yüklenemedi"
+    level_load_error: "Seviye yüklenemedi: "
     done: "Tamamdır"
     grid: "Harita Bölmeleri"
     customize_wizard: "Sihirbazı Düzenle"
