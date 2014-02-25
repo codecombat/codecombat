@@ -209,7 +209,7 @@ module.exports = class SpriteBoss extends CocoClass
     sprite.imageObject.play() for thangID, sprite of @sprites
     @selectionMark?.play()
     @targetMark?.play()
-    
+
   onCastSpells: ->
     sprite.imageObject.stop() for thangID, sprite of @sprites
     @selectionMark?.stop()
