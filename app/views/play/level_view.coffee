@@ -98,8 +98,6 @@ module.exports = class PlayLevelView extends View
 
   onLevelLoadError: (e) =>
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
-    # msg = $.i18n.t('play_level.level_load_error', defaultValue: "Level could not be loaded.")
-    # @$el.html('<div class="alert"><h2>Whoops we were not able to find ' + @levelID + '!</h2><p>' + msg + '</p><p>Please select a valid level from the <a href="/play">levels</a> page.</p></div>')
 
   setLevel: (@level, @supermodel) ->
     @god?.level = @level.serialize @supermodel
