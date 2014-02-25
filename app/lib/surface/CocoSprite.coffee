@@ -157,11 +157,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   show: ->
     @hiding = false
     @updateAlpha()
-    
+
   stop: ->
     @imageObject?.stop?()
     mark.stop() for name, mark of @marks
-    
+
   play: ->
     @imageObject?.play?()
     mark.play() for name, mark of @marks
@@ -206,8 +206,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       if @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight
         [@lastThangWidth, @lastThangHeight] = [@thang.width, @thang.height]
         bounds = @imageObject.getBounds()
-        @imageObject.scaleX = @thang.width * Camera.PPM / bounds.width * @thangType.get('scale') ? 1
-        @imageObject.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height * @thangType.get('scale') ? 1
+        @imageObject.scaleX = @thang.width * Camera.PPM / bounds.width
+        @imageObject.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height
+        unless @thang.spriteName is 'Beam'
+          @imageObject.scaleX *= @thangType.get('scale') ? 1
+          @imageObject.scaleY *= @thangType.get('scale') ? 1
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
