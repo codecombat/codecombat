@@ -40,6 +40,8 @@ module.exports = class Camera extends CocoClass
     'camera-zoom-out': 'onZoomOut'
     'surface:mouse-scrolled': 'onMouseScrolled'
     'level:restarted': 'onLevelRestarted'
+    'sprite:mouse-down': 'onMouseDown'
+    'sprite:dragged': 'onMouseDragged'
 
   # TODO: Fix tests to not use mainLayer
   constructor: (@canvasWidth, @canvasHeight, angle=Math.asin(0.75), hFOV=d2r(30)) ->
@@ -164,6 +166,21 @@ module.exports = class Camera extends CocoClass
       target = @target
     @zoomTo target, newZoom, 0
 
+  onMouseDown: (e) ->
+    return if @dragDisabled
+    @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
+    
+  onMouseDragged: (e) ->
+    return if @dragDisabled
+    target = @boundTarget(@target, @zoom)
+    newPos = {
+      x: target.x + (@lastPos.x - e.originalEvent.rawX) / @zoom
+      y: target.y + (@lastPos.y - e.originalEvent.rawY) / @zoom
+    }
+    @zoomTo newPos, @zoom, 0
+    @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
+    Backbone.Mediator.publish 'camera:dragged'
+    
   onLevelRestarted: ->
     @setBounds(@firstBounds, false)
 
