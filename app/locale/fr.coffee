@@ -158,7 +158,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     gravatar_profile_link: "Profil Gravatar complet"
 
   play_level:
-    level_load_error: "Le niveau ne peut pas être chargé."
+    level_load_error: "Le niveau ne peut pas être chargé: "
     done: "Fait"
     grid: "Grille"
     customize_wizard: "Personnaliser le magicien"

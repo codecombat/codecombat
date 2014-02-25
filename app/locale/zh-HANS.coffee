@@ -158,7 +158,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     gravatar_profile_link: "完善 Gravatar 资料"
 
   play_level:
-    level_load_error: "关卡不能载入。"
+    level_load_error: "关卡不能载入: "
     done: "完成"
     grid: "格子"
     customize_wizard: "自定义向导"
