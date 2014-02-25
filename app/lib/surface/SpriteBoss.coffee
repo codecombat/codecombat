@@ -184,6 +184,11 @@ module.exports = class SpriteBoss extends CocoClass
       sprite.hasMoved = false
       @removeSprite sprite if missing
     @cache true if updateCache and @cached
+    
+    # mainly for handling selecting thangs from session when the thang is not always in existence
+    if @willSelectThang and @sprites[@willSelectThang[0]]
+      @selectThang @willSelectThang...
+      @willSelectThang = null
 
   cache: (update=false) ->
     return if @cached and not update
@@ -241,6 +246,7 @@ module.exports = class SpriteBoss extends CocoClass
     @selectSprite e if e.onBackground
 
   selectThang: (thangID, spellName=null) ->
+    return @willSelectThang = [thangID, spellName] unless @sprites[thangID]
     @selectSprite null, @sprites[thangID], spellName
 
   selectSprite: (e, sprite=null, spellName=null) ->
