@@ -132,6 +132,15 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       continue unless script.channel is channel
       continue if alreadyTriggered and not script.repeats
       continue if script.lastTriggered? and new Date().getTime() - script.lastTriggered < 1
+      continue if script.neverRun
+
+      if script.notAfter
+        for scriptID in script.notAfter
+          if scriptID in @triggered
+            script.neverRun = true
+            break
+        continue if script.neverRun
+
       continue unless @scriptPrereqsSatisfied(script)
       continue unless scriptMatchesEventPrereqs(script, event)
       # everything passed!
