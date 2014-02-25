@@ -62,7 +62,6 @@
     "sendwithus": "2.0.x",
     "aws-sdk":"~2.0.0",
     "bayesian-battle":"0.0.x",
-    "hiredis":"",
     "redis": ""
   },
   "devDependencies": {
