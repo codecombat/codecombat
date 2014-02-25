@@ -68,7 +68,7 @@ module.exports = class SpellPaletteView extends View
       for prop in props
         doc = _.find (allDocs[prop] ? []), (doc) ->
           return true if doc.owner is owner
-          return (owner is 'this' or owner is 'more') and not doc.owner? or doc.owner is 'this'
+          return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         console.log 'could not find doc for', prop, 'from', allDocs[prop], 'for', owner, 'of', propGroups unless doc
         doc ?= prop
         @entries.push @addEntry(doc, shortenize, tabbify, owner is 'snippets')

@@ -226,7 +226,7 @@ module.exports = Surface = class Surface extends CocoClass
     @currentFrame = actualCurrentFrame
 
     # TODO: are these needed, or perhaps do they duplicate things?
-    @spriteBoss.update()
+    @spriteBoss.update true
     @onFrameChanged()
 
   getCurrentFrame: ->
@@ -304,7 +304,7 @@ module.exports = Surface = class Surface extends CocoClass
     @casting = true
     @wasPlayingWhenCastingBegan = @playing
     Backbone.Mediator.publish 'level-set-playing', { playing: false }
-    
+
     createjs.Tween.removeTweens(@surfaceLayer)
     createjs.Tween.get(@surfaceLayer).to({alpha:0.9}, 1000, createjs.Ease.getPowOut(4.0))
 
@@ -312,7 +312,7 @@ module.exports = Surface = class Surface extends CocoClass
     return unless event.world.name is @world.name
     @casting = false
     Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan }
-    
+
     fastForwardTo = null
     if @playing
       fastForwardTo = Math.min event.world.firstChangedFrame, @currentFrame
