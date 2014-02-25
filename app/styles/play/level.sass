@@ -132,9 +132,21 @@
     height: 100%
     width: 2%
 
-  .footer:not(:hover)
-    @include opacity(0.6)
+  .footer
+    @media screen and (min-aspect-ratio: 17/10)
+      display: none
 
-@media screen and (min-aspect-ratio: 17/10)
-  #level-view .footer
-    display: none
+    &:not(:hover)
+      @include opacity(0.6)
+ 
+    .hour-of-code-explanation
+      margin-top: 5px
+      color: white
+      font-size: 12px
+
+      &:not(:hover)
+        @include opacity(0.75)
+
+      a
+        color: white
+        text-decoration: underline

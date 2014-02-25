@@ -36,8 +36,8 @@ module.exports = class PlaybackView extends View
 
   shortcuts:
     '⌘+p, p, ctrl+p': 'onTogglePlay'
-    '[': 'onScrubBack'
-    ']': 'onScrubForward'
+    '⌘+[, ctrl+[': 'onScrubBack'
+    '⌘+], ctrl+]': 'onScrubForward'
 
   constructor: ->
     super(arguments...)
@@ -169,7 +169,7 @@ module.exports = class PlaybackView extends View
         if @clickingSlider
           @clickingSlider = false
           @wasPlaying = false
-          @onSetPlaying {playing: false}
+          Backbone.Mediator.publish 'level-set-playing', {playing: false}
           @$el.find('.scrubber-handle').effect('bounce', {times: 2})
     )
 

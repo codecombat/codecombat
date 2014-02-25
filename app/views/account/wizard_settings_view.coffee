@@ -1,12 +1,13 @@
-RootView = require 'views/kinds/RootView'
-template = require 'templates/account/wizard_settings_tab'
+CocoView = require 'views/kinds/CocoView'
+template = require 'templates/account/wizard_settings'
 {me} = require('lib/auth')
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
-module.exports = class WizardSettingsTabView extends RootView
-  id: 'wizard-settings-tab-view'
+module.exports = class WizardSettingsView extends CocoView
+  id: 'wizard-settings-view'
   template: template
+  startsLoading: true
 
   events:
     'change .color-group-checkbox': (e) ->
@@ -25,6 +26,7 @@ module.exports = class WizardSettingsTabView extends RootView
     @wizardThangType.once 'sync', @initCanvas, @
 
   initCanvas: ->
+    @startsLoading = false
     @render()
     @spriteBuilder = new SpriteBuilder(@wizardThangType)
     @initStage()
@@ -44,6 +46,7 @@ module.exports = class WizardSettingsTabView extends RootView
     c
 
   afterRender: ->
+    return if @startsLoading
     wizardSettings = me.get('wizard') or {}
     wizardSettings.colorConfig ?= {}
 
@@ -82,8 +85,6 @@ module.exports = class WizardSettingsTabView extends RootView
   initStage: ->
     @stage = new createjs.Stage(@$el.find('canvas')[0])
     @updateMovieClip()
-    createjs.Ticker.setFPS 20
-    createjs.Ticker.addEventListener("tick", @stage)
 
   updateMovieClip: ->
     return unless @wizardThangType.loaded
@@ -104,6 +105,3 @@ module.exports = class WizardSettingsTabView extends RootView
       @movieClip.regY = reg.y
     @stage.addChild @movieClip
     @stage.update()
-
-  destroy: ->
-    @stage?.removeAllEventListeners()

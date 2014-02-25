@@ -3,7 +3,6 @@ crypto = require 'crypto'
 request = require 'request'
 User = require './User'
 Handler = require '../commons/Handler'
-languages = require '../routes/languages'
 mongoose = require 'mongoose'
 config = require '../../server_config'
 errors = require '../commons/errors'
@@ -172,28 +171,3 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
 module.exports = new UserHandler()
-
-module.exports.setupMiddleware = (app) ->
-  app.use (req, res, next) ->
-    if req.user
-      next()
-    else
-      user = new User({anonymous:true})
-      user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
-      user.set 'preferredLanguage', languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
-      loginUser(req, res, user, false, next)
-
-loginUser = (req, res, user, send=true, next=null) ->
-  user.save((err) ->
-    if err
-      return @sendDatabaseError(res, err)
-
-    req.logIn(user, (err) ->
-      if err
-        return @sendDatabaseError(res, err)
-
-      if send
-        return @sendSuccess(res, user)
-      next() if next
-    )
-  )

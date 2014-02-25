@@ -48,7 +48,7 @@ module.exports = class Mark extends CocoClass
   build: ->
     unless @mark
       if @name is 'bounds' then @buildBounds()
-      else if @name is 'shadow' then @buildRadius()
+      else if @name is 'shadow' then @buildShadow()
       else if @name is 'debug' then @buildDebug()
       else if @thangType then @buildSprite()
       else console.error "Don't know how to build mark for", @name
@@ -87,20 +87,30 @@ module.exports = class Mark extends CocoClass
     @lastWidth = @sprite.thang.width
     @lastHeight = @sprite.thang.height
 
-  buildRadius: ->
-    # TODO: make this not just a shadow
-    # TODO: draw boxes and ellipses for non-circular Thangs
-    diameter = @sprite.thangType.get('shadow') ? @sprite.thang?.width + 0.5
-    diameter *= Camera.PPM
+  buildShadow: ->
+    width = (@sprite.thang?.width ? 0) + 0.5
+    height = (@sprite.thang?.height ? 0) + 0.5
+    longest = Math.max width, height
+    actualLongest = @sprite.thangType.get('shadow') ? longest
+    width = width * actualLongest / longest
+    height = height * actualLongest / longest
+    width *= Camera.PPM
+    height *= Camera.PPM * @camera.y2x  # TODO: doesn't work with rotation
     @mark = new createjs.Shape()
     @mark.mouseEnabled = false
     @mark.graphics.beginFill "black"
-    @mark.graphics.drawEllipse 0, 0, diameter, diameter * @camera.y2x
+    if @sprite.thang.shape in ['ellipsoid', 'disc']
+      @mark.graphics.drawEllipse 0, 0, width, height
+    else
+      @mark.graphics.drawRect 0, 0, width, height
     @mark.graphics.endFill()
-    @mark.regX = diameter / 2
-    @mark.regY = diameter / 2 * @camera.y2x
+    @mark.regX = width / 2
+    @mark.regY = height / 2
     @mark.layerIndex = 10
     #@mark.cache 0, 0, diameter, diameter  # not actually faster than simple ellipse draw
+
+  buildRadius: ->
+    return  # not implemented
 
   buildDebug: ->
     @mark = new createjs.Shape()
@@ -152,7 +162,7 @@ module.exports = class Mark extends CocoClass
       @mark.y += offset.y
 
   updateRotation: ->
-    if @name is 'debug'
+    if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ["rectangle", "box"])
       @mark.rotation = @sprite.thang.rotation * 180 / Math.PI
 
   updateScale: ->
@@ -174,3 +184,6 @@ module.exports = class Mark extends CocoClass
     @mark.scaleX = @mark.scaleY = Math.min 1, scale
     if @name in ['selection', 'target', 'repair']
       @mark.scaleY *= @camera.y2x  # code applies perspective
+
+  stop: -> @markSprite?.stop()
+  play: -> @markSprite?.play()

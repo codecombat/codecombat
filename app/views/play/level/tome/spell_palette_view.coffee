@@ -46,24 +46,42 @@ module.exports = class SpellPaletteView extends View
       for doc in (lc.get('propertyDocumentation') ? [])
         allDocs[doc.name] ?= []
         allDocs[doc.name].push doc
+        if doc.type is 'snippet' then doc.owner = 'snippets'
     #allDocs[doc.name] = doc for doc in (lc.get('propertyDocumentation') ? []) for lc in lcs
 
-    props = _.sortBy @thang.programmableProperties ? []
-    snippets = _.sortBy @thang.programmableSnippets ? []
-    shortenize = props.length + snippets.length > 6
-    tabbify = props.length + snippets.length >= 10
+    propStorage =
+      'this': 'programmableProperties'
+      more: 'moreProgrammableProperties'
+      Math: 'programmableMathProperties'
+      Vector: 'programmableVectorProperties'
+      snippets: 'programmableSnippets'
+    count = 0
+    propGroups = {}
+    for owner, storage of propStorage
+      added = propGroups[owner] = _.sortBy(@thang[storage] ? []).slice()
+      count += added.length
+
+    shortenize = count > 6
+    tabbify = count >= 10
     @entries = []
-    for type, props of {props: props.slice(), snippets: snippets.slice()}
+    for owner, props of propGroups
       for prop in props
-        doc = allDocs[prop]?.shift() ? prop  # Add one doc per instance of the prop name (this is super gimp)
-        @entries.push @addEntry(doc, shortenize, tabbify, type is 'snippets')
+        doc = _.find (allDocs[prop] ? []), (doc) ->
+          return true if doc.owner is owner
+          return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
+        console.log 'could not find doc for', prop, 'from', allDocs[prop], 'for', owner, 'of', propGroups unless doc
+        doc ?= prop
+        @entries.push @addEntry(doc, shortenize, tabbify, owner is 'snippets')
+    groupForEntry = (entry) ->
+      return 'more' if entry.doc.owner is 'this' and entry.doc.name in propGroups.more
+      entry.doc.owner
     @entries = _.sortBy @entries, (entry) ->
-      order = ['this', 'Math', 'Vector', 'snippets']
-      index = order.indexOf entry.doc.owner
+      order = ['this', 'more', 'Math', 'Vector', 'snippets']
+      index = order.indexOf groupForEntry entry
       index = String.fromCharCode if index is -1 then order.length else index
       index += entry.doc.name
     if tabbify and _.find @entries, ((entry) -> entry.doc.owner isnt 'this')
-      @entryGroups = _.groupBy @entries, (entry) -> entry.doc.owner
+      @entryGroups = _.groupBy @entries, groupForEntry
     else
       defaultGroup = $.i18n.t("play_level.tome_available_spells", defaultValue: "Available Spells")
       @entryGroups = {}

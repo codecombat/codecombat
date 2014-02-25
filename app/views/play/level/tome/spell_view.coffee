@@ -326,7 +326,10 @@ module.exports = class SpellView extends View
     isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
     @problems = []
     annotations = []
+    seenProblemKeys = {}
     for aetherProblem, problemIndex in aether.getAllProblems()
+      continue if aetherProblem.userInfo.key of seenProblemKeys
+      seenProblemKeys[aetherProblem.userInfo.key] = true
       @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations
@@ -452,11 +455,11 @@ module.exports = class SpellView extends View
       markerRange.end.detach()
       @aceSession.removeMarker markerRange.id
     @markerRanges = []
-    @debugView.setVariableStates {}
     @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
     $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
     if not executed.length or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
       @toolbarView?.toggleFlow false
+      @debugView.setVariableStates {}
       return
     lastExecuted = _.last executed
     @toolbarView?.toggleFlow true
@@ -464,6 +467,7 @@ module.exports = class SpellView extends View
     @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
     marked = {}
     lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
+    gotVariableStates = false
     for state, i in lastExecuted
       [start, end] = state.range
       clazz = if i is lastExecuted.length - 1 then 'executing' else 'executed'
@@ -473,6 +477,7 @@ module.exports = class SpellView extends View
         markerType = "fullLine"
       else
         @debugView.setVariableStates state.variables
+        gotVariableStates = true
         markerType = "text"
       markerRange = new Range start.row, start.col, end.row, end.col
       markerRange.start = @aceDoc.createAnchor markerRange.start
@@ -480,6 +485,7 @@ module.exports = class SpellView extends View
       markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
       @aceSession.addGutterDecoration start.row, clazz if clazz is 'executing'
+    @debugView.setVariableStates {} unless gotVariableStates
     null
 
   highlightComments: ->

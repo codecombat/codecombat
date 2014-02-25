@@ -4,7 +4,7 @@ template = require 'templates/account/settings'
 forms = require('lib/forms')
 User = require('models/User')
 
-WizardSettingsTabView = require './wizard_settings_tab_view'
+WizardSettingsView = require './wizard_settings_view'
 
 module.exports = class SettingsView extends View
   id: 'account-settings-view'
@@ -26,11 +26,12 @@ module.exports = class SettingsView extends View
 
   refreshPicturePane: =>
     h = $(@template(@getRenderData()))
-    new_pane = $('#picture-pane', h)
-    old_pane = $('#picture-pane')
-    active = old_pane.hasClass('active')
-    old_pane.replaceWith(new_pane)
-    new_pane.addClass('active') if active
+    newPane = $('#picture-pane', h)
+    oldPane = $('#picture-pane')
+    active = oldPane.hasClass('active')
+    oldPane.replaceWith(newPane)
+    newPane.i18n()
+    newPane.addClass('active') if active
 
   afterRender: ->
     super()
@@ -46,9 +47,9 @@ module.exports = class SettingsView extends View
 
     @chooseTab(location.hash.replace('#',''))
     @updateWizardColor()
-    wizardSettingsTabView = new WizardSettingsTabView()
-    wizardSettingsTabView.on 'change', @save, @
-    @insertSubView wizardSettingsTabView
+    WizardSettingsView = new WizardSettingsView()
+    WizardSettingsView.on 'change', @save, @
+    @insertSubView WizardSettingsView
 
   chooseTab: (category) ->
     id = "##{category}-pane"
