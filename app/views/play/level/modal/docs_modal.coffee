@@ -6,6 +6,7 @@ Article = require 'models/Article'
 
 module.exports = class DocsModal extends View
   template: template
+  id: 'docs-modal'
   
   shortcuts:
     'enter': 'hide'
