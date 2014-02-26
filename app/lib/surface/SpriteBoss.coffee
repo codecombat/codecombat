@@ -212,11 +212,16 @@ module.exports = class SpriteBoss extends CocoClass
 
   onNewWorld: (e) ->
     @world = @options.world = e.world
+    @play()
+
+  onCastSpells: -> @stop()
+  
+  play: ->
     sprite.imageObject.play() for thangID, sprite of @sprites
     @selectionMark?.play()
     @targetMark?.play()
-
-  onCastSpells: ->
+  
+  stop: ->
     sprite.imageObject.stop() for thangID, sprite of @sprites
     @selectionMark?.stop()
     @targetMark?.stop()
