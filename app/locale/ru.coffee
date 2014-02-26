@@ -158,7 +158,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     gravatar_profile_link: "Полный профиль на Gravatar"
 
   play_level:
-    level_load_error: "Уровень не может быть загружен."
+    level_load_error: "Уровень не может быть загружен: "
     done: "Готово"
     grid: "Сетка"
     customize_wizard: "Настройки волшебника"

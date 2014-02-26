@@ -342,4 +342,5 @@ module.exports = class HUDView extends View
     @addMoreMessage = null
     @animateEnterButton = null
     clearInterval(@messageInterval) if @messageInterval
+    clearTimeout @hintNextSelectionTimeout if @hintNextSelectionTimeout
     super()

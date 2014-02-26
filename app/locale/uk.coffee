@@ -158,7 +158,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     gravatar_profile_link: "Повний профіль Gravatar"
 
   play_level:
-    level_load_error: "Неможливо завантажити рівень."
+    level_load_error: "Неможливо завантажити рівень: "
     done: "Готово"
     grid: "Решітка"
     customize_wizard: "Налаштування персонажа"

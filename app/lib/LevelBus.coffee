@@ -113,7 +113,9 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.teamSpells = true
     @session.set({'teamSpells': @teamSpellMap})
     @saveSession()
-    @onSpellChanged e  # Save the new spell to the session, too.
+    console.log spellTeam, me.team, e.spell.spellKey
+    if spellTeam is me.team
+      @onSpellChanged e  # Save the new spell to the session, too.
 
   onScriptStateChanged: (e) ->
     return unless @onPoint()

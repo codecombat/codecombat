@@ -158,7 +158,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     gravatar_profile_link: "Volledig Gravatar Profiel"
 
   play_level:
-    level_load_error: "Level kon niet geladen worden."
+    level_load_error: "Level kon niet geladen worden: "
     done: "Klaar"
     grid: "Raster"
     customize_wizard: "Pas Tovenaar aan"
