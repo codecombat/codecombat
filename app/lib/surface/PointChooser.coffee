@@ -5,6 +5,7 @@ module.exports = class PointChooser extends CocoClass
     super()
     @buildShape()
     @options.stage.addEventListener 'stagemousedown', @onMouseDown
+    @options.camera.dragDisabled = true
 
   destroy: ->
     @options.stage.removeEventListener 'stagemousedown', @onMouseDown
