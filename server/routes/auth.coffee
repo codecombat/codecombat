@@ -28,7 +28,30 @@ module.exports.setup = (app) ->
         return done(null, user)
       )
   ))
-
+  app.post '/auth/spy', (req, res, next) ->
+    if req?.user?.isAdmin()
+      
+      username = req.body.usernameLower
+      emailLower = req.body.emailLower
+      if emailLower
+        query = {"emailLower":emailLower}
+      else if username
+        query = {"nameLower":username}
+      else
+        return errors.badInput res, "You need to supply one of emailLower or username"
+        
+      User.findOne query, (err, user) ->
+        if err? then return errors.serverError res, "There was an error finding the specified user"
+        
+        unless user then return errors.badInput res, "The specified user couldn't be found"
+          
+        req.logIn user, (err) ->
+          if err? then return errors.serverError res, "There was an error logging in with the specified"
+          res.send(UserHandler.formatEntity(req, user))
+          return res.end()
+    else
+      return errors.unauthorized res, "You must be an admin to enter espionage mode"
+      
   app.post('/auth/login', (req, res, next) ->
     authentication.authenticate('local', (err, user, info) ->
       return next(err) if err
