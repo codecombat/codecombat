@@ -178,7 +178,6 @@ module.exports = class Simulator
   generateSpellKeyToSourceMapPropertiesFromThang: (thang) =>
     for component in thang.components
       continue unless @componentHasProgrammableMethods component
-
       for methodName, method of component.config.programmableMethods
         spellKey = @generateSpellKeyFromThangIDAndMethodName thang.id, methodName
 
@@ -187,9 +186,11 @@ module.exports = class Simulator
         @transpileSpell thang, spellKey, methodName
 
   generateSpellKeyFromThangIDAndMethodName: (thang, methodName) ->
-    spellKeyComponents = [thang.id, methodName]
+    spellKeyComponents = [thang, methodName]
     spellKeyComponents[0] = _.string.slugify spellKeyComponents[0]
-    spellKeyComponents.join '/'
+    spellKey = spellKeyComponents.join '/'
+    spellKey
+    
 
   createSpellAndAssignName: (spellKey, spellName) ->
     @spells[spellKey] ?= {}
@@ -202,7 +203,7 @@ module.exports = class Simulator
 
   transpileSpell: (thang, spellKey, methodName) ->
     slugifiedThangID = _.string.slugify thang.id
-    source = @currentUserCodeMap[slugifiedThangID]?[methodName] ? ""
+    source = @currentUserCodeMap[[slugifiedThangID,methodName].join '/'] ? ""
     @spells[spellKey].thangs[thang.id].aether.transpile source
 
   createAether: (methodName, method) ->
@@ -253,12 +254,18 @@ class SimulationTask
 
   generateSpellKeyToSourceMap: ->
     spellKeyToSourceMap = {}
-
     for session in @rawData.sessions
       teamSpells = session.teamSpells[session.team]
-      _.merge spellKeyToSourceMap, _.pick(session.code, teamSpells)
-
+      teamCode = {}
+      for thangName, thangSpells of session.code
+        for spellName, spell of thangSpells
+          fullSpellName = [thangName,spellName].join '/'
+          if _.contains(teamSpells, fullSpellName)
+            teamCode[fullSpellName]=spell
+            
+      _.merge spellKeyToSourceMap, teamCode
       commonSpells = session.teamSpells["common"]
       _.merge spellKeyToSourceMap, _.pick(session.code, commonSpells) if commonSpells?
 
+    
     spellKeyToSourceMap
