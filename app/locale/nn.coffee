@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "Nynorsk", englishDescription: "Norwegian", translation:
+module.exports = nativeDescription: "Norwegian Nynorsk", englishDescription: "Norwegian", translation:
   common:
     loading: "Loading..."
 #    saving: "Saving..."
@@ -96,8 +96,8 @@ module.exports = nativeDescription: "Nynorsk", englishDescription: "Norwegian", 
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!"
 #    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Nynorsk but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Nynorsk."
-    missing_translations: "Until we can translate everything into Nynorsk, you'll see English when Nynorsk isn't available."
+    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Norwegian Nynorsk but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Nynorsk."
+    missing_translations: "Until we can translate everything into Norwegian Nynorsk, you'll see English when Norwegian Nynorsk isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 

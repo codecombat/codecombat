@@ -1,35 +1,35 @@
 module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa Malaysia", translation:
   common:
-    loading: "Loading..."
+#    loading: "Loading..."
 #    saving: "Saving..."
 #    sending: "Sending..."
-#    cancel: "Batal"
+    cancel: "Batal"
 #    save: "Save"
 #    delay_1_sec: "1 second"
 #    delay_3_sec: "3 seconds"
 #    delay_5_sec: "5 seconds"
 #    manual: "Manual"
 #    fork: "Fork"
-#    play: "bermain"
+    play: "bermain"
 
-#  modal:
-#    close: "Tutup"
-#    okay: "Ok"
+  modal:
+    close: "Tutup"
+    okay: "Ok"
 
-#  not_found:
-#    page_not_found: "Halaman tidak ditemui"
+  not_found:
+    page_not_found: "Halaman tidak ditemui"
 
-#  nav:
-#   play: "bermain"
+  nav:
+    play: "bermain"
 #    editor: "Editor"
 #    blog: "Blog"
 #    forum: "Forum"
 #    admin: "Admin"
-#    home: "Halaman"
-#    contribute: "Sumbangan"
-#    legal: "Undang- undang"
-#    about: "Tentang"
-#    contact: "Hubungi"
+    home: "Halaman"
+    contribute: "Sumbangan"
+    legal: "Undang- undang"
+    about: "Tentang"
+    contact: "Hubungi"
 #    twitter_follow: "Follow"
 #    employers: "Employers"
 
@@ -41,25 +41,25 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    cla_suffix: "."
 #    cla_agree: "I AGREE"
 
-#  login:
-#    sign_up: "Buat Akaun"
-#    log_in: "Log Masuk"
-#    log_out: "Log Keluar"
-#    recover: "perbaharui akaun"
+  login:
+    sign_up: "Buat Akaun"
+    log_in: "Log Masuk"
+    log_out: "Log Keluar"
+    recover: "perbaharui akaun"
 
 #  recover:
 #    recover_account_title: "Recover Account"
 #    send_password: "Send Recovery Password"
 
-#  signup:
+  signup:
 #    create_account_title: "Create Account to Save Progress"
-#    description: "Ianya percuma. Hanya berberapa langkah sahaja:"
-#    email_announcements: "Terima pengesahan melalui Emel"
-#    coppa: "13+ atau bukan- USA"
-#    coppa_why: "(Kenapa?)"
-#    creating: "Membuat Akaun..."
-#    sign_up: "Daftar"
-#    log_in: "log masuk"
+    description: "Ianya percuma. Hanya berberapa langkah sahaja:"
+    email_announcements: "Terima pengesahan melalui Emel"
+    coppa: "13+ atau bukan- USA"
+    coppa_why: "(Kenapa?)"
+    creating: "Membuat Akaun..."
+    sign_up: "Daftar"
+    log_in: "log masuk"
 
 #  home:
 #    slogan: "Learn to Code JavaScript by Playing a Game"
@@ -93,11 +93,11 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    forum_suffix: " instead."
 #    send: "Send Feedback"
 
-#  diplomat_suggestion:
+  diplomat_suggestion:
 #    title: "Help translate CodeCombat!"
 #    sub_heading: "We need your language skills."
-#    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Bahasa Melayu but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Bahasa Melayu."
-#    missing_translations: "Until we can translate everything into Bahasa Melayu, you'll see English when Bahasa Melayu isn't available."
+    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Bahasa Melayu but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Bahasa Melayu."
+    missing_translations: "Until we can translate everything into Bahasa Melayu, you'll see English when Bahasa Melayu isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
@@ -251,9 +251,9 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    edit_btn_preview: "Preview"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
 #    and: "and"
-#    name: "Nama"
+    name: "Nama"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
