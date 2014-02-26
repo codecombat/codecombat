@@ -108,17 +108,22 @@ module.exports = class Simulator
     taskResults =
       taskID: @task.getTaskID()
       receiptHandle: @task.getReceiptHandle()
+      originalSessionID: @task.getFirstSessionID()
+      originalSessionRank: -1
       calculationTime: 500
       sessions: []
 
     for session in @task.getSessions()
+      
       sessionResult =
         sessionID: session.sessionID
         submitDate: session.submitDate
         creator: session.creator
         metrics:
           rank: @calculateSessionRank session.sessionID, simulationResults.goalStates, @task.generateTeamToSessionMap()
-
+      if session.sessionID is taskResults.originalSessionID
+        taskResults.originalSessionRank = sessionResult.metrics.rank
+        taskResults.originalSessionTeam = session.team
       taskResults.sessions.push sessionResult
 
     return taskResults

@@ -24,24 +24,27 @@ connectToScoringQueue = ->
       scoringTaskQueue = data
       log.info "Connected to scoring task queue!"
       
-module.exports.addPairwiseTaskToQueue = (req, res) ->
+module.exports.addPairwiseTaskToQueueFromRequest = (req, res) ->
   taskPair = req.body.sessions
-  #unless isUserAdmin req then return errors.forbidden res, "You do not have the permissions to submit that game to the leaderboard"
-  #fetch both sessions
+  addPairwiseTaskToQueue req.body.sessions (err, success) ->
+    if err? then return errors.serverError res, "There was an error adding pairwise tasks: #{err}"
+    sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
+    
+
+addPairwiseTaskToQueue = (taskPair, cb) ->
   LevelSession.findOne(_id:taskPair[0]).lean().exec (err, firstSession) =>
-    if err? then return errors.serverError res, "There was an error fetching the first session in the pair"
+    if err? then return cb err, false
     LevelSession.find(_id:taskPair[1]).exec (err, secondSession) =>
-      if err? then return errors.serverError res, "There was an error fetching the second session"
+      if err? then return cb err, false
       try
         taskPairs = generateTaskPairs(secondSession, firstSession)
       catch e
-        if e then return errors.serverError res, "There was an error generating the task pairs"
-      
-      sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
-        if taskPairError? then return errors.serverError res, "There was an error sending the task pairs to the queue"
+        if e then return cb e, false
 
-        sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
-  
+      sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
+        if taskPairError? then return cb taskPairError,false 
+        cb null, true
+        
 
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
@@ -56,8 +59,8 @@ module.exports.createNewTask = (req, res) ->
 
       updateSessionToSubmit sessionToSubmit, (err, data) ->
         if err? then return errors.serverError res, "There was an error updating the session"
-
-        fetchSessionsToRankAgainst (err, sessionsToRankAgainst) ->
+        opposingTeam = calculateOpposingTeam(sessionToSubmit.team)
+        fetchInitialSessionsToRankAgainst opposingTeam, (err, sessionsToRankAgainst) ->
           if err? then return errors.serverError res, "There was an error fetching the sessions to rank against"
 
           taskPairs = generateTaskPairs(sessionsToRankAgainst, sessionToSubmit)
@@ -114,9 +117,64 @@ module.exports.processTaskResult = (req, res) ->
 
           addMatchToSessions clientResponseObject, newScoresObject, (err, data) ->
             if err? then return errors.serverError res, "There was an error updating the sessions with the match! #{JSON.stringify err}"
-            console.log "Sending response object"
-            sendResponseObject req, res, {"message":"The scores were updated successfully!"}
+            originalSessionID = clientResponseObject.originalSessionID
+            originalSessionTeam = clientResponseObject.originalSessionTeam
+            originalSessionRank = parseInt clientResponseObject.originalSessionRank
+            console.log "The player #{originalSessionID} just achieved rank #{clientResponseObject.originalSessionRank}"
+            if originalSessionRank is 0
+              console.log "Should submit another session into the queue!"
+              #fetch next session
+              opposingTeam = calculateOpposingTeam(originalSessionTeam)
+              opponentID = _.pull(_.keys(newScoresObject), originalSessionID)
+              sessionNewScore = newScoresObject[originalSessionID].totalScore
+              opponentNewScore = newScoresObject[opponentID].totalScore
+              findNearestBetterSessionID sessionNewScore, opponentNewScore ,opposingTeam, (err, opponentSessionID) ->
+                if err? then return errors.serverError res, "There was an error finding the nearest sessionID!"
+                unless opponentSessionID then return sendResponseObject req, res, {"message":"There were no more games to rank(game is at top!"}
+                  
+                addPairwiseTaskToQueue [originalSessionID, opponentSessionID], (err, success) ->
+                  if err? then return errors.serverError res, "There was an error sending the pairwise tasks to the queue!"
+                  sendResponseObject req, res, {"message":"The scores were updated successfully and more games were sent to the queue!"}
+            else
+              console.log "Player lost, achieved rank #{originalSessionRank}"
+              sendResponseObject req, res, {"message":"The scores were updated successfully, person lost so no more games are being inserted!"}
 
+findNearestBetterSessionID = (sessionTotalScore, opponentSessionTotalScore, opposingTeam, cb) ->
+  queryParameters =
+    totalScore: 
+      $gt:Math.max(10,opponentSessionTotalScore)
+    levelID: "project-dota"
+    submitted: true
+    submittedCode:
+      $exists: true
+    team: opposingTeam
+    
+  limitNumber = 1
+
+  sortParameters =
+    totalScore: 1
+    
+  selectString = '_id totalScore'
+    
+  query = LevelSession.findOne(queryParameters)
+    .sort(sortParameters)
+    .limit(limitNumber)
+    .select(selectString)
+    .lean()
+  
+  console.log "Finding session with score near #{sessionTotalScore}"
+  query.exec (err, session) ->
+    if err? then return cb err, session
+    unless session then return cb err, null
+    console.log "Found session with score #{session.totalScore}"
+    cb err, session._id
+
+calculateOpposingTeam = (sessionTeam) ->
+  teams = ['ogres','humans']
+  opposingTeams = _.pull teams, sessionTeam
+  return opposingTeams[0]
+  
+  
 validatePermissions = (req, sessionID, callback) ->
   if isUserAnonymous req then return callback null, false
   if isUserAdmin req then return callback null, true
@@ -179,13 +237,26 @@ updateSessionToSubmit = (sessionToUpdate, callback) ->
     totalScore: 10
   LevelSession.update {_id: sessionToUpdate._id}, sessionUpdateObject, callback
 
-fetchSessionsToRankAgainst = (callback) ->
-  submittedSessionsQuery =
+fetchInitialSessionsToRankAgainst = (opposingTeam, callback) ->
+  console.log "Fetching sessions to rank against for opposing team #{opposingTeam}"
+  findParameters =
     levelID: "project-dota"
     submitted: true
     submittedCode:
       $exists: true
-  LevelSession.find submittedSessionsQuery, callback
+    team: opposingTeam
+  
+  sortParameters = 
+    totalScore: 1
+  
+  limitNumber = 1
+  
+  query = LevelSession.find(findParameters)
+    .sort(sortParameters)
+    .limit(limitNumber)
+  
+  
+  query.exec callback
 
 generateTaskPairs = (submittedSessions, sessionToScore) ->
   taskPairs = []
