@@ -25,9 +25,7 @@ module.exports = class PlaybackView extends View
     'click #debug-toggle': 'onToggleDebug'
     'click #grid-toggle': 'onToggleGrid'
     'click #edit-wizard-settings': 'onEditWizardSettings'
-    'click #music-button': ->
-      me.set('music', not me.get('music'))
-      me.save()
+    'click #music-button': 'onToggleMusic'
     'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @disabled
     'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @disabled
     'click #volume-button': 'onToggleVolume'
@@ -204,6 +202,12 @@ module.exports = class PlaybackView extends View
       else if i is classes.length - 1  # no oldClass
         newI = 2
     Backbone.Mediator.publish 'level-set-volume', volume: volumes[newI]
+    $(document.activeElement).blur()
+
+  onToggleMusic: (e) ->
+    e?.preventDefault()
+    me.set('music', not me.get('music'))
+    me.save()
     $(document.activeElement).blur()
 
   destroy: ->
