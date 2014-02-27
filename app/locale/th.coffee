@@ -96,8 +96,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!"
     sub_heading: "พวกเราต้องการทักษะภาษาของคุณ"
-#    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
-#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
+    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Thai but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Thai."
+    missing_translations: "Until we can translate everything into Thai, you'll see English when Thai isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
