@@ -131,11 +131,8 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
   nameToID: (req, res, name) ->
-#    t0 = new Date().getTime()
-#    console.log 'query starts', {nameLower:name.toLowerCase()}
-    User.findOne({nameLower:name.toLowerCase()}, {_id:1}).exec (err, otherUser) ->
-#      console.log 'query ends', new Date().getTime() - t0
-      res.send(otherUser._id.toString()) if otherUser
+    User.findOne({nameLower:name.toLowerCase()}).exec (err, otherUser) ->
+      res.send(if otherUser then otherUser._id else JSON.stringify(''))
       res.end()
 
   post: (req, res) ->
