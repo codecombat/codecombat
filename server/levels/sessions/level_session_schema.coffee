@@ -139,6 +139,13 @@ _.extend LevelSessionSchema.properties,
 
   submittedCode:
     type: 'object'
+    
+  numberOfWinsAndTies:
+    type: 'number'
+    default: 0
+  numberOfLosses:
+    type: 'number'
+    default: 0
 
   matches:
     type: 'array'
