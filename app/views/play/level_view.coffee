@@ -92,10 +92,6 @@ module.exports = class PlayLevelView extends View
     else
       @load()
 
-    # Save latest level played in local storage
-    if localStorage?
-      localStorage["lastLevel"] = @levelID
-
   onLevelLoadError: (e) =>
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
@@ -129,6 +125,10 @@ module.exports = class PlayLevelView extends View
     super()
 
   onLevelLoaderLoaded: =>
+    # Save latest level played in local storage
+    if localStorage?
+      localStorage["lastLevel"] = @levelID
+
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
