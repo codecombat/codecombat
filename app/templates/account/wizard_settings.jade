@@ -1,20 +1,18 @@
+#color-settings
+  table.table.table-bordered
+    tr
+      th
+      th Color
+      th Group
+    for group in colorGroups
+      tr.color-group(data-name=group.name)
+        td.enabled-cell
+          input(type='checkbox', checked=group.exists, id=group.name).color-group-checkbox
+        td.color-cell
+          input.minicolors(type=hidden, value=group.rgb, name=group.name)
+        td.group-cell
+          label(for=group.name, data-i18n='wizard_settings.' + group.dasherized)= group.humanized
+
 canvas#tinting-display(width=200, height=200).img-rounded
 
-#color-settings
-  for group in colorGroups
-    .color-group(data-name=group.name)
-      div.name-cell
-        input(type='checkbox', checked=group.exists).color-group-checkbox
-        span(data-i18n='wizard_settings.' + group.dasherized)= group.humanized
-      div.sliders
-        div.slider-cell
-          label(for=group.humanized+"_hue", data-i18n="wizard_settings.hue") Hue
-          .selector(id=group.humanized+"_hue", name=group.name+'.hue', data-key='hue')
-        div.slider-cell
-          label(for=group.humanized+"_saturation", data-i18n="wizard_settings.saturation") Saturation
-          .selector(id=group.humanized+"_saturation", name=group.name+'.saturation', data-key='saturation')
-        div.slider-cell
-          label(for=group.humanized+"_lightness", data-i18n="wizard_settings.lightness") Lightness
-          .selector(id=group.humanized+"_lightness", name=group.name+'.lightness', data-key='lightness')
-      div.clearfix
 div.clearfix

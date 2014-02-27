@@ -1,12 +1,12 @@
 extends /templates/modal/modal_base
 
 block modal-header-content
-  h3(data-i18n="wizard_settings.title") Wizard Settings
+  h3(data-i18n="wizard_settings.title2") Customize Your Character
 
 block modal-body-content
   div.wizard-name-line.form-group
     label.control-label(for="name")
-      | Name
+      | Your Wizardly Name
     input#wizard-settings-name(name="name", type="text", value="#{me.get('name')||''}")
 
   #wizard-settings-view
