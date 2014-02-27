@@ -158,7 +158,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     gravatar_profile_link: "Profil Gravatar"
 
   play_level:
-    level_load_error: "Nie udało się wczytać poziomu."
+    level_load_error: "Nie udało się wczytać poziomu: "
     done: "Zrobione"
     grid: "Siatka"
     customize_wizard: "Spersonalizuj Czarodzieja"

@@ -158,7 +158,7 @@ module.exports = nativeDescription: "português", englishDescription: "Portugues
     gravatar_profile_link: "Perfil Completo do Gravatar"
 
   play_level:
-    level_load_error: "O estágio não pôde ser carregado."
+    level_load_error: "O estágio não pôde ser carregado: "
     done: "Pronto"
     grid: "Grade"
     customize_wizard: "Personalize o feiticeiro"
