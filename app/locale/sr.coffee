@@ -158,7 +158,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     gravatar_profile_link: "Цео Граватар налог"
 
   play_level:
-    level_load_error: "Ниво није могао бити учитан."
+    level_load_error: "Ниво није могао бити учитан: "
     done: "Урађено"
     grid: "Мрежа"
     customize_wizard: "Прилагоди Чаробњака"

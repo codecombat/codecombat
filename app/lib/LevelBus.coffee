@@ -87,6 +87,9 @@ module.exports = class LevelBus extends Bus
   #   LevelSession object. Either break this off into a separate class
   #   or have the LevelSession object listen for all these events itself.
 
+  setSpells: (spells) ->
+    @onSpellCreated spell: spell for spellKey, spell of spells
+
   onSpellChanged: (e) ->
     return unless @onPoint()
     code = @session.get('code')
@@ -102,6 +105,7 @@ module.exports = class LevelBus extends Bus
   onSpellCreated: (e) ->
     return unless @onPoint()
     spellTeam = e.spell.team
+    @teamSpellMap ?= {}
     @teamSpellMap[spellTeam] ?= []
 
     unless e.spell.spellKey in @teamSpellMap[spellTeam]
@@ -109,8 +113,8 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.teamSpells = true
     @session.set({'teamSpells': @teamSpellMap})
     @saveSession()
-
-
+    if spellTeam is me.team
+      @onSpellChanged e  # Save the new spell to the session, too.
 
   onScriptStateChanged: (e) ->
     return unless @onPoint()
@@ -236,10 +240,3 @@ module.exports = class LevelBus extends Bus
   destroy: ->
     @session.off 'change:multiplayer', @onMultiplayerChanged, @
     super()
-
-  setTeamSpellMap: (spellMap) ->
-    @teamSpellMap = spellMap
-    console.log @teamSpellMap
-    @changedSessionProperties.teamSpells = true
-    @session.set({'teamSpells': @teamSpellMap})
-    @saveSession()

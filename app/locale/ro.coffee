@@ -158,7 +158,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    gravatar_profile_link: "Full Gravatar Profile"
 
 #  play_level:
-#    level_load_error: "Level could not be loaded."
+#    level_load_error: "Level could not be loaded: "
 #    done: "Done"
 #    grid: "Grid"
 #    customize_wizard: "Customize Wizard"

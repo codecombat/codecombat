@@ -158,7 +158,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    gravatar_profile_link: "Full Gravatar Profile"
 
   play_level:
-    level_load_error: "Нивото не може да бъде заредено."
+    level_load_error: "Нивото не може да бъде заредено: "
     done: "Готово"
 #    grid: "Grid"
 #    customize_wizard: "Customize Wizard"

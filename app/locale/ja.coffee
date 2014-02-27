@@ -158,7 +158,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    gravatar_profile_link: "Full Gravatar Profile"
 
   play_level:
-    level_load_error: "レベルがロード出来ませんでした。"
+    level_load_error: "レベルがロード出来ませんでした: "
     done: "完了"
     grid: "グリッド"
     customize_wizard: "魔法使いの設定"

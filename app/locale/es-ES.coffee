@@ -158,7 +158,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     gravatar_profile_link: "Perfil de Gravatar completo"
 
   play_level:
-    level_load_error: "No se pudo cargar el nivel."
+    level_load_error: "No se pudo cargar el nivel: "
     done: "Hecho"
     grid: "Cuadrícrula"
     customize_wizard: "Personalizar Mago"

@@ -13,7 +13,7 @@ module.exports = class SpriteBoss extends CocoClass
     'bus:player-left': 'onPlayerLeft'
     'level-set-debug': 'onSetDebug'
     'level-highlight-sprites': 'onHighlightSprites'
-    'sprite:mouse-down': 'onSpriteMouseDown'
+    'sprite:mouse-up': 'onSpriteMouseUp'
     'surface:stage-mouse-down': 'onStageMouseDown'
     'level-select-sprite': 'onSelectSprite'
     'level-suppress-selection-sounds': 'onSuppressSelectionSounds'
@@ -21,9 +21,11 @@ module.exports = class SpriteBoss extends CocoClass
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
+    'camera:dragged': 'onCameraDragged'
 
   constructor: (@options) ->
     super()
+    @dragged = 0
     @options ?= {}
     @camera = @options.camera
     @surfaceLayer = @options.surfaceLayer
@@ -183,6 +185,11 @@ module.exports = class SpriteBoss extends CocoClass
       sprite.hasMoved = false
       @removeSprite sprite if missing
     @cache true if updateCache and @cached
+    
+    # mainly for handling selecting thangs from session when the thang is not always in existence
+    if @willSelectThang and @sprites[@willSelectThang[0]]
+      @selectThang @willSelectThang...
+      @willSelectThang = null
 
   cache: (update=false) ->
     return if @cached and not update
@@ -206,11 +213,16 @@ module.exports = class SpriteBoss extends CocoClass
 
   onNewWorld: (e) ->
     @world = @options.world = e.world
+    @play()
+
+  onCastSpells: -> @stop()
+  
+  play: ->
     sprite.imageObject.play() for thangID, sprite of @sprites
     @selectionMark?.play()
     @targetMark?.play()
-
-  onCastSpells: ->
+  
+  stop: ->
     sprite.imageObject.stop() for thangID, sprite of @sprites
     @selectionMark?.stop()
     @targetMark?.stop()
@@ -226,8 +238,13 @@ module.exports = class SpriteBoss extends CocoClass
   onSelectSprite: (e) ->
     @selectThang e.thangID, e.spellName
 
-  onSpriteMouseDown: (e) ->
+  onCameraDragged: ->
+    @dragged += 1
+
+  onSpriteMouseUp: (e) ->
     return if key.shift and @options.choosing
+    return @dragged = 0 if @dragged > 3
+    @dragged = 0
     sprite = if e.sprite?.thang?.isSelectable then e.sprite else null
     @selectSprite e, sprite
 
@@ -236,6 +253,7 @@ module.exports = class SpriteBoss extends CocoClass
     @selectSprite e if e.onBackground
 
   selectThang: (thangID, spellName=null) ->
+    return @willSelectThang = [thangID, spellName] unless @sprites[thangID]
     @selectSprite null, @sprites[thangID], spellName
 
   selectSprite: (e, sprite=null, spellName=null) ->

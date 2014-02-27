@@ -82,10 +82,19 @@ module.exports = class DebugView extends View
     else
       @$el.hide()
     if @variableChain?.length is 2
-      Backbone.Mediator.publish 'tome:spell-debug-property-hovered', property: @variableChain[1], owner: @variableChain[0]
+      clearTimeout @hoveredPropertyTimeout if @hoveredPropertyTimeout
+      @hoveredPropertyTimeout = _.delay @notifyPropertyHovered, 500
     else
-      Backbone.Mediator.publish 'tome:spell-debug-property-hovered', property: null
+      @notifyPropertyHovered()
     @updateMarker()
+
+  notifyPropertyHovered: =>
+    clearTimeout @hoveredPropertyTimeout if @hoveredPropertyTimeout
+    @hoveredPropertyTimeout = null
+    oldHoveredProperty = @hoveredProperty
+    @hoveredProperty = if @variableChain?.length is 2 then owner: @variableChain[0], property: @variableChain[1] else {}
+    unless _.isEqual oldHoveredProperty, @hoveredProperty
+      Backbone.Mediator.publish 'tome:spell-debug-property-hovered', @hoveredProperty
 
   updateMarker: ->
     if @marker

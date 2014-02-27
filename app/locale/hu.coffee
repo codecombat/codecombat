@@ -158,7 +158,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    gravatar_profile_link: "Full Gravatar Profile"
 
   play_level:
-    level_load_error: "A pályát nem sikerült betölteni."
+    level_load_error: "A pályát nem sikerült betölteni: "
     done: "Kész"
     grid: "Rács"
     customize_wizard: "Varázsló testreszabása"

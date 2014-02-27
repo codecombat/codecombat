@@ -4,6 +4,7 @@ mail = require '../commons/mail'
 
 module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->
+    return res.end() unless req.user
     log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
     if config.isProduction
       options = createMailOptions req.body.email, req.body.message, req.user

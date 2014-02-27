@@ -158,7 +158,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     gravatar_profile_link: "Full Gravatar Profil"
 
   play_level:
-    level_load_error: "Nivået kunne ikke bli lastet."
+    level_load_error: "Nivået kunne ikke bli lastet: "
     done: "Ferdig"
     grid: "Grid"
     customize_wizard: "Spesiallag Trollmann"

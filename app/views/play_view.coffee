@@ -8,7 +8,7 @@ module.exports = class PlayView extends View
   getRenderData: (context={}) ->
     context = super(context)
     context.home = true
-
+    context.notFound = @getQueryVariable 'not_found'
     tutorials = [
       {
         name: 'Rescue Mission'

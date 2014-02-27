@@ -9,6 +9,7 @@ Layer = require './Layer'
 Letterbox = require './Letterbox'
 Dimmer = require './Dimmer'
 CastingScreen = require './CastingScreen'
+PlaybackOverScreen = require './PlaybackOverScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
 SpriteBoss = require './SpriteBoss'
@@ -90,6 +91,7 @@ module.exports = Surface = class Surface extends CocoClass
     @chooser?.destroy()
     @dimmer?.destroy()
     @castingScreen?.destroy()
+    @playbackOverScreen?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
     @stage.removeAllChildren()
@@ -179,7 +181,7 @@ module.exports = Surface = class Surface extends CocoClass
     container.addChild shape
 
   setProgress: (progress, scrubDuration=500) ->
-    progress = Math.max(Math.min(progress, 0.99), 0.0)
+    progress = Math.max(Math.min(progress, 1), 0.0)
 
     @scrubbing = true
     onTweenEnd = =>
@@ -193,7 +195,7 @@ module.exports = Surface = class Surface extends CocoClass
       createjs.Tween.removeTweens(@)
       @currentFrame = @scrubbingTo
 
-    @scrubbingTo = Math.floor(progress * @world.totalFrames)
+    @scrubbingTo = Math.min(Math.floor(progress * @world.totalFrames), @world.totalFrames)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     if scrubDuration
       t = createjs.Tween
@@ -298,6 +300,18 @@ module.exports = Surface = class Surface extends CocoClass
       frame: @currentFrame
       world: @world
     )
+
+    if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames
+      @spriteBoss.stop()
+      @playbackOverScreen.show()
+      @ended = true
+      Backbone.Mediator.publish 'surface:playback-ended'
+    else if @currentFrame < @world.totalFrames and @ended
+      @spriteBoss.play()
+      @playbackOverScreen.hide()
+      @ended = false
+      Backbone.Mediator.publish 'surface:playback-restarted'
+
     @lastFrame = @currentFrame
 
   onCastSpells: (event) ->
@@ -311,7 +325,10 @@ module.exports = Surface = class Surface extends CocoClass
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
     @casting = false
-    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan }
+    
+    # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
+    # so only run it after the first world is created.
+    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan } unless event.firstWorld
 
     fastForwardTo = null
     if @playing
@@ -350,6 +367,7 @@ module.exports = Surface = class Surface extends CocoClass
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
     @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
     @castingScreen ?= new CastingScreen camera: @camera, layer: @screenLayer
+    @playbackOverScreen ?= new PlaybackOverScreen camera: @camera, layer: @screenLayer
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown

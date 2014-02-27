@@ -158,7 +158,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     gravatar_profile_link: "Profilo Gravatar completo"
 
   play_level:
-    level_load_error: "Il livello non può essere caricato."
+    level_load_error: "Il livello non può essere caricato: "
     done: "Fatto"
     grid: "Griglia"
     customize_wizard: "Personalizza stregone"
