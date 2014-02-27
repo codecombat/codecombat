@@ -110,16 +110,19 @@ module.exports = class LevelLoader extends CocoClass
     @updateCompleted = true
 
   denormalizeSession: ->
-    return if @session.get 'levelName'
+    return if @sessionDenormalized
     patch =
       'levelName': @level.get('name')
       'levelID': @level.get('slug') or @level.id
     if me.id is @session.get 'creator'
       patch.creatorName = me.get('name')
-
-    @session.set key, value for key, value of patch
-    tempSession = new LevelSession _id: @session.id
-    tempSession.save(patch, {patch: true})
+    for key, value of patch
+      if @session.get(key) is value
+        delete patch[key]
+    unless _.isEmpty patch
+      @session.set key, value for key, value of patch
+      tempSession = new LevelSession _id: @session.id
+      tempSession.save(patch, {patch: true})
     @sessionDenormalized = true
 
   # World init

@@ -64,7 +64,7 @@ module.exports = class Simulator
 
   setupGoalManager: ->
     @god.goalManager = new GoalManager @world
-    @god.goalManager.goals = @fetchGoalsFromWorldNoteChain()
+    @god.goalManager.goals = @god.level.goals
     @god.goalManager.goalStates = @manuallyGenerateGoalStates()
 
   commenceSimulationAndSetupCallback: ->
@@ -108,17 +108,22 @@ module.exports = class Simulator
     taskResults =
       taskID: @task.getTaskID()
       receiptHandle: @task.getReceiptHandle()
+      originalSessionID: @task.getFirstSessionID()
+      originalSessionRank: -1
       calculationTime: 500
       sessions: []
 
     for session in @task.getSessions()
+
       sessionResult =
         sessionID: session.sessionID
         submitDate: session.submitDate
         creator: session.creator
         metrics:
           rank: @calculateSessionRank session.sessionID, simulationResults.goalStates, @task.generateTeamToSessionMap()
-
+      if session.sessionID is taskResults.originalSessionID
+        taskResults.originalSessionRank = sessionResult.metrics.rank
+        taskResults.originalSessionTeam = session.team
       taskResults.sessions.push sessionResult
 
     return taskResults
@@ -136,8 +141,6 @@ module.exports = class Simulator
       return 0
     else
       return 1
-
-  fetchGoalsFromWorldNoteChain: -> return @god.goalManager.world.scripts[0].noteChain[0].goals.add
 
   manuallyGenerateGoalStates: ->
     goalStates =
@@ -190,7 +193,7 @@ module.exports = class Simulator
     spellKeyComponents[0] = _.string.slugify spellKeyComponents[0]
     spellKey = spellKeyComponents.join '/'
     spellKey
-    
+
 
   createSpellAndAssignName: (spellKey, spellName) ->
     @spells[spellKey] ?= {}
@@ -262,10 +265,10 @@ class SimulationTask
           fullSpellName = [thangName,spellName].join '/'
           if _.contains(teamSpells, fullSpellName)
             teamCode[fullSpellName]=spell
-            
+
       _.merge spellKeyToSourceMap, teamCode
       commonSpells = session.teamSpells["common"]
       _.merge spellKeyToSourceMap, _.pick(session.code, commonSpells) if commonSpells?
 
-    
+
     spellKeyToSourceMap
