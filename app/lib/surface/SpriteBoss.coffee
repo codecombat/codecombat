@@ -25,6 +25,7 @@ module.exports = class SpriteBoss extends CocoClass
 
   constructor: (@options) ->
     super()
+    @dragged = 0
     @options ?= {}
     @camera = @options.camera
     @surfaceLayer = @options.surfaceLayer
@@ -238,11 +239,12 @@ module.exports = class SpriteBoss extends CocoClass
     @selectThang e.thangID, e.spellName
 
   onCameraDragged: ->
-    @dragged = true
+    @dragged += 1
 
   onSpriteMouseUp: (e) ->
     return if key.shift and @options.choosing
-    return @dragged = false if @dragged
+    return @dragged = 0 if @dragged > 3
+    @dragged = 0
     sprite = if e.sprite?.thang?.isSelectable then e.sprite else null
     @selectSprite e, sprite
 
