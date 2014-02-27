@@ -64,7 +64,7 @@ module.exports = class Simulator
 
   setupGoalManager: ->
     @god.goalManager = new GoalManager @world
-    @god.goalManager.goals = @fetchGoalsFromWorldNoteChain()
+    @god.goalManager.goals = @god.level.goals
     @god.goalManager.goalStates = @manuallyGenerateGoalStates()
 
   commenceSimulationAndSetupCallback: ->
@@ -114,7 +114,7 @@ module.exports = class Simulator
       sessions: []
 
     for session in @task.getSessions()
-      
+
       sessionResult =
         sessionID: session.sessionID
         submitDate: session.submitDate
@@ -141,8 +141,6 @@ module.exports = class Simulator
       return 0
     else
       return 1
-
-  fetchGoalsFromWorldNoteChain: -> return @god.goalManager.world.scripts[0].noteChain[0].goals.add
 
   manuallyGenerateGoalStates: ->
     goalStates =
@@ -195,7 +193,7 @@ module.exports = class Simulator
     spellKeyComponents[0] = _.string.slugify spellKeyComponents[0]
     spellKey = spellKeyComponents.join '/'
     spellKey
-    
+
 
   createSpellAndAssignName: (spellKey, spellName) ->
     @spells[spellKey] ?= {}
@@ -267,10 +265,10 @@ class SimulationTask
           fullSpellName = [thangName,spellName].join '/'
           if _.contains(teamSpells, fullSpellName)
             teamCode[fullSpellName]=spell
-            
+
       _.merge spellKeyToSourceMap, teamCode
       commonSpells = session.teamSpells["common"]
       _.merge spellKeyToSourceMap, _.pick(session.code, commonSpells) if commonSpells?
 
-    
+
     spellKeyToSourceMap
