@@ -270,7 +270,7 @@ module.exports = class HUDView extends View
     if prop is "rotation"
       return (val * 180 / Math.PI).toFixed(0) + "˚"
     if typeof val is 'number'
-      if Math.round(val) == val then return val.toFixed(0)  # int
+      if Math.round(val) == val or prop is 'gold' then return val.toFixed(0)  # int
       if -10 < val < 10 then return val.toFixed(2)
       if -100 < val < 100 then return val.toFixed(1)
       return val.toFixed(0)
