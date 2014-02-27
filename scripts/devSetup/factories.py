@@ -36,6 +36,7 @@ class SetupFactory(object):
         mongo_version_string = ""
         try:
             mongo_version_string = subprocess.check_output("mongod --version",shell=True)
+	    mongo_version_string = mongo_version_string.decode(encoding='UTF-8')
         except:
             print("Mongod not found.")
         if "v2.5.4" not in mongo_version_string:
