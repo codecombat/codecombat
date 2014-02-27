@@ -144,7 +144,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   account_profile:
     edit_settings: "编辑设置"
     profile_for_prefix: "关于TA的基本资料："
-#    profile_for_suffix: ""
+    profile_for_suffix: ""
     profile: "基本资料"
     user_not_found: "没有找到用户。检查URL？"
     gravatar_not_found_mine: "我们找不到TA的基本资料："
@@ -172,7 +172,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     reload_title: "重载所有代码？"
     reload_really: "确定重载这一关，返回开始处吗？"
     reload_confirm: "重载所有"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: " 完成"
     victory_sign_up: "保存进度"
     victory_sign_up_poke: "想保存你的代码？创建一个免费账户吧！"
