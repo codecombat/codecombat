@@ -130,6 +130,14 @@ UserHandler = class UserHandler extends Handler
       res.send results
       res.end()
 
+  nameToID: (req, res, name) ->
+#    t0 = new Date().getTime()
+#    console.log 'query starts', {nameLower:name.toLowerCase()}
+    User.findOne({nameLower:name.toLowerCase()}, {_id:1}).exec (err, otherUser) ->
+#      console.log 'query ends', new Date().getTime() - t0
+      res.send(otherUser._id.toString()) if otherUser
+      res.end()
+
   post: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'Must have an anonymous user to post with.') unless req.user
@@ -147,6 +155,7 @@ UserHandler = class UserHandler extends Handler
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
     return @getNamesByIds(req, res) if args[1] is 'names'
+    return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @sendNotFoundError(res)
 
   agreeToCLA: (req, res) ->
