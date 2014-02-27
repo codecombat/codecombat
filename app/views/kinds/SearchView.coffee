@@ -22,7 +22,7 @@ module.exports = class ThangTypeHomeView extends View
     'change input#search': 'runSearch'
     'keydown input#search': 'runSearch'
     'click button.new-model-submit': 'makeNewModel'
-    'submit form': 'makeNewModel'
+    'shown.bs.modal #new-model-modal': 'focusOnName'
 
   getRenderData: ->
     c = super()
@@ -94,3 +94,6 @@ module.exports = class ThangTypeHomeView extends View
       modal.modal('hide')
       base = document.location.pathname[1..] + '/'
       app.router.navigate(base + (model.get('slug') or model.id), {trigger:true})
+
+  focusOnName: ->
+    @$el.find('#name').focus()
