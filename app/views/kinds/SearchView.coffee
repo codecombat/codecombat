@@ -22,6 +22,7 @@ module.exports = class ThangTypeHomeView extends View
     'change input#search': 'runSearch'
     'keydown input#search': 'runSearch'
     'click button.new-model-submit': 'makeNewModel'
+    'submit form': 'makeNewModel'
     'shown.bs.modal #new-model-modal': 'focusOnName'
 
   getRenderData: ->
