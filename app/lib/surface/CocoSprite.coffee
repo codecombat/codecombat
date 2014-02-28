@@ -65,29 +65,29 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @age = 0
     @displayObject = new createjs.Container()
     if @thangType.get('actions')
-      @onThangTypeLoaded()
+      @setupSprite()
     else
       @stillLoading = true
       @thangType.fetch()
-      @thangType.once 'sync', @onThangTypeLoaded, @
+      @thangType.once 'sync', @setupSprite, @
 
-  onThangTypeLoaded: ->
+  setupSprite: ->
     @stillLoading = false
     @actions = @thangType.getActions()
     @buildFromSpriteSheet @buildSpriteSheet()
 
   destroy: ->
-    super()
     mark.destroy() for name, mark of @marks
     label.destroy() for name, label of @labels
     @imageObject?.off 'animationend', @playNextAction
     @playNextAction = null
     @displayObject?.off()
+    super()
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
 
   buildSpriteSheet: ->
-    options = @thang?.getSpriteOptions?() or @options
+    options = _.extend @options, @thang?.getSpriteOptions?() ? {}
     options.colorConfig = @options.colorConfig if @options.colorConfig
     options.async = false
     @thangType.getSpriteSheet options
@@ -101,6 +101,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # temp, until these are re-exported with perspective
     if @options.camera and @thangType.get('name') in ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Goal Trigger', 'Obstacle']
       sprite.scaleY *= @options.camera.y2x
+    @displayObject.removeChild(@imageObject) if @imageObject
     @imageObject = sprite
     @displayObject.addChild(sprite)
     @addHealthBar()
@@ -140,8 +141,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @show()
     return @updateActionDirection() unless action.animation or action.container
     m = if action.container then "gotoAndStop" else "gotoAndPlay"
-    @imageObject[m] action.name
     @imageObject.framerate = action.framerate or 20
+    @imageObject[m] action.name
     reg = @getOffset 'registration'
     @imageObject.regX = -reg.x
     @imageObject.regY = -reg.y
@@ -156,6 +157,14 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   show: ->
     @hiding = false
     @updateAlpha()
+
+  stop: ->
+    @imageObject?.stop?()
+    mark.stop() for name, mark of @marks
+
+  play: ->
+    @imageObject?.play?()
+    mark.play() for name, mark of @marks
 
   update: ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
@@ -197,8 +206,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       if @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight
         [@lastThangWidth, @lastThangHeight] = [@thang.width, @thang.height]
         bounds = @imageObject.getBounds()
-        @imageObject.scaleX = @thang.width * Camera.PPM / bounds.width * @thangType.get('scale') ? 1
-        @imageObject.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height * @thangType.get('scale') ? 1
+        @imageObject.scaleX = @thang.width * Camera.PPM / bounds.width
+        @imageObject.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height
+        unless @thang.spriteName is 'Beam'
+          @imageObject.scaleX *= @thangType.get('scale') ? 1
+          @imageObject.scaleY *= @thangType.get('scale') ? 1
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1

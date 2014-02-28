@@ -35,13 +35,6 @@ console.error = console.info = console.log;
 self.console = console;
 
 importScripts('/javascripts/world.js');
-// Since this is run synchronously on the main thread, we might consider splitting it up and sending "ready":
-//xhr.onload = function() {
-//    eval(this.responseText);
-//    postMessage("ready");
-//};
-//xhr.open("get", "script.js");
-//xhr.send();
 
 // We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
 Object.defineProperty(self, "XMLHttpRequest", {
@@ -158,3 +151,4 @@ self.addEventListener('message', function(event) {
   self[event.data.func](event.data.args);
 });
 
+self.postMessage({type: 'worker-initialized'});

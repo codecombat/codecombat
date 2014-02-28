@@ -55,7 +55,7 @@ module.exports = class World
     @thangMap[thang.id] = thang
 
   thangDialogueSounds: ->
-    if @frames.length < @totalFrames then worldShouldBeOverBeforeGrabbingDialogue
+    if @frames.length < @totalFrames then throw new Error("World should be over before grabbing dialogue")
     [sounds, seen] = [[], {}]
     for frame in @frames
       for thangID, state of frame.thangStateMap
@@ -245,7 +245,7 @@ module.exports = class World
 
   serialize: ->
     # Code hotspot; optimize it
-    if @frames.length < @totalFrames then worldShouldBeOverBeforeSerialization
+    if @frames.length < @totalFrames then throw new Error("World Should Be Over Before Serialization")
     [transferableObjects, nontransferableObjects] = [0, 0]
     o = {name: @name, totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []

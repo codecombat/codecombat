@@ -9,7 +9,7 @@ module.exports = class MultiplayerModal extends View
   events:
     'click textarea': 'onClickLink'
     'change #multiplayer': 'updateLinkSection'
-    'click #submit-session-button': 'submitSession'
+
 
   constructor: (options) ->
     super(options)
@@ -17,6 +17,8 @@ module.exports = class MultiplayerModal extends View
     @level = options.level
     @session.on 'change:multiplayer', @updateLinkSection, @
     @playableTeams = options.playableTeams
+    @ladderGame = options.ladderGame
+    console.log 'ladder game is', @ladderGame
 
   getRenderData: ->
     c = super()
@@ -24,8 +26,11 @@ module.exports = class MultiplayerModal extends View
       '?session=' +
       @session.id)
     c.multiplayer = @session.get('multiplayer')
+    c.team = @session.get 'team'
+    c.levelSlug = @level?.get('slug')
     c.playableTeams = @playableTeams
-    c.ladderGame = @level?.get('name') is 'Project DotA' and not me.get('isAnonymous')
+    c.ladderGame = @ladderGame
+    # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
     c
 
   afterRender: ->
@@ -41,17 +46,10 @@ module.exports = class MultiplayerModal extends View
     la.toggle Boolean(multiplayer)
     true
 
-  submitSession: ->
-    $.ajax('/queue/scoring', {
-      method: 'POST'
-      data:
-        session: @session.id
-    })
-
   onHidden: ->
     multiplayer = Boolean(@$el.find('#multiplayer').prop('checked'))
     @session.set('multiplayer', multiplayer)
 
   destroy: ->
-    super()
     @session.off 'change:multiplayer', @updateLinkSection, @
+    super()

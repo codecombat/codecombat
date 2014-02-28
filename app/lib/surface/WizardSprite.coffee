@@ -24,18 +24,20 @@ module.exports = class WizardSprite extends IndieSprite
 
   constructor: (thangType, options) ->
     if options?.isSelf
-      options.colorConfig = me.get('wizard')?.colorConfig or {}
+      options.colorConfig = _.cloneDeep(me.get('wizard')?.colorConfig) or {}
     super thangType, options
     @isSelf = options.isSelf
     @targetPos = @thang.pos
     if @isSelf
       @setNameLabel me.displayName()
       @setColorHue me.get('wizardColor1')
+    else if options.name
+      @setNameLabel options.name
 
   makeIndieThang: (thangType, thangID, pos) ->
     thang = super thangType, thangID, pos
     thang.isSelectable = false
-    thang.bobHeight = 1.5
+    thang.bobHeight = 0.75
     thang.bobTime = 2
     thang.pos.z += thang.bobHeight
     thang
@@ -57,7 +59,12 @@ module.exports = class WizardSprite extends IndieSprite
   onMeSynced: (e) ->
     return unless @isSelf
     @setNameLabel me.displayName() if @displayObject.visible  # not if we hid the wiz
-    @setColorHue me.get('wizardColor1')
+    newColorConfig = me.get('wizard')?.colorConfig or {}
+    shouldUpdate = not _.isEqual(newColorConfig, @options.colorConfig)
+    @options.colorConfig = _.cloneDeep(newColorConfig)
+    if shouldUpdate
+      @setupSprite()
+      @playAction(@currentAction)
 
   onSpriteSelected: (e) ->
     return unless @isSelf
@@ -183,7 +190,7 @@ module.exports = class WizardSprite extends IndieSprite
     Takes into account whether the wizard is in transit or not, and the bobbing up and down.
     Eventually will also adjust based on where other wizards are.
     """
-    @targetPos = @targetSprite.thang.pos if @targetSprite
+    @targetPos = @targetSprite.thang.pos if @targetSprite?.thang
     pos = _.clone(@targetPos)
     pos.z = @defaultPos().z + @getBobOffset()
     @adjustPositionToSideOfTarget(pos) if @targetSprite  # be off to the side depending on placement in world
@@ -213,7 +220,7 @@ module.exports = class WizardSprite extends IndieSprite
     targetPos.y += @spriteYOffset
 
   faceTarget: ->
-    if @targetSprite
+    if @targetSprite?.thang
       @pointToward(@targetSprite.thang.pos)
 
   updateMarks: ->

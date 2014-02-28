@@ -48,15 +48,10 @@ module.exports = class ThangsTabView extends View
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
 
   shortcuts:
-    'esc': -> @selectAddThang()
-
-  onFilterExtantThangs: (e) ->
-    button = $(e.target).closest('button')
-    button.button('toggle')
-    val = button.val()
-    @thangsTreema.$el.removeClass(@lastHideClass) if @lastHideClass
-    @thangsTreema.$el.addClass(@lastHideClass = "hide-except-#{val}") if val
-
+    'esc': 'selectAddThang'
+    'delete, del, backspace': 'deleteSelectedExtantThang'
+    'left': -> @moveAddThangSelection -1
+    'right': -> @moveAddThangSelection 1
 
   constructor: (options) ->
     super options
@@ -102,12 +97,12 @@ module.exports = class ThangsTabView extends View
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
 
-    # TODO: move these into the shortcuts list
-    key 'left', _.bind @moveAddThangSelection, @, -1
-    key 'right', _.bind @moveAddThangSelection, @, 1
-    key 'delete, del, backspace', @deleteSelectedExtantThang
-    key 'f', => Backbone.Mediator.publish('level-set-debug', debug: not @surface.debug)
-    key 'g', => Backbone.Mediator.publish('level-set-grid', grid: not @surface.gridShowing())
+  onFilterExtantThangs: (e) ->
+    button = $(e.target).closest('button')
+    button.button('toggle')
+    val = button.val()
+    @thangsTreema.$el.removeClass(@lastHideClass) if @lastHideClass
+    @thangsTreema.$el.addClass(@lastHideClass = "hide-except-#{val}") if val
 
   preventBodyScrollingInThangList: (e) ->
     @scrollTop += (if e.deltaY < 0 then 1 else -1) * 30
@@ -149,11 +144,12 @@ module.exports = class ThangsTabView extends View
     @surface.playing = false
     @surface.setWorld @world
     @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
+    @surface.camera.dragDisabled = true
 
   destroy: ->
-    super()
     @selectAddThangType null
     @surface.destroy()
+    super()
 
   onViewSwitched: (e) ->
     @selectAddThang()

@@ -14,6 +14,7 @@ module.exports = class Spell
     @supermodel = options.supermodel
     @skipFlow = options.skipFlow
     @skipProtectAPI = options.skipProtectAPI
+    @worker = options.worker
     p = options.programmableMethod
 
     @name = p.name
@@ -29,12 +30,12 @@ module.exports = class Spell
     @team = @permissions.readwrite[0] ? "common"
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
-    
+
   destroy: ->
     @view.destroy()
     @tabView.destroy()
     @thangs = null
-
+    @worker = null
 
   addThang: (thang) ->
     if @thangs[thang.id]
@@ -59,10 +60,17 @@ module.exports = class Spell
       @source = source
     else
       source = @getSource()
-    spellThang.aether.transpile source for thangID, spellThang of @thangs
-    #for thangID, spellThang of @thangs
-    #  console.log "aether transpiled", source, "to", spellThang.aether.pure
-    #  break
+    [pure, problems] = [null, null]
+    for thangID, spellThang of @thangs
+      unless pure
+        pure = spellThang.aether.transpile source
+        problems = spellThang.aether.problems
+        #console.log "aether transpiled", source.length, "to", pure.length, "for", thangID, @spellKey
+      else
+        spellThang.aether.pure = pure
+        spellThang.aether.problems = problems
+        #console.log "aether reused transpilation for", thangID, @spellKey
+    null
 
   hasChanged: (newSource=null, currentSource=null) ->
     (newSource ? @originalSource) isnt (currentSource ? @source)
@@ -95,6 +103,7 @@ module.exports = class Spell
     if not (me.team in @permissions.readwrite) or window.currentView?.sessionID is "52bfb88099264e565d001349"  # temp fix for debugger explosion bug
       #console.log "Turning off includeFlow for", @spellKey
       aetherOptions.includeFlow = false
+    #console.log "creating aether with options", aetherOptions
     aether = new Aether aetherOptions
     aether
 

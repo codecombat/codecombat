@@ -1,11 +1,12 @@
-schema = require('./user_schema')
-crypto = require('crypto')
-request = require('request')
-User = require('./User')
-Handler = require('../commons/Handler')
-languages = require '../routes/languages'
+schema = require './user_schema'
+crypto = require 'crypto'
+request = require 'request'
+User = require './User'
+Handler = require '../commons/Handler'
 mongoose = require 'mongoose'
 config = require '../../server_config'
+errors = require '../commons/errors'
+async = require 'async'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = ['permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID', 'music', 'volume']
@@ -30,7 +31,7 @@ UserHandler = class UserHandler extends Handler
     return null unless document?
     obj = document.toObject()
     delete obj[prop] for prop in serverProperties
-    includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
+    includePrivates = req.user and (req.user?.isAdmin() or req.user?._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
 
     # emailHash is used by gravatar
@@ -104,28 +105,58 @@ UserHandler = class UserHandler extends Handler
   ]
 
   getById: (req, res, id) ->
-    if req.user and req.user._id.equals(id)
+    if req.user?._id.equals(id)
       return @sendSuccess(res, @formatEntity(req, req.user))
     super(req, res, id)
+    
+  getNamesByIds: (req, res) ->
+    ids = req.query.ids or req.body.ids
+    ids = ids.split(',') if _.isString ids
+    ids = _.uniq ids
+    
+    makeFunc = (id) ->
+      (callback) ->
+        User.findById(id, {name:1}).exec (err, document) ->
+          return done(err) if err
+          callback(null, document?.get('name') or '')
+          
+    funcs = {}
+    for id in ids
+      return errors.badInput(res, "Given an invalid id: #{id}") unless Handler.isID(id)
+      funcs[id] = makeFunc(id)
+    
+    async.parallel funcs, (err, results) ->
+      return errors.serverError err if err
+      res.send results
+      res.end()
+
+  nameToID: (req, res, name) ->
+    User.findOne({nameLower:name.toLowerCase()}).exec (err, otherUser) ->
+      res.send(if otherUser then otherUser._id else JSON.stringify(''))
+      res.end()
 
   post: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
+    return @sendBadInputError(res, 'Must have an anonymous user to post with.') unless req.user
     return @sendBadInputError(res, 'Existing users cannot create new ones.') unless req.user.get('anonymous')
     req.body._id = req.user._id if req.user.get('anonymous')
     @put(req, res)
 
   hasAccessToDocument: (req, document) ->
     if req.route.method in ['put', 'post', 'patch']
-      return true if req.user.isAdmin()
-      return req.user._id.equals(document._id)
+      return true if req.user?.isAdmin()
+      return req.user?._id.equals(document._id)
     return true
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
+    return @getNamesByIds(req, res) if args[1] is 'names'
+    return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @sendNotFoundError(res)
 
   agreeToCLA: (req, res) ->
+    return @sendUnauthorizedError(res) unless req.user
     doc =
       user: req.user._id+''
       email: req.user.get 'email'
@@ -148,28 +179,3 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
 module.exports = new UserHandler()
-
-module.exports.setupMiddleware = (app) ->
-  app.use (req, res, next) ->
-    if req.user
-      next()
-    else
-      user = new User({anonymous:true})
-      user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
-      user.set 'preferredLanguage', languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
-      loginUser(req, res, user, false, next)
-
-loginUser = (req, res, user, send=true, next=null) ->
-  user.save((err) ->
-    if err
-      return @sendDatabaseError(res, err)
-
-    req.logIn(user, (err) ->
-      if err
-        return @sendDatabaseError(res, err)
-
-      if send
-        return @sendSuccess(res, user)
-      next() if next
-    )
-  )

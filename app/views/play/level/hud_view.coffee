@@ -24,11 +24,14 @@ module.exports = class HUDView extends View
     'god:new-world-created': 'onNewWorld'
 
   events:
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': 'onClick'
 
   afterRender: ->
     super()
     @$el.addClass 'no-selection'
+
+  onClick: (e) ->
+    Backbone.Mediator.publish 'focus-editor' unless $(e.target).parents('.thang-props').length
 
   onFrameChanged: (e) ->
     @timeProgress = e.progress
@@ -63,8 +66,9 @@ module.exports = class HUDView extends View
     @clearSpeaker()
 
   onNewWorld: (e) ->
+    hadThang = @thang
     @thang = e.world.thangMap[@thang.id] if @thang
-    if not @thang
+    if hadThang and not @thang
       @setThang null, null
 
   setThang: (thang, thangType) ->
@@ -90,7 +94,7 @@ module.exports = class HUDView extends View
     return if speakerSprite is @speakerSprite
     @speakerSprite = speakerSprite
     @speaker = @speakerSprite.thang.id
-    @createAvatar @speakerSprite.thangType, @speakerSprite.thang
+    @createAvatar @speakerSprite.thangType, @speakerSprite.thang, @speakerSprite.options.colorConfig
     @$el.removeClass 'no-selection'
     @switchToDialogueElements()
 
@@ -104,9 +108,10 @@ module.exports = class HUDView extends View
     @bubble = null
     @update()
 
-  createAvatar: (thangType, thang) ->
+  createAvatar: (thangType, thang, colorConfig) ->
     options = thang.getSpriteOptions() or {}
     options.async = false
+    options.colorConfig = colorConfig if colorConfig
     stage = thangType.getPortraitStage options
     wrapper = @$el.find '.thang-canvas-wrapper'
     newCanvas = $(stage.canvas).addClass('thang-canvas')
@@ -129,7 +134,7 @@ module.exports = class HUDView extends View
   createProperties: ->
     props = @$el.find('.thang-props')
     props.find(":not(.thang-name)").remove()
-    props.find('.thang-name').text(if @thang.id is @thang.spriteName then @thang.id else "#{@thang.id} - #{@thang.spriteName}")
+    props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
     for prop in @thang.hudProperties ? []
       pel = @createPropElement prop
       continue unless pel?
@@ -265,7 +270,7 @@ module.exports = class HUDView extends View
     if prop is "rotation"
       return (val * 180 / Math.PI).toFixed(0) + "˚"
     if typeof val is 'number'
-      if Math.round(val) == val then return val.toFixed(0)  # int
+      if Math.round(val) == val or prop is 'gold' then return val.toFixed(0)  # int
       if -10 < val < 10 then return val.toFixed(2)
       if -100 < val < 100 then return val.toFixed(1)
       return val.toFixed(0)
@@ -333,8 +338,9 @@ module.exports = class HUDView extends View
     ael
 
   destroy: ->
-    super()
     @stage?.stopTalking()
     @addMoreMessage = null
     @animateEnterButton = null
     clearInterval(@messageInterval) if @messageInterval
+    clearTimeout @hintNextSelectionTimeout if @hintNextSelectionTimeout
+    super()

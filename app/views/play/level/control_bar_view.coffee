@@ -32,6 +32,7 @@ module.exports = class ControlBarView extends View
     @session = options.session
     @level = options.level
     @playableTeams = options.playableTeams
+    @ladderGame = options.ladderGame
     super options
 
   setBus: (@bus) ->
@@ -46,18 +47,24 @@ module.exports = class ControlBarView extends View
     text += " (#{numPlayers})" if numPlayers > 1
     $('#multiplayer-button', @$el).text(text)
 
-  getRenderData: (context={}) ->
-    super context
-    context.worldName = @worldName
-    context.multiplayerEnabled = @session.get('multiplayer')
-    context
+  getRenderData: (c={}) ->
+    super c
+    c.worldName = @worldName
+    c.multiplayerEnabled = @session.get('multiplayer')
+    c.ladderGame = @ladderGame
+    c.homeLink = "/"
+    levelID = @level.get('slug')
+    if levelID in ["project-dota", "brawlwood", "ladder-tutorial"]
+      levelID = 'project-dota' if levelID is 'ladder-tutorial'
+      c.homeLink = "/play/ladder/" + levelID
+    c
 
   showGuideModal: ->
     options = {docs: @level.get('documentation'), supermodel: @supermodel}
     @openModalView(new DocsModal(options))
 
   showMultiplayerModal: ->
-    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level))
+    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level, ladderGame: @ladderGame))
 
   showRestartModal: ->
     @openModalView(new ReloadModal())

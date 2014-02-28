@@ -6,31 +6,58 @@ block content
     div#level-description
       !{description}
   
-  div#leaderboard-column
-    ul.nav.nav-pills
-      for team in teams
-        li
-          a(href="#team-#{team.id}", data-toggle="tab")= team.name
-        
-    .tab-content
-      for team in teams
-        .tab-pane(id="team-#{team.id}")
-          .leaderboard
-            h4 Leaderboard
-            table.table
-              for session in team.leaderboard.topPlayers.models
-                tr
-                  td.score-cell= session.get('totalScore')
-                  td= session.get('creatorName')
-                  td
-                    a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") COMPETE
+    if !me.get('anonymous')
+      //a(href="http://www.youtube.com/watch?v=IFvfZiJGDsw&list=HL1392928835&feature=mh_lolz").intro-button.btn.btn-primary.btn-lg Watch the Video
+      
+      a(href="/play/level/ladder-tutorial").intro-button.btn.btn-primary.btn-lg Play the Tutorial
 
-          //.challengers
-          //  h4 Challengers
-          //  
-          //  if team.easyChallenger
-          //    div.challenger-select
-          //      | Easy challenger:
-          //      button
-          //        a(href=link+'?team='+team.id+'&opponent='+team.easyChallenger.id)
-          //  TODO: finish once the scoring system is finished
+  hr
+  
+  if me.get('anonymous')
+    div#must-log-in
+      p
+        strong Please log in first before playing a ladder game.
+      button.btn.btn-primary(data-toggle="coco-modal", data-target="modal/login", data-i18n="login.log_in") Log In
+      button.btn.btn-primary(data-toggle="coco-modal", data-target="modal/signup", data-i18n="login.sign_up") Create Account
+
+
+  else
+    div#columns.row
+      for team in teams
+        div.column.col-md-6
+          a(href="/play/ladder/#{levelID}/team/#{team.id}", style="background-color: #{team.primaryColor}").play-button.btn.btn-danger.btn-block.btn-lg
+            span Play As 
+            span= team.name
+  
+          table.table.table-bordered.table-condensed.table-hover
+            //(style="background-color: #{team.bgColor}")
+            tr
+              th(colspan=3, style="color: #{team.primaryColor}")
+                span= team.name
+                span  Leaderboard
+            tr
+              th Score
+              th.name-col-cell Name
+              th
+  
+            for session in team.leaderboard.topPlayers.models
+              - var myRow = session.get('creator') == me.id
+              tr(class=myRow ? "success" : "")
+                td.score-cell= session.get('totalScore').toFixed(2)
+                td.name-col-cell= session.get('creatorName') || "Anonymous"
+                td
+                  if(!myRow)
+                    a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") Battle as #{team.otherTeam}!
+                  else
+                    a(href="/play/ladder/#{levelID}/team/#{team.id}") View your #{team.id} matches.
+  
+    unless me.attributes.anonymous
+      hr
+      button.btn.btn-warning.btn-lg.highlight#simulate-button(style="margin-bottom:10px;") Simulate Games!
+      p(id="simulation-status-text", style="display:inline; margin-left:10px;")
+        if simulationStatus
+          | #{simulationStatus}
+        else
+          | By simulating games you can get your game ranked faster!
+    if me.isAdmin()
+      button.btn.btn-danger.btn-lg.highlight#simulate-all-button(style="margin-bottom:10px; float: right;") RESET AND SIMULATE GAMES

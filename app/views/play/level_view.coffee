@@ -17,6 +17,7 @@ LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 Camera = require 'lib/surface/Camera'
+AudioPlayer = require 'lib/AudioPlayer'
 
 # subviews
 TomeView = require './level/tome/tome_view'
@@ -58,9 +59,13 @@ module.exports = class PlayLevelView extends View
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:session-will-save': 'onSessionWillSave'
     'level:set-team': 'setTeam'
+    'god:new-world-created': 'loadSoundsForWorld'
 
   events:
     'click #level-done-button': 'onDonePressed'
+
+  shortcuts:
+    'ctrl+s': 'onCtrlS'
 
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
@@ -87,13 +92,8 @@ module.exports = class PlayLevelView extends View
     else
       @load()
 
-    # Save latest level played in local storage
-    if localStorage?
-      localStorage["lastLevel"] = @levelID
-
   onLevelLoadError: (e) =>
-    msg = $.i18n.t('play_level.level_load_error', defaultValue: "Level could not be loaded.")
-    @$el.html('<div class="alert">' + msg + '</div>')
+    application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
     @god?.level = @level.serialize @supermodel
@@ -104,13 +104,17 @@ module.exports = class PlayLevelView extends View
       @load()
 
   load: ->
-    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID, @getQueryVariable("team"), @getQueryVariable('opponent'))
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
     @god = new God()
 
   getRenderData: ->
     c = super()
     c.world = @world
+    if me.get('hourOfCode') and me.lang() is 'en-US'
+      # Show the Hour of Code footer explanation until it's been more than a day
+      elapsed = (new Date() - new Date(me.get('dateCreated')))
+      c.explainHourOfCode = elapsed < 86400 * 1000
     c
 
   afterRender: ->
@@ -121,37 +125,60 @@ module.exports = class PlayLevelView extends View
     super()
 
   onLevelLoaderLoaded: =>
-    @session = @levelLoader.session
-    @world = @levelLoader.world
-    @level = @levelLoader.level
+    # Save latest level played in local storage
+    if window.currentModal and not window.currentModal.destroyed
+      @loadingScreen.showReady()
+      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
     
-    if s = @levelLoader.opponentSession
-      spells = s.get('teamSpells')?[s.get('team')]
-      opponentCode = s.get('code')
-      myCode = @session.get('code')
-      for spell in spells
-        continue unless c = opponentCode[spell]
-        myCode[spell] = c
-      @session.set('code', myCode)
-        
-    @levelLoader.destroy()
-    @levelLoader = null
+    localStorage["lastLevel"] = @levelID if localStorage?
+    @grabLevelLoaderData()
+    team = @getQueryVariable("team") ? @world.teamForPlayer(0)
+    @loadOpponentTeam(team)
     @loadingScreen.destroy()
     @god.level = @level.serialize @supermodel
     @god.worldClassMap = @world.classMap
-    #@setTeam @world.teamForPlayer _.size @session.get 'players'   # TODO: players aren't initialized yet?
-    @setTeam @getQueryVariable("team") ? @world.teamForPlayer(0)
+    @setTeam team
     @initSurface()
     @initGoalManager()
     @initScriptManager()
-    @insertSubviews()
+    @insertSubviews ladderGame: @otherSession?
     @initVolume()
     @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @originalSessionState = _.cloneDeep(@session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
+    if @otherSession
+      # TODO: colorize name and cloud by team, colorize wizard by user's color config
+      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
+      
+  grabLevelLoaderData: ->
+    @session = @levelLoader.session
+    @world = @levelLoader.world
+    @level = @levelLoader.level
+    @otherSession = @levelLoader.opponentSession
+    @levelLoader.destroy()
+    @levelLoader = null
+    
+  loadOpponentTeam: (myTeam) ->
+    opponentSpells = []
+    for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
+      continue if spellTeam is myTeam or not myTeam
+      opponentSpells = opponentSpells.concat spells
 
+    opponentCode = @otherSession?.get('submittedCode') or {}
+    myCode = @session.get('code') or {}
+    for spell in opponentSpells
+      [thang, spell] = spell.split '/'
+      c = opponentCode[thang]?[spell]
+      myCode[thang] ?= {}
+      if c then myCode[thang][spell] = c else delete myCode[thang][spell]
+    @session.set('code', myCode)
+    if @session.get('multiplayer') and @otherSession?
+      # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
+      @session.set 'multiplayer', false
+
+    
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
     @modelsLoaded += 1
@@ -166,22 +193,25 @@ module.exports = class PlayLevelView extends View
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
-  insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
+  insertSubviews: (subviewOptions) ->
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, ladderGame: subviewOptions.ladderGame
     @insertSubView new PlaybackView {}
     @insertSubView new GoalsView {}
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams}
+    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, ladderGame: subviewOptions.ladderGame}
     #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 
   afterInsert: ->
     super()
-#    @showWizardSettingsModal() if not me.get('name')
+    @showWizardSettingsModal() if not me.get('name')
 
   # callbacks
+
+  onCtrlS: (e) ->
+    e.preventDefault()
 
   onLevelReloadFromData: (e) ->
     isReload = Boolean @world
@@ -371,7 +401,7 @@ module.exports = class PlayLevelView extends View
   register: ->
     @bus = LevelBus.get(@levelID, @session.id)
     @bus.setSession(@session)
-    @bus.setTeamSpellMap @tome.teamSpellMap
+    @bus.setSpells @tome.spells
     @bus.connect() if @session.get('multiplayer')
 
   onSessionWillSave: (e) ->
@@ -389,9 +419,19 @@ module.exports = class PlayLevelView extends View
     me.team = team
     Backbone.Mediator.publish 'level:team-set', team: team
 
+  # Dynamic sound loading
+
+  loadSoundsForWorld: (e) ->
+    return if @headless
+    world = e.world
+    thangTypes = @supermodel.getModels(ThangType)
+    for [spriteName, message] in world.thangDialogueSounds()
+      continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
+      continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
+      AudioPlayer.preloadSoundReference sound
+
   destroy: ->
-    super()
-    @supermodel.off 'error', @onLevelLoadError
+    @supermodel?.off 'error', @onLevelLoadError
     @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
     @levelLoader?.destroy()
     @surface?.destroy()
@@ -400,14 +440,14 @@ module.exports = class PlayLevelView extends View
     @scriptManager?.destroy()
     $(window).off('resize', @onWindowResize)
     delete window.world # not sure where this is set, but this is one way to clean it up
-
     clearInterval(@pointerInterval)
     @bus?.destroy()
     #@instance.save() unless @instance.loading
     console.profileEnd?() if PROFILE_ME
-    @session.off 'change:multiplayer', @onMultiplayerChanged, @
+    @session?.off 'change:multiplayer', @onMultiplayerChanged, @
     @onLevelLoadError = null
     @onLevelLoaderLoaded = null
     @onSupermodelLoadedOne = null
     @preloadNextLevel = null
     @saveScreenshot = null
+    super()

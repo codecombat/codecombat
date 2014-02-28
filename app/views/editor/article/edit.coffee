@@ -35,6 +35,7 @@ module.exports = class ArticleEditView extends View
     data = $.extend(true, {}, @article.attributes)
     options =
       data: data
+      filePath: "db/thang.type/#{@article.get('original')}"
       schema: Article.schema.attributes
       callbacks:
         change: @pushChangesToPreview

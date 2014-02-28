@@ -30,6 +30,15 @@ PropertyDocumentationSchema = c.object {
   args: c.array {title: "Arguments", description: "If this property has type 'function', then provide documentation for any function arguments."}, c.FunctionArgumentSchema
   owner: {title: "Owner", type: 'string', description: 'Owner of the property, like "this" or "Math".'}
   example: {title: "Example", type: 'string', description: 'An optional example code block.', format: 'javascript'}
+  returns: c.object {
+    title: "Return Value"
+    description: 'Optional documentation of any return value.'
+    required: ['type']
+    default: {type: 'null'}
+  },
+    type: c.shortString(title: "Type", description: "Type of the return value")
+    example: c.shortString(title: "Example", description: "Example return value")
+    description: {title: "Description", type: 'string', description: "Description of the return value.", maxLength: 1000}
 
 DependencySchema = c.object {
   title: "Component Dependency"

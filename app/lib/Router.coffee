@@ -2,6 +2,8 @@
 
 gplusClientID = "800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com"
 
+go = (path) -> -> @routeDirectly path, arguments
+
 module.exports = class CocoRouter extends Backbone.Router
   subscribe: ->
     Backbone.Mediator.subscribe 'gapi-loaded', @onGPlusAPILoaded, @
@@ -15,13 +17,13 @@ module.exports = class CocoRouter extends Backbone.Router
 
     # editor views tend to have the same general structure
     'editor/:model(/:slug_or_id)(/:subview)': 'editorModelView'
+    
+    # Experimenting with direct links
+    'play/ladder/:levelID/team/:team': go('play/ladder/team_view')
 
     # db and file urls call the server directly
     'db/*path': 'routeToServer'
     'file/*path': 'routeToServer'
-
-    'play/level/:levelID/leaderboard/:teamID/:startRank/:endRank': 'getPaginatedLevelRank'
-    'play/level/:levelID/player/:playerID': 'getPlayerLevelInfo'
 
     # most go through here
     '*name': 'general'
@@ -29,14 +31,7 @@ module.exports = class CocoRouter extends Backbone.Router
   home:           -> @openRoute('home')
   general: (name) ->
     @openRoute(name)
-
-  getPaginatedLevelRank: (levelID,teamID,startRank,endRank) ->
-    return
-
-  getPlayerLevelInfo: (levelID,playerID) ->
-    return
-
-
+    
   editorModelView: (modelName, slugOrId, subview) ->
     modulePrefix = "views/editor/#{modelName}/"
     suffix = subview or (if slugOrId then 'edit' else 'home')
@@ -97,6 +92,14 @@ module.exports = class CocoRouter extends Backbone.Router
     view = @getView(route)
     @cache[route] = view unless view and view.cache is false
     return view
+    
+  routeDirectly: (path, args) ->
+    path = "views/#{path}"
+    ViewClass = @tryToLoadModule path
+    return @showNotFound() if not ViewClass
+    view = new ViewClass({}, args...)  # options, then any path fragment args
+    view.render()
+    @openView(view)
 
   getView: (route, suffix='_view') ->
     # iteratively breaks down the url pieces looking for the view
@@ -129,7 +132,7 @@ module.exports = class CocoRouter extends Backbone.Router
     view.render()
 
   closeCurrentView: ->
-    window.currentModal?.hide()
+    window.currentModal?.hide?()
     return unless window.currentView?
     if window.currentView.cache
       window.currentView.scrollY = window.scrollY

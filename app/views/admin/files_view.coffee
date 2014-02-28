@@ -20,6 +20,7 @@ module.exports = class FilesView extends RootView
       filename: InkBlob.filename
       mimetype: InkBlob.mimetype
       path: @currentFolder()
+      force: true
 
     # Automatically overwrite if the same path was put in here before
 #    body.force = true # if InkBlob.filename is @data

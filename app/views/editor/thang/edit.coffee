@@ -378,5 +378,5 @@ module.exports = class ThangTypeEditView extends View
     @showingSelectedNode = false
 
   destroy: ->
-    super()
     @camera?.destroy()
+    super()

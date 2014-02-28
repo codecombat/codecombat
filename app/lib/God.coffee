@@ -12,11 +12,12 @@ module.exports = class God
     @lastID = (if @lastID? then @lastID + 1 else Math.floor(@ids.length * Math.random())) % @ids.length
     @ids[@lastID]
 
-  maxAngels: 2  # how many concurrent web workers to use; if set past 8, make up more names
-  maxWorkerPoolSize: 2  # ~20MB per idle worker
   worldWaiting: false  # whether we're waiting for a worker to free up and run the world
-  constructor: ->
+  constructor: (options) ->
     @id = God.nextID()
+    options ?= {}
+    @maxAngels = options.maxAngels ? 2  # How many concurrent web workers to use; if set past 8, make up more names
+    @maxWorkerPoolSize = options.maxWorkerPoolSize ? 2  # ~20MB per idle worker
     @angels = []
     @firstWorld = true
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
@@ -38,12 +39,22 @@ module.exports = class God
 
   getWorker: ->
     @fillWorkerPool()
-    worker = @workerPool.shift()
+    worker = @workerPool?.shift()
     return worker if worker
     @createWorker()
 
   createWorker: ->
-    new Worker '/javascripts/workers/worker_world.js'
+    worker = new Worker '/javascripts/workers/worker_world.js'
+    worker.creationTime = new Date()
+    worker.addEventListener 'message', @onWorkerMessage
+    worker
+
+  onWorkerMessage: (event) =>
+    worker = event.target
+    if event.data.type is 'worker-initialized'
+      #console.log "Worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
+      worker.initialized = true
+      worker.removeEventListener 'message', @onWorkerMessage
 
   getAngel: ->
     freeAngel = null
@@ -87,6 +98,7 @@ module.exports = class God
     else
       @worldWaiting = true
       return
+    #console.log "going to run world with code", @getUserCodeMap()
     angel.worker.postMessage {func: 'runWorld', args: {
       worldName: @level.name
       userCodeMap: @getUserCodeMap()
@@ -110,7 +122,7 @@ module.exports = class God
     newWorld.findFirstChangedFrame @world
     @world = newWorld
     errorCount = (t for t in @world.thangs when t.errorsOut).length
-    Backbone.Mediator.publish('god:new-world-created', world: @world, firstWorld: @firstWorld, errorCount: errorCount, goalStates: @latestGoalStates)
+    Backbone.Mediator.publish('god:new-world-created', world: @world, firstWorld: @firstWorld, errorCount: errorCount, goalStates: @latestGoalStates, team: me.team)
     for scriptNote in @world.scriptNotes
       Backbone.Mediator.publish scriptNote.channel, scriptNote.event
     @goalManager?.world = newWorld
@@ -127,12 +139,15 @@ module.exports = class God
     userCodeMap
 
   destroy: ->
+    worker.removeEventListener 'message', @onWorkerMessage for worker in @workerPool ? []
     angel.destroy() for angel in @angels
     @dead = true
     Backbone.Mediator.unsubscribe('tome:cast-spells', @onTomeCast, @)
+    @goalManager?.destroy()
     @goalManager = null
     @fillWorkerPool = null
     @simulateWorld = null
+    @onWorkerMessage = null
 
   #### Bad code for running worlds on main thread (profiling / IE9) ####
   simulateWorld: =>
@@ -179,7 +194,7 @@ class Angel
     @ids[@lastID]
 
   # https://github.com/codecombat/codecombat/issues/81 -- TODO: we need to wait for worker initialization first
-  infiniteLoopIntervalDuration: 1500000  # check this often (must be more than the others added)
+  infiniteLoopIntervalDuration: 5000  # check this often (must be more than the others added)
   infiniteLoopTimeoutDuration: 1500  # wait this long when we check
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
   constructor: (@god) ->
@@ -208,8 +223,11 @@ class Angel
     @purgatoryTimer = null
     if @worker
       worker = @worker
-      _.defer -> worker.terminate
-      @worker.removeEventListener 'message', @onWorkerMessage
+      onWorkerMessage = @onWorkerMessage
+      _.delay ->
+        worker.terminate()
+        worker.removeEventListener 'message', onWorkerMessage
+      , 1000
       @worker = null
     @
 
@@ -236,6 +254,9 @@ class Angel
     @onWorkerMessage = null
 
   testWorker: =>
+    unless @worker.initialized
+      console.warning "Worker", @id, "hadn't even loaded the scripts yet after", @infiniteLoopIntervalDuration, "ms."
+      return
     @worker.postMessage {func: 'reportIn'}
     @condemnTimeout = _.delay @condemnWorker, @infiniteLoopTimeoutDuration
 
@@ -248,6 +269,8 @@ class Angel
 
   onWorkerMessage: (event) =>
     switch event.data.type
+      when 'worker-initialized'
+        console.log "Worker", @id, "initialized after", ((new Date()) - @worker.creationTime), "ms (we had been waiting for it)"
       when 'new-world'
         @god.beholdWorld @, event.data.serialized, event.data.goalStates
       when 'world-load-progress-changed'

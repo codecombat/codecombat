@@ -15,8 +15,9 @@ module.exports = class CastButtonView extends View
   constructor: (options) ->
     super options
     @spells = options.spells
+    @levelID = options.levelID
     isMac = navigator.platform.toUpperCase().indexOf('MAC') isnt -1
-    @castShortcut = "⇧↩"
+    @castShortcut = "⇧↵"
     @castShortcutVerbose = "Shift+Enter"
 
   getRenderData: (context={}) ->
@@ -34,6 +35,8 @@ module.exports = class CastButtonView extends View
     # TODO: use a User setting instead of localStorage
     delay = localStorage.getItem 'autocastDelay'
     delay ?= 5000
+    if @levelID in ['project-dota', 'brawlwood', 'ladder-tutorial']
+      delay = 90019001
     @setAutocastDelay delay
 
   attachTo: (spellView) ->
@@ -54,15 +57,17 @@ module.exports = class CastButtonView extends View
 
   onCastSpells: (e) ->
     @casting = true
-    Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.25
+    Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.5
     @updateCastButton()
+    @onWorldLoadProgressChanged progress: 0
 
   onWorldLoadProgressChanged: (e) ->
     overlay = @castButtonGroup.find '.button-progress-overlay'
-    overlay.css 'width', e.progress * @castButtonGroup.width() - 6
+    overlay.css 'width', e.progress * @castButton.outerWidth() + 1
 
   onNewWorld: (e) ->
     @casting = false
+    Backbone.Mediator.publish 'play-sound', trigger: 'cast-end', volume: 0.5
     @updateCastButton()
 
   updateCastButton: ->
@@ -72,7 +77,7 @@ module.exports = class CastButtonView extends View
     if @casting
       s = $.i18n.t("play_level.tome_cast_button_casting", defaultValue: "Casting")
     else if castable
-      s = $.i18n.t("play_level.tome_cast_button_castable", defaultValue: "Cast") + " " + @castShortcut
+      s = $.i18n.t("play_level.tome_cast_button_castable", defaultValue: "Cast Spell") + " " + @castShortcut
     else
       s = $.i18n.t("play_level.tome_cast_button_cast", defaultValue: "Spell Cast")
     @castButton.text s
@@ -88,7 +93,7 @@ module.exports = class CastButtonView extends View
       $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)
 
   destroy: ->
-    super()
     @castButton.off 'click', @onCastButtonClick
     @castOptions.find('a').off 'click', @onCastOptionsClick
     @onCastOptionsClick = null
+    super()

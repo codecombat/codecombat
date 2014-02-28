@@ -25,9 +25,7 @@ module.exports = class PlaybackView extends View
     'click #debug-toggle': 'onToggleDebug'
     'click #grid-toggle': 'onToggleGrid'
     'click #edit-wizard-settings': 'onEditWizardSettings'
-    'click #music-button': ->
-      me.set('music', not me.get('music'))
-      me.save()
+    'click #music-button': 'onToggleMusic'
     'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @disabled
     'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @disabled
     'click #volume-button': 'onToggleVolume'
@@ -36,8 +34,8 @@ module.exports = class PlaybackView extends View
 
   shortcuts:
     '⌘+p, p, ctrl+p': 'onTogglePlay'
-    '[': 'onScrubBack'
-    ']': 'onScrubForward'
+    '⌘+[, ctrl+[': 'onScrubBack'
+    '⌘+], ctrl+]': 'onScrubForward'
 
   constructor: ->
     super(arguments...)
@@ -169,38 +167,9 @@ module.exports = class PlaybackView extends View
         if @clickingSlider
           @clickingSlider = false
           @wasPlaying = false
-          @onSetPlaying {playing: false}
+          Backbone.Mediator.publish 'level-set-playing', {playing: false}
           @$el.find('.scrubber-handle').effect('bounce', {times: 2})
-          # Wait a while before we start scrubbing on mousemove again
-          @hoverTimeout = _.delay @onProgressMouseOver, 5 * @sliderHoverDelay, null
     )
-    $('.scrubber').mouseover((e) =>
-      return if @clickingSlider or @disabled or @hoverDisabled or @hoverTimeout
-      @hoverTimeout = _.delay @onProgressMouseOver, @sliderHoverDelay, e
-    ).mouseleave(@onProgressMouseLeave).mousemove(@onProgressMouseMove)
-
-  onProgressMouseOver: (e) =>
-    @hoverTimeout = null
-    return if @clickingSlider or @disabled or @hoverDisabled
-    @wasPlaying = @playing
-    Backbone.Mediator.publish 'level-set-playing', playing: false
-    @onProgressMouseMove e if e
-
-  onProgressMouseLeave: (e) =>
-    return if @clickingSlider or @disabled or @hoverDisabled
-    if @hoverTimeout
-      clearTimeout @hoverTimeout
-      @hoverTimeout = null
-    if @wasPlaying? and @playing isnt @wasPlaying
-      Backbone.Mediator.publish 'level-set-playing', playing: @wasPlaying
-    @wasPlaying = null
-
-  onProgressMouseMove: (e) =>
-    return if @disabled or @hoverDisabled or @hoverTimeout
-    @clickingSlider = false
-    posX = e.pageX - $(e.target).offset().left
-    @actualProgress = posX / @barWidth
-    @scrubTo @actualProgress
 
   getScrubRatio: ->
     bar = $('.scrubber .progress', @$el)
@@ -235,11 +204,14 @@ module.exports = class PlaybackView extends View
     Backbone.Mediator.publish 'level-set-volume', volume: volumes[newI]
     $(document.activeElement).blur()
 
+  onToggleMusic: (e) ->
+    e?.preventDefault()
+    me.set('music', not me.get('music'))
+    me.save()
+    $(document.activeElement).blur()
+
   destroy: ->
-    super()
     me.off('change:music', @updateMusicButton, @)
     $(window).off('resize', @onWindowResize)
     @onWindowResize = null
-    @onProgressMouseOver = null
-    @onProgressMouseLeave = null
-    @onProgressMouseMove = null
+    super()

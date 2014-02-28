@@ -36,13 +36,15 @@ module.exports = class CocoView extends Backbone.View
     super options
 
   destroy: ->
-    @destroyed = true
     @stopListening()
     @stopListeningToShortcuts()
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
     @modalClosed = null
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
+    @[key] = undefined for key, value of @
+    @destroyed = true
+    @destroy = ->
 
   afterInsert: ->
 
@@ -100,8 +102,8 @@ module.exports = class CocoView extends Backbone.View
     return if @waitingModal # can only have one waiting at once
     if visibleModal
       waitingModal = modalView
-      visibleModal.hide()
-      return
+      return visibleModal.hide() if visibleModal.$el.is(':visible') # close, then this will get called again
+      return @modalClosed(visibleModal) # was closed, but modalClosed was not called somehow
     modalView.render()
     $('#modal-wrapper').empty().append modalView.el
     modalView.afterInsert()
@@ -115,6 +117,7 @@ module.exports = class CocoView extends Backbone.View
     visibleModal.willDisappear() if visibleModal
     visibleModal.destroy()
     visibleModal = null
+    window.currentModal = null
     #$('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
     if waitingModal
       wm = waitingModal
@@ -127,7 +130,7 @@ module.exports = class CocoView extends Backbone.View
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
-    $el.find('>').hide()
+    $el.find('>').addClass('hidden')
     $el.append($('<div class="loading-screen"></div>')
     .append('<h2>Loading</h2>')
     .append('<div class="progress progress-striped active loading"><div class="progress-bar"></div></div>'))
@@ -136,18 +139,20 @@ module.exports = class CocoView extends Backbone.View
   hideLoading: ->
     return unless @_lastLoading?
     @_lastLoading.find('.loading-screen').remove()
-    @_lastLoading.find('>').show()
+    @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null
 
   # Loading ModalViews
 
   enableModalInProgress: (modal) ->
-    $('> div', modal).hide()
-    $('.wait', modal).show()
+    el = modal.find('.modal-content')
+    el.find('> div', modal).hide()
+    el.find('.wait', modal).show()
 
   disableModalInProgress: (modal) ->
-    $('> div', modal).show()
-    $('.wait', modal).hide()
+    el = modal.find('.modal-content')
+    el.find('> div', modal).show()
+    el.find('.wait', modal).hide()
 
   # Subscriptions
 

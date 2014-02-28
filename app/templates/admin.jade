@@ -2,6 +2,18 @@ extends /templates/base
 
 block content
   
+  h3 Espionage mode
+    h5 Please enter the email/username of the person you want to spy on
+    .form
+      .form-group
+        label.control-label Email 
+        input#user-email
+      .form-group
+        label.control-label Username 
+        input#user-username
+      
+    button.btn.btn-primary.btn-large#enter-espionage-mode 007
+  
   h3(data-i18n="admin.av_title") Admin Views
 
   h4(data-i18n="admin.av_entities_sub_title") Entities

@@ -28,6 +28,7 @@ module.exports = class SpellView extends View
     'modal-closed': 'focus'
     'focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
+    'spell-beautify': 'onSpellBeautify'
 
   events:
     'mouseout': 'onMouseOut'
@@ -46,7 +47,7 @@ module.exports = class SpellView extends View
     @createACE()
     @createACEShortcuts()
     @fillACE()
-    if @session.get 'multiplayer'
+    if @session.get('multiplayer')
       @createFirepad()
     else
       # needs to happen after the code generating this view is complete
@@ -123,13 +124,17 @@ module.exports = class SpellView extends View
       name: 'spell-step-backward'
       bindKey: {win: 'Ctrl-Alt-[', mac: 'Command-Alt-[|Ctrl-Alt-]'}
       exec: -> Backbone.Mediator.publish 'spell-step-backward'
+    addCommand
+      name: 'spell-beautify'
+      bindKey: {win: 'Ctrl-Shift-B', mac: 'Command-Shift-B|Ctrl-Shift-B'}
+      exec: -> Backbone.Mediator.publish 'spell-beautify'
 
   fillACE: ->
     @ace.setValue @spell.source
     @ace.clearSelection()
 
   onMultiplayerChanged: ->
-    if @session.get 'multiplayer'
+    if @session.get('multiplayer')
       @createFirepad()
     else
       @firepad?.dispose()
@@ -321,7 +326,10 @@ module.exports = class SpellView extends View
     isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
     @problems = []
     annotations = []
+    seenProblemKeys = {}
     for aetherProblem, problemIndex in aether.getAllProblems()
+      continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
+      seenProblemKeys[key] = true if key
       @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations
@@ -331,7 +339,9 @@ module.exports = class SpellView extends View
     #console.log '  and we could do the visualization', aether.visualization unless _.isEmpty aether.visualization
     # Could use the user-code-problem style... or we could leave that to other places.
     @ace[if @problems.length then 'setStyle' else 'unsetStyle'] 'user-code-problem'
+    @ace[if isCast then 'setStyle' else 'unsetStyle'] 'spell-cast'
     Backbone.Mediator.publish 'tome:problems-updated', spell: @spell, problems: @problems, isCast: isCast
+    @ace.resize()
 
   # Autocast:
   # Goes immediately if the code is a) changed and b) complete/valid and c) the cursor is at beginning or end of a line
@@ -345,7 +355,7 @@ module.exports = class SpellView extends View
     #@recompileValid = not aether.getAllProblems().length
     valid = not aether.getAllProblems().length
     cursorPosition = @ace.getCursorPosition()
-    currentLine = @aceDoc.$lines[cursorPosition.row].replace(/[ \t]*\/\/[^"']*/g, '').trimRight()  # trim // unless inside "
+    currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(/[ \t]*\/\/[^"']*/g, ''))  # trim // unless inside "
     endOfLine = cursorPosition.column >= currentLine.length  # just typed a semicolon or brace, for example
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     #console.log "finished?", valid, endOfLine, beginningOfLine, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
@@ -416,6 +426,7 @@ module.exports = class SpellView extends View
 
   highlightCurrentLine: (flow) =>
     # TODO: move this whole thing into SpellDebugView or somewhere?
+    @highlightComments() unless @destroyed
     flow ?= @spellThang?.castAether?.flow
     return unless flow
     executed = []
@@ -444,11 +455,11 @@ module.exports = class SpellView extends View
       markerRange.end.detach()
       @aceSession.removeMarker markerRange.id
     @markerRanges = []
-    @debugView.setVariableStates {}
     @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
     $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
     if not executed.length or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
       @toolbarView?.toggleFlow false
+      @debugView.setVariableStates {}
       return
     lastExecuted = _.last executed
     @toolbarView?.toggleFlow true
@@ -456,6 +467,7 @@ module.exports = class SpellView extends View
     @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
     marked = {}
     lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
+    gotVariableStates = false
     for state, i in lastExecuted
       [start, end] = state.range
       clazz = if i is lastExecuted.length - 1 then 'executing' else 'executed'
@@ -465,6 +477,7 @@ module.exports = class SpellView extends View
         markerType = "fullLine"
       else
         @debugView.setVariableStates state.variables
+        gotVariableStates = true
         markerType = "text"
       markerRange = new Range start.row, start.col, end.row, end.col
       markerRange.start = @aceDoc.createAnchor markerRange.start
@@ -472,7 +485,17 @@ module.exports = class SpellView extends View
       markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
       @aceSession.addGutterDecoration start.row, clazz if clazz is 'executing'
+    @debugView.setVariableStates {} unless gotVariableStates
     null
+
+  highlightComments: ->
+    lines = $(@ace.container).find('.ace_text-layer .ace_line_group')
+    session = @aceSession
+    $(@ace.container).find('.ace_gutter-cell').each (index, el) ->
+      line = $(lines[index])
+      session.removeGutterDecoration index, 'comment-line'
+      if line.find('.ace_comment').length
+        session.addGutterDecoration index, 'comment-line'
 
   onAnnotationClick: ->
     alertBox = $("<div class='alert alert-info fade in'>#{msg}</div>")
@@ -503,11 +526,16 @@ module.exports = class SpellView extends View
     filters.revertImage background if @controlsEnabled
     filters.darkenImage background, 0.8 unless @controlsEnabled
 
+  onSpellBeautify: (e) ->
+    return unless @spellThang and (@ace.isFocused() or e.spell is @spell)
+    ugly = @getSource()
+    pretty = @spellThang.aether.beautify ugly
+    @ace.setValue pretty
+
   dismiss: ->
     @recompile() if @spell.hasChangedSignificantly @getSource()
 
   destroy: ->
-    super()
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
@@ -522,3 +550,4 @@ module.exports = class SpellView extends View
     @session.off 'change:multiplayer', @onMultiplayerChanged, @
     for fat in ['notifySpellChanged', 'notifyEditingEnded', 'notifyEditingBegan', 'onFirepadLoaded', 'onLoaded', 'toggleBackground', 'setRecompileNeeded', 'onCursorActivity', 'highlightCurrentLine', 'updateAether', 'onCodeChangeMetaHandler', 'recompileIfNeeded', 'currentAutocastHandler']
       @[fat] = null
+    super()

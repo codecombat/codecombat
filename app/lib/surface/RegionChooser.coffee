@@ -7,12 +7,13 @@ module.exports = class RegionChooser extends CocoClass
     @options.stage.addEventListener 'stagemousedown', @onMouseDown
     @options.stage.addEventListener 'stagemousemove', @onMouseMove
     @options.stage.addEventListener 'stagemouseup', @onMouseUp
+    @options.camera.dragDisabled = true
 
   destroy: ->
-    super()
     @options.stage.removeEventListener 'stagemousedown', @onMouseDown
     @options.stage.removeEventListener 'stagemousemove', @onMouseMove
     @options.stage.removeEventListener 'stagemouseup', @onMouseUp
+    super()
 
   onMouseDown: (e) =>
     return unless key.shift

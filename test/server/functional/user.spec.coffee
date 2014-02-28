@@ -54,18 +54,16 @@ describe 'POST /db/user', ->
 
 describe 'PUT /db/user', ->
 
-  it 'denies requests without any data', (done) ->
-    req = request.post getURL('/auth/logout'),
-      (err, res) ->
-        expect(res.statusCode).toBe(200)
-        req = request.put getURL(urlUser),
-          (err, res) ->
-            expect(res.statusCode).toBe(422)
-            expect(res.body).toBe('No input.')
-            done()
-
   it 'logs in as normal joe', (done) ->
-    loginJoe -> done()
+    request.post getURL('/auth/logout'),
+      loginJoe -> done()
+
+  it 'denies requests without any data', (done) ->
+    request.put getURL(urlUser),
+      (err, res) ->
+        expect(res.statusCode).toBe(422)
+        expect(res.body).toBe('No input.')
+        done()
 
   it 'denies requests to edit someone who is not joe', (done) ->
     unittest.getAdmin (admin) ->

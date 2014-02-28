@@ -5,6 +5,8 @@ filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './spell_palette_entry_view'
 LevelComponent = require 'models/LevelComponent'
 
+N_ROWS = 4
+
 module.exports = class SpellPaletteView extends View
   id: 'spell-palette-view'
   template: template
@@ -18,28 +20,80 @@ module.exports = class SpellPaletteView extends View
   constructor: (options) ->
     super options
     @thang = options.thang
+    @createPalette()
+
+  getRenderData: ->
+    c = super()
+    c.entryGroups = @entryGroups
+    c.entryGroupSlugs = @entryGroupSlugs
+    c.tabbed = _.size(@entryGroups) > 1
+    c
 
   afterRender: ->
     super()
-    @createPalette()
+    for group, entries of @entryGroups
+      groupSlug = @entryGroupSlugs[group]
+      for columnNumber, entryColumn of entries
+        col = $('<div class="property-entry-column"></div>').appendTo @$el.find(".properties-#{groupSlug}")
+        for entry in entryColumn
+          col.append entry.el
+          entry.render()  # Render after appending so that we can access parent container for popover
 
   createPalette: ->
     lcs = @supermodel.getModels LevelComponent
     allDocs = {}
-    allDocs[doc.name] = doc for doc in (lc.get('propertyDocumentation') ? []) for lc in lcs
+    for lc in lcs
+      for doc in (lc.get('propertyDocumentation') ? [])
+        allDocs[doc.name] ?= []
+        allDocs[doc.name].push doc
+        if doc.type is 'snippet' then doc.owner = 'snippets'
+    #allDocs[doc.name] = doc for doc in (lc.get('propertyDocumentation') ? []) for lc in lcs
 
-    props = @thang.programmableProperties ? []
-    snippets = @thang.programmableSnippets ? []
-    shortenize = props.length + snippets.length > 6
+    propStorage =
+      'this': 'programmableProperties'
+      more: 'moreProgrammableProperties'
+      Math: 'programmableMathProperties'
+      Vector: 'programmableVectorProperties'
+      snippets: 'programmableSnippets'
+    count = 0
+    propGroups = {}
+    for owner, storage of propStorage
+      added = propGroups[owner] = _.sortBy(@thang[storage] ? []).slice()
+      count += added.length
+
+    shortenize = count > 6
+    tabbify = count >= 10
     @entries = []
-    @entries.push @addEntry(allDocs[prop] ? prop, shortenize) for prop in props
-    @entries.push @addEntry(allDocs[prop] ? prop, shortenize, true) for prop in snippets
+    for owner, props of propGroups
+      for prop in props
+        doc = _.find (allDocs[prop] ? []), (doc) ->
+          return true if doc.owner is owner
+          return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
+        console.log 'could not find doc for', prop, 'from', allDocs[prop], 'for', owner, 'of', propGroups unless doc
+        doc ?= prop
+        @entries.push @addEntry(doc, shortenize, tabbify, owner is 'snippets')
+    groupForEntry = (entry) ->
+      return 'more' if entry.doc.owner is 'this' and entry.doc.name in propGroups.more
+      entry.doc.owner
+    @entries = _.sortBy @entries, (entry) ->
+      order = ['this', 'more', 'Math', 'Vector', 'snippets']
+      index = order.indexOf groupForEntry entry
+      index = String.fromCharCode if index is -1 then order.length else index
+      index += entry.doc.name
+    if tabbify and _.find @entries, ((entry) -> entry.doc.owner isnt 'this')
+      @entryGroups = _.groupBy @entries, groupForEntry
+    else
+      defaultGroup = $.i18n.t("play_level.tome_available_spells", defaultValue: "Available Spells")
+      @entryGroups = {}
+      @entryGroups[defaultGroup] = @entries
+    @entryGroupSlugs = {}
+    for group, entries of @entryGroups
+      @entryGroupSlugs[group] = _.string.slugify group
+      @entryGroups[group] = _.groupBy entries, (entry, i) -> Math.floor i / N_ROWS
+    null
 
-  addEntry: (doc, shortenize, isSnippet=false) ->
-    entry = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, isSnippet: isSnippet
-    @$el.find('.properties').append entry.el
-    entry.render()  # Render after appending so that we can access parent container for popover
-    entry
+  addEntry: (doc, shortenize, tabbify, isSnippet=false) ->
+    new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, tabbify: tabbify, isSnippet: isSnippet
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
@@ -64,6 +118,6 @@ module.exports = class SpellPaletteView extends View
     @options.thang = @thang = e.selectedThang  # Update our thang to the current version
 
   destroy: ->
-    super()
     entry.destroy() for entry in @entries
     @toggleBackground = null
+    super()

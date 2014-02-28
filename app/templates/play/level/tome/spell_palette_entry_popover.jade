@@ -17,7 +17,7 @@ else if doc.type == 'function'
     div
       code= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
 
-if doc.type != 'function' && doc.type != 'snippet'
+if (doc.type != 'function' && doc.type != 'snippet') || doc.name == 'now'
   p.value
     strong Current Value: 
     pre
@@ -42,3 +42,14 @@ if doc.args && doc.args.length
             em Default value: 
             code= arg.default
     
+if doc.returns
+  p.returns
+    strong Returns: 
+    div
+      code= doc.returns.type
+      if doc.returns.example
+        |  (ex: 
+        code= doc.returns.example
+        | )
+      if doc.returns.description
+        div!= marked(doc.returns.description)

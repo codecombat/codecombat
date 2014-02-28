@@ -17,6 +17,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   events:
     'click .spell-list-button': 'onDropdownClick'
     'click .reload-code': 'onCodeReload'
+    'click .beautify-code': 'onBeautifyClick'
 
   constructor: (options) ->
     super options
@@ -61,7 +62,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     return unless found
     doc.owner = 'this'
     doc.shortName = doc.shorterName = doc.title = "this.#{doc.name}();"
-    @$el.popover(
+    @$el.find('code').popover(
       animation: true
       html: true
       placement: 'bottom'
@@ -73,7 +74,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   formatPopover: (doc) ->
     content = popoverTemplate doc: doc, marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in doc.args ? [])
     owner = @thang
-    content = content.replace /#{spriteName}/g, @thang.spriteName  # No quotes like we'd get with @formatValue
+    content = content.replace /#{spriteName}/g, @thang.type ? @thang.spriteName  # Prefer type, and excluded the quotes we'd get with @formatValue
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
 
   formatValue: (v) ->
@@ -100,10 +101,16 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   onClick: (e) ->  # Don't call super
 
   onDropdownClick: (e) ->
+    return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:toggle-spell-list'
 
   onCodeReload: ->
+    return unless @controlsEnabled
     Backbone.Mediator.publish "tome:reload-code", spell: @spell
+
+  onBeautifyClick: ->
+    return unless @controlsEnabled
+    Backbone.Mediator.publish "spell-beautify", spell: @spell
 
   updateReloadButton: ->
     changed = @spell.hasChanged null, @spell.getSource()
@@ -126,4 +133,5 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   destroy: ->
     @avatar?.destroy()
+    @$el.find('code').popover 'destroy'
     super()

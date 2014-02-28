@@ -147,7 +147,9 @@ ScriptSchema = c.object {
   eventPrereqs: c.array {title: "Event Checks", description: "Logical checks on the event for this script to trigger.", format:'event-prereqs'}, EventPrereqSchema
   repeats: {title: "Repeats", description: "Whether this script can trigger more than once during a level.", type: 'boolean', "default": false}
   scriptPrereqs: c.array {title: "Happens After", description: "Scripts that need to fire first."},
-    c.shortString(title: "ID", description: "A unique ID of a script that must have triggered before the parent script can trigger.")
+    c.shortString(title: "ID", description: "A unique ID of a script.")
+  notAfter: c.array {title: "Not After", description: "Do not run this script if any of these scripts have run."},
+    c.shortString(title: "ID", description: "A unique ID of a script.")
   noteChain: c.array {title: "Actions", description: "A list of things that happen when this script triggers."}, NoteGroupSchema
 
 LevelThangSchema = c.object {

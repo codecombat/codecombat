@@ -14,6 +14,8 @@ module.exports = class GoalsView extends View
   subscriptions:
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'level-set-letterbox': 'onSetLetterbox'
+    'surface:playback-restarted': 'onSurfacePlaybackRestarted'
+    'surface:playback-ended': 'onSurfacePlaybackEnded'
 
   events:
     'click': 'toggleCollapse'
@@ -46,11 +48,17 @@ module.exports = class GoalsView extends View
       li.prepend($('<i></i>').addClass(stateIconMap[state.status]))
       list.append(li)
       goals.push goal
-    @$el.toggle goals.length > 0
+    @$el.removeClass('secret') if goals.length > 0
+
+  onSurfacePlaybackRestarted: ->
+    @$el.removeClass 'brighter'
+
+  onSurfacePlaybackEnded: ->
+    @$el.addClass 'brighter'
 
   render: ->
     super()
-    @$el.addClass('hide').addClass('expanded')
+    @$el.addClass('secret').addClass('expanded')
 
   onSetLetterbox: (e) ->
     @$el.toggle not e.on

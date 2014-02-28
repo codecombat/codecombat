@@ -38,12 +38,13 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
       url: InkBlob.url
       filename: InkBlob.filename
       mimetype: InkBlob.mimetype
-      description: ''
-      createdFor: []
+      path: @settings.filePath
+
+    @uploadingPath = [@settings.filePath, InkBlob.filename].join('/')
     $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
 
   onFileUploaded: (e) =>
-    @editor.insert "![#{e.metadata.name}](/file/#{e._id})"
+    @editor.insert "![#{e.metadata.name}](/file/#{@uploadingPath})"
 
   onEditorChange: =>
     @saveChanges()
