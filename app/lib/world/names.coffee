@@ -44,6 +44,7 @@ module.exports.thangNames = thangNames =
     "Huburt"
     "Sterling"
     "Alistair"
+    "Cid"
     "Remy"
     "Stormy"
     "Halle"
