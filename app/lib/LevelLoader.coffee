@@ -99,6 +99,8 @@ module.exports = class LevelLoader extends CocoClass
   onSupermodelError: ->
 
   onSupermodelLoadedOne: (e) ->
+    #if e.model instanceof ThangType
+    #  console.log "LevelLoader loaded ThangType", e.model.get('name'), "so we should figure out how to build it."
     @update()
 
   # Things to do when either the Session or Supermodel load
@@ -171,10 +173,12 @@ module.exports = class LevelLoader extends CocoClass
     building = thangType.buildSpriteSheet options
     return unless building
     console.log 'Building:', thangType.get('name'), options
+    t0 = new Date()
     @spriteSheetsToBuild += 1
     thangType.once 'build-complete', =>
       @spriteSheetsBuilt += 1
       @notifyProgress()
+      console.log "Built", thangType.get('name'), 'after', ((new Date()) - t0), 'ms'
 
   # Initial Sound Loading
 
