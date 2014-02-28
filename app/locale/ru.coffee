@@ -418,13 +418,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     diplomat_join_suf_github: ", отредактируйте его онлайн и отправьте запрос на включение изменений. Кроме того, установите флажок ниже, чтобы быть в курсе новых разработок интернационализации!"
     more_about_diplomat: "Узнать больше о том, как стать Дипломатом"
     diplomat_subscribe_desc: "Получать email-ы о i18n разработках и уровнях для перевода."
-    ambassador_summary: "Мы пытаемся создать сообщество, и каждое сообщество нуждается в службе поддержки, когда есть проблемы. У нас есть чаты, электронная почта и социальные сети, чтобы наши пользователи могли познакомиться с игрой. Если вы хотите помочь людям втянуться, получать удовольствие и учиться программированию, этот класс для вас."
+#    ambassador_summary: "Мы пытаемся создать сообщество, и каждое сообщество нуждается в службе поддержки, когда есть проблемы. У нас есть чаты, электронная почта и социальные сети, чтобы наши пользователи могли познакомиться с игрой. Если вы хотите помочь людям втянуться, получать удовольствие и учиться программированию, этот класс для вас."  # Not done yet
 #    ambassador_introduction: "This is a community we're building, and you are the connections. We've got Olark chats, emails, and social networks with lots of people to talk with and help get acquainted with the game and learn from. If you want to help people get involved and have fun, and get a good feel of the pulse of CodeCombat and where we're going, then this class might be for you."
 #    ambassador_attribute_1: "Communication skills. Be able to identify the problems players are having and help them solve them. Also, keep the rest of us informed about what players are saying, what they like and don't like and want more of!"
 #    ambassador_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll go from there!"
 #    ambassador_join_note_strong: "Note"
 #    ambassador_join_note_desc: "One of our top priorities is to build multiplayer where players having difficulty solving levels can summon higher level wizards to help them. This will be a great way for ambassadors to do their thing. We'll keep you posted!"
-    more_about_ambassador: "Узнать больше о том, как стать Ambassador"
+#    more_about_ambassador: "Узнать больше о том, как стать Ambassador"  # Not done yet
 #    ambassador_subscribe_desc: "Get emails on support updates and multiplayer developments."
 #    counselor_summary: "None of the above roles fit what you are interested in? Do not worry, we are on the lookout for anybody who wants a hand in the development of CodeCombat! If you are interested in teaching, game development, open source management, or anything else that you think will be relevant to us, then this class is for you."
 #    counselor_introduction_1: "Do you have life experience? A different perspective on things that can help us decide how to shape CodeCombat? Of all these roles, this will probably take the least time, but individually you may make the most difference. We're on the lookout for wisened sages, particularly in areas like: teaching, game development, open source project management, technical recruiting, entrepreneurship, or design."
@@ -432,7 +432,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    counselor_attribute_1: "Experience, in any of the areas above or something you think might be helpful."
 #    counselor_attribute_2: "A little bit of free time!"
 #    counselor_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll put you in our contact list and be in touch when we could use advice (not too often)."
-    more_about_counselor: "Узнать больше о том, как стать Counselor"
+#    more_about_counselor: "Узнать больше о том, как стать Counselor"  # Not done yet
 #    changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
     diligent_scribes: "Наши старательные Писари:"
     powerful_archmages: "Наши могущественные Архимаги:"
