@@ -328,8 +328,8 @@ module.exports = class SpellView extends View
     annotations = []
     seenProblemKeys = {}
     for aetherProblem, problemIndex in aether.getAllProblems()
-      continue if aetherProblem.userInfo.key of seenProblemKeys
-      seenProblemKeys[aetherProblem.userInfo.key] = true
+      continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
+      seenProblemKeys[key] = true if key
       @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations
