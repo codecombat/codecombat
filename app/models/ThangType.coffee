@@ -139,7 +139,7 @@ module.exports = class ThangType extends CocoModel
       @builder.buildAsync()
       @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
       return true
-    console.warn 'Building', @get('name'), 'and blocking the main thread.'
+    console.warn 'Building', @get('name'), @options, 'and blocking the main thread.'
     spriteSheet = @builder.build()
     @spriteSheets[key] = spriteSheet
     delete @building[key]
