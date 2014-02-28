@@ -145,7 +145,7 @@ ScriptSchema = c.object {
   id: c.shortString(title: "ID", description: "A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.")  # uniqueness?
   channel: c.shortString(title: "Event", format: 'event-channel', description: 'Event channel this script might trigger for, like "world:won".')
   eventPrereqs: c.array {title: "Event Checks", description: "Logical checks on the event for this script to trigger.", format:'event-prereqs'}, EventPrereqSchema
-  repeats: {title: "Repeats", description: "Whether this script can trigger more than once during a level.", type: 'boolean', "default": false}
+  repeats: {title: "Repeats", description: "Whether this script can trigger more than once during a level.", enum: [true, false, 'session'], "default": false}
   scriptPrereqs: c.array {title: "Happens After", description: "Scripts that need to fire first."},
     c.shortString(title: "ID", description: "A unique ID of a script.")
   notAfter: c.array {title: "Not After", description: "Do not run this script if any of these scripts have run."},
