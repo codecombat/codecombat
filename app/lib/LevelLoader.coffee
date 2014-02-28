@@ -36,8 +36,12 @@ module.exports = class LevelLoader extends CocoClass
 
   playJingle: ->
     return if @headless
-    jingles = ["ident_1", "ident_2"]
-    AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length]
+    # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
+    # Add the timeout to fix this weird behavior.
+    f = ->
+      jingles = ["ident_1", "ident_2"]
+      AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length]
+    setTimeout f, 500
 
   # Session Loading
 

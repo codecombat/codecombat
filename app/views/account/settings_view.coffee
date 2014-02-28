@@ -13,7 +13,6 @@ module.exports = class SettingsView extends View
   events:
     'click #save-button': 'save'
     'change #settings-panes input': 'save'
-    'change input[type="range"]': 'updateWizardColor'
     'click #toggle-all-button': 'toggleEmailSubscriptions'
 
   constructor: (options) ->
@@ -46,7 +45,6 @@ module.exports = class SettingsView extends View
     )
 
     @chooseTab(location.hash.replace('#',''))
-    @updateWizardColor()
     WizardSettingsView = new WizardSettingsView()
     WizardSettingsView.on 'change', @save, @
     @insertSubView WizardSettingsView
@@ -71,15 +69,6 @@ module.exports = class SettingsView extends View
     c.subs[sub] = 1 for sub in c.me.get('emailSubscriptions') or ['announcement', 'tester', 'level_creator', 'developer']
     c
 
-  getWizardColor: ->
-    parseInt($('#wizard-color-1', @$el).val()) / 100
-
-  updateWizardColor: =>
-    rgb = hslToRgb(@getWizardColor(), 1.0, 0.6)
-    rgb = (parseInt(val) for val in rgb)
-    newColor = "rgb(#{rgb[0]},#{rgb[1]},#{rgb[2]})"
-    $('.range-color', @$el).css('background-color', newColor)
-
   getSubscriptions: ->
     inputs = $('#email-pane input[type="checkbox"]', @$el)
     inputs = ($(i) for i in inputs)
@@ -99,6 +88,8 @@ module.exports = class SettingsView extends View
     if res?
       forms.applyErrorsToForm(@$el, res)
       return
+      
+    return unless me.hasLocalChanges()
 
     res = me.save()
     return unless res
@@ -131,7 +122,6 @@ module.exports = class SettingsView extends View
   grabOtherData: ->
     me.set('name', $('#name', @$el).val())
     me.set('email', $('#email', @$el).val())
-    me.set('wizardColor1', @getWizardColor())
     me.set('emailSubscriptions', @getSubscriptions())
 
     adminCheckbox = @$el.find('#admin')
