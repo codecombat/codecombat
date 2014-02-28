@@ -35,7 +35,6 @@ module.exports = class CastingScreen extends CocoClass
     if new Date().getTime() - @t0 > 500
       createjs.Tween.removeTweens @progressBar
       createjs.Tween.get(@progressBar).to({scaleX:e.progress}, 200)
-      @update()
 
   makeProgressBar: ->
     BAR_PIXEL_HEIGHT = 3
