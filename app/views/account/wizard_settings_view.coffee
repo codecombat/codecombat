@@ -3,6 +3,7 @@ template = require 'templates/account/wizard_settings'
 {me} = require('lib/auth')
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
+{hslToHex, hexToHSL} = require 'lib/utils'
 
 module.exports = class WizardSettingsView extends CocoView
   id: 'wizard-settings-view'
@@ -12,8 +13,8 @@ module.exports = class WizardSettingsView extends CocoView
   events:
     'change .color-group-checkbox': (e) ->
       colorGroup = $(e.target).closest('.color-group')
-      @updateSliderVisibility(colorGroup)
       @updateColorSettings(colorGroup)
+      @updateSwatchVisibility(colorGroup)
 
   constructor: ->
     super(arguments...)
@@ -36,12 +37,16 @@ module.exports = class WizardSettingsView extends CocoView
     wizardSettings = me.get('wizard')?.colorConfig or {}
 
     colorGroups = @wizardThangType.get('colorGroups') or {}
-    f = (name) -> {
-      dasherized: _.string.dasherize(name)
-      humanized: _.string.humanize name
-      name: name
-      exists: wizardSettings[name]
-    }
+    f = (name) ->
+      hslObj = wizardSettings[name]
+      hsl = if hslObj then [hslObj.hue, hslObj.saturation, hslObj.lightness] else [0, 0.5, 0.5]
+      return {
+        dasherized: _.string.dasherize(name)
+        humanized: _.string.humanize name
+        name: name
+        exists: wizardSettings[name]
+        rgb: hslToHex(hsl)
+      }
     c.colorGroups = (f(colorName) for colorName in _.keys colorGroups)
     c
 
@@ -50,27 +55,29 @@ module.exports = class WizardSettingsView extends CocoView
     wizardSettings = me.get('wizard') or {}
     wizardSettings.colorConfig ?= {}
 
-    @$el.find('.selector').each (i, slider) =>
-      [groupName, prop] = $(slider).attr('name').split('.')
-      value = 100 * (wizardSettings.colorConfig[groupName]?[prop] ? 0.5)
-      @initSlider $(slider), value, @onSliderChanged
+    @$el.find('.minicolors').each (e, minicolor) =>
+      $(minicolor).minicolors({
+        change: => @updateColorSettings($(minicolor).closest('.color-group'))
+        changeDelay: 200
+      })
 
     @$el.find('.color-group').each (i, colorGroup) =>
-      @updateSliderVisibility($(colorGroup))
+      @updateSwatchVisibility($(colorGroup))
 
-  updateSliderVisibility: (colorGroup) ->
+  updateSwatchVisibility: (colorGroup) ->
     enabled = colorGroup.find('.color-group-checkbox').prop('checked')
-    colorGroup.find('.sliders').toggle Boolean(enabled)
-
-  updateColorSettings: (colorGroup) ->
-    wizardSettings = me.get('wizard') or {}
+    colorGroup.find('.minicolors-swatch').toggle Boolean(enabled)
+      
+  updateColorSettings: (colorGroup) =>
+    wizardSettings = _.cloneDeep(me.get('wizard')) or {}
     wizardSettings.colorConfig ?= {}
     colorName = colorGroup.data('name')
     wizardSettings.colorConfig[colorName] ?= {}
     if colorGroup.find('.color-group-checkbox').prop('checked')
-      config = {}
-      colorGroup.find('.selector').each (i, slider) ->
-        config[$(slider).data('key')] = $(slider).slider('value') / 100
+      input = colorGroup.find('.minicolors-input')
+      hex = input.val()
+      hsl = hexToHSL(hex)
+      config = {hue: hsl[0], saturation:hsl[1], lightness:hsl[2]}
       wizardSettings.colorConfig[colorName] = config
     else
       delete wizardSettings.colorConfig[colorName]
@@ -78,9 +85,6 @@ module.exports = class WizardSettingsView extends CocoView
     me.set('wizard', wizardSettings)
     @updateMovieClip()
     @trigger 'change'
-
-  onSliderChanged: (e, result) =>
-    @updateColorSettings $(result.handle).closest('.color-group')
 
   initStage: ->
     @stage = new createjs.Stage(@$el.find('canvas')[0])

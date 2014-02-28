@@ -21,7 +21,13 @@ module.exports = class WizardSettingsModal extends View
 
   onNameChange: ->
     me.set('name', $('#wizard-settings-name').val())
+    @checkNameExists()
 
+  checkNameExists: ->
+    forms.clearFormAlerts(@$el)
+    success = (id) => forms.applyErrorsToForm(@$el, {property:'name', message:'is already taken'}) if id and id isnt me.id
+    $.ajax("/db/user/#{me.get('name')}/nameToID", {success: success})
+  
   onWizardSettingsDone: ->
     forms.clearFormAlerts(@$el)
     res = me.validate()

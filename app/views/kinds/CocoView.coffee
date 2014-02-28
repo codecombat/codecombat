@@ -117,6 +117,7 @@ module.exports = class CocoView extends Backbone.View
     visibleModal.willDisappear() if visibleModal
     visibleModal.destroy()
     visibleModal = null
+    window.currentModal = null
     #$('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
     if waitingModal
       wm = waitingModal

@@ -130,6 +130,11 @@ UserHandler = class UserHandler extends Handler
       res.send results
       res.end()
 
+  nameToID: (req, res, name) ->
+    User.findOne({nameLower:name.toLowerCase()}).exec (err, otherUser) ->
+      res.send(if otherUser then otherUser._id else JSON.stringify(''))
+      res.end()
+
   post: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'Must have an anonymous user to post with.') unless req.user
@@ -147,6 +152,7 @@ UserHandler = class UserHandler extends Handler
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
     return @getNamesByIds(req, res) if args[1] is 'names'
+    return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @sendNotFoundError(res)
 
   agreeToCLA: (req, res) ->

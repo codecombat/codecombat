@@ -145,7 +145,9 @@ module.exports = class HUDView extends View
 
   createActions: ->
     actions = @$el.find('.thang-actions tbody').empty()
-    return unless @thang.world and not _.isEmpty @thang.actions
+    showActions = @thang.world and not _.isEmpty(@thang.actions) and 'action' in @thang.hudProperties ? []
+    @$el.find('.thang-actions').toggle showActions
+    return unless showActions
     @buildActionTimespans()
     for actionName, action of @thang.actions
       actions.append @createActionElement(actionName)
@@ -270,7 +272,7 @@ module.exports = class HUDView extends View
     if prop is "rotation"
       return (val * 180 / Math.PI).toFixed(0) + "˚"
     if typeof val is 'number'
-      if Math.round(val) == val then return val.toFixed(0)  # int
+      if Math.round(val) == val or prop is 'gold' then return val.toFixed(0)  # int
       if -10 < val < 10 then return val.toFixed(2)
       if -100 < val < 100 then return val.toFixed(1)
       return val.toFixed(0)

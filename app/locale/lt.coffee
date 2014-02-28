@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "English (AU)", englishDescription: "English (AU)", translation:
+module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lithuanian", translation:
   common:
     loading: "Loading..."
 #    saving: "Saving..."
