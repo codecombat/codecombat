@@ -126,34 +126,14 @@ module.exports = class PlayLevelView extends View
 
   onLevelLoaderLoaded: =>
     # Save latest level played in local storage
-    if localStorage?
-      localStorage["lastLevel"] = @levelID
-
-    @session = @levelLoader.session
-    @world = @levelLoader.world
-    @level = @levelLoader.level
+    if window.currentModal and not window.currentModal.destroyed
+      @loadingScreen.showReady()
+      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
+    
+    localStorage["lastLevel"] = @levelID if localStorage?
+    @grabLevelLoaderData()
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
-
-    opponentSpells = []
-    for spellTeam, spells of @session.get('teamSpells') ? otherSession?.get('teamSpells') ? {}
-      continue if spellTeam is team or not team
-      opponentSpells = opponentSpells.concat spells
-
-    otherSession = @levelLoader.opponentSession
-    opponentCode = otherSession?.get('submittedCode') or {}
-    myCode = @session.get('code') or {}
-    for spell in opponentSpells
-      [thang, spell] = spell.split '/'
-      c = opponentCode[thang]?[spell]
-      myCode[thang] ?= {}
-      if c then myCode[thang][spell] = c else delete myCode[thang][spell]
-    @session.set('code', myCode)
-    if @session.get('multiplayer') and otherSession?
-      # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
-      @session.set 'multiplayer', false
-
-    @levelLoader.destroy()
-    @levelLoader = null
+    @loadOpponentTeam(team)
     @loadingScreen.destroy()
     @god.level = @level.serialize @supermodel
     @god.worldClassMap = @world.classMap
@@ -161,17 +141,44 @@ module.exports = class PlayLevelView extends View
     @initSurface()
     @initGoalManager()
     @initScriptManager()
-    @insertSubviews ladderGame: otherSession?
+    @insertSubviews ladderGame: @otherSession?
     @initVolume()
     @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @originalSessionState = _.cloneDeep(@session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
-    if otherSession
+    if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
-      @surface.createOpponentWizard id: otherSession.get('creator'), name: otherSession.get('creatorName'), team: otherSession.get('team')
+      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
+      
+  grabLevelLoaderData: ->
+    @session = @levelLoader.session
+    @world = @levelLoader.world
+    @level = @levelLoader.level
+    @otherSession = @levelLoader.opponentSession
+    @levelLoader.destroy()
+    @levelLoader = null
+    
+  loadOpponentTeam: (myTeam) ->
+    opponentSpells = []
+    for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
+      continue if spellTeam is myTeam or not myTeam
+      opponentSpells = opponentSpells.concat spells
 
+    opponentCode = @otherSession?.get('submittedCode') or {}
+    myCode = @session.get('code') or {}
+    for spell in opponentSpells
+      [thang, spell] = spell.split '/'
+      c = opponentCode[thang]?[spell]
+      myCode[thang] ?= {}
+      if c then myCode[thang][spell] = c else delete myCode[thang][spell]
+    @session.set('code', myCode)
+    if @session.get('multiplayer') and @otherSession?
+      # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
+      @session.set 'multiplayer', false
+
+    
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
     @modelsLoaded += 1
