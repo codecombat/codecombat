@@ -93,6 +93,11 @@ module.exports = class LoadingScreen extends CocoClass
     @text.text = "BUILDING" if @progress is 1
     @progressBar.scaleX = @progress
     @stage.update()
+    
+  showReady: ->
+    @text.text = 'READY'
+    @text.regX = @text.getMeasuredWidth() / 2
+    @stage.update()
   
   destroy: ->
     @stage.canvas = null
