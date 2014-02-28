@@ -181,7 +181,8 @@ findNearestBetterSessionID = (sessionTotalScore, opponentSessionTotalScore, oppo
       $gt:opponentSessionTotalScore + 0.5
     _id: 
       $ne: opponentSessionID
-    levelID: "project-dota"
+    "level.original": "52d97ecd32362bc86e004e87"
+    "level.majorVersion": 0
     submitted: true
     submittedCode:
       $exists: true
@@ -280,7 +281,8 @@ updateSessionToSubmit = (sessionToUpdate, callback) ->
 fetchInitialSessionsToRankAgainst = (opposingTeam, callback) ->
   console.log "Fetching sessions to rank against for opposing team #{opposingTeam}"
   findParameters =
-    levelID: "project-dota"
+    "level.original": "52d97ecd32362bc86e004e87"
+    "level.majorVersion": 0
     submitted: true
     submittedCode:
       $exists: true

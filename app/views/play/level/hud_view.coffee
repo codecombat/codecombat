@@ -145,7 +145,9 @@ module.exports = class HUDView extends View
 
   createActions: ->
     actions = @$el.find('.thang-actions tbody').empty()
-    return unless @thang.world and not _.isEmpty @thang.actions
+    showActions = @thang.world and not _.isEmpty(@thang.actions) and 'action' in @thang.hudProperties ? []
+    @$el.find('.thang-actions').toggle showActions
+    return unless showActions
     @buildActionTimespans()
     for actionName, action of @thang.actions
       actions.append @createActionElement(actionName)

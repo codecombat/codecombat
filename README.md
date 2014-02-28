@@ -19,3 +19,9 @@ Whether you're novice or pro, the CodeCombat team is ready to help you implement
 ### [License](https://github.com/codecombat/codecombat/blob/master/LICENSE)
 
 [MIT](https://github.com/codecombat/codecombat/blob/master/LICENSE) for the code, and [CC-BY](http://codecombat.com/legal) for the art and music. Please also [sign the CodeCombat contributor license agreement](http://codecombat.com/cla) so we can accept your pull requests. It is easy.
+
+----------
+
+[![](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/challengepost.png)](http://codecombat.challengepost.com/?utm_source-github&utm_medium-oswidget&utm_campaign-codecombat)
+
+[![](http://1-ps.googleusercontent.com/x/s.google-melange.appspot.com/www.google-melange.com/soc/content/2-1-20140225/images/gsoc/logo/920x156xbanner-gsoc2014.png.pagespeed.ic.gdr4t3Igca.png)](http://www.google-melange.com/gsoc/homepage/google/gsoc2014)
