@@ -53,6 +53,7 @@ module.exports = class SpellPaletteView extends View
       more: 'moreProgrammableProperties'
       Math: 'programmableMathProperties'
       Array: 'programmableArrayProperties'
+      Object: 'programmableObjectProperties'
       String: 'programmableStringProperties'
       Vector: 'programmableVectorProperties'
       snippets: 'programmableSnippets'

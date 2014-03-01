@@ -501,7 +501,7 @@ module.exports = Surface = class Surface extends CocoClass
       @trailmaster.tick() if @trailmaster
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
       frameAdvanced = (@playing and @currentFrame < @world.totalFrames) or @totalFramesDrawn < 2
-      @currentFrame += @world.frameRate / @options.frameRate if frameAdvanced
+      @currentFrame += @world.frameRate / @options.frameRate if frameAdvanced and @playing
       newWorldFrame = Math.floor @currentFrame
       worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
       if worldFrameAdvanced
