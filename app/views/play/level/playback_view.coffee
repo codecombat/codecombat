@@ -36,10 +36,10 @@ module.exports = class PlaybackView extends View
     '⌘+p, p, ctrl+p': 'onTogglePlay'
     '⌘+[, ctrl+[': 'onScrubBack'
     '⌘+], ctrl+]': 'onScrubForward'
-    'w, up': 'onMoveUpKey'
-    's, down': 'onMoveDownKey'
-    'a, left': 'onMoveLeftKey'
-    'd, right': 'onMoveRightKey'
+    'up': 'onMoveKey'
+    'down': 'onMoveKey'
+    'left': 'onMoveKey'
+    'right': 'onMoveKey'
 
   constructor: ->
     super(arguments...)
@@ -220,14 +220,13 @@ module.exports = class PlaybackView extends View
     @onWindowResize = null
     super()
 
-  onMoveUpKey: ->
-    Backbone.Mediator.publish 'self-wizard:move', 0, 1
-
-  onMoveDownKey: ->
-    Backbone.Mediator.publish 'self-wizard:move', 0, -1
-
-  onMoveLeftKey: ->
-    Backbone.Mediator.publish 'self-wizard:move', -1, 0
-
-  onMoveRightKey: ->
-    Backbone.Mediator.publish 'self-wizard:move', 1, 0
+  onMoveKey: (e) ->
+    e?.preventDefault()
+    x = 0
+    y = 0
+    y = 1 if key.isPressed('up')
+    y = -1 if key.isPressed('down')
+    x = 1 if key.isPressed('right')
+    x = -1 if key.isPressed('left')
+    console.log 'onMoveKey', x, y
+    Backbone.Mediator.publish 'self-wizard:move', x, y

@@ -231,7 +231,8 @@ module.exports = class WizardSprite extends IndieSprite
     super() if @displayObject.visible  # not if we hid the wiz
 
   moveWizard : (x, y) =>
+    interval = 250
     position = {x: @targetPos.x+x, y: @targetPos.y+y}
-    @setTarget(position, 500, true)
+    @setTarget(position, interval, true)
     @updatePosition()
-    Backbone.Mediator.publish 'camera-zoom-to', position, 500
+    Backbone.Mediator.publish 'camera-zoom-to', position, interval
