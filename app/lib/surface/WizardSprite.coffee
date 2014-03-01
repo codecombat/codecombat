@@ -21,6 +21,7 @@ module.exports = class WizardSprite extends IndieSprite
     'surface:sprite-selected': 'onSpriteSelected'
     'echo-self-wizard-sprite': 'onEchoSelfWizardSprite'
     'echo-all-wizard-sprites': 'onEchoAllWizardSprites'
+    'self-wizard:move': 'moveWizard'
 
   constructor: (thangType, options) ->
     if options?.isSelf
@@ -102,7 +103,7 @@ module.exports = class WizardSprite extends IndieSprite
   defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @thang.bobHeight
   move: (pos, duration) -> @setTarget(pos, duration)
 
-  setTarget: (newTarget, duration) ->
+  setTarget: (newTarget, duration, isLinear=false) ->
     # ignore targets you're already heading for
     targetPos = @getPosFromTarget(newTarget)
     return if @targetPos and @targetPos.x is targetPos.x and @targetPos.y is targetPos.y
@@ -115,7 +116,7 @@ module.exports = class WizardSprite extends IndieSprite
     @shoveOtherWizards(true) if @targetSprite
     @targetSprite = if isSprite then newTarget else null
     @targetPos = targetPos
-    @beginMoveTween(duration)
+    @beginMoveTween(duration, isLinear)
     @shoveOtherWizards()
     Backbone.Mediator.publish('self-wizard:target-changed', {sender:@}) if @isSelf
 
@@ -127,7 +128,7 @@ module.exports = class WizardSprite extends IndieSprite
     return target if target.x?
     return target.thang.pos
 
-  beginMoveTween: (duration=1000) ->
+  beginMoveTween: (duration=1000, isLinear=false) ->
     # clear the old tween
     createjs.Tween.removeTweens(@)
 
@@ -140,8 +141,11 @@ module.exports = class WizardSprite extends IndieSprite
       @updatePosition()
       @endMoveTween()
       return
+    if isLinear
+      ease = createjs.Ease.linear
+    else
+      ease = createjs.Ease.getPowInOut(3.0)
 
-    ease = createjs.Ease.getPowInOut(3.0)
     createjs.Tween
       .get(@)
       .to({tweenPercentage:0.0}, duration, ease)
@@ -225,3 +229,9 @@ module.exports = class WizardSprite extends IndieSprite
 
   updateMarks: ->
     super() if @displayObject.visible  # not if we hid the wiz
+
+  moveWizard : (x, y) =>
+    console.log x, y
+    position = {x: @targetPos.x+x, y: @targetPos.y+y}
+    @setTarget(position, 500, true)
+    @updatePosition()

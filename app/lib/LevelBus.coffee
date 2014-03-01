@@ -22,7 +22,6 @@ module.exports = class LevelBus extends Bus
     'level-show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
-    'self-wizard:move': 'moveWizard'
 
   constructor: ->
     super(arguments...)
@@ -241,12 +240,3 @@ module.exports = class LevelBus extends Bus
   destroy: ->
     @session.off 'change:multiplayer', @onMultiplayerChanged, @
     super()
-
-  moveWizard : (x, y) =>
-    wizardSprite = @getSelfWizard()
-    position = wizardSprite.getCurrentPosition()
-    position.x += x
-    position.y += y
-    wizardSprite.setTarget(position,1000)
-    wizardSprite.updatePosition()
-    Backbone.Mediator.publish 'camera-zoom-to', position

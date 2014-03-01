@@ -221,13 +221,13 @@ module.exports = class PlaybackView extends View
     super()
 
   onMoveUpKey: ->
-    Backbone.Mediator.publish 'self-wizard:move', 0, 10
+    Backbone.Mediator.publish 'self-wizard:move', 0, 1
 
   onMoveDownKey: ->
-    Backbone.Mediator.publish 'self-wizard:move', 0, -10
+    Backbone.Mediator.publish 'self-wizard:move', 0, -1
 
   onMoveLeftKey: ->
-    Backbone.Mediator.publish 'self-wizard:move', -10, 0
+    Backbone.Mediator.publish 'self-wizard:move', -1, 0
 
   onMoveRightKey: ->
-    Backbone.Mediator.publish 'self-wizard:move', 10, 0
+    Backbone.Mediator.publish 'self-wizard:move', 1, 0
