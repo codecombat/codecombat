@@ -102,6 +102,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       unless script
         console.warn "Couldn't find script for", scriptID, "from scripts", @scripts, "when restoring session scripts."
         continue
+      continue if script.repeats # repeating scripts are not 'rerun'
       @triggered.push(scriptID)
       @ended.push(scriptID)
       noteChain = @processScript(script)
@@ -131,6 +132,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       alreadyTriggered = script.id in @triggered
       continue unless script.channel is channel
       continue if alreadyTriggered and not script.repeats
+      continue if script.lastTriggered? and script.repeats is 'session'
       continue if script.lastTriggered? and new Date().getTime() - script.lastTriggered < 1
       continue if script.neverRun
 
