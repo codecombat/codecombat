@@ -135,13 +135,18 @@ module.exports = class HUDView extends View
     props = @$el.find('.thang-props')
     props.find(":not(.thang-name)").remove()
     props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
+    column = null
     for prop in @thang.hudProperties ? []
+      continue if prop is 'action'
       pel = @createPropElement prop
       continue unless pel?
       if pel.find('.bar').is('*') and props.find('.bar').is('*')
         props.find('.bar-prop').last().after pel  # Keep bars together
       else
-        props.append pel
+        column ?= $('<div class="thang-props-column"></div>').appendTo props
+        column.append pel
+        column = null if column.find('.prop').length is 5
+    null
 
   createActions: ->
     actions = @$el.find('.thang-actions tbody').empty()
@@ -248,6 +253,8 @@ module.exports = class HUDView extends View
 
   updatePropElement: (prop, val) ->
     pel = @$el.find '.thang-props *[name=' + prop + ']'
+    if prop in ["maxHealth"]
+      return  # Don't show maxes--they're built into bar labels.
     if prop in ["health"]
       max = @thang["max" + prop.charAt(0).toUpperCase() + prop.slice(1)]
       regen = @thang[prop + "ReplenishRate"]
@@ -256,13 +263,15 @@ module.exports = class HUDView extends View
       labelText = prop + ": " + @formatValue(prop, val) + " / " + @formatValue(prop, max)
       if regen
         labelText += " (+" + @formatValue(prop, regen) + "/s)"
-      pel.attr 'title', labelText
-    else if prop in ["maxHealth"]
-      return
     else
       s = @formatValue(prop, val)
+      labelText = "#{prop}: #{s}"
+      if prop is 'attackDamage'
+        cooldown = @thang.actions.attack.cooldown
+        dps = @thang.attackDamage / cooldown
+        labelText += " / #{cooldown.toFixed(2)}s (DPS: #{dps.toFixed(2)})"
       pel.find('.prop-value').text s
-      pel.attr 'title', "#{prop}: #{s}"
+    pel.attr 'title', labelText
     pel
 
   formatValue: (prop, val) ->
@@ -271,6 +280,8 @@ module.exports = class HUDView extends View
       val = null if val?.isZero()
     if prop is "rotation"
       return (val * 180 / Math.PI).toFixed(0) + "˚"
+    if prop.search(/Range$/) isnt -1
+      return val + 'm'
     if typeof val is 'number'
       if Math.round(val) == val or prop is 'gold' then return val.toFixed(0)  # int
       if -10 < val < 10 then return val.toFixed(2)
