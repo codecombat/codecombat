@@ -140,6 +140,7 @@ module.exports = class ThangsTabView extends View
       navigateToSelection: false
       thangTypes: @supermodel.getModels(ThangType)
       showInvisible: true
+      frameRate: 15
     }
     @surface.playing = false
     @surface.setWorld @world

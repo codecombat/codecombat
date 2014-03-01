@@ -38,7 +38,6 @@ module.exports = Surface = class Surface extends CocoClass
   worldLoaded: false
   scrubbing: false
   debug: false
-  frameRate: 60
 
   defaults:
     wizards: true
@@ -49,6 +48,7 @@ module.exports = Surface = class Surface extends CocoClass
     coords: true
     playJingle: false
     showInvisible: false
+    frameRate: 60
 
   subscriptions:
     'level-disable-controls': 'onDisableControls'
@@ -374,7 +374,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.addEventListener 'stagemousedown', @onMouseDown
     @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
-    createjs.Ticker.setFPS @frameRate
+    createjs.Ticker.setFPS @options.frameRate
 
   showLevel: ->
     return if @dead
@@ -500,7 +500,7 @@ module.exports = Surface = class Surface extends CocoClass
       @trailmaster.tick() if @trailmaster
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
       frameAdvanced = (@playing and @currentFrame < @world.totalFrames) or @totalFramesDrawn < 2
-      @currentFrame += @world.frameRate / @frameRate if frameAdvanced
+      @currentFrame += @world.frameRate / @options.frameRate if frameAdvanced
       newWorldFrame = Math.floor @currentFrame
       worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
       if worldFrameAdvanced
@@ -517,7 +517,7 @@ module.exports = Surface = class Surface extends CocoClass
     @drawCurrentFrame e
     @onFrameChanged()
     @updatePaths() if (@totalFramesDrawn % 4) is 0 or createjs.Ticker.getMeasuredFPS() > createjs.Ticker.getFPS() - 5
-    Backbone.Mediator.publish('surface:ticked', {dt: 1 / @frameRate})
+    Backbone.Mediator.publish('surface:ticked', {dt: 1 / @options.frameRate})
     mib = @stage.mouseInBounds
     if @mouseInBounds isnt mib
       Backbone.Mediator.publish('surface:mouse-' + (if mib then "over" else "out"), {})
