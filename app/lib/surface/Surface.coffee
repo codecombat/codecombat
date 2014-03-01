@@ -48,7 +48,7 @@ module.exports = Surface = class Surface extends CocoClass
     coords: true
     playJingle: false
     showInvisible: false
-    frameRate: 60
+    frameRate: 60  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
 
   subscriptions:
     'level-disable-controls': 'onDisableControls'
