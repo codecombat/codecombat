@@ -42,6 +42,7 @@ module.exports = class Camera extends CocoClass
     'level:restarted': 'onLevelRestarted'
     'sprite:mouse-down': 'onMouseDown'
     'sprite:dragged': 'onMouseDragged'
+    'camera-zoom-to': 'onZoomTo'
 
   # TODO: Fix tests to not use mainLayer
   constructor: (@canvasWidth, @canvasHeight, angle=Math.asin(0.75), hFOV=d2r(30)) ->
@@ -308,3 +309,6 @@ module.exports = class Camera extends CocoClass
     createjs.Tween.removeTweens @
     @finishTween = null
     super()
+
+  onZoomTo: (pos, time) ->
+    @zoomTo(@worldToSurface(pos), @zoom, time)
