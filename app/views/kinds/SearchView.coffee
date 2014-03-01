@@ -27,9 +27,14 @@ module.exports = class ThangTypeHomeView extends View
     'hidden.bs.modal #new-model-modal': 'onModalHidden'
 
   getRenderData: ->
-    c = super()
-    c.modelLabel = @modelLabel
-    c
+    context = super()
+    context.modelLabel = @modelLabel
+    switch @modelLabel
+      when 'Thang Type'
+        context.currentEditor = 'editor.thang_title'
+      when 'Article'
+        context.currentEditor = 'editor.article_title'
+    context
 
   constructor: (options) ->
     @runSearch = _.debounce(@runSearch, 500)
