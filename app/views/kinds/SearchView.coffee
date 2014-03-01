@@ -30,6 +30,8 @@ module.exports = class ThangTypeHomeView extends View
     context = super()
     context.modelLabel = @modelLabel
     switch @modelLabel
+      when 'Level'
+        context.currentEditor = 'editor.level_title'
       when 'Thang Type'
         context.currentEditor = 'editor.thang_title'
       when 'Article'
