@@ -213,13 +213,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   editor:
     main_title: "CodeCombat Editors"
-    main_description: "Maak je eigen levels, campagnes, eenheden en leermateriaal. Wij bieden alle programma's die u nodig heeft!"
+    main_description: "Maak je eigen levels, campagnes, eenheden en leermateriaal. Wij bieden alle programma's aan die u nodig heeft!"
     article_title: "Artikel Editor"
     article_description: "Schrijf artikels dat spelers een overzicht geven over programmeer concepten die kunnen gebruikt worden over een variëteit van levels en campagnes."
     thang_title: "Thang Editor"
-    thang_description: "Maak eenheden, beschrijf hun default logica, graphics en audio. Momenteel is enkel het importeren van vector graphics geëxporteerd in Flash ondersteunt."
+    thang_description: "Maak eenheden, beschrijf hun default logica, graphics en audio. Momenteel is enkel het importeren van vector graphics geëxporteerd in Flash ondersteund."
     level_title: "Level Editor"
-    level_description: "Bevat programmeurs om te programmeren, audio te uploaden, en om aangepaste logica om alle soorten levels te maken. Het is alles wat wijzelf ook gebruiken!"
+    level_description: "Bevat het gereedschap om te programmeren, audio te uploaden en aangepaste logica om alle soorten levels te maken. Het is alles wat wijzelf ook gebruiken!"
     security_notice: "Veel belangrijke elementen in deze editors zijn momenteel niet actief. Met dat wij de veiligheid van deze systemen verbeteren, zullen ook deze elementen beschikbaar worden. Indien u deze elementen al eerder wil gebruiken, "
     contact_us: "contacteer ons!"
     hipchat_prefix: "Je kan ons ook vinden in ons"
