@@ -130,7 +130,7 @@ module.exports.processTaskResult = (req, res) ->
                 opponentID = _.pull(_.keys(newScoresObject), originalSessionID)
                 sessionNewScore = newScoresObject[originalSessionID].totalScore
                 opponentNewScore = newScoresObject[opponentID].totalScore
-                findNearestBetterSessionID sessionNewScore, opponentNewScore, opponentID ,opposingTeam, (err, opponentSessionID) ->
+                findNearestBetterSessionID originalSessionID, sessionNewScore, opponentNewScore, opponentID ,opposingTeam, (err, opponentSessionID) ->
                   if err? then return errors.serverError res, "There was an error finding the nearest sessionID!"
                   unless opponentSessionID then return sendResponseObject req, res, {"message":"There were no more games to rank(game is at top!"}
                     
@@ -162,9 +162,6 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
     if totalNumberOfGamesPlayed < 5
       console.log "Number of games played is less than 5, continuing..."
       cb null, true
-    else if totalNumberOfGamesPlayed > 15
-      console.log "Too many games played, ending..."
-      cb null, false
     else
       ratio = (updatedSession.numberOfLosses - 5) / (totalNumberOfGamesPlayed)
       if ratio > 0.66
@@ -175,39 +172,53 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
         cb null, true
       
     
-findNearestBetterSessionID = (sessionTotalScore, opponentSessionTotalScore, opponentSessionID, opposingTeam, cb) ->
-  queryParameters =
-    totalScore: 
-      $gt:opponentSessionTotalScore + 0.5
-    _id: 
-      $ne: opponentSessionID
-    "level.original": "52d97ecd32362bc86e004e87"
-    "level.majorVersion": 0
-    submitted: true
-    submittedCode:
-      $exists: true
-    team: opposingTeam
+findNearestBetterSessionID = (sessionID, sessionTotalScore, opponentSessionTotalScore, opponentSessionID, opposingTeam, cb) ->
+  retrieveAllOpponentSessionIDs sessionID, (err, opponentSessionIDs) ->
+    if err? then return cb err, null
     
-  limitNumber = 1
-
-  sortParameters =
-    totalScore: 1
-    
-  selectString = '_id totalScore'
-    
-  query = LevelSession.findOne(queryParameters)
-    .sort(sortParameters)
-    .limit(limitNumber)
-    .select(selectString)
-    .lean()
+    queryParameters =
+      totalScore: 
+        $gt:opponentSessionTotalScore
+      _id: 
+        $nin: opponentSessionIDs
+      "level.original": "52d97ecd32362bc86e004e87"
+      "level.majorVersion": 0
+      submitted: true
+      submittedCode:
+        $exists: true
+      team: opposingTeam
+      
+    limitNumber = 1
   
-  console.log "Finding session with score near #{opponentSessionTotalScore}"
-  query.exec (err, session) ->
-    if err? then return cb err, session
-    unless session then return cb err, null
-    console.log "Found session with score #{session.totalScore}"
-    cb err, session._id
+    sortParameters =
+      totalScore: 1
+      
+    selectString = '_id totalScore'
+      
+    query = LevelSession.findOne(queryParameters)
+      .sort(sortParameters)
+      .limit(limitNumber)
+      .select(selectString)
+      .lean()
+    
+    console.log "Finding session with score near #{opponentSessionTotalScore}"
+    query.exec (err, session) ->
+      if err? then return cb err, session
+      unless session then return cb err, null
+      console.log "Found session with score #{session.totalScore}"
+      cb err, session._id
 
+    
+retrieveAllOpponentSessionIDs = (sessionID, cb) ->
+  query = LevelSession.findOne({"_id":sessionID})
+    .select('matches.opponents.sessionID')
+    .lean()
+  query.exec (err, session) ->
+    if err? then return cb err, null
+    opponentSessionIDs = (match.opponents[0].sessionID for match in session.matches)
+    cb err, opponentSessionIDs
+    
+      
 calculateOpposingTeam = (sessionTeam) ->
   teams = ['ogres','humans']
   opposingTeams = _.pull teams, sessionTeam
