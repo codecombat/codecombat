@@ -116,7 +116,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   account_settings:
     title: "Account Instellingen"
     not_logged_in: "Log in of maak een account om je instellingen aan te passen."
-    autosave: "Aanpassingen Worden Automatisch Opgeslagen"
+    autosave: "Aanpassingen Automatisch Opgeslagen"
     me_tab: "Ik"
     picture_tab: "Afbeelding"
     wizard_tab: "Tovenaar"
@@ -130,6 +130,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     new_password_verify: "Verifieer"
     email_subscriptions: "E-mail Abonnementen"
     email_announcements: "Aankondigingen"
+    email_notifications: "Notificaties"
     email_notifications_description: "Krijg periodieke meldingen voor jouw account."
     email_announcements_description: "Verkrijg emails over het laatste nieuws en de ontwikkelingen bij CodeCombat."
     contributor_emails: "Medewerker Klasse emails"
