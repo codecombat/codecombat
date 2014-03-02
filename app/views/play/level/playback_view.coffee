@@ -222,11 +222,11 @@ module.exports = class PlaybackView extends View
 
   onMoveKey: (e) ->
     e?.preventDefault()
-    x = 0
-    y = 0
-    y = 1 if key.isPressed('up')
-    y = -1 if key.isPressed('down')
-    x = 1 if key.isPressed('right')
-    x = -1 if key.isPressed('left')
-    console.log 'onMoveKey', x, y
-    Backbone.Mediator.publish 'self-wizard:move', x, y
+    yMovement = 0
+    xMovement = 0
+    yMovement += 2 if key.isPressed('up')
+    yMovement -= 2 if key.isPressed('down')
+    xMovement += 2 if key.isPressed('right')
+    xMovement -= 2 if key.isPressed('left')
+    console.log 'onMoveKey', xMovement, yMovement
+    Backbone.Mediator.publish 'self-wizard:move', xMovement, yMovement

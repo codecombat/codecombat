@@ -231,7 +231,7 @@ module.exports = class WizardSprite extends IndieSprite
     super() if @displayObject.visible  # not if we hid the wiz
 
   moveWizard : (x, y) =>
-    interval = 250
+    interval = 500
     position = {x: @targetPos.x+x, y: @targetPos.y+y}
     @setTarget(position, interval, true)
     @updatePosition()
