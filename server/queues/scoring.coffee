@@ -163,7 +163,7 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
       console.log "Number of games played is less than 5, continuing..."
       cb null, true
     else
-      ratio = (updatedSession.numberOfLosses - 5) / (totalNumberOfGamesPlayed)
+      ratio = (updatedSession.numberOfLosses) / (totalNumberOfGamesPlayed)
       if ratio > 0.66
         cb null, false
         console.log "Ratio(#{ratio}) is bad, ending simulation"
