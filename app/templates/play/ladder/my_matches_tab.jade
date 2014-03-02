@@ -1,0 +1,45 @@
+//if matches.length
+//  p#your-score
+//    span Your Current Score:
+//    span  
+//    strong= score
+
+h3.pull-left Ranked Games
+div#columns.row
+  for team in teams
+    div#matches-column.col-md-6
+      button.btn.btn-warning.pull-right.rank-button(data-session-id=team.session.id)
+        span.unavailable.hidden No New Code to Rank
+        span.rank.hidden Rank My Game!
+        span.ranking.hidden Submitting...
+        span.ranked.hidden Submitted for Ranking
+        span.failed.hidden Failed to Rank
+      
+      hr.clearfix(style="clear: both")
+
+      if matches.length
+        table.table.table-bordered.table-condensed
+          tr
+            th Result
+            th Opponent
+            th When
+          for match in matches
+            tr
+              td.state-cell
+                if match.state === 'win'
+                  span.win Win
+                if match.state === 'loss'
+                  span.loss Loss
+                if match.state === 'tie'
+                  span.tie Tie
+              td.name-cell= match.opponentName || "Anonymous"
+              td.time-cell= match.when
+              td.battle-cell
+                - var text = match.state === 'win' ? 'Watch your victory' : 'Defeat the ' + otherTeamID
+                a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{match.sessionID}")= text
+      
+      else
+        div.alert.alert-warning
+          | No ranked matches played yet!
+          | Play some competitors on the right and then come back to get your game ranked.
+      
