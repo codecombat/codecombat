@@ -77,6 +77,7 @@ module.exports = class ThangTypeHomeView extends View
     documents = @collection.models
     table = $(@tableTemplate(documents:documents))
     @$el.find('table').replaceWith(table)
+    @$el.find('table').i18n()
 
   removeOldSearch: ->
     return unless @collection?
