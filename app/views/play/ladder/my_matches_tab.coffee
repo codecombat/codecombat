@@ -4,17 +4,18 @@ LevelSession = require 'models/LevelSession'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
 
-module.exports = class LadderTeamView extends CocoView
-  id: 'ladder-team-view'
-  template: require 'templates/play/ladder/team'
+module.exports = class MyMatchesTabView extends CocoView
+  id: 'my-matches-tab-view'
+  template: require 'templates/play/ladder/my_matches_tab'
   startsLoading: true
 
   events:
-    'click #rank-button': 'rankSession'
+    'click .rank-button': 'rankSession'
 
   constructor: (options, @level, @sessions) ->
     super(options)
     @teams = teamDataFromLevel @level
+    @nameMap = {}
     @loadNames()
 
   loadNames: ->
@@ -23,9 +24,10 @@ module.exports = class LadderTeamView extends CocoView
       ids.push match.opponents[0].userID for match in session.get('matches') or []
 
     success = (@nameMap) =>
-      for match in @session.get('matches') or []
-        opponent = match.opponents[0]
-        opponent.userName = @nameMap[opponent.userID]
+      for session in @sessions.models
+        for match in session.get('matches') or []
+          opponent = match.opponents[0]
+          opponent.userName = @nameMap[opponent.userID]
       @finishRendering()
 
     $.ajax('/db/user/-/names', {
@@ -69,9 +71,10 @@ module.exports = class LadderTeamView extends CocoView
   afterRender: ->
     super()
     @$el.find('.rank-button').each (i, el) =>
+      button = $(el)
       sessionID = button.data('session-id')
       session = _.find @sessions.models, { id: sessionID }
-      @setRankingButtonText $(el), if @readyToRank(session) then 'rank' else 'unavailable'
+      @setRankingButtonText button, if @readyToRank(session) then 'rank' else 'unavailable'
 
   readyToRank: (session) ->
     c1 = session.get('code')

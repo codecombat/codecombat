@@ -19,5 +19,4 @@ module.exports.teamDataFromLevel = (level) ->
       primaryColor: primaryColor
     })
 
-  console.log 'created teams', teams
   teams

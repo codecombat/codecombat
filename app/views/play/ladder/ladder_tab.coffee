@@ -27,7 +27,7 @@ module.exports = class LadderView extends CocoView
     for team in @teams
 #      teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       teamSession = null
-      console.log "Team session: #{JSON.stringify teamSession}"
+#      console.log "Team session: #{JSON.stringify teamSession}"
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession)
       @leaderboards[team.id].once 'sync', @onLeaderboardLoaded, @
 

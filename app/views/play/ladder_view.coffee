@@ -6,6 +6,7 @@ CocoCollection = require 'models/CocoCollection'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './ladder/utils'
 LadderTabView = require './ladder/ladder_tab'
+MyMatchesTabView = require './ladder/my_matches_tab'
 
 HIGHEST_SCORE = 1000000
 
@@ -15,7 +16,7 @@ class LevelSessionsCollection extends CocoCollection
 
   constructor: (levelID) ->
     super()
-    @url = "/db/level/#{levelID}/all_sessions"
+    @url = "/db/level/#{levelID}/my_sessions"
 
 module.exports = class LadderView extends RootView
   id: 'ladder-view'
@@ -31,9 +32,9 @@ module.exports = class LadderView extends RootView
     @level = new Level(_id:@levelID)
     @level.fetch()
     @level.once 'sync', @onLevelLoaded, @
-    #    @sessions = new LevelSessionsCollection(levelID)
-    #    @sessions.fetch({})
-    #    @sessions.once 'sync', @onMySessionsLoaded, @
+    @sessions = new LevelSessionsCollection(levelID)
+    @sessions.fetch({})
+    @sessions.once 'sync', @onMySessionsLoaded, @
     @simulator = new Simulator()
     @simulator.on 'statusUpdate', @updateSimulationStatus, @
     @teams = []
@@ -42,9 +43,8 @@ module.exports = class LadderView extends RootView
   onMySessionsLoaded: -> @renderMaybe()
 
   renderMaybe: ->
-    return unless @level.loaded # and @sessions.loaded
+    return unless @level.loaded and @sessions.loaded
     @teams = teamDataFromLevel @level
-    console.log 'made teams', @teams
     @startsLoading = false
     @render()
 
@@ -54,15 +54,14 @@ module.exports = class LadderView extends RootView
     ctx.link = "/play/level/#{@level.get('name')}"
     ctx.simulationStatus = @simulationStatus
     ctx.teams = @teams
-    console.log 'ctx teams', ctx.teams
     ctx.levelID = @levelID
     ctx
 
   afterRender: ->
     super()
     return if @startsLoading
-    @ladderTab = new LadderTabView({}, @level, @sessions)
-    @insertSubView(@ladderTab)
+    @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
+    @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
 
   # Simulations
 

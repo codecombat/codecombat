@@ -4,26 +4,33 @@
 //    span  
 //    strong= score
 
-h3.pull-left Ranked Games
 div#columns.row
   for team in teams
-    div#matches-column.col-md-6
-      button.btn.btn-warning.pull-right.rank-button(data-session-id=team.session.id)
-        span.unavailable.hidden No New Code to Rank
-        span.rank.hidden Rank My Game!
-        span.ranking.hidden Submitting...
-        span.ranked.hidden Submitted for Ranking
-        span.failed.hidden Failed to Rank
-      
-      hr.clearfix(style="clear: both")
-
-      if matches.length
+    div.matches-column.col-md-6
+      if team.matches.length
         table.table.table-bordered.table-condensed
+
+          tr
+            th(colspan=4, style="color: #{team.primaryColor}")
+              span Your
+              span  
+              span= team.name
+              span  
+              span Matches
+
+              button.btn.btn-sm.btn-warning.pull-right.rank-button(data-session-id=team.session.id)
+                span.unavailable.hidden No New Code to Rank
+                span.rank.hidden Rank My Game!
+                span.ranking.hidden Submitting...
+                span.ranked.hidden Submitted for Ranking
+                span.failed.hidden Failed to Rank
+
           tr
             th Result
             th Opponent
             th When
-          for match in matches
+            th
+          for match in team.matches
             tr
               td.state-cell
                 if match.state === 'win'
@@ -35,7 +42,7 @@ div#columns.row
               td.name-cell= match.opponentName || "Anonymous"
               td.time-cell= match.when
               td.battle-cell
-                - var text = match.state === 'win' ? 'Watch your victory' : 'Defeat the ' + otherTeamID
+                - var text = match.state === 'win' ? 'Watch your victory' : 'Defeat the ' + team.otherTeam
                 a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{match.sessionID}")= text
       
       else
