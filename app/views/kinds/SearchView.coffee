@@ -28,14 +28,20 @@ module.exports = class ThangTypeHomeView extends View
 
   getRenderData: ->
     context = super()
-    context.modelLabel = @modelLabel
     switch @modelLabel
       when 'Level'
         context.currentEditor = 'editor.level_title'
+        context.currentNew = 'editor.new_level_title'
+        context.currentSearch = 'editor.level_search_title'
       when 'Thang Type'
         context.currentEditor = 'editor.thang_title'
+        context.currentNew = 'editor.new_thang_title'
+        context.currentSearch = 'editor.thang_search_title'
       when 'Article'
         context.currentEditor = 'editor.article_title'
+        context.currentNew = 'editor.new_article_title'
+        context.currentSearch = 'editor.article_search_title'
+    @$el.i18n()
     context
 
   constructor: (options) ->
@@ -77,6 +83,7 @@ module.exports = class ThangTypeHomeView extends View
     documents = @collection.models
     table = $(@tableTemplate(documents:documents))
     @$el.find('table').replaceWith(table)
+    @$el.find('table').i18n()
 
   removeOldSearch: ->
     return unless @collection?
