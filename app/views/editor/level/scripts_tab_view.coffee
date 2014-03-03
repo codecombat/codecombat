@@ -59,6 +59,7 @@ module.exports = class ScriptsTabView extends View
       thangIDs: thangIDs
       dimensions: @dimensions
       supermodel: @supermodel
+      readOnly: not me.isAdmin() and not @level.hasWriteAccess(me)
       callbacks:
         change: @onScriptChanged
       nodeClasses:

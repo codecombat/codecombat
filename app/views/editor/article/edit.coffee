@@ -56,6 +56,7 @@ module.exports = class ArticleEditView extends View
   getRenderData: (context={}) ->
     context = super(context)
     context.article = @article
+    context.authorized = me.isAdmin() or @article.hasWriteAccess(me)
     context
 
   openPreview: =>

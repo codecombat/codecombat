@@ -194,8 +194,8 @@ class CocoModel extends Backbone.Model
 
     return false
 
-    hasWriteAccess: (actor) ->
-      # actor is a User object
+  hasWriteAccess: (actor) ->
+    # actor is a User object
 
     if @get('permissions')?
       for permission in @get('permissions')
