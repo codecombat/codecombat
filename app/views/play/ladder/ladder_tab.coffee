@@ -15,7 +15,7 @@ class LevelSessionsCollection extends CocoCollection
     super()
     @url = "/db/level/#{levelID}/all_sessions"
 
-module.exports = class LadderView extends CocoView
+module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
   template: require 'templates/play/ladder/ladder_tab'
   startsLoading: true
