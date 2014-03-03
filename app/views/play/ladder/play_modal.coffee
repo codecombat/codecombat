@@ -8,14 +8,14 @@ module.exports = class LadderPlayModal extends View
   id: "ladder-play-modal"
   template: template
   closeButton: true
-  startsLoading = true
+  startsLoading: true
 
   constructor: (options, @level, @session, @team) ->
     super(options)
     @nameMap = {}
     @otherTeam = if team is 'ogres' then 'humans' else 'ogres'
     @startLoadingChallengersMaybe()
-    @wizardType = ThangType.wizardType
+    @wizardType = ThangType.loadUniversalWizard()
     
   # PART 1: Load challengers from the db unless some are in the matches
 
@@ -66,15 +66,17 @@ module.exports = class LadderPlayModal extends View
 
     ctx.challengers = @challengers or {}
     for challenger in _.values ctx.challengers
-      continue unless challenger
+      continue unless challenger and @wizardType.loaded
       if (not challenger.opponentImageSource) and challenger.opponentWizard?.colorConfig
         challenger.opponentImageSource = @wizardType.getPortraitSource(
           {colorConfig: challenger.opponentWizard.colorConfig})
-      
-    ctx.genericPortrait = @wizardType.getPortraitSource()
+
+    if @wizardType.loaded
+      ctx.genericPortrait = @wizardType.getPortraitSource()
+      myColorConfig = me.get('wizard')?.colorConfig
+      ctx.myPortrait = if myColorConfig then @wizardType.getPortraitSource({colorConfig: myColorConfig}) else ctx.genericPortrait
+
     ctx.myName = me.get('name') || 'Newcomer'
-    myColorConfig = me.get('wizard')?.colorConfig
-    ctx.myPortrait = if myColorConfig then @wizardType.getPortraitSource({colorConfig: myColorConfig}) else ctx.genericPortrait
     ctx
     
   # Choosing challengers

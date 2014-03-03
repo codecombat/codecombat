@@ -11,6 +11,10 @@ module.exports = class HomeView extends View
   events:
     'mouseover #beginner-campaign': 'onMouseOverButton'
     'mouseout #beginner-campaign': 'onMouseOutButton'
+    
+  constructor: ->
+    super(arguments...)
+    ThangType.loadUniversalWizard()
 
   getRenderData: ->
     c = super()
