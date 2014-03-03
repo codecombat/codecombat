@@ -57,6 +57,7 @@ module.exports = class LadderView extends RootView
     ctx.simulationStatus = @simulationStatus
     ctx.teams = @teams
     ctx.levelID = @levelID
+    ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
     ctx
 
   afterRender: ->

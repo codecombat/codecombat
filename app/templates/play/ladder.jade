@@ -2,7 +2,10 @@ extends /templates/base
 block content
 
   div#level-column
-    h1= level.get('name')
+    if levelDescription
+      div!= levelDescription
+    else
+      h1= level.get('name')
 
   if me.get('anonymous')
     div#must-log-in
