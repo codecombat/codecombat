@@ -12,8 +12,8 @@ block modal-body-content
 
   a(href="/play/level/#{levelID}?team=#{teamID}")
     div.play-option
-      img(src=portraitSRC).my-icon
-      img(src=portraitSRC).opponent-icon
+      img(src=myPortrait).my-icon
+      img(src=genericPortrait).opponent-icon
       div.my-name.name-label
         span= myName
       div.opponent-name.name-label
@@ -25,8 +25,8 @@ block modal-body-content
   if challengers.easy
     a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.easy.sessionID}")
       div.play-option.easy-option
-        img(src=portraitSRC).my-icon
-        img(src=portraitSRC).opponent-icon
+        img(src=myPortrait).my-icon
+        img(src=challengers.easy.opponentImageSource||genericPortrait).opponent-icon
         div.my-name.name-label
           span= myName
         div.opponent-name.name-label
@@ -38,8 +38,8 @@ block modal-body-content
   if challengers.medium
     a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.medium.sessionID}")
       div.play-option.medium-option
-        img(src=portraitSRC).my-icon
-        img(src=portraitSRC).opponent-icon
+        img(src=myPortrait).my-icon
+        img(src=challengers.medium.opponentImageSource||genericPortrait).opponent-icon
         div.my-name.name-label
           span= myName
         div.opponent-name.name-label
@@ -51,8 +51,8 @@ block modal-body-content
   if challengers.hard
     a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.hard.sessionID}")
       div.play-option.hard-option
-        img(src=portraitSRC).my-icon
-        img(src=portraitSRC).opponent-icon
+        img(src=myPortrait).my-icon
+        img(src=challengers.hard.opponentImageSource||genericPortrait).opponent-icon
         div.my-name.name-label
           span= myName
         div.opponent-name.name-label

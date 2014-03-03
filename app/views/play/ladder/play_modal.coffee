@@ -24,8 +24,8 @@ module.exports = class LadderPlayModal extends View
     if matches?.length then @loadNames() else @loadChallengers()
 
   loadChallengers: ->
-    @challengers = new ChallengersData(@level, @team, @otherTeam, @session)
-    @challengers.on 'sync', @loadNames, @
+    @challengersCollection = new ChallengersData(@level, @team, @otherTeam, @session)
+    @challengersCollection.on 'sync', @loadNames, @
 
   # PART 2: Loading the names of the other users
 
@@ -35,11 +35,12 @@ module.exports = class LadderPlayModal extends View
 
     success = (@nameMap) =>
       for challenger in _.values(@challengers)
-        challenger.opponentName = @nameMap[challenger.opponentID] or 'Anoner'
+        challenger.opponentName = @nameMap[challenger.opponentID]?.name or 'Anoner'
+        challenger.opponentWizard = @nameMap[challenger.opponentID]?.wizard or {}
       @checkWizardLoaded()
 
     $.ajax('/db/user/-/names', {
-      data: {ids: ids}
+      data: {ids: ids, wizard: true}
       type: 'POST'
       success: success
     })
@@ -62,9 +63,18 @@ module.exports = class LadderPlayModal extends View
     ctx.teamName = _.string.titleize @team
     ctx.teamID = @team
     ctx.otherTeamID = @otherTeam
-    ctx.challengers = if not @startsLoading then @challengers else {}
-    ctx.portraitSRC = @wizardType.getPortraitSource()
+
+    ctx.challengers = @challengers or {}
+    for challenger in _.values ctx.challengers
+      continue unless challenger
+      if (not challenger.opponentImageSource) and challenger.opponentWizard?.colorConfig
+        challenger.opponentImageSource = @wizardType.getPortraitSource(
+          {colorConfig: challenger.opponentWizard.colorConfig})
+      
+    ctx.genericPortrait = @wizardType.getPortraitSource()
     ctx.myName = me.get('name') || 'Newcomer'
+    myColorConfig = me.get('wizard')?.colorConfig
+    ctx.myPortrait = if myColorConfig then @wizardType.getPortraitSource({colorConfig: myColorConfig}) else ctx.genericPortrait
     ctx
     
   # Choosing challengers
@@ -72,10 +82,10 @@ module.exports = class LadderPlayModal extends View
   getChallengers: ->
     # make an object of challengers to everything needed to link to them
     challengers = {}
-    if @challengers
-      easyInfo = @challengeInfoFromSession(@challengers.easyPlayer.models[0])
-      mediumInfo = @challengeInfoFromSession(@challengers.mediumPlayer.models[0])
-      hardInfo = @challengeInfoFromSession(@challengers.hardPlayer.models[0])
+    if @challengersCollection
+      easyInfo = @challengeInfoFromSession(@challengersCollection.easyPlayer.models[0])
+      mediumInfo = @challengeInfoFromSession(@challengersCollection.mediumPlayer.models[0])
+      hardInfo = @challengeInfoFromSession(@challengersCollection.hardPlayer.models[0])
     else
       matches = @session.get('matches')
       won = (m for m in matches when m.metrics.rank < m.opponents[0].metrics.rank)
@@ -127,10 +137,8 @@ class ChallengersData
     @hardPlayer = new LeaderboardCollection(@level, {order:-1, scoreOffset: score + 5, limit: 1, team: @otherTeam})
     @hardPlayer.fetch()
     @hardPlayer.once 'sync', @challengerLoaded, @
-    console.log 'fetching challengers yes'
-
+    
   challengerLoaded: ->
-    console.log 'challenger loaded'
     if @allLoaded()
       @loaded = true
       @trigger 'sync'

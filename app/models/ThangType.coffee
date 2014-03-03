@@ -172,7 +172,10 @@ module.exports = class ThangType extends CocoModel
     key = spriteOptionsOrKey
     key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
     spriteSheet = @spriteSheets[key]
-    spriteSheet ?= @buildSpriteSheet({portraitOnly:true})
+    if not spriteSheet
+      options = if _.isPlainObject spriteOptionsOrKey then spriteOptionsOrKey else {}
+      options.portraitOnly = true
+      spriteSheet = @buildSpriteSheet(options)
     return unless spriteSheet
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
     stage = new createjs.Stage(canvas[0])
