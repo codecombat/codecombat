@@ -28,12 +28,8 @@ module.exports = class HomeView extends View
     @$el.find('.modal').on 'shown.bs.modal', ->
       $('input:visible:first', @).focus()
 
-    wizOriginal = "52a00d55cf1818f2be00000b"
-    url = "/db/thang_type/#{wizOriginal}/version"
-    @wizardType = new ThangType()
-    @wizardType.url = -> url
-    @wizardType.fetch()
-    @wizardType.once 'sync', @initCanvas
+    @wizardType = ThangType.wizardType
+    if @wizardType.loaded then @initCanvas else @wizardType.once 'sync', @initCanvas, @
 
     # Try to find latest level and set "Play" link to go to that level
     if localStorage?
@@ -48,7 +44,7 @@ module.exports = class HomeView extends View
     else
       console.log("TODO: Insert here code to get latest level played from the database. If this can't be found, we just let the user play the first level.")
 
-  initCanvas: =>
+  initCanvas: ->
     @stage = new createjs.Stage($('#beginner-campaign canvas', @$el)[0])
     @createWizard()
 

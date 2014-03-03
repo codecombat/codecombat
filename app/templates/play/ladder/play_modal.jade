@@ -1,0 +1,64 @@
+extends /templates/modal/modal_base
+
+block modal-header-content
+  h3 Choose an Opponent
+
+block modal-body-content
+  
+  p.tutorial-suggestion
+    span Not sure what's going on?
+    |  
+    a(href="/play/level/brawlwood-tutorial") Play the tutorial first.
+
+  a(href="/play/level/#{levelID}?team=#{teamID}")
+    div.play-option
+      img(src=portraitSRC).my-icon
+      img(src=portraitSRC).opponent-icon
+      div.my-name.name-label
+        span= myName
+      div.opponent-name.name-label
+        span Simple AI
+      div.difficulty
+        span Warmup
+      div.vs VS
+  
+  if challengers.easy
+    a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.easy.sessionID}")
+      div.play-option.easy-option
+        img(src=portraitSRC).my-icon
+        img(src=portraitSRC).opponent-icon
+        div.my-name.name-label
+          span= myName
+        div.opponent-name.name-label
+          span= challengers.easy.opponentName
+        div.difficulty
+          span Easy
+        div.vs VS
+
+  if challengers.medium
+    a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.medium.sessionID}")
+      div.play-option.medium-option
+        img(src=portraitSRC).my-icon
+        img(src=portraitSRC).opponent-icon
+        div.my-name.name-label
+          span= myName
+        div.opponent-name.name-label
+          span= challengers.medium.opponentName
+        div.difficulty
+          span Medium
+        div.vs VS
+
+  if challengers.hard
+    a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.hard.sessionID}")
+      div.play-option.hard-option
+        img(src=portraitSRC).my-icon
+        img(src=portraitSRC).opponent-icon
+        div.my-name.name-label
+          span= myName
+        div.opponent-name.name-label
+          span= challengers.hard.opponentName
+        div.difficulty
+          span Hard
+        div.vs VS
+
+block modal-footer
