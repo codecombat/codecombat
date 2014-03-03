@@ -64,7 +64,18 @@ module.exports = class LadderView extends RootView
     return if @startsLoading
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
-
+    setInterval(@fetchSessionsAndRefreshViews.bind(@), 10000)
+  
+  fetchSessionsAndRefreshViews: ->
+    @sessions.fetch({"success": @refreshViews})
+    
+  refreshViews: =>
+    @ladderTab.constructor({}, @level, @sessions)
+    @myMatchesTab.refreshMatches()
+    console.log "refreshed views!"
+    
+    
+    
   # Simulations
 
   onSimulateAllButtonClick: (e) ->

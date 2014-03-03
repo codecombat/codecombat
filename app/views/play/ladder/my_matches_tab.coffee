@@ -14,6 +14,9 @@ module.exports = class MyMatchesTabView extends CocoView
 
   constructor: (options, @level, @sessions) ->
     super(options)
+    @refreshMatches()
+    
+  refreshMatches: ->
     @teams = teamDataFromLevel @level
     @nameMap = {}
     @loadNames()
@@ -82,6 +85,7 @@ module.exports = class MyMatchesTabView extends CocoView
     c1 and not _.isEqual(c1, c2)
 
   rankSession: (e) ->
+    console.log "Clicked"
     button = $(e.target).closest('.rank-button')
     sessionID = button.data('session-id')
     session = _.find @sessions.models, { id: sessionID }
