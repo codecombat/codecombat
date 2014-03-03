@@ -11,13 +11,14 @@ logging = require './server/commons/logging'
 config = require './server_config'
 
 ###Middleware setup functions implementation###
-setupRequestTimeoutMiddleware = (app) ->
-  app.use (req, res, next) ->
-    req.setTimeout 15000, ->
-      console.log 'timed out!'
-      req.abort()
-      self.emit('pass',message)
-    next()
+# 2014-03-03: Try not using this and see if it's still a problem
+#setupRequestTimeoutMiddleware = (app) ->
+#  app.use (req, res, next) ->
+#    req.setTimeout 15000, ->
+#      console.log 'timed out!'
+#      req.abort()
+#      self.emit('pass',message)
+#    next()
 
 productionLogging = (tokens, req, res)->
   status = res.statusCode
@@ -32,7 +33,7 @@ productionLogging = (tokens, req, res)->
   null
 
 setupExpressMiddleware = (app) ->
-  setupRequestTimeoutMiddleware app
+  #setupRequestTimeoutMiddleware app
   if config.isProduction
     express.logger.format('prod', productionLogging)
     app.use(express.logger('prod'))
