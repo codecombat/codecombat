@@ -247,6 +247,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     create_system_title: "Create New System"
     new_component_title: "Create New Component"
     new_component_field_system: "System"
+    new_article_title: "Create a New Article"
+    new_thang_title: "Create a New Thang Type"
+    new_level_title: "Create a New Level"
+    article_search_title: "Search Articles Here"
+    thang_search_title: "Search Thang Types Here"
+    level_search_title: "Search Levels Here"
 
   article:
     edit_btn_preview: "Preview"

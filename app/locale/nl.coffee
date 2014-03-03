@@ -247,6 +247,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     create_system_title: "Maak een nieuw Systeem aan"
     new_component_title: "Maak een nieuw Component aan"
     new_component_field_system: "Systeem"
+    new_article_title: "Maak een Nieuw Artikel"
+    new_thang_title: "Maak een Nieuw Thang Type"
+    new_level_title: "Maak een Nieuw Level"
+    article_search_title: "Zoek Artikels Hier"
+    thang_search_title: "Zoek Thang Types Hier"
+    level_search_title: "Zoek Levels Hier"
 
   article:
     edit_btn_preview: "Voorbeeld"
