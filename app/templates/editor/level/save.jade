@@ -52,7 +52,3 @@ block modal-body-content
           label.control-label(for=id + "-version-is-major") Major Changes?
           input(id=id + "-version-is-major", name="version-is-major", type="checkbox")
           span.help-block (Could this update break anything depending on this System?)
-
-if noSaveButton
-  block modal-footer-content
-    button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
