@@ -23,13 +23,13 @@ connectToScoringQueue = ->
       if error? then throw new Error  "There was an error registering the scoring queue: #{error}"
       scoringTaskQueue = data
       log.info "Connected to scoring task queue!"
-      
+
 module.exports.addPairwiseTaskToQueueFromRequest = (req, res) ->
   taskPair = req.body.sessions
   addPairwiseTaskToQueue req.body.sessions (err, success) ->
     if err? then return errors.serverError res, "There was an error adding pairwise tasks: #{err}"
     sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
-    
+
 
 addPairwiseTaskToQueue = (taskPair, cb) ->
   LevelSession.findOne(_id:taskPair[0]).lean().exec (err, firstSession) =>
@@ -42,9 +42,9 @@ addPairwiseTaskToQueue = (taskPair, cb) ->
         if e then return cb e, false
 
       sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
-        if taskPairError? then return cb taskPairError,false 
+        if taskPairError? then return cb taskPairError,false
         cb null, true
-        
+
 
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
@@ -105,6 +105,7 @@ module.exports.processTaskResult = (req, res) ->
     return handleTimedOutTask req, res, clientResponseObject if hasTaskTimedOut taskLogJSON.sentDate
 
     scoringTaskQueue.deleteMessage clientResponseObject.receiptHandle, (err) ->
+      console.log "Deleted message."
       if err? then return errors.badInput res, "The queue message is already back in the queue, rejecting results."
 
       logTaskComputation clientResponseObject, taskLog, (logErr) ->
@@ -117,14 +118,14 @@ module.exports.processTaskResult = (req, res) ->
 
           addMatchToSessions clientResponseObject, newScoresObject, (err, data) ->
             if err? then return errors.serverError res, "There was an error updating the sessions with the match! #{JSON.stringify err}"
-              
+
             originalSessionID = clientResponseObject.originalSessionID
             originalSessionTeam = clientResponseObject.originalSessionTeam
             originalSessionRank = parseInt clientResponseObject.originalSessionRank
-            
+
             determineIfSessionShouldContinueAndUpdateLog originalSessionID, originalSessionRank, (err, sessionShouldContinue) ->
               if err? then return errors.serverError res, "There was an error determining if the session should continue, #{err}"
-                
+
               if sessionShouldContinue
                 opposingTeam = calculateOpposingTeam(originalSessionTeam)
                 opponentID = _.pull(_.keys(newScoresObject), originalSessionID)
@@ -133,7 +134,7 @@ module.exports.processTaskResult = (req, res) ->
                 findNearestBetterSessionID originalSessionID, sessionNewScore, opponentNewScore, opponentID ,opposingTeam, (err, opponentSessionID) ->
                   if err? then return errors.serverError res, "There was an error finding the nearest sessionID!"
                   unless opponentSessionID then return sendResponseObject req, res, {"message":"There were no more games to rank(game is at top!"}
-                    
+
                   addPairwiseTaskToQueue [originalSessionID, opponentSessionID], (err, success) ->
                     if err? then return errors.serverError res, "There was an error sending the pairwise tasks to the queue!"
                     sendResponseObject req, res, {"message":"The scores were updated successfully and more games were sent to the queue!"}
@@ -141,19 +142,19 @@ module.exports.processTaskResult = (req, res) ->
                 console.log "Player lost, achieved rank #{originalSessionRank}"
                 sendResponseObject req, res, {"message":"The scores were updated successfully, person lost so no more games are being inserted!"}
 
-              
+
 determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
-  queryParameters = 
+  queryParameters =
     _id: sessionID
-  
-  updateParameters = 
+
+  updateParameters =
     "$inc": {}
-  
-  if sessionRank is 0 
+
+  if sessionRank is 0
     updateParameters["$inc"] = {numberOfWinsAndTies: 1}
   else
     updateParameters["$inc"] = {numberOfLosses: 1}
- 
+
   LevelSession.findOneAndUpdate queryParameters, updateParameters,{select: 'numberOfWinsAndTies numberOfLosses'}, (err, updatedSession) ->
     if err? then return cb err, updatedSession
     updatedSession = updatedSession.toObject()
@@ -170,16 +171,16 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
       else
         console.log "Ratio(#{ratio}) is good, so continuing simulations"
         cb null, true
-      
-    
+
+
 findNearestBetterSessionID = (sessionID, sessionTotalScore, opponentSessionTotalScore, opponentSessionID, opposingTeam, cb) ->
   retrieveAllOpponentSessionIDs sessionID, (err, opponentSessionIDs) ->
     if err? then return cb err, null
-    
+
     queryParameters =
-      totalScore: 
+      totalScore:
         $gt:opponentSessionTotalScore
-      _id: 
+      _id:
         $nin: opponentSessionIDs
       "level.original": "52d97ecd32362bc86e004e87"
       "level.majorVersion": 0
@@ -187,20 +188,20 @@ findNearestBetterSessionID = (sessionID, sessionTotalScore, opponentSessionTotal
       submittedCode:
         $exists: true
       team: opposingTeam
-      
+
     limitNumber = 1
-  
+
     sortParameters =
       totalScore: 1
-      
+
     selectString = '_id totalScore'
-      
+
     query = LevelSession.findOne(queryParameters)
       .sort(sortParameters)
       .limit(limitNumber)
       .select(selectString)
       .lean()
-    
+
     console.log "Finding session with score near #{opponentSessionTotalScore}"
     query.exec (err, session) ->
       if err? then return cb err, session
@@ -208,7 +209,7 @@ findNearestBetterSessionID = (sessionID, sessionTotalScore, opponentSessionTotal
       console.log "Found session with score #{session.totalScore}"
       cb err, session._id
 
-    
+
 retrieveAllOpponentSessionIDs = (sessionID, cb) ->
   query = LevelSession.findOne({"_id":sessionID})
     .select('matches.opponents.sessionID')
@@ -217,14 +218,14 @@ retrieveAllOpponentSessionIDs = (sessionID, cb) ->
     if err? then return cb err, null
     opponentSessionIDs = (match.opponents[0].sessionID for match in session.matches)
     cb err, opponentSessionIDs
-    
-      
+
+
 calculateOpposingTeam = (sessionTeam) ->
   teams = ['ogres','humans']
   opposingTeams = _.pull teams, sessionTeam
   return opposingTeams[0]
-  
-  
+
+
 validatePermissions = (req, sessionID, callback) ->
   if isUserAnonymous req then return callback null, false
   if isUserAdmin req then return callback null, true
@@ -298,17 +299,17 @@ fetchInitialSessionsToRankAgainst = (opposingTeam, callback) ->
     submittedCode:
       $exists: true
     team: opposingTeam
-  
-  sortParameters = 
+
+  sortParameters =
     totalScore: 1
-  
+
   limitNumber = 1
-  
+
   query = LevelSession.find(findParameters)
     .sort(sortParameters)
     .limit(limitNumber)
-  
-  
+
+
   query.exec callback
 
 generateTaskPairs = (submittedSessions, sessionToScore) ->
@@ -444,4 +445,3 @@ retrieveOldSessionData = (sessionID, callback) ->
       "totalScore":session.totalScore ? (25 - 1.8*(25/3))
       "id": sessionID
     callback err, oldScoreObject
-
