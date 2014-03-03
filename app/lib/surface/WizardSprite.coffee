@@ -21,7 +21,12 @@ module.exports = class WizardSprite extends IndieSprite
     'surface:sprite-selected': 'onSpriteSelected'
     'echo-self-wizard-sprite': 'onEchoSelfWizardSprite'
     'echo-all-wizard-sprites': 'onEchoAllWizardSprites'
-    'self-wizard:move': 'moveWizard'
+
+  shortcuts:
+    'up': 'onMoveKey'
+    'down': 'onMoveKey'
+    'left': 'onMoveKey'
+    'right': 'onMoveKey'
 
   constructor: (thangType, options) ->
     if options?.isSelf
@@ -230,9 +235,21 @@ module.exports = class WizardSprite extends IndieSprite
   updateMarks: ->
     super() if @displayObject.visible  # not if we hid the wiz
 
-  moveWizard : (x, y) =>
+
+  onMoveKey: (e) ->
+    return unless @isSelf
+    e?.preventDefault()
+    yMovement = 0
+    xMovement = 0
+    yMovement += 2 if key.isPressed('up')
+    yMovement -= 2 if key.isPressed('down')
+    xMovement += 2 if key.isPressed('right')
+    xMovement -= 2 if key.isPressed('left')
+    @moveWizard xMovement, yMovement
+
+  moveWizard: (x, y) ->
     interval = 500
-    position = {x: @targetPos.x+x, y: @targetPos.y+y}
+    position = {x: @targetPos.x + x, y: @targetPos.y + y}
     @setTarget(position, interval, true)
     @updatePosition()
     Backbone.Mediator.publish 'camera-zoom-to', position, interval
