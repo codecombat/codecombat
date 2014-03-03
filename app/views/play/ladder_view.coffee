@@ -3,10 +3,11 @@ Level = require 'models/Level'
 Simulator = require 'lib/simulator/Simulator'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
-LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './ladder/utils'
+
 LadderTabView = require './ladder/ladder_tab'
 MyMatchesTabView = require './ladder/my_matches_tab'
+LadderPlayModal = require './ladder/play_modal'
 
 HIGHEST_SCORE = 1000000
 
@@ -26,6 +27,7 @@ module.exports = class LadderView extends RootView
   events:
     'click #simulate-button': 'onSimulateButtonClick'
     'click #simulate-all-button': 'onSimulateAllButtonClick'
+    'click .play-button': 'onClickPlayButton'
 
   constructor: (options, @levelID) ->
     super(options)
@@ -97,3 +99,10 @@ module.exports = class LadderView extends RootView
     catch e
       console.log "There was a problem with the named simulation status: #{e}"
     $("#simulation-status-text").text @simulationStatus
+
+  onClickPlayButton: (e) ->
+    button = $(e.target).closest('.play-button')
+    teamID = button.data('team')
+    session = (s for s in @sessions.models when s.get('team') is teamID)[0]
+    modal = new LadderPlayModal({}, @level, session, teamID)
+    @openModalView modal

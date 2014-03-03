@@ -20,7 +20,7 @@ block content
       div.column.col-md-2
       for team in teams
         div.column.col-md-4
-          a(href="/play/ladder/#{levelID}/team/#{team.id}", style="background-color: #{team.primaryColor}").play-button.btn.btn-danger.btn-block.btn-lg
+          a(style="background-color: #{team.primaryColor}", data-team=team.id).play-button.btn.btn-danger.btn-block.btn-lg
             span Play As 
             span= team.name
       div.column.col-md-2
