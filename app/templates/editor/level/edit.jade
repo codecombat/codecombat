@@ -29,10 +29,9 @@ block outer_content
             
             
           ul.nav.navbar-nav.navbar-right
-            li(data-toggle="coco-modal", data-target="modal/revert", data-i18n="revert.revert").btn.btn-primary.navbar-btn#revert-button Revert
-
-            li(data-i18n="common.save").btn.btn-primary.navbar-btn#commit-level-start-button Save
-            li(data-i18n="common.fork").btn.btn-primary.navbar-btn#fork-level-start-button Fork
+            li(data-toggle="coco-modal", data-target="modal/revert", data-i18n="revert.revert", disabled=authorized === true ? undefined : "true").btn.btn-primary.navbar-btn#revert-button Revert
+            li(data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary.navbar-btn#commit-level-start-button Save
+            li(data-i18n="common.fork", disabled=authorized === true ? undefined : "true").btn.btn-primary.navbar-btn#fork-level-start-button Fork
             li(title="⌃↩ or ⌘↩: Play preview of current level", data-i18n="common.play")#play-button.btn.btn-inverse.banner.navbar-btn Play!
 
             li.divider
