@@ -24,14 +24,17 @@ module.exports = class LadderView extends CocoView
     super(options)
     @teams = teamDataFromLevel @level
     @leaderboards = {}
+    @refreshLadder()
+
+  refreshLadder: ->
     for team in @teams
+      @leaderboards[team.id]?.off 'sync'
 #      teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       teamSession = null
 #      console.log "Team session: #{JSON.stringify teamSession}"
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession)
       @leaderboards[team.id].once 'sync', @onLeaderboardLoaded, @
 
-  onChallengersLoaded: -> @renderMaybe()
   onLeaderboardLoaded: -> @renderMaybe()
 
   renderMaybe: ->
@@ -48,7 +51,7 @@ module.exports = class LadderView extends CocoView
     team.leaderboard = @leaderboards[team.id] for team in @teams
     ctx.levelID = @levelID
     ctx
-    
+
 class LeaderboardData
   constructor: (@level, @team, @session) ->
     _.extend @, Backbone.Events
