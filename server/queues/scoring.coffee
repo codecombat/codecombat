@@ -84,7 +84,7 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
       message.changeMessageVisibilityTimeout scoringTaskTimeoutInSeconds, (err) ->
         if err? then return errors.serverError res, "There was an error changing the message visibility timeout."
         console.log "Changed visibility timeout"
-        constructTaskLogObject getUserIDFromRequest(req),message.getReceiptHandle(), (taskLogError, taskLogObject) ->
+        constructTaskLogObject getUserIDFromRequest(req),messageBody.registrationTime, message.getReceiptHandle(), (taskLogError, taskLogObject) ->
           if taskLogError? then return errors.serverError res, "There was an error creating the task log object."
 
           taskObject.taskID = taskLogObject._id
@@ -113,7 +113,7 @@ module.exports.processTaskResult = (req, res) ->
           
         console.log "Queue message created at: #{taskLogJSON.createdAt}, level session submitted at #{levelSession.submitDate}"
         
-        if taskLogJSON.createdAt <= levelSession.submitDate
+        if taskLogJSON.registrationTime <= levelSession.submitDate
           console.log "Task has been resubmitted!"
           return sendResponseObject req, res, {"message":"The game has been resubmitted. Removing from queue..."}
   
@@ -333,7 +333,7 @@ generateTaskPairs = (submittedSessions, sessionToScore) ->
   return taskPairs
 
 sendTaskPairToQueue = (taskPair, callback) ->
-  scoringTaskQueue.sendMessage {sessions: taskPair}, 0, (err,data) -> callback? err,data
+  scoringTaskQueue.sendMessage {sessions: taskPair, registrationTime:new Date()}, 0, (err,data) -> callback? err,data
 
 getUserIDFromRequest = (req) -> if req.user? then return req.user._id else return null
 
@@ -380,9 +380,10 @@ getSessionInformation = (sessionIDString, callback) ->
     callback err, sessionInformation
 
 
-constructTaskLogObject = (calculatorUserID, messageIdentifierString, callback) ->
+constructTaskLogObject = (calculatorUserID, registrationTime, messageIdentifierString, callback) ->
   taskLogObject = new TaskLog
     "createdAt": new Date()
+    "registrationTime": registrationTime
     "calculator":calculatorUserID
     "sentDate": Date.now()
     "messageIdentifierString":messageIdentifierString
