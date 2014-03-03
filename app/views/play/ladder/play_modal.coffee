@@ -2,6 +2,7 @@ View = require 'views/kinds/ModalView'
 template = require 'templates/play/ladder/play_modal'
 ThangType = require 'models/ThangType'
 {me} = require 'lib/auth'
+LeaderboardCollection = require 'collections/LeaderboardCollection'
 
 module.exports = class LadderPlayModal extends View
   id: "ladder-play-modal"
@@ -19,7 +20,7 @@ module.exports = class LadderPlayModal extends View
   # PART 1: Load challengers from the db unless some are in the matches
 
   startLoadingChallengersMaybe: ->
-    matches = @session.get('matches')
+    matches = @session?.get('matches')
     if matches?.length then @loadNames() else @loadChallengers()
 
   loadChallengers: ->
@@ -126,8 +127,10 @@ class ChallengersData
     @hardPlayer = new LeaderboardCollection(@level, {order:-1, scoreOffset: score + 5, limit: 1, team: @otherTeam})
     @hardPlayer.fetch()
     @hardPlayer.once 'sync', @challengerLoaded, @
+    console.log 'fetching challengers yes'
 
   challengerLoaded: ->
+    console.log 'challenger loaded'
     if @allLoaded()
       @loaded = true
       @trigger 'sync'

@@ -62,9 +62,9 @@ module.exports = class MyMatchesTabView extends CocoView
     for team in @teams
       team.session = (s for s in @sessions.models when s.get('team') is team.id)[0]
       team.readyToRank = @readyToRank(team.session)
-      team.matches = (convertMatch(match) for match in team.session.get('matches') or [])
+      team.matches = (convertMatch(match) for match in team.session?.get('matches') or [])
       team.matches.reverse()
-      team.score = (team.session.get('totalScore') or 10).toFixed(2)
+      team.score = (team.session?.get('totalScore') or 10).toFixed(2)
       
     ctx
 
@@ -77,8 +77,8 @@ module.exports = class MyMatchesTabView extends CocoView
       @setRankingButtonText button, if @readyToRank(session) then 'rank' else 'unavailable'
 
   readyToRank: (session) ->
-    c1 = session.get('code')
-    c2 = session.get('submittedCode')
+    c1 = session?.get('code')
+    c2 = session?.get('submittedCode')
     c1 and not _.isEqual(c1, c2)
 
   rankSession: (e) ->
