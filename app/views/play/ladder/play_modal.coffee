@@ -3,6 +3,7 @@ template = require 'templates/play/ladder/play_modal'
 ThangType = require 'models/ThangType'
 {me} = require 'lib/auth'
 LeaderboardCollection = require 'collections/LeaderboardCollection'
+{teamDataFromLevel} = require './utils'
 
 module.exports = class LadderPlayModal extends View
   id: "ladder-play-modal"
@@ -63,6 +64,14 @@ module.exports = class LadderPlayModal extends View
     ctx.teamName = _.string.titleize @team
     ctx.teamID = @team
     ctx.otherTeamID = @otherTeam
+    
+    teamsList = teamDataFromLevel @level
+    teams = {}
+    teams[team.id] = team for team in teamsList
+    ctx.teamColor = teams[@team].primaryColor
+    ctx.teamBackgroundColor = teams[@team].bgColor
+    ctx.opponentTeamColor = teams[@otherTeam].primaryColor
+    ctx.opponentTeamBackgroundColor = teams[@otherTeam].bgColor
 
     ctx.challengers = @challengers or {}
     for challenger in _.values ctx.challengers
