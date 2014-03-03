@@ -31,11 +31,14 @@ module.exports = class ControlBarView extends View
     @worldName = options.worldName
     @session = options.session
     @level = options.level
+    @playableTeams = options.playableTeams
+    @ladderGame = options.ladderGame
     super options
 
   setBus: (@bus) ->
 
   onPlayerStatesChanged: (e) ->
+    # TODO: this doesn't fire any more. Replacement?
     return unless @bus is e.bus
     numPlayers = _.keys(e.players).length
     return if numPlayers is @numPlayers
@@ -44,18 +47,24 @@ module.exports = class ControlBarView extends View
     text += " (#{numPlayers})" if numPlayers > 1
     $('#multiplayer-button', @$el).text(text)
 
-  getRenderData: (context={}) =>
-    super context
-    context.worldName = @worldName
-    context.multiplayerEnabled = @session.get('multiplayer')
-    context
+  getRenderData: (c={}) ->
+    super c
+    c.worldName = @worldName
+    c.multiplayerEnabled = @session.get('multiplayer')
+    c.ladderGame = @ladderGame
+    c.homeLink = "/"
+    levelID = @level.get('slug')
+    if levelID in ["brawlwood", "brawlwood-tutorial"]
+      levelID = 'brawlwood' if levelID is 'brawlwood-tutorial'
+      c.homeLink = "/play/ladder/" + levelID
+    c
 
   showGuideModal: ->
     options = {docs: @level.get('documentation'), supermodel: @supermodel}
     @openModalView(new DocsModal(options))
 
   showMultiplayerModal: ->
-    @openModalView(new MultiplayerModal(session: @session))
+    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level, ladderGame: @ladderGame))
 
   showRestartModal: ->
     @openModalView(new ReloadModal())

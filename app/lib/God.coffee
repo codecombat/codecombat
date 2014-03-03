@@ -1,9 +1,10 @@
-{now} = require './world/world_utils'
+{now} = require 'lib/world/world_utils'
+World = require 'lib/world/world'
 
 ## Uncomment to imitate IE9 (and in world_utils.coffee)
 #window.Worker = null
 #window.Float32Array = null
-# (except that we won't have included vendor_with_box2d.js, so Collision won't run, things won't move, etc.)
+# Also uncomment vendor_with_box2d.js in index.html if you want Collision to run and things to move.
 
 module.exports = class God
   @ids: ['Athena', 'Baldr', 'Crom', 'Dagr', 'Eris', 'Freyja', 'Great Gish', 'Hades', 'Ishtar', 'Janus', 'Khronos', 'Loki', 'Marduk', 'Negafook', 'Odin', 'Poseidon', 'Quetzalcoatl', 'Ra', 'Shiva', 'Thor', 'Umvelinqangi', 'Týr', 'Vishnu', 'Wepwawet', 'Xipe Totec', 'Yahweh', 'Zeus', '上帝', 'Tiamat', '盘古', 'Phoebe', 'Artemis', 'Osiris', "嫦娥", 'Anhur', 'Teshub', 'Enlil', 'Perkele', 'Aether', 'Chaos', 'Hera', 'Iris', 'Theia', 'Uranus', 'Stribog', 'Sabazios', 'Izanagi', 'Ao', 'Tāwhirimātea', 'Tengri', 'Inmar', 'Torngarsuk', 'Centzonhuitznahua', 'Hunab Ku', 'Apollo', 'Helios', 'Thoth', 'Hyperion', 'Alectrona', 'Eos', 'Mitra', 'Saranyu', 'Freyr', 'Koyash', 'Atropos', 'Clotho', 'Lachesis', 'Tyche', 'Skuld', 'Urðr', 'Verðandi', 'Camaxtli', 'Huhetotl', 'Set', 'Anu', 'Allah', 'Anshar', 'Hermes', 'Lugh', 'Brigit', 'Manannan Mac Lir', 'Persephone', 'Mercury', 'Venus', 'Mars', 'Azrael', 'He-Man', 'Anansi', 'Issek', 'Mog', 'Kos', 'Amaterasu Omikami', 'Raijin', 'Susanowo', 'Blind Io', 'The Lady', 'Offler', 'Ptah', 'Anubis', 'Ereshkigal', 'Nergal', 'Thanatos', 'Macaria', 'Angelos', 'Erebus', 'Hecate', 'Hel', 'Orcus', 'Ishtar-Deela Nakh', 'Prometheus', 'Hephaestos', 'Sekhmet', 'Ares', 'Enyo', 'Otrera', 'Pele', 'Hadúr', 'Hachiman', 'Dayisun Tngri', 'Ullr', 'Lua', 'Minerva']
@@ -11,31 +12,63 @@ module.exports = class God
     @lastID = (if @lastID? then @lastID + 1 else Math.floor(@ids.length * Math.random())) % @ids.length
     @ids[@lastID]
 
-  maxAngels: 2  # how many concurrent web workers to use; if set past 8, make up more names
   worldWaiting: false  # whether we're waiting for a worker to free up and run the world
-  constructor: (@world, @level) ->
+  constructor: (options) ->
     @id = God.nextID()
+    options ?= {}
+    @maxAngels = options.maxAngels ? 2  # How many concurrent web workers to use; if set past 8, make up more names
+    @maxWorkerPoolSize = options.maxWorkerPoolSize ? 2  # ~20MB per idle worker
     @angels = []
     @firstWorld = true
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
+    @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
+    @fillWorkerPool()
 
   onTomeCast: (e) ->
     return if @dead
     @spells = e.spells
     @createWorld()
 
+  fillWorkerPool: =>
+    return unless Worker
+    @workerPool ?= []
+    if @workerPool.length < @maxWorkerPoolSize
+      @workerPool.push @createWorker()
+    if @workerPool.length < @maxWorkerPoolSize
+      @fillWorkerPool()
+
+  getWorker: ->
+    @fillWorkerPool()
+    worker = @workerPool?.shift()
+    return worker if worker
+    @createWorker()
+
+  createWorker: ->
+    worker = new Worker '/javascripts/workers/worker_world.js'
+    worker.creationTime = new Date()
+    worker.addEventListener 'message', @onWorkerMessage
+    worker
+
+  onWorkerMessage: (event) =>
+    worker = event.target
+    if event.data.type is 'worker-initialized'
+      #console.log "Worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
+      worker.initialized = true
+      worker.removeEventListener 'message', @onWorkerMessage
+
   getAngel: ->
+    freeAngel = null
     for angel in @angels
-      return angel.enslave() unless angel.busy
+      if angel.busy
+        angel.abort()
+      else
+        freeAngel ?= angel
+    return freeAngel.enslave() if freeAngel
     maxedOut = @angels.length is @maxAngels
     if not maxedOut
       angel = new Angel @
       @angels.push angel
       return angel.enslave()
-    oldestAngel = {started: new Date(2099, 1, 1)}
-    for angel in @angels
-      oldestAngel = angel if angel.started < oldestAngel.started
-    oldestAngel.abort()
     null
 
   angelInfinitelyLooped: (angel) ->
@@ -65,8 +98,9 @@ module.exports = class God
     else
       @worldWaiting = true
       return
+    #console.log "going to run world with code", @getUserCodeMap()
     angel.worker.postMessage {func: 'runWorld', args: {
-      worldName: @world.name
+      worldName: @level.name
       userCodeMap: @getUserCodeMap()
       level: @level
       firstWorld: @firstWorld
@@ -80,7 +114,7 @@ module.exports = class God
     @latestWorldCreation = worldCreation
     @latestGoalStates = goalStates
     window.BOX2D_ENABLED = false  # Flip this off so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment
-    @world.constructor.deserialize serialized, @world.classMap, @lastSerializedWorldFrames, worldCreation, @finishBeholdingWorld
+    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, worldCreation, @finishBeholdingWorld
     window.BOX2D_ENABLED = true
     @lastSerializedWorldFrames = serialized.frames
 
@@ -88,11 +122,14 @@ module.exports = class God
     newWorld.findFirstChangedFrame @world
     @world = newWorld
     errorCount = (t for t in @world.thangs when t.errorsOut).length
-    Backbone.Mediator.publish('god:new-world-created', world: @world, firstWorld: @firstWorld, errorCount: errorCount, goalStates: @latestGoalStates)
+    Backbone.Mediator.publish('god:new-world-created', world: @world, firstWorld: @firstWorld, errorCount: errorCount, goalStates: @latestGoalStates, team: me.team)
     for scriptNote in @world.scriptNotes
       Backbone.Mediator.publish scriptNote.channel, scriptNote.event
+    @goalManager?.world = newWorld
     @firstWorld = false
     @testWorld = null
+    unless _.find @angels, 'busy'
+      @spells = null  # Don't hold onto old spells; memory leaks
 
   getUserCodeMap: ->
     userCodeMap = {}
@@ -102,10 +139,15 @@ module.exports = class God
     userCodeMap
 
   destroy: ->
+    worker.removeEventListener 'message', @onWorkerMessage for worker in @workerPool ? []
     angel.destroy() for angel in @angels
     @dead = true
     Backbone.Mediator.unsubscribe('tome:cast-spells', @onTomeCast, @)
+    @goalManager?.destroy()
     @goalManager = null
+    @fillWorkerPool = null
+    @simulateWorld = null
+    @onWorkerMessage = null
 
   #### Bad code for running worlds on main thread (profiling / IE9) ####
   simulateWorld: =>
@@ -129,7 +171,7 @@ module.exports = class God
     @latestGoalStates = @testGM?.getGoalStates()
     serialized = @testWorld.serialize().serializedWorld
     window.BOX2D_ENABLED = false
-    @testWorld.constructor.deserialize serialized, @world.classMap, @lastSerializedWorldFrames, @t0, @finishBeholdingWorld
+    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, @t0, @finishBeholdingWorld
     window.BOX2D_ENABLED = true
     @lastSerializedWorldFrames = serialized.frames
 
@@ -152,8 +194,8 @@ class Angel
     @ids[@lastID]
 
   # https://github.com/codecombat/codecombat/issues/81 -- TODO: we need to wait for worker initialization first
-  infiniteLoopIntervalDuration: 1500000  # check this often (must be more than the others added)
-  infiniteLoopTimeoutDuration: 1500  # wait this long when we check
+  infiniteLoopIntervalDuration: 7500  # check this often (must be more than the others added)
+  infiniteLoopTimeoutDuration: 2500  # wait this long when we check
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
   constructor: (@god) ->
     @id = Angel.nextID()
@@ -164,13 +206,14 @@ class Angel
     @spawnWorker()
 
   spawnWorker: ->
-    @worker = new Worker '/javascripts/workers/worker_world.js'
+    @worker = @god.getWorker()
     @listen()
 
   enslave: ->
     @busy = true
     @started = new Date()
     @purgatoryTimer = setInterval @testWorker, @infiniteLoopIntervalDuration
+    @spawnWorker() unless @worker
     @
 
   free: ->
@@ -178,24 +221,42 @@ class Angel
     @started = null
     clearInterval @purgatoryTimer
     @purgatoryTimer = null
+    if @worker
+      worker = @worker
+      onWorkerMessage = @onWorkerMessage
+      _.delay ->
+        worker.terminate()
+        worker.removeEventListener 'message', onWorkerMessage
+      , 2000
+      @worker = null
     @
 
   abort: ->
+    return unless @worker
     @abortTimeout = _.delay @terminate, @abortTimeoutDuration
     @worker.postMessage {func: 'abort'}
 
   terminate: =>
-    @worker.terminate()
+    @worker?.terminate()
+    @worker?.removeEventListener 'message', @onWorkerMessage
+    @worker = null
     return if @dead
-    @spawnWorker()
     @free()
     @god.angelAborted @
 
   destroy: ->
     @dead = true
+    @finishBeholdingWorld = null
     @abort()
+    @terminate = null
+    @testWorker = null
+    @condemnWorker = null
+    @onWorkerMessage = null
 
   testWorker: =>
+    unless @worker.initialized
+      console.warn "Worker", @id, "hadn't even loaded the scripts yet after", @infiniteLoopIntervalDuration, "ms."
+      return
     @worker.postMessage {func: 'reportIn'}
     @condemnTimeout = _.delay @condemnWorker, @infiniteLoopTimeoutDuration
 
@@ -204,23 +265,26 @@ class Angel
     @abort()
 
   listen: ->
-    @worker.addEventListener 'message', (event) =>
-      switch event.data.type
-        when 'new-world'
-          @god.beholdWorld @, event.data.serialized, event.data.goalStates
-        when 'world-load-progress-changed'
-          Backbone.Mediator.publish 'god:world-load-progress-changed', event.data unless @dead
-        when 'console-log'
-          console.log "|" + @god.id + "'s " + @id + "|", event.data.args...
-        when 'user-code-problem'
-          @god.angelUserCodeProblem @, event.data.problem
-        when 'abort'
-          #console.log @id, "aborted."
-          clearTimeout @abortTimeout
-          @free()
-          @god.angelAborted @
-          @worker.terminate() if @god.dead
-        when 'reportIn'
-          clearTimeout @condemnTimeout
-        else
-          console.log "Unsupported message:", event.data
+    @worker.addEventListener 'message', @onWorkerMessage
+
+  onWorkerMessage: (event) =>
+    switch event.data.type
+      when 'worker-initialized'
+        console.log "Worker", @id, "initialized after", ((new Date()) - @worker.creationTime), "ms (we had been waiting for it)"
+      when 'new-world'
+        @god.beholdWorld @, event.data.serialized, event.data.goalStates
+      when 'world-load-progress-changed'
+        Backbone.Mediator.publish 'god:world-load-progress-changed', event.data unless @dead
+      when 'console-log'
+        console.log "|" + @god.id + "'s " + @id + "|", event.data.args...
+      when 'user-code-problem'
+        @god.angelUserCodeProblem @, event.data.problem
+      when 'abort'
+        #console.log @id, "aborted."
+        clearTimeout @abortTimeout
+        @free()
+        @god.angelAborted @
+      when 'reportIn'
+        clearTimeout @condemnTimeout
+      else
+        console.log "Unsupported message:", event.data

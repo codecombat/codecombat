@@ -2,7 +2,7 @@
 # order the sprites and make the more recent ones
 # show up at the top
 
-module.exports.setupRoutes = (app) ->
+module.exports.setup = (app) ->
   app.get('/server/sprite-info', (req, res) ->
     exec = require('child_process').exec
 

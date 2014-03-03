@@ -67,7 +67,7 @@ module.exports = class ThangState
 
   restore: ->
     # Restore trackedProperties' values to @thang, retrieving them from @trackedPropertyValues if needed. Optimize it.
-    return @ if @thang._state is @
+    return @ if @thang._state is @ and not @thang.partialState
     unless @hasRestored  # Restoring in a deserialized World for first time
       props = []
       for prop, propIndex in @trackedPropertyKeys
@@ -81,6 +81,26 @@ module.exports = class ThangState
     else  # Restoring later times
       for prop, propIndex in @trackedPropertyKeys
         @thang[prop] = @props[propIndex]
+    @thang.partialState = false
+    @
+
+  restorePartial: (ratio) ->
+    inverse = 1 - ratio
+    for prop, propIndex in @trackedPropertyKeys when prop is "pos" or prop is "rotation"
+      if @hasRestored
+        value = @props[propIndex]
+      else
+        type = @trackedPropertyTypes[propIndex]
+        storage = @trackedPropertyValues[propIndex]
+        value = @getStoredProp propIndex, type, storage
+      if prop is "pos"
+        @thang.pos = @thang.pos.copy()
+        @thang.pos.x = inverse * @thang.pos.x + ratio * value.x
+        @thang.pos.y = inverse * @thang.pos.y + ratio * value.y
+        @thang.pos.z = inverse * @thang.pos.z + ratio * value.z
+      else if prop is "rotation"
+        @thang.rotation = inverse * @thang.rotation + ratio * value
+      @thang.partialState = true
     @
 
   serialize: (frameIndex, trackedPropertyIndices, trackedPropertyTypes, trackedPropertyValues, specialValuesToKeys, specialKeysToValues) ->

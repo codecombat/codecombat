@@ -4,6 +4,7 @@ Camera = require './Camera'
 Mark = require './Mark'
 Label = require './Label'
 AudioPlayer = require 'lib/AudioPlayer'
+{me} = require 'lib/auth'
 
 # We'll get rid of this once level's teams actually have colors
 healthColors =
@@ -64,26 +65,29 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @age = 0
     @displayObject = new createjs.Container()
     if @thangType.get('actions')
-      @onThangTypeLoaded()
+      @setupSprite()
     else
       @stillLoading = true
       @thangType.fetch()
-      @thangType.once 'sync', @onThangTypeLoaded, @
+      @thangType.once 'sync', @setupSprite, @
 
-  onThangTypeLoaded: ->
+  setupSprite: ->
     @stillLoading = false
     @actions = @thangType.getActions()
     @buildFromSpriteSheet @buildSpriteSheet()
 
   destroy: ->
-    super()
     mark.destroy() for name, mark of @marks
     label.destroy() for name, label of @labels
+    @imageObject?.off 'animationend', @playNextAction
+    @playNextAction = null
+    @displayObject?.off()
+    super()
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
 
   buildSpriteSheet: ->
-    options = @thang?.getSpriteOptions?() or {}
+    options = _.extend @options, @thang?.getSpriteOptions?() ? {}
     options.colorConfig = @options.colorConfig if @options.colorConfig
     options.async = false
     @thangType.getSpriteSheet options
@@ -97,6 +101,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # temp, until these are re-exported with perspective
     if @options.camera and @thangType.get('name') in ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Goal Trigger', 'Obstacle']
       sprite.scaleY *= @options.camera.y2x
+    @displayObject.removeChild(@imageObject) if @imageObject
     @imageObject = sprite
     @displayObject.addChild(sprite)
     @addHealthBar()
@@ -107,7 +112,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @displayObject.sprite = @
     @displayObject.layerPriority = @thangType.get 'layerPriority'
     @displayObject.name = @thang?.spriteName or @thangType.get 'name'
-    @imageObject.on 'animationend', @onActionEnd
+    @imageObject.on 'animationend', @playNextAction
 
   ##################################################
   # QUEUEING AND PLAYING ACTIONS
@@ -120,27 +125,46 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @actionQueue.push @currentRootAction.relatedActions.end if @currentRootAction?.relatedActions?.end
     @actionQueue.push action.relatedActions.begin if action.relatedActions?.begin
     @actionQueue.push action
+    if action.goesTo and nextAction = @actions[action.goesTo]
+      @actionQueue.push nextAction if nextAction
     @currentRootAction = action
     @playNextAction()
 
-  onActionEnd: (e) => @playNextAction()
   onSurfaceTicked: (e) -> @age += e.dt
 
-  playNextAction: ->
+  playNextAction: =>
     @playAction(@actionQueue.splice(0,1)[0]) if @actionQueue.length
 
   playAction: (action) ->
     @currentAction = action
+    return @hide() unless action.animation or action.container or action.relatedActions
+    @show()
     return @updateActionDirection() unless action.animation or action.container
     m = if action.container then "gotoAndStop" else "gotoAndPlay"
-    @imageObject[m] action.name
     @imageObject.framerate = action.framerate or 20
+    @imageObject[m] action.name
     reg = @getOffset 'registration'
     @imageObject.regX = -reg.x
     @imageObject.regY = -reg.y
     if @currentRootAction.name is 'move' and action.frames
       start = Math.floor(Math.random() * action.frames.length)
       @imageObject.currentAnimationFrame = start
+
+  hide: ->
+    @hiding = true
+    @updateAlpha()
+
+  show: ->
+    @hiding = false
+    @updateAlpha()
+
+  stop: ->
+    @imageObject?.stop?()
+    mark.stop() for name, mark of @marks
+
+  play: ->
+    @imageObject?.play?()
+    mark.play() for name, mark of @marks
 
   update: ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
@@ -153,6 +177,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @updateStats()
     @updateMarks()
     @updateLabels()
+    @updateGold()
 
   cache: ->
     bounds = @imageObject.getBounds()
@@ -181,16 +206,22 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       if @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight
         [@lastThangWidth, @lastThangHeight] = [@thang.width, @thang.height]
         bounds = @imageObject.getBounds()
-        @imageObject.scaleX = @thang.width * Camera.PPM / bounds.width * @thangType.get('scale') ? 1
-        @imageObject.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height * @thangType.get('scale') ? 1
+        @imageObject.scaleX = @thang.width * Camera.PPM / bounds.width
+        @imageObject.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height
+        unless @thang.spriteName is 'Beam'
+          @imageObject.scaleX *= @thangType.get('scale') ? 1
+          @imageObject.scaleY *= @thangType.get('scale') ? 1
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
     scaleFactor = @thang.scaleFactor ? 1
-    @imageObject.scaleX = @originalScaleX * scaleX * scaleFactor
-    @imageObject.scaleY = @originalScaleY * scaleY * scaleFactor
+    scaleFactorX = @thang.scaleFactorX ? scaleFactor
+    scaleFactorY = @thang.scaleFactorY ? scaleFactor
+    @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
+    @imageObject.scaleY = @originalScaleY * scaleY * scaleFactorY
 
   updateAlpha: ->
+    @imageObject.alpha = if @hiding then 0 else 1
     return unless @thang?.alpha?
     @imageObject.alpha = @thang.alpha
     if @options.showInvisible
@@ -394,7 +425,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
     @instance?.stop()
     if @instance = @playSound sound, false
-      @instance.addEventListener "complete", => Backbone.Mediator.publish 'dialogue-sound-completed'
+      @instance.addEventListener "complete", -> Backbone.Mediator.publish 'dialogue-sound-completed'
     @notifySpeechUpdated e
 
   onClearDialogue: (e) ->
@@ -414,9 +445,20 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @notifySpeechUpdated blurb: blurb
     label.update() for name, label of @labels
 
+  updateGold: ->
+    # TODO: eventually this should be moved into some sort of team-based update
+    # rather than an each-thang-that-shows-gold-per-team thing.
+    return if @thang.gold is @lastGold
+    gold = Math.floor @thang.gold
+    return if gold is @lastGold
+    @lastGold = gold
+    Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold}
+
   playSounds: (withDelay=true, volume=1.0) ->
     for event in @thang.currentEvents ? []
       @playSound event, withDelay, volume
+      if event is 'pay-bounty-gold' and @thang.bountyGold > 25 and @thang.team isnt me.team
+        AudioPlayer.playInterfaceSound 'coin_1', 0.25
     if @thang.actionActivated and (action = @thang.getActionName()) isnt 'say'
       @playSound action, withDelay, volume
     if @thang.sayMessage and withDelay  # don't play sayMessages while scrubbing, annoying
@@ -433,6 +475,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return null unless sound
     delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.getFPS() else 0
     name = AudioPlayer.nameForSoundReference sound
-    instance = createjs.Sound.play name, "none", delay, 0, 0, volume
+    instance = AudioPlayer.playSound name, volume, delay
 #    console.log @thang?.id, "played sound", name, "with delay", delay, "volume", volume, "and got sound instance", instance
     instance

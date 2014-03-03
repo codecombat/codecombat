@@ -15,7 +15,7 @@ module.exports = class ThangAvatarView extends View
     @thang = options.thang
     @includeName = options.includeName
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.thang = @thang
     thangs = @supermodel.getModels(ThangType)
@@ -56,3 +56,6 @@ module.exports = class ThangAvatarView extends View
 
   onNewWorld: (e) ->
     @options.thang = @thang = e.world.thangMap[@thang.id] if @thang
+
+  destroy: ->
+    super()

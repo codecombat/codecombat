@@ -13,15 +13,19 @@ module.exports = class SpriteBoss extends CocoClass
     'bus:player-left': 'onPlayerLeft'
     'level-set-debug': 'onSetDebug'
     'level-highlight-sprites': 'onHighlightSprites'
-    'sprite:mouse-down': 'onSpriteMouseDown'
+    'sprite:mouse-up': 'onSpriteMouseUp'
     'surface:stage-mouse-down': 'onStageMouseDown'
     'level-select-sprite': 'onSelectSprite'
     'level-suppress-selection-sounds': 'onSuppressSelectionSounds'
     'level-lock-select': 'onSetLockSelect'
     'level:restarted': 'onLevelRestarted'
+    'god:new-world-created': 'onNewWorld'
+    'tome:cast-spells': 'onCastSpells'
+    'camera:dragged': 'onCameraDragged'
 
   constructor: (@options) ->
     super()
+    @dragged = 0
     @options ?= {}
     @camera = @options.camera
     @surfaceLayer = @options.surfaceLayer
@@ -34,10 +38,10 @@ module.exports = class SpriteBoss extends CocoClass
     @spriteSheetCache = {}
 
   destroy: ->
-    super()
     @removeSprite sprite for thangID, sprite of @sprites
     @targetMark?.destroy()
     @selectionMark?.destroy()
+    super()
 
   toString: -> "<SpriteBoss: #{@sprites.length} sprites>"
 
@@ -87,7 +91,7 @@ module.exports = class SpriteBoss extends CocoClass
     @selectionMark = new Mark name: 'selection', camera: @camera, layer: @spriteLayers["Ground"], thangType: @thangTypeFor("Selection")
 
   createSpriteOptions: (options) ->
-    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers["Ground"], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers["Floating"], markThangTypes: @markThangTypes(), spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible, world: @world
+    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers["Ground"], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers["Floating"], markThangTypes: @markThangTypes(), spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible
 
   createIndieSprites: (indieSprites, withWizards) ->
     unless @indieSprites
@@ -103,8 +107,13 @@ module.exports = class SpriteBoss extends CocoClass
     unless thangType = @thangTypeFor indieSprite.thangType
       console.warn "Need to convert #{indieSprite.id}'s ThangType #{indieSprite.thangType} to a ThangType reference. Until then, #{indieSprite.id} won't show up."
       return
-    sprite = new IndieSprite thangType, @createSpriteOptions {thangID: indieSprite.id, pos: indieSprite.pos, sprites: @sprites}
+    sprite = new IndieSprite thangType, @createSpriteOptions {thangID: indieSprite.id, pos: indieSprite.pos, sprites: @sprites, colorConfig: indieSprite.colorConfig}
     @addSprite sprite, sprite.thang.id
+
+  createOpponentWizard: (opponent) ->
+    # TODO: colorize name and cloud by team, colorize wizard by user's color config, level-specific wizard spawn points
+    sprite = @createWizardSprite thangID: opponent.id, name: opponent.name
+    sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
 
   createWizardSprite: (options) ->
     sprite = new WizardSprite @thangTypeFor("Wizard"), @createSpriteOptions(options)
@@ -136,15 +145,17 @@ module.exports = class SpriteBoss extends CocoClass
   addThangToSprites: (thang, layer=null) ->
     return console.warn 'Tried to add Thang to the surface it already has:', thang.id if @sprites[thang.id]
     thangType = _.find @options.thangTypes, (m) -> m.get('name') is thang.spriteName
-    sprite = new CocoSprite thangType, @createSpriteOptions thang: thang
+    options = @createSpriteOptions thang: thang
+    options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else 4
+    sprite = new CocoSprite thangType, options
     @addSprite sprite, null, layer
     sprite.setDebug @debug
     sprite
 
   removeSprite: (sprite) ->
     sprite.displayObject.parent.removeChild sprite.displayObject
-    sprite.destroy()
     delete @sprites[sprite.thang.id]
+    sprite.destroy()
 
   updateSounds: ->
     sprite.playSounds() for thangID, sprite of @sprites  # hmm; doesn't work for sprites which we didn't add yet in adjustSpriteExistence
@@ -174,6 +185,11 @@ module.exports = class SpriteBoss extends CocoClass
       sprite.hasMoved = false
       @removeSprite sprite if missing
     @cache true if updateCache and @cached
+    
+    # mainly for handling selecting thangs from session when the thang is not always in existence
+    if @willSelectThang and @sprites[@willSelectThang[0]]
+      @selectThang @willSelectThang...
+      @willSelectThang = null
 
   cache: (update=false) ->
     return if @cached and not update
@@ -195,6 +211,22 @@ module.exports = class SpriteBoss extends CocoClass
 
   spriteFor: (thangID) -> @sprites[thangID]
 
+  onNewWorld: (e) ->
+    @world = @options.world = e.world
+    @play()
+
+  onCastSpells: -> @stop()
+  
+  play: ->
+    sprite.imageObject.play() for thangID, sprite of @sprites
+    @selectionMark?.play()
+    @targetMark?.play()
+  
+  stop: ->
+    sprite.imageObject.stop() for thangID, sprite of @sprites
+    @selectionMark?.stop()
+    @targetMark?.stop()
+
   # Selection
 
   onSuppressSelectionSounds: (e) -> @suppressSelectionSounds = e.suppress
@@ -206,8 +238,13 @@ module.exports = class SpriteBoss extends CocoClass
   onSelectSprite: (e) ->
     @selectThang e.thangID, e.spellName
 
-  onSpriteMouseDown: (e) ->
+  onCameraDragged: ->
+    @dragged += 1
+
+  onSpriteMouseUp: (e) ->
     return if key.shift and @options.choosing
+    return @dragged = 0 if @dragged > 3
+    @dragged = 0
     sprite = if e.sprite?.thang?.isSelectable then e.sprite else null
     @selectSprite e, sprite
 
@@ -216,9 +253,10 @@ module.exports = class SpriteBoss extends CocoClass
     @selectSprite e if e.onBackground
 
   selectThang: (thangID, spellName=null) ->
+    return @willSelectThang = [thangID, spellName] unless @sprites[thangID]
     @selectSprite null, @sprites[thangID], spellName
 
-  selectSprite: (e, sprite=null, spellName=null) =>
+  selectSprite: (e, sprite=null, spellName=null) ->
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = sprite?.thang?.pos
     worldPos ?= @camera.canvasToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
@@ -248,8 +286,12 @@ module.exports = class SpriteBoss extends CocoClass
   # Marks
 
   updateSelection: ->
+    if @selectedSprite?.thang and (not @selectedSprite.thang.exists or not @world.getThangByID @selectedSprite.thang.id)
+      @selectSprite null, null, null
+      @selectionMark?.toggle false
     @updateTarget()
     return unless @selectionMark
+    @selectedSprite = null unless @selectedSprite?.thang
     @selectionMark.toggle @selectedSprite?
     @selectionMark.setSprite @selectedSprite
     @selectionMark.update()

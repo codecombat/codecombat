@@ -48,15 +48,10 @@ module.exports = class ThangsTabView extends View
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
 
   shortcuts:
-    'esc': -> @selectAddThang()
-
-  onFilterExtantThangs: (e) ->
-    button = $(e.target).closest('button')
-    button.button('toggle')
-    val = button.val()
-    @thangsTreema.$el.removeClass(@lastHideClass) if @lastHideClass
-    @thangsTreema.$el.addClass(@lastHideClass = "hide-except-#{val}") if val
-
+    'esc': 'selectAddThang'
+    'delete, del, backspace': 'deleteSelectedExtantThang'
+    'left': -> @moveAddThangSelection -1
+    'right': -> @moveAddThangSelection 1
 
   constructor: (options) ->
     super options
@@ -72,7 +67,7 @@ module.exports = class ThangsTabView extends View
     @render()  # do it again but without the loading screen
     @onLevelLoaded level: @level if @level
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
     thangTypes = _.uniq thangTypes, false, 'original'
@@ -102,12 +97,12 @@ module.exports = class ThangsTabView extends View
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
 
-    # TODO: move these into the shortcuts list
-    key 'left', _.bind @moveAddThangSelection, @, -1
-    key 'right', _.bind @moveAddThangSelection, @, 1
-    key 'delete, del, backspace', @deleteSelectedExtantThang
-    key 'f', => Backbone.Mediator.publish('level-set-debug', debug: not @surface.debug)
-    key 'g', => Backbone.Mediator.publish('level-set-grid', grid: not @surface.gridShowing())
+  onFilterExtantThangs: (e) ->
+    button = $(e.target).closest('button')
+    button.button('toggle')
+    val = button.val()
+    @thangsTreema.$el.removeClass(@lastHideClass) if @lastHideClass
+    @thangsTreema.$el.addClass(@lastHideClass = "hide-except-#{val}") if val
 
   preventBodyScrollingInThangList: (e) ->
     @scrollTop += (if e.deltaY < 0 then 1 else -1) * 30
@@ -145,15 +140,17 @@ module.exports = class ThangsTabView extends View
       navigateToSelection: false
       thangTypes: @supermodel.getModels(ThangType)
       showInvisible: true
+      frameRate: 15
     }
     @surface.playing = false
     @surface.setWorld @world
     @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
+    @surface.camera.dragDisabled = true
 
   destroy: ->
-    super()
     @selectAddThangType null
     @surface.destroy()
+    super()
 
   onViewSwitched: (e) ->
     @selectAddThang()
@@ -374,7 +371,7 @@ module.exports = class ThangsTabView extends View
       thangData = @thangsTreema.get "id=#{e.thangID}"
     @editThangView = new LevelThangEditView thangData: thangData, supermodel: @supermodel, level: @level, world: @world
     @insertSubView @editThangView
-    @$el.find('.thangs-column').addClass('hide')
+    @$el.find('.thangs-column').hide()
     Backbone.Mediator.publish 'level:view-switched', e
 
   onLevelThangEdited: (e) ->
@@ -383,7 +380,7 @@ module.exports = class ThangsTabView extends View
 
   onLevelThangDoneEditing: ->
     @removeSubView @editThangView
-    @$el.find('.thangs-column').removeClass('hide')
+    @$el.find('.thangs-column').show()
 
 
 class ThangsNode extends TreemaNode.nodeMap.array

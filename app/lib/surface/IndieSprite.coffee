@@ -22,6 +22,7 @@ module.exports = IndieSprite = class IndieSprite extends CocoSprite
     thang.width = thang.height = thang.depth = 4
     thang.pos = pos ? @defaultPos()
     thang.pos.z = thang.depth / 2
+    thang.shape = 'ellipsoid'
     thang.rotation = 0
     thang.action = 'idle'
     thang.setAction = (action) -> thang.action = action

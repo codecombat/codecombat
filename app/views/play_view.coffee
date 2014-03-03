@@ -5,10 +5,10 @@ module.exports = class PlayView extends View
   id: "play-view"
   template: template
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.home = true
-
+    context.notFound = @getQueryVariable 'not_found'
     tutorials = [
       {
         name: 'Rescue Mission'

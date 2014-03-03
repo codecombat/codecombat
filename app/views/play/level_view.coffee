@@ -5,7 +5,6 @@ ThangType = require 'models/ThangType'
 
 # temp hard coded data
 World = require 'lib/world/world'
-docs = require 'lib/world/docs'
 
 # tools
 Surface = require 'lib/surface/Surface'
@@ -18,6 +17,7 @@ LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
 Camera = require 'lib/surface/Camera'
+AudioPlayer = require 'lib/AudioPlayer'
 
 # subviews
 TomeView = require './level/tome/tome_view'
@@ -26,6 +26,7 @@ HUDView = require './level/hud_view'
 ControlBarView = require './level/control_bar_view'
 PlaybackView = require './level/playback_view'
 GoalsView = require './level/goals_view'
+GoldView = require './level/gold_view'
 VictoryModal = require './level/modal/victory_modal'
 InfiniteLoopModal = require './level/modal/infinite_loop_modal'
 
@@ -50,16 +51,21 @@ module.exports = class PlayLevelView extends View
     'level-focus-dom': 'onFocusDom'
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
+    'god:new-world-created': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
-    'bus:connected': 'onBusConnected'
     'level-reload-from-data': 'onLevelReloadFromData'
     'play-next-level': 'onPlayNextLevel'
     'edit-wizard-settings': 'showWizardSettingsModal'
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:session-will-save': 'onSessionWillSave'
+    'level:set-team': 'setTeam'
+    'god:new-world-created': 'loadSoundsForWorld'
 
   events:
     'click #level-done-button': 'onDonePressed'
+
+  shortcuts:
+    'ctrl+s': 'onCtrlS'
 
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
@@ -74,9 +80,7 @@ module.exports = class PlayLevelView extends View
     @sessionID = @getQueryVariable 'session'
 
     $(window).on('resize', @onWindowResize)
-    @supermodel.once 'error', =>
-      msg = $.i18n.t('play_level.level_load_error', defaultValue: "Level could not be loaded.")
-      @$el.html('<div class="alert">' + msg + '</div>')
+    @supermodel.once 'error', @onLevelLoadError
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
@@ -88,9 +92,8 @@ module.exports = class PlayLevelView extends View
     else
       @load()
 
-    # Save latest level played in local storage
-    if localStorage?
-      localStorage["lastLevel"] = @levelID
+  onLevelLoadError: (e) =>
+    application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
     @god?.level = @level.serialize @supermodel
@@ -101,39 +104,81 @@ module.exports = class PlayLevelView extends View
       @load()
 
   load: ->
-    @levelLoader = new LevelLoader(@levelID, @supermodel, @sessionID)
-    @levelLoader.once 'ready-to-init-world', @onReadyToInitWorld
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
+    @god = new God()
 
   getRenderData: ->
     c = super()
     c.world = @world
+    if me.get('hourOfCode') and me.lang() is 'en-US'
+      # Show the Hour of Code footer explanation until it's been more than a day
+      elapsed = (new Date() - new Date(me.get('dateCreated')))
+      c.explainHourOfCode = elapsed < 86400 * 1000
     c
 
   afterRender: ->
     window.onPlayLevelViewLoaded? @  # still a hack
     @loadingScreen = new LoadingScreen(@$el.find('canvas')[0])
     @loadingScreen.show()
+    @$el.find('#level-done-button').hide()
     super()
 
   onLevelLoaderLoaded: =>
-    @session = @levelLoader.session
-    @level = @levelLoader.level
-    @world = @levelLoader.world
+    # Save latest level played in local storage
+    if window.currentModal and not window.currentModal.destroyed
+      @loadingScreen.showReady()
+      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
+    
+    localStorage["lastLevel"] = @levelID if localStorage?
+    @grabLevelLoaderData()
+    team = @getQueryVariable("team") ? @world.teamForPlayer(0)
+    @loadOpponentTeam(team)
     @loadingScreen.destroy()
-    @setTeam @world.teamForPlayer 1  # We don't know which player we are; this will go away--temp TODO
+    @god.level = @level.serialize @supermodel
+    @god.worldClassMap = @world.classMap
+    @setTeam team
     @initSurface()
-    @initGod()
     @initGoalManager()
     @initScriptManager()
-    @insertSubviews()
+    @insertSubviews ladderGame: @otherSession?
     @initVolume()
-    @session.on 'change:multiplayer', @onMultiplayerChanged
+    @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @originalSessionState = _.cloneDeep(@session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
+    if @otherSession
+      # TODO: colorize name and cloud by team, colorize wizard by user's color config
+      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
+      
+  grabLevelLoaderData: ->
+    @session = @levelLoader.session
+    @world = @levelLoader.world
+    @level = @levelLoader.level
+    @otherSession = @levelLoader.opponentSession
+    @levelLoader.destroy()
+    @levelLoader = null
+    
+  loadOpponentTeam: (myTeam) ->
+    opponentSpells = []
+    for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
+      continue if spellTeam is myTeam or not myTeam
+      opponentSpells = opponentSpells.concat spells
 
+    opponentCode = @otherSession?.get('submittedCode') or {}
+    myCode = @session.get('code') or {}
+    for spell in opponentSpells
+      [thang, spell] = spell.split '/'
+      c = opponentCode[thang]?[spell]
+      myCode[thang] ?= {}
+      if c then myCode[thang][spell] = c else delete myCode[thang][spell]
+    @session.set('code', myCode)
+    if @session.get('multiplayer') and @otherSession?
+      # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
+      @session.set 'multiplayer', false
+
+    
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
     @modelsLoaded += 1
@@ -148,21 +193,25 @@ module.exports = class PlayLevelView extends View
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
-  insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
+  insertSubviews: (subviewOptions) ->
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, ladderGame: subviewOptions.ladderGame
     @insertSubView new PlaybackView {}
     @insertSubView new GoalsView {}
+    @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel}
+    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, ladderGame: subviewOptions.ladderGame}
     #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 
   afterInsert: ->
     super()
-#    @showWizardSettingsModal() if not me.get('name')
+    @showWizardSettingsModal() if not me.get('name')
 
   # callbacks
+
+  onCtrlS: (e) ->
+    e.preventDefault()
 
   onLevelReloadFromData: (e) ->
     isReload = Boolean @world
@@ -174,22 +223,21 @@ module.exports = class PlayLevelView extends View
   onWindowResize: (s...) ->
     $('#pointer').css('opacity', 0.0)
 
-  onDisableControls: (e) =>
+  onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)
     @shortcutsEnabled = false
     @wasFocusedOn = document.activeElement
     $('body').focus()
 
-  onEnableControls: (e) =>
+  onEnableControls: (e) ->
     return if e.controls? and not ('level' in e.controls)
     @shortcutsEnabled = true
     $(@wasFocusedOn).focus() if @wasFocusedOn
     @wasFocusedOn = null
 
-  onDonePressed: => @showVictory()
+  onDonePressed: -> @showVictory()
 
-  onShowVictory: (e) =>
-    console.log 'show vict', e
+  onShowVictory: (e) ->
     $('#level-done-button').show()
     @showVictory() if e.showModal
     setTimeout(@preloadNextLevel, 3000)
@@ -206,12 +254,15 @@ module.exports = class PlayLevelView extends View
     $('#level-done-button', @$el).hide()
     window.tracker?.trackEvent 'Confirmed Restart', level: @world.name, label: @world.name
 
+  onNewWorld: (e) ->
+    @world = e.world
+
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
     @openModalView new InfiniteLoopModal()
     window.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
 
-  onPlayNextLevel: =>
+  onPlayNextLevel: ->
     nextLevel = @getNextLevel()
     nextLevelID = nextLevel.get('slug') or nextLevel.id
     url = "/play/level/#{nextLevelID}"
@@ -225,7 +276,7 @@ module.exports = class PlayLevelView extends View
     levels = @supermodel.getModels(Level)
     return l for l in levels when l.get('original') is nextLevelOriginal
 
-  onHighlightDom: (e) =>
+  onHighlightDom: (e) ->
     if e.delay
       delay = e.delay
       delete e.delay
@@ -279,20 +330,20 @@ module.exports = class PlayLevelView extends View
     ), 1)
 
 
-  animatePointer: =>
+  animatePointer: ->
     pointer = $('#pointer')
     pointer.css('transition', 'all 0.6s ease-out')
     pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)")
     setTimeout((=>
       pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)").css('transition', 'all 0.4s ease-in')), 800)
 
-  onFocusDom: (e) => $(e.selector).focus()
+  onFocusDom: (e) -> $(e.selector).focus()
 
-  onEndHighlight: =>
+  onEndHighlight: ->
     $('#pointer').css('opacity', 0.0)
     clearInterval(@pointerInterval)
 
-  onMultiplayerChanged: (e) =>
+  onMultiplayerChanged: (e) ->
     if @session.get('multiplayer')
       @bus.connect()
     else
@@ -314,11 +365,8 @@ module.exports = class PlayLevelView extends View
     @surface.camera.setBounds(bounds)
     @surface.camera.zoomTo({x:0, y:0}, 0.1, 0)
 
-  initGod: ->
-    @god = new God @world, @level.serialize @supermodel
-
   initGoalManager: ->
-    @goalManager = new GoalManager(@world)
+    @goalManager = new GoalManager(@world, @level.get('goals'))
     @god.goalManager = @goalManager
 
   initScriptManager: ->
@@ -353,14 +401,8 @@ module.exports = class PlayLevelView extends View
   register: ->
     @bus = LevelBus.get(@levelID, @session.id)
     @bus.setSession(@session)
+    @bus.setSpells @tome.spells
     @bus.connect() if @session.get('multiplayer')
-
-  onBusConnected: ->
-    # Need to set this team stuff before the Tome loads... let's think about this with Scott.
-    #@setTeam @world.teamForPlayer(@bus.countPlayers()) unless me.team
-    #$('#multiplayer-team-selection').toggle(@world.playableTeams.length > 1)
-    #  .find('input').prop('checked', -> $(@).val() is me.team)
-    #  .bind('change', @setTeam)
 
   onSessionWillSave: (e) ->
     # Something interesting has happened, so (at a lower frequency), we'll save a screenshot.
@@ -372,20 +414,40 @@ module.exports = class PlayLevelView extends View
     session.save {screenshot: screenshot}, {patch: true}
 
   setTeam: (team) ->
-    team = $(@).val() unless _.isString team
+    team = team?.team unless _.isString team
+    team ?= 'humans'
     me.team = team
     Backbone.Mediator.publish 'level:team-set', team: team
 
+  # Dynamic sound loading
+
+  loadSoundsForWorld: (e) ->
+    return if @headless
+    world = e.world
+    thangTypes = @supermodel.getModels(ThangType)
+    for [spriteName, message] in world.thangDialogueSounds()
+      continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
+      continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
+      AudioPlayer.preloadSoundReference sound
+
   destroy: ->
-    super()
-    @levelLoader.destroy()
+    @supermodel?.off 'error', @onLevelLoadError
+    @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
+    @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
     $(window).off('resize', @onWindowResize)
-
+    delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)
     @bus?.destroy()
     #@instance.save() unless @instance.loading
     console.profileEnd?() if PROFILE_ME
+    @session?.off 'change:multiplayer', @onMultiplayerChanged, @
+    @onLevelLoadError = null
+    @onLevelLoaderLoaded = null
+    @onSupermodelLoadedOne = null
+    @preloadNextLevel = null
+    @saveScreenshot = null
+    super()

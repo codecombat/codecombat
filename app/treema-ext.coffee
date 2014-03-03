@@ -38,12 +38,13 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
       url: InkBlob.url
       filename: InkBlob.filename
       mimetype: InkBlob.mimetype
-      description: ''
-      createdFor: []
+      path: @settings.filePath
+
+    @uploadingPath = [@settings.filePath, InkBlob.filename].join('/')
     $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
 
   onFileUploaded: (e) =>
-    @editor.insert "![#{e.metadata.name}](/file/#{e._id})"
+    @editor.insert "![#{e.metadata.name}](/file/#{@uploadingPath})"
 
   onEditorChange: =>
     @saveChanges()
@@ -284,7 +285,7 @@ class LatestVersionReferenceNode extends TreemaNode
     @lastTerm = term
     @getSearchResultsEl().empty().append('Searching')
     @collection = new LatestVersionCollection()
-    @collection.url = @url+'?term='+term
+    @collection.url = "#{@url}?term=#{term}&project=true"
     @collection.fetch()
     @collection.on 'sync', @searchCallback
 

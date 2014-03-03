@@ -8,35 +8,43 @@ class SuperModel
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
     model.fetch() unless model.loaded or model.loading
-    model.on('sync', @modelLoaded) unless model.loaded
-    model.once('error', @modelErrored) unless model.loaded
+    model.once('sync', @modelLoaded, @) unless model.loaded
+    model.once('error', @modelErrored, @) unless model.loaded
     url = model.url()
     @models[url] = model unless @models[url]?
     @modelLoaded(model) if model.loaded
 
   # replace or overwrite
-  shouldPopulate: (url) -> return true 
-  shouldSaveBackups: (model) -> return false
+  shouldLoadReference: (model) -> true
+  shouldLoadProjection: (model) -> false
+  shouldPopulate: (url) -> true
+  shouldSaveBackups: (model) -> false
 
-  modelErrored: (model) =>
+  modelErrored: (model) ->
     @trigger 'error'
+    @removeEventsFromModel(model)
 
-  modelLoaded: (model) =>
+  modelLoaded: (model) ->
     schema = model.schema()
-    return schema.on('sync', => @modelLoaded(model)) unless schema.loaded
-    refs = model.getReferencedModels(model.attributes, schema.attributes)
+    return schema.once('sync', => @modelLoaded(model)) unless schema.loaded
+    refs = model.getReferencedModels(model.attributes, schema.attributes, '/', @shouldLoadProjection)
     refs = [] unless @mustPopulate is model or @shouldPopulate(model)
 #    console.log 'Loaded', model.get('name')
-    for ref, i in refs
+    for ref, i in refs when @shouldLoadReference ref
       ref.saveBackups = @shouldSaveBackups(ref)
       refURL = ref.url()
       continue if @models[refURL]
       @models[refURL] = ref
       ref.fetch()
-      ref.on 'sync', @modelLoaded
+      ref.once 'sync', @modelLoaded, @
 
     @trigger 'loaded-one', model: model
     @trigger 'loaded-all' if @finished()
+    @removeEventsFromModel(model)
+
+  removeEventsFromModel: (model) ->
+    model.off 'sync', @modelLoaded, @
+    model.off 'error', @modelErrored, @
 
   getModel: (ModelClass_or_url, id) ->
     return @getModelByURL(ModelClass_or_url) if _.isString(ModelClass_or_url)

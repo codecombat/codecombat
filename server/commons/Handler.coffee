@@ -2,6 +2,8 @@ async = require 'async'
 mongoose = require('mongoose')
 Grid = require 'gridfs-stream'
 errors = require './errors'
+PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
+FETCH_LIMIT = 150
 
 module.exports = class Handler
   # subclasses should override these properties
@@ -14,7 +16,7 @@ module.exports = class Handler
   # subclasses should override these methods
   hasAccess: (req) -> true
   hasAccessToDocument: (req, document, method=null) ->
-    return true if req.user.isAdmin()
+    return true if req.user?.isAdmin()
     if @modelClass.schema.uses_coco_permissions
       return document.hasPermissionsForMethod(req.user, method or req.method)
     return true
@@ -30,7 +32,7 @@ module.exports = class Handler
       # can only edit permissions if this is a brand new property,
       # or you are an owner of the old one
       isOwner = document.getAccessForUserObjectId(req.user._id) is 'owner'
-      if isBrandNew or isOwner or req.user.isAdmin()
+      if isBrandNew or isOwner or req.user?.isAdmin()
         props.push 'permissions'
 
     if @modelClass.schema.uses_coco_versions
@@ -55,7 +57,7 @@ module.exports = class Handler
   # generic handlers
   get: (req, res) ->
     # by default, ordinary users never get unfettered access to the database
-    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    return @sendUnauthorizedError(res) unless req.user?.isAdmin()
 
     # admins can send any sort of query down the wire, though
     conditions = JSON.parse(req.query.conditions || '[]')
@@ -92,11 +94,10 @@ module.exports = class Handler
     unless @modelClass.schema.uses_coco_search
       return @sendNotFoundError(res)
 
-    project = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
     term = req.query.term
     matchedObjects = []
     filters = [{filter: {index: true}}]
-    if @modelClass.schema.uses_coco_permissions
+    if @modelClass.schema.uses_coco_permissions and req.user
       filters.push {filter: {index: req.user.get('id')}}
     for filter in filters
       callback = (err, results) =>
@@ -110,19 +111,19 @@ module.exports = class Handler
           res.send matchedObjects
           res.end()
       if term
-        filter.project = project if req.query.project
+        filter.project = PROJECT if req.query.project
         @modelClass.textSearch term, filter, callback
       else
         args = [filter.filter]
-        args.push project if req.query.project
-        @modelClass.find(args...).limit(100).exec callback
+        args.push PROJECT if req.query.project
+        @modelClass.find(args...).limit(FETCH_LIMIT).exec callback
 
   versions: (req, res, id) ->
     # TODO: a flexible system for doing GAE-like cursors for these sort of paginating queries
-    # Keeping it simple for now and just allowing access to the first 100 results.
+    # Keeping it simple for now and just allowing access to the first FETCH_LIMIT results.
     query = {'original': mongoose.Types.ObjectId(id)}
     sort = {'created': -1}
-    @modelClass.find(query).limit(100).sort(sort).exec (err, results) =>
+    @modelClass.find(query).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
       for doc in results
         return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
       res.send(results)
@@ -148,7 +149,9 @@ module.exports = class Handler
       query['version.major'] = majorVersion unless _.isNaN(majorVersion)
       query['version.minor'] = minorVersion unless _.isNaN(minorVersion)
     sort = { 'version.major': -1, 'version.minor': -1 }
-    @modelClass.findOne(query).sort(sort).exec (err, doc) =>
+    args = [query]
+    args.push PROJECT if req.query.project
+    @modelClass.findOne(args...).sort(sort).exec (err, doc) =>
       return @sendNotFoundError(res) unless doc?
       return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
       res.send(doc)
@@ -258,11 +261,12 @@ module.exports = class Handler
     tv4 = require('tv4').tv4
     res = tv4.validateMultiple(input, @jsonSchema)
     res
+    
+  @isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-z0-9]/gi)?.length is 24
 
   getDocumentForIdOrSlug: (idOrSlug, done) ->
     idOrSlug = idOrSlug+''
-    isID = idOrSlug.length is 24 and idOrSlug.match(/[a-z0-9]/gi)?.length is 24
-    if isID
+    if Handler.isID(idOrSlug)
       @modelClass.findById(idOrSlug).exec (err, document) ->
         done(err, document)
     else

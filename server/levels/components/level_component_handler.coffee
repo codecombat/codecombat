@@ -12,8 +12,8 @@ LevelComponentHandler = class LevelComponentHandler extends Handler
     'dependencies'
     'propertyDocumentation'
     'configSchema'
+    'name'
   ]
-  postEditableProperties: ['name']
 
   getEditableProperties: (req, document) ->
     props = super(req, document)

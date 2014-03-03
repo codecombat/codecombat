@@ -31,7 +31,10 @@
     box-sizing: border-box        
 
     .header-scrolling-fix
-      padding-top: 65px !important
+      // Padding: so that the anchors get scrolled properly below the top bar.
+      padding-top: 65px
+      // Margin: so that there isn't a huge space between classes
+      margin-top: -50px
       
     .well
       padding: 5px 5px 5px 30px
@@ -39,3 +42,16 @@
     .saved-notification
       display: none
       float: right
+
+  .thumbnail
+    background-color: transparent
+    height: 176px
+    &:hover
+      background-color: rgba(200, 244, 255, 0.2)
+
+    h4
+      text-align: center
+    img
+      max-width: 100px
+      max-height: 100px
+    

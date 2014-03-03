@@ -14,11 +14,13 @@ module.exports = class GoalsView extends View
   subscriptions:
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'level-set-letterbox': 'onSetLetterbox'
+    'surface:playback-restarted': 'onSurfacePlaybackRestarted'
+    'surface:playback-ended': 'onSurfacePlaybackEnded'
 
   events:
     'click': 'toggleCollapse'
 
-  toggleCollapse: (e) =>
+  toggleCollapse: (e) ->
     @$el.toggleClass('expanded').toggleClass('collapsed')
 
   onNewGoalStates: (e) ->
@@ -28,6 +30,7 @@ module.exports = class GoalsView extends View
     for goal in e.goals
       state = e.goalStates[goal.id]
       continue if goal.hiddenGoal and state.status isnt 'failure'
+      continue if goal.team and me.team isnt goal.team
       text = goal.i18n?[me.lang()]?.name ? goal.name
       if state.killed
         dead = _.filter(_.values(state.killed)).length
@@ -45,11 +48,17 @@ module.exports = class GoalsView extends View
       li.prepend($('<i></i>').addClass(stateIconMap[state.status]))
       list.append(li)
       goals.push goal
-    if goals.length then @$el.removeClass('hide') else @$el.addClass('hide')
+    @$el.removeClass('secret') if goals.length > 0
+
+  onSurfacePlaybackRestarted: ->
+    @$el.removeClass 'brighter'
+
+  onSurfacePlaybackEnded: ->
+    @$el.addClass 'brighter'
 
   render: ->
     super()
-    @$el.addClass('hide').addClass('expanded')
+    @$el.addClass('secret').addClass('expanded')
 
   onSetLetterbox: (e) ->
-    if e.on then @$el.hide() else @$el.show()
+    @$el.toggle not e.on

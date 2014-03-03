@@ -23,7 +23,7 @@ block content
         span , 
         span(data-i18n="contribute.diplomat_introduction_suf")
           | it's that there
-          | is sizeable interest in CodeCombat in other countries, particularly Brazil!
+          | is sizeable interest in CodeCombat in other countries!
           | We're building a corps of translators eager to turn one set of words into
           | another set of words to get CodeCombat as accessible across the world as possible.
           | If you like getting sneak peeks at upcoming content and getting these levels to
@@ -37,13 +37,11 @@ block content
       
       h4(data-i18n="contribute.how_to_join") How to Join
       p
-        span(data-i18n="contribute.diplomat_join_pref")
-          | We've started a lot of initial translations at 
-        a(href="https://docs.google.com/a/codecombat.com/spreadsheet/ccc?key=0AjsR1nOoMQ4MdFBqS1NqUmRTVG1hbEMxWTZEd1JrNXc&usp=drive_web#gid=0", data-i18n="contribute.diplomat_doc_url")
-          | this Google Doc
-        span , 
-        span(data-i18n="contribute.diplomat_join_suf")
-          | so check it out and add things for your language. Also, check this box below to 
+        span(data-i18n="contribute.diplomat_join_pref_github")
+          | Find your language locale file 
+        a(data-i18n="contribute.diplomat_github_url", href='https://github.com/codecombat/codecombat/tree/master/app/locale') on GitHub
+        span(data-i18n="contribute.diplomat_join_suf_github")
+          | , edit it online, and submit a pull request. Also, check this box below to 
           | keep up-to-date on new internationalization developments!
 
       if me.attributes.anonymous
@@ -57,7 +55,7 @@ block content
             | create an account
           span  
           span(data-i18n="contribute.alert_account_message_suf")
-          | first.
+            | first.
 
       label.checkbox(for="translator").well
         input(type='checkbox', name="translator", id="translator")
@@ -79,7 +77,7 @@ block content
           li Greek - Stergios
           li Latin American Spanish - Jesús Ruppel, Matthew Burt, Mariano Luzza
           li Spain Spanish - Matthew Burt, DanielRodriguezRivero, Anon
-          li French - Xeonarno, Elfisen, Armaldio, MartinDelille, pstweb, veritable, jaybi, Anon
+          li French - Xeonarno, Elfisen, Armaldio, MartinDelille, pstweb, veritable, jaybi, xavismeh, Anon
           li Hungarian - ferpeter, csuvsaregal, atlantisguru, Anon
           li Japanese - g1itch, kengos
           li Chinese - Adam23, spacepope
@@ -88,7 +86,7 @@ block content
           li Slovak - Anon
           li Persian - Reza Habibi (Rehb)
           li Czech - vanous
-          li Russian - fess89, ser-storchak, 
+          li Russian - fess89, ser-storchak
           li Ukrainian - fess89
           li Italian - flauta
           li Norwegian - bardeh

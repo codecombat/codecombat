@@ -25,9 +25,7 @@ module.exports = class PlaybackView extends View
     'click #debug-toggle': 'onToggleDebug'
     'click #grid-toggle': 'onToggleGrid'
     'click #edit-wizard-settings': 'onEditWizardSettings'
-    'click #music-button': ->
-      me.set('music', not me.get('music'))
-      me.save()
+    'click #music-button': 'onToggleMusic'
     'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @disabled
     'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @disabled
     'click #volume-button': 'onToggleVolume'
@@ -36,14 +34,14 @@ module.exports = class PlaybackView extends View
 
   shortcuts:
     '⌘+p, p, ctrl+p': 'onTogglePlay'
-    '[': 'onScrubBack'
-    ']': 'onScrubForward'
+    '⌘+[, ctrl+[': 'onScrubBack'
+    '⌘+], ctrl+]': 'onScrubForward'
 
   constructor: ->
     super(arguments...)
     me.on('change:music', @updateMusicButton, @)
 
-  afterRender: =>
+  afterRender: ->
     super()
     @hookUpScrubber()
     @updateMusicButton()
@@ -55,31 +53,31 @@ module.exports = class PlaybackView extends View
     @$el.find('#music-button').toggleClass('music-on', me.get('music'))
 
   onSetLetterbox: (e) ->
-    button = @$el.find '#play-button, .scrubber-handle'
-    if e.on then button.css('visibility', 'hidden') else button.css('visibility', 'visible')
+    buttons = @$el.find '#play-button, .scrubber-handle'
+    buttons.css 'visibility', if e.on then 'hidden' else 'visible'
     @disabled = e.on
 
   onWindowResize: (s...) =>
     @barWidth = $('.progress', @$el).width()
 
-  onNewWorld: (e) =>
+  onNewWorld: (e) ->
     pct = parseInt(100 * e.world.totalFrames / e.world.maxTotalFrames) + '%'
-    @barWidth = $('.progress', @$el).css('width', pct).removeClass('hide').width()
+    @barWidth = $('.progress', @$el).css('width', pct).show().width()
 
   onToggleDebug: ->
     return if @shouldIgnore()
     flag = $('#debug-toggle i.icon-ok')
-    Backbone.Mediator.publish('level-set-debug', {debug: flag.hasClass('hide')})
+    Backbone.Mediator.publish('level-set-debug', {debug: flag.hasClass('invisible')})
 
   onToggleGrid: ->
     return if @shouldIgnore()
     flag = $('#grid-toggle i.icon-ok')
-    Backbone.Mediator.publish('level-set-grid', {grid: flag.hasClass('hide')})
+    Backbone.Mediator.publish('level-set-grid', {grid: flag.hasClass('invisible')})
 
   onEditWizardSettings: ->
     Backbone.Mediator.publish 'edit-wizard-settings'
 
-  onDisableControls: (e) =>
+  onDisableControls: (e) ->
     if not e.controls or 'playback' in e.controls
       @disabled = true
       $('button', @$el).addClass('disabled')
@@ -91,7 +89,7 @@ module.exports = class PlaybackView extends View
       @hoverDisabled = true
     $('#volume-button', @$el).removeClass('disabled')
 
-  onEnableControls: (e) =>
+  onEnableControls: (e) ->
     if not e.controls or 'playback' in e.controls
       @disabled = false
       $('button', @$el).removeClass('disabled')
@@ -102,7 +100,7 @@ module.exports = class PlaybackView extends View
     if not e.controls or 'playback-hover' in e.controls
       @hoverDisabled = false
 
-  onSetPlaying: (e) =>
+  onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
     button = @$el.find '#play-button'
     ended = button.hasClass 'ended'
@@ -145,13 +143,11 @@ module.exports = class PlaybackView extends View
 
   onSetDebug: (e) ->
     flag = $('#debug-toggle i.icon-ok')
-    flag.removeClass('hide')
-    flag.addClass('hide') unless e.debug
+    flag.toggleClass 'invisible', not e.debug
 
   onSetGrid: (e) ->
     flag = $('#grid-toggle i.icon-ok')
-    flag.removeClass('hide')
-    flag.addClass('hide') unless e.grid
+    flag.toggleClass 'invisible', not e.grid
 
   # to refactor
 
@@ -171,38 +167,9 @@ module.exports = class PlaybackView extends View
         if @clickingSlider
           @clickingSlider = false
           @wasPlaying = false
-          @onSetPlaying {playing: false}
+          Backbone.Mediator.publish 'level-set-playing', {playing: false}
           @$el.find('.scrubber-handle').effect('bounce', {times: 2})
-          # Wait a while before we start scrubbing on mousemove again
-          @hoverTimeout = _.delay @onProgressMouseOver, 5 * @sliderHoverDelay, null
     )
-    $('.scrubber').mouseover((e) =>
-      return if @clickingSlider or @disabled or @hoverDisabled or @hoverTimeout
-      @hoverTimeout = _.delay @onProgressMouseOver, @sliderHoverDelay, e
-    ).mouseleave(@onProgressMouseLeave).mousemove(@onProgressMouseMove)
-
-  onProgressMouseOver: (e) =>
-    @hoverTimeout = null
-    return if @clickingSlider or @disabled or @hoverDisabled
-    @wasPlaying = @playing
-    Backbone.Mediator.publish 'level-set-playing', playing: false
-    @onProgressMouseMove e if e
-
-  onProgressMouseLeave: (e) =>
-    return if @clickingSlider or @disabled or @hoverDisabled
-    if @hoverTimeout
-      clearTimeout @hoverTimeout
-      @hoverTimeout = null
-    if @wasPlaying? and @playing isnt @wasPlaying
-      Backbone.Mediator.publish 'level-set-playing', playing: @wasPlaying
-    @wasPlaying = null
-
-  onProgressMouseMove: (e) =>
-    return if @disabled or @hoverDisabled or @hoverTimeout
-    @clickingSlider = false
-    posX = e.pageX - $(e.target).offset().left
-    @actualProgress = posX / @barWidth
-    @scrubTo @actualProgress
 
   getScrubRatio: ->
     bar = $('.scrubber .progress', @$el)
@@ -237,6 +204,14 @@ module.exports = class PlaybackView extends View
     Backbone.Mediator.publish 'level-set-volume', volume: volumes[newI]
     $(document.activeElement).blur()
 
+  onToggleMusic: (e) ->
+    e?.preventDefault()
+    me.set('music', not me.get('music'))
+    me.save()
+    $(document.activeElement).blur()
+
   destroy: ->
-    super()
+    me.off('change:music', @updateMusicButton, @)
     $(window).off('resize', @onWindowResize)
+    @onWindowResize = null
+    super()

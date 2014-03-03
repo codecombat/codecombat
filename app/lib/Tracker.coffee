@@ -22,17 +22,17 @@ module.exports = class Tracker
     return unless me and olark?
     olark 'api.chat.updateVisitorStatus', snippet: ["User ID: #{me.id}"]
     return if me.get("anonymous")
-    olark 'api.visitor.updateEmailAddress', emailAddress: me.get("email")
+    olark 'api.visitor.updateEmailAddress', emailAddress: me.get("email") if me.get('email')
     olark 'api.chat.updateVisitorNickname', snippet: me.displayName()
 
   updatePlayState: (level, session) ->
+    return unless olark?
     link = "codecombat.com/play/level/#{level.get('slug') or level.id}?session=#{session.id}"
     snippet = [
       "#{link}"
       "User ID: #{me.id}"
       "Session ID: #{session.id}"
       "Level: #{level.get('name')}"
-
     ]
     olark 'api.chat.updateVisitorStatus', snippet: snippet
 

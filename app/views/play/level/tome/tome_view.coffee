@@ -36,6 +36,8 @@ ThangListView = require './thang_list_view'
 SpellPaletteView = require './spell_palette_view'
 CastButtonView = require './cast_button_view'
 
+window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.coffee'
+
 module.exports = class TomeView extends View
   id: 'tome-view'
   template: template
@@ -47,39 +49,75 @@ module.exports = class TomeView extends View
     'tome:cast-spell': "onCastSpell"
     'tome:toggle-spell-list': 'onToggleSpellList'
     'surface:sprite-selected': 'onSpriteSelected'
-    'surface:new-thang-added': 'onNewThangAdded'
+    'god:new-world-created': 'onNewWorld'
 
   events:
     'click #spell-view': 'onSpellViewClick'
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': 'onClick'
 
   afterRender: ->
     super()
+    @worker = @createWorker()
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
-
     if programmableThangs.length
-      @createSpells programmableThangs  # Do before spellList, thangList, and castButton
+      @createSpells programmableThangs, programmableThangs[0].world  # Do before spellList, thangList, and castButton
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
       @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
-      @castButton = @insertSubView new CastButtonView spells: @spells
+      @castButton = @insertSubView new CastButtonView spells: @spells, levelID: @options.levelID
+      @teamSpellMap = @generateTeamSpellMap(@spells)
     else
       @cast()
-      console.log "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
+      console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
+    delete @options.thangs
 
-  onNewThangAdded: (e) ->
-    return unless e.thang.isProgrammable and not _.find @thangList.thangs, id: e.thang.id
-    @createSpells [e.thang]
-    @spellList.addThang e.thang
-    @thangList.addThang e.thang
+  onNewWorld: (e) ->
+    thangs = _.filter e.world.thangs, 'isSelectable'
+    programmableThangs = _.filter thangs, 'isProgrammable'
+    @createSpells programmableThangs, e.world
+    @thangList.adjustThangs @spells, thangs
+    @spellList.adjustSpells @spells
 
-  createSpells: (programmableThangs) ->
-    # If needed, we could make this able to update when programmableThangs changes.
-    # We haven't done that yet, so call it just once on init.
+  createWorker: ->
+    return
+    # In progress
+    worker = cw
+      initialize: (scope) ->
+        self.window = self
+        self.global = self
+        console.log 'Tome worker initialized.'
+      doIt: (data, callback, scope) ->
+        console.log 'doing', what
+        try
+          importScripts '/javascripts/tome_aether.js'
+        catch err
+          console.log err.toString()
+        a = new Aether()
+        callback 'good'
+        undefined
+    onAccepted = (s) -> console.log 'accepted', s
+    onRejected = (s) -> console.log 'rejected', s
+    worker.doIt('hmm').then onAccepted, onRejected
+    worker
+
+  generateTeamSpellMap: (spellObject) ->
+    teamSpellMap = {}
+    for spellName, spell of spellObject
+      teamName = spell.team
+      teamSpellMap[teamName] ?= []
+
+      spellNameElements = spellName.split '/'
+      thangName = spellNameElements[0]
+      spellName = spellNameElements[1]
+
+      teamSpellMap[teamName].push thangName if thangName not in teamSpellMap[teamName]
+
+    return teamSpellMap
+
+  createSpells: (programmableThangs, world) ->
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
     @thangSpells ?= {}
     for thang in programmableThangs
-      world = thang.world
       continue if @thangSpells[thang.id]?
       @thangSpells[thang.id] = []
       for methodName, method of thang.programmableMethods
@@ -90,10 +128,17 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: @getQueryVariable("skip_flow") is "true", skipProtectAPI: @getQueryVariable("skip_protect_api") is "true"
+          skipProtectAPI = @getQueryVariable("skip_protect_api") is "true" or @options.levelID isnt 'brawlwood'
+          skipProtectAPI = true  # gah, it's so slow :( and somehow still affects simulation
+          skipFlow = @getQueryVariable("skip_flow") is "true" or @options.levelID is 'brawlwood'
+          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI, worker: @worker
     for thangID, spellKeys of @thangSpells
-      thang = world.getThangByID(thangID)
-      @spells[spellKey].addThang thang for spellKey in spellKeys
+      thang = world.getThangByID thangID
+      if thang
+        @spells[spellKey].addThang thang for spellKey in spellKeys
+      else
+        delete @thangSpells[thangID]
+        spell.removeThangID thangID for spell in @spells
     null
 
   onSpellLoaded: (e) ->
@@ -107,13 +152,26 @@ module.exports = class TomeView extends View
     @cast()
 
   cast: ->
+    if @options.levelID is 'brawlwood'
+      # For performance reasons, only includeFlow on the currently Thang.
+      for spellKey, spell of @spells
+        for thangID, spellThang of spell.thangs
+          hadFlow = Boolean spellThang.aether.options.includeFlow
+          willHaveFlow = spellThang is @spellView?.spellThang
+          spellThang.aether.options.includeFlow = spellThang.aether.originalOptions.includeFlow = willHaveFlow
+          spellThang.aether.transpile spell.source unless hadFlow is willHaveFlow
+          #console.log "set includeFlow to", spellThang.aether.options.includeFlow, "for", thangID, "of", spellKey
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   onToggleSpellList: (e) ->
+    @spellList.rerenderEntries()
     @spellList.$el.toggle()
 
   onSpellViewClick: (e) ->
     @spellList.$el.hide()
+
+  onClick: (e) ->
+    Backbone.Mediator.publish 'focus-editor' unless $(e.target).parents('.popover').length
 
   clearSpellView: ->
     @spellView?.dismiss()
@@ -151,7 +209,7 @@ module.exports = class TomeView extends View
     @spellView?.setThang thang
     @spellTabView?.setThang thang
     if @spellPaletteView?.thang isnt thang
-      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
+      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel
       @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
 
   reloadAllCode: ->
@@ -159,6 +217,7 @@ module.exports = class TomeView extends View
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   destroy: ->
+    spell.destroy() for spellKey, spell of @spells
+    @worker?._close()
+    @worker = null
     super()
-    for spellKey, spell of @spells
-      spell.view.destroy()

@@ -1,17 +1,18 @@
 config = require '../../server_config'
-winston = require 'winston'
+log = require 'winston'
 mail = require '../commons/mail'
 
-module.exports.setupRoutes = (app) ->
+module.exports.setup = (app) ->
   app.post '/contact', (req, res) ->
-    winston.info "Sending mail from #{req.body.email} saying #{req.body.message}"
+    return res.end() unless req.user
+    log.info "Sending mail from #{req.body.email} saying #{req.body.message}"
     if config.isProduction
       options = createMailOptions req.body.email, req.body.message, req.user
       mail.transport.sendMail options, (error, response) ->
         if error
-          winston.error "Error sending mail: #{error.message or error}"
+          log.error "Error sending mail: #{error.message or error}"
         else
-          winston.info "Mail sent successfully. Response: #{response.message}"
+          log.info "Mail sent successfully. Response: #{response.message}"
     return res.end()
 
 createMailOptions = (sender, message, user) ->

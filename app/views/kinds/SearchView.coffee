@@ -23,11 +23,20 @@ module.exports = class ThangTypeHomeView extends View
     'keydown input#search': 'runSearch'
     'click button.new-model-submit': 'makeNewModel'
     'submit form': 'makeNewModel'
+    'shown.bs.modal #new-model-modal': 'focusOnName'
+    'hidden.bs.modal #new-model-modal': 'onModalHidden'
 
   getRenderData: ->
-    c = super()
-    c.modelLabel = @modelLabel
-    c
+    context = super()
+    context.modelLabel = @modelLabel
+    switch @modelLabel
+      when 'Level'
+        context.currentEditor = 'editor.level_title'
+      when 'Thang Type'
+        context.currentEditor = 'editor.thang_title'
+      when 'Article'
+        context.currentEditor = 'editor.article_title'
+    context
 
   constructor: (options) ->
     @runSearch = _.debounce(@runSearch, 500)
@@ -84,13 +93,21 @@ module.exports = class ThangTypeHomeView extends View
     res = model.save()
     return unless res
 
-    modal = @$el.find('.modal')
+    modal = @$el.find('#new-model-modal')
     forms.clearFormAlerts(modal)
     @showLoading(modal.find('.modal-body'))
     res.error =>
       @hideLoading()
       forms.applyErrorsToForm(modal, JSON.parse(res.responseText))
+    that = @
     res.success ->
-      modal.modal('hide')
-      base = document.location.pathname[1..] + '/'
-      app.router.navigate(base + (model.get('slug') or model.id), {trigger:true})
+      that.model = model
+      modal.modal('hide')      
+
+  onModalHidden: ->
+    # Can only redirect after the modal hidden event has triggered
+    base = document.location.pathname[1..] + '/'
+    app.router.navigate(base + (@model.get('slug') or @model.id), {trigger:true})
+
+  focusOnName: ->
+    @$el.find('#name').focus()

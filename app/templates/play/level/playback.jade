@@ -8,14 +8,16 @@ button.btn.btn-xs.btn-inverse#volume-button(title="Adjust volume")
   i.icon-volume-down.icon-white.big
   i.icon-volume-up.icon-white.big
 button.btn.btn-xs.btn-inverse#music-button(title="Toggle Music")
-  | ♫
+  span ♫
 
 .scrubber
-  .progress.hide
+  .progress.secret
     .progress-bar
       .scrubber-handle
   
 .btn-group.dropup#playback-settings
+  button.btn.btn-xs.btn-inverse.toggle-fullscreen(title="Toggle fullscreen")
+    i.icon-fullscreen.icon-white
   button.btn.btn-xs.btn-inverse#zoom-in-button(title="Zoom In (or scroll down)")
     i.icon-zoom-in.icon-white
   button.btn.btn-xs.btn-inverse#zoom-out-button(title="Zoom Out (or scroll up)")
@@ -27,11 +29,11 @@ button.btn.btn-xs.btn-inverse#music-button(title="Toggle Music")
       li(title="Ctrl/Cmd + \\: Toggle debug display").selectable#debug-toggle
         i.icon-globe
         | Debug Mode
-        i.icon-ok.hide
+        i.icon-ok.secret
     li(title="Ctrl/Cmd + G: Toggle grid display").selectable#grid-toggle
       i.icon-th
       span(data-i18n="play_level.grid") Grid
-      i.icon-ok.hide
+      i.icon-ok.secret
     li.selectable#edit-wizard-settings
       i.icon-user
       span(data-i18n="play_level.customize_wizard") Customize Wizard

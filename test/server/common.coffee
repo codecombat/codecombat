@@ -1,6 +1,9 @@
 # import this at the top of every file so we're not juggling connections
 # and common libraries are available
 
+console.log 'IT BEGINS'
+
+
 GLOBAL._ = require('lodash')
 _.str = require('underscore.string')
 _.mixin(_.str.exports())
@@ -10,12 +13,9 @@ path = require('path')
 
 models_path = [
   '../../server/articles/Article'
-  '../../server/campaigns/Campaign'
-  '../../server/campaigns/CampaignStatus'
   '../../server/levels/Level'
   '../../server/levels/components/LevelComponent'
   '../../server/levels/systems/LevelSystem'
-  '../../server/levels/drafts/LevelDraft'
   '../../server/levels/sessions/LevelSession'
   '../../server/levels/thangs/LevelThangType'
   '../../server/users/User'
@@ -74,20 +74,22 @@ unittest.getUser = (email, password, done, force) ->
   return done(unittest.users[email]) if unittest.users[email] and not force
   request = require 'request'
   request.post getURL('/auth/logout'), ->
-    req = request.post(getURL('/db/user'), (err, response, body) ->
-      throw err if err
-      User.findOne({email:email}).exec((err, user) ->
-        if password is '80yqxpb38j'
-          user.set('permissions', [ 'admin' ])
-          user.save (err) ->
+    request.get getURL('/auth/whoami'), ->
+      req = request.post(getURL('/db/user'), (err, response, body) ->
+        throw err if err
+        User.findOne({email:email}).exec((err, user) ->
+          if password is '80yqxpb38j'
+            user.set('permissions', [ 'admin' ])
+            user.save (err) ->
+              wrapUpGetUser(email, user, done)
+          else
             wrapUpGetUser(email, user, done)
-        else
-          wrapUpGetUser(email, user, done)
+        )
       )
-    )
-    form = req.form()
-    form.append('email', email)
-    form.append('password', password)
+      form = req.form()
+      form.append('email', email)
+      form.append('password', password)
+      
 
 wrapUpGetUser = (email, user, done) ->
   unittest.users[email] = user

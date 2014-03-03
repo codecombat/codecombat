@@ -4,7 +4,7 @@ template = require 'templates/account/settings'
 forms = require('lib/forms')
 User = require('models/User')
 
-WizardSettingsTabView = require './wizard_settings_tab_view'
+WizardSettingsView = require './wizard_settings_view'
 
 module.exports = class SettingsView extends View
   id: 'account-settings-view'
@@ -13,7 +13,6 @@ module.exports = class SettingsView extends View
   events:
     'click #save-button': 'save'
     'change #settings-panes input': 'save'
-    'change input[type="range"]': 'updateWizardColor'
     'click #toggle-all-button': 'toggleEmailSubscriptions'
 
   constructor: (options) ->
@@ -26,11 +25,12 @@ module.exports = class SettingsView extends View
 
   refreshPicturePane: =>
     h = $(@template(@getRenderData()))
-    new_pane = $('#picture-pane', h)
-    old_pane = $('#picture-pane')
-    active = old_pane.hasClass('active')
-    old_pane.replaceWith(new_pane)
-    new_pane.addClass('active') if active
+    newPane = $('#picture-pane', h)
+    oldPane = $('#picture-pane')
+    active = oldPane.hasClass('active')
+    oldPane.replaceWith(newPane)
+    newPane.i18n()
+    newPane.addClass('active') if active
 
   afterRender: ->
     super()
@@ -45,10 +45,9 @@ module.exports = class SettingsView extends View
     )
 
     @chooseTab(location.hash.replace('#',''))
-    @updateWizardColor()
-    wizardSettingsTabView = new WizardSettingsTabView()
-    wizardSettingsTabView.on 'change', @save, @
-    @insertSubView wizardSettingsTabView 
+    WizardSettingsView = new WizardSettingsView()
+    WizardSettingsView.on 'change', @save, @
+    @insertSubView WizardSettingsView
 
   chooseTab: (category) ->
     id = "##{category}-pane"
@@ -70,15 +69,6 @@ module.exports = class SettingsView extends View
     c.subs[sub] = 1 for sub in c.me.get('emailSubscriptions') or ['announcement', 'tester', 'level_creator', 'developer']
     c
 
-  getWizardColor: ->
-    parseInt($('#wizard-color-1', @$el).val()) / 100
-
-  updateWizardColor: =>
-    rgb = hslToRgb(@getWizardColor(), 1.0, 0.6)
-    rgb = (parseInt(val) for val in rgb)
-    newColor = "rgb(#{rgb[0]},#{rgb[1]},#{rgb[2]})"
-    $('.range-color', @$el).css('background-color', newColor)
-
   getSubscriptions: ->
     inputs = $('#email-pane input[type="checkbox"]', @$el)
     inputs = ($(i) for i in inputs)
@@ -98,11 +88,13 @@ module.exports = class SettingsView extends View
     if res?
       forms.applyErrorsToForm(@$el, res)
       return
+      
+    return unless me.hasLocalChanges()
 
     res = me.save()
     return unless res
     save = $('#save-button', @$el).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
-      .addClass('btn-info').removeClass('hide').removeClass('btn-danger')
+      .addClass('btn-info').show().removeClass('btn-danger')
 
     res.error ->
       errors = JSON.parse(res.responseText)
@@ -130,7 +122,6 @@ module.exports = class SettingsView extends View
   grabOtherData: ->
     me.set('name', $('#name', @$el).val())
     me.set('email', $('#email', @$el).val())
-    me.set('wizardColor1', @getWizardColor())
     me.set('emailSubscriptions', @getSubscriptions())
 
     adminCheckbox = @$el.find('#admin')

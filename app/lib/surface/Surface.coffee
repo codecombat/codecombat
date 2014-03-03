@@ -8,6 +8,8 @@ CameraBorder = require './CameraBorder'
 Layer = require './Layer'
 Letterbox = require './Letterbox'
 Dimmer = require './Dimmer'
+CastingScreen = require './CastingScreen'
+PlaybackOverScreen = require './PlaybackOverScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
 SpriteBoss = require './SpriteBoss'
@@ -46,6 +48,7 @@ module.exports = Surface = class Surface extends CocoClass
     coords: true
     playJingle: false
     showInvisible: false
+    frameRate: 60  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
 
   subscriptions:
     'level-disable-controls': 'onDisableControls'
@@ -79,16 +82,31 @@ module.exports = Surface = class Surface extends CocoClass
     @initAudio()
 
   destroy: ->
-    super()
     @dead = true
+    @camera?.destroy()
     createjs.Ticker.removeEventListener("tick", @tick)
     createjs.Sound.stop()
     layer.destroy() for layer in @layers
     @spriteBoss.destroy()
     @chooser?.destroy()
     @dimmer?.destroy()
+    @castingScreen?.destroy()
+    @playbackOverScreen?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
+    @stage.removeAllChildren()
+    @stage.removeEventListener 'stagemousemove', @onMouseMove
+    @stage.removeEventListener 'stagemousedown', @onMouseDown
+    @stage.removeAllEventListeners()
+    @stage.enableDOMEvents false
+    @stage.enableMouseOver 0
+    @onFramesScrubbed = null
+    @onMouseMove = null
+    @onMouseDown = null
+    @tick = null
+    @canvas.off 'mousewheel', @onMouseWheel
+    @onMouseWheel = null
+    super()
 
   setWorld: (@world) ->
     @worldLoaded = true
@@ -163,7 +181,7 @@ module.exports = Surface = class Surface extends CocoClass
     container.addChild shape
 
   setProgress: (progress, scrubDuration=500) ->
-    progress = Math.max(Math.min(progress, 0.99), 0.0)
+    progress = Math.max(Math.min(progress, 1), 0.0)
 
     @scrubbing = true
     onTweenEnd = =>
@@ -177,44 +195,45 @@ module.exports = Surface = class Surface extends CocoClass
       createjs.Tween.removeTweens(@)
       @currentFrame = @scrubbingTo
 
-    @scrubbingTo = parseInt(progress * @world.totalFrames)
+    @scrubbingTo = Math.min(Math.floor(progress * @world.totalFrames), @world.totalFrames)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     if scrubDuration
       t = createjs.Tween
         .get(@)
         .to({currentFrame:@scrubbingTo}, scrubDuration, createjs.Ease.sineInOut)
         .call(onTweenEnd)
-      t.addEventListener('change', @playScrubbedSounds)
+      t.addEventListener('change', @onFramesScrubbed)
     else
       @currentFrame = @scrubbingTo
-      @playScrubbedSounds()
+      @onFramesScrubbed()  # For performance, don't play these for instant transitions.
       onTweenEnd()
 
     @updateState true
     @onFrameChanged()
 
-  playScrubbedSounds: (e) =>
-    # gotta play all the sounds, even when scrubbing!
-    rising = @currentFrame > @lastFrame
-    actualCurrentFrame = @currentFrame
-    tempFrame = if rising then Math.ceil(@lastFrame) else Math.floor(@lastFrame)
-    while true  # temporary fix to stop cacophony
-      break if rising and tempFrame > actualCurrentFrame
-      break if (not rising) and tempFrame < actualCurrentFrame
-      @currentFrame = tempFrame
-      frame = @world.getFrame(@getCurrentFrame())
-      frame.restoreState()
-      for thangID, sprite of @spriteBoss.sprites
-        sprite.playSounds false, Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
-      tempFrame += if rising then 1 else -1
-    @currentFrame = actualCurrentFrame
+  onFramesScrubbed: (e) =>
+    if e
+      # Gotta play all the sounds when scrubbing (but not when doing an immediate transition).
+      rising = @currentFrame > @lastFrame
+      actualCurrentFrame = @currentFrame
+      tempFrame = if rising then Math.ceil(@lastFrame) else Math.floor(@lastFrame)
+      while true  # temporary fix to stop cacophony
+        break if rising and tempFrame > actualCurrentFrame
+        break if (not rising) and tempFrame < actualCurrentFrame
+        @currentFrame = tempFrame
+        frame = @world.getFrame(@getCurrentFrame())
+        frame.restoreState()
+        for thangID, sprite of @spriteBoss.sprites
+          sprite.playSounds false, Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
+        tempFrame += if rising then 1 else -1
+      @currentFrame = actualCurrentFrame
 
-    # TODO: are these needed, or perhaps do they duplicate things?
-    @spriteBoss.update()
+    @restoreWorldState()
+    @spriteBoss.update true
     @onFrameChanged()
 
   getCurrentFrame: ->
-    return Math.max(0, Math.min(parseInt(@currentFrame), @world.totalFrames - 1))
+    return Math.max(0, Math.min(Math.floor(@currentFrame), @world.totalFrames - 1))
 
   getProgress: -> @currentFrame / @world.totalFrames
 
@@ -230,7 +249,7 @@ module.exports = Surface = class Surface extends CocoClass
       target = null
     @camera.setBounds e.bounds if e.bounds
     @cameraBorder.updateBounds @camera.bounds
-    @camera.zoomTo target, e.zoom, e.duration
+    @camera.zoomTo target, e.zoom, e.duration  # TODO: SurfaceScriptModule perhaps shouldn't assign e.zoom if not set
 
   setDisabled: (@disabled) ->
     @spriteBoss.disabled = @disabled
@@ -248,14 +267,14 @@ module.exports = Surface = class Surface extends CocoClass
   onSetLetterbox: (e) ->
     @setDisabled e.on
 
-  onSetPlaying: (e) =>
+  onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
     if @playing and @currentFrame >= (@world.totalFrames - 5)
       @currentFrame = 0
     if @fastForwarding and not @playing
       @setProgress @currentFrame / @world.totalFrames
 
-  onSetTime: (e) =>
+  onSetTime: (e) ->
     toFrame = @currentFrame
     if e.time?
       @worldLifespan = @world.totalFrames / @world.frameRate
@@ -282,14 +301,36 @@ module.exports = Surface = class Surface extends CocoClass
       frame: @currentFrame
       world: @world
     )
+
+    if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames
+      @spriteBoss.stop()
+      @playbackOverScreen.show()
+      @ended = true
+      Backbone.Mediator.publish 'surface:playback-ended'
+    else if @currentFrame < @world.totalFrames and @ended
+      @spriteBoss.play()
+      @playbackOverScreen.hide()
+      @ended = false
+      Backbone.Mediator.publish 'surface:playback-restarted'
+
     @lastFrame = @currentFrame
 
   onCastSpells: (event) ->
+    @casting = true
+    @wasPlayingWhenCastingBegan = @playing
+    Backbone.Mediator.publish 'level-set-playing', { playing: false }
+
     createjs.Tween.removeTweens(@surfaceLayer)
     createjs.Tween.get(@surfaceLayer).to({alpha:0.9}, 1000, createjs.Ease.getPowOut(4.0))
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
+    @casting = false
+
+    # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
+    # so only run it after the first world is created.
+    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan } unless event.firstWorld
+
     fastForwardTo = null
     if @playing
       fastForwardTo = Math.min event.world.firstChangedFrame, @currentFrame
@@ -317,6 +358,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage = new createjs.Stage(@canvas[0])
     canvasWidth = parseInt(@canvas.attr('width'), 10)
     canvasHeight = parseInt(@canvas.attr('height'), 10)
+    @camera?.destroy()
     @camera = new Camera canvasWidth, canvasHeight
     @layers.push @surfaceLayer = new Layer name: "Surface", layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @layers.push @surfaceTextLayer = new Layer name: "Surface Text", layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
@@ -325,13 +367,15 @@ module.exports = Surface = class Surface extends CocoClass
     @surfaceLayer.addChild @cameraBorder = new CameraBorder bounds: @camera.bounds
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
     @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
+    @castingScreen ?= new CastingScreen camera: @camera, layer: @screenLayer
+    @playbackOverScreen ?= new PlaybackOverScreen camera: @camera, layer: @screenLayer
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown
-    @hookUpZoomControls()
+    @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
-    console.log "Setting fps", @world.frameRate unless @world.frameRate is 30
-    createjs.Ticker.setFPS @world.frameRate
+    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
+    createjs.Ticker.setFPS @options.frameRate
 
   showLevel: ->
     return if @dead
@@ -346,6 +390,9 @@ module.exports = Surface = class Surface extends CocoClass
     @showGrid() if @options.grid  # TODO: pay attention to world grid setting (which we only know when world simulates)
     createjs.Ticker.addEventListener "tick", @tick
     Backbone.Mediator.publish 'level:started'
+
+  createOpponentWizard: (opponent) ->
+    @spriteBoss.createOpponentWizard opponent
 
   initAudio: ->
     @musicPlayer = new MusicPlayer()
@@ -419,6 +466,7 @@ module.exports = Surface = class Surface extends CocoClass
   # uh
 
   onMouseMove: (e) =>
+    @mouseSurfacePos = {x:e.stageX, y:e.stageY}
     return if @disabled
     Backbone.Mediator.publish 'surface:mouse-moved', x: e.stageX, y: e.stageY
 
@@ -427,12 +475,15 @@ module.exports = Surface = class Surface extends CocoClass
     onBackground = not @stage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-down', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
 
-  hookUpZoomControls: ->
-    @canvas.bind 'mousewheel', (e) =>
-      # https://github.com/brandonaaron/jquery-mousewheel
-      e.preventDefault()
-      return if @disabled
-      Backbone.Mediator.publish 'surface:mouse-scrolled', deltaX: e.deltaX, deltaY: e.deltaY unless @disabled
+  onMouseWheel: (e) =>
+    # https://github.com/brandonaaron/jquery-mousewheel
+    e.preventDefault()
+    return if @disabled
+    event =
+      deltaX: e.deltaX
+      deltaY: e.deltaY
+      surfacePos: @mouseSurfacePos
+    Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
   hookUpChooseControls: ->
     chooserOptions = stage: @stage, surfaceLayer: @surfaceLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
@@ -444,44 +495,59 @@ module.exports = Surface = class Surface extends CocoClass
   tick: (e) =>
     # seems to be a bug where only one object can register with the Ticker...
     oldFrame = @currentFrame
+    oldWorldFrame = Math.floor oldFrame
     while true
       Dropper.tick()
       @trailmaster.tick() if @trailmaster
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
       frameAdvanced = (@playing and @currentFrame < @world.totalFrames) or @totalFramesDrawn < 2
-      ++@currentFrame if frameAdvanced
-      @updateSpriteSounds() if frameAdvanced
+      @currentFrame += @world.frameRate / @options.frameRate if frameAdvanced and @playing
+      newWorldFrame = Math.floor @currentFrame
+      worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
+      if worldFrameAdvanced
+        # Only restore world state when it will correspond to an integer WorldFrame, not interpolated frame.
+        @restoreWorldState()
+        oldWorldFrame = newWorldFrame
       break unless Dropper.drop()
+    if frameAdvanced and not worldFrameAdvanced
+      # We didn't end the above loop on an integer frame, so do the world state update.
+      @restoreWorldState()
 
     # these are skipped for dropped frames
     @updateState @currentFrame isnt oldFrame
-    @drawCurrentFrame()
+    @drawCurrentFrame e
     @onFrameChanged()
-    @updatePaths() if (@totalFramesDrawn % 2) is 0 or createjs.Ticker.getMeasuredFPS() > createjs.Ticker.getFPS() - 5
-    Backbone.Mediator.publish('surface:ticked', {dt: @world.dt})
+    @updatePaths() if (@totalFramesDrawn % 4) is 0 or createjs.Ticker.getMeasuredFPS() > createjs.Ticker.getFPS() - 5
+    Backbone.Mediator.publish('surface:ticked', {dt: 1 / @options.frameRate})
     mib = @stage.mouseInBounds
     if @mouseInBounds isnt mib
       Backbone.Mediator.publish('surface:mouse-' + (if mib then "over" else "out"), {})
       @mouseInBounds = mib
 
-  updateSpriteSounds: ->
+  restoreWorldState: ->
     @world.getFrame(@getCurrentFrame()).restoreState()
+    current = Math.max(0, Math.min(@currentFrame, @world.totalFrames - 1))
+    if current - Math.floor(current) > 0.01
+      next = Math.ceil current
+      ratio = current % 1
+      @world.frames[next].restorePartialState ratio if next > 1
     @spriteBoss.updateSounds()
 
   updateState: (frameChanged) ->
-    # world state must have been restored in @updateSpriteSounds
+    # world state must have been restored in @restoreWorldState
     @camera.updateZoom()
-    @spriteBoss.update frameChanged
+    @spriteBoss.update frameChanged unless @casting
     @dimmer?.setSprites @spriteBoss.sprites
 
-  drawCurrentFrame: ->
+  drawCurrentFrame: (e) ->
     ++@totalFramesDrawn
-    @stage.update()
+    @stage.update e
 
   # paths - TODO: move to SpriteBoss? but only update on frame drawing instead of on every frame update?
 
   updatePaths: ->
     return unless @options.paths
+    return if @casting
     @hidePaths()
     selectedThang = @spriteBoss.selectedSprite?.thang
     return if @world.showPaths is 'never'

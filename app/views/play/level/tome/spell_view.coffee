@@ -28,6 +28,7 @@ module.exports = class SpellView extends View
     'modal-closed': 'focus'
     'focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
+    'spell-beautify': 'onSpellBeautify'
 
   events:
     'mouseout': 'onMouseOut'
@@ -35,7 +36,7 @@ module.exports = class SpellView extends View
   constructor: (options) ->
     super options
     @session = options.session
-    @session.on 'change:multiplayer', @onMultiplayerChanged
+    @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @spell = options.spell
     @problems = {}
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
@@ -46,7 +47,7 @@ module.exports = class SpellView extends View
     @createACE()
     @createACEShortcuts()
     @fillACE()
-    if @session.get 'multiplayer'
+    if @session.get('multiplayer')
       @createFirepad()
     else
       # needs to happen after the code generating this view is complete
@@ -74,57 +75,66 @@ module.exports = class SpellView extends View
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
 
   createACEShortcuts: ->
-    @ace.commands.addCommand
+    @aceCommands = aceCommands = []
+    ace = @ace
+    addCommand = (c) ->
+      ace.commands.addCommand c
+      aceCommands.push c.name
+    addCommand
       name: 'run-code'
       bindKey: {win: 'Shift-Enter|Ctrl-Enter|Ctrl-S', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter|Command-S|Ctrl-S'}
-      exec: (e) => @recompile()
-    @ace.commands.addCommand
+      exec: -> Backbone.Mediator.publish 'tome:manual-cast', {}
+    addCommand
       name: 'toggle-playing'
       bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
       exec: -> Backbone.Mediator.publish 'level-toggle-playing'
-    @ace.commands.addCommand
+    addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
       exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
-    @ace.commands.addCommand
+    addCommand
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
       exec: -> Backbone.Mediator.publish 'level:escape-pressed'
-    @ace.commands.addCommand
+    addCommand
       name: 'toggle-grid'
       bindKey: {win: 'Ctrl-G', mac: 'Command-G|Ctrl-G'}
       exec: -> Backbone.Mediator.publish 'level-toggle-grid'
-    @ace.commands.addCommand
+    addCommand
       name: 'toggle-debug'
       bindKey: {win: 'Ctrl-\\', mac: 'Command-\\|Ctrl-\\'}
       exec: -> Backbone.Mediator.publish 'level-toggle-debug'
-    @ace.commands.addCommand
+    addCommand
       name: 'toggle-pathfinding'
       bindKey: {win: 'Ctrl-O', mac: 'Command-O|Ctrl-O'}
       exec: -> Backbone.Mediator.publish 'level-toggle-pathfinding'
-    @ace.commands.addCommand
+    addCommand
       name: 'level-scrub-forward'
       bindKey: {win: 'Ctrl-]', mac: 'Command-]|Ctrl-]'}
       exec: -> Backbone.Mediator.publish 'level-scrub-forward'
-    @ace.commands.addCommand
+    addCommand
       name: 'level-scrub-back'
       bindKey: {win: 'Ctrl-[', mac: 'Command-[|Ctrl-]'}
       exec: -> Backbone.Mediator.publish 'level-scrub-back'
-    @ace.commands.addCommand
+    addCommand
       name: 'spell-step-forward'
       bindKey: {win: 'Ctrl-Alt-]', mac: 'Command-Alt-]|Ctrl-Alt-]'}
       exec: -> Backbone.Mediator.publish 'spell-step-forward'
-    @ace.commands.addCommand
+    addCommand
       name: 'spell-step-backward'
       bindKey: {win: 'Ctrl-Alt-[', mac: 'Command-Alt-[|Ctrl-Alt-]'}
       exec: -> Backbone.Mediator.publish 'spell-step-backward'
+    addCommand
+      name: 'spell-beautify'
+      bindKey: {win: 'Ctrl-Shift-B', mac: 'Command-Shift-B|Ctrl-Shift-B'}
+      exec: -> Backbone.Mediator.publish 'spell-beautify'
 
   fillACE: ->
     @ace.setValue @spell.source
     @ace.clearSelection()
 
-  onMultiplayerChanged: =>
-    if @session.get 'multiplayer'
+  onMultiplayerChanged: ->
+    if @session.get('multiplayer')
       @createFirepad()
     else
       @firepad?.dispose()
@@ -212,7 +222,10 @@ module.exports = class SpellView extends View
     @updateACEText @spell.originalSource
     @recompile cast
 
-  recompile: (cast=true) =>
+  recompileIfNeeded: =>
+    @recompile() if @recompileNeeded
+
+  recompile: (cast=true) ->
     @setRecompileNeeded false
     return if @spell.source is @getSource()
     @spell.transpile @getSource()
@@ -238,7 +251,7 @@ module.exports = class SpellView extends View
     autocastDelay = @autocastDelay ? 3000
     onSignificantChange = [
       _.debounce @setRecompileNeeded, autocastDelay - 100
-      @currentAutocastHandler = _.debounce (=> @recompile() if @recompileNeeded), autocastDelay
+      @currentAutocastHandler = _.debounce @recompileIfNeeded, autocastDelay
     ]
     onAnyChange = [
       _.debounce @updateAether, 500
@@ -248,7 +261,7 @@ module.exports = class SpellView extends View
     ]
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
-      if @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw
+      if not @spellThang or @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw
         callback() for callback in onSignificantChange  # Do these first
       callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
@@ -313,7 +326,10 @@ module.exports = class SpellView extends View
     isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
     @problems = []
     annotations = []
+    seenProblemKeys = {}
     for aetherProblem, problemIndex in aether.getAllProblems()
+      continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
+      seenProblemKeys[key] = true if key
       @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations
@@ -323,7 +339,9 @@ module.exports = class SpellView extends View
     #console.log '  and we could do the visualization', aether.visualization unless _.isEmpty aether.visualization
     # Could use the user-code-problem style... or we could leave that to other places.
     @ace[if @problems.length then 'setStyle' else 'unsetStyle'] 'user-code-problem'
+    @ace[if isCast then 'setStyle' else 'unsetStyle'] 'spell-cast'
     Backbone.Mediator.publish 'tome:problems-updated', spell: @spell, problems: @problems, isCast: isCast
+    @ace.resize()
 
   # Autocast:
   # Goes immediately if the code is a) changed and b) complete/valid and c) the cursor is at beginning or end of a line
@@ -337,7 +355,7 @@ module.exports = class SpellView extends View
     #@recompileValid = not aether.getAllProblems().length
     valid = not aether.getAllProblems().length
     cursorPosition = @ace.getCursorPosition()
-    currentLine = @aceDoc.$lines[cursorPosition.row].replace(/[ \t]*\/\/[^"']*/g, '').trimRight()  # trim // unless inside "
+    currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(/[ \t]*\/\/[^"']*/g, ''))  # trim // unless inside "
     endOfLine = cursorPosition.column >= currentLine.length  # just typed a semicolon or brace, for example
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     #console.log "finished?", valid, endOfLine, beginningOfLine, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
@@ -377,11 +395,12 @@ module.exports = class SpellView extends View
     @updateAether false, false
 
   onNewWorld: (e) ->
+    @spell.removeThangID thangID for thangID of @spell.thangs when not e.world.getThangByID thangID
     for thangID, spellThang of @spell.thangs
-      aether = e.world.userCodeMap[thangID][@spell.name]
-      #console.log thangID, "got new castAether with raw", aether.raw, "problems", aether.problems
+      thang = e.world.getThangByID(thangID)
+      aether = e.world.userCodeMap[thangID]?[@spell.name]  # Might not be there if this is a new Programmable Thang.
       spellThang.castAether = aether
-      spellThang.aether = @spell.createAether e.world.getThangByID(thangID)
+      spellThang.aether = @spell.createAether thang
       #console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
     @spell.transpile()
     @updateAether false, false
@@ -407,6 +426,7 @@ module.exports = class SpellView extends View
 
   highlightCurrentLine: (flow) =>
     # TODO: move this whole thing into SpellDebugView or somewhere?
+    @highlightComments() unless @destroyed
     flow ?= @spellThang?.castAether?.flow
     return unless flow
     executed = []
@@ -435,11 +455,11 @@ module.exports = class SpellView extends View
       markerRange.end.detach()
       @aceSession.removeMarker markerRange.id
     @markerRanges = []
-    @debugView.setVariableStates {}
     @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
     $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
     if not executed.length or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
       @toolbarView?.toggleFlow false
+      @debugView.setVariableStates {}
       return
     lastExecuted = _.last executed
     @toolbarView?.toggleFlow true
@@ -447,6 +467,7 @@ module.exports = class SpellView extends View
     @toolbarView?.setCallState states[currentCallIndex], statementIndex, currentCallIndex, @spellThang.castAether.metrics
     marked = {}
     lastExecuted = lastExecuted[0 .. @toolbarView.statementIndex] if @toolbarView?.statementIndex?
+    gotVariableStates = false
     for state, i in lastExecuted
       [start, end] = state.range
       clazz = if i is lastExecuted.length - 1 then 'executing' else 'executed'
@@ -456,6 +477,7 @@ module.exports = class SpellView extends View
         markerType = "fullLine"
       else
         @debugView.setVariableStates state.variables
+        gotVariableStates = true
         markerType = "text"
       markerRange = new Range start.row, start.col, end.row, end.col
       markerRange.start = @aceDoc.createAnchor markerRange.start
@@ -463,7 +485,17 @@ module.exports = class SpellView extends View
       markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
       @aceSession.addGutterDecoration start.row, clazz if clazz is 'executing'
+    @debugView.setVariableStates {} unless gotVariableStates
     null
+
+  highlightComments: ->
+    lines = $(@ace.container).find('.ace_text-layer .ace_line_group')
+    session = @aceSession
+    $(@ace.container).find('.ace_gutter-cell').each (index, el) ->
+      line = $(lines[index])
+      session.removeGutterDecoration index, 'comment-line'
+      if line.find('.ace_comment').length
+        session.addGutterDecoration index, 'comment-line'
 
   onAnnotationClick: ->
     alertBox = $("<div class='alert alert-info fade in'>#{msg}</div>")
@@ -494,11 +526,28 @@ module.exports = class SpellView extends View
     filters.revertImage background if @controlsEnabled
     filters.darkenImage background, 0.8 unless @controlsEnabled
 
+  onSpellBeautify: (e) ->
+    return unless @spellThang and (@ace.isFocused() or e.spell is @spell)
+    ugly = @getSource()
+    pretty = @spellThang.aether.beautify ugly
+    @ace.setValue pretty
+
   dismiss: ->
     @recompile() if @spell.hasChangedSignificantly @getSource()
 
   destroy: ->
-    super()
+    $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     @firepad?.dispose()
-    @ace.destroy()
+    @ace?.commands.removeCommand command for command in @aceCommands
+    @ace?.destroy()
+    @ace = null
+    @aceDoc?.off 'change', @onCodeChangeMetaHandler
+    @aceDoc = null
+    @aceSession?.selection.off 'changeCursor', @onCursorActivity
+    @aceSession = null
     @debugView?.destroy()
+    @spell = null
+    @session.off 'change:multiplayer', @onMultiplayerChanged, @
+    for fat in ['notifySpellChanged', 'notifyEditingEnded', 'notifyEditingBegan', 'onFirepadLoaded', 'onLoaded', 'toggleBackground', 'setRecompileNeeded', 'onCursorActivity', 'highlightCurrentLine', 'updateAether', 'onCodeChangeMetaHandler', 'recompileIfNeeded', 'currentAutocastHandler']
+      @[fat] = null
+    super()

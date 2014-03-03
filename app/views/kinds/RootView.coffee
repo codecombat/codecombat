@@ -15,18 +15,15 @@ filterKeyboardEvents = (allowedEvents, func) ->
 module.exports = class RootView extends CocoView
   events:
     "click #logout-button": "logoutAccount"
-    'change .language-dropdown': 'showDiplomatSuggestionModal'
-
-  afterRender: ->
-    super()
-    @buildLanguages()
+    'change .language-dropdown': 'onLanguageChanged'
+    'click .toggle-fullscreen': 'toggleFullscreen'
 
   logoutAccount: ->
     logoutUser($('#login-email').val())
 
   showWizardSettingsModal: ->
-    WizardSettingsView = require('views/modal/wizard_settings_modal')
-    subview = new WizardSettingsView {}
+    WizardSettingsModal = require('views/modal/wizard_settings_modal')
+    subview = new WizardSettingsModal {}
     @openModalView subview
 
   showLoading: ($el) ->
@@ -40,11 +37,15 @@ module.exports = class RootView extends CocoView
     hash = location.hash
     location.hash = ''
     location.hash = hash
+    @buildLanguages()
 
     # TODO: automate tabs to put in hashes and navigate to them here
 
   buildLanguages: ->
     $select = @$el.find(".language-dropdown").empty()
+    if $select.hasClass("fancified")
+      $select.parent().find('.options,.trigger').remove()
+      $select.unwrap().removeClass("fancified")
     preferred = me.lang()
     codes = _.keys(locale)
     genericCodes = _.filter codes, (code) ->
@@ -55,11 +56,12 @@ module.exports = class RootView extends CocoView
         $("<option></option>").val(code).text(localeInfo.nativeDescription))
     $select.val(preferred).fancySelect()
 
-  showDiplomatSuggestionModal: ->
+  onLanguageChanged: ->
     newLang = $(".language-dropdown").val()
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
     @render()
+    @buildLanguages()
     unless newLang.split('-')[0] is "en"
       @openModalView(application.router.getView("modal/diplomat_suggestion", "_modal"))
 
@@ -72,3 +74,28 @@ module.exports = class RootView extends CocoView
       console.warn "Error saving language:", errors
     res.success (model, response, options) ->
       #console.log "Saved language:", newLang
+
+  toggleFullscreen: (e) ->
+    # https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode?redirectlocale=en-US&redirectslug=Web/Guide/DOM/Using_full_screen_mode
+    # Whoa, even cooler: https://developer.mozilla.org/en-US/docs/WebAPI/Pointer_Lock
+    full = document.fullscreenElement or
+           document.mozFullScreenElement or
+           document.mozFullscreenElement or
+           document.webkitFullscreenElement or
+           document.msFullscreenElement
+    d = document.documentElement
+    if not full
+      req = d.requestFullScreen or
+            d.mozRequestFullScreen or
+            d.mozRequestFullscreen or
+            d.msRequestFullscreen or
+            (if d.webkitRequestFullscreen then -> d.webkitRequestFullscreen Element.ALLOW_KEYBOARD_INPUT else null)
+      req?.call d
+    else
+      nah = document.exitFullscreen or
+            document.mozCancelFullScreen or
+            document.mozCancelFullscreen or
+            document.msExitFullscreen or
+            document.webkitExitFullscreen
+      nah?.call document
+    return

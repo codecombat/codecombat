@@ -7,7 +7,7 @@ class LevelSessionHandler extends Handler
   modelClass: LevelSession
   editableProperties: ['multiplayer', 'players', 'code', 'completed', 'state',
                        'levelName', 'creatorName', 'levelID', 'screenshot',
-                       'chat']
+                       'chat', 'teamSpells','submitted']
 
   getByRelationship: (req, res, args...) ->
     return @sendNotFoundError(res) unless args.length is 2 and args[1] is 'active'
@@ -18,5 +18,9 @@ class LevelSessionHandler extends Handler
       return @sendDatabaseError(res, err) if err
       documents = (@formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
+
+  hasAccessToDocument: (req, document, method=null) ->
+    return true if req.method is 'GET' and document.get('totalScore')
+    super(arguments...)
 
 module.exports = new LevelSessionHandler()

@@ -29,6 +29,7 @@ module.exports = class ThangTypeEditView extends View
     'change #real-upload-button': 'animationFileChosen'
     'change #animations-select': 'showAnimation'
     'click #marker-button': 'toggleDots'
+    'click #end-button': 'endAnimation'
 
   subscriptions:
     'save-new-version': 'saveNewThangType'
@@ -52,7 +53,7 @@ module.exports = class ThangTypeEditView extends View
     @files.fetch()
     @render()
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.thangType = @thangType
     context.animations = @getAnimationNames()
@@ -97,6 +98,7 @@ module.exports = class ThangTypeEditView extends View
     @stage = new createjs.Stage(canvas[0])
     canvasWidth = parseInt(canvas.attr('width'), 10)
     canvasHeight = parseInt(canvas.attr('height'), 10)
+    @camera?.destroy()
     @camera = new Camera canvasWidth, canvasHeight
 
     @torsoDot = @makeDot('blue')
@@ -128,6 +130,9 @@ module.exports = class ThangTypeEditView extends View
     @aboveHeadDot.x = CENTER.x + aboveHead.x * @scale
     @aboveHeadDot.y = CENTER.y + aboveHead.y * @scale
     @stage.addChild(@groundDot, @torsoDot, @mouthDot, @aboveHeadDot)
+
+  endAnimation: ->
+    @currentSprite?.queueAction('idle')
 
   updateGrid: ->
     grid = new createjs.Container()
@@ -371,3 +376,7 @@ module.exports = class ThangTypeEditView extends View
     @grid.alpha = 1.0
     @showAnimation()
     @showingSelectedNode = false
+
+  destroy: ->
+    @camera?.destroy()
+    super()

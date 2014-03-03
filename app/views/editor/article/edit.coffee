@@ -35,6 +35,7 @@ module.exports = class ArticleEditView extends View
     data = $.extend(true, {}, @article.attributes)
     options =
       data: data
+      filePath: "db/thang.type/#{@article.get('original')}"
       schema: Article.schema.attributes
       callbacks:
         change: @pushChangesToPreview
@@ -52,13 +53,13 @@ module.exports = class ArticleEditView extends View
     b.find('#insert').html(m)
     b.find('#title').text(@treema.data.name)
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.article = @article
     context
 
   openPreview: =>
-    @preview = window.open('http://localhost:3000/editor/article/x/preview', 'preview', 'height=800,width=600')
+    @preview = window.open('/editor/article/x/preview', 'preview', 'height=800,width=600')
     @preview.focus() if window.focus
     @preview.onload = => @pushChangesToPreview()
     return false

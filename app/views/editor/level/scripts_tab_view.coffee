@@ -81,9 +81,7 @@ module.exports = class ScriptsTabView extends View
     @selectedScriptPath = newPath
 
   getThangIDs: ->
-    ids = (t.id for t in @level.get('thangs') when t.id isnt 'Interface')
-    ids = ['My Wizard', 'Captain Anya'].concat(ids)
-    ids
+    (t.id for t in @level.get('thangs') when t.id isnt 'Interface')
 
   onScriptChanged: =>
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)

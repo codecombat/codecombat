@@ -69,7 +69,7 @@ module.exports = class Layer extends createjs.Container
       bz = if b.z then b.z else 1000
       if az == bz
         return 0 unless a.sprite?.thang?.pos and b.sprite?.thang?.pos
-        return b.sprite.thang.pos.y - a.sprite.thang.pos.y
+        return (b.sprite.thang.pos.y - a.sprite.thang.pos.y) or (b.sprite.thang.pos.x - a.sprite.thang.pos.x) 
       return az - bz
 
   onZoomUpdated: (e) ->

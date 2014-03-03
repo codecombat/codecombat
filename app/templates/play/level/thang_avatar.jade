@@ -1,6 +1,7 @@
 .thang-avatar-wrapper(class="team-" + (thang.team || "neutral"))
   //canvas(width=100, height=100, title=thang.id + " - " + thang.team)
-  img.img-responsive(src=avatarURL, title=thang.id + " - " + thang.team)
+  - var title = thang.id + " - " + thang.team + (thang.type ? ' - type: "' + thang.type + '"' : '')
+  img.img-responsive(src=avatarURL, title=title)
   .badge.problems
   .badge.shared-thangs
 if includeName

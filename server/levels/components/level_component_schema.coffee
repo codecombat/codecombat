@@ -9,7 +9,8 @@ class AttacksSelf extends Component
 """
 systems = [
   'action', 'ai', 'alliance', 'collision', 'combat', 'display', 'event', 'existence', 'hearing'
-  'inventory', 'movement', 'programming', 'targeting', 'ui', 'vision', 'misc', 'physics', 'effect'
+  'inventory', 'movement', 'programming', 'targeting', 'ui', 'vision', 'misc', 'physics', 'effect',
+  'magic'
 ]
 
 PropertyDocumentationSchema = c.object {
@@ -19,14 +20,25 @@ PropertyDocumentationSchema = c.object {
   "default":
     name: "foo"
     type: "object"
-    description: "This Component provides a 'foo' property to satisfy all one's foobar needs. Use it wisely."
+    description: 'The `foo` property can satisfy all the #{spriteName}\'s foobar needs. Use it wisely.'
   required: ['name', 'type', 'description']
 },
-  name: {type: 'string', pattern: c.identifierPattern, title: "Name", description: "Name of the property."}
+  name: {type: 'string', title: "Name", description: "Name of the property."}
   # not actual JS types, just whatever they describe...
   type: c.shortString(title: "Type", description: "Intended type of the property.")
-  description: {type: 'string', description: "Description of the property.", maxLength: 1000}
+  description: {title: "Description", type: 'string', description: "Description of the property.", format: 'markdown', maxLength: 1000}
   args: c.array {title: "Arguments", description: "If this property has type 'function', then provide documentation for any function arguments."}, c.FunctionArgumentSchema
+  owner: {title: "Owner", type: 'string', description: 'Owner of the property, like "this" or "Math".'}
+  example: {title: "Example", type: 'string', description: 'An optional example code block.', format: 'javascript'}
+  returns: c.object {
+    title: "Return Value"
+    description: 'Optional documentation of any return value.'
+    required: ['type']
+    default: {type: 'null'}
+  },
+    type: c.shortString(title: "Type", description: "Type of the return value")
+    example: c.shortString(title: "Example", description: "Example return value")
+    description: {title: "Description", type: 'string', description: "Description of the return value.", maxLength: 1000}
 
 DependencySchema = c.object {
   title: "Component Dependency"

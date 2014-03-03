@@ -1,18 +1,18 @@
-passport = require('passport')
-winston = require('winston')
+authentication = require('passport')
 LocalStrategy = require('passport-local').Strategy
 User = require('../users/User')
 UserHandler = require('../users/user_handler')
 config = require '../../server_config'
 errors = require '../commons/errors'
 mail = require '../commons/mail'
+languages = require '../routes/languages'
 
-module.exports.setupRoutes = (app) ->
-  passport.serializeUser((user, done) -> done(null, user._id))
-  passport.deserializeUser((id, done) ->
+module.exports.setup = (app) ->
+  authentication.serializeUser((user, done) -> done(null, user._id))
+  authentication.deserializeUser((id, done) ->
     User.findById(id, (err, user) -> done(err, user)))
 
-  passport.use(new LocalStrategy(
+  authentication.use(new LocalStrategy(
     (username, password, done) ->
       User.findOne({emailLower:username.toLowerCase()}).exec((err, user) ->
         return done(err) if err
@@ -28,9 +28,32 @@ module.exports.setupRoutes = (app) ->
         return done(null, user)
       )
   ))
-
+  app.post '/auth/spy', (req, res, next) ->
+    if req?.user?.isAdmin()
+      
+      username = req.body.usernameLower
+      emailLower = req.body.emailLower
+      if emailLower
+        query = {"emailLower":emailLower}
+      else if username
+        query = {"nameLower":username}
+      else
+        return errors.badInput res, "You need to supply one of emailLower or username"
+        
+      User.findOne query, (err, user) ->
+        if err? then return errors.serverError res, "There was an error finding the specified user"
+        
+        unless user then return errors.badInput res, "The specified user couldn't be found"
+          
+        req.logIn user, (err) ->
+          if err? then return errors.serverError res, "There was an error logging in with the specified"
+          res.send(UserHandler.formatEntity(req, user))
+          return res.end()
+    else
+      return errors.unauthorized res, "You must be an admin to enter espionage mode"
+      
   app.post('/auth/login', (req, res, next) ->
-    passport.authenticate('local', (err, user, info) ->
+    authentication.authenticate('local', (err, user, info) ->
       return next(err) if err
       if not user
         return errors.unauthorized(res, [{message:info.message, property:info.property}])
@@ -44,10 +67,36 @@ module.exports.setupRoutes = (app) ->
   )
 
   app.get('/auth/whoami', (req, res) ->
-    res.setHeader('Content-Type', 'text/json');
+    if req.user
+      sendSelf(req, res)
+    else
+      user = new User({anonymous:true})
+      user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
+      user.set 'preferredLanguage', languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+      makeNext = (req, res) -> -> sendSelf(req, res)
+      next = makeNext(req, res)
+      loginUser(req, res, user, false, next)
+  )
+
+  sendSelf = (req, res) ->
+    res.setHeader('Content-Type', 'text/json')
     res.send(UserHandler.formatEntity(req, req.user))
     res.end()
-  )
+
+  loginUser = (req, res, user, send=true, next=null) ->
+    user.save((err) ->
+      if err
+        return @sendDatabaseError(res, err)
+  
+      req.logIn(user, (err) ->
+        if err
+          return @sendDatabaseError(res, err)
+  
+        if send
+          return @sendSuccess(res, user)
+        next() if next
+      )
+    )
 
   app.post('/auth/logout', (req, res) ->
     req.logout()

@@ -30,6 +30,7 @@ GoalSchema = c.object {title: "Goal", description: "A goal that the player can a
   worldEndsAfter: {title: 'World Ends After', description: "When included, ends the world this many seconds after this goal succeeds or fails.", type: 'number', minimum: 0, exclusiveMinimum: true, maximum: 300, default: 3}
   howMany: {title: "How Many", description: "When included, require only this many of the listed goal targets instead of all of them.", type: 'integer', minimum: 1}
   hiddenGoal: {title: "Hidden", description: "Hidden goals don't show up in the goals area for the player until they're failed. (Usually they're obvious, like 'don't die'.)", 'type': 'boolean', default: false}
+  team: c.shortString(title: 'Team', description: 'Name of the team this goal is for, if it is not for all of the playable teams.')
   killThangs: c.array {title: "Kill Thangs", description: "A list of Thang IDs the player should kill, or team names.", uniqueItems: true, minItems: 1, "default": ["ogres"]}, thang
   saveThangs: c.array {title: "Save Thangs", description: "A list of Thang IDs the player should save, or team names", uniqueItems: true, minItems: 1, "default": ["humans"]}, thang
   getToLocations: c.object {title: "Get To Locations", description: "TODO: explain", required: ["who", "targets"]},
@@ -144,9 +145,11 @@ ScriptSchema = c.object {
   id: c.shortString(title: "ID", description: "A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.")  # uniqueness?
   channel: c.shortString(title: "Event", format: 'event-channel', description: 'Event channel this script might trigger for, like "world:won".')
   eventPrereqs: c.array {title: "Event Checks", description: "Logical checks on the event for this script to trigger.", format:'event-prereqs'}, EventPrereqSchema
-  repeats: {title: "Repeats", description: "Whether this script can trigger more than once during a level.", type: 'boolean', "default": false}
+  repeats: {title: "Repeats", description: "Whether this script can trigger more than once during a level.", enum: [true, false, 'session'], "default": false}
   scriptPrereqs: c.array {title: "Happens After", description: "Scripts that need to fire first."},
-    c.shortString(title: "ID", description: "A unique ID of a script that must have triggered before the parent script can trigger.")
+    c.shortString(title: "ID", description: "A unique ID of a script.")
+  notAfter: c.array {title: "Not After", description: "Do not run this script if any of these scripts have run."},
+    c.shortString(title: "ID", description: "A unique ID of a script.")
   noteChain: c.array {title: "Actions", description: "A list of things that happen when this script triggers."}, NoteGroupSchema
 
 LevelThangSchema = c.object {
@@ -209,13 +212,20 @@ _.extend LevelSchema.properties,
     specificArticles: c.array {title: "Specific Articles", description: "Specific documentation articles that live only in this level.", uniqueItems: true, "default": []}, SpecificArticleSchema
     generalArticles: c.array {title: "General Articles", description: "General documentation articles that can be linked from multiple levels.", uniqueItems: true, "default": []}, GeneralArticleSchema
   background: c.objectId({format: 'hidden'})
-  nextLevel: c.objectId(links: [{rel: "extra", href: "/db/level/{($)}"}, {rel:'db', href: "/db/level/{(original)}/version/{(majorVersion)}"}], format: 'latest-version-reference', title: "Next Level", description: "Reference to the next level players will player after beating this one.")
+  nextLevel: {
+    type:'object',
+    links: [{rel: "extra", href: "/db/level/{($)}"}, {rel:'db', href: "/db/level/{(original)}/version/{(majorVersion)}"}],
+    format: 'latest-version-reference',
+    title: "Next Level",
+    description: "Reference to the next level players will player after beating this one."
+  }
   scripts: c.array {title: "Scripts", description: "An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.", "default": []}, ScriptSchema
   thangs: c.array {title: "Thangs", description: "An array of Thangs that make up the level.", "default": []}, LevelThangSchema
   systems: c.array {title: "Systems", description: "Levels are configured by changing the Systems attached to them.", uniqueItems: true, default: []}, LevelSystemSchema  # TODO: uniqueness should be based on "original", not whole thing
   victory: c.object {title: "Victory Screen", default: {}, properties: {'body': {type: 'string', format: 'markdown', title: 'Body Text', description: 'Inserted into the Victory Modal once this level is complete. Tell the player they did a good job and what they accomplished!'}, i18n: {type: "object", format: 'i18n', props: ['body'], description: "Help translate this victory message"}}}
   i18n: {type: "object", format: 'i18n', props: ['name', 'description'], description: "Help translate this level"}
   icon: { type: 'string', format: 'image-file', title: 'Icon' }
+  goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
 
 
 c.extendBasicProperties LevelSchema, 'level'

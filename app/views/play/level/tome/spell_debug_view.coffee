@@ -21,6 +21,10 @@ module.exports = class DebugView extends View
     @ace = options.ace
     @thang = options.thang
     @variableStates = {}
+    @globals = {Math: Math, _: _}  # ... add more as documented
+    for className, klass of serializedClasses
+      @globals[className] = klass
+    @onMouseMove = _.throttle @onMouseMove, 25
 
   afterRender: ->
     super()
@@ -30,10 +34,11 @@ module.exports = class DebugView extends View
     @update()
 
   onMouseMove: (e) =>
+    return if @destroyed
     pos = e.getDocumentPosition()
     endOfDoc = pos.row is @ace.getSession().getDocument().getLength() - 1
     it = new TokenIterator e.editor.session, pos.row, pos.column
-    isIdentifier = (t) -> t and (t.type is 'identifier' or t.value is 'this')
+    isIdentifier = (t) => t and (t.type is 'identifier' or t.value is 'this' or @globals[t.value])
     while it.getCurrentTokenRow() is pos.row and not isIdentifier(token = it.getCurrentToken())
       it.stepBackward()
       break unless token
@@ -52,15 +57,17 @@ module.exports = class DebugView extends View
         token = prev
         start = it.getCurrentTokenColumn()
         chain.unshift token.value
-    if token and (token.value of @variableStates or token.value is "this")
+    if token and (token.value of @variableStates or token.value is "this" or @globals[token.value])
       @variableChain = chain
-      @pos = {left: e.domEvent.offsetX + 50, top: e.domEvent.offsetY + 50}
+      offsetX = e.domEvent.offsetX ? e.clientX - $(e.domEvent.target).offset().left
+      offsetY = e.domEvent.offsetY ? e.clientY - $(e.domEvent.target).offset().top
+      @pos = {left: offsetX + 50, top: offsetY + 50}
       @markerRange = new Range pos.row, start, pos.row, end
     else
       @variableChain = @markerRange = null
     @update()
 
-  onMouseOut: (e) =>
+  onMouseOut: (e) ->
     @variableChain = @markerRange = null
     @update()
 
@@ -74,7 +81,20 @@ module.exports = class DebugView extends View
       @$el.show().css(@pos)
     else
       @$el.hide()
+    if @variableChain?.length is 2
+      clearTimeout @hoveredPropertyTimeout if @hoveredPropertyTimeout
+      @hoveredPropertyTimeout = _.delay @notifyPropertyHovered, 500
+    else
+      @notifyPropertyHovered()
     @updateMarker()
+
+  notifyPropertyHovered: =>
+    clearTimeout @hoveredPropertyTimeout if @hoveredPropertyTimeout
+    @hoveredPropertyTimeout = null
+    oldHoveredProperty = @hoveredProperty
+    @hoveredProperty = if @variableChain?.length is 2 then owner: @variableChain[0], property: @variableChain[1] else {}
+    unless _.isEqual oldHoveredProperty, @hoveredProperty
+      Backbone.Mediator.publish 'tome:spell-debug-property-hovered', @hoveredProperty
 
   updateMarker: ->
     if @marker
@@ -90,7 +110,7 @@ module.exports = class DebugView extends View
     return "<this #{value.id}>" if value is @thang and depth
     if depth is 2
       if value.constructor?.className is "Thang"
-        value = "<#{value.spriteName} - #{value.id}, #{if value.pos then value.pos.toString() else 'non-physical'}>"
+        value = "<#{value.type or value.spriteName} - #{value.id}, #{if value.pos then value.pos.toString() else 'non-physical'}>"
       else
         value = value.toString()
       return value
@@ -122,8 +142,11 @@ module.exports = class DebugView extends View
     for prop, i in chain
       if prop is "this"
         value = @thang
+      else if i is 0
+        value = @variableStates[prop]
+        if typeof value is "undefined" then value = @globals[prop]
       else
-        value = (if i is 0 then @variableStates else value)[prop]
+        value = value[prop]
       keys.push prop
       break unless value
       if theClass = serializedClasses[value.CN]
@@ -136,5 +159,6 @@ module.exports = class DebugView extends View
     key: keys.join("."), value: value
 
   destroy: ->
-    super()
     @ace?.removeEventListener "mousemove", @onMouseMove
+    @onMouseMove = null
+    super()

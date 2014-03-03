@@ -26,7 +26,7 @@
   "dependencies": {
     "jquery": "~2.0.3",
     "lodash": "~2.4.1",
-    "backbone": "~1.1.0",
+    "backbone": "1.1.0",
     "jquery-mousewheel": "~3.1.9",
     "i18next": "~1.7.1",
     "firepad": "~0.1.2",
@@ -34,7 +34,8 @@
     "moment": "~2.5.0",
     "aether": "~0.1.2",
     "underscore.string": "~2.3.3",
-    "firebase": "~1.0.2"
+    "firebase": "~1.0.2",
+    "catiline": "~2.9.3"
   },
   "overrides": {
     "backbone": {

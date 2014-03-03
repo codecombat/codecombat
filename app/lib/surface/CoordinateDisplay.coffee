@@ -12,11 +12,13 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @camera = options.camera
     console.error "CoordinateDisplay needs camera." unless @camera
     @build()
-    @show = _.debounce @show, 250
+    @show = _.debounce @show, 125
     Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions
 
   destroy: ->
     Backbone.Mediator.unsubscribe(channel, @[func], @) for channel, func of @subscriptions
+    @show = null
+    @destroyed = true
 
   build: ->
     @mouseEnabled = @mouseChildren = false
@@ -46,14 +48,14 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @uncache()
 
   show: =>
-    return unless @mouseInBounds and @lastPos
+    return unless @mouseInBounds and @lastPos and not @destroyed
     @label.text = "(#{@lastPos.x}, #{@lastPos.y})"
     [width, height] = [@label.getMeasuredWidth(), @label.getMeasuredHeight()]
     @label.regX = width / 2
     @label.regY = height / 2
     sup = @camera.worldToSurface @lastPos
     @x = sup.x
-    @y = sup.y
+    @y = sup.y - 7
     @addChild @label
     @cache -width / 2, -height / 2, width, height
     Backbone.Mediator.publish 'surface:coordinates-shown', {}
