@@ -37,9 +37,9 @@ module.exports = class ArticleEditView extends View
       data: data
       filePath: "db/thang.type/#{@article.get('original')}"
       schema: Article.schema.attributes
+      readOnly: true unless me.isAdmin() or @article.hasWriteAccess(me)
       callbacks:
         change: @pushChangesToPreview
-    options.readOnly = true unless me.isAdmin()
     @treema = @$el.find('#article-treema').treema(options)
 
     @treema.build()
