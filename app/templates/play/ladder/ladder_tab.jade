@@ -17,7 +17,5 @@ div#columns.row
             td.score-cell= session.get('totalScore').toFixed(2)
             td.name-col-cell= session.get('creatorName') || "Anonymous"
             td
-              if(!myRow)
-                a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}") Battle as #{team.otherTeam}!
-              else
-                a(href="/play/ladder/#{levelID}/team/#{team.id}") View your #{team.id} matches.
+              a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}")
+                span Battle as #{team.otherTeam}!

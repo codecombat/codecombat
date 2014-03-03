@@ -114,11 +114,19 @@ UserHandler = class UserHandler extends Handler
     ids = ids.split(',') if _.isString ids
     ids = _.uniq ids
     
+    # TODO: Extend and repurpose this handler to return other public info about a user more flexibly,
+    #   say by a query parameter that lists public properties to return.
+    returnWizard = req.query.wizard or req.body.wizard
+    query = if returnWizard then {name:1, wizard:1} else {name:1}
+    
     makeFunc = (id) ->
       (callback) ->
-        User.findById(id, {name:1}).exec (err, document) ->
+        User.findById(id, query).exec (err, document) ->
           return done(err) if err
-          callback(null, document?.get('name') or '')
+          if document and returnWizard
+            callback(null, {name:document.get('name'), wizard:document.get('wizard') or {}})
+          else
+            callback(null, document?.get('name') or '')
           
     funcs = {}
     for id in ids
