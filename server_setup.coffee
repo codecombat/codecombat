@@ -8,7 +8,6 @@ database = require './server/commons/database'
 baseRoute = require './server/routes/base'
 user = require './server/users/user_handler'
 logging = require './server/commons/logging'
-
 config = require './server_config'
 
 ###Middleware setup functions implementation###
@@ -20,9 +19,16 @@ setupRequestTimeoutMiddleware = (app) ->
       self.emit('pass',message)
     next()
 
+productionLogging = (tokens, req, res)->
+  status = res.statusCode
+  color = 31
+  if(status != 200 && status != 304)
+    return '\x1b[90m' + req.method+ ' ' + req.originalUrl + ' '+ '\x1b[' + color + 'm' + res.statusCode+ ' \x1b[90m'+ (new Date - req._startTime)+ 'ms' + '\x1b[0m';
+
 setupExpressMiddleware = (app) ->
   setupRequestTimeoutMiddleware app
-  app.use(express.logger('dev'))
+  express.logger.format('prod', productionLogging)
+  app.use(express.logger('prod'))
   app.use(express.static(path.join(__dirname, 'public')))
   app.use(useragent.express())
 
