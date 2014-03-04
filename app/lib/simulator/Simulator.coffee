@@ -207,7 +207,12 @@ module.exports = class Simulator
   transpileSpell: (thang, spellKey, methodName) ->
     slugifiedThangID = _.string.slugify thang.id
     source = @currentUserCodeMap[[slugifiedThangID,methodName].join '/'] ? ""
-    @spells[spellKey].thangs[thang.id].aether.transpile source
+    aether = @spells[spellKey].thangs[thang.id].aether
+    try
+      aether.transpile source
+    catch e
+      console.log "Couldn't transpile #{spellKey}:\n#{source}\n", e
+      aether.transpile ''
 
   createAether: (methodName, method) ->
     aetherOptions =
