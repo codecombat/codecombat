@@ -1,83 +1,83 @@
 module.exports = nativeDescription: "limba română", englishDescription: "Romanian", translation:
   common:
     loading: "Loading..."
-#    saving: "Saving..."
-#    sending: "Sending..."
-#    cancel: "Cancel"
-#    save: "Save"
-#    delay_1_sec: "1 second"
-#    delay_3_sec: "3 seconds"
-#    delay_5_sec: "5 seconds"
-#    manual: "Manual"
-#    fork: "Fork"
-#    play: "Play"
+    saving: "Se salvează..."
+    sending: "Se trimite..."
+    cancel: "Anulează"
+    save: "Salvează"
+    delay_1_sec: "1 secundă"
+    delay_3_sec: "3 secunde"
+    delay_5_sec: "5 secunde"
+    manual: "Manual"
+    fork: "Fork"
+    play: "Joaca"
 
-#  modal:
-#    close: "Close"
-#    okay: "Okay"
+  modal:
+    close: "Inchide"
+    okay: "Okay"
 
-#  not_found:
-#    page_not_found: "Page not found"
+  not_found:
+    page_not_found: "Pagina nu a fost gasită"
 
-#  nav:
-#    play: "Levels"
-#    editor: "Editor"
-#    blog: "Blog"
-#    forum: "Forum"
-#    admin: "Admin"
-#    home: "Home"
-#    contribute: "Contribute"
-#    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
-#    employers: "Employers"
+  nav:
+    play: "Nivele"
+    editor: "Editor"
+    blog: "Blog"
+    forum: "Forum"
+    admin: "Admin"
+    home: "Acasa"
+    contribute: "Contribuie"
+    legal: "Confidențialitate și termeni"
+    about: "Despre"
+    contact: "Contact"
+    twitter_follow: "Urmărește"
+    employers: "Angajați"
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    new_major_version: "New Major Version"
-#    cla_prefix: "To save changes, first you must agree to our"
-#    cla_url: "CLA"
-#    cla_suffix: "."
-#    cla_agree: "I AGREE"
+  versions:
+    save_version_title: "Salvează noua versiune"
+    new_major_version: "Versiune nouă majoră"
+    cla_prefix: "Pentru a salva modificările mai intâi trebuie sa fiți de acord cu"
+    cla_url: "CLA"
+    cla_suffix: "."
+    cla_agree: "SUNT DE ACORD"
 
-#  login:
-#    sign_up: "Create Account"
-#    log_in: "Log In"
-#    log_out: "Log Out"
-#    recover: "recover account"
+  login:
+    sign_up: "Crează cont"
+    log_in: "Log In"
+    log_out: "Log Out"
+    recover: "recuperează cont"
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+  recover:
+    recover_account_title: "Recuperează Cont"
+    send_password: "Trimite parolă de recuperare"
 
-#  signup:
-#    create_account_title: "Create Account to Save Progress"
-#    description: "It's free. Just need a couple things and you'll be good to go:"
-#    email_announcements: "Receive announcements by email"
-#    coppa: "13+ or non-USA "
-#    coppa_why: "(Why?)"
-#    creating: "Creating Account..."
-#    sign_up: "Sign Up"
-#    log_in: "log in with password"
+  signup:
+    create_account_title: "Crează cont pentru a salva progresul"
+    description: "Este gratis. Doar câte ceva inainte si poți continua:"#contextual translation a bit off, could be better# It's free. Just need a couple things and you'll be good to go:"
+    email_announcements: "Receive announcements by email"
+    coppa: "13+ sau non-USA "
+    coppa_why: "(De ce?)"
+    creating: "Se crează contul..."
+    sign_up: "Înscrie-te"
+    log_in: "loghează-te cu parola"
 
-#  home:
-#    slogan: "Learn to Code JavaScript by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
-#    play: "Play"
+  home:
+    slogan: "Învață sa scri JavaScript jucându-te"# again sounds funny# Learn to Code JavaScript by Playing a Game"
+    no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
+    no_mobile: "CodeCombat nu a fost proiectat pentru dispozitive mobile si s-ar putea sa nu meargâ!"
+    play: "Joacâ"
 
-#  play:
-#    choose_your_level: "Choose Your Level"
-#    adventurer_prefix: "You can jump to any level below, or discuss the levels on "
-#    adventurer_forum: "the Adventurer forum"
-#    adventurer_suffix: "."
-#    campaign_beginner: "Beginner Campaign"
-#    campaign_beginner_description: "... in which you learn the wizardry of programming."
-#    campaign_dev: "Random Harder Levels"
-#    campaign_dev_description: "... in which you learn the interface while doing something a little harder."
-#    campaign_multiplayer: "Multiplayer Arenas"
-#    campaign_multiplayer_description: "... in which you code head-to-head against other players."
+  play:
+    choose_your_level: "Alege nivelul"
+    adventurer_prefix: "Poți să sari la orice nivel de mai jos"#what do you mean by discuss?# You can jump to any level below, or discuss the levels on "
+    adventurer_forum: "forumul Aventurierului"#sonds waaaaaay too funny#the Adventurer forum"
+    adventurer_suffix: "."
+    campaign_beginner: "Campanie pentru Începători"
+    campaign_beginner_description: "... în care se învață tainele programării."
+    campaign_dev: "Nivele aleatoare mai grele"
+    campaign_dev_description: "... în care se învață interfața, cu o dificultate puțin mai mare."
+    campaign_multiplayer: "Arene Multiplayer"
+    campaign_multiplayer_description: "... în care te lupți cap-la-cap contra alti jucători."
 #    campaign_player_created: "Player-Created"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
 #    level_difficulty: "Difficulty: "
