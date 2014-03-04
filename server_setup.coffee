@@ -47,8 +47,7 @@ setupExpressMiddleware = (app) ->
   app.use(express.bodyParser())
   app.use(express.methodOverride())
   app.use(express.cookieSession({secret:'defenestrate'}))
-  if config.isProduction
-    app.use(express.compress())
+  #app.use(express.compress()) if config.isProduction  # just let Cloudflare do it
 
 setupPassportMiddleware = (app) ->
   app.use(authentication.initialize())
