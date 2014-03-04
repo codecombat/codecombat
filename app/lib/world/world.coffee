@@ -38,8 +38,11 @@ module.exports = class World
     if @ended
       frame = frames[frameIndex]
     else if frameIndex
-      frame = frames[frameIndex - 1].getNextFrame()
-      frames.push frame
+      if frames.length > frameIndex - 1
+        frame = frames[frameIndex - 1].getNextFrame()
+        frames.push frame
+      else
+        frame = frames[0]
     else
       frame = frames[0]
     @age = frameIndex * @dt
