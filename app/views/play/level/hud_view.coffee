@@ -135,17 +135,24 @@ module.exports = class HUDView extends View
     props = @$el.find('.thang-props')
     props.find(":not(.thang-name)").remove()
     props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
-    for prop in @thang.hudProperties ? []
+    propNames = @thang.hudProperties ? []
+    nColumns = Math.ceil propNames.length / 5
+    columns = ($('<div class="thang-props-column"></div>').appendTo(props) for i in [0 ... nColumns])
+    for prop, i in propNames
+      continue if prop is 'action'
       pel = @createPropElement prop
       continue unless pel?
       if pel.find('.bar').is('*') and props.find('.bar').is('*')
         props.find('.bar-prop').last().after pel  # Keep bars together
       else
-        props.append pel
+        columns[i % nColumns].append pel
+    null
 
   createActions: ->
     actions = @$el.find('.thang-actions tbody').empty()
-    return unless @thang.world and not _.isEmpty @thang.actions
+    showActions = @thang.world and not _.isEmpty(@thang.actions) and 'action' in @thang.hudProperties ? []
+    @$el.find('.thang-actions').toggleClass 'secret', showActions
+    return unless showActions
     @buildActionTimespans()
     for actionName, action of @thang.actions
       actions.append @createActionElement(actionName)
@@ -240,12 +247,14 @@ module.exports = class HUDView extends View
       return null  # included in the bar
     context =
       prop: prop
-      hasIcon: prop in ["health", "pos", "target", "inventory", "gold"]
+      hasIcon: prop in ["health", "pos", "target", "inventory", "gold", "visualRange", "attackDamage", "attackRange", "maxSpeed"]
       hasBar: prop in ["health"]
     $(prop_template(context))
 
   updatePropElement: (prop, val) ->
     pel = @$el.find '.thang-props *[name=' + prop + ']'
+    if prop in ["maxHealth"]
+      return  # Don't show maxes--they're built into bar labels.
     if prop in ["health"]
       max = @thang["max" + prop.charAt(0).toUpperCase() + prop.slice(1)]
       regen = @thang[prop + "ReplenishRate"]
@@ -254,13 +263,16 @@ module.exports = class HUDView extends View
       labelText = prop + ": " + @formatValue(prop, val) + " / " + @formatValue(prop, max)
       if regen
         labelText += " (+" + @formatValue(prop, regen) + "/s)"
-      pel.attr 'title', labelText
-    else if prop in ["maxHealth"]
-      return
+      pel.find('.bar-prop-value').text(Math.round(max)) if max
     else
       s = @formatValue(prop, val)
+      labelText = "#{prop}: #{s}"
+      if prop is 'attackDamage'
+        cooldown = @thang.actions.attack.cooldown
+        dps = @thang.attackDamage / cooldown
+        labelText += " / #{cooldown.toFixed(2)}s (DPS: #{dps.toFixed(2)})"
       pel.find('.prop-value').text s
-      pel.attr 'title', "#{prop}: #{s}"
+    pel.attr 'title', labelText
     pel
 
   formatValue: (prop, val) ->
@@ -269,6 +281,8 @@ module.exports = class HUDView extends View
       val = null if val?.isZero()
     if prop is "rotation"
       return (val * 180 / Math.PI).toFixed(0) + "˚"
+    if prop.search(/Range$/) isnt -1
+      return val + 'm'
     if typeof val is 'number'
       if Math.round(val) == val or prop is 'gold' then return val.toFixed(0)  # int
       if -10 < val < 10 then return val.toFixed(2)

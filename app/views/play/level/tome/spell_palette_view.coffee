@@ -44,15 +44,17 @@ module.exports = class SpellPaletteView extends View
     allDocs = {}
     for lc in lcs
       for doc in (lc.get('propertyDocumentation') ? [])
-        allDocs[doc.name] ?= []
-        allDocs[doc.name].push doc
+        allDocs['__' + doc.name] ?= []
+        allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'
-    #allDocs[doc.name] = doc for doc in (lc.get('propertyDocumentation') ? []) for lc in lcs
 
     propStorage =
       'this': 'programmableProperties'
       more: 'moreProgrammableProperties'
       Math: 'programmableMathProperties'
+      Array: 'programmableArrayProperties'
+      Object: 'programmableObjectProperties'
+      String: 'programmableStringProperties'
       Vector: 'programmableVectorProperties'
       snippets: 'programmableSnippets'
     count = 0
@@ -66,10 +68,10 @@ module.exports = class SpellPaletteView extends View
     @entries = []
     for owner, props of propGroups
       for prop in props
-        doc = _.find (allDocs[prop] ? []), (doc) ->
+        doc = _.find (allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
-        console.log 'could not find doc for', prop, 'from', allDocs[prop], 'for', owner, 'of', propGroups unless doc
+        console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propGroups unless doc
         doc ?= prop
         @entries.push @addEntry(doc, shortenize, tabbify, owner is 'snippets')
     groupForEntry = (entry) ->

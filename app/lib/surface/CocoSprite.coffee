@@ -475,6 +475,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return null unless sound
     delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.getFPS() else 0
     name = AudioPlayer.nameForSoundReference sound
-    instance = createjs.Sound.play name, "none", delay, 0, 0, volume
+    instance = AudioPlayer.playSound name, volume, delay
 #    console.log @thang?.id, "played sound", name, "with delay", delay, "volume", volume, "and got sound instance", instance
     instance

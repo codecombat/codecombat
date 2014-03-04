@@ -128,8 +128,9 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          skipProtectAPI = true  #@getQueryVariable("skip_protect_api") is "true"
-          skipFlow = @getQueryVariable("skip_flow") is "true" or @options.levelID is 'project-dota'
+          skipProtectAPI = @getQueryVariable("skip_protect_api") is "true" or @options.levelID isnt 'brawlwood'
+          skipProtectAPI = true  # gah, it's so slow :( and somehow still affects simulation
+          skipFlow = @getQueryVariable("skip_flow") is "true" or @options.levelID is 'brawlwood'
           spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI, worker: @worker
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
@@ -151,7 +152,7 @@ module.exports = class TomeView extends View
     @cast()
 
   cast: ->
-    if @options.levelID is 'project-dota'
+    if @options.levelID is 'brawlwood'
       # For performance reasons, only includeFlow on the currently Thang.
       for spellKey, spell of @spells
         for thangID, spellThang of spell.thangs

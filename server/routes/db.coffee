@@ -11,7 +11,7 @@ module.exports.setup = (app) ->
     parts = module.split('/')
     module = parts[0]
     return getSchema(req, res, module) if parts[1] is 'schema'
-    return errors.unauthorized(res, 'Must have an identity to do anything with the db.') unless req.user
+    return errors.unauthorized(res, 'Must have an identity to do anything with the db. Do you have cookies enabled?') unless req.user
 
     try
       moduleName = module.replace '.', '_'

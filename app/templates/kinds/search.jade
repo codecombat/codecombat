@@ -1,10 +1,18 @@
 extends /templates/base
 block content
+  div
+    ol.breadcrumb
+      li
+        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
+      li.active(data-i18n="#{currentEditor}") 
+        | #{currentEditor}
+
   if me.get('anonymous')
     a.btn.btn-primary.open-modal-button(data-toggle="coco-modal", data-target="modal/signup", role="button") Sign Up to Create a New #{modelLabel}
   else
-    a.btn.btn-primary.open-modal-button(href='#new-model-modal', role="button", data-toggle="modal") Create a New #{modelLabel}
-  input#search(placeholder="Search #{modelLabel}s Here")
+    a.btn.btn-primary.open-modal-button(href='#new-model-modal', role="button", data-toggle="modal" data-i18n="#{currentNew}") Create a New Something
+
+  input#search(data-i18n="[placeholder]#{currentSearch}")
   hr
   div.results
     table

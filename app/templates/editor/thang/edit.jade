@@ -1,6 +1,14 @@
 extends /templates/base
 
 block content
+  div
+    ol.breadcrumb
+      li
+        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
+      li
+        a(href="/editor/thang", data-i18n="editor.thang_title") Thang Editor
+      li.active
+        | #{thangType.attributes.name}
 
   img#portrait.img-thumbnail
 

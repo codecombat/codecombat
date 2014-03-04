@@ -155,6 +155,13 @@ module.exports = class PlayView extends View
         description: "Strike at the weak point in an array of enemies. - by Aftermath"
       }
       {
+        name: 'Bubble Sort Bootcamp Battle'
+        difficulty: 3
+        id: 'bubble-sort-bootcamp-battle'
+        image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
+        description: "Write a bubble sort to organize your soldiers. - by Alexandru"
+      }
+      {
         name: 'Enemy Artillery'
         difficulty: 1
         id: 'enemy-artillery'

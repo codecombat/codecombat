@@ -1,19 +1,27 @@
 // TODO: refactor to be like other modals
+
 .modal-dialog
+
   .modal-header
     button(type='button', data-dismiss="modal", aria-hidden="true").close &times;
     h3
       span(data-i18n="play_level.victory_title_prefix")
       span= levelName
       span(data-i18n="play_level.victory_title_suffix") Complete
-  
-  .modal-body!= body
+
+  .modal-body
+    img.victory-banner(src="/images/level/victory.png", alt="")
+    div!= body
   
   .modal-footer
+    if hasNextLevel
+      button.btn.btn-primary.next-level-button(data-dismiss="modal", data-i18n="play_level.victory_play_next_level") Play Next Level
+    else
+      a.btn.btn-primary(href="/", data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
     if me.get('anonymous')
       p.sign-up-poke
         button.btn.btn-success.sign-up-button.btn-large(data-toggle="coco-modal", data-target="modal/signup", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
-        span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
+          span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
       p.clearfix
     else
       div.rating.secret
@@ -23,10 +31,6 @@
         i.icon-star-empty
         i.icon-star-empty
         i.icon-star-empty
-    if hasNextLevel
-      button.btn.btn-primary.next-level-button(data-dismiss="modal", data-i18n="play_level.victory_play_next_level") Play Next Level
-    else
-      a.btn.btn-primary(href="/", data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
     if !me.get('anonymous')
       div.review.secret
         span(data-i18n="play_level.victory_review") Tell us more!

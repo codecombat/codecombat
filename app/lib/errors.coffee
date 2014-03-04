@@ -21,7 +21,7 @@ module.exports.genericFailure = (jqxhr) ->
   if existingForm[0]
     missingErrors = applyErrorsToForm(existingForm, [error])
     for error in missingErrors
-      existingForm.append($('<div class="alert"></div>').text(error.message))
+      existingForm.append($('<div class="alert alert-danger"></div>').text(error.message))
   else
     res = errorModalTemplate(
       status:jqxhr.status

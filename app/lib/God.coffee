@@ -194,8 +194,8 @@ class Angel
     @ids[@lastID]
 
   # https://github.com/codecombat/codecombat/issues/81 -- TODO: we need to wait for worker initialization first
-  infiniteLoopIntervalDuration: 5000  # check this often (must be more than the others added)
-  infiniteLoopTimeoutDuration: 1500  # wait this long when we check
+  infiniteLoopIntervalDuration: 7500  # check this often (must be more than the others added)
+  infiniteLoopTimeoutDuration: 2500  # wait this long when we check
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
   constructor: (@god) ->
     @id = Angel.nextID()
@@ -227,7 +227,7 @@ class Angel
       _.delay ->
         worker.terminate()
         worker.removeEventListener 'message', onWorkerMessage
-      , 1000
+      , 2000
       @worker = null
     @
 
@@ -255,7 +255,7 @@ class Angel
 
   testWorker: =>
     unless @worker.initialized
-      console.warning "Worker", @id, "hadn't even loaded the scripts yet after", @infiniteLoopIntervalDuration, "ms."
+      console.warn "Worker", @id, "hadn't even loaded the scripts yet after", @infiniteLoopIntervalDuration, "ms."
       return
     @worker.postMessage {func: 'reportIn'}
     @condemnTimeout = _.delay @condemnWorker, @infiniteLoopTimeoutDuration

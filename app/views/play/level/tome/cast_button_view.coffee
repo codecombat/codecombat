@@ -35,7 +35,7 @@ module.exports = class CastButtonView extends View
     # TODO: use a User setting instead of localStorage
     delay = localStorage.getItem 'autocastDelay'
     delay ?= 5000
-    if @levelID in ['project-dota', 'brawlwood', 'ladder-tutorial']
+    if @levelID in ['brawlwood', 'brawlwood-tutorial']
       delay = 90019001
     @setAutocastDelay delay
 
@@ -62,6 +62,7 @@ module.exports = class CastButtonView extends View
     @onWorldLoadProgressChanged progress: 0
 
   onWorldLoadProgressChanged: (e) ->
+    return # trying out showing progress on the canvas instead
     overlay = @castButtonGroup.find '.button-progress-overlay'
     overlay.css 'width', e.progress * @castButton.outerWidth() + 1
 

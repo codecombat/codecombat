@@ -24,11 +24,25 @@ module.exports = class ThangTypeHomeView extends View
     'click button.new-model-submit': 'makeNewModel'
     'submit form': 'makeNewModel'
     'shown.bs.modal #new-model-modal': 'focusOnName'
+    'hidden.bs.modal #new-model-modal': 'onModalHidden'
 
   getRenderData: ->
-    c = super()
-    c.modelLabel = @modelLabel
-    c
+    context = super()
+    switch @modelLabel
+      when 'Level'
+        context.currentEditor = 'editor.level_title'
+        context.currentNew = 'editor.new_level_title'
+        context.currentSearch = 'editor.level_search_title'
+      when 'Thang Type'
+        context.currentEditor = 'editor.thang_title'
+        context.currentNew = 'editor.new_thang_title'
+        context.currentSearch = 'editor.thang_search_title'
+      when 'Article'
+        context.currentEditor = 'editor.article_title'
+        context.currentNew = 'editor.new_article_title'
+        context.currentSearch = 'editor.article_search_title'
+    @$el.i18n()
+    context
 
   constructor: (options) ->
     @runSearch = _.debounce(@runSearch, 500)
@@ -69,6 +83,7 @@ module.exports = class ThangTypeHomeView extends View
     documents = @collection.models
     table = $(@tableTemplate(documents:documents))
     @$el.find('table').replaceWith(table)
+    @$el.find('table').i18n()
 
   removeOldSearch: ->
     return unless @collection?
@@ -85,16 +100,21 @@ module.exports = class ThangTypeHomeView extends View
     res = model.save()
     return unless res
 
-    modal = @$el.find('.modal')
+    modal = @$el.find('#new-model-modal')
     forms.clearFormAlerts(modal)
     @showLoading(modal.find('.modal-body'))
     res.error =>
       @hideLoading()
       forms.applyErrorsToForm(modal, JSON.parse(res.responseText))
+    that = @
     res.success ->
-      modal.modal('hide')
-      base = document.location.pathname[1..] + '/'
-      app.router.navigate(base + (model.get('slug') or model.id), {trigger:true})
+      that.model = model
+      modal.modal('hide')      
+
+  onModalHidden: ->
+    # Can only redirect after the modal hidden event has triggered
+    base = document.location.pathname[1..] + '/'
+    app.router.navigate(base + (@model.get('slug') or @model.id), {trigger:true})
 
   focusOnName: ->
     @$el.find('#name').focus()

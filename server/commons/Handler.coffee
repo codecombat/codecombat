@@ -261,7 +261,7 @@ module.exports = class Handler
     tv4 = require('tv4').tv4
     res = tv4.validateMultiple(input, @jsonSchema)
     res
-    
+
   @isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-z0-9]/gi)?.length is 24
 
   getDocumentForIdOrSlug: (idOrSlug, done) ->

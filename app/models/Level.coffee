@@ -117,7 +117,6 @@ module.exports = class Level extends CocoModel
     else if path is '/'
       # We also we need to make sure we grab the Wizard ThangType and the Marks. Hackitrooooid!
       for [type, original] in [
-        ["Wizard", "52a00d55cf1818f2be00000b"]
         ["Highlight", "529f8fdbdacd325127000003"]
         ["Selection", "52aa5f7520fccb0000000002"]
         ["Target", "52b32ad97385ec3d03000001"]
@@ -126,4 +125,5 @@ module.exports = class Level extends CocoModel
         link = "/db/thang_type/#{original}/version"
         model = CocoModel.getOrMakeModelFromLink link, shouldLoadProjection
         models.push model if model
+      models.push ThangType.loadUniversalWizard()
     models

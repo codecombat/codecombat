@@ -43,7 +43,12 @@ init = ->
   module.exports.me = window.me = new User(storedUser)
   me.url = -> '/auth/whoami'
   me.fetch()
+  
+  retry = -> me.fetch() # blindly try again
+  error = -> setTimeout(retry, 1000) # blindly try again
+  me.on 'error', error, @
   me.on 'sync', ->
+    me.off 'error', error, @ if firstTime
     me.url = -> "/db/user/#{me.id}"
     trackFirstArrival() if firstTime
     if me and not me.get('testGroupNumber')?

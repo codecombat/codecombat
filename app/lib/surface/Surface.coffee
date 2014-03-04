@@ -38,7 +38,6 @@ module.exports = Surface = class Surface extends CocoClass
   worldLoaded: false
   scrubbing: false
   debug: false
-  frameRate: 60
 
   defaults:
     wizards: true
@@ -49,6 +48,7 @@ module.exports = Surface = class Surface extends CocoClass
     coords: true
     playJingle: false
     showInvisible: false
+    frameRate: 60  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
 
   subscriptions:
     'level-disable-controls': 'onDisableControls'
@@ -100,7 +100,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.removeAllEventListeners()
     @stage.enableDOMEvents false
     @stage.enableMouseOver 0
-    @playScrubbedSounds = null
+    @onFramesScrubbed = null
     @onMouseMove = null
     @onMouseDown = null
     @tick = null
@@ -202,32 +202,33 @@ module.exports = Surface = class Surface extends CocoClass
         .get(@)
         .to({currentFrame:@scrubbingTo}, scrubDuration, createjs.Ease.sineInOut)
         .call(onTweenEnd)
-      t.addEventListener('change', @playScrubbedSounds)
+      t.addEventListener('change', @onFramesScrubbed)
     else
       @currentFrame = @scrubbingTo
-      @playScrubbedSounds()
+      @onFramesScrubbed()  # For performance, don't play these for instant transitions.
       onTweenEnd()
 
     @updateState true
     @onFrameChanged()
 
-  playScrubbedSounds: (e) =>
-    # gotta play all the sounds, even when scrubbing!
-    rising = @currentFrame > @lastFrame
-    actualCurrentFrame = @currentFrame
-    tempFrame = if rising then Math.ceil(@lastFrame) else Math.floor(@lastFrame)
-    while true  # temporary fix to stop cacophony
-      break if rising and tempFrame > actualCurrentFrame
-      break if (not rising) and tempFrame < actualCurrentFrame
-      @currentFrame = tempFrame
-      frame = @world.getFrame(@getCurrentFrame())
-      frame.restoreState()
-      for thangID, sprite of @spriteBoss.sprites
-        sprite.playSounds false, Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
-      tempFrame += if rising then 1 else -1
-    @currentFrame = actualCurrentFrame
+  onFramesScrubbed: (e) =>
+    if e
+      # Gotta play all the sounds when scrubbing (but not when doing an immediate transition).
+      rising = @currentFrame > @lastFrame
+      actualCurrentFrame = @currentFrame
+      tempFrame = if rising then Math.ceil(@lastFrame) else Math.floor(@lastFrame)
+      while true  # temporary fix to stop cacophony
+        break if rising and tempFrame > actualCurrentFrame
+        break if (not rising) and tempFrame < actualCurrentFrame
+        @currentFrame = tempFrame
+        frame = @world.getFrame(@getCurrentFrame())
+        frame.restoreState()
+        for thangID, sprite of @spriteBoss.sprites
+          sprite.playSounds false, Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
+        tempFrame += if rising then 1 else -1
+      @currentFrame = actualCurrentFrame
 
-    # TODO: are these needed, or perhaps do they duplicate things?
+    @restoreWorldState()
     @spriteBoss.update true
     @onFrameChanged()
 
@@ -325,7 +326,7 @@ module.exports = Surface = class Surface extends CocoClass
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
     @casting = false
-    
+
     # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
     # so only run it after the first world is created.
     Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan } unless event.firstWorld
@@ -373,7 +374,8 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.addEventListener 'stagemousedown', @onMouseDown
     @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
-    createjs.Ticker.setFPS @frameRate
+    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
+    createjs.Ticker.setFPS @options.frameRate
 
   showLevel: ->
     return if @dead
@@ -493,27 +495,36 @@ module.exports = Surface = class Surface extends CocoClass
   tick: (e) =>
     # seems to be a bug where only one object can register with the Ticker...
     oldFrame = @currentFrame
+    oldWorldFrame = Math.floor oldFrame
     while true
       Dropper.tick()
       @trailmaster.tick() if @trailmaster
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
       frameAdvanced = (@playing and @currentFrame < @world.totalFrames) or @totalFramesDrawn < 2
-      @currentFrame += @world.frameRate / @frameRate if frameAdvanced
-      @updateSpriteSounds() if frameAdvanced
+      @currentFrame += @world.frameRate / @options.frameRate if frameAdvanced and @playing
+      newWorldFrame = Math.floor @currentFrame
+      worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
+      if worldFrameAdvanced
+        # Only restore world state when it will correspond to an integer WorldFrame, not interpolated frame.
+        @restoreWorldState()
+        oldWorldFrame = newWorldFrame
       break unless Dropper.drop()
+    if frameAdvanced and not worldFrameAdvanced
+      # We didn't end the above loop on an integer frame, so do the world state update.
+      @restoreWorldState()
 
     # these are skipped for dropped frames
     @updateState @currentFrame isnt oldFrame
     @drawCurrentFrame e
     @onFrameChanged()
     @updatePaths() if (@totalFramesDrawn % 4) is 0 or createjs.Ticker.getMeasuredFPS() > createjs.Ticker.getFPS() - 5
-    Backbone.Mediator.publish('surface:ticked', {dt: 1 / @frameRate})
+    Backbone.Mediator.publish('surface:ticked', {dt: 1 / @options.frameRate})
     mib = @stage.mouseInBounds
     if @mouseInBounds isnt mib
       Backbone.Mediator.publish('surface:mouse-' + (if mib then "over" else "out"), {})
       @mouseInBounds = mib
 
-  updateSpriteSounds: ->
+  restoreWorldState: ->
     @world.getFrame(@getCurrentFrame()).restoreState()
     current = Math.max(0, Math.min(@currentFrame, @world.totalFrames - 1))
     if current - Math.floor(current) > 0.01
@@ -523,7 +534,7 @@ module.exports = Surface = class Surface extends CocoClass
     @spriteBoss.updateSounds()
 
   updateState: (frameChanged) ->
-    # world state must have been restored in @updateSpriteSounds
+    # world state must have been restored in @restoreWorldState
     @camera.updateZoom()
     @spriteBoss.update frameChanged unless @casting
     @dimmer?.setSprites @spriteBoss.sprites
