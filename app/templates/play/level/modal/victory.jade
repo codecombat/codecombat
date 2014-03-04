@@ -2,8 +2,6 @@
 
 .modal-dialog
 
-  img.victory-banner(src="/images/level/victory.png", alt="")
-
   .modal-header
     button(type='button', data-dismiss="modal", aria-hidden="true").close &times;
     h3
@@ -11,7 +9,9 @@
       span= levelName
       span(data-i18n="play_level.victory_title_suffix") Complete
 
-  .modal-body!= body
+  .modal-body
+    img.victory-banner(src="/images/level/victory.png", alt="")
+    div!= body
   
   .modal-footer
     if hasNextLevel

@@ -13,6 +13,7 @@ module.exports.setup = (app) ->
 
 fileGet = (req, res) ->
   path = req.path[6..]
+  path = decodeURI path
   isFolder = false
   try
     objectId = mongoose.Types.ObjectId(path)
