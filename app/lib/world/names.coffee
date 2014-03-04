@@ -58,6 +58,9 @@ module.exports.thangNames = thangNames =
     "Nikita"
     "Alana"
     "Lana"
+    "Joan"
+    "Helga"
+    "Annie"
   ]
   "Peasant": [
     "Yorik"
@@ -112,6 +115,8 @@ module.exports.thangNames = thangNames =
     "Roman"
     "Hunter"
     "Simon"
+    "Robin"
+    "Quinn"
   ]
   "Ogre Munchkin M": [
     "Brack"
@@ -151,13 +156,15 @@ module.exports.thangNames = thangNames =
     "Trung"
     "Axe Ox"
     "Vargutt"
+    "Grumus"
+    "Gug"
   ]
   "Ogre F": [
     "Nareng"
     "Morthrug"
     "Glonc"
     "Marghurk"
-    
+    "Martha"
   ]
   "Ogre Brawler": [
     "Grul'thock"
