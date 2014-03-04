@@ -47,6 +47,8 @@ setupExpressMiddleware = (app) ->
   app.use(express.bodyParser())
   app.use(express.methodOverride())
   app.use(express.cookieSession({secret:'defenestrate'}))
+  if config.isProduction
+    app.use(express.compress())
 
 setupPassportMiddleware = (app) ->
   app.use(authentication.initialize())
@@ -115,3 +117,5 @@ exports.setExpressConfigurationOptions = (app) ->
   app.set('views', __dirname + '/app/views')
   app.set('view engine', 'jade')
   app.set('view options', { layout: false })
+  app.set('env', if config.isProduction then 'production' else 'development')
+  app.set('json spaces', 0)
