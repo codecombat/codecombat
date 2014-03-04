@@ -135,17 +135,17 @@ module.exports = class HUDView extends View
     props = @$el.find('.thang-props')
     props.find(":not(.thang-name)").remove()
     props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
-    column = null
-    for prop in @thang.hudProperties ? []
+    propNames = @thang.hudProperties ? []
+    nColumns = Math.ceil propNames.length / 5
+    columns = ($('<div class="thang-props-column"></div>').appendTo(props) for i in [0 ... nColumns])
+    for prop, i in propNames
       continue if prop is 'action'
       pel = @createPropElement prop
       continue unless pel?
       if pel.find('.bar').is('*') and props.find('.bar').is('*')
         props.find('.bar-prop').last().after pel  # Keep bars together
       else
-        column ?= $('<div class="thang-props-column"></div>').appendTo props
-        column.append pel
-        column = null if column.find('.prop').length is 5
+        columns[i % nColumns].append pel
     null
 
   createActions: ->
@@ -263,6 +263,7 @@ module.exports = class HUDView extends View
       labelText = prop + ": " + @formatValue(prop, val) + " / " + @formatValue(prop, max)
       if regen
         labelText += " (+" + @formatValue(prop, regen) + "/s)"
+      pel.find('.bar-prop-value').text(Math.round(max)) if max
     else
       s = @formatValue(prop, val)
       labelText = "#{prop}: #{s}"
