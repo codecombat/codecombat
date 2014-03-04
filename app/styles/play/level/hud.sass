@@ -95,14 +95,35 @@
         height: 100px
         @include user-select(text)
   
-        .prop
-          img
-            margin-right: 5px
-            width: 16px
-            height: 16px
-  
         .text-prop
           width: 50%
+
+        .prop-label-icon
+          $iconSize: 16px
+          display: inline-block
+          width: $iconSize
+          height: $iconSize
+          margin-right: 5px
+          background: transparent url(/images/level/hud_info_icons.png) no-repeat
+          background-size: auto $iconSize
+          float: left
+
+          &.prop-label-icon-pos
+            background-position-x: -1 * $iconSize
+          &.prop-label-icon-target
+            background-position-x: -2 * $iconSize
+          &.prop-label-icon-inventory
+            background-position-x: -3 * $iconSize
+          &.prop-label-icon-visualRange
+            background-position-x: -4 * $iconSize
+          &.prop-label-icon-attackDamage
+            background-position-x: -5 * $iconSize
+          &.prop-label-icon-attackRange
+            background-position-x: -6 * $iconSize
+          &.prop-label-icon-maxSpeed
+            background-position-x: -7 * $iconSize
+          &.prop-label-icon-gold
+            background-position-x: -8 * $iconSize
   
         .prop-value.bar-prop
           width: 100px
