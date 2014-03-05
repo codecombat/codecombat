@@ -200,6 +200,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     tome_available_spells: "Tilgængelige trylleformularer"
     hud_continue: "Fortsæt (tryk skift-mellemrum)"
     spell_saved: "Trylleformularen er gemt"
+#    skip_tutorial: "skip: esc"
 
   admin:
 #    av_title: "Admin Views"

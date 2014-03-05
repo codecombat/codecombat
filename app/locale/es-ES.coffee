@@ -200,6 +200,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     tome_available_spells: "Hechizos disponibles"
     hud_continue: "Continuar (pulsa Shift+Space)"
     spell_saved: "Hechizo guardado"
+#    skip_tutorial: "skip: esc"
 
 #  admin:
 #    av_title: "Admin Views"

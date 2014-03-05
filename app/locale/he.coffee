@@ -200,6 +200,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    tome_available_spells: "Available Spells"
 #    hud_continue: "Continue (press shift-space)"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "skip: esc"
 
 #  admin:
 #    av_title: "Admin Views"

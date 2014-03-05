@@ -200,6 +200,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tome_available_spells: "Tillgängliga Förmågor"
 #    hud_continue: "Continue (press shift-space)"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "skip: esc"
 
 #  admin:
 #    av_title: "Admin Views"

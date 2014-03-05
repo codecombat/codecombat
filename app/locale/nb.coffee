@@ -200,6 +200,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     tome_available_spells: "Tilgjenglige Trylleformularer"
     hud_continue: "Fortsett (trykk shift-mellomrom)"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "skip: esc"
 
 #  admin:
 #    av_title: "Admin Views"

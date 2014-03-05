@@ -200,6 +200,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tome_available_spells: "Available Spells"
 #    hud_continue: "Continue (press shift-space)"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "skip: esc"
 
 #  admin:
 #    av_title: "Admin Views"

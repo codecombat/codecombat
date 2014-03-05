@@ -200,6 +200,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tome_available_spells: "利用できる呪文"
     hud_continue: "続く　（Shift+Spaceキー）"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "skip: esc"
 
   admin:
     av_title: "管理画面"

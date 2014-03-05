@@ -176,8 +176,9 @@ module.exports = class HUDView extends View
         response.button = $('button:last', group)
     else
       s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (press shift-space)")
+      sk = $.i18n.t('play_level.skip_tutorial', defaultValue: "skip: esc")
       if @shiftSpacePressed > 4 and not @escapePressed
-        @bubble.append('<span class="hud-hint">skip: esc</span>')
+        @bubble.append('<span class="hud-hint">' + sk + '</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
     @bubble.append($("<h3>#{@speaker ? 'Captain Anya'}</h3>"))

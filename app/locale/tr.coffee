@@ -200,6 +200,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     tome_available_spells: "Kullanılabilir Büyüler"
     hud_continue: "Devam (ÜstKarakter+Boşluk)"
     spell_saved: "Büyü Kaydedildi"
+#    skip_tutorial: "skip: esc"
 
   admin:
     av_title: "Yönetici Görünümleri"
