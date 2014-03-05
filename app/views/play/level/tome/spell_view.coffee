@@ -456,7 +456,9 @@ module.exports = class SpellView extends View
       @aceSession.removeMarker markerRange.id
     @markerRanges = []
     @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
+    @aceSession.removeGutterDecoration row, 'executed' for row in [0 ... @aceSession.getLength()]
     $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
+    $(@ace.container).find('.ace_gutter-cell.executed').removeClass('executed')
     if not executed.length or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
       @toolbarView?.toggleFlow false
       @debugView.setVariableStates {}
