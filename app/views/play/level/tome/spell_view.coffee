@@ -478,13 +478,13 @@ module.exports = class SpellView extends View
       else
         @debugView.setVariableStates state.variables
         gotVariableStates = true
-        markerType = "text"
+        markerType = "fullLine"
       markerRange = new Range start.row, start.col, end.row, end.col
       markerRange.start = @aceDoc.createAnchor markerRange.start
       markerRange.end = @aceDoc.createAnchor markerRange.end
       markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
-      @aceSession.addGutterDecoration start.row, clazz if clazz is 'executing'
+      @aceSession.addGutterDecoration start.row, clazz 
     @debugView.setVariableStates {} unless gotVariableStates
     null
 

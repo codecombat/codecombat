@@ -73,9 +73,10 @@
       .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error
         position: absolute
     .executing
-      background-color: rgba(216, 255, 255, 0.85)
+      background-color: rgba(0, 255, 0, 0.15)
+      @include gradient-striped()
     .executed
-      background-color: rgba(245, 255, 6, 0.18)
+      background-color: rgba(40, 40, 40, 0.12)
     .problem-marker-info
       background-color: rgba(196, 163, 184, 0.25)
     .problem-marker-warning
@@ -83,9 +84,18 @@
     .problem-marker-error
       background-color: rgba(110, 45, 27, 0.25)
 
+    .executing:not(.ace_gutter-cell)
+      background-size: 40px 40px
+      @include animation(progress-bar-stripes 2s linear infinite)
+
     .ace_gutter-cell.executing:not(.ace_error)
       margin-left: 1px
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMjgwMTE3NDA3MjA2ODExOEE2REU4Q0M1MTM1MkIxRiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQjVEQUNDMzQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQjVEQUNDMjQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTU1MjE3RDIzMTIwNjgxMThEQkI4NTlBMjQ1QTEwOTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMThBNkRFOENDNTEzNTJCMUYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7SazaGAAAAiElEQVR42mL8//8/AzUBEwOVweA3kAWboI2jCyhgDwBx4ZH9ey5Qy4UOQHweaHg/EAtQ08sFUIMDqBmGCkC8HmgoCCtQM1ICoK5toGYsg8KzHmjo+UGbDj8AcSMwORkSnQ7xgA3QtPmApISNBTyAGrSBGl6eAMSGxBhGyIVkZT3G0fKQYgAQYACL+C2ZM6PC7AAAAABJRU5ErkJggg==)
+      background-position: 0px center
+
+    .ace_gutter-cell.executed:not(.ace_error)
+      margin-left: 1px
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAOpJREFUeNpiYBgFpAD2NGMDIA6glmECQNyPLs5EgZnzmb783kgt1zUA8XxscixkGOYApPJZXnwz/IlFnolEwxSA1HrGX38nft10/QE2NYykRAKQ2g/EAhznXxt+PP3oA6VeBsWoAfOHn4m4DMPnmvscSYb7kfgJQPwfWQwXYMThtfdgyV9/G/+zMW8AMs+DvfPimyMw7A6QZCAsWQCpeigXFPgKTN/+LPi+5GIiIRfiiuUJUINAQIHx7/8PTJ9+NRITXFgN/DnrLCjQC+He+P4HZzIhKdkAvb6e8cdfBfbr7xxJjtmRAwACDAA0klcB6aJFbwAAAABJRU5ErkJggg==)
       background-position: 0px center
 
     .ace_gutter-cell.comment-line
