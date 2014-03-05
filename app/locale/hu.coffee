@@ -200,6 +200,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tome_available_spells: "Elérhető varázslatok"
     hud_continue: "Folytatás (shift+space)"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "Skip (esc)"
 
 #  admin:
 #    av_title: "Admin Views"

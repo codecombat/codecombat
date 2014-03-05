@@ -200,6 +200,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_available_spells: "可用的法术"
     hud_continue: "继续（按 Shift-空格）"
     spell_saved: "咒语已保存"
+#    skip_tutorial: "Skip (esc)"
 
   admin:
     av_title: "管理员视图"
