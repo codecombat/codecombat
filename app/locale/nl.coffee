@@ -201,7 +201,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tome_available_spells: "Beschikbare spreuken"
     hud_continue: "Ga verder (druk shift-space)"
     spell_saved: "Spreuk Opgeslagen"
-#    skip_tutorial: "skip: esc"
+#    skip_tutorial: "Skip (esc)"
 
   admin:
     av_title: "Administrator panels"

@@ -200,7 +200,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tome_available_spells: "Sorts diponibles"
     hud_continue: "Continuer (appuie sur shift ou espace)"
 #    spell_saved: "Spell Saved"
-#    skip_tutorial: "skip: esc"
+#    skip_tutorial: "Skip (esc)"
 
   admin:
     av_title: "Vues d'administrateurs"

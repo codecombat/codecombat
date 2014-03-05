@@ -200,7 +200,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     tome_available_spells: "Feitiços disponíveis"
     hud_continue: "Continuar (pressiona shift-space)"
     spell_saved: "Feitiço Guardado"
-#    skip_tutorial: "skip: esc"
+#    skip_tutorial: "Skip (esc)"
 
   admin:
     av_title: "Visualizações de Admin"

@@ -200,7 +200,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     tome_available_spells: "Доступне чини"
     hud_continue: "Настави (притисни ентер)"
 #    spell_saved: "Spell Saved"
-#    skip_tutorial: "skip: esc"
+#    skip_tutorial: "Skip (esc)"
 
 #  admin:
 #    av_title: "Admin Views"

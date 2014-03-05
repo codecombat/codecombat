@@ -200,7 +200,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     tome_available_spells: "Dostępne czary"
     hud_continue: "Kontynuuj (naciśnij enter)"
 #    spell_saved: "Spell Saved"
-#    skip_tutorial: "skip: esc"
+#    skip_tutorial: "Skip (esc)"
 
 #  admin:
 #    av_title: "Admin Views"

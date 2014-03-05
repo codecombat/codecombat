@@ -200,7 +200,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tome_available_spells: "Dostupná kouzla"
     hud_continue: "Pokračovat (stiskněte shift-mezera)"
     spell_saved: "Kouzlo uloženo"
-#    skip_tutorial: "skip: esc"
+#    skip_tutorial: "Skip (esc)"
 
   admin:
     av_title: "Administrátorský pohled"

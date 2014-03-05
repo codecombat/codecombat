@@ -200,7 +200,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     tome_available_spells: "Доступні закляття"
     hud_continue: "Продовжити (натисніть shift-space)"
 #    spell_saved: "Spell Saved"
-#    skip_tutorial: "skip: esc"
+#    skip_tutorial: "Skip (esc)"
 
 #  admin:
 #    av_title: "Admin Views"
