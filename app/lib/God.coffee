@@ -227,7 +227,7 @@ class Angel
       _.delay ->
         worker.terminate()
         worker.removeEventListener 'message', onWorkerMessage
-      , 2000
+      , 3000
       @worker = null
     @
 

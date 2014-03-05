@@ -198,8 +198,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     tome_select_spell: "Välj en Förmåga"
     tome_select_a_thang: "Välj Någon för "
     tome_available_spells: "Tillgängliga Förmågor"
-#    hud_continue: "Continue (press shift-space)"
+#    hud_continue: "Continue (shift+space)"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "Skip (esc)"
 
 #  admin:
 #    av_title: "Admin Views"

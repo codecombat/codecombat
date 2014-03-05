@@ -200,6 +200,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     tome_available_spells: "Verfügbare Zauber"
     hud_continue: "Weiter (drücke Shift + Leertaste)"
     spell_saved: "Zauber gespeichert"
+#    skip_tutorial: "Skip (esc)"
 
   admin:
     av_title: "Administrator Übersicht"

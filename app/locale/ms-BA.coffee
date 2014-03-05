@@ -198,8 +198,9 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
-#    hud_continue: "Continue (press shift-space)"
+#    hud_continue: "Continue (shift+space)"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "Skip (esc)"
 
 #  admin:
 #    av_title: "Admin Views"
