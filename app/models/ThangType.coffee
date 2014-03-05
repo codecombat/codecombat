@@ -157,7 +157,8 @@ module.exports = class ThangType extends CocoModel
     for groupName, config of options.colorConfig or {}
       colorConfigs.push "#{groupName}:#{config.hue}|#{config.saturation}|#{config.lightness}"
     colorConfigs = colorConfigs.join ','
-    "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs}"
+    portraitOnly = !!options.portraitOnly
+    "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs} - #{portraitOnly}"
 
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
