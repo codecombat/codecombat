@@ -117,6 +117,7 @@ module.exports.thangNames = thangNames =
     "Simon"
     "Robin"
     "Quinn"
+    "Fidsdale"
   ]
   "Ogre Munchkin M": [
     "Brack"
@@ -179,6 +180,7 @@ module.exports.thangNames = thangNames =
     "Borgag"
     "Grognar"
     "Ironjaw"
+    "Tuguro"
   ]
   "Ogre Fangrider": [
     "Dreek"
