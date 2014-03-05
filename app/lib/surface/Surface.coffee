@@ -502,6 +502,7 @@ module.exports = Surface = class Surface extends CocoClass
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
       frameAdvanced = (@playing and @currentFrame < @world.totalFrames) or @totalFramesDrawn < 2
       @currentFrame += @world.frameRate / @options.frameRate if frameAdvanced and @playing
+      @currentFrame = Math.min(@currentFrame, @world.totalFrames - 1)
       newWorldFrame = Math.floor @currentFrame
       worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
       if worldFrameAdvanced
