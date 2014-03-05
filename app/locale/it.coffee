@@ -200,6 +200,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     tome_available_spells: "Incantesimi disponibili"
     hud_continue: "Continua (premi Maiusc-Spazio)"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "Skip (esc)"
 
   admin:
     av_title: "Vista amministratore"
