@@ -88,6 +88,9 @@ module.exports.thangNames = thangNames =
     "Durfkor"
     "Paps"
   ]
+  "Peasant F": [
+    "Hilda"
+  ]
   "Archer F": [
     "Phoebe"
     "Mira"
@@ -237,4 +240,20 @@ module.exports.thangNames = thangNames =
     "Makas"
     "Rakash"
     "Drumbaa"
+  ]
+  "Burl": [
+    "Borlit"
+    "Burlosh"
+  ]
+  "Griffin Rider": [
+    "Aeoldan"
+  ]
+  "Potion Master": [
+    "Snake"
+  ]
+  "Librarian": [
+    "Hushbaum"
+  ]
+  "Equestrian": [
+    "Reynaldo"
   ]
