@@ -55,8 +55,9 @@ class AudioPlayer extends CocoClass
   applyPanning: (options, pos) ->
     sup = @camera.worldToSurface pos
     svp = @camera.surfaceViewport
-    pan = Math.max -1, Math.min 1, ((sup.x - svp.x) - svp.width / 2) / svp.width * 2
-    # TODO: derive new volume from old one and distance ratio
+    pan = Math.max -1, Math.min 1, ((sup.x - svp.x) - svp.width / 2) / svp.width
+    dst = @camera.distanceRatioTo pos
+    vol = Math.min 1, options.volume / Math.pow (dst + 0.2), 2
     volume: options.volume, delay: options.delay, pan: pan
 
   # PUBLIC LOADING METHODS
