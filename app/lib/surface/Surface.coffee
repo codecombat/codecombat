@@ -360,6 +360,7 @@ module.exports = Surface = class Surface extends CocoClass
     canvasHeight = parseInt(@canvas.attr('height'), 10)
     @camera?.destroy()
     @camera = new Camera canvasWidth, canvasHeight
+    AudioPlayer.camera = @camera
     @layers.push @surfaceLayer = new Layer name: "Surface", layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @layers.push @surfaceTextLayer = new Layer name: "Surface Text", layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
     @layers.push @screenLayer = new Layer name: "Screen", layerPriority: 2, transform: Layer.TRANSFORM_SCREEN, camera: @camera
