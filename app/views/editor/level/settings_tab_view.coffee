@@ -29,6 +29,7 @@ module.exports = class SettingsTabView extends View
       supermodel: @supermodel
       schema: schema
       data: data
+      readOnly: true unless me.isAdmin() or @level.hasWriteAccess(me)
       callbacks: {change: @onSettingsChanged}
       thangIDs: thangIDs
       nodeClasses:

@@ -184,4 +184,25 @@ class CocoModel extends Backbone.Model
   @isObjectID: (s) ->
     s.length is 24 and s.match(/[a-z0-9]/gi)?.length is 24
 
+  hasReadAccess: (actor) ->
+    # actor is a User object
+
+    if @get('permissions')?
+      for permission in @get('permissions')
+        if permission.target is 'public' or actor.get('_id') is permission.target
+          return true if permission.access in ['owner', 'read']
+
+    return false
+
+  hasWriteAccess: (actor) ->
+    # actor is a User object
+
+    if @get('permissions')?
+      for permission in @get('permissions')
+        if permission.target is 'public' or actor.get('_id') is permission.target
+          return true if permission.access in ['owner', 'write']
+
+    return false
+
+
 module.exports = CocoModel

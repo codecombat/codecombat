@@ -6,13 +6,13 @@ block content
       li
         a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
       li
-        a(href="/editor/thang", data-i18n="editor.article_title") Article Editor
+        a(href="/editor/article", data-i18n="editor.article_title") Article Editor
       li.active
         | #{article.attributes.name}
 
-  button(data-toggle="coco-modal", data-target="modal/revert", data-i18n="revert.revert").btn.btn-primary#revert-button Revert
-  button(data-i18n="article.edit_btn_preview").btn.btn-primary#preview-button Preview
-  button(data-toggle="coco-modal", data-target="modal/save_version", data-i18n="common.save").btn.btn-primary#save-button Save
+  button(data-toggle="coco-modal", data-target="modal/revert", data-i18n="revert.revert", disabled=authorized === true ? undefined : "true").btn.btn-primary#revert-button Revert
+  button(data-i18n="article.edit_btn_preview", disabled=authorized === true ? undefined : "true").btn.btn-primary#preview-button Preview
+  button(data-toggle="coco-modal", data-target="modal/save_version", data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary#save-button Save
 
   h3(data-i18n="article.edit_article_title") Edit Article
     span

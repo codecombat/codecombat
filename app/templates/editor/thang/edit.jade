@@ -12,9 +12,8 @@ block content
 
   img#portrait.img-thumbnail
 
-  button.btn.btn-primary#save-button(data-toggle="coco-modal", data-target="modal/save_version")
-    | Save
-  button.btn.btn-primary#revert-button(data-toggle="coco-modal", data-target="modal/revert", data-i18n="revert.revert") Revert
+  button.btn.btn-primary#save-button(data-toggle="coco-modal", data-target="modal/save_version", disabled=authorized === true ? undefined : "true") Save
+  button.btn.btn-primary#revert-button(data-toggle="coco-modal", data-target="modal/revert", data-i18n="revert.revert", disabled=authorized === true ? undefined : "true") Revert
   
   h3 Edit Thang Type: "#{thangType.attributes.name}"
 
@@ -38,9 +37,9 @@ block content
           select#animations-select
             for animation in animations
               option #{animation}
-          button.btn.btn-small.btn-primary#upload-button
+          button(disabled=authorized === true ? undefined : "true").btn.btn-small.btn-primary#upload-button
             i.icon-upload
-          button.btn.btn-small.btn-primary#clear-button
+          button(disabled=authorized === true ? undefined : "true").btn.btn-small.btn-primary#clear-button
             i.icon-remove
           input#real-upload-button(type="file")
 

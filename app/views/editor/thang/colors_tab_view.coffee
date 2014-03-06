@@ -115,6 +115,7 @@ module.exports = class ColorsTabView extends CocoView
     treemaOptions =
       data: data
       schema: schema
+      readOnly: true unless me.isAdmin() or @thangType.hasWriteAccess(me)
       callbacks:
         change: @onColorGroupsChanged
         select: @onColorGroupSelected
