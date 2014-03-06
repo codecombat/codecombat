@@ -82,6 +82,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @imageObject?.off 'animationend', @playNextAction
     @playNextAction = null
     @displayObject?.off()
+    clearInterval @effectInterval if @effectInterval
     super()
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
@@ -375,18 +376,55 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     scale *= @options.resolutionFactor if prop is 'registration'
     pos.x *= scale
     pos.y *= scale
+    if @thang
+      scaleFactor = @thang.scaleFactor ? 1
+      pos.x *= @thang.scaleFactorX ? scaleFactor
+      pos.y *= @thang.scaleFactorY ? scaleFactor
     pos
 
   updateMarks: ->
     return unless @options.camera
-    @addMark 'repair', null, @options.markThangTypes.repair if @thang?.errorsOut
+    @addMark 'repair', null, 'repair' if @thang?.errorsOut
     @marks.repair?.toggle @thang?.errorsOut
     @addMark('bounds').toggle true if @thang?.drawsBounds
     @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
     mark.update() for name, mark of @marks
+#    @thang.effectNames = ['berserk', 'confused', 'controlled',  'cursed', 'fear', 'poison', 'paralyzed', 'regeneration', 'sleep', 'slowed', 'speed']
+    @updateEffectMarks() if @thang?.effectNames?.length
+    
+  updateEffectMarks: ->
+    return if _.isEqual @thang.effectNames, @previousEffectNames
+    for effect in @thang.effectNames
+      mark = @addMark effect, @options.floatingLayer, effect
+      mark.statusEffect = true
+      mark.toggle 'on'
+      mark.show()
+      
+    if @previousEffectNames
+      for effect in @previousEffectNames
+        mark = @marks[effect]
+        mark.toggle 'off'
+      
+    if @thang.effectNames.length > 1 and not @effectInterval
+      @rotateEffect()
+      @effectInterval = setInterval @rotateEffect, 1500
+      
+    else if @effectInterval and @thang.effectNames.length <= 1
+      @clearInterval @effectInterval
+      @effectInterval = null
+      
+    @previousEffectNames = @thang.effectNames
+
+  rotateEffect: =>
+    effects = (m.name for m in _.values(@marks) when m.on and m.statusEffect and m.mark)
+    effects.sort()
+    @effectIndex ?= 0
+    @effectIndex = (@effectIndex + 1) % effects.length
+    @marks[effect].hide() for effect in effects
+    @marks[effects[@effectIndex]].show()
 
   setHighlight: (to, delay) ->
-    @addMark 'highlight', @options.floatingLayer, @options.markThangTypes.highlight if to
+    @addMark 'highlight', @options.floatingLayer, 'highlight' if to
     @marks.highlight?.highlightDelay = delay
     @marks.highlight?.toggle to and not @dimmed
 
