@@ -96,8 +96,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
   diplomat_suggestion:
     title: "Ajută-ne  să traducem CodeCombat!"
     sub_heading: "Avem nevoie de abilitățile tale lingvistice."
-    pitch_body: "CodeCombat este dezvoltat in limba engleza , dar deja avem jucatări din toate colțurile lumii.Mulți dintre ei vor să joace in română și nu vorbesc engleză.Dacă poți vorbi ambele te rugăm să te gândești dacă ai dori să devi un Diplomat și să ne ajuți sa traducem atât jocul cât și site-ul." 
-    missing_translations: "Until we can translate everything into Romanian, you'll see English when Romanian isn't available." 
+    pitch_body: "CodeCombat este dezvoltat in limba engleza , dar deja avem jucatări din toate colțurile lumii.Mulți dintre ei vor să joace in română și nu vorbesc engleză.Dacă poți vorbi ambele te rugăm să te gândești dacă ai dori să devi un Diplomat și să ne ajuți sa traducem atât jocul cât și site-ul."
+    missing_translations: "Until we can translate everything into Romanian, you'll see English when Romanian isn't available."
     learn_more: "Află mai multe despre cum să fi un Diplomat"
     subscribe_as_diplomat: "Înscrie-te ca Diplomat"
 
@@ -105,7 +105,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     title: "Setări Wizard"
     customize_avatar: "Personalizează-ți Avatarul"
     clothes: "Haine"
-    trim: "Margine" 
+    trim: "Margine"
     cloud: "Nor"
     spell: "Vrajă"
     boots: "Încălțăminte"
@@ -389,7 +389,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    artisan_join_step4: "Post your levels on the forum for feedback."
 #    more_about_artisan: "Learn More About Becoming an Artisan"
 #    artisan_subscribe_desc: "Get emails on level editor updates and announcements."
-#    adventurer_sumamry: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
+#    adventurer_summary: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
 #    adventurer_introduction: "Let's be clear about your role: you are the tank. You're going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class might be for you."
 #    adventurer_attribute_1: "A thirst for learning. You want to learn how to code and we want to teach you how to code. You'll probably be doing most of the teaching in this case, though."
 #    adventurer_attribute_2: "Charismatic. Be gentle but articulate about what needs improving, and offer suggestions on how to improve."

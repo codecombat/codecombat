@@ -390,7 +390,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     artisan_join_step4: "Zveřejněte vaši úroveň na fóru pro připomínkování."
     more_about_artisan: "Dozvědět se více o tom, jak se stát kreativním Řemeslníkem"
     artisan_subscribe_desc: "Dostávat emailem oznámení a informace o aktualizacích editoru úrovní."
-#    adventurer_sumamry: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
+#    adventurer_summary: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
     adventurer_introduction: "Ujasněme si dopředu jednu věc o vaší roli: budete jako tank. Projdete ohněm. Potřebujeme někoho, kdo odzkouší zbrusu nové úrovně a pomůže identifikovat kde je možno je zlepšit. Ten boj bude ohromný - tvorba her je dlouhý proces, který nikdo nezvládne na první pokus. Máte-li na to a vydržíte-li to, pak toto je vaše skupina."
     adventurer_attribute_1: "Touha po učení se. Vy se chcete naučit programovat a my vás to chceme naučit. Jenom, v tomto případě to budete vy, kdo bude vyučovat."
     adventurer_attribute_2: "Charismatický. Buďte mírný a pečlivě artikulujte co a jak je potřeba zlepšit."

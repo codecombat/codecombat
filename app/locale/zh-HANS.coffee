@@ -390,7 +390,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    artisan_join_step4: "Post your levels on the forum for feedback."
     more_about_artisan: "了解成为工匠的方法"
     artisan_subscribe_desc: "通过电子邮件获得关卡编辑器更新和公告。"
-    adventurer_sumamry: "丑话说在前面，你就是那个挡枪子的，而且你会伤得很重。我们需要人手来测试崭新的关卡，并且提出改进意见。做一个好游戏是一个漫长的过程，没人第一次就能搞对。如果你能忍得了这些，而且身体健壮，那这个职业就是你的了。"
+    adventurer_summary: "丑话说在前面，你就是那个挡枪子的，而且你会伤得很重。我们需要人手来测试崭新的关卡，并且提出改进意见。做一个好游戏是一个漫长的过程，没人第一次就能搞对。如果你能忍得了这些，而且身体健壮，那这个职业就是你的了。"
 #    adventurer_introduction: "Let's be clear about your role: you are the tank. You're going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class might be for you."
 #    adventurer_attribute_1: "A thirst for learning. You want to learn how to code and we want to teach you how to code. You'll probably be doing most of the teaching in this case, though."
 #    adventurer_attribute_2: "Charismatic. Be gentle but articulate about what needs improving, and offer suggestions on how to improve."
