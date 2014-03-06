@@ -51,7 +51,8 @@ module.exports = class ThangState
     else if type is 'array'
       specialKey = storage[@frameIndex]
       value = @specialKeysToValues[specialKey]
-      value = value.split('\x1E')  # Record Separator
+      # Remove leading and trailing Group Separators and split by any Record Separators to restore the array of strings
+      value = value.substring(1, value.length - 1).split('\x1E') if value
     else
       value = storage[@frameIndex]
     value
@@ -133,7 +134,8 @@ module.exports = class ThangState
             storage[frameIndex] = specialKey
           storage[frameIndex] = specialKey
         else if type is 'array'
-          value = value.join '\x1E'  # Record Separator
+          # We make sure the array keys won't collide with any string keys by using some unprintable characters.
+          value = '\x1D' + value.join('\x1E') + '\x1D'  # Group Separator, Record Separator(s), Group Separator
           specialKey = specialValuesToKeys[value]
           unless specialKey
             specialKey = specialKeysToValues.length
