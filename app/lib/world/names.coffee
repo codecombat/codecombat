@@ -61,6 +61,8 @@ module.exports.thangNames = thangNames =
     "Joan"
     "Helga"
     "Annie"
+    "Lukaz"
+    "Gorgin"
   ]
   "Peasant": [
     "Yorik"
@@ -83,6 +85,8 @@ module.exports.thangNames = thangNames =
     "Bernadette"
     "Hershell"
     "Gawain"
+    "Durfkor"
+    "Paps"
   ]
   "Archer F": [
     "Phoebe"
@@ -117,6 +121,8 @@ module.exports.thangNames = thangNames =
     "Simon"
     "Robin"
     "Quinn"
+    "Arty"
+    "Gimsley"
   ]
   "Ogre Munchkin M": [
     "Brack"
