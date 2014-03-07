@@ -376,7 +376,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     scale *= @options.resolutionFactor if prop is 'registration'
     pos.x *= scale
     pos.y *= scale
-    if @thang
+    if @thang and prop isnt 'registration'
       scaleFactor = @thang.scaleFactor ? 1
       pos.x *= @thang.scaleFactorX ? scaleFactor
       pos.y *= @thang.scaleFactorY ? scaleFactor
