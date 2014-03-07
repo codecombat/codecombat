@@ -390,7 +390,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'speed']
-    @updateEffectMarks() if @thang?.effectNames?.length
+    @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length
 
   updateEffectMarks: ->
     return if _.isEqual @thang.effectNames, @previousEffectNames
@@ -403,7 +403,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if @previousEffectNames
       for effect in @previousEffectNames
         mark = @marks[effect]
-        mark.toggle 'off'
+        mark.toggle false
 
     if @thang.effectNames.length > 1 and not @effectInterval
       @rotateEffect()
