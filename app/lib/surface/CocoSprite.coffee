@@ -410,13 +410,14 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @effectInterval = setInterval @rotateEffect, 1500
 
     else if @effectInterval and @thang.effectNames.length <= 1
-      @clearInterval @effectInterval
+      clearInterval @effectInterval
       @effectInterval = null
 
     @previousEffectNames = @thang.effectNames
 
   rotateEffect: =>
     effects = (m.name for m in _.values(@marks) when m.on and m.statusEffect and m.mark)
+    return unless effects.length
     effects.sort()
     @effectIndex ?= 0
     @effectIndex = (@effectIndex + 1) % effects.length
