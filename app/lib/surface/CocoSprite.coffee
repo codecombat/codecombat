@@ -389,10 +389,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @addMark('bounds').toggle true if @thang?.drawsBounds
     @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
     mark.update() for name, mark of @marks
-#    @thang.effectNames = ['berserk', 'confused', 'controlled',  'cursed', 'fear', 'poison', 'paralyzed', 'regeneration', 'sleep', 'slowed', 'speed']
+#    @thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'speed']
     @updateEffectMarks() if @thang?.effectNames?.length
     
   updateEffectMarks: ->
+    @thang.effectNames = (e for e in @thang.effectNames when e) # hack because empty strings appear in the array
     return if _.isEqual @thang.effectNames, @previousEffectNames
     for effect in @thang.effectNames
       mark = @addMark effect, @options.floatingLayer, effect
@@ -449,6 +450,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @labels[name]
 
   addMark: (name, layer, thangType=null) ->
+    console.log 'what are my effects?', @thang.effectNames unless name
     @marks[name] ?= new Mark name: name, sprite: @, camera: @options.camera, layer: layer ? @options.groundLayer, thangType: thangType
     @marks[name]
 
