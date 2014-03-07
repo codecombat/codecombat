@@ -49,10 +49,11 @@ LevelHandler = class LevelHandler extends Handler
           majorVersion: level.version.major
         creator: req.user.id
 
-      # TODO: generalize this for levels that need teams
       if req.query.team?
         sessionQuery.team = req.query.team
-      else if level.name is 'Project DotA'
+
+      # TODO: generalize this for levels based on their teams
+      else if level.get('type') is 'ladder'
         sessionQuery.team = 'humans'
       
       Session.findOne(sessionQuery).exec (err, doc) =>
