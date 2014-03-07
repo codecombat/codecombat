@@ -66,6 +66,7 @@ module.exports = class LadderView extends RootView
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
     setInterval(@fetchSessionsAndRefreshViews.bind(@), 10000)
+    @showPlayModal(document.location.hash[1..]) if document.location.hash and @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
     @sessions.fetch({"success": @refreshViews})
@@ -112,8 +113,9 @@ module.exports = class LadderView extends RootView
     $("#simulation-status-text").text @simulationStatus
 
   onClickPlayButton: (e) ->
-    button = $(e.target).closest('.play-button')
-    teamID = button.data('team')
+    @showPlayModal($(e.target).closest('.play-button').data('team'))
+    
+  showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
     modal = new LadderPlayModal({}, @level, session, teamID)
     @openModalView modal
