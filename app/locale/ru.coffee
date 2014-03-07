@@ -200,7 +200,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_available_spells: "Доступные заклинания"
     hud_continue: "Продолжить (нажмите Shift+Пробел)"
     spell_saved: "Заклинание сохранено"
-    skip_tutorial: "Пропуск (Esc)"y
+    skip_tutorial: "Пропуск (Esc)"
 
   admin:
     av_title: "Админ панель"
