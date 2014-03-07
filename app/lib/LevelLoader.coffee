@@ -70,6 +70,7 @@ module.exports = class LevelLoader extends CocoClass
     @session.loaded and ((not @opponentSession) or @opponentSession.loaded)
 
   onSessionLoaded: ->
+    return if @destroyed
     # TODO: maybe have all non versioned models do this? Or make it work to PUT/PATCH to relative urls
     if @session.loaded
       @session.url = -> '/db/level.session/' + @id
@@ -171,6 +172,7 @@ module.exports = class LevelLoader extends CocoClass
     t0 = new Date()
     @spriteSheetsToBuild += 1
     thangType.once 'build-complete', =>
+      return if @destroyed
       @spriteSheetsBuilt += 1
       @notifyProgress()
       console.log "Built", thangType.get('name'), 'after', ((new Date()) - t0), 'ms'
