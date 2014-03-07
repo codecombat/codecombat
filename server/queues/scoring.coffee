@@ -48,6 +48,9 @@ addPairwiseTaskToQueue = (taskPair, cb) ->
 
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
+  requestLevelID = req.body.levelID
+  requestLevelMajorVersion = parseInt(req.body.levelMajorVersion)
+  
   validatePermissions req, requestSessionID, (error, permissionsAreValid) ->
     if err? then return errors.serverError res, "There was an error validating permissions"
     unless permissionsAreValid then return errors.forbidden res, "You do not have the permissions to submit that game to the leaderboard"
@@ -60,7 +63,7 @@ module.exports.createNewTask = (req, res) ->
       updateSessionToSubmit sessionToSubmit, (err, data) ->
         if err? then return errors.serverError res, "There was an error updating the session"
         opposingTeam = calculateOpposingTeam(sessionToSubmit.team)
-        fetchInitialSessionsToRankAgainst opposingTeam, (err, sessionsToRankAgainst) ->
+        fetchInitialSessionsToRankAgainst opposingTeam,requestLevelID, requestLevelMajorVersion, (err, sessionsToRankAgainst) ->
           if err? then return errors.serverError res, "There was an error fetching the sessions to rank against"
 
           taskPairs = generateTaskPairs(sessionsToRankAgainst, sessionToSubmit)
@@ -139,7 +142,10 @@ module.exports.processTaskResult = (req, res) ->
                   opponentID = _.pull(_.keys(newScoresObject), originalSessionID)
                   sessionNewScore = newScoresObject[originalSessionID].totalScore
                   opponentNewScore = newScoresObject[opponentID].totalScore
-                  findNearestBetterSessionID originalSessionID, sessionNewScore, opponentNewScore, opponentID ,opposingTeam, (err, opponentSessionID) ->
+                  
+                  levelOriginalID = levelSession.level.original
+                  levelOriginalMajorVersion = levelSession.level.majorVersion
+                  findNearestBetterSessionID levelOriginalID, levelOriginalMajorVersion, originalSessionID, sessionNewScore, opponentNewScore, opponentID ,opposingTeam, (err, opponentSessionID) ->
                     if err? then return errors.serverError res, "There was an error finding the nearest sessionID!"
                     unless opponentSessionID then return sendResponseObject req, res, {"message":"There were no more games to rank(game is at top!"}
   
@@ -181,7 +187,7 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
         cb null, true
 
 
-findNearestBetterSessionID = (sessionID, sessionTotalScore, opponentSessionTotalScore, opponentSessionID, opposingTeam, cb) ->
+findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, sessionTotalScore, opponentSessionTotalScore, opponentSessionID, opposingTeam, cb) ->
   retrieveAllOpponentSessionIDs sessionID, (err, opponentSessionIDs) ->
     if err? then return cb err, null
 
@@ -190,8 +196,8 @@ findNearestBetterSessionID = (sessionID, sessionTotalScore, opponentSessionTotal
         $gt:opponentSessionTotalScore
       _id:
         $nin: opponentSessionIDs
-      "level.original": "52d97ecd32362bc86e004e87"
-      "level.majorVersion": 0
+      "level.original": levelOriginalID
+      "level.majorVersion": levelMajorVersion
       submitted: true
       submittedCode:
         $exists: true
@@ -298,16 +304,16 @@ updateSessionToSubmit = (sessionToUpdate, callback) ->
     numberOfLosses: 0
   LevelSession.update {_id: sessionToUpdate._id}, sessionUpdateObject, callback
 
-fetchInitialSessionsToRankAgainst = (opposingTeam, callback) ->
+fetchInitialSessionsToRankAgainst = (opposingTeam, levelID, levelMajorVersion, callback) ->
   console.log "Fetching sessions to rank against for opposing team #{opposingTeam}"
   findParameters =
-    "level.original": "52d97ecd32362bc86e004e87"
-    "level.majorVersion": 0
+    "level.original": levelID
+    "level.majorVersion": levelMajorVersion
     submitted: true
     submittedCode:
       $exists: true
     team: opposingTeam
-
+  
   sortParameters =
     totalScore: 1
 
