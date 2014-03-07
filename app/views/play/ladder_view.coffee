@@ -65,7 +65,7 @@ module.exports = class LadderView extends RootView
     return if @startsLoading
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
-    setInterval(@fetchSessionsAndRefreshViews.bind(@), 10000)
+    @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), 10000)
     @showPlayModal(document.location.hash[1..]) if document.location.hash and @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
@@ -119,3 +119,8 @@ module.exports = class LadderView extends RootView
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
     modal = new LadderPlayModal({}, @level, session, teamID)
     @openModalView modal
+    
+  destroy: ->
+    clearInterval @refreshInterval
+    @simulator.destroy()
+    super()

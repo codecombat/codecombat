@@ -37,6 +37,7 @@ module.exports = class CocoView extends Backbone.View
 
   destroy: ->
     @stopListening()
+    @off()
     @stopListeningToShortcuts()
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
