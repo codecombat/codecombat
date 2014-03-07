@@ -389,31 +389,30 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @addMark('bounds').toggle true if @thang?.drawsBounds
     @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
     mark.update() for name, mark of @marks
-#    @thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'speed']
+    #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'speed']
     @updateEffectMarks() if @thang?.effectNames?.length
-    
+
   updateEffectMarks: ->
-    @thang.effectNames = (e for e in @thang.effectNames when e) # hack because empty strings appear in the array
     return if _.isEqual @thang.effectNames, @previousEffectNames
     for effect in @thang.effectNames
       mark = @addMark effect, @options.floatingLayer, effect
       mark.statusEffect = true
       mark.toggle 'on'
       mark.show()
-      
+
     if @previousEffectNames
       for effect in @previousEffectNames
         mark = @marks[effect]
         mark.toggle 'off'
-      
+
     if @thang.effectNames.length > 1 and not @effectInterval
       @rotateEffect()
       @effectInterval = setInterval @rotateEffect, 1500
-      
+
     else if @effectInterval and @thang.effectNames.length <= 1
       @clearInterval @effectInterval
       @effectInterval = null
-      
+
     @previousEffectNames = @thang.effectNames
 
   rotateEffect: =>
@@ -450,7 +449,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @labels[name]
 
   addMark: (name, layer, thangType=null) ->
-    console.log 'what are my effects?', @thang.effectNames unless name
     @marks[name] ?= new Mark name: name, sprite: @, camera: @options.camera, layer: layer ? @options.groundLayer, thangType: thangType
     @marks[name]
 
