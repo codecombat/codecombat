@@ -10,6 +10,10 @@ module.exports = class LadderPlayModal extends View
   template: template
   closeButton: true
   startsLoading: true
+  @shownTutorialButton: false
+  
+  events:
+    'click #skip-tutorial-button': 'hideTutorialButtons'
 
   constructor: (options, @level, @session, @team) ->
     super(options)
@@ -56,6 +60,7 @@ module.exports = class LadderPlayModal extends View
   finishRendering: ->
     @startsLoading = false
     @render()
+    @maybeShowTutorialButtons()
 
   getRenderData: ->
     ctx = super()
@@ -87,6 +92,18 @@ module.exports = class LadderPlayModal extends View
 
     ctx.myName = me.get('name') || 'Newcomer'
     ctx
+
+  maybeShowTutorialButtons: ->
+    return if @session or LadderPlayModal.shownTutorialButton
+    @$el.find('#normal-view').addClass('secret')
+    @$el.find('.modal-header').addClass('secret')
+    @$el.find('#noob-view').removeClass('secret')
+    LadderPlayModal.shownTutorialButton = true
+
+  hideTutorialButtons: ->
+    @$el.find('#normal-view').removeClass('secret')
+    @$el.find('.modal-header').removeClass('secret')
+    @$el.find('#noob-view').addClass('secret')
     
   # Choosing challengers
 
