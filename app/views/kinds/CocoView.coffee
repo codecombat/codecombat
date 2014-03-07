@@ -99,10 +99,11 @@ module.exports = class CocoView extends Backbone.View
     view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to
     @openModalView(view)
 
-  openModalView: (modalView) ->
-    return if @waitingModal # can only have one waiting at once
+  openModalView: (modalView, softly=false) ->
+    return if waitingModal # can only have one waiting at once
     if visibleModal
       waitingModal = modalView
+      return if softly
       return visibleModal.hide() if visibleModal.$el.is(':visible') # close, then this will get called again
       return @modalClosed(visibleModal) # was closed, but modalClosed was not called somehow
     modalView.render()

@@ -229,6 +229,7 @@ module.exports = class LevelLoader extends CocoClass
   notifyProgress: ->
     Backbone.Mediator.publish 'level-loader:progress-changed', progress: @progress()
     @initWorld() if @allDone()
+    @trigger 'progress'
     @trigger 'loaded-all' if @progress() is 1
 
   destroy: ->
