@@ -72,6 +72,7 @@ module.exports = class LadderView extends RootView
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>
+    return if @destroyed
     @ladderTab.refreshLadder()
     @myMatchesTab.refreshMatches()
     console.log "refreshed views!"
@@ -114,12 +115,12 @@ module.exports = class LadderView extends RootView
 
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
-    
+
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
     modal = new LadderPlayModal({}, @level, session, teamID)
     @openModalView modal
-    
+
   destroy: ->
     clearInterval @refreshInterval
     @simulator.destroy()
