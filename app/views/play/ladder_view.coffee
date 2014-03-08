@@ -66,7 +66,9 @@ module.exports = class LadderView extends RootView
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
     @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), 10000)
-    @showPlayModal(document.location.hash[1..]) if document.location.hash and @sessions.loaded
+    hash = document.location.hash[1..] if document.location.hash
+    unless hash in ['my-matches', 'simulate', 'ladder']
+      @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
     @sessions.fetch({"success": @refreshViews})
