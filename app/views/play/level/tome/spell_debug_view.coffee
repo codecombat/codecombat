@@ -61,7 +61,9 @@ module.exports = class DebugView extends View
       @variableChain = chain
       offsetX = e.domEvent.offsetX ? e.clientX - $(e.domEvent.target).offset().left
       offsetY = e.domEvent.offsetY ? e.clientY - $(e.domEvent.target).offset().top
-      @pos = {left: offsetX + 50, top: offsetY + 50}
+      w = $(document).width()
+      offsetX = w - $(e.domEvent.target).offset().left - 300 if e.clientX + 300 > w
+      @pos = {left: offsetX + 50, top: offsetY + 20}
       @markerRange = new Range pos.row, start, pos.row, end
     else
       @variableChain = @markerRange = null
