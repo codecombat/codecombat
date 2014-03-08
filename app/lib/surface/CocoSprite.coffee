@@ -328,7 +328,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       return if @thang.health is @lastHealth
       @lastHealth = @thang.health
       healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
-      bar.scaleX = healthPct
+      bar.scaleX = healthPct / bar.baseScale
       healthOffset = @getOffset 'aboveHead'
       [bar.x, bar.y] = [healthOffset.x - bar.width / 2, healthOffset.y]
 
@@ -357,7 +357,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     bar = @healthBar = createProgressBar(healthColor, healthOffset.y)
     bar.x = healthOffset.x - bar.width / 2
     bar.name = 'health bar'
-    bar.cache 0, -bar.height / 2, bar.width, bar.height
+    bar.cache 0, -bar.height * bar.baseScale / 2, bar.width * bar.baseScale, bar.height * bar.baseScale
     @displayObject.addChild bar
 
   getActionProp: (prop, subProp, def=null) ->
