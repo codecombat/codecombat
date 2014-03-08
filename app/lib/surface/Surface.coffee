@@ -302,7 +302,7 @@ module.exports = Surface = class Surface extends CocoClass
       world: @world
     )
 
-    if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames
+    if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames - 1
       @spriteBoss.stop()
       @playbackOverScreen.show()
       @ended = true

@@ -151,14 +151,14 @@ module.exports = class Mark extends CocoClass
     @thangType.fetch()
     markThangTypes[name] = @thangType
     window.mtt = markThangTypes
-    
+
   onLoadedThangType: ->
     @build()
     @toggle(@toggleTo) if @toggleTo?
 
   update: (pos=null) ->
     return false unless @on and @mark
-    @mark.alpha = if @hidden then 0 else 1
+    @mark.visible = not @hidden
     @updatePosition pos
     @updateRotation()
     @updateScale()
