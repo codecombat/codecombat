@@ -16,6 +16,7 @@ class CocoModel extends Backbone.Model
 
   initialize: ->
     super()
+    @constructor.schema ?= new CocoSchema(@urlRoot)
     if not @constructor.className
       console.error("#{@} needs a className set.")
     @markToRevert()
@@ -52,10 +53,8 @@ class CocoModel extends Backbone.Model
   @backedUp = {}
 
   loadSchema: ->
-    unless @constructor.schema
-      @constructor.schema = new CocoSchema(@urlRoot)
-      @constructor.schema.fetch()
-
+    return if @constructor.schema.loading
+    @constructor.schema.fetch()
     @constructor.schema.once 'sync', =>
       @constructor.schema.loaded = true
       @addSchemaDefaults()
