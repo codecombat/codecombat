@@ -66,12 +66,15 @@ module.exports = class LadderView extends RootView
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
     @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), 10000)
-    @showPlayModal(document.location.hash[1..]) if document.location.hash and @sessions.loaded
+    hash = document.location.hash[1..] if document.location.hash
+    unless hash in ['my-matches', 'simulate', 'ladder']
+      @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>
+    return if @destroyed
     @ladderTab.refreshLadder()
     @myMatchesTab.refreshMatches()
     console.log "refreshed views!"
@@ -114,12 +117,12 @@ module.exports = class LadderView extends RootView
 
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
-    
+
   showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
     modal = new LadderPlayModal({}, @level, session, teamID)
     @openModalView modal
-    
+
   destroy: ->
     clearInterval @refreshInterval
     @simulator.destroy()

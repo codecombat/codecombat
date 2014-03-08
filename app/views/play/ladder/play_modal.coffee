@@ -11,7 +11,7 @@ module.exports = class LadderPlayModal extends View
   closeButton: true
   startsLoading: true
   @shownTutorialButton: false
-  
+
   events:
     'click #skip-tutorial-button': 'hideTutorialButtons'
 
@@ -21,7 +21,7 @@ module.exports = class LadderPlayModal extends View
     @otherTeam = if team is 'ogres' then 'humans' else 'ogres'
     @startLoadingChallengersMaybe()
     @wizardType = ThangType.loadUniversalWizard()
-    
+
   # PART 1: Load challengers from the db unless some are in the matches
 
   startLoadingChallengersMaybe: ->
@@ -49,12 +49,12 @@ module.exports = class LadderPlayModal extends View
       type: 'POST'
       success: success
     })
-    
+
   # PART 3: Make sure wizard is loaded
-  
+
   checkWizardLoaded: ->
     if @wizardType.loaded then @finishRendering() else @wizardType.once 'sync', @finishRendering, @
-    
+
   # PART 4: Render
 
   finishRendering: ->
@@ -69,7 +69,7 @@ module.exports = class LadderPlayModal extends View
     ctx.teamName = _.string.titleize @team
     ctx.teamID = @team
     ctx.otherTeamID = @otherTeam
-    
+
     teamsList = teamDataFromLevel @level
     teams = {}
     teams[team.id] = team for team in teamsList
@@ -104,7 +104,7 @@ module.exports = class LadderPlayModal extends View
     @$el.find('#normal-view').removeClass('secret')
     @$el.find('.modal-header').removeClass('secret')
     @$el.find('#noob-view').addClass('secret')
-    
+
   # Choosing challengers
 
   getChallengers: ->
@@ -165,7 +165,7 @@ class ChallengersData
     @hardPlayer = new LeaderboardCollection(@level, {order:-1, scoreOffset: score + 5, limit: 1, team: @otherTeam})
     @hardPlayer.fetch()
     @hardPlayer.once 'sync', @challengerLoaded, @
-    
+
   challengerLoaded: ->
     if @allLoaded()
       @loaded = true

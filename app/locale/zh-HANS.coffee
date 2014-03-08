@@ -27,11 +27,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     admin: "管理"
     home: "首页"
     contribute: "贡献"
-    legal: "法律"
+    legal: "版权声明"
     about: "关于"
-    contact: "联系"
+    contact: "联系我们"
     twitter_follow: "关注"
-    employers: "雇佣我们"
+    employers: "招募信息"
 
   versions:
     save_version_title: "保存新版本"
@@ -200,7 +200,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_available_spells: "可用的法术"
     hud_continue: "继续（按 Shift-空格）"
     spell_saved: "咒语已保存"
-    skip_tutorial: "跳过(esc)"
+    skip_tutorial: "跳过（esc）"
 
   admin:
     av_title: "管理员视图"

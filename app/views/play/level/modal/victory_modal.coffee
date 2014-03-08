@@ -64,6 +64,7 @@ module.exports = class VictoryModal extends View
     c.me = me
     c.hasNextLevel = _.isObject(@level.get('nextLevel')) and (@level.get('name') isnt "Mobile Artillery")
     c.levelName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
+    c.level = @level
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 30 minutes
       elapsed = (new Date() - new Date(me.get('dateCreated')))

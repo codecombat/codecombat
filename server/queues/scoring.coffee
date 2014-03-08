@@ -8,6 +8,7 @@ db = require './../routes/db'
 mongoose = require 'mongoose'
 queues = require '../commons/queue'
 LevelSession = require '../levels/sessions/LevelSession'
+Level = require '../levels/Level'
 TaskLog = require './task/ScoringTask'
 bayes = new (require 'bayesian-battle')()
 
@@ -48,7 +49,8 @@ addPairwiseTaskToQueue = (taskPair, cb) ->
 
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
-  requestLevelID = req.body.levelID
+  requestLevelID = req.body.originalLevelID
+  requestCurrentLevelID = req.body.levelID
   requestLevelMajorVersion = parseInt(req.body.levelMajorVersion)
   
   validatePermissions req, requestSessionID, (error, permissionsAreValid) ->
@@ -56,21 +58,27 @@ module.exports.createNewTask = (req, res) ->
     unless permissionsAreValid then return errors.forbidden res, "You do not have the permissions to submit that game to the leaderboard"
 
     return errors.badInput res, "The session ID is invalid" unless typeof requestSessionID is "string"
-
-    fetchSessionToSubmit requestSessionID, (err, sessionToSubmit) ->
-      if err? then return errors.serverError res, "There was an error finding the given session."
-
-      updateSessionToSubmit sessionToSubmit, (err, data) ->
-        if err? then return errors.serverError res, "There was an error updating the session"
-        opposingTeam = calculateOpposingTeam(sessionToSubmit.team)
-        fetchInitialSessionsToRankAgainst opposingTeam,requestLevelID, requestLevelMajorVersion, (err, sessionsToRankAgainst) ->
-          if err? then return errors.serverError res, "There was an error fetching the sessions to rank against"
-
-          taskPairs = generateTaskPairs(sessionsToRankAgainst, sessionToSubmit)
-          sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
-            if taskPairError? then return errors.serverError res, "There was an error sending the task pairs to the queue"
-
-            sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
+    Level.findOne({_id: requestCurrentLevelID}).lean().select('type').exec (err, levelWithType) ->
+      if err? then return errors.serverError res, "There was an error finding the level type"
+        
+      if not levelWithType.type or levelWithType.type isnt "ladder" 
+        console.log "The level type of level with ID #{requestLevelID} is #{levelWithType.type}"
+        return errors.badInput res, "That level isn't a ladder level"
+  
+      fetchSessionToSubmit requestSessionID, (err, sessionToSubmit) ->
+        if err? then return errors.serverError res, "There was an error finding the given session."
+  
+        updateSessionToSubmit sessionToSubmit, (err, data) ->
+          if err? then return errors.serverError res, "There was an error updating the session"
+          opposingTeam = calculateOpposingTeam(sessionToSubmit.team)
+          fetchInitialSessionsToRankAgainst opposingTeam,requestLevelID, requestLevelMajorVersion, (err, sessionsToRankAgainst) ->
+            if err? then return errors.serverError res, "There was an error fetching the sessions to rank against"
+  
+            taskPairs = generateTaskPairs(sessionsToRankAgainst, sessionToSubmit)
+            sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
+              if taskPairError? then return errors.serverError res, "There was an error sending the task pairs to the queue"
+  
+              sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
 
 module.exports.dispatchTaskToConsumer = (req, res) ->
   if isUserAnonymous(req) then return errors.forbidden res, "You need to be logged in to simulate games"
