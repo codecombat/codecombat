@@ -26,8 +26,8 @@ module.exports = class SpriteParser
   parse: (source) ->
     # Grab the library properties' width/height so we can subtract half of each from frame bounds
     properties = source.match(/.*lib\.properties = \{\n.*?width: (\d+),\n.*?height: (\d+)/im)
-    @width = parseInt(properties[1] ? "0", 10)
-    @height = parseInt(properties[2] ? "0", 10)
+    @width = parseInt(properties?[1] ? "0", 10)
+    @height = parseInt(properties?[2] ? "0", 10)
 
     options = {loc: false, range: true}
     ast = esprima.parse source, options
