@@ -316,7 +316,7 @@ module.exports = class ThangTypeEditView extends View
     @thangType.set 'actions', undefined
     @clearDisplayObject()
     @treema.set('/', @getThangData())
-    
+
   getThangData: ->
     data = _.cloneDeep(@thangType.attributes)
     data = _.pick data, (value, key) => not (key in ['components'])

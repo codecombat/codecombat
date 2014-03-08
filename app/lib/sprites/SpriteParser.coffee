@@ -2,7 +2,10 @@ module.exports = class SpriteParser
   constructor: (@thangTypeModel) ->
     # Create a new ThangType, or work with one we've been building
     @thangType = _.cloneDeep(@thangTypeModel.attributes.raw)
-    @thangType ?= {shapes: {}, containers: {}, animations: {}}
+    @thangType ?= {}
+    @thangType.shapes ?= {}
+    @thangType.containers ?= {}
+    @thangType.animations ?= {}
 
     # Internal parser state
     @shapeLongKeys = {}
