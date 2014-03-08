@@ -8,7 +8,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     delay_1_sec: "1 Sekunde"
     delay_3_sec: "3 Sekunden"
     delay_5_sec: "5 Sekunden"
-    manual: "Manuell"
+    manual: "Handbuch"
 #    fork: "Fork"
     play: "Abspielen"
 
