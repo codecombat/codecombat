@@ -22,7 +22,8 @@ class CocoModel extends Backbone.Model
     if @constructor.schema?.loaded
       @addSchemaDefaults()
     else
-      @loadSchema()
+      {me} = require 'lib/auth'
+      @loadSchema() if me?.loaded
     @once 'sync', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
 
