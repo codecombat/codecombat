@@ -27,9 +27,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     admin: "管理"
     home: "首页"
     contribute: "贡献"
-    legal: "法律"
+    legal: "版权声明"
     about: "关于"
-    contact: "联系"
+    contact: "联系我们"
     twitter_follow: "关注"
     employers: "招募信息"
 
