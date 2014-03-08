@@ -31,7 +31,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     about: "关于"
     contact: "联系"
     twitter_follow: "关注"
-    employers: "雇佣我们"
+    employers: "招募信息"
 
   versions:
     save_version_title: "保存新版本"
