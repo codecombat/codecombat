@@ -25,7 +25,8 @@ module.exports = class DocsModal extends View
     @docs = specific.concat(general)
     marked.setOptions {gfm: true, sanitize: false, smartLists: true, breaks: false}
     @docs = _.cloneDeep(@docs)
-    doc.html = marked(doc.body) for doc in @docs
+    doc.html = marked(doc.i18n?[me.lang()]?.body or doc.body) for doc in @docs
+    doc.name = (doc.i18n?[me.lang()]?.name or doc.name) for doc in @docs
     doc.slug = _.string.slugify(doc.name) for doc in @docs
     super()
 
