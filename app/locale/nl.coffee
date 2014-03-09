@@ -103,7 +103,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   wizard_settings:
     title: "Tovenaar instellingen"
-    customize_avatar: "Bewerk jouw avatar"
+    customize_avatar: "Bewerk je avatar"
     clothes: "Kleren"
     trim: "Trim"
     cloud: "Wolk"
@@ -357,7 +357,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   contribute:
     page_title: "Bijdragen"
-    character_classes_title: "Karakter Klassen"
+    character_classes_title: "Karakterklassen"
     introduction_desc_intro: "We hebben hoge verwachtingen over CodeCombat."
     introduction_desc_pref: "We willen zijn waar programmeurs van alle niveaus komen om te leren en samen te spelen, anderen introduceren aan de wondere wereld van code, en de beste delen van de gemeenschap te reflecteren. We kunnen en willen dit niet alleen doen; wat projecten zoals GitHub, Stack Overflow en Linux groots en succesvol maken, zijn de mensen die deze software gebruiken en verbeteren. Daartoe, "
     introduction_desc_github_url: "CodeCombat is volledig open source"
@@ -422,7 +422,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     diplomat_launch_url: "release in oktober"
     diplomat_introduction_suf: "dan is het wel dat er een significante interesse is in CodeCombat in andere landen, vooral Brazilië! We zijn een corps aan vertalers aan het creëren dat ijverig de ene set woorden in een andere omzet om CodeCombat zo toegankelijk te maken als mogelijk in heel de wereld. Als jij het leuk vindt glimpsen op te vangen van aankomende content en deze levels zo snel mogelijk naar je landgenoten te krijgen, dan is dit de klasse voor jou."
     diplomat_attribute_1: "Vloeiend Engels en de taal waar naar je wilt vertalen kunnen spreken. Wanneer je moeilijke ideeën wilt overbrengen, is het belangrijk beide goed te kunnen!"
-    diplomat_join_pref_github: "Vind jouw taal haar locale bestand "
+    diplomat_join_pref_github: "Vind van jouw taal het locale bestand "
     diplomat_github_url: "op GitHub"
     diplomat_join_suf_github: ", edit het online, en submit een pull request. Daarnaast kun je hieronder aanvinken als je up-to-date wilt worden gehouden met nieuwe internationalisatie-ontwikkelingen."
     more_about_diplomat: "Leer meer over het worden van een geweldige Diplomaat"
