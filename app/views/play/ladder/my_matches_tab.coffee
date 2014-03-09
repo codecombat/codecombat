@@ -15,7 +15,7 @@ module.exports = class MyMatchesTabView extends CocoView
   constructor: (options, @level, @sessions) ->
     super(options)
     @refreshMatches()
-    
+
   refreshMatches: ->
     @teams = teamDataFromLevel @level
     @nameMap = {}
@@ -68,7 +68,7 @@ module.exports = class MyMatchesTabView extends CocoView
       team.matches = (convertMatch(match) for match in team.session?.get('matches') or [])
       team.matches.reverse()
       team.score = (team.session?.get('totalScore') or 10).toFixed(2)
-      
+
     ctx
 
   afterRender: ->
@@ -80,6 +80,7 @@ module.exports = class MyMatchesTabView extends CocoView
       @setRankingButtonText button, if @readyToRank(session) then 'rank' else 'unavailable'
 
   readyToRank: (session) ->
+    return false unless session?.get('levelID')  # If it hasn't been denormalized, then it's not ready.
     c1 = session?.get('code')
     c2 = session?.get('submittedCode')
     c1 and not _.isEqual(c1, c2)
@@ -94,7 +95,7 @@ module.exports = class MyMatchesTabView extends CocoView
     @setRankingButtonText(button, 'ranking')
     success = => @setRankingButtonText(button, 'ranked')
     failure = => @setRankingButtonText(button, 'failed')
-    
+
     ajaxData = { session: sessionID, levelID: @level.id, originalLevelID: @level.attributes.original, levelMajorVersion: @level.attributes.version.major }
     $.ajax '/queue/scoring', {
       type: 'POST'
