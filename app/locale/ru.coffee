@@ -122,6 +122,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wizard_tab: "Волшебник"
     password_tab: "Пароль"
     emails_tab: "Email-адреса"
+    admin: "Админ"
     gravatar_select: "Выберите, какое фото с Gravatar использовать"
     gravatar_add_photos: "Чтобы выбрать изображение, добавьте фото и уменьшенные изображения в ваш Gravatar-аккаунт."
     gravatar_add_more_photos: "Добавьте больше фото к вашему аккаунту в Gravatar, чтобы использовать их здесь."
@@ -226,6 +227,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     contact_us: "свяжитесь с нами!"
     hipchat_prefix: "Также вы можете найти нас в нашей"
     hipchat_url: "комнате HipChat."
+    revert: "Откатить"
+    revert_models: "Откатить Модели"
     level_some_options: "Ещё опции"
     level_tab_thangs: "Объекты"
     level_tab_scripts: "Скрипты"
@@ -248,6 +251,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     create_system_title: "Создать новую систему"
     new_component_title: "Создать новый компонент"
     new_component_field_system: "Система"
+    new_article_title: "Создать новую статью"
+    new_thang_title: "Создать новый тип объектов"
+    new_level_title: "Создать новый уровень"
+    article_search_title: "Искать статьи"
+    thang_search_title: "Искать типы объектов"
+    level_search_title: "Искать уровни"
 
   article:
     edit_btn_preview: "Предпросмотр"
@@ -264,6 +273,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     description: "Описание"
     or: "или"
     email: "Email"
+    password: "Пароль"
     message: "Сообщение"
 
   about:
