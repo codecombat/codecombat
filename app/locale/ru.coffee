@@ -266,6 +266,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     description: "Описание"
     or: "или"
     email: "Email"
+    password: "Пароль"
     message: "Сообщение"
 
   about:
