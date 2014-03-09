@@ -226,6 +226,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     contact_us: "свяжитесь с нами!"
     hipchat_prefix: "Также вы можете найти нас в нашей"
     hipchat_url: "комнате HipChat."
+    revert: "Откатить"
+    revert_models: "Откатить Модели"
     level_some_options: "Ещё опции"
     level_tab_thangs: "Объекты"
     level_tab_scripts: "Скрипты"
