@@ -122,6 +122,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wizard_tab: "Волшебник"
     password_tab: "Пароль"
     emails_tab: "Email-адреса"
+    admin: "Админ"
     gravatar_select: "Выберите, какое фото с Gravatar использовать"
     gravatar_add_photos: "Чтобы выбрать изображение, добавьте фото и уменьшенные изображения в ваш Gravatar-аккаунт."
     gravatar_add_more_photos: "Добавьте больше фото к вашему аккаунту в Gravatar, чтобы использовать их здесь."
