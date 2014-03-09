@@ -74,6 +74,10 @@ class LeaderboardData
 #      @playersBelow.once 'sync', @leaderboardPartLoaded, @
 
   leaderboardPartLoaded: ->
+    # Forget loading the up-to-date names, that's way too slow for something that refreshes all the time, we learned.
+    @loaded = true
+    @trigger 'sync'
+    return
     if @session
       if @topPlayers.loaded # and @playersAbove.loaded and @playersBelow.loaded
         @loaded = true

@@ -14,23 +14,28 @@ module.exports = class MyMatchesTabView extends CocoView
 
   constructor: (options, @level, @sessions) ->
     super(options)
+    @nameMap = {}
     @refreshMatches()
 
   refreshMatches: ->
     @teams = teamDataFromLevel @level
-    @nameMap = {}
     @loadNames()
 
   loadNames: ->
+    # Only fetch the names for the userIDs we don't already have in @nameMap
     ids = []
     for session in @sessions.models
-      ids.push match.opponents[0].userID for match in session.get('matches') or []
+      for match in (session.get('matches') or [])
+        id = match.opponents[0].userID
+        ids.push id unless @nameMap[id]
 
-    success = (@nameMap) =>
+    return @finishRendering() unless ids.length
+
+    success = (nameMap) =>
       for session in @sessions.models
         for match in session.get('matches') or []
           opponent = match.opponents[0]
-          opponent.userName = @nameMap[opponent.userID]
+          @nameMap[opponent.userID] = nameMap[opponent.userID]
       @finishRendering()
 
     $.ajax('/db/user/-/names', {
