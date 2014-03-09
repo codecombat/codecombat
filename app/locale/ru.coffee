@@ -252,7 +252,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     new_component_title: "Создать новый компонент"
     new_component_field_system: "Система"
     new_article_title: "Создать новую статью"
-    new_thang_title: "Создать новый объект"
+    new_thang_title: "Создать новый тип объектов"
     new_level_title: "Создать новый уровень"
     article_search_title: "Искать статьи"
     thang_search_title: "Искать типы объектов"
