@@ -17,31 +17,31 @@ module.exports.setup = (app) ->
   app.get '/mail/cron/ladder-update', handleLadderUpdate
 
 handleLadderUpdate = (req, res) ->
+  res.send('Great work, Captain Cron! I can take it from here.')
+  res.end()
   emailDays = [1, 2, 4, 7, 30]
   now = new Date()
   getTimeFromDaysAgo = (daysAgo) ->
     # 2 hours before the date
     t = now - (86400 * daysAgo + 2 * 3600) * 1000
   for daysAgo in emailDays
+    # Get every session that was submitted in a 5-minute window after the time.
     startTime = getTimeFromDaysAgo daysAgo
     endTime = startTime + 5 * 60 * 1000
-    # Get every session that was submitted in a 5-minute window after the time.
-    findParameters = {submitted: true, submitDate: {$gt: startTime, $lte: endTime}}
+    #endTime = startTime + 1 * 60 * 60 * 1000
+    findParameters = {submitted: true, submitDate: {$gt: new Date(startTime), $lte: new Date(endTime)}}
     # TODO: think about putting screenshots in the email
-    selectString = "creator team levelID totalScore matches"
+    selectString = "creator team levelName levelID totalScore matches submitted submitDate numberOfWinsAndTies numberOfLosses"
     query = LevelSession.find(findParameters)
       .select(selectString)
       .lean()
     mongoose = require 'mongoose'
-    mongoose.set 'debug', true
-    query.exec (err, results) ->
-      log.info "Yooooo got results: #{results.length}"
-      if err
-        log.error "Couldn't fetch ladder updates for", findParameters, "\nError: ", err
-        return errors.serverError res, "Ladder update email query failed: #{JSON.stringify(err)}"
-      sendLadderUpdateEmail result, daysAgo for result in results
-      res.send('')
-      res.end()
+    do (daysAgo) ->
+      query.exec (err, results) ->
+        if err
+          log.error "Couldn't fetch ladder updates for", findParameters, "\nError: ", err
+          return errors.serverError res, "Ladder update email query failed: #{JSON.stringify(err)}"
+        sendLadderUpdateEmail result, daysAgo for result in results
 
 sendLadderUpdateEmail = (session, daysAgo) ->
   User.findOne({_id: session.creator}).select("name email firstName lastName emailSubscriptions preferredLanguage").lean().exec (err, user) ->
@@ -56,28 +56,32 @@ sendLadderUpdateEmail = (session, daysAgo) ->
       # TODO: do something with the preferredLanguage?
       context =
         email_id: sendwithus.templates.ladder_update_email
-        #recipient:
-        #  address: user.email
         recipient:
-           address: 'nick@codecombat.com'
-        days_ago: daysAgo
-        name: name
-        wins: session.numberOfWinsAndTies
-        losses: session.numberOfLosses
-        total_score: session.totalScore
-        team: session.team
-        level: id
-        defeat: defeatContext
-        victory: victoryContext
+          #address: user.email
+          address: 'nick@codecombat.com'
+          name: name
+        email_data:
+          name: name
+          days_ago: daysAgo
+          wins: session.numberOfWinsAndTies
+          losses: session.numberOfLosses
+          total_score: Math.round(session.totalScore * 100)
+          team: session.team
+          level_name: session.levelName
+          ladder_url: "http://codecombat.com/play/ladder/#{session.levelID}#my-matches"
+          defeat: defeatContext
+          victory: victoryContext
       sendwithus.api.send context, (err, result) ->
-        log.error "Error sending ladder update email:", err, 'result', result
+        log.error "Error sending ladder update email:", err, 'result', result if err
 
+    # Fetch the most recent defeat and victory, if there are any.
+    # (We could look at strongest/weakest, but we'd have to fetch everyone, or denormalize more.)
     defeats = _.filter session.matches, (match) -> match.metrics.rank is 1 and match.opponents[0].metrics.rank is 0
     victories = _.filter session.matches, (match) -> match.metrics.rank is 0
-    defeat = _.sample defeats
-    victory = _.sample victories
+    defeat = _.last defeats
+    victory = _.last victories
     urlForMatch = (match) ->
-      "http://codecombat.com/play/ladder/#{session.levelID}?team=#{session.team}&session=#{session._id}&opponent=#{match.opponents[0].sessionID}"
+      "http://codecombat.com/play/level/#{session.levelID}?team=#{session.team}&session=#{session._id}&opponent=#{match.opponents[0].sessionID}"
 
     onFetchedDefeatedOpponent = (err, defeatedOpponent) ->
       if err
