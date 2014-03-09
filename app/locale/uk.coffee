@@ -33,12 +33,12 @@ module.exports = nativeDescription: "українська мова", englishDesc
     twitter_follow: "Фоловити"
     employers: "Зайняті"
 
-#  versions:
+  versions:
     save_version_title: "Зберегти нову версію"
     new_major_version: "Зберегти основну версію"
     cla_prefix: "Для збереження змін, спочатку треба погодитись з нашим"
-#    cla_url: "CLA"
-#    cla_suffix: "."
+    cla_url: "CLA"
+    cla_suffix: "."
     cla_agree: "Я Згоден"
 
   login:
@@ -47,7 +47,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     log_out: "Вийти"
     recover: "відновити акаунт"
 
-#  recover:
+  recover:
     recover_account_title: "Відновити акаунт"
     send_password: "Вислати пароль відновлення"
 
@@ -101,7 +101,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     learn_more: "Узнати, як стати Дипломатом"
     subscribe_as_diplomat: "Записатися у Дипломати"
 
-#  wizard_settings:
+  wizard_settings:
     title: "Налаштування"
     customize_avatar: "Налаштувати аватар"
     clothes: "Одяг"
@@ -144,11 +144,11 @@ module.exports = nativeDescription: "українська мова", englishDesc
   account_profile:
     edit_settings: "Змінити налаштування"
     profile_for_prefix: "Профіль для "
-#    profile_for_suffix: ""
+    profile_for_suffix: ""
     profile: "Профіль"
     user_not_found: "Користувача не знайдено. Будь ласка, перевірте URL."
     gravatar_not_found_mine: "Ми не можемо знайти ваш профіль, пов'язаний з:"
-#    gravatar_not_found_email_suffix: "."
+    gravatar_not_found_email_suffix: "."
     gravatar_signup_prefix: "Зареєструйтеся на "
     gravatar_signup_suffix: " щоб продовжувати"
     gravatar_not_found_other: "Нажаль, немає профіля, що пов'язаний з електронною адресою цієї людини."
@@ -172,7 +172,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     reload_title: "Перезавантажити весь код?"
     reload_really: "Ви впевнені, що хочете перезавантажити цей рівень і почати спочатку?"
     reload_confirm: "Перезавантажити все"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: " закінчено"
     victory_sign_up: "Підписатися на оновлення"
     victory_sign_up_poke: "Хочете отримувати останні новини на email? Створіть безкоштовний акаунт, і ми будемо тримати вас в курсі!"
@@ -202,17 +202,17 @@ module.exports = nativeDescription: "українська мова", englishDesc
     spell_saved: "Заклинання збережено"
     skip_tutorial: "Пропустити (esc)"
 
-#  admin:
+  admin:
 #    av_title: "Admin Views"
 #    av_entities_sub_title: "Entities"
     av_entities_users_url: "користувачі"
 #    av_entities_active_instances_url: "Active Instances"
-#    av_other_sub_title: "Ынше"
+    av_other_sub_title: "Ынше"
 #    av_other_debug_base_url: "Base (for debugging base.jade)"
     u_title: "Список користувачів"
     lg_title: "Останні ігри"
 
-#  editor:
+  editor:
 #    main_title: "CodeCombat Editors"
 #    main_description: "Build your own levels, campaigns, units and educational content. We provide all the tools you need!"
 #    article_title: "Article Editor"
@@ -252,7 +252,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    edit_btn_preview: "Preview"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
     and: "та"
     name: "Ім’я"
 #    body: "Body"
@@ -265,7 +265,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     email: "Email"
     message: "Повідомлення"
 
-#  about:
+  about:
     who_is_codecombat: "Хто є CodeCombat?"
     why_codecombat: "Чому CodeCombat?"
     who_description_prefix: "Взагалом розпочався CodeCombat у 2013. Ми також створили "
@@ -287,7 +287,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
 
-#  legal:
+  legal:
     page_title: "Юридичні нотатки"
 #    opensource_intro: "CodeCombat is free to play and completely open source."
 #    opensource_description_prefix: "Check out "
