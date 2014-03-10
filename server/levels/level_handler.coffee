@@ -89,15 +89,27 @@ LevelHandler = class LevelHandler extends Handler
       # associated with the handler, because the handler might return a different type
       # of model, like in this case. Refactor to move that logic to the model instead.
 
-  getMySessions: (req, res, id) ->
-    @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
+  getMySessions: (req, res, slugOrID) ->
+    findParameters = {}
+    if Handler.isID slugOrID
+      findParameters["_id"] = slugOrID
+    else
+      findParameters["slug"] = slugOrID
+    selectString = 'original version.major permissions'
+    query = Level.findOne(findParameters)
+      .select(selectString)
+      .lean()
+    
+    query.exec (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
       sessionQuery =
         level:
           original: level.original.toString()
           majorVersion: level.version.major
         creator: req.user._id+''
-
-      query = Session.find(sessionQuery)
+      
+      query = Session.find(sessionQuery).select('-screenshot')
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
