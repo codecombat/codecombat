@@ -497,13 +497,15 @@ module.exports = Surface = class Surface extends CocoClass
     # seems to be a bug where only one object can register with the Ticker...
     oldFrame = @currentFrame
     oldWorldFrame = Math.floor oldFrame
+    lastFrame = @world.totalFrames - 1
     while true
       Dropper.tick()
       @trailmaster.tick() if @trailmaster
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
-      frameAdvanced = (@playing and @currentFrame < @world.totalFrames) or @totalFramesDrawn < 2
-      @currentFrame += @world.frameRate / @options.frameRate if frameAdvanced and @playing
-      @currentFrame = Math.min(@currentFrame, @world.totalFrames - 1)
+      frameAdvanced = (@playing and @currentFrame < lastFrame) or @totalFramesDrawn < 2
+      if frameAdvanced and @playing
+        @currentFrame += @world.frameRate / @options.frameRate
+        @currentFrame = Math.min @currentFrame, lastFrame
       newWorldFrame = Math.floor @currentFrame
       worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
       if worldFrameAdvanced
@@ -513,6 +515,7 @@ module.exports = Surface = class Surface extends CocoClass
       break unless Dropper.drop()
     if frameAdvanced and not worldFrameAdvanced
       # We didn't end the above loop on an integer frame, so do the world state update.
+      console.log "Restore world state"
       @restoreWorldState()
 
     # these are skipped for dropped frames
