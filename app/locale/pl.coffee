@@ -1,20 +1,20 @@
 module.exports = nativeDescription: "język polski", englishDescription: "Polish", translation:
   common:
     loading: "Ładowanie..."
-    saving: "Zapisuję..."
+    saving: "Zapisywanie..."
     sending: "Wysyłanie…"
     cancel: "Anuluj"
-#    save: "Save"
+    save: "Zapisz"
     delay_1_sec: "1 sekunda"
-    delay_3_sec: "3 sekunda"
-    delay_5_sec: "5 sekunda"
+    delay_3_sec: "3 sekundy"
+    delay_5_sec: "5 sekund"
     manual: "Ręcznie"
 #    fork: "Fork"
     play: "Graj"
 
   modal:
     close: "Zamknij"
-    okay: "Ok"
+    okay: "OK"
 
   not_found:
     page_not_found: "Strona nie istnieje"
@@ -27,11 +27,11 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     admin: "Admin"
     home: "Główna"
     contribute: "Współpraca"
-    legal: "Dewiza"
+    legal: "Nota prawna"
     about: "O nas"
     contact: "Kontakt"
-    twitter_follow: "Podążaj"
-#    employers: "Employers"
+    twitter_follow: "Subskrybuj"
+    employers: "Pracodawcy"
 
 #  versions:
 #    save_version_title: "Save New Version"
