@@ -5,6 +5,7 @@ errors = require '../commons/errors'
 #request = require 'request'
 config = require '../../server_config'
 LevelSession = require '../levels/sessions/LevelSession.coffee'
+Level = require '../levels/Level.coffee'
 log = require 'winston'
 sendwithus = require '../sendwithus'
 
@@ -16,9 +17,23 @@ module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
 
+getAllLadderScores = (next) ->
+  query = Level.find({type: 'ladder'})
+    .select('levelID')
+    .lean()
+  query.exec (err, levels) ->
+    if err
+      log.error "Couldn't fetch ladder levels. Error: ", err
+      return next []
+    for level in levels
+      for team in ['humans', 'ogres']
+        'I ... am not doing this.'
+
 handleLadderUpdate = (req, res) ->
+  log.info("Going to see about sending ladder update emails.")
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
+  # TODO: somehow fetch the histograms
   emailDays = [1, 2, 4, 7, 30]
   now = new Date()
   getTimeFromDaysAgo = (daysAgo) ->
@@ -35,7 +50,6 @@ handleLadderUpdate = (req, res) ->
     query = LevelSession.find(findParameters)
       .select(selectString)
       .lean()
-    mongoose = require 'mongoose'
     do (daysAgo) ->
       query.exec (err, results) ->
         if err

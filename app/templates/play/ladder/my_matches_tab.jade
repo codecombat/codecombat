@@ -11,11 +11,7 @@ div#columns.row
 
         tr
           th(colspan=4, style="color: #{team.primaryColor}")
-            span Your
-            span  
-            span= team.name
-            span  
-            span Matches
+            span Your #{team.name} Matches - #{team.wins} Wins, #{team.losses} Losses
 
             if team.session
               button.btn.btn-sm.btn-warning.pull-right.rank-button(data-session-id=team.session.id)
