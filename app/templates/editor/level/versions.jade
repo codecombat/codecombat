@@ -1,0 +1,15 @@
+extends /templates/modal/modal_base
+include /templates/kinds/versions
+
+prepend modal-header
+  - var closeButton = true
+
+block modal-header-content
+  h3 Version History
+
+block modal-body-content
+  if dataList
+    +version-history-body()
+
+block modal-footer-content
+  button.close.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
