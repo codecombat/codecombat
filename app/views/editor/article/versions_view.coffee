@@ -1,7 +1,7 @@
 VersionsModalView = require 'views/modal/versions_modal'
 
 module.exports = class ArticleVersionsView extends VersionsModalView
-  id: 'version-history-modal'
+  id: "editor-article-versions-view"
   url: "/db/article/"
   page: "article"
 

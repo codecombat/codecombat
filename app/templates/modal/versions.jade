@@ -2,7 +2,6 @@ extends /templates/modal/modal_base
 
 block modal-header-content
   if dataList
-    - console.log(dataList[0].name)
     h3
      span(data-i18n="general.version_history_for") Version History for:
      |"#{dataList[0].name}"
