@@ -73,6 +73,9 @@ module.exports = class MyMatchesTabView extends CocoView
       team.matches = (convertMatch(match) for match in team.session?.get('matches') or [])
       team.matches.reverse()
       team.score = (team.session?.get('totalScore') or 10).toFixed(2)
+      team.wins = _.filter(team.matches, {state: 'win'}).length
+      team.ties = _.filter(team.matches, {state: 'tie'}).length
+      team.losses = _.filter(team.matches, {state: 'loss'}).length
 
     ctx
 
@@ -91,7 +94,6 @@ module.exports = class MyMatchesTabView extends CocoView
     c1 and not _.isEqual(c1, c2)
 
   rankSession: (e) ->
-    console.log "Clicked"
     button = $(e.target).closest('.rank-button')
     sessionID = button.data('session-id')
     session = _.find @sessions.models, { id: sessionID }
