@@ -146,6 +146,18 @@ _.extend LevelSessionSchema.properties,
   numberOfLosses:
     type: 'number'
     default: 0
+    
+  scoreHistory:
+    type: 'array'
+    title: 'Score History'
+    description: 'A list of objects representing the score history of a session'
+    items: 
+      title: 'Score History Point'
+      description: 'An array with the format [unix timestamp, totalScore]'
+      type: 'array'
+      items:
+        type: 'number'
+      
 
   matches:
     type: 'array'

@@ -443,10 +443,15 @@ updateScoreInSession = (scoreObject,callback) ->
     if err? then return callback err, null
 
     session = session.toObject()
+    newTotalScore = scoreObject.meanStrength - 1.8 * scoreObject.standardDeviation
+    scoreHistoryAddition = [Date.now(), newTotalScore]
     updateObject =
       meanStrength: scoreObject.meanStrength
       standardDeviation: scoreObject.standardDeviation
-      totalScore: scoreObject.meanStrength - 1.8 * scoreObject.standardDeviation
+      totalScore: newTotalScore
+      $push:
+        scoreHistory: scoreHistoryAddition        
+
     LevelSession.update {"_id": scoreObject.id}, updateObject, callback
     log.info "New total score for session #{scoreObject.id} is #{updateObject.totalScore}"
 
