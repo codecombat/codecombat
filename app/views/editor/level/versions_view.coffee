@@ -7,6 +7,7 @@ module.exports = class ModalVersionsView extends VersionsView
   url: "/db/level/"
   page: "level"
   template: template
+  startsLoading: true
 
   className: "modal fade"
   closeButton: true
