@@ -347,7 +347,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     nutshell_description: "Orice resurse vă punem la dispoziție în Editorul de Nivele puteți folosi liber cum vreți pentru a crea nivele. Dar ne rezervăm dreptul de a rezerva distribuția de nivele în sine (care sunt create pe codecombat.com) astfel încât să se poată percepe o taxă pentru ele pe vitor, dacă se va ajunge la așa ceva."
     canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
-  contribute:
+#  contribute:
 #    page_title: "Contributing"
 #    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
