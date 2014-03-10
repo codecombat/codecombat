@@ -33,73 +33,73 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     twitter_follow: "Subskrybuj"
     employers: "Pracodawcy"
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    new_major_version: "New Major Version"
-#    cla_prefix: "To save changes, first you must agree to our"
-#    cla_url: "CLA"
-#    cla_suffix: "."
-#    cla_agree: "I AGREE"
+  versions:
+    save_version_title: "Zapisz nową wersję"
+    new_major_version: "Nowa wersja główna"
+    cla_prefix: "Aby zapisać zmiany, musisz najpierw zaakceptować naszą"
+    cla_url: "umowę licencyjną dla współtwórców (CLA)"
+    cla_suffix: "."
+    cla_agree: "AKCEPTUJĘ"
 
   login:
-    sign_up: "Stwórz Konto"
+    sign_up: "Stwórz konto"
     log_in: "Zaloguj się"
     log_out: "Wyloguj się"
     recover: "odzyskaj konto"
 
   recover:
-    recover_account_title: "odzyskaj konto"
-#    send_password: "Send Recovery Password"
+    recover_account_title: "Odzyskaj konto"
+    send_password: "Wyślij hasło tymczasowe"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "Stwórz konto, aby zapisać postępy"
     description: "Poświęć chwilę na bezpłatne założenie nowego konta."
-    email_announcements: "Odbieraj powiadomienia na email"
-    coppa: "13+ lub jesteś spoza USA"
-    coppa_why: "(Dlaczego?)"
-    creating: "Tworzenie konta"
+    email_announcements: "Otrzymuj powiadomienia na e-mail"
+    coppa: "Mam powyżej 13 lat lub jestem spoza USA "
+    coppa_why: "(dlaczego?)"
+    creating: "Tworzenie konta..."
     sign_up: "Zarejestruj"
     log_in: "zaloguj się używając hasła"
 
   home:
-    slogan: "Naucz się JavaScript grając."
+    slogan: "Naucz się JavaScript grając"
     no_ie: "CodeCombat nie działa na Internet Explorer 9 lub starszym. Przepraszamy!"
-    no_mobile: "CodeCombat nie został zaprojektowany dla użądzeń przenośnych, więc może nie działać!"
+    no_mobile: "CodeCombat nie został zaprojektowany dla użądzeń przenośnych więc może nie działać!"
     play: "Graj"
 
   play:
     choose_your_level: "Wybierz poziom"
-    adventurer_prefix: "Możesz wybrać jeden z poniższych poziomów, lub omówić to na "
+    adventurer_prefix: "Możesz wybrać jeden z poniższych poziomów lub omówić to na "
     adventurer_forum: "forum podróżników"
     adventurer_suffix: "."
     campaign_beginner: "Kampania dla początkujących"
-    campaign_beginner_description: "... W której nauczysz się magii programowania"
-    campaign_dev: "Losowe Trudniejsze Poziomy"
+    campaign_beginner_description: "... w której nauczysz się magii programowania"
+    campaign_dev: "Losowe trudniejsze poziomy"
     campaign_dev_description: "... w których nauczysz się interfejsu robiąc coś trudniejszego."
-    campaign_multiplayer: "Pola Walki Dla Wielu Graczy"
-    campaign_multiplayer_description: "W których ścierasz się  z innymi graczami. "
-    campaign_player_created: "Stworzone Przez Graczy"
+    campaign_multiplayer: "Pola walki dla wielu graczy"
+    campaign_multiplayer_description: "... w których konkurujesz z innymi graczami."
+    campaign_player_created: "Stworzone przez graczy"
     campaign_player_created_description: "... w których walczysz przeciwko dziełom <a href=\"/contribute#artisan\">Czarodziejów Rękodzielnictwa</a>"
     level_difficulty: "Poziom trudności: "
 
   contact:
     contact_us: "Kontakt z CodeCombat"
-    welcome: "Miło Cię widzieć! Użyj tego formularza żeby wysłać do nas wiadomość. "
-    contribute_prefix: "Jeśli jesteś zainteresowany wsparciem projektu, zapoznaj się z naszą"
+    welcome: "Miło Cię widzieć! Użyj tego formularza, żeby wysłać do nas wiadomość. "
+    contribute_prefix: "Jeśli jesteś zainteresowany wsparciem projektu, zapoznaj się z naszą "
     contribute_page: "stroną współpracy"
     contribute_suffix: "!"
-    forum_prefix: "W sprawach ogólnych skorzystaj z"
+    forum_prefix: "W sprawach ogólnych, skorzystaj z "
     forum_page: "naszego forum"
     forum_suffix: "."
-    send: "Wyślij Wiadomość"
+    send: "Wyślij wiadomość"
 
   diplomat_suggestion:
     title: "Pomóż w tłumaczeniu CodeCombat!"
     sub_heading: "Potrzebujemy twoich zdolności językowych."
-    pitch_body: "Tworzymy CodeCombat w języku angielskim, Jadnak nasi gracze pochodzą z całego świata. Wielu z nich chciałoby zagrać zagrać w swoim języku, ponieważ nie znają angielskiego, więc jeśli znasz oba języki zostań Dyplomatą i pomóż w tłumaczeniu strony CodeCombat, i gry."
+    pitch_body: "Tworzymy CodeCombat w języku angielskim, jednak nasi gracze pochodzą z całego świata. Wielu z nich chciałoby zagrać zagrać w swoim języku, ponieważ nie znają angielskiego, więc jeśli znasz oba języki zostań Dyplomatą i pomóż w tłumaczeniu strony CodeCombat, jak i samej gry."
     missing_translations: "Dopóki nie przetłumaczymy wszystkiego na polski, będziesz widział niektóre napisy w języku angielskim."
-    learn_more: "Dowiedz się więcej o Dyplomatach."
-    subscribe_as_diplomat: "Dołącz do dyplomatów"
+    learn_more: "Dowiedz się więcej o Dyplomatach"
+    subscribe_as_diplomat: "Dołącz do Dyplomatów"
 
 #  wizard_settings:
 #    title: "Wizard Settings"
