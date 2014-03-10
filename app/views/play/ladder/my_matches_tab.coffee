@@ -94,7 +94,6 @@ module.exports = class MyMatchesTabView extends CocoView
     c1 and not _.isEqual(c1, c2)
 
   rankSession: (e) ->
-    console.log "Clicked"
     button = $(e.target).closest('.rank-button')
     sessionID = button.data('session-id')
     session = _.find @sessions.models, { id: sessionID }

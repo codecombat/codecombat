@@ -515,7 +515,6 @@ module.exports = Surface = class Surface extends CocoClass
       break unless Dropper.drop()
     if frameAdvanced and not worldFrameAdvanced
       # We didn't end the above loop on an integer frame, so do the world state update.
-      console.log "Restore world state"
       @restoreWorldState()
 
     # these are skipped for dropped frames

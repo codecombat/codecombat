@@ -14,8 +14,10 @@
     div!= body
   
   .modal-footer
-    if level.get('type') === 'ladder'
-      a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
+    if readyToRank
+      button.btn.btn-success.rank-game-button(data-i18n="play_level.victory_rank_my_game") Rank My Game
+    else if level.get('type') === 'ladder'
+      a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_go_ladder") Return to Ladder
     else if hasNextLevel
       button.btn.btn-primary.next-level-button(data-dismiss="modal", data-i18n="play_level.victory_play_next_level") Play Next Level
     else

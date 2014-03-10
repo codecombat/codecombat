@@ -316,7 +316,6 @@ module.exports = class HUDView extends View
     @timespans = {}
     dt = @thang.world.dt
     actionHistory = @thang.world.actionsForThang @thang.id, true
-    console.log "got actionHistory", actionHistory
     [lastFrame, lastAction] = [0, null]
     for hist in actionHistory.concat {frame: @thang.world.totalFrames, name: 'END'}
       [newFrame, newAction] = [hist.frame, hist.name]

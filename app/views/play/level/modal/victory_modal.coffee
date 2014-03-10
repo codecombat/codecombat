@@ -11,6 +11,7 @@ module.exports = class VictoryModal extends View
 
   events:
     'click .next-level-button': 'onPlayNextLevel'
+    'click .rank-game-button': 'onRankGame'
 
     # review events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -58,6 +59,21 @@ module.exports = class VictoryModal extends View
     @saveReview() if @$el.find('.review textarea').val()
     Backbone.Mediator.publish('play-next-level')
 
+  onRankGame: (e) ->
+    button = @$el.find('.rank-game-button')
+    button.text($.i18n.t('play_level.victory_ranking_game', defaultValue: 'Submitting...'))
+    button.prop 'disabled', true
+    ajaxData = session: @session.id, levelID: @level.id, originalLevelID: @level.get('original'), levelMajorVersion: @level.get('version').major
+    ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
+    goToLadder = -> Backbone.Mediator.publish 'router:navigate', route: ladderURL
+    $.ajax '/queue/scoring',
+      type: 'POST'
+      data: ajaxData
+      success: goToLadder
+      failure: (response) ->
+        console.error "Couldn't submit game for ranking:", response
+        goToLadder()
+
   getRenderData: ->
     c = super()
     c.body = @body
@@ -65,6 +81,10 @@ module.exports = class VictoryModal extends View
     c.hasNextLevel = _.isObject(@level.get('nextLevel')) and (@level.get('name') isnt "Mobile Artillery")
     c.levelName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
     c.level = @level
+    if c.level.get('type') is 'ladder'
+      c1 = @session?.get('code')
+      c2 = @session?.get('submittedCode')
+      c.readyToRank = @session.get('levelID') and c1 and not _.isEqual(c1, c2)
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 30 minutes
       elapsed = (new Date() - new Date(me.get('dateCreated')))
