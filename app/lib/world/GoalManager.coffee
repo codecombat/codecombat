@@ -1,6 +1,6 @@
 CocoClass = require 'lib/CocoClass'
 utils = require 'lib/utils'
-
+#test
 module.exports = class GoalManager extends CocoClass
   # The Goal Manager is created both on the main thread and
   # each time the world is generated. The one in world generation
