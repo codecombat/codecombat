@@ -76,7 +76,7 @@ sendLadderUpdateEmail = (session, daysAgo) ->
     # (We could look at strongest/weakest, but we'd have to fetch everyone, or denormalize more.)
     matches = _.filter session.matches, (match) -> match.date >= (new Date() - 86400 * 1000 * daysAgo)
     defeats = _.filter matches, (match) -> match.metrics.rank is 1 and match.opponents[0].metrics.rank is 0
-    victories = _.filter matches, (match) -> match.metrics.rank is 0
+    victories = _.filter matches, (match) -> match.metrics.rank is 0 and match.opponents[0].metrics.rank is 1
     defeat = _.last defeats
     victory = _.last victories
 
