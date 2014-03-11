@@ -35,7 +35,7 @@ module.exports = class MyMatchesTabView extends CocoView
       for session in @sessions.models
         for match in session.get('matches') or []
           opponent = match.opponents[0]
-          @nameMap[opponent.userID] = nameMap[opponent.userID]
+          @nameMap[opponent.userID] ?= nameMap[opponent.userID]
       @finishRendering()
 
     $.ajax('/db/user/-/names', {
@@ -76,15 +76,16 @@ module.exports = class MyMatchesTabView extends CocoView
       team.wins = _.filter(team.matches, {state: 'win'}).length
       team.ties = _.filter(team.matches, {state: 'tie'}).length
       team.losses = _.filter(team.matches, {state: 'loss'}).length
-      team.scoreHistory = team.session.get('scoreHistory')
-      team.chartColor = team.primaryColor.replace '#', ''
-      times = (s[0] for s in team.scoreHistory)
-      times = (100 * (t - times[0]) / (times[times.length - 1] - times[0]) for t in times)
-      scores = (s[1] for s in team.scoreHistory)
-      lowest = _.min scores
-      highest = _.max scores
-      scores = (100 * (s - lowest) / highest for s in scores)
-      team.chartData = times.join(',') + '|' + scores.join(',')
+      team.scoreHistory = team.session?.get('scoreHistory')
+      if team.scoreHistory?.length > 1
+        team.chartColor = team.primaryColor.replace '#', ''
+        times = (s[0] for s in team.scoreHistory)
+        times = ((100 * (t - times[0]) / (times[times.length - 1] - times[0])).toFixed(1) for t in times)
+        scores = (s[1] for s in team.scoreHistory)
+        lowest = _.min scores
+        highest = _.max scores
+        scores = (Math.round(100 * (s - lowest) / (highest - lowest)) for s in scores)
+        team.chartData = times.join(',') + '|' + scores.join(',')
 
     ctx
 

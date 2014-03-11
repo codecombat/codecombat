@@ -46,7 +46,7 @@ handleLadderUpdate = (req, res) ->
     #endTime = startTime + 1.5 * 60 * 60 * 1000  # Debugging: make sure there's something to send
     findParameters = {submitted: true, submitDate: {$gt: new Date(startTime), $lte: new Date(endTime)}}
     # TODO: think about putting screenshots in the email
-    selectString = "creator team levelName levelID totalScore matches submitted submitDate numberOfWinsAndTies numberOfLosses"
+    selectString = "creator team levelName levelID totalScore matches submitted submitDate"
     query = LevelSession.find(findParameters)
       .select(selectString)
       .lean()
@@ -63,8 +63,8 @@ sendLadderUpdateEmail = (session, daysAgo) ->
     if err
       log.error "Couldn't find user for #{session.creator} from session #{session._id}"
       return
-    unless user.email and ('notification' in user.emailSubscriptions)
-      log.info "Not sending email to #{user.email} #{user.name} because they only want emails about #{user.emailSubscriptions}"
+    unless user.email and ('notification' in user.emailSubscriptions) and not session.unsubscribed
+      log.info "Not sending email to #{user.email} #{user.name} because they only want emails about #{user.emailSubscriptions} - session unsubscribed: #{session.unsubscribed}"
       return
     unless session.levelName
       log.info "Not sending email to #{user.email} #{user.name} because the session had no levelName in it."
@@ -72,23 +72,32 @@ sendLadderUpdateEmail = (session, daysAgo) ->
     name = if user.firstName and user.lastName then "#{user.firstName} #{user.lastName}" else user.name
     name = "Wizard" if not name or name is "Anoner"
 
+    # Fetch the most recent defeat and victory, if there are any.
+    # (We could look at strongest/weakest, but we'd have to fetch everyone, or denormalize more.)
+    matches = _.filter session.matches, (match) -> match.date >= (new Date() - 86400 * 1000 * daysAgo)
+    defeats = _.filter matches, (match) -> match.metrics.rank is 1 and match.opponents[0].metrics.rank is 0
+    victories = _.filter matches, (match) -> match.metrics.rank is 0
+    defeat = _.last defeats
+    victory = _.last victories
+
     sendEmail = (defeatContext, victoryContext) ->
       # TODO: do something with the preferredLanguage?
       context =
         email_id: sendwithus.templates.ladder_update_email
         recipient:
-          #address: user.email
-          address: 'nick@codecombat.com'  # Debugging
+          address: user.email
+          #address: 'nick@codecombat.com'  # Debugging
           name: name
         email_data:
           name: name
           days_ago: daysAgo
-          wins: session.numberOfWinsAndTies
-          losses: session.numberOfLosses
+          wins: victories.length
+          losses: defeats.length
           total_score: Math.round(session.totalScore * 100)
           team: session.team
           team_name: session.team[0].toUpperCase() + session.team.substr(1)
           level_name: session.levelName
+          session_id: session._id
           ladder_url: "http://codecombat.com/play/ladder/#{session.levelID}#my-matches"
           defeat: defeatContext
           victory: victoryContext
@@ -96,12 +105,6 @@ sendLadderUpdateEmail = (session, daysAgo) ->
       sendwithus.api.send context, (err, result) ->
         log.error "Error sending ladder update email: #{err} with result #{result}" if err
 
-    # Fetch the most recent defeat and victory, if there are any.
-    # (We could look at strongest/weakest, but we'd have to fetch everyone, or denormalize more.)
-    defeats = _.filter session.matches, (match) -> match.metrics.rank is 1 and match.opponents[0].metrics.rank is 0
-    victories = _.filter session.matches, (match) -> match.metrics.rank is 0
-    defeat = _.last defeats
-    victory = _.last victories
     urlForMatch = (match) ->
       "http://codecombat.com/play/level/#{session.levelID}?team=#{session.team}&session=#{session._id}&opponent=#{match.opponents[0].sessionID}"
 
