@@ -78,6 +78,7 @@ module.exports = class MyMatchesTabView extends CocoView
       team.losses = _.filter(team.matches, {state: 'loss'}).length
       team.scoreHistory = team.session?.get('scoreHistory')
       if team.scoreHistory?.length > 1
+        team.currentScore = Math.round team.scoreHistory[team.scoreHistory.length - 1][1] * 100
         team.chartColor = team.primaryColor.replace '#', ''
         times = (s[0] for s in team.scoreHistory)
         times = ((100 * (t - times[0]) / (times[times.length - 1] - times[0])).toFixed(1) for t in times)

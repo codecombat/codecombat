@@ -46,7 +46,7 @@ handleLadderUpdate = (req, res) ->
     #endTime = startTime + 1.5 * 60 * 60 * 1000  # Debugging: make sure there's something to send
     findParameters = {submitted: true, submitDate: {$gt: new Date(startTime), $lte: new Date(endTime)}}
     # TODO: think about putting screenshots in the email
-    selectString = "creator team levelName levelID totalScore matches submitted submitDate"
+    selectString = "creator team levelName levelID totalScore matches submitted submitDate scoreHistory"
     query = LevelSession.find(findParameters)
       .select(selectString)
       .lean()
@@ -69,7 +69,7 @@ sendLadderUpdateEmail = (session, daysAgo) ->
     unless session.levelName
       log.info "Not sending email to #{user.email} #{user.name} because the session had no levelName in it."
       return
-    name = if user.firstName and user.lastName then "#{user.firstName} #{user.lastName}" else user.name
+    name = if user.firstName and user.lastName then "#{user.firstName}" else user.name
     name = "Wizard" if not name or name is "Anoner"
 
     # Fetch the most recent defeat and victory, if there are any.
@@ -99,6 +99,7 @@ sendLadderUpdateEmail = (session, daysAgo) ->
           level_name: session.levelName
           session_id: session._id
           ladder_url: "http://codecombat.com/play/ladder/#{session.levelID}#my-matches"
+          score_history_graph_url: getScoreHistoryGraphURL session, daysAgo
           defeat: defeatContext
           victory: victoryContext
       log.info "Sending ladder update email to #{context.recipient.address} with #{context.email_data.wins} wins and #{context.email_data.losses} since #{daysAgo} day(s) ago."
@@ -131,6 +132,20 @@ sendLadderUpdateEmail = (session, daysAgo) ->
     else
       onFetchedDefeatedOpponent null, null
 
+getScoreHistoryGraphURL = (session, daysAgo) ->
+  # Totally duplicated in My Matches tab for now until we figure out what we're doing.
+  since = new Date() - 86400 * 1000 * daysAgo
+  scoreHistory = (s for s in session.scoreHistory ? [] when s[0] >= since)
+  return '' unless scoreHistory.length > 1
+  times = (s[0] for s in scoreHistory)
+  times = ((100 * (t - times[0]) / (times[times.length - 1] - times[0])).toFixed(1) for t in times)
+  scores = (s[1] for s in scoreHistory)
+  lowest = _.min scores
+  highest = _.max scores
+  scores = (Math.round(100 * (s - lowest) / (highest - lowest)) for s in scores)
+  currentScore = Math.round scoreHistory[scoreHistory.length - 1][1] * 100
+  chartData = times.join(',') + '|' + scores.join(',')
+  "https://chart.googleapis.com/chart?chs=600x75&cht=lxy&chtt=Score%3A+#{currentScore}&chts=222222,12,r&chf=a,s,000000FF&chls=2&chd=t:#{chartData}"
 
 handleMailchimpWebHook = (req, res) ->
   post = req.body
