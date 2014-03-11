@@ -4,6 +4,7 @@ Simulator = require 'lib/simulator/Simulator'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
 {teamDataFromLevel} = require './ladder/utils'
+application = require 'application'
 
 LadderTabView = require './ladder/ladder_tab'
 MyMatchesTabView = require './ladder/my_matches_tab'
@@ -74,11 +75,10 @@ module.exports = class LadderView extends RootView
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>
-    return if @destroyed
+    return if @destroyed or application.userIsIdle
     @ladderTab.refreshLadder()
     @myMatchesTab.refreshMatches()
     console.log "refreshed views!"
-
 
   # Simulations
 
