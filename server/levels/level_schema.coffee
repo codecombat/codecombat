@@ -33,12 +33,22 @@ GoalSchema = c.object {title: "Goal", description: "A goal that the player can a
   team: c.shortString(title: 'Team', description: 'Name of the team this goal is for, if it is not for all of the playable teams.')
   killThangs: c.array {title: "Kill Thangs", description: "A list of Thang IDs the player should kill, or team names.", uniqueItems: true, minItems: 1, "default": ["ogres"]}, thang
   saveThangs: c.array {title: "Save Thangs", description: "A list of Thang IDs the player should save, or team names", uniqueItems: true, minItems: 1, "default": ["humans"]}, thang
-  getToLocations: c.object {title: "Get To Locations", description: "Will be set off when any of the \"who\" touch any of the \"targets\" ", required: ["who", "targets"]},
-    who: c.array {title: "Who", description: "The Thangs who must get to the target locations.", minItems: 1}, thang
-    targets: c.array {title: "Targets", description: "The target locations to which the Thangs must get.", minItems: 1}, thang
+  getToLocations: c.object {title: "Get To Locations", description: "TODO: explain", required: ["who", "targets"]},
+	  who: c.array {title: "Who", description: "The Thangs who must get to the target locations.", minItems: 1}, thang
+	  targets: c.array {title: "Targets", description: "The target locations to which the Thangs must get.", minItems: 1}, thang
+  getAllToLocations: c.array {title: "Get all to locations", description: "work ffs",required: ["getToLocations2"]},
+  c.object {title: "", description: ""},
+    getToLocations2: c.object {title: "Get To Locations", description: "TODO: explain", required: ["who2", "targets2"]},
+      who2: c.array {title: "Who", description: "The Thangs who must get to the target locations.", minItems: 1}, thang
+      targets2: c.array {title: "Targets", description: "The target locations to which the Thangs must get.", minItems: 1}, thang
   keepFromLocations: c.object {title: "Keep From Locations", description: "TODO: explain", required: ["who", "targets"]},
     who: c.array {title: "Who", description: "The Thangs who must not get to the target locations.", minItems: 1}, thang
     targets: c.array {title: "Targets", description: "The target locations to which the Thangs must not get.", minItems: 1}, thang
+  keepAllFromLocations: c.array {title: "Keep ALL From Locations", description: "work ffs", required: ["keepFromLocations2"]},
+  c.object {title: "", description: ""},
+    keepFromLocations2: c.object {title: "Keep From Locations", description: "TODO: explain", required: ["who2", "targets2"]},
+      who2: c.array {title: "Who", description: "The Thangs who must not get to the target locations.", minItems: 1}, thang
+      targets2: c.array {title: "Targets", description: "The target locations to which the Thangs must not get.", minItems: 1}, thang
   leaveOffSides: c.object {title: "Leave Off Sides", description: "Sides of the level to get some Thangs to leave across.", required: ["who", "sides"]},
     who: c.array {title: "Who", description: "The Thangs which must leave off the sides of the level.", minItems: 1}, thang
     sides: c.array {title: "Sides", description: "The sides off which the Thangs must leave.", minItems: 1}, side
@@ -145,7 +155,7 @@ ScriptSchema = c.object {
   id: c.shortString(title: "ID", description: "A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.")  # uniqueness?
   channel: c.shortString(title: "Event", format: 'event-channel', description: 'Event channel this script might trigger for, like "world:won".')
   eventPrereqs: c.array {title: "Event Checks", description: "Logical checks on the event for this script to trigger.", format:'event-prereqs'}, EventPrereqSchema
-  repeats: {title: "Repeats", description: "Whether this script can trigger more than once during a level.", enum: [true, false, 'session'], "default": false}
+  repeats: {title: "Repeats", description: "Whether this script can trigger more than once during a level.", type: 'boolean', "default": false}
   scriptPrereqs: c.array {title: "Happens After", description: "Scripts that need to fire first."},
     c.shortString(title: "ID", description: "A unique ID of a script.")
   notAfter: c.array {title: "Not After", description: "Do not run this script if any of these scripts have run."},
@@ -226,8 +236,7 @@ _.extend LevelSchema.properties,
   i18n: {type: "object", format: 'i18n', props: ['name', 'description'], description: "Help translate this level"}
   icon: { type: 'string', format: 'image-file', title: 'Icon' }
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
-  type: c.shortString(title: "Type", description: "What kind of level this is.", "enum": ['campaign', 'ladder'])
-  showsGuide: c.shortString(title: "Shows Guide", description: "If the guide is shown at the beginning of the level.", "enum": ['first-time', 'always'])
+
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema
