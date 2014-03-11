@@ -105,7 +105,6 @@ module.exports = class GoalManager extends CocoClass
   notifyGoalChanges: ->
     overallStatus = @checkOverallStatus()
     event = {goalStates: @goalStates, goals: @goals, overallStatus: overallStatus}
-    #console.log JSON.stringify(event), "new goal states"
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
   checkOverallStatus: (ignoreIncomplete=false) ->
@@ -126,6 +125,10 @@ module.exports = class GoalManager extends CocoClass
         keyFrame: 0 # when it became a 'success' or 'failure'
       }
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
+      for getToLocations2 in goal.getAllToLocations ? [] #mess here again
+        @initGoalState(state,[ getToLocations2.getToLocations2?.who2 , [] ], 'arrived')
+      for keepFromLocations2 in goal.keepAllFromLocations ? [] #messy
+        @initGoalState(state,[ [] , keepFromLocations2.keepFromLocations2?.who2], 'arrived')
       @initGoalState(state, [goal.getToLocations?.who, goal.keepFromLocations?.who], 'arrived')
       @initGoalState(state, [goal.leaveOffSides?.who, goal.keepFromLeavingOffSides?.who], 'left')
       @initGoalState(state, [goal.collectThangs?.who, goal.keepFromCollectingThangs?.who], 'collected')
@@ -143,7 +146,13 @@ module.exports = class GoalManager extends CocoClass
   onThangTouchedGoal: (e, frameNumber) ->
     for goal in @goals ? []
       @checkArrived(goal.id, goal.getToLocations.who, goal.getToLocations.targets, e.actor, e.touched.id, frameNumber) if goal.getToLocations?
+      if goal.getAllToLocations?    #my mess here
+        for getToLocations2 in goal.getAllToLocations
+          @checkArrived(goal.id, getToLocations2.getToLocations2.who2, getToLocations2.getToLocations2.targets2, e.actor, e.touched.id, frameNumber)
       @checkArrived(goal.id, goal.keepFromLocations.who, goal.keepFromLocations.targets, e.actor, e.touched.id, frameNumber) if goal.keepFromLocations?
+      if goal.keepAllFromLocations? #mess
+        for keepFromLocations2 in goal.keepAllFromLocations
+          @checkArrived(goal.id, keepFromLocations2.keepFromLocations2.who2 , keepFromLocations2.keepFromLocations2.targets2, e.actor, e.touched.id, frameNumber )
 
   checkArrived: (goalID, who, targets, thang, touchedID, frameNumber) ->
     return unless touchedID in targets
@@ -191,6 +200,7 @@ module.exports = class GoalManager extends CocoClass
   initGoalState: (state, whos, progressObjectName) ->
     # 'whos' is an array of goal 'who' values.
     # This inits the progress object for the goal tracking.
+    
     arrays = (prop for prop in whos when prop?.length)
     return unless arrays.length
     state[progressObjectName] = {}
@@ -240,7 +250,9 @@ module.exports = class GoalManager extends CocoClass
     killThangs: 1
     saveThangs: 0
     getToLocations: 1
+    getAllToLocations: 1
     keepFromLocations: 0
+    keepAllFromLocations: 0
     leaveOffSides: 1
     keepFromLeavingOffSides: 0
     collectThangs: 1
