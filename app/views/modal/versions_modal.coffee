@@ -38,5 +38,4 @@ module.exports = class VersionsModalView extends ModalView
     context = super(context)
     context.page = @page
     context.dataList = (m.attributes for m in @collection.models) if @collection
-    console.debug context
     context

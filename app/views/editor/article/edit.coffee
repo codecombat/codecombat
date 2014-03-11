@@ -1,4 +1,5 @@
 View = require 'views/kinds/RootView'
+VersionHistoryView = require './versions_view'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
 
@@ -9,6 +10,7 @@ module.exports = class ArticleEditView extends View
 
   events:
     'click #preview-button': 'openPreview'
+    'click #history-button': 'showVersionHistory'
 
   subscriptions:
     'save-new-version': 'saveNewArticle'
@@ -84,3 +86,8 @@ module.exports = class ArticleEditView extends View
       modal.modal('hide')
       url = "/editor/article/#{newArticle.get('slug') or newArticle.id}"
       document.location.href = url
+
+  showVersionHistory: (e) ->
+    versionHistoryView = new VersionHistoryView level:@article, @articleID
+    @openModalView versionHistoryView
+    Backbone.Mediator.publish 'level:view-switched', e

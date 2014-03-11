@@ -264,7 +264,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     body: "Body"
     version: "Version"
     commit_msg: "Commit Message"
-    version_history: "Version History"
+    history: "History"
     version_history_for: "Version History for: "
     results: "Results"
     description: "Description"
