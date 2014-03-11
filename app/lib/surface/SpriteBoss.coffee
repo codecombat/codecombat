@@ -48,10 +48,6 @@ module.exports = class SpriteBoss extends CocoClass
   thangTypeFor: (type) ->
     _.find @options.thangTypes, (m) -> m.get('original') is type or m.get('name') is type
 
-  markThangTypes: ->
-    highlight: @thangTypeFor "Highlight"
-    repair: @thangTypeFor "Repair"
-
   createLayers: ->
     @spriteLayers = {}
     for [name, priority] in [
@@ -87,11 +83,11 @@ module.exports = class SpriteBoss extends CocoClass
     sprite
 
   createMarks: ->
-    @targetMark = new Mark name: 'target', camera: @camera, layer: @spriteLayers["Ground"], thangType: @thangTypeFor("Target")
-    @selectionMark = new Mark name: 'selection', camera: @camera, layer: @spriteLayers["Ground"], thangType: @thangTypeFor("Selection")
+    @targetMark = new Mark name: 'target', camera: @camera, layer: @spriteLayers["Ground"], thangType: 'target'
+    @selectionMark = new Mark name: 'selection', camera: @camera, layer: @spriteLayers["Ground"], thangType: 'selection'
 
   createSpriteOptions: (options) ->
-    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers["Ground"], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers["Floating"], markThangTypes: @markThangTypes(), spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible
+    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers["Ground"], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers["Floating"], spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible
 
   createIndieSprites: (indieSprites, withWizards) ->
     unless @indieSprites

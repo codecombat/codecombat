@@ -16,6 +16,7 @@ LevelLoader = require 'lib/LevelLoader'
 LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
+Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 
@@ -105,7 +106,8 @@ module.exports = class PlayLevelView extends View
 
   load: ->
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
-    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
+    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded, @
+    @levelLoader.on 'progress', @onLevelLoaderProgressChanged, @
     @god = new God()
 
   getRenderData: ->
@@ -124,7 +126,28 @@ module.exports = class PlayLevelView extends View
     @$el.find('#level-done-button').hide()
     super()
 
-  onLevelLoaderLoaded: =>
+  onLevelLoaderProgressChanged: ->
+    return if @seenDocs
+    return unless showFrequency = @levelLoader.level.get('showGuide')
+    session = @levelLoader.session
+    diff = new Date().getTime() - new Date(session.get('created')).getTime()
+    return if showFrequency is 'first-time' and diff > (5 * 60 * 1000)
+    return unless @levelLoader.level.loaded
+    articles = @levelLoader.supermodel.getModels Article
+    for article in articles
+      return unless article.loaded
+    @showGuide()
+
+  showGuide: ->
+    @seenDocs = true
+    DocsModal = require './level/modal/docs_modal'
+    options = {docs: @levelLoader.level.get('documentation'), supermodel: @supermodel}
+    @openModalView(new DocsModal(options), true)
+    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
+    return true
+
+  onLevelLoaderLoaded: ->
+    return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
     # Save latest level played in local storage
     if window.currentModal and not window.currentModal.destroyed
       @loadingScreen.showReady()

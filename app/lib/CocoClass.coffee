@@ -20,6 +20,7 @@ module.exports = class CocoClass
   destroy: ->
     # teardown subscriptions, prevent new ones
     @stopListening?()
+    @off()
     @unsubscribeAll()
     @stopListeningToShortcuts()
     @[key] = undefined for key of @

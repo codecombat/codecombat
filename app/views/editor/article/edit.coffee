@@ -37,9 +37,9 @@ module.exports = class ArticleEditView extends View
       data: data
       filePath: "db/thang.type/#{@article.get('original')}"
       schema: Article.schema.attributes
+      readOnly: true unless me.isAdmin() or @article.hasWriteAccess(me)
       callbacks:
         change: @pushChangesToPreview
-    options.readOnly = true unless me.isAdmin()
     @treema = @$el.find('#article-treema').treema(options)
 
     @treema.build()
@@ -56,10 +56,11 @@ module.exports = class ArticleEditView extends View
   getRenderData: (context={}) ->
     context = super(context)
     context.article = @article
+    context.authorized = me.isAdmin() or @article.hasWriteAccess(me)
     context
 
   openPreview: =>
-    @preview = window.open('http://localhost:3000/editor/article/x/preview', 'preview', 'height=800,width=600')
+    @preview = window.open('/editor/article/x/preview', 'preview', 'height=800,width=600')
     @preview.focus() if window.focus
     @preview.onload = => @pushChangesToPreview()
     return false

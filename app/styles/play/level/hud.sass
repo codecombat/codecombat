@@ -95,14 +95,35 @@
         height: 100px
         @include user-select(text)
   
-        .prop
-          img
-            margin-right: 5px
-            width: 16px
-            height: 16px
-  
         .text-prop
           width: 50%
+
+        .prop-label-icon
+          $iconSize: 16px
+          display: inline-block
+          width: $iconSize
+          height: $iconSize
+          margin-right: 5px
+          background: transparent url(/images/level/hud_info_icons.png) no-repeat
+          background-size: auto $iconSize
+          float: left
+
+          &.prop-label-icon-pos
+            background-position-x: -1 * $iconSize
+          &.prop-label-icon-target
+            background-position-x: -2 * $iconSize
+          &.prop-label-icon-inventory
+            background-position-x: -3 * $iconSize
+          &.prop-label-icon-visualRange
+            background-position-x: -4 * $iconSize
+          &.prop-label-icon-attackDamage
+            background-position-x: -5 * $iconSize
+          &.prop-label-icon-attackRange
+            background-position-x: -6 * $iconSize
+          &.prop-label-icon-maxSpeed
+            background-position-x: -7 * $iconSize
+          &.prop-label-icon-gold
+            background-position-x: -8 * $iconSize
   
         .prop-value.bar-prop
           width: 100px
@@ -187,11 +208,11 @@
               height: 19px
 
               div
-                @include box-sizing(border-box)
+                border-radius: 1px
                 background-color: #6BA1C8
                 height: 100%
-                border-bottom: 2px groove #201B15
-                border-right: 1px solid #201B15
+                border-bottom: 2px groove darken(#6BA1C8, 30%)
+                border-right: 1px solid darken(#6BA1C8, 10%)
                 position: absolute
                 top: 0
 
@@ -230,10 +251,7 @@
 
         .hud-hint
           font-weight: normal
-          color: #aaa
-          position: absolute
-          top: 0
-          right: 4px
+          color: #999
 
         .enter
           position: absolute

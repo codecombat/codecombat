@@ -200,6 +200,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tome_available_spells: "Sorts diponibles"
     hud_continue: "Continuer (appuie sur shift ou espace)"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "Skip (esc)"
 
   admin:
     av_title: "Vues d'administrateurs"
@@ -389,7 +390,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     artisan_join_step4: "Postez vos niveaux dans le forum pour avoir des retours."
     more_about_artisan: "En apprendre plus sur comment devenir un Artisan créatif"
     artisan_subscribe_desc: "Recevoir un email sur les annonces et mises à jour de l'éditeur de niveaux."
-#    adventurer_sumamry: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
+#    adventurer_summary: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
     adventurer_introduction: "Soyons clair à propos de votre rôle : vous êtes le tank. Vous allez subir beaucoup de dommages. Nous avons besoin de gens pour essayer les nouveaux niveaux et aider à identifier comment améliorer les choses. La douleur sera énorme; faire de bons jeux est une longue tâche et personne n'y arrive du premier coup. Si vous pouvez résister et avez un gros score de constitution, alors cette classe est faite pour vous."
     adventurer_attribute_1: "Une soif d'apprendre. Vous voulez apprendre à développer et nous voulons vous apprendre. Vous allez toutefois faire la plupart de l'apprentissage."
     adventurer_attribute_2: "Charismatique. Soyez doux mais exprimez-vous sur ce qui a besoin d'être amélioré, et faites des propositions sur comment l'améliorer."

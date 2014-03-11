@@ -20,6 +20,8 @@ LevelHandler = class LevelHandler extends Handler
     'i18n'
     'icon'
     'goals'
+    'type'
+    'showsGuide'
   ]
 
   postEditableProperties: ['name']
@@ -27,7 +29,7 @@ LevelHandler = class LevelHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @getSession(req, res, args[0]) if args[1] is 'session'
     return @getLeaderboard(req, res, args[0]) if args[1] is 'leaderboard'
-    return @getAllSessions(req, res, args[0]) if args[1] is 'all_sessions'
+    return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
     return @sendNotFoundError(res)
 
@@ -47,10 +49,11 @@ LevelHandler = class LevelHandler extends Handler
           majorVersion: level.version.major
         creator: req.user.id
 
-      # TODO: generalize this for levels that need teams
       if req.query.team?
         sessionQuery.team = req.query.team
-      else if level.name is 'Project DotA'
+
+      # TODO: generalize this for levels based on their teams
+      else if level.get('type') is 'ladder'
         sessionQuery.team = 'humans'
       
       Session.findOne(sessionQuery).exec (err, doc) =>
@@ -86,26 +89,27 @@ LevelHandler = class LevelHandler extends Handler
       # associated with the handler, because the handler might return a different type
       # of model, like in this case. Refactor to move that logic to the model instead.
 
-  getAllSessions: (req, res, id) ->
-    @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
+  getMySessions: (req, res, slugOrID) ->
+    findParameters = {}
+    if Handler.isID slugOrID
+      findParameters["_id"] = slugOrID
+    else
+      findParameters["slug"] = slugOrID
+    selectString = 'original version.major permissions'
+    query = Level.findOne(findParameters)
+      .select(selectString)
+      .lean()
+    
+    query.exec (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
       sessionQuery =
         level:
           original: level.original.toString()
           majorVersion: level.version.major
-        submitted: true
-
-      propertiesToReturn = [
-        '_id'
-        'totalScore'
-        'submitted'
-        'team'
-        'creatorName'
-      ]
-
-      query = Session
-        .find(sessionQuery)
-        .select(propertiesToReturn.join ' ')
-
+        creator: req.user._id+''
+      
+      query = Session.find(sessionQuery).select('-screenshot')
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
@@ -136,7 +140,6 @@ LevelHandler = class LevelHandler extends Handler
     query = Session
       .find(sessionsQueryParameters)
       .limit(req.query.limit)
-      .sort(sortParameters)
       .select(selectProperties.join ' ')
 
     query.exec (err, resultSessions) =>

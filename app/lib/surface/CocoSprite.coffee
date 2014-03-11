@@ -82,6 +82,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @imageObject?.off 'animationend', @playNextAction
     @playNextAction = null
     @displayObject?.off()
+    clearInterval @effectInterval if @effectInterval
     super()
 
   toString: -> "<CocoSprite: #{@thang?.id}>"
@@ -188,14 +189,18 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return 0 unless @thang.bobHeight
     @thang.bobHeight * (1 + Math.sin(@age * Math.PI / @thang.bobTime))
 
-  updatePosition: ->
-    return unless @thang?.pos and @options.camera?
-    [p0, p1] = [@lastPos, @thang.pos]
+  getWorldPosition: ->
+    p1 = @thang.pos
     if bobOffset = @getBobOffset()
       p1 = p1.copy?() or _.clone(p1)
       p1.z += bobOffset
+    x: p1.x, y: p1.y, z: if @thang.isLand then 0 else p1.z - @thang.depth / 2
+
+  updatePosition: ->
+    return unless @thang?.pos and @options.camera?
+    wop = @getWorldPosition()
+    [p0, p1] = [@lastPos, @thang.pos]
     return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo
-    wop = x: p1.x, y: p1.y, z: if @thang.isLand then 0 else p1.z - @thang.depth / 2
     sup = @options.camera.worldToSurface wop
     [@displayObject.x, @displayObject.y] = [sup.x, sup.y]
     @lastPos = p1.copy?() or _.clone(p1)
@@ -252,7 +257,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   updateAction: ->
     action = @determineAction()
     isDifferent = action isnt @currentRootAction
-    console.error "action is", action, "for", @thang?.id, "from", @currentRootAction, @thang.action, @thang.getActionName?() if not action and @thang?.actionActivated and @thang.id is 'Artillery'
+    if not action and @thang?.actionActivated and not @stopLogging
+      console.error "action is", action, "for", @thang?.id, "from", @currentRootAction, @thang.action, @thang.getActionName?()
+      @stopLogging = true
     @queueAction(action) if isDifferent or (@thang?.actionActivated and action.name isnt 'move')
     @updateActionDirection()
 
@@ -321,7 +328,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       return if @thang.health is @lastHealth
       @lastHealth = @thang.health
       healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
-      bar.scaleX = healthPct
+      bar.scaleX = healthPct / bar.baseScale
       healthOffset = @getOffset 'aboveHead'
       [bar.x, bar.y] = [healthOffset.x - bar.width / 2, healthOffset.y]
 
@@ -350,7 +357,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     bar = @healthBar = createProgressBar(healthColor, healthOffset.y)
     bar.x = healthOffset.x - bar.width / 2
     bar.name = 'health bar'
-    bar.cache 0, -bar.height / 2, bar.width, bar.height
+    bar.cache 0, -bar.height * bar.baseScale / 2, bar.width * bar.baseScale, bar.height * bar.baseScale
     @displayObject.addChild bar
 
   getActionProp: (prop, subProp, def=null) ->
@@ -369,18 +376,56 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     scale *= @options.resolutionFactor if prop is 'registration'
     pos.x *= scale
     pos.y *= scale
+    if @thang and prop isnt 'registration'
+      scaleFactor = @thang.scaleFactor ? 1
+      pos.x *= @thang.scaleFactorX ? scaleFactor
+      pos.y *= @thang.scaleFactorY ? scaleFactor
     pos
 
   updateMarks: ->
     return unless @options.camera
-    @addMark 'repair', null, @options.markThangTypes.repair if @thang?.errorsOut
+    @addMark 'repair', null, 'repair' if @thang?.errorsOut
     @marks.repair?.toggle @thang?.errorsOut
     @addMark('bounds').toggle true if @thang?.drawsBounds
     @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
     mark.update() for name, mark of @marks
+    #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
+    @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length
+
+  updateEffectMarks: ->
+    return if _.isEqual @thang.effectNames, @previousEffectNames
+    for effect in @thang.effectNames
+      mark = @addMark effect, @options.floatingLayer, effect
+      mark.statusEffect = true
+      mark.toggle 'on'
+      mark.show()
+
+    if @previousEffectNames
+      for effect in @previousEffectNames
+        mark = @marks[effect]
+        mark.toggle false
+
+    if @thang.effectNames.length > 1 and not @effectInterval
+      @rotateEffect()
+      @effectInterval = setInterval @rotateEffect, 1500
+
+    else if @effectInterval and @thang.effectNames.length <= 1
+      clearInterval @effectInterval
+      @effectInterval = null
+
+    @previousEffectNames = @thang.effectNames
+
+  rotateEffect: =>
+    effects = (m.name for m in _.values(@marks) when m.on and m.statusEffect and m.mark)
+    return unless effects.length
+    effects.sort()
+    @effectIndex ?= 0
+    @effectIndex = (@effectIndex + 1) % effects.length
+    @marks[effect].hide() for effect in effects
+    @marks[effects[@effectIndex]].show()
 
   setHighlight: (to, delay) ->
-    @addMark 'highlight', @options.floatingLayer, @options.markThangTypes.highlight if to
+    @addMark 'highlight', @options.floatingLayer, 'highlight' if to
     @marks.highlight?.highlightDelay = delay
     @marks.highlight?.toggle to and not @dimmed
 
@@ -475,6 +520,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return null unless sound
     delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.getFPS() else 0
     name = AudioPlayer.nameForSoundReference sound
-    instance = createjs.Sound.play name, "none", delay, 0, 0, volume
+    instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
 #    console.log @thang?.id, "played sound", name, "with delay", delay, "volume", volume, "and got sound instance", instance
     instance

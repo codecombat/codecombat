@@ -157,7 +157,8 @@ module.exports = class ThangType extends CocoModel
     for groupName, config of options.colorConfig or {}
       colorConfigs.push "#{groupName}:#{config.hue}|#{config.saturation}|#{config.lightness}"
     colorConfigs = colorConfigs.join ','
-    "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs}"
+    portraitOnly = !!options.portraitOnly
+    "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs} - #{portraitOnly}"
 
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
@@ -172,7 +173,10 @@ module.exports = class ThangType extends CocoModel
     key = spriteOptionsOrKey
     key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
     spriteSheet = @spriteSheets[key]
-    spriteSheet ?= @buildSpriteSheet({portraitOnly:true})
+    if not spriteSheet
+      options = if _.isPlainObject spriteOptionsOrKey then spriteOptionsOrKey else {}
+      options.portraitOnly = true
+      spriteSheet = @buildSpriteSheet(options)
     return unless spriteSheet
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
     stage = new createjs.Stage(canvas[0])
@@ -210,3 +214,12 @@ module.exports = class ThangType extends CocoModel
 
   onFileUploaded: =>
     console.log 'Image uploaded'
+
+  @loadUniversalWizard: ->
+    return @wizardType if @wizardType
+    wizOriginal = "52a00d55cf1818f2be00000b"
+    url = "/db/thang_type/#{wizOriginal}/version"
+    @wizardType = new module.exports()
+    @wizardType.url = -> url
+    @wizardType.fetch()
+    @wizardType

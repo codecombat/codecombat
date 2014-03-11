@@ -198,8 +198,9 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    tome_select_spell: "Select a Spell"
 #    tome_select_a_thang: "Select Someone for "
 #    tome_available_spells: "Available Spells"
-#    hud_continue: "Continue (press shift-space)"
+#    hud_continue: "Continue (shift+space)"
 #    spell_saved: "Spell Saved"
+#    skip_tutorial: "Skip (esc)"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -389,7 +390,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    artisan_join_step4: "Post your levels on the forum for feedback."
 #    more_about_artisan: "Learn More About Becoming an Artisan"
 #    artisan_subscribe_desc: "Get emails on level editor updates and announcements."
-#    adventurer_sumamry: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
+#    adventurer_summary: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
 #    adventurer_introduction: "Let's be clear about your role: you are the tank. You're going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class might be for you."
 #    adventurer_attribute_1: "A thirst for learning. You want to learn how to code and we want to teach you how to code. You'll probably be doing most of the teaching in this case, though."
 #    adventurer_attribute_2: "Charismatic. Be gentle but articulate about what needs improving, and offer suggestions on how to improve."

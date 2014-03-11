@@ -1,5 +1,7 @@
 CocoClass = require 'lib/CocoClass'
 Camera = require './Camera'
+ThangType = require 'models/ThangType'
+markThangTypes = {}
 
 module.exports = class Mark extends CocoClass
   subscriptions: {}
@@ -20,6 +22,7 @@ module.exports = class Mark extends CocoClass
   destroy: ->
     @mark?.parent?.removeChild @mark
     @markSprite?.destroy()
+    @thangType?.off 'sync', @onLoadedThangType, @
     @sprite = null
     super()
 
@@ -27,7 +30,9 @@ module.exports = class Mark extends CocoClass
 
   toggle: (to) ->
     return @ if to is @on
+    return @toggleTo = to unless @mark
     @on = to
+    delete @toggleTo
     if @on
       @layer.addChild @mark
       @layer.updateLayerOrder()
@@ -52,7 +57,7 @@ module.exports = class Mark extends CocoClass
       else if @name is 'debug' then @buildDebug()
       else if @thangType then @buildSprite()
       else console.error "Don't know how to build mark for", @name
-      @mark.mouseEnabled = false
+      @mark?.mouseEnabled = false
     @
 
   buildBounds: ->
@@ -126,15 +131,34 @@ module.exports = class Mark extends CocoClass
     @mark.graphics.endFill()
 
   buildSprite: ->
-    #console.log "building", @name, "with thangtype", @thangType
+    if _.isString @thangType
+      thangType = markThangTypes[@thangType]
+      return @loadThangType() if not thangType
+      @thangType = thangType
+
+    return @thangType.once 'sync', @onLoadedThangType, @ if not @thangType.loaded
     CocoSprite = require './CocoSprite'
     markSprite = new CocoSprite @thangType, @thangType.spriteOptions
     markSprite.queueAction 'idle'
     @mark = markSprite.displayObject
     @markSprite = markSprite
 
+  loadThangType: ->
+    name = @thangType
+    @thangType = new ThangType()
+    @thangType.url = -> "/db/thang.type/#{name}"
+    @thangType.once 'sync', @onLoadedThangType, @
+    @thangType.fetch()
+    markThangTypes[name] = @thangType
+    window.mtt = markThangTypes
+
+  onLoadedThangType: ->
+    @build()
+    @toggle(@toggleTo) if @toggleTo?
+
   update: (pos=null) ->
-    return false unless @on
+    return false unless @on and @mark
+    @mark.visible = not @hidden
     @updatePosition pos
     @updateRotation()
     @updateScale()
@@ -156,10 +180,11 @@ module.exports = class Mark extends CocoClass
       pos ?= @sprite?.displayObject
     @mark.x = pos.x
     @mark.y = pos.y
-    if @name is 'highlight'
+    if @statusEffect or @name is 'highlight'
       offset = @sprite.getOffset 'aboveHead'
       @mark.x += offset.x
       @mark.y += offset.y
+      @mark.y -= 3 if @statusEffect
 
   updateRotation: ->
     if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ["rectangle", "box"])
@@ -187,3 +212,5 @@ module.exports = class Mark extends CocoClass
 
   stop: -> @markSprite?.stop()
   play: -> @markSprite?.play()
+  hide: -> @hidden = true
+  show: -> @hidden = false

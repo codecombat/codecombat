@@ -38,6 +38,7 @@ class AudioPlayer extends CocoClass
   constructor: () ->
     super()
     @ext = if createjs.Sound.getCapability('mp3') then '.mp3' else '.ogg'
+    @camera = null
     @listenToSound()
     @createNewManifest()
     @soundsToPlayWhenLoaded = {}
@@ -50,6 +51,14 @@ class AudioPlayer extends CocoClass
     # when I try to set it up, I get an error with the Sound plugin.
     # So for now, we'll just load through SoundJS instead.
     createjs.Sound.on 'fileload', @onSoundLoaded
+
+  applyPanning: (options, pos) ->
+    sup = @camera.worldToSurface pos
+    svp = @camera.surfaceViewport
+    pan = Math.max -1, Math.min 1, ((sup.x - svp.x) - svp.width / 2) / svp.width
+    dst = @camera.distanceRatioTo pos
+    vol = Math.min 1, options.volume / Math.pow (dst + 0.2), 2
+    volume: options.volume, delay: options.delay, pan: pan
 
   # PUBLIC LOADING METHODS
 
@@ -78,8 +87,12 @@ class AudioPlayer extends CocoClass
       @preloadInterfaceSounds [name] unless filename of cache
       @soundsToPlayWhenLoaded[name] = volume
 
-  playSound: (name, volume=1) ->
-    createjs.Sound.play name, {volume: (me.get('volume') ? 1) * volume}
+  playSound: (name, volume=1, delay=0, pos=null) ->
+    audioOptions = {volume: (me.get('volume') ? 1) * volume, delay: delay}
+    unless @camera is null or pos is null
+      audioOptions = @applyPanning audioOptions, pos
+    instance = createjs.Sound.play name, audioOptions
+    instance
 
 #  # TODO: load Interface sounds somehow, somewhere, somewhen
 

@@ -1,0 +1,59 @@
+//if matches.length
+//  p#your-score
+//    span Your Current Score:
+//    span  
+//    strong= score
+
+div#columns.row
+  for team in teams
+    div.matches-column.col-md-6
+      table.table.table-bordered.table-condensed
+
+        tr
+          th(colspan=4, style="color: #{team.primaryColor}")
+            span Your #{team.name} Matches - #{team.wins} Wins, #{team.losses} Losses
+
+            if team.session
+              button.btn.btn-sm.btn-warning.pull-right.rank-button(data-session-id=team.session.id)
+                span.unavailable.hidden No New Code to Rank
+                span.rank.hidden Rank My Game!
+                span.submitting.hidden Submitting...
+                span.submitted.hidden Submitted for Ranking
+                span.failed.hidden Failed to Rank
+                span.ranking.hidden Game Being Ranked
+
+        if team.chartData
+          tr
+            th(colspan=4, style="color: #{team.primaryColor}")
+              img(src="https://chart.googleapis.com/chart?chs=450x125&cht=lxy&chco=#{team.chartColor}&chtt=Score%3A+#{team.currentScore}&chts=#{team.chartColor},16,r&chf=a,s,000000FF&chls=2&chm=o,#{team.chartColor},0,4&chd=t:#{team.chartData}")
+
+        tr
+          th Result
+          th Opponent
+          th When
+          th
+        for match in team.matches
+          tr(class=(match.stale ? "stale " : "") + match.state)
+            td.state-cell
+              if match.state === 'win'
+                span.win Win
+              if match.state === 'loss'
+                span.loss Loss
+              if match.state === 'tie'
+                span.tie Tie
+            td.name-cell= match.opponentName || "Anonymous"
+            td.time-cell= match.when
+            td.battle-cell
+              - var text = match.state === 'win' ? 'Watch your victory' : 'Defeat the ' + team.otherTeam
+              a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}")= text
+
+        if !team.matches.length
+          tr
+            if team.isRanking
+              td(colspan=4).alert.alert-info
+                | Your new code is being simulated by other players for ranking.
+            else
+              td(colspan=4).alert.alert-warning
+                | No ranked matches for this team!
+                | Play against some competitors and then come back here to get your game ranked.
+      

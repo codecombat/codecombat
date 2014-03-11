@@ -39,6 +39,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
       filename: InkBlob.filename
       mimetype: InkBlob.mimetype
       path: @settings.filePath
+      force: true
 
     @uploadingPath = [@settings.filePath, InkBlob.filename].join('/')
     $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
@@ -147,9 +148,8 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
       filename: InkBlob.filename
       mimetype: InkBlob.mimetype
       path: @settings.filePath
+      force: true
       
-    # Automatically overwrite if the same path was put in here before
-    body.force = true # if InkBlob.filename is @data
     @uploadingPath = [@settings.filePath, InkBlob.filename].join('/')
     $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
 
@@ -185,9 +185,8 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
       filename: InkBlob.filename
       mimetype: InkBlob.mimetype
       path: @settings.filePath
+      force: true
 
-    # Automatically overwrite if the same path was put in here before
-    body.force = true # if InkBlob.filename is @data
     @uploadingPath = [@settings.filePath, InkBlob.filename].join('/')
     $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
 
@@ -280,12 +279,23 @@ class LatestVersionReferenceNode extends TreemaNode
   search: =>
     term = @getValEl().find('input').val()
     return if term is @lastTerm
+    
+    # HACK while search is broken
+    if @collection
+      @lastTerm = term
+      @searchCallback()
+      return
+      
     @getSearchResultsEl().empty() if @lastTerm and not term
     return unless term
     @lastTerm = term
     @getSearchResultsEl().empty().append('Searching')
     @collection = new LatestVersionCollection()
-    @collection.url = "#{@url}?term=#{term}&project=true"
+
+    # HACK while search is broken
+#    @collection.url = "#{@url}?term=#{term}&project=true"
+    @collection.url = "#{@url}?term=#{''}&project=true"
+    
     @collection.fetch()
     @collection.on 'sync', @searchCallback
 
@@ -296,6 +306,10 @@ class LatestVersionReferenceNode extends TreemaNode
       row = $('<div></div>').addClass('treema-search-result-row')
       text = @formatDocument(model)
       continue unless text?
+      
+      # HACK while search is broken
+      continue unless text.toLowerCase().indexOf(@lastTerm.toLowerCase()) >= 0
+      
       row.addClass('treema-search-selected') if first
       first = false
       row.text(text)

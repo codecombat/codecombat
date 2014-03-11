@@ -16,13 +16,15 @@ class CocoModel extends Backbone.Model
 
   initialize: ->
     super()
+    @constructor.schema ?= new CocoSchema(@urlRoot)
     if not @constructor.className
       console.error("#{@} needs a className set.")
     @markToRevert()
     if @constructor.schema?.loaded
       @addSchemaDefaults()
     else
-      @loadSchema()
+      {me} = require 'lib/auth'
+      @loadSchema() if me?.loaded
     @once 'sync', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
 
@@ -51,10 +53,8 @@ class CocoModel extends Backbone.Model
   @backedUp = {}
 
   loadSchema: ->
-    unless @constructor.schema
-      @constructor.schema = new CocoSchema(@urlRoot)
-      @constructor.schema.fetch()
-
+    return if @constructor.schema.loading
+    @constructor.schema.fetch()
     @constructor.schema.once 'sync', =>
       @constructor.schema.loaded = true
       @addSchemaDefaults()
@@ -183,5 +183,26 @@ class CocoModel extends Backbone.Model
 
   @isObjectID: (s) ->
     s.length is 24 and s.match(/[a-z0-9]/gi)?.length is 24
+
+  hasReadAccess: (actor) ->
+    # actor is a User object
+
+    if @get('permissions')?
+      for permission in @get('permissions')
+        if permission.target is 'public' or actor.get('_id') is permission.target
+          return true if permission.access in ['owner', 'read']
+
+    return false
+
+  hasWriteAccess: (actor) ->
+    # actor is a User object
+
+    if @get('permissions')?
+      for permission in @get('permissions')
+        if permission.target is 'public' or actor.get('_id') is permission.target
+          return true if permission.access in ['owner', 'write']
+
+    return false
+
 
 module.exports = CocoModel

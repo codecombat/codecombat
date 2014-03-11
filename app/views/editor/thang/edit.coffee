@@ -42,6 +42,7 @@ module.exports = class ThangTypeEditView extends View
     @thangType = new ThangType(_id: @thangTypeID)
     @thangType.saveBackups = true
     @thangType.fetch()
+    @thangType.loadSchema()
     @thangType.schema().once 'sync', @onThangTypeSync, @
     @thangType.once 'sync', @onThangTypeSync, @
     @refreshAnimation = _.debounce @refreshAnimation, 500
@@ -57,6 +58,7 @@ module.exports = class ThangTypeEditView extends View
     context = super(context)
     context.thangType = @thangType
     context.animations = @getAnimationNames()
+    context.authorized = me.isAdmin() or @thangType.hasWriteAccess(me)
     context
 
   getAnimationNames: ->
@@ -314,7 +316,7 @@ module.exports = class ThangTypeEditView extends View
     @thangType.set 'actions', undefined
     @clearDisplayObject()
     @treema.set('/', @getThangData())
-    
+
   getThangData: ->
     data = _.cloneDeep(@thangType.attributes)
     data = _.pick data, (value, key) => not (key in ['components'])
@@ -328,6 +330,7 @@ module.exports = class ThangTypeEditView extends View
       schema: schema
       files: @files
       filePath: "db/thang.type/#{@thangType.get('original')}"
+      readOnly: true unless me.isAdmin() or @thangType.hasWriteAccess(me)
       callbacks:
         change: @pushChangesToPreview
         select: @onSelectNode

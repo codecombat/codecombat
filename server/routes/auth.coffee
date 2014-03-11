@@ -2,6 +2,7 @@ authentication = require('passport')
 LocalStrategy = require('passport-local').Strategy
 User = require('../users/User')
 UserHandler = require('../users/user_handler')
+LevelSession = require '../levels/sessions/LevelSession'
 config = require '../../server_config'
 errors = require '../commons/errors'
 mail = require '../commons/mail'
@@ -21,16 +22,16 @@ module.exports.setup = (app) ->
         if passwordReset and password.toLowerCase() is passwordReset
           User.update {_id: user.get('_id')}, {passwordReset: ''}, {}, ->
           return done(null, user)
-          
+
         hash = User.hashPassword(password)
         unless user.get('passwordHash') is hash
-          return done(null, false, {message:'is wrong, wrong, wrong', property:'password'}) 
+          return done(null, false, {message:'is wrong, wrong, wrong', property:'password'})
         return done(null, user)
       )
   ))
   app.post '/auth/spy', (req, res, next) ->
     if req?.user?.isAdmin()
-      
+
       username = req.body.usernameLower
       emailLower = req.body.emailLower
       if emailLower
@@ -39,19 +40,19 @@ module.exports.setup = (app) ->
         query = {"nameLower":username}
       else
         return errors.badInput res, "You need to supply one of emailLower or username"
-        
+
       User.findOne query, (err, user) ->
         if err? then return errors.serverError res, "There was an error finding the specified user"
-        
+
         unless user then return errors.badInput res, "The specified user couldn't be found"
-          
+
         req.logIn user, (err) ->
           if err? then return errors.serverError res, "There was an error logging in with the specified"
           res.send(UserHandler.formatEntity(req, user))
           return res.end()
     else
       return errors.unauthorized res, "You must be an admin to enter espionage mode"
-      
+
   app.post('/auth/login', (req, res, next) ->
     authentication.authenticate('local', (err, user, info) ->
       return next(err) if err
@@ -87,11 +88,11 @@ module.exports.setup = (app) ->
     user.save((err) ->
       if err
         return @sendDatabaseError(res, err)
-  
+
       req.logIn(user, (err) ->
         if err
           return @sendDatabaseError(res, err)
-  
+
         if send
           return @sendSuccess(res, user)
         next() if next
@@ -110,7 +111,7 @@ module.exports.setup = (app) ->
     User.findOne({emailLower:req.body.email.toLowerCase()}).exec((err, user) ->
       if not user
         return errors.notFound(res, [{message:'not found.', property:'email'}])
-        
+
       user.set('passwordReset', Math.random().toString(36).slice(2,7).toUpperCase())
       user.save (err) =>
         return errors.serverError(res) if err
@@ -127,12 +128,22 @@ module.exports.setup = (app) ->
           return res.end()
     )
   )
-  
+
   app.get '/auth/unsubscribe', (req, res) ->
     email = req.query.email
     unless req.query.email
       return errors.badInput res, 'No email provided to unsubscribe.'
-      
+
+    if req.query.session
+      # Unsubscribe from just one session's notifications instead.
+      return LevelSession.findOne({_id: req.query.session}).exec (err, session) ->
+        return errors.serverError res, 'Could not unsubscribe: #{req.query.session}, #{req.query.email}: #{err}' if err
+        session.set 'unsubscribed', true
+        session.save (err) ->
+          return errors.serverError res, 'Database failure.' if err
+          res.send "Unsubscribed #{req.query.email} from CodeCombat emails for #{session.levelName} #{session.team} ladder updates. Sorry to see you go! <p><a href='/play/ladder/#{session.levelID}#my-matches'>Ladder preferences</a></p>"
+          res.end()
+
     User.findOne({emailLower:req.query.email.toLowerCase()}).exec (err, user) ->
       if not user
         return errors.notFound res, "No user found with email '#{req.query.email}'"

@@ -200,6 +200,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     tome_available_spells: "Feitiços Disponíveis"
     hud_continue: "Continue (tecle Shift+Space)"
     spell_saved: "Feitiço Salvo"
+#    skip_tutorial: "Skip (esc)"
 
   admin:
     av_title: "Visualização de Administrador"
@@ -389,7 +390,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     artisan_join_step4: "Publique seus níveis no fórum para avaliação."
     more_about_artisan: "Saiba Mais Sobre Como Se Tornar Um Artesão Criativo"
     artisan_subscribe_desc: "Receba emails com novidades sobre o editor de níveis e anúncios."
-#    adventurer_sumamry: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
+#    adventurer_summary: "Let us be clear about your role: you are the tank. You are going to take heavy damage. We need people to try out brand-new levels and help identify how to make things better. The pain will be enormous; making good games is a long process and no one gets it right the first time. If you can endure and have a high constitution score, then this class is for you."
     adventurer_introduction: "Vamos ser claros sobre o seu papel: você é o tanque. Você vai tomar dano pesado. Precisamos de pessoas para experimentar níveis inéditos e ajudar a identificar como fazer as coisas melhorarem. A dor será enorme, fazer bons jogos é um processo longo e ninguém acerta na primeira vez. Se você pode suportar e ter uma alta pontuação de constituição, então esta classe pode ser para você."
     adventurer_attribute_1: "Sede de aprendizado. Você quer aprender a codificar e nós queremos ensiná-lo a codificar. Você provavelmente vai fazer a maior parte do ensino neste caso."
     adventurer_attribute_2: "Carismático. Seja gentil, mas articulado sobre o que precisa melhorar, e ofereça sugestões sobre como melhorar."
