@@ -430,6 +430,7 @@ module.exports = class SpellView extends View
     flow ?= @spellThang?.castAether?.flow
     return unless flow
     executed = []
+    executedRows = {}
     matched = false
     states = flow.states ? []
     currentCallIndex = null
@@ -445,6 +446,7 @@ module.exports = class SpellView extends View
           matched = true
           break
         _.last(executed).push state
+        executedRows[state.range[0].row] = true
         #state.executing = true if state.userInfo?.time is @thang.world.age  # no work
     currentCallIndex ?= callNumber - 1
     #console.log "got call index", currentCallIndex, "for time", @thang.world.age, "out of", states.length
@@ -455,10 +457,11 @@ module.exports = class SpellView extends View
       markerRange.end.detach()
       @aceSession.removeMarker markerRange.id
     @markerRanges = []
-    @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
-    @aceSession.removeGutterDecoration row, 'executed' for row in [0 ... @aceSession.getLength()]
-    $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
-    $(@ace.container).find('.ace_gutter-cell.executed').removeClass('executed')
+    for row in [0 ... @aceSession.getLength()]
+      unless executedRows[row]
+        @aceSession.removeGutterDecoration row, 'executing'
+        @aceSession.removeGutterDecoration row, 'executed'
+        @decoratedGutter[row] = ''
     if not executed.length or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
       @toolbarView?.toggleFlow false
       @debugView.setVariableStates {}
@@ -486,7 +489,10 @@ module.exports = class SpellView extends View
       markerRange.end = @aceDoc.createAnchor markerRange.end
       markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
-      @aceSession.addGutterDecoration start.row, clazz 
+      if executedRows[start.row] and @decoratedGutter[start.row] isnt clazz
+        @aceSession.removeGutterDecoration start.row, @decoratedGutter[start.row] if @decoratedGutter isnt ''
+        @aceSession.addGutterDecoration start.row, clazz
+        @decoratedGutter[start.row] = clazz
     @debugView.setVariableStates {} unless gotVariableStates
     null
 
