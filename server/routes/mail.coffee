@@ -42,8 +42,8 @@ handleLadderUpdate = (req, res) ->
   for daysAgo in emailDays
     # Get every session that was submitted in a 5-minute window after the time.
     startTime = getTimeFromDaysAgo daysAgo
-    #endTime = startTime + 5 * 60 * 1000
-    endTime = startTime + 1 * 60 * 60 * 1000  # Debugging: make sure there's something to send
+    endTime = startTime + 5 * 60 * 1000
+    #endTime = startTime + 1.5 * 60 * 60 * 1000  # Debugging: make sure there's something to send
     findParameters = {submitted: true, submitDate: {$gt: new Date(startTime), $lte: new Date(endTime)}}
     # TODO: think about putting screenshots in the email
     selectString = "creator team levelName levelID totalScore matches submitted submitDate numberOfWinsAndTies numberOfLosses"
@@ -63,8 +63,11 @@ sendLadderUpdateEmail = (session, daysAgo) ->
     if err
       log.error "Couldn't find user for #{session.creator} from session #{session._id}"
       return
-    if not user.email or not ('notification' in user.emailSubscriptions)
+    unless user.email and ('notification' in user.emailSubscriptions)
       log.info "Not sending email to #{user.email} #{user.name} because they only want emails about #{user.emailSubscriptions}"
+      return
+    unless session.levelName
+      log.info "Not sending email to #{user.email} #{user.name} because the session had no levelName in it."
       return
     name = if user.firstName and user.lastName then "#{user.firstName} #{user.lastName}" else user.name
     name = "Wizard" if not name or name is "Anoner"
@@ -84,6 +87,7 @@ sendLadderUpdateEmail = (session, daysAgo) ->
           losses: session.numberOfLosses
           total_score: Math.round(session.totalScore * 100)
           team: session.team
+          team_name: session.team[0].toUpperCase() + session.team.substr(1)
           level_name: session.levelName
           ladder_url: "http://codecombat.com/play/ladder/#{session.levelID}#my-matches"
           defeat: defeatContext
