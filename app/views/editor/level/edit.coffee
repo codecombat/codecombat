@@ -63,6 +63,8 @@ module.exports = class EditorLevelView extends View
   getRenderData: (context={}) ->
     context = super(context)
     context.level = @level
+    context.authorized = me.isAdmin() or @level.hasWriteAccess(me)
+    context.anonymous = me.get('anonymous')
     context
 
   afterRender: ->

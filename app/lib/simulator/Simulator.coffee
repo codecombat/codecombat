@@ -10,6 +10,11 @@ module.exports = class Simulator
     @trigger 'statusUpdate', 'Starting simulation!'
     @retryDelayInSeconds = 10
     @taskURL = '/queue/scoring'
+    
+  destroy: ->
+    @off()
+    @cleanupSimulation()
+    # TODO: More teardown?
 
   fetchAndSimulateTask: =>
     @trigger 'statusUpdate', 'Fetching simulation data!'
@@ -99,7 +104,7 @@ module.exports = class Simulator
     @fetchAndSimulateTask()
 
   cleanupSimulation: ->
-    @god.destroy()
+    @god?.destroy()
     @god = null
     @world = null
     @level = null

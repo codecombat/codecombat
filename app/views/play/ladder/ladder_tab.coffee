@@ -55,7 +55,8 @@ module.exports = class LadderTabView extends CocoView
 class LeaderboardData
   constructor: (@level, @team, @session) ->
     _.extend @, Backbone.Events
-    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: if @session then 10 else 20})
+    limit = 200 # if @session then 10 else 20  # We need to figure out paging.
+    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: limit})
     @topPlayers.fetch()
     @topPlayers.comparator = (model) ->
       return -model.get('totalScore')
@@ -73,6 +74,10 @@ class LeaderboardData
 #      @playersBelow.once 'sync', @leaderboardPartLoaded, @
 
   leaderboardPartLoaded: ->
+    # Forget loading the up-to-date names, that's way too slow for something that refreshes all the time, we learned.
+    @loaded = true
+    @trigger 'sync'
+    return
     if @session
       if @topPlayers.loaded # and @playersAbove.loaded and @playersBelow.loaded
         @loaded = true

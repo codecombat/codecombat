@@ -33,7 +33,7 @@ GoalSchema = c.object {title: "Goal", description: "A goal that the player can a
   team: c.shortString(title: 'Team', description: 'Name of the team this goal is for, if it is not for all of the playable teams.')
   killThangs: c.array {title: "Kill Thangs", description: "A list of Thang IDs the player should kill, or team names.", uniqueItems: true, minItems: 1, "default": ["ogres"]}, thang
   saveThangs: c.array {title: "Save Thangs", description: "A list of Thang IDs the player should save, or team names", uniqueItems: true, minItems: 1, "default": ["humans"]}, thang
-  getToLocations: c.object {title: "Get To Locations", description: "TODO: explain", required: ["who", "targets"]},
+  getToLocations: c.object {title: "Get To Locations", description: "Will be set off when any of the \"who\" touch any of the \"targets\" ", required: ["who", "targets"]},
     who: c.array {title: "Who", description: "The Thangs who must get to the target locations.", minItems: 1}, thang
     targets: c.array {title: "Targets", description: "The target locations to which the Thangs must get.", minItems: 1}, thang
   keepFromLocations: c.object {title: "Keep From Locations", description: "TODO: explain", required: ["who", "targets"]},
@@ -226,7 +226,8 @@ _.extend LevelSchema.properties,
   i18n: {type: "object", format: 'i18n', props: ['name', 'description'], description: "Help translate this level"}
   icon: { type: 'string', format: 'image-file', title: 'Icon' }
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
-
+  type: c.shortString(title: "Type", description: "What kind of level this is.", "enum": ['campaign', 'ladder'])
+  showsGuide: c.shortString(title: "Shows Guide", description: "If the guide is shown at the beginning of the level.", "enum": ['first-time', 'always'])
 
 c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema

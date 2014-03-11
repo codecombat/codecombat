@@ -302,7 +302,7 @@ module.exports = Surface = class Surface extends CocoClass
       world: @world
     )
 
-    if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames
+    if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames - 1
       @spriteBoss.stop()
       @playbackOverScreen.show()
       @ended = true
@@ -360,6 +360,7 @@ module.exports = Surface = class Surface extends CocoClass
     canvasHeight = parseInt(@canvas.attr('height'), 10)
     @camera?.destroy()
     @camera = new Camera canvasWidth, canvasHeight
+    AudioPlayer.camera = @camera
     @layers.push @surfaceLayer = new Layer name: "Surface", layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @layers.push @surfaceTextLayer = new Layer name: "Surface Text", layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
     @layers.push @screenLayer = new Layer name: "Screen", layerPriority: 2, transform: Layer.TRANSFORM_SCREEN, camera: @camera
@@ -496,13 +497,15 @@ module.exports = Surface = class Surface extends CocoClass
     # seems to be a bug where only one object can register with the Ticker...
     oldFrame = @currentFrame
     oldWorldFrame = Math.floor oldFrame
+    lastFrame = @world.totalFrames - 1
     while true
       Dropper.tick()
       @trailmaster.tick() if @trailmaster
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
-      frameAdvanced = (@playing and @currentFrame < @world.totalFrames) or @totalFramesDrawn < 2
-      @currentFrame += @world.frameRate / @options.frameRate if frameAdvanced and @playing
-      @currentFrame = Math.min(@currentFrame, @world.totalFrames - 1)
+      frameAdvanced = (@playing and @currentFrame < lastFrame) or @totalFramesDrawn < 2
+      if frameAdvanced and @playing
+        @currentFrame += @world.frameRate / @options.frameRate
+        @currentFrame = Math.min @currentFrame, lastFrame
       newWorldFrame = Math.floor @currentFrame
       worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
       if worldFrameAdvanced

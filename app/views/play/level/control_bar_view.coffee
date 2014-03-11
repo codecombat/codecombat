@@ -54,7 +54,7 @@ module.exports = class ControlBarView extends View
     c.ladderGame = @ladderGame
     c.homeLink = "/"
     levelID = @level.get('slug')
-    if levelID in ["brawlwood", "brawlwood-tutorial"]
+    if levelID in ["brawlwood", "brawlwood-tutorial", "dungeon-arena", "dungeon-arena-tutorial"]
       levelID = 'brawlwood' if levelID is 'brawlwood-tutorial'
       c.homeLink = "/play/ladder/" + levelID
     c

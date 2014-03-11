@@ -61,6 +61,8 @@ module.exports.thangNames = thangNames =
     "Joan"
     "Helga"
     "Annie"
+    "Lukaz"
+    "Gorgin"
   ]
   "Peasant": [
     "Yorik"
@@ -83,6 +85,11 @@ module.exports.thangNames = thangNames =
     "Bernadette"
     "Hershell"
     "Gawain"
+    "Durfkor"
+    "Paps"
+  ]
+  "Peasant F": [
+    "Hilda"
   ]
   "Archer F": [
     "Phoebe"
@@ -117,6 +124,9 @@ module.exports.thangNames = thangNames =
     "Simon"
     "Robin"
     "Quinn"
+    "Arty"
+    "Gimsley"
+    "Fidsdale"
   ]
   "Ogre Munchkin M": [
     "Brack"
@@ -179,6 +189,7 @@ module.exports.thangNames = thangNames =
     "Borgag"
     "Grognar"
     "Ironjaw"
+    "Tuguro"
   ]
   "Ogre Fangrider": [
     "Dreek"
@@ -229,4 +240,20 @@ module.exports.thangNames = thangNames =
     "Makas"
     "Rakash"
     "Drumbaa"
+  ]
+  "Burl": [
+    "Borlit"
+    "Burlosh"
+  ]
+  "Griffin Rider": [
+    "Aeoldan"
+  ]
+  "Potion Master": [
+    "Snake"
+  ]
+  "Librarian": [
+    "Hushbaum"
+  ]
+  "Equestrian": [
+    "Reynaldo"
   ]

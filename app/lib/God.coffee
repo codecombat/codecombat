@@ -30,7 +30,7 @@ module.exports = class God
     @createWorld()
 
   fillWorkerPool: =>
-    return unless Worker
+    return unless Worker and not @dead
     @workerPool ?= []
     if @workerPool.length < @maxWorkerPoolSize
       @workerPool.push @createWorker()

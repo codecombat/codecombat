@@ -18,6 +18,7 @@ module.exports = class ThangComponentEditView extends CocoView
     @callback = options.callback
 
   render: =>
+    return if @destroyed
     for model in [Level, LevelComponent]
       (new model()).on 'schema-loaded', @render unless model.schema?.loaded
     if not @componentCollection
@@ -35,6 +36,7 @@ module.exports = class ThangComponentEditView extends CocoView
     @buildAddComponentTreema()
 
   onComponentsSync: =>
+    return if @destroyed
     @supermodel.addCollection @componentCollection
     @render()
 

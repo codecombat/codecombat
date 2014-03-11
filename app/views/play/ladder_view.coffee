@@ -4,6 +4,7 @@ Simulator = require 'lib/simulator/Simulator'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
 {teamDataFromLevel} = require './ladder/utils'
+application = require 'application'
 
 LadderTabView = require './ladder/ladder_tab'
 MyMatchesTabView = require './ladder/my_matches_tab'
@@ -65,16 +66,19 @@ module.exports = class LadderView extends RootView
     return if @startsLoading
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
-    setInterval(@fetchSessionsAndRefreshViews.bind(@), 10000)
+    @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), 10 * 1000)
+    hash = document.location.hash[1..] if document.location.hash
+    if hash and not (hash in ['my-matches', 'simulate', 'ladder'])
+      @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>
+    return if @destroyed or application.userIsIdle
     @ladderTab.refreshLadder()
     @myMatchesTab.refreshMatches()
     console.log "refreshed views!"
-
 
   # Simulations
 
@@ -112,8 +116,14 @@ module.exports = class LadderView extends RootView
     $("#simulation-status-text").text @simulationStatus
 
   onClickPlayButton: (e) ->
-    button = $(e.target).closest('.play-button')
-    teamID = button.data('team')
+    @showPlayModal($(e.target).closest('.play-button').data('team'))
+
+  showPlayModal: (teamID) ->
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
     modal = new LadderPlayModal({}, @level, session, teamID)
     @openModalView modal
+
+  destroy: ->
+    clearInterval @refreshInterval
+    @simulator.destroy()
+    super()

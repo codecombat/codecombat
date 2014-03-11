@@ -3,17 +3,19 @@ div#columns.row
     div.column.col-md-6
       table.table.table-bordered.table-condensed.table-hover
         tr
-          th(colspan=3, style="color: #{team.primaryColor}")
+          th(colspan=4, style="color: #{team.primaryColor}")
             span= team.name
             span  Leaderboard
         tr
+          th Rank
           th Score
           th.name-col-cell Name
           th
 
-        for session in team.leaderboard.topPlayers.models
+        for session, rank in team.leaderboard.topPlayers.models
           - var myRow = session.get('creator') == me.id
           tr(class=myRow ? "success" : "")
+            td.rank-cell= rank + 1
             td.score-cell= Math.round(session.get('totalScore') * 100)
             td.name-col-cell= session.get('creatorName') || "Anonymous"
             td

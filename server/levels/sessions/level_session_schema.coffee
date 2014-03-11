@@ -122,7 +122,7 @@ _.extend LevelSessionSchema.properties,
 
   standardDeviation:
     type:'number'
-    default:25/3
+    default: 25/3
     minimum: 0
 
   totalScore:
@@ -139,13 +139,29 @@ _.extend LevelSessionSchema.properties,
 
   submittedCode:
     type: 'object'
-    
+
+  unsubscribed:
+    type: 'boolean'
+    description: 'Whether the player has opted out of receiving email updates about ladder rankings for this session.'
+
   numberOfWinsAndTies:
     type: 'number'
     default: 0
   numberOfLosses:
     type: 'number'
     default: 0
+
+  scoreHistory:
+    type: 'array'
+    title: 'Score History'
+    description: 'A list of objects representing the score history of a session'
+    items:
+      title: 'Score History Point'
+      description: 'An array with the format [unix timestamp, totalScore]'
+      type: 'array'
+      items:
+        type: 'number'
+
 
   matches:
     type: 'array'

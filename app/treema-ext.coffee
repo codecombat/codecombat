@@ -279,12 +279,23 @@ class LatestVersionReferenceNode extends TreemaNode
   search: =>
     term = @getValEl().find('input').val()
     return if term is @lastTerm
+    
+    # HACK while search is broken
+    if @collection
+      @lastTerm = term
+      @searchCallback()
+      return
+      
     @getSearchResultsEl().empty() if @lastTerm and not term
     return unless term
     @lastTerm = term
     @getSearchResultsEl().empty().append('Searching')
     @collection = new LatestVersionCollection()
-    @collection.url = "#{@url}?term=#{term}&project=true"
+
+    # HACK while search is broken
+#    @collection.url = "#{@url}?term=#{term}&project=true"
+    @collection.url = "#{@url}?term=#{''}&project=true"
+    
     @collection.fetch()
     @collection.on 'sync', @searchCallback
 
@@ -295,6 +306,10 @@ class LatestVersionReferenceNode extends TreemaNode
       row = $('<div></div>').addClass('treema-search-result-row')
       text = @formatDocument(model)
       continue unless text?
+      
+      # HACK while search is broken
+      continue unless text.toLowerCase().indexOf(@lastTerm.toLowerCase()) >= 0
+      
       row.addClass('treema-search-selected') if first
       first = false
       row.text(text)
