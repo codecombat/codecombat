@@ -155,13 +155,16 @@ module.exports.processTaskResult = (req, res) ->
 
                   levelOriginalID = levelSession.level.original
                   levelOriginalMajorVersion = levelSession.level.majorVersion
-                  findNearestBetterSessionID levelOriginalID, levelOriginalMajorVersion, originalSessionID, sessionNewScore, opponentNewScore, opponentID ,opposingTeam, (err, opponentSessionID) ->
+                  findNearestBetterSessionID levelOriginalID, levelOriginalMajorVersion, originalSessionID, sessionNewScore, opponentNewScore, opponentID, opposingTeam, (err, opponentSessionID) ->
                     if err? then return errors.serverError res, "There was an error finding the nearest sessionID!"
-                    unless opponentSessionID then return sendResponseObject req, res, {"message":"There were no more games to rank (game is at top)!"}
-
-                    addPairwiseTaskToQueue [originalSessionID, opponentSessionID], (err, success) ->
-                      if err? then return errors.serverError res, "There was an error sending the pairwise tasks to the queue!"
-                      sendResponseObject req, res, {"message":"The scores were updated successfully and more games were sent to the queue!"}
+                    if opponentSessionID
+                      addPairwiseTaskToQueue [originalSessionID, opponentSessionID], (err, success) ->
+                        if err? then return errors.serverError res, "There was an error sending the pairwise tasks to the queue!"
+                        sendResponseObject req, res, {"message":"The scores were updated successfully and more games were sent to the queue!"}
+                    else
+                      LevelSession.update {_id: originalSessionID}, {isRanking: false}, {multi: false}, (err, affected) ->
+                        if err? then return errors.serverError res, "There was an error marking the victorious session as not being ranked."
+                        return sendResponseObject req, res, {"message":"There were no more games to rank (game is at top)!"}
                 else
                   console.log "Player lost, achieved rank #{originalSessionRank}"
                   LevelSession.update {_id: originalSessionID}, {isRanking: false}, {multi: false}, (err, affected) ->
