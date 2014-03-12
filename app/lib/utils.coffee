@@ -53,17 +53,17 @@ module.exports.i18n = (say, target, language=me.lang(), fallback='en') ->
   matches = (/\w+/gi).exec(language)
   generalName = matches[0] if matches
 
-  for locale in say?.i18n
-    if target of say[locale]
-      result = say[locale][target]
+  for localeName, locale of say.i18n
+    if target of locale
+      result = locale[target]
     else continue
-    return result if locale == language
-    generalResult = result if locale == generalName
-    fallbackResult = result if locale == fallback
-    fallforwardResult = result if locale.indexOf language != -1 and not fallforwardResult?
+    return result if localeName == language
+    generalResult = result if localeName == generalName
+    fallbackResult = result if localeName == fallback
+    fallforwardResult = result if localeName.indexOf(language) == 0 and not fallforwardResult?
 
   return generalResult if generalResult?
-  return fallbackResult if fallbackResult?
   return fallforwardResult if fallforwardResult?
+  return fallbackResult if fallbackResult?
   return say.text if 'text' of say
   null

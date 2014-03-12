@@ -15,18 +15,17 @@ describe 'utils library', ->
           "text": "S'lut, Magicien! Venu pratiquer? Ok, bien débutons..."
         "pt-BR":
           "text": "Bom dia, feiticeiro! Veio praticar? Então vamos começar..."
-        "de":
-          "text": "'N Tach auch, Zauberer! Kommst Du zum Üben? Dann lass uns anfangen..."
-        "tr":
-          "text": "İyi günler, Büyücü! Antremana mı geldin? Güzel, hadi başlayalım..."
-        "sv":
-          "text": "Godagens, trollkarl! Kommit för att öva? Nå, låt oss börja..."
         "en":
           "text": "Ohai Magician!"
+        "de":
+          "text": "'N Tach auch, Zauberer! Kommst Du zum Üben? Dann lass uns anfangen..."
+        "sv":
+          "text": "Godagens, trollkarl! Kommit för att öva? Nå, låt oss börja..."
+
 
   it 'i18n should find a valid target string', ->
     expect(util.i18n(this.fixture1, 'text', 'sv')).toEqual(this.fixture1.i18n['sv'].text)
-    expect(util.i18n(this.fixture1, 'test', 'es-ES')).toEqual(this.fixture1.i18n['es-ES'].text)
+    expect(util.i18n(this.fixture1, 'text', 'es-ES')).toEqual(this.fixture1.i18n['es-ES'].text)
 
   it 'i18n picks the correct fallback for a specific language', ->
     expect(util.i18n(this.fixture1, 'text', 'fr-be')).toEqual(this.fixture1.i18n['fr'].text)
@@ -35,7 +34,7 @@ describe 'utils library', ->
     expect(util.i18n(this.fixture1, 'text', 'nl')).toEqual(this.fixture1.i18n['en'].text)
     expect(util.i18n(this.fixture1, 'text', 'nl', 'de')).toEqual(this.fixture1.i18n['de'].text)
 
-  it 'i18n falls back to the default text, even for other targets (like burb)', ->
+  it 'i18n falls back to the default text, even for other targets (like blurb)', ->
     delete this.fixture1.i18n['en']
     expect(util.i18n(this.fixture1, 'text', 'en')).toEqual(this.fixture1.text)
     expect(util.i18n(this.fixture1, 'blurb', 'en')).toEqual(this.fixture1.text)
