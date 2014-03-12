@@ -95,7 +95,6 @@ module.exports = class LevelComponentEditView extends View
     super()
 
   showVersionHistory: (e) ->
-    console.debug @levelComponent
     versionHistoryView = new VersionHistoryView component:@levelComponent, @levelComponent.id
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
