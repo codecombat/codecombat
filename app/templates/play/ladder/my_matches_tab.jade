@@ -52,8 +52,9 @@ div#columns.row
             if team.isRanking
               td(colspan=4).alert.alert-info
                 | Your new code is being simulated by other players for ranking.
+                | This will refresh as new matches come in.
             else
               td(colspan=4).alert.alert-warning
-                | No ranked matches for this team!
+                | No ranked matches for the #{team.name} team!
                 | Play against some competitors and then come back here to get your game ranked.
-      
+

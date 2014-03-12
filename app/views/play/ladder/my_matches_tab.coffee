@@ -71,7 +71,7 @@ module.exports = class MyMatchesTabView extends CocoView
     for team in @teams
       team.session = (s for s in @sessions.models when s.get('team') is team.id)[0]
       team.readyToRank = @readyToRank(team.session)
-      team.isRanking = team.session.get('isRanking')
+      team.isRanking = team.session?.get('isRanking')
       team.matches = (convertMatch(match, team.session.get('submitDate')) for match in team.session?.get('matches') or [])
       team.matches.reverse()
       team.score = (team.session?.get('totalScore') or 10).toFixed(2)

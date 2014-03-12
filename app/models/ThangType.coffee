@@ -218,7 +218,7 @@ module.exports = class ThangType extends CocoModel
   @loadUniversalWizard: ->
     return @wizardType if @wizardType
     wizOriginal = "52a00d55cf1818f2be00000b"
-    url = "/db/thang_type/#{wizOriginal}/version"
+    url = "/db/thang.type/#{wizOriginal}/version"
     @wizardType = new module.exports()
     @wizardType.url = -> url
     @wizardType.fetch()
