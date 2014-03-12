@@ -241,11 +241,11 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
 
 retrieveAllOpponentSessionIDs = (sessionID, cb) ->
   query = LevelSession.findOne({"_id":sessionID})
-    .select('matches.opponents.sessionID')
+    .select('matches.opponents.sessionID.submitDate')
     .lean()
   query.exec (err, session) ->
     if err? then return cb err, null
-    opponentSessionIDs = (match.opponents[0].sessionID for match in session.matches)
+    opponentSessionIDs = (match.opponents[0].sessionID for match in session.matches when match.date > session.submitDate)
     cb err, opponentSessionIDs
 
 
