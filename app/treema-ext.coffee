@@ -106,7 +106,7 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
     if @data
       valEl.append(playButton)
       valEl.append(stopButton)
-    valEl.append(dropdown) if files.length
+    valEl.append(dropdown) if files.length and @canEdit()
     if @data
       path = @data.split('/')
       name = path[path.length-1]
