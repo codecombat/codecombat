@@ -402,6 +402,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
     if @previousEffectNames
       for effect in @previousEffectNames
+        continue if effect in @thang.effectNames
         mark = @marks[effect]
         mark.toggle false
 
