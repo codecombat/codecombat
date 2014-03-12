@@ -81,6 +81,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     campaign_player_created: "Player-Created"
     campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
     level_difficulty: "Difficulty: "
+    play_as: "Play As "
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -282,6 +283,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     password: "Password"
     message: "Message"
     code: "Code"
+    ladder: "Ladder"
 
   about:
     who_is_codecombat: "Who is CodeCombat?"
@@ -475,3 +477,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     ambassador_title_description: "(Support)"
     counselor_title: "Counselor"
     counselor_title_description: "(Expert/Teacher)"
+
+  ladder:
+    please_login: "Please log in first before playing a ladder game."
+    my_matches: "My Matches"
+    simulate: "Simulate"
+    simulation_explanation: "By simulating games you can get your game ranked faster!"
+    simulate_games: "Simulate Games!"
+    simulate_all: "RESET AND SIMULATE GAMES"
