@@ -451,6 +451,8 @@ module.exports = class SpellView extends View
     currentCallIndex ?= callNumber - 1
     #console.log "got call index", currentCallIndex, "for time", @thang.world.age, "out of", states.length
 
+    @decoratedGutter = @decoratedGutter || {}
+
     # TODO: don't redo the markers if they haven't actually changed
     for markerRange in (@markerRanges ?= [])
       markerRange.start.detach()
@@ -490,7 +492,7 @@ module.exports = class SpellView extends View
       markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
       if executedRows[start.row] and @decoratedGutter[start.row] isnt clazz
-        @aceSession.removeGutterDecoration start.row, @decoratedGutter[start.row] if @decoratedGutter isnt ''
+        @aceSession.removeGutterDecoration start.row, @decoratedGutter[start.row] if @decoratedGutter[start.row] isnt ''
         @aceSession.addGutterDecoration start.row, clazz
         @decoratedGutter[start.row] = clazz
     @debugView.setVariableStates {} unless gotVariableStates
