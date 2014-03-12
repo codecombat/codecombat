@@ -1,8 +1,11 @@
 @import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
-
+body
+  height: 100%
+    
 #spectate-level-view
   margin: 0 auto
+  height: 100%
   @include user-select(none)
 
   .level-content
@@ -11,6 +14,7 @@
   #canvas-wrapper
     width: 55%
     position: relative
+    margin: 0 auto
 
   canvas#surface
     background-color: #ddd
@@ -22,18 +26,15 @@
   //max-width: 1680px   // guideline, but for now let's let it stretch out
   min-width: 1024px
   position: relative
-
-  #code-area
-    @include box-sizing(border-box)
-    padding: 10px 1%
-    width: 45%
-    background: transparent url(/images/level/wood_texture.png)
-    background-size: 100% 100%
-    position: absolute
-    right: 0
-    top: 0px
-    bottom: 0
-
+  #playback-view
+    margin: 0 auto
+  #thang-hud
+    margin: 0 auto
+    
+  #control-bar-view
+    margin: 0 auto
+    .title
+      margin-left: 500px
   #pointer
     position: absolute
     left: 0

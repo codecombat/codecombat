@@ -71,8 +71,10 @@ module.exports = class SpectateLevelView extends View
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
     super options
-
-    @sessionID = @getQueryVariable 'session'
+    @sessionOne = @getQueryVariable 'session-one'
+    @sessionTwo = @getQueryVariable 'session-two'
+    
+    @sessionID = @sessionOne
 
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', @onLevelLoadError
@@ -91,7 +93,7 @@ module.exports = class SpectateLevelView extends View
       @load()
 
   load: ->
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @sessionTwo, team: @getQueryVariable("team")
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded, @
     @levelLoader.on 'progress', @onLevelLoaderProgressChanged, @
     @god = new God()
@@ -135,9 +137,8 @@ module.exports = class SpectateLevelView extends View
       @loadingScreen.showReady()
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
 
-    localStorage["lastLevel"] = @levelID if localStorage?
     @grabLevelLoaderData()
-    team = @getQueryVariable("team") ? @world.teamForPlayer(0)
+    team = @world.teamForPlayer(0)
     @loadOpponentTeam(team)
     @loadingScreen.destroy()
     @god.level = @level.serialize @supermodel
@@ -200,10 +201,9 @@ module.exports = class SpectateLevelView extends View
   insertSubviews: (subviewOptions) ->
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, ladderGame: subviewOptions.ladderGame
     @insertSubView new PlaybackView {}
-    @insertSubView new GoalsView {}
+
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
-    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, ladderGame: subviewOptions.ladderGame}
   #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
