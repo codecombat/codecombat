@@ -111,14 +111,6 @@ module.exports = class PlayView extends View
         id: 'molotov-medic'
         description: "Tharin must play support in this dungeon battle."
       }
-#      {
-#        name: 'The Herd'
-#        id: 'the-herd'
-#        description: "Stop an ogre stampede with deadly artillery."
-#        image: '/images/generic-icon.png'
-#        difficulty: 3
-#        disabled: true
-#      }
       {
         name: 'Gridmancer'
         id: 'gridmancer'
@@ -128,16 +120,24 @@ module.exports = class PlayView extends View
       }
     ]
 
-#    arenas = [
-#      {
-#        name: 'Forest Arena'
-#        difficulty: 3
-#        id: 'forest-arena'
-#        image: '/images/levels/forest_arena_icon.png'
-#        description: "Play head-to-head against friends!"
-#        disabled: true
-#      }
-#    ]
+    arenas = [
+      {
+        name: 'Dungeon Arena'
+        difficulty: 3
+        id: 'dungeon-arena'
+        image: '/file/db/level/526ae95c1e5cd30000000008/zone_of_danger_icon.png'
+        description: "Play head-to-head against fellow Wizards in a dungeon melee!"
+        levelPath: 'ladder'
+      }
+      {
+        name: 'Brawlwood'
+        difficulty: 4
+        id: 'brawlwood'
+        image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
+        description: "Combat the armies of other Wizards in a strategic forest arena! (Fast computer required.)"
+        levelPath: 'ladder'
+      }
+    ]
 
     playerCreated = [
       {
@@ -168,21 +168,27 @@ module.exports = class PlayView extends View
         image: '/file/db/level/525dc5589a0765e496000006/drink_me_icon.png'
         description: 'Kill the ogres and save the peasants and their cattle. - by Prabh Simran Singh Baweja'
       }
-
       {
-        name: 'Enemy Artillery'
-        difficulty: 1
-        id: 'enemy-artillery'
-        image: '/file/db/level/526dba94a188322044000a40/mobile_artillery_icon.png'
-        description: "Take cover while shells fly, then strike! - by mcdavid1991"
-        disabled: true
+        name: 'Ogres of Hanoi'
+        difficulty: 3
+        id: 'ogres-of-hanoi'
+        image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
+        description: "Transfer a stack of ogres while preserving their honor. - by Alexandru"
       }
+      #{
+      #  name: 'Enemy Artillery'
+      #  difficulty: 1
+      #  id: 'enemy-artillery'
+      #  image: '/file/db/level/526dba94a188322044000a40/mobile_artillery_icon.png'
+      #  description: "Take cover while shells fly, then strike! - by mcdavid1991"
+      #  disabled: true
+      #}
     ]
 
     context.campaigns = [
       {id: "beginner", name: "Beginner Campaign", description: "... in which you learn the wizardry of programming.", levels: tutorials}
+      {id: "multiplayer", name: "Multiplayer Arenas", description: "... in which you code head-to-head against other players.", levels: arenas}
       {id: "dev", name: "Random Harder Levels", description: "... in which you learn the interface while doing something a little harder.", levels: experienced}
-#      {id: "multiplayer", name: "Multiplayer Arenas", description: "... in which you code head-to-head against other players.", levels: arenas}
       {id: "player_created", name: "Player-Created", description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>.", levels: playerCreated}
     ]
 
