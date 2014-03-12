@@ -112,7 +112,7 @@ module.exports = class Level extends CocoModel
     if path.match(/\/systems\/\d+\/config\//) and data?.indieSprites?.length
       # Ugh, we need to make sure we grab the IndieSprite ThangTypes
       for indieSprite in data.indieSprites
-        link = "/db/thang_type/#{indieSprite.thangType}/version"
+        link = "/db/thang.type/#{indieSprite.thangType}/version"
         model = CocoModel.getOrMakeModelFromLink link, shouldLoadProjection
         models.push model if model
     else if path is '/'

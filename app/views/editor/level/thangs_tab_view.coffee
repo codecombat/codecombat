@@ -19,7 +19,7 @@ componentOriginals =
   "physics.Physical"          : "524b75ad7fc0f6d519000001"
 
 class ThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang_type/search?project=true'
+  url: '/db/thang.type/search?project=true'
   model: ThangType
 
 module.exports = class ThangsTabView extends View

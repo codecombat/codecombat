@@ -174,7 +174,7 @@ LevelThangSchema = c.object {
 },
   id: thang  # TODO: figure out if we can make this unique and how to set dynamic defaults
   # TODO: split thangType into "original" and "majorVersion" like the rest for consistency
-  thangType: c.objectId(links: [{rel: "db", href: "/db/thang_type/{($)}/version"}], title: "Thang Type", description: "A reference to the original Thang template being configured.", format: 'thang-type')
+  thangType: c.objectId(links: [{rel: "db", href: "/db/thang.type/{($)}/version"}], title: "Thang Type", description: "A reference to the original Thang template being configured.", format: 'thang-type')
   components: c.array {title: "Components", description: "Thangs are configured by changing the Components attached to them.", uniqueItems: true, format: 'thang-components-array'}, ThangComponentSchema  # TODO: uniqueness should be based on "original", not whole thing
 
 LevelSystemSchema = c.object {
@@ -252,4 +252,3 @@ module.exports = LevelSchema
 # 3. tv4.addSchema(metaschema.id, metaschema)
 # 4. S = <paste big schema here>
 # 5. tv4.validateMultiple(S, metaschema)   and look for errors
-
