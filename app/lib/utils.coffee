@@ -46,7 +46,7 @@ toHex = (n) ->
   h = '0'+h if h.length is 1
   h
 
-i18n = (say, target, language=me.lang(), fallback='en') ->
+module.exports.i18n = (say, target, language=me.lang(), fallback='en') ->
   generalResult = null
   fallbackResult = null
   fallforwardResult = null # If a general language isn't available, the first specific one will do

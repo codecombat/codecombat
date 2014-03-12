@@ -1,8 +1,8 @@
 describe 'utils library', ->
-  require 'lib/utils'
+  util = require 'lib/utils'
 
   beforeEach ->
-    fixture1 = {
+    this.fixture1 = {
       "text": "G'day, Wizard! Come to practice? Well, let's get started...",
       "i18n": {
         "es-419": {
@@ -29,7 +29,7 @@ describe 'utils library', ->
         "sv": {
           "text": "Godagens, trollkarl! Kommit för att öva? Nå, låt oss börja..."
         },
-        "en": {
+        "ex": {
           "text": "Ohai Magician!"
         }
       },
@@ -40,4 +40,4 @@ describe 'utils library', ->
     }
 
   it 'i18n should find a valid target string', ->
-    expect(i18n(fixture1, 'text', 'en')).toEqual(fixture1.i18n.en.text)
+    expect(util.i18n(this.fixture1, 'text', 'sv')).toEqual(this.fixture1.i18n.en.text)
