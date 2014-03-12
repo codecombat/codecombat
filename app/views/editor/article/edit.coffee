@@ -88,6 +88,6 @@ module.exports = class ArticleEditView extends View
       document.location.href = url
 
   showVersionHistory: (e) ->
-    versionHistoryView = new VersionHistoryView level:@article, @articleID
+    versionHistoryView = new VersionHistoryView article:@article, @articleID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e

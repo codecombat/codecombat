@@ -6,6 +6,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoSprite = require 'lib/surface/CocoSprite'
 Camera = require 'lib/surface/Camera'
 ThangComponentEditView = require 'views/editor/components/main'
+VersionHistoryView = require './versions_view'
 DocumentFiles = require 'collections/DocumentFiles'
 
 ColorsTabView = require './colors_tab_view'
@@ -30,6 +31,7 @@ module.exports = class ThangTypeEditView extends View
     'change #animations-select': 'showAnimation'
     'click #marker-button': 'toggleDots'
     'click #end-button': 'endAnimation'
+    'click #history-button': 'showVersionHistory'
 
   subscriptions:
     'save-new-version': 'saveNewThangType'
@@ -382,3 +384,8 @@ module.exports = class ThangTypeEditView extends View
   destroy: ->
     @camera?.destroy()
     super()
+
+  showVersionHistory: (e) ->
+    versionHistoryView = new VersionHistoryView thangType:@thangType, @thangTypeID
+    @openModalView versionHistoryView
+    Backbone.Mediator.publish 'level:view-switched', e
