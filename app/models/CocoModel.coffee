@@ -152,7 +152,7 @@ class CocoModel extends Backbone.Model
     return null unless schema.links?
     linkObject = _.find schema.links, rel: "db"
     return null unless linkObject
-    return null if linkObject.href.match("thang_type") and not @isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
+    return null if linkObject.href.match("thang.type") and not @isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
 
     # not fully extensible, but we can worry about that later
     link = linkObject.href

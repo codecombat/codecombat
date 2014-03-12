@@ -140,6 +140,10 @@ _.extend LevelSessionSchema.properties,
   submittedCode:
     type: 'object'
 
+  isRanking:
+    type: 'boolean'
+    description: 'Whether this session is still in the first ranking chain after being submitted.'
+
   unsubscribed:
     type: 'boolean'
     description: 'Whether the player has opted out of receiving email updates about ladder rankings for this session.'
@@ -147,6 +151,7 @@ _.extend LevelSessionSchema.properties,
   numberOfWinsAndTies:
     type: 'number'
     default: 0
+
   numberOfLosses:
     type: 'number'
     default: 0
@@ -161,7 +166,6 @@ _.extend LevelSessionSchema.properties,
       type: 'array'
       items:
         type: 'number'
-
 
   matches:
     type: 'array'
