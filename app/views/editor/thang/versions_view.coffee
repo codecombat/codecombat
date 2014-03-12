@@ -1,6 +1,6 @@
-VersionsView = require 'views/kinds/VersionsView'
+VersionsModalView = require 'views/modal/versions_modal'
 
-module.exports = class SuperVersionsView extends VersionsView
+module.exports = class ComponentVersionsView extends VersionsModalView
   id: "editor-thang-versions-view"
   url: "/db/thang.type/"
   page: "thang"

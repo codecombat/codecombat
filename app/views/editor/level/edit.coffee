@@ -24,7 +24,7 @@ module.exports = class EditorLevelView extends View
     'click #play-button': 'onPlayLevel'
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
-    'click #version-history-button': 'showVersionHistory'
+    'click #history-button': 'showVersionHistory'
 
   constructor: (options, @levelID) ->
     super options

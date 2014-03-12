@@ -250,6 +250,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_components_title: "Back to All Thangs"
     level_components_type: "Type"
     level_component_edit_title: "Edit Component"
+    level_component_config_schema: "Config Schema"
+    level_component_settings: "Settings"
     level_system_edit_title: "Edit System"
     create_system_title: "Create New System"
     new_component_title: "Create New Component"
@@ -271,7 +273,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     body: "Body"
     version: "Version"
     commit_msg: "Commit Message"
-    version_history: "Version History"
+    history: "History"
     version_history_for: "Version History for: "
     results: "Results"
     description: "Description"
@@ -279,6 +281,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     email: "Email"
     password: "Password"
     message: "Message"
+    code: "Code"
 
   about:
     who_is_codecombat: "Who is CodeCombat?"

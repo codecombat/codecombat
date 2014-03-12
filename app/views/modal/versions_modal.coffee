@@ -1,5 +1,5 @@
-View = require 'views/kinds/RootView'
-template = require 'templates/kinds/versions'
+ModalView = require 'views/kinds/ModalView'
+template = require 'templates/modal/versions'
 tableTemplate = require 'templates/kinds/table'
 
 class VersionsViewCollection extends Backbone.Collection
@@ -10,14 +10,14 @@ class VersionsViewCollection extends Backbone.Collection
     @url = url + levelID + '/versions'
     @model = model
 
-module.exports = class SuperVersionsView extends View
+module.exports = class VersionsModalView extends ModalView
   template: template
   startsLoading: true
 
   # needs to be overwritten by child
   id: ""
-  url = ""
-  page = ""
+  url: ""
+  page: ""
 
   constructor: (options, @ID, @model) ->
     super options
