@@ -22,6 +22,7 @@ module.exports = class SpriteBoss extends CocoClass
     'god:new-world-created': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
     'camera:dragged': 'onCameraDragged'
+    'sprite:loaded': -> @update(true)
 
   constructor: (@options) ->
     super()
