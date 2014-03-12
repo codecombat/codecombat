@@ -172,7 +172,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return if @stillLoading
     @updatePosition()
     if frameChanged
-      @updateScale()
+      @updateScale() # must happen before rotation
       @updateAlpha()
       @updateRotation()
       @updateAction()
