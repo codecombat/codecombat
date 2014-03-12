@@ -53,7 +53,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
   signup:
     create_account_title: "Crează cont pentru a salva progresul"
-    description: "Este gratis. Doar un scurt formular inainte si poți continua:"#contextual translation a bit off, could be better# It's free. Just need a couple things and you'll be good to go:"
+    description: "Este gratis. Doar un scurt formular inainte si poți continua:"
     email_announcements: "Primește notificări prin emaill"
     coppa: "13+ sau non-USA "
     coppa_why: "(De ce?)"
@@ -62,15 +62,15 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     log_in: "loghează-te cu parola"
 
   home:
-    slogan: "Învață sa scri JavaScript jucându-te"# again sounds funny# Learn to Code JavaScript by Playing a Game"
+    slogan: "Învață sa scri JavaScript jucându-te"
     no_ie: "CodeCombat nu merge pe Internet Explorer 9 sau mai vechi. Scuze!"
     no_mobile: "CodeCombat nu a fost proiectat pentru dispozitive mobile si s-ar putea sa nu meargâ!"
     play: "Joacâ"
 
   play:
     choose_your_level: "Alege nivelul"
-    adventurer_prefix: "Poți să sari la orice nivel de mai jos"#what do you mean by discuss?# You can jump to any level below, or discuss the levels on "
-    adventurer_forum: "forumul Aventurierului"#sonds waaaaaay too funny#the Adventurer forum"
+    adventurer_prefix: "Poți să sari la orice nivel de mai jos"
+    adventurer_forum: "forumul Aventurierului"
     adventurer_suffix: "."
     campaign_beginner: "Campanie pentru Începători"
     campaign_beginner_description: "... în care se învață tainele programării."
@@ -150,7 +150,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     gravatar_not_found_mine: "N-am putut găsi profilul asociat cu:"
     gravatar_not_found_email_suffix: "."
     gravatar_signup_prefix: "Înscrie-te la "
-    gravatar_signup_suffix: " pentru a fi gata!" #sounds funny # to get set up!"
+    gravatar_signup_suffix: " pentru a fi gata!" 
     gravatar_not_found_other: "Din păcate nu este asociat nici un profil cu această adresă de email."
     gravatar_contact: "Contact"
     gravatar_websites: "Website-uri"
@@ -294,7 +294,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     opensource_description_center: "și ajută-ne dacă îți place! CodeCombat este construit peste o mulțime de proiecte open source, care noi le iubim. Vizitați"
     archmage_wiki_url: "Archmage wiki"
     opensource_description_suffix: "pentru o listă cu software-ul care face acest joc posibil."
-#    practices_title: "Respectful Best Practices"   #not sure what you mean here? other word for /practices/?
+    practices_title: "Convenții"
     practices_description: "Acestea sunt promisiunile noastre către tine, jucătorul, fără așa mulți termeni legali."
     privacy_title: "Confidenţialitate şi termeni"
     privacy_description: "Noi nu vom vinde nici o informație personală. Intenționăm să obținem profit prin recrutare eventual, dar stați liniștiți , nu vă vom vinde informațiile personale companiilor interesate fără consimțământul vostru explicit."
@@ -328,7 +328,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     art_music: "Muzică"
     art_sound: "Sunet"
     art_artwork: "Artwork"
-    art_sprites: "Sprites"  #can t be translated, either suggest alternative name or must be left like this
+    art_sprites: "Sprites"  
     art_other: "Orice si toate celelalte creații non-cod care sunt disponibile când se crează nivele."
     art_access: "Momentan nu există nici un sistem universal,ușor pentru preluarea acestor bunuri. În general, preluați-le precum site-ul din URL-urile folosite, contactați-ne pentru asistență, sau ajutați-ne sa extindem site-ul pentru a face aceste bunuri mai ușor accesibile."
     art_paragraph_1: "Pentru atribuire, vă rugăm numiți și lăsați referire link la codecombat.com unde este folosită sursa  sau unde este adecvat pentru mediu. De exemplu:"
