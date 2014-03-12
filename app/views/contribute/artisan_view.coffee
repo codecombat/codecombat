@@ -19,4 +19,6 @@ module.exports = class ArtisanView extends ContributeClassView
     {name: "Axandre Oge", avatar: "axandre"}
     {name: "Katharine Chan", avatar: "katharine"}
     {name: "Derek Wong", avatar: "derek"}
+    {name: "Alexandru Caciulescu", avatar: ""}
+    {name: "Prabh Simran Singh Baweja", avatar: ""}
   ]

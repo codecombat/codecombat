@@ -171,15 +171,15 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # Gets the sprite to reflect what the current state of the thangs and surface are
     return if @stillLoading
     @updatePosition()
-    return unless frameChanged
-    @updateScale()
-    @updateAlpha()
-    @updateRotation()
-    @updateAction()
-    @updateStats()
+    if frameChanged
+      @updateScale()
+      @updateAlpha()
+      @updateRotation()
+      @updateAction()
+      @updateStats()
+      @updateGold()
     @updateMarks()
     @updateLabels()
-    @updateGold()
 
   cache: ->
     bounds = @imageObject.getBounds()
@@ -252,7 +252,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return unless @currentAction
     return if _.string.endsWith(@currentAction.name, 'back')
     return if _.string.endsWith(@currentAction.name, 'fore')
-    @imageObject.scaleX *= -1 if Math.abs(rotation) >= 90
+    imageObject.scaleX *= -1 if Math.abs(rotation) >= 90
 
   ##################################################
   updateAction: ->

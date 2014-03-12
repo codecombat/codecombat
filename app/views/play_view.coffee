@@ -166,9 +166,9 @@ module.exports = class PlayView extends View
         difficulty: 1
         id: 'sword-loop'
         image: '/file/db/level/525dc5589a0765e496000006/drink_me_icon.png'
-        description: 'Kill the ogres and save the peasants and their cattle'
+        description: 'Kill the ogres and save the peasants and their cattle. - by Prabh Simran Singh Baweja'
       }
-        
+
       {
         name: 'Enemy Artillery'
         difficulty: 1
