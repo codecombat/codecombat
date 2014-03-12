@@ -36,9 +36,19 @@ GoalSchema = c.object {title: "Goal", description: "A goal that the player can a
   getToLocations: c.object {title: "Get To Locations", description: "Will be set off when any of the \"who\" touch any of the \"targets\" ", required: ["who", "targets"]},
     who: c.array {title: "Who", description: "The Thangs who must get to the target locations.", minItems: 1}, thang
     targets: c.array {title: "Targets", description: "The target locations to which the Thangs must get.", minItems: 1}, thang
+  getAllToLocations: c.array {title: "Get all to locations", description: "Similar to getToLocations but now a specific \"who\" can have a specific \"target\"",required: ["getToLocation"]},
+  c.object {title: "", description: ""},
+    getToLocation: c.object {title: "Get To Locations", description: "TODO: explain", required: ["who", "targets"]},
+      who: c.array {title: "Who", description: "The Thangs who must get to the target locations.", minItems: 1}, thang
+      targets: c.array {title: "Targets", description: "The target locations to which the Thangs must get.", minItems: 1}, thang
   keepFromLocations: c.object {title: "Keep From Locations", description: "TODO: explain", required: ["who", "targets"]},
     who: c.array {title: "Who", description: "The Thangs who must not get to the target locations.", minItems: 1}, thang
     targets: c.array {title: "Targets", description: "The target locations to which the Thangs must not get.", minItems: 1}, thang
+  keepAllFromLocations: c.array {title: "Keep ALL From Locations", description: "Similar to keepFromLocations but now a specific \"who\" can have a specific \"target\"", required: ["keepFromLocation"]},
+  c.object {title: "", description: ""},
+    keepFromLocation: c.object {title: "Keep From Locations", description: "TODO: explain", required: ["who", "targets"]},
+      who: c.array {title: "Who", description: "The Thangs who must not get to the target locations.", minItems: 1}, thang
+      targets: c.array {title: "Targets", description: "The target locations to which the Thangs must not get.", minItems: 1}, thang
   leaveOffSides: c.object {title: "Leave Off Sides", description: "Sides of the level to get some Thangs to leave across.", required: ["who", "sides"]},
     who: c.array {title: "Who", description: "The Thangs which must leave off the sides of the level.", minItems: 1}, thang
     sides: c.array {title: "Sides", description: "The sides off which the Thangs must leave.", minItems: 1}, side
@@ -242,3 +252,4 @@ module.exports = LevelSchema
 # 3. tv4.addSchema(metaschema.id, metaschema)
 # 4. S = <paste big schema here>
 # 5. tv4.validateMultiple(S, metaschema)   and look for errors
+
