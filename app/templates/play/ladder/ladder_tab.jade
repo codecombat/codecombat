@@ -5,11 +5,11 @@ div#columns.row
         tr
           th(colspan=4, style="color: #{team.primaryColor}")
             span= team.name
-            span  Leaderboard
+            span(data-i18n="ladder.leaderboard") Leaderboard
         tr
-          th Rank
-          th Score
-          th.name-col-cell Name
+          th(data-i18n="general.rank") Rank
+          th(data-i18n="general.score") Score
+          th(data-i18n="general.name").name-col-cell Name
           th
 
         for session, rank in team.leaderboard.topPlayers.models
@@ -20,4 +20,5 @@ div#columns.row
             td.name-col-cell= session.get('creatorName') || "Anonymous"
             td
               a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}")
-                span Battle as #{team.otherTeam}!
+                span(data-i18n="ladder.battle_as") Battle as
+                | #{team.otherTeam}!
