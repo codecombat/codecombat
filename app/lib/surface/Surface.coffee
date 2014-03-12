@@ -208,10 +208,12 @@ module.exports = Surface = class Surface extends CocoClass
       @onFramesScrubbed()  # For performance, don't play these for instant transitions.
       onTweenEnd()
 
+    return unless @loaded
     @updateState true
     @onFrameChanged()
 
   onFramesScrubbed: (e) =>
+    return unless @loaded
     if e
       # Gotta play all the sounds when scrubbing (but not when doing an immediate transition).
       rising = @currentFrame > @lastFrame

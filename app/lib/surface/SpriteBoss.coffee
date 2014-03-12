@@ -158,7 +158,7 @@ module.exports = class SpriteBoss extends CocoClass
 
   update: (frameChanged) ->
     @adjustSpriteExistence() if frameChanged
-    sprite.update() for thangID, sprite of @sprites
+    sprite.update frameChanged for thangID, sprite of @sprites
     @updateSelection()
     @spriteLayers["Default"].updateLayerOrder()
     @cache()
@@ -181,7 +181,7 @@ module.exports = class SpriteBoss extends CocoClass
       sprite.hasMoved = false
       @removeSprite sprite if missing
     @cache true if updateCache and @cached
-    
+
     # mainly for handling selecting thangs from session when the thang is not always in existence
     if @willSelectThang and @sprites[@willSelectThang[0]]
       @selectThang @willSelectThang...
@@ -212,12 +212,12 @@ module.exports = class SpriteBoss extends CocoClass
     @play()
 
   onCastSpells: -> @stop()
-  
+
   play: ->
     sprite.imageObject.play() for thangID, sprite of @sprites
     @selectionMark?.play()
     @targetMark?.play()
-  
+
   stop: ->
     sprite.imageObject.stop() for thangID, sprite of @sprites
     @selectionMark?.stop()

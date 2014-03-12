@@ -167,10 +167,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @imageObject?.play?()
     mark.play() for name, mark of @marks
 
-  update: ->
+  update: (frameChanged) ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
     return if @stillLoading
     @updatePosition()
+    return unless frameChanged
     @updateScale()
     @updateAlpha()
     @updateRotation()
