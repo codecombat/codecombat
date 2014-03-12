@@ -243,6 +243,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     level_components_title: "Terug naar Alle Elementen"
     level_components_type: "Type"
     level_component_edit_title: "Wijzig Component"
+    level_component_config_schema: "Schema"
+    level_component_settings: "Instellingen"
     level_system_edit_title: "Wijzig Systeem"
     create_system_title: "Maak een nieuw Systeem aan"
     new_component_title: "Maak een nieuw Component aan"
@@ -271,6 +273,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     or: "of"
     email: "Email"
     message: "Bericht"
+    code: "Code"
 
   about:
     who_is_codecombat: "Wie is CodeCombat?"
