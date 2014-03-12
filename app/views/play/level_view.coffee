@@ -128,7 +128,7 @@ module.exports = class PlayLevelView extends View
 
   onLevelLoaderProgressChanged: ->
     return if @seenDocs
-    return unless showFrequency = @levelLoader.level.get('showGuide')
+    return unless showFrequency = @levelLoader.level.get('showsGuide')
     session = @levelLoader.session
     diff = new Date().getTime() - new Date(session.get('created')).getTime()
     return if showFrequency is 'first-time' and diff > (5 * 60 * 1000)
