@@ -44,6 +44,7 @@ module.exports = class SpellPaletteView extends View
     allDocs = {}
     for lc in lcs
       for doc in (lc.get('propertyDocumentation') ? [])
+        doc = _.clone doc
         allDocs['__' + doc.name] ?= []
         allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'

@@ -167,18 +167,19 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @imageObject?.play?()
     mark.play() for name, mark of @marks
 
-  update: ->
+  update: (frameChanged) ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
     return if @stillLoading
     @updatePosition()
-    @updateScale()
-    @updateAlpha()
-    @updateRotation()
-    @updateAction()
-    @updateStats()
+    if frameChanged
+      @updateScale()
+      @updateAlpha()
+      @updateRotation()
+      @updateAction()
+      @updateStats()
+      @updateGold()
     @updateMarks()
     @updateLabels()
-    @updateGold()
 
   cache: ->
     bounds = @imageObject.getBounds()
@@ -251,7 +252,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return unless @currentAction
     return if _.string.endsWith(@currentAction.name, 'back')
     return if _.string.endsWith(@currentAction.name, 'fore')
-    @imageObject.scaleX *= -1 if Math.abs(rotation) >= 90
+    imageObject.scaleX *= -1 if Math.abs(rotation) >= 90
 
   ##################################################
   updateAction: ->
@@ -402,6 +403,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
     if @previousEffectNames
       for effect in @previousEffectNames
+        continue if effect in @thang.effectNames
         mark = @marks[effect]
         mark.toggle false
 

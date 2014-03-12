@@ -16,7 +16,7 @@ sendwithus = require '../sendwithus'
 module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
-
+  
 getAllLadderScores = (next) ->
   query = Level.find({type: 'ladder'})
     .select('levelID')
@@ -29,8 +29,20 @@ getAllLadderScores = (next) ->
       for team in ['humans', 'ogres']
         'I ... am not doing this.'
 
+isRequestFromDesignatedCronHandler = (req, res) ->
+  if req.ip isnt config.mail.cronHandlerPublicIP and req.ip isnt config.mail.cronHandlerPrivateIP
+    console.log "UNAUTHORIZED ATTEMPT TO SEND TRANSACTIONAL LADDER EMAIL THROUGH CRON MAIL HANDLER"
+    res.send("You aren't authorized to perform that action. Only the specified Cron handler may perform that action.")
+    res.end()
+    return true
+  return false
+  
+    
 handleLadderUpdate = (req, res) ->
   log.info("Going to see about sending ladder update emails.")
+  requestIsFromDesignatedCronHandler = isRequestFromDesignatedCronHandler req, res
+  unless requestIsFromDesignatedCronHandler then return
+    
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
   # TODO: somehow fetch the histograms

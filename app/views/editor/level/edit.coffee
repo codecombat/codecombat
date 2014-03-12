@@ -12,6 +12,7 @@ ComponentsTabView = require './components_tab_view'
 SystemsTabView = require './systems_tab_view'
 LevelSaveView = require './save_view'
 LevelForkView = require './fork_view'
+VersionHistoryView = require './versions_view'
 
 module.exports = class EditorLevelView extends View
   id: "editor-level-view"
@@ -23,6 +24,7 @@ module.exports = class EditorLevelView extends View
     'click #play-button': 'onPlayLevel'
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
+    'click #history-button': 'showVersionHistory'
 
   constructor: (options, @levelID) ->
     super options
@@ -101,4 +103,9 @@ module.exports = class EditorLevelView extends View
   startForkingLevel: (e) ->
     levelForkView = new LevelForkView level: @level
     @openModalView levelForkView
+    Backbone.Mediator.publish 'level:view-switched', e
+
+  showVersionHistory: (e) ->
+    versionHistoryView = new VersionHistoryView level:@level, @levelID
+    @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
