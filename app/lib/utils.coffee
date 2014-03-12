@@ -45,3 +45,25 @@ toHex = (n) ->
   h = Math.floor(n).toString(16)
   h = '0'+h if h.length is 1
   h
+
+i18n = (say, target, language=me.lang(), fallback='en') ->
+  generalResult = null
+  fallbackResult = null
+  fallforwardResult = null # If a general language isn't available, the first specific one will do
+  matches = (/\w+/gi).exec(language)
+  generalName = matches[0] if matches
+
+  for locale in say?.i18n
+    if target of say[locale]
+      result = say[locale][target]
+    else continue
+    return result if locale == language
+    generalResult = result if locale == generalName
+    fallbackResult = result if locale == fallback
+    fallforwardResult = result if locale.indexOf language != -1 and not fallforwardResult?
+
+  return generalResult if generalResult?
+  return fallbackResult if fallbackResult?
+  return fallforwardResult if fallforwardResult?
+  return say.text if 'text' of say
+  null
