@@ -33,20 +33,15 @@ module.exports = class LadderView extends RootView
   constructor: (options, @levelID) ->
     super(options)
     @level = new Level(_id:@levelID)
-    @level.fetch()
-    @level.once 'sync', @onLevelLoaded, @
+    p1 = @level.fetch()
     @sessions = new LevelSessionsCollection(levelID)
-    @sessions.fetch({})
-    @sessions.once 'sync', @onMySessionsLoaded, @
+    p2 = @sessions.fetch({})
     @simulator = new Simulator()
     @simulator.on 'statusUpdate', @updateSimulationStatus, @
     @teams = []
+    $.when(p1, p2).then @onLoaded
 
-  onLevelLoaded: -> @renderMaybe()
-  onMySessionsLoaded: -> @renderMaybe()
-
-  renderMaybe: ->
-    return unless @level.loaded and @sessions.loaded
+  onLoaded: =>
     @teams = teamDataFromLevel @level
     @startsLoading = false
     @render()
