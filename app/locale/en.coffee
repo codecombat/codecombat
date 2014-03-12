@@ -1,4 +1,5 @@
-module.exports = nativeDescription: "English", englishDescription: "English", translation:
+module.exports =
+  nativeDescription: "English", englishDescription: "English", translation:
   common:
     loading: "Loading..."
     saving: "Saving..."
@@ -276,6 +277,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     commit_msg: "Commit Message"
     history: "History"
     version_history_for: "Version History for: "
+    result: "Result"
     results: "Results"
     description: "Description"
     or: "or"
@@ -284,6 +286,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     message: "Message"
     code: "Code"
     ladder: "Ladder"
+    opponent: "Opponent"
+    when: "When"
+    win: "Win"
+    loss: "Loss"
+    tie: "Tie"
 
   about:
     who_is_codecombat: "Who is CodeCombat?"
@@ -489,3 +496,16 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     score: "Score"
     leaderboard: "Leaderboard"
     battle_as: "Battle as"
+    summary_your: "Your "
+    summary_matches: "Matches - "
+    summary_wins: " Wins, "
+    summary_losses: " Losses"
+    rank_no_code: "No New Code to Rank"
+    rank_my_game: "Rank My Game!"
+    rank_submitting: "Submitting..."
+    rank_submitted: "Submitted for Ranking"
+    rank_failed: "Failed to Rank"
+    rank_being_ranked: "Game Being Ranked"
+    code_being_simulated: "Your new code is being simulated by other players for ranking. This will refresh as new matches come in."
+    no_ranked_matches_pre: "No ranked matches for the "
+    no_ranked_matches_post: " team! Play against some competitors and then come back here to get your game ranked."
