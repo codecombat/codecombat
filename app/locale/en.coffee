@@ -1,5 +1,4 @@
-module.exports =
-  nativeDescription: "English", englishDescription: "English", translation:
+module.exports = nativeDescription: "English", englishDescription: "English", translation:
   common:
     loading: "Loading..."
     saving: "Saving..."
@@ -286,11 +285,14 @@ module.exports =
     message: "Message"
     code: "Code"
     ladder: "Ladder"
-    opponent: "Opponent"
     when: "When"
     win: "Win"
     loss: "Loss"
     tie: "Tie"
+    easy: "Easy"
+    medium: "Medium"
+    hard: "Hard"
+
 
   about:
     who_is_codecombat: "Who is CodeCombat?"
@@ -509,3 +511,12 @@ module.exports =
     code_being_simulated: "Your new code is being simulated by other players for ranking. This will refresh as new matches come in."
     no_ranked_matches_pre: "No ranked matches for the "
     no_ranked_matches_post: " team! Play against some competitors and then come back here to get your game ranked."
+    choose_opponent: "Choose an Opponent"
+    tutorial_play: "Play Tutorial"
+    tutorial_recommended: "Recommended if you've never played before"
+    tutorial_skip: "Skip Tutorial"
+    tutorial_not_sure: "Not sure what's going on?"
+    tutorial_play_first: "Play the tutorial first."
+    simple_ai: "Simple AI"
+    warmup: "Warmup"
+    vs: "VS"

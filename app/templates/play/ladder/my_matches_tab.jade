@@ -58,11 +58,11 @@ div#columns.row
             if team.isRanking
               td(colspan=4).alert.alert-info
                 span(data-i18n="ladder.code_being_simulated")
-                Your new code is being simulated by other players for ranking.
-                This will refresh as new matches come in.
+                  | Your new code is being simulated by other players for ranking.
+                  | This will refresh as new matches come in.
             else
               td(colspan=4).alert.alert-warning
                 span(data-i18n="ladder.no_ranked_matches_pre") No ranked matches for the
-                |#{team.name}
+                | #{team.name}
                 span(data-i18n="ladder.no_ranked_matches_post") team! Play against some competitors and then come back here to get your game ranked.
 
