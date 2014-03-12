@@ -44,11 +44,12 @@ Application = initialize: ->
   }, (t) =>
     @router = new Router()
     @router.subscribe()
+    onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
     @idleTracker = new Idle
-      onAway: => @userIsIdle = true
-      onAwayBack: => @userIsIdle = false
-      onHidden: => @userIsIdle = true
-      onVisible: => @userIsIdle = false
+      onAway: onIdleChanged true
+      onAwayBack: onIdleChanged false
+      onHidden: onIdleChanged true
+      onVisible: onIdleChanged false
       awayTimeout: 5 * 60 * 1000
     @idleTracker.start()
 
