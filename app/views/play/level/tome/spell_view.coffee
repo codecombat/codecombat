@@ -91,6 +91,9 @@ module.exports = class SpellView extends View
     addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
+      passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
+      # No easy way to selectively cancel shift+space, since we don't get access to the event.
+      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
       exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
     addCommand
       name: 'end-all-scripts'
