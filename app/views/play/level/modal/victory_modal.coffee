@@ -66,6 +66,7 @@ module.exports = class VictoryModal extends View
     ajaxData = session: @session.id, levelID: @level.id, originalLevelID: @level.get('original'), levelMajorVersion: @level.get('version').major
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
     goToLadder = -> Backbone.Mediator.publish 'router:navigate', route: ladderURL
+    console.log "Posting game for ranking from victory modal."
     $.ajax '/queue/scoring',
       type: 'POST'
       data: ajaxData

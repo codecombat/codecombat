@@ -84,7 +84,9 @@ module.exports.dispatchTaskToConsumer = (req, res) ->
   if isUserAnonymous(req) then return errors.forbidden res, "You need to be logged in to simulate games"
 
   scoringTaskQueue.receiveMessage (err, message) ->
-    if err? or messageIsInvalid(message) then return errors.gatewayTimeoutError res, "Queue Receive Error:#{err}"
+    if err? or messageIsInvalid(message)
+      res.send 204, "No games to score. #{message}"
+      return res.end()
     console.log "Received Message"
     messageBody = parseTaskQueueMessage req, res, message
     return unless messageBody?
@@ -155,7 +157,7 @@ module.exports.processTaskResult = (req, res) ->
                   levelOriginalMajorVersion = levelSession.level.majorVersion
                   findNearestBetterSessionID levelOriginalID, levelOriginalMajorVersion, originalSessionID, sessionNewScore, opponentNewScore, opponentID ,opposingTeam, (err, opponentSessionID) ->
                     if err? then return errors.serverError res, "There was an error finding the nearest sessionID!"
-                    unless opponentSessionID then return sendResponseObject req, res, {"message":"There were no more games to rank(game is at top!"}
+                    unless opponentSessionID then return sendResponseObject req, res, {"message":"There were no more games to rank (game is at top)!"}
 
                     addPairwiseTaskToQueue [originalSessionID, opponentSessionID], (err, success) ->
                       if err? then return errors.serverError res, "There was an error sending the pairwise tasks to the queue!"
