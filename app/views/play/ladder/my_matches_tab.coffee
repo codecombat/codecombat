@@ -122,6 +122,7 @@ module.exports = class MyMatchesTabView extends CocoView
     failure = => @setRankingButtonText(button, 'failed')
 
     ajaxData = { session: sessionID, levelID: @level.id, originalLevelID: @level.attributes.original, levelMajorVersion: @level.attributes.version.major }
+    console.log "Posting game for ranking from My Matches view."
     $.ajax '/queue/scoring', {
       type: 'POST'
       data: ajaxData

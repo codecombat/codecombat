@@ -102,7 +102,7 @@ sendLadderUpdateEmail = (session, daysAgo) ->
           score_history_graph_url: getScoreHistoryGraphURL session, daysAgo
           defeat: defeatContext
           victory: victoryContext
-      log.info "Sending ladder update email to #{context.recipient.address} with #{context.email_data.wins} wins and #{context.email_data.losses} since #{daysAgo} day(s) ago."
+      log.info "Sending ladder update email to #{context.recipient.address} with #{context.email_data.wins} wins and #{context.email_data.losses} losses since #{daysAgo} day(s) ago."
       sendwithus.api.send context, (err, result) ->
         log.error "Error sending ladder update email: #{err} with result #{result}" if err
 

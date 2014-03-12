@@ -10,7 +10,7 @@ module.exports = class Simulator
     @trigger 'statusUpdate', 'Starting simulation!'
     @retryDelayInSeconds = 10
     @taskURL = '/queue/scoring'
-    
+
   destroy: ->
     @off()
     @cleanupSimulation()
@@ -25,17 +25,21 @@ module.exports = class Simulator
       success: @setupSimulationAndLoadLevel
 
   handleFetchTaskError: (errorData) =>
-    console.log "There were no games to score. Error: #{JSON.stringify errorData}"
-    console.log "Retrying in #{@retryDelayInSeconds}"
-    @trigger 'statusUpdate', 'There were no games to simulate! Trying again in 10 seconds.'
+    console.error "There was a horrible Error: #{JSON.stringify errorData}"
+    @trigger 'statusUpdate', 'There was an error fetching games to simulate. Retrying in 10 seconds.'
+    @simulateAnotherTaskAfterDelay()
 
+  handleNoGamesResponse: ->
+    @trigger 'statusUpdate', 'There were no games to simulate--nice. Retrying in 10 seconds.'
     @simulateAnotherTaskAfterDelay()
 
   simulateAnotherTaskAfterDelay: =>
+    console.log "Retrying in #{@retryDelayInSeconds}"
     retryDelayInMilliseconds = @retryDelayInSeconds * 1000
     _.delay @fetchAndSimulateTask, retryDelayInMilliseconds
 
-  setupSimulationAndLoadLevel: (taskData) =>
+  setupSimulationAndLoadLevel: (taskData, textStatus, jqXHR) =>
+    return @handleNoGamesResponse() if jqXHR.status is 204
     @trigger 'statusUpdate', 'Setting up simulation!'
     @task = new SimulationTask(taskData)
     @supermodel = new SuperModel()
