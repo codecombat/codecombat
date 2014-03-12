@@ -162,6 +162,14 @@ module.exports = class PlayView extends View
         description: "Write a bubble sort to organize your soldiers. - by Alexandru"
       }
       {
+        name: 'Sword Loop'
+        difficulty: 1
+        id: 'sword-loop'
+        image: '/file/db/level/525dc5589a0765e496000006/drink_me_icon.png'
+        description: 'Kill the ogres and save the peasants and their cattle'
+      }
+        
+      {
         name: 'Enemy Artillery'
         difficulty: 1
         id: 'enemy-artillery'
