@@ -44,8 +44,13 @@ Application = initialize: ->
   }, (t) =>
     @router = new Router()
     @router.subscribe()
-    Object.freeze this if typeof Object.freeze is 'function'
-    @router = Router
+    @idleTracker = new Idle
+      onAway: => @userIsIdle = true
+      onAwayBack: => @userIsIdle = false
+      onHidden: => @userIsIdle = true
+      onVisible: => @userIsIdle = false
+      awayTimeout: 5 * 60 * 1000
+    @idleTracker.start()
 
 module.exports = Application
 window.application = Application

@@ -54,7 +54,7 @@ module.exports = class MyMatchesTabView extends CocoView
     ctx.levelID = @level.get('slug') or @level.id
     ctx.teams = @teams
 
-    convertMatch = (match) =>
+    convertMatch = (match, submitDate) =>
       opponent = match.opponents[0]
       state = 'win'
       state = 'loss' if match.metrics.rank > opponent.metrics.rank
@@ -65,12 +65,14 @@ module.exports = class MyMatchesTabView extends CocoView
         opponentID: opponent.userID
         when: moment(match.date).fromNow()
         sessionID: opponent.sessionID
+        stale: match.date < submitDate
       }
 
     for team in @teams
       team.session = (s for s in @sessions.models when s.get('team') is team.id)[0]
       team.readyToRank = @readyToRank(team.session)
-      team.matches = (convertMatch(match) for match in team.session?.get('matches') or [])
+      team.isRanking = team.session?.get('isRanking')
+      team.matches = (convertMatch(match, team.session.get('submitDate')) for match in team.session?.get('matches') or [])
       team.matches.reverse()
       team.score = (team.session?.get('totalScore') or 10).toFixed(2)
       team.wins = _.filter(team.matches, {state: 'win'}).length
@@ -96,7 +98,12 @@ module.exports = class MyMatchesTabView extends CocoView
       button = $(el)
       sessionID = button.data('session-id')
       session = _.find @sessions.models, { id: sessionID }
-      @setRankingButtonText button, if @readyToRank(session) then 'rank' else 'unavailable'
+      rankingState = 'unavailable'
+      if @readyToRank session
+        rankingState = 'rank'
+      else if session.get 'isRanking'
+        rankingState = 'ranking'
+      @setRankingButtonText button, rankingState
 
   readyToRank: (session) ->
     return false unless session?.get('levelID')  # If it hasn't been denormalized, then it's not ready.
@@ -110,8 +117,8 @@ module.exports = class MyMatchesTabView extends CocoView
     session = _.find @sessions.models, { id: sessionID }
     return unless @readyToRank(session)
 
-    @setRankingButtonText(button, 'ranking')
-    success = => @setRankingButtonText(button, 'ranked')
+    @setRankingButtonText(button, 'submitting')
+    success = => @setRankingButtonText(button, 'submitted')
     failure = => @setRankingButtonText(button, 'failed')
 
     ajaxData = { session: sessionID, levelID: @level.id, originalLevelID: @level.attributes.original, levelMajorVersion: @level.attributes.version.major }
