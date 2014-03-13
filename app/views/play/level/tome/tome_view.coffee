@@ -130,7 +130,7 @@ module.exports = class TomeView extends View
         unless method.cloneOf
           skipProtectAPI = @getQueryVariable("skip_protect_api") is "true" or @options.levelID isnt 'brawlwood'
           skipProtectAPI = true  # gah, it's so slow :( and somehow still affects simulation
-          #skipProtectAPI = false if @options.levelID is 'dungeon-arena'
+          skipProtectAPI = false if @options.levelID is 'dungeon-arena'
           skipFlow = @getQueryVariable("skip_flow") is "true" or @options.levelID is 'brawlwood'
           spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI, worker: @worker
     for thangID, spellKeys of @thangSpells
