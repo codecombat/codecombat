@@ -1,26 +1,49 @@
 @import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
-body
-  height: 100%
-    
+
+
 #spectate-level-view
+  #playback-view
+    width: 100%
+  #restart-button
+    display: none
+  #multiplayer-button
+    display: none
+  #docs-button
+    display: none
+  
+  #control-bar-view
+    width: 100%
+  
+    .title
+      position: absolute
+      display: inline-block
+      margin-left: 50%
+      right: 0
+      color: #BEBEBE
+      line-height: 15px
+      left: 0
+
+
   margin: 0 auto
-  height: 100%
   @include user-select(none)
 
   .level-content
     position: relative
 
   #canvas-wrapper
-    width: 55%
+    height: 100%
     position: relative
     margin: 0 auto
 
   canvas#surface
     background-color: #ddd
-    width: 100%
+    max-height: calc(100% - 60px)
+    height: auto
+    max-width: 100%
     display: block
     z-index: 1
+    margin: 0 auto
 
 
   //max-width: 1680px   // guideline, but for now let's let it stretch out
@@ -30,11 +53,9 @@ body
     margin: 0 auto
   #thang-hud
     margin: 0 auto
+    display: none
     
-  #control-bar-view
-    margin: 0 auto
-    .title
-      margin-left: 500px
+
   #pointer
     position: absolute
     left: 0

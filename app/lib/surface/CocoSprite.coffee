@@ -62,6 +62,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @actionQueue = []
     @marks = {}
     @labels = {}
+    @handledAoEs = {}
     @age = 0
     @displayObject = new createjs.Container()
     if @thangType.get('actions')
@@ -172,14 +173,40 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return if @stillLoading
     @updatePosition()
     if frameChanged
-      @updateScale()
+      @updateScale() # must happen before rotation
       @updateAlpha()
       @updateRotation()
       @updateAction()
       @updateStats()
       @updateGold()
+      @showAreaOfEffects()
     @updateMarks()
     @updateLabels()
+
+  showAreaOfEffects: ->
+    return unless @thang?.currentEvents
+    for event in @thang.currentEvents
+      continue unless event.startsWith 'aoe-'
+      continue if @handledAoEs[event]
+
+      @handledAoEs[event] = true
+      args = JSON.parse(event[4...])
+      pos = @options.camera.worldToSurface {x:args[0], y:args[1]}
+      circle = new createjs.Shape()
+      circle.graphics.beginFill(args[3]).drawCircle(0, 0, args[2]*Camera.PPM)
+      circle.x = pos.x
+      circle.y = pos.y
+      circle.scaleY = @options.camera.y2x * 0.7
+      circle.scaleX = 0.7
+      circle.alpha = 0.2
+      circle
+      @options.groundLayer.addChild circle
+      createjs.Tween.get(circle)
+        .to({alpha: 0.6, scaleY: @options.camera.y2x, scaleX: 1}, 100, createjs.Ease.circOut)
+        .to({alpha: 0, scaleY: 0, scaleX: 0}, 700, createjs.Ease.circIn)
+        .call =>
+          @options.groundLayer.removeChild circle
+          delete @handledAoEs[event]
 
   cache: ->
     bounds = @imageObject.getBounds()
