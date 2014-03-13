@@ -28,8 +28,8 @@ module.exports.normalizeFunc = (func_thing, object) ->
       console.error("Could not find method", func_thing, 'in object', @)
       return => null # always return a func, or Mediator will go boom
     func_thing = func
-  return func_thing 
-  
+  return func_thing
+
 module.exports.hexToHSL = (hex) ->
   rgbToHsl(hexToR(hex), hexToG(hex), hexToB(hex))
 
@@ -37,11 +37,34 @@ hexToR = (h) -> parseInt (cutHex(h)).substring(0, 2), 16
 hexToG = (h) -> parseInt (cutHex(h)).substring(2, 4), 16
 hexToB = (h) -> parseInt (cutHex(h)).substring(4, 6), 16
 cutHex = (h) -> (if (h.charAt(0) is "#") then h.substring(1, 7) else h)
-  
+
 module.exports.hslToHex = (hsl) ->
   '#' + (toHex(n) for n in hslToRgb(hsl...)).join('')
-  
+
 toHex = (n) ->
   h = Math.floor(n).toString(16)
   h = '0'+h if h.length is 1
   h
+
+module.exports.i18n = (say, target, language=me.lang(), fallback='en') ->
+  generalResult = null
+  fallbackResult = null
+  fallforwardResult = null # If a general language isn't available, the first specific one will do
+  matches = (/\w+/gi).exec(language)
+  generalName = matches[0] if matches
+
+  for localeName, locale of say.i18n
+    if target of locale
+      result = locale[target]
+    else continue
+    return result if localeName == language
+    generalResult = result if localeName == generalName
+    fallbackResult = result if localeName == fallback
+    fallforwardResult = result if localeName.indexOf(language) == 0 and not fallforwardResult?
+
+  return generalResult if generalResult?
+  return fallforwardResult if fallforwardResult?
+  return fallbackResult if fallbackResult?
+  return say[target] if target of say
+  return say.text if 'text' of say
+  null
