@@ -181,7 +181,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     victory_go_home: "Powrót do strony głównej"
     victory_review: "Powiedz nam coś więcej!"
     victory_hour_of_code_done: "Skończyłeś już?"
-    victory_hour_of_code_done_yes: "Tak, skończyłem moją Godzinę Kodowania."
+    victory_hour_of_code_done_yes: "Tak, skończyłem moją Godzinę Kodu."
     multiplayer_title: "Ustawienia multiplayer"
     multiplayer_link_description: "Przekaż ten link, jeśli chcesz, by ktoś do ciebie dołączył."
     multiplayer_hint_label: "Podpowiedź:"
