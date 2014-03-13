@@ -238,14 +238,14 @@ module.exports = class SpriteBoss extends CocoClass
     @dragged += 1
 
   onSpriteMouseUp: (e) ->
-    return if key.shift and @options.choosing
+    return if key.shift #and @options.choosing
     return @dragged = 0 if @dragged > 3
     @dragged = 0
     sprite = if e.sprite?.thang?.isSelectable then e.sprite else null
     @selectSprite e, sprite
 
   onStageMouseDown: (e) ->
-    return if key.shift and @options.choosing
+    return if key.shift #and @options.choosing
     @selectSprite e if e.onBackground
 
   selectThang: (thangID, spellName=null) ->

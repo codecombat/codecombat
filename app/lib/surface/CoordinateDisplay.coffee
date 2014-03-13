@@ -4,6 +4,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     'surface:mouse-moved': 'onMouseMove'
     'surface:mouse-out': 'onMouseOut'
     'surface:mouse-over': 'onMouseOver'
+    'surface:stage-mouse-down': 'onMouseDown'
     'camera:zoom-updated': 'onZoomUpdated'
 
   constructor: (options) ->
@@ -37,6 +38,14 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @lastPos = wop
     @hide()
     @show()  # debounced
+
+  onMouseDown: (e) ->
+    return unless key.shift
+    wop = @camera.canvasToWorld x: e.x, y: e.y
+    wop.x = Math.round wop.x
+    wop.y = Math.round wop.y
+    console.log 'position', wop 
+    Backbone.Mediator.publish 'surface:coordinate-selected', wop
 
   onZoomUpdated: (e) ->
     @hide()
