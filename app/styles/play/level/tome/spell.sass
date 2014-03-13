@@ -73,7 +73,7 @@
       .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error
         position: absolute
     .executing
-      background-color: rgba(0, 255, 0, 0.20)
+      background-color: rgba(50, 255, 80, 0.35)
       @include gradient-striped()
     .executed
       background-color: rgba(110, 110, 110, 0.12)
@@ -86,6 +86,7 @@
 
     .executing:not(.ace_gutter-cell)
       background-size: 40px 40px
+      text-shadow: 1px 1px 1px #000
       @include animation(progress-bar-stripes 2s linear infinite)
 
     .ace_gutter-cell.executing:not(.ace_error):not(.ace_warning):not(.ace_info)
