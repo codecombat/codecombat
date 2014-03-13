@@ -134,7 +134,6 @@ module.exports = class PlayLevelView extends View
     session = @levelLoader.session
     diff = new Date().getTime() - new Date(session.get('created')).getTime()
     return if showFrequency is 'first-time' and diff > (5 * 60 * 1000)
-    return unless @levelLoader.level.loaded
     articles = @levelLoader.supermodel.getModels Article
     for article in articles
       return unless article.loaded

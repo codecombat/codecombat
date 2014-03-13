@@ -67,12 +67,13 @@ module.exports = class HomeView extends View
   createWizard: (scale=3.7) ->
     spriteOptions = thangID: "Beginner Wizard", resolutionFactor: scale
     @wizardSprite = new WizardSprite @wizardType, spriteOptions
-    @wizardSprite.update()
     wizardDisplayObject = @wizardSprite.displayObject
     wizardDisplayObject.x = 70
     wizardDisplayObject.y = 120
     wizardDisplayObject.scaleX = wizardDisplayObject.scaleY = scale
     wizardDisplayObject.scaleX *= -1
+    @wizardSprite.queueAction 'idle'
+    @wizardSprite.update()
     @stage.addChild wizardDisplayObject
     @stage.update()
 
