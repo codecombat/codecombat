@@ -286,6 +286,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    code: "Code"
 #    ladder: "Ladder"
 #    when: "When"
+#    opponent: "Opponent"
 #    rank: "Rank"
 #    score: "Score"
 #    win: "Win"
