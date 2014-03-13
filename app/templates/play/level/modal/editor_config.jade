@@ -1,0 +1,28 @@
+// TODO: refactor to be like other modals
+.modal-dialog
+  .modal-header
+    button(type='button', data-dismiss="modal", aria-hidden="true").close &times;
+    h3 Editor Settings
+  
+  .modal-body
+    .form
+      .form-group
+        label(for="keyBindings") 
+        select#keyBindings(name="keyBindings", type="checkbox", checked=multiplayer)
+          option(value="default" selected=(keyBindings === "default")) Default (Ace)
+          option(value="vim" selected=(keyBindings === "vim")) Vim
+          option(value="emacs" selected=(keyBindings === "emacs")) Emacs
+        span.help-block Adds additional shortcuts known from the common editors.
+      .form-group.checkbox
+        label(for="invisibles")
+          input#invisibles(name="invisibles", type="checkbox", checked=invisibles)
+          | Show Invisibles
+        span.help-block Displays invisibles such as spaces or tabs.
+      .form-group.checkbox
+        label(for="indentGuides")
+          input#indentGuides(name="indentGuides", type="checkbox", checked=indentGuides)
+          | Show Indent Guides
+        span.help-block Displays vertical lines to see indentation better.
+      
+  .modal-footer
+    a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close
