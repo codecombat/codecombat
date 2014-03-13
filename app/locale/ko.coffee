@@ -286,6 +286,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    code: "Code"
 #    ladder: "Ladder"
 #    when: "When"
+#    opponent: "Opponent"
 #    rank: "Rank"
 #    score: "Score"
 #    win: "Win"

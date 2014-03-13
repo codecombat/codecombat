@@ -450,6 +450,7 @@ module.exports = Surface = class Surface extends CocoClass
     @gridLayer?.parent?
 
   onToggleGrid: (e) ->
+    # TODO: figure out a better way of managing grid / debug so it's not split across PlaybackView and Surface
     e?.preventDefault?()
     if @gridShowing() then @hideGrid() else @showGrid()
     flag = $('#grid-toggle i.icon-ok')

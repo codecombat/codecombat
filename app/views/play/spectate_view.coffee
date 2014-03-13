@@ -65,10 +65,15 @@ module.exports = class SpectateLevelView extends View
     'ctrl+s': 'onCtrlS'
 
   constructor: (options, @levelID) ->
+    @originalOptions = _.cloneDeep(options)
     console.profile?() if PROFILE_ME
     super options
-    @sessionOne = @getQueryVariable 'session-one'
-    @sessionTwo = @getQueryVariable 'session-two'
+    if options.spectateSessions?
+      @sessionOne = options.spectateSessions.sessionOne
+      @sessionTwo = options.spectateSessions.sessionTwo
+    else
+      @sessionOne = @getQueryVariable 'session-one'
+      @sessionTwo = @getQueryVariable 'session-two'
 
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', @onLevelLoadError
@@ -150,6 +155,7 @@ module.exports = class SpectateLevelView extends View
     @initScriptManager()
     @insertSubviews ladderGame: @otherSession?
     @initVolume()
+    
     @originalSessionState = _.cloneDeep(@session.get('state'))
     @register()
     @controlBar.setBus(@bus)
@@ -164,7 +170,6 @@ module.exports = class SpectateLevelView extends View
       id: @otherSession.get('creator')
       name: @otherSession.get('creatorName')
       team: @otherSession.get('team')
-
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -247,18 +252,8 @@ module.exports = class SpectateLevelView extends View
     $(@wasFocusedOn).focus() if @wasFocusedOn
     @wasFocusedOn = null
 
-  onDonePressed: -> @showVictory()
+  onDonePressed: -> return
 
-  onShowVictory: (e) ->
-    $('#level-done-button').show()
-    @showVictory() if e.showModal
-    setTimeout(@preloadNextLevel, 3000)
-
-  showVictory: ->
-    options = {level: @level, supermodel: @supermodel, session:@session}
-    docs = new VictoryModal(options)
-    @openModalView(docs)
-    window.tracker?.trackEvent 'Saw Victory', level: @world.name, label: @world.name
 
   onNewWorld: (e) ->
     @world = e.world
@@ -365,7 +360,7 @@ module.exports = class SpectateLevelView extends View
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
-    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview)
+    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true)
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -376,7 +371,14 @@ module.exports = class SpectateLevelView extends View
     @god.goalManager = @goalManager
 
   initScriptManager: ->
-    @scriptManager = new ScriptManager({scripts: @world.scripts or [], view:@, session: @session})
+    if @world.scripts
+      nonVictoryPlaybackScripts = _.reject @world.scripts, (script) ->
+        script.id.indexOf("Set Camera Boundaries and Goals") == -1
+    else
+      console.log "World scripts don't exist!"
+      nonVictoryPlaybackScripts = []
+    console.log nonVictoryPlaybackScripts
+    @scriptManager = new ScriptManager({scripts: nonVictoryPlaybackScripts, view:@, session: @session})
     @scriptManager.loadFromSession()
 
   initVolume: ->
@@ -388,11 +390,6 @@ module.exports = class SpectateLevelView extends View
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState
-    if state.frame
-      Backbone.Mediator.publish 'level-set-time', { time: 0, frameOffset: state.frame }
-    if state.selected
-      # TODO: Should also restore selected spell here by saving spellName
-      Backbone.Mediator.publish 'level-select-sprite', { thangID: state.selected, spellName: null }
     if state.playing?
       Backbone.Mediator.publish 'level-set-playing', { playing: state.playing }
 
@@ -428,11 +425,16 @@ module.exports = class SpectateLevelView extends View
     console.log "You want to see the next game!"
     @sessionOne = "53193c8f7a89df21c4d968e9"
     @sessionTwo = "531aa613026834331eac5e7e"
-    @destroy(true)
-    @load()
-    @afterRender()
+    url = "/play/spectate/dungeon-arena?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
+    Backbone.Mediator.publish 'router:navigate', {
+      route: url,
+      viewClass: SpectateLevelView,
+      viewArgs: [{spectateSessions:{sessionOne: @sessionOne, sessionTwo: @sessionTwo}}, "dungeon-arena"]}
 
-  destroy: (destroyHalfway)->
+    
+    
+
+  destroy: ()->
     @supermodel?.off 'error', @onLevelLoadError
     @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
     @levelLoader?.destroy()
@@ -440,11 +442,9 @@ module.exports = class SpectateLevelView extends View
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
-    unless destroyHalfway
-      $(window).off('resize', @onWindowResize)
+    $(window).off('resize', @onWindowResize)
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)
-
     console.profileEnd?() if PROFILE_ME
     @session?.off 'change:multiplayer', @onMultiplayerChanged, @
     @onLevelLoadError = null
@@ -452,5 +452,4 @@ module.exports = class SpectateLevelView extends View
     @onSupermodelLoadedOne = null
     @preloadNextLevel = null
     @saveScreenshot = null
-    unless destroyHalfway
-      super()
+    super()

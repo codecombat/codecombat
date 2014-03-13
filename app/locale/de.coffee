@@ -286,6 +286,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    code: "Code"
 #    ladder: "Ladder"
 #    when: "When"
+#    opponent: "Opponent"
 #    rank: "Rank"
 #    score: "Score"
 #    win: "Win"

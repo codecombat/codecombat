@@ -1,6 +1,8 @@
 CocoModel = require('./CocoModel')
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
+buildQueue = []
+
 module.exports = class ThangType extends CocoModel
   @className: "ThangType"
   urlRoot: "/db/thang.type"
@@ -136,7 +138,8 @@ module.exports = class ThangType extends CocoModel
     key = @spriteSheetKey(@options)
     spriteSheet = null
     if @options.async
-      @builder.buildAsync()
+      buildQueue.push @builder
+      @builder.buildAsync() unless buildQueue.length > 1
       @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
       return true
     console.warn 'Building', @get('name'), @options, 'and blocking the main thread.'
@@ -146,6 +149,8 @@ module.exports = class ThangType extends CocoModel
     spriteSheet
 
   onBuildSpriteSheetComplete: (e, key) ->
+    buildQueue = buildQueue.slice(1)
+    buildQueue[0]?.buildAsync()
     @spriteSheets[key] = e.target.spriteSheet
     delete @building[key]
     @trigger 'build-complete'

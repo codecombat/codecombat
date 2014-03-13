@@ -286,6 +286,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    code: "Code"
 #    ladder: "Ladder"
 #    when: "When"
+#    opponent: "Opponent"
 #    rank: "Rank"
 #    score: "Score"
 #    win: "Win"
