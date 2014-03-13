@@ -138,7 +138,7 @@ module.exports = class ThangType extends CocoModel
     key = @spriteSheetKey(@options)
     spriteSheet = null
     if @options.async
-      buildQueue.push @
+      buildQueue.push @builder
       @builder.buildAsync() unless buildQueue.length > 1
       @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
       return true
@@ -150,7 +150,7 @@ module.exports = class ThangType extends CocoModel
 
   onBuildSpriteSheetComplete: (e, key) ->
     buildQueue = buildQueue.slice(1)
-    buildQueue[0]?.builder.buildAsync()
+    buildQueue[0]?.buildAsync()
     @spriteSheets[key] = e.target.spriteSheet
     delete @building[key]
     @trigger 'build-complete'
