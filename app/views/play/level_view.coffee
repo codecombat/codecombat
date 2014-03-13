@@ -2,6 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/play/level'
 {me} = require('lib/auth')
 ThangType = require 'models/ThangType'
+utils = require 'lib/utils'
 
 # temp hard coded data
 World = require 'lib/world/world'
@@ -153,7 +154,7 @@ module.exports = class PlayLevelView extends View
     if window.currentModal and not window.currentModal.destroyed
       @loadingScreen.showReady()
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
-    
+
     localStorage["lastLevel"] = @levelID if localStorage?
     @grabLevelLoaderData()
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
@@ -175,7 +176,7 @@ module.exports = class PlayLevelView extends View
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
       @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
-      
+
   grabLevelLoaderData: ->
     @session = @levelLoader.session
     @world = @levelLoader.world
@@ -183,7 +184,7 @@ module.exports = class PlayLevelView extends View
     @otherSession = @levelLoader.opponentSession
     @levelLoader.destroy()
     @levelLoader = null
-    
+
   loadOpponentTeam: (myTeam) ->
     opponentSpells = []
     for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
@@ -202,7 +203,7 @@ module.exports = class PlayLevelView extends View
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
       @session.set 'multiplayer', false
 
-    
+
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
     @modelsLoaded += 1
@@ -224,7 +225,7 @@ module.exports = class PlayLevelView extends View
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
+    worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, ladderGame: subviewOptions.ladderGame}
     #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 
