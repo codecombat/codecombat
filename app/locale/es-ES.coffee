@@ -105,13 +105,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     title: "Ajustes del mago"
     customize_avatar: "Personaliza tu Avatar"
     clothes: "Ropa"
-#    trim: "Trim"
+    #trim: "Trim"
     cloud: "Nube"
-#    spell: "Spell"
+    #spell: "Spell"
     boots: "Botas"
-#    hue: "Hue"
-#    saturation: "Saturation"
-#    lightness: "Lightness"
+    #hue: "Hue"
+    saturation: "Saturación"
+    lightness: "Brillo"
 
   account_settings:
     title: "Ajustes de la cuenta"
@@ -144,11 +144,11 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   account_profile:
     edit_settings: "Ajustes"
     profile_for_prefix: "Perfil de "
-#    profile_for_suffix: ""
+    profile_for_suffix: ""
     profile: "Perfil"
     user_not_found: "No se encontró al usuario. ¿Comprueba la URL?"
     gravatar_not_found_mine: "No podemos encontrar el perfil asociado con:"
-#    gravatar_not_found_email_suffix: "."
+    gravatar_not_found_email_suffix: "."
     gravatar_signup_prefix: "¡Suscribete a "
     gravatar_signup_suffix: " para ponerte en marcha!"
     gravatar_not_found_other: "Vaya, no hay un perfil asociado a la dirección de correo electrónico de esta persona."
@@ -202,7 +202,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     spell_saved: "Hechizo guardado"
 #    skip_tutorial: "Skip (esc)"
 
-#  admin:
+  admin:
 #    av_title: "Admin Views"
     av_entities_sub_title: "Entidades"
     av_entities_users_url: "Usuarios"

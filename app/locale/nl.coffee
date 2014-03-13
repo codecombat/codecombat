@@ -422,7 +422,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     more_about_adventurer: "Leer meer over hoe je een dappere avonturier kunt worden."
     adventurer_subscribe_desc: "Ontvang e-mails wanneer er nieuwe levels zijn die getest moeten worden."
     scribe_summary_pref: "CodeCombat is meer dan slechts een aantal levels, het zal ook een bron van kennis kennis zijn en een wiki met programmeerconcepten waar levels op in kunnen gaan. Op die manier zal een Ambachtslied  een link kunnen geven naar een artikel wat past bij een level. Net zoiets als het  "
-    scribe_summary_sufx: " heeft gebouwd. Als jij het leuk vindt programmeerconcepten uit te leggen, dan is deze klasse iets voor jou."
+    scribe_summary_suf: " heeft gebouwd. Als jij het leuk vindt programmeerconcepten uit te leggen, dan is deze klasse iets voor jou."
     scribe_introduction_pref: "CodeCombat is meer dan slechts een aantal levels, het zal ook een bron van kennis kennis zijn en een wiki met programmeerconcepten waar levels op in kunnen gaan. Op die manier zal elk Ambachtslied niet in detail hoeven uit te leggen wat een vergelijkingsoperator is, maar een link kunnen geven naar een artikel wat deze informatie bevat voor de speler. Net zoiets als het  "
     scribe_introduction_url_mozilla: "Mozilla Developer Network"
     scribe_introduction_suf: " heeft gebouwd. Als jij het leuk vindt om programmeerconcepten uit te leggen in Markdown-vorm, dan is deze klasse wellicht iets voor jou."

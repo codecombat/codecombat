@@ -400,7 +400,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more_about_adventurer: "了解成为冒险家的方法"
     adventurer_subscribe_desc: "通过电子邮件获得新关卡通知。"
     scribe_summary_pref: "CodeCombat 不只是一堆关卡的集合，它还是玩家们编程知识的来源。这样的话，每个工匠都能链接详尽的文档，以供玩家们学习，类似于"
-    scribe_summary_sufx: "那些。如果你喜欢解释编程概念，那这个职业适合你。"
+    scribe_summary_suf: "那些。如果你喜欢解释编程概念，那这个职业适合你。"
 #    scribe_introduction_pref: "CodeCombat isn't just going to be a bunch of levels. It will also include a resource for knowledge, a wiki of programming concepts that levels can hook into. That way rather than each Artisan having to describe in detail what a comparison operator is, they can simply link their level to the Article describing them that is already written for the player's edification. Something along the lines of what the "
 #    scribe_introduction_url_mozilla: "Mozilla Developer Network"
 #    scribe_introduction_suf: " has built. If your idea of fun is articulating the concepts of programming in Markdown form, then this class might be for you."

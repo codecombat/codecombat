@@ -101,17 +101,17 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     learn_more: "Aprende más sobre ser un Diplomático"
     subscribe_as_diplomat: "Suscribete como un Diplomático"
 
-#  wizard_settings:
-#    title: "Wizard Settings"
-#    customize_avatar: "Customize Your Avatar"
-#    clothes: "Clothes"
-#    trim: "Trim"
-#    cloud: "Cloud"
-#    spell: "Spell"
-#    boots: "Boots"
-#    hue: "Hue"
-#    saturation: "Saturation"
-#    lightness: "Lightness"
+  wizard_settings:
+    title: "Configuración del mago"
+    customize_avatar: "Personaliza tu avatar"
+    clothes: "Ropa"
+    #trim: "Trim"
+    cloud: "Nube"
+    #spell: "Spell"
+    boots: "Botas"
+    #hue: "Hue"
+    saturation: "Saturación"
+    lightness: "Brillo"
 
   account_settings:
     title: "Configuración de la Cuenta"

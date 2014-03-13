@@ -172,7 +172,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     reload_title: "Tüm kod yeniden yüklensin mi?"
     reload_really: "Bu seviyeyi en baştan yüklemek istediğinizden emin misiniz?"
     reload_confirm: "Tümünü Yeniden Yükle"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: "Tamamlandı "
     victory_sign_up: " Güncellemelere Abone Ol"
     victory_sign_up_poke: "Son haberleri e-postanızda görmek ister misiniz? Ücretsiz bir hesap oluşturmanız durumunda sizi bilgilendirebiliriz."

@@ -4,7 +4,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     saving: "Guardando..."
     sending: "Enviando..."
     cancel: "Cancelar"
-#    save: "Guardar"
+    save: "Guardar"
     delay_1_sec: "1 segundo"
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
@@ -31,15 +31,15 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     about: "Sobre"
     contact: "Contacto"
     twitter_follow: "Seguir"
-#    employers: "Empleados"
+    employers: "Empleados"
 
-#  versions:
-#    save_version_title: "Guardar Nueva Versión"
-#    new_major_version: "New Major Version"
-#    cla_prefix: "Para poder guardar los cambios, primero debes aceptar nuestra"
-#    cla_url: "CLA"
-#    cla_suffix: "."
-#    cla_agree: "ACEPTO"
+  versions:
+    save_version_title: "Guardar Nueva Versión"
+    new_major_version: "New Major Version"
+    cla_prefix: "Para poder guardar los cambios, primero debes aceptar nuestra"
+    cla_url: "CLA"
+    cla_suffix: "."
+    cla_agree: "ACEPTO"
 
   login:
     sign_up: "Crear Cuenta"
@@ -47,12 +47,12 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     log_out: "Cerrar Sesión"
     recover: "recuperar cuenta"
 
-#  recover:
-#    recover_account_title: "Recuperar cuenta"
-#    send_password: "Enviar contraseña olvidada"
+  recover:
+    recover_account_title: "Recuperar cuenta"
+    send_password: "Enviar contraseña olvidada"
 
   signup:
-#    create_account_title: "Crea una cuenta para guardar el progreso"
+    create_account_title: "Crea una cuenta para guardar el progreso"
     description: "Es gratis. Solo necesitas un par de cosas y estarás listo para comenzar:"
     email_announcements: "Recibe noticias por email"
     coppa: "más de 13 años o fuera de los Estados Unidos"
@@ -101,17 +101,17 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     learn_more: "Aprende más sobre ser un Diplomático"
     subscribe_as_diplomat: "Suscribete como un Diplomático"
 
-#  wizard_settings:
-#    title: "Configuración del mago"
-#    customize_avatar: "Personaliza tu avatar"
-#    clothes: "Ropa"
-#    trim: "Trim"
-#    cloud: "Nube"
-#    spell: "Spell"
-#    boots: "Botas"
-#    hue: "Hue"
-#    saturation: "Saturación"
-#    lightness: "Brillo"
+  wizard_settings:
+    title: "Configuración del mago"
+    customize_avatar: "Personaliza tu avatar"
+    clothes: "Ropa"
+    trim: "Trim"
+    cloud: "Nube"
+    spell: "Spell"
+    boots: "Botas"
+    hue: "Hue"
+    saturation: "Saturación"
+    lightness: "Brillo"
 
   account_settings:
     title: "Configuración de la Cuenta"
@@ -212,7 +212,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    u_title: "User List"
 #    lg_title: "Latest Games"
 
-#  editor:
+  editor:
 #    main_title: "CodeCombat Editors"
 #    main_description: "Build your own levels, campaigns, units and educational content. We provide all the tools you need!"
 #    article_title: "Article Editor"
@@ -234,7 +234,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    level_tab_thangs_title: "Current Thangs"
 #    level_tab_thangs_conditions: "Starting Conditions"
 #    level_tab_thangs_add: "Add Thangs"
-#    level_settings_title: "Ajustes"
+    level_settings_title: "Ajustes"
 #    level_component_tab_title: "Current Components"
 #    level_component_btn_new: "Create New Component"
 #    level_systems_tab_title: "Current Systems"
