@@ -65,5 +65,6 @@ module.exports.i18n = (say, target, language=me.lang(), fallback='en') ->
   return generalResult if generalResult?
   return fallforwardResult if fallforwardResult?
   return fallbackResult if fallbackResult?
+  return say[target] if target of say
   return say.text if 'text' of say
   null

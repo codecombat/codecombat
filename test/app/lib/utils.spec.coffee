@@ -4,6 +4,7 @@ describe 'utils library', ->
   beforeEach ->
     this.fixture1 =
       "text": "G'day, Wizard! Come to practice? Well, let's get started..."
+      "blurb": "G'day"
       "i18n":
         "es-419":
           "text": "¡Buenas, Hechicero! ¿Vienes a practicar? Bueno, empecemos..."
@@ -37,6 +38,8 @@ describe 'utils library', ->
   it 'i18n falls back to the default text, even for other targets (like blurb)', ->
     delete this.fixture1.i18n['en']
     expect(util.i18n(this.fixture1, 'text', 'en')).toEqual(this.fixture1.text)
+    expect(util.i18n(this.fixture1, 'blurb', 'en')).toEqual(this.fixture1.blurb)
+    delete this.fixture1.blurb
     expect(util.i18n(this.fixture1, 'blurb', 'en')).toEqual(this.fixture1.text)
 
   it 'i18n can fall forward if a general language is not found', ->
