@@ -27,6 +27,7 @@ module.exports = class LevelLoader extends CocoClass
     @opponentSessionID = options.opponentSessionID
     @team = options.team
     @headless = options.headless
+    @spectateMode = options.spectateMode ? false
 
     @loadSession()
     @loadLevelModels()
@@ -116,7 +117,7 @@ module.exports = class LevelLoader extends CocoClass
     @updateCompleted = true
 
   denormalizeSession: ->
-    return if @sessionDenormalized
+    return if @sessionDenormalized or @spectateMode
     patch =
       'levelName': @level.get('name')
       'levelID': @level.get('slug') or @level.id
