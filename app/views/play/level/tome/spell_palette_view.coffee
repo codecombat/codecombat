@@ -27,6 +27,7 @@ module.exports = class SpellPaletteView extends View
     c.entryGroups = @entryGroups
     c.entryGroupSlugs = @entryGroupSlugs
     c.tabbed = _.size(@entryGroups) > 1
+    c.defaultGroupSlug = @defaultGroupSlug
     c
 
   afterRender: ->
@@ -89,6 +90,7 @@ module.exports = class SpellPaletteView extends View
       defaultGroup = $.i18n.t("play_level.tome_available_spells", defaultValue: "Available Spells")
       @entryGroups = {}
       @entryGroups[defaultGroup] = @entries
+      @defaultGroupSlug = _.string.slugify defaultGroup
     @entryGroupSlugs = {}
     for group, entries of @entryGroups
       @entryGroupSlugs[group] = _.string.slugify group

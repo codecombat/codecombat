@@ -241,7 +241,7 @@ module.exports = class Camera extends CocoClass
       @newZoom = newZoom
       @tweenProgress = 0.01
       createjs.Tween.get(@)
-        .to({tweenProgress: 1.0}, time, createjs.Ease.getPowInOut(3))
+        .to({tweenProgress: 1.0}, time, createjs.Ease.getPowOut(4))
         .call @finishTween
 
     else

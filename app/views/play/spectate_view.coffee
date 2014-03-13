@@ -2,8 +2,8 @@ View = require 'views/kinds/RootView'
 template = require 'templates/play/spectate'
 {me} = require('lib/auth')
 ThangType = require 'models/ThangType'
+utils = require 'lib/utils'
 
-# temp hard coded data
 World = require 'lib/world/world'
 
 # tools
@@ -92,8 +92,8 @@ module.exports = class SpectateLevelView extends View
       @load()
 
   load: ->
-    @levelLoader = new LevelLoader 
-      supermodel: @supermodel 
+    @levelLoader = new LevelLoader
+      supermodel: @supermodel
       levelID: @levelID
       sessionID: @sessionOne
       opponentSessionID: @sessionTwo
@@ -160,19 +160,16 @@ module.exports = class SpectateLevelView extends View
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
-    if me.id isnt @session.get 'creator'  
+    if me.id isnt @session.get 'creator'
       @surface.createOpponentWizard
         id: @session.get('creator')
         name: @session.get('creatorName')
         team: @session.get('team')
-        
-    @surface.createOpponentWizard 
+
+    @surface.createOpponentWizard
       id: @otherSession.get('creator')
       name: @otherSession.get('creatorName')
       team: @otherSession.get('team')
-      
-    
-    
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -221,7 +218,7 @@ module.exports = class SpectateLevelView extends View
 
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
-    worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
+    worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, spectateGame: true}
   #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 
@@ -423,7 +420,7 @@ module.exports = class SpectateLevelView extends View
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
-      
+
   onNextGamePressed: (e) ->
     console.log "You want to see the next game!"
     @sessionOne = "53193c8f7a89df21c4d968e9"
