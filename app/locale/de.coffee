@@ -13,7 +13,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     play: "Abspielen"
 
   modal:
-    close: "Schliessen"
+    close: "Schließen"
     okay: "Okay"
 
   not_found:
@@ -105,14 +105,14 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
   wizard_settings:
     title: "Zauberer Einstellungen"
     customize_avatar: "Individualisiere deinen Avatar"
-#    clothes: "Clothes"
-#    trim: "Trim"
-#    cloud: "Cloud"
-#    spell: "Spell"
-#    boots: "Boots"
-#    hue: "Hue"
-#    saturation: "Saturation"
-#    lightness: "Lightness"
+    clothes: "Kleidung"
+    trim: "Applikationen"
+    cloud: "Wolke"
+    spell: "Zauber"
+    boots: "Stiefel"
+    hue: "Farbton"
+    saturation: "Sättigung"
+    lightness: "Helligkeit"
 
   account_settings:
     title: "Accounteinstellungen"
