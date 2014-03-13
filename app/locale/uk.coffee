@@ -101,7 +101,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     learn_more: "Узнати, як стати Дипломатом"
     subscribe_as_diplomat: "Записатися у Дипломати"
 
-#  wizard_settings:
+  wizard_settings:
     title: "Налаштування"
     customize_avatar: "Налаштувати аватар"
     clothes: "Одяг"
