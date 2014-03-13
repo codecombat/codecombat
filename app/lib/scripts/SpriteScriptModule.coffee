@@ -1,6 +1,6 @@
 ScriptModule = require './ScriptModule'
 {me} = require 'lib/auth'
-util = require 'lib/utils'
+utils = require 'lib/utils'
 
 module.exports = class SpritesScriptModule extends ScriptModule
   @neededFor: (noteGroup) ->
@@ -36,9 +36,9 @@ module.exports = class SpritesScriptModule extends ScriptModule
     responses = sprite.say.responses
     responses = [] unless script.skippable or responses
     for response in responses ? []
-      response.text = response.i18n?[me.lang()]?.text ? response.text
-    text = util.i18n(sprite.say, 'text')
-    blurb = util.i18n(sprite.say, 'blurb')
+      response.text = utils.i18n response, 'text'
+    text = utils.i18n sprite.say, 'text'
+    blurb = utils.i18n sprite.say, 'blurb'
     sound = sprite.say.sound # TODO support sound i18n
     note =
       channel: 'level-sprite-dialogue'
