@@ -419,7 +419,7 @@ module.exports = class SpellView extends View
     @ace.clearSelection()
 
   onFrameChanged: (e) ->
-    return unless e.selectedThang?.id is @thang?.id
+    return unless @spellThang and e.selectedThang?.id is @spellThang?.thang.id
     @thang = e.selectedThang  # update our thang to the current version
     @highlightCurrentLine()
 
