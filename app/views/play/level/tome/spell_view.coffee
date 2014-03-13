@@ -424,6 +424,7 @@ module.exports = class SpellView extends View
   onCoordinateSelected: (e) ->
     return unless e.x? and e.y?
     @ace.insert "{x: #{e.x}, y: #{e.y}}"
+    @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->
     return unless e.ace is @ace
