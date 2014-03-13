@@ -450,6 +450,8 @@ module.exports = Surface = class Surface extends CocoClass
   onToggleGrid: (e) ->
     e?.preventDefault?()
     if @gridShowing() then @hideGrid() else @showGrid()
+    flag = $('#grid-toggle i.icon-ok')
+    flag.toggleClass 'invisible', not @gridShowing()
 
   onSetGrid: (e) ->
     if e.grid then @showGrid() else @hideGrid()
