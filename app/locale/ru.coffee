@@ -286,6 +286,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     code: "Код"
     ladder: "Ладдер"
     when: "Когда"
+    opponent: "Противник"
     rank: "Ранг"
     score: "Счёт"
     win: "Победа"
