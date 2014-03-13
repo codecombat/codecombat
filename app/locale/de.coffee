@@ -81,7 +81,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     campaign_player_created: "Von Spielern erstellt"
     campaign_player_created_description: "... in welchem Du gegen die Kreativität eines <a href=\"/contribute#artisan\">Artisan Zauberers</a> kämpfst."
     level_difficulty: "Schwierigkeit: "
-#    play_as: "Play As "
+    play_as: "Spiele als "
 
   contact:
     contact_us: "Kontaktiere CodeCombat"
@@ -123,7 +123,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     wizard_tab: "Zauberer"
     password_tab: "Passwort"
     emails_tab: "Emails"
-#    admin: "Admin"
+    admin: "Admin"
     gravatar_select: "Wähle ein Gravatar Bild aus"
     gravatar_add_photos: "Füge Vorschaubilder und Fotos zu Deinem Gravatar Account (für Deine Email) hinzu, um ein Bild auswählen zu können"
     gravatar_add_more_photos: "Füge mehr Fotos bei deinem Gravatar Account hinzu, um hier mehr Bilder wählen zu können"
@@ -132,9 +132,9 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     new_password_verify: "Passwort verifizieren"
     email_subscriptions: "Email Abonnements"
     email_announcements: "Ankündigungen"
-#    email_notifications: "Notifications"
-#    email_notifications_description: "Get periodic notifications for your account."
-    email_announcements_description: "Erhalte regelmäßig Mitteilungen für deinen Account."
+    email_notifications: "Benachrichtigungen"
+    email_notifications_description: "Erhalte regelmäßig Benachrichtigungen zu deinem Account."
+    email_announcements_description: "Erhalte regelmäßig Ankündigungen zu deinem Account."
     contributor_emails: "Unterstützer Email"
     contribute_prefix: "Wir suchen nach Leuten, die mitmachen! Schau dir die"
     contribute_page: "Unterstützer Seite"
@@ -206,7 +206,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     tome_available_spells: "Verfügbare Zauber"
     hud_continue: "Weiter (drücke Shift + Leertaste)"
     spell_saved: "Zauber gespeichert"
-#    skip_tutorial: "Skip (esc)"
+    skip_tutorial: "Überspringen (esc)"
 
   admin:
     av_title: "Administrator Übersicht"
