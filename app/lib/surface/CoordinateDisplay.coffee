@@ -31,6 +31,10 @@ module.exports = class CoordinateDisplay extends createjs.Container
   onMouseOut: (e) -> @mouseInBounds = false
 
   onMouseMove: (e) ->
+    if @mouseInBounds and key.shift
+      $('#surface').addClass('flag-cursor') unless $('#surface').hasClass('flag-cursor')
+    else if @mouseInBounds
+      $('#surface').removeClass('flag-cursor') if $('#surface').hasClass('flag-cursor')
     wop = @camera.canvasToWorld x: e.x, y: e.y
     wop.x = Math.round(wop.x)
     wop.y = Math.round(wop.y)
@@ -44,7 +48,6 @@ module.exports = class CoordinateDisplay extends createjs.Container
     wop = @camera.canvasToWorld x: e.x, y: e.y
     wop.x = Math.round wop.x
     wop.y = Math.round wop.y
-    console.log 'position', wop 
     Backbone.Mediator.publish 'surface:coordinate-selected', wop
 
   onZoomUpdated: (e) ->
