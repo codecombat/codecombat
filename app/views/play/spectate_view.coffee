@@ -73,6 +73,10 @@ module.exports = class SpectateLevelView extends View
     
     @sessionOne = @getQueryVariable 'session-one'
     @sessionTwo = @getQueryVariable 'session-two'
+    if options.spectateSessions
+      @sessionOne = options.spectateSessions.sessionOne
+      @sessionTwo = options.spectateSessions.sessionTwo
+      
     if not @sessionOne or not @sessionTwo
       @fetchRandomSessionPair (err, data) =>
         if err? then return console.log "There was an error fetching the random session pair: #{data}"
@@ -167,11 +171,13 @@ module.exports = class SpectateLevelView extends View
         id: @session.get('creator')
         name: @session.get('creatorName')
         team: @session.get('team')
+        levelSlug: @level.get('slug')
 
     @surface.createOpponentWizard
       id: @otherSession.get('creator')
       name: @otherSession.get('creatorName')
       team: @otherSession.get('team')
+      levelSlug: @level.get('slug')
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -429,12 +435,11 @@ module.exports = class SpectateLevelView extends View
       if err? then return console.log "There was an error fetching the random session pair: #{data}"
       @sessionOne = data[0]._id
       @sessionTwo = data[1]._id
-      console.log "Playing session #{@sessionOne} against #{@sessionTwo}"
-      url = "/play/spectate/dungeon-arena?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
+      url = "/play/spectate/#{@levelID}?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
       Backbone.Mediator.publish 'router:navigate', {
         route: url,
         viewClass: SpectateLevelView,
-        viewArgs: [{spectateSessions:{sessionOne: @sessionOne, sessionTwo: @sessionTwo}}, "dungeon-arena"]}
+        viewArgs: [{spectateSessions:{sessionOne: @sessionOne, sessionTwo: @sessionTwo}}, @levelID ]}
 
   fetchRandomSessionPair: (cb) ->
     console.log "Fetching random session pair!"

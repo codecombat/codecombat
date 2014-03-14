@@ -110,7 +110,13 @@ module.exports = class SpriteBoss extends CocoClass
   createOpponentWizard: (opponent) ->
     # TODO: colorize name and cloud by team, colorize wizard by user's color config, level-specific wizard spawn points
     sprite = @createWizardSprite thangID: opponent.id, name: opponent.name
-    sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
+    if not opponent.levelSlug or opponent.levelSlug is "brawlwood"
+      sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
+    else if opponent.levelSlug is "dungeon-arena"
+      sprite.targetPos = if opponent.team is 'ogres' then {x:72, y: 39} else {x: 9, y:39}
+    else
+      sprite.targetPos = if opponent.team is 'ogres' then {x:52, y: 28} else {x: 20, y:28}
+      
 
   createWizardSprite: (options) ->
     sprite = new WizardSprite @thangTypeFor("Wizard"), @createSpriteOptions(options)
