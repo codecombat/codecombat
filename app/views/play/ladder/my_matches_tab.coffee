@@ -78,17 +78,22 @@ module.exports = class MyMatchesTabView extends CocoView
       team.wins = _.filter(team.matches, {state: 'win'}).length
       team.ties = _.filter(team.matches, {state: 'tie'}).length
       team.losses = _.filter(team.matches, {state: 'loss'}).length
-      team.scoreHistory = team.session?.get('scoreHistory')
-      if team.scoreHistory?.length > 1
-        team.currentScore = Math.round team.scoreHistory[team.scoreHistory.length - 1][1] * 100
+      scoreHistory = team.session?.get('scoreHistory')
+      if scoreHistory?.length > 1
+        scoreHistory = _.last scoreHistory, 100  # Chart URL needs to be under 2048 characters for GET
+        team.currentScore = Math.round scoreHistory[scoreHistory.length - 1][1] * 100
         team.chartColor = team.primaryColor.replace '#', ''
-        times = (s[0] for s in team.scoreHistory)
-        times = ((100 * (t - times[0]) / (times[times.length - 1] - times[0])).toFixed(1) for t in times)
-        scores = (s[1] for s in team.scoreHistory)
-        lowest = _.min scores
-        highest = _.max scores
+        #times = (s[0] for s in scoreHistory)
+        #times = ((100 * (t - times[0]) / (times[times.length - 1] - times[0])).toFixed(1) for t in times)
+        # Let's try being independent of time.
+        times = (i for s, i in scoreHistory)
+        scores = (s[1] for s in scoreHistory)
+        lowest = _.min scores.concat([0])
+        highest = _.max scores.concat(50)
         scores = (Math.round(100 * (s - lowest) / (highest - lowest)) for s in scores)
         team.chartData = times.join(',') + '|' + scores.join(',')
+        team.minScore = Math.round(100 * lowest)
+        team.maxScore = Math.round(100 * highest)
 
     ctx
 

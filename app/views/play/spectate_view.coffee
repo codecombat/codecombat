@@ -68,17 +68,19 @@ module.exports = class SpectateLevelView extends View
     @originalOptions = _.cloneDeep(options)
     console.profile?() if PROFILE_ME
     super options
-    if options.spectateSessions?
-      @sessionOne = options.spectateSessions.sessionOne
-      @sessionTwo = options.spectateSessions.sessionTwo
-    else
-      @sessionOne = @getQueryVariable 'session-one'
-      @sessionTwo = @getQueryVariable 'session-two'
-
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', @onLevelLoadError
-
-    @load()
+    
+    @sessionOne = @getQueryVariable 'session-one'
+    @sessionTwo = @getQueryVariable 'session-two'
+    if not @sessionOne or not @sessionTwo
+      @fetchRandomSessionPair (err, data) =>
+        if err? then return console.log "There was an error fetching the random session pair: #{data}"
+        @sessionOne = data[0]._id
+        @sessionTwo = data[1]._id
+        @load()
+    else
+      @load()
 
   onLevelLoadError: (e) =>
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
@@ -423,14 +425,30 @@ module.exports = class SpectateLevelView extends View
 
   onNextGamePressed: (e) ->
     console.log "You want to see the next game!"
-    @sessionOne = "53193c8f7a89df21c4d968e9"
-    @sessionTwo = "531aa613026834331eac5e7e"
-    url = "/play/spectate/dungeon-arena?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
-    Backbone.Mediator.publish 'router:navigate', {
-      route: url,
-      viewClass: SpectateLevelView,
-      viewArgs: [{spectateSessions:{sessionOne: @sessionOne, sessionTwo: @sessionTwo}}, "dungeon-arena"]}
+    @fetchRandomSessionPair (err, data) =>
+      if err? then return console.log "There was an error fetching the random session pair: #{data}"
+      @sessionOne = data[0]._id
+      @sessionTwo = data[1]._id
+      console.log "Playing session #{@sessionOne} against #{@sessionTwo}"
+      url = "/play/spectate/dungeon-arena?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
+      Backbone.Mediator.publish 'router:navigate', {
+        route: url,
+        viewClass: SpectateLevelView,
+        viewArgs: [{spectateSessions:{sessionOne: @sessionOne, sessionTwo: @sessionTwo}}, "dungeon-arena"]}
 
+  fetchRandomSessionPair: (cb) ->
+    console.log "Fetching random session pair!"
+    randomSessionPairURL = "/db/level/#{@levelID}/random_session_pair"
+    $.ajax
+      url: randomSessionPairURL
+      type: "GET"
+      complete: (jqxhr, textStatus) ->
+        if textStatus isnt "success"
+          cb("error", jqxhr.statusText)
+        else
+          cb(null, $.parseJSON(jqxhr.responseText))
+        
+      
     
     
 
