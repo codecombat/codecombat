@@ -34,8 +34,8 @@ isRequestFromDesignatedCronHandler = (req, res) ->
     console.log "UNAUTHORIZED ATTEMPT TO SEND TRANSACTIONAL LADDER EMAIL THROUGH CRON MAIL HANDLER"
     res.send("You aren't authorized to perform that action. Only the specified Cron handler may perform that action.")
     res.end()
-    return true
-  return false
+    return false
+  return true
   
     
 handleLadderUpdate = (req, res) ->
