@@ -124,7 +124,7 @@ module.exports = class Handler
     query = {'original': mongoose.Types.ObjectId(id)}
     sort = {'created': -1}
     selectString = 'slug name version commitMessage created'  # Is this even working?
-    @modelClass.find(query).select(selectString).lean().limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
+    @modelClass.find(query).select(selectString).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
       return @sendDatabaseError(res, err) if err
       for doc in results
         return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
