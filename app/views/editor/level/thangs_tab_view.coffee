@@ -345,7 +345,7 @@ module.exports = class ThangsTabView extends View
   onTreemaThangSelected: (e, selectedTreemas) =>
     selectedThangID = _.last(selectedTreemas)?.data.id
     if selectedThangID isnt @selectedExtantThang?.id
-      @surface.spriteBoss.selectThang selectedThangID
+      @surface.spriteBoss.selectThang selectedThangID, null, true
 
   onTreemaThangDoubleClicked: (e, treema) =>
     id = treema?.data?.id
