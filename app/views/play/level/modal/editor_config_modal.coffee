@@ -47,8 +47,8 @@ module.exports = class EditorConfigModal extends View
     @aceConfig.keyBindings = @$el.find('#keyBindings').val()
     @aceConfig.indentGuides = @$el.find('#indentGuides').prop('checked')
     me.set 'aceConfig', @aceConfig
+    Backbone.Mediator.publish 'change:editor-config'
     me.save()
-    console.log 'config', @aceConfig
 
   destroy: ->
     super()
