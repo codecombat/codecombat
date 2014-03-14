@@ -136,10 +136,11 @@ LevelHandler = class LevelHandler extends Handler
       'creatorName'
       'creator'
     ]
-
+    
     query = Session
       .find(sessionsQueryParameters)
       .limit(req.query.limit)
+      .sort(sortParameters)
       .select(selectProperties.join ' ')
 
     query.exec (err, resultSessions) =>
