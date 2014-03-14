@@ -216,6 +216,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
     editor_config_indentguides_label: "Show Indent Guides"
     editor_config_indentguides_description: "Displays vertical lines to see indentation better."
+    editor_config_behaviors_label: "Smart Behaviors"
+    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   admin:
     av_title: "Admin Views"

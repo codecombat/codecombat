@@ -73,12 +73,12 @@ module.exports = class SpellView extends View
     @aceSession.setNewLineMode "unix"
     @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
-    @ace.setDisplayIndentGuides aceConfig.indentGuides  # default false
+    @ace.setDisplayIndentGuides aceConfig.indentGuides
     @ace.setShowPrintMargin false
-    @ace.setShowInvisibles aceConfig.invisibles # default false
-    @ace.setBehavioursEnabled false
+    @ace.setShowInvisibles aceConfig.invisibles
+    @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setAnimatedScroll true
-    @ace.setKeyboardHandler (@keyBindings[aceConfig.keyBindings] || null)
+    @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick

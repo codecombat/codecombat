@@ -11,11 +11,13 @@ module.exports = class EditorConfigModal extends View
     keyBindings: 'default'
     invisibles: false
     indentGuides: false
+    behaviors: false
 
   events:
-    'change #invisibles': 'updateInvisiblesSelection'
-    'change #keyBindings': 'updateKeyBindingsSelection'
-    'change #indentGuides': 'updateIndentGuides'
+    'change #tome-invisibles': 'updateInvisiblesSelection'
+    'change #tome-key-bindings': 'updateKeyBindingsSelection'
+    'change #tome-indent-guides': 'updateIndentGuides'
+    'change #tome-behaviors': 'updateBehaviors'
 
   constructor: (options) ->
     super(options)
@@ -27,24 +29,29 @@ module.exports = class EditorConfigModal extends View
     c.keyBindings = @aceConfig.keyBindings
     c.invisibles = @aceConfig.invisibles
     c.indentGuides = @aceConfig.indentGuides
+    c.behaviors = @aceConfig.behaviors
     c
 
   updateInvisiblesSelection: ->
-    @aceConfig.invisibles = @$el.find('#invisibles').prop('checked')
+    @aceConfig.invisibles = @$el.find('#tome-invisibles').prop('checked')
 
   updateKeyBindingsSelection: ->
-    @aceConfig.keyBindings = @$el.find('#keyBindings').val()
+    @aceConfig.keyBindings = @$el.find('#tome-key-bindings').val()
 
   updateIndentGuides: ->
-    @aceConfig.indentGuides = @$el.find('#indentGuides').prop('checked')
+    @aceConfig.indentGuides = @$el.find('#tome-indent-guides').prop('checked')
+
+  updateBehaviors: ->
+    @aceConfig.behaviors = @$el.find('#tome-behaviors').prop('checked')
 
   afterRender: ->
     super()
 
   onHidden: ->
-    @aceConfig.invisibles = @$el.find('#invisibles').prop('checked')
-    @aceConfig.keyBindings = @$el.find('#keyBindings').val()
-    @aceConfig.indentGuides = @$el.find('#indentGuides').prop('checked')
+    @aceConfig.invisibles = @$el.find('#tome-invisibles').prop('checked')
+    @aceConfig.keyBindings = @$el.find('#tome-key-bindings').val()
+    @aceConfig.indentGuides = @$el.find('#tome-indent-guides').prop('checked')
+    @aceConfig.behaviors = @$el.find('#tome-behaviors').prop('checked')
     me.set 'aceConfig', @aceConfig
     Backbone.Mediator.publish 'change:editor-config'
     me.save()
