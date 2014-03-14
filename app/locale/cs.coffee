@@ -207,6 +207,17 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     hud_continue: "Pokračovat (stiskněte shift-mezera)"
     spell_saved: "Kouzlo uloženo"
 #    skip_tutorial: "Skip (esc)"
+#    editor_config: "Editor Config"
+#    editor_config_title: "Editor Configuration"
+#    editor_config_keybindings_label: "Key Bindings"
+#    editor_config_keybindings_default: "Default (Ace)"
+#    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
+#    editor_config_invisibles_label: "Show Invisibles"
+#    editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
+#    editor_config_indentguides_label: "Show Indent Guides"
+#    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
+#    editor_config_behaviors_label: "Smart Behaviors"
+#    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   admin:
     av_title: "Administrátorský pohled"

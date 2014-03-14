@@ -216,6 +216,8 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     editor_config_invisibles_description: "Zeigt unsichtbare Zeichen wie Leertasten an."
     editor_config_indentguides_label: "Zeige Einrückungshilfe"
     editor_config_indentguides_description: "Zeigt vertikale Linien an um Einrückungen besser zu sehen."
+#    editor_config_behaviors_label: "Smart Behaviors"
+#    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   admin:
     av_title: "Administrator Übersicht"
