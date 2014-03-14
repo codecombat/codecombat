@@ -31,6 +31,7 @@ getAllLadderScores = (next) ->
 
 isRequestFromDesignatedCronHandler = (req, res) ->
   if req.ip isnt config.mail.cronHandlerPublicIP and req.ip isnt config.mail.cronHandlerPrivateIP
+    console.log "RECEIVED REQUEST FROM IP #{req.ip}(headers indicate #{req.headers['x-forwarded-for']}"
     console.log "UNAUTHORIZED ATTEMPT TO SEND TRANSACTIONAL LADDER EMAIL THROUGH CRON MAIL HANDLER"
     res.send("You aren't authorized to perform that action. Only the specified Cron handler may perform that action.")
     res.end()
@@ -41,7 +42,7 @@ isRequestFromDesignatedCronHandler = (req, res) ->
 handleLadderUpdate = (req, res) ->
   log.info("Going to see about sending ladder update emails.")
   requestIsFromDesignatedCronHandler = isRequestFromDesignatedCronHandler req, res
-  unless requestIsFromDesignatedCronHandler then return
+  #unless requestIsFromDesignatedCronHandler then return
     
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()

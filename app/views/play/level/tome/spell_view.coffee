@@ -19,6 +19,7 @@ module.exports = class SpellView extends View
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
+    'surface:coordinate-selected': 'onCoordinateSelected'
     'god:new-world-created': 'onNewWorld'
     'god:user-code-problem': 'onUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
@@ -419,8 +420,13 @@ module.exports = class SpellView extends View
     @ace.clearSelection()
 
   onFrameChanged: (e) ->
-    return unless e.selectedThang?.id is @thang?.id
+    return unless @spellThang and e.selectedThang?.id is @spellThang?.thang.id
     @thang = e.selectedThang  # update our thang to the current version
+    @highlightCurrentLine()
+
+  onCoordinateSelected: (e) ->
+    return unless e.x? and e.y?
+    @ace.insert "{x: #{e.x}, y: #{e.y}}"
     @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->
