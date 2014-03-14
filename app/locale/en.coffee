@@ -318,6 +318,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
     jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
     michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
+    glen_description: "Glen, describe thyself!"
 
   legal:
     page_title: "Legal"

@@ -1,7 +1,5 @@
 {clone} = require './world_utils'
 {scriptMatchesEventPrereqs} = require './script_event_prereqs'
-Thang = require './thang'
-Vector = require './vector'
 
 module.exports = class WorldScriptNote
   @className: "WorldScriptNote"
