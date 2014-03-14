@@ -258,7 +258,8 @@ module.exports = class SpriteBoss extends CocoClass
 
   selectThang: (thangID, spellName=null, treemaThangSelected = null) ->
     return @willSelectThang = [thangID, spellName] unless @sprites[thangID]
-    @selectSprite null, @sprites[thangID], spellName, treemaThangSelected
+    sprite = if @sprites[thangID]?.thang?.isSelectable then @sprites[thangID] else null
+    @selectSprite null, sprite, spellName, treemaThangSelected
 
   selectSprite: (e, sprite=null, spellName=null, treemaThangSelected = null) ->
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
