@@ -150,39 +150,51 @@ LevelHandler = class LevelHandler extends Handler
       resultSessions ?= []
       @sendSuccess res, resultSessions
       
-  getRandomSessionPair: (req, res, id) ->
+  getRandomSessionPair: (req, res, slugOrID) ->
     findParameters = {}
-    
-    [original,version] = id.split '.'
-    version = parseInt(version) ? 0
+    if Handler.isID slugOrID
+      findParameters["_id"] = slugOrID
+    else
+      findParameters["slug"] = slugOrID
+    selectString = 'original version'
+    query = Level.findOne(findParameters)
+    .select(selectString)
+    .lean()
 
-    sessionsQueryParameters =
-      level:
-        original: original
-        majorVersion: version
-      submitted:true
-      
-    
-    query = Session
-      .find(sessionsQueryParameters)
-      .select('team')
-      .lean()
-    
-    query.exec (err, resultSessions) =>
-      return @sendDatabaseError res, err if err? or not resultSessions
-      
-      teamSessions = _.groupBy resultSessions, 'team'
-      sessions = []
-      numberOfTeams = 0
-      for team of teamSessions
-        numberOfTeams += 1
-        sessions.push _.sample(teamSessions[team])
-      if numberOfTeams != 2 then return @sendDatabaseError res, "There aren't sessions of 2 teams, so cannot choose random opponents!"
+    query.exec (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
+  
+      sessionsQueryParameters =
+        level:
+          original: level.original.toString()
+          majorVersion: level.version.major
+        submitted:true
         
-      @sendSuccess res, sessions
+      console.log sessionsQueryParameters
+        
       
+      query = Session
+        .find(sessionsQueryParameters)
+        .select('team')
+        .lean()
       
-    
+      query.exec (err, resultSessions) =>
+        return @sendDatabaseError res, err if err? or not resultSessions
+        
+        teamSessions = _.groupBy resultSessions, 'team'
+        console.log teamSessions
+        sessions = []
+        numberOfTeams = 0
+        for team of teamSessions
+          numberOfTeams += 1
+          sessions.push _.sample(teamSessions[team])
+        if numberOfTeams != 2 then return @sendDatabaseError res, "There aren't sessions of 2 teams, so cannot choose random opponents!"
+          
+        @sendSuccess res, sessions
+        
+        
+      
     
 
   validateLeaderboardRequestParameters: (req) ->

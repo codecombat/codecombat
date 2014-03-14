@@ -68,17 +68,19 @@ module.exports = class SpectateLevelView extends View
     @originalOptions = _.cloneDeep(options)
     console.profile?() if PROFILE_ME
     super options
-    if options.spectateSessions?
-      @sessionOne = options.spectateSessions.sessionOne
-      @sessionTwo = options.spectateSessions.sessionTwo
-    else
-      @sessionOne = @getQueryVariable 'session-one'
-      @sessionTwo = @getQueryVariable 'session-two'
-
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', @onLevelLoadError
-
-    @load()
+    
+    @sessionOne = @getQueryVariable 'session-one'
+    @sessionTwo = @getQueryVariable 'session-two'
+    if not @sessionOne or not @sessionTwo
+      @fetchRandomSessionPair (err, data) =>
+        if err? then return console.log "There was an error fetching the random session pair: #{data}"
+        @sessionOne = data[0]._id
+        @sessionTwo = data[1]._id
+        @load()
+    else
+      @load()
 
   onLevelLoadError: (e) =>
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
@@ -436,7 +438,7 @@ module.exports = class SpectateLevelView extends View
 
   fetchRandomSessionPair: (cb) ->
     console.log "Fetching random session pair!"
-    randomSessionPairURL = "/db/level/#{@level.get('original')}.#{@level.get('version').major}/random_session_pair"
+    randomSessionPairURL = "/db/level/#{@levelID}/random_session_pair"
     $.ajax
       url: randomSessionPairURL
       type: "GET"
