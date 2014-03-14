@@ -40,6 +40,7 @@ config.salt = process.env.COCO_SALT or "pepper"
 config.cookie_secret = process.env.COCO_COOKIE_SECRET or "chips ahoy"
 
 config.isProduction = config.mongo.host isnt "localhost"
+config.isProduction = true
 
 if not config.unittest and  not config.isProduction
   # change artificially slow down non-static requests for testing
