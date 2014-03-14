@@ -1,6 +1,8 @@
 CocoModel = require('./CocoModel')
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
+buildQueue = []
+
 module.exports = class ThangType extends CocoModel
   @className: "ThangType"
   urlRoot: "/db/thang.type"
@@ -136,7 +138,8 @@ module.exports = class ThangType extends CocoModel
     key = @spriteSheetKey(@options)
     spriteSheet = null
     if @options.async
-      @builder.buildAsync()
+      buildQueue.push @builder
+      @builder.buildAsync() unless buildQueue.length > 1
       @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
       return true
     console.warn 'Building', @get('name'), @options, 'and blocking the main thread.'
@@ -146,6 +149,8 @@ module.exports = class ThangType extends CocoModel
     spriteSheet
 
   onBuildSpriteSheetComplete: (e, key) ->
+    buildQueue = buildQueue.slice(1)
+    buildQueue[0]?.buildAsync()
     @spriteSheets[key] = e.target.spriteSheet
     delete @building[key]
     @trigger 'build-complete'
@@ -157,7 +162,8 @@ module.exports = class ThangType extends CocoModel
     for groupName, config of options.colorConfig or {}
       colorConfigs.push "#{groupName}:#{config.hue}|#{config.saturation}|#{config.lightness}"
     colorConfigs = colorConfigs.join ','
-    "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs}"
+    portraitOnly = !!options.portraitOnly
+    "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs} - #{portraitOnly}"
 
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
@@ -217,7 +223,7 @@ module.exports = class ThangType extends CocoModel
   @loadUniversalWizard: ->
     return @wizardType if @wizardType
     wizOriginal = "52a00d55cf1818f2be00000b"
-    url = "/db/thang_type/#{wizOriginal}/version"
+    url = "/db/thang.type/#{wizOriginal}/version"
     @wizardType = new module.exports()
     @wizardType.url = -> url
     @wizardType.fetch()

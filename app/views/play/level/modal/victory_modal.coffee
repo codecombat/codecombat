@@ -2,8 +2,7 @@ View = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/victory'
 {me} = require 'lib/auth'
 LevelFeedback = require 'models/LevelFeedback'
-
-# let's implement this once we have the docs database schema set up
+utils = require 'lib/utils'
 
 module.exports = class VictoryModal extends View
   id: 'level-victory-modal'
@@ -11,6 +10,7 @@ module.exports = class VictoryModal extends View
 
   events:
     'click .next-level-button': 'onPlayNextLevel'
+    'click .rank-game-button': 'onRankGame'
 
     # review events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -25,7 +25,7 @@ module.exports = class VictoryModal extends View
 
   constructor: (options) ->
     victory = options.level.get('victory')
-    body = victory?.i18n?[me.lang()]?.body or victory.body or 'Sorry, this level has no victory message yet.'
+    body = utils.i18n(victory, 'body') or 'Sorry, this level has no victory message yet.'
     @body = marked(body)
     @level = options.level
     @session = options.session
@@ -58,12 +58,33 @@ module.exports = class VictoryModal extends View
     @saveReview() if @$el.find('.review textarea').val()
     Backbone.Mediator.publish('play-next-level')
 
+  onRankGame: (e) ->
+    button = @$el.find('.rank-game-button')
+    button.text($.i18n.t('play_level.victory_ranking_game', defaultValue: 'Submitting...'))
+    button.prop 'disabled', true
+    ajaxData = session: @session.id, levelID: @level.id, originalLevelID: @level.get('original'), levelMajorVersion: @level.get('version').major
+    ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
+    goToLadder = -> Backbone.Mediator.publish 'router:navigate', route: ladderURL
+    console.log "Posting game for ranking from victory modal."
+    $.ajax '/queue/scoring',
+      type: 'POST'
+      data: ajaxData
+      success: goToLadder
+      failure: (response) ->
+        console.error "Couldn't submit game for ranking:", response
+        goToLadder()
+
   getRenderData: ->
     c = super()
     c.body = @body
     c.me = me
     c.hasNextLevel = _.isObject(@level.get('nextLevel')) and (@level.get('name') isnt "Mobile Artillery")
-    c.levelName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
+    c.levelName = utils.i18n @level.attributes, 'name'
+    c.level = @level
+    if c.level.get('type') is 'ladder'
+      c1 = @session?.get('code')
+      c2 = @session?.get('submittedCode')
+      c.readyToRank = @session.get('levelID') and c1 and not _.isEqual(c1, c2)
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 30 minutes
       elapsed = (new Date() - new Date(me.get('dateCreated')))

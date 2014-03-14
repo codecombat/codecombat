@@ -1,4 +1,5 @@
 View = require 'views/kinds/CocoView'
+VersionHistoryView = require 'views/editor/component/versions_view'
 template = require 'templates/editor/level/component/edit'
 LevelComponent = require 'models/LevelComponent'
 
@@ -9,6 +10,7 @@ module.exports = class LevelComponentEditView extends View
 
   events:
     'click #done-editing-component-button': 'endEditing'
+    'click #history-button': 'showVersionHistory'
     'click .nav a': (e) -> $(e.target).tab('show')
 
   constructor: (options) ->
@@ -91,3 +93,8 @@ module.exports = class LevelComponentEditView extends View
   destroy: ->
     @editor?.destroy()
     super()
+
+  showVersionHistory: (e) ->
+    versionHistoryView = new VersionHistoryView component:@levelComponent, @levelComponent.id
+    @openModalView versionHistoryView
+    Backbone.Mediator.publish 'level:view-switched', e

@@ -7,7 +7,8 @@ module.exports.setupRoutes = (app) ->
   return
 
 
-options = { DEBUG: not config.isProduction }
-module.exports.api = new sendwithusAPI swuAPIKey, options
+debug = not config.isProduction
+module.exports.api = new sendwithusAPI swuAPIKey, debug
 module.exports.templates =
   welcome_email: 'utnGaBHuSU4Hmsi7qrAypU'
+  ladder_update_email: 'JzaZxf39A4cKMxpPZUfWy4'

@@ -3,6 +3,7 @@ jsonschema = require('./user_schema')
 crypto = require('crypto')
 {salt, isProduction} = require('../../server_config')
 mail = require '../commons/mail'
+log = require 'winston'
 
 sendwithus = require '../sendwithus'
 
@@ -27,7 +28,7 @@ UserSchema.post('init', ->
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
-  
+
 UserSchema.statics.updateMailChimp = (doc, callback) ->
   return callback?() unless isProduction
   return callback?() if doc.updatedMailChimp
@@ -41,25 +42,25 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
     return callback?() # don't add totally unsubscribed people to the list
   subsChanged = doc.currentSubscriptions isnt JSON.stringify(emailSubs)
   return callback?() unless emailChanged or subsChanged
-  
+
   params = {}
   params.id = mail.MAILCHIMP_LIST_ID
   params.email = if existingProps then {leid:existingProps.leid} else {email:doc.get('email')}
   params.merge_vars = { groupings: [ {id: mail.MAILCHIMP_GROUP_ID, groups: newGroups} ] }
   params.update_existing = true
   params.double_optin = false
-  
+
   onSuccess = (data) ->
     doc.set('mailChimp', data)
     doc.updatedMailChimp = true
     doc.save()
     callback?()
-    
+
   onFailure = (error) ->
-    console.error 'failed to subscribe', error, callback?
+    log.error 'failed to subscribe', error, callback?
     doc.updatedMailChimp = true
     callback?()
-  
+
   mc.lists.subscribe params, onSuccess, onFailure
 
 
@@ -75,9 +76,9 @@ UserSchema.pre('save', (next) ->
     data =
       email_id: sendwithus.templates.welcome_email
       recipient:
-        address: @get 'email'        
+        address: @get 'email'
     sendwithus.api.send data, (err, result) ->
-      console.log 'error', err, 'result', result
+      log.error 'error', err, 'result', result if err
   next()
 )
 

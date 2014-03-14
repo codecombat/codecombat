@@ -61,6 +61,9 @@ module.exports.thangNames = thangNames =
     "Joan"
     "Helga"
     "Annie"
+    "Lukaz"
+    "Gorgin"
+    "Coco"
   ]
   "Peasant": [
     "Yorik"
@@ -83,6 +86,12 @@ module.exports.thangNames = thangNames =
     "Bernadette"
     "Hershell"
     "Gawain"
+    "Durfkor"
+    "Paps"
+  ]
+  "Peasant F": [
+    "Hilda"
+    "Icey"
   ]
   "Archer F": [
     "Phoebe"
@@ -108,6 +117,12 @@ module.exports.thangNames = thangNames =
     "Alden"
     "Cairn"
     "Jensen"
+    "Yilitha"
+    "Mirana"
+    "Lina"
+    "Luna"
+    "Alleria"
+    "Vereesa"
   ]
   "Archer M": [
     "Brian"
@@ -117,6 +132,17 @@ module.exports.thangNames = thangNames =
     "Simon"
     "Robin"
     "Quinn"
+    "Arty"
+    "Gimsley"
+    "Fidsdale"
+    "Slyvos"
+    "Logos"
+    "Denin"
+    "Lycan"
+    "Loco"
+    "Vican"
+    "Mars"
+    "Dev"
   ]
   "Ogre Munchkin M": [
     "Brack"
@@ -138,6 +164,7 @@ module.exports.thangNames = thangNames =
     "Thabt"
     "Snortt"
     "Kog"
+    "Ursa"
   ]
   "Ogre Munchkin F": [
     "Iyert"
@@ -145,6 +172,9 @@ module.exports.thangNames = thangNames =
     "Shmeal"
     "Gurzunn"
     "Yugark"
+    "Dosha"
+    "Inski"
+    "Lacos"
   ]
   "Ogre M": [
     "Krogg"
@@ -158,6 +188,9 @@ module.exports.thangNames = thangNames =
     "Vargutt"
     "Grumus"
     "Gug"
+    "Tarlok"
+    "Gurulax"
+    "Mokrul"
   ]
   "Ogre F": [
     "Nareng"
@@ -165,6 +198,11 @@ module.exports.thangNames = thangNames =
     "Glonc"
     "Marghurk"
     "Martha"
+    "Holkam"
+    "Alkaz"
+    "Gar'ah"
+    "Mak'rah"
+    "Marnag"
   ]
   "Ogre Brawler": [
     "Grul'thock"
@@ -179,6 +217,9 @@ module.exports.thangNames = thangNames =
     "Borgag"
     "Grognar"
     "Ironjaw"
+    "Tuguro"
+    "York"
+    "Ork'han"
   ]
   "Ogre Fangrider": [
     "Dreek"
@@ -194,6 +235,7 @@ module.exports.thangNames = thangNames =
     "Gurzthrot"
     "Murgark"
     "Muttin"
+    "Bortrok"
   ]
   "Ogre Shaman": [
     "Sham'uk"
@@ -213,6 +255,11 @@ module.exports.thangNames = thangNames =
     "Zo'Goroth"
     "Mogadishu"
     "Nazgareth"
+    "Gror"
+    "Grek"
+    "Gom"
+    "Gogg"
+    "Ghuk"
   ]
   "Ogre Thrower": [
     "Kyrgg"
@@ -229,4 +276,20 @@ module.exports.thangNames = thangNames =
     "Makas"
     "Rakash"
     "Drumbaa"
+  ]
+  "Burl": [
+    "Borlit"
+    "Burlosh"
+  ]
+  "Griffin Rider": [
+    "Aeoldan"
+  ]
+  "Potion Master": [
+    "Snake"
+  ]
+  "Librarian": [
+    "Hushbaum"
+  ]
+  "Equestrian": [
+    "Reynaldo"
   ]

@@ -24,6 +24,9 @@ module.exports = class ControlBarView extends View
     'click #restart-button': ->
       window.tracker?.trackEvent 'Clicked Restart', level: @worldName, label: @worldName
       @showRestartModal()
+      
+    'click #next-game-button': ->
+      Backbone.Mediator.publish 'next-game-pressed'
 
     'click': -> Backbone.Mediator.publish 'focus-editor'
 
@@ -33,6 +36,7 @@ module.exports = class ControlBarView extends View
     @level = options.level
     @playableTeams = options.playableTeams
     @ladderGame = options.ladderGame
+    @spectateGame = options.spectateGame ? false
     super options
 
   setBus: (@bus) ->
@@ -52,9 +56,10 @@ module.exports = class ControlBarView extends View
     c.worldName = @worldName
     c.multiplayerEnabled = @session.get('multiplayer')
     c.ladderGame = @ladderGame
+    c.spectateGame = @spectateGame
     c.homeLink = "/"
     levelID = @level.get('slug')
-    if levelID in ["brawlwood", "brawlwood-tutorial"]
+    if levelID in ["brawlwood", "brawlwood-tutorial", "dungeon-arena", "dungeon-arena-tutorial"]
       levelID = 'brawlwood' if levelID is 'brawlwood-tutorial'
       c.homeLink = "/play/ladder/" + levelID
     c

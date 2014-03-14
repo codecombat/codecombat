@@ -5,8 +5,8 @@ CocoClass = require 'lib/CocoClass'
 r2d = (radians) -> radians * 180 / Math.PI
 d2r = (degrees) -> degrees / 180 * Math.PI
 
-MAX_ZOOM = 8
-MIN_ZOOM = 0.1
+MAX_ZOOM = 4
+MIN_ZOOM = 0.05
 DEFAULT_ZOOM = 2.0
 DEFAULT_TARGET = {x:0, y:0}
 DEFAULT_TIME = 1000
@@ -241,7 +241,7 @@ module.exports = class Camera extends CocoClass
       @newZoom = newZoom
       @tweenProgress = 0.01
       createjs.Tween.get(@)
-        .to({tweenProgress: 1.0}, time, createjs.Ease.getPowInOut(3))
+        .to({tweenProgress: 1.0}, time, createjs.Ease.getPowOut(4))
         .call @finishTween
 
     else

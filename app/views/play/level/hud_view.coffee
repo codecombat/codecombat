@@ -124,12 +124,10 @@ module.exports = class HUDView extends View
     @stage = stage
 
   onThangBeganTalking: (e) ->
-    console.log 'gintau-debug: onThangBeganTalking', e
     return unless @stage and @thang is e.thang
     @stage?.startTalking()
 
   onThangFinishedTalking: (e) ->
-    console.log 'gintau-debug: onThangFinishedTalking', e
     return unless @stage and @thang is e.thang
     @stage?.stopTalking()
 
@@ -137,7 +135,7 @@ module.exports = class HUDView extends View
     props = @$el.find('.thang-props')
     props.find(":not(.thang-name)").remove()
     props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
-    propNames = @thang.hudProperties ? []
+    propNames = _.without @thang.hudProperties ? [], 'action'
     nColumns = Math.ceil propNames.length / 5
     columns = ($('<div class="thang-props-column"></div>').appendTo(props) for i in [0 ... nColumns])
     for prop, i in propNames
@@ -153,7 +151,7 @@ module.exports = class HUDView extends View
   createActions: ->
     actions = @$el.find('.thang-actions tbody').empty()
     showActions = @thang.world and not _.isEmpty(@thang.actions) and 'action' in @thang.hudProperties ? []
-    @$el.find('.thang-actions').toggleClass 'secret', showActions
+    @$el.find('.thang-actions').toggleClass 'secret', not showActions
     return unless showActions
     @buildActionTimespans()
     for actionName, action of @thang.actions
@@ -161,7 +159,6 @@ module.exports = class HUDView extends View
       @lastActionTimespans[actionName] = {}
 
   setMessage: (message, mood, responses) ->
-    console.log 'gintau-debug: setMessage(responses)', responses
     message = marked message
     clearInterval(@messageInterval) if @messageInterval
     @bubble = $('.dialogue-bubble', @$el)
@@ -171,7 +168,6 @@ module.exports = class HUDView extends View
     group = $('<div class="enter secret"></div>')
     @bubble.append(group)
     if responses
-      console.log responses
       @lastResponses = responses
       for response in responses
         button = $('<button class="btn btn-small banner"></button>').text(response.text)
@@ -179,11 +175,10 @@ module.exports = class HUDView extends View
         group.append(button)
         response.button = $('button:last', group)
     else
-      s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (press shift-space)")
-
-      if @shiftSpacePressed > 4 and not @escapePressed
-        @bubble.append('<span class="hud-hint">skip: esc</span>')
-
+      s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (shift+space)")
+      sk = $.i18n.t('play_level.skip_tutorial', defaultValue: "skip: esc")
+      if not @escapePressed
+        group.append('<span class="hud-hint">' + sk + '</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
     @bubble.append($("<h3>#{@speaker ? 'Captain Anya'}</h3>"))
@@ -207,13 +202,11 @@ module.exports = class HUDView extends View
 
   onShiftSpacePressed: (e) ->
     @shiftSpacePressed = (@shiftSpacePressed || 0) + 1
-    console.log 'gintau-debug: onShiftSpacePressed', @shiftSpacePressed
     # We don't need to handle end-current-script--that's done--but if we do have
     # custom buttons, then we need to trigger the one that should fire (the last one).
     # If we decide that always having the last one fire is bad, we should make it smarter.
     return unless @lastResponses?.length
     r = @lastResponses[@lastResponses.length - 1]
-    console.log 'gintau-debug: Backbone.Mediator.publish', r
     _.delay (-> Backbone.Mediator.publish(r.channel, r.event)), 10
 
   onEscapePressed: (e) ->
@@ -245,8 +238,9 @@ module.exports = class HUDView extends View
 
   update: ->
     return unless @thang and not @speaker
-    # Update properties
-    @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
+    @$el.find('.thang-props-column').toggleClass 'nonexistent', not @thang.exists
+    if @thang.exists
+      @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
     # Update action timeline
     @updateActions()
 
@@ -312,7 +306,7 @@ module.exports = class HUDView extends View
     for actionName, action of @thang.actions
       @updateActionElement(actionName, @timespans[actionName], @thang.action is actionName)
     tableContainer = @$el.find('.table-container')
-    timelineWidth = tableContainer.find('.action-timeline').width()
+    timelineWidth = tableContainer.find('tr:not(.secret) .action-timeline').width()
     right = (1 - (@timeProgress ? 0)) * timelineWidth
     arrow = tableContainer.find('.progress-arrow')
     arrow.css 'right', right - arrow.width() / 2
@@ -323,11 +317,11 @@ module.exports = class HUDView extends View
     @timespans = {}
     dt = @thang.world.dt
     actionHistory = @thang.world.actionsForThang @thang.id, true
-    [lastFrame, lastAction] = [0, 'idle']
+    [lastFrame, lastAction] = [0, null]
     for hist in actionHistory.concat {frame: @thang.world.totalFrames, name: 'END'}
       [newFrame, newAction] = [hist.frame, hist.name]
       continue if newAction is lastAction
-      if newFrame > lastFrame
+      if newFrame > lastFrame and lastAction
         # TODO: don't push it if it didn't exist until then
         (@timespans[lastAction] ?= []).push [lastFrame * dt, newFrame * dt]
       [lastFrame, lastAction] = [newFrame, newAction]

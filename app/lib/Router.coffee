@@ -90,7 +90,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @cache[route].fromCache = true
       return @cache[route]
     view = @getView(route)
-    @cache[route] = view unless view and view.cache is false
+    @cache[route] = view if view?.cache
     return view
     
   routeDirectly: (path, args) ->

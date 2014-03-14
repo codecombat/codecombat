@@ -2,6 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/play/level'
 {me} = require('lib/auth')
 ThangType = require 'models/ThangType'
+utils = require 'lib/utils'
 
 # temp hard coded data
 World = require 'lib/world/world'
@@ -16,6 +17,7 @@ LevelLoader = require 'lib/LevelLoader'
 LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
+Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 
@@ -105,7 +107,8 @@ module.exports = class PlayLevelView extends View
 
   load: ->
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
-    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
+    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded, @
+    @levelLoader.on 'progress', @onLevelLoaderProgressChanged, @
     @god = new God()
 
   getRenderData: ->
@@ -124,12 +127,33 @@ module.exports = class PlayLevelView extends View
     @$el.find('#level-done-button').hide()
     super()
 
-  onLevelLoaderLoaded: =>
+  onLevelLoaderProgressChanged: ->
+    return if @seenDocs
+    return unless @levelLoader.session.loaded and @levelLoader.level.loaded
+    return unless showFrequency = @levelLoader.level.get('showsGuide')
+    session = @levelLoader.session
+    diff = new Date().getTime() - new Date(session.get('created')).getTime()
+    return if showFrequency is 'first-time' and diff > (5 * 60 * 1000)
+    articles = @levelLoader.supermodel.getModels Article
+    for article in articles
+      return unless article.loaded
+    @showGuide()
+
+  showGuide: ->
+    @seenDocs = true
+    DocsModal = require './level/modal/docs_modal'
+    options = {docs: @levelLoader.level.get('documentation'), supermodel: @supermodel}
+    @openModalView(new DocsModal(options), true)
+    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
+    return true
+
+  onLevelLoaderLoaded: ->
+    return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
     # Save latest level played in local storage
     if window.currentModal and not window.currentModal.destroyed
       @loadingScreen.showReady()
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
-    
+
     localStorage["lastLevel"] = @levelID if localStorage?
     @grabLevelLoaderData()
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
@@ -151,7 +175,7 @@ module.exports = class PlayLevelView extends View
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
       @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
-      
+
   grabLevelLoaderData: ->
     @session = @levelLoader.session
     @world = @levelLoader.world
@@ -159,7 +183,7 @@ module.exports = class PlayLevelView extends View
     @otherSession = @levelLoader.opponentSession
     @levelLoader.destroy()
     @levelLoader = null
-    
+
   loadOpponentTeam: (myTeam) ->
     opponentSpells = []
     for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
@@ -178,7 +202,7 @@ module.exports = class PlayLevelView extends View
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
       @session.set 'multiplayer', false
 
-    
+
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
     @modelsLoaded += 1
@@ -200,7 +224,7 @@ module.exports = class PlayLevelView extends View
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
+    worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, ladderGame: subviewOptions.ladderGame}
     #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 

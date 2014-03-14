@@ -27,6 +27,7 @@ module.exports = class LevelLoader extends CocoClass
     @opponentSessionID = options.opponentSessionID
     @team = options.team
     @headless = options.headless
+    @spectateMode = options.spectateMode ? false
 
     @loadSession()
     @loadLevelModels()
@@ -70,6 +71,7 @@ module.exports = class LevelLoader extends CocoClass
     @session.loaded and ((not @opponentSession) or @opponentSession.loaded)
 
   onSessionLoaded: ->
+    return if @destroyed
     # TODO: maybe have all non versioned models do this? Or make it work to PUT/PATCH to relative urls
     if @session.loaded
       @session.url = -> '/db/level.session/' + @id
@@ -115,7 +117,7 @@ module.exports = class LevelLoader extends CocoClass
     @updateCompleted = true
 
   denormalizeSession: ->
-    return if @sessionDenormalized
+    return if @sessionDenormalized or @spectateMode
     patch =
       'levelName': @level.get('name')
       'levelID': @level.get('slug') or @level.id
@@ -171,6 +173,7 @@ module.exports = class LevelLoader extends CocoClass
     t0 = new Date()
     @spriteSheetsToBuild += 1
     thangType.once 'build-complete', =>
+      return if @destroyed
       @spriteSheetsBuilt += 1
       @notifyProgress()
       console.log "Built", thangType.get('name'), 'after', ((new Date()) - t0), 'ms'
@@ -227,6 +230,7 @@ module.exports = class LevelLoader extends CocoClass
   notifyProgress: ->
     Backbone.Mediator.publish 'level-loader:progress-changed', progress: @progress()
     @initWorld() if @allDone()
+    @trigger 'progress'
     @trigger 'loaded-all' if @progress() is 1
 
   destroy: ->

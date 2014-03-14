@@ -6,6 +6,7 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoSprite = require 'lib/surface/CocoSprite'
 Camera = require 'lib/surface/Camera'
 ThangComponentEditView = require 'views/editor/components/main'
+VersionHistoryView = require './versions_view'
 DocumentFiles = require 'collections/DocumentFiles'
 
 ColorsTabView = require './colors_tab_view'
@@ -30,6 +31,7 @@ module.exports = class ThangTypeEditView extends View
     'change #animations-select': 'showAnimation'
     'click #marker-button': 'toggleDots'
     'click #end-button': 'endAnimation'
+    'click #history-button': 'showVersionHistory'
 
   subscriptions:
     'save-new-version': 'saveNewThangType'
@@ -42,6 +44,7 @@ module.exports = class ThangTypeEditView extends View
     @thangType = new ThangType(_id: @thangTypeID)
     @thangType.saveBackups = true
     @thangType.fetch()
+    @thangType.loadSchema()
     @thangType.schema().once 'sync', @onThangTypeSync, @
     @thangType.once 'sync', @onThangTypeSync, @
     @refreshAnimation = _.debounce @refreshAnimation, 500
@@ -57,6 +60,7 @@ module.exports = class ThangTypeEditView extends View
     context = super(context)
     context.thangType = @thangType
     context.animations = @getAnimationNames()
+    context.authorized = me.isAdmin() or @thangType.hasWriteAccess(me)
     context
 
   getAnimationNames: ->
@@ -266,7 +270,7 @@ module.exports = class ThangTypeEditView extends View
     @$el.find('.rotation-label').text " #{value}° "
     if @currentSprite
       @currentSprite.rotation = value
-      @currentSprite.update()
+      @currentSprite.update(true)
 
   updateScale: =>
     value = (@scaleSlider.slider('value') + 1) / 10
@@ -314,7 +318,7 @@ module.exports = class ThangTypeEditView extends View
     @thangType.set 'actions', undefined
     @clearDisplayObject()
     @treema.set('/', @getThangData())
-    
+
   getThangData: ->
     data = _.cloneDeep(@thangType.attributes)
     data = _.pick data, (value, key) => not (key in ['components'])
@@ -329,6 +333,7 @@ module.exports = class ThangTypeEditView extends View
       schema: schema
       files: @files
       filePath: "db/thang.type/#{@thangType.get('original')}"
+      readOnly: true unless me.isAdmin() or @thangType.hasWriteAccess(me)
       callbacks:
         change: @pushChangesToPreview
         select: @onSelectNode
@@ -381,3 +386,8 @@ module.exports = class ThangTypeEditView extends View
   destroy: ->
     @camera?.destroy()
     super()
+
+  showVersionHistory: (e) ->
+    versionHistoryView = new VersionHistoryView thangType:@thangType, @thangTypeID
+    @openModalView versionHistoryView
+    Backbone.Mediator.publish 'level:view-switched', e
