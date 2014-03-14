@@ -15,6 +15,11 @@ module.exports = class SpellView extends View
   eventsSuppressed: true
   writable: true
 
+  keyBindings:
+    'default': null
+    'vim': 'ace/keyboard/vim'
+    'emacs': 'ace/keyboard/emacs'
+
   subscriptions:
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
@@ -30,6 +35,7 @@ module.exports = class SpellView extends View
     'focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
     'spell-beautify': 'onSpellBeautify'
+    'change:editor-config': 'onChangeEditorConfig'
 
   events:
     'mouseout': 'onMouseOut'
@@ -56,6 +62,7 @@ module.exports = class SpellView extends View
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
+    aceConfig = me.get 'aceConfig'
     @ace = ace.edit @$el.find('.ace')[0]
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
@@ -66,11 +73,12 @@ module.exports = class SpellView extends View
     @aceSession.setNewLineMode "unix"
     @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
-    @ace.setDisplayIndentGuides false
+    @ace.setDisplayIndentGuides (aceConfig.indentGuides || false)
     @ace.setShowPrintMargin false
-    @ace.setShowInvisibles false
+    @ace.setShowInvisibles (aceConfig.invisibles || false)
     @ace.setBehavioursEnabled false
     @ace.setAnimatedScroll true
+    @ace.setKeyboardHandler (@keyBindings[aceConfig.keyBindings] || null)
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -550,6 +558,12 @@ module.exports = class SpellView extends View
     ugly = @getSource()
     pretty = @spellThang.aether.beautify ugly
     @ace.setValue pretty
+
+  onChangeEditorConfig: (e) ->
+    aceConfig = me.get 'aceConfig'
+    @ace.setDisplayIndentGuides (aceConfig.indentGuides || false)
+    @ace.setShowInvisibles (aceConfig.invisibles || false)
+    @ace.setKeyboardHandler (@keyBindings[aceConfig.keyBindings] || null)
 
   dismiss: ->
     @recompile() if @spell.hasChangedSignificantly @getSource()
