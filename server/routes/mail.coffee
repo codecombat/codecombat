@@ -16,7 +16,7 @@ sendwithus = require '../sendwithus'
 module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
-  
+
 getAllLadderScores = (next) ->
   query = Level.find({type: 'ladder'})
     .select('levelID')
@@ -28,6 +28,8 @@ getAllLadderScores = (next) ->
     for level in levels
       for team in ['humans', 'ogres']
         'I ... am not doing this.'
+        # Query to get sessions to make histogram
+        # db.level.sessions.find({"submitted":true,"levelID":"brawlwood",team:"ogres"},{"_id":0,"totalScore":1})
 
 isRequestFromDesignatedCronHandler = (req, res) ->
   if req.ip isnt config.mail.cronHandlerPublicIP and req.ip isnt config.mail.cronHandlerPrivateIP
@@ -36,13 +38,13 @@ isRequestFromDesignatedCronHandler = (req, res) ->
     res.end()
     return false
   return true
-  
-    
+
+
 handleLadderUpdate = (req, res) ->
   log.info("Going to see about sending ladder update emails.")
   requestIsFromDesignatedCronHandler = isRequestFromDesignatedCronHandler req, res
   unless requestIsFromDesignatedCronHandler then return
-    
+
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
   # TODO: somehow fetch the histograms
