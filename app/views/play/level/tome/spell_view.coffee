@@ -62,7 +62,7 @@ module.exports = class SpellView extends View
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
-    aceConfig = me.get 'aceConfig'
+    aceConfig = me.get('aceConfig') ? {}
     @ace = ace.edit @$el.find('.ace')[0]
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
@@ -73,9 +73,9 @@ module.exports = class SpellView extends View
     @aceSession.setNewLineMode "unix"
     @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
-    @ace.setDisplayIndentGuides (aceConfig.indentGuides || false)
+    @ace.setDisplayIndentGuides aceConfig.indentGuides  # default false
     @ace.setShowPrintMargin false
-    @ace.setShowInvisibles (aceConfig.invisibles || false)
+    @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setBehavioursEnabled false
     @ace.setAnimatedScroll true
     @ace.setKeyboardHandler (@keyBindings[aceConfig.keyBindings] || null)

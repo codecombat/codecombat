@@ -13,7 +13,6 @@ module.exports = class EditorConfigModal extends View
     indentGuides: false
 
   events:
-    'click textarea': 'onClickLink'
     'change #invisibles': 'updateInvisiblesSelection'
     'change #keyBindings': 'updateKeyBindingsSelection'
     'change #indentGuides': 'updateIndentGuides'
@@ -22,7 +21,7 @@ module.exports = class EditorConfigModal extends View
     super(options)
 
   getRenderData: ->
-    @aceConfig = _.cloneDeep me.get('aceConfig') || {}
+    @aceConfig = _.cloneDeep me.get('aceConfig') ? {}
     @aceConfig = _.defaults @aceConfig, @defaultConfig
     c = super()
     c.keyBindings = @aceConfig.keyBindings
