@@ -31,6 +31,8 @@ LevelHandler = class LevelHandler extends Handler
     return @getLeaderboard(req, res, args[0]) if args[1] is 'leaderboard'
     return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
+    return @getRandomSessionPair(req,res,args[0]) if args[1] is 'random_session_pair'
+    
     return @sendNotFoundError(res)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
@@ -147,6 +149,41 @@ LevelHandler = class LevelHandler extends Handler
       return @sendDatabaseError(res, err) if err
       resultSessions ?= []
       @sendSuccess res, resultSessions
+      
+  getRandomSessionPair: (req, res, id) ->
+    findParameters = {}
+    
+    [original,version] = id.split '.'
+    version = parseInt(version) ? 0
+
+    sessionsQueryParameters =
+      level:
+        original: original
+        majorVersion: version
+      submitted:true
+      
+    
+    query = Session
+      .find(sessionsQueryParameters)
+      .select('team')
+      .lean()
+    
+    query.exec (err, resultSessions) =>
+      return @sendDatabaseError res, err if err? or not resultSessions
+      
+      teamSessions = _.groupBy resultSessions, 'team'
+      sessions = []
+      numberOfTeams = 0
+      for team of teamSessions
+        numberOfTeams += 1
+        sessions.push _.sample(teamSessions[team])
+      if numberOfTeams != 2 then return @sendDatabaseError res, "There aren't sessions of 2 teams, so cannot choose random opponents!"
+        
+      @sendSuccess res, sessions
+      
+      
+    
+    
 
   validateLeaderboardRequestParameters: (req) ->
     req.query.order = parseInt(req.query.order) ? -1

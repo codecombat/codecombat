@@ -117,7 +117,8 @@ module.exports = Surface = class Surface extends CocoClass
     @updateState true if @loaded
     # TODO: synchronize both ways of choosing whether to show coords (@world via UI System or @options via World Select modal)
     if @world.showCoordinates and @options.coords
-      @surfaceTextLayer.addChild new CoordinateDisplay camera: @camera
+      @coordinateDisplay = new CoordinateDisplay camera: @camera
+      @surfaceTextLayer.addChild @coordinateDisplay
     @onFrameChanged()
     Backbone.Mediator.publish 'surface:world-set-up'
 
@@ -321,6 +322,10 @@ module.exports = Surface = class Surface extends CocoClass
     @casting = true
     @wasPlayingWhenCastingBegan = @playing
     Backbone.Mediator.publish 'level-set-playing', { playing: false }
+
+    if @coordinateDisplay?
+      @surfaceTextLayer.removeChild @coordinateDisplay
+      @coordinateDisplay.destroy()
 
     createjs.Tween.removeTweens(@surfaceLayer)
     createjs.Tween.get(@surfaceLayer).to({alpha:0.9}, 1000, createjs.Ease.getPowOut(4.0))

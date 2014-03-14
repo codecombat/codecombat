@@ -40,7 +40,7 @@ describe 'utils library', ->
     expect(util.i18n(this.fixture1, 'text', 'en')).toEqual(this.fixture1.text)
     expect(util.i18n(this.fixture1, 'blurb', 'en')).toEqual(this.fixture1.blurb)
     delete this.fixture1.blurb
-    expect(util.i18n(this.fixture1, 'blurb', 'en')).toEqual(this.fixture1.text)
+    expect(util.i18n(this.fixture1, 'blurb', 'en')).toEqual(null)
 
   it 'i18n can fall forward if a general language is not found', ->
     expect(util.i18n(this.fixture1, 'text', 'pt')).toEqual(this.fixture1.i18n['pt-BR'].text)

@@ -15,10 +15,16 @@ module.exports = class SpellView extends View
   eventsSuppressed: true
   writable: true
 
+  keyBindings:
+    'default': null
+    'vim': 'ace/keyboard/vim'
+    'emacs': 'ace/keyboard/emacs'
+
   subscriptions:
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
+    'surface:coordinate-selected': 'onCoordinateSelected'
     'god:new-world-created': 'onNewWorld'
     'god:user-code-problem': 'onUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
@@ -29,6 +35,7 @@ module.exports = class SpellView extends View
     'focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
     'spell-beautify': 'onSpellBeautify'
+    'change:editor-config': 'onChangeEditorConfig'
 
   events:
     'mouseout': 'onMouseOut'
@@ -55,6 +62,7 @@ module.exports = class SpellView extends View
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
+    aceConfig = me.get('aceConfig') ? {}
     @ace = ace.edit @$el.find('.ace')[0]
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
@@ -65,11 +73,12 @@ module.exports = class SpellView extends View
     @aceSession.setNewLineMode "unix"
     @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
-    @ace.setDisplayIndentGuides false
+    @ace.setDisplayIndentGuides aceConfig.indentGuides
     @ace.setShowPrintMargin false
-    @ace.setShowInvisibles false
-    @ace.setBehavioursEnabled false
+    @ace.setShowInvisibles aceConfig.invisibles
+    @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setAnimatedScroll true
+    @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -419,8 +428,13 @@ module.exports = class SpellView extends View
     @ace.clearSelection()
 
   onFrameChanged: (e) ->
-    return unless e.selectedThang?.id is @thang?.id
+    return unless @spellThang and e.selectedThang?.id is @spellThang?.thang.id
     @thang = e.selectedThang  # update our thang to the current version
+    @highlightCurrentLine()
+
+  onCoordinateSelected: (e) ->
+    return unless e.x? and e.y?
+    @ace.insert "{x: #{e.x}, y: #{e.y}}"
     @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->
@@ -544,6 +558,12 @@ module.exports = class SpellView extends View
     ugly = @getSource()
     pretty = @spellThang.aether.beautify ugly
     @ace.setValue pretty
+
+  onChangeEditorConfig: (e) ->
+    aceConfig = me.get 'aceConfig'
+    @ace.setDisplayIndentGuides (aceConfig.indentGuides || false)
+    @ace.setShowInvisibles (aceConfig.invisibles || false)
+    @ace.setKeyboardHandler (@keyBindings[aceConfig.keyBindings] || null)
 
   dismiss: ->
     @recompile() if @spell.hasChangedSignificantly @getSource()
