@@ -330,6 +330,7 @@ module.exports = class ThangsTabView extends View
 
   onThangsChanged: (e) =>
     @level.set 'thangs', @thangsTreema.data
+    return if @editThangView
     serializedLevel = @level.serialize @supermodel
     try
       @world.loadFromLevel serializedLevel, false
@@ -381,6 +382,8 @@ module.exports = class ThangsTabView extends View
 
   onLevelThangDoneEditing: ->
     @removeSubView @editThangView
+    @editThangView = null
+    @onThangsChanged()
     @$el.find('.thangs-column').show()
 
 
