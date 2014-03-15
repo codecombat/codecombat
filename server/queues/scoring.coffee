@@ -28,10 +28,7 @@ connectToScoringQueue = ->
 module.exports.messagesInQueueCount = (req, res) ->
   scoringTaskQueue.totalMessagesInQueue (err, count) ->
     if err? then return errors.serverError res, "There was an issue finding the Mongoose count:#{err}"
-    response = 
-      point:
-        number: count
-        timestamp: Date.now()
+    response = String(count)
     res.send(response)
     res.end()
 
