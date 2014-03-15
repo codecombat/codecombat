@@ -1,0 +1,52 @@
+#goals-view
+  position: absolute
+  left: 10px
+  top: 42px
+  background-color: rgba(200,200,200,0.8)
+  
+  &.brighter
+    background-color: rgba(200,200,200,1.0)
+  
+  border: black
+  padding: 5px 7px 5px 5px
+  box-sizing: border-box
+  border:  1px solid #333
+  border-radius: 5px
+  cursor: pointer
+  user-select: none
+  -webkit-user-select: none
+  
+  h3
+    font-size: 16px
+    margin: 0
+    line-height: 20px
+    color: black
+    
+    i
+      margin-right: 5px
+    
+  ul
+    padding-left: 0
+    margin-bottom: 0
+    color: black
+    
+  li
+    list-style: none
+    margin-right: 5px
+    i
+      margin-right: 5px
+      
+  li.status-incomplete
+    color: #333
+    
+  li.status-failure
+    color: darkred
+    
+  li.status-success
+    color: darkgreen
+    
+#goals-view.collapsed i.collapsed, #goals-view.expanded i.expanded
+  display: none
+
+#goals-view.collapsed ul
+  display: none

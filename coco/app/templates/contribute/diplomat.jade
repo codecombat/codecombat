@@ -1,0 +1,94 @@
+extends /templates/base
+
+block content
+
+  div.contribute_class
+
+    include /templates/contribute/contribute_nav
+
+    div.class-main#diplomat-main
+      
+      .class_image
+          img.img-responsive(src="/images/pages/contribute/diplomat.png", alt="")
+
+      h2
+        span(data-i18n="classes.diplomat_title") Diplomat
+        span  
+        span(data-i18n="classes.diplomat_title_description") (Translator)
+      p
+        span(data-i18n="contribute.diplomat_introduction_pref")
+          | So, if there's one thing we learned from the 
+        a(href="blog.codecombat.com/post/64658141307/codecombat-in-y-combinator", data-i18n="contribute.diplomat_launch_url")
+          | launch in October
+        span , 
+        span(data-i18n="contribute.diplomat_introduction_suf")
+          | it's that there
+          | is sizeable interest in CodeCombat in other countries!
+          | We're building a corps of translators eager to turn one set of words into
+          | another set of words to get CodeCombat as accessible across the world as possible.
+          | If you like getting sneak peeks at upcoming content and getting these levels to
+          | your fellow nationals ASAP, then this class might be for you.
+  
+      h4(data-i18n="contribute.class_attributes") Class Attributes
+      ul
+        li(data-i18n="contribute.diplomat_attribute_1")
+          | Fluency in English and the language you would like to translate to.
+          | When conveying complicated ideas, it's important to have a strong grasp in both!
+      
+      h4(data-i18n="contribute.how_to_join") How to Join
+      p
+        span(data-i18n="contribute.diplomat_join_pref_github")
+          | Find your language locale file 
+        a(data-i18n="contribute.diplomat_github_url", href='https://github.com/codecombat/codecombat/tree/master/app/locale') on GitHub
+        span(data-i18n="contribute.diplomat_join_suf_github")
+          | , edit it online, and submit a pull request. Also, check this box below to 
+          | keep up-to-date on new internationalization developments!
+
+      if me.attributes.anonymous
+        div#sign-up.alert.alert-info
+          strong(data-i18n="contribute.alert_account_message_intro")
+            | Hey there!
+          span  
+          span(data-i18n="contribute.alert_account_message_pref") 
+            | To subscribe for class emails, you'll need to 
+          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
+            | create an account
+          span  
+          span(data-i18n="contribute.alert_account_message_suf")
+            | first.
+
+      label.checkbox(for="translator").well
+        input(type='checkbox', name="translator", id="translator")
+        span(data-i18n="contribute.diplomat_subscribe_desc")
+          | Get emails about i18n developments and levels to translate.
+        .saved-notification  ✓ Saved
+
+      #Contributors
+        h3(data-i18n="contribute.translating_diplomats")
+          | Our Translating Diplomats:
+        ul.diplomats
+          li Turkish - Nazım Gediz Aydındoğmuş, cobaimelan, wakeup
+          li Brazilian Portuguese - Gutenberg Barros, Kieizroe, Matthew Burt, brunoporto
+          li Portugal Portuguese - Matthew Burt, ReiDuKuduro
+          li German - Dirk, faabsen, HiroP0, Anon, bkimminich
+          li Thai - Kamolchanok Jittrepit
+          li Vietnamese - An Nguyen Hoang Thien
+          li Dutch - Glen De Cauwsemaecker, Guido Zuidhof, Ruben Vereecken
+          li Greek - Stergios
+          li Latin American Spanish - Jesús Ruppel, Matthew Burt, Mariano Luzza
+          li Spain Spanish - Matthew Burt, DanielRodriguezRivero, Anon
+          li French - Xeonarno, Elfisen, Armaldio, MartinDelille, pstweb, veritable, jaybi, xavismeh, Anon
+          li Hungarian - ferpeter, csuvsaregal, atlantisguru, Anon
+          li Japanese - g1itch, kengos
+          li Chinese - Adam23, spacepope
+          li Polish - Anon, Kacper Ciepielewski
+          li Danish - Einar Rasmussen, sorsjen, Anon
+          li Slovak - Anon
+          li Persian - Reza Habibi (Rehb)
+          li Czech - vanous
+          li Russian - fess89, ser-storchak, Mr A
+          li Ukrainian - fess89
+          li Italian - flauta
+          li Norwegian - bardeh
+
+    div.clearfix

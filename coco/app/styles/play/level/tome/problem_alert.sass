@@ -1,0 +1,40 @@
+@import "../../../bootstrap/mixins"
+
+.problem-alert
+  z-index: 10
+  position: absolute
+  bottom: -120px
+  left: 10px
+  right: 10px
+  background: transparent url(/images/level/code_editor_error_background.png) no-repeat
+  background-size: 100% 100%
+  border: 0
+  padding: 18px 35px 18px 14px
+  text-shadow: none
+  color: white
+  word-wrap: break-word
+
+  .close
+    @include opacity(0.80)
+    text-shadow: none
+    cursor: pointer
+    color: white
+    float: right
+
+    &:hover, &:focus
+      @include opacity(1)
+
+  .problem-hint
+    font-size: 80%
+      
+  //&.alert-error
+
+  &.alert-warning
+    background-image: url(/images/level/code_editor_warning_background.png)
+    
+  &.alert-info
+    background-image: url(/images/level/code_editor_info_background.png)
+        
+  &.alert-style
+    // Do we ever want to do this for style?
+    background-image: url(/images/level/code_editor_info_background.png)

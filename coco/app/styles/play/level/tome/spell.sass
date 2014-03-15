@@ -1,0 +1,115 @@
+@import "../../../bootstrap/mixins"
+
+@mixin editor-height($extraHeight)
+  @include box-sizing(border-box)
+  width: 98%
+  height: 83%
+  height: unquote("-webkit-calc(100% - 60px -")$extraHeight unquote(")")
+  height: unquote("calc(100% - 60px -")$extraHeight unquote(")")
+
+#spell-view
+  position: absolute
+  left: 10px
+  top: 48px
+  bottom: 121px
+  // Bottom relates to .palette height and padding-top
+  right: 10px
+  z-index: 1
+  // Set z-index above palette
+  display: none
+
+  &.shown
+    display: block
+
+  .code-background
+    position: absolute
+    top: 0
+    height: 100%
+    width: 100%
+
+  .save-status
+    display: none
+    position: absolute
+    top: 1%
+    right: 4%
+
+  .firepad
+    // When Firepad is active, it wraps .ace_editor in .firepad.
+    @include editor-height(0px)
+    width: 98%
+
+    .ace_editor
+      width: 100%
+      height: 100%
+
+  .ace_editor
+    // When Firepad isn't active, .ace_editor needs the width/height set itself.
+    @include editor-height(0px)
+    width: 98%
+    position: relative
+    background-color: transparent
+    line-height: 20px
+    overflow: visible
+
+    &.user-code-problem.spell-cast
+      @include editor-height(40px)
+
+    &.disabled
+      @include opacity(80)
+      .ace_cursor
+        @include opacity(20)
+
+    .ace_gutter
+      background-color: rgba(255, 255, 255, 0.25)
+      width: 40px
+      margin-left: 4px
+      border-bottom: 1px dotted #2f261d
+
+    .ace_scroller
+      background-color: transparent
+      border-bottom: 1px dotted #2f261d
+
+    .ace_content
+      .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error
+        position: absolute
+    .executing
+      background-color: rgba(50, 255, 80, 0.35)
+      @include gradient-striped()
+    .executed
+      background-color: rgba(110, 110, 110, 0.12)
+    .problem-marker-info
+      background-color: rgba(196, 163, 184, 0.25)
+    .problem-marker-warning
+      background-color: rgba(100, 65, 20, 0.25)
+    .problem-marker-error
+      background-color: rgba(110, 45, 27, 0.25)
+
+    .executing:not(.ace_gutter-cell)
+      background-size: 40px 40px
+      text-shadow: 1px 1px 1px #000
+      @include animation(progress-bar-stripes 2s linear infinite)
+
+    .ace_gutter-cell.executing:not(.ace_error):not(.ace_warning):not(.ace_info)
+      margin-left: 1px
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYxIDY0LjE0MDk0OSwgMjAxMC8xMi8wNy0xMDo1NzowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDowMjgwMTE3NDA3MjA2ODExOEE2REU4Q0M1MTM1MkIxRiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpBQjVEQUNDMzQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpBQjVEQUNDMjQ4RUIxMUUxOEVGRUUyNzFENDM3RDVFMCIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1LjEgTWFjaW50b3NoIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QTU1MjE3RDIzMTIwNjgxMThEQkI4NTlBMjQ1QTEwOTUiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDI4MDExNzQwNzIwNjgxMThBNkRFOENDNTEzNTJCMUYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7SazaGAAAAiElEQVR42mL8//8/AzUBEwOVweA3kAWboI2jCyhgDwBx4ZH9ey5Qy4UOQHweaHg/EAtQ08sFUIMDqBmGCkC8HmgoCCtQM1ICoK5toGYsg8KzHmjo+UGbDj8AcSMwORkSnQ7xgA3QtPmApISNBTyAGrSBGl6eAMSGxBhGyIVkZT3G0fKQYgAQYACL+C2ZM6PC7AAAAABJRU5ErkJggg==)
+      background-position: 0px center
+
+    .ace_gutter-cell.executed:not(.ace_error):not(.ace_warning):not(.ace_info)
+      margin-left: 1px
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAANhJREFUeNpi/P//PwM1ARMDlcHgMrA428MAiANQBEFhSA4uynIXAOJ+dHFKXDgfiDdSxctAbzYAqQ+9U3ccQJdjIcMwByCVD8SGFEcK0DAFILUeiCcCXfeAIgOBhglADfsAxBNwqSPFy/1AbADEiUDXfSApHQJdcx+I9yPxE4AUCB8AGrYAn62M6HkZ6rX3UG4jEG8A4vNQviO2mMXrQqh3GqHcemi4gcACQobhixRQoMNiUQEaEY1k52WoKwuRhHAmE6KTDdCADdDwu4AvmRCMlOFfwAIEGAD4On+N4aXlhgAAAABJRU5ErkJggg==)
+      background-position: 0px center
+
+    .ace_gutter-cell.comment-line
+      background-position: 0px center
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAPCAYAAADtc08vAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIJJREFUeNpiTF9y4j0DA4MAA5mAiRLNIMACY8yMsWAkRSPQ5Q1Aqp6JgUIwagAVDGAERsd/LOKGwGi9AJRLALL78aUVRhwp0RGIHUDxTNAFaIljP1TjBSA2gAofAOJAoIs+4E2JaACmeQFQYyK5gdhISDM2F3yA4kKg5gXExAJAgAEACuQiMh7vH10AAAAASUVORK5CYII=)
+
+    .ace_marker-layer
+      .ace_bracket
+        // Override faint gray
+        border-color: #BFF
+
+    .ace_identifier
+      border-bottom: 1px dotted rgba(255, 128, 128, 0.45)
+
+    .ace_text-layer .ace_comment
+      color: darken(rgb(103, 164, 200), 5%)

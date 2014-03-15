@@ -1,0 +1,34 @@
+@import "app/styles/bootstrap/mixins"
+@import "app/styles/mixins"
+
+.spell-palette-entry-view
+  display: block
+  padding: 0px 4px
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+  font-size: 12px
+  border: 1px solid transparent
+  cursor: pointer
+  @include user-select(all)
+  ::selection
+    background: transparent
+
+  &:hover
+    border: 1px solid #000000
+
+  &.pinned
+    background-color: darken(#FFFFFF, 25%)
+
+  // Pulling these colors from the most relevant textmate-theme classes
+  &.function
+    color: #0066FF
+  &.object
+    color: rgb(6, 150, 14)
+  &.string
+    color: rgb(3, 106, 7)
+  &.number
+    color: rgb(0, 0, 205)
+  &.boolean
+    color: rgb(88, 92, 246)
+  &.undefined
+    color: rgb(197, 6, 11)
+

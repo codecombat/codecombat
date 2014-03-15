@@ -1,0 +1,53 @@
+extends /templates/base
+block content
+
+  div#level-column
+    if levelDescription
+      div!= levelDescription
+    else
+      h1= level.get('name')
+
+  if me.get('anonymous')
+    div#must-log-in
+      p
+        strong(data-i18n="ladder.please_login") Please log in first before playing a ladder game.
+      button.btn.btn-primary(data-toggle="coco-modal", data-target="modal/login", data-i18n="login.log_in") Log In
+      button.btn.btn-primary(data-toggle="coco-modal", data-target="modal/signup", data-i18n="login.sign_up") Create Account
+
+
+  else
+    div#columns.row
+      div.column.col-md-2
+      for team in teams
+        div.column.col-md-4
+          a(style="background-color: #{team.primaryColor}", data-team=team.id).play-button.btn.btn-danger.btn-block.btn-lg
+            span(data-i18n="play.play_as") Play As
+            span= team.name
+      div.column.col-md-2
+    
+    hr
+      
+    ul.nav.nav-pills
+      li.active
+        a(href="#ladder", data-toggle="tab", data-i18n="general.ladder") Ladder
+      li
+        a(href="#my-matches", data-toggle="tab", data-i18n="ladder.my_matches") My Matches
+      li
+        a(href="#simulate", data-toggle="tab", data-i18n="ladder.simulate") Simulate
+
+    div.tab-content
+      .tab-pane.active.well#ladder
+        #ladder-tab-view
+      .tab-pane.well#my-matches
+        #my-matches-tab-view
+      .tab-pane.well#simulate
+        p(id="simulation-status-text")
+          if simulationStatus
+            | #{simulationStatus}
+          else
+            span(data-i18n="ladder.simulation_explanation") By simulating games you can get your game ranked faster!
+        p
+          button(data-i18n="ladder.simulate_games").btn.btn-warning.btn-lg.highlight#simulate-button Simulate Games!
+        if me.isAdmin()
+          p
+            button(data-i18n="ladder.simulate_all").btn.btn-danger.btn-lg.highlight#simulate-all-button RESET AND SIMULATE GAMES

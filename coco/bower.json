@@ -1,0 +1,54 @@
+{
+  "name": "codecombat",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/codecombat/codecombat",
+  "authors": [
+    "CodeCombat <team@codecombat.com>"
+  ],
+  "description": "A multiplayer programming game for learning how to code.",
+  "keywords": [
+    "learning",
+    "live",
+    "coding",
+    "game",
+    "multiplayer"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "lodash": "~2.4.1",
+    "backbone": "1.1.0",
+    "jquery-mousewheel": "~3.1.9",
+    "i18next": "~1.7.1",
+    "firepad": "~0.1.2",
+    "marked": "~0.3.0",
+    "moment": "~2.5.0",
+    "aether": "~0.1.10",
+    "underscore.string": "~2.3.3",
+    "firebase": "~1.0.2",
+    "catiline": "~2.9.3"
+  },
+  "overrides": {
+    "backbone": {
+      "main": "backbone.js"
+    },
+    "lodash": {
+      "main": "dist/lodash.js"
+    },
+    "marked": {
+      "main": "lib/marked.js"
+    },
+    "underscore.string": {
+      "main": "lib/underscore.string.js"
+    }
+  }
+}

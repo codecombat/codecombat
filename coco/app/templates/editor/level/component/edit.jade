@@ -1,0 +1,28 @@
+nav.navbar.navbar-default(role='navigation')
+  .container-fluid
+    .navbar-header
+      span.navbar-brand
+        span(data-i18n="editor.level_component_edit_title")
+          | Edit Component
+        span : 
+          | "#{editTitle}"
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav.nav-tabs
+        li.active
+          a(href="#component-code" data-toggle="tab" data-i18n="general.code") Code
+        li
+          a(href="#component-config-schema" data-toggle="tab" data-i18n="editor.level_component_config_schema") Config Schema
+        li
+          a(href="#component-settings" data-toggle="tab" data-i18n="editor.level_component_settings") Settings
+      ul.nav.navbar-nav.navbar-left
+        li(data-i18n="general.history").btn.btn-primary.navbar-btn#history-button History
+      ul.nav.navbar-nav.navbar-right
+        li(data-i18n="editor.level_component_btn_new").btn.btn-primary.navbar-btn#create-new-component-button Create New Component
+
+.tab-content
+  .tab-pane.active#component-code
+    #component-code-editor
+  .tab-pane#component-config-schema
+    #config-schema-treema
+  .tab-pane#component-settings
+    #edit-component-treema

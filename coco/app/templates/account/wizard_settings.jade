@@ -1,0 +1,18 @@
+#color-settings
+  table.table.table-bordered
+    tr
+      th
+      th Color
+      th Group
+    for group in colorGroups
+      tr.color-group(data-name=group.name)
+        td.enabled-cell
+          input(type='checkbox', checked=group.exists, id=group.name).color-group-checkbox
+        td.color-cell
+          input.minicolors(type=hidden, value=group.rgb, name=group.name)
+        td.group-cell
+          label(for=group.name, data-i18n='wizard_settings.' + group.dasherized)= group.humanized
+
+canvas#tinting-display(width=200, height=200).img-rounded
+
+div.clearfix

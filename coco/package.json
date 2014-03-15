@@ -1,0 +1,102 @@
+{
+  "name": "codecombat",
+  "description": "A multiplayer programming game for learning how to code.",
+  "author": "Nick Winter <nick@codecombat.com>",
+  "homepage": "https://github.com/codecombat/codecombat",
+  "domains": [
+    "codecombat.com"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codecombat/codecombat"
+  },
+  "contributors": [
+    {
+      "name": "Nick Winter",
+      "email": "nick@codecombat.com"
+    },
+    {
+      "name": "Scott Erickson",
+      "email": "scott@codecombat.com"
+    },
+    {
+      "name": "George Saines",
+      "email": "george@codecombat.com"
+    }
+  ],
+  "scripts": {
+    "start": "node ./index.js",
+    "test": "./node_modules/.bin/karma start",
+    "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping brunch build --production",
+    "postdeploy": "echo Deployed. Unclench."
+  },
+  "main": "index.js",
+  "keywords": [
+    "learning",
+    "live coding",
+    "game",
+    "multiplayer"
+  ],
+  "dependencies": {
+    "express": "~3.0.6",
+    "winston": "0.6.x",
+    "passport": "0.1.x",
+    "passport-local": "0.1.x",
+    "mongodb": "1.2.x",
+    "mongoose": "3.8.x",
+    "mongoose-text-search": "~0.0.2",
+    "request": "2.12.x",
+    "tv4": "1.0.11",
+    "lodash": "~2.0.0",
+    "underscore.string": "2.3.x",
+    "async": "0.2.x",
+    "connect": "2.7.x",
+    "nodemailer": "0.4.x",
+    "coffee-script": "1.7.x",
+    "graceful-fs": "~2.0.1",
+    "node-force-domain": "~0.1.0",
+    "mailchimp-api": "2.0.x",
+    "express-useragent": "~0.0.9",
+    "gridfs-stream": "0.4.x",
+    "stream-buffers": "0.2.x",
+    "sendwithus": "2.0.x",
+    "aws-sdk":"~2.0.0",
+    "bayesian-battle":"0.0.x",
+    "redis": ""
+  },
+  "devDependencies": {
+    "jade": "0.33.x",
+    "javascript-brunch": "> 1.0 < 1.8",
+    "coffee-script-brunch": "https://github.com/brunch/coffee-script-brunch/tarball/master",
+    "coffeelint-brunch": "> 1.0 < 1.8",
+    "sass-brunch": "1.7.0",
+    "css-brunch": "> 1.0 < 1.8",
+    "jade-brunch": "> 1.0 < 1.8",
+    "uglify-js-brunch": "~1.7.4",
+    "clean-css-brunch": "> 1.0 < 1.8",
+    "auto-reload-brunch": "> 1.0 < 1.8",
+    "brunch": "~1.7.4",
+    "jasmine-node": "1.13.x",
+    "nodemon": "0.7.5",
+    "marked": "0.2.x",
+    "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
+    "bower": "~1.2.8",
+    "bless-brunch": "~1.6.1",
+    "karma-script-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.2",
+    "karma-firefox-launcher": "~0.1.3",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-coffee-preprocessor": "~0.1.2",
+    "karma-jasmine": "~0.1.5",
+    "requirejs": "~2.1.10",
+    "karma-requirejs": "~0.2.1",
+    "karma-phantomjs-launcher": "~0.1.1",
+    "karma": "~0.10.9",
+    "karma-coverage": "~0.1.4"
+  },
+  "license": "MIT for the code, and CC-BY for the art and music",
+  "private": true,
+  "engines": {
+    "node": "0.10.x"
+  }
+}
