@@ -164,7 +164,7 @@ module.exports = class PlayLevelView extends View
     @initSurface()
     @initGoalManager()
     @initScriptManager()
-    @insertSubviews ladderGame: @otherSession?
+    @insertSubviews ladderGame: (@level.get('type') is "ladder")
     @initVolume()
     @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @originalSessionState = _.cloneDeep(@session.get('state'))
