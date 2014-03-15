@@ -458,10 +458,6 @@ module.exports = class SpectateLevelView extends View
         else
           cb(null, $.parseJSON(jqxhr.responseText))
 
-
-
-
-
   destroy: ()->
     @supermodel?.off 'error', @onLevelLoadError
     @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
