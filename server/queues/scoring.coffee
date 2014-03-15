@@ -24,6 +24,14 @@ connectToScoringQueue = ->
       if error? then throw new Error  "There was an error registering the scoring queue: #{error}"
       scoringTaskQueue = data
       log.info "Connected to scoring task queue!"
+      
+module.exports.messagesInQueueCount = (req, res) ->
+  scoringTaskQueue.totalMessagesInQueue (err, count) ->
+    if err? then return errors.serverError res, "There was an issue finding the Mongoose count:#{err}"
+    response = String(count)
+    res.send(response)
+    res.end()
+
 
 module.exports.addPairwiseTaskToQueueFromRequest = (req, res) ->
   taskPair = req.body.sessions

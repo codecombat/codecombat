@@ -100,8 +100,8 @@ sendLadderUpdateEmail = (session, daysAgo) ->
       context =
         email_id: sendwithus.templates.ladder_update_email
         recipient:
-          #address: user.email
-          address: 'nick@codecombat.com'  # Debugging
+          address: user.email
+          #address: 'nick@codecombat.com'  # Debugging
           name: name
         email_data:
           name: name

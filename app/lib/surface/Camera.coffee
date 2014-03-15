@@ -165,7 +165,8 @@ module.exports = class Camera extends CocoClass
       target = {x: newTargetX, y:newTargetY}
     else
       target = @target
-    @zoomTo target, newZoom, 0
+    if not(newZoom >= MAX_ZOOM or newZoom <= Math.max(@minZoom, MIN_ZOOM))
+      @zoomTo target, newZoom, 0
 
   onMouseDown: (e) ->
     return if @dragDisabled

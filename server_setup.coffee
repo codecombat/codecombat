@@ -20,7 +20,7 @@ config = require './server_config'
 #      self.emit('pass',message)
 #    next()
 
-productionLogging = (tokens, req, res)->
+productionLogging = (tokens, req, res) ->
   status = res.statusCode
   color = 32
   if status >= 500 then color = 31

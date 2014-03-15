@@ -205,6 +205,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         .to({alpha: 0.6, scaleY: @options.camera.y2x, scaleX: 1}, 100, createjs.Ease.circOut)
         .to({alpha: 0, scaleY: 0, scaleX: 0}, 700, createjs.Ease.circIn)
         .call =>
+          return if @destroyed
           @options.groundLayer.removeChild circle
           delete @handledAoEs[event]
 
@@ -284,7 +285,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   ##################################################
   updateAction: ->
     action = @determineAction()
-    isDifferent = action isnt @currentRootAction
+    isDifferent = action isnt @currentRootAction or action is null
     if not action and @thang?.actionActivated and not @stopLogging
       console.error "action is", action, "for", @thang?.id, "from", @currentRootAction, @thang.action, @thang.getActionName?()
       @stopLogging = true

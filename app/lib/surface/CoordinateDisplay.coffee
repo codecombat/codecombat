@@ -23,7 +23,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   build: ->
     @mouseEnabled = @mouseChildren = false
-    @addChild @label = new createjs.Text("", "20px Arial", "#003300")
+    @addChild @label = new createjs.Text("", "40px Arial", "#003300")
     @label.name = 'position text'
     @label.shadow = new createjs.Shadow("#FFFFFF", 1, 1, 0)
 
