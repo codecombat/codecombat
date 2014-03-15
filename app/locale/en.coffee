@@ -209,6 +209,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     skip_tutorial: "Skip (esc)"
     editor_config: "Editor Config"
     editor_config_title: "Editor Configuration"
+    editor_config_language_label: "Programming Language"
+    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Key Bindings"
     editor_config_keybindings_default: "Default (Ace)"
     editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
