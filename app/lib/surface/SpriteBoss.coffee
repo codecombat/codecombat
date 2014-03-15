@@ -116,7 +116,7 @@ module.exports = class SpriteBoss extends CocoClass
       sprite.targetPos = if opponent.team is 'ogres' then {x:72, y: 39} else {x: 9, y:39}
     else
       sprite.targetPos = if opponent.team is 'ogres' then {x:52, y: 28} else {x: 20, y:28}
-      
+
 
   createWizardSprite: (options) ->
     sprite = new WizardSprite @thangTypeFor("Wizard"), @createSpriteOptions(options)
@@ -300,7 +300,7 @@ module.exports = class SpriteBoss extends CocoClass
       @willSelectThang = [thangID, null]
     @updateTarget()
     return unless @selectionMark
-    @selectedSprite = null unless @selectedSprite?.thang
+    @selectedSprite = null if @selectedSprite and (@selectedSprite.destroyed or not @selectedSprite.thang)
     @selectionMark.toggle @selectedSprite?
     @selectionMark.setSprite @selectedSprite
     @selectionMark.update()
