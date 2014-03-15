@@ -71,6 +71,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @stillLoading = true
       @thangType.fetch()
       @thangType.once 'sync', @setupSprite, @
+    @createMarks()
 
   setupSprite: ->
     @stillLoading = false
@@ -410,12 +411,34 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       pos.y *= @thang.scaleFactorY ? scaleFactor
     pos
 
+  createMarks: ->
+    if @thang
+      allProps = []
+      allProps = allProps.concat (@thang.hudProperties ? [])
+      allProps = allProps.concat (@thang.programmableProperties ? [])
+      allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
+
+      @addMark('voiceradius') if 'voiceRange' in allProps
+      @addMark('visualradius') if 'visualRange' in allProps
+      @addMark('attackradius') if 'attackRange' in allProps
+
+      @addMark('bounds').toggle true if @thang?.drawsBounds
+      @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
+
   updateMarks: ->
     return unless @options.camera
     @addMark 'repair', null, 'repair' if @thang?.errorsOut
     @marks.repair?.toggle @thang?.errorsOut
-    @addMark('bounds').toggle true if @thang?.drawsBounds
-    @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
+
+    if @selected
+      @marks.voiceradius?.toggle true 
+      @marks.visualradius?.toggle true 
+      @marks.attackradius?.toggle true 
+    else
+      @marks.voiceradius?.toggle false
+      @marks.visualradius?.toggle false
+      @marks.attackradius?.toggle false
+
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
     @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length
