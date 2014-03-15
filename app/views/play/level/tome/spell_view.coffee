@@ -15,6 +15,10 @@ module.exports = class SpellView extends View
   eventsSuppressed: true
   writable: true
 
+  editModes:
+    'javascript': 'ace/mode/javascript'
+    'coffeescript': 'ace/mode/coffeescript'
+
   keyBindings:
     'default': null
     'vim': 'ace/keyboard/vim'
@@ -67,7 +71,7 @@ module.exports = class SpellView extends View
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
     @aceSession.setUseWorker false
-    @aceSession.setMode 'ace/mode/javascript'
+    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode "unix"
@@ -561,9 +565,10 @@ module.exports = class SpellView extends View
 
   onChangeEditorConfig: (e) ->
     aceConfig = me.get 'aceConfig'
-    @ace.setDisplayIndentGuides (aceConfig.indentGuides || false)
-    @ace.setShowInvisibles (aceConfig.invisibles || false)
-    @ace.setKeyboardHandler (@keyBindings[aceConfig.keyBindings] || null)
+    @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
+    @ace.setShowInvisibles # default false
+    @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
 
   dismiss: ->
     @recompile() if @spell.hasChangedSignificantly @getSource()
