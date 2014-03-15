@@ -30,6 +30,8 @@
 
   .level-content
     position: relative
+    max-width: 1920px
+    margin: 0px auto
 
   #canvas-wrapper
     height: 100%
@@ -38,6 +40,8 @@
 
   canvas#surface
     background-color: #ddd
+    max-height: 93%
+    max-height: -webkit-calc(100% - 60px)
     max-height: calc(100% - 60px)
     height: auto
     max-width: 100%
@@ -46,7 +50,6 @@
     margin: 0 auto
 
 
-  //max-width: 1680px   // guideline, but for now let's let it stretch out
   min-width: 1024px
   position: relative
   #thang-hud

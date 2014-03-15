@@ -22,6 +22,7 @@ Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 
 # subviews
+LoadingView = require './level/level_loading_view'
 TomeView = require './level/tome/tome_view'
 ChatView = require './level/level_chat_view'
 HUDView = require './level/hud_view'
@@ -31,8 +32,6 @@ GoalsView = require './level/goals_view'
 GoldView = require './level/gold_view'
 VictoryModal = require './level/modal/victory_modal'
 InfiniteLoopModal = require './level/modal/infinite_loop_modal'
-
-LoadingScreen = require 'lib/LoadingScreen'
 
 PROFILE_ME = false
 
@@ -62,6 +61,8 @@ module.exports = class PlayLevelView extends View
     'level:session-will-save': 'onSessionWillSave'
     'level:set-team': 'setTeam'
     'god:new-world-created': 'loadSoundsForWorld'
+    'level:started': 'onLevelStarted'
+    'level:loading-view-unveiled': 'onLoadingViewUnveiled'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -122,8 +123,7 @@ module.exports = class PlayLevelView extends View
 
   afterRender: ->
     window.onPlayLevelViewLoaded? @  # still a hack
-    @loadingScreen = new LoadingScreen(@$el.find('canvas')[0])
-    @loadingScreen.show()
+    @insertSubView @loadingView = new LoadingView {}
     @$el.find('#level-done-button').hide()
     super()
 
@@ -151,14 +151,13 @@ module.exports = class PlayLevelView extends View
     return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
     # Save latest level played in local storage
     if window.currentModal and not window.currentModal.destroyed
-      @loadingScreen.showReady()
+      @loadingView.showReady()
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
 
     localStorage["lastLevel"] = @levelID if localStorage?
     @grabLevelLoaderData()
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @loadingScreen.destroy()
     @god.level = @level.serialize @supermodel
     @god.worldClassMap = @world.classMap
     @setTeam team
@@ -202,6 +201,12 @@ module.exports = class PlayLevelView extends View
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
       @session.set 'multiplayer', false
 
+  onLevelStarted: (e) ->
+    @loadingView?.unveil()
+
+  onLoadingViewUnveiled: (e) ->
+    @removeSubView @loadingView
+    @loadingView = null
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0

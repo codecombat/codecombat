@@ -2,7 +2,7 @@ CocoClass = require 'lib/CocoClass'
 
 module.exports = class LoadingScreen extends CocoClass
   progress: 0
-  
+
   constructor: (canvas) ->
     super()
     @width = canvas.width
@@ -93,12 +93,12 @@ module.exports = class LoadingScreen extends CocoClass
     @text.text = "BUILDING" if @progress is 1
     @progressBar.scaleX = @progress
     @stage.update()
-    
+
   showReady: ->
     @text.text = 'READY'
     @text.regX = @text.getMeasuredWidth() / 2
     @stage.update()
-  
+
   destroy: ->
     @stage.canvas = null
     super()
