@@ -205,6 +205,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         .to({alpha: 0.6, scaleY: @options.camera.y2x, scaleX: 1}, 100, createjs.Ease.circOut)
         .to({alpha: 0, scaleY: 0, scaleX: 0}, 700, createjs.Ease.circIn)
         .call =>
+          return if @destroyed
           @options.groundLayer.removeChild circle
           delete @handledAoEs[event]
 
