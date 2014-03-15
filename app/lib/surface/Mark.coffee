@@ -81,7 +81,7 @@ module.exports = class Mark extends CocoClass
     shape.graphics.endStroke()
     shape.graphics.endFill()
 
-    text = new createjs.Text "" + index, "20px Arial", color.replace('0.5', '1')
+    text = new createjs.Text "" + index, "40px Arial", color.replace('0.5', '1')
     text.regX = text.getMeasuredWidth() / 2
     text.regY = text.getMeasuredHeight() / 2
     text.shadow = new createjs.Shadow("#000000", 1, 1, 0)

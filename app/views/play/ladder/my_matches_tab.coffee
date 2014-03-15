@@ -102,7 +102,7 @@ module.exports = class MyMatchesTabView extends CocoView
     @$el.find('.rank-button').each (i, el) =>
       button = $(el)
       sessionID = button.data('session-id')
-      session = _.find @sessions.models, { id: sessionID }
+      session = _.find @sessions.models, {id: sessionID}
       rankingState = 'unavailable'
       if @readyToRank session
         rankingState = 'rank'
@@ -119,14 +119,14 @@ module.exports = class MyMatchesTabView extends CocoView
   rankSession: (e) ->
     button = $(e.target).closest('.rank-button')
     sessionID = button.data('session-id')
-    session = _.find @sessions.models, { id: sessionID }
+    session = _.find @sessions.models, {id: sessionID}
     return unless @readyToRank(session)
 
     @setRankingButtonText(button, 'submitting')
     success = => @setRankingButtonText(button, 'submitted')
     failure = => @setRankingButtonText(button, 'failed')
 
-    ajaxData = { session: sessionID, levelID: @level.id, originalLevelID: @level.attributes.original, levelMajorVersion: @level.attributes.version.major }
+    ajaxData = {session: sessionID, levelID: @level.id, originalLevelID: @level.attributes.original, levelMajorVersion: @level.attributes.version.major}
     console.log "Posting game for ranking from My Matches view."
     $.ajax '/queue/scoring', {
       type: 'POST'

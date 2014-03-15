@@ -146,7 +146,6 @@ module.exports = class ThangsTabView extends View
     @surface.playing = false
     @surface.setWorld @world
     @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
-    @surface.camera.dragDisabled = true
 
   destroy: ->
     @selectAddThangType null
@@ -168,6 +167,7 @@ module.exports = class ThangsTabView extends View
 
   onSpriteDragged: (e) ->
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
+    @surface.camera.dragDisabled = true
     {stageX, stageY} = e.originalEvent
     wop = @surface.camera.canvasToWorld x: stageX, y: stageY
     wop.z = @selectedExtantThang.depth / 2
@@ -178,6 +178,7 @@ module.exports = class ThangsTabView extends View
   onSpriteMouseUp: (e) ->
     clearInterval(@movementInterval) if @movementInterval?
     @movementInterval = null
+    @surface.camera.dragDisabled = false
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
     pos = @selectedExtantThang.pos
     physicalOriginal = componentOriginals["physics.Physical"]
