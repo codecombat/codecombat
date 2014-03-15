@@ -285,7 +285,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   ##################################################
   updateAction: ->
     action = @determineAction()
-    isDifferent = action isnt @currentRootAction
+    isDifferent = action isnt @currentRootAction or action is null
     if not action and @thang?.actionActivated and not @stopLogging
       console.error "action is", action, "for", @thang?.id, "from", @currentRootAction, @thang.action, @thang.getActionName?()
       @stopLogging = true
