@@ -71,12 +71,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @stillLoading = true
       @thangType.fetch()
       @thangType.once 'sync', @setupSprite, @
-    @createMarks()
 
   setupSprite: ->
     @stillLoading = false
     @actions = @thangType.getActions()
     @buildFromSpriteSheet @buildSpriteSheet()
+    @createMarks()
 
   destroy: ->
     mark.destroy() for name, mark of @marks
