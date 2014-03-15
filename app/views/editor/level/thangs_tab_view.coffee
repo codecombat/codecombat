@@ -8,6 +8,7 @@ CocoCollection = require 'models/CocoCollection'
 Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
 LevelThangEditView = require './thang/edit'
+ComponentsCollection = require 'collections/ComponentsCollection'
 
 # Moving the screen while dragging thangs constants
 MOVE_MARGIN = 0.15
@@ -60,12 +61,25 @@ module.exports = class ThangsTabView extends View
     @thangTypes.once 'sync', @onThangTypesLoaded
     @thangTypes.fetch()
 
+    # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
+    @componentCollection = @supermodel.getCollection new ComponentsCollection()
+    @componentCollection.once 'sync', @onComponentsLoaded
+    @componentCollection.fetch()
+
   onThangTypesLoaded: =>
+    return if @destroyed
     @supermodel.addCollection @thangTypes
     @supermodel.populateModel model for model in @thangTypes.models
-    @startsLoading = false
+    @startsLoading = not @componentCollection.loaded
     @render()  # do it again but without the loading screen
-    @onLevelLoaded level: @level if @level
+    @onLevelLoaded level: @level if @level and not @startsLoading
+
+  onComponentsLoaded: =>
+    return if @destroyed
+    @supermodel.addCollection @componentCollection
+    @startsLoading = not @thangTypes.loaded
+    @render()  # do it again but without the loading screen
+    @onLevelLoaded level: @level if @level and not @startsLoading
 
   getRenderData: (context={}) ->
     context = super(context)
