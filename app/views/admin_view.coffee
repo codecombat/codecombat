@@ -29,6 +29,7 @@ module.exports = class AdminView extends View
   espionageSuccess: (model) ->
     storage.save('whoami',model)
     window.location.reload()
+  
   espionageFailure: (jqxhr, status,error)->
     console.log "There was an error entering espionage mode: #{error}"
     
