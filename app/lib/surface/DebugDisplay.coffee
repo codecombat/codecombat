@@ -25,10 +25,10 @@ module.exports = class DebugDisplay extends createjs.Container
 
   build: ->
     @mouseEnabled = @mouseChildren = false
-    @addChild @frameText = new createjs.Text "...", "20px Arial", "#FFF"
+    @addChild @frameText = new createjs.Text "...", "40px Arial", "#FFF"
     @frameText.name = 'frame text'
-    @frameText.x = @canvasWidth - 50
-    @frameText.y = @canvasHeight - 25
+    @frameText.x = @canvasWidth - 100
+    @frameText.y = @canvasHeight - 50
     @frameText.alpha = 0.5
 
   updateFrame: (currentFrame) ->
@@ -42,4 +42,4 @@ module.exports = class DebugDisplay extends createjs.Container
       @framesRenderedThisSecond = 0
 
     @frameText.text = Math.round(currentFrame) + (if @fps? then " - " + @fps + ' fps' else '')
-    @frameText.x = @canvasWidth - @frameText.getMeasuredWidth() - 10
+    @frameText.x = @canvasWidth - @frameText.getMeasuredWidth() - 20

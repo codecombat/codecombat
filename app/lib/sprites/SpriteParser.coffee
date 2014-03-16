@@ -2,7 +2,10 @@ module.exports = class SpriteParser
   constructor: (@thangTypeModel) ->
     # Create a new ThangType, or work with one we've been building
     @thangType = _.cloneDeep(@thangTypeModel.attributes.raw)
-    @thangType ?= {shapes: {}, containers: {}, animations: {}}
+    @thangType ?= {}
+    @thangType.shapes ?= {}
+    @thangType.containers ?= {}
+    @thangType.animations ?= {}
 
     # Internal parser state
     @shapeLongKeys = {}
@@ -24,6 +27,11 @@ module.exports = class SpriteParser
       @animationLongKeys[longKey] = shortKey
 
   parse: (source) ->
+    # Grab the library properties' width/height so we can subtract half of each from frame bounds
+    properties = source.match(/.*lib\.properties = \{\n.*?width: (\d+),\n.*?height: (\d+)/im)
+    @width = parseInt(properties?[1] ? "0", 10)
+    @height = parseInt(properties?[2] ? "0", 10)
+
     options = {loc: false, range: true}
     ast = esprima.parse source, options
     blocks = @findBlocks ast, source
@@ -178,10 +186,17 @@ module.exports = class SpriteParser
                 else if arg.type is 'AssignmentExpression'
                   bounds = @grabFunctionArguments argSource.replace('rect=', ''), true
                   lastRect = bounds
+                else if arg.type is 'Literal' and arg.value is null
+                  bounds = [0, 0, 1, 1]  # Let's try this.
                 frameBounds.push bounds
           else
             console.log "Didn't have multiframe bounds for this movie clip!"
             frameBounds = [nominalBounds]
+
+          # Subtract half of width/height parsed from lib.properties
+          for bounds in frameBounds
+            bounds[0] -= @width / 2
+            bounds[1] -= @height / 2
 
           functionExpressions.push {name: name, bounds: nominalBounds, frameBounds: frameBounds, expression: node.parent.parent, kind: kind}
     @walk ast, null, gatherFunctionExpressions

@@ -11,6 +11,10 @@ module.exports = class HomeView extends View
   events:
     'mouseover #beginner-campaign': 'onMouseOverButton'
     'mouseout #beginner-campaign': 'onMouseOutButton'
+    
+  constructor: ->
+    super(arguments...)
+    ThangType.loadUniversalWizard()
 
   getRenderData: ->
     c = super()
@@ -28,12 +32,8 @@ module.exports = class HomeView extends View
     @$el.find('.modal').on 'shown.bs.modal', ->
       $('input:visible:first', @).focus()
 
-    wizOriginal = "52a00d55cf1818f2be00000b"
-    url = "/db/thang_type/#{wizOriginal}/version"
-    @wizardType = new ThangType()
-    @wizardType.url = -> url
-    @wizardType.fetch()
-    @wizardType.once 'sync', @initCanvas
+    @wizardType = ThangType.wizardType
+    if @wizardType.loaded then @initCanvas else @wizardType.once 'sync', @initCanvas, @
 
     # Try to find latest level and set "Play" link to go to that level
     if localStorage?
@@ -48,7 +48,7 @@ module.exports = class HomeView extends View
     else
       console.log("TODO: Insert here code to get latest level played from the database. If this can't be found, we just let the user play the first level.")
 
-  initCanvas: =>
+  initCanvas: ->
     @stage = new createjs.Stage($('#beginner-campaign canvas', @$el)[0])
     @createWizard()
 
@@ -67,12 +67,13 @@ module.exports = class HomeView extends View
   createWizard: (scale=3.7) ->
     spriteOptions = thangID: "Beginner Wizard", resolutionFactor: scale
     @wizardSprite = new WizardSprite @wizardType, spriteOptions
-    @wizardSprite.update()
     wizardDisplayObject = @wizardSprite.displayObject
     wizardDisplayObject.x = 70
     wizardDisplayObject.y = 120
     wizardDisplayObject.scaleX = wizardDisplayObject.scaleY = scale
     wizardDisplayObject.scaleX *= -1
+    @wizardSprite.queueAction 'idle'
+    @wizardSprite.update()
     @stage.addChild wizardDisplayObject
     @stage.update()
 

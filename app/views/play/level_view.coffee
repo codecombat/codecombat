@@ -2,6 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/play/level'
 {me} = require('lib/auth')
 ThangType = require 'models/ThangType'
+utils = require 'lib/utils'
 
 # temp hard coded data
 World = require 'lib/world/world'
@@ -16,10 +17,12 @@ LevelLoader = require 'lib/LevelLoader'
 LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
+Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 
 # subviews
+LoadingView = require './level/level_loading_view'
 TomeView = require './level/tome/tome_view'
 ChatView = require './level/level_chat_view'
 HUDView = require './level/hud_view'
@@ -29,8 +32,6 @@ GoalsView = require './level/goals_view'
 GoldView = require './level/gold_view'
 VictoryModal = require './level/modal/victory_modal'
 InfiniteLoopModal = require './level/modal/infinite_loop_modal'
-
-LoadingScreen = require 'lib/LoadingScreen'
 
 PROFILE_ME = false
 
@@ -60,6 +61,8 @@ module.exports = class PlayLevelView extends View
     'level:session-will-save': 'onSessionWillSave'
     'level:set-team': 'setTeam'
     'god:new-world-created': 'loadSoundsForWorld'
+    'level:started': 'onLevelStarted'
+    'level:loading-view-unveiled': 'onLoadingViewUnveiled'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -105,7 +108,8 @@ module.exports = class PlayLevelView extends View
 
   load: ->
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
-    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded
+    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded, @
+    @levelLoader.on 'progress', @onLevelLoaderProgressChanged, @
     @god = new God()
 
   getRenderData: ->
@@ -119,29 +123,48 @@ module.exports = class PlayLevelView extends View
 
   afterRender: ->
     window.onPlayLevelViewLoaded? @  # still a hack
-    @loadingScreen = new LoadingScreen(@$el.find('canvas')[0])
-    @loadingScreen.show()
+    @insertSubView @loadingView = new LoadingView {}
     @$el.find('#level-done-button').hide()
     super()
 
-  onLevelLoaderLoaded: =>
-    # Save latest level played in local storage
+  onLevelLoaderProgressChanged: ->
+    return if @seenDocs
+    return unless @levelLoader.session.loaded and @levelLoader.level.loaded
+    return unless showFrequency = @levelLoader.level.get('showsGuide')
+    session = @levelLoader.session
+    diff = new Date().getTime() - new Date(session.get('created')).getTime()
+    return if showFrequency is 'first-time' and diff > (5 * 60 * 1000)
+    articles = @levelLoader.supermodel.getModels Article
+    for article in articles
+      return unless article.loaded
+    @showGuide()
+
+  showGuide: ->
+    @seenDocs = true
+    DocsModal = require './level/modal/docs_modal'
+    options = {docs: @levelLoader.level.get('documentation'), supermodel: @supermodel}
+    @openModalView(new DocsModal(options), true)
+    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
+    return true
+
+  onLevelLoaderLoaded: ->
+    return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
     if window.currentModal and not window.currentModal.destroyed
-      @loadingScreen.showReady()
+      @loadingView.showReady()
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
-    
+
+    # Save latest level played in local storage
     localStorage["lastLevel"] = @levelID if localStorage?
     @grabLevelLoaderData()
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @loadingScreen.destroy()
     @god.level = @level.serialize @supermodel
     @god.worldClassMap = @world.classMap
     @setTeam team
     @initSurface()
     @initGoalManager()
     @initScriptManager()
-    @insertSubviews ladderGame: @otherSession?
+    @insertSubviews ladderGame: (@level.get('type') is "ladder")
     @initVolume()
     @session.on 'change:multiplayer', @onMultiplayerChanged, @
     @originalSessionState = _.cloneDeep(@session.get('state'))
@@ -151,7 +174,7 @@ module.exports = class PlayLevelView extends View
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
       @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
-      
+
   grabLevelLoaderData: ->
     @session = @levelLoader.session
     @world = @levelLoader.world
@@ -159,7 +182,7 @@ module.exports = class PlayLevelView extends View
     @otherSession = @levelLoader.opponentSession
     @levelLoader.destroy()
     @levelLoader = null
-    
+
   loadOpponentTeam: (myTeam) ->
     opponentSpells = []
     for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
@@ -178,7 +201,13 @@ module.exports = class PlayLevelView extends View
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
       @session.set 'multiplayer', false
 
-    
+  onLevelStarted: (e) ->
+    @loadingView?.unveil()
+
+  onLoadingViewUnveiled: (e) ->
+    @removeSubView @loadingView
+    @loadingView = null
+
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
     @modelsLoaded += 1
@@ -200,7 +229,7 @@ module.exports = class PlayLevelView extends View
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
+    worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, ladderGame: subviewOptions.ladderGame}
     #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 

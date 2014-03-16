@@ -20,6 +20,8 @@ LevelHandler = class LevelHandler extends Handler
     'i18n'
     'icon'
     'goals'
+    'type'
+    'showsGuide'
   ]
 
   postEditableProperties: ['name']
@@ -27,8 +29,10 @@ LevelHandler = class LevelHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @getSession(req, res, args[0]) if args[1] is 'session'
     return @getLeaderboard(req, res, args[0]) if args[1] is 'leaderboard'
-    return @getAllSessions(req, res, args[0]) if args[1] is 'all_sessions'
+    return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
+    return @getRandomSessionPair(req,res,args[0]) if args[1] is 'random_session_pair'
+    
     return @sendNotFoundError(res)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
@@ -47,10 +51,11 @@ LevelHandler = class LevelHandler extends Handler
           majorVersion: level.version.major
         creator: req.user.id
 
-      # TODO: generalize this for levels that need teams
       if req.query.team?
         sessionQuery.team = req.query.team
-      else if level.name is 'Project DotA'
+
+      # TODO: generalize this for levels based on their teams
+      else if level.get('type') is 'ladder'
         sessionQuery.team = 'humans'
       
       Session.findOne(sessionQuery).exec (err, doc) =>
@@ -86,26 +91,27 @@ LevelHandler = class LevelHandler extends Handler
       # associated with the handler, because the handler might return a different type
       # of model, like in this case. Refactor to move that logic to the model instead.
 
-  getAllSessions: (req, res, id) ->
-    @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
+  getMySessions: (req, res, slugOrID) ->
+    findParameters = {}
+    if Handler.isID slugOrID
+      findParameters["_id"] = slugOrID
+    else
+      findParameters["slug"] = slugOrID
+    selectString = 'original version.major permissions'
+    query = Level.findOne(findParameters)
+      .select(selectString)
+      .lean()
+    
+    query.exec (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
       sessionQuery =
         level:
           original: level.original.toString()
           majorVersion: level.version.major
-        submitted: true
-
-      propertiesToReturn = [
-        '_id'
-        'totalScore'
-        'submitted'
-        'team'
-        'creatorName'
-      ]
-
-      query = Session
-        .find(sessionQuery)
-        .select(propertiesToReturn.join ' ')
-
+        creator: req.user._id+''
+      
+      query = Session.find(sessionQuery).select('-screenshot')
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
@@ -132,7 +138,7 @@ LevelHandler = class LevelHandler extends Handler
       'creatorName'
       'creator'
     ]
-
+    
     query = Session
       .find(sessionsQueryParameters)
       .limit(req.query.limit)
@@ -143,6 +149,53 @@ LevelHandler = class LevelHandler extends Handler
       return @sendDatabaseError(res, err) if err
       resultSessions ?= []
       @sendSuccess res, resultSessions
+      
+  getRandomSessionPair: (req, res, slugOrID) ->
+    findParameters = {}
+    if Handler.isID slugOrID
+      findParameters["_id"] = slugOrID
+    else
+      findParameters["slug"] = slugOrID
+    selectString = 'original version'
+    query = Level.findOne(findParameters)
+    .select(selectString)
+    .lean()
+
+    query.exec (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
+  
+      sessionsQueryParameters =
+        level:
+          original: level.original.toString()
+          majorVersion: level.version.major
+        submitted:true
+        
+      console.log sessionsQueryParameters
+        
+      
+      query = Session
+        .find(sessionsQueryParameters)
+        .select('team')
+        .lean()
+      
+      query.exec (err, resultSessions) =>
+        return @sendDatabaseError res, err if err? or not resultSessions
+        
+        teamSessions = _.groupBy resultSessions, 'team'
+        console.log teamSessions
+        sessions = []
+        numberOfTeams = 0
+        for team of teamSessions
+          numberOfTeams += 1
+          sessions.push _.sample(teamSessions[team])
+        if numberOfTeams != 2 then return @sendDatabaseError res, "There aren't sessions of 2 teams, so cannot choose random opponents!"
+          
+        @sendSuccess res, sessions
+        
+        
+      
+    
 
   validateLeaderboardRequestParameters: (req) ->
     req.query.order = parseInt(req.query.order) ? -1

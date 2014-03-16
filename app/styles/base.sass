@@ -4,6 +4,10 @@
 html
   background-color: #2f261d
 
+html, body
+  // For level loading view wings
+  overflow-x: hidden
+
 // https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
 .secret
   display: none
@@ -12,6 +16,7 @@ h1 h2 h3 h4
   letter-spacing: 2px
 
 .main-content-area
+  box-shadow: 0px 0px 10px
   position: relative
   width: 1024px
   margin: 56px auto 0
@@ -21,6 +26,9 @@ h1 h2 h3 h4
 
 #outer-content-wrapper
   background: #8cc63f url(/images/pages/base/repeat-tile.png) top center
+
+#intermediate-content-wrapper
+  background: url(/images/pages/base/sky_repeater.png) repeat-x
 
 #inner-content-wrapper
   background: url(/images/pages/base/background_texture.png) top center no-repeat
@@ -45,7 +53,8 @@ h1 h2 h3 h4
   background-color: #2f261d
   p
     margin: 0
-    padding-top: 25px
+    padding-top: 10px
+    padding-bottom: 10px
     text-align: center
 
   .mixpanel-badge, .firebase-badge
@@ -67,7 +76,7 @@ a[data-toggle="modal"]
   cursor: pointer
 
 .share-buttons, .partner-badges
-  margin-top: 10px
+  padding-bottom: 10px
   text-align: center
   @include opacity(0.75)
 
@@ -179,3 +188,6 @@ table.table
   border: 1px solid black
 .ui-slider-handle
   border: 1px solid black !important
+
+.flag-cursor
+  cursor: crosshair

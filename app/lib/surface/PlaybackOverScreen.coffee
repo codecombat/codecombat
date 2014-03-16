@@ -1,6 +1,6 @@
 CocoClass = require 'lib/CocoClass'
 
-module.exports = class PlaybackoverScreen extends CocoClass
+module.exports = class PlaybackOverScreen extends CocoClass
   constructor: (options) ->
     super()
     options ?= {}
@@ -10,7 +10,7 @@ module.exports = class PlaybackoverScreen extends CocoClass
     console.error @toString(), "needs a layer." unless @layer
     @build()
 
-  toString: -> "<PlaybackoverScreen>"
+  toString: -> "<PlaybackOverScreen>"
 
   build: ->
     @dimLayer = new createjs.Container()
@@ -23,18 +23,16 @@ module.exports = class PlaybackoverScreen extends CocoClass
     @layer.addChild @dimLayer
 
   show: ->
-    console.log 'show playback over screen', @showing
     return if @showing
     @showing = true
-    
+
     @dimLayer.alpha = 0
     createjs.Tween.removeTweens @dimLayer
     createjs.Tween.get(@dimLayer).to({alpha:1}, 500)
 
   hide: ->
-    console.log 'hide playback over screen', @showing
     return unless @showing
     @showing = false
-    
+
     createjs.Tween.removeTweens @dimLayer
     createjs.Tween.get(@dimLayer).to({alpha:0}, 500)

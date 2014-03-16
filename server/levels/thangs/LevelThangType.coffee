@@ -61,4 +61,4 @@ LevelThangTypeSchema.plugin(plugins.PermissionsPlugin)
 LevelThangTypeSchema.plugin(plugins.NamedPlugin)
 LevelThangTypeSchema.plugin(plugins.SearchablePlugin, {searchable: ['name', 'description']})
 
-module.exports = LevelThangType = mongoose.model('level.thang_type', LevelThangTypeSchema)
+module.exports = LevelThangType = mongoose.model('level.thang.type', LevelThangTypeSchema)

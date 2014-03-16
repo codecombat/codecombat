@@ -1,0 +1,66 @@
+@import "app/styles/bootstrap/mixins"
+@import "app/styles/mixins"
+
+@mixin sky-background($url: '', $backgroundPosition: left)
+  $top: #95D9EF
+  $mid: #FFFFFF
+  $bot: #8EC643
+  $stop: 99.6%
+  background: $mid
+  background-image: url($url)  // fallback
+  background-image: url($url), -webkit-linear-gradient(top, $top, $mid $stop, $bot)
+  background-image: url($url),     -ms-linear-gradient(top, $top, $mid $stop, $bot)
+  background-image: url($url),         linear-gradient(to bottom, $top, $mid $stop, $bot)
+  background-repeat: no-repeat
+  background-position: top $backgroundPosition
+  background-size: contain
+
+#level-loading-view
+  color: blue
+  width: 100%
+  height: 100%
+  position: absolute
+  z-index: 20
+  $UNVEIL_TIME: 1.2s
+  pointer-events: none
+  
+  .loading-details
+    position: absolute
+    top: 20px
+    left: 50%
+    $WIDTH: 1000px
+    width: $WIDTH
+    margin-left: (-$WIDTH / 2)
+    z-index: 100
+    background-color: rgba(220, 255, 230, 0.5)
+    border-radius: 30px
+    padding: 10px
+    text-align: center
+    // http://matthewlein.com/ceaser/  Bounce down a bit, then snap up.
+    -webkit-transition: top $UNVEIL_TIME cubic-bezier(0.285, 0, 0.670, 0)
+    -webkit-transition: top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600)
+    -moz-transition: top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600)
+    -o-transition: top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600)
+    transition: top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600)
+
+    .load-progress
+      width: 100%
+
+      .progress-bar
+        width: 1%
+        transition-duration: 1.2s
+
+  .left-wing, .right-wing
+    width: 100%
+    height: 100%
+    position: absolute
+
+  .left-wing
+    @include sky-background('/images/level/loading_left_wing.png', right)
+    left: -50%
+    transition: all $UNVEIL_TIME ease
+
+  .right-wing
+    @include sky-background('/images/level/loading_right_wing.png', left)
+    right: -50%
+    transition: all $UNVEIL_TIME ease

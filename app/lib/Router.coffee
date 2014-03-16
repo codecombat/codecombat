@@ -19,7 +19,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/:model(/:slug_or_id)(/:subview)': 'editorModelView'
     
     # Experimenting with direct links
-    'play/ladder/:levelID/team/:team': go('play/ladder/team_view')
+#    'play/ladder/:levelID/team/:team': go('play/ladder/team_view')
 
     # db and file urls call the server directly
     'db/*path': 'routeToServer'
@@ -90,7 +90,7 @@ module.exports = class CocoRouter extends Backbone.Router
       @cache[route].fromCache = true
       return @cache[route]
     view = @getView(route)
-    @cache[route] = view unless view and view.cache is false
+    @cache[route] = view if view?.cache
     return view
     
   routeDirectly: (path, args) ->

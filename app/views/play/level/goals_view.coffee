@@ -1,6 +1,7 @@
 View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/goals'
 {me} = require 'lib/auth'
+utils = require 'lib/utils'
 
 stateIconMap =
   incomplete: 'icon-minus'
@@ -31,7 +32,7 @@ module.exports = class GoalsView extends View
       state = e.goalStates[goal.id]
       continue if goal.hiddenGoal and state.status isnt 'failure'
       continue if goal.team and me.team isnt goal.team
-      text = goal.i18n?[me.lang()]?.name ? goal.name
+      text = utils.i18n goal, 'name'
       if state.killed
         dead = _.filter(_.values(state.killed)).length
         targeted = _.values(state.killed).length

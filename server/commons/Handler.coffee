@@ -123,7 +123,9 @@ module.exports = class Handler
     # Keeping it simple for now and just allowing access to the first FETCH_LIMIT results.
     query = {'original': mongoose.Types.ObjectId(id)}
     sort = {'created': -1}
-    @modelClass.find(query).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
+    selectString = 'slug name version commitMessage created permissions'  # Is this even working?
+    @modelClass.find(query).select(selectString).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
+      return @sendDatabaseError(res, err) if err
       for doc in results
         return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
       res.send(results)
@@ -261,7 +263,7 @@ module.exports = class Handler
     tv4 = require('tv4').tv4
     res = tv4.validateMultiple(input, @jsonSchema)
     res
-    
+
   @isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-z0-9]/gi)?.length is 24
 
   getDocumentForIdOrSlug: (idOrSlug, done) ->
