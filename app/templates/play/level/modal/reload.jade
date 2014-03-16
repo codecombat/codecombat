@@ -3,9 +3,8 @@ extends /templates/modal/modal_base
 block modal-header-content
   h3(data-i18n="play_level.reload_title") Reload All Code?
   
-block modal-body
-  block modal-body-content
-    p(data-i18n="play_level.reload_really") Are you sure you want to reload this level back to the beginning?
+block modal-body-content
+  p(data-i18n="play_level.reload_really") Are you sure you want to reload this level back to the beginning?
   
 block modal-footer-content
   a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn Close

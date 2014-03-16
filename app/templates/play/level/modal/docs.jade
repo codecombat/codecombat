@@ -4,10 +4,10 @@ block modal-header-content
   h3(data-i18n="play_level.guide_title") Guide
   
 block modal-body-content
-   ul.nav.nav-tabs
-     for doc in docs
-       li
-         a(data-target="#docs_tab_#{doc.slug}", data-toggle="tab") #{doc.name}
-   div.tab-content
-     for doc in docs
-      div.tab-pane(id="docs_tab_#{doc.slug}")!= doc.html
+  ul.nav.nav-tabs
+    for doc in docs
+      li
+        a(data-target="#docs_tab_#{doc.slug}", data-toggle="tab") #{doc.name}
+  div.tab-content
+    for doc in docs
+     div.tab-pane(id="docs_tab_#{doc.slug}")!= doc.html
