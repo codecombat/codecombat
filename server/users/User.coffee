@@ -23,6 +23,7 @@ UserSchema.pre('init', (next) ->
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
   @currentSubscriptions = JSON.stringify(@get('emailSubscriptions'))
+  @set('permissions', ['admin']) unless isProduction
 )
 
 UserSchema.methods.isAdmin = ->
