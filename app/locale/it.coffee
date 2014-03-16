@@ -9,7 +9,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     delay_3_sec: "3 secondi"
     delay_5_sec: "5 secondi"
     manual: "Manuale"
-#    fork: "Fork"
+    fork: "Fork"
     play: "Gioca"
 
   modal:
@@ -111,8 +111,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    spell: "Spell"
 #    boots: "Boots"
 #    hue: "Hue"
-#   saturation: "Saturazione"
-#   lightness: "Luminosità"
+    saturation: "Saturazione"
+    lightness: "Luminosità"
 
   account_settings:
     title: "Impostazioni account"
@@ -175,7 +175,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     reload_title: "Ricarica tutto il codice?"
     reload_really: "Sei sicuro di voler ricominciare il livello?"
     reload_confirm: "Ricarica tutto"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: " Completato"
     victory_sign_up: "Registrati per gli aggiornamenti"
     victory_sign_up_poke: "Vuoi ricevere le ultime novità per email? Crea un account gratuito e ti terremo aggiornato!"
