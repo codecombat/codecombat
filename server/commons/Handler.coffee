@@ -238,7 +238,7 @@ module.exports = class Handler
       return @sendNotFoundError(res) unless parentDocument?
       sort = { 'version.major': -1, 'version.minor': -1 }
       query = { 'original': mongoose.Types.ObjectId(req.body._id) }
-      @modelClass.findOne(query).sort(sort).exec(err, doc) =>
+      @modelClass.findOne(query).sort(sort).exec (err, doc) =>
         return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
       updatedObject = parentDocument.toObject()
       changes = _.pick req.body, @getEditableProperties(req, parentDocument)
