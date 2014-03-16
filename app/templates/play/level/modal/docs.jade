@@ -15,7 +15,8 @@ block modal-body
         div.tab-pane(id="docs_tab_#{doc.slug}")!= doc.html
 
 block modal-footer
-  a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close
+  .modal-footer
+    a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close
   
 
 
