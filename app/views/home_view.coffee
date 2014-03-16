@@ -3,6 +3,7 @@ template = require 'templates/home'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
 Simulator = require 'lib/simulator/Simulator'
+{me} = require '/lib/auth'
 
 module.exports = class HomeView extends View
   id: 'home-view'
@@ -25,6 +26,7 @@ module.exports = class HomeView extends View
       c.isOldBrowser = true if $.browser.safari && majorVersion < 536
     else
       console.warn 'no more jquery browser version...'
+    c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
     c
 
   afterRender: ->
@@ -40,7 +42,7 @@ module.exports = class HomeView extends View
       lastLevel = localStorage["lastLevel"]
       if lastLevel? and lastLevel isnt ""
         playLink = @$el.find("#beginner-campaign")
-        if playLink?
+        if playLink[0]?
           href = playLink.attr("href").split("/")
           href[href.length-1] = lastLevel if href.length isnt 0
           href = href.join("/")

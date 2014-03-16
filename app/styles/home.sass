@@ -2,62 +2,66 @@
 @import "bootstrap/variables"
 
 #home-view
-
-  #front-screenshot
-    margin-top: 15px
-    margin-left: 150px
-
-  #site-slogan
-    margin-left: 15px
-
-  .homepage_button
-    width: 300px
-    margin-top: 30px
-    float: right
-    font-family: 'Bangers', cursive
-    font-weight: normal
-    letter-spacing: 1px
-    position: relative
-
-    button
-      font-size: 40px
-      width: 300px
-      height: 80px
-        
-      @include transition(color .10s linear)
-
-    &:hover button, &:active button
-      color: #8090AA
-
-    canvas
-      position: absolute
-      //border: 1px solid
-
-    #beginner-campaign canvas
-      top: -30px
-      left: -75px
-
-  #homepage_button_container
-    padding: 0px 100px 0px 0px
-    height: 75px
-
-   
-  .homepage_button a
-    float: right
-
-  .row
-    margin: 20px 0px 35px 0px
-
-  .row.promo
-    .span8
-      margin-left: 0px
-    
-    h3
-      margin-bottom: -5px
-
-  .centered-button
-    display: block
-    margin: 15px auto
-
-  #update_zone
+  
+  h1, h2
     text-align: center
+    
+  #trailer-wrapper object
+    display: block
+    margin: 0 auto
+
+  .game-mode-wrapper
+    position: relative
+    margin-bottom: 60px
+    
+    img
+      display: block
+      margin: 0 auto
+      
+    h3
+      color: $yellow
+      position: absolute
+      top: 10px
+      left: 40px
+      font-size: 70px
+      margin-top: 0
+      text-shadow: 2px 2px 5px black
+      
+    h4
+      color: #e8d9c5
+      position: absolute
+      top: 75px
+      left: 140px
+      font-size: 30px
+      margin-top: 0
+      text-shadow: 2px 2px 5px black
+      
+    .play-button
+      text-align: center
+      position: absolute
+      right: 40px
+      bottom: -30px
+      width: 200px
+      height: 100px
+
+      div, img
+        color: $yellow
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+        width: 100%
+        height: 100%
+        font-size: 50px
+        font-family: Bangers
+        line-height: 100px
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
+        @include transition(color .10s linear)
+          
+    &:hover div
+      color: lighten($yellow, 20%)
+    &:hover img
+      filter: brightness(1.1)
+      -webkit-filter: brightness(1.1)
+  

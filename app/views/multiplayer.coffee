@@ -1,0 +1,1 @@
+require './home_view'
