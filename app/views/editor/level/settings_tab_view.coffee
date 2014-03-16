@@ -8,7 +8,12 @@ module.exports = class SettingsTabView extends View
   id: 'editor-level-settings-tab-view'
   className: 'tab-pane'
   template: template
-  editableSettings: ['name', 'description', 'documentation', 'nextLevel', 'background', 'victory', 'i18n', 'icon', 'goals']  # not thangs or scripts or the backend stuff
+  
+  # not thangs or scripts or the backend stuff
+  editableSettings: [
+    'name', 'description', 'documentation', 'nextLevel', 'background', 'victory', 'i18n', 'icon', 'goals',
+    'type', 'showsGuide'
+  ]
 
   subscriptions:
     'level-loaded': 'onLevelLoaded'
@@ -29,6 +34,7 @@ module.exports = class SettingsTabView extends View
       supermodel: @supermodel
       schema: schema
       data: data
+      readOnly: true unless me.isAdmin() or @level.hasWriteAccess(me)
       callbacks: {change: @onSettingsChanged}
       thangIDs: thangIDs
       nodeClasses:

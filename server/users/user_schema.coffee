@@ -19,7 +19,7 @@ UserSchema = c.object {},
   music: {type: 'boolean', default: true}
   #autocastDelay, or more complex autocast options? I guess I'll see what I need when trying to hook up Scott's suggested autocast behavior
 
-  emailSubscriptions: c.array {uniqueItems: true, 'default': ['announcement']}, {'enum': emailSubscriptions}
+  emailSubscriptions: c.array {uniqueItems: true, 'default': ['announcement', 'notification']}, {'enum': emailSubscriptions}
 
   # server controlled
   permissions: c.array {'default': []}, c.shortString()
@@ -29,7 +29,7 @@ UserSchema = c.object {},
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
-  
+
   emailLower: c.shortString()
   nameLower: c.shortString()
   passwordHash: {type: 'string', maxLength: 256}
@@ -40,10 +40,16 @@ UserSchema = c.object {},
 
   #Internationalization stuff
   preferredLanguage: {type: 'string', default: 'en', 'enum': c.getLanguageCodeArray()}
-  
+
   signedCLA: c.date({title: 'Date Signed the CLA'})
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
+
+  aceConfig: c.object {},
+    keyBindings: {type: 'string', 'default': 'default', 'enum': ['default', 'vim', 'emacs']}
+    invisibles: {type: 'boolean', 'default': false}
+    indentGuides: {type: 'boolean', 'default': false}
+    behaviors: {type: 'boolean', 'default': false}
 
 c.extendBasicProperties UserSchema, 'user'
 

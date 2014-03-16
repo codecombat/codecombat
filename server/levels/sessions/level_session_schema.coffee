@@ -118,34 +118,47 @@ _.extend LevelSessionSchema.properties,
 
   meanStrength:
     type: 'number'
-    default: 25
 
   standardDeviation:
     type:'number'
-    default:25/3
     minimum: 0
 
   totalScore:
     type: 'number'
-    default: 10
 
   submitted:
     type: 'boolean'
-    default: false
-    index:true
 
   submitDate: c.date
     title: 'Submitted'
 
   submittedCode:
     type: 'object'
-    
+
+  isRanking:
+    type: 'boolean'
+    description: 'Whether this session is still in the first ranking chain after being submitted.'
+
+  unsubscribed:
+    type: 'boolean'
+    description: 'Whether the player has opted out of receiving email updates about ladder rankings for this session.'
+
   numberOfWinsAndTies:
     type: 'number'
-    default: 0
+
   numberOfLosses:
     type: 'number'
-    default: 0
+
+  scoreHistory:
+    type: 'array'
+    title: 'Score History'
+    description: 'A list of objects representing the score history of a session'
+    items:
+      title: 'Score History Point'
+      description: 'An array with the format [unix timestamp, totalScore]'
+      type: 'array'
+      items:
+        type: 'number'
 
   matches:
     type: 'array'

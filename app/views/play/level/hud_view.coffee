@@ -135,23 +135,23 @@ module.exports = class HUDView extends View
     props = @$el.find('.thang-props')
     props.find(":not(.thang-name)").remove()
     props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
-    column = null
-    for prop in @thang.hudProperties ? []
+    propNames = _.without @thang.hudProperties ? [], 'action'
+    nColumns = Math.ceil propNames.length / 5
+    columns = ($('<div class="thang-props-column"></div>').appendTo(props) for i in [0 ... nColumns])
+    for prop, i in propNames
       continue if prop is 'action'
       pel = @createPropElement prop
       continue unless pel?
       if pel.find('.bar').is('*') and props.find('.bar').is('*')
         props.find('.bar-prop').last().after pel  # Keep bars together
       else
-        column ?= $('<div class="thang-props-column"></div>').appendTo props
-        column.append pel
-        column = null if column.find('.prop').length is 5
+        columns[i % nColumns].append pel
     null
 
   createActions: ->
     actions = @$el.find('.thang-actions tbody').empty()
     showActions = @thang.world and not _.isEmpty(@thang.actions) and 'action' in @thang.hudProperties ? []
-    @$el.find('.thang-actions').toggle showActions
+    @$el.find('.thang-actions').toggleClass 'secret', not showActions
     return unless showActions
     @buildActionTimespans()
     for actionName, action of @thang.actions
@@ -175,9 +175,10 @@ module.exports = class HUDView extends View
         group.append(button)
         response.button = $('button:last', group)
     else
-      s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (press shift-space)")
-      if @shiftSpacePressed > 4 and not @escapePressed
-        @bubble.append('<span class="hud-hint">skip: esc</span>')
+      s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (shift+space)")
+      sk = $.i18n.t('play_level.skip_tutorial', defaultValue: "skip: esc")
+      if not @escapePressed
+        group.append('<span class="hud-hint">' + sk + '</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
     @bubble.append($("<h3>#{@speaker ? 'Captain Anya'}</h3>"))
@@ -237,8 +238,9 @@ module.exports = class HUDView extends View
 
   update: ->
     return unless @thang and not @speaker
-    # Update properties
-    @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
+    @$el.find('.thang-props-column').toggleClass 'nonexistent', not @thang.exists
+    if @thang.exists
+      @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
     # Update action timeline
     @updateActions()
 
@@ -247,7 +249,7 @@ module.exports = class HUDView extends View
       return null  # included in the bar
     context =
       prop: prop
-      hasIcon: prop in ["health", "pos", "target", "inventory", "gold"]
+      hasIcon: prop in ["health", "pos", "target", "inventory", "gold", "visualRange", "attackDamage", "attackRange", "maxSpeed"]
       hasBar: prop in ["health"]
     $(prop_template(context))
 
@@ -263,6 +265,7 @@ module.exports = class HUDView extends View
       labelText = prop + ": " + @formatValue(prop, val) + " / " + @formatValue(prop, max)
       if regen
         labelText += " (+" + @formatValue(prop, regen) + "/s)"
+      pel.find('.bar-prop-value').text(Math.round(max)) if max
     else
       s = @formatValue(prop, val)
       labelText = "#{prop}: #{s}"
@@ -303,7 +306,7 @@ module.exports = class HUDView extends View
     for actionName, action of @thang.actions
       @updateActionElement(actionName, @timespans[actionName], @thang.action is actionName)
     tableContainer = @$el.find('.table-container')
-    timelineWidth = tableContainer.find('.action-timeline').width()
+    timelineWidth = tableContainer.find('tr:not(.secret) .action-timeline').width()
     right = (1 - (@timeProgress ? 0)) * timelineWidth
     arrow = tableContainer.find('.progress-arrow')
     arrow.css 'right', right - arrow.width() / 2
@@ -314,11 +317,11 @@ module.exports = class HUDView extends View
     @timespans = {}
     dt = @thang.world.dt
     actionHistory = @thang.world.actionsForThang @thang.id, true
-    [lastFrame, lastAction] = [0, 'idle']
+    [lastFrame, lastAction] = [0, null]
     for hist in actionHistory.concat {frame: @thang.world.totalFrames, name: 'END'}
       [newFrame, newAction] = [hist.frame, hist.name]
       continue if newAction is lastAction
-      if newFrame > lastFrame
+      if newFrame > lastFrame and lastAction
         # TODO: don't push it if it didn't exist until then
         (@timespans[lastAction] ?= []).push [lastFrame * dt, newFrame * dt]
       [lastFrame, lastAction] = [newFrame, newAction]

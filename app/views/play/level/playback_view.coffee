@@ -2,6 +2,8 @@ View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/playback'
 {me} = require 'lib/auth'
 
+EditorConfigModal = require './modal/editor_config_modal'
+
 module.exports = class PlaybackView extends View
   id: "playback-view"
   template: template
@@ -25,6 +27,7 @@ module.exports = class PlaybackView extends View
     'click #debug-toggle': 'onToggleDebug'
     'click #grid-toggle': 'onToggleGrid'
     'click #edit-wizard-settings': 'onEditWizardSettings'
+    'click #edit-editor-config': 'onEditEditorConfig'
     'click #music-button': 'onToggleMusic'
     'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @disabled
     'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @disabled
@@ -76,6 +79,9 @@ module.exports = class PlaybackView extends View
 
   onEditWizardSettings: ->
     Backbone.Mediator.publish 'edit-wizard-settings'
+
+  onEditEditorConfig: ->
+    @openModalView(new EditorConfigModal())
 
   onDisableControls: (e) ->
     if not e.controls or 'playback' in e.controls

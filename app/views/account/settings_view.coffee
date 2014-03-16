@@ -66,7 +66,7 @@ module.exports = class SettingsView extends View
     c.photos = me.gravatarPhotoURLs()
     c.chosenPhoto = me.getPhotoURL()
     c.subs = {}
-    c.subs[sub] = 1 for sub in c.me.get('emailSubscriptions') or ['announcement', 'tester', 'level_creator', 'developer']
+    c.subs[sub] = 1 for sub in c.me.get('emailSubscriptions') or ['announcement', 'notification', 'tester', 'level_creator', 'developer']
     c
 
   getSubscriptions: ->
@@ -88,7 +88,7 @@ module.exports = class SettingsView extends View
     if res?
       forms.applyErrorsToForm(@$el, res)
       return
-      
+
     return unless me.hasLocalChanges()
 
     res = me.save()

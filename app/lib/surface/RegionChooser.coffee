@@ -7,7 +7,6 @@ module.exports = class RegionChooser extends CocoClass
     @options.stage.addEventListener 'stagemousedown', @onMouseDown
     @options.stage.addEventListener 'stagemousemove', @onMouseMove
     @options.stage.addEventListener 'stagemouseup', @onMouseUp
-    @options.camera.dragDisabled = true
 
   destroy: ->
     @options.stage.removeEventListener 'stagemousedown', @onMouseDown
@@ -18,6 +17,7 @@ module.exports = class RegionChooser extends CocoClass
   onMouseDown: (e) =>
     return unless key.shift
     @firstPoint = @options.camera.canvasToWorld {x: e.stageX, y: e.stageY}
+    @options.camera.dragDisabled = true
 
   onMouseMove: (e) =>
     return unless @firstPoint
@@ -30,6 +30,7 @@ module.exports = class RegionChooser extends CocoClass
     Backbone.Mediator.publish 'choose-region', points: [@firstPoint, @secondPoint]
     @firstPoint = null
     @secondPoint = null
+    @options.camera.dragDisabled = false
 
   restrictRegion: ->
     RATIO = 1.56876  # 924 / 589

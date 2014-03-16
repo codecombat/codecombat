@@ -1,4 +1,5 @@
 View = require 'views/kinds/RootView'
+VersionHistoryView = require './versions_view'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
 
@@ -9,6 +10,7 @@ module.exports = class ArticleEditView extends View
 
   events:
     'click #preview-button': 'openPreview'
+    'click #history-button': 'showVersionHistory'
 
   subscriptions:
     'save-new-version': 'saveNewArticle'
@@ -37,9 +39,9 @@ module.exports = class ArticleEditView extends View
       data: data
       filePath: "db/thang.type/#{@article.get('original')}"
       schema: Article.schema.attributes
+      readOnly: true unless me.isAdmin() or @article.hasWriteAccess(me)
       callbacks:
         change: @pushChangesToPreview
-    options.readOnly = true unless me.isAdmin()
     @treema = @$el.find('#article-treema').treema(options)
 
     @treema.build()
@@ -56,6 +58,7 @@ module.exports = class ArticleEditView extends View
   getRenderData: (context={}) ->
     context = super(context)
     context.article = @article
+    context.authorized = me.isAdmin() or @article.hasWriteAccess(me)
     context
 
   openPreview: =>
@@ -83,3 +86,8 @@ module.exports = class ArticleEditView extends View
       modal.modal('hide')
       url = "/editor/article/#{newArticle.get('slug') or newArticle.id}"
       document.location.href = url
+
+  showVersionHistory: (e) ->
+    versionHistoryView = new VersionHistoryView article:@article, @articleID
+    @openModalView versionHistoryView
+    Backbone.Mediator.publish 'level:view-switched', e

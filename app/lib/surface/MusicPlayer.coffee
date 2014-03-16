@@ -23,7 +23,7 @@ module.exports = class MusicPlayer extends CocoClass
     src = e.file
     if src
       src = "/file#{src}#{AudioPlayer.ext}"
-      return @currentMusic.play() if src is @currentMusic?.src
+      return @currentMusic.play('none', 0, 0, -1, 0.3) if src is @currentMusic?.src
       media = AudioPlayer.getStatus(src)
       if not media?.loaded
         AudioPlayer.preloadSound(src)

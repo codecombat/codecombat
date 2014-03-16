@@ -5,8 +5,8 @@ CocoClass = require 'lib/CocoClass'
 r2d = (radians) -> radians * 180 / Math.PI
 d2r = (degrees) -> degrees / 180 * Math.PI
 
-MAX_ZOOM = 8
-MIN_ZOOM = 0.1
+MAX_ZOOM = 4
+MIN_ZOOM = 0.05
 DEFAULT_ZOOM = 2.0
 DEFAULT_TARGET = {x:0, y:0}
 DEFAULT_TIME = 1000
@@ -42,6 +42,7 @@ module.exports = class Camera extends CocoClass
     'level:restarted': 'onLevelRestarted'
     'sprite:mouse-down': 'onMouseDown'
     'sprite:dragged': 'onMouseDragged'
+    'camera-zoom-to': 'onZoomTo'
 
   # TODO: Fix tests to not use mainLayer
   constructor: (@canvasWidth, @canvasHeight, angle=Math.asin(0.75), hFOV=d2r(30)) ->
@@ -164,12 +165,13 @@ module.exports = class Camera extends CocoClass
       target = {x: newTargetX, y:newTargetY}
     else
       target = @target
-    @zoomTo target, newZoom, 0
+    if not(newZoom >= MAX_ZOOM or newZoom <= Math.max(@minZoom, MIN_ZOOM))
+      @zoomTo target, newZoom, 0
 
   onMouseDown: (e) ->
     return if @dragDisabled
     @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
-    
+
   onMouseDragged: (e) ->
     return if @dragDisabled
     target = @boundTarget(@target, @zoom)
@@ -180,7 +182,7 @@ module.exports = class Camera extends CocoClass
     @zoomTo newPos, @zoom, 0
     @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
     Backbone.Mediator.publish 'camera:dragged'
-    
+
   onLevelRestarted: ->
     @setBounds(@firstBounds, false)
 
@@ -220,7 +222,7 @@ module.exports = class Camera extends CocoClass
     newTarget ?= {x:0, y:0}
     newTarget = (@newTarget or @target) if @locked
     newZoom = Math.min((Math.max @minZoom, newZoom), MAX_ZOOM)
-    
+
     thangType = @target?.sprite?.thangType
     if thangType
       @offset = _.clone(thangType.get('positions')?.torso or {x: 0, y:0})
@@ -229,7 +231,7 @@ module.exports = class Camera extends CocoClass
       @offset.y *= scale
     else
       @offset = {x: 0, y:0}
-      
+
     return if @zoom is newZoom and newTarget is newTarget.x and newTarget.y is newTarget.y
 
     @finishTween(true)
@@ -240,14 +242,14 @@ module.exports = class Camera extends CocoClass
       @newZoom = newZoom
       @tweenProgress = 0.01
       createjs.Tween.get(@)
-        .to({tweenProgress: 1.0}, time, createjs.Ease.getPowInOut(3))
+        .to({tweenProgress: 1.0}, time, createjs.Ease.getPowOut(4))
         .call @finishTween
 
     else
       @target = newTarget
       @zoom = newZoom
       @updateZoom true
-      
+
   focusedOnSprite: ->
     return @target?.name
 
@@ -308,3 +310,6 @@ module.exports = class Camera extends CocoClass
     createjs.Tween.removeTweens @
     @finishTween = null
     super()
+
+  onZoomTo: (pos, time) ->
+    @zoomTo(@worldToSurface(pos), @zoom, time)
