@@ -1,8 +1,11 @@
-.modal-dialog
+extends /templates/modal/modal_base
+
+block modal-header
   .modal-header
     button(type='button', data-dismiss="modal", aria-hidden="true").close &times;
     h3(data-i18n="play_level.editor_config_title") Editor Configuration
-  
+
+block modal-body
   .modal-body
     .form
       .form-group.select-group
@@ -27,7 +30,8 @@
           input#tome-behaviors(name="behaviors", type="checkbox", checked=behaviors)
           span(data-i18n="play_level.editor_config_behaviors_label") Smart Behaviors
         span.help-block(data-i18n="play_level.editor_config_behaviors_description") Autocompletes brackets, braces, and quotes.
-      
+    
+block modal-footer
   .modal-footer
     a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close
 

@@ -1,9 +1,11 @@
-// TODO: refactor to be like other modals
-.modal-dialog
+extends /templates/modal/modal_base
+
+block modal-header
   .modal-header
     button(type='button', data-dismiss="modal", aria-hidden="true").close &times;
     h3(data-i18n="play_level.multiplayer_title") Multiplayer Settings
-  
+
+block modal-body
   .modal-body
     if !ladderGame
       .form
@@ -32,6 +34,7 @@
       else
         a#go-to-leaderboard-button.btn.btn-primary(href="/play/ladder/#{levelSlug}#my-matches") Go to the leaderboard!
         p You can submit your game to be ranked from the leaderboard page.
-  
+
+block modal-footer
   .modal-footer
     a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close
