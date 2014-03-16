@@ -1,9 +1,10 @@
 SuperModel = require 'models/SuperModel'
+CocoClass = require 'lib/CocoClass'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 
-module.exports = class Simulator
+module.exports = class Simulator extends CocoClass
 
   constructor: ->
     _.extend @, Backbone.Events
@@ -14,6 +15,7 @@ module.exports = class Simulator
   destroy: ->
     @off()
     @cleanupSimulation()
+    super()
     # TODO: More teardown?
 
   fetchAndSimulateTask: =>
@@ -49,6 +51,7 @@ module.exports = class Simulator
     @levelLoader.once 'loaded-all', @simulateGame
 
   simulateGame: =>
+    return if @destroyed
     @trigger 'statusUpdate', 'All resources loaded, simulating!', @task.getSessions()
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
     @setupGod()
