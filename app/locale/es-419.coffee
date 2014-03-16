@@ -49,10 +49,10 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 
   recover:
     recover_account_title: "recuperar cuenta"
-#    send_password: "Send Recovery Password"
+#    send_password: "Enviar Contraseña de Recuperación"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+#    create_account_title: "Crear Cuenta para Guardar el Progreso"
     description: "Es gratis. Solo necesitas un par de cosas y estarás listo para comenzar:"
     email_announcements: "Recibe noticias por email"
     coppa: "más de 13 años o fuera de los Estados Unidos"
@@ -81,7 +81,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     campaign_player_created: "Creados-Por-Jugadores"
     campaign_player_created_description: "... en los que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisan\">Hechiceros Artesanales</a>."
     level_difficulty: "Dificultad: "
-#    play_as: "Play As "
+#    play_as: "Jugar Como "
 
   contact:
     contact_us: "Contacta a CodeCombat"
@@ -132,8 +132,8 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     new_password_verify: "Verificar"
     email_subscriptions: "Suscripciones de Email"
     email_announcements: "Noticias"
-#    email_notifications: "Notifications"
-#    email_notifications_description: "Get periodic notifications for your account."
+#    email_notifications: "Notificiones"
+#    email_notifications_description: "Obtenga notificiones periodicos para su cuenta."
     email_announcements_description: "Recibe correos electrónicos con las últimas noticias y desarrollos de CodeCombat."
     contributor_emails: "Emails Clase Contribuyente"
     contribute_prefix: "¡Estamos buscando gente que se una a nuestro grupo! Echa un vistazo a la "
