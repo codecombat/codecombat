@@ -237,7 +237,7 @@ module.exports = class Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless parentDocument?
       sort = { 'version.major': -1, 'version.minor': -1 }
-      query = { 'original': mongoose.Types.ObjectID(req.body._id) }
+      query = { 'original': mongoose.Types.ObjectId(req.body._id) }
       @modelClass.findOne(query).sort(sort).exec(err, doc) =>
         return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
       updatedObject = parentDocument.toObject()
