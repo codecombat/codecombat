@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "italiano", englishDescription: "Italian", translation:
+module.exports = nativeDescription: "Italiano", englishDescription: "Italian", translation:
   common:
     loading: "Caricamento in corso..."
     saving: "Salvataggio in corso..."
@@ -9,7 +9,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     delay_3_sec: "3 secondi"
     delay_5_sec: "5 secondi"
     manual: "Manuale"
-#    fork: "Fork"
+    fork: "Fork"
     play: "Gioca"
 
   modal:
@@ -20,11 +20,11 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     page_not_found: "Pagina non trovata"
 
   nav:
-    play: "Gioca"
+    play: "Livelli"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
-    admin: "Admin"
+    admin: "Amministratore"
     home: "Pagina iniziale"
     contribute: "Contribuisci"
     legal: "Legale"
@@ -49,30 +49,30 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
 
   recover:
     recover_account_title: "Recupera account"
-    send_password: "Spedisci password di recupero"
+    send_password: "Invia password di recupero"
 
   signup:
-    create_account_title: "Crea un accounto per salvare le partite"
-    description: "È gratis. Servono solo un paio di dettagli:"
+    create_account_title: "Crea un account per salvare le partite"
+    description: "È gratuito. Servono solo un paio di dettagli e sarai pronto per iniziare:"
     email_announcements: "Ricevi comunicazioni per email"
     coppa: "13+ o non-USA"
     coppa_why: "(Perché?)"
     creating: "Creazione account..."
     sign_up: "Registrati"
-    log_in: "accedi con password"
+    log_in: "Accedi con la password"
 
   home:
     slogan: "Impara a programmare in JavaScript giocando"
-    no_ie: "CodeCombat non supporta IE8 o browser precedenti. Ci dispiace!"
-    no_mobile: "CodeCombat non è stato pensato per dispositivi mobili e potrebbe non funzionare!"
+    no_ie: "CodeCombat non supporta Internet Explorer 9 o browser precedenti. Ci dispiace!"
+    no_mobile: "CodeCombat non è stato progettato per dispositivi mobile e potrebbe non funzionare!"
     play: "Gioca"
 
   play:
     choose_your_level: "Scegli il tuo livello"
-    adventurer_prefix: "Puoi saltare a qualunque livello qui sotto, o scambiare opinioni sui livelli sul"
+    adventurer_prefix: "Puoi entrare in qualunque livello qui sotto, o scambiare opinioni su questi livelli sul"
     adventurer_forum: "forum degli Avventurieri"
     adventurer_suffix: "."
-    campaign_beginner: "Campagne facili"
+    campaign_beginner: "Campagne per principianti"
     campaign_beginner_description: "... nelle quali imparerai i trucchi della programmazione."
     campaign_dev: "Livelli difficili casuali"
     campaign_dev_description: "... nei quali imparerai a usare l'interfaccia facendo qualcosa di un po' più difficile."
@@ -81,13 +81,13 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     campaign_player_created: "Creati dai giocatori"
     campaign_player_created_description: "... nei quali affronterai la creatività dei tuoi compagni <a href=\"/contribute#artisan\">Stregoni Artigiani</a>."
     level_difficulty: "Difficoltà: "
-#    play_as: "Play As "
+    play_as: "Gioca come "
 
   contact:
     contact_us: "Contatta CodeCombat"
     welcome: "È bello sentirti! Usa questo modulo per mandarci un'email."
     contribute_prefix: "Se sei interessato a contribuire, dai un'occhiata alla nostra "
-    contribute_page: "pagina dei contributi"
+    contribute_page: "pagina Contribuisci"
     contribute_suffix: "!"
     forum_prefix: "Per discussioni pubbliche, puoi provare "
     forum_page: "il nostro forum"
@@ -95,24 +95,24 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     send: "Invia feedback"
 
   diplomat_suggestion:
-    title: "Aiuta a tradurre CodeCombat!"
-    sub_heading: "Abbiamo bisogno di traduttori."
-    pitch_body: "Noi sviluppiamo CodeCombat in inglese, ma abbiamo già giocatori in tutto il mondo. Molti di loro vorrebbero giocare in italiano, ma non parlano inglese, quindi se tu li conosci entrambi sarebbe fantastico se decidessi di diventare un Diplomatico ed aiutassi a tradurre sia il sito di CodeCombat che tutti i livelli in italiano."
-    missing_translations: "Finché non riusciamo a tradurre tutto in italiano vedrai alcune parti in inglese, dove l'italiano non è disponibile."
-    learn_more: "Maggiori dettagli su cosa vuol dire essere un Diplomatico"
+    title: "Aiutaci a tradurre CodeCombat!"
+    sub_heading: "Abbiamo bisogno delle tue competenze linguistiche."
+    pitch_body: "Noi sviluppiamo CodeCombat in inglese, ma abbiamo già giocatori in tutto il mondo. Molti di loro vorrebbero giocare in {Italiano}, ma non parlano inglese, quindi se tu li conosci entrambi sarebbe fantastico se decidessi di diventare un Diplomatico ed aiutassi a tradurre sia il sito di CodeCombat che tutti i livelli in {Italiano}."
+    missing_translations: "Finché non riusciamo a tradurre tutto in {Italiano} vedrai alcune parti in inglese, dove l'{Italiano} non è disponibile."
+    learn_more: "Maggiori dettagli su come diventare un Diplomatico"
     subscribe_as_diplomat: "Diventa un Diplomatico"
 
-#  wizard_settings:
+  wizard_settings:
 #    title: "Wizard Settings"
-#    customize_avatar: "Customize Your Avatar"
-#    clothes: "Clothes"
+    customize_avatar: "Personalizza il tuo personaggio"
+    clothes: "Abbigliamento"
 #    trim: "Trim"
 #    cloud: "Cloud"
 #    spell: "Spell"
 #    boots: "Boots"
 #    hue: "Hue"
-#    saturation: "Saturation"
-#    lightness: "Lightness"
+    saturation: "Saturazione"
+    lightness: "Luminosità"
 
   account_settings:
     title: "Impostazioni account"
@@ -123,18 +123,18 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     wizard_tab: "Stregone"
     password_tab: "Password"
     emails_tab: "Email"
-#    admin: "Admin"
+    admin: "Amministratore"
     gravatar_select: "Seleziona quale foto di Gravatar usare"
-    gravatar_add_photos: "Aggiungi delle immagini all'account di Gravatar per la tua email per scegliere un'immagine."
+    gravatar_add_photos: "Aggiungi delle miniature e delle immagini all'account di Gravatar per la tua email per scegliere un'immagine."
     gravatar_add_more_photos: "Aggiungi più foto al tuo account di Gravatar per vederle qui."
     wizard_color: "Colore dei vestiti da Stregone"
     new_password: "Nuova password"
     new_password_verify: "Verifica"
     email_subscriptions: "Sottoscrizioni email"
-    email_announcements: "Annunci"
-#    email_notifications: "Notifications"
-#    email_notifications_description: "Get periodic notifications for your account."
-    email_announcements_description: "Ricevi email con le ultime novità e sviluppi a CodeCombat."
+    email_announcements: "Annunci email"
+    email_notifications: "Notifiche email"
+    email_notifications_description: "Ricevi notifiche periodiche del tuo account."
+    email_announcements_description: "Ricevi email con le ultime novità e sviluppi di CodeCombat."
     contributor_emails: "Email dei collaboratori"
     contribute_prefix: "Stiamo cercando persone che si uniscano al nostro gruppo! Dai un'occhiata alla "
     contribute_page: "pagina dei collaboratori"
@@ -147,11 +147,11 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
   account_profile:
     edit_settings: "Modifica impostazioni"
     profile_for_prefix: "Profilo di "
-#    profile_for_suffix: ""
+    profile_for_suffix: ""
     profile: "Profilo"
-    user_not_found: "Utente non trovato. Forse l'URL è sbagliato."
+    user_not_found: "Utente non trovato. Controlla l'URL"
     gravatar_not_found_mine: "Non abbiamo trovato un profilo associato a:"
-#    gravatar_not_found_email_suffix: "."
+    gravatar_not_found_email_suffix: "."
     gravatar_signup_prefix: "Iscriviti su "
     gravatar_signup_suffix: " per impostare tutto!"
     gravatar_not_found_other: "A quanto pare non c'è un profilo associato con l'indirizzo email di questa persona."
@@ -175,7 +175,7 @@ module.exports = nativeDescription: "italiano", englishDescription: "Italian", t
     reload_title: "Ricarica tutto il codice?"
     reload_really: "Sei sicuro di voler ricominciare il livello?"
     reload_confirm: "Ricarica tutto"
-#    victory_title_prefix: ""
+    victory_title_prefix: ""
     victory_title_suffix: " Completato"
     victory_sign_up: "Registrati per gli aggiornamenti"
     victory_sign_up_poke: "Vuoi ricevere le ultime novità per email? Crea un account gratuito e ti terremo aggiornato!"

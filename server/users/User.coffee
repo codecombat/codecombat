@@ -17,6 +17,7 @@ UserSchema.pre('init', (next) ->
   return next() unless jsonschema.properties?
   for prop, sch of jsonschema.properties
     @set(prop, sch.default) if sch.default?
+  @set('permissions', ['admin']) if not isProduction
   next()
 )
 
