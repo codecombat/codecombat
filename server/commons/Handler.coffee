@@ -236,7 +236,10 @@ module.exports = class Handler
       return @sendBadInputError(res, 'Bad id.') if err and err.name is 'CastError'
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless parentDocument?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, parentDocument)
+      sort = { 'version.major': -1, 'version.minor': -1 }
+      query = { 'original': mongoose.Types.ObjectID(req.body._id) }
+      @modelClass.findOne(query).sort(sort).exec(err, doc) =>
+        return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
       updatedObject = parentDocument.toObject()
       changes = _.pick req.body, @getEditableProperties(req, parentDocument)
       _.extend updatedObject, changes
