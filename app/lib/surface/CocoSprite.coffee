@@ -76,6 +76,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @stillLoading = false
     @actions = @thangType.getActions()
     @buildFromSpriteSheet @buildSpriteSheet()
+    @createMarks()
 
   destroy: ->
     mark.destroy() for name, mark of @marks
@@ -285,7 +286,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   ##################################################
   updateAction: ->
     action = @determineAction()
-    isDifferent = action isnt @currentRootAction
+    isDifferent = action isnt @currentRootAction or action is null
     if not action and @thang?.actionActivated and not @stopLogging
       console.error "action is", action, "for", @thang?.id, "from", @currentRootAction, @thang.action, @thang.getActionName?()
       @stopLogging = true
@@ -411,12 +412,34 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       pos.y *= @thang.scaleFactorY ? scaleFactor
     pos
 
+  createMarks: ->
+    if @thang
+      allProps = []
+      allProps = allProps.concat (@thang.hudProperties ? [])
+      allProps = allProps.concat (@thang.programmableProperties ? [])
+      allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
+
+      @addMark('voiceradius') if 'voiceRange' in allProps
+      @addMark('visualradius') if 'visualRange' in allProps
+      @addMark('attackradius') if 'attackRange' in allProps
+
+      @addMark('bounds').toggle true if @thang?.drawsBounds
+      @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
+
   updateMarks: ->
     return unless @options.camera
     @addMark 'repair', null, 'repair' if @thang?.errorsOut
     @marks.repair?.toggle @thang?.errorsOut
-    @addMark('bounds').toggle true if @thang?.drawsBounds
-    @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
+
+    if @selected
+      @marks.voiceradius?.toggle true 
+      @marks.visualradius?.toggle true 
+      @marks.attackradius?.toggle true 
+    else
+      @marks.voiceradius?.toggle false
+      @marks.visualradius?.toggle false
+      @marks.attackradius?.toggle false
+
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
     @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length
