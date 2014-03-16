@@ -165,6 +165,7 @@ module.exports = class WizardSprite extends IndieSprite
       .to({tweenPercentage:0.0}, duration, ease)
       .call(@endMoveTween)
     @reachedTarget = false
+    @update true
 
   shoveOtherWizards: (removeMe) ->
     return unless @targetSprite
@@ -194,6 +195,7 @@ module.exports = class WizardSprite extends IndieSprite
     @thang.actionActivated = @thang.action is 'cast'
     @reachedTarget = true
     @faceTarget()
+    @update true
 
   updatePosition: ->
     return unless @options.camera
@@ -243,7 +245,6 @@ module.exports = class WizardSprite extends IndieSprite
 
   updateMarks: ->
     super() if @displayObject.visible  # not if we hid the wiz
-
 
   onMoveKey: (e) ->
     return unless @isSelf

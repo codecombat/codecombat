@@ -5,8 +5,8 @@ CocoClass = require 'lib/CocoClass'
 r2d = (radians) -> radians * 180 / Math.PI
 d2r = (degrees) -> degrees / 180 * Math.PI
 
-MAX_ZOOM = 4
-MIN_ZOOM = 0.05
+MAX_ZOOM = 8
+MIN_ZOOM = 0.1
 DEFAULT_ZOOM = 2.0
 DEFAULT_TARGET = {x:0, y:0}
 DEFAULT_TIME = 1000
@@ -17,7 +17,7 @@ module.exports = class Camera extends CocoClass
   @PPM: 10   # pixels per meter
   @MPP: 0.1  # meters per pixel; should match @PPM
 
-  bounds: null # list of two surface points defining the viewable rectangle in the world
+  bounds: null  # list of two surface points defining the viewable rectangle in the world
                 # or null if there are no bounds
 
   # what the camera is pointed at right now
@@ -44,7 +44,6 @@ module.exports = class Camera extends CocoClass
     'sprite:dragged': 'onMouseDragged'
     'camera-zoom-to': 'onZoomTo'
 
-  # TODO: Fix tests to not use mainLayer
   constructor: (@canvasWidth, @canvasHeight, angle=Math.asin(0.75), hFOV=d2r(30)) ->
     super()
     @offset = {x: 0, y:0}
