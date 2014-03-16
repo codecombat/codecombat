@@ -11,6 +11,3 @@ block modal-body-content
   div.tab-content
     for doc in docs
       div.tab-pane(id="docs_tab_#{doc.slug}")!= doc.html
-  
-block modal-footer-content
-  a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close
