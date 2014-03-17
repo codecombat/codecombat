@@ -2,24 +2,17 @@ View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/level_loading'
 
 
-tips = [
-  "Tip: you can shift+click a position on the map to insert it into the spell editor."
-  "You can toggle play/paused with ctrl+p."
-  "Pressing ctrl+[ and ctrl+] rewinds and fast-forwards."
-  "CodeCombat is 100% open source!"
-  "In the future, even babies will be Archmages."
-  "Loading will continue until morale improves."
-  "CodeCombat launched its beta in October, 2013."
-  "JavaScript is just the beginning."
-  "We believe in equal opportunities to learn programming for all species."
-]
-
 module.exports = class LevelLoadingView extends View
   id: "level-loading-view"
   template: template
 
   subscriptions:
     'level-loader:progress-changed': 'onLevelLoaderProgressChanged'
+    
+  afterRender: ->
+    tips = @$el.find('.tip').addClass('secret')
+    tip = _.sample(tips)
+    $(tip).removeClass('secret')
 
   onLevelLoaderProgressChanged: (e) ->
     @progress = e.progress
@@ -47,8 +40,3 @@ module.exports = class LevelLoadingView extends View
   onUnveilEnded: =>
     return if @destroyed
     Backbone.Mediator.publish 'onLoadingViewUnveiled', view: @
-
-  getRenderData: (c={}) ->
-    super c
-    c.tip = _.sample tips
-    c
