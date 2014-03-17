@@ -66,6 +66,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_ie: "抱歉！Internet Explorer 9 等旧式预览器无法使用本网站。"
     no_mobile: "CodeCombat 不是针对手机设备设计的，所以可能无法达到最好的体验！"
     play: "开始游戏"
+#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
+#    old_browser_suffix: "You can try anyway, but it probably won't work."
+#    campaign: "Campaign"
+#    for_beginners: "For Beginners"
+#    multiplayer: "Multiplayer"
+#    for_developers: "For Developers"
 
   play:
     choose_your_level: "选取难度"
@@ -82,6 +88,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_player_created_description: "……在这里你可以与你的小伙伴的创造力战斗 <a href=\"/contribute#artisan\">技术指导</a>."
     level_difficulty: "难度："
 #    play_as: "Play As "
+#    spectate: "Spectate"
 
   contact:
     contact_us: "联系我们"
@@ -531,3 +538,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
 #    vs: "VS"
+
+#  multiplayer_launch:
+#    introducing_dungeon_arena: "Introducing Dungeon Arena"
+#    new_way: "March 17, 2014: The new way to compete with code."
+#    to_battle: "To Battle, Developers!"
+#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
+#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
+#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
+#    fork_our_arenas: "fork our arenas"
+#    create_worlds: "and create your own worlds."
+#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
+#    tutorial: "tutorial"
+#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
+#    so_ready: "I Am So Ready for This"

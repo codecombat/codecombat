@@ -66,6 +66,12 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     no_ie: "CodeCombat nu merge pe Internet Explorer 9 sau mai vechi. Scuze!"
     no_mobile: "CodeCombat nu a fost proiectat pentru dispozitive mobile si s-ar putea sa nu meargâ!"
     play: "Joacâ"
+#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
+#    old_browser_suffix: "You can try anyway, but it probably won't work."
+#    campaign: "Campaign"
+#    for_beginners: "For Beginners"
+#    multiplayer: "Multiplayer"
+#    for_developers: "For Developers"
 
   play:
     choose_your_level: "Alege nivelul"
@@ -81,7 +87,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     campaign_player_created: "Create de jucători"
     campaign_player_created_description: "... în care ai ocazia să testezi creativitatea colegilor tai <a href=\"/contribute#artisan\">Artisan Wizards</a>."
     level_difficulty: "Dificultate: "
-    play_as: "Alege-ți echipa"#"Play As "
+    play_as: "Alege-ți echipa"
+#    spectate: "Spectate"
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -180,7 +187,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_sign_up: "Înscrie-te pentru a salva progresul"
     victory_sign_up_poke: "Vrei să-ți salvezi codul? Crează un cont gratis!"
     victory_rate_the_level: "Apreciază nivelul: "
-    victory_rank_my_game: "Plasează-mi jocul in clasament" #"Rank My Game"
+    victory_rank_my_game: "Plasează-mi jocul in clasament"
     victory_ranking_game: "Se trimite..."
     victory_return_to_ladder: "Înapoi la jocurile de clasament"
     victory_play_next_level: "Joacă nivelul următor"
@@ -531,3 +538,17 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     simple_ai: "AI simplu"
     warmup: "Încălzire"
     vs: "VS"
+
+#  multiplayer_launch:
+#    introducing_dungeon_arena: "Introducing Dungeon Arena"
+#    new_way: "March 17, 2014: The new way to compete with code."
+#    to_battle: "To Battle, Developers!"
+#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
+#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
+#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
+#    fork_our_arenas: "fork our arenas"
+#    create_worlds: "and create your own worlds."
+#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
+#    tutorial: "tutorial"
+#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
+#    so_ready: "I Am So Ready for This"

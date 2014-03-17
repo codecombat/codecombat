@@ -66,6 +66,12 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     no_ie: "CodeCombat nie działa na Internet Explorer 9 lub starszym. Przepraszamy!"
     no_mobile: "CodeCombat nie został zaprojektowany dla użądzeń przenośnych więc może nie działać!"
     play: "Graj"
+#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
+#    old_browser_suffix: "You can try anyway, but it probably won't work."
+#    campaign: "Campaign"
+#    for_beginners: "For Beginners"
+#    multiplayer: "Multiplayer"
+#    for_developers: "For Developers"
 
   play:
     choose_your_level: "Wybierz poziom"
@@ -82,6 +88,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     campaign_player_created_description: "... w których walczysz przeciwko dziełom <a href=\"/contribute#artisan\">Czarodziejów Rękodzielnictwa</a>"
     level_difficulty: "Poziom trudności: "
     play_as: "Graj jako "
+#    spectate: "Spectate"
 
   contact:
     contact_us: "Kontakt z CodeCombat"
@@ -531,3 +538,17 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     simple_ai: "Proste AI"
     warmup: "Rozgrzewka"
 #    vs: "VS"
+
+#  multiplayer_launch:
+#    introducing_dungeon_arena: "Introducing Dungeon Arena"
+#    new_way: "March 17, 2014: The new way to compete with code."
+#    to_battle: "To Battle, Developers!"
+#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
+#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
+#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
+#    fork_our_arenas: "fork our arenas"
+#    create_worlds: "and create your own worlds."
+#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
+#    tutorial: "tutorial"
+#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
+#    so_ready: "I Am So Ready for This"
