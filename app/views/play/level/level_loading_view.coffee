@@ -1,6 +1,13 @@
 View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/level_loading'
 
+
+tips = [
+  "Tip: you can shift+click a position on the map to insert it into the spell editor."
+  "You can toggle play/paused with ctrl+p."
+  "Pressing ctrl+[ and ctrl+] rewinds and fast-forwards."
+]
+
 module.exports = class LevelLoadingView extends View
   id: "level-loading-view"
   template: template
@@ -17,7 +24,7 @@ module.exports = class LevelLoadingView extends View
     @$el.find('.progress-bar').css('width', (100 * @progress) + '%')
 
   showReady: ->
-    return
+    @$el.find('h2').addClass('ready').text 'Ready!'
 
   unveil: ->
     _.delay @reallyUnveil, 1000
@@ -37,4 +44,5 @@ module.exports = class LevelLoadingView extends View
 
   getRenderData: (c={}) ->
     super c
+    c.tip = _.sample tips
     c
