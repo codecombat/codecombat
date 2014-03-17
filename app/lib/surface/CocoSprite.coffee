@@ -64,6 +64,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @labels = {}
     @handledAoEs = {}
     @age = 0
+    @scaleFactor = @targetScaleFactor = 1
     @displayObject = new createjs.Container()
     if @thangType.get('actions')
       @setupSprite()
@@ -249,12 +250,16 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
-    scaleFactor = @thang.scaleFactor ? 1
-    scaleFactorX = @thang.scaleFactorX ? scaleFactor
-    scaleFactorY = @thang.scaleFactorY ? scaleFactor
+    scaleFactorX = @thang.scaleFactorX ? @scaleFactor
+    scaleFactorY = @thang.scaleFactorY ? @scaleFactor
     @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
     @imageObject.scaleY = @originalScaleY * scaleY * scaleFactorY
 
+    if (@thang.scaleFactor or 1) isnt @targetScaleFactor
+      createjs.Tween.removeTweens(@)
+      createjs.Tween.get(@).to({scaleFactor:@thang.scaleFactor or 1}, 2000, createjs.Ease.elasticOut)
+      @targetScaleFactor = @thang.scaleFactor    
+    
   updateAlpha: ->
     @imageObject.alpha = if @hiding then 0 else 1
     return unless @thang?.alpha?
