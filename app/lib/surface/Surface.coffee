@@ -318,7 +318,7 @@ module.exports = Surface = class Surface extends CocoClass
 
     @lastFrame = @currentFrame
 
-  onCastSpells: (event) ->
+  onCastSpells: ->
     @casting = true
     @wasPlayingWhenCastingBegan = @playing
     Backbone.Mediator.publish 'level-set-playing', { playing: false }
