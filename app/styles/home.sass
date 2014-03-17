@@ -7,9 +7,17 @@
     text-align: center
     margin-top: 0
     
-  #trailer-wrapper iframe
-    display: block
-    margin: 0 auto
+  #trailer-wrapper
+    position: relative
+    iframe
+      display: block
+      margin: 0 auto
+    img
+      position: absolute
+      left: 10px
+      width: 976px
+      top: -7px
+      pointer-events: none
 
   .game-mode-wrapper
     position: relative
