@@ -102,7 +102,7 @@ module.exports = class ThangListEntryView extends View
 
   onThangListEntryPopoverShown: (e) ->
     # I couldn't figure out how to get the mouseenter / mouseleave to always work, so this is a fallback
-    # to hide our popover is another Thang's popover gets shown.
+    # to hide our popover if another Thang's popover gets shown.
     return if e.entry is @
     @hideSpells()
 
@@ -162,6 +162,7 @@ module.exports = class ThangListEntryView extends View
 
   destroy: ->
     @avatar?.destroy()
+    @popover?.remove()
     @popover?.off 'mouseenter mouseleave'
     @popover?.find('code').off 'click'
     super()
