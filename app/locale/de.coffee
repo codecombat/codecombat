@@ -489,9 +489,9 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     counselor_title_description: "(Experte/Lehrer)"
 
 #  ladder:
-#    please_login: "Please log in first before playing a ladder game."
-#    my_matches: "My Matches"
-#    simulate: "Simulate"
+    please_login: "Bitte logge dich zunächst ein, bevor du ein Ladder-Game spielst."
+    my_matches: "Meine Matches"
+    simulate: "Simuliere"
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
