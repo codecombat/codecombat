@@ -7,9 +7,20 @@
     text-align: center
     margin-top: 0
     
-  #trailer-wrapper iframe
-    display: block
-    margin: 0 auto
+  #trailer-wrapper
+    position: relative
+    margin: 0 auto 40px
+    width: 950px
+    iframe
+      display: block
+      margin: 0 auto
+      position: relative
+      top: 8px
+    img
+      position: absolute
+      left: 0
+      top: 0
+      pointer-events: none
 
   .game-mode-wrapper
     position: relative
@@ -49,8 +60,9 @@
     &:hover div
       color: lighten($yellow, 20%)
     &:hover img
-      filter: brightness(1.1)
-      -webkit-filter: brightness(1.1)
+      filter: brightness(1.2)
+      -webkit-filter: brightness(1.2)
+      box-shadow: 0 0 5px black
   
 #multiplayer-launch-modal
   .modal-dialog

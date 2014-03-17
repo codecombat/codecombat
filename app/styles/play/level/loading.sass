@@ -32,7 +32,9 @@
     width: $WIDTH
     margin-left: (-$WIDTH / 2)
     z-index: 100
-    background-color: rgba(220, 255, 230, 0.5)
+    background-color: rgba(220, 255, 230, 0.6)
+    color: darkslategray
+    font-size: 15px
     border-radius: 30px
     padding: 10px
     text-align: center
@@ -44,11 +46,20 @@
     transition: top $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600)
 
     .load-progress
-      width: 100%
+      position: absolute
+      left: 2%
+      top: 0px
+      opacity: 0.6
+      width: 96%
+      margin: 10px auto 0
 
       .progress-bar
         width: 1%
         transition-duration: 1.2s
+        
+    #tip-wrapper
+      position: relative
+      z-index: 2
 
   .left-wing, .right-wing
     width: 100%
