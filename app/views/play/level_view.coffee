@@ -149,8 +149,8 @@ module.exports = class PlayLevelView extends View
 
   onLevelLoaderLoaded: ->
     return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
+    @loadingView.showReady()
     if window.currentModal and not window.currentModal.destroyed
-      @loadingView.showReady()
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
 
     # Save latest level played in local storage
