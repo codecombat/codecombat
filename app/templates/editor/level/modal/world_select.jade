@@ -1,33 +1,34 @@
-.modal-dialog
-  .modal-content
-  
-    .modal-header
-      button(type='button', data-dismiss="modal", aria-hidden="true").close &times;
-      h3 
-        if selectingPoint
-          | Select Point
-        else
-          | Select Region
-    .modal-body
-      div.instructions
-        div.alert.alert-info 
-          strong Click
-          |  to pan
-        div.alert.alert-info 
-          strong Scroll
-          |  to zoom
-        if selectingPoint
-          div.alert.alert-info
-            strong Shift-click 
-            |  to select
-        else
-          div.alert.alert-info
-            strong Shift-drag
-            |  to select
-        div.alert.alert-info 
-          strong Enter
-          |  to confirm
-      canvas(width=1920, height=1224)
-    .modal-footer
-      a.btn.btn-primary#done-button Done
+extends /templates/modal/modal_base
+
+
+block modal-header-content
+  h3 
+    if selectingPoint
+      | Select Point
+    else
+      | Select Region
+
+block modal-body-content
+  div.instructions
+    div.alert.alert-info 
+      strong Click
+      |  to pan
+    div.alert.alert-info 
+      strong Scroll
+      |  to zoom
+    if selectingPoint
+      div.alert.alert-info
+        strong Shift-click 
+        |  to select
+    else
+      div.alert.alert-info
+        strong Shift-drag
+        |  to select
+    div.alert.alert-info 
+      strong Enter
+      |  to confirm
+  canvas(width=1848, height=1178)
+
+block modal-footer-content
+  a.btn.btn-primary#done-button Done
   

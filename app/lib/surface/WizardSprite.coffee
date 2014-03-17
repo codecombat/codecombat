@@ -120,10 +120,19 @@ module.exports = class WizardSprite extends IndieSprite
 
     @shoveOtherWizards(true) if @targetSprite
     @targetSprite = if isSprite then newTarget else null
-    @targetPos = targetPos
+    @targetPos = @boundWizard targetPos
     @beginMoveTween(duration, isLinear)
     @shoveOtherWizards()
     Backbone.Mediator.publish('self-wizard:target-changed', {sender:@}) if @isSelf
+
+  boundWizard: (target) ->
+    # Passed an {x, y} in world coordinates, returns {x, y} within world bounds
+    return target unless @options.camera.bounds
+    @bounds = @options.camera.bounds
+    surfaceTarget = @options.camera.worldToSurface target
+    x = Math.min(Math.max(surfaceTarget.x, @bounds.x), @bounds.x + @bounds.width)
+    y = Math.min(Math.max(surfaceTarget.y, @bounds.y), @bounds.y + @bounds.height)
+    return @options.camera.surfaceToWorld {x: x, y: y}
 
   getPosFromTarget: (target) ->
     """
@@ -156,6 +165,7 @@ module.exports = class WizardSprite extends IndieSprite
       .to({tweenPercentage:0.0}, duration, ease)
       .call(@endMoveTween)
     @reachedTarget = false
+    @update true
 
   shoveOtherWizards: (removeMe) ->
     return unless @targetSprite
@@ -185,6 +195,7 @@ module.exports = class WizardSprite extends IndieSprite
     @thang.actionActivated = @thang.action is 'cast'
     @reachedTarget = true
     @faceTarget()
+    @update true
 
   updatePosition: ->
     return unless @options.camera
@@ -234,7 +245,6 @@ module.exports = class WizardSprite extends IndieSprite
 
   updateMarks: ->
     super() if @displayObject.visible  # not if we hid the wiz
-
 
   onMoveKey: (e) ->
     return unless @isSelf
