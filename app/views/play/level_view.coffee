@@ -154,7 +154,7 @@ module.exports = class PlayLevelView extends View
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
 
     # Save latest level played in local storage
-    localStorage["lastLevel"] = @levelID if localStorage? and not (@level.get('type') in ['ladder', 'ladder-tutorial'])
+    localStorage["lastLevel"] = @levelID if localStorage? and not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
     @grabLevelLoaderData()
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
