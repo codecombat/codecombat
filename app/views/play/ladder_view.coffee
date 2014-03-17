@@ -4,6 +4,7 @@ Simulator = require 'lib/simulator/Simulator'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
 {teamDataFromLevel} = require './ladder/utils'
+{me} = require 'lib/auth'
 application = require 'application'
 
 LadderTabView = require './ladder/ladder_tab'
@@ -32,6 +33,7 @@ module.exports = class LadderView extends RootView
     'click #simulate-button': 'onSimulateButtonClick'
     'click #simulate-all-button': 'onSimulateAllButtonClick'
     'click .play-button': 'onClickPlayButton'
+    'click a': 'onClickedLink'
 
   constructor: (options, @levelID) ->
     super(options)
@@ -121,10 +123,22 @@ module.exports = class LadderView extends RootView
     @showPlayModal($(e.target).closest('.play-button').data('team'))
 
   showPlayModal: (teamID) ->
+    return @showApologeticSignupModal() if me.get('anonymous')
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
     modal = new LadderPlayModal({}, @level, session, teamID)
     @openModalView modal
+    
+  showApologeticSignupModal: ->
+    SignupModal = require 'views/modal/signup_modal'
+    @openModalView(new SignupModal({showRequiredError:true}))
 
+  onClickedLink: (e) ->
+    link = $(e.target).closest('a').attr('href')
+    if link?.startsWith '/play/level'
+      e.stopPropagation()
+      e.preventDefault()
+      @showApologeticSignupModal()
+  
   destroy: ->
     clearInterval @refreshInterval
     @simulator.destroy()

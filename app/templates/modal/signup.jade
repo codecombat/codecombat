@@ -6,7 +6,11 @@ block modal-header-content
 block modal-body-content
   .modal-content
     .modal-body
-      p(data-i18n="signup.description") It's free. Just need a couple things and you'll be good to go:
+      if showRequiredError
+        .alert.alert-success
+          span(data-i18n="signup.required") You need to sign up first before you can go over there. Luckily, it's really easy.
+      else
+        p(data-i18n="signup.description") It's free. Just need a couple things and you'll be good to go:
       .form
         .form-group
           label.control-label(for="signup-email", data-i18n="general.email") Email              

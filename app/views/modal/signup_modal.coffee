@@ -37,6 +37,11 @@ module.exports = class SignupModalView extends View
 
   checkAge: (e) ->
     $("#signup-button", @$el).prop 'disabled', not $(e.target).prop('checked')
+    
+  getRenderData: ->
+    c = super()
+    c.showRequiredError = @options.showRequiredError
+    c
 
   createAccount: (e) =>
     forms.clearFormAlerts(@$el)
