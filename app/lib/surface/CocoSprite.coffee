@@ -258,8 +258,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if (@thang.scaleFactor or 1) isnt @targetScaleFactor
       createjs.Tween.removeTweens(@)
       createjs.Tween.get(@).to({scaleFactor:@thang.scaleFactor or 1}, 2000, createjs.Ease.elasticOut)
-      @targetScaleFactor = @thang.scaleFactor    
-    
+      @targetScaleFactor = @thang.scaleFactor
+
   updateAlpha: ->
     @imageObject.alpha = if @hiding then 0 else 1
     return unless @thang?.alpha?
@@ -418,6 +418,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     pos
 
   createMarks: ->
+    return unless @options.camera
     if @thang
       allProps = []
       allProps = allProps.concat (@thang.hudProperties ? [])
@@ -437,9 +438,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @marks.repair?.toggle @thang?.errorsOut
 
     if @selected
-      @marks.voiceradius?.toggle true 
-      @marks.visualradius?.toggle true 
-      @marks.attackradius?.toggle true 
+      @marks.voiceradius?.toggle true
+      @marks.visualradius?.toggle true
+      @marks.attackradius?.toggle true
     else
       @marks.voiceradius?.toggle false
       @marks.visualradius?.toggle false
