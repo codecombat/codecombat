@@ -20,8 +20,10 @@ div#columns.row
             |#{team.losses}
             span(data-i18n="ladder.summary_losses") Losses
 
-            if team.session
-              button.btn.btn-sm.btn-warning.pull-right.rank-button(data-session-id=team.session.id)
+        if team.session
+          tr
+            th(colspan=4)
+              button.btn.btn-warning.btn-block.rank-button(data-session-id=team.session.id)
                 span(data-i18n="ladder.rank_no_code").unavailable.hidden No New Code to Rank
                 span(data-i18n="ladder.rank_my_game").rank.hidden Rank My Game!
                 span(data-i18n="ladder.rank_submitting").submitting.hidden Submitting...

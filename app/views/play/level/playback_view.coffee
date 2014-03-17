@@ -165,13 +165,20 @@ module.exports = class PlaybackView extends View
     $('.scrubber .progress', @$el).slider(
       max: @sliderIncrements
       animate: "slow"
-      slide: (event, ui) => @scrubTo ui.value / @sliderIncrements
-      start: (event, ui) => @clickingSlider = true
+      slide: (event, ui) =>
+        @scrubTo ui.value / @sliderIncrements
+        @slideCount += 1
+
+      start: (event, ui) =>
+        @slideCount = 0
+        @wasPlaying = @playing
+        Backbone.Mediator.publish 'level-set-playing', {playing: false}
+
       stop: (event, ui) =>
         @actualProgress = ui.value / @sliderIncrements
         Backbone.Mediator.publish 'playback:manually-scrubbed', ratio: @actualProgress
-        if @clickingSlider
-          @clickingSlider = false
+        Backbone.Mediator.publish 'level-set-playing', {playing: @wasPlaying}
+        if @slideCount < 3
           @wasPlaying = false
           Backbone.Mediator.publish 'level-set-playing', {playing: false}
           @$el.find('.scrubber-handle').effect('bounce', {times: 2})
