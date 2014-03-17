@@ -77,7 +77,7 @@ module.exports = class SpectateLevelView extends View
     if options.spectateSessions
       @sessionOne = options.spectateSessions.sessionOne
       @sessionTwo = options.spectateSessions.sessionTwo
-      
+
     if not @sessionOne or not @sessionTwo
       @fetchRandomSessionPair (err, data) =>
         if err? then return console.log "There was an error fetching the random session pair: #{data}"
@@ -377,7 +377,9 @@ module.exports = class SpectateLevelView extends View
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
-    @surface.camera.zoomTo({x:0, y:0}, 0.1, 0)
+    zoom = =>
+      @surface.camera.zoomTo({x: (worldBounds.right - worldBounds.left) / 2, y: (worldBounds.top - worldBounds.bottom) / 2}, 0.1, 0)
+    _.delay zoom, 4000  # call it later for some reason (TODO: figure this out)
 
   initGoalManager: ->
     @goalManager = new GoalManager(@world, @level.get('goals'))

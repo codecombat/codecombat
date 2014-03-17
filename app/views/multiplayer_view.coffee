@@ -6,6 +6,7 @@ module.exports = class MultiplayerLaunchView extends HomeView
   afterInsert: ->
     super()
     @openModalView(new MultiplayerLaunchModal())
-    
+
 class MultiplayerLaunchModal extends ModalView
   template: modalTemplate
+  id: "multiplayer-launch-modal"

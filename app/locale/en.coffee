@@ -15,6 +15,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   modal:
     close: "Close"
     okay: "Okay"
+    so_ready: "I Am So Ready for This"
 
   not_found:
     page_not_found: "Page not found"

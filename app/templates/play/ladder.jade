@@ -25,8 +25,11 @@ block content
             span= team.name
       div.column.col-md-2
     
-    hr
+    a(href="/play/spectate/#{level.get('slug')}").play-button.btn.btn-primary.center
+      span(data-i18n="play.spectate") Spectate
       
+    hr
+
     ul.nav.nav-pills
       li.active
         a(href="#ladder", data-toggle="tab", data-i18n="general.ladder") Ladder
