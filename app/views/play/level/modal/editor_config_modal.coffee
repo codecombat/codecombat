@@ -54,13 +54,15 @@ module.exports = class EditorConfigModal extends View
     super()
 
   onHidden: ->
+    oldLanguage = @aceConfig.language
     @aceConfig.language = @$el.find('#tome-language').val()
     @aceConfig.invisibles = @$el.find('#tome-invisibles').prop('checked')
     @aceConfig.keyBindings = @$el.find('#tome-key-bindings').val()
     @aceConfig.indentGuides = @$el.find('#tome-indent-guides').prop('checked')
     @aceConfig.behaviors = @$el.find('#tome-behaviors').prop('checked')
     me.set 'aceConfig', @aceConfig
-    Backbone.Mediator.publish 'change:editor-config'
+    Backbone.Mediator.publish 'tome:change-config'
+    Backbone.Mediator.publish 'tome:change-language' unless @aceConfig.language is oldLanguage
     me.save()
 
   destroy: ->

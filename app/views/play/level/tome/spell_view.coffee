@@ -38,8 +38,9 @@ module.exports = class SpellView extends View
     'modal-closed': 'focus'
     'focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
+    'tome:change-language': 'onChangeLanguage'
+    'tome:change-config': 'onChangeEditorConfig'
     'spell-beautify': 'onSpellBeautify'
-    'change:editor-config': 'onChangeEditorConfig'
 
   events:
     'mouseout': 'onMouseOut'
@@ -566,8 +567,12 @@ module.exports = class SpellView extends View
   onChangeEditorConfig: (e) ->
     aceConfig = me.get 'aceConfig'
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
-    @ace.setShowInvisibles # default false
+    @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
+
+  onChangeLanguage: (e) ->
+    aceConfig = me.get 'aceConfig'
     @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
 
   dismiss: ->

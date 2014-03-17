@@ -48,6 +48,7 @@ module.exports = class TomeView extends View
     'tome:spell-loaded': "onSpellLoaded"
     'tome:cast-spell': "onCastSpell"
     'tome:toggle-spell-list': 'onToggleSpellList'
+    'tome:change-language': 'updateLanguageForAllSpells'
     'surface:sprite-selected': 'onSpriteSelected'
     'god:new-world-created': 'onNewWorld'
 
@@ -216,6 +217,9 @@ module.exports = class TomeView extends View
   reloadAllCode: ->
     spell.view.reloadCode false for spellKey, spell of @spells
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
+
+  updateLanguageForAllSpells: ->
+    spell.updateLanguageAether for spellKey, spell of @spells
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
