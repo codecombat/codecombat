@@ -17,7 +17,9 @@
     img
       display: block
       margin: 0 auto
-      
+
+    text-shadow: 2px 2px 5px black
+    
     h3
       color: $yellow
       position: absolute
@@ -25,7 +27,6 @@
       left: 40px
       font-size: 70px
       margin-top: 0
-      text-shadow: 2px 2px 5px black
       
     h4
       color: #e8d9c5
@@ -34,30 +35,15 @@
       left: 140px
       font-size: 30px
       margin-top: 0
-      text-shadow: 2px 2px 5px black
       
-    .play-button
-      text-align: center
+    .play-text
       position: absolute
-      right: 40px
-      bottom: -30px
-      width: 200px
-      height: 100px
-
-      div, img
-        color: $yellow
-        position: absolute
-        top: 0
-        bottom: 0
-        left: 0
-        right: 0
-        width: 100%
-        height: 100%
-        font-size: 50px
-        font-family: Bangers
-        line-height: 100px
-        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black
-        @include transition(color .10s linear)
+      right: 45px
+      bottom: -25px
+      color: $yellow
+      font-size: 90px
+      font-family: Bangers
+      @include transition(color .10s linear)
           
     &:hover div
       color: lighten($yellow, 20%)
