@@ -66,7 +66,6 @@ module.exports = class SpectateLevelView extends View
     'ctrl+s': 'onCtrlS'
 
   constructor: (options, @levelID) ->
-    @originalOptions = _.cloneDeep(options)
     console.profile?() if PROFILE_ME
     super options
     $(window).on('resize', @onWindowResize)
@@ -446,7 +445,14 @@ module.exports = class SpectateLevelView extends View
       Backbone.Mediator.publish 'router:navigate', {
         route: url,
         viewClass: SpectateLevelView,
-        viewArgs: [{spectateSessions:{sessionOne: @sessionOne, sessionTwo: @sessionTwo}}, @levelID ]}
+        viewArgs: [
+          {
+            spectateSessions: {sessionOne: @sessionOne, sessionTwo: @sessionTwo}
+            supermodel: @supermodel
+          }
+          @levelID ]
+        }
+      history?.pushState? {}, "", url  # Backbone won't update the URL if just query parameters change
 
   fetchRandomSessionPair: (cb) ->
     console.log "Fetching random session pair!"
