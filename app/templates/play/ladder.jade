@@ -16,6 +16,10 @@ block content
           span= team.name
     div.column.col-md-2
   
+  .spectate-button-container
+    a(href="/play/spectate/#{level.get('slug')}").spectate-button.btn.btn-primary.center
+      span(data-i18n="play.spectate") Spectate
+
   hr
     
   ul.nav.nav-pills

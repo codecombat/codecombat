@@ -6,6 +6,12 @@ tips = [
   "Tip: you can shift+click a position on the map to insert it into the spell editor."
   "You can toggle play/paused with ctrl+p."
   "Pressing ctrl+[ and ctrl+] rewinds and fast-forwards."
+  "CodeCombat is 100% open source!"
+  "In the future, even babies will be Archmages."
+  "Loading will continue until morale improves."
+  "CodeCombat launched its beta in October, 2013."
+  "JavaScript is just the beginning."
+  "We believe in equal opportunities to learn programming for all species."
 ]
 
 module.exports = class LevelLoadingView extends View

@@ -66,6 +66,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     no_ie: "죄송하지만 코드컴뱃은 인터넷 익스플로러 9에서는 동작하지 않습니다."
     no_mobile: "코드 컴뱃은 모바일 기기용으로 제작되지 않았습니다. 아마 동작하지 않을 가능성이 높습니다."
     play: "시작"
+#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
+#    old_browser_suffix: "You can try anyway, but it probably won't work."
+#    campaign: "Campaign"
+#    for_beginners: "For Beginners"
+#    multiplayer: "Multiplayer"
+#    for_developers: "For Developers"
 
   play:
     choose_your_level: "레벨을 선택하세요."
@@ -82,6 +88,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     campaign_player_created_description: "... 당신 동료가 고안한 레벨에 도전하세요 <a href=\"/contributeartisan\">Artisan Wizards</a>."
     level_difficulty: "난이도: "
     play_as: "Play As "
+#    spectate: "Spectate"
 
   contact:
     contact_us: "코드컴뱃에 전할말"
@@ -207,6 +214,17 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     hud_continue: "계속진행 (shift+space)"
     spell_saved: "마법 저장 완료"
     skip_tutorial: "넘기기 (esc)"
+#    editor_config: "Editor Config"
+#    editor_config_title: "Editor Configuration"
+#    editor_config_keybindings_label: "Key Bindings"
+#    editor_config_keybindings_default: "Default (Ace)"
+#    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
+#    editor_config_invisibles_label: "Show Invisibles"
+#    editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
+#    editor_config_indentguides_label: "Show Indent Guides"
+#    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
+#    editor_config_behaviors_label: "Smart Behaviors"
+#    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   admin:
     av_title: "관리자 뷰"
@@ -300,7 +318,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    who_is_codecombat: "Who is CodeCombat?"
 #    why_codecombat: "Why CodeCombat?"
 #    who_description_prefix: "together started CodeCombat in 2013. We also created "
-#    who_description_suffix: "in 2008, growing it to the 1 web and iOS application for learning to write Chinese and Japanese characters."
+#    who_description_suffix: "in 2008, growing it to the #1 web and iOS application for learning to write Chinese and Japanese characters."
 #    who_description_ending: "Now it's time to teach people to write code."
 #    why_paragraph_1: "When making Skritter, George didn't know how to program and was constantly frustrated by his inability to implement his ideas. Afterwards, he tried learning, but the lessons were too slow. His housemate, wanting to reskill and stop teaching, tried Codecademy, but \"got bored.\" Each week another friend started Codecademy, then dropped off. We realized it was the same problem we'd solved with Skritter: people learning a skill via slow, intensive lessons when what they need is fast, extensive practice. We know how to fix that."
 #    why_paragraph_2: "Need to learn to code? You don't need lessons. You need to write a lot of code and have a great time doing it."
@@ -317,7 +335,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
-#
+
 #  legal:
 #    page_title: "Legal"
 #    opensource_intro: "CodeCombat is free to play and completely open source."
@@ -378,7 +396,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    nutshell_title: "In a Nutshell"
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
-#
+
 #  contribute:
 #    page_title: "Contributing"
 #    character_classes_title: "Character Classes"
@@ -472,7 +490,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    brave_adventurers: "Our Brave Adventurers:"
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
-#
+
 #  classes:
 #    archmage_title: "Archmage"
 #    archmage_title_description: "(Coder)"
@@ -488,7 +506,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    ambassador_title_description: "(Support)"
 #    counselor_title: "Counselor"
 #    counselor_title_description: "(Expert/Teacher)"
-#
+
 #  ladder:
 #    please_login: "Please log in first before playing a ladder game."
 #    my_matches: "My Matches"
@@ -520,3 +538,17 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
 #    vs: "VS"
+
+#  multiplayer_launch:
+#    introducing_dungeon_arena: "Introducing Dungeon Arena"
+#    new_way: "March 17, 2014: The new way to compete with code."
+#    to_battle: "To Battle, Developers!"
+#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
+#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
+#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
+#    fork_our_arenas: "fork our arenas"
+#    create_worlds: "and create your own worlds."
+#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
+#    tutorial: "tutorial"
+#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
+#    so_ready: "I Am So Ready for This"
