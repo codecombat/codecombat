@@ -127,18 +127,18 @@ module.exports = class LadderView extends RootView
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
     modal = new LadderPlayModal({}, @level, session, teamID)
     @openModalView modal
-    
+
   showApologeticSignupModal: ->
     SignupModal = require 'views/modal/signup_modal'
     @openModalView(new SignupModal({showRequiredError:true}))
 
   onClickedLink: (e) ->
     link = $(e.target).closest('a').attr('href')
-    if link?.startsWith '/play/level'
+    if link?.startsWith('/play/level') and me.get('anonymous')
       e.stopPropagation()
       e.preventDefault()
       @showApologeticSignupModal()
-  
+
   destroy: ->
     clearInterval @refreshInterval
     @simulator.destroy()
