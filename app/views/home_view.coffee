@@ -8,10 +8,6 @@ Simulator = require 'lib/simulator/Simulator'
 module.exports = class HomeView extends View
   id: 'home-view'
   template: template
-
-  events:
-    'mouseover #beginner-campaign': 'onMouseOverButton'
-    'mouseout #beginner-campaign': 'onMouseOutButton'
     
   constructor: ->
     super(arguments...)
@@ -34,9 +30,6 @@ module.exports = class HomeView extends View
     @$el.find('.modal').on 'shown.bs.modal', ->
       $('input:visible:first', @).focus()
 
-    @wizardType = ThangType.wizardType
-    if @wizardType.loaded then @initCanvas else @wizardType.once 'sync', @initCanvas, @
-
     # Try to find latest level and set "Play" link to go to that level
     if localStorage?
       lastLevel = localStorage["lastLevel"]
@@ -49,56 +42,3 @@ module.exports = class HomeView extends View
           playLink.attr("href", href)
     else
       console.log("TODO: Insert here code to get latest level played from the database. If this can't be found, we just let the user play the first level.")
-
-  initCanvas: ->
-    @stage = new createjs.Stage($('#beginner-campaign canvas', @$el)[0])
-    @createWizard()
-
-  turnOnStageUpdates: ->
-    clearInterval @turnOff
-    @interval = setInterval(@updateStage, 40) unless @interval
-
-  turnOffStageUpdates: ->
-    turnOffFunc = =>
-      clearInterval @interval
-      clearInterval @turnOff
-      @interval = null
-      @turnOff = null
-    @turnOff = setInterval turnOffFunc, 2000
-
-  createWizard: (scale=3.7) ->
-    spriteOptions = thangID: "Beginner Wizard", resolutionFactor: scale
-    @wizardSprite = new WizardSprite @wizardType, spriteOptions
-    wizardDisplayObject = @wizardSprite.displayObject
-    wizardDisplayObject.x = 70
-    wizardDisplayObject.y = 120
-    wizardDisplayObject.scaleX = wizardDisplayObject.scaleY = scale
-    wizardDisplayObject.scaleX *= -1
-    @wizardSprite.queueAction 'idle'
-    @wizardSprite.update()
-    @stage.addChild wizardDisplayObject
-    @stage.update()
-
-  onMouseOverButton: ->
-    @turnOnStageUpdates()
-    @wizardSprite?.queueAction 'cast'
-
-  onMouseOutButton: ->
-    @turnOffStageUpdates()
-    @wizardSprite?.queueAction 'idle'
-
-  updateStage: =>
-    @stage?.update()
-
-  willDisappear: ->
-    super()
-    clearInterval(@interval) if @interval
-    @interval = null
-
-  didReappear: ->
-    super()
-    @turnOnStageUpdates()
-
-  destroy: ->
-    @wizardSprite?.destroy()
-    super()
