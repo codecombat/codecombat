@@ -10,9 +10,11 @@ module.exports = class LevelLoadingView extends View
     'level-loader:progress-changed': 'onLevelLoaderProgressChanged'
     
   afterRender: ->
-    tips = @$el.find('.tip').addClass('secret')
+    @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
+    tips = @$el.find('.tip').addClass('to-remove')
     tip = _.sample(tips)
-    $(tip).removeClass('secret')
+    $(tip).removeClass('to-remove')
+    @$el.find('.to-remove').remove()
 
   onLevelLoaderProgressChanged: (e) ->
     @progress = e.progress
