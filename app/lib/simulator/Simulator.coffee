@@ -16,7 +16,6 @@ module.exports = class Simulator extends CocoClass
     @off()
     @cleanupSimulation()
     super()
-    # TODO: More teardown?
 
   fetchAndSimulateTask: =>
     return if @destroyed
