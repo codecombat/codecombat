@@ -19,6 +19,7 @@ module.exports = class Simulator extends CocoClass
     # TODO: More teardown?
 
   fetchAndSimulateTask: =>
+    return if @destroyed
     @trigger 'statusUpdate', 'Fetching simulation data!'
     $.ajax
       url: @taskURL
