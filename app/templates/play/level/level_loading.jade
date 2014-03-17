@@ -4,24 +4,24 @@
 
 .loading-details
 
-  h2(data-i18n='play_level.loading_level') Loading Level
-
   .load-progress
     .progress.progress-striped.active
       .progress-bar.progress-bar-success
 
-  h4.tip(data-i18n='play_level.tip_insert_positions') You can Shift+Click a position on the map to insert it into the spell editor.
-  h4.tip(data-i18n='play_level.tip_toggle_play') You can toggle play/paused with Ctrl+P.
-  h4.tip(data-i18n='play_level.tip_scrub_shortcut') Press Ctrl+[ and Ctrl+] to rewind and fast-forward.
-  h4.tip(data-i18n='play_level.tip_open_source') CodeCombat is 100% open source!
-  h4.tip(data-i18n='play_level.tip_baby_coders') In the future, even babies will be Archmages.
-  h4.tip(data-i18n='play_level.tip_morale_improves') Loading will continue until morale improves.
-  h4.tip(data-i18n='play_level.tip_beta_launch') CodeCombat launched its beta in October, 2013.
-  h4.tip(data-i18n='play_level.tip_js_beginning') JavaScript is just the beginning.
-  h4.tip(data-i18n='play_level.tip_all_species') We believe in equal opportunities to learn programming for all species.
-  h4.tip(data-i18n='play_level.tip_reticulating') Reticulating spines.
-  h4.tip(data-i18n='play_level.tip_autocast_setting') You can adjust autocast settings by clicking the gear on the cast button.
-  h4.tip(data-i18n='play_level.tip_guide_exists') Seeking help? Click the guide at the top of the page for useful info.
-  h4.tip
-    span(data-i18n='play_level.tip_harry') Yer a Wizard, 
-    span= me.get('name') || 'Anoner'
+  #tip-wrapper
+    strong.tip(data-i18n='play_level.tip_insert_positions') Shift+Click a point on the map to insert it into the spell editor.
+    strong.tip(data-i18n='play_level.tip_toggle_play') Toggle play/paused with Ctrl+P.
+    strong.tip(data-i18n='play_level.tip_scrub_shortcut') Ctrl+[ and Ctrl+] rewind and fast-forward.
+    strong.tip(data-i18n='play_level.tip_guide_exists') Click the guide at the top of the page for useful info.
+    strong.tip(data-i18n='play_level.tip_open_source') CodeCombat is 100% open source!
+    strong.tip(data-i18n='play_level.tip_beta_launch') CodeCombat launched its beta in October, 2013.
+    strong.tip(data-i18n='play_level.tip_js_beginning') JavaScript is just the beginning.
+    strong.tip(data-i18n='play_level.tip_autocast_setting') Adjust autocast settings by clicking the gear on the cast button.
+
+    strong.tip.rare(data-i18n='play_level.tip_baby_coders') In the future, even babies will be Archmages.
+    strong.tip.rare(data-i18n='play_level.tip_morale_improves') Loading will continue until morale improves.
+    strong.tip.rare(data-i18n='play_level.tip_all_species') We believe in equal opportunities to learn programming for all species.
+    strong.tip.rare(data-i18n='play_level.tip_reticulating') Reticulating spines.
+    strong.tip.rare
+      span(data-i18n='play_level.tip_harry') Yer a Wizard, 
+      span= me.get('name') || 'Anoner'

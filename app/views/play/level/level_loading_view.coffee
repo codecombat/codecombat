@@ -16,6 +16,7 @@ module.exports = class LevelLoadingView extends View
 
   onLevelLoaderProgressChanged: (e) ->
     @progress = e.progress
+    @progress = 0.01 if @progress < 0.01
     @updateProgressBar()
 
   updateProgressBar: ->
