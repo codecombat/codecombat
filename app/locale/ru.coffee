@@ -66,12 +66,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_ie: "CodeCombat не работает в IE8 или более старых версиях. Нам очень жаль!"
     no_mobile: "CodeCombat не приспособлен для работы на мобильных устройствах и может не работать!"
     play: "Играть"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
+    old_browser: "Ой, Ваш браузер слишком старый для игры CodeCombat. Извините!"
+    old_browser_suffix: "Вы все равно можете попробовать, но скорее всего это не будет работать"
 #    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer"
-#    for_developers: "For Developers"
+    for_beginners: "Новичкам"
+    multiplayer: "Командная игра"
+    for_developers: "Разработчикам"
 
   play:
     choose_your_level: "Выберите ваш уровень"
@@ -88,7 +88,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_player_created_description: "... в которых вы сражаетесь с креативностью ваших друзей <a href=\"/contribute#artisan\">Ремесленников</a>."
     level_difficulty: "Сложность: "
     play_as: "Играть за "
-#    spectate: "Spectate"
+    spectate: "Наблюдать"
 
   contact:
     contact_us: "Связаться с CodeCombat"
