@@ -22,6 +22,7 @@ module.exports = class PlaybackView extends View
     'surface:frame-changed': 'onFrameChanged'
     'god:new-world-created': 'onNewWorld'
     'level-set-letterbox': 'onSetLetterbox'
+    'tome:cast-spells': 'onCastSpells'
 
   events:
     'click #debug-toggle': 'onToggleDebug'
@@ -29,8 +30,8 @@ module.exports = class PlaybackView extends View
     'click #edit-wizard-settings': 'onEditWizardSettings'
     'click #edit-editor-config': 'onEditEditorConfig'
     'click #music-button': 'onToggleMusic'
-    'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @disabled
-    'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @disabled
+    'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @shouldIgnore()
+    'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
     'click': -> Backbone.Mediator.publish 'focus-editor'
@@ -66,6 +67,8 @@ module.exports = class PlaybackView extends View
   onNewWorld: (e) ->
     pct = parseInt(100 * e.world.totalFrames / e.world.maxTotalFrames) + '%'
     @barWidth = $('.progress', @$el).css('width', pct).show().width()
+    @casting = false
+    $('.scrubber .progress', @$el).slider('enable', true)
 
   onToggleDebug: ->
     return if @shouldIgnore()
@@ -83,6 +86,10 @@ module.exports = class PlaybackView extends View
   onEditEditorConfig: ->
     @openModalView(new EditorConfigModal())
 
+  onCastSpells: ->
+    @casting = true
+    $('.scrubber .progress', @$el).slider('disable', true)
+
   onDisableControls: (e) ->
     if not e.controls or 'playback' in e.controls
       @disabled = true
@@ -91,8 +98,6 @@ module.exports = class PlaybackView extends View
         $('.scrubber .progress', @$el).slider('disable', true)
       catch e
         #console.warn('error disabling scrubber')
-    if not e.controls or 'playback-hover' in e.controls
-      @hoverDisabled = true
     $('#volume-button', @$el).removeClass('disabled')
 
   onEnableControls: (e) ->
@@ -103,8 +108,6 @@ module.exports = class PlaybackView extends View
         $('.scrubber .progress', @$el).slider('enable', true)
       catch e
         #console.warn('error enabling scrubber')
-    if not e.controls or 'playback-hover' in e.controls
-      @hoverDisabled = false
 
   onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
@@ -159,9 +162,7 @@ module.exports = class PlaybackView extends View
 
   hookUpScrubber: ->
     @sliderIncrements = 500  # max slider width before we skip pixels
-    @sliderHoverDelay = 500  # wait this long before scrubbing on slider hover
     @clickingSlider = false  # whether the mouse has been pressed down without moving
-    @hoverTimeout = null
     $('.scrubber .progress', @$el).slider(
       max: @sliderIncrements
       animate: "slow"
@@ -189,12 +190,10 @@ module.exports = class PlaybackView extends View
     $('.progress-bar', bar).width() / bar.width()
 
   scrubTo: (ratio, duration=0) ->
-    return if @disabled
+    return if @shouldIgnore()
     Backbone.Mediator.publish 'level-set-time', ratio: ratio, scrubDuration: duration
 
-  shouldIgnore: ->
-    return true if @disabled
-    return false
+  shouldIgnore: -> return @disabled or @casting or false
 
   onTogglePlay: (e) ->
     e?.preventDefault()
