@@ -523,3 +523,5 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     simple_ai: "Simple AI"
     warmup: "Warmup"
     vs: "VS"
+    watch_victory: "Watch your victory"
+    defeat_the: "Defeat the "

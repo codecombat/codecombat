@@ -521,3 +521,5 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     simple_ai: "Simpele AI"
     warmup: "Opwarming"
     vs: "tegen"
+    watch_victory: "Bekijk overwinning"
+    defeat_the: "Versla de "
