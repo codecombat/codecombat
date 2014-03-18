@@ -33,12 +33,22 @@ GoalSchema = c.object {title: "Goal", description: "A goal that the player can a
   team: c.shortString(title: 'Team', description: 'Name of the team this goal is for, if it is not for all of the playable teams.')
   killThangs: c.array {title: "Kill Thangs", description: "A list of Thang IDs the player should kill, or team names.", uniqueItems: true, minItems: 1, "default": ["ogres"]}, thang
   saveThangs: c.array {title: "Save Thangs", description: "A list of Thang IDs the player should save, or team names", uniqueItems: true, minItems: 1, "default": ["humans"]}, thang
-  getToLocations: c.object {title: "Get To Locations", description: "TODO: explain", required: ["who", "targets"]},
+  getToLocations: c.object {title: "Get To Locations", description: "Will be set off when any of the \"who\" touch any of the \"targets\" ", required: ["who", "targets"]},
     who: c.array {title: "Who", description: "The Thangs who must get to the target locations.", minItems: 1}, thang
     targets: c.array {title: "Targets", description: "The target locations to which the Thangs must get.", minItems: 1}, thang
+  getAllToLocations: c.array {title: "Get all to locations", description: "Similar to getToLocations but now a specific \"who\" can have a specific \"target\", also must be used with the HowMany property for desired effect",required: ["getToLocation"]},
+  c.object {title: "", description: ""},
+    getToLocation: c.object {title: "Get To Locations", description: "TODO: explain", required: ["who", "targets"]},
+      who: c.array {title: "Who", description: "The Thangs who must get to the target locations.", minItems: 1}, thang
+      targets: c.array {title: "Targets", description: "The target locations to which the Thangs must get.", minItems: 1}, thang
   keepFromLocations: c.object {title: "Keep From Locations", description: "TODO: explain", required: ["who", "targets"]},
     who: c.array {title: "Who", description: "The Thangs who must not get to the target locations.", minItems: 1}, thang
     targets: c.array {title: "Targets", description: "The target locations to which the Thangs must not get.", minItems: 1}, thang
+  keepAllFromLocations: c.array {title: "Keep ALL From Locations", description: "Similar to keepFromLocations but now a specific \"who\" can have a specific \"target\", also must be used with the HowMany property for desired effect", required: ["keepFromLocation"]},
+  c.object {title: "", description: ""},
+    keepFromLocation: c.object {title: "Keep From Locations", description: "TODO: explain", required: ["who", "targets"]},
+      who: c.array {title: "Who", description: "The Thangs who must not get to the target locations.", minItems: 1}, thang
+      targets: c.array {title: "Targets", description: "The target locations to which the Thangs must not get.", minItems: 1}, thang
   leaveOffSides: c.object {title: "Leave Off Sides", description: "Sides of the level to get some Thangs to leave across.", required: ["who", "sides"]},
     who: c.array {title: "Who", description: "The Thangs which must leave off the sides of the level.", minItems: 1}, thang
     sides: c.array {title: "Sides", description: "The sides off which the Thangs must leave.", minItems: 1}, side
@@ -164,7 +174,7 @@ LevelThangSchema = c.object {
 },
   id: thang  # TODO: figure out if we can make this unique and how to set dynamic defaults
   # TODO: split thangType into "original" and "majorVersion" like the rest for consistency
-  thangType: c.objectId(links: [{rel: "db", href: "/db/thang_type/{($)}/version"}], title: "Thang Type", description: "A reference to the original Thang template being configured.", format: 'thang-type')
+  thangType: c.objectId(links: [{rel: "db", href: "/db/thang.type/{($)}/version"}], title: "Thang Type", description: "A reference to the original Thang template being configured.", format: 'thang-type')
   components: c.array {title: "Components", description: "Thangs are configured by changing the Components attached to them.", uniqueItems: true, format: 'thang-components-array'}, ThangComponentSchema  # TODO: uniqueness should be based on "original", not whole thing
 
 LevelSystemSchema = c.object {
@@ -226,7 +236,7 @@ _.extend LevelSchema.properties,
   i18n: {type: "object", format: 'i18n', props: ['name', 'description'], description: "Help translate this level"}
   icon: { type: 'string', format: 'image-file', title: 'Icon' }
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
-  type: c.shortString(title: "Type", description: "What kind of level this is.", "enum": ['campaign', 'ladder'])
+  type: c.shortString(title: "Type", description: "What kind of level this is.", "enum": ['campaign', 'ladder', 'ladder-tutorial'])
   showsGuide: c.shortString(title: "Shows Guide", description: "If the guide is shown at the beginning of the level.", "enum": ['first-time', 'always'])
 
 c.extendBasicProperties LevelSchema, 'level'

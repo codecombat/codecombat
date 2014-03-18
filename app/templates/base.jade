@@ -35,10 +35,11 @@ body
 
   block outer_content
     #outer-content-wrapper
-      #inner-content-wrapper
-        .main-content-area
-          block content
-            p If this is showing, you dun goofed
+      #intermediate-content-wrapper
+        #inner-content-wrapper
+          .main-content-area
+            block content
+              p If this is showing, you dun goofed
 
   block footer
     .footer

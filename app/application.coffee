@@ -44,8 +44,14 @@ Application = initialize: ->
   }, (t) =>
     @router = new Router()
     @router.subscribe()
-    Object.freeze this if typeof Object.freeze is 'function'
-    @router = Router
+    onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
+    @idleTracker = new Idle
+      onAway: onIdleChanged true
+      onAwayBack: onIdleChanged false
+      onHidden: onIdleChanged true
+      onVisible: onIdleChanged false
+      awayTimeout: 5 * 60 * 1000
+    @idleTracker.start()
 
 module.exports = Application
 window.application = Application

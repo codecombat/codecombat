@@ -15,10 +15,16 @@ module.exports = class SpellView extends View
   eventsSuppressed: true
   writable: true
 
+  keyBindings:
+    'default': null
+    'vim': 'ace/keyboard/vim'
+    'emacs': 'ace/keyboard/emacs'
+
   subscriptions:
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
+    'surface:coordinate-selected': 'onCoordinateSelected'
     'god:new-world-created': 'onNewWorld'
     'god:user-code-problem': 'onUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
@@ -29,6 +35,7 @@ module.exports = class SpellView extends View
     'focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
     'spell-beautify': 'onSpellBeautify'
+    'change:editor-config': 'onChangeEditorConfig'
 
   events:
     'mouseout': 'onMouseOut'
@@ -55,6 +62,7 @@ module.exports = class SpellView extends View
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
+    aceConfig = me.get('aceConfig') ? {}
     @ace = ace.edit @$el.find('.ace')[0]
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
@@ -65,11 +73,12 @@ module.exports = class SpellView extends View
     @aceSession.setNewLineMode "unix"
     @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
-    @ace.setDisplayIndentGuides false
+    @ace.setDisplayIndentGuides aceConfig.indentGuides
     @ace.setShowPrintMargin false
-    @ace.setShowInvisibles false
-    @ace.setBehavioursEnabled false
+    @ace.setShowInvisibles aceConfig.invisibles
+    @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setAnimatedScroll true
+    @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -91,6 +100,9 @@ module.exports = class SpellView extends View
     addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
+      passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
+      # No easy way to selectively cancel shift+space, since we don't get access to the event.
+      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
       exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
     addCommand
       name: 'end-all-scripts'
@@ -416,8 +428,13 @@ module.exports = class SpellView extends View
     @ace.clearSelection()
 
   onFrameChanged: (e) ->
-    return unless e.selectedThang?.id is @thang?.id
+    return unless @spellThang and e.selectedThang?.id is @spellThang?.thang.id
     @thang = e.selectedThang  # update our thang to the current version
+    @highlightCurrentLine()
+
+  onCoordinateSelected: (e) ->
+    return unless e.x? and e.y?
+    @ace.insert "{x: #{e.x}, y: #{e.y}}"
     @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->
@@ -430,6 +447,7 @@ module.exports = class SpellView extends View
     flow ?= @spellThang?.castAether?.flow
     return unless flow
     executed = []
+    executedRows = {}
     matched = false
     states = flow.states ? []
     currentCallIndex = null
@@ -445,9 +463,12 @@ module.exports = class SpellView extends View
           matched = true
           break
         _.last(executed).push state
+        executedRows[state.range[0].row] = true
         #state.executing = true if state.userInfo?.time is @thang.world.age  # no work
     currentCallIndex ?= callNumber - 1
     #console.log "got call index", currentCallIndex, "for time", @thang.world.age, "out of", states.length
+
+    @decoratedGutter = @decoratedGutter || {}
 
     # TODO: don't redo the markers if they haven't actually changed
     for markerRange in (@markerRanges ?= [])
@@ -455,10 +476,11 @@ module.exports = class SpellView extends View
       markerRange.end.detach()
       @aceSession.removeMarker markerRange.id
     @markerRanges = []
-    @aceSession.removeGutterDecoration row, 'executing' for row in [0 ... @aceSession.getLength()]
-    @aceSession.removeGutterDecoration row, 'executed' for row in [0 ... @aceSession.getLength()]
-    $(@ace.container).find('.ace_gutter-cell.executing').removeClass('executing')
-    $(@ace.container).find('.ace_gutter-cell.executed').removeClass('executed')
+    for row in [0 ... @aceSession.getLength()]
+      unless executedRows[row]
+        @aceSession.removeGutterDecoration row, 'executing'
+        @aceSession.removeGutterDecoration row, 'executed'
+        @decoratedGutter[row] = ''
     if not executed.length or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
       @toolbarView?.toggleFlow false
       @debugView.setVariableStates {}
@@ -486,7 +508,10 @@ module.exports = class SpellView extends View
       markerRange.end = @aceDoc.createAnchor markerRange.end
       markerRange.id = @aceSession.addMarker markerRange, clazz, markerType
       @markerRanges.push markerRange
-      @aceSession.addGutterDecoration start.row, clazz 
+      if executedRows[start.row] and @decoratedGutter[start.row] isnt clazz
+        @aceSession.removeGutterDecoration start.row, @decoratedGutter[start.row] if @decoratedGutter[start.row] isnt ''
+        @aceSession.addGutterDecoration start.row, clazz
+        @decoratedGutter[start.row] = clazz
     @debugView.setVariableStates {} unless gotVariableStates
     null
 
@@ -533,6 +558,12 @@ module.exports = class SpellView extends View
     ugly = @getSource()
     pretty = @spellThang.aether.beautify ugly
     @ace.setValue pretty
+
+  onChangeEditorConfig: (e) ->
+    aceConfig = me.get 'aceConfig'
+    @ace.setDisplayIndentGuides (aceConfig.indentGuides || false)
+    @ace.setShowInvisibles (aceConfig.invisibles || false)
+    @ace.setKeyboardHandler (@keyBindings[aceConfig.keyBindings] || null)
 
   dismiss: ->
     @recompile() if @spell.hasChangedSignificantly @getSource()

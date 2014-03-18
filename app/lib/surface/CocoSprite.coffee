@@ -62,7 +62,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @actionQueue = []
     @marks = {}
     @labels = {}
+    @handledAoEs = {}
     @age = 0
+    @scaleFactor = @targetScaleFactor = 1
     @displayObject = new createjs.Container()
     if @thangType.get('actions')
       @setupSprite()
@@ -75,6 +77,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @stillLoading = false
     @actions = @thangType.getActions()
     @buildFromSpriteSheet @buildSpriteSheet()
+    @createMarks()
 
   destroy: ->
     mark.destroy() for name, mark of @marks
@@ -167,18 +170,46 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @imageObject?.play?()
     mark.play() for name, mark of @marks
 
-  update: ->
+  update: (frameChanged) ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
     return if @stillLoading
     @updatePosition()
-    @updateScale()
-    @updateAlpha()
-    @updateRotation()
-    @updateAction()
-    @updateStats()
+    if frameChanged
+      @updateScale() # must happen before rotation
+      @updateAlpha()
+      @updateRotation()
+      @updateAction()
+      @updateStats()
+      @updateGold()
+      @showAreaOfEffects()
     @updateMarks()
     @updateLabels()
-    @updateGold()
+
+  showAreaOfEffects: ->
+    return unless @thang?.currentEvents
+    for event in @thang.currentEvents
+      continue unless event.startsWith 'aoe-'
+      continue if @handledAoEs[event]
+
+      @handledAoEs[event] = true
+      args = JSON.parse(event[4...])
+      pos = @options.camera.worldToSurface {x:args[0], y:args[1]}
+      circle = new createjs.Shape()
+      circle.graphics.beginFill(args[3]).drawCircle(0, 0, args[2]*Camera.PPM)
+      circle.x = pos.x
+      circle.y = pos.y
+      circle.scaleY = @options.camera.y2x * 0.7
+      circle.scaleX = 0.7
+      circle.alpha = 0.2
+      circle
+      @options.groundLayer.addChild circle
+      createjs.Tween.get(circle)
+        .to({alpha: 0.6, scaleY: @options.camera.y2x, scaleX: 1}, 100, createjs.Ease.circOut)
+        .to({alpha: 0, scaleY: 0, scaleX: 0}, 700, createjs.Ease.circIn)
+        .call =>
+          return if @destroyed
+          @options.groundLayer.removeChild circle
+          delete @handledAoEs[event]
 
   cache: ->
     bounds = @imageObject.getBounds()
@@ -219,11 +250,15 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
-    scaleFactor = @thang.scaleFactor ? 1
-    scaleFactorX = @thang.scaleFactorX ? scaleFactor
-    scaleFactorY = @thang.scaleFactorY ? scaleFactor
+    scaleFactorX = @thang.scaleFactorX ? @scaleFactor
+    scaleFactorY = @thang.scaleFactorY ? @scaleFactor
     @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
     @imageObject.scaleY = @originalScaleY * scaleY * scaleFactorY
+
+    if (@thang.scaleFactor or 1) isnt @targetScaleFactor
+      createjs.Tween.removeTweens(@)
+      createjs.Tween.get(@).to({scaleFactor:@thang.scaleFactor or 1}, 2000, createjs.Ease.elasticOut)
+      @targetScaleFactor = @thang.scaleFactor
 
   updateAlpha: ->
     @imageObject.alpha = if @hiding then 0 else 1
@@ -251,12 +286,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return unless @currentAction
     return if _.string.endsWith(@currentAction.name, 'back')
     return if _.string.endsWith(@currentAction.name, 'fore')
-    @imageObject.scaleX *= -1 if Math.abs(rotation) >= 90
+    imageObject.scaleX *= -1 if Math.abs(rotation) >= 90
 
   ##################################################
   updateAction: ->
     action = @determineAction()
-    isDifferent = action isnt @currentRootAction
+    isDifferent = action isnt @currentRootAction or action is null
     if not action and @thang?.actionActivated and not @stopLogging
       console.error "action is", action, "for", @thang?.id, "from", @currentRootAction, @thang.action, @thang.getActionName?()
       @stopLogging = true
@@ -382,12 +417,35 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       pos.y *= @thang.scaleFactorY ? scaleFactor
     pos
 
+  createMarks: ->
+    return unless @options.camera
+    if @thang
+      allProps = []
+      allProps = allProps.concat (@thang.hudProperties ? [])
+      allProps = allProps.concat (@thang.programmableProperties ? [])
+      allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
+
+      @addMark('voiceradius') if 'voiceRange' in allProps
+      @addMark('visualradius') if 'visualRange' in allProps
+      @addMark('attackradius') if 'attackRange' in allProps
+
+      @addMark('bounds').toggle true if @thang?.drawsBounds
+      @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
+
   updateMarks: ->
     return unless @options.camera
     @addMark 'repair', null, 'repair' if @thang?.errorsOut
     @marks.repair?.toggle @thang?.errorsOut
-    @addMark('bounds').toggle true if @thang?.drawsBounds
-    @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
+
+    if @selected
+      @marks.voiceradius?.toggle true
+      @marks.visualradius?.toggle true
+      @marks.attackradius?.toggle true
+    else
+      @marks.voiceradius?.toggle false
+      @marks.visualradius?.toggle false
+      @marks.attackradius?.toggle false
+
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
     @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length
@@ -402,6 +460,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
     if @previousEffectNames
       for effect in @previousEffectNames
+        continue if effect in @thang.effectNames
         mark = @marks[effect]
         mark.toggle false
 

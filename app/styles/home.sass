@@ -2,62 +2,93 @@
 @import "bootstrap/variables"
 
 #home-view
-
-  #front-screenshot
-    margin-top: 15px
-    margin-left: 150px
-
-  #site-slogan
-    margin-left: 15px
-
-  .homepage_button
-    width: 300px
-    margin-top: 30px
-    float: right
-    font-family: 'Bangers', cursive
-    font-weight: normal
-    letter-spacing: 1px
+  
+  h1
+    text-align: center
+    margin-top: 0
+    
+  #trailer-wrapper
     position: relative
-
-    button
-      font-size: 40px
-      width: 300px
-      height: 80px
-        
-      @include transition(color .10s linear)
-
-    &:hover button, &:active button
-      color: #8090AA
-
-    canvas
+    margin: 0 auto 40px
+    width: 950px
+    iframe
+      display: block
+      margin: 0 auto
+      position: relative
+      top: 8px
+    img
       position: absolute
-      //border: 1px solid
+      left: 0
+      top: 0
+      pointer-events: none
 
-    #beginner-campaign canvas
-      top: -30px
-      left: -75px
+  .game-mode-wrapper
+    position: relative
+    margin-bottom: 60px
+    
+    img
+      display: block
+      margin: 0 auto
 
-  #homepage_button_container
-    padding: 0px 100px 0px 0px
-    height: 75px
-
-   
-  .homepage_button a
-    float: right
-
-  .row
-    margin: 20px 0px 35px 0px
-
-  .row.promo
-    .span8
-      margin-left: 0px
+    text-shadow: 2px 2px 5px black
     
     h3
-      margin-bottom: -5px
+      color: $yellow
+      position: absolute
+      top: 10px
+      left: 40px
+      font-size: 70px
+      margin-top: 0
+      
+    h4
+      color: #e8d9c5
+      position: absolute
+      top: 75px
+      left: 140px
+      font-size: 30px
+      margin-top: 0
+      
+    .play-text
+      position: absolute
+      right: 45px
+      bottom: -25px
+      color: $yellow
+      font-size: 90px
+      font-family: Bangers
+      @include transition(color .10s linear)
+          
+    &:hover div
+      color: lighten($yellow, 20%)
+    &:hover img
+      filter: brightness(1.2)
+      -webkit-filter: brightness(1.2)
+      box-shadow: 0 0 5px black
+  
+#multiplayer-launch-modal
+  .modal-dialog
+    width: 700px
 
-  .centered-button
-    display: block
-    margin: 15px auto
-
-  #update_zone
+  .modal-header
     text-align: center
+
+  .modal-body
+    padding-bottom: 0px
+ 
+  .modal-footer
+    padding-top: 0px
+
+  .multiplayer-launch-wrapper
+    position: relative
+    margin: 0 auto 30px
+    iframe
+      display: block
+      margin: 0 auto
+      position: relative
+      top: 8px
+    img
+      position: absolute
+      left: -7px
+      top: -3px
+      width: 660px
+      height: 382px
+      pointer-events: none

@@ -7,7 +7,6 @@ module.exports = class ArchmageView extends ContributeClassView
 
   contributors: [
     {name: "Tom Steinbrecher", avatar: "tom"}
-    {name: "Glen De Cauwsemaecker", avatar: "glen"}
     {name: "Sébastien Moratinos", avatar: "sebastien"}
     {name: "deepak1556", avatar: "deepak"}
     {name: "Ronnie Cheng", avatar: "ronald"}

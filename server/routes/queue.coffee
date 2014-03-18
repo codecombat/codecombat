@@ -9,6 +9,11 @@ module.exports.setup = (app) ->
   #app.post '/queue/scoring/pairwise', (req, res) ->
   #  handler = loadQueueHandler 'scoring'
   #  handler.addPairwiseTaskToQueue req, res
+  
+  app.get '/queue/messagesInQueueCount', (req, res) ->
+    handler = loadQueueHandler 'scoring'
+    handler.messagesInQueueCount req, res
+    
     
   app.all '/queue/*', (req, res) ->
     setResponseHeaderToJSONContentType res

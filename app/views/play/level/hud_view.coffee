@@ -135,7 +135,7 @@ module.exports = class HUDView extends View
     props = @$el.find('.thang-props')
     props.find(":not(.thang-name)").remove()
     props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
-    propNames = @thang.hudProperties ? []
+    propNames = _.without @thang.hudProperties ? [], 'action'
     nColumns = Math.ceil propNames.length / 5
     columns = ($('<div class="thang-props-column"></div>').appendTo(props) for i in [0 ... nColumns])
     for prop, i in propNames
@@ -151,7 +151,7 @@ module.exports = class HUDView extends View
   createActions: ->
     actions = @$el.find('.thang-actions tbody').empty()
     showActions = @thang.world and not _.isEmpty(@thang.actions) and 'action' in @thang.hudProperties ? []
-    @$el.find('.thang-actions').toggleClass 'secret', showActions
+    @$el.find('.thang-actions').toggleClass 'secret', not showActions
     return unless showActions
     @buildActionTimespans()
     for actionName, action of @thang.actions
@@ -238,8 +238,9 @@ module.exports = class HUDView extends View
 
   update: ->
     return unless @thang and not @speaker
-    # Update properties
-    @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
+    @$el.find('.thang-props-column').toggleClass 'nonexistent', not @thang.exists
+    if @thang.exists
+      @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
     # Update action timeline
     @updateActions()
 
@@ -305,7 +306,7 @@ module.exports = class HUDView extends View
     for actionName, action of @thang.actions
       @updateActionElement(actionName, @timespans[actionName], @thang.action is actionName)
     tableContainer = @$el.find('.table-container')
-    timelineWidth = tableContainer.find('.action-timeline').width()
+    timelineWidth = tableContainer.find('tr:not(.secret) .action-timeline').width()
     right = (1 - (@timeProgress ? 0)) * timelineWidth
     arrow = tableContainer.find('.progress-arrow')
     arrow.css 'right', right - arrow.width() / 2
@@ -316,11 +317,11 @@ module.exports = class HUDView extends View
     @timespans = {}
     dt = @thang.world.dt
     actionHistory = @thang.world.actionsForThang @thang.id, true
-    [lastFrame, lastAction] = [0, 'idle']
+    [lastFrame, lastAction] = [0, null]
     for hist in actionHistory.concat {frame: @thang.world.totalFrames, name: 'END'}
       [newFrame, newAction] = [hist.frame, hist.name]
       continue if newAction is lastAction
-      if newFrame > lastFrame
+      if newFrame > lastFrame and lastAction
         # TODO: don't push it if it didn't exist until then
         (@timespans[lastAction] ?= []).push [lastFrame * dt, newFrame * dt]
       [lastFrame, lastAction] = [newFrame, newAction]

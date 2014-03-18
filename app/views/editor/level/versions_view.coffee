@@ -1,6 +1,6 @@
-VersionsView = require 'views/kinds/VersionsView'
+VersionsModalView = require 'views/modal/versions_modal'
 
-module.exports = class SuperVersionsView extends VersionsView
+module.exports = class LevelVersionsView extends VersionsModalView
   id: "editor-level-versions-view"
   url: "/db/level/"
   page: "level"

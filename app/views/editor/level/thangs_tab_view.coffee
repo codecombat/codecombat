@@ -8,6 +8,7 @@ CocoCollection = require 'models/CocoCollection'
 Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
 LevelThangEditView = require './thang/edit'
+ComponentsCollection = require 'collections/ComponentsCollection'
 
 # Moving the screen while dragging thangs constants
 MOVE_MARGIN = 0.15
@@ -19,7 +20,7 @@ componentOriginals =
   "physics.Physical"          : "524b75ad7fc0f6d519000001"
 
 class ThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang_type/search?project=true'
+  url: '/db/thang.type/search?project=true'
   model: ThangType
 
 module.exports = class ThangsTabView extends View
@@ -60,12 +61,25 @@ module.exports = class ThangsTabView extends View
     @thangTypes.once 'sync', @onThangTypesLoaded
     @thangTypes.fetch()
 
+    # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
+    @componentCollection = @supermodel.getCollection new ComponentsCollection()
+    @componentCollection.once 'sync', @onComponentsLoaded
+    @componentCollection.fetch()
+
   onThangTypesLoaded: =>
+    return if @destroyed
     @supermodel.addCollection @thangTypes
     @supermodel.populateModel model for model in @thangTypes.models
-    @startsLoading = false
+    @startsLoading = not @componentCollection.loaded
     @render()  # do it again but without the loading screen
-    @onLevelLoaded level: @level if @level
+    @onLevelLoaded level: @level if @level and not @startsLoading
+
+  onComponentsLoaded: =>
+    return if @destroyed
+    @supermodel.addCollection @componentCollection
+    @startsLoading = not @thangTypes.loaded
+    @render()  # do it again but without the loading screen
+    @onLevelLoaded level: @level if @level and not @startsLoading
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -98,6 +112,7 @@ module.exports = class ThangsTabView extends View
     @$el.find('#extant-thangs-filter button:first').button('toggle')
 
   onFilterExtantThangs: (e) ->
+    @$el.find('#extant-thangs-filter button.active').button('toggle')
     button = $(e.target).closest('button')
     button.button('toggle')
     val = button.val()
@@ -145,7 +160,6 @@ module.exports = class ThangsTabView extends View
     @surface.playing = false
     @surface.setWorld @world
     @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
-    @surface.camera.dragDisabled = true
 
   destroy: ->
     @selectAddThangType null
@@ -167,6 +181,7 @@ module.exports = class ThangsTabView extends View
 
   onSpriteDragged: (e) ->
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
+    @surface.camera.dragDisabled = true
     {stageX, stageY} = e.originalEvent
     wop = @surface.camera.canvasToWorld x: stageX, y: stageY
     wop.z = @selectedExtantThang.depth / 2
@@ -177,6 +192,7 @@ module.exports = class ThangsTabView extends View
   onSpriteMouseUp: (e) ->
     clearInterval(@movementInterval) if @movementInterval?
     @movementInterval = null
+    @surface.camera.dragDisabled = false
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
     pos = @selectedExtantThang.pos
     physicalOriginal = componentOriginals["physics.Physical"]
@@ -329,6 +345,7 @@ module.exports = class ThangsTabView extends View
 
   onThangsChanged: (e) =>
     @level.set 'thangs', @thangsTreema.data
+    return if @editThangView
     serializedLevel = @level.serialize @supermodel
     try
       @world.loadFromLevel serializedLevel, false
@@ -343,7 +360,7 @@ module.exports = class ThangsTabView extends View
   onTreemaThangSelected: (e, selectedTreemas) =>
     selectedThangID = _.last(selectedTreemas)?.data.id
     if selectedThangID isnt @selectedExtantThang?.id
-      @surface.spriteBoss.selectThang selectedThangID
+      @surface.spriteBoss.selectThang selectedThangID, null, true
 
   onTreemaThangDoubleClicked: (e, treema) =>
     id = treema?.data?.id
@@ -380,6 +397,8 @@ module.exports = class ThangsTabView extends View
 
   onLevelThangDoneEditing: ->
     @removeSubView @editThangView
+    @editThangView = null
+    @onThangsChanged()
     @$el.find('.thangs-column').show()
 
 

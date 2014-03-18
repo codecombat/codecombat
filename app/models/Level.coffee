@@ -52,13 +52,14 @@ module.exports = class Level extends CocoModel
       visit = (c) ->
         return if c in sorted
         lc = _.find levelComponents, {original: c.original}
-        console.error "Couldn't find lc for", c unless lc
+        console.error thang.id, "couldn't find lc for", c unless lc
         if lc.name is "Programmable"
           # Programmable always comes last
           visit c2 for c2 in _.without thang.components, c
         else
           for d in lc.dependencies or []
             c2 = _.find thang.components, {original: d.original}
+            console.error thang.id, "couldn't find dependent Component", d.original, "from", lc.name unless c2
             visit c2
           if lc.name is "Collides"
             allied = _.find levelComponents, {name: "Allied"}
@@ -111,7 +112,7 @@ module.exports = class Level extends CocoModel
     if path.match(/\/systems\/\d+\/config\//) and data?.indieSprites?.length
       # Ugh, we need to make sure we grab the IndieSprite ThangTypes
       for indieSprite in data.indieSprites
-        link = "/db/thang_type/#{indieSprite.thangType}/version"
+        link = "/db/thang.type/#{indieSprite.thangType}/version"
         model = CocoModel.getOrMakeModelFromLink link, shouldLoadProjection
         models.push model if model
     else if path is '/'

@@ -117,7 +117,8 @@ module.exports = Surface = class Surface extends CocoClass
     @updateState true if @loaded
     # TODO: synchronize both ways of choosing whether to show coords (@world via UI System or @options via World Select modal)
     if @world.showCoordinates and @options.coords
-      @surfaceTextLayer.addChild new CoordinateDisplay camera: @camera
+      @coordinateDisplay = new CoordinateDisplay camera: @camera
+      @surfaceTextLayer.addChild @coordinateDisplay
     @onFrameChanged()
     Backbone.Mediator.publish 'surface:world-set-up'
 
@@ -208,10 +209,12 @@ module.exports = Surface = class Surface extends CocoClass
       @onFramesScrubbed()  # For performance, don't play these for instant transitions.
       onTweenEnd()
 
+    return unless @loaded
     @updateState true
     @onFrameChanged()
 
   onFramesScrubbed: (e) =>
+    return unless @loaded
     if e
       # Gotta play all the sounds when scrubbing (but not when doing an immediate transition).
       rising = @currentFrame > @lastFrame
@@ -315,10 +318,14 @@ module.exports = Surface = class Surface extends CocoClass
 
     @lastFrame = @currentFrame
 
-  onCastSpells: (event) ->
+  onCastSpells: ->
     @casting = true
     @wasPlayingWhenCastingBegan = @playing
     Backbone.Mediator.publish 'level-set-playing', { playing: false }
+
+    if @coordinateDisplay?
+      @surfaceTextLayer.removeChild @coordinateDisplay
+      @coordinateDisplay.destroy()
 
     createjs.Tween.removeTweens(@surfaceLayer)
     createjs.Tween.get(@surfaceLayer).to({alpha:0.9}, 1000, createjs.Ease.getPowOut(4.0))
@@ -448,8 +455,11 @@ module.exports = Surface = class Surface extends CocoClass
     @gridLayer?.parent?
 
   onToggleGrid: (e) ->
+    # TODO: figure out a better way of managing grid / debug so it's not split across PlaybackView and Surface
     e?.preventDefault?()
     if @gridShowing() then @hideGrid() else @showGrid()
+    flag = $('#grid-toggle i.icon-ok')
+    flag.toggleClass 'invisible', not @gridShowing()
 
   onSetGrid: (e) ->
     if e.grid then @showGrid() else @hideGrid()
@@ -497,13 +507,15 @@ module.exports = Surface = class Surface extends CocoClass
     # seems to be a bug where only one object can register with the Ticker...
     oldFrame = @currentFrame
     oldWorldFrame = Math.floor oldFrame
+    lastFrame = @world.totalFrames - 1
     while true
       Dropper.tick()
       @trailmaster.tick() if @trailmaster
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
-      frameAdvanced = (@playing and @currentFrame < @world.totalFrames) or @totalFramesDrawn < 2
-      @currentFrame += @world.frameRate / @options.frameRate if frameAdvanced and @playing
-      @currentFrame = Math.min(@currentFrame, @world.totalFrames - 1)
+      frameAdvanced = (@playing and @currentFrame < lastFrame) or @totalFramesDrawn < 2
+      if frameAdvanced and @playing
+        @currentFrame += @world.frameRate / @options.frameRate
+        @currentFrame = Math.min @currentFrame, lastFrame
       newWorldFrame = Math.floor @currentFrame
       worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
       if worldFrameAdvanced
