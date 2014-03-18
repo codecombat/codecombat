@@ -75,11 +75,17 @@ module.exports = class LadderView extends RootView
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>
-    return if @destroyed or application.userIsIdle or new Date() - 2000 < @lastRefreshTime
-    @lastRefreshTime = new Date()
-    @ladderTab.refreshLadder()
-    @myMatchesTab.refreshMatches()
-    console.log "Refreshing ladder and matches views."
+    return if @destroyed or application.userIsIdle
+    if @$el.find("#ladder.active").length
+      return if new Date() - 2000 < @lastLadderRefreshTime
+      @lastLadderRefreshTime = new Date()
+      @ladderTab.refreshLadder()
+      console.log "Refreshing ladder."
+    if @$el.find("#my-matches.active").length
+      return if new Date() - 2000 < @lastMatchesRefreshTime
+      @lastMatchesRefreshTime = new Date()
+      @myMatchesTab.refreshMatches()
+      console.log "Refreshing matches view."
 
   onIdleChanged: (e) ->
     @refreshViews() unless e.idle
