@@ -22,6 +22,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   healthBar: null
   marks: null
   labels: null
+  ranges: null
+  rangeValues: null
 
   options:
     resolutionFactor: 4
@@ -62,6 +64,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @actionQueue = []
     @marks = {}
     @labels = {}
+    @ranges = []
+    @rangeValues = []
     @handledAoEs = {}
     @age = 0
     @displayObject = new createjs.Container()
@@ -413,14 +417,22 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   createMarks: ->
     if @thang
-      allProps = []
+      allProps = ['visualRange', 'attackRange', 'voiceRange']
       allProps = allProps.concat (@thang.hudProperties ? [])
       allProps = allProps.concat (@thang.programmableProperties ? [])
       allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
 
-      @addMark('voiceradius') if 'voiceRange' in allProps
-      @addMark('visualradius') if 'visualRange' in allProps
-      @addMark('attackradius') if 'attackRange' in allProps
+      for property in allProps
+        if m = property.match(".*Range$")
+          if @thang[m[0]]? and @thang[m[0]] < 9001
+            @ranges.push([ m[0], @thang[m[0]] ])
+
+      @ranges = @ranges.sort((a, b) ->
+        return a[1] < b[1]
+      )
+
+      for range in @ranges
+        @addMark(range[0])
 
       @addMark('bounds').toggle true if @thang?.drawsBounds
       @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
@@ -431,13 +443,17 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @marks.repair?.toggle @thang?.errorsOut
 
     if @selected
-      @marks.voiceradius?.toggle true 
-      @marks.visualradius?.toggle true 
-      @marks.attackradius?.toggle true 
-    else
-      @marks.voiceradius?.toggle false
-      @marks.visualradius?.toggle false
-      @marks.attackradius?.toggle false
+      for range in @ranges
+        @marks[range[0]].toggle true
+      # @marks.voiceradius?.toggle true 
+      # @marks.visualradius?.toggle true 
+      # @marks.attackradius?.toggle true 
+    else      
+      for range in @ranges
+        @marks[range[0]].toggle false
+      # @marks.voiceradius?.toggle false
+      # @marks.visualradius?.toggle false
+      # @marks.attackradius?.toggle false
 
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
