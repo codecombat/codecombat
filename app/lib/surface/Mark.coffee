@@ -122,6 +122,7 @@ module.exports = class Mark extends CocoClass
       visualRange: "rgba(0, 0, 145, #{alpha})"
       attackRange: "rgba(145, 0, 0, #{alpha})"
 
+    # Fallback colors which work on both dungeon and grass tiles
     extracolors = [
       "rgba(145, 0, 145, #{alpha})"
       "rgba(0, 145, 145, #{alpha})"

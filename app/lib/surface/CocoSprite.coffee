@@ -23,7 +23,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   marks: null
   labels: null
   ranges: null
-  rangeValues: null
 
   options:
     resolutionFactor: 4
@@ -65,7 +64,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @marks = {}
     @labels = {}
     @ranges = []
-    @rangeValues = []
     @handledAoEs = {}
     @age = 0
     @displayObject = new createjs.Container()
