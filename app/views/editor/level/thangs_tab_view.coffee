@@ -1,4 +1,5 @@
 View = require 'views/kinds/CocoView'
+AddThangsView = require './add_thangs_view'
 thangs_template = require 'templates/editor/level/thangs_tab'
 Level = require 'models/Level'
 ThangType = require 'models/ThangType'
@@ -110,6 +111,7 @@ module.exports = class ThangsTabView extends View
     $('.tab-content').click @selectAddThang
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
+    @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
 
   onFilterExtantThangs: (e) ->
     @$el.find('#extant-thangs-filter button.active').button('toggle')

@@ -21,14 +21,5 @@
     #canvas-left-gradient.gradient
     #canvas-top-gradient.gradient
 
-.add-thangs-palette.thangs-column
-  h3(data-i18n="editor.level_tab_thangs_add") Add Thangs
-  #thangs-list
-    for group in groups
-      h4= group.name
-      for thangType in group.thangs
-        div.add-thang-palette-icon(data-thang-type=thangType.name)
-          - path = '/file/db/thang.type/'+thangType.original+'/portrait.png'
-          img(title="Add " + thangType.name, src=path, alt="")
-      div.clearfix
+.add-thangs-palette.thangs-column#add-thangs-column
 #editor-level-thang-edit.secret
