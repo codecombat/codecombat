@@ -66,12 +66,12 @@ module.exports = nativeDescription: "українська мова", englishDesc
     no_ie: "Нажаль, CodeCombat не працює в IE8 чи більш старих версіях!"
     no_mobile: "CodeCombat не призначений для мобільних приладів і може не працювати!"
     play: "Грати"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
+    old_browser: "Вибачте, але ваш браузер дуже старий для гри CodeCombat"
+    old_browser_suffix: "Ви все одно можете спробувати, хоча наврядче вийде"
 #    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer"
-#    for_developers: "For Developers"
+    for_beginners: "Для новачків"
+    multiplayer: "Командна гра"
+    for_developers: "Для розробників"
 
   play:
     choose_your_level: "Оберіть свій рівень"

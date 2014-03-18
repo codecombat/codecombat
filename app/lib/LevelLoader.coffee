@@ -47,6 +47,7 @@ module.exports = class LevelLoader extends CocoClass
   # Session Loading
 
   loadSession: ->
+    return if @headless
     if @sessionID
       url = "/db/level_session/#{@sessionID}"
     else
@@ -68,6 +69,7 @@ module.exports = class LevelLoader extends CocoClass
       @opponentSession.once 'sync', @onSessionLoaded, @
 
   sessionsLoaded: ->
+    return true if @headless
     @session.loaded and ((not @opponentSession) or @opponentSession.loaded)
 
   onSessionLoaded: ->
@@ -107,17 +109,18 @@ module.exports = class LevelLoader extends CocoClass
   # Things to do when either the Session or Supermodel load
 
   update: =>
+    return if @destroyed
     @notifyProgress()
 
     return if @updateCompleted
     return unless @supermodel?.finished() and @sessionsLoaded()
     @denormalizeSession()
     @loadLevelSounds()
-    app.tracker.updatePlayState(@level, @session)
+    app.tracker.updatePlayState(@level, @session) unless @headless
     @updateCompleted = true
 
   denormalizeSession: ->
-    return if @sessionDenormalized or @spectateMode
+    return if @headless or @sessionDenormalized or @spectateMode
     patch =
       'levelName': @level.get('name')
       'levelID': @level.get('slug') or @level.id
