@@ -423,14 +423,15 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       for property in allProps
         if m = property.match ".*Range$"
           if @thang[m[0]]? and @thang[m[0]] < 9001
-            @ranges.push [m[0], @thang[m[0]]]
+            @ranges.push 
+              name: m[0]
+              radius: @thang[m[0]]
 
-      @ranges = @ranges.sort((a, b) ->
-        return a[1] < b[1]
+      @ranges = @ranges.sort((range1, range2) ->
+        return range1.radius < range2.radius
       )
 
-      for range in @ranges
-        @addMark range[0]
+      @addMark range.name for range in @ranges
 
       @addMark('bounds').toggle true if @thang?.drawsBounds
       @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
@@ -441,9 +442,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @marks.repair?.toggle @thang?.errorsOut
 
     if @selected
-      @marks[range[0]].toggle true for range in @ranges
+      @marks[range['name']].toggle true for range in @ranges
     else
-      @marks[range[0]].toggle false for range in @ranges
+      @marks[range['name']].toggle false for range in @ranges
 
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']

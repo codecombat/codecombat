@@ -131,8 +131,8 @@ module.exports = class Mark extends CocoClass
     ]
 
     # Find the index of this range, to find the next-smallest radius
-    rangeNames = @sprite.ranges.map((value, index) ->
-      value[0]
+    rangeNames = @sprite.ranges.map((range, index) ->
+      range['name']
     )
     i = rangeNames.indexOf(range)
 
@@ -148,7 +148,7 @@ module.exports = class Mark extends CocoClass
 
     # Cut out the hollow part if necessary
     if i+1 < @sprite.ranges.length
-      @mark.graphics.arc 0, 0, @sprite.ranges[i+1][1], Math.PI*2, 0, true
+      @mark.graphics.arc 0, 0, @sprite.ranges[i+1]['radius'], Math.PI*2, 0, true
 
     # Add perspective
     @mark.scaleY *= @camera.y2x
