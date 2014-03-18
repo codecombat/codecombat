@@ -19,6 +19,7 @@ module.exports = class SpellView extends View
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
+    'surface:coordinate-selected': 'onCoordinateSelected'
     'god:new-world-created': 'onNewWorld'
     'god:user-code-problem': 'onUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
@@ -91,6 +92,9 @@ module.exports = class SpellView extends View
     addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
+      passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
+      # No easy way to selectively cancel shift+space, since we don't get access to the event.
+      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
       exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
     addCommand
       name: 'end-all-scripts'
@@ -416,8 +420,13 @@ module.exports = class SpellView extends View
     @ace.clearSelection()
 
   onFrameChanged: (e) ->
-    return unless e.selectedThang?.id is @thang?.id
+    return unless @spellThang and e.selectedThang?.id is @spellThang?.thang.id
     @thang = e.selectedThang  # update our thang to the current version
+    @highlightCurrentLine()
+
+  onCoordinateSelected: (e) ->
+    return unless e.x? and e.y?
+    @ace.insert "{x: #{e.x}, y: #{e.y}}"
     @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->

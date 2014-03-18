@@ -2,8 +2,8 @@ View = require 'views/kinds/RootView'
 template = require 'templates/play/spectate'
 {me} = require('lib/auth')
 ThangType = require 'models/ThangType'
+utils = require 'lib/utils'
 
-# temp hard coded data
 World = require 'lib/world/world'
 
 # tools
@@ -11,7 +11,6 @@ Surface = require 'lib/surface/Surface'
 God = require 'lib/God'
 GoalManager = require 'lib/world/GoalManager'
 ScriptManager = require 'lib/scripts/ScriptManager'
-LevelBus = require('lib/LevelBus')
 LevelLoader = require 'lib/LevelLoader'
 LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
@@ -45,8 +44,6 @@ module.exports = class SpectateLevelView extends View
 
   subscriptions:
     'level-set-volume': (e) -> createjs.Sound.setVolume(e.volume)
-    'level-show-victory': 'onShowVictory'
-    'restart-level': 'onRestartLevel'
     'level-highlight-dom': 'onHighlightDom'
     'end-level-highlight-dom': 'onEndHighlight'
     'level-focus-dom': 'onFocusDom'
@@ -56,11 +53,10 @@ module.exports = class SpectateLevelView extends View
     'god:infinite-loop': 'onInfiniteLoop'
     'level-reload-from-data': 'onLevelReloadFromData'
     'play-next-level': 'onPlayNextLevel'
-    'edit-wizard-settings': 'showWizardSettingsModal'
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
-    'level:session-will-save': 'onSessionWillSave'
     'level:set-team': 'setTeam'
     'god:new-world-created': 'loadSoundsForWorld'
+    'next-game-pressed': 'onNextGamePressed'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -69,12 +65,15 @@ module.exports = class SpectateLevelView extends View
     'ctrl+s': 'onCtrlS'
 
   constructor: (options, @levelID) ->
+    @originalOptions = _.cloneDeep(options)
     console.profile?() if PROFILE_ME
     super options
-    @sessionOne = @getQueryVariable 'session-one'
-    @sessionTwo = @getQueryVariable 'session-two'
-    
-    @sessionID = @sessionOne
+    if options.spectateSessions?
+      @sessionOne = options.spectateSessions.sessionOne
+      @sessionTwo = options.spectateSessions.sessionTwo
+    else
+      @sessionOne = @getQueryVariable 'session-one'
+      @sessionTwo = @getQueryVariable 'session-two'
 
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', @onLevelLoadError
@@ -93,7 +92,13 @@ module.exports = class SpectateLevelView extends View
       @load()
 
   load: ->
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @sessionTwo, team: @getQueryVariable("team")
+    @levelLoader = new LevelLoader
+      supermodel: @supermodel
+      levelID: @levelID
+      sessionID: @sessionOne
+      opponentSessionID: @sessionTwo
+      spectateMode: true
+      team: @getQueryVariable("team")
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded, @
     @levelLoader.on 'progress', @onLevelLoaderProgressChanged, @
     @god = new God()
@@ -138,6 +143,7 @@ module.exports = class SpectateLevelView extends View
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
 
     @grabLevelLoaderData()
+    #at this point, all requisite data is loaded, and sessions are not denormalized
     team = @world.teamForPlayer(0)
     @loadOpponentTeam(team)
     @loadingScreen.destroy()
@@ -149,13 +155,21 @@ module.exports = class SpectateLevelView extends View
     @initScriptManager()
     @insertSubviews ladderGame: @otherSession?
     @initVolume()
+    
     @originalSessionState = _.cloneDeep(@session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
-    if @otherSession
-      # TODO: colorize name and cloud by team, colorize wizard by user's color config
-      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
+    if me.id isnt @session.get 'creator'
+      @surface.createOpponentWizard
+        id: @session.get('creator')
+        name: @session.get('creatorName')
+        team: @session.get('team')
+
+    @surface.createOpponentWizard
+      id: @otherSession.get('creator')
+      name: @otherSession.get('creatorName')
+      team: @otherSession.get('team')
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -172,7 +186,7 @@ module.exports = class SpectateLevelView extends View
       opponentSpells = opponentSpells.concat spells
 
     opponentCode = @otherSession?.get('submittedCode') or {}
-    myCode = @session.get('code') or {}
+    myCode = @session.get('submittedCode') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
       c = opponentCode[thang]?[spell]
@@ -204,13 +218,12 @@ module.exports = class SpectateLevelView extends View
 
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
-    worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, ladderGame: subviewOptions.ladderGame}
+    worldName = utils.i18n @level.attributes, 'name'
+    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, spectateGame: true}
   #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 
   afterInsert: ->
     super()
-    @showWizardSettingsModal() if not me.get('name')
 
   # callbacks
 
@@ -239,24 +252,8 @@ module.exports = class SpectateLevelView extends View
     $(@wasFocusedOn).focus() if @wasFocusedOn
     @wasFocusedOn = null
 
-  onDonePressed: -> @showVictory()
+  onDonePressed: -> return
 
-  onShowVictory: (e) ->
-    $('#level-done-button').show()
-    @showVictory() if e.showModal
-    setTimeout(@preloadNextLevel, 3000)
-
-  showVictory: ->
-    options = {level: @level, supermodel: @supermodel, session:@session}
-    docs = new VictoryModal(options)
-    @openModalView(docs)
-    window.tracker?.trackEvent 'Saw Victory', level: @world.name, label: @world.name
-
-  onRestartLevel: ->
-    @tome.reloadAllCode()
-    Backbone.Mediator.publish 'level:restarted'
-    $('#level-done-button', @$el).hide()
-    window.tracker?.trackEvent 'Confirmed Restart', level: @world.name, label: @world.name
 
   onNewWorld: (e) ->
     @world = e.world
@@ -363,7 +360,7 @@ module.exports = class SpectateLevelView extends View
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
-    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview)
+    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview, spectateGame: true)
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
@@ -374,7 +371,14 @@ module.exports = class SpectateLevelView extends View
     @god.goalManager = @goalManager
 
   initScriptManager: ->
-    @scriptManager = new ScriptManager({scripts: @world.scripts or [], view:@, session: @session})
+    if @world.scripts
+      nonVictoryPlaybackScripts = _.reject @world.scripts, (script) ->
+        script.id.indexOf("Set Camera Boundaries and Goals") == -1
+    else
+      console.log "World scripts don't exist!"
+      nonVictoryPlaybackScripts = []
+    console.log nonVictoryPlaybackScripts
+    @scriptManager = new ScriptManager({scripts: nonVictoryPlaybackScripts, view:@, session: @session})
     @scriptManager.loadFromSession()
 
   initVolume: ->
@@ -386,31 +390,14 @@ module.exports = class SpectateLevelView extends View
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState
-    if state.frame
-      Backbone.Mediator.publish 'level-set-time', { time: 0, frameOffset: state.frame }
-    if state.selected
-      # TODO: Should also restore selected spell here by saving spellName
-      Backbone.Mediator.publish 'level-select-sprite', { thangID: state.selected, spellName: null }
     if state.playing?
       Backbone.Mediator.publish 'level-set-playing', { playing: state.playing }
 
-  preloadNextLevel: =>
-    # TODO: Loading models in the middle of gameplay causes stuttering. Most of the improvement in loading time is simply from passing the supermodel from this level to the next, but if we can find a way to populate the level early without it being noticeable, that would be even better.
-#    return if @destroyed
-#    return if @preloaded
-#    nextLevel = @getNextLevel()
-#    @supermodel.populateModel nextLevel
-#    @preloaded = true
-
-  register: ->
-    @bus = LevelBus.get(@levelID, @session.id)
-    @bus.setSession(@session)
-    @bus.setSpells @tome.spells
-    @bus.connect() if @session.get('multiplayer')
+  register: -> return
 
   onSessionWillSave: (e) ->
     # Something interesting has happened, so (at a lower frequency), we'll save a screenshot.
-    @saveScreenshot e.session
+    console.log "Session is saving but shouldn't save!!!!!!!"
 
   # Throttled
   saveScreenshot: (session) =>
@@ -434,7 +421,20 @@ module.exports = class SpectateLevelView extends View
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
 
-  destroy: ->
+  onNextGamePressed: (e) ->
+    console.log "You want to see the next game!"
+    @sessionOne = "53193c8f7a89df21c4d968e9"
+    @sessionTwo = "531aa613026834331eac5e7e"
+    url = "/play/spectate/dungeon-arena?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
+    Backbone.Mediator.publish 'router:navigate', {
+      route: url,
+      viewClass: SpectateLevelView,
+      viewArgs: [{spectateSessions:{sessionOne: @sessionOne, sessionTwo: @sessionTwo}}, "dungeon-arena"]}
+
+    
+    
+
+  destroy: ()->
     @supermodel?.off 'error', @onLevelLoadError
     @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
     @levelLoader?.destroy()
@@ -445,8 +445,6 @@ module.exports = class SpectateLevelView extends View
     $(window).off('resize', @onWindowResize)
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)
-    @bus?.destroy()
-    #@instance.save() unless @instance.loading
     console.profileEnd?() if PROFILE_ME
     @session?.off 'change:multiplayer', @onMultiplayerChanged, @
     @onLevelLoadError = null

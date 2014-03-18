@@ -84,7 +84,7 @@ exports.setupMiddleware = (app) ->
 ###Routing function implementations###
 
 setupFallbackRouteToIndex = (app) ->
-  app.get '*', (req, res) ->
+  app.all '*', (req, res) ->
     res.sendfile path.join(__dirname, 'public', 'index.html')
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->

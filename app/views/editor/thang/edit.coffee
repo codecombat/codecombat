@@ -270,7 +270,7 @@ module.exports = class ThangTypeEditView extends View
     @$el.find('.rotation-label').text " #{value}° "
     if @currentSprite
       @currentSprite.rotation = value
-      @currentSprite.update()
+      @currentSprite.update(true)
 
   updateScale: =>
     value = (@scaleSlider.slider('value') + 1) / 10

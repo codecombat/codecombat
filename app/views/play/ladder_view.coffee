@@ -25,6 +25,9 @@ module.exports = class LadderView extends RootView
   template: require 'templates/play/ladder'
   startsLoading: true
 
+  subscriptions:
+    'application:idle-changed': 'onIdleChanged'
+
   events:
     'click #simulate-button': 'onSimulateButtonClick'
     'click #simulate-all-button': 'onSimulateAllButtonClick'
@@ -70,10 +73,14 @@ module.exports = class LadderView extends RootView
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>
-    return if @destroyed or application.userIsIdle
+    return if @destroyed or application.userIsIdle or new Date() - 2000 < @lastRefreshTime
+    @lastRefreshTime = new Date()
     @ladderTab.refreshLadder()
     @myMatchesTab.refreshMatches()
-    console.log "refreshed views!"
+    console.log "Refreshing ladder and matches views."
+
+  onIdleChanged: (e) ->
+    @refreshViews() unless e.idle
 
   # Simulations
 

@@ -16,7 +16,7 @@ sendwithus = require '../sendwithus'
 module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
-  
+
 getAllLadderScores = (next) ->
   query = Level.find({type: 'ladder'})
     .select('levelID')
@@ -28,21 +28,24 @@ getAllLadderScores = (next) ->
     for level in levels
       for team in ['humans', 'ogres']
         'I ... am not doing this.'
+        # Query to get sessions to make histogram
+        # db.level.sessions.find({"submitted":true,"levelID":"brawlwood",team:"ogres"},{"_id":0,"totalScore":1})
 
 isRequestFromDesignatedCronHandler = (req, res) ->
   if req.ip isnt config.mail.cronHandlerPublicIP and req.ip isnt config.mail.cronHandlerPrivateIP
+    console.log "RECEIVED REQUEST FROM IP #{req.ip}(headers indicate #{req.headers['x-forwarded-for']}"
     console.log "UNAUTHORIZED ATTEMPT TO SEND TRANSACTIONAL LADDER EMAIL THROUGH CRON MAIL HANDLER"
     res.send("You aren't authorized to perform that action. Only the specified Cron handler may perform that action.")
     res.end()
-    return true
-  return false
-  
-    
+    return false
+  return true
+
+
 handleLadderUpdate = (req, res) ->
   log.info("Going to see about sending ladder update emails.")
   requestIsFromDesignatedCronHandler = isRequestFromDesignatedCronHandler req, res
-  unless requestIsFromDesignatedCronHandler then return
-    
+  #unless requestIsFromDesignatedCronHandler then return
+
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
   # TODO: somehow fetch the histograms
@@ -97,8 +100,8 @@ sendLadderUpdateEmail = (session, daysAgo) ->
       context =
         email_id: sendwithus.templates.ladder_update_email
         recipient:
-          address: user.email
-          #address: 'nick@codecombat.com'  # Debugging
+          #address: user.email
+          address: 'nick@codecombat.com'  # Debugging
           name: name
         email_data:
           name: name
@@ -149,15 +152,18 @@ getScoreHistoryGraphURL = (session, daysAgo) ->
   since = new Date() - 86400 * 1000 * daysAgo
   scoreHistory = (s for s in session.scoreHistory ? [] when s[0] >= since)
   return '' unless scoreHistory.length > 1
+  scoreHistory = _.last scoreHistory, 100  # Chart URL needs to be under 2048 characters for GET
   times = (s[0] for s in scoreHistory)
   times = ((100 * (t - times[0]) / (times[times.length - 1] - times[0])).toFixed(1) for t in times)
   scores = (s[1] for s in scoreHistory)
-  lowest = _.min scores
-  highest = _.max scores
+  lowest = _.min scores.concat([0])
+  highest = _.max scores.concat(50)
   scores = (Math.round(100 * (s - lowest) / (highest - lowest)) for s in scores)
   currentScore = Math.round scoreHistory[scoreHistory.length - 1][1] * 100
+  minScore = Math.round(100 * lowest)
+  maxScore = Math.round(100 * highest)
   chartData = times.join(',') + '|' + scores.join(',')
-  "https://chart.googleapis.com/chart?chs=600x75&cht=lxy&chtt=Score%3A+#{currentScore}&chts=222222,12,r&chf=a,s,000000FF&chls=2&chd=t:#{chartData}"
+  "https://chart.googleapis.com/chart?chs=600x75&cht=lxy&chtt=Score%3A+#{currentScore}&chts=222222,12,r&chf=a,s,000000FF&chls=2&chd=t:#{chartData}&chxt=y&chxr=0,#{minScore},#{maxScore}"
 
 handleMailchimpWebHook = (req, res) ->
   post = req.body

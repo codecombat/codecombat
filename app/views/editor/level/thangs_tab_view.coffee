@@ -98,6 +98,7 @@ module.exports = class ThangsTabView extends View
     @$el.find('#extant-thangs-filter button:first').button('toggle')
 
   onFilterExtantThangs: (e) ->
+    @$el.find('#extant-thangs-filter button.active').button('toggle')
     button = $(e.target).closest('button')
     button.button('toggle')
     val = button.val()
