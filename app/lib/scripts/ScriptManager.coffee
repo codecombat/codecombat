@@ -64,7 +64,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @triggered = []
     @ended = []
     @noteGroupQueue = []
-    @scripts = $.extend(true, {}, @originalScripts)
+    @scripts = $.extend(true, [], @originalScripts)
 
   addScriptSubscriptions: ->
     idNum = 0

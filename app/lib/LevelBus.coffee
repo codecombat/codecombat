@@ -18,7 +18,6 @@ module.exports = class LevelBus extends Bus
     'surface:frame-changed': 'onFrameChanged'
     'surface:sprite-selected': 'onSpriteSelected'
     'level-set-playing': 'onSetPlaying'
-    'thang-code-ran': 'onCodeRan'
     'level-show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
@@ -170,17 +169,6 @@ module.exports = class LevelBus extends Bus
     return unless @onPoint()
     state = @session.get('state')
     state.playing = e.playing
-    @session.set('state', state)
-    @changedSessionProperties.state = true
-    @saveSession()
-
-  onCodeRan: (e) ->
-    return unless @onPoint()
-    state = @session.get('state')
-    state.thangs ?= {}
-    methods = $.extend(true, {}, (e.methods))
-    delete method.metrics.statements for methodName, method of methods
-    state.thangs[e.thangID] = { methods: methods }
     @session.set('state', state)
     @changedSessionProperties.state = true
     @saveSession()

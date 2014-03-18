@@ -155,7 +155,7 @@ module.exports = class ThangComponentEditView extends CocoView
 
 
   reportChanges: ->
-    @callback?($.extend(true, {}, @extantComponentsTreema.data))
+    @callback?($.extend(true, [], @extantComponentsTreema.data))
 
 class ThangComponentsArrayNode extends TreemaArrayNode
   valueClass: 'treema-thang-components-array'
