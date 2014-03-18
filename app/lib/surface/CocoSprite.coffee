@@ -415,7 +415,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   createMarks: ->
     if @thang
-      allProps = ['visualRange', 'attackRange', 'voiceRange']
+      allProps = []
       allProps = allProps.concat (@thang.hudProperties ? [])
       allProps = allProps.concat (@thang.programmableProperties ? [])
       allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
