@@ -90,12 +90,19 @@ module.exports = class ThangsTabView extends View
     context.groups = groups
     context
 
+  onWindowResize: (e) ->
+    $('#thangs-list').height('100%')
+    thangsHeaderHeight = $('#thangs-header').height()
+    oldHeight = $('#thangs-list').height()
+    $('#thangs-list').height(oldHeight - thangsHeaderHeight)
+
   afterRender: ->
     return if @startsLoading
     super()
     $('.tab-content').click @selectAddThang
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
+    $(window).resize @onWindowResize
 
   onFilterExtantThangs: (e) ->
     @$el.find('#extant-thangs-filter button.active').button('toggle')
@@ -131,6 +138,9 @@ module.exports = class ThangsTabView extends View
     @thangsTreema.open()
     @onThangsChanged()  # Initialize the World with Thangs
     @initSurface()
+    thangsHeaderHeight = $('#thangs-header').height()
+    oldHeight = $('#thangs-list').height()
+    $('#thangs-list').height(oldHeight - thangsHeaderHeight)
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
