@@ -115,26 +115,35 @@ module.exports = class Mark extends CocoClass
     @mark.layerIndex = 10
     #@mark.cache 0, 0, diameter, diameter  # not actually faster than simple ellipse draw
 
-  buildRadius: (type) ->
-    alpha = 1
+  buildRadius: (range) ->
+    alpha = 0.35
     colors =
       voiceRange: "rgba(0, 145, 0, #{alpha})"
       visualRange: "rgba(0, 0, 145, #{alpha})"
       attackRange: "rgba(145, 0, 0, #{alpha})"
 
-    @mark = new createjs.Shape()
-    @mark.graphics.beginFill colors[type]
-    
-    r = @sprite.thang[type]
+    extracolors = [
+      "rgba(145, 0, 145, #{alpha})"
+      "rgba(0, 145, 145, #{alpha})"
+      "rgba(145, 105, 0, #{alpha})"
+      "rgba(225, 125, 0, #{alpha})"
+    ]
 
+    # Find the index of this range, to find the next-smallest radius
     rangeNames = @sprite.ranges.map((value, index) ->
       value[0]
     )
-    i = rangeNames.indexOf(type)
-    console.log(i, @sprite.ranges)
-      
+    i = rangeNames.indexOf(range)
+
+    @mark = new createjs.Shape()
+
+    if colors[range]?
+      @mark.graphics.beginFill colors[range]
+    else
+      @mark.graphics.beginFill extracolors[i]
+   
     # Draw the outer circle
-    @mark.graphics.drawCircle 0, 0, r * Camera.PPM
+    @mark.graphics.drawCircle 0, 0, @sprite.thang[range] * Camera.PPM
 
     # Cut out the hollow part if necessary
     if i+1 < @sprite.ranges.length
