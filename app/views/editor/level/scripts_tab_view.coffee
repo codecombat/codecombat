@@ -21,7 +21,7 @@ module.exports = class ScriptsTabView extends View
   onLevelLoaded: (e) ->
     @level = e.level
     @dimensions = @level.dimensions()
-    scripts = _.cloneDeep(@level.get('scripts') ? [])
+    scripts = $.extend(true, {}, @level.get('scripts') ? [])
     scripts = _.cloneDeep defaultScripts unless scripts.length
     treemaOptions =
       schema: Level.schema.get('properties').scripts

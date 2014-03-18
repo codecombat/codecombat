@@ -30,7 +30,7 @@ module.exports = class ThangType extends CocoModel
     return @actions or @buildActions()
 
   buildActions: ->
-    @actions = _.cloneDeep(@get('actions') or {})
+    @actions = $.extend(true, {}, @get('actions') or {})
     for name, action of @actions
       action.name = name
       for relatedName, relatedAction of action.relatedActions ? {}

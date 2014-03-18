@@ -56,7 +56,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   constructor: (@thangType, options) ->
     super()
-    @options = _.extend(_.cloneDeep(@options), options)
+    @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
     console.error @toString(), "has no ThangType!" unless @thangType
     @actionQueue = []

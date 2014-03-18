@@ -61,7 +61,7 @@ module.exports = class LevelSystemAddView extends View
       levelSystem =
         original: s.get('original') ? id
         majorVersion: s.get('version').major ? 0
-        config: _.cloneDeep(s.get('configSchema').default ? {})
+        config: $.extend(true, {}, s.get('configSchema').default ? {})
       @extantSystems.push levelSystem
       Backbone.Mediator.publish 'level-system-added', system: levelSystem
     @renderAvailableSystems()

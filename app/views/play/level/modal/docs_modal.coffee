@@ -25,7 +25,7 @@ module.exports = class DocsModal extends View
 
     @docs = specific.concat(general)
     marked.setOptions {gfm: true, sanitize: false, smartLists: true, breaks: false}
-    @docs = _.cloneDeep(@docs)
+    @docs = $.extend(true, {}, @docs)
     doc.html = marked(utils.i18n doc, 'body') for doc in @docs
     doc.name = (utils.i18n doc, 'name') for doc in @docs
     doc.slug = _.string.slugify(doc.name) for doc in @docs

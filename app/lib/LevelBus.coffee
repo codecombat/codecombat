@@ -178,7 +178,7 @@ module.exports = class LevelBus extends Bus
     return unless @onPoint()
     state = @session.get('state')
     state.thangs ?= {}
-    methods = _.cloneDeep(e.methods)
+    methods = $.extend(true, {}, (e.methods))
     delete method.metrics.statements for methodName, method of methods
     state.thangs[e.thangID] = { methods: methods }
     @session.set('state', state)
