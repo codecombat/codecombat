@@ -107,6 +107,7 @@ module.exports = class LevelLoader extends CocoClass
   # Things to do when either the Session or Supermodel load
 
   update: =>
+    return if @destroyed
     @notifyProgress()
 
     return if @updateCompleted

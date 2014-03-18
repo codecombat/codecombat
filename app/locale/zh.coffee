@@ -1,15 +1,15 @@
 module.exports = nativeDescription: "中文", englishDescription: "Chinese", translation:
   common:
-#    loading: "Loading..."
-#    saving: "Saving..."
+    loading: "加载中..."
+    saving: "正在保存..."
     sending: "在发送中。。。"
     cancel: "退出"
-#    save: "Save"
+    save: "保存"
 #    delay_1_sec: "1 second"
 #    delay_3_sec: "3 seconds"
 #    delay_5_sec: "5 seconds"
 #    manual: "Manual"
-#    fork: "Fork"
+    fork: "Fork"
     play: "玩"
 
   modal:
@@ -48,11 +48,11 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
     recover: "找回账户"
 
 #  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+    recover_account_title: "帐户恢复"
+    send_password: "发送恢复密码"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "创建新帐户保存游戏进度"
     description: "免费啊。先跟你讲两点你就可以开始了"
     email_announcements: "收到邮件宣告"
 #    coppa: "13+ or non-USA "
@@ -64,9 +64,9 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
   home:
     slogan: "通过玩儿游戏学到Javascript脚本语言"
     no_ie: "抱歉！Internet Explorer 9等更旧的预览器打不开此网站"
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
+    no_mobile: "CodeCombat暂时没有手机版本，可能无法运行!"
     play: "玩"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
+    old_browser: "啊噢...你的浏览器太旧啦，CodeCombat无法运行了...抱歉！"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
 #    for_beginners: "For Beginners"
