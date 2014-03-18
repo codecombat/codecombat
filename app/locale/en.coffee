@@ -82,6 +82,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
     level_difficulty: "Difficulty: "
     play_as: "Play As "
+    spectate: "Spectate"
 
   contact:
     contact_us: "Contact CodeCombat"

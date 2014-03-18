@@ -81,6 +81,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     campaign_player_created: "Door-spelers-gemaakt"
     campaign_player_created_description: "... waarin je ten strijde trekt tegen de creativiteit van andere <a href=\"/contribute#artisan\">Ambachtelijke Tovenaars</a>."
     level_difficulty: "Moeilijkheidsgraad: "
+    play_as: "Vecht als "
+    spectate: "Schouw toe"
 
   contact:
     contact_us: "Contact opnemen met CodeCombat"
