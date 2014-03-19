@@ -56,7 +56,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   constructor: (@thangType, options) ->
     super()
-    @options = _.extend(_.cloneDeep(@options), options)
+    @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
     console.error @toString(), "has no ThangType!" unless @thangType
     @actionQueue = []
@@ -64,6 +64,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @labels = {}
     @handledAoEs = {}
     @age = 0
+    @scaleFactor = @targetScaleFactor = 1
     @displayObject = new createjs.Container()
     if @thangType.get('actions')
       @setupSprite()
@@ -249,11 +250,15 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
-    scaleFactor = @thang.scaleFactor ? 1
-    scaleFactorX = @thang.scaleFactorX ? scaleFactor
-    scaleFactorY = @thang.scaleFactorY ? scaleFactor
+    scaleFactorX = @thang.scaleFactorX ? @scaleFactor
+    scaleFactorY = @thang.scaleFactorY ? @scaleFactor
     @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
     @imageObject.scaleY = @originalScaleY * scaleY * scaleFactorY
+
+    if (@thang.scaleFactor or 1) isnt @targetScaleFactor
+      createjs.Tween.removeTweens(@)
+      createjs.Tween.get(@).to({scaleFactor:@thang.scaleFactor or 1}, 2000, createjs.Ease.elasticOut)
+      @targetScaleFactor = @thang.scaleFactor
 
   updateAlpha: ->
     @imageObject.alpha = if @hiding then 0 else 1
@@ -413,6 +418,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     pos
 
   createMarks: ->
+    return unless @options.camera
     if @thang
       allProps = []
       allProps = allProps.concat (@thang.hudProperties ? [])
@@ -432,9 +438,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @marks.repair?.toggle @thang?.errorsOut
 
     if @selected
-      @marks.voiceradius?.toggle true 
-      @marks.visualradius?.toggle true 
-      @marks.attackradius?.toggle true 
+      @marks.voiceradius?.toggle true
+      @marks.visualradius?.toggle true
+      @marks.attackradius?.toggle true
     else
       @marks.voiceradius?.toggle false
       @marks.visualradius?.toggle false

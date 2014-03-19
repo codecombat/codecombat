@@ -4,6 +4,7 @@ Simulator = require 'lib/simulator/Simulator'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
 {teamDataFromLevel} = require './ladder/utils'
+{me} = require 'lib/auth'
 application = require 'application'
 
 LadderTabView = require './ladder/ladder_tab'
@@ -32,6 +33,7 @@ module.exports = class LadderView extends RootView
     'click #simulate-button': 'onSimulateButtonClick'
     'click #simulate-all-button': 'onSimulateAllButtonClick'
     'click .play-button': 'onClickPlayButton'
+    'click a': 'onClickedLink'
 
   constructor: (options, @levelID) ->
     super(options)
@@ -73,11 +75,17 @@ module.exports = class LadderView extends RootView
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>
-    return if @destroyed or application.userIsIdle or new Date() - 2000 < @lastRefreshTime
-    @lastRefreshTime = new Date()
-    @ladderTab.refreshLadder()
-    @myMatchesTab.refreshMatches()
-    console.log "Refreshing ladder and matches views."
+    return if @destroyed or application.userIsIdle
+    if @$el.find("#ladder.active").length
+      return if new Date() - 2000 < @lastLadderRefreshTime
+      @lastLadderRefreshTime = new Date()
+      @ladderTab.refreshLadder()
+      console.log "Refreshing ladder."
+    if @$el.find("#my-matches.active").length
+      return if new Date() - 2000 < @lastMatchesRefreshTime
+      @lastMatchesRefreshTime = new Date()
+      @myMatchesTab.refreshMatches()
+      console.log "Refreshing matches view."
 
   onIdleChanged: (e) ->
     @refreshViews() unless e.idle
@@ -121,9 +129,21 @@ module.exports = class LadderView extends RootView
     @showPlayModal($(e.target).closest('.play-button').data('team'))
 
   showPlayModal: (teamID) ->
+    return @showApologeticSignupModal() if me.get('anonymous')
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
     modal = new LadderPlayModal({}, @level, session, teamID)
     @openModalView modal
+
+  showApologeticSignupModal: ->
+    SignupModal = require 'views/modal/signup_modal'
+    @openModalView(new SignupModal({showRequiredError:true}))
+
+  onClickedLink: (e) ->
+    link = $(e.target).closest('a').attr('href')
+    if link?.startsWith('/play/level') and me.get('anonymous')
+      e.stopPropagation()
+      e.preventDefault()
+      @showApologeticSignupModal()
 
   destroy: ->
     clearInterval @refreshInterval

@@ -1,9 +1,10 @@
 SuperModel = require 'models/SuperModel'
+CocoClass = require 'lib/CocoClass'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 
-module.exports = class Simulator
+module.exports = class Simulator extends CocoClass
 
   constructor: ->
     _.extend @, Backbone.Events
@@ -14,9 +15,10 @@ module.exports = class Simulator
   destroy: ->
     @off()
     @cleanupSimulation()
-    # TODO: More teardown?
+    super()
 
   fetchAndSimulateTask: =>
+    return if @destroyed
     @trigger 'statusUpdate', 'Fetching simulation data!'
     $.ajax
       url: @taskURL
@@ -42,13 +44,14 @@ module.exports = class Simulator
     return @handleNoGamesResponse() if jqXHR.status is 204
     @trigger 'statusUpdate', 'Setting up simulation!'
     @task = new SimulationTask(taskData)
-    @supermodel = new SuperModel()
+    @supermodel ?= new SuperModel()
     @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
 
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
     @levelLoader.once 'loaded-all', @simulateGame
 
   simulateGame: =>
+    return if @destroyed
     @trigger 'statusUpdate', 'All resources loaded, simulating!', @task.getSessions()
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
     @setupGod()

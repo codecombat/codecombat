@@ -66,6 +66,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
     no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
     play: "Play"
+    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
+    old_browser_suffix: "You can try anyway, but it probably won't work."
+    campaign: "Campaign"
+    for_beginners: "For Beginners"
+    multiplayer: "Multiplayer"
+    for_developers: "For Developers"
 
   play:
     choose_your_level: "Choose Your Level"
@@ -82,6 +88,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
     level_difficulty: "Difficulty: "
     play_as: "Play As "
+    spectate: "Spectate"
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -218,6 +225,20 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     editor_config_indentguides_description: "Displays vertical lines to see indentation better."
     editor_config_behaviors_label: "Smart Behaviors"
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+    loading_ready: "Ready!"
+    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+    tip_guide_exists: "Click the guide at the top of the page for useful info."
+    tip_open_source: "CodeCombat is 100% open source!"
+    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+    tip_js_beginning: "JavaScript is just the beginning."
+    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+    tip_baby_coders: "In the future, even babies will be Archmages."
+    tip_morale_improves: "Loading will continue until morale improves."
+    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+    tip_reticulating: "Reticulating spines."
+    tip_harry: "Yer a Wizard, "
 
   admin:
     av_title: "Admin Views"
@@ -533,3 +554,17 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     simple_ai: "Simple AI"
     warmup: "Warmup"
     vs: "VS"
+
+  multiplayer_launch:
+    introducing_dungeon_arena: "Introducing Dungeon Arena"
+    new_way: "March 17, 2014: The new way to compete with code."
+    to_battle: "To Battle, Developers!"
+    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
+    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
+    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
+    fork_our_arenas: "fork our arenas"
+    create_worlds: "and create your own worlds."
+    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
+    tutorial: "tutorial"
+    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
+    so_ready: "I Am So Ready for This"

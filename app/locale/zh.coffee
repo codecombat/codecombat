@@ -1,15 +1,15 @@
 module.exports = nativeDescription: "中文", englishDescription: "Chinese", translation:
   common:
-#    loading: "Loading..."
-#    saving: "Saving..."
+    loading: "加载中..."
+    saving: "正在保存..."
     sending: "在发送中。。。"
     cancel: "退出"
-#    save: "Save"
+    save: "保存"
 #    delay_1_sec: "1 second"
 #    delay_3_sec: "3 seconds"
 #    delay_5_sec: "5 seconds"
 #    manual: "Manual"
-#    fork: "Fork"
+    fork: "Fork"
     play: "玩"
 
   modal:
@@ -48,11 +48,11 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
     recover: "找回账户"
 
 #  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+    recover_account_title: "帐户恢复"
+    send_password: "发送恢复密码"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "创建新帐户保存游戏进度"
     description: "免费啊。先跟你讲两点你就可以开始了"
     email_announcements: "收到邮件宣告"
 #    coppa: "13+ or non-USA "
@@ -64,8 +64,14 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
   home:
     slogan: "通过玩儿游戏学到Javascript脚本语言"
     no_ie: "抱歉！Internet Explorer 9等更旧的预览器打不开此网站"
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
+    no_mobile: "CodeCombat暂时没有手机版本，可能无法运行!"
     play: "玩"
+    old_browser: "啊噢...你的浏览器太旧啦，CodeCombat无法运行了...抱歉！"
+#    old_browser_suffix: "You can try anyway, but it probably won't work."
+#    campaign: "Campaign"
+#    for_beginners: "For Beginners"
+#    multiplayer: "Multiplayer"
+#    for_developers: "For Developers"
 
   play:
     choose_your_level: "选取难度"
@@ -82,6 +88,7 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
     level_difficulty: "难度"
 #    play_as: "Play As "
+#    spectate: "Spectate"
 
   contact:
     contact_us: "联系我们"
@@ -531,3 +538,17 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
 #    vs: "VS"
+
+#  multiplayer_launch:
+#    introducing_dungeon_arena: "Introducing Dungeon Arena"
+#    new_way: "March 17, 2014: The new way to compete with code."
+#    to_battle: "To Battle, Developers!"
+#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
+#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
+#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
+#    fork_our_arenas: "fork our arenas"
+#    create_worlds: "and create your own worlds."
+#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
+#    tutorial: "tutorial"
+#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
+#    so_ready: "I Am So Ready for This"

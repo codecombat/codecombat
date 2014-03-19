@@ -202,7 +202,7 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
       cb null, true
     else
       ratio = (updatedSession.numberOfLosses) / (totalNumberOfGamesPlayed)
-      if ratio > 0.66
+      if ratio > 0.2
         cb null, false
         console.log "Ratio(#{ratio}) is bad, ending simulation"
       else
@@ -225,6 +225,9 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
       submittedCode:
         $exists: true
       team: opposingTeam
+      
+    if opponentSessionTotalScore < 30
+      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 1
 
     limitNumber = 1
 

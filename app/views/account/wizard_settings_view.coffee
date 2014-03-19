@@ -69,7 +69,7 @@ module.exports = class WizardSettingsView extends CocoView
     colorGroup.find('.minicolors-swatch').toggle Boolean(enabled)
 
   updateColorSettings: (colorGroup) =>
-    wizardSettings = _.cloneDeep(me.get('wizard')) or {}
+    wizardSettings = $.extend(true, {}, me.get('wizard')) or {}
     wizardSettings.colorConfig ?= {}
     colorName = colorGroup.data('name')
     wizardSettings.colorConfig[colorName] ?= {}

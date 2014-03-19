@@ -54,7 +54,7 @@ module.exports = class SystemsTabView extends View
     @buildSystemsTreema()
 
   buildSystemsTreema: ->
-    systems = _.cloneDeep(@level.get('systems') ? [])
+    systems = $.extend(true, [], @level.get('systems') ? [])
     unless systems.length
       systems = @buildDefaultSystems()
       insertedDefaults = true
