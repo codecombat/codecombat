@@ -1,6 +1,10 @@
 @echo off
 setlocal EnableDelayedExpansion
 
+Color 0A 
+
+mode con: cols=78 lines=60
+
 :: Global Variables
 set "temp-dir=C:\Coco-Temp"
 set install-log=%temp-dir%\coco-dev-install-log.txt
@@ -14,19 +18,25 @@ IF EXIST "%PROGRAMFILES(X86)%" (
 
 set "ZU-app=utilities\7za.exe"
 
+:: BUGS: 
+  ::  + DEBUG ALL STEPS UNTILL NOW DONE
+
+
 :: TODO:
-::  + Full Automatic Package bat file.
-::  + Write code to set environment variables...
 ::  + Write code to install vs if it's not yet installed on users pc
-::  + Write Git Checkout repository code:
-::      1) Let user specify destination
-::      2) do a git clone with the git application
+
 ::  + Configuraton and installation checklist:
-::      1) ... ?!
+::      1) cd codecombat
+::      2) npm install -g bower brunch nodemon sendwithus
+::      3) bower install
+::      4) gem install sass
+::      5) npm install
+::      6) brunch -w
+::      Extra... @ Fail run npm install
+
 ::  + Copy the automated dev batch file to root folder
 ::      => Let user define mongo-db directory
 ::  + Start the dev environment
-::  + Exit message and warn user that he can quit the window now
 	
 :: Create The Temporary Directory
 IF EXIST %temp-dir% rmdir %temp-dir% /s /q
@@ -42,6 +52,31 @@ call:parse_file_new "config\config" cnfg n
 
 call:log "Welcome to the automated Installation of the CodeCombat Dev. Environment!"
 call:log_sse "v%%cnfg[1]%% authored by %%cnfg[2]%% and published by %%cnfg[3]%%."
+
+:: Language Agreement Stuff
+
+call:log "In order to continue the installation of the developers environment"
+call:log "you will have to read and agree with the following license:
+call:draw_dss
+echo.
+call:parse_aa_and_draw "license.txt"
+echo.
+call:draw_dss
+call:strict_user_yn_question "Have you read the license and do you agree with it?"  
+
+if "%res%"=="false" (
+  call:log "Sorry to hear that, have a good day..."
+  call:log_sse "Installation and Setup of the CodeCombat environment is cancelled."
+  GOTO:END
+)
+
+:: Tips
+call:log "Before we start the installation, here are some tips:"
+echo.
+
+call:parse_aa_and_draw "config\tips"
+
+call:draw_ss
 
 :: Read Language Index
 call:parse_file_new "localisation\languages" lang lang_c
@@ -99,7 +134,7 @@ call:log_lw_sse 2
 
 :: downloads for all version...
 
-:: [TODO] The choice between Cygwin && Git ?! Is 
+:: [TODO] The choice between Cygwin && Git ?! Is  => HAVE EXTERNAL GIT APPLICATION LIST!!!
 
 call:log_lw_sse 3
 
@@ -109,13 +144,25 @@ call:log_lw 8
 call:install_software_o "git" "%%downloads[1]%%" exe 9
 call:draw_dss
 call:get_lw word 11
-:: [TODO] Check if that application exists, if not ask again with warning that the path is invalid!!! (SAFETYYYY)
-set /p git_exe_path="%word%: "
 
 :: [TODO] Add downloads for windows visual studio ?!
 
-:: architecture specific downloads...
-IF EXIST "%PROGRAMFILES(X86)%" (GOTO 64BIT) ELSE (GOTO 32BIT)
+call:user_set_git_path
+
+:user_set_git_path_fail
+  if not exist "%git_exe_path%" (
+    call:log_lw 27
+    call:draw_dss
+    call:user_set_git_path
+  )
+  :: architecture specific downloads...
+  IF EXIST "%PROGRAMFILES(X86)%" (GOTO 64BIT) ELSE (GOTO 32BIT)
+goto:eof
+
+:user_set_git_path
+  set /p git_exe_path="%word%: "
+  call:user_set_git_path_fail
+goto:eof
 
 :go_to_platform
   call:log_ds "Windows %~1 detected..."
@@ -127,7 +174,14 @@ goto:eof
   
   call:install_software_o "node-js" "%%downloads_64[1]%%" msi 12
   call:draw_dss
+  
+  call:get_path_from_user 41 42
+  set "node_js_path=%user_tmp_path%"
+  Call:draw_dss
+  
   call:install_software_o "ruby" "%%downloads_64[2]%%" exe 13
+  call:draw_dss
+  call:install_software_o "python" "%%downloads_64[3]%%" msi 26
   
   :: Some installations require specific windows versions
   for /f "tokens=4-5 delims=. " %%i in ('ver') do set VERSION=%%i.%%j
@@ -144,7 +198,14 @@ GOTO END
   
   call:install_software_o "node-js" "%%downloads_32[1]%%" msi 12
   call:draw_dss
+  
+  call:get_path_from_user 41 42
+  set "node_js_path=%user_tmp_path%"
+  Call:draw_dss
+  
   call:install_software_o "ruby" "%%downloads_32[2]%%" exe 13
+  call:draw_dss
+  call:install_software_o "python" "%%downloads_32[3]%%" msi 26
   
   :: Some installations require specific windows versions
   for /f "tokens=4-5 delims=. " %%i in ('ver') do set VERSION=%%i.%%j
@@ -187,6 +248,39 @@ goto END
 :git_rep_checkout
   call:log_lw_ss 16
   call:log_lw_sse 17
+  
+  set "PATH=%PATH%;%git_exe_path%\bin;%git_exe_path%\cmd" /M
+  
+  call:log_lw 36
+  call:log_lw 37
+  call:log_lw 38
+  
+  call:draw_dss
+  
+  call:get_lw word 39
+  set /p git_username="%word% "
+  
+  call:draw_dss
+    
+  call:get_empty_path_from_user 32
+  set "git_repository_path=%user_tmp_path%"
+  
+goto:git_rep_checkout_auto
+
+:git_rep_checkout_auto
+  git clone https://github.com/%git_username%/codecombat.git "%git_repository_path%"
+goto:git_repo_configuration
+
+:git_repo_configuration
+  call:log_lw_ss 35
+  call:log_lw_sse 36
+  
+  SET "PATH=%PATH%;%node_js_path%" /M
+  setx -m git "%git_exe_path%\bin"
+
+  call:log_lw 40
+  start cmd /k "npm install -g bower brunch nodemon sendwithus & exit"
+  
 goto report_ok
 
 :report_ok
@@ -199,7 +293,7 @@ goto report_ok
 goto clean_up
 
 :open_readme
-  call:open_txt_file "config/README.txt"
+  call:open_txt_file "config/info"
 goto:eof
 
 :warn_and_exit
@@ -214,7 +308,6 @@ goto END
 :clean_up
   call:log_lw_sse 23
   rmdir %temp-dir% /s /q
-  PAUSE
 goto END
 
 :: ============================ INSTALL SOFTWARE FUNCTIONS ======================
@@ -234,11 +327,7 @@ goto:eof
 
 :install_software_o
   call:get_lw word %~4
-  set /p result="%word% [Y/N]: "
-  call:draw_dss
-  set res=false
-  if "%result%"=="N" set res=true
-  if "%result%"=="n" set res=true
+  call:user_yn_question "%word%"
   if "%res%"=="true" (
     call:install_software %~1 %~2 %~3
   ) else (
@@ -271,17 +360,59 @@ goto:eof
   rmdir %packed_software_path%\%temp_dir%\ /s /q
 goto:eof
 
+:user_yn_question
+  set /p result="%~1 [Y/N]: "
+  call:draw_dss
+  set "res=false"
+  if "%result%"=="N" (set "res=true")
+  if "%result%"=="n" (set "res=true")
+goto:eof
+
+:strict_user_yn_question
+  set /p result="%~1 [Y/N]: "
+  call:draw_dss
+  set "res=unset"
+  if "%result%"=="N" (set "res=false")
+  if "%result%"=="n" (set "res=false")
+  if "%result%"=="Y" (set "res=true")
+  if "%result%"=="y" (set "res=true")
+  
+  if "%res%"=="unset" (
+    call:log "Please answer the question with either Y or N..."
+    call:draw_dss
+    call:strict_user_yn_question "%~1"
+  )
+goto:eof
+
 :install_packed_software_o
   call:get_lw word %~4
-  set /p result="%word% [Y/N]: "
-  call:draw_dss
-  set res=false
-  if "%result%"=="N" set res=true
-  if "%result%"=="n" set res=true
+  call:user_yn_question "%word%"
   if "%res%"=="true" (
     call:install_packed_software %~1 %~2 %~3
   ) else (
     call:log_lw 10
+  )
+goto:eof
+
+:: ===================== USER - INTERACTION - FUNCTIONS ========================
+
+:get_path_from_user
+  call:get_lw word %~1
+  set /p user_tmp_path="%word% "
+  if not exist "%user_tmp_path%" (
+    call:log_lw 43
+    call:draw_dss
+    call:get_path_from_user %~1 %~2
+  )
+goto:eof
+
+:get_empty_path_from_user
+  call:get_lw word %~1
+  set /p user_tmp_path="%word% "
+  if exist "%user_tmp_path%" (
+    call:log_lw 33
+    call:draw_dss
+    call:get_path_from_user %~1
   )
 goto:eof
 
@@ -293,11 +424,21 @@ goto:eof
 goto:eof
 
 :draw_ss
+  echo.
   call:log "-----------------------------------------------------------------------------"
+  echo.
 goto:eof
 
 :draw_dss
+  echo.
   call:log "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -"
+  echo.
+goto:eof
+
+:draw_seperator
+  echo.
+  echo                            + + + + + + + +                           
+  echo.
 goto:eof
 
 :log_ss
@@ -323,7 +464,7 @@ goto:eof
 
 :parse_aa_and_draw
   set "file=%~1"
-  for /F "usebackq delims=" %%a in ("%file%") do (
+  for /f "usebackq tokens=* delims=;" %%a in ("%file%") do (
     echo.%%a
   )
 goto:eof
@@ -341,7 +482,7 @@ goto:eof
   call:parse_file %~1 %~2 %~3
 goto:eof
 
-:: ============================== LOCALISATION FUNCTIONS ===========================
+:: ============================== LOCALISATION FUNCTIONS ================
 
 :get_lw
   call:get_lw_id %~1 %lang_id% %~2
@@ -355,6 +496,11 @@ goto:eof
 :log_lw
   call:get_lw str %~1
   call:log "%str%"
+goto:eof
+
+:log_lw_prfx
+  call:get_lw str %~1
+  call:log "%~2%str%"
 goto:eof
 
 :log_lw_ss
@@ -372,7 +518,16 @@ goto:eof
   call:log_sse "%str%"
 goto:eof
 
+:: ============================== WINDOWS FUNCTIONS ======================
+
+:set_env_var
+  setx -m %~1 %~2
+goto:eof
+
 :: ============================== EOF ====================================
 
 :END
+  exit
+goto:eof
+
 endlocal
