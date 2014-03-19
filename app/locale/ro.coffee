@@ -335,6 +335,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick poate să facă orice si a ales să dezvolte CodeCombat."
     jeremy_description: "Customer support mage, usability tester, and community organizer; probabil ca ați vorbit deja cu Jeremy."
     michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael este cel care ține serverele in picioare."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Aspecte Legale"

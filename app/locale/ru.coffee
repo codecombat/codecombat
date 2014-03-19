@@ -335,6 +335,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     nick_description: "Маг программирования, эксцентрично мотивированный волшебник, и экспериментатор вверх ногами. Ник может делать всё и хочет построить CodeCombat."
     jeremy_description: "Маг клиентской поддержки, юзабилити-тестер, и организатор сообщества; вы наверняка уже говорили с Джереми."
     michael_description: "Программист, сисадмин и непризнанный технический гений, Михаэль является лицом, поддерживающим наши серверы онлайн."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Юридическая информация"

@@ -335,6 +335,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     nick_description: "Getalenteerde programmeur, excentriek gemotiveerd, een rasechte experimenteerder. Nick kan alles en kiest ervoor om CodeCombat te ontwikkelen."
     jeremy_description: "Klantenservice Manager, usability tester en gemeenschapsorganisator; Je hebt waarschijnlijk al gesproken met Jeremy."
     michael_description: "Programmeur, sys-admin, en technisch wonderkind, Michael is de persoon die onze servers draaiende houdt."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Legaal"

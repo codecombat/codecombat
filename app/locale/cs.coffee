@@ -335,6 +335,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     nick_description: "Programátorský kouzelník, excentrický motivační mág i experimentátor. Nick by mohl dělat de-facto cokoliv, ale zvolil si vytvořit CodeCombat."
     jeremy_description: "Mistr zákaznické podpory, tester použitelnosti a organizátor komunity. Je velmi pravděpodobné, že jste si spolu již psali."
     michael_description: "Programátor, systémový administrátor a král podsvětí technického zázemí. Michael udržuje naše servery online."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Licence"

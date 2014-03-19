@@ -336,6 +336,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     nick_description: "프로그래밍 마법사, 별난 자극의 마술사, 거꾸로 생각하는것을 좋아하는 실험가. Nick은 뭐든지 할수있는 남자입니다. 그 뭐든지 중에 코드 컴뱃을 선택했죠. "
     jeremy_description: "고객 지원 마법사, 사용성 테스터, 커뮤니티 오거나이저; 당신은 아마 이미 Jeremy랑 이야기 했을거에요."
     michael_description: "프로그래머, 시스템 관리자, 기술 신동(대학생이래요),Michael 은 우리 서버를 계속 무결점상태로 유지시켜주는 사람입니다."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
 #  legal:
 #    page_title: "Legal"

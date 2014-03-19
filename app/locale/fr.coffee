@@ -335,6 +335,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     nick_description: "Assistant programmeur, mage à la motivation excentrique, et bidouilleur de l'extrême. Nick peut faire n'importe quoi mais il a choisi CodeCombat."
     jeremy_description: "Mage de l'assistance client, testeur de maniabilité, et community manager; vous avez probablement déjà parlé avec Jeremy."
     michael_description: "Programmeur, administrateur réseau, et l'enfant prodige du premier cycle, Michael est la personne qui maintient nos serveurs en ligne."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Légal"
