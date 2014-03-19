@@ -9,7 +9,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     delay_3_sec: "שלוש שניות"
     delay_5_sec: "חמש שניות"
     manual: "מדריך"
-#    fork: "Fork"
+    fork: "קילשון"
     play: "שחק"
 
   modal:
@@ -26,52 +26,52 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     forum: "פורום"
     admin: "אדמין"
     home: "בית"
-#    contribute: "Contribute"
-#    legal: "Legal"
-#    about: "About"
-#    contact: "Contact"
-#    twitter_follow: "Follow"
-#    employers: "Employers"
+    contribute: "תרום"
+    legal: "משפטי"
+    about: "עלינו"
+    contact: "צור קשר"
+    twitter_follow: "עקוב אחרינו בטוויטר"
+    employers: "עובדים"
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    new_major_version: "New Major Version"
-#    cla_prefix: "To save changes, first you must agree to our"
+  versions:
+    save_version_title: "שמור גרסה חדשה"
+    new_major_version: "גרסה חשובה חדשה"
+    cla_prefix: "כדי לשמור יש להירשם לאתר"
 #    cla_url: "CLA"
 #    cla_suffix: "."
-#    cla_agree: "I AGREE"
+    cla_agree: "אני מסכים"
 
-#  login:
-#    sign_up: "Create Account"
-#    log_in: "Log In"
-#    log_out: "Log Out"
-#    recover: "recover account"
+  login:
+    sign_up: "הירשם"
+    log_in: "היכנס"
+    log_out: "צא"
+    recover: "שחזר סיסמה"
 
-#  recover:
-#    recover_account_title: "Recover Account"
-#    send_password: "Send Recovery Password"
+  recover:
+    recover_account_title: "שחזר סיסמה"
+    send_password: "שלח סיסמה חדשה"
 
-#  signup:
-#    create_account_title: "Create Account to Save Progress"
-#    description: "It's free. Just need a couple things and you'll be good to go:"
-#    email_announcements: "Receive announcements by email"
-#    coppa: "13+ or non-USA "
-#    coppa_why: "(Why?)"
-#    creating: "Creating Account..."
-#    sign_up: "Sign Up"
-#    log_in: "log in with password"
+  signup:
+    create_account_title: "הירשם כדי לשמור את התקדמותך"
+    description: "זה בחינם. רק כמה דברים וסיימנו:"
+    email_announcements: "קבל הודעות באימייל"
+    coppa: "בן יותר משלוש עשרה או לא בארצות הברית"
+    coppa_why: "(למה?)"
+    creating: "יוצר חשבון..."
+    sign_up: "הירשם"
+    log_in: "כנס עם סיסמה"
 
-#  home:
-#    slogan: "Learn to Code JavaScript by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
-#    play: "Play"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer"
-#    for_developers: "For Developers"
+  home:
+    slogan: "גם לשחק וגם ללמוד לתכנת"
+    no_ie: "המשחק לא עובד באקפלורר 9 וישן יותר. סליחה!"
+    no_mobile: "המשחק לא עוצב לטלפונים ואולי לא יעבוד"
+    play: "שחק"
+    old_browser: "או או, נראה כי הדפדפן שלך יותר מידי ישן כדי להריץ את המשחק. סליחה!"
+    old_browser_suffix: "אתה יכול לנסות בכול מקרה אבל זה כנראה לא יעבוד."
+    campaign: "מסע"
+    for_beginners: "למתחילים"
+    multiplayer: "רב-משתתפים"
+    for_developers: "למומחים"
 
 #  play:
 #    choose_your_level: "Choose Your Level"
