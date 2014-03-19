@@ -32,7 +32,8 @@
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="/stylesheets/app.css">
   <script src="/lib/ace/ace.js"></script>
-  
+  <link href="/lib/antiscroll/antiscroll.css" rel="stylesheet">
+  <script src="/lib/antiscroll/antiscroll.js" type="text/javascript"></script>  
   <!--[if IE 9]>     <script src="/javascripts/vendor_with_box2d.js"></script> <![endif]-->
   <!--[if !IE]><!--> <script src="/javascripts/vendor.js"></script>            <!--<![endif]-->
   <script src="/javascripts/app.js"></script> <!-- it's all Backbone! -->
@@ -112,8 +113,12 @@
 
   <header class="header-container" id="header-container"></header>
   
-  <div id="page-container"></div>
-  
+  <div class="antiscroll-wrap">
+    <div class="antiscroll-inner">
+      <div id="page-container"></div>
+    </div>
+  </div>
+
   <div id="modal-wrapper"></div>
 
   <!-- begin google api/plus code -->
@@ -155,5 +160,12 @@
     (function(a){if(window.filepicker){return}var b=a.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===a.location.protocol?"https:":"http:")+"//api.filepicker.io/v1/filepicker.js";var c=a.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c);var d={};d._queue=[];var e="pick,pickMultiple,pickAndStore,read,write,writeUrl,export,convert,store,storeUrl,remove,stat,setKey,constructWidget,makeDropPane".split(",");var f=function(a,b){return function(){b.push([a,arguments])}};for(var g=0;g<e.length;g++){d[e[g]]=f(e[g],d._queue)}window.filepicker=d})(document);
   </script>
   <!-- end filepicker.io code -->
+  <!-- begin antiscroll code -->
+  <script type="text/javascript">  
+    $(function () {
+       $('.antiscroll-wrap').antiscroll();
+     });
+  </script>
+  <!-- end antiscroll code -->
 </body>
 </html>
