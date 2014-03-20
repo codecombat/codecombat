@@ -1,5 +1,6 @@
 Level = require('./Level')
 Session = require('./sessions/LevelSession')
+User = require '../users/User'
 SessionHandler = require('./sessions/level_session_handler')
 Feedback = require('./feedbacks/LevelFeedback')
 Handler = require('../commons/Handler')
@@ -32,6 +33,7 @@ LevelHandler = class LevelHandler extends Handler
     return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
     return @getRandomSessionPair(req,res,args[0]) if args[1] is 'random_session_pair'
+    return @getLeaderboardFriends(req, res, args[0]) if args[1] is 'leaderboard_friends'
     
     return @sendNotFoundError(res)
 
@@ -149,7 +151,33 @@ LevelHandler = class LevelHandler extends Handler
       return @sendDatabaseError(res, err) if err
       resultSessions ?= []
       @sendSuccess res, resultSessions
-      
+
+
+  getLeaderboardFriends: (req, res, id) ->
+    friendIDs = req.body.friendIDs or []
+    return res.send([]) unless friendIDs.length
+
+    query = User.find({facebookID:{$in:friendIDs}})
+      .select('facebookID name')
+      .lean()
+
+    query.exec (err, userResults) ->
+      return res.send([]) unless userResults.length
+      [id, version] = id.split('.')
+      userIDs = (r._id+'' for r in userResults)
+      q = {'level.original':id, 'level.majorVersion': parseInt(version), creator: {$in:userIDs}, totalScore:{$exists:true}}
+      query = Session.find(q)
+        .select('creator creatorName totalScore team')
+        .lean()
+
+      query.exec (err, sessionResults) ->
+        return res.send([]) unless sessionResults.length
+        res.send(sessionResults)
+        userMap = {}
+        userMap[u._id] = u.facebookID for u in userResults
+        session.facebookID = userMap[session.creator] for session in sessionResults
+        res.send(sessionResults)
+
   getRandomSessionPair: (req, res, slugOrID) ->
     findParameters = {}
     if Handler.isID slugOrID
