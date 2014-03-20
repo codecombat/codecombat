@@ -13,7 +13,7 @@ TaskLog = require './task/ScoringTask'
 bayes = new (require 'bayesian-battle')()
 
 scoringTaskQueue = undefined
-scoringTaskTimeoutInSeconds = 180
+scoringTaskTimeoutInSeconds = 240
 
 
 module.exports.setup = (app) -> connectToScoringQueue()
@@ -364,7 +364,7 @@ generateTaskPairs = (submittedSessions, sessionToScore) ->
   return taskPairs
 
 sendTaskPairToQueue = (taskPair, callback) ->
-  scoringTaskQueue.sendMessage {sessions: taskPair}, 0, (err,data) -> callback? err,data
+  scoringTaskQueue.sendMessage {sessions: taskPair}, 5, (err,data) -> callback? err,data
 
 getUserIDFromRequest = (req) -> if req.user? then return req.user._id else return null
 
