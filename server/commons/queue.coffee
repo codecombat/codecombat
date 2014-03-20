@@ -201,7 +201,7 @@ class MongoQueue extends events.EventEmitter
         receiptHandle: @_generateRandomReceiptHandle()
         scheduledVisibilityTime: @_constructDefaultVisibilityTimeoutDate()
 
-    @Message.findOneAndUpdate conditions, update, options, (err, data) =>
+    @Message.findOneAndUpdate conditions, update, (err, data) =>
       return @emit 'error',err,data if err?
 
       originalData = data
