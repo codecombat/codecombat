@@ -67,6 +67,7 @@ module.exports = IndieSprite = class IndieSprite extends CocoSprite
     @thang.action = 'move'
     @thang.actionActivated = true
     @pointToward(pos)
+    @update true
 
     ease = createjs.Ease.getPowInOut(2.2)
     if @lastTween
@@ -77,7 +78,7 @@ module.exports = IndieSprite = class IndieSprite extends CocoSprite
       @lastTween = null
       @imageObject.gotoAndPlay(endAnimation)
       @thang.action = 'idle'
-      window.myself = @
+      @update true
 
     @lastTween = createjs.Tween
       .get(@thang.pos)

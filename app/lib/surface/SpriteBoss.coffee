@@ -110,7 +110,13 @@ module.exports = class SpriteBoss extends CocoClass
   createOpponentWizard: (opponent) ->
     # TODO: colorize name and cloud by team, colorize wizard by user's color config, level-specific wizard spawn points
     sprite = @createWizardSprite thangID: opponent.id, name: opponent.name
-    sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
+    if not opponent.levelSlug or opponent.levelSlug is "brawlwood"
+      sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
+    else if opponent.levelSlug is "dungeon-arena"
+      sprite.targetPos = if opponent.team is 'ogres' then {x:72, y: 39} else {x: 9, y:39}
+    else
+      sprite.targetPos = if opponent.team is 'ogres' then {x:52, y: 28} else {x: 20, y:28}
+
 
   createWizardSprite: (options) ->
     sprite = new WizardSprite @thangTypeFor("Wizard"), @createSpriteOptions(options)
@@ -250,15 +256,15 @@ module.exports = class SpriteBoss extends CocoClass
     return if key.shift #and @options.choosing
     @selectSprite e if e.onBackground
 
-  selectThang: (thangID, spellName=null) ->
+  selectThang: (thangID, spellName=null, treemaThangSelected = null) ->
     return @willSelectThang = [thangID, spellName] unless @sprites[thangID]
-    @selectSprite null, @sprites[thangID], spellName
+    @selectSprite null, @sprites[thangID], spellName, treemaThangSelected
 
-  selectSprite: (e, sprite=null, spellName=null) ->
+  selectSprite: (e, sprite=null, spellName=null, treemaThangSelected = null) ->
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = sprite?.thang?.pos
     worldPos ?= @camera.canvasToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
-    if worldPos and (@options.navigateToSelection or not sprite)
+    if worldPos and (@options.navigateToSelection or not sprite or treemaThangSelected)
       @camera.zoomTo(sprite?.displayObject or @camera.worldToSurface(worldPos), @camera.zoom, 1000)
     sprite = null if @options.choosing  # Don't select sprites while choosing
     if sprite isnt @selectedSprite
@@ -294,7 +300,7 @@ module.exports = class SpriteBoss extends CocoClass
       @willSelectThang = [thangID, null]
     @updateTarget()
     return unless @selectionMark
-    @selectedSprite = null unless @selectedSprite?.thang
+    @selectedSprite = null if @selectedSprite and (@selectedSprite.destroyed or not @selectedSprite.thang)
     @selectionMark.toggle @selectedSprite?
     @selectionMark.setSprite @selectedSprite
     @selectionMark.update()

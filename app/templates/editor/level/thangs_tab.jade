@@ -17,12 +17,13 @@
 .world-container.thangs-column
   h3(data-i18n="editor.level_tab_thangs_conditions") Starting Conditions
   #canvas-wrapper
-    canvas(width=924, height=589)#surface
+    canvas(width=1848, height=1178)#surface
     #canvas-left-gradient.gradient
     #canvas-top-gradient.gradient
 
 .add-thangs-palette.thangs-column
-  h3(data-i18n="editor.level_tab_thangs_add") Add Thangs
+  #thangs-header
+    h3(data-i18n="editor.level_tab_thangs_add") Add Thangs
   #thangs-list
     for group in groups
       h4= group.name

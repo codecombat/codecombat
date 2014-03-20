@@ -66,6 +66,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_ie: "CodeCombat не работает в IE8 или более старых версиях. Нам очень жаль!"
     no_mobile: "CodeCombat не приспособлен для работы на мобильных устройствах и может не работать!"
     play: "Играть"
+    old_browser: "Ой, ваш браузер слишком стар для запуска CodeCombat. Извините!"
+    old_browser_suffix: "Вы всё равно можете попробовать, но, скорее всего, это не будет работать."
+    campaign: "Кампания"
+    for_beginners: "Новичкам"
+    multiplayer: "Мультиплеер"
+    for_developers: "Разработчикам"
 
   play:
     choose_your_level: "Выберите ваш уровень"
@@ -82,6 +88,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_player_created_description: "... в которых вы сражаетесь с креативностью ваших друзей <a href=\"/contribute#artisan\">Ремесленников</a>."
     level_difficulty: "Сложность: "
     play_as: "Играть за "
+    spectate: "Наблюдать"
 
   contact:
     contact_us: "Связаться с CodeCombat"
@@ -207,6 +214,17 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     hud_continue: "Продолжить (Shift+Пробел)"
     spell_saved: "Заклинание сохранено"
     skip_tutorial: "Пропуск (Esc)"
+    editor_config: "Настройки редактора"
+    editor_config_title: "Настройки редактора"
+    editor_config_keybindings_label: "Сочетания клавиш"
+    editor_config_keybindings_default: "По умолчанию (Ace)"
+    editor_config_keybindings_description: "Добавляет дополнительные сочетания, известные из популярных редакторов."
+    editor_config_invisibles_label: "Показывать непечатные символы"
+    editor_config_invisibles_description: "Отображение непечатных символов, таких как пробелы или табуляции."
+    editor_config_indentguides_label: "Показывать направляющие отступов"
+    editor_config_indentguides_description: "Отображение вертикальных линий для лучшего обзора отступов."
+    editor_config_behaviors_label: "Умное поведение"
+    editor_config_behaviors_description: "Автозавершать квадратные, фигурные скобки и кавычки."
 
   admin:
     av_title: "Админ панель"
@@ -317,6 +335,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     nick_description: "Маг программирования, эксцентрично мотивированный волшебник, и экспериментатор вверх ногами. Ник может делать всё и хочет построить CodeCombat."
     jeremy_description: "Маг клиентской поддержки, юзабилити-тестер, и организатор сообщества; вы наверняка уже говорили с Джереми."
     michael_description: "Программист, сисадмин и непризнанный технический гений, Михаэль является лицом, поддерживающим наши серверы онлайн."
+    glen_description: "Программист и страстный разработчик игр, с мотивацией сделать этот мир лучше путём разработки действительно значащих вещей. Слова \"невозможно\" нет в его словаре. Освоение новых навыков его развлечение!"
 
   legal:
     page_title: "Юридическая информация"
@@ -520,3 +539,17 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     simple_ai: "Простой ИИ"
     warmup: "Разминка"
     vs: "против"
+
+  multiplayer_launch:
+    introducing_dungeon_arena: "Представляем Арену подземелья"
+    new_way: "17 марта 2014: Новый способ соревноваться с помощью кода."
+    to_battle: "В бой, разработчики!"
+    modern_day_sorcerer: "Вы знаете, как программировать? Это круто. Вы волшебник наших дней! Разве не время, чтобы вы использовали свои магические силы программирования для управления миньонами в эпичной битве? И мы не говорим здесь роботы."
+    arenas_are_here: "Мультиплеерные арены CodeCombat на равных уже здесь."
+    ladder_explanation: "Выбирайте своих героев, зачаровывайте свои армии людей или огров, и взберитесь через поверженных коллег-Волшебников на вершину ладдеров–затем бросьте вызов своим друзьям в наших славных, асинхронно-мультиплеерных аренах прогрммирования. Если вы ощущаете себя творческим, можете даже"
+    fork_our_arenas: "сделать форк наших арен"
+    create_worlds: "и создавать свои собственные миры."
+    javascript_rusty: "Подзабыли JavaScript? Не беспокойтесь; есть"
+    tutorial: "обучение"
+    new_to_programming: ". Новичок в программировании? Пройдите нашу кампанию для новичков, чтобы повысить навык."
+    so_ready: "Я полностью готов для этого"

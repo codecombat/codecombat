@@ -11,7 +11,7 @@ async = require 'async'
 log = require 'winston'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
-privateProperties = ['permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID', 'music', 'volume']
+privateProperties = ['permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID', 'music', 'volume', 'aceConfig']
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
@@ -20,7 +20,7 @@ UserHandler = class UserHandler extends Handler
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
     'firstName', 'lastName', 'gender', 'facebookID', 'emailSubscriptions',
     'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
-    'wizard'
+    'wizard', 'aceConfig'
   ]
 
   jsonSchema: schema

@@ -49,10 +49,10 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 
   recover:
     recover_account_title: "recuperar cuenta"
-#    send_password: "Send Recovery Password"
+    send_password: "Enviar Contraseña de Recuperación"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "Crear Cuenta para Guardar el Progreso"
     description: "Es gratis. Solo necesitas un par de cosas y estarás listo para comenzar:"
     email_announcements: "Recibe noticias por email"
     coppa: "más de 13 años o fuera de los Estados Unidos"
@@ -66,6 +66,12 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     no_ie: "¡Lo sentimos! CodeCombat no funciona en Internet Explorer 9 o versiones anteriores."
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y quizás no funcione!"
     play: "Jugar"
+#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
+#    old_browser_suffix: "You can try anyway, but it probably won't work."
+#    campaign: "Campaign"
+#    for_beginners: "For Beginners"
+#    multiplayer: "Multiplayer"
+#    for_developers: "For Developers"
 
   play:
     choose_your_level: "Elige tu nivel"
@@ -81,7 +87,8 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     campaign_player_created: "Creados-Por-Jugadores"
     campaign_player_created_description: "... en los que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisan\">Hechiceros Artesanales</a>."
     level_difficulty: "Dificultad: "
-#    play_as: "Play As "
+    play_as: "Jugar Como "
+#    spectate: "Spectate"
 
   contact:
     contact_us: "Contacta a CodeCombat"
@@ -132,8 +139,8 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     new_password_verify: "Verificar"
     email_subscriptions: "Suscripciones de Email"
     email_announcements: "Noticias"
-#    email_notifications: "Notifications"
-#    email_notifications_description: "Get periodic notifications for your account."
+    email_notifications: "Notificaciones"
+    email_notifications_description: "Obtenga notificaciones periodicos para su cuenta."
     email_announcements_description: "Recibe correos electrónicos con las últimas noticias y desarrollos de CodeCombat."
     contributor_emails: "Emails Clase Contribuyente"
     contribute_prefix: "¡Estamos buscando gente que se una a nuestro grupo! Echa un vistazo a la "
@@ -147,11 +154,11 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
   account_profile:
     edit_settings: "Editar Configuración"
     profile_for_prefix: "Perfil para "
-#    profile_for_suffix: ""
+    profile_for_suffix: ""
     profile: "Perfil"
     user_not_found: "Usuario no encontrado. ¿URL correcta?"
     gravatar_not_found_mine: "No hemos podido encontrar tu perfil asociado con "
-#    gravatar_not_found_email_suffix: "."
+    gravatar_not_found_email_suffix: "."
     gravatar_signup_prefix: "Registratre en"
     gravatar_signup_suffix: "¡Para ponerte en marcha!"
     gravatar_not_found_other: "Por desgracia, no hay ningún perfil asociado con la dirección de correo electrónico de esta persona."
@@ -207,6 +214,17 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     hud_continue: "Continuar (presionar shift+space)"
 #    spell_saved: "Spell Saved"
 #    skip_tutorial: "Skip (esc)"
+#    editor_config: "Editor Config"
+#    editor_config_title: "Editor Configuration"
+#    editor_config_keybindings_label: "Key Bindings"
+#    editor_config_keybindings_default: "Default (Ace)"
+#    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
+#    editor_config_invisibles_label: "Show Invisibles"
+#    editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
+#    editor_config_indentguides_label: "Show Indent Guides"
+#    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
+#    editor_config_behaviors_label: "Smart Behaviors"
+#    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
 #  admin:
 #    av_title: "Admin Views"
@@ -317,6 +335,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
 #  legal:
 #    page_title: "Legal"
@@ -520,3 +539,17 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
 #    vs: "VS"
+
+#  multiplayer_launch:
+#    introducing_dungeon_arena: "Introducing Dungeon Arena"
+#    new_way: "March 17, 2014: The new way to compete with code."
+#    to_battle: "To Battle, Developers!"
+#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
+#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
+#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
+#    fork_our_arenas: "fork our arenas"
+#    create_worlds: "and create your own worlds."
+#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
+#    tutorial: "tutorial"
+#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
+#    so_ready: "I Am So Ready for This"

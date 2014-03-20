@@ -185,7 +185,8 @@ class MongoQueue extends events.EventEmitter
   subscribe: (eventName, callback) -> @on eventName, callback
   unsubscribe: (eventName, callback) -> @removeListener eventName, callback
 
-
+  totalMessagesInQueue: (callback) -> @Message.count {}, callback
+    
   receiveMessage: (callback) ->
     conditions =
       queue: @queueName

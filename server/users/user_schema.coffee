@@ -45,6 +45,12 @@ UserSchema = c.object {},
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
+  aceConfig: c.object {},
+    keyBindings: {type: 'string', 'default': 'default', 'enum': ['default', 'vim', 'emacs']}
+    invisibles: {type: 'boolean', 'default': false}
+    indentGuides: {type: 'boolean', 'default': false}
+    behaviors: {type: 'boolean', 'default': false}
+
 c.extendBasicProperties UserSchema, 'user'
 
 module.exports = UserSchema

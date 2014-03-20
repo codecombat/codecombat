@@ -40,7 +40,7 @@ module.exports = class ThangTypeEditView extends View
 
   constructor: (options, @thangTypeID) ->
     super options
-    @mockThang = _.cloneDeep(@mockThang)
+    @mockThang = $.extend(true, {}, @mockThang)
     @thangType = new ThangType(_id: @thangTypeID)
     @thangType.saveBackups = true
     @thangType.fetch()
@@ -320,7 +320,7 @@ module.exports = class ThangTypeEditView extends View
     @treema.set('/', @getThangData())
 
   getThangData: ->
-    data = _.cloneDeep(@thangType.attributes)
+    data = $.extend(true, {}, @thangType.attributes)
     data = _.pick data, (value, key) => not (key in ['components'])
 
   buildTreema: ->

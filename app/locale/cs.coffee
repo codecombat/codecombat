@@ -66,6 +66,12 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     no_ie: "Omlouváme se, ale CodeCombat boužel nefunguje v Internet Exploreru 9 nebo starším."
     no_mobile: "CodeCombat není navržen pro mobilní zařízení a nemusí fungovat správně!"
     play: "Hrát"
+#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
+#    old_browser_suffix: "You can try anyway, but it probably won't work."
+#    campaign: "Campaign"
+#    for_beginners: "For Beginners"
+#    multiplayer: "Multiplayer"
+#    for_developers: "For Developers"
 
   play:
     choose_your_level: "Zvolte si úroveň"
@@ -82,6 +88,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     campaign_player_created_description: "...ve kterých bojujete proti kreativitě ostatních <a href=\"/contribute#artisan\">Zdatných Kouzelníků</a>."
     level_difficulty: "Obtížnost: "
 #    play_as: "Play As "
+#    spectate: "Spectate"
 
   contact:
     contact_us: "Konktujte CodeCombat"
@@ -207,6 +214,17 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     hud_continue: "Pokračovat (stiskněte shift-mezera)"
     spell_saved: "Kouzlo uloženo"
 #    skip_tutorial: "Skip (esc)"
+#    editor_config: "Editor Config"
+#    editor_config_title: "Editor Configuration"
+#    editor_config_keybindings_label: "Key Bindings"
+#    editor_config_keybindings_default: "Default (Ace)"
+#    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
+#    editor_config_invisibles_label: "Show Invisibles"
+#    editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
+#    editor_config_indentguides_label: "Show Indent Guides"
+#    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
+#    editor_config_behaviors_label: "Smart Behaviors"
+#    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   admin:
     av_title: "Administrátorský pohled"
@@ -317,6 +335,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     nick_description: "Programátorský kouzelník, excentrický motivační mág i experimentátor. Nick by mohl dělat de-facto cokoliv, ale zvolil si vytvořit CodeCombat."
     jeremy_description: "Mistr zákaznické podpory, tester použitelnosti a organizátor komunity. Je velmi pravděpodobné, že jste si spolu již psali."
     michael_description: "Programátor, systémový administrátor a král podsvětí technického zázemí. Michael udržuje naše servery online."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Licence"
@@ -520,3 +539,17 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
 #    vs: "VS"
+
+#  multiplayer_launch:
+#    introducing_dungeon_arena: "Introducing Dungeon Arena"
+#    new_way: "March 17, 2014: The new way to compete with code."
+#    to_battle: "To Battle, Developers!"
+#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
+#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
+#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
+#    fork_our_arenas: "fork our arenas"
+#    create_worlds: "and create your own worlds."
+#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
+#    tutorial: "tutorial"
+#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
+#    so_ready: "I Am So Ready for This"

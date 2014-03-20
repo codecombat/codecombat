@@ -24,6 +24,14 @@ connectToScoringQueue = ->
       if error? then throw new Error  "There was an error registering the scoring queue: #{error}"
       scoringTaskQueue = data
       log.info "Connected to scoring task queue!"
+      
+module.exports.messagesInQueueCount = (req, res) ->
+  scoringTaskQueue.totalMessagesInQueue (err, count) ->
+    if err? then return errors.serverError res, "There was an issue finding the Mongoose count:#{err}"
+    response = String(count)
+    res.send(response)
+    res.end()
+
 
 module.exports.addPairwiseTaskToQueueFromRequest = (req, res) ->
   taskPair = req.body.sessions
@@ -194,7 +202,7 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
       cb null, true
     else
       ratio = (updatedSession.numberOfLosses) / (totalNumberOfGamesPlayed)
-      if ratio > 0.66
+      if ratio > 0.2
         cb null, false
         console.log "Ratio(#{ratio}) is bad, ending simulation"
       else
@@ -217,6 +225,9 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
       submittedCode:
         $exists: true
       team: opposingTeam
+      
+    if opponentSessionTotalScore < 30
+      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 1
 
     limitNumber = 1
 

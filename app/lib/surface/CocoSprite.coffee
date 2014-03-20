@@ -22,6 +22,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   healthBar: null
   marks: null
   labels: null
+  ranges: null
 
   options:
     resolutionFactor: 4
@@ -56,14 +57,16 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   constructor: (@thangType, options) ->
     super()
-    @options = _.extend(_.cloneDeep(@options), options)
+    @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
     console.error @toString(), "has no ThangType!" unless @thangType
     @actionQueue = []
     @marks = {}
     @labels = {}
+    @ranges = []
     @handledAoEs = {}
     @age = 0
+    @scaleFactor = @targetScaleFactor = 1
     @displayObject = new createjs.Container()
     if @thangType.get('actions')
       @setupSprite()
@@ -76,6 +79,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @stillLoading = false
     @actions = @thangType.getActions()
     @buildFromSpriteSheet @buildSpriteSheet()
+    @createMarks()
 
   destroy: ->
     mark.destroy() for name, mark of @marks
@@ -205,6 +209,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         .to({alpha: 0.6, scaleY: @options.camera.y2x, scaleX: 1}, 100, createjs.Ease.circOut)
         .to({alpha: 0, scaleY: 0, scaleX: 0}, 700, createjs.Ease.circIn)
         .call =>
+          return if @destroyed
           @options.groundLayer.removeChild circle
           delete @handledAoEs[event]
 
@@ -247,11 +252,21 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
-    scaleFactor = @thang.scaleFactor ? 1
-    scaleFactorX = @thang.scaleFactorX ? scaleFactor
-    scaleFactorY = @thang.scaleFactorY ? scaleFactor
+    if @thangType.get('name') is 'Arrow'
+      # scale the arrow so it appears longer when flying parallel to horizon
+      angle = @getRotation()
+      angle = -angle if angle < 0
+      angle = 180 - angle if angle > 90
+      scaleX = 0.5 + 0.5 * (90 - angle) / 90
+    scaleFactorX = @thang.scaleFactorX ? @scaleFactor
+    scaleFactorY = @thang.scaleFactorY ? @scaleFactor
     @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
     @imageObject.scaleY = @originalScaleY * scaleY * scaleFactorY
+
+    if (@thang.scaleFactor or 1) isnt @targetScaleFactor
+      createjs.Tween.removeTweens(@)
+      createjs.Tween.get(@).to({scaleFactor:@thang.scaleFactor or 1}, 2000, createjs.Ease.elasticOut)
+      @targetScaleFactor = @thang.scaleFactor
 
   updateAlpha: ->
     @imageObject.alpha = if @hiding then 0 else 1
@@ -284,7 +299,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   ##################################################
   updateAction: ->
     action = @determineAction()
-    isDifferent = action isnt @currentRootAction
+    isDifferent = action isnt @currentRootAction or action is null
     if not action and @thang?.actionActivated and not @stopLogging
       console.error "action is", action, "for", @thang?.id, "from", @currentRootAction, @thang.action, @thang.getActionName?()
       @stopLogging = true
@@ -410,12 +425,39 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       pos.y *= @thang.scaleFactorY ? scaleFactor
     pos
 
+  createMarks: ->
+    return unless @options.camera
+    if @thang
+      allProps = []
+      allProps = allProps.concat (@thang.hudProperties ? [])
+      allProps = allProps.concat (@thang.programmableProperties ? [])
+      allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
+
+      for property in allProps
+        if m = property.match /.*Range$/
+          if @thang[m[0]]? and @thang[m[0]] < 9001
+            @ranges.push
+              name: m[0]
+              radius: @thang[m[0]]
+
+      @ranges = _.sortBy @ranges, 'radius'
+      @ranges.reverse()
+
+      @addMark range.name for range in @ranges
+
+      @addMark('bounds').toggle true if @thang?.drawsBounds
+      @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
+
   updateMarks: ->
     return unless @options.camera
     @addMark 'repair', null, 'repair' if @thang?.errorsOut
     @marks.repair?.toggle @thang?.errorsOut
-    @addMark('bounds').toggle true if @thang?.drawsBounds
-    @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
+
+    if @selected
+      @marks[range['name']].toggle true for range in @ranges
+    else
+      @marks[range['name']].toggle false for range in @ranges
+
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
     @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length

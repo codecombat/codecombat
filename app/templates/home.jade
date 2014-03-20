@@ -2,27 +2,44 @@ extends /templates/base
 
 block content
 
-  div
-    
-    h1#site-slogan(data-i18n="home.slogan") Learn to Code JavaScript by Playing a Game
+  h1#site-slogan(data-i18n="home.slogan") Learn to Code JavaScript by Playing a Game
 
-    #front-screenshot
-      img(src="/images/pages/home/front_screenshot_01.png", alt="")
+  #trailer-wrapper
+    <iframe width="920" height="518" src="//www.youtube.com/embed/1zjaA13k-dA?rel=0&controls=0&modestbranding=1&showinfo=0&iv_load_policy=3&vq=hd720&wmode=transparent" frameborder="0" allowfullscreen></iframe>
+    img(src="/images/pages/home/video_border.png")
+  
+  hr
+
+  .alert.alert-danger.lt-ie10
+    strong(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 9 or older. Sorry!
+
+  if isMobile
+    .alert.alert-danger.mobile
+      strong(data-i18n="home.no_mobile") CodeCombat wasn't designed for mobile devices and may not work!
+  if isOldBrowser
+    .alert.alert-danger.old-browser
+      strong(data-i18n="home.old_browser") Uh oh, your browser is too old to run CodeCombat. Sorry!
+      br
+      span(data-i18n="home.old_browser_suffix") You can try anyway, but it probably won't work.
+
+  a#beginner-campaign(href="/play/level/rescue-mission")
+    div.game-mode-wrapper
+      if isEnglish
+        img(src="/images/pages/home/campaign.jpg").img-rounded
+      else
+        img(src="/images/pages/home/campaign_notext.jpg").img-rounded
+        h3(data-i18n="home.campaign") Campaign
+        h4(data-i18n="home.for_beginners") For Beginners
+      .play-text(data-i18n="home.play") Play
+
+  a#multiplayer(href="/play/ladder/dungeon-arena")
+    div.game-mode-wrapper
+      if isEnglish
+        img(src="/images/pages/home/multiplayer.jpg").img-rounded
+      else
+        img(src="/images/pages/home/multiplayer_notext.jpg").img-rounded
+        h3(data-i18n="home.multiplayer") Multiplayer
+        h4(data-i18n="home.for_developers") For Developers
+      .play-text(data-i18n="home.play") Play
 
   .clearfix
-
-  .alert.lt-ie10
-    h2(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 9 or older. Sorry!
-  if isMobile
-    .alert.mobile
-      h2(data-i18n="home.no_mobile") CodeCombat wasn't designed for mobile devices and may not work!
-  if isOldBrowser
-    .alert.old-browser
-      h2(data-i18n="home.old_browser") Uh oh, your browser is too old to run CodeCombat. Sorry!
-      h5 You can try anyway, but it probably won't work.
-  div#homepage_button_container
-
-    div.homepage_button
-      a#beginner-campaign(href="/play/level/rescue-mission")
-        canvas(width="125", height="150")
-        button(data-i18n="home.play").btn.btn-warning.btn-lg.highlight Play

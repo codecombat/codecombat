@@ -66,6 +66,12 @@ module.exports = nativeDescription: "українська мова", englishDesc
     no_ie: "Нажаль, CodeCombat не працює в IE8 чи більш старих версіях!"
     no_mobile: "CodeCombat не призначений для мобільних приладів і може не працювати!"
     play: "Грати"
+    old_browser: "Вибачте, але ваш браузер дуже старий для гри CodeCombat"
+    old_browser_suffix: "Ви все одно можете спробувати, хоча наврядче вийде"
+#    campaign: "Campaign"
+    for_beginners: "Для новачків"
+    multiplayer: "Командна гра"
+    for_developers: "Для розробників"
 
   play:
     choose_your_level: "Оберіть свій рівень"
@@ -82,6 +88,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     campaign_player_created_description: "... у яких ви сражаєтеся проти креативності ваших друзів-<a href=\"/contribute#artisan\">Архитекторів</a>."
     level_difficulty: "Складність: "
 #    play_as: "Play As "
+#    spectate: "Spectate"
 
   contact:
     contact_us: "Зв'язатися з CodeCombat"
@@ -207,6 +214,17 @@ module.exports = nativeDescription: "українська мова", englishDesc
     hud_continue: "Продовжити (натисніть shift-space)"
     spell_saved: "Заклинання збережено"
     skip_tutorial: "Пропустити (esc)"
+#    editor_config: "Editor Config"
+#    editor_config_title: "Editor Configuration"
+#    editor_config_keybindings_label: "Key Bindings"
+#    editor_config_keybindings_default: "Default (Ace)"
+#    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
+#    editor_config_invisibles_label: "Show Invisibles"
+#    editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
+#    editor_config_indentguides_label: "Show Indent Guides"
+#    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
+#    editor_config_behaviors_label: "Smart Behaviors"
+#    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   admin:
 #    av_title: "Admin Views"
@@ -317,6 +335,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Юридичні нотатки"
@@ -520,3 +539,17 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
 #    vs: "VS"
+
+#  multiplayer_launch:
+#    introducing_dungeon_arena: "Introducing Dungeon Arena"
+#    new_way: "March 17, 2014: The new way to compete with code."
+#    to_battle: "To Battle, Developers!"
+#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
+#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
+#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
+#    fork_our_arenas: "fork our arenas"
+#    create_worlds: "and create your own worlds."
+#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
+#    tutorial: "tutorial"
+#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
+#    so_ready: "I Am So Ready for This"

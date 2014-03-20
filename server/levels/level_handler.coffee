@@ -1,5 +1,6 @@
 Level = require('./Level')
 Session = require('./sessions/LevelSession')
+User = require '../users/User'
 SessionHandler = require('./sessions/level_session_handler')
 Feedback = require('./feedbacks/LevelFeedback')
 Handler = require('../commons/Handler')
@@ -31,6 +32,9 @@ LevelHandler = class LevelHandler extends Handler
     return @getLeaderboard(req, res, args[0]) if args[1] is 'leaderboard'
     return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
+    return @getRandomSessionPair(req,res,args[0]) if args[1] is 'random_session_pair'
+    return @getLeaderboardFriends(req, res, args[0]) if args[1] is 'leaderboard_friends'
+    
     return @sendNotFoundError(res)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
@@ -136,16 +140,90 @@ LevelHandler = class LevelHandler extends Handler
       'creatorName'
       'creator'
     ]
-
+    
     query = Session
       .find(sessionsQueryParameters)
       .limit(req.query.limit)
+      .sort(sortParameters)
       .select(selectProperties.join ' ')
 
     query.exec (err, resultSessions) =>
       return @sendDatabaseError(res, err) if err
       resultSessions ?= []
       @sendSuccess res, resultSessions
+
+
+  getLeaderboardFriends: (req, res, id) ->
+    friendIDs = req.body.friendIDs or []
+    return res.send([]) unless friendIDs.length
+
+    query = User.find({facebookID:{$in:friendIDs}})
+      .select('facebookID name')
+      .lean()
+
+    query.exec (err, userResults) ->
+      return res.send([]) unless userResults.length
+      [id, version] = id.split('.')
+      userIDs = (r._id+'' for r in userResults)
+      q = {'level.original':id, 'level.majorVersion': parseInt(version), creator: {$in:userIDs}, totalScore:{$exists:true}}
+      query = Session.find(q)
+        .select('creator creatorName totalScore team')
+        .lean()
+
+      query.exec (err, sessionResults) ->
+        return res.send([]) unless sessionResults.length
+        res.send(sessionResults)
+        userMap = {}
+        userMap[u._id] = u.facebookID for u in userResults
+        session.facebookID = userMap[session.creator] for session in sessionResults
+        res.send(sessionResults)
+
+  getRandomSessionPair: (req, res, slugOrID) ->
+    findParameters = {}
+    if Handler.isID slugOrID
+      findParameters["_id"] = slugOrID
+    else
+      findParameters["slug"] = slugOrID
+    selectString = 'original version'
+    query = Level.findOne(findParameters)
+    .select(selectString)
+    .lean()
+
+    query.exec (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
+  
+      sessionsQueryParameters =
+        level:
+          original: level.original.toString()
+          majorVersion: level.version.major
+        submitted:true
+        
+      console.log sessionsQueryParameters
+        
+      
+      query = Session
+        .find(sessionsQueryParameters)
+        .select('team')
+        .lean()
+      
+      query.exec (err, resultSessions) =>
+        return @sendDatabaseError res, err if err? or not resultSessions
+        
+        teamSessions = _.groupBy resultSessions, 'team'
+        console.log teamSessions
+        sessions = []
+        numberOfTeams = 0
+        for team of teamSessions
+          numberOfTeams += 1
+          sessions.push _.sample(teamSessions[team])
+        if numberOfTeams != 2 then return @sendDatabaseError res, "There aren't sessions of 2 teams, so cannot choose random opponents!"
+          
+        @sendSuccess res, sessions
+        
+        
+      
+    
 
   validateLeaderboardRequestParameters: (req) ->
     req.query.order = parseInt(req.query.order) ? -1

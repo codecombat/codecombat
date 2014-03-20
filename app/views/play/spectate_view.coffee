@@ -20,6 +20,7 @@ Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 
 # subviews
+LoadingView = require './level/level_loading_view'
 TomeView = require './level/tome/tome_view'
 ChatView = require './level/level_chat_view'
 HUDView = require './level/hud_view'
@@ -29,8 +30,6 @@ GoalsView = require './level/goals_view'
 GoldView = require './level/gold_view'
 VictoryModal = require './level/modal/victory_modal'
 InfiniteLoopModal = require './level/modal/infinite_loop_modal'
-
-LoadingScreen = require 'lib/LoadingScreen'
 
 PROFILE_ME = false
 
@@ -57,6 +56,8 @@ module.exports = class SpectateLevelView extends View
     'level:set-team': 'setTeam'
     'god:new-world-created': 'loadSoundsForWorld'
     'next-game-pressed': 'onNextGamePressed'
+    'level:started': 'onLevelStarted'
+    'level:loading-view-unveiled': 'onLoadingViewUnveiled'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -65,20 +66,25 @@ module.exports = class SpectateLevelView extends View
     'ctrl+s': 'onCtrlS'
 
   constructor: (options, @levelID) ->
-    @originalOptions = _.cloneDeep(options)
     console.profile?() if PROFILE_ME
     super options
-    if options.spectateSessions?
-      @sessionOne = options.spectateSessions.sessionOne
-      @sessionTwo = options.spectateSessions.sessionTwo
-    else
-      @sessionOne = @getQueryVariable 'session-one'
-      @sessionTwo = @getQueryVariable 'session-two'
-
     $(window).on('resize', @onWindowResize)
     @supermodel.once 'error', @onLevelLoadError
 
-    @load()
+    @sessionOne = @getQueryVariable 'session-one'
+    @sessionTwo = @getQueryVariable 'session-two'
+    if options.spectateSessions
+      @sessionOne = options.spectateSessions.sessionOne
+      @sessionTwo = options.spectateSessions.sessionTwo
+
+    if not @sessionOne or not @sessionTwo
+      @fetchRandomSessionPair (err, data) =>
+        if err? then return console.log "There was an error fetching the random session pair: #{data}"
+        @sessionOne = data[0]._id
+        @sessionTwo = data[1]._id
+        @load()
+    else
+      @load()
 
   onLevelLoadError: (e) =>
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
@@ -110,8 +116,7 @@ module.exports = class SpectateLevelView extends View
 
   afterRender: ->
     window.onPlayLevelViewLoaded? @  # still a hack
-    @loadingScreen = new LoadingScreen(@$el.find('canvas')[0])
-    @loadingScreen.show()
+    @insertSubView @loadingView = new LoadingView {}
     @$el.find('#level-done-button').hide()
     super()
 
@@ -139,14 +144,13 @@ module.exports = class SpectateLevelView extends View
     return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
     # Save latest level played in local storage
     if window.currentModal and not window.currentModal.destroyed
-      @loadingScreen.showReady()
+      @loadingView.showReady()
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
 
     @grabLevelLoaderData()
     #at this point, all requisite data is loaded, and sessions are not denormalized
     team = @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @loadingScreen.destroy()
     @god.level = @level.serialize @supermodel
     @god.worldClassMap = @world.classMap
     @setTeam team
@@ -155,8 +159,8 @@ module.exports = class SpectateLevelView extends View
     @initScriptManager()
     @insertSubviews ladderGame: @otherSession?
     @initVolume()
-    
-    @originalSessionState = _.cloneDeep(@session.get('state'))
+
+    @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
@@ -165,11 +169,13 @@ module.exports = class SpectateLevelView extends View
         id: @session.get('creator')
         name: @session.get('creatorName')
         team: @session.get('team')
+        levelSlug: @level.get('slug')
 
     @surface.createOpponentWizard
       id: @otherSession.get('creator')
       name: @otherSession.get('creatorName')
       team: @otherSession.get('team')
+      levelSlug: @level.get('slug')
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
@@ -197,6 +203,12 @@ module.exports = class SpectateLevelView extends View
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
       @session.set 'multiplayer', false
 
+  onLevelStarted: (e) ->
+    @loadingView?.unveil()
+
+  onLoadingViewUnveiled: (e) ->
+    @removeSubView @loadingView
+    @loadingView = null
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
@@ -364,7 +376,9 @@ module.exports = class SpectateLevelView extends View
     worldBounds = @world.getBounds()
     bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
-    @surface.camera.zoomTo({x:0, y:0}, 0.1, 0)
+    zoom = =>
+      @surface.camera.zoomTo({x: (worldBounds.right - worldBounds.left) / 2, y: (worldBounds.top - worldBounds.bottom) / 2}, 0.1, 0)
+    _.delay zoom, 4000  # call it later for some reason (TODO: figure this out)
 
   initGoalManager: ->
     @goalManager = new GoalManager(@world, @level.get('goals'))
@@ -423,16 +437,34 @@ module.exports = class SpectateLevelView extends View
 
   onNextGamePressed: (e) ->
     console.log "You want to see the next game!"
-    @sessionOne = "53193c8f7a89df21c4d968e9"
-    @sessionTwo = "531aa613026834331eac5e7e"
-    url = "/play/spectate/dungeon-arena?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
-    Backbone.Mediator.publish 'router:navigate', {
-      route: url,
-      viewClass: SpectateLevelView,
-      viewArgs: [{spectateSessions:{sessionOne: @sessionOne, sessionTwo: @sessionTwo}}, "dungeon-arena"]}
+    @fetchRandomSessionPair (err, data) =>
+      if err? then return console.log "There was an error fetching the random session pair: #{data}"
+      @sessionOne = data[0]._id
+      @sessionTwo = data[1]._id
+      url = "/play/spectate/#{@levelID}?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
+      Backbone.Mediator.publish 'router:navigate', {
+        route: url,
+        viewClass: SpectateLevelView,
+        viewArgs: [
+          {
+            spectateSessions: {sessionOne: @sessionOne, sessionTwo: @sessionTwo}
+            supermodel: @supermodel
+          }
+          @levelID ]
+        }
+      history?.pushState? {}, "", url  # Backbone won't update the URL if just query parameters change
 
-    
-    
+  fetchRandomSessionPair: (cb) ->
+    console.log "Fetching random session pair!"
+    randomSessionPairURL = "/db/level/#{@levelID}/random_session_pair"
+    $.ajax
+      url: randomSessionPairURL
+      type: "GET"
+      complete: (jqxhr, textStatus) ->
+        if textStatus isnt "success"
+          cb("error", jqxhr.statusText)
+        else
+          cb(null, $.parseJSON(jqxhr.responseText))
 
   destroy: ()->
     @supermodel?.off 'error', @onLevelLoadError
