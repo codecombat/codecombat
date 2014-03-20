@@ -29,9 +29,7 @@ module.exports = class LadderTabView extends CocoView
   refreshLadder: ->
     for team in @teams
       @leaderboards[team.id]?.off 'sync'
-#      teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
-      teamSession = null
-#      console.log "Team session: #{JSON.stringify teamSession}"
+      teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession)
       @leaderboards[team.id].once 'sync', @onLeaderboardLoaded, @
 
@@ -55,51 +53,43 @@ module.exports = class LadderTabView extends CocoView
 class LeaderboardData
   constructor: (@level, @team, @session) ->
     _.extend @, Backbone.Events
-    limit = 200 # if @session then 10 else 20  # We need to figure out paging.
-    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: limit})
-    @topPlayers.fetch()
-    @topPlayers.comparator = (model) ->
-      return -model.get('totalScore')
-    @topPlayers.sort()
+    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: 20})
+    promises = []
+    promises.push @topPlayers.fetch()
+    @topPlayers.once 'sync', @onceLeaderboardPartLoaded, @
 
-    @topPlayers.once 'sync', @leaderboardPartLoaded, @
+    if @session
+      score = @session.get('totalScore') or 10
+      @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
+      promises.push @playersAbove.fetch()
+      @playersAbove.once 'sync', @onceLeaderboardPartLoaded, @
+      @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
+      promises.push @playersBelow.fetch()
+      @playersBelow.once 'sync', @onceLeaderboardPartLoaded, @
+      level = "#{level.get('original')}.#{level.get('version').major}"
+      success = (@myRank) =>
+      promises.push $.ajax "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", {success}
+    
+    $.when(promises...).then @onLoad
 
-#    if @session
-#      score = @session.get('totalScore') or 25
-#      @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
-#      @playersAbove.fetch()
-#      @playersAbove.once 'sync', @leaderboardPartLoaded, @
-#      @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
-#      @playersBelow.fetch()
-#      @playersBelow.once 'sync', @leaderboardPartLoaded, @
-
-  leaderboardPartLoaded: ->
-    # Forget loading the up-to-date names, that's way too slow for something that refreshes all the time, we learned.
+  onLoad: =>
     @loaded = true
     @trigger 'sync'
-    return
-    if @session
-      if @topPlayers.loaded # and @playersAbove.loaded and @playersBelow.loaded
-        @loaded = true
-        @fetchNames()
-    else
-      @loaded = true
-      @fetchNames()
-
-  fetchNames: ->
-    sessionCollections = [@topPlayers, @playersAbove, @playersBelow]
-    sessionCollections = (s for s in sessionCollections when s)
-    ids = []
-    for collection in sessionCollections
-      ids.push model.get('creator') for model in collection.models
-
-    success = (nameMap) =>
-      for collection in sessionCollections
-        session.set('creatorName', nameMap[session.get('creator')]) for session in collection.models
-      @trigger 'sync'
-
-    $.ajax('/db/user/-/names', {
-      data: {ids: ids}
-      type: 'POST'
-      success: success
-    })
+    # TODO: cache user ids -> names mapping, and load them here as needed,
+    #   and apply them to sessions. Fetching each and every time is too costly.
+  
+  inTopSessions: ->
+    return me.id in (session.attributes.creator for session in @topPlayers.models)
+    
+  nearbySessions: ->
+    return unless @session
+    l = []
+    above = @playersAbove.models
+    above.reverse()
+    l = l.concat(above)
+    l.push @session
+    l = l.concat(@playersBelow.models)
+    if @myRank
+      startRank = @myRank - 4
+      session.rank = startRank + i for session, i in l
+    l
