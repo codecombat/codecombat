@@ -325,7 +325,6 @@ module.exports = class ThangTypeEditView extends View
 
   buildTreema: ->
     data = @getThangData()
-    console.log 'gintau-debug', 'buildTreema', data
     schema = _.cloneDeep ThangType.schema.attributes
     schema.properties = _.pick schema.properties, (value, key) => not (key in ['components'])
     options =
