@@ -193,8 +193,8 @@ class MongoQueue extends events.EventEmitter
       scheduledVisibilityTime:
         $lte: new Date()
 
-    options =
-      sort: 'scheduledVisibilityTime'
+    #options =
+    #  sort: 'scheduledVisibilityTime'
 
     update =
       $set:
