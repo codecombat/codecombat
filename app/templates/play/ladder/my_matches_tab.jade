@@ -53,7 +53,7 @@ div#columns.row
             td.name-cell= match.opponentName || "Anonymous"
             td.time-cell= match.when
             td.battle-cell
-              - var text = match.state === 'win' ? 'Watch your victory' : 'Defeat the ' + team.otherTeam
+              - var text = match.state === 'win' ? 'Watch your victory' : 'Defeat the ' + (team.otherTeam === 'theogres' ? "Ogres" : "Humans")
               a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}")= text
 
         if !team.matches.length
