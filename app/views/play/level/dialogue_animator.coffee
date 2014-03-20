@@ -5,8 +5,6 @@ module.exports = class DialogueAnimator
   childAnimator: null
   
   constructor: (html, @jqueryElement) ->
-    console.log 'gintau-debug: Dialogue Animator', html # Every dialog constructs DialogueAnimator.
-                                                        # html is the text.
     d = $('<div></div>').html(html)
     @childrenToAdd = _.map(d[0].childNodes, (e) -> return e)
     
