@@ -419,7 +419,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     archmage_attribute_2: "Viss erfarenhet av programmering och personligt initiativ. Vi hjälper dig att bli orienterad, men kan inte lägga mycket tid på att träna dig."
     how_to_join: "Hur man går med"
     join_desc_1: "Alla kan hjälpa till! Kolla bara in vår "
-    join_desc_2: "för att komma igång, och kryssa i rutan nedanför för att markera att du är en modig huvudmagiker och få de senaste nyheterna via email. Vill du chatta om vad som ska göras eller hur du bli mer involverad?
+    join_desc_2: "för att komma igång, och kryssa i rutan nedanför för att markera att du är en modig huvudmagiker och få de senaste nyheterna via email. Vill du chatta om vad som ska göras eller hur du bli mer involverad?"
     join_desc_3: ", eller hitta oss i vår "
     join_desc_4: "så tar vi det därifrån!"
     join_url_email: "Maila oss"
@@ -474,7 +474,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     ambassador_attribute_1: "Kommunikationsfärdigheter. Kunna identifiera problemen spelarna har och hjälpa till att lösa dem. Också att hålla resten av oss informerade om vad spelarna säger, vad de gillar och vad de inte gillar och vad de vill ha mer av!"
     ambassador_join_desc: "berätta om dig själv, vad du har gjort och vad du skulle vara intresserad av att göra. Vi tar det därifrån!"
     ambassador_join_note_strong: "Notera"
-    ambassador_join_note_desc: "En av våra högsta prioriteringar är att bygga ett flerspelarläge där spelare som har problem med att lösa nivåer kan kalla på trollkarlar av en högre nivå för att hjälpa dem. Det kommer att vara ett jättebra sätt för ambassadörer att göra sin grej. Vi håller dig informerad!
+    ambassador_join_note_desc: "En av våra högsta prioriteringar är att bygga ett flerspelarläge där spelare som har problem med att lösa nivåer kan kalla på trollkarlar av en högre nivå för att hjälpa dem. Det kommer att vara ett jättebra sätt för ambassadörer att göra sin grej. Vi håller dig informerad!"
     more_about_ambassador: "Lär dig mer om att bli en ambassadör"
     ambassador_subscribe_desc: "Få mail om supportuppdateringar och flerspelarutvecklingar"
     counselor_summary: "Passar ingen av rollerna ovanför det du är intresserad av? Oroa dig inte, vi håller utkik efter alla som vill vara inblandade i utvecklingen av CodeCombat! Om du är intresserad av undervisning, spelutveckling, skötsel av öppen programvara eller någonting annat som du tror skulle vara relevent för oss, är det här klassen för dig."
@@ -497,7 +497,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     archmage_title_description: "(Kodare)"
     artisan_title: "Hantverkare"
     artisan_title_description: "(Nivåbyggare)"
-    adventurer_title: "Äventyrare
+    adventurer_title: "Äventyrare"
     adventurer_title_description: "(Nivåtestare)"
     scribe_title: "Skriftlärd"
     scribe_title_description: "(Artikelredigerare)"
