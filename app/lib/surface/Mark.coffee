@@ -55,7 +55,7 @@ module.exports = class Mark extends CocoClass
       if @name is 'bounds' then @buildBounds()
       else if @name is 'shadow' then @buildShadow()
       else if @name is 'debug' then @buildDebug()
-      else if @name.match(".*Range$") then @buildRadius(@name)
+      else if @name.match(/.+Range$/) then @buildRadius(@name)
       else if @thangType then @buildSprite()
       else console.error "Don't know how to build mark for", @name
       @mark?.mouseEnabled = false
@@ -142,7 +142,7 @@ module.exports = class Mark extends CocoClass
       @mark.graphics.beginFill colors[range]
     else
       @mark.graphics.beginFill extracolors[i]
-   
+
     # Draw the outer circle
     @mark.graphics.drawCircle 0, 0, @sprite.thang[range] * Camera.PPM
 
