@@ -22,6 +22,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   healthBar: null
   marks: null
   labels: null
+  ranges: null
 
   options:
     resolutionFactor: 4
@@ -62,6 +63,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @actionQueue = []
     @marks = {}
     @labels = {}
+    @ranges = []
     @handledAoEs = {}
     @age = 0
     @scaleFactor = @targetScaleFactor = 1
@@ -250,6 +252,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
+    if @thangType.get('name') is 'Arrow'
+      # scale the arrow so it appears longer when flying parallel to horizon
+      angle = @getRotation()
+      angle = -angle if angle < 0
+      angle = 180 - angle if angle > 90
+      scaleX = 0.5 + 0.5 * (90 - angle) / 90
     scaleFactorX = @thang.scaleFactorX ? @scaleFactor
     scaleFactorY = @thang.scaleFactorY ? @scaleFactor
     @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
@@ -425,9 +433,17 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       allProps = allProps.concat (@thang.programmableProperties ? [])
       allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
 
-      @addMark('voiceradius') if 'voiceRange' in allProps
-      @addMark('visualradius') if 'visualRange' in allProps
-      @addMark('attackradius') if 'attackRange' in allProps
+      for property in allProps
+        if m = property.match /.*Range$/
+          if @thang[m[0]]? and @thang[m[0]] < 9001
+            @ranges.push
+              name: m[0]
+              radius: @thang[m[0]]
+
+      @ranges = _.sortBy @ranges, 'radius'
+      @ranges.reverse()
+
+      @addMark range.name for range in @ranges
 
       @addMark('bounds').toggle true if @thang?.drawsBounds
       @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
@@ -438,13 +454,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @marks.repair?.toggle @thang?.errorsOut
 
     if @selected
-      @marks.voiceradius?.toggle true
-      @marks.visualradius?.toggle true
-      @marks.attackradius?.toggle true
+      @marks[range['name']].toggle true for range in @ranges
     else
-      @marks.voiceradius?.toggle false
-      @marks.visualradius?.toggle false
-      @marks.attackradius?.toggle false
+      @marks[range['name']].toggle false for range in @ranges
 
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
