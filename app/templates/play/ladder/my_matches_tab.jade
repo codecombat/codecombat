@@ -53,8 +53,12 @@ div#columns.row
             td.name-cell= match.opponentName || "Anonymous"
             td.time-cell= match.when
             td.battle-cell
-              - var text = match.state === 'win' ? 'Watch your victory' : 'Defeat the ' + team.otherTeam
-              a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}")= text
+              a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}")
+                if (match.state === 'win')
+                  span(data-i18n="ladder.watch_victory") Watch your victory
+                else
+                  span(data-i18n="ladder.defeat_the") Defeat the
+                  | #{team.otherTeam}
 
         if !team.matches.length
           tr
@@ -68,4 +72,3 @@ div#columns.row
                 span(data-i18n="ladder.no_ranked_matches_pre") No ranked matches for the
                 | #{team.name}
                 span(data-i18n="ladder.no_ranked_matches_post") team! Play against some competitors and then come back here to get your game ranked.
-

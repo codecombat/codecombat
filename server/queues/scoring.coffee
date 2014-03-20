@@ -225,6 +225,9 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
       submittedCode:
         $exists: true
       team: opposingTeam
+      
+    if opponentSessionTotalScore < 30
+      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 1
 
     limitNumber = 1
 
