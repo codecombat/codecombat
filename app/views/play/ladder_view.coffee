@@ -72,7 +72,7 @@ module.exports = class LadderView extends RootView
       @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
-    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime)
+    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime) or @startsLoading
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>
@@ -83,7 +83,7 @@ module.exports = class LadderView extends RootView
     console.log "Refreshed sessions for ladder and matches."
 
   onIdleChanged: (e) ->
-    @refreshViews() unless e.idle
+    @fetchSessionsAndRefreshViews() unless e.idle
 
   # Simulations
 

@@ -88,8 +88,8 @@ module.exports = class MyMatchesTabView extends CocoView
         # Let's try being independent of time.
         times = (i for s, i in scoreHistory)
         scores = (s[1] for s in scoreHistory)
-        lowest = _.min scores.concat([0])
-        highest = _.max scores.concat(50)
+        lowest = _.min scores  #.concat([0])
+        highest = _.max scores  #.concat(50)
         scores = (Math.round(100 * (s - lowest) / (highest - lowest)) for s in scores)
         team.chartData = times.join(',') + '|' + scores.join(',')
         team.minScore = Math.round(100 * lowest)

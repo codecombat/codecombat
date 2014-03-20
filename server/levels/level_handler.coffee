@@ -30,6 +30,7 @@ LevelHandler = class LevelHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @getSession(req, res, args[0]) if args[1] is 'session'
     return @getLeaderboard(req, res, args[0]) if args[1] is 'leaderboard'
+    return @getMyLeaderboardRank(req, res, args[0]) if args[1] is 'leaderboard_rank'
     return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
     return @getRandomSessionPair(req,res,args[0]) if args[1] is 'random_session_pair'
@@ -118,28 +119,11 @@ LevelHandler = class LevelHandler extends Handler
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
   getLeaderboard: (req, res, id) ->
-    @validateLeaderboardRequestParameters req
-    [original, version] = id.split '.'
-    version = parseInt(version) ? 0
-    scoreQuery = {}
-    scoreQuery[if req.query.order is 1 then "$gte" else "$lte"] = req.query.scoreOffset
-
-    sessionsQueryParameters =
-      level:
-        original: original
-        majorVersion: version
-      team: req.query.team
-      totalScore: scoreQuery
-      submitted: true
+    sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
 
     sortParameters =
       "totalScore": req.query.order
-
-    selectProperties = [
-      'totalScore'
-      'creatorName'
-      'creator'
-    ]
+    selectProperties = ['totalScore', 'creatorName', 'creator']
     
     query = Session
       .find(sessionsQueryParameters)
@@ -152,6 +136,33 @@ LevelHandler = class LevelHandler extends Handler
       resultSessions ?= []
       @sendSuccess res, resultSessions
 
+  getMyLeaderboardRank: (req, res, id) ->
+    req.query.order = 1
+    sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
+    Session.count sessionsQueryParameters, (err, count) =>
+      return @sendDatabaseError(res, err) if err
+      res.send JSON.stringify(count + 1)
+
+  makeLeaderboardQueryParameters: (req, id) ->
+    @validateLeaderboardRequestParameters req
+    [original, version] = id.split '.'
+    version = parseInt(version) ? 0
+    scoreQuery = {}
+    scoreQuery[if req.query.order is 1 then "$gt" else "$lt"] = req.query.scoreOffset
+    query =
+      level:
+        original: original
+        majorVersion: version
+      team: req.query.team
+      totalScore: scoreQuery
+      submitted: true
+    query
+
+  validateLeaderboardRequestParameters: (req) ->
+    req.query.order = parseInt(req.query.order) ? -1
+    req.query.scoreOffset = parseFloat(req.query.scoreOffset) ? 100000
+    req.query.team ?= 'humans'
+    req.query.limit = parseInt(req.query.limit) ? 20
 
   getLeaderboardFriends: (req, res, id) ->
     friendIDs = req.body.friendIDs or []
@@ -222,15 +233,6 @@ LevelHandler = class LevelHandler extends Handler
         @sendSuccess res, sessions
         
         
-      
-    
-
-  validateLeaderboardRequestParameters: (req) ->
-    req.query.order = parseInt(req.query.order) ? -1
-    req.query.scoreOffset = parseFloat(req.query.scoreOffset) ? 100000
-    req.query.team ?= 'humans'
-    req.query.limit = parseInt(req.query.limit) ? 20
-
   getFeedback: (req, res, id) ->
     return @sendNotFoundError(res) unless req.user
     @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
