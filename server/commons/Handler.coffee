@@ -236,25 +236,28 @@ module.exports = class Handler
       return @sendBadInputError(res, 'Bad id.') if err and err.name is 'CastError'
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless parentDocument?
-      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, parentDocument)
-      updatedObject = parentDocument.toObject()
-      changes = _.pick req.body, @getEditableProperties(req, parentDocument)
-      _.extend updatedObject, changes
-      delete updatedObject._id
-      major = req.body.version?.major
+      sort = { 'version.major': -1, 'version.minor': -1 }
+      query = { 'original': mongoose.Types.ObjectId(req.body._id) }
+      @modelClass.findOne(query).sort(sort).exec (err, doc) =>
+        return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
+        updatedObject = parentDocument.toObject()
+        changes = _.pick req.body, @getEditableProperties(req, parentDocument)
+        _.extend updatedObject, changes
+        delete updatedObject._id
+        major = req.body.version?.major
 
-      done = (err, newDocument) =>
-        return @sendDatabaseError(res, err) if err
-        newDocument.set('creator', req.user._id)
-        newDocument.save (err) =>
+        done = (err, newDocument) =>
           return @sendDatabaseError(res, err) if err
-          @sendSuccess(res, @formatEntity(req, newDocument))
+          newDocument.set('creator', req.user._id)
+          newDocument.save (err) =>
+            return @sendDatabaseError(res, err) if err
+            @sendSuccess(res, @formatEntity(req, newDocument))
 
-      if major?
-        parentDocument.makeNewMinorVersion(updatedObject, major, done)
+        if major?
+          parentDocument.makeNewMinorVersion(updatedObject, major, done)
 
-      else
-        parentDocument.makeNewMajorVersion(updatedObject, done)
+        else
+          parentDocument.makeNewMajorVersion(updatedObject, done)
 
   makeNewInstance: (req) ->
     new @modelClass({})
