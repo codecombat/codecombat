@@ -173,13 +173,11 @@ module.exports = class LevelLoader extends CocoClass
     building = thangType.buildSpriteSheet options
     return unless building
     #console.log 'Building:', thangType.get('name'), options
-    t0 = new Date()
     @spriteSheetsToBuild += 1
     thangType.once 'build-complete', =>
       return if @destroyed
       @spriteSheetsBuilt += 1
       @notifyProgress()
-      console.log "Built", thangType.get('name'), 'after', ((new Date()) - t0), 'ms'
 
   # World init
 
