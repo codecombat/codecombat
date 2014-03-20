@@ -68,7 +68,7 @@ module.exports = class ThangComponentEditView extends CocoView
     treemaOptions =
       supermodel: @supermodel
       schema: { type: 'array', items: LevelComponent.schema.attributes }
-      data: ($.extend(true, {}, c) for c in components)
+      data: (_.cloneDeep(c) for c in components)
       callbacks: {select: @onSelectAddableComponent, enter: @onAddComponentEnterPressed }
       readOnly: true
       noSortable: true
@@ -155,7 +155,7 @@ module.exports = class ThangComponentEditView extends CocoView
 
 
   reportChanges: ->
-    @callback?($.extend(true, [], @extantComponentsTreema.data))
+    @callback?(_.cloneDeep(@extantComponentsTreema.data))
 
 class ThangComponentsArrayNode extends TreemaArrayNode
   valueClass: 'treema-thang-components-array'
