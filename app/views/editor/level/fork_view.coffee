@@ -25,7 +25,7 @@ module.exports = class LevelForkView extends View
   forkLevel: ->
     @showLoading()
     forms.clearFormAlerts(@$el)
-    newLevel = new Level(_.cloneDeep(@level.attributes))
+    newLevel = new Level($.extend(true, {}, @level.attributes))
     newLevel.unset '_id'
     newLevel.unset 'version'
     newLevel.unset 'creator'

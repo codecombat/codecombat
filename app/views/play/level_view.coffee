@@ -167,7 +167,7 @@ module.exports = class PlayLevelView extends View
     @insertSubviews ladderGame: (@level.get('type') is "ladder")
     @initVolume()
     @session.on 'change:multiplayer', @onMultiplayerChanged, @
-    @originalSessionState = _.cloneDeep(@session.get('state'))
+    @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()

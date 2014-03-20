@@ -55,9 +55,7 @@ module.exports = class Mark extends CocoClass
       if @name is 'bounds' then @buildBounds()
       else if @name is 'shadow' then @buildShadow()
       else if @name is 'debug' then @buildDebug()
-      else if @name is 'voiceradius' then @buildRadius('voice')
-      else if @name is 'visualradius' then @buildRadius('visual')
-      else if @name is 'attackradius' then @buildRadius('attack')
+      else if @name.match(".*Range$") then @buildRadius(@name)
       else if @thangType then @buildSprite()
       else console.error "Don't know how to build mark for", @name
       @mark?.mouseEnabled = false
@@ -117,51 +115,40 @@ module.exports = class Mark extends CocoClass
     @mark.layerIndex = 10
     #@mark.cache 0, 0, diameter, diameter  # not actually faster than simple ellipse draw
 
-  buildRadius: (type) ->
-    return if type is 'voice' and @sprite.thang.voiceRange > 9000
-    return if type is 'visual' and @sprite.thang.visualRange > 9000
-    return if type is 'attack' and @sprite.thang.attackRange > 9000
-
+  buildRadius: (range) ->
+    alpha = 0.35
     colors =
-      voice: "rgba(0, 145, 0, alpha)"
-      visual: "rgba(0, 0, 145, alpha)"
-      attack: "rgba(145, 0, 0, alpha)"
+      voiceRange: "rgba(0, 145, 0, #{alpha})"
+      visualRange: "rgba(0, 0, 145, #{alpha})"
+      attackRange: "rgba(145, 0, 0, #{alpha})"
 
-    color = colors[type]
+    # Fallback colors which work on both dungeon and grass tiles
+    extracolors = [
+      "rgba(145, 0, 145, #{alpha})"
+      "rgba(0, 145, 145, #{alpha})"
+      "rgba(145, 105, 0, #{alpha})"
+      "rgba(225, 125, 0, #{alpha})"
+    ]
+
+    # Find the index of this range, to find the next-smallest radius
+    rangeNames = @sprite.ranges.map((range, index) ->
+      range['name']
+    )
+    i = rangeNames.indexOf(range)
 
     @mark = new createjs.Shape()
-    @mark.graphics.beginFill color.replace('alpha', 0.4)
-    
-    if type is 'voice'
-      r = @sprite.thang.voiceRange
-      ranges = [
-        r, 
-        if 'visualradius' of @sprite.marks and @sprite.thang.visualRange < 9001 then @sprite.thang.visualRange else 0,
-        if 'attackradius' of @sprite.marks and @sprite.thang.attackRange < 9001 then @sprite.thang.attackRange else 0 
-      ]
-    else if type is 'visual'
-      r = @sprite.thang.visualRange
-      ranges = [
-        r, 
-        if 'attackradius' of @sprite.marks and @sprite.thang.attackRange < 9001 then @sprite.thang.attackRange else 0,
-        if 'voiceradius' of @sprite.marks and @sprite.thang.voiceRange < 9001 then @sprite.thang.voiceRange else 0, 
-      ]
-    else if type is 'attack'
-      r = @sprite.thang.attackRange
-      ranges = [
-        r, 
-        if 'voiceradius' of @sprite.marks and @sprite.thang.voiceRange < 9001 then @sprite.thang.voiceRange else 0, 
-        if 'visualradius' of @sprite.marks and @sprite.thang.visualRange < 9001 then @sprite.thang.visualRange else 0
-      ]
-      
-    # Draw the outer circle
-    @mark.graphics.drawCircle 0, 0, r * Camera.PPM
 
-    # Cut out the inner circle
-    if Math.max(ranges['1'], ranges['2']) < r
-      @mark.graphics.arc 0, 0, Math.max(ranges['1'], ranges['2']) * Camera.PPM, Math.PI*2, 0, true
-    else if Math.min(ranges['1'], ranges['2']) < r
-      @mark.graphics.arc 0, 0, Math.min(ranges['1'], ranges['2']) * Camera.PPM, Math.PI*2, 0, true
+    if colors[range]?
+      @mark.graphics.beginFill colors[range]
+    else
+      @mark.graphics.beginFill extracolors[i]
+   
+    # Draw the outer circle
+    @mark.graphics.drawCircle 0, 0, @sprite.thang[range] * Camera.PPM
+
+    # Cut out the hollow part if necessary
+    if i+1 < @sprite.ranges.length
+      @mark.graphics.arc 0, 0, @sprite.ranges[i+1]['radius'], Math.PI*2, 0, true
 
     # Add perspective
     @mark.scaleY *= @camera.y2x

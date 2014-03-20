@@ -44,7 +44,7 @@ module.exports = class Simulator extends CocoClass
     return @handleNoGamesResponse() if jqXHR.status is 204
     @trigger 'statusUpdate', 'Setting up simulation!'
     @task = new SimulationTask(taskData)
-    @supermodel = new SuperModel()
+    @supermodel ?= new SuperModel()
     @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
 
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true

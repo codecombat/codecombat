@@ -30,7 +30,7 @@ module.exports = class WizardSprite extends IndieSprite
 
   constructor: (thangType, options) ->
     if options?.isSelf
-      options.colorConfig = _.cloneDeep(me.get('wizard')?.colorConfig) or {}
+      options.colorConfig = $.extend(true, {}, me.get('wizard')?.colorConfig) or {}
     super thangType, options
     @isSelf = options.isSelf
     @targetPos = @thang.pos
@@ -67,7 +67,7 @@ module.exports = class WizardSprite extends IndieSprite
     @setNameLabel me.displayName() if @displayObject.visible  # not if we hid the wiz
     newColorConfig = me.get('wizard')?.colorConfig or {}
     shouldUpdate = not _.isEqual(newColorConfig, @options.colorConfig)
-    @options.colorConfig = _.cloneDeep(newColorConfig)
+    @options.colorConfig = $.extend(true, {}, newColorConfig)
     if shouldUpdate
       @setupSprite()
       @playAction(@currentAction)
