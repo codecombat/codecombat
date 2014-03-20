@@ -21,6 +21,7 @@ module.exports = class LevelThangEditView extends View
     'blur #thang-type-link input': 'toggleTypeEdit'
 
   constructor: (options) ->
+    console.log 'gintau-debug', 'init LevelThangEditView'
     options ?= {}
     super options
     @world = options.world

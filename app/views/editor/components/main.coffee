@@ -11,6 +11,7 @@ module.exports = class ThangComponentEditView extends CocoView
   template: template
 
   constructor: (options) ->
+    console.log 'gintau-debug', 'init ThangComponentEditView'
     super options
     @components = options.components or []
     @world = options.world
@@ -36,16 +37,24 @@ module.exports = class ThangComponentEditView extends CocoView
     @buildAddComponentTreema()
 
   onComponentsSync: =>
+    console.log 'gintau-debug', 'onComponentsSync'
     return if @destroyed
     @supermodel.addCollection @componentCollection
     @render()
 
   buildExtantComponentTreema: ->
+    console.log 'gintau-debug', 'buildExtantComponentTreema'
+
     treemaOptions =
       supermodel: @supermodel
       schema: Level.schema.get('properties').thangs.items.properties.components
       data: _.cloneDeep @components
-      callbacks: {select: @onSelectExtantComponent, change:@onChangeExtantComponents}
+
+      callbacks: 
+        select: @onSelectExtantComponent
+        change: @onChangeExtantComponents
+        onBeforeRemove: @onBeforeRemoveExtantComponents
+
       noSortable: true
       nodeClasses:
         'thang-components-array': ThangComponentsArrayNode
@@ -69,7 +78,11 @@ module.exports = class ThangComponentEditView extends CocoView
       supermodel: @supermodel
       schema: { type: 'array', items: LevelComponent.schema.attributes }
       data: (_.cloneDeep(c) for c in components)
-      callbacks: {select: @onSelectAddableComponent, enter: @onAddComponentEnterPressed }
+
+      callbacks: 
+        select: @onSelectAddableComponent
+        enter: @onAddComponentEnterPressed
+
       readOnly: true
       noSortable: true
       nodeClasses:
@@ -97,6 +110,29 @@ module.exports = class ThangComponentEditView extends CocoView
     @alreadySaving = false
 
     return unless selected.length
+
+    # select dependencies.
+    console.log 'gintau-debug', 'select dependencies', selected
+    node = selected[0]
+    id = node.data.original
+    dep_originals = (d.original for d in node.component.attributes.dependencies)
+
+    try
+      toRemoveTreema = []
+      for index, child of @extantComponentsTreema.childrenTreemas
+        for dep_original in dep_originals
+          if child.data.original == dep_original
+            toRemoveTreema.push child
+
+      console.log 'gintau-debug', 'toRemoveTreema', toRemoveTreema
+
+      for r_treema in toRemoveTreema
+        # r_treema.remove()
+        r_treema.toggleSelect()
+
+    catch error
+      console.error error
+
     row = selected[0]
     @selectedRow = row
     component = row.component?.attributes or row.data
@@ -128,18 +164,48 @@ module.exports = class ThangComponentEditView extends CocoView
     @buildAddComponentTreema()
     @reportChanges()
 
+  onBeforeRemoveExtantComponents: (node) =>
+    """
+    console.log 'gintau-debug', 'onBeforeRemove', node
+
+    id = node.data.original
+    dep_originals = (d.original for d in node.component.attributes.dependencies)
+
+    try
+      toRemoveTreema = []
+      for index, child of @extantComponentsTreema.childrenTreemas
+        for dep_original in dep_originals
+          if child.data.original == dep_original
+            toRemoveTreema.push child
+
+      console.log 'gintau-debug', 'toRemoveTreema', toRemoveTreema
+
+      for r_treema in toRemoveTreema
+        # r_treema.remove()
+        r_treema.select()
+
+    catch error
+      console.error error
+    """
+    return
+
   onAddComponentEnterPressed: (node) =>
     currentSelection = @addComponentsTreema?.getLastSelectedTreema()?.data._id
 
     id = node.data._id
+    # comp is a LevelComponent instance.
     comp = _.find @componentCollection.models, id: id
+
     unless comp
       return console.error "Couldn't find component for id", id, "out of", @components.models
+
     # Add all dependencies, recursively, unless we already have them
-    toAdd = comp.getDependencies(@componentCollection.models)
+    console.log 'gintau-debug', 'onAddComponent', comp
+    toAdd = comp.getDependencies(@componentCollection.models)    
     _.remove toAdd, (c1) =>
       _.find @extantComponentsTreema.data, (c2) ->
         c2.original is c1.get('original')
+
     for c in toAdd.concat [comp]
       @extantComponentsTreema.insert '/', {
         original: c.get('original') ? id
@@ -155,6 +221,7 @@ module.exports = class ThangComponentEditView extends CocoView
 
 
   reportChanges: ->
+    console.log 'gintau-debug', 'reportChanges'
     @callback?(_.cloneDeep(@extantComponentsTreema.data))
 
 class ThangComponentsArrayNode extends TreemaArrayNode

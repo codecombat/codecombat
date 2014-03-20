@@ -14,6 +14,7 @@ module.exports = class LevelComponentEditView extends View
     'click .nav a': (e) -> $(e.target).tab('show')
 
   constructor: (options) ->
+    console.log 'gintau-debug', 'init LevelComponentEditView'
     super options
     @levelComponent = @supermodel.getModelByOriginalAndMajorVersion LevelComponent, options.original, options.majorVersion or 0
     console.log "Couldn't get levelComponent for", options, "from", @supermodel.models unless @levelComponent

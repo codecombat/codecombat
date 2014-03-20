@@ -58,7 +58,7 @@ module.exports = class Level extends CocoModel
           visit c2 for c2 in _.without thang.components, c
         else
           for d in lc.dependencies or []
-            c2 = _.find thang.components, {original: d.original}
+            c2 = _.find thang.components, {original: d?.original}
             console.error thang.id, "couldn't find dependent Component", d.original, "from", lc.name unless c2
             visit c2
           if lc.name is "Collides"

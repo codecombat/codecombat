@@ -397,7 +397,8 @@ class ThangNode extends TreemaObjectNode
   @thangNameMap: {}
   @thangKindMap: {}
   buildValueForDisplay: (valEl) ->
-    pos = _.find(@data.components, (c) -> c.config?.pos?)?.config.pos  # TODO: hack
+    console.log 'gintau-debug', @data.components
+    pos = _.find(@data.components, (c) -> c?.config?.pos?)?.config.pos  # TODO: hack
     s = "#{@data.thangType}"
     if isObjectID s
       unless name = ThangNode.thangNameMap[s]

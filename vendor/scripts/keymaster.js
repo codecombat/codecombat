@@ -140,7 +140,8 @@
   };
 
   // parse and assign shortcut
-  function assignKey(key, scope, method){
+  function assignKey(key, scope, method) {
+   
     var keys, mods;
     keys = getKeys(key);
     if (method === undefined) {

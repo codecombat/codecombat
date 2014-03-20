@@ -12,6 +12,7 @@ module.exports = class ComponentConfigView extends CocoView
   changed: false
 
   constructor: (options) ->
+    console.log 'gintau-debug', 'init ComponentConfigView'
     super options
     @component = options.component
     @config = options.config or {}
