@@ -22,6 +22,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   healthBar: null
   marks: null
   labels: null
+  ranges: null
 
   options:
     resolutionFactor: 4
@@ -62,6 +63,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @actionQueue = []
     @marks = {}
     @labels = {}
+    @ranges = []
     @handledAoEs = {}
     @age = 0
     @scaleFactor = @targetScaleFactor = 1
@@ -425,9 +427,17 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       allProps = allProps.concat (@thang.programmableProperties ? [])
       allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
 
-      @addMark('voiceradius') if 'voiceRange' in allProps
-      @addMark('visualradius') if 'visualRange' in allProps
-      @addMark('attackradius') if 'attackRange' in allProps
+      for property in allProps
+        if m = property.match /.*Range$/
+          if @thang[m[0]]? and @thang[m[0]] < 9001
+            @ranges.push
+              name: m[0]
+              radius: @thang[m[0]]
+
+      @ranges = _.sortBy @ranges, 'radius'
+      @ranges.reverse()
+
+      @addMark range.name for range in @ranges
 
       @addMark('bounds').toggle true if @thang?.drawsBounds
       @addMark('shadow').toggle true unless @thangType.get('shadow') is 0
@@ -438,13 +448,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @marks.repair?.toggle @thang?.errorsOut
 
     if @selected
-      @marks.voiceradius?.toggle true
-      @marks.visualradius?.toggle true
-      @marks.attackradius?.toggle true
+      @marks[range['name']].toggle true for range in @ranges
     else
-      @marks.voiceradius?.toggle false
-      @marks.visualradius?.toggle false
-      @marks.attackradius?.toggle false
+      @marks[range['name']].toggle false for range in @ranges
 
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
