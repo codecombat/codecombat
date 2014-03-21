@@ -97,6 +97,34 @@ module.exports = class ThangComponentEditView extends CocoView
     @alreadySaving = false
 
     return unless selected.length
+
+    # select dependencies.
+    node = selected[0]
+    original = node.data.original
+
+    toRemoveTreema = []
+    dependent_class = 'treema-dependent'
+    try     
+      for index, child of @extantComponentsTreema.childrenTreemas
+        $(child.$el).removeClass(dependent_class)
+
+      for index, child of @extantComponentsTreema.childrenTreemas
+        if child.data.original == original # Here we assume that the treemas are sorted by their dependency.
+          break
+
+        dep_originals = (d.original for d in child.component.attributes.dependencies)
+        for dep_original in dep_originals
+          if original == dep_original
+            toRemoveTreema.push child
+
+      for dep_treema in toRemoveTreema
+        dep_treema.toggleSelect()
+        $(dep_treema.$el).addClass(dependent_class)
+
+    catch error
+      console.error error
+
+    return unless selected.length
     row = selected[0]
     @selectedRow = row
     component = row.component?.attributes or row.data
