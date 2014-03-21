@@ -201,8 +201,8 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
     updatedSession = updatedSession.toObject()
 
     totalNumberOfGamesPlayed = updatedSession.numberOfWinsAndTies + updatedSession.numberOfLosses
-    if totalNumberOfGamesPlayed < 5
-      console.log "Number of games played is less than 5, continuing..."
+    if totalNumberOfGamesPlayed < 10
+      console.log "Number of games played is less than 10, continuing..."
       cb null, true
     else
       ratio = (updatedSession.numberOfLosses) / (totalNumberOfGamesPlayed)
@@ -231,7 +231,7 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
       team: opposingTeam
 
     if opponentSessionTotalScore < 30
-      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 1
+      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 2
 
     limitNumber = 1
 
