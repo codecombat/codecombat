@@ -51,6 +51,9 @@ UserSchema = c.object {},
     indentGuides: {type: 'boolean', 'default': false}
     behaviors: {type: 'boolean', 'default': false}
 
+  simulatedBy: {type: 'integer', minimum: 0, default: 0}
+  simulatedFor: {type: 'integer', minimum: 0, default: 0}
+
 c.extendBasicProperties UserSchema, 'user'
 
 module.exports = UserSchema

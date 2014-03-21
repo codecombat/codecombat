@@ -252,6 +252,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
+    if @thangType.get('name') is 'Arrow'
+      # scale the arrow so it appears longer when flying parallel to horizon
+      angle = @getRotation()
+      angle = -angle if angle < 0
+      angle = 180 - angle if angle > 90
+      scaleX = 0.5 + 0.5 * (90 - angle) / 90
     scaleFactorX = @thang.scaleFactorX ? @scaleFactor
     scaleFactorY = @thang.scaleFactorY ? @scaleFactor
     @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
