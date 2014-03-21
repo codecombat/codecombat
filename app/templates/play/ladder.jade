@@ -47,3 +47,13 @@ block content
       if false && me.isAdmin()
         p
           button(data-i18n="ladder.simulate_all").btn.btn-danger.btn-lg.highlight#simulate-all-button RESET AND SIMULATE GAMES
+
+      p.simulation-count
+        span(data-i18n="ladder.games_simulated_by") Games simulated by you:
+        |  
+        span#simulated-by-you= me.get('simulatedBy') || 0
+
+      p.simulation-count
+        span(data-i18n="ladder.games_simulated_by") Games simulated for you:
+        |  
+        span#simulated-for-you= me.get('simulatedFor') || 0
