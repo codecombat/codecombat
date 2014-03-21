@@ -249,6 +249,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     av_other_debug_base_url: "Base (for debugging base.jade)"
     u_title: "User List"
     lg_title: "Latest Games"
+    clas: "CLAs"
 
   editor:
     main_title: "CodeCombat Editors"
