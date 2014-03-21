@@ -129,7 +129,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     picture_tab: "Gambar"
 #    wizard_tab: "Wizard"
     password_tab: "Kata-laluan"
-    emails_tab: "E-mel"
+    emails_tab: "Kesemua E-mel"
 #    admin: "Admin"
     gravatar_select: "Pilih mana gambar Gravatar photo digunakan"
     gravatar_add_photos: "Tambah thumbnail and gambar-gambar kepada akaun Gravatar untuk emel anda untuk pilih imej."
