@@ -530,6 +530,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     simulation_explanation: "By simulating games you can get your game ranked faster!"
     simulate_games: "Simulate Games!"
     simulate_all: "RESET AND SIMULATE GAMES"
+    games_simulated_by: "Games simulated by you:"
+    games_simulated_for: "Games simulated for you:"
     leaderboard: "Leaderboard"
     battle_as: "Battle as "
     summary_your: "Your "
