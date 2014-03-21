@@ -64,7 +64,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
   home:
     slogan: "Belajar Kod JavaScript Dengan Permainan"
     no_ie: "CodeCombat tidak berfungsi dalam Internet Explorer 9 dan terdahulu. Maaf!"
-    no_mobile: "CodeCombat tidak dibangunkan untuk telefon mudah-alih dan tablet and tidak akan berfungsi!"
+    no_mobile: "CodeCombat tidak dibangunkan untuk telefon mudah-alih dan tablet dan tidak akan berfungsi!"
     play: "Mula"
     old_browser: "Uh oh, browser anda terlalu lama untuk CodeCombat berfungsi. Maaf!"
     old_browser_suffix: "Anda boleh mencuba, tapi mungkin ia tidak akan berfungsi."
