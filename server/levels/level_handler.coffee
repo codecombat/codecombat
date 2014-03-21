@@ -183,7 +183,6 @@ LevelHandler = class LevelHandler extends Handler
 
       query.exec (err, sessionResults) ->
         return res.send([]) unless sessionResults.length
-        res.send(sessionResults)
         userMap = {}
         userMap[u._id] = u.facebookID for u in userResults
         session.facebookID = userMap[session.creator] for session in sessionResults
