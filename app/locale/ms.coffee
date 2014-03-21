@@ -293,7 +293,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     version: "Versi"
     commit_msg: "Mesej Commit"
 #    history: "History"
-#    version_history_for: "Version History for: "
+    version_history_for: "Versi History untuk: "
     result: "Keputusan"
     results: "Keputusan-keputusan"
     description: "Deskripsi"
