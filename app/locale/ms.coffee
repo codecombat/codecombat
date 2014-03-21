@@ -92,7 +92,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 
   contact:
     contact_us: "Hubungi CodeCombat"
-    welcome: "Kami suka mendengar dari anda! Gunakan form ini dan hantar kami emel. "
+    welcome: "Kami gemar mendengar dari anda! Gunakan form ini dan hantar kami emel. "
     contribute_prefix: "Jikalau anda berasa besar hati untuk menyumbang, sila lihat "
     contribute_page: "laman kami untuk menyumbang"
 #    contribute_suffix: "!"
@@ -123,7 +123,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 
   account_settings:
 #    title: "Account Settings"
-    not_logged_in: "Daftar atau buat account untuk menukar "setting" anda."
+    not_logged_in: "Daftar masuk atau buat account untuk menukar "setting" anda."
 #    autosave: "Changes Save Automatically"
 #    me_tab: "Me"
 #    picture_tab: "Picture"
