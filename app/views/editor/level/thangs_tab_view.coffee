@@ -230,7 +230,7 @@ module.exports = class ThangsTabView extends View
       if treemaThang
         if not treemaThang.isSelected()
           treemaThang.select()
-          @thangsTreema.$el.scrollTop(treemaThang.$el.scrollTop()) 
+          @thangsTreema.$el.scrollTop(@thangsTreema.$el.find('.treema-children .treema-selected')[0].offsetTop) 
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos
