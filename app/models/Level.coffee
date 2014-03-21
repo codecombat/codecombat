@@ -46,7 +46,6 @@ module.exports = class Level extends CocoModel
     # Example: Collides doesn't depend on Allied, but if both exist, Collides must come after Allied. Soft dependency example. Can't just figure out a proper priority to take care of it.
     # Decision? Just special case the sort logic in here until we have more examples than these two and decide how best to handle most of the cases then, since we don't really know the whole of the problem yet.
     # TODO: anything that depends on Programmable will break right now.
-
     for thang in thangs
       sorted = []
       visit = (c) ->
