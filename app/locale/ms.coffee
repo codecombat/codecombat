@@ -326,7 +326,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     why_paragraph_3_italic: "yay satu badge"
     why_paragraph_3_center: "tapi bersukaria seperti"
     why_paragraph_3_italic_caps: "TIDAK MAK SAYA PERLU HABISKAN LEVEL!"
-    why_paragraph_3_suffix: "Itulah kenapa CodeCombat adalah permainan multiplayer, tapi bukan sebuah khursus dibuat sebagai permainan. Kami tidak akan berhenti sehingga kamu tidak akan--tetapi buat masa kini, itulah perkara yang baik."
+    why_paragraph_3_suffix: "Itulah kenapa CodeCombat adalah permainan multiplayer, tapi bukan sebuah khursus dibuat sebagai permainan. Kami tidak akan berhenti sehingga anda tidak--tetapi buat masa kini, itulah perkara yang terbaik."
 #    why_paragraph_4: "Jika kamu mahu berasa ketagih terhadap sesuatu permainan komputer, jadilah ketagih kepada permainan ini dan jadilah seorang pakar dalam zaman teknologi terkini."
     why_ending: "Dan ia adalah percuma! "
     why_ending_url: "Mulalah bermain sekarang!"
