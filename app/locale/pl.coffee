@@ -540,7 +540,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     warmup: "Rozgrzewka"
 #    vs: "VS"
 
-#  multiplayer_launch:
+  multiplayer_launch:
     introducing_dungeon_arena: "Oto Dungeon Arena"
     new_way: "17. marca 2014: Nowy sposób, by współzawodniczyć dzięki programowaniu."
     to_battle: "Do broni, developerzy!"
