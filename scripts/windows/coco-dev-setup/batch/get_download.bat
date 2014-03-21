@@ -1,4 +1,4 @@
 @echo off
 setlocal EnableDelayedExpansion
-get_var config/downloads.coco %1
+utilities\\get_var.exe config\\downloads.coco %1
 endlocal
