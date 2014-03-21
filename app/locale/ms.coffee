@@ -356,7 +356,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    email_settings_url: "your email settings"
 #    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
 #    cost_title: "Cost"
-    cost_description: "Buat masa ini, CodeCombat adalah 100% percuma! salah satu daripada tujuan kami adalah untuk membiarkan ia sebegitu, supaya ramai boleh bermain, di mana sahaja mereka berada. Jikalau langit menjadi gelap untuk kami, kami akan mengecaj untuk langganan atau untuk beberapa muatan, tapi kami lebih suka untuk tidak berbuat demikian. Jika kami bernasib baik, kami akan boleh dapat menanggung syarikat kami dengan:"
+    cost_description: "Buat masa ini, CodeCombat adalah 100% percuma! salah satu daripada tujuan kami adalah untuk membiarkan ia sebegitu, supaya ramai boleh bermain, di mana sahaja mereka berada. Jikalau langit menjadi gelap untuk kami, kami akan mengecaj untuk langganan atau untuk beberapa muatan, tapi kami lebih suka untuk tidak berbuat demikian. Jika kami bernasib baik, kami dapat menanggung syarikat kami dengan:"
 
 #    recruitment_title: "Recruitment"
 #    recruitment_description_prefix: "Here on CodeCombat, you're going to become a powerful wizard–not just in the game, but also in real life."
