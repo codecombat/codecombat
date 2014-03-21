@@ -8,6 +8,8 @@ config = require '../../server_config'
 errors = require '../commons/errors'
 async = require 'async'
 
+log = require 'winston'
+
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = ['permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID', 'music', 'volume', 'aceConfig']
 
@@ -58,7 +60,7 @@ UserHandler = class UserHandler extends Handler
         return callback(res:'Invalid Facebook Access Token.', code:422) unless emailsMatch
         callback(null, req, user)
       )
-
+   
     # GPlus access token checking
     (req, user, callback) ->
       gpID = req.query.gplusID
@@ -71,7 +73,7 @@ UserHandler = class UserHandler extends Handler
         return callback(res:'Invalid G+ Access Token.', code:422) unless emailsMatch
         callback(null, req, user)
       )
-
+   
     # Email setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.email?
@@ -90,7 +92,7 @@ UserHandler = class UserHandler extends Handler
         return callback({res:r, code:409}) if otherUser
         user.set('email', req.body.email)
         callback(null, req, user)
-
+  
     # Name setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.name
