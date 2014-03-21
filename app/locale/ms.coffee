@@ -143,7 +143,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    email_notifications_description: "Get periodic notifications for your account."
 #    email_announcements_description: "Get emails on the latest news and developments at CodeCombat."
 #    contributor_emails: "Contributor Class Emails"
-    contribute_prefix: "Kami sedang mencari orang untuk masuk "parti" kami! Sila semak kepada "
+    contribute_prefix: "Kami sedang mencari orang untuk masuk 'parti' kami! Sila semak kepada "
     contribute_page: "Laman untuk sumbangan"
     contribute_suffix: " untuk mengetahui lebih lanjut."
 #    email_toggle: "Toggle All"
