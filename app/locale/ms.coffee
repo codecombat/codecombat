@@ -92,7 +92,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 
   contact:
     contact_us: "Hubungi CodeCombat"
-    welcome: "Kami gemar mendengar dari anda! Gunakan form ini dan hantar kami emel. "
+    welcome: "Kami gemar mendengar dari anda! Gunakan borang ini dan hantar emel kepada kami. "
     contribute_prefix: "Jikalau anda berasa besar hati untuk menyumbang, sila lihat "
     contribute_page: "laman kami untuk menyumbang"
 #    contribute_suffix: "!"
