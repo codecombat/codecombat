@@ -10,7 +10,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    delay_5_sec: "5 seconds"
 #    manual: "Manual"
 #    fork: "Fork"
-    play: "Mula Main"
+    play: "Mula"
 
   modal:
     close: "Tutup"
@@ -20,7 +20,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     page_not_found: "Halaman tidak ditemui"
 
   nav:
-    play: "Mula Main"
+    play: "Mula"
 #    editor: "Editor"
 #    blog: "Blog"
 #    forum: "Forum"
@@ -36,10 +36,10 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
   versions:
     save_version_title: "Simpan versi baru"
     new_major_version: "Versi utama yang baru"
-#    cla_prefix: "To save changes, first you must agree to our"
+    cla_prefix: "Untuk menyimpan pengubahsuaian, anda perlu setuju dengan"
 #    cla_url: "CLA"
 #    cla_suffix: "."
-#    cla_agree: "I AGREE"
+    cla_agree: "SAYA SETUJU"
 
   login:
     sign_up: "Buat Akaun"
@@ -61,13 +61,13 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     sign_up: "Daftar"
     log_in: "Log Masuk"
 
-#  home:
-#    slogan: "Learn to Code JavaScript by Playing a Game"
-#    no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
-#    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
-#    play: "Play"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
+  home:
+    slogan: "Belajar Kod JavaScript Dengan Permainan"
+    no_ie: "CodeCombat tidak berfungsi dalam Internet Explorer 9 dan terdahulu. Maaf!"
+    no_mobile: "CodeCombat tidak dibangunkan untuk telefon mudah-alih dan tablet and tidak akan berfungsi!"
+    play: "Mula"
+    old_browser: "Uh oh, browser anda terlalu lama untuk CodeCombat berfungsi. Maaf!"
+    old_browser_suffix: "Anda boleh mencuba, tapi mungkin ia tidak akan berfungsi."
 #    campaign: "Campaign"
 #    for_beginners: "For Beginners"
 #    multiplayer: "Multiplayer"
@@ -92,21 +92,21 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 
   contact:
     contact_us: "Hubungi CodeCombat"
-#    welcome: "Good to hear from you! Use this form to send us email. "
-#    contribute_prefix: "If you're interested in contributing, check out our "
-#    contribute_page: "contribute page"
+    welcome: "Kami suka mendengar dari anda! Gunakan form ini dan hantar kami emel. "
+    contribute_prefix: "Jikalau anda berasa besar hati untuk menyumbang, sila lihat "
+    contribute_page: "laman kami untuk menyumbang"
 #    contribute_suffix: "!"
-#    forum_prefix: "For anything public, please try "
-#    forum_page: "our forum"
-#    forum_suffix: " instead."
+    forum_prefix: "Untuk perkara lain, sila cuba "
+    forum_page: "forum kami"
+#    forum_suffix: "."
     send: "Hantar Maklumbalas"
 
   diplomat_suggestion:
-#    title: "Help translate CodeCombat!"
-#    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Bahasa Melayu but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Bahasa Melayu."
-    missing_translations: "Until we can translate everything into Bahasa Melayu, you'll see English when Bahasa Melayu isn't available."
-#    learn_more: "Learn more about being a Diplomat"
+    title: "Kami perlu menterjemahkan CodeCombat!"
+    sub_heading: "Kami memerlukan kemahiran bahasa anda."
+    pitch_body: "Kami membina CodeCombat dalam inggeris, tetapi kami sudah ada pemain dari seluruh dunia. Kebanyakan mereka mahu bermain dalam Bahasa Melayu dan tidak memahami bahasa Inggeris, jikalau anda boleh tertutur dalam kedua-dua bahasa, harap anda boleh daftar untuk menjadi Diplomat dan menolong menterjemahkan laman CodeCombat dan kesemua level kepada Bahasa Melayu."
+    missing_translations: "Sehingga kami dalam menterjemahkan kesemua kepada Bahasa Melayu, anda akan melihat Inggeris apabila Bahasa Melayu tiada dalam penterjemahan."
+    learn_more: "Ketahui lebih lanjut untuk menjadi ahli Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
 #  wizard_settings:
@@ -155,17 +155,17 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    edit_settings: "Edit Settings"
     profile_for_prefix: "Profil untuk "
 #    profile_for_suffix: ""
-#    profile: "Profile"
-#    user_not_found: "No user found. Check the URL?"
-#    gravatar_not_found_mine: "We couldn't find your profile associated with:"
+    profile: "Profil"
+    user_not_found: "Pengguna tiada. Semak kembali URL?"
+    gravatar_not_found_mine: "Kami tidak dapat mencari profil anda yang mengenai dengan:"
 #    gravatar_not_found_email_suffix: "."
-#    gravatar_signup_prefix: "Sign up at "
-#    gravatar_signup_suffix: " to get set up!"
+    gravatar_signup_prefix: "Daftar di "
+    gravatar_signup_suffix: " untuk mula!"
 #    gravatar_not_found_other: "Alas, there's no profile associated with this person's email address."
-#    gravatar_contact: "Contact"
-#    gravatar_websites: "Websites"
-#    gravatar_accounts: "As Seen On"
-#    gravatar_profile_link: "Full Gravatar Profile"
+    gravatar_contact: "Hubungi"
+    gravatar_websites: "Lelaman"
+#    gravatar_accounts: "Juga didapati di"
+    gravatar_profile_link: "Profil Penuh Gravatar"
 
 #  play_level:
 #    level_load_error: "Level could not be loaded: "
@@ -287,11 +287,11 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    edit_article_title: "Edit Article"
 
   general:
-#    and: "and"
+    and: "dan"
     name: "Nama"
 #    body: "Body"
     version: "Versi"
-#    commit_msg: "Commit Message"
+    commit_msg: "Mesej Commit"
 #    history: "History"
 #    version_history_for: "Version History for: "
     result: "Keputusan"
@@ -299,12 +299,12 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     description: "Deskripsi"
     or: "atau"
     email: "Emel"
-#    password: "Password"
+    password: "Kata Laluan"
     message: "Mesej"
     code: "Kod"
-#    ladder: "Tangga"
+    ladder: "Tangga"
     when: "Bila"
-#    opponent: "Penentang"
+    opponent: "Penentang"
 #    rank: "Rank"
     score: "Mata"
     win: "Menang"
@@ -314,7 +314,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    medium: "Medium"
 #    hard: "Hard"
 
-#  about:
+  about:
     who_is_codecombat: "Siapa adalah CodeCombat?"
     why_codecombat: "Kenapa CodeCombat?"
     who_description_prefix: "bersama memulai CodeCombat in 2013. Kami juga membuat (mengaturcara) "
