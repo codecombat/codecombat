@@ -86,7 +86,7 @@ class CocoModel extends Backbone.Model
     res
 
   markToRevert: ->
-    @_revertAttributes = _.clone @attributes
+    @_revertAttributes = _.cloneDeep @attributes
 
   revert: ->
     @set(@_revertAttributes, {silent: true}) if @_revertAttributes
