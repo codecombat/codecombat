@@ -21,10 +21,10 @@ module.exports = class LadderTabView extends CocoView
   startsLoading: true
   
   events:
-    'click .connect-facebook': -> FB.login()
+    'click .connect-facebook': 'onConnectFacebook'
     
   subscriptions:
-    'facebook-logged-in': -> location.reload()
+    'facebook-logged-in': 'onConnectedWithFacebook'
 
   constructor: (options, @level, @sessions) ->
     super(options)
@@ -32,6 +32,13 @@ module.exports = class LadderTabView extends CocoView
     @leaderboards = {}
     @refreshLadder()
     @checkFriends()
+    
+  onConnectFacebook: ->
+    @connecting = true
+    FB.login()
+    
+  onConnectedWithFacebook: ->
+    location.reload() if @connecting
 
   checkFriends: ->
     @loadingFriends = true
