@@ -18,6 +18,7 @@ UserSchema = c.object {},
   volume: c.pct({title: 'Volume'})
   music: {type: 'boolean', default: true}
   autocastDelay: {type: 'integer', 'default': 5000 }
+  lastLevel: { type: 'string' }
 
   emailSubscriptions: c.array {uniqueItems: true, 'default': ['announcement', 'notification']}, {'enum': emailSubscriptions}
 
