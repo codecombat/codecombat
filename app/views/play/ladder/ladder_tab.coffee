@@ -19,10 +19,10 @@ module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
   template: require 'templates/play/ladder/ladder_tab'
   startsLoading: true
-  
+
   events:
     'click .connect-facebook': 'onConnectFacebook'
-    
+
   subscriptions:
     'facebook-logged-in': 'onConnectedWithFacebook'
 
@@ -32,11 +32,11 @@ module.exports = class LadderTabView extends CocoView
     @leaderboards = {}
     @refreshLadder()
     @checkFriends()
-    
+
   onConnectFacebook: ->
     @connecting = true
     FB.login()
-    
+
   onConnectedWithFacebook: ->
     location.reload() if @connecting
 
@@ -61,7 +61,7 @@ module.exports = class LadderTabView extends CocoView
         method: 'POST'
         success: @facebookFriendsLoaded
       }
-  
+
   facebookFriendsLoaded: (result) =>
     friendsMap = {}
     friendsMap[friend.id] = friend.name for friend in @facebookData
@@ -83,9 +83,10 @@ module.exports = class LadderTabView extends CocoView
     $.when(promises...).then(@leaderboardsLoaded)
 
   leaderboardsLoaded: =>
+    return if @destroyed
     @loadingLeaderboards = false
     @renderMaybe()
-    
+
   renderMaybe: ->
     return if @loadingFriends or @loadingLeaderboards
     @startsLoading = false
