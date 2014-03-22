@@ -231,9 +231,8 @@ module.exports = class Simulator extends CocoClass
   createAether: (methodName, method) ->
     aetherOptions =
       functionName: methodName
-      protectAPI: false
+      protectAPI: true
       includeFlow: false
-      #includeFlow: true
       requiresThis: true
       yieldConditionally: false
       problems:
