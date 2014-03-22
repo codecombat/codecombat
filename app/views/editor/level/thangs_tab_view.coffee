@@ -8,6 +8,7 @@ CocoCollection = require 'models/CocoCollection'
 Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
 LevelThangEditView = require './thang/edit'
+Label = require "lib/surface/Label"
 ComponentsCollection = require 'collections/ComponentsCollection'
 
 # Moving the screen while dragging thangs constants
@@ -217,6 +218,7 @@ module.exports = class ThangsTabView extends View
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
+    @selectedExtantSprite?.setNameLabel null unless @selectedExtantSprite is e.sprite
     @selectedExtantThang = e.thang
     @selectedExtantSprite = e.sprite
     if e.thang and (key.alt or key.meta)
@@ -228,6 +230,9 @@ module.exports = class ThangsTabView extends View
       @selectedExtantThangClickTime = new Date()
       treemaThang = _.find @thangsTreema.childrenTreemas, (treema) => treema.data.id is @selectedExtantThang.id
       if treemaThang
+        # Show the label above selected thang, notice that we may get here from thang-edit-view, so it will be selected but no label
+        # also covers selecting from Treema
+        @selectedExtantSprite.setNameLabel @selectedExtantSprite.thangType.get('name') + ': ' + @selectedExtantThang.id
         if not treemaThang.isSelected()
           treemaThang.select()
           @thangsTreema.$el.scrollTop(@thangsTreema.$el.find('.treema-children .treema-selected')[0].offsetTop) 
