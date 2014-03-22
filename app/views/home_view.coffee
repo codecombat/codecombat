@@ -8,7 +8,7 @@ Simulator = require 'lib/simulator/Simulator'
 module.exports = class HomeView extends View
   id: 'home-view'
   template: template
-    
+
   constructor: ->
     super(arguments...)
     ThangType.loadUniversalWizard()
@@ -32,7 +32,8 @@ module.exports = class HomeView extends View
 
     # Try to find latest level and set "Play" link to go to that level
     lastLevel = me.get("lastLevel")
-    if lastLevel? and lastLevel isnt ""
+    lastLevel ?= localStorage?["lastLevel"]  # Temp, until it's migrated to user property
+    if lastLevel
       playLink = @$el.find("#beginner-campaign")
       if playLink[0]?
         href = playLink.attr("href").split("/")
