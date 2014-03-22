@@ -9,7 +9,8 @@ block content
       each cla in clas
         tr
           td #{cla.name}
-          td #{cla.email}
+          if me.isAdmin()
+            td #{cla.email}
           td #{cla.githubUsername}
           td #{cla.created}
  

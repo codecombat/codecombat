@@ -13,6 +13,8 @@ module.exports.setup = (app) ->
       resultCursor = collection.find {}
       resultCursor.toArray (err, docs) ->
         return log.error "Couldn't fetch distinct CLA submissions because #{err}" if err
+        unless req.user?.isAdmin()
+          delete doc.email for doc in docs
         res.send docs
         res.end
 
