@@ -160,7 +160,7 @@ module.exports = class SpectateLevelView extends View
     @insertSubviews ladderGame: @otherSession?
     @initVolume()
 
-    @originalSessionState = _.cloneDeep(@session.get('state'))
+    @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()

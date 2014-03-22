@@ -9,11 +9,12 @@ mongoose = require 'mongoose'
 queues = require '../commons/queue'
 LevelSession = require '../levels/sessions/LevelSession'
 Level = require '../levels/Level'
+User = require '../users/User'
 TaskLog = require './task/ScoringTask'
 bayes = new (require 'bayesian-battle')()
 
 scoringTaskQueue = undefined
-scoringTaskTimeoutInSeconds = 180
+scoringTaskTimeoutInSeconds = 240
 
 
 module.exports.setup = (app) -> connectToScoringQueue()
@@ -24,7 +25,7 @@ connectToScoringQueue = ->
       if error? then throw new Error  "There was an error registering the scoring queue: #{error}"
       scoringTaskQueue = data
       log.info "Connected to scoring task queue!"
-      
+
 module.exports.messagesInQueueCount = (req, res) ->
   scoringTaskQueue.totalMessagesInQueue (err, count) ->
     if err? then return errors.serverError res, "There was an issue finding the Mongoose count:#{err}"
@@ -148,6 +149,9 @@ module.exports.processTaskResult = (req, res) ->
             addMatchToSessions clientResponseObject, newScoresObject, (err, data) ->
               if err? then return errors.serverError res, "There was an error updating the sessions with the match! #{JSON.stringify err}"
 
+              incrementUserSimulationCount req.user._id, 'simulatedBy'
+              incrementUserSimulationCount levelSession.creator, 'simulatedFor'
+
               originalSessionID = clientResponseObject.originalSessionID
               originalSessionTeam = clientResponseObject.originalSessionTeam
               originalSessionRank = parseInt clientResponseObject.originalSessionRank
@@ -197,12 +201,12 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
     updatedSession = updatedSession.toObject()
 
     totalNumberOfGamesPlayed = updatedSession.numberOfWinsAndTies + updatedSession.numberOfLosses
-    if totalNumberOfGamesPlayed < 5
-      console.log "Number of games played is less than 5, continuing..."
+    if totalNumberOfGamesPlayed < 10
+      console.log "Number of games played is less than 10, continuing..."
       cb null, true
     else
       ratio = (updatedSession.numberOfLosses) / (totalNumberOfGamesPlayed)
-      if ratio > 0.66
+      if ratio > 0.2
         cb null, false
         console.log "Ratio(#{ratio}) is bad, ending simulation"
       else
@@ -225,6 +229,9 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
       submittedCode:
         $exists: true
       team: opposingTeam
+
+    if opponentSessionTotalScore < 30
+      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 2
 
     limitNumber = 1
 
@@ -262,6 +269,11 @@ calculateOpposingTeam = (sessionTeam) ->
   opposingTeams = _.pull teams, sessionTeam
   return opposingTeams[0]
 
+incrementUserSimulationCount = (userID, type) ->
+  inc = {}
+  inc[type] = 1
+  User.update {_id: userID}, {$inc: inc}, (err, affected) ->
+    log.error "Error incrementing #{type} for #{userID}: #{err}" if err
 
 validatePermissions = (req, sessionID, callback) ->
   if isUserAnonymous req then return callback null, false
@@ -361,7 +373,7 @@ generateTaskPairs = (submittedSessions, sessionToScore) ->
   return taskPairs
 
 sendTaskPairToQueue = (taskPair, callback) ->
-  scoringTaskQueue.sendMessage {sessions: taskPair}, 0, (err,data) -> callback? err,data
+  scoringTaskQueue.sendMessage {sessions: taskPair}, 5, (err,data) -> callback? err,data
 
 getUserIDFromRequest = (req) -> if req.user? then return req.user._id else return null
 

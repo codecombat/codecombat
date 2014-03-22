@@ -38,7 +38,8 @@ module.exports = class RootView extends CocoView
     location.hash = ''
     location.hash = hash
     @buildLanguages()
-    
+    #@$('.antiscroll-wrap').antiscroll()  # not yet, buggy
+
   afterRender: ->
     super(arguments...)
     @chooseTab(location.hash.replace('#','')) if location.hash

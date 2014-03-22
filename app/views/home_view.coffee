@@ -8,7 +8,7 @@ Simulator = require 'lib/simulator/Simulator'
 module.exports = class HomeView extends View
   id: 'home-view'
   template: template
-    
+
   constructor: ->
     super(arguments...)
     ThangType.loadUniversalWizard()
@@ -31,14 +31,12 @@ module.exports = class HomeView extends View
       $('input:visible:first', @).focus()
 
     # Try to find latest level and set "Play" link to go to that level
-    if localStorage?
-      lastLevel = localStorage["lastLevel"]
-      if lastLevel? and lastLevel isnt ""
-        playLink = @$el.find("#beginner-campaign")
-        if playLink[0]?
-          href = playLink.attr("href").split("/")
-          href[href.length-1] = lastLevel if href.length isnt 0
-          href = href.join("/")
-          playLink.attr("href", href)
-    else
-      console.log("TODO: Insert here code to get latest level played from the database. If this can't be found, we just let the user play the first level.")
+    lastLevel = me.get("lastLevel")
+    lastLevel ?= localStorage?["lastLevel"]  # Temp, until it's migrated to user property
+    if lastLevel
+      playLink = @$el.find("#beginner-campaign")
+      if playLink[0]?
+        href = playLink.attr("href").split("/")
+        href[href.length-1] = lastLevel if href.length isnt 0
+        href = href.join("/")
+        playLink.attr("href", href)

@@ -335,6 +335,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     nick_description: "Programlama sihirbazı, tuhaf motivasyon büyücü ve tersine mühendis. Nick her şeyden anlar ve şu anda CodeCombat'i inşa etmekle meşgul."
     jeremy_description: "Müşteri hizmetleri büyücüsü, kullanılabilirlik test edicisi ve topluluk örgütleyici; muhtemelen Jeremy ile konuşmuşluğunuz vardır."
     michael_description: "Programcı, sistem yöneticisi, halihazırda üniversite okuyan teknik-harika-çocuk. Michael sunucularımızı ayakta tutan adamın ta kendisi."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Hukuki"

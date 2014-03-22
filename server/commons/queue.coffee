@@ -193,15 +193,15 @@ class MongoQueue extends events.EventEmitter
       scheduledVisibilityTime:
         $lte: new Date()
 
-    options =
-      sort: 'scheduledVisibilityTime'
+    #options =
+    #  sort: 'scheduledVisibilityTime'
 
     update =
       $set:
         receiptHandle: @_generateRandomReceiptHandle()
         scheduledVisibilityTime: @_constructDefaultVisibilityTimeoutDate()
 
-    @Message.findOneAndUpdate conditions, update, options, (err, data) =>
+    @Message.findOneAndUpdate conditions, update, (err, data) =>
       return @emit 'error',err,data if err?
 
       originalData = data

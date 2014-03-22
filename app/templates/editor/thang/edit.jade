@@ -13,7 +13,7 @@ block content
   img#portrait.img-thumbnail
 
   button.btn.btn-secondary#history-button(data-i18n="general.history") History
-  button.btn.btn-primary#save-button(data-toggle="coco-modal", data-target="modal/save_version", disabled=authorized === true ? undefined : "true") Save
+  button.btn.btn-primary#save-button(data-toggle="coco-modal", data-target="modal/save_version", data-i18n="common.save", disabled=authorized === true ? undefined : "true") Save
   button.btn.btn-primary#revert-button(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert", disabled=authorized === true ? undefined : "true") Revert
   
   h3 Edit Thang Type: "#{thangType.attributes.name}"

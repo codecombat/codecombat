@@ -10,7 +10,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <title>CodeCombat</title>
+  <title>CodeCombat - Learn how to code by playing a game</title>
   <meta name="description" content="Learn programming with a multiplayer live coding strategy game. You're a wizard, and your spells are JavaScript. Free, open source HTML5 game!">
 
   <meta property="og:title" content="CodeCombat: Multiplayer Programming">
@@ -31,8 +31,7 @@
 
   <link rel="shortcut icon" href="/images/favicon.ico">
   <link rel="stylesheet" href="/stylesheets/app.css">
-  <script src="/lib/ace/ace.js"></script>
-  
+  <script src="/lib/ace/ace.js"></script>  
   <!--[if IE 9]>     <script src="/javascripts/vendor_with_box2d.js"></script> <![endif]-->
   <!--[if !IE]><!--> <script src="/javascripts/vendor.js"></script>            <!--<![endif]-->
   <script src="/javascripts/app.js"></script> <!-- it's all Backbone! -->
@@ -76,8 +75,8 @@
     // Additional JS functions here
     window.fbAsyncInit = function() {
       FB.init({
-        appId      : '148832601965463', // App ID
-        channelUrl : 'http://codecombat.com/channel.html', // Channel File
+        appId      : document.location.origin === 'http://localhost:3000' ? '607435142676437' : '148832601965463', // App ID
+        channelUrl : document.location.origin +'/channel.html', // Channel File
         status     : true, // check login status
         cookie     : true, // enable cookies to allow the server to access the session
         xfbml      : true  // parse XFBML
@@ -113,7 +112,14 @@
   <header class="header-container" id="header-container"></header>
   
   <div id="page-container"></div>
-  
+  <!--
+  <div class="antiscroll-wrap">
+    <div class="antiscroll-inner">
+      <div id="page-container"></div>
+    </div>
+  </div>
+  -->
+
   <div id="modal-wrapper"></div>
 
   <!-- begin google api/plus code -->

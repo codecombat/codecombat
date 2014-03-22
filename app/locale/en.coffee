@@ -87,7 +87,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     campaign_player_created: "Player-Created"
     campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
     level_difficulty: "Difficulty: "
-    play_as: "Play As "
+    play_as: "Play As"
     spectate: "Spectate"
 
   contact:
@@ -249,6 +249,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     av_other_debug_base_url: "Base (for debugging base.jade)"
     u_title: "User List"
     lg_title: "Latest Games"
+    clas: "CLAs"
 
   editor:
     main_title: "CodeCombat Editors"
@@ -350,7 +351,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
     jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
     michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
-    glen_description: "Glen, describe thyself!"
+    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Legal"
@@ -530,6 +531,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     simulation_explanation: "By simulating games you can get your game ranked faster!"
     simulate_games: "Simulate Games!"
     simulate_all: "RESET AND SIMULATE GAMES"
+    games_simulated_by: "Games simulated by you:"
+    games_simulated_for: "Games simulated for you:"
     leaderboard: "Leaderboard"
     battle_as: "Battle as "
     summary_your: "Your "
