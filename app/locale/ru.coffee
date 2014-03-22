@@ -225,6 +225,20 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     editor_config_indentguides_description: "Отображение вертикальных линий для лучшего обзора отступов."
     editor_config_behaviors_label: "Умное поведение"
     editor_config_behaviors_description: "Автозавершать квадратные, фигурные скобки и кавычки."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
   admin:
     av_title: "Админ панель"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     av_other_debug_base_url: "База (для отладки base.jade)"
     u_title: "Список пользователей"
     lg_title: "Последние игры"
+#    clas: "CLAs"
 
   editor:
     main_title: "Редакторы CodeCombat"
@@ -515,6 +530,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     simulation_explanation: "Симулированием игр вы сможете быстрее получить оценку игры!"
     simulate_games: "Симулировать игры!"
     simulate_all: "СБРОСИТЬ И СИМУЛИРОВАТЬ ИГРЫ"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
     leaderboard: "Таблица лидеров"
     battle_as: "Сразиться за "
     summary_your: "Ваши "
