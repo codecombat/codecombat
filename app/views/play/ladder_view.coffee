@@ -122,6 +122,19 @@ module.exports = class LadderView extends RootView
 
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
+    
+  resimulateAllSessions: ->
+    postData =
+      originalLevelID: @level.get('original')
+      levelMajorVersion: @level.get('version').major
+    console.log postData
+    
+    $.ajax
+      url: '/queue/scoring/resimulateAllSessions'
+      method: 'POST'
+      data: postData  
+      complete: (jqxhr) ->
+        console.log jqxhr.responseText
 
   showPlayModal: (teamID) ->
     return @showApologeticSignupModal() if me.get('anonymous')
