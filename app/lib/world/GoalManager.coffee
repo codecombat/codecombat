@@ -90,7 +90,7 @@ module.exports = class GoalManager extends CocoClass
   # IMPLEMENTATION DETAILS
 
   addGoal: (goal) ->
-    goal = _.cloneDeep(goal)
+    goal = $.extend(true, {}, goal)
     goal.id = @nextGoalID++ if not goal.id
     return if @goalStates[goal.id]?
     @goals.push(goal)

@@ -1,25 +1,77 @@
 div#columns.row
   for team in teams
-    div.column.col-md-6
+    div.column.col-md-4
       table.table.table-bordered.table-condensed.table-hover
         tr
-          th(colspan=4, style="color: #{team.primaryColor}")
+          th
+          th(colspan=3, style="color: #{team.primaryColor}")
             span= team.name
             span  
             span(data-i18n="ladder.leaderboard") Leaderboard
         tr
-          th(data-i18n="general.rank") Rank
+          th
           th(data-i18n="general.score") Score
           th(data-i18n="general.name").name-col-cell Name
           th
 
-        for session, rank in team.leaderboard.topPlayers.models
+        - var topSessions = team.leaderboard.topPlayers.models;
+        - var showJustTop = team.leaderboard.inTopSessions() || me.get('anonymous');
+        - if(!showJustTop) topSessions = topSessions.slice(0, 10);
+        for session, rank in topSessions
           - var myRow = session.get('creator') == me.id
           tr(class=myRow ? "success" : "")
             td.rank-cell= rank + 1
             td.score-cell= Math.round(session.get('totalScore') * 100)
             td.name-col-cell= session.get('creatorName') || "Anonymous"
-            td
+            td.fight-cell
               a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}")
-                span(data-i18n="ladder.battle_as") Battle as
-                | #{team.otherTeam}!
+                span(data-i18n="ladder.fight") Fight!
+                
+        if !showJustTop && team.leaderboard.nearbySessions().length
+          tr(class="active")
+            td(colspan=4).ellipsis-row ...
+          for session in team.leaderboard.nearbySessions()
+            - var myRow = session.get('creator') == me.id
+            tr(class=myRow ? "success" : "")
+              td.rank-cell= session.rank
+              td.score-cell= Math.round(session.get('totalScore') * 100)
+              td.name-col-cell= session.get('creatorName') || "Anonymous"
+              td.fight-cell
+                a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}")
+                  span(data-i18n="ladder.fight") Fight!
+                    
+  div.column.col-md-4
+    h4.friends-header Friends Playing
+    if me.get('anonymous')
+      div.alert.alert-info
+        a(data-toggle="coco-modal", data-target="modal/signup") Sign up to play with your friends!
+    
+    else
+      if !onFacebook
+        div.connect-buttons
+          | Connect:
+          if !onFacebook
+            button.btn.btn-sm.connect-facebook Facebook
+          //button.btn.btn-sm.connect-google-plus Google+
+      
+      if !!friends
+        
+        if friends.length
+          for friend in friends
+            p.friend-entry
+              img(src="http://graph.facebook.com/#{friend.facebookID}/picture").img-thumbnail
+              span= friend.creatorName + ' (' + friend.facebookName + ')'
+              br
+              span= Math.round(friend.totalScore * 100)
+              span : 
+              span= friend.team
+              br
+              a(href="/play/level/#{level.get('slug') || level.id}/?team=#{friend.otherTeam}&opponent=#{friend._id}")
+                span(data-i18n="ladder.fight") Fight!
+  
+  
+        else
+          p Invite your friends to join you in battle!
+            
+      else
+        p Connect to social networks to play with your friends!

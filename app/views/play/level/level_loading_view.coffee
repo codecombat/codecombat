@@ -8,7 +8,7 @@ module.exports = class LevelLoadingView extends View
 
   subscriptions:
     'level-loader:progress-changed': 'onLevelLoaderProgressChanged'
-
+    
   afterRender: ->
     @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
     tips = @$el.find('.tip').addClass('to-remove')
