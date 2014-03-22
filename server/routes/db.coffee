@@ -2,8 +2,20 @@ log = require 'winston'
 errors = require '../commons/errors'
 handlers = require('../commons/mapping').handlers
 schemas = require('../commons/mapping').schemas
+mongoose = require 'mongoose'
 
 module.exports.setup = (app) ->
+  # This is hacky and should probably get moved somewhere else, I dunno
+  app.get '/db/cla.submissions', (req, res) ->
+    res.setHeader('Content-Type', 'application/json')
+    collection = mongoose.connection.db.collection 'cla.submissions', (err, collection) ->
+      return log.error "Couldn't fetch CLA submissions because #{err}" if err
+      resultCursor = collection.find {}
+      resultCursor.toArray (err, docs) ->
+        return log.error "Couldn't fetch distinct CLA submissions because #{err}" if err
+        res.send docs
+        res.end
+
   app.all '/db/*', (req, res) ->
     res.setHeader('Content-Type', 'application/json')
     module = req.path[4..]
