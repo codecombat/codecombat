@@ -19,25 +19,68 @@ module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
   template: require 'templates/play/ladder/ladder_tab'
   startsLoading: true
+  
+  events:
+    'click .connect-facebook': -> FB.login()
+    
+  subscriptions:
+    'facebook-logged-in': -> location.reload()
 
   constructor: (options, @level, @sessions) ->
     super(options)
     @teams = teamDataFromLevel @level
     @leaderboards = {}
     @refreshLadder()
+    @checkFriends()
+
+  checkFriends: ->
+    @loadingFriends = true
+    FB.getLoginStatus (response) =>
+      @facebookStatus = response.status
+      if @facebookStatus is 'connected'
+        @loadFriendSessions()
+      else
+        @loadingFriends = false
+        @renderMaybe()
+
+  loadFriendSessions: ->
+    FB.api '/me/friends', (response) =>
+      @facebookData = response.data
+      console.log 'got facebookData', @facebookData
+      levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
+      url = "/db/level/#{levelFrag}/leaderboard_friends"
+      $.ajax url, {
+        data: { friendIDs: (f.id for f in @facebookData) }
+        method: 'POST'
+        success: @facebookFriendsLoaded
+      }
+  
+  facebookFriendsLoaded: (result) =>
+    friendsMap = {}
+    friendsMap[friend.id] = friend.name for friend in @facebookData
+    for friend in result
+      friend.facebookName = friendsMap[friend.facebookID]
+      friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
+    @friends = result
+    @loadingFriends = false
+    @renderMaybe()
 
   refreshLadder: ->
+    promises = []
     for team in @teams
       @leaderboards[team.id]?.off 'sync'
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession)
-      @leaderboards[team.id].once 'sync', @onLeaderboardLoaded, @
+      promises.push @leaderboards[team.id].promise
+    @loadingLeaderboards = true
+    $.when(promises...).then(@leaderboardsLoaded)
 
-  onLeaderboardLoaded: -> @renderMaybe()
-
+  leaderboardsLoaded: =>
+    @loadingLeaderboards = false
+    @renderMaybe()
+    
   renderMaybe: ->
-    leaderboardModels = _.values(@leaderboards)
-    return unless _.every leaderboardModels, (loader) -> loader.loaded
+    return if @loadingFriends or @loadingLeaderboards
     @startsLoading = false
     @render()
 
@@ -48,6 +91,8 @@ module.exports = class LadderTabView extends CocoView
     ctx.teams = @teams
     team.leaderboard = @leaderboards[team.id] for team in @teams
     ctx.levelID = @levelID
+    ctx.friends = @friends
+    ctx.onFacebook = @facebookStatus is 'connected'
     ctx
 
 class LeaderboardData
@@ -70,7 +115,9 @@ class LeaderboardData
       success = (@myRank) =>
       promises.push $.ajax "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", {success}
     
-    $.when(promises...).then @onLoad
+    @promise = $.when(promises...)
+    @promise.then @onLoad
+    @promise
 
   onLoad: =>
     @loaded = true
@@ -82,7 +129,7 @@ class LeaderboardData
     return me.id in (session.attributes.creator for session in @topPlayers.models)
     
   nearbySessions: ->
-    return unless @session
+    return [] unless @session
     l = []
     above = @playersAbove.models
     above.reverse()
