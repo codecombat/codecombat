@@ -54,6 +54,29 @@ addPairwiseTaskToQueue = (taskPair, cb) ->
       sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
         if taskPairError? then return cb taskPairError,false
         cb null, true
+        
+module.exports.resimulateAllSessions = (req, res) ->
+  unless isUserAdmin req then return errors.unauthorized res, "Unauthorized. Even if you are authorized, you shouldn't do this"
+  
+  originalLevelID = req.body.originalLevelID
+  levelMajorVersion = parseInt(req.body.levelMajorVersion)
+  
+  findParameters =
+    submitted: true
+    level:  
+      original: originalLevelID
+      majorVersion: levelMajorVersion  
+
+  query = LevelSession
+    .find(findParameters)
+    .lean()
+  
+  query.exec (err, result) ->
+    if err? then return errors.serverError res, err
+    result = _.sample result, 10
+    async.each result, resimulateSession.bind(@,originalLevelID,levelMajorVersion), (err) ->
+      if err? then return errors.serverError res, err
+      sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
 
 
 module.exports.createNewTask = (req, res) ->
