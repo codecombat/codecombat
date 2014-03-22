@@ -18,7 +18,7 @@ UserHandler = class UserHandler extends Handler
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
     'firstName', 'lastName', 'gender', 'facebookID', 'emailSubscriptions',
     'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
-    'wizard', 'aceConfig', 'simulatedBy', 'simulatedFor'
+    'wizard', 'aceConfig', 'simulatedBy', 'simulatedFor', 'autocastDelay', 'lastLevel'
   ]
 
   jsonSchema: schema

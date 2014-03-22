@@ -114,20 +114,25 @@ class LeaderboardData
       level = "#{level.get('original')}.#{level.get('version').major}"
       success = (@myRank) =>
       promises.push $.ajax "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", {success}
+<<<<<<< HEAD
     
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise
+=======
+
+    $.when(promises...).then @onLoad
+>>>>>>> b91f3200c216482908a3b5762f91134c6c602a8f
 
   onLoad: =>
     @loaded = true
     @trigger 'sync'
     # TODO: cache user ids -> names mapping, and load them here as needed,
     #   and apply them to sessions. Fetching each and every time is too costly.
-  
+
   inTopSessions: ->
     return me.id in (session.attributes.creator for session in @topPlayers.models)
-    
+
   nearbySessions: ->
     return [] unless @session
     l = []
