@@ -8,7 +8,6 @@ CocoCollection = require 'models/CocoCollection'
 Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
 LevelThangEditView = require './thang/edit'
-Label = require "lib/surface/Label"
 ComponentsCollection = require 'collections/ComponentsCollection'
 
 # Moving the screen while dragging thangs constants
