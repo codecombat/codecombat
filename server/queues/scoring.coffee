@@ -77,6 +77,27 @@ module.exports.resimulateAllSessions = (req, res) ->
     async.each result, resimulateSession.bind(@,originalLevelID,levelMajorVersion), (err) ->
       if err? then return errors.serverError res, err
       sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
+      
+resimulateSession = (originalLevelID, levelMajorVersion, session, cb) =>
+  sessionUpdateObject =
+    submitted: true
+    submitDate: new Date()
+    meanStrength: 25
+    standardDeviation: 25/3
+    totalScore: 10
+    numberOfWinsAndTies: 0
+    numberOfLosses: 0
+    isRanking: true
+  LevelSession.update {_id: session._id}, sessionUpdateObject, (err, updatedSession) ->
+    if err? then return cb err, null
+    opposingTeam = calculateOpposingTeam(session.team)
+    fetchInitialSessionsToRankAgainst opposingTeam, originalLevelID, levelMajorVersion, (err, sessionsToRankAgainst) ->
+      if err? then return cb err, null
+
+      taskPairs = generateTaskPairs(sessionsToRankAgainst, session)
+      sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
+        if taskPairError? then return cb taskPairError, null
+        cb null
 
 
 module.exports.createNewTask = (req, res) ->
