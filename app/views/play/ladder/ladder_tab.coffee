@@ -114,15 +114,9 @@ class LeaderboardData
       level = "#{level.get('original')}.#{level.get('version').major}"
       success = (@myRank) =>
       promises.push $.ajax "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", {success}
-<<<<<<< HEAD
-    
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise
-=======
-
-    $.when(promises...).then @onLoad
->>>>>>> b91f3200c216482908a3b5762f91134c6c602a8f
 
   onLoad: =>
     @loaded = true
