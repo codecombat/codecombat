@@ -255,9 +255,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if @thangType.get('name') is 'Arrow'
       # scale the arrow so it appears longer when flying parallel to horizon
       angle = @getRotation()
-      angle = -angle if angle < 0
-      angle = 180 - angle if angle > 90
-      scaleX = 0.5 + 0.5 * (90 - angle) / 90
+      scaleX = 0.5 + 0.5 * angleDiffFactorFrom90(angle)
     scaleFactorX = @thang.scaleFactorX ? @scaleFactor
     scaleFactorY = @thang.scaleFactorY ? @scaleFactor
     @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
@@ -275,10 +273,29 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if @options.showInvisible
       @imageObject.alpha = Math.max 0.5, @imageObject.alpha
 
+  angleDiffFactorFrom90: (angle) ->
+    # how much horizontal is angle, which must be (-180, 180].
+    # 1 for parallel to horizon, 0 for orthogonal, monotonuous in between
+    angle = -angle if angle < 0
+    angle = 180 - angle if angle > 90
+    return (90 - angle) / 90
+
   updateRotation: (imageObject) ->
     rotationType = @thangType.get('rotationType')
     return if rotationType is 'fixed'
     rotation = @getRotation()
+    if False and @thangType.get('name') is 'Arrow'
+      # Makes arrow rotate properly when travelling upwards or downwards with z-coordinate.
+      # If it's travelling parallel to horizon, then the arc must be more visible.
+      # But when it's perpendicular, the arrow must be scaled, not rotated, to pretend
+      # it is getting closer to the camera.
+      velocity = @thang.velocity.z
+      originallyHeaded = 360 - @thang.initialRotation / Math.PI * 180
+      originallyHeaded -= 360 if originallyHeaded > 180
+      angleFactor = angleDiffFactorFrom90(originallyHeaded) # the more it is, the more deviation from original direction
+      speedLimit = 7 # for normalization purposes
+      velocityFactor = velocity / speedLimit # same as angleFactor
+      rotation = originallyHeaded + velocityFactor * angleFactor * 45
     imageObject ?= @imageObject
     return imageObject.rotation = rotation if not rotationType
     @updateIsometricRotation(rotation, imageObject)
