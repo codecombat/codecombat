@@ -29,6 +29,7 @@ module.exports = class WizardSettingsModal extends View
     $.ajax("/db/user/#{me.get('name')}/nameToID", {success: success})
   
   onWizardSettingsDone: ->
+    me.set('name', $('#wizard-settings-name').val())
     forms.clearFormAlerts(@$el)
     res = me.validate()
     if res?
