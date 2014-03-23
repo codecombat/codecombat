@@ -34,17 +34,21 @@ class CocoModel extends Backbone.Model
   onLoaded: ->
     @loaded = true
     @loading = false
-    @markToRevert()
-    if @saveBackups
-      existing = storage.load @id
-      if existing
-        @set(existing, {silent:true})
-        CocoModel.backedUp[@id] = @
+    if @constructor.schema?.loaded
+      @markToRevert()
+      @loadFromBackup()
 
   set: ->
     res = super(arguments...)
     @saveBackup() if @saveBackups and @loaded and @hasLocalChanges()
     res
+
+  loadFromBackup: ->
+    return unless @saveBackups
+    existing = storage.load @id
+    if existing
+      @set(existing, {silent:true})
+      CocoModel.backedUp[@id] = @
 
   saveBackup: ->
     storage.save(@id, @attributes)
@@ -86,7 +90,10 @@ class CocoModel extends Backbone.Model
     res
 
   markToRevert: ->
-    @_revertAttributes = _.clone @attributes
+    if @type() is 'ThangType'
+      @_revertAttributes = _.clone @attributes  # No deep clones for these!
+    else
+      @_revertAttributes = $.extend(true, {}, @attributes)
 
   revert: ->
     @set(@_revertAttributes, {silent: true}) if @_revertAttributes
@@ -127,6 +134,9 @@ class CocoModel extends Backbone.Model
       continue if @get(prop)?
       #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
       @set prop, sch.default if sch.default?
+    if @loaded
+      @markToRevert()
+      @loadFromBackup()
 
   getReferencedModels: (data, schema, path='/', shouldLoadProjection=null) ->
     # returns unfetched model shells for every referenced doc in this model

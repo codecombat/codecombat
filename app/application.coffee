@@ -28,8 +28,8 @@ preload = (arrayOfImages) ->
 Application = initialize: ->
   Router = require('lib/Router')
   @tracker = new Tracker()
-  new FacebookHandler()
-  new GPlusHandler()
+  @facebookHandler = new FacebookHandler()
+  @gplusHandler = new GPlusHandler()
   $(document).bind 'keydown', preventBackspace
 
   preload(COMMON_FILES)

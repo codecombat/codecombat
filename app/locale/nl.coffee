@@ -225,6 +225,20 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     editor_config_indentguides_description: "Toon verticale hulplijnen om de zichtbaarheid te verbeteren."
     editor_config_behaviors_label: "Slim gedrag"
     editor_config_behaviors_description: "Auto-aanvulling (gekrulde) haakjes en aanhalingstekens."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
   admin:
     av_title: "Administrator panels"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     av_other_debug_base_url: "Base (om base.jade te debuggen)"
     u_title: "Gebruikerslijst"
     lg_title: "Laatste Spelletjes"
+#    clas: "CLAs"
 
   editor:
     main_title: "CodeCombat Editors"
@@ -515,6 +530,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     simulation_explanation: "Door spellen te simuleren kan je zelf sneller beoordeeld worden!"
     simulate_games: "Simuleer spellen!"
     simulate_all: "RESET EN SIMULEER SPELLEN"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
     leaderboard: "Leaderboard"
     battle_as: "Vecht als "
     summary_your: "Jouw "
