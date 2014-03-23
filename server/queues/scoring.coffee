@@ -54,30 +54,30 @@ addPairwiseTaskToQueue = (taskPair, cb) ->
       sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
         if taskPairError? then return cb taskPairError,false
         cb null, true
-        
+
 module.exports.resimulateAllSessions = (req, res) ->
   unless isUserAdmin req then return errors.unauthorized res, "Unauthorized. Even if you are authorized, you shouldn't do this"
-  
+
   originalLevelID = req.body.originalLevelID
   levelMajorVersion = parseInt(req.body.levelMajorVersion)
-  
+
   findParameters =
     submitted: true
-    level:  
+    level:
       original: originalLevelID
-      majorVersion: levelMajorVersion  
+      majorVersion: levelMajorVersion
 
   query = LevelSession
     .find(findParameters)
     .lean()
-  
+
   query.exec (err, result) ->
     if err? then return errors.serverError res, err
     result = _.sample result, 10
     async.each result, resimulateSession.bind(@,originalLevelID,levelMajorVersion), (err) ->
       if err? then return errors.serverError res, err
       sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
-      
+
 resimulateSession = (originalLevelID, levelMajorVersion, session, cb) =>
   sessionUpdateObject =
     submitted: true
@@ -250,7 +250,7 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
       cb null, true
     else
       ratio = (updatedSession.numberOfLosses) / (totalNumberOfGamesPlayed)
-      if ratio > 0.2
+      if ratio > 0.33
         cb null, false
         console.log "Ratio(#{ratio}) is bad, ending simulation"
       else
@@ -264,7 +264,7 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
 
     queryParameters =
       totalScore:
-        $gt:opponentSessionTotalScore
+        $gt: opponentSessionTotalScore
       _id:
         $nin: opponentSessionIDs
       "level.original": levelOriginalID
@@ -275,7 +275,9 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
       team: opposingTeam
 
     if opponentSessionTotalScore < 30
-      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 2
+      # Don't play a ton of matches at low scores--skip some in proportion to how close to 30 we are.
+      # TODO: this could be made a lot more flexible.
+      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 2 * (30 - opponentSessionTotalScore) / 20
 
     limitNumber = 1
 
