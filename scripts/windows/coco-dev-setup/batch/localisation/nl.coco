@@ -1,5 +1,6 @@
 [global]
 	native=Nederlands
+	intro=Vanaf nu geven we onze feedback in het Nederlands!
 	bye=Bye Bye!
 [install]
 	begin=De installatie is begonnen, dit kan een tijdje duren. Geduld alsjeblieft...

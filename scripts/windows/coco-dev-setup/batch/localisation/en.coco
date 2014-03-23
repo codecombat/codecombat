@@ -1,6 +1,6 @@
 [global]
 	native=English
-	intro=From now on we'll send you feedback in English!
+	intro=From now on we'll send our feedback in English!
 	bye=Bye Bye!
 [install]
 	begin=Installation has begun, this can take a while... Please stay tuned...

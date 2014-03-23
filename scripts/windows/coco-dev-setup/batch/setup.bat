@@ -14,6 +14,10 @@ echo Welcome to the automated Installation of the CodeCombat Dev. Environment!
 echo v%version% authored by %author% and published by %copyright%.
 call print_seperator
 
+echo Before we start the installation, here are some tips:
+call print_tips
+call print_seperator
+
 call sign_license
 
 call get_language

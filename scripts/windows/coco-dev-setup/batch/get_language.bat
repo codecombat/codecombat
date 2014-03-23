@@ -21,17 +21,16 @@ goto:get_localisation_id
 	set /a local_id = %localisation_id%
 	if !local_id! EQU 0 set localisation_is_false=1
 	if !local_id! LSS 1 set localisation_is_false=1
-	if !local_id! GTR language_count set localisation_is_false=1
+	if !local_id! GTR !language_count! set localisation_is_false=1
 	if defined localisation_is_false (
 		echo The id you entered is invalid, please try again...
 		goto:get_localisation_id
 	) else (
 		set language_id=!languages[%local_id%]!
-		call get_text %language_id% "global-native"
-
+		call get_text !language_id! "global-native"
 		call print_dashed_seperator
-		echo You have choosen '%native%' as your language.
-		call get_text %language_id% "global-intro"
+		echo You have choosen !native! as your language.
+		call get_text !language_id! "global-intro"
 		echo !intro!
 		call print_seperator
 	)
