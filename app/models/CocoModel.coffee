@@ -34,17 +34,21 @@ class CocoModel extends Backbone.Model
   onLoaded: ->
     @loaded = true
     @loading = false
-    @markToRevert()
-    if @saveBackups
-      existing = storage.load @id
-      if existing
-        @set(existing, {silent:true})
-        CocoModel.backedUp[@id] = @
+    if @constructor.schema?.loaded
+      @markToRevert()
+      @loadFromBackup()
 
   set: ->
     res = super(arguments...)
     @saveBackup() if @saveBackups and @loaded and @hasLocalChanges()
     res
+
+  loadFromBackup: ->
+    return unless @saveBackups
+    existing = storage.load @id
+    if existing
+      @set(existing, {silent:true})
+      CocoModel.backedUp[@id] = @
 
   saveBackup: ->
     storage.save(@id, @attributes)
@@ -122,18 +126,17 @@ class CocoModel extends Backbone.Model
   addSchemaDefaults: ->
     return if @addedSchemaDefaults or not @constructor.hasSchema()
     @addedSchemaDefaults = true
-    addedAnything = false
     for prop, defaultValue of @constructor.schema.attributes.default or {}
       continue if @get(prop)?
       #console.log "setting", prop, "to", defaultValue, "from attributes.default"
       @set prop, defaultValue
-      addedAnything = true
     for prop, sch of @constructor.schema.attributes.properties or {}
       continue if @get(prop)?
       #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
       @set prop, sch.default if sch.default?
-      addedAnything = true
-    @markToRevert() if addedAnything
+    if @loaded
+      @markToRevert()
+      @loadFromBackup()
 
   getReferencedModels: (data, schema, path='/', shouldLoadProjection=null) ->
     # returns unfetched model shells for every referenced doc in this model
