@@ -252,10 +252,10 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
-    if @thangType.get('name') is 'Arrow'
+    if @thang.maximizesArc and @thangType.get('name') in ['Arrow', 'Spear']
       # Scales the arrow so it appears longer when flying parallel to horizon.
       # To do that, we convert angle to [0, 90] (mirroring half-planes twice), then make linear function out of it:
-      # (a - x) / a: equals 1 when x = 0, equals 0 when x = a, monotonous in between. That gives us some sort of 
+      # (a - x) / a: equals 1 when x = 0, equals 0 when x = a, monotonous in between. That gives us some sort of
       # degenerative multiplier.
       # For our puproses, a = 90 - the direction straight upwards.
       # Then we use r + (1 - r) * x function with r = 0.5, so that
@@ -286,12 +286,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     rotationType = @thangType.get('rotationType')
     return if rotationType is 'fixed'
     rotation = @getRotation()
-    if @thangType.get('name') is 'Arrow'
+    if @thang.maximizesArc and @thangType.get('name') in ['Arrow', 'Spear']
       # Rotates the arrow to see it arc based on velocity.z.
       # At midair we must see the original angle (delta = 0), but at launch time
       # and arrow must point upwards/downwards respectively.
-      # The curve must consider two variables: speed and angle to camera: 
-      # higher angle -> higher steep 
+      # The curve must consider two variables: speed and angle to camera:
+      # higher angle -> higher steep
       # higher speed -> higher steep (0 at midpoint).
       # All constants are empirical. Notice that rotation here does not affect thang's state - it is just the effect.
       # Thang's rotation is always pointing where it is heading.
