@@ -19,10 +19,10 @@ module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
   template: require 'templates/play/ladder/ladder_tab'
   startsLoading: true
-  
+
   events:
     'click .connect-facebook': 'onConnectFacebook'
-    
+
   subscriptions:
     'facebook-logged-in': 'onConnectedWithFacebook'
 
@@ -48,13 +48,13 @@ module.exports = class LadderTabView extends CocoView
   # FACEBOOK
 
   # Connect button pressed
-  
+
   onConnectFacebook: ->
     @connecting = true
     FB.login()
-    
+
   onConnectedWithFacebook: -> location.reload() if @connecting
-    
+
   # Load friends
 
   loadFacebookFriendSessions: ->
@@ -101,7 +101,7 @@ module.exports = class LadderTabView extends CocoView
   onGPlusFriendSessionsLoaded: (result) =>
     @loadingGPlusFriends = false
     @renderMaybe()
-    
+
   # LADDER LOADING
 
   refreshLadder: ->
@@ -117,7 +117,7 @@ module.exports = class LadderTabView extends CocoView
   leaderboardsLoaded: =>
     @loadingLeaderboards = false
     @renderMaybe()
-    
+
   renderMaybe: ->
     return if @loadingFacebookFriends or @loadingLeaderboards
     @startsLoading = false
