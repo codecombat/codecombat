@@ -518,8 +518,10 @@ module.exports = class SpellView extends View
   highlightComments: ->
     lines = $(@ace.container).find('.ace_text-layer .ace_line_group')
     session = @aceSession
+    top = Math.floor @ace.renderer.getScrollTopRow()
     $(@ace.container).find('.ace_gutter-cell').each (index, el) ->
       line = $(lines[index])
+      index = index - top
       session.removeGutterDecoration index, 'comment-line'
       if line.find('.ace_comment').length
         session.addGutterDecoration index, 'comment-line'
