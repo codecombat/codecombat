@@ -31,18 +31,18 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     about: "Over Ons"
     contact: "Contact"
     twitter_follow: "Volgen"
-    employers: "Werknemers"
+    employers: "Werkgevers"
 
   versions:
     save_version_title: "Nieuwe versie opslagen"
     new_major_version: "Nieuwe hoofd versie"
-    cla_prefix: "Om bewerkingen op te slagen, moet je eerst akkoord gaan met onze"
+    cla_prefix: "Om bewerkingen op te slaan, moet je eerst akkoord gaan met onze"
     cla_url: "CLA"
     cla_suffix: "."
     cla_agree: "IK GA AKKOORD"
 
   login:
-    sign_up: "Account Maken"
+    sign_up: "Account maken"
     log_in: "Inloggen"
     log_out: "Uitloggen"
     recover: "account herstellen"
@@ -52,7 +52,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     send_password: "Verzend nieuw wachtwoord"
 
   signup:
-    create_account_title: "Maak een account aan om je progressie op te slagen"
+    create_account_title: "Maak een account aan om je vooruitgang op te slaan"
     description: "Het is gratis. We hebben maar een paar dingen nodig en dan kan je aan de slag:"
     email_announcements: "Ontvang aankondigingen via email"
     coppa: "13+ of niet uit de VS"
@@ -79,7 +79,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     adventurer_forum: "het Avonturiersforum"
     adventurer_suffix: "."
     campaign_beginner: "Beginnercampagne"
-    campaign_beginner_description: "... waarin je de toverkunst van programmeren leert."
+    campaign_beginner_description: "... waarin je de toverkunst van het programmeren leert."
     campaign_dev: "Willekeurige moeilijkere levels"
     campaign_dev_description: "... waarin je de interface leert kennen terwijl je wat moeilijkers doet."
     campaign_multiplayer: "Multiplayer Arena's"
@@ -88,7 +88,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     campaign_player_created_description: "... waarin je ten strijde trekt tegen de creativiteit van andere <a href=\"/contribute#artisan\">Ambachtelijke Tovenaars</a>."
     level_difficulty: "Moeilijkheidsgraad: "
     play_as: "Speel als "
-    spectate: "Schouw toe"
+    spectate: "Toeschouwen"
 
   contact:
     contact_us: "Contact opnemen met CodeCombat"
@@ -118,12 +118,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     spell: "Spreuk"
     boots: "Laarzen"
     hue: "Hue"
-    saturation: "Saturation"
-    lightness: "Lightness"
+    saturation: "Saturatie"
+    lightness: "Helderheid"
 
   account_settings:
     title: "Account Instellingen"
-    not_logged_in: "Log in of maak een account om je instellingen aan te passen."
+    not_logged_in: "Log in of maak een account aan om je instellingen aan te passen."
     autosave: "Aanpassingen Automatisch Opgeslagen"
     me_tab: "Ik"
     picture_tab: "Afbeelding"
@@ -143,8 +143,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     email_notifications_description: "Krijg periodieke meldingen voor jouw account."
     email_announcements_description: "Verkrijg emails over het laatste nieuws en de ontwikkelingen bij CodeCombat."
     contributor_emails: "Medewerker Klasse emails"
-    contribute_prefix: "We zoeken mensen om bij ons feest aan te voegen! Bekijk de "
-    contribute_page: "contributiepagina"
+    contribute_prefix: "We zoeken mensen om met ons te komen feesten! Bekijk de "
+    contribute_page: "bijdragepagina"
     contribute_suffix: " om meer te weten te komen."
     email_toggle: "Vink alles aan/af"
     error_saving: "Fout Tijdens Het Opslaan"
@@ -184,7 +184,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     reload_confirm: "Herlaad Alles"
     victory_title_prefix: ""
     victory_title_suffix: " Compleet"
-    victory_sign_up: "Schrijf je in om je progressie op te slaan"
+    victory_sign_up: "Schrijf je in om je vooruitgang op te slaan"
     victory_sign_up_poke: "Wil je jouw code opslaan? Maak een gratis account aan!"
     victory_rate_the_level: "Beoordeel het level: "
     victory_rank_my_game: "Rankschik mijn Wedstrijd"
@@ -234,7 +234,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tip_beta_launch: "CodeCombat lanceerde zijn beta versie in Oktober, 2013."
     tip_js_beginning: "JavaScript is nog maar het begin."
     tip_autocast_setting: "Verander de autocast instelling door te klikken op het tandwiel naast de cast knop."
-    tip_baby_coders: "In de toekomst zullen zelfs babies archmages zijn." #Zelfs babies zullen in de toekomst archmages zijn.
+    tip_baby_coders: "Zelfs babies zullen in de toekomst Archmages zijn." 
     tip_morale_improves: "Het spel zal blijven laden tot de moreel verbeterd."
     tip_all_species: "Wij geloven in gelijke kansen voor alle wezens om te leren programmeren." 
 #    tip_reticulating: "Reticulating spines."
