@@ -17,7 +17,8 @@ UserSchema = c.object {},
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})
   volume: c.pct({title: 'Volume'})
   music: {type: 'boolean', default: true}
-  #autocastDelay, or more complex autocast options? I guess I'll see what I need when trying to hook up Scott's suggested autocast behavior
+  autocastDelay: {type: 'integer', 'default': 5000 }
+  lastLevel: { type: 'string' }
 
   emailSubscriptions: c.array {uniqueItems: true, 'default': ['announcement', 'notification']}, {'enum': emailSubscriptions}
 

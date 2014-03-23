@@ -31,6 +31,11 @@ getAllLadderScores = (next) ->
         # Query to get sessions to make histogram
         # db.level.sessions.find({"submitted":true,"levelID":"brawlwood",team:"ogres"},{"_id":0,"totalScore":1})
 
+DEBUGGING = false
+LADDER_PREGAME_INTERVAL = 2 * 3600 * 1000  # Send emails two hours before players last submitted.
+getTimeFromDaysAgo = (now, daysAgo) ->
+  t = now - 86400 * 1000 * daysAgo - LADDER_PREGAME_INTERVAL
+
 isRequestFromDesignatedCronHandler = (req, res) ->
   if req.ip isnt config.mail.cronHandlerPublicIP and req.ip isnt config.mail.cronHandlerPrivateIP
     console.log "RECEIVED REQUEST FROM IP #{req.ip}(headers indicate #{req.headers['x-forwarded-for']}"
@@ -40,25 +45,22 @@ isRequestFromDesignatedCronHandler = (req, res) ->
     return false
   return true
 
-
 handleLadderUpdate = (req, res) ->
   log.info("Going to see about sending ladder update emails.")
   requestIsFromDesignatedCronHandler = isRequestFromDesignatedCronHandler req, res
-  #unless requestIsFromDesignatedCronHandler then return
+  return unless requestIsFromDesignatedCronHandler or DEBUGGING
 
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
   # TODO: somehow fetch the histograms
   emailDays = [1, 2, 4, 7, 30]
   now = new Date()
-  getTimeFromDaysAgo = (daysAgo) ->
-    # 2 hours before the date
-    t = now - (86400 * daysAgo + 2 * 3600) * 1000
   for daysAgo in emailDays
     # Get every session that was submitted in a 5-minute window after the time.
-    startTime = getTimeFromDaysAgo daysAgo
+    startTime = getTimeFromDaysAgo now, daysAgo
     endTime = startTime + 5 * 60 * 1000
-    #endTime = startTime + 1.5 * 60 * 60 * 1000  # Debugging: make sure there's something to send
+    if DEBUGGING
+      endTime = startTime + 15 * 60 * 1000  # Debugging: make sure there's something to send
     findParameters = {submitted: true, submitDate: {$gt: new Date(startTime), $lte: new Date(endTime)}}
     # TODO: think about putting screenshots in the email
     selectString = "creator team levelName levelID totalScore matches submitted submitDate scoreHistory"
@@ -71,9 +73,9 @@ handleLadderUpdate = (req, res) ->
           log.error "Couldn't fetch ladder updates for #{findParameters}\nError: #{err}"
           return errors.serverError res, "Ladder update email query failed: #{JSON.stringify(err)}"
         log.info "Found #{results.length} ladder sessions to email updates about for #{daysAgo} day(s) ago."
-        sendLadderUpdateEmail result, daysAgo for result in results
+        sendLadderUpdateEmail result, now, daysAgo for result in results
 
-sendLadderUpdateEmail = (session, daysAgo) ->
+sendLadderUpdateEmail = (session, now, daysAgo) ->
   User.findOne({_id: session.creator}).select("name email firstName lastName emailSubscriptions preferredLanguage").lean().exec (err, user) ->
     if err
       log.error "Couldn't find user for #{session.creator} from session #{session._id}"
@@ -89,19 +91,23 @@ sendLadderUpdateEmail = (session, daysAgo) ->
 
     # Fetch the most recent defeat and victory, if there are any.
     # (We could look at strongest/weakest, but we'd have to fetch everyone, or denormalize more.)
-    matches = _.filter session.matches, (match) -> match.date >= (new Date() - 86400 * 1000 * daysAgo)
+    matches = _.filter session.matches, (match) -> match.date >= getTimeFromDaysAgo now, daysAgo
     defeats = _.filter matches, (match) -> match.metrics.rank is 1 and match.opponents[0].metrics.rank is 0
     victories = _.filter matches, (match) -> match.metrics.rank is 0 and match.opponents[0].metrics.rank is 1
+    #ties = _.filter matches, (match) -> match.metrics.rank is 0 and match.opponents[0].metrics.rank is 0
     defeat = _.last defeats
     victory = _.last victories
+
+    #log.info "#{user.name} had #{matches.length} matches from last #{daysAgo} days out of #{session.matches.length} total matches. #{defeats.length} defeats, #{victories.length} victories, and #{ties.length} ties."
+    #matchInfos = ("\t#{match.date}\t#{match.date >= getTimeFromDaysAgo(now, daysAgo)}\t#{match.metrics.rank}\t#{match.opponents[0].metrics.rank}" for match in session.matches)
+    #log.info "Matches:\n#{matchInfos.join('\n')}"
 
     sendEmail = (defeatContext, victoryContext) ->
       # TODO: do something with the preferredLanguage?
       context =
         email_id: sendwithus.templates.ladder_update_email
         recipient:
-          address: user.email
-          #address: 'nick@codecombat.com'  # Debugging
+          address: if DEBUGGING then 'nick@codecombat.com' else user.email
           name: name
         email_data:
           name: name

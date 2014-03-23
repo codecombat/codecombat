@@ -107,7 +107,7 @@ module.exports = class SpectateLevelView extends View
       team: @getQueryVariable("team")
     @levelLoader.once 'loaded-all', @onLevelLoaderLoaded, @
     @levelLoader.on 'progress', @onLevelLoaderProgressChanged, @
-    @god = new God()
+    @god = new God maxWorkerPoolSize: 1, maxAngels: 1
 
   getRenderData: ->
     c = super()

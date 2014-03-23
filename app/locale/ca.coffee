@@ -1,35 +1,35 @@
-module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa Malaysia", translation:
-  common:
+module.exports = nativeDescription: "Català", englishDescription: "Catalan", translation:
+#  common:
 #    loading: "Loading..."
 #    saving: "Saving..."
 #    sending: "Sending..."
-    cancel: "Batal"
+#    cancel: "Cancel"
 #    save: "Save"
 #    delay_1_sec: "1 second"
 #    delay_3_sec: "3 seconds"
 #    delay_5_sec: "5 seconds"
 #    manual: "Manual"
 #    fork: "Fork"
-    play: "bermain"
+#    play: "Play"
 
-  modal:
-    close: "Tutup"
-    okay: "Ok"
+#  modal:
+#    close: "Close"
+#    okay: "Okay"
 
-  not_found:
-    page_not_found: "Halaman tidak ditemui"
+#  not_found:
+#    page_not_found: "Page not found"
 
-  nav:
-    play: "bermain"
+#  nav:
+#    play: "Levels"
 #    editor: "Editor"
 #    blog: "Blog"
 #    forum: "Forum"
 #    admin: "Admin"
-    home: "Halaman"
-    contribute: "Sumbangan"
-    legal: "Undang- undang"
-    about: "Tentang"
-    contact: "Hubungi"
+#    home: "Home"
+#    contribute: "Contribute"
+#    legal: "Legal"
+#    about: "About"
+#    contact: "Contact"
 #    twitter_follow: "Follow"
 #    employers: "Employers"
 
@@ -41,25 +41,25 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    cla_suffix: "."
 #    cla_agree: "I AGREE"
 
-  login:
-    sign_up: "Buat Akaun"
-    log_in: "Log Masuk"
-    log_out: "Log Keluar"
-    recover: "perbaharui akaun"
+#  login:
+#    sign_up: "Create Account"
+#    log_in: "Log In"
+#    log_out: "Log Out"
+#    recover: "recover account"
 
 #  recover:
 #    recover_account_title: "Recover Account"
 #    send_password: "Send Recovery Password"
 
-  signup:
+#  signup:
 #    create_account_title: "Create Account to Save Progress"
-    description: "Ianya percuma. Hanya berberapa langkah sahaja:"
-    email_announcements: "Terima pengesahan melalui Emel"
-    coppa: "13+ atau bukan- USA"
-    coppa_why: "(Kenapa?)"
-    creating: "Membuat Akaun..."
-    sign_up: "Daftar"
-    log_in: "log masuk"
+#    description: "It's free. Just need a couple things and you'll be good to go:"
+#    email_announcements: "Receive announcements by email"
+#    coppa: "13+ or non-USA "
+#    coppa_why: "(Why?)"
+#    creating: "Creating Account..."
+#    sign_up: "Sign Up"
+#    log_in: "log in with password"
 
 #  home:
 #    slogan: "Learn to Code JavaScript by Playing a Game"
@@ -87,7 +87,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    campaign_player_created: "Player-Created"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
 #    level_difficulty: "Difficulty: "
-#    play_as: "Play As "
+#    play_as: "Play As"
 #    spectate: "Spectate"
 
 #  contact:
@@ -104,8 +104,8 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
   diplomat_suggestion:
 #    title: "Help translate CodeCombat!"
 #    sub_heading: "We need your language skills."
-    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Bahasa Melayu but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Bahasa Melayu."
-    missing_translations: "Until we can translate everything into Bahasa Melayu, you'll see English when Bahasa Melayu isn't available."
+    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Catalan, but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Catalan."
+    missing_translations: "Until we can translate everything into Catalan, you'll see English when Catalan isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
@@ -225,6 +225,20 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
 #  admin:
 #    av_title: "Admin Views"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    av_other_debug_base_url: "Base (for debugging base.jade)"
 #    u_title: "User List"
 #    lg_title: "Latest Games"
+#    clas: "CLAs"
 
 #  editor:
 #    main_title: "CodeCombat Editors"
@@ -286,9 +301,9 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    edit_btn_preview: "Preview"
 #    edit_article_title: "Edit Article"
 
-  general:
+#  general:
 #    and: "and"
-    name: "Nama"
+#    name: "Name"
 #    body: "Body"
 #    version: "Version"
 #    commit_msg: "Commit Message"
@@ -297,10 +312,10 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    result: "Result"
 #    results: "Results"
 #    description: "Description"
-    or: "atau"
-    email: "Emel"
+#    or: "or"
+#    email: "Email"
 #    password: "Password"
-    message: "Mesej"
+#    message: "Message"
 #    code: "Code"
 #    ladder: "Ladder"
 #    when: "When"
@@ -335,7 +350,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
-#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
 #  legal:
 #    page_title: "Legal"
@@ -515,6 +530,8 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "

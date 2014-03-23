@@ -101,6 +101,8 @@ module.exports = class Simulator extends CocoClass
   handleTaskResultsTransferSuccess: (result) =>
     console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
+    simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
+    $('#simulated-by-you').text(simulatedBy)
 
   handleTaskResultsTransferError: (error) =>
     @trigger 'statusUpdate', 'There was an error sending the results back to the server.'
@@ -229,9 +231,8 @@ module.exports = class Simulator extends CocoClass
   createAether: (methodName, method) ->
     aetherOptions =
       functionName: methodName
-      protectAPI: false
+      protectAPI: true
       includeFlow: false
-      #includeFlow: true
       requiresThis: true
       yieldConditionally: false
       problems:

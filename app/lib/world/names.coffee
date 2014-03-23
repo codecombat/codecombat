@@ -286,10 +286,19 @@ module.exports.thangNames = thangNames =
   ]
   "Potion Master": [
     "Snake"
+    "Amaranth"
+    "Zander"
+    "Arora"
   ]
   "Librarian": [
     "Hushbaum"
+    "Matilda"
+    "Agnes"
+    "Agathe"
   ]
   "Equestrian": [
     "Reynaldo"
+    "Ryder"
+    "Thoron"
+    "Mirial"
   ]

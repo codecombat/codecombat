@@ -55,6 +55,50 @@ addPairwiseTaskToQueue = (taskPair, cb) ->
         if taskPairError? then return cb taskPairError,false
         cb null, true
 
+module.exports.resimulateAllSessions = (req, res) ->
+  unless isUserAdmin req then return errors.unauthorized res, "Unauthorized. Even if you are authorized, you shouldn't do this"
+
+  originalLevelID = req.body.originalLevelID
+  levelMajorVersion = parseInt(req.body.levelMajorVersion)
+
+  findParameters =
+    submitted: true
+    level:
+      original: originalLevelID
+      majorVersion: levelMajorVersion
+
+  query = LevelSession
+    .find(findParameters)
+    .lean()
+
+  query.exec (err, result) ->
+    if err? then return errors.serverError res, err
+    result = _.sample result, 10
+    async.each result, resimulateSession.bind(@,originalLevelID,levelMajorVersion), (err) ->
+      if err? then return errors.serverError res, err
+      sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
+
+resimulateSession = (originalLevelID, levelMajorVersion, session, cb) =>
+  sessionUpdateObject =
+    submitted: true
+    submitDate: new Date()
+    meanStrength: 25
+    standardDeviation: 25/3
+    totalScore: 10
+    numberOfWinsAndTies: 0
+    numberOfLosses: 0
+    isRanking: true
+  LevelSession.update {_id: session._id}, sessionUpdateObject, (err, updatedSession) ->
+    if err? then return cb err, null
+    opposingTeam = calculateOpposingTeam(session.team)
+    fetchInitialSessionsToRankAgainst opposingTeam, originalLevelID, levelMajorVersion, (err, sessionsToRankAgainst) ->
+      if err? then return cb err, null
+
+      taskPairs = generateTaskPairs(sessionsToRankAgainst, session)
+      sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
+        if taskPairError? then return cb taskPairError, null
+        cb null
+
 
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
@@ -201,12 +245,12 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
     updatedSession = updatedSession.toObject()
 
     totalNumberOfGamesPlayed = updatedSession.numberOfWinsAndTies + updatedSession.numberOfLosses
-    if totalNumberOfGamesPlayed < 5
-      console.log "Number of games played is less than 5, continuing..."
+    if totalNumberOfGamesPlayed < 10
+      console.log "Number of games played is less than 10, continuing..."
       cb null, true
     else
       ratio = (updatedSession.numberOfLosses) / (totalNumberOfGamesPlayed)
-      if ratio > 0.2
+      if ratio > 0.33
         cb null, false
         console.log "Ratio(#{ratio}) is bad, ending simulation"
       else
@@ -220,7 +264,7 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
 
     queryParameters =
       totalScore:
-        $gt:opponentSessionTotalScore
+        $gt: opponentSessionTotalScore
       _id:
         $nin: opponentSessionIDs
       "level.original": levelOriginalID
@@ -231,7 +275,9 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
       team: opposingTeam
 
     if opponentSessionTotalScore < 30
-      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 1
+      # Don't play a ton of matches at low scores--skip some in proportion to how close to 30 we are.
+      # TODO: this could be made a lot more flexible.
+      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 2 * (30 - opponentSessionTotalScore) / 20
 
     limitNumber = 1
 
