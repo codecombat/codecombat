@@ -11,7 +11,7 @@ module.exports = class WizardSettingsModal extends View
   closesOnClickOutside: false
 
   events:
-    'change #wizard-settings-name': 'onNameChange'
+    'keyup #wizard-settings-name': 'onNameChange'
     'click #wizard-settings-done': 'onWizardSettingsDone'
 
   afterRender: ->
@@ -19,16 +19,19 @@ module.exports = class WizardSettingsModal extends View
     view = new WizardSettingsView()
     @insertSubView view
 
-  onNameChange: ->
-    me.set('name', $('#wizard-settings-name').val())
-    @checkNameExists()
-
-  checkNameExists: ->
+  onNameChange: =>
     forms.clearFormAlerts(@$el)
-    success = (id) => forms.applyErrorsToForm(@$el, {property:'name', message:'is already taken'}) if id and id isnt me.id
-    $.ajax("/db/user/#{me.get('name')}/nameToID", {success: success})
-  
-  onWizardSettingsDone: ->
+    checkNameExists = =>
+      name = $('#wizard-settings-name').val()
+      success = (id) =>
+        forms.clearFormAlerts(@$el)
+        forms.applyErrorsToForm(@$el, {property:'name', message:'is already taken'}) if id and id isnt me.id
+      $.ajax("/db/user/#{name}/nameToID", {success: success})
+    _.debounce(checkNameExists, 300)()
+
+
+  onWizardSettingsDone: =>
+    me.set('name', $('#wizard-settings-name').val())
     forms.clearFormAlerts(@$el)
     res = me.validate()
     if res?
@@ -44,6 +47,7 @@ module.exports = class WizardSettingsModal extends View
       errors = JSON.parse(res.responseText)
       forms.applyErrorsToForm(@$el, errors)
       @disableModalInProgress(@$el)
+
     res.success (model, response, options) =>
       @hide()
 
