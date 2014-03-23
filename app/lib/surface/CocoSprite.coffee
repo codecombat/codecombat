@@ -253,7 +253,14 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
     if @thangType.get('name') is 'Arrow'
-      # scale the arrow so it appears longer when flying parallel to horizon
+      # Scales the arrow so it appears longer when flying parallel to horizon.
+      # To do that, we convert angle to [0, 90] (mirroring half-planes twice), then make linear function out of it:
+      # (a - x) / a: equals 1 when x = 0, equals 0 when x = a, monotonous in between. That gives us some sort of 
+      # degenerative multiplier.
+      # For our puproses, a = 90 - the direction straight upwards.
+      # Then we use r + (1 - r) * x function with r = 0.5, so that
+      # maximal scale equals 1 (when x is at it's maximum) and minimal scale is 0.5.
+      # Notice that the value of r is empirical.
       angle = @getRotation()
       angle = -angle if angle < 0
       angle = 180 - angle if angle > 90
@@ -279,6 +286,24 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     rotationType = @thangType.get('rotationType')
     return if rotationType is 'fixed'
     rotation = @getRotation()
+    if @thangType.get('name') is 'Arrow'
+      # Rotates the arrow to see it arc based on velocity.z.
+      # At midair we must see the original angle (delta = 0), but at launch time
+      # and arrow must point upwards/downwards respectively.
+      # The curve must consider two variables: speed and angle to camera: 
+      # higher angle -> higher steep 
+      # higher speed -> higher steep (0 at midpoint).
+      # All constants are empirical. Notice that rotation here does not affect thang's state - it is just the effect.
+      # Thang's rotation is always pointing where it is heading.
+      velocity = @thang.velocity.z
+      factor = rotation
+      factor = -factor if factor < 0
+      flip = 1
+      if factor > 90
+        factor = 180 - factor
+        flip = -1 # when the arrow is on the left, 'up' means subtracting
+      factor = Math.max(factor / 90, 0.4) # between 0.4 and 1.0
+      rotation += flip * (velocity / 12) * factor * 45 # theoretically, 45 is the maximal delta we can make here
     imageObject ?= @imageObject
     return imageObject.rotation = rotation if not rotationType
     @updateIsometricRotation(rotation, imageObject)
