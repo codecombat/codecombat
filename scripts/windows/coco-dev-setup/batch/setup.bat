@@ -13,4 +13,9 @@ call get_config copyright
 echo Welcome to the automated Installation of the CodeCombat Dev. Environment!
 echo v%version% authored by %author% and published by %copyright%.
 
+call print_seperator
+
+call sign_license
+if "%result%"=="false" (exit)
+
 endlocal
