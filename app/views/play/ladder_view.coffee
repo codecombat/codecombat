@@ -114,7 +114,7 @@ module.exports = class LadderView extends RootView
         for index in [0...creatorNames.length]
           unless creatorNames[index]
             creatorNames[index] = "Anonymous"
-          @simulationStatus += " and " + creatorNames[index]
+          @simulationStatus += (if index != 0 then " and " else "") + creatorNames[index]
         @simulationStatus += "..."
     catch e
       console.log "There was a problem with the named simulation status: #{e}"
