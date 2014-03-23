@@ -9,14 +9,17 @@ errors = require '../commons/errors'
 async = require 'async'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
-privateProperties = ['permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID', 'music', 'volume', 'aceConfig']
+privateProperties = [
+  'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
+  'gplusID', 'music', 'volume', 'aceConfig'
+]
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
 
   editableProperties: [
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
-    'firstName', 'lastName', 'gender', 'facebookID', 'emailSubscriptions',
+    'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emailSubscriptions',
     'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
     'wizard', 'aceConfig', 'autocastDelay', 'lastLevel'
   ]
