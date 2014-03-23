@@ -1,4 +1,1 @@
-@echo off
-setlocal EnableDelayedExpansion
-utilities\\get_var.exe config\\downloads.coco %1
-endlocal
+for /f "delims=" %%a in ('utilities\\get_var.exe config\\downloads.coco %1') do set "%%a"
