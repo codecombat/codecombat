@@ -87,7 +87,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    campaign_player_created: "Player-Created"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
 #    level_difficulty: "Difficulty: "
-#    play_as: "Play As "
+#    play_as: "Play As"
 #    spectate: "Spectate"
 
   contact:
@@ -98,7 +98,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    contribute_suffix: "!"
     forum_prefix: "Untuk perkara lain, sila cuba "
     forum_page: "forum kami"
-#    forum_suffix: "."
+#    forum_suffix: " instead."
     send: "Hantar Maklumbalas"
 
   diplomat_suggestion:
@@ -164,7 +164,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    gravatar_not_found_other: "Alas, there's no profile associated with this person's email address."
     gravatar_contact: "Hubungi"
     gravatar_websites: "Lelaman"
-#    gravatar_accounts: "Juga didapati di"
+    gravatar_accounts: "Juga didapati di"
     gravatar_profile_link: "Profil Penuh Gravatar"
 
 #  play_level:
@@ -225,6 +225,20 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
 #  admin:
 #    av_title: "Admin Views"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    av_other_debug_base_url: "Base (for debugging base.jade)"
 #    u_title: "User List"
 #    lg_title: "Latest Games"
+#    clas: "CLAs"
 
 #  editor:
 #    main_title: "CodeCombat Editors"
@@ -308,7 +323,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    rank: "Rank"
     score: "Mata"
     win: "Menang"
-#    loss: "Kalah"
+    loss: "Kalah"
     tie: "Seri"
 #    easy: "Easy"
 #    medium: "Medium"
@@ -324,10 +339,10 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     why_paragraph_2: "Mahu belajar untuk membina kod? Anda tidak perlu membaca dan belajar. Anda perlu menaip kod yang banyak dan bersuka-suka dengan masa yang terluang."
     why_paragraph_3_prefix: "Itulah semua tentang pengaturcaraan. Ia harus membuat anda gembira dan rasa berpuas hati. Tidak seperti"
     why_paragraph_3_italic: "yay satu badge"
-#    why_paragraph_3_center: "tapi bersukaria seperti"
+    why_paragraph_3_center: "tapi bersukaria seperti"
     why_paragraph_3_italic_caps: "TIDAK MAK SAYA PERLU HABISKAN LEVEL!"
     why_paragraph_3_suffix: "Itulah kenapa CodeCombat adalah permainan multiplayer, tapi bukan sebuah khursus dibuat sebagai permainan. Kami tidak akan berhenti sehingga kamu tidak akan--tetapi buat masa kini, itulah perkara yang baik."
-#    why_paragraph_4: "Jika kamu mahu berasa ketagih terhadap sesuatu permainan komputer, jadilah ketagih kepada permainan ini dan jadilah seorang pakar dalam zaman teknologi terkini."
+    why_paragraph_4: "Jika kamu mahu berasa ketagih terhadap sesuatu permainan komputer, jadilah ketagih kepada permainan ini dan jadilah seorang pakar dalam zaman teknologi terkini."    
     why_ending: "Dan ia adalah percuma! "
     why_ending_url: "Mulalah bermain sekarang!"
 #    george_description: "CEO, business guy, web designer, game designer, and champion of beginning programmers everywhere."
@@ -335,7 +350,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
-#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
 #  legal:
 #    page_title: "Legal"
@@ -515,6 +530,8 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
