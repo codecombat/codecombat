@@ -86,7 +86,9 @@ class CocoModel extends Backbone.Model
     res
 
   markToRevert: ->
-    if @type() != 'ThangType'
+    if @type() is 'ThangType'
+      @_revertAttributes = _.clone @attributes  # No deep clones for these!
+    else
       @_revertAttributes = $.extend(true, {}, @attributes)
 
   revert: ->
@@ -120,14 +122,18 @@ class CocoModel extends Backbone.Model
   addSchemaDefaults: ->
     return if @addedSchemaDefaults or not @constructor.hasSchema()
     @addedSchemaDefaults = true
+    addedAnything = false
     for prop, defaultValue of @constructor.schema.attributes.default or {}
       continue if @get(prop)?
       #console.log "setting", prop, "to", defaultValue, "from attributes.default"
       @set prop, defaultValue
+      addedAnything = true
     for prop, sch of @constructor.schema.attributes.properties or {}
       continue if @get(prop)?
       #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
       @set prop, sch.default if sch.default?
+      addedAnything = true
+    @markToRevert() if addedAnything
 
   getReferencedModels: (data, schema, path='/', shouldLoadProjection=null) ->
     # returns unfetched model shells for every referenced doc in this model
