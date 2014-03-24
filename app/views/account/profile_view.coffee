@@ -11,14 +11,14 @@ module.exports = class ProfileView extends View
     super options
     @user = User.getByID(@userID)
     @loading = false if 'gravatarProfile' of @user
-    @user.on('change', @userChanged)
-    @user.on('error', @userError)
+    @listenTo(@user, 'change', @userChanged)
+    @listenTo(@user, 'error', @userError)
 
-  userChanged: (user) =>
+  userChanged: (user) ->
     @loading = false if 'gravatarProfile' of user
     @render()
 
-  userError: (user) =>
+  userError: (user) ->
     @loading = false
     @render()
 

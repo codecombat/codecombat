@@ -18,7 +18,7 @@ module.exports = class LevelSessionsView extends View
   getLevelSessions: ->
     @sessions = new LevelSessionCollection
     @sessions.fetch()
-    @sessions.on('all', @render)
+    @listenTo(@sessions, 'all', @render)
 
   getRenderData: =>
     c = super()

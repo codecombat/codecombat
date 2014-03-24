@@ -24,7 +24,7 @@ module.exports = class ThangComponentEditView extends CocoView
     if not @componentCollection
       @componentCollection = @supermodel.getCollection new ComponentsCollection()
     unless @componentCollection.loaded
-      @componentCollection.once 'sync', @onComponentsSync
+      @listenToOnce(@componentCollection, 'sync', @onComponentsSync)
       @componentCollection.fetch()
     super() # do afterRender at the end
 
@@ -35,7 +35,7 @@ module.exports = class ThangComponentEditView extends CocoView
     @buildExtantComponentTreema()
     @buildAddComponentTreema()
 
-  onComponentsSync: =>
+  onComponentsSync: ->
     return if @destroyed
     @supermodel.addCollection @componentCollection
     @render()
