@@ -103,8 +103,8 @@ module.exports = class SpellToolbarView extends View
 
   updateScroll: ->
     return unless statementStart = @callState?.statements?[@statementIndex]?.range[0]
-    text = @ace.getValue()
-    currentLine = text.substr(0, statementStart).split('\n').length - 1
+    text = @ace.getValue() # code in editor
+    currentLine = statementStart.row
     @ace.scrollToLine currentLine, true, true
 
   setCallState: (callState, statementIndex, @callIndex, @metrics) ->

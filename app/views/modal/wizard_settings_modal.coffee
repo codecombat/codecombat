@@ -11,7 +11,7 @@ module.exports = class WizardSettingsModal extends View
   closesOnClickOutside: false
 
   constructor: (options) ->
-    @onNameChange = _.debounce(@checkNameExists, 200)
+    @onNameChange = _.debounce(@checkNameExists, 500)
     super options
 
   events:
