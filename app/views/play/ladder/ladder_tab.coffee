@@ -80,7 +80,10 @@ class LeaderboardData
   
   inTopSessions: ->
     return me.id in (session.attributes.creator for session in @topPlayers.models)
-    
+
+  hasSubmitted: =>
+    return 'totalScore' in @session
+
   nearbySessions: ->
     return unless @session
     l = []

@@ -27,7 +27,7 @@ div#columns.row
               a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}")
                 span(data-i18n="ladder.fight") Fight!
                 
-        if !inTheTop && ! me.get('anonymous')
+        if !inTheTop && ! me.get('anonymous') && team.leaderboard.hasSubmitted()
           tr(class="active")
             td(colspan=4).ellipsis-row ...
           for session in team.leaderboard.nearbySessions()
