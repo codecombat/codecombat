@@ -228,7 +228,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     loading_ready: "Klaar!"
     tip_insert_positions: "Shift+Klik een punt op de kaart om het toe te voegen aan je spreuk editor."
     tip_toggle_play: "Verwissel speel/pauze met Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] om terug te spoelen en vooruit te spoelen."
+    tip_scrub_shortcut: "Ctrl+[ en Ctrl+] om terug te spoelen en vooruit te spoelen."
     tip_guide_exists: "Klik op de handleiding bovenaan het scherm voor nuttige informatie."
     tip_open_source: "CodeCombat is 100% open source!"
     tip_beta_launch: "CodeCombat lanceerde zijn beta versie in Oktober, 2013."
