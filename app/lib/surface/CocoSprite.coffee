@@ -35,6 +35,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     spriteSheetCache: null
     showInvisible: false
 
+  possessed: false
   flipped: false
   flippedCount: 0
   originalScaleX: null
@@ -54,6 +55,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     'level-sprite-clear-dialogue': 'onClearDialogue'
     'level-set-letterbox': 'onSetLetterbox'
     'surface:ticked': 'onSurfaceTicked'
+    'level-sprite-move': 'onMove'
 
   constructor: (@thangType, options) ->
     super()
@@ -223,7 +225,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @thang.bobHeight * (1 + Math.sin(@age * Math.PI / @thang.bobTime))
 
   getWorldPosition: ->
-    p1 = @thang.pos
+    p1 = if @possessed then @shadow.pos else @thang.pos
     if bobOffset = @getBobOffset()
       p1 = p1.copy?() or _.clone(p1)
       p1.z += bobOffset
@@ -309,8 +311,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @updateIsometricRotation(rotation, imageObject)
 
   getRotation: ->
-    return @rotation if not @thang?.rotation
-    rotation = @thang?.rotation
+    thang = if @possessed then @shadow else @thang
+    return @rotation if not thang?.rotation
+    rotation = thang?.rotation
     rotation = (360 - (rotation * 180 / Math.PI) % 360) % 360
     rotation -= 360 if rotation > 180
     rotation
@@ -333,13 +336,14 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   determineAction: ->
     action = null
-    action = @thang.getActionName() if @thang?.acts
+    thang = if @possessed then @shadow else @thang
+    action = thang.action if thang?.acts
     action ?= @currentRootAction.name if @currentRootAction?
     action ?= 'idle'
     action = null unless @actions[action]?
     return null unless action
     action = 'break' if @actions.break? and @thang?.erroredOut
-    action = 'die' if @actions.die? and @thang?.health? and @thang.health <= 0
+    action = 'die' if @actions.die? and thang?.health? and thang.health <= 0
     @actions[action]
 
   updateActionDirection: (@wallGrid=null) ->
@@ -619,3 +623,67 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
 #    console.log @thang?.id, "played sound", name, "with delay", delay, "volume", volume, "and got sound instance", instance
     instance
+
+  onMove: (e) ->
+    return unless e.spriteID is @thang?.id
+    pos = e.pos
+    if _.isArray pos
+      pos = new Vector pos...
+    else if _.isString pos
+      return console.warn "Couldn't find target sprite", pos, "from", @options.sprites unless pos of @options.sprites
+      target = @options.sprites[pos].thang
+      heading = Vector.subtract(target.pos, @thang.pos).normalize()
+      distance = @thang.pos.distance target.pos
+      offset = Math.max(target.width, target.height, 2) / 2 + 3
+      pos = Vector.add(@thang.pos, heading.multiply(distance - offset))
+    Backbone.Mediator.publish 'level-sprite-clear-dialogue', {}
+    @onClearDialogue()
+    args = [pos]
+    args.push(e.duration) if e.duration?
+    @move(args...)
+
+  move: (pos, duration=2000, endAnimation='idle') =>
+    @updateShadow()
+    if not duration
+      createjs.Tween.removeTweens(@shadow.pos) if @lastTween
+      @lastTween = null
+      z = @shadow.pos.z
+      @shadow.pos = pos
+      @shadow.pos.z = z
+      @imageObject.gotoAndPlay(endAnimation)
+      return
+
+    @shadow.action = 'move'
+    @shadow.actionActivated = true
+    @pointToward(pos)
+    @possessed = true
+    @update true
+
+    ease = createjs.Ease.getPowInOut(2.2)
+    if @lastTween
+      ease = createjs.Ease.getPowOut(1.2)
+      createjs.Tween.removeTweens(@shadow.pos)
+
+    endFunc = =>
+      @lastTween = null
+      @imageObject.gotoAndPlay(endAnimation)
+      @shadow.action = 'idle'
+      @update true
+      @possessed = false
+
+    @lastTween = createjs.Tween
+      .get(@shadow.pos)
+      .to({x:pos.x, y:pos.y}, duration, ease)
+      .call(endFunc)
+
+  pointToward: (pos) ->
+    @shadow.rotation = Math.atan2(pos.y - @shadow.pos.y, pos.x - @shadow.pos.x)
+    if (@shadow.rotation * 180 / Math.PI) % 90 is 0
+      @shadow.rotation += 0.01
+
+  updateShadow: ->
+    @shadow = {} if not @shadow
+    @shadow.pos = @thang.pos
+    @shadow.rotation = @thang.rotation
+    @shadow.action = @thang.action
+    @shadow.actionActivated = @thang.actionActivated
