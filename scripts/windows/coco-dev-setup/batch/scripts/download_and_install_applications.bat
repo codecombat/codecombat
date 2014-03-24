@@ -1,3 +1,6 @@
+call print_install_header
+call print_dashed_seperator
+
 call get_system_information
 call print_dashed_seperator
 
@@ -6,9 +9,6 @@ if %system_info_os% == XP (
 	echo !install_system_xp!
 	call print_exit
 )
-
-call print_install_header
-call print_dashed_seperator
 
 call get_category ..\\config\\downloads.coco downloads downloads_count general-general general-%system_info_bit% %system_info_os%-%system_info_bit%
 
