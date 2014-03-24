@@ -6,6 +6,10 @@ module.exports = class CastButtonView extends View
   id: 'cast-button-view'
   template: template
 
+  events:
+    'click .cast-button': 'onCastButtonClick'
+    'click .autocast-delays a': 'onCastOptionsClick'
+
   subscriptions:
     'tome:spell-changed': "onSpellChanged"
     'tome:cast-spells': 'onCastSpells'
@@ -30,8 +34,6 @@ module.exports = class CastButtonView extends View
     @castButton = $('.cast-button', @$el)
     @castButtonGroup = $('.cast-button-group', @$el)
     @castOptions = $('.autocast-delays', @$el)
-    @castButton.on 'click', @onCastButtonClick
-    @castOptions.find('a').on 'click', @onCastOptionsClick
     delay = me.get('autocastDelay')
     delay ?= 5000
     if @levelID in ['brawlwood', 'brawlwood-tutorial', 'dungeon-arena', 'dungeon-arena-tutorial']

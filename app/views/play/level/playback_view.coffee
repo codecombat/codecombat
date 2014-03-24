@@ -43,7 +43,7 @@ module.exports = class PlaybackView extends View
 
   constructor: ->
     super(arguments...)
-    me.on('change:music', @updateMusicButton, @)
+    @listenTo(me, 'change:music', @updateMusicButton)
 
   afterRender: ->
     super()
@@ -223,7 +223,5 @@ module.exports = class PlaybackView extends View
     $(document.activeElement).blur()
 
   destroy: ->
-    me.off('change:music', @updateMusicButton, @)
-    $(window).off('resize', @onWindowResize)
     @onWindowResize = null
     super()
