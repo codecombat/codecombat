@@ -68,7 +68,7 @@ module.exports = class SpectateLevelView extends View
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
     super options
-    @listenTo($(window), 'resize', @onWindowResize)
+    $(window).on('resize', @onWindowResize)
     @listenToOnce(@supermodel, 'error', @onLevelLoadError)
 
     @sessionOne = @getQueryVariable 'session-one'
@@ -470,6 +470,7 @@ module.exports = class SpectateLevelView extends View
     @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
+    $(window).off('resize', @onWindowResize)
     @goalManager?.destroy()
     @scriptManager?.destroy()
     delete window.world # not sure where this is set, but this is one way to clean it up
