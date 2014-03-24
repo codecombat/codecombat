@@ -43,13 +43,13 @@ module.exports = class PlaybackView extends View
 
   constructor: ->
     super(arguments...)
-    me.on('change:music', @updateMusicButton, @)
+    @listenTo(me, 'change:music', @updateMusicButton)
 
   afterRender: ->
     super()
     @hookUpScrubber()
     @updateMusicButton()
-    $(window).on('resize', @onWindowResize)
+    @listenTo($(window), 'resize', @onWindowResize)
 
   # callbacks
 
@@ -223,7 +223,5 @@ module.exports = class PlaybackView extends View
     $(document.activeElement).blur()
 
   destroy: ->
-    me.off('change:music', @updateMusicButton, @)
-    $(window).off('resize', @onWindowResize)
     @onWindowResize = null
     super()

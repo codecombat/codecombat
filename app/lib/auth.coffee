@@ -58,7 +58,7 @@ init = ->
     storage.save(CURRENT_USER_KEY, me.attributes)
 
   me.loadGravatarProfile() if me.get('email')
-  me.on('sync', userSynced)
+  @listenTo(me, 'sync', userSynced)
 
 userSynced = (user) ->
   Backbone.Mediator.publish('me:synced', {me:user})

@@ -64,7 +64,7 @@ module.exports = class ThangTypeHomeView extends View
 
     @collection = new SearchCollection(@modelURL, @model, term)
     @collection.term = term # needed?
-    @collection.on('sync', @onSearchChange)
+    @listenTo(@collection, 'sync', @onSearchChange)
     @showLoading(@$el.find('.results'))
 
     @updateHash(term)
@@ -79,7 +79,7 @@ module.exports = class ThangTypeHomeView extends View
     return false unless @collection
     return term is @collection.term
 
-  onSearchChange: =>
+  onSearchChange: ->
     @hideLoading()
     documents = @collection.models
     table = $(@tableTemplate(documents:documents))
@@ -88,7 +88,6 @@ module.exports = class ThangTypeHomeView extends View
 
   removeOldSearch: ->
     return unless @collection?
-    @collection.off()
     @collection = null
 
   makeNewModel: (e) ->
