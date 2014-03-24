@@ -168,7 +168,7 @@ class LeaderboardData
     return me.id in (session.attributes.creator for session in @topPlayers.models)
 
   nearbySessions: ->
-    return [] unless @session
+    return [] unless @session?.get('totalScore')
     l = []
     above = @playersAbove.models
     above.reverse()
