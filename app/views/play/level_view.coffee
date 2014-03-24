@@ -82,7 +82,7 @@ module.exports = class PlayLevelView extends View
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = @getQueryVariable 'session'
 
-    @listenTo($(window), 'resize', @onWindowResize)
+    $(window).on('resize', @onWindowResize)
     @listenToOnce(@supermodel, 'error', @onLevelLoadError)
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 

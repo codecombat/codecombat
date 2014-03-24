@@ -49,7 +49,7 @@ module.exports = class PlaybackView extends View
     super()
     @hookUpScrubber()
     @updateMusicButton()
-    @listenTo($(window), 'resize', @onWindowResize)
+    $(window).on('resize', @onWindowResize)
 
   # callbacks
 

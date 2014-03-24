@@ -88,6 +88,7 @@ module.exports = class ThangTypeHomeView extends View
 
   removeOldSearch: ->
     return unless @collection?
+    @collection.off()
     @collection = null
 
   makeNewModel: (e) ->
