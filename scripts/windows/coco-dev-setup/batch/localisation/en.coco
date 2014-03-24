@@ -1,42 +1,9 @@
 [global]
 	native=English
 	intro=From now on we'll send our feedback in English!
-	bye=Bye Bye!
 [install]
-	begin=Installation has begun, this can take a while... Please stay tuned...
-	close=Don't close any windows please, unless specified explicitly.
-[dai]
-	title=[DOWNLOADING AND INSTALLING 3RD PARTY SOFTWARE]
-	downloading=downloading:
-	installing=installing:
-	cancel=Download and Installation cancelled...
-	software=Software has been installed...
-	devenv=Installation of the Developers Environment is complete!
-	stop=Installation has been stopped...
-	unpacking=unpacking and moving:
-	bower=Installing bower, brunch, nodemon and sendwithus...
-[git]
-	stored=CodeCombat is safely stored on a git repository.
-	clapp=Therefore you need a git command-line application (Git-bash).
-	examples=Examples: git-bash, CygWin, ...
-	question=Do you already have git-bash?
-	path=Enter the path to where you installed Git-bash
-	checkout=Checking out the Git Repository...
-	username=Please enter your github username:
-[nodejs]
-	question=Do you already have the latest version of node-js installed?
-	path=Please enter the full path of the location you installed nodejs to:
-[ruby]
-	question=Do you already have the latest version of ruby installed?
-[mongodb]
-	question=Do you already have the latest version of mongo-db installed?
-	path=Enter the path where you would like to install MongoDB:
-[python]
-	question=Do you already have the latest version of python installed?
-[error]
-	xp=Sadly we can't support Windows XP... Please upgrade your OS!
-	os=Machine OS cannot be determined...
-	osreport=Report your OS to the developers @ CodeCombat.com...
-	nocleaning=... Cleaning up has been disabled... Terminating Script!
-	git_app_path=The path to your git application is incorrect, please try again...
-	invalid_path=The path you entered is invalid, please try again...
+	[system]
+		bit=-bit computer detected.
+		prefix=The operating system
+		sufix=was detected.
+		xp=We don't support Windows XP, installation cancelled.

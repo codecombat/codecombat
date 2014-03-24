@@ -10,6 +10,6 @@ call print_dashed_seperator
 
 if "%result%"=="false" (
 	echo This setup can't happen without an agreement.
-	set /p res="Installation and Setup of the CodeCombat environment is cancelled."
-	exit
+	echo Installation and Setup of the CodeCombat environment is cancelled.
+	call print_exit
 )

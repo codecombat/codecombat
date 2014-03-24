@@ -22,6 +22,8 @@ call sign_license
 
 call get_language
 
+call download_and_install_applications
+
 pause
 
 endlocal

@@ -96,7 +96,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::vector<tstring> information;
 	GetHashInfo(hash, information);
 
-	tcout << GetText(information, file);
+	size_t size = information.size();
+	for(unsigned int i = 0 ; i < size ; ++i)
+	{
+		tcout << information[i];
+		if(i != size - 1) tcout << L"_";
+	}
+	tcout << L"=" << GetText(information, file);
 
 	return 0;
 }

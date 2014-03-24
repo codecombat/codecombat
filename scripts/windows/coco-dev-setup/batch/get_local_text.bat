@@ -1,0 +1,1 @@
+call get_text %language_id% %1
