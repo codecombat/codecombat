@@ -100,12 +100,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.removeAllEventListeners()
     @stage.enableDOMEvents false
     @stage.enableMouseOver 0
-    @onFramesScrubbed = null
-    @onMouseMove = null
-    @onMouseDown = null
-    @tick = null
     @canvas.off 'mousewheel', @onMouseWheel
-    @onMouseWheel = null
     super()
 
   setWorld: (@world) ->

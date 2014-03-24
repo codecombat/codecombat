@@ -575,13 +575,7 @@ module.exports = class SpellView extends View
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()
-    @ace = null
     @aceDoc?.off 'change', @onCodeChangeMetaHandler
-    @aceDoc = null
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
-    @aceSession = null
     @debugView?.destroy()
-    @spell = null
-    for fat in ['notifySpellChanged', 'notifyEditingEnded', 'notifyEditingBegan', 'onFirepadLoaded', 'onLoaded', 'toggleBackground', 'setRecompileNeeded', 'onCursorActivity', 'highlightCurrentLine', 'updateAether', 'onCodeChangeMetaHandler', 'recompileIfNeeded', 'currentAutocastHandler']
-      @[fat] = null
     super()

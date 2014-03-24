@@ -221,7 +221,3 @@ module.exports = class PlaybackView extends View
     me.set('music', not me.get('music'))
     me.save()
     $(document.activeElement).blur()
-
-  destroy: ->
-    @onWindowResize = null
-    super()

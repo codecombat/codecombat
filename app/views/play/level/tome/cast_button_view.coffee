@@ -94,9 +94,3 @@ module.exports = class CastButtonView extends View
     spell.view.setAutocastDelay delay for spellKey, spell of @spells
     @castOptions.find('a').each ->
       $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)
-
-  destroy: ->
-    @castButton.off 'click', @onCastButtonClick
-    @castOptions.find('a').off 'click', @onCastOptionsClick
-    @onCastOptionsClick = null
-    super()
