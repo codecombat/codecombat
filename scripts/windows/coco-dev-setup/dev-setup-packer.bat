@@ -5,26 +5,11 @@ setlocal EnableDelayedExpansion
 set "ZU-app=batch\utilities\7za.exe"
 set "title=coco-dev-win-setup"
 
-call:parse_file_new "batch\config\config" cnfg n
-set "sf=%cnfg[1]%"
+cd batch\\scripts\\
+call get_config version
+cd ..\\..\\
 
-%ZU-app% a "%title%-%sf%.zip" .\batch\*
-
-
-:: ================= FUNCTIONS =========================
-
-:parse_file
-  set "file=%~1"
-  for /F "usebackq delims=" %%a in ("%file%") do (
-    set /A %~3+=1
-    call set %~2[%%%~3%%]=%%a
-  )
-goto:eof
-
-:parse_file_new
-  set /A %~3=0
-  call:parse_file %~1 %~2 %~3
-goto:eof
+%ZU-app% a "%title%-%version%.zip" .\batch\*
 
 :: =================== EOF =============================
 
