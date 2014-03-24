@@ -2,7 +2,7 @@
 setlocal EnableDelayedExpansion
 
 Color 0A
-mode con: cols=78 lines=60
+mode con: cols=78 lines=55
 
 call print_header
 call print_dashed_seperator
