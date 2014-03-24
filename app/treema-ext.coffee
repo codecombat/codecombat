@@ -20,7 +20,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
 
   buildValueForEditing: (valEl) ->
     super(valEl)
-    @editor.on 'change', @onEditorChange
+    @listenTo(@editor, 'change', @onEditorChange)
     @addImageUpload(valEl)
 
   addImageUpload: (valEl) ->
@@ -47,7 +47,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   onFileUploaded: (e) =>
     @editor.insert "![#{e.metadata.name}](/file/#{@uploadingPath})"
 
-  onEditorChange: =>
+  onEditorChange: ->
     @saveChanges()
     @flushChanges()
     @getRoot().broadcastChanges()
@@ -203,10 +203,10 @@ class CoffeeTreema extends TreemaNode.nodeMap.ace
 
   buildValueForEditing: (valEl) ->
     super(valEl)
-    @editor.on 'change', @onEditorChange
+    @listenTo(@editor, 'change', @onEditorChange)
     valEl
 
-  onEditorChange: =>
+  onEditorChange: ->
     @saveChanges()
     @flushChanges()
     @getRoot().broadcastChanges()
@@ -297,9 +297,9 @@ class LatestVersionReferenceNode extends TreemaNode
     @collection.url = "#{@url}?term=#{''}&project=true"
     
     @collection.fetch()
-    @collection.on 'sync', @searchCallback
+    @listenTo(@collection, 'sync', @searchCallback)
 
-  searchCallback: =>
+  searchCallback: ->
     container = @getSearchResultsEl().detach().empty()
     first = true
     for model in @collection.models

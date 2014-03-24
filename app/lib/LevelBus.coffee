@@ -32,7 +32,7 @@ module.exports = class LevelBus extends Bus
     @fireScriptsRef = @fireRef?.child('scripts')
 
   setSession: (@session) ->
-    @session.on 'change:multiplayer', @onMultiplayerChanged, @
+    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
 
   onPoint: ->
     return true unless @session?.get('multiplayer')
@@ -226,5 +226,4 @@ module.exports = class LevelBus extends Bus
     tempSession.save(patch, {patch: true})
 
   destroy: ->
-    @session.off 'change:multiplayer', @onMultiplayerChanged, @
     super()

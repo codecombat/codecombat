@@ -46,7 +46,7 @@ module.exports = class SettingsView extends View
 
     @chooseTab(location.hash.replace('#',''))
     WizardSettingsView = new WizardSettingsView()
-    WizardSettingsView.on 'change', @save, @
+    @listenTo(WizardSettingsView, 'change', @save)
     @insertSubView WizardSettingsView
 
   chooseTab: (category) ->
@@ -81,7 +81,7 @@ module.exports = class SettingsView extends View
     $('#email-pane input[type="checkbox"]', @$el).prop('checked', not Boolean(subs.length))
     @save()
 
-  save: =>
+  save: ->
     forms.clearFormAlerts(@$el)
     @grabData()
     res = me.validate()

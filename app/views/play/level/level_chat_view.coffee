@@ -18,7 +18,7 @@ module.exports = class LevelChatView extends View
   constructor: (options) ->
     @levelID = options.levelID
     @session = options.session
-    @session.on 'change:multiplayer', @updateMultiplayerVisibility, @
+    @listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
     @sessionID = options.sessionID
     @bus = LevelBus.get(@levelID, @sessionID)
     super()
@@ -122,7 +122,6 @@ module.exports = class LevelChatView extends View
 
   destroy: ->
     key.deleteScope('level')
-    @session.off 'change:multiplayer', @updateMultiplayerVisibility, @
     clearInterval @clearOldMessagesInterval if @clearOldMessagesInterval
     @clearOldMessages = null
     super()

@@ -79,9 +79,9 @@ module.exports = class LevelComponentEditView extends View
     session.setTabSize 2
     session.setNewLineMode = 'unix'
     session.setUseSoftTabs true
-    @editor.on 'change', @onEditorChange
+    @listenTo(@editor, 'change', @onEditorChange)
     
-  onEditorChange: =>
+  onEditorChange: ->
     @levelComponent.set 'code', @editor.getValue()
     Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
     null

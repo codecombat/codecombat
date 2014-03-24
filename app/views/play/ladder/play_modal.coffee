@@ -30,7 +30,7 @@ module.exports = class LadderPlayModal extends View
 
   loadChallengers: ->
     @challengersCollection = new ChallengersData(@level, @team, @otherTeam, @session)
-    @challengersCollection.on 'sync', @loadNames, @
+    @listenTo(@challengersCollection, 'sync', @loadNames)
 
   # PART 2: Loading the names of the other users
 
@@ -53,7 +53,7 @@ module.exports = class LadderPlayModal extends View
   # PART 3: Make sure wizard is loaded
 
   checkWizardLoaded: ->
-    if @wizardType.loaded then @finishRendering() else @wizardType.once 'sync', @finishRendering, @
+    if @wizardType.loaded then @finishRendering() else @listenToOnce(@wizardType, 'sync', @finishRendering)
 
   # PART 4: Render
 
@@ -158,13 +158,13 @@ class ChallengersData
     score = @session?.get('totalScore') or 25
     @easyPlayer = new LeaderboardCollection(@level, {order:1, scoreOffset: score - 5, limit: 1, team: @otherTeam})
     @easyPlayer.fetch()
-    @easyPlayer.once 'sync', @challengerLoaded, @
+    @listenToOnce(@easyPlayer, 'sync', @challengerLoaded)
     @mediumPlayer = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 1, team: @otherTeam})
     @mediumPlayer.fetch()
-    @mediumPlayer.once 'sync', @challengerLoaded, @
+    @listenToOnce(@mediumPlayer, 'sync', @challengerLoaded)
     @hardPlayer = new LeaderboardCollection(@level, {order:-1, scoreOffset: score + 5, limit: 1, team: @otherTeam})
     @hardPlayer.fetch()
-    @hardPlayer.once 'sync', @challengerLoaded, @
+    @listenToOnce(@hardPlayer, 'sync', @challengerLoaded)
 
   challengerLoaded: ->
     if @allLoaded()

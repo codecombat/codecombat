@@ -73,7 +73,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     else
       @stillLoading = true
       @thangType.fetch()
-      @thangType.once 'sync', @setupSprite, @
+      @listenToOnce(@thangType, 'sync', @setupSprite)
 
   setupSprite: ->
     @stillLoading = false
