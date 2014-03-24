@@ -3,7 +3,7 @@ echo but most feedback is sent and localised by us.
 echo Here is a list of languages:
 call print_dashed_seperator
 
-call get_array localisation\\languages.coco languages language_count
+call get_array ..\\localisation\\languages.coco languages language_count
 for /l %%i in (1,1,%language_count%) do (
 	call get_text !languages[%%i]! "global-native"
 	echo   [%%i] !global_native!

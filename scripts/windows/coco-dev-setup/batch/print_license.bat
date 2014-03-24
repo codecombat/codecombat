@@ -1,1 +1,0 @@
-print_file config/license.coco

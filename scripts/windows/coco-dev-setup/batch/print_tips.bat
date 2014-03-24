@@ -1,1 +1,0 @@
-print_file config/tips.coco
