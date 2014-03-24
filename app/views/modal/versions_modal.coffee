@@ -23,14 +23,14 @@ module.exports = class VersionsModalView extends ModalView
     super options
     @view = new model(_id: @ID)
     @view.fetch()
-    @view.once('sync', @onViewSync)
+    @listenToOnce(@view, 'sync', @onViewSync)
 
-  onViewSync: =>
+  onViewSync: ->
     @collection = new VersionsViewCollection(@url, @view.attributes.original, @model)
     @collection.fetch()
-    @collection.on('sync', @onVersionFetched)
+    @listenTo(@collection, 'sync', @onVersionFetched)
 
-  onVersionFetched: =>
+  onVersionFetched: ->
     @startsLoading = false
     @render()
 

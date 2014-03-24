@@ -19,11 +19,11 @@ module.exports = class SettingsView extends View
     @save =  _.debounce(@save, 200)
     super options
     return unless me
-    me.on('change', @refreshPicturePane) # depends on gravatar load
-    me.on('invalid', (errors) -> forms.applyErrorsToForm(@$el, me.validationError))
+    @listenTo(me, 'change', @refreshPicturePane) # depends on gravatar load
+    @listenTo(me, 'invalid', (errors) -> forms.applyErrorsToForm(@$el, me.validationError))
     window.f = @getSubscriptions
 
-  refreshPicturePane: =>
+  refreshPicturePane: ->
     h = $(@template(@getRenderData()))
     newPane = $('#picture-pane', h)
     oldPane = $('#picture-pane')
@@ -46,7 +46,7 @@ module.exports = class SettingsView extends View
 
     @chooseTab(location.hash.replace('#',''))
     WizardSettingsView = new WizardSettingsView()
-    WizardSettingsView.on 'change', @save, @
+    @listenTo(WizardSettingsView, 'change', @save)
     @insertSubView WizardSettingsView
 
   chooseTab: (category) ->
@@ -81,7 +81,7 @@ module.exports = class SettingsView extends View
     $('#email-pane input[type="checkbox"]', @$el).prop('checked', not Boolean(subs.length))
     @save()
 
-  save: =>
+  save: ->
     forms.clearFormAlerts(@$el)
     @grabData()
     res = me.validate()
