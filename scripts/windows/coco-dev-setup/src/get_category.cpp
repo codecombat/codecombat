@@ -50,6 +50,7 @@ void SetArrayVariable(
 void FillArray(
 	const std::vector<tstring> & info,
 	const tstring & name,
+	const tstring & id_array_name,
 	const tstring & file,
 	int & id
 	)
@@ -87,8 +88,12 @@ void FillArray(
 			{
 				size_t pos = line.find(L'=') + 1;
 				SetArrayVariable(
-					name, id++,
+					name, id,
 					line.substr(pos, line.size() - pos)
+					);
+				SetArrayVariable(
+					id_array_name, id++,
+					line.substr(cpos, pos - 3)
 					);
 				++counter;
 			}
@@ -113,23 +118,26 @@ int _tmain(int argc, _TCHAR* argv[])
 	if(argc == 1)
 		return ErrorReport(L"Please specify a localisation file.");
 	else if(argc == 2)
-		return ErrorReport(L"Please specify the name of the array");
+		return ErrorReport(L"Please specify the name of the array.");
 	else if(argc == 3)
-		return ErrorReport(L"Please specify the counter parameter");
+		return ErrorReport(L"Please specify the name of the name-array.");
 	else if(argc == 4)
+		return ErrorReport(L"Please specify the counter parameter.");
+	else if(argc == 5)
 		return ErrorReport(L"Please specify one or more categories you are looking for.");
 
-	tstring file, name, counter_name;
+	tstring file, name, counter_name, id_array_name;
 	file = argv[1];
 	name = argv[2];
-	counter_name = argv[3];
+	id_array_name = argv[3];
+	counter_name = argv[4];
 	int id = 1;
 
-	for(int i = 4 ; i < argc ; ++i)
+	for(int i = 5 ; i < argc ; ++i)
 	{
 		std::vector<tstring> information;
 		GetHashInfo(argv[i], information);
-		FillArray(information, name, file, id);
+		FillArray(information, name, id_array_name, file, id);
 	}
 
 	tcout << L"set \"" << counter_name << L"=" << (id - 1) << L"\"";

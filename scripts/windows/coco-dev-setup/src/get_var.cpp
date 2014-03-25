@@ -36,7 +36,7 @@ void GetHashInfo(tstring id, std::vector<std::wstring> & info) {
 
 std::wstring GetText(const std::vector<tstring> & info, const tstring & file)
 {
-	if(info.size() == 0) return DEF_URL;
+	if(info.size() == 0) return L"Info Size is 0.";
 
 	auto it = info.begin();
 	auto last = info.end() - 1;
@@ -51,7 +51,7 @@ std::wstring GetText(const std::vector<tstring> & info, const tstring & file)
 		tcout << file.c_str() << std::endl;
 		tcout << strerror(errno) << std::endl;
 	#endif
-		return DEF_URL;
+		return L"File couldn't be opened.";
 	}
 
 	tstring line;
@@ -79,7 +79,7 @@ std::wstring GetText(const std::vector<tstring> & info, const tstring & file)
 	}
 
 	infile.close();
-	return DEF_URL;
+	return L"Var couldn't be found.";
 }
 
 int _tmain(int argc, _TCHAR* argv[])
