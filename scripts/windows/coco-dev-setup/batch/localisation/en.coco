@@ -7,8 +7,13 @@
 		prefix=The operating system
 		sufix=was detected.
 		xp=We don't support Windows XP, installation cancelled.
-	[intro]
+	[process]
 		1=CodeCombat couldn't be developed without third-party software.
 		2=That's why you'll need to install this software,
 		3=in order to start contributing to our community.
 		4=Cancel the installation if you already have the application.
+		prefix=Do you already have the latest version of
+		sufix=installed?
+[end]
+	succesfull=The setup of the CodeCombat Dev. Environment was succesfull.
+	thankyou=Thank you already for your contribution and see you soon.

@@ -7,8 +7,13 @@
 		prefix=Het besturingsysteem
 		sufix=is gedetecteerd.
 		xp=Wij ondersteunen Windows XP niet, installatie geanulleerd.
-	[intro]
+	[process]
 		1=CodeCombat kon niet worden ontwikkeld zonder third-party software.
 		2=Dat is waarom je deze software moet installeren,
 		3=zodat je je kan beginnen met het bijdragen tot onze gemeenschap.
 		4=Annuleer de installatie als je de applicatie al hebt.
+		prefix=Heb je al de laatste versie van
+		sufix=geinstalleerd?
+[end]
+	succesfull=De installatie van de CodeCombat-Ontwikkelings omgeving was succesvol.
+	thankyou=Alvast bedankt voor al je werk en tot binnenkort.
