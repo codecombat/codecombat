@@ -66,12 +66,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_ie: "抱歉！Internet Explorer 9 等旧式预览器无法使用本网站。"
     no_mobile: "CodeCombat 不是针对手机设备设计的，所以可能无法达到最好的体验！"
     play: "开始游戏"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer"
-#    for_developers: "For Developers"
+    old_browser: "噢, 你的浏览器太老了, 不能运行CodeCombat. 抱歉!"
+    old_browser_suffix: "尽管你可以多试几次, 但也许不会管用."
+    campaign: "战役模式"
+    for_beginners: "适合初学者"
+    multiplayer: "多人游戏"
+    for_developers: "适合开发者"
 
   play:
     choose_your_level: "选取难度"
