@@ -7,8 +7,10 @@
 		nodejs=http://nodejs.org/dist/v0.10.25/x64/node-v0.10.25-x64.msi
 		ruby=http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353-x64.exe?direct
 		python=http://www.python.org/ftp/python/2.7.6/python-2.7.6.amd64.msi
+		winsdk=http://download.microsoft.com/download/A/6/A/A6AC035D-DA3F-4F0C-ADA4-37C8E5D34E3D/winsdk_web.exe
 	[general]
 		gitbash=https://msysgit.googlecode.com/files/Git-1.8.5.2-preview20131230.exe
+		visualstudio2010=http://download.microsoft.com/download/1/D/9/1D9A6C0E-FC89-43EE-9658-B9F0E3A76983/vc_web.exe
 [Win7]
 	[32]
 		mongodb=http://fastdl.mongodb.org/win32/mongodb-win32-i386-2.5.4.zip
