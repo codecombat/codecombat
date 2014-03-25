@@ -8,21 +8,26 @@ module.exports = class Level extends CocoModel
   urlRoot: "/db/level"
 
   serialize: (supermodel) ->
-    o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
+    dfd = new $.Deferred();
+    setTimeout(()=>
+      o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
 
-    # Figure out Components
-    o.levelComponents = _.cloneDeep (lc.attributes for lc in supermodel.getModels LevelComponent)
-    @sortThangComponents o.thangs, o.levelComponents
-    @fillInDefaultComponentConfiguration o.thangs, o.levelComponents
+      # Figure out Components
+      o.levelComponents = _.cloneDeep (lc.attributes for lc in supermodel.getModels LevelComponent)
+      @sortThangComponents o.thangs, o.levelComponents
+      @fillInDefaultComponentConfiguration o.thangs, o.levelComponents
 
-    # Figure out Systems
-    systemModels = _.cloneDeep (ls.attributes for ls in supermodel.getModels LevelSystem)
-    o.systems = @sortSystems o.systems, systemModels
-    @fillInDefaultSystemConfiguration o.systems
+      # Figure out Systems
+      systemModels = _.cloneDeep (ls.attributes for ls in supermodel.getModels LevelSystem)
+      o.systems = @sortSystems o.systems, systemModels
+      @fillInDefaultSystemConfiguration o.systems
 
-    o.thangTypes = (original: tt.get('original'), name: tt.get('name') for tt in supermodel.getModels ThangType)
+      o.thangTypes = (original: tt.get('original'), name: tt.get('name') for tt in supermodel.getModels ThangType)
+      dfd.resolve(o)
+      
+    , 10)
 
-    o
+    return dfd.promise()
 
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]

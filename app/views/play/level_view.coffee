@@ -160,22 +160,27 @@ module.exports = class PlayLevelView extends View
     @grabLevelLoaderData()
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @god.level = @level.serialize @supermodel
-    @god.worldClassMap = @world.classMap
-    @setTeam team
-    @initSurface()
-    @initGoalManager()
-    @initScriptManager()
-    @insertSubviews ladderGame: (@level.get('type') is "ladder")
-    @initVolume()
-    @session.on 'change:multiplayer', @onMultiplayerChanged, @
-    @originalSessionState = $.extend(true, {}, @session.get('state'))
-    @register()
-    @controlBar.setBus(@bus)
-    @surface.showLevel()
-    if @otherSession
-      # TODO: colorize name and cloud by team, colorize wizard by user's color config
-      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
+
+    # @god.level = @level.serialize @supermodel
+    dfd = @level.serialize @supermodel
+    dfd.done((serializedLevel)=>
+      @god.level = serializedLevel
+      @god.worldClassMap = @world.classMap
+      @setTeam team
+      @initSurface()
+      @initGoalManager()
+      @initScriptManager()
+      @insertSubviews ladderGame: (@level.get('type') is "ladder")
+      @initVolume()
+      @session.on 'change:multiplayer', @onMultiplayerChanged, @
+      @originalSessionState = $.extend(true, {}, @session.get('state'))
+      @register()
+      @controlBar.setBus(@bus)
+      @surface.showLevel()
+      if @otherSession
+        # TODO: colorize name and cloud by team, colorize wizard by user's color config
+        @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
+    )
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session

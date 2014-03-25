@@ -102,7 +102,7 @@ module.exports = class ThangComponentEditView extends CocoView
     node = selected[0]
     original = node.data.original
 
-    toRemoveTreema = []
+    toSelectTreema = []
     dependent_class = 'treema-dependent'
     try     
       for index, child of @extantComponentsTreema.childrenTreemas
@@ -115,11 +115,14 @@ module.exports = class ThangComponentEditView extends CocoView
         dep_originals = (d.original for d in child.component.attributes.dependencies)
         for dep_original in dep_originals
           if original == dep_original
-            toRemoveTreema.push child
+            toSelectTreema.push child
 
-      for dep_treema in toRemoveTreema
+      for dep_treema in toSelectTreema
         dep_treema.toggleSelect()
         $(dep_treema.$el).addClass(dependent_class)
+
+      # Fix keyboard navigation.
+      node.setLastSelectedTreema(node)
 
     catch error
       console.error error

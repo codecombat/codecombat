@@ -90,12 +90,15 @@ module.exports = class SpectateLevelView extends View
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
-    @god?.level = @level.serialize @supermodel
-    if @world
-      serializedLevel = @level.serialize(@supermodel)
-      @world.loadFromLevel serializedLevel, false
-    else
-      @load()
+    dfd = @level.serialize @supermodel
+    dfd.done((serializedLevel)=>
+      @god?.level = serializedLevel
+      if @world
+        serializedLevel = @level.serialize(@supermodel)
+        @world.loadFromLevel serializedLevel, false
+      else
+        @load()
+    )
 
   load: ->
     @levelLoader = new LevelLoader

@@ -152,8 +152,9 @@ module.exports = class ThangsTabView extends View
     @thangsTreema = @$el.find('#thangs-treema').treema treemaOptions
     @thangsTreema.build()
     @thangsTreema.open()
-    @onThangsChanged()  # Initialize the World with Thangs
-    @initSurface()
+
+    @onThangsChanged().done(()=>@initSurface())   # Initialize the World with Thangs
+
     thangsHeaderHeight = $('#thangs-header').height()
     oldHeight = $('#thangs-list').height()
     $('#thangs-list').height(oldHeight - thangsHeaderHeight)
@@ -364,16 +365,24 @@ module.exports = class ThangsTabView extends View
   onThangsChanged: (e) =>
     @level.set 'thangs', @thangsTreema.data
     return if @editThangView
-    serializedLevel = @level.serialize @supermodel
-    try
-      @world.loadFromLevel serializedLevel, false
-    catch error
-      console.error 'Catastrophic error loading the level:', error
-    thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
-    @surface?.setWorld @world
-    @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
-    Backbone.Mediator.publish 'level-thangs-changed', thangsData: @thangsTreema.data
-    null
+
+    dfd = @level.serialize @supermodel
+    outer_dfd = $.Deferred()
+
+    dfd.done((serializedLevel)=>
+      try
+        @world.loadFromLevel serializedLevel, false
+      catch error
+        console.error 'Catastrophic error loading the level:', error
+      thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
+      @surface?.setWorld @world
+      @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
+      Backbone.Mediator.publish 'level-thangs-changed', thangsData: @thangsTreema.data
+
+      outer_dfd.resolve()
+    )
+
+    return outer_dfd.promise()
 
   onTreemaThangSelected: (e, selectedTreemas) =>
     selectedThangID = _.last(selectedTreemas)?.data.id
