@@ -458,6 +458,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     else
       @marks[range['name']].toggle false for range in @ranges
 
+    if @thangType.get('name') is 'Arrow' and @thang.action is 'die'
+      @marks.shadow.hide()
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
     @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length
