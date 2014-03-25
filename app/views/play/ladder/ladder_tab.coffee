@@ -19,10 +19,10 @@ module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
   template: require 'templates/play/ladder/ladder_tab'
   startsLoading: true
-  
+
   events:
     'click .connect-facebook': 'onConnectFacebook'
-    
+
   subscriptions:
     'facebook-logged-in': 'onConnectedWithFacebook'
 
@@ -32,45 +32,77 @@ module.exports = class LadderTabView extends CocoView
     @leaderboards = {}
     @refreshLadder()
     @checkFriends()
-    
+
+  checkFriends: ->
+    @loadingFacebookFriends = true
+    FB.getLoginStatus (response) =>
+      @facebookStatus = response.status
+      if @facebookStatus is 'connected' then @loadFacebookFriendSessions() else @loadingFacebookFriends = false
+
+    if application.gplusHandler.loggedIn is undefined
+      @loadingGPlusFriends = true
+      @listenToOnce(application.gplusHandler, 'checked-state', @gplusSessionStateLoaded)
+    else
+      @gplusSessionStateLoaded()
+
+  # FACEBOOK
+
+  # Connect button pressed
+
   onConnectFacebook: ->
     @connecting = true
     FB.login()
-    
-  onConnectedWithFacebook: ->
-    location.reload() if @connecting
 
-  checkFriends: ->
-    @loadingFriends = true
-    FB.getLoginStatus (response) =>
-      @facebookStatus = response.status
-      if @facebookStatus is 'connected'
-        @loadFriendSessions()
-      else
-        @loadingFriends = false
-        @renderMaybe()
+  onConnectedWithFacebook: -> location.reload() if @connecting
 
-  loadFriendSessions: ->
+  # Load friends
+
+  loadFacebookFriendSessions: ->
     FB.api '/me/friends', (response) =>
       @facebookData = response.data
-      console.log 'got facebookData', @facebookData
       levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
-      url = "/db/level/#{levelFrag}/leaderboard_friends"
+      url = "/db/level/#{levelFrag}/leaderboard_facebook_friends"
       $.ajax url, {
         data: { friendIDs: (f.id for f in @facebookData) }
         method: 'POST'
-        success: @facebookFriendsLoaded
+        success: @onFacebookFriendSessionsLoaded
       }
-  
-  facebookFriendsLoaded: (result) =>
+
+  onFacebookFriendSessionsLoaded: (result) =>
     friendsMap = {}
     friendsMap[friend.id] = friend.name for friend in @facebookData
     for friend in result
       friend.facebookName = friendsMap[friend.facebookID]
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
-    @friends = result
-    @loadingFriends = false
+    @facebookFriends = result
+    @loadingFacebookFriends = false
     @renderMaybe()
+
+  # GOOGLE PLUS
+
+  gplusSessionStateLoaded: ->
+    if application.gplusHandler.loggedIn
+      @loadingGPlusFriends = true
+      application.gplusHandler.loadFriends @gplusFriendsLoaded
+    else
+      @loadingGPlusFriends = false
+      @renderMaybe()
+
+  gplusFriendsLoaded: (friends) =>
+    @gplusData = friends.items
+    levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
+    url = "/db/level/#{levelFrag}/leaderboard_gplus_friends"
+    $.ajax url, {
+      data: { friendIDs: (f.id for f in @gplusData) }
+      method: 'POST'
+      success: @onGPlusFriendSessionsLoaded
+    }
+
+  onGPlusFriendSessionsLoaded: (result) =>
+    @loadingGPlusFriends = false
+    @renderMaybe()
+
+  # LADDER LOADING
 
   refreshLadder: ->
     promises = []
@@ -85,9 +117,9 @@ module.exports = class LadderTabView extends CocoView
   leaderboardsLoaded: =>
     @loadingLeaderboards = false
     @renderMaybe()
-    
+
   renderMaybe: ->
-    return if @loadingFriends or @loadingLeaderboards
+    return if @loadingFacebookFriends or @loadingLeaderboards
     @startsLoading = false
     @render()
 
@@ -98,8 +130,9 @@ module.exports = class LadderTabView extends CocoView
     ctx.teams = @teams
     team.leaderboard = @leaderboards[team.id] for team in @teams
     ctx.levelID = @levelID
-    ctx.friends = @friends
+    ctx.friends = @facebookFriends
     ctx.onFacebook = @facebookStatus is 'connected'
+    ctx.onGPlus = application.gplusHandler.loggedIn
     ctx
 
 class LeaderboardData
@@ -135,7 +168,7 @@ class LeaderboardData
     return me.id in (session.attributes.creator for session in @topPlayers.models)
 
   nearbySessions: ->
-    return [] unless @session
+    return [] unless @session?.get('totalScore')
     l = []
     above = @playersAbove.models
     above.reverse()

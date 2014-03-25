@@ -225,6 +225,20 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     editor_config_indentguides_description: "Отображение вертикальных линий для лучшего обзора отступов."
     editor_config_behaviors_label: "Умное поведение"
     editor_config_behaviors_description: "Автозавершать квадратные, фигурные скобки и кавычки."
+    loading_ready: "Готово!"
+    tip_insert_positions: "Shift+Клик по карте вставит координаты в редактор заклинаний."
+    tip_toggle_play: "Переключайте воспроизведение/паузу комбинацией Ctrl+P."
+    tip_scrub_shortcut: "Ctrl+[ и Ctrl+] - перемотка назад и вперёд."
+    tip_guide_exists: "Щёлкните \"руководство\" наверху страницы для получения полезной информации."
+    tip_open_source: "Исходный код CodeCombat открыт на 100%!"
+    tip_beta_launch: "CodeCombat запустил бета-тестирование в октябре 2013."
+    tip_js_beginning: "JavaScript это только начало."
+    tip_autocast_setting: "Изменяйте настройки авточтения заклинания, щёлкнув по шестерёнке на кнопке прочтения."
+    tip_baby_coders: "В будущем, даже младенцы будут Архимагами."
+    tip_morale_improves: "Загрузка будет продолжаться, пока боевой дух не улучшится."
+    tip_all_species: "Мы верим в равные возможности для обучения программированию для всех видов."
+    tip_reticulating: "Ретикуляция сплайнов."
+    tip_harry: "Ты волшебник, "
 
   admin:
     av_title: "Админ панель"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     av_other_debug_base_url: "База (для отладки base.jade)"
     u_title: "Список пользователей"
     lg_title: "Последние игры"
+    clas: "ЛСС"
 
   editor:
     main_title: "Редакторы CodeCombat"
@@ -515,6 +530,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     simulation_explanation: "Симулированием игр вы сможете быстрее получить оценку игры!"
     simulate_games: "Симулировать игры!"
     simulate_all: "СБРОСИТЬ И СИМУЛИРОВАТЬ ИГРЫ"
+    games_simulated_by: "Игры, симулированные вами:"
+    games_simulated_for: "Игры, симулированные за вас:"
     leaderboard: "Таблица лидеров"
     battle_as: "Сразиться за "
     summary_your: "Ваши "

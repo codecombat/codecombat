@@ -8,7 +8,7 @@ module.exports = class SettingsTabView extends View
   id: 'editor-level-settings-tab-view'
   className: 'tab-pane'
   template: template
-  
+
   # not thangs or scripts or the backend stuff
   editableSettings: [
     'name', 'description', 'documentation', 'nextLevel', 'background', 'victory', 'i18n', 'icon', 'goals',
@@ -39,7 +39,7 @@ module.exports = class SettingsTabView extends View
       thangIDs: thangIDs
       nodeClasses:
         thang: nodes.ThangNode
-        
+
     @settingsTreema = @$el.find('#settings-treema').treema treemaOptions
     @settingsTreema.build()
     @settingsTreema.open()

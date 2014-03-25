@@ -87,7 +87,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     campaign_player_created: "Creaciones de los Jugadores"
     campaign_player_created_description: "... en las que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisa\">Magos Artesanos</a>."
     level_difficulty: "Dificultad: "
-#    play_as: "Play As "
+#    play_as: "Play As"
 #    spectate: "Spectate"
 
   contact:
@@ -225,6 +225,20 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
   admin:
 #    av_title: "Admin Views"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    av_other_debug_base_url: "Base (for debugging base.jade)"
     u_title: "Lista de Usuarios"
     lg_title: "Últimos Juegos"
+#    clas: "CLAs"
 
   editor:
     main_title: "Editores de CodeCombat"
@@ -335,7 +350,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     nick_description: "Mago de la programación, hechicero excéntrico de la motivación y experimentador del revés. Nick pudo haber hecho cualquier cosa y eligió desarrollar CodeCombat."
     jeremy_description: "Mago de la atención al cliente, tester de usabilidad y organizador de la comunidad; es probable que ya hayas hablado con Jeremy."
     michael_description: "Programador, administrador de sistemas y prodigio técnico, Michael es el encargado de mantener nuestros servidores en línea."
-#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Legal"
@@ -515,6 +530,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "

@@ -355,8 +355,6 @@ module.exports = class HUDView extends View
 
   destroy: ->
     @stage?.stopTalking()
-    @addMoreMessage = null
-    @animateEnterButton = null
     clearInterval(@messageInterval) if @messageInterval
     clearTimeout @hintNextSelectionTimeout if @hintNextSelectionTimeout
     super()

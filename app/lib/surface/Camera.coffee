@@ -307,7 +307,6 @@ module.exports = class Camera extends CocoClass
 
   destroy: ->
     createjs.Tween.removeTweens @
-    @finishTween = null
     super()
 
   onZoomTo: (pos, time) ->

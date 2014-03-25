@@ -225,6 +225,20 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     editor_config_indentguides_description: "Wyświetla pionowe linie, by lepiej zaznaczyć wcięcia."
     editor_config_behaviors_label: "Inteligentne zachowania"
     editor_config_behaviors_description: "Autouzupełnianie nawiasów, klamer i cudzysłowów."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
   admin:
     av_title: "Panel administracyjny"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     av_other_debug_base_url: "Baza (do debuggingu base.jade)"
     u_title: "Lista użytkowników"
     lg_title: "Ostatnie gry"
+#    clas: "CLAs"
 
   editor:
     main_title: "Edytory CodeCombat"
@@ -515,6 +530,8 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     simulation_explanation: "Symulując gry możesz szybciej uzyskać ocenę swojej gry!"
     simulate_games: "Symuluj gry!"
     simulate_all: "RESETUJ I SYMULUJ GRY"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
     leaderboard: "Tabela rankingowa"
     battle_as: "Walcz jako "
     summary_your: "Twój "

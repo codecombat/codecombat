@@ -48,9 +48,9 @@ module.exports = class Simulator extends CocoClass
     @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
 
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
-    @levelLoader.once 'loaded-all', @simulateGame
+    @listenToOnce(@levelLoader, 'loaded-all', @simulateGame)
 
-  simulateGame: =>
+  simulateGame: ->
     return if @destroyed
     @trigger 'statusUpdate', 'All resources loaded, simulating!', @task.getSessions()
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
@@ -231,9 +231,8 @@ module.exports = class Simulator extends CocoClass
   createAether: (methodName, method) ->
     aetherOptions =
       functionName: methodName
-      protectAPI: false
+      protectAPI: true
       includeFlow: false
-      #includeFlow: true
       requiresThis: true
       yieldConditionally: false
       problems:

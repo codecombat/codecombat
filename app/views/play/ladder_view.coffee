@@ -42,7 +42,7 @@ module.exports = class LadderView extends RootView
     @sessions = new LevelSessionsCollection(levelID)
     p2 = @sessions.fetch({})
     @simulator = new Simulator()
-    @simulator.on 'statusUpdate', @updateSimulationStatus, @
+    @listenTo(@simulator, 'statusUpdate', @updateSimulationStatus)
     @teams = []
     $.when(p1, p2).then @onLoaded
 
@@ -104,7 +104,7 @@ module.exports = class LadderView extends RootView
 
     @simulator.fetchAndSimulateTask()
 
-  updateSimulationStatus: (simulationStatus, sessions)->
+  updateSimulationStatus: (simulationStatus, sessions) ->
     @simulationStatus = simulationStatus
     try
       if sessions?
@@ -114,7 +114,7 @@ module.exports = class LadderView extends RootView
         for index in [0...creatorNames.length]
           unless creatorNames[index]
             creatorNames[index] = "Anonymous"
-          @simulationStatus += " and " + creatorNames[index]
+          @simulationStatus += (if index != 0 then " and " else "") + creatorNames[index]
         @simulationStatus += "..."
     catch e
       console.log "There was a problem with the named simulation status: #{e}"
@@ -122,6 +122,19 @@ module.exports = class LadderView extends RootView
 
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
+    
+  resimulateAllSessions: ->
+    postData =
+      originalLevelID: @level.get('original')
+      levelMajorVersion: @level.get('version').major
+    console.log postData
+    
+    $.ajax
+      url: '/queue/scoring/resimulateAllSessions'
+      method: 'POST'
+      data: postData  
+      complete: (jqxhr) ->
+        console.log jqxhr.responseText
 
   showPlayModal: (teamID) ->
     return @showApologeticSignupModal() if me.get('anonymous')
