@@ -57,8 +57,14 @@ module.exports = class PlaybackView extends View
     @$el.find('#music-button').toggleClass('music-on', me.get('music'))
 
   onSetLetterbox: (e) ->
-    buttons = @$el.find '#play-button, .scrubber-handle'
-    buttons.css 'visibility', if e.on then 'hidden' else 'visible'
+    if e.on
+      $('.scrubber .progress', @$el).slider('disable', true)
+      $('#play-button', @$el).addClass('disabled')
+      $('.scrubber-handle', @$el).css('visibility', 'hidden')
+    else
+      $('.scrubber .progress', @$el).slider('enable', true)
+      $('#play-button', @$el).removeClass('disabled')
+      $('.scrubber-handle', @$el).css('visibility', 'visible')
     @disabled = e.on
 
   onWindowResize: (s...) =>
