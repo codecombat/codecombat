@@ -1,7 +1,8 @@
 # Template for classes with common functions, like hooking into the Mediator.
 utils = require './utils'
 classCount = 0
-makeScopeName = -> "class-scope-#{classCount++}"
+makeScopeName = -> "class-scope-#{classCount++}"  
+doNothing = ->
 
 module.exports = class CocoClass
   subscriptions: {}
@@ -25,7 +26,8 @@ module.exports = class CocoClass
     @stopListeningToShortcuts()
     @[key] = undefined for key of @
     @destroyed = true
-    @destroy = ->
+    @off = doNothing
+    @destroy = doNothing
 
   # subscriptions
 

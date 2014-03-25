@@ -56,6 +56,8 @@ grunt combine
 echo moving to CoCo
 cp ~/Desktop/CreateJS/EaselJS/build/output/easeljs-NEXT.combined.js ~/Desktop/coco/vendor/scripts
 cp ~/Desktop/CreateJS/EaselJS/build/output/movieclip-NEXT.min.js ~/Desktop/coco/vendor/scripts
+cp ~/Desktop/CreateJS/EaselJS/src/easeljs/display/SpriteStage.js ~/Desktop/coco/vendor/scripts/
+cp ~/Desktop/CreateJS/EaselJS/src/easeljs/display/SpriteContainer.js ~/Desktop/coco/vendor/scripts/
 cp ~/Desktop/CreateJS/SoundJS/build/output/soundjs-NEXT.combined.js ~/Desktop/coco/vendor/scripts
 cp ~/Desktop/CreateJS/PreloadJS/build/output/preloadjs-NEXT.combined.js ~/Desktop/coco/vendor/scripts
 cp ~/Desktop/CreateJS/TweenJS/build/output/tweenjs-NEXT.combined.js ~/Desktop/coco/vendor/scripts

@@ -14,6 +14,10 @@ module.exports.setup = (app) ->
     handler = loadQueueHandler 'scoring'
     handler.messagesInQueueCount req, res
     
+  app.post '/queue/scoring/resimulateAllSessions', (req, res) ->
+    handler = loadQueueHandler 'scoring'
+    handler.resimulateAllSessions req, res
+    
     
   app.all '/queue/*', (req, res) ->
     setResponseHeaderToJSONContentType res

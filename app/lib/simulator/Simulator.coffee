@@ -44,13 +44,13 @@ module.exports = class Simulator extends CocoClass
     return @handleNoGamesResponse() if jqXHR.status is 204
     @trigger 'statusUpdate', 'Setting up simulation!'
     @task = new SimulationTask(taskData)
-    @supermodel = new SuperModel()
+    @supermodel ?= new SuperModel()
     @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
 
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
-    @levelLoader.once 'loaded-all', @simulateGame
+    @listenToOnce(@levelLoader, 'loaded-all', @simulateGame)
 
-  simulateGame: =>
+  simulateGame: ->
     return if @destroyed
     @trigger 'statusUpdate', 'All resources loaded, simulating!', @task.getSessions()
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
@@ -101,6 +101,8 @@ module.exports = class Simulator extends CocoClass
   handleTaskResultsTransferSuccess: (result) =>
     console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
+    simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
+    $('#simulated-by-you').text(simulatedBy)
 
   handleTaskResultsTransferError: (error) =>
     @trigger 'statusUpdate', 'There was an error sending the results back to the server.'
@@ -229,9 +231,8 @@ module.exports = class Simulator extends CocoClass
   createAether: (methodName, method) ->
     aetherOptions =
       functionName: methodName
-      protectAPI: false
+      protectAPI: true
       includeFlow: false
-      #includeFlow: true
       requiresThis: true
       yieldConditionally: false
       problems:

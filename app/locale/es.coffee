@@ -225,8 +225,22 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
-#  admin:
+  admin:
 #    av_title: "Admin Views"
 #    av_entities_sub_title: "Entities"
     av_entities_users_url: "Usuarios"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    av_other_debug_base_url: "Base (for debugging base.jade)"
     u_title: "Lista de usuario"
     lg_title: "Últimos juegos"
+#    clas: "CLAs"
 
   editor:
 #    main_title: "CodeCombat Editors"
@@ -282,7 +297,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
 
-#  article:
+  article:
     edit_btn_preview: "Previsualizar"
     edit_article_title: "Editar artículo"
 
@@ -314,9 +329,9 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     medium: "Medio"
     hard: "Difíficl"
 
-#  about:
-#    who_is_codecombat: "¿Quién es CodeCombat?"
-#    why_codecombat: "¿Por qué CodeCombat?"
+  about:
+    who_is_codecombat: "¿Quién es CodeCombat?"
+    why_codecombat: "¿Por qué CodeCombat?"
 #    who_description_prefix: "together started CodeCombat in 2013. We also created "
 #    who_description_suffix: "in 2008, growing it to the #1 web and iOS application for learning to write Chinese and Japanese characters."
 #    who_description_ending: "Now it's time to teach people to write code."
@@ -335,6 +350,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
 #  legal:
 #    page_title: "Legal"
@@ -397,7 +413,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
-#  contribute:
+  contribute:
 #    page_title: "Contributing"
 #    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
@@ -507,13 +523,15 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    counselor_title: "Counselor"
 #    counselor_title_description: "(Expert/Teacher)"
 
-#  ladder:
+  ladder:
 #    please_login: "Please log in first before playing a ladder game."
 #    my_matches: "My Matches"
 #    simulate: "Simulate"
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "

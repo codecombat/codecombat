@@ -87,7 +87,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    campaign_player_created: "Player-Created"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
 #    level_difficulty: "Difficulty: "
-#    play_as: "Play As "
+#    play_as: "Play As"
 #    spectate: "Spectate"
 
 #  contact:
@@ -225,6 +225,20 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
 #  admin:
 #    av_title: "Admin Views"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    av_other_debug_base_url: "Base (for debugging base.jade)"
 #    u_title: "User List"
 #    lg_title: "Latest Games"
+#    clas: "CLAs"
 
 #  editor:
 #    main_title: "CodeCombat Editors"
@@ -335,6 +350,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
 #  legal:
 #    page_title: "Legal"
@@ -514,6 +530,8 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "

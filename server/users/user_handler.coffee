@@ -9,16 +9,19 @@ errors = require '../commons/errors'
 async = require 'async'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
-privateProperties = ['permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID', 'music', 'volume', 'aceConfig']
+privateProperties = [
+  'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
+  'gplusID', 'music', 'volume', 'aceConfig'
+]
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
 
   editableProperties: [
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
-    'firstName', 'lastName', 'gender', 'facebookID', 'emailSubscriptions',
+    'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emailSubscriptions',
     'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
-    'wizard', 'aceConfig'
+    'wizard', 'aceConfig', 'autocastDelay', 'lastLevel'
   ]
 
   jsonSchema: schema
@@ -108,17 +111,17 @@ UserHandler = class UserHandler extends Handler
     if req.user?._id.equals(id)
       return @sendSuccess(res, @formatEntity(req, req.user))
     super(req, res, id)
-    
+
   getNamesByIds: (req, res) ->
     ids = req.query.ids or req.body.ids
     ids = ids.split(',') if _.isString ids
     ids = _.uniq ids
-    
+
     # TODO: Extend and repurpose this handler to return other public info about a user more flexibly,
     #   say by a query parameter that lists public properties to return.
     returnWizard = req.query.wizard or req.body.wizard
     query = if returnWizard then {name:1, wizard:1} else {name:1}
-    
+
     makeFunc = (id) ->
       (callback) ->
         User.findById(id, query).exec (err, document) ->
@@ -127,12 +130,12 @@ UserHandler = class UserHandler extends Handler
             callback(null, {name:document.get('name'), wizard:document.get('wizard') or {}})
           else
             callback(null, document?.get('name') or '')
-          
+
     funcs = {}
     for id in ids
       return errors.badInput(res, "Given an invalid id: #{id}") unless Handler.isID(id)
       funcs[id] = makeFunc(id)
-    
+
     async.parallel funcs, (err, results) ->
       return errors.serverError err if err
       res.send results

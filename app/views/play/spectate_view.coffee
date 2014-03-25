@@ -69,7 +69,7 @@ module.exports = class SpectateLevelView extends View
     console.profile?() if PROFILE_ME
     super options
     $(window).on('resize', @onWindowResize)
-    @supermodel.once 'error', @onLevelLoadError
+    @listenToOnce(@supermodel, 'error', @onLevelLoadError)
 
     @sessionOne = @getQueryVariable 'session-one'
     @sessionTwo = @getQueryVariable 'session-two'
@@ -105,9 +105,9 @@ module.exports = class SpectateLevelView extends View
       opponentSessionID: @sessionTwo
       spectateMode: true
       team: @getQueryVariable("team")
-    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded, @
-    @levelLoader.on 'progress', @onLevelLoaderProgressChanged, @
-    @god = new God()
+    @listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
+    @listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged)
+    @god = new God maxWorkerPoolSize: 1, maxAngels: 1
 
   getRenderData: ->
     c = super()
@@ -160,7 +160,7 @@ module.exports = class SpectateLevelView extends View
     @insertSubviews ladderGame: @otherSession?
     @initVolume()
 
-    @originalSessionState = _.cloneDeep(@session.get('state'))
+    @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
@@ -467,21 +467,13 @@ module.exports = class SpectateLevelView extends View
           cb(null, $.parseJSON(jqxhr.responseText))
 
   destroy: ()->
-    @supermodel?.off 'error', @onLevelLoadError
-    @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
     @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
+    $(window).off('resize', @onWindowResize)
     @goalManager?.destroy()
     @scriptManager?.destroy()
-    $(window).off('resize', @onWindowResize)
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)
     console.profileEnd?() if PROFILE_ME
-    @session?.off 'change:multiplayer', @onMultiplayerChanged, @
-    @onLevelLoadError = null
-    @onLevelLoaderLoaded = null
-    @onSupermodelLoadedOne = null
-    @preloadNextLevel = null
-    @saveScreenshot = null
     super()

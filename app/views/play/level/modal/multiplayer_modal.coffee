@@ -15,7 +15,7 @@ module.exports = class MultiplayerModal extends View
     super(options)
     @session = options.session
     @level = options.level
-    @session.on 'change:multiplayer', @updateLinkSection, @
+    @listenTo(@session, 'change:multiplayer', @updateLinkSection)
     @playableTeams = options.playableTeams
     @ladderGame = options.ladderGame
     console.log 'ladder game is', @ladderGame
@@ -51,5 +51,4 @@ module.exports = class MultiplayerModal extends View
     @session.set('multiplayer', multiplayer)
 
   destroy: ->
-    @session.off 'change:multiplayer', @updateLinkSection, @
     super()

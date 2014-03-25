@@ -48,7 +48,7 @@ module.exports = class SpellView extends View
   constructor: (options) ->
     super options
     @session = options.session
-    @session.on 'change:multiplayer', @onMultiplayerChanged, @
+    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
     @problems = {}
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
@@ -523,8 +523,10 @@ module.exports = class SpellView extends View
   highlightComments: ->
     lines = $(@ace.container).find('.ace_text-layer .ace_line_group')
     session = @aceSession
+    top = Math.floor @ace.renderer.getScrollTopRow()
     $(@ace.container).find('.ace_gutter-cell').each (index, el) ->
       line = $(lines[index])
+      index = index - top
       session.removeGutterDecoration index, 'comment-line'
       if line.find('.ace_comment').length
         session.addGutterDecoration index, 'comment-line'
@@ -583,14 +585,7 @@ module.exports = class SpellView extends View
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()
-    @ace = null
     @aceDoc?.off 'change', @onCodeChangeMetaHandler
-    @aceDoc = null
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
-    @aceSession = null
     @debugView?.destroy()
-    @spell = null
-    @session.off 'change:multiplayer', @onMultiplayerChanged, @
-    for fat in ['notifySpellChanged', 'notifyEditingEnded', 'notifyEditingBegan', 'onFirepadLoaded', 'onLoaded', 'toggleBackground', 'setRecompileNeeded', 'onCursorActivity', 'highlightCurrentLine', 'updateAether', 'onCodeChangeMetaHandler', 'recompileIfNeeded', 'currentAutocastHandler']
-      @[fat] = null
     super()

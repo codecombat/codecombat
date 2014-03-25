@@ -83,7 +83,7 @@ module.exports = class PlayLevelView extends View
     @sessionID = @getQueryVariable 'session'
 
     $(window).on('resize', @onWindowResize)
-    @supermodel.once 'error', @onLevelLoadError
+    @listenToOnce(@supermodel, 'error', @onLevelLoadError)
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
@@ -95,7 +95,7 @@ module.exports = class PlayLevelView extends View
     else
       @load()
 
-  onLevelLoadError: (e) =>
+  onLevelLoadError: (e) ->
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
@@ -108,8 +108,8 @@ module.exports = class PlayLevelView extends View
 
   load: ->
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
-    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded, @
-    @levelLoader.on 'progress', @onLevelLoaderProgressChanged, @
+    @listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
+    @listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged)
     @god = new God()
 
   getRenderData: ->
@@ -154,7 +154,9 @@ module.exports = class PlayLevelView extends View
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
 
     # Save latest level played in local storage
-    localStorage["lastLevel"] = @levelID if localStorage? and not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
+    if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
+      me.set('lastLevel', @levelID)
+      me.save()
     @grabLevelLoaderData()
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
@@ -166,8 +168,8 @@ module.exports = class PlayLevelView extends View
     @initScriptManager()
     @insertSubviews ladderGame: (@level.get('type') is "ladder")
     @initVolume()
-    @session.on 'change:multiplayer', @onMultiplayerChanged, @
-    @originalSessionState = _.cloneDeep(@session.get('state'))
+    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
+    @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
@@ -460,23 +462,14 @@ module.exports = class PlayLevelView extends View
       AudioPlayer.preloadSoundReference sound
 
   destroy: ->
-    @supermodel?.off 'error', @onLevelLoadError
-    @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
     @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
-    $(window).off('resize', @onWindowResize)
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)
     @bus?.destroy()
     #@instance.save() unless @instance.loading
     console.profileEnd?() if PROFILE_ME
-    @session?.off 'change:multiplayer', @onMultiplayerChanged, @
-    @onLevelLoadError = null
-    @onLevelLoaderLoaded = null
-    @onSupermodelLoadedOne = null
-    @preloadNextLevel = null
-    @saveScreenshot = null
     super()

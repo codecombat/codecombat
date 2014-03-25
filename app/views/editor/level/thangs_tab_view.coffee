@@ -1,4 +1,5 @@
 View = require 'views/kinds/CocoView'
+AddThangsView = require './add_thangs_view'
 thangs_template = require 'templates/editor/level/thangs_tab'
 Level = require 'models/Level'
 ThangType = require 'models/ThangType'
@@ -58,15 +59,15 @@ module.exports = class ThangsTabView extends View
     super options
     @world = options.world
     @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @thangTypes.once 'sync', @onThangTypesLoaded
+    @listenToOnce(@thangTypes, 'sync', @onThangTypesLoaded)
     @thangTypes.fetch()
 
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
     @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    @componentCollection.once 'sync', @onComponentsLoaded
+    @listenToOnce(@componentCollection, 'sync', @onComponentsLoaded)
     @componentCollection.fetch()
 
-  onThangTypesLoaded: =>
+  onThangTypesLoaded: ->
     return if @destroyed
     @supermodel.addCollection @thangTypes
     @supermodel.populateModel model for model in @thangTypes.models
@@ -74,7 +75,7 @@ module.exports = class ThangsTabView extends View
     @render()  # do it again but without the loading screen
     @onLevelLoaded level: @level if @level and not @startsLoading
 
-  onComponentsLoaded: =>
+  onComponentsLoaded: ->
     return if @destroyed
     @supermodel.addCollection @componentCollection
     @startsLoading = not @thangTypes.loaded
@@ -104,12 +105,20 @@ module.exports = class ThangsTabView extends View
     context.groups = groups
     context
 
+  onWindowResize: (e) ->
+    $('#thangs-list').height('100%')
+    thangsHeaderHeight = $('#thangs-header').height()
+    oldHeight = $('#thangs-list').height()
+    $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
+
   afterRender: ->
     return if @startsLoading
     super()
     $('.tab-content').click @selectAddThang
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
+    $(window).resize @onWindowResize
+    @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
 
   onFilterExtantThangs: (e) ->
     @$el.find('#extant-thangs-filter button.active').button('toggle')
@@ -145,6 +154,9 @@ module.exports = class ThangsTabView extends View
     @thangsTreema.open()
     @onThangsChanged()  # Initialize the World with Thangs
     @initSurface()
+    thangsHeaderHeight = $('#thangs-header').height()
+    oldHeight = $('#thangs-list').height()
+    $('#thangs-list').height(oldHeight - thangsHeaderHeight)
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
@@ -207,6 +219,7 @@ module.exports = class ThangsTabView extends View
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
+    @selectedExtantSprite?.setNameLabel null unless @selectedExtantSprite is e.sprite
     @selectedExtantThang = e.thang
     @selectedExtantSprite = e.sprite
     if e.thang and (key.alt or key.meta)
@@ -218,7 +231,12 @@ module.exports = class ThangsTabView extends View
       @selectedExtantThangClickTime = new Date()
       treemaThang = _.find @thangsTreema.childrenTreemas, (treema) => treema.data.id is @selectedExtantThang.id
       if treemaThang
-        treemaThang.select() unless treemaThang.isSelected()
+        # Show the label above selected thang, notice that we may get here from thang-edit-view, so it will be selected but no label
+        # also covers selecting from Treema
+        @selectedExtantSprite.setNameLabel @selectedExtantSprite.thangType.get('name') + ': ' + @selectedExtantThang.id
+        if not treemaThang.isSelected()
+          treemaThang.select()
+          @thangsTreema.$el.scrollTop(@thangsTreema.$el.find('.treema-children .treema-selected')[0].offsetTop) 
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos

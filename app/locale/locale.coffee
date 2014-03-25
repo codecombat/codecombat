@@ -26,6 +26,8 @@ module.exports =
   it: require './it'             # italiano, Italian
   tr: require './tr'             # Türkçe, Turkish
   nl: require './nl'             # Nederlands, Dutch
+  'nl-BE': require './nl-BE'     # Nederlands (België), Dutch (Belgium)
+  'nl-NL': require './nl-NL'     # Nederlands (Nederland), Dutch (Netherlands)
   fa: require './fa'             # فارسی, Persian
   cs: require './cs'             # čeština, Czech
   sv: require './sv'             # Svenska, Swedish
@@ -50,4 +52,4 @@ module.exports =
   uk: require './uk'             # українська мова, Ukranian
   hi: require './hi'             # मानक हिन्दी, Hindi
   ur: require './ur'             # اُردُو, Urdu
-  'ms-BA': require './ms-BA'     # Bahasa Melayu, Bahasa Malaysia
+  ms: require './ms'             # Bahasa Melayu, Bahasa Malaysia

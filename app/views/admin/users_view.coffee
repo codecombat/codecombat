@@ -36,7 +36,7 @@ module.exports = class UsersView extends View
     })
     @users = new UserCollection()
     @users.fetch()
-    @users.on('all', @render)
+    @listenTo(@users, 'all', @render)
 
   getRenderData: =>
     c = super()

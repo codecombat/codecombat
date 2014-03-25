@@ -7,6 +7,7 @@ visibleModal = null
 waitingModal = null
 classCount = 0
 makeScopeName = -> "view-scope-#{classCount++}"
+doNothing = ->
 
 module.exports = class CocoView extends Backbone.View
   startsLoading: false
@@ -41,11 +42,11 @@ module.exports = class CocoView extends Backbone.View
     @stopListeningToShortcuts()
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
-    @modalClosed = null
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
     @[key] = undefined for key, value of @
     @destroyed = true
-    @destroy = ->
+    @off = doNothing
+    @destroy = doNothing
 
   afterInsert: ->
 

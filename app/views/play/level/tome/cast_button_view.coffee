@@ -6,6 +6,10 @@ module.exports = class CastButtonView extends View
   id: 'cast-button-view'
   template: template
 
+  events:
+    'click .cast-button': 'onCastButtonClick'
+    'click .autocast-delays a': 'onCastOptionsClick'
+
   subscriptions:
     'tome:spell-changed': "onSpellChanged"
     'tome:cast-spells': 'onCastSpells'
@@ -30,10 +34,7 @@ module.exports = class CastButtonView extends View
     @castButton = $('.cast-button', @$el)
     @castButtonGroup = $('.cast-button-group', @$el)
     @castOptions = $('.autocast-delays', @$el)
-    @castButton.on 'click', @onCastButtonClick
-    @castOptions.find('a').on 'click', @onCastOptionsClick
-    # TODO: use a User setting instead of localStorage
-    delay = localStorage.getItem 'autocastDelay'
+    delay = me.get('autocastDelay')
     delay ?= 5000
     if @levelID in ['brawlwood', 'brawlwood-tutorial', 'dungeon-arena', 'dungeon-arena-tutorial']
       delay = 90019001
@@ -88,13 +89,8 @@ module.exports = class CastButtonView extends View
     #console.log "Set autocast delay to", delay
     return unless delay
     @autocastDelay = delay = parseInt delay
-    localStorage.setItem 'autocastDelay', delay
+    me.set('autocastDelay', delay)
+    me.save()
     spell.view.setAutocastDelay delay for spellKey, spell of @spells
     @castOptions.find('a').each ->
       $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)
-
-  destroy: ->
-    @castButton.off 'click', @onCastButtonClick
-    @castOptions.find('a').off 'click', @onCastOptionsClick
-    @onCastOptionsClick = null
-    super()

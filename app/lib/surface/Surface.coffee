@@ -100,12 +100,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.removeAllEventListeners()
     @stage.enableDOMEvents false
     @stage.enableMouseOver 0
-    @onFramesScrubbed = null
-    @onMouseMove = null
-    @onMouseDown = null
-    @tick = null
     @canvas.off 'mousewheel', @onMouseWheel
-    @onMouseWheel = null
     super()
 
   setWorld: (@world) ->
@@ -418,6 +413,8 @@ module.exports = Surface = class Surface extends CocoClass
       @gridShape.alpha = 0.125
       @gridShape.graphics.beginStroke "blue"
       gridSize = Math.round(@world.size()[0] / 20)
+      unless gridSize > 0.1
+        return console.error "Grid size is", gridSize, "so we can't draw a grid."
       wopStart = x: 0, y: 0
       wopEnd = x: @world.size()[0], y: @world.size()[1]
       supStart = @camera.worldToSurface wopStart
