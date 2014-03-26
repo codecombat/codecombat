@@ -26,6 +26,11 @@ call download_and_install_applications
 
 call github_setup
 
+call npm_and_brunch_setup
+
+call print_finished_header
+call print_dashed_seperator
+
 call get_local_text end-succesfull
 call get_local_text end-thankyou
 echo %end_succesfull%
