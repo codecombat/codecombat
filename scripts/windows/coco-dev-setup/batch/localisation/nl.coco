@@ -35,6 +35,11 @@
 		wait=Wanneer je klaar bent, druk dan eender welke toets om verder te gaan...
 	[process]
 		path=Geef alsjeblieft het volledige pad van je CodeCombat git repository: 
+		checkout=Geef alsjeblieft het volledige pad waar je de CodeCombat Ontwikkelings omgeving will installeren
+		bashi=Deze installatie maakt gebruik van Git Bash.
+		bashp64=Git bash is normaal geinstalleerd in 'C:\Program Files (x86)\Git'.
+		bashp32=Git bash is normaal geinstalleerd in 'C:\Program Files\Git'.
+		bashq=Geef alsjeblieft het volledige pad op van Git Bash of druk gewoon op enter indien je het pad niet gewijzigd heeft
 [error]
 	path=Dat pad bestaat al, ben je zeker dat je het wil overschrijven?
 	exist=Dat pad bestaat niet, probeer alsjeblieft opnieuw...
