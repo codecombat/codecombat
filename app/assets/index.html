@@ -74,6 +74,7 @@
   <script>
     // Additional JS functions here
     window.fbAsyncInit = function() {
+      Backbone.Mediator.publish('fbapi-loaded')
       FB.init({
         appId      : document.location.origin === 'http://localhost:3000' ? '607435142676437' : '148832601965463', // App ID
         channelUrl : document.location.origin +'/channel.html', // Channel File
