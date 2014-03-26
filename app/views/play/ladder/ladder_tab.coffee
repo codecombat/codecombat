@@ -24,6 +24,8 @@ module.exports = class LadderTabView extends CocoView
     'click .connect-facebook': 'onConnectFacebook'
 
   subscriptions:
+    'fbapi-loaded': 'onFacebookAPILoaded'
+    'gapi-loaded': 'onGPlusAPILoaded'
     'facebook-logged-in': 'onConnectedWithFacebook'
 
   constructor: (options, @level, @sessions) ->
@@ -31,7 +33,6 @@ module.exports = class LadderTabView extends CocoView
     @teams = teamDataFromLevel @level
     @leaderboards = {}
     @refreshLadder()
-    @checkFriends()
 
   checkFriends: ->
     @loadingFacebookFriends = true
@@ -45,8 +46,14 @@ module.exports = class LadderTabView extends CocoView
     else
       @gplusSessionStateLoaded()
 
+  apiLoaded: ->
+    return unless @fbAPILoaded and @gplusAPILoaded
+    @checkFriends()
   # FACEBOOK
 
+  onFacebookAPILoaded: ->
+    @fbAPILoaded = true
+    @apiLoaded()
   # Connect button pressed
 
   onConnectFacebook: ->
@@ -79,6 +86,10 @@ module.exports = class LadderTabView extends CocoView
     @renderMaybe()
 
   # GOOGLE PLUS
+
+  onGPlusAPILoaded: ->
+    @gplusAPILoaded = true
+    @apiLoaded()
 
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
