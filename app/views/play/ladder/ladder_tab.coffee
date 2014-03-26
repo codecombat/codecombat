@@ -22,11 +22,13 @@ module.exports = class LadderTabView extends CocoView
 
   events:
     'click .connect-facebook': 'onConnectFacebook'
+    'click .connect-google-plus': 'onConnectGPlus'
 
   subscriptions:
     'fbapi-loaded': 'checkFriends'
     'gapi-loaded': 'checkFriends'
     'facebook-logged-in': 'onConnectedWithFacebook'
+    'gplus-logged-in': 'onConnectedWithGPlus'
 
   constructor: (options, @level, @sessions) ->
     super(options)
@@ -58,8 +60,6 @@ module.exports = class LadderTabView extends CocoView
 
   onConnectedWithFacebook: -> location.reload() if @connecting
 
-  # Load friends
-
   loadFacebookFriendSessions: ->
     FB.api '/me/friends', (response) =>
       @facebookData = response.data
@@ -84,6 +84,13 @@ module.exports = class LadderTabView extends CocoView
 
   # GOOGLE PLUS
 
+  onConnectGPlus: ->
+    @connecting = true
+    @listenToOnce application.gplusHandler, 'logged-in', @onConnectedWithGPlus
+    application.gplusHandler.reauthorize()
+
+  onConnectedWithGPlus: -> location.reload() if @connecting
+    
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
       @loadingGPlusFriends = true
