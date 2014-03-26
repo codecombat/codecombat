@@ -112,9 +112,18 @@ module.exports = class MyMatchesTabView extends CocoView
 
   readyToRank: (session) ->
     return false unless session?.get('levelID')  # If it hasn't been denormalized, then it's not ready.
+
     c1 = session?.get('code')
     c2 = session?.get('submittedCode')
-    c1 and not _.isEqual(c1, c2)
+    team = session?.get('team')
+    thangSpellArr = (s.split("/") for s in session?.get('teamSpells')[team])
+    return false unless c1
+
+    for item in thangSpellArr
+      thang = item[0]
+      spell = item[1]
+      return true if c1[thang][spell] isnt c2?[thang][spell]
+    return false
 
   rankSession: (e) ->
     button = $(e.target).closest('.rank-button')
