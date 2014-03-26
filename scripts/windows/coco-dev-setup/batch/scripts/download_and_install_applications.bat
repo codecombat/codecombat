@@ -1,6 +1,21 @@
 call print_install_header
 call print_dashed_seperator
 
+call get_local_text install-process-sks
+echo !install_process_sks!
+
+call get_local_text install-process-skq
+call ask_question "!install_process_skq!"
+
+call print_dashed_seperator
+
+if "%result%"=="true" (
+	call get_local_text install-process-skc
+	echo !install_process_skc!
+	call print_dashed_seperator
+	goto:exit_setup
+)
+
 call get_system_information
 call print_dashed_seperator
 
@@ -27,3 +42,7 @@ call print_dashed_seperator
 for /l %%i in (1, 1, !downloads_count!) do (
 	call download_and_install_app !download_names[%%i]! !downloads[%%i]!
 )
+
+goto:exit_setup
+
+:exit_setup

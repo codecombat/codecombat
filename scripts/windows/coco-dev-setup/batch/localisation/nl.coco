@@ -8,6 +8,9 @@
 		sufix=is gedetecteerd.
 		xp=Wij ondersteunen Windows XP niet, installatie geanulleerd.
 	[process]
+		sks=Heb je alle benodige software al geinstalleerd?
+		skq=We raden aan dat je negatief antwoord indien je niet zeker bent.
+		skc=De installatie van software wordt geanulleerd...
 		1=CodeCombat kon niet worden ontwikkeld zonder third-party software.
 		2=Dat is waarom je deze software moet installeren,
 		3=zodat je je kan beginnen met het bijdragen tot onze gemeenschap.

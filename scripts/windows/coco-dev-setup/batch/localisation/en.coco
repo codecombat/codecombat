@@ -8,6 +8,9 @@
 		sufix=was detected.
 		xp=We don't support Windows XP, installation cancelled.
 	[process]
+		sks=Have you already installed all the software needed for CodeCombat?
+		skq=We recommand that you reply negative in case you're not sure.
+		skc=Skipping the installation of the software...
 		1=CodeCombat couldn't be developed without third-party software.
 		2=That's why you'll need to install this software,
 		3=in order to start contributing to our community.
@@ -19,6 +22,12 @@
 		unzipping=is unzipping...
 		cleaning=is cleaning...
 		mongodbpath=Please define the full path where mongodb should be installed
+[github]
+	[skip]
+		question=Do you want to do the github setup manually yourself?
+		consequence=Make sure you have correctly setup your repository before processing.
+		donotclose=Do not close this window please.
+		wait=When you're ready, press any key to continue...
 [error]
 	path=That path already exists, are you sure you want to overwrite it?
 [end]
