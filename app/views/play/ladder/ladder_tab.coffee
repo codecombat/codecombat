@@ -141,16 +141,13 @@ class LeaderboardData
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: 20})
     promises = []
     promises.push @topPlayers.fetch()
-    @topPlayers.once 'sync', @onceLeaderboardPartLoaded, @
 
     if @session
       score = @session.get('totalScore') or 10
       @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
       promises.push @playersAbove.fetch()
-      @playersAbove.once 'sync', @onceLeaderboardPartLoaded, @
       @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
       promises.push @playersBelow.fetch()
-      @playersBelow.once 'sync', @onceLeaderboardPartLoaded, @
       level = "#{level.get('original')}.#{level.get('version').major}"
       success = (@myRank) =>
       promises.push $.ajax "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", {success}
