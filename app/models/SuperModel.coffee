@@ -9,7 +9,7 @@ class SuperModel
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
     model.fetch() unless model.loaded or model.loading
-    @listenToOnce(model, 'sync', @modelLoaded) unless model.loaded
+    @listenTo(model, 'sync', @modelLoaded) unless model.loaded
     @listenToOnce(model, 'error', @modelErrored) unless model.loaded
     url = model.url()
     @models[url] = model unless @models[url]?
@@ -40,7 +40,7 @@ class SuperModel
       continue if @models[refURL]
       @models[refURL] = ref
       ref.fetch()
-      @listenToOnce(ref, 'sync', @modelLoaded)
+      ref.once 'sync', @modelLoaded, @
 
     @trigger 'loaded-one', model: model
     @trigger 'loaded-all' if @finished()

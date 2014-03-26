@@ -38,8 +38,8 @@ module.exports = class VictoryModal extends View
     @feedback = new LevelFeedback()
     @feedback.url = -> url
     @feedback.fetch()
-    @feedback.once 'sync', => @onFeedbackLoaded()
-    @feedback.once 'error', => @onFeedbackNotFound()
+    @listenToOnce(@feedback, 'sync', -> @onFeedbackLoaded())
+    @listenToOnce(@feedback, 'error', -> @onFeedbackNotFound())
 
   onFeedbackLoaded: ->
     @feedback.url = -> '/db/level.feedback/' + @id
