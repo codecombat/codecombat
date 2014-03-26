@@ -35,10 +35,10 @@ module.exports = class LadderTabView extends CocoView
     @teams = teamDataFromLevel @level
     @leaderboards = {}
     @refreshLadder()
-    @checkFriends() if window.FB and window.gapi
+    @checkFriends()
 
   checkFriends: ->
-    return if @checked
+    return if @checked or (not window.FB) or (not window.gapi)
     @checked = true
 
     @loadingFacebookFriends = true
