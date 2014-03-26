@@ -38,6 +38,23 @@ echo %end_thankyou%
 
 call print_dashed_seperator
 
+call get_local_text start-1
+call get_local_text start-2
+call get_local_text start-3
+call get_local_text start-4
+call get_local_text start-5
+call get_local_text start-6
+
+echo !start_1!
+echo !start_2!
+echo.
+echo !start_3! '!repository_path!\coco\SCOCODE.bat' !start_4!
+echo !start_5!
+echo.
+echo !start_6!
+
+call print_dashed_seperator
+
 call get_local_text end-readme
 call ask_question "!end_readme!"
 

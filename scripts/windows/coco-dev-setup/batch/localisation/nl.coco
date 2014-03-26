@@ -48,3 +48,10 @@
 	succesfull=De installatie van de CodeCombat-Ontwikkelings omgeving was succesvol.
 	thankyou=Alvast bedankt voor al je werk en tot binnenkort.
 	readme=Wil je de LEESMIJ lezen voor meer informatie?
+[start]
+	1=Vanaf nu kan je de ontwikkelings omgeving opstarten
+	2=met het gemak van een enkele muisklik.
+	3=  1) Dubbelklik op
+	4=en laat de omgeving opstarten.
+	5=  2) Nu kan je 'localhost:3000' openen in je browser naar voorkeur.
+	6=Dat is het, je bent nu klaar om te starten met je werk aan CodeCombat.

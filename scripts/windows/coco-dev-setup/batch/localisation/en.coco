@@ -48,3 +48,10 @@
 	succesfull=The setup of the CodeCombat Dev. Environment was succesfull.
 	thankyou=Thank you already for your contribution and see you soon.
 	readme=Do you want to read the README for more information?
+[start]
+	1=From now on you can start the dev. environment at
+	2=the touch of a single mouse click.
+	3=  1) Just double click
+	4=and let the environment start up.
+	5=  2) Now just open 'localhost:3000' in your prefered browser.
+	6=That's it, you're now ready to start working on CodeCombat!
