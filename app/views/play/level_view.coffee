@@ -472,9 +472,4 @@ module.exports = class PlayLevelView extends View
     @bus?.destroy()
     #@instance.save() unless @instance.loading
     console.profileEnd?() if PROFILE_ME
-    @onLevelLoadError = null
-    @onLevelLoaderLoaded = null
-    @onSupermodelLoadedOne = null
-    @preloadNextLevel = null
-    @saveScreenshot = null
     super()

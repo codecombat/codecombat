@@ -421,7 +421,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    introduction_desc_github_url: "CodeCombat is totally open source"
 #    introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
 #    introduction_desc_ending: "We hope you'll join our party!"
-#    introduction_desc_signature: "- Nick, George, Scott, Michael, and Jeremy"
+#    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Glen"
 #    alert_account_message_intro: "Hey there!"
 #    alert_account_message_pref: "To subscribe for class emails, you'll need to "
 #    alert_account_message_suf: "first."

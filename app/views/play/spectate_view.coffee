@@ -476,9 +476,4 @@ module.exports = class SpectateLevelView extends View
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)
     console.profileEnd?() if PROFILE_ME
-    @onLevelLoadError = null
-    @onLevelLoaderLoaded = null
-    @onSupermodelLoadedOne = null
-    @preloadNextLevel = null
-    @saveScreenshot = null
     super()

@@ -123,5 +123,4 @@ module.exports = class LevelChatView extends View
   destroy: ->
     key.deleteScope('level')
     clearInterval @clearOldMessagesInterval if @clearOldMessagesInterval
-    @clearOldMessages = null
     super()

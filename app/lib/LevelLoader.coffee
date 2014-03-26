@@ -233,8 +233,3 @@ module.exports = class LevelLoader extends CocoClass
     @initWorld() if @allDone()
     @trigger 'progress'
     @trigger 'loaded-all' if @progress() is 1
-
-  destroy: ->
-    @world = null  # don't hold onto garbage
-    @update = null
-    super()
