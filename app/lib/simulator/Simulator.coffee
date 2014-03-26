@@ -81,7 +81,13 @@ module.exports = class Simulator extends CocoClass
 
   commenceSimulationAndSetupCallback: ->
     @god.createWorld()
+    Backbone.Mediator.subscribeOnce 'god:infinite-loop', @onInfiniteLoop, @
     Backbone.Mediator.subscribeOnce 'god:new-world-created', @processResults, @
+
+  onInfiniteLoop: ->
+    console.warn "Skipping infinitely looping game."
+    @trigger 'statusUpdate', 'Infinite loop detected; grabbing a new game.'
+    _.delay @cleanupAndSimulateAnotherTask, 5000
 
   processResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults
