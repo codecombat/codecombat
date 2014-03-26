@@ -98,20 +98,14 @@ goto:eof
 goto:eof
 
 :git_checkout
+	md "%repository_path%"
+	set "repository_path=%repository_path%\coco"
+
 	call print_dashed_seperator
 	set "git_app_path=%git_bash_path%\bin\git.exe"
 
-	call get_local_text github-process-ssh
-	call ask_question "!github_process_ssh!"
-
-	if "%result%"=="true" (
-		call get_config github_ssh
-		"%git_app_path%" clone "!github_ssh!" "%repository_path%"
-		echo no
-	) else (
-		call get_config github_url
-		"%git_app_path%" clone "!github_url!" "%repository_path%"
-	)
+	call get_config github_url
+	"%git_app_path%" clone "!github_url!" "%repository_path%"
 
 	goto:exit_git_setup
 goto:eof
