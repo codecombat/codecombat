@@ -8,7 +8,7 @@ call get_local_text npm-install
 echo !npm_install!
 
 cd !coco_root!
-npm install -g bower brunch nodemon sendwithus
+start /wait cmd /c "echo !npm_install! & npm install -g bower brunch nodemon sendwithus"
 cd !work_directory!
 
 call print_dashed_seperator
@@ -16,7 +16,7 @@ call get_local_text npm-binstall
 echo !npm_binstall!
 
 cd "!coco_root!"
-bower install
+start /wait cmd /c "echo !npm_binstall! & bower install"
 cd "!work_directory!"
 
 call print_dashed_seperator
@@ -24,7 +24,7 @@ call get_local_text npm-sass
 echo !npm_sass!
 
 cd "!coco_root!"
-gem install sass
+start /wait cmd /c "echo !npm_sass! & gem install sass"
 cd "!work_directory!"
 
 call print_dashed_seperator
@@ -32,15 +32,7 @@ call get_local_text npm-npm
 echo !npm_npm!
 
 cd "!coco_root!"
-npm install
-cd "!work_directory!"
-
-call print_dashed_seperator
-call get_local_text npm-brnch
-echo !npm_brnch!
-
-cd "!coco_root!"
-brunch w
+start /wait cmd /c "echo !npm_npm! & npm install"
 cd "!work_directory!"
 
 pause
