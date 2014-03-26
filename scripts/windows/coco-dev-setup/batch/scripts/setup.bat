@@ -24,6 +24,8 @@ call get_language
 
 call download_and_install_applications
 
+call github_setup
+
 call get_local_text end-succesfull
 call get_local_text end-thankyou
 echo %end_succesfull%
