@@ -18,6 +18,9 @@
 		installing=is installing...
 		unzipping=is unzipping...
 		cleaning=is cleaning...
+		mongodbpath=Please define the full path where mongodb should be installed
+[error]
+	path=That path already exists, are you sure you want to overwrite it?
 [end]
 	succesfull=The setup of the CodeCombat Dev. Environment was succesfull.
 	thankyou=Thank you already for your contribution and see you soon.

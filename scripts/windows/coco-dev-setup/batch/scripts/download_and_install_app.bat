@@ -34,10 +34,12 @@ if "%download_extension%"=="zip" (
 	goto:get_mongodb_path
 
 	:get_mongodb_path
-		set /p "mongodb_path=define path: "
+		call get_local_text install-process-mongodbpath
+		set /p "mongodb_path=!install_process_mongodbpath!: "
 		if exist "%mongodb_path%" (
-			call ask_question "That path already exists, are you sure you want to overwrite it?"
-			if "%result%"=="false" (
+			call get_local_text error-path
+			call ask_question "!error_path!"
+			if "!result!"=="false" (
 				call print_dashed_seperator
 				goto:get_mongodb_path
 			) else (
@@ -46,7 +48,7 @@ if "%download_extension%"=="zip" (
 		)
 	md %mongodb_path%
 
-	%systemroot%\System32\xcopy %mongodb_original_directory% %path% /r /h /s /e /y
+	%systemroot%\System32\xcopy !package_path!!mongodb_original_directory! !mongodb_path! /r /h /s /e /y
 	goto:clean_up
 )
 

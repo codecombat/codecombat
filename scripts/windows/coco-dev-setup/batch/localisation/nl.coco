@@ -18,6 +18,9 @@
 		installing=is aan het installeren...
 		unzipping=is aan het uitpakken...
 		cleaning=is aan het opkuisen...
+		mongodbpath=Geef het volledige pad op, waar mongodb mag worden geinstalleerd
+[error]
+	path=Dat pad bestaat al, ben je zeker dat je het wil overschrijven?
 [end]
 	succesfull=De installatie van de CodeCombat-Ontwikkelings omgeving was succesvol.
 	thankyou=Alvast bedankt voor al je werk en tot binnenkort.
