@@ -40,7 +40,7 @@ class SuperModel
       continue if @models[refURL]
       @models[refURL] = ref
       ref.fetch()
-      ref.once 'sync', @modelLoaded, @
+      @listenToOnce(ref, 'sync', @modelLoaded)
 
     @trigger 'loaded-one', model: model
     @trigger 'loaded-all' if @finished()
