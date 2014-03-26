@@ -9,7 +9,7 @@ class SuperModel
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
     model.fetch() unless model.loaded or model.loading
-    @listenTo(model, 'sync', @modelLoaded) unless model.loaded
+    @listenToOnce(model, 'sync', @modelLoaded) unless model.loaded
     @listenToOnce(model, 'error', @modelErrored) unless model.loaded
     url = model.url()
     @models[url] = model unless @models[url]?
