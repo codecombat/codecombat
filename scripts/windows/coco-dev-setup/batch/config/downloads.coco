@@ -2,11 +2,11 @@
 	[32]
 		nodejs=http://nodejs.org/dist/v0.10.25/node-v0.10.25-x86.msi
 		ruby=http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353.exe?direct
-		python=http://www.python.org/ftp/python/2.7.6/python-2.7.6.msi
+		python=https://www.python.org/ftp/python/2.7.6/python-2.7.6.msi
 	[64]
 		nodejs=http://nodejs.org/dist/v0.10.25/x64/node-v0.10.25-x64.msi
 		ruby=http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353-x64.exe?direct
-		python=http://www.python.org/ftp/python/2.7.6/python-2.7.6.amd64.msi
+		python=https://www.python.org/ftp/python/2.7.6/python-2.7.6.amd64.msi
 		winsdk=http://download.microsoft.com/download/A/6/A/A6AC035D-DA3F-4F0C-ADA4-37C8E5D34E3D/winsdk_web.exe
 	[general]
 		gitbash=https://msysgit.googlecode.com/files/Git-1.8.5.2-preview20131230.exe
