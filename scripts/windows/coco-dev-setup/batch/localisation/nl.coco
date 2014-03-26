@@ -40,6 +40,7 @@
 		bashp64=Git bash is normaal geinstalleerd in 'C:\Program Files (x86)\Git'.
 		bashp32=Git bash is normaal geinstalleerd in 'C:\Program Files\Git'.
 		bashq=Geef alsjeblieft het volledige pad op van Git Bash of druk gewoon op enter indien je het pad niet gewijzigd heeft
+		ssh=Wil je het git project downloaden via ssh?
 [error]
 	path=Dat pad bestaat al, ben je zeker dat je het wil overschrijven?
 	exist=Dat pad bestaat niet, probeer alsjeblieft opnieuw...

@@ -90,6 +90,7 @@ goto:eof
 			goto:get_git_path
 		) else (
 			rmdir /s /q %repository_path%
+			goto:git_checkout
 		)
 	) else (
 		goto:git_checkout
@@ -99,7 +100,19 @@ goto:eof
 :git_checkout
 	call print_dashed_seperator
 	set "git_app_path=%git_bash_path%\bin\git.exe"
-	"%git_app_path%" clone https://github.com/codecombat/codecombat.git "%repository_path%"
+
+	call get_local_text github-process-ssh
+	call ask_question "!github_process_ssh!"
+
+	if "%result%"=="true" (
+		call get_config github_ssh
+		"%git_app_path%" clone "!github_ssh!" "%repository_path%"
+		echo no
+	) else (
+		call get_config github_url
+		"%git_app_path%" clone "!github_url!" "%repository_path%"
+	)
+
 	goto:exit_git_setup
 goto:eof
 
