@@ -23,13 +23,21 @@
 		cleaning=is cleaning...
 		mongodbpath=Please define the full path where mongodb should be installed
 [github]
+	[intro]
+		opensource=CodeCombat is opensource, like you already know.
+		online=All our sourcecode can be found online at Github.
+		manual=You can choose to do the entire Git setup yourself.
+		norec=However we recommend that you instead let us handle it instead.
 	[skip]
-		question=Do you want to do the github setup manually yourself?
+		question=Do you want to do the Local Git setup manually yourself?
 		consequence=Make sure you have correctly setup your repository before processing.
 		donotclose=Do not close this window please.
 		wait=When you're ready, press any key to continue...
+	[process]
+		path=Please give the full path of your CodeCombat git repository: 
 [error]
 	path=That path already exists, are you sure you want to overwrite it?
+	exist=That path doesn't exist. Please try again...
 [end]
 	succesfull=The setup of the CodeCombat Dev. Environment was succesfull.
 	thankyou=Thank you already for your contribution and see you soon.

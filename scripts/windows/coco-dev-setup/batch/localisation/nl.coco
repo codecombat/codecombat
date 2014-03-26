@@ -22,8 +22,22 @@
 		unzipping=is aan het uitpakken...
 		cleaning=is aan het opkuisen...
 		mongodbpath=Geef het volledige pad op, waar mongodb mag worden geinstalleerd
+[github]
+	[intro]
+		opensource=CodeCombat is opensource, zoals je waarschijnlijk wel al weet.
+		online=Je kan al onze sourcecode vinden op Github.
+		manual=Indien je wil, kan je de Git setup manueel doen.
+		norec=Maar wij raden aan dat je ons dit automatisch laat afhandellen.
+	[skip]
+		question=Wil je de lokale Git setup manueel doen?
+		consequence=Zorg er zeker voor dat jouw git repository correct is.
+		donotclose=Sluit dit venster niet alsjeblieft.
+		wait=Wanneer je klaar bent, druk dan eender welke toets om verder te gaan...
+	[process]
+		path=Geef alsjeblieft het volledige pad van je CodeCombat git repository: 
 [error]
 	path=Dat pad bestaat al, ben je zeker dat je het wil overschrijven?
+	exist=Dat pad bestaat niet, probeer alsjeblieft opnieuw...
 [end]
 	succesfull=De installatie van de CodeCombat-Ontwikkelings omgeving was succesvol.
 	thankyou=Alvast bedankt voor al je werk en tot binnenkort.
