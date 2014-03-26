@@ -155,7 +155,10 @@ module.exports = class LadderTabView extends CocoView
 
   consolidateFriends: ->
     allFriendSessions = (@facebookFriendSessions or []).concat(@gplusFriendSessions or [])
-    _.uniq allFriendSessions, false, (session) -> session._id
+    sessions = _.uniq allFriendSessions, false, (session) -> session._id
+    sessions = _.sortBy sessions, 'totalScore'
+    sessions.reverse()
+    sessions
 
 class LeaderboardData
   constructor: (@level, @team, @session) ->
