@@ -24,8 +24,8 @@ module.exports = class LadderTabView extends CocoView
     'click .connect-facebook': 'onConnectFacebook'
 
   subscriptions:
-    'fbapi-loaded': 'onFacebookAPILoaded'
-    'gapi-loaded': 'onGPlusAPILoaded'
+    'fbapi-loaded': 'checkFriends'
+    'gapi-loaded': 'checkFriends'
     'facebook-logged-in': 'onConnectedWithFacebook'
 
   constructor: (options, @level, @sessions) ->
@@ -33,8 +33,12 @@ module.exports = class LadderTabView extends CocoView
     @teams = teamDataFromLevel @level
     @leaderboards = {}
     @refreshLadder()
+    @checkFriends() if window.FB and window.gapi
 
   checkFriends: ->
+    return if @checked
+    @checked = true
+
     @loadingFacebookFriends = true
     FB.getLoginStatus (response) =>
       @facebookStatus = response.status
@@ -46,15 +50,7 @@ module.exports = class LadderTabView extends CocoView
     else
       @gplusSessionStateLoaded()
 
-  apiLoaded: ->
-    return unless @fbAPILoaded and @gplusAPILoaded
-    @checkFriends()
   # FACEBOOK
-
-  onFacebookAPILoaded: ->
-    @fbAPILoaded = true
-    @apiLoaded()
-  # Connect button pressed
 
   onConnectFacebook: ->
     @connecting = true
@@ -79,17 +75,14 @@ module.exports = class LadderTabView extends CocoView
     friendsMap = {}
     friendsMap[friend.id] = friend.name for friend in @facebookData
     for friend in result
-      friend.facebookName = friendsMap[friend.facebookID]
+      friend.name = friendsMap[friend.facebookID]
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
-    @facebookFriends = result
+      friend.imageSource = "http://graph.facebook.com/#{friend.facebookID}/picture"
+    @facebookFriendSessions = result
     @loadingFacebookFriends = false
     @renderMaybe()
 
   # GOOGLE PLUS
-
-  onGPlusAPILoaded: ->
-    @gplusAPILoaded = true
-    @apiLoaded()
 
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
@@ -110,9 +103,16 @@ module.exports = class LadderTabView extends CocoView
     }
 
   onGPlusFriendSessionsLoaded: (result) =>
+    friendsMap = {}
+    friendsMap[friend.id] = friend for friend in @gplusData
+    for friend in result
+      friend.name = friendsMap[friend.gplusID].displayName
+      friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
+      friend.imageSource = friendsMap[friend.gplusID].image.url
+    @gplusFriendSessions = result
     @loadingGPlusFriends = false
     @renderMaybe()
-
+    
   # LADDER LOADING
 
   refreshLadder: ->
@@ -130,7 +130,7 @@ module.exports = class LadderTabView extends CocoView
     @renderMaybe()
 
   renderMaybe: ->
-    return if @loadingFacebookFriends or @loadingLeaderboards
+    return if @loadingFacebookFriends or @loadingLeaderboards or @loadingGPlusFriends
     @startsLoading = false
     @render()
 
@@ -141,10 +141,14 @@ module.exports = class LadderTabView extends CocoView
     ctx.teams = @teams
     team.leaderboard = @leaderboards[team.id] for team in @teams
     ctx.levelID = @levelID
-    ctx.friends = @facebookFriends
+    ctx.friends = @consolidateFriends()
     ctx.onFacebook = @facebookStatus is 'connected'
     ctx.onGPlus = application.gplusHandler.loggedIn
     ctx
+
+  consolidateFriends: ->
+    allFriendSessions = (@facebookFriendSessions or []).concat(@gplusFriendSessions or [])
+    _.uniq allFriendSessions, false, (session) -> session._id
 
 class LeaderboardData
   constructor: (@level, @team, @session) ->

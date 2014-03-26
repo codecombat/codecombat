@@ -59,8 +59,8 @@ div#columns.row
         if friends.length
           for friend in friends
             p.friend-entry
-              img(src="http://graph.facebook.com/#{friend.facebookID}/picture").img-thumbnail
-              span= friend.creatorName + ' (' + friend.facebookName + ')'
+              img(src=friend.imageSource).img-thumbnail
+              span= friend.creatorName + ' (' + friend.name + ')'
               br
               span= Math.round(friend.totalScore * 100)
               span : 
