@@ -28,7 +28,7 @@ module.exports = class EditorLevelView extends View
 
   constructor: (options, @levelID) ->
     super options
-    @supermodel.once 'loaded-all', @onAllLoaded
+    @listenToOnce(@supermodel, 'loaded-all', @onAllLoaded)
 
     # load only the level itself and the one it points to, but no others
     # TODO: this is duplicated in views/play/level_view.coffee; need cleaner method
@@ -42,18 +42,18 @@ module.exports = class EditorLevelView extends View
       model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
 
     @level = new Level _id: @levelID
-    @level.once 'sync', @onLevelLoaded
+    @listenToOnce(@level, 'sync', @onLevelLoaded)
     @supermodel.populateModel @level
 
   showLoading: ($el) ->
     $el ?= @$el.find('.tab-content')
     super($el)
 
-  onLevelLoaded: =>
+  onLevelLoaded: ->
     @files = new DocumentFiles(@level)
     @files.fetch()
 
-  onAllLoaded: =>
+  onAllLoaded: ->
     @level.unset('nextLevel') if _.isString(@level.get('nextLevel'))
     @initWorld()
     @startsLoading = false

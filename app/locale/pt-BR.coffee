@@ -225,6 +225,20 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     editor_config_indentguides_description: "Mostrar linhas verticais para ver a identação melhor."
     editor_config_behaviors_label: "Comportamentos Inteligentes"
     editor_config_behaviors_description: "Completar automaticamente colchetes, chaves e aspas."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
   admin:
     av_title: "Visualização de Administrador"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     av_other_debug_base_url: "Base (para debugar base.jade)"
     u_title: "Lista de Usuários"
     lg_title: "Últimos Jogos"
+#    clas: "CLAs"
 
   editor:
     main_title: "Editores do CodeCombat"
@@ -335,7 +350,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     nick_description: "Mago da programação, feiticeiro da motivação excêntrica e experimentador doido. Nick pode fazer qualquer coisa e escolheu desenvolver o CodeCombat."
     jeremy_description: "Mago em suporte ao consumidor, testador de usabilidade, e organizador da comunidade; você provavelmente já falou com o Jeremy."
     michael_description: "Programador, administrador de sistemas, e um técnico prodígio não graduado, Michael é a pessoa que mantém os servidores funcionando."
-#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Jurídico"
@@ -406,7 +421,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     introduction_desc_github_url: "CodeCombat é totalmente código aberto"
     introduction_desc_suf: ", e nosso objetivo é oferecer quantas maneiras forem possíveis para você participar e fazer deste projeto tanto seu como nosso."
     introduction_desc_ending: "Nós esperamos que você se junte a nossa festa!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael, and Jeremy"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Glen"
     alert_account_message_intro: "Ei!"
     alert_account_message_pref: "Para se inscrever para os emails de classe, você vai precisar, "
     alert_account_message_suf: "primeiro."
@@ -515,6 +530,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     simulation_explanation: "Por simular partidas você pode classificar seu jogo mais rápido!"
     simulate_games: "Simular Partidas!"
     simulate_all: "RESETAR E SIMULAR PARTIDAS"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
     leaderboard: "Tabela de Classificação"
     battle_as: "Lutar como "
     summary_your: "Seus "

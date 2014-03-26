@@ -213,11 +213,10 @@ module.exports = class TomeView extends View
       @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
 
   reloadAllCode: ->
-    spell.view.reloadCode false for spellKey, spell of @spells
+    spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
     @worker?._close()
-    @worker = null
     super()

@@ -53,6 +53,7 @@ module.exports = class ThangTypeHomeView extends View
     hash = document.location.hash[1..]
     searchInput = @$el.find('#search')
     searchInput.val(hash) if hash?
+    delete @collection?.term
     searchInput.trigger('change')
     searchInput.focus()
 
@@ -63,7 +64,7 @@ module.exports = class ThangTypeHomeView extends View
 
     @collection = new SearchCollection(@modelURL, @model, term)
     @collection.term = term # needed?
-    @collection.on('sync', @onSearchChange)
+    @listenTo(@collection, 'sync', @onSearchChange)
     @showLoading(@$el.find('.results'))
 
     @updateHash(term)
@@ -78,7 +79,7 @@ module.exports = class ThangTypeHomeView extends View
     return false unless @collection
     return term is @collection.term
 
-  onSearchChange: =>
+  onSearchChange: ->
     @hideLoading()
     documents = @collection.models
     table = $(@tableTemplate(documents:documents))

@@ -66,12 +66,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     no_ie: "抱歉！Internet Explorer 9 等旧式预览器无法使用本网站。"
     no_mobile: "CodeCombat 不是针对手机设备设计的，所以可能无法达到最好的体验！"
     play: "开始游戏"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer"
-#    for_developers: "For Developers"
+    old_browser: "噢, 你的浏览器太老了, 不能运行CodeCombat. 抱歉!"
+    old_browser_suffix: "尽管你可以多试几次, 但也许不会管用."
+    campaign: "战役模式"
+    for_beginners: "适合初学者"
+    multiplayer: "多人游戏"
+    for_developers: "适合开发者"
 
   play:
     choose_your_level: "选取难度"
@@ -87,7 +87,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_player_created: "创建玩家"
     campaign_player_created_description: "……在这里你可以与你的小伙伴的创造力战斗 <a href=\"/contribute#artisan\">技术指导</a>."
     level_difficulty: "难度："
-#    play_as: "Play As "
+#    play_as: "Play As"
 #    spectate: "Spectate"
 
   contact:
@@ -225,6 +225,20 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
   admin:
     av_title: "管理员视图"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     av_other_debug_base_url: "Base（用于调试 base.jade）"
     u_title: "用户列表"
     lg_title: "最新的游戏"
+#    clas: "CLAs"
 
   editor:
     main_title: "CodeCombat 编辑器"
@@ -335,7 +350,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
-#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "法律"
@@ -406,7 +421,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     introduction_desc_github_url: "我们把 CodeCombat 完全开源"
     introduction_desc_suf: "，而且我们希望提供尽可能多的方法让你来参加这个项目，与我们一起创造。"
     introduction_desc_ending: "我们希望你也会加入进来！"
-#    introduction_desc_signature: "- Nick, George, Scott, Michael, and Jeremy"
+#    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Glen"
     alert_account_message_intro: "你好！"
     alert_account_message_pref: "要订阅贡献者邮件，你得先"
     alert_account_message_suf: "。"
@@ -515,6 +530,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "

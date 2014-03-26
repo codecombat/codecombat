@@ -225,6 +225,20 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     editor_config_indentguides_description: "Affiche des guides verticaux qui permettent de visualiser l'indentation."
     editor_config_behaviors_label: "Auto-complétion"
     editor_config_behaviors_description: "Ferme automatiquement les accolades, parenthèses, et chaînes de caractères."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
   admin:
     av_title: "Vues d'administrateurs"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     av_other_debug_base_url: "Base (pour debugger base.jade)"
     u_title: "Liste des utilisateurs"
     lg_title: "Dernières parties"
+#    clas: "CLAs"
 
   editor:
     main_title: "Éditeurs CodeCombat"
@@ -335,7 +350,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     nick_description: "Assistant programmeur, mage à la motivation excentrique, et bidouilleur de l'extrême. Nick peut faire n'importe quoi mais il a choisi CodeCombat."
     jeremy_description: "Mage de l'assistance client, testeur de maniabilité, et community manager; vous avez probablement déjà parlé avec Jeremy."
     michael_description: "Programmeur, administrateur réseau, et l'enfant prodige du premier cycle, Michael est la personne qui maintient nos serveurs en ligne."
-#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
   legal:
     page_title: "Légal"
@@ -406,7 +421,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     introduction_desc_github_url: "CodeCombat est totalement open source"
     introduction_desc_suf: ", et nous avons pour objectif de fournir autant de manières possibles pour que vous participiez et fassiez de ce projet autant le votre que le notre."
     introduction_desc_ending: "Nous espérons que vous allez joindre notre aventure!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael et Jeremy"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy et Glen"
     alert_account_message_intro: "Et tiens!"
     alert_account_message_pref: "Pour s'inscrire à la newsletter, vous devez d'abord "
     alert_account_message_suf: "."
@@ -509,12 +524,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     counselor_title_description: "(Expert/Professeur)"
 
   ladder:
-#    please_login: "Identifie toi avant de jouer à un ladder game."
+    please_login: "Identifie toi avant de jouer à un ladder game."
     my_matches: "Mes Matchs"
     simulate: "Simuler"
     simulation_explanation: "En simulant une partie, tu peux classer ton rang plus rapidement!"
     simulate_games: "Simuler une Partie!"
     simulate_all: "REINITIALISER ET SIMULER DES PARTIES"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
     leaderboard: "Classement"
     battle_as: "Combattre comme "
     summary_your: "Vos "
@@ -540,7 +557,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     warmup: "Préchauffe"
     vs: "VS"
 
-#  multiplayer_launch:
+  multiplayer_launch:
 #    introducing_dungeon_arena: "Introducing Dungeon Arena"
 #    new_way: "March 17, 2014: The new way to compete with code."
 #    to_battle: "To Battle, Developers!"

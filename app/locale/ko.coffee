@@ -225,6 +225,20 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     editor_config_indentguides_description: "들여쓰기 확인위해 세로줄 표시하기."
     editor_config_behaviors_label: "자동 기능"
     editor_config_behaviors_description: "괄호, 인용부호, 따옴표 자동 완성."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
   admin:
     av_title: "관리자 뷰"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     av_other_debug_base_url: "베이스 (base.jade 디버깅)"
     u_title: "유저 목록"
     lg_title: "가장 최근 게임"
+#    clas: "CLAs"
 
   editor:
     main_title: "코드 컴뱃 에디터들"
@@ -244,8 +259,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     thang_title: "Thang 에디터"
     thang_description: "유닛들, 기본적인 인공지능, 그래픽과 오디오등을 직접 빌드하세요. 현재는 백터 그래픽으로 추출된 플래시파일만 임폴트 가능합니다."
     level_title: "레벨 에디터"
-    level_description: "스크립팅, 오디오 업로드, 모든 레벨을 생성하기 위한 사용자 정의 로직등 우리가 사용하는 모든 것들을 구축하는 것을 위한 툴들을 포함합니다.
-"
+    level_description: "스크립팅, 오디오 업로드, 모든 레벨을 생성하기 위한 사용자 정의 로직등 우리가 사용하는 모든 것들을 구축하는 것을 위한 툴들을 포함합니다."
     security_notice: "이러한 에디터들의 중요한 특징들은 현재 대부분 기본적으로 제공되지 않습니다. 조만간 이런 시스템들의 안정성을 업그레이트 한후에, 이러한 기능들이 제공될 것입니다."
     contact_us: "연락하기!"
     hipchat_prefix: "당신은 또한 우리를 여기에서 찾을 수 있습니다 : "
@@ -336,7 +350,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     nick_description: "프로그래밍 마법사, 별난 자극의 마술사, 거꾸로 생각하는것을 좋아하는 실험가. Nick은 뭐든지 할수있는 남자입니다. 그 뭐든지 중에 코드 컴뱃을 선택했죠. "
     jeremy_description: "고객 지원 마법사, 사용성 테스터, 커뮤니티 오거나이저; 당신은 아마 이미 Jeremy랑 이야기 했을거에요."
     michael_description: "프로그래머, 시스템 관리자, 기술 신동(대학생이래요),Michael 은 우리 서버를 계속 무결점상태로 유지시켜주는 사람입니다."
-#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
 #  legal:
 #    page_title: "Legal"
@@ -407,7 +421,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    introduction_desc_github_url: "CodeCombat is totally open source"
 #    introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
 #    introduction_desc_ending: "We hope you'll join our party!"
-#    introduction_desc_signature: "- Nick, George, Scott, Michael, and Jeremy"
+#    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Glen"
 #    alert_account_message_intro: "Hey there!"
 #    alert_account_message_pref: "To subscribe for class emails, you'll need to "
 #    alert_account_message_suf: "first."
@@ -516,6 +530,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "

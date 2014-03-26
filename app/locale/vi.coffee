@@ -87,7 +87,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     campaign_player_created: "Tạo người chơi"
 #    campaign_player_created_description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>."
     level_difficulty: "Khó: "
-#    play_as: "Play As "
+#    play_as: "Play As"
 #    spectate: "Spectate"
 
   contact:
@@ -167,19 +167,19 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    gravatar_accounts: "As Seen On"
 #    gravatar_profile_link: "Full Gravatar Profile"
 
-#  play_level:
+  play_level:
 #    level_load_error: "Level could not be loaded: "
-    done: "Hoàn thành"
+    done: "Hoàn thành"
 #    grid: "Grid"
-    customize_wizard: "Tùy chỉnh Wizard"
+    customize_wizard: "Tùy chỉnh Wizard"
 #    home: "Home"
-    guide: "Hướng dẫn"
-    multiplayer: "Nhiều người chơi"
-    restart: "Khởi động lại"
-    goals: "Mục đích"
+    guide: "Hướng dẫn"
+    multiplayer: "Nhiều người chơi"
+    restart: "Khởi động lại"
+    goals: "Mục đích"
 #    action_timeline: "Action Timeline"
-    click_to_select: "Kích vào đơn vị để chọn nó."
-    reload_title: "Tải lại tất cả mã?"
+    click_to_select: "Kích vào đơn vị để chọn nó."
+    reload_title: "Tải lại tất cả mã?"
 #    reload_really: "Are you sure you want to reload this level back to the beginning?"
 #    reload_confirm: "Reload All"
 #    victory_title_prefix: ""
@@ -225,6 +225,20 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
 #    editor_config_behaviors_label: "Smart Behaviors"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+#    loading_ready: "Ready!"
+#    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
+#    tip_toggle_play: "Toggle play/paused with Ctrl+P."
+#    tip_scrub_shortcut: "Ctrl+[ and Ctrl+] rewind and fast-forward."
+#    tip_guide_exists: "Click the guide at the top of the page for useful info."
+#    tip_open_source: "CodeCombat is 100% open source!"
+#    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
+#    tip_js_beginning: "JavaScript is just the beginning."
+#    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    tip_baby_coders: "In the future, even babies will be Archmages."
+#    tip_morale_improves: "Loading will continue until morale improves."
+#    tip_all_species: "We believe in equal opportunities to learn programming for all species."
+#    tip_reticulating: "Reticulating spines."
+#    tip_harry: "Yer a Wizard, "
 
 #  admin:
 #    av_title: "Admin Views"
@@ -235,6 +249,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    av_other_debug_base_url: "Base (for debugging base.jade)"
 #    u_title: "User List"
 #    lg_title: "Latest Games"
+#    clas: "CLAs"
 
 #  editor:
 #    main_title: "CodeCombat Editors"
@@ -335,7 +350,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
 #    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
-#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that mather. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
+#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
 #  legal:
 #    page_title: "Legal"
@@ -398,7 +413,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
-#  contribute:
+  contribute:
 #    page_title: "Contributing"
 #    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
@@ -406,7 +421,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    introduction_desc_github_url: "CodeCombat is totally open source"
 #    introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
 #    introduction_desc_ending: "We hope you'll join our party!"
-#    introduction_desc_signature: "- Nick, George, Scott, Michael, and Jeremy"
+#    introduction_desc_signature: "- Nick, George, Scott, Michael, ,Jeremy and Glen"
 #    alert_account_message_intro: "Hey there!"
 #    alert_account_message_pref: "To subscribe for class emails, you'll need to "
 #    alert_account_message_suf: "first."
@@ -481,8 +496,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    counselor_introduction_1: "Do you have life experience? A different perspective on things that can help us decide how to shape CodeCombat? Of all these roles, this will probably take the least time, but individually you may make the most difference. We're on the lookout for wisened sages, particularly in areas like: teaching, game development, open source project management, technical recruiting, entrepreneurship, or design."
 #    counselor_introduction_2: "Or really anything that is relevant to the development of CodeCombat. If you have knowledge and want to share it to help grow this project, then this class might be for you."
 #    counselor_attribute_1: "Experience, in any of the areas above or something you think might be helpful."
-    counselor_attribute_2: "Rảnh rỗi một chút!"
-    counselor_join_desc: "Nói cho chúng tôi điều gì đó về bạn, bạn đã làm cái gì và bạn hứng thú về cái gì. Chúng tôi sẽ đưa bạn vào danh sách liên lạc và chúng tôi sẽ liên hệ khi chúng tôi có thể(không thường xuyên)."
+    counselor_attribute_2: "Rảnh rỗi một chút!"
+    counselor_join_desc: "Nói cho chúng tôi điều gì đó về bạn, bạn đã làm cái gì và bạn hứng thú về cái gì. Chúng tôi sẽ đưa bạn vào danh sách liên lạc và chúng tôi sẽ liên hệ khi chúng tôi có thể(không thường xuyên)."
 #    more_about_counselor: "Learn More About Becoming a Counselor"
 #    changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
 #    diligent_scribes: "Our Diligent Scribes:"
@@ -492,7 +507,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  classes:
+  classes:
 #    archmage_title: "Archmage"
 #    archmage_title_description: "(Coder)"
 #    artisan_title: "Artisan"
@@ -502,11 +517,11 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    scribe_title: "Scribe"
 #    scribe_title_description: "(Article Editor)"
 #    diplomat_title: "Diplomat"
-    diplomat_title_description: "(Người phiên dịch)"
+    diplomat_title_description: "(Người phiên dịch)"
 #    ambassador_title: "Ambassador"
-    ambassador_title_description: "(Hỗ trợ)"
-    counselor_title: "Người tư vấn"
-    counselor_title_description: "(Chuyên gia/ Giáo viên)"
+    ambassador_title_description: "(Hỗ trợ)"
+    counselor_title: "Người tư vấn"
+    counselor_title_description: "(Chuyên gia/ Giáo viên)"
 
 #  ladder:
 #    please_login: "Please log in first before playing a ladder game."
@@ -515,6 +530,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
 #    simulate_games: "Simulate Games!"
 #    simulate_all: "RESET AND SIMULATE GAMES"
+#    games_simulated_by: "Games simulated by you:"
+#    games_simulated_for: "Games simulated for you:"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
