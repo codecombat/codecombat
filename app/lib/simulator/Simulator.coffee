@@ -95,7 +95,7 @@ module.exports = class Simulator extends CocoClass
   onInfiniteLoop: ->
     console.warn "Skipping infinitely looping game."
     @trigger 'statusUpdate', "Infinite loop detected; grabbing a new game in #{@retryDelayInSeconds} seconds."
-    _.delay @cleanupAndSimulateAnotherTask, @retryDelayInMilliseconds
+    _.delay @cleanupAndSimulateAnotherTask, @retryDelayInSeconds * 1000
 
   processResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults
