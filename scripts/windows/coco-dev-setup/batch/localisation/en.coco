@@ -35,6 +35,12 @@
 		wait=When you're ready, press any key to continue...
 	[process]
 		path=Please give the full path of your CodeCombat git repository: 
+		checkout=Please enter the full path where you want to install your CodeCombat environment
+		bashi=This installation requires Git Bash.
+		bashp64=Git bash is by default installed at 'C:\Program Files (x86)\Git'.
+		bashp32=Git bash is by default installed at 'C:\Program Files\Git'.
+		bashq=Please enter the full path where git bash is installed or just press enter if it's in the default location
+		ssh=Do you want to checkout the repository via ssh?
 [error]
 	path=That path already exists, are you sure you want to overwrite it?
 	exist=That path doesn't exist. Please try again...
