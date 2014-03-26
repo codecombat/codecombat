@@ -48,7 +48,8 @@ call get_local_text start-6
 echo !start_1!
 echo !start_2!
 echo.
-echo !start_3! '!repository_path!\coco\SCOCODE.bat' !start_4!
+echo !start_3! '!repository_path!\coco\SCOCODE.bat'
+echo !start_4!
 echo !start_5!
 echo.
 echo !start_6!
