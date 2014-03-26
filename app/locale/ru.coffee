@@ -421,7 +421,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     introduction_desc_github_url: "исходный код CodeCombat полностью открыт"
     introduction_desc_suf: ", и мы стремимся предоставить как можно больше способов, чтобы вы могли принять участие и сделать этот проект настолько же вашим, как и нашим."
     introduction_desc_ending: "Мы надеемся, что вы присоединитесь к нашей команде!"
-    introduction_desc_signature: "- Ник, Джордж, Скотт, Михаэль и Джереми"
+    introduction_desc_signature: "- Ник, Джордж, Скотт, Михаэль, Джереми и лощина"
     alert_account_message_intro: "Привет!"
     alert_account_message_pref: "Чтобы подписаться на email-ы для классов, вам необходимо сначала "
     alert_account_message_suf: "."

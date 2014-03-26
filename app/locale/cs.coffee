@@ -421,7 +421,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     introduction_desc_github_url: "CodeCombat je kompletně open source"
     introduction_desc_suf: "a snažíme se jak jen to jde, abychom vám umožnili se do tohoto projektu zapojit."
     introduction_desc_ending: "Doufáme, že se k nám přidáte!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael a Jeremy"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy a Glen"
     alert_account_message_intro: "Vítejte!"
     alert_account_message_pref: "K přihlášení odebírání emailů si nejprve musíte  "
     alert_account_message_suf: "vytvořit účet"

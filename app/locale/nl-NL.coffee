@@ -406,7 +406,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     introduction_desc_github_url: "CodeCombat is volledig open source"
     introduction_desc_suf: ", en we mikken ernaar om zoveel mogelijk manieren mogelijk maken voor u om deel te nemen en dit project van zowel jou als ons te maken."
     introduction_desc_ending: "We hopen dat je met ons meedoet!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael, en Jeremy"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy en Glen"
     alert_account_message_intro: "Hallo!"
     alert_account_message_pref: "Om je te abonneren voor de klasse e-mails, moet je eerst "
     alert_account_message_suf: "."

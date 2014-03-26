@@ -421,7 +421,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     introduction_desc_github_url: "我们把 CodeCombat 完全开源"
     introduction_desc_suf: "，而且我们希望提供尽可能多的方法让你来参加这个项目，与我们一起创造。"
     introduction_desc_ending: "我们希望你也会加入进来！"
-#    introduction_desc_signature: "- Nick, George, Scott, Michael, and Jeremy"
+#    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Glen"
     alert_account_message_intro: "你好！"
     alert_account_message_pref: "要订阅贡献者邮件，你得先"
     alert_account_message_suf: "。"
