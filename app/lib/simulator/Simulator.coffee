@@ -44,13 +44,21 @@ module.exports = class Simulator extends CocoClass
     return @handleNoGamesResponse() if jqXHR.status is 204
     @trigger 'statusUpdate', 'Setting up simulation!'
     @task = new SimulationTask(taskData)
+    try
+      levelID = @task.getLevelName()
+    catch err
+      console.error err
+      @trigger 'statusUpdate', "Error simulating game: #{err}. Trying another game in #{@retryDelayInSeconds} seconds."
+      @simulateAnotherTaskAfterDelay()
+      return
+
     @supermodel ?= new SuperModel()
     @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
 
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
-    @levelLoader.once 'loaded-all', @simulateGame
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
+    @listenToOnce(@levelLoader, 'loaded-all', @simulateGame)
 
-  simulateGame: =>
+  simulateGame: ->
     return if @destroyed
     @trigger 'statusUpdate', 'All resources loaded, simulating!', @task.getSessions()
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
@@ -81,7 +89,13 @@ module.exports = class Simulator extends CocoClass
 
   commenceSimulationAndSetupCallback: ->
     @god.createWorld()
+    Backbone.Mediator.subscribeOnce 'god:infinite-loop', @onInfiniteLoop, @
     Backbone.Mediator.subscribeOnce 'god:new-world-created', @processResults, @
+
+  onInfiniteLoop: ->
+    console.warn "Skipping infinitely looping game."
+    @trigger 'statusUpdate', "Infinite loop detected; grabbing a new game in #{@retryDelayInSeconds} seconds."
+    _.delay @cleanupAndSimulateAnotherTask, @retryDelayInMilliseconds
 
   processResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults

@@ -19,11 +19,13 @@ module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
   template: require 'templates/play/ladder/ladder_tab'
   startsLoading: true
-  
+
   events:
     'click .connect-facebook': 'onConnectFacebook'
-    
+
   subscriptions:
+    'fbapi-loaded': 'onFacebookAPILoaded'
+    'gapi-loaded': 'onGPlusAPILoaded'
     'facebook-logged-in': 'onConnectedWithFacebook'
 
   constructor: (options, @level, @sessions) ->
@@ -31,7 +33,6 @@ module.exports = class LadderTabView extends CocoView
     @teams = teamDataFromLevel @level
     @leaderboards = {}
     @refreshLadder()
-    @checkFriends()
 
   checkFriends: ->
     @loadingFacebookFriends = true
@@ -45,16 +46,22 @@ module.exports = class LadderTabView extends CocoView
     else
       @gplusSessionStateLoaded()
 
+  apiLoaded: ->
+    return unless @fbAPILoaded and @gplusAPILoaded
+    @checkFriends()
   # FACEBOOK
 
+  onFacebookAPILoaded: ->
+    @fbAPILoaded = true
+    @apiLoaded()
   # Connect button pressed
-  
+
   onConnectFacebook: ->
     @connecting = true
     FB.login()
-    
+
   onConnectedWithFacebook: -> location.reload() if @connecting
-    
+
   # Load friends
 
   loadFacebookFriendSessions: ->
@@ -80,6 +87,10 @@ module.exports = class LadderTabView extends CocoView
 
   # GOOGLE PLUS
 
+  onGPlusAPILoaded: ->
+    @gplusAPILoaded = true
+    @apiLoaded()
+
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
       @loadingGPlusFriends = true
@@ -101,7 +112,7 @@ module.exports = class LadderTabView extends CocoView
   onGPlusFriendSessionsLoaded: (result) =>
     @loadingGPlusFriends = false
     @renderMaybe()
-    
+
   # LADDER LOADING
 
   refreshLadder: ->
@@ -117,7 +128,7 @@ module.exports = class LadderTabView extends CocoView
   leaderboardsLoaded: =>
     @loadingLeaderboards = false
     @renderMaybe()
-    
+
   renderMaybe: ->
     return if @loadingFacebookFriends or @loadingLeaderboards
     @startsLoading = false
@@ -141,16 +152,13 @@ class LeaderboardData
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: 20})
     promises = []
     promises.push @topPlayers.fetch()
-    @topPlayers.once 'sync', @onceLeaderboardPartLoaded, @
 
     if @session
       score = @session.get('totalScore') or 10
       @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
       promises.push @playersAbove.fetch()
-      @playersAbove.once 'sync', @onceLeaderboardPartLoaded, @
       @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
       promises.push @playersBelow.fetch()
-      @playersBelow.once 'sync', @onceLeaderboardPartLoaded, @
       level = "#{level.get('original')}.#{level.get('version').major}"
       success = (@myRank) =>
       promises.push $.ajax "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", {success}
@@ -168,7 +176,7 @@ class LeaderboardData
     return me.id in (session.attributes.creator for session in @topPlayers.models)
 
   nearbySessions: ->
-    return [] unless @session
+    return [] unless @session?.get('totalScore')
     l = []
     above = @playersAbove.models
     above.reverse()

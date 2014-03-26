@@ -42,7 +42,7 @@ module.exports = class LadderView extends RootView
     @sessions = new LevelSessionsCollection(levelID)
     p2 = @sessions.fetch({})
     @simulator = new Simulator()
-    @simulator.on 'statusUpdate', @updateSimulationStatus, @
+    @listenTo(@simulator, 'statusUpdate', @updateSimulationStatus)
     @teams = []
     $.when(p1, p2).then @onLoaded
 
@@ -104,7 +104,7 @@ module.exports = class LadderView extends RootView
 
     @simulator.fetchAndSimulateTask()
 
-  updateSimulationStatus: (simulationStatus, sessions)->
+  updateSimulationStatus: (simulationStatus, sessions) ->
     @simulationStatus = simulationStatus
     try
       if sessions?

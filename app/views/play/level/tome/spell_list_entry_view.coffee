@@ -108,5 +108,4 @@ module.exports = class SpellListEntryView extends View
     
   destroy: ->
     @avatar?.destroy()
-    @hideThangs = null
     super()

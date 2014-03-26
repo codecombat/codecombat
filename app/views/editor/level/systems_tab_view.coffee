@@ -34,11 +34,11 @@ module.exports = class SystemsTabView extends View
       do (url) -> ls.url = -> url
       continue if @supermodel.getModelByURL ls.url
       ls.fetch()
-      ls.on 'sync', @onSystemLoaded
+      @listenTo(ls, 'sync', @onSystemLoaded)
       ++@toLoad
     @onDefaultSystemsLoaded() unless @toLoad
 
-  onSystemLoaded: (ls) =>
+  onSystemLoaded: (ls) ->
     @supermodel.addModel ls
     --@toLoad
     @onDefaultSystemsLoaded() unless @toLoad

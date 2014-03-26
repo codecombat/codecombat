@@ -143,9 +143,9 @@ module.exports = class ThangType extends CocoModel
       @builder.buildAsync() unless buildQueue.length > 1
       @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
       return true
-    t0 = new Date().getTime()
+    t0 = new Date()
     spriteSheet = @builder.build()
-    console.warn "Built #{@get('name')} in #{new Date().getTime() - t0}ms on main thread."
+    console.warn "Built #{@get('name')} in #{new Date() - t0}ms on main thread."
     @spriteSheets[key] = spriteSheet
     delete @building[key]
     spriteSheet

@@ -23,10 +23,10 @@ module.exports = class AddThangsView extends View
     super options
     @world = options.world
     @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @thangTypes.once 'sync', @onThangTypesLoaded
+    @listenToOnce(@thangTypes, 'sync', @onThangTypesLoaded)
     @thangTypes.fetch()
 
-  onThangTypesLoaded: =>
+  onThangTypesLoaded: ->
     return if @destroyed
     @render()  # do it again but without the loading screen
 

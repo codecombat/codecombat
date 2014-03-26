@@ -421,7 +421,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     introduction_desc_github_url: "CodeCombat is totally open source"
     introduction_desc_suf: ", och vi siktar på att tillhandahålla så många sätt som möjligt för dig att delta och göra det här projektet till lika mycket ditt som vårt."
     introduction_desc_ending: "Vi hoppas att du vill vara med!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael, och Jeremy"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy och Glen"
     alert_account_message_intro: "Hej där!"
     alert_account_message_pref: "För att prenumerera på klassmail måste du"
     alert_account_message_suf: "först."
