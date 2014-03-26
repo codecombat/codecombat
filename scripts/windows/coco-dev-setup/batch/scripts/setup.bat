@@ -36,6 +36,13 @@ call get_local_text end-thankyou
 echo %end_succesfull%
 echo %end_thankyou%
 
-call print_exit
+call print_dashed_seperator
+
+call get_local_text end-readme
+call ask_question "!end_readme!"
+
+if "%result%"=="true" (
+	call open_readme
+)
 
 endlocal
