@@ -239,6 +239,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tip_all_species: "We believe in equal opportunities to learn programming for all species."
     tip_reticulating: "Reticulating spines."
     tip_harry: "Yer a Wizard, "
+    tip_great_responsibility: "With great coding skills comes great debug responsibility."
 
   admin:
     av_title: "Admin Views"
