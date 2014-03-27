@@ -112,17 +112,14 @@ module.exports = class MyMatchesTabView extends CocoView
 
   readyToRank: (session) ->
     return false unless session?.get('levelID')  # If it hasn't been denormalized, then it's not ready.
-
-    c1 = session?.get('code')
-    c2 = session?.get('submittedCode')
-    team = session?.get('team')
-    thangSpellArr = (s.split("/") for s in session?.get('teamSpells')[team])
-    return false unless c1
-
+    return false unless c1 = session.get('code')
+    return false unless team = session.get('team')
+    return true unless c2 = session.get('submittedCode')
+    thangSpellArr = (s.split("/") for s in session.get('teamSpells')[team])
     for item in thangSpellArr
       thang = item[0]
       spell = item[1]
-      return true if c1[thang][spell] isnt c2?[thang][spell]
+      return true if c1[thang][spell] isnt c2[thang][spell]
     return false
 
   rankSession: (e) ->
@@ -132,7 +129,7 @@ module.exports = class MyMatchesTabView extends CocoView
     return unless @readyToRank(session)
 
     @setRankingButtonText(button, 'submitting')
-    success = => 
+    success = =>
       @setRankingButtonText(button, 'submitted')
     failure = (jqxhr, textStatus, errorThrown) =>
       console.log jqxhr.responseText
