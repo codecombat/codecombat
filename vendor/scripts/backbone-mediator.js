@@ -7,9 +7,11 @@
  *  <a href="https://github.com/chalbert/Backbone-Mediator">More details & documentation</a>
  *
  * @author Nicolas Gilbert
+ * @author Ruben Vereecken
  *
  * @requires _
  * @requires Backbone
+ * @requires tv4
  */
 (function(factory){
   'use strict';
@@ -39,19 +41,31 @@
   Backbone.Mediator = {
     tv4: null,
 
+    validationEnabled: true,
+
     schemas: {},
+
+    addSchema: function(schemaName, schemaObj) {
+      this.tv4.addSchema(schemaObj);
+      this.schemas[schemaName] = schemaObj;
+    },
 
     addSchemas: function(schemaObjs) {
       for (var key in schemaObjs) {
+        this.tv4.addSchema(schemaObjs[key]);
         this.schemas[key] = schemaObjs[key];
       }
     },
 
     /**
-     * Sets up the TV4 validator.
+     * Sets up the tv4 validator.
      */
     setUpValidator: function() {
       this.tv4 = window['tv4'].freshApi();
+    },
+
+    setValidationEnabled: function(enabled) {
+      this.validationEnabled = enabled;
     },
 
     /**
@@ -73,19 +87,16 @@
     publish: function(channel, arg) {
       if (!channels[channel]) return;
 
-      if (channel in this.schemas) {
+      if (channel in this.schemas && this.validationEnabled) {
         if (!this.tv4) this.setUpValidator();
 
-        this.tv4.validate(arg, this.schemas[channel]);
-        if (this.tv4.error) {
+        var valid = this.tv4.validate(arg, this.schemas[channel]);
+        if (!valid) {
           console.error("Dropping published object because of validation error.");
           console.error(arg);
           console.error(this.tv4.error);
-          this.tv4.error = null;
           return;
         }
-      } else {
-        console.debug("Schema for " + channel + " not yet defined.");
       }
 
       var subscription;

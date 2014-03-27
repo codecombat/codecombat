@@ -1,7 +1,7 @@
 module.exports =
   "level-thangs-changed":
-    title: "level-thangs-changed"
-    id: ""
+    title: "Level Thangs Changed"
+    id: "http://codecombat.com/level-thangs-changed"
     $schema: "http://json-schema.org/draft-04/schema#"
     description: "Published when a Thang changes"
     type: "object"
@@ -12,8 +12,8 @@ module.exports =
     additionalProperties: false
 
   "save-new-version":
-    title: "level-thangs-changed"
-    id: ""
+    title: "Save New Version"
+    id: "http://codecombat.com/save-new-version"
     $schema: "http://json-schema.org/draft-04/schema#"
     description: "Published when a version gets saved"
     type: "object"
