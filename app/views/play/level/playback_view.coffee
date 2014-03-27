@@ -58,11 +58,11 @@ module.exports = class PlaybackView extends View
 
   onSetLetterbox: (e) ->
     if e.on
-      $('.scrubber .progress', @$el).slider('disable', true)
+      $('.scrubber .progress', @$el).slider('disable', true).addClass('disabled')
       $('#play-button', @$el).addClass('disabled')
       $('.scrubber-handle', @$el).css('visibility', 'hidden')
     else
-      $('.scrubber .progress', @$el).slider('enable', true)
+      $('.scrubber .progress', @$el).slider('enable', true).removeClass('disabled')
       $('#play-button', @$el).removeClass('disabled')
       $('.scrubber-handle', @$el).css('visibility', 'visible')
     @disabled = e.on

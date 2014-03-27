@@ -58,6 +58,8 @@
     li:hover
       background: #add8e6
 
+  #play-button.disabled i
+    @include opacity(0.5)
   #play-button.playing i.icon-pause
     display: inline-block
   #play-button.paused i.icon-play
@@ -95,6 +97,9 @@
       background-image: none
       border-radius: 0
       border: 0
+
+      &.disabled
+        cursor: default
 
       .progress-bar
         @include transition(width .0s linear)
