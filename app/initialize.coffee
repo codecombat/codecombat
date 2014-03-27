@@ -1,5 +1,6 @@
 app = require 'application'
 auth = require 'lib/auth'
+subscriptions = require './schemas/subscriptions'
 
 init = ->
   app.initialize()
@@ -39,4 +40,7 @@ handleNormalUrls = ->
       app.router.navigate url, { trigger: true }
 
       return false
+
+configureSchemas = ->
+  Backbone.Mediator.addSchemas(subscriptions)
 

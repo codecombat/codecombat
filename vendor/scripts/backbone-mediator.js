@@ -43,14 +43,16 @@
 
     addSchemas: function(schemaObjs) {
       for (var key in schemaObjs) {
-        schemas[key] = schemaObjs[key];
+        this.schemas[key] = schemaObjs[key];
       }
     },
 
+    /**
+     * Sets up the TV4 validator.
+     */
     setUpValidator: function() {
       this.tv4 = window['tv4'].freshApi();
     },
-
 
     /**
      * Subscribe to a channel
@@ -73,21 +75,18 @@
 
       if (channel in this.schemas) {
         if (!this.tv4) this.setUpValidator();
+
         this.tv4.validate(arg, this.schemas[channel]);
         if (this.tv4.error) {
-          console.error("Dropping publication because of validation error.");
-          console.debug(arg);
+          console.error("Dropping published object because of validation error.");
+          console.error(arg);
           console.error(this.tv4.error);
           this.tv4.error = null;
           return;
-        } else {
-          console.debug("Validation successful");
-          console.debug(arg);
         }
       } else {
-        console.log("Schema for " + channel + " not yet defined.");
+        console.debug("Schema for " + channel + " not yet defined.");
       }
-
 
       var subscription;
 
