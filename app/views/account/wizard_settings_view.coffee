@@ -24,7 +24,7 @@ module.exports = class WizardSettingsView extends CocoView
     @wizardThangType = new ThangType()
     @wizardThangType.url = -> '/db/thang.type/wizard'
     @wizardThangType.fetch()
-    @wizardThangType.once 'sync', @initCanvas, @
+    @listenToOnce(@wizardThangType, 'sync', @initCanvas)
 
   initCanvas: ->
     @startsLoading = false
