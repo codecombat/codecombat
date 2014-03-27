@@ -67,7 +67,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     no_mobile: "CodeCombat n'a pas été créé pour les plateformes mobiles donc il est possible qu'il ne fonctionne pas correctement ! "
     play: "Jouer"
     old_browser: "Oh oh, votre navigateur est trop vieux pour executer CodeCombat. Désolé!"
-    old_browser_suffix: "Vous pouvez essayer quan même, mais celà ne marchera probablement pas."
+    old_browser_suffix: "Vous pouvez essayer quand même, mais celà ne marchera probablement pas."
     campaign: "Campagne"
     for_beginners: "Pour débutants"
     multiplayer: "Multijoueurs"
