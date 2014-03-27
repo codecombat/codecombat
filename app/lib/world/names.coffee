@@ -302,3 +302,10 @@ module.exports.thangNames = thangNames =
     "Thoron"
     "Mirial"
   ]
+  "Orge Smasher":[
+    "Lennen"
+    "Tanker"
+    "Stomper"
+    "Smasher"
+    "Awesomator"
+    ]
