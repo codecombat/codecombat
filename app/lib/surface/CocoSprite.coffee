@@ -75,7 +75,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     else
       @stillLoading = true
       @thangType.fetch()
-      @thangType.once 'sync', @setupSprite, @
+      @listenToOnce(@thangType, 'sync', @setupSprite)
 
   setupSprite: ->
     @stillLoading = false
@@ -87,7 +87,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     mark.destroy() for name, mark of @marks
     label.destroy() for name, label of @labels
     @imageObject?.off 'animationend', @playNextAction
-    @playNextAction = null
     @displayObject?.off()
     clearInterval @effectInterval if @effectInterval
     super()
@@ -487,6 +486,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     else
       @marks[range['name']].toggle false for range in @ranges
 
+    if @thangType.get('name') in ['Arrow', 'Spear'] and @thang.action is 'die'
+      @marks.shadow.hide()
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
     @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length

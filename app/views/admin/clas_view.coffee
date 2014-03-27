@@ -16,7 +16,7 @@ module.exports = class CLAsView extends View
     })
     @clas = new CLACollection()
     @clas.fetch()
-    @clas.on 'sync', @onCLAsLoaded, @
+    @listenTo(@clas, 'sync', @onCLAsLoaded)
 
   onCLAsLoaded: ->
     @startsLoading = false

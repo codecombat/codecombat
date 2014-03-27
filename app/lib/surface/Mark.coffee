@@ -22,7 +22,6 @@ module.exports = class Mark extends CocoClass
   destroy: ->
     @mark?.parent?.removeChild @mark
     @markSprite?.destroy()
-    @thangType?.off 'sync', @onLoadedThangType, @
     @sprite = null
     super()
 
@@ -177,7 +176,7 @@ module.exports = class Mark extends CocoClass
       return @loadThangType() if not thangType
       @thangType = thangType
 
-    return @thangType.once 'sync', @onLoadedThangType, @ if not @thangType.loaded
+    return @listenToOnce(@thangType, 'sync', @onLoadedThangType) if not @thangType.loaded
     CocoSprite = require './CocoSprite'
     markSprite = new CocoSprite @thangType, @thangType.spriteOptions
     markSprite.queueAction 'idle'
@@ -188,7 +187,7 @@ module.exports = class Mark extends CocoClass
     name = @thangType
     @thangType = new ThangType()
     @thangType.url = -> "/db/thang.type/#{name}"
-    @thangType.once 'sync', @onLoadedThangType, @
+    @listenToOnce(@thangType, 'sync', @onLoadedThangType)
     @thangType.fetch()
     markThangTypes[name] = @thangType
     window.mtt = markThangTypes

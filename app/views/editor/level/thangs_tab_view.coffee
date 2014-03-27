@@ -59,15 +59,15 @@ module.exports = class ThangsTabView extends View
     super options
     @world = options.world
     @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @thangTypes.once 'sync', @onThangTypesLoaded
+    @listenToOnce(@thangTypes, 'sync', @onThangTypesLoaded)
     @thangTypes.fetch()
 
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
     @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    @componentCollection.once 'sync', @onComponentsLoaded
+    @listenToOnce(@componentCollection, 'sync', @onComponentsLoaded)
     @componentCollection.fetch()
 
-  onThangTypesLoaded: =>
+  onThangTypesLoaded: ->
     return if @destroyed
     @supermodel.addCollection @thangTypes
     @supermodel.populateModel model for model in @thangTypes.models
@@ -75,7 +75,7 @@ module.exports = class ThangsTabView extends View
     @render()  # do it again but without the loading screen
     @onLevelLoaded level: @level if @level and not @startsLoading
 
-  onComponentsLoaded: =>
+  onComponentsLoaded: ->
     return if @destroyed
     @supermodel.addCollection @componentCollection
     @startsLoading = not @thangTypes.loaded
