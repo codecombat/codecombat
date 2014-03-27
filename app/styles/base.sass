@@ -1,15 +1,11 @@
 @import "bootstrap/variables"
 @import "bootstrap/mixins"
 
+::-webkit-scrollbar
+  display: none
+
 html
   background-color: #2f261d
-
-html, body
-  // For level loading view wings
-  overflow-x: hidden
-
-body
-  overflow: hidden
 
 // https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
 .secret
@@ -171,7 +167,7 @@ a[data-toggle="modal"]
     width: 100%
   
 .modal
-  overflow: hidden !important
+  overflow-y: auto !important
   .wait
     h3 
       text-align: center
