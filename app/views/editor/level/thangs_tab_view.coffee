@@ -219,7 +219,7 @@ module.exports = class ThangsTabView extends View
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
-    @selectedExtantSprite?.setNameLabel null unless @selectedExtantSprite is e.sprite
+    @selectedExtantSprite?.setNameLabel? null unless @selectedExtantSprite is e.sprite
     @selectedExtantThang = e.thang
     @selectedExtantSprite = e.sprite
     if e.thang and (key.alt or key.meta)
@@ -236,7 +236,7 @@ module.exports = class ThangsTabView extends View
         @selectedExtantSprite.setNameLabel @selectedExtantSprite.thangType.get('name') + ': ' + @selectedExtantThang.id
         if not treemaThang.isSelected()
           treemaThang.select()
-          @thangsTreema.$el.scrollTop(@thangsTreema.$el.find('.treema-children .treema-selected')[0].offsetTop) 
+          @thangsTreema.$el.scrollTop(@thangsTreema.$el.find('.treema-children .treema-selected')[0].offsetTop)
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos
