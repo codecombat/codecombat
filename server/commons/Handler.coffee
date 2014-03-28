@@ -136,8 +136,9 @@ module.exports = class Handler
     # Keeping it simple for now and just allowing access to the first FETCH_LIMIT results.
     query = {'original': mongoose.Types.ObjectId(id)}
     sort = {'created': -1}
-    selectString = 'slug name version commitMessage created permissions'  # Is this even working?
-    @modelClass.find(query).select(selectString).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
+    selectString = 'slug name version commitMessage created permissions'
+    aggregate = $match: query
+    @modelClass.aggregate(aggregate).project(selectString).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
       return @sendDatabaseError(res, err) if err
       for doc in results
         return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
