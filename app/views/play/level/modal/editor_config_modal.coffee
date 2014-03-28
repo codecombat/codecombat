@@ -62,7 +62,7 @@ module.exports = class EditorConfigModal extends View
     @aceConfig.behaviors = @$el.find('#tome-behaviors').prop('checked')
     me.set 'aceConfig', @aceConfig
     Backbone.Mediator.publish 'tome:change-config'
-    Backbone.Mediator.publish 'tome:change-language' unless @aceConfig.language is oldLanguage
+    Backbone.Mediator.publish 'tome:change-language' unless @aceConfig.language isnt oldLanguage
     me.save()
 
   destroy: ->

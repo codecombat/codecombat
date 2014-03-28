@@ -17,7 +17,7 @@ module.exports = class SpellView extends View
 
   editModes:
     'javascript': 'ace/mode/javascript'
-    'coffeescript': 'ace/mode/coffeescript'
+    'coffeescript': 'ace/mode/coffee'
 
   keyBindings:
     'default': null
@@ -567,14 +567,14 @@ module.exports = class SpellView extends View
     @ace.setValue pretty
 
   onChangeEditorConfig: (e) ->
-    aceConfig = me.get 'aceConfig'
+    aceConfig = me.get('aceConfig') ? {}
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
     @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
-    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
+    # @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
 
   onChangeLanguage: (e) ->
-    aceConfig = me.get 'aceConfig'
+    aceConfig = me.get('aceConfig') ? {}
     @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
 
   dismiss: ->

@@ -85,7 +85,7 @@ module.exports = class Spell
     aether.hasChangedSignificantly (newSource ? @originalSource), (currentSource ? @source), true, true
 
   createAether: (thang) ->
-    aceConfig = me.get 'aceConfig' ? {}
+    aceConfig = me.get('aceConfig') ? {}
     aetherOptions =
       problems:
         jshint_W040: {level: "ignore"}
@@ -110,7 +110,7 @@ module.exports = class Spell
     aether
 
   updateLanguageAether: ->
-    aceConfig = me.get 'aceConfig' ? {}
+    aceConfig = me.get('aceConfig') ? {}
     for thangId, spellThang of @thangs
       spellThang.aether?.setLanguage (aceConfig.language ? 'javascript')
       spellThang.castAether = null

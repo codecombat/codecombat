@@ -218,7 +218,7 @@ module.exports = class TomeView extends View
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   updateLanguageForAllSpells: ->
-    spell.updateLanguageAether for spellKey, spell of @spells
+    spell.updateLanguageAether() for spellKey, spell of @spells
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
