@@ -67,7 +67,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     no_mobile: "CodeCombat n'a pas été créé pour les plateformes mobiles donc il est possible qu'il ne fonctionne pas correctement ! "
     play: "Jouer"
     old_browser: "Oh oh, votre navigateur est trop vieux pour executer CodeCombat. Désolé!"
-    old_browser_suffix: "Vous pouvez essayer quan même, mais celà ne marchera probablement pas."
+    old_browser_suffix: "Vous pouvez essayer quand même, mais celà ne marchera probablement pas."
     campaign: "Campagne"
     for_beginners: "Pour débutants"
     multiplayer: "Multijoueurs"
@@ -83,7 +83,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     campaign_dev: "Niveaux aléatoires plus difficiles"
     campaign_dev_description: "... dans lesquels vous apprendrez à utiliser l'interface en faisant quelque chose d'un petit peu plus dur."
     campaign_multiplayer: "Campagne multi-joueurs"
-    campaign_multiplayer_description: "... dans laquelle vous coderez en face à face contre d'autre joueurs."
+    campaign_multiplayer_description: "... dans laquelle vous coderez en face à face contre d'autres joueurs."
     campaign_player_created: "Niveaux créés par les joueurs"
     campaign_player_created_description: "... Dans laquelle vous serez confrontés à la créativité des votres.<a href=\"/contribute#artisan\">Artisan Wizards</a>."
     level_difficulty: "Difficulté: "
@@ -350,7 +350,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     nick_description: "Assistant programmeur, mage à la motivation excentrique, et bidouilleur de l'extrême. Nick peut faire n'importe quoi mais il a choisi CodeCombat."
     jeremy_description: "Mage de l'assistance client, testeur de maniabilité, et community manager; vous avez probablement déjà parlé avec Jeremy."
     michael_description: "Programmeur, administrateur réseau, et l'enfant prodige du premier cycle, Michael est la personne qui maintient nos serveurs en ligne."
-#    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
+    glen_description: "Programmeur et développeur de jeux passioné, avec la motivation pour faire de ce monde un meilleur endroit, en développant des choses qui comptent. Le mot impossible est introuvable dans son dictionnaire. Apprendre de nouveaux talents est sa joie !"
 
   legal:
     page_title: "Légal"
