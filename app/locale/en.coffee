@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "English", englishDescription: "English", translation:
+﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
   common:
     loading: "Loading..."
     saving: "Saving..."
@@ -234,11 +234,22 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tip_beta_launch: "CodeCombat launched its beta in October, 2013."
     tip_js_beginning: "JavaScript is just the beginning."
     tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+    think_solution: "Think of the solution, not the problem."
+    tip_theory_practice: "In theory, theory and practice are the same. In practice, they’re not."
+    tip_error_free: "There are two ways to write error-free programs; only the third one works."
+    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in."
+    tip_forums: "Head over to the forums and tell us what you think!"
     tip_baby_coders: "In the future, even babies will be Archmages."
     tip_morale_improves: "Loading will continue until morale improves."
     tip_all_species: "We believe in equal opportunities to learn programming for all species."
     tip_reticulating: "Reticulating spines."
     tip_harry: "Yer a Wizard, "
+    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
+    tip_binary: "There are only 10 types of people in the world: Those who understand binary, and those who don't."
+    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind."
+    tip_no_try: "Do. Or do not. There is no try."
+    tip_patience: "Patience you must have,young Padawan."
+    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 
   admin:
     av_title: "Admin Views"
