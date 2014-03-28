@@ -287,7 +287,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     rotationType = @thangType.get('rotationType')
     return if rotationType is 'fixed'
     rotation = @getRotation()
-    if @thang.maximizesArc and @thangType.get('name') in ['Arrow', 'Spear']
+    if @thangType.get('name') in ['Arrow', 'Spear']
       # Rotates the arrow to see it arc based on velocity.z.
       # At midair we must see the original angle (delta = 0), but at launch time
       # and arrow must point upwards/downwards respectively.
@@ -296,15 +296,13 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       # higher speed -> higher steep (0 at midpoint).
       # All constants are empirical. Notice that rotation here does not affect thang's state - it is just the effect.
       # Thang's rotation is always pointing where it is heading.
-      velocity = @thang.velocity.z
-      factor = rotation
-      factor = -factor if factor < 0
-      flip = 1
-      if factor > 90
-        factor = 180 - factor
-        flip = -1 # when the arrow is on the left, 'up' means subtracting
-      factor = Math.max(factor / 90, 0.4) # between 0.4 and 1.0
-      rotation += flip * (velocity / 12) * factor * 45 # theoretically, 45 is the maximal delta we can make here
+      vz = @thang.velocity.z
+      if vz and speed = @thang.velocity.magnitude(true)
+        vx = @thang.velocity.x
+        heading = @thang.velocity.heading()
+        xFactor = Math.cos heading
+        zFactor = vz / Math.sqrt(vz * vz + vx * vx)
+        rotation -= xFactor * zFactor * 45
     imageObject ?= @imageObject
     return imageObject.rotation = rotation if not rotationType
     @updateIsometricRotation(rotation, imageObject)

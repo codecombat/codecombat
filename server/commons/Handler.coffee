@@ -2,6 +2,8 @@ async = require 'async'
 mongoose = require('mongoose')
 Grid = require 'gridfs-stream'
 errors = require './errors'
+log = require 'winston'
+
 PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
 FETCH_LIMIT = 150
 
@@ -99,6 +101,17 @@ module.exports = class Handler
     filters = [{filter: {index: true}}]
     if @modelClass.schema.uses_coco_permissions and req.user
       filters.push {filter: {index: req.user.get('id')}}
+    projection = null
+    if req.query.project is 'true'
+      projection = PROJECT
+    else if req.query.project
+      if @modelClass.className is 'User'
+        projection = PROJECTION
+        log.warn "Whoa, we haven't yet thought about public properties for User projection yet."
+      else
+        projection = {}
+        for field in req.query.project.split(',')
+          projection[field] = 1
     for filter in filters
       callback = (err, results) =>
         return @sendDatabaseError(res, err) if err
@@ -111,11 +124,11 @@ module.exports = class Handler
           res.send matchedObjects
           res.end()
       if term
-        filter.project = PROJECT if req.query.project
+        filter.project = projection
         @modelClass.textSearch term, filter, callback
       else
         args = [filter.filter]
-        args.push PROJECT if req.query.project
+        args.push projection if projection
         @modelClass.find(args...).limit(FETCH_LIMIT).exec callback
 
   versions: (req, res, id) ->
@@ -123,8 +136,9 @@ module.exports = class Handler
     # Keeping it simple for now and just allowing access to the first FETCH_LIMIT results.
     query = {'original': mongoose.Types.ObjectId(id)}
     sort = {'created': -1}
-    selectString = 'slug name version commitMessage created permissions'  # Is this even working?
-    @modelClass.find(query).select(selectString).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
+    selectString = 'slug name version commitMessage created permissions'
+    aggregate = $match: query
+    @modelClass.aggregate(aggregate).project(selectString).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
       return @sendDatabaseError(res, err) if err
       for doc in results
         return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
