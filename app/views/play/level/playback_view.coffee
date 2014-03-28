@@ -43,7 +43,7 @@ module.exports = class PlaybackView extends View
 
   constructor: ->
     super(arguments...)
-    me.on('change:music', @updateMusicButton, @)
+    @listenTo(me, 'change:music', @updateMusicButton)
 
   afterRender: ->
     super()
@@ -57,8 +57,14 @@ module.exports = class PlaybackView extends View
     @$el.find('#music-button').toggleClass('music-on', me.get('music'))
 
   onSetLetterbox: (e) ->
-    buttons = @$el.find '#play-button, .scrubber-handle'
-    buttons.css 'visibility', if e.on then 'hidden' else 'visible'
+    if e.on
+      $('.scrubber .progress', @$el).slider('disable', true).addClass('disabled')
+      $('#play-button', @$el).addClass('disabled')
+      $('.scrubber-handle', @$el).css('visibility', 'hidden')
+    else
+      $('.scrubber .progress', @$el).slider('enable', true).removeClass('disabled')
+      $('#play-button', @$el).removeClass('disabled')
+      $('.scrubber-handle', @$el).css('visibility', 'visible')
     @disabled = e.on
 
   onWindowResize: (s...) =>
@@ -221,9 +227,3 @@ module.exports = class PlaybackView extends View
     me.set('music', not me.get('music'))
     me.save()
     $(document.activeElement).blur()
-
-  destroy: ->
-    me.off('change:music', @updateMusicButton, @)
-    $(window).off('resize', @onWindowResize)
-    @onWindowResize = null
-    super()

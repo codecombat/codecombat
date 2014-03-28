@@ -34,7 +34,8 @@ LevelHandler = class LevelHandler extends Handler
     return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
     return @getRandomSessionPair(req,res,args[0]) if args[1] is 'random_session_pair'
-    return @getLeaderboardFriends(req, res, args[0]) if args[1] is 'leaderboard_friends'
+    return @getLeaderboardFacebookFriends(req, res, args[0]) if args[1] is 'leaderboard_facebook_friends'
+    return @getLeaderboardGPlusFriends(req, res, args[0]) if args[1] is 'leaderboard_gplus_friends'
     
     return @sendNotFoundError(res)
 
@@ -164,13 +165,15 @@ LevelHandler = class LevelHandler extends Handler
     req.query.team ?= 'humans'
     req.query.limit = parseInt(req.query.limit) ? 20
 
-  getLeaderboardFriends: (req, res, id) ->
+  getLeaderboardFacebookFriends: (req, res, id) -> @getLeaderboardFriends(req, res, id, 'facebookID')
+  getLeaderboardGPlusFriends: (req, res, id) -> @getLeaderboardFriends(req, res, id, 'gplusID')
+  getLeaderboardFriends: (req, res, id, serviceProperty) ->
     friendIDs = req.body.friendIDs or []
     return res.send([]) unless friendIDs.length
 
-    query = User.find({facebookID:{$in:friendIDs}})
-      .select('facebookID name')
-      .lean()
+    q = {}
+    q[serviceProperty] = {$in:friendIDs}
+    query = User.find(q).select("#{serviceProperty} name").lean()
 
     query.exec (err, userResults) ->
       return res.send([]) unless userResults.length
@@ -178,16 +181,16 @@ LevelHandler = class LevelHandler extends Handler
       userIDs = (r._id+'' for r in userResults)
       q = {'level.original':id, 'level.majorVersion': parseInt(version), creator: {$in:userIDs}, totalScore:{$exists:true}}
       query = Session.find(q)
-        .select('creator creatorName totalScore team')
-        .lean()
+      .select('creator creatorName totalScore team')
+      .lean()
 
       query.exec (err, sessionResults) ->
         return res.send([]) unless sessionResults.length
         userMap = {}
-        userMap[u._id] = u.facebookID for u in userResults
-        session.facebookID = userMap[session.creator] for session in sessionResults
+        userMap[u._id] = u[serviceProperty] for u in userResults
+        session[serviceProperty] = userMap[session.creator] for session in sessionResults
         res.send(sessionResults)
-
+        
   getRandomSessionPair: (req, res, slugOrID) ->
     findParameters = {}
     if Handler.isID slugOrID

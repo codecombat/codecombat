@@ -23,9 +23,11 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   build: ->
     @mouseEnabled = @mouseChildren = false
-    @addChild @label = new createjs.Text("", "40px Arial", "#003300")
-    @label.name = 'position text'
-    @label.shadow = new createjs.Shadow("#FFFFFF", 1, 1, 0)
+    @addChild @background = new createjs.Shape()
+    @addChild @label = new createjs.Text("", "bold 32px Arial", "#FFFFFF")
+    @label.name = 'Coordinate Display Text'
+    @label.shadow = new createjs.Shadow("#000000", 1, 1, 0)
+    @background.name = "Coordinate Display Background"
 
   onMouseOver: (e) -> @mouseInBounds = true
   onMouseOut: (e) -> @mouseInBounds = false
@@ -57,17 +59,34 @@ module.exports = class CoordinateDisplay extends createjs.Container
   hide: ->
     return unless @label.parent
     @removeChild @label
+    @removeChild @background
     @uncache()
+
+  updateSize: ->
+    margin = 6
+    radius = 5
+    width = @label.getMeasuredWidth() + 2 * margin
+    height = @label.getMeasuredHeight() + 2 * margin
+    @label.regX = @background.regX = width / 2 - margin
+    @label.regY = @background.regY = height / 2 - margin
+    @background.graphics
+      .clear()
+      .beginFill("rgba(0, 0, 0, 0.4)")
+      .beginStroke("rgba(0, 0, 0, 0.6)")
+      .setStrokeStyle(1)
+      .drawRoundRect(0, 0, width, height, radius)
+      .endFill()
+      .endStroke()
+    [width, height]
 
   show: =>
     return unless @mouseInBounds and @lastPos and not @destroyed
     @label.text = "(#{@lastPos.x}, #{@lastPos.y})"
-    [width, height] = [@label.getMeasuredWidth(), @label.getMeasuredHeight()]
-    @label.regX = width / 2
-    @label.regY = height / 2
+    [width, height] = @updateSize()
     sup = @camera.worldToSurface @lastPos
     @x = sup.x
-    @y = sup.y - 7
+    @y = sup.y - 5
+    @addChild @background
     @addChild @label
     @cache -width / 2, -height / 2, width, height
     Backbone.Mediator.publish 'surface:coordinates-shown', {}

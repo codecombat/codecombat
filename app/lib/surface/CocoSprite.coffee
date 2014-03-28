@@ -35,6 +35,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     spriteSheetCache: null
     showInvisible: false
 
+  possessed: false
   flipped: false
   flippedCount: 0
   originalScaleX: null
@@ -54,6 +55,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     'level-sprite-clear-dialogue': 'onClearDialogue'
     'level-set-letterbox': 'onSetLetterbox'
     'surface:ticked': 'onSurfaceTicked'
+    'level-sprite-move': 'onMove'
 
   constructor: (@thangType, options) ->
     super()
@@ -73,7 +75,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     else
       @stillLoading = true
       @thangType.fetch()
-      @thangType.once 'sync', @setupSprite, @
+      @listenToOnce(@thangType, 'sync', @setupSprite)
 
   setupSprite: ->
     @stillLoading = false
@@ -85,7 +87,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     mark.destroy() for name, mark of @marks
     label.destroy() for name, label of @labels
     @imageObject?.off 'animationend', @playNextAction
-    @playNextAction = null
     @displayObject?.off()
     clearInterval @effectInterval if @effectInterval
     super()
@@ -223,7 +224,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @thang.bobHeight * (1 + Math.sin(@age * Math.PI / @thang.bobTime))
 
   getWorldPosition: ->
-    p1 = @thang.pos
+    p1 = if @possessed then @shadow.pos else @thang.pos
     if bobOffset = @getBobOffset()
       p1 = p1.copy?() or _.clone(p1)
       p1.z += bobOffset
@@ -252,8 +253,15 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
-    if @thangType.get('name') is 'Arrow'
-      # scale the arrow so it appears longer when flying parallel to horizon
+    if @thang.maximizesArc and @thangType.get('name') in ['Arrow', 'Spear']
+      # Scales the arrow so it appears longer when flying parallel to horizon.
+      # To do that, we convert angle to [0, 90] (mirroring half-planes twice), then make linear function out of it:
+      # (a - x) / a: equals 1 when x = 0, equals 0 when x = a, monotonous in between. That gives us some sort of
+      # degenerative multiplier.
+      # For our puproses, a = 90 - the direction straight upwards.
+      # Then we use r + (1 - r) * x function with r = 0.5, so that
+      # maximal scale equals 1 (when x is at it's maximum) and minimal scale is 0.5.
+      # Notice that the value of r is empirical.
       angle = @getRotation()
       angle = -angle if angle < 0
       angle = 180 - angle if angle > 90
@@ -279,13 +287,32 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     rotationType = @thangType.get('rotationType')
     return if rotationType is 'fixed'
     rotation = @getRotation()
+    if @thang.maximizesArc and @thangType.get('name') in ['Arrow', 'Spear']
+      # Rotates the arrow to see it arc based on velocity.z.
+      # At midair we must see the original angle (delta = 0), but at launch time
+      # and arrow must point upwards/downwards respectively.
+      # The curve must consider two variables: speed and angle to camera:
+      # higher angle -> higher steep
+      # higher speed -> higher steep (0 at midpoint).
+      # All constants are empirical. Notice that rotation here does not affect thang's state - it is just the effect.
+      # Thang's rotation is always pointing where it is heading.
+      velocity = @thang.velocity.z
+      factor = rotation
+      factor = -factor if factor < 0
+      flip = 1
+      if factor > 90
+        factor = 180 - factor
+        flip = -1 # when the arrow is on the left, 'up' means subtracting
+      factor = Math.max(factor / 90, 0.4) # between 0.4 and 1.0
+      rotation += flip * (velocity / 12) * factor * 45 # theoretically, 45 is the maximal delta we can make here
     imageObject ?= @imageObject
     return imageObject.rotation = rotation if not rotationType
     @updateIsometricRotation(rotation, imageObject)
 
   getRotation: ->
-    return @rotation if not @thang?.rotation
-    rotation = @thang?.rotation
+    thang = if @possessed then @shadow else @thang
+    return @rotation if not thang?.rotation
+    rotation = thang?.rotation
     rotation = (360 - (rotation * 180 / Math.PI) % 360) % 360
     rotation -= 360 if rotation > 180
     rotation
@@ -308,13 +335,14 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   determineAction: ->
     action = null
-    action = @thang.getActionName() if @thang?.acts
+    thang = if @possessed then @shadow else @thang
+    action = thang.action if thang?.acts
     action ?= @currentRootAction.name if @currentRootAction?
     action ?= 'idle'
     action = null unless @actions[action]?
     return null unless action
     action = 'break' if @actions.break? and @thang?.erroredOut
-    action = 'die' if @actions.die? and @thang?.health? and @thang.health <= 0
+    action = 'die' if @actions.die? and thang?.health? and thang.health <= 0
     @actions[action]
 
   updateActionDirection: (@wallGrid=null) ->
@@ -458,6 +486,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     else
       @marks[range['name']].toggle false for range in @ranges
 
+    if @thangType.get('name') in ['Arrow', 'Spear'] and @thang.action is 'die'
+      @marks.shadow.hide()
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
     @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length
@@ -594,3 +624,67 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
 #    console.log @thang?.id, "played sound", name, "with delay", delay, "volume", volume, "and got sound instance", instance
     instance
+
+  onMove: (e) ->
+    return unless e.spriteID is @thang?.id
+    pos = e.pos
+    if _.isArray pos
+      pos = new Vector pos...
+    else if _.isString pos
+      return console.warn "Couldn't find target sprite", pos, "from", @options.sprites unless pos of @options.sprites
+      target = @options.sprites[pos].thang
+      heading = Vector.subtract(target.pos, @thang.pos).normalize()
+      distance = @thang.pos.distance target.pos
+      offset = Math.max(target.width, target.height, 2) / 2 + 3
+      pos = Vector.add(@thang.pos, heading.multiply(distance - offset))
+    Backbone.Mediator.publish 'level-sprite-clear-dialogue', {}
+    @onClearDialogue()
+    args = [pos]
+    args.push(e.duration) if e.duration?
+    @move(args...)
+
+  move: (pos, duration=2000, endAnimation='idle') =>
+    @updateShadow()
+    if not duration
+      createjs.Tween.removeTweens(@shadow.pos) if @lastTween
+      @lastTween = null
+      z = @shadow.pos.z
+      @shadow.pos = pos
+      @shadow.pos.z = z
+      @imageObject.gotoAndPlay(endAnimation)
+      return
+
+    @shadow.action = 'move'
+    @shadow.actionActivated = true
+    @pointToward(pos)
+    @possessed = true
+    @update true
+
+    ease = createjs.Ease.getPowInOut(2.2)
+    if @lastTween
+      ease = createjs.Ease.getPowOut(1.2)
+      createjs.Tween.removeTweens(@shadow.pos)
+
+    endFunc = =>
+      @lastTween = null
+      @imageObject.gotoAndPlay(endAnimation)
+      @shadow.action = 'idle'
+      @update true
+      @possessed = false
+
+    @lastTween = createjs.Tween
+      .get(@shadow.pos)
+      .to({x:pos.x, y:pos.y}, duration, ease)
+      .call(endFunc)
+
+  pointToward: (pos) ->
+    @shadow.rotation = Math.atan2(pos.y - @shadow.pos.y, pos.x - @shadow.pos.x)
+    if (@shadow.rotation * 180 / Math.PI) % 90 is 0
+      @shadow.rotation += 0.01
+
+  updateShadow: ->
+    @shadow = {} if not @shadow
+    @shadow.pos = @thang.pos
+    @shadow.rotation = @thang.rotation
+    @shadow.action = @thang.action
+    @shadow.actionActivated = @thang.actionActivated

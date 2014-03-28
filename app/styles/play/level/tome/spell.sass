@@ -73,7 +73,8 @@
       .executing, .executed, .problem-marker-info, .problem-marker-warning, .problem-marker-error
         position: absolute
     .executing
-      background-color: rgba(50, 255, 80, 0.35)
+      // https://github.com/codecombat/codecombat/issues/6
+      background-color: rgba(50, 255, 80, 0.65)
       @include gradient-striped()
     .executed
       background-color: rgba(110, 110, 110, 0.12)
@@ -113,3 +114,8 @@
 
     .ace_text-layer .ace_comment
       color: darken(rgb(103, 164, 200), 5%)
+
+    .ace_text-layer .ace_variable
+      // https://github.com/codecombat/codecombat/issues/6
+      color: rgb(145, 48, 50)
+

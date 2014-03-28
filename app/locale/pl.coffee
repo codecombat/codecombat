@@ -421,7 +421,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     introduction_desc_github_url: "CodeCombat jest całkowicie open source"
     introduction_desc_suf: " i zamierzamy zapewnić tak wiele sposobów na współpracę w projekcie jak to tylko możliwe, by był on tak samo nasz, jak i wasz."
     introduction_desc_ending: "Liczymy, że dołączysz się do nas!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael i Jeremy"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy i Glen"
     alert_account_message_intro: "Hej tam!"
     alert_account_message_pref: "Aby zapisać się do naszego e-maila klasowego, musisz najpierw "
     alert_account_message_suf: "."

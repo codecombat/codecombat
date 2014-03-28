@@ -47,31 +47,27 @@ div#columns.row
         a(data-toggle="coco-modal", data-target="modal/signup") Sign up to play with your friends!
     
     else
-      if !onFacebook
+      if !onFacebook || !onGPlus
         div.connect-buttons
-          | Connect:
+          | Connect and play against your friends!
+          br
           if !onFacebook
             button.btn.btn-sm.connect-facebook Facebook
-          //button.btn.btn-sm.connect-google-plus Google+
-      
-      if !!friends
-        
-        if friends.length
-          for friend in friends
-            p.friend-entry
-              img(src="http://graph.facebook.com/#{friend.facebookID}/picture").img-thumbnail
-              span= friend.creatorName + ' (' + friend.facebookName + ')'
-              br
-              span= Math.round(friend.totalScore * 100)
-              span : 
-              span= friend.team
-              br
-              a(href="/play/level/#{level.get('slug') || level.id}/?team=#{friend.otherTeam}&opponent=#{friend._id}")
-                span(data-i18n="ladder.fight") Fight!
-  
-  
-        else
-          p Invite your friends to join you in battle!
-            
+          if !onGPlus
+            button.btn.btn-sm.connect-google-plus Google+
+
+      if friends.length
+        for friend in friends
+          p.friend-entry
+            img(src=friend.imageSource).img-thumbnail
+            span= friend.creatorName + ' (' + friend.name + ')'
+            br
+            span= Math.round(friend.totalScore * 100)
+            span : 
+            span= friend.team
+            br
+            a(href="/play/level/#{level.get('slug') || level.id}/?team=#{friend.otherTeam}&opponent=#{friend._id}")
+              span(data-i18n="ladder.fight") Fight!
+
       else
-        p Connect to social networks to play with your friends!
+        p Invite your friends to join you in battle!

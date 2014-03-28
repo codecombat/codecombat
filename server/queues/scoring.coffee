@@ -54,30 +54,30 @@ addPairwiseTaskToQueue = (taskPair, cb) ->
       sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
         if taskPairError? then return cb taskPairError,false
         cb null, true
-        
+
 module.exports.resimulateAllSessions = (req, res) ->
   unless isUserAdmin req then return errors.unauthorized res, "Unauthorized. Even if you are authorized, you shouldn't do this"
-  
+
   originalLevelID = req.body.originalLevelID
   levelMajorVersion = parseInt(req.body.levelMajorVersion)
-  
+
   findParameters =
     submitted: true
-    level:  
+    level:
       original: originalLevelID
-      majorVersion: levelMajorVersion  
+      majorVersion: levelMajorVersion
 
   query = LevelSession
     .find(findParameters)
     .lean()
-  
+
   query.exec (err, result) ->
     if err? then return errors.serverError res, err
     result = _.sample result, 10
     async.each result, resimulateSession.bind(@,originalLevelID,levelMajorVersion), (err) ->
       if err? then return errors.serverError res, err
       sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
-      
+
 resimulateSession = (originalLevelID, levelMajorVersion, session, cb) =>
   sessionUpdateObject =
     submitted: true
@@ -91,7 +91,7 @@ resimulateSession = (originalLevelID, levelMajorVersion, session, cb) =>
   LevelSession.update {_id: session._id}, sessionUpdateObject, (err, updatedSession) ->
     if err? then return cb err, null
     opposingTeam = calculateOpposingTeam(session.team)
-    fetchInitialSessionsToRankAgainst opposingTeam, originalLevelID, levelMajorVersion, (err, sessionsToRankAgainst) ->
+    fetchInitialSessionsToRankAgainst levelMajorVersion, originalLevelID, opposingTeam, (err, sessionsToRankAgainst) ->
       if err? then return cb err, null
 
       taskPairs = generateTaskPairs(sessionsToRankAgainst, session)
@@ -100,63 +100,210 @@ resimulateSession = (originalLevelID, levelMajorVersion, session, cb) =>
         cb null
 
 
+
+
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
-  requestLevelID = req.body.originalLevelID
-  requestCurrentLevelID = req.body.levelID
+  originalLevelID = req.body.originalLevelID
+  currentLevelID = req.body.levelID
   requestLevelMajorVersion = parseInt(req.body.levelMajorVersion)
+  
+  async.waterfall [
+    validatePermissions.bind(@,req,requestSessionID)
+    fetchAndVerifyLevelType.bind(@,currentLevelID)
+    fetchSessionObjectToSubmit.bind(@, requestSessionID)
+    updateSessionToSubmit
+    fetchInitialSessionsToRankAgainst.bind(@, requestLevelMajorVersion, originalLevelID)
+    generateAndSendTaskPairsToTheQueue
+    
+  ], (err, successMessageObject) ->
+    if err? then return errors.serverError res, "There was an error submitting the game to the queue:#{err}"
+    sendResponseObject req, res, successMessageObject
 
-  validatePermissions req, requestSessionID, (error, permissionsAreValid) ->
-    if err? then return errors.serverError res, "There was an error validating permissions"
-    unless permissionsAreValid then return errors.forbidden res, "You do not have the permissions to submit that game to the leaderboard"
+    
+validatePermissions = (req,sessionID, callback) ->
+  if isUserAnonymous req then return callback "You are unauthorized to submit that game to the simulator"
+  if isUserAdmin req then return callback null
 
-    return errors.badInput res, "The session ID is invalid" unless typeof requestSessionID is "string"
-    Level.findOne({_id: requestCurrentLevelID}).lean().select('type').exec (err, levelWithType) ->
-      if err? then return errors.serverError res, "There was an error finding the level type"
+  findParameters =
+    _id: sessionID
+  selectString = 'creator submittedCode code'
+  query = LevelSession
+  .findOne(findParameters)
+  .select(selectString)
+  .lean()
 
-      if not levelWithType.type or levelWithType.type isnt "ladder"
-        console.log "The level type of level with ID #{requestLevelID} is #{levelWithType.type}"
-        return errors.badInput res, "That level isn't a ladder level"
+  query.exec (err, retrievedSession) ->
+    if err? then return callback err
+    userHasPermissionToSubmitCode = retrievedSession.creator is req.user?.id and
+    not _.isEqual(retrievedSession.code, retrievedSession.submittedCode)
+    unless userHasPermissionToSubmitCode then return callback "You are unauthorized to submit that game to the simulator"
+    callback null
 
-      fetchSessionToSubmit requestSessionID, (err, sessionToSubmit) ->
-        if err? then return errors.serverError res, "There was an error finding the given session."
+fetchAndVerifyLevelType = (levelID, cb) ->
+  findParameters =
+    _id: levelID
+  selectString = 'type'
 
-        updateSessionToSubmit sessionToSubmit, (err, data) ->
-          if err? then return errors.serverError res, "There was an error updating the session"
-          opposingTeam = calculateOpposingTeam(sessionToSubmit.team)
-          fetchInitialSessionsToRankAgainst opposingTeam,requestLevelID, requestLevelMajorVersion, (err, sessionsToRankAgainst) ->
-            if err? then return errors.serverError res, "There was an error fetching the sessions to rank against"
+  query = Level
+  .findOne(findParameters)
+  .select(selectString)
+  .lean()
+  query.exec (err, levelWithType) ->
+    if err? then return cb err
+    if not levelWithType.type or levelWithType.type isnt "ladder" then return cb "Level isn't of type 'ladder'"
+    cb null
 
-            taskPairs = generateTaskPairs(sessionsToRankAgainst, sessionToSubmit)
-            sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
-              if taskPairError? then return errors.serverError res, "There was an error sending the task pairs to the queue"
+fetchSessionObjectToSubmit = (sessionID, callback) ->
+  findParameters =
+    _id: sessionID
+  selectString = 'team code'
 
-              sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
+  query = LevelSession
+  .findOne(findParameters)
+  .select(selectString)
+
+  query.exec (err, session) ->
+    callback err, session?.toObject()
+
+updateSessionToSubmit = (sessionToUpdate, callback) ->
+  sessionUpdateObject =
+    submitted: true
+    submittedCode: sessionToUpdate.code
+    submitDate: new Date()
+    meanStrength: 25
+    standardDeviation: 25/3
+    totalScore: 10
+    numberOfWinsAndTies: 0
+    numberOfLosses: 0
+    isRanking: true
+  LevelSession.update {_id: sessionToUpdate._id}, sessionUpdateObject, (err, result) ->
+    callback err, sessionToUpdate
+
+fetchInitialSessionsToRankAgainst = (levelMajorVersion, levelID, submittedSession, callback) ->
+  opposingTeam = calculateOpposingTeam(submittedSession.team)
+
+  findParameters =
+    "level.original": levelID
+    "level.majorVersion": levelMajorVersion
+    submitted: true
+    submittedCode:
+      $exists: true
+    team: opposingTeam
+
+  sortParameters =
+    totalScore: 1
+
+  limitNumber = 1
+
+  query = LevelSession.find(findParameters)
+  .sort(sortParameters)
+  .limit(limitNumber)
+
+  query.exec (err, sessionToRankAgainst) ->
+    callback err, sessionToRankAgainst, submittedSession
+
+
+generateAndSendTaskPairsToTheQueue = (sessionToRankAgainst,submittedSession, callback) ->
+  taskPairs = generateTaskPairs(sessionToRankAgainst, submittedSession)
+  sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
+    if taskPairError? then return callback taskPairError
+    callback null, {"message": "All task pairs were succesfully sent to the queue"}
+  
 
 module.exports.dispatchTaskToConsumer = (req, res) ->
-  if isUserAnonymous(req) then return errors.forbidden res, "You need to be logged in to simulate games"
+  async.waterfall [
+    checkSimulationPermissions.bind(@,req)
+    receiveMessageFromSimulationQueue
+    changeMessageVisibilityTimeout
+    parseTaskQueueMessage
+    constructTaskObject
+    constructTaskLogObject.bind(@, getUserIDFromRequest(req))
+    processTaskObject
+  ], (err, taskObjectToSend) ->
+    if err? 
+      if typeof err is "string" and err.indexOf "No more games in the queue" isnt -1
+        res.send(204, "No games to score.")
+        return res.end()
+      else
+        return errors.serverError res, "There was an error dispatching the task: #{err}"
+    sendResponseObject req, res, taskObjectToSend
 
-  scoringTaskQueue.receiveMessage (err, message) ->
-    if err? or messageIsInvalid(message)
-      res.send 204, "No games to score. #{message}"
-      return res.end()
-    console.log "Received Message"
-    messageBody = parseTaskQueueMessage req, res, message
-    return unless messageBody?
+  
+  
+checkSimulationPermissions = (req, cb) ->
+  if isUserAnonymous req 
+    cb "You need to be logged in to simulate games"
+  else
+    cb null
+    
+receiveMessageFromSimulationQueue = (cb) ->
+  scoringTaskQueue.receiveMessage (err, message) -> 
+    if err? then return cb "No more games in the queue, error:#{err}"
+    if messageIsInvalid(message) then return cb "Message received from queue is invalid"
+    cb null, message
 
-    constructTaskObject messageBody, (taskConstructionError, taskObject) ->
-      if taskConstructionError? then return errors.serverError res, "There was an error constructing the scoring task"
-      console.log "Constructed task body"
-      message.changeMessageVisibilityTimeout scoringTaskTimeoutInSeconds, (err) ->
-        if err? then return errors.serverError res, "There was an error changing the message visibility timeout."
-        console.log "Changed visibility timeout"
-        constructTaskLogObject getUserIDFromRequest(req), message.getReceiptHandle(), (taskLogError, taskLogObject) ->
-          if taskLogError? then return errors.serverError res, "There was an error creating the task log object."
+changeMessageVisibilityTimeout = (message, cb) ->
+  message.changeMessageVisibilityTimeout scoringTaskTimeoutInSeconds, (err) -> cb err, message
 
-          taskObject.taskID = taskLogObject._id
-          taskObject.receiptHandle = message.getReceiptHandle()
+parseTaskQueueMessage = (message,cb) ->
+  try
+    if typeof message.getBody() is "object"
+      messageBody = message.getBody()
+    else
+      messageBody = JSON.parse message.getBody()
+    cb null, messageBody, message
+  catch e
+    cb "There was an error parsing the task.Error: #{e}"
 
-          sendResponseObject req, res, taskObject
+constructTaskObject = (taskMessageBody, message, callback) ->
+  async.map taskMessageBody.sessions, getSessionInformation, (err, sessions) ->
+    if err? then return callback err
+
+    taskObject =
+      "messageGenerated": Date.now()
+      "sessions": []
+
+    for session in sessions
+      sessionInformation =
+        "sessionID": session._id
+        "submitDate": session.submitDate
+        "team": session.team ? "No team"
+        "code": session.submittedCode
+        "teamSpells": session.teamSpells ? {}
+        "levelID": session.levelID
+        "creator": session.creator
+        "creatorName":session.creatorName
+
+      taskObject.sessions.push sessionInformation
+    callback null, taskObject, message
+
+constructTaskLogObject = (calculatorUserID, taskObject, message, callback) ->
+  taskLogObject = new TaskLog
+    "createdAt": new Date()
+    "calculator":calculatorUserID
+    "sentDate": Date.now()
+    "messageIdentifierString":message.getReceiptHandle()
+  taskLogObject.save (err) -> callback err, taskObject, taskLogObject, message
+
+processTaskObject = (taskObject,taskLogObject, message, cb) ->
+  taskObject.taskID = taskLogObject._id
+  taskObject.receiptHandle = message.getReceiptHandle()
+  cb null, taskObject
+
+getSessionInformation = (sessionIDString, callback) ->
+  findParameters = 
+    _id: sessionIDString
+  selectString = 'submitDate team submittedCode teamSpells levelID creator creatorName'
+  query = LevelSession
+    .findOne(findParameters)
+    .select(selectString)
+    .lean()
+  
+  query.exec (err, session) ->
+    if err? then return callback err, {"error":"There was an error retrieving the session."}
+    callback null, session
+
 
 module.exports.processTaskResult = (req, res) ->
   clientResponseObject = verifyClientResponse req.body, res
@@ -250,7 +397,7 @@ determineIfSessionShouldContinueAndUpdateLog = (sessionID, sessionRank, cb) ->
       cb null, true
     else
       ratio = (updatedSession.numberOfLosses) / (totalNumberOfGamesPlayed)
-      if ratio > 0.2
+      if ratio > 0.33
         cb null, false
         console.log "Ratio(#{ratio}) is bad, ending simulation"
       else
@@ -264,7 +411,7 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
 
     queryParameters =
       totalScore:
-        $gt:opponentSessionTotalScore
+        $gt: opponentSessionTotalScore
       _id:
         $nin: opponentSessionIDs
       "level.original": levelOriginalID
@@ -275,7 +422,9 @@ findNearestBetterSessionID = (levelOriginalID, levelMajorVersion, sessionID, ses
       team: opposingTeam
 
     if opponentSessionTotalScore < 30
-      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 2
+      # Don't play a ton of matches at low scores--skip some in proportion to how close to 30 we are.
+      # TODO: this could be made a lot more flexible.
+      queryParameters["totalScore"]["$gt"] = opponentSessionTotalScore + 2 * (30 - opponentSessionTotalScore) / 20
 
     limitNumber = 1
 
@@ -319,14 +468,6 @@ incrementUserSimulationCount = (userID, type) ->
   User.update {_id: userID}, {$inc: inc}, (err, affected) ->
     log.error "Error incrementing #{type} for #{userID}: #{err}" if err
 
-validatePermissions = (req, sessionID, callback) ->
-  if isUserAnonymous req then return callback null, false
-  if isUserAdmin req then return callback null, true
-  LevelSession.findOne(_id:sessionID).select('creator submittedCode code').lean().exec (err, retrievedSession) ->
-    if err? then return callback err, retrievedSession
-    code = retrievedSession.code
-    submittedCode = retrievedSession.submittedCode
-    callback null, (retrievedSession.creator is req.user?.id and not _.isEqual(code, submittedCode))
 
 addMatchToSessions = (clientResponseObject, newScoreObject, callback) ->
   matchObject = {}
@@ -366,44 +507,10 @@ messageIsInvalid = (message) -> (not message?) or message.isEmpty()
 
 sendEachTaskPairToTheQueue = (taskPairs, callback) -> async.each taskPairs, sendTaskPairToQueue, callback
 
-fetchSessionToSubmit = (submittedSessionID, callback) ->
-  LevelSession.findOne {_id: submittedSessionID}, (err, session) -> callback err, session?.toObject()
 
 
-updateSessionToSubmit = (sessionToUpdate, callback) ->
-  sessionUpdateObject =
-    submitted: true
-    submittedCode: sessionToUpdate.code
-    submitDate: new Date()
-    meanStrength: 25
-    standardDeviation: 25/3
-    totalScore: 10
-    numberOfWinsAndTies: 0
-    numberOfLosses: 0
-    isRanking: true
-  LevelSession.update {_id: sessionToUpdate._id}, sessionUpdateObject, callback
-
-fetchInitialSessionsToRankAgainst = (opposingTeam, levelID, levelMajorVersion, callback) ->
-  console.log "Fetching sessions to rank against for opposing team #{opposingTeam}"
-  findParameters =
-    "level.original": levelID
-    "level.majorVersion": levelMajorVersion
-    submitted: true
-    submittedCode:
-      $exists: true
-    team: opposingTeam
-
-  sortParameters =
-    totalScore: 1
-
-  limitNumber = 1
-
-  query = LevelSession.find(findParameters)
-    .sort(sortParameters)
-    .limit(limitNumber)
 
 
-  query.exec callback
 
 generateTaskPairs = (submittedSessions, sessionToScore) ->
   taskPairs = []
@@ -425,52 +532,9 @@ isUserAnonymous = (req) -> if req.user? then return req.user.get('anonymous') el
 
 isUserAdmin = (req) -> return Boolean(req.user?.isAdmin())
 
-parseTaskQueueMessage = (req, res, message) ->
-  try
-    if typeof message.getBody() is "object" then return message.getBody()
-    return messageBody = JSON.parse message.getBody()
-  catch e
-    sendResponseObject req, res, {"error":"There was an error parsing the task.Error: #{e}" }
-    return null
-
-constructTaskObject = (taskMessageBody, callback) ->
-  async.map taskMessageBody.sessions, getSessionInformation, (err, sessions) ->
-    return callback err, data if err?
-
-    taskObject =
-      "messageGenerated": Date.now()
-      "sessions": []
-
-    for session in sessions
-      sessionInformation =
-        "sessionID": session._id
-        "submitDate": session.submitDate
-        "team": session.team ? "No team"
-        "code": session.submittedCode
-        "teamSpells": session.teamSpells ? {}
-        "levelID": session.levelID
-        "creator": session.creator
-        "creatorName":session.creatorName
-
-      taskObject.sessions.push sessionInformation
-    callback err, taskObject
 
 
-getSessionInformation = (sessionIDString, callback) ->
-  LevelSession.findOne {_id:sessionIDString}, (err, session) ->
-    if err? then return callback err, {"error":"There was an error retrieving the session."}
 
-    sessionInformation = session.toObject()
-    callback err, sessionInformation
-
-
-constructTaskLogObject = (calculatorUserID, messageIdentifierString, callback) ->
-  taskLogObject = new TaskLog
-    "createdAt": new Date()
-    "calculator":calculatorUserID
-    "sentDate": Date.now()
-    "messageIdentifierString":messageIdentifierString
-  taskLogObject.save callback
 
 sendResponseObject = (req,res,object) ->
   res.setHeader('Content-Type', 'application/json')

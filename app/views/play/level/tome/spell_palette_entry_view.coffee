@@ -171,9 +171,6 @@ module.exports = class SpellPaletteEntryView extends View
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
   onClick: (e) =>
-    unless @popoverPinned
-      $(e.target).selectText()
-      e.stopPropagation()  # don't re-focus editor since we might want to select text
     @togglePinned()
     Backbone.Mediator.publish 'tome:palette-clicked', thang: @thang, prop: @doc.name, entry: @
 

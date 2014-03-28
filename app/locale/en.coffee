@@ -251,6 +251,7 @@
     tip_patience: "Patience you must have, young Padawan. - Yoda"
     tip_documented_bug: "A documented bug is not a bug; it is a feature."
     tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+    tip_great_responsibility: "With great coding skills comes great debug responsibility."
 
   admin:
     av_title: "Admin Views"
@@ -434,7 +435,7 @@
     introduction_desc_github_url: "CodeCombat is totally open source"
     introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
     introduction_desc_ending: "We hope you'll join our party!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael, and Jeremy"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Glen"
     alert_account_message_intro: "Hey there!"
     alert_account_message_pref: "To subscribe for class emails, you'll need to "
     alert_account_message_suf: "first."

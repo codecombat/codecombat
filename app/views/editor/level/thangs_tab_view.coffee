@@ -21,7 +21,7 @@ componentOriginals =
   "physics.Physical"          : "524b75ad7fc0f6d519000001"
 
 class ThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang.type/search?project=true'
+  url: '/db/thang.type/search?project=original,name,version,slug,kind,components'
   model: ThangType
 
 module.exports = class ThangsTabView extends View
@@ -59,15 +59,15 @@ module.exports = class ThangsTabView extends View
     super options
     @world = options.world
     @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @thangTypes.once 'sync', @onThangTypesLoaded
+    @listenToOnce(@thangTypes, 'sync', @onThangTypesLoaded)
     @thangTypes.fetch()
 
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
     @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    @componentCollection.once 'sync', @onComponentsLoaded
+    @listenToOnce(@componentCollection, 'sync', @onComponentsLoaded)
     @componentCollection.fetch()
 
-  onThangTypesLoaded: =>
+  onThangTypesLoaded: ->
     return if @destroyed
     @supermodel.addCollection @thangTypes
     @supermodel.populateModel model for model in @thangTypes.models
@@ -75,7 +75,7 @@ module.exports = class ThangsTabView extends View
     @render()  # do it again but without the loading screen
     @onLevelLoaded level: @level if @level and not @startsLoading
 
-  onComponentsLoaded: =>
+  onComponentsLoaded: ->
     return if @destroyed
     @supermodel.addCollection @componentCollection
     @startsLoading = not @thangTypes.loaded
@@ -219,7 +219,7 @@ module.exports = class ThangsTabView extends View
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
-    @selectedExtantSprite?.setNameLabel null unless @selectedExtantSprite is e.sprite
+    @selectedExtantSprite?.setNameLabel? null unless @selectedExtantSprite is e.sprite
     @selectedExtantThang = e.thang
     @selectedExtantSprite = e.sprite
     if e.thang and (key.alt or key.meta)
@@ -236,7 +236,7 @@ module.exports = class ThangsTabView extends View
         @selectedExtantSprite.setNameLabel @selectedExtantSprite.thangType.get('name') + ': ' + @selectedExtantThang.id
         if not treemaThang.isSelected()
           treemaThang.select()
-          @thangsTreema.$el.scrollTop(@thangsTreema.$el.find('.treema-children .treema-selected')[0].offsetTop) 
+          @thangsTreema.$el.scrollTop(@thangsTreema.$el.find('.treema-children .treema-selected')[0].offsetTop)
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos
