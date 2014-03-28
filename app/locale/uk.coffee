@@ -234,11 +234,24 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
 #    tip_js_beginning: "JavaScript is just the beginning."
 #    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    think_solution: "Think of the solution, not the problem."
+#    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
+#    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
+#    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
+#    tip_forums: "Head over to the forums and tell us what you think!"
 #    tip_baby_coders: "In the future, even babies will be Archmages."
 #    tip_morale_improves: "Loading will continue until morale improves."
 #    tip_all_species: "We believe in equal opportunities to learn programming for all species."
 #    tip_reticulating: "Reticulating spines."
 #    tip_harry: "Yer a Wizard, "
+#    tip_great_responsibility: "With great coding skill comes great debug responsibility."
+#    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
+#    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
+#    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
+#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
+#    tip_patience: "Patience you must have, young Padawan. - Yoda"
+#    tip_documented_bug: "A documented bug is not a bug; it is a feature."
+#    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
 
   admin:
 #    av_title: "Admin Views"
@@ -559,7 +572,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 
 #  multiplayer_launch:
 #    introducing_dungeon_arena: "Introducing Dungeon Arena"
-#    new_way: "March 17, 2014: The new way to compete with code."
+#    new_way: "The new way to compete with code."
 #    to_battle: "To Battle, Developers!"
 #    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
 #    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."

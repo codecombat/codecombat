@@ -573,7 +573,7 @@
 
   multiplayer_launch:
     introducing_dungeon_arena: "Introducing Dungeon Arena"
-    new_way: "March 17, 2014: The new way to compete with code."
+    new_way: "The new way to compete with code."
     to_battle: "To Battle, Developers!"
     modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
     arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
