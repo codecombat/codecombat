@@ -6,7 +6,7 @@ module.exports = class User extends CocoModel
   @className: "User"
   urlRoot: "/db/user"
 
-  initialize: ->
+  constructor: ->
     super()
     @on 'change:emailHash', ->
       @gravatarProfile = null
