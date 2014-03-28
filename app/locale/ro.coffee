@@ -421,7 +421,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     introduction_desc_github_url: "CodeCombat este complet open source"
     introduction_desc_suf: ", și ne propunem să vă punem la dispoziție pe cât de mult posibil modalități de a lua parte la acest proiect pentru a-l face la fel de mult as vostru cât și al nostru."
     introduction_desc_ending: "Sperăm să vă placă petrecerea noastră!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael, și Jeremy"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy și Glen"
     alert_account_message_intro: "Salutare!"
     alert_account_message_pref: "Pentru a te abona la email-uri de clasă, va trebui să "
     alert_account_message_suf: "mai întâi."

@@ -241,6 +241,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tip_all_species: "We believe in equal opportunities to learn programming for all species."
     tip_reticulating: "Reticulating spines."
     tip_harry: "Yer a Wizard, "
+    tip_great_responsibility: "With great coding skills comes great debug responsibility."
 
   admin:
     av_title: "Admin Views"
@@ -424,7 +425,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     introduction_desc_github_url: "CodeCombat is totally open source"
     introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
     introduction_desc_ending: "We hope you'll join our party!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael, and Jeremy"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Glen"
     alert_account_message_intro: "Hey there!"
     alert_account_message_pref: "To subscribe for class emails, you'll need to "
     alert_account_message_suf: "first."
