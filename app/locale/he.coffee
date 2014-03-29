@@ -12,6 +12,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     fork: "קילשון"
     play: "שחק"
 
+#  units:
+#    second: "second"
+#    seconds: "seconds"
+#    minute: "minute"
+#    minutes: "minutes"
+#    hour: "hour"
+#    hours: "hours"
+
   modal:
     close: "סגור"
     okay: "אישור"
@@ -252,6 +260,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    time_current: "Current"
+#    time_total: "Total"
+#    time_goto: "Go to"
 
 #  admin:
 #    av_title: "Admin Views"

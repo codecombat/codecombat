@@ -12,6 +12,14 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
     fork: "Fork"
     play: "玩"
 
+#  units:
+#    second: "second"
+#    seconds: "seconds"
+#    minute: "minute"
+#    minutes: "minutes"
+#    hour: "hour"
+#    hours: "hours"
+
   modal:
     close: "关闭"
     okay: "好"
@@ -252,6 +260,9 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    time_current: "Current"
+#    time_total: "Total"
+#    time_goto: "Go to"
 
 #  admin:
 #    av_title: "Admin Views"

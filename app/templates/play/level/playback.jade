@@ -11,10 +11,14 @@ button.btn.btn-xs.btn-inverse#music-button(title="Toggle Music")
   span ♫
 
 .scrubber
-  .progress.secret
+  .progress.secret#timeProgress
     .progress-bar
       .scrubber-handle
-  
+      .popover.fade.top.in#timePopover
+        .arrow
+        h3.popover-title
+        .popover-content
+
 .btn-group.dropup#playback-settings
   button.btn.btn-xs.btn-inverse.toggle-fullscreen(title="Toggle fullscreen")
     i.icon-fullscreen.icon-white
