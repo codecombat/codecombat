@@ -212,6 +212,16 @@ module.exports = class GoalManager extends CocoClass
         else
           state[progressObjectName][thang] = false
 
+  setGoalState: (goalID, status) ->
+    state = @goalStates[goalID]
+    state.status = status
+    if overallStatus = @checkOverallStatus true
+      matchedGoals = (_.find(@goals, {id: goalID}) for goalID, goalState of @goalStates when goalState.status is overallStatus)
+      mostEagerGoal = _.min matchedGoals, 'worldEndsAfter'
+      victory = overallStatus is "success"
+      tentative = overallStatus is "success"
+      @world.endWorld victory, mostEagerGoal.worldEndsAfter, tentative if mostEagerGoal isnt Infinity
+  
   updateGoalState: (goalID, thangID, progressObjectName, frameNumber) ->
     # A thang has done something related to the goal!
     # Mark it down and update the goal state.
