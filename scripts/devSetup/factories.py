@@ -39,8 +39,8 @@ class SetupFactory(object):
             mongo_version_string = mongo_version_string.decode(encoding='UTF-8')
         except:
             print("Mongod not found.")
-        if "v2.5.4" not in mongo_version_string:
-            print("MongoDB 2.5.4 not found, so installing...")
+        if "v2.6." not in mongo_version_string:
+            print("MongoDB not found, so installing...")
             self.mongo.download_dependencies()
             self.mongo.install_dependencies()
         self.node.download_dependencies()
