@@ -149,7 +149,7 @@ module.exports = class ThangsTabView extends View
         thang: ThangNode
         array: ThangsNode
       world: @world
-    @thangsTreema = @$el.find('#thangs-treema').treema treemaOptions
+    @thangsTreema = @$el.find('#thangs-treema').treema treemaOptiogns
     @thangsTreema.build()
     @thangsTreema.open()
     @onThangsChanged()  # Initialize the World with Thangs

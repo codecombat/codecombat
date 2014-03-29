@@ -1,6 +1,9 @@
 app = require 'application'
 auth = require 'lib/auth'
-subscriptions = require './schemas/subscriptions'
+editorSubscriptions = require './schemas/subscriptions/editor'
+busSubscriptions = require './schemas/subscriptions/bus'
+busDefinitions = require './schemas/definitions/bus'
+miscDefinitions = require './schemas/definitions/misc'
 
 init = ->
   app.initialize()
@@ -10,6 +13,10 @@ init = ->
   treemaExt = require 'treema-ext'
   treemaExt.setup()
   filepicker.setKey('AvlkNoldcTOU4PvKi2Xm7z')
+
+  # Set up Backbone.Mediator schemas
+  configureChannels()
+  configureDefinitions()
 
 $ ->
   # Make sure we're "logged in" first.
@@ -41,6 +48,11 @@ handleNormalUrls = ->
 
       return false
 
-configureSchemas = ->
-  Backbone.Mediator.addSchemas(subscriptions)
+configureChannels = ->
+  Backbone.Mediator.addChannelSchemas(editorSubscriptions)
+  # TODO implement bus channel schemas
+  Backbone.Mediator.addChannelSchemas(busSubscriptions)
 
+configureDefinitions = ->
+  Backbone.Mediator.addDefSchemas(miscDefinitions)
+  Backbone.Mediator.addDefSchemas(busDefinitions)
