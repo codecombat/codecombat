@@ -71,7 +71,7 @@ class SetupFactory(object):
         print("Before can play any levels you must update the database. See the Setup section here:")
         print("https://github.com/codecombat/codecombat/wiki/Developer-environment#setup")
         print("")
-        print("Once done visit http://localhost:3000")
+        print("Go to http://localhost:3000 to see your local CodeCombat in action!")
     def cleanup(self):
         self.config.directory.remove_tmp_directory()
 
