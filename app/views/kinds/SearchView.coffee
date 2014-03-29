@@ -5,7 +5,7 @@ app = require('application')
 
 class SearchCollection extends Backbone.Collection
   initialize: (modelURL, @model, @term) ->
-    @url = "#{modelURL}/search?project=yes"
+    @url = "#{modelURL}/search?project=true"
     @url += "&term=#{term}" if @term
 
 module.exports = class ThangTypeHomeView extends View
@@ -110,7 +110,7 @@ module.exports = class ThangTypeHomeView extends View
     that = @
     res.success ->
       that.model = model
-      modal.modal('hide')      
+      modal.modal('hide')
 
   onModalHidden: ->
     # Can only redirect after the modal hidden event has triggered
