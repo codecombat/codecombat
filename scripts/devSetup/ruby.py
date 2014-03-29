@@ -39,4 +39,4 @@ class Ruby(dependency.Dependency):
         raise NotImplementedError
 
     def install_gems(self):
-        gem_install_status = subprocess.call([u"gem",u"install",u"sass"])
+        gem_install_status = subprocess.call([u"gem",u"install",u"--no-user-install",u"sass"])
