@@ -60,6 +60,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
           found = true
           break
     return unless found
+    doc = _.clone doc
     doc.owner = 'this'
     doc.shortName = doc.shorterName = doc.title = "this.#{doc.name}();"
     @$el.find('code').popover(
