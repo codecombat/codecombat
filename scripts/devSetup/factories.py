@@ -61,12 +61,17 @@ class SetupFactory(object):
         chown_directory = self.config.directory.root_dir + os.sep + "coco"
         subprocess.call(chown_command,shell=True,cwd=chown_directory)
 
-        print("Done! If you want to start the server, head into /coco/bin and run ")
+        print("")
+        print("Done! If you want to start the server, head into coco/bin and run ")
         print("1. ./coco-mongodb")
         print("2. ./coco-brunch ")
         print("3. ./coco-dev-server")
         print("NOTE: brunch may need to be run as sudo if it doesn't work (ulimit needs to be set higher than default)")
-        print("Once brunch is done, visit http://localhost:3000!")
+        print("")
+        print("Before can play any levels you must update the database. See the Setup section here:")
+        print("https://github.com/codecombat/codecombat/wiki/Developer-environment#setup")
+        print("")
+        print("Once done visit http://localhost:3000")
     def cleanup(self):
         self.config.directory.remove_tmp_directory()
 
