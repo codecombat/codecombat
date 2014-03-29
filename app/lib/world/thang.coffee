@@ -38,6 +38,9 @@ module.exports = class Thang
   publishNote: (channel, event) ->
     event.thang = @
     @world.publishNote channel, event
+    
+  setGoalState: (goalID, status) ->
+    @world.setGoalState goalID, status
 
   addComponents: (components...) ->
     # We don't need to keep the components around after attaching them, but we will keep their initial config for recreating Thangs
