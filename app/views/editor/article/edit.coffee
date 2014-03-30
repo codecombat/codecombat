@@ -1,5 +1,6 @@
 View = require 'views/kinds/RootView'
 VersionHistoryView = require './versions_view'
+ErrorView = require '../../error_view'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
 
@@ -19,6 +20,18 @@ module.exports = class ArticleEditView extends View
     super options
     @article = new Article(_id: @articleID)
     @article.saveBackups = true
+
+    @listenToOnce(@article, 'error', 
+      () => 
+        @hideLoading()
+
+        # Hack: editor components appear after calling insertSubView.
+        # So we need to hide them first. 
+        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
+
+        @insertSubView(new ErrorView())
+    )
+
     @article.fetch()
     @listenToOnce(@article, 'sync', @onArticleSync)
     @listenTo(@article, 'schema-loaded', @buildTreema)
