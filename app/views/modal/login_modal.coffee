@@ -16,7 +16,7 @@ module.exports = class LoginModalView extends View
 
   events:
     "click #login-button": "loginAccount"
-    "keydown input": "loginAccount"
+    "keydown #login-password": "loginAccount"
 
   subscriptions:
     'server-error': 'onServerError'

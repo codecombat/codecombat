@@ -112,9 +112,15 @@ module.exports = class MyMatchesTabView extends CocoView
 
   readyToRank: (session) ->
     return false unless session?.get('levelID')  # If it hasn't been denormalized, then it's not ready.
-    c1 = session?.get('code')
-    c2 = session?.get('submittedCode')
-    c1 and not _.isEqual(c1, c2)
+    return false unless c1 = session.get('code')
+    return false unless team = session.get('team')
+    return true unless c2 = session.get('submittedCode')
+    thangSpellArr = (s.split("/") for s in session.get('teamSpells')[team])
+    for item in thangSpellArr
+      thang = item[0]
+      spell = item[1]
+      return true if c1[thang][spell] isnt c2[thang][spell]
+    return false
 
   rankSession: (e) ->
     button = $(e.target).closest('.rank-button')
@@ -123,8 +129,11 @@ module.exports = class MyMatchesTabView extends CocoView
     return unless @readyToRank(session)
 
     @setRankingButtonText(button, 'submitting')
-    success = => @setRankingButtonText(button, 'submitted')
-    failure = => @setRankingButtonText(button, 'failed')
+    success = =>
+      @setRankingButtonText(button, 'submitted')
+    failure = (jqxhr, textStatus, errorThrown) =>
+      console.log jqxhr.responseText
+      @setRankingButtonText(button, 'failed')
 
     ajaxData = {session: sessionID, levelID: @level.id, originalLevelID: @level.attributes.original, levelMajorVersion: @level.attributes.version.major}
     console.log "Posting game for ranking from My Matches view."
@@ -132,7 +141,7 @@ module.exports = class MyMatchesTabView extends CocoView
       type: 'POST'
       data: ajaxData
       success: success
-      failure: failure
+      error: failure
     }
 
   setRankingButtonText: (rankButton, spanClass) ->

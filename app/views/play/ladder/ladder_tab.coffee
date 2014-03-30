@@ -22,9 +22,13 @@ module.exports = class LadderTabView extends CocoView
 
   events:
     'click .connect-facebook': 'onConnectFacebook'
+    'click .connect-google-plus': 'onConnectGPlus'
 
   subscriptions:
+    'fbapi-loaded': 'checkFriends'
+    'gapi-loaded': 'checkFriends'
     'facebook-logged-in': 'onConnectedWithFacebook'
+    'gplus-logged-in': 'onConnectedWithGPlus'
 
   constructor: (options, @level, @sessions) ->
     super(options)
@@ -34,6 +38,9 @@ module.exports = class LadderTabView extends CocoView
     @checkFriends()
 
   checkFriends: ->
+    return if @checked or (not window.FB) or (not window.gapi)
+    @checked = true
+
     @loadingFacebookFriends = true
     FB.getLoginStatus (response) =>
       @facebookStatus = response.status
@@ -47,15 +54,11 @@ module.exports = class LadderTabView extends CocoView
 
   # FACEBOOK
 
-  # Connect button pressed
-
   onConnectFacebook: ->
     @connecting = true
     FB.login()
 
   onConnectedWithFacebook: -> location.reload() if @connecting
-
-  # Load friends
 
   loadFacebookFriendSessions: ->
     FB.api '/me/friends', (response) =>
@@ -72,14 +75,22 @@ module.exports = class LadderTabView extends CocoView
     friendsMap = {}
     friendsMap[friend.id] = friend.name for friend in @facebookData
     for friend in result
-      friend.facebookName = friendsMap[friend.facebookID]
+      friend.name = friendsMap[friend.facebookID]
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
-    @facebookFriends = result
+      friend.imageSource = "http://graph.facebook.com/#{friend.facebookID}/picture"
+    @facebookFriendSessions = result
     @loadingFacebookFriends = false
     @renderMaybe()
 
   # GOOGLE PLUS
 
+  onConnectGPlus: ->
+    @connecting = true
+    @listenToOnce application.gplusHandler, 'logged-in', @onConnectedWithGPlus
+    application.gplusHandler.reauthorize()
+
+  onConnectedWithGPlus: -> location.reload() if @connecting
+    
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
       @loadingGPlusFriends = true
@@ -99,9 +110,16 @@ module.exports = class LadderTabView extends CocoView
     }
 
   onGPlusFriendSessionsLoaded: (result) =>
+    friendsMap = {}
+    friendsMap[friend.id] = friend for friend in @gplusData
+    for friend in result
+      friend.name = friendsMap[friend.gplusID].displayName
+      friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
+      friend.imageSource = friendsMap[friend.gplusID].image.url
+    @gplusFriendSessions = result
     @loadingGPlusFriends = false
     @renderMaybe()
-
+    
   # LADDER LOADING
 
   refreshLadder: ->
@@ -119,7 +137,7 @@ module.exports = class LadderTabView extends CocoView
     @renderMaybe()
 
   renderMaybe: ->
-    return if @loadingFacebookFriends or @loadingLeaderboards
+    return if @loadingFacebookFriends or @loadingLeaderboards or @loadingGPlusFriends
     @startsLoading = false
     @render()
 
@@ -130,10 +148,17 @@ module.exports = class LadderTabView extends CocoView
     ctx.teams = @teams
     team.leaderboard = @leaderboards[team.id] for team in @teams
     ctx.levelID = @levelID
-    ctx.friends = @facebookFriends
+    ctx.friends = @consolidateFriends()
     ctx.onFacebook = @facebookStatus is 'connected'
     ctx.onGPlus = application.gplusHandler.loggedIn
     ctx
+
+  consolidateFriends: ->
+    allFriendSessions = (@facebookFriendSessions or []).concat(@gplusFriendSessions or [])
+    sessions = _.uniq allFriendSessions, false, (session) -> session._id
+    sessions = _.sortBy sessions, 'totalScore'
+    sessions.reverse()
+    sessions
 
 class LeaderboardData
   constructor: (@level, @team, @session) ->
@@ -141,16 +166,13 @@ class LeaderboardData
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: 20})
     promises = []
     promises.push @topPlayers.fetch()
-    @topPlayers.once 'sync', @onceLeaderboardPartLoaded, @
 
     if @session
       score = @session.get('totalScore') or 10
       @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
       promises.push @playersAbove.fetch()
-      @playersAbove.once 'sync', @onceLeaderboardPartLoaded, @
       @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
       promises.push @playersBelow.fetch()
-      @playersBelow.once 'sync', @onceLeaderboardPartLoaded, @
       level = "#{level.get('original')}.#{level.get('version').major}"
       success = (@myRank) =>
       promises.push $.ajax "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", {success}
@@ -168,7 +190,7 @@ class LeaderboardData
     return me.id in (session.attributes.creator for session in @topPlayers.models)
 
   nearbySessions: ->
-    return [] unless @session
+    return [] unless @session?.get('totalScore')
     l = []
     above = @playersAbove.models
     above.reverse()

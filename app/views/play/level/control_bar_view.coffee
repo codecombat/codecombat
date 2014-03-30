@@ -24,7 +24,7 @@ module.exports = class ControlBarView extends View
     'click #restart-button': ->
       window.tracker?.trackEvent 'Clicked Restart', level: @worldName, label: @worldName
       @showRestartModal()
-      
+
     'click #next-game-button': ->
       Backbone.Mediator.publish 'next-game-pressed'
 
@@ -64,9 +64,23 @@ module.exports = class ControlBarView extends View
       c.homeLink = "/play/ladder/" + levelID
     c
 
+  afterRender: ->
+    super()
+    @guideHighlightInterval ?= setInterval @onGuideHighlight, 5 * 60 * 1000
+
+  destroy: ->
+    clearInterval @guideHighlightInterval if @guideHighlightInterval
+    super()
+
+  onGuideHighlight: =>
+    return if @destroyed or @guideShownOnce
+    @$el.find('#docs-button').hide().show('highlight', 4000)
+
   showGuideModal: ->
     options = {docs: @level.get('documentation'), supermodel: @supermodel}
     @openModalView(new DocsModal(options))
+    clearInterval @guideHighlightInterval
+    @guideHighlightInterval = null
 
   showMultiplayerModal: ->
     @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level, ladderGame: @ladderGame))

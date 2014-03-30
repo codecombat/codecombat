@@ -150,7 +150,7 @@ module.exports = class HUDView extends View
 
   createActions: ->
     actions = @$el.find('.thang-actions tbody').empty()
-    showActions = @thang.world and not _.isEmpty(@thang.actions) and 'action' in @thang.hudProperties ? []
+    showActions = @thang.world and not @thang.notOfThisWorld and not _.isEmpty(@thang.actions) and 'action' in (@thang.hudProperties ? [])
     @$el.find('.thang-actions').toggleClass 'secret', not showActions
     return unless showActions
     @buildActionTimespans()
@@ -355,8 +355,6 @@ module.exports = class HUDView extends View
 
   destroy: ->
     @stage?.stopTalking()
-    @addMoreMessage = null
-    @animateEnterButton = null
     clearInterval(@messageInterval) if @messageInterval
     clearTimeout @hintNextSelectionTimeout if @hintNextSelectionTimeout
     super()

@@ -43,7 +43,7 @@ module.exports = class SpellView extends View
   constructor: (options) ->
     super options
     @session = options.session
-    @session.on 'change:multiplayer', @onMultiplayerChanged, @
+    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
     @problems = {}
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
@@ -575,14 +575,7 @@ module.exports = class SpellView extends View
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()
-    @ace = null
     @aceDoc?.off 'change', @onCodeChangeMetaHandler
-    @aceDoc = null
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
-    @aceSession = null
     @debugView?.destroy()
-    @spell = null
-    @session.off 'change:multiplayer', @onMultiplayerChanged, @
-    for fat in ['notifySpellChanged', 'notifyEditingEnded', 'notifyEditingBegan', 'onFirepadLoaded', 'onLoaded', 'toggleBackground', 'setRecompileNeeded', 'onCursorActivity', 'highlightCurrentLine', 'updateAether', 'onCodeChangeMetaHandler', 'recompileIfNeeded', 'currentAutocastHandler']
-      @[fat] = null
     super()

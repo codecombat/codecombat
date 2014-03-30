@@ -24,7 +24,8 @@ module.exports = class ProblemAlertView extends View
 
   afterRender: ->
     super()
-    @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}")
+    @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
+    Backbone.Mediator.publish 'play-sound', trigger: 'error_appear', volume: 1.0
 
   onRemoveClicked: ->
     @$el.remove()

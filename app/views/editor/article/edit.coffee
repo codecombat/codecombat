@@ -20,15 +20,15 @@ module.exports = class ArticleEditView extends View
     @article = new Article(_id: @articleID)
     @article.saveBackups = true
     @article.fetch()
-    @article.once('sync', @onArticleSync)
-    @article.on('schema-loaded', @buildTreema)
+    @listenToOnce(@article, 'sync', @onArticleSync)
+    @listenTo(@article, 'schema-loaded', @buildTreema)
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
-  onArticleSync: =>
+  onArticleSync: ->
     @article.loaded = true
     @buildTreema()
 
-  buildTreema: =>
+  buildTreema: ->
     return if @treema? or (not @article.loaded) or (not Article.hasSchema())
     unless @article.attributes.body
       @article.set('body', '')

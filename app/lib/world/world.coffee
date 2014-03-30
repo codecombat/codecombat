@@ -221,6 +221,9 @@ module.exports = class World
       @scriptNotes.push scriptNote
     return unless @goalManager
     @goalManager.submitWorldGenerationEvent(channel, event, @frames.length)
+    
+  setGoalState: (goalID, status) ->
+    @goalManager.setGoalState(goalID, status)
 
   endWorld: (victory=false, delay=3, tentative=false) ->
     @totalFrames = Math.min(@totalFrames, @frames.length + Math.floor(delay / @dt)) - 1  # end a few seconds later
