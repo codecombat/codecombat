@@ -24,4 +24,7 @@ module.exports =
     additionalProperties: false
 
   "level:view-switched":
+    title: "Level View Switched"
+    $schema: "http://json-schema.org/draft-04/schema#"
+    description: "Published whenever the view switches"
     $ref: "jQueryEvent"
