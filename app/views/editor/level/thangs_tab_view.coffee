@@ -48,6 +48,8 @@ module.exports = class ThangsTabView extends View
 
   events:
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
+    'click #delete': 'onDeleteClicked'
+    'click #duplicate': 'onDuplicateClicked'
 
   shortcuts:
     'esc': 'selectAddThang'
@@ -61,6 +63,7 @@ module.exports = class ThangsTabView extends View
     @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
     @thangTypes.once 'sync', @onThangTypesLoaded
     @thangTypes.fetch()
+    $(document).bind 'contextmenu', @preventDefaultContextMenu
 
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
     @componentCollection = @supermodel.getCollection new ComponentsCollection()
@@ -418,6 +421,29 @@ module.exports = class ThangsTabView extends View
     @editThangView = null
     @onThangsChanged()
     @$el.find('.thangs-column').show()
+
+  preventDefaultContextMenu: (e) ->
+    e.preventDefault()
+    
+  onSpriteContextMenu: (e) ->
+    {clientX, clientY} = e.originalEvent.nativeEvent
+    if @addThangType
+      $('#duplicate a').html 'Stop Duplicate'
+    else
+      $('#duplicate a').html 'Duplicate'
+    $('#contextmenu').css { position: 'fixed', left: clientX, top: clientY }
+    $('#contextmenu').show()
+    
+  onDeleteClicked: (e) ->
+    $('#contextmenu').hide()
+    @deleteSelectedExtantThang e
+  
+  onDuplicateClicked: (e) ->
+    $('#contextmenu').hide()
+    if !@addThangType
+      thang = @selectedExtantThang.spriteName
+      e.target = $(".add-thang-palette-icon[data-thang-type='" + thang + "']").get 0
+    @selectAddThang e
 
 
 class ThangsNode extends TreemaNode.nodeMap.array
