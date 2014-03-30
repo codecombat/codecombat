@@ -155,18 +155,25 @@ module.exports = class PlayView extends View
         description: "Strike at the weak point in an array of enemies. - by Aftermath"
       }
       {
+        name: 'Sword Loop'
+        difficulty: 2
+        id: 'sword-loop'
+        image: '/file/db/level/525dc5589a0765e496000006/drink_me_icon.png'
+        description: 'Kill the ogres and save the peasants with for-loops. - by Prabh Simran Singh Baweja'
+      }
+      {
+        name: 'Coin Mania'
+        difficulty: 2
+        id: 'coin-mania'
+        image: '/file/db/level/529662dfe0df8f0000000007/grab_the_mushroom_icon.png'
+        description: 'Learn while-loops to grab coins and potions. - by Prabh Simran Singh Baweja'
+      }
+      {
         name: 'Bubble Sort Bootcamp Battle'
         difficulty: 3
         id: 'bubble-sort-bootcamp-battle'
         image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
         description: "Write a bubble sort to organize your soldiers. - by Alexandru"
-      }
-      {
-        name: 'Sword Loop'
-        difficulty: 1
-        id: 'sword-loop'
-        image: '/file/db/level/525dc5589a0765e496000006/drink_me_icon.png'
-        description: 'Kill the ogres and save the peasants and their cattle. - by Prabh Simran Singh Baweja'
       }
       {
         name: 'Ogres of Hanoi'

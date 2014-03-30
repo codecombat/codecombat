@@ -1,4 +1,4 @@
-﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
+module.exports = nativeDescription: "English", englishDescription: "English", translation:
   common:
     loading: "Loading..."
     saving: "Saving..."
@@ -11,6 +11,14 @@
     manual: "Manual"
     fork: "Fork"
     play: "Play"
+
+  units:
+    second: "second"
+    seconds: "seconds"
+    minute: "minute"
+    minutes: "minutes"
+    hour: "hour"
+    hours: "hours"
 
   modal:
     close: "Close"
@@ -252,6 +260,9 @@
     tip_patience: "Patience you must have, young Padawan. - Yoda"
     tip_documented_bug: "A documented bug is not a bug; it is a feature."
     tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+    time_current: "Now:"
+    time_total: "Max:"
+    time_goto: "Go to:"
 
   admin:
     av_title: "Admin Views"

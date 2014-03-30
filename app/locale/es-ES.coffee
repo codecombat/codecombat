@@ -12,6 +12,14 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     fork: "Bifurcar"
     play: "Jugar"
 
+#  units:
+#    second: "second"
+#    seconds: "seconds"
+#    minute: "minute"
+#    minutes: "minutes"
+#    hour: "hour"
+#    hours: "hours"
+
   modal:
     close: "Cerrar"
     okay: "Ok"
@@ -252,6 +260,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    time_current: "Now:"
+#    time_total: "Max:"
+#    time_goto: "Go to:"
 
   admin:
 #    av_title: "Admin Views"

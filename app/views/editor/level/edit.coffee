@@ -13,6 +13,7 @@ SystemsTabView = require './systems_tab_view'
 LevelSaveView = require './save_view'
 LevelForkView = require './fork_view'
 VersionHistoryView = require './versions_view'
+ErrorView = require '../../error_view'
 
 module.exports = class EditorLevelView extends View
   id: "editor-level-view"
@@ -43,6 +44,12 @@ module.exports = class EditorLevelView extends View
 
     @level = new Level _id: @levelID
     @listenToOnce(@level, 'sync', @onLevelLoaded)
+
+    @listenToOnce(@supermodel, 'error', 
+      () => 
+        @hideLoading()
+        @insertSubView(new ErrorView())
+    )
     @supermodel.populateModel @level
 
   showLoading: ($el) ->

@@ -12,6 +12,14 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     fork: "Fork"
     play: "Jogar"
 
+#  units:
+#    second: "second"
+#    seconds: "seconds"
+#    minute: "minute"
+#    minutes: "minutes"
+#    hour: "hour"
+#    hours: "hours"
+
   modal:
     close: "Fechar"
     okay: "Okay"
@@ -252,6 +260,9 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    time_current: "Now:"
+#    time_total: "Max:"
+#    time_goto: "Go to:"
 
   admin:
     av_title: "Visualizações de Admin"
