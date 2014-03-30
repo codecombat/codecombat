@@ -122,13 +122,13 @@ module.exports = class PlaybackView extends View
 
   timeToString: (time=0, withUnits=false) ->
     mins = Math.floor(time / 60)
-    secs = (time - mins * 60).toFixed(1);
+    secs = (time - mins * 60).toFixed(1)
     if withUnits
       ret = ""
       ret = (mins + " " + (if mins is 1 then @minute else @minutes)) if (mins > 0)
       ret = (ret + " " + secs + " " + (if secs is 1 then @second else @seconds)) if (secs > 0 or mins is 0)
     else
-      "#{@pad2 mins}:#{@pad2 secs}"
+      "#{mins}:#{@pad2 secs}"
 
   # callbacks
 
@@ -161,9 +161,9 @@ module.exports = class PlaybackView extends View
     @seconds = t 'units.seconds', defaultValue: 'seconds'
     @minute = t 'units.minute', defaultValue: 'minute'
     @minutes = t 'units.minutes', defaultValue: 'minutes'
-    @goto = t 'play_level.time_goto', defaultValue: "Go to"
-    @current = t 'play_level.current', defaultValue: "Current"
-    @total = t 'play_level.total', defaultValue: "Total"
+    @goto = t 'play_level.time_goto', defaultValue: "Go to:"
+    @current = t 'play_level.time_current', defaultValue: "Now:"
+    @total = t 'play_level.time_total', defaultValue: "Max:"
 
   onToggleDebug: ->
     return if @shouldIgnore()

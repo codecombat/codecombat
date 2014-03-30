@@ -260,9 +260,9 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
-#    time_current: "Current"
-#    time_total: "Total"
-#    time_goto: "Go to"
+#    time_current: "Now:"
+#    time_total: "Max:"
+#    time_goto: "Go to:"
 
 #  admin:
 #    av_title: "Admin Views"
