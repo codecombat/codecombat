@@ -224,6 +224,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     skip_tutorial: "Passer (esc)"
     editor_config: "Config de l'éditeur"
     editor_config_title: "Configuration de l'éditeur"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Raccourcis clavier"
     editor_config_keybindings_default: "Par défault (Ace)"
     editor_config_keybindings_description: "Ajouter de nouveaux raccourcis connus depuis l'éditeur commun."

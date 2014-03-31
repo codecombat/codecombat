@@ -224,6 +224,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     skip_tutorial: "Overslaan (esc)"
     editor_config: "Editor Configuratie"
     editor_config_title: "Editor Configuratie"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Toets instellingen"
     editor_config_keybindings_default: "Standaard (Ace)"
     editor_config_keybindings_description: "Voeg extra shortcuts toe van de gebruikelijke editors."

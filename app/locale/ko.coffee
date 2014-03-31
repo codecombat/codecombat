@@ -224,6 +224,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     skip_tutorial: "넘기기 (esc)"
     editor_config: "에디터 설정"
     editor_config_title: "에디터 설정"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "단축키 설정"
     editor_config_keybindings_default: "기본(Ace)"
     editor_config_keybindings_description: "일반적인 에디터와 마찬가지인 단축키 설정"

@@ -224,6 +224,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     skip_tutorial: "Пропуск (Esc)"
     editor_config: "Настройки редактора"
     editor_config_title: "Настройки редактора"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Сочетания клавиш"
     editor_config_keybindings_default: "По умолчанию (Ace)"
     editor_config_keybindings_description: "Добавляет дополнительные сочетания, известные из популярных редакторов."

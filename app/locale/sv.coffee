@@ -224,6 +224,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     skip_tutorial: "Hoppa över (esc)"
     editor_config: "Ställ in redigerare"
     editor_config_title: "Redigerarinställningar"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Kortkommandon"
     editor_config_keybindings_default: "Standard (Ace)"
     editor_config_keybindings_description: "Lägger till ytterligare kortkommandon kända från vanliga redigerare."

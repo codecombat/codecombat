@@ -224,6 +224,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     skip_tutorial: "Pular (esc)"
     editor_config: "Editor de Configurações"
     editor_config_title: "Editor de Configurações"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Teclas de Atalho"
     editor_config_keybindings_default: "Padrão (Ace)"
     editor_config_keybindings_description: "Adicionar atalhos conhecidos de editores comuns."
