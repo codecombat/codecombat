@@ -26,7 +26,8 @@ call download_and_install_applications
 
 call github_setup
 
-call npm_and_brunch_setup
+:: This will be available in v2.0
+::call npm_and_brunch_setup
 
 call print_finished_header
 call print_dashed_seperator
