@@ -14,7 +14,7 @@ module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) 
     if nextURL
       window.location.href = nextURL
     else
-      window.location.reload
+      window.location.reload()
   })
 
 module.exports.loginUser = (userObject, failure=genericFailure) ->
