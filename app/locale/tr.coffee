@@ -5,6 +5,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     sending: "Gönderiliyor..."
     cancel: "İptal"
     save: "Kaydet"
+#    create: "Create"
     delay_1_sec: "1 saniye"
     delay_3_sec: "3 saniye"
     delay_5_sec: "5 saniye"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
   login:
     sign_up: "Kaydol"
     log_in: "Giriş Yap"
+#    logging_in: "Logging In"
     log_out: "Çıkış Yap"
     recover: "şifrenizi sıfırlayabilirsiniz."
 

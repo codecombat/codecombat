@@ -5,6 +5,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     sending: "Надсилання..."
     cancel: "Відміна"
     save: "Зберегти"
+#    create: "Create"
     delay_1_sec: "1 секунда"
     delay_3_sec: "3 секунди"
     delay_5_sec: "5 секунд"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
   login:
     sign_up: "створити акаунт"
     log_in: "Увійти"
+#    logging_in: "Logging In"
     log_out: "Вийти"
     recover: "відновити акаунт"
 

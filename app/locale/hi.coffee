@@ -5,6 +5,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #    sending: "Sending..."
 #    cancel: "Cancel"
 #    save: "Save"
+#    create: "Create"
 #    delay_1_sec: "1 second"
 #    delay_3_sec: "3 seconds"
 #    delay_5_sec: "5 seconds"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "मानक हिन्दी", englishDe
 #  login:
 #    sign_up: "Create Account"
 #    log_in: "Log In"
+#    logging_in: "Logging In"
 #    log_out: "Log Out"
 #    recover: "recover account"
 

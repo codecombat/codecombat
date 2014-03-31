@@ -5,6 +5,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     sending: "ارسال..."
     cancel: "الغي"
     save: "احفض"
+#    create: "Create"
     delay_1_sec: "ثانية"
     delay_3_sec: "3 ثواني"
     delay_5_sec: "5 ثواني"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
 #  login:
 #    sign_up: "Create Account"
 #    log_in: "Log In"
+#    logging_in: "Logging In"
 #    log_out: "Log Out"
 #    recover: "recover account"
 

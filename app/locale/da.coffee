@@ -5,6 +5,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     sending: "Sender..."
     cancel: "Annuller"
     save: "Gem"
+#    create: "Create"
     delay_1_sec: "1 sekund"
     delay_3_sec: "3 sekunder"
     delay_5_sec: "5 sekunder"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
   login:
     sign_up: "opret ny konto"
     log_in: "Log Ind"
+#    logging_in: "Logging In"
     log_out: "Log Ud"
     recover: "genskab konto"
 

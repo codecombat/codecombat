@@ -5,6 +5,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     sending: "Gởi..."
     cancel: "Hủy"
     save: "Lưu"
+#    create: "Create"
 #    delay_1_sec: "1 second"
 #    delay_3_sec: "3 seconds"
 #    delay_5_sec: "5 seconds"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
   login:
     sign_up: "Tạo tài khoản"
     log_in: "Đăng nhập"
+#    logging_in: "Logging In"
     log_out: "Đăng xuất"
     recover: "Khôi phục tài khoản"
 

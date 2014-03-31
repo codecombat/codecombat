@@ -5,6 +5,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     sending: "...שולח"
     cancel: "ביטול"
     save: "שמור"
+#    create: "Create"
     delay_1_sec: "שניה אחת"
     delay_3_sec: "שלוש שניות"
     delay_5_sec: "חמש שניות"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   login:
     sign_up: "הירשם"
     log_in: "היכנס"
+#    logging_in: "Logging In"
     log_out: "צא"
     recover: "שחזר סיסמה"
 

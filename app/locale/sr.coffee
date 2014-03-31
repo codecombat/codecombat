@@ -5,6 +5,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     sending: "Шаље се..."
     cancel: "Откажи"
 #    save: "Save"
+#    create: "Create"
     delay_1_sec: "1 секунда"
     delay_3_sec: "3 секунде"
     delay_5_sec: "5 секунди"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   login:
     sign_up: "Направи Налог"
     log_in: "Улогуј Се"
+#    logging_in: "Logging In"
     log_out: "Излогуј Се"
     recover: "Поврати налог"
 

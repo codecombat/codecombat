@@ -5,6 +5,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     sending: "Se trimite..."
     cancel: "Anulează"
     save: "Salvează"
+#    create: "Create"
     delay_1_sec: "1 secundă"
     delay_3_sec: "3 secunde"
     delay_5_sec: "5 secunde"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
   login:
     sign_up: "Crează cont"
     log_in: "Log In"
+#    logging_in: "Logging In"
     log_out: "Log Out"
     recover: "recuperează cont"
 

@@ -5,6 +5,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     sending: "보내는 중입니다..."
     cancel: "취소"
     save: "저장"
+#    create: "Create"
     delay_1_sec: "1초"
     delay_3_sec: "3초"
     delay_5_sec: "5초"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   login:
     sign_up: "계정 생성"
     log_in: "로그인"
+#    logging_in: "Logging In"
     log_out: "로그아웃"
     recover: "계정 복구"
 

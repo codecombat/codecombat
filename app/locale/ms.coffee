@@ -5,6 +5,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
     sending: "Menghantar maklumat.."
     cancel: "Batal"
     save: "Simpan data"
+#    create: "Create"
 #    delay_1_sec: "1 second"
 #    delay_3_sec: "3 seconds"
 #    delay_5_sec: "5 seconds"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
   login:
     sign_up: "Buat Akaun"
     log_in: "Log Masuk"
+#    logging_in: "Logging In"
     log_out: "Log Keluar"
     recover: "Perbaharui Akaun"
 

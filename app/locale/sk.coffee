@@ -5,6 +5,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     sending: "Odosiela sa..."
     cancel: "Zruš"
     save: "Ulož"
+#    create: "Create"
     delay_1_sec: "1 sekunda"
     delay_3_sec: "3 sekundy"
     delay_5_sec: "5 sekúnd"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   login:
     sign_up: "Vytvor účet"
     log_in: "Prihlás sa"
+#    logging_in: "Logging In"
     log_out: "Odhlás sa"
     recover: "obnov"
 
