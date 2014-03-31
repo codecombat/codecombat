@@ -12,6 +12,14 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     fork: "Fork"
     play: "Joacă"
 
+#  units:
+#    second: "second"
+#    seconds: "seconds"
+#    minute: "minute"
+#    minutes: "minutes"
+#    hour: "hour"
+#    hours: "hours"
+
   modal:
     close: "Inchide"
     okay: "Okay"
@@ -218,12 +226,12 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     editor_config_title: "Configurare Editor"
     editor_config_keybindings_label: "Mapare taste"
     editor_config_keybindings_default: "Default (Ace)"
-    editor_config_keybindings_description: "Adaugă comenzi rapide suplimentare cunoscute din editoarele obisnuite." # not sure, where is this on the site?
+    editor_config_keybindings_description: "Adaugă comenzi rapide suplimentare cunoscute din editoarele obisnuite."
     editor_config_invisibles_label: "Arată etichetele invizibile"
     editor_config_invisibles_description: "Arată spațiile și taburile invizibile."
     editor_config_indentguides_label: "Arată ghidul de indentare"
     editor_config_indentguides_description: "Arată linii verticale pentru a vedea mai bine indentarea."
-    editor_config_behaviors_label: "Comportamente inteligente"  # context?
+    editor_config_behaviors_label: "Comportamente inteligente"
     editor_config_behaviors_description: "Completează automat parantezele, ghilimele etc."
     loading_ready: "Gata!"
     tip_insert_positions: "Shift+Click oriunde pe harta pentru a insera punctul în editorul de vrăji."
@@ -234,11 +242,27 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tip_beta_launch: "CodeCombat a fost lansat beta in Octombrie 2013."
     tip_js_beginning: "JavaScript este doar începutul."
     tip_autocast_setting: "Ajutează setările de autocast apăsând pe rotița de pe buton."
+#    think_solution: "Think of the solution, not the problem."
+#    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
+#    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
+#    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
+#    tip_forums: "Head over to the forums and tell us what you think!"
     tip_baby_coders: "În vitor până și bebelușii vor fi Archmage."
     tip_morale_improves: "Se va încărca până până când va crește moralul."
     tip_all_species: "Noi credem în șanse egale de a învăța programare pentru toate speciile."
-#    tip_reticulating: "Reticulating spines."  ??????????context ???
+#    tip_reticulating: "Reticulating spines."
     tip_harry: "Ha un Wizard, "
+#    tip_great_responsibility: "With great coding skill comes great debug responsibility."
+#    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
+#    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
+#    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
+#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
+#    tip_patience: "Patience you must have, young Padawan. - Yoda"
+#    tip_documented_bug: "A documented bug is not a bug; it is a feature."
+#    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    time_current: "Now:"
+#    time_total: "Max:"
+#    time_goto: "Go to:"
 
   admin:
     av_title: "Admin vede"
@@ -559,7 +583,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
 #  multiplayer_launch:
 #    introducing_dungeon_arena: "Introducing Dungeon Arena"
-#    new_way: "March 17, 2014: The new way to compete with code."
+#    new_way: "The new way to compete with code."
 #    to_battle: "To Battle, Developers!"
 #    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
 #    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."

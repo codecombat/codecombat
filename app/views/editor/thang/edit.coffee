@@ -1,15 +1,16 @@
-View = require 'views/kinds/RootView'
-template = require 'templates/editor/thang/edit'
 ThangType = require 'models/ThangType'
 SpriteParser = require 'lib/sprites/SpriteParser'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoSprite = require 'lib/surface/CocoSprite'
 Camera = require 'lib/surface/Camera'
-ThangComponentEditView = require 'views/editor/components/main'
-VersionHistoryView = require './versions_view'
 DocumentFiles = require 'collections/DocumentFiles'
 
+View = require 'views/kinds/RootView'
+ThangComponentEditView = require 'views/editor/components/main'
+VersionHistoryView = require './versions_view'
 ColorsTabView = require './colors_tab_view'
+ErrorView = require '../../error_view'
+template = require 'templates/editor/thang/edit'
 
 CENTER = {x:200, y:300}
 
@@ -43,10 +44,22 @@ module.exports = class ThangTypeEditView extends View
     @mockThang = $.extend(true, {}, @mockThang)
     @thangType = new ThangType(_id: @thangTypeID)
     @thangType.saveBackups = true
+
+    @listenToOnce(@thangType, 'error', 
+      () => 
+        @hideLoading()
+
+        # Hack: editor components appear after calling insertSubView.
+        # So we need to hide them first. 
+        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
+
+        @insertSubView(new ErrorView())
+    )
+
     @thangType.fetch()
     @thangType.loadSchema()
-    @thangType.schema().once 'sync', @onThangTypeSync, @
-    @thangType.once 'sync', @onThangTypeSync, @
+    @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
+    @listenToOnce(@thangType, 'sync', @onThangTypeSync)
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
   onThangTypeSync: ->
