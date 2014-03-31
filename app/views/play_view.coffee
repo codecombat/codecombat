@@ -1,9 +1,31 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/play'
+LevelSession = require 'models/LevelSession'
+CocoCollection = require 'models/CocoCollection'
+
+class LevelSessionsCollection extends CocoCollection
+  url: ''
+  model: LevelSession
+
+  constructor: (model) ->
+    super()
+    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
 
 module.exports = class PlayView extends View
   id: "play-view"
   template: template
+
+  constructor: (options) ->
+    super options
+    @levelStatusMap = {}
+    @sessions = new LevelSessionsCollection()
+    @sessions.fetch()
+    @listenToOnce @sessions, 'sync', @onSessionsLoaded
+
+  onSessionsLoaded: (e) ->
+    for session in @sessions.models
+      @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+    @render()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -198,7 +220,7 @@ module.exports = class PlayView extends View
       {id: "dev", name: "Random Harder Levels", description: "... in which you learn the interface while doing something a little harder.", levels: experienced}
       {id: "player_created", name: "Player-Created", description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>.", levels: playerCreated}
     ]
-
+    context.levelStatusMap = @levelStatusMap
     context
 
   afterRender: ->

@@ -112,8 +112,7 @@ module.exports = class Handler
         log.warn "Whoa, we haven't yet thought about public properties for User projection yet."
       else
         projection = {}
-        for field in req.query.project.split(',')
-          projection[field] = 1
+        projection[field] = 1 for field in req.query.project.split(',')
     for filter in filters
       callback = (err, results) =>
         return @sendDatabaseError(res, err) if err
