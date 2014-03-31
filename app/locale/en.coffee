@@ -52,6 +52,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   login:
     sign_up: "Create Account"
     log_in: "Log In"
+    logging_in: "Logging In"
     log_out: "Log Out"
     recover: "recover account"
 
