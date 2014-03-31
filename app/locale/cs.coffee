@@ -5,6 +5,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     sending: "Odesílání..."
     cancel: "Zrušit"
     save: "Uložit"
+#    create: "Create"
     delay_1_sec: "1 vteřina"
     delay_3_sec: "3 vteřiny"
     delay_5_sec: "5 vteřin"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
   login:
     sign_up: "Vytvořit účet"
     log_in: "Přihlásit"
+#    logging_in: "Logging In"
     log_out: "Odhlásit"
     recover: "obnovit účet"
 

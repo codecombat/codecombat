@@ -5,6 +5,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     sending: "Küldés..."
     cancel: "Mégse"
     save: "Mentés"
+#    create: "Create"
     delay_1_sec: "1 másodperc"
     delay_3_sec: "3 másodperc"
     delay_5_sec: "5 másodperc"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   login:
     sign_up: "Regisztráció"
     log_in: "Bejelentkezés"
+#    logging_in: "Logging In"
     log_out: "Kijelentkezés"
     recover: "meglévő fiók visszaállítása"
 

@@ -5,6 +5,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     sending: "Αποστολή ..."
     cancel: "Ακύρωση"
 #    save: "Save"
+#    create: "Create"
 #    delay_1_sec: "1 second"
 #    delay_3_sec: "3 seconds"
 #    delay_5_sec: "5 seconds"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
   login:
     sign_up: "Δημιούργησε Λογαριασμό"
     log_in: "Σύνδεση"
+#    logging_in: "Logging In"
     log_out: "Αποσύνδεση"
     recover: "Κάντε ανάκτηση του λογαριασμού σας"
 

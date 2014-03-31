@@ -5,6 +5,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     sending: "Enviant..."
     cancel: "Cancel·lant"
     save: "Guardar"
+#    create: "Create"
     delay_1_sec: "1 segon"
     delay_3_sec: "3 segons"
     delay_5_sec: "5 segons"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
   login:
     sign_up: "Crear un compte"
     log_in: "Iniciar Sessió"
+#    logging_in: "Logging In"
     log_out: "Tancar Sessió"
     recover: "Recuperar un compte"
 

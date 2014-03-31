@@ -5,6 +5,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     sending: "Wysyłanie…"
     cancel: "Anuluj"
     save: "Zapisz"
+#    create: "Create"
     delay_1_sec: "1 sekunda"
     delay_3_sec: "3 sekundy"
     delay_5_sec: "5 sekund"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
   login:
     sign_up: "Stwórz konto"
     log_in: "Zaloguj się"
+#    logging_in: "Logging In"
     log_out: "Wyloguj się"
     recover: "odzyskaj konto"
 

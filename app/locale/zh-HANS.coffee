@@ -5,6 +5,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sending: "发送中……"
     cancel: "取消"
     save: "保存"
+#    create: "Create"
     delay_1_sec: "1 秒"
     delay_3_sec: "3 秒"
     delay_5_sec: "5 秒"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   login:
     sign_up: "注册"
     log_in: "登录"
+#    logging_in: "Logging In"
     log_out: "登出"
     recover: "找回账户"
 

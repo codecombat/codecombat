@@ -5,6 +5,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     sending: "Envoi..."
     cancel: "Annuler"
     save: "Sauvegarder"
+#    create: "Create"
     delay_1_sec: "1 seconde"
     delay_3_sec: "3 secondes"
     delay_5_sec: "5 secondes"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   login:
     sign_up: "Créer un compte"
     log_in: "Connexion"
+#    logging_in: "Logging In"
     log_out: "Déconnexion"
     recover: "récupérer son compte"
 

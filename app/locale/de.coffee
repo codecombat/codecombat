@@ -5,6 +5,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     sending: "Übertrage..."
     cancel: "Abbrechen"
     save: "Speichern"
+#    create: "Create"
     delay_1_sec: "1 Sekunde"
     delay_3_sec: "3 Sekunden"
     delay_5_sec: "5 Sekunden"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
   login:
     sign_up: "Registrieren"
     log_in: "Einloggen"
+#    logging_in: "Logging In"
     log_out: "Ausloggen"
     recover: "Account wiederherstellen"
 

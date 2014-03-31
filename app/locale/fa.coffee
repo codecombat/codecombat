@@ -5,6 +5,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     sending: "...در حال ارسال"
     cancel: "لغو"
     save: "ذخیره "
+#    create: "Create"
     delay_1_sec: "1 ثانیه"
     delay_3_sec: "3 ثانیه"
     delay_5_sec: "5 ثانیه"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
   login:
     sign_up: "ایجاد حساب کاربری"
     log_in: "ورود"
+#    logging_in: "Logging In"
     log_out: "خروج"
     recover: "بازیابی حساب کاربری"
 

@@ -5,6 +5,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     sending: "送信中..."
     cancel: "キャンセル"
     save: "保存"
+#    create: "Create"
     delay_1_sec: "1秒"
     delay_3_sec: "3秒"
     delay_5_sec: "5秒"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   login:
     sign_up: "アカウント登録"
     log_in: "ログイン"
+#    logging_in: "Logging In"
     log_out: "ログアウト"
     recover: "パスワードを忘れた場合はこちら"
 

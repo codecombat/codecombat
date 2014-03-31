@@ -5,6 +5,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sending: "Sending..."
     cancel: "Cancel"
     save: "Save"
+    create: "Create"
     delay_1_sec: "1 second"
     delay_3_sec: "3 seconds"
     delay_5_sec: "5 seconds"

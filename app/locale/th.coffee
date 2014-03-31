@@ -5,6 +5,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    sending: "Sending..."
     cancel: "ยกเลิก"
 #    save: "Save"
+#    create: "Create"
     delay_1_sec: "1 วินาที"
     delay_3_sec: "3 วินาที"
     delay_5_sec: "5 วินาที"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
   login:
     sign_up: "ลงทะเบียนใหม่"
     log_in: "ลงชื่อเข้าใช้"
+#    logging_in: "Logging In"
     log_out: "ลงชื่ื่อออก"
     recover: "กู้บัญชีการใช้งาน"
 

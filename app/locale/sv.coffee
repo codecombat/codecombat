@@ -5,6 +5,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     sending: "Skickar..."
     cancel: "Avbryt"
     save: "Spara"
+#    create: "Create"
     delay_1_sec: "1 sekund"
     delay_3_sec: "3 sekunder"
     delay_5_sec: "5 sekunder"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   login:
     sign_up: "Skapa konto"
     log_in: "Logga in"
+#    logging_in: "Logging In"
     log_out: "Logga ut"
     recover: "glömt lösenord"
 
