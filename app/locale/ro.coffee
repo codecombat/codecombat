@@ -224,6 +224,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     skip_tutorial: "Sari peste (esc)"
     editor_config: "Editor Config"
     editor_config_title: "Configurare Editor"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Mapare taste"
     editor_config_keybindings_default: "Default (Ace)"
     editor_config_keybindings_description: "Adaugă comenzi rapide suplimentare cunoscute din editoarele obisnuite."
