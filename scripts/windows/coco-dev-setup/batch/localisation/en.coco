@@ -1,41 +1,66 @@
 [global]
 	native=English
-	bye=Bye Bye!
+	intro=From now on we'll send our feedback in English!
 [install]
-	begin=Installation has begun, this can take a while... Please stay tuned...
-	close=Don't close any windows please, unless specified explicitly.
-[dai]
-	title=[DOWNLOADING AND INSTALLING 3RD PARTY SOFTWARE]
-	downloading=downloading:
-	installing=installing:
-	cancel=Download and Installation cancelled...
-	software=Software has been installed...
-	devenv=Installation of the Developers Environment is complete!
-	stop=Installation has been stopped...
-	unpacking=unpacking and moving:
-	bower=Installing bower, brunch, nodemon and sendwithus...
-[git]
-	stored=CodeCombat is safely stored on a git repository.
-	clapp=Therefore you need a git command-line application (Git-bash).
-	examples=Examples: git-bash, CygWin, ...
-	question=Do you already have git-bash?
-	path=Enter the path to where you installed Git-bash
-	checkout=Checking out the Git Repository...
-	username=Please enter your github username:
-[nodejs]
-	question=Do you already have the latest version of node-js installed?
-	path=Please enter the full path of the location you installed nodejs to:
-[ruby]
-	question=Do you already have the latest version of ruby installed?
-[mongodb]
-	question=Do you already have the latest version of mongo-db installed?
-	path=Enter the path where you would like to install MongoDB:
-[python]
-	question=Do you already have the latest version of python installed?
+	[system]
+		bit=-bit computer detected.
+		prefix=The operating system
+		sufix=was detected.
+		xp=We don't support Windows XP, installation cancelled.
+	[process]
+		sks=Have you already installed all the software needed for CodeCombat?
+		skq=We recommand that you reply negative in case you're not sure.
+		skc=Skipping the installation of the software...
+		1=CodeCombat couldn't be developed without third-party software.
+		2=That's why you'll need to install this software,
+		3=in order to start contributing to our community.
+		4=Cancel the installation if you already have the application.
+		prefix=Do you already have the latest version of
+		sufix=installed?
+		downloading=is downloading...
+		installing=is installing...
+		unzipping=is unzipping...
+		cleaning=is cleaning...
+		mongodbpath=Please define the full path where mongodb should be installed
+[github]
+	[intro]
+		opensource=CodeCombat is opensource, like you already know.
+		online=All our sourcecode can be found online at Github.
+		manual=You can choose to do the entire Git setup yourself.
+		norec=However we recommend that you instead let us handle it instead.
+	[skip]
+		question=Do you want to do the Local Git setup manually yourself?
+		consequence=Make sure you have correctly setup your repository before processing.
+		donotclose=Do not close this window please.
+		wait=When you're ready, press any key to continue...
+	[process]
+		path=Please give the full path of your CodeCombat git repository: 
+		checkout=Please enter the full path where you want to install your CodeCombat environment
+		bashi=This installation requires Git Bash.
+		bashp64=Git bash is by default installed at 'C:\Program Files (x86)\Git'.
+		bashp32=Git bash is by default installed at 'C:\Program Files\Git'.
+		bashq=Please enter the full path where git bash is installed or just press enter if it's in the default location
+		ssh=Do you want to checkout the repository via ssh?
+[npm]
+	install=Installing bower, brunch, nodemon and sendwithus...
+	binstall=Installing bower packages...
+	sass=Installing sass...
+	npm=Installing npm...
+	brnch=Starting brunch....
+	mongodb=Setting up a MongoDB database for you...
+	db=Downloading the last version of the CodeCombat database...
+	script=Preparing the automatic startup script for you...
 [error]
-	xp=Sadly we can't support Windows XP... Please upgrade your OS!
-	os=Machine OS cannot be determined...
-	osreport=Report your OS to the developers @ CodeCombat.com...
-	nocleaning=... Cleaning up has been disabled... Terminating Script!
-	git_app_path=The path to your git application is incorrect, please try again...
-	invalid_path=The path you entered is invalid, please try again...
+	path=That path already exists, are you sure you want to overwrite it?
+	exist=That path doesn't exist. Please try again...
+[end]
+	succesfull=The setup of the CodeCombat Dev. Environment was succesfull.
+	thankyou=Thank you already for your contribution and see you soon.
+	readme=Do you want to read the README for more information?
+[start]
+	1=From now on you can start the dev. environment at
+	2=the touch of a single mouse click.
+	3=  1) Just double click
+	4=     and let the environment start up.
+	5=  2) Now just open 'localhost:3000' in your prefered browser.
+	6=That's it, you're now ready to start working on CodeCombat!
