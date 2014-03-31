@@ -12,13 +12,13 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    fork: "Fork"
     play: "Abspielen"
 
- units:
-   second: "Sekunde"
-   seconds: "Sekunden"
-   minute: "Minute"
-   minutes: "Minuten"
-   hour: "Stunde"
-   hours: "Stunden"
+  units:
+    second: "Sekunde"
+    seconds: "Sekunden"
+    minute: "Minute"
+    minutes: "Minuten"
+    hour: "Stunde"
+    hours: "Stunden"
 
   modal:
     close: "Schließen"
