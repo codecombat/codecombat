@@ -12,13 +12,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     fork: "Форк"
     play: "Играть"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
+  units:
+    second: "секунда"
+    seconds: "секунд(ы)"
+    minute: "минута"
+    minutes: "минут(ы)"
+    hour: "час"
+    hours: "часа(ов)"
 
   modal:
     close: "Закрыть"
@@ -32,7 +32,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     editor: "Редактор"
     blog: "Блог"
     forum: "Форум"
-    admin: "Администратор"
+    admin: "Админ"
     home: "Домой"
     contribute: "Сотрудничество"
     legal: "Юридическая информация"
@@ -260,9 +260,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_patience: "Терпением ты обладать должен, юный падаван. - Yoda"
     tip_documented_bug: "Документированный баг не является багом; это фича."
     tip_impossible: "Это всегда кажется невозможным, пока не сделано. - Nelson Mandela"
-#    time_current: "Now:"
-#    time_total: "Max:"
-#    time_goto: "Go to:"
+    time_current: "Текущее:"
+    time_total: "Максимальное:"
+    time_goto: "Перейти на:"
 
   admin:
     av_title: "Админ панель"
@@ -387,7 +387,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     practices_title: "Уважаемые лучшие практики"
     practices_description: "Это наши обещания тебе, игроку, менее юридическим языком."
     privacy_title: "Конфиденциальность"
-    privacy_description: "Мы не будем продавать какой-либо личной информации. Мы намерены заработать деньги с помощью рекрутинга в конечном счёте, но будьте уверены, мы не будем распространять вашу личную информацию заинтересованным компаниям без вашего явного согласия."
+    privacy_description: "Мы не будем продавать какую-либо личную информацию. Мы намерены заработать деньги с помощью рекрутинга в конечном счёте, но будьте уверены, мы не будем распространять вашу личную информацию заинтересованным компаниям без вашего явного согласия."
     security_title: "Безопасность"
     security_description: "Мы стремимся сохранить вашу личную информацию в безопасности. Как проект с открытым исходным кодом, наш сайт открыт для всех в вопросах пересмотра и совершенствования систем безопасности."
     email_title: "Email"
