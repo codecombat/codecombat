@@ -224,6 +224,8 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     skip_tutorial: "Pomiń (esc)"
     editor_config: "Konfiguracja edytora"
     editor_config_title: "Konfiguracja edytora"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Przypisania klawiszy"
     editor_config_keybindings_default: "Domyślny (Ace)"
     editor_config_keybindings_description: "Dodaje skróty znane z popularnych edytorów."
