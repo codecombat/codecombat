@@ -470,7 +470,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     more_about_archmage: "Dozvědět se více o tom, jak se stát mocným Arcimágem"
     archmage_subscribe_desc: "Dostávat emailem oznámení a informacemi nových programovacích příležitostech"
 #    artisan_summary_pref: "Want to design levels and expand CodeCombat's arsenal? People are playing through our content at a pace faster than we can build! Right now, our level editor is barebone, so be wary. Making levels will be a little challenging and buggy. If you have visions of campaigns spanning for-loops to"
-#    artisan_summary_suf: "then this class is for you."
+#    artisan_summary_suf: ", then this class is for you."
     artisan_introduction_pref: "Musíme vytvářet další úrovně! Lidé nás prosí o další obsah, ale sami zvládáme vytvořit jen málo. Naším prvním pracovním zastavením je první úroveň. Editor úrovní je tak-tak použitelný i pro jeho vlastní tvůrce. Máte-li vizi pro vytvoření vnořených úrovní alá "
     artisan_introduction_suf: "pak neváhejte, toto je vaše destinace."
     artisan_attribute_1: "Předchozí zkušenosti s vytvářením podobného obsahu by byly vítány, například z editorů úrovní Blizzardu, ale nejsou vyžadovány!"
