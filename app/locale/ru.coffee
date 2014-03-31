@@ -5,6 +5,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sending: "Отправка..."
     cancel: "Отмена"
     save: "Сохранить"
+    create: "Создать"
     delay_1_sec: "1 секунда"
     delay_3_sec: "3 секунды"
     delay_5_sec: "5 секунд"
