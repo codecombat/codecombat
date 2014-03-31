@@ -274,10 +274,12 @@ module.exports = class PlayLevelView extends View
     setTimeout(@preloadNextLevel, 3000)
 
   showVictory: ->
-    options = {level: @level, supermodel: @supermodel, session:@session}
+    options = {level: @level, supermodel: @supermodel, session: @session}
     docs = new VictoryModal(options)
     @openModalView(docs)
     window.tracker?.trackEvent 'Saw Victory', level: @world.name, label: @world.name
+    if me.get('anonymous')
+      window.nextLevelURL = @getNextLevelID()  # Signup will go here on completion instead of reloading.
 
   onRestartLevel: ->
     @tome.reloadAllCode()
@@ -294,11 +296,10 @@ module.exports = class PlayLevelView extends View
     window.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
 
   onPlayNextLevel: ->
-    nextLevel = @getNextLevel()
-    nextLevelID = nextLevel.get('slug') or nextLevel.id
-    url = "/play/level/#{nextLevelID}"
+    nextLevelID = @getNextLevelID()
+    nextLevelURL = @getNextLevelURL()
     Backbone.Mediator.publish 'router:navigate', {
-      route: url,
+      route: nextLevelURL,
       viewClass: PlayLevelView,
       viewArgs: [{supermodel:@supermodel}, nextLevelID]}
 
@@ -306,6 +307,12 @@ module.exports = class PlayLevelView extends View
     nextLevelOriginal = @level.get('nextLevel')?.original
     levels = @supermodel.getModels(Level)
     return l for l in levels when l.get('original') is nextLevelOriginal
+
+  getNextLevelID: ->
+    nextLevel = @getNextLevel()
+    nextLevelID = nextLevel.get('slug') or nextLevel.id
+
+  getNextLevelURL: -> "/play/level/#{@getNextLevelID()}"
 
   onHighlightDom: (e) ->
     if e.delay
@@ -471,5 +478,6 @@ module.exports = class PlayLevelView extends View
     clearInterval(@pointerInterval)
     @bus?.destroy()
     #@instance.save() unless @instance.loading
+    delete window.nextLevelURL
     console.profileEnd?() if PROFILE_ME
     super()

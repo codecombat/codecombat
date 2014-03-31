@@ -37,7 +37,7 @@ module.exports = class SignupModalView extends View
 
   checkAge: (e) ->
     $("#signup-button", @$el).prop 'disabled', not $(e.target).prop('checked')
-    
+
   getRenderData: ->
     c = super()
     c.showRequiredError = @options.showRequiredError
@@ -61,4 +61,4 @@ module.exports = class SignupModalView extends View
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     window.tracker?.trackEvent 'Finished Signup'
     @enableModalInProgress(@$el)
-    createUser(userObject)
+    createUser userObject, null, window.nextLevelURL

@@ -5,13 +5,16 @@ storage = require 'lib/storage'
 module.exports.CURRENT_USER_KEY = CURRENT_USER_KEY = 'whoami'
 BEEN_HERE_BEFORE_KEY = 'beenHereBefore'
 
-module.exports.createUser = (userObject, failure=backboneFailure) ->
+module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) ->
   user = new User(userObject)
   user.save({}, {
   error: failure,
   success: (model) ->
     storage.save(CURRENT_USER_KEY, model)
-    window.location.reload()
+    if nextURL
+      window.location.href = nextURL
+    else
+      window.location.reload
   })
 
 module.exports.loginUser = (userObject, failure=genericFailure) ->
@@ -43,7 +46,7 @@ init = ->
   module.exports.me = window.me = new User(storedUser)
   me.url = -> '/auth/whoami'
   me.fetch()
-  
+
   retry = -> me.fetch() # blindly try again
   error = -> setTimeout(retry, 1000) # blindly try again
   me.on 'error', error, @

@@ -47,7 +47,9 @@ module.exports = class Handler
   sendNotFoundError: (res) -> errors.notFound(res)
   sendMethodNotAllowed: (res) -> errors.badMethod(res)
   sendBadInputError: (res, message) -> errors.badInput(res, message)
-  sendDatabaseError: (res, err) -> errors.serverError(res, 'Database error, ' + err)
+  sendDatabaseError: (res, err) ->
+    log.error "Database error, #{err}"
+    errors.serverError(res, 'Database error, ' + err)
 
   sendError: (res, code, message) ->
     errors.custom(res, code, message)
