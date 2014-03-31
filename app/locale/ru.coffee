@@ -52,6 +52,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   login:
     sign_up: "Создать аккаунт"
     log_in: "Войти"
+    logging_in: "Вход..."
     log_out: "Выйти"
     recover: "восстановить аккаунт"
 
