@@ -5,7 +5,7 @@ errors = require './errors'
 log = require 'winston'
 
 PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
-FETCH_LIMIT = 150
+FETCH_LIMIT = 200
 
 module.exports = class Handler
   # subclasses should override these properties
