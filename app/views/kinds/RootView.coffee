@@ -38,7 +38,8 @@ module.exports = class RootView extends CocoView
     location.hash = ''
     location.hash = hash
     @buildLanguages()
-    
+    #@$('.antiscroll-wrap').antiscroll()  # not yet, buggy
+
   afterRender: ->
     super(arguments...)
     @chooseTab(location.hash.replace('#','')) if location.hash
@@ -61,7 +62,8 @@ module.exports = class RootView extends CocoView
     for code, localeInfo of locale when not (code in genericCodes) or code is preferred
       $select.append(
         $("<option></option>").val(code).text(localeInfo.nativeDescription))
-    $select.val(preferred).fancySelect()
+    $select.val(preferred).fancySelect().parent().find('.trigger').addClass('header-font')
+    $('body').attr('lang', preferred)
 
   onLanguageChanged: ->
     newLang = $(".language-dropdown").val()
@@ -71,6 +73,7 @@ module.exports = class RootView extends CocoView
     @buildLanguages()
     unless newLang.split('-')[0] is "en"
       @openModalView(application.router.getView("modal/diplomat_suggestion", "_modal"))
+    $('body').attr('lang', newLang)
 
   saveLanguage: (newLang) ->
     me.set('preferredLanguage', newLang)

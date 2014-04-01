@@ -23,7 +23,7 @@ module.exports = class Thang
     name
 
   @resetThangIDs: -> Thang.remainingThangNames = {}
-
+  isThang: true
   apiProperties: ['id', 'spriteName', 'health', 'pos', 'team']
 
   constructor: (@world, @spriteName, @id) ->

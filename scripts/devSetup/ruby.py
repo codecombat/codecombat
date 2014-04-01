@@ -34,9 +34,9 @@ class Ruby(dependency.Dependency):
         elif operating_system == u"mac":
             raise errors.CoCoError(u"Ruby should be installed with Mac OSX machines. Please install Ruby.")
         elif operating_system == u"linux":
-            raise errors.CoCoError(u"Please install Ruby on your Linux distribution(try 'sudo apt-get install ruby'.")
+            raise errors.CoCoError(u"Please install Ruby (try 'sudo apt-get install ruby').\nIf you are not using Ubuntu then please see your Linux Distribution's documentation for help installing ruby.")
     def install_ruby_on_windows(self):
         raise NotImplementedError
 
     def install_gems(self):
-        gem_install_status = subprocess.call([u"gem",u"install",u"sass"])
+        gem_install_status = subprocess.call([u"gem",u"install",u"--no-user-install",u"sass"])

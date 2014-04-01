@@ -185,22 +185,23 @@ class MongoQueue extends events.EventEmitter
   subscribe: (eventName, callback) -> @on eventName, callback
   unsubscribe: (eventName, callback) -> @removeListener eventName, callback
 
-
+  totalMessagesInQueue: (callback) -> @Message.count {}, callback
+    
   receiveMessage: (callback) ->
     conditions =
       queue: @queueName
       scheduledVisibilityTime:
         $lte: new Date()
 
-    options =
-      sort: 'scheduledVisibilityTime'
+    #options =
+    #  sort: 'scheduledVisibilityTime'
 
     update =
       $set:
         receiptHandle: @_generateRandomReceiptHandle()
         scheduledVisibilityTime: @_constructDefaultVisibilityTimeoutDate()
 
-    @Message.findOneAndUpdate conditions, update, options, (err, data) =>
+    @Message.findOneAndUpdate conditions, update, (err, data) =>
       return @emit 'error',err,data if err?
 
       originalData = data

@@ -22,6 +22,7 @@ module.exports = class SpriteBoss extends CocoClass
     'god:new-world-created': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
     'camera:dragged': 'onCameraDragged'
+    'sprite:loaded': -> @update(true)
 
   constructor: (@options) ->
     super()
@@ -109,7 +110,13 @@ module.exports = class SpriteBoss extends CocoClass
   createOpponentWizard: (opponent) ->
     # TODO: colorize name and cloud by team, colorize wizard by user's color config, level-specific wizard spawn points
     sprite = @createWizardSprite thangID: opponent.id, name: opponent.name
-    sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
+    if not opponent.levelSlug or opponent.levelSlug is "brawlwood"
+      sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
+    else if opponent.levelSlug is "dungeon-arena"
+      sprite.targetPos = if opponent.team is 'ogres' then {x:72, y: 39} else {x: 9, y:39}
+    else
+      sprite.targetPos = if opponent.team is 'ogres' then {x:52, y: 28} else {x: 20, y:28}
+
 
   createWizardSprite: (options) ->
     sprite = new WizardSprite @thangTypeFor("Wizard"), @createSpriteOptions(options)
@@ -150,15 +157,17 @@ module.exports = class SpriteBoss extends CocoClass
 
   removeSprite: (sprite) ->
     sprite.displayObject.parent.removeChild sprite.displayObject
+    thang = sprite.thang
     delete @sprites[sprite.thang.id]
     sprite.destroy()
+    sprite.thang = thang  # Keep around so that we know which thang the destroyed thang was for
 
   updateSounds: ->
     sprite.playSounds() for thangID, sprite of @sprites  # hmm; doesn't work for sprites which we didn't add yet in adjustSpriteExistence
 
   update: (frameChanged) ->
     @adjustSpriteExistence() if frameChanged
-    sprite.update() for thangID, sprite of @sprites
+    sprite.update frameChanged for thangID, sprite of @sprites
     @updateSelection()
     @spriteLayers["Default"].updateLayerOrder()
     @cache()
@@ -181,11 +190,10 @@ module.exports = class SpriteBoss extends CocoClass
       sprite.hasMoved = false
       @removeSprite sprite if missing
     @cache true if updateCache and @cached
-    
+
     # mainly for handling selecting thangs from session when the thang is not always in existence
     if @willSelectThang and @sprites[@willSelectThang[0]]
       @selectThang @willSelectThang...
-      @willSelectThang = null
 
   cache: (update=false) ->
     return if @cached and not update
@@ -212,12 +220,12 @@ module.exports = class SpriteBoss extends CocoClass
     @play()
 
   onCastSpells: -> @stop()
-  
+
   play: ->
     sprite.imageObject.play() for thangID, sprite of @sprites
     @selectionMark?.play()
     @targetMark?.play()
-  
+
   stop: ->
     sprite.imageObject.stop() for thangID, sprite of @sprites
     @selectionMark?.stop()
@@ -238,25 +246,25 @@ module.exports = class SpriteBoss extends CocoClass
     @dragged += 1
 
   onSpriteMouseUp: (e) ->
-    return if key.shift and @options.choosing
+    return if key.shift #and @options.choosing
     return @dragged = 0 if @dragged > 3
     @dragged = 0
     sprite = if e.sprite?.thang?.isSelectable then e.sprite else null
     @selectSprite e, sprite
 
   onStageMouseDown: (e) ->
-    return if key.shift and @options.choosing
+    return if key.shift #and @options.choosing
     @selectSprite e if e.onBackground
 
-  selectThang: (thangID, spellName=null) ->
+  selectThang: (thangID, spellName=null, treemaThangSelected = null) ->
     return @willSelectThang = [thangID, spellName] unless @sprites[thangID]
-    @selectSprite null, @sprites[thangID], spellName
+    @selectSprite null, @sprites[thangID], spellName, treemaThangSelected
 
-  selectSprite: (e, sprite=null, spellName=null) ->
+  selectSprite: (e, sprite=null, spellName=null, treemaThangSelected = null) ->
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = sprite?.thang?.pos
     worldPos ?= @camera.canvasToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
-    if worldPos and (@options.navigateToSelection or not sprite)
+    if worldPos and (@options.navigateToSelection or not sprite or treemaThangSelected)
       @camera.zoomTo(sprite?.displayObject or @camera.worldToSurface(worldPos), @camera.zoom, 1000)
     sprite = null if @options.choosing  # Don't select sprites while choosing
     if sprite isnt @selectedSprite
@@ -272,6 +280,8 @@ module.exports = class SpriteBoss extends CocoClass
       originalEvent: e
       worldPos: worldPos
 
+    @willSelectThang = null if sprite  # Now that we've done a real selection, don't reselect some other Thang later.
+
     if alive and not @suppressSelectionSounds
       instance = sprite.playSound 'selected'
       if instance?.playState is 'playSucceeded'
@@ -279,15 +289,18 @@ module.exports = class SpriteBoss extends CocoClass
         instance.addEventListener 'complete', ->
           Backbone.Mediator.publish 'thang-finished-talking', thang: sprite?.thang
 
+
   # Marks
 
   updateSelection: ->
     if @selectedSprite?.thang and (not @selectedSprite.thang.exists or not @world.getThangByID @selectedSprite.thang.id)
-      @selectSprite null, null, null
+      thangID = @selectedSprite.thang.id
+      @selectedSprite = null  # Don't actually trigger deselection, but remove the selected sprite.
       @selectionMark?.toggle false
+      @willSelectThang = [thangID, null]
     @updateTarget()
     return unless @selectionMark
-    @selectedSprite = null unless @selectedSprite?.thang
+    @selectedSprite = null if @selectedSprite and (@selectedSprite.destroyed or not @selectedSprite.thang)
     @selectionMark.toggle @selectedSprite?
     @selectionMark.setSprite @selectedSprite
     @selectionMark.update()

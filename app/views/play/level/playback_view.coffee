@@ -2,6 +2,8 @@ View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/playback'
 {me} = require 'lib/auth'
 
+EditorConfigModal = require './modal/editor_config_modal'
+
 module.exports = class PlaybackView extends View
   id: "playback-view"
   template: template
@@ -20,22 +22,81 @@ module.exports = class PlaybackView extends View
     'surface:frame-changed': 'onFrameChanged'
     'god:new-world-created': 'onNewWorld'
     'level-set-letterbox': 'onSetLetterbox'
+    'tome:cast-spells': 'onCastSpells'
 
   events:
     'click #debug-toggle': 'onToggleDebug'
     'click #grid-toggle': 'onToggleGrid'
     'click #edit-wizard-settings': 'onEditWizardSettings'
+    'click #edit-editor-config': 'onEditEditorConfig'
     'click #music-button': 'onToggleMusic'
-    'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @disabled
-    'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @disabled
+    'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @shouldIgnore()
+    'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
     'click': -> Backbone.Mediator.publish 'focus-editor'
+    'mouseenter #timeProgress': 'onProgressEnter'
+    'mouseleave #timeProgress': 'onProgressLeave'
+    'mousemove #timeProgress': 'onProgressHover'
 
   shortcuts:
     '⌘+p, p, ctrl+p': 'onTogglePlay'
     '⌘+[, ctrl+[': 'onScrubBack'
     '⌘+], ctrl+]': 'onScrubForward'
+
+
+  # popover that shows at the current mouse position on the progressbar, using the bootstrap popover.
+  # Could make this into a jQuery plugins itself theoretically.
+  class HoverPopup extends $.fn.popover.Constructor
+    constructor: () ->
+      @enabled = true
+      @shown = false
+      @type = "HoverPopup"
+      @options =
+        placement: 'top'
+        container: 'body'
+        animation: true
+        html: true
+        delay:
+          show: 400
+      @$element = $('#timeProgress')
+      @$tip = $('#timePopover')
+
+      @content = ""
+
+    getContent: -> @content
+
+    show: ->
+      unless @shown
+        super()
+        @shown = true
+
+    updateContent: (@content) ->
+      @setContent()
+      @$tip.addClass('fade top in')
+
+    onHover: (@e) ->
+      pos = @getPosition()
+      actualWidth  = @$tip[0].offsetWidth
+      actualHeight = @$tip[0].offsetHeight
+      calculatedOffset =
+        top: pos.top - actualHeight
+        left: pos.left + pos.width / 2 - actualWidth / 2
+      this.applyPlacement(calculatedOffset, 'top')
+
+    getPosition: ->
+      top: @$element.offset().top
+      left: if @e? then @e.pageX else @$element.offset().left
+      height: 0
+      width: 0
+
+    hide: ->
+      super()
+      @shown = false
+
+    disable: ->
+      super()
+      @hide()
 
   constructor: ->
     super(arguments...)
@@ -43,9 +104,31 @@ module.exports = class PlaybackView extends View
 
   afterRender: ->
     super()
+    @$progressScrubber = $('.scrubber .progress', @$el)
     @hookUpScrubber()
     @updateMusicButton()
     $(window).on('resize', @onWindowResize)
+
+  updatePopupContent: ->
+    @timePopup.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"
+
+  # These functions could go to some helper class
+
+  pad2: (num) ->
+    if not num? or num is 0 then "00" else ((if num < 10 then "0" else "") + num)
+
+  formatTime: (text, time) =>
+    "#{text}\t#{@timeToString time}"
+
+  timeToString: (time=0, withUnits=false) ->
+    mins = Math.floor(time / 60)
+    secs = (time - mins * 60).toFixed(1)
+    if withUnits
+      ret = ""
+      ret = (mins + " " + (if mins is 1 then @minute else @minutes)) if (mins > 0)
+      ret = (ret + " " + secs + " " + (if secs is 1 then @second else @seconds)) if (secs > 0 or mins is 0)
+    else
+      "#{mins}:#{@pad2 secs}"
 
   # callbacks
 
@@ -61,8 +144,26 @@ module.exports = class PlaybackView extends View
     @barWidth = $('.progress', @$el).width()
 
   onNewWorld: (e) ->
+    @totalTime = e.world.totalFrames / e.world.frameRate
     pct = parseInt(100 * e.world.totalFrames / e.world.maxTotalFrames) + '%'
     @barWidth = $('.progress', @$el).css('width', pct).show().width()
+    @casting = false
+    $('.scrubber .progress', @$el).slider('enable', true)
+    @newTime = 0
+    @currentTime = 0
+
+    @timePopup = new HoverPopup unless @timePopup?
+
+
+    #TODO: Why do we need defaultValues here at all? Fallback language has been set to 'en'... oO
+    t = $.i18n.t
+    @second = t 'units.second', defaultValue: 'second'
+    @seconds = t 'units.seconds', defaultValue: 'seconds'
+    @minute = t 'units.minute', defaultValue: 'minute'
+    @minutes = t 'units.minutes', defaultValue: 'minutes'
+    @goto = t 'play_level.time_goto', defaultValue: "Go to:"
+    @current = t 'play_level.time_current', defaultValue: "Now:"
+    @total = t 'play_level.time_total', defaultValue: "Max:"
 
   onToggleDebug: ->
     return if @shouldIgnore()
@@ -77,16 +178,22 @@ module.exports = class PlaybackView extends View
   onEditWizardSettings: ->
     Backbone.Mediator.publish 'edit-wizard-settings'
 
+  onEditEditorConfig: ->
+    @openModalView(new EditorConfigModal())
+
+  onCastSpells: ->
+    @casting = true
+    @$progressScrubber.slider('disable', true)
+
   onDisableControls: (e) ->
     if not e.controls or 'playback' in e.controls
       @disabled = true
       $('button', @$el).addClass('disabled')
       try
-        $('.scrubber .progress', @$el).slider('disable', true)
+        @$progressScrubber.slider('disable', true)
       catch e
         #console.warn('error disabling scrubber')
-    if not e.controls or 'playback-hover' in e.controls
-      @hoverDisabled = true
+      @timePopup.disable()
     $('#volume-button', @$el).removeClass('disabled')
 
   onEnableControls: (e) ->
@@ -94,11 +201,10 @@ module.exports = class PlaybackView extends View
       @disabled = false
       $('button', @$el).removeClass('disabled')
       try
-        $('.scrubber .progress', @$el).slider('enable', true)
+        @$progressScrubber.slider('enable', true)
       catch e
         #console.warn('error enabling scrubber')
-    if not e.controls or 'playback-hover' in e.controls
-      @hoverDisabled = false
+      @timePopup.enable()
 
   onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
@@ -127,9 +233,31 @@ module.exports = class PlaybackView extends View
 
   onFrameChanged: (e) ->
     if e.progress isnt @lastProgress
+      @currentTime = e.frame / e.world.frameRate
+      # Game will sometimes stop at 29.97, but with only one digit, this is unnecesary.
+      # @currentTime = @totalTime if Math.abs(@totalTime - @currentTime) < 0.04
+      @updatePopupContent()
+
       @updateProgress(e.progress)
       @updatePlayButton(e.progress)
     @lastProgress = e.progress
+
+  onProgressEnter: (e) ->
+    #Why it needs itself as parameter you ask? Ask Twitter instead..
+    @timePopup.enter @timePopup
+
+  onProgressLeave: (e) ->
+    @timePopup.leave @timePopup
+
+  onProgressHover: (e) ->
+    timeRatio = @$progressScrubber.width() / @totalTime
+    @newTime = e.offsetX / timeRatio
+    @updatePopupContent()
+    @timePopup.onHover e
+
+    #Show it instantaniously if close enough to current time.
+    if Math.abs(@currentTime - @newTime) < 1 and not @timePopup.shown
+      @timePopup.show() unless @timePopup.shown
 
   updateProgress: (progress) ->
     $('.scrubber .progress-bar', @$el).css('width', "#{progress*100}%")
@@ -153,35 +281,37 @@ module.exports = class PlaybackView extends View
 
   hookUpScrubber: ->
     @sliderIncrements = 500  # max slider width before we skip pixels
-    @sliderHoverDelay = 500  # wait this long before scrubbing on slider hover
     @clickingSlider = false  # whether the mouse has been pressed down without moving
-    @hoverTimeout = null
-    $('.scrubber .progress', @$el).slider(
+    @$progressScrubber.slider(
       max: @sliderIncrements
       animate: "slow"
-      slide: (event, ui) => @scrubTo ui.value / @sliderIncrements
-      start: (event, ui) => @clickingSlider = true
+      slide: (event, ui) =>
+        @scrubTo ui.value / @sliderIncrements
+        @slideCount += 1
+
+      start: (event, ui) =>
+        @slideCount = 0
+        @wasPlaying = @playing
+        Backbone.Mediator.publish 'level-set-playing', {playing: false}
+
       stop: (event, ui) =>
         @actualProgress = ui.value / @sliderIncrements
         Backbone.Mediator.publish 'playback:manually-scrubbed', ratio: @actualProgress
-        if @clickingSlider
-          @clickingSlider = false
+        Backbone.Mediator.publish 'level-set-playing', {playing: @wasPlaying}
+        if @slideCount < 3
           @wasPlaying = false
           Backbone.Mediator.publish 'level-set-playing', {playing: false}
           @$el.find('.scrubber-handle').effect('bounce', {times: 2})
     )
 
   getScrubRatio: ->
-    bar = $('.scrubber .progress', @$el)
-    $('.progress-bar', bar).width() / bar.width()
+    @$progressScrubber.find('.progress-bar').width() / @$progressScrubber.width()
 
   scrubTo: (ratio, duration=0) ->
-    return if @disabled
+    return if @shouldIgnore()
     Backbone.Mediator.publish 'level-set-time', ratio: ratio, scrubDuration: duration
 
-  shouldIgnore: ->
-    return true if @disabled
-    return false
+  shouldIgnore: -> return @disabled or @casting or false
 
   onTogglePlay: (e) ->
     e?.preventDefault()

@@ -1,23 +1,23 @@
 extends /templates/modal/modal_base
 
 block modal-header-content
-  h3 Choose an Opponent
+  h3(data-i18n="ladder.choose_opponent") Choose an Opponent
 
 block modal-body-content
   
   div#noob-view.secret
     a(href="/play/level/#{levelID}-tutorial").btn.btn-success.btn-block.btn-lg
       p
-        strong Play Tutorial
-      span Recommended if you've never played before
-    span.btn.btn-primary.btn-block.btn-lg#skip-tutorial-button Skip Tutorial
+        strong(data-i18n="ladder.tutorial_play") Play Tutorial
+      span(data-i18n="ladder.tutorial_recommended") Recommended if you've never played before
+    span.btn.btn-primary.btn-block.btn-lg#skip-tutorial-button(data-i18n="ladder.tutorial_skip") Skip Tutorial
 
   div#normal-view
   
     p.tutorial-suggestion
-      strong Not sure what's going on?
+      strong(data-i18n="ladder.tutorial_not_sure") Not sure what's going on?
       |  
-      a(href="/play/level/#{levelID}-tutorial") Play the tutorial first.
+      a(href="/play/level/#{levelID}-tutorial", data-i18n="ladder.tutorial_play_first") Play the tutorial first.
   
     a(href="/play/level/#{levelID}?team=#{teamID}")
       div.play-option
@@ -28,10 +28,10 @@ block modal-body-content
         div.my-name.name-label.only-one
           span= myName
         div.opponent-name.name-label
-          span Simple AI
+          span(data-i18n="ladder.simple_ai") Simple AI
         div.difficulty
-          span Warmup
-        div.vs VS
+          span(data-i18n="ladder.warmup") Warmup
+        div(data-i18n="ladder.vs").vs VS
     
     if challengers.easy
       a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.easy.sessionID}")
@@ -45,8 +45,8 @@ block modal-body-content
           div.opponent-name.name-label
             span= challengers.easy.opponentName
           div.difficulty
-            span Easy
-          div.vs VS
+            span(data-i18n="general.easy") Easy
+          div(data-i18n="ladder.vs").vs VS
   
     if challengers.medium
       a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.medium.sessionID}")
@@ -60,8 +60,8 @@ block modal-body-content
           div.opponent-name.name-label
             span= challengers.medium.opponentName
           div.difficulty
-            span Medium
-          div.vs VS
+            span(data-i18n="general.medium") Medium
+          div(data-i18n="ladder.vs").vs VS
   
     if challengers.hard
       a(href="/play/level/#{levelID}?team=#{teamID}&opponent=#{challengers.hard.sessionID}")
@@ -75,7 +75,7 @@ block modal-body-content
           div.opponent-name.name-label
             span= challengers.hard.opponentName
           div.difficulty
-            span Hard
-          div.vs VS
+            span(data-i18n="general.hard") Hard
+          div(data-i18n="ladder.vs").vs VS
 
 block modal-footer

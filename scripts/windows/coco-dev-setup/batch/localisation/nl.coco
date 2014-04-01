@@ -1,0 +1,66 @@
+[global]
+	native=Nederlands
+	intro=Vanaf nu geven we onze feedback in het Nederlands!
+[install]
+	[system]
+		bit=-bit computer gedetecteerd.
+		prefix=Het besturingsysteem
+		sufix=is gedetecteerd.
+		xp=Wij ondersteunen Windows XP niet, installatie geanulleerd.
+	[process]
+		sks=Heb je alle benodige software al geinstalleerd?
+		skq=We raden aan dat je negatief antwoord indien je niet zeker bent.
+		skc=De installatie van software wordt geanulleerd...
+		1=CodeCombat kon niet worden ontwikkeld zonder third-party software.
+		2=Dat is waarom je deze software moet installeren,
+		3=zodat je je kan beginnen met het bijdragen tot onze gemeenschap.
+		4=Annuleer de installatie als je de applicatie al hebt.
+		prefix=Heb je al de laatste versie van
+		sufix=geinstalleerd?
+		downloading=is aan het downloaden...
+		installing=is aan het installeren...
+		unzipping=is aan het uitpakken...
+		cleaning=is aan het opkuisen...
+		mongodbpath=Geef het volledige pad op, waar mongodb mag worden geinstalleerd
+[github]
+	[intro]
+		opensource=CodeCombat is opensource, zoals je waarschijnlijk wel al weet.
+		online=Je kan al onze sourcecode vinden op Github.
+		manual=Indien je wil, kan je de Git setup manueel doen.
+		norec=Maar wij raden aan dat je ons dit automatisch laat afhandellen.
+	[skip]
+		question=Wil je de lokale Git setup manueel doen?
+		consequence=Zorg er zeker voor dat jouw git repository correct is.
+		donotclose=Sluit dit venster niet alsjeblieft.
+		wait=Wanneer je klaar bent, druk dan eender welke toets om verder te gaan...
+	[process]
+		path=Geef alsjeblieft het volledige pad van je CodeCombat git repository: 
+		checkout=Geef alsjeblieft het volledige pad waar je de CodeCombat Ontwikkelings omgeving will installeren
+		bashi=Deze installatie maakt gebruik van Git Bash.
+		bashp64=Git bash is normaal geinstalleerd in 'C:\Program Files (x86)\Git'.
+		bashp32=Git bash is normaal geinstalleerd in 'C:\Program Files\Git'.
+		bashq=Geef alsjeblieft het volledige pad op van Git Bash of druk gewoon op enter indien je het pad niet gewijzigd heeft
+		ssh=Wil je het git project downloaden via ssh?
+[npm]
+	install=Installing bower, brunch, nodemon and sendwithus...
+	binstall=Installing bower packages...
+	sass=Installing sass...
+	npm=Installing npm...
+	brnch=Starting brunch....
+	mongodb=Setting up a MongoDB database for you...
+	database=Downloading the last version of the CodeCombat database...
+	script=Preparing the automatic startup script for you...
+[error]
+	path=Dat pad bestaat al, ben je zeker dat je het wil overschrijven?
+	exist=Dat pad bestaat niet, probeer alsjeblieft opnieuw...
+[end]
+	succesfull=De installatie van de CodeCombat-Ontwikkelings omgeving was succesvol.
+	thankyou=Alvast bedankt voor al je werk en tot binnenkort.
+	readme=Wil je de LEESMIJ lezen voor meer informatie?
+[start]
+	1=Vanaf nu kan je de ontwikkelings omgeving opstarten
+	2=met het gemak van een enkele muisklik.
+	3=  1) Dubbelklik op
+	4=en laat de omgeving opstarten.
+	5=  2) Nu kan je 'localhost:3000' openen in je browser naar voorkeur.
+	6=Dat is het, je bent nu klaar om te starten met je werk aan CodeCombat.

@@ -1,14 +1,16 @@
-View = require 'views/kinds/RootView'
-template = require 'templates/editor/thang/edit'
 ThangType = require 'models/ThangType'
 SpriteParser = require 'lib/sprites/SpriteParser'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 CocoSprite = require 'lib/surface/CocoSprite'
 Camera = require 'lib/surface/Camera'
-ThangComponentEditView = require 'views/editor/components/main'
 DocumentFiles = require 'collections/DocumentFiles'
 
+View = require 'views/kinds/RootView'
+ThangComponentEditView = require 'views/editor/components/main'
+VersionHistoryView = require './versions_view'
 ColorsTabView = require './colors_tab_view'
+ErrorView = require '../../error_view'
+template = require 'templates/editor/thang/edit'
 
 CENTER = {x:200, y:300}
 
@@ -30,6 +32,7 @@ module.exports = class ThangTypeEditView extends View
     'change #animations-select': 'showAnimation'
     'click #marker-button': 'toggleDots'
     'click #end-button': 'endAnimation'
+    'click #history-button': 'showVersionHistory'
 
   subscriptions:
     'save-new-version': 'saveNewThangType'
@@ -38,13 +41,25 @@ module.exports = class ThangTypeEditView extends View
 
   constructor: (options, @thangTypeID) ->
     super options
-    @mockThang = _.cloneDeep(@mockThang)
+    @mockThang = $.extend(true, {}, @mockThang)
     @thangType = new ThangType(_id: @thangTypeID)
     @thangType.saveBackups = true
+
+    @listenToOnce(@thangType, 'error',
+      () =>
+        @hideLoading()
+
+        # Hack: editor components appear after calling insertSubView.
+        # So we need to hide them first.
+        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
+
+        @insertSubView(new ErrorView())
+    )
+
     @thangType.fetch()
     @thangType.loadSchema()
-    @thangType.schema().once 'sync', @onThangTypeSync, @
-    @thangType.once 'sync', @onThangTypeSync, @
+    @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
+    @listenToOnce(@thangType, 'sync', @onThangTypeSync)
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
   onThangTypeSync: ->
@@ -75,6 +90,7 @@ module.exports = class ThangTypeEditView extends View
     @initSliders()
     @initComponents()
     @insertSubView(new ColorsTabView(@thangType))
+    @showReadOnly() unless me.isAdmin() or @thangType.hasWriteAccess(me)
 
   initComponents: =>
     options =
@@ -268,7 +284,7 @@ module.exports = class ThangTypeEditView extends View
     @$el.find('.rotation-label').text " #{value}° "
     if @currentSprite
       @currentSprite.rotation = value
-      @currentSprite.update()
+      @currentSprite.update(true)
 
   updateScale: =>
     value = (@scaleSlider.slider('value') + 1) / 10
@@ -318,7 +334,7 @@ module.exports = class ThangTypeEditView extends View
     @treema.set('/', @getThangData())
 
   getThangData: ->
-    data = _.cloneDeep(@thangType.attributes)
+    data = $.extend(true, {}, @thangType.attributes)
     data = _.pick data, (value, key) => not (key in ['components'])
 
   buildTreema: ->
@@ -383,3 +399,8 @@ module.exports = class ThangTypeEditView extends View
   destroy: ->
     @camera?.destroy()
     super()
+
+  showVersionHistory: (e) ->
+    versionHistoryView = new VersionHistoryView thangType:@thangType, @thangTypeID
+    @openModalView versionHistoryView
+    Backbone.Mediator.publish 'level:view-switched', e

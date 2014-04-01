@@ -2,8 +2,7 @@ View = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/victory'
 {me} = require 'lib/auth'
 LevelFeedback = require 'models/LevelFeedback'
-
-# let's implement this once we have the docs database schema set up
+utils = require 'lib/utils'
 
 module.exports = class VictoryModal extends View
   id: 'level-victory-modal'
@@ -26,7 +25,7 @@ module.exports = class VictoryModal extends View
 
   constructor: (options) ->
     victory = options.level.get('victory')
-    body = victory?.i18n?[me.lang()]?.body or victory.body or 'Sorry, this level has no victory message yet.'
+    body = utils.i18n(victory, 'body') or 'Sorry, this level has no victory message yet.'
     @body = marked(body)
     @level = options.level
     @session = options.session
@@ -39,8 +38,8 @@ module.exports = class VictoryModal extends View
     @feedback = new LevelFeedback()
     @feedback.url = -> url
     @feedback.fetch()
-    @feedback.once 'sync', => @onFeedbackLoaded()
-    @feedback.once 'error', => @onFeedbackNotFound()
+    @listenToOnce(@feedback, 'sync', -> @onFeedbackLoaded())
+    @listenToOnce(@feedback, 'error', -> @onFeedbackNotFound())
 
   onFeedbackLoaded: ->
     @feedback.url = -> '/db/level.feedback/' + @id
@@ -66,6 +65,7 @@ module.exports = class VictoryModal extends View
     ajaxData = session: @session.id, levelID: @level.id, originalLevelID: @level.get('original'), levelMajorVersion: @level.get('version').major
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
     goToLadder = -> Backbone.Mediator.publish 'router:navigate', route: ladderURL
+    console.log "Posting game for ranking from victory modal."
     $.ajax '/queue/scoring',
       type: 'POST'
       data: ajaxData
@@ -79,7 +79,7 @@ module.exports = class VictoryModal extends View
     c.body = @body
     c.me = me
     c.hasNextLevel = _.isObject(@level.get('nextLevel')) and (@level.get('name') isnt "Mobile Artillery")
-    c.levelName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
+    c.levelName = utils.i18n @level.attributes, 'name'
     c.level = @level
     if c.level.get('type') is 'ladder'
       c1 = @session?.get('code')

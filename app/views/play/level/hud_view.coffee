@@ -150,7 +150,7 @@ module.exports = class HUDView extends View
 
   createActions: ->
     actions = @$el.find('.thang-actions tbody').empty()
-    showActions = @thang.world and not _.isEmpty(@thang.actions) and 'action' in @thang.hudProperties ? []
+    showActions = @thang.world and not @thang.notOfThisWorld and not _.isEmpty(@thang.actions) and 'action' in (@thang.hudProperties ? [])
     @$el.find('.thang-actions').toggleClass 'secret', not showActions
     return unless showActions
     @buildActionTimespans()
@@ -238,8 +238,9 @@ module.exports = class HUDView extends View
 
   update: ->
     return unless @thang and not @speaker
-    # Update properties
-    @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
+    @$el.find('.thang-props-column').toggleClass 'nonexistent', not @thang.exists
+    if @thang.exists
+      @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
     # Update action timeline
     @updateActions()
 
@@ -305,7 +306,7 @@ module.exports = class HUDView extends View
     for actionName, action of @thang.actions
       @updateActionElement(actionName, @timespans[actionName], @thang.action is actionName)
     tableContainer = @$el.find('.table-container')
-    timelineWidth = tableContainer.find('.action-timeline').width()
+    timelineWidth = tableContainer.find('tr:not(.secret) .action-timeline').width()
     right = (1 - (@timeProgress ? 0)) * timelineWidth
     arrow = tableContainer.find('.progress-arrow')
     arrow.css 'right', right - arrow.width() / 2
@@ -354,8 +355,6 @@ module.exports = class HUDView extends View
 
   destroy: ->
     @stage?.stopTalking()
-    @addMoreMessage = null
-    @animateEnterButton = null
     clearInterval(@messageInterval) if @messageInterval
     clearTimeout @hintNextSelectionTimeout if @hintNextSelectionTimeout
     super()

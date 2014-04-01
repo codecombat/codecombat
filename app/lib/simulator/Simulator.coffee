@@ -1,22 +1,24 @@
 SuperModel = require 'models/SuperModel'
+CocoClass = require 'lib/CocoClass'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 
-module.exports = class Simulator
+module.exports = class Simulator extends CocoClass
 
   constructor: ->
     _.extend @, Backbone.Events
     @trigger 'statusUpdate', 'Starting simulation!'
     @retryDelayInSeconds = 10
     @taskURL = '/queue/scoring'
-    
+
   destroy: ->
     @off()
     @cleanupSimulation()
-    # TODO: More teardown?
+    super()
 
   fetchAndSimulateTask: =>
+    return if @destroyed
     @trigger 'statusUpdate', 'Fetching simulation data!'
     $.ajax
       url: @taskURL
@@ -25,26 +27,39 @@ module.exports = class Simulator
       success: @setupSimulationAndLoadLevel
 
   handleFetchTaskError: (errorData) =>
-    console.log "There were no games to score. Error: #{JSON.stringify errorData}"
-    console.log "Retrying in #{@retryDelayInSeconds}"
-    @trigger 'statusUpdate', 'There were no games to simulate! Trying again in 10 seconds.'
+    console.error "There was a horrible Error: #{JSON.stringify errorData}"
+    @trigger 'statusUpdate', 'There was an error fetching games to simulate. Retrying in 10 seconds.'
+    @simulateAnotherTaskAfterDelay()
 
+  handleNoGamesResponse: ->
+    @trigger 'statusUpdate', 'There were no games to simulate--nice. Retrying in 10 seconds.'
     @simulateAnotherTaskAfterDelay()
 
   simulateAnotherTaskAfterDelay: =>
+    console.log "Retrying in #{@retryDelayInSeconds}"
     retryDelayInMilliseconds = @retryDelayInSeconds * 1000
     _.delay @fetchAndSimulateTask, retryDelayInMilliseconds
 
-  setupSimulationAndLoadLevel: (taskData) =>
+  setupSimulationAndLoadLevel: (taskData, textStatus, jqXHR) =>
+    return @handleNoGamesResponse() if jqXHR.status is 204
     @trigger 'statusUpdate', 'Setting up simulation!'
     @task = new SimulationTask(taskData)
-    @supermodel = new SuperModel()
+    try
+      levelID = @task.getLevelName()
+    catch err
+      console.error err
+      @trigger 'statusUpdate', "Error simulating game: #{err}. Trying another game in #{@retryDelayInSeconds} seconds."
+      @simulateAnotherTaskAfterDelay()
+      return
+
+    @supermodel ?= new SuperModel()
     @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
 
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
-    @levelLoader.once 'loaded-all', @simulateGame
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
+    @listenToOnce(@levelLoader, 'loaded-all', @simulateGame)
 
-  simulateGame: =>
+  simulateGame: ->
+    return if @destroyed
     @trigger 'statusUpdate', 'All resources loaded, simulating!', @task.getSessions()
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
     @setupGod()
@@ -74,7 +89,13 @@ module.exports = class Simulator
 
   commenceSimulationAndSetupCallback: ->
     @god.createWorld()
+    Backbone.Mediator.subscribeOnce 'god:infinite-loop', @onInfiniteLoop, @
     Backbone.Mediator.subscribeOnce 'god:new-world-created', @processResults, @
+
+  onInfiniteLoop: ->
+    console.warn "Skipping infinitely looping game."
+    @trigger 'statusUpdate', "Infinite loop detected; grabbing a new game in #{@retryDelayInSeconds} seconds."
+    _.delay @cleanupAndSimulateAnotherTask, @retryDelayInSeconds * 1000
 
   processResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults
@@ -94,6 +115,8 @@ module.exports = class Simulator
   handleTaskResultsTransferSuccess: (result) =>
     console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
+    simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
+    $('#simulated-by-you').text(simulatedBy)
 
   handleTaskResultsTransferError: (error) =>
     @trigger 'statusUpdate', 'There was an error sending the results back to the server.'
@@ -222,9 +245,8 @@ module.exports = class Simulator
   createAether: (methodName, method) ->
     aetherOptions =
       functionName: methodName
-      protectAPI: false
+      protectAPI: true
       includeFlow: false
-      #includeFlow: true
       requiresThis: true
       yieldConditionally: false
       problems:

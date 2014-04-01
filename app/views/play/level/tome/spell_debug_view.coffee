@@ -162,5 +162,4 @@ module.exports = class DebugView extends View
 
   destroy: ->
     @ace?.removeEventListener "mousemove", @onMouseMove
-    @onMouseMove = null
     super()

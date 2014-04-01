@@ -3,7 +3,7 @@ ThangType = require '/models/ThangType'
 
 makeButton = -> $('<a class="btn treema-map-button"><i class="icon-screenshot"></i></a>')
 shorten = (f) -> parseFloat(f.toFixed(1))
-WIDTH = 924
+WIDTH = 1848
 
 module.exports.WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.point2d
   constructor: (args...) ->

@@ -28,22 +28,39 @@ getAllLadderScores = (next) ->
     for level in levels
       for team in ['humans', 'ogres']
         'I ... am not doing this.'
+        # Query to get sessions to make histogram
+        # db.level.sessions.find({"submitted":true,"levelID":"brawlwood",team:"ogres"},{"_id":0,"totalScore":1})
+
+DEBUGGING = false
+LADDER_PREGAME_INTERVAL = 2 * 3600 * 1000  # Send emails two hours before players last submitted.
+getTimeFromDaysAgo = (now, daysAgo) ->
+  t = now - 86400 * 1000 * daysAgo - LADDER_PREGAME_INTERVAL
+
+isRequestFromDesignatedCronHandler = (req, res) ->
+  if req.ip isnt config.mail.cronHandlerPublicIP and req.ip isnt config.mail.cronHandlerPrivateIP
+    console.log "RECEIVED REQUEST FROM IP #{req.ip}(headers indicate #{req.headers['x-forwarded-for']}"
+    console.log "UNAUTHORIZED ATTEMPT TO SEND TRANSACTIONAL LADDER EMAIL THROUGH CRON MAIL HANDLER"
+    res.send("You aren't authorized to perform that action. Only the specified Cron handler may perform that action.")
+    res.end()
+    return false
+  return true
 
 handleLadderUpdate = (req, res) ->
   log.info("Going to see about sending ladder update emails.")
+  requestIsFromDesignatedCronHandler = isRequestFromDesignatedCronHandler req, res
+  return unless requestIsFromDesignatedCronHandler or DEBUGGING
+
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
   # TODO: somehow fetch the histograms
   emailDays = [1, 2, 4, 7, 30]
   now = new Date()
-  getTimeFromDaysAgo = (daysAgo) ->
-    # 2 hours before the date
-    t = now - (86400 * daysAgo + 2 * 3600) * 1000
   for daysAgo in emailDays
     # Get every session that was submitted in a 5-minute window after the time.
-    startTime = getTimeFromDaysAgo daysAgo
+    startTime = getTimeFromDaysAgo now, daysAgo
     endTime = startTime + 5 * 60 * 1000
-    #endTime = startTime + 1.5 * 60 * 60 * 1000  # Debugging: make sure there's something to send
+    if DEBUGGING
+      endTime = startTime + 15 * 60 * 1000  # Debugging: make sure there's something to send
     findParameters = {submitted: true, submitDate: {$gt: new Date(startTime), $lte: new Date(endTime)}}
     # TODO: think about putting screenshots in the email
     selectString = "creator team levelName levelID totalScore matches submitted submitDate scoreHistory"
@@ -56,9 +73,9 @@ handleLadderUpdate = (req, res) ->
           log.error "Couldn't fetch ladder updates for #{findParameters}\nError: #{err}"
           return errors.serverError res, "Ladder update email query failed: #{JSON.stringify(err)}"
         log.info "Found #{results.length} ladder sessions to email updates about for #{daysAgo} day(s) ago."
-        sendLadderUpdateEmail result, daysAgo for result in results
+        sendLadderUpdateEmail result, now, daysAgo for result in results
 
-sendLadderUpdateEmail = (session, daysAgo) ->
+sendLadderUpdateEmail = (session, now, daysAgo) ->
   User.findOne({_id: session.creator}).select("name email firstName lastName emailSubscriptions preferredLanguage").lean().exec (err, user) ->
     if err
       log.error "Couldn't find user for #{session.creator} from session #{session._id}"
@@ -74,19 +91,23 @@ sendLadderUpdateEmail = (session, daysAgo) ->
 
     # Fetch the most recent defeat and victory, if there are any.
     # (We could look at strongest/weakest, but we'd have to fetch everyone, or denormalize more.)
-    matches = _.filter session.matches, (match) -> match.date >= (new Date() - 86400 * 1000 * daysAgo)
+    matches = _.filter session.matches, (match) -> match.date >= getTimeFromDaysAgo now, daysAgo
     defeats = _.filter matches, (match) -> match.metrics.rank is 1 and match.opponents[0].metrics.rank is 0
     victories = _.filter matches, (match) -> match.metrics.rank is 0 and match.opponents[0].metrics.rank is 1
+    #ties = _.filter matches, (match) -> match.metrics.rank is 0 and match.opponents[0].metrics.rank is 0
     defeat = _.last defeats
     victory = _.last victories
+
+    #log.info "#{user.name} had #{matches.length} matches from last #{daysAgo} days out of #{session.matches.length} total matches. #{defeats.length} defeats, #{victories.length} victories, and #{ties.length} ties."
+    #matchInfos = ("\t#{match.date}\t#{match.date >= getTimeFromDaysAgo(now, daysAgo)}\t#{match.metrics.rank}\t#{match.opponents[0].metrics.rank}" for match in session.matches)
+    #log.info "Matches:\n#{matchInfos.join('\n')}"
 
     sendEmail = (defeatContext, victoryContext) ->
       # TODO: do something with the preferredLanguage?
       context =
         email_id: sendwithus.templates.ladder_update_email
         recipient:
-          address: user.email
-          #address: 'nick@codecombat.com'  # Debugging
+          address: if DEBUGGING then 'nick@codecombat.com' else user.email
           name: name
         email_data:
           name: name
@@ -102,7 +123,7 @@ sendLadderUpdateEmail = (session, daysAgo) ->
           score_history_graph_url: getScoreHistoryGraphURL session, daysAgo
           defeat: defeatContext
           victory: victoryContext
-      log.info "Sending ladder update email to #{context.recipient.address} with #{context.email_data.wins} wins and #{context.email_data.losses} since #{daysAgo} day(s) ago."
+      log.info "Sending ladder update email to #{context.recipient.address} with #{context.email_data.wins} wins and #{context.email_data.losses} losses since #{daysAgo} day(s) ago."
       sendwithus.api.send context, (err, result) ->
         log.error "Error sending ladder update email: #{err} with result #{result}" if err
 
@@ -137,15 +158,18 @@ getScoreHistoryGraphURL = (session, daysAgo) ->
   since = new Date() - 86400 * 1000 * daysAgo
   scoreHistory = (s for s in session.scoreHistory ? [] when s[0] >= since)
   return '' unless scoreHistory.length > 1
+  scoreHistory = _.last scoreHistory, 100  # Chart URL needs to be under 2048 characters for GET
   times = (s[0] for s in scoreHistory)
   times = ((100 * (t - times[0]) / (times[times.length - 1] - times[0])).toFixed(1) for t in times)
   scores = (s[1] for s in scoreHistory)
-  lowest = _.min scores
-  highest = _.max scores
+  lowest = _.min scores  #.concat([0])
+  highest = _.max scores  #.concat(50)
   scores = (Math.round(100 * (s - lowest) / (highest - lowest)) for s in scores)
   currentScore = Math.round scoreHistory[scoreHistory.length - 1][1] * 100
+  minScore = Math.round(100 * lowest)
+  maxScore = Math.round(100 * highest)
   chartData = times.join(',') + '|' + scores.join(',')
-  "https://chart.googleapis.com/chart?chs=600x75&cht=lxy&chtt=Score%3A+#{currentScore}&chts=222222,12,r&chf=a,s,000000FF&chls=2&chd=t:#{chartData}"
+  "https://chart.googleapis.com/chart?chs=600x75&cht=lxy&chtt=Score%3A+#{currentScore}&chts=222222,12,r&chf=a,s,000000FF&chls=2&chd=t:#{chartData}&chxt=y&chxr=0,#{minScore},#{maxScore}"
 
 handleMailchimpWebHook = (req, res) ->
   post = req.body

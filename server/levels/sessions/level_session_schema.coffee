@@ -118,21 +118,16 @@ _.extend LevelSessionSchema.properties,
 
   meanStrength:
     type: 'number'
-    default: 25
 
   standardDeviation:
     type:'number'
-    default: 25/3
     minimum: 0
 
   totalScore:
     type: 'number'
-    default: 10
 
   submitted:
     type: 'boolean'
-    default: false
-    index:true
 
   submitDate: c.date
     title: 'Submitted'
@@ -150,11 +145,9 @@ _.extend LevelSessionSchema.properties,
 
   numberOfWinsAndTies:
     type: 'number'
-    default: 0
 
   numberOfLosses:
     type: 'number'
-    default: 0
 
   scoreHistory:
     type: 'array'

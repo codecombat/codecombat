@@ -1,5 +1,6 @@
 Level = require('./Level')
 Session = require('./sessions/LevelSession')
+User = require '../users/User'
 SessionHandler = require('./sessions/level_session_handler')
 Feedback = require('./feedbacks/LevelFeedback')
 Handler = require('../commons/Handler')
@@ -29,8 +30,13 @@ LevelHandler = class LevelHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @getSession(req, res, args[0]) if args[1] is 'session'
     return @getLeaderboard(req, res, args[0]) if args[1] is 'leaderboard'
+    return @getMyLeaderboardRank(req, res, args[0]) if args[1] is 'leaderboard_rank'
     return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
+    return @getRandomSessionPair(req,res,args[0]) if args[1] is 'random_session_pair'
+    return @getLeaderboardFacebookFriends(req, res, args[0]) if args[1] is 'leaderboard_facebook_friends'
+    return @getLeaderboardGPlusFriends(req, res, args[0]) if args[1] is 'leaderboard_gplus_friends'
+    
     return @sendNotFoundError(res)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
@@ -114,32 +120,16 @@ LevelHandler = class LevelHandler extends Handler
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
   getLeaderboard: (req, res, id) ->
-    @validateLeaderboardRequestParameters req
-    [original, version] = id.split '.'
-    version = parseInt(version) ? 0
-    scoreQuery = {}
-    scoreQuery[if req.query.order is 1 then "$gte" else "$lte"] = req.query.scoreOffset
-
-    sessionsQueryParameters =
-      level:
-        original: original
-        majorVersion: version
-      team: req.query.team
-      totalScore: scoreQuery
-      submitted: true
+    sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
 
     sortParameters =
       "totalScore": req.query.order
-
-    selectProperties = [
-      'totalScore'
-      'creatorName'
-      'creator'
-    ]
-
+    selectProperties = ['totalScore', 'creatorName', 'creator']
+    
     query = Session
       .find(sessionsQueryParameters)
       .limit(req.query.limit)
+      .sort(sortParameters)
       .select(selectProperties.join ' ')
 
     query.exec (err, resultSessions) =>
@@ -147,12 +137,104 @@ LevelHandler = class LevelHandler extends Handler
       resultSessions ?= []
       @sendSuccess res, resultSessions
 
+  getMyLeaderboardRank: (req, res, id) ->
+    req.query.order = 1
+    sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
+    Session.count sessionsQueryParameters, (err, count) =>
+      return @sendDatabaseError(res, err) if err
+      res.send JSON.stringify(count + 1)
+
+  makeLeaderboardQueryParameters: (req, id) ->
+    @validateLeaderboardRequestParameters req
+    [original, version] = id.split '.'
+    version = parseInt(version) ? 0
+    scoreQuery = {}
+    scoreQuery[if req.query.order is 1 then "$gt" else "$lt"] = req.query.scoreOffset
+    query =
+      level:
+        original: original
+        majorVersion: version
+      team: req.query.team
+      totalScore: scoreQuery
+      submitted: true
+    query
+
   validateLeaderboardRequestParameters: (req) ->
     req.query.order = parseInt(req.query.order) ? -1
     req.query.scoreOffset = parseFloat(req.query.scoreOffset) ? 100000
     req.query.team ?= 'humans'
     req.query.limit = parseInt(req.query.limit) ? 20
 
+  getLeaderboardFacebookFriends: (req, res, id) -> @getLeaderboardFriends(req, res, id, 'facebookID')
+  getLeaderboardGPlusFriends: (req, res, id) -> @getLeaderboardFriends(req, res, id, 'gplusID')
+  getLeaderboardFriends: (req, res, id, serviceProperty) ->
+    friendIDs = req.body.friendIDs or []
+    return res.send([]) unless friendIDs.length
+
+    q = {}
+    q[serviceProperty] = {$in:friendIDs}
+    query = User.find(q).select("#{serviceProperty} name").lean()
+
+    query.exec (err, userResults) ->
+      return res.send([]) unless userResults.length
+      [id, version] = id.split('.')
+      userIDs = (r._id+'' for r in userResults)
+      q = {'level.original':id, 'level.majorVersion': parseInt(version), creator: {$in:userIDs}, totalScore:{$exists:true}}
+      query = Session.find(q)
+      .select('creator creatorName totalScore team')
+      .lean()
+
+      query.exec (err, sessionResults) ->
+        return res.send([]) unless sessionResults.length
+        userMap = {}
+        userMap[u._id] = u[serviceProperty] for u in userResults
+        session[serviceProperty] = userMap[session.creator] for session in sessionResults
+        res.send(sessionResults)
+        
+  getRandomSessionPair: (req, res, slugOrID) ->
+    findParameters = {}
+    if Handler.isID slugOrID
+      findParameters["_id"] = slugOrID
+    else
+      findParameters["slug"] = slugOrID
+    selectString = 'original version'
+    query = Level.findOne(findParameters)
+    .select(selectString)
+    .lean()
+
+    query.exec (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
+  
+      sessionsQueryParameters =
+        level:
+          original: level.original.toString()
+          majorVersion: level.version.major
+        submitted:true
+        
+      console.log sessionsQueryParameters
+        
+      
+      query = Session
+        .find(sessionsQueryParameters)
+        .select('team')
+        .lean()
+      
+      query.exec (err, resultSessions) =>
+        return @sendDatabaseError res, err if err? or not resultSessions
+        
+        teamSessions = _.groupBy resultSessions, 'team'
+        console.log teamSessions
+        sessions = []
+        numberOfTeams = 0
+        for team of teamSessions
+          numberOfTeams += 1
+          sessions.push _.sample(teamSessions[team])
+        if numberOfTeams != 2 then return @sendDatabaseError res, "There aren't sessions of 2 teams, so cannot choose random opponents!"
+          
+        @sendSuccess res, sessions
+        
+        
   getFeedback: (req, res, id) ->
     return @sendNotFoundError(res) unless req.user
     @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>

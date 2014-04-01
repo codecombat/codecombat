@@ -48,6 +48,7 @@ module.exports = class TomeView extends View
     'tome:spell-loaded': "onSpellLoaded"
     'tome:cast-spell': "onCastSpell"
     'tome:toggle-spell-list': 'onToggleSpellList'
+    'tome:change-language': 'updateLanguageForAllSpells'
     'surface:sprite-selected': 'onSpriteSelected'
     'god:new-world-created': 'onNewWorld'
 
@@ -128,10 +129,8 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          skipProtectAPI = @getQueryVariable("skip_protect_api") is "true" or @options.levelID isnt 'brawlwood'
-          skipProtectAPI = true  # gah, it's so slow :( and somehow still affects simulation
-          #skipProtectAPI = false if @options.levelID is 'dungeon-arena'
-          skipFlow = @getQueryVariable("skip_flow") is "true" or @options.levelID is 'brawlwood'
+          skipProtectAPI = @getQueryVariable "skip_protect_api", not @options.ladderGame
+          skipFlow = @getQueryVariable "skip_flow", @options.levelID is 'brawlwood'
           spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI, worker: @worker
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
@@ -214,11 +213,13 @@ module.exports = class TomeView extends View
       @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
 
   reloadAllCode: ->
-    spell.view.reloadCode false for spellKey, spell of @spells
+    spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
+
+  updateLanguageForAllSpells: ->
+    spell.updateLanguageAether() for spellKey, spell of @spells
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
     @worker?._close()
-    @worker = null
     super()

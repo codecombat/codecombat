@@ -15,10 +15,20 @@ module.exports = class SpellView extends View
   eventsSuppressed: true
   writable: true
 
+  editModes:
+    'javascript': 'ace/mode/javascript'
+    'coffeescript': 'ace/mode/coffee'
+
+  keyBindings:
+    'default': null
+    'vim': 'ace/keyboard/vim'
+    'emacs': 'ace/keyboard/emacs'
+
   subscriptions:
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
+    'surface:coordinate-selected': 'onCoordinateSelected'
     'god:new-world-created': 'onNewWorld'
     'god:user-code-problem': 'onUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
@@ -28,6 +38,8 @@ module.exports = class SpellView extends View
     'modal-closed': 'focus'
     'focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
+    'tome:change-language': 'onChangeLanguage'
+    'tome:change-config': 'onChangeEditorConfig'
     'spell-beautify': 'onSpellBeautify'
 
   events:
@@ -36,7 +48,7 @@ module.exports = class SpellView extends View
   constructor: (options) ->
     super options
     @session = options.session
-    @session.on 'change:multiplayer', @onMultiplayerChanged, @
+    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
     @problems = {}
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
@@ -55,21 +67,23 @@ module.exports = class SpellView extends View
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
+    aceConfig = me.get('aceConfig') ? {}
     @ace = ace.edit @$el.find('.ace')[0]
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
     @aceSession.setUseWorker false
-    @aceSession.setMode 'ace/mode/javascript'
+    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode "unix"
     @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
-    @ace.setDisplayIndentGuides false
+    @ace.setDisplayIndentGuides aceConfig.indentGuides
     @ace.setShowPrintMargin false
-    @ace.setShowInvisibles false
-    @ace.setBehavioursEnabled false
+    @ace.setShowInvisibles aceConfig.invisibles
+    @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setAnimatedScroll true
+    @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -91,6 +105,9 @@ module.exports = class SpellView extends View
     addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
+      passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
+      # No easy way to selectively cancel shift+space, since we don't get access to the event.
+      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
       exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
     addCommand
       name: 'end-all-scripts'
@@ -416,8 +433,13 @@ module.exports = class SpellView extends View
     @ace.clearSelection()
 
   onFrameChanged: (e) ->
-    return unless e.selectedThang?.id is @thang?.id
+    return unless @spellThang and e.selectedThang?.id is @spellThang?.thang.id
     @thang = e.selectedThang  # update our thang to the current version
+    @highlightCurrentLine()
+
+  onCoordinateSelected: (e) ->
+    return unless e.x? and e.y?
+    @ace.insert "{x: #{e.x}, y: #{e.y}}"
     @highlightCurrentLine()
 
   onStatementIndexUpdated: (e) ->
@@ -501,8 +523,10 @@ module.exports = class SpellView extends View
   highlightComments: ->
     lines = $(@ace.container).find('.ace_text-layer .ace_line_group')
     session = @aceSession
+    top = Math.floor @ace.renderer.getScrollTopRow()
     $(@ace.container).find('.ace_gutter-cell').each (index, el) ->
       line = $(lines[index])
+      index = index - top
       session.removeGutterDecoration index, 'comment-line'
       if line.find('.ace_comment').length
         session.addGutterDecoration index, 'comment-line'
@@ -542,6 +566,17 @@ module.exports = class SpellView extends View
     pretty = @spellThang.aether.beautify ugly
     @ace.setValue pretty
 
+  onChangeEditorConfig: (e) ->
+    aceConfig = me.get('aceConfig') ? {}
+    @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
+    @ace.setShowInvisibles aceConfig.invisibles # default false
+    @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    # @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
+
+  onChangeLanguage: (e) ->
+    aceConfig = me.get('aceConfig') ? {}
+    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
+
   dismiss: ->
     @recompile() if @spell.hasChangedSignificantly @getSource()
 
@@ -550,14 +585,7 @@ module.exports = class SpellView extends View
     @firepad?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()
-    @ace = null
     @aceDoc?.off 'change', @onCodeChangeMetaHandler
-    @aceDoc = null
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
-    @aceSession = null
     @debugView?.destroy()
-    @spell = null
-    @session.off 'change:multiplayer', @onMultiplayerChanged, @
-    for fat in ['notifySpellChanged', 'notifyEditingEnded', 'notifyEditingBegan', 'onFirepadLoaded', 'onLoaded', 'toggleBackground', 'setRecompileNeeded', 'onCursorActivity', 'highlightCurrentLine', 'updateAether', 'onCodeChangeMetaHandler', 'recompileIfNeeded', 'currentAutocastHandler']
-      @[fat] = null
     super()

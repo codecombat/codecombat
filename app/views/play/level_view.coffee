@@ -2,6 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/play/level'
 {me} = require('lib/auth')
 ThangType = require 'models/ThangType'
+utils = require 'lib/utils'
 
 # temp hard coded data
 World = require 'lib/world/world'
@@ -21,6 +22,7 @@ Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 
 # subviews
+LoadingView = require './level/level_loading_view'
 TomeView = require './level/tome/tome_view'
 ChatView = require './level/level_chat_view'
 HUDView = require './level/hud_view'
@@ -30,8 +32,6 @@ GoalsView = require './level/goals_view'
 GoldView = require './level/gold_view'
 VictoryModal = require './level/modal/victory_modal'
 InfiniteLoopModal = require './level/modal/infinite_loop_modal'
-
-LoadingScreen = require 'lib/LoadingScreen'
 
 PROFILE_ME = false
 
@@ -61,6 +61,8 @@ module.exports = class PlayLevelView extends View
     'level:session-will-save': 'onSessionWillSave'
     'level:set-team': 'setTeam'
     'god:new-world-created': 'loadSoundsForWorld'
+    'level:started': 'onLevelStarted'
+    'level:loading-view-unveiled': 'onLoadingViewUnveiled'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -81,7 +83,7 @@ module.exports = class PlayLevelView extends View
     @sessionID = @getQueryVariable 'session'
 
     $(window).on('resize', @onWindowResize)
-    @supermodel.once 'error', @onLevelLoadError
+    @listenToOnce(@supermodel, 'error', @onLevelLoadError)
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
@@ -93,7 +95,7 @@ module.exports = class PlayLevelView extends View
     else
       @load()
 
-  onLevelLoadError: (e) =>
+  onLevelLoadError: (e) ->
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
@@ -106,8 +108,8 @@ module.exports = class PlayLevelView extends View
 
   load: ->
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
-    @levelLoader.once 'loaded-all', @onLevelLoaderLoaded, @
-    @levelLoader.on 'progress', @onLevelLoaderProgressChanged, @
+    @listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
+    @listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged)
     @god = new God()
 
   getRenderData: ->
@@ -121,18 +123,17 @@ module.exports = class PlayLevelView extends View
 
   afterRender: ->
     window.onPlayLevelViewLoaded? @  # still a hack
-    @loadingScreen = new LoadingScreen(@$el.find('canvas')[0])
-    @loadingScreen.show()
+    @insertSubView @loadingView = new LoadingView {}
     @$el.find('#level-done-button').hide()
     super()
 
   onLevelLoaderProgressChanged: ->
     return if @seenDocs
-    return unless showFrequency = @levelLoader.level.get('showGuide')
+    return unless @levelLoader.session.loaded and @levelLoader.level.loaded
+    return unless showFrequency = @levelLoader.level.get('showsGuide')
     session = @levelLoader.session
     diff = new Date().getTime() - new Date(session.get('created')).getTime()
     return if showFrequency is 'first-time' and diff > (5 * 60 * 1000)
-    return unless @levelLoader.level.loaded
     articles = @levelLoader.supermodel.getModels Article
     for article in articles
       return unless article.loaded
@@ -148,33 +149,34 @@ module.exports = class PlayLevelView extends View
 
   onLevelLoaderLoaded: ->
     return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
-    # Save latest level played in local storage
+    @loadingView.showReady()
     if window.currentModal and not window.currentModal.destroyed
-      @loadingScreen.showReady()
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
-    
-    localStorage["lastLevel"] = @levelID if localStorage?
+
+    # Save latest level played in local storage
+    if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
+      me.set('lastLevel', @levelID)
+      me.save()
     @grabLevelLoaderData()
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @loadingScreen.destroy()
     @god.level = @level.serialize @supermodel
     @god.worldClassMap = @world.classMap
     @setTeam team
     @initSurface()
     @initGoalManager()
     @initScriptManager()
-    @insertSubviews ladderGame: @otherSession?
+    @insertSubviews ladderGame: (@level.get('type') is "ladder")
     @initVolume()
-    @session.on 'change:multiplayer', @onMultiplayerChanged, @
-    @originalSessionState = _.cloneDeep(@session.get('state'))
+    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
+    @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
     @surface.showLevel()
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
       @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
-      
+
   grabLevelLoaderData: ->
     @session = @levelLoader.session
     @world = @levelLoader.world
@@ -182,7 +184,7 @@ module.exports = class PlayLevelView extends View
     @otherSession = @levelLoader.opponentSession
     @levelLoader.destroy()
     @levelLoader = null
-    
+
   loadOpponentTeam: (myTeam) ->
     opponentSpells = []
     for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
@@ -201,7 +203,13 @@ module.exports = class PlayLevelView extends View
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
       @session.set 'multiplayer', false
 
-    
+  onLevelStarted: (e) ->
+    @loadingView?.unveil()
+
+  onLoadingViewUnveiled: (e) ->
+    @removeSubView @loadingView
+    @loadingView = null
+
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
     @modelsLoaded += 1
@@ -223,7 +231,7 @@ module.exports = class PlayLevelView extends View
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    worldName = @level.get('i18n')?[me.lang()]?.name ? @level.get('name')
+    worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, ladderGame: subviewOptions.ladderGame}
     #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 
@@ -266,10 +274,12 @@ module.exports = class PlayLevelView extends View
     setTimeout(@preloadNextLevel, 3000)
 
   showVictory: ->
-    options = {level: @level, supermodel: @supermodel, session:@session}
+    options = {level: @level, supermodel: @supermodel, session: @session}
     docs = new VictoryModal(options)
     @openModalView(docs)
     window.tracker?.trackEvent 'Saw Victory', level: @world.name, label: @world.name
+    if me.get('anonymous')
+      window.nextLevelURL = @getNextLevelID()  # Signup will go here on completion instead of reloading.
 
   onRestartLevel: ->
     @tome.reloadAllCode()
@@ -286,11 +296,10 @@ module.exports = class PlayLevelView extends View
     window.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
 
   onPlayNextLevel: ->
-    nextLevel = @getNextLevel()
-    nextLevelID = nextLevel.get('slug') or nextLevel.id
-    url = "/play/level/#{nextLevelID}"
+    nextLevelID = @getNextLevelID()
+    nextLevelURL = @getNextLevelURL()
     Backbone.Mediator.publish 'router:navigate', {
-      route: url,
+      route: nextLevelURL,
       viewClass: PlayLevelView,
       viewArgs: [{supermodel:@supermodel}, nextLevelID]}
 
@@ -298,6 +307,12 @@ module.exports = class PlayLevelView extends View
     nextLevelOriginal = @level.get('nextLevel')?.original
     levels = @supermodel.getModels(Level)
     return l for l in levels when l.get('original') is nextLevelOriginal
+
+  getNextLevelID: ->
+    nextLevel = @getNextLevel()
+    nextLevelID = nextLevel.get('slug') or nextLevel.id
+
+  getNextLevelURL: -> "/play/level/#{@getNextLevelID()}"
 
   onHighlightDom: (e) ->
     if e.delay
@@ -454,23 +469,15 @@ module.exports = class PlayLevelView extends View
       AudioPlayer.preloadSoundReference sound
 
   destroy: ->
-    @supermodel?.off 'error', @onLevelLoadError
-    @levelLoader?.off 'loaded-all', @onLevelLoaderLoaded
     @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
     @goalManager?.destroy()
     @scriptManager?.destroy()
-    $(window).off('resize', @onWindowResize)
     delete window.world # not sure where this is set, but this is one way to clean it up
     clearInterval(@pointerInterval)
     @bus?.destroy()
     #@instance.save() unless @instance.loading
+    delete window.nextLevelURL
     console.profileEnd?() if PROFILE_ME
-    @session?.off 'change:multiplayer', @onMultiplayerChanged, @
-    @onLevelLoadError = null
-    @onLevelLoaderLoaded = null
-    @onSupermodelLoadedOne = null
-    @preloadNextLevel = null
-    @saveScreenshot = null
     super()
