@@ -312,7 +312,7 @@ module.exports = class Handler
       if (val = req.body[prop])?
         document.set prop, val
       else if document.get(prop)? and req.method isnt 'PATCH'
-        document.unset prop
+        document.set prop, 'undefined'
     obj = document.toObject()
 
     # Hack to get saving of Users to work. Probably should replace these props with strings
