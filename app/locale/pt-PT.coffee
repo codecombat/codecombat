@@ -52,6 +52,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
   login:
     sign_up: "Criar conta"
     log_in: "Iniciar sessão"
+#    logging_in: "Logging In"
     log_out: "Sair"
     recover: "recuperar conta"
 
@@ -262,6 +263,8 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"

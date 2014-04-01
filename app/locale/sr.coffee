@@ -52,6 +52,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   login:
     sign_up: "Направи Налог"
     log_in: "Улогуј Се"
+#    logging_in: "Logging In"
     log_out: "Излогуј Се"
     recover: "Поврати налог"
 
@@ -262,6 +263,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"

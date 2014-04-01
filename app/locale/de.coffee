@@ -52,6 +52,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
   login:
     sign_up: "Registrieren"
     log_in: "Einloggen"
+#    logging_in: "Logging In"
     log_out: "Ausloggen"
     recover: "Account wiederherstellen"
 
@@ -262,6 +263,8 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     tip_patience: "Geduld du musst haben, junger Padawan. - Yoda"
     tip_documented_bug: "Ein dokumentierter Fehler ist kein Fehler; er ist ein Merkmal."
     tip_impossible: "Es wirkt immer unmöglich bis es vollbracht ist. - Nelson Mandela"
+#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
     time_current: "Aktuell"
     time_total: "Total"
     time_goto: "Gehe zu"
