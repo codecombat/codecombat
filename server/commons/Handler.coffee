@@ -252,9 +252,13 @@ module.exports = class Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless parentDocument?
       return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, parentDocument)
+      editableProperties = @getEditableProperties req, parentDocument
       updatedObject = parentDocument.toObject()
-      changes = _.pick req.body, @getEditableProperties(req, parentDocument)
-      _.extend updatedObject, changes
+      for prop in editableProperties
+        if (val = req.body[prop])?
+          updatedObject[prop] = val
+        else if updatedObject[prop]?
+          delete updatedObject[prop]
       delete updatedObject._id
       major = req.body.version?.major
 
@@ -304,8 +308,11 @@ module.exports = class Handler
       done(err, document)
 
   saveChangesToDocument: (req, document, done) ->
-    for prop in @getEditableProperties(req, document)
-      document.set(prop, req.body[prop]) if req.body[prop]?
+    for prop in @getEditableProperties req, document
+      if (val = req.body[prop])?
+        document.set prop, val
+      else if document.get(prop)? and req.method isnt 'PATCH'
+        document.unset prop
     obj = document.toObject()
 
     # Hack to get saving of Users to work. Probably should replace these props with strings
