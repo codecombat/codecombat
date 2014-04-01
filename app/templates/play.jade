@@ -19,10 +19,10 @@ block content
     each campaign in campaigns
       .campaign-container.col-sm-6
         h1
-          a(href="/play/level/#{campaign.levels[0].id}", data-i18n="play.campaign_#{campaign.id}")= campaign.name
+          a(href="/play/#{campaign.levels[0].levelPath || 'level'}/#{campaign.levels[0].id}", data-i18n="play.campaign_#{campaign.id}")= campaign.name
         p.campaign-description(data-i18n="[html]play.campaign_#{campaign.id}_description")!= campaign.description
         each level in campaign.levels
-          a(href=level.disabled ? "/play" : "/play/level/#{level.id}", disabled=level.disabled)
+          a(href=level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.id}", disabled=level.disabled, class=levelStatusMap[level.id] || '')
             .level.row
               if level.image
                 img.level-image(src="#{level.image}", alt="#{level.name}")

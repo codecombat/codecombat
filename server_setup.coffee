@@ -20,7 +20,7 @@ config = require './server_config'
 #      self.emit('pass',message)
 #    next()
 
-productionLogging = (tokens, req, res)->
+productionLogging = (tokens, req, res) ->
   status = res.statusCode
   color = 32
   if status >= 500 then color = 31
@@ -84,7 +84,7 @@ exports.setupMiddleware = (app) ->
 ###Routing function implementations###
 
 setupFallbackRouteToIndex = (app) ->
-  app.get '*', (req, res) ->
+  app.all '*', (req, res) ->
     res.sendfile path.join(__dirname, 'public', 'index.html')
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->

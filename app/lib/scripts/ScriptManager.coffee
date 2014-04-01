@@ -49,6 +49,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @originalScripts = options.scripts
     @view = options.view
     @session = options.session
+    @debugScripts = @view.getQueryVariable 'dev'
     @initProperties()
     @addScriptSubscriptions()
 
@@ -64,7 +65,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @triggered = []
     @ended = []
     @noteGroupQueue = []
-    @scripts = _.cloneDeep(@originalScripts)
+    @scripts = $.extend(true, [], @originalScripts)
 
   addScriptSubscriptions: ->
     idNum = 0
@@ -146,7 +147,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       continue unless @scriptPrereqsSatisfied(script)
       continue unless scriptMatchesEventPrereqs(script, event)
       # everything passed!
-      console.log "SCRIPT: Running script '#{script.id}'"
+      console.log "SCRIPT: Running script '#{script.id}'" if @debugScripts
       script.lastTriggered = new Date().getTime()
       @triggered.push(script.id) unless alreadyTriggered
       noteChain = @processScript(script)
@@ -206,7 +207,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @notifyScriptStateChanged()
     @scriptInProgress = true
     @currentTimeouts = []
-    console.log "SCRIPT: Starting note group '#{nextNoteGroup.name}'"
+    console.log "SCRIPT: Starting note group '#{nextNoteGroup.name}'" if @debugScripts
     for module in nextNoteGroup.modules
       @processNote(note, nextNoteGroup) for note in module.startNotes()
     if nextNoteGroup.script.duration
@@ -220,7 +221,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @ignoreEvents = true
     for noteGroup, i in @noteGroupQueue
       break unless noteGroup.skipMe
-      console.log "SCRIPT: Skipping note group '#{noteGroup.name}'"
+      console.log "SCRIPT: Skipping note group '#{noteGroup.name}'" if @debugScripts
       @processNoteGroup(noteGroup)
       for module in noteGroup.modules
         notes = module.skipNotes()
@@ -267,7 +268,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return if @ending # kill infinite loops right here
     @ending = true
     return unless @currentNoteGroup?
-    console.log "SCRIPT: Ending note group '#{@currentNoteGroup.name}'"
+    console.log "SCRIPT: Ending note group '#{@currentNoteGroup.name}'" if @debugScripts
     clearTimeout(timeout) for timeout in @currentTimeouts
     for module in @currentNoteGroup.modules
       @processNote(note, @currentNoteGroup) for note in module.endNotes()

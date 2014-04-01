@@ -1,7 +1,5 @@
 {clone} = require './world_utils'
 {scriptMatchesEventPrereqs} = require './script_event_prereqs'
-Thang = require './thang'
-Vector = require './vector'
 
 module.exports = class WorldScriptNote
   @className: "WorldScriptNote"
@@ -18,11 +16,11 @@ module.exports = class WorldScriptNote
   serialize: ->
     o = {channel: @channel, event: {}}
     for key, value of @event
-      if value instanceof Thang
+      if value?.isThang
         value = {isThang: true, id: value.id}
       else if _.isArray value
         for subval, i in value
-          if subval instanceof Thang
+          if subval?.isThang
             value[i] = {isThang: true, id: subval.id}
       o.event[key] = value
     o

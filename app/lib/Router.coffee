@@ -17,7 +17,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     # editor views tend to have the same general structure
     'editor/:model(/:slug_or_id)(/:subview)': 'editorModelView'
-    
+
     # Experimenting with direct links
 #    'play/ladder/:levelID/team/:team': go('play/ladder/team_view')
 
@@ -31,7 +31,7 @@ module.exports = class CocoRouter extends Backbone.Router
   home:           -> @openRoute('home')
   general: (name) ->
     @openRoute(name)
-    
+
   editorModelView: (modelName, slugOrId, subview) ->
     modulePrefix = "views/editor/#{modelName}/"
     suffix = subview or (if slugOrId then 'edit' else 'home')
@@ -92,7 +92,7 @@ module.exports = class CocoRouter extends Backbone.Router
     view = @getView(route)
     @cache[route] = view if view?.cache
     return view
-    
+
   routeDirectly: (path, args) ->
     path = "views/#{path}"
     ViewClass = @tryToLoadModule path
@@ -154,7 +154,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
   onNavigate: (e) ->
     manualView = e.view or e.viewClass
-    @navigate e.route, {trigger:not manualView}
+    @navigate e.route, {trigger: not manualView}
     return unless manualView
     if e.viewClass
       args = e.viewArgs or []

@@ -39,9 +39,7 @@ module.exports.clone = clone = (obj, skipThangs=false) ->
   if (obj instanceof Vector) or (obj instanceof Rectangle)
     return obj.copy()
 
-  # We don't have Thang class here, but we can fake it to avoid the circular import
-  #if skipThangs and obj instanceof Thang
-  if skipThangs and obj.id? and obj.trackedPropertiesKeys?
+  if skipThangs and obj.isThang
     return obj
 
   if ArrayBufferView and obj instanceof ArrayBufferView

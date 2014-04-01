@@ -27,6 +27,7 @@ module.exports = class SpellPaletteView extends View
     c.entryGroups = @entryGroups
     c.entryGroupSlugs = @entryGroupSlugs
     c.tabbed = _.size(@entryGroups) > 1
+    c.defaultGroupSlug = @defaultGroupSlug
     c
 
   afterRender: ->
@@ -44,6 +45,7 @@ module.exports = class SpellPaletteView extends View
     allDocs = {}
     for lc in lcs
       for doc in (lc.get('propertyDocumentation') ? [])
+        doc = _.clone doc
         allDocs['__' + doc.name] ?= []
         allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'
@@ -88,6 +90,7 @@ module.exports = class SpellPaletteView extends View
       defaultGroup = $.i18n.t("play_level.tome_available_spells", defaultValue: "Available Spells")
       @entryGroups = {}
       @entryGroups[defaultGroup] = @entries
+      @defaultGroupSlug = _.string.slugify defaultGroup
     @entryGroupSlugs = {}
     for group, entries of @entryGroups
       @entryGroupSlugs[group] = _.string.slugify group

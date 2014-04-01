@@ -24,7 +24,7 @@ module.exports = class LevelSystemAddView extends View
     if not @systems
       @systems = @supermodel.getCollection new LevelSystemSearchCollection()
     unless @systems.loaded
-      @systems.once 'sync', @onSystemsSync
+      @listenToOnce(@systems, 'sync', @onSystemsSync)
       @systems.fetch()
     super() # do afterRender at the end
 
@@ -44,7 +44,7 @@ module.exports = class LevelSystemAddView extends View
     for system in systems
       ul.append $(availableSystemTemplate(system: system))
 
-  onSystemsSync: =>
+  onSystemsSync: ->
     @supermodel.addCollection @systems
     @render()
 
@@ -61,7 +61,7 @@ module.exports = class LevelSystemAddView extends View
       levelSystem =
         original: s.get('original') ? id
         majorVersion: s.get('version').major ? 0
-        config: _.cloneDeep(s.get('configSchema').default ? {})
+        config: $.extend(true, {}, s.get('configSchema').default ? {})
       @extantSystems.push levelSystem
       Backbone.Mediator.publish 'level-system-added', system: levelSystem
     @renderAvailableSystems()

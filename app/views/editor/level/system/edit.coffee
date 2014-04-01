@@ -77,7 +77,7 @@ module.exports = class LevelSystemEditView extends View
     session.setTabSize 2
     session.setNewLineMode = 'unix'
     session.setUseSoftTabs true
-    @editor.on 'change', @onEditorChange
+    @editor.on('change', @onEditorChange)
 
   onEditorChange: =>
     @levelSystem.set 'code', @editor.getValue()

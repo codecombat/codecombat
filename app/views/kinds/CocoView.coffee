@@ -7,6 +7,7 @@ visibleModal = null
 waitingModal = null
 classCount = 0
 makeScopeName = -> "view-scope-#{classCount++}"
+doNothing = ->
 
 module.exports = class CocoView extends Backbone.View
   startsLoading: false
@@ -41,11 +42,12 @@ module.exports = class CocoView extends Backbone.View
     @stopListeningToShortcuts()
     @undelegateEvents() # removes both events and subs
     view.destroy() for id, view of @subviews
-    @modalClosed = null
     $('#modal-wrapper .modal').off 'hidden.bs.modal', @modalClosed
     @[key] = undefined for key, value of @
     @destroyed = true
-    @destroy = ->
+    @off = doNothing
+    @destroy = doNothing
+    $.noty.closeAll()
 
   afterInsert: ->
 
@@ -55,6 +57,7 @@ module.exports = class CocoView extends Backbone.View
     @hidden = true
     @stopListeningToShortcuts()
     view.willDisappear() for id, view of @subviews
+    $.noty.closeAll()
 
   didReappear: ->
     # the router brings back this view from the cache
@@ -133,9 +136,7 @@ module.exports = class CocoView extends Backbone.View
 
   showLoading: ($el=@$el) ->
     $el.find('>').addClass('hidden')
-    $el.append($('<div class="loading-screen"></div>')
-    .append('<h2>Loading</h2>')
-    .append('<div class="progress progress-striped active loading"><div class="progress-bar"></div></div>'))
+    $el.append loadingScreenTemplate()
     @_lastLoading = $el
 
   hideLoading: ->
@@ -143,6 +144,11 @@ module.exports = class CocoView extends Backbone.View
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null
+
+  showReadOnly: ->
+    return if me.isAdmin()
+    warning = $.i18n.t 'editor.read_only_warning', defaultValue: "Note: you can't save any edits here, because you're not logged in as an admin."
+    noty text: warning, layout: 'center', type: 'information', killer: true, timeout: 5000
 
   # Loading ModalViews
 
@@ -195,12 +201,12 @@ module.exports = class CocoView extends Backbone.View
 
   # Utilities
 
-  getQueryVariable: (param) ->
+  getQueryVariable: (param, defaultValue) ->
     query = document.location.search.substring 1
     pairs = (pair.split("=") for pair in query.split "&")
-    for pair in pairs
-      return decodeURIComponent(pair[1]) if pair[0] is param
-    null
+    for pair in pairs when pair[0] is param
+      return {"true": true, "false": false}[pair[1]] ? decodeURIComponent(pair[1])
+    defaultValue
 
   getRootView: ->
     view = @

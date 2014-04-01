@@ -4,6 +4,7 @@ Simulator = require 'lib/simulator/Simulator'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
 {teamDataFromLevel} = require './ladder/utils'
+{me} = require 'lib/auth'
 application = require 'application'
 
 LadderTabView = require './ladder/ladder_tab'
@@ -25,28 +26,27 @@ module.exports = class LadderView extends RootView
   template: require 'templates/play/ladder'
   startsLoading: true
 
+  subscriptions:
+    'application:idle-changed': 'onIdleChanged'
+
   events:
     'click #simulate-button': 'onSimulateButtonClick'
     'click #simulate-all-button': 'onSimulateAllButtonClick'
     'click .play-button': 'onClickPlayButton'
+    'click a': 'onClickedLink'
 
   constructor: (options, @levelID) ->
     super(options)
     @level = new Level(_id:@levelID)
-    @level.fetch()
-    @level.once 'sync', @onLevelLoaded, @
+    p1 = @level.fetch()
     @sessions = new LevelSessionsCollection(levelID)
-    @sessions.fetch({})
-    @sessions.once 'sync', @onMySessionsLoaded, @
+    p2 = @sessions.fetch({})
     @simulator = new Simulator()
-    @simulator.on 'statusUpdate', @updateSimulationStatus, @
+    @listenTo(@simulator, 'statusUpdate', @updateSimulationStatus)
     @teams = []
+    $.when(p1, p2).then @onLoaded
 
-  onLevelLoaded: -> @renderMaybe()
-  onMySessionsLoaded: -> @renderMaybe()
-
-  renderMaybe: ->
-    return unless @level.loaded and @sessions.loaded
+  onLoaded: =>
     @teams = teamDataFromLevel @level
     @startsLoading = false
     @render()
@@ -72,13 +72,18 @@ module.exports = class LadderView extends RootView
       @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
+    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime) or @startsLoading
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>
     return if @destroyed or application.userIsIdle
+    @lastRefreshTime = new Date()
     @ladderTab.refreshLadder()
     @myMatchesTab.refreshMatches()
-    console.log "refreshed views!"
+    console.log "Refreshed sessions for ladder and matches."
+
+  onIdleChanged: (e) ->
+    @fetchSessionsAndRefreshViews() unless e.idle
 
   # Simulations
 
@@ -99,7 +104,7 @@ module.exports = class LadderView extends RootView
 
     @simulator.fetchAndSimulateTask()
 
-  updateSimulationStatus: (simulationStatus, sessions)->
+  updateSimulationStatus: (simulationStatus, sessions) ->
     @simulationStatus = simulationStatus
     try
       if sessions?
@@ -109,7 +114,7 @@ module.exports = class LadderView extends RootView
         for index in [0...creatorNames.length]
           unless creatorNames[index]
             creatorNames[index] = "Anonymous"
-          @simulationStatus += " and " + creatorNames[index]
+          @simulationStatus += (if index != 0 then " and " else "") + creatorNames[index]
         @simulationStatus += "..."
     catch e
       console.log "There was a problem with the named simulation status: #{e}"
@@ -117,11 +122,36 @@ module.exports = class LadderView extends RootView
 
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
+    
+  resimulateAllSessions: ->
+    postData =
+      originalLevelID: @level.get('original')
+      levelMajorVersion: @level.get('version').major
+    console.log postData
+    
+    $.ajax
+      url: '/queue/scoring/resimulateAllSessions'
+      method: 'POST'
+      data: postData  
+      complete: (jqxhr) ->
+        console.log jqxhr.responseText
 
   showPlayModal: (teamID) ->
+    return @showApologeticSignupModal() if me.get('anonymous')
     session = (s for s in @sessions.models when s.get('team') is teamID)[0]
     modal = new LadderPlayModal({}, @level, session, teamID)
     @openModalView modal
+
+  showApologeticSignupModal: ->
+    SignupModal = require 'views/modal/signup_modal'
+    @openModalView(new SignupModal({showRequiredError:true}))
+
+  onClickedLink: (e) ->
+    link = $(e.target).closest('a').attr('href')
+    if link?.startsWith('/play/level') and me.get('anonymous')
+      e.stopPropagation()
+      e.preventDefault()
+      @showApologeticSignupModal()
 
   destroy: ->
     clearInterval @refreshInterval

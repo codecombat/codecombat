@@ -11,8 +11,8 @@ module.exports = class ColorsTabView extends CocoView
   offset: 0
 
   constructor: (@thangType, options) ->
-    @thangType.once 'sync', @tryToBuild, @
-    @thangType.schema().once 'sync', @tryToBuild, @
+    @listenToOnce(@thangType, 'sync', @tryToBuild)
+    @listenToOnce(@thangType.schema(), 'sync', @tryToBuild)
     @colorConfig = { hue: 0, saturation: 0.5, lightness: 0.5 }
     @spriteBuilder = new SpriteBuilder(@thangType)
     f = =>

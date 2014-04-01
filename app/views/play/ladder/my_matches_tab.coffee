@@ -71,24 +71,29 @@ module.exports = class MyMatchesTabView extends CocoView
     for team in @teams
       team.session = (s for s in @sessions.models when s.get('team') is team.id)[0]
       team.readyToRank = @readyToRank(team.session)
-      team.isRanking = team.session.get('isRanking')
+      team.isRanking = team.session?.get('isRanking')
       team.matches = (convertMatch(match, team.session.get('submitDate')) for match in team.session?.get('matches') or [])
       team.matches.reverse()
       team.score = (team.session?.get('totalScore') or 10).toFixed(2)
       team.wins = _.filter(team.matches, {state: 'win'}).length
       team.ties = _.filter(team.matches, {state: 'tie'}).length
       team.losses = _.filter(team.matches, {state: 'loss'}).length
-      team.scoreHistory = team.session?.get('scoreHistory')
-      if team.scoreHistory?.length > 1
-        team.currentScore = Math.round team.scoreHistory[team.scoreHistory.length - 1][1] * 100
+      scoreHistory = team.session?.get('scoreHistory')
+      if scoreHistory?.length > 1
+        scoreHistory = _.last scoreHistory, 100  # Chart URL needs to be under 2048 characters for GET
+        team.currentScore = Math.round scoreHistory[scoreHistory.length - 1][1] * 100
         team.chartColor = team.primaryColor.replace '#', ''
-        times = (s[0] for s in team.scoreHistory)
-        times = ((100 * (t - times[0]) / (times[times.length - 1] - times[0])).toFixed(1) for t in times)
-        scores = (s[1] for s in team.scoreHistory)
-        lowest = _.min scores
-        highest = _.max scores
+        #times = (s[0] for s in scoreHistory)
+        #times = ((100 * (t - times[0]) / (times[times.length - 1] - times[0])).toFixed(1) for t in times)
+        # Let's try being independent of time.
+        times = (i for s, i in scoreHistory)
+        scores = (s[1] for s in scoreHistory)
+        lowest = _.min scores  #.concat([0])
+        highest = _.max scores  #.concat(50)
         scores = (Math.round(100 * (s - lowest) / (highest - lowest)) for s in scores)
         team.chartData = times.join(',') + '|' + scores.join(',')
+        team.minScore = Math.round(100 * lowest)
+        team.maxScore = Math.round(100 * highest)
 
     ctx
 
@@ -97,7 +102,7 @@ module.exports = class MyMatchesTabView extends CocoView
     @$el.find('.rank-button').each (i, el) =>
       button = $(el)
       sessionID = button.data('session-id')
-      session = _.find @sessions.models, { id: sessionID }
+      session = _.find @sessions.models, {id: sessionID}
       rankingState = 'unavailable'
       if @readyToRank session
         rankingState = 'rank'
@@ -107,26 +112,36 @@ module.exports = class MyMatchesTabView extends CocoView
 
   readyToRank: (session) ->
     return false unless session?.get('levelID')  # If it hasn't been denormalized, then it's not ready.
-    c1 = session?.get('code')
-    c2 = session?.get('submittedCode')
-    c1 and not _.isEqual(c1, c2)
+    return false unless c1 = session.get('code')
+    return false unless team = session.get('team')
+    return true unless c2 = session.get('submittedCode')
+    thangSpellArr = (s.split("/") for s in session.get('teamSpells')[team])
+    for item in thangSpellArr
+      thang = item[0]
+      spell = item[1]
+      return true if c1[thang][spell] isnt c2[thang][spell]
+    return false
 
   rankSession: (e) ->
     button = $(e.target).closest('.rank-button')
     sessionID = button.data('session-id')
-    session = _.find @sessions.models, { id: sessionID }
+    session = _.find @sessions.models, {id: sessionID}
     return unless @readyToRank(session)
 
     @setRankingButtonText(button, 'submitting')
-    success = => @setRankingButtonText(button, 'submitted')
-    failure = => @setRankingButtonText(button, 'failed')
+    success = =>
+      @setRankingButtonText(button, 'submitted')
+    failure = (jqxhr, textStatus, errorThrown) =>
+      console.log jqxhr.responseText
+      @setRankingButtonText(button, 'failed')
 
-    ajaxData = { session: sessionID, levelID: @level.id, originalLevelID: @level.attributes.original, levelMajorVersion: @level.attributes.version.major }
+    ajaxData = {session: sessionID, levelID: @level.id, originalLevelID: @level.attributes.original, levelMajorVersion: @level.attributes.version.major}
+    console.log "Posting game for ranking from My Matches view."
     $.ajax '/queue/scoring', {
       type: 'POST'
       data: ajaxData
       success: success
-      failure: failure
+      error: failure
     }
 
   setRankingButtonText: (rankButton, spanClass) ->

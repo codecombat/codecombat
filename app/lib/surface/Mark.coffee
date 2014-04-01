@@ -22,7 +22,6 @@ module.exports = class Mark extends CocoClass
   destroy: ->
     @mark?.parent?.removeChild @mark
     @markSprite?.destroy()
-    @thangType?.off 'sync', @onLoadedThangType, @
     @sprite = null
     super()
 
@@ -55,6 +54,7 @@ module.exports = class Mark extends CocoClass
       if @name is 'bounds' then @buildBounds()
       else if @name is 'shadow' then @buildShadow()
       else if @name is 'debug' then @buildDebug()
+      else if @name.match(/.+Range$/) then @buildRadius(@name)
       else if @thangType then @buildSprite()
       else console.error "Don't know how to build mark for", @name
       @mark?.mouseEnabled = false
@@ -81,7 +81,7 @@ module.exports = class Mark extends CocoClass
     shape.graphics.endStroke()
     shape.graphics.endFill()
 
-    text = new createjs.Text "" + index, "20px Arial", color.replace('0.5', '1')
+    text = new createjs.Text "" + index, "40px Arial", color.replace('0.5', '1')
     text.regX = text.getMeasuredWidth() / 2
     text.regY = text.getMeasuredHeight() / 2
     text.shadow = new createjs.Shadow("#000000", 1, 1, 0)
@@ -114,8 +114,48 @@ module.exports = class Mark extends CocoClass
     @mark.layerIndex = 10
     #@mark.cache 0, 0, diameter, diameter  # not actually faster than simple ellipse draw
 
-  buildRadius: ->
-    return  # not implemented
+  buildRadius: (range) ->
+    alpha = 0.35
+    colors =
+      voiceRange: "rgba(0, 145, 0, #{alpha})"
+      visualRange: "rgba(0, 0, 145, #{alpha})"
+      attackRange: "rgba(145, 0, 0, #{alpha})"
+
+    # Fallback colors which work on both dungeon and grass tiles
+    extracolors = [
+      "rgba(145, 0, 145, #{alpha})"
+      "rgba(0, 145, 145, #{alpha})"
+      "rgba(145, 105, 0, #{alpha})"
+      "rgba(225, 125, 0, #{alpha})"
+    ]
+
+    # Find the index of this range, to find the next-smallest radius
+    rangeNames = @sprite.ranges.map((range, index) ->
+      range['name']
+    )
+    i = rangeNames.indexOf(range)
+
+    @mark = new createjs.Shape()
+
+    if colors[range]?
+      @mark.graphics.beginFill colors[range]
+    else
+      @mark.graphics.beginFill extracolors[i]
+
+    # Draw the outer circle
+    @mark.graphics.drawCircle 0, 0, @sprite.thang[range] * Camera.PPM
+
+    # Cut out the hollow part if necessary
+    if i+1 < @sprite.ranges.length
+      @mark.graphics.arc 0, 0, @sprite.ranges[i+1]['radius'], Math.PI*2, 0, true
+
+    # Add perspective
+    @mark.scaleY *= @camera.y2x
+
+    @mark.graphics.endStroke()
+    @mark.graphics.endFill()
+
+    return
 
   buildDebug: ->
     @mark = new createjs.Shape()
@@ -136,7 +176,7 @@ module.exports = class Mark extends CocoClass
       return @loadThangType() if not thangType
       @thangType = thangType
 
-    return @thangType.once 'sync', @onLoadedThangType, @ if not @thangType.loaded
+    return @listenToOnce(@thangType, 'sync', @onLoadedThangType) if not @thangType.loaded
     CocoSprite = require './CocoSprite'
     markSprite = new CocoSprite @thangType, @thangType.spriteOptions
     markSprite.queueAction 'idle'
@@ -147,7 +187,7 @@ module.exports = class Mark extends CocoClass
     name = @thangType
     @thangType = new ThangType()
     @thangType.url = -> "/db/thang.type/#{name}"
-    @thangType.once 'sync', @onLoadedThangType, @
+    @listenToOnce(@thangType, 'sync', @onLoadedThangType)
     @thangType.fetch()
     markThangTypes[name] = @thangType
     window.mtt = markThangTypes
@@ -155,6 +195,7 @@ module.exports = class Mark extends CocoClass
   onLoadedThangType: ->
     @build()
     @toggle(@toggleTo) if @toggleTo?
+    Backbone.Mediator.publish 'sprite:loaded'
 
   update: (pos=null) ->
     return false unless @on and @mark

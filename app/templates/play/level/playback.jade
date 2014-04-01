@@ -11,10 +11,14 @@ button.btn.btn-xs.btn-inverse#music-button(title="Toggle Music")
   span ♫
 
 .scrubber
-  .progress.secret
+  .progress.secret#timeProgress
     .progress-bar
       .scrubber-handle
-  
+      .popover.fade.top.in#timePopover
+        .arrow
+        h3.popover-title
+        .popover-content
+
 .btn-group.dropup#playback-settings
   button.btn.btn-xs.btn-inverse.toggle-fullscreen(title="Toggle fullscreen")
     i.icon-fullscreen.icon-white
@@ -33,7 +37,10 @@ button.btn.btn-xs.btn-inverse#music-button(title="Toggle Music")
     li(title="Ctrl/Cmd + G: Toggle grid display").selectable#grid-toggle
       i.icon-th
       span(data-i18n="play_level.grid") Grid
-      i.icon-ok.secret
+      i.icon-ok.secret.invisible
     li.selectable#edit-wizard-settings
       i.icon-user
       span(data-i18n="play_level.customize_wizard") Customize Wizard
+    li.selectable#edit-editor-config
+      i.icon-edit
+      span(data-i18n="play_level.editor_config") Editor Config

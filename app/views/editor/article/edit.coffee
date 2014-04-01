@@ -1,4 +1,6 @@
 View = require 'views/kinds/RootView'
+VersionHistoryView = require './versions_view'
+ErrorView = require '../../error_view'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
 
@@ -9,6 +11,7 @@ module.exports = class ArticleEditView extends View
 
   events:
     'click #preview-button': 'openPreview'
+    'click #history-button': 'showVersionHistory'
 
   subscriptions:
     'save-new-version': 'saveNewArticle'
@@ -17,16 +20,29 @@ module.exports = class ArticleEditView extends View
     super options
     @article = new Article(_id: @articleID)
     @article.saveBackups = true
+
+    @listenToOnce(@article, 'error',
+      () =>
+        @hideLoading()
+
+        # Hack: editor components appear after calling insertSubView.
+        # So we need to hide them first.
+        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
+
+        @insertSubView(new ErrorView())
+    )
+
     @article.fetch()
-    @article.once('sync', @onArticleSync)
-    @article.on('schema-loaded', @buildTreema)
+    @article.loadSchema()
+    @listenToOnce(@article, 'sync', @onArticleSync)
+    @listenToOnce(@article, 'schema-loaded', @buildTreema)
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
-  onArticleSync: =>
+  onArticleSync: ->
     @article.loaded = true
     @buildTreema()
 
-  buildTreema: =>
+  buildTreema: ->
     return if @treema? or (not @article.loaded) or (not Article.hasSchema())
     unless @article.attributes.body
       @article.set('body', '')
@@ -59,6 +75,11 @@ module.exports = class ArticleEditView extends View
     context.authorized = me.isAdmin() or @article.hasWriteAccess(me)
     context
 
+  afterRender: ->
+    super()
+    return if @startsLoading
+    @showReadOnly() unless me.isAdmin() or @article.hasWriteAccess(me)
+
   openPreview: =>
     @preview = window.open('/editor/article/x/preview', 'preview', 'height=800,width=600')
     @preview.focus() if window.focus
@@ -84,3 +105,8 @@ module.exports = class ArticleEditView extends View
       modal.modal('hide')
       url = "/editor/article/#{newArticle.get('slug') or newArticle.id}"
       document.location.href = url
+
+  showVersionHistory: (e) ->
+    versionHistoryView = new VersionHistoryView article:@article, @articleID
+    @openModalView versionHistoryView
+    Backbone.Mediator.publish 'level:view-switched', e

@@ -25,6 +25,9 @@ module.exports = class ControlBarView extends View
       window.tracker?.trackEvent 'Clicked Restart', level: @worldName, label: @worldName
       @showRestartModal()
 
+    'click #next-game-button': ->
+      Backbone.Mediator.publish 'next-game-pressed'
+
     'click': -> Backbone.Mediator.publish 'focus-editor'
 
   constructor: (options) ->
@@ -33,6 +36,7 @@ module.exports = class ControlBarView extends View
     @level = options.level
     @playableTeams = options.playableTeams
     @ladderGame = options.ladderGame
+    @spectateGame = options.spectateGame ? false
     super options
 
   setBus: (@bus) ->
@@ -52,6 +56,7 @@ module.exports = class ControlBarView extends View
     c.worldName = @worldName
     c.multiplayerEnabled = @session.get('multiplayer')
     c.ladderGame = @ladderGame
+    c.spectateGame = @spectateGame
     c.homeLink = "/"
     levelID = @level.get('slug')
     if levelID in ["brawlwood", "brawlwood-tutorial", "dungeon-arena", "dungeon-arena-tutorial"]
@@ -59,9 +64,23 @@ module.exports = class ControlBarView extends View
       c.homeLink = "/play/ladder/" + levelID
     c
 
+  afterRender: ->
+    super()
+    @guideHighlightInterval ?= setInterval @onGuideHighlight, 5 * 60 * 1000
+
+  destroy: ->
+    clearInterval @guideHighlightInterval if @guideHighlightInterval
+    super()
+
+  onGuideHighlight: =>
+    return if @destroyed or @guideShownOnce
+    @$el.find('#docs-button').hide().show('highlight', 4000)
+
   showGuideModal: ->
     options = {docs: @level.get('documentation'), supermodel: @supermodel}
     @openModalView(new DocsModal(options))
+    clearInterval @guideHighlightInterval
+    @guideHighlightInterval = null
 
   showMultiplayerModal: ->
     @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level, ladderGame: @ladderGame))

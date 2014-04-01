@@ -18,7 +18,6 @@ module.exports = class LevelBus extends Bus
     'surface:frame-changed': 'onFrameChanged'
     'surface:sprite-selected': 'onSpriteSelected'
     'level-set-playing': 'onSetPlaying'
-    'thang-code-ran': 'onCodeRan'
     'level-show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
@@ -33,7 +32,7 @@ module.exports = class LevelBus extends Bus
     @fireScriptsRef = @fireRef?.child('scripts')
 
   setSession: (@session) ->
-    @session.on 'change:multiplayer', @onMultiplayerChanged, @
+    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
 
   onPoint: ->
     return true unless @session?.get('multiplayer')
@@ -174,17 +173,6 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.state = true
     @saveSession()
 
-  onCodeRan: (e) ->
-    return unless @onPoint()
-    state = @session.get('state')
-    state.thangs ?= {}
-    methods = _.cloneDeep(e.methods)
-    delete method.metrics.statements for methodName, method of methods
-    state.thangs[e.thangID] = { methods: methods }
-    @session.set('state', state)
-    @changedSessionProperties.state = true
-    @saveSession()
-
   onVictory: ->
     return unless @onPoint()
     state = @session.get('state')
@@ -238,5 +226,4 @@ module.exports = class LevelBus extends Bus
     tempSession.save(patch, {patch: true})
 
   destroy: ->
-    @session.off 'change:multiplayer', @onMultiplayerChanged, @
     super()

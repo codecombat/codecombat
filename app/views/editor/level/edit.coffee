@@ -12,6 +12,8 @@ ComponentsTabView = require './components_tab_view'
 SystemsTabView = require './systems_tab_view'
 LevelSaveView = require './save_view'
 LevelForkView = require './fork_view'
+VersionHistoryView = require './versions_view'
+ErrorView = require '../../error_view'
 
 module.exports = class EditorLevelView extends View
   id: "editor-level-view"
@@ -23,10 +25,11 @@ module.exports = class EditorLevelView extends View
     'click #play-button': 'onPlayLevel'
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
+    'click #history-button': 'showVersionHistory'
 
   constructor: (options, @levelID) ->
     super options
-    @supermodel.once 'loaded-all', @onAllLoaded
+    @listenToOnce(@supermodel, 'loaded-all', @onAllLoaded)
 
     # load only the level itself and the one it points to, but no others
     # TODO: this is duplicated in views/play/level_view.coffee; need cleaner method
@@ -40,18 +43,24 @@ module.exports = class EditorLevelView extends View
       model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
 
     @level = new Level _id: @levelID
-    @level.once 'sync', @onLevelLoaded
+    @listenToOnce(@level, 'sync', @onLevelLoaded)
+
+    @listenToOnce(@supermodel, 'error',
+      () =>
+        @hideLoading()
+        @insertSubView(new ErrorView())
+    )
     @supermodel.populateModel @level
 
   showLoading: ($el) ->
     $el ?= @$el.find('.tab-content')
     super($el)
 
-  onLevelLoaded: =>
+  onLevelLoaded: ->
     @files = new DocumentFiles(@level)
     @files.fetch()
 
-  onAllLoaded: =>
+  onAllLoaded: ->
     @level.unset('nextLevel') if _.isString(@level.get('nextLevel'))
     @initWorld()
     @startsLoading = false
@@ -79,6 +88,7 @@ module.exports = class EditorLevelView extends View
     @componentsTab = @insertSubView new ComponentsTabView supermodel: @supermodel
     @systemsTab = @insertSubView new SystemsTabView supermodel: @supermodel
     Backbone.Mediator.publish 'level-loaded', level: @level
+    @showReadOnly() unless me.isAdmin() or @level.hasWriteAccess(me)
 
   onPlayLevel: (e) ->
     sendLevel = =>
@@ -101,4 +111,9 @@ module.exports = class EditorLevelView extends View
   startForkingLevel: (e) ->
     levelForkView = new LevelForkView level: @level
     @openModalView levelForkView
+    Backbone.Mediator.publish 'level:view-switched', e
+
+  showVersionHistory: (e) ->
+    versionHistoryView = new VersionHistoryView level:@level, @levelID
+    @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e

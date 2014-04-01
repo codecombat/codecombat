@@ -1,4 +1,5 @@
 View = require 'views/kinds/CocoView'
+AddThangsView = require './add_thangs_view'
 thangs_template = require 'templates/editor/level/thangs_tab'
 Level = require 'models/Level'
 ThangType = require 'models/ThangType'
@@ -8,6 +9,7 @@ CocoCollection = require 'models/CocoCollection'
 Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
 LevelThangEditView = require './thang/edit'
+ComponentsCollection = require 'collections/ComponentsCollection'
 
 # Moving the screen while dragging thangs constants
 MOVE_MARGIN = 0.15
@@ -19,7 +21,7 @@ componentOriginals =
   "physics.Physical"          : "524b75ad7fc0f6d519000001"
 
 class ThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang_type/search?project=true'
+  url: '/db/thang.type/search?project=original,name,version,slug,kind,components'
   model: ThangType
 
 module.exports = class ThangsTabView extends View
@@ -46,6 +48,8 @@ module.exports = class ThangsTabView extends View
 
   events:
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
+    'click #delete': 'onDeleteClicked'
+    'click #duplicate': 'onDuplicateClicked'
 
   shortcuts:
     'esc': 'selectAddThang'
@@ -57,15 +61,29 @@ module.exports = class ThangsTabView extends View
     super options
     @world = options.world
     @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @thangTypes.once 'sync', @onThangTypesLoaded
+    @listenToOnce(@thangTypes, 'sync', @onThangTypesLoaded)
     @thangTypes.fetch()
+    $(document).bind 'contextmenu', @preventDefaultContextMenu
 
-  onThangTypesLoaded: =>
+    # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
+    @componentCollection = @supermodel.getCollection new ComponentsCollection()
+    @listenToOnce(@componentCollection, 'sync', @onComponentsLoaded)
+    @componentCollection.fetch()
+
+  onThangTypesLoaded: ->
+    return if @destroyed
     @supermodel.addCollection @thangTypes
     @supermodel.populateModel model for model in @thangTypes.models
-    @startsLoading = false
+    @startsLoading = not @componentCollection.loaded
     @render()  # do it again but without the loading screen
-    @onLevelLoaded level: @level if @level
+    @onLevelLoaded level: @level if @level and not @startsLoading
+
+  onComponentsLoaded: ->
+    return if @destroyed
+    @supermodel.addCollection @componentCollection
+    @startsLoading = not @thangTypes.loaded
+    @render()  # do it again but without the loading screen
+    @onLevelLoaded level: @level if @level and not @startsLoading
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -90,14 +108,23 @@ module.exports = class ThangsTabView extends View
     context.groups = groups
     context
 
+  onWindowResize: (e) ->
+    $('#thangs-list').height('100%')
+    thangsHeaderHeight = $('#thangs-header').height()
+    oldHeight = $('#thangs-list').height()
+    $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
+
   afterRender: ->
     return if @startsLoading
     super()
     $('.tab-content').click @selectAddThang
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
+    $(window).resize @onWindowResize
+    @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
 
   onFilterExtantThangs: (e) ->
+    @$el.find('#extant-thangs-filter button.active').button('toggle')
     button = $(e.target).closest('button')
     button.button('toggle')
     val = button.val()
@@ -130,6 +157,9 @@ module.exports = class ThangsTabView extends View
     @thangsTreema.open()
     @onThangsChanged()  # Initialize the World with Thangs
     @initSurface()
+    thangsHeaderHeight = $('#thangs-header').height()
+    oldHeight = $('#thangs-list').height()
+    $('#thangs-list').height(oldHeight - thangsHeaderHeight)
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
@@ -145,7 +175,6 @@ module.exports = class ThangsTabView extends View
     @surface.playing = false
     @surface.setWorld @world
     @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
-    @surface.camera.dragDisabled = true
 
   destroy: ->
     @selectAddThangType null
@@ -159,14 +188,18 @@ module.exports = class ThangsTabView extends View
   onSpriteMouseDown: (e) ->
     # Sprite clicks happen after stage clicks, but we need to know whether a sprite is being clicked.
     clearTimeout @backgroundAddClickTimeout
+    if e.originalEvent.nativeEvent.button == 2
+      @onSpriteContextMenu e
 
   onStageMouseDown: (e) ->
     if @addThangSprite
       # If we click on the background, we need to add @addThangSprite, but not if onSpriteMouseDown will fire.
       @backgroundAddClickTimeout = _.defer => @onExtantThangSelected {}
+    $('#contextmenu').hide()
 
   onSpriteDragged: (e) ->
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
+    @surface.camera.dragDisabled = true
     {stageX, stageY} = e.originalEvent
     wop = @surface.camera.canvasToWorld x: stageX, y: stageY
     wop.z = @selectedExtantThang.depth / 2
@@ -177,6 +210,7 @@ module.exports = class ThangsTabView extends View
   onSpriteMouseUp: (e) ->
     clearInterval(@movementInterval) if @movementInterval?
     @movementInterval = null
+    @surface.camera.dragDisabled = false
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
     pos = @selectedExtantThang.pos
     physicalOriginal = componentOriginals["physics.Physical"]
@@ -191,6 +225,7 @@ module.exports = class ThangsTabView extends View
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
+    @selectedExtantSprite?.setNameLabel? null unless @selectedExtantSprite is e.sprite
     @selectedExtantThang = e.thang
     @selectedExtantSprite = e.sprite
     if e.thang and (key.alt or key.meta)
@@ -202,7 +237,12 @@ module.exports = class ThangsTabView extends View
       @selectedExtantThangClickTime = new Date()
       treemaThang = _.find @thangsTreema.childrenTreemas, (treema) => treema.data.id is @selectedExtantThang.id
       if treemaThang
-        treemaThang.select() unless treemaThang.isSelected()
+        # Show the label above selected thang, notice that we may get here from thang-edit-view, so it will be selected but no label
+        # also covers selecting from Treema
+        @selectedExtantSprite.setNameLabel @selectedExtantSprite.thangType.get('name') + ': ' + @selectedExtantThang.id
+        if not treemaThang.isSelected()
+          treemaThang.select()
+          @thangsTreema.$el.scrollTop(@thangsTreema.$el.find('.treema-children .treema-selected')[0].offsetTop)
     else if @addThangSprite
       # We clicked on the background when we had an add Thang selected, so add it
       @addThang @addThangType, @addThangSprite.thang.pos
@@ -329,6 +369,7 @@ module.exports = class ThangsTabView extends View
 
   onThangsChanged: (e) =>
     @level.set 'thangs', @thangsTreema.data
+    return if @editThangView
     serializedLevel = @level.serialize @supermodel
     try
       @world.loadFromLevel serializedLevel, false
@@ -343,7 +384,7 @@ module.exports = class ThangsTabView extends View
   onTreemaThangSelected: (e, selectedTreemas) =>
     selectedThangID = _.last(selectedTreemas)?.data.id
     if selectedThangID isnt @selectedExtantThang?.id
-      @surface.spriteBoss.selectThang selectedThangID
+      @surface.spriteBoss.selectThang selectedThangID, null, true
 
   onTreemaThangDoubleClicked: (e, treema) =>
     id = treema?.data?.id
@@ -380,8 +421,32 @@ module.exports = class ThangsTabView extends View
 
   onLevelThangDoneEditing: ->
     @removeSubView @editThangView
+    @editThangView = null
+    @onThangsChanged()
     @$el.find('.thangs-column').show()
-
+    
+  preventDefaultContextMenu: (e) ->
+    e.preventDefault()
+    
+  onSpriteContextMenu: (e) ->
+    {clientX, clientY} = e.originalEvent.nativeEvent
+    if @addThangType
+      $('#duplicate a').html 'Stop Duplicate'
+    else
+      $('#duplicate a').html 'Duplicate'
+    $('#contextmenu').css { position: 'fixed', left: clientX, top: clientY }
+    $('#contextmenu').show()
+    
+  onDeleteClicked: (e) ->
+    $('#contextmenu').hide()
+    @deleteSelectedExtantThang e
+  
+  onDuplicateClicked: (e) ->
+    $('#contextmenu').hide()
+    if !@addThangType
+      thang = @selectedExtantThang.spriteName
+      e.target = $(".add-thang-palette-icon[data-thang-type='" + thang + "']").get 0
+    @selectAddThang e
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'

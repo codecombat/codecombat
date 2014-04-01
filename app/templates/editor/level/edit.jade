@@ -38,9 +38,11 @@ block outer_content
 
             li.dropdown
               a.dropdown-toggle(href='#', data-toggle='dropdown')
-                | Help
+                | More
                 b.caret
               ul.dropdown-menu
+                li#history-button
+                  a(href='#', data-i18n="general.version_history") Version History
                 li
                   a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home') Wiki
                 li
@@ -72,5 +74,7 @@ block outer_content
       div.tab-pane#editor-level-components-tab-view
 
       div.tab-pane#editor-level-systems-tab-view
+
+    div#error-view
 
 block footer

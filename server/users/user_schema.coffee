@@ -17,7 +17,8 @@ UserSchema = c.object {},
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})
   volume: c.pct({title: 'Volume'})
   music: {type: 'boolean', default: true}
-  #autocastDelay, or more complex autocast options? I guess I'll see what I need when trying to hook up Scott's suggested autocast behavior
+  autocastDelay: {type: 'integer', 'default': 5000 }
+  lastLevel: { type: 'string' }
 
   emailSubscriptions: c.array {uniqueItems: true, 'default': ['announcement', 'notification']}, {'enum': emailSubscriptions}
 
@@ -44,6 +45,16 @@ UserSchema = c.object {},
   signedCLA: c.date({title: 'Date Signed the CLA'})
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
+
+  aceConfig: c.object {},
+    language: {type: 'string', 'default': 'javascript', 'enum': ['javascript', 'coffeescript']}
+    keyBindings: {type: 'string', 'default': 'default', 'enum': ['default', 'vim', 'emacs']}
+    invisibles: {type: 'boolean', 'default': false}
+    indentGuides: {type: 'boolean', 'default': false}
+    behaviors: {type: 'boolean', 'default': false}
+
+  simulatedBy: {type: 'integer', minimum: 0, default: 0}
+  simulatedFor: {type: 'integer', minimum: 0, default: 0}
 
 c.extendBasicProperties UserSchema, 'user'
 

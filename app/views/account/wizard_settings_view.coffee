@@ -22,9 +22,9 @@ module.exports = class WizardSettingsView extends CocoView
 
   loadWizard: ->
     @wizardThangType = new ThangType()
-    @wizardThangType.url = -> '/db/thang_type/wizard'
+    @wizardThangType.url = -> '/db/thang.type/wizard'
     @wizardThangType.fetch()
-    @wizardThangType.once 'sync', @initCanvas, @
+    @listenToOnce(@wizardThangType, 'sync', @initCanvas)
 
   initCanvas: ->
     @startsLoading = false
@@ -67,9 +67,9 @@ module.exports = class WizardSettingsView extends CocoView
   updateSwatchVisibility: (colorGroup) ->
     enabled = colorGroup.find('.color-group-checkbox').prop('checked')
     colorGroup.find('.minicolors-swatch').toggle Boolean(enabled)
-      
+
   updateColorSettings: (colorGroup) =>
-    wizardSettings = _.cloneDeep(me.get('wizard')) or {}
+    wizardSettings = $.extend(true, {}, me.get('wizard')) or {}
     wizardSettings.colorConfig ?= {}
     colorName = colorGroup.data('name')
     wizardSettings.colorConfig[colorName] ?= {}
