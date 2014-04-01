@@ -163,12 +163,13 @@ module.exports = class ThangComponentEditView extends CocoView
     requireSystem = node.data.system.toLowerCase()
 
     if requireSystem not in extantSystems
+      warn_element = 'Component <b>' + node.data.name + '</b> requires system <b>' + requireSystem + '</b> which is currently not specified in this level.'
       noty({
-        text: 'Component <b>' + node.data.name + '</b> requires system <b>' + requireSystem + '</b> which is currently not specified in this level.',
+        text: warn_element,
         layout: 'bottomLeft',
         type: 'warning'
       })
-
+      
     currentSelection = @addComponentsTreema?.getLastSelectedTreema()?.data._id
 
     id = node.data._id
