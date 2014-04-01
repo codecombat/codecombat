@@ -34,7 +34,7 @@ module.exports = class LevelComponentEditView extends View
     schema = _.cloneDeep LevelComponent.schema.attributes
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
-
+    
     treemaOptions =
       supermodel: @supermodel
       schema: schema
