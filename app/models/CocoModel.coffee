@@ -64,7 +64,7 @@ class CocoModel extends Backbone.Model
   onConstructorSync: ->
     @constructor.schema.loaded = true
     @addSchemaDefaults()
-    @trigger 'schema-loaded' 
+    @trigger 'schema-loaded'
 
   @hasSchema: -> return @schema?.loaded
   schema: -> return @constructor.schema

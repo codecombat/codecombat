@@ -45,8 +45,8 @@ module.exports = class EditorLevelView extends View
     @level = new Level _id: @levelID
     @listenToOnce(@level, 'sync', @onLevelLoaded)
 
-    @listenToOnce(@supermodel, 'error', 
-      () => 
+    @listenToOnce(@supermodel, 'error',
+      () =>
         @hideLoading()
         @insertSubView(new ErrorView())
     )
@@ -88,6 +88,7 @@ module.exports = class EditorLevelView extends View
     @componentsTab = @insertSubView new ComponentsTabView supermodel: @supermodel
     @systemsTab = @insertSubView new SystemsTabView supermodel: @supermodel
     Backbone.Mediator.publish 'level-loaded', level: @level
+    @showReadOnly() unless me.isAdmin() or @level.hasWriteAccess(me)
 
   onPlayLevel: (e) ->
     sendLevel = =>
