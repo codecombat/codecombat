@@ -5,7 +5,7 @@ call print_dashed_seperator
 
 call get_array ..\\localisation\\languages.coco languages language_count
 for /l %%i in (1,1,%language_count%) do (
-	call get_text !languages[%%i]! "global-native"
+	call get_text !languages[%%i]! global_native global native
 	echo   [%%i] !global_native!
 )
 
@@ -27,10 +27,10 @@ goto:get_localisation_id
 		goto:get_localisation_id
 	) else (
 		set language_id=!languages[%local_id%]!
-		call get_text !language_id! "global-native"
+		call get_text !language_id! global_native global native
 		call print_dashed_seperator
 		echo You have choosen !global_native! as your language.
-		call get_text !language_id! "global-intro"
+		call get_text !language_id! global_intro global intro
 		echo !global_intro!
 		call print_seperator
 	)
