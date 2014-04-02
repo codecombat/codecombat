@@ -304,76 +304,7 @@ getSessionInformation = (sessionIDString, callback) ->
     if err? then return callback err, {"error":"There was an error retrieving the session."}
     callback null, session
 
-###
-module.exports.processTaskResult = (req, res) ->
-  clientResponseObject = verifyClientResponse req.body, res
 
-  return unless clientResponseObject?
-  TaskLog.findOne {_id: clientResponseObject.taskID}, (err, taskLog) ->
-    return errors.serverError res, "There was an error retrieiving the task log object" if err?
-
-    taskLogJSON = taskLog.toObject()
-
-    return errors.badInput res, "That computational task has already been performed" if taskLogJSON.calculationTimeMS
-    return handleTimedOutTask req, res, clientResponseObject if hasTaskTimedOut taskLogJSON.sentDate
-
-    scoringTaskQueue.deleteMessage clientResponseObject.receiptHandle, (err) ->
-      console.log "Deleted message."
-      if err? then return errors.badInput res, "The queue message is already back in the queue, rejecting results."
-
-      LevelSession.findOne(_id: clientResponseObject.originalSessionID).lean().exec (err, levelSession) ->
-        if err? then return errors.serverError res, "There was a problem finding the level session:#{err}"
-
-        supposedSubmissionDate = new Date(clientResponseObject.sessions[0].submitDate)
-
-        if Number(supposedSubmissionDate) isnt Number(levelSession.submitDate)
-          return sendResponseObject req, res, {"message":"The game has been resubmitted. Removing from queue..."}
-
-        logTaskComputation clientResponseObject, taskLog, (logErr) ->
-          if logErr? then return errors.serverError res, "There as a problem logging the task computation: #{logErr}"
-
-          updateSessions clientResponseObject, (updateError, newScoreArray) ->
-            if updateError? then return errors.serverError res, "There was an error updating the scores.#{updateError}"
-
-            newScoresObject = _.indexBy newScoreArray, 'id'
-
-            addMatchToSessions clientResponseObject, newScoresObject, (err, data) ->
-              if err? then return errors.serverError res, "There was an error updating the sessions with the match! #{JSON.stringify err}"
-
-              incrementUserSimulationCount req.user._id, 'simulatedBy'
-              incrementUserSimulationCount levelSession.creator, 'simulatedFor'
-
-              originalSessionID = clientResponseObject.originalSessionID
-              originalSessionTeam = clientResponseObject.originalSessionTeam
-              originalSessionRank = parseInt clientResponseObject.originalSessionRank
-
-              determineIfSessionShouldContinueAndUpdateLog originalSessionID, originalSessionRank, (err, sessionShouldContinue) ->
-                if err? then return errors.serverError res, "There was an error determining if the session should continue, #{err}"
-
-                if sessionShouldContinue
-                  opposingTeam = calculateOpposingTeam(originalSessionTeam)
-                  opponentID = _.pull(_.keys(newScoresObject), originalSessionID)
-                  sessionNewScore = newScoresObject[originalSessionID].totalScore
-                  opponentNewScore = newScoresObject[opponentID].totalScore
-
-                  levelOriginalID = levelSession.level.original
-                  levelOriginalMajorVersion = levelSession.level.majorVersion
-                  findNearestBetterSessionID levelOriginalID, levelOriginalMajorVersion, originalSessionID, sessionNewScore, opponentNewScore, opponentID, opposingTeam, (err, opponentSessionID) ->
-                    if err? then return errors.serverError res, "There was an error finding the nearest sessionID!"
-                    if opponentSessionID
-                      addPairwiseTaskToQueue [originalSessionID, opponentSessionID], (err, success) ->
-                        if err? then return errors.serverError res, "There was an error sending the pairwise tasks to the queue!"
-                        sendResponseObject req, res, {"message":"The scores were updated successfully and more games were sent to the queue!"}
-                    else
-                      LevelSession.update {_id: originalSessionID}, {isRanking: false}, {multi: false}, (err, affected) ->
-                        if err? then return errors.serverError res, "There was an error marking the victorious session as not being ranked."
-                        return sendResponseObject req, res, {"message":"There were no more games to rank (game is at top)!"}
-                else
-                  console.log "Player lost, achieved rank #{originalSessionRank}"
-                  LevelSession.update {_id: originalSessionID}, {isRanking: false}, {multi: false}, (err, affected) ->
-                    if err? then return errors.serverError res, "There was an error marking the completed session as not being ranked."
-                    sendResponseObject req, res, {"message":"The scores were updated successfully, person lost so no more games are being inserted!"}
-###
 module.exports.processTaskResult = (req, res) ->
   async.waterfall [
     verifyClientResponse.bind(@,req.body)
