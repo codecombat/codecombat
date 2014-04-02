@@ -45,12 +45,12 @@ module.exports = class ThangTypeEditView extends View
     @thangType = new ThangType(_id: @thangTypeID)
     @thangType.saveBackups = true
 
-    @listenToOnce(@thangType, 'error', 
-      () => 
+    @listenToOnce(@thangType, 'error',
+      () =>
         @hideLoading()
 
         # Hack: editor components appear after calling insertSubView.
-        # So we need to hide them first. 
+        # So we need to hide them first.
         $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
 
         @insertSubView(new ErrorView())
@@ -90,6 +90,7 @@ module.exports = class ThangTypeEditView extends View
     @initSliders()
     @initComponents()
     @insertSubView(new ColorsTabView(@thangType))
+    @showReadOnly() unless me.isAdmin() or @thangType.hasWriteAccess(me)
 
   initComponents: =>
     options =

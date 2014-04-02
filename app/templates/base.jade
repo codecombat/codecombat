@@ -22,16 +22,16 @@ body
 
         ul(class='navbar-link-text').nav.navbar-nav.pull-right
           li.play
-            a.header-font(href='/play', data-i18n="nav.navbar-nav.play") Levels
+            a.header-font(href='/play', data-i18n="nav.play") Levels
           li.editor
-            a.header-font(href='/editor', data-i18n="nav.navbar-nav.editor") Editor
+            a.header-font(href='/editor', data-i18n="nav.editor") Editor
           li.blog
-            a.header-font(href='http://blog.codecombat.com/', data-i18n="nav.navbar-nav.blog") Blog
+            a.header-font(href='http://blog.codecombat.com/', data-i18n="nav.blog") Blog
           li.forum
-            a.header-font(href='http://discourse.codecombat.com/', data-i18n="nav.navbar-nav.forum") Forum
+            a.header-font(href='http://discourse.codecombat.com/', data-i18n="nav.forum") Forum
           if me.isAdmin()
             li.admin
-              a.header-font(href='/admin', data-i18n="nav.navbar-nav.admin") Admin
+              a.header-font(href='/admin', data-i18n="nav.admin") Admin
 
   block outer_content
     #outer-content-wrapper

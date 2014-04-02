@@ -1,3 +1,6 @@
 version=1.0
 author=GlenDC
 copyright=CodeCombat.com © 2013-2014
+github_url=https://github.com/codecombat/codecombat.git
+github_ssh=git@github.com:codecombat/codecombat.git
+database_backup=http://23.21.59.137/dump.tar.gz

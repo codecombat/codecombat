@@ -5,7 +5,7 @@ errors = require './errors'
 log = require 'winston'
 
 PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
-FETCH_LIMIT = 150
+FETCH_LIMIT = 200
 
 module.exports = class Handler
   # subclasses should override these properties
@@ -47,7 +47,9 @@ module.exports = class Handler
   sendNotFoundError: (res) -> errors.notFound(res)
   sendMethodNotAllowed: (res) -> errors.badMethod(res)
   sendBadInputError: (res, message) -> errors.badInput(res, message)
-  sendDatabaseError: (res, err) -> errors.serverError(res, 'Database error, ' + err)
+  sendDatabaseError: (res, err) ->
+    log.error "Database error, #{err}"
+    errors.serverError(res, 'Database error, ' + err)
 
   sendError: (res, code, message) ->
     errors.custom(res, code, message)
@@ -110,8 +112,7 @@ module.exports = class Handler
         log.warn "Whoa, we haven't yet thought about public properties for User projection yet."
       else
         projection = {}
-        for field in req.query.project.split(',')
-          projection[field] = 1
+        projection[field] = 1 for field in req.query.project.split(',')
     for filter in filters
       callback = (err, results) =>
         return @sendDatabaseError(res, err) if err
@@ -251,9 +252,13 @@ module.exports = class Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless parentDocument?
       return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, parentDocument)
+      editableProperties = @getEditableProperties req, parentDocument
       updatedObject = parentDocument.toObject()
-      changes = _.pick req.body, @getEditableProperties(req, parentDocument)
-      _.extend updatedObject, changes
+      for prop in editableProperties
+        if (val = req.body[prop])?
+          updatedObject[prop] = val
+        else if updatedObject[prop]?
+          delete updatedObject[prop]
       delete updatedObject._id
       major = req.body.version?.major
 
@@ -303,8 +308,11 @@ module.exports = class Handler
       done(err, document)
 
   saveChangesToDocument: (req, document, done) ->
-    for prop in @getEditableProperties(req, document)
-      document.set(prop, req.body[prop]) if req.body[prop]?
+    for prop in @getEditableProperties req, document
+      if (val = req.body[prop])?
+        document.set prop, val
+      else if document.get(prop)? and req.method isnt 'PATCH'
+        document.set prop, 'undefined'
     obj = document.toObject()
 
     # Hack to get saving of Users to work. Probably should replace these props with strings

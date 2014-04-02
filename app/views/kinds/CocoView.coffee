@@ -47,6 +47,7 @@ module.exports = class CocoView extends Backbone.View
     @destroyed = true
     @off = doNothing
     @destroy = doNothing
+    $.noty.closeAll()
 
   afterInsert: ->
 
@@ -56,6 +57,7 @@ module.exports = class CocoView extends Backbone.View
     @hidden = true
     @stopListeningToShortcuts()
     view.willDisappear() for id, view of @subviews
+    $.noty.closeAll()
 
   didReappear: ->
     # the router brings back this view from the cache
@@ -134,9 +136,7 @@ module.exports = class CocoView extends Backbone.View
 
   showLoading: ($el=@$el) ->
     $el.find('>').addClass('hidden')
-    $el.append($('<div class="loading-screen"></div>')
-    .append('<h2>Loading</h2>')
-    .append('<div class="progress progress-striped active loading"><div class="progress-bar"></div></div>'))
+    $el.append loadingScreenTemplate()
     @_lastLoading = $el
 
   hideLoading: ->
@@ -144,6 +144,11 @@ module.exports = class CocoView extends Backbone.View
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null
+
+  showReadOnly: ->
+    return if me.isAdmin()
+    warning = $.i18n.t 'editor.read_only_warning', defaultValue: "Note: you can't save any edits here, because you're not logged in as an admin."
+    noty text: warning, layout: 'center', type: 'information', killer: true, timeout: 5000
 
   # Loading ModalViews
 

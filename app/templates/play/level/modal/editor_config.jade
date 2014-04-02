@@ -6,8 +6,14 @@ block modal-header-content
 block modal-body-content
   .form
     .form-group.select-group
+      label.control-label(for="tome-language" data-i18n="play_level.editor_config_language_label") Programming Language
+      select#tome-language(name="language")
+        option(value="javascript" selected=(language === "javascript")) JavaScript
+        option(value="coffeescript" selected=(language === "coffeescript")) CoffeeScript
+      span.help-block(data-i18n="play_level.editor_config_language_description") Define the programming language you want to code in.
+    .form-group.select-group
       label.control-label(for="tome-key-bindings" data-i18n="play_level.editor_config_keybindings_label") Key Bindings
-      select#tome-key-bindings(name="keyBindings", type="checkbox", checked=multiplayer)
+      select#tome-key-bindings(name="keyBindings")
         option(value="default" selected=(keyBindings === "default") data-i18n="play_level.editor_config_keybindings_default") Default (Ace)
         option(value="vim" selected=(keyBindings === "vim")) Vim
         option(value="emacs" selected=(keyBindings === "emacs")) Emacs
@@ -27,7 +33,6 @@ block modal-body-content
         input#tome-behaviors(name="behaviors", type="checkbox", checked=behaviors)
         span(data-i18n="play_level.editor_config_behaviors_label") Smart Behaviors
       span.help-block(data-i18n="play_level.editor_config_behaviors_description") Autocompletes brackets, braces, and quotes.
-    
+
 block modal-footer-content
   a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close
-

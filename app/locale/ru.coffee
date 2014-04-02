@@ -5,6 +5,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sending: "Отправка..."
     cancel: "Отмена"
     save: "Сохранить"
+    create: "Создать"
     delay_1_sec: "1 секунда"
     delay_3_sec: "3 секунды"
     delay_5_sec: "5 секунд"
@@ -12,13 +13,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     fork: "Форк"
     play: "Играть"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
+  units:
+    second: "секунда"
+    seconds: "секунд(ы)"
+    minute: "минута"
+    minutes: "минут(ы)"
+    hour: "час"
+    hours: "часа(ов)"
 
   modal:
     close: "Закрыть"
@@ -32,7 +33,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     editor: "Редактор"
     blog: "Блог"
     forum: "Форум"
-    admin: "Администратор"
+    admin: "Админ"
     home: "Домой"
     contribute: "Сотрудничество"
     legal: "Юридическая информация"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   login:
     sign_up: "Создать аккаунт"
     log_in: "Войти"
+    logging_in: "Вход..."
     log_out: "Выйти"
     recover: "восстановить аккаунт"
 
@@ -224,6 +226,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     skip_tutorial: "Пропуск (Esc)"
     editor_config: "Настройки редактора"
     editor_config_title: "Настройки редактора"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Сочетания клавиш"
     editor_config_keybindings_default: "По умолчанию (Ace)"
     editor_config_keybindings_description: "Добавляет дополнительные сочетания, известные из популярных редакторов."
@@ -260,9 +264,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_patience: "Терпением ты обладать должен, юный падаван. - Yoda"
     tip_documented_bug: "Документированный баг не является багом; это фича."
     tip_impossible: "Это всегда кажется невозможным, пока не сделано. - Nelson Mandela"
-#    time_current: "Now:"
-#    time_total: "Max:"
-#    time_goto: "Go to:"
+    time_current: "Текущее:"
+    time_total: "Максимальное:"
+    time_goto: "Перейти на:"
 
   admin:
     av_title: "Админ панель"
@@ -387,7 +391,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     practices_title: "Уважаемые лучшие практики"
     practices_description: "Это наши обещания тебе, игроку, менее юридическим языком."
     privacy_title: "Конфиденциальность"
-    privacy_description: "Мы не будем продавать какой-либо личной информации. Мы намерены заработать деньги с помощью рекрутинга в конечном счёте, но будьте уверены, мы не будем распространять вашу личную информацию заинтересованным компаниям без вашего явного согласия."
+    privacy_description: "Мы не будем продавать какую-либо личную информацию. Мы намерены заработать деньги с помощью рекрутинга в конечном счёте, но будьте уверены, мы не будем распространять вашу личную информацию заинтересованным компаниям без вашего явного согласия."
     security_title: "Безопасность"
     security_description: "Мы стремимся сохранить вашу личную информацию в безопасности. Как проект с открытым исходным кодом, наш сайт открыт для всех в вопросах пересмотра и совершенствования систем безопасности."
     email_title: "Email"
@@ -459,7 +463,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     how_to_join: "Как присоединиться"
     join_desc_1: "Любой желающий может помочь! Просто ознакомьтесь с нашим "
     join_desc_2: "чтобы начать, и установите флажок ниже, чтобы отметить себя как отважного Архимага и получать последние новости через email. Хотите поговорить о том, что делать или как принять более активное участие? "
-    join_desc_3: "или найдите нас в "
+    join_desc_3: " или найдите нас в "
     join_desc_4: "и мы решим, откуда можно начать!"
     join_url_email: "Напишите нам"
     join_url_hipchat: "публичной комнате HipChat"
