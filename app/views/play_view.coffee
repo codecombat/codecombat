@@ -198,3 +198,4 @@ module.exports = class PlayView extends View
     super()
     @$el.find('.modal').on 'shown.bs.modal', ->
       $('input:visible:first', @).focus()
+    

@@ -77,7 +77,7 @@ module.exports = class SpellView extends View
     @ace.setShowPrintMargin false
     @ace.setShowInvisibles aceConfig.invisibles
     @ace.setBehavioursEnabled aceConfig.behaviors
-    @ace.setAnimatedScroll true
+    @ace.setAnimatedScroll true 
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity

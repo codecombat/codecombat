@@ -1,9 +1,6 @@
 @import "bootstrap/variables"
 @import "bootstrap/mixins"
 
-::-webkit-scrollbar
-  display: none
-
 html
   background-color: #2f261d
 
@@ -100,10 +97,14 @@ a[data-toggle="modal"]
 
 .modal-dialog
   padding: 5px
-  background: transparent url(/images/pages/base/modal_background.png)
-  background-size: 100% 100%
-  border: 0
-  @include box-shadow(0 0 0 #000)
+
+  .background-wrapper
+    background: url("/images/pages/base/modal_background.png")
+    background-size: 100% 100%
+    border: 0
+    @include box-shadow(0 0 0 #000)
+    position: absolute
+    width: 99%
 
   .modal-content
     @include box-shadow(none)
