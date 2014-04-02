@@ -71,9 +71,7 @@ module.exports.setup = (app) ->
     if req.user
       sendSelf(req, res)
     else
-      user = new User({anonymous:true})
-      user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
-      user.set 'preferredLanguage', languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+      user = makeNewUser(req)
       makeNext = (req, res) -> -> sendSelf(req, res)
       next = makeNext(req, res)
       loginUser(req, res, user, false, next)
@@ -83,21 +81,6 @@ module.exports.setup = (app) ->
     res.setHeader('Content-Type', 'text/json')
     res.send(UserHandler.formatEntity(req, req.user))
     res.end()
-
-  loginUser = (req, res, user, send=true, next=null) ->
-    user.save((err) ->
-      if err
-        return @sendDatabaseError(res, err)
-
-      req.logIn(user, (err) ->
-        if err
-          return @sendDatabaseError(res, err)
-
-        if send
-          return @sendSuccess(res, user)
-        next() if next
-      )
-    )
 
   app.post('/auth/logout', (req, res) ->
     req.logout()
@@ -155,6 +138,26 @@ module.exports.setup = (app) ->
         res.send "Unsubscribed #{req.query.email} from all CodeCombat emails. Sorry to see you go! <p><a href='/account/settings'>Account settings</a></p>"
         res.end()
 
+module.exports.loginUser = loginUser = (req, res, user, send=true, next=null) ->
+  user.save((err) ->
+    if err
+      return @sendDatabaseError(res, err)
+
+    req.logIn(user, (err) ->
+      if err
+        return @sendDatabaseError(res, err)
+
+      if send
+        return @sendSuccess(res, user)
+      next() if next
+    )
+  )
+
+module.exports.makeNewUser = makeNewUser = (req) ->
+  user = new User({anonymous:true})
+  user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
+  user.set 'preferredLanguage', languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+        
 createMailOptions = (receiver, password) ->
   # TODO: use email templates here
   options =
@@ -163,4 +166,4 @@ createMailOptions = (receiver, password) ->
     replyTo: config.mail.username
     subject: "[CodeCombat] Password Reset"
     text: "You can log into your account with: #{password}"
-#
+
