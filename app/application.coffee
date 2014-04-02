@@ -5,10 +5,12 @@ locale = require 'locale/locale'
 Tracker = require 'lib/Tracker'
 CocoView = require 'views/kinds/CocoView'
 
+# Prevent Ctrl/Cmd + [ / ], P, S
+ctrlDefaultPrevented = [219, 221, 80, 83]
 preventBackspace = (event) ->
   if event.keyCode is 8 and not elementAcceptsKeystrokes(event.srcElement or event.target)
     event.preventDefault()
-  else if (key.ctrl or key.command) and not key.alt and event.keyCode in [219, 221]  # prevent Ctrl/Cmd + [ / ]
+  else if (key.ctrl or key.command) and not key.alt and event.keyCode in ctrlDefaultPrevented
     event.preventDefault()
 
 elementAcceptsKeystrokes = (el) ->

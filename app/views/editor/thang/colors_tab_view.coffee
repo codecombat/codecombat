@@ -21,6 +21,10 @@ module.exports = class ColorsTabView extends CocoView
     @interval = setInterval f, 1000
     super options
 
+  destroy: ->
+    clearInterval @interval
+    super()
+
   afterRender: ->
     super()
     @createShapeButtons()
