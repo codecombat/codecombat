@@ -76,12 +76,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     no_ie: "A CodeCombat nem támogatja az Internet Explorer 9, vagy korábbi verzióit. Bocsi!"
     no_mobile: "A CodeCombat nem mobil eszközökre lett tervezve. Valószínűleg nem működik helyesen."
     play: "Játssz!"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
+#    old_browser: ""Hohó, a böngésződ már túl régi ahhoz, hogy a CodeCombat futhasson rajta. Bocsi!"
+#    old_browser_suffix: "Megpróbálhatod éppen, da valószínűleg nem fog működni.."
+#    campaign: "Kampány"
+#    for_beginners: "Kezdőknek"
 #    multiplayer: "Multiplayer"
-#    for_developers: "For Developers"
+#    for_developers: "Fejlesztőknek"
 
   play:
     choose_your_level: "Válaszd ki a pályát!"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     campaign_player_created: "Játékosok pályái"
     campaign_player_created_description: "...melyekben <a href=\"/contribute#artisan\">Művészi Varázsló</a> társaid ellen kűzdhetsz."
     level_difficulty: "Nehézség: "
-#    play_as: "Play As"
+#    play_as: "Játssz mint"
 #    spectate: "Spectate"
 
   contact:
@@ -122,12 +122,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   wizard_settings:
     title: "Varázsló beállításai"
     customize_avatar: "Állítsd be az Avatarod!"
-#    clothes: "Clothes"
+#    clothes: "Öltözetek"
 #    trim: "Trim"
-#    cloud: "Cloud"
-#    spell: "Spell"
-#    boots: "Boots"
-#    hue: "Hue"
+#    cloud: "Felhő"
+#    spell: "Varázslat"
+#    boots: "Lábbelik"
+#    hue: "Árnyalat"
 #    saturation: "Saturation"
 #    lightness: "Lightness"
 
