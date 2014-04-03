@@ -154,7 +154,7 @@ module.exports = class PlayLevelView extends View
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
 
     # Save latest level played in local storage
-    if (@levelLoader.level.get('type') in ['campaign'])
+    if (@levelLoader.level.get('type') is 'campaign')
       me.set('lastLevel', @levelID)
       me.save()
     @grabLevelLoaderData()
