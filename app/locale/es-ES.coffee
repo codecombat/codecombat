@@ -13,7 +13,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     fork: "Bifurcar"
     play: "Jugar"
 
-  medidas/unidades:
+  units:
     second: "segundo"
     seconds: "segundos"
     minute: "minuto"
