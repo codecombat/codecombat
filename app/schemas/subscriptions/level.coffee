@@ -36,3 +36,11 @@ module.exports =
 
   "level-set-debug":
   {} # TODO schema
+
+
+
+  # TODO location is debatable
+  "goal-manager:new-goal-states":
+  {} # TODO schema
+
+

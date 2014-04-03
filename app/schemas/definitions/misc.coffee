@@ -10,4 +10,3 @@ module.exports =
         type: "boolean"
     required: []
     additionalProperties: true
-g
