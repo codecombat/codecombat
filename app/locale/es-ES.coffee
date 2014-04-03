@@ -5,7 +5,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     sending: "Enviando..."
     cancel: "Cancelar"
     save: "Guardar"
-#    create: "Create"
+    create: "Crear"
     delay_1_sec: "1 segundo"
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
@@ -13,13 +13,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     fork: "Bifurcar"
     play: "Jugar"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
+  medidas/unidades:
+    second: "segundo"
+    seconds: "segundos"
+    minute: "minuto"
+    minutes: "minutos"
+    hour: "hora"
+    hours: "horas"
 
   modal:
     close: "Cerrar"
@@ -53,7 +53,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
   login:
     sign_up: "Crear una cuenta"
     log_in: "Entrar"
-#    logging_in: "Logging In"
+    logging_in: "Entrando..."
     log_out: "Salir"
     recover: "recuperar cuenta"
 
@@ -76,12 +76,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     no_ie: "CodeCombat no funciona en Internet Explorer 9 o anteriores. ¡Lo sentimos!"
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y puede que no funcione!"
     play: "Jugar"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
-#    old_browser_suffix: "You can try anyway, but it probably won't work."
-#    campaign: "Campaign"
-#    for_beginners: "For Beginners"
-#    multiplayer: "Multiplayer"
-#    for_developers: "For Developers"
+    old_browser: "Ay, su navegador es demasiado viejo para ejecutar CodeCombat. ¡Lo sentimos!"
+    old_browser_suffix: "Puede tentar de todos modos, pero probablemente no va a funcionar."
+    campaign: "Campaña"
+    for_beginners: "Para principiantes"
+    multiplayer: "Multijugador"
+    for_developers: "Para programadores"
 
   play:
     choose_your_level: "Elige tu nivel"
