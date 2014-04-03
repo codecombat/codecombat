@@ -8,14 +8,20 @@ module.exports =
       bus:
         $ref: "bus"
 
-  "bus:connected": {}
+  "bus:connected":
+  {} # TODO schema
 
-  "bus:disconnected": {}
+  "bus:disconnected":
+  {} # TODO schema
 
-  "bus:new-message": {}
+  "bus:new-message":
+  {} # TODO schema
 
-  "bus:player-joined": {}
+  "bus:player-joined":
+  {} # TODO schema
 
-  "bus:player-left": {}
+  "bus:player-left":
+  {} # TODO schema
 
-  "bus:player-states-changed": {}
+  "bus:player-states-changed":
+  {} # TODO schema

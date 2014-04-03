@@ -36,7 +36,7 @@
     "underscore.string": "~2.3.3",
     "firebase": "~1.0.2",
     "catiline": "~2.9.3",
-    "validated-backbone-mediator": "~0.1.1"
+    "validated-backbone-mediator": null
   },
   "overrides": {
     "backbone": {
