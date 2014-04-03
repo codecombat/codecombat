@@ -98,10 +98,14 @@ module.exports = class ThangState
         storage = @trackedPropertyValues[propIndex]
         value = @getStoredProp propIndex, type, storage
       if prop is "pos"
-        @thang.pos = @thang.pos.copy()
-        @thang.pos.x = inverse * @thang.pos.x + ratio * value.x
-        @thang.pos.y = inverse * @thang.pos.y + ratio * value.y
-        @thang.pos.z = inverse * @thang.pos.z + ratio * value.z
+        if @thang.pos.distanceSquared(value) > 900
+          # Don't interpolate; it was probably a teleport. https://github.com/codecombat/codecombat/issues/738
+          @thang.pos = value
+        else
+          @thang.pos = @thang.pos.copy()
+          @thang.pos.x = inverse * @thang.pos.x + ratio * value.x
+          @thang.pos.y = inverse * @thang.pos.y + ratio * value.y
+          @thang.pos.z = inverse * @thang.pos.z + ratio * value.z
       else if prop is "rotation"
         @thang.rotation = inverse * @thang.rotation + ratio * value
       @thang.partialState = true
