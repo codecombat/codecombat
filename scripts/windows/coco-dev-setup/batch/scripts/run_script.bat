@@ -1,2 +1,1 @@
-@echo off
-powershell "& "%*"
+PowerShell -NoProfile -ExecutionPolicy Bypass -Command "& "%*"
