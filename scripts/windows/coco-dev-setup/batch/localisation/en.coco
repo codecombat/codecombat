@@ -15,10 +15,10 @@
 			<sks>Have you already installed all the software needed for CodeCombat?</sks>
 			<skq>We recommand that you reply negative in case you're not sure.</skq>
 			<skc>Skipping the installation of the software...</skc>
-			<1>CodeCombat couldn't be developed without third-party software.</1>
-			<2>That's why you'll need to install this software,</2>
-			<3>in order to start contributing to our community.</3>
-			<4>Cancel the installation if you already have the application.</4>
+			<s1>CodeCombat couldn't be developed without third-party software.</s1>
+			<s2>That's why you'll need to install this software,</s2>
+			<s3>in order to start contributing to our community.</s3>
+			<s4>Cancel the installation if you already have the application.</s4>
 			<prefix>Do you already have the latest version of</prefix>
 			<sufix>installed?</sufix>
 			<downloading>is downloading...</downloading>
@@ -71,11 +71,11 @@
 		<readme>Do you want to read the README for more information?</readme>
 	</end>
 	<start>
-		<1>From now on you can start the dev. environment at</1>
-		<2>the touch of a single mouse click.</2>
-		<3>  1) Just double click</3>
-		<4>     and let the environment start up.</4>
-		<5>  2) Now just open 'localhost:3000' in your prefered browser.</5>
-		<6>That's it, you're now ready to start working on CodeCombat!</6>
+		<s1>From now on you can start the dev. environment at</s1>
+		<s2>the touch of a single mouse click.</s2>
+		<s3>  1) Just double click</s3>
+		<s4>     and let the environment start up.</s4>
+		<s5>  2) Now just open 'localhost:3000' in your prefered browser.</s5>
+		<s6>That's it, you're now ready to start working on CodeCombat!</s6>
 	</start>
 </variables>

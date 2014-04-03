@@ -30,16 +30,16 @@
 	</install>
 	<github>
 		<intro>
-			<opensource>Wie Du bereits weißt, ist CodeCombat Open Source.
-			<online>Unser Quellcode ist komplett auf Github.
-			<manual>Wenn Du möchtest, kannst du das komplette Git Repository selbst herunterladen und nach deinen wünschen einrichten.
-			<norec>Allerdings empfehlen wir, dass du den Prozess statt dessen uns überlässt.
+			<opensource>Wie Du bereits weißt, ist CodeCombat Open Source.</opensource>
+			<online>Unser Quellcode ist komplett auf Github.</online>
+			<manual>Wenn Du möchtest, kannst du das komplette Git Repository selbst herunterladen und nach deinen wünschen einrichten.</manual>
+			<norec>Allerdings empfehlen wir, dass du den Prozess statt dessen uns überlässt.</norec>
 		</intro>
 		<skip>
-			<question>Willst du das lokale Git Setup selbst vornehmen?
-			<consequence>Bit vergewissere dich, dass das Repository korrekt heruntergeladen wurde, bevor du fortfährst.
-			<donotclose>Bitte schließe dieses Fenster nicht.
-			<wait>Wenn du fertig bist, drücke eine beliebige Taste zum Fortfahren...
+			<question>Willst du das lokale Git Setup selbst vornehmen?</question>
+			<consequence>Bit vergewissere dich, dass das Repository korrekt heruntergeladen wurde, bevor du fortfährst.</consequence>
+			<donotclose>Bitte schließe dieses Fenster nicht.</donotclose>
+			<wait>Wenn du fertig bist, drücke eine beliebige Taste zum Fortfahren...</wait>
 		</skip>
 		<process>
 			<path>Gebe bitte den kompletten Pfad zu deinem CodeCombat Git Repository ein: </path>
@@ -62,7 +62,7 @@
 		<script>Preparing the automatic startup script for you...</script>
 	</npm>
 	<error>
-		<path>Dieser Pfad existiert bereits. Willst du ihn wirklich überschreiben?<path>
+		<path>Dieser Pfad existiert bereits. Willst du ihn wirklich überschreiben?</path>
 		<exist>Dieser Pfad exisitert nicht. Bitte versuche es erneut...</exist>
 	</error>
 	<end>
