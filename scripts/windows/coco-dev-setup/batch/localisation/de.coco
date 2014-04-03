@@ -15,10 +15,10 @@
 			<sks>Sind die für CodeCombat benötigten Programme bereits installiert?</sks>
 			<skq>Wir empfehlen Ihnen, mit „Nein“ zu antorten, falls Sie unsicher sind.</skq>
 			<skc>Überspringe Installation der Programme...</skc>
-			<1>Ohne Software von Drittanbietern könnte CodeCombat nicht entwickelt werden.</1>
-			<2>Aus diesem Grund müssen Sie diese Software installieren,</2>
-			<3>um sich in der Community zu engagieren.</3>
-			<4>Wenn Sie ein Programm bereits installiert haben, brechen Sie die Installation bitte ab.</4>
+			<b1>Ohne Software von Drittanbietern könnte CodeCombat nicht entwickelt werden.</b1>
+			<b2>Aus diesem Grund müssen Sie diese Software installieren,</b2>
+			<b3>um sich in der Community zu engagieren.</b3>
+			<b4>Wenn Sie ein Programm bereits installiert haben, brechen Sie die Installation bitte ab.</b4>
 			<prefix>Haben Sie bereits die aktuellste Version von</prefix>
 			<sufix>installiert?</sufix>
 			<downloading>wird heruntergeladen...</downloading>
@@ -71,11 +71,11 @@
 		<readme>Willst du das README lesen, um weitere Informationen zu erhalten?</readme>
 	</end>
 	<start>
-		<1>Von nun an kannst du die Entwicklungsumgebung starten unter</1>
-		<2>einmal mit der Maus klicken.</2>
-		<3>  1) Einfach Doppelklicken</3>
-		<4>und warten bis die Entwicklungsumgebung fertig geladen hat.</4>
-		<5>  2) Jetzt 'localhost:3000' in deinem bevorzugten Browser aufrufen.</5>
-		<6>Fertig. Du bist nun bereit, bei CodeCombat mitzuarbeiten!</6>
+		<b1>Von nun an kannst du die Entwicklungsumgebung starten unter</b1>
+		<b2>einmal mit der Maus klicken.</b2>
+		<b3>  1) Einfach Doppelklicken</b3>
+		<b4>und warten bis die Entwicklungsumgebung fertig geladen hat.</b4>
+		<b5>  2) Jetzt 'localhost:3000' in deinem bevorzugten Browser aufrufen.</b5>
+		<b6>Fertig. Du bist nun bereit, bei CodeCombat mitzuarbeiten!</b6>
 	</start>
 </variables>
