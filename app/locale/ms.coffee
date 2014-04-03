@@ -133,7 +133,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 
   account_settings:
 #    title: "Account Settings"
-    not_logged_in: "Daftar masuk atau buat account untuk menukar "setting" anda."
+    not_logged_in: "Daftar masuk atau buat account untuk menukar \"setting\" anda."
     autosave: "Pengubahsuaian disimpan secara automatik"
     me_tab: "Saya"
     picture_tab: "Gambar"
