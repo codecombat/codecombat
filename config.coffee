@@ -73,7 +73,7 @@ exports.config =
       order:
         before: [
           'app/styles/bootstrap.scss'
-          'app/styles/nanoscroller.scss'
+          'vendor/styles/nanoscroller.scss'
         ]
     templates:
       defaultExtension: 'jade'
