@@ -1,1 +1,3 @@
-for /f "delims=" %%a in ('..\\utilities\\get_var.exe ..\\config\\downloads.coco %1') do set "%%a"
+call run_script .\get_var.ps1 ..\\config\\downloads.coco %2 %3 %4 %5 %6 > var.tmp
+set /p %1= < var.tmp
+del /q var.tmp

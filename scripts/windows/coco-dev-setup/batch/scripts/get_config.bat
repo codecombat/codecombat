@@ -1,1 +1,1 @@
-for /f "delims=" %%a in ('..\\utilities\\get_var.exe ..\\config\\config.coco %1') do set "%%a"
+call run_script .\get_var.ps1 ..\config\config.coco %1

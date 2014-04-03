@@ -1,3 +1,3 @@
-for /f "delims=" %%a in ('..\\utilities\\get_var.exe ..\\localisation\\%1.coco %2') do (
-	set "%%a"
-)
+call run_script .\get_var.ps1 ..\\localisation\\%1.coco %3 %4 %5 %6 %7 > var.tmp
+set /p %2= < var.tmp
+del /q var.tmp

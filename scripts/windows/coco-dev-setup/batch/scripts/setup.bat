@@ -7,12 +7,14 @@ mode con: cols=78 lines=55
 call print_header
 call print_dashed_seperator
 
-call get_config version
-call get_config author
-call get_config copyright
+call get_config.bat version
+call get_config.bat author
+call get_config.bat copyright
 echo Welcome to the automated Installation of the CodeCombat Dev. Environment!
 echo v%version% authored by %author% and published by %copyright%.
 call print_seperator
+
+pause
 
 echo Before we start the installation, here are some tips:
 call print_tips
