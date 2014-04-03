@@ -311,8 +311,9 @@ module.exports = class Handler
     for prop in @getEditableProperties req, document
       if (val = req.body[prop])?
         document.set prop, val
-      else if document.get(prop)? and req.method isnt 'PATCH'
-        document.set prop, 'undefined'
+      # Hold on, gotta think about that one
+      #else if document.get(prop)? and req.method isnt 'PATCH'
+      #  document.set prop, 'undefined'
     obj = document.toObject()
 
     # Hack to get saving of Users to work. Probably should replace these props with strings

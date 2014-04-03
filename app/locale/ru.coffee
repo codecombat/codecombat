@@ -264,6 +264,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_patience: "Терпением ты обладать должен, юный падаван. - Yoda"
     tip_documented_bug: "Документированный баг не является багом; это фича."
     tip_impossible: "Это всегда кажется невозможным, пока не сделано. - Nelson Mandela"
+#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
