@@ -100,8 +100,6 @@ resimulateSession = (originalLevelID, levelMajorVersion, session, cb) =>
         cb null
 
 
-
-
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
   originalLevelID = req.body.originalLevelID
@@ -514,8 +512,6 @@ findNearestBetterSessionID = (cb) ->
   opponentSessionTotalScore = @newScoresObject[opponentSessionID].totalScore
   opposingTeam = calculateOpposingTeam(@clientResponseObject.originalSessionTeam)
 
-
-
   retrieveAllOpponentSessionIDs sessionID, (err, opponentSessionIDs) ->
     if err? then return cb err, null
 
@@ -577,17 +573,9 @@ addNewSessionsToQueue = (sessionID, callback) ->
   sessions = [@clientResponseObject.originalSessionID, sessionID]
   addPairwiseTaskToQueue sessions, callback
 
-
-
-
 messageIsInvalid = (message) -> (not message?) or message.isEmpty()
 
 sendEachTaskPairToTheQueue = (taskPairs, callback) -> async.each taskPairs, sendTaskPairToQueue, callback
-
-
-
-
-
 
 generateTaskPairs = (submittedSessions, sessionToScore) ->
   taskPairs = []
@@ -609,10 +597,6 @@ isUserAnonymous = (req) -> if req.user? then return req.user.get('anonymous') el
 
 isUserAdmin = (req) -> return Boolean(req.user?.isAdmin())
 
-
-
-
-
 sendResponseObject = (req,res,object) ->
   res.setHeader('Content-Type', 'application/json')
   res.send(object)
@@ -621,8 +605,6 @@ sendResponseObject = (req,res,object) ->
 hasTaskTimedOut = (taskSentTimestamp) -> taskSentTimestamp + scoringTaskTimeoutInSeconds * 1000 < Date.now()
 
 handleTimedOutTask = (req, res, taskBody) -> errors.clientTimeout res, "The results weren't provided within the timeout"
-
-
 
 putRankingFromMetricsIntoScoreObject = (taskObject,scoreObject) ->
   scoreObject = _.indexBy scoreObject, 'id'
