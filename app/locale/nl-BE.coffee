@@ -264,6 +264,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     tip_patience: "Geduld moet je hebben, jonge Padawan. - Yoda"
     tip_documented_bug: "Een gedocumenteerde fout is geen fout; het is deel van het programma."
     tip_impossible: "Het lijkt altijd onmogelijk tot het gedaan wordt. - Nelson Mandela"
+#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
     time_current: "Nu:"
     time_total: "Maximum:"
     time_goto: "Ga naar:"

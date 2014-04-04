@@ -1,6 +1,28 @@
 body
   #fb-root
   block header
+    .nav.navbar.navbar-fixed-top#mobile-nav
+      .content.clearfix
+        .navbar-header
+          button.navbar-toggle(type="button" data-toggle="collapse" data-target="#collapsible-navbar")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          
+          a.navbar-brand(href='/')
+            img(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+        .collapse.navbar-collapse#collapsible-navbar      
+          ul.nav.navbar-nav
+            li.play
+              a.header-font(href='/play', data-i18n="nav.play") Levels
+            li.editor
+              a.header-font(href='/editor', data-i18n="nav.editor") Editor
+            li.blog
+              a.header-font(href='http://blog.codecombat.com/', data-i18n="nav.blog") Blog
+            li.forum
+              a.header-font(href='http://discourse.codecombat.com/', data-i18n="nav.forum") Forum
+      
     .nav.navbar.navbar-fixed-top#top-nav
       .content.clearfix
         .navbar-header
@@ -32,6 +54,10 @@ body
           if me.isAdmin()
             li.admin
               a.header-font(href='/admin', data-i18n="nav.admin") Admin
+        
+      
+             
+    
 
   block outer_content
     #outer-content-wrapper

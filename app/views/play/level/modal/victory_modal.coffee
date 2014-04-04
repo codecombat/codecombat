@@ -78,7 +78,7 @@ module.exports = class VictoryModal extends View
     c = super()
     c.body = @body
     c.me = me
-    c.hasNextLevel = _.isObject(@level.get('nextLevel')) and (@level.get('name') isnt "Mobile Artillery")
+    c.hasNextLevel = _.isObject(@level.get('nextLevel'))
     c.levelName = utils.i18n @level.attributes, 'name'
     c.level = @level
     if c.level.get('type') is 'ladder'

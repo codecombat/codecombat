@@ -12,6 +12,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     manual: "Manual"
     fork: "Fork"
     play: "Play"
+    retry: "Retry"
 
   units:
     second: "second"
@@ -264,6 +265,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tip_patience: "Patience you must have, young Padawan. - Yoda"
     tip_documented_bug: "A documented bug is not a bug; it is a feature."
     tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
@@ -600,3 +603,27 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tutorial: "tutorial"
     new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
     so_ready: "I Am So Ready for This"
+
+  loading_error:
+    could_not_load: "Error loading from server"
+    connection_failure: "Connection failed."
+    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+    forbidden: "You do not have the permissions."
+    not_found: "Not found."
+    not_allowed: "Method not allowed."
+    timeout: "Server timeout."
+    conflict: "Resource conflict."
+    bad_input: "Bad input."
+    server_error: "Server error."
+    unknown: "Unknown error."
+    
+  resources:
+    your_sessions: "Your Sessions"
+    level: "Level"
+    social_network_apis: "Social Network APIs"
+    facebook_status: "Facebook Status"
+    facebook_friends: "Facebook Friends"
+    facebook_friend_sessions: "Facebook Friend Sessions"
+    gplus_friends: "G+ Friends"
+    gplus_friend_sessions: "G+ Friend Sessions"
+    leaderboard: 'leaderboard'
