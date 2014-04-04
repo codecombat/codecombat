@@ -140,6 +140,18 @@ module.exports = class LadderTabView extends CocoView
     return if @loadingFacebookFriends or @loadingLeaderboards or @loadingGPlusFriends
     @startsLoading = false
     @render()
+    
+  render: ->
+    super()
+
+    @$el.find('.histogram-display').each (i, el) =>
+      histogramWrapper = $(el)
+      team = _.find @teams, name: histogramWrapper.data('team-name')
+      histogramData = null
+      $.when(
+        $.get("/db/level/#{@level.get('slug')}/histogram_data?team=#{team.name.toLowerCase()}", (data) -> histogramData = data)
+      ).then =>
+        @generateHistogram(histogramWrapper, histogramData, team.name.toLowerCase())
 
   getRenderData: ->
     ctx = super()
@@ -153,6 +165,66 @@ module.exports = class LadderTabView extends CocoView
     ctx.onGPlus = application.gplusHandler.loggedIn
     ctx
 
+  generateHistogram: (histogramElement, histogramData, teamName) ->
+    #renders twice, hack fix
+    if $("#"+histogramElement.attr("id")).has("svg").length then return
+    histogramData = histogramData.map (d) -> d*100
+      
+    margin =
+      top: 20
+      right: 20
+      bottom: 30
+      left: 0
+
+    width = 300 - margin.left - margin.right
+    height = 125 - margin.top - margin.bottom
+    
+    formatCount = d3.format(",.0")
+    
+    x = d3.scale.linear().domain([-3000,6000]).range([0,width])
+
+    data = d3.layout.histogram().bins(x.ticks(20))(histogramData)
+    y = d3.scale.linear().domain([0,d3.max(data, (d) -> d.y)]).range([height,0])
+    
+    #create the x axis
+    xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5).outerTickSize(0)
+    
+    svg = d3.select("#"+histogramElement.attr("id")).append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform","translate(#{margin.left},#{margin.top})")
+    
+    bar = svg.selectAll(".bar")
+      .data(data)
+    .enter().append("g")
+      .attr("class","bar")
+      .attr("transform", (d) -> "translate(#{x(d.x)},#{y(d.y)})")  
+    
+    bar.append("rect")
+      .attr("x",1)
+      .attr("width",width/20)
+      .attr("height", (d) -> height - y(d.y))
+    if @leaderboards[teamName].session?
+      playerScore = @leaderboards[teamName].session.get('totalScore') * 100
+      scorebar = svg.selectAll(".specialbar")
+        .data([playerScore])
+        .enter().append("g")
+        .attr("class","specialbar")
+        .attr("transform", "translate(#{x(playerScore)},#{y(9001)})")
+      
+      scorebar.append("rect")
+        .attr("x",1)
+        .attr("width",3)
+        .attr("height",height - y(9001))
+      
+    #Translate the x-axis up
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform","translate(0," + height + ")")
+      .call(xAxis)
+    
+    
   consolidateFriends: ->
     allFriendSessions = (@facebookFriendSessions or []).concat(@gplusFriendSessions or [])
     sessions = _.uniq allFriendSessions, false, (session) -> session._id
