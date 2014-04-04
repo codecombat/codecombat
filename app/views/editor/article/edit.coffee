@@ -21,20 +21,21 @@ module.exports = class ArticleEditView extends View
     @article = new Article(_id: @articleID)
     @article.saveBackups = true
 
-    @listenToOnce(@article, 'error', 
-      () => 
+    @listenToOnce(@article, 'error',
+      () =>
         @hideLoading()
 
         # Hack: editor components appear after calling insertSubView.
-        # So we need to hide them first. 
+        # So we need to hide them first.
         $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
 
         @insertSubView(new ErrorView())
     )
 
     @article.fetch()
+    @article.loadSchema()
     @listenToOnce(@article, 'sync', @onArticleSync)
-    @listenTo(@article, 'schema-loaded', @buildTreema)
+    @listenToOnce(@article, 'schema-loaded', @buildTreema)
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onArticleSync: ->
@@ -73,6 +74,11 @@ module.exports = class ArticleEditView extends View
     context.article = @article
     context.authorized = me.isAdmin() or @article.hasWriteAccess(me)
     context
+
+  afterRender: ->
+    super()
+    return if @startsLoading
+    @showReadOnly() unless me.isAdmin() or @article.hasWriteAccess(me)
 
   openPreview: =>
     @preview = window.open('/editor/article/x/preview', 'preview', 'height=800,width=600')

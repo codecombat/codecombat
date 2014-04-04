@@ -1,4 +1,5 @@
 CocoView = require 'views/kinds/CocoView'
+CocoClass = require 'lib/CocoClass'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
@@ -18,7 +19,6 @@ class LevelSessionsCollection extends CocoCollection
 module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
   template: require 'templates/play/ladder/ladder_tab'
-  startsLoading: true
 
   events:
     'click .connect-facebook': 'onConnectFacebook'
@@ -32,6 +32,7 @@ module.exports = class LadderTabView extends CocoView
 
   constructor: (options, @level, @sessions) ->
     super(options)
+    @addSomethingToLoad("social_network_apis")
     @teams = teamDataFromLevel @level
     @leaderboards = {}
     @refreshLadder()
@@ -39,15 +40,16 @@ module.exports = class LadderTabView extends CocoView
 
   checkFriends: ->
     return if @checked or (not window.FB) or (not window.gapi)
+    @somethingLoaded("social_network_apis")
     @checked = true
-
-    @loadingFacebookFriends = true
+    
+    @addSomethingToLoad("facebook_status")
     FB.getLoginStatus (response) =>
       @facebookStatus = response.status
-      if @facebookStatus is 'connected' then @loadFacebookFriendSessions() else @loadingFacebookFriends = false
+      @somethingLoaded("facebook_status")
+      @loadFacebookFriends() if @facebookStatus is 'connected'
 
     if application.gplusHandler.loggedIn is undefined
-      @loadingGPlusFriends = true
       @listenToOnce(application.gplusHandler, 'checked-state', @gplusSessionStateLoaded)
     else
       @gplusSessionStateLoaded()
@@ -60,16 +62,24 @@ module.exports = class LadderTabView extends CocoView
 
   onConnectedWithFacebook: -> location.reload() if @connecting
 
+  loadFacebookFriends: ->
+    @addSomethingToLoad("facebook_friends")
+    FB.api '/me/friends', @onFacebookFriendsLoaded
+    
+  onFacebookFriendsLoaded: (response) =>
+    @somethingLoaded("facebook_friends")
+    @facebookData = response.data
+    @loadFacebookFriendSessions()
+    
   loadFacebookFriendSessions: ->
-    FB.api '/me/friends', (response) =>
-      @facebookData = response.data
-      levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
-      url = "/db/level/#{levelFrag}/leaderboard_facebook_friends"
-      $.ajax url, {
-        data: { friendIDs: (f.id for f in @facebookData) }
-        method: 'POST'
-        success: @onFacebookFriendSessionsLoaded
-      }
+    levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
+    url = "/db/level/#{levelFrag}/leaderboard_facebook_friends"
+    jqxhr = $.ajax url, {
+      data: { friendIDs: (f.id for f in @facebookData) }
+      method: 'POST'
+      success: @onFacebookFriendSessionsLoaded
+    }
+    @addRequestToLoad(jqxhr, 'facebook_friend_sessions', 'loadFacebookFriendSessions')
 
   onFacebookFriendSessionsLoaded: (result) =>
     friendsMap = {}
@@ -79,9 +89,7 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = "http://graph.facebook.com/#{friend.facebookID}/picture"
     @facebookFriendSessions = result
-    @loadingFacebookFriends = false
-    @renderMaybe()
-
+    
   # GOOGLE PLUS
 
   onConnectGPlus: ->
@@ -93,21 +101,23 @@ module.exports = class LadderTabView extends CocoView
     
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
-      @loadingGPlusFriends = true
+      @addSomethingToLoad("gplus_friends")
       application.gplusHandler.loadFriends @gplusFriendsLoaded
-    else
-      @loadingGPlusFriends = false
-      @renderMaybe()
 
   gplusFriendsLoaded: (friends) =>
+    @somethingLoaded("gplus_friends")
     @gplusData = friends.items
+    @loadGPlusFriendSessions()
+    
+  loadGPlusFriendSessions: ->
     levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
     url = "/db/level/#{levelFrag}/leaderboard_gplus_friends"
-    $.ajax url, {
+    jqxhr = $.ajax url, {
       data: { friendIDs: (f.id for f in @gplusData) }
       method: 'POST'
       success: @onGPlusFriendSessionsLoaded
     }
+    @addRequestToLoad(jqxhr, 'gplus_friend_sessions', 'loadGPlusFriendSessions')
 
   onGPlusFriendSessionsLoaded: (result) =>
     friendsMap = {}
@@ -117,29 +127,15 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = friendsMap[friend.gplusID].image.url
     @gplusFriendSessions = result
-    @loadingGPlusFriends = false
-    @renderMaybe()
     
   # LADDER LOADING
 
   refreshLadder: ->
-    promises = []
     for team in @teams
-      @leaderboards[team.id]?.off 'sync'
+      @leaderboards[team.id]?.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession)
-      promises.push @leaderboards[team.id].promise
-    @loadingLeaderboards = true
-    $.when(promises...).then(@leaderboardsLoaded)
-
-  leaderboardsLoaded: =>
-    @loadingLeaderboards = false
-    @renderMaybe()
-
-  renderMaybe: ->
-    return if @loadingFacebookFriends or @loadingLeaderboards or @loadingGPlusFriends
-    @startsLoading = false
-    @render()
+      @addResourceToLoad @leaderboards[team.id], 'leaderboard', 3
 
   getRenderData: ->
     ctx = super()
@@ -160,9 +156,16 @@ module.exports = class LadderTabView extends CocoView
     sessions.reverse()
     sessions
 
-class LeaderboardData
+class LeaderboardData extends CocoClass
+  ###
+  Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
+  ###
+  
   constructor: (@level, @team, @session) ->
-    _.extend @, Backbone.Events
+    super()
+    @fetch()
+    
+  fetch: ->
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: 20})
     promises = []
     promises.push @topPlayers.fetch()
@@ -173,18 +176,24 @@ class LeaderboardData
       promises.push @playersAbove.fetch()
       @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
       promises.push @playersBelow.fetch()
-      level = "#{level.get('original')}.#{level.get('version').major}"
+      level = "#{@level.get('original')}.#{@level.get('version').major}"
       success = (@myRank) =>
       promises.push $.ajax "/db/level/#{level}/leaderboard_rank?scoreOffset=#{@session.get('totalScore')}&team=#{@team}", {success}
     @promise = $.when(promises...)
     @promise.then @onLoad
+    @promise.fail @onFail
     @promise
 
   onLoad: =>
+    return if @destroyed
     @loaded = true
-    @trigger 'sync'
+    @trigger 'sync', @
     # TODO: cache user ids -> names mapping, and load them here as needed,
     #   and apply them to sessions. Fetching each and every time is too costly.
+  
+  onFail: (resource, jqxhr) =>
+    return if @destroyed
+    @trigger 'error', @, jqxhr
 
   inTopSessions: ->
     return me.id in (session.attributes.creator for session in @topPlayers.models)
@@ -201,3 +210,7 @@ class LeaderboardData
       startRank = @myRank - 4
       session.rank = startRank + i for session, i in l
     l
+
+  allResources: ->
+    resources = [@topPlayers, @playersAbove, @playersBelow]
+    return (r for r in resources when r)

@@ -5,6 +5,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     sending: "Enviando..."
     cancel: "Cancelar"
     save: "Salvar"
+    create: "Criar"
     delay_1_sec: "1 segundo"
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
@@ -12,13 +13,13 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     fork: "Fork"
     play: "Jogar"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
+  unidades:
+    second: "segundo"
+    seconds: "segundos"
+    minute: "minuto"
+    minutes: "minutos"
+    hour: "hora"
+    hours: "horas"
 
   modal:
     close: "Fechar"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
   login:
     sign_up: "Criar conta"
     log_in: "Entrar"
+    logging_in: "Entrando"
     log_out: "Sair"
     recover: "Recuperar sua conta"
 
@@ -224,6 +226,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     skip_tutorial: "Pular (esc)"
     editor_config: "Editor de Configurações"
     editor_config_title: "Editor de Configurações"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Teclas de Atalho"
     editor_config_keybindings_default: "Padrão (Ace)"
     editor_config_keybindings_description: "Adicionar atalhos conhecidos de editores comuns."
@@ -260,6 +264,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
@@ -466,9 +472,9 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     more_about_archmage: "Saiba Mais Sobre Como Se Tornar Um Poderoso Arquimago"
     archmage_subscribe_desc: "Receba email sobre novas oportunidades para codificar e anúncios."
     artisan_summary_pref: "Quer criar níveis e ampliar o arsenal do CodeCombat? As pessoas estão jogando com o nosso conteúdo em um ritmo mais rápido do que podemos construir! Neste momento, nosso editor de níveis é instável, então fique esperto. Fazer os níveis será um pouco desafiador e com alguns bugs. Se você tem visões de campanhas abrangendo for-loops para"
-    artisan_summary_suf: "então essa classe é para você."
+    artisan_summary_suf: ", então essa classe é para você."
     artisan_introduction_pref: "Nós devemos contruir níveis adicionais! Pessoas estão clamando por mais conteúdo, e só podemos contruir tantos de nós mesmos. Agora sua estação de trabalho é o nível um; nosso Editor de Níveis é pouco utilizável até mesmo para seus criadores, então fique esperto. Se você tem visões de campanhas abrangendo for-loops para"
-    artisan_introduction_suf: "para, em seguida, esta classe pode ser para você."
+    artisan_introduction_suf: ", esta classe pode ser para você."
     artisan_attribute_1: "Qualquer experiência em construir conteúdo como esse seria legal, como usando os editores de nível da Blizzard. Mas não é obrigatório!"
     artisan_attribute_2: "Um desejo ardente de fazer um monte de testes e iteração. Para fazer bons níveis, você precisa levá-lo para os outros e vê-los jogar, e estar preparado para encontrar muitas coisas para consertar."
     artisan_attribute_3: "Por enquanto, a resistência em par com um Aventureiro. Nosso Editor de Níveis é super preliminar e frustrante para usar. Você foi avisado!"

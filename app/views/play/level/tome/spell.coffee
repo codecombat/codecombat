@@ -85,11 +85,13 @@ module.exports = class Spell
     aether.hasChangedSignificantly (newSource ? @originalSource), (currentSource ? @source), true, true
 
   createAether: (thang) ->
+    aceConfig = me.get('aceConfig') ? {}
     aetherOptions =
       problems:
         jshint_W040: {level: "ignore"}
         jshint_W030: {level: "ignore"}  # aether_NoEffect instead
         aether_MissingThis: {level: (if thang.requiresThis then 'error' else 'warning')}
+      language: aceConfig.language ? 'javascript'
       functionName: @name
       functionParameters: @parameters
       yieldConditionally: thang.plan?
@@ -106,6 +108,13 @@ module.exports = class Spell
     #console.log "creating aether with options", aetherOptions
     aether = new Aether aetherOptions
     aether
+
+  updateLanguageAether: ->
+    aceConfig = me.get('aceConfig') ? {}
+    for thangId, spellThang of @thangs
+      spellThang.aether?.setLanguage (aceConfig.language ? 'javascript')
+      spellThang.castAether = null
+    @transpile()
 
   toString: ->
     "<Spell: #{@spellKey}>"

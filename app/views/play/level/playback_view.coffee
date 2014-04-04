@@ -44,7 +44,6 @@ module.exports = class PlaybackView extends View
     '⌘+[, ctrl+[': 'onScrubBack'
     '⌘+], ctrl+]': 'onScrubForward'
 
-
   # popover that shows at the current mouse position on the progressbar, using the bootstrap popover.
   # Could make this into a jQuery plugins itself theoretically.
   class HoverPopup extends $.fn.popover.Constructor

@@ -5,6 +5,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     sending: "Wysyłanie…"
     cancel: "Anuluj"
     save: "Zapisz"
+#    create: "Create"
     delay_1_sec: "1 sekunda"
     delay_3_sec: "3 sekundy"
     delay_5_sec: "5 sekund"
@@ -52,6 +53,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
   login:
     sign_up: "Stwórz konto"
     log_in: "Zaloguj się"
+#    logging_in: "Logging In"
     log_out: "Wyloguj się"
     recover: "odzyskaj konto"
 
@@ -224,6 +226,8 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     skip_tutorial: "Pomiń (esc)"
     editor_config: "Konfiguracja edytora"
     editor_config_title: "Konfiguracja edytora"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Przypisania klawiszy"
     editor_config_keybindings_default: "Domyślny (Ace)"
     editor_config_keybindings_description: "Dodaje skróty znane z popularnych edytorów."
@@ -260,6 +264,8 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    tip_patience: "Patience you must have, young Padawan. - Yoda"
 #    tip_documented_bug: "A documented bug is not a bug; it is a feature."
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"

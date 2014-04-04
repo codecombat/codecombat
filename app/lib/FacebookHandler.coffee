@@ -1,5 +1,5 @@
 CocoClass = require 'lib/CocoClass'
-{me, CURRENT_USER_KEY} = require 'lib/auth'
+{me} = require 'lib/auth'
 {backboneFailure} = require 'lib/errors'
 storage = require 'lib/storage'
 
@@ -59,7 +59,6 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
       error: backboneFailure,
       url: "/db/user?facebookID=#{r.id}&facebookAccessToken=#{@authResponse.accessToken}"
       success: (model) ->
-        storage.save(CURRENT_USER_KEY, model.attributes)
         window.location.reload() if model.get('email') isnt oldEmail
     })
 

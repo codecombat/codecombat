@@ -24,7 +24,6 @@ class LevelSessionsCollection extends CocoCollection
 module.exports = class LadderView extends RootView
   id: 'ladder-view'
   template: require 'templates/play/ladder'
-  startsLoading: true
 
   subscriptions:
     'application:idle-changed': 'onIdleChanged'
@@ -38,18 +37,18 @@ module.exports = class LadderView extends RootView
   constructor: (options, @levelID) ->
     super(options)
     @level = new Level(_id:@levelID)
-    p1 = @level.fetch()
+    @level.fetch()
     @sessions = new LevelSessionsCollection(levelID)
-    p2 = @sessions.fetch({})
+    @sessions.fetch({})
+    @addResourceToLoad(@sessions, 'your_sessions')
+    @addResourceToLoad(@level, 'level')
     @simulator = new Simulator()
     @listenTo(@simulator, 'statusUpdate', @updateSimulationStatus)
     @teams = []
-    $.when(p1, p2).then @onLoaded
 
-  onLoaded: =>
+  onLoaded: ->
     @teams = teamDataFromLevel @level
-    @startsLoading = false
-    @render()
+    super()
 
   getRenderData: ->
     ctx = super()
@@ -63,7 +62,7 @@ module.exports = class LadderView extends RootView
 
   afterRender: ->
     super()
-    return if @startsLoading
+    return if @loading()
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
     @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), 10 * 1000)
@@ -72,7 +71,7 @@ module.exports = class LadderView extends RootView
       @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
-    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime) or @startsLoading
+    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime) or @loading()
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>

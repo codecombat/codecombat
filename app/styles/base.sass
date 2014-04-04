@@ -1,5 +1,6 @@
 @import "bootstrap/variables"
 @import "bootstrap/mixins"
+@import "bootstrap/variables"
 
 html
   background-color: #2f261d
@@ -166,7 +167,15 @@ a[data-toggle="modal"]
     width: 50%
     margin: 0 25%
   .progress-bar
-    width: 100%
+    width: 0%
+    transition: width 0.1s ease
+    
+  .errors .alert
+    padding: 5px
+    display: block
+    margin: 10px auto
+    .btn
+      margin-left: 10px
   
 .modal
   .wait
@@ -191,3 +200,36 @@ table.table
 
 .flag-cursor
   cursor: crosshair
+
+
+// Fonts
+
+.header-font
+  font-family: $headings-font-family
+
+body[lang='ru'], body[lang|='zh'], body[lang='ja'], body[lang='pl'], body[lang='tr'], body[lang='cs'], body[lang='el'], body[lang='ro'], body[lang='vi'], body[lang='th'], body[lang='ko'], body[lang='sk'], body[lang='sl'], body[lang='bg'], body[lang='he'], body[lang='lt'], body[lang='sr'], body[lang='uk'], body[lang='hi'], body[lang='ur'], 
+  h1, h2, h3, h4, h5, h6
+    font-family: 'Open Sans Condensed', Impact, "Arial Narrow", "Arial", sans-serif
+    text-transform: uppercase
+    letter-spacing: -1px !important
+    
+  .header-font
+    font-family: 'Open Sans Condensed', Impact, "Arial Narrow", "Arial", sans-serif !important
+    text-transform: uppercase
+    letter-spacing: -1px !important
+   
+@media only screen and (max-width: 800px)
+  .main-content-area
+    width: 100%
+  .content
+    width: 100%
+    
+  .footer-link-text a
+    font-size: 17px
+    margin-left: 3px
+    margin-right: 3px
+    
+  .share-buttons
+    margin-bottom: 20px
+  .partner-badges
+    display: none

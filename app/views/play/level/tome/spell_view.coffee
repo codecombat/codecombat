@@ -15,6 +15,10 @@ module.exports = class SpellView extends View
   eventsSuppressed: true
   writable: true
 
+  editModes:
+    'javascript': 'ace/mode/javascript'
+    'coffeescript': 'ace/mode/coffee'
+
   keyBindings:
     'default': null
     'vim': 'ace/keyboard/vim'
@@ -34,8 +38,9 @@ module.exports = class SpellView extends View
     'modal-closed': 'focus'
     'focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
+    'tome:change-language': 'onChangeLanguage'
+    'tome:change-config': 'onChangeEditorConfig'
     'spell-beautify': 'onSpellBeautify'
-    'change:editor-config': 'onChangeEditorConfig'
 
   events:
     'mouseout': 'onMouseOut'
@@ -58,7 +63,7 @@ module.exports = class SpellView extends View
       @createFirepad()
     else
       # needs to happen after the code generating this view is complete
-      setTimeout @onLoaded, 1
+      setTimeout @onAllLoaded, 1
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -67,7 +72,7 @@ module.exports = class SpellView extends View
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
     @aceSession.setUseWorker false
-    @aceSession.setMode 'ace/mode/javascript'
+    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode "unix"
@@ -173,9 +178,9 @@ module.exports = class SpellView extends View
     else
       @ace.setValue @previousSource
       @ace.clearSelection()
-    @onLoaded()
+    @onAllLoaded()
 
-  onLoaded: =>
+  onAllLoaded: =>
     @spell.transpile @spell.source
     @spell.loaded = true
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
@@ -562,10 +567,15 @@ module.exports = class SpellView extends View
     @ace.setValue pretty
 
   onChangeEditorConfig: (e) ->
-    aceConfig = me.get 'aceConfig'
-    @ace.setDisplayIndentGuides (aceConfig.indentGuides || false)
-    @ace.setShowInvisibles (aceConfig.invisibles || false)
-    @ace.setKeyboardHandler (@keyBindings[aceConfig.keyBindings] || null)
+    aceConfig = me.get('aceConfig') ? {}
+    @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
+    @ace.setShowInvisibles aceConfig.invisibles # default false
+    @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    # @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
+
+  onChangeLanguage: (e) ->
+    aceConfig = me.get('aceConfig') ? {}
+    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
 
   dismiss: ->
     @recompile() if @spell.hasChangedSignificantly @getSource()

@@ -21,7 +21,8 @@ module.exports = class ThangComponentEditView extends CocoView
   render: =>
     return if @destroyed
     for model in [Level, LevelComponent]
-      (new model()).on 'schema-loaded', @render unless model.schema?.loaded
+      temp = new model()
+      @listenToOnce temp, 'schema-loaded', @render unless model.schema?.loaded
     if not @componentCollection
       @componentCollection = @supermodel.getCollection new ComponentsCollection()
     unless @componentCollection.loaded
@@ -105,7 +106,7 @@ module.exports = class ThangComponentEditView extends CocoView
 
     toRemoveTreema = []
     dependent_class = 'treema-dependent'
-    try     
+    try
       for index, child of @extantComponentsTreema.childrenTreemas
         $(child.$el).removeClass(dependent_class)
 
@@ -158,7 +159,7 @@ module.exports = class ThangComponentEditView extends CocoView
     @reportChanges()
 
   onAddComponentEnterPressed: (node) =>
-    extantSystems = 
+    extantSystems =
       (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
     requireSystem = node.data.system.toLowerCase()
 
@@ -169,7 +170,7 @@ module.exports = class ThangComponentEditView extends CocoView
         layout: 'bottomLeft',
         type: 'warning'
       })
-      
+
     currentSelection = @addComponentsTreema?.getLastSelectedTreema()?.data._id
 
     id = node.data._id

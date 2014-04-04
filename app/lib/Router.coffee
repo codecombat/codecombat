@@ -1,5 +1,3 @@
-{me} = require 'lib/auth'
-
 gplusClientID = "800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com"
 
 go = (path) -> -> @routeDirectly path, arguments

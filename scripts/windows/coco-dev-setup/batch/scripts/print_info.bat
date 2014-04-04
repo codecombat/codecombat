@@ -1,0 +1,1 @@
+print_file ..\\config\\info.coco

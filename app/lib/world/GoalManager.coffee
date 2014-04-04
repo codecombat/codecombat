@@ -125,9 +125,9 @@ module.exports = class GoalManager extends CocoClass
         keyFrame: 0 # when it became a 'success' or 'failure'
       }
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
-      for getTo in goal.getAllToLocations ? [] 
+      for getTo in goal.getAllToLocations ? []
         @initGoalState(state,[ getTo.getToLocation?.who , [] ], 'arrived')
-      for keepFrom in goal.keepAllFromLocations ? [] 
+      for keepFrom in goal.keepAllFromLocations ? []
         @initGoalState(state,[ [] , keepFrom.keepFromLocation?.who], 'arrived')
       @initGoalState(state, [goal.getToLocations?.who, goal.keepFromLocations?.who], 'arrived')
       @initGoalState(state, [goal.leaveOffSides?.who, goal.keepFromLeavingOffSides?.who], 'left')
@@ -146,11 +146,11 @@ module.exports = class GoalManager extends CocoClass
   onThangTouchedGoal: (e, frameNumber) ->
     for goal in @goals ? []
       @checkArrived(goal.id, goal.getToLocations.who, goal.getToLocations.targets, e.actor, e.touched.id, frameNumber) if goal.getToLocations?
-      if goal.getAllToLocations?    
+      if goal.getAllToLocations?
         for getTo in goal.getAllToLocations
           @checkArrived(goal.id, getTo.getToLocation.who, getTo.getToLocation.targets, e.actor, e.touched.id, frameNumber)
       @checkArrived(goal.id, goal.keepFromLocations.who, goal.keepFromLocations.targets, e.actor, e.touched.id, frameNumber) if goal.keepFromLocations?
-      if goal.keepAllFromLocations? 
+      if goal.keepAllFromLocations?
         for keepFrom in goal.keepAllFromLocations
           @checkArrived(goal.id, keepFrom.keepFromLocation.who , keepFrom.keepFromLocation.targets, e.actor, e.touched.id, frameNumber )
 
@@ -200,7 +200,7 @@ module.exports = class GoalManager extends CocoClass
   initGoalState: (state, whos, progressObjectName) ->
     # 'whos' is an array of goal 'who' values.
     # This inits the progress object for the goal tracking.
-    
+
     arrays = (prop for prop in whos when prop?.length)
     return unless arrays.length
     state[progressObjectName] = {}
@@ -221,7 +221,7 @@ module.exports = class GoalManager extends CocoClass
       victory = overallStatus is "success"
       tentative = overallStatus is "success"
       @world.endWorld victory, mostEagerGoal.worldEndsAfter, tentative if mostEagerGoal isnt Infinity
-  
+
   updateGoalState: (goalID, thangID, progressObjectName, frameNumber) ->
     # A thang has done something related to the goal!
     # Mark it down and update the goal state.
@@ -236,7 +236,7 @@ module.exports = class GoalManager extends CocoClass
       # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be "done"
       numNeeded = _.size(stateThangs) - Math.min((goal.howMany ? 1), _.size stateThangs) + 1
     numDone = _.filter(stateThangs).length
-    #console.log "needed", numNeeded, "done", numDone, "of total", _.size(stateThangs), "with how many", goal.howMany
+    #console.log "needed", numNeeded, "done", numDone, "of total", _.size(stateThangs), "with how many", goal.howMany, "and stateThangs", stateThangs
     return unless numDone >= numNeeded
     return if state.status and not success  # already failed it; don't wipe keyframe
     state.status = if success then "success" else "failure"

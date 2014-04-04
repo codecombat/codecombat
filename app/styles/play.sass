@@ -15,6 +15,14 @@
   a[disabled] .level
     opacity: 0.7
 
+  a.complete h3:after
+    content: " - Complete!"
+    color: green
+
+  a.started h3:after
+    content: " - Started"
+    color: desaturate(green, 50%)
+
   .level
     @include box-sizing(border-box)
     border: 1px solid transparent

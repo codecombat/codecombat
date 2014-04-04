@@ -9,6 +9,8 @@ baseRoute = require './server/routes/base'
 user = require './server/users/user_handler'
 logging = require './server/commons/logging'
 config = require './server_config'
+auth = require './server/routes/auth'
+UserHandler = require('./server/users/user_handler')
 
 ###Middleware setup functions implementation###
 # 2014-03-03: Try not using this and see if it's still a problem
@@ -85,7 +87,19 @@ exports.setupMiddleware = (app) ->
 
 setupFallbackRouteToIndex = (app) ->
   app.all '*', (req, res) ->
-    res.sendfile path.join(__dirname, 'public', 'index.html')
+    if req.user
+      sendMain(req, res)
+    else
+      user = auth.makeNewUser(req)
+      makeNext = (req, res) -> -> sendMain(req, res)
+      next = makeNext(req, res)
+      auth.loginUser(req, res, user, false, next)
+
+sendMain = (req, res) ->
+  fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err,data) ->
+    # insert the user object directly into the html so the application can have it immediately
+    data = data.replace('"userObjectTag"', JSON.stringify(UserHandler.formatEntity(req, req.user)))
+    res.send data
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
   app.get '/channel.html', (req, res) ->

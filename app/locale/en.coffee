@@ -5,12 +5,14 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     sending: "Sending..."
     cancel: "Cancel"
     save: "Save"
+    create: "Create"
     delay_1_sec: "1 second"
     delay_3_sec: "3 seconds"
     delay_5_sec: "5 seconds"
     manual: "Manual"
     fork: "Fork"
     play: "Play"
+    retry: "Retry"
 
   units:
     second: "second"
@@ -52,6 +54,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   login:
     sign_up: "Create Account"
     log_in: "Log In"
+    logging_in: "Logging In"
     log_out: "Log Out"
     recover: "recover account"
 
@@ -224,6 +227,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     skip_tutorial: "Skip (esc)"
     editor_config: "Editor Config"
     editor_config_title: "Editor Configuration"
+    editor_config_language_label: "Programming Language"
+    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Key Bindings"
     editor_config_keybindings_default: "Default (Ace)"
     editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
@@ -260,6 +265,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tip_patience: "Patience you must have, young Padawan. - Yoda"
     tip_documented_bug: "A documented bug is not a bug; it is a feature."
     tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
@@ -320,6 +327,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     article_search_title: "Search Articles Here"
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"
+    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
   article:
     edit_btn_preview: "Preview"
@@ -467,9 +475,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     more_about_archmage: "Learn More About Becoming an Archmage"
     archmage_subscribe_desc: "Get emails on new coding opportunities and announcements."
     artisan_summary_pref: "Want to design levels and expand CodeCombat's arsenal? People are playing through our content at a pace faster than we can build! Right now, our level editor is barebone, so be wary. Making levels will be a little challenging and buggy. If you have visions of campaigns spanning for-loops to"
-    artisan_summary_suf: "then this class is for you."
+    artisan_summary_suf: ", then this class is for you."
     artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
-    artisan_introduction_suf: "then this class might be for you."
+    artisan_introduction_suf: ", then this class might be for you."
     artisan_attribute_1: "Any experience in building content like this would be nice, such as using Blizzard's level editors. But not required!"
     artisan_attribute_2: "A hankering to do a whole lot of testing and iteration. To make good levels, you need to take it to others and watch them play it, and be prepared to find a lot of things to fix."
     artisan_attribute_3: "For the time being, endurance en par with an Adventurer. Our Level Editor is super preliminary and frustrating to use. You have been warned!"
@@ -595,3 +603,27 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     tutorial: "tutorial"
     new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
     so_ready: "I Am So Ready for This"
+
+  loading_error:
+    could_not_load: "Error loading from server"
+    connection_failure: "Connection failed."
+    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+    forbidden: "You do not have the permissions."
+    not_found: "Not found."
+    not_allowed: "Method not allowed."
+    timeout: "Server timeout."
+    conflict: "Resource conflict."
+    bad_input: "Bad input."
+    server_error: "Server error."
+    unknown: "Unknown error."
+    
+  resources:
+    your_sessions: "Your Sessions"
+    level: "Level"
+    social_network_apis: "Social Network APIs"
+    facebook_status: "Facebook Status"
+    facebook_friends: "Facebook Friends"
+    facebook_friend_sessions: "Facebook Friend Sessions"
+    gplus_friends: "G+ Friends"
+    gplus_friend_sessions: "G+ Friend Sessions"
+    leaderboard: 'leaderboard'
