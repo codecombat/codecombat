@@ -5,7 +5,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     sending: "Enviando..."
     cancel: "Cancelar"
     save: "Salvar"
-#    create: "Create"
+    create: "Criar"
     delay_1_sec: "1 segundo"
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
@@ -13,13 +13,13 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     fork: "Fork"
     play: "Jogar"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
+  unidades:
+    second: "segundo"
+    seconds: "segundos"
+    minute: "minuto"
+    minutes: "minutos"
+    hour: "hora"
+    hours: "horas"
 
   modal:
     close: "Fechar"
@@ -53,7 +53,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
   login:
     sign_up: "Criar conta"
     log_in: "Entrar"
-#    logging_in: "Logging In"
+    logging_in: "Entrando"
     log_out: "Sair"
     recover: "Recuperar sua conta"
 
