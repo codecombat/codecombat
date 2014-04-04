@@ -15,16 +15,6 @@ module.exports =
   "level:escape-pressed":
   {} # TODO schema
 
-  # TODO locaton ??
-  "script:reset":
-  {} # TODO schema
-
-  "script:ended":
-  {} # TODO schema
-
-  "script:state-changed":
-  {} # TODO schema
-
   "level-enable-controls":
   {} # TODO schema
 
@@ -35,6 +25,36 @@ module.exports =
   {} # TODO schema
 
   "level-set-debug":
+  {} # TODO schema
+
+  "level-set-grid":
+  {} # TODO schema
+
+  "tome:cast-spell":
+  {} # TODO schema
+
+  "level:restarted":
+  {} # TODO schema
+
+  "level-set-volume":
+  {} # TODO schema
+
+  "level-set-time":
+  {} # TODO schema
+
+  "level-select-sprite":
+  {} # TODO schema
+
+  "level-set-playing":
+  {} # TODO schema
+
+  "level:team-set":
+  {} # TODO schema
+
+  "level:docs-hidden":
+  {} # TODO schema
+
+  "level:victory-hidden":
   {} # TODO schema
 
 

@@ -12,6 +12,9 @@ module.exports =
     required: ["major", "commitMessage"]
     additionalProperties: false
 
+  # TODO all these events starting with 'level:' should have 'editor' in their name
+  # to avoid confusion with level play events
+
   "level:view-switched":
     title: "Level View Switched"
     $schema: "http://json-schema.org/draft-04/schema#"
@@ -69,4 +72,7 @@ module.exports =
   {} # TODO schema
 
   "level-reload-from-data":
+  {} # TODO schema
+
+  "save-new-version":
   {} # TODO schema

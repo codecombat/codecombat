@@ -4,3 +4,6 @@ module.exports =
 
   "user-fetched":
   {} # TODO schema
+
+  "edit-wizard-settings":
+  {} # TODO schema

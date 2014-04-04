@@ -2,6 +2,15 @@ module.exports =  # /app/lib/surface
   "camera-dragged":
   {} # TODO schema
 
+  "camera-zoom-in":
+  {} # TODO schema
+
+  "camera-zoom-out":
+  {} # TODO schema
+
+  "camera-zoom-to":
+  {} # TODO schema
+
   "camera:zoom-updated":
   {} # TODO schema
 
@@ -84,7 +93,4 @@ module.exports =  # /app/lib/surface
   {} # TODO schema
 
   "echo-all-wizard-sprites":
-  {} # TODO schema
-
-  "camera-zoom-to":
   {} # TODO schema

@@ -16,4 +16,3 @@ module.exports =
 
   "gplus-logged-in":
   {} # TODO schema
-
