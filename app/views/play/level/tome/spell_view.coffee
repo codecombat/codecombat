@@ -63,7 +63,7 @@ module.exports = class SpellView extends View
       @createFirepad()
     else
       # needs to happen after the code generating this view is complete
-      setTimeout @onLoaded, 1
+      setTimeout @onAllLoaded, 1
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -178,9 +178,9 @@ module.exports = class SpellView extends View
     else
       @ace.setValue @previousSource
       @ace.clearSelection()
-    @onLoaded()
+    @onAllLoaded()
 
-  onLoaded: =>
+  onAllLoaded: =>
     @spell.transpile @spell.source
     @spell.loaded = true
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell

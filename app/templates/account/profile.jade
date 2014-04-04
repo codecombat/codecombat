@@ -16,7 +16,7 @@ block content
     else
       span(data-i18n="account_profile.profile") Profile
 
-  if loading
+  if loadingProfile
     p(data-i18n="common.loading") Loading...
 
   else if !user.get('emailHash')

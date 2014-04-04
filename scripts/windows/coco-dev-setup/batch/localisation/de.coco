@@ -15,10 +15,11 @@
 			<sks>Sind die für CodeCombat benötigten Programme bereits installiert?</sks>
 			<skq>Wir empfehlen Ihnen, mit „Nein“ zu antorten, falls Sie unsicher sind.</skq>
 			<skc>Überspringe Installation der Programme...</skc>
-			<1>Ohne Software von Drittanbietern könnte CodeCombat nicht entwickelt werden.</1>
-			<2>Aus diesem Grund müssen Sie diese Software installieren,</2>
-			<3>um sich in der Community zu engagieren.</3>
-			<4>Wenn Sie ein Programm bereits installiert haben, brechen Sie die Installation bitte ab.</4>
+			<s1>Ohne Software von Drittanbietern könnte CodeCombat nicht entwickelt werden.</s1>
+			<s2>Aus diesem Grund müssen Sie diese Software installieren,</s2>
+			<s3>um sich in der Community zu engagieren.</s3>
+			<s4>Wenn Sie ein Programm bereits installiert haben, brechen Sie die Installation bitte ab.</s4>
+			<winpath>Make sure to select the option that adds the application to your Windows Path, if the option is available.</winpath>
 			<prefix>Haben Sie bereits die aktuellste Version von</prefix>
 			<sufix>installiert?</sufix>
 			<downloading>wird heruntergeladen...</downloading>
@@ -30,16 +31,16 @@
 	</install>
 	<github>
 		<intro>
-			<opensource>Wie Du bereits weißt, ist CodeCombat Open Source.
-			<online>Unser Quellcode ist komplett auf Github.
-			<manual>Wenn Du möchtest, kannst du das komplette Git Repository selbst herunterladen und nach deinen wünschen einrichten.
-			<norec>Allerdings empfehlen wir, dass du den Prozess statt dessen uns überlässt.
+			<opensource>Wie Du bereits weißt, ist CodeCombat Open Source.</opensource>
+			<online>Unser Quellcode ist komplett auf Github.</online>
+			<manual>Wenn Du möchtest, kannst du das komplette Git Repository selbst herunterladen und nach deinen wünschen einrichten.</manual>
+			<norec>Allerdings empfehlen wir, dass du den Prozess statt dessen uns überlässt.</norec>
 		</intro>
 		<skip>
-			<question>Willst du das lokale Git Setup selbst vornehmen?
-			<consequence>Bit vergewissere dich, dass das Repository korrekt heruntergeladen wurde, bevor du fortfährst.
-			<donotclose>Bitte schließe dieses Fenster nicht.
-			<wait>Wenn du fertig bist, drücke eine beliebige Taste zum Fortfahren...
+			<question>Willst du das lokale Git Setup selbst vornehmen?</question>
+			<consequence>Bit vergewissere dich, dass das Repository korrekt heruntergeladen wurde, bevor du fortfährst.</consequence>
+			<donotclose>Bitte schließe dieses Fenster nicht.</donotclose>
+			<wait>Wenn du fertig bist, drücke eine beliebige Taste zum Fortfahren...</wait>
 		</skip>
 		<process>
 			<path>Gebe bitte den kompletten Pfad zu deinem CodeCombat Git Repository ein: </path>
@@ -62,7 +63,7 @@
 		<script>Preparing the automatic startup script for you...</script>
 	</npm>
 	<error>
-		<path>Dieser Pfad existiert bereits. Willst du ihn wirklich überschreiben?<path>
+		<path>Dieser Pfad existiert bereits. Willst du ihn wirklich überschreiben?</path>
 		<exist>Dieser Pfad exisitert nicht. Bitte versuche es erneut...</exist>
 	</error>
 	<end>
@@ -71,11 +72,11 @@
 		<readme>Willst du das README lesen, um weitere Informationen zu erhalten?</readme>
 	</end>
 	<start>
-		<1>Von nun an kannst du die Entwicklungsumgebung starten unter</1>
-		<2>einmal mit der Maus klicken.</2>
-		<3>  1) Einfach Doppelklicken</3>
-		<4>und warten bis die Entwicklungsumgebung fertig geladen hat.</4>
-		<5>  2) Jetzt 'localhost:3000' in deinem bevorzugten Browser aufrufen.</5>
-		<6>Fertig. Du bist nun bereit, bei CodeCombat mitzuarbeiten!</6>
+		<s1>Von nun an kannst du die Entwicklungsumgebung starten unter</s1>
+		<s2>einmal mit der Maus klicken.</s2>
+		<s3>  1) Einfach Doppelklicken</s3>
+		<s4>und warten bis die Entwicklungsumgebung fertig geladen hat.</s4>
+		<s5>  2) Jetzt 'localhost:3000' in deinem bevorzugten Browser aufrufen.</s5>
+		<s6>Fertig. Du bist nun bereit, bei CodeCombat mitzuarbeiten!</s6>
 	</start>
 </variables>

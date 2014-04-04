@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <variables>
 	<global>
-		<native>English</native>
+		<native>中文</native>
 		<intro>From now on we'll send our feedback in English!</intro>
 	</global>
 	<install>

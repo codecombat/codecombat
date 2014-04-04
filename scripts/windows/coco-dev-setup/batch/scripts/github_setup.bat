@@ -1,10 +1,10 @@
 call print_github_header
 call print_dashed_seperator
 
-call get_local_text github-intro-opensource
-call get_local_text github-intro-online
-call get_local_text github-intro-manual
-call get_local_text github-intro-norec
+call get_local_text github_intro_opensource github intro opensource
+call get_local_text github_intro_online github intro online
+call get_local_text github_intro_manual github intro manual
+call get_local_text github_intro_norec github intro norec
 
 echo !github_intro_opensource!
 echo !github_intro_online!
@@ -13,23 +13,23 @@ echo !github_intro_norec!
 
 call print_dashed_seperator
 
-call get_local_text github-skip-question
+call get_local_text github_skip_question github skip question
 call ask_question "!github_skip_question!"
 call print_dashed_seperator
 
 if "%result%"=="true" (
-	call get_local_text github-skip-consequence
+	call get_local_text github_skip_consequence github skip consequence
 	echo !github_skip_consequence!
 
-	call get_local_text github-skip-donotclose
+	call get_local_text github_skip_donotclose github skip donotclose
 	echo !github_skip_donotclose!
 
-	call get_local_text github-skip-wait
+	call get_local_text github_skip_wait github skip wait
 	set /p "github_skip_wait=!github_skip_wait!"
 
 	call print_dashed_seperator
 
-	call get_local_text github-process-path
+	call get_local_text github_process_path github process path
 	call get_path_safe "!github_process_path!"
 	set "repository_path=!tmp_safe_path!"
 
@@ -39,7 +39,7 @@ if "%result%"=="true" (
 goto:get_bash_path
 
 :get_bash_path
-	call get_local_text github-process-bashi
+	call get_local_text github_process_bashi github process bashi
 	echo !github_process_bashi!
 
 	if not defined install_system_bit (
@@ -49,14 +49,14 @@ goto:get_bash_path
 	)
 
 	if "%system_info_bit%"=="64" (
-		call get_local_text github-process-bashp64
+		call get_local_text github_process_bashp64 github process bashp64
 		echo !github_process_bashp64!
 	) else (
-		call get_local_text github-process-bashp32
+		call get_local_text github_process_bashp32 github process bashp32
 		echo !github_process_bashp32!
 	)
 
-	call get_local_text github-process-bashq
+	call get_local_text github_process_bashq github process bashq
 	set /p "git_bash_path=!github_process_bashq!: "
 
 	if not defined git_bash_path (
@@ -69,7 +69,7 @@ goto:get_bash_path
 	)
 
 	if not exist "%git_bash_path%" (
-		call get_local_text error-exist
+		call get_local_text error_exist error exist
 		echo !error_exist!
 		call print_dashed_seperator
 		goto:get_bash_path
@@ -80,10 +80,10 @@ goto:eof
 
 :get_git_path
 	call print_dashed_seperator
-	call get_local_text github-process-checkout
+	call get_local_text github_process_checkout github process checkout
 	set /p "repository_path=!github_process_checkout!: "
 	if exist !repository_path! (
-		call get_local_text error-path
+		call get_local_text error_path error path
 		call ask_question "!error_path!"
 		if "!result!"=="false" (
 			call print_dashed_seperator
