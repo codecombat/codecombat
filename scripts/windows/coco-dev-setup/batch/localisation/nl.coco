@@ -19,6 +19,7 @@
 			<s2>Dat is waarom je deze software moet installeren,</s2>
 			<s3>zodat je je kan beginnen met het bijdragen tot onze gemeenschap.</s3>
 			<s4>Annuleer de installatie als je de applicatie al hebt.</s4>
+			<winpath>Zorg er zeker voor dat je de optie selecteert dat de applicatie aan je Windows Path toevoegt, als de optie beschikbaar is.</winpath>
 			<prefix>Heb je al de laatste versie van</prefix>
 			<sufix>geinstalleerd?</sufix>
 			<downloading>is aan het downloaden...</downloading>

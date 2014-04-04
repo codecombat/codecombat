@@ -15,10 +15,11 @@
 			<sks>Sind die für CodeCombat benötigten Programme bereits installiert?</sks>
 			<skq>Wir empfehlen Ihnen, mit „Nein“ zu antorten, falls Sie unsicher sind.</skq>
 			<skc>Überspringe Installation der Programme...</skc>
-			<b1>Ohne Software von Drittanbietern könnte CodeCombat nicht entwickelt werden.</b1>
-			<b2>Aus diesem Grund müssen Sie diese Software installieren,</b2>
-			<b3>um sich in der Community zu engagieren.</b3>
-			<b4>Wenn Sie ein Programm bereits installiert haben, brechen Sie die Installation bitte ab.</b4>
+			<s1>Ohne Software von Drittanbietern könnte CodeCombat nicht entwickelt werden.</s1>
+			<s2>Aus diesem Grund müssen Sie diese Software installieren,</s2>
+			<s3>um sich in der Community zu engagieren.</s3>
+			<s4>Wenn Sie ein Programm bereits installiert haben, brechen Sie die Installation bitte ab.</s4>
+			<winpath>Make sure to select the option that adds the application to your Windows Path, if the option is available.</winpath>
 			<prefix>Haben Sie bereits die aktuellste Version von</prefix>
 			<sufix>installiert?</sufix>
 			<downloading>wird heruntergeladen...</downloading>
@@ -71,11 +72,11 @@
 		<readme>Willst du das README lesen, um weitere Informationen zu erhalten?</readme>
 	</end>
 	<start>
-		<b1>Von nun an kannst du die Entwicklungsumgebung starten unter</b1>
-		<b2>einmal mit der Maus klicken.</b2>
-		<b3>  1) Einfach Doppelklicken</b3>
-		<b4>und warten bis die Entwicklungsumgebung fertig geladen hat.</b4>
-		<b5>  2) Jetzt 'localhost:3000' in deinem bevorzugten Browser aufrufen.</b5>
-		<b6>Fertig. Du bist nun bereit, bei CodeCombat mitzuarbeiten!</b6>
+		<s1>Von nun an kannst du die Entwicklungsumgebung starten unter</s1>
+		<s2>einmal mit der Maus klicken.</s2>
+		<s3>  1) Einfach Doppelklicken</s3>
+		<s4>und warten bis die Entwicklungsumgebung fertig geladen hat.</s4>
+		<s5>  2) Jetzt 'localhost:3000' in deinem bevorzugten Browser aufrufen.</s5>
+		<s6>Fertig. Du bist nun bereit, bei CodeCombat mitzuarbeiten!</s6>
 	</start>
 </variables>

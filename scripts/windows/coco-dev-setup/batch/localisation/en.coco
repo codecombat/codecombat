@@ -19,6 +19,7 @@
 			<s2>That's why you'll need to install this software,</s2>
 			<s3>in order to start contributing to our community.</s3>
 			<s4>Cancel the installation if you already have the application.</s4>
+			<winpath>Make sure to select the option that adds the application to your Windows Path, if the option is available.</winpath>
 			<prefix>Do you already have the latest version of</prefix>
 			<sufix>installed?</sufix>
 			<downloading>is downloading...</downloading>

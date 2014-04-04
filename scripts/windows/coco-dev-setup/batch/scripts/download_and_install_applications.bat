@@ -26,18 +26,21 @@ if %system_info_os% == XP (
 )
 
 call get_variables ..\\config\\downloads.coco downloads download_names downloads_count 0 general general
-call get_variables ..\\config\\downloads.coco downloads download_names downloads_count 1 %system_info_os% b%system_info_bit%
-call get_variables ..\\config\\downloads.coco downloads download_names downloads_count 2 general b%system_info_bit%
+call get_variables ..\\config\\downloads.coco downloads download_names downloads_count 2 %system_info_os% b%system_info_bit%
+call get_variables ..\\config\\downloads.coco downloads download_names downloads_count 3 general b%system_info_bit%
 
 call get_local_text install_process_s1 install process s1
 call get_local_text install_process_s2 install process s2
 call get_local_text install_process_s3 install process s3
 call get_local_text install_process_s4 install process s4
+call get_local_text install_process_winpath install process winpath
 
 echo !install_process_s1!
 echo !install_process_s2!
 echo !install_process_s3!
 echo !install_process_s4!
+echo.
+echo !install_process_winpath!
 
 call print_dashed_seperator
 
