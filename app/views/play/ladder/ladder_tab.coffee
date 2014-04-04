@@ -191,11 +191,14 @@ module.exports = class LadderTabView extends CocoView
       .attr("height", height + margin.top + margin.bottom)
     .append("g")
       .attr("transform","translate(#{margin.left},#{margin.top})")
+    barClass = "bar"
+    if teamName.toLowerCase() is "ogres" then barClass = "ogres-bar"
+    if teamName.toLowerCase() is "humans" then barClass = "humans-bar"
     
     bar = svg.selectAll(".bar")
       .data(data)
     .enter().append("g")
-      .attr("class","bar")
+      .attr("class",barClass)
       .attr("transform", (d) -> "translate(#{x(d.x)},#{y(d.y)})")  
     
     bar.append("rect")
