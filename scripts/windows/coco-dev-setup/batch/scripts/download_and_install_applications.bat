@@ -25,7 +25,9 @@ if %system_info_os% == XP (
 	call print_exit
 )
 
-call get_category ..\\config\\downloads.coco downloads download_names downloads_count general-general general-%system_info_bit% %system_info_os%-%system_info_bit%
+call get_variables ..\\config\\downloads.coco downloads download_names downloads_count 0 general general
+call get_variables ..\\config\\downloads.coco downloads download_names downloads_count 1 %system_info_os% b%system_info_bit%
+call get_variables ..\\config\\downloads.coco downloads download_names downloads_count 2 general b%system_info_bit%
 
 call get_local_text install_process_s1 install process s1
 call get_local_text install_process_s2 install process s2

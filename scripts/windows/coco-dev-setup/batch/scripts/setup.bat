@@ -2,7 +2,7 @@
 setlocal EnableDelayedExpansion
 
 Color 0A
-mode con: cols=78 lines=55
+mode con: cols=79 lines=55
 
 call print_header
 call print_dashed_seperator
@@ -33,7 +33,7 @@ call print_finished_header
 call print_dashed_seperator
 
 call get_local_text end_succesfull end succesfull
-call get_local_text end_thankyou end_thankyou
+call get_local_text end_thankyou end thankyou
 echo %end_succesfull%
 echo %end_thankyou%
 

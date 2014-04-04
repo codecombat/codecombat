@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <variables>
-    <version>1.0</version>
+    <version>1.1</version>
     <author>GlenDC</author>
     <copyright>CodeCombat.com © 2013-2014</copyright>
     <github_url>https://github.com/codecombat/codecombat.git</github_url>
