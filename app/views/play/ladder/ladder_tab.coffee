@@ -40,19 +40,19 @@ module.exports = class LadderTabView extends CocoView
 
   checkFriends: ->
     return if @checked or (not window.FB) or (not window.gapi)
-    @somethingLoaded("social_network_apis")
     @checked = true
     
     @addSomethingToLoad("facebook_status")
     FB.getLoginStatus (response) =>
       @facebookStatus = response.status
-      @somethingLoaded("facebook_status")
       @loadFacebookFriends() if @facebookStatus is 'connected'
+      @somethingLoaded("facebook_status")
 
     if application.gplusHandler.loggedIn is undefined
       @listenToOnce(application.gplusHandler, 'checked-state', @gplusSessionStateLoaded)
     else
       @gplusSessionStateLoaded()
+    @somethingLoaded("social_network_apis")
 
   # FACEBOOK
 
@@ -67,10 +67,10 @@ module.exports = class LadderTabView extends CocoView
     FB.api '/me/friends', @onFacebookFriendsLoaded
     
   onFacebookFriendsLoaded: (response) =>
-    @somethingLoaded("facebook_friends")
     @facebookData = response.data
     @loadFacebookFriendSessions()
-    
+    @somethingLoaded("facebook_friends")
+
   loadFacebookFriendSessions: ->
     levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
     url = "/db/level/#{levelFrag}/leaderboard_facebook_friends"
@@ -105,10 +105,10 @@ module.exports = class LadderTabView extends CocoView
       application.gplusHandler.loadFriends @gplusFriendsLoaded
 
   gplusFriendsLoaded: (friends) =>
-    @somethingLoaded("gplus_friends")
     @gplusData = friends.items
     @loadGPlusFriendSessions()
-    
+    @somethingLoaded("gplus_friends")
+
   loadGPlusFriendSessions: ->
     levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
     url = "/db/level/#{levelFrag}/leaderboard_gplus_friends"
