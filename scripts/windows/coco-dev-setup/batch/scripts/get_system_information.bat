@@ -16,15 +16,15 @@ if "%version%" == "6.3" ( call:set_os Win7 )
 goto:end
 
 :set_bit
-	call get_local_text install-system-bit
+	call get_local_text install_system_bit install system bit
 	set system_info_bit=%~1
 	echo %system_info_bit%%install_system_bit%
 goto:eof
 
 :set_os
 	set system_info_os=%~1
-	call get_local_text install-system-prefix
-	call get_local_text install-system-sufix
+	call get_local_text install_system_prefix install system prefix
+	call get_local_text install_system_sufix install system sufix
 	echo %install_system_prefix% %system_info_os% %install_system_sufix%
 goto:eof
 
