@@ -35,7 +35,8 @@
     "aether": "~0.1.18",
     "underscore.string": "~2.3.3",
     "firebase": "~1.0.2",
-    "catiline": "~2.9.3"
+    "catiline": "~2.9.3",
+    "d3": "~3.4.4"
   },
   "overrides": {
     "backbone": {

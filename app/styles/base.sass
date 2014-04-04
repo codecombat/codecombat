@@ -167,7 +167,15 @@ a[data-toggle="modal"]
     width: 50%
     margin: 0 25%
   .progress-bar
-    width: 100%
+    width: 0%
+    transition: width 0.1s ease
+    
+  .errors .alert
+    padding: 5px
+    display: block
+    margin: 10px auto
+    .btn
+      margin-left: 10px
   
 .modal
   .wait
@@ -210,3 +218,18 @@ body[lang='ru'], body[lang|='zh'], body[lang='ja'], body[lang='pl'], body[lang='
     text-transform: uppercase
     letter-spacing: -1px !important
    
+@media only screen and (max-width: 800px)
+  .main-content-area
+    width: 100%
+  .content
+    width: 100%
+    
+  .footer-link-text a
+    font-size: 17px
+    margin-left: 3px
+    margin-right: 3px
+    
+  .share-buttons
+    margin-bottom: 20px
+  .partner-badges
+    display: none
