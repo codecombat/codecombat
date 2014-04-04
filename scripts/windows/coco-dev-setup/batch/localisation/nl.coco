@@ -15,10 +15,11 @@
 			<sks>Heb je alle benodige software al geinstalleerd?</sks>
 			<skq>We raden aan dat je negatief antwoord indien je niet zeker bent.</skq>
 			<skc>De installatie van software wordt geanulleerd...</skc>
-			<1>CodeCombat kon niet worden ontwikkeld zonder third-party software.</1>
-			<2>Dat is waarom je deze software moet installeren,</2>
-			<3>zodat je je kan beginnen met het bijdragen tot onze gemeenschap.</3>
-			<4>Annuleer de installatie als je de applicatie al hebt.</4>
+			<s1>CodeCombat kon niet worden ontwikkeld zonder third-party software.</s1>
+			<s2>Dat is waarom je deze software moet installeren,</s2>
+			<s3>zodat je je kan beginnen met het bijdragen tot onze gemeenschap.</s3>
+			<s4>Annuleer de installatie als je de applicatie al hebt.</s4>
+			<winpath>Zorg er zeker voor dat je de optie selecteert dat de applicatie aan je Windows Path toevoegt, als de optie beschikbaar is.</winpath>
 			<prefix>Heb je al de laatste versie van</prefix>
 			<sufix>geinstalleerd?</sufix>
 			<downloading>is aan het downloaden...</downloading>
@@ -71,11 +72,11 @@
 		<readme>Wil je de LEESMIJ lezen voor meer informatie?</readme>
 	</end>
 	<start>
-		<1>Vanaf nu kan je de ontwikkelings omgeving opstarten</1>
-		<2>met het gemak van een enkele muisklik.</2>
-		<3>  1) Dubbelklik op</3>
-		<4>en laat de omgeving opstarten.</4>
-		<5>  2) Nu kan je 'localhost:3000' openen in je browser naar voorkeur.</5>
-		<6>Dat is het, je bent nu klaar om te starten met je werk aan CodeCombat.</6>
+		<s1>Vanaf nu kan je de ontwikkelings omgeving opstarten</s1>
+		<s2>met het gemak van een enkele muisklik.</s2>
+		<s3>  1) Dubbelklik op</s3>
+		<s4>en laat de omgeving opstarten.</s4>
+		<s5>  2) Nu kan je 'localhost:3000' openen in je browser naar voorkeur.</s5>
+		<s6>Dat is het, je bent nu klaar om te starten met je werk aan CodeCombat.</s6>
 	</start>
 </variables>
