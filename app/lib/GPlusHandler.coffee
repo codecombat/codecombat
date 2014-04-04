@@ -1,5 +1,5 @@
 CocoClass = require 'lib/CocoClass'
-{me, CURRENT_USER_KEY} = require 'lib/auth'
+{me} = require 'lib/auth'
 {backboneFailure} = require 'lib/errors'
 storage = require 'lib/storage'
 GPLUS_TOKEN_KEY = 'gplusToken'
@@ -102,7 +102,6 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       error: backboneFailure,
       url: "/db/user?gplusID=#{gplusID}&gplusAccessToken=#{@accessToken.access_token}"
       success: (model) ->
-        storage.save(CURRENT_USER_KEY, model.attributes)
         window.location.reload() if wasAnonymous and not model.get('anonymous')
     })
     

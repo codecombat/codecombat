@@ -11,14 +11,14 @@ div#columns.row
 
         tr
           th(colspan=4, style="color: #{team.primaryColor}")
-            span(data-i18n="ladder.summary_your") Your
+            span(data-i18n="ladder.summary_your") Your 
             |#{team.name}
             |  
-            span(data-i18n="ladder.summary_matches") Matches -
+            span(data-i18n="ladder.summary_matches") Matches - 
             |#{team.wins}
-            span(data-i18n="ladder.summary_wins") Wins,
+            span(data-i18n="ladder.summary_wins")  Wins, 
             |#{team.losses}
-            span(data-i18n="ladder.summary_losses") Losses
+            span(data-i18n="ladder.summary_losses")  Losses 
 
         if team.session
           tr
@@ -34,7 +34,9 @@ div#columns.row
         if team.chartData
           tr
             th(colspan=4, style="color: #{team.primaryColor}")
-              img(src="https://chart.googleapis.com/chart?chs=450x125&cht=lxy&chco=#{team.chartColor}&chtt=Score%3A+#{team.currentScore}&chts=#{team.chartColor},16,r&chf=a,s,000000FF&chls=2&chm=o,#{team.chartColor},0,4&chd=t:#{team.chartData}&chxt=y&chxr=0,#{team.minScore},#{team.maxScore}")
+              div(class="score-chart-wrapper", data-team-name=team.name, id="score-chart-#{team.name}")
+
+
 
         tr
           th(data-i18n="general.result") Result
