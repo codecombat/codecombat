@@ -217,7 +217,20 @@ module.exports = class LadderTabView extends CocoView
         .attr("x",1)
         .attr("width",3)
         .attr("height",height - y(9001))
-      
+    rankClass = "rank-text"
+    if teamName.toLowerCase() is "ogres" then rankClass = "rank-text ogres-rank-text"
+    if teamName.toLowerCase() is "humans" then rankClass = "rank-text humans-rank-text"
+    
+    message = "#{histogramData.length} players"
+    if @leaderboards[teamName].session? then message="#{@leaderboards[teamName].myRank}/#{histogramData.length}"
+    svg.append("g")
+      .append("text")
+      .attr("class",rankClass)
+      .attr("y",0)
+      .attr("text-anchor","end")
+      .attr("x",width)
+      .text(message)
+        
     #Translate the x-axis up
     svg.append("g")
       .attr("class", "x axis")
