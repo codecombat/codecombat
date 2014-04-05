@@ -1,96 +1,96 @@
 module.exports =  # /app/lib/surface
   "camera-dragged":
-  {} # TODO schema
+    {} # TODO schema
 
   "camera-zoom-in":
-  {} # TODO schema
+    {} # TODO schema
 
   "camera-zoom-out":
-  {} # TODO schema
+    {} # TODO schema
 
   "camera-zoom-to":
-  {} # TODO schema
+    {} # TODO schema
 
   "camera:zoom-updated":
-  {} # TODO schema
+    {} # TODO schema
 
   "sprite:speech-updated":
-  {} # TODO schema
+    {} # TODO schema
 
   "dialogue-sound-completed":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:gold-changed":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:coordinate-selected":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:coordinates-shown":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-sprite-clear-dialogue":
-  {} # TODO schema
+    {} # TODO schema
 
   "sprite:loaded":
-  {} # TODO schema
+    {} # TODO schema
 
   "choose-point":
-  {} # TODO schema
+    {} # TODO schema
 
   "choose-region":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:new-thang-added":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:sprite-selected":
-  {} # TODO schema
+    {} # TODO schema
 
   "thang-began-talking":
-  {} # TODO schema
+    {} # TODO schema
 
   "thang-finished-talking":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:world-set-up":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:frame-changed":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:playback-ended":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:playback-restarted":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-playing":
-  {} # TODO schema
+    {} # TODO schema
 
   "registrar-echo-states":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:mouse-moved":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:stage-mouse-down":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:mouse-scrolled":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:ticked":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:mouse-over":
-  {} # TODO schema
+    {} # TODO schema
 
   "surface:mouse-out":
-  {} # TODO schema
+    {} # TODO schema
 
   "self-wizard:target-changed":
-  {} # TODO schema
+    {} # TODO schema
 
   "echo-all-wizard-sprites":
-  {} # TODO schema
+    {} # TODO schema

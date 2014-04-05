@@ -1,18 +1,18 @@
 module.exports =
   "application:idle-changed":
-  {} # TODO schema
+    {} # TODO schema
 
   "logging-in-with-facebook":
-  {} # TODO schema
+    {} # TODO schema
 
   "facebook-logged-in":
-  {} # TODO schema
+    {} # TODO schema
 
   "gapi-loaded":
-  {} # TODO schema
+    {} # TODO schema
 
   "logging-in-with-gplus":
-  {} # TODO schema
+    {} # TODO schema
 
   "gplus-logged-in":
-  {} # TODO schema
+    {} # TODO schema

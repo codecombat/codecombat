@@ -9,19 +9,19 @@ module.exports =
         $ref: "bus"
 
   "bus:connected":
-  {} # TODO schema
+    {} # TODO schema
 
   "bus:disconnected":
-  {} # TODO schema
+    {} # TODO schema
 
   "bus:new-message":
-  {} # TODO schema
+    {} # TODO schema
 
   "bus:player-joined":
-  {} # TODO schema
+    {} # TODO schema
 
   "bus:player-left":
-  {} # TODO schema
+    {} # TODO schema
 
   "bus:player-states-changed":
-  {} # TODO schema
+    {} # TODO schema

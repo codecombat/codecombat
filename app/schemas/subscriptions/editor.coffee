@@ -22,31 +22,31 @@ module.exports =
     $ref: "jQueryEvent"
 
   "level-components-changed":
-  {} # TODO schema
+    {} # TODO schema
 
   "edit-level-component":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-component-edited":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-component-editing-ended":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-systems-changed":
-  {} # TODO schema
+    {} # TODO schema
 
   "edit-level-system":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-system-added":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-system-edited":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-system-editing-ended":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-thangs-changed":
     title: "Level Thangs Changed"
@@ -60,19 +60,19 @@ module.exports =
     additionalProperties: false
 
   "edit-level-thang":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-thang-edited":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-thang-done-editing":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-loaded":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-reload-from-data":
-  {} # TODO schema
+    {} # TODO schema
 
   "save-new-version":
-  {} # TODO schema
+    {} # TODO schema

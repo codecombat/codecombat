@@ -1,66 +1,66 @@
 module.exports =
   # TODO location is debatable
   "echo-self-wizard-sprite":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:session-will-save":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-loader:progress-changed":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:shift-space-pressed":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:escape-pressed":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-enable-controls":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-letterbox":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:started":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-debug":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-grid":
-  {} # TODO schema
+    {} # TODO schema
 
   "tome:cast-spell":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:restarted":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-volume":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-time":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-select-sprite":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-playing":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:team-set":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:docs-hidden":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:victory-hidden":
-  {} # TODO schema
+    {} # TODO schema
 
 
 
   # TODO location is debatable
   "goal-manager:new-goal-states":
-  {} # TODO schema
+    {} # TODO schema
 
 

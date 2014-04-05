@@ -1,127 +1,118 @@
 module.exports =
-<<<<<<< HEAD
   # TODO There should be a better way to subdivide these channels
 
   # TODO location is debatable
   "echo-self-wizard-sprite":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:session-will-save":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-loader:progress-changed":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:shift-space-pressed":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:escape-pressed":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-enable-controls":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-letterbox":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:started":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-debug":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-grid":
-  {} # TODO schema
+    {} # TODO schema
 
   "tome:cast-spell":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:restarted":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-volume":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-time":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-select-sprite":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-set-playing":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:team-set":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:docs-hidden":
-  {} # TODO schema
+    {} # TODO schema
 
   "level:victory-hidden":
-  {} # TODO schema
+    {} # TODO schema
 
-=======
->>>>>>> 0ab077551fa6d800b7db3cd1506c839638f868cd
   "next-game-pressed":
-  {} # TODO schema
+    {} # TODO schema
 
   "focus-editor":
-  {} # TODO schema
+    {} # TODO schema
 
   "end-current-script":
-  {} # TODO schema
+    {} # TODO schema
 
   "script:reset":
-  {} # TODO schema
+    {} # TODO schema
 
   "script:ended":
-  {} # TODO schema
+    {} # TODO schema
 
   "script:state-changed":
-  {} # TODO schema
+    {} # TODO schema
 
   "play-sound":
-  {} # TODO schema
+    {} # TODO schema
 
   # TODO refactor name
   "onLoadingViewUnveiled":
-  {} # TODO schema
+    {} # TODO schema
 
   "playback:manually-scrubbed":
-  {} # TODO schema
+    {} # TODO schema
 
   "change:editor-config":
-  {} # TODO schema
+    {} # TODO schema
 
   "restart-level":
-  {} # TODO schema
+    {} # TODO schema
 
   "play-next-level":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-select-sprite":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-toggle-grid":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-toggle-debug":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-toggle-pathfinding":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-scrub-forward":
-  {} # TODO schema
+    {} # TODO schema
 
   "level-scrub-back":
-  {} # TODO schema
+    {} # TODO schema
 
-<<<<<<< HEAD
   "goal-manager:new-goal-states":
-  {} # TODO schema
-
-=======
->>>>>>> 0ab077551fa6d800b7db3cd1506c839638f868cd
-
-
+    {} # TODO schema
