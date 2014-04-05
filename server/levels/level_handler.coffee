@@ -36,6 +36,7 @@ LevelHandler = class LevelHandler extends Handler
     return @getRandomSessionPair(req,res,args[0]) if args[1] is 'random_session_pair'
     return @getLeaderboardFacebookFriends(req, res, args[0]) if args[1] is 'leaderboard_facebook_friends'
     return @getLeaderboardGPlusFriends(req, res, args[0]) if args[1] is 'leaderboard_gplus_friends'
+    return @getHistogramData(req, res, args[0]) if args[1] is 'histogram_data'
     
     return @sendNotFoundError(res)
 
@@ -118,6 +119,18 @@ LevelHandler = class LevelHandler extends Handler
       query = Session.find(sessionQuery).select('-screenshot')
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
+          
+  getHistogramData: (req, res,slug) ->
+    query = Session.aggregate [
+      {$match: {"levelID":slug, "submitted": true, "team":req.query.team}}
+      {$project: {totalScore: 1, _id: 0}}
+    ]
+    
+    query.exec (err, data) =>
+      if err? then return @sendDatabaseError res, err
+      valueArray = _.pluck data, "totalScore"
+      @sendSuccess res, valueArray
+    
 
   getLeaderboard: (req, res, id) ->
     sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)

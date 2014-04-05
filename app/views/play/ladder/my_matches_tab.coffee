@@ -117,12 +117,10 @@ module.exports = class MyMatchesTabView extends CocoView
     @$el.find('.score-chart-wrapper').each (i, el) =>
       scoreWrapper = $(el)
       team = _.find @teams, name: scoreWrapper.data('team-name')
-      @generateScoreLineChart(scoreWrapper.attr('id'), team.scoreHistory)
+      @generateScoreLineChart(scoreWrapper.attr('id'), team.scoreHistory, team.name)
       
 
-  generateScoreLineChart: (wrapperID, scoreHistory) =>
-    
-    
+  generateScoreLineChart: (wrapperID, scoreHistory,teamName) =>
     margin = 
       top: 20
       right: 20
@@ -167,10 +165,12 @@ module.exports = class MyMatchesTabView extends CocoView
       .attr("dy", ".75em")
       .style("text-anchor","end")
       .text("Score")
-    
+    lineClass = "line"
+    if teamName.toLowerCase() is "ogres" then lineClass = "ogres-line"
+    if teamName.toLowerCase() is "humans" then lineClass = "humans-line"
     svg.append("path")
       .datum(data)
-      .attr("class","line")
+      .attr("class",lineClass)
       .attr("d",line)
     
     
