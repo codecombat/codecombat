@@ -205,68 +205,68 @@ body {
     }
 }
 
-.modal{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    overflow: hidden;
+// .modal-content{
+//     width: 100%;
+//     height: 100%;
+//     position: absolute;
+//     overflow: hidden;
 
-    .modal-dialog {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        overflow: scroll;
-        overflow-x: hidden;
+//     .modal-body {
+//         // position: absolute;
+//         top: 0;
+//         right: 0;
+//         bottom: 0;
+//         left: 0;
+//         overflow: scroll;
+//         overflow-x: hidden;
 
-        &:focus {
-            outline: thin dotted;
-        }
+//         &:focus {
+//             outline: thin dotted;
+//         }
 
-        &::-webkit-scrollbar {
-            visibility: hidden;
-        }
-    }
+//         &::-webkit-scrollbar {
+//             visibility: hidden;
+//         }
+//     }
 
-    > .#{$paneClass} {
-        width: 10px;
-        background: rgba(255,255,255,.6);
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        -webkit-transition: .2s;
-           -moz-transition: .2s;
-             -o-transition: .2s;
-                transition: .2s;
-        -webkit-border-radius: 5px;
-           -moz-border-radius: 5px;
-                border-radius: 5px;
-        visibility: hidden\9; // Target only IE7 and IE8 with this hack
-        opacity: .01;
+//     > .#{$paneClass} {
+//         width: 10px;
+//         background: rgba(255,255,255,.6);
+//         position: absolute;
+//         top: 0;
+//         right: 0;
+//         bottom: 0;
+//         -webkit-transition: .2s;
+//            -moz-transition: .2s;
+//              -o-transition: .2s;
+//                 transition: .2s;
+//         -webkit-border-radius: 5px;
+//            -moz-border-radius: 5px;
+//                 border-radius: 5px;
+//         visibility: hidden\9; // Target only IE7 and IE8 with this hack
+//         opacity: .01;
 
-        > .#{$sliderClass} {
-            background: #444;
-            background: rgba(0,0,0,.5);
-            position: relative;
-            margin: 0 1px;
-            -webkit-border-radius: 3px;
-               -moz-border-radius: 3px;
-                    border-radius: 3px;
-        }
-    }
-}
+//         > .#{$sliderClass} {
+//             background: #444;
+//             background: rgba(0,0,0,.5);
+//             position: relative;
+//             margin: 0 1px;
+//             -webkit-border-radius: 3px;
+//                -moz-border-radius: 3px;
+//                     border-radius: 3px;
+//         }
+//     }
+// }
 
-.has-scrollbar > .modal-dialog::-webkit-scrollbar {
-    visibility: visible;
-}
+// .has-scrollbar > .modal-body::-webkit-scrollbar {
+//     visibility: visible;
+// }
 
-.#{$paneClass} {
-    .modal:hover > &,
-    &.active,
-    &.flashed {
-        visibility: visible\9; // Target only IE7 and IE8 with this hack
-        opacity: 0.99;
-    }
-}
+// .#{$paneClass} {
+//     .modal-content:hover > &,
+//     &.active,
+//     &.flashed {
+//         visibility: visible\9; // Target only IE7 and IE8 with this hack
+//         opacity: 0.99;
+//     }
+// }
