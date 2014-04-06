@@ -72,7 +72,7 @@
   <!-- end olark code -->
 
 </head>
-<body>
+<body class="clearfix">
   <div id="fb-root"></div>
 
 <!-- begin facebook code -->
@@ -117,7 +117,7 @@
 
   <header class="header-container" id="header-container"></header>
   
-  <div id="page-container"></div>
+  <div id="page-container" class="nano-content"></div>
   <!--
   <div class="antiscroll-wrap">
     <div class="antiscroll-inner">
@@ -126,7 +126,7 @@
   </div>
   -->
 
-  <div id="modal-wrapper"></div>
+  <div id="modal-wrapper" class="modal-content"></div>
 
   <!-- begin google api/plus code -->
   <script type="text/javascript">
@@ -167,5 +167,23 @@
     (function(a){if(window.filepicker){return}var b=a.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===a.location.protocol?"https:":"http:")+"//api.filepicker.io/v1/filepicker.js";var c=a.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c);var d={};d._queue=[];var e="pick,pickMultiple,pickAndStore,read,write,writeUrl,export,convert,store,storeUrl,remove,stat,setKey,constructWidget,makeDropPane".split(",");var f=function(a,b){return function(){b.push([a,arguments])}};for(var g=0;g<e.length;g++){d[e[g]]=f(e[g],d._queue)}window.filepicker=d})(document);
   </script>
   <!-- end filepicker.io code -->
+
+  <!-- being nanascroller code -->
+  <script type="text/javascript">
+    function renderScrollbar(){
+      $('.nano-pane').css('display','none');
+      $(function(){
+        $('body').nanoScroller();
+      });
+    };
+
+    // Doesn't seem to load when you open for first time.
+    $(function(){
+      setTimeout(function(){
+        $('body').nanoScroller();
+      },1000);
+    });
+  </script>
+  <!-- end nanoscroller code -->
 </body>
 </html>

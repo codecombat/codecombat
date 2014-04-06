@@ -227,6 +227,9 @@ module.exports = class CocoView extends Backbone.View
     $('#modal-wrapper .modal').modal(modalOptions).on 'hidden.bs.modal', @modalClosed
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
+    # setTimeout -> 
+    #   $('.modal').nanoScroller({contentClass:'modal-dialog'})
+    # , 1000
 
   modalClosed: =>
     visibleModal.willDisappear() if visibleModal
