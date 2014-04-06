@@ -169,8 +169,6 @@ module.exports = class CocoView extends Backbone.View
     @loadProgress.progress = progress if progress > @loadProgress.progress
     @updateProgressBar()
 
-    console.debug 'gintau', 'updateProgress', num, denom
-
     if num is denom
       @onLoaded()
       
@@ -179,7 +177,6 @@ module.exports = class CocoView extends Backbone.View
     @$el.find('.loading-screen .progress-bar').css('width', prog)
 
   onLoaded: ->
-    console.debug 'gintau', 'CocoView-Render()', @
     @render()
 
   # Error handling for loading
