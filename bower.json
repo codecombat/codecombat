@@ -36,7 +36,10 @@
     "underscore.string": "~2.3.3",
     "firebase": "~1.0.2",
     "catiline": "~2.9.3",
-    "d3": "~3.4.4"
+    "d3": "~3.4.4",
+    "jquery.tablesorter": "~2.15.13",
+    "treema": "~0.0.1",
+    "bootstrap": "~3.1.1"
   },
   "overrides": {
     "backbone": {
@@ -50,6 +53,25 @@
     },
     "underscore.string": {
       "main": "lib/underscore.string.js"
+    },
+    "jquery.tablesorter": {
+      "main": [
+        "js/jquery.tablesorter.js",
+        "js/jquery.tablesorter.widgets.js",
+        "css/theme.bootstrap.css"
+      ]
+    },
+    "bootstrap": {
+      "main": [
+        "./dist/js/bootstrap.js",
+        "./dist/fonts/glyphicons-halflings-regular.eot",
+        "./dist/fonts/glyphicons-halflings-regular.svg",
+        "./dist/fonts/glyphicons-halflings-regular.ttf",
+        "./dist/fonts/glyphicons-halflings-regular.woff"
+      ]
     }
+  },
+  "resolutions": {
+    "jquery": "~2.0.3"
   }
 }

@@ -13,7 +13,7 @@ LevelSession = require('../levels/sessions/LevelSession')
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
   'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
-  'gplusID', 'music', 'volume', 'aceConfig'
+  'gplusID', 'music', 'volume', 'aceConfig', 'jobProfile', 'jobProfileApproved'
 ]
 
 UserHandler = class UserHandler extends Handler
@@ -23,7 +23,7 @@ UserHandler = class UserHandler extends Handler
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
     'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emailSubscriptions',
     'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
-    'wizard', 'aceConfig', 'autocastDelay', 'lastLevel'
+    'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile'
   ]
 
   jsonSchema: schema

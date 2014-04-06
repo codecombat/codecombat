@@ -21,6 +21,9 @@ block content
         a(href="#password-pane", data-toggle="tab", data-i18n="account_settings.password_tab") Password
       li
         a(href="#email-pane", data-toggle="tab", data-i18n="account_settings.emails_tab") Emails
+      if me.isAdmin()
+        li
+          a(href="#job-profile-pane", data-toggle="tab", data-i18n="account_settings.job_profile_tab") Job Profile
 
     .tab-content#settings-panes
       #general-pane.tab-pane
@@ -153,3 +156,6 @@ block content
               span(data-i18n="contribute.ambassador_subscribe_desc").help-block Get emails on support updates and multiplayer developments.
                   
         button.btn#toggle-all-button(data-i18n="account_settings.email_toggle") Toggle All
+
+      #job-profile-pane.tab-pane
+        #job-profile-view

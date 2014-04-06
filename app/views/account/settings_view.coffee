@@ -5,6 +5,7 @@ forms = require('lib/forms')
 User = require('models/User')
 
 WizardSettingsView = require './wizard_settings_view'
+JobProfileView = require './job_profile_view'
 
 module.exports = class SettingsView extends View
   id: 'account-settings-view'
@@ -45,9 +46,14 @@ module.exports = class SettingsView extends View
     )
 
     @chooseTab(location.hash.replace('#',''))
-    WizardSettingsView = new WizardSettingsView()
-    @listenTo(WizardSettingsView, 'change', @save)
-    @insertSubView WizardSettingsView
+
+    wizardSettingsView = new WizardSettingsView()
+    @listenTo wizardSettingsView, 'change', @save
+    @insertSubView wizardSettingsView
+
+    @jobProfileView = new JobProfileView()
+    @listenTo @jobProfileView, 'change', @save
+    @insertSubView @jobProfileView
 
   chooseTab: (category) ->
     id = "##{category}-pane"
@@ -129,3 +135,12 @@ module.exports = class SettingsView extends View
       permissions = []
       permissions.push 'admin' if adminCheckbox.prop('checked')
       me.set('permissions', permissions)
+
+    jobProfile = me.get('jobProfile') ? {}
+    updated = false
+    for key, val of @jobProfileView.getData()
+      updated = updated or jobProfile[key] isnt val
+      jobProfile[key] = val
+    if updated
+      jobProfile.updated = new Date()  # doesn't work
+      me.set 'jobProfile', jobProfile

@@ -616,7 +616,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bad_input: "Bad input."
     server_error: "Server error."
     unknown: "Unknown error."
-    
+
   resources:
     your_sessions: "Your Sessions"
     level: "Level"
@@ -626,4 +626,5 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     facebook_friend_sessions: "Facebook Friend Sessions"
     gplus_friends: "G+ Friends"
     gplus_friend_sessions: "G+ Friend Sessions"
-    leaderboard: 'leaderboard'
+    leaderboard: "Leaderboard"
+    user_schema: "User Schema"
