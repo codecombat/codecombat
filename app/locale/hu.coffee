@@ -14,12 +14,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     play: "Játék"
 
 #  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
+#    second: "másodperc"
+#    seconds: "másodpercek"
+#    minute: "perc"
+#    minutes: "percek"
+#    hour: "óra"
+#    hours: "órák"
 
   modal:
     close: "Mégse"
