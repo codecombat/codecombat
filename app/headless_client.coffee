@@ -54,8 +54,8 @@ GLOBAL.$ =
       body: options.data
       , (error, response, body) ->
         if (error)
-          console.log "HTTP Request returned an error. (StatusCode:  #{response.statusCode}: #{body})"
-          options.error(response) if options.error?
+          console.log "HTTP Request returned an error: #{error}"
+          options.error(error) if options.error?
         else
           console.log "HTTP Request returned statusCode #{response.statusCode}: #{body}"
           options.success(body, response, status: response.statusCode) if options.success?
