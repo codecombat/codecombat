@@ -1,12 +1,12 @@
 m = require 'module'
 request = require 'request'
 
-
 disable = [
   'test'
   'lib/AudioPlayer'
 ]
 
+# Global emulated stuff
 GLOBAL.window = GLOBAL
 
 store = {}
@@ -14,7 +14,7 @@ GLOBAL.localStorage =
     getItem: (key) => store[key]
     setItem: (key, s) => store[key] = s
 
-
+# the path used for the loader. __dirname is module dependant.
 path = __dirname
 
 # Hook require. See https://github.com/mfncooper/mockery/blob/master/mockery.js
@@ -44,13 +44,12 @@ hookedLoader = (request, parent, isMain) ->
     ret.me = window.me
   ret
 
-
 do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
   _.str = require 'underscore.string'
   _.mixin _.str.exports()
 
-#m.cache = {}
+# Set up new loader.
 originalLoader = m._load;
 m._load = hookedLoader;
 
@@ -72,26 +71,17 @@ GLOBAL.$ =
         options.complete(status: response.statusCode) if options.complete?
 
 
+# load Backbone
 GLOBAL.Backbone = require '../bower_components/backbone/backbone' # 'backbone-serverside'
-#console.log Backbone
-#console.log Backbone.Model
-
 require '../vendor/scripts/backbone-mediator'
-
-#Backbone.
+# Instead of mediator, dummy might be faster yet suffice?
 #Mediator = class Mediator
 #  publish: (id, object) ->
 #    console.Log "Published #{id}: #{object}"
 #  @subscribe: () ->
 #  @unsubscribe: () ->
-
-
-
-
 	
-	
-	
-#Get my user first.
+#Load user and start the code.
 $.ajax
   url: 'https://codecombat.com/auth/whoami'
   type: "GET"
