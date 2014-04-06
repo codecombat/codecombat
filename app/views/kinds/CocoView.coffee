@@ -11,7 +11,6 @@ makeScopeName = -> "view-scope-#{classCount++}"
 doNothing = ->
 
 module.exports = class CocoView extends Backbone.View
-  startsLoading: false
   cache: false # signals to the router to keep this view around
   template: -> ''
 
@@ -89,7 +88,7 @@ module.exports = class CocoView extends Backbone.View
     return @template if _.isString(@template)
     @$el.html @template(@getRenderData())
     @afterRender()
-    @showLoading() if @startsLoading or @loading() # TODO: Remove startsLoading entirely
+    @showLoading() if @loading()
     @$el.i18n()
     @
 
@@ -108,25 +107,45 @@ module.exports = class CocoView extends Backbone.View
   # Resource and request loading management for any given view
     
   addResourceToLoad: (modelOrCollection, name, value=1) ->
-    @loadProgress.resources.push {resource:modelOrCollection, value:value, name:name}
-    @listenToOnce modelOrCollection, 'sync', @updateProgress
+    res = {resource:modelOrCollection, value:value, name:name, loaded: modelOrCollection.loaded}
+
+    @loadProgress.resources.push res
+    @loadProgress.denom += value
+
+    @listenToOnce modelOrCollection, 'sync', ()=>
+      # Sprite builder only works after rendering, if callback creates sprite, we need to update progress first.
+      res.loaded = true
+      @updateProgress(res)
+
     @listenTo modelOrCollection, 'error', @onResourceLoadFailed
-    @updateProgress()
+    @updateProgress(res)
     
   addRequestToLoad: (jqxhr, name, retryFunc, value=1) ->
-    @loadProgress.requests.push {request:jqxhr, value:value, name: name, retryFunc: retryFunc}
-    jqxhr.done @updateProgress
-    jqxhr.fail @onRequestLoadFailed
+    res = {request:jqxhr, value:value, name: name, retryFunc: retryFunc, loaded:false}
+
+    @loadProgress.requests.push res
+    @loadProgress.denom += value
+
+    jqxhr.done ()=>
+      res.loaded = true
+      @updateProgress(res)
+
+    jqxhr.fail ()=>
+      @onRequestLoadFailed(jqxhr)
 
   addSomethingToLoad: (name, value=1) ->
-    @loadProgress.somethings.push {loaded: false, name: name, value: value}
-    @updateProgress()
+    res = {name: name, value: value, loaded: false}
+
+    @loadProgress.somethings.push res
+    @loadProgress.denom += value
+
+    @updateProgress(res)
 
   somethingLoaded: (name) ->
     r = _.find @loadProgress.somethings, {name: name}
     return console.error 'Could not find something called', name if not r
     r.loaded = true
-    @updateProgress(name)
+    @updateProgress(r)
 
   loading: ->
     return false if @loaded
@@ -138,27 +157,21 @@ module.exports = class CocoView extends Backbone.View
       return true if not r.loaded
     return false
 
-  updateProgress: =>
-    console.debug 'Loaded', r.name if arguments[0] and r = _.find @loadProgress.resources, {resource:arguments[0]}
-    console.debug 'Loaded', r.name if arguments[2] and r = _.find @loadProgress.requests, {request:arguments[2]}
-    console.debug 'Loaded', r.name if arguments[0] and r = _.find @loadProgress.somethings, {name:arguments[0]}
+  updateProgress: (r)=>
+    console.debug 'Loaded', r.name, r.loaded
 
-    denom = 0
-    denom += r.value for r in @loadProgress.resources
-    denom += r.value for r in @loadProgress.requests
-    denom += r.value for r in @loadProgress.somethings
+    denom = @loadProgress.denom   
+    @loadProgress.num += r.value if r.loaded
     num = @loadProgress.num
-    num += r.value for r in @loadProgress.resources when r.resource.loaded
-    num += r.value for r in @loadProgress.requests when r.request.status
-    num += r.value for r in @loadProgress.somethings when r.loaded
-    #console.log 'update progress', @, num, denom, arguments
     
     progress = if denom then num / denom else 0
     # sometimes the denominator isn't known from the outset, so make sure the overall progress only goes up
     @loadProgress.progress = progress if progress > @loadProgress.progress
     @updateProgressBar()
-    if num is denom and not @loaded
-      @loaded = true
+
+    console.debug 'gintau', 'updateProgress', num, denom
+
+    if num is denom
       @onLoaded()
       
   updateProgressBar: =>
@@ -166,6 +179,7 @@ module.exports = class CocoView extends Backbone.View
     @$el.find('.loading-screen .progress-bar').css('width', prog)
 
   onLoaded: ->
+    console.debug 'gintau', 'CocoView-Render()', @
     @render()
 
   # Error handling for loading
