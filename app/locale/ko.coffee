@@ -12,6 +12,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     manual: "수동"
     fork: "Fork"
     play: "시작"
+#    retry: "Retry"
 
 #  units:
 #    second: "second"
@@ -326,6 +327,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     article_search_title: "기사들은 여기에서 찾으세요"
     thang_search_title: "Thang 타입들은 여기에서 찾으세요"
     level_search_title: "레벨들은 여기에서 찾으세요"
+#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
   article:
     edit_btn_preview: "미리보기"
@@ -600,3 +602,27 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tutorial: "tutorial"
 #    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
 #    so_ready: "I Am So Ready for This"
+
+#  loading_error:
+#    could_not_load: "Error loading from server"
+#    connection_failure: "Connection failed."
+#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+#    forbidden: "You do not have the permissions."
+#    not_found: "Not found."
+#    not_allowed: "Method not allowed."
+#    timeout: "Server timeout."
+#    conflict: "Resource conflict."
+#    bad_input: "Bad input."
+#    server_error: "Server error."
+#    unknown: "Unknown error."
+
+#  resources:
+#    your_sessions: "Your Sessions"
+#    level: "Level"
+#    social_network_apis: "Social Network APIs"
+#    facebook_status: "Facebook Status"
+#    facebook_friends: "Facebook Friends"
+#    facebook_friend_sessions: "Facebook Friend Sessions"
+#    gplus_friends: "G+ Friends"
+#    gplus_friend_sessions: "G+ Friend Sessions"
+#    leaderboard: "leaderboard"
