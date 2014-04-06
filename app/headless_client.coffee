@@ -53,7 +53,7 @@ GLOBAL.$ =
       method: options.type
       body: options.data
       , (error, response, body) ->
-        console.log "HTTP Request returned #{'error: ' + error if error? + ', '}statusCode #{response.statusCode}, body #{body}"
+        console.log "HTTP Request returned #{'error: ' + error  + ', ' if error?}statusCode #{response.statusCode}, body #{body}"
         if (error)
           options.error(response) if options.error?
         else
