@@ -1,8 +1,8 @@
 m = require 'module'
 request = require 'request'
 
+# Disabled modules
 disable = [
-  'test'
   'lib/AudioPlayer'
 ]
 
@@ -17,14 +17,11 @@ GLOBAL.localStorage =
 # the path used for the loader. __dirname is module dependant.
 path = __dirname
 
-# Hook require. See https://github.com/mfncooper/mockery/blob/master/mockery.js
+# Hook node.js require. See https://github.com/mfncooper/mockery/blob/master/mockery.js
 # The signature of this function *must* match that of Node's Module._load,
 # since it will replace that.
-#
+# (Why is there no easier way?)
 hookedLoader = (request, parent, isMain) ->
-  subst = undefined
-  allow = undefined
-  file = undefined
   throw new Error("Loader has not been hooked")  unless originalLoader
   # Mock UI stuff.
   if request in disable or ~request.indexOf('templates')
@@ -36,13 +33,7 @@ hookedLoader = (request, parent, isMain) ->
     request = 'lodash'
 
   console.log "loading " + request
-  
-  ret = originalLoader request, parent, isMain
-  if ~request.indexOf('auth')
-    console.log window.me
-    # This needs to export me.
-    ret.me = window.me
-  ret
+  originalLoader request, parent, isMain
 
 do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
@@ -53,7 +44,6 @@ do (setupLodash = this) ->
 originalLoader = m._load;
 m._load = hookedLoader;
 
-
 #jQuery wrapped for compatibility purposes. Poorly.
 GLOBAL.$ =
   ajax: (options) ->
@@ -63,13 +53,12 @@ GLOBAL.$ =
       method: options.type
       body: options.data
       , (error, response, body) ->
-        console.log "HTTP Request returned error: #{error}, statusCode #{response.statusCode}, body #{body}"
+        console.log "HTTP Request returned #{'error: ' + error if error? + ', '}statusCode #{response.statusCode}, body #{body}"
         if (error)
           options.error(response) if options.error?
         else
           options.success(body, response, status: response.statusCode) if options.success?
         options.complete(status: response.statusCode) if options.complete?
-
 
 # load Backbone
 GLOBAL.Backbone = require '../bower_components/backbone/backbone' # 'backbone-serverside'
