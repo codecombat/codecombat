@@ -300,6 +300,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     hipchat_url: "HipChat room."
     revert: "Revert"
     revert_models: "Revert Models"
+    fork_title: "Fork New Version"
+    fork_creating: "Creating Fork..."
     level_some_options: "Some Options?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Scripts"

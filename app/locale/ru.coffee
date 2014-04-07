@@ -300,6 +300,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     hipchat_url: "комнате HipChat."
     revert: "Откатить"
     revert_models: "Откатить Модели"
+    fork_title: "Форк новой версии"
+    fork_creating: "Создание форка..."
     level_some_options: "Ещё опции"
     level_tab_thangs: "Объекты"
     level_tab_scripts: "Скрипты"
