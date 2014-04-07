@@ -1,13 +1,36 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/employers'
 
+User = require 'models/User'
+CocoCollection = require 'models/CocoCollection'
+
+class CandidatesCollection extends CocoCollection
+  url: '/db/user/x/candidates'
+  model: User
+
 module.exports = class EmployersView extends View
   id: "employers-view"
   template: template
 
+  constructor: (options) ->
+    super options
+    @getCandidates()
+
   afterRender: ->
-    @sortTable()
     super()
+    @sortTable() if @candidates.models.length
+
+  getRenderData: ->
+    c = super()
+    c.candidates = @candidates.models
+    c.moment = moment
+    c
+
+  getCandidates: ->
+    @candidates = new CandidatesCollection()
+    @candidates.fetch()
+    # Re-render when we have fetched them, but don't wait and show a progress bar while loading.
+    @listenToOnce @candidates, 'all', @render
 
   sortTable: ->
     # http://mottie.github.io/tablesorter/docs/example-widget-bootstrap-theme.html

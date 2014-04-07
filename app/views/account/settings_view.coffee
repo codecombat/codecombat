@@ -142,5 +142,5 @@ module.exports = class SettingsView extends View
       updated = updated or jobProfile[key] isnt val
       jobProfile[key] = val
     if updated
-      jobProfile.updated = new Date()  # doesn't work
+      #jobProfile.updated = new Date()  # doesn't work
       me.set 'jobProfile', jobProfile

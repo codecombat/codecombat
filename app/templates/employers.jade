@@ -47,14 +47,44 @@ block content
     li more location
     li projects: list of pic, name, description, link (like http://www.folyo.me/designers/stanislav-udotov)
 
-  table.table.table-condensed.table-hover.table-responsive.tablesorter
-    thead
-      tr
-        th Name
-        th Location
-        th Looking For
-        // Remote, Full-time, Part-time, Contracting, Internship
-        th Top 5 Skills
-        th Yrs Exp
-        th Last Updated
-        th Current Job
+  - var authorized = false;  // testing
+  if candidates.length
+    table.table.table-condensed.table-hover.table-responsive.tablesorter
+      thead
+        tr
+          th Name
+          th Location
+          th Looking For
+          th Top 5 Skills
+          th Yrs Exp
+          th Last Updated
+          th Current Job
+  
+      tbody
+        for candidate, index in candidates
+          - var profile = candidate.get('jobProfile');
+          - console.log(candidate.get('emailHash'));
+          tr
+            td
+              if authorized
+                img(src=candidate.getPhotoURL(), alt=profile.name, title=profile.name, width=50)
+                p= profile.name
+              else
+                img(src="/images/pages/contribute/archmage.png", alt="", title="Sign up as an employer to see our candidates", width=50)
+                p Developer ##{index + 1}
+            if profile.country == 'USA'
+              td= profile.city
+            else
+              td= profile.country
+            td= profile.lookingFor
+            td= profile.skills.slice(0, 5).join(', ')
+            td= profile.experience
+            td= moment(profile.updated).fromNow()
+            if authorized
+              if profile.work.length
+                td= profile.work[0].role + ' at ' + profile.work[0].employer
+              else
+                td
+            else
+              td
+                em Employer sign-up required.

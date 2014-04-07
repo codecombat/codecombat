@@ -171,6 +171,7 @@ UserHandler = class UserHandler extends Handler
     return @getNamesByIds(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
+    return @getCandidates(req, res) if args[1] is 'candidates'
     return @sendNotFoundError(res)
 
   agreeToCLA: (req, res) ->
@@ -208,5 +209,20 @@ UserHandler = class UserHandler extends Handler
       documents = (@formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
 
+  getCandidates: (req, res) ->
+    authorized = req.user.isAdmin() or false  # need some entry saying req.user is an employer
+    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    #query = {'jobProfileApproved': true, 'jobProfile.active': true}
+    query = {'jobProfile.active': true}
+    #query = {'email': 'livelily@gmail.com'}
+    projection = {jobProfile: 1}
+    if authorized
+      projection.emailHash = 1
+    console.log 'email hash', projection
+    User.find(query).select(projection).exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      documents = (@formatEntity(req, doc) for doc in documents)
+      # TODO: anonymize user ids so you can't (indirectly) tell who they are unless you are authorized?
+      @sendSuccess(res, documents)
 
 module.exports = new UserHandler()

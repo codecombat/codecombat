@@ -69,7 +69,7 @@ UserSchema = c.object {},
     shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.', default: 'Programmer seeking to build great software.'}
     longDescription: {type: 'string', maxLength: 2000, title: 'Long Description', description: 'Give employeers more details. Highlight your stunning personality. Markdown okay. 2000 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
     visa: c.shortString {title: 'US Work Status', description: 'Are you authorized to work in the US, or do you need visa sponsorship?', enum: ['Authorized to work in the US', 'Need visa sponsorship'], default: 'Authorized to work in the US'}
-    work: c.array {title: 'Work Experience', description: 'List your relevant work experience.'},
+    work: c.array {title: 'Work Experience', description: 'List your relevant work experience, most recent first.'},
       c.object {title: 'Job', description: 'Some work experience you had.', required: ['employer', 'role', 'duration']},
         employer: c.shortString {title: 'Employer', description: 'Name of your employer.'}
         role: c.shortString {title: 'Job Title', description: 'What was your job title or role?'}
