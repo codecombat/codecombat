@@ -330,6 +330,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     article_search_title: "Искать статьи"
     thang_search_title: "Искать типы объектов"
     level_search_title: "Искать уровни"
+    signup_to_create: "Авторизуйтесь для создания нового контента"
     read_only_warning: "Примечание: вы не можете сохранять здесь любые правки, потому что вы не вошли как администратор."
 
   article:

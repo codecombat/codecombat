@@ -9,9 +9,9 @@ block content
         | #{currentEditor}
 
   if me.get('anonymous')
-    a.btn.btn-primary.open-modal-button(data-toggle="coco-modal", data-target="modal/signup", role="button") Sign Up to Create a New #{modelLabel}
+    a.btn.btn-primary.open-modal-button(data-toggle="coco-modal", data-target="modal/signup", role="button", data-i18n="editor.signup_to_create") Sign Up to Create a New Content
   else
-    a.btn.btn-primary.open-modal-button(href='#new-model-modal', role="button", data-toggle="modal" data-i18n="#{currentNew}") Create a New Something
+    a.btn.btn-primary.open-modal-button(href='#new-model-modal', role="button", data-toggle="modal", data-i18n="#{currentNew}") Create a New Something
   input#search(data-i18n="[placeholder]#{currentSearch}")
   hr
   div.results
@@ -20,18 +20,19 @@ block content
   // TODO: make this into a ModalView subview
   div.modal.fade#new-model-modal
     .modal-dialog
-      .modal-content
-        .modal-header
-          h3 Create New #{modelLabel}
-        .modal-body
-          form.form
-            .form-group
-              label.control-label(for="name") Name
-              input#name.form-control(name="name", type="text")
-        .modal-footer
-          button.btn(data-dismiss="modal") Cancel
-          button.btn.btn-primary.new-model-submit Create
-        .modal-body.wait.secret
-          h3 Reticulating Splines...
-          .progress.progress-striped.active
-            .progress-bar
+      .background-wrapper
+        .modal-content
+          .modal-header
+            h3(data-i18n="#{currentNew}") Create New #{modelLabel}
+          .modal-body
+            form.form
+              .form-group
+                label.control-label(for="name", data-i18n="general.name") Name
+                input#name.form-control(name="name", type="text")
+          .modal-footer
+            button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
+            button.btn.btn-primary.new-model-submit(data-i18n="common.create") Create
+          .modal-body.wait.secret
+            h3(data-i18n="play_level.tip_reticulating") Reticulating Splines...
+            .progress.progress-striped.active
+              .progress-bar

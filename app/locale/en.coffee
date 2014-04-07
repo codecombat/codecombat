@@ -330,6 +330,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     article_search_title: "Search Articles Here"
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"
+    signup_to_create: "Sign Up to Create a New Content"
     read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
   article:
