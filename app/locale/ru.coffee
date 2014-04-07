@@ -46,6 +46,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   versions:
     save_version_title: "Сохранить новую версию"
     new_major_version: "Новая основная версия"
+    update_break_level: "(Может ли это обновление нарушить старые решения уровня?)"
+    update_break_component: "(Может ли это обновление нарушить что-нибудь, зависящее от данного Компонента?)"
+    update_break_system: "(Может ли это обновление нарушить что-нибудь, зависящее от данной Системы?)"
     cla_prefix: "Чтобы сохранить изменения, сначала вы должны согласиться с нашим"
     cla_url: "лицензионным соглашением соавторов"
     cla_suffix: "."
@@ -302,6 +305,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     revert_models: "Откатить Модели"
     fork_title: "Форк новой версии"
     fork_creating: "Создание форка..."
+    level_publish: "Опубликовать уровень (необратимо)?"
     level_some_options: "Ещё опции"
     level_tab_thangs: "Объекты"
     level_tab_scripts: "Скрипты"
