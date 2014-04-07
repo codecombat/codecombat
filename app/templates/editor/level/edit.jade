@@ -7,7 +7,7 @@ block outer_content
       .container-fluid
         ul.nav.navbar-nav
           li
-            a(href="/editor/level") Back
+            a(href="/editor/level", data-i18n="editor.back") Back
         .navbar-header
           span.navbar-brand
             span(data-i18n="editor.level_title") Level Editor
@@ -37,18 +37,18 @@ block outer_content
             li.divider
 
             li.dropdown
-              a.dropdown-toggle(href='#', data-toggle='dropdown')
+              a.dropdown-toggle(href='#', data-toggle='dropdown', data-i18n="editor.more")
                 | More
                 b.caret
               ul.dropdown-menu
                 li#history-button
                   a(href='#', data-i18n="general.version_history") Version History
                 li
-                  a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home') Wiki
+                  a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', data-i18n="editor.wiki") Wiki
                 li
-                  a(href='http://www.hipchat.com/g3plnOKqa') Live Chat
+                  a(href='http://www.hipchat.com/g3plnOKqa', data-i18n="editor.live_chat") Live Chat
                 li
-                  a(href='http://discourse.codecombat.com/category/artisan') Forum
+                  a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum") Forum
                 li
                   a(data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Email
 
