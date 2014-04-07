@@ -33,4 +33,6 @@ module.exports = class ProfileView extends View
       grav: grav
       photoURL: @user.getPhotoURL()
     context[key] = addedContext[key] for key of addedContext
+    context.marked = marked
+    context.moment = moment
     context

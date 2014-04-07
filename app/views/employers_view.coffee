@@ -1,6 +1,6 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/employers'
-
+app = require 'application'
 User = require 'models/User'
 CocoCollection = require 'models/CocoCollection'
 
@@ -11,6 +11,9 @@ class CandidatesCollection extends CocoCollection
 module.exports = class EmployersView extends View
   id: "employers-view"
   template: template
+
+  events:
+    'click tr': 'onCandidateClicked'
 
   constructor: (options) ->
     super options
@@ -73,3 +76,12 @@ module.exports = class EmployersView extends View
         # reset filters button
         filter_reset: ".reset"
     )
+
+  onCandidateClicked: (e) ->
+    id = $(e.target).closest('tr').data('candidate-id')
+    if id
+      url = "/account/profile/#{id}"
+      app.router.navigate url, {trigger: true}
+    else
+      console.log 'gotta prompt them to sign up'
+      alert 'sign up for dat my twisted archon'

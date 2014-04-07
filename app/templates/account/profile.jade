@@ -1,72 +1,128 @@
 extends /templates/base
 
 block content
-  
+
   if myProfile
     a(href="/account/settings")
       button.btn
         i.icon-cog
         span(data-i18n="account_profile.edit_settings") Edit Settings
   
-  h2 
-    if grav && grav.name && grav.name.formatted
-      span(data-i18n="account_profile.profile_for_prefix") Profile for 
-      span= grav.name.formatted
-      span(data-i18n="account_profile.profile_for_suffix") 
-    else
-      span(data-i18n="account_profile.profile") Profile
+  if user.get('jobProfile')
+    - var profile = user.get('jobProfile');
+    .profile-header-container
+      img(src=photoURL).img-thumbnail.pull-left
+      h1= profile.name
+      p.lead= profile.shortDescription
+      .clearfix
+    .container
+      .row
+        .col-md-2
+          h2 Info
+          div= profile.city + ', ' + profile.country
+          div= profile.visa
+          div Looking for: #{profile.lookingFor}
+          div Profile last updated #{moment(profile.updated).fromNow()}
+          h3 Skills
+          each skill in profile.skills
+            code= skill
+            span  
+          if profile.links.length
+            h3 Links
+            ul.links
+              each link in profile.links
+                li
+                  a(href=link.link) #{link.name}
 
-  if loadingProfile
-    p(data-i18n="common.loading") Loading...
+        .col-md-4
+          h2 About
+          div!= marked(profile.longDescription)
 
-  else if !user.get('emailHash')
-    p(data-i18n="account_profile.user_not_found") No user found. Check the URL?
+          if profile.work.length
+            h3 Work Experience
+            each job in profile.work
+              div.pull-right= job.duration
+              strong #{job.role} at #{job.employer}
+              .clearfix
 
-  else if !user.gravatarProfile
-    if myProfile
-      p
-        span(data-i18n="account_profile.gravatar_not_found_mine") We couldn't find your profile associated with:
-        strong  "#{me.get('email')}"
-        span(data-i18n="account_profile.gravatar_not_found_email_suffix") .
-        span  
-        span(data-i18n="account_profile.gravatar_signup_prefix") Sign up at 
-        a(href="http://en.gravatar.com/") Gravatar
-        span(data-i18n="account_profile.gravatar_signup_suffix")  to get set up!
-    else
-        p(data-i18n="account_profile.gravatar_not_found_other")
-          | Alas, there's no profile associated with this person's email address.
+          if profile.education.length
+            h3 Education
+            each school in profile.education
+              div.pull-right= school.duration
+              strong #{school.degree} at #{school.school}
+              .clearfix
+
+        .col-md-4
+          if profile.projects.length
+            h2 Projects
+            ul.projects
+              each project in profile.projects
+                a(href="#{project.link}")
+                li
+                  h3 #{project.name}
+                  .project-image(style="background-image: url(/file/" + project.picture + ")")
+                  p!= marked(project.description)
 
   else
-    .container
-      div.row
-        div.col-xs-3
-          img(src=photoURL).img-thumbnail
-          
-          p.about-me #{grav.aboutMe}
+    h2 
+      if grav && grav.name && grav.name.formatted
+        span(data-i18n="account_profile.profile_for_prefix") Profile for 
+        span= grav.name.formatted
+        span(data-i18n="account_profile.profile_for_suffix") 
+      else
+        span(data-i18n="account_profile.profile") Profile
   
-        if grav.emails
+    if loadingProfile
+      p(data-i18n="common.loading") Loading...
+
+    else if !user.get('emailHash')
+      p(data-i18n="account_profile.user_not_found") No user found. Check the URL?
+
+    else if !user.gravatarProfile
+      if myProfile
+        p
+          span(data-i18n="account_profile.gravatar_not_found_mine") We couldn't find your profile associated with:
+          strong  "#{me.get('email')}"
+          span(data-i18n="account_profile.gravatar_not_found_email_suffix") .
+          span  
+          span(data-i18n="account_profile.gravatar_signup_prefix") Sign up at 
+          a(href="http://en.gravatar.com/") Gravatar
+          span(data-i18n="account_profile.gravatar_signup_suffix")  to get set up!
+      else
+          p(data-i18n="account_profile.gravatar_not_found_other")
+            | Alas, there's no profile associated with this person's email address.
+
+    else
+      .container
+        div.row
           div.col-xs-3
-            h3(data-i18n="account_profile.gravatar_contact") Contact
-            ul
-              each email in grav.emails
-                li #{email.value}
-                  
-        if grav.urls && grav.urls.length
-          div.col-xs-3
-            h3(data-i18n="account_profile.gravatar_websites") Websites
-            ul
-              each url in grav.urls
-                li
-                  a(href="#{url.value}") #{url.title} 
-                                
-        if grav.accounts
-          div.col-xs-3
-            h3(data-i18n="account_profile.gravatar_accounts") As Seen On
-            ul
-              each account in grav.accounts
-                li
-                  a(href="#{account.url}") #{account.domain}
-     
-    hr
-    p
-      a(href="#{grav.profileUrl}", data-i18n="account_profile.gravatar_profile_link") Full Gravatar Profile
+            img(src=photoURL).img-thumbnail
+            
+            p.about-me #{grav.aboutMe}
+    
+          if grav.emails
+            div.col-xs-3
+              h3(data-i18n="account_profile.gravatar_contact") Contact
+              ul
+                each email in grav.emails
+                  li #{email.value}
+                    
+          if grav.urls && grav.urls.length
+            div.col-xs-3
+              h3(data-i18n="account_profile.gravatar_websites") Websites
+              ul
+                each url in grav.urls
+                  li
+                    a(href="#{url.value}") #{url.title} 
+                                  
+          if grav.accounts
+            div.col-xs-3
+              h3(data-i18n="account_profile.gravatar_accounts") As Seen On
+              ul
+                each account in grav.accounts
+                  li
+                    a(href="#{account.url}") #{account.domain}
+       
+      hr
+      p
+        a(href="#{grav.profileUrl}", data-i18n="account_profile.gravatar_profile_link") Full Gravatar Profile

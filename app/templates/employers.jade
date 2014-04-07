@@ -33,21 +33,6 @@ block content
       h4 Technologies: just about everything
       h4 Countries: USA, Canada, Australia, and many more
 
-  p If you click on a profile, you can see:
-  ul
-    li extra links
-    li extra skill tags
-    li self description
-    li work experience description: list of company name, job title, dates
-    li educational experience: list of school name, degree & major, dates
-    li our notes
-    li links to CodeCombat code in action
-    li contact modal link
-    li visa needs
-    li more location
-    li projects: list of pic, name, description, link (like http://www.folyo.me/designers/stanislav-udotov)
-
-  - var authorized = false;  // testing
   if candidates.length
     table.table.table-condensed.table-hover.table-responsive.tablesorter
       thead
@@ -63,8 +48,8 @@ block content
       tbody
         for candidate, index in candidates
           - var profile = candidate.get('jobProfile');
-          - console.log(candidate.get('emailHash'));
-          tr
+          - var authorized = candidate.id;  // If we have the id, then we are authorized.
+          tr(data-candidate-id=candidate.id)
             td
               if authorized
                 img(src=candidate.getPhotoURL(), alt=profile.name, title=profile.name, width=50)
@@ -77,7 +62,10 @@ block content
             else
               td= profile.country
             td= profile.lookingFor
-            td= profile.skills.slice(0, 5).join(', ')
+            td
+              each skill in profile.skills.slice(0, 5)
+                code= skill
+                span  
             td= profile.experience
             td= moment(profile.updated).fromNow()
             if authorized

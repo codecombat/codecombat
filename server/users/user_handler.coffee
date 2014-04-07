@@ -13,7 +13,10 @@ LevelSession = require('../levels/sessions/LevelSession')
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
   'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
-  'gplusID', 'music', 'volume', 'aceConfig', 'jobProfile', 'jobProfileApproved'
+  'gplusID', 'music', 'volume', 'aceConfig'
+]
+candidateProperties = [
+  'jobProfile', 'jobProfileApproved'
 ]
 
 UserHandler = class UserHandler extends Handler
@@ -36,18 +39,22 @@ UserHandler = class UserHandler extends Handler
     return null unless document?
     obj = document.toObject()
     delete obj[prop] for prop in serverProperties
-    includePrivates = req.user and (req.user?.isAdmin() or req.user?._id.equals(document._id))
+    includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
+    #includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.permissions ? [])))
+    includeCandidate = includePrivates or (req.user and ('employer' in (req.user.permissions ? [])))  # testing
+    delete obj[prop] for prop in candidateProperties unless includeCandidate
+    obj.emailHash = @buildEmailHash document
+    return obj
 
+  buildEmailHash: (user) ->
     # emailHash is used by gravatar
     hash = crypto.createHash('md5')
-    if document.get('email')
-      hash.update(_.trim(document.get('email')).toLowerCase())
+    if user.get('email')
+      hash.update(_.trim(user.get('email')).toLowerCase())
     else
-      hash.update(@_id+'')
-    obj.emailHash = hash.digest('hex')
-
-    return obj
+      hash.update(user.get('_id') + '')
+    hash.digest('hex')
 
   waterfallFunctions: [
     # FB access token checking
@@ -210,19 +217,26 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, documents)
 
   getCandidates: (req, res) ->
-    authorized = req.user.isAdmin() or false  # need some entry saying req.user is an employer
-    return @sendUnauthorizedError(res) unless req.user.isAdmin()
-    #query = {'jobProfileApproved': true, 'jobProfile.active': true}
-    query = {'jobProfile.active': true}
-    #query = {'email': 'livelily@gmail.com'}
-    projection = {jobProfile: 1}
+    authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
+    since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
+    #query = {'jobProfileApproved': true, 'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
+    query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}  # testing
+    selection = 'jobProfile'
     if authorized
-      projection.emailHash = 1
-    console.log 'email hash', projection
-    User.find(query).select(projection).exec (err, documents) =>
+      selection += ' email'
+    User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
-      documents = (@formatEntity(req, doc) for doc in documents)
-      # TODO: anonymize user ids so you can't (indirectly) tell who they are unless you are authorized?
-      @sendSuccess(res, documents)
+      candidates = (@formatCandidate(authorized, doc) for doc in documents)
+      @sendSuccess(res, candidates)
+
+  formatCandidate: (authorized, document) ->
+    fields = if authorized then ['jobProfile', '_id'] else ['jobProfile']
+    obj = _.pick document.toObject(), fields
+    obj.emailHash = @buildEmailHash document
+    subfields = ['country', 'city', 'lookingFor', 'skills', 'experience', 'updated']
+    if authorized
+      subfields = subfields.concat ['name', 'work']
+    obj.jobProfile = _.pick obj.jobProfile, subfields
+    obj
 
 module.exports = new UserHandler()
