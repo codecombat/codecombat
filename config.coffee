@@ -72,7 +72,10 @@ exports.config =
       joinTo:
         'stylesheets/app.css': /^(app|vendor)/
       order:
-        before: ['app/styles/bootstrap.scss']
+        before: [
+          'app/styles/bootstrap.scss'
+          'vendor/styles/nanoscroller.scss'
+        ]
     templates:
       defaultExtension: 'jade'
       joinTo: 'javascripts/app.js'

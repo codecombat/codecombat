@@ -4,29 +4,30 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     saving: "Guardando..."
     sending: "Enviando..."
     cancel: "Cancelar"
-#    save: "Save"
-#    create: "Create"
+    save: "Guardar"
+    create: "Crear"
     delay_1_sec: "1 segundo"
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
     manual: "Manual"
 #    fork: "Fork"
 #    play: "Play"
+#    retry: "Retry"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
+  units:
+    second: "segundo"
+    seconds: "segundos"
+    minute: "minuto"
+    minutes: "minutos"
+    hour: "hora"
+    hours: "horas"
 
   modal:
     close: "Cerrar"
     okay: "OK"
 
   not_found:
-    page_not_found: "Pagina no encontrada"
+    page_not_found: "Página no encontrada"
 
   nav:
     play: "Jugar"
@@ -40,11 +41,11 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     about: "Sobre"
     contact: "Contacto"
     twitter_follow: "Seguir"
-#    employers: "Employers"
+    employers: "Empleados"
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    new_major_version: "New Major Version"
+  versions:
+    save_version_title: "Guardar nueva versión"
+    new_major_version: "Nueva Gran Versión"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
 #    cla_suffix: "."
@@ -53,7 +54,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
   login:
     sign_up: "Crear Cuenta"
     log_in: "Entrar"
-#    logging_in: "Logging In"
+    logging_in: "Entrando"
     log_out: "Salir"
     recover: "recuperar cuenta"
 
@@ -76,7 +77,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     no_ie: "¡Lo sentimos! CodeCombat no funciona en Internet Explorer 9 o versiones anteriores."
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y quizás no funcione!"
     play: "Jugar"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
+    old_browser: "¡Oh! ¡Oh! Tu navegador es muy antiguo para correr CodeCombat. ¡Lo Sentimos!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
 #    for_beginners: "For Beginners"
@@ -98,7 +99,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     campaign_player_created_description: "... en los que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisan\">Hechiceros Artesanales</a>."
     level_difficulty: "Dificultad: "
     play_as: "Jugar Como "
-#    spectate: "Spectate"
+    spectate: "Observar"
 
   contact:
     contact_us: "Contacta a CodeCombat"
@@ -326,6 +327,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    article_search_title: "Search Articles Here"
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
+#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
 #  article:
 #    edit_btn_preview: "Preview"
@@ -600,3 +602,27 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    tutorial: "tutorial"
 #    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
 #    so_ready: "I Am So Ready for This"
+
+#  loading_error:
+#    could_not_load: "Error loading from server"
+#    connection_failure: "Connection failed."
+#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+#    forbidden: "You do not have the permissions."
+#    not_found: "Not found."
+#    not_allowed: "Method not allowed."
+#    timeout: "Server timeout."
+#    conflict: "Resource conflict."
+#    bad_input: "Bad input."
+#    server_error: "Server error."
+#    unknown: "Unknown error."
+
+#  resources:
+#    your_sessions: "Your Sessions"
+#    level: "Level"
+#    social_network_apis: "Social Network APIs"
+#    facebook_status: "Facebook Status"
+#    facebook_friends: "Facebook Friends"
+#    facebook_friend_sessions: "Facebook Friend Sessions"
+#    gplus_friends: "G+ Friends"
+#    gplus_friend_sessions: "G+ Friend Sessions"
+#    leaderboard: "leaderboard"

@@ -15,7 +15,7 @@
   background-color: transparent
   background-size: 100% 100%
   z-index: 0
-  overflow-y: auto
+  //overflow-y: auto
   
   img
     position: absolute
@@ -46,6 +46,12 @@
       background-color: lighten(rgb(230, 212, 146), 10%)
     &.multiple-tabs li:not(.active) a
       cursor: pointer
+
+  .tab-content
+    height: 80px
+    .nano-pane
+      width: 7px
+      right: 5px
 
   //.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus
   //  background-color: lighten(rgb(230, 212, 146), 10%)

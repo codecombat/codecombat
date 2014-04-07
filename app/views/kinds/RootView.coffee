@@ -38,6 +38,7 @@ module.exports = class RootView extends CocoView
     location.hash = ''
     location.hash = hash
     @buildLanguages()
+    renderScrollbar()
     #@$('.antiscroll-wrap').antiscroll()  # not yet, buggy
 
   afterRender: ->

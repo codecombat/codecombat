@@ -12,6 +12,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     manual: "Manual"
     fork: "Fork"
     play: "Jogar"
+#    retry: "Retry"
 
 #  units:
 #    second: "second"
@@ -326,6 +327,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     article_search_title: "Procurar Artigos Aqui"
     thang_search_title: "Procurar Tipos de Thang Aqui"
     level_search_title: "Procurar Níveis Aqui"
+#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
   article:
     edit_btn_preview: "Visualizar"
@@ -600,3 +602,27 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     tutorial: "tutorial"
     new_to_programming: ". Novo na programação? Faz a Campanha para Iniciantes para expandires as tuas capacidades."
     so_ready: "Estou mais que pronto para isto"
+
+#  loading_error:
+#    could_not_load: "Error loading from server"
+#    connection_failure: "Connection failed."
+#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+#    forbidden: "You do not have the permissions."
+#    not_found: "Not found."
+#    not_allowed: "Method not allowed."
+#    timeout: "Server timeout."
+#    conflict: "Resource conflict."
+#    bad_input: "Bad input."
+#    server_error: "Server error."
+#    unknown: "Unknown error."
+
+#  resources:
+#    your_sessions: "Your Sessions"
+#    level: "Level"
+#    social_network_apis: "Social Network APIs"
+#    facebook_status: "Facebook Status"
+#    facebook_friends: "Facebook Friends"
+#    facebook_friend_sessions: "Facebook Friend Sessions"
+#    gplus_friends: "G+ Friends"
+#    gplus_friend_sessions: "G+ Friend Sessions"
+#    leaderboard: "leaderboard"

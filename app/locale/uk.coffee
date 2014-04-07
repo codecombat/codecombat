@@ -12,6 +12,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     manual: "Інструкція"
     fork: "Форк"
     play: "Грати"
+#    retry: "Retry"
 
 #  units:
 #    second: "second"
@@ -326,6 +327,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    article_search_title: "Search Articles Here"
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
+#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
 #  article:
 #    edit_btn_preview: "Preview"
@@ -391,7 +393,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     archmage_wiki_url: "нашу wiki для Архімагів,"
     opensource_description_suffix: "щоб побачити списки ПЗ, яке робить цю гру можливою."
     practices_title: "Шановні найкращі гравці"
-#    practices_description: "These are our promi ses to you, the player, in slightly less legalese."
+#    practices_description: "These are our promises to you, the player, in slightly less legalese."
 #    privacy_title: "Privacy"
 #    privacy_description: "We will not sell any of your personal information. We intend to make money through recruitment eventually, but rest assured we will not distribute your personal information to interested companies without your explicit consent."
 #    security_title: "Security"
@@ -600,3 +602,27 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    tutorial: "tutorial"
 #    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
 #    so_ready: "I Am So Ready for This"
+
+#  loading_error:
+#    could_not_load: "Error loading from server"
+#    connection_failure: "Connection failed."
+#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+#    forbidden: "You do not have the permissions."
+#    not_found: "Not found."
+#    not_allowed: "Method not allowed."
+#    timeout: "Server timeout."
+#    conflict: "Resource conflict."
+#    bad_input: "Bad input."
+#    server_error: "Server error."
+#    unknown: "Unknown error."
+
+#  resources:
+#    your_sessions: "Your Sessions"
+#    level: "Level"
+#    social_network_apis: "Social Network APIs"
+#    facebook_status: "Facebook Status"
+#    facebook_friends: "Facebook Friends"
+#    facebook_friend_sessions: "Facebook Friend Sessions"
+#    gplus_friends: "G+ Friends"
+#    gplus_friend_sessions: "G+ Friend Sessions"
+#    leaderboard: "leaderboard"

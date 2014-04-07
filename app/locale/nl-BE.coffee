@@ -12,6 +12,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     manual: "Handleiding"
     fork: "Fork"
     play: "Spelen"
+#    retry: "Retry"
 
   units:
     second: "seconde"
@@ -326,6 +327,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     article_search_title: "Zoek Artikels Hier"
     thang_search_title: "Zoek Thang Types Hier"
     level_search_title: "Zoek Levels Hier"
+#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
   article:
     edit_btn_preview: "Voorbeeld"
@@ -600,3 +602,27 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     tutorial: "tutorial"
     new_to_programming: ". Ben je net begonnen met programmeren? Speel dan eerst onze beginners campagne."
     so_ready: "Ik ben hier zo klaar voor"
+
+#  loading_error:
+#    could_not_load: "Error loading from server"
+#    connection_failure: "Connection failed."
+#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+#    forbidden: "You do not have the permissions."
+#    not_found: "Not found."
+#    not_allowed: "Method not allowed."
+#    timeout: "Server timeout."
+#    conflict: "Resource conflict."
+#    bad_input: "Bad input."
+#    server_error: "Server error."
+#    unknown: "Unknown error."
+
+#  resources:
+#    your_sessions: "Your Sessions"
+#    level: "Level"
+#    social_network_apis: "Social Network APIs"
+#    facebook_status: "Facebook Status"
+#    facebook_friends: "Facebook Friends"
+#    facebook_friend_sessions: "Facebook Friend Sessions"
+#    gplus_friends: "G+ Friends"
+#    gplus_friend_sessions: "G+ Friend Sessions"
+#    leaderboard: "leaderboard"
