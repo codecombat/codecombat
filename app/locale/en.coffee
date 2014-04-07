@@ -123,9 +123,12 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   wizard_settings:
     title: "Wizard Settings"
     customize_avatar: "Customize Your Avatar"
+    active: "Active"
+    color: "Color"
+    group: "Group"
     clothes: "Clothes"
     trim: "Trim"
-    cloud: "Cloud"
+    team: "Cloud"
     spell: "Spell"
     boots: "Boots"
     hue: "Hue"
@@ -626,4 +629,4 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     facebook_friend_sessions: "Facebook Friend Sessions"
     gplus_friends: "G+ Friends"
     gplus_friend_sessions: "G+ Friend Sessions"
-    leaderboard: 'leaderboard'
+    leaderboard: "leaderboard"

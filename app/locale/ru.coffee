@@ -123,9 +123,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   wizard_settings:
     title: "Настройки волшебника"
     customize_avatar: "Изменить свой аватар"
+    active: "Активно"
+    color: "Цвет"
+    group: "Группа"
     clothes: "Одежда"
     trim: "Отделка"
-    cloud: "Облако"
+    team: "Облако"
     spell: "Заклинание"
     boots: "Обувь"
     hue: "Оттенок"
