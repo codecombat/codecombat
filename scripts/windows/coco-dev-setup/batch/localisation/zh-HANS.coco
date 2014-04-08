@@ -2,6 +2,7 @@
 <variables>
 	<global>
 		<native>简体中文</native>
+		<description>Traditional Chinese</description>
 		<intro>目前我们只能用英文给你反馈！</intro>
 	</global>
 	<install>
@@ -26,7 +27,7 @@
 			<installing>正在安装...</installing>
 			<unzipping>正在解压...</unzipping>
 			<cleaning>正在清理...</cleaning>
-			<mongodbpath>请输入你希望安装 mongodb 的文件夹的全路径<mongodbpath>
+			<mongodbpath>请输入你希望安装 mongodb 的文件夹的全路径</mongodbpath>
 		</process>
 	</install>
 	<github>
@@ -61,6 +62,7 @@
 		<mongodb>正在为你设置 MongoDB 数据库...</mongodb>
 		<db>正在下载 CodeCombat 数据库的最新版本...</db>
 		<script>Preparing the automatic startup script for you...</script>
+		<close>Don't close!</close>
 	</npm>
 	<error>
 		<path>这个路径已经存在, 你想要覆盖它吗?</path>

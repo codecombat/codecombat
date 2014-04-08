@@ -99,13 +99,13 @@ goto:eof
 
 :git_checkout
 	md "%repository_path%"
-	set "repository_path=%repository_path%\coco"
+	set "repository_path=%repository_path%"
 
 	call print_dashed_seperator
 	set "git_app_path=%git_bash_path%\bin\git.exe"
 
 	call get_config github_url
-	"%git_app_path%" clone "!github_url!" "%repository_path%"
+	"%git_app_path%" clone "!github_url!" "%repository_path%\coco"
 
 	goto:exit_git_setup
 goto:eof
