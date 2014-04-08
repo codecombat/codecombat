@@ -48,6 +48,7 @@ module.exports = class Handler
   sendMethodNotAllowed: (res) -> errors.badMethod(res)
   sendBadInputError: (res, message) -> errors.badInput(res, message)
   sendDatabaseError: (res, err) ->
+    return @sendError(res, err.code, err.response) if err.response and err.code
     log.error "Database error, #{err}"
     errors.serverError(res, 'Database error, ' + err)
 
@@ -203,10 +204,9 @@ module.exports = class Handler
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'id should not be included.') if req.body._id
     return @sendUnauthorizedError(res) unless @hasAccess(req)
-    validation = @validateDocumentInput(req.body)
-    return @sendBadInputError(res, validation.errors) unless validation.valid
     document = @makeNewInstance(req)
     @saveChangesToDocument req, document, (err) =>
+      return @sendBadInputError(res, err.errors) if err?.valid is false
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, @formatEntity(req, document))
 
@@ -220,13 +220,11 @@ module.exports = class Handler
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'id should not be included.') if req.body._id
     return @sendUnauthorizedError(res) unless @hasAccess(req)
-    validation = @validateDocumentInput(req.body)
-    return @sendBadInputError(res, validation.errors) unless validation.valid
     document = @makeNewInstance(req)
     document.set('original', document._id)
     document.set('creator', req.user._id)
     @saveChangesToDocument req, document, (err) =>
-      return @sendBadInputError(res, err.response) if err?.response
+      return @sendBadInputError(res, err.errors) if err?.valid is false
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, @formatEntity(req, document))
 
@@ -245,8 +243,6 @@ module.exports = class Handler
     return @sendBadInputError(res, 'This entity is not versioned') unless @modelClass.schema.uses_coco_versions
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendUnauthorizedError(res) unless @hasAccess(req)
-    validation = @validateDocumentInput(req.body)
-    return @sendBadInputError(res, validation.errors) unless validation.valid
     @getDocumentForIdOrSlug req.body._id, (err, parentDocument) =>
       return @sendBadInputError(res, 'Bad id.') if err and err.name is 'CastError'
       return @sendDatabaseError(res, err) if err
@@ -261,6 +257,8 @@ module.exports = class Handler
           delete updatedObject[prop]
       delete updatedObject._id
       major = req.body.version?.major
+      validation = @validateDocumentInput(updatedObject)
+      return @sendBadInputError(res, validation.errors) unless validation.valid
 
       done = (err, newDocument) =>
         return @sendDatabaseError(res, err) if err

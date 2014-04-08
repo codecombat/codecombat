@@ -8,6 +8,7 @@ mongoose = require('mongoose')
 
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
+  jsonSchema: require './level_schema'
   editableProperties: [
     'description'
     'documentation'

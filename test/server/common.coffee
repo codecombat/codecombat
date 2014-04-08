@@ -78,11 +78,8 @@ unittest.getUser = (email, password, done, force) ->
       req = request.post(getURL('/db/user'), (err, response, body) ->
         throw err if err
         User.findOne({email:email}).exec((err, user) ->
-          if password is '80yqxpb38j'
-            user.set('permissions', [ 'admin' ])
-            user.save (err) ->
-              wrapUpGetUser(email, user, done)
-          else
+          user.set('permissions', if password is '80yqxpb38j' then [ 'admin' ] else [])
+          user.save (err) ->
             wrapUpGetUser(email, user, done)
         )
       )
