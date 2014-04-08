@@ -56,10 +56,14 @@ module.exports = class ThangTypeEditView extends View
         @insertSubView(new ErrorView())
     )
 
+    @addResourceToLoad(@thangType.schema(), 'thang_type_schema')
+    @addResourceToLoad(@thangType, 'thang_type')
+
     @thangType.fetch()
     @thangType.loadSchema()
     @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
     @listenToOnce(@thangType, 'sync', @onThangTypeSync)
+
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
   onThangTypeSync: ->

@@ -28,12 +28,18 @@ class SuperModel
   modelLoaded: (model) ->
     model.loadSchema()
     schema = model.schema()
+
+    # Load schema first.
     unless schema.loaded
       @schemas[schema.urlRoot] = schema
       return schema.once('sync', => @modelLoaded(model))
+
     refs = model.getReferencedModels(model.attributes, schema.attributes, '/', @shouldLoadProjection)
     refs = [] unless @mustPopulate is model or @shouldPopulate(model)
-#    console.log 'Loaded', model.get('name')
+
+    console.debug 'gintau', 'superModel-refs', model, refs
+
+    # load references.
     for ref, i in refs when @shouldLoadReference ref
       ref.saveBackups = @shouldSaveBackups(ref)
       refURL = ref.url()
