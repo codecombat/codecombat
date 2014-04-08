@@ -24,6 +24,8 @@ module.exports = class God
     @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
     @fillWorkerPool()
 
+  workerPath: '/javascripts/workers/worker_world.js'
+
   onTomeCast: (e) ->
     return if @dead
     @spells = e.spells
@@ -44,7 +46,7 @@ module.exports = class God
     @createWorker()
 
   createWorker: ->
-    worker = new Worker '/javascripts/workers/worker_world.js'
+    worker = new Worker @workerPath
     worker.creationTime = new Date()
     worker.addEventListener 'message', @onWorkerMessage
     worker

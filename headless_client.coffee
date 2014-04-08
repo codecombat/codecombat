@@ -1,18 +1,34 @@
+server = "http://codecombat.com"
+
 m = require 'module'
 request = require 'request'
+
+console.warn process.cwd()
+
 
 # Disabled modules
 disable = [
   'lib/AudioPlayer'
+  'locale/locale'
 ]
+
+bowerComponents = "./bower_components/"
 
 # Global emulated stuff
 GLOBAL.window = GLOBAL
+GLOBAL.Worker = require('webworker-threads').Worker
+GLOBAL.tv4 = require('tv4').tv4
+
+
+
+#ace.require("ace/range").Range
+
 
 store = {}
 GLOBAL.localStorage = 
     getItem: (key) => store[key]
     setItem: (key, s) => store[key] = s
+    removeItem: (key) => delete store[key]
 
 # the path used for the loader. __dirname is module dependant.
 path = __dirname
@@ -23,21 +39,32 @@ path = __dirname
 # (Why is there no easier way?)
 hookedLoader = (request, parent, isMain) ->
   throw new Error("Loader has not been hooked")  unless originalLoader
+
+  if request is 'lib/God'
+    console.log 'Thou art god.'
+    god = true
+
   # Mock UI stuff.
   if request in disable or ~request.indexOf('templates')
     console.log 'Ignored ' + request
     return class fake
   else if '/' in request and not (request[0] is '.') or request is 'application'
-    request = path + '/' + request
+    request = path + '/app/' + request
   else if request is 'underscore'
     request = 'lodash'
 
   console.log "loading " + request
-  originalLoader request, parent, isMain
+  loaded = originalLoader request, parent, isMain
+  if god
+    loaded.workerPath = path + '/assets/javascripts/workers/worker_world.js'
+
+  loaded
+
 
 do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
   _.str = require 'underscore.string'
+  _.string = _.str
   _.mixin _.str.exports()
 
 # Set up new loader.
@@ -45,48 +72,91 @@ originalLoader = m._load;
 m._load = hookedLoader;
 
 #jQuery wrapped for compatibility purposes. Poorly.
-GLOBAL.$ =
-  ajax: (options) ->
+GLOBAL.$ = (input) ->
+  console.log 'Ignored jQuery: ' + input
+  append: (input)-> console.log 'Not appending ' + input
+
+
+$.ajax= (options) ->
+    url = options.url
+    if url.indexOf('http')
+      url = '/' + url unless url[0] is '/'
+      url = server + url
+
+#    data = options.data
+ #   if options.dataType is 'json'
+  #    data = JSON.parse options.data
+
     console.log "Requesting: " + JSON.stringify options
+    console.log "URL: " + url
     request
-      url: options.url
+      url: url
+      json: options.parse
       method: options.type
       body: options.data
       , (error, response, body) ->
+        console.log "HTTP Request:" + JSON.stringify options
         if (error)
-          console.log "HTTP Request returned an error: #{error}"
+          console.log "\t↳Returned: error: #{error}"
           options.error(error) if options.error?
         else
-          console.log "HTTP Request returned statusCode #{response.statusCode}: #{body}"
+          console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}"
           options.success(body, response, status: response.statusCode) if options.success?
         options.complete(status: response.statusCode) if options.complete?
 
+$.extend = (deep, into, from) ->
+    copy = clone(from, deep);
+    if into
+      _.assign into, copy
+      copy = into
+    copy
+
+$.isArray = (object) ->
+    _.isArray object
+
+$.isPlainObject = (object) ->
+    _.isPlainObject object
+
 # load Backbone
-GLOBAL.Backbone = require '../bower_components/backbone/backbone' # 'backbone-serverside'
-require '../vendor/scripts/backbone-mediator'
+GLOBAL.Backbone = require(bowerComponents + 'backbone/backbone') # 'backbone-serverside'
+
+GLOBAL.Backbone.$ = $
+
+require './vendor/scripts/backbone-mediator'
 # Instead of mediator, dummy might be faster yet suffice?
 #Mediator = class Mediator
 #  publish: (id, object) ->
 #    console.Log "Published #{id}: #{object}"
 #  @subscribe: () ->
 #  @unsubscribe: () ->
-	
+
+
+GLOBAL.ace = require: ()-> Range: {}
+#GLOBAL.ace = require '../public/lib/ace/ace.js'
+GLOBAL.Aether = Aether = require(bowerComponents + 'aether/build/aether')
+
+console.log JSON.stringify GLOBAL.Aether
+
+#return
+
 #Load user and start the code.
 $.ajax
-  url: 'https://codecombat.com/auth/whoami'
+  url: 'auth/whoami'
   type: "GET"
+  parse: true
   error: (error) -> "Bad Error. Can't connect to server or something. " + error
   success: (response) ->
     console.log "User: " + response
-    GLOBAL.window.userObject = JSON.parse response
+    GLOBAL.window.userObject = response # JSON.parse response
 
-    User = require './models/User'
+    User = require './app/models/User'
 
     #console.log new User(response)
 
     LevelLoader = require 'lib/LevelLoader'
     GoalManager = require 'lib/world/GoalManager'
     God = require 'lib/God'
+    SuperModel = require 'models/SuperModel'
 
     log = require 'winston'
 
@@ -98,7 +168,7 @@ $.ajax
         _.extend @, Backbone.Events
         @trigger 'statusUpdate', 'Starting simulation!'
         @retryDelayInSeconds = 10
-        @taskURL = 'http://codecombat.com/queue/scoring'
+        @taskURL = 'queue/scoring'
         @simulatedByYou = 0
 
       destroy: ->
@@ -132,6 +202,7 @@ $.ajax
       setupSimulationAndLoadLevel: (taskData, textStatus, jqXHR) =>
         return @handleNoGamesResponse() if jqXHR.status is 204
         @trigger 'statusUpdate', 'Setting up simulation!'
+
         @task = new SimulationTask(taskData)
         try
           levelID = @task.getLevelName()
@@ -188,13 +259,14 @@ $.ajax
 
       processResults: (simulationResults) ->
         taskResults = @formTaskResultsObject simulationResults
-        @sendResultsBackToServer taskResults
+        console.log taskResults
+        #@sendResultsBackToServer taskResults
 
       sendResultsBackToServer: (results) =>
         @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
         console.log "Sending result back to server!"
         $.ajax
-          url: "https://codecombat.com/queue/scoring"
+          url: "queue/scoring"
           data: results
           type: "PUT"
           success: @handleTaskResultsTransferSuccess
@@ -346,6 +418,8 @@ $.ajax
         if methodName is 'hear'
           aetherOptions.functionParameters = ['speaker', 'message', 'data']
         #console.log "creating aether with options", aetherOptions
+        #console.warn JSON.stringify Aether
+
         return new Aether aetherOptions
 
     class SimulationTask
@@ -395,4 +469,7 @@ $.ajax
         spellKeyToSourceMap
 
     sim = new Simulator()
-    sim.fetchAndSimulateTask()
+    #sim.fetchAndSimulateTask()
+    test = require './test.js'
+    console.log test
+    sim.setupSimulationAndLoadLevel test, "Testing...", status: 400

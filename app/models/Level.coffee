@@ -10,8 +10,13 @@ module.exports = class Level extends CocoModel
   serialize: (supermodel) ->
     o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
 
+
+    console.warn "Attributes: " + JSON.stringify(@attributes)
+
     # Figure out Components
     o.levelComponents = _.cloneDeep (lc.attributes for lc in supermodel.getModels LevelComponent)
+
+
     @sortThangComponents o.thangs, o.levelComponents
     @fillInDefaultComponentConfiguration o.thangs, o.levelComponents
 
