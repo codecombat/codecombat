@@ -14,7 +14,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     play: "Oyna"
     retry: "Yeniden Dene"
 
-  birimler:
+  units:
     second: "saniye"
     seconds: "saniyeler"
     minute: "dakika"
@@ -445,7 +445,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     nutshell_description: "Seviye editöründe sağladığımız tüm içerik, seviye düzenleme sırasında kullanmanız için uygundur. Fakat ileride bu öğelerin kullanımını kısıtlama hakkını saklı tutmaktayız."
     canonical: "Belirleyici, hukuki nitelikte olan, bu dökümanın İngilizce sürümüdür. Çeviriler arasında tutarsızlık olması halinde İngilizce dökümanda yer alan hüküm dikkate alınacaktır."
 
-  Katkıda bulun:
+  contribute:
 #    page_title: "Contributing"
     character_classes_title: "Karakter Sınıfları"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
@@ -555,7 +555,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     counselor_title: "Danışman"
     counselor_title_description: "(Uzman/Öğretmen)"
 
-#  ladder:
+  ladder:
 #    please_login: "Please log in first before playing a ladder game."
 #    my_matches: "My Matches"
 #    simulate: "Simulate"
@@ -603,7 +603,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
 #    so_ready: "I Am So Ready for This"
 
-#  loading_error:
+  loading_error:
     could_not_load: "Yüklenemiyor"
     connection_failure: "Bağlantı hatası."
     unauthorized: "Giriş yapmalısınız. Çerezlere izin verdiniz mi?"
@@ -616,7 +616,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     server_error: "Sunucu hatası."
     unknown: "Bilinmeyen hata."
 
-#  resources:
+  resources:
     your_sessions: "Oturumlarınız"
     level: "Seviye"
     social_network_apis: "Sosyal Ağ API'leri"
