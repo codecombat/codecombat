@@ -30,6 +30,10 @@ module.exports = class RootView extends CocoView
     $el ?= @$el.find('.main-content-area')
     super($el)
 
+  renderScrollbar: ->
+    $('.nano-pane').css('display','none')
+    $ -> $('.nano').nanoScroller()
+
   afterInsert: ->
     # force the browser to scroll to the hash
     # also messes with the browser history, so perhaps come up with a better solution
@@ -38,7 +42,7 @@ module.exports = class RootView extends CocoView
     location.hash = ''
     location.hash = hash
     @buildLanguages()
-    renderScrollbar()
+    @renderScrollbar()
     #@$('.antiscroll-wrap').antiscroll()  # not yet, buggy
 
   afterRender: ->
