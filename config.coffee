@@ -70,7 +70,7 @@ exports.config =
     stylesheets:
       defaultExtension: 'sass'
       joinTo:
-        'stylesheets/app.css': /^(app|vendor)/
+        'stylesheets/app.css': /^(app|vendor|bower_components)/
       order:
         before: [
           'app/styles/bootstrap.scss'
