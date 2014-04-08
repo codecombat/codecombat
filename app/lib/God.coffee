@@ -24,7 +24,7 @@ module.exports = class God
     @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
     @fillWorkerPool()
 
-  workerPath: '/javascripts/workers/worker_world.js'
+  @workerPath: '/javascripts/workers/worker_world.js'
 
   onTomeCast: (e) ->
     return if @dead
@@ -46,7 +46,8 @@ module.exports = class God
     @createWorker()
 
   createWorker: ->
-    worker = new Worker @workerPath
+    console.log "Loading " + @constructor.workerPath
+    worker = new Worker @constructor.workerPath
     worker.creationTime = new Date()
     worker.addEventListener 'message', @onWorkerMessage
     worker
@@ -257,7 +258,7 @@ class Angel
 
   testWorker: =>
     unless @worker.initialized
-      console.warn "Worker", @id, "hadn't even loaded the scripts yet after", @infiniteLoopIntervalDuration, "ms."
+      console.warn "Worker", @id, " hadn't even loaded the scripts yet after", @infiniteLoopIntervalDuration, "ms."
       return
     @worker.postMessage {func: 'reportIn'}
     @condemnTimeout = _.delay @condemnWorker, @infiniteLoopTimeoutDuration

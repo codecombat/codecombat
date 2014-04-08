@@ -1,11 +1,6 @@
+#GLOBAL.Aether = require 'aether'
+
 server = "http://codecombat.com"
-
-m = require 'module'
-request = require 'request'
-
-console.warn process.cwd()
-
-
 # Disabled modules
 disable = [
   'lib/AudioPlayer'
@@ -14,15 +9,31 @@ disable = [
 
 bowerComponents = "./bower_components/"
 
+# the path used for the loader. __dirname is module dependant.
+path = __dirname
+
+m = require 'module'
+request = require 'request'
+
+originalLoader = m._load
+
+unhook = () ->
+  m._load = originalLoader
+
+hook = () ->
+  m._load = hookedLoader
+
+
 # Global emulated stuff
 GLOBAL.window = GLOBAL
 GLOBAL.Worker = require('webworker-threads').Worker
 GLOBAL.tv4 = require('tv4').tv4
 
-
-
-#ace.require("ace/range").Range
-
+GLOBAL.navigator =
+#  userAgent: "nodejs"
+  platform: "headless_client"
+  vendor: "codecombat"
+  opera: false
 
 store = {}
 GLOBAL.localStorage = 
@@ -30,19 +41,12 @@ GLOBAL.localStorage =
     setItem: (key, s) => store[key] = s
     removeItem: (key) => delete store[key]
 
-# the path used for the loader. __dirname is module dependant.
-path = __dirname
 
 # Hook node.js require. See https://github.com/mfncooper/mockery/blob/master/mockery.js
 # The signature of this function *must* match that of Node's Module._load,
 # since it will replace that.
 # (Why is there no easier way?)
 hookedLoader = (request, parent, isMain) ->
-  throw new Error("Loader has not been hooked")  unless originalLoader
-
-  if request is 'lib/God'
-    console.log 'Thou art god.'
-    god = true
 
   # Mock UI stuff.
   if request in disable or ~request.indexOf('templates')
@@ -54,11 +58,62 @@ hookedLoader = (request, parent, isMain) ->
     request = 'lodash'
 
   console.log "loading " + request
-  loaded = originalLoader request, parent, isMain
-  if god
-    loaded.workerPath = path + '/assets/javascripts/workers/worker_world.js'
+  originalLoader request, parent, isMain
 
-  loaded
+
+#jQuery wrapped for compatibility purposes. Poorly.
+GLOBAL.$ = GLOBAL.jQuery = (input) ->
+  console.log 'Ignored jQuery: ' + input
+  append: (input)-> exports: ()->
+
+
+$.ajax= (options) ->
+  responded = false
+
+  url = options.url
+  if url.indexOf('http')
+    url = '/' + url unless url[0] is '/'
+    url = server + url
+
+  #    data = options.data
+  #   if options.dataType is 'json'
+  #    data = JSON.parse options.data
+
+  console.log "Requesting: " + JSON.stringify options
+  console.log "URL: " + url
+  request
+    url: url
+    json: options.parse
+    method: options.type
+    body: options.data
+    , (error, response, body) ->
+      console.log "HTTP Request:" + JSON.stringify options
+
+      if responded
+        console.log "\t↳Already returned before."
+        return
+
+      if (error)
+        console.log "\t↳Returned: error: #{error}"
+        options.error(error) if options.error?
+      else
+        console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}"
+        options.success(body, response, status: response.statusCode) if options.success?
+      options.complete(status: response.statusCode) if options.complete?
+      responded = true
+
+$.extend = (deep, into, from) ->
+  copy = clone(from, deep);
+  if into
+    _.assign into, copy
+    copy = into
+  copy
+
+$.isArray = (object) ->
+  _.isArray object
+
+$.isPlainObject = (object) ->
+  _.isPlainObject object
 
 
 do (setupLodash = this) ->
@@ -67,60 +122,12 @@ do (setupLodash = this) ->
   _.string = _.str
   _.mixin _.str.exports()
 
-# Set up new loader.
-originalLoader = m._load;
-m._load = hookedLoader;
 
-#jQuery wrapped for compatibility purposes. Poorly.
-GLOBAL.$ = (input) ->
-  console.log 'Ignored jQuery: ' + input
-  append: (input)-> console.log 'Not appending ' + input
-
-
-$.ajax= (options) ->
-    url = options.url
-    if url.indexOf('http')
-      url = '/' + url unless url[0] is '/'
-      url = server + url
-
-#    data = options.data
- #   if options.dataType is 'json'
-  #    data = JSON.parse options.data
-
-    console.log "Requesting: " + JSON.stringify options
-    console.log "URL: " + url
-    request
-      url: url
-      json: options.parse
-      method: options.type
-      body: options.data
-      , (error, response, body) ->
-        console.log "HTTP Request:" + JSON.stringify options
-        if (error)
-          console.log "\t↳Returned: error: #{error}"
-          options.error(error) if options.error?
-        else
-          console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}"
-          options.success(body, response, status: response.statusCode) if options.success?
-        options.complete(status: response.statusCode) if options.complete?
-
-$.extend = (deep, into, from) ->
-    copy = clone(from, deep);
-    if into
-      _.assign into, copy
-      copy = into
-    copy
-
-$.isArray = (object) ->
-    _.isArray object
-
-$.isPlainObject = (object) ->
-    _.isPlainObject object
-
-# load Backbone
-GLOBAL.Backbone = require(bowerComponents + 'backbone/backbone') # 'backbone-serverside'
-
-GLOBAL.Backbone.$ = $
+# load Backbone. Needs hooked loader to reroute underscore to lowdash.
+hook()
+GLOBAL.Backbone = require('./bower_components/backbone/backbone')
+unhook()
+Backbone.$ = $
 
 require './vendor/scripts/backbone-mediator'
 # Instead of mediator, dummy might be faster yet suffice?
@@ -130,14 +137,11 @@ require './vendor/scripts/backbone-mediator'
 #  @subscribe: () ->
 #  @unsubscribe: () ->
 
+GLOBAL.Aether = require 'aether'
 
-GLOBAL.ace = require: ()-> Range: {}
-#GLOBAL.ace = require '../public/lib/ace/ace.js'
-GLOBAL.Aether = Aether = require(bowerComponents + 'aether/build/aether')
+# Set up new loader.
+hook()
 
-console.log JSON.stringify GLOBAL.Aether
-
-#return
 
 #Load user and start the code.
 $.ajax
@@ -153,10 +157,15 @@ $.ajax
 
     #console.log new User(response)
 
+    God = require 'lib/God'
+
+    God.workerPath = path + '/app/assets/javascripts/workers/worker_world.js'
+
     LevelLoader = require 'lib/LevelLoader'
     GoalManager = require 'lib/world/GoalManager'
     God = require 'lib/God'
     SuperModel = require 'models/SuperModel'
+
 
     log = require 'winston'
 
