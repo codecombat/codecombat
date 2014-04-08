@@ -3,6 +3,8 @@ template = require 'templates/employers'
 app = require 'application'
 User = require 'models/User'
 CocoCollection = require 'models/CocoCollection'
+employerSignupTemplate = require 'templates/modal/employer_signup_modal'
+ModalView = require 'views/kinds/ModalView'
 
 class CandidatesCollection extends CocoCollection
   url: '/db/user/x/candidates'
@@ -13,7 +15,7 @@ module.exports = class EmployersView extends View
   template: template
 
   events:
-    'click tr': 'onCandidateClicked'
+    'click tbody tr': 'onCandidateClicked'
 
   constructor: (options) ->
     super options
@@ -83,5 +85,6 @@ module.exports = class EmployersView extends View
       url = "/account/profile/#{id}"
       app.router.navigate url, {trigger: true}
     else
-      console.log 'gotta prompt them to sign up'
-      alert 'sign up for dat my twisted archon'
+      employerSignupModal = new ModalView()
+      employerSignupModal.template = employerSignupTemplate
+      @openModalView employerSignupModal

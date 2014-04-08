@@ -9,6 +9,12 @@ block content
         span(data-i18n="account_profile.edit_settings") Edit Settings
   
   if user.get('jobProfile')
+    if me.isAdmin()
+      button.btn#toggle-job-profile-approved
+        i.icon-cog
+        span(data-i18n='account_profile.approved').approved Approved
+        span(data-i18n='account_profile.approved').not-approved Not Approved
+
     - var profile = user.get('jobProfile');
     .profile-header-container
       img(src=photoURL).img-thumbnail.pull-left
@@ -51,6 +57,14 @@ block content
               div.pull-right= school.duration
               strong #{school.degree} at #{school.school}
               .clearfix
+
+          if user.get('jobProfileNotes') || me.isAdmin()
+            h3 Our Notes
+            - var notes = user.get('jobProfileNotes') || '';
+            if me.isAdmin()
+              textarea#job-profile-notes!= notes
+            else
+              p!= marked(notes)
 
         .col-md-4
           if profile.projects.length

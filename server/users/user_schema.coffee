@@ -90,7 +90,7 @@ UserSchema = c.object {},
         name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "Twitter"'}
         link: c.url {title: 'Link', description: 'The URL.', default: 'http://codecombat.com'}
   jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
-
+  jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: "CodeCombat's notes on the candidate.", format: 'markdown', default: ''}
 c.extendBasicProperties UserSchema, 'user'
 
 module.exports = UserSchema

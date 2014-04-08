@@ -21,7 +21,7 @@ block content
         a(href="#password-pane", data-toggle="tab", data-i18n="account_settings.password_tab") Password
       li
         a(href="#email-pane", data-toggle="tab", data-i18n="account_settings.emails_tab") Emails
-      if me.isAdmin()
+      if showsJobProfileTab
         li
           a(href="#job-profile-pane", data-toggle="tab", data-i18n="account_settings.job_profile_tab") Job Profile
 

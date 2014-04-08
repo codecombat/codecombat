@@ -73,6 +73,7 @@ module.exports = class SettingsView extends View
     c.chosenPhoto = me.getPhotoURL()
     c.subs = {}
     c.subs[sub] = 1 for sub in c.me.get('emailSubscriptions') or ['announcement', 'notification', 'tester', 'level_creator', 'developer']
+    c.showsJobProfileTab = me.isAdmin() or me.get('jobProfile') or location.hash.search('job-profile-') isnt -1
     c
 
   getSubscriptions: ->

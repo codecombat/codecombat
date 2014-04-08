@@ -16,7 +16,7 @@ privateProperties = [
   'gplusID', 'music', 'volume', 'aceConfig'
 ]
 candidateProperties = [
-  'jobProfile', 'jobProfileApproved'
+  'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
 ]
 
 UserHandler = class UserHandler extends Handler
@@ -35,14 +35,18 @@ UserHandler = class UserHandler extends Handler
     super(arguments...)
     @editableProperties.push('permissions') unless config.isProduction
 
+  getEditableProperties: (req, document) ->
+    props = super req, document
+    props.push 'jobProfileApproved', 'jobProfileNotes' if req.user.isAdmin()
+    props
+
   formatEntity: (req, document) ->
     return null unless document?
     obj = document.toObject()
     delete obj[prop] for prop in serverProperties
     includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
-    #includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.permissions ? [])))
-    includeCandidate = includePrivates or (req.user and ('employer' in (req.user.permissions ? [])))  # testing
+    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.permissions ? [])))
     delete obj[prop] for prop in candidateProperties unless includeCandidate
     obj.emailHash = @buildEmailHash document
     return obj
@@ -221,16 +225,17 @@ UserHandler = class UserHandler extends Handler
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
     #query = {'jobProfileApproved': true, 'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
     query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}  # testing
+    query.jobProfileApproved = true unless req.user.isAdmin()
     selection = 'jobProfile'
-    if authorized
-      selection += ' email'
+    selection += ' email' if authorized
+    selection += ' jobProfileApproved' if req.user.isAdmin()
     User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       candidates = (@formatCandidate(authorized, doc) for doc in documents)
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
-    fields = if authorized then ['jobProfile', '_id'] else ['jobProfile']
+    fields = if authorized then ['jobProfile', 'jobProfileApproved', '_id'] else ['jobProfile']
     obj = _.pick document.toObject(), fields
     obj.emailHash = @buildEmailHash document
     subfields = ['country', 'city', 'lookingFor', 'skills', 'experience', 'updated']
