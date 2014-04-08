@@ -1,0 +1,159 @@
+module.exports = class ResourceManager extends Backbone.Model
+  num: 0
+  denom: 0
+  showing: false
+  resources:{} # models and collections
+  progress: 0
+
+  constructor: ()->
+
+  addModelResource: (modelOrCollection, name, fetchOptions, value=1)->
+  	@checkName(name)
+  	res = new ModelResource(modelOrCollection, name, fetchOptions)
+  	storeResource: (name, res, value)
+  	return res
+
+  addRequestResource: (name, jqxhrOptions, value=1)->
+  	@checkName(name)
+  	res = new RequestResource(name, jqxhrOptions)
+  	storeResource: (name, res, value)
+  	return res
+
+  addSomethingResource: (name, value=1)->
+  	@checkName(name)
+  	res = new SomethingResource(name)
+  	storeResource: (name, res, value)
+  	return res
+
+  checkName: (name)->
+  	if name in resources
+  		throw new Error('Resource name has been used.')
+
+  storeResource: (name, resource, value)->
+  	@resources[name] = res
+  	@listenToOnce(res, 'resource:loaded', @updateProgress)
+  	@listenToOnce(res, 'resource:failed', @onResourceFailed)
+  	@denom += value
+
+  loadResources: ()->
+  	for name, res of @resources
+  	  res.load()
+
+  updateProgress: (r)->  
+    @num += r.value if r.isLoaded  
+    @progress = if denom then num / denom else 0
+    @trigger('resourceManager:updateProgress', @progress)
+
+  onResourceFailed: (r)->
+
+  getResource: (name)->
+  	return @resources[name]
+
+
+
+class Resource
+  dependencies: []
+  name: null
+  isLoading: false
+  isLoaded: false
+  model: null
+
+  addDependency: (resource)->
+  	@dependecies.push(resource)
+
+  markLoaded: ()->
+  	@isLoaded = true
+  	@trigger('resource:loaded', @) if @isLoading
+  	@isLoading = false
+
+  markFailed: ()->
+  	@isloaded = false
+  	@trigger('resource:failed', @) if @isLoading
+  	@isLoading = false
+
+  load: ()->
+  getModel: ()-> @model
+
+
+
+class ModelResource extends Resource
+  constructor: (modelOrCollection, name, fetchOptions)->
+    @model = modelOrCollection
+	@name = name
+	@fetchOptions = fetchOptions
+	@loadDeferred = null
+
+  load: ()->
+  	return @loadDeferred.promise() if @isLoading
+
+  	@isLoading = true
+  	@loadDeferred = $.Deferred()
+  	$.when.apply($, @loadDependencies())
+  	  .then(onLoadDependenciesSuccess, onLoadDependenciesFailed)
+  	  .always(()=> @isLoading = false)
+
+  	return @loadDeferred.promise()
+
+  loadDependencies: ()->
+  	promises = []
+  	for dep in @dependecies
+  	  continue if dep.isLoaded
+  	  promises.push(dep.load())
+
+  	return promises
+
+  onLoadDependenciesSuccess: ()->
+  	@model.fetch(@fetchOptions)
+
+  	@listenToOnce(@model, 'sync' ()=>
+  	  @markLoaded()
+  	  @loadDeferred.resolve(@)
+  	)
+
+  	@listenToOnce(@model, 'error', ()=>
+  	  @markFailed()
+  	  @loadDeferred.reject(@)
+  	)
+
+  onLoadDependenciesFailed: ()->
+  	@markFailed()
+  	@loadDeferred.reject(@)
+
+
+
+class RequestResource extends Resource
+  constructor: (name, jqxhrOptions)->
+    @model = null
+	@name = name
+	@jqxhrOptions = jqxhrOptions
+
+  load: ()->
+  	return @model.promise() if @isLoading
+
+  	@isLoading = true
+  	$.when.apply($, @loadDependencies())
+  	  .then(onLoadDependenciesSuccess, onLoadDependenciesFailed)
+  	  .always(()=> @isLoading = false)
+
+  	return @model.promise()
+
+  loadDependencies: ()->
+  	promises = []
+  	for dep in @dependecies
+  	  continue if dep.isLoaded
+  	  promises.push(dep.load())
+
+  	return promises
+
+  onLoadDependenciesSuccess: ()->
+  	@model = $.ajax(@jqxhrOptions)
+  	@model.done(()=> @markLoaded()).failed(()=> @markFailed())
+
+  onLoadDependenciesFailed: ()->
+  	@markFailed()
+
+
+
+class SomethingResource extends Resource
+  constructor: (name)->
+	@name = name
