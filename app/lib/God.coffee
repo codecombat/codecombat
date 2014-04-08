@@ -24,7 +24,7 @@ module.exports = class God
     @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
     @fillWorkerPool()
 
-  @workerPath: '/javascripts/workers/worker_world.js'
+  @worker: '/javascripts/workers/worker_world.js'
 
   onTomeCast: (e) ->
     return if @dead
@@ -46,8 +46,8 @@ module.exports = class God
     @createWorker()
 
   createWorker: ->
-    console.log "Loading " + @constructor.workerPath
-    worker = new Worker @constructor.workerPath
+    console.log "Loading " + God.worker
+    worker = new Worker God.worker
     worker.creationTime = new Date()
     worker.addEventListener 'message', @onWorkerMessage
     worker
@@ -271,6 +271,7 @@ class Angel
     @worker.addEventListener 'message', @onWorkerMessage
 
   onWorkerMessage: (event) =>
+    console.log "EVENT " + event
     switch event.data.type
       when 'worker-initialized'
         console.log "Worker", @id, "initialized after", ((new Date()) - @worker.creationTime), "ms (we had been waiting for it)"

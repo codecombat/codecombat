@@ -27,6 +27,7 @@ hook = () ->
 # Global emulated stuff
 GLOBAL.window = GLOBAL
 GLOBAL.Worker = require('webworker-threads').Worker
+
 GLOBAL.tv4 = require('tv4').tv4
 
 GLOBAL.navigator =
@@ -159,7 +160,7 @@ $.ajax
 
     God = require 'lib/God'
 
-    God.workerPath = path + '/app/assets/javascripts/workers/worker_world.js'
+    God.worker = path + '/app/assets/javascripts/workers/worker_world.js'
 
     LevelLoader = require 'lib/LevelLoader'
     GoalManager = require 'lib/world/GoalManager'
