@@ -5,8 +5,8 @@ call print_dashed_seperator
 
 call get_array ..\\localisation\\languages.coco languages language_count
 for /l %%i in (1,1,%language_count%) do (
-	call get_text !languages[%%i]! global_native global native
-	echo   [%%i] !global_native!
+	call get_text !languages[%%i]! global_description global description
+	echo   [%%i] !global_description!
 )
 
 goto:get_localisation_id

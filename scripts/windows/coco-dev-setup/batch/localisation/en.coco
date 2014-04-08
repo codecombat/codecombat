@@ -2,6 +2,7 @@
 <variables>
 	<global>
 		<native>English</native>
+		<description>English</description>
 		<intro>From now on we'll send our feedback in English!</intro>
 	</global>
 	<install>

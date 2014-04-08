@@ -2,6 +2,7 @@
 <variables>
 	<global>
 		<native>Nederlands</native>
+		<description>Dutch</description>
 		<intro>Vanaf nu geven we onze feedback in het Nederlands!</intro>
 	</global>
 	<install>

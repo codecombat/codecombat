@@ -2,6 +2,7 @@
 <variables>
 	<global>
 		<native>中文</native>
+		<description>Chinese</description>
 		<intro>From now on we'll send our feedback in English!</intro>
 	</global>
 	<install>
