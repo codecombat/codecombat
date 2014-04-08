@@ -61,6 +61,7 @@
 		<mongodb>正在为你设置 MongoDB 数据库...</mongodb>
 		<db>正在下载 CodeCombat 数据库的最新版本...</db>
 		<script>Preparing the automatic startup script for you...</script>
+		<close>Don't close!</close>
 	</npm>
 	<error>
 		<path>这个路径已经存在, 你想要覆盖它吗?</path>

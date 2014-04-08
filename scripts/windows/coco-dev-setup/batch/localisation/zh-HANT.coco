@@ -61,6 +61,7 @@
 		<mongodb>Setting up a MongoDB database for you...</mongodb>
 		<db>Downloading the last version of the CodeCombat database...</db>
 		<script>Preparing the automatic startup script for you...</script>
+		<close>Don't close!</close>
 	</npm>
 	<error>
 		<path>That path already exists, are you sure you want to overwrite it?</path>
