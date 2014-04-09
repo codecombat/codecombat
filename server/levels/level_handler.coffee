@@ -38,8 +38,7 @@ LevelHandler = class LevelHandler extends Handler
     return @getLeaderboardFacebookFriends(req, res, args[0]) if args[1] is 'leaderboard_facebook_friends'
     return @getLeaderboardGPlusFriends(req, res, args[0]) if args[1] is 'leaderboard_gplus_friends'
     return @getHistogramData(req, res, args[0]) if args[1] is 'histogram_data'
-    
-    return @sendNotFoundError(res)
+    super(arguments...)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
     @getDocumentForIdOrSlug id, (err, level) =>

@@ -3,6 +3,7 @@ mongoose = require('mongoose')
 Grid = require 'gridfs-stream'
 errors = require './errors'
 log = require 'winston'
+Patch = require '../patches/Patch'
 
 PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
 FETCH_LIMIT = 200
@@ -27,8 +28,7 @@ module.exports = class Handler
   getEditableProperties: (req, document) ->
     props = @editableProperties.slice()
     isBrandNew = req.method is 'POST' and not req.body.original
-    if isBrandNew
-      props = props.concat @postEditableProperties
+    props = props.concat @postEditableProperties if isBrandNew
 
     if @modelClass.schema.uses_coco_permissions
       # can only edit permissions if this is a brand new property,
@@ -37,8 +37,8 @@ module.exports = class Handler
       if isBrandNew or isOwner or req.user?.isAdmin()
         props.push 'permissions'
 
-    if @modelClass.schema.uses_coco_versions
-      props.push 'commitMessage'
+    props.push 'commitMessage' if @modelClass.schema.uses_coco_versions
+    props.push 'allowPatches' if @modelClass.schema.is_patchable
 
     props
 
@@ -93,7 +93,31 @@ module.exports = class Handler
 
   getByRelationship: (req, res, args...) ->
     # this handler should be overwritten by subclasses
+    if @modelClass.schema.is_patchable
+      return @getPatchesFor(req, res, args[0]) if req.route.method is 'get' and args[1] is 'patches'
+      return @setListening(req, res, args[0]) if req.route.method is 'put' and args[1] is 'listen'
     return @sendNotFoundError(res)
+
+  getPatchesFor: (req, res, id) ->
+    query = { 'target.original': mongoose.Types.ObjectId(id), status: req.query.status or 'pending' }
+    Patch.find(query).sort('-created').exec (err, patches) =>
+      return @sendDatabaseError(res, err) if err
+      patches = (patch.toObject() for patch in patches) 
+      @sendSuccess(res, patches)
+
+  setListening: (req, res, id) ->
+    @getDocumentForIdOrSlug id, (err, document) =>
+      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, document, 'get')
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless document?
+      listeners = document.get('listeners') or []
+      me = req.user.get('_id')
+      listeners = (l for l in listeners when not l.equals(me))
+      listeners.push me if req.body.on
+      document.set 'listeners', listeners
+      document.save (err, document) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, @formatEntity(req, document))
 
   search: (req, res) ->
     unless @modelClass.schema.uses_coco_search
@@ -224,6 +248,7 @@ module.exports = class Handler
     document.set('original', document._id)
     document.set('creator', req.user._id)
     @saveChangesToDocument req, document, (err) =>
+      console.log 'saved new version', document.toObject()
       return @sendBadInputError(res, err.errors) if err?.valid is false
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, @formatEntity(req, document))

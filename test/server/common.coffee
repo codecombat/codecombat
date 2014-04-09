@@ -10,6 +10,7 @@ _.mixin(_.str.exports())
 GLOBAL.mongoose = require 'mongoose'
 mongoose.connect('mongodb://localhost/coco_unittest')
 path = require('path')
+GLOBAL.testing = true
 
 models_path = [
   '../../server/articles/Article'
@@ -19,6 +20,7 @@ models_path = [
   '../../server/levels/sessions/LevelSession'
   '../../server/levels/thangs/LevelThangType'
   '../../server/users/User'
+  '../../server/patches/Patch'
 ]
 
 for m in models_path

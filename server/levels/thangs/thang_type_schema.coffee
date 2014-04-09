@@ -146,8 +146,9 @@ ThangTypeSchema.definitions =
   action: ActionSchema
   sound: SoundSchema
 
-c.extendBasicProperties(ThangTypeSchema, 'thang.type')
-c.extendSearchableProperties(ThangTypeSchema)
-c.extendVersionedProperties(ThangTypeSchema, 'thang.type')
+c.extendBasicProperties ThangTypeSchema, 'thang.type'
+c.extendSearchableProperties ThangTypeSchema
+c.extendVersionedProperties ThangTypeSchema, 'thang.type'
+c.extendPatchableProperties ThangTypeSchema
 
 module.exports = ThangTypeSchema

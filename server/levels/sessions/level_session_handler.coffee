@@ -13,7 +13,7 @@ class LevelSessionHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @getActiveSessions req, res if args.length is 2 and args[1] is 'active'
-    return @sendNotFoundError(res)
+    super(arguments...)
 
   getActiveSessions: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user.isAdmin()

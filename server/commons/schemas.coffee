@@ -59,6 +59,9 @@ patchableProps = ->
     _id: me.objectId(links: [{rel: "db", href: "/db/patch/{($)}"}], title: "Patch ID", description: "A reference to the patch.")
     status: { enum: ['pending', 'accepted', 'rejected', 'cancelled']}
   })
+  allowPatches: { type: 'boolean' }
+  listeners: me.array({title:'Listeners'},
+    me.objectId(links: [{rel: 'extra', href: "/db/user/{($)}"}]))
   
 me.extendPatchableProperties = (schema) ->
   schema.properties = {} unless schema.properties?
