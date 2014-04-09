@@ -11,7 +11,6 @@
             <nodejs>http://nodejs.org/dist/v0.10.25/x64/node-v0.10.25-x64.msi</nodejs>
             <ruby>http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353-x64.exe?direct</ruby>
             <python>http://s3.amazonaws.com/CodeCombatLargeFiles/python-64.msi</python>
-            <winsdk>http://download.microsoft.com/download/A/6/A/A6AC035D-DA3F-4F0C-ADA4-37C8E5D34E3D/winsdk_web.exe</winsdk>
             <vs12redist>http://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe</vs12redist>
         </b64>
         <general>

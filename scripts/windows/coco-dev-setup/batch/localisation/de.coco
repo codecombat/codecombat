@@ -2,6 +2,7 @@
 <variables>
 	<global>
 		<native>Deutsch</native>
+		<description>German</description>
 		<intro>Ab jetzt senden wir unser Feedback in Englisch!</intro>
 	</global>
 	<install>
@@ -61,6 +62,7 @@
 		<mongodb>Setting up a MongoDB database for you...</mongodb>
 		<database>Downloading the last version of the CodeCombat database...</database>
 		<script>Preparing the automatic startup script for you...</script>
+		<close>Don't close!</close>
 	</npm>
 	<error>
 		<path>Dieser Pfad existiert bereits. Willst du ihn wirklich überschreiben?</path>

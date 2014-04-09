@@ -83,9 +83,7 @@ module.exports = class Simulator extends CocoClass
     @setupGodSpells()
 
   setupGoalManager: ->
-    @god.goalManager = new GoalManager @world
-    @god.goalManager.goals = @god.level.goals
-    @god.goalManager.goalStates = @manuallyGenerateGoalStates()
+    @god.goalManager = new GoalManager @world, @level.get 'goals'
 
   commenceSimulationAndSetupCallback: ->
     @god.createWorld()
@@ -157,31 +155,20 @@ module.exports = class Simulator extends CocoClass
     return taskResults
 
   calculateSessionRank: (sessionID, goalStates, teamSessionMap) ->
-    humansDestroyed = goalStates["destroy-humans"].status is "success"
-    ogresDestroyed = goalStates["destroy-ogres"].status is "success"
-    if humansDestroyed is ogresDestroyed
+    ogreGoals = (goalState for key, goalState of goalStates when goalState.team is 'ogres')
+    humanGoals = (goalState for key, goalState of goalStates when goalState.team is 'humans')
+    ogresWon = _.all ogreGoals, {status: 'success'}
+    humansWon = _.all humanGoals, {status: 'success'}
+    if ogresWon is humansWon
       return 0
-    else if humansDestroyed and teamSessionMap["ogres"] is sessionID
+    else if ogresWon and teamSessionMap["ogres"] is sessionID
       return 0
-    else if humansDestroyed and teamSessionMap["ogres"] isnt sessionID
+    else if ogresWon and teamSessionMap["ogres"] isnt sessionID
       return 1
-    else if ogresDestroyed and teamSessionMap["humans"] is sessionID
+    else if humansWon and teamSessionMap["humans"] is sessionID
       return 0
     else
       return 1
-
-  manuallyGenerateGoalStates: ->
-    goalStates =
-      "destroy-humans":
-        keyFrame: 0
-        killed:
-          "Human Base": false
-        status: "incomplete"
-      "destroy-ogres":
-        keyFrame:0
-        killed:
-          "Ogre Base": false
-        status: "incomplete"
 
   setupGodSpells: ->
     @generateSpellsObject()
