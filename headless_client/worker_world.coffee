@@ -1,6 +1,7 @@
 # function to use inside a webworker.
 module.exports = (World, GoalManager) -> () ->
   #console.log World + " " +  GoalManager
+  console.log "Worker loaded."
 
   self.workerID = "Worker";
 
@@ -41,14 +42,13 @@ module.exports = (World, GoalManager) -> () ->
           ]
           id: self.workerID
 
-    return
-
   # so that we don't crash when debugging statements happen
   console.error = console.info = console.log
   self.console = console
 
 
   self.runWorld = (args) ->
+    console.log "Running world inside worker."
     self.postedErrors = {}
     self.t0 = new Date()
     self.firstWorld = args.firstWorld
@@ -64,12 +64,16 @@ module.exports = (World, GoalManager) -> () ->
       self.goalManager.worldGenerationWillBegin()
       self.world.setGoalManager self.goalManager
     catch error
+      #console.log "There has been an error inside thew worker... "
       self.onWorldError error
       return
     Math.random = self.world.rand.randf # so user code is predictable
+    #console.log "Loading frames."
     self.world.loadFrames self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress
-    return
+
+
   self.onWorldLoaded = onWorldLoaded = ->
+    #console.log "Worker.onWorldLoaded."
     self.goalManager.worldGenerationEnded()
     t1 = new Date()
     diff = t1 - self.t0
@@ -99,10 +103,10 @@ module.exports = (World, GoalManager) -> () ->
     t3 = new Date()
     console.log "And it was so: (" + (diff / self.world.totalFrames).toFixed(3) + "ms per frame,", self.world.totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms"
     self.world = null
-    return
 
   self.onWorldError = onWorldError = (error) ->
     if error instanceof Aether.problems.UserCodeProblem
+      #console.log "Aether userCodeProblem occured."
       unless self.postedErrors[error.key]
         problem = error.serialize()
         self.postMessage
@@ -113,18 +117,17 @@ module.exports = (World, GoalManager) -> () ->
     else
       console.log "Non-UserCodeError:", error.toString() + "\n" + error.stack or error.stackTrace
 
-    true
-
   self.onWorldLoadProgress = onWorldLoadProgress = (progress) ->
+    #console.log "Worker onWorldLoadProgress"
     self.postMessage
       type: "world-load-progress-changed"
       progress: progress
 
-    return
 
   self.abort = abort = ->
+    #console.log "Abort called for worker."
     if self.world and self.world.name
-      console.log "About to abort:", self.world.name, typeof self.world.abort
+      #console.log "About to abort:", self.world.name, typeof self.world.abort
       self.world.abort()  if typeof self.world isnt "undefined"
       self.world = null
     self.postMessage type: "abort"

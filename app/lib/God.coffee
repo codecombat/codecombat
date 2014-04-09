@@ -46,6 +46,7 @@ module.exports = class God
     @createWorker()
 
   createWorker: ->
+    console.log "Worker: " + God.worker
     worker = new Worker God.worker
     worker.creationTime = new Date()
     worker.addEventListener 'message', @onWorkerMessage(worker)
@@ -277,7 +278,7 @@ class Angel
 
   onWorkerMessage: (event) =>
 
-    #console.log "EVENT " + JSON.stringify event
+    console.log "EVENT " + JSON.stringify event
     switch event.data.type
       when 'worker-initialized'
         console.log "Worker", @id, "initialized after", ((new Date()) - @worker.creationTime), "ms (we had been waiting for it)"

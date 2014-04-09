@@ -1,5 +1,5 @@
 #GLOBAL.Aether = require 'aether'
-debug = false
+debug = true
 
 server = "http://codecombat.com"
 # Disabled modules
@@ -491,7 +491,7 @@ $.ajax
         spellKeyToSourceMap
 
     sim = new Simulator()
-    #sim.fetchAndSimulateTask()
-    test = require './test.js'
-    console.log test
-    sim.setupSimulationAndLoadLevel test, "Testing...", status: 400
+    sim.fetchAndSimulateTask()
+    #test = require './test2.js'
+    #console.log test
+    #sim.setupSimulationAndLoadLevel test, "Testing...", status: 400
