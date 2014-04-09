@@ -102,7 +102,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     spectate: "Наблюдать"
 
   contact:
-    contact_us: "Связаться с CodeCombat"
+    contact_us: "Связаться с Нами"
     welcome: "Мы рады вашему сообщению! Используйте эту форму, чтобы отправить нам email. "
     contribute_prefix: "Если вы хотите внести свой вклад в проект, зайдите на нашу "
     contribute_page: "страницу сотрудничества"
@@ -604,21 +604,21 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     so_ready: "Я полностью готов(а) для этого"
 
 #  loading_error:
-#    could_not_load: "Error loading from server"
-#    connection_failure: "Connection failed."
+#    could_not_load: "Ошибка соединения с сервером"
+#    connection_failure: "Соединение потеряно."
 #    unauthorized: "You need to be signed in. Do you have cookies disabled?"
 #    forbidden: "You do not have the permissions."
-#    not_found: "Not found."
+#    not_found: "Не наидено."
 #    not_allowed: "Method not allowed."
 #    timeout: "Server timeout."
 #    conflict: "Resource conflict."
 #    bad_input: "Bad input."
-#    server_error: "Server error."
-#    unknown: "Unknown error."
+#    server_error: "Ошибка сервера."
+#    unknown: "Неизвестная ошибка."
 
 #  resources:
 #    your_sessions: "Your Sessions"
-#    level: "Level"
+#    level: "Уровень"
 #    social_network_apis: "Social Network APIs"
 #    facebook_status: "Facebook Status"
 #    facebook_friends: "Facebook Friends"
