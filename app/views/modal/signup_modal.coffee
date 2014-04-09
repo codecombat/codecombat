@@ -62,3 +62,7 @@ module.exports = class SignupModalView extends View
     window.tracker?.trackEvent 'Finished Signup'
     @enableModalInProgress(@$el)
     createUser userObject, null, window.nextLevelURL
+
+  afterInsert: ->
+    super()
+    application.router.renderLoginButtons()
