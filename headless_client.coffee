@@ -91,17 +91,17 @@ $.ajax= (options) ->
     method: options.type
     body: options.data
     , (error, response, body) ->
-      console.log "HTTP Request:" + JSON.stringify options if debug
+      console.log "HTTP Request:" + JSON.stringify options
 
       if responded
-        console.log "\t↳Already returned before." if debug
+        console.log "\t↳Already returned before."
         return
 
       if (error)
         console.warn "\t↳Returned: error: #{error}"
         options.error(error) if options.error?
       else
-        console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}" if debug
+        console.warn "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}"
         options.success(body, response, status: response.statusCode) if options.success?
       options.complete(status: response.statusCode) if options.complete?
       responded = true
@@ -147,10 +147,13 @@ GLOBAL.Aether = require 'aether'
 hook()
 
 
-#Load user and start the code.
+login = require './login.coffee' #should contain an object containing they keys 'username' and 'password'
+
+#Login user and start the code.
 $.ajax
-  url: 'auth/whoami'
-  type: "GET"
+  url: '/auth/login'
+  type: "POST"
+  data: login
   parse: true
   error: (error) -> "Bad Error. Can't connect to server or something. " + error
   success: (response) ->
@@ -192,6 +195,7 @@ $.ajax
         $.ajax
           url: @taskURL
           type: "GET"
+          parse: true
           error: @handleFetchTaskError
           success: @setupSimulationAndLoadLevel
 
