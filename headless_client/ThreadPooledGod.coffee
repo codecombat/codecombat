@@ -1,5 +1,13 @@
+# This has merely been started.
+# It uses a native threadpool and native threads instead of god and a webworker.
+# It doesn't create to serialize stuff that's being acessed by the worker.
+# I will finish it if the current God is too slow.
+
+
+
 {now} = require 'lib/world/world_utils'
 World = require 'lib/world/world'
+WebworkerThreads = require 'webworker-threads'
 
 ## Uncomment to imitate IE9 (and in world_utils.coffee)
 #window.Worker = null
@@ -46,18 +54,20 @@ module.exports = class God
     @createWorker()
 
   createWorker: ->
+    console.log "Loading " + God.worker
     worker = new Worker God.worker
     worker.creationTime = new Date()
-    worker.addEventListener 'message', @onWorkerMessage(worker)
+    worker.addEventListener 'message', @onWorkerMessage
     worker
 
-  onWorkerMessage: (worker) => (event) =>
-    console.log "event.data.type: " + JSON.stringify event
-    console.warn event.data.type is 'worker-initialized'
+  onWorkerMessage: (event) =>
+
+    console.log "EVENT " + event
+    worker = event.target
     if event.data.type is 'worker-initialized'
       #console.log @id, "worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
       worker.initialized = true
-      worker.removeEventListener 'message', @onWorkerMessage(worker)
+      worker.removeEventListener 'message', @onWorkerMessage
 
   getAngel: ->
     freeAngel = null
@@ -90,8 +100,6 @@ module.exports = class God
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
 
   createWorld: ->
-
-    console.warn "Creating World."
     #console.log @id + ': "Let there be light upon', @world.name + '!"'
     unless Worker?  # profiling world simulation is easier on main thread, or we are IE9
       setTimeout @simulateWorld, 1
@@ -113,7 +121,6 @@ module.exports = class God
     }}
 
   beholdWorld: (angel, serialized, goalStates) ->
-    console.log "Behold world."
     worldCreation = angel.started
     angel.free()
     return if @latestWorldCreation? and worldCreation < @latestWorldCreation
@@ -125,7 +132,6 @@ module.exports = class God
     @lastSerializedWorldFrames = serialized.frames
 
   finishBeholdingWorld: (newWorld) =>
-    console.log "Beholding finished"
     newWorld.findFirstChangedFrame @world
     @world = newWorld
     errorCount = (t for t in @world.thangs when t.errorsOut).length
@@ -146,7 +152,7 @@ module.exports = class God
     userCodeMap
 
   destroy: ->
-    #TODO: Get back. worker.removeEventListener 'message', @onWorkerMessage(worker) for worker in @workerPool ? []
+    worker.removeEventListener 'message', @onWorkerMessage for worker in @workerPool ? []
     angel.destroy() for angel in @angels
     @dead = true
     Backbone.Mediator.unsubscribe('tome:cast-spells', @onTomeCast, @)
@@ -191,7 +197,7 @@ module.exports = class God
     @testWorld.ended = true
     system.finish @testWorld.thangs for system in @testWorld.systems
     @t2 = now()
-  #### End bad testing code ####
+#### End bad testing code ####
 
 
 class Angel
@@ -214,7 +220,6 @@ class Angel
 
   spawnWorker: ->
     @worker = @god.getWorker()
-    console.warn JSON.stringify @worker
     @listen()
 
   enslave: ->
@@ -234,7 +239,7 @@ class Angel
       onWorkerMessage = @onWorkerMessage
       _.delay ->
         worker.terminate()
-        worker.removeEventListener 'message', onWorkerMessage(worker)
+        worker.removeEventListener 'message', onWorkerMessage
       , 3000
       @worker = null
     @
@@ -246,7 +251,7 @@ class Angel
 
   terminate: =>
     @worker?.terminate()
-    #TODO: Put back in. @worker?.removeEventListener 'message', @onWorkerMessage(worker)
+    @worker?.removeEventListener 'message', @onWorkerMessage
     @worker = null
     return if @dead
     @free()
@@ -277,24 +282,24 @@ class Angel
 
   onWorkerMessage: (event) =>
 
-    #console.log "EVENT " + JSON.stringify event
+    console.log "EVENT " + event
     switch event.data.type
-      when 'worker-initialized'
-        console.log "Worker", @id, "initialized after", ((new Date()) - @worker.creationTime), "ms (we had been waiting for it)"
-      when 'new-world'
-        @god.beholdWorld @, event.data.serialized, event.data.goalStates
-      when 'world-load-progress-changed'
-        Backbone.Mediator.publish 'god:world-load-progress-changed', event.data unless @dead
-      when 'console-log'
-        console.log "|" + @god.id + "'s " + @id + "|", event.data.args...
-      when 'user-code-problem'
-        @god.angelUserCodeProblem @, event.data.problem
-      when 'abort'
-        #console.log @id, "aborted."
-        clearTimeout @abortTimeout
-        @free()
-        @god.angelAborted @
-      when 'reportIn'
-        clearTimeout @condemnTimeout
-      else
-        console.log "Unsupported message:", event.data
+    when 'worker-initialized'
+      console.log "Worker", @id, "initialized after", ((new Date()) - @worker.creationTime), "ms (we had been waiting for it)"
+    when 'new-world'
+      @god.beholdWorld @, event.data.serialized, event.data.goalStates
+    when 'world-load-progress-changed'
+      Backbone.Mediator.publish 'god:world-load-progress-changed', event.data unless @dead
+    when 'console-log'
+      console.log "|" + @god.id + "'s " + @id + "|", event.data.args...
+    when 'user-code-problem'
+      @god.angelUserCodeProblem @, event.data.problem
+    when 'abort'
+    #console.log @id, "aborted."
+      clearTimeout @abortTimeout
+      @free()
+      @god.angelAborted @
+    when 'reportIn'
+      clearTimeout @condemnTimeout
+    else
+      console.log "Unsupported message:", event.data

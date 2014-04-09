@@ -1,4 +1,5 @@
 #GLOBAL.Aether = require 'aether'
+debug = false
 
 server = "http://codecombat.com"
 # Disabled modules
@@ -51,20 +52,20 @@ hookedLoader = (request, parent, isMain) ->
 
   # Mock UI stuff.
   if request in disable or ~request.indexOf('templates')
-    console.log 'Ignored ' + request
+    console.log 'Ignored ' + request if debug
     return class fake
   else if '/' in request and not (request[0] is '.') or request is 'application'
     request = path + '/app/' + request
   else if request is 'underscore'
     request = 'lodash'
 
-  console.log "loading " + request
+  console.log "loading " + request if debug
   originalLoader request, parent, isMain
 
 
 #jQuery wrapped for compatibility purposes. Poorly.
 GLOBAL.$ = GLOBAL.jQuery = (input) ->
-  console.log 'Ignored jQuery: ' + input
+  console.log 'Ignored jQuery: ' + input if debug
   append: (input)-> exports: ()->
 
 
@@ -80,25 +81,25 @@ $.ajax= (options) ->
   #   if options.dataType is 'json'
   #    data = JSON.parse options.data
 
-  console.log "Requesting: " + JSON.stringify options
-  console.log "URL: " + url
+  console.log "Requesting: " + JSON.stringify options if debug
+  console.log "URL: " + url if debug
   request
     url: url
     json: options.parse
     method: options.type
     body: options.data
     , (error, response, body) ->
-      console.log "HTTP Request:" + JSON.stringify options
+      console.log "HTTP Request:" + JSON.stringify options if debug
 
       if responded
-        console.log "\t↳Already returned before."
+        console.log "\t↳Already returned before." if debug
         return
 
       if (error)
-        console.log "\t↳Returned: error: #{error}"
+        console.warn "\t↳Returned: error: #{error}"
         options.error(error) if options.error?
       else
-        console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}"
+        console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}" if debug
         options.success(body, response, status: response.statusCode) if options.success?
       options.complete(status: response.statusCode) if options.complete?
       responded = true
@@ -156,17 +157,14 @@ $.ajax
 
     User = require './app/models/User'
 
-    #console.log new User(response)
-
-    God = require 'lib/God'
-
-    God.worker = path + '/app/assets/javascripts/workers/worker_world.js'
-
+    World = require 'lib/world/world'
     LevelLoader = require 'lib/LevelLoader'
     GoalManager = require 'lib/world/GoalManager'
-    God = require 'lib/God'
-    SuperModel = require 'models/SuperModel'
 
+    God = require 'lib/God'
+    God.worker = require('./headless_client/worker_world.coffee')(World, GoalManager)
+
+    SuperModel = require 'models/SuperModel'
 
     log = require 'winston'
 
@@ -225,15 +223,23 @@ $.ajax
         @supermodel ?= new SuperModel()
         @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
 
+        console.log "Creating loader with levelID: " + levelID + " and SessionID: " + @task.getFirstSessionID() + " - task: " + JSON.stringify(@task)
+
         @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
+
+        console.log "Waiting for laoded game"
+
         @listenToOnce(@levelLoader, 'loaded-all', @simulateGame)
 
       simulateGame: ->
+        console.warn "Simulate game. destroyed: " + @destroyed
         return if @destroyed
         @trigger 'statusUpdate', 'All resources loaded, simulating!', @task.getSessions()
+        console.log "assignWorld"
         @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
+        console.log "SetupGod"
         @setupGod()
-
+        console.log "go!Go!GO!"
         try
           @commenceSimulationAndSetupCallback()
         catch err
@@ -241,23 +247,28 @@ $.ajax
           @simulateAnotherTaskAfterDelay()
 
       assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->
+        console.log "assigning world and level"
         @world = @levelLoader.world
         @level = @levelLoader.level
         @levelLoader.destroy()
         @levelLoader = null
 
       setupGod: ->
+        console.log "Setting up god"
         @god.level = @level.serialize @supermodel
         @god.worldClassMap = @world.classMap
         @setupGoalManager()
         @setupGodSpells()
+        console.log "done setting up god"
 
       setupGoalManager: ->
+        console.log "Setting up goal manager"
         @god.goalManager = new GoalManager @world
         @god.goalManager.goals = @god.level.goals
         @god.goalManager.goalStates = @manuallyGenerateGoalStates()
 
       commenceSimulationAndSetupCallback: ->
+        console.log "Creating World."
         @god.createWorld()
         Backbone.Mediator.subscribeOnce 'god:infinite-loop', @onInfiniteLoop, @
         Backbone.Mediator.subscribeOnce 'god:new-world-created', @processResults, @
@@ -268,6 +279,7 @@ $.ajax
         _.delay @cleanupAndSimulateAnotherTask, @retryDelayInSeconds * 1000
 
       processResults: (simulationResults) ->
+        console.log "processing results"
         taskResults = @formTaskResultsObject simulationResults
         console.log taskResults
         #@sendResultsBackToServer taskResults
