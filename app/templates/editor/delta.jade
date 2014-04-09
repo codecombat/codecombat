@@ -1,0 +1,35 @@
+- var i = 0
+.panel-group#accordion
+  for delta in deltas
+    .delta.panel.panel-default(class='delta-'+delta.action)
+      .panel-heading
+        if delta.action === 'added'
+          strong(data-i18n="delta.added") Added
+        if delta.action === 'modified'
+          strong(data-i18n="delta.modified") Modified
+        if delta.action === 'deleted'
+          strong(data-i18n="delta.deleted") Deleted
+        if delta.action === 'moved-index'
+          strong(data-i18n="delta.modified_array") Moved Index
+        if delta.action === 'text-diff'
+          strong(data-i18n="delta.text_diff") Text Diff
+        span  
+        a(data-toggle="collapse" data-parent="#accordion" href="#collapse-"+i)
+          span= delta.path
+          
+      .panel-collapse.collapse(id="collapse-"+i)
+        .panel-body.row
+          if delta.action === 'added'
+            .new-value.col-md-12= delta.right
+          if delta.action === 'modified'
+            .old-value.col-md-6= delta.left
+            .new-value.col-md-6= delta.right
+          if delta.action === 'deleted'
+            .col-md-12
+              div.old-value= delta.left
+          if delta.action === 'text-diff'
+            .col-md-6
+              pre= delta.trimmedLeft
+            .col-md-6
+              pre= delta.trimmedRight
+    - i += 1

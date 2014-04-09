@@ -52,6 +52,9 @@
     },
     "underscore.string": {
       "main": "lib/underscore.string.js"
+    },
+    "jsondiffpatch": {
+      "main": ["build/bundle-full.js", "build/formatters.js", "src/formatters/html.css"]
     }
   }
 }

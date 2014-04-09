@@ -215,6 +215,11 @@ class CocoModel extends Backbone.Model
           return true if permission.access in ['owner', 'write']
 
     return false
-
+    
+  getDelta: ->
+    jsd = jsondiffpatch.create({
+      objectHash: (obj) -> obj.name || obj.id || obj._id || JSON.stringify(_.keys(obj))
+    })
+    jsd.diff @_revertAttributes, @attributes
 
 module.exports = CocoModel
