@@ -92,3 +92,6 @@ bin/mongo/
 
 # Karma coverage
 coverage/
+
+# local settings
+login.coffee
