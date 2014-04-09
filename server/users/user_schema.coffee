@@ -56,8 +56,9 @@ UserSchema = c.object {},
   simulatedBy: {type: 'integer', minimum: 0, default: 0}
   simulatedFor: {type: 'integer', minimum: 0, default: 0}
 
-  jobProfile: c.object {title: 'Job Profile', required: ['lookingFor', 'active', 'name', 'city', 'country', 'skills', 'experience', 'shortDescription', 'longDescription', 'visa', 'work', 'education', 'projects', 'links']},
+  jobProfile: c.object {title: 'Job Profile', required: ['lookingFor', 'jobTitle', 'active', 'name', 'city', 'country', 'skills', 'experience', 'shortDescription', 'longDescription', 'visa', 'work', 'education', 'projects', 'links']},
     lookingFor: {title: 'Looking For', type: 'string', enum: ['Full-time', 'Part-time', 'Remote', 'Contracting', 'Internship'], default: 'Full-time', description: 'What kind of developer position do you want?'}
+    jobTitle: {type: 'string', maxLength: 50, title: 'Desired Job Title', description: 'What role are you looking for? Ex.: "Full Stack Engineer", "Front-End Developer", "iOS Developer"', default: 'Software Developer'}
     active: {title: 'Active', type: 'boolean', description: 'Want interview offers right now?'}
     updated: c.date {title: 'Last Updated', description: 'How fresh your profile appears to employers. The fresher, the better. Profiles go inactive after 30 days.'}
     name: c.shortString {title: 'Name', description: 'Name you want employers to see, like "Nick Winter".'}
@@ -67,7 +68,7 @@ UserSchema = c.object {},
       {type: 'string', minLength: 1, maxLength: 20, description: 'Ex.: "objective-c", "mongodb", "rails", "android", "javascript"'}
     experience: {type: 'integer', title: 'Years of Experience', minimum: 0, description: 'How many years of professional experience (getting paid) developing software do you have?'}
     shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.', default: 'Programmer seeking to build great software.'}
-    longDescription: {type: 'string', maxLength: 2000, title: 'Long Description', description: 'What are you looking for? Give employeers more details. Highlight your stunning personality. Markdown okay. 2000 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
+    longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'What are you looking for? Give employeers more details. Highlight your stunning personality. Tasteful markdown okay. 600 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
     visa: c.shortString {title: 'US Work Status', description: 'Are you authorized to work in the US, or do you need visa sponsorship?', enum: ['Authorized to work in the US', 'Need visa sponsorship'], default: 'Authorized to work in the US'}
     work: c.array {title: 'Work Experience', description: 'List your relevant work experience, most recent first.'},
       c.object {title: 'Job', description: 'Some work experience you had.', required: ['employer', 'role', 'duration']},
@@ -83,7 +84,7 @@ UserSchema = c.object {},
       c.object {title: 'Project', description: 'A project you created.', required: ['name', 'description', 'picture', 'link']},
         name: c.shortString {title: 'Project Name', description: 'What was the project called?'}
         description: {type: 'string', title: 'Description', description: 'Briefly describe the project.', maxLength: 400, format: 'markdown'}
-        picture: {type: 'string', title: 'Picture', format: 'image-file', description: 'Upload a 360x270px or larger image showing off the project.'}
+        picture: {type: 'string', title: 'Picture', format: 'image-file', description: 'Upload a 230x115px or larger image showing off the project.'}
         link: c.url {title: 'Link', description: 'Link to the project.', default: 'http://codecombat.com'}
     links: c.array {title: 'Links', description: 'Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog.'},
       c.object {title: 'Link', description: 'A link to another site you want to highlight, like your GitHub, your LinkedIn, or your blog.', required: ['name', 'link']},

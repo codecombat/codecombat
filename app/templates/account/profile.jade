@@ -2,60 +2,70 @@ extends /templates/base
 
 block content
 
-  if myProfile
-    a(href="/account/settings")
-      button.btn
-        i.icon-cog
-        span(data-i18n="account_profile.edit_settings") Edit Settings
+  if myProfile || (me.isAdmin() && user.get('jobProfile'))
+    .profile-control-bar
+      if myProfile
+        a(href="/account/settings")
+          button.btn.edit-settings-button
+            i.icon-cog
+            span(data-i18n="account_profile.edit_settings") Edit Settings
+      if me.isAdmin() && user.get('jobProfile')
+        button.btn.edit-settings-button#toggle-job-profile-approved
+          i.icon-cog
+          span(data-i18n='account_profile.approved').approved Approved
+          span(data-i18n='account_profile.approved').not-approved Not Approved
   
   if user.get('jobProfile')
-    if me.isAdmin()
-      button.btn#toggle-job-profile-approved
-        i.icon-cog
-        span(data-i18n='account_profile.approved').approved Approved
-        span(data-i18n='account_profile.approved').not-approved Not Approved
-
     - var profile = user.get('jobProfile');
-    .profile-header-container
-      img(src=photoURL).img-thumbnail.pull-left
-      h1= profile.name
-      p.lead= profile.shortDescription
-      .clearfix
-    .container
-      .row
-        .col-md-2
-          h2 Info
+    .job-profile-container
+      .job-profile-row
+        .left-column.full-height-column
+          .profile-photo-container
+            img.profile-photo(src=photoURL)
+            .profile-caption= profile.jobTitle || 'Software Developer'
+
+          if profileLinks.length
+            ul.links
+              each link in profileLinks
+                li(title=profile.name + " on " + link.name, class=link.icon ? "has-icon" : "")
+                  a(href=link.link)
+                    if link.icon
+                      img(src=link.icon.url, alt=link.icon.name)
+                    else
+                      button.btn.btn-large.btn-inverse.flat-button= link.name
+
           div= profile.city + ', ' + profile.country
           div= profile.visa
           div Looking for: #{profile.lookingFor}
-          div Profile last updated #{moment(profile.updated).fromNow()}
-          h3 Skills
+          div Last updated #{moment(profile.updated).fromNow()}
+
+          button#contact-candidate.btn.btn-large.btn-inverse.flat-button Contact #{profile.name.split(' ')[0]}
+
+        .middle-column.full-height-column
+          h3= profile.name
+          p= profile.shortDescription
+
           each skill in profile.skills
             code= skill
             span  
-          if profile.links.length
-            h3 Links
-            ul.links
-              each link in profile.links
-                li
-                  a(href=link.link) #{link.name}
-
-        .col-md-4
-          h2 About
-          div!= marked(profile.longDescription)
+          div.long-description!= marked(profile.longDescription)
 
           if profile.work.length
-            h3 Work Experience
+            h3 
+              img.header-icon(src="/images/pages/account/profile/work.png", alt="")
+              | Work Experience
             each job in profile.work
-              div.pull-right= job.duration
-              strong #{job.role} at #{job.employer}
+              div.duration.pull-right= job.duration
+              | #{job.role} at #{job.employer}
               .clearfix
 
           if profile.education.length
-            h3 Education
+            h3
+              img.header-icon(src="/images/pages/account/profile/education.png", alt="")
+              | Education
             each school in profile.education
-              div.pull-right= school.duration
-              strong #{school.degree} at #{school.school}
+              div.duration.pull-right= school.duration
+              | #{school.degree} at #{school.school}
               .clearfix
 
           if user.get('jobProfileNotes') || me.isAdmin()
@@ -66,16 +76,17 @@ block content
             else
               p!= marked(notes)
 
-        .col-md-4
+        .right-column.full-height-column
           if profile.projects.length
-            h2 Projects
+            h3 Projects
             ul.projects
               each project in profile.projects
-                a(href="#{project.link}")
                 li
-                  h3 #{project.name}
-                  .project-image(style="background-image: url(/file/" + project.picture + ")")
+                  a(href=project.link)
+                    .project-image(style="background-image: url(/file/" + project.picture + ")")
+                  p= project.name
                   p!= marked(project.description)
+                  a(href=project.link).btn.btn-large.btn-inverse.flat-button Check it out
 
   else
     h2 

@@ -8,7 +8,7 @@ module.exports = class JobProfileView extends CocoView
 
   editableSettings: [
     'lookingFor', 'active', 'name', 'city', 'country', 'skills', 'experience', 'shortDescription', 'longDescription',
-    'work', 'education', 'visa', 'projects', 'links'
+    'work', 'education', 'visa', 'projects', 'links', 'jobTitle'
   ]
   readOnlySettings: [
     'updated'

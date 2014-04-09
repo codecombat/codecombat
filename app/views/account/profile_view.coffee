@@ -40,6 +40,11 @@ module.exports = class ProfileView extends View
     context[key] = addedContext[key] for key of addedContext
     context.marked = marked
     context.moment = moment
+    context.iconForLink = @iconForLink
+    if links = @user.get('jobProfile')?.links
+      links = ($.extend(true, {}, link) for link in links)
+      link.icon = @iconForLink link for link in links
+      context.profileLinks = _.sortBy links, (link) -> not link.icon  # icons first
     context
 
   afterRender: ->
@@ -61,3 +66,17 @@ module.exports = class ProfileView extends View
     notes = @$el.find("#job-profile-notes").val()
     @user.set 'jobProfileNotes', notes
     @user.save()
+
+  iconForLink: (link) ->
+    icons = [
+      {icon: 'facebook', name: 'Facebook', domain: 'facebook.com', match: /facebook/i}
+      {icon: 'twitter', name: 'Twitter', domain: 'twitter.com', match: /twitter/i}
+      {icon: 'github', name: 'GitHub', domain: 'github.com', match: /github/i}
+      {icon: 'gplus', name: 'Google Plus', domain: 'plus.google.com', match: /(google|^g).?(\+|plus)/i}
+      {icon: 'linkedin', name: 'LinkedIn', domain: 'linkedin.com', match: /(google|^g).?(\+|plus)/i}
+    ]
+    for icon in icons
+      if (link.name.search(icon.match) isnt -1) or (link.link.search(icon.domain) isnt -1)
+        icon.url = "/images/pages/account/profile/icon_#{icon.icon}.png"
+        return icon
+    null
