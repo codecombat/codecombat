@@ -68,6 +68,7 @@ GLOBAL.$ = GLOBAL.jQuery = (input) ->
   console.log 'Ignored jQuery: ' + input if debug
   append: (input)-> exports: ()->
 
+cookies = request.jar()
 
 $.ajax= (options) ->
   responded = false
@@ -85,6 +86,7 @@ $.ajax= (options) ->
   console.log "URL: " + url if debug
   request
     url: url
+    jar: cookies
     json: options.parse
     method: options.type
     body: options.data
