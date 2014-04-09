@@ -52,6 +52,13 @@
 			<bashq>Please enter the full path where git bash is installed or just press enter if it's in the default location</bashq>
 			<ssh>Do you want to checkout the repository via ssh?</ssh>
 		</process>
+		<config>
+			<intro>You should have forked CodeCombat to your own GitHub Account by now...</intro>
+			<info>Please enter your github information, to configure your local repository.</info>
+			<username>Username: </username>
+			<password>Password: </password>
+			<process>Thank you... Configuring your local repistory right now...</process>
+		</config>
 	</github>
 	<npm>
 		<install>Installing bower, brunch, nodemon and sendwithus...</install>

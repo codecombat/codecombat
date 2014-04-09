@@ -107,6 +107,40 @@ goto:eof
 	call get_config github_url
 	"%git_app_path%" clone "!github_url!" "%repository_path%\coco"
 
+	goto:git_configuration
+goto:eof
+
+:git_configuration
+	call print_dashed_seperator
+
+	call get_local_text github_config_intro github config intro
+	echo !github_config_intro!
+
+	call get_local_text github_config_info github config info
+	echo !github_config_info!
+
+	call print_dashed_seperator
+
+	call get_local_text github_config_username github config username
+	set /p "git_username=!github_config_username!"
+
+	call get_local_text github_config_password github config password
+
+	set /p "git_password=!github_config_password!"
+
+	call print_dashed_seperator
+
+	call get_local_text github_config_process github config process
+	echo !github_config_process!
+
+	set cur_dir=%CD%
+	cd !repository_path!\coco
+
+	git remote rm origin
+	git remote add origin https://!git_username!:!git_password!@github.com/!git_username!/codecombat.git
+
+	cd !cur_dir!
+
 	goto:exit_git_setup
 goto:eof
 
