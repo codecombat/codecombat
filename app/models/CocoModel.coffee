@@ -4,6 +4,7 @@ class CocoSchema extends Backbone.Model
   constructor: (path, args...) ->
     super(args...)
     @urlRoot = path + '/schema'
+    console.debug 'gintau', 'schema-urlRoot', @urlRoot
 
 window.CocoSchema = CocoSchema
 
