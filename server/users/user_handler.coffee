@@ -9,6 +9,7 @@ errors = require '../commons/errors'
 async = require 'async'
 log = require 'winston'
 LevelSession = require('../levels/sessions/LevelSession')
+LevelSessionHandler = require '../levels/sessions/level_session_handler'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
@@ -48,17 +49,7 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in privateProperties unless includePrivates
     includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.permissions ? [])))
     delete obj[prop] for prop in candidateProperties unless includeCandidate
-    obj.emailHash = @buildEmailHash document
     return obj
-
-  buildEmailHash: (user) ->
-    # emailHash is used by gravatar
-    hash = crypto.createHash('md5')
-    if user.get('email')
-      hash.update(_.trim(user.get('email')).toLowerCase())
-    else
-      hash.update(user.get('_id') + '')
-    hash.digest('hex')
 
   waterfallFunctions: [
     # FB access token checking
@@ -126,7 +117,7 @@ UserHandler = class UserHandler extends Handler
 
   getById: (req, res, id) ->
     if req.user?._id.equals(id)
-      return @sendSuccess(res, @formatEntity(req, req.user))
+      return @sendSuccess(res, @formatEntity(req, req.user, 256))
     super(req, res, id)
 
   getNamesByIds: (req, res) ->
@@ -203,9 +194,11 @@ UserHandler = class UserHandler extends Handler
           @sendSuccess(res, {result:'success'})
 
   avatar: (req, res, id) ->
-    @modelClass.findById(id).exec (err, document) ->
+    @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
-      res.redirect(document?.get('photoURL') or '/images/generic-wizard-icon.png')
+      photoURL = document?.get('photoURL')
+      photoURL ||= @buildGravatarURL document
+      res.redirect photoURL
       res.end()
 
   getLevelSessions: (req, res, userID) ->
@@ -217,7 +210,7 @@ UserHandler = class UserHandler extends Handler
       projection[field] = 1 for field in req.query.project.split(',')
     LevelSession.find(query).select(projection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
-      documents = (@formatEntity(req, doc) for doc in documents)
+      documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
 
   getCandidates: (req, res) ->
@@ -235,13 +228,27 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
-    fields = if authorized then ['jobProfile', 'jobProfileApproved', '_id'] else ['jobProfile']
+    fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile']
     obj = _.pick document.toObject(), fields
-    obj.emailHash = @buildEmailHash document
+    obj.photoURL ||= @buildGravatarURL document if authorized
     subfields = ['country', 'city', 'lookingFor', 'skills', 'experience', 'updated']
     if authorized
       subfields = subfields.concat ['name', 'work']
     obj.jobProfile = _.pick obj.jobProfile, subfields
     obj
+
+  buildGravatarURL: (user) ->
+    emailHash = @buildEmailHash user
+    defaultAvatar = "http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png"
+    "https://www.gravatar.com/avatar/#{emailHash}?default=#{defaultAvatar}"
+
+  buildEmailHash: (user) ->
+    # emailHash is used by gravatar
+    hash = crypto.createHash('md5')
+    if user.get('email')
+      hash.update(_.trim(user.get('email')).toLowerCase())
+    else
+      hash.update(user.get('_id') + '')
+    hash.digest('hex')
 
 module.exports = new UserHandler()

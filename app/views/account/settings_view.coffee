@@ -20,18 +20,7 @@ module.exports = class SettingsView extends View
     @save =  _.debounce(@save, 200)
     super options
     return unless me
-    @listenTo(me, 'change', @refreshPicturePane) # depends on gravatar load
     @listenTo(me, 'invalid', (errors) -> forms.applyErrorsToForm(@$el, me.validationError))
-    window.f = @getSubscriptions
-
-  refreshPicturePane: ->
-    h = $(@template(@getRenderData()))
-    newPane = $('#picture-pane', h)
-    oldPane = $('#picture-pane')
-    active = oldPane.hasClass('active')
-    oldPane.replaceWith(newPane)
-    newPane.i18n()
-    newPane.addClass('active') if active
 
   afterRender: ->
     super()
@@ -55,6 +44,11 @@ module.exports = class SettingsView extends View
     @listenTo @jobProfileView, 'change', @save
     @insertSubView @jobProfileView
 
+    if me.schema().loaded
+      @buildPictureTreema()
+    else
+      @listenToOnce me, 'schema-loaded', @buildPictureTreema
+
   chooseTab: (category) ->
     id = "##{category}-pane"
     pane = $(id, @$el)
@@ -68,9 +62,6 @@ module.exports = class SettingsView extends View
   getRenderData: ->
     c = super()
     return c unless me
-    c.gravatarName = c.me?.gravatarName()
-    c.photos = me.gravatarPhotoURLs()
-    c.chosenPhoto = me.getPhotoURL()
     c.subs = {}
     c.subs[sub] = 1 for sub in c.me.get('emailSubscriptions') or ['announcement', 'notification', 'tester', 'level_creator', 'developer']
     c.showsJobProfileTab = me.isAdmin() or me.get('jobProfile') or location.hash.search('job-profile-') isnt -1
@@ -87,6 +78,30 @@ module.exports = class SettingsView extends View
     subs = @getSubscriptions()
     $('#email-pane input[type="checkbox"]', @$el).prop('checked', not Boolean(subs.length))
     @save()
+
+  buildPictureTreema: ->
+    data = photoURL: me.get('photoURL')
+    if data.photoURL?.search('gravatar') isnt -1
+      # Old style
+      data.photoURL = null
+    schema = _.cloneDeep me.schema().attributes
+    schema.properties = _.pick me.schema().get('properties'), 'photoURL'
+    schema.required = ['photoURL']
+    console.log 'schema is', schema
+    treemaOptions =
+      filePath: "db/user/#{me.id}"
+      schema: schema
+      data: data
+      callbacks: {change: @onPictureChanged}
+
+    @pictureTreema = @$el.find('#picture-treema').treema treemaOptions
+    @pictureTreema.build()
+    @pictureTreema.open()
+    @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
+
+  onPictureChanged: (e) =>
+    @trigger 'change'
+    @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   save: ->
     forms.clearFormAlerts(@$el)
@@ -127,9 +142,10 @@ module.exports = class SettingsView extends View
       me.set('password', password1)
 
   grabOtherData: ->
-    me.set('name', $('#name', @$el).val())
-    me.set('email', $('#email', @$el).val())
-    me.set('emailSubscriptions', @getSubscriptions())
+    me.set 'name', $('#name', @$el).val()
+    me.set 'email', $('#email', @$el).val()
+    me.set 'emailSubscriptions', @getSubscriptions()
+    me.set 'photoURL', @pictureTreema.get('/photoURL')
 
     adminCheckbox = @$el.find('#admin')
     if adminCheckbox.length

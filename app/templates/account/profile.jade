@@ -21,7 +21,7 @@ block content
       .job-profile-row
         .left-column.full-height-column
           .profile-photo-container
-            img.profile-photo(src=photoURL)
+            img.profile-photo(src=user.getPhotoURL(240))
             .profile-caption= profile.jobTitle || 'Software Developer'
 
           if profileLinks.length
@@ -89,65 +89,13 @@ block content
                   a(href=project.link).btn.btn-large.btn-inverse.flat-button Check it out
 
   else
-    h2 
-      if grav && grav.name && grav.name.formatted
+    .public-profile-container
+      h2 
         span(data-i18n="account_profile.profile_for_prefix") Profile for 
-        span= grav.name.formatted
+        span= user.get('name')
         span(data-i18n="account_profile.profile_for_suffix") 
-      else
-        span(data-i18n="account_profile.profile") Profile
   
-    if loadingProfile
-      p(data-i18n="common.loading") Loading...
-
-    else if !user.get('emailHash')
-      p(data-i18n="account_profile.user_not_found") No user found. Check the URL?
-
-    else if !user.gravatarProfile
-      if myProfile
-        p
-          span(data-i18n="account_profile.gravatar_not_found_mine") We couldn't find your profile associated with:
-          strong  "#{me.get('email')}"
-          span(data-i18n="account_profile.gravatar_not_found_email_suffix") .
-          span  
-          span(data-i18n="account_profile.gravatar_signup_prefix") Sign up at 
-          a(href="http://en.gravatar.com/") Gravatar
-          span(data-i18n="account_profile.gravatar_signup_suffix")  to get set up!
-      else
-          p(data-i18n="account_profile.gravatar_not_found_other")
-            | Alas, there's no profile associated with this person's email address.
-
-    else
-      .container
-        div.row
-          div.col-xs-3
-            img(src=photoURL).img-thumbnail
-            
-            p.about-me #{grav.aboutMe}
-    
-          if grav.emails
-            div.col-xs-3
-              h3(data-i18n="account_profile.gravatar_contact") Contact
-              ul
-                each email in grav.emails
-                  li #{email.value}
-                    
-          if grav.urls && grav.urls.length
-            div.col-xs-3
-              h3(data-i18n="account_profile.gravatar_websites") Websites
-              ul
-                each url in grav.urls
-                  li
-                    a(href="#{url.value}") #{url.title} 
-                                  
-          if grav.accounts
-            div.col-xs-3
-              h3(data-i18n="account_profile.gravatar_accounts") As Seen On
-              ul
-                each account in grav.accounts
-                  li
-                    a(href="#{account.url}") #{account.domain}
-       
-      hr
-      p
-        a(href="#{grav.profileUrl}", data-i18n="account_profile.gravatar_profile_link") Full Gravatar Profile
+      img.profile-photo(src=user.getPhotoURL(256))
+  
+      h2 TODO
+      p Public user profiles are not ready yet.

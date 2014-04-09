@@ -9,7 +9,7 @@ UserSchema = c.object {},
   gender: {type: 'string', 'enum': ['male', 'female']}
   password: {type: 'string', maxLength: 256, minLength: 2, title:'Password'}
   passwordReset: {type: 'string'}
-  photoURL: {type: 'string', format: 'url', required: false}
+  photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}
 
   facebookID: c.shortString({title: 'Facebook ID'})
   gplusID: c.shortString({title: 'G+ ID'})
@@ -36,7 +36,6 @@ UserSchema = c.object {},
   passwordHash: {type: 'string', maxLength: 256}
 
   # client side
-  #gravatarProfile: {} (should only ever be kept locally)
   emailHash: {type: 'string'}
 
   #Internationalization stuff

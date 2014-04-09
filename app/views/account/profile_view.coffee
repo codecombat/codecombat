@@ -5,7 +5,6 @@ User = require 'models/User'
 module.exports = class ProfileView extends View
   id: "profile-view"
   template: template
-  loadingProfile: true
 
   events:
     'click #toggle-job-profile-approved': 'toggleJobProfileApproved'
@@ -14,30 +13,16 @@ module.exports = class ProfileView extends View
   constructor: (options, @userID) ->
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
     super options
-    @user = User.getByID(@userID)
-    @loadingProfile = false if 'gravatarProfile' of @user
-    @listenTo(@user, 'change', @userChanged)
-    @listenTo(@user, 'error', @userError)
-
-  userChanged: (user) ->
-    @loadingProfile = false if 'gravatarProfile' of user
-    @render()
-
-  userError: (user) ->
-    @loadingProfile = false
-    @render()
+    if @userID is me.id
+      @user = me
+    else
+      @user = User.getByID(@userID)
+      @addResourceToLoad @user, 'user_profile'
 
   getRenderData: ->
     context = super()
-    grav = @user.gravatarProfile
-    grav = grav.entry[0] if grav
-    addedContext =
-      user: @user
-      loadingProfile: @loadingProfile
-      myProfile: @user.id is context.me.id
-      grav: grav
-      photoURL: @user.getPhotoURL()
-    context[key] = addedContext[key] for key of addedContext
+    context.user = @user
+    context.myProfile = @user.id is context.me.id
     context.marked = marked
     context.moment = moment
     context.iconForLink = @iconForLink

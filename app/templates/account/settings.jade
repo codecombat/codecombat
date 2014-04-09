@@ -31,7 +31,7 @@ block content
           .form
             .form-group
               label.control-label(for="name", data-i18n="general.name") Name
-              input#name.form-control(name="name", type="text", value="#{me.get('name')||''}", placeholder="#{gravatarName}")
+              input#name.form-control(name="name", type="text", value="#{me.get('name') || ''}")
             .form-group
               label.control-label(for="email", data-i18n="general.email") Email
               input#email.form-control(name="email", type="text", value="#{me.get('email')}")
@@ -42,23 +42,11 @@ block content
               
   
       #picture-pane.tab-pane
-        h3(data-i18n="account_settings.gravatar_select") Select which Gravatar photo to use
-        p
-          if !photos
-            span(data-i18n="account_settings.gravatar_add_photos") Add thumbnails and photos to a Gravatar account for your email to choose an image.
-          
-          else
-            .thumbnails
-              each photo, i in photos
-                .thumbnail
-                  label(for="photo-#{i}")
-                    img(src=photo)
-                  br
-                  input(type="radio", name="photoURL", value="#{photo}", id="photo-#{i}", checked=photo==chosenPhoto)
-            .clearfix
-            p
-              a(href="http://en.gravatar.com/profiles/edit/?noclose#your-images", target="_blank", data-i18n="account_settings.gravatar_add_more_photos") Add more photos to your Gravatar account to access them here.
-      
+        h3(data-i18n="account_settings.upload_picture") Upload a picture
+        #picture-treema
+        .gravatar-fallback
+          img(src=me.getPhotoURL(256), alt="Gravatar", title="Gravatar fallback image")
+
       #wizard-pane.tab-pane
         #wizard-settings-view
 
