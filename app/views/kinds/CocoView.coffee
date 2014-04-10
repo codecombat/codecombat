@@ -299,9 +299,10 @@ module.exports = class CocoView extends Backbone.View
 
   # Subviews
 
-  insertSubView: (view) ->
+  insertSubView: (view, elToReplace=null) ->
     @subviews[view.id].destroy() if view.id of @subviews
-    @$el.find('#'+view.id).after(view.el).remove()
+    elToReplace ?= @$el.find('#'+view.id)
+    elToReplace.after(view.el).remove()
     view.parent = @
     view.render()
     view.afterInsert()

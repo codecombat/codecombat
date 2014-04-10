@@ -3,21 +3,19 @@ template = require 'templates/editor/delta'
 deltaLib = require 'lib/deltas'
 
 module.exports = class DeltaListView extends CocoView
-  id: "delta-list-view"
+  @deltaCounter: 0
+  className: "delta-list-view"
   template: template
 
   constructor: (options) ->
     super(options)
-    @delta = options.delta
-    @schema = options.schema or {}
-    @left = options.left
+    @model = options.model
 
   getRenderData: ->
     c = super()
-    deltas = deltaLib.flattenDelta @delta
-    deltas = (deltaLib.interpretDelta(d.delta, d.path, @left, @schema) for d in deltas)
-    c.deltas = deltas
-    @processedDeltas = deltas
+    c.deltas = @processedDeltas = @model.getExpandedDelta()
+    c.counter = DeltaListView.deltaCounter
+    DeltaListView.deltaCounter += c.deltas.length
     c
     
   afterRender: ->
@@ -34,7 +32,7 @@ module.exports = class DeltaListView extends CocoView
         treema = TreemaNode.make(leftEl, options)
         treema.build()
 
-      if _.isObject(deltaData.right) and rightEl = deltaEl.find('.old-value')
+      if _.isObject(deltaData.right) and rightEl = deltaEl.find('.new-value')
         options =
           data: deltaData.right
           schema: deltaData.schema

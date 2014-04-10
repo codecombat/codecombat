@@ -1,4 +1,5 @@
 storage = require 'lib/storage'
+deltasLib = require 'lib/deltas'
 
 class CocoSchema extends Backbone.Model
   constructor: (path, args...) ->
@@ -221,5 +222,10 @@ class CocoModel extends Backbone.Model
       objectHash: (obj) -> obj.name || obj.id || obj._id || JSON.stringify(_.keys(obj))
     })
     jsd.diff @_revertAttributes, @attributes
+    
+  getExpandedDelta: ->
+    delta = @getDelta()
+    deltas = deltasLib.flattenDelta(delta)
+    (deltasLib.interpretDelta(d.delta, d.path, @_revertAttributes, @schema().attributes) for d in deltas)
 
 module.exports = CocoModel

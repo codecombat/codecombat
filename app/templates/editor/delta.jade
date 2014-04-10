@@ -1,5 +1,5 @@
 - var i = 0
-.panel-group#accordion
+.panel-group(id='delta-accordion-'+(counter))
   for delta in deltas
     .delta.panel.panel-default(class='delta-'+delta.action)
       .panel-heading
@@ -14,10 +14,10 @@
         if delta.action === 'text-diff'
           strong(data-i18n="delta.text_diff") Text Diff
         span  
-        a(data-toggle="collapse" data-parent="#accordion" href="#collapse-"+i)
+        a(data-toggle="collapse" data-parent="#delta-accordion"+(counter) href="#collapse-"+(i+counter))
           span= delta.path
           
-      .panel-collapse.collapse(id="collapse-"+i)
+      .panel-collapse.collapse(id="collapse-"+(i+counter))
         .panel-body.row
           if delta.action === 'added'
             .new-value.col-md-12= delta.right
@@ -29,7 +29,7 @@
               div.old-value= delta.left
           if delta.action === 'text-diff'
             .col-md-6
-              pre= delta.trimmedLeft
+              pre= delta.left
             .col-md-6
-              pre= delta.trimmedRight
+              pre= delta.right
     - i += 1
