@@ -6,16 +6,15 @@ forms = require 'lib/forms'
 
 contactSchema =
   additionalProperties: false
+  required: ['email', 'message']
   properties:
     email:
-      required: true
       type: 'string'
       maxLength: 100
       minLength: 1
       format: 'email'
 
     message:
-      required: true
       type: 'string'
       minLength: 1
 

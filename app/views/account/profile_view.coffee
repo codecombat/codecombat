@@ -1,6 +1,7 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/account/profile'
 User = require 'models/User'
+JobProfileContactView = require 'views/modal/job_profile_contact_modal'
 
 module.exports = class ProfileView extends View
   id: "profile-view"
@@ -9,6 +10,7 @@ module.exports = class ProfileView extends View
   events:
     'click #toggle-job-profile-approved': 'toggleJobProfileApproved'
     'keyup #job-profile-notes': 'onJobProfileNotesChanged'
+    'click #contact-candidate': 'onContactCandidate'
 
   constructor: (options, @userID) ->
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
@@ -65,3 +67,6 @@ module.exports = class ProfileView extends View
         icon.url = "/images/pages/account/profile/icon_#{icon.icon}.png"
         return icon
     null
+
+  onContactCandidate: (e) ->
+    @openModalView new JobProfileContactView recipientID: @user.id

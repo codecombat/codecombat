@@ -3,6 +3,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     loading: "Loading..."
     saving: "Saving..."
     sending: "Sending..."
+    send: "Send"
     cancel: "Cancel"
     save: "Save"
     create: "Create"
@@ -111,6 +112,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     forum_page: "our forum"
     forum_suffix: " instead."
     send: "Send Feedback"
+    contact_candidate: "Contact Candidate"
+    recruitment_reminder: "Use this form to get in touch with candidates you are interested in interviewing. Remember that CodeCombat charges 18% of first-year salary for any full-time candidate you hire who stays 90 days, but that part-timers, remote employees, contractors, and interns are free."
 
   diplomat_suggestion:
     title: "Help translate CodeCombat!"
@@ -331,6 +334,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     results: "Results"
     description: "Description"
     or: "or"
+    subject: "Subject"
     email: "Email"
     password: "Password"
     message: "Message"
