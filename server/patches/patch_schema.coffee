@@ -2,10 +2,9 @@ c = require '../commons/schemas'
 
 patchables = ['level', 'thang_type', 'level_system', 'level_component', 'article']
   
-PatchSchema = c.object({title:'Patch', required:['target', 'delta']}, {
+PatchSchema = c.object({title:'Patch', required:['target', 'delta', 'commitMessage']}, {
   delta: { title: 'Delta', type:['array', 'object'] }
-  title: c.shortString()
-  description: c.shortString({maxLength: 500})
+  commitMessage: c.shortString({maxLength: 500, minLength: 1})
   creator: c.objectId(links: [{rel: 'extra', href: "/db/user/{($)}"}])
   created: c.date( { title: 'Created', readOnly: true })
   status: { enum: ['pending', 'accepted', 'rejected', 'withdrawn']}

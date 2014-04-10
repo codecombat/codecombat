@@ -1,5 +1,6 @@
 storage = require 'lib/storage'
 deltasLib = require 'lib/deltas'
+auth = require 'lib/auth'
 
 class CocoSchema extends Backbone.Model
   constructor: (path, args...) ->
@@ -200,6 +201,8 @@ class CocoModel extends Backbone.Model
   hasReadAccess: (actor) ->
     # actor is a User object
 
+    actor ?= auth.me
+    return true if actor.isAdmin()
     if @get('permissions')?
       for permission in @get('permissions')
         if permission.target is 'public' or actor.get('_id') is permission.target
@@ -210,6 +213,8 @@ class CocoModel extends Backbone.Model
   hasWriteAccess: (actor) ->
     # actor is a User object
 
+    actor ?= auth.me
+    return true if actor.isAdmin()
     if @get('permissions')?
       for permission in @get('permissions')
         if permission.target is 'public' or actor.get('_id') is permission.target

@@ -7,7 +7,7 @@ mongoose = require('mongoose')
 PatchHandler = class PatchHandler extends Handler
   modelClass: Patch
   editableProperties: []
-  postEditableProperties: ['delta', 'target']
+  postEditableProperties: ['delta', 'target', 'commitMessage']
   jsonSchema: require './patch_schema'
 
   makeNewInstance: (req) ->

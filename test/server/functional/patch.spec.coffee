@@ -14,6 +14,7 @@ describe '/db/patch', ->
   patchURL = getURL('/db/patch')
   patches = {}
   patch =
+    commitMessage: 'Accept this patch!'
     delta: {name:['test']}
     target:
       id:null
