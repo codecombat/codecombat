@@ -59,14 +59,16 @@ module.exports = class LevelLoader extends CocoClass
 
     # Unless you specify cache:false, sometimes the browser will use a cached session
     # and players will 'lose' code
-    @session.fetch({cache:false})
     @listenToOnce(@session, 'sync', @onSessionLoaded)
+    session_res = @supermodel.addModelResource(@session, @session.url, {cache:false})
+    session_res.load()
 
     if @opponentSessionID
       @opponentSession = new LevelSession()
       @opponentSession.url = "/db/level_session/#{@opponentSessionID}"
-      @opponentSession.fetch()
       @listenToOnce(@opponentSession, 'sync', @onSessionLoaded)
+      opponentSession_res = @supermodel.addModelResource(@opponentSession, @opponentSession.url)
+      opponentSession_res.load()
 
   sessionsLoaded: ->
     return true if @headless
@@ -217,7 +219,7 @@ module.exports = class LevelLoader extends CocoClass
   progress: ->
     return 0 unless @level.loaded
     overallProgress = 0
-    supermodelProgress = @supermodel.progress()
+    supermodelProgress = @supermodel.getProgress()
     overallProgress += supermodelProgress * 0.7
     overallProgress += 0.1 if @sessionsLoaded()
     if @headless
@@ -226,6 +228,7 @@ module.exports = class LevelLoader extends CocoClass
       spriteMapProgress = if supermodelProgress is 1 then 0.2 else 0
       spriteMapProgress *= @spriteSheetsBuilt / @spriteSheetsToBuild if @spriteSheetsToBuild
     overallProgress += spriteMapProgress
+
     return overallProgress
 
   notifyProgress: ->

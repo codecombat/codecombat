@@ -86,6 +86,7 @@ module.exports = class PlayLevelView extends View
     @listenToOnce(@supermodel, 'error', @onLevelLoadError)
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
+    @insertSubView @loadingView = new LoadingView {}
     if @isEditorPreview
       f = =>
         @supermodel.shouldSaveBackups = (model) ->
@@ -361,11 +362,11 @@ module.exports = class PlayLevelView extends View
       .css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)")
       .css('top', target_top - 50)
       .css('left', target_left - 50)
-    setTimeout((=>
+    setTimeout(()=>
       @animatePointer()
       clearInterval(@pointerInterval)
       @pointerInterval = setInterval(@animatePointer, 1200)
-    ), 1)
+    , 1)
 
 
   animatePointer: ->

@@ -3,19 +3,13 @@ module.exports = class SuperModel extends Backbone.Model
     @models = {}
     @collections = {}
     @schemas = {}
-    @num = 0
-    @denom = 0
-    @showing = false
-    @progress = 0
 
   populateModel: (model) ->
-    console.debug 'gintau', 'SuperModel-populateModel', model
-
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
     # model.fetch() unless model.loaded or model.loading
-    @listenToOnce(model, 'sync', @modelLoaded) unless model.loaded
-    @listenToOnce(model, 'error', @modelErrored) unless model.loaded
+    # @listenToOnce(model, 'sync', @modelLoaded) unless model.loaded
+    # @listenToOnce(model, 'error', @modelErrored) unless model.loaded
     url = model.url()
     @models[url] = model unless @models[url]?
     @modelLoaded(model) if model.loaded
@@ -38,35 +32,8 @@ module.exports = class SuperModel extends Backbone.Model
     @trigger 'error'
     @removeEventsFromModel(model)
 
-  modelLoaded: (model) ->
-    ###
-
-    model.loadSchema()
-    schema = model.schema()
-
-    # Load schema first.
-    unless schema.loaded
-      @schemas[schema.urlRoot] = schema
-      return schema.once('sync', => @modelLoaded(model))
-
-    refs = model.getReferencedModels(model.attributes, schema.attributes, '/', @shouldLoadProjection)
-    refs = [] unless @mustPopulate is model or @shouldPopulate(model)
-
-    # console.debug 'gintau', 'superModel-refs', model, refs
-
-    # load references.
-    for ref, i in refs when @shouldLoadReference ref
-      ref.saveBackups = @shouldSaveBackups(ref)
-      refURL = ref.url()
-      continue if @models[refURL]
-      @models[refURL] = ref
-      ref.fetch()
-      @listenToOnce(ref, 'sync', @modelLoaded)
-
-    ###
-
+  modelLoaded: (model) ->    
     @trigger 'loaded-one', model: model
-    # @trigger 'loaded-all' if @finished()
     @removeEventsFromModel(model)
 
   removeEventsFromModel: (model) ->
@@ -119,26 +86,8 @@ module.exports = class SuperModel extends Backbone.Model
         @addModel(model)
     collection
 
-    ###
-  progress: ->
-    total = 0
-    loaded = 0
-
-    for model in _.values @models
-      total += 1
-      loaded += 1 if model.loaded
-    for schema in _.values @schemas
-      total += 1
-      loaded += 1 if schema.loaded
-
-    return 1.0 unless total
-    return loaded / total
-###
-
   finished: ->
-    console.debug 'gintau', 'trigger-loaded-all' if @progress == 1.0
-    return @progress == 1.0
-
+    return ResourceManager.progress == 1.0 or Object.keys(ResourceManager.resources).length == 0
 
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1)->
@@ -169,24 +118,24 @@ module.exports = class SuperModel extends Backbone.Model
     ResourceManager.resources[name] = resource
     @listenToOnce(resource, 'resource:loaded', @onResourceLoaded)
     @listenToOnce(resource, 'resource:failed', @onResourceFailed)
-    @denom += value
+    ResourceManager.denom += value
 
   loadResources: ()->
     for name, res of ResourceManager.resources
       res.load()
 
   onResourceLoaded: (r)=> 
+    @modelLoaded(r.model)
     # Check if the model has references
-    console.debug 'gintau', 'updateProgress', r.constructor.name
     if r.constructor.name == 'ModelResource'
       model = r.model
       @addModelRefencesToLoad(model)
       @updateProgress(r)
     else
-      console.debug 'gintau', 'updateProgressWithoutAddReferences'
       @updateProgress(r)
 
   onResourceFailed: (r)=>
+    @modelErrored(r.model)
 
   addModelRefencesToLoad: (model)->
     schema = model.schema?()
@@ -195,7 +144,6 @@ module.exports = class SuperModel extends Backbone.Model
     refs = model.getReferencedModels(model.attributes, schema.attributes, '/', @shouldLoadProjection)
     refs = [] unless @mustPopulate is model or @shouldPopulate(model)
 
-    console.debug 'gintau', 'superModel-refs', model, refs
     for ref, i in refs when @shouldLoadReference ref
       ref.saveBackups = @shouldSaveBackups(ref)
       refURL = ref.url()
@@ -207,18 +155,24 @@ module.exports = class SuperModel extends Backbone.Model
       res.load()
 
   updateProgress: (r)=>     
-    @num += r.value
-    @progress = @num / @denom
+    ResourceManager.num += r.value
+    ResourceManager.progress = ResourceManager.num / ResourceManager.denom
 
-    console.debug 'gintau', 'updateProgress', @num, @denom, @progress
-    @trigger('superModel:updateProgress', @progress)
+    @trigger('superModel:updateProgress', ResourceManager.progress)
     @trigger 'loaded-all' if @finished()
 
   getResource: (name)->
     return ResourceManager.resources[name]
 
+  getProgress: ()-> return ResourceManager.progress
+
 # Both SuperModel and Resource access this class.
+# Set resources as static so no need to load resources multiple times when more than one view is used.
 class ResourceManager
+  @num = 0
+  @denom = 0
+  @showing = false
+  @progress = 0
   @resources: {}
 
 class Resource extends Backbone.Model
@@ -239,13 +193,11 @@ class Resource extends Backbone.Model
     @dependencies.push(name)
 
   markLoaded: ()->
-    console.debug 'gintau', 'markLoaded', @model
     @trigger('resource:loaded', @) if not @isLoaded
     @isLoaded = true
     @isLoading = false
 
   markFailed: ()->
-    console.debug 'gintau', 'markLoaded', @model  
     @trigger('resource:failed', @) if not @isLoaded
     @isLoaded = false
     @isLoading = false
@@ -262,7 +214,6 @@ class ModelResource extends Resource
 
   load: ()->
     return @loadDeferred.promise() if @isLoading or @isLoaded
-    console.debug 'gintau', 'startLoading', @model
 
     @isLoading = true
     @loadDeferred = $.Deferred()
@@ -274,19 +225,15 @@ class ModelResource extends Resource
 
   loadDependencies: ()->
     promises = []
-    console.debug 'gintau', 'loadDependencies-Dependencies', @name, @dependencies
 
     for resName in @dependencies
       dep = ResourceManager.resources[resName]
-      console.debug 'gintau', 'loadDependencies-name', resName, @name
       continue if not dep.isReadyForLoad()
       promises.push(dep.load())
 
-    console.debug 'gintau', 'loadDependencies-promises', promises, @name
     return promises
 
   onLoadDependenciesSuccess: ()=>
-    console.debug 'gintau', 'onLoadDependenciesSuccess', 'startFetch', @model
     @model.fetch(@fetchOptions)
 
     @listenToOnce(@model, 'sync', ()=>
@@ -300,7 +247,6 @@ class ModelResource extends Resource
     )
 
   onLoadDependenciesFailed: ()=>
-    console.debug 'gintau', 'onLoadDependenciesFailed', model
     @markFailed()
     @loadDeferred.reject(@)
 
