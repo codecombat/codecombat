@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-call read_cache.bat
+call read_cache
 
 call configuration_cmd
 

@@ -49,9 +49,9 @@ if "%download_extension%"=="zip" (
 	md %mongodb_path%
 
 	%systemroot%\System32\xcopy !package_path!!mongodb_original_directory! !mongodb_path! /r /h /s /e /y
-	
-	setx path ";!mongodb_path!\bin"
-	
+
+	call set_environment_var "!mongodb_path!\bin"
+
 	goto:clean_up
 )
 
