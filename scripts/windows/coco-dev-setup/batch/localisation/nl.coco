@@ -53,6 +53,11 @@
 			<ssh>Wil je het git project downloaden via ssh?</ssh>
 		</process>
 	</github>
+	<switch>
+		<install>The installation of your local environment was succesfull!</install>
+		<close>You can now close this setup.</close>
+		<open>After that, you should open the configuration setup to automaticly configure your environment...</open>
+	</switch>
 	<npm>
 		<install>Installing bower, brunch, nodemon and sendwithus...</install>
 		<binstall>Installing bower packages...</binstall>
