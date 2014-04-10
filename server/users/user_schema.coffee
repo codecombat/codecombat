@@ -67,7 +67,7 @@ UserSchema = c.object {},
       {type: 'string', minLength: 1, maxLength: 20, description: 'Ex.: "objective-c", "mongodb", "rails", "android", "javascript"'}
     experience: {type: 'integer', title: 'Years of Experience', minimum: 0, description: 'How many years of professional experience (getting paid) developing software do you have?'}
     shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.', default: 'Programmer seeking to build great software.'}
-    longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'What are you looking for? Give employeers more details. Highlight your stunning personality. Tasteful markdown okay. 600 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
+    longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'Describe yourself to potential employers. Keep it short and to the point. We recommend outlining the position that would most interest you. Tasteful markdown okay; 600 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
     visa: c.shortString {title: 'US Work Status', description: 'Are you authorized to work in the US, or do you need visa sponsorship?', enum: ['Authorized to work in the US', 'Need visa sponsorship'], default: 'Authorized to work in the US'}
     work: c.array {title: 'Work Experience', description: 'List your relevant work experience, most recent first.'},
       c.object {title: 'Job', description: 'Some work experience you had.', required: ['employer', 'role', 'duration']},
@@ -78,17 +78,17 @@ UserSchema = c.object {},
       c.object {title: 'Ordeal', description: 'Some education that befell you.', required: ['school', 'degree', 'duration']},
         school: c.shortString {title: 'School', description: 'Name of your school.'}
         degree: c.shortString {title: 'Degree', description: 'What was your degree and field of study? Ex. Ph.D. Human-Computer Interaction (incomplete)'}
-        duration: c.shortString {title: 'Duration', description: 'When? Ex.: "Aug 2004 - May 2008".'}
+        duration: c.shortString {title: 'Dates', description: 'When? Ex.: "Aug 2004 - May 2008".'}
     projects: c.array {title: 'Projects', description: 'Highlight your projects to amaze employers.'},
-      c.object {title: 'Project', description: 'A project you created.', required: ['name', 'description', 'picture', 'link']},
-        name: c.shortString {title: 'Project Name', description: 'What was the project called?'}
-        description: {type: 'string', title: 'Description', description: 'Briefly describe the project.', maxLength: 400, format: 'markdown'}
+      c.object {title: 'Project', description: 'A project you created.', required: ['name', 'description', 'picture'], default: {name: 'My Project', description: 'A project I worked on.', link: 'http://example.com', picture: ''}},
+        name: c.shortString {title: 'Project Name', description: 'What was the project called?', default: 'My Project'}
+        description: {type: 'string', title: 'Description', description: 'Briefly describe the project.', maxLength: 400, default: 'A project I worked on.', format: 'markdown'}
         picture: {type: 'string', title: 'Picture', format: 'image-file', description: 'Upload a 230x115px or larger image showing off the project.'}
-        link: c.url {title: 'Link', description: 'Link to the project.', default: 'http://codecombat.com'}
-    links: c.array {title: 'Links', description: 'Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog.'},
+        link: c.url {title: 'Link', description: 'Link to the project.', default: 'http://example.com'}
+    links: c.array {title: 'Personal and Social Links', description: 'Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog.'},
       c.object {title: 'Link', description: 'A link to another site you want to highlight, like your GitHub, your LinkedIn, or your blog.', required: ['name', 'link']},
         name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "Twitter"'}
-        link: c.url {title: 'Link', description: 'The URL.', default: 'http://codecombat.com'}
+        link: c.url {title: 'Link', description: 'The URL.', default: 'http://example.com'}
   jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
   jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: "CodeCombat's notes on the candidate.", format: 'markdown', default: ''}
 c.extendBasicProperties UserSchema, 'user'

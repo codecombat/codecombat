@@ -38,6 +38,7 @@ module.exports = class JobProfileView extends CocoView
       filePath: "db/user/#{me.id}"
       schema: schema
       data: data
+      aceUseWrapMode: true
       callbacks: {change: @onJobProfileChanged}
 
     @jobProfileTreema = @$el.find('#job-profile-treema').treema treemaOptions

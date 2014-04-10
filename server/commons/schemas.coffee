@@ -8,7 +8,7 @@ combine = (base, ext) ->
   return base unless ext?
   return _.extend(base, ext)
 
-urlPattern = '^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-‌​\.\?\,\'\/\\\+&amp;%\$#_]*)?$'
+urlPattern = '^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-‌​\.\?\,\'\/\\\+&%\$#_=]*)?$'
 
 # Common schema properties
 me.object = (ext, props) -> combine {type: 'object', additionalProperties: false, properties: props or {}}, ext

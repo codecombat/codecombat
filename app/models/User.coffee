@@ -36,8 +36,7 @@ module.exports = class User extends CocoModel
         success: ->
           user.loading = false
           Backbone.Mediator.publish('user:fetched')
-          console.log 'triggering sync'
-          user.trigger 'sync'
+          #user.trigger 'sync'   # needed?
       )
     cache[id] = user
     user
