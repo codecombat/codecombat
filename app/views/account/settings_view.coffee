@@ -116,14 +116,14 @@ module.exports = class SettingsView extends View
     res = me.save()
     return unless res
     save = $('#save-button', @$el).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
-      .addClass('btn-info').show().removeClass('btn-danger')
+      .removeClass('btn-danger').addClass('btn-success').show()
 
     res.error ->
       errors = JSON.parse(res.responseText)
       forms.applyErrorsToForm(@$el, errors)
-      save.text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving')).removeClass('btn-info').addClass('btn-danger')
+      save.text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving')).removeClass('btn-success').addClass('btn-danger', 500)
     res.success (model, response, options) ->
-      save.text($.i18n.t('account_settings.saved', defaultValue: 'Changes Saved')).removeClass('btn-info')
+      save.text($.i18n.t('account_settings.saved', defaultValue: 'Changes Saved')).removeClass('btn-success', 500)
 
   grabData: ->
     @grabPasswordData()

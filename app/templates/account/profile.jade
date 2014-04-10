@@ -51,7 +51,7 @@ block content
           div.long-description!= marked(profile.longDescription)
 
           if profile.work.length
-            h3 
+            h3.experience-header 
               img.header-icon(src="/images/pages/account/profile/work.png", alt="")
               | Work Experience
             each job in profile.work
@@ -60,7 +60,7 @@ block content
               .clearfix
 
           if profile.education.length
-            h3
+            h3.experience-header
               img.header-icon(src="/images/pages/account/profile/education.png", alt="")
               | Education
             each school in profile.education
@@ -69,12 +69,12 @@ block content
               .clearfix
 
           if user.get('jobProfileNotes') || me.isAdmin()
-            h3 Our Notes
+            h3.experience-header Our Notes
             - var notes = user.get('jobProfileNotes') || '';
             if me.isAdmin()
               textarea#job-profile-notes!= notes
             else
-              p!= marked(notes)
+              div!= marked(notes)
 
         .right-column.full-height-column
           if profile.projects.length
@@ -83,10 +83,9 @@ block content
               each project in profile.projects
                 li
                   a(href=project.link)
-                    .project-image(style="background-image: url(/file/" + project.picture + ")")
+                  .project-image(style="background-image: url(/file/" + project.picture + ")")
                   p= project.name
-                  p!= marked(project.description)
-                  a(href=project.link).btn.btn-large.btn-inverse.flat-button Check it out
+                  div!= marked(project.description)
 
   else
     .public-profile-container
