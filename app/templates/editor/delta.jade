@@ -28,8 +28,6 @@
             .col-md-12
               div.old-value= delta.left
           if delta.action === 'text-diff'
-            .col-md-6
-              pre= delta.left
-            .col-md-6
-              pre= delta.right
+            .col-md-12
+              div.text-diff
     - i += 1

@@ -23,7 +23,6 @@ module.exports = class DeltaListView extends CocoView
     for delta, i in deltas
       deltaEl = $(delta)
       deltaData = @processedDeltas[i]
-      console.log 'delta', deltaEl, deltaData
       if _.isObject(deltaData.left) and leftEl = deltaEl.find('.old-value')
         options =
           data: deltaData.left
@@ -39,3 +38,20 @@ module.exports = class DeltaListView extends CocoView
           readOnly: true
         treema = TreemaNode.make(rightEl, options)
         treema.build()
+        
+      if deltaData.action is 'text-diff'
+        left = difflib.stringAsLines deltaData.left
+        right = difflib.stringAsLines deltaData.right
+        sm = new difflib.SequenceMatcher(left, right)
+        opcodes = sm.get_opcodes()
+        el = deltaEl.find('.text-diff')
+        args = {
+          baseTextLines: left
+          newTextLines: right
+          opcodes: opcodes
+          baseTextName: "Old"
+          newTextName: "New"
+          contextSize: 5
+          viewType: 1
+        }
+        el.append(diffview.buildView(args))
