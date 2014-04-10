@@ -54,7 +54,7 @@ module.exports.interpretDelta = (delta, path, left, schema) ->
   betterDelta.path = betterPath.join(' :: ')
   betterDelta.schema = childSchema
   betterDelta.left = childLeft
-  betterDelta.right = jsondiffpatch.patch childLeft, delta
+  betterDelta.right = jsondiffpatch.patch childLeft, delta unless betterDelta.action is 'moved-index'
   
   betterDelta
   
