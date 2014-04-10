@@ -26,12 +26,6 @@ module.exports = class CocoView extends Backbone.View
 
   # load progress properties
   loadProgress:
-    num: 0
-    denom: 0
-    showing: false
-    resources: [] # models and collections
-    requests: [] # jqxhr's
-    somethings: [] # everything else
     progress: 0
 
   # Setup, Teardown
@@ -48,6 +42,10 @@ module.exports = class CocoView extends Backbone.View
     @listenToShortcuts()
     @updateProgressBar = _.debounce @updateProgressBar, 100
     # Backbone.Mediator handles subscription setup/teardown automatically
+
+    @listenToOnce(@supermodel, 'loaded-all', ()=>@onLoaded)
+    @listenToOnce(@supermodel, 'superModel:updateProgress', @updateProgress)
+
     super options
 
   destroy: ->
@@ -87,8 +85,13 @@ module.exports = class CocoView extends Backbone.View
     super()
     return @template if _.isString(@template)
     @$el.html @template(@getRenderData())
+
+    if not @supermodel.finished()
+      @showLoading()
+    else
+      @hideLoading()
+
     @afterRender()
-    @showLoading() if @loading()
     @$el.i18n()
     @
 
@@ -103,81 +106,18 @@ module.exports = class CocoView extends Backbone.View
     context
 
   afterRender: ->
-    
-  # Resource and request loading management for any given view
-    
-  addResourceToLoad: (modelOrCollection, name, value=1) ->
-    res = {resource:modelOrCollection, value:value, name:name, loaded: modelOrCollection.loaded}
+    @hideLoading()
 
-    @loadProgress.resources.push res
-    @loadProgress.denom += value
-
-    @listenToOnce modelOrCollection, 'sync', ()=>
-      # Sprite builder only works after rendering, if callback creates sprite, we need to update progress first.
-      res.loaded = true
-      @updateProgress(res)
-
-    @listenTo modelOrCollection, 'error', @onResourceLoadFailed
-    @updateProgress(res)
-    
-  addRequestToLoad: (jqxhr, name, retryFunc, value=1) ->
-    res = {request:jqxhr, value:value, name: name, retryFunc: retryFunc, loaded:false}
-
-    @loadProgress.requests.push res
-    @loadProgress.denom += value
-
-    jqxhr.done ()=>
-      res.loaded = true
-      @updateProgress(res)
-
-    jqxhr.fail ()=>
-      @onRequestLoadFailed(jqxhr)
-
-  addSomethingToLoad: (name, value=1) ->
-    res = {name: name, value: value, loaded: false}
-
-    @loadProgress.somethings.push res
-    @loadProgress.denom += value
-
-    @updateProgress(res)
-
-  somethingLoaded: (name) ->
-    r = _.find @loadProgress.somethings, {name: name}
-    return console.error 'Could not find something called', name if not r
-    r.loaded = true
-    @updateProgress(r)
-
-  loading: ->
-    return false if @loaded
-    for r in @loadProgress.resources
-      return true if not r.resource.loaded
-    for r in @loadProgress.requests
-      return true if not r.request.status
-    for r in @loadProgress.somethings
-      return true if not r.loaded
-    return false
-
-  updateProgress: (r)=>
-    console.debug 'Loaded', r.name, r.loaded
-
-    denom = @loadProgress.denom   
-    @loadProgress.num += r.value if r.loaded
-    num = @loadProgress.num
-    
-    progress = if denom then num / denom else 0
-    # sometimes the denominator isn't known from the outset, so make sure the overall progress only goes up
+  updateProgress: (progress)=>
     @loadProgress.progress = progress if progress > @loadProgress.progress
-    @updateProgressBar()
-
-    if num is denom
-      @onLoaded()
+    @updateProgressBar(progress)
       
-  updateProgressBar: =>
-    prog = "#{parseInt(@loadProgress.progress*100)}%"
+  updateProgressBar: (progress) =>
+    prog = "#{parseInt(progress*100)}%"
     @$el.find('.loading-screen .progress-bar').css('width', prog)
 
   onLoaded: ->
-    @render()
+    #@render()
 
   # Error handling for loading
   

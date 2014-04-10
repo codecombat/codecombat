@@ -56,17 +56,21 @@ module.exports = class ThangTypeEditView extends View
         @insertSubView(new ErrorView())
     )
 
-    @thangType.fetch()
-    @thangType.loadSchema()
+    thang_res = @supermodel.addModelResource(@thangType, 'thang_type')
+    thang_schema_res = @supermodel.addModelResource(@thangType.schema(), 'thang_type_schema')
+    thang_res.addDependency('thang_type_schema')
+
+    thang_res.load()
     @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
     @listenToOnce(@thangType, 'sync', @onThangTypeSync)
+
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
   onThangTypeSync: ->
     return unless @thangType.loaded and ThangType.hasSchema()
     @startsLoading = false
     @files = new DocumentFiles(@thangType)
-    @files.fetch()
+    @supermodel.addModelResource(@files, @files.url).load()
     @render()
 
   getRenderData: (context={}) ->

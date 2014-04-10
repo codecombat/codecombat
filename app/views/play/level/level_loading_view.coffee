@@ -15,6 +15,7 @@ module.exports = class LevelLoadingView extends View
     tip = _.sample(tips)
     $(tip).removeClass('to-remove')
     @$el.find('.to-remove').remove()
+    @hideLoading()
 
   onLevelLoaderProgressChanged: (e) ->
     @progress = e.progress
@@ -33,7 +34,7 @@ module.exports = class LevelLoadingView extends View
     _.delay @reallyUnveil, 1000
 
   reallyUnveil: =>
-    return if @destroyed
+    return if @destroyed or @progress < 1
     loadingDetails = @$el.find('.loading-details')
     duration = parseFloat loadingDetails.css 'transition-duration'
     loadingDetails.css 'top', -loadingDetails.outerHeight(true)
