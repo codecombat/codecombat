@@ -90,6 +90,8 @@ module.exports = class Spell
       problems:
         jshint_W040: {level: "ignore"}
         jshint_W030: {level: "ignore"}  # aether_NoEffect instead
+        jshint_W038: {level: "ignore"} #eliminates hoisting problems
+        jshint_W091: {level: "ignore"} #eliminates more hoisting problems
         aether_MissingThis: {level: (if thang.requiresThis then 'error' else 'warning')}
       language: aceConfig.language ? 'javascript'
       functionName: @name
