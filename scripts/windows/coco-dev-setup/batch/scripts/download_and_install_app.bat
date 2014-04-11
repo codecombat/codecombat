@@ -21,7 +21,7 @@ call get_extension %2 download_extension
 call get_local_text install_process_downloading install process downloading
 echo %1 !install_process_downloading!
 set "install_file=!temp_directory!%1.!download_extension!"
-%curl_app% -k %2 -o !install_file!
+start /wait cmd.exe /c "TITLE %1 !install_process_downloading! && %curl_app% -k -m 10800 --retry 100 -o !install_file! %2" 
 
 if "%download_extension%"=="zip" (
 	set "package_path=!temp_directory!%1\"
