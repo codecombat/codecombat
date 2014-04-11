@@ -116,7 +116,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     forum_suffix: " instead."
     send: "Send Feedback"
     contact_candidate: "Contact Candidate"
-    recruitment_reminder: "Use this form to get in touch with candidates you are interested in interviewing. Remember that CodeCombat charges 18% of first-year salary for any full-time candidate you hire who stays 90 days, but that part-timers, remote employees, contractors, and interns are free."
+    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 18% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
 
   diplomat_suggestion:
     title: "Help translate CodeCombat!"
@@ -151,6 +151,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wizard_tab: "Wizard"
     password_tab: "Password"
     emails_tab: "Emails"
+    job_profile_tab: "Job Profile!!!"
     admin: "Admin"
     wizard_color: "Wizard Clothes Color"
     new_password: "New Password"
@@ -168,11 +169,37 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     error_saving: "Error Saving"
     saved: "Changes Saved"
     password_mismatch: "Password does not match."
+    job_profile: "Job Profile!!!"
+    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks.!!!"
+    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job.!!!"
 
   account_profile:
-    edit_settings: "Edit Settings"
-    profile_for_prefix: "Profile for "
-    profile_for_suffix: ""
+    edit_settings: "Edit Settings!!!"
+    profile_for_prefix: "Profile for !!!"
+    profile_for_suffix: "!!!"
+    approved: "Approved!!!"
+    not_approved: "Not Approved!!!"
+    looking_for: "Looking for:!!!"
+    last_updated: "Last updated:!!!"
+    contact: "Contact!!!"
+    work_experience: "Work Experience!!!"
+    education: "Education!!!"
+    our_notes: "Our Notes!!!"
+    projects: "Projects!!!"
+
+  employers:
+    want_to_hire_our_players: "Want to hire expert CodeCombat players?"
+    contact_george: "Contact George to see our candidates"
+    candidates_count_prefix: "We currently have "
+    candidates_count_many: "many"
+    candidates_count_suffix: "highly skilled and vetted developers looking for work."
+    candidate_name: "Name"
+    candidate_location: "Location"
+    candidate_looking_for: "Looking For"
+    candidate_role: "Role"
+    candidate_top_skills: "Top Skills"
+    candidate_years_experience: "Yrs Exp"
+    candidate_last_updated: "Last Updated"
 
   play_level:
     level_load_error: "Level could not be loaded: "
