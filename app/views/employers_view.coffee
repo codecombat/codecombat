@@ -80,7 +80,7 @@ module.exports = class EmployersView extends View
 
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
-    if not id
+    if id
       url = "/account/profile/#{id}"
       app.router.navigate url, {trigger: true}
     else

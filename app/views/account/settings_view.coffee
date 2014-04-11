@@ -81,13 +81,10 @@ module.exports = class SettingsView extends View
 
   buildPictureTreema: ->
     data = photoURL: me.get('photoURL')
-    if data.photoURL?.search('gravatar') isnt -1
-      # Old style
-      data.photoURL = null
+    data.photoURL = null if data.photoURL?.search('gravatar') isnt -1  # Old style
     schema = _.cloneDeep me.schema().attributes
     schema.properties = _.pick me.schema().get('properties'), 'photoURL'
     schema.required = ['photoURL']
-    console.log 'schema is', schema
     treemaOptions =
       filePath: "db/user/#{me.id}"
       schema: schema
