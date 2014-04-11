@@ -173,12 +173,9 @@ UserHandler = class UserHandler extends Handler
     return @getNamesByIds(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
-<<<<<<< HEAD
-    super(arguments...)
-=======
     return @getCandidates(req, res) if args[1] is 'candidates'
     return @sendNotFoundError(res)
->>>>>>> master
+    super(arguments...)
 
   agreeToCLA: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user
