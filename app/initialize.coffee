@@ -1,5 +1,22 @@
 app = require 'application'
 
+channelSchemas =
+  'app': require './schemas/subscriptions/app'
+  'bus': require './schemas/subscriptions/bus'
+  'editor': require './schemas/subscriptions/editor'
+  'errors': require './schemas/subscriptions/errors'
+  'level': require './schemas/subscriptions/level'
+  'misc': require './schemas/subscriptions/misc'
+  'play': require './schemas/subscriptions/play'
+  'surface': require './schemas/subscriptions/surface'
+  'tome': require './schemas/subscriptions/tome'
+  'user': require './schemas/subscriptions/user'
+  'world': require './schemas/subscriptions/world'
+
+definitionSchemas =
+  'bus': require './schemas/definitions/bus'
+  'misc': require './schemas/definitions/misc'
+
 init = ->
   app.initialize()
   Backbone.history.start({ pushState: true })
@@ -8,6 +25,10 @@ init = ->
   treemaExt = require 'treema-ext'
   treemaExt.setup()
   filepicker.setKey('AvlkNoldcTOU4PvKi2Xm7z')
+
+  # Set up Backbone.Mediator schemas
+  configureChannels()
+  configureDefinitions()
 
 $ -> init()
   
@@ -32,3 +53,10 @@ handleNormalUrls = ->
 
       return false
 
+configureChannels = ->
+  for channel of channelSchemas
+    Backbone.Mediator.addChannelSchemas channelSchemas[channel]
+
+configureDefinitions = ->
+  for definition of definitionSchemas
+    Backbone.Mediator.addDefSchemas definitionSchemas[definition]
