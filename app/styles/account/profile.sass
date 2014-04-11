@@ -104,6 +104,11 @@
           padding-left: 20px
           padding-right: 20px
 
+          &.double-column
+            width: 524px + 250px
+            padding-left: 30px
+            padding-right: 30px
+
           code
             background-color: rgb(220, 220, 220)
             color: #555
@@ -135,8 +140,13 @@
 
         .right-column
           width: 250px
-          background-color: white
-    
+          background-color: rgb(220, 220, 220)
+
+          > h3:first-child
+            background-color: white
+            padding: 5px 5px
+            margin: 5px 2px 5px 2px
+
           ul.projects
             li
               margin-bottom: 10px
@@ -144,6 +154,7 @@
               border: 2px solid rgb(220, 220, 220)
               transition: .5s ease-in-out
               position: relative
+              background-color: white
 
               &:hover
                 border-color: rgb(100, 130, 255)

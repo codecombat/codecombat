@@ -230,6 +230,7 @@ UserHandler = class UserHandler extends Handler
   formatCandidate: (authorized, document) ->
     fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile']
     obj = _.pick document.toObject(), fields
+    obj.photoURL ||= obj.jobProfile.photoURL if authorized
     obj.photoURL ||= @buildGravatarURL document if authorized
     subfields = ['country', 'city', 'lookingFor', 'skills', 'experience', 'updated']
     if authorized

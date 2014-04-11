@@ -21,7 +21,7 @@ block content
       .job-profile-row
         .left-column.full-height-column
           .profile-photo-container
-            img.profile-photo(src=user.getPhotoURL(240))
+            img.profile-photo(src=user.getPhotoURL(240, true))
             .profile-caption= profile.jobTitle || 'Software Developer'
 
           if profileLinks.length

@@ -19,8 +19,10 @@ module.exports = class User extends CocoModel
   lang: ->
     @get('preferredLanguage') or "en-US"
 
-  getPhotoURL: (size=80) ->
-    if photoURL = @get('photoURL')
+  getPhotoURL: (size=80, useJobProfilePhoto=false) ->
+    photoURL = if useJobProfilePhoto then @get('jobProfile')?.photoURL else null
+    photoURL ||= @get('photoURL')
+    if photoURL
       prefix = if photoURL.search(/\?/) is -1 then "?" else "&"
       return "#{photoURL}#{prefix}s=#{size}" if photoURL.search('http') isnt -1  # legacy
       return "/file/#{photoURL}#{prefix}s=#{size}"

@@ -37,6 +37,9 @@ module.exports = class ProfileView extends View
   afterRender: ->
     super()
     @updateProfileApproval() if me.isAdmin()
+    unless @user.get('jobProfile')?.projects?.length
+      @$el.find('.right-column').hide()
+      @$el.find('.middle-column').addClass('double-column')
 
   updateProfileApproval: ->
     approved = @user.get 'jobProfileApproved'
