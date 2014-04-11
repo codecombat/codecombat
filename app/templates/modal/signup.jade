@@ -30,5 +30,14 @@ block modal-body-content
 block modal-body-wait-content
   h3(data-i18n="signup.creating") Creating Account...
 
-block modal-footer-content
-  button.btn.btn-primary.btn-large#signup-button(data-i18n="signup.sign_up") Sign Up
+block modal-footer
+  .modal-footer
+    div
+      button.btn.btn-primary.btn-large#signup-button(data-i18n="signup.sign_up") Sign Up
+    div.social-login-text(data-i18n="signup.social_signup") Or, you can sign up through Facebook or G+:
+
+  .modal-footer.network-logins
+    div
+      .fb-login-button(data-show-faces="false", data-width="200", data-max-rows="1", data-scope="email")
+    div
+      .gplus-login-button#gplus-login-button
