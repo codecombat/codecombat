@@ -32,4 +32,6 @@ call %work_directory%\print_dashed_seperator
 
 taskkill /F /fi "IMAGENAME eq mongod.exe"
 
+del /F %~1\mongod.lock
+
 cd /D %work_directory%
