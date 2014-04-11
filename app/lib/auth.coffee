@@ -11,7 +11,6 @@ init = ->
     me.set 'testGroupNumber', Math.floor(Math.random() * 256)
     me.save()
 
-  me.loadGravatarProfile() if me.get('email')
   Backbone.listenTo(me, 'sync', Backbone.Mediator.publish('me:synced', {me:me}))
 
 module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) ->
@@ -52,4 +51,3 @@ trackFirstArrival = ->
   storage.save(BEEN_HERE_BEFORE_KEY, true)
 
 init()
-

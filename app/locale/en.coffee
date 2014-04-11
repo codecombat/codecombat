@@ -3,6 +3,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     loading: "Loading..."
     saving: "Saving..."
     sending: "Sending..."
+    send: "Send"
     cancel: "Cancel"
     save: "Save"
     create: "Create"
@@ -111,6 +112,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     forum_page: "our forum"
     forum_suffix: " instead."
     send: "Send Feedback"
+    contact_candidate: "Contact Candidate"
+    recruitment_reminder: "Use this form to get in touch with candidates you are interested in interviewing. Remember that CodeCombat charges 18% of first-year salary for any full-time candidate you hire who stays 90 days, but that part-timers, remote employees, contractors, and interns are free."
 
   diplomat_suggestion:
     title: "Help translate CodeCombat!"
@@ -142,9 +145,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     password_tab: "Password"
     emails_tab: "Emails"
     admin: "Admin"
-    gravatar_select: "Select which Gravatar photo to use"
-    gravatar_add_photos: "Add thumbnails and photos to a Gravatar account for your email to choose an image."
-    gravatar_add_more_photos: "Add more photos to your Gravatar account to access them here."
     wizard_color: "Wizard Clothes Color"
     new_password: "New Password"
     new_password_verify: "Verify"
@@ -166,17 +166,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     edit_settings: "Edit Settings"
     profile_for_prefix: "Profile for "
     profile_for_suffix: ""
-    profile: "Profile"
-    user_not_found: "No user found. Check the URL?"
-    gravatar_not_found_mine: "We couldn't find your profile associated with:"
-    gravatar_not_found_email_suffix: "."
-    gravatar_signup_prefix: "Sign up at "
-    gravatar_signup_suffix: " to get set up!"
-    gravatar_not_found_other: "Alas, there's no profile associated with this person's email address."
-    gravatar_contact: "Contact"
-    gravatar_websites: "Websites"
-    gravatar_accounts: "As Seen On"
-    gravatar_profile_link: "Full Gravatar Profile"
 
   play_level:
     level_load_error: "Level could not be loaded: "
@@ -345,6 +334,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     results: "Results"
     description: "Description"
     or: "or"
+    subject: "Subject"
     email: "Email"
     password: "Password"
     message: "Message"
@@ -616,7 +606,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     bad_input: "Bad input."
     server_error: "Server error."
     unknown: "Unknown error."
-    
+
   resources:
     your_sessions: "Your Sessions"
     level: "Level"
@@ -626,4 +616,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     facebook_friend_sessions: "Facebook Friend Sessions"
     gplus_friends: "G+ Friends"
     gplus_friend_sessions: "G+ Friend Sessions"
-    leaderboard: 'leaderboard'
+    leaderboard: "Leaderboard"
+    user_schema: "User Schema"
+    user_profile: "User Profile"
