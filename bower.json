@@ -39,7 +39,7 @@
     "d3": "~3.4.4",
     "nanoscroller": "~0.8.0",
     "jquery.tablesorter": "~2.15.13",
-    "treema": "~0.0.1",
+    "treema": ">=0.0.1",
     "bootstrap": "~3.1.1",
     "validated-backbone-mediator": "~0.1.3"
   },

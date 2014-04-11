@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "English", englishDescription: "English", translation:
+﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
   common:
     loading: "Loading..."
     saving: "Saving..."
@@ -75,6 +75,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     creating: "Creating Account..."
     sign_up: "Sign Up"
     log_in: "log in with password"
+    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Learn to Code JavaScript by Playing a Game"
@@ -151,7 +152,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wizard_tab: "Wizard"
     password_tab: "Password"
     emails_tab: "Emails"
-    job_profile_tab: "Job Profile"
     admin: "Admin"
     wizard_color: "Wizard Clothes Color"
     new_password: "New Password"
