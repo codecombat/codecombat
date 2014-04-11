@@ -55,16 +55,16 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   buildValueForDisplay: (valEl) ->
     @editor?.destroy()
     valEl.html(marked(@data))
-    
+
 class SoundFileTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-sound-file'
   editable: false
   soundCollection: 'files'
-  
+
   onClick: (e) ->
     return if $(e.target).closest('.btn').length
     super(arguments...)
-    
+
   getFiles: ->
     @settings[@soundCollection]?.models or []
 
@@ -76,7 +76,7 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
       .click(@playFile)
     stopButton = $('<a class="btn"><i class="icon-stop"></i></a>')
       .click(@stopFile)
-    
+
     dropdown = $('<div class="btn-group dropdown"></div>')
 
     dropdownButton = $('<a></a>')
@@ -84,9 +84,9 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
       .attr('href', '#')
       .append($('<span class="caret"></span>'))
       .dropdown()
-    
+
     dropdown.append dropdownButton
-    
+
     menu = $('<div class="dropdown-menu"></div>')
     files = @getFiles()
     for file in files
@@ -102,7 +102,7 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
       @data = $(e.target).data('fullPath') or @data
       @reset()
     dropdown.append(menu)
-    
+
     valEl.append(pickButton)
     if @data
       valEl.append(playButton)
@@ -112,12 +112,12 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
       path = @data.split('/')
       name = path[path.length-1]
       valEl.append($('<span></span>').text(name))
-    
+
   reset: ->
     @instance = null
     @flushChanges()
     @refreshDisplay()
-    
+
   playFile: =>
     @src = "/file/#{@data}"
 
@@ -129,27 +129,27 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
       registered = createjs.Sound.registerSound(@src)
       if registered is true
         @instance = createjs.Sound.play(@src)
-      
+
       else
         f = (event) =>
           @instance = createjs.Sound.play(event.src) if event.src is @src
           createjs.Sound.removeEventListener('fileload', f)
         createjs.Sound.addEventListener('fileload', f)
-      
+
   stopFile: => @instance?.stop()
-    
+
   onFileChosen: (InkBlob) =>
     if not @settings.filePath
       console.error('Need to specify a filePath for this treema', @getRoot())
       throw Error('cannot upload file')
-      
+
     body =
       url: InkBlob.url
       filename: InkBlob.filename
       mimetype: InkBlob.mimetype
       path: @settings.filePath
       force: true
-      
+
     @uploadingPath = [@settings.filePath, InkBlob.filename].join('/')
     $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
 
@@ -279,13 +279,13 @@ class LatestVersionReferenceNode extends TreemaNode
   search: =>
     term = @getValEl().find('input').val()
     return if term is @lastTerm
-    
+
     # HACK while search is broken
     if @collection
       @lastTerm = term
       @searchCallback()
       return
-      
+
     @getSearchResultsEl().empty() if @lastTerm and not term
     return unless term
     @lastTerm = term
@@ -295,9 +295,9 @@ class LatestVersionReferenceNode extends TreemaNode
     # HACK while search is broken
 #    @collection.url = "#{@url}?term=#{term}&project=true"
     @collection.url = "#{@url}?term=#{''}&project=true"
-    
+
     @collection.fetch()
-    @listenTo(@collection, 'sync', @searchCallback)
+    @collection.once 'sync', @searchCallback, @
 
   searchCallback: ->
     container = @getSearchResultsEl().detach().empty()
@@ -306,10 +306,10 @@ class LatestVersionReferenceNode extends TreemaNode
       row = $('<div></div>').addClass('treema-search-result-row')
       text = @formatDocument(model)
       continue unless text?
-      
+
       # HACK while search is broken
       continue unless text.toLowerCase().indexOf(@lastTerm.toLowerCase()) >= 0
-      
+
       row.addClass('treema-search-selected') if first
       first = false
       row.text(text)

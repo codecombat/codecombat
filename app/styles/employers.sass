@@ -1,0 +1,29 @@
+#employers-view
+  .tablesorter
+    //img
+    //  display: none
+
+    .tablesorter-header
+      cursor: pointer
+      &:hover
+        color: black
+
+      &:first-child
+        // Make sure that "Developer #56" doesn't wrap onto second row
+        min-width: 110px
+      
+    .tablesorter-headerAsc
+      background-color: #cfc
+
+    .tablesorter-headerDesc
+      background-color: #ccf
+
+    tr
+      cursor: pointer
+
+    code
+      background-color: rgb(220, 220, 220)
+      color: #555
+      margin: 2px 0
+      display: inline-block
+      text-transform: lowercase
