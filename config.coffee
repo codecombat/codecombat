@@ -62,8 +62,8 @@ exports.config =
           'vendor/scripts/soundjs-NEXT.combined.js'
           'vendor/scripts/tweenjs-NEXT.combined.js'
           'vendor/scripts/movieclip-NEXT.min.js'
-
-          'vendor/scripts/tv4.js'
+          # Validated Backbone Mediator dependencies
+          'bower_components/tv4/tv4.js'
 
           # Aether before box2d for some strange Object.defineProperty thing
           'bower_components/aether/build/aether.js'
