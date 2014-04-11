@@ -52,10 +52,11 @@ GLOBAL.localStorage =
 # since it will replace that.
 # (Why is there no easier way?)
 hookedLoader = (request, parent, isMain) ->
-  if request is 'lib/god'
-    console.log 'I choose you, SimpleGod.'
-    request = './headless_client/SimpleGod'
-  else if request in disable or ~request.indexOf('templates')
+  #if request is 'lib/god'
+  #  console.log 'I choose you, SimpleGod.'
+  #  request = './headless_client/SimpleGod'
+  #else
+  if request in disable or ~request.indexOf('templates')
     console.log 'Ignored ' + request if debug
     return class fake
   else if '/' in request and not (request[0] is '.') or request is 'application'
@@ -150,7 +151,7 @@ GLOBAL.Aether = require 'aether'
 # Set up new loader.
 hook()
 
-worker_function = require './headless_client/worker_world'
+#worker_function = require './headless_client/worker_world'
 
 
 self =
@@ -158,16 +159,9 @@ self =
   postMessage: ->
   addEventListener: ->
 
-worker = new Worker(worker_function)
-worker.onmessage = (event) ->
-  console.log("Worker said : " + JSON.stringify event.data)
-
-
-
-
-
-return
-
+#worker = new Worker(worker_function)
+#worker.onmessage = (event) ->
+#  console.log("Worker said : " + JSON.stringify event.data)
 
 login = require './login.coffee' #should contain an object containing they keys 'username' and 'password'
 
@@ -189,7 +183,7 @@ $.ajax
     GoalManager = require 'lib/world/GoalManager'
 
     God = require 'lib/God'
-    God.worker = require('./headless_client/worker_world.coffee')(World, GoalManager)
+    God.worker = require('./headless_client/worker_world')
 
     SuperModel = require 'models/SuperModel'
 

@@ -277,8 +277,6 @@ class Angel
     @worker.addEventListener 'message', @onWorkerMessage
 
   onWorkerMessage: (event) =>
-
-    console.log "EVENT " + JSON.stringify event
     switch event.data.type
       when 'worker-initialized'
         console.log "Worker", @id, "initialized after", ((new Date()) - @worker.creationTime), "ms (we had been waiting for it)"

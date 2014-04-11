@@ -5,8 +5,7 @@ JASON = require 'jason'
 World = require 'lib/world/world'
 GoalManager = require 'lib/world/GoalManager'
 
-work = (self, console, World, GoalManager) ->
-  console.log "Huhu " + GoalManager
+work = (self, World, GoalManager) ->
   require = null
 
   # Don't allow the thread to read files.
@@ -161,7 +160,7 @@ ret = """
     var World =JASON.parse(#{ JASON.stringify World});
     var GoalManager = JASON.parse(#{ JASON.stringify GoalManager});
     var work = JASON.parse(#{JASON.stringify work});
-    work(self, console, World, GoalManager);
+    work(self, World, GoalManager);
   }catch (error) {
     self.postMessage({"type": "console-log", args: ["An unhandled error occured: ", error.toString()], id: -1});
   }
