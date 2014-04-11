@@ -42,6 +42,9 @@ module.exports = class Thang
   setGoalState: (goalID, status) ->
     @world.setGoalState goalID, status
 
+  getThangByID: (id) ->
+    @world.getThangByID id
+
   addComponents: (components...) ->
     # We don't need to keep the components around after attaching them, but we will keep their initial config for recreating Thangs
     @components ?= []
