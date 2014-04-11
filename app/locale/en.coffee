@@ -47,6 +47,9 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   versions:
     save_version_title: "Save New Version"
     new_major_version: "New Major Version"
+    update_break_level: "(Could this update break old solutions of the level?)"
+    update_break_component: "(Could this update break anything depending on this Component?)"
+    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "To save changes, first you must agree to our"
     cla_url: "CLA"
     cla_suffix: "."
@@ -72,6 +75,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     creating: "Creating Account..."
     sign_up: "Sign Up"
     log_in: "log in with password"
+    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Learn to Code JavaScript by Playing a Game"
@@ -113,7 +117,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     forum_suffix: " instead."
     send: "Send Feedback"
     contact_candidate: "Contact Candidate"
-    recruitment_reminder: "Use this form to get in touch with candidates you are interested in interviewing. Remember that CodeCombat charges 18% of first-year salary for any full-time candidate you hire who stays 90 days, but that part-timers, remote employees, contractors, and interns are free."
+    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 18% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
 
   diplomat_suggestion:
     title: "Help translate CodeCombat!"
@@ -126,9 +130,13 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
   wizard_settings:
     title: "Wizard Settings"
     customize_avatar: "Customize Your Avatar"
+    active: "Active"
+    color: "Color"
+    group: "Group"
     clothes: "Clothes"
     trim: "Trim"
     cloud: "Cloud"
+    team: "Team"
     spell: "Spell"
     boots: "Boots"
     hue: "Hue"
@@ -144,6 +152,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wizard_tab: "Wizard"
     password_tab: "Password"
     emails_tab: "Emails"
+    job_profile_tab: "Job Profile"
     admin: "Admin"
     wizard_color: "Wizard Clothes Color"
     new_password: "New Password"
@@ -161,11 +170,37 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     error_saving: "Error Saving"
     saved: "Changes Saved"
     password_mismatch: "Password does not match."
+    job_profile: "Job Profile"
+    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
+    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
 
   account_profile:
     edit_settings: "Edit Settings"
     profile_for_prefix: "Profile for "
     profile_for_suffix: ""
+    approved: "Approved"
+    not_approved: "Not Approved"
+    looking_for: "Looking for:"
+    last_updated: "Last updated:"
+    contact: "Contact"
+    work_experience: "Work Experience"
+    education: "Education"
+    our_notes: "Our Notes"
+    projects: "Projects"
+
+  employers:
+    want_to_hire_our_players: "Want to hire expert CodeCombat players?"
+    contact_george: "Contact George to see our candidates"
+    candidates_count_prefix: "We currently have "
+    candidates_count_many: "many"
+    candidates_count_suffix: "highly skilled and vetted developers looking for work."
+    candidate_name: "Name"
+    candidate_location: "Location"
+    candidate_looking_for: "Looking For"
+    candidate_role: "Role"
+    candidate_top_skills: "Top Skills"
+    candidate_years_experience: "Yrs Exp"
+    candidate_last_updated: "Last Updated"
 
   play_level:
     level_load_error: "Level could not be loaded: "
@@ -284,8 +319,15 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     contact_us: "contact us!"
     hipchat_prefix: "You can also find us in our"
     hipchat_url: "HipChat room."
+    back: "Back"
     revert: "Revert"
     revert_models: "Revert Models"
+    fork_title: "Fork New Version"
+    fork_creating: "Creating Fork..."
+    more: "More"
+    wiki: "Wiki"
+    live_chat: "Live Chat"
+    level_publish: "Publish This Level (irreversible)?"
     level_some_options: "Some Options?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Scripts"
@@ -293,8 +335,11 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     level_tab_components: "Components"
     level_tab_systems: "Systems"
     level_tab_thangs_title: "Current Thangs"
+    level_tab_thangs_all: "All"
     level_tab_thangs_conditions: "Starting Conditions"
     level_tab_thangs_add: "Add Thangs"
+    delete: "Delete"
+    duplicate: "Duplicate"
     level_settings_title: "Settings"
     level_component_tab_title: "Current Components"
     level_component_btn_new: "Create New Component"
@@ -316,6 +361,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     article_search_title: "Search Articles Here"
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"
+    signup_to_create: "Sign Up to Create a New Content"
     read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
   article:
@@ -328,7 +374,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     body: "Body"
     version: "Version"
     commit_msg: "Commit Message"
-    history: "History"
+    version_history: "Version History"
     version_history_for: "Version History for: "
     result: "Result"
     results: "Results"
@@ -350,7 +396,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     easy: "Easy"
     medium: "Medium"
     hard: "Hard"
-
 
   about:
     who_is_codecombat: "Who is CodeCombat?"

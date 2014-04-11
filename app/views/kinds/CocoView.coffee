@@ -210,6 +210,7 @@ module.exports = class CocoView extends Backbone.View
     return unless elem.data('toggle') is 'coco-modal'
     target = elem.data('target')
     view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to
+    console.log "got target", target, "which gave view", view
     @openModalView(view)
 
   openModalView: (modalView, softly=false) ->
@@ -227,7 +228,7 @@ module.exports = class CocoView extends Backbone.View
     $('#modal-wrapper .modal').modal(modalOptions).on 'hidden.bs.modal', @modalClosed
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
-    # setTimeout -> 
+    # setTimeout ->
     #   $('.modal').nanoScroller({contentClass:'modal-dialog'})
     # , 1000
 
