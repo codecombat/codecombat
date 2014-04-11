@@ -1,7 +1,16 @@
 # function to use inside a webworker.
-module.exports = (World, GoalManager) -> () ->
-  #console.log World + " " +  GoalManager
-  console.log "Worker loaded."
+# This function needs to run inside an environment that has a 'self'.
+
+JASON = require 'jason'
+World = require 'lib/world/world'
+GoalManager = require 'lib/world/GoalManager'
+
+work = (self, console, World, GoalManager) ->
+  console.log "Huhu " + GoalManager
+  require = null
+
+  # Don't allow the thread to read files.
+  native_fs_ = null
 
   self.workerID = "Worker";
 
@@ -9,7 +18,6 @@ module.exports = (World, GoalManager) -> () ->
   self.logsLogged = 0;
 
   self.transferableSupported = () -> true
-
 
   console = log: ->
     if self.logsLogged++ is self.logLimit
@@ -19,7 +27,7 @@ module.exports = (World, GoalManager) -> () ->
         id: self.workerID
 
     else if self.logsLogged < self.logLimit
-      args = [].slice.call(arguments_)
+      args = [].slice.call(arguments)
       i = 0
 
       while i < args.length
@@ -64,7 +72,7 @@ module.exports = (World, GoalManager) -> () ->
       self.goalManager.worldGenerationWillBegin()
       self.world.setGoalManager self.goalManager
     catch error
-      #console.log "There has been an error inside thew worker... "
+    #console.log "There has been an error inside thew worker... "
       self.onWorldError error
       return
     Math.random = self.world.rand.randf # so user code is predictable
@@ -145,3 +153,18 @@ module.exports = (World, GoalManager) -> () ->
     return
 
   self.postMessage type: "worker-initialized"
+
+
+ret = """
+  try {
+    self.eval(JASON=#{JASON.stringify JASON});
+    var World =JASON.parse(#{ JASON.stringify World});
+    var GoalManager = JASON.parse(#{ JASON.stringify GoalManager});
+    var work = JASON.parse(#{JASON.stringify work});
+    work(self, console, World, GoalManager);
+  }catch (error) {
+    self.postMessage({"type": "console-log", args: ["An unhandled error occured: ", error.toString()], id: -1});
+  }
+"""
+
+module.exports = new Function(ret)

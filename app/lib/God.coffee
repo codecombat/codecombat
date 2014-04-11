@@ -24,7 +24,7 @@ module.exports = class God
     @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
     @fillWorkerPool()
 
-  @worker: '/javascripts/workers/worker_world.js'
+  @worker: '/javascripts/workers/worker_world.js'  #Can be a string or a function.
 
   onTomeCast: (e) ->
     return if @dead
@@ -247,7 +247,7 @@ class Angel
 
   terminate: =>
     @worker?.terminate()
-    #TODO: Put back in. @worker?.removeEventListener 'message', @onWorkerMessage(worker)
+    @worker?.removeEventListener 'message', @onWorkerMessage(worker)
     @worker = null
     return if @dead
     @free()
@@ -291,7 +291,7 @@ class Angel
       when 'user-code-problem'
         @god.angelUserCodeProblem @, event.data.problem
       when 'abort'
-        #console.log @id, "aborted."
+        console.log @id, "aborted."
         clearTimeout @abortTimeout
         @free()
         @god.angelAborted @

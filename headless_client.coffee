@@ -28,6 +28,7 @@ hook = () ->
 # Global emulated stuff
 GLOBAL.window = GLOBAL
 GLOBAL.Worker = require('webworker-threads').Worker
+Worker.removeEventListener = -> #This webworker api has only one event listener at a time.
 
 GLOBAL.tv4 = require('tv4').tv4
 
@@ -44,14 +45,17 @@ GLOBAL.localStorage =
     removeItem: (key) => delete store[key]
 
 
+
+
 # Hook node.js require. See https://github.com/mfncooper/mockery/blob/master/mockery.js
 # The signature of this function *must* match that of Node's Module._load,
 # since it will replace that.
 # (Why is there no easier way?)
 hookedLoader = (request, parent, isMain) ->
-
-  # Mock UI stuff.
-  if request in disable or ~request.indexOf('templates')
+  if request is 'lib/god'
+    console.log 'I choose you, SimpleGod.'
+    request = './headless_client/SimpleGod'
+  else if request in disable or ~request.indexOf('templates')
     console.log 'Ignored ' + request if debug
     return class fake
   else if '/' in request and not (request[0] is '.') or request is 'application'
@@ -146,6 +150,24 @@ GLOBAL.Aether = require 'aether'
 # Set up new loader.
 hook()
 
+worker_function = require './headless_client/worker_world'
+
+
+self =
+  eval: eval
+  postMessage: ->
+  addEventListener: ->
+
+worker = new Worker(worker_function)
+worker.onmessage = (event) ->
+  console.log("Worker said : " + JSON.stringify event.data)
+
+
+
+
+
+return
+
 
 login = require './login.coffee' #should contain an object containing they keys 'username' and 'password'
 
@@ -227,7 +249,7 @@ $.ajax
           return
 
         @supermodel ?= new SuperModel()
-        @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
+        @god = new God maxWorkerPoolSize: 2, maxAngels: 2  # Start loading worker.
 
         console.log "Creating loader with levelID: " + levelID + " and SessionID: " + @task.getFirstSessionID() + " - task: " + JSON.stringify(@task)
 

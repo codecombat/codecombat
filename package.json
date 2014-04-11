@@ -65,7 +65,8 @@
     "redis": "",
     "webworker-threads": "~0.4.11",
     "node-gyp": "~0.13.0",
-    "aether": "~0.1.18"
+    "aether": "~0.1.18",
+    "JASON": "~0.1.3"
   },
   "devDependencies": {
     "jade": "0.33.x",
