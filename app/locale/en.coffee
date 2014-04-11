@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "English", englishDescription: "English", translation:
+﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
   common:
     loading: "Loading..."
     saving: "Saving..."

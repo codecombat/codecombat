@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", translation:
+﻿module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", translation:
   common:
     loading: "Aan het laden..."
     saving: "Opslaan..."
@@ -12,7 +12,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     manual: "Handleiding"
     fork: "Fork"
     play: "Spelen"
-#    retry: "Retry"
+    retry: "Probeer opnieuw"
 
   units:
     second: "seconde"
@@ -30,7 +30,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     page_not_found: "Pagina niet gevonden"
 
   nav:
-    play: "Spelen"
+    play: "Levels"
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
@@ -265,8 +265,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tip_patience: "Geduld moet je hebben, jonge Padawan. - Yoda"
     tip_documented_bug: "Een gedocumenteerde fout is geen fout; het is deel van het programma."
     tip_impossible: "Het lijkt altijd onmogelijk tot het gedaan wordt. - Nelson Mandela"
-#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
-#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
+    tip_talk_is_cheap: "Je kunt het goed uitleggen, maar toon me de code. - Linus Torvalds"
+    tip_first_language: "Het ergste dat je kan leren is je eerste programmeertaal. - Alan Kay" 
     time_current: "Nu:"
     time_total: "Maximum:"
     time_goto: "Ga naar:"
@@ -327,7 +327,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     article_search_title: "Zoek Artikels Hier"
     thang_search_title: "Zoek Thang Types Hier"
     level_search_title: "Zoek Levels Hier"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+    read_only_warning: "Herinnering: Je kunt hier geen aanpassingen opslaan, want je bent niet ingelogd als administrator."
 
   article:
     edit_btn_preview: "Voorbeeld"
@@ -593,7 +593,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     introducing_dungeon_arena: "Introductie van Dungeon Arena"
     new_way: "17 maart, 2014: De nieuwe manier om te concurreren met code."
     to_battle: "Naar het slagveld, ontwikkelaars!"
-    modern_day_sorcerer: "Kan jij programmeren? Dat is pas stoer. Jij bent een modere tovenaar! Is het niet tijd dat je jouw magische krachten gebruikt voor het besturen van jou minions in het slagveld? En nee, we praten hier niet over robots."
+    modern_day_sorcerer: "Kan jij programmeren? Dat is pas stoer. Jij bent een moderne tovenaar! Is het niet tijd dat je jouw magische krachten gebruikt voor het besturen van jou minions in het slagveld? En nee, we praten hier niet over robots."
     arenas_are_here: "CodeCombat's kop aan kop multiplayer arena's zijn er."
     ladder_explanation: "Kies jouw helden, betover jouw mensen of ogre legers, en beklim jouw weg naar de top in de ladder, door het verslagen van vriend en vijand. Daag nu je vrienden uit in de multiplayer programmeer arena's en verdien eeuwige roem. Indien je creatief bent, kan je zelfs"
     fork_our_arenas: "onze arenas forken"
@@ -603,26 +603,26 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     new_to_programming: ". Ben je net begonnen met programmeren? Speel dan eerst onze beginners campagne."
     so_ready: "Ik ben hier zo klaar voor"
 
-#  loading_error:
-#    could_not_load: "Error loading from server"
-#    connection_failure: "Connection failed."
-#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
-#    forbidden: "You do not have the permissions."
-#    not_found: "Not found."
-#    not_allowed: "Method not allowed."
-#    timeout: "Server timeout."
-#    conflict: "Resource conflict."
-#    bad_input: "Bad input."
-#    server_error: "Server error."
-#    unknown: "Unknown error."
+  loading_error:
+    could_not_load: "Fout bij het laden van de server"
+    connection_failure: "Verbinding mislukt." 
+    unauthorized: "Je moet ingelogd zijn. Heb je de cookies uitgeschakeld?"
+    forbidden: "Je hebt hier geen toestemming voor."
+    not_found: "Niet gevonden."
+    not_allowed: "Methode niet toegestaan."
+    timeout: "Server timeout." 
+    conflict: "Conflict van resources" 
+    bad_input: "Slechte input."
+    server_error: "Fout van de server."
+    unknown: "Onbekende fout." 
 
-#  resources:
-#    your_sessions: "Your Sessions"
-#    level: "Level"
-#    social_network_apis: "Social Network APIs"
-#    facebook_status: "Facebook Status"
-#    facebook_friends: "Facebook Friends"
-#    facebook_friend_sessions: "Facebook Friend Sessions"
-#    gplus_friends: "G+ Friends"
-#    gplus_friend_sessions: "G+ Friend Sessions"
-#    leaderboard: "leaderboard"
+  resources:
+    your_sessions: "Jouw sessies." 
+    level: "Level"
+    social_network_apis: "Sociale netwerk APIs"
+    facebook_status: "Facebook Status" 
+    facebook_friends: "Facebook vrienden" 
+    facebook_friend_sessions: "Sessies van Facebook vrienden"
+    gplus_friends: "G+ vrienden"
+    gplus_friend_sessions: "Sessies van G+ vrienden" 
+    leaderboard: "Scorebord" 
