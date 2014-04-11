@@ -1,9 +1,31 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/play'
+LevelSession = require 'models/LevelSession'
+CocoCollection = require 'models/CocoCollection'
+
+class LevelSessionsCollection extends CocoCollection
+  url: ''
+  model: LevelSession
+
+  constructor: (model) ->
+    super()
+    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
 
 module.exports = class PlayView extends View
   id: "play-view"
   template: template
+
+  constructor: (options) ->
+    super options
+    @levelStatusMap = {}
+    @sessions = new LevelSessionsCollection()
+    @sessions.fetch()
+    @listenToOnce @sessions, 'sync', @onSessionsLoaded
+
+  onSessionsLoaded: (e) ->
+    for session in @sessions.models
+      @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+    @render()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -155,18 +177,25 @@ module.exports = class PlayView extends View
         description: "Strike at the weak point in an array of enemies. - by Aftermath"
       }
       {
+        name: 'Sword Loop'
+        difficulty: 2
+        id: 'sword-loop'
+        image: '/file/db/level/525dc5589a0765e496000006/drink_me_icon.png'
+        description: 'Kill the ogres and save the peasants with for-loops. - by Prabh Simran Singh Baweja'
+      }
+      {
+        name: 'Coin Mania'
+        difficulty: 2
+        id: 'coin-mania'
+        image: '/file/db/level/529662dfe0df8f0000000007/grab_the_mushroom_icon.png'
+        description: 'Learn while-loops to grab coins and potions. - by Prabh Simran Singh Baweja'
+      }
+      {
         name: 'Bubble Sort Bootcamp Battle'
         difficulty: 3
         id: 'bubble-sort-bootcamp-battle'
         image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
         description: "Write a bubble sort to organize your soldiers. - by Alexandru"
-      }
-      {
-        name: 'Sword Loop'
-        difficulty: 1
-        id: 'sword-loop'
-        image: '/file/db/level/525dc5589a0765e496000006/drink_me_icon.png'
-        description: 'Kill the ogres and save the peasants and their cattle. - by Prabh Simran Singh Baweja'
       }
       {
         name: 'Ogres of Hanoi'
@@ -191,10 +220,11 @@ module.exports = class PlayView extends View
       {id: "dev", name: "Random Harder Levels", description: "... in which you learn the interface while doing something a little harder.", levels: experienced}
       {id: "player_created", name: "Player-Created", description: "... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>.", levels: playerCreated}
     ]
-
+    context.levelStatusMap = @levelStatusMap
     context
 
   afterRender: ->
     super()
     @$el.find('.modal').on 'shown.bs.modal', ->
       $('input:visible:first', @).focus()
+    

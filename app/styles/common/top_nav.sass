@@ -6,7 +6,6 @@
     margin-left: -20px
 
   .navbuttontext, .fancy-select .trigger
-    font-family: 'Bangers', cursive
     font-size: 20px
     font-weight: 400
     letter-spacing: 1px
@@ -22,7 +21,6 @@
     height: 18px
 
   .nav.navbar-link-text, .nav.navbar-link-text > li > a
-    font-family: 'Bangers', cursive
     font-weight: normal
     font-size: 25px
     letter-spacing: 2px
@@ -97,3 +95,33 @@
       li
         color: #ebebeb
         padding: 8px 20px
+
+
+#mobile-nav
+  display: none
+@media only screen and (max-width: 800px)
+  #top-nav
+    display: none
+  #mobile-nav
+    display: inline
+    a.navbar-brand
+      padding: 4px 20px 0px 20px
+  
+    button.navbar-toggle
+      background: #483a2d
+      border: 2px solid #2f261d
+    span.icon-bar
+      background: #F9E612
+    
+    ul li
+      font-family: 'Bangers', cursive
+      font-weight: normal
+      color: #fff
+      font-size: 25px
+      margin-top: 5px
+      margin-bottom: 5px
+    .header-font
+      color: #fff
+    .footer-link-text
+      width: 100%
+      display: ineline

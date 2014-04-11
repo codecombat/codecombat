@@ -3,6 +3,7 @@ template = require 'templates/editor/components/main'
 
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
+LevelSystem = require 'models/LevelSystem'
 ComponentsCollection = require 'collections/ComponentsCollection'
 ComponentConfigView = require './config'
 
@@ -20,7 +21,8 @@ module.exports = class ThangComponentEditView extends CocoView
   render: =>
     return if @destroyed
     for model in [Level, LevelComponent]
-      (new model()).on 'schema-loaded', @render unless model.schema?.loaded
+      temp = new model()
+      @listenToOnce temp, 'schema-loaded', @render unless model.schema?.loaded
     if not @componentCollection
       @componentCollection = @supermodel.getCollection new ComponentsCollection()
     unless @componentCollection.loaded
@@ -104,7 +106,7 @@ module.exports = class ThangComponentEditView extends CocoView
 
     toRemoveTreema = []
     dependent_class = 'treema-dependent'
-    try     
+    try
       for index, child of @extantComponentsTreema.childrenTreemas
         $(child.$el).removeClass(dependent_class)
 
@@ -157,6 +159,18 @@ module.exports = class ThangComponentEditView extends CocoView
     @reportChanges()
 
   onAddComponentEnterPressed: (node) =>
+    extantSystems =
+      (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
+    requireSystem = node.data.system.toLowerCase()
+
+    if requireSystem not in extantSystems
+      warn_element = 'Component <b>' + node.data.name + '</b> requires system <b>' + requireSystem + '</b> which is currently not specified in this level.'
+      noty({
+        text: warn_element,
+        layout: 'bottomLeft',
+        type: 'warning'
+      })
+
     currentSelection = @addComponentsTreema?.getLastSelectedTreema()?.data._id
 
     id = node.data._id

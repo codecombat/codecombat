@@ -1,5 +1,4 @@
 app = require 'application'
-auth = require 'lib/auth'
 
 init = ->
   app.initialize()
@@ -10,15 +9,8 @@ init = ->
   treemaExt.setup()
   filepicker.setKey('AvlkNoldcTOU4PvKi2Xm7z')
 
-$ ->
-  # Make sure we're "logged in" first.
-  if auth.me.id
-    init()
-  else
-    Backbone.Mediator.subscribeOnce 'me:synced', init
+$ -> init()
   
-window.init = init
-
 handleNormalUrls = ->
   # http://artsy.github.com/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
   $(document).on "click", "a[href^='/']", (event) ->

@@ -34,7 +34,7 @@ module.exports = class SystemsTabView extends View
       do (url) -> ls.url = -> url
       continue if @supermodel.getModelByURL ls.url
       ls.fetch()
-      @listenTo(ls, 'sync', @onSystemLoaded)
+      @listenToOnce ls, 'sync', @onSystemLoaded
       ++@toLoad
     @onDefaultSystemsLoaded() unless @toLoad
 
@@ -63,7 +63,7 @@ module.exports = class SystemsTabView extends View
     systemModelMap = {}
     systemModelMap[sys.get('original')] = sys.get('name') for sys in systemModels
     systems = _.sortBy systems, (sys) -> systemModelMap[sys.original]
-    
+
     treemaOptions =
       # TODO: somehow get rid of the + button, or repurpose it to open the LevelSystemAddView instead
       supermodel: @supermodel
@@ -143,6 +143,8 @@ class LevelSystemNode extends TreemaObjectNode
     @collection = @system?.attributes?.configSchema?.properties?
 
   grabDBComponent: ->
+    unless _.isString @data.original
+      return alert('Press the "Add System" button at the bottom instead of the "+". Sorry.')
     @system = @settings.supermodel.getModelByOriginalAndMajorVersion LevelSystem, @data.original, @data.majorVersion
     #@system = _.find @settings.supermodel.getModels(LevelSystem), (m) =>
     #  m.get('original') is @data.original and m.get('version').major is @data.majorVersion

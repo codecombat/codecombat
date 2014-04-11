@@ -5,12 +5,22 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     sending: "Wysyłanie…"
     cancel: "Anuluj"
     save: "Zapisz"
+#    create: "Create"
     delay_1_sec: "1 sekunda"
     delay_3_sec: "3 sekundy"
     delay_5_sec: "5 sekund"
     manual: "Ręcznie"
     fork: "Fork"
     play: "Graj"
+#    retry: "Retry"
+
+#  units:
+#    second: "second"
+#    seconds: "seconds"
+#    minute: "minute"
+#    minutes: "minutes"
+#    hour: "hour"
+#    hours: "hours"
 
   modal:
     close: "Zamknij"
@@ -44,6 +54,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
   login:
     sign_up: "Stwórz konto"
     log_in: "Zaloguj się"
+#    logging_in: "Logging In"
     log_out: "Wyloguj się"
     recover: "odzyskaj konto"
 
@@ -216,6 +227,8 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     skip_tutorial: "Pomiń (esc)"
     editor_config: "Konfiguracja edytora"
     editor_config_title: "Konfiguracja edytora"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
     editor_config_keybindings_label: "Przypisania klawiszy"
     editor_config_keybindings_default: "Domyślny (Ace)"
     editor_config_keybindings_description: "Dodaje skróty znane z popularnych edytorów."
@@ -234,11 +247,29 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
 #    tip_js_beginning: "JavaScript is just the beginning."
 #    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    think_solution: "Think of the solution, not the problem."
+#    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
+#    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
+#    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
+#    tip_forums: "Head over to the forums and tell us what you think!"
 #    tip_baby_coders: "In the future, even babies will be Archmages."
 #    tip_morale_improves: "Loading will continue until morale improves."
 #    tip_all_species: "We believe in equal opportunities to learn programming for all species."
 #    tip_reticulating: "Reticulating spines."
 #    tip_harry: "Yer a Wizard, "
+#    tip_great_responsibility: "With great coding skill comes great debug responsibility."
+#    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
+#    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
+#    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
+#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
+#    tip_patience: "Patience you must have, young Padawan. - Yoda"
+#    tip_documented_bug: "A documented bug is not a bug; it is a feature."
+#    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
+#    time_current: "Now:"
+#    time_total: "Max:"
+#    time_goto: "Go to:"
 
   admin:
     av_title: "Panel administracyjny"
@@ -296,6 +327,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     article_search_title: "Przeszukaj artykuły"
     thang_search_title: "Przeszukaj typy obiektów"
     level_search_title: "Przeszukaj poziomy"
+#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
   article:
     edit_btn_preview: "Podgląd"
@@ -559,7 +591,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 
   multiplayer_launch:
     introducing_dungeon_arena: "Oto Dungeon Arena"
-    new_way: "17. marca 2014: Nowy sposób, by współzawodniczyć dzięki programowaniu."
+    new_way: "Nowy sposób, by współzawodniczyć dzięki programowaniu."
     to_battle: "Do broni, developerzy!"
     modern_day_sorcerer: "Wiesz, jak programować? Super. Jesteś współczesnym czarodziejem. Czy nie najwyższy czas, aby użyć swoich mocy, by dowodzić jednostkami w epickiej batalii? I nie mamy tutaj na myśli robotów."
     arenas_are_here: "Areny wieloosobowych potyczek CodeCombat właśnie nastały."
@@ -570,3 +602,27 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     tutorial: "samouczek"
     new_to_programming: ". Jesteś nowy w świecie programowania? Zagraj w naszą kampanię dla początkujących, aby zyskać nowe umiejętności."
     so_ready: "Już nie mogę się doczekać"
+
+#  loading_error:
+#    could_not_load: "Error loading from server"
+#    connection_failure: "Connection failed."
+#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+#    forbidden: "You do not have the permissions."
+#    not_found: "Not found."
+#    not_allowed: "Method not allowed."
+#    timeout: "Server timeout."
+#    conflict: "Resource conflict."
+#    bad_input: "Bad input."
+#    server_error: "Server error."
+#    unknown: "Unknown error."
+
+#  resources:
+#    your_sessions: "Your Sessions"
+#    level: "Level"
+#    social_network_apis: "Social Network APIs"
+#    facebook_status: "Facebook Status"
+#    facebook_friends: "Facebook Friends"
+#    facebook_friend_sessions: "Facebook Friend Sessions"
+#    gplus_friends: "G+ Friends"
+#    gplus_friend_sessions: "G+ Friend Sessions"
+#    leaderboard: "leaderboard"

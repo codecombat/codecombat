@@ -39,6 +39,7 @@ module.exports = class SpellPaletteView extends View
         for entry in entryColumn
           col.append entry.el
           entry.render()  # Render after appending so that we can access parent container for popover
+      $('.nano').nanoScroller()
 
   createPalette: ->
     lcs = @supermodel.getModels LevelComponent

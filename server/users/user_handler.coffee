@@ -7,6 +7,8 @@ mongoose = require 'mongoose'
 config = require '../../server_config'
 errors = require '../commons/errors'
 async = require 'async'
+log = require 'winston'
+LevelSession = require('../levels/sessions/LevelSession')
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
@@ -55,7 +57,8 @@ UserHandler = class UserHandler extends Handler
       fbAT = req.query.facebookAccessToken
       return callback(null, req, user) unless fbID and fbAT
       url = "https://graph.facebook.com/me?access_token=#{fbAT}"
-      request(url, (error, response, body) ->
+      request(url, (err, response, body) ->
+        log.warn "Error grabbing FB token: #{err}" if err
         body = JSON.parse(body)
         emailsMatch = req.body.email is body.email
         return callback(res:'Invalid Facebook Access Token.', code:422) unless emailsMatch
@@ -68,7 +71,8 @@ UserHandler = class UserHandler extends Handler
       gpAT = req.query.gplusAccessToken
       return callback(null, req, user) unless gpID and gpAT
       url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=#{gpAT}"
-      request(url, (error, response, body) ->
+      request(url, (err, response, body) ->
+        log.warn "Error grabbing G+ token: #{err}" if err
         body = JSON.parse(body)
         emailsMatch = req.body.email is body.email
         return callback(res:'Invalid G+ Access Token.', code:422) unless emailsMatch
@@ -81,6 +85,7 @@ UserHandler = class UserHandler extends Handler
       emailLower = req.body.email.toLowerCase()
       return callback(null, req, user) if emailLower is user.get('emailLower')
       User.findOne({emailLower:emailLower}).exec (err, otherUser) ->
+        log.error "Database error setting user email: #{err}" if err
         return callback(res:'Database error.', code:500) if err
 
         if (req.query.gplusID or req.query.facebookID) and otherUser
@@ -100,6 +105,7 @@ UserHandler = class UserHandler extends Handler
       nameLower = req.body.name?.toLowerCase()
       return callback(null, req, user) if nameLower is user.get('nameLower')
       User.findOne({nameLower:nameLower}).exec (err, otherUser) ->
+        log.error "Database error setting user name: #{err}" if err
         return callback(res:'Database error.', code:500) if err
         r = {message:'is already used by another account', property:'name'}
         return callback({res:r, code:409}) if otherUser
@@ -164,6 +170,7 @@ UserHandler = class UserHandler extends Handler
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
     return @getNamesByIds(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
+    return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @sendNotFoundError(res)
 
   agreeToCLA: (req, res) ->
@@ -188,5 +195,18 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError(res, err) if err
       res.redirect(document?.get('photoURL') or '/images/generic-wizard-icon.png')
       res.end()
+
+  getLevelSessions: (req, res, userID) ->
+    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin()
+    query = {'creator': userID}
+    projection = null
+    if req.query.project
+      projection = {}
+      projection[field] = 1 for field in req.query.project.split(',')
+    LevelSession.find(query).select(projection).exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      documents = (@formatEntity(req, doc) for doc in documents)
+      @sendSuccess(res, documents)
+
 
 module.exports = new UserHandler()

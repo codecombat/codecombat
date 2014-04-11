@@ -4,20 +4,30 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     saving: "Guardando..."
     sending: "Enviando..."
     cancel: "Cancelar"
-#    save: "Save"
+    save: "Guardar"
+    create: "Crear"
     delay_1_sec: "1 segundo"
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
     manual: "Manual"
 #    fork: "Fork"
 #    play: "Play"
+#    retry: "Retry"
+
+  units:
+    second: "segundo"
+    seconds: "segundos"
+    minute: "minuto"
+    minutes: "minutos"
+    hour: "hora"
+    hours: "horas"
 
   modal:
     close: "Cerrar"
     okay: "OK"
 
   not_found:
-    page_not_found: "Pagina no encontrada"
+    page_not_found: "Página no encontrada"
 
   nav:
     play: "Jugar"
@@ -31,11 +41,11 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     about: "Sobre"
     contact: "Contacto"
     twitter_follow: "Seguir"
-#    employers: "Employers"
+    employers: "Empleados"
 
-#  versions:
-#    save_version_title: "Save New Version"
-#    new_major_version: "New Major Version"
+  versions:
+    save_version_title: "Guardar nueva versión"
+    new_major_version: "Nueva Gran Versión"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
 #    cla_suffix: "."
@@ -44,6 +54,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
   login:
     sign_up: "Crear Cuenta"
     log_in: "Entrar"
+    logging_in: "Entrando"
     log_out: "Salir"
     recover: "recuperar cuenta"
 
@@ -66,7 +77,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     no_ie: "¡Lo sentimos! CodeCombat no funciona en Internet Explorer 9 o versiones anteriores."
     no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y quizás no funcione!"
     play: "Jugar"
-#    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"
+    old_browser: "¡Oh! ¡Oh! Tu navegador es muy antiguo para correr CodeCombat. ¡Lo Sentimos!"
 #    old_browser_suffix: "You can try anyway, but it probably won't work."
 #    campaign: "Campaign"
 #    for_beginners: "For Beginners"
@@ -88,7 +99,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     campaign_player_created_description: "... en los que luchas contra la creatividad de tus compañeros <a href=\"/contribute#artisan\">Hechiceros Artesanales</a>."
     level_difficulty: "Dificultad: "
     play_as: "Jugar Como "
-#    spectate: "Spectate"
+    spectate: "Observar"
 
   contact:
     contact_us: "Contacta a CodeCombat"
@@ -216,6 +227,8 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    skip_tutorial: "Skip (esc)"
 #    editor_config: "Editor Config"
 #    editor_config_title: "Editor Configuration"
+#    editor_config_language_label: "Programming Language"
+#    editor_config_language_description: "Define the programming language you want to code in."
 #    editor_config_keybindings_label: "Key Bindings"
 #    editor_config_keybindings_default: "Default (Ace)"
 #    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
@@ -234,11 +247,29 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
 #    tip_js_beginning: "JavaScript is just the beginning."
 #    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
+#    think_solution: "Think of the solution, not the problem."
+#    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
+#    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
+#    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
+#    tip_forums: "Head over to the forums and tell us what you think!"
 #    tip_baby_coders: "In the future, even babies will be Archmages."
 #    tip_morale_improves: "Loading will continue until morale improves."
 #    tip_all_species: "We believe in equal opportunities to learn programming for all species."
 #    tip_reticulating: "Reticulating spines."
 #    tip_harry: "Yer a Wizard, "
+#    tip_great_responsibility: "With great coding skill comes great debug responsibility."
+#    tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
+#    tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
+#    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
+#    tip_no_try: "Do. Or do not. There is no try. - Yoda"
+#    tip_patience: "Patience you must have, young Padawan. - Yoda"
+#    tip_documented_bug: "A documented bug is not a bug; it is a feature."
+#    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
+#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
+#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
+#    time_current: "Now:"
+#    time_total: "Max:"
+#    time_goto: "Go to:"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -296,6 +327,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    article_search_title: "Search Articles Here"
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
+#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
 #  article:
 #    edit_btn_preview: "Preview"
@@ -442,9 +474,9 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    more_about_archmage: "Learn More About Becoming an Archmage"
 #    archmage_subscribe_desc: "Get emails on new coding opportunities and announcements."
 #    artisan_summary_pref: "Want to design levels and expand CodeCombat's arsenal? People are playing through our content at a pace faster than we can build! Right now, our level editor is barebone, so be wary. Making levels will be a little challenging and buggy. If you have visions of campaigns spanning for-loops to"
-#    artisan_summary_suf: "then this class is for you."
+#    artisan_summary_suf: ", then this class is for you."
 #    artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to"
-#    artisan_introduction_suf: "then this class might be for you."
+#    artisan_introduction_suf: ", then this class might be for you."
 #    artisan_attribute_1: "Any experience in building content like this would be nice, such as using Blizzard's level editors. But not required!"
 #    artisan_attribute_2: "A hankering to do a whole lot of testing and iteration. To make good levels, you need to take it to others and watch them play it, and be prepared to find a lot of things to fix."
 #    artisan_attribute_3: "For the time being, endurance en par with an Adventurer. Our Level Editor is super preliminary and frustrating to use. You have been warned!"
@@ -559,7 +591,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 
 #  multiplayer_launch:
 #    introducing_dungeon_arena: "Introducing Dungeon Arena"
-#    new_way: "March 17, 2014: The new way to compete with code."
+#    new_way: "The new way to compete with code."
 #    to_battle: "To Battle, Developers!"
 #    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
 #    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
@@ -570,3 +602,27 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    tutorial: "tutorial"
 #    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
 #    so_ready: "I Am So Ready for This"
+
+#  loading_error:
+#    could_not_load: "Error loading from server"
+#    connection_failure: "Connection failed."
+#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+#    forbidden: "You do not have the permissions."
+#    not_found: "Not found."
+#    not_allowed: "Method not allowed."
+#    timeout: "Server timeout."
+#    conflict: "Resource conflict."
+#    bad_input: "Bad input."
+#    server_error: "Server error."
+#    unknown: "Unknown error."
+
+#  resources:
+#    your_sessions: "Your Sessions"
+#    level: "Level"
+#    social_network_apis: "Social Network APIs"
+#    facebook_status: "Facebook Status"
+#    facebook_friends: "Facebook Friends"
+#    facebook_friend_sessions: "Facebook Friend Sessions"
+#    gplus_friends: "G+ Friends"
+#    gplus_friend_sessions: "G+ Friend Sessions"
+#    leaderboard: "leaderboard"

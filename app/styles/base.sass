@@ -1,12 +1,12 @@
 @import "bootstrap/variables"
 @import "bootstrap/mixins"
+@import "bootstrap/variables"
 
 html
   background-color: #2f261d
 
-html, body
-  // For level loading view wings
-  overflow-x: hidden
+body
+  position: absolute !important
 
 // https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
 .secret
@@ -48,7 +48,6 @@ h1 h2 h3 h4
   margin: 0 auto
 
 .footer
-  height: 75px
   border-top: 1px solid black
   background-color: #2f261d
   p
@@ -102,10 +101,16 @@ a[data-toggle="modal"]
 
 .modal-dialog
   padding: 5px
-  background: transparent url(/images/pages/base/modal_background.png)
-  background-size: 100% 100%
-  border: 0
-  @include box-shadow(0 0 0 #000)
+  margin-top: 0px !important
+  margin-bottom: 0px !important
+  padding-top: 30px
+  .background-wrapper
+    background: url("/images/pages/base/modal_background.png")
+    background-size: 100% 100%
+    border: 0
+    @include box-shadow(0 0 0 #000)
+    //position: absolute
+    width: 99%
 
   .modal-content
     @include box-shadow(none)
@@ -166,9 +171,18 @@ a[data-toggle="modal"]
     width: 50%
     margin: 0 25%
   .progress-bar
-    width: 100%
+    width: 0%
+    transition: width 0.1s ease
+    
+  .errors .alert
+    padding: 5px
+    display: block
+    margin: 10px auto
+    .btn
+      margin-left: 10px
   
 .modal
+  overflow-y: auto !important
   .wait
     h3 
       text-align: center
@@ -191,3 +205,36 @@ table.table
 
 .flag-cursor
   cursor: crosshair
+
+
+// Fonts
+
+.header-font
+  font-family: $headings-font-family
+
+body[lang='ru'], body[lang|='zh'], body[lang='ja'], body[lang='pl'], body[lang='tr'], body[lang='cs'], body[lang='el'], body[lang='ro'], body[lang='vi'], body[lang='th'], body[lang='ko'], body[lang='sk'], body[lang='sl'], body[lang='bg'], body[lang='he'], body[lang='lt'], body[lang='sr'], body[lang='uk'], body[lang='hi'], body[lang='ur'], 
+  h1, h2, h3, h4, h5, h6
+    font-family: 'Open Sans Condensed', Impact, "Arial Narrow", "Arial", sans-serif
+    text-transform: uppercase
+    letter-spacing: -1px !important
+    
+  .header-font
+    font-family: 'Open Sans Condensed', Impact, "Arial Narrow", "Arial", sans-serif !important
+    text-transform: uppercase
+    letter-spacing: -1px !important
+   
+@media only screen and (max-width: 800px)
+  .main-content-area
+    width: 100%
+  .content
+    width: 100%
+    
+  .footer-link-text a
+    font-size: 17px
+    margin-left: 3px
+    margin-right: 3px
+    
+  .share-buttons
+    margin-bottom: 20px
+  .partner-badges
+    display: none

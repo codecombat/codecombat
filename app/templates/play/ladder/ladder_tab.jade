@@ -1,6 +1,7 @@
 div#columns.row
   for team in teams
     div.column.col-md-4
+      div(id="histogram-display-#{team.name}", class="histogram-display",data-team-name=team.name)
       table.table.table-bordered.table-condensed.table-hover
         tr
           th

@@ -11,12 +11,23 @@ function checkDependencies { #usage: checkDependencies [name of dependency array
     done
 }
 
+function openUrl {
+    case "$OSTYPE" in
+        darwin*)
+            open $@;;
+        linux*)
+            xdg-open $@;;
+        *)
+            echo "$@";;
+    esac
+}
+
 function basicDependenciesErrorHandling {
     case "$1" in
     "python")
         echo "Python isn't installed. Please install it to continue."
         read -p "Press enter to open download link..."
-        open http://www.python.org/getit/
+        openUrl http://www.python.org/download/
         exit 1
         ;;
     "git")

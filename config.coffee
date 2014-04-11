@@ -65,13 +65,17 @@ exports.config =
 
           # Aether before box2d for some strange Object.defineProperty thing
           'bower_components/aether/build/aether.js'
+          'bower_components/d3/d3.min.js'
         ]
     stylesheets:
       defaultExtension: 'sass'
       joinTo:
-        'stylesheets/app.css': /^(app|vendor)/
+        'stylesheets/app.css': /^(app|vendor|bower_components)/
       order:
-        before: ['app/styles/bootstrap.scss']
+        before: [
+          'app/styles/bootstrap.scss'
+          'vendor/styles/nanoscroller.scss'
+        ]
     templates:
       defaultExtension: 'jade'
       joinTo: 'javascripts/app.js'
