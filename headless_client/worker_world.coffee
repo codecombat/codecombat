@@ -155,12 +155,16 @@ work = (self, World, GoalManager) ->
     return
 
   self.postMessage type: "worker-initialized"
+  console.log test
 
 
 ret = """
   try {
+    test = "foo";
     self.eval(JASON=#{JASON.stringify JASON});
-    var World =JASON.parse(#{ JASON.stringify World});
+    var _ = JASON.parse(#{JASON.stringify _});
+    var Backbone = JASON.parse(#{JASON.stringify Backbone});
+    var World = JASON.parse(#{ JASON.stringify World});
     var GoalManager = JASON.parse(#{ JASON.stringify GoalManager});
     var work = JASON.parse(#{JASON.stringify work});
     work(self, World, GoalManager);
