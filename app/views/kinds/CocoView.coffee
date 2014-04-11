@@ -101,6 +101,7 @@ module.exports = class CocoView extends Backbone.View
     context.fbRef = context.pathname.replace(/[^a-zA-Z0-9+/=\-.:_]/g, '').slice(0, 40) or 'home'
     context.isMobile = @isMobile()
     context.isIE = @isIE()
+    context.moment = moment
     context
 
   afterRender: ->
@@ -300,18 +301,22 @@ module.exports = class CocoView extends Backbone.View
   # Subviews
 
   insertSubView: (view, elToReplace=null) ->
-    @subviews[view.id].destroy() if view.id of @subviews
+    key = view.id or (view.constructor.name+classCount++)
+    key = _.string.underscored(key)
+    @subviews[key].destroy() if key of @subviews
     elToReplace ?= @$el.find('#'+view.id)
     elToReplace.after(view.el).remove()
     view.parent = @
     view.render()
     view.afterInsert()
-    @subviews[view.id] = view
+    view.parentKey = key
+    @subviews[key] = view
+    view
 
   removeSubView: (view) ->
     view.$el.empty()
+    delete @subviews[view.parentKey]
     view.destroy()
-    delete @subviews[view.id]
 
   # Utilities
 

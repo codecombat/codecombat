@@ -9,6 +9,7 @@ View = require 'views/kinds/RootView'
 ThangComponentEditView = require 'views/editor/components/main'
 VersionHistoryView = require './versions_view'
 ColorsTabView = require './colors_tab_view'
+PatchesView = require 'views/editor/patches_view'
 SaveVersionModal = require 'views/modal/save_version_modal'
 ErrorView = require '../../error_view'
 template = require 'templates/editor/thang/edit'
@@ -35,6 +36,7 @@ module.exports = class ThangTypeEditView extends View
     'click #end-button': 'endAnimation'
     'click #history-button': 'showVersionHistory'
     'click #save-button': 'openSaveModal'
+    'click #patches-tab': -> @patchesView.load()
 
   subscriptions:
     'save-new-version': 'saveNewThangType'
@@ -92,6 +94,7 @@ module.exports = class ThangTypeEditView extends View
     @initSliders()
     @initComponents()
     @insertSubView(new ColorsTabView(@thangType))
+    @patchesView = @insertSubView(new PatchesView(@thangType), @$el.find('.patches-view'))
     @showReadOnly() unless me.isAdmin() or @thangType.hasWriteAccess(me)
 
   initComponents: =>
