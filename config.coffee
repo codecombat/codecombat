@@ -63,6 +63,8 @@ exports.config =
           'vendor/scripts/tweenjs-NEXT.combined.js'
           'vendor/scripts/movieclip-NEXT.min.js'
 
+          'vendor/scripts/tv4.js'
+
           # Aether before box2d for some strange Object.defineProperty thing
           'bower_components/aether/build/aether.js'
           'bower_components/d3/d3.min.js'
