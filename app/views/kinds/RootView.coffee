@@ -48,6 +48,7 @@ module.exports = class RootView extends CocoView
   afterRender: ->
     super(arguments...)
     @chooseTab(location.hash.replace('#','')) if location.hash
+    $('body').removeClass('is-playing')
 
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')
