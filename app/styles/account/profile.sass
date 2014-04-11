@@ -1,15 +1,195 @@
 #profile-view
-  button
-    float: right
-    i
-      margin-right: 5px
-  
-  img.img-thumbnail
-    margin: 20px 0
+  .profile-control-bar
+    background-color: rgb(78, 78, 78)
+    width: 100%
+    text-align: center
+
+    button.edit-settings-button
+      margin: 2px
+      i
+        margin-right: 5px
     
-  li
-    list-style: none
-    
-  ul
-    margin: 0
+  .approved, .not-approved
+    display: none
+
+  .main-content-area
     padding: 0
+
+    .flat-button
+      width: 100%
+      margin-bottom: 10px
+      background: rgb(78, 78, 78)
+      border: 0
+      border-radius: 0
+      padding: 10px
+
+    .public-profile-container
+      padding: 20px
+
+      img.profile-photo
+        width: 256px
+        border-radius: 6px
+
+    .job-profile-container
+      width: 100%
+      height: 100%
+      padding: 0
+      display: table
+      
+      h1, h2, h3, h4, h5, h6
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+        color: #555
+
+      ul.links, ul.projects
+        margin: 0
+        padding: 0
+    
+        li
+          list-style: none
+
+      .job-profile-row
+        height: 100%
+        display: table-row
+
+        .full-height-column
+          height: 100%
+          padding: 5px
+          display: table-cell
+          vertical-align: top
+
+          h3:first-child
+            margin: 5px 0 5px 0
+      
+        .left-column
+          width: 250px
+          padding: 5px
+          background-color: rgb(220, 220, 220)
+
+          .profile-photo-container
+            position: relative
+            margin-bottom: 10px
+
+            img.profile-photo
+              width: 240px
+              border-radius: 6px
+                
+            .profile-caption
+              background-color: rgba(0, 0, 0, 0.5)
+              color: white
+              border-bottom-right-radius: 6px
+              border-bottom-left-radius: 6px
+              position: absolute
+              width: 100%
+              bottom: 0px
+              text-align: center
+
+          ul.links
+            li.has-icon
+              display: inline-block
+              img
+                margin: 0 0 10px 0
+            li.has-icon:not(:nth-child(5))
+              img
+                margin: 0 10px 10px 0
+
+          #contact-candidate
+            margin-top: 20px
+            background-color: rgb(177, 55, 25)
+            padding: 15px
+            font-size: 20px
+      
+        .middle-column
+          width: 524px
+          background-color: white
+          padding-left: 20px
+          padding-right: 20px
+
+          &.double-column
+            width: 524px + 250px
+            padding-left: 30px
+            padding-right: 30px
+
+          code
+            background-color: rgb(220, 220, 220)
+            color: #555
+            margin: 2px 0
+            display: inline-block
+            text-transform: lowercase
+
+          .long-description
+            margin-top: 10px
+            img
+              max-width: 524px - 60px
+              max-height: 200px
+
+          .experience-header
+            margin-top: 25px
+
+          .header-icon
+            margin-right: 10px
+            width: 32px
+            height: 32px
+
+          .duration
+            margin-left: 10px
+            margin-bottom: 10px
+      
+          #job-profile-notes
+            width: 100%
+            height: 100px
+
+        .right-column
+          width: 250px
+          background-color: rgb(220, 220, 220)
+
+          > h3:first-child
+            background-color: white
+            padding: 5px 5px
+            margin: 5px 2px 5px 2px
+
+          ul.projects
+            li
+              margin-bottom: 10px
+              padding: 5px 5px
+              border: 2px solid rgb(220, 220, 220)
+              transition: .5s ease-in-out
+              position: relative
+              background-color: white
+
+              &:hover
+                border-color: rgb(100, 130, 255)
+
+              a
+                position: relative
+                z-index: 2
+
+              > a
+                position: absolute
+                width: 100%
+                height: 100%
+                top: 0
+                left: 0
+                z-index: 1
+        
+              .project-image
+                width: 230px
+                height: 115px
+                background-size: cover
+                background-repeat: no-repeat
+                background-position: center
+
+                -webkit-filter: grayscale(100%)
+                -webkit-transition: .5s ease-in-out
+                -moz-filter: grayscale(100%) 
+                -moz-transition: .5s ease-in-out
+                -o-filter: grayscale(100%) 
+                -o-transition: .5s ease-in-out
+                filter: grayscale(100%)
+                transition: .5s ease-in-out
+
+            li:hover
+              .project-image
+                -webkit-filter: grayscale(0%)
+                -moz-filter: grayscale(0%)
+                -o-filter: grayscale(0%)
+                filter: grayscale(0%)

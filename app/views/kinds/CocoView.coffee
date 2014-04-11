@@ -104,15 +104,15 @@ module.exports = class CocoView extends Backbone.View
     context
 
   afterRender: ->
-    
+
   # Resource and request loading management for any given view
-    
+
   addResourceToLoad: (modelOrCollection, name, value=1) ->
     @loadProgress.resources.push {resource:modelOrCollection, value:value, name:name}
     @listenToOnce modelOrCollection, 'sync', @updateProgress
     @listenTo modelOrCollection, 'error', @onResourceLoadFailed
     @updateProgress()
-    
+
   addRequestToLoad: (jqxhr, name, retryFunc, value=1) ->
     @loadProgress.requests.push {request:jqxhr, value:value, name: name, retryFunc: retryFunc}
     jqxhr.done @updateProgress
@@ -152,7 +152,7 @@ module.exports = class CocoView extends Backbone.View
     num += r.value for r in @loadProgress.requests when r.request.status
     num += r.value for r in @loadProgress.somethings when r.loaded
     #console.log 'update progress', @, num, denom, arguments
-    
+
     progress = if denom then num / denom else 0
     # sometimes the denominator isn't known from the outset, so make sure the overall progress only goes up
     @loadProgress.progress = progress if progress > @loadProgress.progress
@@ -160,7 +160,7 @@ module.exports = class CocoView extends Backbone.View
     if num is denom and not @loaded
       @loaded = true
       @onLoaded()
-      
+
   updateProgressBar: =>
     prog = "#{parseInt(@loadProgress.progress*100)}%"
     @$el.find('.loading-screen .progress-bar').css('width', prog)
@@ -169,7 +169,7 @@ module.exports = class CocoView extends Backbone.View
     @render()
 
   # Error handling for loading
-  
+
   onResourceLoadFailed: (resource, jqxhr) ->
     for r, index in @loadProgress.resources
       break if r.resource is resource
@@ -179,12 +179,12 @@ module.exports = class CocoView extends Backbone.View
       resourceIndex: index,
       responseText: jqxhr.responseText
     })).i18n()
-  
+
   onRetryResource: (e) ->
     r = @loadProgress.resources[$(e.target).data('resource-index')]
     r.resource.fetch()
     $(e.target).closest('.loading-error-alert').remove()
-    
+
   onRequestLoadFailed: (jqxhr) =>
     for r, index in @loadProgress.requests
       break if r.request is jqxhr
@@ -194,7 +194,7 @@ module.exports = class CocoView extends Backbone.View
       requestIndex: index,
       responseText: jqxhr.responseText
     }))
-    
+
   onRetryRequest: (e) ->
     r = @loadProgress.requests[$(e.target).data('request-index')]
     @[r.retryFunc]?()

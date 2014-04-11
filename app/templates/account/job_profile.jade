@@ -1,0 +1,8 @@
+h3(data-i18n="account_settings.job_profile") Job Profile
+
+if me.get('jobProfileApproved')
+  p.lead(data-i18n="account_settings.job_profile_approved") Your job profile has been approved by CodeCombat. Hungry employers will see it until you mark it inactive or it is stale for two months.
+else
+  p.lead(data-i18n="account_settings.job_profile_explanation") Hi! Fill this out, and if we think we can find you a software developer job, we will get in touch to approve your profile.
+
+#job-profile-treema

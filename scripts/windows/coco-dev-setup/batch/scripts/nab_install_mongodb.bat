@@ -20,7 +20,7 @@ cd /D %~1
 
 start cmd /c "TITLE MongoDB - %npm_close% & mongod --setParameter textSearchEnabled=true --dbpath %~1"
 
-%work_directory%\%curl_app% -k %database_backup% -o dump.tar.gz
+start /wait cmd.exe /c "TITLE downloading database backup... && %work_directory%\%curl_app% -k -m 10800 --retry 100 -o dump.tar.gz %database_backup%"
 
 start /wait cmd /c "%work_directory%\%zu_app% e dump.tar.gz && del dump.tar.gz && %work_directory%\%zu_app% x dump.tar && del dump.tar"
 
@@ -31,5 +31,7 @@ rmdir /s /q dump
 call %work_directory%\print_dashed_seperator
 
 taskkill /F /fi "IMAGENAME eq mongod.exe"
+
+del /F %~1\mongod.lock
 
 cd /D %work_directory%

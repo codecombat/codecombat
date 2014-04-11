@@ -37,7 +37,7 @@ getTimeFromDaysAgo = (now, daysAgo) ->
   t = now - 86400 * 1000 * daysAgo - LADDER_PREGAME_INTERVAL
 
 isRequestFromDesignatedCronHandler = (req, res) ->
-  requestIP = req.headers['x-forwarded-for'][0]
+  requestIP = req.headers['x-forwarded-for']?.replace(" ","").split(",")[0]
   if requestIP isnt config.mail.cronHandlerPublicIP and requestIP isnt config.mail.cronHandlerPrivateIP
     console.log "RECEIVED REQUEST FROM IP #{requestIP}(headers indicate #{req.headers['x-forwarded-for']}"
     console.log "UNAUTHORIZED ATTEMPT TO SEND TRANSACTIONAL LADDER EMAIL THROUGH CRON MAIL HANDLER"

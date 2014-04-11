@@ -136,8 +136,8 @@ goto:eof
 	set cur_dir=%CD%
 	cd !repository_path!\coco
 
-	git remote rm origin
-	git remote add origin https://!git_username!:!git_password!@github.com/!git_username!/codecombat.git
+	"%git_app_path%" remote rm origin
+	"%git_app_path%" remote add origin https://!git_username!:!git_password!@github.com/!git_username!/codecombat.git
 
 	cd !cur_dir!
 

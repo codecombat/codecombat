@@ -8,6 +8,8 @@ combine = (base, ext) ->
   return base unless ext?
   return _.extend(base, ext)
 
+urlPattern = '^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-‌​\.\?\,\'\/\\\+&%\$#_=]*)?$'
+
 # Common schema properties
 me.object = (ext, props) -> combine {type: 'object', additionalProperties: false, properties: props or {}}, ext
 me.array = (ext, items) -> combine {type: 'array', items: items or {}}, ext
@@ -16,6 +18,7 @@ me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
 me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)
 # should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
 me.objectId = (ext) -> schema = combine({type: ['object', 'string'] }, ext)
+me.url = (ext) -> combine({type: 'string', format: 'url', pattern: urlPattern}, ext)
 
 PointSchema = me.object {title: "Point", description: "An {x, y} coordinate point.", format: "point2d", required: ["x", "y"]},
   x: {title: "x", description: "The x coordinate.", type: "number", "default": 15}

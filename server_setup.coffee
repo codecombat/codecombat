@@ -3,6 +3,7 @@ path = require 'path'
 authentication = require 'passport'
 useragent = require 'express-useragent'
 fs = require 'graceful-fs'
+log = require('winston')
 
 database = require './server/commons/database'
 baseRoute = require './server/routes/base'
@@ -96,7 +97,8 @@ setupFallbackRouteToIndex = (app) ->
       auth.loginUser(req, res, user, false, next)
 
 sendMain = (req, res) ->
-  fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err,data) ->
+  fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err, data) ->
+    log.error "Error modifying main.html: #{err}" if err
     # insert the user object directly into the html so the application can have it immediately
     data = data.replace('"userObjectTag"', JSON.stringify(UserHandler.formatEntity(req, req.user)))
     res.send data

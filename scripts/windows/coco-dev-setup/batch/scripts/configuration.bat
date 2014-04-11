@@ -1,6 +1,8 @@
 @echo off
 setlocal EnableDelayedExpansion
 
+call read_cache
+
 call configuration_cmd
 
 call npm_and_brunch_setup

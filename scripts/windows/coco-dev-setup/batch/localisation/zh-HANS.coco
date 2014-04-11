@@ -53,6 +53,11 @@
 			<ssh>你是否想使用 ssh 来检出(checkout)库(repository)?</ssh>
 		</process>
 	</github>
+	<switch>
+		<install>The installation of your local environment was succesfull!</install>
+		<close>You can now close this setup.</close>
+		<open>After that, you should open the configuration setup to automaticly configure your environment...</open>
+	</switch>
 	<npm>
 		<install>正在安装 bower, brunch, nodemon 和 sendwithus...</install>
 		<binstall>正在用 bower 安装依赖包...</binstall>

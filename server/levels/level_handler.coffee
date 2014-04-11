@@ -38,7 +38,12 @@ LevelHandler = class LevelHandler extends Handler
     return @getLeaderboardFacebookFriends(req, res, args[0]) if args[1] is 'leaderboard_facebook_friends'
     return @getLeaderboardGPlusFriends(req, res, args[0]) if args[1] is 'leaderboard_gplus_friends'
     return @getHistogramData(req, res, args[0]) if args[1] is 'histogram_data'
+<<<<<<< HEAD
     super(arguments...)
+=======
+    return @checkExistence(req, res, args[0]) if args[1] is 'exists'
+    return @sendNotFoundError(res)
+>>>>>>> master
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
     @getDocumentForIdOrSlug id, (err, level) =>
@@ -130,7 +135,23 @@ LevelHandler = class LevelHandler extends Handler
       if err? then return @sendDatabaseError res, err
       valueArray = _.pluck data, "totalScore"
       @sendSuccess res, valueArray
-    
+  
+  checkExistence: (req, res, slugOrID) ->
+    findParameters = {}
+    if Handler.isID slugOrID
+      findParameters["_id"] = slugOrID
+    else
+      findParameters["slug"] = slugOrID
+    selectString = 'original version.major permissions'
+    query = Level.findOne(findParameters)
+    .select(selectString)
+    .lean()
+
+    query.exec (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
+      res.send({"exists":true})
+      res.end()
 
   getLeaderboard: (req, res, id) ->
     sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)

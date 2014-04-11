@@ -73,7 +73,6 @@
     "css-brunch": "> 1.0 < 1.8",
     "jade-brunch": "> 1.0 < 1.8",
     "uglify-js-brunch": "~1.7.4",
-    "clean-css-brunch": "> 1.0 < 1.8",
     "auto-reload-brunch": "> 1.0 < 1.8",
     "brunch": "~1.7.4",
     "jasmine-node": "1.13.x",
