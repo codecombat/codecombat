@@ -8,8 +8,11 @@ GoalManager = require 'lib/world/GoalManager'
 work = (self, World, GoalManager) ->
   require = null
 
-  # Don't allow the thread to read files.
+  # Don't allow the thread to read files or eval stuff.
   native_fs_ = null
+  self.eval = null
+  # These are not needed for the currently used webworker library, but you never know...
+  require = GLOBAL = global = window = null
 
   self.workerID = "Worker";
 
@@ -71,16 +74,16 @@ work = (self, World, GoalManager) ->
       self.goalManager.worldGenerationWillBegin()
       self.world.setGoalManager self.goalManager
     catch error
-    #console.log "There has been an error inside thew worker... "
+      console.log "There has been an error inside thew worker... "
       self.onWorldError error
       return
     Math.random = self.world.rand.randf # so user code is predictable
-    #console.log "Loading frames."
+    console.log "Loading frames."
     self.world.loadFrames self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress
 
 
   self.onWorldLoaded = onWorldLoaded = ->
-    #console.log "Worker.onWorldLoaded."
+    console.log "Worker.onWorldLoaded."
     self.goalManager.worldGenerationEnded()
     t1 = new Date()
     diff = t1 - self.t0
