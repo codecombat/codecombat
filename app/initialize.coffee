@@ -2,16 +2,16 @@ app = require 'application'
 
 channelSchemas =
   'app': require './schemas/subscriptions/app'
-  'bus': require './schemas/subscriptions/bus'
-  'editor': require './schemas/subscriptions/editor'
-  'errors': require './schemas/subscriptions/errors'
-  'level': require './schemas/subscriptions/level'
-  'misc': require './schemas/subscriptions/misc'
-  'play': require './schemas/subscriptions/play'
-  'surface': require './schemas/subscriptions/surface'
-  'tome': require './schemas/subscriptions/tome'
-  'user': require './schemas/subscriptions/user'
-  'world': require './schemas/subscriptions/world'
+  #'bus': require './schemas/subscriptions/bus'
+  #'editor': require './schemas/subscriptions/editor'
+  #'errors': require './schemas/subscriptions/errors'
+  #'level': require './schemas/subscriptions/level'
+  #'misc': require './schemas/subscriptions/misc'
+  #'play': require './schemas/subscriptions/play'
+  #'surface': require './schemas/subscriptions/surface'
+  #'tome': require './schemas/subscriptions/tome'
+  #'user': require './schemas/subscriptions/user'
+  #'world': require './schemas/subscriptions/world'
 
 definitionSchemas =
   'bus': require './schemas/definitions/bus'
@@ -27,8 +27,8 @@ init = ->
   filepicker.setKey('AvlkNoldcTOU4PvKi2Xm7z')
 
   # Set up Backbone.Mediator schemas
-  configureChannels()
-  configureDefinitions()
+  setUpDefinitions()
+  setUpChannels()
 
 $ -> init()
   
@@ -53,10 +53,10 @@ handleNormalUrls = ->
 
       return false
 
-configureChannels = ->
+setUpChannels = ->
   for channel of channelSchemas
     Backbone.Mediator.addChannelSchemas channelSchemas[channel]
 
-configureDefinitions = ->
+setUpDefinitions = ->
   for definition of definitionSchemas
     Backbone.Mediator.addDefSchemas definitionSchemas[definition]

@@ -106,14 +106,19 @@
     publish: function (channel, arg) {
       if (!channels[channel]) return;
 
-      if (channel in this.channelSchemas && this.validationEnabled) {
-        var valid = this.tv4.validate(arg, this.channelSchemas[channel]);
-        if (!valid) {
-          console.error("Dropping publication because of validation error:", this.tv4.error);
-          return;
-        } else if (this.tv4.missing.length) {
-          console.warn("Missing schema reference to " + this.tv4.missing[0]);
+      if (channel in this.defSchemas) {
+        if (this.validationEnabled) {
+          var valid = this.tv4.validate(arg, this.channelSchemas[channel]);
+          if (!valid) {
+            console.error("Dropping publication because of validation error:", this.tv4.error);
+            return;
+          } else if (this.tv4.missing.length) {
+            console.warn("Missing schema reference to " + this.tv4.missing[0]);
+          }
         }
+      } else if (!_.contains(this.unvalidatedChannels, channel)) {
+        this.unvalidatedChannels.push(channel);
+        console.warn("Missing schema for channel '" + channel + "'.");
       }
 
       var subscription;
