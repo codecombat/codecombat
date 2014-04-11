@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "English", englishDescription: "English", translation:
+﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
   common:
     loading: "Loading..."
     saving: "Saving..."
@@ -152,7 +152,6 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     wizard_tab: "Wizard"
     password_tab: "Password"
     emails_tab: "Emails"
-    job_profile_tab: "Job Profile"
     admin: "Admin"
     wizard_color: "Wizard Clothes Color"
     new_password: "New Password"
