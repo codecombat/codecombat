@@ -5,9 +5,8 @@
 html
   background-color: #2f261d
 
-html, body
-  // For level loading view wings
-  overflow-x: hidden
+body
+  position: absolute !important
 
 // https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
 .secret
@@ -49,7 +48,6 @@ h1 h2 h3 h4
   margin: 0 auto
 
 .footer
-  height: 75px
   border-top: 1px solid black
   background-color: #2f261d
   p
@@ -103,10 +101,16 @@ a[data-toggle="modal"]
 
 .modal-dialog
   padding: 5px
-  background: transparent url(/images/pages/base/modal_background.png)
-  background-size: 100% 100%
-  border: 0
-  @include box-shadow(0 0 0 #000)
+  margin-top: 0px !important
+  margin-bottom: 0px !important
+  padding-top: 30px
+  .background-wrapper
+    background: url("/images/pages/base/modal_background.png")
+    background-size: 100% 100%
+    border: 0
+    @include box-shadow(0 0 0 #000)
+    //position: absolute
+    width: 99%
 
   .modal-content
     @include box-shadow(none)
@@ -178,6 +182,7 @@ a[data-toggle="modal"]
       margin-left: 10px
   
 .modal
+  overflow-y: auto !important
   .wait
     h3 
       text-align: center

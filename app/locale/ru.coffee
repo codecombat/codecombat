@@ -12,6 +12,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     manual: "Вручную"
     fork: "Форк"
     play: "Играть"
+#    retry: "Retry"
 
   units:
     second: "секунда"
@@ -101,7 +102,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     spectate: "Наблюдать"
 
   contact:
-    contact_us: "Связаться с CodeCombat"
+    contact_us: "Связаться с Нами"
     welcome: "Мы рады вашему сообщению! Используйте эту форму, чтобы отправить нам email. "
     contribute_prefix: "Если вы хотите внести свой вклад в проект, зайдите на нашу "
     contribute_page: "страницу сотрудничества"
@@ -326,6 +327,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     article_search_title: "Искать статьи"
     thang_search_title: "Искать типы объектов"
     level_search_title: "Искать уровни"
+#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
   article:
     edit_btn_preview: "Предпросмотр"
@@ -600,3 +602,27 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tutorial: "обучение"
     new_to_programming: ". Новичок в программировании? Пройдите нашу кампанию для новичков, чтобы повысить навык."
     so_ready: "Я полностью готов(а) для этого"
+
+#  loading_error:
+#    could_not_load: "Ошибка соединения с сервером"
+#    connection_failure: "Соединение потеряно."
+#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+#    forbidden: "You do not have the permissions."
+#    not_found: "Не наидено."
+#    not_allowed: "Method not allowed."
+#    timeout: "Server timeout."
+#    conflict: "Resource conflict."
+#    bad_input: "Bad input."
+#    server_error: "Ошибка сервера."
+#    unknown: "Неизвестная ошибка."
+
+#  resources:
+#    your_sessions: "Your Sessions"
+#    level: "Уровень"
+#    social_network_apis: "Social Network APIs"
+#    facebook_status: "Facebook Status"
+#    facebook_friends: "Facebook Friends"
+#    facebook_friend_sessions: "Facebook Friend Sessions"
+#    gplus_friends: "G+ Friends"
+#    gplus_friend_sessions: "G+ Friend Sessions"
+#    leaderboard: "leaderboard"

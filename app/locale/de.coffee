@@ -12,6 +12,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     manual: "Manuell"
 #    fork: "Fork"
     play: "Abspielen"
+#    retry: "Retry"
 
   units:
     second: "Sekunde"
@@ -264,8 +265,8 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     tip_patience: "Geduld du musst haben, junger Padawan. - Yoda"
     tip_documented_bug: "Ein dokumentierter Fehler ist kein Fehler; er ist ein Merkmal."
     tip_impossible: "Es wirkt immer unmöglich bis es vollbracht ist. - Nelson Mandela"
-#    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
-#    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
+    tip_talk_is_cheap: "Reden ist billig. Zeig mir den Code. - Linus Torvalds"
+    tip_first_language: "Das schwierigste, das du jemals lernen wirst, ist die erste Programmiersprache. - Alan Kay"
     time_current: "Aktuell"
     time_total: "Total"
     time_goto: "Gehe zu"
@@ -326,6 +327,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    article_search_title: "Search Articles Here"
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
+#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
   article:
     edit_btn_preview: "Vorschau"
@@ -600,3 +602,27 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    tutorial: "tutorial"
 #    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
 #    so_ready: "I Am So Ready for This"
+
+#  loading_error:
+#    could_not_load: "Error loading from server"
+#    connection_failure: "Connection failed."
+#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+#    forbidden: "You do not have the permissions."
+#    not_found: "Not found."
+#    not_allowed: "Method not allowed."
+#    timeout: "Server timeout."
+#    conflict: "Resource conflict."
+#    bad_input: "Bad input."
+#    server_error: "Server error."
+#    unknown: "Unknown error."
+
+#  resources:
+#    your_sessions: "Your Sessions"
+#    level: "Level"
+#    social_network_apis: "Social Network APIs"
+#    facebook_status: "Facebook Status"
+#    facebook_friends: "Facebook Friends"
+#    facebook_friend_sessions: "Facebook Friend Sessions"
+#    gplus_friends: "G+ Friends"
+#    gplus_friend_sessions: "G+ Friend Sessions"
+#    leaderboard: "leaderboard"

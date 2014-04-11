@@ -12,6 +12,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     manual: "Manual"
     fork: "Fork"
     play: "Joacă"
+#    retry: "Retry"
 
   units:
     second: "secundă"
@@ -326,6 +327,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     article_search_title: "Caută articole aici"
     thang_search_title: "Caută tipuri de Thang aici"
     level_search_title: "Caută nivele aici"
+#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
 
   article:
     edit_btn_preview: "Preview"
@@ -600,3 +602,27 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tutorial: "tutorial"
     new_to_programming: ". Nou in tainele programării? Încearcă campania de începători pentru ați dezolvata abilitățile."
     so_ready: "Sunt atât de pregătit pentru asta!"
+
+#  loading_error:
+#    could_not_load: "Error loading from server"
+#    connection_failure: "Connection failed."
+#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+#    forbidden: "You do not have the permissions."
+#    not_found: "Not found."
+#    not_allowed: "Method not allowed."
+#    timeout: "Server timeout."
+#    conflict: "Resource conflict."
+#    bad_input: "Bad input."
+#    server_error: "Server error."
+#    unknown: "Unknown error."
+
+#  resources:
+#    your_sessions: "Your Sessions"
+#    level: "Level"
+#    social_network_apis: "Social Network APIs"
+#    facebook_status: "Facebook Status"
+#    facebook_friends: "Facebook Friends"
+#    facebook_friend_sessions: "Facebook Friend Sessions"
+#    gplus_friends: "G+ Friends"
+#    gplus_friend_sessions: "G+ Friend Sessions"
+#    leaderboard: "leaderboard"

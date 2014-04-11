@@ -37,8 +37,9 @@ getTimeFromDaysAgo = (now, daysAgo) ->
   t = now - 86400 * 1000 * daysAgo - LADDER_PREGAME_INTERVAL
 
 isRequestFromDesignatedCronHandler = (req, res) ->
-  if req.ip isnt config.mail.cronHandlerPublicIP and req.ip isnt config.mail.cronHandlerPrivateIP
-    console.log "RECEIVED REQUEST FROM IP #{req.ip}(headers indicate #{req.headers['x-forwarded-for']}"
+  requestIP = req.headers['x-forwarded-for']?.replace(" ","").split(",")[0]
+  if requestIP isnt config.mail.cronHandlerPublicIP and requestIP isnt config.mail.cronHandlerPrivateIP
+    console.log "RECEIVED REQUEST FROM IP #{requestIP}(headers indicate #{req.headers['x-forwarded-for']}"
     console.log "UNAUTHORIZED ATTEMPT TO SEND TRANSACTIONAL LADDER EMAIL THROUGH CRON MAIL HANDLER"
     res.send("You aren't authorized to perform that action. Only the specified Cron handler may perform that action.")
     res.end()
@@ -53,7 +54,7 @@ handleLadderUpdate = (req, res) ->
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
   # TODO: somehow fetch the histograms
-  emailDays = [1, 2, 4, 7, 30]
+  emailDays = [1, 2, 4, 7, 14, 30]
   now = new Date()
   for daysAgo in emailDays
     # Get every session that was submitted in a 5-minute window after the time.

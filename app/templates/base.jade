@@ -33,7 +33,7 @@ body
 
         if me.get('anonymous') === false
           button.btn.btn-primary.navbuttontext.header-font#logout-button(data-i18n="login.log_out") Log Out
-          a.btn.btn-primary.navbuttontext.header-font(href="/account/profile/#{me.id}")
+          a.btn.btn-primary.navbuttontext.header-font(href=me.get('jobProfile') ? "/account/profile/#{me.id}" : "/account/settings")
             div.navbuttontext-user-name
               | #{me.displayName()}
             i.icon-cog.icon-white.big
@@ -68,7 +68,7 @@ body
               p If this is showing, you dun goofed
 
   block footer
-    .footer
+    .footer.clearfix
       .content
         p.footer-link-text
           if pathname == "/"

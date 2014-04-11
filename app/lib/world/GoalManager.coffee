@@ -95,7 +95,7 @@ module.exports = class GoalManager extends CocoClass
     return if @goalStates[goal.id]?
     @goals.push(goal)
     goal.isPositive = @goalIsPositive goal.id
-    @goalStates[goal.id] = {status: 'incomplete', keyFrame: 0}
+    @goalStates[goal.id] = {status: 'incomplete', keyFrame: 0, team: goal.team}
     @notifyGoalChanges()
     return unless goal.notificationGoal
     f = (channel) => (event) => @onNote(channel, event)
@@ -123,6 +123,7 @@ module.exports = class GoalManager extends CocoClass
       state = {
         status: null # should eventually be either 'success', 'failure', or 'incomplete'
         keyFrame: 0 # when it became a 'success' or 'failure'
+        team: goal.team
       }
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
       for getTo in goal.getAllToLocations ? []

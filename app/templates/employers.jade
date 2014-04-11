@@ -32,3 +32,54 @@ block content
       h4 Skill: from interns and entry level to senior developers and management
       h4 Technologies: just about everything
       h4 Countries: USA, Canada, Australia, and many more
+
+  if candidates.length
+    table.table.table-condensed.table-hover.table-responsive.tablesorter
+      thead
+        tr
+          th Name
+          th Location
+          th Looking For
+          th Top 5 Skills
+          th Yrs Exp
+          th Last Updated
+          th Current Job
+          if me.isAdmin()
+            th ✓?
+  
+      tbody
+        for candidate, index in candidates
+          - var profile = candidate.get('jobProfile');
+          - var authorized = candidate.id;  // If we have the id, then we are authorized.
+          tr(data-candidate-id=candidate.id)
+            td
+              if authorized
+                img(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, width=50)
+                p= profile.name
+              else
+                img(src="/images/pages/contribute/archmage.png", alt="", title="Sign up as an employer to see our candidates", width=50)
+                p Developer ##{index + 1}
+            if profile.country == 'USA'
+              td= profile.city
+            else
+              td= profile.country
+            td= profile.lookingFor
+            td
+              each skill in profile.skills.slice(0, 5)
+                code= skill
+                span  
+            td= profile.experience
+            td= moment(profile.updated).fromNow()
+            if authorized
+              if profile.work.length
+                td= profile.work[0].role + ' at ' + profile.work[0].employer
+              else
+                td
+            else
+              td
+                em Employer sign-up required.
+            if me.isAdmin()
+              if candidate.get('jobProfileApproved')
+                td ✓
+              else
+                td ✗

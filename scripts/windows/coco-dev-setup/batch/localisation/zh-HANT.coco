@@ -2,6 +2,7 @@
 <variables>
 	<global>
 		<native>繁体中文</native>
+		<description>Simplified Chinese</description>
 		<intro>From now on we'll send our feedback in English!</intro>
 	</global>
 	<install>
@@ -52,6 +53,11 @@
 			<ssh>Do you want to checkout the repository via ssh?</ssh>
 		</process>
 	</github>
+	<switch>
+		<install>The installation of your local environment was succesfull!</install>
+		<close>You can now close this setup.</close>
+		<open>After that, you should open the configuration setup to automaticly configure your environment...</open>
+	</switch>
 	<npm>
 		<install>Installing bower, brunch, nodemon and sendwithus...</install>
 		<binstall>Installing bower packages...</binstall>
@@ -61,6 +67,7 @@
 		<mongodb>Setting up a MongoDB database for you...</mongodb>
 		<db>Downloading the last version of the CodeCombat database...</db>
 		<script>Preparing the automatic startup script for you...</script>
+		<close>Don't close!</close>
 	</npm>
 	<error>
 		<path>That path already exists, are you sure you want to overwrite it?</path>

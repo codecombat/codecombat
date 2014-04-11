@@ -2,6 +2,7 @@
 <variables>
 	<global>
 		<native>Nederlands</native>
+		<description>Dutch</description>
 		<intro>Vanaf nu geven we onze feedback in het Nederlands!</intro>
 	</global>
 	<install>
@@ -52,6 +53,11 @@
 			<ssh>Wil je het git project downloaden via ssh?</ssh>
 		</process>
 	</github>
+	<switch>
+		<install>The installation of your local environment was succesfull!</install>
+		<close>You can now close this setup.</close>
+		<open>After that, you should open the configuration setup to automaticly configure your environment...</open>
+	</switch>
 	<npm>
 		<install>Installing bower, brunch, nodemon and sendwithus...</install>
 		<binstall>Installing bower packages...</binstall>
@@ -61,6 +67,7 @@
 		<mongodb>Setting up a MongoDB database for you...</mongodb>
 		<database>Downloading the last version of the CodeCombat database...</database>
 		<script>Preparing the automatic startup script for you...</script>
+		<close>Niet sluiten!</close>
 	</npm>
 	<error>
 		<path>Dat pad bestaat al, ben je zeker dat je het wil overschrijven?</path>

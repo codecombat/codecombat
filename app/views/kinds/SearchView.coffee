@@ -8,7 +8,7 @@ class SearchCollection extends Backbone.Collection
     @url = "#{modelURL}/search?project=true"
     @url += "&term=#{term}" if @term
 
-module.exports = class ThangTypeHomeView extends View
+module.exports = class SearchView extends View
   template: template
   className: 'search-view'
 
