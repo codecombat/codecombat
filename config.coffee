@@ -41,7 +41,7 @@ exports.config =
         'test/javascripts/test-vendor.js': /^test[\/\\](?=vendor)/
       order:
         before: [
-          'bower_components/jquery/jquery.js'
+          'bower_components/jquery/dist/jquery.js'
           'bower_components/lodash/dist/lodash.js'
           'bower_components/backbone/backbone.js'
           # Twitter Bootstrap jquery plugins

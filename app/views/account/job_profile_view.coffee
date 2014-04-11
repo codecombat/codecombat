@@ -67,7 +67,7 @@ countries = ['Afghanistan', 'Albania', 'Algeria', 'American Samoa', 'Andorra', '
 
 commonCities = ['Tokyo', 'Jakarta', 'Seoul', 'Delhi', 'Shanghai', 'Manila', 'Karachi', 'New York', 'Sao Paulo', 'Mexico City', 'Cairo', 'Beijing', 'Osaka', 'Mumbai (Bombay)', 'Guangzhou', 'Moscow', 'Los Angeles', 'Calcutta', 'Dhaka', 'Buenos Aires', 'Istanbul', 'Rio de Janeiro', 'Shenzhen', 'Lagos', 'Paris', 'Nagoya', 'Lima', 'Chicago', 'Kinshasa', 'Tianjin', 'Chennai', 'Bogota', 'Bengaluru', 'London', 'Taipei', 'Ho Chi Minh City (Saigon)', 'Dongguan', 'Hyderabad', 'Chengdu', 'Lahore', 'Johannesburg', 'Tehran', 'Essen', 'Bangkok', 'Hong Kong', 'Wuhan', 'Ahmedabad', 'Chongqung', 'Baghdad', 'Hangzhou', 'Toronto', 'Kuala Lumpur', 'Santiago', 'Dallas-Fort Worth', 'Quanzhou', 'Miami', 'Shenyang', 'Belo Horizonte', 'Philadelphia', 'Nanjing', 'Madrid', 'Houston', 'Xi\'an-Xianyang', 'Milan', 'Luanda', 'Pune', 'Singapore', 'Riyadh', 'Khartoum', 'Saint Petersburg', 'Atlanta', 'Surat', 'Washington', 'Bandung', 'Surabaya', 'Yangoon', 'Alexandria', 'Guadalajara', 'Harbin', 'Boston', 'Zhengzhou', 'Qingdao', 'Abidjan', 'Barcelona', 'Monterrey', 'Ankara', 'Suzhou', 'Phoenix-Mesa', 'Salvador', 'Porto Alegre', 'Rome', 'Accra', 'Sydney', 'Recife', 'Naples', 'Detroit', 'Dalian', 'Fuzhou', 'Medellin', 'San Francisco', 'Silicon Valley', 'Portland', 'Seattle', 'Austin', 'Denver', 'Boulder']
 
-autoFocus = false  # Not working right now, possibly a Treema bower thing.
+autoFocus = true  # Not working right now, possibly a Treema bower thing.
 
 class SkillTagNode extends TreemaNode.nodeMap.string
   buildValueForEditing: (valEl) ->
@@ -84,7 +84,7 @@ class LinkNameNode extends TreemaNode.nodeMap.string
 class CityNode extends TreemaNode.nodeMap.string
   buildValueForEditing: (valEl) ->
     super(valEl)
-    valEl.find('input').autocomplete(source: largestCities, minLength: 1, delay: 0, autoFocus: autoFocus)
+    valEl.find('input').autocomplete(source: commonCities, minLength: 1, delay: 0, autoFocus: autoFocus)
     valEl
 
 class CountryNode extends TreemaNode.nodeMap.string
