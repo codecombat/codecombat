@@ -1,5 +1,5 @@
 module.exports =
-  # TODO There should be a better way to subdivide these channels
+  # TODO There should be a better way to divide these channels into smaller ones
 
   # TODO location is debatable
   "echo-self-wizard-sprite":
