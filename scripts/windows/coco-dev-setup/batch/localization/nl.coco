@@ -9,6 +9,13 @@
 		<choosen>Je hebt Nederlands gekozen als jouw taal naar keuze.</choosen>
 		<feedback>Vanaf nu geven we onze feedback in het Nederlands.</feedback>
 	</language>
+	<license>
+		<s1>Om verder te gaan met de installatie van jouw CodeCombat omgeving</s1>
+		<s2>moet je de licentieovereenkomst lezen en ermee akkoord gaan.</s2>
+		<q1>Heb je de licentieovereenkomst gelezen en ga je ermee akkoord?</q1>
+		<a1>Deze installatie kan niet doorgaan zonder jouw akkoord.</a1>
+		<a2>De installatie van jouw Developers omgeving is nu geannulleerd.</a2>
+	</license>
 	<install>
 		<system>
 			<bit>-bit computer gedetecteerd.</bit>

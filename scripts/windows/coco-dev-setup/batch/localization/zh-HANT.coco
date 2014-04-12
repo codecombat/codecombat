@@ -9,6 +9,13 @@
 		<choosen>You have choosen 繁体中文 as your language.</choosen>
 		<feedback>From now on we'll send our feedback in 繁体中文.</feedback>
 	</language>
+	<license>
+		<s1>In order to continue the installation of the developers environment</s1>
+		<s2>you will have to read and agree with the following license:</s2>
+		<q1>Have you read the license and do you agree with it?</q1>
+		<a1>This setup can't happen without an agreement.</a1>
+		<a2>Installation and Setup of the CodeCombat environment is cancelled.</a2>
+	</license>
 	<install>
 		<system>
 			<bit>-bit computer detected.</bit>
