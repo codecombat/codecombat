@@ -19,7 +19,7 @@ block content
   h3 Edit Thang Type: "#{thangType.attributes.name}"
 
   ul.nav.nav-tabs
-    li
+    li.active
       a(href="#editor-thang-main-tab-view", data-toggle="tab") Main
     li
       a(href="#editor-thang-components-tab-view", data-toggle="tab") Components
@@ -27,13 +27,13 @@ block content
       a(href="#editor-thang-spritesheets-view", data-toggle="tab") Spritesheets
     li
       a(href="#editor-thang-colors-tab-view", data-toggle="tab")#color-tab Colors
-    li.active
+    li
       a(href="#editor-thang-patches-view", data-toggle="tab")#patches-tab Patches
 
   div.tab-content
     div.tab-pane#editor-thang-colors-tab-view
     
-    div.tab-pane#editor-thang-main-tab-view
+    div.tab-pane#editor-thang-main-tab-view.active
 
       div.main-area.well
         div.file-controls
@@ -86,7 +86,7 @@ block content
       
       div#spritesheets
   
-    div.tab-pane#editor-thang-patches-view.active
+    div.tab-pane#editor-thang-patches-view
   
       div.patches-view
 

@@ -91,6 +91,7 @@ class CocoModel extends Backbone.Model
       @markToRevert()
       @clearBackup()
     @trigger "save", @
+    patch.setStatus 'accepted' for patch in @acceptedPatches or []
     return super attrs, options
 
   fetch: ->
@@ -116,7 +117,9 @@ class CocoModel extends Backbone.Model
 
   cloneNewMinorVersion: ->
     newData = $.extend(null, {}, @attributes)
-    new @constructor(newData)
+    clone = new @constructor(newData)
+    clone.acceptedPatches = @acceptedPatches
+    clone
 
   cloneNewMajorVersion: ->
     clone = @cloneNewMinorVersion()
@@ -240,5 +243,10 @@ class CocoModel extends Backbone.Model
   getExpandedDelta: ->
     delta = @getDelta()
     deltasLib.expandDelta(delta, @_revertAttributes, @schema().attributes)
+    
+  addPatchToAcceptOnSave: (patch) ->
+    @acceptedPatches ?= []
+    @acceptedPatches.push patch
+    @acceptedPatches = _.uniq(@acceptedPatches, false, (p) -> p.id)
 
 module.exports = CocoModel

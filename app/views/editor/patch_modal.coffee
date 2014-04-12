@@ -1,11 +1,17 @@
 ModalView = require 'views/kinds/ModalView'
 template = require 'templates/editor/patch_modal'
 DeltaView = require 'views/editor/delta'
+auth = require 'lib/auth'
 
 module.exports = class PatchModal extends ModalView
   id: "patch-modal"
   template: template
   plain: true
+  
+  events:
+    'click #withdraw-button': 'withdrawPatch'
+    'click #reject-button': 'rejectPatch'
+    'click #accept-button': 'acceptPatch'
 
   constructor: (@patch, @targetModel, options) ->
     super(options)
@@ -21,6 +27,9 @@ module.exports = class PatchModal extends ModalView
       
   getRenderData: ->
     c = super()
+    c.isPatchCreator = @patch.get('creator') is auth.me.id
+    c.isPatchRecipient = @targetModel.hasWriteAccess()
+    c.status = @patch.get 'status'
     c
     
   afterRender: ->
@@ -38,5 +47,14 @@ module.exports = class PatchModal extends ModalView
     
   acceptPatch: ->
     delta = @deltaView.getApplicableDelta()
-    pendingModel = @originalSource.clone(false)
-    pendingModel.applyDelta(delta)
+    @targetModel.applyDelta(delta)
+    @targetModel.addPatchToAcceptOnSave(@patch)
+    @hide()
+    
+  rejectPatch: ->
+    @patch.setStatus('rejected')
+    @hide()
+    
+  withdrawPatch: ->
+    @patch.setStatus('withdrawn')
+    @hide()
