@@ -57,6 +57,8 @@ module.exports = class God
       #console.log @id, "worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
       worker.initialized = true
       worker.removeEventListener 'message', @onWorkerMessage(worker)
+    else if event.data.type is 'console-log'
+      console.log "|" + @god.id + "'s " + @id + "|", event.data.args...
     else
       console.warn "Received strange word from God: #{event.data.type}"
 

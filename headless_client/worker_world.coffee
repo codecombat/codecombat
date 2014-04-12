@@ -4,8 +4,7 @@
 JASON = require 'jason'
 fs = require 'fs'
 
-console = () ->
-
+createConsole = () ->
 
   self.logLimit = 200;
   self.logsLogged = 0;
@@ -47,11 +46,10 @@ console = () ->
   console.error = console.info = console.log
   self.console = console
   GLOBAL.console = console
+  console
 
 
 work = () ->
-
-  self.workerID = "Worker";
 
   World = self.require('lib/world/world');
   GoalManager = self.require('lib/world/GoalManager');
@@ -154,24 +152,31 @@ work = () ->
 
 world = fs.readFileSync "./public/javascripts/world.js", 'utf8'
 
+
+#window.BOX2D_ENABLED = true;
+
 ret = """
+
+  GLOBAL = root = window = self;
+  GLOBAL.window = window;
+
+  self.workerID = "Worker";
+
+  console = #{JASON.stringify createConsole}();
+
+  console.error = console.info = console.log;
+  self.console = console;
+  GLOBAL.console = console;
+
   try {
-    var root, window;
-    GLOBAL = root = window = self;
-    GLOBAL.window = window;
-
-    window.BOX2D_ENABLED = true;
-
-    var $ = window.$ = #{JASON.stringify $};
-
-    #{world}
+    #{world};
 
     // Don't let user generated code access stuff from our file system!
     self.importScripts = importScripts = null;
     self.native_fs_ = native_fs_ = null;
 
-    var work = #{JASON.stringify work};
-    work();
+
+    #{JASON.stringify work}();
   }catch (error) {
     self.postMessage({"type": "console-log", args: ["An unhandled error occured: ", error.toString(), error.stack], id: -1});
   }

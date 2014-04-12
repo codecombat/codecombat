@@ -1,6 +1,14 @@
+###
+worker_function = require './headless_client/worker_world'
+
+worker_function()
+
+return;
+###
+
+
 #GLOBAL.Aether = require 'aether'
 debug = false
-
 
 server = "http://codecombat.com"
 # Disabled modules
@@ -152,16 +160,7 @@ GLOBAL.Aether = require 'aether'
 # Set up new loader.
 hook()
 
-###
 
-self =
-  eval: eval
-  postMessage: (what) -> console.log what
-  addEventListener: ->
-###
-
-
-#worker_function = require './headless_client/worker_world'
 
 login = require './login.coffee' #should contain an object containing they keys 'username' and 'password'
 
@@ -515,6 +514,6 @@ $.ajax
 
     sim = new Simulator()
     #sim.fetchAndSimulateTask()
-    test = require './test2.js'
+    test = require './test.js'
     #console.log test
     sim.setupSimulationAndLoadLevel test, "Testing...", status: 400
