@@ -1,13 +1,3 @@
-###
-worker_function = require './headless_client/worker_world'
-
-worker_function()
-
-return;
-###
-
-
-#GLOBAL.Aether = require 'aether'
 debug = false
 
 server = "http://codecombat.com"
@@ -160,10 +150,7 @@ GLOBAL.Aether = require 'aether'
 # Set up new loader.
 hook()
 
-
-
 login = require './login.coffee' #should contain an object containing they keys 'username' and 'password'
-
 
 #Login user and start the code.
 $.ajax
@@ -249,7 +236,7 @@ $.ajax
 
         @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
 
-        console.log "Waiting for laoded game"
+        console.log "Waiting for loaded game"
 
         @listenToOnce(@levelLoader, 'loaded-all', @simulateGame)
 
@@ -276,15 +263,12 @@ $.ajax
         @levelLoader = null
 
       setupGod: ->
-        console.log "Setting up god"
         @god.level = @level.serialize @supermodel
         @god.worldClassMap = @world.classMap
         @setupGoalManager()
         @setupGodSpells()
-        console.log "done setting up god"
 
       setupGoalManager: ->
-        console.log "Setting up goal manager"
         @god.goalManager = new GoalManager @world
         @god.goalManager.goals = @god.level.goals
         @god.goalManager.goalStates = @manuallyGenerateGoalStates()
