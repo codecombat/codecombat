@@ -2,6 +2,10 @@ mongoose = require('mongoose')
 User = require('../users/User')
 textSearch = require('mongoose-text-search')
 
+module.exports.PatchablePlugin = (schema) ->
+  schema.is_patchable = true
+  schema.index({'target.original':1, 'status':'1', 'created':-1})
+
 module.exports.NamedPlugin = (schema) ->
   schema.add({name: String, slug: String})
   schema.index({'slug': 1}, {unique: true, sparse: true, name: 'slug index'})

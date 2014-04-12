@@ -243,6 +243,7 @@ c.extendBasicProperties LevelSchema, 'level'
 c.extendSearchableProperties LevelSchema
 c.extendVersionedProperties LevelSchema, 'level'
 c.extendPermissionsProperties LevelSchema, 'level'
+c.extendPatchableProperties LevelSchema
 
 module.exports = LevelSchema
 

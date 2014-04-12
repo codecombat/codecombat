@@ -55,7 +55,7 @@ describe '/auth/login', ->
   it 'rejects wrong passwords', (done) ->
     req = request.post(urlLogin, (error, response) ->
       expect(response.statusCode).toBe(401)
-      expect(response.body.indexOf("wrong, wrong")).toBeGreaterThan(-1)
+      expect(response.body.indexOf("wrong")).toBeGreaterThan(-1)
       done()
     )
     form = req.form()
@@ -96,7 +96,6 @@ describe '/auth/reset', ->
   it 'resets user password', (done) ->
     req = request.post(urlReset, (error, response) ->
       expect(response).toBeDefined()
-      console.log 'status code is', response.statusCode
       expect(response.statusCode).toBe(200)
       expect(response.body).toBeDefined()
       passwordReset = response.body

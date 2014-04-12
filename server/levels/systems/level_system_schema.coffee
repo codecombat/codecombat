@@ -101,6 +101,7 @@ _.extend LevelSystemSchema.properties,
 c.extendBasicProperties LevelSystemSchema, 'level.system'
 c.extendSearchableProperties LevelSystemSchema
 c.extendVersionedProperties LevelSystemSchema, 'level.system'
-c.extendPermissionsProperties LevelSystemSchema, 'level.system'
+c.extendPermissionsProperties LevelSystemSchema
+c.extendPatchableProperties LevelSystemSchema
 
 module.exports = LevelSystemSchema

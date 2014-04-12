@@ -8,6 +8,7 @@ mongoose = require('mongoose')
 
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
+  jsonSchema: require './level_schema'
   editableProperties: [
     'description'
     'documentation'
@@ -39,6 +40,7 @@ LevelHandler = class LevelHandler extends Handler
     return @getHistogramData(req, res, args[0]) if args[1] is 'histogram_data'
     return @checkExistence(req, res, args[0]) if args[1] is 'exists'
     return @sendNotFoundError(res)
+    super(arguments...)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
     @getDocumentForIdOrSlug id, (err, level) =>

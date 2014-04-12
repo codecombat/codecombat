@@ -1,4 +1,6 @@
 storage = require 'lib/storage'
+deltasLib = require 'lib/deltas'
+auth = require 'lib/auth'
 
 class CocoSchema extends Backbone.Model
   constructor: (path, args...) ->
@@ -29,6 +31,12 @@ class CocoModel extends Backbone.Model
 
   type: ->
     @constructor.className
+    
+  clone: (withChanges=true) ->
+    # Backbone does not support nested documents
+    clone = super()
+    clone.set($.extend(true, {}, if withChanges then @attributes else @_revertAttributes))
+    clone
 
   onLoaded: ->
     @loaded = true
@@ -83,6 +91,7 @@ class CocoModel extends Backbone.Model
       @markToRevert()
       @clearBackup()
     @trigger "save", @
+    patch.setStatus 'accepted' for patch in @acceptedPatches or []
     return super attrs, options
 
   fetch: ->
@@ -108,7 +117,9 @@ class CocoModel extends Backbone.Model
 
   cloneNewMinorVersion: ->
     newData = $.extend(null, {}, @attributes)
-    new @constructor(newData)
+    clone = new @constructor(newData)
+    clone.acceptedPatches = @acceptedPatches
+    clone
 
   cloneNewMajorVersion: ->
     clone = @cloneNewMinorVersion()
@@ -199,6 +210,8 @@ class CocoModel extends Backbone.Model
   hasReadAccess: (actor) ->
     # actor is a User object
 
+    actor ?= auth.me
+    return true if actor.isAdmin()
     if @get('permissions')?
       for permission in @get('permissions')
         if permission.target is 'public' or actor.get('_id') is permission.target
@@ -209,12 +222,31 @@ class CocoModel extends Backbone.Model
   hasWriteAccess: (actor) ->
     # actor is a User object
 
+    actor ?= auth.me
+    return true if actor.isAdmin()
     if @get('permissions')?
       for permission in @get('permissions')
         if permission.target is 'public' or actor.get('_id') is permission.target
           return true if permission.access in ['owner', 'write']
 
     return false
-
+    
+  getDelta: ->
+    differ = deltasLib.makeJSONDiffer()
+    differ.diff @_revertAttributes, @attributes
+    
+  applyDelta: (delta) ->
+    newAttributes = $.extend(true, {}, @attributes)
+    jsondiffpatch.patch newAttributes, delta
+    @set newAttributes
+    
+  getExpandedDelta: ->
+    delta = @getDelta()
+    deltasLib.expandDelta(delta, @_revertAttributes, @schema().attributes)
+    
+  addPatchToAcceptOnSave: (patch) ->
+    @acceptedPatches ?= []
+    @acceptedPatches.push patch
+    @acceptedPatches = _.uniq(@acceptedPatches, false, (p) -> p.id)
 
 module.exports = CocoModel

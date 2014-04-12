@@ -9,6 +9,8 @@ module.exports.setupRoutes = (app) ->
 
 debug = not config.isProduction
 module.exports.api = new sendwithusAPI swuAPIKey, debug
+if config.unittest
+  module.exports.api.send = ->
 module.exports.templates =
   welcome_email: 'utnGaBHuSU4Hmsi7qrAypU'
   ladder_update_email: 'JzaZxf39A4cKMxpPZUfWy4'
