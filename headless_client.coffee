@@ -1,5 +1,6 @@
 #GLOBAL.Aether = require 'aether'
-debug = true
+debug = false
+
 
 server = "http://codecombat.com"
 # Disabled modules
@@ -96,17 +97,17 @@ $.ajax= (options) ->
     method: options.type
     body: options.data
     , (error, response, body) ->
-      console.log "HTTP Request:" + JSON.stringify options
+      console.log "HTTP Request:" + JSON.stringify options if debug and not error
 
       if responded
-        console.log "\t↳Already returned before."
+        console.log "\t↳Already returned before." if debug
         return
 
       if (error)
         console.warn "\t↳Returned: error: #{error}"
         options.error(error) if options.error?
       else
-        console.warn "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}"
+        console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}" if debug
         options.success(body, response, status: response.statusCode) if options.success?
       options.complete(status: response.statusCode) if options.complete?
       responded = true

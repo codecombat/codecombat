@@ -46,19 +46,19 @@ module.exports = class God
     @createWorker()
 
   createWorker: ->
-    console.log "Worker: " + God.worker
     worker = new Worker God.worker
     worker.creationTime = new Date()
     worker.addEventListener 'message', @onWorkerMessage(worker)
     worker
 
   onWorkerMessage: (worker) => (event) =>
-    console.log "event.data.type: " + JSON.stringify event
     console.warn event.data.type is 'worker-initialized'
     if event.data.type is 'worker-initialized'
       #console.log @id, "worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
       worker.initialized = true
       worker.removeEventListener 'message', @onWorkerMessage(worker)
+    else
+      console.warn "Received strange word from God: #{event.data.type}"
 
   getAngel: ->
     freeAngel = null

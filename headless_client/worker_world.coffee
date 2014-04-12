@@ -2,13 +2,10 @@
 # This function needs to run inside an environment that has a 'self'.
 
 JASON = require 'jason'
-World = require 'lib/world/world'
-GoalManager = require 'lib/world/GoalManager'
-Box2d = require '../vendor/scripts/Box2dWeb-2.1.a.3'
+fs = require 'fs'
 
-work = () ->
+console = () ->
 
-  self.workerID = "Worker";
 
   self.logLimit = 200;
   self.logsLogged = 0;
@@ -51,14 +48,13 @@ work = () ->
   self.console = console
   GLOBAL.console = console
 
-  self.importScripts "./public/javascripts/world.js"
+
+work = () ->
+
+  self.workerID = "Worker";
 
   World = self.require('lib/world/world');
   GoalManager = self.require('lib/world/GoalManager');
-
-  # Don't let user generated code stuff from our file system!
-  self.importScripts = importScripts = null;
-  self.native_fs_ = native_fs_ = null;
 
   self.runWorld = (args) ->
     console.log "Running world inside worker."
@@ -156,6 +152,8 @@ work = () ->
   self.postMessage type: "worker-initialized"
 
 
+world = fs.readFileSync "./public/javascripts/world.js", 'utf8'
+
 ret = """
   try {
     var root, window;
@@ -166,8 +164,13 @@ ret = """
 
     var $ = window.$ = #{JASON.stringify $};
 
-    var work = #{JASON.stringify work};
+    #{world}
 
+    // Don't let user generated code access stuff from our file system!
+    self.importScripts = importScripts = null;
+    self.native_fs_ = native_fs_ = null;
+
+    var work = #{JASON.stringify work};
     work();
   }catch (error) {
     self.postMessage({"type": "console-log", args: ["An unhandled error occured: ", error.toString(), error.stack], id: -1});
