@@ -57,8 +57,12 @@ module.exports = class SignupModalView extends View
       userObject.emailSubscriptions.push 'notification' unless 'notification' in userObject.emailSubscriptions
     else
       userObject.emailSubscriptions = _.without (userObject.emailSubscriptions ? []), 'announcement', 'notification'
-    res = tv4.validateMultiple userObject, User.schema.attributes
+    res = tv4.validateMultiple userObject, User.schema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     window.tracker?.trackEvent 'Finished Signup'
     @enableModalInProgress(@$el)
     createUser userObject, null, window.nextLevelURL
+
+  afterInsert: ->
+    super()
+    application.router.renderLoginButtons()

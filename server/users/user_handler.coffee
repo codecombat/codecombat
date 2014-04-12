@@ -1,4 +1,4 @@
-schema = require './user_schema'
+schema = require '../../app/schemas/models/user'
 crypto = require 'crypto'
 request = require 'request'
 User = require './User'
@@ -175,6 +175,7 @@ UserHandler = class UserHandler extends Handler
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
     return @sendNotFoundError(res)
+    super(arguments...)
 
   agreeToCLA: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user
@@ -232,9 +233,9 @@ UserHandler = class UserHandler extends Handler
     obj = _.pick document.toObject(), fields
     obj.photoURL ||= obj.jobProfile.photoURL if authorized
     obj.photoURL ||= @buildGravatarURL document if authorized
-    subfields = ['country', 'city', 'lookingFor', 'skills', 'experience', 'updated']
+    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated']
     if authorized
-      subfields = subfields.concat ['name', 'work']
+      subfields = subfields.concat ['name']
     obj.jobProfile = _.pick obj.jobProfile, subfields
     obj
 

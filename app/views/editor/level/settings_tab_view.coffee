@@ -25,7 +25,7 @@ module.exports = class SettingsTabView extends View
   onLevelLoaded: (e) ->
     @level = e.level
     data = _.pick @level.attributes, (value, key) => key in @editableSettings
-    schema = _.cloneDeep Level.schema.attributes
+    schema = _.cloneDeep Level.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
     thangIDs = @getThangIDs()

@@ -10,10 +10,10 @@ block content
       li.active
         | #{article.attributes.name}
 
-  button(data-i18n="general.history").btn.btn-primary#history-button History
+  button(data-i18n="general.version_history").btn.btn-primary#history-button Version History
   button(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert", disabled=authorized === true ? undefined : "true").btn.btn-primary#revert-button Revert
   button(data-i18n="article.edit_btn_preview", disabled=authorized === true ? undefined : "true").btn.btn-primary#preview-button Preview
-  button(data-toggle="coco-modal", data-target="modal/save_version", data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary#save-button Save
+  button(data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary#save-button Save
 
   h3(data-i18n="article.edit_article_title") Edit Article
     span
