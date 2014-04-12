@@ -9,7 +9,7 @@ disable = [
 
 bowerComponents = "./bower_components/"
 
-# the path used for the loader. __dirname is module dependant.
+# the path used for the loader. __dirname is module dependent.
 path = __dirname
 
 m = require 'module'
@@ -27,7 +27,7 @@ hook = () ->
 # Global emulated stuff
 GLOBAL.window = GLOBAL
 GLOBAL.Worker = require('webworker-threads').Worker
-Worker.removeEventListener = -> #This webworker api has only one event listener at a time.
+Worker::removeEventListener = -> #This webworker api has only one event listener at a time.
 
 GLOBAL.tv4 = require('tv4').tv4
 
@@ -131,7 +131,7 @@ do (setupLodash = this) ->
   _.mixin _.str.exports()
 
 
-# load Backbone. Needs hooked loader to reroute underscore to lowdash.
+# load Backbone. Needs hooked loader to reroute underscore to lodash.
 hook()
 GLOBAL.Backbone = require('./bower_components/backbone/backbone')
 unhook()
@@ -288,7 +288,7 @@ $.ajax
         console.log "processing results"
         taskResults = @formTaskResultsObject simulationResults
         console.log taskResults
-        #@sendResultsBackToServer taskResults
+        @sendResultsBackToServer taskResults
 
       sendResultsBackToServer: (results) =>
         @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
@@ -497,7 +497,7 @@ $.ajax
         spellKeyToSourceMap
 
     sim = new Simulator()
-    #sim.fetchAndSimulateTask()
-    test = require './test.js'
+    sim.fetchAndSimulateTask()
+    #test = require './test3.js'
     #console.log test
-    sim.setupSimulationAndLoadLevel test, "Testing...", status: 400
+    #sim.setupSimulationAndLoadLevel test, "Testing...", status: 400

@@ -76,7 +76,7 @@ work = () ->
       return
     Math.random = self.world.rand.randf # so user code is predictable
     console.log "Loading frames."
-    self.world.loadFrames self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress
+    self.world.loadFrames self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress, true
 
 
   self.onWorldLoaded = onWorldLoaded = ->

@@ -72,7 +72,7 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback) ->
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading) ->
     return if @aborted
     unless @thangs.length
       console.log "Warning: loadFrames called on empty World (no thangs)."
@@ -96,6 +96,11 @@ module.exports = class World
         if t2 - @t0 > 1000
           console.log('  Loaded', i, 'of', @totalFrames, "(+" + (t2 - @t0).toFixed(0) + "ms)")
           @t0 = t2
+        continueFn = => @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading)
+        if skipDeferredLoading
+          continueFn()
+        else
+          setTimeout(continueFn, 0)
         setTimeout((=> @loadFrames(loadedCallback, errorCallback, loadProgressCallback)), 0)
         return
     @ended = true

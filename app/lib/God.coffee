@@ -237,7 +237,7 @@ class Angel
       onWorkerMessage = @onWorkerMessage
       _.delay ->
         worker.terminate()
-        worker.removeEventListener 'message', onWorkerMessage(worker)
+        worker.removeEventListener 'message', onWorkerMessage
       , 3000
       @worker = null
     @
@@ -249,7 +249,7 @@ class Angel
 
   terminate: =>
     @worker?.terminate()
-    @worker?.removeEventListener 'message', @onWorkerMessage(worker)
+    @worker?.removeEventListener 'message', @onWorkerMessage
     @worker = null
     return if @dead
     @free()
