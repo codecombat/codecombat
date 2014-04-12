@@ -29,7 +29,7 @@ module.exports = class LevelSystemEditView extends View
 
   buildSettingsTreema: ->
     data = _.pick @levelSystem.attributes, (value, key) => key in @editableSettings
-    schema = _.cloneDeep LevelSystem.schema.attributes
+    schema = _.cloneDeep LevelSystem.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
 
@@ -53,7 +53,7 @@ module.exports = class LevelSystemEditView extends View
   buildConfigSchemaTreema: ->
     treemaOptions =
       supermodel: @supermodel
-      schema: LevelSystem.schema.get('properties').configSchema
+      schema: LevelSystem.schema.properties.configSchema
       data: @levelSystem.get 'configSchema'
       callbacks: {change: @onConfigSchemaEdited}
     treemaOptions.readOnly = true unless me.isAdmin()
@@ -61,7 +61,7 @@ module.exports = class LevelSystemEditView extends View
     @configSchemaTreema.build()
     @configSchemaTreema.open()
     # TODO: schema is not loaded for the first one here?
-    @configSchemaTreema.tv4.addSchema('metaschema', LevelSystem.schema.get('properties').configSchema)
+    @configSchemaTreema.tv4.addSchema('metaschema', LevelSystem.schema.properties.configSchema)
 
   onConfigSchemaEdited: =>
     @levelSystem.set 'configSchema', @configSchemaTreema.data

@@ -1,4 +1,4 @@
-c = require '../../commons/schemas'
+c = require './../schemas'
 
 LevelFeedbackLevelSchema = c.object {required: ['original', 'majorVersion']}, {
   original: c.objectId({})

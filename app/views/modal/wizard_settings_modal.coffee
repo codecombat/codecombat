@@ -22,6 +22,7 @@ module.exports = class WizardSettingsModal extends View
     WizardSettingsView = require 'views/account/wizard_settings_view'
     view = new WizardSettingsView()
     @insertSubView view
+    super()
 
   checkNameExists: =>
     forms.clearFormAlerts(@$el)
@@ -31,7 +32,7 @@ module.exports = class WizardSettingsModal extends View
       forms.applyErrorsToForm(@$el, {property:'name', message:'is already taken'}) if id and id isnt me.id
     $.ajax("/db/user/#{name}/nameToID", {success: success})
 
-  onWizardSettingsDone: =>
+  onWizardSettingsDone: ->
     me.set('name', $('#wizard-settings-name').val())
     forms.clearFormAlerts(@$el)
     res = me.validate()
@@ -42,10 +43,11 @@ module.exports = class WizardSettingsModal extends View
     res = me.save()
     return unless res
     save = $('#save-button', @$el).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
-    .addClass('btn-info').show().removeClass('btn-danger')
+      .addClass('btn-info').show().removeClass('btn-danger')
 
     res.error =>
       errors = JSON.parse(res.responseText)
+      console.warn "Got errors saving user:", errors
       forms.applyErrorsToForm(@$el, errors)
       @disableModalInProgress(@$el)
 
@@ -53,4 +55,3 @@ module.exports = class WizardSettingsModal extends View
       @hide()
 
     @enableModalInProgress(@$el)
-    me.save()

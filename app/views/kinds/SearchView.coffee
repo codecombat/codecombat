@@ -96,7 +96,7 @@ module.exports = class SearchView extends View
     name = @$el.find('#name').val()
     model = new @model()
     model.set('name', name)
-    if @model.schema.get('properties').permissions
+    if @model.schema.properties.permissions
       model.set 'permissions', [{access: 'owner', target: me.id}]
     res = model.save()
     return unless res

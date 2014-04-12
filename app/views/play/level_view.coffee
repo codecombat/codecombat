@@ -421,7 +421,7 @@ module.exports = class PlayLevelView extends View
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState
-    if state.frame
+    if state.frame and @level.get('type') isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
       Backbone.Mediator.publish 'level-set-time', { time: 0, frameOffset: state.frame }
     if state.selected
       # TODO: Should also restore selected spell here by saving spellName

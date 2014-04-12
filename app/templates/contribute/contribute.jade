@@ -37,18 +37,7 @@ block content
           | - Nick, George, Scott, Michael, Jeremy and Glen
         hr
 
-      if me.attributes.anonymous
-        div#sign-up.alert.alert-info
-          strong(data-i18n="contribute.alert_account_message_intro")
-            | Hey there!
-          span  
-          span(data-i18n="contribute.alert_account_message_pref") 
-            | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
-            | create an account
-          span  
-          span(data-i18n="contribute.alert_account_message_suf")
-            | first.
+      .contributor-signup-anonymous
 
       #archmage.header-scrolling-fix
         .class_image
@@ -69,13 +58,7 @@ block content
           p.lead(data-i18n="contribute.more_about_archmage")
             | Learn More About Becoming an Archmage
 
-        label.checkbox(for="developer").well
-          input(type='checkbox', name="developer", id="developer")
-          span(data-i18n="contribute.archmage_subscribe_desc")
-            | Get emails on new coding opportunities and announcements.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
+        .contributor-signup(data-contributor-class-id="developer", data-contributor-class-name="archmage")
 
       #artisan.header-scrolling-fix
 
@@ -102,13 +85,7 @@ block content
           p.lead(data-i18n="contribute.more_about_artisan")
             | Learn More About Becoming An Artisan
 
-        label.checkbox(for="level_creator").well
-          input(type='checkbox', name="level_creator", id="level_creator")
-          span(data-i18n="contribute.artisan_subscribe_desc")
-            | Get emails on level editor updates and announcements.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
+        .contributor-signup(data-contributor-class-id="level_creator", data-contributor-class-name="artisan")
 
       #adventurer.header-scrolling-fix
 
@@ -130,13 +107,7 @@ block content
           p.lead(data-i18n="contribute.more_about_adventurer")
             | Learn More About Becoming an Adventurer
 
-        label.checkbox(for="tester").well
-          input(type='checkbox', name="tester", id="tester")
-          span(data-i18n="contribute.adventurer_subscribe_desc")  
-            | Get emails when there are new levels to test.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
+        .contributor-signup(data-contributor-class-id="tester", data-contributor-class-name="adventurer")
     
       #scribe.header-scrolling-fix
 
@@ -162,13 +133,7 @@ block content
           p.lead(data-i18n="contribute.more_about_scribe")
             | Learn More About Becoming a Scribe
 
-        label.checkbox(for="article_editor").well
-          input(type='checkbox', name="article_editor", id="article_editor")
-          span(data-i18n="contribute.scribe_subscribe_desc")
-            | Get emails about article writing announcements.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
+        .contributor-signup(data-contributor-class-id="article_editor", data-contributor-class-name="scribe")
 
       #diplomat.header-scrolling-fix
 
@@ -191,14 +156,8 @@ block content
           p.lead(data-i18n="contribute.more_about_diplomat")
             | Learn More About Becoming a Diplomat
 
-        label.checkbox(for="translator").well
-          input(type='checkbox', name="translator", id="translator")
-          span(data-i18n="contribute.diplomat_subscribe_desc")
-            | Get emails about i18n developments and levels to translate.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
-      
+        .contributor-signup(data-contributor-class-id="translator", data-contributor-class-name="diplomat")
+
       #ambassador.header-scrolling-fix
 
         .class_image
@@ -218,13 +177,7 @@ block content
           p.lead(data-i18n="contribute.more_about_ambassador")
             | Learn More About Becoming an Ambassador
 
-        label.checkbox(for="support").well
-          input(type='checkbox', name="support", id="support")
-          span(data-i18n="contribute.ambassador_subscribe_desc")
-            | Get emails on support updates and multiplayer developments.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
+        .contributor-signup(data-contributor-class-id="support", data-contributor-class-name="ambassador")
 
       #counselor.header-scrolling-fix
 

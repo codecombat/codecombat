@@ -6,6 +6,7 @@
     send: "Send"
     cancel: "Cancel"
     save: "Save"
+    publish: "Publish"
     create: "Create"
     delay_1_sec: "1 second"
     delay_3_sec: "3 seconds"
@@ -47,9 +48,6 @@
   versions:
     save_version_title: "Save New Version"
     new_major_version: "New Major Version"
-    update_break_level: "(Could this update break old solutions of the level?)"
-    update_break_component: "(Could this update break anything depending on this Component?)"
-    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "To save changes, first you must agree to our"
     cla_url: "CLA"
     cla_suffix: "."
@@ -326,7 +324,6 @@
     more: "More"
     wiki: "Wiki"
     live_chat: "Live Chat"
-    level_publish: "Publish This Level (irreversible)?"
     level_some_options: "Some Options?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Scripts"
@@ -361,7 +358,7 @@
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"
     signup_to_create: "Sign Up to Create a New Content"
-    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Preview"
@@ -663,3 +660,4 @@
     leaderboard: "Leaderboard"
     user_schema: "User Schema"
     user_profile: "User Profile"
+    patches: "Patches"

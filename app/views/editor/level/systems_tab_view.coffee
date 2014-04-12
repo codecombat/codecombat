@@ -67,7 +67,7 @@ module.exports = class SystemsTabView extends View
     treemaOptions =
       # TODO: somehow get rid of the + button, or repurpose it to open the LevelSystemAddView instead
       supermodel: @supermodel
-      schema: Level.schema.get('properties').systems
+      schema: Level.schema.properties.systems
       data: systems
       readOnly: true unless me.isAdmin() or @level.hasWriteAccess(me)
       callbacks:
@@ -159,11 +159,12 @@ class LevelSystemNode extends TreemaObjectNode
     name = "#{@system.get('name')} v#{@system.get('version').major}"
     @buildValueForDisplaySimply valEl, "#{name}"
 
-  onEnterPressed: ->
+  onEnterPressed: (e) ->
+    super e
     Backbone.Mediator.publish 'edit-level-system', original: @data.original, majorVersion: @data.majorVersion
 
-  open: ->
-    super()
+  open: (depth) ->
+    super depth
     cTreema = @childrenTreemas.config
     if cTreema? and (cTreema.getChildren().length or cTreema.canAddChild())
       cTreema.open()

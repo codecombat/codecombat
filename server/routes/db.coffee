@@ -1,7 +1,6 @@
 log = require 'winston'
 errors = require '../commons/errors'
 handlers = require('../commons/mapping').handlers
-schemas = require('../commons/mapping').schemas
 mongoose = require 'mongoose'
 
 module.exports.setup = (app) ->
@@ -42,14 +41,15 @@ module.exports.setup = (app) ->
     catch error
       log.error("Error trying db method #{req.route.method} route #{parts} from #{name}: #{error}")
       log.error(error)
+      log.error(error.stack)
       errors.notFound(res, "Route #{req.path} not found.")
 
 getSchema = (req, res, moduleName) ->
   try
-    name = schemas[moduleName.replace '.', '_']
-    schema = require('../' + name)
+    name = moduleName.replace '.', '_'
+    schema = require('../../app/schemas/models/' + name)
 
-    res.send(schema)
+    res.send(JSON.stringify(schema, null, '\t'))
     res.end()
 
   catch error
