@@ -62,7 +62,6 @@ module.exports = class ThangTypeEditView extends View
 
     @thangType.fetch()
     @thangType.loadSchema()
-    # @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
     @listenToOnce(@thangType, 'sync', @onThangTypeSync)
     @refreshAnimation = _.debounce @refreshAnimation, 500
 

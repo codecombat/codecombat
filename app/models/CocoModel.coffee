@@ -2,15 +2,6 @@ storage = require 'lib/storage'
 deltasLib = require 'lib/deltas'
 auth = require 'lib/auth'
 
-class CocoSchema extends Backbone.Model
-  constructor: (path, args...) ->
-    super(args...)
-    # @urlRoot = path + '/schema'
-    @schemaName = path[4..].replace '.', '_'
-    @schema = require 'schemas/' + @schemaName + '_schema'
-
-# window.CocoSchema = CocoSchema.schema
-
 class CocoModel extends Backbone.Model
   idAttribute: "_id"
   loaded: false
@@ -69,7 +60,6 @@ class CocoModel extends Backbone.Model
     return if @constructor.schema.loading
     @constructor.schema = require 'schemas/' + @constructor.schema + '_schema' unless @constructor.schema.loaded
     @onConstructorSync()
-    # @listenToOnce(@constructor.schema, 'sync', @onConstructorSync)
 
   onConstructorSync: ->
     @constructor.schema.loaded = true
