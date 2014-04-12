@@ -52,21 +52,28 @@
 			<bashq>Geef alsjeblieft het volledige pad op van Git Bash of druk gewoon op enter indien je het pad niet gewijzigd heeft</bashq>
 			<ssh>Wil je het git project downloaden via ssh?</ssh>
 		</process>
+		<config>
+			<intro>Je zou nu al een eigen CodeCombat-fork moeten hebben gekoppeld aan jouw GitHub account...</intro>
+			<info>Geef jou GitHub informatie alstublieft, zodat wij jou lokale repositorie kunnen configureren.</info>
+			<username>Gebruikersnaam: </username>
+			<password>Wachtwoord: </password>
+			<process>Dank u, jouw lokaal project wordt nu geconfigureerd...</process>
+		</config>
 	</github>
 	<switch>
-		<install>The installation of your local environment was succesfull!</install>
-		<close>You can now close this setup.</close>
-		<open>After that, you should open the configuration setup to automaticly configure your environment...</open>
+		<install>De installatie van jouw lokale omgeving was een succes!</install>
+		<close>Je kan nu deze setup sluiten.</close>
+		<open>Nadien, kan je de 'configuration' setup openen om jouw omgeving automatisch te configureren...</open>
 	</switch>
 	<npm>
-		<install>Installing bower, brunch, nodemon and sendwithus...</install>
-		<binstall>Installing bower packages...</binstall>
-		<sass>Installing sass...</sass>
-		<npm>Installing npm...</npm>
-		<brnch>Starting brunch....</brnch>
-		<mongodb>Setting up a MongoDB database for you...</mongodb>
-		<database>Downloading the last version of the CodeCombat database...</database>
-		<script>Preparing the automatic startup script for you...</script>
+		<install>Bower, brunch, nodemon en sendwithus aan het installeren...</install>
+		<binstall>Bower packages aan het installeren...</binstall>
+		<sass>Sass aan het installeren...</sass>
+		<npm>NPM aan het installeren...</npm>
+		<brnch>Brunch aan het installeren....</brnch>
+		<mongodb>De CoCo database in MongoDB aan het laden...</mongodb>
+		<database>De laatste versie van de CodeCombat Database aan het downloaden...</database>
+		<script>Het automatisch startup script aan het voorbereiden...</script>
 		<close>Niet sluiten!</close>
 	</npm>
 	<error>

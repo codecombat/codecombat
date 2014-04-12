@@ -233,9 +233,9 @@ UserHandler = class UserHandler extends Handler
     obj = _.pick document.toObject(), fields
     obj.photoURL ||= obj.jobProfile.photoURL if authorized
     obj.photoURL ||= @buildGravatarURL document if authorized
-    subfields = ['country', 'city', 'lookingFor', 'skills', 'experience', 'updated']
+    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated']
     if authorized
-      subfields = subfields.concat ['name', 'work']
+      subfields = subfields.concat ['name']
     obj.jobProfile = _.pick obj.jobProfile, subfields
     obj
 

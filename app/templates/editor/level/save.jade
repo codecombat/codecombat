@@ -6,17 +6,17 @@ block modal-body-content
     .changes-stub
     form#save-level-form.form-inline
       .form-group.commit-message
-        input.form-control#level-commit-message(name="commit-message", type="text", placeholder="Commit Message")
+        input.form-control#level-commit-message(name="commit-message", type="text")
       if level.isPublished()
         .checkbox
           label
             input#level-version-is-major(name="version-is-major", type="checkbox")
-            | Major Changes
+            span(data-i18n="versions.new_major_version") New Major Version
       if !level.isPublished()
         .checkbox
           label
             input#level-publish(name="publish", type="checkbox")
-            | Publish
+            span(data-i18n="common.publish") Publish
 
   if modifiedComponents.length
     hr
@@ -29,12 +29,12 @@ block modal-body-content
       input(name="component-original", type="hidden", value=component.get('original'))
       input(name="component-parent-major-version", type="hidden", value=component.get('version').major)
       .form-group.commit-message
-        input.form-control(id=id + "-commit-message", name="commit-message", type="text", placeholder="Commit Message")
+        input.form-control(id=id + "-commit-message", name="commit-message", type="text")
       if component.isPublished()
         .checkbox
           label
             input(id=id + "-version-is-major", name="version-is-major", type="checkbox")
-            | Major Changes
+            span(data-i18n="versions.new_major_version") New Major Version
 
   if modifiedSystems.length
     hr
@@ -52,4 +52,4 @@ block modal-body-content
         .checkbox
           label
             input(id=id + "-version-is-major", name="version-is-major", type="checkbox")
-            | Major changes
+            span(data-i18n="versions.new_major_version") New Major Version

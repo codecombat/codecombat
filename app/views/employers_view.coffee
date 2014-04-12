@@ -3,8 +3,7 @@ template = require 'templates/employers'
 app = require 'application'
 User = require 'models/User'
 CocoCollection = require 'models/CocoCollection'
-employerSignupTemplate = require 'templates/modal/employer_signup_modal'
-ModalView = require 'views/kinds/ModalView'
+EmployerSignupView = require 'views/modal/employer_signup_modal'
 
 class CandidatesCollection extends CocoCollection
   url: '/db/user/x/candidates'
@@ -81,10 +80,8 @@ module.exports = class EmployersView extends View
 
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
-    if id
+    if not id
       url = "/account/profile/#{id}"
       app.router.navigate url, {trigger: true}
     else
-      employerSignupModal = new ModalView()
-      employerSignupModal.template = employerSignupTemplate
-      @openModalView employerSignupModal
+      @openModalView new EmployerSignupView
