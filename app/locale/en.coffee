@@ -619,3 +619,5 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     leaderboard: "Leaderboard"
     user_schema: "User Schema"
     user_profile: "User Profile"
+    level_session: "LevelSession"
+    opponent_session: "OpponentSession"

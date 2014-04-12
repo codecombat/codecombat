@@ -4,16 +4,15 @@ module.exports = class SuperModel extends Backbone.Model
     @collections = {}
     @schemas = {}
 
-  populateModel: (model) ->
+  populateModel: (model, resName) ->
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
-    # model.fetch() unless model.loaded or model.loading
-    # @listenToOnce(model, 'sync', @modelLoaded) unless model.loaded
-    # @listenToOnce(model, 'error', @modelErrored) unless model.loaded
+
     url = model.url()
     @models[url] = model unless @models[url]?
     @modelLoaded(model) if model.loaded
 
+    resName = url unless resName
     modelRes = @addModelResource(model, url)
     schema = model.schema()
     schemaRes = @addModelResource(schema, schema.urlRoot)
@@ -87,7 +86,7 @@ module.exports = class SuperModel extends Backbone.Model
     collection
 
   finished: ->
-    return ResourceManager.progress == 1.0 or Object.keys(ResourceManager.resources).length == 0
+    return ResourceManager.progress is 1.0 or Object.keys(ResourceManager.resources).length is 0
 
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1)->
@@ -127,7 +126,7 @@ module.exports = class SuperModel extends Backbone.Model
   onResourceLoaded: (r)=> 
     @modelLoaded(r.model)
     # Check if the model has references
-    if r.constructor.name == 'ModelResource'
+    if r.constructor.name is 'ModelResource'
       model = r.model
       @addModelRefencesToLoad(model)
       @updateProgress(r)
@@ -189,7 +188,7 @@ class Resource extends Backbone.Model
   addDependency: (name)->
     depRes = ResourceManager.resources[name]
     throw new Error('Resource not found') unless depRes
-    return if (depRes.isLoaded or name == @name)
+    return if (depRes.isLoaded or name is @name)
     @dependencies.push(name)
 
   markLoaded: ()->
@@ -236,12 +235,12 @@ class ModelResource extends Resource
   onLoadDependenciesSuccess: ()=>
     @model.fetch(@fetchOptions)
 
-    @listenToOnce(@model, 'sync', ()=>
+    @listenToOnce(@model, 'sync', ->
       @markLoaded()
       @loadDeferred.resolve(@)
     )
 
-    @listenToOnce(@model, 'error', ()=>
+    @listenToOnce(@model, 'error', ->
       @markFailed()
       @loadDeferred.reject(@)
     )

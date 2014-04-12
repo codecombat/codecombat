@@ -50,7 +50,7 @@ module.exports = class EditorLevelView extends View
         @hideLoading()
         @insertSubView(new ErrorView())
     )
-    @supermodel.populateModel @level
+    @supermodel.populateModel(@level, 'level')
 
   showLoading: ($el) ->
     $el ?= @$el.find('.tab-content')
