@@ -29,9 +29,9 @@ class SuperModel
     model.loadSchema()
     schema = model.schema()
     unless schema.loaded
-      @schemas[schema.urlRoot] = schema
+      @schemas[model.urlRoot] = schema
       return schema.once('sync', => @modelLoaded(model))
-    refs = model.getReferencedModels(model.attributes, schema.attributes, '/', @shouldLoadProjection)
+    refs = model.getReferencedModels(model.attributes, schema, '/', @shouldLoadProjection)
     refs = [] unless @mustPopulate is model or @shouldPopulate(model)
 #    console.log 'Loaded', model.get('name')
     for ref, i in refs when @shouldLoadReference ref

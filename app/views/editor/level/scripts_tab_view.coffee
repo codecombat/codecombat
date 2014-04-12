@@ -22,7 +22,7 @@ module.exports = class ScriptsTabView extends View
     @dimensions = @level.dimensions()
     scripts = $.extend(true, [], @level.get('scripts') ? [])
     treemaOptions =
-      schema: Level.schema.get('properties').scripts
+      schema: Level.schema.properties.scripts
       data: scripts
       callbacks:
         change: @onScriptsChanged
@@ -52,7 +52,7 @@ module.exports = class ScriptsTabView extends View
       filePath: "db/level/#{@level.get('original')}"
       files: @files
       view: @
-      schema: Level.schema.get('properties').scripts.items
+      schema: Level.schema.properties.scripts.items
       data: selected.data
       thangIDs: thangIDs
       dimensions: @dimensions

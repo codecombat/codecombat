@@ -1,6 +1,6 @@
 mongoose = require('mongoose')
 plugins = require('../../plugins/plugins')
-jsonschema = require('./level_component_schema')
+jsonschema = require('../../../app/schemas/level_component_schema')
 
 LevelComponentSchema = new mongoose.Schema {
   description: String

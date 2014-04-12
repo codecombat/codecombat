@@ -1,5 +1,5 @@
 #language imports
-Language = require '../routes/languages'
+Language = require './languages'
 # schema helper methods
 
 me = module.exports

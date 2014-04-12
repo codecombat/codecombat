@@ -62,7 +62,6 @@ module.exports = class ThangTypeEditView extends View
 
     @thangType.fetch()
     @thangType.loadSchema()
-    @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
     @listenToOnce(@thangType, 'sync', @onThangTypeSync)
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
@@ -344,7 +343,7 @@ module.exports = class ThangTypeEditView extends View
 
   buildTreema: ->
     data = @getThangData()
-    schema = _.cloneDeep ThangType.schema.attributes
+    schema = _.cloneDeep ThangType.schema
     schema.properties = _.pick schema.properties, (value, key) => not (key in ['components'])
     options =
       data: data

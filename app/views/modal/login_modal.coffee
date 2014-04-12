@@ -36,7 +36,7 @@ module.exports = class LoginModalView extends View
   loginAccount: (e) =>
     forms.clearFormAlerts(@$el)
     userObject = forms.formToObject @$el
-    res = tv4.validateMultiple userObject, User.schema.attributes
+    res = tv4.validateMultiple userObject, User.schema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     @enableModalInProgress(@$el) # TODO: part of forms
     loginUser(userObject)

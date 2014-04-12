@@ -54,7 +54,7 @@ module.exports = class ArticleEditView extends View
     options =
       data: data
       filePath: "db/thang.type/#{@article.get('original')}"
-      schema: Article.schema.attributes
+      schema: Article.schema
       readOnly: true unless me.isAdmin() or @article.hasWriteAccess(me)
       callbacks:
         change: @pushChangesToPreview

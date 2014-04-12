@@ -1,4 +1,4 @@
-c = require '../../commons/schemas'
+c = require './schemas'
 ThangComponentSchema = require './thang_component_schema'
 
 ThangTypeSchema = c.object()
