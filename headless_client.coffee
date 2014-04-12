@@ -24,6 +24,8 @@ hook = () ->
   m._load = hookedLoader
 
 
+JASON = require 'jason'
+
 # Global emulated stuff
 GLOBAL.window = GLOBAL
 GLOBAL.Worker = require('webworker-threads').Worker
@@ -108,7 +110,10 @@ $.ajax = (options) ->
       else
         console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}" if debug
         options.success(body, response, status: response.statusCode) if options.success?
-      options.complete(status: response.statusCode) if options.complete?
+
+
+      statusCode = response.statusCode if response?
+      options.complete(status: statusCode) if options.complete?
       responded = true
 
 $.extend = (deep, into, from) ->
@@ -294,7 +299,8 @@ $.ajax
       sendResultsBackToServer: (results) =>
         @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
         console.log "Sending result back to server"
-        results = JSON.stringify results
+        #console.warn(require('jason').stringify results)
+        results = JASON.stringify results
         $.ajax
           url: "queue/scoring"
           data: results
@@ -497,7 +503,7 @@ $.ajax
         spellKeyToSourceMap
 
     sim = new Simulator()
-    #sim.fetchAndSimulateTask()
-    test = require './test.js'
+    sim.fetchAndSimulateTask()
+    #test = require './test.js'
     #console.log test
-    sim.setupSimulationAndLoadLevel test, "Testing...", status: 400
+    #sim.setupSimulationAndLoadLevel test, "Testing...", status: 400
