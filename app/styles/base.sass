@@ -111,6 +111,9 @@ a[data-toggle="modal"]
     @include box-shadow(0 0 0 #000)
     //position: absolute
     width: 99%
+    
+  .background-wrapper.plain
+    background: white
 
   .modal-content
     @include box-shadow(none)
@@ -255,3 +258,10 @@ body[lang='ja']
     margin-bottom: 20px
   .partner-badges
     display: none
+
+// point the new glyphicons to the fonts in public
+  
+@font-face
+  font-family: 'Glyphicons Halflings'
+  src: url("/fonts/glyphicons-halflings-regular.eot")
+  src: url("/fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("/fonts/glyphicons-halflings-regular.woff") format("woff"), url("/fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular") format("svg")

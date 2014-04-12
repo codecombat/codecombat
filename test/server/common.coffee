@@ -10,6 +10,7 @@ _.mixin(_.str.exports())
 GLOBAL.mongoose = require 'mongoose'
 mongoose.connect('mongodb://localhost/coco_unittest')
 path = require('path')
+GLOBAL.testing = true
 
 models_path = [
   '../../server/articles/Article'
@@ -19,6 +20,7 @@ models_path = [
   '../../server/levels/sessions/LevelSession'
   '../../server/levels/thangs/LevelThangType'
   '../../server/users/User'
+  '../../server/patches/Patch'
 ]
 
 for m in models_path
@@ -78,11 +80,8 @@ unittest.getUser = (email, password, done, force) ->
       req = request.post(getURL('/db/user'), (err, response, body) ->
         throw err if err
         User.findOne({email:email}).exec((err, user) ->
-          if password is '80yqxpb38j'
-            user.set('permissions', [ 'admin' ])
-            user.save (err) ->
-              wrapUpGetUser(email, user, done)
-          else
+          user.set('permissions', if password is '80yqxpb38j' then [ 'admin' ] else [])
+          user.save (err) ->
             wrapUpGetUser(email, user, done)
         )
       )

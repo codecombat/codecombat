@@ -6,6 +6,9 @@ describe 'Level', ->
     name: "King's Peak 3"
     description: 'Climb a mountain.'
     permissions: simplePermissions
+    scripts: []
+    thangs: []
+    documentation: {specificArticles:[], generalArticles:[]}
 
   urlLevel = '/db/level'
 

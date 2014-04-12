@@ -42,6 +42,7 @@ module.exports.setup = (app) ->
     catch error
       log.error("Error trying db method #{req.route.method} route #{parts} from #{name}: #{error}")
       log.error(error)
+      log.error(error.stack)
       errors.notFound(res, "Route #{req.path} not found.")
 
 getSchema = (req, res, moduleName) ->
@@ -49,7 +50,7 @@ getSchema = (req, res, moduleName) ->
     name = schemas[moduleName.replace '.', '_']
     schema = require('../' + name)
 
-    res.send(schema)
+    res.send(JSON.stringify(schema, null, '\t'))
     res.end()
 
   catch error

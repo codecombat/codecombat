@@ -13,6 +13,7 @@ LevelSystemHandler = class LevelSystemHandler extends Handler
     'configSchema'
   ]
   postEditableProperties: ['name']
+  jsonSchema: require './level_system_schema'
 
   getEditableProperties: (req, document) ->
     props = super(req, document)

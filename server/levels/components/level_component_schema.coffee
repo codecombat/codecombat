@@ -115,5 +115,6 @@ c.extendBasicProperties LevelComponentSchema, 'level.component'
 c.extendSearchableProperties LevelComponentSchema
 c.extendVersionedProperties LevelComponentSchema, 'level.component'
 c.extendPermissionsProperties LevelComponentSchema, 'level.component'
+c.extendPatchableProperties LevelComponentSchema
 
 module.exports = LevelComponentSchema
