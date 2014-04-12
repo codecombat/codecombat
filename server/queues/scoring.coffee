@@ -36,7 +36,7 @@ module.exports.messagesInQueueCount = (req, res) ->
 
 module.exports.addPairwiseTaskToQueueFromRequest = (req, res) ->
   taskPair = req.body.sessions
-  addPairwiseTaskToQueue req.body.sessions (err, success) ->
+  addPairwiseTaskToQueue req.body.sessions, (err, success) ->
     if err? then return errors.serverError res, "There was an error adding pairwise tasks: #{err}"
     sendResponseObject req, res, {"message":"All task pairs were succesfully sent to the queue"}
 
@@ -113,7 +113,6 @@ module.exports.createNewTask = (req, res) ->
     updateSessionToSubmit
     fetchInitialSessionsToRankAgainst.bind(@, requestLevelMajorVersion, originalLevelID)
     generateAndSendTaskPairsToTheQueue
-
   ], (err, successMessageObject) ->
     if err? then return errors.serverError res, "There was an error submitting the game to the queue:#{err}"
     sendResponseObject req, res, successMessageObject
@@ -188,15 +187,16 @@ fetchInitialSessionsToRankAgainst = (levelMajorVersion, levelID, submittedSessio
     submittedCode:
       $exists: true
     team: opposingTeam
-
+  
   sortParameters =
     totalScore: 1
 
   limitNumber = 1
-
-  query = LevelSession.find(findParameters)
-  .sort(sortParameters)
-  .limit(limitNumber)
+  query = LevelSession.aggregate [
+    {$match: findParameters}
+    {$sort: sortParameters}
+    {$limit: limitNumber}
+  ]
 
   query.exec (err, sessionToRankAgainst) ->
     callback err, sessionToRankAgainst, submittedSession
@@ -206,6 +206,8 @@ generateAndSendTaskPairsToTheQueue = (sessionToRankAgainst,submittedSession, cal
   taskPairs = generateTaskPairs(sessionToRankAgainst, submittedSession)
   sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
     if taskPairError? then return callback taskPairError
+    console.log "Sent task pairs to the queue!"
+    console.log taskPairs
     callback null, {"message": "All task pairs were succesfully sent to the queue"}
 
 
@@ -580,7 +582,8 @@ sendEachTaskPairToTheQueue = (taskPairs, callback) -> async.each taskPairs, send
 generateTaskPairs = (submittedSessions, sessionToScore) ->
   taskPairs = []
   for session in submittedSessions
-    session = session.toObject()
+    if session.toObject?
+      session = session.toObject()
     teams = ['ogres','humans']
     opposingTeams = _.pull teams, sessionToScore.team
     if String(session._id) isnt String(sessionToScore._id) and session.team in opposingTeams

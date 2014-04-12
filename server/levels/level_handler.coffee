@@ -240,9 +240,6 @@ LevelHandler = class LevelHandler extends Handler
           original: level.original.toString()
           majorVersion: level.version.major
         submitted:true
-        
-      console.log sessionsQueryParameters
-        
       
       query = Session
         .find(sessionsQueryParameters)
@@ -253,7 +250,6 @@ LevelHandler = class LevelHandler extends Handler
         return @sendDatabaseError res, err if err? or not resultSessions
         
         teamSessions = _.groupBy resultSessions, 'team'
-        console.log teamSessions
         sessions = []
         numberOfTeams = 0
         for team of teamSessions

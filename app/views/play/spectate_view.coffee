@@ -119,6 +119,7 @@ module.exports = class SpectateLevelView extends View
     @insertSubView @loadingView = new LoadingView {}
     @$el.find('#level-done-button').hide()
     super()
+    $('body').addClass('is-playing')
 
   onLevelLoaderProgressChanged: ->
     return if @seenDocs
