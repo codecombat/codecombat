@@ -7,7 +7,7 @@ block outer_content
       .container-fluid
         ul.nav.navbar-nav
           li
-            a(href="/editor/level") Back
+            a(href="/editor/level", data-i18n="editor.back") Back
         .navbar-header
           span.navbar-brand
             span(data-i18n="editor.level_title") Level Editor
@@ -26,29 +26,34 @@ block outer_content
               a(href="#editor-level-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components") Components
             li
               a(href="#editor-level-systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
-            
-            
+            li
+              a(href="#editor-level-patches", data-toggle="tab", data-i18n="resources.patches")#patches-tab Patches
+
+
           ul.nav.navbar-nav.navbar-right
             li(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert", disabled=authorized === true ? undefined : "true").btn.btn-primary.navbar-btn#revert-button Revert
-            li(data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary.navbar-btn#commit-level-start-button Save
+            if authorized
+              li(data-i18n="common.save").btn.btn-primary.navbar-btn#commit-level-start-button Save
+            else
+              li(data-i18n="common.patch").btn.btn-primary.navbar-btn#commit-level-patch-button Patch
             li(data-i18n="common.fork", disabled=anonymous ? "true": undefined).btn.btn-primary.navbar-btn#fork-level-start-button Fork
             li(title="⌃↩ or ⌘↩: Play preview of current level", data-i18n="common.play")#play-button.btn.btn-inverse.banner.navbar-btn Play!
 
             li.divider
 
             li.dropdown
-              a.dropdown-toggle(href='#', data-toggle='dropdown')
+              a.dropdown-toggle(href='#', data-toggle='dropdown', data-i18n="editor.more")
                 | More
                 b.caret
               ul.dropdown-menu
                 li#history-button
                   a(href='#', data-i18n="general.version_history") Version History
                 li
-                  a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home') Wiki
+                  a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', data-i18n="editor.wiki") Wiki
                 li
-                  a(href='http://www.hipchat.com/g3plnOKqa') Live Chat
+                  a(href='http://www.hipchat.com/g3plnOKqa', data-i18n="editor.live_chat") Live Chat
                 li
-                  a(href='http://discourse.codecombat.com/category/artisan') Forum
+                  a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum") Forum
                 li
                   a(data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Email
 
@@ -74,6 +79,9 @@ block outer_content
       div.tab-pane#editor-level-components-tab-view
 
       div.tab-pane#editor-level-systems-tab-view
+    
+      div.tab-pane#editor-level-patches
+        .patches-view
 
     div#error-view
 

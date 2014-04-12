@@ -1,1 +1,1 @@
-print_file ..\\config\\tips.coco
+call print_localized_file ..\\config\\localized\\tips

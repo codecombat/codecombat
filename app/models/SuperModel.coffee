@@ -2,7 +2,11 @@ module.exports = class SuperModel extends Backbone.Model
   constructor: ->
     @models = {}
     @collections = {}
+<<<<<<< HEAD
     @schemas = {}
+=======
+    _.extend(@, Backbone.Events)
+>>>>>>> master
 
   populateModel: (model, resName) ->
     @mustPopulate = model
@@ -31,7 +35,23 @@ module.exports = class SuperModel extends Backbone.Model
     @trigger 'error'
     @removeEventsFromModel(model)
 
+<<<<<<< HEAD
   modelLoaded: (model) ->    
+=======
+  modelLoaded: (model) ->
+    schema = model.schema()
+    refs = model.getReferencedModels(model.attributes, schema, '/', @shouldLoadProjection)
+    refs = [] unless @mustPopulate is model or @shouldPopulate(model)
+#    console.log 'Loaded', model.get('name')
+    for ref, i in refs when @shouldLoadReference ref
+      ref.saveBackups = @shouldSaveBackups(ref)
+      refURL = ref.url()
+      continue if @models[refURL]
+      @models[refURL] = ref
+      ref.fetch()
+      @listenToOnce(ref, 'sync', @modelLoaded)
+
+>>>>>>> master
     @trigger 'loaded-one', model: model
     @removeEventsFromModel(model)
 
@@ -88,6 +108,12 @@ module.exports = class SuperModel extends Backbone.Model
   finished: ->
     return ResourceManager.progress is 1.0 or Object.keys(ResourceManager.resources).length is 0
 
+<<<<<<< HEAD
+=======
+    for model in _.values @models
+      total += 1
+      loaded += 1 if model.loaded
+>>>>>>> master
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1)->
     @checkName(name)

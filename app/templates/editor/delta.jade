@@ -1,0 +1,46 @@
+- var i = 0
+
+mixin deltaPanel(delta, conflict)
+  - delta.index = i++
+  .delta.panel.panel-default(class='delta-'+delta.action, data-index=i)
+    .panel-heading
+      if delta.action === 'added'
+        strong(data-i18n="delta.added") Added
+      if delta.action === 'modified'
+        strong(data-i18n="delta.modified") Modified
+      if delta.action === 'deleted'
+        strong(data-i18n="delta.deleted") Deleted
+      if delta.action === 'moved-index'
+        strong(data-i18n="delta.modified_array") Moved Index
+      if delta.action === 'text-diff'
+        strong(data-i18n="delta.text_diff") Text Diff
+      span  
+      a(data-toggle="collapse" data-parent="#delta-accordion"+(counter) href="#collapse-"+(i+counter))
+        span= delta.humanPath
+
+    .panel-collapse.collapse(id="collapse-"+(i+counter))
+      .panel-body.row(class=conflict ? "conflict-details" : "details")
+        if delta.action === 'added'
+          .new-value.col-md-12= delta.right
+        if delta.action === 'modified'
+          .old-value.col-md-6= delta.left
+          .new-value.col-md-6= delta.right
+        if delta.action === 'deleted'
+          .col-md-12
+            div.old-value= delta.left
+        if delta.action === 'text-diff'
+          .col-md-12
+            div.text-diff
+        if delta.action === 'moved-index'
+          .col-md-12
+            span Moved array value #{JSON.stringify(delta.left)} to index #{delta.destinationIndex}
+  
+    if delta.conflict && !conflict
+      .panel-body
+        strong MERGE CONFLICT WITH
+        +deltaPanel(delta.conflict, true)
+
+.panel-group(id='delta-accordion-'+(counter))
+  for delta in deltas
+    +deltaPanel(delta)
+    

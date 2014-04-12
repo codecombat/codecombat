@@ -9,6 +9,8 @@ View = require 'views/kinds/RootView'
 ThangComponentEditView = require 'views/editor/components/main'
 VersionHistoryView = require './versions_view'
 ColorsTabView = require './colors_tab_view'
+PatchesView = require 'views/editor/patches_view'
+SaveVersionModal = require 'views/modal/save_version_modal'
 ErrorView = require '../../error_view'
 template = require 'templates/editor/thang/edit'
 
@@ -33,6 +35,8 @@ module.exports = class ThangTypeEditView extends View
     'click #marker-button': 'toggleDots'
     'click #end-button': 'endAnimation'
     'click #history-button': 'showVersionHistory'
+    'click #save-button': 'openSaveModal'
+    'click #patches-tab': -> @patchesView.load()
 
   subscriptions:
     'save-new-version': 'saveNewThangType'
@@ -56,18 +60,22 @@ module.exports = class ThangTypeEditView extends View
         @insertSubView(new ErrorView())
     )
 
+<<<<<<< HEAD
     thang_res = @supermodel.addModelResource(@thangType, 'thang_type')
     thang_schema_res = @supermodel.addModelResource(@thangType.schema(), 'thang_type_schema')
     thang_res.addDependency('thang_type_schema')
 
     thang_res.load()
     @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
+=======
+    @thangType.fetch()
+>>>>>>> master
     @listenToOnce(@thangType, 'sync', @onThangTypeSync)
 
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
   onThangTypeSync: ->
-    return unless @thangType.loaded and ThangType.hasSchema()
+    return unless @thangType.loaded
     @startsLoading = false
     @files = new DocumentFiles(@thangType)
     @supermodel.addModelResource(@files, @files.url).load()
@@ -94,7 +102,8 @@ module.exports = class ThangTypeEditView extends View
     @initSliders()
     @initComponents()
     @insertSubView(new ColorsTabView(@thangType))
-    @showReadOnly() unless me.isAdmin() or @thangType.hasWriteAccess(me)
+    @patchesView = @insertSubView(new PatchesView(@thangType), @$el.find('.patches-view'))
+    @showReadOnly() if me.get('anonymous')
 
   initComponents: =>
     options =
@@ -343,7 +352,7 @@ module.exports = class ThangTypeEditView extends View
 
   buildTreema: ->
     data = @getThangData()
-    schema = _.cloneDeep ThangType.schema.attributes
+    schema = _.cloneDeep ThangType.schema
     schema.properties = _.pick schema.properties, (value, key) => not (key in ['components'])
     options =
       data: data
@@ -400,11 +409,14 @@ module.exports = class ThangTypeEditView extends View
     @showAnimation()
     @showingSelectedNode = false
 
-  destroy: ->
-    @camera?.destroy()
-    super()
-
   showVersionHistory: (e) ->
     versionHistoryView = new VersionHistoryView thangType:@thangType, @thangTypeID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
+
+  openSaveModal: ->
+    @openModalView(new SaveVersionModal({model: @thangType}))
+
+  destroy: ->
+    @camera?.destroy()
+    super()

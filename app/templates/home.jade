@@ -4,11 +4,20 @@ block content
 
   h1#site-slogan(data-i18n="home.slogan") Learn to Code JavaScript by Playing a Game
 
-  #trailer-wrapper
-    <iframe width="920" height="518" src="//www.youtube.com/embed/1zjaA13k-dA?rel=0&controls=0&modestbranding=1&showinfo=0&iv_load_policy=3&vq=hd720&wmode=transparent" frameborder="0" wmode="opaque" allowfullscreen></iframe>
-    img(src="/images/pages/home/video_border.png")
-  #mobile-trailer-wrapper
-    <iframe src="//www.youtube.com/embed/1zjaA13k-dA" frameborder="0" width="280" height="158"></iframe> 
+  //- if language is Chinese, we use youku, because China can't visit youtube.
+  //- otherwise, we use youtube.
+  if languageName == "zh-HANS"
+    #trailer-wrapper
+      <embed src="http://player.youku.com/player.php/sid/XNjk2Mzg5NjYw/v.swf" style="margin-left:15px; margin-top:8px;"allowFullScreen="true" quality="high" width="920" height="518" wmode="opaque"></embed>
+      img(src="/images/pages/home/video_border.png")
+    #mobile-trailer-wrapper
+      <embed src="http://player.youku.com/player.php/sid/XNjk2Mzg5NjYw/v.swf" style="margin-left:15px; margin-top:8px;"allowFullScreen="true" quality="high" width="280" height="158" wmode="opaque"></embed>
+  else
+    #trailer-wrapper
+      <iframe width="920" height="518" src="//www.youtube.com/embed/1zjaA13k-dA?rel=0&controls=0&modestbranding=1&showinfo=0&iv_load_policy=3&vq=hd720&wmode=transparent" frameborder="0" wmode="opaque" allowfullscreen></iframe>
+      img(src="/images/pages/home/video_border.png")
+    #mobile-trailer-wrapper
+      <iframe src="//www.youtube.com/embed/1zjaA13k-dA" frameborder="0" width="280" height="158"></iframe> 
   hr
 
   .alert.alert-danger.lt-ie10

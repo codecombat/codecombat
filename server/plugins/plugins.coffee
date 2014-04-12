@@ -2,6 +2,10 @@ mongoose = require('mongoose')
 User = require('../users/User')
 textSearch = require('mongoose-text-search')
 
+module.exports.PatchablePlugin = (schema) ->
+  schema.is_patchable = true
+  schema.index({'target.original':1, 'status':'1', 'created':-1})
+
 module.exports.NamedPlugin = (schema) ->
   schema.add({name: String, slug: String})
   schema.index({'slug': 1}, {unique: true, sparse: true, name: 'slug index'})
@@ -22,13 +26,11 @@ module.exports.NamedPlugin = (schema) ->
   schema.methods.checkSlugConflicts = (done) ->
     slug = @get('slug')
 
-    try
-      id = mongoose.Types.ObjectId.createFromHexString(slug)
+    if slug.length is 24 and slug.match(/[a-f0-9]/gi)?.length is 24
       err = new Error('Bad name.')
-      err.response = {message:'cannot be like a MondoDB id, Mr Hacker.', property:'name'}
+      err.response = {message: 'cannot be like a MongoDB ID, Mr. Hacker.', property: 'name'}
       err.code = 422
       done(err)
-    catch e
 
     query = { slug:slug }
 

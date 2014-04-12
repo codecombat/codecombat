@@ -1,9 +1,9 @@
 #color-settings
   table.table.table-bordered
     tr
-      th
-      th Color
-      th Group
+      th(data-i18n="wizard_settings.active") Active
+      th(data-i18n="wizard_settings.color") Color
+      th(data-i18n="wizard_settings.group") Group
     for group in colorGroups
       tr.color-group(data-name=group.name)
         td.enabled-cell
