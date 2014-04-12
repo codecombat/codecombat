@@ -1,5 +1,5 @@
-c = require './schemas'
-metaschema = require './metaschema'
+c = require './../schemas'
+metaschema = require './../metaschema'
 
 jitterSystemCode = """
 class Jitter extends System

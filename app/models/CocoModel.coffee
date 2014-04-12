@@ -11,14 +11,11 @@ class CocoModel extends Backbone.Model
 
   initialize: ->
     super()
-    @constructor.schema ?= @urlRoot[4..].replace '.', '_'
+    @constructor.schema ?= require "schemas/models/#{@urlRoot[4..].replace '.', '_'}"
     if not @constructor.className
       console.error("#{@} needs a className set.")
     @markToRevert()
-    if @constructor.schema?.loaded
-      @addSchemaDefaults()
-    else
-      @loadSchema()
+    @addSchemaDefaults()
     @once 'sync', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
 
@@ -34,9 +31,8 @@ class CocoModel extends Backbone.Model
   onLoaded: ->
     @loaded = true
     @loading = false
-    if @constructor.schema?.loaded
-      @markToRevert()
-      @loadFromBackup()
+    @markToRevert()
+    @loadFromBackup()
 
   set: ->
     res = super(arguments...)
@@ -55,18 +51,6 @@ class CocoModel extends Backbone.Model
     CocoModel.backedUp[@id] = @
 
   @backedUp = {}
-
-  loadSchema: ->
-    return if @constructor.schema.loading
-    @constructor.schema = require 'schemas/' + @constructor.schema + '_schema' unless @constructor.schema.loaded
-    @onConstructorSync()
-
-  onConstructorSync: ->
-    @constructor.schema.loaded = true
-    @addSchemaDefaults()
-    @trigger 'schema-loaded'
-
-  @hasSchema: -> return @schema?.loaded
   schema: -> return @constructor.schema
 
   validate: ->
@@ -129,7 +113,7 @@ class CocoModel extends Backbone.Model
     @set "permissions", (@get("permissions") or []).concat({access: 'read', target: 'public'})
 
   addSchemaDefaults: ->
-    return if @addedSchemaDefaults or not @constructor.hasSchema()
+    return if @addedSchemaDefaults
     @addedSchemaDefaults = true
     for prop, defaultValue of @constructor.schema.default or {}
       continue if @get(prop)?

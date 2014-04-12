@@ -1,4 +1,4 @@
-c = require './schemas'
+c = require './../schemas'
 emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification']
 
 UserSchema = c.object {},

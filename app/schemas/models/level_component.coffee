@@ -1,5 +1,5 @@
-c = require './schemas'
-metaschema = require './metaschema'
+c = require './../schemas'
+metaschema = require './../metaschema'
 
 attackSelfCode = """
 class AttacksSelf extends Component

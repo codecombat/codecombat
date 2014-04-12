@@ -33,6 +33,7 @@ describe '/db/article', ->
     new_article = _.clone(articles[0])
     new_article.body = '...'
     request.post {uri:url, json:new_article}, (err, res, body) ->
+      console.log 'new article?', body
       expect(res.statusCode).toBe(200)
       expect(body.version.major).toBe(0)
       expect(body.version.minor).toBe(1)

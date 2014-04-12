@@ -3,7 +3,7 @@ Handler = require('../../commons/Handler')
 
 LevelComponentHandler = class LevelComponentHandler extends Handler
   modelClass: LevelComponent
-  jsonSchema: require '../../../app/schemas/level_component_schema'
+  jsonSchema: require '../../../app/schemas/models/level_component'
   editableProperties: [
     'system'
     'description'

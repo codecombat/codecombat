@@ -4,7 +4,7 @@ Handler = require('../commons/Handler')
 ArticleHandler = class ArticleHandler extends Handler
   modelClass: Article
   editableProperties: ['body', 'name', 'i18n']
-  jsonSchema: require './article_schema'
+  jsonSchema: require '../../app/schemas/models/article'
 
   hasAccess: (req) ->
     req.method is 'GET' or req.user?.isAdmin()

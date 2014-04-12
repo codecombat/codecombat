@@ -1,4 +1,4 @@
-schema = require '../../app/schemas/user_schema'
+schema = require '../../app/schemas/models/user'
 crypto = require 'crypto'
 request = require 'request'
 User = require './User'

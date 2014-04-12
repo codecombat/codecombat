@@ -43,11 +43,7 @@ module.exports = class SettingsView extends View
     @jobProfileView = new JobProfileView()
     @listenTo @jobProfileView, 'change', @save
     @insertSubView @jobProfileView
-
-    if me.schema().loaded
-      @buildPictureTreema()
-    else
-      @listenToOnce me, 'schema-loaded', @buildPictureTreema
+    @buildPictureTreema()
 
   chooseTab: (category) ->
     id = "##{category}-pane"

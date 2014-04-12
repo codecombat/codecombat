@@ -61,12 +61,11 @@ module.exports = class ThangTypeEditView extends View
     )
 
     @thangType.fetch()
-    @thangType.loadSchema()
     @listenToOnce(@thangType, 'sync', @onThangTypeSync)
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
   onThangTypeSync: ->
-    return unless @thangType.loaded and ThangType.hasSchema()
+    return unless @thangType.loaded
     @startsLoading = false
     @files = new DocumentFiles(@thangType)
     @files.fetch()

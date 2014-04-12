@@ -1,4 +1,4 @@
-c = require './schemas'
+c = require './../schemas'
 
 ArticleSchema = c.object()
 c.extendNamedProperties ArticleSchema  # name first

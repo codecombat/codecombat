@@ -1,5 +1,5 @@
 mongoose = require('mongoose')
-jsonschema = require('../../app/schemas/user_schema')
+jsonschema = require('../../app/schemas/models/user')
 crypto = require('crypto')
 {salt, isProduction} = require('../../server_config')
 mail = require '../commons/mail'

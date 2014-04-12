@@ -1,7 +1,6 @@
 log = require 'winston'
 errors = require '../commons/errors'
 handlers = require('../commons/mapping').handlers
-schemas = require('../commons/mapping').schemas
 mongoose = require 'mongoose'
 
 module.exports.setup = (app) ->
@@ -48,7 +47,7 @@ module.exports.setup = (app) ->
 getSchema = (req, res, moduleName) ->
   try
     name = moduleName.replace '.', '_'
-    schema = require('../../app/schemas/' + name + '_schema')
+    schema = require('../../app/schemas/models/' + name)
 
     res.send(JSON.stringify(schema, null, '\t'))
     res.end()

@@ -1,5 +1,5 @@
-c = require './schemas'
-ThangComponentSchema = require './thang_component_schema'
+c = require './../schemas'
+ThangComponentSchema = require './thang_component'
 
 ThangTypeSchema = c.object()
 c.extendNamedProperties ThangTypeSchema  # name first
