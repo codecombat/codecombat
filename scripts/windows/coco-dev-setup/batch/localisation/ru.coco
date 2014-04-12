@@ -3,8 +3,12 @@
 	<global>
 		<native>русский</native>
 		<description>Russian</description>
-		<intro>C данного момента мы будем общаться на русском!</intro>
+		<tips>Before we start the installation, here are some tips:</tips>
 	</global>
+	<language>
+		<choosen>You have choosen русский as your language.</choosen>
+		<feedback>C данного момента мы будем общаться на русском.</feedback>
+	</language>
 	<install>
 		<system>
 			<bit>-битный компьютер обнаружен.</bit>

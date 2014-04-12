@@ -27,10 +27,13 @@ goto:get_localisation_id
 		goto:get_localisation_id
 	) else (
 		set language_id=!languages[%local_id%]!
-		call get_text !language_id! global_native global native
 		call print_dashed_seperator
-		echo You have choosen !global_native! as your language.
-		call get_text !language_id! global_intro global intro
-		echo !global_intro!
+
+		call get_local_text language_choosen language choosen
+		echo !language_choosen!
+
+		call get_local_text language_feedback language feedback
+		echo !language_feedback!
+
 		call print_seperator
 	)

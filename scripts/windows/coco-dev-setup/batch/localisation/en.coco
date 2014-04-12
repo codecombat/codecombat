@@ -3,8 +3,12 @@
 	<global>
 		<native>English</native>
 		<description>English</description>
-		<intro>From now on we'll send our feedback in English!</intro>
+		<tips>Before we start the installation, here are some tips:</tips>
 	</global>
+	<language>
+		<choosen>You have choosen English as your language.</choosen>
+		<feedback>From now on we'll send our feedback in English.</feedback>
+	</language>
 	<install>
 		<system>
 			<bit>-bit computer detected.</bit>

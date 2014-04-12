@@ -3,8 +3,12 @@
 	<global>
 		<native>Nederlands</native>
 		<description>Dutch</description>
-		<intro>Vanaf nu geven we onze feedback in het Nederlands!</intro>
+		<tips>Voor we verder gaan met de installatie hier volgen enkele tips:</tips>
 	</global>
+	<language>
+		<choosen>Je hebt Nederlands gekozen als jouw taal naar keuze.</choosen>
+		<feedback>Vanaf nu geven we onze feedback in het Nederlands.</feedback>
+	</language>
 	<install>
 		<system>
 			<bit>-bit computer gedetecteerd.</bit>

@@ -3,8 +3,12 @@
 	<global>
 		<native>简体中文</native>
 		<description>Traditional Chinese</description>
-		<intro>目前我们只能用英文给你反馈！</intro>
+		<tips>Before we start the installation, here are some tips:</tips>
 	</global>
+	<language>
+		<choosen>You have choosen 简体中文 as your language.</choosen>
+		<feedback>目前我们只能用英文给你反馈</feedback>
+	</language>
 	<install>
 		<system>
 			<bit>-位系统.</bit>
@@ -52,6 +56,13 @@
 			<bashq>请输入 git bash 的安装全路径, 如果你安装的是默认路径, 那么直接输入回车即可</bashq>
 			<ssh>你是否想使用 ssh 来检出(checkout)库(repository)?</ssh>
 		</process>
+		<config>
+			<intro>You should have forked CodeCombat to your own GitHub Account by now...</intro>
+			<info>Please enter your github information, to configure your local repository.</info>
+			<username>Username: </username>
+			<password>Password: </password>
+			<process>Thank you... Configuring your local repistory right now...</process>
+		</config>
 	</github>
 	<switch>
 		<install>The installation of your local environment was succesfull!</install>
