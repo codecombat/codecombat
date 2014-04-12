@@ -114,6 +114,7 @@ module.exports = class SuperModel extends Backbone.Model
       throw new Error('Resource name has been used.')
 
   storeResource: (name, resource, value)->
+    console.debug 'gintau', 'storeResource', name
     ResourceManager.resources[name] = resource
     @listenToOnce(resource, 'resource:loaded', @onResourceLoaded)
     @listenToOnce(resource, 'resource:failed', @onResourceFailed)
@@ -150,6 +151,7 @@ module.exports = class SuperModel extends Backbone.Model
       continue if @models[refURL]
 
       @models[refURL] = ref
+      console.debug 'gintau', 'addModelRefencesToLoad', ref
       res = @addModelResource(ref, refURL)
       res.load()
 

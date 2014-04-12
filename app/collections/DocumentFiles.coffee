@@ -6,3 +6,4 @@ module.exports = class ModelFiles extends CocoCollection
     url = model.constructor.prototype.urlRoot
     url += "/#{model.get('original') or model.id}/files"
     @url = url 
+    @name = model.name
