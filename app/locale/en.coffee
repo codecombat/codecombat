@@ -620,4 +620,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     user_schema: "User Schema"
     user_profile: "User Profile"
     level_session: "LevelSession"
+    level_sessions_collection: 'LevelSessionsCollection'
     opponent_session: "OpponentSession"
+    simulator: 'Simulator'
+    level_document: 'Level Document'
+    thang_document: 'Thang Document'

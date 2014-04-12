@@ -43,8 +43,9 @@ module.exports = class CocoView extends Backbone.View
     @updateProgressBar = _.debounce @updateProgressBar, 100
     # Backbone.Mediator handles subscription setup/teardown automatically
 
-    @listenToOnce(@supermodel, 'loaded-all', ()=>@onLoaded)
+    @listenToOnce(@supermodel, 'loaded-all', @onLoaded)
     @listenToOnce(@supermodel, 'superModel:updateProgress', @updateProgress)
+    @listenToOnce(@supermodel, 'resource:failed', @onResourceLoadFailed)
 
     super options
 
@@ -117,38 +118,21 @@ module.exports = class CocoView extends Backbone.View
     @$el.find('.loading-screen .progress-bar').css('width', prog)
 
   onLoaded: ->
-    #@render()
+    console.debug 'gintau', 'CocoView-onLoaded()'
+    @render()
 
   # Error handling for loading
-  
-  onResourceLoadFailed: (resource, jqxhr) ->
-    for r, index in @loadProgress.resources
-      break if r.resource is resource
+  onResourceLoadFailed: (source) ->
     @$el.find('.loading-screen .errors').append(loadingErrorTemplate({
-      status:jqxhr.status,
-      name: r.name
-      resourceIndex: index,
-      responseText: jqxhr.responseText
+      status: 'error',
+      name: source.resource.name
+      resourceIndex: source.resource.rid,
+      responseText: source.error
     })).i18n()
   
   onRetryResource: (e) ->
-    r = @loadProgress.resources[$(e.target).data('resource-index')]
-    r.resource.fetch()
-    $(e.target).closest('.loading-error-alert').remove()
-    
-  onRequestLoadFailed: (jqxhr) =>
-    for r, index in @loadProgress.requests
-      break if r.request is jqxhr
-    @$el.find('.loading-screen .errors').append(loadingErrorTemplate({
-      status:jqxhr.status,
-      name: r.name
-      requestIndex: index,
-      responseText: jqxhr.responseText
-    }))
-    
-  onRetryRequest: (e) ->
-    r = @loadProgress.requests[$(e.target).data('request-index')]
-    @[r.retryFunc]?()
+    res = @supermodel.getResource($(e.target).data('resource-index'))
+    res.load()
     $(e.target).closest('.loading-error-alert').remove()
 
   # Modals

@@ -58,7 +58,7 @@ module.exports = class EditorLevelView extends View
 
   onLevelLoaded: ->
     @files = new DocumentFiles(@level)
-    @supermodel.addModelResource(@files, @files.url).load()
+    @supermodel.addModelResource(@files, 'level_document').load()
 
   onAllLoaded: ->
     @level.unset('nextLevel') if _.isString(@level.get('nextLevel'))
