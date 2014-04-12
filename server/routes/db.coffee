@@ -47,8 +47,8 @@ module.exports.setup = (app) ->
 
 getSchema = (req, res, moduleName) ->
   try
-    name = schemas[moduleName.replace '.', '_']
-    schema = require('../' + name)
+    name = moduleName.replace '.', '_'
+    schema = require('../../app/schemas/' + name + '_schema')
 
     res.send(JSON.stringify(schema, null, '\t'))
     res.end()

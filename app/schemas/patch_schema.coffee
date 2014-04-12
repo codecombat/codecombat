@@ -1,4 +1,4 @@
-c = require '../commons/schemas'
+c = require './schemas'
 
 patchables = ['level', 'thang_type', 'level_system', 'level_component', 'article']
   

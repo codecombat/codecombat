@@ -2,7 +2,7 @@
 
 mongoose = require('mongoose')
 plugins = require('../../plugins/plugins')
-jsonschema = require('./level_session_schema')
+jsonschema = require('../../../app/schemas/level_session_schema')
 
 LevelSessionSchema = new mongoose.Schema({
   created:

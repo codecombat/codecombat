@@ -1,4 +1,4 @@
-c = require '../../commons/schemas'
+c = require './schemas'
 
 LevelSessionPlayerSchema = c.object
   id: c.objectId
