@@ -107,6 +107,9 @@ module.exports = class PlaybackView extends View
     @hookUpScrubber()
     @updateMusicButton()
     $(window).on('resize', @onWindowResize)
+    ua = navigator.userAgent.toLowerCase()
+    if /safari/.test(ua) and not /chrome/.test(ua)
+      @$el.find('.toggle-fullscreen').hide()
 
   updatePopupContent: ->
     @timePopup.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"

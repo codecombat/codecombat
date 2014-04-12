@@ -3,6 +3,7 @@ VersionHistoryView = require './versions_view'
 ErrorView = require '../../error_view'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
+SaveVersionModal = require 'views/modal/save_version_modal'
 
 module.exports = class ArticleEditView extends View
   id: "editor-article-edit-view"
@@ -12,6 +13,7 @@ module.exports = class ArticleEditView extends View
   events:
     'click #preview-button': 'openPreview'
     'click #history-button': 'showVersionHistory'
+    'click #save-button': 'openSaveModal'
 
   subscriptions:
     'save-new-version': 'saveNewArticle'
@@ -52,7 +54,7 @@ module.exports = class ArticleEditView extends View
     options =
       data: data
       filePath: "db/thang.type/#{@article.get('original')}"
-      schema: Article.schema.attributes
+      schema: Article.schema
       readOnly: true unless me.isAdmin() or @article.hasWriteAccess(me)
       callbacks:
         change: @pushChangesToPreview
@@ -78,13 +80,16 @@ module.exports = class ArticleEditView extends View
   afterRender: ->
     super()
     return if @startsLoading
-    @showReadOnly() unless me.isAdmin() or @article.hasWriteAccess(me)
+    @showReadOnly() if me.get('anonymous')
 
-  openPreview: =>
+  openPreview: ->
     @preview = window.open('/editor/article/x/preview', 'preview', 'height=800,width=600')
     @preview.focus() if window.focus
     @preview.onload = => @pushChangesToPreview()
     return false
+    
+  openSaveModal: ->
+    @openModalView(new SaveVersionModal({model: @article}))
 
   saveNewArticle: (e) ->
     @treema.endExistingEdits()

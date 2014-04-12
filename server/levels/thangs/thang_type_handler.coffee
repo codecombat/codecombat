@@ -3,6 +3,7 @@ Handler = require('../../commons/Handler')
 
 ThangTypeHandler = class ThangTypeHandler extends Handler
   modelClass: ThangType
+  jsonSchema: require '../../../app/schemas/thang_type_schema'
   editableProperties: [
     'name',
     'raw',

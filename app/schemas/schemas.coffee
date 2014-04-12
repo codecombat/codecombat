@@ -1,5 +1,5 @@
 #language imports
-Language = require '../routes/languages'
+Language = require './languages'
 # schema helper methods
 
 me = module.exports
@@ -15,7 +15,7 @@ me.object = (ext, props) -> combine {type: 'object', additionalProperties: false
 me.array = (ext, items) -> combine {type: 'array', items: items or {}}, ext
 me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
-me.date = (ext) -> combine({type: 'string', format: 'date-time'}, ext)
+me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)
 # should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
 me.objectId = (ext) -> schema = combine({type: ['object', 'string'] }, ext)
 me.url = (ext) -> combine({type: 'string', format: 'url', pattern: urlPattern}, ext)
@@ -54,7 +54,21 @@ basicProps = (linkFragment) ->
 me.extendBasicProperties = (schema, linkFragment) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, basicProps(linkFragment))
+  
+# PATCHABLE
 
+patchableProps = ->
+  patches: me.array({title:'Patches'}, {
+    _id: me.objectId(links: [{rel: "db", href: "/db/patch/{($)}"}], title: "Patch ID", description: "A reference to the patch.")
+    status: { enum: ['pending', 'accepted', 'rejected', 'cancelled']}
+  })
+  allowPatches: { type: 'boolean' }
+  listeners: me.array({title:'Listeners'},
+    me.objectId(links: [{rel: 'extra', href: "/db/user/{($)}"}]))
+  
+me.extendPatchableProperties = (schema) ->
+  schema.properties = {} unless schema.properties?
+  _.extend(schema.properties, patchableProps())
 
 # NAMED
 

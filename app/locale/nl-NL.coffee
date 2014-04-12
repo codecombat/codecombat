@@ -288,7 +288,7 @@
     tip_documented_bug: "Een gedocumenteerde fout is geen fout; het is deel van het programma."
     tip_impossible: "Het lijkt altijd onmogelijk tot het gedaan wordt. - Nelson Mandela"
     tip_talk_is_cheap: "Je kunt het goed uitleggen, maar toon me de code. - Linus Torvalds"
-    tip_first_language: "Het ergste dat je kan leren is je eerste programmeertaal. - Alan Kay" 
+    tip_first_language: "Het ergste dat je kan leren is je eerste programmeertaal. - Alan Kay"
     time_current: "Nu:"
     time_total: "Maximum:"
     time_goto: "Ga naar:"
@@ -639,16 +639,16 @@
 
   loading_error:
     could_not_load: "Fout bij het laden van de server"
-    connection_failure: "Verbinding mislukt." 
+    connection_failure: "Verbinding mislukt."
     unauthorized: "Je moet ingelogd zijn. Heb je de cookies uitgeschakeld?"
     forbidden: "Je hebt hier geen toestemming voor."
     not_found: "Niet gevonden."
     not_allowed: "Methode niet toegestaan."
-    timeout: "Server timeout." 
-    conflict: "Conflict van resources" 
+    timeout: "Server timeout."
+    conflict: "Conflict van resources"
     bad_input: "Slechte input."
     server_error: "Fout van de server."
-    unknown: "Onbekende fout." 
+    unknown: "Onbekende fout."
 
   resources:
     your_sessions: "Jouw sessies."

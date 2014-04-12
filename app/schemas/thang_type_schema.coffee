@@ -1,4 +1,4 @@
-c = require '../../commons/schemas'
+c = require './schemas'
 ThangComponentSchema = require './thang_component_schema'
 
 ThangTypeSchema = c.object()
@@ -146,8 +146,9 @@ ThangTypeSchema.definitions =
   action: ActionSchema
   sound: SoundSchema
 
-c.extendBasicProperties(ThangTypeSchema, 'thang.type')
-c.extendSearchableProperties(ThangTypeSchema)
-c.extendVersionedProperties(ThangTypeSchema, 'thang.type')
+c.extendBasicProperties ThangTypeSchema, 'thang.type'
+c.extendSearchableProperties ThangTypeSchema
+c.extendVersionedProperties ThangTypeSchema, 'thang.type'
+c.extendPatchableProperties ThangTypeSchema
 
 module.exports = ThangTypeSchema

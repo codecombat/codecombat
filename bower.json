@@ -37,6 +37,7 @@
     "firebase": "~1.0.2",
     "catiline": "~2.9.3",
     "d3": "~3.4.4",
+    "jsondiffpatch": "~0.1.5",
     "nanoscroller": "~0.8.0",
     "jquery.tablesorter": "~2.15.13",
     "treema": ">=0.0.1",
@@ -55,6 +56,9 @@
     },
     "underscore.string": {
       "main": "lib/underscore.string.js"
+    },
+    "jsondiffpatch": {
+      "main": ["build/bundle-full.js", "build/formatters.js", "src/formatters/html.css"]
     },
     "jquery.tablesorter": {
       "main": [
