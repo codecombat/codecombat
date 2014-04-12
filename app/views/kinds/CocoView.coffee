@@ -210,7 +210,6 @@ module.exports = class CocoView extends Backbone.View
     return unless elem.data('toggle') is 'coco-modal'
     target = elem.data('target')
     view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to
-    console.log "got target", target, "which gave view", view
     @openModalView(view)
 
   openModalView: (modalView, softly=false) ->
