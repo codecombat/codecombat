@@ -262,7 +262,7 @@ class CocoView extends Backbone.View
 
   showReadOnly: ->
     return if me.isAdmin()
-    warning = $.i18n.t 'editor.read_only_warning', defaultValue: "Note: you can't save any edits here, because you're not logged in as an admin."
+    warning = $.i18n.t 'editor.read_only_warning2', defaultValue: "Note: you can't save any edits here, because you're not logged in."
     noty text: warning, layout: 'center', type: 'information', killer: true, timeout: 5000
 
   # Loading ModalViews

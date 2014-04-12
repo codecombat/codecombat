@@ -80,7 +80,7 @@ module.exports = class ArticleEditView extends View
   afterRender: ->
     super()
     return if @startsLoading
-    @showReadOnly() unless me.isAdmin() or @article.hasWriteAccess(me)
+    @showReadOnly() if me.get('anonymous')
 
   openPreview: ->
     @preview = window.open('/editor/article/x/preview', 'preview', 'height=800,width=600')
