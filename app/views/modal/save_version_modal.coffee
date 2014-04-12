@@ -17,8 +17,8 @@ module.exports = class SaveVersionModal extends ModalView
 
   constructor: (options) ->
     super options
-    @model = options.model
-    new Patch()
+    @model = options.model or options.level
+    new Patch() # hack to get the schema to load, delete this later
     @isPatch = not @model.hasWriteAccess()
 
   getRenderData: ->
@@ -33,7 +33,7 @@ module.exports = class SaveVersionModal extends ModalView
     changeEl = @$el.find('.changes-stub')
     deltaView = new DeltaView({model:@model})
     @insertSubView(deltaView, changeEl)
-    $('.commit-message input').attr('placeholder', $.i18n.t('general.commit_msg'))
+    @$el.find('.commit-message input').attr('placeholder', $.i18n.t('general.commit_msg'))
 
   onClickSaveButton: ->
     Backbone.Mediator.publish 'save-new-version', {

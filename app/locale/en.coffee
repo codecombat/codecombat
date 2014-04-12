@@ -358,7 +358,7 @@
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"
     signup_to_create: "Sign Up to Create a New Content"
-    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Preview"
@@ -660,3 +660,4 @@
     leaderboard: "Leaderboard"
     user_schema: "User Schema"
     user_profile: "User Profile"
+    patches: "Patches"

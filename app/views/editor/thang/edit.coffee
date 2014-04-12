@@ -95,7 +95,7 @@ module.exports = class ThangTypeEditView extends View
     @initComponents()
     @insertSubView(new ColorsTabView(@thangType))
     @patchesView = @insertSubView(new PatchesView(@thangType), @$el.find('.patches-view'))
-    @showReadOnly() unless me.isAdmin() or @thangType.hasWriteAccess(me)
+    @showReadOnly() if me.get('anonymous')
 
   initComponents: =>
     options =
