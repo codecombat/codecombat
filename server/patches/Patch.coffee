@@ -40,7 +40,6 @@ PatchSchema.pre 'save', (next) ->
     
     patches = document.get('patches') or []
     patches.push @_id
-    console.log 'PATCH PUSHED', @_id
     document.set 'patches', patches
     document.save (err) -> next(err)
 

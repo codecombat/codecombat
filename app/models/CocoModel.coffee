@@ -31,6 +31,12 @@ class CocoModel extends Backbone.Model
 
   type: ->
     @constructor.className
+    
+  clone: (withChanges=true) ->
+    # Backbone does not support nested documents
+    clone = super()
+    clone.set($.extend(true, {}, if withChanges then @attributes else @_revertAttributes))
+    clone
 
   onLoaded: ->
     @loaded = true
@@ -223,14 +229,16 @@ class CocoModel extends Backbone.Model
     return false
     
   getDelta: ->
-    jsd = jsondiffpatch.create({
-      objectHash: (obj) -> obj.name || obj.id || obj._id || JSON.stringify(_.keys(obj))
-    })
-    jsd.diff @_revertAttributes, @attributes
+    differ = deltasLib.makeJSONDiffer()
+    differ.diff @_revertAttributes, @attributes
+    
+  applyDelta: (delta) ->
+    newAttributes = $.extend(true, {}, @attributes)
+    jsondiffpatch.patch newAttributes, delta
+    @set newAttributes
     
   getExpandedDelta: ->
     delta = @getDelta()
-    deltas = deltasLib.flattenDelta(delta)
-    (deltasLib.interpretDelta(d.delta, d.path, @_revertAttributes, @schema().attributes) for d in deltas)
+    deltasLib.expandDelta(delta, @_revertAttributes, @schema().attributes)
 
 module.exports = CocoModel

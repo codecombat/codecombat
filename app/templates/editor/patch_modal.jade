@@ -1,0 +1,20 @@
+extends /templates/modal/modal_base
+
+block modal-header-content
+  .modal-header-content
+    h3 Patch
+
+block modal-body-content
+  .modal-body
+    .changes-stub
+
+
+block modal-footer
+  .modal-footer
+    button(data-dismiss="modal", data-i18n="common.cancel").btn Cancel
+    if canReject
+      button.btn.btn-danger Reject
+    if canWithdraw
+      button.btn.btn-danger Withdraw
+    if canAccept
+      button.btn.btn-primary Accept

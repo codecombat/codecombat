@@ -20,8 +20,11 @@ else
       th Submitter
       th Submitted
       th Commit Message
+      th Review
     for patch in patches
       tr
         td= patch.userName
         td= moment(patch.get('created')).format('llll')
         td= patch.get('commitMessage')
+        td
+          span.glyphicon.glyphicon-wrench(data-patch-id=patch.id).patch-icon

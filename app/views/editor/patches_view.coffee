@@ -2,6 +2,7 @@ CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/patches'
 PatchesCollection = require 'collections/PatchesCollection'
 nameLoader = require 'lib/NameLoader'
+PatchModal = require './patch_modal'
 
 module.exports = class PatchesView extends CocoView
   template: template
@@ -10,6 +11,7 @@ module.exports = class PatchesView extends CocoView
   
   events:
     'change .status-buttons': 'onStatusButtonsChanged'
+    'click .patch-icon': 'openPatchModal'
 
   constructor: (@model, options) ->
     super(options)
@@ -47,3 +49,8 @@ module.exports = class PatchesView extends CocoView
     @initPatches()
     @load()
     @render()
+
+  openPatchModal: (e) ->
+    patch = _.find @patches.models, {id:$(e.target).data('patch-id')}
+    modal = new PatchModal(patch, @model)
+    @openModalView(modal)

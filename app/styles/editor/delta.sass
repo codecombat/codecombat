@@ -1,4 +1,4 @@
-.delta-list-view
+.delta-view
   .panel-heading
     font-size: 13px
     padding: 4px
@@ -7,37 +7,37 @@
   
   .delta-added
     border-color: green
-    strong
-      color: green
-    .panel-heading
+    > .panel-heading
       background-color: lighten(green, 70%)
+      strong
+        color: green
 
   .delta-modified
     border-color: darkgoldenrod
-    strong
-      color: darkgoldenrod
-    .panel-heading
+    > .panel-heading
       background-color: lighten(darkgoldenrod, 40%)
+      strong
+        color: darkgoldenrod
       
   .delta-text-diff
     border-color: blue
-    strong
-      color: blue
-    .panel-heading
+    > .panel-heading
       background-color: lighten(blue, 45%)
+      strong
+        color: blue
     table
       width: 100%
 
   .delta-deleted
     border-color: red
-    strong
-      color: red
-    .panel-heading
+    > .panel-heading
       background-color: lighten(red, 42%)
+      strong
+        color: red
 
   .delta-moved-index
     border-color: darkslategray
-    strong
-      color: darkslategray
-    .panel-heading
+    > .panel-heading
       background-color: lighten(darkslategray, 60%)
+      strong
+        color: darkslategray
