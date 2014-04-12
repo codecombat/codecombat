@@ -8,7 +8,7 @@ import os
 from configuration import Configuration
 from dependency import Dependency
 import sys
-
+import shutil
 
 class MongoDB(Dependency):
     def __init__(self,configuration):
@@ -32,12 +32,16 @@ class MongoDB(Dependency):
     def bashrc_string(self):
         return "COCO_MONGOD_PATH=" + self.config.directory.bin_directory + os.sep + u"mongo" + os.sep +"bin" + os.sep + "mongod"
 
+
     def download_dependencies(self):
-        self.downloader.download()
-        self.downloader.decompress()
+        install_directory = self.config.directory.bin_directory + os.sep + u"mongo"
+        if os.path.exists(install_directory):
+            print(u"Skipping MongoDB download because " + install_directory + " exists.")
+        else:
+            self.downloader.download()
+            self.downloader.decompress()
     def install_dependencies(self):
         install_directory = self.config.directory.bin_directory + os.sep + u"mongo"
-        import shutil
         if os.path.exists(install_directory):
             print(u"Skipping creation of " + install_directory + " because it exists.")
         else:
