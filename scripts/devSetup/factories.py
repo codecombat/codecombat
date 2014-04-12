@@ -37,7 +37,7 @@ class SetupFactory(object):
         try:
             mongo_version_string = subprocess.check_output("mongod --version",shell=True)
             mongo_version_string = mongo_version_string.decode(encoding='UTF-8')
-        except Exception, e:
+        except Exception as e:
             print("Mongod not found: %s"%e)
         if "v2.6." not in mongo_version_string:
             if mongo_version_string:
