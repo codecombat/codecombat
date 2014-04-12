@@ -11,12 +11,12 @@ block modal-body-content
     .changes-stub
     form.form-inline
       .form-group.commit-message
-        input.form-control#commit-message(name="commitMessage", type="text", placeholder="Commit Message")
+        input.form-control#commit-message(name="commitMessage", type="text")
       if !isPatch
         .checkbox
           label
             input#major-version(name="version-is-major", type="checkbox")
-            | Major Changes
+            span(data-i18n="versions.new_major_version") New Major Version
   else
     .alert.alert-danger No changes
 

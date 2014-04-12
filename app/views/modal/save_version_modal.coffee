@@ -33,6 +33,7 @@ module.exports = class SaveVersionModal extends ModalView
     changeEl = @$el.find('.changes-stub')
     deltaView = new DeltaView({model:@model})
     @insertSubView(deltaView, changeEl)
+    $('.commit-message input').attr('placeholder', $.i18n.t('general.commit_msg'))
 
   onClickSaveButton: ->
     Backbone.Mediator.publish 'save-new-version', {
