@@ -235,7 +235,7 @@ class CocoModel extends Backbone.Model
     
   getExpandedDelta: ->
     delta = @getDelta()
-    deltasLib.expandDelta(delta, @_revertAttributes, @schema().attributes)
+    deltasLib.expandDelta(delta, @_revertAttributes, @schema())
     
   addPatchToAcceptOnSave: (patch) ->
     @acceptedPatches ?= []

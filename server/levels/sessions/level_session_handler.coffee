@@ -9,7 +9,7 @@ class LevelSessionHandler extends Handler
   editableProperties: ['multiplayer', 'players', 'code', 'completed', 'state',
                        'levelName', 'creatorName', 'levelID', 'screenshot',
                        'chat', 'teamSpells', 'submitted', 'unsubscribed']
-  jsonSchema: require './level_session_schema'
+  jsonSchema: require '../../../app/schemas/level_session_schema'
 
   getByRelationship: (req, res, args...) ->
     return @getActiveSessions req, res if args.length is 2 and args[1] is 'active'

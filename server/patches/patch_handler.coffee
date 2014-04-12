@@ -1,6 +1,6 @@
 Patch = require('./Patch')
 Handler = require('../commons/Handler')
-schema = require './patch_schema'
+schema = require '../../app/schemas/patch_schema'
 {handlers} = require '../commons/mapping'
 mongoose = require('mongoose')
 
@@ -8,7 +8,7 @@ PatchHandler = class PatchHandler extends Handler
   modelClass: Patch
   editableProperties: []
   postEditableProperties: ['delta', 'target', 'commitMessage']
-  jsonSchema: require './patch_schema'
+  jsonSchema: require '../../app/schemas/patch_schema'
 
   makeNewInstance: (req) ->
     patch = super(req)
