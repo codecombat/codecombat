@@ -38,7 +38,10 @@ class MongoDB(Dependency):
     def install_dependencies(self):
         install_directory = self.config.directory.bin_directory + os.sep + u"mongo"
         import shutil
-        shutil.copytree(self.findUnzippedMongoBinPath(),install_directory)
+        if os.path.exists(install_directory):
+            print(u"Skipping creation of " + install_directory + " because it exists.")
+        else:
+            shutil.copytree(self.findUnzippedMongoBinPath(),install_directory)
 
     def findUnzippedMongoBinPath(self):
         return self.downloader.download_directory + os.sep + \

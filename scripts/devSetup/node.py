@@ -49,7 +49,10 @@ class Node(Dependency):
             print("Copying node into /usr/local/bin/...")
             shutil.copy(unzipped_node_path + os.sep + "bin" + os.sep + "node","/usr/local/bin/")
             os.chmod("/usr/local/bin/node",S_IRWXG|S_IRWXO|S_IRWXU)
-        shutil.copytree(self.findUnzippedNodePath(),install_directory)
+        if os.path.exists(install_directory):
+            print(u"Skipping creation of " + install_directory + " because it exists.")
+        else:
+            shutil.copytree(self.findUnzippedNodePath(),install_directory)
         wants_to_upgrade = True
         if self.check_if_executable_installed(u"npm"):
             warning_string = u"A previous version of npm has been found. \nYou may experience problems if you have a version of npm that's too old.Would you like to upgrade?(y/n) "
