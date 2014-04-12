@@ -1,0 +1,43 @@
+.delta-view
+  .panel-heading
+    font-size: 13px
+    padding: 4px
+  .row
+    padding: 5px 10px
+  
+  .delta-added
+    border-color: green
+    > .panel-heading
+      background-color: lighten(green, 70%)
+      strong
+        color: green
+
+  .delta-modified
+    border-color: darkgoldenrod
+    > .panel-heading
+      background-color: lighten(darkgoldenrod, 40%)
+      strong
+        color: darkgoldenrod
+      
+  .delta-text-diff
+    border-color: blue
+    > .panel-heading
+      background-color: lighten(blue, 45%)
+      strong
+        color: blue
+    table
+      width: 100%
+
+  .delta-deleted
+    border-color: red
+    > .panel-heading
+      background-color: lighten(red, 42%)
+      strong
+        color: red
+
+  .delta-moved-index
+    border-color: darkslategray
+    > .panel-heading
+      background-color: lighten(darkslategray, 60%)
+      strong
+        color: darkslategray

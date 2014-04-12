@@ -12,8 +12,8 @@ block content
 
   img#portrait.img-thumbnail
 
-  button.btn.btn-secondary#history-button(data-i18n="general.history") History
-  button.btn.btn-primary#save-button(data-toggle="coco-modal", data-target="modal/save_version", data-i18n="common.save", disabled=authorized === true ? undefined : "true") Save
+  button.btn.btn-secondary#history-button(data-i18n="general.version_history") Version History
+  button.btn.btn-primary#save-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true") Save
   button.btn.btn-primary#revert-button(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert", disabled=authorized === true ? undefined : "true") Revert
   
   h3 Edit Thang Type: "#{thangType.attributes.name}"
@@ -27,11 +27,13 @@ block content
       a(href="#editor-thang-spritesheets-view", data-toggle="tab") Spritesheets
     li
       a(href="#editor-thang-colors-tab-view", data-toggle="tab")#color-tab Colors
+    li
+      a(href="#editor-thang-patches-view", data-toggle="tab")#patches-tab Patches
 
   div.tab-content
     div.tab-pane#editor-thang-colors-tab-view
     
-    div.tab-pane.active#editor-thang-main-tab-view
+    div.tab-pane#editor-thang-main-tab-view.active
 
       div.main-area.well
         div.file-controls
@@ -83,6 +85,10 @@ block content
     div.tab-pane#editor-thang-spritesheets-view
       
       div#spritesheets
+  
+    div.tab-pane#editor-thang-patches-view
+  
+      div.patches-view
 
   div#error-view
 

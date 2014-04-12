@@ -36,10 +36,16 @@ block content
 
           div= profile.city + ', ' + profile.country
           div= profile.visa
-          div Looking for: #{profile.lookingFor}
-          div Last updated #{moment(profile.updated).fromNow()}
+          div
+            span(data-i18n="account_profile.looking_for") Looking for:
+            |  #{profile.lookingFor}
+          div
+            span(data-i18n="account_profile.last_updated") Last updated:
+            |  #{moment(profile.updated).fromNow()}
 
-          button#contact-candidate.btn.btn-large.btn-inverse.flat-button Contact #{profile.name.split(' ')[0]}
+          button#contact-candidate.btn.btn-large.btn-inverse.flat-button
+            span(data-i18n="account_profile.contact") Contact
+            |  #{profile.name.split(' ')[0]}
 
         .middle-column.full-height-column
           h3= profile.name
@@ -53,7 +59,7 @@ block content
           if profile.work.length
             h3.experience-header 
               img.header-icon(src="/images/pages/account/profile/work.png", alt="")
-              | Work Experience
+              span(data-i18n="account_profile.work_experience") Work Experience
             each job in profile.work
               div.duration.pull-right= job.duration
               | #{job.role} at #{job.employer}
@@ -62,14 +68,14 @@ block content
           if profile.education.length
             h3.experience-header
               img.header-icon(src="/images/pages/account/profile/education.png", alt="")
-              | Education
+              span(data-i18n="account_profile.work_experience") Education
             each school in profile.education
               div.duration.pull-right= school.duration
               | #{school.degree} at #{school.school}
               .clearfix
 
           if user.get('jobProfileNotes') || me.isAdmin()
-            h3.experience-header Our Notes
+            h3.experience-header(data-i18n="account_profile.our_notes") Our Notes
             - var notes = user.get('jobProfileNotes') || '';
             if me.isAdmin()
               textarea#job-profile-notes!= notes
@@ -78,7 +84,7 @@ block content
 
         .right-column.full-height-column
           if profile.projects.length
-            h3 Projects
+            h3(data-i18n="account_profile.projects") Projects
             ul.projects
               each project in profile.projects
                 li
@@ -97,4 +103,4 @@ block content
       img.profile-photo(src=user.getPhotoURL(256))
   
       h2 TODO
-      p Public user profiles are not ready yet.
+      p Public user profiles are not ready yet. If you are seeing this, we probably have a bug leading to a broken link.

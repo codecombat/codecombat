@@ -11,6 +11,8 @@ describe 'LevelSystem', ->
     """
     language: 'coffeescript'
     permissions:simplePermissions
+    dependencies: []
+    propertyDocumentation: []
 
   systems = {}
 
@@ -48,7 +50,7 @@ describe 'LevelSystem', ->
   it 'have a unique name.', (done) ->
     loginAdmin ->
       request.post {uri:url, json:system}, (err, res, body) ->
-        expect(res.statusCode).toBe(422)
+        expect(res.statusCode).toBe(409)
         done()
 
   it 'can be read by an admin.', (done) ->

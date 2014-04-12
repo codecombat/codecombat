@@ -141,7 +141,7 @@ module.exports = class ThangsTabView extends View
     return if @startsLoading
     data = $.extend(true, {}, @level.attributes)
     treemaOptions =
-      schema: Level.schema.get('properties').thangs
+      schema: Level.schema.properties.thangs
       data: data.thangs
       supermodel: @supermodel
       callbacks:

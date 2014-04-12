@@ -107,6 +107,9 @@ module.exports = class PlaybackView extends View
     @hookUpScrubber()
     @updateMusicButton()
     $(window).on('resize', @onWindowResize)
+    ua = navigator.userAgent.toLowerCase()
+    if /safari/.test(ua) and not /chrome/.test(ua)
+      @$el.find('.toggle-fullscreen').hide()
 
   updatePopupContent: ->
     @timePopup.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"
@@ -151,7 +154,7 @@ module.exports = class PlaybackView extends View
     @newTime = 0
     @currentTime = 0
 
-    @timePopup = new HoverPopup unless @timePopup?
+    @timePopup ?= new HoverPopup
 
 
     #TODO: Why do we need defaultValues here at all? Fallback language has been set to 'en'... oO
@@ -192,7 +195,7 @@ module.exports = class PlaybackView extends View
         @$progressScrubber.slider('disable', true)
       catch e
         #console.warn('error disabling scrubber')
-      @timePopup.disable()
+      @timePopup?.disable()
     $('#volume-button', @$el).removeClass('disabled')
 
   onEnableControls: (e) ->
@@ -203,7 +206,7 @@ module.exports = class PlaybackView extends View
         @$progressScrubber.slider('enable', true)
       catch e
         #console.warn('error enabling scrubber')
-      @timePopup.enable()
+      @timePopup?.enable()
 
   onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
@@ -242,21 +245,21 @@ module.exports = class PlaybackView extends View
     @lastProgress = e.progress
 
   onProgressEnter: (e) ->
-    #Why it needs itself as parameter you ask? Ask Twitter instead..
-    @timePopup.enter @timePopup
+    # Why it needs itself as parameter you ask? Ask Twitter instead.
+    @timePopup?.enter @timePopup
 
   onProgressLeave: (e) ->
-    @timePopup.leave @timePopup
+    @timePopup?.leave @timePopup
 
   onProgressHover: (e) ->
     timeRatio = @$progressScrubber.width() / @totalTime
     @newTime = e.offsetX / timeRatio
     @updatePopupContent()
-    @timePopup.onHover e
+    @timePopup?.onHover e
 
-    #Show it instantaniously if close enough to current time.
-    if Math.abs(@currentTime - @newTime) < 1 and not @timePopup.shown
-      @timePopup.show() unless @timePopup.shown
+    # Show it instantaneously if close enough to current time.
+    if @timePopup and Math.abs(@currentTime - @newTime) < 1 and not @timePopup.shown
+      @timePopup.show()
 
   updateProgress: (progress) ->
     $('.scrubber .progress-bar', @$el).css('width', "#{progress*100}%")
