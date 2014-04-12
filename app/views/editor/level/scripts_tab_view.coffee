@@ -3,7 +3,6 @@ template = require 'templates/editor/level/scripts_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './treema_nodes'
-defaultScripts = require 'lib/scripts/defaultScripts'
 
 module.exports = class ScriptsTabView extends View
   id: "editor-level-scripts-tab-view"
@@ -22,7 +21,6 @@ module.exports = class ScriptsTabView extends View
     @level = e.level
     @dimensions = @level.dimensions()
     scripts = $.extend(true, [], @level.get('scripts') ? [])
-    scripts = _.cloneDeep defaultScripts unless scripts.length
     treemaOptions =
       schema: Level.schema.get('properties').scripts
       data: scripts
