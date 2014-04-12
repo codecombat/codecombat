@@ -194,7 +194,7 @@ class CocoModel extends Backbone.Model
     return model
 
   @isObjectID: (s) ->
-    s.length is 24 and s.match(/[a-z0-9]/gi)?.length is 24
+    s.length is 24 and s.match(/[a-f0-9]/gi)?.length is 24
 
   hasReadAccess: (actor) ->
     # actor is a User object
