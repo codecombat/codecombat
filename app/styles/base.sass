@@ -215,7 +215,7 @@ table.table
 .header-font
   font-family: $headings-font-family
 
-body[lang='ru'], body[lang|='zh'], body[lang='ja'], body[lang='pl'], body[lang='tr'], body[lang='cs'], body[lang='el'], body[lang='ro'], body[lang='vi'], body[lang='th'], body[lang='ko'], body[lang='sk'], body[lang='sl'], body[lang='bg'], body[lang='he'], body[lang='lt'], body[lang='sr'], body[lang='uk'], body[lang='hi'], body[lang='ur'], 
+body[lang='ru'], body[lang|='zh'], body[lang='pl'], body[lang='tr'], body[lang='cs'], body[lang='el'], body[lang='ro'], body[lang='vi'], body[lang='th'], body[lang='ko'], body[lang='sk'], body[lang='sl'], body[lang='bg'], body[lang='he'], body[lang='lt'], body[lang='sr'], body[lang='uk'], body[lang='hi'], body[lang='ur'], body[lang='hu']
   h1, h2, h3, h4, h5, h6
     font-family: 'Open Sans Condensed', Impact, "Arial Narrow", "Arial", sans-serif
     text-transform: uppercase
@@ -225,6 +225,23 @@ body[lang='ru'], body[lang|='zh'], body[lang='ja'], body[lang='pl'], body[lang='
     font-family: 'Open Sans Condensed', Impact, "Arial Narrow", "Arial", sans-serif !important
     text-transform: uppercase
     letter-spacing: -1px !important
+
+body[lang='ja']
+  h1, h2, h3, h4, h5, h6
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", 'Open Sans Condensed', sans-serif
+    text-transform: uppercase
+    letter-spacing: -1px !important
+
+  .header-font
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", 'Open Sans Condensed', sans-serif
+    text-transform: uppercase
+    letter-spacing: -1px !important
+
+  #top-nav
+    .navbar-nav
+      li
+        a.header-font
+          font-size: 16px
    
 @media only screen and (max-width: 800px)
   .main-content-area
