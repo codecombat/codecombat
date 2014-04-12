@@ -11,7 +11,6 @@
             <nodejs>http://nodejs.org/dist/v0.10.25/x64/node-v0.10.25-x64.msi</nodejs>
             <ruby>http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.0.0-p353-x64.exe?direct</ruby>
             <python>http://s3.amazonaws.com/CodeCombatLargeFiles/python-64.msi</python>
-            <winsdk>http://download.microsoft.com/download/A/6/A/A6AC035D-DA3F-4F0C-ADA4-37C8E5D34E3D/winsdk_web.exe</winsdk>
             <vs12redist>http://download.microsoft.com/download/1/6/B/16B06F60-3B20-4FF2-B699-5E9B7962F9AE/VSU_4/vcredist_x64.exe</vs12redist>
         </b64>
         <general>
@@ -19,20 +18,28 @@
             <vs10redist>http://download.microsoft.com/download/C/6/D/C6D0FD4E-9E53-4897-9B91-836EBA2AACD3/vcredist_x86.exe</vs10redist>
         </general>
     </general>
-    <Win7>
+    <Win8>
         <b32>
-            <mongodb>http://fastdl.mongodb.org/win32/mongodb-win32-i386-2.5.4.zip</mongodb>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-i386-2.6.0.zip</mongodb>
         </b32>
         <b64>
-            <mongodb>http://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.5.4.zip</mongodb>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.6.0.zip</mongodb>
+        </b64>
+    </Win8>
+    <Win7>
+        <b32>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-i386-2.6.0.zip</mongodb>
+        </b32>
+        <b64>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2008plus-2.6.0.zip</mongodb>
         </b64>
     </Win7>
     <Vista>
         <b32>
-            <mongodb>http://fastdl.mongodb.org/win32/mongodb-win32-i386-2.5.4.zip</mongodb>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-i386-2.6.0.zip</mongodb>
         </b32>
         <b64>
-            <mongodb>http://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2.5.4.zip</mongodb>
+            <mongodb>https://fastdl.mongodb.org/win32/mongodb-win32-x86_64-2.6.0.zip</mongodb>
         </b64>
     </Vista>
 </variables>

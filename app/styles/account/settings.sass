@@ -8,15 +8,20 @@
     background: #eee
     border-radius: 5px
 
-  #save-button
-    float: right
+  #save-button-container
+    position: fixed
+    top: 100px
+    width: 1000px
+    z-index: 10
 
-  .thumbnails
-    text-align: center
-    .thumbnail
-      margin-bottom: 30px
-      margin-right: 20px
-      float: left
+    #save-button
+      float: right
+    
+      &.btn-info, &.btn-danger
+        opacity: 1.0
+
+  .gravatar-fallback
+    margin-top: 10px
       
   input.range
     position: relative
@@ -38,3 +43,14 @@
     
   .form
     max-width: 600px
+
+  #job-profile-treema
+    background-color: white
+
+    input
+      width: 790px
+      
+    .treema-description
+      font-size: 14px
+      line-height: 22px
+      opacity: 1

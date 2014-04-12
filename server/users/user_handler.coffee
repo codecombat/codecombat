@@ -1,4 +1,4 @@
-schema = require './user_schema'
+schema = require '../../app/schemas/models/user'
 crypto = require 'crypto'
 request = require 'request'
 User = require './User'
@@ -9,11 +9,15 @@ errors = require '../commons/errors'
 async = require 'async'
 log = require 'winston'
 LevelSession = require('../levels/sessions/LevelSession')
+LevelSessionHandler = require '../levels/sessions/level_session_handler'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
   'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig'
+]
+candidateProperties = [
+  'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
 ]
 
 UserHandler = class UserHandler extends Handler
@@ -23,7 +27,7 @@ UserHandler = class UserHandler extends Handler
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
     'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emailSubscriptions',
     'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
-    'wizard', 'aceConfig', 'autocastDelay', 'lastLevel'
+    'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile'
   ]
 
   jsonSchema: schema
@@ -32,21 +36,19 @@ UserHandler = class UserHandler extends Handler
     super(arguments...)
     @editableProperties.push('permissions') unless config.isProduction
 
+  getEditableProperties: (req, document) ->
+    props = super req, document
+    props.push 'jobProfileApproved', 'jobProfileNotes' if req.user.isAdmin()
+    props
+
   formatEntity: (req, document) ->
     return null unless document?
     obj = document.toObject()
     delete obj[prop] for prop in serverProperties
-    includePrivates = req.user and (req.user?.isAdmin() or req.user?._id.equals(document._id))
+    includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
-
-    # emailHash is used by gravatar
-    hash = crypto.createHash('md5')
-    if document.get('email')
-      hash.update(_.trim(document.get('email')).toLowerCase())
-    else
-      hash.update(@_id+'')
-    obj.emailHash = hash.digest('hex')
-
+    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.permissions ? [])))
+    delete obj[prop] for prop in candidateProperties unless includeCandidate
     return obj
 
   waterfallFunctions: [
@@ -115,7 +117,7 @@ UserHandler = class UserHandler extends Handler
 
   getById: (req, res, id) ->
     if req.user?._id.equals(id)
-      return @sendSuccess(res, @formatEntity(req, req.user))
+      return @sendSuccess(res, @formatEntity(req, req.user, 256))
     super(req, res, id)
 
   getNamesByIds: (req, res) ->
@@ -171,7 +173,9 @@ UserHandler = class UserHandler extends Handler
     return @getNamesByIds(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
+    return @getCandidates(req, res) if args[1] is 'candidates'
     return @sendNotFoundError(res)
+    super(arguments...)
 
   agreeToCLA: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user
@@ -191,9 +195,11 @@ UserHandler = class UserHandler extends Handler
           @sendSuccess(res, {result:'success'})
 
   avatar: (req, res, id) ->
-    @modelClass.findById(id).exec (err, document) ->
+    @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
-      res.redirect(document?.get('photoURL') or '/images/generic-wizard-icon.png')
+      photoURL = document?.get('photoURL')
+      photoURL ||= @buildGravatarURL document
+      res.redirect photoURL
       res.end()
 
   getLevelSessions: (req, res, userID) ->
@@ -205,8 +211,46 @@ UserHandler = class UserHandler extends Handler
       projection[field] = 1 for field in req.query.project.split(',')
     LevelSession.find(query).select(projection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
-      documents = (@formatEntity(req, doc) for doc in documents)
+      documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
 
+  getCandidates: (req, res) ->
+    authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
+    since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
+    #query = {'jobProfileApproved': true, 'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
+    query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}  # testing
+    query.jobProfileApproved = true unless req.user.isAdmin()
+    selection = 'jobProfile'
+    selection += ' email' if authorized
+    selection += ' jobProfileApproved' if req.user.isAdmin()
+    User.find(query).select(selection).exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      candidates = (@formatCandidate(authorized, doc) for doc in documents)
+      @sendSuccess(res, candidates)
+
+  formatCandidate: (authorized, document) ->
+    fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile']
+    obj = _.pick document.toObject(), fields
+    obj.photoURL ||= obj.jobProfile.photoURL if authorized
+    obj.photoURL ||= @buildGravatarURL document if authorized
+    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated']
+    if authorized
+      subfields = subfields.concat ['name']
+    obj.jobProfile = _.pick obj.jobProfile, subfields
+    obj
+
+  buildGravatarURL: (user) ->
+    emailHash = @buildEmailHash user
+    defaultAvatar = "http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png"
+    "https://www.gravatar.com/avatar/#{emailHash}?default=#{defaultAvatar}"
+
+  buildEmailHash: (user) ->
+    # emailHash is used by gravatar
+    hash = crypto.createHash('md5')
+    if user.get('email')
+      hash.update(_.trim(user.get('email')).toLowerCase())
+    else
+      hash.update(user.get('_id') + '')
+    hash.digest('hex')
 
 module.exports = new UserHandler()

@@ -8,6 +8,7 @@ mongoose = require('mongoose')
 
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
+  jsonSchema: require '../../app/schemas/models/level'
   editableProperties: [
     'description'
     'documentation'
@@ -37,8 +38,8 @@ LevelHandler = class LevelHandler extends Handler
     return @getLeaderboardFacebookFriends(req, res, args[0]) if args[1] is 'leaderboard_facebook_friends'
     return @getLeaderboardGPlusFriends(req, res, args[0]) if args[1] is 'leaderboard_gplus_friends'
     return @getHistogramData(req, res, args[0]) if args[1] is 'histogram_data'
-    
-    return @sendNotFoundError(res)
+    return @checkExistence(req, res, args[0]) if args[1] is 'exists'
+    super(arguments...)
 
   fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
     @getDocumentForIdOrSlug id, (err, level) =>
@@ -130,7 +131,23 @@ LevelHandler = class LevelHandler extends Handler
       if err? then return @sendDatabaseError res, err
       valueArray = _.pluck data, "totalScore"
       @sendSuccess res, valueArray
-    
+  
+  checkExistence: (req, res, slugOrID) ->
+    findParameters = {}
+    if Handler.isID slugOrID
+      findParameters["_id"] = slugOrID
+    else
+      findParameters["slug"] = slugOrID
+    selectString = 'original version.major permissions'
+    query = Level.findOne(findParameters)
+    .select(selectString)
+    .lean()
+
+    query.exec (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
+      res.send({"exists":true})
+      res.end()
 
   getLeaderboard: (req, res, id) ->
     sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
@@ -224,9 +241,6 @@ LevelHandler = class LevelHandler extends Handler
           original: level.original.toString()
           majorVersion: level.version.major
         submitted:true
-        
-      console.log sessionsQueryParameters
-        
       
       query = Session
         .find(sessionsQueryParameters)
@@ -237,7 +251,6 @@ LevelHandler = class LevelHandler extends Handler
         return @sendDatabaseError res, err if err? or not resultSessions
         
         teamSessions = _.groupBy resultSessions, 'team'
-        console.log teamSessions
         sessions = []
         numberOfTeams = 0
         for team of teamSessions

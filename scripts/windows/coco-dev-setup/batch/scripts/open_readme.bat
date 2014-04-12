@@ -1,1 +1,1 @@
-call open_text_file ..\\config\\readme.coco
+call open_localized_text_file ..\\config\\localized\\readme

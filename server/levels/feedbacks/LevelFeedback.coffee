@@ -2,7 +2,7 @@
 
 mongoose = require('mongoose')
 plugins = require('../../plugins/plugins')
-jsonschema = require('./level_feedback_schema')
+jsonschema = require('../../../app/schemas/models/level_feedback')
 
 LevelFeedbackSchema = new mongoose.Schema({
   created:

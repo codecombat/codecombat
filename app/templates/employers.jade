@@ -2,33 +2,59 @@ extends /templates/base
 
 block content
 
-  .row
+  h1(data-i18n="employers.want_to_hire_our_players") Want to hire expert CodeCombat players?
 
-    .col-md-6
-
-      h2 CodeCombat for Employers
-
-      p.lead Want to hire expert CodeCombat players?
-
-      p
-        | CodeCombat doesn't just have beginners. We also have expert software developers who play our 
-        a(href="http://blog.codecombat.com/beat-this-level-get-a-programming-job") developer challenge levels
-        | . If your company is seeking technical talent, then we'd be happy to help place candidates with you.
-
-      p We were actually overwhelmed by how many talented developers rushed to site, crushed our version of the algorithm in the Gridmancer challenge, and were looking for job opportunities, especially in the SF Bay Area where CodeCombat is located. So if you're an employer, now's a great time to get in touch and meet some amazing programmers.
-
-      p If this sounds interesting, then let's get in touch, find out what you're looking for, talk about recruitment terms, and see what we can do for you. Don't worry–we are not your traditional recruiter. We're a tech company like you who happens to have a ton of great programmers looking to us for help with the job search.
-
-      h3
-        a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact") Contact Us
+  p
+    span(data-i18n="employers.candidates_count_prefix") We currently have 
+    if candidates.length
+      | #{candidates.length}
+    else
+      span(data-i18n="employers.candidates_count_many") many
+    |  
+    span(data-i18n="employers.candidates_count_suffix") highly skilled and vetted developers looking for work.
+  h3
+    a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/employer_signup", data-i18n="employers.contact_george") Contact George to see our candidates
     
-    .span5
- 
-      h2 Candidate Statistics
-
-      h4 Resumes: 46
-      h4 Ages: 16 - 45
-      h4 Experience: 0 - 30 years
-      h4 Skill: from interns and entry level to senior developers and management
-      h4 Technologies: just about everything
-      h4 Countries: USA, Canada, Australia, and many more
+  if candidates.length
+    table.table.table-condensed.table-hover.table-responsive.tablesorter
+      thead
+        tr
+          th(data-i18n="general.name") Name
+          th(data-i18n="employers.candidate_location") Location
+          th(data-i18n="employers.candidate_looking_for") Looking For
+          th(data-i18n="employers.candidate_role") Role
+          th(data-i18n="employers.candidate_top_skills") Top Skills
+          th(data-i18n="employers.candidate_years_experience") Yrs Exp
+          th(data-i18n="employers.candidate_last_updated") Last Updated
+          if me.isAdmin()
+            th ✓?
+  
+      tbody
+        for candidate, index in candidates
+          - var profile = candidate.get('jobProfile');
+          - var authorized = candidate.id;  // If we have the id, then we are authorized.
+          tr(data-candidate-id=candidate.id)
+            td
+              if authorized
+                img(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, width=50)
+                p= profile.name
+              else
+                img(src="/images/pages/contribute/archmage.png", alt="", title="Sign up as an employer to see our candidates", width=50)
+                p Developer ##{index + 1}
+            if profile.country == 'USA'
+              td= profile.city
+            else
+              td= profile.country
+            td= profile.lookingFor
+            td= profile.jobTitle
+            td
+              each skill in profile.skills.slice(0, 10)
+                code= skill
+                span  
+            td= profile.experience
+            td= moment(profile.updated).fromNow()
+            if me.isAdmin()
+              if candidate.get('jobProfileApproved')
+                td ✓
+              else
+                td ✗
