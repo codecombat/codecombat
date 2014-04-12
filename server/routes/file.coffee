@@ -19,7 +19,7 @@ fileGet = (req, res) ->
     objectId = mongoose.Types.ObjectId(path)
     query = objectId
   catch e
-    path = path.split('/')    
+    path = path.split('/')
     filename = path[path.length-1]
     path = path[...path.length-1].join('/')
     query =
@@ -34,7 +34,7 @@ fileGet = (req, res) ->
         res.setHeader('Content-Type', 'text/json')
         res.send(results)
         res.end()
-        
+
   else
     Grid.gfs.collection('media').findOne query, (err, filedata) =>
       return errors.notFound(res) if not filedata
@@ -42,7 +42,7 @@ fileGet = (req, res) ->
       if req.headers['if-modified-since'] is filedata.uploadDate
         res.status(304)
         return res.end()
-  
+
       res.setHeader('Content-Type', filedata.contentType)
       res.setHeader('Last-Modified', filedata.uploadDate)
       res.setHeader('Cache-Control', 'public')
@@ -70,7 +70,7 @@ postFileSchema =
   required: ['filename', 'mimetype', 'path']
 
 filePost = (req, res) ->
-  return errors.forbidden(res) unless req.user?.isAdmin()
+  return errors.forbidden(res) unless req.user
   options = req.body
   tv4 = require('tv4').tv4
   valid = tv4.validate(options, postFileSchema)
@@ -83,7 +83,8 @@ filePost = (req, res) ->
 
 saveURL = (req, res) ->
   options = createPostOptions(req)
-  checkExistence options, res, req.body.force, (err) ->
+  force = req.user.isAdmin() and req.body.force
+  checkExistence options, res, force, (err) ->
     return errors.serverError(res) if err
     writestream = Grid.gfs.createWriteStream(options)
     request(req.body.url).pipe(writestream)
@@ -91,7 +92,8 @@ saveURL = (req, res) ->
 
 saveFile = (req, res) ->
   options = createPostOptions(req)
-  checkExistence options, res, req.body.force, (err) ->
+  force = req.user.isAdmin() and req.body.force
+  checkExistence options, res, force, (err) ->
     return if err
     writestream = Grid.gfs.createWriteStream(options)
     f = req.files[req.body.postName]
@@ -101,7 +103,8 @@ saveFile = (req, res) ->
 
 savePNG = (req, res) ->
   options = createPostOptions(req)
-  checkExistence options, res, req.body.force, (err) ->
+  force = req.user.isAdmin() and req.body.force
+  checkExistence options, res, force, (err) ->
     return errors.serverError(res) if err
     writestream = Grid.gfs.createWriteStream(options)
     img = new Buffer(req.body.b64png, 'base64')
@@ -143,11 +146,11 @@ createPostOptions = (req) ->
   unless req.body.name
     name = req.body.filename.split('.')[0]
     req.body.name = _.str.humanize(name)
-  
+
   path = req.body.path or ''
   path = path[1...] if path and path[0] is '/'
   path = path[...path.length-2] if path and path[path.length-1] is '/'
-  
+
   options =
     mode: 'w'
     filename: req.body.filename
@@ -158,6 +161,6 @@ createPostOptions = (req) ->
       name: req.body.name
       path: path
       creator: ''+req.user._id
-  options.metadata.description = req.body.description if req.body.description? 
+  options.metadata.description = req.body.description if req.body.description?
 
   options
