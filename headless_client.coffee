@@ -127,9 +127,9 @@ $.isPlainObject = (object) ->
 
 do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
-  _.str = require 'underscore.string'
-  _.string = _.str
-  _.mixin _.str.exports()
+  #_.str = require 'underscore.string'
+  #_.string = _.str
+  #_.mixin _.str.exports()
 
 
 # load Backbone. Needs hooked loader to reroute underscore to lowdash.
@@ -151,19 +151,29 @@ GLOBAL.Aether = require 'aether'
 # Set up new loader.
 hook()
 
-#worker_function = require './headless_client/worker_world'
-
 
 self =
   eval: eval
-  postMessage: ->
+  postMessage: (what) -> console.log what
   addEventListener: ->
 
-#worker = new Worker(worker_function)
-#worker.onmessage = (event) ->
-#  console.log("Worker said : " + JSON.stringify event.data)
+
+worker_function = require './headless_client/worker_world'
+
+#worker_function();
+
+worker = new Worker(worker_function)
+worker.onmessage = (event) ->
+  console.log("Worker said : " + JSON.stringify event.data)
 
 login = require './login.coffee' #should contain an object containing they keys 'username' and 'password'
+
+
+
+
+
+return
+
 
 #Login user and start the code.
 $.ajax

@@ -4,15 +4,9 @@
 JASON = require 'jason'
 World = require 'lib/world/world'
 GoalManager = require 'lib/world/GoalManager'
+Box2d = require '../vendor/scripts/Box2dWeb-2.1.a.3'
 
 work = (self, World, GoalManager) ->
-  require = null
-
-  # Don't allow the thread to read files or eval stuff.
-  native_fs_ = null
-  self.eval = null
-  # These are not needed for the currently used webworker library, but you never know...
-  require = GLOBAL = global = window = null
 
   self.workerID = "Worker";
 
@@ -155,21 +149,34 @@ work = (self, World, GoalManager) ->
     return
 
   self.postMessage type: "worker-initialized"
-  console.log test
 
-
+#self.eval(JASON=#{JASON.stringify JASON});
 ret = """
   try {
-    test = "foo";
-    self.eval(JASON=#{JASON.stringify JASON});
-    var _ = JASON.parse(#{JASON.stringify _});
-    var Backbone = JASON.parse(#{JASON.stringify Backbone});
-    var World = JASON.parse(#{ JASON.stringify World});
-    var GoalManager = JASON.parse(#{ JASON.stringify GoalManager});
-    var work = JASON.parse(#{JASON.stringify work});
+    var root, window;
+    root = window = self;
+
+    window.BOX2D_ENABLED = true;
+
+    var $ = #{JASON.stringify $};
+    var _ = #{JASON.stringify _};
+
+    var Backbone = #{JASON.stringify Backbone};
+
+    var World = #{ JASON.stringify World};
+    var GoalManager = #{ JASON.stringify GoalManager};
+
+    // Don't allow the thread to read files or eval stuff.
+    native_fs_ = null;
+    self.eval = null;
+    // These are not needed for the currently used webworker library, but you never know...
+    require = GLOBAL = global = window = null;
+
+    var work = #{JASON.stringify work};
+
     work(self, World, GoalManager);
   }catch (error) {
-    self.postMessage({"type": "console-log", args: ["An unhandled error occured: ", error.toString()], id: -1});
+    self.postMessage({"type": "console-log", args: ["An unhandled error occured: ", error.toString(), error.stack], id: -1});
   }
 """
 
