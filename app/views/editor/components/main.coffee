@@ -45,7 +45,7 @@ module.exports = class ThangComponentEditView extends CocoView
   buildExtantComponentTreema: ->
     treemaOptions =
       supermodel: @supermodel
-      schema: Level.schema.get('properties').thangs.items.properties.components
+      schema: Level.schema.properties.thangs.items.properties.components
       data: _.cloneDeep @components
       callbacks: {select: @onSelectExtantComponent, change:@onChangeExtantComponents}
       noSortable: true
@@ -69,7 +69,7 @@ module.exports = class ThangComponentEditView extends CocoView
 
     treemaOptions =
       supermodel: @supermodel
-      schema: { type: 'array', items: LevelComponent.schema.attributes }
+      schema: { type: 'array', items: LevelComponent.schema }
       data: ($.extend(true, {}, c) for c in components)
       callbacks: {select: @onSelectAddableComponent, enter: @onAddComponentEnterPressed }
       readOnly: true

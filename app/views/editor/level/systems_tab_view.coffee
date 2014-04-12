@@ -67,7 +67,7 @@ module.exports = class SystemsTabView extends View
     treemaOptions =
       # TODO: somehow get rid of the + button, or repurpose it to open the LevelSystemAddView instead
       supermodel: @supermodel
-      schema: Level.schema.get('properties').systems
+      schema: Level.schema.properties.systems
       data: systems
       readOnly: true unless me.isAdmin() or @level.hasWriteAccess(me)
       callbacks:
