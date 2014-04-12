@@ -52,7 +52,6 @@ module.exports = class God
     worker
 
   onWorkerMessage: (worker) => (event) =>
-    console.warn event.data.type is 'worker-initialized'
     if event.data.type is 'worker-initialized'
       #console.log @id, "worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
       worker.initialized = true
@@ -93,8 +92,6 @@ module.exports = class God
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
 
   createWorld: ->
-
-    console.warn "Creating World."
     #console.log @id + ': "Let there be light upon', @world.name + '!"'
     unless Worker?  # profiling world simulation is easier on main thread, or we are IE9
       setTimeout @simulateWorld, 1
@@ -217,7 +214,6 @@ class Angel
 
   spawnWorker: ->
     @worker = @god.getWorker()
-    console.warn JSON.stringify @worker
     @listen()
 
   enslave: ->

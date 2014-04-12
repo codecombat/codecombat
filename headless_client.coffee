@@ -45,7 +45,6 @@ GLOBAL.localStorage =
 
 
 
-
 # Hook node.js require. See https://github.com/mfncooper/mockery/blob/master/mockery.js
 # The signature of this function *must* match that of Node's Module._load,
 # since it will replace that.
@@ -74,17 +73,19 @@ GLOBAL.$ = GLOBAL.jQuery = (input) ->
 
 cookies = request.jar()
 
-$.ajax= (options) ->
+$.ajax = (options) ->
   responded = false
-
   url = options.url
   if url.indexOf('http')
     url = '/' + url unless url[0] is '/'
     url = server + url
 
-  #    data = options.data
-  #   if options.dataType is 'json'
-  #    data = JSON.parse options.data
+  data = options.data
+
+
+  #if (typeof data) is 'object'
+    #console.warn JSON.stringify data
+    #data = JSON.stringify data
 
   console.log "Requesting: " + JSON.stringify options if debug
   console.log "URL: " + url if debug
@@ -93,7 +94,7 @@ $.ajax= (options) ->
     jar: cookies
     json: options.parse
     method: options.type
-    body: options.data
+    body: data
     , (error, response, body) ->
       console.log "HTTP Request:" + JSON.stringify options if debug and not error
 
@@ -151,6 +152,7 @@ GLOBAL.Aether = require 'aether'
 hook()
 
 login = require './login.coffee' #should contain an object containing they keys 'username' and 'password'
+
 
 #Login user and start the code.
 $.ajax
@@ -248,7 +250,6 @@ $.ajax
         @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
         console.log "SetupGod"
         @setupGod()
-        console.log "go!Go!GO!"
         try
           @commenceSimulationAndSetupCallback()
         catch err
@@ -256,7 +257,7 @@ $.ajax
           @simulateAnotherTaskAfterDelay()
 
       assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->
-        console.log "assigning world and level"
+        console.log "Assigning world and level"
         @world = @levelLoader.world
         @level = @levelLoader.level
         @levelLoader.destroy()
@@ -285,14 +286,15 @@ $.ajax
         _.delay @cleanupAndSimulateAnotherTask, @retryDelayInSeconds * 1000
 
       processResults: (simulationResults) ->
-        console.log "processing results"
+        console.log "Processing Results"
         taskResults = @formTaskResultsObject simulationResults
-        console.log taskResults
+        console.warn taskResults
         @sendResultsBackToServer taskResults
 
       sendResultsBackToServer: (results) =>
         @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
-        console.log "Sending result back to server!"
+        console.log "Sending result back to server"
+        results = JSON.stringify results
         $.ajax
           url: "queue/scoring"
           data: results
@@ -442,11 +444,9 @@ $.ajax
             jshint_W040: {level: "ignore"}
             jshint_W030: {level: "ignore"}  # aether_NoEffect instead
             aether_MissingThis: {level: 'error'}
-        #functionParameters: # TODOOOOO
         if methodName is 'hear'
           aetherOptions.functionParameters = ['speaker', 'message', 'data']
         #console.log "creating aether with options", aetherOptions
-        #console.warn JSON.stringify Aether
 
         return new Aether aetherOptions
 
@@ -497,7 +497,7 @@ $.ajax
         spellKeyToSourceMap
 
     sim = new Simulator()
-    sim.fetchAndSimulateTask()
-    #test = require './test3.js'
+    #sim.fetchAndSimulateTask()
+    test = require './test.js'
     #console.log test
-    #sim.setupSimulationAndLoadLevel test, "Testing...", status: 400
+    sim.setupSimulationAndLoadLevel test, "Testing...", status: 400

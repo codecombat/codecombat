@@ -4,14 +4,14 @@
 JASON = require 'jason'
 fs = require 'fs'
 
-createConsole = () ->
+betterConsole = () ->
 
   self.logLimit = 200;
   self.logsLogged = 0;
 
   self.transferableSupported = () -> true
 
-  console = log: ->
+  self.console = log: ->
     if self.logsLogged++ is self.logLimit
       self.postMessage
         type: "console-log"
@@ -43,10 +43,9 @@ createConsole = () ->
           id: self.workerID
 
   # so that we don't crash when debugging statements happen
-  console.error = console.info = console.log
-  self.console = console
-  GLOBAL.console = console
-  console
+  self.console.error = self.console.info = self.console.log
+  GLOBAL.console = console = self.console
+  self.console
 
 
 work = () ->
@@ -71,7 +70,7 @@ work = () ->
       self.goalManager.worldGenerationWillBegin()
       self.world.setGoalManager self.goalManager
     catch error
-      console.log "There has been an error inside thew worker... "
+      console.log "There has been an error inside thew worker."
       self.onWorldError error
       return
     Math.random = self.world.rand.randf # so user code is predictable
@@ -80,7 +79,7 @@ work = () ->
 
 
   self.onWorldLoaded = onWorldLoaded = ->
-    console.log "Worker.onWorldLoaded."
+    console.log
     self.goalManager.worldGenerationEnded()
     t1 = new Date()
     diff = t1 - self.t0
@@ -91,7 +90,7 @@ work = () ->
       console.log "World serialization error:", error.toString() + "\n" + error.stack or error.stackTrace
     t2 = new Date()
 
-    console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
+    # console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
     try
       if transferableSupported
         self.postMessage
@@ -140,11 +139,11 @@ work = () ->
     self.postMessage type: "abort"
 
   self.reportIn = reportIn = ->
-    console.log "reportIn"
+    console.log "Reporting in."
     self.postMessage type: "reportIn"
 
   self.addEventListener "message", (event) ->
-    console.log JSON.stringify event
+    #console.log JSON.stringify event
     self[event.data.func] event.data.args
 
   self.postMessage type: "worker-initialized"
@@ -155,6 +154,8 @@ world = fs.readFileSync "./public/javascripts/world.js", 'utf8'
 
 #window.BOX2D_ENABLED = true;
 
+newConsole = "newConsole = #{}JASON.stringify newConsole}()";
+
 ret = """
 
   GLOBAL = root = window = self;
@@ -162,11 +163,7 @@ ret = """
 
   self.workerID = "Worker";
 
-  console = #{JASON.stringify createConsole}();
-
-  console.error = console.info = console.log;
-  self.console = console;
-  GLOBAL.console = console;
+  console = #{JASON.stringify betterConsole}();
 
   try {
     #{world};
@@ -181,5 +178,13 @@ ret = """
     self.postMessage({"type": "console-log", args: ["An unhandled error occured: ", error.toString(), error.stack], id: -1});
   }
 """
+
+
+#console = #{JASON.stringify createConsole}();
+#
+#  console.error = console.info = console.log;
+#self.console = console;
+#GLOBAL.console = console;
+
 
 module.exports = new Function(ret)
