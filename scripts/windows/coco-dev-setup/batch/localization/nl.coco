@@ -4,6 +4,7 @@
 		<native>Nederlands</native>
 		<description>Dutch</description>
 		<tips>Voor we verder gaan met de installatie hier volgen enkele tips:</tips>
+		<exit>Druk een willekeurige toets in om af te sluiten...</exit>
 	</global>
 	<language>
 		<choosen>Je hebt Nederlands gekozen als jouw taal naar keuze.</choosen>

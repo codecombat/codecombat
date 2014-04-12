@@ -4,6 +4,7 @@
 		<native>English</native>
 		<description>English</description>
 		<tips>Before we start the installation, here are some tips:</tips>
+		<exit>Press any key to exit...</exit>
 	</global>
 	<language>
 		<choosen>You have choosen English as your language.</choosen>

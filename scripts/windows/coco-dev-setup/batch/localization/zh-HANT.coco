@@ -4,6 +4,7 @@
 		<native>繁体中文</native>
 		<description>Simplified Chinese</description>
 		<tips>Before we start the installation, here are some tips:</tips>
+		<exit>Press any key to exit...</exit>
 	</global>
 	<language>
 		<choosen>You have choosen 繁体中文 as your language.</choosen>
