@@ -54,38 +54,13 @@ block content
         li
           a(href="http://discourse.codecombat.com", data-i18n="contribute.artisan_join_step4") Post your levels on the forum for feedback.
 
-      if me.attributes.anonymous
-        div#sign-up.alert.alert-info
-          strong(data-i18n="contribute.alert_account_message_intro")
-            | Hey there!
-          span  
-          span(data-i18n="contribute.alert_account_message_pref") 
-            | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
-            | create an account
-          span  
-          span(data-i18n="contribute.alert_account_message_suf")
-            | first.
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="level_creator", data-contributor-class-name="artisan")
 
-      label.checkbox(for="level_creator").well
-        input(type='checkbox', name="level_creator", id="level_creator")
-        span(data-i18n="contribute.artisan_subscribe_desc")
-          | Get emails on level editor updates and announcements.
-        .saved-notification  ✓ Saved
+      h3(data-i18n="contribute.creative_artisans")
+        | Our Creative Artisans:
 
-      #Contributors
-        h3(data-i18n="contribute.creative_artisans")
-          | Our Creative Artisans:
-        .row
-          for contributor in contributors
-            .col-xs-6.col-md-3
-              .thumbnail
-                if contributor.avatar
-                  img.img-responsive(src="/images/pages/contribute/artisan/" + contributor.avatar + "_small.png", alt="")
-                else
-                  img.img-responsive(src="/images/pages/contribute/artisan.png", alt="")
-                .caption
-                  h4= contributor.name
+      #contributor-list
 
     div.clearfix
 

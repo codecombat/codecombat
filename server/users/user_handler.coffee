@@ -198,7 +198,10 @@ UserHandler = class UserHandler extends Handler
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
       photoURL = document?.get('photoURL')
-      photoURL ||= @buildGravatarURL document
+      if photoURL
+        photoURL = "/file/#{photoURL}"
+      else
+        photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
       res.redirect photoURL
       res.end()
 
@@ -239,10 +242,11 @@ UserHandler = class UserHandler extends Handler
     obj.jobProfile = _.pick obj.jobProfile, subfields
     obj
 
-  buildGravatarURL: (user) ->
+  buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user
-    defaultAvatar = "http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png"
-    "https://www.gravatar.com/avatar/#{emailHash}?default=#{defaultAvatar}"
+    fallback ?= "http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png"
+    fallback = "http://codecombat.com#{fallback}" unless /^http/.test fallback
+    "https://www.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
 
   buildEmailHash: (user) ->
     # emailHash is used by gravatar
