@@ -299,11 +299,10 @@ $.ajax
       sendResultsBackToServer: (results) =>
         @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
         console.log "Sending result back to server"
-        #console.warn(require('jason').stringify results)
-        results = JASON.stringify results
         $.ajax
           url: "queue/scoring"
           data: results
+          parse: true
           type: "PUT"
           success: @handleTaskResultsTransferSuccess
           error: @handleTaskResultsTransferError
