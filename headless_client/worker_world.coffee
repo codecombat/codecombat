@@ -6,7 +6,7 @@ World = require 'lib/world/world'
 GoalManager = require 'lib/world/GoalManager'
 Box2d = require '../vendor/scripts/Box2dWeb-2.1.a.3'
 
-work = (self, World, GoalManager) ->
+work = () ->
 
   self.workerID = "Worker";
 
@@ -49,7 +49,16 @@ work = (self, World, GoalManager) ->
   # so that we don't crash when debugging statements happen
   console.error = console.info = console.log
   self.console = console
+  GLOBAL.console = console
 
+  self.importScripts "./public/javascripts/world.js"
+
+  World = self.require('lib/world/world');
+  GoalManager = self.require('lib/world/GoalManager');
+
+  # Don't let user generated code stuff from our file system!
+  self.importScripts = importScripts = null;
+  self.native_fs_ = native_fs_ = null;
 
   self.runWorld = (args) ->
     console.log "Running world inside worker."
@@ -135,46 +144,31 @@ work = (self, World, GoalManager) ->
       self.world.abort()  if typeof self.world isnt "undefined"
       self.world = null
     self.postMessage type: "abort"
-    return
 
   self.reportIn = reportIn = ->
     console.log "reportIn"
     self.postMessage type: "reportIn"
-    return
 
   self.addEventListener "message", (event) ->
     console.log JSON.stringify event
-
     self[event.data.func] event.data.args
-    return
 
   self.postMessage type: "worker-initialized"
 
-#self.eval(JASON=#{JASON.stringify JASON});
+
 ret = """
   try {
     var root, window;
-    root = window = self;
+    GLOBAL = root = window = self;
+    GLOBAL.window = window;
 
     window.BOX2D_ENABLED = true;
 
-    var $ = #{JASON.stringify $};
-    var _ = #{JASON.stringify _};
-
-    var Backbone = #{JASON.stringify Backbone};
-
-    var World = #{ JASON.stringify World};
-    var GoalManager = #{ JASON.stringify GoalManager};
-
-    // Don't allow the thread to read files or eval stuff.
-    native_fs_ = null;
-    self.eval = null;
-    // These are not needed for the currently used webworker library, but you never know...
-    require = GLOBAL = global = window = null;
+    var $ = window.$ = #{JASON.stringify $};
 
     var work = #{JASON.stringify work};
 
-    work(self, World, GoalManager);
+    work();
   }catch (error) {
     self.postMessage({"type": "console-log", args: ["An unhandled error occured: ", error.toString(), error.stack], id: -1});
   }
