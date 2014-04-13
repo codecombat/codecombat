@@ -12,6 +12,8 @@ ComponentsTabView = require './components_tab_view'
 SystemsTabView = require './systems_tab_view'
 LevelSaveView = require './save_view'
 LevelForkView = require './fork_view'
+SaveVersionModal = require 'views/modal/save_version_modal'
+PatchesView = require 'views/editor/patches_view'
 VersionHistoryView = require './versions_view'
 ErrorView = require '../../error_view'
 
@@ -26,6 +28,8 @@ module.exports = class EditorLevelView extends View
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
     'click #history-button': 'showVersionHistory'
+    'click #patches-tab': -> @patchesView.load()
+    'click #commit-level-patch-button': 'startPatchingLevel'
 
   constructor: (options, @levelID) ->
     super options
@@ -50,7 +54,7 @@ module.exports = class EditorLevelView extends View
         @hideLoading()
         @insertSubView(new ErrorView())
     )
-    @supermodel.populateModel @level
+    @supermodel.populateModel(@level, 'level')
 
   showLoading: ($el) ->
     $el ?= @$el.find('.tab-content')
@@ -88,7 +92,8 @@ module.exports = class EditorLevelView extends View
     @componentsTab = @insertSubView new ComponentsTabView supermodel: @supermodel
     @systemsTab = @insertSubView new SystemsTabView supermodel: @supermodel
     Backbone.Mediator.publish 'level-loaded', level: @level
-    @showReadOnly() unless me.isAdmin() or @level.hasWriteAccess(me)
+    @showReadOnly() if me.get('anonymous')
+    @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
 
   onPlayLevel: (e) ->
     sendLevel = =>
@@ -103,9 +108,12 @@ module.exports = class EditorLevelView extends View
       @childWindow.onPlayLevelViewLoaded = (e) => sendLevel()  # still a hack
     @childWindow.focus()
 
+  startPatchingLevel: (e) ->
+    @openModalView new SaveVersionModal({model:@level})
+    Backbone.Mediator.publish 'level:view-switched', e
+    
   startCommittingLevel: (e) ->
-    levelSaveView = new LevelSaveView level: @level, supermodel: @supermodel
-    @openModalView levelSaveView
+    @openModalView new LevelSaveView level: @level, supermodel: @supermodel
     Backbone.Mediator.publish 'level:view-switched', e
 
   startForkingLevel: (e) ->

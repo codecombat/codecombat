@@ -38,8 +38,7 @@ module.exports = class UsersView extends View
     @users.fetch()
     @listenTo(@users, 'all', @render)
 
-  getRenderData: =>
+  getRenderData: ->
     c = super()
     c.users = (user.attributes for user in @users.models)
-    console.log('our render data', c)
     c

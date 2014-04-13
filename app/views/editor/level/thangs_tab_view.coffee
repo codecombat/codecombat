@@ -73,7 +73,8 @@ module.exports = class ThangsTabView extends View
   onThangTypesLoaded: ->
     return if @destroyed
     @supermodel.addCollection @thangTypes
-    @supermodel.populateModel model for model in @thangTypes.models
+    for model in @thangTypes.models
+      @supermodel.populateModel(model, model.name)
     @startsLoading = not @componentCollection.loaded
     @render()  # do it again but without the loading screen
     @onLevelLoaded level: @level if @level and not @startsLoading
@@ -140,7 +141,7 @@ module.exports = class ThangsTabView extends View
     return if @startsLoading
     data = $.extend(true, {}, @level.attributes)
     treemaOptions =
-      schema: Level.schema.get('properties').thangs
+      schema: Level.schema.properties.thangs
       data: data.thangs
       supermodel: @supermodel
       callbacks:
@@ -402,7 +403,7 @@ module.exports = class ThangsTabView extends View
     physical.config.pos = x: pos.x, y: pos.y, z: physical.config.pos.z if physical
     thang = thangType: thangType.get('original'), id: thangID, components: components
     @thangsTreema.insert '', thang
-    @supermodel.populateModel thangType  # Make sure we grab any new data for the thang we just added
+    @supermodel.populateModel(thangType, thangType.get('name'))  # Make sure we grab any new data for the thang we just added
 
   editThang: (e) ->
     if e.target  # click event

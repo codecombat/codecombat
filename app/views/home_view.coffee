@@ -23,6 +23,7 @@ module.exports = class HomeView extends View
     else
       console.warn 'no more jquery browser version...'
     c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
+    c.languageName = me.get('preferredLanguage')
     c
 
   afterRender: ->

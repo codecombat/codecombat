@@ -60,15 +60,15 @@ module.exports = class LevelLoader extends CocoClass
     # Unless you specify cache:false, sometimes the browser will use a cached session
     # and players will 'lose' code
     @listenToOnce(@session, 'sync', @onSessionLoaded)
-    session_res = @supermodel.addModelResource(@session, @session.url, {cache:false})
-    session_res.load()
+    sessionRes = @supermodel.addModelResource(@session, 'level_session', {cache:false})
+    sessionRes.load()
 
     if @opponentSessionID
       @opponentSession = new LevelSession()
       @opponentSession.url = "/db/level_session/#{@opponentSessionID}"
       @listenToOnce(@opponentSession, 'sync', @onSessionLoaded)
-      opponentSession_res = @supermodel.addModelResource(@opponentSession, @opponentSession.url)
-      opponentSession_res.load()
+      opponentSessionRes = @supermodel.addModelResource(@opponentSession, 'opponent_session')
+      opponentSessionRes.load()
 
   sessionsLoaded: ->
     return true if @headless
@@ -100,7 +100,7 @@ module.exports = class LevelLoader extends CocoClass
       return true if headless and model.constructor.className is 'ThangType'
       false
 
-    @supermodel.populateModel @level
+    @supermodel.populateModel(@level, 'level')
 
   onSupermodelError: ->
 

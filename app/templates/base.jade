@@ -51,12 +51,6 @@ body
             a.header-font(href='http://blog.codecombat.com/', data-i18n="nav.blog") Blog
           li.forum
             a.header-font(href='http://discourse.codecombat.com/', data-i18n="nav.forum") Forum
-          if me.isAdmin()
-            li.admin
-              a.header-font(href='/admin', data-i18n="nav.admin") Admin
-        
-      
-             
     
 
   block outer_content
@@ -79,6 +73,8 @@ body
           a(href='/legal', title='Legal', tabindex=-1, data-i18n="nav.legal") Legal
           a(href='/about', title='About', tabindex=-1, data-i18n="nav.about") About
           a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Contact
+          if me.isAdmin()
+            a(href='/admin', data-i18n="nav.admin") Admin
 
       .share-buttons
         .g-plusone(data-href="http://codecombat.com", data-size="medium")
