@@ -154,6 +154,27 @@ UserHandler = class UserHandler extends Handler
       res.send(if otherUser then otherUser._id else JSON.stringify(''))
       res.end()
 
+  getSimulatorLeaderboard: (req, res) ->
+    @validateSimulateLeaderboardRequestParameters(req)
+    query = {}
+    if(req.query.scoreOffset != -1)
+      simulatedByQuery = {}
+      simulatedByQuery[if req.query.order is 1 then "$gt" else "$lt"] = req.query.scoreOffset
+      query.simulatedBy = simulatedByQuery
+    query.simulatedFor = {"$gt": 0}
+    User
+      .find(query)
+      .limit(req.query.limit)
+      .sort('-simulatedBy').select('name simulatedBy simulatedFor').exec (err, otherUser) ->
+        res.send(otherUser)
+        res.end()
+
+
+  validateSimulateLeaderboardRequestParameters: (req) ->
+    req.query.order = parseInt(req.query.order) ? -1
+    req.query.scoreOffset = parseFloat(req.query.scoreOffset) ? 100000
+    req.query.limit = parseInt(req.query.limit) ? 20
+
   post: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'Must have an anonymous user to post with.') unless req.user
@@ -174,6 +195,7 @@ UserHandler = class UserHandler extends Handler
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
+    return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @sendNotFoundError(res)
     super(arguments...)
 
