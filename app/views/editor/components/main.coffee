@@ -18,31 +18,26 @@ module.exports = class ThangComponentEditView extends CocoView
     @level = options.level
     @callback = options.callback
 
-  render: =>
-    return if @destroyed
-    if not @componentCollection
-      @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    unless @componentCollection.loaded
-      @listenToOnce(@componentCollection, 'sync', @onComponentsSync)
-      @componentCollection.fetch()
-    super() # do afterRender at the end
+    @componentCollection = @supermodel.getCollection new ComponentsCollection()
+    @componentCollectionRes = @supermodel.addModelResource(@componentCollection, 'component_collection')
+    @listenToOnce(@componentCollectionRes, 'resource:loaded', @onComponentsSync)
+    @componentCollectionRes.load()
 
   afterRender: ->
     super()
-    return @showLoading() unless @componentCollection?.loaded
-    @hideLoading()
     @buildExtantComponentTreema()
     @buildAddComponentTreema()
 
-  onComponentsSync: ->
+  onComponentsSync: (res) ->
     return if @destroyed
     @supermodel.addCollection @componentCollection
     @render()
 
   buildExtantComponentTreema: ->
+    level = new Level()
     treemaOptions =
       supermodel: @supermodel
-      schema: Level.schema.properties.thangs.items.properties.components
+      schema: level.schema().properties.thangs.items.properties.components
       data: _.cloneDeep @components
       callbacks: {select: @onSelectExtantComponent, change:@onChangeExtantComponents}
       noSortable: true

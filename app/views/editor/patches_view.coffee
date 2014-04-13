@@ -20,19 +20,16 @@ module.exports = class PatchesView extends CocoView
   initPatches: ->
     @startedLoading = false
     @patches = new PatchesCollection([], {}, @model, @status)
-    @listenToOnce @patches, 'sync', @gotPatches
-    @addResourceToLoad @patches, 'patches'
-    
-  gotPatches: ->
+    @patchesRes = @supermodel.addModelResource(@patches, 'patches')
+
     ids = (p.get('creator') for p in @patches.models)
-    jqxhr = nameLoader.loadNames ids
-    if jqxhr then @addRequestToLoad(jqxhr, 'user_names', 'gotPatches') else @render()
+    jqxhrOptions = nameLoader.loadNames ids
+    @nameLoaderRes = @supermodel.addRequestResource('name_loader', jqxhrOptions)
+    @nameLoaderRes.addDependency(@patchesRes)
     
   load: ->
-    return if @startedLoading
-    @patches.fetch()
-    @startedLoading = true
-    
+    @nameLoaderRes.load()
+
   getRenderData: ->
     c = super()
     patch.userName = nameLoader.getName(patch.get('creator')) for patch in @patches.models

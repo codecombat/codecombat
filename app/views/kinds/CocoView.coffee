@@ -119,8 +119,8 @@ module.exports = class CocoView extends Backbone.View
     @$el?.find('.loading-screen .progress-bar').css('width', prog)
 
   onLoaded: ->
-    console.debug 'gintau', 'CocoView-onLoaded()'
-    @render()
+    console.debug 'gintau', 'CocoView-onLoaded()', @
+    @render?()
 
   # Error handling for loading
   onResourceLoadFailed: (source) ->
@@ -133,6 +133,7 @@ module.exports = class CocoView extends Backbone.View
   
   onRetryResource: (e) ->
     res = @supermodel.getResource($(e.target).data('resource-index'))
+    console.debug 'gintau', 'retry-resource', res
     res.load()
     $(e.target).closest('.loading-error-alert').remove()
 

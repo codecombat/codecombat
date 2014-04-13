@@ -21,15 +21,12 @@ module.exports = class SuperModel extends Backbone.Model
 
     resName = url unless resName
     modelRes = @addModelResource(model, url)
-<<<<<<< HEAD
+
     schema = model.schema()
-    schemaRes = @addModelResource(schema, schema.urlRoot)
     @schemas[schema.urlRoot] = schema
-    modelRes.addDependency(schemaRes)
-=======
->>>>>>> feature/loading-views
 
     modelRes.load()
+    return modelRes
 
   # replace or overwrite
   shouldLoadReference: (model) -> true
@@ -46,9 +43,10 @@ module.exports = class SuperModel extends Backbone.Model
     @removeEventsFromModel(model)
 
   removeEventsFromModel: (model) ->
+    # "Request" resource may have no off()
     # "Something" resource may have no model.
-    model?.off 'sync', @modelLoaded, @
-    model?.off 'error', @modelErrored, @
+    model?.off? 'sync', @modelLoaded, @
+    model?.off? 'error', @modelErrored, @
 
   getModel: (ModelClass_or_url, id) ->
     return @getModelByURL(ModelClass_or_url) if _.isString(ModelClass_or_url)
@@ -135,7 +133,6 @@ module.exports = class SuperModel extends Backbone.Model
       res.load()
 
   onResourceLoaded: (r) ->
-    console.debug 'gintau', 'supermodel-onResourceLoaded', r
     @modelLoaded(r.model)
     # Check if the model has references
     if r.constructor.name is 'ModelResource'
@@ -170,7 +167,6 @@ module.exports = class SuperModel extends Backbone.Model
     @num += r.value
     @progress = @num / @denom
 
-    console.debug 'gintau', 'superModel-updateProgress', @progress
     @trigger('superModel:updateProgress', @progress)
     @trigger('loaded-all') if @finished()
 
@@ -274,17 +270,22 @@ class RequestResource extends Resource
   loadDependencies: ->
     promises = []
 
-    for dep in @dependecies
+    for dep in @dependencies
       continue if not dep.isReadyForLoad()
       promises.push(dep.load())
 
     return promises
 
-  onLoadDependenciesSuccess: ->
+  onLoadDependenciesSuccess: =>
     @model = $.ajax(@jqxhrOptions)
-    @model.done(=> @markLoaded()).failed((jqXHR, textStatus, errorThrown) => @markFailed(errorThrown))
+    @model.done(
+      => @markLoaded()
+    ).fail(
+      (jqXHR, textStatus, errorThrown) => 
+        @markFailed(errorThrown)
+    )
 
-  onLoadDependenciesFailed: ->
+  onLoadDependenciesFailed: =>
     @markFailed('Failed to load dependencies.')
 
 

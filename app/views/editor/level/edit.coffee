@@ -20,7 +20,6 @@ ErrorView = require '../../error_view'
 module.exports = class EditorLevelView extends View
   id: "editor-level-view"
   template: template
-  startsLoading: true
   cache: false
 
   events:
@@ -48,13 +47,13 @@ module.exports = class EditorLevelView extends View
 
     @level = new Level _id: @levelID
     @listenToOnce(@level, 'sync', @onLevelLoaded)
-
     @listenToOnce(@supermodel, 'error',
       () =>
         @hideLoading()
         @insertSubView(new ErrorView())
     )
-    @supermodel.populateModel(@level, 'level')
+
+    @levelRes = @supermodel.populateModel(@level, 'level')
 
   showLoading: ($el) ->
     $el ?= @$el.find('.tab-content')
@@ -67,8 +66,7 @@ module.exports = class EditorLevelView extends View
   onAllLoaded: ->
     @level.unset('nextLevel') if _.isString(@level.get('nextLevel'))
     @initWorld()
-    @startsLoading = false
-    @render()  # do it again but without the loading screen
+    # @render()  # do it again but without the loading screen
 
   initWorld: ->
     @world = new World @level.name
@@ -81,7 +79,6 @@ module.exports = class EditorLevelView extends View
     context
 
   afterRender: ->
-    return if @startsLoading
     super()
     new LevelSystem  # temp; trigger the LevelSystem schema to be loaded, if it isn't already
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
