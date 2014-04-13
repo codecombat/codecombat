@@ -21,10 +21,13 @@ module.exports = class SuperModel extends Backbone.Model
 
     resName = url unless resName
     modelRes = @addModelResource(model, url)
+<<<<<<< HEAD
     schema = model.schema()
     schemaRes = @addModelResource(schema, schema.urlRoot)
     @schemas[schema.urlRoot] = schema
     modelRes.addDependency(schemaRes)
+=======
+>>>>>>> feature/loading-views
 
     modelRes.load()
 

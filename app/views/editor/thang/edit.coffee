@@ -61,10 +61,15 @@ module.exports = class ThangTypeEditView extends View
     )
 
     thangRes = @supermodel.addModelResource(@thangType, 'thang_type')
+<<<<<<< HEAD
     thangSchemaRes = @supermodel.addModelResource(@thangType.schema(), 'thang_type_schema')
     thangRes.addDependency(thangSchemaRes)
 
     thangRes.load()
+=======
+    thangRes.load()
+
+>>>>>>> feature/loading-views
     @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
     @listenToOnce(@thangType, 'sync', @onThangTypeSync)
 
