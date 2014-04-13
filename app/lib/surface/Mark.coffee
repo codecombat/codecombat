@@ -115,14 +115,14 @@ module.exports = class Mark extends CocoClass
     #@mark.cache 0, 0, diameter, diameter  # not actually faster than simple ellipse draw
 
   buildRadius: (range) ->
-    alpha = 0.35
+    alpha = 0.15
     colors =
       voiceRange: "rgba(0, 145, 0, #{alpha})"
       visualRange: "rgba(0, 0, 145, #{alpha})"
       attackRange: "rgba(145, 0, 0, #{alpha})"
 
     # Fallback colors which work on both dungeon and grass tiles
-    extracolors = [
+    extraColors = [
       "rgba(145, 0, 145, #{alpha})"
       "rgba(0, 145, 145, #{alpha})"
       "rgba(145, 105, 0, #{alpha})"
@@ -137,10 +137,8 @@ module.exports = class Mark extends CocoClass
 
     @mark = new createjs.Shape()
 
-    if colors[range]?
-      @mark.graphics.beginFill colors[range]
-    else
-      @mark.graphics.beginFill extracolors[i]
+    fillColor = colors[range] ? extraColors[i]
+    @mark.graphics.beginFill fillColor
 
     # Draw the outer circle
     @mark.graphics.drawCircle 0, 0, @sprite.thang[range] * Camera.PPM
@@ -149,13 +147,16 @@ module.exports = class Mark extends CocoClass
     if i+1 < @sprite.ranges.length
       @mark.graphics.arc 0, 0, @sprite.ranges[i+1]['radius'], Math.PI*2, 0, true
 
-    # Add perspective
-    @mark.scaleY *= @camera.y2x
-
-    @mark.graphics.endStroke()
     @mark.graphics.endFill()
 
-    return
+    strokeColor = fillColor.replace '' + alpha, '0.75'
+    @mark.graphics.setStrokeStyle 2
+    @mark.graphics.beginStroke strokeColor
+    @mark.graphics.arc 0, 0, @sprite.thang[range] * Camera.PPM, Math.PI*2, 0, true
+    @mark.graphics.endStroke()
+
+    # Add perspective
+    @mark.scaleY *= @camera.y2x
 
   buildDebug: ->
     @mark = new createjs.Shape()

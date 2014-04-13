@@ -21,7 +21,7 @@ class CocoModel extends Backbone.Model
 
   type: ->
     @constructor.className
-    
+
   clone: (withChanges=true) ->
     # Backbone does not support nested documents
     clone = super()
@@ -207,20 +207,20 @@ class CocoModel extends Backbone.Model
           return true if permission.access in ['owner', 'write']
 
     return false
-    
+
   getDelta: ->
     differ = deltasLib.makeJSONDiffer()
     differ.diff @_revertAttributes, @attributes
-    
+
   applyDelta: (delta) ->
     newAttributes = $.extend(true, {}, @attributes)
     jsondiffpatch.patch newAttributes, delta
     @set newAttributes
-    
+
   getExpandedDelta: ->
     delta = @getDelta()
     deltasLib.expandDelta(delta, @_revertAttributes, @schema())
-    
+
   addPatchToAcceptOnSave: (patch) ->
     @acceptedPatches ?= []
     @acceptedPatches.push patch
