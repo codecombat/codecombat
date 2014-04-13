@@ -20,9 +20,6 @@ module.exports = class ThangComponentEditView extends CocoView
 
   render: =>
     return if @destroyed
-    for model in [Level, LevelComponent]
-      temp = new model()
-      @listenToOnce temp, 'schema-loaded', @render unless model.schema?.loaded
     if not @componentCollection
       @componentCollection = @supermodel.getCollection new ComponentsCollection()
     unless @componentCollection.loaded
@@ -32,7 +29,7 @@ module.exports = class ThangComponentEditView extends CocoView
 
   afterRender: ->
     super()
-    return @showLoading() unless @componentCollection?.loaded and Level.schema.loaded and LevelComponent.schema.loaded
+    return @showLoading() unless @componentCollection?.loaded
     @hideLoading()
     @buildExtantComponentTreema()
     @buildAddComponentTreema()

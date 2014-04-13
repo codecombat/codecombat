@@ -44,37 +44,12 @@ block content
           | tell us a little about yourself, your experience with programming and
           | what sort of things you'd like to write about. We'll go from there!
 
-      if me.attributes.anonymous
-        div#sign-up.alert.alert-info
-          strong(data-i18n="contribute.alert_account_message_intro")
-            | Hey there!
-          span  
-          span(data-i18n="contribute.alert_account_message_pref") 
-            | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
-            | create an account
-          span  
-          span(data-i18n="contribute.alert_account_message_suf")
-            | first.
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="article_editor", data-contributor-class-name="scribe")
 
-      label.checkbox(for="article_editor").well
-        input(type='checkbox', name="article_editor", id="article_editor")
-        span(data-i18n="contribute.scribe_subscribe_desc")
-          | Get emails about article writing announcements.
-        .saved-notification  ✓ Saved
-
-      #Contributors
-        h3(data-i18n="contribute.diligent_scribes")
-          | Our Diligent Scribes:
-        ul.scribes
-          li Ryan Faidley
-          li Glen De Cauwsemaecker
-          li Mischa Lewis-Norelle
-          li Tavio
-          li Ronnie Cheng
-          li engstrom
-          li Dman19993
-          li mattinsler
-          
+      h3(data-i18n="contribute.diligent_scribes")
+        | Our Diligent Scribes:
+      
+      #contributor-list(data-contributor-class-name="scribe")
 
     div.clearfix

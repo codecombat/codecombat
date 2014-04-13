@@ -43,11 +43,7 @@ module.exports = class SettingsView extends View
     @jobProfileView = new JobProfileView()
     @listenTo @jobProfileView, 'change', @save
     @insertSubView @jobProfileView
-
-    if me.schema().loaded
-      @buildPictureTreema()
-    else
-      @listenToOnce me, 'schema-loaded', @buildPictureTreema
+    @buildPictureTreema()
 
   chooseTab: (category) ->
     id = "##{category}-pane"
@@ -85,6 +81,7 @@ module.exports = class SettingsView extends View
     schema = _.cloneDeep me.schema()
     schema.properties = _.pick me.schema().properties, 'photoURL'
     schema.required = ['photoURL']
+    console.log 'have data', data, 'schema', schema
     treemaOptions =
       filePath: "db/user/#{me.id}"
       schema: schema
@@ -92,8 +89,8 @@ module.exports = class SettingsView extends View
       callbacks: {change: @onPictureChanged}
 
     @pictureTreema = @$el.find('#picture-treema').treema treemaOptions
-    @pictureTreema.build()
-    @pictureTreema.open()
+    @pictureTreema?.build()
+    @pictureTreema?.open()
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   onPictureChanged: (e) =>

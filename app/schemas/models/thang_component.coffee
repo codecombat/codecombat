@@ -1,4 +1,4 @@
-c = require './schemas'
+c = require './../schemas'
 
 module.exports = ThangComponentSchema = c.object {
   title: "Component"

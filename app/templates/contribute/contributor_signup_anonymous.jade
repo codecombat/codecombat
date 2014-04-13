@@ -1,0 +1,12 @@
+if me.attributes.anonymous
+  div#sign-up.alert.alert-info
+    strong(data-i18n="contribute.alert_account_message_intro")
+      | Hey there!
+    span  
+    span(data-i18n="contribute.alert_account_message_pref") 
+      | To subscribe for class emails, you'll need to 
+    a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
+      | create an account
+    span  
+    span(data-i18n="contribute.alert_account_message_suf")
+      | first.
