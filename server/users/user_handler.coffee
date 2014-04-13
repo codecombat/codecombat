@@ -103,13 +103,14 @@ UserHandler = class UserHandler extends Handler
 
     # Name setting
     (req, user, callback) ->
-      return callback(null, req, user) unless req.body.name
-      nameLower = req.body.name?.toLowerCase()
-      return callback(null, req, user) if nameLower is user.get('nameLower')
-      User.findOne({nameLower:nameLower}).exec (err, otherUser) ->
+      return callback(null, req, user) unless req.body.name or user.get('name')
+      nameLower = req.body.name?.toLowerCase() or user.get('nameLower')
+      # return callback(null, req, user) if nameLower is user.get('nameLower')
+      User.findOne({nameLower:nameLower,anonymous:false}).exec (err, otherUser) ->
         log.error "Database error setting user name: #{err}" if err
         return callback(res:'Database error.', code:500) if err
         r = {message:'is already used by another account', property:'name'}
+        console.log 'Another user exists' if otherUser
         return callback({res:r, code:409}) if otherUser
         user.set('name', req.body.name)
         callback(null, req, user)
@@ -150,7 +151,7 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
   nameToID: (req, res, name) ->
-    User.findOne({nameLower:name.toLowerCase()}).exec (err, otherUser) ->
+    User.findOne({nameLower:name.toLowerCase(),anonymous:false}).exec (err, otherUser) ->
       res.send(if otherUser then otherUser._id else JSON.stringify(''))
       res.end()
 

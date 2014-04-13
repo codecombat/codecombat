@@ -51,6 +51,7 @@ module.exports = class SignupModalView extends View
     for key, val of me.attributes when key in ["preferredLanguage", "testGroupNumber", "dateCreated", "wizardColor1", "name", "music", "volume", "emailSubscriptions"]
       userObject[key] ?= val
     subscribe = @$el.find('#signup-subscribe').prop('checked')
+    userObject.name ?= me.get('name')
     userObject.emailSubscriptions ?= []
     if subscribe
       userObject.emailSubscriptions.push 'announcement' unless 'announcement' in userObject.emailSubscriptions
