@@ -61,10 +61,10 @@ block content
 
       table.table.table-bordered.table-condensed.table-hover
         tr
-          th(data-i18n="general.name").name-col-cell Name
-          th(data-i18n="general.gamessimulated") Games simulated
-          th(data-i18n="general.gamesplayed") Games played
-          th(data-i18n="general.ratio") Ratio
+          th(data-i18n="general.player").name-col-cell Player
+          th(data-i18n="ladder.games_simulated") Games simulated
+          th(data-i18n="ladder.games_played") Games played
+          th(data-i18n="ladder.ratio") Ratio
         - var topSimulators = simulatorsLeaderboardData.topSimulators.models;
         - var showJustTop = simulatorsLeaderboardData.inTopSimulators() || me.get('anonymous');
         - if(!showJustTop) topSimulators = topSimulators.slice(0, 10);
@@ -81,8 +81,9 @@ block content
             td(colspan=4).ellipsis-row ...
           for user in simulatorsLeaderboardData.nearbySimulators()
             - var myRow = user.id == me.id
+            - var ratio = user.get('simulatedBy') / user.get('simulatedFor');
             tr(class=myRow ? "success" : "")
               td.name-col-cell= user.get('name') || "Anonymous"
               td.simulator-leaderboard-cell= user.get('simulatedBy')
               td.simulator-leaderboard-cell= user.get('simulatedFor')
-              td.simulator-leaderboard-cell= Math.round((user.get('simulatedBy') / user.get('simulatedFor')) * 10) / 10
+              td.simulator-leaderboard-cell= _.isNaN(ratio) || ratio == Infinity ? '' : ratio.toFixed(1)

@@ -64,6 +64,7 @@ module.exports = class LadderView extends RootView
     ctx.levelID = @levelID
     ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
     ctx.simulatorsLeaderboardData = @simulatorsLeaderboardData
+    ctx._ = _
     ctx
 
   afterRender: ->
@@ -127,17 +128,17 @@ module.exports = class LadderView extends RootView
 
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
-    
+
   resimulateAllSessions: ->
     postData =
       originalLevelID: @level.get('original')
       levelMajorVersion: @level.get('version').major
     console.log postData
-    
+
     $.ajax
       url: '/queue/scoring/resimulateAllSessions'
       method: 'POST'
-      data: postData  
+      data: postData
       complete: (jqxhr) ->
         console.log jqxhr.responseText
 
@@ -167,21 +168,22 @@ class SimulatorsLeaderboardData extends CocoClass
   ###
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
-  
+
   constructor: (@me) ->
     super()
     @fetch()
-    
+
   fetch: ->
     @topSimulators = new SimulatorsLeaderboardCollection({order:-1, scoreOffset: -1, limit: 20})
     promises = []
-    promises.push @topSimulators.fetch() 
-    if !@me.get('anonymous')
-      score = @me.get('simulatedBy') or 10
+    promises.push @topSimulators.fetch()
+    unless @me.get('anonymous')
+      score = @me.get('simulatedBy') or 0
       @playersAbove = new SimulatorsLeaderboardCollection({order:1, scoreOffset: score, limit: 4})
       promises.push @playersAbove.fetch()
-      @playersBelow = new SimulatorsLeaderboardCollection({order:-1, scoreOffset: score, limit: 4})
-      promises.push @playersBelow.fetch()
+      if score
+        @playersBelow = new SimulatorsLeaderboardCollection({order:-1, scoreOffset: score, limit: 4})
+        promises.push @playersBelow.fetch()
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise.fail @onFail
@@ -191,7 +193,7 @@ class SimulatorsLeaderboardData extends CocoClass
     return if @destroyed
     @loaded = true
     @trigger 'sync', @
-  
+
   onFail: (resource, jqxhr) =>
     return if @destroyed
     @trigger 'error', @, jqxhr
@@ -206,7 +208,7 @@ class SimulatorsLeaderboardData extends CocoClass
     above.reverse()
     l = l.concat(above)
     l.push @me
-    l = l.concat(@playersBelow.models)
+    l = l.concat(@playersBelow.models) if @playersBelow
     ###
     if @myRank
       startRank = @myRank - 4

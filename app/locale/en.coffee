@@ -392,6 +392,7 @@
     easy: "Easy"
     medium: "Medium"
     hard: "Hard"
+    player: "Player"
 
   about:
     who_is_codecombat: "Who is CodeCombat?"
@@ -596,6 +597,9 @@
     simulate_all: "RESET AND SIMULATE GAMES"
     games_simulated_by: "Games simulated by you:"
     games_simulated_for: "Games simulated for you:"
+    games_simulated: "Games simulated"
+    games_played: "Games played"
+    ratio: "Ratio"
     leaderboard: "Leaderboard"
     battle_as: "Battle as "
     summary_your: "Your "
