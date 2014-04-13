@@ -60,11 +60,9 @@ module.exports = class ThangTypeEditView extends View
         @insertSubView(new ErrorView())
     )
 
-    thang_res = @supermodel.addModelResource(@thangType, 'thang_type')
-    thang_schema_res = @supermodel.addModelResource(@thangType.schema(), 'thang_type_schema')
-    thang_res.addDependency('thang_type_schema')
+    thangRes = @supermodel.addModelResource(@thangType, 'thang_type')
+    thangRes.load()
 
-    thang_res.load()
     @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
     @listenToOnce(@thangType, 'sync', @onThangTypeSync)
 

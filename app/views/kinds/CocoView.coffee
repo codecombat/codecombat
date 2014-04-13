@@ -115,7 +115,7 @@ module.exports = class CocoView extends Backbone.View
       
   updateProgressBar: (progress) =>
     prog = "#{parseInt(progress*100)}%"
-    @$el.find('.loading-screen .progress-bar').css('width', prog)
+    @$el?.find('.loading-screen .progress-bar').css('width', prog)
 
   onLoaded: ->
     #@render()
