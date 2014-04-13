@@ -103,8 +103,8 @@ UserHandler = class UserHandler extends Handler
 
     # Name setting
     (req, user, callback) ->
-      return callback(null, req, user) unless req.body.name or user.get('name')
-      nameLower = req.body.name?.toLowerCase() or user.get('nameLower')
+      return callback(null, req, user) unless req.body.name
+      nameLower = req.body.name?.toLowerCase()
       # return callback(null, req, user) if nameLower is user.get('nameLower')
       User.findOne({nameLower:nameLower,anonymous:false}).exec (err, otherUser) ->
         log.error "Database error setting user name: #{err}" if err
