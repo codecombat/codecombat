@@ -45,7 +45,6 @@ module.exports = class LadderView extends RootView
     @addResourceToLoad(@sessions, 'your_sessions')
     @addResourceToLoad(@level, 'level')
     @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me)
-    @simulatorsLeaderboardData.fetch({})
     @addResourceToLoad(@simulatorsLeaderboardData, 'top_simulators')
     @simulator = new Simulator()
     @listenTo(@simulator, 'statusUpdate', @updateSimulationStatus)
@@ -202,18 +201,12 @@ class SimulatorsLeaderboardData extends CocoClass
     return me.id in (user.id for user in @topSimulators.models)
 
   nearbySimulators: ->
-    #return [] unless @session?.get('totalScore')
     l = []
     above = @playersAbove.models
     above.reverse()
     l = l.concat(above)
     l.push @me
     l = l.concat(@playersBelow.models) if @playersBelow
-    ###
-    if @myRank
-      startRank = @myRank - 4
-      session.rank = startRank + i for session, i in l
-    ###
     l
 
   allResources: ->

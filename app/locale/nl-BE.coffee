@@ -6,6 +6,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    send: "Send"
     cancel: "Annuleren"
     save: "Opslagen"
+#    publish: "Publish"
     create: "Creëer"
     delay_1_sec: "1 seconde"
     delay_3_sec: "3 secondes"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
   versions:
     save_version_title: "Nieuwe versie opslagen"
     new_major_version: "Nieuwe hoofd versie"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "Om bewerkingen op te slaan, moet je eerst akkoord gaan met onze"
     cla_url: "CLA"
     cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Leer programmeren in JavaScript door het spelen van een spel"
@@ -325,7 +324,6 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
     level_some_options: "Enkele opties?"
     level_tab_thangs: "Elementen"
     level_tab_scripts: "Scripts"
@@ -360,7 +358,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     thang_search_title: "Zoek Thang Types Hier"
     level_search_title: "Zoek Levels Hier"
 #    signup_to_create: "Sign Up to Create a New Content"
-    read_only_warning: "Herinnering: Je kunt hier geen aanpassingen opslaan, want je bent niet ingelogd als administrator."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Voorbeeld"
@@ -394,6 +392,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     easy: "Gemakkelijk"
     medium: "Medium"
     hard: "Moeilijk"
+#    player: "Player"
 
   about:
     who_is_codecombat: "Wie is CodeCombat?"
@@ -598,6 +597,9 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     simulate_all: "RESET EN SIMULEER SPELLEN"
     games_simulated_by: "Door jou gesimuleerde spellen:"
     games_simulated_for: "Voor jou gesimuleerde spellen:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
     leaderboard: "Leaderboard"
     battle_as: "Vecht als "
     summary_your: "Jouw "
@@ -662,3 +664,4 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     leaderboard: "Scorebord"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"

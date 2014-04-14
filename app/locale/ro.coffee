@@ -6,6 +6,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    send: "Send"
     cancel: "Anulează"
     save: "Salvează"
+#    publish: "Publish"
     create: "Crează"
     delay_1_sec: "1 secundă"
     delay_3_sec: "3 secunde"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
   versions:
     save_version_title: "Salvează noua versiune"
     new_major_version: "Versiune nouă majoră"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "Pentru a salva modificările mai intâi trebuie sa fiți de acord cu"
     cla_url: "CLA"
     cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     creating: "Se creează contul..."
     sign_up: "Înscrie-te"
     log_in: "loghează-te cu parola"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Învață sa scrii JavaScript jucându-te"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     wizard_tab: "Wizard"
     password_tab: "Parolă"
     emails_tab: "Email-uri"
-#    job_profile_tab: "Job Profile"
     admin: "Admin"
     wizard_color: "Culoare haine pentru Wizard"
     new_password: "Parolă nouă"
@@ -326,7 +324,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
     level_some_options: "Opțiuni?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Script-uri"
@@ -361,7 +358,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     thang_search_title: "Caută tipuri de Thang aici"
     level_search_title: "Caută nivele aici"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Preview"
@@ -395,6 +392,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     easy: "Ușor"
     medium: "Mediu"
     hard: "Greu"
+#    player: "Player"
 
   about:
     who_is_codecombat: "Cine este CodeCombat?"
@@ -599,6 +597,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     simulate_all: "RESETEAZĂ ȘI SIMULEAZĂ JOCURI"
     games_simulated_by: "Jocuri simulate de tine:"
     games_simulated_for: "Jocuri simulate pentru tine:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
     leaderboard: "Clasament"
     battle_as: "Luptă ca "
     summary_your: "Al tău "
@@ -663,3 +664,4 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"

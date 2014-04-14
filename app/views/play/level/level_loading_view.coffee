@@ -44,4 +44,4 @@ module.exports = class LevelLoadingView extends View
 
   onUnveilEnded: =>
     return if @destroyed
-    Backbone.Mediator.publish 'onLoadingViewUnveiled', view: @
+    Backbone.Mediator.publish 'level:loading-view-unveiled', view: @
