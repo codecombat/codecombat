@@ -6,6 +6,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    send: "Send"
     cancel: "Avbryt"
 #    save: "Save"
+#    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1 sekunder"
     delay_3_sec: "3 sekunder"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #  versions:
 #    save_version_title: "Save New Version"
 #    new_major_version: "New Major Version"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
 #    cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     creating: "Oppretter Konto..."
     sign_up: "Registrer deg"
     log_in: "logg inn med passord"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Lær å Kode JavaScript ved å Spille et Spill"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     wizard_tab: "Trollmann"
     password_tab: "Passord"
     emails_tab: "Epost"
-#    job_profile_tab: "Job Profile"
 #    admin: "Admin"
     wizard_color: "Farge på Trollmannens Klær"
     new_password: "Nytt Passord"
@@ -326,7 +324,6 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
 #    level_some_options: "Some Options?"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
@@ -361,7 +358,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
 #  article:
 #    edit_btn_preview: "Preview"
@@ -395,6 +392,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    easy: "Easy"
 #    medium: "Medium"
 #    hard: "Hard"
+#    player: "Player"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
@@ -599,6 +597,9 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
@@ -663,3 +664,4 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"

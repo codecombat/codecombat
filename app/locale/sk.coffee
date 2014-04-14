@@ -6,6 +6,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    send: "Send"
     cancel: "Zruš"
     save: "Ulož"
+#    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1 sekunda"
     delay_3_sec: "3 sekundy"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   versions:
     save_version_title: "Ulož novú verziu"
     new_major_version: "Nová primárna verzia"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "Ak chcete uložiť svoje zmeny, musíte najprv súhlasiť s našou"
 #    cla_url: "CLA"
 #    cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     creating: "Vytvára sa účet..."
     sign_up: "Registruj sa"
     log_in: "prihlás sa pomocou hesla"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Nauč sa programovať v Javascripte pomocou hry"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     wizard_tab: "Kúzelník"
     password_tab: "Heslo"
     emails_tab: "E-maily"
-#    job_profile_tab: "Job Profile"
     admin: "Spravovať"
     wizard_color: "Farba kúzelníckej róby"
     new_password: "Nové heslo"
@@ -326,7 +324,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
 #    level_some_options: "Some Options?"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
@@ -361,7 +358,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
 #  article:
 #    edit_btn_preview: "Preview"
@@ -395,6 +392,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    easy: "Easy"
 #    medium: "Medium"
 #    hard: "Hard"
+#    player: "Player"
 
 #  about:
 #    who_is_codecombat: "Who is CodeCombat?"
@@ -599,6 +597,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
@@ -663,3 +664,4 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"

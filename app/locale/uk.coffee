@@ -6,6 +6,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    send: "Send"
     cancel: "Відміна"
     save: "Зберегти"
+#    publish: "Publish"
     create: "Створити"
     delay_1_sec: "1 секунда"
     delay_3_sec: "3 секунди"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
   versions:
     save_version_title: "Зберегти нову версію"
     new_major_version: "Зберегти основну версію"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "Для збереження змін спочатку треба погодитись з нашим"
     cla_url: "CLA"
     cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     creating: "Створення акаунта..."
     sign_up: "Реєстрація"
     log_in: "вхід з паролем"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Навчіться програмувати на JavaScript, граючи у гру"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
     wizard_tab: "Персонаж"
     password_tab: "Пароль"
     emails_tab: "Email-адреси"
-#    job_profile_tab: "Job Profile"
     admin: "Aдмін"
     wizard_color: "Колір одягу персонажа"
     new_password: "Новий пароль"
@@ -326,7 +324,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
 #    level_some_options: "Some Options?"
     level_tab_thangs: "Об'єкти"
     level_tab_scripts: "Скрипти"
@@ -361,7 +358,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
 #  article:
 #    edit_btn_preview: "Preview"
@@ -395,6 +392,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     easy: "Легкий"
     medium: "Середній"
     hard: "Важкий"
+#    player: "Player"
 
   about:
     who_is_codecombat: "Хто є CodeCombat?"
@@ -599,6 +597,9 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
@@ -663,3 +664,4 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"
