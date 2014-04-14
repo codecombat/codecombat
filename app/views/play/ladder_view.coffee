@@ -183,6 +183,8 @@ class SimulatorsLeaderboardData extends CocoClass
       if score
         @playersBelow = new SimulatorsLeaderboardCollection({order:-1, scoreOffset: score, limit: 4})
         promises.push @playersBelow.fetch()
+      success = (@myRank) =>
+      promises.push $.ajax "/db/user/me/simulator_leaderboard_rank?scoreOffset=#{score}", {success}
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise.fail @onFail
@@ -207,6 +209,9 @@ class SimulatorsLeaderboardData extends CocoClass
     l = l.concat(above)
     l.push @me
     l = l.concat(@playersBelow.models) if @playersBelow
+    if @myRank
+      startRank = @myRank - 4
+      user.rank = startRank + i for user, i in l
     l
 
   allResources: ->
