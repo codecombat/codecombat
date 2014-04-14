@@ -478,7 +478,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
-contribute:
+  contribute:
     page_title: "Співпраця"
     character_classes_title: "Класи персонажів"
     introduction_desc_intro: "Ми покладаємо великі надії на CodeCombat."
@@ -493,7 +493,7 @@ contribute:
     alert_account_message_create_url: "створити акаунт"
     archmage_summary: "Зацікавлений у роботі над ігровою графікою, дизайном інтерфейсу, організацією баз даних та серверу, мультиплеєром, фізокю, звуком або продукційністю ігрового движка? Мрієш допомогти у створенні гри, яка навчить інших того, у чому ви профі? У нас багато роботи, і якщо ти досвідчений програміст і хочеш розробляти CodeCombat, цей клас для тебе. Ми будемо щасливі бачити, як ти створюєш найкращу в світі гру для програмістів. "
 #    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
-     class_attributes: "Ознаки класу"
+    class_attributes: "Ознаки класу"
 #    archmage_attribute_1_pref: "Knowledge in "
 #    archmage_attribute_1_suf: ", or a desire to learn. Most of our code is in this language. If you're a fan of Ruby or Python, you'll feel right at home. It's JavaScript, but with a nicer syntax."
 #    archmage_attribute_2: "Some experience in programming and personal initiative. We'll help you get oriented, but we can't spend much time training you."

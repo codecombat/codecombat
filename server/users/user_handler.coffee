@@ -156,18 +156,24 @@ UserHandler = class UserHandler extends Handler
 
   getSimulatorLeaderboard: (req, res) ->
     @validateSimulateLeaderboardRequestParameters(req)
+    
     query = {}
-    sort = '-simulatedBy'
+    sortOrder = -1
+    limit = if req.query.limit > 30 then 30 else req.query.limit
     if req.query.scoreOffset isnt -1
       simulatedByQuery = {}
       simulatedByQuery[if req.query.order is 1 then "$gt" else "$lte"] = req.query.scoreOffset
       query.simulatedBy = simulatedByQuery
-      sort = 'simulatedBy' if req.query.order is 1
-    User
-      .find(query)
-      .limit(req.query.limit)
-      .sort(sort).select('name simulatedBy simulatedFor').exec (err, otherUsers) ->
+      sortOrder = 1 if req.query.order is 1
+    aggregation = User.aggregate [
+      {$match: query}
+      {$project:{"name":1, "simulatedBy": 1, "simulatedFor":1}}
+      {$sort: {"simulatedBy":sortOrder}}
+      {$limit: limit}
+    ]
+    aggregation.exec (err, otherUsers) ->
         otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
+        otherUsers ?= []
         res.send(otherUsers)
         res.end()
 
