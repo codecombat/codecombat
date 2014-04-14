@@ -206,8 +206,8 @@ generateAndSendTaskPairsToTheQueue = (sessionToRankAgainst,submittedSession, cal
   taskPairs = generateTaskPairs(sessionToRankAgainst, submittedSession)
   sendEachTaskPairToTheQueue taskPairs, (taskPairError) ->
     if taskPairError? then return callback taskPairError
-    console.log "Sent task pairs to the queue!"
-    console.log taskPairs
+    #console.log "Sent task pairs to the queue!"
+    #console.log taskPairs
     callback null, {"message": "All task pairs were succesfully sent to the queue"}
 
 
@@ -306,6 +306,7 @@ getSessionInformation = (sessionIDString, callback) ->
 
 
 module.exports.processTaskResult = (req, res) ->
+  originalSessionID = req.body?.originalSessionID
   async.waterfall [
     verifyClientResponse.bind(@,req.body)
     fetchTaskLog.bind(@)
@@ -323,9 +324,13 @@ module.exports.processTaskResult = (req, res) ->
     addNewSessionsToQueue.bind(@)
   ], (err, results) ->
     if err is "shouldn't continue"
-      sendResponseObject req, res, {"message":"The scores were updated successfully, person lost so no more games are being inserted!"}
+      markSessionAsDoneRanking originalSessionID, (err) ->
+        if err? then return sendResponseObject req, res, {"error":"There was an error marking the session as done ranking"}
+        sendResponseObject req, res, {"message":"The scores were updated successfully, person lost so no more games are being inserted!"}
     else if err is "no session was found"
-      sendResponseObject req, res, {"message":"There were no more games to rank (game is at top)!"}
+      markSessionAsDoneRanking originalSessionID, (err) ->
+        if err? then return sendResponseObject req, res, {"error":"There was an error marking the session as done ranking"}
+        sendResponseObject req, res, {"message":"There were no more games to rank (game is at top)!"}
     else if err?
       errors.serverError res, "There was an error:#{err}"
     else
@@ -333,11 +338,11 @@ module.exports.processTaskResult = (req, res) ->
 
 verifyClientResponse = (responseObject, callback) ->
   #TODO: better verification
-  unless typeof responseObject is "object"
+  if typeof responseObject isnt "object" or responseObject?.originalSessionID?.length isnt 24
     callback "The response to that query is required to be a JSON object."
   else
     @clientResponseObject = responseObject
-    log.info "Verified client response!"
+    #log.info "Verified client response!"
     callback null, responseObject
 
 fetchTaskLog = (responseObject, callback) ->
@@ -347,18 +352,18 @@ fetchTaskLog = (responseObject, callback) ->
   .findOne(findParameters)
   query.exec (err, taskLog) =>
     @taskLog = taskLog
-    log.info "Fetched task log!"
+    #log.info "Fetched task log!"
     callback err, taskLog.toObject()
 
 checkTaskLog = (taskLog, callback) ->
   if taskLog.calculationTimeMS then return callback "That computational task has already been performed"
   if hasTaskTimedOut taskLog.sentDate then return callback "The task has timed out"
-  log.info "Checked task log"
+  #log.info "Checked task log"
   callback null
 
 deleteQueueMessage = (callback) ->
   scoringTaskQueue.deleteMessage @clientResponseObject.receiptHandle, (err) ->
-    log.info "Deleted queue message"
+    #log.info "Deleted queue message"
     callback err
 
 fetchLevelSession = (callback) ->
@@ -369,7 +374,7 @@ fetchLevelSession = (callback) ->
   .lean()
   query.exec (err, session) =>
     @levelSession = session
-    log.info "Fetched level session"
+    #log.info "Fetched level session"
     callback err
 
 
@@ -378,7 +383,7 @@ checkSubmissionDate = (callback) ->
   if Number(supposedSubmissionDate) isnt Number(@levelSession.submitDate)
     callback "The game has been resubmitted. Removing from queue..."
   else
-    log.info "Checked submission date"
+    #log.info "Checked submission date"
     callback null
 
 logTaskComputation = (callback) ->
@@ -387,7 +392,7 @@ logTaskComputation = (callback) ->
   @taskLog.calculationTimeMS = @clientResponseObject.calculationTimeMS
   @taskLog.sessions = @clientResponseObject.sessions
   @taskLog.save (err, saved) ->
-    log.info "Logged task computation"
+    #log.info "Logged task computation"
     callback err
 
 updateSessions = (callback) ->
@@ -403,7 +408,7 @@ updateSessions = (callback) ->
 
 saveNewScoresToDatabase = (newScoreArray, callback) ->
   async.eachSeries newScoreArray, updateScoreInSession, (err) ->
-    log.info "Saved new scores to database"
+    #log.info "Saved new scores to database"
     callback err,newScoreArray
 
 
@@ -421,7 +426,7 @@ updateScoreInSession = (scoreObject,callback) ->
       $push: {scoreHistory: {$each: [scoreHistoryAddition], $slice: -1000}}
 
     LevelSession.update {"_id": scoreObject.id}, updateObject, callback
-    log.info "New total score for session #{scoreObject.id} is #{updateObject.totalScore}"
+    #log.info "New total score for session #{scoreObject.id} is #{updateObject.totalScore}"
 
 indexNewScoreArray = (newScoreArray, callback) ->
   newScoresObject = _.indexBy newScoreArray, 'id'
@@ -440,8 +445,8 @@ addMatchToSessions = (newScoreObject, callback) ->
     matchObject.opponents[sessionID].metrics = {}
     matchObject.opponents[sessionID].metrics.rank = Number(newScoreObject[sessionID].gameRanking)
 
-  log.info "Match object computed, result: #{matchObject}"
-  log.info "Writing match object to database..."
+  #log.info "Match object computed, result: #{matchObject}"
+  #log.info "Writing match object to database..."
   #use bind with async to do the writes
   sessionIDs = _.pluck @clientResponseObject.sessions, 'sessionID'
   async.each sessionIDs, updateMatchesInSession.bind(@,matchObject), (err) -> callback err
@@ -457,7 +462,7 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
 
   sessionUpdateObject =
     $push: {matches: {$each: [currentMatchObject], $slice: -200}}
-  log.info "Updating session #{sessionID}"
+  #log.info "Updating session #{sessionID}"
   LevelSession.update {"_id":sessionID}, sessionUpdateObject, callback
 
 updateUserSimulationCounts = (reqUserID,callback) ->
@@ -493,7 +498,7 @@ determineIfSessionShouldContinueAndUpdateLog = (cb) ->
 
     totalNumberOfGamesPlayed = updatedSession.numberOfWinsAndTies + updatedSession.numberOfLosses
     if totalNumberOfGamesPlayed < 10
-      console.log "Number of games played is less than 10, continuing..."
+      #console.log "Number of games played is less than 10, continuing..."
       cb null
     else
       ratio = (updatedSession.numberOfLosses) / (totalNumberOfGamesPlayed)
@@ -501,7 +506,7 @@ determineIfSessionShouldContinueAndUpdateLog = (cb) ->
         cb "shouldn't continue"
         console.log "Ratio(#{ratio}) is bad, ending simulation"
       else
-        console.log "Ratio(#{ratio}) is good, so continuing simulations"
+        #console.log "Ratio(#{ratio}) is good, so continuing simulations"
         cb null
 
 
@@ -547,11 +552,11 @@ findNearestBetterSessionID = (cb) ->
     .select(selectString)
     .lean()
 
-    console.log "Finding session with score near #{opponentSessionTotalScore}"
+    #console.log "Finding session with score near #{opponentSessionTotalScore}"
     query.exec (err, session) ->
       if err? then return cb err, session
       unless session then return cb "no session was found"
-      console.log "Found session with score #{session.totalScore}"
+      #console.log "Found session with score #{session.totalScore}"
       cb err, session._id
 
 
@@ -587,7 +592,7 @@ generateTaskPairs = (submittedSessions, sessionToScore) ->
     teams = ['ogres','humans']
     opposingTeams = _.pull teams, sessionToScore.team
     if String(session._id) isnt String(sessionToScore._id) and session.team in opposingTeams
-      console.log "Adding game to taskPairs!"
+      #console.log "Adding game to taskPairs!"
       taskPairs.push [sessionToScore._id,String session._id]
   return taskPairs
 
@@ -625,3 +630,9 @@ retrieveOldSessionData = (sessionID, callback) ->
       "totalScore":session.totalScore ? (25 - 1.8*(25/3))
       "id": sessionID
     callback err, oldScoreObject
+    
+markSessionAsDoneRanking = (sessionID, cb) -> 
+  #console.log "Marking session as done ranking..."
+  LevelSession.update {"_id":sessionID}, {"isRanking":false}, cb
+    
+  
