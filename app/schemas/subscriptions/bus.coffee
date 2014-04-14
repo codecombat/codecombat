@@ -9,10 +9,22 @@ module.exports =
         $ref: "bus"
 
   "bus:connected":
-    {} # TODO schema
+    title: "Bus Connected"
+    $schema: "http://json-schema.org/draft-04/schema#"
+    description: "Published when a Bus has connected"
+    type: "object"
+    properties:
+      bus:
+        $ref: "bus"
 
   "bus:disconnected":
-    {} # TODO schema
+    title: "Bus Disconnected"
+    $schema: "http://json-schema.org/draft-04/schema#"
+    description: "Published when a Bus has disconnected"
+    type: "object"
+    properties:
+      bus:
+        $ref: "bus"
 
   "bus:new-message":
     {} # TODO schema
