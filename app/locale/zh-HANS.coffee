@@ -3,7 +3,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     loading: "读取中……"
     saving: "保存中……"
     sending: "发送中……"
-#    send: "Send"
+    send: "发送"
     cancel: "取消"
     save: "保存"
     create: "创建"
@@ -47,9 +47,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   versions:
     save_version_title: "保存新版本"
     new_major_version: "新的重要版本"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
+    update_break_level: "(这个更新会让此关卡既有的过关方法失效吗？)"
+    update_break_component: "(这个更新会让任何依赖于这个组件的东西失效吗？)"
+    update_break_system: "(这个更新会让任何依赖于这个系统的东西失效吗？)"
     cla_prefix: "要想保存更改，您必须先同意我们的"
     cla_url: "贡献者许可协议"
     cla_suffix: "。"
@@ -360,7 +360,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     article_search_title: "在这里搜索物品"
     thang_search_title: "在这里搜索物品类型"
     level_search_title: "在这里搜索关卡"
-#    signup_to_create: "Sign Up to Create a New Content"
+    signup_to_create: "注册之后就可以创建一个新的关卡"
     read_only_warning: "注意: 你无法保存这里的编辑结果, 因为你没有以管理员身份登录."
 
   article:
