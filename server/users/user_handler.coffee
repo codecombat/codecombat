@@ -165,13 +165,11 @@ UserHandler = class UserHandler extends Handler
       simulatedByQuery[if req.query.order is 1 then "$gt" else "$lte"] = req.query.scoreOffset
       query.simulatedBy = simulatedByQuery
       sortOrder = 1 if req.query.order is 1
-    aggregation = User.aggregate [
-      {$match: query}
-      {$project:{"name":1, "simulatedBy": 1, "simulatedFor":1}}
-      {$sort: {"simulatedBy":sortOrder}}
-      {$limit: limit}
-    ]
-    aggregation.exec (err, otherUsers) ->
+    else
+      query.simulatedBy = {"$exists": true}
+      
+    leaderboardQuery = User.find(query).select("name simulatedBy simulatedFor").sort({"simulatedBy":sortOrder}).limit(limit)
+    leaderboardQuery.exec (err, otherUsers) ->
         otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
         otherUsers ?= []
         res.send(otherUsers)

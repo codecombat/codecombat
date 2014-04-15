@@ -51,6 +51,7 @@ module.exports = class TomeView extends View
     'tome:change-language': 'updateLanguageForAllSpells'
     'surface:sprite-selected': 'onSpriteSelected'
     'god:new-world-created': 'onNewWorld'
+    'tome:comment-my-code': 'onCommentMyCode'
 
   events:
     'click #spell-view': 'onSpellViewClick'
@@ -77,6 +78,14 @@ module.exports = class TomeView extends View
     @createSpells programmableThangs, e.world
     @thangList.adjustThangs @spells, thangs
     @spellList.adjustSpells @spells
+
+  onCommentMyCode: (e) ->
+    for spellKey, spell of @spells when spell.canWrite()
+      console.log "Commenting out", spellKey
+      commentedSource = 'return;  // Commented out to stop infinite loop.\n' + spell.getSource()
+      spell.view.updateACEText commentedSource
+      spell.view.recompile false
+    @cast()
 
   createWorker: ->
     return

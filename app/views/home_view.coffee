@@ -20,7 +20,7 @@ module.exports = class HomeView extends View
       majorVersion = $.browser.versionNumber
       c.isOldBrowser = true if $.browser.mozilla && majorVersion < 21
       c.isOldBrowser = true if $.browser.chrome && majorVersion < 17
-      c.isOldBrowser = true if $.browser.safari && majorVersion < 536
+      c.isOldBrowser = true if $.browser.safari && majorVersion < 6
     else
       console.warn 'no more jquery browser version...'
     c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
