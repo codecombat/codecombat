@@ -101,9 +101,13 @@ _.extend LevelSessionSchema.properties,
                 source:
                   type: 'string'
 
-# TODO: specify this more
   code:
     type: 'object'
+    additionalProperties:
+      type: 'object'
+      additionalProperties:
+        type: 'string'
+        format: 'javascript'
 
   teamSpells:
     type: 'object'
@@ -134,6 +138,11 @@ _.extend LevelSessionSchema.properties,
 
   submittedCode:
     type: 'object'
+    additionalProperties:
+      type: 'object'
+      additionalProperties:
+        type: 'string'
+        format: 'javascript'
 
   isRanking:
     type: 'boolean'
