@@ -59,7 +59,7 @@ UserSchema = c.object {},
     lookingFor: {title: 'Looking For', type: 'string', enum: ['Full-time', 'Part-time', 'Remote', 'Contracting', 'Internship'], default: 'Full-time', description: 'What kind of developer position do you want?'}
     jobTitle: {type: 'string', maxLength: 50, title: 'Desired Job Title', description: 'What role are you looking for? Ex.: "Full Stack Engineer", "Front-End Developer", "iOS Developer"', default: 'Software Developer'}
     active: {title: 'Active', type: 'boolean', description: 'Want interview offers right now?'}
-    updated: c.date {title: 'Last Updated', description: 'How fresh your profile appears to employers. The fresher, the better. Profiles go inactive after 30 days.'}
+    updated: c.date {title: 'Last Updated', description: 'How fresh your profile appears to employers. Profiles go inactive after 4 weeks.'}
     name: c.shortString {title: 'Name', description: 'Name you want employers to see, like "Nick Winter".'}
     city: c.shortString {title: 'City', description: 'City you want to work in (or live in now), like "San Francisco" or "Lubbock, TX".', default: 'Defaultsville, CA', format: 'city'}
     country: c.shortString {title: 'Country', description: 'Country you want to work in (or live in now), like "USA" or "France".', default: 'USA', format: 'country'}
@@ -74,6 +74,7 @@ UserSchema = c.object {},
         employer: c.shortString {title: 'Employer', description: 'Name of your employer.'}
         role: c.shortString {title: 'Job Title', description: 'What was your job title or role?'}
         duration: c.shortString {title: 'Duration', description: 'When did you hold this gig? Ex.: "Feb 2013 - present".'}
+        description: {type: 'string', title: 'Description', description: 'What did you do there? (140 chars)', maxLength: 140}
     education: c.array {title: 'Education', description: 'List your academic ordeals.'},
       c.object {title: 'Ordeal', description: 'Some education that befell you.', required: ['school', 'degree', 'duration']},
         school: c.shortString {title: 'School', description: 'Name of your school.'}

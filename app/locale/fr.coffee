@@ -6,6 +6,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    send: "Send"
     cancel: "Annuler"
     save: "Sauvegarder"
+#    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1 seconde"
     delay_3_sec: "3 secondes"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   versions:
     save_version_title: "Enregistrer une nouvelle version"
     new_major_version: "Nouvelle version majeure"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "Pour enregistrer vos modifications vous devez d'abord accepter notre"
     cla_url: "Copyright"
     cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     creating: "Création du compte en cours..."
     sign_up: "S'abonner"
     log_in: "se connecter avec votre mot de passe"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Apprenez à coder en JavaScript tout en jouant"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     wizard_tab: "Magicien"
     password_tab: "Mot de passe"
     emails_tab: "Emails"
-#    job_profile_tab: "Job Profile"
     admin: "Admin"
     wizard_color: "Couleur des vêtements du Magicien"
     new_password: "Nouveau mot de passe"
@@ -326,7 +324,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
     level_some_options: "Quelques options?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Scripts"
@@ -361,7 +358,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     thang_search_title: "Rechercher dans les types Thang"
     level_search_title: "Rechercher dans les niveaux"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Prévisualiser"
@@ -395,6 +392,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     easy: "Facile"
     medium: "Moyen"
     hard: "Difficile"
+#    player: "Player"
 
   about:
     who_is_codecombat: "Qui est CodeCombat?"
@@ -599,6 +597,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     simulate_all: "REINITIALISER ET SIMULER DES PARTIES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
     leaderboard: "Classement"
     battle_as: "Combattre comme "
     summary_your: "Vos "
@@ -663,3 +664,4 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"

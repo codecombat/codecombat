@@ -6,6 +6,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    send: "Send"
     cancel: "取消"
     save: "存檔"
+#    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1 秒"
     delay_3_sec: "3 秒"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #  versions:
 #    save_version_title: "Save New Version"
 #    new_major_version: "New Major Version"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
 #    cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     creating: "帳號建立中..."
     sign_up: "註冊"
     log_in: "登入"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "通過玩遊戲學習Javascript 腳本語言"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     wizard_tab: "巫師"
     password_tab: "密碼"
     emails_tab: "郵件"
-#    job_profile_tab: "Job Profile"
 #    admin: "Admin"
     wizard_color: "巫師 衣服 顏色"
     new_password: "新密碼"
@@ -326,7 +324,6 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
 #    level_some_options: "Some Options?"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
@@ -361,7 +358,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
 #  article:
 #    edit_btn_preview: "Preview"
@@ -395,6 +392,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    easy: "Easy"
 #    medium: "Medium"
 #    hard: "Hard"
+#    player: "Player"
 
   about:
     who_is_codecombat: "什麼是CodeCombat?"
@@ -599,6 +597,9 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
@@ -663,3 +664,4 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"

@@ -1,6 +1,9 @@
 SignupModalView = require 'views/modal/signup_modal'
 View = require 'views/kinds/RootView'
 {me} = require('lib/auth')
+contributorSignupAnonymousTemplate = require 'templates/contribute/contributor_signup_anonymous'
+contributorSignupTemplate = require 'templates/contribute/contributor_signup'
+contributorListTemplate = require 'templates/contribute/contributor_list'
 
 module.exports = class ContributeClassView extends View
   navPrefix: '/contribute'
@@ -16,6 +19,12 @@ module.exports = class ContributeClassView extends View
 
   afterRender: ->
     super()
+    @$el.find('.contributor-signup-anonymous').replaceWith(contributorSignupAnonymousTemplate(me: me))
+    @$el.find('.contributor-signup').each ->
+      context = me: me, contributorClassID: $(@).data('contributor-class-id'), contributorClassName: $(@).data('contributor-class-name')
+      $(@).replaceWith(contributorSignupTemplate(context))
+    @$el.find('#contributor-list').replaceWith(contributorListTemplate(contributors: @contributors, contributorClassName: @contributorClassName))
+
     checkboxes = @$el.find('input[type="checkbox"]').toArray()
     _.forEach checkboxes, (el) ->
       el = $(el)

@@ -3,19 +3,19 @@
 	<global>
 		<native>русский</native>
 		<description>Russian</description>
-		<tips>Before we start the installation, here are some tips:</tips>
-		<exit>Press any key to exit...</exit>
+		<tips>Перед тем, как мы начнём установку, вот несколько советов:</tips>
+		<exit>Нажмите Enter для выхода...</exit>
 	</global>
 	<language>
-		<choosen>You have choosen русский as your language.</choosen>
+		<choosen>Вы выбрали русский в качестве вашего языка.</choosen>
 		<feedback>C данного момента мы будем общаться на русском.</feedback>
 	</language>
 	<license>
-		<s1>In order to continue the installation of the developers environment</s1>
-		<s2>you will have to read and agree with the following license:</s2>
-		<q1>Have you read the license and do you agree with it?</q1>
-		<a1>This setup can't happen without an agreement.</a1>
-		<a2>Installation and Setup of the CodeCombat environment is cancelled.</a2>
+		<s1>Для того, чтобы продолжить установку среды разработчика</s1>
+		<s2>вы должны прочитать и согласиться со следующей лицензией:</s2>
+		<q1>Вы прочитали лицензию и согласны с ней?</q1>
+		<a1>Данная установка не начнётся без согласия.</a1>
+		<a2>Установка и настройка среды CodeCombat отменена.</a2>
 	</license>
 	<install>
 		<system>
@@ -38,7 +38,7 @@
 			<downloading>загружается...</downloading>
 			<installing>устанавливается...</installing>
 			<unzipping>распаковывается...</unzipping>
-			<cleaning>убирается...</cleaning>
+			<cleaning>прибирается...</cleaning>
 			<mongodbpath>Пожалуйста, определите полный путь, куда должен быть установлен MongoDB</mongodbpath>
 		</process>
 	</install>
@@ -53,7 +53,7 @@
 			<question>Вы хотите провести установку Local Git вручную самостоятельно?</question>
 			<consequence>Убедитесь, что вы правильно настроили репозиторий перед выполнением.</consequence>
 			<donotclose>Не закрывайте это окно, пожалуйста.</donotclose>
-			<wait>Когда вы будете готовы, нажмите любую клавишу для продолжения...</wait>
+			<wait>Когда вы будете готовы, нажмите Enter для продолжения...</wait>
 		</skip>
 		<process>
 			<path>Пожалуйста, укажите полный путь до вашего CodeCombat репозитория git: </path>

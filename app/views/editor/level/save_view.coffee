@@ -28,7 +28,7 @@ module.exports = class LevelSaveView extends SaveVersionModal
     context.hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
     @lastContext = context
     context
-    
+
   afterRender: ->
     super()
     changeEls = @$el.find('.changes-stub')
@@ -37,8 +37,11 @@ module.exports = class LevelSaveView extends SaveVersionModal
     models = models.concat @lastContext.modifiedSystems
     for changeEl, i in changeEls
       model = models[i]
-      deltaView = new DeltaView({model:model})
-      @insertSubView(deltaView, $(changeEl))
+      try
+        deltaView = new DeltaView({model:model})
+        @insertSubView(deltaView, $(changeEl))
+      catch e
+        console.error "Couldn't create delta view:", e
 
   shouldSaveEntity: (m) ->
     return true if m.hasLocalChanges()

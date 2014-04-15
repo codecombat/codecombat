@@ -154,6 +154,33 @@ UserHandler = class UserHandler extends Handler
       res.send(if otherUser then otherUser._id else JSON.stringify(''))
       res.end()
 
+  getSimulatorLeaderboard: (req, res) ->
+    @validateSimulateLeaderboardRequestParameters(req)
+    
+    query = {}
+    sortOrder = -1
+    limit = if req.query.limit > 30 then 30 else req.query.limit
+    if req.query.scoreOffset isnt -1
+      simulatedByQuery = {}
+      simulatedByQuery[if req.query.order is 1 then "$gt" else "$lte"] = req.query.scoreOffset
+      query.simulatedBy = simulatedByQuery
+      sortOrder = 1 if req.query.order is 1
+    else
+      query.simulatedBy = {"$exists": true}
+      
+    leaderboardQuery = User.find(query).select("name simulatedBy simulatedFor").sort({"simulatedBy":sortOrder}).limit(limit)
+    leaderboardQuery.exec (err, otherUsers) ->
+        otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
+        otherUsers ?= []
+        res.send(otherUsers)
+        res.end()
+
+
+  validateSimulateLeaderboardRequestParameters: (req) ->
+    req.query.order = parseInt(req.query.order) ? -1
+    req.query.scoreOffset = parseFloat(req.query.scoreOffset) ? 100000
+    req.query.limit = parseInt(req.query.limit) ? 20
+
   post: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'Must have an anonymous user to post with.') unless req.user
@@ -174,6 +201,7 @@ UserHandler = class UserHandler extends Handler
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
+    return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -198,7 +226,10 @@ UserHandler = class UserHandler extends Handler
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
       photoURL = document?.get('photoURL')
-      photoURL ||= @buildGravatarURL document
+      if photoURL
+        photoURL = "/file/#{photoURL}"
+      else
+        photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
       res.redirect photoURL
       res.end()
 
@@ -239,10 +270,11 @@ UserHandler = class UserHandler extends Handler
     obj.jobProfile = _.pick obj.jobProfile, subfields
     obj
 
-  buildGravatarURL: (user) ->
+  buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user
-    defaultAvatar = "http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png"
-    "https://www.gravatar.com/avatar/#{emailHash}?default=#{defaultAvatar}"
+    fallback ?= "http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png"
+    fallback = "http://codecombat.com#{fallback}" unless /^http/.test fallback
+    "https://www.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
 
   buildEmailHash: (user) ->
     # emailHash is used by gravatar

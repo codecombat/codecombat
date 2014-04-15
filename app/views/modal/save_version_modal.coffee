@@ -31,8 +31,11 @@ module.exports = class SaveVersionModal extends ModalView
     super()
     @$el.find(if me.get('signedCLA') then '#accept-cla-wrapper' else '#save-version-button').hide()
     changeEl = @$el.find('.changes-stub')
-    deltaView = new DeltaView({model:@model})
-    @insertSubView(deltaView, changeEl)
+    try
+      deltaView = new DeltaView({model:@model})
+      @insertSubView(deltaView, changeEl)
+    catch e
+      console.error "Couldn't create delta view:", e
     @$el.find('.commit-message input').attr('placeholder', $.i18n.t('general.commit_msg'))
 
   onClickSaveButton: ->
@@ -61,7 +64,7 @@ module.exports = class SaveVersionModal extends ModalView
 
     res.success =>
       @hide()
-    
+
   onClickCLALink: ->
     window.open('/cla', 'cla', 'height=800,width=900')
 

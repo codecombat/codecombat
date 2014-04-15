@@ -21,7 +21,7 @@ module.exports = class Handler
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.user?.isAdmin()
     if @modelClass.schema.uses_coco_permissions
-      return document.hasPermissionsForMethod(req.user, method or req.method)
+      return document.hasPermissionsForMethod?(req.user, method or req.method)
     return true
 
   formatEntity: (req, document) -> document?.toObject()

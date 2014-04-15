@@ -90,8 +90,10 @@ module.exports = class Spell
       problems:
         jshint_W040: {level: "ignore"}
         jshint_W030: {level: "ignore"}  # aether_NoEffect instead
-        jshint_W038: {level: "ignore"} #eliminates hoisting problems
-        jshint_W091: {level: "ignore"} #eliminates more hoisting problems
+        jshint_W038: {level: "ignore"}  # eliminates hoisting problems
+        jshint_W091: {level: "ignore"}  # eliminates more hoisting problems
+        jshint_E043: {level: "ignore"}  # https://github.com/codecombat/codecombat/issues/813 -- since we can't actually tell JSHint to really ignore things
+        jshint_Unknown: {level: "ignore"}  # E043 also triggers Unknown, so ignore that, too
         aether_MissingThis: {level: (if thang.requiresThis then 'error' else 'warning')}
       language: aceConfig.language ? 'javascript'
       functionName: @name

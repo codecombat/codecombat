@@ -54,7 +54,7 @@ expandFlattenedDelta = (delta, left, schema) ->
   if _.isPlainObject(o) and o._t isnt 'a'
     delta.action = 'modified-object'
 
-  if _.isArray(o) and o.length is 3 and o[1] is 0 and o[2] is 3
+  if _.isArray(o) and o.length is 3 and o[2] is 3
     delta.action = 'moved-index'
     delta.destinationIndex = o[1]
     delta.originalIndex = delta.dataPath[delta.dataPath.length-1]
