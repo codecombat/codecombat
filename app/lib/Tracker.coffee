@@ -1,5 +1,7 @@
 {me} = require 'lib/auth'
 
+debugAnalytics = false
+
 module.exports = class Tracker
   constructor: ->
     if window.tracker
@@ -10,7 +12,7 @@ module.exports = class Tracker
     @updateOlark()
 
   identify: (traits) ->
-    #console.log "Would identify", traits
+    console.log "Would identify", traits if debugAnalytics
     return unless me and @isProduction and analytics?
     # https://segment.io/docs/methods/identify
     traits ?= {}
@@ -39,13 +41,13 @@ module.exports = class Tracker
   trackPageView: ->
     return unless @isProduction and analytics?
     url = Backbone.history.getFragment()
-    #console.log "Going to track visit for", "/#{url}"
+    console.log "Going to track visit for", "/#{url}" if debugAnalytics
     analytics.pageview "/#{url}"
 
   trackEvent: (event, properties, includeProviders=null) =>
-    #console.log "Would track analytics event:", event, properties
+    console.log "Would track analytics event:", event, properties if debugAnalytics
     return unless me and @isProduction and analytics?
-    #console.log "Going to track analytics event:", event, properties
+    console.log "Going to track analytics event:", event, properties if debugAnalytics
     properties = properties or {}
     context = {}
     if includeProviders
@@ -54,3 +56,9 @@ module.exports = class Tracker
         context.providers[provider] = true
     event.label = properties.label if properties.label
     analytics?.track event, properties, context
+
+  trackTiming: (duration, category, variable, label, samplePercentage=5) ->
+    # https://developers.google.com/analytics/devguides/collection/gajs/gaTrackingTiming
+    return console.warn "Duration #{duration} invalid for trackTiming call." unless duration >= 0 and duration < 60 * 60 * 1000
+    console.log "Would track timing event:", arguments if debugAnalytics
+    window._gaq?.push ['_trackTiming', category, variable, duration, label, samplePercentage]

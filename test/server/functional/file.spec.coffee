@@ -27,15 +27,6 @@ describe '/file', ->
     dropGridFS ->
       done()
 
-  it 'can\'t be created by ordinary users.', (done) ->
-    func = (err, res, body) ->
-      expect(res.statusCode).toBe(403)
-      expect(body.metadata).toBeUndefined()
-      done()
-
-    loginJoe ->
-      request.post(options, func)
-
   it 'can\'t be created if invalid (property path is required)', (done) ->
     func = (err, res, body) ->
       expect(res.statusCode).toBe(422)

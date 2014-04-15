@@ -5,10 +5,11 @@ template = require 'templates/contribute/artisan'
 module.exports = class ArtisanView extends ContributeClassView
   id: "artisan-view"
   template: template
+  contributorClassName: 'artisan'
 
   contributors: [
     {name: "Sootn", avatar: ""}
-    {name: "Zach Martin", avatar: ""}
+    {name: "Zach Martin", avatar: "", github: "zachster01"}
     {name: "Aftermath", avatar: ""}
     {name: "mcdavid1991", avatar: ""}
     {name: "dwhittaker", avatar: ""}
@@ -19,6 +20,6 @@ module.exports = class ArtisanView extends ContributeClassView
     {name: "Axandre Oge", avatar: "axandre"}
     {name: "Katharine Chan", avatar: "katharine"}
     {name: "Derek Wong", avatar: "derek"}
-    {name: "Alexandru Caciulescu", avatar: ""}
-    {name: "Prabh Simran Singh Baweja", avatar: ""}
+    {name: "Alexandru Caciulescu", avatar: "", github: "Darredevil"}
+    {name: "Prabh Simran Singh Baweja", avatar: "", github: "prabh27"}
   ]

@@ -6,7 +6,7 @@ ThangType = require './ThangType'
 module.exports = class Level extends CocoModel
   @className: "Level"
   urlRoot: "/db/level"
-
+  
   serialize: (supermodel) ->
     o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
 
@@ -26,16 +26,22 @@ module.exports = class Level extends CocoModel
 
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]
+
     visit = (system) ->
       return if system.original of originalsSeen
       systemModel = _.find systemModels, {original: system.original}
-      console.error "Couldn't find model for original", system.original, "from", systemModels unless systemModel
+
+      unless systemModel
+        console.error "Couldn't find model for original", system.original, "from", systemModels
+        return
+
       for d in systemModel.dependencies or []
         system2 = _.find levelSystems, {original: d.original}
         visit system2
       #console.log "sorted systems adding", systemModel.name
       sorted.push {model: systemModel, config: _.cloneDeep system.config}
       originalsSeen[system.original] = true
+
     visit system for system in levelSystems
     sorted
 

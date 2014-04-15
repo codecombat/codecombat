@@ -204,6 +204,14 @@ module.exports = class PlayView extends View
         image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
         description: "Transfer a stack of ogres while preserving their honor. - by Alexandru"
       }
+      {
+        name: 'Find the Spy'
+        difficulty: 2
+        id: 'find-the-spy'
+        image: '/file/db/level/526ae95c1e5cd30000000008/zone_of_danger_icon.png'
+        description: "Identify the spies hidden among your soldiers - by Nathan Gossett"
+      }
+      
       #{
       #  name: 'Enemy Artillery'
       #  difficulty: 1
