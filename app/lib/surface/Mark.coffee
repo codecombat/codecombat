@@ -54,7 +54,7 @@ module.exports = class Mark extends CocoClass
       if @name is 'bounds' then @buildBounds()
       else if @name is 'shadow' then @buildShadow()
       else if @name is 'debug' then @buildDebug()
-      else if @name.match(/.+(Range|Distance)$/) then @buildRadius(@name)
+      else if @name.match(/.+(Range|Distance|Radius)$/) then @buildRadius(@name)
       else if @thangType then @buildSprite()
       else console.error "Don't know how to build mark for", @name
       @mark?.mouseEnabled = false
