@@ -15,7 +15,7 @@ module.exports = class JobProfileView extends CocoView
   afterRender: ->
     super()
     return if @loading()
-    @buildJobProfileTreema()
+    _.defer => @buildJobProfileTreema()  # Not sure why, but the Treemas don't fully build without this if you reload the page.
 
   buildJobProfileTreema: ->
     visibleSettings = @editableSettings.concat @readOnlySettings
