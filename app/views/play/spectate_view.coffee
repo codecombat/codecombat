@@ -208,8 +208,9 @@ module.exports = class SpectateLevelView extends View
     @loadingView?.unveil()
 
   onLoadingViewUnveiled: (e) ->
-    @removeSubView @loadingView
-    @loadingView = null
+    # Don't remove it; we want its decoration around on large screens.
+    #@removeSubView @loadingView
+    #@loadingView = null
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0

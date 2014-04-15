@@ -77,7 +77,7 @@ module.exports = class PlayLevelView extends View
       me.set 'hourOfCode', true
       me.save()
       $('body').append($("<img src='http://code.org/api/hour/begin_codecombat.png' style='visibility: hidden;'>"))
-      window.tracker?.trackEvent 'Hour of Code Begin', {}
+      application.tracker?.trackEvent 'Hour of Code Begin', {}
 
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = @getQueryVariable 'session'
@@ -95,6 +95,7 @@ module.exports = class PlayLevelView extends View
       setTimeout f, 100
     else
       @load()
+      application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID
 
   onLevelLoadError: (e) ->
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
@@ -108,6 +109,7 @@ module.exports = class PlayLevelView extends View
       @load()
 
   load: ->
+    @loadStartTime = new Date()
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
     @listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
     @listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged)
@@ -211,6 +213,11 @@ module.exports = class PlayLevelView extends View
   onLoadingViewUnveiled: (e) ->
     @removeSubView @loadingView
     @loadingView = null
+    unless @isEditorPreview
+      @loadEndTime = new Date()
+      loadDuration = @loadEndTime - @loadStartTime
+      application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration
+      application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
@@ -274,18 +281,25 @@ module.exports = class PlayLevelView extends View
     $('#level-done-button').show()
     @showVictory() if e.showModal
     setTimeout(@preloadNextLevel, 3000)
+    return if @victorySeen
+    @victorySeen = true
+    victoryTime = (new Date()) - @loadEndTime
+    if victoryTime > 10 * 1000   # Don't track it if we're reloading an already-beaten level
+      application.tracker?.trackEvent 'Saw Victory', level: @world.name, label: @world.name
+      application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->
-    options = {level: @level, supermodel: @supermodel, session:@session}
+    options = {level: @level, supermodel: @supermodel, session: @session}
     docs = new VictoryModal(options)
     @openModalView(docs)
-    window.tracker?.trackEvent 'Saw Victory', level: @world.name, label: @world.name
+    if me.get('anonymous')
+      window.nextLevelURL = @getNextLevelID()  # Signup will go here on completion instead of reloading.
 
   onRestartLevel: ->
     @tome.reloadAllCode()
     Backbone.Mediator.publish 'level:restarted'
     $('#level-done-button', @$el).hide()
-    window.tracker?.trackEvent 'Confirmed Restart', level: @world.name, label: @world.name
+    application.tracker?.trackEvent 'Confirmed Restart', level: @world.name, label: @world.name
 
   onNewWorld: (e) ->
     @world = e.world
@@ -293,14 +307,13 @@ module.exports = class PlayLevelView extends View
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
     @openModalView new InfiniteLoopModal()
-    window.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
+    application.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
 
   onPlayNextLevel: ->
-    nextLevel = @getNextLevel()
-    nextLevelID = nextLevel.get('slug') or nextLevel.id
-    url = "/play/level/#{nextLevelID}"
+    nextLevelID = @getNextLevelID()
+    nextLevelURL = @getNextLevelURL()
     Backbone.Mediator.publish 'router:navigate', {
-      route: url,
+      route: nextLevelURL,
       viewClass: PlayLevelView,
       viewArgs: [{supermodel:@supermodel}, nextLevelID]}
 
@@ -308,6 +321,12 @@ module.exports = class PlayLevelView extends View
     nextLevelOriginal = @level.get('nextLevel')?.original
     levels = @supermodel.getModels(Level)
     return l for l in levels when l.get('original') is nextLevelOriginal
+
+  getNextLevelID: ->
+    nextLevel = @getNextLevel()
+    nextLevelID = nextLevel.get('slug') or nextLevel.id
+
+  getNextLevelURL: -> "/play/level/#{@getNextLevelID()}"
 
   onHighlightDom: (e) ->
     if e.delay
@@ -473,5 +492,6 @@ module.exports = class PlayLevelView extends View
     clearInterval(@pointerInterval)
     @bus?.destroy()
     #@instance.save() unless @instance.loading
+    delete window.nextLevelURL
     console.profileEnd?() if PROFILE_ME
     super()

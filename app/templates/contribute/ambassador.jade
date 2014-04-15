@@ -47,29 +47,12 @@ block content
           | solving levels can summon higher level wizards to help them.
           | This will be a great way for ambassadors to do their thing. We'll keep you posted!
 
-      if me.attributes.anonymous
-        div#sign-up.alert.alert-info
-          strong(data-i18n="contribute.alert_account_message_intro")
-            | Hey there!
-          span  
-          span(data-i18n="contribute.alert_account_message_pref") 
-            | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
-            | create an account
-          span  
-          span(data-i18n="contribute.alert_account_message_suf")
-            | first.
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="support", data-contributor-class-name="ambassador")
 
-      label.checkbox(for="support").well
-        input(type='checkbox', name="support", id="support")
-        span(data-i18n="contribute.ambassador_subscribe_desc")
-          | Get emails on support updates and multiplayer developments.
-        .saved-notification  ✓ Saved
-
-      //#Contributors
-      //  h3(data-i18n="contribute.helpful_ambassadors")
-      //    | Our Helpful Ambassadorsd:
-      //  ul.ambassadors
-      //    li 
+      //h3(data-i18n="contribute.helpful_ambassadors")
+      //  | Our Helpful Ambassadorsd:
+      //
+      //#contributor-list
 
     div.clearfix

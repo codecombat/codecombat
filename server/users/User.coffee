@@ -62,7 +62,7 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
     doc.updatedMailChimp = true
     callback?()
 
-  mc.lists.subscribe params, onSuccess, onFailure
+  mc?.lists.subscribe params, onSuccess, onFailure
 
 
 UserSchema.pre('save', (next) ->
