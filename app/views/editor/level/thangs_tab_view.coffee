@@ -179,7 +179,7 @@ module.exports = class ThangsTabView extends View
   destroy: ->
     @selectAddThangType null
     @surface.destroy()
-    $(document).bind 'contextmenu', @preventDefaultContextMenu
+    $(document).unbind 'contextmenu', @preventDefaultContextMenu
     super()
 
   onViewSwitched: (e) ->
