@@ -179,6 +179,7 @@ module.exports = class ThangsTabView extends View
   destroy: ->
     @selectAddThangType null
     @surface.destroy()
+    $(document).bind 'contextmenu', @preventDefaultContextMenu
     super()
 
   onViewSwitched: (e) ->
@@ -426,6 +427,7 @@ module.exports = class ThangsTabView extends View
     @$el.find('.thangs-column').show()
     
   preventDefaultContextMenu: (e) ->
+    return unless $(e.target).closest('#canvas-wrapper').length
     e.preventDefault()
     
   onSpriteContextMenu: (e) ->
