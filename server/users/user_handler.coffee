@@ -156,7 +156,7 @@ UserHandler = class UserHandler extends Handler
 
   getSimulatorLeaderboard: (req, res) ->
     @validateSimulateLeaderboardRequestParameters(req)
-    
+
     query = {}
     sortOrder = -1
     limit = if req.query.limit > 30 then 30 else req.query.limit
@@ -165,13 +165,11 @@ UserHandler = class UserHandler extends Handler
       simulatedByQuery[if req.query.order is 1 then "$gt" else "$lte"] = req.query.scoreOffset
       query.simulatedBy = simulatedByQuery
       sortOrder = 1 if req.query.order is 1
-    aggregation = User.aggregate [
-      {$match: query}
-      {$project:{"name":1, "simulatedBy": 1, "simulatedFor":1}}
-      {$sort: {"simulatedBy":sortOrder}}
-      {$limit: limit}
-    ]
-    aggregation.exec (err, otherUsers) ->
+    else
+      query.simulatedBy = {"$exists": true}
+
+    leaderboardQuery = User.find(query).select("name simulatedBy simulatedFor").sort({"simulatedBy":sortOrder}).limit(limit)
+    leaderboardQuery.exec (err, otherUsers) ->
         otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
         otherUsers ?= []
         res.send(otherUsers)
@@ -250,8 +248,7 @@ UserHandler = class UserHandler extends Handler
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
-    #query = {'jobProfileApproved': true, 'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
-    query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}  # testing
+    query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
     query.jobProfileApproved = true unless req.user.isAdmin()
     selection = 'jobProfile'
     selection += ' email' if authorized
@@ -265,7 +262,6 @@ UserHandler = class UserHandler extends Handler
     fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile']
     obj = _.pick document.toObject(), fields
     obj.photoURL ||= obj.jobProfile.photoURL if authorized
-    obj.photoURL ||= @buildGravatarURL document if authorized
     subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated']
     if authorized
       subfields = subfields.concat ['name']

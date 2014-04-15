@@ -43,7 +43,7 @@ module.exports = class SettingsView extends View
     @jobProfileView = new JobProfileView()
     @listenTo @jobProfileView, 'change', @save
     @insertSubView @jobProfileView
-    @buildPictureTreema()
+    _.defer => @buildPictureTreema()  # Not sure why, but the Treemas don't fully build without this if you reload the page.
 
   chooseTab: (category) ->
     id = "##{category}-pane"
@@ -81,7 +81,6 @@ module.exports = class SettingsView extends View
     schema = _.cloneDeep me.schema()
     schema.properties = _.pick me.schema().properties, 'photoURL'
     schema.required = ['photoURL']
-    console.log 'have data', data, 'schema', schema
     treemaOptions =
       filePath: "db/user/#{me.id}"
       schema: schema
@@ -94,6 +93,7 @@ module.exports = class SettingsView extends View
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   onPictureChanged: (e) =>
+    console.log "on Picture TChoinagaegd"
     @trigger 'change'
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 

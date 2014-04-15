@@ -455,7 +455,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
 
       for property in allProps
-        if m = property.match /.*Range$/
+        if m = property.match /.*(Range|Distance|Radius)$/
           if @thang[m[0]]? and @thang[m[0]] < 9001
             @ranges.push
               name: m[0]

@@ -179,6 +179,7 @@ module.exports = class ThangsTabView extends View
   destroy: ->
     @selectAddThangType null
     @surface.destroy()
+    $(document).unbind 'contextmenu', @preventDefaultContextMenu
     super()
 
   onViewSwitched: (e) ->
@@ -254,6 +255,7 @@ module.exports = class ThangsTabView extends View
 #      @thangsTreema.deselectAll()
 
   selectAddThang: (e) =>
+    return unless $(e.target).closest('.editor-level-thangs-tab-view').length
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
     return true if target.attr('id') is 'surface'
     target = target.closest('.add-thang-palette-icon')
@@ -426,6 +428,7 @@ module.exports = class ThangsTabView extends View
     @$el.find('.thangs-column').show()
     
   preventDefaultContextMenu: (e) ->
+    return unless $(e.target).closest('#canvas-wrapper').length
     e.preventDefault()
     
   onSpriteContextMenu: (e) ->
