@@ -43,17 +43,13 @@ module.exports = class LadderView extends RootView
     levelRes.load()
 
     @sessions = new LevelSessionsCollection(levelID)
-<<<<<<< HEAD
     sessionRes = @supermodel.addModelResource(@sessions, 'level_sessions_collection')
     sessionRes.load()
 
-=======
-    @sessions.fetch({})
-    @addResourceToLoad(@sessions, 'your_sessions')
-    @addResourceToLoad(@level, 'level')
     @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me)
-    @addResourceToLoad(@simulatorsLeaderboardData, 'top_simulators')
->>>>>>> feature/loading-views
+    simulatorsLeaderboardRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators')
+    simulatorsLeaderboardRes.load()
+
     @simulator = new Simulator()
     @listenTo(@simulator, 'statusUpdate', @updateSimulationStatus)
     @teams = []
@@ -76,7 +72,6 @@ module.exports = class LadderView extends RootView
 
   afterRender: ->
     super()
-    console.debug 'gintau', 'ladder_view_finished', @supermodel.finished()
     return unless @supermodel.finished()
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
