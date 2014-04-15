@@ -57,37 +57,12 @@ block content
         span(data-i18n="contribute.join_desc_4")
           | and we'll go from there!
 
-      if me.attributes.anonymous
-        div#sign-up.alert.alert-info
-          strong(data-i18n="contribute.alert_account_message_intro")
-            | Hey there!
-          span  
-          span(data-i18n="contribute.alert_account_message_pref") 
-            | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
-            | create an account
-          span  
-          span(data-i18n="contribute.alert_account_message_suf")
-            | first.
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="developer", data-contributor-class-name="archmage")
 
-      label.checkbox(for="developer").well
-        input(type='checkbox', name="developer", id="developer")
-        span(data-i18n="contribute.archmage_subscribe_desc")
-          | Get emails on new coding opportunities and announcements.
-        .saved-notification  ✓ Saved
+      h3(data-i18n="contribute.powerful_archmages")
+        | Our Powerful Archmages:
 
-      #Contributors
-        h3(data-i18n="contribute.powerful_archmages")
-          | Our Powerful Archmages:
-        .row
-          for contributor in contributors
-            .col-xs-6.col-md-3
-              .thumbnail
-                if contributor.avatar
-                  img.img-responsive(src="/images/pages/contribute/archmage/" + contributor.avatar + "_small.png", alt="")
-                else
-                  img.img-responsive(src="/images/pages/contribute/archmage.png", alt="")
-                .caption
-                  h4= contributor.name
+      #contributor-list
 
     div.clearfix

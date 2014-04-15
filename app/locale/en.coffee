@@ -291,6 +291,9 @@
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
+    infinite_loop_try_again: "Try Again"
+    infinite_loop_reset_level: "Reset Level"
+    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Admin Views"
@@ -392,6 +395,7 @@
     easy: "Easy"
     medium: "Medium"
     hard: "Hard"
+    player: "Player"
 
   about:
     who_is_codecombat: "Who is CodeCombat?"
@@ -596,6 +600,9 @@
     simulate_all: "RESET AND SIMULATE GAMES"
     games_simulated_by: "Games simulated by you:"
     games_simulated_for: "Games simulated for you:"
+    games_simulated: "Games simulated"
+    games_played: "Games played"
+    ratio: "Ratio"
     leaderboard: "Leaderboard"
     battle_as: "Battle as "
     summary_your: "Your "

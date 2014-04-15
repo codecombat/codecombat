@@ -5,3 +5,4 @@ template = require 'templates/contribute/diplomat'
 module.exports = class DiplomatView extends ContributeClassView
   id: "diplomat-view"
   template: template
+  contributorClassName: 'diplomat'

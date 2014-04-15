@@ -5,3 +5,4 @@ template = require 'templates/contribute/ambassador'
 module.exports = class AmbassadorView extends ContributeClassView
   id: "ambassador-view"
   template: template
+  contributorClassName: 'ambassador'

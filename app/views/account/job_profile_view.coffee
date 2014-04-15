@@ -10,9 +10,7 @@ module.exports = class JobProfileView extends CocoView
     'lookingFor', 'active', 'name', 'city', 'country', 'skills', 'experience', 'shortDescription', 'longDescription',
     'work', 'education', 'visa', 'projects', 'links', 'jobTitle', 'photoURL'
   ]
-  readOnlySettings: [
-    'updated'
-  ]
+  readOnlySettings: []  #['updated']
 
   afterRender: ->
     super()
