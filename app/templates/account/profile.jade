@@ -13,7 +13,7 @@ block content
         button.btn.edit-settings-button#toggle-job-profile-approved
           i.icon-cog
           span(data-i18n='account_profile.approved').approved Approved
-          span(data-i18n='account_profile.approved').not-approved Not Approved
+          span(data-i18n='account_profile.not_approved').not-approved Not Approved
   
   if user.get('jobProfile')
     - var profile = user.get('jobProfile');
@@ -64,11 +64,13 @@ block content
               div.duration.pull-right= job.duration
               | #{job.role} at #{job.employer}
               .clearfix
+              if job.description
+                div!= marked(job.description)
 
           if profile.education.length
             h3.experience-header
               img.header-icon(src="/images/pages/account/profile/education.png", alt="")
-              span(data-i18n="account_profile.work_experience") Education
+              span(data-i18n="account_profile.education") Education
             each school in profile.education
               div.duration.pull-right= school.duration
               | #{school.degree} at #{school.school}
