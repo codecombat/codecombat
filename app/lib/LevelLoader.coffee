@@ -104,7 +104,7 @@ module.exports = class LevelLoader extends CocoClass
 
   onSupermodelLoadedOne: (e) ->
     @buildSpriteSheetsForThangType e.model if not @headless and e.model instanceof ThangType
-    @update()
+    @update() unless @destroyed
 
   # Things to do when either the Session or Supermodel load
 
@@ -160,7 +160,7 @@ module.exports = class LevelLoader extends CocoClass
   buildSpriteSheetsForThangType: (thangType) ->
     @grabThangTypeTeams() unless @thangTypeTeams
     for team in @thangTypeTeams[thangType.get('original')] ? [null]
-      spriteOptions = {resolutionFactor: 4, async: true}
+      spriteOptions = {resolutionFactor: 4, async: false}
       if thangType.get('kind') is 'Floor'
         spriteOptions.resolutionFactor = 2
       if team and color = @teamConfigs[team]?.color
@@ -174,10 +174,14 @@ module.exports = class LevelLoader extends CocoClass
     return unless building
     #console.log 'Building:', thangType.get('name'), options
     @spriteSheetsToBuild += 1
-    thangType.once 'build-complete', =>
+    onBuildComplete = =>
       return if @destroyed
       @spriteSheetsBuilt += 1
       @notifyProgress()
+    if options.async
+      thangType.once 'build-complete', onBuildComplete
+    else
+      onBuildComplete()
 
   # World init
 
