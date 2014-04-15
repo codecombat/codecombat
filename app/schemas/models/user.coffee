@@ -80,7 +80,7 @@ UserSchema = c.object {},
         school: c.shortString {title: 'School', description: 'Name of your school.'}
         degree: c.shortString {title: 'Degree', description: 'What was your degree and field of study? Ex. Ph.D. Human-Computer Interaction (incomplete)'}
         duration: c.shortString {title: 'Dates', description: 'When? Ex.: "Aug 2004 - May 2008".'}
-    projects: c.array {title: 'Projects', description: 'Highlight your projects to amaze employers.'},
+    projects: c.array {title: 'Projects', description: 'Highlight your projects to amaze employers.', maxItems: 3},
       c.object {title: 'Project', description: 'A project you created.', required: ['name', 'description', 'picture'], default: {name: 'My Project', description: 'A project I worked on.', link: 'http://example.com', picture: ''}},
         name: c.shortString {title: 'Project Name', description: 'What was the project called?', default: 'My Project'}
         description: {type: 'string', title: 'Description', description: 'Briefly describe the project.', maxLength: 400, default: 'A project I worked on.', format: 'markdown'}
