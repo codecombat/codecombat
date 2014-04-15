@@ -95,7 +95,7 @@ module.exports = class Handler
     # this handler should be overwritten by subclasses
     if @modelClass.schema.is_patchable
       return @getPatchesFor(req, res, args[0]) if req.route.method is 'get' and args[1] is 'patches'
-      return @setListening(req, res, args[0]) if req.route.method is 'put' and args[1] is 'listen'
+      return @setWatching(req, res, args[0]) if req.route.method is 'put' and args[1] is 'watch'
     return @sendNotFoundError(res)
 
   getPatchesFor: (req, res, id) ->
@@ -105,16 +105,19 @@ module.exports = class Handler
       patches = (patch.toObject() for patch in patches) 
       @sendSuccess(res, patches)
 
-  setListening: (req, res, id) ->
+  setWatching: (req, res, id) ->
     @getDocumentForIdOrSlug id, (err, document) =>
       return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, document, 'get')
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
-      listeners = document.get('listeners') or []
+      watchers = document.get('watchers') or []
       me = req.user.get('_id')
-      listeners = (l for l in listeners when not l.equals(me))
-      listeners.push me if req.body.on
-      document.set 'listeners', listeners
+      console.log 'watchers?', me, watchers
+      watchers = (l for l in watchers when not l.equals(me))
+      console.log 'new watchers is', watchers, req.body.on, req.body
+      watchers.push me if req.body.on and req.body.on isnt 'false'
+      console.log 'watchers is actually now', watchers
+      document.set 'watchers', watchers
       document.save (err, document) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, @formatEntity(req, document))

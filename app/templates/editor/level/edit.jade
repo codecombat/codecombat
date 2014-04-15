@@ -27,10 +27,21 @@ block outer_content
             li
               a(href="#editor-level-systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
             li
-              a(href="#editor-level-patches", data-toggle="tab", data-i18n="resources.patches")#patches-tab Patches
-
+              a(href="#editor-level-patches", data-toggle="tab")#patches-tab
+                span(data-i18n="resources.patches").spr Patches
+                - var patches = level.get('patches')
+                - patches = [1,2,3,3,4,5,6]
+                if patches && patches.length
+                  span.badge= patches.length
 
           ul.nav.navbar-nav.navbar-right
+            li#watch-button.btn.btn-primary.navbar-btn
+              span.watch
+                span.spr Watch
+                span.glyphicon.glyphicon-eye-open
+              span.unwatch.secret
+                span.spr Unwatch
+                span.glyphicon.glyphicon-eye-close
             li(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert", disabled=authorized === true ? undefined : "true").btn.btn-primary.navbar-btn#revert-button Revert
             if authorized
               li(data-i18n="common.save").btn.btn-primary.navbar-btn#commit-level-start-button Save

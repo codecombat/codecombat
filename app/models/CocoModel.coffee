@@ -225,5 +225,11 @@ class CocoModel extends Backbone.Model
     @acceptedPatches ?= []
     @acceptedPatches.push patch
     @acceptedPatches = _.uniq(@acceptedPatches, false, (p) -> p.id)
+    
+  watch: (doWatch=true) ->
+    $.ajax("#{@urlRoot}/#{@id}/watch", {type:'PUT', data:{on:doWatch}})
+    
+  watching: ->
+    return me.id in @get('watchers') or []
 
 module.exports = CocoModel

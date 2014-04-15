@@ -15,6 +15,8 @@
     fork: "Fork"
     play: "Play"
     retry: "Retry"
+    watch: "Watch"
+    unwatch: "Unwatch"
 
   units:
     second: "second"

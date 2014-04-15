@@ -30,6 +30,7 @@ module.exports = class EditorLevelView extends View
     'click #history-button': 'showVersionHistory'
     'click #patches-tab': -> @patchesView.load()
     'click #commit-level-patch-button': 'startPatchingLevel'
+    'click #watch-button': 'toggleWatchLevel'
 
   constructor: (options, @levelID) ->
     super options
@@ -125,3 +126,8 @@ module.exports = class EditorLevelView extends View
     versionHistoryView = new VersionHistoryView level:@level, @levelID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
+
+  toggleWatchLevel: ->
+    button = @$el.find('#watch-button')
+    @level.watch(button.find('.watch').is(':visible'))
+    button.find('> span').toggleClass('secret')
