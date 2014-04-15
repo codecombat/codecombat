@@ -64,6 +64,8 @@ block content
               div.duration.pull-right= job.duration
               | #{job.role} at #{job.employer}
               .clearfix
+              if job.description
+                div!= marked(job.description)
 
           if profile.education.length
             h3.experience-header
