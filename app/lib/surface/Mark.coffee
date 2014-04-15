@@ -93,6 +93,7 @@ module.exports = class Mark extends CocoClass
     @lastHeight = @sprite.thang.height
 
   buildShadow: ->
+    alpha = @sprite.thang?.alpha ? 1
     width = (@sprite.thang?.width ? 0) + 0.5
     height = (@sprite.thang?.height ? 0) + 0.5
     longest = Math.max width, height
@@ -103,7 +104,7 @@ module.exports = class Mark extends CocoClass
     height *= Camera.PPM * @camera.y2x  # TODO: doesn't work with rotation
     @mark = new createjs.Shape()
     @mark.mouseEnabled = false
-    @mark.graphics.beginFill "black"
+    @mark.graphics.beginFill "rgba(0, 0, 0, #{alpha})"
     if @sprite.thang.shape in ['ellipsoid', 'disc']
       @mark.graphics.drawEllipse 0, 0, width, height
     else
