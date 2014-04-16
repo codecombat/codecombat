@@ -113,15 +113,18 @@ class CocoView extends Backbone.View
     @listenToOnce modelOrCollection, 'sync', @updateProgress
     @listenTo modelOrCollection, 'error', @onResourceLoadFailed
     @updateProgress()
+    @loaded = false
 
   addRequestToLoad: (jqxhr, name, retryFunc, value=1) ->
     @loadProgress.requests.push {request:jqxhr, value:value, name: name, retryFunc: retryFunc}
     jqxhr.done @updateProgress
     jqxhr.fail @onRequestLoadFailed
+    @loaded = false
 
   addSomethingToLoad: (name, value=1) ->
     @loadProgress.somethings.push {loaded: false, name: name, value: value}
     @updateProgress()
+    @loaded = false
 
   somethingLoaded: (name) ->
     r = _.find @loadProgress.somethings, {name: name}
@@ -145,9 +148,9 @@ class CocoView extends Backbone.View
     console.debug 'Loaded', r.name if arguments[0] and r = _.find @loadProgress.somethings, {name:arguments[0]}
 
     denom = 0
-    denom += r.value for r in @loadProgress.resources
+    denom += r.value for r in @loadProgress.resources when not r.resource.destroyed
     denom += r.value for r in @loadProgress.requests
-    denom += r.value for r in @loadProgress.somethings
+    denom += r.value for r in @loadProgress.somethings when not r.destroyed
     num = @loadProgress.num
     num += r.value for r in @loadProgress.resources when r.resource.loaded
     num += r.value for r in @loadProgress.requests when r.request.status

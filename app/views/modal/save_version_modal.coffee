@@ -18,7 +18,6 @@ module.exports = class SaveVersionModal extends ModalView
   constructor: (options) ->
     super options
     @model = options.model or options.level
-    new Patch() # hack to get the schema to load, delete this later
     @isPatch = not @model.hasWriteAccess()
 
   getRenderData: ->
