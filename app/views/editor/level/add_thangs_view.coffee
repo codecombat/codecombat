@@ -22,13 +22,10 @@ module.exports = class AddThangsView extends View
   constructor: (options) ->
     super options
     @world = options.world
+    
     @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @listenToOnce(@thangTypes, 'sync', @onThangTypesLoaded)
-    @thangTypes.fetch()
-
-  onThangTypesLoaded: ->
-    return if @destroyed
-    @render()  # do it again but without the loading screen
+    @thangTypesRes = @supermodel.addModelResource(@thangTypes, 'add_thang_type_search_collection')
+    @thangTypesRes.load()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -59,7 +56,6 @@ module.exports = class AddThangsView extends View
     context
 
   afterRender: ->
-    return if @startsLoading
     super()
 
   runSearch: (e) =>

@@ -1,5 +1,12 @@
 module.exports = class SuperModel extends Backbone.Model
   constructor: ->
+    @num = 0
+    @denom = 0
+    @showing = false
+    @progress = 0
+    @resources = {}
+    @rid = 0
+
     @models = {}
     @collections = {}
     @schemas = {}
@@ -8,14 +15,17 @@ module.exports = class SuperModel extends Backbone.Model
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
 
-    url = model.url()
-    @models[url] = model unless @models[url]?
+    @addModel(model)
     @modelLoaded(model) if model.loaded
 
-    resName = url unless resName
-    modelRes = @addModelResource(model, url)
+    resName = model.url unless resName
+    modelRes = @addModelResource(model, model.url)
+
+    schema = model.schema()
+    @schemas[schema.urlRoot] = schema
 
     modelRes.load()
+    return modelRes
 
   # replace or overwrite
   shouldLoadReference: (model) -> true
@@ -32,8 +42,10 @@ module.exports = class SuperModel extends Backbone.Model
     @removeEventsFromModel(model)
 
   removeEventsFromModel: (model) ->
-    model.off 'sync', @modelLoaded, @
-    model.off 'error', @modelErrored, @
+    # "Request" resource may have no off()
+    # "Something" resource may have no model.
+    model?.off? 'sync', @modelLoaded, @
+    model?.off? 'error', @modelErrored, @
 
   getModel: (ModelClass_or_url, id) ->
     return @getModelByURL(ModelClass_or_url) if _.isString(ModelClass_or_url)
@@ -55,9 +67,7 @@ module.exports = class SuperModel extends Backbone.Model
     return _.values @models
 
   addModel: (model) ->
-    url = model.url()
-    return console.warn "Tried to add Model '#{url}' to SuperModel, but it wasn't loaded." unless model.loaded
-    #return console.warn "Tried to add Model '#{url}' to SuperModel when we already had it." if @models[url]?
+    url = model.url
     @models[url] = model
 
   getCollection: (collection) ->
@@ -82,44 +92,44 @@ module.exports = class SuperModel extends Backbone.Model
     collection
 
   finished: ->
-    return ResourceManager.progress is 1.0 or Object.keys(ResourceManager.resources).length is 0
+    return @progress is 1.0 or Object.keys(@resources).length is 0
 
-
-  addModelResource: (modelOrCollection, name, fetchOptions, value=1)->
+  addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
     @checkName(name)
+    @addModel(modelOrCollection)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)
-    @storeResource(name, res, value)
+    @storeResource(res, value)
     return res
 
-  addRequestResource: (name, jqxhrOptions, value=1)->
+  addRequestResource: (name, jqxhrOptions, value=1) ->
     @checkName(name)
     res = new RequestResource(name, jqxhrOptions, value)
-    @storeResource(name, res, value)
+    @storeResource(res, value)
     return res
 
-  addSomethingResource: (name, value=1)->
+  addSomethingResource: (name, value=1) ->
     @checkName(name)
     res = new SomethingResource(name, value)
-    @storeResource(name, res, value)
+    @storeResource(res, value)
     return res
 
-  checkName: (name)->
+  checkName: (name) ->
     if not name
       throw new Error('Resource name should not be empty.')
-    if name in ResourceManager.resources
-      throw new Error('Resource name has been used.')
 
-  storeResource: (name, resource, value)->
-    ResourceManager.resources[name] = resource
+  storeResource: (resource, value) ->
+    @rid++
+    resource.rid = @rid
+    @resources[@rid] = resource
     @listenToOnce(resource, 'resource:loaded', @onResourceLoaded)
     @listenToOnce(resource, 'resource:failed', @onResourceFailed)
-    ResourceManager.denom += value
+    @denom += value
 
-  loadResources: ()->
-    for name, res of ResourceManager.resources
+  loadResources: ->
+    for rid, res of @resources
       res.load()
 
-  onResourceLoaded: (r)=> 
+  onResourceLoaded: (r) ->
     @modelLoaded(r.model)
     # Check if the model has references
     if r.constructor.name is 'ModelResource'
@@ -129,10 +139,11 @@ module.exports = class SuperModel extends Backbone.Model
     else
       @updateProgress(r)
 
-  onResourceFailed: (r)=>
-    @modelErrored(r.model)
+  onResourceFailed: (source) ->
+    @trigger('resource:failed', source)
+    @modelErrored(source.resource.model)
 
-  addModelRefencesToLoad: (model)->
+  addModelRefencesToLoad: (model) ->
     schema = model.schema?()
     return unless schema
 
@@ -149,57 +160,48 @@ module.exports = class SuperModel extends Backbone.Model
       res = @addModelResource(ref, refURL)
       res.load()
 
-  updateProgress: (r)=>     
-    ResourceManager.num += r.value
-    ResourceManager.progress = ResourceManager.num / ResourceManager.denom
+  updateProgress: (r) =>     
+    @num += r.value
+    @progress = @num / @denom
 
-    @trigger('superModel:updateProgress', ResourceManager.progress)
-    @trigger 'loaded-all' if @finished()
+    @trigger('superModel:updateProgress', @progress)
+    @trigger('loaded-all') if @finished()
 
-  getResource: (name)->
-    return ResourceManager.resources[name]
+  getResource: (rid)->
+    return @resources[rid]
 
-  getProgress: ()-> return ResourceManager.progress
+  getProgress: -> return @progress
 
-# Both SuperModel and Resource access this class.
-# Set resources as static so no need to load resources multiple times when more than one view is used.
-class ResourceManager
-  @num = 0
-  @denom = 0
-  @showing = false
-  @progress = 0
-  @resources: {}
-
+ 
 class Resource extends Backbone.Model
-  constructor: (name, value=1)->
+  constructor: (name, value=1) ->
     @name = name
     @value = value
     @dependencies = []
+    @rid = -1 # Used for checking state and reloading
     @isLoading = false
     @isLoaded = false
     @model = null
     @loadDeferred = null
     @value = 1
 
-  addDependency: (name)->
-    depRes = ResourceManager.resources[name]
-    throw new Error('Resource not found') unless depRes
-    return if (depRes.isLoaded or name is @name)
-    @dependencies.push(name)
+  addDependency: (depRes) ->
+    return if depRes.isLoaded
+    @dependencies.push(depRes)
 
-  markLoaded: ()->
+  markLoaded: ->
     @trigger('resource:loaded', @) if not @isLoaded
     @isLoaded = true
     @isLoading = false
 
-  markFailed: ()->
-    @trigger('resource:failed', @) if not @isLoaded
+  markFailed: (error) ->
+    @trigger('resource:failed', {resource: @, error: error}) if not @isLoaded
     @isLoaded = false
     @isLoading = false
 
-  load: ()->
-  isReadyForLoad: ()-> return not (@isloaded and @isLoading)
-  getModel: ()-> @model
+  load: ->
+  isReadyForLoad: -> return not (@isloaded and @isLoading)
+  getModel: -> @model
 
 class ModelResource extends Resource
   constructor: (modelOrCollection, name, fetchOptions, value)->
@@ -207,28 +209,27 @@ class ModelResource extends Resource
     @model = modelOrCollection
     @fetchOptions = fetchOptions
 
-  load: ()->
+  load: ->
     return @loadDeferred.promise() if @isLoading or @isLoaded
 
     @isLoading = true
     @loadDeferred = $.Deferred()
     $.when.apply($, @loadDependencies())
       .then(@onLoadDependenciesSuccess, @onLoadDependenciesFailed)
-      .always(()=> @isLoading = false)
+      .always(=> @isLoading = false)
 
     return @loadDeferred.promise()
 
-  loadDependencies: ()->
+  loadDependencies: ->
     promises = []
 
-    for resName in @dependencies
-      dep = ResourceManager.resources[resName]
+    for dep in @dependencies
       continue if not dep.isReadyForLoad()
       promises.push(dep.load())
 
     return promises
 
-  onLoadDependenciesSuccess: ()=>
+  onLoadDependenciesSuccess: =>
     @model.fetch(@fetchOptions)
 
     @listenToOnce(@model, 'sync', ->
@@ -237,23 +238,23 @@ class ModelResource extends Resource
     )
 
     @listenToOnce(@model, 'error', ->
-      @markFailed()
+      @markFailed('Failed to load resource.')
       @loadDeferred.reject(@)
     )
 
-  onLoadDependenciesFailed: ()=>
-    @markFailed()
+  onLoadDependenciesFailed: =>
+    @markFailed('Failed to load dependencies.')
     @loadDeferred.reject(@)
 
 
 class RequestResource extends Resource
-  constructor: (name, jqxhrOptions, value)->
+  constructor: (name, jqxhrOptions, value) ->
     super(name, value)
     @model = $.ajax(jqxhrOptions)
     @jqxhrOptions = jqxhrOptions
     @loadDeferred = @model
 
-  load: ()->
+  load: ->
     return @loadDeferred.promise() if @isLoading or @isLoaded
 
     @isLoading = true
@@ -263,36 +264,41 @@ class RequestResource extends Resource
 
     return @loadDeferred.promise()
 
-  loadDependencies: ()->
+  loadDependencies: ->
     promises = []
-    for depName in @dependecies
-      dep = ResourceManager.resources[depName]
+
+    for dep in @dependencies
       continue if not dep.isReadyForLoad()
       promises.push(dep.load())
 
     return promises
 
-  onLoadDependenciesSuccess: ()->
+  onLoadDependenciesSuccess: =>
     @model = $.ajax(@jqxhrOptions)
-    @model.done(()=> @markLoaded()).failed(()=> @markFailed())
+    @model.done(
+      => @markLoaded()
+    ).fail(
+      (jqXHR, textStatus, errorThrown) => 
+        @markFailed(errorThrown)
+    )
 
-  onLoadDependenciesFailed: ()->
-    @markFailed()
+  onLoadDependenciesFailed: =>
+    @markFailed('Failed to load dependencies.')
 
 
 class SomethingResource extends Resource
-  constructor: (name, value)->
+  constructor: (name, value) ->
     super(value)
     @name = name
     @loadDeferred = $.Deferred()
 
-  load: ()->
+  load: ->
     return @loadDeferred.promise()
 
-  markLoaded: ()->
+  markLoaded: ->
     @loadDeferred.resolve()
     super()
 
-  markFailed: ()->
+  markFailed: (error) ->
     @loadDeferred.reject()
-    super()
+    super(error)

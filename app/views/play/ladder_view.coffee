@@ -37,11 +37,13 @@ module.exports = class LadderView extends RootView
   constructor: (options, @levelID) ->
     super(options)
     @level = new Level(_id:@levelID)
-    @level.fetch()
+    levelRes = @supermodel.addModelResource(@level, 'level')
+    levelRes.load()
+
     @sessions = new LevelSessionsCollection(levelID)
-    @sessions.fetch({})
-    @addResourceToLoad(@sessions, 'your_sessions')
-    @addResourceToLoad(@level, 'level')
+    sessionRes = @supermodel.addModelResource(@sessions, 'level_sessions_collection')
+    sessionRes.load()
+
     @simulator = new Simulator()
     @listenTo(@simulator, 'statusUpdate', @updateSimulationStatus)
     @teams = []
@@ -62,7 +64,7 @@ module.exports = class LadderView extends RootView
 
   afterRender: ->
     super()
-    return if @loading()
+    return unless @supermodel.finished()
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
     @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), 10 * 1000)
@@ -71,7 +73,7 @@ module.exports = class LadderView extends RootView
       @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
-    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime) or @loading()
+    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime) or not @supermodel.finished()
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>

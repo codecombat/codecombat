@@ -393,6 +393,7 @@
     medium: "Medium"
     hard: "Hard"
 
+
   about:
     who_is_codecombat: "Who is CodeCombat?"
     why_codecombat: "Why CodeCombat?"
@@ -660,4 +661,9 @@
     leaderboard: "Leaderboard"
     user_schema: "User Schema"
     user_profile: "User Profile"
-    patches: "Patches"
+    level_session: "LevelSession"
+    level_sessions_collection: 'LevelSessionsCollection'
+    opponent_session: "OpponentSession"
+    simulator: 'Simulator'
+    level_document: 'Level Document'
+    thang_document: 'Thang Document'
