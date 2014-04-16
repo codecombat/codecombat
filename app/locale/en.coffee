@@ -670,3 +670,4 @@
     user_schema: "User Schema"
     user_profile: "User Profile"
     patches: "Patches"
+    model: "Model"

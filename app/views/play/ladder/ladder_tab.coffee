@@ -3,8 +3,10 @@ CocoClass = require 'lib/CocoClass'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
+User = require 'models/User'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
+ModelModal = require 'views/modal/model_modal'
 
 HIGHEST_SCORE = 1000000
 
@@ -23,6 +25,8 @@ module.exports = class LadderTabView extends CocoView
   events:
     'click .connect-facebook': 'onConnectFacebook'
     'click .connect-google-plus': 'onConnectGPlus'
+    'click .name-col-cell': 'onClickPlayerName'
+    'click .load-more-ladder-entries': 'onLoadMoreLadderEntries'
 
   subscriptions:
     'fbapi-loaded': 'checkFriends'
@@ -134,7 +138,8 @@ module.exports = class LadderTabView extends CocoView
     for team in @teams
       @leaderboards[team.id]?.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
-      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession)
+      @ladderLimit ?= parseInt @getQueryVariable('top_players', 20)
+      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit)
 
       @addResourceToLoad @leaderboards[team.id], 'leaderboard', 3
 
@@ -245,17 +250,30 @@ module.exports = class LadderTabView extends CocoView
     sessions.reverse()
     sessions
 
+  # Admin view of players' code
+  onClickPlayerName: (e) ->
+    return unless me.isAdmin()
+    row = $(e.target).parent()
+    player = new User _id: row.data 'player-id'
+    session = new LevelSession _id: row.data 'session-id'
+    @openModalView new ModelModal models: [session, player]
+
+  onLoadMoreLadderEntries: (e) ->
+    @ladderLimit ?= 100
+    @ladderLimit += 100
+    @refreshLadder()
+
 class LeaderboardData extends CocoClass
   ###
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@level, @team, @session) ->
+  constructor: (@level, @team, @session, @limit) ->
     super()
     @fetch()
 
   fetch: ->
-    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: 20})
+    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})
     promises = []
     promises.push @topPlayers.fetch()
 

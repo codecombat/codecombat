@@ -78,7 +78,7 @@ module.exports = class SettingsView extends View
   buildPictureTreema: ->
     data = photoURL: me.get('photoURL')
     data.photoURL = null if data.photoURL?.search('gravatar') isnt -1  # Old style
-    schema = _.cloneDeep me.schema()
+    schema = $.extend true, {}, me.schema()
     schema.properties = _.pick me.schema().properties, 'photoURL'
     schema.required = ['photoURL']
     treemaOptions =
@@ -93,7 +93,6 @@ module.exports = class SettingsView extends View
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   onPictureChanged: (e) =>
-    console.log "on Picture TChoinagaegd"
     @trigger 'change'
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
