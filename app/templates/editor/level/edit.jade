@@ -2,82 +2,90 @@ extends /templates/base
 
 block outer_content
   .outer-content
-
-    nav.navbar.navbar-default(role='navigation')#level-editor-top-nav
-      .container-fluid
-        ul.nav.navbar-nav
-          li
-            a(href="/editor/level", data-i18n="editor.back") Back
-        .navbar-header
-          span.navbar-brand
-            span(data-i18n="editor.level_title") Level Editor
-            span : 
-            span.level-title #{level.attributes.name}
-        .collapse.navbar-collapse
-          ul.nav.navbar-nav.nav-tabs
-
-            li.active
-              a(href="#editor-level-thangs-tab-view", data-toggle="tab", data-i18n="editor.level_tab_thangs") Thangs
+    
+    if level.loading
+      nav.navbar.navbar-default(role='navigation')#level-editor-top-nav
+        .container-fluid
+          ul.nav.navbar-nav
             li
-              a(href="#editor-level-scripts-tab-view", data-toggle="tab", data-i18n="editor.level_tab_scripts") Scripts
+              a(href="/editor/level", data-i18n="editor.back") Back
+    
+    else
+      nav.navbar.navbar-default(role='navigation')#level-editor-top-nav
+        .container-fluid
+          ul.nav.navbar-nav
             li
-              a(href="#editor-level-settings-tab-view", data-toggle="tab", data-i18n="editor.level_tab_settings") Settings
-            li
-              a(href="#editor-level-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components") Components
-            li
-              a(href="#editor-level-systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
-            li
-              a(href="#editor-level-patches", data-toggle="tab")#patches-tab
-                span(data-i18n="resources.patches").spr Patches
-                - var patches = level.get('patches')
-                if patches && patches.length
-                  span.badge= patches.length
-
-          ul.nav.navbar-nav.navbar-right
-            li#watch-button.btn.btn-primary.navbar-btn
-              span.watch
-                span.spr Watch
-                span.glyphicon.glyphicon-eye-open
-              span.unwatch.secret
-                span.spr Unwatch
-                span.glyphicon.glyphicon-eye-close
-            li(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert", disabled=anonymous ? "true": undefined).btn.btn-primary.navbar-btn#revert-button Revert
-            if authorized
-              li(data-i18n="common.save").btn.btn-primary.navbar-btn#commit-level-start-button Save
-            else
-              li(data-i18n="common.patch").btn.btn-primary.navbar-btn#commit-level-patch-button Patch
-            li(data-i18n="common.fork", disabled=anonymous ? "true": undefined).btn.btn-primary.navbar-btn#fork-level-start-button Fork
-            li(title="⌃↩ or ⌘↩: Play preview of current level", data-i18n="common.play")#play-button.btn.btn-inverse.banner.navbar-btn Play!
-
-            li.divider
-
-            li.dropdown
-              a.dropdown-toggle(href='#', data-toggle='dropdown', data-i18n="editor.more")
-                | More
-                b.caret
-              ul.dropdown-menu
-                li#history-button
-                  a(href='#', data-i18n="general.version_history") Version History
-                li
-                  a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', data-i18n="editor.wiki") Wiki
-                li
-                  a(href='http://www.hipchat.com/g3plnOKqa', data-i18n="editor.live_chat") Live Chat
-                li
-                  a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum") Forum
-                li
-                  a(data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Email
-
-          
-      
-          ul.dropdown-menu
-            li
-              span(data-i18n="editor.level_some_options").dropdown-menu-header Some Options?
-            li.divider
-            li
-              a(data-delay="1000", href="#", data-i18n="common.delay_1_sec") 1 second
-              a(data-delay="3000", href="#", data-i18n="common.delay_3_sec") 3 seconds
-              a(data-delay="5000", href="#", data-i18n="common.delay_5_sec") 5 seconds
-              a(data-delay="90019001", href="#", data-i18n="common.manual") Manual
+              a(href="/editor/level", data-i18n="editor.back") Back
+          .navbar-header
+            span.navbar-brand
+              span(data-i18n="editor.level_title") Level Editor
+              span : 
+              span.level-title #{level.attributes.name}
+          .collapse.navbar-collapse
+            ul.nav.navbar-nav.nav-tabs
+  
+              li.active
+                a(href="#editor-level-thangs-tab-view", data-toggle="tab", data-i18n="editor.level_tab_thangs") Thangs
+              li
+                a(href="#editor-level-scripts-tab-view", data-toggle="tab", data-i18n="editor.level_tab_scripts") Scripts
+              li
+                a(href="#editor-level-settings-tab-view", data-toggle="tab", data-i18n="editor.level_tab_settings") Settings
+              li
+                a(href="#editor-level-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components") Components
+              li
+                a(href="#editor-level-systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
+              li
+                a(href="#editor-level-patches", data-toggle="tab")#patches-tab
+                  span(data-i18n="resources.patches").spr Patches
+                  - var patches = level.get('patches')
+                  if patches && patches.length
+                    span.badge= patches.length
+  
+            ul.nav.navbar-nav.navbar-right
+              li#watch-button.btn.btn-primary.navbar-btn
+                span.watch
+                  span.spr Watch
+                  span.glyphicon.glyphicon-eye-open
+                span.unwatch.secret
+                  span.spr Unwatch
+                  span.glyphicon.glyphicon-eye-close
+              li(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert", disabled=anonymous ? "true": undefined).btn.btn-primary.navbar-btn#revert-button Revert
+              if authorized
+                li(data-i18n="common.save").btn.btn-primary.navbar-btn#commit-level-start-button Save
+              else
+                li(data-i18n="common.patch").btn.btn-primary.navbar-btn#commit-level-patch-button Patch
+              li(data-i18n="common.fork", disabled=anonymous ? "true": undefined).btn.btn-primary.navbar-btn#fork-level-start-button Fork
+              li(title="⌃↩ or ⌘↩: Play preview of current level", data-i18n="common.play")#play-button.btn.btn-inverse.banner.navbar-btn Play!
+  
+              li.divider
+  
+              li.dropdown
+                a.dropdown-toggle(href='#', data-toggle='dropdown', data-i18n="editor.more")
+                  | More
+                  b.caret
+                ul.dropdown-menu
+                  li#history-button
+                    a(href='#', data-i18n="general.version_history") Version History
+                  li
+                    a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', data-i18n="editor.wiki") Wiki
+                  li
+                    a(href='http://www.hipchat.com/g3plnOKqa', data-i18n="editor.live_chat") Live Chat
+                  li
+                    a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum") Forum
+                  li
+                    a(data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Email
+  
+            
+        
+            ul.dropdown-menu
+              li
+                span(data-i18n="editor.level_some_options").dropdown-menu-header Some Options?
+              li.divider
+              li
+                a(data-delay="1000", href="#", data-i18n="common.delay_1_sec") 1 second
+                a(data-delay="3000", href="#", data-i18n="common.delay_3_sec") 3 seconds
+                a(data-delay="5000", href="#", data-i18n="common.delay_5_sec") 5 seconds
+                a(data-delay="90019001", href="#", data-i18n="common.manual") Manual
   
     div.tab-content#level-editor-tabs
       div.tab-pane.active#editor-level-thangs-tab-view

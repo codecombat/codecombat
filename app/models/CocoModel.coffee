@@ -229,8 +229,9 @@ class CocoModel extends Backbone.Model
     
   watch: (doWatch=true) ->
     $.ajax("#{@urlRoot}/#{@id}/watch", {type:'PUT', data:{on:doWatch}})
+    @watching = -> doWatch
     
   watching: ->
-    return me.id in @get('watchers') or []
+    return me.id in (@get('watchers') or [])
 
 module.exports = CocoModel

@@ -94,6 +94,7 @@ module.exports = class EditorLevelView extends View
     Backbone.Mediator.publish 'level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
+    @$el.find('#watch-button').find('> span').toggleClass('secret') if @level.watching()
 
   onPlayLevel: (e) ->
     sendLevel = =>

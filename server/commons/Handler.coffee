@@ -112,11 +112,8 @@ module.exports = class Handler
       return @sendNotFoundError(res) unless document?
       watchers = document.get('watchers') or []
       me = req.user.get('_id')
-      console.log 'watchers?', me, watchers
       watchers = (l for l in watchers when not l.equals(me))
-      console.log 'new watchers is', watchers, req.body.on, req.body
       watchers.push me if req.body.on and req.body.on isnt 'false'
-      console.log 'watchers is actually now', watchers
       document.set 'watchers', watchers
       document.save (err, document) =>
         return @sendDatabaseError(res, err) if err
