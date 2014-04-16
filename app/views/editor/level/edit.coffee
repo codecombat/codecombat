@@ -56,7 +56,6 @@ module.exports = class EditorLevelView extends View
 
     @levelRes = @supermodel.addModelResource(@level, 'level')
     @listenToOnce(@levelRes, 'resource:loaded', ->
-      console.debug 'gintau', 'init-world'
       @world = new World @level.name
       @worldRes.markLoaded()
     )

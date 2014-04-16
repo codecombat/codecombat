@@ -84,7 +84,6 @@ module.exports = class CocoView extends Backbone.View
   render: ->
     return @ unless me
     super()
-    console.debug 'gintau', 'CocoView-Render', @
     return @template if _.isString(@template)
     @$el.html @template(@getRenderData())
 
@@ -120,7 +119,6 @@ module.exports = class CocoView extends Backbone.View
     @$el?.find('.loading-screen .progress-bar').css('width', prog)
 
   onLoaded: ->
-    console.debug 'gintau', 'CocoView-onLoaded()', @
     @render?()
 
   # Error handling for loading

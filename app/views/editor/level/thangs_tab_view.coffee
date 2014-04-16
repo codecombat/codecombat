@@ -140,7 +140,6 @@ module.exports = class ThangsTabView extends View
     e.preventDefault()
 
   onLevelLoaded: (e) ->
-    console.debug 'gintau', 'thangs-tab-view', 'onLevelLoaded'
     @level = e.level
 
     data = $.extend(true, {}, @level.attributes)

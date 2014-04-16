@@ -32,7 +32,6 @@ module.exports = class ThangComponentEditView extends CocoView
   onComponentsSync: (res) ->
     return if @destroyed
     @supermodel.addCollection @componentCollection
-    @hideLoading()
 
   buildExtantComponentTreema: ->
     level = new Level()

@@ -64,7 +64,6 @@ module.exports = class LadderView extends RootView
 
   afterRender: ->
     super()
-    console.debug 'gintau', 'ladder_view_finished', @supermodel.finished()
     return unless @supermodel.finished()
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))

@@ -164,7 +164,6 @@ module.exports = class SuperModel extends Backbone.Model
     @num += r.value
     @progress = @num / @denom
 
-    console.debug 'gintau', 'super-progress' , @progress, @num, @denom
     @trigger('superModel:updateProgress', @progress)
     @trigger('loaded-all') if @finished()
 
@@ -232,11 +231,6 @@ class ModelResource extends Resource
 
   onLoadDependenciesSuccess: =>
     @model.fetch(@fetchOptions)
-
-    # Hack: some components seem cannot be downloaded, 
-    # so we need to complete fetching manually after a while if no error occurs.
-    if @model.constructor.className is 'ComponentsCollection'
-      setTimeout((=> @markLoaded() if @isLoading), 5000)
 
     @listenToOnce(@model, 'sync', ->
       @markLoaded()
