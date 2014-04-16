@@ -7,10 +7,10 @@ class NameLoader extends CocoClass
     toLoad = (id for id in ids when not namesCache[id])
     return false unless toLoad.length
     jqxhrOptions = {
-    	url: '/db/user/x/names', 
-    	type:'POST', 
-    	data:{ids:toLoad}, 
-    	success: @loadedNames
+      url: '/db/user/x/names', 
+      type:'POST', 
+      data:{ids:toLoad}, 
+      success: @loadedNames
     }
 
     return jqxhrOptions

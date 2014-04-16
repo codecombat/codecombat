@@ -50,8 +50,8 @@ module.exports = class EditorLevelView extends View
     @level = new Level _id: @levelID
     #@listenToOnce(@level, 'sync', @onLevelLoaded)
     @listenToOnce(@supermodel, 'error', =>
-        @hideLoading()
-        @insertSubView(new ErrorView())
+      @hideLoading()
+      @insertSubView(new ErrorView())
     )
 
     @levelRes = @supermodel.addModelResource(@level, 'level')
