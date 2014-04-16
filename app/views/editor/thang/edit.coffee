@@ -61,19 +61,12 @@ module.exports = class ThangTypeEditView extends View
     )
 
     thangRes = @supermodel.addModelResource(@thangType, 'thang_type')
+    @files = new DocumentFiles(@thangType)
+    thangDocRes = @supermodel.addModelResource(@files, 'thang_document')
+    thangRes.addDependency(thangDocRes)
     thangRes.load()
 
-    @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
-    @listenToOnce(@thangType, 'sync', @onThangTypeSync)
-
     @refreshAnimation = _.debounce @refreshAnimation, 500
-
-  onThangTypeSync: ->
-    return unless @thangType.loaded
-    @startsLoading = false
-    @files = new DocumentFiles(@thangType)
-    @supermodel.addModelResource(@files, @files.url).load()
-    @render()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -90,7 +83,6 @@ module.exports = class ThangTypeEditView extends View
 
   afterRender: ->
     super()
-    return unless @thangType.loaded
     @initStage()
     @buildTreema()
     @initSliders()

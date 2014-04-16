@@ -50,6 +50,7 @@ module.exports = class LevelThangEditView extends View
     input.val(thangTypeName)
     @$el.find('#thang-type-link span').text(thangTypeName)
     window.input = input
+    @hideLoading()
 
   saveThang: (e) ->
     # Make sure it validates first?

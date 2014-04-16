@@ -20,7 +20,6 @@ ErrorView = require '../../error_view'
 module.exports = class EditorLevelView extends View
   id: "editor-level-view"
   template: template
-  startsLoading: true
   cache: false
 
   events:
@@ -28,7 +27,7 @@ module.exports = class EditorLevelView extends View
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
     'click #history-button': 'showVersionHistory'
-    'click #patches-tab': -> @patchesView.load()
+    'click #patches-tab': -> @patchesView?.load()
     'click #commit-level-patch-button': 'startPatchingLevel'
 
   constructor: (options, @levelID) ->
@@ -46,32 +45,28 @@ module.exports = class EditorLevelView extends View
     @supermodel.shouldSaveBackups = (model) ->
       model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
 
-    @level = new Level _id: @levelID
-    @listenToOnce(@level, 'sync', @onLevelLoaded)
+    @worldRes = @supermodel.addSomethingResource('world')
 
-    @listenToOnce(@supermodel, 'error',
-      () =>
+    @level = new Level _id: @levelID
+    #@listenToOnce(@level, 'sync', @onLevelLoaded)
+    @listenToOnce(@supermodel, 'error', =>
         @hideLoading()
         @insertSubView(new ErrorView())
     )
-    @supermodel.populateModel(@level, 'level')
+
+    @levelRes = @supermodel.addModelResource(@level, 'level')
+    @listenToOnce(@levelRes, 'resource:loaded', ->
+      @world = new World @level.name
+      @worldRes.markLoaded()
+    )
+    @levelRes.load()
+
+    @files = new DocumentFiles(@level)
+    @supermodel.addModelResource(@files, 'level_document').load()   
 
   showLoading: ($el) ->
     $el ?= @$el.find('.tab-content')
     super($el)
-
-  onLevelLoaded: ->
-    @files = new DocumentFiles(@level)
-    @supermodel.addModelResource(@files, @files.url).load()
-
-  onAllLoaded: ->
-    @level.unset('nextLevel') if _.isString(@level.get('nextLevel'))
-    @initWorld()
-    @startsLoading = false
-    @render()  # do it again but without the loading screen
-
-  initWorld: ->
-    @world = new World @level.name
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -81,9 +76,9 @@ module.exports = class EditorLevelView extends View
     context
 
   afterRender: ->
-    return if @startsLoading
     super()
-    new LevelSystem  # temp; trigger the LevelSystem schema to be loaded, if it isn't already
+    return unless @world and @level
+    console.debug 'gintau', 'edit-afterRender'
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'level:view-switched', e
     @thangsTab = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel

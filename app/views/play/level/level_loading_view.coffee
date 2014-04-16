@@ -23,7 +23,7 @@ module.exports = class LevelLoadingView extends View
     @updateProgressBar()
 
   updateProgressBar: ->
-    @$el.find('.progress-bar').css('width', (100 * @progress) + '%')
+    @$el?.find('.progress-bar').css('width', (100 * @progress) + '%')
 
   showReady: ->
     ready = $.i18n.t('play_level.loading_ready', defaultValue: 'Ready!')

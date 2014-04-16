@@ -10,8 +10,6 @@ application = require 'application'
 LadderTabView = require './ladder/ladder_tab'
 MyMatchesTabView = require './ladder/my_matches_tab'
 LadderPlayModal = require './ladder/play_modal'
-SimulatorsLeaderboardCollection = require 'collections/SimulatorsLeaderboardCollection'
-CocoClass = require 'lib/CocoClass'
 
 HIGHEST_SCORE = 1000000
 
@@ -39,13 +37,13 @@ module.exports = class LadderView extends RootView
   constructor: (options, @levelID) ->
     super(options)
     @level = new Level(_id:@levelID)
-    @level.fetch()
+    levelRes = @supermodel.addModelResource(@level, 'level')
+    levelRes.load()
+
     @sessions = new LevelSessionsCollection(levelID)
-    @sessions.fetch({})
-    @addResourceToLoad(@sessions, 'your_sessions')
-    @addResourceToLoad(@level, 'level')
-    @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me)
-    @addResourceToLoad(@simulatorsLeaderboardData, 'top_simulators')
+    sessionRes = @supermodel.addModelResource(@sessions, 'level_sessions_collection')
+    sessionRes.load()
+
     @simulator = new Simulator()
     @listenTo(@simulator, 'statusUpdate', @updateSimulationStatus)
     @teams = []
@@ -62,13 +60,11 @@ module.exports = class LadderView extends RootView
     ctx.teams = @teams
     ctx.levelID = @levelID
     ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
-    ctx.simulatorsLeaderboardData = @simulatorsLeaderboardData
-    ctx._ = _
     ctx
 
   afterRender: ->
     super()
-    return if @loading()
+    return unless @supermodel.finished()
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
     @refreshInterval = setInterval(@fetchSessionsAndRefreshViews.bind(@), 10 * 1000)
@@ -77,7 +73,7 @@ module.exports = class LadderView extends RootView
       @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
-    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime) or @loading()
+    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime) or not @supermodel.finished()
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>
@@ -127,17 +123,17 @@ module.exports = class LadderView extends RootView
 
   onClickPlayButton: (e) ->
     @showPlayModal($(e.target).closest('.play-button').data('team'))
-
+    
   resimulateAllSessions: ->
     postData =
       originalLevelID: @level.get('original')
       levelMajorVersion: @level.get('version').major
     console.log postData
-
+    
     $.ajax
       url: '/queue/scoring/resimulateAllSessions'
       method: 'POST'
-      data: postData
+      data: postData  
       complete: (jqxhr) ->
         console.log jqxhr.responseText
 
@@ -162,53 +158,3 @@ module.exports = class LadderView extends RootView
     clearInterval @refreshInterval
     @simulator.destroy()
     super()
-
-class SimulatorsLeaderboardData extends CocoClass
-  ###
-  Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
-  ###
-
-  constructor: (@me) ->
-    super()
-    @fetch()
-
-  fetch: ->
-    @topSimulators = new SimulatorsLeaderboardCollection({order:-1, scoreOffset: -1, limit: 20})
-    promises = []
-    promises.push @topSimulators.fetch()
-    unless @me.get('anonymous')
-      score = @me.get('simulatedBy') or 0
-      @playersAbove = new SimulatorsLeaderboardCollection({order:1, scoreOffset: score, limit: 4})
-      promises.push @playersAbove.fetch()
-      if score
-        @playersBelow = new SimulatorsLeaderboardCollection({order:-1, scoreOffset: score, limit: 4})
-        promises.push @playersBelow.fetch()
-    @promise = $.when(promises...)
-    @promise.then @onLoad
-    @promise.fail @onFail
-    @promise
-
-  onLoad: =>
-    return if @destroyed
-    @loaded = true
-    @trigger 'sync', @
-
-  onFail: (resource, jqxhr) =>
-    return if @destroyed
-    @trigger 'error', @, jqxhr
-
-  inTopSimulators: ->
-    return me.id in (user.id for user in @topSimulators.models)
-
-  nearbySimulators: ->
-    l = []
-    above = @playersAbove.models
-    above.reverse()
-    l = l.concat(above)
-    l.push @me
-    l = l.concat(@playersBelow.models) if @playersBelow
-    l
-
-  allResources: ->
-    resources = [@topSimulators, @playersAbove, @playersBelow]
-    return (r for r in resources when r)

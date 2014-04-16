@@ -22,6 +22,7 @@ module.exports = class SettingsTabView extends View
     super options
     @world = options.world
 
+  onLoaded: ->
   onLevelLoaded: (e) ->
     @level = e.level
     data = _.pick @level.attributes, (value, key) => key in @editableSettings
