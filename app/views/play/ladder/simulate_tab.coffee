@@ -116,8 +116,8 @@ class SimulatorsLeaderboardData extends CocoClass
   nearbySimulators: ->
     l = []
     above = @playersAbove.models
-    above.reverse()
     l = l.concat(above)
+    l.reverse()
     l.push @me
     l = l.concat(@playersBelow.models) if @playersBelow
     if @myRank
