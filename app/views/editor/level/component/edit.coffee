@@ -2,6 +2,8 @@ View = require 'views/kinds/CocoView'
 VersionHistoryView = require 'views/editor/component/versions_view'
 template = require 'templates/editor/level/component/edit'
 LevelComponent = require 'models/LevelComponent'
+PatchesView = require 'views/editor/patches_view'
+SaveVersionModal = require 'views/modal/save_version_modal'
 
 module.exports = class LevelComponentEditView extends View
   id: "editor-level-component-edit-view"
@@ -12,6 +14,8 @@ module.exports = class LevelComponentEditView extends View
     'click #done-editing-component-button': 'endEditing'
     'click #history-button': 'showVersionHistory'
     'click .nav a': (e) -> $(e.target).tab('show')
+    'click #component-patches-tab': -> @patchesView.load()
+    'click #patch-component-button': 'startPatchingComponent'
 
   constructor: (options) ->
     super options
@@ -21,6 +25,7 @@ module.exports = class LevelComponentEditView extends View
   getRenderData: (context={}) ->
     context = super(context)
     context.editTitle = "#{@levelComponent.get('system')}.#{@levelComponent.get('name')}"
+    context.component = @levelComponent
     context
 
   afterRender: ->
@@ -28,6 +33,7 @@ module.exports = class LevelComponentEditView extends View
     @buildSettingsTreema()
     @buildConfigSchemaTreema()
     @buildCodeEditor()
+    @patchesView = @insertSubView(new PatchesView(@levelComponent), @$el.find('.patches-view'))
 
   buildSettingsTreema: ->
     data = _.pick @levelComponent.attributes, (value, key) => key in @editableSettings
@@ -40,7 +46,6 @@ module.exports = class LevelComponentEditView extends View
       schema: schema
       data: data
       callbacks: {change: @onComponentSettingsEdited}
-    treemaOptions.readOnly = true unless me.isAdmin()
     @componentSettingsTreema = @$el.find('#edit-component-treema').treema treemaOptions
     @componentSettingsTreema.build()
     @componentSettingsTreema.open()
@@ -58,7 +63,6 @@ module.exports = class LevelComponentEditView extends View
       schema: LevelComponent.schema.properties.configSchema
       data: @levelComponent.get 'configSchema'
       callbacks: {change: @onConfigSchemaEdited}
-    treemaOptions.readOnly = true unless me.isAdmin()
     @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
     @configSchemaTreema.build()
     @configSchemaTreema.open()
@@ -73,7 +77,6 @@ module.exports = class LevelComponentEditView extends View
     editorEl = @$el.find '#component-code-editor'
     editorEl.text @levelComponent.get('code')
     @editor = ace.edit(editorEl[0])
-    @editor.setReadOnly(not me.isAdmin())
     session = @editor.getSession()
     session.setMode 'ace/mode/coffee'
     session.setTabSize 2
@@ -97,4 +100,8 @@ module.exports = class LevelComponentEditView extends View
   showVersionHistory: (e) ->
     versionHistoryView = new VersionHistoryView component:@levelComponent, @levelComponent.id
     @openModalView versionHistoryView
+    Backbone.Mediator.publish 'level:view-switched', e
+    
+  startPatchingComponent: (e) ->
+    @openModalView new SaveVersionModal({model:@levelComponent})
     Backbone.Mediator.publish 'level:view-switched', e

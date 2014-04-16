@@ -14,10 +14,12 @@ nav.navbar.navbar-default(role='navigation')
           a(href="#component-config-schema" data-toggle="tab" data-i18n="editor.level_component_config_schema") Config Schema
         li
           a(href="#component-settings" data-toggle="tab" data-i18n="editor.level_component_settings") Settings
+        li
+          a(href="#component-patches" data-toggle="tab" data-i18n="resources.patches")#component-patches-tab Patches
       ul.nav.navbar-nav.navbar-left
         li(data-i18n="general.version_history").btn.btn-primary.navbar-btn#history-button Version History
-      ul.nav.navbar-nav.navbar-right
         li(data-i18n="editor.level_component_btn_new").btn.btn-primary.navbar-btn#create-new-component-button Create New Component
+        li.btn.btn-primary.navbar-btn#patch-component-button Patch
 
 .tab-content
   .tab-pane.active#component-code
@@ -26,3 +28,5 @@ nav.navbar.navbar-default(role='navigation')
     #config-schema-treema
   .tab-pane#component-settings
     #edit-component-treema
+  .tab-pane#component-patches
+    .patches-view

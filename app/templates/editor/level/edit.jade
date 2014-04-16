@@ -30,7 +30,6 @@ block outer_content
               a(href="#editor-level-patches", data-toggle="tab")#patches-tab
                 span(data-i18n="resources.patches").spr Patches
                 - var patches = level.get('patches')
-                - patches = [1,2,3,3,4,5,6]
                 if patches && patches.length
                   span.badge= patches.length
 
@@ -42,7 +41,7 @@ block outer_content
               span.unwatch.secret
                 span.spr Unwatch
                 span.glyphicon.glyphicon-eye-close
-            li(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert", disabled=authorized === true ? undefined : "true").btn.btn-primary.navbar-btn#revert-button Revert
+            li(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert", disabled=anonymous ? "true": undefined).btn.btn-primary.navbar-btn#revert-button Revert
             if authorized
               li(data-i18n="common.save").btn.btn-primary.navbar-btn#commit-level-start-button Save
             else

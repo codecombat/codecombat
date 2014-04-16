@@ -68,7 +68,8 @@ class CocoModel extends Backbone.Model
       @markToRevert()
       @clearBackup()
     @trigger "save", @
-    patch.setStatus 'accepted' for patch in @acceptedPatches or []
+    PatchModel = require 'models/Patch'
+    PatchModel.setStatus id, 'accepted' for id in @get('acceptedPatches') or []
     return super attrs, options
 
   fetch: ->
@@ -95,7 +96,6 @@ class CocoModel extends Backbone.Model
   cloneNewMinorVersion: ->
     newData = $.extend(null, {}, @attributes)
     clone = new @constructor(newData)
-    clone.acceptedPatches = @acceptedPatches
     clone
 
   cloneNewMajorVersion: ->
@@ -222,9 +222,10 @@ class CocoModel extends Backbone.Model
     deltasLib.expandDelta(delta, @_revertAttributes, @schema())
 
   addPatchToAcceptOnSave: (patch) ->
-    @acceptedPatches ?= []
-    @acceptedPatches.push patch
-    @acceptedPatches = _.uniq(@acceptedPatches, false, (p) -> p.id)
+    acceptedPatches = @get('acceptedPatches') or [] # not actually stored on the db
+    acceptedPatches.push patch.id
+    acceptedPatches = _.uniq(acceptedPatches)
+    @set 'acceptedPatches', acceptedPatches
     
   watch: (doWatch=true) ->
     $.ajax("#{@urlRoot}/#{@id}/watch", {type:'PUT', data:{on:doWatch}})
