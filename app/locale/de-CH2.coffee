@@ -1,49 +1,49 @@
-module.exports = nativeDescription: "Schwizerdütsch", englishDescription: "Swissgerman (CH)", translation:
+module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "German (Switzerland)", translation:
   common:
     loading: "Lade..."
-#    saving: "Spiichere..."
-#    sending: "Sende..."
-#    send: "G'sendet"
-#    cancel: "Abbreche"
-#    save: "Speichere"
-#    publish: "Veröffentliche"
-#    create: "Erstelle"
-#    delay_1_sec: "1 sekunde"
-#    delay_3_sec: "3 sekunde"
-#    delay_5_sec: "5 sekunde"
+    saving: "Spiichere..."
+    sending: "Sende..."
+    send: "G'sendet"
+    cancel: "Abbreche"
+    save: "Speichere"
+    publish: "Veröffentliche"
+    create: "Erstelle"
+    delay_1_sec: "1 sekunde"
+    delay_3_sec: "3 sekunde"
+    delay_5_sec: "5 sekunde"
 #    manual: "Manual"
 #    fork: "Fork"
-#    play: "Spiele"
-#    retry: "nomol versuche"
+    play: "Spiele"
+    retry: "nomol versuche"
 
-#  units:
-#    second: "sekunde"
-#    seconds: "sekunde"
-#    minute: "minute"
-#    minutes: "minute"
-#    hour: "stund"
-#    hours: "stunde"
+  units:
+    second: "sekunde"
+    seconds: "sekunde"
+    minute: "minute"
+    minutes: "minute"
+    hour: "stund"
+    hours: "stunde"
 
-#  modal:
-#    close: "beende"
-#    okay: "Okaz"
+  modal:
+    close: "beende"
+    okay: "Okaz"
 
-#  not_found:
-#    page_not_found: "Siite nöd gfunde"
+  not_found:
+    page_not_found: "Siite nöd gfunde"
 
-#  nav:
+  nav:
 #    play: "Levels"
 #    editor: "Editor"
 #    blog: "Blog"
 #    forum: "Forum"
 #    admin: "Admin"
 #    home: "Home"
-#    contribute: "Spende"
+    contribute: "Spende"
 #    legal: "Legal"
-#    about: "Über"
-#    contact: "Kontakt"
-#    twitter_follow: "Folge"
-#    employers: "agschtelti"
+    about: "Über"
+    contact: "Kontakt"
+    twitter_follow: "Folge"
+    employers: "agschtelti"
 
 #  versions:
 #    save_version_title: "Save New Version"
@@ -117,11 +117,11 @@ module.exports = nativeDescription: "Schwizerdütsch", englishDescription: "Swis
 #    contact_candidate: "Contact Candidate"
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 18% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
 
-#  diplomat_suggestion:
+  diplomat_suggestion:
 #    title: "Help translate CodeCombat!"
 #    sub_heading: "We need your language skills."
-#    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
-#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
+    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in Swiss German but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Swiss German."
+    missing_translations: "Until we can translate everything into Swiss German, you'll see generic German or English when Swiss German isn't available."
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
@@ -291,6 +291,9 @@ module.exports = nativeDescription: "Schwizerdütsch", englishDescription: "Swis
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -665,3 +668,4 @@ module.exports = nativeDescription: "Schwizerdütsch", englishDescription: "Swis
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
 #    patches: "Patches"
+#    model: "Model"
