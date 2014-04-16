@@ -60,31 +60,34 @@ module.exports = class ThangsTabView extends View
   constructor: (options) ->
     super options
     @world = options.world
+
     @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @listenToOnce(@thangTypes, 'sync', @onThangTypesLoaded)
-    @thangTypes.fetch()
+    @thangTypesRes = @supermodel.addModelResource(@thangTypes, 'thang_type_search_collection')
+    @listenToOnce(@thangTypesRes, 'resource:loaded', @onThangTypesLoaded)
+    @thangTypesRes.load()
+    
     $(document).bind 'contextmenu', @preventDefaultContextMenu
 
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
+
     @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    @listenToOnce(@componentCollection, 'sync', @onComponentsLoaded)
-    @componentCollection.fetch()
+    @componentCollectionRes = @supermodel.addModelResource(@componentCollection, 'components_collection')
+    @listenToOnce(@componentCollectionRes, 'resource:loaded', @onComponentsLoaded)
+    @componentCollectionRes.load()
 
   onThangTypesLoaded: ->
     return if @destroyed
     @supermodel.addCollection @thangTypes
     for model in @thangTypes.models
       @supermodel.populateModel(model, model.name)
-    @startsLoading = not @componentCollection.loaded
-    @render()  # do it again but without the loading screen
-    @onLevelLoaded level: @level if @level and not @startsLoading
+    # @render()  # do it again but without the loading screen
+    # @onLevelLoaded level: @level if @level and not @startsLoading
 
   onComponentsLoaded: ->
     return if @destroyed
     @supermodel.addCollection @componentCollection
-    @startsLoading = not @thangTypes.loaded
-    @render()  # do it again but without the loading screen
-    @onLevelLoaded level: @level if @level and not @startsLoading
+    # @render()  # do it again but without the loading screen
+    # @onLevelLoaded level: @level if @level and not @startsLoading
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -115,8 +118,8 @@ module.exports = class ThangsTabView extends View
     oldHeight = $('#thangs-list').height()
     $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
 
+  onLoaded: ->
   afterRender: ->
-    return if @startsLoading
     super()
     $('.tab-content').click @selectAddThang
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
@@ -137,8 +140,9 @@ module.exports = class ThangsTabView extends View
     e.preventDefault()
 
   onLevelLoaded: (e) ->
+    console.debug 'gintau', 'thangs-tab-view', 'onLevelLoaded'
     @level = e.level
-    return if @startsLoading
+
     data = $.extend(true, {}, @level.attributes)
     treemaOptions =
       schema: Level.schema.properties.thangs
@@ -153,6 +157,7 @@ module.exports = class ThangsTabView extends View
         thang: ThangNode
         array: ThangsNode
       world: @world
+
     @thangsTreema = @$el.find('#thangs-treema').treema treemaOptions
     @thangsTreema.build()
     @thangsTreema.open()

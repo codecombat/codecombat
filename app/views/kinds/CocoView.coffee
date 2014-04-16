@@ -84,6 +84,7 @@ module.exports = class CocoView extends Backbone.View
   render: ->
     return @ unless me
     super()
+    console.debug 'gintau', 'CocoView-Render', @
     return @template if _.isString(@template)
     @$el.html @template(@getRenderData())
 
@@ -133,7 +134,6 @@ module.exports = class CocoView extends Backbone.View
   
   onRetryResource: (e) ->
     res = @supermodel.getResource($(e.target).data('resource-index'))
-    console.debug 'gintau', 'retry-resource', res
     res.load()
     $(e.target).closest('.loading-error-alert').remove()
 

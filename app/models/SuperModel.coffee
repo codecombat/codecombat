@@ -15,12 +15,11 @@ module.exports = class SuperModel extends Backbone.Model
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
 
-    url = model.url()
-    @models[url] = model unless @models[url]?
+    @addModel(model)
     @modelLoaded(model) if model.loaded
 
-    resName = url unless resName
-    modelRes = @addModelResource(model, url)
+    resName = model.url unless resName
+    modelRes = @addModelResource(model, model.url)
 
     schema = model.schema()
     @schemas[schema.urlRoot] = schema
@@ -68,9 +67,7 @@ module.exports = class SuperModel extends Backbone.Model
     return _.values @models
 
   addModel: (model) ->
-    url = model.url()
-    return console.warn "Tried to add Model '#{url}' to SuperModel, but it wasn't loaded." unless model.loaded
-    #return console.warn "Tried to add Model '#{url}' to SuperModel when we already had it." if @models[url]?
+    url = model.url
     @models[url] = model
 
   getCollection: (collection) ->
@@ -97,9 +94,9 @@ module.exports = class SuperModel extends Backbone.Model
   finished: ->
     return @progress is 1.0 or Object.keys(@resources).length is 0
 
-
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
     @checkName(name)
+    @addModel(modelOrCollection)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)
     @storeResource(res, value)
     return res
@@ -167,6 +164,7 @@ module.exports = class SuperModel extends Backbone.Model
     @num += r.value
     @progress = @num / @denom
 
+    console.debug 'gintau', 'super-progress' , @progress, @num, @denom
     @trigger('superModel:updateProgress', @progress)
     @trigger('loaded-all') if @finished()
 
@@ -219,7 +217,7 @@ class ModelResource extends Resource
     @loadDeferred = $.Deferred()
     $.when.apply($, @loadDependencies())
       .then(@onLoadDependenciesSuccess, @onLoadDependenciesFailed)
-      .always(()=> @isLoading = false)
+      .always(=> @isLoading = false)
 
     return @loadDeferred.promise()
 
@@ -234,6 +232,11 @@ class ModelResource extends Resource
 
   onLoadDependenciesSuccess: =>
     @model.fetch(@fetchOptions)
+
+    # Hack: some components seem cannot be downloaded, 
+    # so we need to complete fetching manually after a while if no error occurs.
+    if @model.constructor.className is 'ComponentsCollection'
+      setTimeout((=> @markLoaded() if @isLoading), 5000)
 
     @listenToOnce(@model, 'sync', ->
       @markLoaded()

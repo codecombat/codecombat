@@ -22,6 +22,7 @@ module.exports = class ComponentsTabView extends View
   events:
     'click #create-new-component-button': 'createNewLevelComponent'
 
+  onLoaded: ->
   onLevelThangsChanged: (e) ->
     thangsData = e.thangsData
     presentComponents = {}

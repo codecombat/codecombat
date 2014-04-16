@@ -23,6 +23,7 @@ module.exports = class ThangComponentEditView extends CocoView
     @listenToOnce(@componentCollectionRes, 'resource:loaded', @onComponentsSync)
     @componentCollectionRes.load()
 
+  onLoaded: ->
   afterRender: ->
     super()
     @buildExtantComponentTreema()
@@ -31,7 +32,7 @@ module.exports = class ThangComponentEditView extends CocoView
   onComponentsSync: (res) ->
     return if @destroyed
     @supermodel.addCollection @componentCollection
-    @render()
+    @hideLoading()
 
   buildExtantComponentTreema: ->
     level = new Level()

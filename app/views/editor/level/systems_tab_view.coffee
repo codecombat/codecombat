@@ -31,15 +31,17 @@ module.exports = class SystemsTabView extends View
       url = "/db/level.system/#{system.original}/version/#{system.majorVersion}"
       ls = new LevelSystem()
       ls.saveBackups = true
+      lsRes = @supermodel.addModelResource(ls, 'level_system_' + system.original);
       do (url) -> ls.url = -> url
       continue if @supermodel.getModelByURL ls.url
-      ls.fetch()
-      @listenToOnce ls, 'sync', @onSystemLoaded
+      lsRes.load()
+      @listenToOnce(lsRes, 'resource:loaded', @onSystemLoaded)
       ++@toLoad
     @onDefaultSystemsLoaded() unless @toLoad
 
-  onSystemLoaded: (ls) ->
-    @supermodel.addModel ls
+  onSystemLoaded: (lsRes) ->
+    ls = lsRes.model
+    @supermodel.addModel(ls)
     --@toLoad
     @onDefaultSystemsLoaded() unless @toLoad
 
@@ -48,9 +50,9 @@ module.exports = class SystemsTabView extends View
     @render()  # do it again but without the loading screen
     @onLevelLoaded level: @level if @level
 
+  onLoaded: ->
   onLevelLoaded: (e) ->
     @level = e.level
-    return if @startsLoading
     @buildSystemsTreema()
 
   buildSystemsTreema: ->
@@ -145,9 +147,7 @@ class LevelSystemNode extends TreemaObjectNode
   grabDBComponent: ->
     unless _.isString @data.original
       return alert('Press the "Add System" button at the bottom instead of the "+". Sorry.')
-    @system = @settings.supermodel.getModelByOriginalAndMajorVersion LevelSystem, @data.original, @data.majorVersion
-    #@system = _.find @settings.supermodel.getModels(LevelSystem), (m) =>
-    #  m.get('original') is @data.original and m.get('version').major is @data.majorVersion
+    @system = @settings.supermodel.getModelByOriginalAndMajorVersion(LevelSystem, @data.original, @data.majorVersion)
     console.error "Couldn't find system for", @data.original, @data.majorVersion, "from models", @settings.supermodel.models unless @system
 
   getChildSchema: (key) ->
