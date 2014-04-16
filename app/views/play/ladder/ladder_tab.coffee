@@ -309,8 +309,8 @@ class LeaderboardData extends CocoClass
     return [] unless @session?.get('totalScore')
     l = []
     above = @playersAbove.models
-    above.reverse()
     l = l.concat(above)
+    l.reverse()
     l.push @session
     l = l.concat(@playersBelow.models)
     if @myRank
