@@ -1,7 +1,7 @@
 View = require 'views/kinds/CocoView'
-VersionHistoryView = require 'views/editor/component/versions_view'
 template = require 'templates/editor/level/component/edit'
 LevelComponent = require 'models/LevelComponent'
+VersionHistoryView = require 'views/editor/component/versions_view'
 PatchesView = require 'views/editor/patches_view'
 SaveVersionModal = require 'views/modal/save_version_modal'
 
@@ -12,9 +12,9 @@ module.exports = class LevelComponentEditView extends View
 
   events:
     'click #done-editing-component-button': 'endEditing'
-    'click #component-history-button': 'showVersionHistory'
     'click .nav a': (e) -> $(e.target).tab('show')
     'click #component-patches-tab': -> @patchesView.load()
+    'click #component-history-button': 'showVersionHistory'
     'click #patch-component-button': 'startPatchingComponent'
     'click #component-watch-button': 'toggleWatchComponent'
 
@@ -96,7 +96,7 @@ module.exports = class LevelComponentEditView extends View
     null
 
   showVersionHistory: (e) ->
-    versionHistoryView = new VersionHistoryView component:@levelComponent, @levelComponent.id
+    versionHistoryView = new VersionHistoryView {}, @levelComponent.id
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
     
