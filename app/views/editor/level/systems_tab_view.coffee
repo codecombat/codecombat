@@ -31,7 +31,7 @@ module.exports = class SystemsTabView extends View
       url = "/db/level.system/#{system.original}/version/#{system.majorVersion}"
       ls = new LevelSystem()
       ls.saveBackups = true
-      lsRes = @supermodel.addModelResource(ls, 'level_system_' + system.original);
+      lsRes = @supermodel.addModelResource(ls, 'level_system_' + system.original)
       do (url) -> ls.url = -> url
       continue if @supermodel.getModelByURL ls.url
       lsRes.load()
