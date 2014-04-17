@@ -23,7 +23,6 @@ module.exports = class ThangComponentEditView extends CocoView
     @listenToOnce(@componentCollectionRes, 'resource:loaded', @onComponentsSync)
     @componentCollectionRes.load()
 
-  onLoaded: ->
   afterRender: ->
     super()
     @buildExtantComponentTreema()

@@ -36,7 +36,8 @@ module.exports = class PatchesView extends CocoView
     c.patches = @patches.models
     c.status
     c
-    
+  
+  onLoaded: -> @render()
   afterRender: ->
     @$el.find(".#{@status}").addClass 'active'
 

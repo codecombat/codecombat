@@ -23,6 +23,7 @@ module.exports = class LevelComponentEditView extends View
     context.editTitle = "#{@levelComponent.get('system')}.#{@levelComponent.get('name')}"
     context
 
+  onLoaded: -> @render()
   afterRender: ->
     super()
     @buildSettingsTreema()

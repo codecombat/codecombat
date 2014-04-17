@@ -75,6 +75,7 @@ module.exports = class EditorLevelView extends View
     context.anonymous = me.get('anonymous')
     context
 
+  onLoaded: -> @render()
   afterRender: ->
     super()
     return unless @world and @level

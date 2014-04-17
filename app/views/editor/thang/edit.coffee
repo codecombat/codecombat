@@ -80,7 +80,8 @@ module.exports = class ThangTypeEditView extends View
     raw = ("raw:#{name}" for name in raw)
     main = _.keys(@thangType.get('actions') or {})
     main.concat(raw)
-
+  
+  onLoaded: -> @render()
   afterRender: ->
     super()
     @initStage()

@@ -24,7 +24,8 @@ module.exports = class ColorsTabView extends CocoView
   destroy: ->
     clearInterval @interval
     super()
-
+  
+  onLoaded: -> @render()
   afterRender: ->
     super()
     @createShapeButtons()
