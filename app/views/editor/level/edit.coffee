@@ -31,7 +31,14 @@ module.exports = class EditorLevelView extends View
     'click #patches-tab': -> @patchesView.load()
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
+    
+  subscriptions:
+    'refresh-level-editor': 'rerenderAllViews'
 
+  rerenderAllViews: ->
+    for view in [@thangsTab, @settingsTab, @scriptsTab, @componentsTab, @systemsTab, @patchesView]
+      view.render()
+    
   constructor: (options, @levelID) ->
     super options
     @listenToOnce(@supermodel, 'loaded-all', @onAllLoaded)
@@ -94,6 +101,7 @@ module.exports = class EditorLevelView extends View
     Backbone.Mediator.publish 'level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
+    @listenTo @patchesView, 'accepted-patch', -> location.reload()
     @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
 
   onPlayLevel: (e) ->

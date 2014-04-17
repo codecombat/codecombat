@@ -7,6 +7,7 @@ module.exports = class PatchModal extends ModalView
   id: "patch-modal"
   template: template
   plain: true
+  modalWidthPercent: 60
   
   events:
     'click #withdraw-button': 'withdrawPatch'
@@ -30,12 +31,15 @@ module.exports = class PatchModal extends ModalView
     c.isPatchCreator = @patch.get('creator') is auth.me.id
     c.isPatchRecipient = @targetModel.hasWriteAccess()
     c.status = @patch.get 'status'
+    c.patch = @patch
     c
     
   afterRender: ->
     return if @originalSource.loading
-    headModel = @originalSource.clone(false)
-    headModel.set(@targetModel.attributes)
+    headModel = null
+    if @targetModel.hasWriteAccess()
+      headModel = @originalSource.clone(false)
+      headModel.set(@targetModel.attributes)
     
     pendingModel = @originalSource.clone(false)
     pendingModel.applyDelta(@patch.get('delta'))
@@ -49,6 +53,7 @@ module.exports = class PatchModal extends ModalView
     delta = @deltaView.getApplicableDelta()
     @targetModel.applyDelta(delta)
     @targetModel.addPatchToAcceptOnSave(@patch)
+    @trigger 'accepted-patch'
     @hide()
     
   rejectPatch: ->

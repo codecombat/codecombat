@@ -14,6 +14,9 @@ module.exports = class LevelSystemEditView extends View
     'click #done-editing-system-button': 'endEditing'
     'click .nav a': (e) -> $(e.target).tab('show')
     'click #system-patches-tab': -> @patchesView.load()
+    'click #system-code-tab': 'buildCodeEditor'
+    'click #system-config-schema-tab': 'buildConfigSchemaTreema'
+    'click #system-settings-tab': 'buildSettingsTreema'
     'click #system-history-button': 'showVersionHistory'
     'click #patch-system-button': 'startPatchingSystem'
     'click #system-watch-button': 'toggleWatchSystem'
@@ -76,8 +79,9 @@ module.exports = class LevelSystemEditView extends View
     Backbone.Mediator.publish 'level-system-edited', levelSystem: @levelSystem
 
   buildCodeEditor: ->
-    editorEl = @$el.find '#system-code-editor'
-    editorEl.text @levelSystem.get('code')
+    @editor?.destroy()
+    editorEl = $('<div></div>').text(@levelSystem.get('code')).addClass('inner-editor')
+    @$el.find('#system-code-editor').empty().append(editorEl)
     @editor = ace.edit(editorEl[0])
     @editor.setReadOnly(not me.isAdmin())
     session = @editor.getSession()

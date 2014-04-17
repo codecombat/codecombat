@@ -14,6 +14,9 @@ module.exports = class LevelComponentEditView extends View
     'click #done-editing-component-button': 'endEditing'
     'click .nav a': (e) -> $(e.target).tab('show')
     'click #component-patches-tab': -> @patchesView.load()
+    'click #component-code-tab': 'buildCodeEditor'
+    'click #component-config-schema-tab': 'buildConfigSchemaTreema'
+    'click #component-settings-tab': 'buildSettingsTreema'
     'click #component-history-button': 'showVersionHistory'
     'click #patch-component-button': 'startPatchingComponent'
     'click #component-watch-button': 'toggleWatchComponent'
@@ -76,8 +79,9 @@ module.exports = class LevelComponentEditView extends View
     Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
 
   buildCodeEditor: ->
-    editorEl = @$el.find '#component-code-editor'
-    editorEl.text @levelComponent.get('code')
+    @editor?.destroy()
+    editorEl = $('<div></div>').text(@levelComponent.get('code')).addClass('inner-editor')
+    @$el.find('#component-code-editor').empty().append(editorEl)
     @editor = ace.edit(editorEl[0])
     session = @editor.getSession()
     session.setMode 'ace/mode/coffee'

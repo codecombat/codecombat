@@ -8,6 +8,7 @@ module.exports = class SaveVersionModal extends ModalView
   id: 'save-version-modal'
   template: template
   plain: true
+  modalWidthPercent: 60
 
   events:
     'click #save-version-button': 'onClickSaveButton'
