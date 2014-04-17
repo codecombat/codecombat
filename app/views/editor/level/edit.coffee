@@ -30,7 +30,7 @@ module.exports = class EditorLevelView extends View
     'click #level-history-button': 'showVersionHistory'
     'click #patches-tab': -> @patchesView.load()
     'click #commit-level-patch-button': 'startPatchingLevel'
-    'click #watch-button': 'toggleWatchLevel'
+    'click #level-watch-button': 'toggleWatchLevel'
 
   constructor: (options, @levelID) ->
     super options
@@ -94,7 +94,7 @@ module.exports = class EditorLevelView extends View
     Backbone.Mediator.publish 'level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
-    @$el.find('#watch-button').find('> span').toggleClass('secret') if @level.watching()
+    @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
 
   onPlayLevel: (e) ->
     sendLevel = =>
@@ -128,6 +128,6 @@ module.exports = class EditorLevelView extends View
     Backbone.Mediator.publish 'level:view-switched', e
 
   toggleWatchLevel: ->
-    button = @$el.find('#watch-button')
+    button = @$el.find('#level-watch-button')
     @level.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')

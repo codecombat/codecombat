@@ -1,7 +1,7 @@
 extends /templates/base
 
 block header
-  if false
+  if level.loading
     nav.navbar.navbar-default(role='navigation')#level-editor-top-nav
       .container-fluid
         ul.nav.navbar-nav
@@ -55,8 +55,8 @@ block header
             span.glyphicon-chevron-down.glyphicon
           ul.dropdown-menu
             li.dropdown-header Actions
-            li#watch-button
-              a
+            li
+              a#level-watch-button
                 span.watch
                   span.glyphicon.glyphicon-eye-open
                   span.spl Watch

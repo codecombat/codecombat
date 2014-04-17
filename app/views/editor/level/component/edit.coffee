@@ -16,7 +16,7 @@ module.exports = class LevelComponentEditView extends View
     'click .nav a': (e) -> $(e.target).tab('show')
     'click #component-patches-tab': -> @patchesView.load()
     'click #patch-component-button': 'startPatchingComponent'
-    'click #watch-component-button': 'toggleWatchComponent'
+    'click #component-watch-button': 'toggleWatchComponent'
 
   constructor: (options) ->
     super options
@@ -35,7 +35,7 @@ module.exports = class LevelComponentEditView extends View
     @buildConfigSchemaTreema()
     @buildCodeEditor()
     @patchesView = @insertSubView(new PatchesView(@levelComponent), @$el.find('.patches-view'))
-    @$el.find('#watch-component-button').find('> span').toggleClass('secret') if @levelComponent.watching()
+    @$el.find('#component-watch-button').find('> span').toggleClass('secret') if @levelComponent.watching()
 
   buildSettingsTreema: ->
     data = _.pick @levelComponent.attributes, (value, key) => key in @editableSettings
@@ -105,7 +105,7 @@ module.exports = class LevelComponentEditView extends View
     Backbone.Mediator.publish 'level:view-switched', e
 
   toggleWatchComponent: ->
-    button = @$el.find('#watch-component-button')
+    button = @$el.find('#component-watch-button')
     @levelComponent.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')
 
