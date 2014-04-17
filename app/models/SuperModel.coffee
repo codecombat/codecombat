@@ -122,7 +122,7 @@ module.exports = class SuperModel extends Backbone.Model
     resource.rid = @rid
     @resources[@rid] = resource
     @listenToOnce(resource, 'resource:loaded', @onResourceLoaded)
-    @listenToOnce(resource, 'resource:failed', @onResourceFailed)
+    @listenTo(resource, 'resource:failed', @onResourceFailed)
     @denom += value
 
   loadResources: ->

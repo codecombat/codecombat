@@ -44,8 +44,8 @@ module.exports = class CocoView extends Backbone.View
     # Backbone.Mediator handles subscription setup/teardown automatically
 
     @listenToOnce(@supermodel, 'loaded-all', @onLoaded)
-    @listenToOnce(@supermodel, 'superModel:updateProgress', @updateProgress)
-    @listenToOnce(@supermodel, 'resource:failed', @onResourceLoadFailed)
+    @listenTo(@supermodel, 'superModel:updateProgress', @updateProgress)
+    @listenTo(@supermodel, 'resource:failed', @onResourceLoadFailed)
 
     super options
 
@@ -82,16 +82,15 @@ module.exports = class CocoView extends Backbone.View
   # View Rendering
 
   render: ->
+    @showLoading()
     return @ unless me
     super()
     return @template if _.isString(@template)
     @$el.html @template(@getRenderData())
 
     if not @supermodel.finished()
-      console.debug 'gintau', 'cocoview-showLoading', @
       @showLoading()
     else
-      console.debug 'gintau', 'cocoview-hideLoading', @
       @hideLoading()
 
     @afterRender()
@@ -110,7 +109,6 @@ module.exports = class CocoView extends Backbone.View
     context
 
   afterRender: ->
-    @hideLoading()
 
   updateProgress: (progress)=>
     @loadProgress.progress = progress if progress > @loadProgress.progress
@@ -125,6 +123,7 @@ module.exports = class CocoView extends Backbone.View
 
   # Error handling for loading
   onResourceLoadFailed: (source) ->
+    console.debug 'gintau', 'onResourceLoadFailed', source
     @$el.find('.loading-screen .errors').append(loadingErrorTemplate({
       status: 'error',
       name: source.resource.name
@@ -189,6 +188,7 @@ module.exports = class CocoView extends Backbone.View
 
   hideLoading: ->
     return unless @_lastLoading?
+    console.debug 'gintau', 'hideLoading', @$el
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null
