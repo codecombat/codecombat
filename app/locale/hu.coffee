@@ -128,9 +128,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   wizard_settings:
     title: "Varázsló beállításai"
     customize_avatar: "Állítsd be az Avatarod!"
-#    active: "Active"
-#    color: "Color"
-#    group: "Group"
+    active: "Aktív"
+    color: "Szín"
+    group: "Csoport"
     clothes: "Öltözetek"
 #    trim: "Trim"
     cloud: "Felhő"
@@ -156,7 +156,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     new_password_verify: "Új jelszó megismétlése"
     email_subscriptions: "Hírlevél feliratkozások"
     email_announcements: "Bejelentések"
-#    email_notifications: "Notifications"
+    email_notifications: "Értesítések"
 #    email_notifications_description: "Get periodic notifications for your account."
     email_announcements_description: "Szeretnél levelet kapni a legújabb fejlesztéseinkről?"
     contributor_emails: "Hozzájárulóknak szóló levelek"
@@ -167,9 +167,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     error_saving: "Hiba a mentés során"
     saved: "Változtatások elmentve"
     password_mismatch: "A jelszavak nem egyeznek."
-#    job_profile: "Job Profile"
-#    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
-#    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+    job_profile: "Munkaköri leírás"
+    job_profile_approved: "Munkaköri leírásodat a Codecombat jóváhagyta. Munkaadók mindaddig láthatják, amíg meg nem jelölöd inaktíként, vagy négy hétig,ha addig nem kerül megváltoztatásra."
+    job_profile_explanation: "Szió! Töltsd ki ezt és majd kapcsolatba lépünk veled és keresünk neked egy szoftware fejlesztői állást."
 
   account_profile:
     edit_settings: "Beállítások szerkesztése"
@@ -291,6 +291,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -665,3 +668,4 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
 #    patches: "Patches"
+#    model: "Model"

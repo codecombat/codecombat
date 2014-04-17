@@ -155,6 +155,22 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
   getSimulatorLeaderboard: (req, res) ->
+    queryParameters = @getSimulatorLeaderboardQueryParameters(req)
+    leaderboardQuery = User.find(queryParameters.query).select("name simulatedBy simulatedFor").sort({"simulatedBy":queryParameters.sortOrder}).limit(queryParameters.limit)
+    leaderboardQuery.exec (err, otherUsers) ->
+        otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
+        otherUsers ?= []
+        res.send(otherUsers)
+        res.end()
+
+  getMySimulatorLeaderboardRank: (req, res) ->
+    req.query.order = 1
+    queryParameters = @getSimulatorLeaderboardQueryParameters(req)
+    User.count queryParameters.query, (err, count) =>
+      return @sendDatabaseError(res, err) if err
+      res.send JSON.stringify(count + 1)
+
+   getSimulatorLeaderboardQueryParameters: (req) ->
     @validateSimulateLeaderboardRequestParameters(req)
 
     query = {}
@@ -167,14 +183,7 @@ UserHandler = class UserHandler extends Handler
       sortOrder = 1 if req.query.order is 1
     else
       query.simulatedBy = {"$exists": true}
-
-    leaderboardQuery = User.find(query).select("name simulatedBy simulatedFor").sort({"simulatedBy":sortOrder}).limit(limit)
-    leaderboardQuery.exec (err, otherUsers) ->
-        otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
-        otherUsers ?= []
-        res.send(otherUsers)
-        res.end()
-
+    {query: query, sortOrder: sortOrder, limit: limit}
 
   validateSimulateLeaderboardRequestParameters: (req) ->
     req.query.order = parseInt(req.query.order) ? -1
@@ -202,6 +211,7 @@ UserHandler = class UserHandler extends Handler
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
+    return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @sendNotFoundError(res)
     super(arguments...)
 

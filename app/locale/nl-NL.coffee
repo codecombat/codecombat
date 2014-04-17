@@ -169,7 +169,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     password_mismatch: "Het wachtwoord komt niet overeen."
     job_profile: "Job Profiel"
     job_profile_approved: "Jouw job profiel werd goedgekeurd door CodeCombat. Werkgevers zullen het kunnen bekijken totdat je het inactief zet of als er geen verandering in komt voor vier weken."
-    job_profile_explanation: "Hey! Vul dit in en we zullen je contacteren om je een job als softwareontwikkelaar te helpen vinden." 
+    job_profile_explanation: "Hey! Vul dit in en we zullen je contacteren om je een job als softwareontwikkelaar te helpen vinden."
 
   account_profile:
     edit_settings: "Instellingen Aanpassen"
@@ -291,6 +291,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     time_current: "Nu:"
     time_total: "Maximum:"
     time_goto: "Ga naar:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Administrator panels"
@@ -357,8 +360,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     article_search_title: "Zoek Artikels Hier"
     thang_search_title: "Zoek Thang Types Hier"
     level_search_title: "Zoek Levels Hier"
-    signup_to_create: "Registreer je om nieuwe content te maken" 
-    read_only_warning: "Herinnering: Je kunt hier geen aanpassingen opslaan, want je bent niet ingelogd als administrator."
+    signup_to_create: "Registreer je om nieuwe content te maken"
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Voorbeeld"
@@ -665,3 +668,4 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     user_schema: "Gebruikersschema"
     user_profile: "Gebruikersprofiel"
 #    patches: "Patches"
+#    model: "Model"

@@ -291,6 +291,9 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     time_current: "Aktuell"
     time_total: "Total"
     time_goto: "Gehe zu"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Administrator Übersicht"
@@ -665,3 +668,4 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
 #    patches: "Patches"
+#    model: "Model"

@@ -91,7 +91,8 @@
     "karma-requirejs": "~0.2.1",
     "karma-phantomjs-launcher": "~0.1.1",
     "karma": "~0.10.9",
-    "karma-coverage": "~0.1.4"
+    "karma-coverage": "~0.1.4",
+    "compressible": "~1.0.1"
   },
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,

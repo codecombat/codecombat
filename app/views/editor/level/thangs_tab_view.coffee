@@ -255,7 +255,7 @@ module.exports = class ThangsTabView extends View
 #      @thangsTreema.deselectAll()
 
   selectAddThang: (e) =>
-    return unless (not e) or $(e.target).closest('.editor-level-thangs-tab-view').length
+    return unless e? and $(e.target).closest('.editor-level-thangs-tab-view').length
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
     return true if target.attr('id') is 'surface'
     target = target.closest('.add-thang-palette-icon')
@@ -426,11 +426,11 @@ module.exports = class ThangsTabView extends View
     @editThangView = null
     @onThangsChanged()
     @$el.find('.thangs-column').show()
-    
+
   preventDefaultContextMenu: (e) ->
     return unless $(e.target).closest('#canvas-wrapper').length
     e.preventDefault()
-    
+
   onSpriteContextMenu: (e) ->
     {clientX, clientY} = e.originalEvent.nativeEvent
     if @addThangType
@@ -439,11 +439,11 @@ module.exports = class ThangsTabView extends View
       $('#duplicate a').html 'Duplicate'
     $('#contextmenu').css { position: 'fixed', left: clientX, top: clientY }
     $('#contextmenu').show()
-    
+
   onDeleteClicked: (e) ->
     $('#contextmenu').hide()
     @deleteSelectedExtantThang e
-  
+
   onDuplicateClicked: (e) ->
     $('#contextmenu').hide()
     if !@addThangType
