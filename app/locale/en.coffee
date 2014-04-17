@@ -17,6 +17,7 @@
     retry: "Retry"
     watch: "Watch"
     unwatch: "Unwatch"
+    submit_patch: "Submit Patch"
 
   units:
     second: "second"
