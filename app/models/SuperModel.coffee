@@ -164,6 +164,7 @@ module.exports = class SuperModel extends Backbone.Model
     @num += r.value
     @progress = @num / @denom
 
+    console.debug 'gintau', 'updateProgress', @progress, @num, @denom
     @trigger('superModel:updateProgress', @progress)
     @trigger('loaded-all') if @finished()
 
@@ -190,6 +191,7 @@ class Resource extends Backbone.Model
     @dependencies.push(depRes)
 
   markLoaded: ->
+    console.debug 'gintau', 'markLoaded', @
     @trigger('resource:loaded', @) if not @isLoaded
     @isLoaded = true
     @isLoading = false
@@ -232,6 +234,15 @@ class ModelResource extends Resource
   onLoadDependenciesSuccess: =>
     @model.fetch(@fetchOptions)
 
+    ###
+    setTimeout(=> 
+      if @isLoading
+        @markLoaded()
+        @loadDeferred.resolve(@)
+        console.debug 'gintau', 'load-timeout'
+    , 5000)
+    ###
+    
     @listenToOnce(@model, 'sync', ->
       @markLoaded()
       @loadDeferred.resolve(@)

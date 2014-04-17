@@ -88,8 +88,10 @@ module.exports = class CocoView extends Backbone.View
     @$el.html @template(@getRenderData())
 
     if not @supermodel.finished()
+      console.debug 'gintau', 'cocoview-showLoading', @
       @showLoading()
     else
+      console.debug 'gintau', 'cocoview-hideLoading', @
       @hideLoading()
 
     @afterRender()
@@ -180,6 +182,7 @@ module.exports = class CocoView extends Backbone.View
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
+    console.debug 'gintau', 'showLoading', $el
     $el.find('>').addClass('hidden')
     $el.append loadingScreenTemplate()
     @_lastLoading = $el
