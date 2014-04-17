@@ -73,7 +73,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     creating: "账户创建中……"
     sign_up: "注册"
     log_in: "登录"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
+    social_signup: "或者你可以通过Facebook或G+注册"    
 
   home:
     slogan: "通过游戏学习 Javascript"
@@ -128,9 +128,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   wizard_settings:
     title: "设置向导"
     customize_avatar: "设置你的头像"
-#    active: "Active"
-#    color: "Color"
-#    group: "Group"
+    active: "启用"
+    color: "颜色"
+    group: "类别"
     clothes: "衣服"
     trim: "条纹"
     cloud: "云"
