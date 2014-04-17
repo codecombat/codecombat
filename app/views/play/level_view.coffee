@@ -86,7 +86,6 @@ module.exports = class PlayLevelView extends View
     @listenToOnce(@supermodel, 'error', @onLevelLoadError)
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
-    @insertSubView @loadingView = new LoadingView {}
     if @isEditorPreview
       f = =>
         @supermodel.shouldSaveBackups = (model) ->
@@ -124,11 +123,12 @@ module.exports = class PlayLevelView extends View
       c.explainHourOfCode = elapsed < 86400 * 1000
     c
 
+  onLoaded: ->
   afterRender: ->
+    super()
     window.onPlayLevelViewLoaded? @  # still a hack
     @insertSubView @loadingView = new LoadingView {}
     @$el.find('#level-done-button').hide()
-    super()
     $('body').addClass('is-playing')
 
   onLevelLoaderProgressChanged: ->
@@ -152,6 +152,8 @@ module.exports = class PlayLevelView extends View
     return true
 
   onLevelLoaderLoaded: ->
+    console.debug 'level_view', 'onLevelLoaderLoaded',  @levelLoader.progress()
+
     return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
     @loadingView.showReady()
     if window.currentModal and not window.currentModal.destroyed
