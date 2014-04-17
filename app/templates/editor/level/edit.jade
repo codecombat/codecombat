@@ -39,15 +39,15 @@ block header
 
       ul.nav.navbar-nav.navbar-right
         if authorized
-          li
+          li#commit-level-start-button
             a
               span.glyphicon-floppy-disk.glyphicon
         else
-          li
+          li#level-patch-button
             a
               span.glyphicon-floppy-disk.glyphicon
         
-        li(title="⌃↩ or ⌘↩: Play preview of current level")
+        li(title="⌃↩ or ⌘↩: Play preview of current level")#play-button
           a
             span.glyphicon-play.glyphicon
         li.dropdown

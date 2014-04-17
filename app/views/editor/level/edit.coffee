@@ -29,7 +29,7 @@ module.exports = class EditorLevelView extends View
     'click #fork-level-start-button': 'startForkingLevel'
     'click #level-history-button': 'showVersionHistory'
     'click #patches-tab': -> @patchesView.load()
-    'click #commit-level-patch-button': 'startPatchingLevel'
+    'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
 
   constructor: (options, @levelID) ->
