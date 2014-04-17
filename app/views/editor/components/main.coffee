@@ -23,6 +23,8 @@ module.exports = class ThangComponentEditView extends CocoView
     @listenToOnce(@componentCollectionRes, 'resource:loaded', @onComponentsSync)
     @componentCollectionRes.load()
 
+  onloaded: -> @render()
+
   afterRender: ->
     super()
     @buildExtantComponentTreema()
@@ -70,9 +72,10 @@ module.exports = class ThangComponentEditView extends CocoView
         'object': ComponentNode
     # I have no idea why it's not building in the Thang Editor unless I defer
     _.defer (=>
+      console.debug 'treema', @$el.find('#add-component-column .treema')
       @addComponentsTreema = @$el.find('#add-component-column .treema').treema treemaOptions
       @addComponentsTreema.build()
-    ), 100
+    ), 500
 
   onSelectAddableComponent: (e, selected) =>
     @extantComponentsTreema.deselectAll()

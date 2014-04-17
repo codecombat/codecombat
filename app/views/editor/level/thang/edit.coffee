@@ -35,7 +35,6 @@ module.exports = class LevelThangEditView extends View
 
   onLoaded: -> @render()
   afterRender: ->
-    console.debug 'gintau', 'thang-edit', 'afterRender'
     super()
     options =
       components: @thangData.components
