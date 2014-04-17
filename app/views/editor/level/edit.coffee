@@ -27,7 +27,7 @@ module.exports = class EditorLevelView extends View
     'click #play-button': 'onPlayLevel'
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
-    'click #history-button': 'showVersionHistory'
+    'click #level-history-button': 'showVersionHistory'
     'click #patches-tab': -> @patchesView.load()
     'click #commit-level-patch-button': 'startPatchingLevel'
     'click #watch-button': 'toggleWatchLevel'

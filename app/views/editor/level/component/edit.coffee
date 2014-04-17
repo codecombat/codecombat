@@ -12,7 +12,7 @@ module.exports = class LevelComponentEditView extends View
 
   events:
     'click #done-editing-component-button': 'endEditing'
-    'click #history-button': 'showVersionHistory'
+    'click #component-history-button': 'showVersionHistory'
     'click .nav a': (e) -> $(e.target).tab('show')
     'click #component-patches-tab': -> @patchesView.load()
     'click #patch-component-button': 'startPatchingComponent'
