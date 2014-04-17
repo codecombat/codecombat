@@ -73,7 +73,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     creating: "账户创建中……"
     sign_up: "注册"
     log_in: "登录"
-    social_signup: "或者你可以通过Facebook或G+注册"    
+    social_signup: "或者，你可以通过Facebook或G+注册："    
 
   home:
     slogan: "通过游戏学习 Javascript"
