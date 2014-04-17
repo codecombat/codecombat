@@ -426,11 +426,11 @@ module.exports = class ThangsTabView extends View
     @editThangView = null
     @onThangsChanged()
     @$el.find('.thangs-column').show()
-    
+
   preventDefaultContextMenu: (e) ->
     return unless $(e.target).closest('#canvas-wrapper').length
     e.preventDefault()
-    
+
   onSpriteContextMenu: (e) ->
     {clientX, clientY} = e.originalEvent.nativeEvent
     if @addThangType
@@ -439,11 +439,11 @@ module.exports = class ThangsTabView extends View
       $('#duplicate a').html 'Duplicate'
     $('#contextmenu').css { position: 'fixed', left: clientX, top: clientY }
     $('#contextmenu').show()
-    
+
   onDeleteClicked: (e) ->
     $('#contextmenu').hide()
     @deleteSelectedExtantThang e
-  
+
   onDuplicateClicked: (e) ->
     $('#contextmenu').hide()
     if !@addThangType
