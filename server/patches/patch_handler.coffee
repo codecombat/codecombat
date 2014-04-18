@@ -1,8 +1,11 @@
 Patch = require('./Patch')
+User = require '../users/User'
 Handler = require('../commons/Handler')
 schema = require '../../app/schemas/models/patch'
 {handlers} = require '../commons/mapping'
 mongoose = require('mongoose')
+log = require 'winston'
+sendwithus = require '../sendwithus'
 
 PatchHandler = class PatchHandler extends Handler
   modelClass: Patch
@@ -50,6 +53,28 @@ PatchHandler = class PatchHandler extends Handler
         patch.update {$set:{status:newStatus}}, {}, ->
         target.update {$pull:{patches:patch.get('_id')}}, {}, ->
         @sendSuccess(res, null)
+
+  onPostSuccess: (req, doc) ->
+    log.error "Error sending patch created: could not find the loaded target on the patch object." unless doc.targetLoaded
+    return unless doc.targetLoaded
+    watchers = doc.targetLoaded.get('watchers')
+    return unless watchers?.length
+    User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) =>
+      for watcher in watchers
+        @sendPatchCreatedEmail req.user, watcher, doc, doc.targetLoaded, req.body.editPath
     
+  sendPatchCreatedEmail: (patchCreator, watcher, patch, target, editPath) ->
+#    return if watcher._id is patchCreator._id
+    context =
+      email_id: sendwithus.templates.patch_created
+      recipient:
+        address: watcher.get('email')
+        name: watcher.get('name')
+      email_data:
+        doc_name: target.get('name') or '???'
+        submitter_name: patchCreator.get('name') or '???'
+        doc_link: "http://codecombat.com#{editPath}"
+        commit_message: patch.get('commitMessage')
+    sendwithus.api.send context, (err, result) ->
 
 module.exports = new PatchHandler()

@@ -42,6 +42,7 @@ PatchSchema.pre 'save', (next) ->
     patches = _.clone patches
     patches.push @_id
     document.set 'patches', patches, {strict: false}
+    @targetLoaded = document
     document.save (err) -> next(err)
 
 module.exports = mongoose.model('patch', PatchSchema)

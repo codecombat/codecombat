@@ -233,6 +233,9 @@ module.exports = class Handler
       return @sendBadInputError(res, err.errors) if err?.valid is false
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, @formatEntity(req, document))
+      @onPostSuccess(req, document)
+
+  onPostSuccess: (req, doc) ->
 
   ###
   TODO: think about pulling some common stuff out of postFirstVersion/postNewVersion
@@ -248,7 +251,6 @@ module.exports = class Handler
     document.set('original', document._id)
     document.set('creator', req.user._id)
     @saveChangesToDocument req, document, (err) =>
-      console.log 'saved new version', document.toObject()
       return @sendBadInputError(res, err.errors) if err?.valid is false
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, @formatEntity(req, document))
@@ -299,7 +301,9 @@ module.exports = class Handler
         parentDocument.makeNewMajorVersion(updatedObject, done)
 
   makeNewInstance: (req) ->
-    new @modelClass({})
+    model = new @modelClass({})
+    model.set 'watchers', [req.user.get('_id')] if @modelClass.schema.is_patchable
+    model
 
   validateDocumentInput: (input) ->
     tv4 = require('tv4').tv4

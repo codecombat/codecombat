@@ -14,3 +14,4 @@ if config.unittest
 module.exports.templates =
   welcome_email: 'utnGaBHuSU4Hmsi7qrAypU'
   ladder_update_email: 'JzaZxf39A4cKMxpPZUfWy4'
+  patch_created: 'tem_xhxuNosLALsizTNojBjNcL'
