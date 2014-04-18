@@ -13,6 +13,8 @@ class VersionsViewCollection extends Backbone.Collection
 module.exports = class VersionsModalView extends ModalView
   template: template
   startsLoading: true
+  plain: true
+  modalWidthPercent: 80
 
   # needs to be overwritten by child
   id: ""

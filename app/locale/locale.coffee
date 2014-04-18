@@ -10,6 +10,9 @@ module.exports =
   'en-AU': require './en-AU'     # English (AU), English (AU)
   ru: require './ru'             # русский язык, Russian
   de: require './de'             # Deutsch, German
+  'de-DE': require './de-DE'     # Deutsch (Deutschland), German (Germany)
+  'de-AT': require './de-AT'     # Deutsch (Österreich), German (Austria)
+  'de-CH': require './de-CH'     # Deutsch (Schweiz), German (Switzerland)
   es: require './es'             # español, Spanish
   'es-419': require './es-419'   # español (América Latina), Spanish (Latin America)
   'es-ES': require './es-ES'     # español (ES), Spanish (Spain)

@@ -36,7 +36,7 @@ ThangListView = require './thang_list_view'
 SpellPaletteView = require './spell_palette_view'
 CastButtonView = require './cast_button_view'
 
-window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.coffee'
+window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.js'
 
 module.exports = class TomeView extends View
   id: 'tome-view'

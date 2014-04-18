@@ -112,7 +112,7 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
     unittest.getNormalJoe (joe) ->
       req = request.put getURL(urlUser), (err, res) ->
         expect(res.statusCode).toBe(200)
-        unittest.getUser('New@email.com', 'null', (joe) ->
+        unittest.getUser('Wilhelm', 'New@email.com', 'null', (joe) ->
           expect(joe.get('name')).toBe('Wilhelm')
           expect(joe.get('emailLower')).toBe('new@email.com')
           expect(joe.get('email')).toBe('New@email.com')

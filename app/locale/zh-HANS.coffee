@@ -291,6 +291,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     time_current: "现在:"
     time_total: "最大:"
     time_goto: "跳到:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "管理员视图"
@@ -665,3 +668,4 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
 #    patches: "Patches"
+#    model: "Model"

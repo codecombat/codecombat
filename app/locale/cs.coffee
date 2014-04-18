@@ -291,6 +291,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Administrátorský pohled"
@@ -665,3 +668,4 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
 #    patches: "Patches"
+#    model: "Model"

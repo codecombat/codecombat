@@ -14,7 +14,7 @@ LevelSessionHandler = require '../levels/sessions/level_session_handler'
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
   'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
-  'gplusID', 'music', 'volume', 'aceConfig'
+  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt'
 ]
 candidateProperties = [
   'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
@@ -47,7 +47,7 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in serverProperties
     includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
-    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.permissions ? [])))
+    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj)
     delete obj[prop] for prop in candidateProperties unless includeCandidate
     return obj
 
@@ -155,6 +155,22 @@ UserHandler = class UserHandler extends Handler
       res.end()
 
   getSimulatorLeaderboard: (req, res) ->
+    queryParameters = @getSimulatorLeaderboardQueryParameters(req)
+    leaderboardQuery = User.find(queryParameters.query).select("name simulatedBy simulatedFor").sort({"simulatedBy":queryParameters.sortOrder}).limit(queryParameters.limit)
+    leaderboardQuery.exec (err, otherUsers) ->
+        otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
+        otherUsers ?= []
+        res.send(otherUsers)
+        res.end()
+
+  getMySimulatorLeaderboardRank: (req, res) ->
+    req.query.order = 1
+    queryParameters = @getSimulatorLeaderboardQueryParameters(req)
+    User.count queryParameters.query, (err, count) =>
+      return @sendDatabaseError(res, err) if err
+      res.send JSON.stringify(count + 1)
+
+   getSimulatorLeaderboardQueryParameters: (req) ->
     @validateSimulateLeaderboardRequestParameters(req)
 
     query = {}
@@ -167,14 +183,7 @@ UserHandler = class UserHandler extends Handler
       sortOrder = 1 if req.query.order is 1
     else
       query.simulatedBy = {"$exists": true}
-
-    leaderboardQuery = User.find(query).select("name simulatedBy simulatedFor").sort({"simulatedBy":sortOrder}).limit(limit)
-    leaderboardQuery.exec (err, otherUsers) ->
-        otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
-        otherUsers ?= []
-        res.send(otherUsers)
-        res.end()
-
+    {query: query, sortOrder: sortOrder, limit: limit}
 
   validateSimulateLeaderboardRequestParameters: (req) ->
     req.query.order = parseInt(req.query.order) ? -1
@@ -202,6 +211,7 @@ UserHandler = class UserHandler extends Handler
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
+    return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -249,13 +259,15 @@ UserHandler = class UserHandler extends Handler
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
     query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
+    #query = {'jobProfile.updated': {$gt: since}}
     query.jobProfileApproved = true unless req.user.isAdmin()
     selection = 'jobProfile'
     selection += ' email' if authorized
     selection += ' jobProfileApproved' if req.user.isAdmin()
     User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
-      candidates = (@formatCandidate(authorized, doc) for doc in documents)
+      candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
+      candidates = (@formatCandidate(authorized, candidate) for candidate in candidates)
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
@@ -267,6 +279,16 @@ UserHandler = class UserHandler extends Handler
       subfields = subfields.concat ['name']
     obj.jobProfile = _.pick obj.jobProfile, subfields
     obj
+
+  employerCanViewCandidate: (employer, candidate) ->
+    return true if employer.isAdmin()
+    for job in candidate.jobProfile?.work ? []
+      # TODO: be smarter about different ways to write same company names to ensure privacy.
+      # We'll have to manually pay attention to how we set employer names for now.
+      if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
+        log.info "#{employer.get('name')} at #{employer.get('employerAt')} can't see #{candidate.jobProfile.name} because s/he worked there."
+      return false if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
+    true
 
   buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user
