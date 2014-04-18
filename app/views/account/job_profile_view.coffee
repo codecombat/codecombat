@@ -10,14 +10,12 @@ module.exports = class JobProfileView extends CocoView
     'lookingFor', 'active', 'name', 'city', 'country', 'skills', 'experience', 'shortDescription', 'longDescription',
     'work', 'education', 'visa', 'projects', 'links', 'jobTitle', 'photoURL'
   ]
-  readOnlySettings: [
-    'updated'
-  ]
+  readOnlySettings: []  #['updated']
 
   afterRender: ->
     super()
     return if @loading()
-    @buildJobProfileTreema()
+    _.defer => @buildJobProfileTreema()  # Not sure why, but the Treemas don't fully build without this if you reload the page.
 
   buildJobProfileTreema: ->
     visibleSettings = @editableSettings.concat @readOnlySettings

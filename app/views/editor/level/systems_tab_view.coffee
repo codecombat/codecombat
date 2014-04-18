@@ -23,6 +23,7 @@ module.exports = class SystemsTabView extends View
   events:
     'click #add-system-button': 'addLevelSystem'
     'click #create-new-system-button': 'createNewLevelSystem'
+    'click #create-new-system': 'createNewLevelSystem'
 
   constructor: (options) ->
     super options

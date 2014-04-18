@@ -5,7 +5,7 @@ SessionHandler = require('./sessions/level_session_handler')
 Feedback = require('./feedbacks/LevelFeedback')
 Handler = require('../commons/Handler')
 mongoose = require('mongoose')
-
+async = require 'async'
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
   jsonSchema: require '../../app/schemas/models/level'
@@ -220,7 +220,7 @@ LevelHandler = class LevelHandler extends Handler
         userMap[u._id] = u[serviceProperty] for u in userResults
         session[serviceProperty] = userMap[session.creator] for session in sessionResults
         res.send(sessionResults)
-        
+
   getRandomSessionPair: (req, res, slugOrID) ->
     findParameters = {}
     if Handler.isID slugOrID
@@ -235,32 +235,34 @@ LevelHandler = class LevelHandler extends Handler
     query.exec (err, level) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless level?
-  
+
       sessionsQueryParameters =
         level:
           original: level.original.toString()
           majorVersion: level.version.major
         submitted:true
-      
-      query = Session
-        .find(sessionsQueryParameters)
-        .select('team')
-        .lean()
-      
-      query.exec (err, resultSessions) =>
-        return @sendDatabaseError res, err if err? or not resultSessions
-        
-        teamSessions = _.groupBy resultSessions, 'team'
-        sessions = []
-        numberOfTeams = 0
-        for team of teamSessions
-          numberOfTeams += 1
-          sessions.push _.sample(teamSessions[team])
-        if numberOfTeams != 2 then return @sendDatabaseError res, "There aren't sessions of 2 teams, so cannot choose random opponents!"
-          
-        @sendSuccess res, sessions
-        
-        
+
+      query = Session.find(sessionsQueryParameters).distinct("team")
+      query.exec (err, teams) =>
+        return @sendDatabaseError res, err if err? or not teams
+        findTop20Players = (sessionQueryParams, team, cb) ->
+          sessionQueryParams["team"] = team
+          Session.aggregate [
+            {$match: sessionQueryParams}
+            {$project: {"totalScore":1}}
+            {$sort: {"totalScore":-1}}
+            {$limit: 20}
+          ], cb
+
+        async.map teams, findTop20Players.bind(@, sessionsQueryParameters), (err, map) =>
+          if err? then return @sendDatabaseError(res, err)
+          sessions = []
+          for mapItem in map
+            sessions.push _.sample(mapItem)
+          if map.length != 2 then return @sendDatabaseError res, "There aren't sessions of 2 teams, so cannot choose random opponents!"
+          @sendSuccess res, sessions
+
+
   getFeedback: (req, res, id) ->
     return @sendNotFoundError(res) unless req.user
     @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>

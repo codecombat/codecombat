@@ -6,6 +6,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    send: "Send"
     cancel: "Cancelar"
     save: "Guardar"
+#    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1 segundo"
     delay_3_sec: "3 segundos"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
   versions:
     save_version_title: "Guardar Nueva Versión"
     new_major_version: "New Major Version"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "Para poder guardar los cambios, primero debes aceptar nuestra"
     cla_url: "CLA"
     cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     creating: "Creando Cuenta..."
     sign_up: "Registrarse"
     log_in: "Inicia sesión con tu contraseña"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Aprende a programar en JavaScript jugando"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     wizard_tab: "Hechicero"
     password_tab: "Contraseña"
     emails_tab: "Correos"
-#    job_profile_tab: "Job Profile"
     admin: "Administrador"
     wizard_color: "Color de Ropas del Hechicero"
     new_password: "Nueva Contraseña"
@@ -293,6 +291,9 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
 #    av_title: "Admin Views"
@@ -326,7 +327,6 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
 #    level_some_options: "Some Options?"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Previsualizar"
@@ -395,6 +395,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     easy: "Fácil"
     medium: "Medio"
     hard: "Difíficl"
+#    player: "Player"
 
   about:
     who_is_codecombat: "¿Quién es CodeCombat?"
@@ -599,6 +600,9 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
@@ -663,3 +667,5 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"
+#    model: "Model"

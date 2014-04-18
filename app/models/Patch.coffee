@@ -5,4 +5,7 @@ module.exports = class PatchModel extends CocoModel
   urlRoot: "/db/patch" 
   
   setStatus: (status) ->
-    $.ajax("/db/patch/#{@id}/status", {type:"PUT", data: {status:status}}) 
+    PatchModel.setStatus @id, status
+    
+  @setStatus: (id, status) ->
+    $.ajax("/db/patch/#{id}/status", {type:"PUT", data: {status:status}})

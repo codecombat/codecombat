@@ -4,6 +4,8 @@ Grid = require 'gridfs-stream'
 errors = require './errors'
 log = require 'winston'
 Patch = require '../patches/Patch'
+User = require '../users/User'
+sendwithus = require '../sendwithus'
 
 PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
 FETCH_LIMIT = 200
@@ -21,7 +23,7 @@ module.exports = class Handler
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.user?.isAdmin()
     if @modelClass.schema.uses_coco_permissions
-      return document.hasPermissionsForMethod(req.user, method or req.method)
+      return document.hasPermissionsForMethod?(req.user, method or req.method)
     return true
 
   formatEntity: (req, document) -> document?.toObject()
@@ -95,7 +97,7 @@ module.exports = class Handler
     # this handler should be overwritten by subclasses
     if @modelClass.schema.is_patchable
       return @getPatchesFor(req, res, args[0]) if req.route.method is 'get' and args[1] is 'patches'
-      return @setListening(req, res, args[0]) if req.route.method is 'put' and args[1] is 'listen'
+      return @setWatching(req, res, args[0]) if req.route.method is 'put' and args[1] is 'watch'
     return @sendNotFoundError(res)
 
   getPatchesFor: (req, res, id) ->
@@ -105,16 +107,16 @@ module.exports = class Handler
       patches = (patch.toObject() for patch in patches) 
       @sendSuccess(res, patches)
 
-  setListening: (req, res, id) ->
+  setWatching: (req, res, id) ->
     @getDocumentForIdOrSlug id, (err, document) =>
       return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, document, 'get')
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document?
-      listeners = document.get('listeners') or []
+      watchers = document.get('watchers') or []
       me = req.user.get('_id')
-      listeners = (l for l in listeners when not l.equals(me))
-      listeners.push me if req.body.on
-      document.set 'listeners', listeners
+      watchers = (l for l in watchers when not l.equals(me))
+      watchers.push me if req.body.on and req.body.on isnt 'false'
+      document.set 'watchers', watchers
       document.save (err, document) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, @formatEntity(req, document))
@@ -233,6 +235,9 @@ module.exports = class Handler
       return @sendBadInputError(res, err.errors) if err?.valid is false
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, @formatEntity(req, document))
+      @onPostSuccess(req, document)
+
+  onPostSuccess: (req, doc) ->
 
   ###
   TODO: think about pulling some common stuff out of postFirstVersion/postNewVersion
@@ -248,7 +253,6 @@ module.exports = class Handler
     document.set('original', document._id)
     document.set('creator', req.user._id)
     @saveChangesToDocument req, document, (err) =>
-      console.log 'saved new version', document.toObject()
       return @sendBadInputError(res, err.errors) if err?.valid is false
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, @formatEntity(req, document))
@@ -291,6 +295,7 @@ module.exports = class Handler
         newDocument.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, @formatEntity(req, newDocument))
+          @notifyWatchersOfChange(req.user, newDocument, req.body.editPath) if @modelClass.schema.is_patchable
 
       if major?
         parentDocument.makeNewMinorVersion(updatedObject, major, done)
@@ -298,8 +303,31 @@ module.exports = class Handler
       else
         parentDocument.makeNewMajorVersion(updatedObject, done)
 
+  notifyWatchersOfChange: (editor, changedDocument, editPath) ->
+    watchers = changedDocument.get('watchers') or []
+    watchers = (w for w in watchers when not w.equals(editor.get('_id')))
+    return unless watchers.length
+    User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) =>
+      for watcher in watchers
+        @notifyWatcherOfChange editor, watcher, changedDocument, editPath
+
+  notifyWatcherOfChange: (editor, watcher, changedDocument, editPath) ->
+    context =
+      email_id: sendwithus.templates.change_made_notify_watcher
+      recipient:
+        address: watcher.get('email')
+        name: watcher.get('name')
+      email_data:
+        doc_name: changedDocument.get('name') or '???'
+        submitter_name: editor.get('name') or '???'
+        doc_link: if editPath then "http://codecombat.com#{editPath}" else null
+        commit_message: changedDocument.get('commitMessage')
+    sendwithus.api.send context, (err, result) ->
+
   makeNewInstance: (req) ->
-    new @modelClass({})
+    model = new @modelClass({})
+    model.set 'watchers', [req.user.get('_id')] if @modelClass.schema.is_patchable
+    model
 
   validateDocumentInput: (input) ->
     tv4 = require('tv4').tv4

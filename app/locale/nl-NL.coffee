@@ -1,4 +1,4 @@
-﻿module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription: "Dutch (Netherlands)", translation:
+module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription: "Dutch (Netherlands)", translation:
   common:
     loading: "Aan het laden..."
     saving: "Opslaan..."
@@ -6,6 +6,7 @@
     send: "Verzend"
     cancel: "Annuleren"
     save: "Opslagen"
+#    publish: "Publish"
     create: "Creëer"
     delay_1_sec: "1 seconde"
     delay_3_sec: "3 secondes"
@@ -47,9 +48,6 @@
   versions:
     save_version_title: "Nieuwe versie opslagen"
     new_major_version: "Nieuwe hoofd versie"
-    update_break_level: "(Zou deze update oudere oplossingen van dit level kunnen breken?)"
-    update_break_component: "(Zou deze update iets kunnen breken die afhankelijk is van deze Component?)"
-    update_break_system: "(Zou deze update iets kunnen breken die afhankelijk is van dit Systeem?)"
     cla_prefix: "Om bewerkingen op te slaan, moet je eerst akkoord gaan met onze"
     cla_url: "CLA"
     cla_suffix: "."
@@ -75,6 +73,7 @@
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Leer programmeren in JavaScript door het spelen van een spel"
@@ -170,7 +169,7 @@
     password_mismatch: "Het wachtwoord komt niet overeen."
     job_profile: "Job Profiel"
     job_profile_approved: "Jouw job profiel werd goedgekeurd door CodeCombat. Werkgevers zullen het kunnen bekijken totdat je het inactief zet of als er geen verandering in komt voor vier weken."
-    job_profile_explanation: "Hey! Vul dit in en we zullen je contacteren om je een job als softwareontwikkelaar te helpen vinden." 
+    job_profile_explanation: "Hey! Vul dit in en we zullen je contacteren om je een job als softwareontwikkelaar te helpen vinden."
 
   account_profile:
     edit_settings: "Instellingen Aanpassen"
@@ -292,6 +291,9 @@
     time_current: "Nu:"
     time_total: "Maximum:"
     time_goto: "Ga naar:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Administrator panels"
@@ -325,7 +327,6 @@
     more: "Meer"
     wiki: "Wiki"
     live_chat: "Live Chat"
-    level_publish: "Publiceer dit level (onomkeerbaar)?"
     level_some_options: "Enkele opties?"
     level_tab_thangs: "Elementen"
     level_tab_scripts: "Scripts"
@@ -359,8 +360,8 @@
     article_search_title: "Zoek Artikels Hier"
     thang_search_title: "Zoek Thang Types Hier"
     level_search_title: "Zoek Levels Hier"
-    signup_to_create: "Registreer je om nieuwe content te maken" 
-    read_only_warning: "Herinnering: Je kunt hier geen aanpassingen opslaan, want je bent niet ingelogd als administrator."
+    signup_to_create: "Registreer je om nieuwe content te maken"
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Voorbeeld"
@@ -394,6 +395,7 @@
     easy: "Gemakkelijk"
     medium: "Medium"
     hard: "Moeilijk"
+#    player: "Player"
 
   about:
     who_is_codecombat: "Wie is CodeCombat?"
@@ -598,6 +600,9 @@
     simulate_all: "RESET EN SIMULEER SPELLEN"
     games_simulated_by: "Door jou gesimuleerde spellen:"
     games_simulated_for: "Voor jou gesimuleerde spellen:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
     leaderboard: "Leaderboard"
     battle_as: "Vecht als "
     summary_your: "Jouw "
@@ -662,3 +667,5 @@
     leaderboard: "Scorebord"
     user_schema: "Gebruikersschema"
     user_profile: "Gebruikersprofiel"
+#    patches: "Patches"
+#    model: "Model"

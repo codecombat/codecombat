@@ -6,6 +6,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     send: "Отправить"
     cancel: "Отмена"
     save: "Сохранить"
+#    publish: "Publish"
     create: "Создать"
     delay_1_sec: "1 секунда"
     delay_3_sec: "3 секунды"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   versions:
     save_version_title: "Сохранить новую версию"
     new_major_version: "Новая основная версия"
-    update_break_level: "(Может ли это обновление нарушить старые решения уровня?)"
-    update_break_component: "(Может ли это обновление нарушить что-нибудь, зависящее от данного Компонента?)"
-    update_break_system: "(Может ли это обновление нарушить что-нибудь, зависящее от данной Системы?)"
     cla_prefix: "Чтобы сохранить изменения, сначала вы должны согласиться с нашим"
     cla_url: "лицензионным соглашением соавторов"
     cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     creating: "Создание аккаунта..."
     sign_up: "Регистрация"
     log_in: "вход с паролем"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Научитесь программировать на JavaScript, играя в игру"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     wizard_tab: "Волшебник"
     password_tab: "Пароль"
     emails_tab: "Email-адреса"
-    job_profile_tab: "Профиль соискателя"
     admin: "Админ"
     wizard_color: "Цвет одежды волшебника"
     new_password: "Новый пароль"
@@ -293,6 +291,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Админ панель"
@@ -326,7 +327,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     more: "Ещё"
     wiki: "Вики"
     live_chat: "Онлайн-чат"
-    level_publish: "Опубликовать уровень (необратимо)?"
     level_some_options: "Ещё опции"
     level_tab_thangs: "Объекты"
     level_tab_scripts: "Скрипты"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     thang_search_title: "Искать типы объектов"
     level_search_title: "Искать уровни"
     signup_to_create: "Авторизуйтесь для создания нового контента"
-    read_only_warning: "Примечание: вы не можете сохранять здесь любые правки, потому что вы не вошли как администратор."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Предпросмотр"
@@ -395,6 +395,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     easy: "Просто"
     medium: "Нормально"
     hard: "Сложно"
+#    player: "Player"
 
   about:
     who_is_codecombat: "Кто стоит за CodeCombat?"
@@ -599,6 +600,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     simulate_all: "СБРОСИТЬ И СИМУЛИРОВАТЬ ИГРЫ"
     games_simulated_by: "Игры, симулированные вами:"
     games_simulated_for: "Игры, симулированные за вас:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
     leaderboard: "таблица лидеров"
     battle_as: "Сразиться за "
     summary_your: "Ваши "
@@ -663,3 +667,5 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     leaderboard: "таблица лидеров"
     user_schema: "Пользовательская Schema"
     user_profile: "Пользовательский профиль"
+#    patches: "Patches"
+#    model: "Model"

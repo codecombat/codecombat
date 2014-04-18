@@ -250,7 +250,7 @@ class MongoQueue extends events.EventEmitter
         @emit 'error',err,data
       else
         @emit 'update',err,data
-        log.info "The message visibility time was updated"
+        #log.info "The message visibility time was updated"
 
       callback? err, data
 

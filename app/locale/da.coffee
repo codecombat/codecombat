@@ -6,6 +6,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    send: "Send"
     cancel: "Annuller"
     save: "Gem"
+#    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1 sekund"
     delay_3_sec: "3 sekunder"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
   versions:
     save_version_title: "Gem ny version"
     new_major_version: "Ny hoved Version"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "For at gemme dine ændringer, må du acceptere brugerbetingelserne"
     cla_url: "CLA"
     cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     creating: "Opretter Konto..."
     sign_up: "Registrer"
     log_in: "Log ind med password"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Lær at Kode Javascript ved at Spille et Spil"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     wizard_tab: "Troldmand"
     password_tab: "Password"
     emails_tab: "Emails"
-#    job_profile_tab: "Job Profile"
 #    admin: "Admin"
     wizard_color: "Farve på Troldmandstøj"
     new_password: "Nyt Password"
@@ -293,6 +291,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
 #    av_title: "Admin Views"
@@ -326,7 +327,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
 #    level_some_options: "Some Options?"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    thang_search_title: "Search Thang Types Here"
     level_search_title: "Søg Baner Her"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Forhåndsvisning"
@@ -395,6 +395,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     easy: "Nem"
 #    medium: "Medium"
     hard: "Svær"
+#    player: "Player"
 
   about:
     who_is_codecombat: "Hvem er CodeCombat?"
@@ -599,6 +600,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
@@ -663,3 +667,5 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"
+#    model: "Model"

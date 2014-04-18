@@ -17,6 +17,7 @@ module.exports = class LevelLoadingView extends View
     @$el.find('.to-remove').remove()
 
   onLevelLoaderProgressChanged: (e) ->
+    return if @destroyed
     @progress = e.progress
     @progress = 0.01 if @progress < 0.01
     @updateProgressBar()
@@ -44,4 +45,4 @@ module.exports = class LevelLoadingView extends View
 
   onUnveilEnded: =>
     return if @destroyed
-    Backbone.Mediator.publish 'onLoadingViewUnveiled', view: @
+    Backbone.Mediator.publish 'level:loading-view-unveiled', view: @
