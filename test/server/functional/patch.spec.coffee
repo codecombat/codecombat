@@ -52,7 +52,7 @@ describe '/db/patch', ->
       body = JSON.parse(body)
       expect(res.statusCode).toBe(200)
       expect(body.length).toBe(1)
-      done()
+      done() 
       
   it 'allows you to set yourself as watching', (done) ->
     watchingURL = getURL("/db/article/#{articles[0]._id}/watch")

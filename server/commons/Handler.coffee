@@ -4,6 +4,8 @@ Grid = require 'gridfs-stream'
 errors = require './errors'
 log = require 'winston'
 Patch = require '../patches/Patch'
+User = require '../users/User'
+sendwithus = require '../sendwithus'
 
 PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
 FETCH_LIMIT = 200
@@ -293,12 +295,34 @@ module.exports = class Handler
         newDocument.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, @formatEntity(req, newDocument))
+          @notifyWatchersOfChange(req.user, newDocument, req.body.editPath) if @modelClass.schema.is_patchable
 
       if major?
         parentDocument.makeNewMinorVersion(updatedObject, major, done)
 
       else
         parentDocument.makeNewMajorVersion(updatedObject, done)
+
+  notifyWatchersOfChange: (editor, changedDocument, editPath) ->
+    watchers = changedDocument.get('watchers') or []
+    watchers = (w for w in watchers when not w.equals(editor.get('_id')))
+    return unless watchers.length
+    User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) =>
+      for watcher in watchers
+        @notifyWatcherOfChange editor, watcher, changedDocument, editPath
+
+  notifyWatcherOfChange: (editor, watcher, changedDocument, editPath) ->
+    context =
+      email_id: sendwithus.templates.change_made_notify_watcher
+      recipient:
+        address: watcher.get('email')
+        name: watcher.get('name')
+      email_data:
+        doc_name: changedDocument.get('name') or '???'
+        submitter_name: editor.get('name') or '???'
+        doc_link: if editPath then "http://codecombat.com#{editPath}" else null
+        commit_message: changedDocument.get('commitMessage')
+    sendwithus.api.send context, (err, result) ->
 
   makeNewInstance: (req) ->
     model = new @modelClass({})
