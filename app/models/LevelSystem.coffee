@@ -1,4 +1,5 @@
 CocoModel = require('./CocoModel')
+SystemNameLoader = require('lib/SystemNameLoader')
 
 module.exports = class LevelSystem extends CocoModel
   @className: "LevelSystem"
@@ -16,6 +17,7 @@ module.exports = class LevelSystem extends CocoModel
   onLoaded: ->
     super()
     @set 'js', @compile(@get 'code') unless @get 'js'
+    SystemNameLoader.setName @
 
   compile: (code) ->
     if @get('language') and @get('language') isnt 'coffeescript'
