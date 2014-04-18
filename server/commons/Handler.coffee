@@ -375,3 +375,17 @@ module.exports = class Handler
     return done(validation) unless validation.valid
 
     document.save (err) -> done(err)
+
+  getPropertiesFromMultipleDocuments: (res, model, properties, ids) ->
+    query = model.find()
+    ids = ids.split(',') if _.isString ids
+    ids = _.uniq ids
+    for id in ids
+      return errors.badInput(res, "Given an invalid id: #{id}") unless Handler.isID(id)
+    query.where({'_id': { $in: ids} })
+    query.select(properties).exec (err, documents) ->
+      dict = {}
+      _.each documents, (document) ->
+        dict[document.id] = document
+      res.send dict
+      res.end()
