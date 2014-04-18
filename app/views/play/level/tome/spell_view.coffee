@@ -47,6 +47,7 @@ module.exports = class SpellView extends View
 
   constructor: (options) ->
     super options
+    @worker = options.worker
     @session = options.session
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
@@ -324,13 +325,29 @@ module.exports = class SpellView extends View
     codeIsAsCast = castAether and not @spell.hasChangedSignificantly source, castAether.raw
     aether = castAether if codeIsAsCast
     return if not needsUpdate and aether is @displayedAether
-
+    
     # Now that that's figured out, perform the update.
+    # The web worker Aether won't track state, so don't have to worry about updating it
     @clearAetherDisplay()
-    aether.transpile source if codeHasChangedSignificantly and not codeIsAsCast
-    @displayAether aether
-    @lastUpdatedAetherSpellThang = @spellThang
-    @guessWhetherFinished aether if fromCodeChange
+    workerMessage =
+      function: "lint"
+      spellKey: @spell.spellKey
+      source: source
+    
+    @worker.addEventListener "message", (e) =>
+      workerData = JSON.parse e.data
+      if workerData.function is "lint"
+        @worker.removeEventListener("message",arguments.callee, false)
+        aether.problems = workerData.lintMessages
+        aether.raw = source
+        @displayAether aether
+        @lastUpdatedAetherSpellThang = @spellThang
+        @guessWhetherFinished aether if fromCodeChange
+    @worker.postMessage JSON.stringify(workerMessage)
+    #aether.transpile source if codeHasChangedSignificantly and not codeIsAsCast
+    #@displayAether aether
+    #@lastUpdatedAetherSpellThang = @spellThang
+    #@guessWhetherFinished aether if fromCodeChange
 
   clearAetherDisplay: ->
     problem.destroy() for problem in @problems

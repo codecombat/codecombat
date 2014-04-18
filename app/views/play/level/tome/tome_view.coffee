@@ -71,7 +71,7 @@ module.exports = class TomeView extends View
       @cast()
       console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
     delete @options.thangs
-
+    
   onNewWorld: (e) ->
     thangs = _.filter e.world.thangs, 'isSelectable'
     programmableThangs = _.filter thangs, 'isProgrammable'
@@ -88,26 +88,11 @@ module.exports = class TomeView extends View
     @cast()
 
   createWorker: ->
-    return
-    # In progress
-    worker = cw
-      initialize: (scope) ->
-        self.window = self
-        self.global = self
-        console.log 'Tome worker initialized.'
-      doIt: (data, callback, scope) ->
-        console.log 'doing', what
-        try
-          importScripts '/javascripts/tome_aether.js'
-        catch err
-          console.log err.toString()
-        a = new Aether()
-        callback 'good'
-        undefined
-    onAccepted = (s) -> console.log 'accepted', s
-    onRejected = (s) -> console.log 'rejected', s
-    worker.doIt('hmm').then onAccepted, onRejected
-    worker
+    worker = new Worker("/javascripts/workers/test_worker.js")
+    worker.addEventListener 'message', (e) ->
+      console.log "Aether worker said something!"
+    , false
+    return worker
 
   generateTeamSpellMap: (spellObject) ->
     teamSpellMap = {}

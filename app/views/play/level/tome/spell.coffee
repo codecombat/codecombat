@@ -23,7 +23,7 @@ module.exports = class Spell
     @parameters = p.parameters
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
     @thangs = {}
-    @view = new SpellView {spell: @, session: @session}
+    @view = new SpellView {spell: @, session: @session, worker: @worker}
     @view.render()  # Get it ready and code loaded in advance
     @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel
     @tabView.render()
@@ -61,7 +61,20 @@ module.exports = class Spell
     else
       source = @getSource()
     [pure, problems] = [null, null]
+    workerMessage =
+      function: "lint"
+      spellKey: @spellKey
+      source: source
+    @worker.postMessage JSON.stringify(workerMessage)
+    @worker.addEventListener "message", (e) ->
+      workerData = JSON.parse e.data
+      if workerData.function is "lint"
+        pure = workerData.lintMessages
+        
+
+      
     for thangID, spellThang of @thangs
+      
       unless pure
         pure = spellThang.aether.transpile source
         problems = spellThang.aether.problems
@@ -111,13 +124,23 @@ module.exports = class Spell
       aetherOptions.includeFlow = false
     #console.log "creating aether with options", aetherOptions
     aether = new Aether aetherOptions
+    workerMessage =
+      function: "createAether"
+      spellKey: @spellKey
+      options: aetherOptions
+    @worker.postMessage JSON.stringify workerMessage
     aether
 
   updateLanguageAether: ->
     aceConfig = me.get('aceConfig') ? {}
+    newLanguage = (aceConfig.language ? 'javascript')
     for thangId, spellThang of @thangs
-      spellThang.aether?.setLanguage (aceConfig.language ? 'javascript')
+      spellThang.aether?.setLanguage newLanguage
       spellThang.castAether = null
+    workerMessage = 
+      function: "updateLanguageAether"
+      newLanguage: newLanguage
+    @worker.postMessage JSON.stringify workerMessage
     @transpile()
 
   toString: ->
