@@ -16,13 +16,14 @@ describe '/db/patch', ->
   patch =
     commitMessage: 'Accept this patch!'
     delta: {name:['test']}
+    editPath: '/who/knows/yes'
     target:
       id:null
       collection: 'article'
 
   it 'creates an Article to patch', (done) ->
     loginAdmin ->
-      request.post {uri:articleURL, json:patch}, (err, res, body) ->
+      request.post {uri:articleURL, json:article}, (err, res, body) ->
         articles[0] = body
         patch.target.id = articles[0]._id
         done()
@@ -51,29 +52,29 @@ describe '/db/patch', ->
       body = JSON.parse(body)
       expect(res.statusCode).toBe(200)
       expect(body.length).toBe(1)
-      done()
+      done() 
       
-  it 'allows you to set yourself as listening', (done) ->
-    listeningURL = getURL("/db/article/#{articles[0]._id}/listen")
-    request.put {uri: listeningURL, json: {on:true}}, (err, res, body) ->
-      expect(body.listeners[0]).toBeDefined()
+  it 'allows you to set yourself as watching', (done) ->
+    watchingURL = getURL("/db/article/#{articles[0]._id}/watch")
+    request.put {uri: watchingURL, json: {on:true}}, (err, res, body) ->
+      expect(body.watchers[1]).toBeDefined()
       done()
 
-  it 'added the listener to the target document', (done) ->
+  it 'added the watcher to the target document', (done) ->
     Article.findOne({}).exec (err, article) ->
-      expect(article.toObject().listeners[0]).toBeDefined()
+      expect(article.toObject().watchers[1]).toBeDefined()
       done()
 
-  it 'does not add duplicate listeners', (done) ->
-    listeningURL = getURL("/db/article/#{articles[0]._id}/listen")
-    request.put {uri: listeningURL, json: {on:true}}, (err, res, body) ->
-      expect(body.listeners.length).toBe(1)
+  it 'does not add duplicate watchers', (done) ->
+    watchingURL = getURL("/db/article/#{articles[0]._id}/watch")
+    request.put {uri: watchingURL, json: {on:true}}, (err, res, body) ->
+      expect(body.watchers.length).toBe(2)
       done()
       
   it 'allows removing yourself', (done) ->
-    listeningURL = getURL("/db/article/#{articles[0]._id}/listen")
-    request.put {uri: listeningURL, json: {on:false}}, (err, res, body) ->
-      expect(body.listeners.length).toBe(0)
+    watchingURL = getURL("/db/article/#{articles[0]._id}/watch")
+    request.put {uri: watchingURL, json: {on:false}}, (err, res, body) ->
+      expect(body.watchers.length).toBe(1)
       done()
       
   it 'allows the submitter to withdraw the pull request', (done) ->

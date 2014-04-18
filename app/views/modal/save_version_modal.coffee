@@ -8,6 +8,7 @@ module.exports = class SaveVersionModal extends ModalView
   id: 'save-version-modal'
   template: template
   plain: true
+  modalWidthPercent: 60
 
   events:
     'click #save-version-button': 'onClickSaveButton'
@@ -26,15 +27,16 @@ module.exports = class SaveVersionModal extends ModalView
     c.hasChanges = @model.hasLocalChanges()
     c
 
-  afterRender: ->
+  afterRender: (insertDeltaView=true) ->
     super()
     @$el.find(if me.get('signedCLA') then '#accept-cla-wrapper' else '#save-version-button').hide()
     changeEl = @$el.find('.changes-stub')
-    try
-      deltaView = new DeltaView({model:@model})
-      @insertSubView(deltaView, changeEl)
-    catch e
-      console.error "Couldn't create delta view:", e
+    if insertDeltaView
+      try
+        deltaView = new DeltaView({model:@model})
+        @insertSubView(deltaView, changeEl)
+      catch e
+        console.error "Couldn't create delta view:", e
     @$el.find('.commit-message input').attr('placeholder', $.i18n.t('general.commit_msg'))
 
   onClickSaveButton: ->
@@ -54,6 +56,7 @@ module.exports = class SaveVersionModal extends ModalView
     }
     errors = patch.validate()
     forms.applyErrorsToForm(@$el, errors) if errors
+    patch.set 'editPath', document.location.pathname
     res = patch.save()
     return unless res
     @enableModalInProgress(@$el)
