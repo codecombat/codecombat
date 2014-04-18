@@ -14,7 +14,7 @@ LevelSessionHandler = require '../levels/sessions/level_session_handler'
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
   'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
-  'gplusID', 'music', 'volume', 'aceConfig'
+  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt'
 ]
 candidateProperties = [
   'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
@@ -47,7 +47,7 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in serverProperties
     includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
-    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.permissions ? [])))
+    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.permissions ? [])) and @employerCanViewCandidate req.user, obj)
     delete obj[prop] for prop in candidateProperties unless includeCandidate
     return obj
 
@@ -259,6 +259,7 @@ UserHandler = class UserHandler extends Handler
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
     query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
+    #query = {'jobProfile.updated': {$gt: since}}
     query.jobProfileApproved = true unless req.user.isAdmin()
     selection = 'jobProfile'
     selection += ' email' if authorized
@@ -266,6 +267,7 @@ UserHandler = class UserHandler extends Handler
     User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       candidates = (@formatCandidate(authorized, doc) for doc in documents)
+      candidates = (candidate for candidate in candidates when @employerCanViewCandidate req.user, candidate)
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
@@ -277,6 +279,14 @@ UserHandler = class UserHandler extends Handler
       subfields = subfields.concat ['name']
     obj.jobProfile = _.pick obj.jobProfile, subfields
     obj
+
+  employerCanViewCandidate: (employer, candidate) ->
+    return true if employer.isAdmin()
+    for job in candidate.jobProfile?.work ? []
+      # TODO: be smarter about different ways to write same company names to ensure privacy.
+      # We'll have to manually pay attention to how we set employer names for now.
+      return false if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
+    true
 
   buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user

@@ -3,6 +3,7 @@ template = require 'templates/account/settings'
 {me} = require('lib/auth')
 forms = require('lib/forms')
 User = require('models/User')
+LoginModalView = require 'views/modal/login_modal'
 
 WizardSettingsView = require './wizard_settings_view'
 JobProfileView = require './job_profile_view'
@@ -44,6 +45,11 @@ module.exports = class SettingsView extends View
     @listenTo @jobProfileView, 'change', @save
     @insertSubView @jobProfileView
     _.defer => @buildPictureTreema()  # Not sure why, but the Treemas don't fully build without this if you reload the page.
+
+  afterInsert: ->
+    super()
+    if me.get('anonymous')
+      @openModalView new LoginModalView()
 
   chooseTab: (category) ->
     id = "##{category}-pane"

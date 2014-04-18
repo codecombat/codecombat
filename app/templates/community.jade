@@ -1,0 +1,35 @@
+extends /templates/base
+
+block content
+  
+  h1(data-i18n="community.main_title") CodeCombat Community
+
+  h2
+    a(href="/editor", data-i18n="community.level_editor") Level Editor
+
+  h2
+    a(href="http://blog.codecombat.com", data-i18n="nav.blog") Blog
+
+  h2
+    a(href="http://discourse.codecombat.com", data-i18n="nav.forum") Forum
+
+  h2
+    a(href="/contribute", data-i18n="nav.contribute") Contribute
+
+  h2
+    a(href="https://www.facebook.com/codecombat", data-i18n="community.facebook") Facebook
+
+  h2
+    a(href="https://twitter.com/CodeCombat", data-i18n="community.twitter") Twitter
+
+  h2
+    a(href="https://plus.google.com/115285980638641924488/posts", data-i18n="community.gplus") Google+
+
+  h2
+    a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="community.contact_us") Contact us!
+  
+  p
+    span(data-i18n="editor.hipchat_prefix") You can also find us in our
+    |  
+    strong
+      a(href="http://www.hipchat.com/g3plnOKqa", data-i18n="editor.hipchat_url") HipChat room.
