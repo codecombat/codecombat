@@ -216,22 +216,11 @@ class ModelResource extends Resource
 
     @isLoading = true
     @loadDeferred = $.Deferred()
-    $.when.apply($, @loadDependencies())
-      .then(@onLoadDependenciesSuccess, @onLoadDependenciesFailed)
-      .always(=> @isLoading = false)
+    @fetchModel()
 
     return @loadDeferred.promise()
 
-  loadDependencies: ->
-    promises = []
-
-    for dep in @dependencies
-      continue if not dep.isReadyForLoad()
-      promises.push(dep.load())
-
-    return promises
-
-  onLoadDependenciesSuccess: =>
+  fetchModel: ->
     @model.fetch(@fetchOptions)
 
     ###
@@ -252,11 +241,6 @@ class ModelResource extends Resource
       @markFailed('Failed to load resource.')
       @loadDeferred.reject(@)
     )
-
-  onLoadDependenciesFailed: =>
-    @markFailed('Failed to load dependencies.')
-    @loadDeferred.reject(@)
-
 
 class RequestResource extends Resource
   constructor: (name, jqxhrOptions, value) ->

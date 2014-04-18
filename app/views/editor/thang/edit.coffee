@@ -49,8 +49,7 @@ module.exports = class ThangTypeEditView extends View
     @thangType = new ThangType(_id: @thangTypeID)
     @thangType.saveBackups = true
 
-    @listenToOnce(@thangType, 'error',
-      () =>
+    @listenToOnce(@thangType, 'error', =>
         @hideLoading()
 
         # Hack: editor components appear after calling insertSubView.
@@ -61,10 +60,11 @@ module.exports = class ThangTypeEditView extends View
     )
 
     thangRes = @supermodel.addModelResource(@thangType, 'thang_type')
+    thangRes.load()
+
     @files = new DocumentFiles(@thangType)
     thangDocRes = @supermodel.addModelResource(@files, 'thang_document')
-    thangRes.addDependency(thangDocRes)
-    thangRes.load()
+    thangDocRes.load()
 
     @refreshAnimation = _.debounce @refreshAnimation, 500
 

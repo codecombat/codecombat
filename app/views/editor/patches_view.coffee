@@ -21,13 +21,13 @@ module.exports = class PatchesView extends CocoView
     @startedLoading = false
     @patches = new PatchesCollection([], {}, @model, @status)
     @patchesRes = @supermodel.addModelResource(@patches, 'patches')
-
+    @patchesRes.load()
+  
+  load: ->
+    return unless @patchesRes.loaded
     ids = (p.get('creator') for p in @patches.models)
     jqxhrOptions = nameLoader.loadNames ids
     @nameLoaderRes = @supermodel.addRequestResource('name_loader', jqxhrOptions)
-    @nameLoaderRes.addDependency(@patchesRes)
-    
-  load: ->
     @nameLoaderRes.load()
 
   getRenderData: ->
