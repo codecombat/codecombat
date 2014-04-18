@@ -72,9 +72,9 @@ module.exports = class ThangComponentEditView extends CocoView
         'object': ComponentNode
     # I have no idea why it's not building in the Thang Editor unless I defer
     _.defer (=>
-      console.debug 'treema', @$el.find('#add-component-column .treema')
       @addComponentsTreema = @$el.find('#add-component-column .treema').treema treemaOptions
       @addComponentsTreema.build()
+      @hideLoading()
     ), 500
 
   onSelectAddableComponent: (e, selected) =>
