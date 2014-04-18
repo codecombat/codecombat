@@ -47,7 +47,7 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in serverProperties
     includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
-    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.permissions ? [])) and @employerCanViewCandidate req.user, obj)
+    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj)
     delete obj[prop] for prop in candidateProperties unless includeCandidate
     return obj
 
@@ -266,8 +266,8 @@ UserHandler = class UserHandler extends Handler
     selection += ' jobProfileApproved' if req.user.isAdmin()
     User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
-      candidates = (@formatCandidate(authorized, doc) for doc in documents)
-      candidates = (candidate for candidate in candidates when @employerCanViewCandidate req.user, candidate)
+      candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
+      candidates = (@formatCandidate(authorized, candidate) for candidate in candidates)
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
@@ -285,6 +285,8 @@ UserHandler = class UserHandler extends Handler
     for job in candidate.jobProfile?.work ? []
       # TODO: be smarter about different ways to write same company names to ensure privacy.
       # We'll have to manually pay attention to how we set employer names for now.
+      if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
+        log.info "#{employer.get('name')} at #{employer.get('employerAt')} can't see #{candidate.jobProfile.name} because s/he worked there."
       return false if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
     true
 

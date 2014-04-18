@@ -90,7 +90,7 @@ block content
             if user.get('jobProfileNotes') || me.isAdmin()
               h3.experience-header(data-i18n="account_profile.our_notes") Our Notes
               - var notes = user.get('jobProfileNotes') || '';
-              if !me.isAdmin()
+              if me.isAdmin()
                 textarea#job-profile-notes!= notes
               else
                 div!= marked(notes)
