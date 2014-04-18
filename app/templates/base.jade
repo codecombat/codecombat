@@ -58,7 +58,7 @@ body
     .footer.clearfix
       .content
         p.footer-link-text
-          if pathname == "/"
+          if pathname == "/" || (me.get('permissions') || []).indexOf('employer') != -1
             a(href='/employers', title='Home', tabindex=-1, data-i18n="nav.employers") Employers
           else
             a(href='/', title='Home', tabindex=-1, data-i18n="nav.home") Home
