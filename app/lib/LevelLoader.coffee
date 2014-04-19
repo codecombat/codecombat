@@ -59,15 +59,17 @@ module.exports = class LevelLoader extends CocoClass
 
     # Unless you specify cache:false, sometimes the browser will use a cached session
     # and players will 'lose' code
-    @listenToOnce(@session, 'sync', @onSessionLoaded)
+    
     sessionRes = @supermodel.addModelResource(@session, 'level_session', {cache:false})
+    @listenToOnce(sessionRes, 'resource:loaded', @onSessionLoaded)
     sessionRes.load()
 
     if @opponentSessionID
       @opponentSession = new LevelSession()
       @opponentSession.url = "/db/level_session/#{@opponentSessionID}"
-      @listenToOnce(@opponentSession, 'sync', @onSessionLoaded)
+
       opponentSessionRes = @supermodel.addModelResource(@opponentSession, 'opponent_session')
+      @listenToOnce(opponentSessionRes, 'resource:loaded', @onSessionLoaded)
       opponentSessionRes.load()
 
   sessionsLoaded: ->
@@ -84,7 +86,7 @@ module.exports = class LevelLoader extends CocoClass
   # Supermodel (Level) Loading
 
   loadLevelModels: ->
-    @listenTo(@supermodel, 'loaded-one', @onSupermodelLoadedOne)
+    @listenTo(@supermodel, 'superModel:updateProgress', @onSupermodelLoadedOne) # Some models are not added via addModelResource()
     @listenToOnce(@supermodel, 'error', @onSupermodelError)
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
     levelID = @levelID
@@ -106,7 +108,7 @@ module.exports = class LevelLoader extends CocoClass
 
   onSupermodelLoadedOne: (e) ->
     @buildSpriteSheetsForThangType e.model if not @headless and e.model instanceof ThangType
-    @update()
+    @update() unless @destroyed
 
   # Things to do when either the Session or Supermodel load
 
@@ -162,7 +164,7 @@ module.exports = class LevelLoader extends CocoClass
   buildSpriteSheetsForThangType: (thangType) ->
     @grabThangTypeTeams() unless @thangTypeTeams
     for team in @thangTypeTeams[thangType.get('original')] ? [null]
-      spriteOptions = {resolutionFactor: 4, async: true}
+      spriteOptions = {resolutionFactor: 4, async: false}
       if thangType.get('kind') is 'Floor'
         spriteOptions.resolutionFactor = 2
       if team and color = @teamConfigs[team]?.color
@@ -176,14 +178,19 @@ module.exports = class LevelLoader extends CocoClass
     return unless building
     #console.log 'Building:', thangType.get('name'), options
     @spriteSheetsToBuild += 1
-    thangType.once 'build-complete', =>
+    onBuildComplete = =>
       return if @destroyed
       @spriteSheetsBuilt += 1
       @notifyProgress()
+    if options.async
+      thangType.once 'build-complete', onBuildComplete
+    else
+      onBuildComplete()
 
   # World init
 
   initWorld: ->
+    console.debug('gintau', 'init-world')
     return if @initialized
     @initialized = true
     @world = new World @level.get('name')
@@ -218,21 +225,25 @@ module.exports = class LevelLoader extends CocoClass
 
   progress: ->
     return 0 unless @level.loaded
-    overallProgress = 0
-    supermodelProgress = @supermodel.getProgress()
-    overallProgress += supermodelProgress * 0.7
+    supermodelProgress = @supermodel.getProgress()    
+    overallProgress = supermodelProgress * 0.7
     overallProgress += 0.1 if @sessionsLoaded()
-    if @headless
-      spriteMapProgress = 0.2
-    else
-      spriteMapProgress = if supermodelProgress is 1 then 0.2 else 0
-      spriteMapProgress *= @spriteSheetsBuilt / @spriteSheetsToBuild if @spriteSheetsToBuild
-    overallProgress += spriteMapProgress
 
+    spriteMapProgress = 1
+    unless @headless
+      spriteMapProgress = @spriteSheetsBuilt / @spriteSheetsToBuild if @spriteSheetsToBuild
+    spriteMapProgress *= 0.2
+    
+    overallProgress += spriteMapProgress
     return overallProgress
 
   notifyProgress: ->
-    Backbone.Mediator.publish 'level-loader:progress-changed', progress: @progress()
+    progress = @progress()
+    Backbone.Mediator.publish 'level-loader:progress-changed', progress: progress
     @initWorld() if @allDone()
     @trigger 'progress'
-    @trigger 'loaded-all' if @progress() is 1
+
+    # console.debug 'gintau', 'notify-notifyProgress', progress
+    if progress is 1
+      # console.debug 'gintau', 'notify-loaded-all'
+      @trigger 'loaded-all'

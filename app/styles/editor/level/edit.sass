@@ -1,10 +1,10 @@
 #editor-level-view
+  &, #level-editor-top-nav
+    min-width: 1024px
+  
   a
     font-family: helvetica, arial, sans serif
   
-  #top-nav
-    display: none
-
   position: absolute
   top: 0px
   left: 0px
@@ -12,22 +12,55 @@
   bottom: 0px
 
   $BG: rgba(228, 207, 140, 1.0)
+  $NAVBG: #2f261d
 
   li.navbar-btn
     margin-right: 5px
   
-  #level-editor-top-nav
-    .nav-tabs
-      border-bottom: 0 !important
-      .active > a, .active > a:hover, .active > a:focus
-        background-color: $BG !important
-        border-color: darken($BG, 50%)
-        border-bottom: 0
+  // custom navbar height rules
+  .navbar-nav > li > a
+    padding: 7px 8px 8px
+    cursor: pointer
+    &:hover
+      background-color: lighten($NAVBG, 10%)
+  .navbar
+    min-height: 0px
+    border-radius: 0
+  .navbar-right
+    // not sure why bootstrap puts a big negative margin in, but this overrides it
+    margin-right: 10px
+    
+  // custom navbar styling
+  .navbar-brand
+    padding-top: 7px
+    padding-bottom: 7px
+    color: lighten(gold, 30%)
+  .navbar-header
+    border-left: 2px solid lighten($NAVBG, 20%)
+    border-right: 2px solid lighten($NAVBG, 20%)
+    background: lighten($NAVBG, 10%)
+    margin-left: 20px
+  .nav-tabs
+    margin-left: 5px
+    border-bottom: 0 !important
+    .active > a, .active > a:hover, .active > a:focus
+      background-color: $BG !important
+      border-color: darken($BG, 50%)
+      border-bottom: 0
+    a
+      padding: 7px 5px !important
+  .dropdown-menu a
+    cursor: pointer
+    &:hover
+      background-color: #d3d3d3
+      
+  .badge
+    background-color: green
 
   .outer-content
     background-color: $BG
     position: absolute
-    top: 0
+    top: 35px
     bottom: 0
     left: 0
     right: 0
@@ -45,12 +78,11 @@
 
   #level-editor-tabs
     position: absolute
-    left: 20px
-    right: 20px
-    top: 66px
-    bottom: 20px
+    left: 15px
+    right: 15px
+    top: 15px
+    bottom: 15px
     
   .treema-root
     background-color: white
     border-radius: 4px
-    

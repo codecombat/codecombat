@@ -36,7 +36,7 @@ ThangListView = require './thang_list_view'
 SpellPaletteView = require './spell_palette_view'
 CastButtonView = require './cast_button_view'
 
-window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.coffee'
+window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.js'
 
 module.exports = class TomeView extends View
   id: 'tome-view'
@@ -51,6 +51,7 @@ module.exports = class TomeView extends View
     'tome:change-language': 'updateLanguageForAllSpells'
     'surface:sprite-selected': 'onSpriteSelected'
     'god:new-world-created': 'onNewWorld'
+    'tome:comment-my-code': 'onCommentMyCode'
 
   events:
     'click #spell-view': 'onSpellViewClick'
@@ -77,6 +78,14 @@ module.exports = class TomeView extends View
     @createSpells programmableThangs, e.world
     @thangList.adjustThangs @spells, thangs
     @spellList.adjustSpells @spells
+
+  onCommentMyCode: (e) ->
+    for spellKey, spell of @spells when spell.canWrite()
+      console.log "Commenting out", spellKey
+      commentedSource = 'return;  // Commented out to stop infinite loop.\n' + spell.getSource()
+      spell.view.updateACEText commentedSource
+      spell.view.recompile false
+    @cast()
 
   createWorker: ->
     return
@@ -130,7 +139,7 @@ module.exports = class TomeView extends View
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
           skipProtectAPI = @getQueryVariable "skip_protect_api", not @options.ladderGame
-          skipFlow = @getQueryVariable "skip_flow", @options.levelID is 'brawlwood'
+          skipFlow = @getQueryVariable "skip_flow", @options.levelID is 'brawlwood' or @options.levelID is 'resource-gathering-multiplayer'
           spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI, worker: @worker
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID

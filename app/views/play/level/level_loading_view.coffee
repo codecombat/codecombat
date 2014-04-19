@@ -9,21 +9,22 @@ module.exports = class LevelLoadingView extends View
   subscriptions:
     'level-loader:progress-changed': 'onLevelLoaderProgressChanged'
 
+  onLoaded: ->
   afterRender: ->
     @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
     tips = @$el.find('.tip').addClass('to-remove')
     tip = _.sample(tips)
     $(tip).removeClass('to-remove')
     @$el.find('.to-remove').remove()
-    @hideLoading()
 
   onLevelLoaderProgressChanged: (e) ->
+    return if @destroyed
     @progress = e.progress
     @progress = 0.01 if @progress < 0.01
     @updateProgressBar()
 
   updateProgressBar: ->
-    @$el?.find('.progress-bar').css('width', (100 * @progress) + '%')
+    @$el.find('.progress-bar').css('width', (100 * @progress) + '%')
 
   showReady: ->
     ready = $.i18n.t('play_level.loading_ready', defaultValue: 'Ready!')
@@ -45,4 +46,4 @@ module.exports = class LevelLoadingView extends View
 
   onUnveilEnded: =>
     return if @destroyed
-    Backbone.Mediator.publish 'onLoadingViewUnveiled', view: @
+    Backbone.Mediator.publish 'level:loading-view-unveiled', view: @

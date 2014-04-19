@@ -23,7 +23,8 @@ module.exports = class ThangComponentEditView extends CocoView
     @listenToOnce(@componentCollectionRes, 'resource:loaded', @onComponentsSync)
     @componentCollectionRes.load()
 
-  onLoaded: ->
+  onloaded: -> @render()
+
   afterRender: ->
     super()
     @buildExtantComponentTreema()
@@ -73,7 +74,8 @@ module.exports = class ThangComponentEditView extends CocoView
     _.defer (=>
       @addComponentsTreema = @$el.find('#add-component-column .treema').treema treemaOptions
       @addComponentsTreema.build()
-    ), 100
+      @hideLoading()
+    ), 500
 
   onSelectAddableComponent: (e, selected) =>
     @extantComponentsTreema.deselectAll()

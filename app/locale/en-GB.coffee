@@ -6,6 +6,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    send: "Send"
 #    cancel: "Cancel"
 #    save: "Save"
+#    publish: "Publish"
 #    create: "Create"
 #    delay_1_sec: "1 second"
 #    delay_3_sec: "3 seconds"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #  versions:
 #    save_version_title: "Save New Version"
 #    new_major_version: "New Major Version"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
 #    cla_prefix: "To save changes, first you must agree to our"
 #    cla_url: "CLA"
 #    cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    creating: "Creating Account..."
 #    sign_up: "Sign Up"
 #    log_in: "log in with password"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
 #  home:
 #    slogan: "Learn to Code JavaScript by Playing a Game"
@@ -126,11 +125,11 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  wizard_settings:
+  wizard_settings:
 #    title: "Wizard Settings"
-#    customize_avatar: "Customize Your Avatar"
+    customize_avatar: "Customise Your Avatar"
 #    active: "Active"
-#    color: "Color"
+    color: "Colour"
 #    group: "Group"
 #    clothes: "Clothes"
 #    trim: "Trim"
@@ -142,7 +141,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    saturation: "Saturation"
 #    lightness: "Lightness"
 
-#  account_settings:
+  account_settings:
 #    title: "Account Settings"
 #    not_logged_in: "Log in or create an account to change your settings."
 #    autosave: "Changes Save Automatically"
@@ -151,9 +150,8 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    wizard_tab: "Wizard"
 #    password_tab: "Password"
 #    emails_tab: "Emails"
-#    job_profile_tab: "Job Profile"
 #    admin: "Admin"
-#    wizard_color: "Wizard Clothes Color"
+    wizard_color: "Wizard Clothes Colour"
 #    new_password: "New Password"
 #    new_password_verify: "Verify"
 #    email_subscriptions: "Email Subscriptions"
@@ -201,11 +199,11 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    candidate_years_experience: "Yrs Exp"
 #    candidate_last_updated: "Last Updated"
 
-#  play_level:
+  play_level:
 #    level_load_error: "Level could not be loaded: "
 #    done: "Done"
 #    grid: "Grid"
-#    customize_wizard: "Customize Wizard"
+    customize_wizard: "Customise Wizard"
 #    home: "Home"
 #    guide: "Guide"
 #    multiplayer: "Multiplayer"
@@ -259,7 +257,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
 #    editor_config_indentguides_label: "Show Indent Guides"
 #    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
-#    editor_config_behaviors_label: "Smart Behaviors"
+    editor_config_behaviors_label: "Smart Behaviours"
 #    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 #    loading_ready: "Ready!"
 #    tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
@@ -293,6 +291,9 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
 #  admin:
 #    av_title: "Admin Views"
@@ -326,7 +327,6 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
 #    level_some_options: "Some Options?"
 #    level_tab_thangs: "Thangs"
 #    level_tab_scripts: "Scripts"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
 #  article:
 #    edit_btn_preview: "Preview"
@@ -395,14 +395,15 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    easy: "Easy"
 #    medium: "Medium"
 #    hard: "Hard"
+#    player: "Player"
 
-#  about:
+  about:
 #    who_is_codecombat: "Who is CodeCombat?"
 #    why_codecombat: "Why CodeCombat?"
 #    who_description_prefix: "together started CodeCombat in 2013. We also created "
 #    who_description_suffix: "in 2008, growing it to the #1 web and iOS application for learning to write Chinese and Japanese characters."
 #    who_description_ending: "Now it's time to teach people to write code."
-#    why_paragraph_1: "When making Skritter, George didn't know how to program and was constantly frustrated by his inability to implement his ideas. Afterwards, he tried learning, but the lessons were too slow. His housemate, wanting to reskill and stop teaching, tried Codecademy, but \"got bored.\" Each week another friend started Codecademy, then dropped off. We realized it was the same problem we'd solved with Skritter: people learning a skill via slow, intensive lessons when what they need is fast, extensive practice. We know how to fix that."
+    why_paragraph_1: "When making Skritter, George didn't know how to program and was constantly frustrated by his inability to implement his ideas. Afterwards, he tried learning, but the lessons were too slow. His housemate, wanting to reskill and stop teaching, tried Codecademy, but \"got bored.\" Each week another friend started Codecademy, then dropped off. We realised it was the same problem we'd solved with Skritter: people learning a skill via slow, intensive lessons when what they need is fast, extensive practice. We know how to fix that."
 #    why_paragraph_2: "Need to learn to code? You don't need lessons. You need to write a lot of code and have a great time doing it."
 #    why_paragraph_3_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
 #    why_paragraph_3_italic: "yay a badge"
@@ -415,11 +416,11 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    george_description: "CEO, business guy, web designer, game designer, and champion of beginning programmers everywhere."
 #    scott_description: "Programmer extraordinaire, software architect, kitchen wizard, and master of finances. Scott is the reasonable one."
 #    nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
-#    jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
+    jeremy_description: "Customer support mage, usability tester, and community organiser; you've probably already spoken with Jeremy."
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
 #    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
-#  legal:
+  legal:
 #    page_title: "Legal"
 #    opensource_intro: "CodeCombat is free to play and completely open source."
 #    opensource_description_prefix: "Check out "
@@ -445,18 +446,18 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    recruitment_description_suffix: "so once you've sharpened your skills and if you agree, we will demo your best coding accomplishments to the thousands of employers who are drooling for the chance to hire you. They pay us a little, they pay you"
 #    recruitment_description_italic: "a lot"
 #    recruitment_description_ending: "the site remains free and everybody's happy. That's the plan."
-#    copyrights_title: "Copyrights and Licenses"
-#    contributor_title: "Contributor License Agreement"
+    copyrights_title: "Copyrights and Licences"
+    contributor_title: "Contributor Licence Agreement"
 #    contributor_description_prefix: "All contributions, both on the site and on our GitHub repository, are subject to our"
 #    cla_url: "CLA"
 #    contributor_description_suffix: "to which you should agree before contributing."
 #    code_title: "Code - MIT"
 #    code_description_prefix: "All code owned by CodeCombat or hosted on codecombat.com, both in the GitHub repository or in the codecombat.com database, is licensed under the"
-#    mit_license_url: "MIT license"
+    mit_license_url: "MIT licence"
 #    code_description_suffix: "This includes all code in Systems and Components that are made available by CodeCombat for the purpose of creating levels."
 #    art_title: "Art/Music - Creative Commons "
 #    art_description_prefix: "All common content is available under the"
-#    cc_license_url: "Creative Commons Attribution 4.0 International License"
+    cc_license_url: "Creative Commons Attribution 4.0 International Licence"
 #    art_description_suffix: "Common content is anything made generally available by CodeCombat for the purpose of creating Levels. This includes:"
 #    art_music: "Music"
 #    art_sound: "Sound"
@@ -480,7 +481,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
-#  contribute:
+  contribute:
 #    page_title: "Contributing"
 #    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
@@ -493,8 +494,8 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    alert_account_message_pref: "To subscribe for class emails, you'll need to "
 #    alert_account_message_suf: "first."
 #    alert_account_message_create_url: "create an account"
-#    archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
-#    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
+    archmage_summary: "Interested in working on game graphics, user interface design, database and server organisation, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
+    archmage_introduction: "One of the best parts about building games is they synthesise so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
 #    class_attributes: "Class Attributes"
 #    archmage_attribute_1_pref: "Knowledge in "
 #    archmage_attribute_1_suf: ", or a desire to learn. Most of our code is in this language. If you're a fan of Ruby or Python, you'll feel right at home. It's JavaScript, but with a nicer syntax."
@@ -548,7 +549,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    diplomat_attribute_1: "Fluency in English and the language you would like to translate to. When conveying complicated ideas, it's important to have a strong grasp in both!"
 #    diplomat_join_pref_github: "Find your language locale file "
 #    diplomat_github_url: "on GitHub"
-#    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalization developments!"
+    diplomat_join_suf_github: ", edit it online, and submit a pull request. Also, check this box below to keep up-to-date on new internationalisation developments!"
 #    more_about_diplomat: "Learn More About Becoming a Diplomat"
 #    diplomat_subscribe_desc: "Get emails about i18n developments and levels to translate."
 #    ambassador_summary: "We are trying to build a community, and every community needs a support team when there are troubles. We have got chats, emails, and social networks so that our users can get acquainted with the game. If you want to help people get involved, have fun, and learn some programming, then this class is for you."
@@ -565,7 +566,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    counselor_attribute_1: "Experience, in any of the areas above or something you think might be helpful."
 #    counselor_attribute_2: "A little bit of free time!"
 #    counselor_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll put you in our contact list and be in touch when we could use advice (not too often)."
-#    more_about_counselor: "Learn More About Becoming a Counselor"
+    more_about_counselor: "Learn More About Becoming a Counsellor"
 #    changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
 #    diligent_scribes: "Our Diligent Scribes:"
 #    powerful_archmages: "Our Powerful Archmages:"
@@ -574,7 +575,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  classes:
+  classes:
 #    archmage_title: "Archmage"
 #    archmage_title_description: "(Coder)"
 #    artisan_title: "Artisan"
@@ -587,7 +588,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    diplomat_title_description: "(Translator)"
 #    ambassador_title: "Ambassador"
 #    ambassador_title_description: "(Support)"
-#    counselor_title: "Counselor"
+    counselor_title: "Counsellor"
 #    counselor_title_description: "(Expert/Teacher)"
 
 #  ladder:
@@ -599,6 +600,9 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
@@ -663,3 +667,5 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"
+#    model: "Model"

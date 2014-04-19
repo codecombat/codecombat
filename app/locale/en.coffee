@@ -15,6 +15,9 @@
     fork: "Fork"
     play: "Play"
     retry: "Retry"
+    watch: "Watch"
+    unwatch: "Unwatch"
+    submit_patch: "Submit Patch"
 
   units:
     second: "second"
@@ -36,6 +39,7 @@
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
+    account: "Account"
     admin: "Admin"
     home: "Home"
     contribute: "Contribute"
@@ -170,6 +174,8 @@
     job_profile: "Job Profile"
     job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
     job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+    sample_profile: "See a sample profile"
+    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Edit Settings"
@@ -291,6 +297,9 @@
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
+    infinite_loop_try_again: "Try Again"
+    infinite_loop_reset_level: "Reset Level"
+    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Admin Views"
@@ -303,6 +312,13 @@
     lg_title: "Latest Games"
     clas: "CLAs"
 
+  community:
+    level_editor: "Level Editor"
+    main_title: "CodeCombat Community"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    gplus: "Google+"
+
   editor:
     main_title: "CodeCombat Editors"
     main_description: "Build your own levels, campaigns, units and educational content. We provide all the tools you need!"
@@ -312,8 +328,8 @@
     thang_description: "Build units, defining their default logic, graphics and audio. Currently only supports importing Flash exported vector graphics."
     level_title: "Level Editor"
     level_description: "Includes the tools for scripting, uploading audio, and constructing custom logic to create all sorts of levels. Everything we use ourselves!"
-    security_notice: "Many major features in these editors are not currently enabled by default. As we improve the security of these systems, they will be made generally available. If you'd like to use these features sooner, "
-    contact_us: "contact us!"
+    got_questions: "Questions about using the CodeCombat editors?"
+    contact_us: "Contact us!"
     hipchat_prefix: "You can also find us in our"
     hipchat_url: "HipChat room."
     back: "Back"
@@ -392,7 +408,7 @@
     easy: "Easy"
     medium: "Medium"
     hard: "Hard"
-
+    player: "Player"
 
   about:
     who_is_codecombat: "Who is CodeCombat?"
@@ -597,6 +613,9 @@
     simulate_all: "RESET AND SIMULATE GAMES"
     games_simulated_by: "Games simulated by you:"
     games_simulated_for: "Games simulated for you:"
+    games_simulated: "Games simulated"
+    games_played: "Games played"
+    ratio: "Ratio"
     leaderboard: "Leaderboard"
     battle_as: "Battle as "
     summary_your: "Your "
@@ -661,9 +680,5 @@
     leaderboard: "Leaderboard"
     user_schema: "User Schema"
     user_profile: "User Profile"
-    level_session: "LevelSession"
-    level_sessions_collection: 'LevelSessionsCollection'
-    opponent_session: "OpponentSession"
-    simulator: 'Simulator'
-    level_document: 'Level Document'
-    thang_document: 'Thang Document'
+    patches: "Patches"
+    model: "Model"

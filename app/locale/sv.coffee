@@ -6,6 +6,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    send: "Send"
     cancel: "Avbryt"
     save: "Spara"
+#    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1 sekund"
     delay_3_sec: "3 sekunder"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
   versions:
     save_version_title: "Spara ny version"
     new_major_version: "Ny betydande version"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "För att spara ändringar måste du först godkänna vår"
 #    cla_url: "CLA"
 #    cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     creating: "Skapar konto..."
     sign_up: "Skapa konto"
     log_in: "logga in med lösenord"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Lär dig att koda Javascript genom att spela ett spel."
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     wizard_tab: "Trollkarl"
     password_tab: "Lösenord"
     emails_tab: "E-postadresser"
-#    job_profile_tab: "Job Profile"
     admin: "Administratör"
     wizard_color: "Trollkarlens klädfärg"
     new_password: "Nytt lösenord"
@@ -293,6 +291,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Administratörsvyer"
@@ -326,7 +327,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
     level_some_options: "Några inställningar?"
     level_tab_thangs: "Enheter"
     level_tab_scripts: "Skript"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     thang_search_title: "Sök enhetstyper här"
     level_search_title: "Sök nivåer här"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Förhandsgranska"
@@ -395,6 +395,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     easy: "Lätt"
     medium: "Medium"
     hard: "Svår"
+#    player: "Player"
 
   about:
     who_is_codecombat: "Vilka är CodeCombat?"
@@ -599,6 +600,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     simulate_all: "ÅTERSTÄLL OCH SIMULERA MATCHER"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
     leaderboard: "Resultattavla"
     battle_as: "Kämpa som "
     summary_your: "Dina "
@@ -663,3 +667,5 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"
+#    model: "Model"

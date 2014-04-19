@@ -6,6 +6,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    send: "Send"
     cancel: "취소"
     save: "저장"
+#    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1초"
     delay_3_sec: "3초"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   versions:
     save_version_title: "새로운 버전을 저장합니다"
     new_major_version: "신규 버전"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "변경사항을 저장하기 위해서는, 먼저 계약사항에 동의 하셔야 합니다."
     cla_url: "CLA"
     cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     creating: "계정을 생성 중입니다..."
     sign_up: "등록"
     log_in: "비밀번호로 로그인"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "쉽고 간단한 게임으로 자바스크립트 배우기"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     wizard_tab: "마법사"
     password_tab: "비밀번호"
     emails_tab: "이메일"
-#    job_profile_tab: "Job Profile"
     admin: "관리자"
     wizard_color: "마법사 옷 색깔"
     new_password: "새 비밀번호"
@@ -293,6 +291,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "관리자 뷰"
@@ -326,7 +327,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
     level_some_options: "다른 옵션들?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "스크립트들"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     thang_search_title: "Thang 타입들은 여기에서 찾으세요"
     level_search_title: "레벨들은 여기에서 찾으세요"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "미리보기"
@@ -395,6 +395,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     easy: "초급"
     medium: "중급"
     hard: "상급"
+#    player: "Player"
 
   about:
     who_is_codecombat: "코드컴뱃은 누구인가?"
@@ -599,6 +600,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
@@ -663,3 +667,5 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"
+#    model: "Model"

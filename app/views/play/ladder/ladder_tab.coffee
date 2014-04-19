@@ -3,8 +3,10 @@ CocoClass = require 'lib/CocoClass'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'models/CocoCollection'
+User = require 'models/User'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
+ModelModal = require 'views/modal/model_modal'
 
 HIGHEST_SCORE = 1000000
 
@@ -23,6 +25,8 @@ module.exports = class LadderTabView extends CocoView
   events:
     'click .connect-facebook': 'onConnectFacebook'
     'click .connect-google-plus': 'onConnectGPlus'
+    'click .name-col-cell': 'onClickPlayerName'
+    'click .load-more-ladder-entries': 'onLoadMoreLadderEntries'
 
   subscriptions:
     'fbapi-loaded': 'checkFriends'
@@ -32,7 +36,7 @@ module.exports = class LadderTabView extends CocoView
 
   constructor: (options, @level, @sessions) ->
     super(options)
-    @socialNetworkRes = @supermodel.addSomethingResource("social_network_apis")
+    @socialNetworkRes = @supermodel.addSomethingResource("social_network_apis", 0)
 
     @teams = teamDataFromLevel @level
     @leaderboards = {}
@@ -45,7 +49,7 @@ module.exports = class LadderTabView extends CocoView
     
     # @addSomethingToLoad("facebook_status")
 
-    @fbStatusRes = @supermodel.addSomethingResource("facebook_status")
+    @fbStatusRes = @supermodel.addSomethingResource("facebook_status", 0)
     @fbStatusRes.load()
 
     FB.getLoginStatus (response) =>
@@ -71,7 +75,7 @@ module.exports = class LadderTabView extends CocoView
   loadFacebookFriends: ->
     # @addSomethingToLoad("facebook_friends")
 
-    @fbFriendRes = @supermodel.addSomethingResource("facebook_friends")
+    @fbFriendRes = @supermodel.addSomethingResource("facebook_friends", 0)
     @fbFriendRes.load()
 
     FB.api '/me/friends', @onFacebookFriendsLoaded
@@ -84,16 +88,6 @@ module.exports = class LadderTabView extends CocoView
   loadFacebookFriendSessions: ->
     levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
     url = "/db/level/#{levelFrag}/leaderboard_facebook_friends"
-    
-    ###
-    jqxhr = $.ajax url, {
-      data: { friendIDs: (f.id for f in @facebookData) }
-      method: 'POST'
-      success: @onFacebookFriendSessionsLoaded
-    }
-    
-    @addRequestToLoad(jqxhr, 'facebook_friend_sessions', 'loadFacebookFriendSessions')
-    ###
 
     @fbFriendSessionRes = @supermodel.addRequestResource('facebook_friend_sessions', {
       url: url
@@ -124,7 +118,7 @@ module.exports = class LadderTabView extends CocoView
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
       #@addSomethingToLoad("gplus_friends")
-      @gpFriendRes = @supermodel.addSomethingResource("gplus_friends")
+      @gpFriendRes = @supermodel.addSomethingResource("gplus_friends", 0)
       @gpFriendRes.load()
       application.gplusHandler.loadFriends @gplusFriendsLoaded
 
@@ -136,14 +130,7 @@ module.exports = class LadderTabView extends CocoView
   loadGPlusFriendSessions: ->
     levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
     url = "/db/level/#{levelFrag}/leaderboard_gplus_friends"
-    ###
-    jqxhr = $.ajax url, {
-      data: { friendIDs: (f.id for f in @gplusData) }
-      method: 'POST'
-      success: @onGPlusFriendSessionsLoaded
-    }
-    @addRequestToLoad(jqxhr, 'gplus_friend_sessions', 'loadGPlusFriendSessions')
-    ###
+
     @gpFriendSessionRes = @supermodel.addRequestResource('gplus_friend_sessions', {
       url: url
       data: { friendIDs: (f.id for f in @gplusData) }
@@ -168,10 +155,10 @@ module.exports = class LadderTabView extends CocoView
       @leaderboards[team.id]?.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession)
-      # @addResourceToLoad @leaderboards[team.id], 'leaderboard', 3
       @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', 3)
       @leaderboardRes.load()
 
+  onLoaded: -> @render()
   render: ->
     super()
   
@@ -279,17 +266,29 @@ module.exports = class LadderTabView extends CocoView
     sessions.reverse()
     sessions
 
+  # Admin view of players' code
+  onClickPlayerName: (e) ->
+    return unless me.isAdmin()
+    row = $(e.target).parent()
+    player = new User _id: row.data 'player-id'
+    session = new LevelSession _id: row.data 'session-id'
+    @openModalView new ModelModal models: [session, player]
+
+  onLoadMoreLadderEntries: (e) ->
+    @ladderLimit ?= 100
+    @ladderLimit += 100
+    @refreshLadder()
+
 class LeaderboardData extends CocoClass
   ###
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
-  
+
   constructor: (@level, @team, @session) ->
     super()
-    @fetch()
-    
+
   fetch: ->
-    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: 20})
+    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})
     promises = []
     promises.push @topPlayers.fetch()
 
@@ -325,8 +324,8 @@ class LeaderboardData extends CocoClass
     return [] unless @session?.get('totalScore')
     l = []
     above = @playersAbove.models
-    above.reverse()
     l = l.concat(above)
+    l.reverse()
     l.push @session
     l = l.concat(@playersBelow.models)
     if @myRank

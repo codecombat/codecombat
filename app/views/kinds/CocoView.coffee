@@ -44,8 +44,8 @@ module.exports = class CocoView extends Backbone.View
     # Backbone.Mediator handles subscription setup/teardown automatically
 
     @listenToOnce(@supermodel, 'loaded-all', @onLoaded)
-    @listenToOnce(@supermodel, 'superModel:updateProgress', @updateProgress)
-    @listenToOnce(@supermodel, 'resource:failed', @onResourceLoadFailed)
+    @listenTo(@supermodel, 'superModel:updateProgress', @updateProgress)
+    @listenTo(@supermodel, 'resource:failed', @onResourceLoadFailed)
 
     super options
 
@@ -82,6 +82,7 @@ module.exports = class CocoView extends Backbone.View
   # View Rendering
 
   render: ->
+    # console.debug 'gintau' , 'CocoView-Render', @
     return @ unless me
     super()
     return @template if _.isString(@template)
@@ -108,7 +109,6 @@ module.exports = class CocoView extends Backbone.View
     context
 
   afterRender: ->
-    @hideLoading()
 
   updateProgress: (progress)=>
     @loadProgress.progress = progress if progress > @loadProgress.progress
@@ -119,10 +119,10 @@ module.exports = class CocoView extends Backbone.View
     @$el?.find('.loading-screen .progress-bar').css('width', prog)
 
   onLoaded: ->
-    @render?()
 
   # Error handling for loading
   onResourceLoadFailed: (source) ->
+    # console.debug 'gintau', 'onResourceLoadFailed', source
     @$el.find('.loading-screen .errors').append(loadingErrorTemplate({
       status: 'error',
       name: source.resource.name
@@ -138,6 +138,7 @@ module.exports = class CocoView extends Backbone.View
   # Modals
 
   toggleModal: (e) ->
+    return if visibleModal
     if $(e.currentTarget).prop('target') is '_blank'
       return true
     # special handler for opening modals that are dynamically loaded, rather than static in the page. It works (or should work) like Bootstrap's modals, except use coco-modal for the data-toggle value.
@@ -180,12 +181,14 @@ module.exports = class CocoView extends Backbone.View
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
+    ## console.debug 'gintau', 'showLoading', $el
     $el.find('>').addClass('hidden')
     $el.append loadingScreenTemplate()
     @_lastLoading = $el
 
   hideLoading: ->
     return unless @_lastLoading?
+    ## console.debug 'gintau', 'hideLoading', @$el
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null

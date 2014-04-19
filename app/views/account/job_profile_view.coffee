@@ -10,20 +10,17 @@ module.exports = class JobProfileView extends CocoView
     'lookingFor', 'active', 'name', 'city', 'country', 'skills', 'experience', 'shortDescription', 'longDescription',
     'work', 'education', 'visa', 'projects', 'links', 'jobTitle', 'photoURL'
   ]
-  readOnlySettings: [
-    'updated'
-  ]
+  readOnlySettings: []  #['updated']
 
   afterRender: ->
     super()
-    return if @loading()
-    @buildJobProfileTreema()
+    return unless @supermodel.finished()
+    _.defer => @buildJobProfileTreema()  # Not sure why, but the Treemas don't fully build without this if you reload the page.
 
   buildJobProfileTreema: ->
     visibleSettings = @editableSettings.concat @readOnlySettings
     data = _.pick (me.get('jobProfile') ? {}), (value, key) => key in visibleSettings
     data.name ?= (me.get('firstName') + ' ' + me.get('lastName')).trim() if me.get('firstName')
-    console.log 'schema?', me.schema()
     schema = _.cloneDeep me.schema().properties.jobProfile
     schema.properties = _.pick schema.properties, (value, key) => key in visibleSettings
     schema.required = _.intersection schema.required, visibleSettings
@@ -44,10 +41,56 @@ module.exports = class JobProfileView extends CocoView
     @jobProfileTreema = @$el.find('#job-profile-treema').treema treemaOptions
     @jobProfileTreema.build()
     @jobProfileTreema.open()
+    @updateProgress()
 
   onJobProfileChanged: (e) =>
     @hasEditedProfile = true
     @trigger 'change'
+    @updateProgress()
+
+  updateProgress: ->
+    completed = 0
+    totalWeight = 0
+    next = null
+    for metric in metrics = @getProgressMetrics()
+      done = metric.fn()
+      completed += metric.weight ? 1 if done
+      totalWeight += metric.weight
+      next = metric.name unless next or done
+    progress = Math.round 100 * completed / totalWeight
+    bar = @$el.find('.profile-completion-progress .progress-bar')
+    bar.css 'width', "#{progress}%"
+    text = ""
+    if progress > 19
+      text = "#{progress}% complete"
+    else if progress > 5
+      text = "#{progress}%"
+    bar.text text
+    bar.parent().toggle Boolean progress
+    @$el.find('.progress-next-item').text(next).toggle Boolean next
+
+  getProgressMetrics: ->
+    return @progressMetrics if @progressMetrics
+    schema = me.schema().properties.jobProfile
+    jobProfile = @jobProfileTreema.data
+    exists = (field) -> -> jobProfile[field]
+    modified = (field) -> -> jobProfile[field] and jobProfile[field] isnt schema.properties[field].default
+    listStarted = (field, subfields) -> -> jobProfile[field]?.length and _.every subfields, (subfield) -> jobProfile[field][0][subfield]
+    @progressMetrics = [
+      {name: "Mark yourself open to offers to show up in searches.", weight: 1, fn: modified 'active'}
+      {name: "Specify your desired job title.", weight: 0, fn: exists 'jobTitle'}
+      {name: "Provide your name.", weight: 1, fn: modified 'name'}
+      {name: "Choose your city.", weight: 1, fn: modified 'city'}
+      {name: "Pick your country.", weight: 0, fn: exists 'country'}
+      {name: "List at least five skills.", weight: 2, fn: -> jobProfile.skills.length >= 5}
+      {name: "Write a short description to summarize yourself at a glance.", weight: 2, fn: modified 'shortDescription'}
+      {name: "Fill in your main description to sell yourself and describe the work you're looking for.", weight: 3, fn: modified 'longDescription'}
+      {name: "List your work experience.", weight: 3, fn: listStarted 'work', ['role', 'employer']}
+      {name: "Recount your educational ordeals.", weight: 3, fn: listStarted 'education', ['degree', 'school']}
+      {name: "Show off up to three projects you've worked on.", weight: 3, fn: listStarted 'projects', ['name']}
+      {name: "Add any personal or social links.", weight: 2, fn: listStarted 'links', ['link', 'name']}
+      {name: "Add an optional professional photo.", weight: 2, fn: modified 'photoURL'}
+    ]
 
   getData: ->
     return {} unless me.get('jobProfile') or @hasEditedProfile

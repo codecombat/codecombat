@@ -21,13 +21,14 @@ module.exports = class PatchesView extends CocoView
     @startedLoading = false
     @patches = new PatchesCollection([], {}, @model, @status)
     @patchesRes = @supermodel.addModelResource(@patches, 'patches')
-
+    @patchesRes.load()
+    @listenTo(@patchesRes, 'resource:loaded', @load)
+  
+  load: ->
+    return unless @patchesRes.loaded
     ids = (p.get('creator') for p in @patches.models)
     jqxhrOptions = nameLoader.loadNames ids
     @nameLoaderRes = @supermodel.addRequestResource('name_loader', jqxhrOptions)
-    @nameLoaderRes.addDependency(@patchesRes)
-    
-  load: ->
     @nameLoaderRes.load()
 
   getRenderData: ->
@@ -36,18 +37,27 @@ module.exports = class PatchesView extends CocoView
     c.patches = @patches.models
     c.status
     c
-    
+  
+  onLoaded: -> @render()
   afterRender: ->
     @$el.find(".#{@status}").addClass 'active'
 
   onStatusButtonsChanged: (e) ->
-    @loaded = false
     @status = $(e.target).val()
+    @reloadPatches()
+    
+  reloadPatches: ->
+    @loaded = false
     @initPatches()
-    @load()
+    # @load()
     @render()
 
   openPatchModal: (e) ->
     patch = _.find @patches.models, {id:$(e.target).data('patch-id')}
     modal = new PatchModal(patch, @model)
     @openModalView(modal)
+    @listenTo modal, 'accepted-patch', -> @trigger 'accepted-patch'
+    @listenTo modal, 'hide', ->
+      f = => @reloadPatches()
+      setTimeout(f, 400)
+      @stopListening modal

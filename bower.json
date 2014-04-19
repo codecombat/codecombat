@@ -42,7 +42,8 @@
     "jquery.tablesorter": "~2.15.13",
     "treema": ">=0.0.1",
     "bootstrap": "~3.1.1",
-    "validated-backbone-mediator": "~0.1.3"
+    "validated-backbone-mediator": "~0.1.3",
+    "jquery.browser": "~0.0.6"
   },
   "overrides": {
     "backbone": {
@@ -58,7 +59,11 @@
       "main": "lib/underscore.string.js"
     },
     "jsondiffpatch": {
-      "main": ["build/bundle-full.js", "build/formatters.js", "src/formatters/html.css"]
+      "main": [
+        "build/bundle-full.js",
+        "build/formatters.js",
+        "src/formatters/html.css"
+      ]
     },
     "jquery.tablesorter": {
       "main": [

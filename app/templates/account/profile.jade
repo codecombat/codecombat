@@ -5,7 +5,7 @@ block content
   if myProfile || (me.isAdmin() && user.get('jobProfile'))
     .profile-control-bar
       if myProfile
-        a(href="/account/settings")
+        a(href=user.get('jobProfile') ? "/account/settings#job-profile" : "/account/settings")
           button.btn.edit-settings-button
             i.icon-cog
             span(data-i18n="account_profile.edit_settings") Edit Settings
@@ -13,85 +13,101 @@ block content
         button.btn.edit-settings-button#toggle-job-profile-approved
           i.icon-cog
           span(data-i18n='account_profile.approved').approved Approved
-          span(data-i18n='account_profile.approved').not-approved Not Approved
+          span(data-i18n='account_profile.not_approved').not-approved Not Approved
   
   if user.get('jobProfile')
     - var profile = user.get('jobProfile');
     .job-profile-container
       .job-profile-row
         .left-column.full-height-column
-          .profile-photo-container
-            img.profile-photo(src=user.getPhotoURL(240, true))
-            .profile-caption= profile.jobTitle || 'Software Developer'
-
-          if profileLinks.length
-            ul.links
-              each link in profileLinks
-                li(title=profile.name + " on " + link.name, class=link.icon ? "has-icon" : "")
-                  a(href=link.link)
-                    if link.icon
-                      img(src=link.icon.url, alt=link.icon.name)
-                    else
-                      button.btn.btn-large.btn-inverse.flat-button= link.name
-
-          div= profile.city + ', ' + profile.country
-          div= profile.visa
-          div
-            span(data-i18n="account_profile.looking_for") Looking for:
-            |  #{profile.lookingFor}
-          div
-            span(data-i18n="account_profile.last_updated") Last updated:
-            |  #{moment(profile.updated).fromNow()}
-
-          button#contact-candidate.btn.btn-large.btn-inverse.flat-button
-            span(data-i18n="account_profile.contact") Contact
-            |  #{profile.name.split(' ')[0]}
+          .sub-column
+            .profile-photo-container
+              img.profile-photo(src=user.getPhotoURL(240, true))
+              .profile-caption= profile.jobTitle || 'Software Developer'
+  
+            if profileLinks.length
+              ul.links
+                each link in profileLinks
+                  if link.link && link.name
+                    li(title=profile.name + " on " + link.name, class=link.icon ? "has-icon" : "")
+                      a(href=link.link)
+                        if link.icon
+                          img(src=link.icon.url, alt=link.icon.name)
+                        else
+                          button.btn.btn-large.btn-inverse.flat-button= link.name
+  
+            div= profile.city + ', ' + profile.country
+            div= profile.visa
+            div
+              span(data-i18n="account_profile.looking_for") Looking for:
+              |  #{profile.lookingFor}
+            div
+              span(data-i18n="account_profile.last_updated") Last updated:
+              |  #{moment(profile.updated).fromNow()}
+  
+            button#contact-candidate.btn.btn-large.btn-inverse.flat-button
+              span(data-i18n="account_profile.contact") Contact
+              |  #{profile.name.split(' ')[0]}
 
         .middle-column.full-height-column
-          h3= profile.name
-          p= profile.shortDescription
-
-          each skill in profile.skills
-            code= skill
-            span  
-          div.long-description!= marked(profile.longDescription)
-
-          if profile.work.length
-            h3.experience-header 
-              img.header-icon(src="/images/pages/account/profile/work.png", alt="")
-              span(data-i18n="account_profile.work_experience") Work Experience
-            each job in profile.work
-              div.duration.pull-right= job.duration
-              | #{job.role} at #{job.employer}
-              .clearfix
-
-          if profile.education.length
-            h3.experience-header
-              img.header-icon(src="/images/pages/account/profile/education.png", alt="")
-              span(data-i18n="account_profile.work_experience") Education
-            each school in profile.education
-              div.duration.pull-right= school.duration
-              | #{school.degree} at #{school.school}
-              .clearfix
-
-          if user.get('jobProfileNotes') || me.isAdmin()
-            h3.experience-header(data-i18n="account_profile.our_notes") Our Notes
-            - var notes = user.get('jobProfileNotes') || '';
-            if me.isAdmin()
-              textarea#job-profile-notes!= notes
-            else
-              div!= marked(notes)
+          .sub-column
+            h3= profile.name || "Anonymous Developer"
+            if profile.shortDescription
+              p= profile.shortDescription
+  
+            each skill in profile.skills
+              code= skill
+              span  
+            if profile.longDescription
+              div.long-description!= marked(profile.longDescription)
+  
+            if profile.work.length
+              h3.experience-header 
+                img.header-icon(src="/images/pages/account/profile/work.png", alt="")
+                span(data-i18n="account_profile.work_experience") Work Experience
+              each job in profile.work
+                if job.role && job.employer
+                  div.experience-entry
+                    div.duration.pull-right= job.duration
+                    | #{job.role} at #{job.employer}
+                    .clearfix
+                    if job.description
+                      div!= marked(job.description)
+  
+            if profile.education.length
+              h3.experience-header
+                img.header-icon(src="/images/pages/account/profile/education.png", alt="")
+                span(data-i18n="account_profile.education") Education
+              each school in profile.education
+                if school.degree && school.school
+                  div.experience-entry
+                    div.duration.pull-right= school.duration
+                    | #{school.degree} at #{school.school}
+                    .clearfix
+                    if school.description
+                      div!= marked(school.description)
+  
+            if user.get('jobProfileNotes') || me.isAdmin()
+              h3.experience-header(data-i18n="account_profile.our_notes") Our Notes
+              - var notes = user.get('jobProfileNotes') || '';
+              if me.isAdmin()
+                textarea#job-profile-notes!= notes
+              else
+                div!= marked(notes)
 
         .right-column.full-height-column
-          if profile.projects.length
-            h3(data-i18n="account_profile.projects") Projects
-            ul.projects
-              each project in profile.projects
-                li
-                  a(href=project.link)
-                  .project-image(style="background-image: url(/file/" + project.picture + ")")
-                  p= project.name
-                  div!= marked(project.description)
+          .sub-column
+            if profile.projects.length
+              h3(data-i18n="account_profile.projects") Projects
+              ul.projects
+                each project in profile.projects
+                  if project.name
+                    li
+                      a(href=project.link)
+                      if project.picture
+                        .project-image(style="background-image: url(/file/" + project.picture + ")")
+                      p= project.name
+                      div!= marked(project.description)
 
   else
     .public-profile-container

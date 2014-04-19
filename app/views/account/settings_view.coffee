@@ -3,6 +3,7 @@ template = require 'templates/account/settings'
 {me} = require('lib/auth')
 forms = require('lib/forms')
 User = require('models/User')
+LoginModalView = require 'views/modal/login_modal'
 
 WizardSettingsView = require './wizard_settings_view'
 JobProfileView = require './job_profile_view'
@@ -43,7 +44,12 @@ module.exports = class SettingsView extends View
     @jobProfileView = new JobProfileView()
     @listenTo @jobProfileView, 'change', @save
     @insertSubView @jobProfileView
-    @buildPictureTreema()
+    _.defer => @buildPictureTreema()  # Not sure why, but the Treemas don't fully build without this if you reload the page.
+
+  afterInsert: ->
+    super()
+    if me.get('anonymous')
+      @openModalView new LoginModalView()
 
   chooseTab: (category) ->
     id = "##{category}-pane"
@@ -78,7 +84,7 @@ module.exports = class SettingsView extends View
   buildPictureTreema: ->
     data = photoURL: me.get('photoURL')
     data.photoURL = null if data.photoURL?.search('gravatar') isnt -1  # Old style
-    schema = _.cloneDeep me.schema()
+    schema = $.extend true, {}, me.schema()
     schema.properties = _.pick me.schema().properties, 'photoURL'
     schema.required = ['photoURL']
     treemaOptions =
@@ -88,8 +94,8 @@ module.exports = class SettingsView extends View
       callbacks: {change: @onPictureChanged}
 
     @pictureTreema = @$el.find('#picture-treema').treema treemaOptions
-    @pictureTreema.build()
-    @pictureTreema.open()
+    @pictureTreema?.build()
+    @pictureTreema?.open()
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   onPictureChanged: (e) =>

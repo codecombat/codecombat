@@ -11,6 +11,14 @@ module.exports = class SuperModel extends Backbone.Model
     @collections = {}
     @schemas = {}
 
+    # setInterval(@checkModelStatus, 5000)
+
+  # For debugging
+  checkModelStatus: =>
+    for key, res of @resources
+      continue if res.isLoaded
+      console.debug 'resource ' + res.name + ' is still loading'
+
   populateModel: (model, resName) ->
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
@@ -122,7 +130,7 @@ module.exports = class SuperModel extends Backbone.Model
     resource.rid = @rid
     @resources[@rid] = resource
     @listenToOnce(resource, 'resource:loaded', @onResourceLoaded)
-    @listenToOnce(resource, 'resource:failed', @onResourceFailed)
+    @listenTo(resource, 'resource:failed', @onResourceFailed)
     @denom += value
 
   loadResources: ->
@@ -164,6 +172,7 @@ module.exports = class SuperModel extends Backbone.Model
     @num += r.value
     @progress = @num / @denom
 
+    # console.debug 'gintau', 'supermodel-updateProgress', @progress, @num, @denom
     @trigger('superModel:updateProgress', @progress)
     @trigger('loaded-all') if @finished()
 
@@ -183,13 +192,13 @@ class Resource extends Backbone.Model
     @isLoaded = false
     @model = null
     @loadDeferred = null
-    @value = 1
 
   addDependency: (depRes) ->
     return if depRes.isLoaded
     @dependencies.push(depRes)
 
   markLoaded: ->
+    # console.debug 'gintau', 'markLoaded', @
     @trigger('resource:loaded', @) if not @isLoaded
     @isLoaded = true
     @isLoading = false
@@ -214,24 +223,13 @@ class ModelResource extends Resource
 
     @isLoading = true
     @loadDeferred = $.Deferred()
-    $.when.apply($, @loadDependencies())
-      .then(@onLoadDependenciesSuccess, @onLoadDependenciesFailed)
-      .always(=> @isLoading = false)
+    @fetchModel()
 
     return @loadDeferred.promise()
 
-  loadDependencies: ->
-    promises = []
-
-    for dep in @dependencies
-      continue if not dep.isReadyForLoad()
-      promises.push(dep.load())
-
-    return promises
-
-  onLoadDependenciesSuccess: =>
+  fetchModel: ->
     @model.fetch(@fetchOptions)
-
+    
     @listenToOnce(@model, 'sync', ->
       @markLoaded()
       @loadDeferred.resolve(@)
@@ -241,11 +239,6 @@ class ModelResource extends Resource
       @markFailed('Failed to load resource.')
       @loadDeferred.reject(@)
     )
-
-  onLoadDependenciesFailed: =>
-    @markFailed('Failed to load dependencies.')
-    @loadDeferred.reject(@)
-
 
 class RequestResource extends Resource
   constructor: (name, jqxhrOptions, value) ->
@@ -288,8 +281,7 @@ class RequestResource extends Resource
 
 class SomethingResource extends Resource
   constructor: (name, value) ->
-    super(value)
-    @name = name
+    super(name, value)
     @loadDeferred = $.Deferred()
 
   load: ->

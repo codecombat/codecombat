@@ -21,7 +21,7 @@ class CocoModel extends Backbone.Model
 
   type: ->
     @constructor.className
-    
+
   clone: (withChanges=true) ->
     # Backbone does not support nested documents
     clone = super()
@@ -60,6 +60,7 @@ class CocoModel extends Backbone.Model
     return result.errors unless result.valid
 
   save: (attrs, options) ->
+    @set 'editPath', document.location.pathname
     options ?= {}
     success = options.success
     options.success = (resp) =>
@@ -68,7 +69,6 @@ class CocoModel extends Backbone.Model
       @markToRevert()
       @clearBackup()
     @trigger "save", @
-    patch.setStatus 'accepted' for patch in @acceptedPatches or []
     return super attrs, options
 
   fetch: ->
@@ -95,7 +95,6 @@ class CocoModel extends Backbone.Model
   cloneNewMinorVersion: ->
     newData = $.extend(null, {}, @attributes)
     clone = new @constructor(newData)
-    clone.acceptedPatches = @acceptedPatches
     clone
 
   cloneNewMajorVersion: ->
@@ -207,23 +206,25 @@ class CocoModel extends Backbone.Model
           return true if permission.access in ['owner', 'write']
 
     return false
-    
+
   getDelta: ->
     differ = deltasLib.makeJSONDiffer()
     differ.diff @_revertAttributes, @attributes
-    
+
   applyDelta: (delta) ->
     newAttributes = $.extend(true, {}, @attributes)
     jsondiffpatch.patch newAttributes, delta
     @set newAttributes
-    
+
   getExpandedDelta: ->
     delta = @getDelta()
     deltasLib.expandDelta(delta, @_revertAttributes, @schema())
+
+  watch: (doWatch=true) ->
+    $.ajax("#{@urlRoot}/#{@id}/watch", {type:'PUT', data:{on:doWatch}})
+    @watching = -> doWatch
     
-  addPatchToAcceptOnSave: (patch) ->
-    @acceptedPatches ?= []
-    @acceptedPatches.push patch
-    @acceptedPatches = _.uniq(@acceptedPatches, false, (p) -> p.id)
+  watching: ->
+    return me.id in (@get('watchers') or [])
 
 module.exports = CocoModel

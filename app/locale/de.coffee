@@ -6,6 +6,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    send: "Send"
     cancel: "Abbrechen"
     save: "Speichern"
+#    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1 Sekunde"
     delay_3_sec: "3 Sekunden"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
   versions:
     save_version_title: "Neue Version speichern"
     new_major_version: "Neue Hauptversion"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "Damit Änderungen gespeichert werden können, musst du unsere Lizenzbedingungen ("
     cla_url: "CLA"
     cla_suffix: ") akzeptieren."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     creating: "Erzeuge Account..."
     sign_up: "Neuen Account anlegen"
     log_in: "mit Passwort einloggen"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Lerne spielend JavaScript"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     wizard_tab: "Zauberer"
     password_tab: "Passwort"
     emails_tab: "Emails"
-#    job_profile_tab: "Job Profile"
     admin: "Admin"
     wizard_color: "Die Farbe der Kleidung des Zauberers"
     new_password: "Neues Passwort"
@@ -293,6 +291,9 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     time_current: "Aktuell"
     time_total: "Total"
     time_goto: "Gehe zu"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Administrator Übersicht"
@@ -326,7 +327,6 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
     level_some_options: "Einige Einstellungsmöglichkeiten?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Skripte"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    thang_search_title: "Search Thang Types Here"
 #    level_search_title: "Search Levels Here"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Vorschau"
@@ -395,6 +395,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     easy: "Einfach"
     medium: "Mittel"
     hard: "Schwer"
+#    player: "Player"
 
   about:
     who_is_codecombat: "Wer ist CodeCombat?"
@@ -599,6 +600,9 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    simulate_all: "RESET AND SIMULATE GAMES"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
 #    leaderboard: "Leaderboard"
 #    battle_as: "Battle as "
 #    summary_your: "Your "
@@ -663,3 +667,5 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"
+#    model: "Model"

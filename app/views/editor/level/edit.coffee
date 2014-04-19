@@ -26,10 +26,18 @@ module.exports = class EditorLevelView extends View
     'click #play-button': 'onPlayLevel'
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
-    'click #history-button': 'showVersionHistory'
-    'click #patches-tab': -> @patchesView?.load()
-    'click #commit-level-patch-button': 'startPatchingLevel'
+    'click #level-history-button': 'showVersionHistory'
+    'click #patches-tab': -> @patchesView.load()
+    'click #level-patch-button': 'startPatchingLevel'
+    'click #level-watch-button': 'toggleWatchLevel'
+    
+  subscriptions:
+    'refresh-level-editor': 'rerenderAllViews'
 
+  rerenderAllViews: ->
+    for view in [@thangsTab, @settingsTab, @scriptsTab, @componentsTab, @systemsTab, @patchesView]
+      view.render()
+    
   constructor: (options, @levelID) ->
     super options
     @listenToOnce(@supermodel, 'loaded-all', @onAllLoaded)
@@ -75,10 +83,11 @@ module.exports = class EditorLevelView extends View
     context.anonymous = me.get('anonymous')
     context
 
+  onLoaded: -> @render()
   afterRender: ->
     super()
     return unless @world and @level
-    console.debug 'gintau', 'edit-afterRender'
+    # console.debug 'gintau', 'edit-afterRender'
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'level:view-switched', e
     @thangsTab = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel
@@ -89,6 +98,8 @@ module.exports = class EditorLevelView extends View
     Backbone.Mediator.publish 'level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
+    @listenTo @patchesView, 'accepted-patch', -> setTimeout "location.reload()", 400
+    @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
 
   onPlayLevel: (e) ->
     sendLevel = =>
@@ -120,3 +131,8 @@ module.exports = class EditorLevelView extends View
     versionHistoryView = new VersionHistoryView level:@level, @levelID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
+
+  toggleWatchLevel: ->
+    button = @$el.find('#level-watch-button')
+    @level.watch(button.find('.watch').is(':visible'))
+    button.find('> span').toggleClass('secret')

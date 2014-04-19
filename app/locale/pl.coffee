@@ -6,6 +6,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    send: "Send"
     cancel: "Anuluj"
     save: "Zapisz"
+#    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1 sekunda"
     delay_3_sec: "3 sekundy"
@@ -47,9 +48,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
   versions:
     save_version_title: "Zapisz nową wersję"
     new_major_version: "Nowa wersja główna"
-#    update_break_level: "(Could this update break old solutions of the level?)"
-#    update_break_component: "(Could this update break anything depending on this Component?)"
-#    update_break_system: "(Could this update break anything depending on this System?)"
     cla_prefix: "Aby zapisać zmiany, musisz najpierw zaakceptować naszą"
     cla_url: "umowę licencyjną dla współtwórców (CLA)"
     cla_suffix: "."
@@ -75,6 +73,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     creating: "Tworzenie konta..."
     sign_up: "Zarejestruj"
     log_in: "zaloguj się używając hasła"
+#    social_signup: "Or, you can sign up through Facebook or G+:"
 
   home:
     slogan: "Naucz się JavaScript grając"
@@ -151,7 +150,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     wizard_tab: "Czarodziej"
     password_tab: "Hasło"
     emails_tab: "Powiadomienia"
-#    job_profile_tab: "Job Profile"
     admin: "Administrator"
     wizard_color: "Kolor ubrań czarodzieja"
     new_password: "Nowe hasło"
@@ -293,6 +291,9 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    time_current: "Now:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Panel administracyjny"
@@ -326,7 +327,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
-#    level_publish: "Publish This Level (irreversible)?"
     level_some_options: "Trochę opcji?"
     level_tab_thangs: "Obiekty"
     level_tab_scripts: "Skrypty"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     thang_search_title: "Przeszukaj typy obiektów"
     level_search_title: "Przeszukaj poziomy"
 #    signup_to_create: "Sign Up to Create a New Content"
-#    read_only_warning: "Note: you can't save any edits here, because you're not logged in as an admin."
+#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
     edit_btn_preview: "Podgląd"
@@ -395,6 +395,7 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     easy: "Łatwy"
     medium: "Średni"
     hard: "Trudny"
+#    player: "Player"
 
   about:
     who_is_codecombat: "Czym jest CodeCombat?"
@@ -599,6 +600,9 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     simulate_all: "RESETUJ I SYMULUJ GRY"
 #    games_simulated_by: "Games simulated by you:"
 #    games_simulated_for: "Games simulated for you:"
+#    games_simulated: "Games simulated"
+#    games_played: "Games played"
+#    ratio: "Ratio"
     leaderboard: "Tabela rankingowa"
     battle_as: "Walcz jako "
     summary_your: "Twój "
@@ -663,3 +667,5 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    leaderboard: "Leaderboard"
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
+#    patches: "Patches"
+#    model: "Model"

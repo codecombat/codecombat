@@ -14,7 +14,7 @@ LevelSessionHandler = require '../levels/sessions/level_session_handler'
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
   'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
-  'gplusID', 'music', 'volume', 'aceConfig'
+  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt'
 ]
 candidateProperties = [
   'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
@@ -47,7 +47,7 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in serverProperties
     includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
-    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.permissions ? [])))
+    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj)
     delete obj[prop] for prop in candidateProperties unless includeCandidate
     return obj
 
@@ -154,6 +154,42 @@ UserHandler = class UserHandler extends Handler
       res.send(if otherUser then otherUser._id else JSON.stringify(''))
       res.end()
 
+  getSimulatorLeaderboard: (req, res) ->
+    queryParameters = @getSimulatorLeaderboardQueryParameters(req)
+    leaderboardQuery = User.find(queryParameters.query).select("name simulatedBy simulatedFor").sort({"simulatedBy":queryParameters.sortOrder}).limit(queryParameters.limit)
+    leaderboardQuery.exec (err, otherUsers) ->
+        otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
+        otherUsers ?= []
+        res.send(otherUsers)
+        res.end()
+
+  getMySimulatorLeaderboardRank: (req, res) ->
+    req.query.order = 1
+    queryParameters = @getSimulatorLeaderboardQueryParameters(req)
+    User.count queryParameters.query, (err, count) =>
+      return @sendDatabaseError(res, err) if err
+      res.send JSON.stringify(count + 1)
+
+   getSimulatorLeaderboardQueryParameters: (req) ->
+    @validateSimulateLeaderboardRequestParameters(req)
+
+    query = {}
+    sortOrder = -1
+    limit = if req.query.limit > 30 then 30 else req.query.limit
+    if req.query.scoreOffset isnt -1
+      simulatedByQuery = {}
+      simulatedByQuery[if req.query.order is 1 then "$gt" else "$lte"] = req.query.scoreOffset
+      query.simulatedBy = simulatedByQuery
+      sortOrder = 1 if req.query.order is 1
+    else
+      query.simulatedBy = {"$exists": true}
+    {query: query, sortOrder: sortOrder, limit: limit}
+
+  validateSimulateLeaderboardRequestParameters: (req) ->
+    req.query.order = parseInt(req.query.order) ? -1
+    req.query.scoreOffset = parseFloat(req.query.scoreOffset) ? 100000
+    req.query.limit = parseInt(req.query.limit) ? 20
+
   post: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'Must have an anonymous user to post with.') unless req.user
@@ -174,6 +210,8 @@ UserHandler = class UserHandler extends Handler
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
+    return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
+    return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -198,7 +236,10 @@ UserHandler = class UserHandler extends Handler
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
       photoURL = document?.get('photoURL')
-      photoURL ||= @buildGravatarURL document
+      if photoURL
+        photoURL = "/file/#{photoURL}"
+      else
+        photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
       res.redirect photoURL
       res.end()
 
@@ -217,32 +258,43 @@ UserHandler = class UserHandler extends Handler
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
-    #query = {'jobProfileApproved': true, 'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
-    query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}  # testing
+    query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
+    #query = {'jobProfile.updated': {$gt: since}}
     query.jobProfileApproved = true unless req.user.isAdmin()
     selection = 'jobProfile'
     selection += ' email' if authorized
     selection += ' jobProfileApproved' if req.user.isAdmin()
     User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
-      candidates = (@formatCandidate(authorized, doc) for doc in documents)
+      candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
+      candidates = (@formatCandidate(authorized, candidate) for candidate in candidates)
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
     fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile']
     obj = _.pick document.toObject(), fields
     obj.photoURL ||= obj.jobProfile.photoURL if authorized
-    obj.photoURL ||= @buildGravatarURL document if authorized
     subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated']
     if authorized
       subfields = subfields.concat ['name']
     obj.jobProfile = _.pick obj.jobProfile, subfields
     obj
 
-  buildGravatarURL: (user) ->
+  employerCanViewCandidate: (employer, candidate) ->
+    return true if employer.isAdmin()
+    for job in candidate.jobProfile?.work ? []
+      # TODO: be smarter about different ways to write same company names to ensure privacy.
+      # We'll have to manually pay attention to how we set employer names for now.
+      if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
+        log.info "#{employer.get('name')} at #{employer.get('employerAt')} can't see #{candidate.jobProfile.name} because s/he worked there."
+      return false if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
+    true
+
+  buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user
-    defaultAvatar = "http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png"
-    "https://www.gravatar.com/avatar/#{emailHash}?default=#{defaultAvatar}"
+    fallback ?= "http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png"
+    fallback = "http://codecombat.com#{fallback}" unless /^http/.test fallback
+    "https://www.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
 
   buildEmailHash: (user) ->
     # emailHash is used by gravatar

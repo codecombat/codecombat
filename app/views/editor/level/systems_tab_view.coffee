@@ -23,6 +23,7 @@ module.exports = class SystemsTabView extends View
   events:
     'click #add-system-button': 'addLevelSystem'
     'click #create-new-system-button': 'createNewLevelSystem'
+    'click #create-new-system': 'createNewLevelSystem'
 
   constructor: (options) ->
     super options
@@ -32,9 +33,10 @@ module.exports = class SystemsTabView extends View
       ls = new LevelSystem()
       ls.saveBackups = true
       lsRes = @supermodel.addModelResource(ls, 'level_system_' + system.original)
+      lsRes.load()
+
       do (url) -> ls.url = -> url
       continue if @supermodel.getModelByURL ls.url
-      lsRes.load()
       @listenToOnce(lsRes, 'resource:loaded', @onSystemLoaded)
       ++@toLoad
     @onDefaultSystemsLoaded() unless @toLoad
