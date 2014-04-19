@@ -30,7 +30,7 @@ module.exports = class LevelSaveView extends SaveVersionModal
     context
 
   afterRender: ->
-    super()
+    super(false)
     changeEls = @$el.find('.changes-stub')
     models = if @lastContext.levelNeedsSave then [@level] else []
     models = models.concat @lastContext.modifiedComponents

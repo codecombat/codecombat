@@ -1,6 +1,9 @@
 View = require 'views/kinds/CocoView'
 template = require 'templates/editor/level/system/edit'
 LevelSystem = require 'models/LevelSystem'
+VersionHistoryView = require 'views/editor/system/versions_view'
+PatchesView = require 'views/editor/patches_view'
+SaveVersionModal = require 'views/modal/save_version_modal'
 
 module.exports = class LevelSystemEditView extends View
   id: "editor-level-system-edit-view"
@@ -10,6 +13,13 @@ module.exports = class LevelSystemEditView extends View
   events:
     'click #done-editing-system-button': 'endEditing'
     'click .nav a': (e) -> $(e.target).tab('show')
+    'click #system-patches-tab': -> @patchesView.load()
+    'click #system-code-tab': 'buildCodeEditor'
+    'click #system-config-schema-tab': 'buildConfigSchemaTreema'
+    'click #system-settings-tab': 'buildSettingsTreema'
+    'click #system-history-button': 'showVersionHistory'
+    'click #patch-system-button': 'startPatchingSystem'
+    'click #system-watch-button': 'toggleWatchSystem'
 
   constructor: (options) ->
     super options
@@ -26,6 +36,7 @@ module.exports = class LevelSystemEditView extends View
     @buildSettingsTreema()
     @buildConfigSchemaTreema()
     @buildCodeEditor()
+    @patchesView = @insertSubView(new PatchesView(@levelSystem), @$el.find('.patches-view'))
 
   buildSettingsTreema: ->
     data = _.pick @levelSystem.attributes, (value, key) => key in @editableSettings
@@ -68,8 +79,9 @@ module.exports = class LevelSystemEditView extends View
     Backbone.Mediator.publish 'level-system-edited', levelSystem: @levelSystem
 
   buildCodeEditor: ->
-    editorEl = @$el.find '#system-code-editor'
-    editorEl.text @levelSystem.get('code')
+    @editor?.destroy()
+    editorEl = $('<div></div>').text(@levelSystem.get('code')).addClass('inner-editor')
+    @$el.find('#system-code-editor').empty().append(editorEl)
     @editor = ace.edit(editorEl[0])
     @editor.setReadOnly(not me.isAdmin())
     session = @editor.getSession()
@@ -87,6 +99,21 @@ module.exports = class LevelSystemEditView extends View
   endEditing: (e) ->
     Backbone.Mediator.publish 'level-system-editing-ended', levelSystem: @levelSystem
     null
+
+  showVersionHistory: (e) ->
+    versionHistoryView = new VersionHistoryView {}, @levelSystem.id
+    @openModalView versionHistoryView
+    Backbone.Mediator.publish 'level:view-switched', e
+
+  startPatchingSystem: (e) ->
+    @openModalView new SaveVersionModal({model:@levelSystem})
+    Backbone.Mediator.publish 'level:view-switched', e
+
+  toggleWatchSystem: ->
+    console.log 'toggle watch system?'
+    button = @$el.find('#system-watch-button')
+    @levelSystem.watch(button.find('.watch').is(':visible'))
+    button.find('> span').toggleClass('secret')
 
   destroy: ->
     @editor?.destroy()

@@ -58,7 +58,7 @@ UserSchema = c.object {},
   jobProfile: c.object {title: 'Job Profile', required: ['lookingFor', 'jobTitle', 'active', 'name', 'city', 'country', 'skills', 'experience', 'shortDescription', 'longDescription', 'visa', 'work', 'education', 'projects', 'links']},
     lookingFor: {title: 'Looking For', type: 'string', enum: ['Full-time', 'Part-time', 'Remote', 'Contracting', 'Internship'], default: 'Full-time', description: 'What kind of developer position do you want?'}
     jobTitle: {type: 'string', maxLength: 50, title: 'Desired Job Title', description: 'What role are you looking for? Ex.: "Full Stack Engineer", "Front-End Developer", "iOS Developer"', default: 'Software Developer'}
-    active: {title: 'Active', type: 'boolean', description: 'Want interview offers right now?'}
+    active: {title: 'Open to Offers', type: 'boolean', description: 'Want interview offers right now?'}
     updated: c.date {title: 'Last Updated', description: 'How fresh your profile appears to employers. Profiles go inactive after 4 weeks.'}
     name: c.shortString {title: 'Name', description: 'Name you want employers to see, like "Nick Winter".'}
     city: c.shortString {title: 'City', description: 'City you want to work in (or live in now), like "San Francisco" or "Lubbock, TX".', default: 'Defaultsville, CA', format: 'city'}
@@ -74,13 +74,14 @@ UserSchema = c.object {},
         employer: c.shortString {title: 'Employer', description: 'Name of your employer.'}
         role: c.shortString {title: 'Job Title', description: 'What was your job title or role?'}
         duration: c.shortString {title: 'Duration', description: 'When did you hold this gig? Ex.: "Feb 2013 - present".'}
-        description: {type: 'string', title: 'Description', description: 'What did you do there? (140 chars)', maxLength: 140}
+        description: {type: 'string', title: 'Description', description: 'What did you do there? (140 chars; optional)', maxLength: 140}
     education: c.array {title: 'Education', description: 'List your academic ordeals.'},
       c.object {title: 'Ordeal', description: 'Some education that befell you.', required: ['school', 'degree', 'duration']},
         school: c.shortString {title: 'School', description: 'Name of your school.'}
         degree: c.shortString {title: 'Degree', description: 'What was your degree and field of study? Ex. Ph.D. Human-Computer Interaction (incomplete)'}
         duration: c.shortString {title: 'Dates', description: 'When? Ex.: "Aug 2004 - May 2008".'}
-    projects: c.array {title: 'Projects', description: 'Highlight your projects to amaze employers.'},
+        description: {type: 'string', title: 'Description', description: 'Highlight anything about this educational experience. (140 chars; optional)', maxLength: 140}
+    projects: c.array {title: 'Projects (Top 3)', description: 'Highlight your projects to amaze employers.', maxItems: 3},
       c.object {title: 'Project', description: 'A project you created.', required: ['name', 'description', 'picture'], default: {name: 'My Project', description: 'A project I worked on.', link: 'http://example.com', picture: ''}},
         name: c.shortString {title: 'Project Name', description: 'What was the project called?', default: 'My Project'}
         description: {type: 'string', title: 'Description', description: 'Briefly describe the project.', maxLength: 400, default: 'A project I worked on.', format: 'markdown'}
@@ -94,6 +95,8 @@ UserSchema = c.object {},
 
   jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
   jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: "CodeCombat's notes on the candidate.", format: 'markdown', default: ''}
+  employerAt: c.shortString {description: "If given employer permissions to view job candidates, for which employer?"}
+
 c.extendBasicProperties UserSchema, 'user'
 
 module.exports = UserSchema

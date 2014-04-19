@@ -51,10 +51,14 @@
       .job-profile-row
         height: 100%
         display: table-row
+        $side-width: 250px
+        $side-padding: 5px
+        $middle-width: 524px
+        $middle-padding: 20px
 
         .full-height-column
           height: 100%
-          padding: 5px
+          padding: $side-padding
           display: table-cell
           vertical-align: top
 
@@ -62,16 +66,20 @@
             margin: 5px 0 5px 0
       
         .left-column
-          width: 250px
-          padding: 5px
+          width: $side-width - 2 * $side-padding
+          padding: $side-padding
           background-color: rgb(220, 220, 220)
+
+          .sub-column
+            width: $side-width - 2 * $side-padding
+            overflow-wrap: break-word
 
           .profile-photo-container
             position: relative
             margin-bottom: 10px
 
             img.profile-photo
-              width: 240px
+              width: $side-width - 2 * $side-padding
               border-radius: 6px
                 
             .profile-caption
@@ -100,15 +108,24 @@
             font-size: 20px
       
         .middle-column
-          width: 524px
+          width: $middle-width - 2 * $middle-padding
+          padding-left: $middle-padding
+          padding-right: $middle-padding
           background-color: white
-          padding-left: 20px
-          padding-right: 20px
+
+          .sub-column
+            width: $middle-width - 2 * $middle-padding
+            overflow-wrap: break-word
 
           &.double-column
-            width: 524px + 250px
-            padding-left: 30px
-            padding-right: 30px
+            width: $middle-width + $side-width + 2 * $side-padding - 2 * $middle-padding
+            $middle-padding-double: 30px
+            padding-left: $middle-padding-double
+            padding-right: $middle-padding-double
+
+            .sub-column
+              width: $middle-width + $side-width + 2 * $side-padding - 2 * $middle-padding - 2 * $middle-padding-double
+              overflow-wrap: break-word
 
           code
             background-color: rgb(220, 220, 220)
@@ -131,27 +148,34 @@
             width: 32px
             height: 32px
 
+          .experience-entry
+            margin-bottom: 15px
+      
           .duration
             margin-left: 10px
             margin-bottom: 10px
-      
+
           #job-profile-notes
             width: 100%
             height: 100px
 
         .right-column
-          width: 250px
+          width: $side-width
           background-color: rgb(220, 220, 220)
 
-          > h3:first-child
-            background-color: white
-            padding: 5px 5px
-            margin: 5px 2px 5px 2px
+          .sub-column
+            width: $side-width - 2 * $side-padding
+            overflow-wrap: break-word
+
+            > h3:first-child
+              background-color: white
+              padding: 5px 5px
+              margin: 5px 2px 5px 2px
 
           ul.projects
             li
               margin-bottom: 10px
-              padding: 5px 5px
+              padding: 5px 3px
               border: 2px solid rgb(220, 220, 220)
               transition: .5s ease-in-out
               position: relative

@@ -18,7 +18,7 @@ module.exports = class LevelLoadingView extends View
     @$el.find('.to-remove').remove()
 
   onLevelLoaderProgressChanged: (e) ->
-    @$el.find('.progress-bar').css('width', (100 * e.progress) + '%')
+    return if @destroyed
     @progress = e.progress
     @progress = 0.01 if @progress < 0.01
     @updateProgressBar()

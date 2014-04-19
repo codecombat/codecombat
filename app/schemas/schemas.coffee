@@ -63,7 +63,7 @@ patchableProps = ->
     status: { enum: ['pending', 'accepted', 'rejected', 'cancelled']}
   })
   allowPatches: { type: 'boolean' }
-  listeners: me.array({title:'Listeners'},
+  watchers: me.array({title:'Watchers'},
     me.objectId(links: [{rel: 'extra', href: "/db/user/{($)}"}]))
   
 me.extendPatchableProperties = (schema) ->
