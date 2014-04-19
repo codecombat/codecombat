@@ -36,7 +36,7 @@ module.exports = class LadderTabView extends CocoView
 
   constructor: (options, @level, @sessions) ->
     super(options)
-    @socialNetworkRes = @supermodel.addSomethingResource("social_network_apis")
+    @socialNetworkRes = @supermodel.addSomethingResource("social_network_apis", 0)
 
     @teams = teamDataFromLevel @level
     @leaderboards = {}
@@ -49,7 +49,7 @@ module.exports = class LadderTabView extends CocoView
     
     # @addSomethingToLoad("facebook_status")
 
-    @fbStatusRes = @supermodel.addSomethingResource("facebook_status")
+    @fbStatusRes = @supermodel.addSomethingResource("facebook_status", 0)
     @fbStatusRes.load()
 
     FB.getLoginStatus (response) =>
@@ -75,7 +75,7 @@ module.exports = class LadderTabView extends CocoView
   loadFacebookFriends: ->
     # @addSomethingToLoad("facebook_friends")
 
-    @fbFriendRes = @supermodel.addSomethingResource("facebook_friends")
+    @fbFriendRes = @supermodel.addSomethingResource("facebook_friends", 0)
     @fbFriendRes.load()
 
     FB.api '/me/friends', @onFacebookFriendsLoaded
@@ -128,7 +128,7 @@ module.exports = class LadderTabView extends CocoView
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
       #@addSomethingToLoad("gplus_friends")
-      @gpFriendRes = @supermodel.addSomethingResource("gplus_friends")
+      @gpFriendRes = @supermodel.addSomethingResource("gplus_friends", 0)
       @gpFriendRes.load()
       application.gplusHandler.loadFriends @gplusFriendsLoaded
 

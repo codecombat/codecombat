@@ -11,6 +11,14 @@ module.exports = class SuperModel extends Backbone.Model
     @collections = {}
     @schemas = {}
 
+    # setInterval(@checkModelStatus, 5000)
+
+  # For debugging
+  checkModelStatus: =>
+    for key, res of @resources
+      continue if res.isLoaded
+      console.debug 'resource ' + res.name + ' is still loading'
+
   populateModel: (model, resName) ->
     @mustPopulate = model
     model.saveBackups = @shouldSaveBackups(model)
@@ -222,15 +230,6 @@ class ModelResource extends Resource
 
   fetchModel: ->
     @model.fetch(@fetchOptions)
-
-    ###
-    setTimeout(=> 
-      if @isLoading
-        @markLoaded()
-        @loadDeferred.resolve(@)
-        console.debug 'gintau', 'load-timeout'
-    , 5000)
-    ###
     
     @listenToOnce(@model, 'sync', ->
       @markLoaded()
