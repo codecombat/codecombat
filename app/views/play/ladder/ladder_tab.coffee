@@ -88,16 +88,6 @@ module.exports = class LadderTabView extends CocoView
   loadFacebookFriendSessions: ->
     levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
     url = "/db/level/#{levelFrag}/leaderboard_facebook_friends"
-    
-    ###
-    jqxhr = $.ajax url, {
-      data: { friendIDs: (f.id for f in @facebookData) }
-      method: 'POST'
-      success: @onFacebookFriendSessionsLoaded
-    }
-    
-    @addRequestToLoad(jqxhr, 'facebook_friend_sessions', 'loadFacebookFriendSessions')
-    ###
 
     @fbFriendSessionRes = @supermodel.addRequestResource('facebook_friend_sessions', {
       url: url
@@ -140,14 +130,7 @@ module.exports = class LadderTabView extends CocoView
   loadGPlusFriendSessions: ->
     levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
     url = "/db/level/#{levelFrag}/leaderboard_gplus_friends"
-    ###
-    jqxhr = $.ajax url, {
-      data: { friendIDs: (f.id for f in @gplusData) }
-      method: 'POST'
-      success: @onGPlusFriendSessionsLoaded
-    }
-    @addRequestToLoad(jqxhr, 'gplus_friend_sessions', 'loadGPlusFriendSessions')
-    ###
+
     @gpFriendSessionRes = @supermodel.addRequestResource('gplus_friend_sessions', {
       url: url
       data: { friendIDs: (f.id for f in @gplusData) }
@@ -172,10 +155,10 @@ module.exports = class LadderTabView extends CocoView
       @leaderboards[team.id]?.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession)
-      # @addResourceToLoad @leaderboards[team.id], 'leaderboard', 3
       @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', 3)
       @leaderboardRes.load()
 
+  onLoaded: -> @render()
   render: ->
     super()
   
@@ -303,8 +286,7 @@ class LeaderboardData extends CocoClass
 
   constructor: (@level, @team, @session) ->
     super()
-    @fetch()
-    
+
   fetch: ->
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})
     promises = []

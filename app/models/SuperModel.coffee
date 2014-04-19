@@ -192,7 +192,6 @@ class Resource extends Backbone.Model
     @isLoaded = false
     @model = null
     @loadDeferred = null
-    @value = 1
 
   addDependency: (depRes) ->
     return if depRes.isLoaded
@@ -282,8 +281,7 @@ class RequestResource extends Resource
 
 class SomethingResource extends Resource
   constructor: (name, value) ->
-    super(value)
-    @name = name
+    super(name, value)
     @loadDeferred = $.Deferred()
 
   load: ->

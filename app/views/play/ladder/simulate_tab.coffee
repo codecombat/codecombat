@@ -15,12 +15,15 @@ module.exports = class SimulateTabView extends CocoView
   constructor: (options) ->
     super(options)
     @simulatorsLeaderboardData = new SimulatorsLeaderboardData(me)
-    @addResourceToLoad(@simulatorsLeaderboardData, 'top_simulators')
+    @simulatorsLeaderboardDataRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators')
+    @simulatorsLeaderboardDataRes.load()
+
     @simulator = new Simulator()
     @listenTo(@simulator, 'statusUpdate', @updateSimulationStatus)
 
   onLoaded: ->
     super()
+    @render()
 
   getRenderData: ->
     ctx = super()
@@ -81,7 +84,6 @@ class SimulatorsLeaderboardData extends CocoClass
 
   constructor: (@me) ->
     super()
-    @fetch()
 
   fetch: ->
     @topSimulators = new SimulatorsLeaderboardCollection({order:-1, scoreOffset: -1, limit: 20})
