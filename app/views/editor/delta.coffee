@@ -21,12 +21,12 @@ module.exports = class DeltaView extends CocoView
     if @headModel
       @headDeltas = @headModel.getExpandedDelta()
       @conflicts = deltasLib.getConflicts(@headDeltas, @expandedDeltas)
-    DeltaView.deltaCounter += @expandedDeltas.length
 
   getRenderData: ->
     c = super()
     c.deltas = @expandedDeltas
     c.counter = DeltaView.deltaCounter
+    DeltaView.deltaCounter += @expandedDeltas.length
     c
     
   afterRender: ->

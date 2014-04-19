@@ -291,6 +291,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     time_current: "Şimdi:"
     time_total: "Max:"
     time_goto: "Git:"
+#    infinite_loop_try_again: "Try Again"
+#    infinite_loop_reset_level: "Reset Level"
+#    infinite_loop_comment_out: "Comment Out My Code"
 
   admin:
     av_title: "Yönetici Görünümleri"
@@ -665,3 +668,4 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    user_schema: "User Schema"
 #    user_profile: "User Profile"
 #    patches: "Patches"
+#    model: "Model"

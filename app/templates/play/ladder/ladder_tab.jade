@@ -1,5 +1,5 @@
 div#columns.row
-  for team in teams
+  for team, teamIndex in teams
     div.column.col-md-4
       div(id="histogram-display-#{team.name}", class="histogram-display",data-team-name=team.name)
       table.table.table-bordered.table-condensed.table-hover
@@ -17,10 +17,10 @@ div#columns.row
 
         - var topSessions = team.leaderboard.topPlayers.models;
         - var showJustTop = team.leaderboard.inTopSessions() || me.get('anonymous');
-        - if(!showJustTop) topSessions = topSessions.slice(0, 10);
+        - if(!showJustTop && topSessions.length == 20) topSessions = topSessions.slice(0, 10);
         for session, rank in topSessions
           - var myRow = session.get('creator') == me.id
-          tr(class=myRow ? "success" : "")
+          tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=session.id)
             td.rank-cell= rank + 1
             td.score-cell= Math.round(session.get('totalScore') * 100)
             td.name-col-cell= session.get('creatorName') || "Anonymous"
@@ -33,14 +33,16 @@ div#columns.row
             td(colspan=4).ellipsis-row ...
           for session in team.leaderboard.nearbySessions()
             - var myRow = session.get('creator') == me.id
-            tr(class=myRow ? "success" : "")
+            tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=session.id)
               td.rank-cell= session.rank
               td.score-cell= Math.round(session.get('totalScore') * 100)
               td.name-col-cell= session.get('creatorName') || "Anonymous"
               td.fight-cell
                 a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}")
                   span(data-i18n="ladder.fight") Fight!
-                    
+        if teamIndex == 1
+          .btn.btn-sm.load-more-ladder-entries moar
+
   div.column.col-md-4
     h4.friends-header Friends Playing
     if me.get('anonymous')

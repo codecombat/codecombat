@@ -11,6 +11,7 @@ exports.config =
     ignored: (path) -> startsWith(sysPath.basename(path), '_')
   workers:
     enabled: false  # turned out to be much, much slower than without workers
+  sourceMaps: true
   files:
     javascripts:
       defaultExtension: 'coffee'

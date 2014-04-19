@@ -44,8 +44,11 @@ module.exports = class PatchesView extends CocoView
     @$el.find(".#{@status}").addClass 'active'
 
   onStatusButtonsChanged: (e) ->
-    @loaded = false
     @status = $(e.target).val()
+    @reloadPatches()
+    
+  reloadPatches: ->
+    @loaded = false
     @initPatches()
     @load()
     @render()
@@ -54,3 +57,8 @@ module.exports = class PatchesView extends CocoView
     patch = _.find @patches.models, {id:$(e.target).data('patch-id')}
     modal = new PatchModal(patch, @model)
     @openModalView(modal)
+    @listenTo modal, 'accepted-patch', -> @trigger 'accepted-patch'
+    @listenTo modal, 'hide', ->
+      f = => @reloadPatches()
+      setTimeout(f, 400)
+      @stopListening modal
