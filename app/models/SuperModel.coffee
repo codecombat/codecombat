@@ -172,7 +172,7 @@ module.exports = class SuperModel extends Backbone.Model
     @num += r.value
     @progress = @num / @denom
 
-    console.debug 'gintau', 'supermodel-updateProgress', @progress, @num, @denom
+    # console.debug 'gintau', 'supermodel-updateProgress', @progress, @num, @denom
     @trigger('superModel:updateProgress', @progress)
     @trigger('loaded-all') if @finished()
 
@@ -198,7 +198,7 @@ class Resource extends Backbone.Model
     @dependencies.push(depRes)
 
   markLoaded: ->
-    console.debug 'gintau', 'markLoaded', @
+    # console.debug 'gintau', 'markLoaded', @
     @trigger('resource:loaded', @) if not @isLoaded
     @isLoaded = true
     @isLoading = false

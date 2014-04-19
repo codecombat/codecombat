@@ -82,7 +82,7 @@ module.exports = class CocoView extends Backbone.View
   # View Rendering
 
   render: ->
-    console.debug 'gintau' , 'CocoView-Render', @
+    # console.debug 'gintau' , 'CocoView-Render', @
     return @ unless me
     super()
     return @template if _.isString(@template)
@@ -122,7 +122,7 @@ module.exports = class CocoView extends Backbone.View
 
   # Error handling for loading
   onResourceLoadFailed: (source) ->
-    console.debug 'gintau', 'onResourceLoadFailed', source
+    # console.debug 'gintau', 'onResourceLoadFailed', source
     @$el.find('.loading-screen .errors').append(loadingErrorTemplate({
       status: 'error',
       name: source.resource.name
@@ -181,14 +181,14 @@ module.exports = class CocoView extends Backbone.View
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
-    #console.debug 'gintau', 'showLoading', $el
+    ## console.debug 'gintau', 'showLoading', $el
     $el.find('>').addClass('hidden')
     $el.append loadingScreenTemplate()
     @_lastLoading = $el
 
   hideLoading: ->
     return unless @_lastLoading?
-    #console.debug 'gintau', 'hideLoading', @$el
+    ## console.debug 'gintau', 'hideLoading', @$el
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null

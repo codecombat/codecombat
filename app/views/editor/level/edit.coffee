@@ -87,7 +87,7 @@ module.exports = class EditorLevelView extends View
   afterRender: ->
     super()
     return unless @world and @level
-    console.debug 'gintau', 'edit-afterRender'
+    # console.debug 'gintau', 'edit-afterRender'
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'level:view-switched', e
     @thangsTab = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel

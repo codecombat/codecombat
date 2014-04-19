@@ -243,7 +243,7 @@ module.exports = class LevelLoader extends CocoClass
     @initWorld() if @allDone()
     @trigger 'progress'
 
-    console.debug 'gintau', 'notify-notifyProgress', progress
+    # console.debug 'gintau', 'notify-notifyProgress', progress
     if progress is 1
-      console.debug 'gintau', 'notify-loaded-all'
+      # console.debug 'gintau', 'notify-loaded-all'
       @trigger 'loaded-all'
