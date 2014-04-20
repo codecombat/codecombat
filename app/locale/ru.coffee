@@ -6,7 +6,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     send: "Отправить"
     cancel: "Отмена"
     save: "Сохранить"
-#    publish: "Publish"
+    publish: "Опубликовать"
     create: "Создать"
     delay_1_sec: "1 секунда"
     delay_3_sec: "3 секунды"
@@ -73,7 +73,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     creating: "Создание аккаунта..."
     sign_up: "Регистрация"
     log_in: "вход с паролем"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
+    social_signup: "Или вы можете зарегестрироваться через Facebook или G+:"
 
   home:
     slogan: "Научитесь программировать на JavaScript, играя в игру"
@@ -291,9 +291,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
-#    infinite_loop_try_again: "Try Again"
-#    infinite_loop_reset_level: "Reset Level"
-#    infinite_loop_comment_out: "Comment Out My Code"
+    infinite_loop_try_again: "Попробовать снова"
+    infinite_loop_reset_level: "Сбросить уровень"
+    infinite_loop_comment_out: "Закомментировать мой код"
 
   admin:
     av_title: "Админ панель"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     thang_search_title: "Искать типы объектов"
     level_search_title: "Искать уровни"
     signup_to_create: "Авторизуйтесь для создания нового контента"
-#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
+    read_only_warning2: "Примечание: вы не можете сохранять любые правки здесь, потому что вы не авторизованы."
 
   article:
     edit_btn_preview: "Предпросмотр"
@@ -395,7 +395,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     easy: "Просто"
     medium: "Нормально"
     hard: "Сложно"
-#    player: "Player"
+    player: "Игрок"
 
   about:
     who_is_codecombat: "Кто стоит за CodeCombat?"
@@ -600,9 +600,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     simulate_all: "СБРОСИТЬ И СИМУЛИРОВАТЬ ИГРЫ"
     games_simulated_by: "Игры, симулированные вами:"
     games_simulated_for: "Игры, симулированные за вас:"
-#    games_simulated: "Games simulated"
-#    games_played: "Games played"
-#    ratio: "Ratio"
+    games_simulated: "Игр симулировано"
+    games_played: "Игр сыграно"
+    ratio: "Соотношение"
     leaderboard: "таблица лидеров"
     battle_as: "Сразиться за "
     summary_your: "Ваши "
@@ -667,5 +667,5 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     leaderboard: "таблица лидеров"
     user_schema: "Пользовательская Schema"
     user_profile: "Пользовательский профиль"
-#    patches: "Patches"
-#    model: "Model"
+    patches: "Патчи"
+    model: "Модель"
