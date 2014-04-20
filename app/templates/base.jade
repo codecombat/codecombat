@@ -16,12 +16,8 @@ body
           ul.nav.navbar-nav
             li.play
               a.header-font(href='/play', data-i18n="nav.play") Levels
-            li.editor
-              a.header-font(href='/editor', data-i18n="nav.editor") Editor
-            li.blog
-              a.header-font(href='http://blog.codecombat.com/', data-i18n="nav.blog") Blog
-            li.forum
-              a.header-font(href='http://discourse.codecombat.com/', data-i18n="nav.forum") Forum
+            li
+              a.header-font(href='/community', data-i18n="nav.community") Community
       
     .nav.navbar.navbar-fixed-top#top-nav
       .content.clearfix
@@ -34,9 +30,11 @@ body
         if me.get('anonymous') === false
           button.btn.btn-primary.navbuttontext.header-font#logout-button(data-i18n="login.log_out") Log Out
           a.btn.btn-primary.navbuttontext.header-font(href=me.get('jobProfile') ? "/account/profile/#{me.id}" : "/account/settings")
-            div.navbuttontext-user-name
-              | #{me.displayName()}
-            i.icon-cog.icon-white.big
+            div.navbuttontext-account(data-i18n="nav.account") Account
+            if me.get('photoURL')
+              img.account-settings-image(src=me.getPhotoURL(18), alt="")
+            else
+              span.glyphicon.glyphicon-user
 
         else
           button.btn.btn-primary.navbuttontext.header-font(data-toggle="coco-modal", data-target="modal/signup", data-i18n="login.sign_up") Create Account
@@ -45,13 +43,8 @@ body
         ul(class='navbar-link-text').nav.navbar-nav.pull-right
           li.play
             a.header-font(href='/play', data-i18n="nav.play") Levels
-          li.editor
-            a.header-font(href='/editor', data-i18n="nav.editor") Editor
-          li.blog
-            a.header-font(href='http://blog.codecombat.com/', data-i18n="nav.blog") Blog
-          li.forum
-            a.header-font(href='http://discourse.codecombat.com/', data-i18n="nav.forum") Forum
-    
+          li
+            a.header-font(href='/community', data-i18n="nav.community") Community
 
   block outer_content
     #outer-content-wrapper
@@ -65,7 +58,7 @@ body
     .footer.clearfix
       .content
         p.footer-link-text
-          if pathname == "/"
+          if pathname == "/" || (me.get('permissions') || []).indexOf('employer') != -1
             a(href='/employers', title='Home', tabindex=-1, data-i18n="nav.employers") Employers
           else
             a(href='/', title='Home', tabindex=-1, data-i18n="nav.home") Home
@@ -73,6 +66,9 @@ body
           a(href='/legal', title='Legal', tabindex=-1, data-i18n="nav.legal") Legal
           a(href='/about', title='About', tabindex=-1, data-i18n="nav.about") About
           a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Contact
+          a(href='/editor', data-i18n="nav.editor") Editor
+          a(href='http://blog.codecombat.com/', data-i18n="nav.blog") Blog
+          a(href='http://discourse.codecombat.com/', data-i18n="nav.forum") Forum
           if me.isAdmin()
             a(href='/admin', data-i18n="nav.admin") Admin
 

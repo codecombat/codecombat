@@ -46,7 +46,7 @@ module.exports = class LadderTabView extends CocoView
     return if @checked or (not window.FB) or (not window.gapi)
     @checked = true
 
-    @addSomethingToLoad("facebook_status")
+    @addSomethingToLoad("facebook_status", 0)  # This might not load ever, so we can't wait for it
     FB.getLoginStatus (response) =>
       @facebookStatus = response.status
       @loadFacebookFriends() if @facebookStatus is 'connected'
@@ -105,7 +105,7 @@ module.exports = class LadderTabView extends CocoView
 
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
-      @addSomethingToLoad("gplus_friends", 0)  # this might not load ever, so we can't wait for it
+      @addSomethingToLoad("gplus_friends", 0)  # This might not load ever, so we can't wait for it
       application.gplusHandler.loadFriends @gplusFriendsLoaded
 
   gplusFriendsLoaded: (friends) =>

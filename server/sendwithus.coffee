@@ -1,11 +1,9 @@
 config = require '../server_config'
 sendwithusAPI = require 'sendwithus'
 swuAPIKey = config.mail.sendwithusAPIKey
-queues = require './commons/queue'
 
 module.exports.setupRoutes = (app) ->
   return
-
 
 debug = not config.isProduction
 module.exports.api = new sendwithusAPI swuAPIKey, debug
@@ -16,3 +14,4 @@ module.exports.templates =
   ladder_update_email: 'JzaZxf39A4cKMxpPZUfWy4'
   patch_created: 'tem_xhxuNosLALsizTNojBjNcL'
   change_made_notify_watcher: 'tem_7KVkfmv9SZETb25dtHbUtG'
+  one_time_recruiting_email: 'tem_mdFMgtcczHKYu94Jmq68j8'

@@ -26,7 +26,7 @@ module.exports = class ModelModal extends View
       treemaOptions =
         schema: schema
         data: data
-        readOnly: true
+        readOnly: false
       modelTreema = @$el.find(".model-treema[data-model-id='#{model.id}']").treema treemaOptions
       modelTreema?.build()
       modelTreema?.open()
