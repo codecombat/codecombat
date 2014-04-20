@@ -6,7 +6,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     send: "Verzend"
     cancel: "Annuleren"
     save: "Opslagen"
-#    publish: "Publish"
+    publish: "Publiceren"
     create: "Creëer"
     delay_1_sec: "1 seconde"
     delay_3_sec: "3 secondes"
@@ -73,7 +73,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
+    social_signup: "Of je kunt je registreren met Facebook of G+:" 
 
   home:
     slogan: "Leer programmeren in JavaScript door het spelen van een spel"
@@ -291,9 +291,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     time_current: "Nu:"
     time_total: "Maximum:"
     time_goto: "Ga naar:"
-#    infinite_loop_try_again: "Try Again"
-#    infinite_loop_reset_level: "Reset Level"
-#    infinite_loop_comment_out: "Comment Out My Code"
+    infinite_loop_try_again: "Probeer opnieuw"
+    infinite_loop_reset_level: "Level resetten"
+    infinite_loop_comment_out: "Mijn code weg commentariëren" 
 
   admin:
     av_title: "Administrator panels"
@@ -361,7 +361,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     thang_search_title: "Zoek Thang Types Hier"
     level_search_title: "Zoek Levels Hier"
     signup_to_create: "Registreer je om nieuwe content te maken"
-#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
+    read_only_warning2: "Pas op, je kunt geen aanpassingen opslaan hier, want je bent niet ingelogd."
 
   article:
     edit_btn_preview: "Voorbeeld"
@@ -395,7 +395,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     easy: "Gemakkelijk"
     medium: "Medium"
     hard: "Moeilijk"
-#    player: "Player"
+    player: "Speler"
 
   about:
     who_is_codecombat: "Wie is CodeCombat?"
@@ -600,9 +600,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     simulate_all: "RESET EN SIMULEER SPELLEN"
     games_simulated_by: "Door jou gesimuleerde spellen:"
     games_simulated_for: "Voor jou gesimuleerde spellen:"
-#    games_simulated: "Games simulated"
-#    games_played: "Games played"
-#    ratio: "Ratio"
+    games_simulated: "Spellen gesimuleerd"
+    games_played: "Spellen gespeeld"
+    ratio: "Verhouding"
     leaderboard: "Leaderboard"
     battle_as: "Vecht als "
     summary_your: "Jouw "
@@ -667,5 +667,5 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     leaderboard: "Scorebord"
     user_schema: "Gebruikersschema"
     user_profile: "Gebruikersprofiel"
-#    patches: "Patches"
-#    model: "Model"
+    patches: "Patches"
+    model: "Model"
