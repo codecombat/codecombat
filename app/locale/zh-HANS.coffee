@@ -167,16 +167,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     error_saving: "保存时出错"
     saved: "更改已保存"
     password_mismatch: "密码不匹配。"
-    job_profile: “工作经历”
-    job_profile_approved: “你填写的工作经历将由CodeCombat认证. 雇主将看到这些信息，除非你将它设置为不启用状态或者连续四周没有更新.”
-    job_profile_explanation: “你好! 填写这些信息, 我们将使用它帮你寻找一份软件开发的工作.”
+    job_profile: "工作经历"
+    job_profile_approved: "你填写的工作经历将由CodeCombat认证. 雇主将看到这些信息，除非你将它设置为不启用状态或者连续四周没有更新."
+    job_profile_explanation: "你好! 填写这些信息, 我们将使用它帮你寻找一份软件开发的工作."
 
   account_profile:
     edit_settings: "编辑设置"
     profile_for_prefix: "关于他的基本资料："
     profile_for_suffix: ""
-    approved: “已认证”
-    not_approved: "为认证”
+    approved: "已认证"
+    not_approved: "为认证"
     looking_for: "寻找"
     last_updated: "最后一次更新："
     contact: "联系"
@@ -190,7 +190,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     contact_george: "联系George查看”为我们义务工作的人"
     candidates_count_prefix: "我们当前有 "
     candidates_count_many: "很多"
-    candidates_count_suffix: “经过我们认证的高手们正在找工作。”
+    candidates_count_suffix: "经过我们认证的高手们正在找工作。"
     candidate_name: "姓名"
     candidate_location: "地点"
     candidate_looking_for: "寻找"
@@ -258,7 +258,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor_config_indentguides_label: "显示缩进提示"
     editor_config_indentguides_description: "显示一条竖线以使缩进更明显。"
 #    editor_config_behaviors_label: "Smart Behaviors"
-    editor_config_behaviors_description: “自动完成括号，大括号和引号。"
+    editor_config_behaviors_description: "自动完成括号，大括号和引号。"
     loading_ready: "载入完成!"
     tip_insert_positions: "使用Shift+左键来插入拼写编辑器。"
     tip_toggle_play: "用 Ctrl+P 来暂停或继续"
@@ -271,9 +271,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     think_solution: "思考解决方法, 而不是问题."
     tip_theory_practice: "在理论研究中，理论和实践之间是没有区别的。但在实践中，它们是有区别的。 - Yogi Berra"
     tip_error_free: "有两种方式可以写出没有错误的程序；但是只有第三种方式能让程序达到预期的效果。 - Alan Perlis"
-    tip_debugging_program: “如果说调试是清除Bug的过程，那么编码就是放置Bug的过程。- Edsger W. Dijkstra"
-    tip_forums: "到论坛去告诉我们你的想法!”
-    tip_baby_coders: "在未来，就算小孩都能成为大法师.”
+    tip_debugging_program: "如果说调试是清除Bug的过程，那么编码就是放置Bug的过程。- Edsger W. Dijkstra"
+    tip_forums: "到论坛去告诉我们你的想法!"
+    tip_baby_coders: "在未来，就算小孩都能成为大法师."
 #    tip_morale_improves: "Loading will continue until morale improves."
     tip_all_species: "我们相信学习编程的机会对任何种族都是平等的。"
 #    tip_reticulating: "Reticulating spines."
@@ -281,7 +281,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_great_responsibility: "更高的编程技巧也意味着更大的调试责任。"
     tip_munchkin: "如果你不吃掉你的蔬菜, 一个小矮人将在你睡着之后来找你。"
     tip_binary: "这个世界上只有 10 种人: 那些懂二进制的, 还有那些不懂二进制的."
-    tip_commitment_yoda: “一个程序员必须有高度的责任感和一颗认真的心。 ~ 尤达大师"
+    tip_commitment_yoda: "一个程序员必须有高度的责任感和一颗认真的心。 ~ 尤达大师"
     tip_no_try: "做. 或是不做. 这世上不存在'尝试'这种东西. - 尤达大师"
     tip_patience: "你必须要有耐心，年轻的学徒 - 尤达大师"
     tip_documented_bug: "一个写在文档里的漏洞不算漏洞, 那是个功能."
