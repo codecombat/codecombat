@@ -50,13 +50,13 @@ module.exports = class ThangTypeEditView extends View
     @thangType.saveBackups = true
 
     @listenToOnce(@thangType, 'error', =>
-        @hideLoading()
+      @hideLoading()
 
-        # Hack: editor components appear after calling insertSubView.
-        # So we need to hide them first.
-        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
+      # Hack: editor components appear after calling insertSubView.
+      # So we need to hide them first.
+      $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
 
-        @insertSubView(new ErrorView())
+      @insertSubView(new ErrorView())
     )
 
     thangRes = @supermodel.addModelResource(@thangType, 'thang_type')
