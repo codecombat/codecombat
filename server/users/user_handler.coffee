@@ -25,7 +25,7 @@ UserHandler = class UserHandler extends Handler
 
   editableProperties: [
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
-    'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emailSubscriptions',
+    'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
     'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
     'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile'
   ]

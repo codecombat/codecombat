@@ -65,20 +65,19 @@ module.exports = class SettingsView extends View
     c = super()
     return c unless me
     c.subs = {}
-    c.subs[sub] = 1 for sub in c.me.get('emailSubscriptions') or ['announcement', 'notification', 'tester', 'level_creator', 'developer']
+    c.subs[sub] = 1 for sub in c.me.getEnabledEmails()
     c.showsJobProfileTab = me.isAdmin() or me.get('jobProfile') or location.hash.search('job-profile-') isnt -1
     c
 
   getSubscriptions: ->
-    inputs = $('#email-pane input[type="checkbox"]', @$el)
-    inputs = ($(i) for i in inputs)
-    subs = (i.attr('name') for i in inputs when i.prop('checked'))
-    subs = (s.replace('email_', '') for s in subs)
-    subs
+    inputs = ($(i) for i in $('#email-pane input[type="checkbox"].changed', @$el))
+    emailNames = (i.attr('name').replace('email_', '') for i in inputs)
+    enableds = (i.prop('checked') for i in inputs)
+    _.zipObject emailNames, enableds
 
   toggleEmailSubscriptions: =>
     subs = @getSubscriptions()
-    $('#email-pane input[type="checkbox"]', @$el).prop('checked', not Boolean(subs.length))
+    $('#email-pane input[type="checkbox"]', @$el).prop('checked', not _.any(_.values(subs))).addClass('changed')
     @save()
 
   buildPictureTreema: ->
@@ -102,7 +101,8 @@ module.exports = class SettingsView extends View
     @trigger 'change'
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
-  save: ->
+  save: (e) ->
+    $(e.target).addClass('changed') if e
     forms.clearFormAlerts(@$el)
     @grabData()
     res = me.validate()
@@ -143,7 +143,8 @@ module.exports = class SettingsView extends View
   grabOtherData: ->
     me.set 'name', $('#name', @$el).val()
     me.set 'email', $('#email', @$el).val()
-    me.set 'emailSubscriptions', @getSubscriptions()
+    for emailName, enabled of @getSubscriptions()
+      me.setEmailSubscription emailName, enabled 
     me.set 'photoURL', @pictureTreema.get('/photoURL')
 
     adminCheckbox = @$el.find('#admin')
