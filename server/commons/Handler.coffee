@@ -105,7 +105,7 @@ module.exports = class Handler
     query = { 'target.original': mongoose.Types.ObjectId(id), status: req.query.status or 'pending' }
     Patch.find(query).sort('-created').exec (err, patches) =>
       return @sendDatabaseError(res, err) if err
-      patches = (patch.toObject() for patch in patches) 
+      patches = (patch.toObject() for patch in patches)
       @sendSuccess(res, patches)
 
   setWatching: (req, res, id) ->
@@ -169,8 +169,6 @@ module.exports = class Handler
     aggregate = $match: query
     @modelClass.aggregate(aggregate).project(selectString).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
       return @sendDatabaseError(res, err) if err
-      for doc in results
-        return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
       res.send(results)
       res.end()
 
