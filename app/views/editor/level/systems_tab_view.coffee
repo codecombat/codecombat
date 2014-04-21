@@ -59,12 +59,7 @@ module.exports = class SystemsTabView extends View
     unless systems.length
       systems = @buildDefaultSystems()
       insertedDefaults = true
-
-    systemModels = @supermodel.getModels LevelSystem
-    systemModelMap = {}
-    systemModelMap[sys.get('original')] = sys.get('name') for sys in systemModels
-    systems = _.sortBy systems, (sys) -> systemModelMap[sys.original]
-
+    systems = @getSortedByName systems
     treemaOptions =
       # TODO: somehow get rid of the + button, or repurpose it to open the LevelSystemAddView instead
       supermodel: @supermodel
@@ -84,7 +79,14 @@ module.exports = class SystemsTabView extends View
     @onSystemsChanged() if insertedDefaults
 
   onSystemsChanged: (e) =>
-    @level.set 'systems', @systemsTreema.data
+    systems = @getSortedByName @systemsTreema.data
+    @level.set 'systems', systems
+
+  getSortedByName: (systems) =>
+    systemModels = @supermodel.getModels LevelSystem
+    systemModelMap = {}
+    systemModelMap[sys.get('original')] = sys.get('name') for sys in systemModels
+    _.sortBy systems, (sys) -> systemModelMap[sys.original]
 
   onSystemSelected: (e, selected) =>
     selected = if selected.length > 1 then selected[0].getLastSelectedTreema() else selected[0]
