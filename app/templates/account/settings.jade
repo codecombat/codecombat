@@ -39,7 +39,7 @@ block content
             if !isProduction
               .form-group.checkbox
                 label(for="email", data-i18n="account_settings.admin") Admin
-                input#admin(name="admin", type="checkbox", checked=me.get('permissions').indexOf('admin')>-1))
+                input#admin(name="admin", type="checkbox", checked=me.get('permissions').indexOf('admin') != -1)
               
   
       #picture-pane.tab-pane
