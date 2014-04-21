@@ -35,7 +35,7 @@ module.exports = class MyMatchesTabView extends CocoView
       for session in @sessions.models
         for match in session.get('matches') or []
           opponent = match.opponents[0]
-          @nameMap[opponent.userID] ?= nameMap[opponent.userID]
+          @nameMap[opponent.userID] ?= nameMap[opponent.userID].name
       @finishRendering()
 
     $.ajax('/db/user/-/names', {
