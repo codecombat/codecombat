@@ -49,7 +49,6 @@ module.exports = class LevelSystemEditView extends View
       schema: schema
       data: data
       callbacks: {change: @onSystemSettingsEdited}
-    treemaOptions.readOnly = true unless me.isAdmin()
     @systemSettingsTreema = @$el.find('#edit-system-treema').treema treemaOptions
     @systemSettingsTreema.build()
     @systemSettingsTreema.open()
@@ -67,7 +66,6 @@ module.exports = class LevelSystemEditView extends View
       schema: LevelSystem.schema.properties.configSchema
       data: @levelSystem.get 'configSchema'
       callbacks: {change: @onConfigSchemaEdited}
-    treemaOptions.readOnly = true unless me.isAdmin()
     @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
     @configSchemaTreema.build()
     @configSchemaTreema.open()
@@ -83,7 +81,6 @@ module.exports = class LevelSystemEditView extends View
     editorEl = $('<div></div>').text(@levelSystem.get('code')).addClass('inner-editor')
     @$el.find('#system-code-editor').empty().append(editorEl)
     @editor = ace.edit(editorEl[0])
-    @editor.setReadOnly(not me.isAdmin())
     session = @editor.getSession()
     session.setMode 'ace/mode/coffee'
     session.setTabSize 2
