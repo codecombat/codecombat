@@ -88,15 +88,27 @@ module.exports = class Spell
   hasChanged: (newSource=null, currentSource=null) ->
     (newSource ? @originalSource) isnt (currentSource ? @source)
 
-  hasChangedSignificantly: (newSource=null, currentSource=null) ->
+  hasChangedSignificantly: (newSource=null, currentSource=null, cb) ->
     for thangID, spellThang of @thangs
       aether = spellThang.aether
       break
     unless aether
       console.error @toString(), "couldn't find a spellThang with aether of", @thangs
       return false
-    aether.hasChangedSignificantly (newSource ? @originalSource), (currentSource ? @source), true, true
-
+    workerMessage =
+      function: "hasChangedSignificantly"
+      a: (newSource ? @originalSource)
+      spellKey: @spellKey
+      b: (currentSource ? @source)
+      careAboutLineNumbers: true
+      careAboutLint: true
+    @worker.addEventListener "message", (e) =>
+      workerData = JSON.parse e.data
+      if workerData.function is "hasChangedSignificantly"
+        @worker.removeEventListener("message",arguments.callee, false)
+        cb(workerData.hasChanged)
+    @worker.postMessage JSON.stringify(workerMessage)
+  
   createAether: (thang) ->
     aceConfig = me.get('aceConfig') ? {}
     aetherOptions =
