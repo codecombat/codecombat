@@ -1,11 +1,11 @@
 module.exports = nativeDescription: "Nederlands (België)", englishDescription: "Dutch (Belgium)", translation:
   common:
-    loading: "Aan het laden..."
+    loading: "Bezig met laden..."
     saving: "Opslaan..."
     sending: "Verzenden..."
     send: "Verzend"
     cancel: "Annuleren"
-    save: "Opslagen"
+    save: "Opslaan"
     publish: "Publiceren"
     create: "Creëer"
     delay_1_sec: "1 seconde"
@@ -46,7 +46,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     employers: "Werkgevers"
 
   versions:
-    save_version_title: "Nieuwe versie opslagen"
+    save_version_title: "Nieuwe versie opslaan"
     new_major_version: "Nieuwe hoofd versie"
     cla_prefix: "Om bewerkingen op te slaan, moet je eerst akkoord gaan met onze"
     cla_url: "CLA"
@@ -308,7 +308,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 
   editor:
     main_title: "CodeCombat Editors"
-    main_description: "Maak je eigen levels, campagnes, eenheden en leermateriaal. Wij bieden alle programma's aan die u nodig heeft!"
+    main_description: "Maak je eigen levels, campagnes, eenheden en leermateriaal. Wij bieden alle programma's aan die je nodig hebt!"
     article_title: "Artikel Editor"
     article_description: "Schrijf artikels die spelers een overzicht geven over programmeer concepten die kunnen gebruikt worden over een variëteit van levels en campagnes."
     thang_title: "Thang Editor"
