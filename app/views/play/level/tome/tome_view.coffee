@@ -88,11 +88,7 @@ module.exports = class TomeView extends View
     @cast()
 
   createWorker: ->
-    worker = new Worker("/javascripts/workers/aether_worker.js")
-    worker.addEventListener 'message', (e) ->
-      console.log "Aether worker said something!"
-    , false
-    return worker
+    return new Worker("/javascripts/workers/aether_worker.js")
 
   generateTeamSpellMap: (spellObject) ->
     teamSpellMap = {}
