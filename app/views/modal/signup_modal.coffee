@@ -48,15 +48,12 @@ module.exports = class SignupModalView extends View
     userObject = forms.formToObject @$el
     delete userObject.subscribe
     delete userObject["confirm-age"]
-    for key, val of me.attributes when key in ["preferredLanguage", "testGroupNumber", "dateCreated", "wizardColor1", "name", "music", "volume", "emailSubscriptions"]
+    for key, val of me.attributes when key in ["preferredLanguage", "testGroupNumber", "dateCreated", "wizardColor1", "name", "music", "volume", "emails"]
       userObject[key] ?= val
     subscribe = @$el.find('#signup-subscribe').prop('checked')
-    userObject.emailSubscriptions ?= []
-    if subscribe
-      userObject.emailSubscriptions.push 'announcement' unless 'announcement' in userObject.emailSubscriptions
-      userObject.emailSubscriptions.push 'notification' unless 'notification' in userObject.emailSubscriptions
-    else
-      userObject.emailSubscriptions = _.without (userObject.emailSubscriptions ? []), 'announcement', 'notification'
+    userObject.emails ?= {}
+    userObject.emails.generalNews ?= {}
+    userObject.emails.generalNews.enabled = subscribe
     res = tv4.validateMultiple userObject, User.schema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     window.tracker?.trackEvent 'Finished Signup'

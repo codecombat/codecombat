@@ -20,7 +20,20 @@ UserSchema = c.object {},
   autocastDelay: {type: 'integer', 'default': 5000 }
   lastLevel: { type: 'string' }
 
-  emailSubscriptions: c.array {uniqueItems: true, 'default': ['announcement', 'notification']}, {'enum': emailSubscriptions}
+  emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}
+  emails: c.object {title: "Email Settings", default: {generalNews: {enabled:true}, anyNotes: {enabled:true}, recruitNotes: {enabled:true}}},
+    # newsletters
+    generalNews: { $ref: '#/definitions/emailSubscription' }
+    adventurerNews: { $ref: '#/definitions/emailSubscription' }
+    ambassadorNews: { $ref: '#/definitions/emailSubscription' }
+    archmageNews: { $ref: '#/definitions/emailSubscription' }
+    artisanNews: { $ref: '#/definitions/emailSubscription' }
+    diplomatNews: { $ref: '#/definitions/emailSubscription' }
+    scribeNews: { $ref: '#/definitions/emailSubscription' }
+    
+    # notifications
+    anyNotes: { $ref: '#/definitions/emailSubscription' } # overrides any other notifications settings
+    recruitNotes: { $ref: '#/definitions/emailSubscription' }
 
   # server controlled
   permissions: c.array {'default': []}, c.shortString()
@@ -98,5 +111,11 @@ UserSchema = c.object {},
   employerAt: c.shortString {description: "If given employer permissions to view job candidates, for which employer?"}
 
 c.extendBasicProperties UserSchema, 'user'
+
+c.definitions =
+  emailSubscription =
+    enabled: {type: 'boolean'}
+    lastSent: c.date()
+    count: {type: 'integer'}
 
 module.exports = UserSchema
