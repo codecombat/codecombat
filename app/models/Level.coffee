@@ -5,6 +5,7 @@ ThangType = require './ThangType'
 
 module.exports = class Level extends CocoModel
   @className: "Level"
+  @schema: require 'schemas/models/level'
   urlRoot: "/db/level"
 
   serialize: (supermodel) ->
