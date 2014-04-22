@@ -74,7 +74,6 @@ module.exports = class CastButtonView extends View
 
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded
-    #this is going to have some problems...
 
     async.some _.values(@spells), (spell, callback) =>
       spell.hasChangedSignificantly spell.getSource(), null, callback
