@@ -20,7 +20,8 @@ var hasChangedSignificantly = function(spellKey, a,b,careAboutLineNumbers,careAb
     var functionName = "hasChangedSignificantly";
     var returnObject = {
         "function":functionName,
-        "hasChanged": hasChanged
+        "hasChanged": hasChanged,
+        "spellKey": spellKey
     };
     return JSON.stringify(returnObject);
 };

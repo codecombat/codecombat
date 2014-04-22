@@ -61,20 +61,7 @@ module.exports = class Spell
     else
       source = @getSource()
     [pure, problems] = [null, null]
-    workerMessage =
-      function: "lint"
-      spellKey: @spellKey
-      source: source
-    @worker.postMessage JSON.stringify(workerMessage)
-    @worker.addEventListener "message", (e) ->
-      workerData = JSON.parse e.data
-      if workerData.function is "lint"
-        pure = workerData.lintMessages
-        
-
-      
     for thangID, spellThang of @thangs
-      
       unless pure
         pure = spellThang.aether.transpile source
         problems = spellThang.aether.problems
@@ -94,7 +81,7 @@ module.exports = class Spell
       break
     unless aether
       console.error @toString(), "couldn't find a spellThang with aether of", @thangs
-      return false
+      cb false
     workerMessage =
       function: "hasChangedSignificantly"
       a: (newSource ? @originalSource)
@@ -104,7 +91,7 @@ module.exports = class Spell
       careAboutLint: true
     @worker.addEventListener "message", (e) =>
       workerData = JSON.parse e.data
-      if workerData.function is "hasChangedSignificantly"
+      if workerData.function is "hasChangedSignificantly" and workerData.spellKey is @spellKey
         @worker.removeEventListener("message",arguments.callee, false)
         cb(workerData.hasChanged)
     @worker.postMessage JSON.stringify(workerMessage)
