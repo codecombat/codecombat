@@ -30,9 +30,9 @@ nav.navbar.navbar-default(role='navigation')
   
         li#patch-component-button
           a(data-i18n="common.submit_patch") Submit Patch
-  
-        li#create-new-component-button
-          a(data-i18n="editor.level_component_btn_new") Create New Component
+        if me.isAdmin()
+          li#create-new-component-button
+            a(data-i18n="editor.level_component_b_new") Create New Component
         
         li.divider
         li.dropdown-header Info
