@@ -9,6 +9,7 @@ module.exports = class User extends CocoModel
 
   initialize: ->
     super()
+    @migrateEmails()
 
   isAdmin: ->
     permissions = @attributes['permissions'] or []
@@ -43,3 +44,33 @@ module.exports = class User extends CocoModel
       )
     cache[id] = user
     user
+    
+  getEnabledEmails: ->
+    @migrateEmails()
+    emails = _.clone(@get('emails')) or {}
+    emails = _.defaults emails, @schema().properties.emails.default
+    (emailName for emailName, emailDoc of emails when emailDoc.enabled)
+    
+  setEmailSubscription: (name, enabled) ->
+    newSubs = _.clone(@get('emails')) or {}
+    (newSubs[name] ?= {}).enabled = enabled
+    @set 'emails', newSubs
+    
+  emailMap:
+    announcement: 'generalNews'
+    developer: 'archmageNews'
+    tester: 'adventurerNews'
+    level_creator: 'artisanNews'
+    article_editor: 'scribeNews'
+    translator: 'diplomatNews'
+    support: 'ambassadorNews'
+    notification: 'anyNotes'
+
+  migrateEmails: ->
+    return if @attributes.emails or not @attributes.emailSubscriptions
+    oldSubs = @get('emailSubscriptions') or []
+    newSubs = {}
+    newSubs[newSubName] = { enabled: oldSubName in oldSubs } for oldSubName, newSubName of @emailMap
+    @set('emails', newSubs)
+    
+  isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled

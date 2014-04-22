@@ -119,6 +119,7 @@ class CocoModel extends Backbone.Model
       @set prop, defaultValue
     for prop, sch of @constructor.schema.properties or {}
       continue if @get(prop)?
+      continue if prop is 'emails' # hack, defaults are handled through User.coffee's email-specific methods.
       #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
       @set prop, sch.default if sch.default?
     if @loaded
