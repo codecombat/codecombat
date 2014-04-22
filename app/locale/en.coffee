@@ -375,7 +375,6 @@
     level_search_title: "Search Levels Here"
     signup_to_create: "Sign Up to Create a New Content"
     read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
-    got_questions: "Questions about using the CodeCombat editors?"
 
   article:
     edit_btn_preview: "Preview"
