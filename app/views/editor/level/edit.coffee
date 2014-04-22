@@ -32,13 +32,6 @@ module.exports = class EditorLevelView extends View
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
     
-  subscriptions:
-    'refresh-level-editor': 'rerenderAllViews'
-
-  rerenderAllViews: ->
-    for view in [@thangsTab, @settingsTab, @scriptsTab, @componentsTab, @systemsTab, @patchesView]
-      view.render()
-    
   constructor: (options, @levelID) ->
     super options
     @listenToOnce(@supermodel, 'loaded-all', @onAllLoaded)

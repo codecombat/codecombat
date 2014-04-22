@@ -47,6 +47,7 @@ module.exports = class SpellView extends View
 
   constructor: (options) ->
     super options
+    @worker = options.worker
     @session = options.session
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
@@ -278,9 +279,10 @@ module.exports = class SpellView extends View
     ]
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
-      if not @spellThang or @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw
-        callback() for callback in onSignificantChange  # Do these first
-      callback() for callback in onAnyChange  # Then these
+      @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw, (hasChanged) =>
+        if not @spellThang or hasChanged
+          callback() for callback in onSignificantChange  # Do these first
+        callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
   setRecompileNeeded: (needed=true) =>
@@ -317,20 +319,37 @@ module.exports = class SpellView extends View
     # to a new spellThang, we may want to refresh our Aether display.
     return unless aether = @spellThang?.aether
     source = @getSource()
-    codeHasChangedSignificantly = force or @spell.hasChangedSignificantly source, aether.raw
-    needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
-    return if not needsUpdate and aether is @displayedAether
-    castAether = @spellThang.castAether
-    codeIsAsCast = castAether and not @spell.hasChangedSignificantly source, castAether.raw
-    aether = castAether if codeIsAsCast
-    return if not needsUpdate and aether is @displayedAether
-
-    # Now that that's figured out, perform the update.
-    @clearAetherDisplay()
-    aether.transpile source if codeHasChangedSignificantly and not codeIsAsCast
-    @displayAether aether
-    @lastUpdatedAetherSpellThang = @spellThang
-    @guessWhetherFinished aether if fromCodeChange
+    @spell.hasChangedSignificantly source, aether.raw, (hasChanged) =>
+      codeHasChangedSignificantly = force or hasChanged
+      needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
+      return if not needsUpdate and aether is @displayedAether
+      castAether = @spellThang.castAether
+      codeIsAsCast = castAether and not hasChanged
+      aether = castAether if codeIsAsCast
+      return if not needsUpdate and aether is @displayedAether
+      
+      # Now that that's figured out, perform the update.
+      # The web worker Aether won't track state, so don't have to worry about updating it
+      @clearAetherDisplay()
+      workerMessage =
+        function: "transpile"
+        spellKey: @spell.spellKey
+        source: source
+      
+      @worker.addEventListener "message", (e) =>
+        workerData = JSON.parse e.data
+        if workerData.function is "transpile" and workerData.spellKey is @spell.spellKey
+          @worker.removeEventListener("message",arguments.callee, false)
+          aether.problems = workerData.problems
+          aether.raw = source
+          @displayAether aether
+          @lastUpdatedAetherSpellThang = @spellThang
+          @guessWhetherFinished aether if fromCodeChange
+      @worker.postMessage JSON.stringify(workerMessage)
+      #aether.transpile source if codeHasChangedSignificantly and not codeIsAsCast
+      #@displayAether aether
+      #@lastUpdatedAetherSpellThang = @spellThang
+      #@guessWhetherFinished aether if fromCodeChange
 
   clearAetherDisplay: ->
     problem.destroy() for problem in @problems
@@ -400,10 +419,11 @@ module.exports = class SpellView extends View
     return @onInfiniteLoop e if e.problem.id is "runtime_InfiniteLoop"
     return unless e.problem.userInfo.methodName is @spell.name
     return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
-    return if @spell.hasChangedSignificantly @getSource()  # don't show this error if we've since edited the code
-    spellThang.aether.addProblem e.problem
-    @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
-    @updateAether false, false
+    @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
+      return if hasChanged
+      spellThang.aether.addProblem e.problem
+      @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
+      @updateAether false, false
 
   onInfiniteLoop: (e) ->
     return unless @spellThang
@@ -578,7 +598,9 @@ module.exports = class SpellView extends View
     @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
 
   dismiss: ->
-    @recompile() if @spell.hasChangedSignificantly @getSource()
+    @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
+      @recompile() if hasChanged
+      
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick

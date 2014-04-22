@@ -112,7 +112,7 @@ module.exports = class PlaybackView extends View
       @$el.find('.toggle-fullscreen').hide()
 
   updatePopupContent: ->
-    @timePopup.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"
+    @timePopup?.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"
 
   # These functions could go to some helper class
 
