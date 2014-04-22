@@ -40,12 +40,25 @@ var updateLanguageAether = function(newLanguage)
 
 var lint = function(spellKey, source)
 {
-    var currentAether = aethers[spellKey]
+    var currentAether = aethers[spellKey];
     var lintMessages = currentAether.lint(source);
     var functionName = "lint";
     var returnObject = {
         "lintMessages": lintMessages,
         "function": functionName
+    };
+    return JSON.stringify(returnObject);
+};
+
+var transpile = function(spellKey, source)
+{
+    var currentAether = aethers[spellKey];
+    currentAether.transpile(source);
+    var functionName = "transpile";
+    var returnObject = {
+        "problems": currentAether.problems,
+        "function": functionName,
+        "spellKey": spellKey
     };
     return JSON.stringify(returnObject);
 };
@@ -72,6 +85,10 @@ self.addEventListener('message', function(e) {
     else if (data.function == "lint")
     {
         self.postMessage(lint(data.spellKey, data.source));
+    }
+    else if (data.function == "transpile")
+    {
+        self.postMessage(transpile(data.spellKey, data.source));
     }
     else
     {

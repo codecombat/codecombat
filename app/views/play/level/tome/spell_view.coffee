@@ -332,15 +332,15 @@ module.exports = class SpellView extends View
       # The web worker Aether won't track state, so don't have to worry about updating it
       @clearAetherDisplay()
       workerMessage =
-        function: "lint"
+        function: "transpile"
         spellKey: @spell.spellKey
         source: source
       
       @worker.addEventListener "message", (e) =>
         workerData = JSON.parse e.data
-        if workerData.function is "lint"
+        if workerData.function is "transpile" and workerData.spellKey is @spell.spellKey
           @worker.removeEventListener("message",arguments.callee, false)
-          aether.problems = workerData.lintMessages
+          aether.problems = workerData.problems
           aether.raw = source
           @displayAether aether
           @lastUpdatedAetherSpellThang = @spellThang
