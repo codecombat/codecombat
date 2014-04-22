@@ -1,7 +1,7 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/play'
 LevelSession = require 'models/LevelSession'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 
 class LevelSessionsCollection extends CocoCollection
   url: ''

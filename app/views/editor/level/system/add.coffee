@@ -2,7 +2,7 @@ View = require 'views/kinds/ModalView'
 template = require 'templates/editor/level/system/add'
 availableSystemTemplate = require 'templates/editor/level/system/available_system'
 LevelSystem = require 'models/LevelSystem'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 
 class LevelSystemSearchCollection extends CocoCollection
   url: '/db/level_system/search'

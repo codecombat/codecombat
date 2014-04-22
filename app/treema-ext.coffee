@@ -1,5 +1,5 @@
 CocoModel = require 'models/CocoModel'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 {me} = require('lib/auth')
 locale = require 'locale/locale'
 
