@@ -74,16 +74,20 @@ module.exports = class CastButtonView extends View
 
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded
-    castable = _.some @spells, (spell) => spell.hasChangedSignificantly spell.getSource()
-    @castButtonGroup.toggleClass('castable', castable).toggleClass('casting', @casting)
-    if @casting
-      s = $.i18n.t("play_level.tome_cast_button_casting", defaultValue: "Casting")
-    else if castable
-      s = $.i18n.t("play_level.tome_cast_button_castable", defaultValue: "Cast Spell") + " " + @castShortcut
-    else
-      s = $.i18n.t("play_level.tome_cast_button_cast", defaultValue: "Spell Cast")
-    @castButton.text s
-    @castButton.prop 'disabled', not castable
+
+    async.some _.values(@spells), (spell, callback) =>
+      spell.hasChangedSignificantly spell.getSource(), null, callback
+    , (castable) =>
+        
+      @castButtonGroup.toggleClass('castable', castable).toggleClass('casting', @casting)
+      if @casting
+        s = $.i18n.t("play_level.tome_cast_button_casting", defaultValue: "Casting")
+      else if castable
+        s = $.i18n.t("play_level.tome_cast_button_castable", defaultValue: "Cast Spell") + " " + @castShortcut
+      else
+        s = $.i18n.t("play_level.tome_cast_button_cast", defaultValue: "Spell Cast")
+      @castButton.text s
+      @castButton.prop 'disabled', not castable
 
   setAutocastDelay: (delay) ->
     #console.log "Set autocast delay to", delay

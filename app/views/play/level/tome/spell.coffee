@@ -23,7 +23,7 @@ module.exports = class Spell
     @parameters = p.parameters
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
     @thangs = {}
-    @view = new SpellView {spell: @, session: @session}
+    @view = new SpellView {spell: @, session: @session, worker: @worker}
     @view.render()  # Get it ready and code loaded in advance
     @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel
     @tabView.render()
@@ -75,15 +75,27 @@ module.exports = class Spell
   hasChanged: (newSource=null, currentSource=null) ->
     (newSource ? @originalSource) isnt (currentSource ? @source)
 
-  hasChangedSignificantly: (newSource=null, currentSource=null) ->
+  hasChangedSignificantly: (newSource=null, currentSource=null, cb) ->
     for thangID, spellThang of @thangs
       aether = spellThang.aether
       break
     unless aether
       console.error @toString(), "couldn't find a spellThang with aether of", @thangs
-      return false
-    aether.hasChangedSignificantly (newSource ? @originalSource), (currentSource ? @source), true, true
-
+      cb false
+    workerMessage =
+      function: "hasChangedSignificantly"
+      a: (newSource ? @originalSource)
+      spellKey: @spellKey
+      b: (currentSource ? @source)
+      careAboutLineNumbers: true
+      careAboutLint: true
+    @worker.addEventListener "message", (e) =>
+      workerData = JSON.parse e.data
+      if workerData.function is "hasChangedSignificantly" and workerData.spellKey is @spellKey
+        @worker.removeEventListener("message",arguments.callee, false)
+        cb(workerData.hasChanged)
+    @worker.postMessage JSON.stringify(workerMessage)
+  
   createAether: (thang) ->
     aceConfig = me.get('aceConfig') ? {}
     aetherOptions =
@@ -111,13 +123,23 @@ module.exports = class Spell
       aetherOptions.includeFlow = false
     #console.log "creating aether with options", aetherOptions
     aether = new Aether aetherOptions
+    workerMessage =
+      function: "createAether"
+      spellKey: @spellKey
+      options: aetherOptions
+    @worker.postMessage JSON.stringify workerMessage
     aether
 
   updateLanguageAether: ->
     aceConfig = me.get('aceConfig') ? {}
+    newLanguage = (aceConfig.language ? 'javascript')
     for thangId, spellThang of @thangs
-      spellThang.aether?.setLanguage (aceConfig.language ? 'javascript')
+      spellThang.aether?.setLanguage newLanguage
       spellThang.castAether = null
+    workerMessage = 
+      function: "updateLanguageAether"
+      newLanguage: newLanguage
+    @worker.postMessage JSON.stringify workerMessage
     @transpile()
 
   toString: ->

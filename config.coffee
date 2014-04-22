@@ -59,6 +59,7 @@ exports.config =
           # Aether before box2d for some strange Object.defineProperty thing
           'bower_components/aether/build/aether.js'
           'bower_components/d3/d3.min.js'
+          'vendor/scripts/async.js'
         ]
     stylesheets:
       defaultExtension: 'sass'
