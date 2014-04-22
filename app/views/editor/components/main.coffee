@@ -156,17 +156,18 @@ module.exports = class ThangComponentEditView extends CocoView
     @reportChanges()
 
   onAddComponentEnterPressed: (node) =>
-    extantSystems =
-      (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
-    requireSystem = node.data.system.toLowerCase()
+    if extantSystems
+      extantSystems =
+        (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
+      requireSystem = node.data.system.toLowerCase()
 
-    if requireSystem not in extantSystems
-      warn_element = 'Component <b>' + node.data.name + '</b> requires system <b>' + requireSystem + '</b> which is currently not specified in this level.'
-      noty({
-        text: warn_element,
-        layout: 'bottomLeft',
-        type: 'warning'
-      })
+      if requireSystem not in extantSystems
+        warn_element = 'Component <b>' + node.data.name + '</b> requires system <b>' + requireSystem + '</b> which is currently not specified in this level.'
+        noty({
+          text: warn_element,
+          layout: 'bottomLeft',
+          type: 'warning'
+        })
 
     currentSelection = @addComponentsTreema?.getLastSelectedTreema()?.data._id
 

@@ -3,6 +3,7 @@ SystemNameLoader = require('lib/SystemNameLoader')
 
 module.exports = class LevelSystem extends CocoModel
   @className: "LevelSystem"
+  @schema: require 'schemas/models/level_system'
   urlRoot: "/db/level.system"
 
   set: (key, val, options) ->

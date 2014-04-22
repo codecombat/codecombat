@@ -11,7 +11,6 @@ class CocoModel extends Backbone.Model
 
   initialize: ->
     super()
-    @constructor.schema ?= require "schemas/models/#{@urlRoot[4..].replace '.', '_'}"
     if not @constructor.className
       console.error("#{@} needs a className set.")
     @markToRevert()
@@ -223,7 +222,7 @@ class CocoModel extends Backbone.Model
   watch: (doWatch=true) ->
     $.ajax("#{@urlRoot}/#{@id}/watch", {type:'PUT', data:{on:doWatch}})
     @watching = -> doWatch
-    
+
   watching: ->
     return me.id in (@get('watchers') or [])
 
