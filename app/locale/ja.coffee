@@ -15,6 +15,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    fork: "Fork"
     play: "ゲームスタート"
     retry: "リトライ"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
 #  units:
 #    second: "second"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     editor: "レベルエディタ"
     blog: "ブログ"
     forum: "掲示板"
+#    account: "Account"
     admin: "管理"
     home: "ホーム"
     contribute: "貢献"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "設定"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     lg_title: "最近のゲーム"
     clas: "CLA"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "CodeCombatエディター"
     main_description: "新しいレベル、キャンペーン、ユニットそして教育コンテンツを構築しましょう。"
@@ -315,8 +328,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    thang_description: "Build units, defining their default logic, graphics and audio. Currently only supports importing Flash exported vector graphics."
 #    level_title: "Level Editor"
 #    level_description: "Includes the tools for scripting, uploading audio, and constructing custom logic to create all sorts of levels. Everything we use ourselves!"
-#    security_notice: "Many major features in these editors are not currently enabled by default. As we improve the security of these systems, they will be made generally available. If you'd like to use these features sooner, "
-#    contact_us: "contact us!"
+#    got_questions: "Questions about using the CodeCombat editors?"
+#    contact_us: "Contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
 #    back: "Back"

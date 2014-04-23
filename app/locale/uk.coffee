@@ -15,6 +15,9 @@ module.exports = nativeDescription: "українська мова", englishDesc
     fork: "Форк"
     play: "Грати"
     retry: "Повтор"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
   units:
     second: "Секунда"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     editor: "Редактор"
     blog: "Блог"
     forum: "Форум"
+#    account: "Account"
     admin: "Адміністратор"
     home: "На головну"
     contribute: "Співпраця"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Змінити налаштування"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "українська мова", englishDesc
     lg_title: "Останні ігри"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "Редактори CodeCombat"
     main_description: "Створюйте власні рівні, кампанії, юнітів та навчальний контекнт. Ми надаємо всіх необхидних інструментів! "
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     thang_description: "Створюйте юнітів, візначайте їхню логіку, графіку та аудіо. Наразі підтримується тільки імпорт векторної flash-графіки."
     level_title: "Редактор рівнів"
     level_description: "Включає інструменти для створення сценаріїв, аудіо й конструювання логіки задля створення усіх типів рівнив. Усе, що ми самі використовуємо! "
-    security_notice: "Багато базових можливостей у цих редакторах зараз не доступні за замовчуванням. Як тільки ми вдосконалимо безпеку цих систем, вони стануть загальнодоступними. Якщо ви хочете використовувати ці можливості раніше,  "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "зв’яжіться з нами!"
     hipchat_prefix: "Ви можете також знайти нас в нашій"
     hipchat_url: "кімнаті HipChat."

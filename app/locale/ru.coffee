@@ -15,6 +15,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     fork: "Форк"
     play: "Играть"
     retry: "Повторить"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
   units:
     second: "секунда"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     editor: "Редактор"
     blog: "Блог"
     forum: "Форум"
+#    account: "Account"
     admin: "Админ"
     home: "Домой"
     contribute: "Сотрудничество"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     job_profile: "Профиль соискателя"
     job_profile_approved: "Ваш профиль соискателя был одобрен CodeCombat. Работодатели смогут видеть его, пока вы не отметите его неактивным или он не будет изменен в течение четырёх недель."
     job_profile_explanation: "Привет! Заполните это, и мы свяжемся с вами при нахождении работы разработчика программного обеспечения для вас."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Изменить настройки"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     lg_title: "Последние игры"
     clas: "ЛСС"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "Редакторы CodeCombat"
     main_description: "Создавайте ваши собственные уровни, кампании, юнитов и обучающий контент. Мы предоставляем все необходимые инструменты!"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     thang_description: "Создавайте юнитов, определяйте их логику по умолчанию, графику и звук. В настоящий момент поддерживается импорт только векторной графики Flash."
     level_title: "Редактор уровней"
     level_description: "Включает в себя инструменты для написания сценариев, загрузки аудио и построения собственной логики для создания всевозможных уровней. Всё, что мы используем сами!"
-    security_notice: "Многие основные возможности в этих редакторах в настоящее время не включены по умолчанию. Как только мы повысим безопасность этих систем, они станут общедоступными.  Если вам хотелось бы использовать эти возможности раньше,  "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "свяжитесь с нами!"
     hipchat_prefix: "Также вы можете найти нас в нашей"
     hipchat_url: "комнате HipChat."

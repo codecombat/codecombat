@@ -15,6 +15,9 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    fork: "Fork"
     play: "Abspielen"
 #    retry: "Retry"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
   units:
     second: "Sekunde"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
+#    account: "Account"
     admin: "Administration"
     home: "Home"
     contribute: "Helfen"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Einstellungen ändern"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     lg_title: "Letzte Spiele"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "CodeCombat Editoren"
     main_description: "Entwerfe deine eigenen Level, Kampagnen, Einheiten und Lernmaterial. Wir stellen alle Werkzeuge zur Verfügung, die Du dafür benötigst!"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     thang_description: "Entwerfe Einheiten, definiere ihre Standardlogik, Grafiken und Töne. Zurzeit werden nur Flash Vektorgrafiken unterstützt."
     level_title: "Level Editor"
     level_description: "Beinhaltet die Werkzeuge zum Scripten, Hochladen von Tönen und zur Konstruktion eigener Logik, damit jedes erdenkliches Level erstellt werden kann. Genau die Sachen, die wir selber benutzen!"
-    security_notice: "Viele Hauptfunktionen der Editoren sind standardmäßig noch nicht aktiviert. Sobald die Sicherheit dieser Systeme gewährleistet ist, werden sie generell freigeschaltet. Falls Du diese Funktionen früher nutzen möchtest, "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "setze dich mit uns in Verbindung!"
     hipchat_prefix: "Besuche uns auch in unserem"
     hipchat_url: "HipChat room."
