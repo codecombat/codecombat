@@ -107,8 +107,8 @@ module.exports = class SpellView extends View
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
       passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
-      # No easy way to selectively cancel shift+space, since we don't get access to the event.
-      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
+    # No easy way to selectively cancel shift+space, since we don't get access to the event.
+    # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
       exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
     addCommand
       name: 'end-all-scripts'
@@ -158,7 +158,7 @@ module.exports = class SpellView extends View
       @firepad?.dispose()
 
   createFirepad: ->
-     # load from firebase or the original source if there's nothing there
+    # load from firebase or the original source if there's nothing there
     return if @firepadLoading
     @eventsSuppressed = true
     @loaded = false
@@ -327,29 +327,32 @@ module.exports = class SpellView extends View
       codeIsAsCast = castAether and not hasChanged
       aether = castAether if codeIsAsCast
       return if not needsUpdate and aether is @displayedAether
-      
+
       # Now that that's figured out, perform the update.
       # The web worker Aether won't track state, so don't have to worry about updating it
+      finishUpdatingAether = (aether) =>
+        @displayAether aether
+        @lastUpdatedAetherSpellThang = @spellThang
+        @guessWhetherFinished aether if fromCodeChange
+
       @clearAetherDisplay()
-      workerMessage =
-        function: "transpile"
-        spellKey: @spell.spellKey
-        source: source
-      
-      @worker.addEventListener "message", (e) =>
-        workerData = JSON.parse e.data
-        if workerData.function is "transpile" and workerData.spellKey is @spell.spellKey
-          @worker.removeEventListener("message",arguments.callee, false)
-          aether.problems = workerData.problems
-          aether.raw = source
-          @displayAether aether
-          @lastUpdatedAetherSpellThang = @spellThang
-          @guessWhetherFinished aether if fromCodeChange
-      @worker.postMessage JSON.stringify(workerMessage)
-      #aether.transpile source if codeHasChangedSignificantly and not codeIsAsCast
-      #@displayAether aether
-      #@lastUpdatedAetherSpellThang = @spellThang
-      #@guessWhetherFinished aether if fromCodeChange
+      if codeHasChangedSignificantly and not codeIsAsCast
+        workerMessage =
+          function: "transpile"
+          spellKey: @spell.spellKey
+          source: source
+
+        @worker.addEventListener "message", (e) =>
+          workerData = JSON.parse e.data
+          if workerData.function is "transpile" and workerData.spellKey is @spell.spellKey
+            @worker.removeEventListener("message",arguments.callee, false)
+            aether.problems = workerData.problems
+            aether.raw = source
+            finishUpdatingAether(aether)
+        @worker.postMessage JSON.stringify(workerMessage)
+      else
+        finishUpdatingAether(aether)
+
 
   clearAetherDisplay: ->
     problem.destroy() for problem in @problems
@@ -397,12 +400,12 @@ module.exports = class SpellView extends View
     #console.log "finished?", valid, endOfLine, beginningOfLine, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
     if valid and endOfLine or beginningOfLine
       @recompile()
-      #console.log "recompile now!"
-    #else if not valid
-    #  # if this works, we can get rid of all @recompileValid logic
-    #  console.log "not valid, but so we'll wait to do it in", @autocastDelay + "ms"
-    #else
-    #  console.log "valid but not at end of line; recompile in", @autocastDelay + "ms"
+  #console.log "recompile now!"
+  #else if not valid
+  #  # if this works, we can get rid of all @recompileValid logic
+  #  console.log "not valid, but so we'll wait to do it in", @autocastDelay + "ms"
+  #else
+  #  console.log "valid but not at end of line; recompile in", @autocastDelay + "ms"
 
   onSpellChanged: (e) ->
     @spellHasChanged = true
@@ -438,7 +441,7 @@ module.exports = class SpellView extends View
       aether = e.world.userCodeMap[thangID]?[@spell.name]  # Might not be there if this is a new Programmable Thang.
       spellThang.castAether = aether
       spellThang.aether = @spell.createAether thang
-      #console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
+    #console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
     @spell.transpile()
     @updateAether false, false
 
@@ -489,7 +492,7 @@ module.exports = class SpellView extends View
           break
         _.last(executed).push state
         executedRows[state.range[0].row] = true
-        #state.executing = true if state.userInfo?.time is @thang.world.age  # no work
+    #state.executing = true if state.userInfo?.time is @thang.world.age  # no work
     currentCallIndex ?= callNumber - 1
     #console.log "got call index", currentCallIndex, "for time", @thang.world.age, "out of", states.length
 
@@ -591,7 +594,7 @@ module.exports = class SpellView extends View
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
     @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
-    # @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
+  # @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
 
   onChangeLanguage: (e) ->
     aceConfig = me.get('aceConfig') ? {}
@@ -600,7 +603,7 @@ module.exports = class SpellView extends View
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       @recompile() if hasChanged
-      
+
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
