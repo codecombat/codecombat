@@ -15,6 +15,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    fork: "Fork"
     play: "Játék"
 #    retry: "Retry"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
   units:
     second: "másodperc"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     editor: "Szerkesztő"
     blog: "Blog"
     forum: "Fórum"
+#    account: "Account"
     admin: "Admin"
     home: "Kezdőlap"
     contribute: "Segítségnyújtás"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     job_profile: "Munkaköri leírás"
     job_profile_approved: "Munkaköri leírásodat a Codecombat jóváhagyta. Munkaadók mindaddig láthatják, amíg meg nem jelölöd inaktíként, vagy négy hétig,ha addig nem kerül megváltoztatásra."
     job_profile_explanation: "Szió! Töltsd ki ezt és majd kapcsolatba lépünk veled és keresünk neked egy szoftware fejlesztői állást."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Beállítások szerkesztése"
@@ -185,7 +191,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    our_notes: "Our Notes"
     projects: "Projektek"
 
-  munkaadók:
+  employers:
     want_to_hire_our_players: "Akarsz szakértő CodeCombat játékosokat alkalmazni?"
     contact_george: "Vedd fel a kapcsolatot George-dzsal, hogy megtekinthesd jelöltjeinket"
     candidates_count_prefix: "Pillanatnyilag van"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    lg_title: "Latest Games"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
 #  editor:
 #    main_title: "CodeCombat Editors"
 #    main_description: "Build your own levels, campaigns, units and educational content. We provide all the tools you need!"
@@ -315,8 +328,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    thang_description: "Build units, defining their default logic, graphics and audio. Currently only supports importing Flash exported vector graphics."
 #    level_title: "Level Editor"
 #    level_description: "Includes the tools for scripting, uploading audio, and constructing custom logic to create all sorts of levels. Everything we use ourselves!"
-#    security_notice: "Many major features in these editors are not currently enabled by default. As we improve the security of these systems, they will be made generally available. If you'd like to use these features sooner, "
-#    contact_us: "contact us!"
+#    got_questions: "Questions about using the CodeCombat editors?"
+#    contact_us: "Contact us!"
 #    hipchat_prefix: "You can also find us in our"
 #    hipchat_url: "HipChat room."
 #    back: "Back"
@@ -495,7 +508,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    alert_account_message_suf: "first."
 #    alert_account_message_create_url: "create an account"
 #    archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
-#    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and i
+#    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever."
 #    class_attributes: "Class Attributes"
 #    archmage_attribute_1_pref: "Knowledge in "
 #    archmage_attribute_1_suf: ", or a desire to learn. Most of our code is in this language. If you're a fan of Ruby or Python, you'll feel right at home. It's JavaScript, but with a nicer syntax."

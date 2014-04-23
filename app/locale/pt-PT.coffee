@@ -15,6 +15,9 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     fork: "Fork"
     play: "Jogar"
 #    retry: "Retry"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
 #  units:
 #    second: "second"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     editor: "Editor"
     blog: "Blog"
     forum: "Fórum"
+#    account: "Account"
     admin: "Administrador"
     home: "Início"
     contribute: "Contribuir"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Editar Definições"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     lg_title: "Últimos Jogos"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "Editores para CodeCombat"
     main_description: "Constrói os teus níveis, campanhas, unidades e conteúdo educacional. Nós fornecemos todas as ferramentas que precisas!"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     thang_description: "Constrói unidades, definindo a sua logica, visual e audio por defeito. De momento só é suportado 'importing Flash exported vector graphics'."
     level_title: "Editor de níveis"
     level_description: "Inclui ferramentas para a criação de scripts, upload de áudio, e construção de lógica personalizada para criar todos os tipos de níveis. Tudo o que nós usamos!"
-    security_notice: "Muitas das principais funcionalidades nestes editores não estão activas por defeito. À medida que a segurança destes sistemas é melhorada, eles serão disponibilizados. Se quiseres utilizar estas uncionalidades mais cedo, "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "contacta-nos!"
     hipchat_prefix: "Podes encontrar-nos no nosso"
     hipchat_url: "canal HipChat."

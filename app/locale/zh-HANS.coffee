@@ -15,6 +15,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     fork: "派生"
     play: "开始"
     retry: "重试"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
   units:
     second: "秒"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor: "编辑器"
     blog: "博客"
     forum: "论坛"
+#    account: "Account"
     admin: "管理"
     home: "首页"
     contribute: "贡献"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     job_profile: "工作经历"
     job_profile_approved: "你填写的工作经历将由CodeCombat认证. 雇主将看到这些信息，除非你将它设置为不启用状态或者连续四周没有更新."
     job_profile_explanation: "你好! 填写这些信息, 我们将使用它帮你寻找一份软件开发的工作."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "编辑设置"
@@ -185,7 +191,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    our_notes: "Our Notes"
     projects: "项目"
 
-#  employers:
+  employers:
     want_to_hire_our_players: "想要雇用CodeCombat上的专业玩家？"
     contact_george: "联系George查看”为我们义务工作的人"
     candidates_count_prefix: "我们当前有 "
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     lg_title: "最新的游戏"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "CodeCombat 编辑器"
     main_description: "建立你自己的关卡、 战役、单元和教育内容。我们会提供所有你需要的工具！"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     thang_description: "创建单元，并定义单元的逻辑、图形和音频。目前只支持导入 Flash 导出的矢量图形。"
     level_title: "关卡编辑器"
     level_description: "所有用来创造所有难度的关卡的工具，包括脚本、上传音频和构建自定义逻辑。"
-    security_notice: "编辑器的许多主要功能并不是目前默认启动的。当我们改善完这些系统的安全性的时候，它们就会成为通常可用的。如果你想要马上使用这些功能，"
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "联系我们！"
     hipchat_prefix: "你也可以在这里找到我们"
     hipchat_url: "HipChat 房间。"
