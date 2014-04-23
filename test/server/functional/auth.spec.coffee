@@ -17,7 +17,8 @@ describe '/auth/whoami', ->
 describe '/auth/login', ->
 
   it 'clears Users first', (done) ->
-    User.remove {}, (err) ->
+    clearModels [User], (err) ->
+      throw err if err
       request.get getURL('/auth/whoami'), ->
         throw err if err
         done()
@@ -137,6 +138,12 @@ describe '/auth/reset', ->
     form.append('password', 'nada')
 
 describe '/auth/unsubscribe', ->
+  it 'clears Users first', (done) ->
+    clearModels [User], (err) ->
+      throw err if err
+      request.get getURL('/auth/whoami'), ->
+        throw err if err
+        done()
   
   it 'removes just recruitment emails if you include ?recruitNotes=1', (done) ->
     loginJoe (joe) ->

@@ -47,7 +47,7 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
     oldSubs.push(oldName) if enabled
     @set('emailSubscriptions', oldSubs)
   
-  newSubs = _.clone(@get('emails') or jsonschema.properties.emails.default)
+  newSubs = _.clone(@get('emails') or _.cloneDeep(jsonschema.properties.emails.default))
   newSubs[newName] ?= {}
   newSubs[newName].enabled = enabled
   @set('emails', newSubs)
@@ -60,7 +60,7 @@ UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
     oldName = emailNameMap[newName]
     return oldName and oldName in oldSubs if oldSubs
   emails ?= {}
-  _.defaults emails, jsonschema.properties.emails.default
+  _.defaults emails, _.cloneDeep(jsonschema.properties.emails.default)
   return emails[newName]?.enabled
 
 UserSchema.statics.updateMailChimp = (doc, callback) ->
