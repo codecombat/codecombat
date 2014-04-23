@@ -152,4 +152,5 @@ describe '/auth/unsubscribe', ->
         expect(response.statusCode).toBe(200)
         user = User.findOne(joe.get('_id')).exec (err, user) ->
           expect(user.get('emails').recruitNotes.enabled).toBe(false)
+          expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
           done()
