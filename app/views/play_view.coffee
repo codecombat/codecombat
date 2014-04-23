@@ -159,6 +159,14 @@ module.exports = class PlayView extends View
         description: "Combat the armies of other Wizards in a strategic forest arena! (Fast computer required.)"
         levelPath: 'ladder'
       }
+      {
+        name: 'Gold Rush'
+        difficulty: 3
+        id: 'gold-rush'
+        image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
+        description: "Prove you are better at collecting gold than your opponent!"
+        levelPath: 'ladder'
+      }
     ]
 
     playerCreated = [
