@@ -233,6 +233,7 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
       type: "object"
       properties: {}
     }
+    return i18nChildSchema unless @parent
     unless @schema.props?
       console.warn "i18n props array is empty! Filling with all parent properties by default"
       @schema.props = (prop for prop,_ of @parent.schema.properties when prop isnt "i18n")

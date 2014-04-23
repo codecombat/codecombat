@@ -31,6 +31,7 @@ module.exports = class EditorLevelView extends View
     'click #patches-tab': -> @patchesView.load()
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
+    'click #pop-level-i18n-button': -> @level.populateI18N()
     
   constructor: (options, @levelID) ->
     super options

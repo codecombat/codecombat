@@ -68,7 +68,7 @@ expandFlattenedDelta = (delta, left, schema) ->
   parentLeft = left
   parentSchema = schema
   for key, i in delta.dataPath
-    # TODO: A more comprehensive way of getting child schemas
+    # TODO: Better schema/json walking
     childSchema = parentSchema?.items or parentSchema?.properties?[key] or {}
     childLeft = parentLeft?[key]
     humanKey = null
