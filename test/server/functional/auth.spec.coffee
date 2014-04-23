@@ -1,5 +1,6 @@
 require '../common'
 request = require 'request'
+User = require '../../../server/users/User'
 
 urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')
@@ -134,3 +135,14 @@ describe '/auth/reset', ->
     form = req.form()
     form.append('username', 'scott@gmail.com')
     form.append('password', 'nada')
+
+describe '/auth/unsubscribe', ->
+  
+  it 'removes just recruitment emails if you include ?recruitNotes=1', (done) ->
+    loginJoe (joe) ->
+      url = getURL('/auth/unsubscribe?recruitNotes=1&email='+joe.get('email'))
+      request.get url, (error, response) ->
+        expect(response.statusCode).toBe(200)
+        user = User.findOne(joe.get('_id')).exec (err, user) ->
+          expect(user.get('emails').recruitNotes.enabled).toBe(false)
+          done()
