@@ -632,14 +632,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     introducing_dungeon_arena: "介绍地下城竞技场"
     new_way: "用代码竞技的新方式."
     to_battle: "去战斗, 开发者们!"
-#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
-#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
+    modern_day_sorcerer: "你能编程? 这太牛了。 在这个时代你就是巫师! 还不快用你编码的魔力指挥你的手下投入壮烈的战斗中么? 我们说的可不是和机器战斗哦。"
+    arenas_are_here: "CodeCombat一个多人对抗的头脑竞技场."
 #    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
     fork_our_arenas: "派生我的竞技场"
     create_worlds: "以及创造我自己的世界."
-#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
+    javascript_rusty: "对JavaScript有点生疏? 没关系，这里有一个"
     tutorial: "教程"
-#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
+    new_to_programming: ". 编程新手? 参加我们的新手训练营来提高技能吧."
     so_ready: "我准备好了!"
 
   loading_error:
