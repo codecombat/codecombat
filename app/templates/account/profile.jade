@@ -105,7 +105,7 @@ block content
                     li
                       a(href=project.link)
                       if project.picture
-                        .project-image(style="background-image: url(/file/" + project.picture + ")")
+                        .project-image(style="background-image: url('/file/" + project.picture + "')")
                       p= project.name
                       div!= marked(project.description)
 
