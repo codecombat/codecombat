@@ -1,5 +1,6 @@
 FacebookHandler = require 'lib/FacebookHandler'
 GPlusHandler = require 'lib/GPlusHandler'
+LinkedInHandler = require 'lib/LinkedInHandler'
 locale = require 'locale/locale'
 {me} = require 'lib/auth'
 Tracker = require 'lib/Tracker'
@@ -33,7 +34,7 @@ Application = initialize: ->
   @facebookHandler = new FacebookHandler()
   @gplusHandler = new GPlusHandler()
   $(document).bind 'keydown', preventBackspace
-
+  @linkedinHandler = new LinkedInHandler()
   preload(COMMON_FILES)
   $.i18n.init {
     lng: me?.lang() ? 'en'

@@ -4,6 +4,21 @@ block modal-header-content
   h3(data-i18n="employer_signup.title") Hire CodeCombat Players
 
 block modal-body-content
-  h4(data-i18n="employer_signup.sub_heading") Let us find your next brilliant developers.
-
-  p(data-i18n="employer_signup.pitch_body") When you hire one of our players, you will pay CodeCombat 18% of her first-year salary, payable within 30 days of when she starts working. We will fully refund our placement fee if she leaves or is fired within 90 days. Cool? Email george@codecombat.com to get set up with employer permissions to see our candidates.
+  if userIsAuthorized
+    h4 Contract
+  
+    p Check out this fancy-schmancy contract. You should sign it.
+  
+  else
+    h4(data-i18n="employer_signup.sub_heading") Let us find your next brilliant developers.
+  
+    p(data-i18n="employer_signup.pitch_body") When you hire one of our players, you will pay CodeCombat 18% of her first-year salary, payable within 30 days of when she starts working. We will fully refund our placement fee if she leaves or is fired within 90 days. Cool? Email george@codecombat.com to get set up with employer permissions to see our candidates.
+block modal-footer
+  if userIsAuthorized
+    .modal-footer.linkedin
+       | Thanks #{firstName}! You've already agreed to the contract.
+  else
+    .modal-footer.linkedin
+      script(type="in/Login" id="linkedInAuthButton" data-onAuth="contractCallback")
+        | Thanks, <?js= firstName?>! You've agreed to the contract.
+  
