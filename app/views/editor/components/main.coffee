@@ -40,6 +40,7 @@ module.exports = class ThangComponentEditView extends CocoView
     @render()
 
   buildExtantComponentTreema: ->
+    new Level() # hack to load the schema
     treemaOptions =
       supermodel: @supermodel
       schema: Level.schema.properties.thangs.items.properties.components
