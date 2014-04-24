@@ -9,7 +9,6 @@ waitingModal = null
 classCount = 0
 makeScopeName = -> "view-scope-#{classCount++}"
 doNothing = ->
-ms = 0
 
 class CocoView extends Backbone.View
   startsLoading: false
