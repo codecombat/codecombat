@@ -1,6 +1,6 @@
 #editor-level-view
   &, #level-editor-top-nav
-    min-width: 1024px
+    // min-width: 1024px
   
   a
     font-family: helvetica, arial, sans serif
@@ -13,7 +13,27 @@
 
   $BG: rgba(228, 207, 140, 1.0)
   $NAVBG: #2f261d
-
+  
+  .dropdown-menu
+    position: absolute
+    background-color: #FFF
+    border: 1px solid rgba(0, 0, 0, 0.15)
+    border-radius: 4px
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.176)
+    left: 0px
+    right: auto
+    
+    li a
+      color: #555
+      padding: 3px 20px
+  
+  .navbar-nav
+    float: left
+    margin: 0
+    
+    > li
+      float: left
+  
   li.navbar-btn
     margin-right: 5px
   
@@ -29,6 +49,11 @@
   .navbar-right
     // not sure why bootstrap puts a big negative margin in, but this overrides it
     margin-right: 10px
+    float: right
+    
+    .dropdown-menu
+      right: 0px
+      left: auto
     
   // custom navbar styling
   .navbar-brand
@@ -40,15 +65,46 @@
     border-right: 2px solid lighten($NAVBG, 20%)
     background: lighten($NAVBG, 10%)
     margin-left: 20px
+    float: left
   .nav-tabs
     margin-left: 5px
     border-bottom: 0 !important
+    
+    li
+      float: left
+      display: block
+      
+    @media only screen and (max-width: 800px)
+      
+      li
+        float: none
+        display: none
+        z-index: 12
+        
+        a
+          background-color: $BG
+          border-color: darken($BG, 50%)
+          border-width: 0px 1px
+          border-radius: 0px
+          
+      li:first-child > a
+        border-radius: 5px 5px 0px 0px
+        border-top-width: 1px
+          
+      li:last-child > a
+        border-radius: 0px 0px 5px 5px
+        border-bottom-width: 1px
+      
+      li.active
+        display: block
+    
     .active > a, .active > a:hover, .active > a:focus
       background-color: $BG !important
       border-color: darken($BG, 50%)
       border-bottom: 0
     a
       padding: 7px 5px !important
+      
   .dropdown-menu a
     cursor: pointer
     &:hover

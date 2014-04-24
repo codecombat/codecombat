@@ -1,4 +1,9 @@
-.thangs-container.thangs-column
+div#toggle
+  button.navbar-toggle.toggle.btn-primary#thangs-container-toggle(type="button", data-toggle="collapse", data-target="#all-thangs")
+    span.icon-list
+button.navbar-toggle.toggle.btn-primary#thangs-palette-toggle(type="button", data-toggle="collapse", data-target="#add-thangs-column")
+  span.icon-plus
+.thangs-container.thangs-column#all-thangs
   h3(data-i18n="editor.level_tab_thangs_title") Current Thangs
   .btn-group(data-toggle="buttons-radio")#extant-thangs-filter
     button.btn.btn-primary(data-i18n="editor.level_tab_thangs_all") All
