@@ -70,11 +70,11 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
 
   buildValueForDisplay: (valEl) ->
     mimetype = "audio/#{@keyForParent}"
-    pickButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-upload"></i></a>')
+    pickButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-upload"></span></a>')
       .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
-    playButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-play"></i></a>')
+    playButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-play"></span></a>')
       .click(@playFile)
-    stopButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-stop"></i></a>')
+    stopButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-stop"></span></a>')
       .click(@stopFile)
 
     dropdown = $('<div class="btn-group dropdown"></div>')
@@ -168,7 +168,7 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
 
   buildValueForDisplay: (valEl) ->
     mimetype = 'image/*'
-    pickButton = $('<a class="btn btn-sm btn-primary"><i class="icon-upload"></i> Upload Picture</a>')
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload Picture</a>')
       .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
 
     valEl.append(pickButton)

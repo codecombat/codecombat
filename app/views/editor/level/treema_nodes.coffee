@@ -1,7 +1,7 @@
 WorldSelectModal = require './modal/world_select'
 ThangType = require '/models/ThangType'
 
-makeButton = -> $('<a class="btn treema-map-button"><i class="icon-screenshot"></i></a>')
+makeButton = -> $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>')
 shorten = (f) -> parseFloat(f.toFixed(1))
 WIDTH = 1848
 
@@ -13,11 +13,11 @@ module.exports.WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.
 
   buildValueForDisplay: (valEl) ->
     super(valEl)
-    valEl.prepend(makeButton())
+    valEl.find('.treema-shortened').prepend(makeButton())
 
   buildValueForEditing: (valEl) ->
     super(valEl)
-    valEl.prepend(makeButton())
+    valEl.find('.treema-shortened').prepend(makeButton())
 
   onClick: (e) ->
     btn = $(e.target).closest('.treema-map-button')
@@ -44,11 +44,11 @@ class WorldRegionNode extends TreemaNode.nodeMap.object
 
   buildValueForDisplay: (valEl) ->
     super(valEl)
-    valEl.prepend(makeButton())
+    valEl.find('.treema-shortened').prepend(makeButton())
 
   buildValueForEditing: (valEl) ->
     super(valEl)
-    valEl.prepend(makeButton())
+    valEl.find('.treema-shortened').prepend(makeButton())
 
   onClick: (e) ->
     btn = $(e.target).closest('.treema-map-button')
@@ -80,11 +80,11 @@ module.exports.WorldViewportNode = class WorldViewportNode extends TreemaNode.no
 
   buildValueForDisplay: (valEl) ->
     super(valEl)
-    valEl.prepend(makeButton())
+    valEl.find('.treema-shortened').prepend(makeButton())
 
   buildValueForEditing: (valEl) ->
     super(valEl)
-    valEl.prepend(makeButton())
+    valEl.find('.treema-shortened').prepend(makeButton())
 
   onClick: (e) ->
     btn = $(e.target).closest('.treema-map-button')
@@ -121,11 +121,11 @@ module.exports.WorldBoundsNode = class WorldBoundsNode extends TreemaNode.nodeMa
 
   buildValueForDisplay: (valEl) ->
     super(valEl)
-    valEl.prepend(makeButton())
+    valEl.find('.treema-shortened').prepend(makeButton())
 
   buildValueForEditing: (valEl) ->
     super(valEl)
-    valEl.prepend(makeButton())
+    valEl.find('.treema-shortened').prepend(makeButton())
 
   onClick: (e) ->
     btn = $(e.target).closest('.treema-map-button')
