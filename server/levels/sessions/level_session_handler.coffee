@@ -9,10 +9,11 @@ class LevelSessionHandler extends Handler
   editableProperties: ['multiplayer', 'players', 'code', 'completed', 'state',
                        'levelName', 'creatorName', 'levelID', 'screenshot',
                        'chat', 'teamSpells', 'submitted', 'unsubscribed']
+  jsonSchema: require '../../../app/schemas/models/level_session'
 
   getByRelationship: (req, res, args...) ->
     return @getActiveSessions req, res if args.length is 2 and args[1] is 'active'
-    return @sendNotFoundError(res)
+    super(arguments...)
 
   getActiveSessions: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user.isAdmin()

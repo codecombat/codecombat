@@ -3,11 +3,13 @@ template = require 'templates/editor/level/save'
 forms = require 'lib/forms'
 LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
+DeltaView = require 'views/editor/delta'
 
 module.exports = class LevelSaveView extends SaveVersionModal
   template: template
   instant: false
   modalWidthPercent: 60
+  plain: true
 
   events:
     'click #save-version-button': 'commitLevel'
@@ -23,8 +25,23 @@ module.exports = class LevelSaveView extends SaveVersionModal
     context.levelNeedsSave = @level.hasLocalChanges()
     context.modifiedComponents = _.filter @supermodel.getModels(LevelComponent), @shouldSaveEntity
     context.modifiedSystems = _.filter @supermodel.getModels(LevelSystem), @shouldSaveEntity
-    context.noSaveButton = not (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
+    context.hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
+    @lastContext = context
     context
+
+  afterRender: ->
+    super(false)
+    changeEls = @$el.find('.changes-stub')
+    models = if @lastContext.levelNeedsSave then [@level] else []
+    models = models.concat @lastContext.modifiedComponents
+    models = models.concat @lastContext.modifiedSystems
+    for changeEl, i in changeEls
+      model = models[i]
+      try
+        deltaView = new DeltaView({model:model})
+        @insertSubView(deltaView, $(changeEl))
+      catch e
+        console.error "Couldn't create delta view:", e
 
   shouldSaveEntity: (m) ->
     return true if m.hasLocalChanges()

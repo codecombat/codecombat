@@ -1,6 +1,11 @@
 @import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
 
+body.is-playing
+  background-color: black
+  .footer
+    background-color: black
+
 #level-view
   margin: 0 auto
   @include user-select(none)
@@ -13,7 +18,7 @@
     position: relative
     
   canvas#surface
-    background-color: #ddd
+    background-color: #333
     width: 100%
     display: block
     z-index: 1

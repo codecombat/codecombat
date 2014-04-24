@@ -6,5 +6,5 @@ ul(class="nav nav-pills" + (tabbed ? ' multiple-tabs' : ''))
         h4= group
 .tab-content
   each slug, group in entryGroupSlugs
-    div(id="palette-tab-" + slug, class="tab-pane" + (group == "this" || slug == defaultGroupSlug ? " active" : ""))
-      div(class="properties properties-" + slug)
+    div(id="palette-tab-" + slug, class="tab-pane nano" + (group == "this" || slug == defaultGroupSlug ? " active" : ""))
+      div(class="properties properties-" + slug + " nano-content")

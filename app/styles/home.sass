@@ -7,6 +7,9 @@
     text-align: center
     margin-top: 0
     
+  #front-screenshot
+    margin: 15px 0 40px 150px
+
   #trailer-wrapper
     position: relative
     margin: 0 auto 40px
@@ -92,3 +95,40 @@
       width: 660px
       height: 382px
       pointer-events: none
+#mobile-trailer-wrapper
+  display: none
+  
+@media only screen and (max-width: 800px)
+  #home-view
+    #site-slogan
+      font-size: 30px
+    #trailer-wrapper 
+      display: none
+    #front-screenshot
+      display: none
+    #mobile-trailer-wrapper
+      display: inline-block
+      
+      width: 100%
+      iframe
+        display: block
+        margin: 0 auto
+    .game-mode-wrapper
+      width: 100%
+      img
+        width: 100%
+      .play-text
+        position: absolute
+        right: 45px
+        bottom: 0px
+        color: $yellow
+        font-size: 50px
+        font-family: Bangers
+        @include transition(color .10s linear)
+        
+
+    
+     
+  h1
+    text-align: center
+    margin-top: 0

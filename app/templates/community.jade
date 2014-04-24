@@ -1,0 +1,88 @@
+extends /templates/base
+
+block content
+  
+  h1(data-i18n="community.main_title") CodeCombat Community
+
+  p There are dozens of ways you can get involved with CodeCombat. Check out the resources we've built, decide what sounds the most fun, and we look forward to working with you!
+
+  div
+
+    .community_columns
+
+      h2 Levels and Art
+
+      p We have built several tools that enable users to get not only edit, but also build new game content!
+
+        ul
+          li 
+            a(href="/editor/level", data-i18n="community.level_editor")
+            | : fork, edit, or build your own CodeCombat levels. New levels can be kept private or published to the community.
+          li 
+            a(href="/editor/thang", data-i18n="editor.thang_title")
+            | : modify or import new art assets for the game using our powerful editor.
+          li 
+            a(href="/editor/article", data-i18n="editor.article_title")
+            | : edit or create documentation used in CodeCombat levels.
+
+      p Right now most of our editing tools are very rough, but we are improving them constantly and welcome your feedback.
+
+    .community_columns
+
+      h2 Connect
+
+      p There are a bunch of ways you can connect with us and get involved in the ongoing development of CodeCombat:
+
+        ul
+
+          li We write about our progress and current projects on our 
+            a(href="http://blog.codecombat.com", data-i18n="nav.blog")
+            | .
+          li Participate in our active user community by checking out our 
+            a(href="http://discourse.codecombat.com", data-i18n="nav.forum") 
+            | .
+          li For regular news about learning to code, games, and education, check out our 
+            a(href="https://www.facebook.com/codecombat", data-i18n="community.facebook") 
+            | .
+          li For realtime status or to have a quick chat, follow us on 
+            a(href="https://twitter.com/CodeCombat", data-i18n="community.twitter") 
+            | .
+          li Don't like Facebook? We're on 
+            a(href="https://plus.google.com/115285980638641924488/posts", data-i18n="community.gplus") 
+            | .
+          li You can also find us in our 
+            a(href="http://www.hipchat.com/g3plnOKqa", data-i18n="editor.hipchat_url")
+
+    .community_columns
+
+      h2 Contribute
+
+      p Put your skills to use helping us teach the world to code. We have a lot of roles you can consider, and if we don't have a role for you, let us know: 
+
+        ul
+
+          li 
+            a(href="/contribute#archmage", data-i18n="classes.archmage_title") 
+            | : contribute by writing code.
+          li 
+            a(href="/contribute#artisan", data-i18n="classes.artisan_title") 
+            | : build new game levels.
+          li 
+            a(href="/contribute#adventurer", data-i18n="classes.adventurer_title") 
+            | : test new game levels.
+          li 
+            a(href="/contribute#scribe", data-i18n="classes.scribe_title") 
+            | : write educational documentation.
+          li 
+            a(href="/contribute#diplomat", data-i18n="classes.diplomat_title") 
+            | : translate site content.
+          li 
+            a(href="/contribute#ambassador", data-i18n="classes.ambassador_title") 
+            | : support our community of educators and coders.
+          li 
+            a(href="/contribute#counselor", data-i18n="classes.counselor_title") 
+            | : offer your advice and business acumen to the founders.
+
+        | Check out the
+        a(href="/contribute", data-i18n="nav.contribute") 
+        |  page to find out more about the roles and how you can get started.

@@ -114,9 +114,11 @@ module.exports = class SpriteParser
       @animationRenamings[shortKey] = name
     else
       shortKey = name
+      if @thangType.animations[shortKey]?
+        shortKey = @animationName + ":" + name
       @thangType.animations[shortKey] = animation
       @animationLongKeys[longKey] = shortKey
-      @animationRenamings[name] = name
+      @animationRenamings[name] = shortKey
     return shortKey
 
   walk: (node, parent, fn) ->
@@ -188,9 +190,8 @@ module.exports = class SpriteParser
                   lastRect = bounds
                 else if arg.type is 'Literal' and arg.value is null
                   bounds = [0, 0, 1, 1]  # Let's try this.
-                frameBounds.push bounds
+                frameBounds.push _.clone bounds
           else
-            console.log "Didn't have multiframe bounds for this movie clip!"
             frameBounds = [nominalBounds]
 
           # Subtract half of width/height parsed from lib.properties

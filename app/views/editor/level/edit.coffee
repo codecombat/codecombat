@@ -12,6 +12,8 @@ ComponentsTabView = require './components_tab_view'
 SystemsTabView = require './systems_tab_view'
 LevelSaveView = require './save_view'
 LevelForkView = require './fork_view'
+SaveVersionModal = require 'views/modal/save_version_modal'
+PatchesView = require 'views/editor/patches_view'
 VersionHistoryView = require './versions_view'
 ErrorView = require '../../error_view'
 
@@ -25,8 +27,12 @@ module.exports = class EditorLevelView extends View
     'click #play-button': 'onPlayLevel'
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
-    'click #history-button': 'showVersionHistory'
-
+    'click #level-history-button': 'showVersionHistory'
+    'click #patches-tab': -> @patchesView.load()
+    'click #level-patch-button': 'startPatchingLevel'
+    'click #level-watch-button': 'toggleWatchLevel'
+    'click #pop-level-i18n-button': -> @level.populateI18N()
+    
   constructor: (options, @levelID) ->
     super options
     @listenToOnce(@supermodel, 'loaded-all', @onAllLoaded)
@@ -79,7 +85,6 @@ module.exports = class EditorLevelView extends View
   afterRender: ->
     return if @startsLoading
     super()
-    new LevelSystem  # temp; trigger the LevelSystem schema to be loaded, if it isn't already
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'level:view-switched', e
     @thangsTab = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel
@@ -88,7 +93,10 @@ module.exports = class EditorLevelView extends View
     @componentsTab = @insertSubView new ComponentsTabView supermodel: @supermodel
     @systemsTab = @insertSubView new SystemsTabView supermodel: @supermodel
     Backbone.Mediator.publish 'level-loaded', level: @level
-    @showReadOnly() unless me.isAdmin() or @level.hasWriteAccess(me)
+    @showReadOnly() if me.get('anonymous')
+    @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
+    @listenTo @patchesView, 'accepted-patch', -> setTimeout "location.reload()", 400
+    @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
 
   onPlayLevel: (e) ->
     sendLevel = =>
@@ -103,9 +111,12 @@ module.exports = class EditorLevelView extends View
       @childWindow.onPlayLevelViewLoaded = (e) => sendLevel()  # still a hack
     @childWindow.focus()
 
+  startPatchingLevel: (e) ->
+    @openModalView new SaveVersionModal({model:@level})
+    Backbone.Mediator.publish 'level:view-switched', e
+    
   startCommittingLevel: (e) ->
-    levelSaveView = new LevelSaveView level: @level, supermodel: @supermodel
-    @openModalView levelSaveView
+    @openModalView new LevelSaveView level: @level, supermodel: @supermodel
     Backbone.Mediator.publish 'level:view-switched', e
 
   startForkingLevel: (e) ->
@@ -117,3 +128,8 @@ module.exports = class EditorLevelView extends View
     versionHistoryView = new VersionHistoryView level:@level, @levelID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
+
+  toggleWatchLevel: ->
+    button = @$el.find('#level-watch-button')
+    @level.watch(button.find('.watch').is(':visible'))
+    button.find('> span').toggleClass('secret')

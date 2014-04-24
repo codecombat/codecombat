@@ -53,30 +53,12 @@ block content
         span(data-i18n="contribute.adventurer_join_suf")
           | so if you prefer to be notified those ways, sign up there!
 
-      if me.attributes.anonymous
-        div#sign-up.alert.alert-info
-          strong(data-i18n="contribute.alert_account_message_intro")
-            | Hey there!
-          span  
-          span(data-i18n="contribute.alert_account_message_pref") 
-            | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
-            | create an account
-          span  
-          span(data-i18n="contribute.alert_account_message_suf")
-            | first.
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="tester", data-contributor-class-name="adventurer")
 
-      label.checkbox(for="tester").well
-        input(type='checkbox', name="tester", id="tester")
-        span(data-i18n="contribute.adventurer_subscribe_desc")  
-          | Get emails when there are new levels to test.
-        .saved-notification  ✓ Saved
-
-      //#Contributors
-      //  h3(data-i18n="contribute.brave_adventurers")
-      //    | Our Brave Adventurers:
-      //  ul.adventurers
-      //    li Kieizroe
-      //    li ... many, many more
+      //h3(data-i18n="contribute.brave_adventurers")
+      //  | Our Brave Adventurers:
+      //
+      //#contributor-list
 
     div.clearfix

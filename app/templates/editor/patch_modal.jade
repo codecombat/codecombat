@@ -1,0 +1,24 @@
+extends /templates/modal/modal_base
+
+block modal-header-content
+  .modal-header-content
+    h3 Patch
+
+block modal-body-content
+  .modal-body
+    p= patch.get('commitMessage')
+    .changes-stub
+
+
+block modal-footer
+  .modal-footer
+    button(data-dismiss="modal", data-i18n="common.cancel").btn Cancel
+    if isPatchCreator
+      if status != 'withdrawn'
+        button.btn.btn-danger#withdraw-button Withdraw
+    if isPatchRecipient
+      if status != 'accepted'
+        button.btn.btn-primary#accept-button Accept
+      if status != 'rejected'
+        button.btn.btn-danger#reject-button Reject
+                               

@@ -10,6 +10,7 @@ _.mixin(_.str.exports())
 GLOBAL.mongoose = require 'mongoose'
 mongoose.connect('mongodb://localhost/coco_unittest')
 path = require('path')
+GLOBAL.testing = true
 
 models_path = [
   '../../server/articles/Article'
@@ -19,6 +20,7 @@ models_path = [
   '../../server/levels/sessions/LevelSession'
   '../../server/levels/thangs/LevelThangType'
   '../../server/users/User'
+  '../../server/patches/Patch'
 ]
 
 for m in models_path
@@ -62,13 +64,13 @@ GLOBAL.unittest = {}
 unittest.users = unittest.users or {}
 
 unittest.getNormalJoe = (done, force) ->
-  unittest.getUser('normal@jo.com', 'food', done, force)
+  unittest.getUser('Joe', 'normal@jo.com', 'food', done, force)
 unittest.getOtherSam = (done, force) ->
-  unittest.getUser('other@sam.com', 'beer', done, force)
+  unittest.getUser('Sam', 'other@sam.com', 'beer', done, force)
 unittest.getAdmin = (done, force) ->
-  unittest.getUser('admin@afc.com', '80yqxpb38j', done, force)
+  unittest.getUser('Admin', 'admin@afc.com', '80yqxpb38j', done, force)
 
-unittest.getUser = (email, password, done, force) ->
+unittest.getUser = (name, email, password, done, force) ->
   # Creates the user if it doesn't already exist.
 
   return done(unittest.users[email]) if unittest.users[email] and not force
@@ -78,18 +80,15 @@ unittest.getUser = (email, password, done, force) ->
       req = request.post(getURL('/db/user'), (err, response, body) ->
         throw err if err
         User.findOne({email:email}).exec((err, user) ->
-          if password is '80yqxpb38j'
-            user.set('permissions', [ 'admin' ])
-            user.save (err) ->
-              wrapUpGetUser(email, user, done)
-          else
+          user.set('permissions', if password is '80yqxpb38j' then [ 'admin' ] else [])
+          user.set('name', name)
+          user.save (err) ->
             wrapUpGetUser(email, user, done)
         )
       )
       form = req.form()
       form.append('email', email)
       form.append('password', password)
-      
 
 wrapUpGetUser = (email, user, done) ->
   unittest.users[email] = user

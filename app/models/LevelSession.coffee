@@ -2,6 +2,7 @@ CocoModel = require('./CocoModel')
 
 module.exports = class LevelSession extends CocoModel
   @className: "LevelSession"
+  @schema: require 'schemas/models/level_session'
   urlRoot: "/db/level.session"
 
   initialize: ->
@@ -10,7 +11,7 @@ module.exports = class LevelSession extends CocoModel
       state = @get('state') or {}
       state.scripts ?= {}
       @set('state', state)
-      
+
   updatePermissions: ->
     permissions = @get 'permissions'
     permissions = (p for p in permissions when p.target isnt 'public')

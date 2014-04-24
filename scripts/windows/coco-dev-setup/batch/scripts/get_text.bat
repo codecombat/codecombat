@@ -1,3 +1,3 @@
-for /f "delims=" %%a in ('..\\utilities\\get_var.exe ..\\localisation\\%1.coco %2') do (
-	set "%%a"
+for /F "delims=" %%F in ('call run_script .\\get_var.ps1 ..\\localization\\%1.coco %3 %4 %5 %6') do (
+	set "%2=%%F"
 )

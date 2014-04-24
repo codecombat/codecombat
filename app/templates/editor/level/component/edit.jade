@@ -1,23 +1,44 @@
 nav.navbar.navbar-default(role='navigation')
-  .container-fluid
-    .navbar-header
-      span.navbar-brand
-        span(data-i18n="editor.level_component_edit_title")
-          | Edit Component
-        span : 
-          | "#{editTitle}"
-    .collapse.navbar-collapse
-      ul.nav.navbar-nav.nav-tabs
-        li.active
-          a(href="#component-code" data-toggle="tab" data-i18n="general.code") Code
+  ul.nav.navbar-nav.nav-tabs
+    li.active
+      a(href="#component-code" data-toggle="tab" data-i18n="general.code")#component-code-tab Code
+    li
+      a(href="#component-config-schema" data-toggle="tab" data-i18n="editor.level_component_config_schema")#component-config-schema-tab Config Schema
+    li
+      a(href="#component-settings" data-toggle="tab" data-i18n="editor.level_component_settings")#component-settings-tab Settings
+    li
+      a(href="#component-patches" data-toggle="tab" data-i18n="resources.patches")#component-patches-tab Patches
+
+  .navbar-header
+    span.navbar-brand= editTitle
+
+  ul.nav.navbar-nav.navbar-right
+    li.dropdown
+      a(data-toggle='dropdown')
+        span.glyphicon-chevron-down.glyphicon
+
+      ul.dropdown-menu
+        li.dropdown-header Actions
         li
-          a(href="#component-config-schema" data-toggle="tab" data-i18n="editor.level_component_config_schema") Config Schema
-        li
-          a(href="#component-settings" data-toggle="tab" data-i18n="editor.level_component_settings") Settings
-      ul.nav.navbar-nav.navbar-left
-        li(data-i18n="general.history").btn.btn-primary.navbar-btn#history-button History
-      ul.nav.navbar-nav.navbar-right
-        li(data-i18n="editor.level_component_btn_new").btn.btn-primary.navbar-btn#create-new-component-button Create New Component
+          a#component-watch-button
+            span.watch
+              span.glyphicon.glyphicon-eye-open
+              span.spl Watch
+            span.unwatch.secret
+              span.glyphicon.glyphicon-eye-close
+              span.spl Unwatch
+  
+        li#patch-component-button
+          a(data-i18n="common.submit_patch") Submit Patch
+  
+        li#create-new-component-button
+          a(data-i18n="editor.level_component_btn_new") Create New Component
+        
+        li.divider
+        li.dropdown-header Info
+  
+        li#component-history-button
+          a(data-i18n="general.version_history") Version History
 
 .tab-content
   .tab-pane.active#component-code
@@ -26,3 +47,5 @@ nav.navbar.navbar-default(role='navigation')
     #config-schema-treema
   .tab-pane#component-settings
     #edit-component-treema
+  .tab-pane#component-patches
+    .patches-view

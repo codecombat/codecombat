@@ -83,9 +83,7 @@ module.exports = class Simulator extends CocoClass
     @setupGodSpells()
 
   setupGoalManager: ->
-    @god.goalManager = new GoalManager @world
-    @god.goalManager.goals = @god.level.goals
-    @god.goalManager.goalStates = @manuallyGenerateGoalStates()
+    @god.goalManager = new GoalManager @world, @level.get 'goals'
 
   commenceSimulationAndSetupCallback: ->
     @god.createWorld()
@@ -104,6 +102,7 @@ module.exports = class Simulator extends CocoClass
   sendResultsBackToServer: (results) =>
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
     console.log "Sending result back to server!"
+    
     $.ajax
       url: "/queue/scoring"
       data: results
@@ -157,31 +156,20 @@ module.exports = class Simulator extends CocoClass
     return taskResults
 
   calculateSessionRank: (sessionID, goalStates, teamSessionMap) ->
-    humansDestroyed = goalStates["destroy-humans"].status is "success"
-    ogresDestroyed = goalStates["destroy-ogres"].status is "success"
-    if humansDestroyed is ogresDestroyed
+    ogreGoals = (goalState for key, goalState of goalStates when goalState.team is 'ogres')
+    humanGoals = (goalState for key, goalState of goalStates when goalState.team is 'humans')
+    ogresWon = _.all ogreGoals, {status: 'success'}
+    humansWon = _.all humanGoals, {status: 'success'}
+    if ogresWon is humansWon
       return 0
-    else if humansDestroyed and teamSessionMap["ogres"] is sessionID
+    else if ogresWon and teamSessionMap["ogres"] is sessionID
       return 0
-    else if humansDestroyed and teamSessionMap["ogres"] isnt sessionID
+    else if ogresWon and teamSessionMap["ogres"] isnt sessionID
       return 1
-    else if ogresDestroyed and teamSessionMap["humans"] is sessionID
+    else if humansWon and teamSessionMap["humans"] is sessionID
       return 0
     else
       return 1
-
-  manuallyGenerateGoalStates: ->
-    goalStates =
-      "destroy-humans":
-        keyFrame: 0
-        killed:
-          "Human Base": false
-        status: "incomplete"
-      "destroy-ogres":
-        keyFrame:0
-        killed:
-          "Ogre Base": false
-        status: "incomplete"
 
   setupGodSpells: ->
     @generateSpellsObject()
@@ -230,7 +218,11 @@ module.exports = class Simulator extends CocoClass
   createSpellThang: (thang, method, spellKey) ->
     @spells[spellKey].thangs ?= {}
     @spells[spellKey].thangs[thang.id] ?= {}
-    @spells[spellKey].thangs[thang.id].aether = @createAether @spells[spellKey].name, method
+    spellTeam = @task.getSpellKeyToTeamMap()[spellKey]
+    playerTeams = @task.getPlayerTeams()
+    useProtectAPI = true
+    if spellTeam not in playerTeams then useProtectAPI = false
+    @spells[spellKey].thangs[thang.id].aether = @createAether @spells[spellKey].name, method, useProtectAPI
 
   transpileSpell: (thang, spellKey, methodName) ->
     slugifiedThangID = _.string.slugify thang.id
@@ -242,10 +234,10 @@ module.exports = class Simulator extends CocoClass
       console.log "Couldn't transpile #{spellKey}:\n#{source}\n", e
       aether.transpile ''
 
-  createAether: (methodName, method) ->
+  createAether: (methodName, method, useProtectAPI) ->
     aetherOptions =
       functionName: methodName
-      protectAPI: true
+      protectAPI: useProtectAPI
       includeFlow: false
       requiresThis: true
       yieldConditionally: false
@@ -262,6 +254,7 @@ module.exports = class Simulator extends CocoClass
 class SimulationTask
   constructor: (@rawData) ->
     console.log 'Simulating sessions', (session for session in @getSessions())
+    @spellKeyToTeamMap = {}
 
   getLevelName: ->
     levelName =  @rawData.sessions?[0]?.levelID
@@ -286,21 +279,31 @@ class SimulationTask
   getReceiptHandle: -> @rawData.receiptHandle
 
   getSessions: -> @rawData.sessions
+    
+  getSpellKeyToTeamMap: -> @spellKeyToTeamMap
+  
+  getPlayerTeams: -> _.pluck @rawData.sessions, 'team'
 
   generateSpellKeyToSourceMap: ->
+    playerTeams = _.pluck @rawData.sessions, 'team'
     spellKeyToSourceMap = {}
     for session in @rawData.sessions
       teamSpells = session.teamSpells[session.team]
+      allTeams = _.keys session.teamSpells
+      nonPlayerTeams = _.difference allTeams, playerTeams
+      for team in allTeams
+        for spell in session.teamSpells[team]
+          @spellKeyToTeamMap[spell] = team
+      for nonPlayerTeam in nonPlayerTeams
+        teamSpells = teamSpells.concat(session.teamSpells[nonPlayerTeam])
       teamCode = {}
+
       for thangName, thangSpells of session.code
         for spellName, spell of thangSpells
           fullSpellName = [thangName,spellName].join '/'
           if _.contains(teamSpells, fullSpellName)
             teamCode[fullSpellName]=spell
-
+            
       _.merge spellKeyToSourceMap, teamCode
-      commonSpells = session.teamSpells["common"]
-      _.merge spellKeyToSourceMap, _.pick(session.code, commonSpells) if commonSpells?
-
 
     spellKeyToSourceMap

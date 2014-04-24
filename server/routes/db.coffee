@@ -1,12 +1,12 @@
 log = require 'winston'
 errors = require '../commons/errors'
 handlers = require('../commons/mapping').handlers
-schemas = require('../commons/mapping').schemas
 mongoose = require 'mongoose'
 
 module.exports.setup = (app) ->
   # This is hacky and should probably get moved somewhere else, I dunno
   app.get '/db/cla.submissions', (req, res) ->
+    return errors.unauthorized(res, "You must be an admin to view that information") unless req.user?.isAdmin()
     res.setHeader('Content-Type', 'application/json')
     collection = mongoose.connection.db.collection 'cla.submissions', (err, collection) ->
       return log.error "Couldn't fetch CLA submissions because #{err}" if err
@@ -42,14 +42,15 @@ module.exports.setup = (app) ->
     catch error
       log.error("Error trying db method #{req.route.method} route #{parts} from #{name}: #{error}")
       log.error(error)
+      log.error(error.stack)
       errors.notFound(res, "Route #{req.path} not found.")
 
 getSchema = (req, res, moduleName) ->
   try
-    name = schemas[moduleName.replace '.', '_']
-    schema = require('../' + name)
+    name = moduleName.replace '.', '_'
+    schema = require('../../app/schemas/models/' + name)
 
-    res.send(schema)
+    res.send(JSON.stringify(schema, null, '\t'))
     res.end()
 
   catch error

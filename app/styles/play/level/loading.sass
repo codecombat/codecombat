@@ -1,16 +1,9 @@
 @import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
 
-@mixin sky-background($url: '', $backgroundPosition: left)
-  $top: #95D9EF
-  $mid: #FFFFFF
-  $bot: #8EC643
-  $stop: 99.6%
-  background: $mid
-  background-image: url($url)  // fallback
-  background-image: url($url), -webkit-linear-gradient(top, $top, $mid $stop, $bot)
-  background-image: url($url),     -ms-linear-gradient(top, $top, $mid $stop, $bot)
-  background-image: url($url),         linear-gradient(to bottom, $top, $mid $stop, $bot)
+@mixin wing-background($url: '', $backgroundPosition: left)
+  background: black
+  background-image: url($url)
   background-repeat: no-repeat
   background-position: top $backgroundPosition
   background-size: contain
@@ -22,7 +15,9 @@
   position: absolute
   z-index: 20
   $UNVEIL_TIME: 1.2s
-  pointer-events: none
+
+  &.unveiled
+    pointer-events: none
   
   .loading-details
     position: absolute
@@ -67,11 +62,11 @@
     position: absolute
 
   .left-wing
-    @include sky-background('/images/level/loading_left_wing.png', right)
+    @include wing-background('/images/level/loading_left_wing.png', right)
     left: -50%
     transition: all $UNVEIL_TIME ease
 
   .right-wing
-    @include sky-background('/images/level/loading_right_wing.png', left)
+    @include wing-background('/images/level/loading_right_wing.png', left)
     right: -50%
     transition: all $UNVEIL_TIME ease

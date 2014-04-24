@@ -23,7 +23,7 @@ module.exports = class Spell
     @parameters = p.parameters
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
     @thangs = {}
-    @view = new SpellView {spell: @, session: @session}
+    @view = new SpellView {spell: @, session: @session, worker: @worker}
     @view.render()  # Get it ready and code loaded in advance
     @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel
     @tabView.render()
@@ -75,21 +75,37 @@ module.exports = class Spell
   hasChanged: (newSource=null, currentSource=null) ->
     (newSource ? @originalSource) isnt (currentSource ? @source)
 
-  hasChangedSignificantly: (newSource=null, currentSource=null) ->
+  hasChangedSignificantly: (newSource=null, currentSource=null, cb) ->
     for thangID, spellThang of @thangs
       aether = spellThang.aether
       break
     unless aether
       console.error @toString(), "couldn't find a spellThang with aether of", @thangs
-      return false
-    aether.hasChangedSignificantly (newSource ? @originalSource), (currentSource ? @source), true, true
-
+      cb false
+    workerMessage =
+      function: "hasChangedSignificantly"
+      a: (newSource ? @originalSource)
+      spellKey: @spellKey
+      b: (currentSource ? @source)
+      careAboutLineNumbers: true
+      careAboutLint: true
+    @worker.addEventListener "message", (e) =>
+      workerData = JSON.parse e.data
+      if workerData.function is "hasChangedSignificantly" and workerData.spellKey is @spellKey
+        @worker.removeEventListener("message",arguments.callee, false)
+        cb(workerData.hasChanged)
+    @worker.postMessage JSON.stringify(workerMessage)
+  
   createAether: (thang) ->
     aceConfig = me.get('aceConfig') ? {}
     aetherOptions =
       problems:
         jshint_W040: {level: "ignore"}
         jshint_W030: {level: "ignore"}  # aether_NoEffect instead
+        jshint_W038: {level: "ignore"}  # eliminates hoisting problems
+        jshint_W091: {level: "ignore"}  # eliminates more hoisting problems
+        jshint_E043: {level: "ignore"}  # https://github.com/codecombat/codecombat/issues/813 -- since we can't actually tell JSHint to really ignore things
+        jshint_Unknown: {level: "ignore"}  # E043 also triggers Unknown, so ignore that, too
         aether_MissingThis: {level: (if thang.requiresThis then 'error' else 'warning')}
       language: aceConfig.language ? 'javascript'
       functionName: @name
@@ -107,13 +123,23 @@ module.exports = class Spell
       aetherOptions.includeFlow = false
     #console.log "creating aether with options", aetherOptions
     aether = new Aether aetherOptions
+    workerMessage =
+      function: "createAether"
+      spellKey: @spellKey
+      options: aetherOptions
+    @worker.postMessage JSON.stringify workerMessage
     aether
 
   updateLanguageAether: ->
     aceConfig = me.get('aceConfig') ? {}
+    newLanguage = (aceConfig.language ? 'javascript')
     for thangId, spellThang of @thangs
-      spellThang.aether?.setLanguage (aceConfig.language ? 'javascript')
+      spellThang.aether?.setLanguage newLanguage
       spellThang.castAether = null
+    workerMessage = 
+      function: "updateLanguageAether"
+      newLanguage: newLanguage
+    @worker.postMessage JSON.stringify workerMessage
     @transpile()
 
   toString: ->

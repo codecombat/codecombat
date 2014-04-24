@@ -1,1 +1,1 @@
-print_file ..\\config\\license.coco
+call print_localized_file ..\\config\\localized\\license

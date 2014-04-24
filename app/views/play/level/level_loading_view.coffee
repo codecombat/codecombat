@@ -8,7 +8,7 @@ module.exports = class LevelLoadingView extends View
 
   subscriptions:
     'level-loader:progress-changed': 'onLevelLoaderProgressChanged'
-    
+
   afterRender: ->
     @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
     tips = @$el.find('.tip').addClass('to-remove')
@@ -17,6 +17,7 @@ module.exports = class LevelLoadingView extends View
     @$el.find('.to-remove').remove()
 
   onLevelLoaderProgressChanged: (e) ->
+    return if @destroyed
     @progress = e.progress
     @progress = 0.01 if @progress < 0.01
     @updateProgressBar()
@@ -34,6 +35,7 @@ module.exports = class LevelLoadingView extends View
 
   reallyUnveil: =>
     return if @destroyed
+    @$el.addClass 'unveiled'
     loadingDetails = @$el.find('.loading-details')
     duration = parseFloat loadingDetails.css 'transition-duration'
     loadingDetails.css 'top', -loadingDetails.outerHeight(true)
@@ -43,4 +45,4 @@ module.exports = class LevelLoadingView extends View
 
   onUnveilEnded: =>
     return if @destroyed
-    Backbone.Mediator.publish 'onLoadingViewUnveiled', view: @
+    Backbone.Mediator.publish 'level:loading-view-unveiled', view: @

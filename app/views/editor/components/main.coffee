@@ -20,9 +20,6 @@ module.exports = class ThangComponentEditView extends CocoView
 
   render: =>
     return if @destroyed
-    for model in [Level, LevelComponent]
-      temp = new model()
-      @listenToOnce temp, 'schema-loaded', @render unless model.schema?.loaded
     if not @componentCollection
       @componentCollection = @supermodel.getCollection new ComponentsCollection()
     unless @componentCollection.loaded
@@ -32,7 +29,7 @@ module.exports = class ThangComponentEditView extends CocoView
 
   afterRender: ->
     super()
-    return @showLoading() unless @componentCollection?.loaded and Level.schema.loaded and LevelComponent.schema.loaded
+    return @showLoading() unless @componentCollection?.loaded
     @hideLoading()
     @buildExtantComponentTreema()
     @buildAddComponentTreema()
@@ -43,9 +40,10 @@ module.exports = class ThangComponentEditView extends CocoView
     @render()
 
   buildExtantComponentTreema: ->
+    new Level() # hack to load the schema
     treemaOptions =
       supermodel: @supermodel
-      schema: Level.schema.get('properties').thangs.items.properties.components
+      schema: Level.schema.properties.thangs.items.properties.components
       data: _.cloneDeep @components
       callbacks: {select: @onSelectExtantComponent, change:@onChangeExtantComponents}
       noSortable: true
@@ -69,7 +67,7 @@ module.exports = class ThangComponentEditView extends CocoView
 
     treemaOptions =
       supermodel: @supermodel
-      schema: { type: 'array', items: LevelComponent.schema.attributes }
+      schema: { type: 'array', items: LevelComponent.schema }
       data: ($.extend(true, {}, c) for c in components)
       callbacks: {select: @onSelectAddableComponent, enter: @onAddComponentEnterPressed }
       readOnly: true
@@ -159,17 +157,18 @@ module.exports = class ThangComponentEditView extends CocoView
     @reportChanges()
 
   onAddComponentEnterPressed: (node) =>
-    extantSystems =
-      (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
-    requireSystem = node.data.system.toLowerCase()
+    if extantSystems
+      extantSystems =
+        (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
+      requireSystem = node.data.system.toLowerCase()
 
-    if requireSystem not in extantSystems
-      warn_element = 'Component <b>' + node.data.name + '</b> requires system <b>' + requireSystem + '</b> which is currently not specified in this level.'
-      noty({
-        text: warn_element,
-        layout: 'bottomLeft',
-        type: 'warning'
-      })
+      if requireSystem not in extantSystems
+        warn_element = 'Component <b>' + node.data.name + '</b> requires system <b>' + requireSystem + '</b> which is currently not specified in this level.'
+        noty({
+          text: warn_element,
+          layout: 'bottomLeft',
+          type: 'warning'
+        })
 
     currentSelection = @addComponentsTreema?.getLastSelectedTreema()?.data._id
 

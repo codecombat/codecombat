@@ -1,8 +1,47 @@
 require '../common'
 request = require 'request'
+User = require '../../../server/users/User'
 
 urlUser = '/db/user'
 
+describe 'Server user object', ->
+  
+  it 'uses the schema defaults to fill in email preferences', (done) ->
+    user = new User()
+    expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('anyNotes')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('recruitNotes')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('archmageNews')).toBeFalsy()
+    done()
+
+  it 'uses old subs if they\'re around', (done) ->
+    user = new User()
+    user.set 'emailSubscriptions', ['tester']
+    expect(user.isEmailSubscriptionEnabled('adventurerNews')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('generalNews')).toBeFalsy()
+    done()
+    
+  it 'maintains the old subs list if it\'s around', (done) ->
+    user = new User()
+    user.set 'emailSubscriptions', ['tester']
+    user.setEmailSubscription('artisanNews', true)
+    expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester','level_creator']))
+    done()
+    
+describe 'User.updateMailChimp', ->
+  makeMC = (callback) ->
+    GLOBAL.mc =
+      lists:
+        subscribe: callback
+  
+  it 'uses emails to determine what to send to MailChimp', (done) ->
+    makeMC (params) ->
+      expect(JSON.stringify(params.merge_vars.groupings[0].groups)).toBe(JSON.stringify(['Announcements']))
+      done()
+
+    user = new User({emailSubscriptions:['announcement'], email:'tester@gmail.com'})
+    User.updateMailChimp(user)
+          
 describe 'POST /db/user', ->
 
   it 'preparing test : clears the db first', (done) ->
@@ -112,7 +151,7 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
     unittest.getNormalJoe (joe) ->
       req = request.put getURL(urlUser), (err, res) ->
         expect(res.statusCode).toBe(200)
-        unittest.getUser('New@email.com', 'null', (joe) ->
+        unittest.getUser('Wilhelm', 'New@email.com', 'null', (joe) ->
           expect(joe.get('name')).toBe('Wilhelm')
           expect(joe.get('emailLower')).toBe('new@email.com')
           expect(joe.get('email')).toBe('New@email.com')

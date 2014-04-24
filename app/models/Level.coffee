@@ -5,10 +5,12 @@ ThangType = require './ThangType'
 
 module.exports = class Level extends CocoModel
   @className: "Level"
+  @schema: require 'schemas/models/level'
   urlRoot: "/db/level"
 
   serialize: (supermodel) ->
-    o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
+    # o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
+    o = $.extend true, {}, @attributes
 
     # Figure out Components
     o.levelComponents = _.cloneDeep (lc.attributes for lc in supermodel.getModels LevelComponent)

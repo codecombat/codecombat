@@ -35,7 +35,7 @@ module.exports = class MyMatchesTabView extends CocoView
       for session in @sessions.models
         for match in session.get('matches') or []
           opponent = match.opponents[0]
-          @nameMap[opponent.userID] ?= nameMap[opponent.userID]
+          @nameMap[opponent.userID] ?= nameMap[opponent.userID].name
       @finishRendering()
 
     $.ajax('/db/user/-/names', {
@@ -47,6 +47,8 @@ module.exports = class MyMatchesTabView extends CocoView
   finishRendering: ->
     @startsLoading = false
     @render()
+
+
 
   getRenderData: ->
     ctx = super()
@@ -80,7 +82,9 @@ module.exports = class MyMatchesTabView extends CocoView
       team.losses = _.filter(team.matches, {state: 'loss'}).length
       scoreHistory = team.session?.get('scoreHistory')
       if scoreHistory?.length > 1
+        team.scoreHistory = scoreHistory
         scoreHistory = _.last scoreHistory, 100  # Chart URL needs to be under 2048 characters for GET
+        
         team.currentScore = Math.round scoreHistory[scoreHistory.length - 1][1] * 100
         team.chartColor = team.primaryColor.replace '#', ''
         #times = (s[0] for s in scoreHistory)
@@ -109,7 +113,69 @@ module.exports = class MyMatchesTabView extends CocoView
       else if session.get 'isRanking'
         rankingState = 'ranking'
       @setRankingButtonText button, rankingState
+    
+    @$el.find('.score-chart-wrapper').each (i, el) =>
+      scoreWrapper = $(el)
+      team = _.find @teams, name: scoreWrapper.data('team-name')
+      @generateScoreLineChart(scoreWrapper.attr('id'), team.scoreHistory, team.name)
+      
 
+  generateScoreLineChart: (wrapperID, scoreHistory,teamName) =>
+    margin = 
+      top: 20
+      right: 20
+      bottom: 30
+      left: 50
+      
+    width = 450 - margin.left - margin.right
+    height = 125
+    x = d3.time.scale().range([0,width])
+    y = d3.scale.linear().range([height,0])
+    
+    xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(4).outerTickSize(0)
+    yAxis = d3.svg.axis().scale(y).orient("left").ticks(4).outerTickSize(0)
+    
+    line = d3.svg.line().x(((d) -> x(d.date))).y((d) -> y(d.close))
+    selector = "#" + wrapperID
+    
+    svg = d3.select(selector).append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform","translate(#{margin.left},#{margin.top})")
+    time = 0
+    data = scoreHistory.map (d) ->
+      time +=1
+      return {
+        date: time
+        close: d[1] * 100
+      }
+    
+    x.domain(d3.extent(data, (d) -> d.date))
+    y.domain(d3.extent(data, (d) -> d.close))
+    
+    
+    
+    svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y",4)
+      .attr("dy", ".75em")
+      .style("text-anchor","end")
+      .text("Score")
+    lineClass = "line"
+    if teamName.toLowerCase() is "ogres" then lineClass = "ogres-line"
+    if teamName.toLowerCase() is "humans" then lineClass = "humans-line"
+    svg.append("path")
+      .datum(data)
+      .attr("class",lineClass)
+      .attr("d",line)
+    
+    
+    
+      
   readyToRank: (session) ->
     return false unless session?.get('levelID')  # If it hasn't been denormalized, then it's not ready.
     return false unless c1 = session.get('code')

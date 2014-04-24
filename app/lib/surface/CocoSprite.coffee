@@ -323,7 +323,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if not action and @thang?.actionActivated and not @stopLogging
       console.error "action is", action, "for", @thang?.id, "from", @currentRootAction, @thang.action, @thang.getActionName?()
       @stopLogging = true
-    @queueAction(action) if isDifferent or (@thang?.actionActivated and action.name isnt 'move')
+    @queueAction(action) if action and (isDifferent or (@thang?.actionActivated and action.name isnt 'move'))
     @updateActionDirection()
 
   determineAction: ->
@@ -332,8 +332,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     action = thang.action if thang?.acts
     action ?= @currentRootAction.name if @currentRootAction?
     action ?= 'idle'
-    action = null unless @actions[action]?
-    return null unless action
+    unless @actions[action]?
+      @warnedFor ?= {}
+      console.warn 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
+      @warnedFor[action] = true
+      return null
     action = 'break' if @actions.break? and @thang?.erroredOut
     action = 'die' if @actions.die? and thang?.health? and thang.health <= 0
     @actions[action]
@@ -455,7 +458,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       allProps = allProps.concat (@thang.moreProgrammableProperties ? [])
 
       for property in allProps
-        if m = property.match /.*Range$/
+        if m = property.match /.*(Range|Distance|Radius)$/
           if @thang[m[0]]? and @thang[m[0]] < 9001
             @ranges.push
               name: m[0]

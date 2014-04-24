@@ -1,15 +1,220 @@
 #profile-view
-  button
-    float: right
-    i
-      margin-right: 5px
-  
-  img.img-thumbnail
-    margin: 20px 0
+  .profile-control-bar
+    background-color: rgb(78, 78, 78)
+    width: 100%
+    text-align: center
+
+    button.edit-settings-button
+      margin: 2px
+      i
+        margin-right: 5px
     
-  li
-    list-style: none
-    
-  ul
-    margin: 0
+  .approved, .not-approved
+    display: none
+
+  .main-content-area
     padding: 0
+
+    .flat-button
+      width: 100%
+      margin-bottom: 10px
+      background: rgb(78, 78, 78)
+      border: 0
+      border-radius: 0
+      padding: 10px
+
+    .public-profile-container
+      padding: 20px
+
+      img.profile-photo
+        width: 256px
+        border-radius: 6px
+
+    .job-profile-container
+      width: 100%
+      height: 100%
+      min-height: 600px
+      padding: 0
+      display: table
+      
+      h1, h2, h3, h4, h5, h6
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+        color: #555
+
+      ul.links, ul.projects
+        margin: 0
+        padding: 0
+    
+        li
+          list-style: none
+
+      .job-profile-row
+        height: 100%
+        display: table-row
+        $side-width: 250px
+        $side-padding: 5px
+        $middle-width: 524px
+        $middle-padding: 20px
+
+        .full-height-column
+          height: 100%
+          padding: $side-padding
+          display: table-cell
+          vertical-align: top
+
+          h3:first-child
+            margin: 5px 0 5px 0
+      
+        .left-column
+          width: $side-width - 2 * $side-padding
+          padding: $side-padding
+          background-color: rgb(220, 220, 220)
+
+          .sub-column
+            width: $side-width - 2 * $side-padding
+            overflow-wrap: break-word
+
+          .profile-photo-container
+            position: relative
+            margin-bottom: 10px
+
+            img.profile-photo
+              width: $side-width - 2 * $side-padding
+              border-radius: 6px
+                
+            .profile-caption
+              background-color: rgba(0, 0, 0, 0.5)
+              color: white
+              border-bottom-right-radius: 6px
+              border-bottom-left-radius: 6px
+              position: absolute
+              width: 100%
+              bottom: 0px
+              text-align: center
+
+          ul.links
+            li.has-icon
+              display: inline-block
+              img
+                margin: 0 0 10px 0
+            li.has-icon:not(:nth-child(5))
+              img
+                margin: 0 10px 10px 0
+
+          #contact-candidate
+            margin-top: 20px
+            background-color: rgb(177, 55, 25)
+            padding: 15px
+            font-size: 20px
+      
+        .middle-column
+          width: $middle-width - 2 * $middle-padding
+          padding-left: $middle-padding
+          padding-right: $middle-padding
+          background-color: white
+
+          .sub-column
+            width: $middle-width - 2 * $middle-padding
+            overflow-wrap: break-word
+
+          &.double-column
+            width: $middle-width + $side-width + 2 * $side-padding - 2 * $middle-padding
+            $middle-padding-double: 30px
+            padding-left: $middle-padding-double
+            padding-right: $middle-padding-double
+
+            .sub-column
+              width: $middle-width + $side-width + 2 * $side-padding - 2 * $middle-padding - 2 * $middle-padding-double
+              overflow-wrap: break-word
+
+          code
+            background-color: rgb(220, 220, 220)
+            color: #555
+            margin: 2px 0
+            display: inline-block
+            text-transform: lowercase
+
+          .long-description
+            margin-top: 10px
+            img
+              max-width: 524px - 60px
+              max-height: 200px
+
+          .experience-header
+            margin-top: 25px
+
+          .header-icon
+            margin-right: 10px
+            width: 32px
+            height: 32px
+
+          .experience-entry
+            margin-bottom: 15px
+      
+          .duration
+            margin-left: 10px
+            margin-bottom: 10px
+
+          #job-profile-notes
+            width: 100%
+            height: 100px
+
+        .right-column
+          width: $side-width
+          background-color: rgb(220, 220, 220)
+
+          .sub-column
+            width: $side-width - 2 * $side-padding
+            overflow-wrap: break-word
+
+            > h3:first-child
+              background-color: white
+              padding: 5px 5px
+              margin: 5px 2px 5px 2px
+
+          ul.projects
+            li
+              margin-bottom: 10px
+              padding: 5px 3px
+              border: 2px solid rgb(220, 220, 220)
+              transition: .5s ease-in-out
+              position: relative
+              background-color: white
+
+              &:hover
+                border-color: rgb(100, 130, 255)
+
+              a
+                position: relative
+                z-index: 2
+
+              > a
+                position: absolute
+                width: 100%
+                height: 100%
+                top: 0
+                left: 0
+                z-index: 1
+        
+              .project-image
+                width: 230px
+                height: 115px
+                background-size: cover
+                background-repeat: no-repeat
+                background-position: center
+
+                -webkit-filter: grayscale(100%)
+                -webkit-transition: .5s ease-in-out
+                -moz-filter: grayscale(100%) 
+                -moz-transition: .5s ease-in-out
+                -o-filter: grayscale(100%) 
+                -o-transition: .5s ease-in-out
+                filter: grayscale(100%)
+                transition: .5s ease-in-out
+
+            li:hover
+              .project-image
+                -webkit-filter: grayscale(0%)
+                -moz-filter: grayscale(0%)
+                -o-filter: grayscale(0%)
+                filter: grayscale(0%)

@@ -5,6 +5,7 @@ buildQueue = []
 
 module.exports = class ThangType extends CocoModel
   @className: "ThangType"
+  @schema: require 'schemas/models/thang_type'
   urlRoot: "/db/thang.type"
   building: {}
 

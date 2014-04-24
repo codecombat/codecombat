@@ -1,5 +1,5 @@
 mongoose = require('mongoose')
-jsonschema = require('./user_schema')
+jsonschema = require('../../app/schemas/models/user')
 crypto = require('crypto')
 {salt, isProduction} = require('../../server_config')
 mail = require '../commons/mail'
@@ -16,6 +16,7 @@ UserSchema = new mongoose.Schema({
 UserSchema.pre('init', (next) ->
   return next() unless jsonschema.properties?
   for prop, sch of jsonschema.properties
+    continue if prop is 'emails' # defaults may change, so don't carry them over just yet
     @set(prop, sch.default) if sch.default?
   @set('permissions', ['admin']) if not isProduction
   next()
@@ -23,27 +24,60 @@ UserSchema.pre('init', (next) ->
 
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
-  @currentSubscriptions = JSON.stringify(@get('emailSubscriptions'))
 )
 
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
+  
+emailNameMap =
+  generalNews: 'announcement'
+  adventurerNews: 'tester'
+  artisanNews: 'level_creator'
+  archmageNews: 'developer'
+  scribeNews: 'article_editor'
+  diplomatNews: 'translator'
+  ambassadorNews: 'support'
+  anyNotes: 'notification'
+  
+UserSchema.methods.setEmailSubscription = (newName, enabled) ->
+  oldSubs = _.clone @get('emailSubscriptions')
+  if oldSubs and oldName = emailNameMap[newName]
+    oldSubs = (s for s in oldSubs when s isnt oldName)
+    oldSubs.push(oldName) if enabled
+    @set('emailSubscriptions', oldSubs)
+  
+  newSubs = _.clone(@get('emails') or _.cloneDeep(jsonschema.properties.emails.default))
+  newSubs[newName] ?= {}
+  newSubs[newName].enabled = enabled
+  @set('emails', newSubs)
+  @newsSubsChanged = true if newName in mail.NEWS_GROUPS
+  
+UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
+  emails = @get 'emails'
+  if not emails
+    oldSubs = @get('emailSubscriptions')
+    oldName = emailNameMap[newName]
+    return oldName and oldName in oldSubs if oldSubs
+  emails ?= {}
+  _.defaults emails, _.cloneDeep(jsonschema.properties.emails.default)
+  return emails[newName]?.enabled
 
 UserSchema.statics.updateMailChimp = (doc, callback) ->
-  return callback?() unless isProduction
+  return callback?() unless isProduction or GLOBAL.testing
   return callback?() if doc.updatedMailChimp
   return callback?() unless doc.get('email')
   existingProps = doc.get('mailChimp')
   emailChanged = (not existingProps) or existingProps?.email isnt doc.get('email')
-  emailSubs = doc.get('emailSubscriptions')
-  gm = mail.MAILCHIMP_GROUP_MAP
-  newGroups = (gm[name] for name in emailSubs when gm[name]?)
+  return callback?() unless emailChanged or doc.newsSubsChanged
+
+  newGroups = []
+  for [mailchimpEmailGroup, emailGroup] in _.zip(mail.MAILCHIMP_GROUPS, mail.NEWS_GROUPS)
+    newGroups.push(mailchimpEmailGroup) if doc.isEmailSubscriptionEnabled(emailGroup)
+  
   if (not existingProps) and newGroups.length is 0
     return callback?() # don't add totally unsubscribed people to the list
-  subsChanged = doc.currentSubscriptions isnt JSON.stringify(emailSubs)
-  return callback?() unless emailChanged or subsChanged
-
+  
   params = {}
   params.id = mail.MAILCHIMP_LIST_ID
   params.email = if existingProps then {leid:existingProps.leid} else {email:doc.get('email')}
@@ -62,7 +96,7 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
     doc.updatedMailChimp = true
     callback?()
 
-  mc.lists.subscribe params, onSuccess, onFailure
+  mc?.lists.subscribe params, onSuccess, onFailure
 
 
 UserSchema.pre('save', (next) ->

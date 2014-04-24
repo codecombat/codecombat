@@ -2,7 +2,6 @@ class SuperModel
   constructor: ->
     @models = {}
     @collections = {}
-    @schemas = {}
     _.extend(@, Backbone.Events)
 
   populateModel: (model) ->
@@ -26,12 +25,8 @@ class SuperModel
     @removeEventsFromModel(model)
 
   modelLoaded: (model) ->
-    model.loadSchema()
     schema = model.schema()
-    unless schema.loaded
-      @schemas[schema.urlRoot] = schema
-      return schema.once('sync', => @modelLoaded(model))
-    refs = model.getReferencedModels(model.attributes, schema.attributes, '/', @shouldLoadProjection)
+    refs = model.getReferencedModels(model.attributes, schema, '/', @shouldLoadProjection)
     refs = [] unless @mustPopulate is model or @shouldPopulate(model)
 #    console.log 'Loaded', model.get('name')
     for ref, i in refs when @shouldLoadReference ref
@@ -103,9 +98,6 @@ class SuperModel
     for model in _.values @models
       total += 1
       loaded += 1 if model.loaded
-    for schema in _.values @schemas
-      total += 1
-      loaded += 1 if schema.loaded
 
     return 1.0 unless total
     return loaded / total
