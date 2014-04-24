@@ -9,7 +9,7 @@ block content
         | #{currentEditor}
 
   if me.get('anonymous')
-    a.btn.btn-primary.open-modal-button(data-toggle="coco-modal", data-target="modal/signup", role="button", data-i18n="editor.signup_to_create") Sign Up to Create a New Content
+    a.btn.btn-primary.open-modal-button(data-toggle="coco-modal", data-target="modal/signup", role="button", data-i18n="#{currentNewSignup}") Sign Up to Create a New Content
   else
     a.btn.btn-primary.open-modal-button(href='#new-model-modal', role="button", data-toggle="modal", data-i18n="#{currentNew}") Create a New Something
   input#search(data-i18n="[placeholder]#{currentSearch}")

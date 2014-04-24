@@ -32,14 +32,17 @@ module.exports = class SearchView extends View
       when 'Level'
         context.currentEditor = 'editor.level_title'
         context.currentNew = 'editor.new_level_title'
+        context.currentNewSignup = 'editor.new_level_title_signup'
         context.currentSearch = 'editor.level_search_title'
       when 'Thang Type'
         context.currentEditor = 'editor.thang_title'
         context.currentNew = 'editor.new_thang_title'
+        context.currentNewSignup = 'editor.new_thang_title_signup'
         context.currentSearch = 'editor.thang_search_title'
       when 'Article'
         context.currentEditor = 'editor.article_title'
         context.currentNew = 'editor.new_article_title'
+        context.currentNewSignup = 'editor.new_article_title_signup'
         context.currentSearch = 'editor.article_search_title'
     @$el.i18n()
     context
