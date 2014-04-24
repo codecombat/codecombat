@@ -83,8 +83,7 @@ filePost = (req, res) ->
 
 saveURL = (req, res) ->
   options = createPostOptions(req)
-  force = req.user.isAdmin() and req.body.force
-  checkExistence options, res, force, (err) ->
+  checkExistence options, req, res, req.body.force, (err) ->
     return errors.serverError(res) if err
     writestream = Grid.gfs.createWriteStream(options)
     request(req.body.url).pipe(writestream)
@@ -92,8 +91,7 @@ saveURL = (req, res) ->
 
 saveFile = (req, res) ->
   options = createPostOptions(req)
-  force = req.user.isAdmin() and req.body.force
-  checkExistence options, res, force, (err) ->
+  checkExistence options, req, res, req.body.force, (err) ->
     return if err
     writestream = Grid.gfs.createWriteStream(options)
     f = req.files[req.body.postName]
@@ -103,9 +101,8 @@ saveFile = (req, res) ->
 
 savePNG = (req, res) ->
   options = createPostOptions(req)
-  force = req.user.isAdmin() and req.body.force
-  checkExistence options, res, force, (err) ->
-    return errors.serverError(res) if err
+  checkExistence options, req, res, req.body.force, (err) ->
+    return if err
     writestream = Grid.gfs.createWriteStream(options)
     img = new Buffer(req.body.b64png, 'base64')
     streamBuffers = require 'stream-buffers'
@@ -113,21 +110,32 @@ savePNG = (req, res) ->
     myReadableStreamBuffer.put(img)
     myReadableStreamBuffer.pipe(writestream)
     handleStreamEnd(res, writestream)
+    
+userCanEditFile = (user=null, file=null) ->
+  # no user means 'anyone'. No file means 'any file'
+  return false unless user
+  return true if user.isAdmin()
+  return false unless file
+  return true if file.metadata.creator is user.id
+  return false
 
-checkExistence = (options, res, force, done) ->
+checkExistence = (options, req, res, force, done) ->
   q = {
     filename: options.filename
     'metadata.path': options.metadata.path
   }
   Grid.gfs.collection('media').find(q).toArray (err, files) ->
-    if files.length and not force
-      errors.conflict(res)
+    file = files[0]
+    if file and ((not userCanEditFile(req.user, file) or (not force)))
+      errors.conflict(res, {canForce:userCanEditFile(req.user, file)})
       done(true)
-    else if files.length
-      q = { _id: files[0]._id }
+    else if file
+      q = { _id: file._id }
       q.root = 'media'
       Grid.gfs.remove q, (err) ->
-        return errors.serverError(res) if err
+        if err
+          errors.serverError(res)
+          return done(true)
         done()
     else
       done()
