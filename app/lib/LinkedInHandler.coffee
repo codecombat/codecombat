@@ -20,6 +20,7 @@ module.exports = LinkedInHandler = class LinkedInHandler extends CocoClass
     
   cacheProfileInformation: (profiles) =>
     @linkedInData = profiles.values[0]
+    me.set("linkedIn", @linkedInData)
     console.log "LinkedIn data is #{@linkedInData}"
     
     
