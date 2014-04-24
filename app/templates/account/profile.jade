@@ -62,7 +62,7 @@ block content
               div.long-description!= marked(profile.longDescription)
   
             if profile.work.length
-              h3.experience-header 
+              h3.experience-header
                 img.header-icon(src="/images/pages/account/profile/work.png", alt="")
                 span(data-i18n="account_profile.work_experience") Work Experience
               each job in profile.work
@@ -103,7 +103,8 @@ block content
                 each project in profile.projects
                   if project.name
                     li
-                      a(href=project.link)
+                      if project.link && project.link.length && project.link != 'http://example.com'
+                        a(href=project.link)
                       if project.picture
                         .project-image(style="background-image: url('/file/" + project.picture + "')")
                       p= project.name
