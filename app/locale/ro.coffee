@@ -204,6 +204,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    candidate_top_skills: "Top Skills"
 #    candidate_years_experience: "Yrs Exp"
 #    candidate_last_updated: "Last Updated"
+#    candidate_approved: "Us?"
+#    candidate_active: "Them?"
 
   play_level:
     level_load_error: "Nivelul nu a putut fi încărcat: "
@@ -370,10 +372,12 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     new_article_title: "Crează un articol nou"
     new_thang_title: "Crează un nou tip de Thang"
     new_level_title: "Crează un nivel nou"
+#    new_article_title_signup: "Sign Up to Create a New Article"
+#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
+#    new_level_title_signup: "Sign Up to Create a New Level"
     article_search_title: "Caută articole aici"
     thang_search_title: "Caută tipuri de Thang aici"
     level_search_title: "Caută nivele aici"
-#    signup_to_create: "Sign Up to Create a New Content"
 #    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
