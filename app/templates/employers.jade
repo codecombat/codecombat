@@ -28,6 +28,7 @@ block content
           th(data-i18n="employers.candidate_last_updated") Last Updated
           if me.isAdmin()
             th ✓?
+            th ಥ_ಥ
   
       tbody
         for candidate, index in candidates
@@ -58,3 +59,7 @@ block content
                 td ✓
               else
                 td ✗
+              if profile.active
+                td ᶘ ᵒᴥᵒᶅ
+              else
+                td ⨂_⨂

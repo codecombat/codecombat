@@ -59,11 +59,11 @@ module.exports = class ProfileView extends View
 
   iconForLink: (link) ->
     icons = [
-      {icon: 'facebook', name: 'Facebook', domain: 'facebook.com', match: /facebook/i}
-      {icon: 'twitter', name: 'Twitter', domain: 'twitter.com', match: /twitter/i}
-      {icon: 'github', name: 'GitHub', domain: 'github.com', match: /github/i}
-      {icon: 'gplus', name: 'Google Plus', domain: 'plus.google.com', match: /(google|^g).?(\+|plus)/i}
-      {icon: 'linkedin', name: 'LinkedIn', domain: 'linkedin.com', match: /(google|^g).?(\+|plus)/i}
+      {icon: 'facebook', name: 'Facebook', domain: /facebook\.com/, match: /facebook/i}
+      {icon: 'twitter', name: 'Twitter', domain: /twitter\.com/, match: /twitter/i}
+      {icon: 'github', name: 'GitHub', domain: /github\.(com|io)/, match: /github/i}
+      {icon: 'gplus', name: 'Google Plus', domain: /plus\.google\.com/, match: /(google|^g).?(\+|plus)/i}
+      {icon: 'linkedin', name: 'LinkedIn', domain: /linkedin\.com/, match: /(google|^g).?(\+|plus)/i}
     ]
     for icon in icons
       if (link.name.search(icon.match) isnt -1) or (link.link.search(icon.domain) isnt -1)

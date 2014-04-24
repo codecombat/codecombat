@@ -235,9 +235,10 @@ UserHandler = class UserHandler extends Handler
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
-    query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
-    #query = {'jobProfile.updated': {$gt: since}}
+    #query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
+    query = {'jobProfile.updated': {$gt: since}}
     query.jobProfileApproved = true unless req.user.isAdmin()
+    query['jobProfile.active'] = true unless req.user.isAdmin()
     selection = 'jobProfile'
     selection += ' email' if authorized
     selection += ' jobProfileApproved' if req.user.isAdmin()
@@ -251,7 +252,7 @@ UserHandler = class UserHandler extends Handler
     fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile']
     obj = _.pick document.toObject(), fields
     obj.photoURL ||= obj.jobProfile.photoURL if authorized
-    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated']
+    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active']
     if authorized
       subfields = subfields.concat ['name']
     obj.jobProfile = _.pick obj.jobProfile, subfields

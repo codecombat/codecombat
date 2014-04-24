@@ -71,7 +71,7 @@ module.exports = class TomeView extends View
       @cast()
       console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
     delete @options.thangs
-    
+
   onNewWorld: (e) ->
     thangs = _.filter e.world.thangs, 'isSelectable'
     programmableThangs = _.filter thangs, 'isProgrammable'
@@ -120,7 +120,7 @@ module.exports = class TomeView extends View
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
           skipProtectAPI = @getQueryVariable "skip_protect_api", not @options.ladderGame
-          skipFlow = @getQueryVariable "skip_flow", @options.levelID is 'brawlwood' or @options.levelID is 'resource-gathering-multiplayer'
+          skipFlow = @getQueryVariable "skip_flow", (@options.levelID in ['brawlwood', 'greed', 'gold-rush'])
           spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI, worker: @worker
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID

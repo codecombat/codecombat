@@ -15,6 +15,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     fork: "Fork"
     play: "Joacă"
 #    retry: "Retry"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
   units:
     second: "secundă"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
+#    account: "Account"
     admin: "Admin"
     home: "Acasa"
     contribute: "Contribuie"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Modifică setările"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     lg_title: "Ultimele jocuri"
     clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "Editori CodeCombat"
     main_description: "Construiește propriile nivele, campanii, unități și conținut educațional. Noi îți furnizăm toate uneltele necesare!"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     thang_description: "Construiește unități, definește logica lor, grafica și sunetul. Momentan suportă numai importare de grafică vectorială exportată din Flash."
     level_title: "Editor Nivele"
     level_description: "Include uneltele pentru scriptare, upload audio, și construcție de logică costum pentru toate tipurile de nivele.Tot ce folosim noi înșine!"
-    security_notice: "Multe setări majore de securitate în aceste editoare nu sunt momentan disponibile.Pe măsură ce îmbunătățim securitatea acestor sisteme, ele vor deveni disponibile. Dacă doriți să folosiți aceste setări mai devrme, "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "contactați-ne!"
     hipchat_prefix: "Ne puteți de asemenea găsi la"
     hipchat_url: "HipChat."

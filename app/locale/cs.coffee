@@ -15,6 +15,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     fork: "Klonovat"
     play: "Přehrát"
 #    retry: "Retry"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
 #  units:
 #    second: "second"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     editor: "Editor"
     blog: "Blog"
     forum: "Fórum"
+#    account: "Account"
     admin: "Admin"
     home: "Domů"
     contribute: "Přispívat"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Editovat Nastavení"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     lg_title: "Poslední hry"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "Editory CodeCombatu"
     main_description: "Vytvořte vlastní úrovně, kampaně, jednotky a vzdělávací obsah. My vám poskytujeme všechny potřebné nástroje!"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     thang_description: "Vytvořte jednotky, definujte jejich logiku, vlastnosti, grafiku a zvuk. Momentálně jsou podporovány pouze importy vektorové grafiky exportované z Flashe."
     level_title: "Editor úrovní"
     level_description: "Zahrnuje pomůcky pro skriptování, nahrávání audia a tvorbu vlastní logiky pro vytvoření vlastních úrovní. Obsahuje vše, čeho využíváme k tvorbě úrovní my!"
-    security_notice: "Velké množství důležitých funkcí těchto editorů je standardně vypnuto. Jak postupem času vylepšujeme bezpečnost celého systému, jsou tyto funkce uvolňovány k veřejnému použití. Potřebujete-li některé funkce dříve, "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "kontaktujte nás!"
     hipchat_prefix: "Můžete nás také najít v naší"
     hipchat_url: "HipChat diskusní místnosti."

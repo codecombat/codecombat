@@ -15,6 +15,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     fork: "Forgren"
     play: "Spil"
 #    retry: "Retry"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
 #  units:
 #    second: "second"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
+#    account: "Account"
     admin: "Admin"
     home: "Hjem"
     contribute: "Bidrag"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Redigér Indstillinger"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     lg_title: "Seneste spil"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
 #    main_title: "CodeCombat Editors"
 #    main_description: "Build your own levels, campaigns, units and educational content. We provide all the tools you need!"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    thang_description: "Build units, defining their default logic, graphics and audio. Currently only supports importing Flash exported vector graphics."
     level_title: "Bane Redigeringsværktøj"
 #    level_description: "Includes the tools for scripting, uploading audio, and constructing custom logic to create all sorts of levels. Everything we use ourselves!"
-#    security_notice: "Many major features in these editors are not currently enabled by default. As we improve the security of these systems, they will be made generally available. If you'd like to use these features sooner, "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "kontact os!"
     hipchat_prefix: "Du kan også finde os på vores"
     hipchat_url: "HipChat kanal."

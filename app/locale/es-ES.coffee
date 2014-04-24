@@ -15,6 +15,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     fork: "Bifurcar"
     play: "Jugar"
     retry: "Reintentar"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
   units:
     second: "segundo"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     editor: "Editor"
     blog: "Blog"
     forum: "Foro"
+#    account: "Account"
     admin: "Admin"
     home: "Inicio"
     contribute: "Colaborar"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     job_profile: "Perfil de trabajo"
     job_profile_approved: "Tu perfil de trabajo ha sido aprobado por CodeCombat. Los empleadores podrán verlo hasta que lo marques como inactivo o no haya sido cambiado durante cuatro semanas."
     job_profile_explanation: "¡Hola! Rellena esto y estaremos en contacto para hablar sobre encontrarte un trabajo como desarrollador de software."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Ajustes"
@@ -184,7 +190,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     education: "Educación"
     our_notes: "Nuestras notas"
     projects: "Proyectos"
-
 
   employers:
     want_to_hire_our_players: "¿Quieres contratar jugadores expertos de CodeCombat?"
@@ -307,6 +312,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     lg_title: "Últimos Juegos"
     clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "Editores de CodeCombat"
     main_description: "Construye tus propios niveles, campañas, unidades y contenido educativo. ¡Nosotros te ofrecemos todas las herramientas que necesitas!"
@@ -316,7 +328,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     thang_description: "Construye unidades, su lógica predeterminada, gráficos y audio. Actualmente sólo se permite importar gráficos vectoriales exportados de Flash."
     level_title: "Editor de Niveles"
     level_description: "Incluye las herramientas para escribir scripts, subir audio, y construir una lógica personalidad con la que crear todo tipo de niveles. ¡Todo lo que usamos nosotros!"
-    security_notice: "Muchas de las funciones principales de estos editores no están habilitadas todavía por defecto. A medida que mejoremos la seguridad de los sistemas, se irán poniendo a disposición de todos. Si quieres utilizar estas funciones antes, "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "¡Contacta con nosotros!"
     hipchat_prefix: "También puedes encontrarnos en nuestra"
     hipchat_url: "sala de HipChat."
