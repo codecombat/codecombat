@@ -204,6 +204,8 @@
     candidate_top_skills: "Top Skills"
     candidate_years_experience: "Yrs Exp"
     candidate_last_updated: "Last Updated"
+    candidate_approved: "Us?"
+    candidate_active: "Them?"
 
   play_level:
     level_load_error: "Level could not be loaded: "
