@@ -1,5 +1,5 @@
 PatchModel = require 'models/Patch'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 
 module.exports = class PatchesCollection extends CocoCollection
   model: PatchModel

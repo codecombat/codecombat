@@ -1,4 +1,4 @@
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 
 module.exports = class ModelFiles extends CocoCollection
   constructor: (model) ->

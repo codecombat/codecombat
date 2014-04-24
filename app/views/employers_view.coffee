@@ -2,7 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/employers'
 app = require 'application'
 User = require 'models/User'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 EmployerSignupView = require 'views/modal/employer_signup_modal'
 
 class CandidatesCollection extends CocoCollection
