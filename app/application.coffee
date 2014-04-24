@@ -5,6 +5,8 @@ locale = require 'locale/locale'
 Tracker = require 'lib/Tracker'
 CocoView = require 'views/kinds/CocoView'
 
+marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
+
 # Prevent Ctrl/Cmd + [ / ], P, S
 ctrlDefaultPrevented = [219, 221, 80, 83]
 preventBackspace = (event) ->

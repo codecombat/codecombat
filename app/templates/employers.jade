@@ -27,8 +27,8 @@ block content
           th(data-i18n="employers.candidate_years_experience") Yrs Exp
           th(data-i18n="employers.candidate_last_updated") Last Updated
           if me.isAdmin()
-            th Us?
-            th Them?
+            th(data-i18n="employers.candidate_us") Us?
+            th(data-i18n="employers.candidate_them") Them?
   
       tbody
         for candidate, index in candidates
