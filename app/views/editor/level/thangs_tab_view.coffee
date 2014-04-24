@@ -116,7 +116,7 @@ module.exports = class ThangsTabView extends View
     thangsHeaderHeight = $('#thangs-header').height()
     oldHeight = $('#thangs-list').height()
     if $(document).width() < 1050
-      $('#thangs-list').height(oldHeight - thangsHeaderHeight - 30)
+      $('#thangs-list').height(oldHeight - thangsHeaderHeight - 40)
     else
       $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
       
