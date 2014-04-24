@@ -332,7 +332,7 @@ module.exports = class Handler
     res = tv4.validateMultiple(input, @jsonSchema)
     res
 
-  @isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-z0-9]/gi)?.length is 24
+  @isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
 
   getDocumentForIdOrSlug: (idOrSlug, done) ->
     idOrSlug = idOrSlug+''

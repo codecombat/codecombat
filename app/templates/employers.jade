@@ -27,8 +27,8 @@ block content
           th(data-i18n="employers.candidate_years_experience") Yrs Exp
           th(data-i18n="employers.candidate_last_updated") Last Updated
           if me.isAdmin()
-            th ✓?
-            th ಥ_ಥ
+            th Us?
+            th Them?
   
       tbody
         for candidate, index in candidates
@@ -53,13 +53,13 @@ block content
                 code= skill
                 span  
             td= profile.experience
-            td= moment(profile.updated).fromNow()
+            td(data-profile-age=(new Date() - new Date(profile.updated)) / 86400 / 1000)= moment(profile.updated).fromNow()
             if me.isAdmin()
               if candidate.get('jobProfileApproved')
                 td ✓
               else
                 td ✗
               if profile.active
-                td ᶘ ᵒᴥᵒᶅ
+                td ✓
               else
-                td ⨂_⨂
+                td ✗
