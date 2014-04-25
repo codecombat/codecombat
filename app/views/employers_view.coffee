@@ -2,6 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/employers'
 app = require 'application'
 User = require 'models/User'
+{me} = require 'lib/auth'
 CocoCollection = require 'collections/CocoCollection'
 EmployerSignupView = require 'views/modal/employer_signup_modal'
 
@@ -27,6 +28,9 @@ module.exports = class EmployersView extends View
   getRenderData: ->
     c = super()
     c.candidates = @candidates.models
+    userPermissions = me.get('permissions') || []
+
+    c.isEmployer = _.contains userPermissions, "employer"
     c.moment = moment
     c
 
