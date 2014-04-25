@@ -10,27 +10,27 @@ module.exports = class EmployerSignupView extends View
   template: template
   closeButton: true
 
-  
+
   subscriptions:
     "server-error": "onServerError"
     "created-user-without-reload": "linkedInAuth"
-    
+
   events:
     "click #contract-agreement-button": "agreeToContract"
-    
-  
+
+
   constructor: (options) ->
     super(options)
     @authorizedWithLinkedIn = IN?.User?.isAuthorized()
     window.tracker?.trackEvent 'Started Employer Signup'
     @reloadWhenClosed = false
-    window.contractCallback = =>  
+    window.contractCallback = =>
       @authorizedWithLinkedIn = IN?.User?.isAuthorized()
       @render()
-      
-  onServerError: (e) -> 
+
+  onServerError: (e) ->
     @disableModalInProgress(@$el)
-  
+
   afterInsert: ->
     super()
     linkedInButtonParentElement = document.getElementById("linkedInAuthButton")?.parentNode
@@ -38,16 +38,14 @@ module.exports = class EmployerSignupView extends View
       IN.parse()
       if me.get('anonymous')
         $(".IN-widget").get(0).addEventListener('click', @createAccount, true)
-        console.log "Parsed linkedin button element!"
-        console.log linkedInButtonParentElement
-  
+
   getRenderData: ->
     context = super()
     context.userIsAuthorized = @authorizedWithLinkedIn
     context.userHasSignedContract = "employer" in me.get("permissions")
     context.userIsAnonymous = context.me.get('anonymous')
     context
-    
+
   agreeToContract: ->
     application.linkedinHandler.constructEmployerAgreementObject (err, profileData) =>
       if err? then return handleAgreementFailure err
@@ -57,54 +55,37 @@ module.exports = class EmployerSignupView extends View
         type: "POST"
         success: @handleAgreementSuccess
         error: @handleAgreementFailure
-        
+
   handleAgreementSuccess: (result) ->
     window.tracker?.trackEvent 'Employer Agreed to Contract'
     me.fetch()
     window.location.reload()
-    
+
   handleAgreementFailure: (error) ->
     alert "There was an error signing the contract. Please contact team@codecombat.com with this error: #{error.responseText}"
-    
+
   createAccount: (e) =>
     window.tracker?.trackEvent 'Finished Employer Signup'
-    console.log "Tried to create account!"
     e.stopPropagation()
     forms.clearFormAlerts(@$el)
     userObject = forms.formToObject @$el
     delete userObject.subscribe
     for key, val of me.attributes when key in ["preferredLanguage", "testGroupNumber", "dateCreated", "wizardColor1", "name", "music", "volume", "emails"]
       userObject[key] ?= val
-    subscribe = true
-    #TODO: Enable all email subscriptions
-    
     userObject.emails ?= {}
-    userObject.emails.generalNews ?= {}
-    userObject.emails.generalNews.enabled = subscribe
+    userObject.emails.employerNotes = {enabled: true}
     res = tv4.validateMultiple userObject, User.schema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
-    window.tracker?.trackEvent 'Finished Signup'
     @enableModalInProgress(@$el)
     auth.createUserWithoutReload userObject, null
-    console.log "Authorizing with linkedin"
-    IN.User.authorize(@recordUserDetails, @)
-    
-  linkedInAuth: (e) =>
+    IN.User.authorize @render, @
+
+  linkedInAuth: (e) ->
     me.fetch()
     @reloadWhenClosed = true
-    
-    
-  recordUserDetails: (e) =>
-    #TODO: refactor this out
-    @render()
-    
+
   destroy: ->
     reloadWhenClosed = @reloadWhenClosed
     super()
     if reloadWhenClosed
       window.location.reload()
-    
-    
-
-    
- 

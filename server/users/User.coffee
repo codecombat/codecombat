@@ -29,7 +29,7 @@ UserSchema.post('init', ->
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
-  
+
 emailNameMap =
   generalNews: 'announcement'
   adventurerNews: 'tester'
@@ -39,20 +39,20 @@ emailNameMap =
   diplomatNews: 'translator'
   ambassadorNews: 'support'
   anyNotes: 'notification'
-  
+
 UserSchema.methods.setEmailSubscription = (newName, enabled) ->
   oldSubs = _.clone @get('emailSubscriptions')
   if oldSubs and oldName = emailNameMap[newName]
     oldSubs = (s for s in oldSubs when s isnt oldName)
     oldSubs.push(oldName) if enabled
     @set('emailSubscriptions', oldSubs)
-  
+
   newSubs = _.clone(@get('emails') or _.cloneDeep(jsonschema.properties.emails.default))
   newSubs[newName] ?= {}
   newSubs[newName].enabled = enabled
   @set('emails', newSubs)
   @newsSubsChanged = true if newName in mail.NEWS_GROUPS
-  
+
 UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   emails = @get 'emails'
   if not emails
@@ -74,10 +74,10 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
   newGroups = []
   for [mailchimpEmailGroup, emailGroup] in _.zip(mail.MAILCHIMP_GROUPS, mail.NEWS_GROUPS)
     newGroups.push(mailchimpEmailGroup) if doc.isEmailSubscriptionEnabled(emailGroup)
-  
+
   if (not existingProps) and newGroups.length is 0
     return callback?() # don't add totally unsubscribed people to the list
-  
+
   params = {}
   params.id = mail.MAILCHIMP_LIST_ID
   params.email = if existingProps then {leid:existingProps.leid} else {email:doc.get('email')}
@@ -113,7 +113,7 @@ UserSchema.pre('save', (next) ->
       recipient:
         address: @get 'email'
     sendwithus.api.send data, (err, result) ->
-      log.error 'error', err, 'result', result if err
+      log.error "sendwithus post-save error: #{err}, result: #{result}" if err
   next()
 )
 
