@@ -14,7 +14,7 @@ LevelSessionHandler = require '../levels/sessions/level_session_handler'
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
   'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
-  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt'
+  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement'
 ]
 candidateProperties = [
   'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
@@ -182,6 +182,7 @@ UserHandler = class UserHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
+    return @agreeToEmployerAgreement(req,res) if args[1] is 'agreeToEmployerAgreement'
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
@@ -231,7 +232,31 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError(res, err) if err
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
-
+  agreeToEmployerAgreement: (req, res) ->
+    userIsAnonymous = req.user?.get('anonymous')
+    if userIsAnonymous then return errors.unauthorized(res, "You need to be logged in to agree to the employer agreeement.")
+    profileData = req.body
+    #TODO: refactor this bit to make it more elegant
+    if not profileData.id or not profileData.positions or not profileData.emailAddress or not profileData.firstName or not profileData.lastName
+      return errors.badInput(res, "You need to have a more complete profile to sign up for this service.")
+    @modelClass.findById(req.user.id).exec (err, user) =>
+      if user.get('employerAt') or user.get('signedEmployerAgreement') or "employer" in user.get('permissions')
+        return errors.conflict(res, "You already have signed the agreement!")
+      #TODO: Search for the current position
+      employerAt = _.filter(profileData.positions.values,"isCurrent")[0]?.company.name ? "Not available"
+      signedEmployerAgreement = 
+        linkedinID: profileData.id
+        date: new Date()
+        data: profileData
+      updateObject = 
+        "employerAt": employerAt
+        "signedEmployerAgreement": signedEmployerAgreement
+        $push: "permissions":'employer'
+        
+      User.update {"_id": req.user.id}, updateObject, (err, result) =>
+        if err? then return errors.serverError(res, "There was an issue updating the user object to reflect employer status: #{err}")
+        res.send({"message": "The agreement was successful."})
+        res.end()
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()

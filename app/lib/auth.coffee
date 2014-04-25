@@ -19,6 +19,14 @@ module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) 
     error: failure,
     success: -> if nextURL then window.location.href = nextURL else window.location.reload()
   })
+  
+module.exports.createUserWithoutReload = (userObject, failure=backboneFailure) ->
+  user = new User(userObject)
+  user.save({}, {
+    error: failure
+    success: -> 
+      Backbone.Mediator.publish("created-user-without-reload")
+  })
 
 module.exports.loginUser = (userObject, failure=genericFailure) ->
   jqxhr = $.post('/auth/login',

@@ -53,7 +53,7 @@ UserSchema = c.object {},
 
   #Internationalization stuff
   preferredLanguage: {type: 'string', default: 'en', 'enum': c.getLanguageCodeArray()}
-
+  
   signedCLA: c.date({title: 'Date Signed the CLA'})
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
@@ -109,6 +109,11 @@ UserSchema = c.object {},
   jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
   jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: "CodeCombat's notes on the candidate.", format: 'markdown', default: ''}
   employerAt: c.shortString {description: "If given employer permissions to view job candidates, for which employer?"}
+  signedEmployerAgreement: c.object {},
+    linkedinID: c.shortString {title:"LinkedInID", description: "The user's LinkedIn ID when they signed the contract."}
+    date: c.date {title: "Date signed employer agreement"}
+    data: c.object
+    
 
 c.extendBasicProperties UserSchema, 'user'
 
