@@ -72,6 +72,7 @@ module.exports = class EmployerSignupView extends View
     delete userObject.subscribe
     for key, val of me.attributes when key in ["preferredLanguage", "testGroupNumber", "dateCreated", "wizardColor1", "name", "music", "volume", "emails"]
       userObject[key] ?= val
+    userObject.emails ?= {}
     userObject.emails.employerNotes = {enabled: true}
     res = tv4.validateMultiple userObject, User.schema
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
