@@ -54,7 +54,21 @@ module.exports = class EmployerSignupView extends View
     context
     
   agreeToContract: ->
-
+    application.linkedinHandler.constructEmployerAgreementObject (err, profileData) =>
+      if err? then return handleAgreementFailure err
+      $.ajax
+        url: "/db/user/#{me.id}/agreeToEmployerAgreement"
+        data: profileData
+        type: "POST"
+        success: @handleAgreementSuccess
+        error: @handleAgreementFailure
+        
+  handleAgreementSuccess: (result) ->
+    me.fetch()
+    window.location.reload()
+    
+  handleAgreementFailure: (error) ->
+    
   createAccount: (e) =>
     console.log "Tried to create account!"
     e.stopPropagation()
@@ -84,7 +98,7 @@ module.exports = class EmployerSignupView extends View
     
     
   recordUserDetails: (e) =>
-    console.log "Record user details here!"
+    #TODO: refactor this out
     @render()
     
   destroy: ->

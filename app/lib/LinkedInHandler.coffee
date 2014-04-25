@@ -23,6 +23,13 @@ module.exports = LinkedInHandler = class LinkedInHandler extends CocoClass
     me.set("linkedIn", @linkedInData)
     console.log "LinkedIn data is #{@linkedInData}"
     
+  constructEmployerAgreementObject: (cb) =>
+    IN.API.Profile("me")
+    .fields(["positions","public-profile-url","id","first-name","last-name","email-address"])
+    .error(cb)
+    .result (profiles) =>
+      cb null, profiles.values[0]
+      
     
   destroy: ->
     super()
