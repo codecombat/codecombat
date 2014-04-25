@@ -22,16 +22,13 @@ module.exports = class EmployerSignupView extends View
   constructor: (options) ->
     super(options)
     @authorizedWithLinkedIn = IN?.User?.isAuthorized()
-    #TODO: If IN.User.logout is called after authorizing, then the modal is reopened
-    # and the user reauths, there will be a javascript error due to the 
-    # contract callback context not finding @render
-    #window.tracker?.trackEvent 'Started Employer Signup'
+    window.tracker?.trackEvent 'Started Employer Signup'
     @reloadWhenClosed = false
     window.contractCallback = =>  
       @authorizedWithLinkedIn = IN?.User?.isAuthorized()
       @render()
       
-  onServerError: (e) -> # TODO: work error handling into a separate forms system
+  onServerError: (e) -> 
     @disableModalInProgress(@$el)
   
   afterInsert: ->
@@ -47,10 +44,8 @@ module.exports = class EmployerSignupView extends View
   getRenderData: ->
     context = super()
     context.userIsAuthorized = @authorizedWithLinkedIn
-    context.userHasSignedContract = false
+    context.userHasSignedContract = "employer" in me.get("permissions")
     context.userIsAnonymous = context.me.get('anonymous')
-    if @authorizedWithLinkedIn
-      context.firstName = application.linkedinHandler.linkedInData.firstName
     context
     
   agreeToContract: ->
@@ -64,12 +59,15 @@ module.exports = class EmployerSignupView extends View
         error: @handleAgreementFailure
         
   handleAgreementSuccess: (result) ->
+    window.tracker?.trackEvent 'Employer Agreed to Contract'
     me.fetch()
     window.location.reload()
     
   handleAgreementFailure: (error) ->
+    alert "There was an error signing the contract. Please contact support with this error: #{error}"
     
   createAccount: (e) =>
+    window.tracker?.trackEvent 'Finished Employer Signup'
     console.log "Tried to create account!"
     e.stopPropagation()
     forms.clearFormAlerts(@$el)

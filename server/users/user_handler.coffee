@@ -243,7 +243,7 @@ UserHandler = class UserHandler extends Handler
       if user.get('employerAt') or user.get('signedEmployerAgreement') or "employer" in user.get('permissions')
         return errors.conflict(res, "You already have signed the agreement!")
       #TODO: Search for the current position
-      employerAt = profileData.positions.values[0].company.name
+      employerAt = _.filter(profileData.positions.values,"isCurrent")[0]?.company.name ? "Not available"
       signedEmployerAgreement = 
         linkedinID: profileData.id
         date: new Date()
