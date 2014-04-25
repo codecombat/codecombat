@@ -4,6 +4,7 @@ Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
 World = require 'lib/world/world'
 DocumentFiles = require 'collections/DocumentFiles'
+LevelLoader = require 'lib/LevelLoader'
 
 ThangsTabView = require './thangs_tab_view'
 SettingsTabView = require './settings_tab_view'
@@ -35,40 +36,15 @@ module.exports = class EditorLevelView extends View
     
   constructor: (options, @levelID) ->
     super options
-    @listenToOnce(@supermodel, 'loaded-all', @onAllLoaded)
-
-    # load only the level itself and the one it points to, but no others
-    # TODO: this is duplicated in views/play/level_view.coffee; need cleaner method
-    @supermodel.shouldPopulate = (model) ->
-      @levelsLoaded ?= 0
-      @levelsLoaded += 1 if model.constructor.className is "Level"
-      return false if @levelsLoaded > 1
-      return true
-
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true
+    @level = @levelLoader.level
     @supermodel.shouldSaveBackups = (model) ->
       model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
-
-    @worldRes = @supermodel.addSomethingResource('world')
-
-    @level = new Level _id: @levelID
-    #@listenToOnce(@level, 'sync', @onLevelLoaded)
-    @listenToOnce(@supermodel, 'error', =>
-      @hideLoading()
-      @insertSubView(new ErrorView())
-    )
-
-    @levelRes = @supermodel.addModelResource(@level, 'level')
-    @listenToOnce(@levelRes, 'loaded', ->
-      @world = new World @level.name
-      @worldRes.markLoaded()
-    )
-    @levelRes.load()
-
-    @files = new DocumentFiles(@level)
-    @supermodel.addModelResource(@files, 'level_document').load()   
+    @files = new DocumentFiles(@levelLoader.level)
+    @supermodel.addModelResource(@files, 'file_names').load()
 
   showLoading: ($el) ->
-    $el ?= @$el.find('.tab-content')
+    $el ?= @$el.find('.outer-content')
     super($el)
 
   getRenderData: (context={}) ->
@@ -78,15 +54,18 @@ module.exports = class EditorLevelView extends View
     context.anonymous = me.get('anonymous')
     context
 
-  onLoaded: -> @render()
+  onLoaded: ->
+    _.defer =>
+      @world = @levelLoader.world
+      @render()
+    
   afterRender: ->
     super()
-    return unless @world and @level
-    # console.debug 'gintau', 'edit-afterRender'
+    return unless @supermodel.finished()
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'level:view-switched', e
     @thangsTab = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel
-    @settingsTab = @insertSubView new SettingsTabView world: @world, supermodel: @supermodel
+    @settingsTab = @insertSubView new SettingsTabView supermodel: @supermodel
     @scriptsTab = @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @componentsTab = @insertSubView new ComponentsTabView supermodel: @supermodel
     @systemsTab = @insertSubView new SystemsTabView supermodel: @supermodel

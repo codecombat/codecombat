@@ -8,6 +8,9 @@ module.exports = class SuperModel extends Backbone.Model
 
     @models = {}
     @collections = {}
+
+  # replace or overwrite
+  shouldSaveBackups: (model) -> false
     
   # Caching logic
 
@@ -61,6 +64,7 @@ module.exports = class SuperModel extends Backbone.Model
     return @progress is 1.0 or Object.keys(@resources).length is 0
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
+    modelOrCollection.saveBackups = @shouldSaveBackups()
     @checkName(name)
     @registerModel(modelOrCollection)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)

@@ -20,7 +20,6 @@ module.exports = class SettingsTabView extends View
 
   constructor: (options) ->
     super options
-    @world = options.world
 
   onLoaded: ->
   onLevelLoaded: (e) ->
