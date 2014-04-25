@@ -97,6 +97,7 @@ module.exports = class PlayLevelView extends View
       application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID
 
   onLevelLoadError: (e) ->
+    # TODO NOW: remove this in favor of the supermodel handling it
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
@@ -110,8 +111,7 @@ module.exports = class PlayLevelView extends View
   load: ->
     @loadStartTime = new Date()
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
-    @listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
-    @listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged)
+#    @listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged) # TODO NOW: transfer to supermodel system
     @god = new God()
 
   getRenderData: ->
@@ -123,7 +123,6 @@ module.exports = class PlayLevelView extends View
       c.explainHourOfCode = elapsed < 86400 * 1000
     c
 
-  onLoaded: ->
   afterRender: ->
     super()
     window.onPlayLevelViewLoaded? @  # still a hack
@@ -151,7 +150,10 @@ module.exports = class PlayLevelView extends View
     Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
     return true
 
-  onLevelLoaderLoaded: ->
+  onLoaded: ->
+    _.defer => @onLevelLoaded()
+
+  onLevelLoaded: ->
     console.debug 'level_view', 'onLevelLoaderLoaded',  @levelLoader.progress()
 
     return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
@@ -378,6 +380,7 @@ module.exports = class PlayLevelView extends View
       .css('top', target_top - 50)
       .css('left', target_left - 50)
     setTimeout(()=>
+      return if @destroyed
       @animatePointer()
       clearInterval(@pointerInterval)
       @pointerInterval = setInterval(@animatePointer, 1200)

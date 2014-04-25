@@ -37,13 +37,13 @@ module.exports = class SystemsTabView extends View
 
       do (url) -> ls.url = -> url
       continue if @supermodel.getModelByURL ls.url
-      @listenToOnce(lsRes, 'resource:loaded', @onSystemLoaded)
+      @listenToOnce(lsRes, 'loaded', @onSystemLoaded)
       ++@toLoad
     @onDefaultSystemsLoaded() unless @toLoad
 
   onSystemLoaded: (lsRes) ->
     ls = lsRes.model
-    @supermodel.addModel(ls)
+    @supermodel.registerModel(ls)
     --@toLoad
     @onDefaultSystemsLoaded() unless @toLoad
 

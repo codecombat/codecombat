@@ -44,8 +44,8 @@ module.exports = class CocoView extends Backbone.View
     # Backbone.Mediator handles subscription setup/teardown automatically
 
     @listenToOnce(@supermodel, 'loaded-all', @onLoaded)
-    @listenTo(@supermodel, 'superModel:updateProgress', @updateProgress)
-    @listenTo(@supermodel, 'resource:failed', @onResourceLoadFailed)
+    @listenTo(@supermodel, 'update-progress', @updateProgress)
+    @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
 
     super options
 

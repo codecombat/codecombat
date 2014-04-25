@@ -2,58 +2,14 @@ module.exports = class SuperModel extends Backbone.Model
   constructor: ->
     @num = 0
     @denom = 0
-    @showing = false
     @progress = 0
     @resources = {}
     @rid = 0
 
     @models = {}
     @collections = {}
-    @schemas = {}
-
-    # setInterval(@checkModelStatus, 5000)
-
-  # For debugging
-  checkModelStatus: =>
-    for key, res of @resources
-      continue if res.isLoaded
-      console.debug 'resource ' + res.name + ' is still loading'
-
-  populateModel: (model, resName) ->
-    @mustPopulate = model
-    model.saveBackups = @shouldSaveBackups(model)
-
-    @addModel(model)
-    @modelLoaded(model) if model.loaded
-
-    resName = model.url unless resName
-    modelRes = @addModelResource(model, model.url)
-
-    schema = model.schema()
-    @schemas[schema.urlRoot] = schema
-
-    modelRes.load()
-    return modelRes
-
-  # replace or overwrite
-  shouldLoadReference: (model) -> true
-  shouldLoadProjection: (model) -> false
-  shouldPopulate: (url) -> true
-  shouldSaveBackups: (model) -> false
-
-  modelErrored: (model) ->
-    @trigger 'error'
-    @removeEventsFromModel(model)
-
-  modelLoaded: (model) ->    
-    @trigger 'loaded-one', model: model
-    @removeEventsFromModel(model)
-
-  removeEventsFromModel: (model) ->
-    # "Request" resource may have no off()
-    # "Something" resource may have no model.
-    model?.off? 'sync', @modelLoaded, @
-    model?.off? 'error', @modelErrored, @
+    
+  # Caching logic
 
   getModel: (ModelClass_or_url, id) ->
     return @getModelByURL(ModelClass_or_url) if _.isString(ModelClass_or_url)
@@ -74,7 +30,7 @@ module.exports = class SuperModel extends Backbone.Model
     return (m for key, m of @models when m.constructor.className is ModelClass.className) if ModelClass
     return _.values @models
 
-  addModel: (model) ->
+  registerModel: (model) ->
     url = model.url
     @models[url] = model
 
@@ -96,15 +52,17 @@ module.exports = class SuperModel extends Backbone.Model
       if cachedModel
         collection.models[i] = cachedModel
       else
-        @addModel(model)
+        @registerModel(model)
     collection
+    
+  # New, loading tracking stuff
 
   finished: ->
     return @progress is 1.0 or Object.keys(@resources).length is 0
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
     @checkName(name)
-    @addModel(modelOrCollection)
+    @registerModel(modelOrCollection)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)
     @storeResource(res, value)
     return res
@@ -129,88 +87,58 @@ module.exports = class SuperModel extends Backbone.Model
     @rid++
     resource.rid = @rid
     @resources[@rid] = resource
-    @listenToOnce(resource, 'resource:loaded', @onResourceLoaded)
-    @listenTo(resource, 'resource:failed', @onResourceFailed)
+    @listenToOnce(resource, 'loaded', @onResourceLoaded)
+    @listenTo(resource, 'failed', @onResourceFailed)
     @denom += value
 
-  loadResources: ->
-    for rid, res of @resources
-      res.load()
-
   onResourceLoaded: (r) ->
-    @modelLoaded(r.model)
-    # Check if the model has references
-    if r.constructor.name is 'ModelResource'
-      model = r.model
-      @addModelRefencesToLoad(model)
-      @updateProgress(r)
-    else
-      @updateProgress(r)
+    @num += r.value
+    _.defer @updateProgress
 
   onResourceFailed: (source) ->
-    @trigger('resource:failed', source)
-    @modelErrored(source.resource.model)
+    @trigger('failed', source)
 
-  addModelRefencesToLoad: (model) ->
-    schema = model.schema?()
-    return unless schema
-
-    refs = model.getReferencedModels(model.attributes, schema.attributes, '/', @shouldLoadProjection)
-    refs = [] unless @mustPopulate is model or @shouldPopulate(model)
-
-    for ref, i in refs when @shouldLoadReference ref
-      ref.saveBackups = @shouldSaveBackups(ref)
-      refURL = ref.url()
-
-      continue if @models[refURL]
-
-      @models[refURL] = ref
-      res = @addModelResource(ref, refURL)
-      res.load()
-
-  updateProgress: (r) =>     
-    @num += r.value
+  updateProgress: =>
+    # Because this is _.defer'd, this might end up getting called after 
+    # a bunch of things load all at once.
+    # So make sure we only emit events if @progress has changed.
+    return if @progress is @num / @denom
     @progress = @num / @denom
-
-    # console.debug 'gintau', 'supermodel-updateProgress', @progress, @num, @denom
-    @trigger('superModel:updateProgress', @progress)
+    @trigger('update-progress', @progress)
     @trigger('loaded-all') if @finished()
-
-  getResource: (rid)->
-    return @resources[rid]
 
   getProgress: -> return @progress
 
- 
+
+
 class Resource extends Backbone.Model
   constructor: (name, value=1) ->
     @name = name
     @value = value
-    @dependencies = []
     @rid = -1 # Used for checking state and reloading
     @isLoading = false
     @isLoaded = false
     @model = null
-    @loadDeferred = null
-
-  addDependency: (depRes) ->
-    return if depRes.isLoaded
-    @dependencies.push(depRes)
+    @jqxhr = null
 
   markLoaded: ->
-    # console.debug 'gintau', 'markLoaded', @
-    @trigger('resource:loaded', @) if not @isLoaded
+    return if @isLoaded
+    @trigger('loaded', @)
     @isLoaded = true
     @isLoading = false
 
-  markFailed: (error) ->
-    @trigger('resource:failed', {resource: @, error: error}) if not @isLoaded
+  markFailed: ->
+    return if @isLoaded
+    @trigger('failed', {resource: @})
+    @isLoaded = @isLoading = false
+    
+  markLoading: ->
     @isLoaded = false
-    @isLoading = false
+    @isLoading = true
 
-  load: ->
-  isReadyForLoad: -> return not (@isloaded and @isLoading)
-  getModel: -> @model
+  load: -> @
+
+
 
 class ModelResource extends Resource
   constructor: (modelOrCollection, name, fetchOptions, value)->
@@ -219,78 +147,29 @@ class ModelResource extends Resource
     @fetchOptions = fetchOptions
 
   load: ->
-    return @loadDeferred.promise() if @isLoading or @isLoaded
-
-    @isLoading = true
-    @loadDeferred = $.Deferred()
+    @markLoading()
     @fetchModel()
-
-    return @loadDeferred.promise()
+    @
 
   fetchModel: ->
-    @model.fetch(@fetchOptions)
-    
-    @listenToOnce(@model, 'sync', ->
-      @markLoaded()
-      @loadDeferred.resolve(@)
-    )
+    @jqxhr = @model.fetch(@fetchOptions) unless @model.loading
+    @listenToOnce @model, 'sync', -> @markLoaded()
+    @listenToOnce @model, 'error', -> @markFailed()
 
-    @listenToOnce(@model, 'error', ->
-      @markFailed('Failed to load resource.')
-      @loadDeferred.reject(@)
-    )
+
 
 class RequestResource extends Resource
   constructor: (name, jqxhrOptions, value) ->
     super(name, value)
-    @model = $.ajax(jqxhrOptions)
     @jqxhrOptions = jqxhrOptions
-    @loadDeferred = @model
 
   load: ->
-    return @loadDeferred.promise() if @isLoading or @isLoaded
+    @markLoading()
+    @jqxhr = $.ajax(jqxhrOptions)
+    @jqxhr.done @markLoaded()
+    @jqxhr.fail @markFailed()
+    @
 
-    @isLoading = true
-    $.when.apply($, @loadDependencies())
-      .then(@onLoadDependenciesSuccess, @onLoadDependenciesFailed)
-      .always(()=> @isLoading = false)
-
-    return @loadDeferred.promise()
-
-  loadDependencies: ->
-    promises = []
-
-    for dep in @dependencies
-      continue if not dep.isReadyForLoad()
-      promises.push(dep.load())
-
-    return promises
-
-  onLoadDependenciesSuccess: =>
-    @model = $.ajax(@jqxhrOptions)
-    @model.done(
-      => @markLoaded()
-    ).fail(
-      (jqXHR, textStatus, errorThrown) => 
-        @markFailed(errorThrown)
-    )
-
-  onLoadDependenciesFailed: =>
-    @markFailed('Failed to load dependencies.')
 
 
 class SomethingResource extends Resource
-  constructor: (name, value) ->
-    super(name, value)
-    @loadDeferred = $.Deferred()
-
-  load: ->
-    return @loadDeferred.promise()
-
-  markLoaded: ->
-    @loadDeferred.resolve()
-    super()
-
-  markFailed: (error) ->
-    @loadDeferred.reject()
-    super(error)

@@ -20,7 +20,7 @@ module.exports = class ThangComponentEditView extends CocoView
 
     @componentCollection = @supermodel.getCollection new ComponentsCollection()
     @componentCollectionRes = @supermodel.addModelResource(@componentCollection, 'component_collection')
-    @listenToOnce(@componentCollectionRes, 'resource:loaded', @onComponentsSync)
+    @listenToOnce(@componentCollectionRes, 'loaded', @onComponentsSync)
     @componentCollectionRes.load()
 
   onloaded: -> @render()

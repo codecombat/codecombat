@@ -332,7 +332,7 @@ class LatestVersionReferenceNode extends TreemaNode
     if @instance and not m
       m = @instance
       m.url = -> urlGoingFor
-      @settings.supermodel.addModel(m)
+      @settings.supermodel.registerModel(m)
     return 'Unknown' unless m
     return m.get('name')
 

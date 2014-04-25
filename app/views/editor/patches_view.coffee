@@ -22,7 +22,7 @@ module.exports = class PatchesView extends CocoView
     @patches = new PatchesCollection([], {}, @model, @status)
     @patchesRes = @supermodel.addModelResource(@patches, 'patches')
     @patchesRes.load()
-    @listenTo(@patchesRes, 'resource:loaded', @load)
+    @listenTo(@patchesRes, 'loaded', @load)
   
   load: ->
     return unless @patchesRes.loaded

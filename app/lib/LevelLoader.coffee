@@ -1,8 +1,12 @@
 Level = require 'models/Level'
-CocoClass = require 'lib/CocoClass'
-AudioPlayer = require 'lib/AudioPlayer'
+LevelComponent = require 'models/LevelComponent'
+LevelSystem = require 'models/LevelSystem'
+Article = require 'models/Article'
 LevelSession = require 'models/LevelSession'
 ThangType = require 'models/ThangType'
+
+CocoClass = require 'lib/CocoClass'
+AudioPlayer = require 'lib/AudioPlayer'
 app = require 'application'
 World = require 'lib/world/world'
 
@@ -16,9 +20,6 @@ World = require 'lib/world/world'
 
 module.exports = class LevelLoader extends CocoClass
 
-  spriteSheetsBuilt: 0
-  spriteSheetsToBuild: 0
-
   constructor: (options) ->
     super()
     @supermodel = options.supermodel
@@ -30,10 +31,10 @@ module.exports = class LevelLoader extends CocoClass
     @spectateMode = options.spectateMode ? false
 
     @loadSession()
-    @loadLevelModels()
+    @loadLevel()
     @loadAudio()
     @playJingle()
-    _.defer @update  # Lets everything else resolve first
+    @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
 
   playJingle: ->
     return if @headless
@@ -56,72 +57,84 @@ module.exports = class LevelLoader extends CocoClass
 
     @session = new LevelSession()
     @session.url = -> url
-
-    # Unless you specify cache:false, sometimes the browser will use a cached session
-    # and players will 'lose' code
-    
-    sessionRes = @supermodel.addModelResource(@session, 'level_session', {cache:false})
-    @listenToOnce(sessionRes, 'resource:loaded', @onSessionLoaded)
-    sessionRes.load()
+    @supermodel.addModelResource(@session, 'level_session', {cache:false}).load()
+    @session.once 'sync', -> @url = -> '/db/level.session/' + @id
 
     if @opponentSessionID
       @opponentSession = new LevelSession()
       @opponentSession.url = "/db/level_session/#{@opponentSessionID}"
-
-      opponentSessionRes = @supermodel.addModelResource(@opponentSession, 'opponent_session')
-      @listenToOnce(opponentSessionRes, 'resource:loaded', @onSessionLoaded)
-      opponentSessionRes.load()
-
-  sessionsLoaded: ->
-    return true if @headless
-    @session.loaded and ((not @opponentSession) or @opponentSession.loaded)
-
-  onSessionLoaded: ->
-    return if @destroyed
-    # TODO: maybe have all non versioned models do this? Or make it work to PUT/PATCH to relative urls
-    if @session.loaded
-      @session.url = -> '/db/level.session/' + @id
-    @update() if @sessionsLoaded()
+      @supermodel.addModelResource(@opponentSession, 'opponent_session').load()
 
   # Supermodel (Level) Loading
 
-  loadLevelModels: ->
-    @listenTo(@supermodel, 'superModel:updateProgress', @onSupermodelLoadedOne) # Some models are not added via addModelResource()
-    @listenToOnce(@supermodel, 'error', @onSupermodelError)
+  loadLevel: ->
     @level = @supermodel.getModel(Level, @levelID) or new Level _id: @levelID
-    levelID = @levelID
-    headless = @headless
+    if @level.loaded
+      @populateLevel()
+    else
+      @supermodel.addModelResource(@level, 'level').load()
+      @listenToOnce @level, 'sync', @onLevelLoaded
+      
+  onLevelLoaded: ->
+    @populateLevel()
+      
+  populateLevel: ->
+    thangIDs = []
+    componentVersions = []
+    systemVersions = []
+    articleVersions = []
+    
+    for thang in @level.get('thangs') or []
+      thangIDs.push thang.thangType
+      for comp in thang.components or []
+        componentVersions.push _.pick(comp, ['original', 'majorVersion'])
+        
+    for system in @level.get('systems') or []
+      systemVersions.push _.pick(system, ['original', 'majorVersion'])
+      if indieSprites = system?.config?.indieSprites
+        for indieSprite in indieSprites
+          console.log 'do not forget', indieSprite
+          thangIDs.push indieSprite.thangType
+      
+    for article in @level.get('articles')?.generalArticles or []
+      articleVersions.push _.pick(article, ['original', 'majorVersion'])
 
-    @supermodel.shouldPopulate = (model) ->
-      # if left unchecked, the supermodel would load this level
-      # and every level next on the chain. This limits the population
-      handles = [model.id, model.get 'slug']
-      return model.constructor.className isnt "Level" or levelID in handles
+    objUniq = (array) -> _.uniq array, false, (arg) -> JSON.stringify(arg)
+      
+    for thangID in _.uniq thangIDs
+      url = "/db/thang.type/#{thangID}/version"
+      res = @maybeLoadURL url, ThangType, 'thang'
+      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
+    for obj in objUniq componentVersions
+      url = "/db/level.component/#{obj.original}/version/#{obj.majorVersion}"
+      @maybeLoadURL url, LevelComponent, 'component'
+    for obj in objUniq systemVersions
+      url = "/db/level.system/#{obj.original}/version/#{obj.majorVersion}"
+      @maybeLoadURL url, LevelSystem, 'system'
+    for obj in objUniq articleVersions
+      url = "/db/article/#{obj.original}/version/#{obj.majorVersion}"
+      @maybeLoadURL url, Article, 'article'
+    if obj = @level.get 'nextLevel'
+      url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
+      @maybeLoadURL url, Level, 'level'
 
-    @supermodel.shouldLoadProjection = (model) ->
-      return true if headless and model.constructor.className is 'ThangType'
-      false
+    wizard = ThangType.loadUniversalWizard()
+    @supermodel.registerModel wizard
+    if wizard.loading
+      window.res = @supermodel.addModelResource(wizard, 'thang').load()
+      console.log window.res.loading, window.res.loaded
 
-    @supermodel.populateModel(@level, 'level')
-
-  onSupermodelError: ->
-
-  onSupermodelLoadedOne: (e) ->
-    @buildSpriteSheetsForThangType e.model if not @headless and e.model instanceof ThangType
-    @update() unless @destroyed
-
-  # Things to do when either the Session or Supermodel load
-
-  update: =>
-    return if @destroyed
-    @notifyProgress()
-
-    return if @updateCompleted
-    return unless @supermodel?.finished() and @sessionsLoaded()
-    @denormalizeSession()
+  maybeLoadURL: (url, Model, resourceName) ->
+    return if @supermodel.getModel(url)
+    model = new Model()
+    model.url = url
+    @supermodel.addModelResource(model, resourceName).load()
+    
+  onSupermodelLoaded: ->
     @loadLevelSounds()
+    @denormalizeSession()
     app.tracker.updatePlayState(@level, @session) unless @headless
-    @updateCompleted = true
+    @initWorld()
 
   denormalizeSession: ->
     return if @headless or @sessionDenormalized or @spectateMode
@@ -140,6 +153,16 @@ module.exports = class LevelLoader extends CocoClass
     @sessionDenormalized = true
 
   # Building sprite sheets
+
+  buildSpriteSheetsForThangType: (thangType) ->
+    @grabThangTypeTeams() unless @thangTypeTeams
+    for team in @thangTypeTeams[thangType.get('original')] ? [null]
+      spriteOptions = {resolutionFactor: 4, async: false}
+      if thangType.get('kind') is 'Floor'
+        spriteOptions.resolutionFactor = 2
+      if team and color = @teamConfigs[team]?.color
+        spriteOptions.colorConfig = team: color
+      @buildSpriteSheet thangType, spriteOptions
 
   grabThangTypeTeams: ->
     @grabTeamConfigs()
@@ -161,41 +184,20 @@ module.exports = class LevelLoader extends CocoClass
       @teamConfigs = {"humans":{"superteam":"humans","color":{"hue":0,"saturation":0.75,"lightness":0.5},"playable":true},"ogres":{"superteam":"ogres","color":{"hue":0.66,"saturation":0.75,"lightness":0.5},"playable":false},"neutral":{"superteam":"neutral","color":{"hue":0.33,"saturation":0.75,"lightness":0.5}}}
     @teamConfigs
 
-  buildSpriteSheetsForThangType: (thangType) ->
-    @grabThangTypeTeams() unless @thangTypeTeams
-    for team in @thangTypeTeams[thangType.get('original')] ? [null]
-      spriteOptions = {resolutionFactor: 4, async: false}
-      if thangType.get('kind') is 'Floor'
-        spriteOptions.resolutionFactor = 2
-      if team and color = @teamConfigs[team]?.color
-        spriteOptions.colorConfig = team: color
-      @buildSpriteSheet thangType, spriteOptions
-
   buildSpriteSheet: (thangType, options) ->
     if thangType.get('name') is 'Wizard'
       options.colorConfig = me.get('wizard')?.colorConfig or {}
-    building = thangType.buildSpriteSheet options
-    return unless building
-    #console.log 'Building:', thangType.get('name'), options
-    @spriteSheetsToBuild += 1
-    onBuildComplete = =>
-      return if @destroyed
-      @spriteSheetsBuilt += 1
-      @notifyProgress()
-    if options.async
-      thangType.once 'build-complete', onBuildComplete
-    else
-      onBuildComplete()
+    thangType.buildSpriteSheet options
 
   # World init
 
   initWorld: ->
-    console.debug('gintau', 'init-world')
     return if @initialized
     @initialized = true
     @world = new World @level.get('name')
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
+    console.log 'loaded from level?', @world
 
   # Initial Sound Loading
 
@@ -220,30 +222,4 @@ module.exports = class LevelLoader extends CocoClass
 
   # everything else sound wise is loaded as needed as worlds are generated
 
-  allDone: ->
-    @supermodel.finished() and @sessionsLoaded() and @spriteSheetsBuilt is @spriteSheetsToBuild
-
-  progress: ->
-    return 0 unless @level.loaded
-    supermodelProgress = @supermodel.getProgress()    
-    overallProgress = supermodelProgress * 0.7
-    overallProgress += 0.1 if @sessionsLoaded()
-
-    spriteMapProgress = 1
-    unless @headless
-      spriteMapProgress = @spriteSheetsBuilt / @spriteSheetsToBuild if @spriteSheetsToBuild
-    spriteMapProgress *= 0.2
-    
-    overallProgress += spriteMapProgress
-    return overallProgress
-
-  notifyProgress: ->
-    progress = @progress()
-    Backbone.Mediator.publish 'level-loader:progress-changed', progress: progress
-    @initWorld() if @allDone()
-    @trigger 'progress'
-
-    # console.debug 'gintau', 'notify-notifyProgress', progress
-    if progress is 1
-      # console.debug 'gintau', 'notify-loaded-all'
-      @trigger 'loaded-all'
+  progress: -> @supermodel.progress

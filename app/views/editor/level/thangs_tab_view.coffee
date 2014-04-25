@@ -63,7 +63,7 @@ module.exports = class ThangsTabView extends View
 
     @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
     @thangTypesRes = @supermodel.addModelResource(@thangTypes, 'thang_type_search_collection')
-    @listenToOnce(@thangTypesRes, 'resource:loaded', @onThangTypesLoaded)
+    @listenToOnce(@thangTypesRes, 'loaded', @onThangTypesLoaded)
     @thangTypesRes.load()
     
     $(document).bind 'contextmenu', @preventDefaultContextMenu
@@ -72,7 +72,7 @@ module.exports = class ThangsTabView extends View
 
     @componentCollection = @supermodel.getCollection new ComponentsCollection()
     @componentCollectionRes = @supermodel.addModelResource(@componentCollection, 'components_collection')
-    @listenToOnce(@componentCollectionRes, 'resource:loaded', @onComponentsLoaded)
+    @listenToOnce(@componentCollectionRes, 'loaded', @onComponentsLoaded)
     @componentCollectionRes.load()
 
   onThangTypesLoaded: ->
