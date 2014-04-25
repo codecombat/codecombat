@@ -211,7 +211,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     for module in nextNoteGroup.modules
       @processNote(note, nextNoteGroup) for note in module.startNotes()
     if nextNoteGroup.script.duration
-      f = => @onNoteGroupTimeout nextNoteGroup
+      f = => @onNoteGroupTimeout? nextNoteGroup
       setTimeout(f, nextNoteGroup.script.duration)
     Backbone.Mediator.publish('note-group-started')
 

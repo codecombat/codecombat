@@ -152,19 +152,27 @@ module.exports = class PlayView extends View
         levelPath: 'ladder'
       }
       {
+        name: 'Gold Rush'
+        difficulty: 3
+        id: 'gold-rush'
+        image: '/file/db/level/52602ecb026e8481e7000001/generic_1.png'
+        description: "Prove you are better at collecting gold than your opponent!"
+        levelPath: 'ladder'
+      }
+      {
+        name: 'Greed'
+        difficulty: 4
+        id: 'greed'
+        image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
+        description: "Liked Dungeon Arena and Gold Rush? Put them together in this economic arena!"
+        levelPath: 'ladder'
+      }
+      {
         name: 'Brawlwood'
         difficulty: 4
         id: 'brawlwood'
         image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
         description: "Combat the armies of other Wizards in a strategic forest arena! (Fast computer required.)"
-        levelPath: 'ladder'
-      }
-      {
-        name: 'Gold Rush'
-        difficulty: 3
-        id: 'gold-rush'
-        image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
-        description: "Prove you are better at collecting gold than your opponent!"
         levelPath: 'ladder'
       }
     ]
@@ -219,7 +227,14 @@ module.exports = class PlayView extends View
         image: '/file/db/level/526ae95c1e5cd30000000008/zone_of_danger_icon.png'
         description: "Identify the spies hidden among your soldiers - by Nathan Gossett"
       }
-      
+      {
+        name: 'Harvest Time'
+        difficulty: 2
+        id: 'find-the-spy'
+        image: '/file/db/level/529662dfe0df8f0000000007/grab_the_mushroom_icon.png'
+        description: "Collect a hundred mushrooms in just five lines of code - by Nathan Gossett"
+      }
+
       #{
       #  name: 'Enemy Artillery'
       #  difficulty: 1
