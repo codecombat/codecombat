@@ -86,11 +86,10 @@ module.exports = class EmployerSignupView extends View
     window.tracker?.trackEvent 'Finished Signup'
     @enableModalInProgress(@$el)
     auth.createUserWithoutReload userObject, null
+    console.log "Authorizing with linkedin"
+    IN.User.authorize(@recordUserDetails, @)
     
   linkedInAuth: (e) =>
-    console.log "Authorizing with linkedin"
-    @listenTo me,"sync", ->
-      IN.User.authorize(@recordUserDetails, @)
     me.fetch()
     @reloadWhenClosed = true
     
