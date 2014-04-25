@@ -178,14 +178,12 @@ module.exports = class TomeView extends View
     thang = e.thang
     spellName = e.spellName
     @spellList?.$el.hide()
-    return @clearSpellView() unless thang?.isProgrammable
-    selectedThangSpells = (@spells[spellKey] for spellKey in @thangSpells[thang.id])
-    if spellName
-      spell = _.find selectedThangSpells, {name: spellName}
-    else
-      spell = @thangList.topSpellForThang thang
-      #spell = selectedThangSpells[0]  # TODO: remember last selected spell for this thang
-    return @clearSpellView() unless spell?.canRead()
+    return @clearSpellView() unless thang
+    spell = @spellFor thang, spellName
+    unless spell?.canRead()
+      @clearSpellView()
+      @updateSpellPalette thang, spell
+      return
     unless spell.view is @spellView
       @clearSpellView()
       @spellView = spell.view
@@ -198,9 +196,22 @@ module.exports = class TomeView extends View
     @spellList.setThangAndSpell thang, spell
     @spellView?.setThang thang
     @spellTabView?.setThang thang
-    if @spellPaletteView?.thang isnt thang
-      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel
-      @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
+    @updateSpellPalette thang, spell
+
+  updateSpellPalette: (thang, spell) ->
+    return unless thang and @spellPaletteView?.thang isnt thang and thang.programmableProperties or thang.apiProperties
+    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel, programmable: spell?.canRead()
+    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell   # TODO: know when palette should have been disabled but didn't exist
+
+  spellFor: (thang, spellName) ->
+    return null unless thang?.isProgrammable
+    selectedThangSpells = (@spells[spellKey] for spellKey in @thangSpells[thang.id])
+    if spellName
+      spell = _.find selectedThangSpells, {name: spellName}
+    else
+      spell = @thangList.topSpellForThang thang
+      #spell = selectedThangSpells[0]  # TODO: remember last selected spell for this thang
+    spell
 
   reloadAllCode: ->
     spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team or (spell.team in ["common", "neutral", null])
