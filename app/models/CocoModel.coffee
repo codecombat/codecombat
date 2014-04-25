@@ -130,61 +130,6 @@ class CocoModel extends Backbone.Model
       @markToRevert()
       @loadFromBackup()
 
-  getReferencedModels: (data, schema, path='/', shouldLoadProjection=null) ->
-    # returns unfetched model shells for every referenced doc in this model
-    # OPTIMIZE so that when loading models, it doesn't cause the site to stutter
-    data ?= @attributes
-    schema ?= @schema()
-    models = []
-
-    # TODO: Better schema/json walking
-    if $.isArray(data) and schema.items?
-      for subData, i in data
-        models = models.concat(@getReferencedModels(subData, schema.items, path+i+'/', shouldLoadProjection))
-
-    if $.isPlainObject(data) and schema.properties?
-      for key, subData of data
-        continue unless schema.properties[key]
-        models = models.concat(@getReferencedModels(subData, schema.properties[key], path+key+'/', shouldLoadProjection))
-
-    model = CocoModel.getReferencedModel data, schema, shouldLoadProjection
-    models.push model if model
-    return models
-
-  @getReferencedModel: (data, schema, shouldLoadProjection=null) ->
-    return null unless schema.links?
-    linkObject = _.find schema.links, rel: "db"
-    return null unless linkObject
-    return null if linkObject.href.match("thang.type") and not @isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
-
-    # not fully extensible, but we can worry about that later
-    link = linkObject.href
-    link = link.replace('{(original)}', data.original)
-    link = link.replace('{(majorVersion)}', '' + (data.majorVersion ? 0))
-    link = link.replace('{($)}', data)
-    @getOrMakeModelFromLink(link, shouldLoadProjection)
-
-  @getOrMakeModelFromLink: (link, shouldLoadProjection=null) ->
-    makeUrlFunc = (url) -> -> url
-    modelUrl = link.split('/')[2]
-    modelModule = _.string.classify(modelUrl)
-    modulePath = "models/#{modelModule}"
-    window.loadedModels ?= {}
-
-    try
-      Model = require modulePath
-      window.loadedModels[modulePath] = Model
-    catch e
-      console.error 'could not load model from link path', link, 'using path', modulePath
-      return
-
-    model = new Model()
-    if shouldLoadProjection? model
-      sep = if link.search(/\?/) is -1 then "?" else "&"
-      link += sep + "project=true"
-    model.url = makeUrlFunc(link)
-    return model
-
   @isObjectID: (s) ->
     s.length is 24 and s.match(/[a-f0-9]/gi)?.length is 24
 
