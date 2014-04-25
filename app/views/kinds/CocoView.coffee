@@ -83,7 +83,6 @@ module.exports = class CocoView extends Backbone.View
   # View Rendering
 
   render: ->
-    # console.debug 'gintau' , 'CocoView-Render', @
     return @ unless me
     super()
     return @template if _.isString(@template)
@@ -119,7 +118,7 @@ module.exports = class CocoView extends Backbone.View
     prog = "#{parseInt(progress*100)}%"
     @$el?.find('.loading-screen .progress-bar').css('width', prog)
 
-  onLoaded: ->
+  onLoaded: -> @render()
 
   # Error handling for loading
   onResourceLoadFailed: (source) ->
@@ -181,14 +180,12 @@ module.exports = class CocoView extends Backbone.View
   # Loading RootViews
 
   showLoading: ($el=@$el) ->
-    ## console.debug 'gintau', 'showLoading', $el
     $el.find('>').addClass('hidden')
     $el.append loadingScreenTemplate()
     @_lastLoading = $el
 
   hideLoading: ->
     return unless @_lastLoading?
-    ## console.debug 'gintau', 'hideLoading', @$el
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null

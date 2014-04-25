@@ -93,7 +93,6 @@ module.exports = class LevelLoader extends CocoClass
       systemVersions.push _.pick(system, ['original', 'majorVersion'])
       if indieSprites = system?.config?.indieSprites
         for indieSprite in indieSprites
-          console.log 'do not forget', indieSprite
           thangIDs.push indieSprite.thangType
       
     for article in @level.get('articles')?.generalArticles or []
@@ -120,9 +119,7 @@ module.exports = class LevelLoader extends CocoClass
 
     wizard = ThangType.loadUniversalWizard()
     @supermodel.registerModel wizard
-    if wizard.loading
-      window.res = @supermodel.addModelResource(wizard, 'thang').load()
-      console.log window.res.loading, window.res.loaded
+    @supermodel.addModelResource(wizard, 'thang').load() if wizard.loading
 
   maybeLoadURL: (url, Model, resourceName) ->
     return if @supermodel.getModel(url)
@@ -197,7 +194,6 @@ module.exports = class LevelLoader extends CocoClass
     @world = new World @level.get('name')
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
-    console.log 'loaded from level?', @world
 
   # Initial Sound Loading
 
