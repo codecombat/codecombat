@@ -64,7 +64,7 @@ module.exports = class EmployerSignupView extends View
     window.location.reload()
     
   handleAgreementFailure: (error) ->
-    alert "There was an error signing the contract. Please contact support with this error: #{error}"
+    alert "There was an error signing the contract. Please contact team@codecombat.com with this error: #{error.responseText}"
     
   createAccount: (e) =>
     window.tracker?.trackEvent 'Finished Employer Signup'
