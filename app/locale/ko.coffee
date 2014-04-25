@@ -204,6 +204,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    candidate_top_skills: "Top Skills"
 #    candidate_years_experience: "Yrs Exp"
 #    candidate_last_updated: "Last Updated"
+#    candidate_approved: "Us?"
+#    candidate_active: "Them?"
 
   play_level:
     level_load_error: "레벨 로딩 실패 : "
@@ -370,10 +372,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     new_article_title: "새로운 기사 작성"
     new_thang_title: "새로운 Thang type 시작"
     new_level_title: "새로운 레벨 시작"
+#    new_article_title_signup: "Sign Up to Create a New Article"
+#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
+#    new_level_title_signup: "Sign Up to Create a New Level"
     article_search_title: "기사들은 여기에서 찾으세요"
     thang_search_title: "Thang 타입들은 여기에서 찾으세요"
     level_search_title: "레벨들은 여기에서 찾으세요"
-#    signup_to_create: "Sign Up to Create a New Content"
 #    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:

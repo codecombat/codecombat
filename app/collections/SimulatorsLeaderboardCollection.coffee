@@ -1,4 +1,4 @@
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 User = require 'models/User'
 
 module.exports = class SimulatorsLeaderboardCollection extends CocoCollection

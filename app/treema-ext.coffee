@@ -1,5 +1,5 @@
 CocoModel = require 'models/CocoModel'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 {me} = require('lib/auth')
 locale = require 'locale/locale'
 
@@ -28,7 +28,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
     valEl.append(
       $('<div></div>').append(
         $('<button>Pick Image</button>')
-          .addClass('btn')
+          .addClass('btn btn-sm btn-primary')
           .click(=> filepicker.pick @onFileChosen)
       )
     )
@@ -70,19 +70,19 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
 
   buildValueForDisplay: (valEl) ->
     mimetype = "audio/#{@keyForParent}"
-    pickButton = $('<a class="btn"><i class="icon-upload"></i></a>')
+    pickButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-upload"></span></a>')
       .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
-    playButton = $('<a class="btn"><i class="icon-play"></i></a>')
+    playButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-play"></span></a>')
       .click(@playFile)
-    stopButton = $('<a class="btn"><i class="icon-stop"></i></a>')
+    stopButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-stop"></span></a>')
       .click(@stopFile)
 
     dropdown = $('<div class="btn-group dropdown"></div>')
 
     dropdownButton = $('<a></a>')
-      .addClass('btn dropdown-toggle')
+      .addClass('btn btn-primary btn-xs dropdown-toggle')
       .attr('href', '#')
-      .append($('<span class="caret"></span>'))
+      .append($('<span class="glyphicon glyphicon-chevron-down"></span>'))
       .dropdown()
 
     dropdown.append dropdownButton
@@ -107,7 +107,7 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
     if @data
       valEl.append(playButton)
       valEl.append(stopButton)
-    valEl.append(dropdown) if files.length and @canEdit()
+    valEl.append(dropdown) # if files.length and @canEdit()
     if @data
       path = @data.split('/')
       name = path[path.length-1]
@@ -168,7 +168,7 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
 
   buildValueForDisplay: (valEl) ->
     mimetype = 'image/*'
-    pickButton = $('<a class="btn"><i class="icon-upload"></i></a>')
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload Picture</a>')
       .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
 
     valEl.append(pickButton)

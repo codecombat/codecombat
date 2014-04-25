@@ -204,6 +204,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     candidate_top_skills: "Beste vaardigheden"
     candidate_years_experience: "Jaren ervaring"
     candidate_last_updated: "Laatst aangepast"
+#    candidate_approved: "Us?"
+#    candidate_active: "Them?"
 
   play_level:
     level_load_error: "Level kon niet geladen worden: "
@@ -370,10 +372,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     new_article_title: "Maak een Nieuw Artikel"
     new_thang_title: "Maak een Nieuw Thang Type"
     new_level_title: "Maak een Nieuw Level"
+#    new_article_title_signup: "Sign Up to Create a New Article"
+#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
+#    new_level_title_signup: "Sign Up to Create a New Level"
     article_search_title: "Zoek Artikels Hier"
     thang_search_title: "Zoek Thang Types Hier"
     level_search_title: "Zoek Levels Hier"
-    signup_to_create: "Registreer je om nieuwe content te maken"
     read_only_warning2: "Pas op, je kunt geen aanpassingen opslaan hier, want je bent niet ingelogd."
 
   article:

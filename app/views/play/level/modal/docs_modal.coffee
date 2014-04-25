@@ -24,7 +24,6 @@ module.exports = class DocsModal extends View
     general = (article.attributes for article in general when article)
 
     @docs = specific.concat(general)
-    marked.setOptions {gfm: true, sanitize: false, smartLists: true, breaks: false}
     @docs = $.extend(true, [], @docs)
     doc.html = marked(utils.i18n doc, 'body') for doc in @docs
     doc.name = (utils.i18n doc, 'name') for doc in @docs

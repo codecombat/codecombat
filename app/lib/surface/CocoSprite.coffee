@@ -447,6 +447,10 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       scaleFactor = @thang.scaleFactor ? 1
       pos.x *= @thang.scaleFactorX ? scaleFactor
       pos.y *= @thang.scaleFactorY ? scaleFactor
+    # We might need to do this, but I don't have a good test case yet. TODO: figure out.
+    #if prop isnt @registration
+    #  pos.x *= if @getActionProp 'flipX' then -1 else 1
+    #  pos.y *= if @getActionProp 'flipY' then -1 else 1
     pos
 
   createMarks: ->

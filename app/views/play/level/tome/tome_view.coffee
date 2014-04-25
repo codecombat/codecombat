@@ -73,7 +73,7 @@ module.exports = class TomeView extends View
     delete @options.thangs
 
   onNewWorld: (e) ->
-    thangs = _.filter e.world.thangs, 'isSelectable'
+    thangs = _.filter e.world.thangs, 'inThangList'
     programmableThangs = _.filter thangs, 'isProgrammable'
     @createSpells programmableThangs, e.world
     @thangList.adjustThangs @spells, thangs

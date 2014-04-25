@@ -6,9 +6,6 @@ filters = require 'lib/image_filter'
 {downTheChain} = require 'lib/world/world_utils'
 window.Vector = require 'lib/world/vector'  # So we can document it
 
-# If we use marked somewhere else, we'll have to make sure to preserve options
-marked.setOptions {gfm: true, sanitize: false, smartLists: true, breaks: true}
-
 safeJSONStringify = (input, maxDepth) ->
   recursion = (input, path, depth) ->
     output = {}

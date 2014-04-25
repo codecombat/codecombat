@@ -204,6 +204,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     candidate_top_skills: "Лучшие навыки"
     candidate_years_experience: "Лет опыта"
     candidate_last_updated: "Последнее обновление"
+#    candidate_approved: "Us?"
+#    candidate_active: "Them?"
 
   play_level:
     level_load_error: "Уровень не может быть загружен: "
@@ -370,10 +372,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     new_article_title: "Создать новую статью"
     new_thang_title: "Создать новый тип объектов"
     new_level_title: "Создать новый уровень"
+#    new_article_title_signup: "Sign Up to Create a New Article"
+#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
+#    new_level_title_signup: "Sign Up to Create a New Level"
     article_search_title: "Искать статьи"
     thang_search_title: "Искать типы объектов"
     level_search_title: "Искать уровни"
-    signup_to_create: "Авторизуйтесь для создания нового контента"
     read_only_warning2: "Примечание: вы не можете сохранять любые правки здесь, потому что вы не авторизованы."
 
   article:

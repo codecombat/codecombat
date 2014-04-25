@@ -204,6 +204,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    candidate_top_skills: "Top Skills"
 #    candidate_years_experience: "Yrs Exp"
 #    candidate_last_updated: "Last Updated"
+#    candidate_approved: "Us?"
+#    candidate_active: "Them?"
 
   play_level:
     level_load_error: "O estágio não pôde ser carregado: "
@@ -370,10 +372,12 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     new_article_title: "Criar um Novo Artigo"
     new_thang_title: "Criar um Novo Tipo de Thang"
     new_level_title: "Criar um Novo Nível"
+#    new_article_title_signup: "Sign Up to Create a New Article"
+#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
+#    new_level_title_signup: "Sign Up to Create a New Level"
     article_search_title: "Procurar Artigos Aqui"
     thang_search_title: "Procurar Tipos de Thang Aqui"
     level_search_title: "Procurar Níveis Aqui"
-#    signup_to_create: "Sign Up to Create a New Content"
 #    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:

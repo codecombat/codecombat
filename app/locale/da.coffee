@@ -204,6 +204,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    candidate_top_skills: "Top Skills"
 #    candidate_years_experience: "Yrs Exp"
 #    candidate_last_updated: "Last Updated"
+#    candidate_approved: "Us?"
+#    candidate_active: "Them?"
 
   play_level:
     level_load_error: "Banen kunne ikke indlæses: "
@@ -370,10 +372,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     new_article_title: "Opret en Ny Artikel"
 #    new_thang_title: "Create a New Thang Type"
     new_level_title: "Opret en Ny Bane"
+#    new_article_title_signup: "Sign Up to Create a New Article"
+#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
+#    new_level_title_signup: "Sign Up to Create a New Level"
     article_search_title: "Søg Artikler Her"
 #    thang_search_title: "Search Thang Types Here"
     level_search_title: "Søg Baner Her"
-#    signup_to_create: "Sign Up to Create a New Content"
 #    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:
