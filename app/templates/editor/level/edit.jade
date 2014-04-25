@@ -15,8 +15,8 @@ block header
         li
           a(href="/editor/level")
             span.glyphicon-home.glyphicon
+              
       ul.nav.navbar-nav.nav-tabs
-      
         li.active
           a(href="#editor-level-thangs-tab-view", data-toggle="tab", data-i18n="editor.level_tab_thangs") Thangs
         li
@@ -68,6 +68,8 @@ block header
               a(data-i18n="common.fork")#fork-level-start-button Fork
             li(class=anonymous ? "disabled": "")
               a(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert")#revert-button Revert
+            li(class=anonymous ? "disabled": "")
+              a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
             li.divider
             li.dropdown-header Info
             li#level-history-button

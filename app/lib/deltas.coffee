@@ -1,3 +1,4 @@
+SystemNameLoader = require 'lib/SystemNameLoader'
 ### 
   Good-to-knows:
     dataPath: an array of keys that walks you up a JSON object that's being patched
@@ -67,13 +68,13 @@ expandFlattenedDelta = (delta, left, schema) ->
   parentLeft = left
   parentSchema = schema
   for key, i in delta.dataPath
-    # TODO: A more comprehensive way of getting child schemas
+    # TODO: Better schema/json walking
     childSchema = parentSchema?.items or parentSchema?.properties?[key] or {}
     childLeft = parentLeft?[key]
     humanKey = null
     childData = if i is delta.dataPath.length-1 and delta.action is 'added' then o[0] else childLeft
     humanKey ?= childData.name or childData.id if childData
-    humanKey ?= "#{childSchema.title} ##{key+1}" if childSchema.title and _.isNumber(key)
+    humanKey ?= SystemNameLoader.getName(childData?.original)
     humanKey ?= "#{childSchema.title}" if childSchema.title
     humanKey ?= _.string.titleize key
     humanPath.push humanKey

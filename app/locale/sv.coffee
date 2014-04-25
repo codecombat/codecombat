@@ -15,6 +15,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     fork: "Förgrena"
     play: "Spela"
 #    retry: "Retry"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
 #  units:
 #    second: "second"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     editor: "Nivåredigerare"
     blog: "Blogg"
     forum: "Forum"
+#    account: "Account"
     admin: "Admin"
     home: "Hem"
     contribute: "Bidra"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Ändra inställningar"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     lg_title: "Senaste matcher"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "CodeCombatredigerare"
     main_description: "Bygg dina egna banor, kampanjer, enheter och undervisningsinnehåll. Vi tillhandahåller alla verktyg du behöver!"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     thang_description: "Bygg enheter, genom att definerade deras förinställda logik, grafik och ljud. Stöder för närvarande endast import av Flashexporterad vektorgrafik."
     level_title: "Nivåredigerare"
     level_description: "Innehåller verktygen för att skripta, ladda upp ljud och konstruera skräddarsydd logik för att skapa alla möjliga sorters nivåer. Allting vi själva använder!"
-    security_notice: "Många huvudfunktioner i dessa redigerare är för närvarande inte aktiverade från början. Allt eftersom vi ökar säkerheten i dessa system, okmmer de att bli allmänt tillgängliga. Om du skulle vilja använda dessa funktioner tidigare, "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "kontakta oss!"
     hipchat_prefix: "Du kan också hitta oss i vårt"
     hipchat_url: "HipChat-rum."

@@ -41,6 +41,7 @@ module.exports = class CocoView extends Backbone.View
     @subviews = {}
     @listenToShortcuts()
     @updateProgressBar = _.debounce @updateProgressBar, 100
+    @toggleModal = _.debounce @toggleModal, 100
     # Backbone.Mediator handles subscription setup/teardown automatically
 
     @listenToOnce(@supermodel, 'loaded-all', @onLoaded)
@@ -138,7 +139,6 @@ module.exports = class CocoView extends Backbone.View
   # Modals
 
   toggleModal: (e) ->
-    return if visibleModal
     if $(e.currentTarget).prop('target') is '_blank'
       return true
     # special handler for opening modals that are dynamically loaded, rather than static in the page. It works (or should work) like Bootstrap's modals, except use coco-modal for the data-toggle value.

@@ -11,7 +11,6 @@ class CocoModel extends Backbone.Model
 
   initialize: ->
     super()
-    @constructor.schema ?= require "schemas/models/#{@urlRoot[4..].replace '.', '_'}"
     if not @constructor.className
       console.error("#{@} needs a className set.")
     @markToRevert()
@@ -120,6 +119,7 @@ class CocoModel extends Backbone.Model
       @set prop, defaultValue
     for prop, sch of @constructor.schema.properties or {}
       continue if @get(prop)?
+      continue if prop is 'emails' # hack, defaults are handled through User.coffee's email-specific methods.
       #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
       @set prop, sch.default if sch.default?
     if @loaded
@@ -133,6 +133,7 @@ class CocoModel extends Backbone.Model
     schema ?= @schema()
     models = []
 
+    # TODO: Better schema/json walking
     if $.isArray(data) and schema.items?
       for subData, i in data
         models = models.concat(@getReferencedModels(subData, schema.items, path+i+'/', shouldLoadProjection))
@@ -223,8 +224,30 @@ class CocoModel extends Backbone.Model
   watch: (doWatch=true) ->
     $.ajax("#{@urlRoot}/#{@id}/watch", {type:'PUT', data:{on:doWatch}})
     @watching = -> doWatch
-    
+
   watching: ->
     return me.id in (@get('watchers') or [])
+    
+  populateI18N: (data, schema, path='') ->
+    # TODO: Better schema/json walking
+    sum = 0
+    data ?= $.extend true, {}, @attributes
+    schema ?= @schema() or {}
+    if schema.properties?.i18n and _.isPlainObject(data) and not data.i18n?
+      data.i18n = {}
+      sum += 1
+      
+    if _.isPlainObject data
+      for key, value of data
+        numChanged = 0
+        numChanged = @populateI18N(value, childSchema, path+'/'+key) if childSchema = schema.properties?[key]
+        if numChanged and not path # should only do this for the root object
+          @set key, value
+        sum += numChanged
+          
+    if schema.items and _.isArray data
+      sum += @populateI18N(value, schema.items, path+'/'+index) for value, index in data
+    
+    sum
 
 module.exports = CocoModel

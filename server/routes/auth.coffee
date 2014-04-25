@@ -131,11 +131,25 @@ module.exports.setup = (app) ->
       if not user
         return errors.notFound res, "No user found with email '#{req.query.email}'"
 
-      user.set('emailSubscriptions', [])
-      user.save (err) =>
+      emails = _.clone(user.get('emails')) or {}
+      msg = ''
+      
+      if req.query.recruitNotes
+        emails.recruitNotes ?= {}
+        emails.recruitNotes.enabled = false
+        msg = "Unsubscribed #{req.query.email} from recruiting emails."
+      
+      else
+        msg = "Unsubscribed #{req.query.email} from all CodeCombat emails. Sorry to see you go!"
+        emailSettings.enabled = false for emailSettings in _.values(emails)
+        emails.generalNews ?= {}
+        emails.generalNews.enabled = false
+        emails.anyNotes ?= {}
+        emails.anyNotes.enabled = false
+        
+      user.update {$set: {emails: emails}}, {}, =>
         return errors.serverError res, 'Database failure.' if err
-
-        res.send "Unsubscribed #{req.query.email} from all CodeCombat emails. Sorry to see you go! <p><a href='/account/settings'>Account settings</a></p>"
+        res.send msg + "<p><a href='/account/settings'>Account settings</a></p>"
         res.end()
 
 module.exports.loginUser = loginUser = (req, res, user, send=true, next=null) ->

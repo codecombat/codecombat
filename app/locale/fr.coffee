@@ -15,6 +15,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     fork: "Fork"
     play: "Jouer"
 #    retry: "Retry"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
 #  units:
 #    second: "second"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     editor: "Éditeur"
     blog: "Blog"
     forum: "Forum"
+#    account: "Account"
     admin: "Admin"
     home: "Accueil"
     contribute: "Contribuer"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Éditer les préférences"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     lg_title: "Dernières parties"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "Éditeurs CodeCombat"
     main_description: "Créé tes propres niveaux, campagnes, unités et contenus éducatifs. Nous vous fournissons tous les outils dont vous avez besoin!"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     thang_description: "Créé des unités, définis leur comportement de base, graphisme et son. Pour l'instant cette fonctionnalité ne supporte que l'importation d'images vectorielles exportées depuis Flash."
     level_title: "Éditeur de niveau"
     level_description: "Inclut les outils de script, l'upload de vidéos, et l'élaboration de logiques personnalisées pour créer toutes sortes de niveaux. Tout ce que nous utilisons nous-mêmes!"
-    security_notice: "Plusieurs caractéristiques majeures de cet éditeur ne sont pas encore activées par défaut. Quand nous aurons amélioré la sécurité de ces éléments, ils seront rendus disponibles. Si vous voulez les utiliser plus rapidement, "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "contactez nous!"
     hipchat_prefix: "Vous pouvez aussi nous trouver dans notre "
     hipchat_url: "conversation HipChat."

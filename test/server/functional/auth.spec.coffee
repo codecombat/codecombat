@@ -1,5 +1,6 @@
 require '../common'
 request = require 'request'
+User = require '../../../server/users/User'
 
 urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')
@@ -16,7 +17,8 @@ describe '/auth/whoami', ->
 describe '/auth/login', ->
 
   it 'clears Users first', (done) ->
-    User.remove {}, (err) ->
+    clearModels [User], (err) ->
+      throw err if err
       request.get getURL('/auth/whoami'), ->
         throw err if err
         done()
@@ -134,3 +136,21 @@ describe '/auth/reset', ->
     form = req.form()
     form.append('username', 'scott@gmail.com')
     form.append('password', 'nada')
+
+describe '/auth/unsubscribe', ->
+  it 'clears Users first', (done) ->
+    clearModels [User], (err) ->
+      throw err if err
+      request.get getURL('/auth/whoami'), ->
+        throw err if err
+        done()
+  
+  it 'removes just recruitment emails if you include ?recruitNotes=1', (done) ->
+    loginJoe (joe) ->
+      url = getURL('/auth/unsubscribe?recruitNotes=1&email='+joe.get('email'))
+      request.get url, (error, response) ->
+        expect(response.statusCode).toBe(200)
+        user = User.findOne(joe.get('_id')).exec (err, user) ->
+          expect(user.get('emails').recruitNotes.enabled).toBe(false)
+          expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
+          done()

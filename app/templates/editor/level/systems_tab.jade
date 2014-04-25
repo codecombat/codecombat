@@ -1,11 +1,17 @@
 .systems-container
+  button.navbar-toggle.toggle.btn-primary(type="button" data-toggle="collapse" data-target="#systems-treema")
+    span.icon-list
   h3(data-i18n="editor.level_systems_tab_title") Current Systems
   #systems-treema
 
 .edit-system-container
   if me.isAdmin()
-    button(data-i18n="editor.level_systems_btn_new").btn.btn-primary#create-new-system-button Create New System
+    button.btn.btn-primary#create-new-system-button
+      span.icon-file
+      span.text(data-i18n="editor.level_systems_btn_new") Create New System
   
   #editor-level-system-edit-view
 
-button(data-i18n="editor.level_systems_btn_add").btn.btn-primary#add-system-button Add System
+button.btn.btn-primary#add-system-button
+  span.icon-plus
+  span.text(data-i18n="editor.level_systems_btn_add") Add System

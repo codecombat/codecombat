@@ -18,6 +18,6 @@ class NameLoader extends CocoClass
   loadedNames: (newNames) =>
     _.extend namesCache, newNames
     
-  getName: (id) -> namesCache[id]
+  getName: (id) -> namesCache[id].name
 
 module.exports = new NameLoader()

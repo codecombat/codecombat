@@ -58,7 +58,7 @@ PatchHandler = class PatchHandler extends Handler
     log.error "Error sending patch created: could not find the loaded target on the patch object." unless doc.targetLoaded
     return unless doc.targetLoaded
     watchers = doc.targetLoaded.get('watchers') or []
-    watchers = (w for w in watchers when not w.equals(editor.get('_id')))
+    watchers = (w for w in watchers when not w.equals(req.user.get('_id')))
     return unless watchers?.length
     User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) =>
       for watcher in watchers

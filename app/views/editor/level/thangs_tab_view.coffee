@@ -4,7 +4,7 @@ thangs_template = require 'templates/editor/level/thangs_tab'
 Level = require 'models/Level'
 ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 {isObjectID} = require 'models/CocoModel'
 Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
@@ -50,6 +50,9 @@ module.exports = class ThangsTabView extends View
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
     'click #delete': 'onDeleteClicked'
     'click #duplicate': 'onDuplicateClicked'
+    'click #thangs-container-toggle': 'toggleThangsContainer'
+    'click #thangs-palette-toggle': 'toggleThangsPalette'
+    'click .add-thang-palette-icon': 'toggleThangsPalette'
 
   shortcuts:
     'esc': 'selectAddThang'
@@ -112,7 +115,11 @@ module.exports = class ThangsTabView extends View
     $('#thangs-list').height('100%')
     thangsHeaderHeight = $('#thangs-header').height()
     oldHeight = $('#thangs-list').height()
-    $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
+    if $(document).width() < 1050
+      $('#thangs-list').height(oldHeight - thangsHeaderHeight - 40)
+    else
+      $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
+      
 
   afterRender: ->
     super()
@@ -450,6 +457,14 @@ module.exports = class ThangsTabView extends View
       thang = @selectedExtantThang.spriteName
       e.target = $(".add-thang-palette-icon[data-thang-type='" + thang + "']").get 0
     @selectAddThang e
+    
+  toggleThangsContainer: (e) ->
+    $('#all-thangs').toggle()
+    
+  toggleThangsPalette: (e) ->
+    $('#add-thangs-column').toggle()
+    @onWindowResize e
+   
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'

@@ -65,7 +65,7 @@ collapseSessions = (sessionLists) ->
 
 grabUser = (session, callback) ->
   findParameters = _id: session.creator
-  selectString = 'email emailSubscriptions name jobProfile'
+  selectString = 'email emailSubscriptions emails name jobProfile'
   query = User
     .findOne(findParameters)
     .select(selectString)
@@ -77,7 +77,8 @@ grabUser = (session, callback) ->
 
 totalEmailsSent = 0
 emailUser = (user, callback) ->
-  return callback null, false if user.emails?.recruiting?.enabled is false  # TODO: later, obey also "announcements" when that's untangled
+  #return callback null, false if user.emails?.anyNotes?.enabled is false  # TODO: later, uncomment to obey also "anyNotes" when that's untangled
+  return callback null, false if user.emails?.recruitNotes?.enabled is false
   return callback null, false if user.email in alreadyEmailed
   return callback null, false if DEBUGGING and (totalEmailsSent > 1 or Math.random() > 0.1)
   ++totalEmailsSent

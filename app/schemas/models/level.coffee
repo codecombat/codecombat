@@ -1,5 +1,5 @@
 c = require './../schemas'
-ThangComponentSchema = require './../models/thang_component'
+ThangComponentSchema = require './thang_component'
 
 SpecificArticleSchema = c.object()
 c.extendNamedProperties SpecificArticleSchema  # name first
@@ -130,7 +130,7 @@ NoteGroupSchema = c.object {title: "Note Group", description: "A group of notes 
 
   surface: c.object {title: "Surface", description: "Commands to issue to the Surface itself."},
     focus: c.object {title: "Camera", description: "Focus the camera on a specific point on the Surface.", format:'viewport'},
-      target: {anyOf: [PointSchema, thang, {type: 'null'}], title: "Target", description: "Where to center the camera view."}
+      target: {anyOf: [PointSchema, thang, {type: 'null'}], title: "Target", description: "Where to center the camera view.", default: {x:0, y:0}}
       zoom: {type: 'number', minimum: 0, exclusiveMinimum: true, maximum: 64, title: "Zoom", description: "What zoom level to use."}
       duration: {type:'number', minimum: 0, title: "Duration", description: "in ms"}
       bounds: c.array {title:'Boundary', maxItems: 2, minItems: 2, default:[{x:0,y:0}, {x:46, y:39}], format: 'bounds'}, PointSchema

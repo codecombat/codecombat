@@ -15,6 +15,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     fork: "Fork"
     play: "시작"
 #    retry: "Retry"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
 #  units:
 #    second: "second"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     editor: "에디터"
     blog: "블로그"
     forum: "포럼"
+#    account: "Account"
     admin: "관리자"
     home: "홈"
     contribute: "참여하기"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "설정사항 변경"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     lg_title: "가장 최근 게임"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "코드 컴뱃 에디터들"
     main_description: "당신의 레벨들, 캠페인들, 유닛 그리고 교육 컨텐츠들을 구축하세요. 우리는 당신이 필요한 모든 도구들을 제공합니다!"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     thang_description: "유닛들, 기본적인 인공지능, 그래픽과 오디오등을 직접 빌드하세요. 현재는 백터 그래픽으로 추출된 플래시파일만 임폴트 가능합니다."
     level_title: "레벨 에디터"
     level_description: "스크립팅, 오디오 업로드, 모든 레벨을 생성하기 위한 사용자 정의 로직등 우리가 사용하는 모든 것들을 구축하는 것을 위한 툴들을 포함합니다."
-    security_notice: "이러한 에디터들의 중요한 특징들은 현재 대부분 기본적으로 제공되지 않습니다. 조만간 이런 시스템들의 안정성을 업그레이트 한후에, 이러한 기능들이 제공될 것입니다."
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "연락하기!"
     hipchat_prefix: "당신은 또한 우리를 여기에서 찾을 수 있습니다 : "
     hipchat_url: "힙챗 룸"

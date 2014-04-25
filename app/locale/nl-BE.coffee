@@ -1,11 +1,11 @@
 module.exports = nativeDescription: "Nederlands (België)", englishDescription: "Dutch (Belgium)", translation:
   common:
-    loading: "Aan het laden..."
+    loading: "Bezig met laden..."
     saving: "Opslaan..."
     sending: "Verzenden..."
     send: "Verzend"
     cancel: "Annuleren"
-    save: "Opslagen"
+    save: "Opslaan"
     publish: "Publiceren"
     create: "Creëer"
     delay_1_sec: "1 seconde"
@@ -15,6 +15,9 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     fork: "Fork"
     play: "Spelen"
     retry: "Probeer opnieuw"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
   units:
     second: "seconde"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     editor: "Editor"
     blog: "Blog"
     forum: "Forum"
+#    account: "Account"
     admin: "Administrator"
     home: "Home"
     contribute: "Bijdragen"
@@ -46,7 +50,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     employers: "Werkgevers"
 
   versions:
-    save_version_title: "Nieuwe versie opslagen"
+    save_version_title: "Nieuwe versie opslaan"
     new_major_version: "Nieuwe hoofd versie"
     cla_prefix: "Om bewerkingen op te slaan, moet je eerst akkoord gaan met onze"
     cla_url: "CLA"
@@ -73,7 +77,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
-    social_signup: "Of je kunt je registreren met Facebook of G+:" 
+    social_signup: "Of je kunt je registreren met Facebook of G+:"
 
   home:
     slogan: "Leer programmeren in JavaScript door het spelen van een spel"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     job_profile: "Job Profiel"
     job_profile_approved: "Jouw job profiel werd goedgekeurd door CodeCombat. Werkgevers zullen het kunnen bekijken totdat je het inactief zet of als er geen verandering in komt voor vier weken."
     job_profile_explanation: "Hey! Vul dit in en we zullen je contacteren om je een job als softwareontwikkelaar te helpen vinden."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Instellingen Aanpassen"
@@ -293,7 +299,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     time_goto: "Ga naar:"
     infinite_loop_try_again: "Probeer opnieuw"
     infinite_loop_reset_level: "Level resetten"
-    infinite_loop_comment_out: "Mijn code weg commentariëren" 
+    infinite_loop_comment_out: "Mijn code weg commentariëren"
 
   admin:
     av_title: "Administrator panels"
@@ -306,16 +312,23 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     lg_title: "Laatste Spelletjes"
     clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "CodeCombat Editors"
-    main_description: "Maak je eigen levels, campagnes, eenheden en leermateriaal. Wij bieden alle programma's aan die u nodig heeft!"
+    main_description: "Maak je eigen levels, campagnes, eenheden en leermateriaal. Wij bieden alle programma's aan die je nodig hebt!"
     article_title: "Artikel Editor"
     article_description: "Schrijf artikels die spelers een overzicht geven over programmeer concepten die kunnen gebruikt worden over een variëteit van levels en campagnes."
     thang_title: "Thang Editor"
     thang_description: "Maak eenheden, beschrijf hun standaard logica, graphics en audio. Momenteel is enkel het importeren van vector graphics geëxporteerd uit Flash ondersteund."
     level_title: "Level Editor"
     level_description: "Bevat de benodigdheden om scripts te schrijven, audio te uploaden en aangepaste logica te creëren om alle soorten levels te maken. Het is alles wat wij zelf ook gebruiken!"
-    security_notice: "Veel belangrijke elementen in deze editors zijn momenteel niet actief. Als wij de veiligheid van deze systemen verbeteren, zullen ook deze elementen beschikbaar worden. Indien u deze elementen al eerder wil gebruiken, "
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "contacteer ons!"
     hipchat_prefix: "Je kan ons ook vinden in ons"
     hipchat_url: "(Engelstalig) HipChat kanaal."

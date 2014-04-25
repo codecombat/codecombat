@@ -1,7 +1,7 @@
 View = require 'views/kinds/CocoView'
 add_thangs_template = require 'templates/editor/level/add_thangs'
 ThangType = require 'models/ThangType'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 
 class ThangTypeSearchCollection extends CocoCollection
   url: '/db/thang.type/search?project=true'

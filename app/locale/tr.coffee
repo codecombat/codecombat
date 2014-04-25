@@ -15,6 +15,9 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     fork: "Çatalla"
     play: "Oyna"
     retry: "Yeniden Dene"
+#    watch: "Watch"
+#    unwatch: "Unwatch"
+#    submit_patch: "Submit Patch"
 
   units:
     second: "saniye"
@@ -36,6 +39,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     editor: "Düzenleyici"
     blog: "Blog"
     forum: "Forum"
+#    account: "Account"
     admin: "Yönetici"
     home: "Anasayfa"
     contribute: "Katkıda bulun"
@@ -170,6 +174,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
+#    sample_profile: "See a sample profile"
+#    view_profile: "View Your Profile"
 
   account_profile:
     edit_settings: "Ayarları Düzenle"
@@ -306,6 +312,13 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     lg_title: "Yeni Oyunlar"
 #    clas: "CLAs"
 
+#  community:
+#    level_editor: "Level Editor"
+#    main_title: "CodeCombat Community"
+#    facebook: "Facebook"
+#    twitter: "Twitter"
+#    gplus: "Google+"
+
   editor:
     main_title: "CodeCombat Düzenleyici"
     main_description: "Kendi bölümlerinizi, seferberliklerinizi, birimlerinizi ve eğitimsel içeriklerinizi oluşturun. Gereken tüm araçları sağlıyoruz!"
@@ -315,7 +328,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     thang_description: "Öntanımlı mantıkları, grafik ve seslerini tanımlayarak birimler üretin. Şimdilik sadece Flash ile dışa aktarılmış vektör grafikleri desteklenmektedir."
     level_title: "Bölüm Düzenleyici"
     level_description: "Her türde bölüm oluşturmak için betik yazma, ses yükleme ve özel mantık inşası için araçları içermektedir. Kendi kullandığımız her şey!"
-    security_notice: "Bu düzenleyicilerin çoğu özelliği öntanımlı olarak şimdilik etkin değildir. Bu sistemlerin güvenliklerini arttırdığımızda herkese açık olacaklar. Eğer bu özellikleri daha önceden kullanmak isterseniz,"
+#    got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "bize ulaşın!"
     hipchat_prefix: "Bizi ayrıca"
     hipchat_url: "HipChat otasında bulabilirsiniz."

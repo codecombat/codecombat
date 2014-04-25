@@ -30,13 +30,8 @@ module.exports = class EditorLevelView extends View
     'click #patches-tab': -> @patchesView.load()
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
-    
-  subscriptions:
-    'refresh-level-editor': 'rerenderAllViews'
-
-  rerenderAllViews: ->
-    for view in [@thangsTab, @settingsTab, @scriptsTab, @componentsTab, @systemsTab, @patchesView]
-      view.render()
+    'click #pop-level-i18n-button': -> @level.populateI18N()
+    'mouseup .nav-tabs > li a': 'toggleTab'
     
   constructor: (options, @levelID) ->
     super options
@@ -136,3 +131,13 @@ module.exports = class EditorLevelView extends View
     button = @$el.find('#level-watch-button')
     @level.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')
+    
+  toggleTab: (e) ->
+    return unless $(document).width() <= 800
+    li = $(e.target).closest('li')
+    if li.hasClass('active')
+      li.parent().find('li').show()
+    else
+      li.parent().find('li').hide()
+      li.show()
+    console.log li.hasClass('active')

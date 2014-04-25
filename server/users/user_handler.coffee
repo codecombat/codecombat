@@ -25,7 +25,7 @@ UserHandler = class UserHandler extends Handler
 
   editableProperties: [
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
-    'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emailSubscriptions',
+    'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
     'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
     'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile'
   ]
@@ -120,34 +120,11 @@ UserHandler = class UserHandler extends Handler
       return @sendSuccess(res, @formatEntity(req, req.user, 256))
     super(req, res, id)
 
-  getNamesByIds: (req, res) ->
+  getNamesByIDs: (req, res) ->
     ids = req.query.ids or req.body.ids
-    ids = ids.split(',') if _.isString ids
-    ids = _.uniq ids
-
-    # TODO: Extend and repurpose this handler to return other public info about a user more flexibly,
-    #   say by a query parameter that lists public properties to return.
     returnWizard = req.query.wizard or req.body.wizard
-    query = if returnWizard then {name:1, wizard:1} else {name:1}
-
-    makeFunc = (id) ->
-      (callback) ->
-        User.findById(id, query).exec (err, document) ->
-          return done(err) if err
-          if document and returnWizard
-            callback(null, {name:document.get('name'), wizard:document.get('wizard') or {}})
-          else
-            callback(null, document?.get('name') or '')
-
-    funcs = {}
-    for id in ids
-      return errors.badInput(res, "Given an invalid id: #{id}") unless Handler.isID(id)
-      funcs[id] = makeFunc(id)
-
-    async.parallel funcs, (err, results) ->
-      return errors.serverError err if err
-      res.send results
-      res.end()
+    properties = if returnWizard then "name wizard" else "name"
+    @getPropertiesFromMultipleDocuments res, User, properties, ids
 
   nameToID: (req, res, name) ->
     User.findOne({nameLower:name.toLowerCase()}).exec (err, otherUser) ->
@@ -206,7 +183,7 @@ UserHandler = class UserHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
-    return @getNamesByIds(req, res) if args[1] is 'names'
+    return @getNamesByIDs(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
@@ -258,9 +235,10 @@ UserHandler = class UserHandler extends Handler
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
-    query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
-    #query = {'jobProfile.updated': {$gt: since}}
+    #query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
+    query = {'jobProfile.updated': {$gt: since}}
     query.jobProfileApproved = true unless req.user.isAdmin()
+    query['jobProfile.active'] = true unless req.user.isAdmin()
     selection = 'jobProfile'
     selection += ' email' if authorized
     selection += ' jobProfileApproved' if req.user.isAdmin()
@@ -274,7 +252,7 @@ UserHandler = class UserHandler extends Handler
     fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile']
     obj = _.pick document.toObject(), fields
     obj.photoURL ||= obj.jobProfile.photoURL if authorized
-    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated']
+    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active']
     if authorized
       subfields = subfields.concat ['name']
     obj.jobProfile = _.pick obj.jobProfile, subfields

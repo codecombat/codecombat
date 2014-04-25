@@ -1,6 +1,14 @@
 #editor-level-components-tab-view
   h3
     margin-top: 0
+    @media screen and (max-width: 800px)
+      display: none
+      
+  .toggle
+    padding: 6px 8px
+    z-index: 11
+    margin-top: 1px
+    margin-left: 2px
 
   .components-container
     position: absolute
@@ -16,6 +24,9 @@
       
       .treema-children .treema-row *
         cursor: pointer !important
+        
+    #components-treema
+      z-index: 11
 
   .edit-component-container
     margin-left: 290px
@@ -24,7 +35,15 @@
     left: 0px
     top: 0
     bottom: 0
-    
+    @media screen and (max-width: 800px)
+      margin-left: 0px
+      
+      .nav-tabs
+        margin-left: 80px
+        
+        li
+          z-index: 11
+      
     .treema-root
       position: absolute
       top: 35px
@@ -37,3 +56,18 @@
       position: absolute
       top: 0
       right: 0
+      left: auto
+      @media screen and (max-width: 800px)
+        left: 40px
+        top: 1px
+        bottom: auto
+        padding: 8px 10px
+      .text
+        display: block
+        @media screen and (max-width: 800px)
+          display: none
+      [class^='icon-']
+        display: none
+        @media screen and (max-width: 800px)
+          display: block
+      

@@ -88,26 +88,7 @@ module.exports = class TomeView extends View
     @cast()
 
   createWorker: ->
-    return
-    # In progress
-    worker = cw
-      initialize: (scope) ->
-        self.window = self
-        self.global = self
-        console.log 'Tome worker initialized.'
-      doIt: (data, callback, scope) ->
-        console.log 'doing', what
-        try
-          importScripts '/javascripts/tome_aether.js'
-        catch err
-          console.log err.toString()
-        a = new Aether()
-        callback 'good'
-        undefined
-    onAccepted = (s) -> console.log 'accepted', s
-    onRejected = (s) -> console.log 'rejected', s
-    worker.doIt('hmm').then onAccepted, onRejected
-    worker
+    return new Worker("/javascripts/workers/aether_worker.js")
 
   generateTeamSpellMap: (spellObject) ->
     teamSpellMap = {}
@@ -139,7 +120,7 @@ module.exports = class TomeView extends View
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
           skipProtectAPI = @getQueryVariable "skip_protect_api", not @options.ladderGame
-          skipFlow = @getQueryVariable "skip_flow", @options.levelID is 'brawlwood' or @options.levelID is 'resource-gathering-multiplayer'
+          skipFlow = @getQueryVariable "skip_flow", (@options.levelID in ['brawlwood', 'greed', 'gold-rush'])
           spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI, worker: @worker
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
@@ -222,7 +203,7 @@ module.exports = class TomeView extends View
       @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
 
   reloadAllCode: ->
-    spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team
+    spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team or (spell.team in ["common", "neutral", null])
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
 
   updateLanguageForAllSpells: ->
@@ -230,5 +211,5 @@ module.exports = class TomeView extends View
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
-    @worker?._close()
+    @worker?.terminate()
     super()
