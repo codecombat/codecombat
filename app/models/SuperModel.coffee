@@ -109,7 +109,10 @@ module.exports = class SuperModel extends Backbone.Model
 
   getProgress: -> return @progress
 
-
+  getResource: (rid) ->
+    return @resources[rid]
+    
+    
 
 class Resource extends Backbone.Model
   constructor: (name, value=1) ->
@@ -131,11 +134,12 @@ class Resource extends Backbone.Model
     return if @isLoaded
     @trigger('failed', {resource: @})
     @isLoaded = @isLoading = false
+    @isFailed = true
     
   markLoading: ->
-    @isLoaded = false
+    @isLoaded = @isFailed = false
     @isLoading = true
-
+    
   load: -> @
 
 

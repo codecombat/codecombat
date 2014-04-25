@@ -16,6 +16,7 @@ class CocoModel extends Backbone.Model
     @markToRevert()
     @addSchemaDefaults()
     @once 'sync', @onLoaded, @
+    @on 'error', @onError, @
     @saveBackup = _.debounce(@saveBackup, 500)
 
   type: ->
@@ -26,6 +27,9 @@ class CocoModel extends Backbone.Model
     clone = super()
     clone.set($.extend(true, {}, if withChanges then @attributes else @_revertAttributes))
     clone
+    
+  onError: ->
+    @loading = false
 
   onLoaded: ->
     @loaded = true

@@ -111,7 +111,6 @@ module.exports = class PlayLevelView extends View
   load: ->
     @loadStartTime = new Date()
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
-#    @listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged) # TODO NOW: transfer to supermodel system
     @god = new God()
 
   getRenderData: ->
@@ -154,8 +153,6 @@ module.exports = class PlayLevelView extends View
     _.defer => @onLevelLoaded()
 
   onLevelLoaded: ->
-    console.debug 'level_view', 'onLevelLoaderLoaded',  @levelLoader.progress()
-
     return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
     @loadingView.showReady()
     if window.currentModal and not window.currentModal.destroyed

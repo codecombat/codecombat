@@ -168,22 +168,26 @@ a[data-toggle="modal"]
 .icon-cog.big
   background-position: 0px 0px
 
+// loading screens for everything but the play view
 .loading-screen
-  text-align: center
   .progress
     width: 50%
     margin: 0 25%
+    
+// all loading screens
+.loading-container
+  text-align: center
   .progress-bar
     width: 0%
     transition: width 0.1s ease
-    
   .errors .alert
     padding: 5px
     display: block
     margin: 10px auto
     .btn
       margin-left: 10px
-  
+
+
 .modal
   overflow-y: auto !important
   .wait

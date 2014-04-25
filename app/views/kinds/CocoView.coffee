@@ -116,22 +116,24 @@ module.exports = class CocoView extends Backbone.View
       
   updateProgressBar: (progress) =>
     prog = "#{parseInt(progress*100)}%"
-    @$el?.find('.loading-screen .progress-bar').css('width', prog)
+    @$el?.find('.loading-container .progress-bar').css('width', prog)
 
   onLoaded: -> @render()
 
   # Error handling for loading
-  onResourceLoadFailed: (source) ->
-    # console.debug 'gintau', 'onResourceLoadFailed', source
-    @$el.find('.loading-screen .errors').append(loadingErrorTemplate({
-      status: 'error',
-      name: source.resource.name
-      resourceIndex: source.resource.rid,
-      responseText: source.error
+  onResourceLoadFailed: (e) ->
+    r = e.resource
+    @$el.find('.loading-container .errors').append(loadingErrorTemplate({
+      status: r.jqxhr?.status
+      name: r.name
+      resourceIndex: r.rid,
+      responseText: r.jqxhr?.responseText
     })).i18n()
   
   onRetryResource: (e) ->
     res = @supermodel.getResource($(e.target).data('resource-index'))
+    # different views may respond to this call, and not all have the resource to reload
+    return unless res and res.isFailed 
     res.load()
     $(e.target).closest('.loading-error-alert').remove()
 
