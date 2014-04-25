@@ -30,10 +30,11 @@ UserSchema = c.object {},
     artisanNews: { $ref: '#/definitions/emailSubscription' }
     diplomatNews: { $ref: '#/definitions/emailSubscription' }
     scribeNews: { $ref: '#/definitions/emailSubscription' }
-    
+
     # notifications
     anyNotes: { $ref: '#/definitions/emailSubscription' } # overrides any other notifications settings
     recruitNotes: { $ref: '#/definitions/emailSubscription' }
+    employerNotes: { $ref: '#/definitions/emailSubscription' }
 
   # server controlled
   permissions: c.array {'default': []}, c.shortString()
@@ -53,7 +54,7 @@ UserSchema = c.object {},
 
   #Internationalization stuff
   preferredLanguage: {type: 'string', default: 'en', 'enum': c.getLanguageCodeArray()}
-  
+
   signedCLA: c.date({title: 'Date Signed the CLA'})
   wizard: c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
@@ -112,8 +113,8 @@ UserSchema = c.object {},
   signedEmployerAgreement: c.object {},
     linkedinID: c.shortString {title:"LinkedInID", description: "The user's LinkedIn ID when they signed the contract."}
     date: c.date {title: "Date signed employer agreement"}
-    data: c.object
-    
+    data: c.object {description: "Cached LinkedIn data slurped from profile."}
+
 
 c.extendBasicProperties UserSchema, 'user'
 

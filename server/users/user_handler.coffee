@@ -232,6 +232,7 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError(res, err) if err
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
+
   agreeToEmployerAgreement: (req, res) ->
     userIsAnonymous = req.user?.get('anonymous')
     if userIsAnonymous then return errors.unauthorized(res, "You need to be logged in to agree to the employer agreeement.")
@@ -244,19 +245,20 @@ UserHandler = class UserHandler extends Handler
         return errors.conflict(res, "You already have signed the agreement!")
       #TODO: Search for the current position
       employerAt = _.filter(profileData.positions.values,"isCurrent")[0]?.company.name ? "Not available"
-      signedEmployerAgreement = 
+      signedEmployerAgreement =
         linkedinID: profileData.id
         date: new Date()
         data: profileData
-      updateObject = 
+      updateObject =
         "employerAt": employerAt
         "signedEmployerAgreement": signedEmployerAgreement
         $push: "permissions":'employer'
-        
+
       User.update {"_id": req.user.id}, updateObject, (err, result) =>
         if err? then return errors.serverError(res, "There was an issue updating the user object to reflect employer status: #{err}")
         res.send({"message": "The agreement was successful."})
         res.end()
+
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()

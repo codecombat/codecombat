@@ -28,7 +28,7 @@ module.exports = class EmployersView extends View
   getRenderData: ->
     c = super()
     c.candidates = @candidates.models
-    userPermissions = me.get('permissions') || []
+    userPermissions = me.get('permissions') ? []
 
     c.isEmployer = _.contains userPermissions, "employer"
     c.moment = moment
