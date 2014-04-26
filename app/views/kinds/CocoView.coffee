@@ -32,8 +32,13 @@ module.exports = class CocoView extends Backbone.View
 
   constructor: (options) ->
     @loadProgress = _.cloneDeep @loadProgress
-    @supermodel ?= options?.supermodel or new SuperModel()
-    @options = options
+    @supermodel ?= new SuperModel()
+    
+    if options?.supermodel # kind of a hacky way to get each view to store its own progress
+      @supermodel.models = options.supermodel.models
+      @supermodel.collections = options.supermodel.collections
+      @supermodel.shouldSaveBackups = options.supermodel.shouldSaveBackups
+      
     @subscriptions = utils.combineAncestralObject(@, 'subscriptions')
     @events = utils.combineAncestralObject(@, 'events')
     @scope = makeScopeName()

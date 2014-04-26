@@ -19,20 +19,18 @@ module.exports = class ThangComponentEditView extends CocoView
     @callback = options.callback
 
     @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    @componentCollectionRes = @supermodel.addModelResource(@componentCollection, 'component_collection')
-    @listenToOnce(@componentCollectionRes, 'loaded', @onComponentsSync)
-    @componentCollectionRes.load()
-
-  onloaded: -> @render()
+    if not @componentCollection.loaded
+      @supermodel.addModelResource(@componentCollection, 'component_collection').load()
+      
+  onLoaded: ->
+    @supermodel.addCollection @componentCollection
+    super()
 
   afterRender: ->
     super()
+    return unless @supermodel.finished()
     @buildExtantComponentTreema()
     @buildAddComponentTreema()
-
-  onComponentsSync: (res) ->
-    return if @destroyed
-    @supermodel.addCollection @componentCollection
 
   buildExtantComponentTreema: ->
     level = new Level()

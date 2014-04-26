@@ -20,6 +20,7 @@ module.exports = class SuperModel extends Backbone.Model
     return @getModelByURL(m.url())
 
   getModelByURL: (modelURL) ->
+    modelURL = modelURL() if _.isFunction(modelURL)
     return @models[modelURL] or null
 
   getModelByOriginalAndMajorVersion: (ModelClass, original, majorVersion=0) ->
@@ -35,6 +36,7 @@ module.exports = class SuperModel extends Backbone.Model
 
   registerModel: (model) ->
     url = model.url
+    url = model.url() if _.isFunction(model.url)
     @models[url] = model
 
   getCollection: (collection) ->
@@ -64,7 +66,7 @@ module.exports = class SuperModel extends Backbone.Model
     return @progress is 1.0 or Object.keys(@resources).length is 0
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
-    modelOrCollection.saveBackups = @shouldSaveBackups()
+    modelOrCollection.saveBackups = @shouldSaveBackups(modelOrCollection)
     @checkName(name)
     @registerModel(modelOrCollection)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)

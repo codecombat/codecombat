@@ -102,7 +102,7 @@ module.exports = class LevelLoader extends CocoClass
       
     for thangID in _.uniq thangIDs
       url = "/db/thang.type/#{thangID}/version"
-      url += "?project=true" if @headless
+#      url += "?project=true" if @headless
       res = @maybeLoadURL url, ThangType, 'thang'
       @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
     for obj in objUniq componentVersions

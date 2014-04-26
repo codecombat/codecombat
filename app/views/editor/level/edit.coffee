@@ -36,16 +36,21 @@ module.exports = class EditorLevelView extends View
     
   constructor: (options, @levelID) ->
     super options
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true
-    @level = @levelLoader.level
     @supermodel.shouldSaveBackups = (model) ->
       model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true
+    @level = @levelLoader.level
     @files = new DocumentFiles(@levelLoader.level)
     @supermodel.addModelResource(@files, 'file_names').load()
 
   showLoading: ($el) ->
     $el ?= @$el.find('.outer-content')
     super($el)
+
+  onLoaded: ->
+    _.defer =>
+      @world = @levelLoader.world
+      @render()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -54,11 +59,6 @@ module.exports = class EditorLevelView extends View
     context.anonymous = me.get('anonymous')
     context
 
-  onLoaded: ->
-    _.defer =>
-      @world = @levelLoader.world
-      @render()
-    
   afterRender: ->
     super()
     return unless @supermodel.finished()

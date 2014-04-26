@@ -51,8 +51,8 @@ module.exports = class ThangsTabView extends View
     'click #delete': 'onDeleteClicked'
     'click #duplicate': 'onDuplicateClicked'
     'click #thangs-container-toggle': 'toggleThangsContainer'
-    'click #thangs-palette-toggle': 'toggleThangsPalette'
-    'click .add-thang-palette-icon': 'toggleThangsPalette'
+#    'click #thangs-palette-toggle': 'toggleThangsPalette'
+#    'click .add-thang-palette-icon': 'toggleThangsPalette'
 
   shortcuts:
     'esc': 'selectAddThang'
@@ -65,31 +65,22 @@ module.exports = class ThangsTabView extends View
     @world = options.world
 
     @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @thangTypesRes = @supermodel.addModelResource(@thangTypes, 'thang_type_search_collection')
-    @listenToOnce(@thangTypesRes, 'loaded', @onThangTypesLoaded)
-    @thangTypesRes.load()
+    @supermodel.addModelResource(@thangTypes, 'thang_type_search_collection').load()
+    
+    # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
+    @componentCollection = @supermodel.getCollection new ComponentsCollection()
+    @supermodel.addModelResource(@componentCollection, 'components_collection').load()
     
     $(document).bind 'contextmenu', @preventDefaultContextMenu
-
-    # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
-
-    @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    @componentCollectionRes = @supermodel.addModelResource(@componentCollection, 'components_collection')
-    @listenToOnce(@componentCollectionRes, 'loaded', @onComponentsLoaded)
-    @componentCollectionRes.load()
-
-  onThangTypesLoaded: ->
-    return if @destroyed
+    
+  onLoaded: ->
     @supermodel.addCollection @thangTypes
-    for model in @thangTypes.models
-      @supermodel.populateModel(model, model.name)
-
-  onComponentsLoaded: ->
-    return if @destroyed
     @supermodel.addCollection @componentCollection
+    super()
 
   getRenderData: (context={}) ->
     context = super(context)
+    return context unless @supermodel.finished()
     thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
     thangTypes = _.uniq thangTypes, false, 'original'
     thangTypes = _.reject thangTypes, kind: 'Mark'
@@ -123,11 +114,13 @@ module.exports = class ThangsTabView extends View
 
   afterRender: ->
     super()
+    return unless @supermodel.finished()
     $('.tab-content').click @selectAddThang
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
     $(window).resize @onWindowResize
     @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
+    @onLevelLoaded() # refactor to not have this trigger when this view re-renders?
 
   onFilterExtantThangs: (e) ->
     @$el.find('#extant-thangs-filter button.active').button('toggle')
@@ -142,7 +135,7 @@ module.exports = class ThangsTabView extends View
     e.preventDefault()
 
   onLevelLoaded: (e) ->
-    @level = e.level
+    @level = e.level if e
 
     data = $.extend(true, {}, @level.attributes)
     treemaOptions =
@@ -411,7 +404,6 @@ module.exports = class ThangsTabView extends View
     physical.config.pos = x: pos.x, y: pos.y, z: physical.config.pos.z if physical
     thang = thangType: thangType.get('original'), id: thangID, components: components
     @thangsTreema.insert '', thang
-    @supermodel.populateModel(thangType, thangType.get('name'))  # Make sure we grab any new data for the thang we just added
 
   editThang: (e) ->
     if e.target  # click event
