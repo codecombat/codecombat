@@ -8,6 +8,51 @@ module.exports = class SuperModel extends Backbone.Model
 
     @models = {}
     @collections = {}
+    
+  # Since the supermodel has undergone some changes into being a loader and a cache interface,
+  # it's a bit wonky to use. The next couple functions are meant to cover the majority of
+  # use cases across the site. If they are used, the view will automatically handle errors,
+  # retries, progress, and filling the cache. Note that the resource it passes back will not
+  # necessarily have the same model or collection that was passed in, if it was fetched from
+  # the cache.
+    
+  loadModel: (model, name, fetchOptions, value=1) ->
+    cachedModel = @getModelByURL(model.getURL())
+    if cachedModel
+      console.debug 'Model cache hit', cachedModel.getURL(), 'already loaded', cachedModel.loaded
+      if cachedModel.loaded
+        res = @addModelResource(cachedModel, name, fetchOptions, 0)
+        res.markLoaded()
+        return res
+      else
+        res = @addModelResource(cachedModel, name, fetchOptions, value)
+        res.markLoading()
+        return res
+    
+    else
+      @registerModel(model)
+      console.debug 'Registering model', model.getURL()
+      return @addModelResource(model, name, fetchOptions, value).load()
+      
+  loadCollection: (collection, name, fetchOptions, value=1) ->
+    url = collection.getURL()
+    if cachedCollection = @collections[url]
+      console.debug 'Collection cache hit', url, 'already loaded', cachedModel.loaded
+      if cachedModel.loaded
+        res = @addModelResource(cachedCollection, name, fetchOptions, 0)
+        res.markLoaded()
+        return res
+      else
+        res = @addModelResource(cachedCollection, name, fetchOptions, value)
+        res.markLoading()
+        return res
+        
+    else
+      @addCollection collection
+      @listenToOnce collection, 'sync', (c) ->
+        console.debug 'Registering collection', url
+        @registerCollection c
+      return @addModelResource(collection, name, fetchOptions, value).load()
 
   # replace or overwrite
   shouldSaveBackups: (model) -> false
@@ -17,7 +62,7 @@ module.exports = class SuperModel extends Backbone.Model
   getModel: (ModelClass_or_url, id) ->
     return @getModelByURL(ModelClass_or_url) if _.isString(ModelClass_or_url)
     m = new ModelClass_or_url(_id: id)
-    return @getModelByURL(m.url())
+    return @getModelByURL(m.getURL())
 
   getModelByURL: (modelURL) ->
     modelURL = modelURL() if _.isFunction(modelURL)
@@ -35,35 +80,33 @@ module.exports = class SuperModel extends Backbone.Model
     return _.values @models
 
   registerModel: (model) ->
-    url = model.url
-    url = model.url() if _.isFunction(model.url)
-    @models[url] = model
+    @models[model.getURL()] = model
 
   getCollection: (collection) ->
-    url = collection.url
-    url = url() if _.isFunction(url)
-    return @collections[url] or collection
+    return @collections[collection.getURL()] or collection
 
   addCollection: (collection) ->
-    url = collection.url
-    url = url() if _.isFunction(url)
-    if @collections[url]?
+    # TODO: remove, instead just use registerCollection?
+    url = collection.getURL()
+    if @collections[url]? and @collections[url] isnt collection
       return console.warn "Tried to add Collection '#{url}' to SuperModel when we already had it."
-    @collections[url] = collection
+    @registerCollection(collection)
 
+  registerCollection: (collection) ->
+    @collections[collection.getURL()] = collection
     # consolidate models
     for model, i in collection.models
-      cachedModel = @getModelByURL(model.url())
+      cachedModel = @getModelByURL(model.getURL())
       if cachedModel
         collection.models[i] = cachedModel
       else
         @registerModel(model)
     collection
     
-  # New, loading tracking stuff
+  # Tracking resources being loaded for this supermodel
 
   finished: ->
-    return @progress is 1.0 or Object.keys(@resources).length is 0
+    return @progress is 1.0 or not @denom
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
     modelOrCollection.saveBackups = @shouldSaveBackups(modelOrCollection)
@@ -108,8 +151,9 @@ module.exports = class SuperModel extends Backbone.Model
     # Because this is _.defer'd, this might end up getting called after 
     # a bunch of things load all at once.
     # So make sure we only emit events if @progress has changed.
-    return if @progress is @num / @denom
-    @progress = @num / @denom
+    newProg = if @denom then @num / @denom else 1
+    return if @progress is newProg
+    @progress = newProg
     @trigger('update-progress', @progress)
     @trigger('loaded-all') if @finished()
 

@@ -41,7 +41,7 @@ module.exports = class EditorLevelView extends View
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true
     @level = @levelLoader.level
     @files = new DocumentFiles(@levelLoader.level)
-    @supermodel.addModelResource(@files, 'file_names').load()
+    @supermodel.loadCollection(@files, 'file_names')
 
   showLoading: ($el) ->
     $el ?= @$el.find('.outer-content')

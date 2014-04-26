@@ -228,4 +228,12 @@ class CocoModel extends Backbone.Model
     model.url = makeUrlFunc(link)
     return model
     
+  setURL: (url) ->
+    makeURLFunc = (u) -> -> u
+    @url = makeURLFunc(url)
+    @
+    
+  getURL: ->
+    return if _.isString @url then @url else @url()
+    
 module.exports = CocoModel
