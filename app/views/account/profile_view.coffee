@@ -11,6 +11,7 @@ module.exports = class ProfileView extends View
     'click #toggle-job-profile-approved': 'toggleJobProfileApproved'
     'keyup #job-profile-notes': 'onJobProfileNotesChanged'
     'click #contact-candidate': 'onContactCandidate'
+    'click #enter-espionage-mode': 'enterEspionageMode'
 
   constructor: (options, @userID) ->
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
@@ -51,6 +52,17 @@ module.exports = class ProfileView extends View
     @user.set 'jobProfileApproved', approved
     @user.save()
     @updateProfileApproval()
+
+  enterEspionageMode: ->
+    postData = emailLower: @user.get('email').toLowerCase(), usernameLower: @user.get('name').toLowerCase()
+    $.ajax
+      type: "POST",
+      url: "/auth/spy"
+      data: postData
+      success: @espionageSuccess
+
+  espionageSuccess: (model) ->
+    window.location.reload()
 
   onJobProfileNotesChanged: (e) =>
     notes = @$el.find("#job-profile-notes").val()

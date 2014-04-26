@@ -204,6 +204,8 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    candidate_top_skills: "Top Skills"
 #    candidate_years_experience: "Yrs Exp"
 #    candidate_last_updated: "Last Updated"
+#    candidate_approved: "Us?"
+#    candidate_active: "Them?"
 
   play_level:
     level_load_error: "Nie udało się wczytać poziomu: "
@@ -370,10 +372,12 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     new_article_title: "Stwórz nowy artykuł"
     new_thang_title: "Stwórz nowy typ obiektu"
     new_level_title: "Stwórz nowy poziom"
+#    new_article_title_signup: "Sign Up to Create a New Article"
+#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
+#    new_level_title_signup: "Sign Up to Create a New Level"
     article_search_title: "Przeszukaj artykuły"
     thang_search_title: "Przeszukaj typy obiektów"
     level_search_title: "Przeszukaj poziomy"
-#    signup_to_create: "Sign Up to Create a New Content"
 #    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:

@@ -1,9 +1,68 @@
 extends /templates/modal/modal_base
 
 block modal-header-content
-  h3(data-i18n="employer_signup.title") Hire CodeCombat Players
+  if userIsAnonymous || !userIsAuthorized
+    h3(data-i18n="employer_signup.title") Sign up to hire CodeCombat players!
+  else
+    h3 CodeCombat Placement Agreement
 
 block modal-body-content
-  h4(data-i18n="employer_signup.sub_heading") Let us find your next brilliant developers.
+  if userIsAnonymous
+    if userIsAuthorized
+      | You appear to be authorized on CodeCombat with LinkedIn. 
+    else
+      h4(data-i18n="employer_signup.sub_heading") Let us find your next brilliant developers.
+      p Create an account to get started!
+      .form
+        .form-group
+          label.control-label(for="signup-email", data-i18n="general.email") Email
+          input#signup-email.form-control.input-large(name="email",type="email")
+        .form-group
+          label.control-label(for="signup-password", data-i18n="general.password") Password              
+          input#signup-password.input-large.form-control(name="password", type="password")
+  else if !userIsAuthorized
+    .modal-footer.linkedin
+      p Please sign into your LinkedIn account to verify your identity.
+      script(type="in/Login" id="linkedInAuthButton" data-onAuth="contractCallback")
 
-  p(data-i18n="employer_signup.pitch_body") When you hire one of our players, you will pay CodeCombat 18% of her first-year salary, payable within 30 days of when she starts working. We will fully refund our placement fee if she leaves or is fired within 90 days. Cool? Email george@codecombat.com to get set up with employer permissions to see our candidates.
+  else 
+    | Please agree to our terms before accessing our candidates.
+    br
+    br
+    b Who we are: 
+    | CodeCombat is a programming game that both teaches and vets programmers. If you accept this agreement, we will let you hire the most talented developers on our platform. 
+    br
+    br
+    b Placement fee: 
+    | If you hire our any of our players, you agree to pay us 15% of the candidate's first year annualized starting base salary. The fee is due on the first day that the candidate is employed and is 100% refundable for up to 90 day if the candidate doesn't remain employed at the company for any reason.
+    br
+    br
+    b Interns are free: 
+    | We will not bill you for interns and part time hires (remote or onsite) hired through this site, provided they do not become full time hires within 1 year of their start date. If they do become full time hires within 1 year of their start date, we will invoice you 15% of their first year's annualized starting base salary on their first day of full time employment. For these hires, the 90 day guarantee does not apply.
+    br
+    br
+    | By clicking Agree, you are agreeing to CodeCombat's Placement Agreement on behalf of your company. You also consent to CodeCombat storing basic LinkedIn profile data for verification purposes, including your name, email, public profile URL, and work history.
+block modal-footer
+  if userIsAnonymous   
+    if !userIsAuthorized
+      .modal-footer.linkedin
+        b.signin-text Sign in with LinkedIn to complete the registration process.
+        script(type="in/Login" id="linkedInAuthButton" data-onAuth="contractCallback")
+        br
+        br
+        | Already have a CodeCombat account? 
+        a.login-link(data-toggle="coco-modal", data-target="modal/login") Log in to continue!
+    else
+      .modal-footer.linkedin
+        a.login-link(data-toggle="coco-modal", data-target="modal/login") Please log in to continue.
+  else if !userIsAnonymous && !userIsAuthorized
+    .modal-footer.linkedin
+      | We will record your name and work history for verification purposes.
+  else if userIsAuthorized && !userHasSignedContract
+    .modal-footer.linkedin
+      button.btn.btn-primary(id="contract-agreement-button") I agree
+  else
+    .modal-footer.linkedin
+       | Thanks! You've already agreed to the contract.
+    
+    

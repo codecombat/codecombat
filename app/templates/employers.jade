@@ -12,9 +12,11 @@ block content
       span(data-i18n="employers.candidates_count_many") many
     |  
     span(data-i18n="employers.candidates_count_suffix") highly skilled and vetted developers looking for work.
-  h3
-    a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/employer_signup", data-i18n="employers.contact_george") Contact George to see our candidates
+  if !isEmployer
     
+    h3
+      a#see-candidates(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/employer_signup") Click here to see candidates
+      
   if candidates.length
     table.table.table-condensed.table-hover.table-responsive.tablesorter
       thead

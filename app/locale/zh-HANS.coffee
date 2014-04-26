@@ -204,6 +204,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     candidate_top_skills: "高级技能"
     candidate_years_experience: "多年工作经验"
     candidate_last_updated: "最后一次更新"
+#    candidate_approved: "Us?"
+#    candidate_active: "Them?"
 
   play_level:
     level_load_error: "关卡不能载入: "
@@ -370,10 +372,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     new_article_title: "创建一个新物品"
     new_thang_title: "创建一个新物品类型"
     new_level_title: "创建一个新关卡"
+#    new_article_title_signup: "Sign Up to Create a New Article"
+#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
+#    new_level_title_signup: "Sign Up to Create a New Level"
     article_search_title: "在这里搜索物品"
     thang_search_title: "在这里搜索物品类型"
     level_search_title: "在这里搜索关卡"
-    signup_to_create: "注册之后就可以创建一个新的关卡"
     read_only_warning2: "提示：你不能保存任何编辑，因为你没有登陆"
 
   article:

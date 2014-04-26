@@ -204,6 +204,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     candidate_top_skills: "Mejores Habilidades"
     candidate_years_experience: "Años Exp"
     candidate_last_updated: "Última actualización"
+#    candidate_approved: "Us?"
+#    candidate_active: "Them?"
 
   play_level:
     level_load_error: "No se pudo cargar el nivel: "
@@ -370,10 +372,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     new_article_title: "Crear un nuevo artículo"
     new_thang_title: "Crea un nuevo tipo de objeto"
     new_level_title: "Crear un nuevo nivel"
+#    new_article_title_signup: "Sign Up to Create a New Article"
+#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
+#    new_level_title_signup: "Sign Up to Create a New Level"
     article_search_title: "Buscar artículos aquí"
     thang_search_title: "Busca tipos de objetos aquí"
     level_search_title: "Buscar niveles aquí"
-    signup_to_create: "Regístrate para crear nuevo contenido"
     read_only_warning2: "Nota: no puedes guardar nada de lo que edites aqui porque no has iniciado sesión."
 
   article:

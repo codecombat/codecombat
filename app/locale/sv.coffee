@@ -204,6 +204,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    candidate_top_skills: "Top Skills"
 #    candidate_years_experience: "Yrs Exp"
 #    candidate_last_updated: "Last Updated"
+#    candidate_approved: "Us?"
+#    candidate_active: "Them?"
 
   play_level:
     level_load_error: "Nivån kunde inte laddas: "
@@ -370,10 +372,12 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     new_article_title: "Skapa ny artikel"
     new_thang_title: "Skapa ny enhetstyp"
     new_level_title: "Skapa ny nivå"
+#    new_article_title_signup: "Sign Up to Create a New Article"
+#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
+#    new_level_title_signup: "Sign Up to Create a New Level"
     article_search_title: "Sök artiklar här"
     thang_search_title: "Sök enhetstyper här"
     level_search_title: "Sök nivåer här"
-#    signup_to_create: "Sign Up to Create a New Content"
 #    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:

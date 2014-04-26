@@ -36,7 +36,7 @@ module.exports = class CastButtonView extends View
     @castOptions = $('.autocast-delays', @$el)
     delay = me.get('autocastDelay')
     delay ?= 5000
-    if @levelID in ['brawlwood', 'brawlwood-tutorial', 'dungeon-arena', 'dungeon-arena-tutorial']
+    if @levelID in ['brawlwood', 'brawlwood-tutorial', 'dungeon-arena', 'dungeon-arena-tutorial', 'gold-rush', 'greed']
       delay = 90019001
     @setAutocastDelay delay
 
@@ -78,7 +78,7 @@ module.exports = class CastButtonView extends View
     async.some _.values(@spells), (spell, callback) =>
       spell.hasChangedSignificantly spell.getSource(), null, callback
     , (castable) =>
-        
+
       @castButtonGroup.toggleClass('castable', castable).toggleClass('casting', @casting)
       if @casting
         s = $.i18n.t("play_level.tome_cast_button_casting", defaultValue: "Casting")
