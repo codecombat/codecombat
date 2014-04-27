@@ -32,7 +32,7 @@ module.exports = class Simulator extends CocoClass
     @simulateAnotherTaskAfterDelay()
 
   handleNoGamesResponse: ->
-    @trigger 'statusUpdate', 'There were no games to simulate--nice. Retrying in 10 seconds.'
+    @trigger 'statusUpdate', 'There were no games to simulate--all simulations are done or in process. Retrying in 10 seconds.'
     @simulateAnotherTaskAfterDelay()
 
   simulateAnotherTaskAfterDelay: =>
@@ -102,7 +102,7 @@ module.exports = class Simulator extends CocoClass
   sendResultsBackToServer: (results) =>
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
     console.log "Sending result back to server!"
-    
+
     $.ajax
       url: "/queue/scoring"
       data: results
@@ -257,7 +257,7 @@ class SimulationTask
     @spellKeyToTeamMap = {}
 
   getLevelName: ->
-    levelName =  @rawData.sessions?[0]?.levelID
+    levelName = @rawData.sessions?[0]?.levelID
     return levelName if levelName?
     @throwMalformedTaskError "The level name couldn't be deduced from the task."
 
@@ -279,9 +279,9 @@ class SimulationTask
   getReceiptHandle: -> @rawData.receiptHandle
 
   getSessions: -> @rawData.sessions
-    
+
   getSpellKeyToTeamMap: -> @spellKeyToTeamMap
-  
+
   getPlayerTeams: -> _.pluck @rawData.sessions, 'team'
 
   generateSpellKeyToSourceMap: ->
@@ -303,7 +303,7 @@ class SimulationTask
           fullSpellName = [thangName,spellName].join '/'
           if _.contains(teamSpells, fullSpellName)
             teamCode[fullSpellName]=spell
-            
+
       _.merge spellKeyToSourceMap, teamCode
 
     spellKeyToSourceMap

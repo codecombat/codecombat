@@ -14,6 +14,8 @@ block content
           i.icon-cog
           span(data-i18n='account_profile.approved').approved Approved
           span(data-i18n='account_profile.not_approved').not-approved Not Approved
+        if user.id != me.id
+          button.btn.edit-settings-button#enter-espionage-mode 007
   
   if user.get('jobProfile')
     - var profile = user.get('jobProfile');

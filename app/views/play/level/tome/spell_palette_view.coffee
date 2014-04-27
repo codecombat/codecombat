@@ -51,19 +51,24 @@ module.exports = class SpellPaletteView extends View
         allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'
 
-    propStorage =
-      'this': 'programmableProperties'
-      more: 'moreProgrammableProperties'
-      Math: 'programmableMathProperties'
-      Array: 'programmableArrayProperties'
-      Object: 'programmableObjectProperties'
-      String: 'programmableStringProperties'
-      Vector: 'programmableVectorProperties'
-      snippets: 'programmableSnippets'
+    if @options.programmable
+      propStorage =
+        'this': 'programmableProperties'
+        more: 'moreProgrammableProperties'
+        Math: 'programmableMathProperties'
+        Array: 'programmableArrayProperties'
+        Object: 'programmableObjectProperties'
+        String: 'programmableStringProperties'
+        Vector: 'programmableVectorProperties'
+        snippets: 'programmableSnippets'
+    else
+      propStorage =
+        'this': 'apiProperties'
     count = 0
     propGroups = {}
     for owner, storage of propStorage
-      added = propGroups[owner] = _.sortBy(@thang[storage] ? []).slice()
+      props = _.reject @thang[storage] ? [], (prop) -> prop[0] is '_'  # no private properties
+      added = propGroups[owner] = _.sortBy(props).slice()
       count += added.length
 
     shortenize = count > 6
@@ -78,7 +83,7 @@ module.exports = class SpellPaletteView extends View
         doc ?= prop
         @entries.push @addEntry(doc, shortenize, tabbify, owner is 'snippets')
     groupForEntry = (entry) ->
-      return 'more' if entry.doc.owner is 'this' and entry.doc.name in propGroups.more
+      return 'more' if entry.doc.owner is 'this' and entry.doc.name in (propGroups.more ? [])
       entry.doc.owner
     @entries = _.sortBy @entries, (entry) ->
       order = ['this', 'more', 'Math', 'Vector', 'snippets']

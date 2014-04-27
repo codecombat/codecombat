@@ -18,10 +18,11 @@ module.exports = class Spell
     p = options.programmableMethod
 
     @name = p.name
-    @source = @session.getSourceFor(@spellKey) ? p.source
-    @originalSource = p.source
-    @parameters = p.parameters
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
+    @source = @originalSource = p.source
+    @parameters = p.parameters
+    if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
+      @source = sessionSource
     @thangs = {}
     @view = new SpellView {spell: @, session: @session, worker: @worker}
     @view.render()  # Get it ready and code loaded in advance
@@ -29,7 +30,6 @@ module.exports = class Spell
     @tabView.render()
     @team = @permissions.readwrite[0] ? "common"
     Backbone.Mediator.publish 'tome:spell-created', spell: @
-
 
   destroy: ->
     @view.destroy()
@@ -95,7 +95,7 @@ module.exports = class Spell
         @worker.removeEventListener("message",arguments.callee, false)
         cb(workerData.hasChanged)
     @worker.postMessage JSON.stringify(workerMessage)
-  
+
   createAether: (thang) ->
     aceConfig = me.get('aceConfig') ? {}
     aetherOptions =
@@ -136,7 +136,7 @@ module.exports = class Spell
     for thangId, spellThang of @thangs
       spellThang.aether?.setLanguage newLanguage
       spellThang.castAether = null
-    workerMessage = 
+    workerMessage =
       function: "updateLanguageAether"
       newLanguage: newLanguage
     @worker.postMessage JSON.stringify workerMessage
