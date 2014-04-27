@@ -296,12 +296,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
 #    tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
 #    tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
-     time_current: "Maintenant:"
+    time_current: "Maintenant:"
 #    time_total: "Max:"
 #    time_goto: "Go to:"
-     infinite_loop_try_again: "Reessayer"
-     infinite_loop_reset_level: "Redemarrer le niveau"
-     infinite_loop_comment_out: "Supprimez les commentaire de mon code"
+    infinite_loop_try_again: "Reessayer"
+    infinite_loop_reset_level: "Redemarrer le niveau"
+    infinite_loop_comment_out: "Supprimez les commentaire de mon code"
 
   admin:
     av_title: "Vues d'administrateurs"
@@ -374,7 +374,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     new_level_title: "Créer un nouveau niveau"
     new_article_title_signup: "Identifiez vous pour creer un nouvel article"
 #    new_thang_title_signup: "Sign Up to Create a New Thang Type"
-#    new_level_title_signup: "Identifiez vous pour créer un Nouveau niveau"
+    new_level_title_signup: "Identifiez vous pour créer un Nouveau niveau"
     article_search_title: "Rechercher dans les articles"
     thang_search_title: "Rechercher dans les types Thang"
     level_search_title: "Rechercher dans les niveaux"
@@ -500,7 +500,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   contribute:
     page_title: "Contribution"
-#    character_classes_title: "Classes du personnage"
+    character_classes_title: "Classes du personnage"
     introduction_desc_intro: "Nous avons beaucoup d'espoir pour CodeCombat."
     introduction_desc_pref: "Nous voulons être l'endroit où les développeurs de tous horizons viennent pour apprendre et jouer ensemble, présenter les autres au monde du développement, et refléter le meilleur de la communauté. Nous ne pouvons et ne voulons pas faire ça seuls ; ce qui rend super les projets comme GitHub, Stack Overflow et Linux, est que les gens qui l'utilisent le construisent. Dans ce but, "
     introduction_desc_github_url: "CodeCombat est totalement open source"
