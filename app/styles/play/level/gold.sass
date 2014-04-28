@@ -1,4 +1,5 @@
 @import "app/styles/mixins"
+@import "app/styles/bootstrap/mixins"
 
 #gold-view
   position: absolute
@@ -6,6 +7,12 @@
   top: 42px
   user-select: none
   -webkit-user-select: none
+  @include transition(background-color .2s linear)
+  padding: 4px
+  border-radius: 4px
+
+  &:hover
+    background-color: rgba(255, 255, 255, 0.75)
 
   .team-gold
     font-size: 16px
