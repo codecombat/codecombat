@@ -26,8 +26,9 @@ nav.navbar.navbar-default(role='navigation')
               span.spl Unwatch
         li#patch-system-button
           a(data-i18n="common.submit_patch") Submit Patch
-        li#create-new-system
-          a(data-i18n="editor.level_system_btn_new") Create New System
+        if me.isAdmin()
+          li#create-new-system
+            a(data-i18n="editor.level_system_btn_new") Create New System
         li.divider
         li.dropdown-header Info
         li#system-history-button
