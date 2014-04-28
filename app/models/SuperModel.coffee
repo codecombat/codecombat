@@ -80,7 +80,6 @@ module.exports = class SuperModel extends Backbone.Model
     return _.values @models
 
   registerModel: (model) ->
-    console.log 'register model?', model, model.getURL
     @models[model.getURL()] = model
 
   getCollection: (collection) ->
