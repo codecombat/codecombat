@@ -193,7 +193,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   employers:
     want_to_hire_our_players: "Хотите нанимать игроков-экспертов CodeCombat?"
-    contact_george: "Свяжитесь с Джорджем, чтобы посмотреть наших кандидатов"
+#    see_candidates: "Click here to see our candidates"
     candidates_count_prefix: "Сейчас у нас есть "
     candidates_count_many: "много"
     candidates_count_suffix: "высококвалифицированных и проверенных разработчиков, ищущих работу."

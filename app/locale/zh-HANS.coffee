@@ -193,7 +193,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   employers:
     want_to_hire_our_players: "想要雇用CodeCombat上的专业玩家？"
-    contact_george: "联系George查看”为我们义务工作的人"
+#    see_candidates: "Click here to see our candidates"
     candidates_count_prefix: "我们当前有 "
     candidates_count_many: "很多"
     candidates_count_suffix: "经过我们认证的高手们正在找工作。"

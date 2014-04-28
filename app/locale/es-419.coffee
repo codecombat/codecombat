@@ -193,7 +193,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 
   employers:
     want_to_hire_our_players: "¿Quiere contratar a nuestros jugadores expertos de CodeCombat?"
-    contact_george: "Contacta a George para ver nuestros candidatos"
+#    see_candidates: "Click here to see our candidates"
     candidates_count_prefix: "Actualmente tenemos "
     candidates_count_many: "muchos"
     candidates_count_suffix: "desarrolladores altamente cualificados y examinados en busca de trabajo."

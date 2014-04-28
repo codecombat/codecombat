@@ -193,7 +193,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   employers:
     want_to_hire_our_players: "CodeCombatのエキスパートプレイヤーをお探しですか?"
-    contact_george: "候補者に会うためにGeorgeに連絡してください"
+#    see_candidates: "Click here to see our candidates"
     candidates_count_prefix: "現在、仕事を探している優秀で審査済みの開発者が"
     candidates_count_many: "多数"
     candidates_count_suffix: "います"

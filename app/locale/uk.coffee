@@ -193,7 +193,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 
   employers:
     want_to_hire_our_players: "Бажаєш найняти досвідчених гравців CodeCombat?"
-    contact_george: "Зв‘яжись з Джорджем, щоб подивитись на наших кандидатів"
+#    see_candidates: "Click here to see our candidates"
     candidates_count_prefix: "В даний час ми маємо "
     candidates_count_many: "багато"
     candidates_count_suffix: "висококваліфікованих і перевірених розробників котрі шукають роботу."
@@ -446,6 +446,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     archmage_wiki_url: "нашу wiki для Архімагів,"
     opensource_description_suffix: "щоб побачити списки ПЗ, яке робить цю гру можливою."
     practices_title: "Шановні найкращі гравці"
+#    practices_description: "These are our promises to you, the player, in slightly less legalese."
     privacy_title: "Конфіденційність"
     privacy_description: "Ми не продаватимемо ніяку вашу особисту інформацію. Ми маємо намір заробити гроші за допомогою кінцевого результату, але будьте впевнені, ми не будемо поширювати Вашу особисту інформацію для зацікавлених компаній без вашої явної згоди."
     security_title: "Безпека"
@@ -496,7 +497,6 @@ module.exports = nativeDescription: "українська мова", englishDesc
     nutshell_title: "Коротко"
     nutshell_description: "Будь-які ресурси котрі ми надаємо в редакторі рівнів є безкоштовними для використання за вашим бажанням для створення рівнів. Але ми залишаємо за собою право обмежувати розповсюдження самих рівнів(котрі були створені на codecombat.com), тому вони зможуть заплатити в майбутньому, якщо в кінцевому результаті таке станеться."
     canonical: "Англійська версія цього документа є остаточною та канонічною версією. Якщо тут є будь-які невідповідності в перекладі, англійська версія документа є пріоритетною."
-
 
   contribute:
     page_title: "Співпраця"
