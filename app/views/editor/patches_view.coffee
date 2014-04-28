@@ -30,7 +30,7 @@ module.exports = class PatchesView extends CocoView
   onPatchesLoaded: ->
     ids = (p.get('creator') for p in @patches.models)
     jqxhrOptions = nameLoader.loadNames ids
-    @supermodel.addRequestResource('name_loader', jqxhrOptions).load() if jqxhrOptions
+    @supermodel.addRequestResource('user_names', jqxhrOptions).load() if jqxhrOptions
 
   getRenderData: ->
     c = super()

@@ -692,3 +692,4 @@
     level_session: "Your Session"
     opponent_session: "Opponent Session"
     article: "Article"
+    user_names: "User Names"
