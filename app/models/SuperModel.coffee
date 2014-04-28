@@ -8,14 +8,14 @@ module.exports = class SuperModel extends Backbone.Model
 
     @models = {}
     @collections = {}
-    
+
   # Since the supermodel has undergone some changes into being a loader and a cache interface,
   # it's a bit wonky to use. The next couple functions are meant to cover the majority of
   # use cases across the site. If they are used, the view will automatically handle errors,
   # retries, progress, and filling the cache. Note that the resource it passes back will not
   # necessarily have the same model or collection that was passed in, if it was fetched from
   # the cache.
-    
+
   loadModel: (model, name, fetchOptions, value=1) ->
     cachedModel = @getModelByURL(model.getURL())
     if cachedModel
@@ -28,12 +28,12 @@ module.exports = class SuperModel extends Backbone.Model
         res = @addModelResource(cachedModel, name, fetchOptions, value)
         res.markLoading()
         return res
-    
+
     else
       @registerModel(model)
       console.debug 'Registering model', model.getURL()
       return @addModelResource(model, name, fetchOptions, value).load()
-      
+
   loadCollection: (collection, name, fetchOptions, value=1) ->
     url = collection.getURL()
     if cachedCollection = @collections[url]
@@ -46,7 +46,7 @@ module.exports = class SuperModel extends Backbone.Model
         res = @addModelResource(cachedCollection, name, fetchOptions, value)
         res.markLoading()
         return res
-        
+
     else
       @addCollection collection
       @listenToOnce collection, 'sync', (c) ->
@@ -56,7 +56,7 @@ module.exports = class SuperModel extends Backbone.Model
 
   # replace or overwrite
   shouldSaveBackups: (model) -> false
-    
+
   # Caching logic
 
   getModel: (ModelClass_or_url, id) ->
@@ -102,7 +102,7 @@ module.exports = class SuperModel extends Backbone.Model
       else
         @registerModel(model)
     collection
-    
+
   # Tracking resources being loaded for this supermodel
 
   finished: ->
@@ -148,7 +148,7 @@ module.exports = class SuperModel extends Backbone.Model
     @trigger('failed', source)
 
   updateProgress: =>
-    # Because this is _.defer'd, this might end up getting called after 
+    # Because this is _.defer'd, this might end up getting called after
     # a bunch of things load all at once.
     # So make sure we only emit events if @progress has changed.
     newProg = if @denom then @num / @denom else 1
@@ -161,8 +161,8 @@ module.exports = class SuperModel extends Backbone.Model
 
   getResource: (rid) ->
     return @resources[rid]
-    
-    
+
+
 
 class Resource extends Backbone.Model
   constructor: (name, value=1) ->
@@ -185,11 +185,11 @@ class Resource extends Backbone.Model
     @trigger('failed', {resource: @})
     @isLoaded = @isLoading = false
     @isFailed = true
-    
+
   markLoading: ->
     @isLoaded = @isFailed = false
     @isLoading = true
-    
+
   load: -> @
 
 
