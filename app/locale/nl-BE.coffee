@@ -193,7 +193,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 
   employers:
     want_to_hire_our_players: "Wil je expert CodeCombat spelers aanwerven? "
-    contact_george: "Contacteer George om onze kandidaten te zien"
+#    see_candidates: "Click here to see our candidates"
     candidates_count_prefix: "Momenteel hebben we "
     candidates_count_many: "veel"
     candidates_count_suffix: "zeer getalenteerde en ervaren ontwikkelaars die werk zoeken."

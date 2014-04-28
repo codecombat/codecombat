@@ -596,9 +596,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # rather than an each-thang-that-shows-gold-per-team thing.
     return if @thang.gold is @lastGold
     gold = Math.floor @thang.gold
+    if @thang.world.age is 0
+      gold = @thang.world.initialTeamGold[@thang.team].gold
     return if gold is @lastGold
     @lastGold = gold
-    Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold}
+    Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold, goldEarned: Math.floor(@thang.goldEarned)}
 
   playSounds: (withDelay=true, volume=1.0) ->
     for event in @thang.currentEvents ? []

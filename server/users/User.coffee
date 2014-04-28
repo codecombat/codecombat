@@ -18,7 +18,6 @@ UserSchema.pre('init', (next) ->
   for prop, sch of jsonschema.properties
     continue if prop is 'emails' # defaults may change, so don't carry them over just yet
     @set(prop, sch.default) if sch.default?
-  @set('permissions', ['admin']) if not isProduction
   next()
 )
 
@@ -108,6 +107,7 @@ UserSchema.pre('save', (next) ->
     @set('password', undefined)
   if @get('email') and @get('anonymous')
     @set('anonymous', false)
+    @set('permissions', ['admin']) if not isProduction
     data =
       email_id: sendwithus.templates.welcome_email
       recipient:
