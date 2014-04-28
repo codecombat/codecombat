@@ -11,7 +11,6 @@ module.exports = class SystemsTabView extends View
   id: "editor-level-systems-tab-view"
   template: template
   className: 'tab-pane'
-  startsLoading: true
 
   subscriptions:
     'level-system-added': 'onLevelSystemAdded'
@@ -27,34 +26,23 @@ module.exports = class SystemsTabView extends View
 
   constructor: (options) ->
     super options
-    @toLoad = 0
     for system in @buildDefaultSystems()
       url = "/db/level.system/#{system.original}/version/#{system.majorVersion}"
-      ls = new LevelSystem()
-      ls.saveBackups = true
-      do (url) -> ls.url = -> url
-      continue if @supermodel.getModelByURL ls.url
-      ls.fetch()
-      @listenToOnce ls, 'sync', @onSystemLoaded
-      ++@toLoad
-    @onDefaultSystemsLoaded() unless @toLoad
+      ls = new LevelSystem().setURL(url)
+      @supermodel.loadModel(ls, 'system')
 
-  onSystemLoaded: (ls) ->
-    @supermodel.addModel ls
-    --@toLoad
-    @onDefaultSystemsLoaded() unless @toLoad
-
-  onDefaultSystemsLoaded: ->
-    @startsLoading = false
-    @render()  # do it again but without the loading screen
-    @onLevelLoaded level: @level if @level
-
+  afterRender: ->
+    @buildSystemsTreema()
+    
+  onLoaded: ->
+    super()
+      
   onLevelLoaded: (e) ->
     @level = e.level
-    return if @startsLoading
     @buildSystemsTreema()
 
   buildSystemsTreema: ->
+    return unless @level and @supermodel.finished()
     systems = $.extend(true, [], @level.get('systems') ? [])
     unless systems.length
       systems = @buildDefaultSystems()
@@ -148,9 +136,7 @@ class LevelSystemNode extends TreemaObjectNode
   grabDBComponent: ->
     unless _.isString @data.original
       return alert('Press the "Add System" button at the bottom instead of the "+". Sorry.')
-    @system = @settings.supermodel.getModelByOriginalAndMajorVersion LevelSystem, @data.original, @data.majorVersion
-    #@system = _.find @settings.supermodel.getModels(LevelSystem), (m) =>
-    #  m.get('original') is @data.original and m.get('version').major is @data.majorVersion
+    @system = @settings.supermodel.getModelByOriginalAndMajorVersion(LevelSystem, @data.original, @data.majorVersion)
     console.error "Couldn't find system for", @data.original, @data.majorVersion, "from models", @settings.supermodel.models unless @system
 
   getChildSchema: (key) ->

@@ -16,7 +16,8 @@ module.exports = class ScriptsTabView extends View
     super options
     @world = options.world
     @files = options.files
-
+  
+  onLoaded: ->
   onLevelLoaded: (e) ->
     @level = e.level
     @dimensions = @level.dimensions()

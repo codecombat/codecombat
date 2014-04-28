@@ -97,6 +97,7 @@ module.exports = class PlayLevelView extends View
       application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID
 
   onLevelLoadError: (e) ->
+    # TODO NOW: remove this in favor of the supermodel handling it
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
@@ -110,8 +111,6 @@ module.exports = class PlayLevelView extends View
   load: ->
     @loadStartTime = new Date()
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
-    @listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
-    @listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged)
     @god = new God()
 
   getRenderData: ->
@@ -124,10 +123,10 @@ module.exports = class PlayLevelView extends View
     c
 
   afterRender: ->
+    super()
     window.onPlayLevelViewLoaded? @  # still a hack
     @insertSubView @loadingView = new LoadingView {}
     @$el.find('#level-done-button').hide()
-    super()
     $('body').addClass('is-playing')
 
   onLevelLoaderProgressChanged: ->
@@ -150,7 +149,10 @@ module.exports = class PlayLevelView extends View
     Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
     return true
 
-  onLevelLoaderLoaded: ->
+  onLoaded: ->
+    _.defer => @onLevelLoaded()
+
+  onLevelLoaded: ->
     return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
     @loadingView.showReady()
     if window.currentModal and not window.currentModal.destroyed
@@ -375,11 +377,12 @@ module.exports = class PlayLevelView extends View
       .css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)")
       .css('top', target_top - 50)
       .css('left', target_left - 50)
-    setTimeout((=>
+    setTimeout(()=>
+      return if @destroyed
       @animatePointer()
       clearInterval(@pointerInterval)
       @pointerInterval = setInterval(@animatePointer, 1200)
-    ), 1)
+    , 1)
 
 
   animatePointer: =>

@@ -9,6 +9,7 @@ module.exports = class LevelLoadingView extends View
   subscriptions:
     'level-loader:progress-changed': 'onLevelLoaderProgressChanged'
 
+  onLoaded: ->
   afterRender: ->
     @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
     tips = @$el.find('.tip').addClass('to-remove')
@@ -34,7 +35,7 @@ module.exports = class LevelLoadingView extends View
     _.delay @reallyUnveil, 1000
 
   reallyUnveil: =>
-    return if @destroyed
+    return if @destroyed or @progress < 1
     @$el.addClass 'unveiled'
     loadingDetails = @$el.find('.loading-details')
     duration = parseFloat loadingDetails.css 'transition-duration'

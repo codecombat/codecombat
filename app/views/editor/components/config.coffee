@@ -63,6 +63,7 @@ module.exports = class ComponentConfigView extends CocoView
     @editThangTreema = @$el.find('.treema').treema treemaOptions
     @editThangTreema.build()
     @editThangTreema.open(2)
+    @hideLoading()
 
   onConfigEdited: =>
     @changed = true

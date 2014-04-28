@@ -10,8 +10,7 @@ classCount = 0
 makeScopeName = -> "view-scope-#{classCount++}"
 doNothing = ->
 
-class CocoView extends Backbone.View
-  startsLoading: false
+module.exports = class CocoView extends Backbone.View
   cache: false # signals to the router to keep this view around
   template: -> ''
 
@@ -27,20 +26,19 @@ class CocoView extends Backbone.View
 
   # load progress properties
   loadProgress:
-    num: 0
-    denom: 0
-    showing: false
-    resources: [] # models and collections
-    requests: [] # jqxhr's
-    somethings: [] # everything else
     progress: 0
 
   # Setup, Teardown
 
   constructor: (options) ->
     @loadProgress = _.cloneDeep @loadProgress
-    @supermodel ?= options?.supermodel or new SuperModel()
+    @supermodel ?= new SuperModel()
     @options = options
+    if options?.supermodel # kind of a hacky way to get each view to store its own progress
+      @supermodel.models = options.supermodel.models
+      @supermodel.collections = options.supermodel.collections
+      @supermodel.shouldSaveBackups = options.supermodel.shouldSaveBackups
+      
     @subscriptions = utils.combineAncestralObject(@, 'subscriptions')
     @events = utils.combineAncestralObject(@, 'events')
     @scope = makeScopeName()
@@ -50,6 +48,11 @@ class CocoView extends Backbone.View
     @updateProgressBar = _.debounce @updateProgressBar, 100
     @toggleModal = _.debounce @toggleModal, 100
     # Backbone.Mediator handles subscription setup/teardown automatically
+
+    @listenTo(@supermodel, 'loaded-all', @onLoaded)
+    @listenTo(@supermodel, 'update-progress', @updateProgress)
+    @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
+
     super options
 
   destroy: ->
@@ -89,8 +92,13 @@ class CocoView extends Backbone.View
     super()
     return @template if _.isString(@template)
     @$el.html @template(@getRenderData())
+
+    if not @supermodel.finished()
+      @showLoading()
+    else
+      @hideLoading()
+
     @afterRender()
-    @showLoading() if @startsLoading or @loading() # TODO: Remove startsLoading entirely
     @$el.i18n()
     @
 
@@ -107,102 +115,31 @@ class CocoView extends Backbone.View
 
   afterRender: ->
 
-  # Resource and request loading management for any given view
-
-  addResourceToLoad: (modelOrCollection, name, value=1) ->
-    @loadProgress.resources.push {resource:modelOrCollection, value:value, name:name}
-    @listenToOnce modelOrCollection, 'sync', @updateProgress
-    @listenTo modelOrCollection, 'error', @onResourceLoadFailed
-    @updateProgress()
-    @loaded = false
-
-  addRequestToLoad: (jqxhr, name, retryFunc, value=1) ->
-    @loadProgress.requests.push {request:jqxhr, value:value, name: name, retryFunc: retryFunc}
-    jqxhr.done @updateProgress
-    jqxhr.fail @onRequestLoadFailed
-    @loaded = false
-
-  addSomethingToLoad: (name, value=1) ->
-    @loadProgress.somethings.push {loaded: false, name: name, value: value}
-    @updateProgress()
-    @loaded = false
-
-  somethingLoaded: (name) ->
-    r = _.find @loadProgress.somethings, {name: name}
-    return console.error 'Could not find something called', name if not r
-    r.loaded = true
-    @updateProgress(name)
-
-  loading: ->
-    return false if @loaded
-    for r in @loadProgress.resources
-      return true if not r.resource.loaded
-    for r in @loadProgress.requests
-      return true if not r.request.status
-    for r in @loadProgress.somethings
-      return true if not r.loaded
-    return false
-
-  updateProgress: =>
-    console.debug 'Loaded', r.name if arguments[0] and r = _.find @loadProgress.resources, {resource:arguments[0]}
-    console.debug 'Loaded', r.name if arguments[2] and r = _.find @loadProgress.requests, {request:arguments[2]}
-    console.debug 'Loaded', r.name if arguments[0] and r = _.find @loadProgress.somethings, {name:arguments[0]}
-
-    denom = 0
-    denom += r.value for r in @loadProgress.resources when not r.resource.destroyed
-    denom += r.value for r in @loadProgress.requests
-    denom += r.value for r in @loadProgress.somethings when not r.destroyed
-    num = @loadProgress.num
-    num += r.value for r in @loadProgress.resources when r.resource.loaded
-    num += r.value for r in @loadProgress.requests when r.request.status
-    num += r.value for r in @loadProgress.somethings when r.loaded
-    #console.log 'update progress', @, num, denom, arguments
-
-    progress = if denom then num / denom else 0
-    # sometimes the denominator isn't known from the outset, so make sure the overall progress only goes up
+  updateProgress: (progress)=>
     @loadProgress.progress = progress if progress > @loadProgress.progress
-    @updateProgressBar()
-    if num is denom and not @loaded
-      @loaded = true
-      @onLoaded()
+    @updateProgressBar(progress)
+      
+  updateProgressBar: (progress) =>
+    prog = "#{parseInt(progress*100)}%"
+    @$el?.find('.loading-container .progress-bar').css('width', prog)
 
-  updateProgressBar: =>
-    prog = "#{parseInt(@loadProgress.progress*100)}%"
-    @$el.find('.loading-screen .progress-bar').css('width', prog)
-
-  onLoaded: ->
-    @render()
+  onLoaded: -> @render()
 
   # Error handling for loading
-
-  onResourceLoadFailed: (resource, jqxhr) ->
-    for r, index in @loadProgress.resources
-      break if r.resource is resource
-    @$el.find('.loading-screen .errors').append(loadingErrorTemplate({
-      status:jqxhr.status,
+  onResourceLoadFailed: (e) ->
+    r = e.resource
+    @$el.find('.loading-container .errors').append(loadingErrorTemplate({
+      status: r.jqxhr?.status
       name: r.name
-      resourceIndex: index,
-      responseText: jqxhr.responseText
+      resourceIndex: r.rid,
+      responseText: r.jqxhr?.responseText
     })).i18n()
-
+  
   onRetryResource: (e) ->
-    r = @loadProgress.resources[$(e.target).data('resource-index')]
-    r.resource.fetch()
-    $(e.target).closest('.loading-error-alert').remove()
-
-  onRequestLoadFailed: (jqxhr) =>
-    for r, index in @loadProgress.requests
-      break if r.request is jqxhr
-    @$el.find('.loading-screen .errors').append(loadingErrorTemplate({
-      status:jqxhr.status,
-      name: r.name
-      requestIndex: index,
-      responseText: jqxhr.responseText
-    }))
-
-  onRetryRequest: (e) ->
-    r = @loadProgress.requests[$(e.target).data('request-index')]
-    @[r.retryFunc]?()
+    res = @supermodel.getResource($(e.target).data('resource-index'))
+    # different views may respond to this call, and not all have the resource to reload
+    return unless res and res.isFailed 
+    res.load()
     $(e.target).closest('.loading-error-alert').remove()
 
   # Modals
@@ -232,9 +169,6 @@ class CocoView extends Backbone.View
     $('#modal-wrapper .modal').modal(modalOptions).on 'hidden.bs.modal', @modalClosed
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
-    # setTimeout ->
-    #   $('.modal').nanoScroller({contentClass:'modal-dialog'})
-    # , 1000
 
   modalClosed: =>
     visibleModal.willDisappear() if visibleModal

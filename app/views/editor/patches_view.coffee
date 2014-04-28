@@ -20,26 +20,25 @@ module.exports = class PatchesView extends CocoView
   initPatches: ->
     @startedLoading = false
     @patches = new PatchesCollection([], {}, @model, @status)
-    @listenToOnce @patches, 'sync', @gotPatches
-    @addResourceToLoad @patches, 'patches'
-    
-  gotPatches: ->
-    ids = (p.get('creator') for p in @patches.models)
-    jqxhr = nameLoader.loadNames ids
-    if jqxhr then @addRequestToLoad(jqxhr, 'user_names', 'gotPatches') else @render()
     
   load: ->
-    return if @startedLoading
-    @patches.fetch()
-    @startedLoading = true
+    console.log 'load patches view?'
+    @initPatches()
+    @patches = @supermodel.loadCollection(@patches, 'patches').model
+    @listenTo @patches, 'sync', @onPatchesLoaded
     
+  onPatchesLoaded: ->
+    ids = (p.get('creator') for p in @patches.models)
+    jqxhrOptions = nameLoader.loadNames ids
+    @supermodel.addRequestResource('user_names', jqxhrOptions).load() if jqxhrOptions
+
   getRenderData: ->
     c = super()
     patch.userName = nameLoader.getName(patch.get('creator')) for patch in @patches.models
     c.patches = @patches.models
     c.status
     c
-    
+  
   afterRender: ->
     @$el.find(".#{@status}").addClass 'active'
 
@@ -48,8 +47,6 @@ module.exports = class PatchesView extends CocoView
     @reloadPatches()
     
   reloadPatches: ->
-    @loaded = false
-    @initPatches()
     @load()
     @render()
 

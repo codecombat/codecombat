@@ -85,6 +85,7 @@ module.exports = class Handler
       @sendSuccess(res, documents)
 
   getById: (req, res, id) ->
+    # return @sendNotFoundError(res) # for testing
     return @sendUnauthorizedError(res) unless @hasAccess(req)
 
     @getDocumentForIdOrSlug id, (err, document) =>

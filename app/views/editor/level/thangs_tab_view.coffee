@@ -51,8 +51,8 @@ module.exports = class ThangsTabView extends View
     'click #delete': 'onDeleteClicked'
     'click #duplicate': 'onDuplicateClicked'
     'click #thangs-container-toggle': 'toggleThangsContainer'
-    'click #thangs-palette-toggle': 'toggleThangsPalette'
-    'click .add-thang-palette-icon': 'toggleThangsPalette'
+#    'click #thangs-palette-toggle': 'toggleThangsPalette'
+#    'click .add-thang-palette-icon': 'toggleThangsPalette'
 
   shortcuts:
     'esc': 'selectAddThang'
@@ -63,33 +63,17 @@ module.exports = class ThangsTabView extends View
   constructor: (options) ->
     super options
     @world = options.world
-    @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @listenToOnce(@thangTypes, 'sync', @onThangTypesLoaded)
-    @thangTypes.fetch()
-    $(document).bind 'contextmenu', @preventDefaultContextMenu
 
+    # should load depended-on Components, too
+    @thangTypes = @supermodel.loadCollection(new ThangTypeSearchCollection(), 'thangs').model
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
-    @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    @listenToOnce(@componentCollection, 'sync', @onComponentsLoaded)
-    @componentCollection.fetch()
+    @componentCollection = @supermodel.loadCollection(new ComponentsCollection(), 'components').load()
 
-  onThangTypesLoaded: ->
-    return if @destroyed
-    @supermodel.addCollection @thangTypes
-    @supermodel.populateModel model for model in @thangTypes.models
-    @startsLoading = not @componentCollection.loaded
-    @render()  # do it again but without the loading screen
-    @onLevelLoaded level: @level if @level and not @startsLoading
-
-  onComponentsLoaded: ->
-    return if @destroyed
-    @supermodel.addCollection @componentCollection
-    @startsLoading = not @thangTypes.loaded
-    @render()  # do it again but without the loading screen
-    @onLevelLoaded level: @level if @level and not @startsLoading
-
+    $(document).bind 'contextmenu', @preventDefaultContextMenu
+    
   getRenderData: (context={}) ->
     context = super(context)
+    return context unless @supermodel.finished()
     thangTypes = (thangType.attributes for thangType in @supermodel.getModels(ThangType))
     thangTypes = _.uniq thangTypes, false, 'original'
     thangTypes = _.reject thangTypes, kind: 'Mark'
@@ -122,13 +106,14 @@ module.exports = class ThangsTabView extends View
       
 
   afterRender: ->
-    return if @startsLoading
     super()
+    return unless @supermodel.finished()
     $('.tab-content').click @selectAddThang
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
     $(window).resize @onWindowResize
     @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
+    @onLevelLoaded() # refactor to not have this trigger when this view re-renders?
 
   onFilterExtantThangs: (e) ->
     @$el.find('#extant-thangs-filter button.active').button('toggle')
@@ -143,8 +128,8 @@ module.exports = class ThangsTabView extends View
     e.preventDefault()
 
   onLevelLoaded: (e) ->
-    @level = e.level
-    return if @startsLoading
+    @level = e.level if e
+
     data = $.extend(true, {}, @level.attributes)
     treemaOptions =
       schema: Level.schema.properties.thangs
@@ -159,6 +144,7 @@ module.exports = class ThangsTabView extends View
         thang: ThangNode
         array: ThangsNode
       world: @world
+
     @thangsTreema = @$el.find('#thangs-treema').treema treemaOptions
     @thangsTreema.build()
     @thangsTreema.open()
@@ -411,7 +397,6 @@ module.exports = class ThangsTabView extends View
     physical.config.pos = x: pos.x, y: pos.y, z: physical.config.pos.z if physical
     thang = thangType: thangType.get('original'), id: thangID, components: components
     @thangsTreema.insert '', thang
-    @supermodel.populateModel thangType  # Make sure we grab any new data for the thang we just added
 
   editThang: (e) ->
     if e.target  # click event

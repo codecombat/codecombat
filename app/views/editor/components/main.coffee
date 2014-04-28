@@ -17,33 +17,19 @@ module.exports = class ThangComponentEditView extends CocoView
     @world = options.world
     @level = options.level
     @callback = options.callback
-
-  render: =>
-    return if @destroyed
-    if not @componentCollection
-      @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    unless @componentCollection.loaded
-      @listenToOnce(@componentCollection, 'sync', @onComponentsSync)
-      @componentCollection.fetch()
-    super() # do afterRender at the end
-
+    @componentCollection = @supermodel.loadCollection(new ComponentsCollection(), 'components').model
+      
   afterRender: ->
     super()
-    return @showLoading() unless @componentCollection?.loaded
-    @hideLoading()
+    return unless @supermodel.finished()
     @buildExtantComponentTreema()
     @buildAddComponentTreema()
 
-  onComponentsSync: ->
-    return if @destroyed
-    @supermodel.addCollection @componentCollection
-    @render()
-
   buildExtantComponentTreema: ->
-    new Level() # hack to load the schema
+    level = new Level()
     treemaOptions =
       supermodel: @supermodel
-      schema: Level.schema.properties.thangs.items.properties.components
+      schema: level.schema().properties.thangs.items.properties.components
       data: _.cloneDeep @components
       callbacks: {select: @onSelectExtantComponent, change:@onChangeExtantComponents}
       noSortable: true
@@ -79,7 +65,8 @@ module.exports = class ThangComponentEditView extends CocoView
     _.defer (=>
       @addComponentsTreema = @$el.find('#add-component-column .treema').treema treemaOptions
       @addComponentsTreema.build()
-    ), 100
+      @hideLoading()
+    ), 500
 
   onSelectAddableComponent: (e, selected) =>
     @extantComponentsTreema.deselectAll()
