@@ -23,6 +23,8 @@ module.exports = class God
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
     @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
     @fillWorkerPool()
+    #TODO: have this as a constructor option
+    @debugWorker = @createDebugWorker()
 
   onTomeCast: (e) ->
     return if @dead
@@ -48,14 +50,31 @@ module.exports = class God
     worker.creationTime = new Date()
     worker.addEventListener 'message', @onWorkerMessage
     worker
-
+    
+  createDebugWorker: ->
+    worker = new Worker '/javascripts/workers/worker_debug.js'
+    worker.creationTime = new Date()
+    worker.addEventListener 'message', @onDebugWorkerMessage
+    console.log "GOD: Created debug worker"
+    worker
+    
   onWorkerMessage: (event) =>
     worker = event.target
     if event.data.type is 'worker-initialized'
       #console.log @id, "worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
       worker.initialized = true
       worker.removeEventListener 'message', @onWorkerMessage
-
+      
+  onDebugWorkerMessage: (event) =>
+    worker = event.target
+    switch event.data.type
+      when "worker-initialized"
+        worker.initialized = true
+      when 'new-debug-world'
+        console.log "Created new debug world!"
+      when 'console-log'
+        console.log "|" + @id + "'s " + @id + "|", event.data.args...
+  
   getAngel: ->
     freeAngel = null
     for angel in @angels
@@ -106,7 +125,22 @@ module.exports = class God
       firstWorld: @firstWorld
       goals: @goalManager?.getGoals()
     }}
-
+    
+  createDebugWorldUntilFrame: (frame) ->
+    @debugWorker.postMessage 
+      func : 'runWorldUntilFrame'
+      args:
+        worldName: @level.name
+        userCodeMap: @getUserCodeMap()
+        level: @level
+        firstWorld: @firstWorld
+        goals: @goalManager?.getGoals()
+        frame: frame
+        
+  getDebugWorldCurrentFrame: ->
+    @debugWorker.postMessage
+      func: 'getCurrentFrame'
+  
   beholdWorld: (angel, serialized, goalStates) ->
     worldCreation = angel.started
     angel.free()

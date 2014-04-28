@@ -103,6 +103,36 @@ module.exports = class World
     loadProgressCallback? 1
     loadedCallback()
 
+  loadFramesUntilFrame: (frameToLoadUntil, loadedCallback, errorCallback, loadProgressCallback) ->
+    return if @aborted
+    unless @thangs.length
+      console.log "Warning: loadFrames called on empty World"
+    t1 = now()
+    @t0 ?= t1
+    i = @frames.length
+    while i < frameToLoadUntil
+      try
+        @getFrame(i)
+        ++i  # increment this after we have succeeded in getting the frame, otherwise we'll have to do that frame again
+      catch error
+      # Not an Aether.errors.UserCodeError; maybe we can't recover
+        @addError error
+      for error in (@unhandledRuntimeErrors ? [])
+        return unless errorCallback error  # errorCallback tells us whether the error is recoverable
+      @unhandledRuntimeErrors = []
+      t2 = now()
+      if t2 - t1 > PROGRESS_UPDATE_INTERVAL
+        loadProgressCallback? i / @totalFrames
+        t1 = t2
+        if t2 - @t0 > 1000
+          console.log('  Loaded', i, 'of', frameToLoadUntil, "(+" + (t2 - @t0).toFixed(0) + "ms)")
+          @t0 = t2
+        setTimeout((=> @loadFrames(loadedCallback, errorCallback, loadProgressCallback)), 0)
+        return
+    @ended = true
+    loadProgressCallback? 1
+    loadedCallback()
+
   abort: ->
     @aborted = true
 
@@ -221,7 +251,7 @@ module.exports = class World
       @scriptNotes.push scriptNote
     return unless @goalManager
     @goalManager.submitWorldGenerationEvent(channel, event, @frames.length)
-    
+
   setGoalState: (goalID, status) ->
     @goalManager.setGoalState(goalID, status)
 
