@@ -14,10 +14,11 @@ block modal-body-content
 
   div#normal-view
   
-    p.tutorial-suggestion
-      strong(data-i18n="ladder.tutorial_not_sure") Not sure what's going on?
-      |  
-      a(href="/play/level/#{levelID}-tutorial", data-i18n="ladder.tutorial_play_first") Play the tutorial first.
+    if tutorialLevelExists
+      p.tutorial-suggestion
+        strong(data-i18n="ladder.tutorial_not_sure") Not sure what's going on?
+        |  
+        a(href="/play/level/#{levelID}-tutorial", data-i18n="ladder.tutorial_play_first") Play the tutorial first.
   
     a(href="/play/level/#{levelID}?team=#{teamID}")
       div.play-option
