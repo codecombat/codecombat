@@ -64,20 +64,13 @@ module.exports = class ThangsTabView extends View
     super options
     @world = options.world
 
-    @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @supermodel.addModelResource(@thangTypes, 'thang_type_search_collection').load()
-    
+    # should load depended-on Components, too
+    @thangTypes = @supermodel.loadCollection(new ThangTypeSearchCollection(), 'thangs').model
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
-    @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    @supermodel.addModelResource(@componentCollection, 'components_collection').load()
-    
+    @componentCollection = @supermodel.loadCollection(new ComponentsCollection(), 'components').load()
+
     $(document).bind 'contextmenu', @preventDefaultContextMenu
     
-  onLoaded: ->
-    @supermodel.addCollection @thangTypes
-    @supermodel.addCollection @componentCollection
-    super()
-
   getRenderData: (context={}) ->
     context = super(context)
     return context unless @supermodel.finished()

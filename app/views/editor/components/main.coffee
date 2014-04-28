@@ -17,15 +17,8 @@ module.exports = class ThangComponentEditView extends CocoView
     @world = options.world
     @level = options.level
     @callback = options.callback
-
-    @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    if not @componentCollection.loaded
-      @supermodel.addModelResource(@componentCollection, 'component_collection').load()
+    @componentCollection = @supermodel.loadCollection(new ComponentsCollection(), 'components').model
       
-  onLoaded: ->
-    @supermodel.addCollection @componentCollection
-    super()
-
   afterRender: ->
     super()
     return unless @supermodel.finished()

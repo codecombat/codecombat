@@ -80,6 +80,7 @@ module.exports = class SuperModel extends Backbone.Model
     return _.values @models
 
   registerModel: (model) ->
+    console.log 'register model?', model, model.getURL
     @models[model.getURL()] = model
 
   getCollection: (collection) ->
@@ -111,7 +112,6 @@ module.exports = class SuperModel extends Backbone.Model
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
     modelOrCollection.saveBackups = @shouldSaveBackups(modelOrCollection)
     @checkName(name)
-    @registerModel(modelOrCollection)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)
     @storeResource(res, value)
     return res
@@ -139,7 +139,7 @@ module.exports = class SuperModel extends Backbone.Model
     @listenToOnce(resource, 'loaded', @onResourceLoaded)
     @listenTo(resource, 'failed', @onResourceFailed)
     @denom += value
-    @updateProgress()
+    @updateProgress() if @denom
 
   onResourceLoaded: (r) ->
     @num += r.value

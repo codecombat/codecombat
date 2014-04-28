@@ -47,25 +47,11 @@ module.exports = class ThangTypeEditView extends View
     super options
     @mockThang = $.extend(true, {}, @mockThang)
     @thangType = new ThangType(_id: @thangTypeID)
+    @thangType = @supermodel.loadModel(@thangType, 'thang').model
     @thangType.saveBackups = true
-
-    @listenToOnce(@thangType, 'error', =>
-      @hideLoading()
-
-      # Hack: editor components appear after calling insertSubView.
-      # So we need to hide them first.
-      $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
-
-      @insertSubView(new ErrorView())
-    )
-
-    thangRes = @supermodel.addModelResource(@thangType, 'thang_type')
-    thangRes.load()
-
-    @files = new DocumentFiles(@thangType)
-    thangDocRes = @supermodel.addModelResource(@files, 'thang_document')
-    thangDocRes.load()
-
+    @listenToOnce @thangType, 'sync', ->
+      console.log 'files for?', @thangType.id, @thangType.get 'name'
+      @files = @supermodel.loadCollection(new DocumentFiles(@thangType), 'files').model
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
   getRenderData: (context={}) ->
@@ -81,9 +67,9 @@ module.exports = class ThangTypeEditView extends View
     main = _.keys(@thangType.get('actions') or {})
     main.concat(raw)
   
-  onLoaded: -> @render()
   afterRender: ->
     super()
+    return unless @supermodel.finished()
     @initStage()
     @buildTreema()
     @initSliders()

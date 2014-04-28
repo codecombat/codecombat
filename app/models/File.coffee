@@ -2,5 +2,5 @@ CocoModel = require('./CocoModel')
 
 module.exports = class File extends CocoModel
   @className: "File"
-  @schema: require 'schemas/models/file'
+  @schema: {}
   urlRoot: "/db/file"

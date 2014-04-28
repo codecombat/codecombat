@@ -37,7 +37,6 @@ module.exports = class LadderTabView extends CocoView
   constructor: (options, @level, @sessions) ->
     super(options)
     @socialNetworkRes = @supermodel.addSomethingResource("social_network_apis", 0)
-
     @teams = teamDataFromLevel @level
     @leaderboards = {}
     @refreshLadder()
@@ -151,14 +150,14 @@ module.exports = class LadderTabView extends CocoView
   # LADDER LOADING
 
   refreshLadder: ->
+    @ladderLimit ?= parseInt @getQueryVariable('top_players', 20)
     for team in @teams
       @leaderboards[team.id]?.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
-      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession)
+      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit)
       @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', 3)
       @leaderboardRes.load()
 
-  onLoaded: -> @render()
   render: ->
     super()
   
@@ -284,8 +283,9 @@ class LeaderboardData extends CocoClass
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
-  constructor: (@level, @team, @session) ->
+  constructor: (@level, @team, @session, @limit) ->
     super()
+    @fetch()
 
   fetch: ->
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})

@@ -22,10 +22,9 @@ module.exports = class AddThangsView extends View
   constructor: (options) ->
     super options
     @world = options.world
-    
-    @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @thangTypesRes = @supermodel.addModelResource(@thangTypes, 'add_thang_type_search_collection')
-    @thangTypesRes.load()
+
+    # should load depended-on Components, too
+    @thangTypes = @supermodel.loadCollection(new ThangTypeSearchCollection(), 'thangs').model
 
   getRenderData: (context={}) ->
     context = super(context)
