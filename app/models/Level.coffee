@@ -31,7 +31,6 @@ module.exports = class Level extends CocoModel
     visit = (system) ->
       return if system.original of originalsSeen
       systemModel = _.find systemModels, {original: system.original}
-
       console.error "Couldn't find model for original", system.original, "from", systemModels unless systemModel
       for d in systemModel.dependencies or []
         system2 = _.find levelSystems, {original: d.original}

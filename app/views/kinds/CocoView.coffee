@@ -33,7 +33,7 @@ module.exports = class CocoView extends Backbone.View
   constructor: (options) ->
     @loadProgress = _.cloneDeep @loadProgress
     @supermodel ?= new SuperModel()
-    
+    @options = options
     if options?.supermodel # kind of a hacky way to get each view to store its own progress
       @supermodel.models = options.supermodel.models
       @supermodel.collections = options.supermodel.collections
@@ -49,7 +49,7 @@ module.exports = class CocoView extends Backbone.View
     @toggleModal = _.debounce @toggleModal, 100
     # Backbone.Mediator handles subscription setup/teardown automatically
 
-    @listenToOnce(@supermodel, 'loaded-all', @onLoaded)
+    @listenTo(@supermodel, 'loaded-all', @onLoaded)
     @listenTo(@supermodel, 'update-progress', @updateProgress)
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
 

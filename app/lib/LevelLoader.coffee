@@ -29,6 +29,7 @@ module.exports = class LevelLoader extends CocoClass
     @team = options.team
     @headless = options.headless
     @spectateMode = options.spectateMode ? false
+    @editorMode = options.editorMode # TODO: remove when the surface can load ThangTypes itself
 
     @loadSession()
     @loadLevel()
@@ -55,15 +56,13 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{@levelID}/session"
       url += "?team=#{@team}" if @team
 
-    @session = new LevelSession()
-    @session.url = -> url
-    @supermodel.addModelResource(@session, 'level_session', {cache:false}).load()
+    @session = new LevelSession().setURL url
+    @supermodel.loadModel(@session, 'level_session', {cache:false})
     @session.once 'sync', -> @url = -> '/db/level.session/' + @id
 
     if @opponentSessionID
-      @opponentSession = new LevelSession()
-      @opponentSession.url = "/db/level_session/#{@opponentSessionID}"
-      @supermodel.addModelResource(@opponentSession, 'opponent_session').load()
+      @opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
+      @supermodel.loadModel(@opponentSession, 'opponent_session')
 
   # Supermodel (Level) Loading
 
@@ -72,7 +71,7 @@ module.exports = class LevelLoader extends CocoClass
     if @level.loaded
       @populateLevel()
     else
-      @supermodel.addModelResource(@level, 'level').load()
+      @level = @supermodel.loadModel(@level, 'level').model
       @listenToOnce @level, 'sync', @onLevelLoaded
       
   onLevelLoaded: ->
@@ -102,7 +101,7 @@ module.exports = class LevelLoader extends CocoClass
       
     for thangID in _.uniq thangIDs
       url = "/db/thang.type/#{thangID}/version"
-#      url += "?project=true" if @headless
+      url += "?project=true" if @headless and not @editorMode
       res = @maybeLoadURL url, ThangType, 'thang'
       @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
     for obj in objUniq componentVersions
@@ -119,14 +118,12 @@ module.exports = class LevelLoader extends CocoClass
       @maybeLoadURL url, Level, 'level'
 
     wizard = ThangType.loadUniversalWizard()
-    @supermodel.registerModel wizard
-    @supermodel.addModelResource(wizard, 'thang').load() if wizard.loading
+    @supermodel.loadModel wizard, 'thang'
 
   maybeLoadURL: (url, Model, resourceName) ->
     return if @supermodel.getModel(url)
-    model = new Model()
-    model.url = url
-    @supermodel.addModelResource(model, resourceName).load()
+    model = new Model().setURL url
+    @supermodel.loadModel(model, resourceName)
     
   onSupermodelLoaded: ->
     @loadLevelSounds()

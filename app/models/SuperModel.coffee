@@ -37,8 +37,8 @@ module.exports = class SuperModel extends Backbone.Model
   loadCollection: (collection, name, fetchOptions, value=1) ->
     url = collection.getURL()
     if cachedCollection = @collections[url]
-      console.debug 'Collection cache hit', url, 'already loaded', cachedModel.loaded
-      if cachedModel.loaded
+      console.debug 'Collection cache hit', url, 'already loaded', cachedCollection.loaded
+      if cachedCollection.loaded
         res = @addModelResource(cachedCollection, name, fetchOptions, 0)
         res.markLoaded()
         return res
@@ -139,6 +139,7 @@ module.exports = class SuperModel extends Backbone.Model
     @listenToOnce(resource, 'loaded', @onResourceLoaded)
     @listenTo(resource, 'failed', @onResourceFailed)
     @denom += value
+    @updateProgress()
 
   onResourceLoaded: (r) ->
     @num += r.value
@@ -219,9 +220,10 @@ class RequestResource extends Resource
 
   load: ->
     @markLoading()
-    @jqxhr = $.ajax(jqxhrOptions)
-    @jqxhr.done @markLoaded()
-    @jqxhr.fail @markFailed()
+    @jqxhr = $.ajax(@jqxhrOptions)
+    # make sure any other success/fail callbacks happen before resource loaded callbacks
+    @jqxhr.done => _.defer => @markLoaded()
+    @jqxhr.fail => _.defer => @markFailed()
     @
 
 

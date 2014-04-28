@@ -38,7 +38,7 @@ module.exports = class EditorLevelView extends View
     super options
     @supermodel.shouldSaveBackups = (model) ->
       model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, editorMode: true
     @level = @levelLoader.level
     @files = new DocumentFiles(@levelLoader.level)
     @supermodel.loadCollection(@files, 'file_names')
