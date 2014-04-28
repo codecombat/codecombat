@@ -112,7 +112,7 @@ module.exports = class Handler
     ids = ids.split(',') if _.isString ids
     ids = _.uniq ids
 
-    project = {name:1}
+    project = {name:1, original:1}
     sort = {'version.major':-1, 'version.minor':-1}
 
     makeFunc = (id) =>
@@ -120,8 +120,8 @@ module.exports = class Handler
         criteria = {original:mongoose.Types.ObjectId(id)}
         @modelClass.findOne(criteria, project).sort(sort).exec (err, document) ->
           return done(err) if err
-          callback(null, document?.toObject() or {})
-
+          callback(null, document?.toObject() or null)
+          
     funcs = {}
     for id in ids
       return errors.badInput(res, "Given an invalid id: #{id}") unless Handler.isID(id)
@@ -129,7 +129,7 @@ module.exports = class Handler
 
     async.parallel funcs, (err, results) ->
       return errors.serverError err if err
-      res.send results
+      res.send (d for d in _.values(results) when d)
       res.end()
 
   getPatchesFor: (req, res, id) ->

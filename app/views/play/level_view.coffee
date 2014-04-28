@@ -83,7 +83,6 @@ module.exports = class PlayLevelView extends View
     @sessionID = @getQueryVariable 'session'
 
     $(window).on('resize', @onWindowResize)
-    @listenToOnce(@supermodel, 'error', @onLevelLoadError)
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
@@ -95,10 +94,6 @@ module.exports = class PlayLevelView extends View
     else
       @load()
       application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID
-
-  onLevelLoadError: (e) ->
-    # TODO NOW: remove this in favor of the supermodel handling it
-    application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
     @god?.level = @level.serialize @supermodel

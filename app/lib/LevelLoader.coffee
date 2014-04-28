@@ -4,6 +4,7 @@ LevelSystem = require 'models/LevelSystem'
 Article = require 'models/Article'
 LevelSession = require 'models/LevelSession'
 ThangType = require 'models/ThangType'
+ThangNamesCollection = require 'collections/ThangNamesCollection'
 
 CocoClass = require 'lib/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
@@ -21,6 +22,7 @@ World = require 'lib/world/world'
 module.exports = class LevelLoader extends CocoClass
 
   constructor: (options) ->
+    @t0 = new Date().getTime()
     super()
     @supermodel = options.supermodel
     @levelID = options.levelID
@@ -98,12 +100,15 @@ module.exports = class LevelLoader extends CocoClass
       articleVersions.push _.pick(article, ['original', 'majorVersion'])
 
     objUniq = (array) -> _.uniq array, false, (arg) -> JSON.stringify(arg)
-      
-    for thangID in _.uniq thangIDs
-      url = "/db/thang.type/#{thangID}/version"
-      url += "?project=true" if @headless and not @editorMode
-      res = @maybeLoadURL url, ThangType, 'thang'
-      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
+
+    thangNames = new ThangNamesCollection(thangIDs)
+    @supermodel.loadCollection thangNames, 'thang_names'
+#    for thangID in _.uniq thangIDs
+#      url = "/db/thang.type/#{thangID}/version"
+#      url += "?project=true" if @headless and not @editorMode
+#      res = @maybeLoadURL url, ThangType, 'thang'
+#      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
+    
     for obj in objUniq componentVersions
       url = "/db/level.component/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, LevelComponent, 'component'
@@ -192,6 +197,7 @@ module.exports = class LevelLoader extends CocoClass
     @world = new World @level.get('name')
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
+    console.log 'INITIALIZED!', (new Date().getTime() - @t0) / 1000
 
   # Initial Sound Loading
 

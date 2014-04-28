@@ -695,5 +695,6 @@
     opponent_session: "Opponent Session"
     article: "Article"
     user_names: "User Names"
+    thang_names: "Thang Names"
     files: "Files"
     top_simulators: "Top Simulators"

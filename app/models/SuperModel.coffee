@@ -80,7 +80,6 @@ module.exports = class SuperModel extends Backbone.Model
     return _.values @models
 
   registerModel: (model) ->
-    console.log 'register model?', model, model.getURL
     @models[model.getURL()] = model
 
   getCollection: (collection) ->
@@ -94,7 +93,7 @@ module.exports = class SuperModel extends Backbone.Model
     @registerCollection(collection)
 
   registerCollection: (collection) ->
-    @collections[collection.getURL()] = collection
+    @collections[collection.getURL()] = collection if collection.isCachable
     # consolidate models
     for model, i in collection.models
       cachedModel = @getModelByURL(model.getURL())
