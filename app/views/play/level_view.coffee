@@ -210,6 +210,7 @@ module.exports = class PlayLevelView extends View
     @loadingView?.unveil()
 
   onLoadingViewUnveiled: (e) ->
+    @loadingView.$el.remove()
     @removeSubView @loadingView
     @loadingView = null
     unless @isEditorPreview
@@ -381,7 +382,7 @@ module.exports = class PlayLevelView extends View
     ), 1)
 
 
-  animatePointer: ->
+  animatePointer: =>
     pointer = $('#pointer')
     pointer.css('transition', 'all 0.6s ease-out')
     pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)")
