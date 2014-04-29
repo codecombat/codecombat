@@ -306,10 +306,11 @@ module.exports = class HUDView extends View
     for actionName, action of @thang.actions
       @updateActionElement(actionName, @timespans[actionName], @thang.action is actionName)
     tableContainer = @$el.find('.table-container')
-    timelineWidth = tableContainer.find('tr:not(.secret) .action-timeline').width()
-    right = (1 - (@timeProgress ? 0)) * timelineWidth
     arrow = tableContainer.find('.progress-arrow')
-    arrow.css 'right', right - arrow.width() / 2
+    @timelineWidth ||= tableContainer.find('tr:not(.secret) .action-timeline').width()
+    @actionArrowWidth ||= arrow.width()
+    right = (1 - (@timeProgress ? 0)) * @timelineWidth
+    arrow.css 'right', right - @actionArrowWidth / 2
     tableContainer.find('.progress-line').css 'right', right
 
   buildActionTimespans: ->
