@@ -17,7 +17,7 @@ module.exports = class ProblemAlertView extends View
 
   getRenderData: (context={}) ->
     context = super context
-    format = (s) -> s?.replace("\n", "<br>").replace('<', '&lt;').replace('>', '&gt;')
+    format = (s) -> s?.replace('<', '&lt;').replace('>', '&gt;').replace("\n", "<br>")
     context.message = format @problem.aetherProblem.message
     context.hint = format @problem.aetherProblem.hint
     context
