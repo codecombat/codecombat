@@ -23,7 +23,7 @@ module.exports = class EmployersView extends View
 
 
   checkForEmployerSignupHash: =>
-    if window.location.hash is "#employerSignupLoggingIn"
+    if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get("permissions"))
       @openModalView application.router.getView("modal/employer_signup","_modal")
       window.location.hash = ""
   afterRender: ->
