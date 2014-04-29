@@ -119,7 +119,7 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          skipProtectAPI = @getQueryVariable "skip_protect_api", not @options.ladderGame and not (@options.levelID in ['find-the-spy'])
+          skipProtectAPI = @getQueryVariable "skip_protect_api", (@options.levelID in ['gridmancer'])
           skipFlow = @getQueryVariable "skip_flow", (@options.levelID in ['brawlwood', 'greed', 'gold-rush'])
           spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI, worker: @worker
     for thangID, spellKeys of @thangSpells

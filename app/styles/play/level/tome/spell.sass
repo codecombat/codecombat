@@ -42,6 +42,9 @@
       width: 100%
       height: 100%
 
+    .powered-by-firepad
+      display: none
+
   .ace_editor
     // When Firepad isn't active, .ace_editor needs the width/height set itself.
     @include editor-height(0px)
@@ -109,8 +112,9 @@
         // Override faint gray
         border-color: #BFF
 
-    .ace_identifier
-      border-bottom: 1px dotted rgba(255, 128, 128, 0.45)
+    // Decided it wasn't useful to show what can be hovered, since almost anything can, so we have to make it too faint to be useful if we don't want it to be really distracting.
+    //.ace_identifier
+    //  border-bottom: 1px dotted rgba(0, 51, 255, 0.25)
 
     .ace_text-layer .ace_comment
       color: darken(rgb(103, 164, 200), 5%)
