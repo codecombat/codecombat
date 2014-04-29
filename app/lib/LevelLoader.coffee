@@ -35,7 +35,10 @@ module.exports = class LevelLoader extends CocoClass
     @loadLevel()
     @loadAudio()
     @playJingle()
-    @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
+    if @supermodel.finished()
+      @onSupermodelLoaded()
+    else
+      @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
 
   playJingle: ->
     return if @headless
