@@ -21,9 +21,18 @@ module.exports = class EmployersView extends View
     super options
     @getCandidates()
 
+
+  checkForEmployerSignupHash: =>
+    if window.location.hash is "#employerSignupLoggingIn"
+      @openModalView application.router.getView("modal/employer_signup","_modal")
+      window.location.hash = ""
   afterRender: ->
     super()
     @sortTable() if @candidates.models.length
+
+  afterInsert: ->
+    super()
+    _.delay @checkForEmployerSignupHash, 500
 
   getRenderData: ->
     c = super()

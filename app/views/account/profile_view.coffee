@@ -20,7 +20,9 @@ module.exports = class ProfileView extends View
       @user = me
     else
       @user = User.getByID(@userID)
-      @addResourceToLoad @user, 'user_profile'
+      @user.fetch()
+      @listenTo @user, "sync", =>
+        @render()
 
   getRenderData: ->
     context = super()
