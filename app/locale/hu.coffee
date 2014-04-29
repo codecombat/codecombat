@@ -193,7 +193,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   employers:
     want_to_hire_our_players: "Akarsz szakértő CodeCombat játékosokat alkalmazni?"
-    contact_george: "Vedd fel a kapcsolatot George-dzsal, hogy megtekinthesd jelöltjeinket"
+#    see_candidates: "Click here to see our candidates"
     candidates_count_prefix: "Pillanatnyilag van"
     candidates_count_many: "sok"
     candidates_count_suffix: "magasan képzett és ellenőrzött fejlesztő, aki munkát keres."

@@ -156,9 +156,16 @@ module.exports = class ThangListEntryView extends View
     @$el.toggleClass('disabled', not enabled)
 
   onFrameChanged: (e) ->
+    # Optimize
     return unless currentThang = e.world.thangMap[@thang.id]
-    @$el.toggle Boolean(currentThang.exists)
-    @$el.toggleClass 'dead', currentThang.health <= 0 if currentThang.exists
+    exists = Boolean currentThang.exists
+    if @thangDidExist isnt exists
+      @$el.toggle exists
+      @thangDidExist = exists
+    dead = exists and currentThang.health <= 0
+    if @thangWasDead isnt dead
+      @$el.toggleClass 'dead', dead
+      @thangWasDead = dead
 
   destroy: ->
     @avatar?.destroy()

@@ -193,7 +193,7 @@
 
   employers:
     want_to_hire_our_players: "Want to hire expert CodeCombat players?"
-    contact_george: "Contact George to see our candidates"
+    see_candidates: "Click here to see our candidates"
     candidates_count_prefix: "We currently have "
     candidates_count_many: "many"
     candidates_count_suffix: "highly skilled and vetted developers looking for work."
@@ -686,3 +686,14 @@
     user_profile: "User Profile"
     patches: "Patches"
     model: "Model"
+    system: "System"
+    component: "Component"
+    components: "Components"
+    thang: "Thang"
+    thangs: "Thangs"
+    level_session: "Your Session"
+    opponent_session: "Opponent Session"
+    article: "Article"
+    user_names: "User Names"
+    files: "Files"
+    top_simulators: "Top Simulators"

@@ -6,3 +6,6 @@ module.exports = class CocoCollection extends Backbone.Collection
     @once 'sync', =>
       @loaded = true
       model.loaded = true for model in @models
+
+  getURL: ->
+    return if _.isString @url then @url else @url()

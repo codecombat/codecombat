@@ -238,7 +238,7 @@ module.exports = class PlaybackView extends View
       @currentTime = e.frame / e.world.frameRate
       # Game will sometimes stop at 29.97, but with only one digit, this is unnecesary.
       # @currentTime = @totalTime if Math.abs(@totalTime - @currentTime) < 0.04
-      @updatePopupContent()
+      @updatePopupContent() if @timePopup?.shown
 
       @updateProgress(e.progress)
       @updatePlayButton(e.progress)

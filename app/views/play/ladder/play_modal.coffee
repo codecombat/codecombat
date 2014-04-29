@@ -22,7 +22,7 @@ module.exports = class LadderPlayModal extends View
     @otherTeam = if team is 'ogres' then 'humans' else 'ogres'
     @startLoadingChallengersMaybe()
     @wizardType = ThangType.loadUniversalWizard()
-    
+
   # PART 1: Load challengers from the db unless some are in the matches
 
   startLoadingChallengersMaybe: ->
@@ -72,6 +72,7 @@ module.exports = class LadderPlayModal extends View
     ctx.teamName = _.string.titleize @team
     ctx.teamID = @team
     ctx.otherTeamID = @otherTeam
+    ctx.tutorialLevelExists = @tutorialLevelExists
 
     teamsList = teamDataFromLevel @level
     teams = {}
@@ -118,7 +119,7 @@ module.exports = class LadderPlayModal extends View
       url: "/db/level/#{tutorialLevelID}/exists"
       success: success
       error: failure
-    
+
   # Choosing challengers
 
   getChallengers: ->

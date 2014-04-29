@@ -32,6 +32,7 @@ module.exports = class LevelComponentEditView extends View
     context.component = @levelComponent
     context
 
+  onLoaded: -> @render()
   afterRender: ->
     super()
     @buildSettingsTreema()

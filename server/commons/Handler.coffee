@@ -85,6 +85,7 @@ module.exports = class Handler
       @sendSuccess(res, documents)
 
   getById: (req, res, id) ->
+    # return @sendNotFoundError(res) # for testing
     return @sendUnauthorizedError(res) unless @hasAccess(req)
 
     @getDocumentForIdOrSlug id, (err, document) =>
@@ -99,6 +100,37 @@ module.exports = class Handler
       return @getPatchesFor(req, res, args[0]) if req.route.method is 'get' and args[1] is 'patches'
       return @setWatching(req, res, args[0]) if req.route.method is 'put' and args[1] is 'watch'
     return @sendNotFoundError(res)
+
+  getNamesByIDs: (req, res) ->
+    ids = req.query.ids or req.body.ids
+    if @modelClass.schema.uses_coco_versions
+      return @getNamesByOriginals(req, res)
+    @getPropertiesFromMultipleDocuments res, User, "name", ids
+
+  getNamesByOriginals: (req, res) ->
+    ids = req.query.ids or req.body.ids
+    ids = ids.split(',') if _.isString ids
+    ids = _.uniq ids
+
+    project = {name:1}
+    sort = {'version.major':-1, 'version.minor':-1}
+
+    makeFunc = (id) =>
+      (callback) =>
+        criteria = {original:mongoose.Types.ObjectId(id)}
+        @modelClass.findOne(criteria, project).sort(sort).exec (err, document) ->
+          return done(err) if err
+          callback(null, document?.toObject() or {})
+
+    funcs = {}
+    for id in ids
+      return errors.badInput(res, "Given an invalid id: #{id}") unless Handler.isID(id)
+      funcs[id] = makeFunc(id)
+
+    async.parallel funcs, (err, results) ->
+      return errors.serverError err if err
+      res.send results
+      res.end()
 
   getPatchesFor: (req, res, id) ->
     query = { 'target.original': mongoose.Types.ObjectId(id), status: req.query.status or 'pending' }

@@ -234,7 +234,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return unless @thang?.pos and @options.camera?
     wop = @getWorldPosition()
     [p0, p1] = [@lastPos, @thang.pos]
-    return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo
+    return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo and not @thang.bobHeight
     sup = @options.camera.worldToSurface wop
     [@displayObject.x, @displayObject.y] = [sup.x, sup.y]
     @lastPos = p1.copy?() or _.clone(p1)
@@ -596,9 +596,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # rather than an each-thang-that-shows-gold-per-team thing.
     return if @thang.gold is @lastGold
     gold = Math.floor @thang.gold
+    if @thang.world.age is 0
+      gold = @thang.world.initialTeamGold[@thang.team].gold
     return if gold is @lastGold
     @lastGold = gold
-    Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold}
+    Backbone.Mediator.publish 'surface:gold-changed', {team: @thang.team, gold: gold, goldEarned: Math.floor(@thang.goldEarned)}
 
   playSounds: (withDelay=true, volume=1.0) ->
     for event in @thang.currentEvents ? []

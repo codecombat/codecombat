@@ -13,10 +13,13 @@ module.exports = class GoldView extends View
     @$el.show()
     goldEl = @$el.find('.gold-amount.team-' + e.team)
     unless goldEl.length
-      teamEl = $("<h3 class='team-#{e.team}' title='Gold: #{e.team}'><img src='/images/level/prop_gold.png'> <div class='gold-amount team-#{e.team}'></div>")
+      teamEl = $("<div class='team-gold team-#{e.team}' title='Gold: #{e.team}'><img src='/images/level/prop_gold.png'> <div class='gold-amount team-#{e.team}'></div></div>")
       @$el.append(teamEl)
       goldEl = teamEl.find('.gold-amount.team-' + e.team)
-    goldEl.text(e.gold)
+    text = '' + e.gold
+    if e.goldEarned and e.goldEarned > e.gold
+      text += " (#{e.goldEarned})"
+    goldEl.text text
 
   onSetLetterbox: (e) ->
     @$el.toggle not e.on

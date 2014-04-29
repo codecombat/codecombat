@@ -12,6 +12,7 @@ SimulateTabView = require './ladder/simulate_tab'
 LadderPlayModal = require './ladder/play_modal'
 CocoClass = require 'lib/CocoClass'
 
+
 HIGHEST_SCORE = 1000000
 
 class LevelSessionsCollection extends CocoCollection
@@ -35,17 +36,14 @@ module.exports = class LadderView extends RootView
 
   constructor: (options, @levelID) ->
     super(options)
-    @level = new Level(_id:@levelID)
-    @level.fetch()
-    @sessions = new LevelSessionsCollection(levelID)
-    @sessions.fetch({})
-    @addResourceToLoad(@sessions, 'your_sessions')
-    @addResourceToLoad(@level, 'level')
+    @level = @supermodel.loadModel(new Level(_id:@levelID), 'level').model
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(levelID), 'your_sessions').model
+    
     @teams = []
 
   onLoaded: ->
     @teams = teamDataFromLevel @level
-    super()
+    @render()
 
   getRenderData: ->
     ctx = super()
@@ -59,7 +57,8 @@ module.exports = class LadderView extends RootView
 
   afterRender: ->
     super()
-    return if @loading()
+    # console.debug 'gintau', 'ladder_view-afterRender', @supermodel.finished()
+    return unless @supermodel.finished()
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))
     @insertSubView(@simulateTab = new SimulateTabView())
@@ -69,7 +68,7 @@ module.exports = class LadderView extends RootView
       @showPlayModal(hash) if @sessions.loaded
 
   fetchSessionsAndRefreshViews: ->
-    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime) or @loading()
+    return if @destroyed or application.userIsIdle or @$el.find('#simulate.active').length or (new Date() - 2000 < @lastRefreshTime) or not @supermodel.finished()
     @sessions.fetch({"success": @refreshViews})
 
   refreshViews: =>

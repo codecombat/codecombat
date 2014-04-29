@@ -14,7 +14,7 @@ module.exports = class JobProfileView extends CocoView
 
   afterRender: ->
     super()
-    return if @loading()
+    return unless @supermodel.finished()
     _.defer => @buildJobProfileTreema()  # Not sure why, but the Treemas don't fully build without this if you reload the page.
 
   buildJobProfileTreema: ->

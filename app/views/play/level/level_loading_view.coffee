@@ -9,6 +9,7 @@ module.exports = class LevelLoadingView extends View
   subscriptions:
     'level-loader:progress-changed': 'onLevelLoaderProgressChanged'
 
+  onLoaded: ->
   afterRender: ->
     @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
     tips = @$el.find('.tip').addClass('to-remove')
@@ -28,13 +29,13 @@ module.exports = class LevelLoadingView extends View
   showReady: ->
     ready = $.i18n.t('play_level.loading_ready', defaultValue: 'Ready!')
     @$el.find('#tip-wrapper .tip').addClass('ready').text ready
-    Backbone.Mediator.publish 'play-sound', trigger: 'loading_ready', volume: 0.75
+    Backbone.Mediator.publish 'play-sound', trigger: 'level_loaded', volume: 0.75  # old: loading_ready
 
   unveil: ->
     _.delay @reallyUnveil, 1000
 
   reallyUnveil: =>
-    return if @destroyed
+    return if @destroyed or @progress < 1
     @$el.addClass 'unveiled'
     loadingDetails = @$el.find('.loading-details')
     duration = parseFloat loadingDetails.css 'transition-duration'

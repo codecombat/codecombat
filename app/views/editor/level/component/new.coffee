@@ -33,6 +33,6 @@ module.exports = class LevelComponentNewView extends View
       console.log "Got errors:", JSON.parse(res.responseText)
       forms.applyErrorsToForm(@$el, JSON.parse(res.responseText))
     res.success =>
-      @supermodel.addModel component
+      @supermodel.registerModel component
       Backbone.Mediator.publish 'edit-level-component', original: component.get('_id'), majorVersion: 0
       @hide()
