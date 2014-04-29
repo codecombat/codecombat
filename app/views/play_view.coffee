@@ -230,7 +230,7 @@ module.exports = class PlayView extends View
       {
         name: 'Harvest Time'
         difficulty: 2
-        id: 'find-the-spy'
+        id: 'harvest-time'
         image: '/file/db/level/529662dfe0df8f0000000007/grab_the_mushroom_icon.png'
         description: "Collect a hundred mushrooms in just five lines of code - by Nathan Gossett"
       }
