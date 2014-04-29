@@ -13,10 +13,13 @@ module.exports = class EmployerSignupView extends View
 
   subscriptions:
     "server-error": "onServerError"
-    "created-user-without-reload": "linkedInAuth"
+    'linkedin-loaded': 'onLinkedInLoaded'
+    "created-user-without-reload": 'createdAccount'
 
   events:
     "click #contract-agreement-button": "agreeToContract"
+    "click #create-account-button": "createAccount"
+    "click .login-link": "setHashToOpenModalAutomatically"
 
 
   constructor: (options) ->
@@ -24,20 +27,31 @@ module.exports = class EmployerSignupView extends View
     @authorizedWithLinkedIn = IN?.User?.isAuthorized()
     window.tracker?.trackEvent 'Started Employer Signup'
     @reloadWhenClosed = false
+    @linkedinLoaded = Boolean(IN.parse)
+    @waitingForLinkedIn = false
     window.contractCallback = =>
       @authorizedWithLinkedIn = IN?.User?.isAuthorized()
       @render()
+
+  onLinkedInLoaded: =>
+    @linkedinLoaded = true
+    if @waitingForLinkedIn
+      @renderLinkedInButton()
+
+  renderLinkedInButton: =>
+    IN.parse()
 
   onServerError: (e) ->
     @disableModalInProgress(@$el)
 
   afterInsert: ->
     super()
-    linkedInButtonParentElement = document.getElementById("linkedInAuthButton")?.parentNode
+    linkedInButtonParentElement = document.getElementById("linkedInAuthButton")
     if linkedInButtonParentElement
-      IN.parse()
-      if me.get('anonymous')
-        $(".IN-widget").get(0).addEventListener('click', @createAccount, true)
+      if @linkedinLoaded
+        @renderLinkedInButton()
+      else
+        @waitingForLinkedIn = true
 
   getRenderData: ->
     context = super()
@@ -78,11 +92,16 @@ module.exports = class EmployerSignupView extends View
     return forms.applyErrorsToForm(@$el, res.errors) unless res.valid
     @enableModalInProgress(@$el)
     auth.createUserWithoutReload userObject, null
-    IN.User.authorize @render, @
 
-  linkedInAuth: (e) ->
-    me.fetch()
+  setHashToOpenModalAutomatically: (e) ->
+    window.location.hash = "employerSignupLoggingIn"
+
+  createdAccount: ->
     @reloadWhenClosed = true
+    @listenTo me,"sync", =>
+      @render()
+      IN.parse()
+    me.fetch()
 
   destroy: ->
     reloadWhenClosed = @reloadWhenClosed

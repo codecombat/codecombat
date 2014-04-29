@@ -46,8 +46,7 @@ block modal-footer
   if userIsAnonymous   
     if !userIsAuthorized
       .modal-footer.linkedin
-        b.signin-text Sign in with LinkedIn to complete the registration process.
-        script(type="in/Login" id="linkedInAuthButton" data-onAuth="contractCallback")
+        button.btn.btn-primary(id="create-account-button") Create Account
         br
         br
         | Already have a CodeCombat account? 
@@ -57,7 +56,6 @@ block modal-footer
         a.login-link(data-toggle="coco-modal", data-target="modal/login") Please log in to continue.
   else if !userIsAnonymous && !userIsAuthorized
     .modal-footer.linkedin
-      | We will record your name and work history for verification purposes.
   else if userIsAuthorized && !userHasSignedContract
     .modal-footer.linkedin
       button.btn.btn-primary(id="contract-agreement-button") I agree
