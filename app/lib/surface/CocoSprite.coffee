@@ -336,7 +336,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @warnedFor ?= {}
       console.warn 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
       @warnedFor[action] = true
-      return null
+      return if @action is 'idle' then null else 'idle'
     action = 'break' if @actions.break? and @thang?.erroredOut
     action = 'die' if @actions.die? and thang?.health? and thang.health <= 0
     @actions[action]
