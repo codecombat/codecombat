@@ -177,8 +177,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # Gets the sprite to reflect what the current state of the thangs and surface are
     return if @stillLoading
     @updatePosition()
+    frameChanged = frameChanged or @targetScaleFactor isnt @scaleFactor
     if frameChanged
-      @updateScale() # must happen before rotation
+      @updateScale()  # must happen before rotation
       @updateAlpha()
       @updateRotation()
       @updateAction()
@@ -274,7 +275,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if (@thang.scaleFactor or 1) isnt @targetScaleFactor
       createjs.Tween.removeTweens(@)
       createjs.Tween.get(@).to({scaleFactor:@thang.scaleFactor or 1}, 2000, createjs.Ease.elasticOut)
-      @targetScaleFactor = @thang.scaleFactor
+      @targetScaleFactor = @thang.scaleFactor or 1
 
   updateAlpha: ->
     @imageObject.alpha = if @hiding then 0 else 1
