@@ -40,7 +40,7 @@ module.exports = class SpriteBoss extends CocoClass
     @spriteSheetCache = {}
 
   destroy: ->
-    @removeSprite sprite for sprite in @spriteArray
+    @removeSprite sprite for thangID, sprite of @sprites
     @targetMark?.destroy()
     @selectionMark?.destroy()
     super()
