@@ -94,7 +94,7 @@ module.exports = class LevelLoader extends CocoClass
         for indieSprite in indieSprites
           thangIDs.push indieSprite.thangType
       
-    for article in @level.get('articles')?.generalArticles or []
+    for article in @level.get('documentation')?.generalArticles or []
       articleVersions.push _.pick(article, ['original', 'majorVersion'])
 
     objUniq = (array) -> _.uniq array, false, (arg) -> JSON.stringify(arg)
