@@ -33,9 +33,9 @@ if (!Function.prototype.bind) {
 
 // assign global window so that Brunch's require (in world.js) can go into it
 self.window = self;
-self.workerID = "Worker";
+self.workerID = "DebugWorker";
 
-self.logLimit = 200;
+self.logLimit = 2000;
 self.logsLogged = 0;
 var console = {
     log: function() {
@@ -85,41 +85,25 @@ var GoalManager = self.require('lib/world/GoalManager');
 
 self.getCurrentFrame = function getCurrentFrame(args) { return self.world.frames.length; };
 
-self.runWorld = function runWorld(args) {
-    self.postedErrors = {};
-    self.t0 = new Date();
-    self.firstWorld = args.firstWorld;
-    self.postedErrors = false;
-    self.logsLogged = 0;
-
-    try {
-        self.world = new World(args.worldName, args.userCodeMap);
-        if(args.level)
-            self.world.loadFromLevel(args.level, true);
-        self.goalManager = new GoalManager(self.world);
-        self.goalManager.setGoals(args.goals);
-        self.goalManager.setCode(args.userCodeMap);
-        self.goalManager.worldGenerationWillBegin();
-        self.world.setGoalManager(self.goalManager);
-    }
-    catch (error) {
-        self.onWorldError(error);
-        return;
-    }
-    Math.random = self.world.rand.randf;  // so user code is predictable
-    self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
-};
+//optimize this later
+self.currentUserCodeMap = {};
+self.currentWorldFrame = 0;
 
 self.runWorldUntilFrame = function runWorldUntilFrame(args) {
+    console.log("Running world until frame " + args.frame);
     self.postedErrors = {};
     self.t0 = new Date();
     self.firstWorld = args.firstWorld;
     self.postedErrors = false;
     self.logsLogged = 0;
-    if (!self.world)
+    
+    var userCodeMapHasChanged = _.isEqual(self.currentUserCodeMap, args.userCodeMap);
+    self.currentUserCodeMap = args.userCodeMap;
+    console.log("User codemap has changed: " + userCodeMapHasChanged);
+    if (!self.world || userCodeMapHasChanged || args.frame < self.currentWorldFrame)
     {
         try {
-            self.world = new World(args.worldName, args.userCodeMap);
+            self.world = new World(args.worldName, self.currentUserCodeMap);
             if(args.level)
                 self.world.loadFromLevel(args.level, true);
             self.goalManager = new GoalManager(self.world);
@@ -138,6 +122,8 @@ self.runWorldUntilFrame = function runWorldUntilFrame(args) {
     self.world.totalFrames = args.frame; //hack to work around error checking
     
     self.world.loadFramesUntilFrame(args.frame, self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
+    self.currentWorldFrame = args.frame;
+    
 };
 
 self.onWorldLoaded = function onWorldLoaded() {
@@ -204,6 +190,7 @@ self.reportIn = function reportIn() {
 }
 
 self.addEventListener('message', function(event) {
+    console.log("received message!")
     self[event.data.func](event.data.args);
 });
 

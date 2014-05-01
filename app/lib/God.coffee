@@ -25,6 +25,7 @@ module.exports = class God
     @fillWorkerPool()
     #TODO: have this as a constructor option
     @debugWorker = @createDebugWorker()
+    @currentUserCodeMap = {}
 
   onTomeCast: (e) ->
     return if @dead
@@ -71,7 +72,7 @@ module.exports = class God
       when "worker-initialized"
         worker.initialized = true
       when 'new-debug-world'
-        console.log "Created new debug world!"
+        console.log "New Debug world!"
       when 'console-log'
         console.log "|" + @id + "'s " + @id + "|", event.data.args...
   
@@ -131,7 +132,7 @@ module.exports = class God
       func : 'runWorldUntilFrame'
       args:
         worldName: @level.name
-        userCodeMap: @getUserCodeMap()
+        userCodeMap: @currentUserCodeMap
         level: @level
         firstWorld: @firstWorld
         goals: @goalManager?.getGoals()
@@ -170,6 +171,7 @@ module.exports = class God
     for spellKey, spell of @spells
       for thangID, spellThang of spell.thangs
         (userCodeMap[thangID] ?= {})[spell.name] = spellThang.aether.serialize()
+    @currentUserCodeMap = userCodeMap
     userCodeMap
 
   destroy: ->

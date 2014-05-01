@@ -40,6 +40,7 @@ module.exports = class World
     else if frameIndex
       frame = frames[frameIndex - 1].getNextFrame()
       frames.push frame
+      console.log "Pushed frame #{frameIndex}"
     else
       frame = frames[0]
     @age = frameIndex * @dt
@@ -129,7 +130,6 @@ module.exports = class World
           @t0 = t2
         setTimeout((=> @loadFrames(loadedCallback, errorCallback, loadProgressCallback)), 0)
         return
-    @ended = true
     loadProgressCallback? 1
     loadedCallback()
 
@@ -278,6 +278,7 @@ module.exports = class World
 
   serialize: ->
     # Code hotspot; optimize it
+    console.log("Frames length: #{@frames.length}, total frames: #{@totalFrames}")
     if @frames.length < @totalFrames then throw new Error("World Should Be Over Before Serialization")
     [transferableObjects, nontransferableObjects] = [0, 0]
     o = {name: @name, totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
