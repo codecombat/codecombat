@@ -86,24 +86,83 @@ var GoalManager = self.require('lib/world/GoalManager');
 self.getCurrentFrame = function getCurrentFrame(args) { return self.world.frames.length; };
 
 //optimize this later
-self.currentUserCodeMap = {};
+self.currentUserCodeMapCopy = {};
 self.currentWorldFrame = 0;
 
-self.runWorldUntilFrame = function runWorldUntilFrame(args) {
-    console.log("Running world until frame " + args.frame);
+self.maxSerializationDepth = 3;
+self.serializeProperty = function serializeProperty(prop, depth) {
+    var typeOfProperty = typeof(prop);
+    if (["undefined","boolean","number","string","xml"].indexOf(typeOfProperty) > -1 || prop === null || prop instanceof Date || prop instanceof String)
+        return prop;
+    else if (typeOfProperty === "function") return "<function>";
+    else if (prop instanceof Array)
+    {
+        if (depth >= self.maxSerializationDepth) return Object.keys(prop);
+        else
+        {
+            var newProps = [];
+            for(var i= 0, arrayLength=prop.length; i < arrayLength; i++)
+                newProps[i] = self.serializeProperty(prop[i],depth + 1);
+            return newProps;
+        }
+    }
+    else if (prop.hasOwnProperty("id"))
+    {
+        return prop.id;
+    }
+    else if (prop.hasOwnProperty('serialize'))
+    {
+        return prop.serialize();
+    }
+    else
+    {
+        newObject = {};
+        for (var key in prop)
+        {
+            if (prop.hasOwnProperty(key))
+            {
+                if (depth >= self.maxSerializationDepth)
+                {
+                    newObject[key] = "DEPTH EXCEEDED";
+                }
+                else
+                {
+                    newObject[key] = self.serializeProperty(prop[key], depth + 1);
+                }
+            }
+        }
+        return newObject;
+    }
+};
+
+self.retrieveThangPropertyFromFrame = function retrieveThangPropertyFromFrame(args) {
+    var thangID = args.thangID;
+    var prop = args.prop;
+    var retrieveProperty = function retrieveProperty()
+    {
+        var unserializedProperty = self.world.thangMap[thangID][prop];
+        self.postMessage({type: 'debug-value-return', serialized: self.serializeProperty(unserializedProperty,0)});
+    };
+    self.setupWorldToRunUntilFrame(args);
+    self.world.loadFramesUntilFrame(args.frame, retrieveProperty, self.onWorldError, self.onWorldLoadProgress);
+};
+
+self.setupWorldToRunUntilFrame = function setupWorldToRunUntilFrame(args) {
     self.postedErrors = {};
     self.t0 = new Date();
     self.firstWorld = args.firstWorld;
     self.postedErrors = false;
     self.logsLogged = 0;
-    
-    var userCodeMapHasChanged = _.isEqual(self.currentUserCodeMap, args.userCodeMap);
-    self.currentUserCodeMap = args.userCodeMap;
-    console.log("User codemap has changed: " + userCodeMapHasChanged);
+
+    var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
+    var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
+    self.currentUserCodeMapCopy = stringifiedUserCodeMap;
     if (!self.world || userCodeMapHasChanged || args.frame < self.currentWorldFrame)
     {
+        
+        
         try {
-            self.world = new World(args.worldName, self.currentUserCodeMap);
+            self.world = new World(args.worldName, args.userCodeMap);
             if(args.level)
                 self.world.loadFromLevel(args.level, true);
             self.goalManager = new GoalManager(self.world);
@@ -118,37 +177,18 @@ self.runWorldUntilFrame = function runWorldUntilFrame(args) {
         }
         Math.random = self.world.rand.randf;  // so user code is predictable
     }
-    
+
     self.world.totalFrames = args.frame; //hack to work around error checking
-    
-    self.world.loadFramesUntilFrame(args.frame, self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
     self.currentWorldFrame = args.frame;
+};
+self.runWorldUntilFrame = function runWorldUntilFrame(args) {
+    self.setupWorldToRunUntilFrame(args);
+    self.world.loadFramesUntilFrame(args.frame, self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
     
 };
 
 self.onWorldLoaded = function onWorldLoaded() {
-    var t1 = new Date();
-    var diff = t1 - self.t0;
-    var transferableSupported = self.transferableSupported();
-    try {
-        var serialized = self.world.serialize();
-    }
-    catch(error) {
-        console.log("World serialization error:", error.toString() + "\n" + error.stack || error.stackTrace);
-    }
-    var t2 = new Date();
-    //console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
-    try {
-        if(transferableSupported)
-            self.postMessage({type: 'new-debug-world', serialized: serialized.serializedWorld, goalStates: self.goalManager.getGoalStates()}, serialized.transferableObjects);
-        else
-            self.postMessage({type: 'new-debug-world', serialized: serialized.serializedWorld, goalStates: self.goalManager.getGoalStates()});
-    }
-    catch(error) {
-        console.log("World delivery error:", error.toString() + "\n" + error.stack || error.stackTrace);
-    }
-    var t3 = new Date();
-    console.log("And it was so: (" + (diff / self.world.totalFrames).toFixed(3) + "ms per frame,", self.world.totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
+    console.log("World loaded!");
 };
 
 self.onWorldError = function onWorldError(error) {

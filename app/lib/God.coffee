@@ -75,7 +75,9 @@ module.exports = class God
         console.log "New Debug world!"
       when 'console-log'
         console.log "|" + @id + "'s " + @id + "|", event.data.args...
-  
+      when 'debug-value-return'
+        console.log event.data.serialized
+        
   getAngel: ->
     freeAngel = null
     for angel in @angels
@@ -137,6 +139,20 @@ module.exports = class God
         firstWorld: @firstWorld
         goals: @goalManager?.getGoals()
         frame: frame
+
+  retrieveThangPropertyFromFrame: (thang, prop, frame) ->
+    @debugWorker.postMessage
+      func: 'retrieveThangPropertyFromFrame'
+      args:
+        worldName: @level.name
+        userCodeMap: @currentUserCodeMap
+        level: @level
+        firstWorld: @firstWorld
+        goals: @goalManager?.getGoals()
+        frame: frame
+        thangID: thang
+        prop: prop
+        
         
   getDebugWorldCurrentFrame: ->
     @debugWorker.postMessage
