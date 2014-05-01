@@ -96,11 +96,8 @@ module.exports = class SpriteBoss extends CocoClass
     unless @indieSprites
       @indieSprites = []
       @indieSprites = (@createIndieSprite indieSprite for indieSprite in indieSprites) if indieSprites
-    unless @selfWizardSprite
+    if withWizards and not @selfWizardSprite
       @selfWizardSprite = @createWizardSprite thangID: "My Wizard", isSelf: true, sprites: @sprites
-    unless withWizards
-      @selfWizardSprite.displayObject.visible = false
-      @selfWizardSprite.labels.name.setText null
 
   createIndieSprite: (indieSprite) ->
     unless thangType = @thangTypeFor indieSprite.thangType
