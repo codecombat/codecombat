@@ -29,8 +29,8 @@ module.exports = class ThangState
       value = thang[prop]
       if type is 'Vector'
         @props.push value?.copy()  # could try storing [x, y, z] or {x, y, z} here instead if this is expensive
-      else if type is 'object'
-        @props.push = clone(value, true)
+      else if type is 'object' or type is 'array'
+        @props.push clone(value, true)
       else
         @props.push value
 
@@ -144,6 +144,8 @@ module.exports = class ThangState
           # We make sure the array keys won't collide with any string keys by using some unprintable characters.
           stringPieces = ['\x1D']  # Group Separator
           for element in value
+            if element and element.isThang
+              element = element.id
             stringPieces.push element, '\x1E'  # Record Separator(s)
           value = stringPieces.join('')
           specialKey = specialValuesToKeys[value]

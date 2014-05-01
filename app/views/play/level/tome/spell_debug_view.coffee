@@ -21,7 +21,7 @@ module.exports = class DebugView extends View
     @ace = options.ace
     @thang = options.thang
     @variableStates = {}
-    @globals = {Math: Math, _: _}  # ... add more as documented
+    @globals = {Math: Math, _: _, String: String, Number: Number, Array: Array, Object: Object}  # ... add more as documented
     for className, klass of serializedClasses
       @globals[className] = klass
     @onMouseMove = _.throttle @onMouseMove, 25
