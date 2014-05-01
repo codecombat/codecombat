@@ -64,7 +64,7 @@ module.exports = class EditorLevelView extends View
     return unless @supermodel.finished()
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'level:view-switched', e
-    @thangsTab = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel
+    @thangsTab = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
     @settingsTab = @insertSubView new SettingsTabView supermodel: @supermodel
     @scriptsTab = @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @componentsTab = @insertSubView new ComponentsTabView supermodel: @supermodel

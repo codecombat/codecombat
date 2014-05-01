@@ -21,7 +21,7 @@ module.exports = class DebugView extends View
     @ace = options.ace
     @thang = options.thang
     @variableStates = {}
-    @globals = {Math: Math, _: _}  # ... add more as documented
+    @globals = {Math: Math, _: _, String: String, Number: Number, Array: Array, Object: Object}  # ... add more as documented
     for className, klass of serializedClasses
       @globals[className] = klass
     @onMouseMove = _.throttle @onMouseMove, 25
@@ -33,17 +33,18 @@ module.exports = class DebugView extends View
   setVariableStates: (@variableStates) ->
     @update()
 
+  isIdentifier: (t) ->
+    t and (t.type is 'identifier' or t.value is 'this' or @globals[t.value])
+
   onMouseMove: (e) =>
     return if @destroyed
     pos = e.getDocumentPosition()
-    endOfDoc = pos.row is @ace.getSession().getDocument().getLength() - 1
     it = new TokenIterator e.editor.session, pos.row, pos.column
-    isIdentifier = (t) => t and (t.type is 'identifier' or t.value is 'this' or @globals[t.value])
-    while it.getCurrentTokenRow() is pos.row and not isIdentifier(token = it.getCurrentToken())
+    endOfLine = it.getCurrentToken()?.index is it.$rowTokens.length - 1
+    while it.getCurrentTokenRow() is pos.row and not @isIdentifier(token = it.getCurrentToken())
+      break if endOfLine or not token  # Don't iterate beyond end or beginning of line
       it.stepBackward()
-      break unless token
-      break if endOfDoc  # Don't iterate backward on last line, since we might be way below.
-    if isIdentifier token
+    if @isIdentifier token
       # This could be a property access, like "enemy.target.pos" or "this.spawnedRectangles".
       # We have to realize this and dig into the nesting of the objects.
       start = it.getCurrentTokenColumn()
@@ -53,7 +54,7 @@ module.exports = class DebugView extends View
         break unless it.getCurrentToken()?.value is "."
         it.stepBackward()
         token = null  # If we're doing a complex access like this.getEnemies().length, then length isn't a valid var.
-        break unless isIdentifier(prev = it.getCurrentToken())
+        break unless @isIdentifier(prev = it.getCurrentToken())
         token = prev
         start = it.getCurrentTokenColumn()
         chain.unshift token.value

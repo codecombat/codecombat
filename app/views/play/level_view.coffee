@@ -87,10 +87,8 @@ module.exports = class PlayLevelView extends View
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
-      f = =>
-        @supermodel.shouldSaveBackups = (model) ->
-          model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
-        @load() unless @levelLoader
+      # wait to see if it's just given to us through setLevel
+      f = => @load() unless @levelLoader
       setTimeout f, 100
     else
       @load()
@@ -100,7 +98,11 @@ module.exports = class PlayLevelView extends View
     # TODO NOW: remove this in favor of the supermodel handling it
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
-  setLevel: (@level, @supermodel) ->
+  setLevel: (@level, givenSupermodel) ->
+    @supermodel.models = givenSupermodel.models
+    @supermodel.collections = givenSupermodel.collections
+    @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
+
     @god?.level = @level.serialize @supermodel
     if @world
       serializedLevel = @level.serialize(@supermodel)
@@ -129,7 +131,8 @@ module.exports = class PlayLevelView extends View
     @$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
 
-  onLevelLoaderProgressChanged: ->
+  updateProgress: (progress) ->
+    super(progress)
     return if @seenDocs
     return unless @levelLoader.session.loaded and @levelLoader.level.loaded
     return unless showFrequency = @levelLoader.level.get('showsGuide')

@@ -1,4 +1,4 @@
-@import "../../../bootstrap/mixins"
+@import "app/styles/bootstrap/mixins"
 
 @mixin editor-height($extraHeight)
   @include box-sizing(border-box)
@@ -123,3 +123,13 @@
       // https://github.com/codecombat/codecombat/issues/6
       color: rgb(145, 48, 50)
 
+    .ace_search
+      background-color: rgba(216, 187, 165, 1)
+      border: 0
+      @include box-shadow(1px 2px 1px #444)
+      
+      .ace_search_field
+        width: 190px
+
+      .ace_searchbtn, .ace_replacebtn
+        padding: 0px 4px

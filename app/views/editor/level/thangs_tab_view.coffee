@@ -35,7 +35,6 @@ module.exports = class ThangsTabView extends View
     'surface:mouse-moved': 'onSurfaceMouseMoved'
     'surface:mouse-over': 'onSurfaceMouseOver'
     'surface:mouse-out': 'onSurfaceMouseOut'
-    'level-loaded': 'onLevelLoaded'
     'edit-level-thang': 'editThang'
     'level-thang-edited': 'onLevelThangEdited'
     'level-thang-done-editing': 'onLevelThangDoneEditing'
@@ -68,6 +67,7 @@ module.exports = class ThangsTabView extends View
     @thangTypes = @supermodel.loadCollection(new ThangTypeSearchCollection(), 'thangs').model
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
     @componentCollection = @supermodel.loadCollection(new ComponentsCollection(), 'components').load()
+    @level = options.level
 
     $(document).bind 'contextmenu', @preventDefaultContextMenu
     
@@ -113,7 +113,7 @@ module.exports = class ThangsTabView extends View
     @$el.find('#extant-thangs-filter button:first').button('toggle')
     $(window).resize @onWindowResize
     @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
-    @onLevelLoaded() # refactor to not have this trigger when this view re-renders?
+    @buildInterface() # refactor to not have this trigger when this view re-renders?
 
   onFilterExtantThangs: (e) ->
     @$el.find('#extant-thangs-filter button.active').button('toggle')
@@ -127,7 +127,7 @@ module.exports = class ThangsTabView extends View
     @scrollTop += (if e.deltaY < 0 then 1 else -1) * 30
     e.preventDefault()
 
-  onLevelLoaded: (e) ->
+  buildInterface: (e) ->
     @level = e.level if e
 
     data = $.extend(true, {}, @level.attributes)
