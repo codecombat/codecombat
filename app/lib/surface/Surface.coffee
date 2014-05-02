@@ -48,7 +48,7 @@ module.exports = Surface = class Surface extends CocoClass
     coords: true
     playJingle: false
     showInvisible: false
-    frameRate: 60  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
+    frameRate: 30  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
 
   subscriptions:
     'level-disable-controls': 'onDisableControls'
@@ -221,8 +221,8 @@ module.exports = Surface = class Surface extends CocoClass
         @currentFrame = tempFrame
         frame = @world.getFrame(@getCurrentFrame())
         frame.restoreState()
-        for thangID, sprite of @spriteBoss.sprites
-          sprite.playSounds false, Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
+        volume = Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
+        sprite.playSounds false, volume for sprite in @spriteBoss.spriteArray
         tempFrame += if rising then 1 else -1
       @currentFrame = actualCurrentFrame
 

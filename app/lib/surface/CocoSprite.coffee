@@ -177,8 +177,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # Gets the sprite to reflect what the current state of the thangs and surface are
     return if @stillLoading
     @updatePosition()
+    frameChanged = frameChanged or @targetScaleFactor isnt @scaleFactor
     if frameChanged
-      @updateScale() # must happen before rotation
+      @updateScale()  # must happen before rotation
       @updateAlpha()
       @updateRotation()
       @updateAction()
@@ -234,7 +235,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return unless @thang?.pos and @options.camera?
     wop = @getWorldPosition()
     [p0, p1] = [@lastPos, @thang.pos]
-    return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo
+    return if p0 and p0.x is p1.x and p0.y is p1.y and p0.z is p1.z and not @options.camera.tweeningZoomTo and not @thang.bobHeight
     sup = @options.camera.worldToSurface wop
     [@displayObject.x, @displayObject.y] = [sup.x, sup.y]
     @lastPos = p1.copy?() or _.clone(p1)
@@ -274,7 +275,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if (@thang.scaleFactor or 1) isnt @targetScaleFactor
       createjs.Tween.removeTweens(@)
       createjs.Tween.get(@).to({scaleFactor:@thang.scaleFactor or 1}, 2000, createjs.Ease.elasticOut)
-      @targetScaleFactor = @thang.scaleFactor
+      @targetScaleFactor = @thang.scaleFactor or 1
 
   updateAlpha: ->
     @imageObject.alpha = if @hiding then 0 else 1
@@ -336,7 +337,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @warnedFor ?= {}
       console.warn 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
       @warnedFor[action] = true
-      return null
+      return if @action is 'idle' then null else 'idle'
     action = 'break' if @actions.break? and @thang?.erroredOut
     action = 'die' if @actions.die? and thang?.health? and thang.health <= 0
     @actions[action]

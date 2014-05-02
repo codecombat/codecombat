@@ -92,7 +92,7 @@ module.exports = class Spell
     @worker.addEventListener "message", (e) =>
       workerData = JSON.parse e.data
       if workerData.function is "hasChangedSignificantly" and workerData.spellKey is @spellKey
-        @worker.removeEventListener("message",arguments.callee, false)
+        @worker.removeEventListener "message", arguments.callee, false
         cb(workerData.hasChanged)
     @worker.postMessage JSON.stringify(workerMessage)
 

@@ -86,16 +86,26 @@ module.exports = class PlayLevelView extends View
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
-      f = =>
-        @supermodel.shouldSaveBackups = (model) ->
-          model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
-        @load() unless @levelLoader
+      # wait to see if it's just given to us through setLevel
+      f = => @load() unless @levelLoader
       setTimeout f, 100
     else
       @load()
       application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID
 
+<<<<<<< HEAD
   setLevel: (@level, @supermodel) ->
+=======
+  onLevelLoadError: (e) ->
+    # TODO NOW: remove this in favor of the supermodel handling it
+    application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
+
+  setLevel: (@level, givenSupermodel) ->
+    @supermodel.models = givenSupermodel.models
+    @supermodel.collections = givenSupermodel.collections
+    @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
+
+>>>>>>> master
     @god?.level = @level.serialize @supermodel
     if @world
       serializedLevel = @level.serialize(@supermodel)
@@ -124,7 +134,8 @@ module.exports = class PlayLevelView extends View
     @$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
 
-  onLevelLoaderProgressChanged: ->
+  updateProgress: (progress) ->
+    super(progress)
     return if @seenDocs
     return unless @levelLoader.session.loaded and @levelLoader.level.loaded
     return unless showFrequency = @levelLoader.level.get('showsGuide')
@@ -141,7 +152,7 @@ module.exports = class PlayLevelView extends View
     DocsModal = require './level/modal/docs_modal'
     options = {docs: @levelLoader.level.get('documentation'), supermodel: @supermodel}
     @openModalView(new DocsModal(options), true)
-    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
+    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaded, @
     return true
 
   onLoaded: ->
@@ -151,7 +162,7 @@ module.exports = class PlayLevelView extends View
     return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
     @loadingView.showReady()
     if window.currentModal and not window.currentModal.destroyed
-      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
+      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaded, @
 
     # Save latest level played in local storage
     if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
@@ -290,7 +301,7 @@ module.exports = class PlayLevelView extends View
     docs = new VictoryModal(options)
     @openModalView(docs)
     if me.get('anonymous')
-      window.nextLevelURL = @getNextLevelID()  # Signup will go here on completion instead of reloading.
+      window.nextLevelURL = @getNextLevelURL()  # Signup will go here on completion instead of reloading.
 
   onRestartLevel: ->
     @tome.reloadAllCode()
@@ -315,15 +326,17 @@ module.exports = class PlayLevelView extends View
       viewArgs: [{supermodel:@supermodel}, nextLevelID]}
 
   getNextLevel: ->
-    nextLevelOriginal = @level.get('nextLevel')?.original
+    return null unless nextLevelOriginal = @level.get('nextLevel')?.original
     levels = @supermodel.getModels(Level)
     return l for l in levels when l.get('original') is nextLevelOriginal
 
   getNextLevelID: ->
-    nextLevel = @getNextLevel()
+    return null unless nextLevel = @getNextLevel()
     nextLevelID = nextLevel.get('slug') or nextLevel.id
 
-  getNextLevelURL: -> "/play/level/#{@getNextLevelID()}"
+  getNextLevelURL: ->
+    return null unless @getNextLevelID()
+    "/play/level/#{@getNextLevelID()}"
 
   onHighlightDom: (e) ->
     if e.delay

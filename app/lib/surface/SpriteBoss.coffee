@@ -34,6 +34,7 @@ module.exports = class SpriteBoss extends CocoClass
     @world = options.world
     @options.thangTypes ?= []
     @sprites = {}
+    @spriteArray = []  # Mirror @sprites, but faster for when we just need to iterate
     @selfWizardSprite = null
     @createLayers()
     @spriteSheetCache = {}
@@ -44,7 +45,7 @@ module.exports = class SpriteBoss extends CocoClass
     @selectionMark?.destroy()
     super()
 
-  toString: -> "<SpriteBoss: #{@sprites.length} sprites>"
+  toString: -> "<SpriteBoss: #{@spriteArray.length} sprites>"
 
   thangTypeFor: (type) ->
     _.find @options.thangTypes, (m) -> m.get('original') is type or m.get('name') is type
@@ -77,6 +78,7 @@ module.exports = class SpriteBoss extends CocoClass
     id ?= sprite.thang.id
     console.error "Sprite collision! Already have:", id if @sprites[id]
     @sprites[id] = sprite
+    @spriteArray.push sprite
     layer ?= @spriteLayers["Obstacle"] if sprite.thang?.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
     layer ?= @layerForChild sprite.displayObject, sprite
     layer.addChild sprite.displayObject
@@ -94,11 +96,8 @@ module.exports = class SpriteBoss extends CocoClass
     unless @indieSprites
       @indieSprites = []
       @indieSprites = (@createIndieSprite indieSprite for indieSprite in indieSprites) if indieSprites
-    unless @selfWizardSprite
+    if withWizards and not @selfWizardSprite
       @selfWizardSprite = @createWizardSprite thangID: "My Wizard", isSelf: true, sprites: @sprites
-    unless withWizards
-      @selfWizardSprite.displayObject.visible = false
-      @selfWizardSprite.labels.name.setText null
 
   createIndieSprite: (indieSprite) ->
     unless thangType = @thangTypeFor indieSprite.thangType
@@ -116,7 +115,6 @@ module.exports = class SpriteBoss extends CocoClass
       sprite.targetPos = if opponent.team is 'ogres' then {x:72, y: 39} else {x: 9, y:39}
     else
       sprite.targetPos = if opponent.team is 'ogres' then {x:52, y: 28} else {x: 20, y:28}
-
 
   createWizardSprite: (options) ->
     sprite = new WizardSprite @thangTypeFor("Wizard"), @createSpriteOptions(options)
@@ -138,7 +136,7 @@ module.exports = class SpriteBoss extends CocoClass
   onSetDebug: (e) ->
     return if e.debug is @debug
     @debug = e.debug
-    sprite.setDebug @debug for thangID, sprite of @sprites
+    sprite.setDebug @debug for sprite in @spriteArray
 
   onHighlightSprites: (e) ->
     highlightedIDs = e.thangIDs or []
@@ -159,15 +157,16 @@ module.exports = class SpriteBoss extends CocoClass
     sprite.displayObject.parent.removeChild sprite.displayObject
     thang = sprite.thang
     delete @sprites[sprite.thang.id]
+    @spriteArray.splice @spriteArray.indexOf(sprite), 1
     sprite.destroy()
     sprite.thang = thang  # Keep around so that we know which thang the destroyed thang was for
 
   updateSounds: ->
-    sprite.playSounds() for thangID, sprite of @sprites  # hmm; doesn't work for sprites which we didn't add yet in adjustSpriteExistence
+    sprite.playSounds() for sprite in @spriteArray  # hmm; doesn't work for sprites which we didn't add yet in adjustSpriteExistence
 
   update: (frameChanged) ->
     @adjustSpriteExistence() if frameChanged
-    sprite.update frameChanged for thangID, sprite of @sprites
+    sprite.update frameChanged for sprite in @spriteArray
     @updateSelection()
     @spriteLayers["Default"].updateLayerOrder()
     @cache()
@@ -197,7 +196,7 @@ module.exports = class SpriteBoss extends CocoClass
 
   cache: (update=false) ->
     return if @cached and not update
-    wallSprites = (sprite for thangID, sprite of @sprites when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
+    wallSprites = (sprite for sprite in @spriteArray when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
     walls = (sprite.thang for sprite in wallSprites)
     @world.calculateBounds()
     wallGrid = new Grid walls, @world.size()...
@@ -222,12 +221,12 @@ module.exports = class SpriteBoss extends CocoClass
   onCastSpells: -> @stop()
 
   play: ->
-    sprite.imageObject.play() for thangID, sprite of @sprites
+    sprite.imageObject.play() for sprite in @spriteArray
     @selectionMark?.play()
     @targetMark?.play()
 
   stop: ->
-    sprite.imageObject.stop() for thangID, sprite of @sprites
+    sprite.imageObject.stop() for sprite in @spriteArray
     @selectionMark?.stop()
     @targetMark?.stop()
 

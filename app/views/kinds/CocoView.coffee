@@ -115,7 +115,7 @@ module.exports = class CocoView extends Backbone.View
 
   afterRender: ->
 
-  updateProgress: (progress)=>
+  updateProgress: (progress) ->
     @loadProgress.progress = progress if progress > @loadProgress.progress
     @updateProgressBar(progress)
       

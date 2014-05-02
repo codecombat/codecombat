@@ -37,7 +37,10 @@ module.exports = class LevelLoader extends CocoClass
     @loadLevel()
     @loadAudio()
     @playJingle()
-    @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
+    if @supermodel.finished()
+      @onSupermodelLoaded()
+    else
+      @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
 
   playJingle: ->
     return if @headless
@@ -75,32 +78,34 @@ module.exports = class LevelLoader extends CocoClass
     else
       @level = @supermodel.loadModel(@level, 'level').model
       @listenToOnce @level, 'sync', @onLevelLoaded
-      
+
   onLevelLoaded: ->
     @populateLevel()
-      
+
   populateLevel: ->
     thangIDs = []
     componentVersions = []
     systemVersions = []
     articleVersions = []
-    
+
     for thang in @level.get('thangs') or []
       thangIDs.push thang.thangType
       for comp in thang.components or []
         componentVersions.push _.pick(comp, ['original', 'majorVersion'])
-        
+
     for system in @level.get('systems') or []
       systemVersions.push _.pick(system, ['original', 'majorVersion'])
       if indieSprites = system?.config?.indieSprites
         for indieSprite in indieSprites
           thangIDs.push indieSprite.thangType
-      
-    for article in @level.get('articles')?.generalArticles or []
-      articleVersions.push _.pick(article, ['original', 'majorVersion'])
+
+    unless @headless
+      for article in @level.get('documentation')?.generalArticles or []
+        articleVersions.push _.pick(article, ['original', 'majorVersion'])
 
     objUniq = (array) -> _.uniq array, false, (arg) -> JSON.stringify(arg)
 
+<<<<<<< HEAD
     thangNames = new ThangNamesCollection(thangIDs)
     @supermodel.loadCollection thangNames, 'thang_names'
 #    for thangID in _.uniq thangIDs
@@ -109,6 +114,13 @@ module.exports = class LevelLoader extends CocoClass
 #      res = @maybeLoadURL url, ThangType, 'thang'
 #      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
     
+=======
+    for thangID in _.uniq thangIDs
+      url = "/db/thang.type/#{thangID}/version"
+      url += "?project=true" if @headless and not @editorMode
+      res = @maybeLoadURL url, ThangType, 'thang'
+      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
+>>>>>>> master
     for obj in objUniq componentVersions
       url = "/db/level.component/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, LevelComponent, 'component'
@@ -122,14 +134,15 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Level, 'level'
 
-    wizard = ThangType.loadUniversalWizard()
-    @supermodel.loadModel wizard, 'thang'
+    unless @headless and not @editorMode
+      wizard = ThangType.loadUniversalWizard()
+      @supermodel.loadModel wizard, 'thang'
 
   maybeLoadURL: (url, Model, resourceName) ->
     return if @supermodel.getModel(url)
     model = new Model().setURL url
     @supermodel.loadModel(model, resourceName)
-    
+
   onSupermodelLoaded: ->
     @loadLevelSounds()
     @denormalizeSession()

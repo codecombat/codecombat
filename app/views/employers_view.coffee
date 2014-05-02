@@ -20,10 +20,17 @@ module.exports = class EmployersView extends View
   constructor: (options) ->
     super options
     @getCandidates()
-
+  checkForEmployerSignupHash: =>
+    if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get("permissions"))
+      @openModalView application.router.getView("modal/employer_signup","_modal")
+      window.location.hash = ""
   afterRender: ->
     super()
     @sortTable() if @candidates.models.length
+
+  afterInsert: ->
+    super()
+    _.delay @checkForEmployerSignupHash, 500
 
   getRenderData: ->
     c = super()
@@ -38,7 +45,13 @@ module.exports = class EmployersView extends View
     @candidates = new CandidatesCollection()
     @candidates.fetch()
     # Re-render when we have fetched them, but don't wait and show a progress bar while loading.
-    @listenToOnce @candidates, 'all', @render
+    @listenToOnce @candidates, 'all', @renderCandidatesAndSetupScrolling
+
+  renderCandidatesAndSetupScrolling: =>
+    @render()
+    $(".nano").nanoScroller()
+    if window.location.hash.length is 25
+      $(".nano").nanoScroller({scrollTo:$(window.location.hash)})
 
   sortTable: ->
     # http://mottie.github.io/tablesorter/docs/example-widget-bootstrap-theme.html
@@ -162,6 +175,7 @@ module.exports = class EmployersView extends View
 
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
+    window.location.hash = id
     if id
       url = "/account/profile/#{id}"
       app.router.navigate url, {trigger: true}

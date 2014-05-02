@@ -35,12 +35,13 @@ module.exports = class Layer extends createjs.Container
     @transformStyle = options.transform ? Layer.TRANSFORM_CHILD
     @camera = options.camera
     console.error @toString(), "needs a camera." unless @camera
-    @updateLayerOrder = _.throttle @updateLayerOrder, 1  # don't call multiple times in one frame
+    @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
     Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions
 
   destroy: ->
     child.destroy?() for child in @children
     Backbone.Mediator.unsubscribe(channel, @[func], @) for channel, func of @subscriptions
+    delete @updateLayerOrder
 
   toString: -> "<Layer #{@layerPriority}: #{@name}>"
 
@@ -60,21 +61,30 @@ module.exports = class Layer extends createjs.Container
 
   updateLayerOrder: =>
     #console.log @, @toString(), "sorting children", _.clone @children if @name is 'Default'
-    @sortChildren (a, b) ->
-      alp = a.layerPriority ? 0
-      blp = b.layerPriority ? 0
-      return alp - blp if alp isnt blp
-      # TODO: remove this z stuff
-      az = if a.z then a.z else 1000
-      bz = if b.z then b.z else 1000
-      aThang = a.sprite?.thang
-      bThang = b.sprite?.thang
-      az -= 1 if aThang?.health < 0
-      bz -= 1 if bThang?.health < 0
-      if az == bz
-        return 0 unless aThang?.pos and bThang?.pos
-        return (bThang.pos.y - aThang.pos.y) or (bThang.pos.x - aThang.pos.x)
-      return az - bz
+    @sortChildren @layerOrderComparator
+
+  layerOrderComparator: (a, b) ->
+    # Optimize
+    alp = a.layerPriority or 0
+    blp = b.layerPriority or 0
+    return alp - blp if alp isnt blp
+    # TODO: remove this z stuff
+    az = a.z or 1000
+    bz = b.z or 1000
+    if aSprite = a.sprite
+      if aThang = aSprite.thang
+        aPos = aThang.pos
+        if aThang.health < 0
+          --az
+    if bSprite = b.sprite
+      if bThang = bSprite.thang
+        bPos = bThang.pos
+        if bThang.health < 0
+          --bz
+    if az is bz
+      return 0 unless aPos and bPos
+      return (bPos.y - aPos.y) or (bPos.x - aPos.x)
+    return az - bz
 
   onZoomUpdated: (e) ->
     return unless e.camera is @camera

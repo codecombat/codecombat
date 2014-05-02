@@ -94,6 +94,7 @@ block content
               - var notes = user.get('jobProfileNotes') || '';
               if me.isAdmin()
                 textarea#job-profile-notes!= notes
+                button.btn.btn-primary#save-notes-button Save Notes
               else
                 div!= marked(notes)
 
