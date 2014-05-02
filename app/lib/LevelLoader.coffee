@@ -110,7 +110,7 @@ module.exports = class LevelLoader extends CocoClass
     @thangIDs = _.uniq thangIDs
     thangNames = new ThangNamesCollection(@thangIDs)
     worldNecessities.push @supermodel.loadCollection(thangNames, 'thang_names')
-          
+
     for obj in objUniq componentVersions
       url = "/db/level.component/#{obj.original}/version/#{obj.majorVersion}"
       worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
@@ -127,7 +127,7 @@ module.exports = class LevelLoader extends CocoClass
     unless @headless and not @editorMode
       wizard = ThangType.loadUniversalWizard()
       @supermodel.loadModel wizard, 'thang'
-      
+
     jqxhrs = (resource.jqxhr for resource in worldNecessities when resource?.jqxhr)
     $.when(jqxhrs...).done(@onWorldNecessitiesLoaded)
 
@@ -210,6 +210,7 @@ module.exports = class LevelLoader extends CocoClass
     @world = new World @level.get('name')
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
+    console.log "World has been initialized from level loader."
 
   # Initial Sound Loading
 

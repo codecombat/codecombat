@@ -685,6 +685,7 @@
     user_schema: "User Schema"
     user_profile: "User Profile"
     patches: "Patches"
+    patched_model: "Source Document"
     model: "Model"
     system: "System"
     component: "Component"

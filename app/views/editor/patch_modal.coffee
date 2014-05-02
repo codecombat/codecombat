@@ -8,7 +8,7 @@ module.exports = class PatchModal extends ModalView
   template: template
   plain: true
   modalWidthPercent: 60
-  
+
   events:
     'click #withdraw-button': 'withdrawPatch'
     'click #reject-button': 'rejectPatch'
@@ -24,8 +24,8 @@ module.exports = class PatchModal extends ModalView
       @originalSource = new targetModel.constructor({_id:targetID})
       @originalSource.fetch()
       @listenToOnce @originalSource, 'sync', @onOriginalLoaded
-      @addResourceToLoad(@originalSource)
-      
+      @supermodel.addModelResource @originalSource, 'patched_model'  # TODO: Doesn't work?
+
   getRenderData: ->
     c = super()
     c.isPatchCreator = @patch.get('creator') is auth.me.id
@@ -33,14 +33,14 @@ module.exports = class PatchModal extends ModalView
     c.status = @patch.get 'status'
     c.patch = @patch
     c
-    
+
   afterRender: ->
     return if @originalSource.loading
     headModel = null
     if @targetModel.hasWriteAccess()
       headModel = @originalSource.clone(false)
       headModel.set(@targetModel.attributes)
-    
+
     pendingModel = @originalSource.clone(false)
     pendingModel.applyDelta(@patch.get('delta'))
 
@@ -48,18 +48,18 @@ module.exports = class PatchModal extends ModalView
     changeEl = @$el.find('.changes-stub')
     @insertSubView(@deltaView, changeEl)
     super()
-    
+
   acceptPatch: ->
     delta = @deltaView.getApplicableDelta()
     @targetModel.applyDelta(delta)
     @patch.setStatus('accepted')
     @trigger 'accepted-patch'
     @hide()
-    
+
   rejectPatch: ->
     @patch.setStatus('rejected')
     @hide()
-    
+
   withdrawPatch: ->
     @patch.setStatus('withdrawn')
     @hide()
