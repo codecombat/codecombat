@@ -199,6 +199,7 @@ class ModelResource extends Resource
     super(name, value)
     @model = modelOrCollection
     @fetchOptions = fetchOptions
+    @jqxhr = @model.jqxhr
 
   load: ->
     @markLoading()

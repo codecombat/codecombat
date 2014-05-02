@@ -36,6 +36,8 @@ class CocoModel extends Backbone.Model
     @loading = false
     @markToRevert()
     @loadFromBackup()
+    
+  getNormalizedURL: -> "#{@urlRoot}/#{@id}"
 
   set: ->
     res = super(arguments...)
@@ -75,9 +77,9 @@ class CocoModel extends Backbone.Model
     return super attrs, options
 
   fetch: ->
-    res = super(arguments...)
+    @jqxhr = super(arguments...)
     @loading = true
-    res
+    @jqxhr
 
   markToRevert: ->
     if @type() is 'ThangType'

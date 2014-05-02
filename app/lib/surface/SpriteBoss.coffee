@@ -48,7 +48,7 @@ module.exports = class SpriteBoss extends CocoClass
   toString: -> "<SpriteBoss: #{@spriteArray.length} sprites>"
 
   thangTypeFor: (type) ->
-    _.find @options.thangTypes, (m) -> m.get('original') is type or m.get('name') is type
+    _.find @options.thangTypes, (m) -> m.get('actions') and m.get('original') is type or m.get('name') is type
 
   createLayers: ->
     @spriteLayers = {}
@@ -145,7 +145,7 @@ module.exports = class SpriteBoss extends CocoClass
 
   addThangToSprites: (thang, layer=null) ->
     return console.warn 'Tried to add Thang to the surface it already has:', thang.id if @sprites[thang.id]
-    thangType = _.find @options.thangTypes, (m) -> m.get('name') is thang.spriteName
+    thangType = _.find @options.thangTypes, (m) -> m.get('actions') and m.get('name') is thang.spriteName
     options = @createSpriteOptions thang: thang
     options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else 4
     sprite = new CocoSprite thangType, options

@@ -9,3 +9,8 @@ module.exports = class CocoCollection extends Backbone.Collection
 
   getURL: ->
     return if _.isString @url then @url else @url()
+
+  fetch: ->
+    @jqxhr = super(arguments...)
+    @loading = true
+    @jqxhr

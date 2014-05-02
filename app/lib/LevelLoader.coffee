@@ -105,19 +105,18 @@ module.exports = class LevelLoader extends CocoClass
 
     objUniq = (array) -> _.uniq array, false, (arg) -> JSON.stringify(arg)
 
-    thangNames = new ThangNamesCollection(thangIDs)
-    @supermodel.loadCollection thangNames, 'thang_names'
-#    for thangID in _.uniq thangIDs
-#      url = "/db/thang.type/#{thangID}/version"
-#      url += "?project=true" if @headless and not @editorMode
-#      res = @maybeLoadURL url, ThangType, 'thang'
-#      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
+    worldNecessities = []
+
+    @thangIDs = _.uniq thangIDs
+    thangNames = new ThangNamesCollection(@thangIDs)
+    worldNecessities.push @supermodel.loadCollection(thangNames, 'thang_names')
+          
     for obj in objUniq componentVersions
       url = "/db/level.component/#{obj.original}/version/#{obj.majorVersion}"
-      @maybeLoadURL url, LevelComponent, 'component'
+      worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
     for obj in objUniq systemVersions
       url = "/db/level.system/#{obj.original}/version/#{obj.majorVersion}"
-      @maybeLoadURL url, LevelSystem, 'system'
+      worldNecessities.push @maybeLoadURL(url, LevelSystem, 'system')
     for obj in objUniq articleVersions
       url = "/db/article/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Article, 'article'
@@ -128,6 +127,17 @@ module.exports = class LevelLoader extends CocoClass
     unless @headless and not @editorMode
       wizard = ThangType.loadUniversalWizard()
       @supermodel.loadModel wizard, 'thang'
+      
+    jqxhrs = (resource.jqxhr for resource in worldNecessities when resource?.jqxhr)
+    $.when(jqxhrs...).done(@onWorldNecessitiesLoaded)
+
+  onWorldNecessitiesLoaded: =>
+    @initWorld()
+    for thangID in @thangIDs
+      url = "/db/thang.type/#{thangID}/version"
+      url += "?project=true" if @headless and not @editorMode
+      res = @maybeLoadURL url, ThangType, 'thang'
+      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
 
   maybeLoadURL: (url, Model, resourceName) ->
     return if @supermodel.getModel(url)
@@ -138,7 +148,6 @@ module.exports = class LevelLoader extends CocoClass
     @loadLevelSounds()
     @denormalizeSession()
     app.tracker.updatePlayState(@level, @session) unless @headless
-    @initWorld()
 
   denormalizeSession: ->
     return if @headless or @sessionDenormalized or @spectateMode
@@ -201,7 +210,6 @@ module.exports = class LevelLoader extends CocoClass
     @world = new World @level.get('name')
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
-    console.log 'INITIALIZED!', (new Date().getTime() - @t0) / 1000
 
   # Initial Sound Loading
 
