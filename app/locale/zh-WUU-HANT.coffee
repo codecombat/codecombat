@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "巫師吳語", englishDescription: "Wuu", translation:
+module.exports = nativeDescription: "巫師吳語", englishDescription: "Wuu (Traditional)", translation:
   common:
     loading: "徠搭讀取……"
     saving: "徠搭存檔……"
