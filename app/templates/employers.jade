@@ -36,10 +36,10 @@ block content
         for candidate, index in candidates
           - var profile = candidate.get('jobProfile');
           - var authorized = candidate.id;  // If we have the id, then we are authorized.
-          tr(data-candidate-id=candidate.id)
+          tr(data-candidate-id=candidate.id, id=candidate.id)
             td
               if authorized
-                img(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, width=50)
+                img(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, height=50)
                 p= profile.name
               else
                 img(src="/images/pages/contribute/archmage.png", alt="", title="Sign up as an employer to see our candidates", width=50)

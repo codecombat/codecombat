@@ -9,7 +9,7 @@ module.exports = class ProfileView extends View
 
   events:
     'click #toggle-job-profile-approved': 'toggleJobProfileApproved'
-    'keyup #job-profile-notes': 'onJobProfileNotesChanged'
+    'click save-notes-button': 'onJobProfileNotesChanged'
     'click #contact-candidate': 'onContactCandidate'
     'click #enter-espionage-mode': 'enterEspionageMode'
 
