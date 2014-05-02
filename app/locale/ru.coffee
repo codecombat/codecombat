@@ -15,9 +15,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     fork: "Форк"
     play: "Играть"
     retry: "Повторить"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
+    watch: "Следить"
+    unwatch: "Не следить"
+    submit_patch: "Отослать патч"
 
   units:
     second: "секунда"
@@ -39,7 +39,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     editor: "Редактор"
     blog: "Блог"
     forum: "Форум"
-#    account: "Account"
+    account: "Аккаунт"
     admin: "Админ"
     home: "Домой"
     contribute: "Сотрудничество"
@@ -77,7 +77,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     creating: "Создание аккаунта..."
     sign_up: "Регистрация"
     log_in: "вход с паролем"
-    social_signup: "Или вы можете зарегестрироваться через Facebook или G+:"
+    social_signup: "Или вы можете зарегистрироваться через Facebook или G+:"
 
   home:
     slogan: "Научитесь программировать на JavaScript, играя в игру"
@@ -109,7 +109,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     spectate: "Наблюдать"
 
   contact:
-    contact_us: "Связаться с Нами"
+    contact_us: "Связаться с CodeCombat"
     welcome: "Мы рады вашему сообщению! Используйте эту форму, чтобы отправить нам email. "
     contribute_prefix: "Если вы хотите внести свой вклад в проект, зайдите на нашу "
     contribute_page: "страницу сотрудничества"
@@ -174,8 +174,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     job_profile: "Профиль соискателя"
     job_profile_approved: "Ваш профиль соискателя был одобрен CodeCombat. Работодатели смогут видеть его, пока вы не отметите его неактивным или он не будет изменен в течение четырёх недель."
     job_profile_explanation: "Привет! Заполните это, и мы свяжемся с вами при нахождении работы разработчика программного обеспечения для вас."
-#    sample_profile: "See a sample profile"
-#    view_profile: "View Your Profile"
+    sample_profile: "Посмотреть пример профиля"
+    view_profile: "Просмотр вашего профиля"
 
   account_profile:
     edit_settings: "Изменить настройки"
@@ -193,7 +193,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   employers:
     want_to_hire_our_players: "Хотите нанимать игроков-экспертов CodeCombat?"
-#    see_candidates: "Click here to see our candidates"
+    see_candidates: "Щёлкните, чтобы посмотреть наших кандидатов"
     candidates_count_prefix: "Сейчас у нас есть "
     candidates_count_many: "много"
     candidates_count_suffix: "высококвалифицированных и проверенных разработчиков, ищущих работу."
@@ -204,8 +204,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     candidate_top_skills: "Лучшие навыки"
     candidate_years_experience: "Лет опыта"
     candidate_last_updated: "Последнее обновление"
-#    candidate_approved: "Us?"
-#    candidate_active: "Them?"
+    candidate_approved: "Нам?"
+    candidate_active: "Им?"
 
   play_level:
     level_load_error: "Уровень не может быть загружен: "
@@ -314,12 +314,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     lg_title: "Последние игры"
     clas: "ЛСС"
 
-#  community:
-#    level_editor: "Level Editor"
-#    main_title: "CodeCombat Community"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
-#    gplus: "Google+"
+  community:
+    level_editor: "редактор уровней"
+    main_title: "Сообщество CodeCombat"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    gplus: "Google+"
 
   editor:
     main_title: "Редакторы CodeCombat"
@@ -330,7 +330,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     thang_description: "Создавайте юнитов, определяйте их логику по умолчанию, графику и звук. В настоящий момент поддерживается импорт только векторной графики Flash."
     level_title: "Редактор уровней"
     level_description: "Включает в себя инструменты для написания сценариев, загрузки аудио и построения собственной логики для создания всевозможных уровней. Всё, что мы используем сами!"
-#    got_questions: "Questions about using the CodeCombat editors?"
+    got_questions: "Вопросы по использованию редакторов CodeCombat?"
     contact_us: "свяжитесь с нами!"
     hipchat_prefix: "Также вы можете найти нас в нашей"
     hipchat_url: "комнате HipChat."
@@ -372,9 +372,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     new_article_title: "Создать новую статью"
     new_thang_title: "Создать новый тип объектов"
     new_level_title: "Создать новый уровень"
-#    new_article_title_signup: "Sign Up to Create a New Article"
-#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
-#    new_level_title_signup: "Sign Up to Create a New Level"
+    new_article_title_signup: "Авторизуйтесь для создания новой статьи"
+    new_thang_title_signup: "Авторизуйтесь для создания нового типа объектов"
+    new_level_title_signup: "Авторизуйтесь для создания нового уровня"
     article_search_title: "Искать статьи"
     thang_search_title: "Искать типы объектов"
     level_search_title: "Искать уровни"
