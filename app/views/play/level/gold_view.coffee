@@ -1,5 +1,6 @@
 View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/gold'
+teamTemplate = require 'templates/play/level/team_gold'
 
 module.exports = class GoldView extends View
   id: "gold-view"
@@ -13,9 +14,9 @@ module.exports = class GoldView extends View
     @$el.show()
     goldEl = @$el.find('.gold-amount.team-' + e.team)
     unless goldEl.length
-      teamEl = $("<div class='team-gold team-#{e.team}' title='Gold: #{e.team}'><img src='/images/level/prop_gold.png'> <div class='gold-amount team-#{e.team}'></div></div>")
+      teamEl = teamTemplate team: e.team
       @$el.append(teamEl)
-      goldEl = teamEl.find('.gold-amount.team-' + e.team)
+      goldEl = $('.gold-amount.team-' + e.team, teamEl)
     text = '' + e.gold
     if e.goldEarned and e.goldEarned > e.gold
       text += " (#{e.goldEarned})"
