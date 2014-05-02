@@ -105,7 +105,6 @@ module.exports = class LevelLoader extends CocoClass
 
     objUniq = (array) -> _.uniq array, false, (arg) -> JSON.stringify(arg)
 
-<<<<<<< HEAD
     thangNames = new ThangNamesCollection(thangIDs)
     @supermodel.loadCollection thangNames, 'thang_names'
 #    for thangID in _.uniq thangIDs
@@ -113,14 +112,6 @@ module.exports = class LevelLoader extends CocoClass
 #      url += "?project=true" if @headless and not @editorMode
 #      res = @maybeLoadURL url, ThangType, 'thang'
 #      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
-    
-=======
-    for thangID in _.uniq thangIDs
-      url = "/db/thang.type/#{thangID}/version"
-      url += "?project=true" if @headless and not @editorMode
-      res = @maybeLoadURL url, ThangType, 'thang'
-      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
->>>>>>> master
     for obj in objUniq componentVersions
       url = "/db/level.component/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, LevelComponent, 'component'

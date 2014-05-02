@@ -93,9 +93,6 @@ module.exports = class PlayLevelView extends View
       @load()
       application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID
 
-<<<<<<< HEAD
-  setLevel: (@level, @supermodel) ->
-=======
   onLevelLoadError: (e) ->
     # TODO NOW: remove this in favor of the supermodel handling it
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
@@ -104,8 +101,6 @@ module.exports = class PlayLevelView extends View
     @supermodel.models = givenSupermodel.models
     @supermodel.collections = givenSupermodel.collections
     @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
-
->>>>>>> master
     @god?.level = @level.serialize @supermodel
     if @world
       serializedLevel = @level.serialize(@supermodel)
