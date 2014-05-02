@@ -73,18 +73,18 @@ block content
           
           hr
           h4(data-i18n="account_settings.email_notifications") Notifications
-          span Controls for transactional emails, ie emails specific to your account.
+          span(data-i18n="account_settings.email_notifications_summary") Controls for personalized, automatic email notifications related to your CodeCombat activity.
           
           .form
             .form-group.checkbox
-              label.control-label(for="email_anyNotes", data-i18n="account_settings.any_notifications") Any Notifications
+              label.control-label(for="email_anyNotes", data-i18n="account_settings.email_any_notes") Any Notifications
               input#email_anyNotes(name="email_anyNotes", type="checkbox", checked=subs.anyNotes)
-              span.help-block(data-i18n="account_settings.email_any_notes_description") Disable to universally stop ALL notifications for this account.
+              span.help-block(data-i18n="account_settings.email_any_notes_description") Disable to stop all activity notification emails.
             
             fieldset#specific-notification-settings
   
               .form-group.checkbox
-                label.control-label(for="email_recruitNotes", data-i18n="account_settings.recruit_notes") Recruitment Opportunities
+                label.control-label(for="email_recruitNotes", data-i18n="account_settings.email_recruit_notes") Job Opportunities
                 input#email_recruitNotes(name="email_recruitNotes", type="checkbox", checked=subs.recruitNotes)
                 span.help-block(data-i18n="account_settings.email_recruit_notes_description") If you play really well, we may contact you about getting you a (better) job.
 
