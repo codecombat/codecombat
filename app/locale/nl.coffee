@@ -379,7 +379,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     new_thang_title: "Maak een Nieuw Thang Type"
     new_level_title: "Maak een Nieuw Level"
     new_article_title_signup: "Meld je aan om een Nieuw Artikel te maken"
-    new_thang_title_signup: "Meld je aan op een nieuw Thang Type te maken"
+    new_thang_title_signup: "Meld je aan op een Nieuw Thang Type te maken"
     new_level_title_signup: "Meld je aan om een Nieuw Level te maken"
     article_search_title: "Zoek Artikels Hier"
     thang_search_title: "Zoek Thang Types Hier"
