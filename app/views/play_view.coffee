@@ -138,7 +138,7 @@ module.exports = class PlayView extends View
         difficulty: 5
         id: 'gridmancer'
         image: '/file/db/level/52ae2460ef42c52f13000008/gridmancer_icon.png'
-        description: "Challenge! Beat this level, get a job!"
+        description: "Super algorithm challenge level!"
       }
     ]
 
