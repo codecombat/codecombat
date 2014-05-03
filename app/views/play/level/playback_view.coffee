@@ -265,9 +265,9 @@ module.exports = class PlaybackView extends View
     $('.scrubber .progress-bar', @$el).css('width', "#{progress*100}%")
 
   updatePlayButton: (progress) ->
-    if progress >= 1.0 and @lastProgress < 1.0
+    if progress >= 0.99 and @lastProgress < 0.99
       $('#play-button').removeClass('playing').removeClass('paused').addClass('ended')
-    if progress < 1.0 and @lastProgress >= 1.0
+    if progress < 0.99 and @lastProgress >= 0.99
       b = $('#play-button').removeClass('ended')
       if @playing then b.addClass('playing') else b.addClass('paused')
 
