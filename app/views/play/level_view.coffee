@@ -110,8 +110,8 @@ module.exports = class PlayLevelView extends View
 
   load: ->
     @loadStartTime = new Date()
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
     @god = new God()
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
 
   getRenderData: ->
     c = super()
@@ -131,6 +131,9 @@ module.exports = class PlayLevelView extends View
 
   updateProgress: (progress) ->
     super(progress)
+    if not @worldInitialized and @levelLoader.session.loaded and @levelLoader.level.loaded and @levelLoader.world and (not @levelLoader.opponentSession or @levelLoader.opponentSession.loaded)
+      @grabLevelLoaderData()
+      @onWorldInitialized()
     return if @seenDocs
     return unless @levelLoader.session.loaded and @levelLoader.level.loaded
     return unless showFrequency = @levelLoader.level.get('showsGuide')
@@ -141,6 +144,21 @@ module.exports = class PlayLevelView extends View
     for article in articles
       return unless article.loaded
     @showGuide()
+
+  onWorldInitialized: ->
+    @worldInitialized = true
+    team = @getQueryVariable("team") ? @world.teamForPlayer(0)
+    @loadOpponentTeam(team)
+    @god.level = @level.serialize @supermodel
+    @god.worldClassMap = @world.classMap
+    @setTeam team
+    @initGoalManager()
+    @insertSubviews ladderGame: (@level.get('type') is "ladder")
+    @initVolume()
+    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
+    @originalSessionState = $.extend(true, {}, @session.get('state'))
+    @register()
+    @controlBar.setBus(@bus)
 
   showGuide: ->
     @seenDocs = true
@@ -163,21 +181,10 @@ module.exports = class PlayLevelView extends View
     if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
       me.set('lastLevel', @levelID)
       me.save()
-    @grabLevelLoaderData()
-    team = @getQueryVariable("team") ? @world.teamForPlayer(0)
-    @loadOpponentTeam(team)
-    @god.level = @level.serialize @supermodel
-    @god.worldClassMap = @world.classMap
-    @setTeam team
+    @levelLoader.destroy()
+    @levelLoader = null
     @initSurface()
-    @initGoalManager()
     @initScriptManager()
-    @insertSubviews ladderGame: (@level.get('type') is "ladder")
-    @initVolume()
-    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
-    @originalSessionState = $.extend(true, {}, @session.get('state'))
-    @register()
-    @controlBar.setBus(@bus)
     @surface.showLevel()
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
@@ -188,8 +195,6 @@ module.exports = class PlayLevelView extends View
     @world = @levelLoader.world
     @level = @levelLoader.level
     @otherSession = @levelLoader.opponentSession
-    @levelLoader.destroy()
-    @levelLoader = null
 
   loadOpponentTeam: (myTeam) ->
     opponentSpells = []

@@ -17,11 +17,11 @@ module.exports = class God
     @id = God.nextID()
     options ?= {}
     @maxAngels = options.maxAngels ? 2  # How many concurrent web workers to use; if set past 8, make up more names
-    @maxWorkerPoolSize = options.maxWorkerPoolSize ? 2  # ~20MB per idle worker
+    @maxWorkerPoolSize = options.maxWorkerPoolSize ? 1  # ~20MB per idle worker
     @angels = []
     @firstWorld = true
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
-    @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
+    @fillWorkerPool = _.throttle @fillWorkerPool, 3000
     @fillWorkerPool()
 
   onTomeCast: (e) ->
@@ -87,7 +87,7 @@ module.exports = class God
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
 
   createWorld: ->
-    #console.log @id + ': "Let there be light upon', @world.name + '!"'
+    console.log @id + ': "Let there be light upon', @level.name + '!"'
     unless Worker?  # profiling world simulation is easier on main thread, or we are IE9
       setTimeout @simulateWorld, 1
       return
@@ -98,7 +98,6 @@ module.exports = class God
     else
       @worldWaiting = true
       return
-    #console.log "going to run world with code", @getUserCodeMap()
     angel.worker.postMessage {func: 'runWorld', args: {
       worldName: @level.name
       userCodeMap: @getUserCodeMap()
