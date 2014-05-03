@@ -650,7 +650,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     simple_ai: "Simpele AI"
     warmup: "Opwarming"
     vs: "tegen"
-    friends_playing: "Spelende Vriende"
+    friends_playing: "Spelende Vrienden"
     sign_up_for_friends: "Meld je aan om met je vrienden te spelen!"
     social_connect_blurb: "Koppel je sociaal netwerk om tegen je vrienden te spelen!"
     invite_friends_to_battle: "Nodig je vrienden uit om deel te nemen aan het gevecht!"
