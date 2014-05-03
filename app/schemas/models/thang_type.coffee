@@ -123,6 +123,7 @@ _.extend ThangTypeSchema.properties,
     title: 'Scale'
     type: 'number'
   positions: PositionsSchema
+  raster: { type: 'string', format: 'image-file', title: 'Raster Image' }
   colorGroups: c.object
     title: 'Color Groups'
     additionalProperties:

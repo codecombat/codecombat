@@ -197,6 +197,7 @@ module.exports = class ThangTypeEditView extends View
   # animation select
 
   refreshAnimation: ->
+    return @showRasterImage() if @thangType.get('raster')
     options = @getSpriteOptions()
     @thangType.resetSpriteSheetCache()
     spriteSheet = @thangType.buildSpriteSheet(options)
@@ -206,6 +207,13 @@ module.exports = class ThangTypeEditView extends View
       $('#spritesheets').append(image)
     @showAnimation()
     @updatePortrait()
+
+  showRasterImage: ->
+    sprite = new CocoSprite(@thangType, @getSpriteOptions())
+    @currentSprite?.destroy()
+    @currentSprite = sprite
+    @showDisplayObject(sprite.displayObject)
+    @updateScale()
 
   showAnimation: (animationName) ->
     animationName = @$el.find('#animations-select').val() unless _.isString animationName
@@ -310,8 +318,13 @@ module.exports = class ThangTypeEditView extends View
 
     res.success =>
       url = "/editor/thang/#{newThangType.get('slug') or newThangType.id}"
-      newThangType.uploadGenericPortrait ->
-        document.location.href = url
+      portraitSource = null
+      if @thangType.get('raster')
+        image = @currentSprite.imageObject.image
+        portraitSource = imageToPortrait image
+        # bit of a hacky way to get that portrait
+      success = -> document.location.href = url
+      newThangType.uploadGenericPortrait success, portraitSource
 
   clearRawData: ->
     @thangType.resetRawData()
@@ -393,3 +406,14 @@ module.exports = class ThangTypeEditView extends View
   destroy: ->
     @camera?.destroy()
     super()
+
+imageToPortrait = (img) ->
+  canvas = document.createElement("canvas")
+  canvas.width = 100
+  canvas.height = 100
+  ctx = canvas.getContext("2d")
+  scaleX = 100 / img.width
+  scaleY = 100 / img.height
+  ctx.scale scaleX, scaleY
+  ctx.drawImage img, 0, 0
+  canvas.toDataURL("image/png") 

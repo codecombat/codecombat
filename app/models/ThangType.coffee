@@ -210,8 +210,8 @@ module.exports = class ThangType extends CocoModel
       @tick = null
     stage
 
-  uploadGenericPortrait: (callback) ->
-    src = @getPortraitSource()
+  uploadGenericPortrait: (callback, src) ->
+    src ?= @getPortraitSource()
     return callback?() unless src
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =

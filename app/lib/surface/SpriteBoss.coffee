@@ -145,7 +145,11 @@ module.exports = class SpriteBoss extends CocoClass
 
   addThangToSprites: (thang, layer=null) ->
     return console.warn 'Tried to add Thang to the surface it already has:', thang.id if @sprites[thang.id]
-    thangType = _.find @options.thangTypes, (m) -> m.get('actions') and m.get('name') is thang.spriteName
+    thangType = _.find @options.thangTypes, (m) ->
+      return false unless m.get('actions') or m.get('raster')
+      return m.get('name') is thang.spriteName
+    thangType ?= _.find @options.thangTypes, (m) -> return m.get('name') is thang.spriteName
+      
     options = @createSpriteOptions thang: thang
     options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else 4
     sprite = new CocoSprite thangType, options
@@ -221,12 +225,12 @@ module.exports = class SpriteBoss extends CocoClass
   onCastSpells: -> @stop()
 
   play: ->
-    sprite.imageObject.play() for sprite in @spriteArray
+    sprite.imageObject.play?() for sprite in @spriteArray
     @selectionMark?.play()
     @targetMark?.play()
 
   stop: ->
-    sprite.imageObject.stop() for sprite in @spriteArray
+    sprite.imageObject.stop?() for sprite in @spriteArray
     @selectionMark?.stop()
     @targetMark?.stop()
 

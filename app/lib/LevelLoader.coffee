@@ -168,6 +168,10 @@ module.exports = class LevelLoader extends CocoClass
   # Building sprite sheets
 
   buildSpriteSheetsForThangType: (thangType) ->
+    # TODO: Finish making sure the supermodel loads the raster image before triggering load complete, and that the cocosprite has access to the asset.
+#    if f = thangType.get('raster')
+#      queue = new createjs.LoadQueue()
+#      queue.loadFile('/file/'+f)
     @grabThangTypeTeams() unless @thangTypeTeams
     for team in @thangTypeTeams[thangType.get('original')] ? [null]
       spriteOptions = {resolutionFactor: 4, async: false}
