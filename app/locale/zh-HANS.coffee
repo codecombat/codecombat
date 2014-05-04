@@ -36,11 +36,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   nav:
     play: "开始游戏"
-#    community: "Community"
+    community: "社区"
     editor: "编辑器"
     blog: "博客"
     forum: "论坛"
-#    account: "Account"
+    account: "账号"
     admin: "管理"
     home: "首页"
     contribute: "贡献"
@@ -152,7 +152,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     autosave: "自动保存修改"
     me_tab: "我"
     picture_tab: "图片"
-#    upload_picture: "Upload a picture"
+    upload_picture: "上传一张图片"
     wizard_tab: "巫师"
     password_tab: "密码"
     emails_tab: "邮件"
@@ -165,7 +165,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     email_announcements_description: "接收关于 CodeCombat 的邮件。"
     email_notifications: "通知"
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
-#    email_any_notes: "Any Notifications"
+    email_any_notes: "任何通知"
 #    email_any_notes_description: "Disable to stop all activity notification emails."
 #    email_recruit_notes: "Job Opportunities"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
@@ -321,8 +321,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    clas: "CLAs"
 
 #  community:
-#    level_editor: "Level Editor"
-#    main_title: "CodeCombat Community"
+    level_editor: "关卡编辑器"
+    main_title: "CodeCombat 社区"
 #    facebook: "Facebook"
 #    twitter: "Twitter"
 #    gplus: "Google+"
