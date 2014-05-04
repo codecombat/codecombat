@@ -237,12 +237,12 @@ module.exports = class GoalManager extends CocoClass
       # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be "done"
       numNeeded = _.size(stateThangs) - Math.min((goal.howMany ? 1), _.size stateThangs) + 1
     numDone = _.filter(stateThangs).length
-    #console.log "needed", numNeeded, "done", numDone, "of total", _.size(stateThangs), "with how many", goal.howMany, "and stateThangs", stateThangs
+    console.log "needed", numNeeded, "done", numDone, "of total", _.size(stateThangs), "with how many", goal.howMany, "and stateThangs", stateThangs
     return unless numDone >= numNeeded
     return if state.status and not success  # already failed it; don't wipe keyframe
     state.status = if success then "success" else "failure"
     state.keyFrame = frameNumber
-    #console.log goalID, "became", success, "on frame", frameNumber, "with overallStatus", @checkOverallStatus true
+    console.log goalID, "became", success, "on frame", frameNumber, "with overallStatus", @checkOverallStatus true
     if overallStatus = @checkOverallStatus true
       matchedGoals = (_.find(@goals, {id: goalID}) for goalID, goalState of @goalStates when goalState.status is overallStatus)
       mostEagerGoal = _.min matchedGoals, 'worldEndsAfter'
