@@ -15,9 +15,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     fork: "派生"
     play: "开始"
     retry: "重试"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
+    watch: "关注"
+    unwatch: "取消关注"
+    submit_patch: "提交补丁"
 
   units:
     second: "秒"
@@ -166,8 +166,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     email_notifications: "通知"
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
     email_any_notes: "任何通知"
-#    email_any_notes_description: "Disable to stop all activity notification emails."
-#    email_recruit_notes: "Job Opportunities"
+    email_any_notes_description: "取消接收所有活动提醒邮件"
+    email_recruit_notes: "工作机会"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
     contributor_emails: "贡献者通知"
     contribute_prefix: "我们在寻找志同道合的人！请到"
@@ -181,7 +181,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     job_profile_approved: "你填写的工作经历将由CodeCombat认证. 雇主将看到这些信息，除非你将它设置为不启用状态或者连续四周没有更新."
     job_profile_explanation: "你好! 填写这些信息, 我们将使用它帮你寻找一份软件开发的工作."
 #    sample_profile: "See a sample profile"
-#    view_profile: "View Your Profile"
+    view_profile: "浏览个人信息"
 
   account_profile:
     edit_settings: "编辑设置"
@@ -199,7 +199,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   employers:
     want_to_hire_our_players: "想要雇用CodeCombat上的专业玩家？"
-#    see_candidates: "Click here to see our candidates"
+    see_candidates: "点击这里查看我们的忧患人"
     candidates_count_prefix: "我们当前有 "
     candidates_count_many: "很多"
     candidates_count_suffix: "经过我们认证的高手们正在找工作。"
@@ -210,8 +210,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     candidate_top_skills: "高级技能"
     candidate_years_experience: "多年工作经验"
     candidate_last_updated: "最后一次更新"
-#    candidate_approved: "Us?"
-#    candidate_active: "Them?"
+    candidate_approved: "我们"
+    candidate_active: "他们"
 
   play_level:
     level_load_error: "关卡不能载入: "
@@ -271,7 +271,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor_config_invisibles_description: "显示诸如空格或TAB键。"
     editor_config_indentguides_label: "显示缩进提示"
     editor_config_indentguides_description: "显示一条竖线以使缩进更明显。"
-#    editor_config_behaviors_label: "Smart Behaviors"
+    editor_config_behaviors_label: "聪明的行为"
     editor_config_behaviors_description: "自动完成括号，大括号和引号。"
     loading_ready: "载入完成!"
     tip_insert_positions: "使用Shift+左键来插入拼写编辑器。"
@@ -320,7 +320,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     lg_title: "最新的游戏"
 #    clas: "CLAs"
 
-#  community:
+  community:
     level_editor: "关卡编辑器"
     main_title: "CodeCombat 社区"
 #    facebook: "Facebook"
@@ -336,7 +336,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     thang_description: "创建单元，并定义单元的逻辑、图形和音频。目前只支持导入 Flash 导出的矢量图形。"
     level_title: "关卡编辑器"
     level_description: "所有用来创造所有难度的关卡的工具，包括脚本、上传音频和构建自定义逻辑。"
-#    got_questions: "Questions about using the CodeCombat editors?"
+    got_questions: "使用CodeCombat编辑器有问题？"
     contact_us: "联系我们！"
     hipchat_prefix: "你也可以在这里找到我们"
     hipchat_url: "HipChat 房间。"
@@ -378,9 +378,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     new_article_title: "创建一个新物品"
     new_thang_title: "创建一个新物品类型"
     new_level_title: "创建一个新关卡"
-#    new_article_title_signup: "Sign Up to Create a New Article"
-#    new_thang_title_signup: "Sign Up to Create a New Thang Type"
-#    new_level_title_signup: "Sign Up to Create a New Level"
+    new_article_title_signup: "注册以创建新的物品"
+    new_thang_title_signup: "注册以创建新的物品类型"
+    new_level_title_signup: "注册以创建新的关卡"
     article_search_title: "在这里搜索物品"
     thang_search_title: "在这里搜索物品类型"
     level_search_title: "在这里搜索关卡"
