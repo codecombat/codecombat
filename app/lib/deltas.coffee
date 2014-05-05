@@ -103,10 +103,8 @@ module.exports.getConflicts = (headDeltas, pendingDeltas) ->
   pendingPathMap = groupDeltasByAffectingPaths(pendingDeltas)
   paths = _.keys(headPathMap).concat(_.keys(pendingPathMap))
   
-  # Here's my thinking:
-  # A) Conflicts happen when one delta path is a substring of another delta path
-  # B) A delta from one self-consistent group cannot conflict with another
-  # So, sort the paths, which will naturally make conflicts adjacent,
+  # Here's my thinking: conflicts happen when one delta path is a substring of another delta path
+  # So, sort paths from both deltas together, which will naturally make conflicts adjacent,
   # and if one is identified, one path is from the headDeltas, the other is from pendingDeltas
   # This is all to avoid an O(nm) brute force search.
   
@@ -141,7 +139,27 @@ groupDeltasByAffectingPaths = (deltas) ->
         delta: delta
         path: (item.toString() for item in path).join('/')
       }
-  _.groupBy metaDeltas, 'path' 
+  
+  map = _.groupBy metaDeltas, 'path'
+
+  # Turns out there are cases where a single delta can include paths
+  # that 'conflict' with each other, ie one is a substring of the other
+  # because of moved indices. To handle this case, go through and prune
+  # out all deeper paths that conflict with more shallow paths, so
+  # getConflicts path checking works properly.
+
+  paths = _.keys(map)
+  return map unless paths.length
+  paths.sort()
+  prunedMap = {}
+  previousPath = paths[0]
+  for path, i in paths
+    continue if i is 0
+    continue if path.startsWith previousPath
+    prunedMap[path] = map[path]
+    previousPath = path
+  
+  prunedMap
   
 module.exports.pruneConflictsFromDelta = (delta, conflicts) ->
   # the jsondiffpatch delta mustn't include any dangling nodes,
