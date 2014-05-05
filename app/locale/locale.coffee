@@ -19,6 +19,8 @@ module.exports =
   zh: require './zh'             # 中文, Chinese
   'zh-HANS': require './zh-HANS' # 简体中文, Chinese (Simplified)
   'zh-HANT': require './zh-HANT' # 繁体中文, Chinese (Traditional)
+  'zh-WUU-HANS': require './zh-WUU-HANS'   # 吴语, Wuu (Simplified)
+  'zh-WUU-HANT': require './zh-WUU-HANT'   # 吳語, Wuu (Traditional)
   fr: require './fr'             # français, French
   ja: require './ja'             # 日本語, Japanese
   ar: require './ar'             # العربية, Arabic

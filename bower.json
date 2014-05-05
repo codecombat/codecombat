@@ -28,7 +28,7 @@
     "lodash": "~2.4.1",
     "backbone": "1.1.0",
     "jquery-mousewheel": "~3.1.9",
-    "i18next": "~1.7.1",
+    "i18next": "git://github.com/nwinter/i18next.git",
     "firepad": "~0.1.2",
     "marked": "~0.3.0",
     "moment": "~2.5.0",
