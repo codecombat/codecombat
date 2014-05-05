@@ -60,13 +60,17 @@ var console = {
 console.error = console.info = console.log;
 self.console = console;
 
-importScripts('/javascripts/world.js');
-
 // We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
 Object.defineProperty(self, "XMLHttpRequest", {
     get: function() { throw new Error("Access to XMLHttpRequest is forbidden."); },
     configurable: false
 });
+
+if (!Array.prototype.last){
+    Array.prototype.last = function(){
+        return this[this.length - 1];
+    };
+}
 
 self.transferableSupported = function transferableSupported() {
     // Not in IE, even in IE 11
@@ -79,9 +83,15 @@ self.transferableSupported = function transferableSupported() {
     }
     return false;
 }
+importScripts('/javascripts/world.js');
 
 var World = self.require('lib/world/world');
 var GoalManager = self.require('lib/world/GoalManager');
+serializedClasses = {
+    "Thang": self.require('lib/world/thang'),
+    "Vector": self.require('lib/world/vector'),
+    "Rectangle": self.require('lib/world/rectangle')
+}
 
 self.getCurrentFrame = function getCurrentFrame(args) { return self.world.frames.length; };
 
@@ -134,17 +144,161 @@ self.serializeProperty = function serializeProperty(prop, depth) {
         return newObject;
     }
 };
+self.stringifyValue = function(value, depth) {
+    var brackets, i, isArray, isObject, key, prefix, s, sep, size, v, values, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3;
+    if (!value || _.isString(value)) {
+        return value;
+    }
+    if (_.isFunction(value)) {
+        if (depth === 2) {
+            return void 0;
+        } else {
+            return "<Function>";
+        }
+    }
+    if (value === this.thang && depth) {
+        return "<this " + value.id + ">";
+    }
+    if (depth === 2) {
+        if (((_ref = value.constructor) != null ? _ref.className : void 0) === "Thang") {
+            value = "<" + (value.type || value.spriteName) + " - " + value.id + ", " + (value.pos ? value.pos.toString() : 'non-physical') + ">";
+        } else {
+            value = value.toString();
+        }
+        return value;
+    }
+    isArray = _.isArray(value);
+    isObject = _.isObject(value);
+    if (!(isArray || isObject)) {
+        return value.toString();
+    }
+    brackets = isArray ? ["[", "]"] : ["{", "}"];
+    size = _.size(value);
+    if (!size) {
+        return brackets.join("");
+    }
+    values = [];
+    if (isArray) {
+        for (_i = 0, _len = value.length; _i < _len; _i++) {
+            v = value[_i];
+            s = this.stringifyValue(v, depth + 1);
+            if (s !== void 0) {
+                values.push("" + s);
+            }
+        }
+    } else {
+        _ref2 = (_ref1 = value.apiProperties) != null ? _ref1 : _.keys(value);
+        for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+            key = _ref2[_j];
+            s = this.stringifyValue(value[key], depth + 1);
+            if (s !== void 0) {
+                values.push(key + ": " + s);
+            }
+        }
+    }
+    sep = '\n' + ((function() {
+        var _k, _results;
+        _results = [];
+        for (i = _k = 0; 0 <= depth ? _k < depth : _k > depth; i = 0 <= depth ? ++_k : --_k) {
+            _results.push("  ");
+        }
+        return _results;
+    })()).join('');
+    prefix = (_ref3 = value.constructor) != null ? _ref3.className : void 0;
+    if (isArray) {
+        if (prefix == null) {
+            prefix = "Array";
+        }
+    }
+    if (isObject) {
+        if (prefix == null) {
+            prefix = "Object";
+        }
+    }
+    prefix = prefix ? prefix + " " : "";
+    return "" + prefix + brackets[0] + sep + "  " + (values.join(sep + '  ')) + sep + brackets[1];
+};
 
-self.retrieveThangPropertyFromFrame = function retrieveThangPropertyFromFrame(args) {
-    var thangID = args.thangID;
-    var prop = args.prop;
-    var retrieveProperty = function retrieveProperty()
+self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
+    var retrieveProperty = function retrieveProperty(currentThangID, currentSpellID, variableChain)
     {
-        var unserializedProperty = self.world.thangMap[thangID][prop];
-        self.postMessage({type: 'debug-value-return', serialized: self.serializeProperty(unserializedProperty,0)});
+        var prop;
+        var value;
+        var keys = [];
+        for (var i = 0, len = variableChain.length; i < len; i++)
+            {
+                prop = variableChain[i];
+                if (prop === "this")
+                {
+                    value = self.world.thangMap[currentThangID];
+
+                }
+                else if (i === 0)
+                {
+                    try
+                    {
+                        value = self.world.userCodeMap[currentThangID][currentSpellID].flow.states.last().statements.last().variables[prop];
+                    }
+                    catch (e)
+                    {
+                        value = undefined;
+                    }
+
+                }
+                else
+                {
+                    value = value[prop];
+                }
+                keys.push(prop);
+                if (!value) break;
+                var classOfValue;
+                if (classOfValue = serializedClasses[value.CN])
+                {
+                    if (value.CN === "Thang")
+                    {
+                        var thang = self.world.thangMap[value.id];
+                        value = thang || "<Thang " + value.id + " (non-existent)>"
+                    }
+                    else
+                    {
+                        value = classOfValue.deserializeFromAether(value);
+                    }
+                }
+            }
+        var serializedProperty = {
+            "key": keys.join("."),
+            "value": self.stringifyValue(value,0)
+        };
+        self.postMessage({type: 'debug-value-return', serialized: serializedProperty});
     };
+    self.enableFlowOnThangSpell(args.currentThangID, args.currentSpellID, args.userCodeMap);
     self.setupWorldToRunUntilFrame(args);
-    self.world.loadFramesUntilFrame(args.frame, retrieveProperty, self.onWorldError, self.onWorldLoadProgress);
+    self.world.loadFramesUntilFrame(
+        args.frame, 
+        retrieveProperty.bind({},args.currentThangID, args.currentSpellID, args.variableChain), 
+        self.onWorldError, 
+        self.onWorldLoadProgress
+    );
+};
+
+self.enableFlowOnThangSpell = function enableFlowOnThang(thangID, spellID, userCodeMap) {
+    try {
+        if (userCodeMap[thangID][spellID].originalOptions.includeFlow === true && 
+            userCodeMap[thangID][spellID].originalOptions.noSerializationInFlow)
+            return;
+        else
+        {
+            userCodeMap[thangID][spellID].originalOptions.includeFlow = true;
+            userCodeMap[thangID][spellID].originalOptions.noSerializationInFlow = true;
+            var temporaryAether = Aether.deserialize(userCodeMap[thangID][spellID]);
+            temporaryAether.transpile(temporaryAether.raw);
+            userCodeMap[thangID][spellID] = temporaryAether.serialize();
+        }
+        
+    }
+    catch (e) {
+        console.log("there was an error enabling flow on thang spell:" + e)
+    }
 };
 
 self.setupWorldToRunUntilFrame = function setupWorldToRunUntilFrame(args) {
@@ -156,27 +310,23 @@ self.setupWorldToRunUntilFrame = function setupWorldToRunUntilFrame(args) {
 
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
     var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
+    
     self.currentUserCodeMapCopy = stringifiedUserCodeMap;
-    if (!self.world || userCodeMapHasChanged || args.frame < self.currentWorldFrame)
-    {
-        
-        
-        try {
-            self.world = new World(args.worldName, args.userCodeMap);
-            if(args.level)
-                self.world.loadFromLevel(args.level, true);
-            self.goalManager = new GoalManager(self.world);
-            self.goalManager.setGoals(args.goals);
-            self.goalManager.setCode(args.userCodeMap);
-            self.goalManager.worldGenerationWillBegin();
-            self.world.setGoalManager(self.goalManager);
-        }
-        catch (error) {
-            self.onWorldError(error);
-            return;
-        }
-        Math.random = self.world.rand.randf;  // so user code is predictable
+    try {
+        self.world = new World(args.worldName, args.userCodeMap);
+        if(args.level)
+            self.world.loadFromLevel(args.level, true);
+        self.goalManager = new GoalManager(self.world);
+        self.goalManager.setGoals(args.goals);
+        self.goalManager.setCode(args.userCodeMap);
+        self.goalManager.worldGenerationWillBegin();
+        self.world.setGoalManager(self.goalManager);
     }
+    catch (error) {
+        self.onWorldError(error);
+        return;
+    }
+    Math.random = self.world.rand.randf;  // so user code is predictable
 
     self.world.totalFrames = args.frame; //hack to work around error checking
     self.currentWorldFrame = args.frame;

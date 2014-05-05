@@ -140,9 +140,10 @@ module.exports = class God
         goals: @goalManager?.getGoals()
         frame: frame
 
-  retrieveThangPropertyFromFrame: (thang, prop, frame) ->
+  retrieveValueFromFrame: (thangID, spellID, variableChain, frame) ->
+    
     @debugWorker.postMessage
-      func: 'retrieveThangPropertyFromFrame'
+      func: 'retrieveValueFromFrame'
       args:
         worldName: @level.name
         userCodeMap: @currentUserCodeMap
@@ -150,8 +151,9 @@ module.exports = class God
         firstWorld: @firstWorld
         goals: @goalManager?.getGoals()
         frame: frame
-        thangID: thang
-        prop: prop
+        currentThangID: thangID
+        currentSpellID: spellID 
+        variableChain: variableChain
         
         
   getDebugWorldCurrentFrame: ->

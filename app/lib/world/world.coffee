@@ -8,12 +8,6 @@ WorldScriptNote = require './world_script_note'
 {now, consolidateThangs, typedArraySupport} = require './world_utils'
 Component = require 'lib/world/component'
 System = require 'lib/world/system'
-#adding this for the debug worker
-serializedClasses =
-  Thang: require "lib/world/thang"
-  Vector: require "lib/world/vector"
-  Rectangle: require "lib/world/rectangle"
-
 PROGRESS_UPDATE_INTERVAL = 200
 DESERIALIZATION_INTERVAL = 20
 
