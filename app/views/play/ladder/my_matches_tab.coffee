@@ -72,7 +72,7 @@ module.exports = class MyMatchesTabView extends CocoView
 
     for team in @teams
       team.session = (s for s in @sessions.models when s.get('team') is team.id)[0]
-      team.readyToRank = @readyToRank(team.session)
+      team.readyToRank = team.session?.readyToRank()
       team.isRanking = team.session?.get('isRanking')
       team.matches = (convertMatch(match, team.session.get('submitDate')) for match in team.session?.get('matches') or [])
       team.matches.reverse()
@@ -84,7 +84,7 @@ module.exports = class MyMatchesTabView extends CocoView
       if scoreHistory?.length > 1
         team.scoreHistory = scoreHistory
         scoreHistory = _.last scoreHistory, 100  # Chart URL needs to be under 2048 characters for GET
-        
+
         team.currentScore = Math.round scoreHistory[scoreHistory.length - 1][1] * 100
         team.chartColor = team.primaryColor.replace '#', ''
         #times = (s[0] for s in scoreHistory)
@@ -108,36 +108,35 @@ module.exports = class MyMatchesTabView extends CocoView
       sessionID = button.data('session-id')
       session = _.find @sessions.models, {id: sessionID}
       rankingState = 'unavailable'
-      if @readyToRank session
+      if session.readyToRank()
         rankingState = 'rank'
       else if session.get 'isRanking'
         rankingState = 'ranking'
       @setRankingButtonText button, rankingState
-    
+
     @$el.find('.score-chart-wrapper').each (i, el) =>
       scoreWrapper = $(el)
       team = _.find @teams, name: scoreWrapper.data('team-name')
       @generateScoreLineChart(scoreWrapper.attr('id'), team.scoreHistory, team.name)
-      
 
   generateScoreLineChart: (wrapperID, scoreHistory,teamName) =>
-    margin = 
+    margin =
       top: 20
       right: 20
       bottom: 30
       left: 50
-      
+
     width = 450 - margin.left - margin.right
     height = 125
     x = d3.time.scale().range([0,width])
     y = d3.scale.linear().range([height,0])
-    
+
     xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(4).outerTickSize(0)
     yAxis = d3.svg.axis().scale(y).orient("left").ticks(4).outerTickSize(0)
-    
+
     line = d3.svg.line().x(((d) -> x(d.date))).y((d) -> y(d.close))
     selector = "#" + wrapperID
-    
+
     svg = d3.select(selector).append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -150,12 +149,10 @@ module.exports = class MyMatchesTabView extends CocoView
         date: time
         close: d[1] * 100
       }
-    
+
     x.domain(d3.extent(data, (d) -> d.date))
     y.domain(d3.extent(data, (d) -> d.close))
-    
-    
-    
+
     svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
@@ -172,21 +169,6 @@ module.exports = class MyMatchesTabView extends CocoView
       .datum(data)
       .attr("class",lineClass)
       .attr("d",line)
-    
-    
-    
-      
-  readyToRank: (session) ->
-    return false unless session?.get('levelID')  # If it hasn't been denormalized, then it's not ready.
-    return false unless c1 = session.get('code')
-    return false unless team = session.get('team')
-    return true unless c2 = session.get('submittedCode')
-    thangSpellArr = (s.split("/") for s in session.get('teamSpells')[team])
-    for item in thangSpellArr
-      thang = item[0]
-      spell = item[1]
-      return true if c1[thang][spell] isnt c2[thang][spell]
-    return false
 
   rankSession: (e) ->
     button = $(e.target).closest('.rank-button')
@@ -202,7 +184,6 @@ module.exports = class MyMatchesTabView extends CocoView
       @setRankingButtonText(button, 'failed')
 
     ajaxData = {session: sessionID, levelID: @level.id, originalLevelID: @level.attributes.original, levelMajorVersion: @level.attributes.version.major}
-    console.log "Posting game for ranking from My Matches view."
     $.ajax '/queue/scoring', {
       type: 'POST'
       data: ajaxData

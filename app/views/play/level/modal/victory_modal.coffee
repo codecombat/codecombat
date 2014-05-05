@@ -65,7 +65,6 @@ module.exports = class VictoryModal extends View
     ajaxData = session: @session.id, levelID: @level.id, originalLevelID: @level.get('original'), levelMajorVersion: @level.get('version').major
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
     goToLadder = -> Backbone.Mediator.publish 'router:navigate', route: ladderURL
-    console.log "Posting game for ranking from victory modal."
     $.ajax '/queue/scoring',
       type: 'POST'
       data: ajaxData
@@ -82,9 +81,7 @@ module.exports = class VictoryModal extends View
     c.levelName = utils.i18n @level.attributes, 'name'
     c.level = @level
     if c.level.get('type') is 'ladder'
-      c1 = @session?.get('code')
-      c2 = @session?.get('submittedCode')
-      c.readyToRank = @session.get('levelID') and c1 and not _.isEqual(c1, c2)
+      c.readyToRank = @session.readyToRank()
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 30 minutes
       elapsed = (new Date() - new Date(me.get('dateCreated')))

@@ -246,6 +246,7 @@
     multiplayer_hint_label: "Hint:"
     multiplayer_hint: " Click the link to select all, then press ⌘-C or Ctrl-C to copy the link."
     multiplayer_coming_soon: "More multiplayer features to come!"
+    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Guide"
     tome_minion_spells: "Your Minions' Spells"
     tome_read_only_spells: "Read-Only Spells"
@@ -710,4 +711,4 @@
     user_names: "User Names"
     files: "Files"
     top_simulators: "Top Simulators"
-    source_document: "Source Document" 
+    source_document: "Source Document"
