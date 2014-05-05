@@ -17,14 +17,11 @@ module.exports = class PatchModal extends ModalView
   constructor: (@patch, @targetModel, options) ->
     super(options)
     targetID = @patch.get('target').id
-    if false
-      @originalSource = targetModel.clone(false)
-      @onOriginalLoaded()
+    if targetID is @targetModel.id
+      @originalSource = @targetModel.clone(false)
     else
-      @originalSource = new targetModel.constructor({_id:targetID})
-      @originalSource.fetch()
-      @listenToOnce @originalSource, 'sync', @onOriginalLoaded
-      @addResourceToLoad(@originalSource)
+      @originalSource = new @targetModel.constructor({_id:targetID})
+      @supermodel.loadModel @originalSource, 'source_document'
       
   getRenderData: ->
     c = super()
@@ -35,7 +32,7 @@ module.exports = class PatchModal extends ModalView
     c
     
   afterRender: ->
-    return if @originalSource.loading
+    return unless @supermodel.finished()
     headModel = null
     if @targetModel.hasWriteAccess()
       headModel = @originalSource.clone(false)
