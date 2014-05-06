@@ -246,6 +246,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     multiplayer_hint_label: "Підказка:"
     multiplayer_hint: "Натисніть на посилання, щоб обрати всіх, та натисніть Apple-C або Ctrl-C, щоб скопіювати посилання."
     multiplayer_coming_soon: "Скоро - більше можливостей у мультиплеєрі!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Посібник"
     tome_minion_spells: "Закляття ваших міньонів"
     tome_read_only_spells: "Закляття тільки для читання"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

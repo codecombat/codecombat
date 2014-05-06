@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     multiplayer_hint_label: "Hint:"
     multiplayer_hint: " Klik de link om alles te selecteren, druk dan op Apple-C of Ctrl-C om de link te kopiëren."
     multiplayer_coming_soon: "Binnenkort komen er meer Multiplayermogelijkheden!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Handleiding"
     tome_minion_spells: "Jouw Minions' Spreuken"
     tome_read_only_spells: "Read-Only Spreuken"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

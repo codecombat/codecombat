@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     multiplayer_hint_label: "İpucu:"
     multiplayer_hint: " Kopyalamak için önce linke tıklayın, ardından CTRL+C veya ⌘+C kombinasyonuna basın."
     multiplayer_coming_soon: "Daha bir çok çoklu oyuncu özelliği eklenecek!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Rehber"
     tome_minion_spells: "Minyonlarınızın Büyüleri"
     tome_read_only_spells: "Salt Okunur Büyüler"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

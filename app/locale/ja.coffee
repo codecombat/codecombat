@@ -246,6 +246,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     multiplayer_hint_label: "ヒント:"
     multiplayer_hint: " リンクを選択後、 ⌘-C(MacOS) or Ctrl-C(Windows) でリンクをコピーできます。"
     multiplayer_coming_soon: "今後より多くのマルチプレイ機能が追加されます。"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "ガイド"
     tome_minion_spells: "操作できるキャラクターの呪文"
     tome_read_only_spells: "読込専用の呪文"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

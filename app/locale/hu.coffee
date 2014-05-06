@@ -246,6 +246,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     multiplayer_hint_label: "Tipp:"
     multiplayer_hint: " Kattints a linkre, és Ctrl+C-vel (vagy ⌘+C-vel) másold a vágólapra!"
 #    multiplayer_coming_soon: "More multiplayer features to come!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Útmutató"
     tome_minion_spells: "Egységeid varázslatai"
     tome_read_only_spells: "Csak olvasható varázslatok"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

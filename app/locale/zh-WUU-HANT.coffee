@@ -246,6 +246,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     multiplayer_hint_label: "提醒："
     multiplayer_hint: " 點牢全選，再捺 Apple-C（蘋果電腦）要勿 Ctrl-C 複製鏈接。"
     multiplayer_coming_soon: "多人遊戲還多特性！"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "指南"
     tome_minion_spells: "下手個咒語"
     tome_read_only_spells: "只讀個咒語"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

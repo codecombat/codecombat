@@ -246,6 +246,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     multiplayer_hint_label: "Hint:"
     multiplayer_hint: " Apasă pe link pentru a selecta tot, apoi apasă ⌘-C sau Ctrl-C pentru a copia link-ul."
     multiplayer_coming_soon: "Mai multe feature-uri multiplayer în curând!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Ghid"
     tome_minion_spells: "Vrăjile Minion-ilor tăi"
     tome_read_only_spells: "Vrăji Read-Only"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"
