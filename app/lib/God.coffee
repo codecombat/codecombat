@@ -92,7 +92,7 @@ module.exports = class God
     #console.log "UserCodeProblem:", '"' + problem.message + '"', "for", problem.userInfo.thangID, "-", problem.userInfo.methodName, 'at line', problem.ranges?[0][0][0], 'column', problem.ranges?[0][0][1]
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
 
-  createWorld: (spells) ->
+  createWorld: (@spells) ->
     #console.log @id + ': "Let there be light upon', @world.name + '!"'
     unless Worker?  # profiling world simulation is easier on main thread, or we are IE9
       setTimeout @simulateWorld, 1
@@ -121,7 +121,7 @@ module.exports = class God
   beholdWorld: (angel, serialized, goalStates) ->
     unless serialized
       # We're only interested in goalStates.
-      @latestGoalStates = goalStates;
+      @latestGoalStates = goalStates
       Backbone.Mediator.publish('god:goals-calculated', goalStates: goalStates, team: me.team)
       unless _.find @angels, 'busy'
         @spells = null  # Don't hold onto old spells; memory leaks

@@ -3,14 +3,22 @@ This file will simulate games on node.js by emulating the browser environment.
 At some point, most of the code can be merged with Simulator.coffee
 ###
 
-# SETTINGS
-GLOBAL.debug = false # Enable logging of ajax calls mainly
-GLOBAL.testing = false # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
-GLOBAL.leaktest = false # Install callback that tries to find leaks automatically
-GLOBAL.exitOnLeak = false # Exit if leak is found. Only useful if leaktest is set to true, obviously.
-GLOBAL.heapdump = false # Dumps the whole heap after every pass. The heap dumps can then be viewed in Chrome browser.
+bowerComponentsPath = "./bower_components/"
+headlessClientPath = "./headless_client/"
 
-server = if testing then "http://127.0.0.1:3000" else "http://codecombat.com"
+# SETTINGS
+options =
+  workerCode: require headlessClientPath + 'worker_world'
+  debug: false # Enable logging of ajax calls mainly
+  testing: true # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
+  testFile: require headlessClientPath + 'test.js'
+  leakTest: false # Install callback that tries to find leaks automatically
+  exitOnLeak: false # Exit if leak is found. Only useful if leaktest is set to true, obviously.
+  heapdump: false # Dumps the whole heap after every pass. The heap dumps can then be viewed in Chrome browser.
+  headlessClient: true
+
+options.heapdump = require('heapdump') if options.heapdump
+server = if options.testing then "http://127.0.0.1:3000" else "http://codecombat.com"
 
 # Disabled modules
 disable = [
@@ -19,12 +27,8 @@ disable = [
   '../locale/locale'
 ]
 
-GLOBAL.bowerComponents = "./bower_components/"
-GLOBAL.headlessClient = "./headless_client/"
-
 
 # Start of the actual code. Setting up the enivronment to match the environment of the browser
-heapdump = require('heapdump') if heapdump
 
 # the path used for the loader. __dirname is module dependent.
 path = __dirname
@@ -45,7 +49,6 @@ JASON = require 'jason'
 
 # Global emulated stuff
 GLOBAL.window = GLOBAL
-GLOBAL.headless = true
 GLOBAL.document = location: pathname: "headless_client"
 GLOBAL.console.debug = console.log
 
@@ -79,20 +82,20 @@ hookedLoader = (request, parent, isMain) ->
     request = 'lib/Buddha'
 
   if request in disable or ~request.indexOf('templates')
-    console.log 'Ignored ' + request if debug
+    console.log 'Ignored ' + request if options.debug
     return class fake
   else if '/' in request and not (request[0] is '.') or request is 'application'
     request = path + '/app/' + request
   else if request is 'underscore'
     request = 'lodash'
 
-  console.log "loading " + request if debug
+  console.log "loading " + request if options.debug
   originalLoader request, parent, isMain
 
 
 #jQuery wrapped for compatibility purposes. Poorly.
 GLOBAL.$ = GLOBAL.jQuery = (input) ->
-  console.log 'Ignored jQuery: ' + input if debug
+  console.log 'Ignored jQuery: ' + input if options.debug
   append: (input)-> exports: ()->
 
 cookies = request.jar()
@@ -111,8 +114,8 @@ $.ajax = (options) ->
     #console.warn JSON.stringify data
     #data = JSON.stringify data
 
-  console.log "Requesting: " + JSON.stringify options if debug
-  console.log "URL: " + url if debug
+  console.log "Requesting: " + JSON.stringify options if options.debug
+  console.log "URL: " + url if options.debug
   request
     url: url
     jar: cookies
@@ -120,17 +123,17 @@ $.ajax = (options) ->
     method: options.type
     body: data
     , (error, response, body) ->
-      console.log "HTTP Request:" + JSON.stringify options if debug and not error
+      console.log "HTTP Request:" + JSON.stringify options if options.debug and not error
 
       if responded
-        console.log "\t↳Already returned before." if debug
+        console.log "\t↳Already returned before." if options.debug
         return
 
       if (error)
         console.warn "\t↳Returned: error: #{error}"
         options.error(error) if options.error?
       else
-        console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}" if debug
+        console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}" if options.debug
         options.success(body, response, status: response.statusCode) if options.success?
 
 
@@ -161,11 +164,11 @@ do (setupLodash = this) ->
 
 # load Backbone. Needs hooked loader to reroute underscore to lodash.
 hook()
-GLOBAL.Backbone = require bowerComponents + 'backbone/backbone'
+GLOBAL.Backbone = require bowerComponentsPath + 'backbone/backbone'
 unhook()
 Backbone.$ = $
 
-require bowerComponents + 'validated-backbone-mediator/backbone-mediator'
+require bowerComponentsPath + 'validated-backbone-mediator/backbone-mediator'
 # Instead of mediator, dummy might be faster yet suffice?
 #Mediator = class Mediator
 #  publish: (id, object) ->
@@ -198,10 +201,6 @@ $.ajax
     LevelLoader = require 'lib/LevelLoader'
     GoalManager = require 'lib/world/GoalManager'
 
-
-
-    workerCode = require headlessClient + 'worker_world'
-
     SuperModel = require 'models/SuperModel'
 
     log = require 'winston'
@@ -210,8 +209,6 @@ $.ajax
 
     Simulator = require 'lib/simulator/Simulator'
 
-    GLOBAL.testFile = require headlessClient + 'test.js'
-
-    sim = new Simulator workerCode
+    sim = new Simulator options
 
     sim.fetchAndSimulateTask()

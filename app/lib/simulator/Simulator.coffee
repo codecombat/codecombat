@@ -6,16 +6,14 @@ God = require 'lib/Buddha'
 
 module.exports = class Simulator extends CocoClass
 
-  constructor: (workerCode) ->
+  constructor: (@options) ->
+    @options ?= {}
     _.extend @, Backbone.Events
     @trigger 'statusUpdate', 'Starting simulation!'
     @retryDelayInSeconds = 10
     @taskURL = '/queue/scoring'
     @simulatedByYou = 0
-    if workerCode
-      @god = new God maxWorkerPoolSize: 1, maxAngels: 1, workerCode: workerCode # Start loading worker.
-    else
-      @god = new God maxWorkerPoolSize: 1, maxAngels: 1
+    @god = new God maxWorkerPoolSize: 1, maxAngels: 1, workerCode: @options.workerCode  # Start loading worker.
 
   destroy: ->
     @off()
@@ -25,14 +23,14 @@ module.exports = class Simulator extends CocoClass
   fetchAndSimulateTask: =>
     return if @destroyed
 
-    if headless
+    if @options.headlessClient
       if @dumpThisTime # The first heapdump would be useless to find leaks.
         console.log "Writing snapshot."
-        heapdump.writeSnapshot()
-      @dumpThisTime = true if heapdump
+        @options.heapdump.writeSnapshot()
+      @dumpThisTime = true if @options.heapdump
 
-      if testing
-        _.delay @setupSimulationAndLoadLevel, 0, testFile, "Testing...", status: 400
+      if @options.testing
+        _.delay @setupSimulationAndLoadLevel, 0, @options.testFile, "Testing...", status: 400
         return
 
     @trigger 'statusUpdate', 'Fetching simulation data!'
@@ -116,7 +114,7 @@ module.exports = class Simulator extends CocoClass
     Backbone.Mediator.subscribeOnce 'god:new-world-created', @processResults, @
 
     #Search for leaks, headless-client only.
-    if headless and leaktest and not @memwatch?
+    if @options.headlessClient and @options.leakTest and not @memwatch?
       leakcount = 0
       maxleakcount = 0
       console.log "Setting leak callbacks."
@@ -134,7 +132,7 @@ module.exports = class Simulator extends CocoClass
               diff = @hd.end()
               console.warn "HeapDiff:\n" + JSON.stringify(diff)
 
-              if exitOnLeak
+              if @options.exitOnLeak
                 console.warn "Exiting because of Leak."
                 process.exit()
               @hd = new @memwatch.HeapDiff()
@@ -153,7 +151,7 @@ module.exports = class Simulator extends CocoClass
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
     console.log "Sending result back to server!"
 
-    if headless and testing
+    if @options.headlessClient and @options.testing
       return @fetchAndSimulateTask()
 
     $.ajax
@@ -169,7 +167,7 @@ module.exports = class Simulator extends CocoClass
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
     console.log "Simulated by you: " + @simulatedByYou
     @simulatedByYou++
-    if not headless
+    unless @options.headlessClient
       simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
       $('#simulated-by-you').text(simulatedBy)
 
@@ -178,7 +176,14 @@ module.exports = class Simulator extends CocoClass
     console.log "Task registration error: #{JSON.stringify error}"
 
   cleanupAndSimulateAnotherTask: =>
+    @cleanupSimulation()
     @fetchAndSimulateTask()
+
+  cleanupSimulation: ->
+    @god?.destroy()
+    @god = null
+    @world = null
+    @level = null
 
   formTaskResultsObject: (simulationResults) ->
     taskResults =

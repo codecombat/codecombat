@@ -155,6 +155,7 @@ module.exports = class LevelLoader extends CocoClass
   # Building sprite sheets
 
   buildSpriteSheetsForThangType: (thangType) ->
+    return if @headless
     @grabThangTypeTeams() unless @thangTypeTeams
     for team in @thangTypeTeams[thangType.get('original')] ? [null]
       spriteOptions = {resolutionFactor: 4, async: false}

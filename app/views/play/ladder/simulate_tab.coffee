@@ -38,7 +38,7 @@ module.exports = class SimulateTabView extends CocoView
   # Simulations
 
   onSimulateButtonClick: (e) ->
-    $("#simulate-button").prop "disabled",true
+    $("#simulate-button").prop "disabled", true
     $("#simulate-button").text "Simulating..."
 
     @simulator.fetchAndSimulateTask()

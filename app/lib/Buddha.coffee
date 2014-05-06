@@ -72,7 +72,7 @@ class Angel
     return if @aborting
     unless serialized
       # We're only interested in goalStates. (Simulator)
-      @latestGoalStates = goalStates;
+      @latestGoalStates = goalStates
       Backbone.Mediator.publish('god:goals-calculated', goalStates: goalStates)
       @running = false
       @shared.busyAngels.pop @
@@ -95,7 +95,7 @@ class Angel
     @shared.goalManager?.world = world
     @running = false
     @shared.busyAngels.pop @
-    @shared.firstWorld = false;
+    @shared.firstWorld = false
     @doWork()
 
   infinitelyLooped: =>
@@ -111,7 +111,7 @@ class Angel
   doWork: =>
     #console.log "work."
     return if @aborted
-    console.log @id + " ready and looking for work. WorkQueue lenght is " + @shared.workQueue.length
+    console.log @id + " ready and looking for work. WorkQueue length is " + @shared.workQueue.length
     if @initialized and @shared.workQueue.length
       work = @shared.workQueue.pop()
       if work is Angel.cyanide # Kill all other Angels, too
