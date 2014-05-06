@@ -246,6 +246,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     multiplayer_hint_label: "Подсказка: "
     multiplayer_hint: "кликните на ссылку, чтобы выделить её, затем нажмите ⌘-С или Ctrl-C, чтобы скопировать."
     multiplayer_coming_soon: "Больше возможностей мультиплеера на подходе!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Руководство"
     tome_minion_spells: "Заклинания ваших миньонов"
     tome_read_only_spells: "Заклинания только для чтения"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

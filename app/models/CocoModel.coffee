@@ -1,6 +1,5 @@
 storage = require 'lib/storage'
 deltasLib = require 'lib/deltas'
-auth = require 'lib/auth'
 
 class CocoModel extends Backbone.Model
   idAttribute: "_id"
@@ -8,6 +7,8 @@ class CocoModel extends Backbone.Model
   loading: false
   saveBackups: false
   @schema: null
+
+  getMe: -> @me or @me = require('lib/auth').me
 
   initialize: ->
     super()
@@ -96,7 +97,8 @@ class CocoModel extends Backbone.Model
     not _.isEqual @attributes, @_revertAttributes
 
   cloneNewMinorVersion: ->
-    newData = $.extend(null, {}, @attributes)
+    newData = _.clone @attributes
+
     clone = new @constructor(newData)
     clone
 
@@ -136,7 +138,7 @@ class CocoModel extends Backbone.Model
   hasReadAccess: (actor) ->
     # actor is a User object
 
-    actor ?= auth.me
+    actor ?= @getMe()
     return true if actor.isAdmin()
     if @get('permissions')?
       for permission in @get('permissions')
@@ -148,7 +150,7 @@ class CocoModel extends Backbone.Model
   hasWriteAccess: (actor) ->
     # actor is a User object
 
-    actor ?= auth.me
+    actor ?= @getMe()
     return true if actor.isAdmin()
     if @get('permissions')?
       for permission in @get('permissions')

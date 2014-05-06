@@ -16,7 +16,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     play: "Spelen"
     retry: "Probeer opnieuw"
     watch: "Volgen"
-    unwatch: "Ontvolgen" 
+    unwatch: "Ontvolgen"
     submit_patch: "Correctie Opsturen"
 
   units:
@@ -199,7 +199,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   employers:
     want_to_hire_our_players: "Wil je expert CodeCombat spelers aanwerven? "
-    see_candidates: "Klik om je kandidaten te zien" 
+    see_candidates: "Klik om je kandidaten te zien"
     candidates_count_prefix: "Momenteel hebben we "
     candidates_count_many: "veel"
     candidates_count_suffix: "zeer getalenteerde en ervaren ontwikkelaars die werk zoeken."
@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     multiplayer_hint_label: "Hint:"
     multiplayer_hint: " Klik de link om alles te selecteren, druk dan op Apple-C of Ctrl-C om de link te kopiëren."
     multiplayer_coming_soon: "Binnenkort komen er meer Multiplayermogelijkheden!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Handleiding"
     tome_minion_spells: "Jouw Minions' Spreuken"
     tome_read_only_spells: "Read-Only Spreuken"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     user_names: "Gebruikersnamen"
     files: "Bestanden"
     top_simulators: "Top Simulatoren"
+#    source_document: "Source Document"

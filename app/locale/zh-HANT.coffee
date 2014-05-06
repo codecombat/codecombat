@@ -246,6 +246,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     multiplayer_hint_label: "提示："
     multiplayer_hint: " 點擊全選，然後按 ⌘-C 或 Ctrl-C 複製連結。"
     multiplayer_coming_soon: "請期待更多的多人關卡!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "指南"
     tome_minion_spells: "助手的咒語"
     tome_read_only_spells: "唯讀的咒語"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

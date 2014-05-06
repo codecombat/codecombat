@@ -246,6 +246,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     multiplayer_hint_label: "Συμβουλή:"
     multiplayer_hint: " Κάντε κλικ στο σύνδεσμο για να επιλέξετε όλα, στη συνέχεια, πατήστε την Apple-C ή Ctrl-C για να αντιγράψετε το σύνδεσμο."
     multiplayer_coming_soon: "Περισσότερα multiplayer χαρακτιριστηκα προσεχως!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Οδηγός"
     tome_minion_spells: "Ξόρκια για τα τσιράκια σας"
     tome_read_only_spells: "Ξορκια μονο για αναγνωση"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

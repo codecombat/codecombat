@@ -56,7 +56,6 @@ module.exports = class ControlBarView extends View
     c.multiplayerEnabled = @session.get('multiplayer')
     c.ladderGame = @level.get('type') is 'ladder'
     c.spectateGame = @spectateGame
-    console.log "level type is", @level.get('type')
     if @level.get('type') in ['ladder', 'ladder-tutorial']
       c.homeLink = '/play/ladder/' + @level.get('slug').replace /\-tutorial$/, ''
     else

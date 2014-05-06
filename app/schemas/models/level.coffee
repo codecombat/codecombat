@@ -4,6 +4,7 @@ ThangComponentSchema = require './thang_component'
 SpecificArticleSchema = c.object()
 c.extendNamedProperties SpecificArticleSchema  # name first
 SpecificArticleSchema.properties.body = { type: 'string', title: 'Content', description: "The body content of the article, in Markdown.", format: 'markdown' }
+SpecificArticleSchema.properties.i18n = {type: "object", format: 'i18n', props: ['name', 'body'], description: "Help translate this article"}
 SpecificArticleSchema.displayProperty = 'name'
 
 side = {title: "Side", description: "A side.", type: 'string', 'enum': ['left', 'right', 'top', 'bottom']}

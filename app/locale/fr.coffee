@@ -246,6 +246,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     multiplayer_hint_label: "Astuce:"
     multiplayer_hint: " Cliquez sur le lien pour tout sélectionner, puis appuyer sur Pomme-C ou Ctrl-C pour copier le lien."
     multiplayer_coming_soon: "Plus de fonctionnalités multijoueurs sont à venir"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Guide"
     tome_minion_spells: "Les sorts de vos soldats"
     tome_read_only_spells: "Sorts en lecture-seule"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

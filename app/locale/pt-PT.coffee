@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     multiplayer_hint_label: "Dica:"
     multiplayer_hint: " Carrega no link para seleccionar tudp, depois pressiona ⌘-C ou Ctrl-C para copiar o link."
     multiplayer_coming_soon: "Mais funcionalidades de multiplayer brevemente!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Guia"
     tome_minion_spells: "Feitiços dos teus Minions"
     tome_read_only_spells: "Feitiços apenas de leitura"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

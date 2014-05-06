@@ -246,6 +246,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     multiplayer_hint_label: "힌트:"
     multiplayer_hint: " 모두 선택하려면 링크를 클릭하세요, 그리고 ⌘-C 또는 Ctrl-C 를 눌러서 링크를 복사하세요."
     multiplayer_coming_soon: "곧 좀 더 다양한 멀티플레이어 모드가 업데이트 됩니다!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "가이드"
     tome_minion_spells: "당신 미니언의' 마법"
     tome_read_only_spells: "읽기 전용 마법"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"
