@@ -130,7 +130,7 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  wizard_settings:
+  wizard_settings:
     title: "巫师设定"
     customize_avatar: "设置你的头像"
     active: "启用"
