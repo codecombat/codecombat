@@ -3,7 +3,12 @@
 
 console.log 'IT BEGINS'
 
-
+require('jasmine-spec-reporter')
+jasmine.getEnv().reporter.subReporters_ = []
+jasmine.getEnv().addReporter(new jasmine.SpecReporter({
+  displaySuccessfulSpec: true,
+  displayFailedSpec: true
+  }))
 GLOBAL._ = require('lodash')
 _.str = require('underscore.string')
 _.mixin(_.str.exports())
