@@ -72,7 +72,7 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback) ->
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading) ->
     return if @aborted
     unless @thangs.length
       console.log "Warning: loadFrames called on empty World (no thangs)."
@@ -96,7 +96,11 @@ module.exports = class World
         if t2 - @t0 > 1000
           console.log('  Loaded', i, 'of', @totalFrames, "(+" + (t2 - @t0).toFixed(0) + "ms)")
           @t0 = t2
-        setTimeout((=> @loadFrames(loadedCallback, errorCallback, loadProgressCallback)), 0)
+        continueFn = => @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading)
+        if skipDeferredLoading
+          continueFn()
+        else
+          setTimeout(continueFn, 0)
         return
     @ended = true
     system.finish @thangs for system in @systems
@@ -336,7 +340,7 @@ module.exports = class World
       console.log "Whoa, serializing a lot of WorldScriptNotes here:", o.scriptNotes.length
     {serializedWorld: o, transferableObjects: [o.storageBuffer]}
 
-  @deserialize: (o, classMap, oldSerializedWorldFrames, worldCreationTime, finishedWorldCallback) ->
+  @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback) ->
     # Code hotspot; optimize it
     #console.log "Deserializing", o, "length", JSON.stringify(o).length
     #console.log JSON.stringify(o)
