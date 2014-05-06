@@ -46,7 +46,7 @@
     "mongoose": "3.8.x",
     "mongoose-text-search": "~0.0.2",
     "request": "2.12.x",
-    "tv4": "1.0.x",
+    "tv4": "~1.0.16",
     "lodash": "~2.0.0",
     "underscore.string": "2.3.x",
     "async": "0.2.x",
@@ -96,7 +96,8 @@
     "karma-phantomjs-launcher": "~0.1.1",
     "karma": "~0.10.9",
     "karma-coverage": "~0.1.4",
-    "compressible": "~1.0.1"
+    "compressible": "~1.0.1",
+    "jasmine-spec-reporter":"~0.3.0"
   },
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
