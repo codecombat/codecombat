@@ -44,6 +44,20 @@ describe 'User.updateMailChimp', ->
           
 describe 'POST /db/user', ->
 
+  createAnonNameUser = (done)->
+    request.post getURL('/auth/logout'), ->
+      request.get getURL('/auth/whoami'), ->
+        req = request.post(getURL('/db/user'), (err, response) ->
+          expect(response.statusCode).toBe(200)
+          request.get getURL('/auth/whoami'), (request, response, body) ->
+            res = JSON.parse(response.body)
+            expect(res.anonymous).toBeTruthy()
+            expect(res.name).toEqual('Jim')
+            done() 
+        )
+        form = req.form()
+        form.append('name', 'Jim')
+
   it 'preparing test : clears the db first', (done) ->
     clearModels [User], (err) ->
       throw err if err
@@ -89,6 +103,36 @@ describe 'POST /db/user', ->
           expect(user.email).toBeUndefined()
           expect(user.passwordHash).toBeUndefined()
           done()
+
+  it 'should allow setting anonymous user name', (done) ->
+    createAnonNameUser(done)
+
+  it 'should allow multiple anonymous users with same name', (done) ->
+    createAnonNameUser(done)
+
+
+  it 'should not allow setting existing user name to anonymous user', (done) ->
+
+    createAnonUser = ->
+      request.post getURL('/auth/logout'), ->
+        request.get getURL('/auth/whoami'), ->
+          req = request.post(getURL('/db/user'), (err, response) ->
+            expect(response.statusCode).toBe(409)
+            done() 
+          )
+          form = req.form()
+          form.append('name', 'Jim')
+
+    req = request.post(getURL('/db/user'), (err,response,body) ->
+      expect(response.statusCode).toBe(200)
+      request.get getURL('/auth/whoami'), (request, response, body) ->
+        res = JSON.parse(response.body)
+        expect(res.anonymous).toBeFalsy()
+        createAnonUser()
+    )
+    form = req.form()
+    form.append('email', 'new@user.com')
+    form.append('password', 'new')
 
 
 describe 'PUT /db/user', ->
