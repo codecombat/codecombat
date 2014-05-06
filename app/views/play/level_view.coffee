@@ -12,7 +12,7 @@ Surface = require 'lib/surface/Surface'
 God = require 'lib/God'
 GoalManager = require 'lib/world/GoalManager'
 ScriptManager = require 'lib/scripts/ScriptManager'
-LevelBus = require('lib/LevelBus')
+LevelBus = require 'lib/LevelBus'
 LevelLoader = require 'lib/LevelLoader'
 LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
@@ -112,8 +112,10 @@ module.exports = class PlayLevelView extends View
 
   load: ->
     @loadStartTime = new Date()
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
     @god = new God()
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
+    #@listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
+    #@listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged)
 
   getRenderData: ->
     c = super()
@@ -174,7 +176,7 @@ module.exports = class PlayLevelView extends View
     @initSurface()
     @initGoalManager()
     @initScriptManager()
-    @insertSubviews()
+    @insertSubviews ladderGame: (@level.get('type') is "ladder")
     @initVolume()
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @originalSessionState = $.extend(true, {}, @session.get('state'))

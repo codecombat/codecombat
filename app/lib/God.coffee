@@ -18,16 +18,18 @@ module.exports = class God
     options ?= {}
     @maxAngels = options.maxAngels ? 2  # How many concurrent web workers to use; if set past 8, make up more names
     @maxWorkerPoolSize = options.maxWorkerPoolSize ? 2  # ~20MB per idle worker
+    @workerCode = options.workerCode if options.workerCode?
     @angels = []
     @firstWorld = true
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
     @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
     @fillWorkerPool()
 
+  workerCode: '/javascripts/workers/worker_world.js'  #Can be a string or a function.
+
   onTomeCast: (e) ->
     return if @dead
-    @spells = e.spells
-    @createWorld()
+    @createWorld e.spells
 
   fillWorkerPool: =>
     return unless Worker and not @dead
@@ -44,17 +46,21 @@ module.exports = class God
     @createWorker()
 
   createWorker: ->
-    worker = new Worker '/javascripts/workers/worker_world.js'
+    worker = new Worker @workerCode
     worker.creationTime = new Date()
-    worker.addEventListener 'message', @onWorkerMessage
+    worker.addEventListener 'message', @onWorkerMessage(worker)
     worker
 
-  onWorkerMessage: (event) =>
-    worker = event.target
-    if event.data.type is 'worker-initialized'
-      #console.log @id, "worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
-      worker.initialized = true
-      worker.removeEventListener 'message', @onWorkerMessage
+  onWorkerMessage: (worker) =>
+    unless worker.onMessage?
+      worker.onMessage = (event) =>
+        if event.data.type is 'worker-initialized'
+          console.log @id, "worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
+          worker.initialized = true
+          worker.removeEventListener 'message', worker.onMessage
+        else
+          console.warn "Received strange word from God: #{event.data.type}"
+    worker.onMessage
 
   getAngel: ->
     freeAngel = null
@@ -86,7 +92,7 @@ module.exports = class God
     #console.log "UserCodeProblem:", '"' + problem.message + '"', "for", problem.userInfo.thangID, "-", problem.userInfo.methodName, 'at line', problem.ranges?[0][0][0], 'column', problem.ranges?[0][0][1]
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
 
-  createWorld: ->
+  createWorld: (spells) ->
     #console.log @id + ': "Let there be light upon', @world.name + '!"'
     unless Worker?  # profiling world simulation is easier on main thread, or we are IE9
       setTimeout @simulateWorld, 1
@@ -101,20 +107,37 @@ module.exports = class God
     #console.log "going to run world with code", @getUserCodeMap()
     angel.worker.postMessage {func: 'runWorld', args: {
       worldName: @level.name
-      userCodeMap: @getUserCodeMap()
+      userCodeMap: @getUserCodeMap(spells)
       level: @level
       firstWorld: @firstWorld
       goals: @goalManager?.getGoals()
     }}
 
+  #Coffeescript needs getters and setters.
+  setGoalManager: (@goalManager) =>
+
+  setWorldClassMap: (@worldClassMap) =>
+
   beholdWorld: (angel, serialized, goalStates) ->
+    unless serialized
+      # We're only interested in goalStates.
+      @latestGoalStates = goalStates;
+      Backbone.Mediator.publish('god:goals-calculated', goalStates: goalStates, team: me.team)
+      unless _.find @angels, 'busy'
+        @spells = null  # Don't hold onto old spells; memory leaks
+      return
+
+    console.log "Beholding world."
     worldCreation = angel.started
     angel.free()
     return if @latestWorldCreation? and worldCreation < @latestWorldCreation
     @latestWorldCreation = worldCreation
     @latestGoalStates = goalStates
+
+    console.warn "Goal states: " + JSON.stringify(goalStates)
+
     window.BOX2D_ENABLED = false  # Flip this off so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment
-    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, worldCreation, @finishBeholdingWorld
+    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, @finishBeholdingWorld
     window.BOX2D_ENABLED = true
     @lastSerializedWorldFrames = serialized.frames
 
@@ -171,7 +194,7 @@ module.exports = class God
     @latestGoalStates = @testGM?.getGoalStates()
     serialized = @testWorld.serialize().serializedWorld
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, @t0, @finishBeholdingWorld
+    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, @finishBeholdingWorld
     window.BOX2D_ENABLED = true
     @lastSerializedWorldFrames = serialized.frames
 
@@ -255,7 +278,7 @@ class Angel
 
   testWorker: =>
     unless @worker.initialized
-      console.warn "Worker", @id, "hadn't even loaded the scripts yet after", @infiniteLoopIntervalDuration, "ms."
+      console.warn "Worker", @id, " hadn't even loaded the scripts yet after", @infiniteLoopIntervalDuration, "ms."
       return
     @worker.postMessage {func: 'reportIn'}
     @condemnTimeout = _.delay @condemnWorker, @infiniteLoopTimeoutDuration
@@ -271,6 +294,7 @@ class Angel
     switch event.data.type
       when 'worker-initialized'
         console.log "Worker", @id, "initialized after", ((new Date()) - @worker.creationTime), "ms (we had been waiting for it)"
+        @worker.initialized = true
       when 'new-world'
         @god.beholdWorld @, event.data.serialized, event.data.goalStates
       when 'world-load-progress-changed'

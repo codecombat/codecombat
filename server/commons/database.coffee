@@ -15,7 +15,7 @@ module.exports.connect = () ->
 
 
 module.exports.generateMongoConnectionString = ->
-  if config.mongo.mongoose_replica_string
+  if not testing and config.mongo.mongoose_replica_string
     address = config.mongo.mongoose_replica_string
   else
     dbName = config.mongo.db

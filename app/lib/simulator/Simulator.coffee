@@ -2,7 +2,7 @@ SuperModel = require 'models/SuperModel'
 CocoClass = require 'lib/CocoClass'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
-God = require 'lib/God'
+God = require 'lib/Buddha'
 
 module.exports = class Simulator extends CocoClass
 
@@ -53,7 +53,8 @@ module.exports = class Simulator extends CocoClass
       return
 
     @supermodel ?= new SuperModel()
-    @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
+
+    @god = new God maxAngels: 2  # Start loading worker.
 
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
     if @supermodel.finished()
@@ -81,15 +82,18 @@ module.exports = class Simulator extends CocoClass
 
   setupGod: ->
     @god.level = @level.serialize @supermodel
-    @god.worldClassMap = @world.classMap
+    @god.setWorldClassMap = @world.classMap
     @setupGoalManager()
     @setupGodSpells()
 
   setupGoalManager: ->
-    @god.goalManager = new GoalManager @world, @level.get 'goals'
+    goalManager = new GoalManager @world
+    goalManager.goals = @god.level.goals
+    goalManager.goalStates = @manuallyGenerateGoalStates()
+    @god.setGoalManager goalManager
 
   commenceSimulationAndSetupCallback: ->
-    @god.createWorld()
+    @god.createWorld @generateSpellsObject()
     Backbone.Mediator.subscribeOnce 'god:infinite-loop', @onInfiniteLoop, @
     Backbone.Mediator.subscribeOnce 'god:new-world-created', @processResults, @
 
@@ -173,10 +177,6 @@ module.exports = class Simulator extends CocoClass
       return 0
     else
       return 1
-
-  setupGodSpells: ->
-    @generateSpellsObject()
-    @god.spells = @spells
 
   generateSpellsObject: ->
     @currentUserCodeMap = @task.generateSpellKeyToSourceMap()
