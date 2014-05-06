@@ -46,12 +46,12 @@ module.exports = class LevelComponentEditView extends View
     schema = _.cloneDeep LevelComponent.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
-    
+
     treemaOptions =
       supermodel: @supermodel
       schema: schema
       data: data
-      readonly: @me.get('anonymous')
+      readonly: me.get('anonymous')
       callbacks: {change: @onComponentSettingsEdited}
     @componentSettingsTreema = @$el.find('#edit-component-treema').treema treemaOptions
     @componentSettingsTreema.build()
@@ -69,7 +69,7 @@ module.exports = class LevelComponentEditView extends View
       supermodel: @supermodel
       schema: LevelComponent.schema.properties.configSchema
       data: @levelComponent.get 'configSchema'
-      readonly: @me.get('anonymous')
+      readonly: me.get('anonymous')
       callbacks: {change: @onConfigSchemaEdited}
     @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
     @configSchemaTreema.build()
@@ -93,7 +93,7 @@ module.exports = class LevelComponentEditView extends View
     session.setNewLineMode = 'unix'
     session.setUseSoftTabs true
     @editor.on('change', @onEditorChange)
-    
+
   onEditorChange: =>
     @levelComponent.set 'code', @editor.getValue()
     Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
@@ -107,7 +107,7 @@ module.exports = class LevelComponentEditView extends View
     versionHistoryView = new VersionHistoryView {}, @levelComponent.id
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
-    
+
   startPatchingComponent: (e) ->
     @openModalView new SaveVersionModal({model:@levelComponent})
     Backbone.Mediator.publish 'level:view-switched', e
@@ -120,4 +120,3 @@ module.exports = class LevelComponentEditView extends View
   destroy: ->
     @editor?.destroy()
     super()
-
