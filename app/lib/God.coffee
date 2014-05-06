@@ -21,6 +21,8 @@ module.exports = class God
     @angels = []
     @firstWorld = true
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
+    @retriveValueFromFrame = _.throttle @retrieveValueFromFrame, 1000
+    Backbone.Mediator.subscribe 'tome:spell-debug-value-request', @retrieveValueFromFrame, @
     @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
     @fillWorkerPool()
     #TODO: have this as a constructor option
@@ -76,8 +78,7 @@ module.exports = class God
       when 'console-log'
         console.log "|" + @id + "'s " + @id + "|", event.data.args...
       when 'debug-value-return'
-        console.log event.data.serialized
-        
+        Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized
   getAngel: ->
     freeAngel = null
     for angel in @angels
@@ -140,8 +141,10 @@ module.exports = class God
         goals: @goalManager?.getGoals()
         frame: frame
 
-  retrieveValueFromFrame: (thangID, spellID, variableChain, frame) ->
-    
+  retrieveValueFromFrame: (args) ->
+    if not args.thangID or not args.spellID or not args.variableChain then return
+    args.frame ?= @world.age / @world.dt
+    console.log "Retrieving value #{args.variableChain} from frame!!!"
     @debugWorker.postMessage
       func: 'retrieveValueFromFrame'
       args:
@@ -150,10 +153,10 @@ module.exports = class God
         level: @level
         firstWorld: @firstWorld
         goals: @goalManager?.getGoals()
-        frame: frame
-        currentThangID: thangID
-        currentSpellID: spellID 
-        variableChain: variableChain
+        frame: args.frame
+        currentThangID: args.thangID
+        currentSpellID: args.spellID 
+        variableChain: args.variableChain
         
         
   getDebugWorldCurrentFrame: ->
@@ -174,6 +177,7 @@ module.exports = class God
   finishBeholdingWorld: (newWorld) =>
     newWorld.findFirstChangedFrame @world
     @world = newWorld
+    @currentUserCodeMap = @filterUserCodeMapWhenFromWorld @world.userCodeMap
     errorCount = (t for t in @world.thangs when t.errorsOut).length
     Backbone.Mediator.publish('god:new-world-created', world: @world, firstWorld: @firstWorld, errorCount: errorCount, goalStates: @latestGoalStates, team: me.team)
     for scriptNote in @world.scriptNotes
@@ -184,12 +188,29 @@ module.exports = class God
     unless _.find @angels, 'busy'
       @spells = null  # Don't hold onto old spells; memory leaks
 
+  filterUserCodeMapWhenFromWorld: (worldUserCodeMap) ->
+    newUserCodeMap = {}
+    for thangName, thang of worldUserCodeMap
+      newUserCodeMap[thangName] = {}
+      for spellName,aether of thang
+        shallowFilteredObject = _.pick aether, ['raw','pure','originalOptions']
+        newUserCodeMap[thangName][spellName] = _.cloneDeep shallowFilteredObject
+        newUserCodeMap[thangName][spellName] = _.defaults newUserCodeMap[thangName][spellName],
+          flow: {}
+          metrics: {}
+          problems: 
+            errors: []
+            infos: []
+            warnings: []
+          style: {}
+        
+    newUserCodeMap
+    
   getUserCodeMap: ->
     userCodeMap = {}
     for spellKey, spell of @spells
       for thangID, spellThang of spell.thangs
         (userCodeMap[thangID] ?= {})[spell.name] = spellThang.aether.serialize()
-    @currentUserCodeMap = userCodeMap
     userCodeMap
 
   destroy: ->

@@ -13,6 +13,8 @@ module.exports = class DebugView extends View
 
   subscriptions:
     'god:new-world-created': 'onNewWorld'
+    'god:debug-value-return': 'handleDebugValue'
+    'tome:spell-shown': 'changeCurrentThangAndSpell'
 
   events: {}
 
@@ -20,11 +22,21 @@ module.exports = class DebugView extends View
     super options
     @ace = options.ace
     @thang = options.thang
+    @spell = options.spell
     @variableStates = {}
     @globals = {Math: Math, _: _}  # ... add more as documented
-    for className, klass of serializedClasses
-      @globals[className] = klass
-    @onMouseMove = _.throttle @onMouseMove, 25
+    for className, serializedClass of serializedClasses
+      @globals[className] = serializedClass
+    @onMouseMove = _.throttle @onMouseMove, 500
+  
+  changeCurrentThangAndSpell: (thangAndSpellObject) ->
+    @thang = thangAndSpellObject.thang
+    @spell = thangAndSpellObject.spell
+    
+  handleDebugValue: (returnObject) ->
+    console.log "Got debug value!"
+    console.log returnObject
+    
 
   afterRender: ->
     super()
@@ -78,6 +90,10 @@ module.exports = class DebugView extends View
 
   update: ->
     if @variableChain
+      Backbone.Mediator.publish 'tome:spell-debug-value-request', 
+        thangID: @thang.id
+        spellID: @spell.name
+        variableChain: @variableChain
       {key, value} = @deserializeVariableChain @variableChain
       @$el.find("code").text "#{key}: #{value}"
       @$el.show().css(@pos)
@@ -97,7 +113,6 @@ module.exports = class DebugView extends View
     @hoveredProperty = if @variableChain?.length is 2 then owner: @variableChain[0], property: @variableChain[1] else {}
     unless _.isEqual oldHoveredProperty, @hoveredProperty
       Backbone.Mediator.publish 'tome:spell-debug-property-hovered', @hoveredProperty
-
   updateMarker: ->
     if @marker
       @ace.getSession().removeMarker @marker

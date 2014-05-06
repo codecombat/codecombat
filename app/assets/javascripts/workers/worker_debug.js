@@ -100,50 +100,7 @@ self.currentUserCodeMapCopy = {};
 self.currentWorldFrame = 0;
 
 self.maxSerializationDepth = 3;
-self.serializeProperty = function serializeProperty(prop, depth) {
-    var typeOfProperty = typeof(prop);
-    if (["undefined","boolean","number","string","xml"].indexOf(typeOfProperty) > -1 || prop === null || prop instanceof Date || prop instanceof String)
-        return prop;
-    else if (typeOfProperty === "function") return "<function>";
-    else if (prop instanceof Array)
-    {
-        if (depth >= self.maxSerializationDepth) return Object.keys(prop);
-        else
-        {
-            var newProps = [];
-            for(var i= 0, arrayLength=prop.length; i < arrayLength; i++)
-                newProps[i] = self.serializeProperty(prop[i],depth + 1);
-            return newProps;
-        }
-    }
-    else if (prop.hasOwnProperty("id"))
-    {
-        return prop.id;
-    }
-    else if (prop.hasOwnProperty('serialize'))
-    {
-        return prop.serialize();
-    }
-    else
-    {
-        newObject = {};
-        for (var key in prop)
-        {
-            if (prop.hasOwnProperty(key))
-            {
-                if (depth >= self.maxSerializationDepth)
-                {
-                    newObject[key] = "DEPTH EXCEEDED";
-                }
-                else
-                {
-                    newObject[key] = self.serializeProperty(prop[key], depth + 1);
-                }
-            }
-        }
-        return newObject;
-    }
-};
+
 self.stringifyValue = function(value, depth) {
     var brackets, i, isArray, isObject, key, prefix, s, sep, size, v, values, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3;
     if (!value || _.isString(value)) {
@@ -292,6 +249,7 @@ self.enableFlowOnThangSpell = function enableFlowOnThang(thangID, spellID, userC
             userCodeMap[thangID][spellID].originalOptions.noSerializationInFlow = true;
             var temporaryAether = Aether.deserialize(userCodeMap[thangID][spellID]);
             temporaryAether.transpile(temporaryAether.raw);
+            console.log("Transpiled!");
             userCodeMap[thangID][spellID] = temporaryAether.serialize();
         }
         
