@@ -147,6 +147,7 @@ self.stringifyValue = function(value, depth) {
         _ref2 = (_ref1 = value.apiProperties) != null ? _ref1 : _.keys(value);
         for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
             key = _ref2[_j];
+            if (key[0] === "_") continue;
             s = this.stringifyValue(value[key], depth + 1);
             if (s !== void 0) {
                 values.push(key + ": " + s);
@@ -207,7 +208,7 @@ self.updateCache = function (thangID, spellID, variableChain, frame, value) {
 
 self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
     var cacheValue;
-    if (cacheValue = self.retrieveValueFromCache(args.currentThangID, args.currentSpellID, args.variableChain, args.frame))
+    if (args.frame === self.currentWorldFrame && (cacheValue = self.retrieveValueFromCache(args.currentThangID, args.currentSpellID, args.variableChain, args.frame)))
         return self.postMessage({type: 'debug-value-return', serialized: {"key": args.variableChain.join(), "value": cacheValue}});
         
     
@@ -265,9 +266,8 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
     };
     self.enableFlowOnThangSpell(args.currentThangID, args.currentSpellID, args.userCodeMap);
     self.setupWorldToRunUntilFrame(args);
-    //You need to load until the very next frame, as the state is gathered at the next frame, this might be a source of bugs!
     self.world.loadFramesUntilFrame(
-        args.frame + 1, 
+        args.frame, 
         retrieveProperty.bind({},args.currentThangID, args.currentSpellID, args.variableChain), 
         self.onWorldError, 
         self.onWorldLoadProgress
@@ -304,26 +304,28 @@ self.setupWorldToRunUntilFrame = function setupWorldToRunUntilFrame(args) {
 
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
     var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
-    if (userCodeMapHasChanged) self.invalidateCache();
     self.currentUserCodeMapCopy = stringifiedUserCodeMap;
-    try {
-        self.world = new World(args.worldName, args.userCodeMap);
-        if(args.level)
-            self.world.loadFromLevel(args.level, true);
-        self.goalManager = new GoalManager(self.world);
-        self.goalManager.setGoals(args.goals);
-        self.goalManager.setCode(args.userCodeMap);
-        self.goalManager.worldGenerationWillBegin();
-        self.world.setGoalManager(self.goalManager);
-    }
-    catch (error) {
-        self.onWorldError(error);
-        return;
-    }
-    Math.random = self.world.rand.randf;  // so user code is predictable
+    if (!self.world || userCodeMapHasChanged || args.frame != self.currentWorldFrame) {
+        self.invalidateCache();
+        try {
+            self.world = new World(args.worldName, args.userCodeMap);
+            if (args.level)
+                self.world.loadFromLevel(args.level, true);
+            self.goalManager = new GoalManager(self.world);
+            self.goalManager.setGoals(args.goals);
+            self.goalManager.setCode(args.userCodeMap);
+            self.goalManager.worldGenerationWillBegin();
+            self.world.setGoalManager(self.goalManager);
+        }
+        catch (error) {
+            self.onWorldError(error);
+            return;
+        }
+        Math.random = self.world.rand.randf;  // so user code is predictable
 
-    self.world.totalFrames = args.frame; //hack to work around error checking
-    self.currentWorldFrame = args.frame;
+        self.world.totalFrames = args.frame; //hack to work around error checking
+        self.currentWorldFrame = args.frame;
+    }
 };
 self.runWorldUntilFrame = function runWorldUntilFrame(args) {
     self.setupWorldToRunUntilFrame(args);

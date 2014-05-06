@@ -27,15 +27,16 @@ module.exports = class DebugView extends View
     @globals = {Math: Math, _: _}  # ... add more as documented
     for className, serializedClass of serializedClasses
       @globals[className] = serializedClass
-    @onMouseMove = _.throttle @onMouseMove, 500
+    @onMouseMove = _.throttle @onMouseMove, 25
   
   changeCurrentThangAndSpell: (thangAndSpellObject) ->
     @thang = thangAndSpellObject.thang
     @spell = thangAndSpellObject.spell
     
   handleDebugValue: (returnObject) ->
-    console.log "Got debug value!"
-    console.log returnObject
+    {key, value} = returnObject
+    @$el.find("code").text "#{key}: #{value}"
+    @$el.show().css(@pos)
     
 
   afterRender: ->
@@ -69,7 +70,8 @@ module.exports = class DebugView extends View
         token = prev
         start = it.getCurrentTokenColumn()
         chain.unshift token.value
-    if token and (token.value of @variableStates or token.value is "this" or @globals[token.value])
+    #Highlight all tokens, so true overrides all other conditions TODO: Refactor this later
+    if token and (true or token.value of @variableStates or token.value is "this" or @globals[token.value])
       @variableChain = chain
       offsetX = e.domEvent.offsetX ? e.clientX - $(e.domEvent.target).offset().left
       offsetY = e.domEvent.offsetY ? e.clientY - $(e.domEvent.target).offset().top
@@ -94,8 +96,7 @@ module.exports = class DebugView extends View
         thangID: @thang.id
         spellID: @spell.name
         variableChain: @variableChain
-      {key, value} = @deserializeVariableChain @variableChain
-      @$el.find("code").text "#{key}: #{value}"
+      @$el.find("code").text "Finding value..."
       @$el.show().css(@pos)
     else
       @$el.hide()

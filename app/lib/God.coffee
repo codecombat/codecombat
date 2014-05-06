@@ -58,7 +58,6 @@ module.exports = class God
     worker = new Worker '/javascripts/workers/worker_debug.js'
     worker.creationTime = new Date()
     worker.addEventListener 'message', @onDebugWorkerMessage
-    console.log "GOD: Created debug worker"
     worker
     
   onWorkerMessage: (event) =>
@@ -130,21 +129,9 @@ module.exports = class God
       goals: @goalManager?.getGoals()
     }}
     
-  createDebugWorldUntilFrame: (frame) ->
-    @debugWorker.postMessage 
-      func : 'runWorldUntilFrame'
-      args:
-        worldName: @level.name
-        userCodeMap: @currentUserCodeMap
-        level: @level
-        firstWorld: @firstWorld
-        goals: @goalManager?.getGoals()
-        frame: frame
-
   retrieveValueFromFrame: (args) ->
     if not args.thangID or not args.spellID or not args.variableChain then return
     args.frame ?= @world.age / @world.dt
-    console.log "Retrieving value #{args.variableChain} from frame!!!"
     @debugWorker.postMessage
       func: 'retrieveValueFromFrame'
       args:
@@ -157,12 +144,7 @@ module.exports = class God
         currentThangID: args.thangID
         currentSpellID: args.spellID 
         variableChain: args.variableChain
-        
-        
-  getDebugWorldCurrentFrame: ->
-    @debugWorker.postMessage
-      func: 'getCurrentFrame'
-  
+
   beholdWorld: (angel, serialized, goalStates) ->
     worldCreation = angel.started
     angel.free()
@@ -203,7 +185,6 @@ module.exports = class God
             infos: []
             warnings: []
           style: {}
-        
     newUserCodeMap
     
   getUserCodeMap: ->
@@ -219,6 +200,10 @@ module.exports = class God
     @dead = true
     Backbone.Mediator.unsubscribe('tome:cast-spells', @onTomeCast, @)
     @goalManager?.destroy()
+    @debugWorker?.terminate()
+    @debugWorker?.removeEventListener 'message', @onDebugWorkerMessage
+    @debugWorker ?= null
+    @currentUserCodeMap = null
     @goalManager = null
     @fillWorkerPool = null
     @simulateWorld = null

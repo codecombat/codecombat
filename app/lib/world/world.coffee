@@ -109,7 +109,7 @@ module.exports = class World
     t1 = now()
     @t0 ?= t1
     i = @frames.length
-    while i < frameToLoadUntil
+    while i <= frameToLoadUntil #state is gathered at next frame 
       try
         @getFrame(i)
         ++i  # increment this after we have succeeded in getting the frame, otherwise we'll have to do that frame again
