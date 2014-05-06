@@ -51,6 +51,7 @@ module.exports = class LevelComponentEditView extends View
       supermodel: @supermodel
       schema: schema
       data: data
+      readonly: @me.get('anonymous')
       callbacks: {change: @onComponentSettingsEdited}
     @componentSettingsTreema = @$el.find('#edit-component-treema').treema treemaOptions
     @componentSettingsTreema.build()
@@ -68,6 +69,7 @@ module.exports = class LevelComponentEditView extends View
       supermodel: @supermodel
       schema: LevelComponent.schema.properties.configSchema
       data: @levelComponent.get 'configSchema'
+      readonly: @me.get('anonymous')
       callbacks: {change: @onConfigSchemaEdited}
     @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
     @configSchemaTreema.build()
@@ -84,6 +86,7 @@ module.exports = class LevelComponentEditView extends View
     editorEl = $('<div></div>').text(@levelComponent.get('code')).addClass('inner-editor')
     @$el.find('#component-code-editor').empty().append(editorEl)
     @editor = ace.edit(editorEl[0])
+    @editor.setReadOnly(me.get('anonymous'))
     session = @editor.getSession()
     session.setMode 'ace/mode/coffee'
     session.setTabSize 2
