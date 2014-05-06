@@ -204,7 +204,7 @@ module.exports = class GoalManager extends CocoClass
 
     arrays = (prop for prop in whos when prop?.length)
     return unless arrays.length
-    state[progressObjectName] = {}
+    state[progressObjectName] ?= {}
     for array in arrays
       for thang in array
         if @thangTeams[thang]?
