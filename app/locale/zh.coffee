@@ -17,7 +17,7 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
     retry: "重试"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
+    submit_patch: "提交补丁"
 
   units:
     second: "秒"
@@ -36,7 +36,7 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
 
   nav:
     play: "玩"
-#    community: "Community"
+    community: "社区"
     editor: "编辑"
     blog: "博客"
     forum: "论坛"
@@ -53,7 +53,7 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
   versions:
     save_version_title: "保存新版本"
     new_major_version: "最新主要版本"
-#    cla_prefix: "To save changes, first you must agree to our"
+    cla_prefix: "要保存更改, 首先你必须要统一我们的"
 #    cla_url: "CLA"
 #    cla_suffix: "."
     cla_agree: "我同意"
@@ -61,7 +61,7 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
   login:
     sign_up: "注册"
     log_in: "登录"
-#    logging_in: "Logging In"
+    logging_in: "登录中..."
     log_out: "登出"
     recover: "找回账户"
 
@@ -78,7 +78,7 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
     creating: "账户在创新中"
     sign_up: "注册"
     log_in: "以密码登录"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
+    social_signup: "或者,  你可以通过Facebook 或者 G+ 注册:"
 
   home:
     slogan: "通过游戏学习Javascript脚本语言"
@@ -130,21 +130,21 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
 #    learn_more: "Learn more about being a Diplomat"
 #    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
-#  wizard_settings:
-#    title: "Wizard Settings"
-#    customize_avatar: "Customize Your Avatar"
-#    active: "Active"
-#    color: "Color"
-#    group: "Group"
-#    clothes: "Clothes"
-#    trim: "Trim"
-#    cloud: "Cloud"
-#    team: "Team"
-#    spell: "Spell"
-#    boots: "Boots"
-#    hue: "Hue"
-#    saturation: "Saturation"
-#    lightness: "Lightness"
+  wizard_settings:
+    title: "巫师设定"
+    customize_avatar: "设置你的头像"
+    active: "启用"
+    color: "颜色"
+    group: "类别"
+    clothes: "衣服"
+    trim: "条纹"
+    cloud: "云"
+    team: "队伍"
+    spell: "魔法球"
+    boots: "鞋子"
+    hue: "色彩"
+    saturation: "饱和度"
+    lightness: "亮度"
 
 #  account_settings:
 #    title: "Account Settings"
