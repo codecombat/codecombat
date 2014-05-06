@@ -221,12 +221,12 @@ module.exports = class SpriteBoss extends CocoClass
   onCastSpells: -> @stop()
 
   play: ->
-    sprite.imageObject.play() for sprite in @spriteArray
+    sprite.play() for sprite in @spriteArray
     @selectionMark?.play()
     @targetMark?.play()
 
   stop: ->
-    sprite.imageObject.stop() for sprite in @spriteArray
+    sprite.stop() for sprite in @spriteArray
     @selectionMark?.stop()
     @targetMark?.stop()
 
