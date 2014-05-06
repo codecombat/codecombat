@@ -235,7 +235,7 @@ module.exports = class GoalManager extends CocoClass
       numNeeded = goal.howMany ? Math.max(1, _.size stateThangs)
     else
       # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be "done"
-      numNeeded = _.size(stateThangs) - Math.min((goal.howMany ? 1), _.size stateThangs) + 1
+      numNeeded = _.size(stateThangs) - Math.max((goal.howMany ? 1), _.size stateThangs) + 1
     numDone = _.filter(stateThangs).length
     console.log "needed", numNeeded, "done", numDone, "of total", _.size(stateThangs), "with how many", goal.howMany, "and stateThangs", stateThangs
     return unless numDone >= numNeeded
