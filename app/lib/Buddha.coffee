@@ -124,6 +124,7 @@ class Angel
         @shared.busyAngels.push @
 
         console.log "Running world..."
+        #console.error "worker.postMessage: " + @worker.postMessage + ", work: " + work
         @worker.postMessage func: 'runWorld', args: work
         console.log @id + ": Setting interval."
         clearTimeout @purgatoryTimer
@@ -238,6 +239,3 @@ module.exports = class God
     @angelsShare.goalManager?.destroy()
     @angelsShare.goalManager = null
     @angelsShare = null
-
-  #TODO: self.world.totalFrames??
-  #TODO: Don't show arguments.

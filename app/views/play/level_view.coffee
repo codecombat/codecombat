@@ -114,8 +114,6 @@ module.exports = class PlayLevelView extends View
     @loadStartTime = new Date()
     @god = new God()
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
-    #@listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
-    #@listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged)
 
   getRenderData: ->
     c = super()
@@ -171,12 +169,12 @@ module.exports = class PlayLevelView extends View
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
     @god.level = @level.serialize @supermodel
-    @god.worldClassMap = @world.classMap
+    @god.setWorldClassMap @world.classMap
     @setTeam team
     @initSurface()
     @initGoalManager()
     @initScriptManager()
-    @insertSubviews ladderGame: (@level.get('type') is "ladder")
+    @insertSubviews()
     @initVolume()
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @originalSessionState = $.extend(true, {}, @session.get('state'))
@@ -429,7 +427,7 @@ module.exports = class PlayLevelView extends View
 
   initGoalManager: ->
     @goalManager = new GoalManager(@world, @level.get('goals'))
-    @god.goalManager = @goalManager
+    @god.setGoalManager @goalManager
 
   initScriptManager: ->
     @scriptManager = new ScriptManager({scripts: @world.scripts or [], view:@, session: @session})

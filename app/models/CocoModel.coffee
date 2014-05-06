@@ -84,7 +84,7 @@ class CocoModel extends Backbone.Model
     if @type() is 'ThangType'
       @_revertAttributes = _.clone @attributes  # No deep clones for these!
     else
-      @_revertAttributes = _.cloneDeep(@attributes)
+      @_revertAttributes = $.extend(true, {}, @attributes)
 
   revert: ->
     @set(@_revertAttributes, {silent: true}) if @_revertAttributes
@@ -97,7 +97,7 @@ class CocoModel extends Backbone.Model
     not _.isEqual @attributes, @_revertAttributes
 
   cloneNewMinorVersion: ->
-    newData = _.clone @attributes # needs to be deep?
+    newData = _.clone @attributes
 
     clone = new @constructor(newData)
     clone
