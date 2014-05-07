@@ -203,7 +203,7 @@ self.updateCache = function (thangID, spellID, variableChain, frame, value) {
 self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
     var cacheValue;
     if (args.frame === self.currentWorldFrame && (cacheValue = self.retrieveValueFromCache(args.currentThangID, args.currentSpellID, args.variableChain, args.frame)))
-        return self.postMessage({type: 'debug-value-return', serialized: {"key": args.variableChain.join(), "value": cacheValue}});
+        return self.postMessage({type: 'debug-value-return', serialized: {"key": args.variableChain.join("."), "value": cacheValue}});
         
     
     var retrieveProperty = function retrieveProperty(currentThangID, currentSpellID, variableChain)
