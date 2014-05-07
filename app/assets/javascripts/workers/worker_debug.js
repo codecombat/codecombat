@@ -66,12 +66,6 @@ Object.defineProperty(self, "XMLHttpRequest", {
     configurable: false
 });
 
-if (!Array.prototype.last){
-    Array.prototype.last = function(){
-        return this[this.length - 1];
-    };
-}
-
 self.transferableSupported = function transferableSupported() {
     // Not in IE, even in IE 11
     try {
@@ -217,8 +211,7 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
         var prop;
         var value;
         var keys = [];
-        for (var i = 0, len = variableChain.length; i < len; i++)
-            {
+        for (var i = 0, len = variableChain.length; i < len; i++) {
                 prop = variableChain[i];
                 if (prop === "this")
                 {
@@ -229,7 +222,7 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
                 {
                     try
                     {
-                        value = self.world.userCodeMap[currentThangID][currentSpellID].flow.states.last().statements.last().variables[prop];
+                        value = _.last(_.last(self.world.userCodeMap[currentThangID][currentSpellID].flow.states).statements).variables[prop];
                     }
                     catch (e)
                     {
@@ -256,7 +249,7 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
                         value = classOfValue.deserializeFromAether(value);
                     }
                 }
-            }
+        }
         var serializedProperty = {
             "key": keys.join("."),
             "value": self.stringifyValue(value,0)
@@ -285,7 +278,6 @@ self.enableFlowOnThangSpell = function enableFlowOnThang(thangID, spellID, userC
             userCodeMap[thangID][spellID].originalOptions.noSerializationInFlow = true;
             var temporaryAether = Aether.deserialize(userCodeMap[thangID][spellID]);
             temporaryAether.transpile(temporaryAether.raw);
-            console.log("Transpiled!");
             userCodeMap[thangID][spellID] = temporaryAether.serialize();
         }
         
@@ -377,7 +369,6 @@ self.reportIn = function reportIn() {
 }
 
 self.addEventListener('message', function(event) {
-    console.log("received message!")
     self[event.data.func](event.data.args);
 });
 
