@@ -379,7 +379,9 @@ module.exports = class SpriteParser
         argsSource = argsSource.replace(/cjs(.+)\)/, '"createjs$1)"') # turns cjs.Ease.get(0.5)
 
         args = eval "[#{argsSource}]"
-        if args[0]?.state?[0]?.t?.search?("shape") is 0 and not _.find(localShapes, bn: args[0].state[0].t)
+        shadowTween = args[0]?.search?('shape') is 0 and not _.find(localShapes, bn: args[0])
+        shadowTween = shadowTween or args[0]?.state?[0]?.t?.search?("shape") is 0 and not _.find(localShapes, bn: args[0].state[0].t)
+        if shadowTween
           console.log "Skipping tween", name, argsSource, args, "from localShapes", localShapes, "presumably because it's a shadow we skipped."
           return
         callExpressions.push {n: name, a: args}

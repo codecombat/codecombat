@@ -403,6 +403,7 @@ var p = SpriteStage.prototype = new createjs.Stage();
 	 * Children also MUST have either an image or spriteSheet defined on them (unless it's a DOMElement).
 	 * 
 	 * <h4>Example</h4>
+	 *
 	 *      addChildAt(child1, index);
 	 *
 	 * You can also add multiple children, such as:
