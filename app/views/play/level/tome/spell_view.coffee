@@ -193,7 +193,7 @@ module.exports = class SpellView extends View
     @createToolbarView()
 
   createDebugView: ->
-    @debugView = new SpellDebugView ace: @ace, thang: @thang
+    @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
   createToolbarView: ->

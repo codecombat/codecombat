@@ -18,7 +18,7 @@ module.exports = class ProfileView extends View
     super options
     if @userID is me.id
       @user = me
-    else
+    else if me.isAdmin() or "employer" in me.get('permissions')
       @user = User.getByID(@userID)
       @user.fetch()
       @listenTo @user, "sync", =>
@@ -27,6 +27,7 @@ module.exports = class ProfileView extends View
   getRenderData: ->
     context = super()
     context.user = @user
+    context.allowedToViewJobProfile = me.isAdmin() or "employer" in me.get('permissions')
     context.myProfile = @user.id is context.me.id
     context.marked = marked
     context.moment = moment

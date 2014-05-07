@@ -20,6 +20,7 @@ module.exports = class EmployerSignupView extends View
     "click #contract-agreement-button": "agreeToContract"
     "click #create-account-button": "createAccount"
     "click .login-link": "setHashToOpenModalAutomatically"
+    "keydown": "checkForFormSubmissionEnterPress"
 
 
   constructor: (options) ->
@@ -77,6 +78,9 @@ module.exports = class EmployerSignupView extends View
 
   handleAgreementFailure: (error) ->
     alert "There was an error signing the contract. Please contact team@codecombat.com with this error: #{error.responseText}"
+
+  checkForFormSubmissionEnterPress: (e) ->
+    if e.which is 13 then @createAccount(e)
 
   createAccount: (e) =>
     window.tracker?.trackEvent 'Finished Employer Signup'
