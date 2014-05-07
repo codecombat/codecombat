@@ -35,7 +35,7 @@ module.exports = class DebugView extends View
     
   handleDebugValue: (returnObject) ->
     {key, value} = returnObject
-    unless key is @variableChain.join(".") then return
+    if @variableChain and not key is @variableChain.join(".") then return
     @$el.find("code").text "#{key}: #{value}"
     @$el.show().css(@pos)
     

@@ -222,7 +222,10 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
                 {
                     try
                     {
-                        value = _.last(_.last(self.world.userCodeMap[currentThangID][currentSpellID].flow.states).statements).variables[prop];
+                        var flowStates = self.world.userCodeMap[currentThangID][currentSpellID].flow.states;
+                        //we have to go to the second last flowState as we run the world for one additional frame
+                        //to collect the flow
+                        value = _.last(flowStates[flowStates.length - 2].statements).variables[prop];
                     }
                     catch (e)
                     {
