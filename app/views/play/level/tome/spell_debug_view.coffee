@@ -13,6 +13,8 @@ module.exports = class DebugView extends View
 
   subscriptions:
     'god:new-world-created': 'onNewWorld'
+    'god:debug-value-return': 'handleDebugValue'
+    'tome:spell-shown': 'changeCurrentThangAndSpell'
 
   events: {}
 
@@ -20,11 +22,25 @@ module.exports = class DebugView extends View
     super options
     @ace = options.ace
     @thang = options.thang
+    @spell = options.spell
     @variableStates = {}
+
     @globals = {Math: Math, _: _, String: String, Number: Number, Array: Array, Object: Object}  # ... add more as documented
-    for className, klass of serializedClasses
-      @globals[className] = klass
+    for className, serializedClass of serializedClasses
+      @globals[className] = serializedClass
+
     @onMouseMove = _.throttle @onMouseMove, 25
+
+  changeCurrentThangAndSpell: (thangAndSpellObject) ->
+    @thang = thangAndSpellObject.thang
+    @spell = thangAndSpellObject.spell
+
+  handleDebugValue: (returnObject) ->
+    {key, value} = returnObject
+    if @variableChain and not key is @variableChain.join(".") then return
+    @$el.find("code").text "#{key}: #{value}"
+    @$el.show().css(@pos)
+
 
   afterRender: ->
     super()
@@ -58,7 +74,8 @@ module.exports = class DebugView extends View
         token = prev
         start = it.getCurrentTokenColumn()
         chain.unshift token.value
-    if token and (token.value of @variableStates or token.value is "this" or @globals[token.value])
+    #Highlight all tokens, so true overrides all other conditions TODO: Refactor this later
+    if token and (true or token.value of @variableStates or token.value is "this" or @globals[token.value])
       @variableChain = chain
       offsetX = e.domEvent.offsetX ? e.clientX - $(e.domEvent.target).offset().left
       offsetY = e.domEvent.offsetY ? e.clientY - $(e.domEvent.target).offset().top
@@ -79,8 +96,11 @@ module.exports = class DebugView extends View
 
   update: ->
     if @variableChain
-      {key, value} = @deserializeVariableChain @variableChain
-      @$el.find("code").text "#{key}: #{value}"
+      Backbone.Mediator.publish 'tome:spell-debug-value-request',
+        thangID: @thang.id
+        spellID: @spell.name
+        variableChain: @variableChain
+      @$el.find("code").text "Finding value..."
       @$el.show().css(@pos)
     else
       @$el.hide()
@@ -98,7 +118,6 @@ module.exports = class DebugView extends View
     @hoveredProperty = if @variableChain?.length is 2 then owner: @variableChain[0], property: @variableChain[1] else {}
     unless _.isEqual oldHoveredProperty, @hoveredProperty
       Backbone.Mediator.publish 'tome:spell-debug-property-hovered', @hoveredProperty
-
   updateMarker: ->
     if @marker
       @ace.getSession().removeMarker @marker
