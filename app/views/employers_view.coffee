@@ -50,7 +50,9 @@ module.exports = class EmployersView extends View
   renderCandidatesAndSetupScrolling: =>
     @render()
     $(".nano").nanoScroller()
-    if window.location.hash.length is 25
+    if window.history?.state?.lastViewedCandidateID
+      $(".nano").nanoScroller({scrollTo:$("#" + window.history.state.lastViewedCandidateID)})
+    else if window.location.hash.length is 25
       $(".nano").nanoScroller({scrollTo:$(window.location.hash)})
 
   sortTable: ->
@@ -175,8 +177,13 @@ module.exports = class EmployersView extends View
 
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
-    window.location.hash = id
     if id
+      if window.history
+        oldState = _.cloneDeep window.history.state ? {}
+        oldState["lastViewedCandidateID"] = id
+        window.history.replaceState(oldState,"")
+      else  
+        window.location.hash = id
       url = "/account/profile/#{id}"
       app.router.navigate url, {trigger: true}
     else

@@ -82,6 +82,10 @@ self.transferableSupported = function transferableSupported() {
 
 var World = self.require('lib/world/world');
 var GoalManager = self.require('lib/world/GoalManager');
+
+Aether.addGlobal('Vector', require('lib/world/vector'));
+Aether.addGlobal('_', _);
+
 var serializedClasses = {
     "Thang": self.require('lib/world/thang'),
     "Vector": self.require('lib/world/vector'),
@@ -354,7 +358,6 @@ self.debugAbort = function () {
     self.postMessage({type: 'debugAbort'});
 };
 
-
 self.runWorld = function runWorld(args) {
   self.postedErrors = {};
   self.t0 = new Date();
@@ -408,11 +411,11 @@ self.onWorldLoaded = function onWorldLoaded() {
 };
 
 self.onWorldError = function onWorldError(error) {
-  if(error instanceof Aether.problems.UserCodeProblem) {
-    if(!self.postedErrors[error.key]) {
-      var problem = error.serialize();
-      self.postMessage({type: 'user-code-problem', problem: problem});
-      self.postedErrors[error.key] = problem;
+  if(error.isUserCodeProblem) {
+    var errorKey = error.userInfo.key;
+    if(!errorKey || !self.postedErrors[errorKey]) {
+      self.postMessage({type: 'user-code-problem', problem: error});
+      self.postedErrors[errorKey] = error;
     }
   }
   else {

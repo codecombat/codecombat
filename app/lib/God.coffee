@@ -113,7 +113,7 @@ module.exports = class God
 
   angelUserCodeProblem: (angel, problem) ->
     return if @dead
-    #console.log "UserCodeProblem:", '"' + problem.message + '"', "for", problem.userInfo.thangID, "-", problem.userInfo.methodName, 'at line', problem.ranges?[0][0][0], 'column', problem.ranges?[0][0][1]
+    #console.log "UserCodeProblem:", '"' + problem.message + '"', "for", problem.userInfo.thangID, "-", problem.userInfo.methodName, 'at', problem.range?[0]
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
 
   createWorld: (@spells) ->

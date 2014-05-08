@@ -3,6 +3,7 @@ template = require 'templates/editor/level/settings_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './treema_nodes'
+{me} = require 'lib/auth'
 
 module.exports = class SettingsTabView extends View
   id: 'editor-level-settings-tab-view'

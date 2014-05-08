@@ -422,6 +422,7 @@ module.exports = class SpellView extends View
     @spellHasChanged = false
 
   onUserCodeProblem: (e) ->
+    console.log "onUserCodeProblem", e, e.problem.userInfo.methodName is @spell.name, spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
     return @onInfiniteLoop e if e.problem.id is "runtime_InfiniteLoop"
     return unless e.problem.userInfo.methodName is @spell.name
     return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
