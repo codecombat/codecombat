@@ -9,18 +9,62 @@ TEXTDIFF_OPTIONS =
   viewType: 1
   
 module.exports = class DeltaView extends CocoView
+  
+  ###
+  Takes a CocoModel instance (model) and displays changes since the 
+  last save (attributes vs _revertAttributes).
+  
+  * If headModel is included, will look for and display conflicts with the changes in model.
+  * If comparisonModel is included, will show deltas between model and comparisonModel instead
+    of changes within model itself.
+    
+  ###
+  
   @deltaCounter: 0
   className: "delta-view"
   template: template
 
   constructor: (options) ->
     super(options)
-    @model = options.model
-    @headModel = options.headModel
-    @expandedDeltas = @model.getExpandedDelta()
+    @expandedDeltas = []
+    @skipPaths = options.skipPaths
+    
+    for modelName in ['model', 'headModel', 'comparisonModel']
+      continue unless m = options[modelName]
+      @[modelName] = @supermodel.loadModel(m, 'document').model
+    
+    @buildDeltas() if @supermodel.finished()
+    console.log 'done constructing'
+    
+  onLoaded: ->
+    @buildDeltas()
+    super()
+    
+  buildDeltas: ->
+    if @comparisonModel
+      @expandedDeltas = @model.getExpandedDeltaWith(@comparisonModel)
+    else
+      @expandedDeltas = @model.getExpandedDelta()
+      
+    @filterExpandedDeltas()
+      
     if @headModel
       @headDeltas = @headModel.getExpandedDelta()
       @conflicts = deltasLib.getConflicts(@headDeltas, @expandedDeltas)
+
+  filterExpandedDeltas: ->
+    return unless @skipPaths
+    for path, i in @skipPaths
+      @skipPaths[i] = [path] if _.isString(path)
+    newDeltas = []
+    for delta in @expandedDeltas
+      skip = false
+      for skipPath in @skipPaths
+        if _.isEqual _.first(delta.dataPath, skipPath.length), skipPath
+          skip = true
+          break
+      newDeltas.push delta unless skip
+    @expandedDeltas = newDeltas
 
   getRenderData: ->
     c = super()

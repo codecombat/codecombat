@@ -1,6 +1,7 @@
 ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/versions'
 tableTemplate = require 'templates/kinds/table'
+DeltaView = require 'views/editor/delta'
 
 class VersionsViewCollection extends Backbone.Collection
   url: ""
@@ -20,6 +21,9 @@ module.exports = class VersionsModalView extends ModalView
   id: ""
   url: ""
   page: ""
+  
+  events:
+    'change input.select': 'onSelectionChanged'
 
   constructor: (options, @ID, @model) ->
     super options
@@ -35,6 +39,18 @@ module.exports = class VersionsModalView extends ModalView
   onVersionFetched: ->
     @startsLoading = false
     @render()
+
+  onSelectionChanged: ->
+    rows = @$el.find 'input.select:checked'
+    deltaEl = @$el.find '.delta-view'
+    @deltaView?.destroy()
+    deltaEl.empty()
+    if rows.length isnt 2 then return 
+    
+    laterVersion = new @model(_id:$(rows[0]).val())
+    earlierVersion = new @model(_id:$(rows[1]).val())
+    @deltaView = new DeltaView({model:earlierVersion, comparisonModel:laterVersion, skipPaths:['_id','version', 'commitMessage', 'parent', 'created', 'slug', 'index']})
+    @insertSubView(@deltaView, deltaEl)
 
   getRenderData: (context={}) ->
     context = super(context)

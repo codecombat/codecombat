@@ -712,3 +712,14 @@
     files: "Files"
     top_simulators: "Top Simulators"
     source_document: "Source Document"
+    document: "Document" # note to diplomats: not a physical document, a document in MongoDB, ie a record in a database
+
+  delta:
+    added: "Added"
+    modified: "Modified"
+    deleted: "Deleted"
+    moved_index: "Moved Index"
+    text_diff: "Text Diff"
+    merge_conflict_with: "MERGE CONFLICT WITH"
+    no_changes: "No Changes"
+    
