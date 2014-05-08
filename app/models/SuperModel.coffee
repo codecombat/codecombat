@@ -32,7 +32,7 @@ module.exports = class SuperModel extends Backbone.Model
     else
       @registerModel(model)
       res = @addModelResource(model, name, fetchOptions, value)
-      if not res.isLoaded then res.load()
+      if model.loaded then res.markLoaded() else res.load()
       return res
 
   loadCollection: (collection, name, fetchOptions, value=1) ->

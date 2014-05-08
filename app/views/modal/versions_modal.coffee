@@ -43,8 +43,8 @@ module.exports = class VersionsModalView extends ModalView
   onSelectionChanged: ->
     rows = @$el.find 'input.select:checked'
     deltaEl = @$el.find '.delta-view'
-    @deltaView?.destroy()
-    deltaEl.empty()
+    @removeSubView(@deltaView) if @deltaView
+    @deltaView = null
     if rows.length isnt 2 then return 
     
     laterVersion = new @model(_id:$(rows[0]).val())
