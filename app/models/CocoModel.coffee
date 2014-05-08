@@ -162,6 +162,10 @@ class CocoModel extends Backbone.Model
   getDelta: ->
     differ = deltasLib.makeJSONDiffer()
     differ.diff @_revertAttributes, @attributes
+    
+  getDeltaWith: (otherModel) ->
+    differ = deltasLib.makeJSONDiffer()
+    differ.diff @attributes, otherModel.attributes
 
   applyDelta: (delta) ->
     newAttributes = $.extend(true, {}, @attributes)
@@ -171,6 +175,10 @@ class CocoModel extends Backbone.Model
   getExpandedDelta: ->
     delta = @getDelta()
     deltasLib.expandDelta(delta, @_revertAttributes, @schema())
+
+  getExpandedDeltaWith: (otherModel) ->
+    delta = @getDeltaWith(otherModel)
+    deltasLib.expandDelta(delta, @attributes, @schema())
 
   watch: (doWatch=true) ->
     $.ajax("#{@urlRoot}/#{@id}/watch", {type:'PUT', data:{on:doWatch}})

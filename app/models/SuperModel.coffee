@@ -31,8 +31,9 @@ module.exports = class SuperModel extends Backbone.Model
 
     else
       @registerModel(model)
-      console.debug 'Registering model', model.getURL()
-      return @addModelResource(model, name, fetchOptions, value).load()
+      res = @addModelResource(model, name, fetchOptions, value)
+      if not res.isLoaded then res.load()
+      return res
 
   loadCollection: (collection, name, fetchOptions, value=1) ->
     url = collection.getURL()
@@ -52,7 +53,9 @@ module.exports = class SuperModel extends Backbone.Model
       @listenToOnce collection, 'sync', (c) ->
         console.debug 'Registering collection', url
         @registerCollection c
-      return @addModelResource(collection, name, fetchOptions, value).load()
+      res = @addModelResource(collection, name, fetchOptions, value)
+      res.load() if not (res.isLoading or res.isLoaded)
+      return res
 
   # replace or overwrite
   shouldSaveBackups: (model) -> false
