@@ -51,7 +51,7 @@ module.exports = class LevelComponentEditView extends View
       supermodel: @supermodel
       schema: schema
       data: data
-      readonly: @me.get('anonymous')
+      readOnly: me.get('anonymous')
       callbacks: {change: @onComponentSettingsEdited}
     @componentSettingsTreema = @$el.find('#edit-component-treema').treema treemaOptions
     @componentSettingsTreema.build()
@@ -69,7 +69,7 @@ module.exports = class LevelComponentEditView extends View
       supermodel: @supermodel
       schema: LevelComponent.schema.properties.configSchema
       data: @levelComponent.get 'configSchema'
-      readonly: @me.get('anonymous')
+      readOnly: me.get('anonymous')
       callbacks: {change: @onConfigSchemaEdited}
     @configSchemaTreema = @$el.find('#config-schema-treema').treema treemaOptions
     @configSchemaTreema.build()
