@@ -4,6 +4,9 @@ LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/Buddha'
 
+Aether.addGlobal 'Vector', require 'lib/world/vector'
+Aether.addGlobal '_', _
+
 module.exports = class Simulator extends CocoClass
 
   constructor: (@options) ->
@@ -292,8 +295,8 @@ module.exports = class Simulator extends CocoClass
       functionName: methodName
       protectAPI: useProtectAPI
       includeFlow: false
-      requiresThis: true
       yieldConditionally: false
+      globals: ['Vector', '_']
       problems:
         jshint_W040: {level: "ignore"}
         jshint_W030: {level: "ignore"}  # aether_NoEffect instead
