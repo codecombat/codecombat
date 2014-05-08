@@ -37,9 +37,11 @@ module.exports = class PatchModal extends ModalView
     if @targetModel.hasWriteAccess()
       headModel = @originalSource.clone(false)
       headModel.set(@targetModel.attributes)
+      headModel.loaded = true
     
     pendingModel = @originalSource.clone(false)
     pendingModel.applyDelta(@patch.get('delta'))
+    pendingModel.loaded = true
 
     @deltaView = new DeltaView({model:pendingModel, headModel:headModel})
     changeEl = @$el.find('.changes-stub')
