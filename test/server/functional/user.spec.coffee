@@ -20,7 +20,7 @@ describe 'Server user object', ->
     expect(user.isEmailSubscriptionEnabled('adventurerNews')).toBeTruthy()
     expect(user.isEmailSubscriptionEnabled('generalNews')).toBeFalsy()
     done()
-    
+
   it 'maintains the old subs list if it\'s around', (done) ->
     user = new User()
     user.set 'emailSubscriptions', ['tester']
@@ -33,7 +33,7 @@ describe 'User.updateMailChimp', ->
     GLOBAL.mc =
       lists:
         subscribe: callback
-  
+
   it 'uses emails to determine what to send to MailChimp', (done) ->
     makeMC (params) ->
       expect(JSON.stringify(params.merge_vars.groupings[0].groups)).toBe(JSON.stringify(['Announcements']))
@@ -41,7 +41,7 @@ describe 'User.updateMailChimp', ->
 
     user = new User({emailSubscriptions:['announcement'], email:'tester@gmail.com'})
     User.updateMailChimp(user)
-          
+
 describe 'POST /db/user', ->
 
   createAnonNameUser = (done)->
@@ -191,7 +191,16 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
         form.append('_id', String(admin._id))
         form.append('email', joe.get('email').toUpperCase())
 
-  it 'works', (done) ->
+  it 'does not care if you include your existing name', (done) ->
+    unittest.getNormalJoe (joe) ->
+      req = request.put getURL(urlUser+'/'+joe._id), (err, res) ->
+        expect(res.statusCode).toBe(200)
+        done()
+      form = req.form()
+      form.append('_id', String(joe._id))
+      form.append('name', 'Joe')
+
+  it 'accepts name and email changes', (done) ->
     unittest.getNormalJoe (joe) ->
       req = request.put getURL(urlUser), (err, res) ->
         expect(res.statusCode).toBe(200)
@@ -204,7 +213,6 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
       form.append('_id', String(joe._id))
       form.append('email', 'New@email.com')
       form.append('name', 'Wilhelm')
-
 
 describe 'GET /db/user', ->
 
