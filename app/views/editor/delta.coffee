@@ -34,7 +34,6 @@ module.exports = class DeltaView extends CocoView
       @[modelName] = @supermodel.loadModel(m, 'document').model
     
     @buildDeltas() if @supermodel.finished()
-    console.log 'done constructing'
     
   onLoaded: ->
     @buildDeltas()
