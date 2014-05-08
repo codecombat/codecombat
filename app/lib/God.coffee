@@ -57,7 +57,7 @@ module.exports = class God
     worker
 
   createDebugWorker: ->
-    worker = new Worker '/javascripts/workers/worker_debug.js'
+    worker = new Worker '/javascripts/workers/worker_world.js'
     worker.creationTime = new Date()
     worker.addEventListener 'message', @onDebugWorkerMessage
     worker
@@ -146,7 +146,6 @@ module.exports = class God
         worldName: @level.name
         userCodeMap: @currentUserCodeMap
         level: @level
-        firstWorld: @firstWorld
         goals: @goalManager?.getGoals()
         frame: args.frame
         currentThangID: args.thangID
