@@ -223,7 +223,7 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
                     var flowStates = self.debugWorld.userCodeMap[currentThangID][currentSpellID].flow.states;
                     //we have to go to the second last flowState as we run the world for one additional frame
                     //to collect the flow
-                    value = _.last(flowStates[flowStates.length - 2].statements).variables[prop];
+                    value = _.last(flowStates[flowStates.length - 1].statements).variables[prop];
                 }
                 catch (e)
                 {
@@ -260,11 +260,12 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
     };
     self.enableFlowOnThangSpell(args.currentThangID, args.currentSpellID, args.userCodeMap);
     self.setupDebugWorldToRunUntilFrame(args);
-    self.debugWorld.loadFramesUntilFrame(
-        args.frame,
+    self.debugWorld.loadFrames(
         retrieveProperty.bind({},args.currentThangID, args.currentSpellID, args.variableChain),
         self.onDebugWorldError,
-        self.onDebugWorldProgress
+        self.onDebugWorldProgress,
+        false,
+        args.frame
     );
 };
 
@@ -297,8 +298,8 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
     var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
     self.currentUserCodeMapCopy = stringifiedUserCodeMap;
-    if (!self.debugWorld || userCodeMapHasChanged || args.frame != self.currentDebugWorldFrame) {
-        self.invalidateCache();
+    if (args.frame != self.currentDebugWorldFrame) self.invalidateCache();
+    if (!self.debugWorld || userCodeMapHasChanged || args.frame < self.currentDebugWorldFrame) {
         try {
             self.debugWorld = new World(args.worldName, args.userCodeMap);
             if (args.level)
@@ -314,33 +315,33 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             return;
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
-
-        self.debugWorld.totalFrames = args.frame; //hack to work around error checking
-        self.currentDebugWorldFrame = args.frame;
     }
+    self.debugWorld.totalFrames = args.frame; //hack to work around error checking
+    self.currentDebugWorldFrame = args.frame;
 };
-self.runDebugWorldUntilFrame = function (args) {
-    self.setupDebugWorldToRunUntilFrame(args);
 
-    self.debugWorld.loadFramesUntilFrame(args.frame, self.onDebugWorldLoaded, self.onDebugWorldError, self.onDebugWorldProgress);
-
-};
 
 self.onDebugWorldLoaded = function onDebugWorldLoaded() {
     console.log("World loaded!");
 };
 
 self.onDebugWorldError = function onDebugWorldError(error) {
-    if(error instanceof Aether.problems.UserCodeProblem) {
-        if(!self.debugPostedErrors[error.key]) {
-            var problem = error.serialize();
-            self.postMessage({type: 'user-code-problem', problem: problem});
-            self.debugPostedErrors[error.key] = problem;
+    if(error.isUserCodeProblem) {
+        var errorKey = error.userInfo.key;
+        if(!errorKey || !self.debugPostedErrors[errorKey]) {
+            self.postMessage({type: 'user-code-problem', problem: error});
+            self.debugPostedErrors[errorKey] = error;
         }
     }
     else {
         console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
     }
+    /*  We don't actually have the recoverable property any more; hmm
+     if(!self.firstWorld && !error.recoverable) {
+     self.abort();
+     return false;
+     }
+     */
     return true;
 };
 
