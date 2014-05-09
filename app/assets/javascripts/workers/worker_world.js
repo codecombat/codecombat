@@ -60,7 +60,7 @@ var console = {
 console.error = console.info = console.log;
 self.console = console;
 
-importScripts('/javascripts/world.js');
+importScripts('/javascripts/world.js', "/javascripts/lodash.js", "/javascripts/aether.js");
 
 // We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
 Object.defineProperty(self, "XMLHttpRequest", {

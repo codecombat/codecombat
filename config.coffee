@@ -22,24 +22,28 @@ exports.config =
           |(app[\/\\]lib[\/\\]utils.coffee)
           |(vendor[\/\\]scripts[\/\\]Box2dWeb-2.1.a.3)
           |(vendor[\/\\]scripts[\/\\]string_score.js)
-          |(bower_components[\/\\]lodash[\/\\]dist[\/\\]lodash.js)
-          |(bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
         )///
         'javascripts/app.js': /^app/
         'javascripts/vendor.js': ///^(
           vendor[\/\\](?!scripts[\/\\]Box2d)
-          |bower_components
+          |bower_components[\/\\](?!aether)
         )///
         'javascripts/vendor_with_box2d.js': ///^(
           vendor[\/\\]
-          |bower_components  # include box2dweb for profiling (and for IE9...)
+          |bower_components[\/\\](?!aether)  # include box2dweb for profiling (and for IE9...)
         )///
-        'javascripts/tome_aether.js': ///^(
+        'javascripts/lodash.js': ///^(
           (bower_components[\/\\]lodash[\/\\]dist[\/\\]lodash.js)
-          |(bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
         )///
-        'test/javascripts/test.js': /^test[\/\\](?!vendor)/
-        'test/javascripts/test-vendor.js': /^test[\/\\](?=vendor)/
+        'javascripts/aether.js': ///^(
+          (bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
+        )///
+#        'javascripts/tome_aether.js': ///^(
+#          (bower_components[\/\\]lodash[\/\\]dist[\/\\]lodash.js)
+#          |(bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
+#        )///
+#        'test/javascripts/test.js': /^test[\/\\](?!vendor)/
+#        'test/javascripts/test-vendor.js': /^test[\/\\](?=vendor)/
       order:
         before: [
           'bower_components/jquery/dist/jquery.js'
