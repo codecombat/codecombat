@@ -65,6 +65,7 @@ module.exports = Surface = class Surface extends CocoClass
     'god:new-world-created': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
     'level-set-letterbox': 'onSetLetterbox'
+    'application:idle-changed': 'onIdleChanged'
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -304,14 +305,31 @@ module.exports = Surface = class Surface extends CocoClass
       @spriteBoss.stop()
       @playbackOverScreen.show()
       @ended = true
+      @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended'
     else if @currentFrame < @world.totalFrames and @ended
       @spriteBoss.play()
       @playbackOverScreen.hide()
       @ended = false
+      @setPaused false
       Backbone.Mediator.publish 'surface:playback-restarted'
 
     @lastFrame = @currentFrame
+
+  onIdleChanged: (e) ->
+    @setPaused e.idle unless @ended
+
+  setPaused: (to) ->
+    # We want to be able to essentially stop rendering the surface if it doesn't need to animate anything.
+    # If pausing, though, we want to give it enough time to finish any tweens.
+    performToggle = =>
+      createjs.Ticker.setFPS if to then 1 else @options.frameRate
+      @surfacePauseInterval = null
+    clearTimeout @surfacePauseInterval if @surfacePauseInterval
+    if to
+      @surfacePauseInterval = _.delay performToggle, 2000
+    else
+      performToggle()
 
   onCastSpells: ->
     @casting = true

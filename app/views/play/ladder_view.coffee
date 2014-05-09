@@ -38,7 +38,7 @@ module.exports = class LadderView extends RootView
     super(options)
     @level = @supermodel.loadModel(new Level(_id:@levelID), 'level').model
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(levelID), 'your_sessions').model
-    
+
     @teams = []
 
   onLoaded: ->
