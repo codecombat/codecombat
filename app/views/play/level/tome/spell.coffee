@@ -15,7 +15,6 @@ module.exports = class Spell
     @pathComponents = options.pathComponents
     @session = options.session
     @supermodel = options.supermodel
-    @skipFlow = options.skipFlow
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
     p = options.programmableMethod
@@ -117,13 +116,7 @@ module.exports = class Spell
       globals: ['Vector', '_']
       # TODO: Gridmancer doesn't currently work with protectAPI, so hack it off
       protectAPI: not (@skipProtectAPI or window.currentView?.level.get('name').match("Gridmancer")) and @permissions.readwrite.length > 0  # If anyone can write to this method, we must protect it.
-      includeFlow: not @skipFlow and @canRead()
-        #callIndex: 0
-        #timelessVariables: ['i']
-        #statementIndex: 9001
-    if not (me.team in @permissions.readwrite) or window.currentView?.sessionID is "52bfb88099264e565d001349"  # temp fix for debugger explosion bug
-      #console.log "Turning off includeFlow for", @spellKey
-      aetherOptions.includeFlow = false
+      includeFlow: false
     #console.log "creating aether with options", aetherOptions
     aether = new Aether aetherOptions
     workerMessage =

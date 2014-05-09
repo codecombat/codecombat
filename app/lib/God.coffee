@@ -82,7 +82,7 @@ module.exports = class God
       when 'new-debug-world'
         console.log "New Debug world!"
       when 'console-log'
-        console.log "|" + @id + "'s " + @id + "|", event.data.args...
+        console.log "|" + @id + "'s debugger |", event.data.args...
       when 'debug-value-return'
         Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized
 
