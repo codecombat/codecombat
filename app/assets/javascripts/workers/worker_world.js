@@ -14,8 +14,8 @@ if (!Function.prototype.bind) {
       throw new TypeError("Function.prototype.bind (Shim) - target is not callable");
     }
 
-    var aArgs = Array.prototype.slice.call(arguments, 1), 
-        fToBind = this, 
+    var aArgs = Array.prototype.slice.call(arguments, 1),
+        fToBind = this,
         fNOP = function () {},
         fBound = function () {
           return fToBind.apply(this instanceof fNOP && oThis
@@ -326,22 +326,10 @@ self.onDebugWorldLoaded = function onDebugWorldLoaded() {
 };
 
 self.onDebugWorldError = function onDebugWorldError(error) {
-    if(error.isUserCodeProblem) {
-        var errorKey = error.userInfo.key;
-        if(!errorKey || !self.debugPostedErrors[errorKey]) {
-            self.postMessage({type: 'user-code-problem', problem: error});
-            self.debugPostedErrors[errorKey] = error;
-        }
+
+    if(!error.isUserCodeProblem) {
+        console.log("Debug Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
     }
-    else {
-        console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
-    }
-    /*  We don't actually have the recoverable property any more; hmm
-     if(!self.firstWorld && !error.recoverable) {
-     self.abort();
-     return false;
-     }
-     */
     return true;
 };
 
@@ -365,7 +353,7 @@ self.runWorld = function runWorld(args) {
   self.firstWorld = args.firstWorld;
   self.postedErrors = false;
   self.logsLogged = 0;
-  
+
   try {
     self.world = new World(args.worldName, args.userCodeMap);
     if(args.level)
