@@ -38,10 +38,6 @@ exports.config =
         'javascripts/aether.js': ///^(
           (bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
         )///
-#        'javascripts/tome_aether.js': ///^(
-#          (bower_components[\/\\]lodash[\/\\]dist[\/\\]lodash.js)
-#          |(bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
-#        )///
 #        'test/javascripts/test.js': /^test[\/\\](?!vendor)/
 #        'test/javascripts/test-vendor.js': /^test[\/\\](?=vendor)/
       order:
