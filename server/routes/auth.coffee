@@ -107,6 +107,7 @@ module.exports.setup = (app) ->
             else
               return res.end()
         else
+          console.log 'password is', user.get('passwordReset')
           res.send user.get('passwordReset')
           return res.end()
     )
