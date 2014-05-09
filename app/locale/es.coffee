@@ -246,6 +246,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     multiplayer_hint_label: "Consejo:"
     multiplayer_hint: " Cliquea el enlace para seleccionar todo, luego presiona ⌘-C o Ctrl-C para copiar el enlace."
     multiplayer_coming_soon: "¡Más características de multijugador por venir!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Guía"
     tome_minion_spells: "Hechizos de tus Secuaces"
     tome_read_only_spells: "Hechizos de Sólo Lectura"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

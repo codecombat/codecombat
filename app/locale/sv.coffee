@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     multiplayer_hint_label: "Tips:"
     multiplayer_hint: " Klicka på länken för att välja allt, tryck sedan på Cmd-C eller Ctrl-C för att kopiera länken."
     multiplayer_coming_soon: "Fler flerspelarlägen kommer!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Guide"
     tome_minion_spells: "Dina soldaters förmågor"
     tome_read_only_spells: "Skrivskyddade förmågor"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

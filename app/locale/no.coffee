@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
     multiplayer_hint_label: "Hint:"
     multiplayer_hint: " Klikk lenken for å velge alle, så trykker du Apple-C eller Ctrl-C for å kopiere lenken."
     multiplayer_coming_soon: "Det kommer flere flerspillsmuligheter!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Guide"
     tome_minion_spells: "Din Minions' Trylleformularer"
     tome_read_only_spells: "Kun-Lesbare Trylleformularer"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "Norsk", englishDescription: "Norwegian", tr
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

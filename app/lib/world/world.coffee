@@ -8,7 +8,6 @@ WorldScriptNote = require './world_script_note'
 {now, consolidateThangs, typedArraySupport} = require './world_utils'
 Component = require 'lib/world/component'
 System = require 'lib/world/system'
-
 PROGRESS_UPDATE_INTERVAL = 200
 DESERIALIZATION_INTERVAL = 20
 
@@ -72,14 +71,18 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback) ->
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) ->
     return if @aborted
     unless @thangs.length
       console.log "Warning: loadFrames called on empty World (no thangs)."
     t1 = now()
     @t0 ?= t1
+    if loadUntilFrame
+      frameToLoadUntil = loadUntilFrame + 1
+    else
+      frameToLoadUntil = @totalFrames
     i = @frames.length
-    while i < @totalFrames
+    while i < frameToLoadUntil
       try
         @getFrame(i)
         ++i  # increment this after we have succeeded in getting the frame, otherwise we'll have to do that frame again
@@ -96,10 +99,19 @@ module.exports = class World
         if t2 - @t0 > 1000
           console.log('  Loaded', i, 'of', @totalFrames, "(+" + (t2 - @t0).toFixed(0) + "ms)")
           @t0 = t2
-        setTimeout((=> @loadFrames(loadedCallback, errorCallback, loadProgressCallback)), 0)
+        continueFn = => 
+          if loadUntilFrame
+            @loadFrames(loadedCallback,errorCallback,loadProgressCallback, skipDeferredLoading, loadUntilFrame)
+          else
+            @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading)
+        if skipDeferredLoading
+          continueFn()
+        else
+          setTimeout(continueFn, 0)
         return
-    @ended = true
-    system.finish @thangs for system in @systems
+    unless loadUntilFrame
+      @ended = true
+      system.finish @thangs for system in @systems
     loadProgressCallback? 1
     loadedCallback()
 
@@ -221,7 +233,7 @@ module.exports = class World
       @scriptNotes.push scriptNote
     return unless @goalManager
     @goalManager.submitWorldGenerationEvent(channel, event, @frames.length)
-    
+
   setGoalState: (goalID, status) ->
     @goalManager.setGoalState(goalID, status)
 
@@ -336,7 +348,7 @@ module.exports = class World
       console.log "Whoa, serializing a lot of WorldScriptNotes here:", o.scriptNotes.length
     {serializedWorld: o, transferableObjects: [o.storageBuffer]}
 
-  @deserialize: (o, classMap, oldSerializedWorldFrames, worldCreationTime, finishedWorldCallback) ->
+  @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback) ->
     # Code hotspot; optimize it
     #console.log "Deserializing", o, "length", JSON.stringify(o).length
     #console.log JSON.stringify(o)

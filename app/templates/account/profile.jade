@@ -17,7 +17,7 @@ block content
         if user.id != me.id
           button.btn.edit-settings-button#enter-espionage-mode 007
   
-  if user.get('jobProfile')
+  if user.get('jobProfile') && allowedToViewJobProfile
     - var profile = user.get('jobProfile');
     .job-profile-container
       .job-profile-row
@@ -112,7 +112,11 @@ block content
                         .project-image(style="background-image: url('/file/" + project.picture + "')")
                       p= project.name
                       div!= marked(project.description)
-
+  else if allowedToViewJobProfile
+    .public-profile-container
+      h2 Loading...
+      
+                        
   else
     .public-profile-container
       h2 

@@ -18,16 +18,23 @@ module.exports = class God
     options ?= {}
     @maxAngels = options.maxAngels ? 2  # How many concurrent web workers to use; if set past 8, make up more names
     @maxWorkerPoolSize = options.maxWorkerPoolSize ? 2  # ~20MB per idle worker
+    @workerCode = options.workerCode if options.workerCode?
     @angels = []
     @firstWorld = true
     Backbone.Mediator.subscribe 'tome:cast-spells', @onTomeCast, @
+    @retriveValueFromFrame = _.throttle @retrieveValueFromFrame, 1000
+    Backbone.Mediator.subscribe 'tome:spell-debug-value-request', @retrieveValueFromFrame, @
     @fillWorkerPool = _.throttle @fillWorkerPool, 3000, leading: false
     @fillWorkerPool()
+    #TODO: have this as a constructor option
+    @debugWorker = @createDebugWorker()
+    @currentUserCodeMap = {}
+
+  workerCode: '/javascripts/workers/worker_world.js'  #Can be a string or a function.
 
   onTomeCast: (e) ->
     return if @dead
-    @spells = e.spells
-    @createWorld()
+    @createWorld e.spells
 
   fillWorkerPool: =>
     return unless Worker and not @dead
@@ -44,17 +51,40 @@ module.exports = class God
     @createWorker()
 
   createWorker: ->
-    worker = new Worker '/javascripts/workers/worker_world.js'
+    worker = new Worker @workerCode
     worker.creationTime = new Date()
-    worker.addEventListener 'message', @onWorkerMessage
+    worker.addEventListener 'message', @onWorkerMessage(worker)
     worker
 
-  onWorkerMessage: (event) =>
+  createDebugWorker: ->
+    worker = new Worker '/javascripts/workers/worker_world.js'
+    worker.creationTime = new Date()
+    worker.addEventListener 'message', @onDebugWorkerMessage
+    worker
+
+
+  onWorkerMessage: (worker) =>
+    unless worker.onMessage?
+      worker.onMessage = (event) =>
+        if event.data.type is 'worker-initialized'
+          console.log @id, "worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
+          worker.initialized = true
+          worker.removeEventListener 'message', worker.onMessage
+        else
+          console.warn "Received strange word from God: #{event.data.type}"
+    worker.onMessage
+
+  onDebugWorkerMessage: (event) =>
     worker = event.target
-    if event.data.type is 'worker-initialized'
-      #console.log @id, "worker initialized after", ((new Date()) - worker.creationTime), "ms (before it was needed)"
-      worker.initialized = true
-      worker.removeEventListener 'message', @onWorkerMessage
+    switch event.data.type
+      when "worker-initialized"
+        worker.initialized = true
+      when 'new-debug-world'
+        console.log "New Debug world!"
+      when 'console-log'
+        console.log "|" + @id + "'s debugger|", event.data.args...
+      when 'debug-value-return'
+        Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized
 
   getAngel: ->
     freeAngel = null
@@ -83,10 +113,10 @@ module.exports = class God
 
   angelUserCodeProblem: (angel, problem) ->
     return if @dead
-    #console.log "UserCodeProblem:", '"' + problem.message + '"', "for", problem.userInfo.thangID, "-", problem.userInfo.methodName, 'at line', problem.ranges?[0][0][0], 'column', problem.ranges?[0][0][1]
+    #console.log "UserCodeProblem:", '"' + problem.message + '"', "for", problem.userInfo.thangID, "-", problem.userInfo.methodName, 'at', problem.range?[0]
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
 
-  createWorld: ->
+  createWorld: (@spells) ->
     #console.log @id + ': "Let there be light upon', @world.name + '!"'
     unless Worker?  # profiling world simulation is easier on main thread, or we are IE9
       setTimeout @simulateWorld, 1
@@ -101,26 +131,59 @@ module.exports = class God
     #console.log "going to run world with code", @getUserCodeMap()
     angel.worker.postMessage {func: 'runWorld', args: {
       worldName: @level.name
-      userCodeMap: @getUserCodeMap()
+      userCodeMap: @getUserCodeMap(spells)
       level: @level
       firstWorld: @firstWorld
       goals: @goalManager?.getGoals()
     }}
 
+  retrieveValueFromFrame: (args) ->
+    if not args.thangID or not args.spellID or not args.variableChain then return
+    args.frame ?= @world.age / @world.dt
+    @debugWorker.postMessage
+      func: 'retrieveValueFromFrame'
+      args:
+        worldName: @level.name
+        userCodeMap: @currentUserCodeMap
+        level: @level
+        goals: @goalManager?.getGoals()
+        frame: args.frame
+        currentThangID: args.thangID
+        currentSpellID: args.spellID
+        variableChain: args.variableChain
+
+  #Coffeescript needs getters and setters.
+  setGoalManager: (@goalManager) =>
+
+  setWorldClassMap: (@worldClassMap) =>
+
   beholdWorld: (angel, serialized, goalStates) ->
+    unless serialized
+      # We're only interested in goalStates.
+      @latestGoalStates = goalStates
+      Backbone.Mediator.publish('god:goals-calculated', goalStates: goalStates, team: me.team)
+      unless _.find @angels, 'busy'
+        @spells = null  # Don't hold onto old spells; memory leaks
+      return
+
+    console.log "Beholding world."
     worldCreation = angel.started
     angel.free()
     return if @latestWorldCreation? and worldCreation < @latestWorldCreation
     @latestWorldCreation = worldCreation
     @latestGoalStates = goalStates
+
+    console.warn "Goal states: " + JSON.stringify(goalStates)
+
     window.BOX2D_ENABLED = false  # Flip this off so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment
-    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, worldCreation, @finishBeholdingWorld
+    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, @finishBeholdingWorld
     window.BOX2D_ENABLED = true
     @lastSerializedWorldFrames = serialized.frames
 
   finishBeholdingWorld: (newWorld) =>
     newWorld.findFirstChangedFrame @world
     @world = newWorld
+    @currentUserCodeMap = @filterUserCodeMapWhenFromWorld @world.userCodeMap
     errorCount = (t for t in @world.thangs when t.errorsOut).length
     Backbone.Mediator.publish('god:new-world-created', world: @world, firstWorld: @firstWorld, errorCount: errorCount, goalStates: @latestGoalStates, team: me.team)
     for scriptNote in @world.scriptNotes
@@ -130,6 +193,23 @@ module.exports = class God
     @testWorld = null
     unless _.find @angels, 'busy'
       @spells = null  # Don't hold onto old spells; memory leaks
+
+  filterUserCodeMapWhenFromWorld: (worldUserCodeMap) ->
+    newUserCodeMap = {}
+    for thangName, thang of worldUserCodeMap
+      newUserCodeMap[thangName] = {}
+      for spellName,aether of thang
+        shallowFilteredObject = _.pick aether, ['raw','pure','originalOptions']
+        newUserCodeMap[thangName][spellName] = _.cloneDeep shallowFilteredObject
+        newUserCodeMap[thangName][spellName] = _.defaults newUserCodeMap[thangName][spellName],
+          flow: {}
+          metrics: {}
+          problems:
+            errors: []
+            infos: []
+            warnings: []
+          style: {}
+    newUserCodeMap
 
   getUserCodeMap: ->
     userCodeMap = {}
@@ -144,6 +224,10 @@ module.exports = class God
     @dead = true
     Backbone.Mediator.unsubscribe('tome:cast-spells', @onTomeCast, @)
     @goalManager?.destroy()
+    @debugWorker?.terminate()
+    @debugWorker?.removeEventListener 'message', @onDebugWorkerMessage
+    @debugWorker ?= null
+    @currentUserCodeMap = null
     @goalManager = null
     @fillWorkerPool = null
     @simulateWorld = null
@@ -171,7 +255,7 @@ module.exports = class God
     @latestGoalStates = @testGM?.getGoalStates()
     serialized = @testWorld.serialize().serializedWorld
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, @t0, @finishBeholdingWorld
+    World.deserialize serialized, @worldClassMap, @lastSerializedWorldFrames, @finishBeholdingWorld
     window.BOX2D_ENABLED = true
     @lastSerializedWorldFrames = serialized.frames
 
@@ -255,7 +339,7 @@ class Angel
 
   testWorker: =>
     unless @worker.initialized
-      console.warn "Worker", @id, "hadn't even loaded the scripts yet after", @infiniteLoopIntervalDuration, "ms."
+      console.warn "Worker", @id, " hadn't even loaded the scripts yet after", @infiniteLoopIntervalDuration, "ms."
       return
     @worker.postMessage {func: 'reportIn'}
     @condemnTimeout = _.delay @condemnWorker, @infiniteLoopTimeoutDuration
@@ -271,6 +355,7 @@ class Angel
     switch event.data.type
       when 'worker-initialized'
         console.log "Worker", @id, "initialized after", ((new Date()) - @worker.creationTime), "ms (we had been waiting for it)"
+        @worker.initialized = true
       when 'new-world'
         @god.beholdWorld @, event.data.serialized, event.data.goalStates
       when 'world-load-progress-changed'

@@ -29,6 +29,7 @@ module.exports = class EditorLevelView extends View
     'click #fork-level-start-button': 'startForkingLevel'
     'click #level-history-button': 'showVersionHistory'
     'click #patches-tab': -> @patchesView.load()
+    'click #components-tab': -> @componentsTab.refreshLevelThangsTreema @level.get('thangs')
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
     'click #pop-level-i18n-button': -> @level.populateI18N()

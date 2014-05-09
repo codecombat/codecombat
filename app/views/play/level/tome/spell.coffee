@@ -2,6 +2,9 @@ SpellView = require './spell_view'
 SpellListTabEntryView = require './spell_list_tab_entry_view'
 {me} = require 'lib/auth'
 
+Aether.addGlobal 'Vector', require 'lib/world/vector'
+Aether.addGlobal '_', _
+
 module.exports = class Spell
   loaded: false
   view: null
@@ -12,7 +15,6 @@ module.exports = class Spell
     @pathComponents = options.pathComponents
     @session = options.session
     @supermodel = options.supermodel
-    @skipFlow = options.skipFlow
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
     p = options.programmableMethod
@@ -106,21 +108,15 @@ module.exports = class Spell
         jshint_W091: {level: "ignore"}  # eliminates more hoisting problems
         jshint_E043: {level: "ignore"}  # https://github.com/codecombat/codecombat/issues/813 -- since we can't actually tell JSHint to really ignore things
         jshint_Unknown: {level: "ignore"}  # E043 also triggers Unknown, so ignore that, too
-        aether_MissingThis: {level: (if thang.requiresThis then 'error' else 'warning')}
+        aether_MissingThis: {level: 'error'}
       language: aceConfig.language ? 'javascript'
       functionName: @name
       functionParameters: @parameters
       yieldConditionally: thang.plan?
-      requiresThis: thang.requiresThis
+      globals: ['Vector', '_']
       # TODO: Gridmancer doesn't currently work with protectAPI, so hack it off
       protectAPI: not (@skipProtectAPI or window.currentView?.level.get('name').match("Gridmancer")) and @permissions.readwrite.length > 0  # If anyone can write to this method, we must protect it.
-      includeFlow: not @skipFlow and @canRead()
-        #callIndex: 0
-        #timelessVariables: ['i']
-        #statementIndex: 9001
-    if not (me.team in @permissions.readwrite) or window.currentView?.sessionID is "52bfb88099264e565d001349"  # temp fix for debugger explosion bug
-      #console.log "Turning off includeFlow for", @spellKey
-      aetherOptions.includeFlow = false
+      includeFlow: false
     #console.log "creating aether with options", aetherOptions
     aether = new Aether aetherOptions
     workerMessage =

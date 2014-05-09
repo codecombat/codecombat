@@ -246,6 +246,7 @@ module.exports = nativeDescription: "português", englishDescription: "Portugues
     multiplayer_hint_label: "Dica:"
     multiplayer_hint: " Clique no link para selecionar tudo, então dê Ctrl+C ou ⌘+C para copiar o link. "
     multiplayer_coming_soon: "Mais novidades no multiplayer estão chegando!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Guia"
     tome_minion_spells: "Magias dos seus subordinados"
     tome_read_only_spells: "Magias não editáveis"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "português", englishDescription: "Portugues
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

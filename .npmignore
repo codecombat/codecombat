@@ -53,6 +53,9 @@ Thumbs.db
 *.sublime-project
 *.sublime-workspace
 
+# IntelliJ/WebStorm
+*.iml
+
 # NPM packages folder.
 node_modules/
 
@@ -89,6 +92,12 @@ mongo/
 bin/node/
 bin/mongo/
 
-
 # Karma coverage
 coverage/
+
+# local settings
+login.coffee
+
+# debugging
+*.heapsnapshot
+

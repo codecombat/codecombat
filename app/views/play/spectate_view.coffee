@@ -8,7 +8,7 @@ World = require 'lib/world/world'
 
 # tools
 Surface = require 'lib/surface/Surface'
-God = require 'lib/God'
+God = require 'lib/God' # 'lib/Buddha'
 GoalManager = require 'lib/world/GoalManager'
 ScriptManager = require 'lib/scripts/ScriptManager'
 LevelLoader = require 'lib/LevelLoader'
@@ -156,7 +156,7 @@ module.exports = class SpectateLevelView extends View
     team = @world.teamForPlayer(0)
     @loadOpponentTeam(team)
     @god.level = @level.serialize @supermodel
-    @god.worldClassMap = @world.classMap
+    @god.setWorldClassMap @world.classMap
     @setTeam team
     @initSurface()
     @initGoalManager()
@@ -387,7 +387,7 @@ module.exports = class SpectateLevelView extends View
 
   initGoalManager: ->
     @goalManager = new GoalManager(@world, @level.get('goals'))
-    @god.goalManager = @goalManager
+    @god.setGoalManager @goalManager
 
   initScriptManager: ->
     if @world.scripts

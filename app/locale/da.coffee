@@ -246,6 +246,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     multiplayer_hint_label: "Tip:"
     multiplayer_hint: " Klik på linket for markere alt; tryk derefter ⌘-C eller Ctrl-C tfr at kopiere linket."
     multiplayer_coming_soon: "Yderligere flerspillermuligheder er på vej!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Instruktioner"
 #    tome_minion_spells: "Your Minions' Spells"
 #    tome_read_only_spells: "Read-Only Spells"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

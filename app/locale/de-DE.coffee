@@ -246,6 +246,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     multiplayer_hint_label: "Hinweis:"
     multiplayer_hint: " Klick den Link, um alles auszuwählen, dann drück ⌘-C oder Strg-C um den Link zu kopieren."
     multiplayer_coming_soon: "Mehr Multiplayerfeatures werden kommen!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Anleitung"
     tome_minion_spells: "Die Zaubersprüche Deiner Knechte"
     tome_read_only_spells: "Nur-lesen Zauberspüche"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

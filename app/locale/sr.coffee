@@ -246,6 +246,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     multiplayer_hint_label: "Мала помоћ"
     multiplayer_hint: " Кликни на линк да обележиш све, затим притисни Apple-C или Ctrl-C да копираш линк."
     multiplayer_coming_soon: "Стиже још нових карактеристика!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Водич"
     tome_minion_spells: "Чини твојих поданика"
     tome_read_only_spells: "Чини које се могу само гледати"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

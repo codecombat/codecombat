@@ -246,6 +246,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     multiplayer_hint_label: "Tip:"
     multiplayer_hint: " Klikněte na odkaz pro jeho výběr, poté stiskněte ⌘-C nebo Ctrl-C pro kopírování odkazu."
     multiplayer_coming_soon: "Další vlastnosti multiplayeru jsou na cestě!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Průvodce"
     tome_minion_spells: "Vaše oblíbená kouzla"
     tome_read_only_spells: "Kouzla jen pro čtení"
@@ -710,3 +711,4 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    user_names: "User Names"
 #    files: "Files"
 #    top_simulators: "Top Simulators"
+#    source_document: "Source Document"

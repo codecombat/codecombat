@@ -59,13 +59,13 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{@levelID}/session"
       url += "?team=#{@team}" if @team
 
-    @session = new LevelSession().setURL url
-    @supermodel.loadModel(@session, 'level_session', {cache:false})
+    session = new LevelSession().setURL url
+    @session = @supermodel.loadModel(session, 'level_session', {cache:false}).model
     @session.once 'sync', -> @url = -> '/db/level.session/' + @id
 
     if @opponentSessionID
-      @opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
-      @supermodel.loadModel(@opponentSession, 'opponent_session')
+      opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
+      @opponentSession = @supermodel.loadModel(opponentSession, 'opponent_session').model
 
   # Supermodel (Level) Loading
 
@@ -155,6 +155,7 @@ module.exports = class LevelLoader extends CocoClass
   # Building sprite sheets
 
   buildSpriteSheetsForThangType: (thangType) ->
+    return if @headless
     @grabThangTypeTeams() unless @thangTypeTeams
     for team in @thangTypeTeams[thangType.get('original')] ? [null]
       spriteOptions = {resolutionFactor: 4, async: false}

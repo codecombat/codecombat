@@ -22,7 +22,6 @@ module.exports = class PatchesView extends CocoView
     @patches = new PatchesCollection([], {}, @model, @status)
     
   load: ->
-    console.log 'load patches view?'
     @initPatches()
     @patches = @supermodel.loadCollection(@patches, 'patches').model
     @listenTo @patches, 'sync', @onPatchesLoaded
