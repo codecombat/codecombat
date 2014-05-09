@@ -331,15 +331,8 @@ self.onDebugWorldLoaded = function onDebugWorldLoaded() {
 };
 
 self.onDebugWorldError = function onDebugWorldError(error) {
-    if(error instanceof Aether.problems.UserCodeProblem) {
-        if(!self.debugPostedErrors[error.key]) {
-            var problem = error.serialize();
-            self.postMessage({type: 'user-code-problem', problem: problem});
-            self.debugPostedErrors[error.key] = problem;
-        }
-    }
-    else {
-        console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
+    if(!error.isUserCodeProblem) {
+        console.log("Debug Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
     }
     return true;
 };
