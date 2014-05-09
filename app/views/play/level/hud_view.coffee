@@ -163,6 +163,8 @@ module.exports = class HUDView extends View
 
   setMessage: (message, mood, responses) ->
     message = marked message
+    # Fix old HTML icons like <i class='icon-play'></i> in the Markdown
+    message = message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
     clearInterval(@messageInterval) if @messageInterval
     @bubble = $('.dialogue-bubble', @$el)
     @bubble.removeClass(@lastMood) if @lastMood

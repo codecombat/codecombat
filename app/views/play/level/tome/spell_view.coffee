@@ -97,8 +97,12 @@ module.exports = class SpellView extends View
       aceCommands.push c.name
     addCommand
       name: 'run-code'
-      bindKey: {win: 'Shift-Enter|Ctrl-Enter|Ctrl-S', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter|Command-S|Ctrl-S'}
+      bindKey: {win: 'Shift-Enter|Ctrl-Enter', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter'}
       exec: -> Backbone.Mediator.publish 'tome:manual-cast', {}
+    addCommand
+      name: 'no-op'
+      bindKey: {win: 'Ctrl-S', mac: 'Command-S|Ctrl-S'}
+      exec: ->  # just prevent page save call
     addCommand
       name: 'toggle-playing'
       bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
@@ -189,7 +193,7 @@ module.exports = class SpellView extends View
     @createToolbarView()
 
   createDebugView: ->
-    @debugView = new SpellDebugView ace: @ace, thang: @thang
+    @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
   createToolbarView: ->
@@ -418,6 +422,7 @@ module.exports = class SpellView extends View
     @spellHasChanged = false
 
   onUserCodeProblem: (e) ->
+    console.log "onUserCodeProblem", e, e.problem.userInfo.methodName is @spell.name, spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
     return @onInfiniteLoop e if e.problem.id is "runtime_InfiniteLoop"
     return unless e.problem.userInfo.methodName is @spell.name
     return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID

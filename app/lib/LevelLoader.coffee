@@ -61,13 +61,13 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{@levelID}/session"
       url += "?team=#{@team}" if @team
 
-    @session = new LevelSession().setURL url
-    @supermodel.loadModel(@session, 'level_session', {cache:false})
+    session = new LevelSession().setURL url
+    @session = @supermodel.loadModel(session, 'level_session', {cache:false}).model
     @session.once 'sync', -> @url = -> '/db/level.session/' + @id
 
     if @opponentSessionID
-      @opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
-      @supermodel.loadModel(@opponentSession, 'opponent_session')
+      opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
+      @opponentSession = @supermodel.loadModel(opponentSession, 'opponent_session').model
 
   # Supermodel (Level) Loading
 
@@ -168,6 +168,7 @@ module.exports = class LevelLoader extends CocoClass
   # Building sprite sheets
 
   buildSpriteSheetsForThangType: (thangType) ->
+    return if @headless
     # TODO: Finish making sure the supermodel loads the raster image before triggering load complete, and that the cocosprite has access to the asset.
 #    if f = thangType.get('raster')
 #      queue = new createjs.LoadQueue()

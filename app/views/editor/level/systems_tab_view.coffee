@@ -53,7 +53,7 @@ module.exports = class SystemsTabView extends View
       supermodel: @supermodel
       schema: Level.schema.properties.systems
       data: systems
-      readOnly: true unless me.isAdmin() or @level.hasWriteAccess(me)
+      readOnly: me.get('anonymous')
       callbacks:
         change: @onSystemsChanged
         select: @onSystemSelected

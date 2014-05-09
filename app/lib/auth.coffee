@@ -1,4 +1,4 @@
-{backboneFailure, genericFailure} = require 'lib/errors'
+{backboneFailure, genericFailure, parseServerError} = require 'lib/errors'
 User = require 'models/User'
 storage = require 'lib/storage'
 BEEN_HERE_BEFORE_KEY = 'beenHereBefore'
@@ -16,15 +16,22 @@ init = ->
 module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) ->
   user = new User(userObject)
   user.save({}, {
-    error: failure,
+    error: (model,jqxhr,options) ->
+      error = parseServerError(jqxhr.responseText)
+      property = error.property if error.property
+      if jqxhr.status is 409 and property is 'name'
+        anonUserObject = _.omit(userObject, 'name')
+        module.exports.createUser anonUserObject, failure, nextURL
+      else
+        genericFailure(jqxhr)
     success: -> if nextURL then window.location.href = nextURL else window.location.reload()
   })
-  
+
 module.exports.createUserWithoutReload = (userObject, failure=backboneFailure) ->
   user = new User(userObject)
   user.save({}, {
     error: failure
-    success: -> 
+    success: ->
       Backbone.Mediator.publish("created-user-without-reload")
   })
 

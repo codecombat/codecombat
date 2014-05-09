@@ -17,9 +17,9 @@ module.exports = class Problem
     @removeMarkerRange()
 
   buildAnnotation: ->
-    return unless @aetherProblem.ranges
+    return unless @aetherProblem.range
     text = @aetherProblem.message.replace /^Line \d+: /, ''
-    start = @aetherProblem.ranges[0][0]
+    start = @aetherProblem.range[0]
     @annotation =
       row: start.row,
       column: start.col,
@@ -33,8 +33,8 @@ module.exports = class Problem
     $(@ace.container).append @alertView.el
 
   buildMarkerRange: ->
-    return unless @aetherProblem.ranges
-    [start, end] = @aetherProblem.ranges[0]
+    return unless @aetherProblem.range
+    [start, end] = @aetherProblem.range
     clazz = "problem-marker-#{@aetherProblem.level}"
     @markerRange = new Range start.row, start.col, end.row, end.col
     @markerRange.start = @ace.getSession().getDocument().createAnchor @markerRange.start

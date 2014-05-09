@@ -189,10 +189,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   stop: ->
     @imageObject?.stop?()
     mark.stop() for name, mark of @marks
+    @stopped = true
 
   play: ->
     @imageObject?.play?()
     mark.play() for name, mark of @marks
+    @stopped = false
 
   update: (frameChanged) ->
     # Gets the sprite to reflect what the current state of the thangs and surface are
@@ -243,7 +245,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   getBobOffset: ->
     return 0 unless @thang.bobHeight
-    @thang.bobHeight * (1 + Math.sin(@age * Math.PI / @thang.bobTime))
+    return @lastBobOffset if @stopped
+    return @lastBobOffset = @thang.bobHeight * (1 + Math.sin(@age * Math.PI / @thang.bobTime))
 
   getWorldPosition: ->
     p1 = if @possessed then @shadow.pos else @thang.pos
@@ -525,6 +528,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   updateEffectMarks: ->
     return if _.isEqual @thang.effectNames, @previousEffectNames
+    return if @stopped
     for effect in @thang.effectNames
       mark = @addMark effect, @options.floatingLayer, effect
       mark.statusEffect = true

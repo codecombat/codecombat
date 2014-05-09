@@ -14,7 +14,6 @@ module.exports = class ComponentsTabView extends View
   className: 'tab-pane'
 
   subscriptions:
-    'level-thangs-changed': 'onLevelThangsChanged'
     'edit-level-component': 'editLevelComponent'
     'level-component-edited': 'onLevelComponentEdited'
     'level-component-editing-ended': 'onLevelComponentEditingEnded'
@@ -24,8 +23,8 @@ module.exports = class ComponentsTabView extends View
     'click #create-new-component-button-no-select': 'createNewLevelComponent'
 
   onLoaded: ->
-  onLevelThangsChanged: (e) ->
-    thangsData = e.thangsData
+
+  refreshLevelThangsTreema: (thangsData) ->
     presentComponents = {}
     for thang in thangsData
       for component in thang.components

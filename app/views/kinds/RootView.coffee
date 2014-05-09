@@ -38,9 +38,9 @@ module.exports = class RootView extends CocoView
     # force the browser to scroll to the hash
     # also messes with the browser history, so perhaps come up with a better solution
     super()
-    hash = location.hash
-    location.hash = ''
-    location.hash = hash
+    #hash = location.hash
+    #location.hash = ''
+    #location.hash = hash
     @renderScrollbar()
     #@$('.antiscroll-wrap').antiscroll()  # not yet, buggy
 

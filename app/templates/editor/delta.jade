@@ -37,10 +37,12 @@ mixin deltaPanel(delta, conflict)
   
     if delta.conflict && !conflict
       .panel-body
-        strong MERGE CONFLICT WITH
+        strong(data-i18n="delta.merge_conflict_with") MERGE CONFLICT WITH
         +deltaPanel(delta.conflict, true)
 
 .panel-group(id='delta-accordion-'+(counter))
   for delta in deltas
     +deltaPanel(delta)
+  if !deltas.length
+    alert.alert-warning(data-i18n="delta.no_changes") No changes
     

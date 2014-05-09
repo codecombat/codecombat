@@ -20,7 +20,7 @@ describe 'Server user object', ->
     expect(user.isEmailSubscriptionEnabled('adventurerNews')).toBeTruthy()
     expect(user.isEmailSubscriptionEnabled('generalNews')).toBeFalsy()
     done()
-    
+
   it 'maintains the old subs list if it\'s around', (done) ->
     user = new User()
     user.set 'emailSubscriptions', ['tester']
@@ -33,7 +33,7 @@ describe 'User.updateMailChimp', ->
     GLOBAL.mc =
       lists:
         subscribe: callback
-  
+
   it 'uses emails to determine what to send to MailChimp', (done) ->
     makeMC (params) ->
       expect(JSON.stringify(params.merge_vars.groupings[0].groups)).toBe(JSON.stringify(['Announcements']))
@@ -41,8 +41,22 @@ describe 'User.updateMailChimp', ->
 
     user = new User({emailSubscriptions:['announcement'], email:'tester@gmail.com'})
     User.updateMailChimp(user)
-          
+
 describe 'POST /db/user', ->
+
+  createAnonNameUser = (done)->
+    request.post getURL('/auth/logout'), ->
+      request.get getURL('/auth/whoami'), ->
+        req = request.post(getURL('/db/user'), (err, response) ->
+          expect(response.statusCode).toBe(200)
+          request.get getURL('/auth/whoami'), (request, response, body) ->
+            res = JSON.parse(response.body)
+            expect(res.anonymous).toBeTruthy()
+            expect(res.name).toEqual('Jim')
+            done() 
+        )
+        form = req.form()
+        form.append('name', 'Jim')
 
   it 'preparing test : clears the db first', (done) ->
     clearModels [User], (err) ->
@@ -89,6 +103,36 @@ describe 'POST /db/user', ->
           expect(user.email).toBeUndefined()
           expect(user.passwordHash).toBeUndefined()
           done()
+
+  it 'should allow setting anonymous user name', (done) ->
+    createAnonNameUser(done)
+
+  it 'should allow multiple anonymous users with same name', (done) ->
+    createAnonNameUser(done)
+
+
+  it 'should not allow setting existing user name to anonymous user', (done) ->
+
+    createAnonUser = ->
+      request.post getURL('/auth/logout'), ->
+        request.get getURL('/auth/whoami'), ->
+          req = request.post(getURL('/db/user'), (err, response) ->
+            expect(response.statusCode).toBe(409)
+            done() 
+          )
+          form = req.form()
+          form.append('name', 'Jim')
+
+    req = request.post(getURL('/db/user'), (err,response,body) ->
+      expect(response.statusCode).toBe(200)
+      request.get getURL('/auth/whoami'), (request, response, body) ->
+        res = JSON.parse(response.body)
+        expect(res.anonymous).toBeFalsy()
+        createAnonUser()
+    )
+    form = req.form()
+    form.append('email', 'new@user.com')
+    form.append('password', 'new')
 
 
 describe 'PUT /db/user', ->
@@ -147,7 +191,16 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
         form.append('_id', String(admin._id))
         form.append('email', joe.get('email').toUpperCase())
 
-  it 'works', (done) ->
+  it 'does not care if you include your existing name', (done) ->
+    unittest.getNormalJoe (joe) ->
+      req = request.put getURL(urlUser+'/'+joe._id), (err, res) ->
+        expect(res.statusCode).toBe(200)
+        done()
+      form = req.form()
+      form.append('_id', String(joe._id))
+      form.append('name', 'Joe')
+
+  it 'accepts name and email changes', (done) ->
     unittest.getNormalJoe (joe) ->
       req = request.put getURL(urlUser), (err, res) ->
         expect(res.statusCode).toBe(200)
@@ -160,7 +213,6 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
       form.append('_id', String(joe._id))
       form.append('email', 'New@email.com')
       form.append('name', 'Wilhelm')
-
 
 describe 'GET /db/user', ->
 

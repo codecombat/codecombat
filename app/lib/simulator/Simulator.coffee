@@ -2,15 +2,21 @@ SuperModel = require 'models/SuperModel'
 CocoClass = require 'lib/CocoClass'
 LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
-God = require 'lib/God'
+God = require 'lib/Buddha'
+
+Aether.addGlobal 'Vector', require 'lib/world/vector'
+Aether.addGlobal '_', _
 
 module.exports = class Simulator extends CocoClass
 
-  constructor: ->
+  constructor: (@options) ->
+    @options ?= {}
     _.extend @, Backbone.Events
     @trigger 'statusUpdate', 'Starting simulation!'
     @retryDelayInSeconds = 10
     @taskURL = '/queue/scoring'
+    @simulatedByYou = 0
+    @god = new God maxWorkerPoolSize: 1, maxAngels: 1, workerCode: @options.workerCode  # Start loading worker.
 
   destroy: ->
     @off()
@@ -19,6 +25,17 @@ module.exports = class Simulator extends CocoClass
 
   fetchAndSimulateTask: =>
     return if @destroyed
+
+    if @options.headlessClient
+      if @dumpThisTime # The first heapdump would be useless to find leaks.
+        console.log "Writing snapshot."
+        @options.heapdump.writeSnapshot()
+      @dumpThisTime = true if @options.heapdump
+
+      if @options.testing
+        _.delay @setupSimulationAndLoadLevel, 0, @options.testFile, "Testing...", status: 400
+        return
+
     @trigger 'statusUpdate', 'Fetching simulation data!'
     $.ajax
       url: @taskURL
@@ -32,7 +49,9 @@ module.exports = class Simulator extends CocoClass
     @simulateAnotherTaskAfterDelay()
 
   handleNoGamesResponse: ->
-    @trigger 'statusUpdate', 'There were no games to simulate--all simulations are done or in process. Retrying in 10 seconds.'
+    info = 'There were no games to simulate--all simulations are done or in process. Retrying in 10 seconds.'
+    console.log info
+    @trigger 'statusUpdate', info
     @simulateAnotherTaskAfterDelay()
 
   simulateAnotherTaskAfterDelay: =>
@@ -53,7 +72,6 @@ module.exports = class Simulator extends CocoClass
       return
 
     @supermodel ?= new SuperModel()
-    @god = new God maxWorkerPoolSize: 1, maxAngels: 1  # Start loading worker.
 
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
     if @supermodel.finished()
@@ -63,7 +81,9 @@ module.exports = class Simulator extends CocoClass
 
   simulateGame: ->
     return if @destroyed
-    @trigger 'statusUpdate', 'All resources loaded, simulating!', @task.getSessions()
+    info = 'All resources loaded, simulating!'
+    console.log info
+    @trigger 'statusUpdate', info, @task.getSessions()
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
     @setupGod()
 
@@ -74,6 +94,7 @@ module.exports = class Simulator extends CocoClass
       @simulateAnotherTaskAfterDelay()
 
   assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->
+    console.log "Assigning world and level"
     @world = @levelLoader.world
     @level = @levelLoader.level
     @levelLoader.destroy()
@@ -81,17 +102,44 @@ module.exports = class Simulator extends CocoClass
 
   setupGod: ->
     @god.level = @level.serialize @supermodel
-    @god.worldClassMap = @world.classMap
+    @god.setWorldClassMap @world.classMap
     @setupGoalManager()
     @setupGodSpells()
 
+
   setupGoalManager: ->
-    @god.goalManager = new GoalManager @world, @level.get 'goals'
+    @god.setGoalManager new GoalManager(@world, @level.get 'goals')
+
 
   commenceSimulationAndSetupCallback: ->
-    @god.createWorld()
+    @god.createWorld @generateSpellsObject()
     Backbone.Mediator.subscribeOnce 'god:infinite-loop', @onInfiniteLoop, @
     Backbone.Mediator.subscribeOnce 'god:new-world-created', @processResults, @
+
+    #Search for leaks, headless-client only.
+    if @options.headlessClient and @options.leakTest and not @memwatch?
+      leakcount = 0
+      maxleakcount = 0
+      console.log "Setting leak callbacks."
+      @memwatch = require 'memwatch'
+
+      @memwatch.on 'leak', (info) =>
+        console.warn "LEAK!!\n" + JSON.stringify(info)
+
+        unless @hd?
+          if (leakcount++ is maxleakcount)
+            @hd = new @memwatch.HeapDiff()
+
+            @memwatch.on 'stats', (stats) =>
+              console.warn "stats callback: " + stats
+              diff = @hd.end()
+              console.warn "HeapDiff:\n" + JSON.stringify(diff)
+
+              if @options.exitOnLeak
+                console.warn "Exiting because of Leak."
+                process.exit()
+              @hd = new @memwatch.HeapDiff()
+
 
   onInfiniteLoop: ->
     console.warn "Skipping infinitely looping game."
@@ -106,6 +154,9 @@ module.exports = class Simulator extends CocoClass
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
     console.log "Sending result back to server!"
 
+    if @options.headlessClient and @options.testing
+      return @fetchAndSimulateTask()
+
     $.ajax
       url: "/queue/scoring"
       data: results
@@ -117,8 +168,11 @@ module.exports = class Simulator extends CocoClass
   handleTaskResultsTransferSuccess: (result) =>
     console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
-    simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
-    $('#simulated-by-you').text(simulatedBy)
+    console.log "Simulated by you: " + @simulatedByYou
+    @simulatedByYou++
+    unless @options.headlessClient
+      simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
+      $('#simulated-by-you').text(simulatedBy)
 
   handleTaskResultsTransferError: (error) =>
     @trigger 'statusUpdate', 'There was an error sending the results back to the server.'
@@ -144,7 +198,6 @@ module.exports = class Simulator extends CocoClass
       sessions: []
 
     for session in @task.getSessions()
-
       sessionResult =
         sessionID: session.sessionID
         submitDate: session.submitDate
@@ -242,8 +295,8 @@ module.exports = class Simulator extends CocoClass
       functionName: methodName
       protectAPI: useProtectAPI
       includeFlow: false
-      requiresThis: true
       yieldConditionally: false
+      globals: ['Vector', '_']
       problems:
         jshint_W040: {level: "ignore"}
         jshint_W030: {level: "ignore"}  # aether_NoEffect instead

@@ -83,6 +83,281 @@ self.transferableSupported = function transferableSupported() {
 var World = self.require('lib/world/world');
 var GoalManager = self.require('lib/world/GoalManager');
 
+Aether.addGlobal('Vector', require('lib/world/vector'));
+Aether.addGlobal('_', _);
+
+var serializedClasses = {
+    "Thang": self.require('lib/world/thang'),
+    "Vector": self.require('lib/world/vector'),
+    "Rectangle": self.require('lib/world/rectangle')
+};
+self.currentUserCodeMapCopy = "";
+self.currentDebugWorldFrame = 0;
+
+self.stringifyValue = function(value, depth) {
+    var brackets, i, isArray, isObject, key, prefix, s, sep, size, v, values, _i, _j, _len, _len1, _ref, _ref1, _ref2, _ref3;
+    if (!value || _.isString(value)) {
+        return value;
+    }
+    if (_.isFunction(value)) {
+        if (depth === 2) {
+            return void 0;
+        } else {
+            return "<Function>";
+        }
+    }
+    if (value === this.thang && depth) {
+        return "<this " + value.id + ">";
+    }
+    if (depth === 2) {
+        if (((_ref = value.constructor) != null ? _ref.className : void 0) === "Thang") {
+            value = "<" + (value.type || value.spriteName) + " - " + value.id + ", " + (value.pos ? value.pos.toString() : 'non-physical') + ">";
+        } else {
+            value = value.toString();
+        }
+        return value;
+    }
+    isArray = _.isArray(value);
+    isObject = _.isObject(value);
+    if (!(isArray || isObject)) {
+        return value.toString();
+    }
+    brackets = isArray ? ["[", "]"] : ["{", "}"];
+    size = _.size(value);
+    if (!size) {
+        return brackets.join("");
+    }
+    values = [];
+    if (isArray) {
+        for (_i = 0, _len = value.length; _i < _len; _i++) {
+            v = value[_i];
+            s = this.stringifyValue(v, depth + 1);
+            if (s !== void 0) {
+                values.push("" + s);
+            }
+        }
+    } else {
+        _ref2 = (_ref1 = value.apiProperties) != null ? _ref1 : _.keys(value);
+        for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+            key = _ref2[_j];
+            if (key[0] === "_") continue;
+            s = this.stringifyValue(value[key], depth + 1);
+            if (s !== void 0) {
+                values.push(key + ": " + s);
+            }
+        }
+    }
+    sep = '\n' + ((function() {
+        var _k, _results;
+        _results = [];
+        for (i = _k = 0; 0 <= depth ? _k < depth : _k > depth; i = 0 <= depth ? ++_k : --_k) {
+            _results.push("  ");
+        }
+        return _results;
+    })()).join('');
+    prefix = (_ref3 = value.constructor) != null ? _ref3.className : void 0;
+    if (isArray) {
+        if (prefix == null) {
+            prefix = "Array";
+        }
+    }
+    if (isObject) {
+        if (prefix == null) {
+            prefix = "Object";
+        }
+    }
+    prefix = prefix ? prefix + " " : "";
+    return "" + prefix + brackets[0] + sep + "  " + (values.join(sep + '  ')) + sep + brackets[1];
+};
+
+var cache = {};
+
+self.invalidateCache = function () {
+    cache = {};
+};
+
+self.retrieveValueFromCache = function (thangID, spellID, variableChain, frame) {
+    var frameCache, thangCache, spellCache;
+    if ((frameCache = cache[frame]) && (thangCache = frameCache[thangID]) && (spellCache = thangCache[spellID]))
+        return spellCache[variableChain.join()];
+    return undefined;
+};
+
+
+self.updateCache = function (thangID, spellID, variableChain, frame, value) {
+    var key, keys, currentObject;
+    keys = [frame,thangID, spellID, variableChain.join()];
+    currentObject = cache;
+
+    for (var i = 0, len = keys.length - 1; i < len; i++)
+    {
+        key = keys[i];
+        if (!(key in currentObject))
+            currentObject[key] = {};
+        currentObject = currentObject[key];
+    }
+    currentObject[keys[keys.length - 1]] = value;
+};
+self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
+    var cacheValue;
+    if (args.frame === self.currentDebugWorldFrame && (cacheValue = self.retrieveValueFromCache(args.currentThangID, args.currentSpellID, args.variableChain, args.frame)))
+        return self.postMessage({type: 'debug-value-return', serialized: {"key": args.variableChain.join("."), "value": cacheValue}});
+
+
+    var retrieveProperty = function retrieveProperty(currentThangID, currentSpellID, variableChain)
+    {
+        var prop;
+        var value;
+        var keys = [];
+        for (var i = 0, len = variableChain.length; i < len; i++) {
+            prop = variableChain[i];
+            if (prop === "this")
+            {
+                value = self.debugWorld.thangMap[currentThangID];
+
+            }
+            else if (i === 0)
+            {
+                try
+                {
+                    var flowStates = self.debugWorld.userCodeMap[currentThangID][currentSpellID].flow.states;
+                    //we have to go to the second last flowState as we run the world for one additional frame
+                    //to collect the flow
+                    value = _.last(flowStates[flowStates.length - 2].statements).variables[prop];
+                }
+                catch (e)
+                {
+                    value = undefined;
+                }
+
+            }
+            else
+            {
+                value = value[prop];
+            }
+            keys.push(prop);
+            if (!value) break;
+            var classOfValue;
+            if (classOfValue = serializedClasses[value.CN])
+            {
+                if (value.CN === "Thang")
+                {
+                    var thang = self.debugWorld.thangMap[value.id];
+                    value = thang || "<Thang " + value.id + " (non-existent)>"
+                }
+                else
+                {
+                    value = classOfValue.deserializeFromAether(value);
+                }
+            }
+        }
+        var serializedProperty = {
+            "key": keys.join("."),
+            "value": self.stringifyValue(value,0)
+        };
+        self.updateCache(currentThangID,currentSpellID,variableChain, args.frame, serializedProperty.value);
+        self.postMessage({type: 'debug-value-return', serialized: serializedProperty});
+    };
+    self.enableFlowOnThangSpell(args.currentThangID, args.currentSpellID, args.userCodeMap);
+    self.setupDebugWorldToRunUntilFrame(args);
+    self.debugWorld.loadFramesUntilFrame(
+        args.frame,
+        retrieveProperty.bind({},args.currentThangID, args.currentSpellID, args.variableChain),
+        self.onDebugWorldError,
+        self.onDebugWorldProgress
+    );
+};
+
+self.enableFlowOnThangSpell = function (thangID, spellID, userCodeMap) {
+    try {
+        if (userCodeMap[thangID][spellID].originalOptions.includeFlow === true &&
+            userCodeMap[thangID][spellID].originalOptions.noSerializationInFlow === true)
+            return;
+        else
+        {
+            userCodeMap[thangID][spellID].originalOptions.includeFlow = true;
+            userCodeMap[thangID][spellID].originalOptions.noSerializationInFlow = true;
+            var temporaryAether = Aether.deserialize(userCodeMap[thangID][spellID]);
+            temporaryAether.transpile(temporaryAether.raw);
+            userCodeMap[thangID][spellID] = temporaryAether.serialize();
+        }
+
+    }
+    catch (e) {
+        console.log("there was an error enabling flow on thang spell:" + e)
+    }
+};
+
+self.setupDebugWorldToRunUntilFrame = function (args) {
+    self.debugPostedErrors = {};
+    self.debugt0 = new Date();
+    self.debugPostedErrors = false;
+    self.logsLogged = 0;
+
+    var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
+    var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
+    self.currentUserCodeMapCopy = stringifiedUserCodeMap;
+    if (!self.debugWorld || userCodeMapHasChanged || args.frame != self.currentDebugWorldFrame) {
+        self.invalidateCache();
+        try {
+            self.debugWorld = new World(args.worldName, args.userCodeMap);
+            if (args.level)
+                self.debugWorld.loadFromLevel(args.level, true);
+            self.debugGoalManager = new GoalManager(self.debugWorld);
+            self.debugGoalManager.setGoals(args.goals);
+            self.debugGoalManager.setCode(args.userCodeMap);
+            self.debugGoalManager.worldGenerationWillBegin();
+            self.debugWorld.setGoalManager(self.debugGoalManager);
+        }
+        catch (error) {
+            self.onDebugWorldError(error);
+            return;
+        }
+        Math.random = self.debugWorld.rand.randf;  // so user code is predictable
+
+        self.debugWorld.totalFrames = args.frame; //hack to work around error checking
+        self.currentDebugWorldFrame = args.frame;
+    }
+};
+self.runDebugWorldUntilFrame = function (args) {
+    self.setupDebugWorldToRunUntilFrame(args);
+
+    self.debugWorld.loadFramesUntilFrame(args.frame, self.onDebugWorldLoaded, self.onDebugWorldError, self.onDebugWorldProgress);
+
+};
+
+self.onDebugWorldLoaded = function onDebugWorldLoaded() {
+    console.log("World loaded!");
+};
+
+self.onDebugWorldError = function onDebugWorldError(error) {
+    if(error instanceof Aether.problems.UserCodeProblem) {
+        if(!self.debugPostedErrors[error.key]) {
+            var problem = error.serialize();
+            self.postMessage({type: 'user-code-problem', problem: problem});
+            self.debugPostedErrors[error.key] = problem;
+        }
+    }
+    else {
+        console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
+    }
+    return true;
+};
+
+self.onDebugWorldProgress = function onDebugWorldProgress(progress) {
+    self.postMessage({type: 'debug-world-load-progress-changed', progress: progress});
+};
+
+self.debugAbort = function () {
+    if(self.debugWorld && self.debugWorld.name) {
+        console.log("About to abort:", self.debugWorld.name, typeof self.debugWorld.abort);
+        if(typeof self.debugWorld !== "undefined")
+            self.debugWorld.abort();
+        self.debugWorld = null;
+    }
+    self.postMessage({type: 'debugAbort'});
+};
+
 self.runWorld = function runWorld(args) {
   self.postedErrors = {};
   self.t0 = new Date();
@@ -136,11 +411,11 @@ self.onWorldLoaded = function onWorldLoaded() {
 };
 
 self.onWorldError = function onWorldError(error) {
-  if(error instanceof Aether.problems.UserCodeProblem) {
-    if(!self.postedErrors[error.key]) {
-      var problem = error.serialize();
-      self.postMessage({type: 'user-code-problem', problem: problem});
-      self.postedErrors[error.key] = problem;
+  if(error.isUserCodeProblem) {
+    var errorKey = error.userInfo.key;
+    if(!errorKey || !self.postedErrors[errorKey]) {
+      self.postMessage({type: 'user-code-problem', problem: error});
+      self.postedErrors[errorKey] = error;
     }
   }
   else {

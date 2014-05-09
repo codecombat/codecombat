@@ -35,6 +35,7 @@ module.exports = class LevelSaveView extends SaveVersionModal
     models = if @lastContext.levelNeedsSave then [@level] else []
     models = models.concat @lastContext.modifiedComponents
     models = models.concat @lastContext.modifiedSystems
+    models = (m for m in models when m.hasWriteAccess())
     for changeEl, i in changeEls
       model = models[i]
       try
@@ -44,6 +45,7 @@ module.exports = class LevelSaveView extends SaveVersionModal
         console.error "Couldn't create delta view:", e
 
   shouldSaveEntity: (m) ->
+    return false unless m.hasWriteAccess()
     return true if m.hasLocalChanges()
     return true if (m.get('version').major is 0 and m.get('version').minor is 0) or not m.isPublished() and not m.collection
     # Sometimes we have two versions: one in a search collection and one with a URL. We only save changes to the latter.

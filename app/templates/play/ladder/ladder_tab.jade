@@ -44,20 +44,20 @@ div#columns.row
           .btn.btn-sm.load-more-ladder-entries More
 
   div.column.col-md-4
-    h4.friends-header Friends Playing
+    h4.friends-header(data-i18n="ladder.friends_playing") Friends Playing
     if me.get('anonymous')
       div.alert.alert-info
-        a(data-toggle="coco-modal", data-target="modal/signup") Sign up to play with your friends!
+        a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="ladder.sign_up_for_friends") Sign up to play with your friends!
     
     else
       if !onFacebook || !onGPlus
         div.connect-buttons
-          | Connect and play against your friends!
+          span(data-i18n="ladder.social_connect_blurb") Connect and play against your friends!
           br
           if !onFacebook
-            button.btn.btn-sm.connect-facebook Facebook
+            button.btn.btn-sm.connect-facebook(data-i18n="community.facebook") Facebook
           if !onGPlus
-            button.btn.btn-sm.connect-google-plus Google+
+            button.btn.btn-sm.connect-google-plus(data-i18n="community.gplus") Google+
 
       if friends.length
         for friend in friends
@@ -72,5 +72,5 @@ div#columns.row
             a(href="/play/level/#{level.get('slug') || level.id}/?team=#{friend.otherTeam}&opponent=#{friend._id}")
               span(data-i18n="ladder.fight") Fight!
 
-      else
-        p Invite your friends to join you in battle!
+      else if onFacebook || onGPlus
+        p(data-i18n="ladder.invite_friends_to_battle") Invite your friends to join you in battle!

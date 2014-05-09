@@ -17,14 +17,11 @@ module.exports = class PatchModal extends ModalView
   constructor: (@patch, @targetModel, options) ->
     super(options)
     targetID = @patch.get('target').id
-    if false
-      @originalSource = targetModel.clone(false)
-      @onOriginalLoaded()
+    if targetID is @targetModel.id
+      @originalSource = @targetModel.clone(false)
     else
-      @originalSource = new targetModel.constructor({_id:targetID})
-      @originalSource.fetch()
-      @listenToOnce @originalSource, 'sync', @onOriginalLoaded
-      @supermodel.addModelResource @originalSource, 'patched_model'  # TODO: Doesn't work?
+      @originalSource = new @targetModel.constructor({_id:targetID})
+      @supermodel.loadModel @originalSource, 'source_document'
 
   getRenderData: ->
     c = super()
@@ -35,14 +32,16 @@ module.exports = class PatchModal extends ModalView
     c
 
   afterRender: ->
-    return if @originalSource.loading
+    return unless @supermodel.finished()
     headModel = null
     if @targetModel.hasWriteAccess()
       headModel = @originalSource.clone(false)
       headModel.set(@targetModel.attributes)
+      headModel.loaded = true
 
     pendingModel = @originalSource.clone(false)
     pendingModel.applyDelta(@patch.get('delta'))
+    pendingModel.loaded = true
 
     @deltaView = new DeltaView({model:pendingModel, headModel:headModel})
     changeEl = @$el.find('.changes-stub')

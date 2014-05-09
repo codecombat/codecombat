@@ -12,7 +12,7 @@ Surface = require 'lib/surface/Surface'
 God = require 'lib/God'
 GoalManager = require 'lib/world/GoalManager'
 ScriptManager = require 'lib/scripts/ScriptManager'
-LevelBus = require('lib/LevelBus')
+LevelBus = require 'lib/LevelBus'
 LevelLoader = require 'lib/LevelLoader'
 LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
@@ -150,7 +150,7 @@ module.exports = class PlayLevelView extends View
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
     @god.level = @level.serialize @supermodel
-    @god.worldClassMap = @world.classMap
+    @god.setWorldClassMap @world.classMap
     @setTeam team
     @initGoalManager()
     @insertSubviews ladderGame: (@level.get('type') is "ladder")
@@ -241,15 +241,15 @@ module.exports = class PlayLevelView extends View
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
-  insertSubviews: (subviewOptions) ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, ladderGame: subviewOptions.ladderGame
+  insertSubviews: ->
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
     @insertSubView new PlaybackView {}
     @insertSubView new GoalsView {}
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = utils.i18n @level.attributes, 'name'
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, ladderGame: subviewOptions.ladderGame}
+    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams}
     #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
 
   afterInsert: ->
@@ -430,7 +430,7 @@ module.exports = class PlayLevelView extends View
 
   initGoalManager: ->
     @goalManager = new GoalManager(@world, @level.get('goals'))
-    @god.goalManager = @goalManager
+    @god.setGoalManager @goalManager
 
   initScriptManager: ->
     @scriptManager = new ScriptManager({scripts: @world.scripts or [], view:@, session: @session})

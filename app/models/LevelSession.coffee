@@ -24,3 +24,15 @@ module.exports = class LevelSession extends CocoModel
     code = @get('code')
     parts = spellKey.split '/'
     code?[parts[0]]?[parts[1]]
+
+  readyToRank: ->
+    return false unless @get('levelID')  # If it hasn't been denormalized, then it's not ready.
+    return false unless c1 = @get('code')
+    return false unless team = @get('team')
+    return true unless c2 = @get('submittedCode')
+    thangSpellArr = (s.split("/") for s in @get('teamSpells')[team])
+    for item in thangSpellArr
+      thang = item[0]
+      spell = item[1]
+      return true if c1[thang][spell] isnt c2[thang][spell]
+    false

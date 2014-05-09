@@ -76,18 +76,18 @@ handleLadderUpdate = (req, res) ->
         sendLadderUpdateEmail result, now, daysAgo for result in results
 
 sendLadderUpdateEmail = (session, now, daysAgo) ->
-  User.findOne({_id: session.creator}).select("name email firstName lastName emailSubscriptions emails preferredLanguage").lean().exec (err, user) ->
+  User.findOne({_id: session.creator}).select("name email firstName lastName emailSubscriptions emails preferredLanguage").exec (err, user) ->
     if err
       log.error "Couldn't find user for #{session.creator} from session #{session._id}"
       return
     allowNotes = user.isEmailSubscriptionEnabled 'anyNotes'
-    unless user.email and allowNotes and not session.unsubscribed
-      log.info "Not sending email to #{user.email} #{user.name} because they only want emails about #{user.emailSubscriptions}, #{user.emails} - session unsubscribed: #{session.unsubscribed}"
+    unless user.get('email') and allowNotes and not session.unsubscribed
+      log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{user.get('emailSubscriptions')}, #{user.get('emails')} - session unsubscribed: #{session.unsubscribed}"
       return
     unless session.levelName
-      log.info "Not sending email to #{user.email} #{user.name} because the session had no levelName in it."
+      log.info "Not sending email to #{user.get('email')} #{user.get('name')} because the session had no levelName in it."
       return
-    name = if user.firstName and user.lastName then "#{user.firstName}" else user.name
+    name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
     name = "Wizard" if not name or name is "Anoner"
 
     # Fetch the most recent defeat and victory, if there are any.
@@ -108,7 +108,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
       context =
         email_id: sendwithus.templates.ladder_update_email
         recipient:
-          address: if DEBUGGING then 'nick@codecombat.com' else user.email
+          address: if DEBUGGING then 'nick@codecombat.com' else user.get('email')
           name: name
         email_data:
           name: name
