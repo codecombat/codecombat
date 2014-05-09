@@ -15,6 +15,7 @@ module.exports = class DebugView extends View
     'god:new-world-created': 'onNewWorld'
     'god:debug-value-return': 'handleDebugValue'
     'tome:spell-shown': 'changeCurrentThangAndSpell'
+    'surface:frame-changed': 'onFrameChanged'
 
   events: {}
 
@@ -24,7 +25,6 @@ module.exports = class DebugView extends View
     @thang = options.thang
     @spell = options.spell
     @variableStates = {}
-
     @globals = {Math: Math, _: _, String: String, Number: Number, Array: Array, Object: Object}  # ... add more as documented
     for className, serializedClass of serializedClasses
       @globals[className] = serializedClass
@@ -93,13 +93,17 @@ module.exports = class DebugView extends View
 
   onNewWorld: (e) ->
     @thang = @options.thang = e.world.thangMap[@thang.id] if @thang
-
+    
+  onFrameChanged: (data) ->
+    @currentFrame = data.frame
+    
   update: ->
     if @variableChain
       Backbone.Mediator.publish 'tome:spell-debug-value-request',
         thangID: @thang.id
         spellID: @spell.name
         variableChain: @variableChain
+        frame: @currentFrame
       @$el.find("code").text "Finding value..."
       @$el.show().css(@pos)
     else

@@ -77,7 +77,7 @@ module.exports = class World
       console.log "Warning: loadFrames called on empty World (no thangs)."
     t1 = now()
     @t0 ?= t1
-    if frameToLoadUntil
+    if loadUntilFrame
       frameToLoadUntil = loadUntilFrame + 1
     else
       frameToLoadUntil = @totalFrames
