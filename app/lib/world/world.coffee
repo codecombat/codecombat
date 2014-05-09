@@ -71,14 +71,18 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading) ->
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) ->
     return if @aborted
     unless @thangs.length
       console.log "Warning: loadFrames called on empty World (no thangs)."
     t1 = now()
     @t0 ?= t1
+    if loadUntilFrame
+      frameToLoadUntil = loadUntilFrame + 1
+    else
+      frameToLoadUntil = @totalFrames
     i = @frames.length
-    while i < @totalFrames
+    while i < frameToLoadUntil
       try
         @getFrame(i)
         ++i  # increment this after we have succeeded in getting the frame, otherwise we'll have to do that frame again
@@ -95,43 +99,19 @@ module.exports = class World
         if t2 - @t0 > 1000
           console.log('  Loaded', i, 'of', @totalFrames, "(+" + (t2 - @t0).toFixed(0) + "ms)")
           @t0 = t2
-        continueFn = => @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading)
+        continueFn = => 
+          if loadUntilFrame
+            @loadFrames(loadedCallback,errorCallback,loadProgressCallback, skipDeferredLoading, loadUntilFrame)
+          else
+            @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading)
         if skipDeferredLoading
           continueFn()
         else
           setTimeout(continueFn, 0)
         return
-    @ended = true
-    system.finish @thangs for system in @systems
-    loadProgressCallback? 1
-    loadedCallback()
-
-  loadFramesUntilFrame: (frameToLoadUntil, loadedCallback, errorCallback, loadProgressCallback) ->
-    return if @aborted
-    unless @thangs.length
-      console.log "Warning: loadFrames called on empty World"
-    t1 = now()
-    @t0 ?= t1
-    i = @frames.length
-    while i <= frameToLoadUntil #state is gathered at next frame 
-      try
-        @getFrame(i)
-        ++i  # increment this after we have succeeded in getting the frame, otherwise we'll have to do that frame again
-      catch error
-      # Not an Aether.errors.UserCodeError; maybe we can't recover
-        @addError error
-      for error in (@unhandledRuntimeErrors ? [])
-        return unless errorCallback error  # errorCallback tells us whether the error is recoverable
-      @unhandledRuntimeErrors = []
-      t2 = now()
-      if t2 - t1 > PROGRESS_UPDATE_INTERVAL
-        loadProgressCallback? i / @totalFrames
-        t1 = t2
-        if t2 - @t0 > 1000
-          console.log('  Loaded', i, 'of', frameToLoadUntil, "(+" + (t2 - @t0).toFixed(0) + "ms)")
-          @t0 = t2
-        setTimeout((=> @loadFrames(loadedCallback, errorCallback, loadProgressCallback)), 0)
-        return
+    unless loadUntilFrame
+      @ended = true
+      system.finish @thangs for system in @systems
     loadProgressCallback? 1
     loadedCallback()
 

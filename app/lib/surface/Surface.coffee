@@ -593,8 +593,6 @@ module.exports = Surface = class Surface extends CocoClass
     @paths.parent.removeChild @paths
     @paths = null
 
-  # Screenshot
-
   screenshot: (scale=0.25, format='image/jpeg', quality=0.8, zoom=2) ->
     # Quality doesn't work with image/png, just image/jpeg and image/webp
     [w, h] = [@camera.canvasWidth, @camera.canvasHeight]
@@ -604,6 +602,5 @@ module.exports = Surface = class Surface extends CocoClass
     #console.log "Screenshot with scale", scale, "format", format, "quality", quality, "was", Math.floor(imageData.length / 1024), "kB"
     screenshot = document.createElement("img")
     screenshot.src = imageData
-    #$('body').append(screenshot)
     @stage.uncache()
     imageData
