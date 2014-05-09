@@ -27,7 +27,7 @@ this.createjs = this.createjs||{};
 	 * @type String
 	 * @static
 	 **/
-	s.buildDate = /*date*/"Wed, 02 Apr 2014 17:54:19 GMT"; // injected by build process
+	s.buildDate = /*date*/"Thu, 06 Mar 2014 22:58:10 GMT"; // injected by build process
 
 })();
 /*
@@ -909,32 +909,24 @@ this.createjs = this.createjs||{};
 	var s = AbstractLoader;
 
 	/**
-	 * The Regular Expression used to test file URLS for an absolute path.
-	 * @property ABSOLUTE_PATH
-	 * @static
+	 * The RegExp pattern to use to parse file URIs. This supports simple file names, as well as full domain URIs with
+	 * query strings. The resulting match is: protocol:$1 domain:$2 relativePath:$3 path:$4 file:$5 extension:$6 query:$7.
+	 * @property FILE_PATTERN
 	 * @type {RegExp}
-	 * @since 0.4.2
+	 * @static
+	 * @protected
 	 */
-	s.ABSOLUTE_PATT = /^(?:\w+:)?\/{2}/i;
+	s.FILE_PATTERN = /^(?:(\w+:)\/{2}(\w+(?:\.\w+)*\/?)|(.{0,2}\/{1}))?([/.]*?(?:[^?]+)?\/)?((?:[^/?]+)\.(\w+))(?:\?(\S+)?)?$/;
 
 	/**
-	 * The Regular Expression used to test file URLS for an absolute path.
-	 * @property RELATIVE_PATH
-	 * @static
+	 * The RegExp pattern to use to parse path URIs. This supports protocols, relative files, and paths. The resulting
+	 * match is: protocol:$1 relativePath:$2 path$3.
+	 * @property PATH_PATTERN
 	 * @type {RegExp}
-	 * @since 0.4.2
-	 */
-	s.RELATIVE_PATT = (/^[./]*?\//i);
-
-	/**
-	 * The Regular Expression used to test file URLS for an extension. Note that URIs must already have the query string
-	 * removed.
-	 * @property EXTENSION_PATT
 	 * @static
-	 * @type {RegExp}
-	 * @since 0.4.2
+	 * @protected
 	 */
-	s.EXTENSION_PATT = /\/?[^/]+\.(\w{1,5})$/i;
+	s.PATH_PATTERN = /^(?:(\w+:)\/{2})|(.{0,2}\/{1})?([/.]*?(?:[^?]+)?\/?)?$/;
 
 	/**
 	 * If the loader has completed loading. This provides a quick check, but also ensures that the different approaches
@@ -1172,49 +1164,29 @@ this.createjs = this.createjs||{};
 	};
 
 	/**
+	 * Parse a file URI using the {{#crossLink "AbstractLoader/FILE_PATTERN:property"}}{{/crossLink}} RegExp pattern.
 	 * @method _parseURI
-	 * Parse a file path to determine the information we need to work with it. Currently, PreloadJS needs to know:
-	 * <ul>
-	 *     <li>If the path is absolute. Absolute paths start with a protocol (such as `http://`, `file://`, or
-	 *     `//networkPath`)</li>
-	 *     <li>If the path is relative. Relative paths start with `../` or `/path` (or similar)</li>
-	 *     <li>The file extension. This is determined by the filename with an extension. Query strings are dropped, and
-	 *     the file path is expected to follow the format `name.ext`.</li>
-	 * </ul>
-	 *
-	 * <strong>Note:</strong> This has changed from earlier versions, which used a single, complicated Regular Expression, which
-	 * was difficult to maintain, and over-aggressive in determining all file properties. It has been simplified to
-	 * only pull out what it needs.
-	 * @param path
-	 * @returns {Object} An Object with an `absolute` and `relative` Boolean, as well as an optional 'extension` String
-	 * property, which is the lowercase extension.
-	 * @private
+	 * @param {String} path The file path to parse.
+	 * @return {Array} The matched file contents. Please see the FILE_PATTERN property for details on the return value.
+	 * This will return null if it does not match.
+	 * @protected
 	 */
 	p._parseURI = function(path) {
-		var info = { absolute: false, relative:false };
-		if (path == null) { return info; };
+		if (!path) { return null; }
+		return path.match(s.FILE_PATTERN);
+	};
 
-		// Drop the query string
-		var queryIndex = path.indexOf("?");
-		if (queryIndex > -1) {
-			path = path.substr(0,queryIndex);
-		}
-
-		// Absolute
-		var match;
-		if (s.ABSOLUTE_PATT.test(path)) {
-			info.absolute = true;
-
-		// Relative
-		} else if (s.RELATIVE_PATT.test(path)) {
-			info.relative = true;
-		}
-
-		// Extension
-		if (match = path.match(s.EXTENSION_PATT)) {
-			info.extension = match[1].toLowerCase();
-		}
-		return info;
+	/**
+	 * Parse a file URI using the {{#crossLink "AbstractLoader/PATH_PATTERN"}}{{/crossLink}} RegExp pattern.
+	 * @method _parsePath
+	 * @param {String} path The file path to parse.
+	 * @return {Array} The matched path contents. Please see the PATH_PATTERN property for details on the return value.
+	 * This will return null if it does not match.
+	 * @protected
+	 */
+	p._parsePath = function(path) {
+		if (!path) { return null; }
+		return path.match(s.PATH_PATTERN);
 	};
 
 	/**
@@ -2621,7 +2593,7 @@ TODO: WINDOWS ISSUES
 
 		// Determine Extension, etc.
 		var match = this._parseURI(item.src);
-		if (match.extension) { item.ext = match.extension; }
+		if (match != null) { item.ext = match[6]; }
 		if (item.type == null) {
 			item.type = this._getTypeByExtension(item.ext);
 		}
@@ -2630,13 +2602,13 @@ TODO: WINDOWS ISSUES
 		var bp = ""; // Store the generated basePath
 		var useBasePath = basePath || this._basePath;
 		var autoId = item.src;
-		if (!match.absolute && !match.relative) {
+		if (match && match[1] == null && match[3] == null) {
 			if (path) {
 				bp = path;
-				var pathMatch = this._parseURI(path);
+				var pathMatch = this._parsePath(path);
 				autoId = path + autoId;
 				// Also append basePath
-				if (useBasePath != null && !pathMatch.absolute && !pathMatch.relative) {
+				if (useBasePath != null && pathMatch && pathMatch[1] == null && pathMatch[2] == null) {
 					bp = useBasePath + bp;
 				}
 			} else if (useBasePath != null) {
@@ -2694,8 +2666,8 @@ TODO: WINDOWS ISSUES
 
 				// Update the extension in case the type changed:
 				match = this._parseURI(item.src);
-				if (match.extension != null) {
-					item.ext = match.extension;
+				if (match != null && match[6] != null) {
+					item.ext = match[6].toLowerCase();
 				}
 			}
 		}
@@ -3424,29 +3396,13 @@ this.createjs = this.createjs||{};
 			item.type == createjs.LoadQueue.CSS) {
 				this._startTagVisibility = tag.style.visibility;
 				tag.style.visibility = "hidden";
-				var node = document.body || document.getElementsByTagName("body")[0];
-				if (node == null) {
-					if (item.type == createjs.LoadQueue.SVG) {
-						this._handleSVGError();
-						return;
-					} else {
-						node = document.head || document.getElementsByTagName("head");
-					}
-				}
-				node.appendChild(tag);
+				(document.body || document.getElementsByTagName("body")[0]).appendChild(tag);
 		}
 
 		// Note: Previous versions didn't seem to work when we called load() for OGG tags in Firefox. Seems fixed in 15.0.1
 		if (tag.load != null) {
 			tag.load();
 		}
-	};
-
-	p._handleSVGError = function() {
-		this._clean();
-		var event = new createjs.Event("error");
-		event.text = "SVG_NO_BODY";
-		this._sendError(event);
 	};
 
 	p._handleJSONPLoad = function(data) {
@@ -3532,8 +3488,8 @@ this.createjs = this.createjs||{};
 				// case createjs.LoadQueue.CSS:
 				//LM: We may need to remove CSS tags loaded using a LINK
 				tag.style.visibility = this._startTagVisibility;
-				tag.parentNode && tag.parentNode.contains(tag) && tag.parentNode.removeChild(tag);
-				break;
+				(document.body || document.getElementsByTagName("body")[0]).removeChild(tag);
+			break;
 			default:
 		}
 

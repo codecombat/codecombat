@@ -909,10 +909,9 @@ var p = Tween.prototype = new createjs.EventDispatcher();
 		if (!target.tweenjs_count) { return; }
 		var tweens = Tween._tweens;
 		for (var i=tweens.length-1; i>=0; i--) {
-			var tween = tweens[i];
-			if (tween._target == target) {
-				tween._paused = true;
-				tweens.splice(i, 1);
+			if (tweens[i]._target == target) {
+				tweens[i]._paused = true;
+				tweens.splice(i,1);
 			}
 		}
 		target.tweenjs_count = 0;
@@ -928,7 +927,7 @@ var p = Tween.prototype = new createjs.EventDispatcher();
 		var tweens = Tween._tweens;
 		for (var i= 0, l=tweens.length; i<l; i++) {
 			var tween = tweens[i];
-			tween._paused = true;
+			tween.paused = true;
 			tween.target.tweenjs_count = 0;
 		}
 		tweens.length = 0;
@@ -1377,7 +1376,6 @@ var p = Tween.prototype = new createjs.EventDispatcher();
 	 * @return {Tween} This tween instance (for chaining calls)
 	 */
 	p.setPaused = function(value) {
-		if (this._paused === !!value) { return this; }
 		this._paused = !!value;
 		Tween._register(this, !value);
 		return this;
@@ -2757,6 +2755,6 @@ this.createjs = this.createjs || {};
 	 * @type String
 	 * @static
 	 **/
-	s.buildDate = /*date*/"Wed, 02 Apr 2014 20:57:09 GMT"; // injected by build process
+	s.buildDate = /*date*/"Thu, 12 Dec 2013 23:37:07 GMT"; // injected by build process
 
 })();

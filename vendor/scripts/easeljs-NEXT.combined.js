@@ -31,7 +31,6 @@
  * files of each library and are available on the createsjs namespace directly.
  *
  * <h4>Example</h4>
- *
  *      myObject.addEventListener("change", createjs.proxy(myMethod, scope));
  *
  * @module CreateJS
@@ -240,18 +239,6 @@ var p = Event.prototype;
 	 **/
 	p.clone = function() {
 		return new Event(this.type, this.bubbles, this.cancelable);
-	};
-	
-	/**
-	 * Provides a chainable shortcut method for setting a number of properties on the instance.
-	 *
-	 * @method set
-	 * @param {Object} props A generic object containing properties to copy to the instance.
-	 * @return {Event} Returns the instance the method is called on (useful for chaining calls.)
-	*/
-	p.set = function(props) {
-		for (var n in props) { this[n] = props[n]; }
-		return this;
 	};
 
 	/**
@@ -875,7 +862,6 @@ this.createjs = this.createjs||{};
  * should not be instantiated.
  *
  * <h4>Example</h4>
- *
  *      createjs.Ticker.addEventListener("tick", handleTick);
  *      function handleTick(event) {
  *          // Actions carried out each frame
@@ -951,7 +937,6 @@ var Ticker = function() {
 	 * {{#crossLink "Ticker/setPaused"}}{{/crossLink}}.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      createjs.Ticker.addEventListener("tick", handleTick);
 	 *      function handleTick(event) {
 	 *          console.log("Paused:", event.paused, event.delta);
@@ -1244,7 +1229,6 @@ var Ticker = function() {
 	 * callback when Ticker was paused. This is no longer the case.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      createjs.Ticker.addEventListener("tick", handleTick);
 	 *      createjs.Ticker.setPaused(true);
 	 *      function handleTick(event) {
@@ -1267,7 +1251,6 @@ var Ticker = function() {
 	 * callback when Ticker was paused. This is no longer the case.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      createjs.Ticker.addEventListener("tick", handleTick);
 	 *      createjs.Ticker.setPaused(true);
 	 *      function handleTick(event) {
@@ -2296,9 +2279,8 @@ this.createjs = this.createjs||{};
  * Represents a point on a 2 dimensional x / y coordinate system.
  *
  * <h4>Example</h4>
- * 
- *      var point = new createjs.Point(0, 100);
- * 
+ *      var point = new Point(0, 100);
+ *
  * @class Point
  * @param {Number} [x=0] X position.
  * @param {Number} [y=0] Y position.
@@ -2411,8 +2393,7 @@ this.createjs = this.createjs||{};
 /**
  * Represents a rectangle as defined by the points (x, y) and (x+width, y+height).
  *
- * <h4>Example</h4>
- *
+ * @example
  *      var rect = new createjs.Rectangle(0, 0, 100, 100);
  *
  * @class Rectangle
@@ -2808,7 +2789,6 @@ this.createjs = this.createjs||{};
  * via its <code>shadow</code> property.
  *
  * <h4>Example</h4>
- *
  *      myImage.shadow = new createjs.Shadow("#000000", 5, 5, 10);
  *
  * @class Shadow
@@ -3447,7 +3427,6 @@ Command.prototype.exec = function(scope) { this.f.apply(scope, this.params); };
  * context of an Easel display list.
  *
  * <h4>Example</h4>
- *
  *      var g = new createjs.Graphics();
  *	    g.setStrokeStyle(1);
  *	    g.beginStroke(createjs.Graphics.getRGB(0,0,0));
@@ -3781,7 +3760,7 @@ var p = Graphics.prototype;
 
 	/**
 	 * Draws only the path described for this Graphics instance, skipping any non-path instructions, including fill and
-	 * stroke descriptions. Used for <code>DisplayObject.mask</code> to draw the clipping path, for example.
+	 * stroke descriptions. Used by <code>DisplayObject.clippingPath</code> to draw the clipping path, for example.
 	 * @method drawAsPath
 	 * @param {CanvasRenderingContext2D} ctx The canvas 2D context object to draw into.
 	 **/
@@ -5806,8 +5785,9 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 	};
 
 	/**
-	 * Tests whether the display object intersects the specified point in local coordinates (ie. draws a pixel with alpha > 0 at
-	 * the specified position). This ignores the alpha, shadow, hitArea, mask, and compositeOperation of the display object.
+	 * Tests whether the display object intersects the specified local point (ie. draws a pixel with alpha > 0 at
+	 * the specified position). This ignores the alpha, shadow and compositeOperation of the display object, and all
+	 * transform properties including regX/Y.
 	 *
 	 * <h4>Example</h4>
 	 *
@@ -5824,7 +5804,7 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 	 * local Point.
 	*/
 	p.hitTest = function(x, y) {
-		// TODO: update with support for .hitArea & .mask and update hitArea / mask docs?
+		// TODO: update with support for .hitArea and update hitArea docs?
 		var ctx = DisplayObject._hitTestContext;
 		ctx.setTransform(1, 0, 0, 1, -x, -y);
 		this.draw(ctx);
@@ -5836,7 +5816,7 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 	};
 	
 	/**
-	 * Provides a chainable shortcut method for setting a number of properties on the instance.
+	 * Provides a chainable shortcut method for setting a number of properties on a DisplayObject instance.
 	 *
 	 * <h4>Example</h4>
 	 *
@@ -5846,7 +5826,7 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 	 *
 	 * @method set
 	 * @param {Object} props A generic object containing properties to copy to the DisplayObject instance.
-	 * @return {DisplayObject} Returns the instance the method is called on (useful for chaining calls.)
+	 * @return {DisplayObject} Returns The DisplayObject instance the method is called on (useful for chaining calls.)
 	*/
 	p.set = function(props) {
 		for (var n in props) { this[n] = props[n]; }
@@ -6022,16 +6002,17 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 	
 	/**
 	 * @method _tick
-	 * @param {Object} props Props to copy to the tick event object. This will usually include the
+	 * @param {Array} params Parameters to pass on to any listeners of the tick function. This will usually include the
 	 * properties from the {{#crossLink "Ticker"}}{{/crossLink}} "tick" event, such as `delta` and `paused`, but may
 	 * be undefined or contain other values depending on the usage by the application.
 	 * @protected
 	 **/
-	p._tick = function(props) {
+	p._tick = function(params) {
 		// because tick can be really performance sensitive, we'll inline some of the dispatchEvent work.
 		var ls = this._listeners;
 		if (ls && ls["tick"]) {
-			var evt = new createjs.Event("tick").set(props);
+			var evt = new createjs.Event("tick");
+			evt.params = params;
 			this._dispatchEvent(evt, this, 2);
 		}
 	};
@@ -6199,7 +6180,6 @@ this.createjs = this.createjs||{};
  * Containers have some overhead, so you generally shouldn't create a Container to hold a single child.
  *
  * <h4>Example</h4>
- *
  *      var container = new createjs.Container();
  *      container.addChild(bitmapInstance, shapeInstance);
  *      container.x = 100;
@@ -6319,7 +6299,6 @@ var p = Container.prototype = new createjs.DisplayObject();
 	 * Adds a child to the top of the display list.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      container.addChild(bitmapInstance);
 	 *
 	 *  You can also add multiple children at once:
@@ -6348,7 +6327,6 @@ var p = Container.prototype = new createjs.DisplayObject();
 	 * setting its parent to this Container.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      addChildAt(child1, index);
 	 *
 	 * You can also add multiple children, such as:
@@ -6386,7 +6364,6 @@ var p = Container.prototype = new createjs.DisplayObject();
 	 * already known.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      container.removeChild(child);
 	 *
 	 * You can also remove multiple children:
@@ -6445,7 +6422,6 @@ var p = Container.prototype = new createjs.DisplayObject();
 	 * Removes all children from the display list.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      container.removeAlLChildren();
 	 *
 	 * @method removeAllChildren
@@ -6459,7 +6435,6 @@ var p = Container.prototype = new createjs.DisplayObject();
 	 * Returns the child at the specified index.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      container.getChildAt(2);
 	 *
 	 * @method getChildAt
@@ -6508,7 +6483,6 @@ var p = Container.prototype = new createjs.DisplayObject();
 	 * Returns the index of the specified child in the display list, or -1 if it is not in the display list.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      var index = container.getChildIndex(child);
 	 *
 	 * @method getChildIndex
@@ -6616,8 +6590,6 @@ var p = Container.prototype = new createjs.DisplayObject();
 	 * of visual depth, with the top-most display object at index 0. This uses shape based hit detection, and can be an
 	 * expensive operation to run, so it is best to use it carefully. For example, if testing for objects under the
 	 * mouse, test on tick (instead of on mousemove), and only if the mouse's position has changed.
-	 * 
-	 * Accounts for both {{#crossLink "DisplayObject/hitArea:property"}}{{/crossLink}} and {{#crossLink "DisplayObject/mask:property"}}{{/crossLink}}.
 	 * @method getObjectsUnderPoint
 	 * @param {Number} x The x position in the container to test.
 	 * @param {Number} y The y position in the container to test.
@@ -6707,18 +6679,18 @@ var p = Container.prototype = new createjs.DisplayObject();
 	
 	/**
 	 * @method _tick
-	 * @param {Object} props Properties to copy to the DisplayObject {{#crossLink "DisplayObject/tick"}}{{/crossLink}} event object.
+	 * @param {Array} params Parameters to pass onto the DisplayObject {{#crossLink "DisplayObject/tick"}}{{/crossLink}}
 	 * function.
 	 * @protected
 	 **/
-	p._tick = function(props) {
+	p._tick = function(params) {
 		if (this.tickChildren) {
 			for (var i=this.children.length-1; i>=0; i--) {
 				var child = this.children[i];
-				if (child.tickEnabled && child._tick) { child._tick(props); }
+				if (child.tickEnabled && child._tick) { child._tick(params); }
 			}
 		}
-		this.DisplayObject__tick(props);
+		this.DisplayObject__tick(params);
 	};
 
 	/**
@@ -6741,23 +6713,8 @@ var p = Container.prototype = new createjs.DisplayObject();
 		var l = children.length;
 		for (var i=l-1; i>=0; i--) {
 			var child = children[i];
-			var hitArea = child.hitArea, mask = child.mask;
+			var hitArea = child.hitArea;
 			if (!child.visible || (!hitArea && !child.isVisible()) || (mouse && !child.mouseEnabled)) { continue; }
-			if (!hitArea && mask && mask.graphics && !mask.graphics.isEmpty()) {
-				var maskMtx = mask.getMatrix(mask._matrix).prependMatrix(this.getConcatenatedMatrix(mtx));
-				ctx.setTransform(maskMtx.a,  maskMtx.b, maskMtx.c, maskMtx.d, maskMtx.tx-x, maskMtx.ty-y);
-				
-				// draw the mask as a solid fill:
-				mask.graphics.drawAsPath(ctx);
-				ctx.fillStyle = "#000";
-				ctx.fill();
-				
-				// if we don't hit the mask, then no need to keep looking at this DO:
-				if (!this._testHit(ctx)) { continue; }
-				ctx.setTransform(1, 0, 0, 1, 0, 0);
-				ctx.clearRect(0, 0, 2, 2);
-			}
-			
 			// if a child container has a hitArea then we only need to check its hitArea, so we can treat it as a normal DO:
 			if (!hitArea && child instanceof Container) {
 				var result = child._getObjectsUnderPoint(x, y, arr, mouse, activeListener);
@@ -7181,19 +7138,30 @@ var p = Stage.prototype = new createjs.Container();
 // public methods:
 
 	/**
-	 * Each time the update method is called, the stage will call {{#crossLink "Stage/tick"}}{{/crossLink}}
-	 * unless {{#crossLink "Stage/tickOnUpdate:property"}}{{/crossLink}} is set to false,
-	 * and then render the display list to the canvas.
+	 * Each time the update method is called, the stage will tick all descendants (see: {{#crossLink "DisplayObject/tick"}}{{/crossLink}})
+	 * and then render the display list to the canvas. Any parameters passed to `update()` will be passed on to any
+	 * {{#crossLink "DisplayObject/tick:event"}}{{/crossLink}} event handlers.
+	 *
+	 * Some time-based features in EaselJS (for example {{#crossLink "Sprite/framerate"}}{{/crossLink}} require that
+	 * a tick event object (or equivalent) be passed as the first parameter to update(). For example:
+	 *
+	 *      Ticker.addEventListener("tick", handleTick);
+	 * 	    function handleTick(evtObj) {
+	 * 	     	// do some work here, then update the stage, passing through the event object:
+	 * 	    	myStage.update(evtObj);
+	 * 	    }
 	 *
 	 * @method update
-	 * @param {*} [params]* Params to pass to .tick() if .tickOnUpdate is true.
+	 * @param {*} [params]* Params to include when ticking descendants. The first param should usually be a tick event.
 	 **/
 	p.update = function(params) {
 		if (!this.canvas) { return; }
-		if (this.tickOnUpdate) { // update this logic in SpriteStage when necessary
-			this.tick.apply(this, arguments);
+		if (this.tickOnUpdate) {
+			this.dispatchEvent("tickstart");  // TODO: make cancellable?
+			this.tickEnabled&&this._tick((arguments.length ? arguments : null));
+			this.dispatchEvent("tickend");
 		}
-		this.dispatchEvent("drawstart"); //TODO: make cancellable?
+		this.dispatchEvent("drawstart"); // TODO: make cancellable?
 		createjs.DisplayObject._snapToPixelEnabled = this.snapToPixelEnabled;
 		if (this.autoClear) { this.clear(); }
 		var ctx = this.canvas.getContext("2d");
@@ -7202,47 +7170,6 @@ var p = Stage.prototype = new createjs.Container();
 		this.draw(ctx, false);
 		ctx.restore();
 		this.dispatchEvent("drawend");
-	};
-	
-	/**
-	 * Propagates a tick event through the display list. This is automatically called by {{#crossLink "Stage/update"}}{{/crossLink}}
-	 * unless {{#crossLink "Stage/tickOnUpdate:property"}}{{/crossLink}} is set to false.
-	 *
-	 * Any parameters passed to `tick()` will be included as an array in the "param" property of the event object dispatched
-	 * to {{#crossLink "DisplayObject/tick:event"}}{{/crossLink}} event handlers. Additionally, if the first parameter
-	 * is a {{#crossLink "Ticker/tick:event"}}{{/crossLink}} event object (or has equivalent properties), then the delta,
-	 * time, runTime, and paused properties will be copied to the event object.
-	 *
-	 * Some time-based features in EaselJS (for example {{#crossLink "Sprite/framerate"}}{{/crossLink}} require that
-	 * a {{#crossLink "Ticker/tick:event"}}{{/crossLink}} event object (or equivalent) be passed as the first parameter
-	 * to tick(). For example:
-	 *
-	 * 	    Ticker.on("tick", handleTick);
-	 * 	    function handleTick(evtObj) {
-	 * 	    	// do some work here, then update the stage, passing through the tick event object as the first param
-	 * 	    	// and some custom data as the second and third param:
-	 * 	    	myStage.update(evtObj, "hello", 2014);
-	 * 	    }
-	 * 	    
-	 * 	    // ...
-	 * 	    myDisplayObject.on("tick", handleDisplayObjectTick);
-	 * 	    function handleDisplayObjectTick(evt) {
-	 * 	    	console.log(evt.params[0]); // the original tick evtObj
-	 * 	    	console.log(evt.delta, evt.paused); // ex. "17 false"
-	 * 	    	console.log(evt.params[1], evt.params[2]); // "hello 2014"
-	 * 	    }
-	 * 
-	 * @method tick
-	 * @param {*} [params]* Params to include when ticking descendants. The first param should usually be a tick event.
-	 **/
-	p.tick = function(params) {
-		this.dispatchEvent("tickstart");  //TODO: make cancellable?
-		var args = arguments.length ? Array.prototype.slice.call(arguments,0) : null;
-		var evt = args&&args[0];
-		var props = evt&&(evt.delta != null) ? {delta:evt.delta, paused:evt.paused, time:evt.time, runTime:evt.runTime } : {};
-		props.params = args;
-		this.tickEnabled&&this._tick(props);
-		this.dispatchEvent("tickend");
 	};
 
 	/**
@@ -7336,7 +7263,6 @@ var p = Stage.prototype = new createjs.Container();
 	 * independently of mouse move events via the optional `frequency` parameter.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      var stage = new createjs.Stage("canvasId");
 	 *      stage.enableMouseOver(10); // 10 updates per second
 	 *
@@ -7761,7 +7687,6 @@ this.createjs = this.createjs||{};
  * HTML element, or a string.
  *
  * <h4>Example</h4>
- *
  *      var bitmap = new createjs.Bitmap("imagePath.jpg");
  *
  * <strong>Notes:</strong>
@@ -7999,7 +7924,6 @@ this.createjs = this.createjs||{};
  * See the {{#crossLink "SpriteSheet"}}{{/crossLink}} class for more information on setting up frames and animations.
  *
  * <h4>Example</h4>
- *
  *      var instance = new createjs.Sprite(spriteSheet);
  *      instance.gotoAndStop("frameName");
  *
@@ -8011,7 +7935,7 @@ this.createjs = this.createjs||{};
  * @constructor
  * @param {SpriteSheet} spriteSheet The SpriteSheet instance to play back. This includes the source image(s), frame
  * dimensions, and frame data. See {{#crossLink "SpriteSheet"}}{{/crossLink}} for more information.
- * @param {String|Number} [frameOrAnimation] The frame number or animation to play initially.
+ * @param {String|Number} frameOrAnimation The frame number or animation to play initially.
  **/
 var Sprite = function(spriteSheet, frameOrAnimation) {
   this.initialize(spriteSheet, frameOrAnimation);
@@ -8330,15 +8254,14 @@ var p = Sprite.prototype = new createjs.DisplayObject();
 	/**
 	 * Advances the <code>currentFrame</code> if paused is not true. This is called automatically when the {{#crossLink "Stage"}}{{/crossLink}}
 	 * ticks.
-	 * @param {Object} props Properties to copy to the DisplayObject {{#crossLink "DisplayObject/tick"}}{{/crossLink}} event object.
 	 * @protected
 	 * @method _tick
 	 **/
-	p._tick = function(props) {
+	p._tick = function(params) {
 		if (!this.paused) {
-			this.advance(props&&props.delta);
+			this.advance(params&&params[0]&&params[0].delta);
 		}
-		this.DisplayObject__tick(props);
+		this.DisplayObject__tick(params);
 	};
 
 
@@ -8415,7 +8338,7 @@ var p = Sprite.prototype = new createjs.DisplayObject();
 
 	/**
 	 * @method cloneProps
-	 * @param {Sprite} o
+	 * @param {Text} o
 	 * @protected
 	 **/
 	p.cloneProps = function(o) {
@@ -8554,7 +8477,6 @@ this.createjs = this.createjs||{};
  * rendering cost.
  *
  * <h4>Example</h4>
- *
  *      var graphics = new createjs.Graphics().beginFill("#ff0000").drawRect(0, 0, 100, 100);
  *      var shape = new createjs.Shape(graphics);
  *
@@ -8707,7 +8629,6 @@ this.createjs = this.createjs||{};
  * multiple font styles, you will need to create multiple text instances, and position them manually.
  *
  * <h4>Example</h4>
- *
  *      var text = new createjs.Text("Hello World", "20px Arial", "#ff7700");
  *      text.x = 100;
  *      text.textBaseline = "alphabetic";
@@ -10420,14 +10341,14 @@ var p = DOMElement.prototype = new createjs.DisplayObject();
 
 	/**
 	 * @method _tick
-	 * @param {Object} props Properties to copy to the DisplayObject {{#crossLink "DisplayObject/tick"}}{{/crossLink}} event object.
+	 * @param {Array} params Parameters to pass onto the DisplayObject {{#crossLink "DisplayObject/tick"}}{{/crossLink}}
 	 * function.
 	 * @protected
 	 */
-	p._tick = function(props) {
+	p._tick = function(params) {
 		var stage = this.getStage();
 		stage&&stage.on("drawend", this._handleDrawEnd, this, true);
-		this.DisplayObject__tick(props);
+		this.DisplayObject__tick(params);
 	};
 	
 	/**
@@ -10506,7 +10427,6 @@ this.createjs = this.createjs||{};
  * {{#crossLink "DisplayObject/updateCache"}}{{/crossLink}}. Note that the filters must be applied before caching.
  *
  * <h4>Example</h4>
- *
  *      myInstance.filters = [
  *          new createjs.ColorFilter(0, 0, 0, 1, 255, 0, 0),
  *          new createjs.BlurFilter(5, 5, 10)
@@ -11508,7 +11428,6 @@ this.createjs = this.createjs||{};
 	 * chained calls.
 	 *
 	 * <h4>Example</h4>
-	 *
 	 *      myColorMatrix.adjustHue(20).adjustBrightness(50);
 	 *
 	 * See {{#crossLink "Filter"}}{{/crossLink}} for an example of how to apply filters, or {{#crossLink "ColorMatrixFilter"}}{{/crossLink}}
