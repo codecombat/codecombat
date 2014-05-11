@@ -1,16 +1,32 @@
 # Template for classes with common functions, like hooking into the Mediator.
 utils = require './utils'
 classCount = 0
-makeScopeName = -> "class-scope-#{classCount++}"  
+makeScopeName = -> "class-scope-#{classCount++}"
 doNothing = ->
 
 module.exports = class CocoClass
+  @nicks: []
+  @nicksUsed: {}
+  @remainingNicks: []
+  @nextNick: ->
+    return "CocoClass " + classCount unless @nicks.length
+    @remainingNicks = if @remainingNicks.length then @remainingNicks else @nicks.slice()
+    baseNick = @remainingNicks.splice(Math.floor(Math.random() * @remainingNicks.length), 1)[0]
+    i = 0
+    while true
+      nick = if i then "#{baseNick} #{i}" else baseNick
+      break unless @nicksUsed[nick]
+      i++
+    @nicksUsed[nick] = true
+    nick
+
   subscriptions: {}
   shortcuts: {}
 
   # setup/teardown
 
   constructor: ->
+    @nick = @constructor.nextNick()
     @subscriptions = utils.combineAncestralObject(@, 'subscriptions')
     @shortcuts = utils.combineAncestralObject(@, 'shortcuts')
     @listenToSubscriptions()
@@ -24,6 +40,7 @@ module.exports = class CocoClass
     @off()
     @unsubscribeAll()
     @stopListeningToShortcuts()
+    @constructor.nicksUsed[@nick] = false
     @[key] = undefined for key of @
     @destroyed = true
     @off = doNothing

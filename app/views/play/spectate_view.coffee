@@ -106,7 +106,7 @@ module.exports = class SpectateLevelView extends View
       spectateMode: true
       team: @getQueryVariable("team")
     @listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
-    @god = new God maxWorkerPoolSize: 1, maxAngels: 1
+    @god = new God maxAngels: 1
 
   getRenderData: ->
     c = super()
@@ -155,7 +155,7 @@ module.exports = class SpectateLevelView extends View
     #at this point, all requisite data is loaded, and sessions are not denormalized
     team = @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @god.level = @level.serialize @supermodel
+    @god.setLevel @level.serialize @supermodel
     @god.setWorldClassMap @world.classMap
     @setTeam team
     @initSurface()

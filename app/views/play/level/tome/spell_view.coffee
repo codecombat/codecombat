@@ -214,11 +214,11 @@ module.exports = class SpellView extends View
     @createDebugView() unless @debugView
     @debugView.thang = @thang
     @toolbarView?.toggleFlow false
-    @updateAether false, true
+    @updateAether false, false
     @highlightCurrentLine()
 
-  cast: ->
-    Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang
+  cast: (preload=false) ->
+    Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload
 
   notifySpellChanged: =>
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
@@ -393,7 +393,6 @@ module.exports = class SpellView extends View
   # But the error message display was delayed, so now trying:
   # - Go after specified delay if a) and not b) or c)
   guessWhetherFinished: (aether) ->
-    return if @autocastDelay > 60000
     #@recompileValid = not aether.getAllProblems().length
     valid = not aether.getAllProblems().length
     cursorPosition = @ace.getCursorPosition()
@@ -401,8 +400,11 @@ module.exports = class SpellView extends View
     endOfLine = cursorPosition.column >= currentLine.length  # just typed a semicolon or brace, for example
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     #console.log "finished?", valid, endOfLine, beginningOfLine, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
-    if valid and endOfLine or beginningOfLine
-      @recompile()
+    if valid and (endOfLine or beginningOfLine)
+      if @autocastDelay > 60000
+        null #@cast true
+      else
+        @recompile()
   #console.log "recompile now!"
   #else if not valid
   #  # if this works, we can get rid of all @recompileValid logic
@@ -422,7 +424,6 @@ module.exports = class SpellView extends View
     @spellHasChanged = false
 
   onUserCodeProblem: (e) ->
-    console.log "onUserCodeProblem", e, e.problem.userInfo.methodName is @spell.name, spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
     return @onInfiniteLoop e if e.problem.id is "runtime_InfiniteLoop"
     return unless e.problem.userInfo.methodName is @spell.name
     return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID

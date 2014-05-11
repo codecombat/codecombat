@@ -8,7 +8,6 @@ module.exports = class Thang
   @remainingThangNames: {}
 
   @nextID: (spriteName, world) ->
-    Thang.lastIDNums ?= {}
     originals = thangNames[spriteName] or [spriteName]
     remaining = Thang.remainingThangNames[spriteName]
     remaining = Thang.remainingThangNames[spriteName] = originals.slice() unless remaining?.length
