@@ -10,23 +10,41 @@ module.exports =
         type: 'number'
       collection:
         type: 'string'
-      measurableField:
+      proportionalTo:
         type: 'string'
-        description: 'This field denotes the field a repeatable achievement needs for its calculations'
+        description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
+      ratio:
+        type: 'integer'
+        description: 'For repeatables only. Denotes how many proportionalTo\'s trigger an achievement. Usually 1.'
+        minimum: 1
     required: ['name', 'query', 'worth', 'collection']
 
   EarnedAchievementSchema :
     type: 'object'
     properties:
-      # TODO ref to user
-      # TODO ref to original achievement
-      achieved:
+      user: c.objectId
+        links:
+          [
+            {
+              rel: 'extra'
+              href: "/db/user/{($)}"
+            }
+          ]
+      achievement: c.objectId
+        links:
+          [
+            {
+              rel: 'extra'
+              href: '/db/user/{($)}'
+            }
+          ]
+      achievedAmount:
         type: 'number'
 
   MongoFindQuerySchema :
     title: 'MongoDB Query'
     id: 'mongoFindQuery'
-    type: object
+    type: 'object'
     patternProperties:
       '^[a-zA-Z0-9_\-\$]*$':
         type: [ 'string', 'object' ]
@@ -40,7 +58,7 @@ module.exports =
   MongoQueryOperatorSchema :
     title: 'MongoDB Query operator'
     id: 'mongoQueryOperator'
-    type: object
+    type: 'object'
     properties:
       '$gt': type: 'number'
       '$gte': type: 'number'
