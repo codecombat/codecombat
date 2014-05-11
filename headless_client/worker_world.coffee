@@ -4,6 +4,8 @@
 
 JASON = require 'jason'
 fs = require 'fs'
+GLOBAL.Aether = Aether = require 'aether'
+GLOBAL._ = _ = require 'lodash'
 
 betterConsole = () ->
 
@@ -172,8 +174,9 @@ work = () ->
 
   self.postMessage type: "worker-initialized"
 
-world = fs.readFileSync "./public/javascripts/world.js", 'utf8'
-
+worldCode = fs.readFileSync "./public/javascripts/world.js", 'utf8'
+lodashCode = fs.readFileSync "./public/javascripts/lodash.js", 'utf8'
+aetherCode = fs.readFileSync "./public/javascripts/aether.js", 'utf8'
 
 #window.BOX2D_ENABLED = true;
 
@@ -190,7 +193,9 @@ ret = """
 
   try {
     // the world javascript file
-    #{world};
+    #{worldCode};
+    #{lodashCode};
+    #{aetherCode};
 
     // Don't let user generated code access stuff from our file system!
     self.importScripts = importScripts = null;

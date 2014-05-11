@@ -33,7 +33,7 @@ module.exports = class RegionChooser extends CocoClass
     @options.camera.dragDisabled = false
 
   restrictRegion: ->
-    RATIO = 1.56876  # 1848 / 1178
+    RATIO = 1.56876  # 924 / 589
     rect = @options.camera.normalizeBounds([@firstPoint, @secondPoint])
     currentRatio = rect.width / rect.height
     if currentRatio > RATIO
