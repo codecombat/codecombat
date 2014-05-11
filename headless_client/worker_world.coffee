@@ -44,7 +44,7 @@ betterConsole = () ->
           id: self.workerID
 
   # so that we don't crash when debugging statements happen
-  self.console.error = self.console.info = self.console.log
+  self.console.error = self.console.warn = self.console.info = self.console.debug = self.console.log
   GLOBAL.console = console = self.console
   self.console
 
@@ -54,8 +54,11 @@ work = () ->
 
   console.log = ->
 
-  World = self.require('lib/world/world');
-  GoalManager = self.require('lib/world/GoalManager');
+  World = self.require('lib/world/world')
+  GoalManager = self.require('lib/world/GoalManager')
+
+  Aether.addGlobal('Vector', require('lib/world/vector'))
+  Aether.addGlobal('_', _)
 
   self.cleanUp = ->
     self.world = null
@@ -72,8 +75,9 @@ work = () ->
     self.logsLogged = 0
 
     try
-      self.world = new World(args.worldName, args.userCodeMap)
+      self.world = new World(args.userCodeMap)
       self.world.loadFromLevel args.level, true  if args.level
+      self.world.headless = args.headless
       self.goalManager = new GoalManager(self.world)
       self.goalManager.setGoals args.goals
       self.goalManager.setCode args.userCodeMap
@@ -93,14 +97,18 @@ work = () ->
 
 
   self.onWorldLoaded = onWorldLoaded = ->
-    self.postMessage type: "end-load-frames"
-
     self.goalManager.worldGenerationEnded()
+    goalStates = self.goalManager.getGoalStates()
+    self.postMessage type: "end-load-frames", goalStates: goalStates
+
     t1 = new Date()
     diff = t1 - self.t0
+    if (self.world.headless)
+      return console.log("Headless simulation completed in #{diff}ms.");
+
     transferableSupported = self.transferableSupported()
     try
-      serialized = serializedWorld: undefined # self.world.serialize()
+      serialized = serializedWorld: self.world.serialize()
       transferableSupported = false
     catch error
       console.log "World serialization error:", error.toString() + "\n" + error.stack or error.stackTrace
@@ -108,17 +116,14 @@ work = () ->
 
     # console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
     try
+      message =
+        type: "new-world"
+        serialized: serialized.serializedWorld
+        goalStates: goalStates
       if transferableSupported
-        self.postMessage
-          type: "new-world"
-          serialized: serialized.serializedWorld
-          goalStates: self.goalManager.getGoalStates()
-        , serialized.transferableObjects
+        self.postMessage message, serialized.transferableObjects
       else
-        self.postMessage
-          type: "new-world"
-          serialized: serialized.serializedWorld
-          goalStates: self.goalManager.getGoalStates()
+        self.postMessage message
 
     catch error
       console.log "World delivery error:", error.toString() + "\n" + error.stack or error.stackTrace
@@ -150,16 +155,16 @@ work = () ->
 
   self.abort = abort = ->
     #console.log "Abort called for worker."
-    if self.world and self.world.name
+    if self.world
       #console.log "About to abort:", self.world.name, typeof self.world.abort
-      self.world.abort()  if typeof self.world isnt "undefined"
+      self.world.abort()
       self.world = null
     self.postMessage type: "abort"
     self.cleanUp()
 
   self.reportIn = reportIn = ->
     console.log "Reporting in."
-    self.postMessage type: "reportIn"
+    self.postMessage type: "report-in"
 
   self.addEventListener "message", (event) ->
     #console.log JSON.stringify event

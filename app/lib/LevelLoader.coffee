@@ -195,7 +195,7 @@ module.exports = class LevelLoader extends CocoClass
   initWorld: ->
     return if @initialized
     @initialized = true
-    @world = new World @level.get('name')
+    @world = new World()
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
 

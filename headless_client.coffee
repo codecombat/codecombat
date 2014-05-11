@@ -10,7 +10,7 @@ headlessClientPath = "./headless_client/"
 options =
   workerCode: require headlessClientPath + 'worker_world'
   debug: false # Enable logging of ajax calls mainly
-  testing: true # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
+  testing: false # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
   testFile: require headlessClientPath + 'test.js'
   leakTest: false # Install callback that tries to find leaks automatically
   exitOnLeak: false # Exit if leak is found. Only useful if leaktest is set to true, obviously.
@@ -61,12 +61,6 @@ GLOBAL.tv4 = require('tv4').tv4
 
 GLOBAL.marked = setOptions: ->
 
-GLOBAL.navigator =
-#  userAgent: "nodejs"
-  platform: "headless_client"
-  vendor: "codecombat"
-  opera: false
-
 store = {}
 GLOBAL.localStorage =
     getItem: (key) => store[key]
@@ -78,9 +72,6 @@ GLOBAL.localStorage =
 # since it will replace that.
 # (Why is there no easier way?)
 hookedLoader = (request, parent, isMain) ->
-  if request == 'lib/God'
-    request = 'lib/Buddha'
-
   if request in disable or ~request.indexOf('templates')
     console.log 'Ignored ' + request if options.debug
     return class fake

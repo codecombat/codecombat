@@ -15,13 +15,15 @@ module.exports = class World
   @className: "World"
   age: 0
   ended: false
+  preloading: false  # Whether we are just preloading a world in case we soon cast it
+  debugging: false  # Whether we are just rerunning to debug a world we've already cast
+  headless: false  # Whether we are just simulating for goal states instead of all serialized results
   apiProperties: ['age', 'dt']
-  constructor: (name, @userCodeMap, classMap) ->
+  constructor: (@userCodeMap, classMap) ->
     # classMap is needed for deserializing Worlds, Thangs, and other classes
     @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang}
     Thang.resetThangIDs()
 
-    @name ?= name ? "Unnamed World"
     @userCodeMap ?= {}
     @thangs = []
     @thangMap = {}
@@ -89,17 +91,18 @@ module.exports = class World
       catch error
         # Not an Aether.errors.UserCodeError; maybe we can't recover
         @addError error
-      for error in (@unhandledRuntimeErrors ? [])
-        return unless errorCallback error  # errorCallback tells us whether the error is recoverable
-      @unhandledRuntimeErrors = []
+      unless @preloading or @debugging
+        for error in (@unhandledRuntimeErrors ? [])
+          return unless errorCallback error  # errorCallback tells us whether the error is recoverable
+        @unhandledRuntimeErrors = []
       t2 = now()
       if t2 - t1 > PROGRESS_UPDATE_INTERVAL
-        loadProgressCallback? i / @totalFrames
+        loadProgressCallback? i / @totalFrames unless @preloading
         t1 = t2
         if t2 - @t0 > 1000
           console.log('  Loaded', i, 'of', @totalFrames, "(+" + (t2 - @t0).toFixed(0) + "ms)")
           @t0 = t2
-        continueFn = => 
+        continueFn = =>
           if loadUntilFrame
             @loadFrames(loadedCallback,errorCallback,loadProgressCallback, skipDeferredLoading, loadUntilFrame)
           else
@@ -109,11 +112,12 @@ module.exports = class World
         else
           setTimeout(continueFn, 0)
         return
-    unless loadUntilFrame
+    unless @debugging
       @ended = true
       system.finish @thangs for system in @systems
-    loadProgressCallback? 1
-    loadedCallback()
+    unless @preloading
+      loadProgressCallback? 1
+      loadedCallback()
 
   abort: ->
     @aborted = true
@@ -262,7 +266,7 @@ module.exports = class World
     # Code hotspot; optimize it
     if @frames.length < @totalFrames then throw new Error("World Should Be Over Before Serialization")
     [transferableObjects, nontransferableObjects] = [0, 0]
-    o = {name: @name, totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
+    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
@@ -355,7 +359,7 @@ module.exports = class World
     #console.log "Got special keys and values:", o.specialValuesToKeys, o.specialKeysToValues
     perf = {}
     perf.t0 = now()
-    w = new World o.name, o.userCodeMap, classMap
+    w = new World o.userCodeMap, classMap
     [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory]
     w[prop] = val for prop, val of o.trackedProperties
 
