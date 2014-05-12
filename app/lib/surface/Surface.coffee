@@ -81,6 +81,8 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.extend(@options, givenOptions) if givenOptions
     @initEasel()
     @initAudio()
+    @onResize = _.debounce @onResize, 500
+    $(window).on 'resize', @onResize
 
   destroy: ->
     @dead = true
@@ -102,6 +104,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.enableDOMEvents false
     @stage.enableMouseOver 0
     @canvas.off 'mousewheel', @onMouseWheel
+    $(window).off 'resize', @onResize
     super()
 
   setWorld: (@world) ->
@@ -377,8 +380,8 @@ module.exports = Surface = class Surface extends CocoClass
   initEasel: ->
     # takes DOM objects, not jQuery objects
     @stage = new createjs.Stage(@canvas[0])
-    canvasWidth = parseInt(@canvas.attr('width'), 10)
-    canvasHeight = parseInt(@canvas.attr('height'), 10)
+    canvasWidth = parseInt @canvas.attr('width'), 10
+    canvasHeight = parseInt @canvas.attr('height'), 10
     @camera?.destroy()
     @camera = new Camera canvasWidth, canvasHeight
     AudioPlayer.camera = @camera
@@ -398,6 +401,18 @@ module.exports = Surface = class Surface extends CocoClass
     @hookUpChooseControls() if @options.choosing
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
     createjs.Ticker.setFPS @options.frameRate
+    @onResize()
+
+  onResize: (e) =>
+    oldWidth = parseInt @canvas.attr('width'), 10
+    oldHeight = parseInt @canvas.attr('height'), 10
+    newWidth = @canvas.width()
+    newHeight = @canvas.height()
+    console.log "had size", oldWidth, oldHeight, "moving to", newWidth, newHeight
+    @canvas.attr width: newWidth, height: newHeight
+    @stage.scaleX *= newWidth / oldWidth
+    @stage.scaleY *= newHeight / oldHeight
+    @camera.onResize newWidth, newHeight
 
   showLevel: ->
     return if @dead

@@ -24,7 +24,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
   build: ->
     @mouseEnabled = @mouseChildren = false
     @addChild @background = new createjs.Shape()
-    @addChild @label = new createjs.Text("", "bold 32px Arial", "#FFFFFF")
+    @addChild @label = new createjs.Text("", "bold 16px Arial", "#FFFFFF")
     @label.name = 'Coordinate Display Text'
     @label.shadow = new createjs.Shadow("#000000", 1, 1, 0)
     @background.name = "Coordinate Display Background"
@@ -37,7 +37,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
       $('#surface').addClass('flag-cursor') unless $('#surface').hasClass('flag-cursor')
     else if @mouseInBounds
       $('#surface').removeClass('flag-cursor') if $('#surface').hasClass('flag-cursor')
-    wop = @camera.canvasToWorld x: e.x, y: e.y
+    wop = @camera.screenToWorld x: e.x, y: e.y
     wop.x = Math.round(wop.x)
     wop.y = Math.round(wop.y)
     return if wop.x is @lastPos?.x and wop.y is @lastPos?.y
@@ -47,7 +47,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   onMouseDown: (e) ->
     return unless key.shift
-    wop = @camera.canvasToWorld x: e.x, y: e.y
+    wop = @camera.screenToWorld x: e.x, y: e.y
     wop.x = Math.round wop.x
     wop.y = Math.round wop.y
     Backbone.Mediator.publish 'surface:coordinate-selected', wop
@@ -63,8 +63,8 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @uncache()
 
   updateSize: ->
-    margin = 6
-    radius = 5
+    margin = 3
+    radius = 2.5
     width = @label.getMeasuredWidth() + 2 * margin
     height = @label.getMeasuredHeight() + 2 * margin
     @label.regX = @background.regX = width / 2 - margin
@@ -85,7 +85,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     [width, height] = @updateSize()
     sup = @camera.worldToSurface @lastPos
     @x = sup.x
-    @y = sup.y - 5
+    @y = sup.y - 2.5
     @addChild @background
     @addChild @label
     @cache -width / 2, -height / 2, width, height
