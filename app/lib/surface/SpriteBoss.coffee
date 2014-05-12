@@ -20,7 +20,6 @@ module.exports = class SpriteBoss extends CocoClass
     'level-lock-select': 'onSetLockSelect'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
-    'tome:cast-spells': 'onCastSpells'
     'camera:dragged': 'onCameraDragged'
     'sprite:loaded': -> @update(true)
 
@@ -216,9 +215,6 @@ module.exports = class SpriteBoss extends CocoClass
 
   onNewWorld: (e) ->
     @world = @options.world = e.world
-    @play()
-
-  onCastSpells: (e) -> @stop() unless e.preload
 
   play: ->
     sprite.play() for sprite in @spriteArray
