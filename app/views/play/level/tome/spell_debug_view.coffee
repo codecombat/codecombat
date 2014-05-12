@@ -15,6 +15,7 @@ module.exports = class DebugView extends View
     'god:new-world-created': 'onNewWorld'
     'god:debug-value-return': 'handleDebugValue'
     'tome:spell-shown': 'changeCurrentThangAndSpell'
+    'tome:cast-spells': 'onTomeCast'
     'surface:frame-changed': 'onFrameChanged'
 
   events: {}
@@ -30,16 +31,50 @@ module.exports = class DebugView extends View
       @globals[className] = serializedClass
 
     @onMouseMove = _.throttle @onMouseMove, 25
-
+    @cache = {}
+    @lastFrameRequested = -1
+    @workerIsSimulating = false
+    
+  setTooltipKeyAndValue: (key, value) =>
+    @$el.find("code").text "#{key}: #{value}"
+    @$el.show().css(@pos)
+    
+  setTooltipText: (text) =>
+    #perhaps changing styling here in the future
+    @$el.find("code").text text
+    @$el.show().css(@pos)
+    
+  onTomeCast: ->
+    @invalidateCache()
+    
+  invalidateCache: -> @cache = {}
+  
+  retrieveValueFromCache: (thangID,spellID,variableChain,frame) ->
+    joinedVariableChain = variableChain.join()
+    value = @cache[frame]?[thangID]?[spellID]?[joinedVariableChain]
+    return value ? undefined
+  
+  updateCache: (thangID, spellID, variableChain, frame, value) ->
+    currentObject = @cache
+    keys = [frame,thangID,spellID,variableChain.join()]
+    for keyIndex in [0...(keys.length - 1)]
+      key = keys[keyIndex]
+      unless key of currentObject
+        currentObject[key] = {}
+      currentObject = currentObject[key]
+    currentObject[keys[keys.length - 1]] = value
+  
+      
   changeCurrentThangAndSpell: (thangAndSpellObject) ->
     @thang = thangAndSpellObject.thang
     @spell = thangAndSpellObject.spell
 
   handleDebugValue: (returnObject) ->
+    @workerIsSimulating = false
     {key, value} = returnObject
+    @updateCache(@thang.id,@spell.name,key.split("."),@lastFrameRequested,value)
     if @variableChain and not key is @variableChain.join(".") then return
-    @$el.find("code").text "#{key}: #{value}"
-    @$el.show().css(@pos)
+    @setTooltipKeyAndValue(key,value)
 
 
   afterRender: ->
@@ -99,13 +134,19 @@ module.exports = class DebugView extends View
     
   update: ->
     if @variableChain
-      Backbone.Mediator.publish 'tome:spell-debug-value-request',
-        thangID: @thang.id
-        spellID: @spell.name
-        variableChain: @variableChain
-        frame: @currentFrame
-      @$el.find("code").text "Finding value..."
-      @$el.show().css(@pos)
+      if @workerIsSimulating
+        @setTooltipText("World is simulating, please wait...")
+      else if @currentFrame is @lastFrameRequested and (cacheValue = @retrieveValueFromCache(@thang.id, @spell.name, @variableChain, @currentFrame))
+        @setTooltipKeyAndValue(@variableChain.join("."),cacheValue)
+      else
+        Backbone.Mediator.publish 'tome:spell-debug-value-request',
+          thangID: @thang.id
+          spellID: @spell.name
+          variableChain: @variableChain
+          frame: @currentFrame
+        if @currentFrame isnt @lastFrameRequested then @workerIsSimulating = true
+        @lastFrameRequested = @currentFrame
+        @setTooltipText("Finding value...")
     else
       @$el.hide()
     if @variableChain?.length is 2
@@ -129,60 +170,6 @@ module.exports = class DebugView extends View
     if @markerRange
       @marker = @ace.getSession().addMarker @markerRange, "ace_bracket", "text"
 
-  stringifyValue: (value, depth) ->
-    return value if not value or _.isString value
-    if _.isFunction value
-      return if depth is 2 then undefined else "<Function>"
-    return "<this #{value.id}>" if value is @thang and depth
-    if depth is 2
-      if value.constructor?.className is "Thang"
-        value = "<#{value.type or value.spriteName} - #{value.id}, #{if value.pos then value.pos.toString() else 'non-physical'}>"
-      else
-        value = value.toString()
-      return value
-
-    isArray = _.isArray value
-    isObject = _.isObject value
-    return value.toString() unless isArray or isObject
-    brackets = if isArray then ["[", "]"] else ["{", "}"]
-    size = _.size value
-    return brackets.join "" unless size
-    values = []
-    if isArray
-      for v in value
-        s = @stringifyValue(v, depth + 1)
-        values.push "" + s unless s is undefined
-    else
-      for key in value.apiProperties ? _.keys value
-        s = @stringifyValue(value[key], depth + 1)
-        values.push key + ": " + s unless s is undefined
-    sep = '\n' + ("  " for i in [0 ... depth]).join('')
-    prefix = value.constructor?.className
-    prefix ?= "Array" if isArray
-    prefix ?= "Object" if isObject
-    prefix = if prefix then prefix + " " else ""
-    return "#{prefix}#{brackets[0]}#{sep}  #{values.join(sep + '  ')}#{sep}#{brackets[1]}"
-
-  deserializeVariableChain: (chain) ->
-    keys = []
-    for prop, i in chain
-      if prop is "this"
-        value = @thang
-      else if i is 0
-        value = @variableStates[prop]
-        if typeof value is "undefined" then value = @globals[prop]
-      else
-        value = value[prop]
-      keys.push prop
-      break unless value
-      if theClass = serializedClasses[value.CN]
-        if value.CN is "Thang"
-          thang = @thang.world.thangMap[value.id]
-          value = thang or "<Thang #{value.id} (non-existent)>"
-        else
-          value = theClass.deserializeFromAether(value)
-    value = @stringifyValue value, 0
-    key: keys.join("."), value: value
 
   destroy: ->
     @ace?.removeEventListener "mousemove", @onMouseMove
