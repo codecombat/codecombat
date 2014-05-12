@@ -246,6 +246,7 @@ module.exports = class Mark extends CocoClass
       size = @sprite.getAverageDimension()
       size += 60 if @name is 'selection'
       size += 60 if @name is 'repair'
+      size *= @sprite.scaleFactor
       scale = size / {selection: 128, target: 128, repair: 320, highlight: 160}[@name]
       if @sprite?.thang.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
         scale *= 2

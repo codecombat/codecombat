@@ -138,10 +138,10 @@ module.exports = class TomeView extends View
   onCastSpell: (e) ->
     # A single spell is cast.
     # Hmm; do we need to make sure other spells are all cast here?
-    @cast()
+    @cast e?.preload
 
-  cast: ->
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
+  cast: (preload=false) ->
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload
 
   onToggleSpellList: (e) ->
     @spellList.rerenderEntries()
@@ -205,7 +205,7 @@ module.exports = class TomeView extends View
 
   reloadAllCode: ->
     spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team or (spell.team in ["common", "neutral", null])
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: false
 
   updateLanguageForAllSpells: ->
     spell.updateLanguageAether() for spellKey, spell of @spells

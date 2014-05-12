@@ -1,7 +1,7 @@
 var window = self;
 var Global = self;
 
-importScripts("/javascripts/tome_aether.js");
+importScripts("/javascripts/lodash.js", "/javascripts/aether.js");
 console.log("Aether Tome worker has finished importing scripts.");
 var aethers = {};
 

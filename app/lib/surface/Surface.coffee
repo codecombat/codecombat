@@ -65,6 +65,7 @@ module.exports = Surface = class Surface extends CocoClass
     'god:new-world-created': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
     'level-set-letterbox': 'onSetLetterbox'
+    'application:idle-changed': 'onIdleChanged'
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -304,16 +305,34 @@ module.exports = Surface = class Surface extends CocoClass
       @spriteBoss.stop()
       @playbackOverScreen.show()
       @ended = true
+      @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended'
     else if @currentFrame < @world.totalFrames and @ended
       @spriteBoss.play()
       @playbackOverScreen.hide()
       @ended = false
+      @setPaused false
       Backbone.Mediator.publish 'surface:playback-restarted'
 
     @lastFrame = @currentFrame
 
-  onCastSpells: ->
+  onIdleChanged: (e) ->
+    @setPaused e.idle unless @ended
+
+  setPaused: (to) ->
+    # We want to be able to essentially stop rendering the surface if it doesn't need to animate anything.
+    # If pausing, though, we want to give it enough time to finish any tweens.
+    performToggle = =>
+      createjs.Ticker.setFPS if to then 1 else @options.frameRate
+      @surfacePauseInterval = null
+    clearTimeout @surfacePauseInterval if @surfacePauseInterval
+    if to
+      @surfacePauseInterval = _.delay performToggle, 2000
+    else
+      performToggle()
+
+  onCastSpells: (e) ->
+    return if e.preload
     @casting = true
     @wasPlayingWhenCastingBegan = @playing
     Backbone.Mediator.publish 'level-set-playing', { playing: false }
@@ -575,8 +594,6 @@ module.exports = Surface = class Surface extends CocoClass
     @paths.parent.removeChild @paths
     @paths = null
 
-  # Screenshot
-
   screenshot: (scale=0.25, format='image/jpeg', quality=0.8, zoom=2) ->
     # Quality doesn't work with image/png, just image/jpeg and image/webp
     [w, h] = [@camera.canvasWidth, @camera.canvasHeight]
@@ -586,6 +603,5 @@ module.exports = Surface = class Surface extends CocoClass
     #console.log "Screenshot with scale", scale, "format", format, "quality", quality, "was", Math.floor(imageData.length / 1024), "kB"
     screenshot = document.createElement("img")
     screenshot.src = imageData
-    #$('body').append(screenshot)
     @stage.uncache()
     imageData

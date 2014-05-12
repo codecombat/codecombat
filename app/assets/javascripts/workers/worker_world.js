@@ -1,7 +1,5 @@
-// There's no reason that this file is in JavaScript instead of CoffeeScript.
-// We should convert it and update the brunch config.
+// This file is in JavaScript because we can't figure out how to get brunch to compile it bare.
 
-// If we wanted to be more robust, we could use this: https://github.com/padolsey/operative/blob/master/src/operative.js
 if(typeof window !== 'undefined' || !self.importScripts)
   throw "Attempt to load worker_world into main window instead of web worker.";
 
@@ -14,8 +12,8 @@ if (!Function.prototype.bind) {
       throw new TypeError("Function.prototype.bind (Shim) - target is not callable");
     }
 
-    var aArgs = Array.prototype.slice.call(arguments, 1), 
-        fToBind = this, 
+    var aArgs = Array.prototype.slice.call(arguments, 1),
+        fToBind = this,
         fNOP = function () {},
         fBound = function () {
           return fToBind.apply(this instanceof fNOP && oThis
@@ -31,7 +29,7 @@ if (!Function.prototype.bind) {
   };
 }
 
-// assign global window so that Brunch's require (in world.js) can go into it
+// Assign global window so that Brunch's require (in world.js) can go into it
 self.window = self;
 self.workerID = "Worker";
 
@@ -42,7 +40,7 @@ var console = {
     if(self.logsLogged++ == self.logLimit)
       self.postMessage({type: 'console-log', args: ["Log limit " + self.logLimit + " reached; shutting up."], id: self.workerID});
     else if(self.logsLogged < self.logLimit) {
-      args = [].slice.call(arguments);
+      var args = [].slice.call(arguments);
       for(var i = 0; i < args.length; ++i) {
         if(args[i] && args[i].constructor) {
           if(args[i].constructor.className === "Thang" || args[i].isComponent)
@@ -57,10 +55,10 @@ var console = {
       }
     }
   }};  // so that we don't crash when debugging statements happen
-console.error = console.info = console.log;
+console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
-importScripts('/javascripts/world.js');
+self.importScripts('/javascripts/world.js', '/javascripts/lodash.js', '/javascripts/aether.js');
 
 // We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
 Object.defineProperty(self, "XMLHttpRequest", {
@@ -69,16 +67,17 @@ Object.defineProperty(self, "XMLHttpRequest", {
 });
 
 self.transferableSupported = function transferableSupported() {
+  if (typeof self._transferableSupported !== 'undefined') return self._transferableSupported;
   // Not in IE, even in IE 11
   try {
     var ab = new ArrayBuffer(1);
     worker.postMessage(ab, [ab]);
-    return ab.byteLength == 0;
+    return self._transferableSupported = ab.byteLength == 0;
   } catch(error) {
-    return false;
+    return self._transferableSupported = false;
   }
-  return false;
-}
+  return self._transferableSupported = false;
+};
 
 var World = self.require('lib/world/world');
 var GoalManager = self.require('lib/world/GoalManager');
@@ -182,8 +181,6 @@ self.retrieveValueFromCache = function (thangID, spellID, variableChain, frame) 
         return spellCache[variableChain.join()];
     return undefined;
 };
-
-
 self.updateCache = function (thangID, spellID, variableChain, frame, value) {
     var key, keys, currentObject;
     keys = [frame,thangID, spellID, variableChain.join()];
@@ -198,6 +195,7 @@ self.updateCache = function (thangID, spellID, variableChain, frame, value) {
     }
     currentObject[keys[keys.length - 1]] = value;
 };
+
 self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
     var cacheValue;
     if (args.frame === self.currentDebugWorldFrame && (cacheValue = self.retrieveValueFromCache(args.currentThangID, args.currentSpellID, args.variableChain, args.frame)))
@@ -223,7 +221,7 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
                     var flowStates = self.debugWorld.userCodeMap[currentThangID][currentSpellID].flow.states;
                     //we have to go to the second last flowState as we run the world for one additional frame
                     //to collect the flow
-                    value = _.last(flowStates[flowStates.length - 2].statements).variables[prop];
+                    value = _.last(flowStates[flowStates.length - 1].statements).variables[prop];
                 }
                 catch (e)
                 {
@@ -243,7 +241,7 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
                 if (value.CN === "Thang")
                 {
                     var thang = self.debugWorld.thangMap[value.id];
-                    value = thang || "<Thang " + value.id + " (non-existent)>"
+                    value = thang || "<Thang " + value.id + " (non-existent)>";
                 }
                 else
                 {
@@ -260,11 +258,12 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
     };
     self.enableFlowOnThangSpell(args.currentThangID, args.currentSpellID, args.userCodeMap);
     self.setupDebugWorldToRunUntilFrame(args);
-    self.debugWorld.loadFramesUntilFrame(
-        args.frame,
-        retrieveProperty.bind({},args.currentThangID, args.currentSpellID, args.variableChain),
+    self.debugWorld.loadFrames(
+        retrieveProperty.bind({}, args.currentThangID, args.currentSpellID, args.variableChain),
         self.onDebugWorldError,
-        self.onDebugWorldProgress
+        self.onDebugWorldProgress,
+        false,
+        args.frame
     );
 };
 
@@ -283,8 +282,8 @@ self.enableFlowOnThangSpell = function (thangID, spellID, userCodeMap) {
         }
 
     }
-    catch (e) {
-        console.log("there was an error enabling flow on thang spell:" + e)
+    catch (error) {
+        console.log("Debug error enabling flow on", thangID, spellID + ":", error.toString() + "\n" + error.stack || error.stackTrace);
     }
 };
 
@@ -297,12 +296,13 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
     var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
     self.currentUserCodeMapCopy = stringifiedUserCodeMap;
-    if (!self.debugWorld || userCodeMapHasChanged || args.frame != self.currentDebugWorldFrame) {
-        self.invalidateCache();
+    if (args.frame != self.currentDebugWorldFrame) self.invalidateCache();
+    if (!self.debugWorld || userCodeMapHasChanged || args.frame < self.currentDebugWorldFrame) {
         try {
-            self.debugWorld = new World(args.worldName, args.userCodeMap);
+            self.debugWorld = new World(args.userCodeMap);
             if (args.level)
                 self.debugWorld.loadFromLevel(args.level, true);
+            self.debugWorld.debugging = true;
             self.debugGoalManager = new GoalManager(self.debugWorld);
             self.debugGoalManager.setGoals(args.goals);
             self.debugGoalManager.setCode(args.userCodeMap);
@@ -314,32 +314,20 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             return;
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
-
-        self.debugWorld.totalFrames = args.frame; //hack to work around error checking
-        self.currentDebugWorldFrame = args.frame;
     }
+    self.debugWorld.totalFrames = args.frame; //hack to work around error checking
+    self.currentDebugWorldFrame = args.frame;
 };
-self.runDebugWorldUntilFrame = function (args) {
-    self.setupDebugWorldToRunUntilFrame(args);
 
-    self.debugWorld.loadFramesUntilFrame(args.frame, self.onDebugWorldLoaded, self.onDebugWorldError, self.onDebugWorldProgress);
-
-};
 
 self.onDebugWorldLoaded = function onDebugWorldLoaded() {
-    console.log("World loaded!");
+    console.log("Debug world loaded!");
 };
 
 self.onDebugWorldError = function onDebugWorldError(error) {
-    if(error instanceof Aether.problems.UserCodeProblem) {
-        if(!self.debugPostedErrors[error.key]) {
-            var problem = error.serialize();
-            self.postMessage({type: 'user-code-problem', problem: problem});
-            self.debugPostedErrors[error.key] = problem;
-        }
-    }
-    else {
-        console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
+
+    if(!error.isUserCodeProblem) {
+        console.log("Debug Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
     }
     return true;
 };
@@ -349,26 +337,25 @@ self.onDebugWorldProgress = function onDebugWorldProgress(progress) {
 };
 
 self.debugAbort = function () {
-    if(self.debugWorld && self.debugWorld.name) {
-        console.log("About to abort:", self.debugWorld.name, typeof self.debugWorld.abort);
-        if(typeof self.debugWorld !== "undefined")
-            self.debugWorld.abort();
+    if(self.debugWorld) {
+        self.debugWorld.abort();
         self.debugWorld = null;
     }
-    self.postMessage({type: 'debugAbort'});
+    self.postMessage({type: 'debug-abort'});
 };
 
 self.runWorld = function runWorld(args) {
   self.postedErrors = {};
   self.t0 = new Date();
-  self.firstWorld = args.firstWorld;
   self.postedErrors = false;
   self.logsLogged = 0;
-  
+
   try {
-    self.world = new World(args.worldName, args.userCodeMap);
+    self.world = new World(args.userCodeMap);
     if(args.level)
       self.world.loadFromLevel(args.level, true);
+    self.world.preloading = args.preload;
+    self.world.headless = args.headless;
     self.goalManager = new GoalManager(self.world);
     self.goalManager.setGoals(args.goals);
     self.goalManager.setCode(args.userCodeMap);
@@ -380,13 +367,19 @@ self.runWorld = function runWorld(args) {
     return;
   }
   Math.random = self.world.rand.randf;  // so user code is predictable
+  self.postMessage({type: 'start-load-frames'});
   self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
 };
 
 self.onWorldLoaded = function onWorldLoaded() {
   self.goalManager.worldGenerationEnded();
+  var goalStates = self.goalManager.getGoalStates();
+  self.postMessage({type: 'end-load-frames', goalStates: goalStates});
   var t1 = new Date();
   var diff = t1 - self.t0;
+  if (self.world.headless)
+    return console.log('Headless simulation completed in ' + diff + 'ms.');
+
   var transferableSupported = self.transferableSupported();
   try {
     var serialized = self.world.serialize();
@@ -397,10 +390,11 @@ self.onWorldLoaded = function onWorldLoaded() {
   var t2 = new Date();
   //console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
   try {
+    var message = {type: 'new-world', serialized: serialized.serializedWorld, goalStates: goalStates};
     if(transferableSupported)
-      self.postMessage({type: 'new-world', serialized: serialized.serializedWorld, goalStates: self.goalManager.getGoalStates()}, serialized.transferableObjects);
+      self.postMessage(message, serialized.transferableObjects);
     else
-      self.postMessage({type: 'new-world', serialized: serialized.serializedWorld, goalStates: self.goalManager.getGoalStates()});
+      self.postMessage(message);
   }
   catch(error) {
     console.log("World delivery error:", error.toString() + "\n" + error.stack || error.stackTrace);
@@ -422,7 +416,7 @@ self.onWorldError = function onWorldError(error) {
     console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
   }
   /*  We don't actually have the recoverable property any more; hmm
-  if(!self.firstWorld && !error.recoverable) {
+  if(!error.recoverable) {
     self.abort();
     return false;
   }
@@ -435,18 +429,20 @@ self.onWorldLoadProgress = function onWorldLoadProgress(progress) {
 };
 
 self.abort = function abort() {
-  if(self.world && self.world.name) {
-    console.log("About to abort:", self.world.name, typeof self.world.abort);
-    if(typeof self.world !== "undefined")
-      self.world.abort();
+  if(self.world) {
+    self.world.abort();
     self.world = null;
   }
   self.postMessage({type: 'abort'});
 };
 
 self.reportIn = function reportIn() {
-  self.postMessage({type: 'reportIn'});
-}
+  self.postMessage({type: 'report-in'});
+};
+
+self.finalizePreload = function finalizePreload() {
+  self.world.finalizePreload(self.onWorldLoaded);
+};
 
 self.addEventListener('message', function(event) {
   self[event.data.func](event.data.args);

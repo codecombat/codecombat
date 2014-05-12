@@ -110,7 +110,7 @@ module.exports = class PlayLevelView extends View
 
   load: ->
     @loadStartTime = new Date()
-    @god = new God()
+    @god = new God debugWorker: true
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
 
   getRenderData: ->
@@ -149,7 +149,7 @@ module.exports = class PlayLevelView extends View
     @worldInitialized = true
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @god.level = @level.serialize @supermodel
+    @god.setLevel @level.serialize @supermodel
     @god.setWorldClassMap @world.classMap
     @setTeam team
     @initGoalManager()
