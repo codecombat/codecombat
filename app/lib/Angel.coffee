@@ -190,7 +190,7 @@ module.exports = class Angel extends CocoClass
     goalStates = testGM?.getGoalStates()
     serialized = testWorld.serialize().serializedWorld
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @angelsShare.worldClassMap, @hsared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates)
+    World.deserialize serialized, @angelsShare.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates)
     window.BOX2D_ENABLED = true
     @shared.lastSerializedWorldFrames = serialized.frames
 

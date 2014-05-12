@@ -174,6 +174,8 @@ module.exports = class Label extends CocoClass
       if width > maxWidth
         if row.length is 1 # one long word, truncate it
           row[0] = _.string.truncate(row[0], 40)
+          text.text = row[0]
+          textWidth = Math.max(text.getMeasuredWidth(), textWidth)
           rows.push(row)
           row = []
         else
@@ -182,7 +184,7 @@ module.exports = class Label extends CocoClass
           row = [word]
       else
         textWidth = Math.max(textWidth, width)
-    rows.push(row)
+    rows.push(row) if row.length
     for row, i in rows
       rows[i] = _.string.join(" ", row...)
     text: _.string.join("\n", rows...), textWidth: textWidth
