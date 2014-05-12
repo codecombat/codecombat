@@ -39,7 +39,7 @@ module.exports = class God extends CocoClass
     _.delay (=> new Angel @angelsShare unless @destroyed), 250 * i for i in [0 ... angelCount]
 
   destroy: ->
-    angel.destroy() for angel in @angelsShare.angels
+    angel.destroy() for angel in @angelsShare.angels.slice()
     @angelsShare.goalManager?.destroy()
     @debugWorker?.terminate()
     @debugWorker?.removeEventListener 'message', @onDebugWorkerMessage
@@ -54,10 +54,24 @@ module.exports = class God extends CocoClass
 
   createWorld: (spells, preload=false) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}!"
-    angel.abort() for angel in @angelsShare.busyAngels  # We really only ever want one world calculated per God.
+    userCodeMap = @getUserCodeMap spells
+
+    # We only want one world being simulated, so we abort other angels, unless we had one preloading this very code.
+    hadPreloader = false
+    for angel in @angelsShare.busyAngels
+      isPreloading = angel.running and angel.work.preload and _.isEqual angel.work.userCodeMap, userCodeMap, (a, b) ->
+        return a.raw is b.raw if a?.raw? and b?.raw?
+        undefined  # Let default equality test suffice.
+      if not hadPreloader and isPreloading
+        angel.finalizePreload()
+        hadPreloader = true
+      else
+        angel.abort()
+    return if hadPreloader
+
     @angelsShare.workQueue = []
     @angelsShare.workQueue.push
-      userCodeMap: @getUserCodeMap(spells)
+      userCodeMap: userCodeMap
       level: @level
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless

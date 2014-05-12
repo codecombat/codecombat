@@ -112,6 +112,9 @@ module.exports = class Angel extends CocoClass
     _.remove @shared.busyAngels, @
     @doWork()
 
+  finalizePreload: ->
+    @worker.postMessage func: 'finalizePreload'
+
   infinitelyLooped: =>
     return if @aborting
     problem = type: "runtime", level: "error", id: "runtime_InfiniteLoop", message: "Code never finished. It's either really slow or has an infinite loop."
@@ -123,12 +126,12 @@ module.exports = class Angel extends CocoClass
     return if @aborting
     return @say "Not initialized for work yet." unless @initialized
     if @shared.workQueue.length
-      work = @shared.workQueue.shift()
-      return _.defer @simulateSync, work if work.synchronous
+      @work = @shared.workQueue.shift()
+      return _.defer @simulateSync, @work if @work.synchronous
       @say "Running world..."
       @running = true
       @shared.busyAngels.push @
-      @worker.postMessage func: 'runWorld', args: work
+      @worker.postMessage func: 'runWorld', args: @work
       clearTimeout @purgatoryTimer
       @purgatoryTimer = setInterval @testWorker, @infiniteLoopIntervalDuration
     else
@@ -139,6 +142,7 @@ module.exports = class Angel extends CocoClass
     return unless @worker and @running
     @say "Aborting..."
     @running = false
+    @work = null
     _.remove @shared.busyAngels, @
     @abortTimeout = _.delay @fireWorker, @abortTimeoutDuration
     @aborting = true

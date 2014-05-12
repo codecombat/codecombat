@@ -51,7 +51,7 @@ module.exports = class SpellView extends View
     @session = options.session
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
-    @problems = {}
+    @problems = []
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
 
@@ -289,30 +289,21 @@ module.exports = class SpellView extends View
         callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
-  setRecompileNeeded: (needed=true) =>
-    if needed
-      @recompileNeeded = needed  # and @recompileValid  # todo, remove if not caring about validity
-    else
-      @recompileNeeded = false
+  setRecompileNeeded: (@recompileNeeded) =>
 
   onCursorActivity: =>
     @currentAutocastHandler?()
 
   # Design for a simpler system?
-  # * Turn off ACE's JSHint worker
   # * Keep Aether linting, debounced, on any significant change
-  # - Don't send runtime errors from in-progress worlds
   # - All problems just vanish when you make any change to the code
   # * You wouldn't accept any Aether updates/runtime information/errors unless its code was current when you got it
-  # * Store the last run Aether in each spellThang and use it whenever its code actually is current
-  #   This suffers from the problem that any whitespace/comment changes will lose your info, but what else
-  #   could you do other than somehow maintain a mapping from current to original code locations?
-  #   I guess you could use dynamic markers for problem ranges and keep annotations/alerts in when insignificant
+  # * Store the last run Aether in each spellThang and use it whenever its code actually is current.
+  #   Use dynamic markers for problem ranges and keep annotations/alerts in when insignificant
   #   changes happen, but always treat any change in the (trimmed) number of lines as a significant change.
-  #   Ooh, that's pretty nice. Gets you most of the way there and is simple.
   # - All problems have a master representation as a Problem, and we can easily generate all Problems from
   #   any Aether instance. Then when we switch contexts in any way, we clear, recreate, and reapply the Problems.
-  # * Problem alerts will have their own templated ProblemAlertViews
+  # * Problem alerts have their own templated ProblemAlertViews.
   # * We'll only show the first problem alert, and it will always be at the bottom.
   #   Annotations and problem ranges can show all, I guess.
   # * The editor will reserve space for one annotation as a codeless area.
@@ -366,6 +357,7 @@ module.exports = class SpellView extends View
   displayAether: (aether) ->
     @displayedAether = aether
     isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
+    problem.destroy() for problem in @problems  # Just in case another problem was added since clearAetherDisplay() ran.
     @problems = []
     annotations = []
     seenProblemKeys = {}
@@ -393,7 +385,6 @@ module.exports = class SpellView extends View
   # But the error message display was delayed, so now trying:
   # - Go after specified delay if a) and not b) or c)
   guessWhetherFinished: (aether) ->
-    #@recompileValid = not aether.getAllProblems().length
     valid = not aether.getAllProblems().length
     cursorPosition = @ace.getCursorPosition()
     currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(/[ \t]*\/\/[^"']*/g, ''))  # trim // unless inside "
@@ -402,15 +393,22 @@ module.exports = class SpellView extends View
     #console.log "finished?", valid, endOfLine, beginningOfLine, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
     if valid and (endOfLine or beginningOfLine)
       if @autocastDelay > 60000
-        null #@cast true
+        @preload()
       else
         @recompile()
-  #console.log "recompile now!"
-  #else if not valid
-  #  # if this works, we can get rid of all @recompileValid logic
-  #  console.log "not valid, but so we'll wait to do it in", @autocastDelay + "ms"
-  #else
-  #  console.log "valid but not at end of line; recompile in", @autocastDelay + "ms"
+
+  preload: ->
+    # Send this code over to the God for preloading, but don't change the cast state.
+    oldSource = @spell.source
+    oldSpellThangAethers = {}
+    for thangID, spellThang of @spell.thangs
+      oldSpellThangAethers[thangID] = spellThang.aether.serialize()  # Get raw, pure, and problems
+    @spell.transpile @getSource()
+    @cast true
+    @spell.source = oldSource
+    for thangID, spellThang of @spell.thangs
+      for key, value of oldSpellThangAethers[thangID]
+        spellThang.aether[key] = value
 
   onSpellChanged: (e) ->
     @spellHasChanged = true

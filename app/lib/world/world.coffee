@@ -119,6 +119,10 @@ module.exports = class World
       loadProgressCallback? 1
       loadedCallback()
 
+  finalizePreload: (loadedCallback) ->
+    @preloading = false
+    loadedCallback() if @ended
+
   abort: ->
     @aborted = true
 

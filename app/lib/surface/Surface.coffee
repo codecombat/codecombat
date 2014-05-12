@@ -331,7 +331,8 @@ module.exports = Surface = class Surface extends CocoClass
     else
       performToggle()
 
-  onCastSpells: ->
+  onCastSpells: (e) ->
+    return if e.preload
     @casting = true
     @wasPlayingWhenCastingBegan = @playing
     Backbone.Mediator.publish 'level-set-playing', { playing: false }

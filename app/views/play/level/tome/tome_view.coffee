@@ -205,7 +205,7 @@ module.exports = class TomeView extends View
 
   reloadAllCode: ->
     spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team or (spell.team in ["common", "neutral", null])
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: false
 
   updateLanguageForAllSpells: ->
     spell.updateLanguageAether() for spellKey, spell of @spells

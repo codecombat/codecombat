@@ -183,7 +183,8 @@ module.exports = class PlaybackView extends View
   onEditEditorConfig: ->
     @openModalView(new EditorConfigModal())
 
-  onCastSpells: ->
+  onCastSpells: (e) ->
+    return if e.preload
     @casting = true
     @$progressScrubber.slider('disable', true)
 

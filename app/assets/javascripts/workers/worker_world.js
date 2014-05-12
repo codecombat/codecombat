@@ -440,6 +440,10 @@ self.reportIn = function reportIn() {
   self.postMessage({type: 'report-in'});
 };
 
+self.finalizePreload = function finalizePreload() {
+  self.world.finalizePreload(self.onWorldLoaded);
+};
+
 self.addEventListener('message', function(event) {
   self[event.data.func](event.data.args);
 });

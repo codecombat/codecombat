@@ -218,7 +218,7 @@ module.exports = class SpriteBoss extends CocoClass
     @world = @options.world = e.world
     @play()
 
-  onCastSpells: -> @stop()
+  onCastSpells: (e) -> @stop() unless e.preload
 
   play: ->
     sprite.play() for sprite in @spriteArray
