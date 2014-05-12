@@ -93,7 +93,7 @@ module.exports = class God extends CocoClass
     return unless args.thangID and args.spellID and args.variableChain
     return console.error "Tried to retrieve debug value with no currentUserCodeMap" unless @currentUserCodeMap
     @debugWorker ?= @createDebugWorker()
-    args.frame ?= @world.age / @world.dt
+    args.frame ?= @angelsShare.world.age / @angelsShare.world.dt
     @debugWorker.postMessage
       func: 'retrieveValueFromFrame'
       args:
