@@ -142,7 +142,18 @@ _.extend LevelSessionSchema.properties,
       type: 'object'
       additionalProperties:
         type: 'string'
-        format: 'javascript'
+
+  submittedCodeLanguage:
+    type: 'string'
+    default: 'javascript'
+    enum: ['javascript', 'coffeescript', 'clojure', 'lua','python']
+
+  transpiledCode:
+    type: 'object'
+    additionalProperties:
+      type: 'object'
+      additionalProperties:
+        type: 'string'
 
   isRanking:
     type: 'boolean'
