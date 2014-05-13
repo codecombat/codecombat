@@ -4,6 +4,7 @@ crypto = require('crypto')
 {salt, isProduction} = require('../../server_config')
 mail = require '../commons/mail'
 log = require 'winston'
+plugins = require '../plugins/achievements'
 
 sendwithus = require '../sendwithus'
 
