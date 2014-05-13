@@ -242,6 +242,9 @@ module.exports = class World
     return unless @goalManager
     @goalManager.submitWorldGenerationEvent(channel, event, @frames.length)
 
+  getGoalState: (goalID) ->
+    @goalManager.getGoalState(goalID)
+
   setGoalState: (goalID, status) ->
     @goalManager.setGoalState(goalID, status)
 
