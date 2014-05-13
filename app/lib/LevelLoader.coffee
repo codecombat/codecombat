@@ -108,8 +108,8 @@ module.exports = class LevelLoader extends CocoClass
     worldNecessities = []
 
     @thangIDs = _.uniq thangIDs
-    thangNames = new ThangNamesCollection(@thangIDs)
-    worldNecessities.push @supermodel.loadCollection(thangNames, 'thang_names')
+    @thangNames = new ThangNamesCollection(@thangIDs)
+    worldNecessities.push @supermodel.loadCollection(@thangNames, 'thang_names')
 
     for obj in objUniq componentVersions
       url = "/db/level.component/#{obj.original}/version/#{obj.majorVersion}"
@@ -133,11 +133,16 @@ module.exports = class LevelLoader extends CocoClass
 
   onWorldNecessitiesLoaded: =>
     @initWorld()
-    for thangID in @thangIDs
-      url = "/db/thang.type/#{thangID}/version"
-      url += "?project=true" if @headless and not @editorMode
-      res = @maybeLoadURL url, ThangType, 'thang'
-      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
+    return if @headless and not @editorMode
+    thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs) )
+    nameModelTuples = ([thangType.get('name'), thangType] for thangType in @thangNames.models)
+    nameModelMap = _.zipObject nameModelTuples
+
+    for thangTypeName in thangsToLoad
+      thang = nameModelMap[thangTypeName]
+      thang.fetch()
+      thang = @supermodel.loadModel(thang, 'thang').model
+      @listenToOnce thang, 'sync', @buildSpriteSheetsForThangType
 
   maybeLoadURL: (url, Model, resourceName) ->
     return if @supermodel.getModel(url)
