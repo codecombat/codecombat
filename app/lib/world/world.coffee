@@ -30,7 +30,8 @@ module.exports = class World
     @systems = []
     @systemMap = {}
     @scriptNotes = []
-    @rand = new Rand 0
+    # We want a seed thats not always 0 yet reproducable.
+    @rand = new Rand @hashString(JSON.stringify @userCodeMap)
     @frames = [new WorldFrame(@, 0)]
 
   getFrame: (frameIndex) ->
@@ -402,7 +403,7 @@ module.exports = class World
         return
     @finishDeserializing w, finishedWorldCallback, perf
 
-  @finishDeserializing: (w, finishedWorldCallback, perf) =>
+  @finishDeserializing: (w, finishedWorldCallback, perf) ->
     perf.t4 = now()
     w.ended = true
     w.getFrame(w.totalFrames - 1).restoreState()
@@ -485,3 +486,7 @@ module.exports = class World
   teamForPlayer: (n) ->
     playableTeams = @playableTeams ? ['humans']
     playableTeams[n % playableTeams.length]
+
+  #djb2 algorithm
+  hashString: (str) ->
+    (str.charCodeAt i for i in [0...str]).reduce(((hash, char) -> ((hash << 5) + hash) + char), 5381) # hash * 33 + c
