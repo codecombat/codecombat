@@ -2,6 +2,7 @@
 
 mongoose = require('mongoose')
 plugins = require('../../plugins/plugins')
+AchievablePlugin = require '../../plugins/achievements'
 jsonschema = require('../../../app/schemas/models/level_session')
 
 LevelSessionSchema = new mongoose.Schema({
@@ -10,6 +11,7 @@ LevelSessionSchema = new mongoose.Schema({
     'default': Date.now
 }, {strict: false})
 LevelSessionSchema.plugin(plugins.PermissionsPlugin)
+LevelSessionSchema.plugin(AchievablePlugin)
 
 LevelSessionSchema.pre 'init', (next) ->
   # TODO: refactor this into a set of common plugins for all models?
