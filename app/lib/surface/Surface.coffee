@@ -66,6 +66,7 @@ module.exports = Surface = class Surface extends CocoClass
     'tome:cast-spells': 'onCastSpells'
     'level-set-letterbox': 'onSetLetterbox'
     'application:idle-changed': 'onIdleChanged'
+    'camera:zoom-updated': 'onZoomUpdated'
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -81,6 +82,8 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.extend(@options, givenOptions) if givenOptions
     @initEasel()
     @initAudio()
+    @onResize = _.debounce @onResize, 500
+    $(window).on 'resize', @onResize
 
   destroy: ->
     @dead = true
@@ -102,6 +105,9 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.enableDOMEvents false
     @stage.enableMouseOver 0
     @canvas.off 'mousewheel', @onMouseWheel
+    $(window).off 'resize', @onResize
+    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
+    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
     super()
 
   setWorld: (@world) ->
@@ -250,6 +256,11 @@ module.exports = Surface = class Surface extends CocoClass
     @cameraBorder.updateBounds @camera.bounds
     @camera.zoomTo target, e.zoom, e.duration  # TODO: SurfaceScriptModule perhaps shouldn't assign e.zoom if not set
 
+  onZoomUpdated: (e) ->
+    if @ended
+      @setPaused false
+      @surfaceZoomPauseTimeout = _.delay (=> @setPaused true), 3000
+
   setDisabled: (@disabled) ->
     @spriteBoss.disabled = @disabled
 
@@ -302,14 +313,10 @@ module.exports = Surface = class Surface extends CocoClass
     )
 
     if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames - 1
-      @spriteBoss.stop()
-      @playbackOverScreen.show()
       @ended = true
       @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended'
     else if @currentFrame < @world.totalFrames and @ended
-      @spriteBoss.play()
-      @playbackOverScreen.hide()
       @ended = false
       @setPaused false
       Backbone.Mediator.publish 'surface:playback-restarted'
@@ -319,20 +326,27 @@ module.exports = Surface = class Surface extends CocoClass
   onIdleChanged: (e) ->
     @setPaused e.idle unless @ended
 
-  setPaused: (to) ->
+  setPaused: (paused) ->
     # We want to be able to essentially stop rendering the surface if it doesn't need to animate anything.
     # If pausing, though, we want to give it enough time to finish any tweens.
     performToggle = =>
-      createjs.Ticker.setFPS if to then 1 else @options.frameRate
-      @surfacePauseInterval = null
-    clearTimeout @surfacePauseInterval if @surfacePauseInterval
-    if to
-      @surfacePauseInterval = _.delay performToggle, 2000
+      createjs.Ticker.setFPS if paused then 1 else @options.frameRate
+      @surfacePauseTimeout = null
+    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
+    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
+    @surfacePauseTimeout = @surfaceZoomPauseTimeout = null
+    if paused
+      @surfacePauseTimeout = _.delay performToggle, 2000
+      @spriteBoss.stop()
+      @playbackOverScreen.show()
     else
       performToggle()
+      @spriteBoss.play()
+      @playbackOverScreen.hide()
 
   onCastSpells: (e) ->
     return if e.preload
+    @setPaused false if @ended
     @casting = true
     @wasPlayingWhenCastingBegan = @playing
     Backbone.Mediator.publish 'level-set-playing', { playing: false }
@@ -347,6 +361,10 @@ module.exports = Surface = class Surface extends CocoClass
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
     @casting = false
+    if @ended and not @wasPlayingWhenCastingBegan
+      @setPaused true
+    else
+      @spriteBoss.play()
 
     # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
     # so only run it after the first world is created.
@@ -377,8 +395,8 @@ module.exports = Surface = class Surface extends CocoClass
   initEasel: ->
     # takes DOM objects, not jQuery objects
     @stage = new createjs.Stage(@canvas[0])
-    canvasWidth = parseInt(@canvas.attr('width'), 10)
-    canvasHeight = parseInt(@canvas.attr('height'), 10)
+    canvasWidth = parseInt @canvas.attr('width'), 10
+    canvasHeight = parseInt @canvas.attr('height'), 10
     @camera?.destroy()
     @camera = new Camera canvasWidth, canvasHeight
     AudioPlayer.camera = @camera
@@ -398,6 +416,17 @@ module.exports = Surface = class Surface extends CocoClass
     @hookUpChooseControls() if @options.choosing
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
     createjs.Ticker.setFPS @options.frameRate
+    @onResize()
+
+  onResize: (e) =>
+    oldWidth = parseInt @canvas.attr('width'), 10
+    oldHeight = parseInt @canvas.attr('height'), 10
+    newWidth = @canvas.width()
+    newHeight = @canvas.height()
+    @canvas.attr width: newWidth, height: newHeight
+    @stage.scaleX *= newWidth / oldWidth
+    @stage.scaleY *= newHeight / oldHeight
+    @camera.onResize newWidth, newHeight
 
   showLevel: ->
     return if @dead

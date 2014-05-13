@@ -469,7 +469,7 @@ module.exports = class PlayLevelView extends View
 
   onSessionWillSave: (e) ->
     # Something interesting has happened, so (at a lower frequency), we'll save a screenshot.
-    @saveScreenshot e.session
+    #@saveScreenshot e.session
 
   # Throttled
   saveScreenshot: (session) =>

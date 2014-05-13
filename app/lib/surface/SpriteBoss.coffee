@@ -20,7 +20,6 @@ module.exports = class SpriteBoss extends CocoClass
     'level-lock-select': 'onSetLockSelect'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
-    'tome:cast-spells': 'onCastSpells'
     'camera:dragged': 'onCameraDragged'
     'sprite:loaded': -> @update(true)
 
@@ -222,9 +221,6 @@ module.exports = class SpriteBoss extends CocoClass
 
   onNewWorld: (e) ->
     @world = @options.world = e.world
-    @play()
-
-  onCastSpells: (e) -> @stop() unless e.preload
 
   play: ->
     sprite.play() for sprite in @spriteArray
@@ -270,7 +266,7 @@ module.exports = class SpriteBoss extends CocoClass
     worldPos = sprite?.thang?.pos
     worldPos ?= @camera.canvasToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
     if worldPos and (@options.navigateToSelection or not sprite or treemaThangSelected)
-      @camera.zoomTo(sprite?.displayObject or @camera.worldToSurface(worldPos), @camera.zoom, 1000)
+      @camera.zoomTo(sprite?.displayObject or @camera.worldToSurface(worldPos), @camera.zoom, 1000, true)
     sprite = null if @options.choosing  # Don't select sprites while choosing
     if sprite isnt @selectedSprite
       @selectedSprite?.selected = false

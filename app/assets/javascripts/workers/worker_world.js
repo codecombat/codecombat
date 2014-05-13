@@ -169,38 +169,8 @@ self.stringifyValue = function(value, depth) {
     return "" + prefix + brackets[0] + sep + "  " + (values.join(sep + '  ')) + sep + brackets[1];
 };
 
-var cache = {};
-
-self.invalidateCache = function () {
-    cache = {};
-};
-
-self.retrieveValueFromCache = function (thangID, spellID, variableChain, frame) {
-    var frameCache, thangCache, spellCache;
-    if ((frameCache = cache[frame]) && (thangCache = frameCache[thangID]) && (spellCache = thangCache[spellID]))
-        return spellCache[variableChain.join()];
-    return undefined;
-};
-self.updateCache = function (thangID, spellID, variableChain, frame, value) {
-    var key, keys, currentObject;
-    keys = [frame,thangID, spellID, variableChain.join()];
-    currentObject = cache;
-
-    for (var i = 0, len = keys.length - 1; i < len; i++)
-    {
-        key = keys[i];
-        if (!(key in currentObject))
-            currentObject[key] = {};
-        currentObject = currentObject[key];
-    }
-    currentObject[keys[keys.length - 1]] = value;
-};
 
 self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
-    var cacheValue;
-    if (args.frame === self.currentDebugWorldFrame && (cacheValue = self.retrieveValueFromCache(args.currentThangID, args.currentSpellID, args.variableChain, args.frame)))
-        return self.postMessage({type: 'debug-value-return', serialized: {"key": args.variableChain.join("."), "value": cacheValue}});
-
 
     var retrieveProperty = function retrieveProperty(currentThangID, currentSpellID, variableChain)
     {
@@ -253,7 +223,6 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
             "key": keys.join("."),
             "value": self.stringifyValue(value,0)
         };
-        self.updateCache(currentThangID,currentSpellID,variableChain, args.frame, serializedProperty.value);
         self.postMessage({type: 'debug-value-return', serialized: serializedProperty});
     };
     self.enableFlowOnThangSpell(args.currentThangID, args.currentSpellID, args.userCodeMap);
@@ -296,7 +265,6 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
     var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
     self.currentUserCodeMapCopy = stringifiedUserCodeMap;
-    if (args.frame != self.currentDebugWorldFrame) self.invalidateCache();
     if (!self.debugWorld || userCodeMapHasChanged || args.frame < self.currentDebugWorldFrame) {
         try {
             self.debugWorld = new World(args.userCodeMap);
@@ -321,7 +289,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
 
 
 self.onDebugWorldLoaded = function onDebugWorldLoaded() {
-    console.log("Debug world loaded!");
+    self.postMessage({type: 'debug-world-loaded'});
 };
 
 self.onDebugWorldError = function onDebugWorldError(error) {
