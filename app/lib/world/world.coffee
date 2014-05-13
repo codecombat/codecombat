@@ -35,7 +35,7 @@ module.exports = class World
     @frames = [new WorldFrame(@, 0)]
 
   getSeed: ->
-    #Packs all methods in all thangs in one big array, then sorts and joins them. Then returns a hash value of the result.
+    #Generates a seed that depends on the usercode
     @hashString((methods for thangID, methods of @userCodeMap).reduce(((ret, methods) ->
       ret.push method for methodID, method of methods
     ), []).sort().join())
