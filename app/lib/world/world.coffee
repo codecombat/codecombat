@@ -31,8 +31,16 @@ module.exports = class World
     @systemMap = {}
     @scriptNotes = []
     # We want a seed thats not always 0 yet reproducable.
-    @rand = new Rand @hashString(JSON.stringify @userCodeMap)
+    console.log "Seed: ", @getSeed()
+    @rand = new Rand @getSeed()
     @frames = [new WorldFrame(@, 0)]
+
+  getSeed: ->
+    return 0 unless @userCodeMap #TODO: When does this happen?
+    #Packs all methods in all thangs in one big array, then sorts and joins them. Then returns a hash value of the result.
+    @hashString((methods for thangID, methods of @userCodeMap).reduce(((ret, methods) ->
+      (method for methodID, method of methods).reduce(((ret, method) -> ret.push(method)), ret)
+    ), []).sort().join())
 
   getFrame: (frameIndex) ->
     # Optimize it a bit--assume we have all if @ended and are at the previous frame otherwise
