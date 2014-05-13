@@ -100,7 +100,7 @@ module.exports = class Angel extends CocoClass
     world.findFirstChangedFrame @shared.world
     @shared.world = world
     errorCount = (t for t in @shared.world.thangs when t.errorsOut).length
-    Backbone.Mediator.publish 'god:new-world-created', world: world, firstWorld: @shared.firstWorld, errorCount: errorCount, goalStates: goalStates
+    Backbone.Mediator.publish 'god:new-world-created', world: world, firstWorld: @shared.firstWorld, errorCount: errorCount, goalStates: goalStates, team: me.team
     for scriptNote in @shared.world.scriptNotes
       Backbone.Mediator.publish scriptNote.channel, scriptNote.event
     @shared.goalManager?.world = world
