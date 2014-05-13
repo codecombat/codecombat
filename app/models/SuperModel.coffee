@@ -19,7 +19,7 @@ module.exports = class SuperModel extends Backbone.Model
   loadModel: (model, name, fetchOptions, value=1) ->
     cachedModel = @getModelByURL(model.getURL())
     if cachedModel
-      console.debug 'Model cache hit', cachedModel.getURL(), 'already loaded', cachedModel.loaded
+      console.debug 'Model cache hit', cachedModel.get('name') or cachedModel.getURL()
       if cachedModel.loaded
         res = @addModelResource(cachedModel, name, fetchOptions, 0)
         res.markLoaded()

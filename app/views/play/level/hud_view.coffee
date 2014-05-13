@@ -109,6 +109,13 @@ module.exports = class HUDView extends View
     @update()
 
   createAvatar: (thangType, thang, colorConfig) ->
+    unless thangType.isFullyLoaded()
+      args = arguments
+      unless @listeningToCreateAvatar
+        @listenToOnce thangType, 'sync', -> @createAvatar(args...)
+        @listeningToCreateAvatar = true
+      return
+    @listeningToCreateAvatar = false
     options = thang.getSpriteOptions() or {}
     options.async = false
     options.colorConfig = colorConfig if colorConfig

@@ -70,7 +70,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @age = 0
     @scaleFactor = @targetScaleFactor = 1
     @displayObject = new createjs.Container()
-    if @thangType.get('actions') or @thangType.get('raster')
+    if @thangType.isFullyLoaded()
       @setupSprite()
     else
       @stillLoading = true
@@ -146,6 +146,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   queueAction: (action) ->
     # The normal way to have an action play
+    return unless @thangType.isFullyLoaded()
     action = @actions[action] if _.isString(action)
     action ?= @actions.idle
     @actionQueue = []
@@ -266,6 +267,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @hasMoved = true
 
   updateScale: ->
+    return unless @imageObject
     if @thangType.get('matchWorldDimensions') and @thang
       if @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight
         bounds = @imageObject.getBounds()

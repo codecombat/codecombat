@@ -26,12 +26,18 @@ module.exports = class ThangType extends CocoModel
     @buildActions()
     @spriteSheets = {}
     @building = {}
+    
+  isFullyLoaded: ->
+    # TODO: Come up with a better way to identify when the model doesn't have everything needed to build the sprite. ie when it's a projection without all the required data.
+    return @get('actions') or @get('raster') # needs one of these two things
 
   getActions: ->
+    return {} unless @isFullyLoaded()
     return @actions or @buildActions()
 
   buildActions: ->
-    @actions = $.extend(true, {}, @get('actions') or {})
+    return null unless @isFullyLoaded()
+    @actions = $.extend(true, {}, @get('actions'))
     for name, action of @actions
       action.name = name
       for relatedName, relatedAction of action.relatedActions ? {}
@@ -52,6 +58,7 @@ module.exports = class ThangType extends CocoModel
     options
 
   buildSpriteSheet: (options) ->
+    return false unless @isFullyLoaded()
     @options = @fillOptions options
     key = @spriteSheetKey(@options)
     return if @building[key]
@@ -146,7 +153,7 @@ module.exports = class ThangType extends CocoModel
       return true
     t0 = new Date()
     spriteSheet = @builder.build()
-    console.warn "Built #{@get('name')} in #{new Date() - t0}ms on main thread."
+    console.debug "Built #{@get('name')} in #{new Date() - t0}ms."
     @spriteSheets[key] = spriteSheet
     delete @building[key]
     spriteSheet
@@ -180,6 +187,7 @@ module.exports = class ThangType extends CocoModel
     stage?.toDataURL()
 
   getPortraitStage: (spriteOptionsOrKey, size=100) ->
+    return unless @isFullyLoaded()
     key = spriteOptionsOrKey
     key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
     spriteSheet = @spriteSheets[key]
