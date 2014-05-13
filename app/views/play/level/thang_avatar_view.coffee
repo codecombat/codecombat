@@ -35,7 +35,7 @@ module.exports = class ThangAvatarView extends View
     context.thang = @thang
     options = @thang?.getSpriteOptions() or {}
     options.async = false
-    context.avatarURL = @thangType.getPortraitSource(options)
+    context.avatarURL = @thangType.getPortraitSource(options) unless @thangType.loading
     context.includeName = @includeName
     context
 

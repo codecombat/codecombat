@@ -715,6 +715,7 @@
     top_simulators: "Top Simulators"
     source_document: "Source Document"
     document: "Document" # note to diplomats: not a physical document, a document in MongoDB, ie a record in a database
+    sprite_sheet: "Sprite Sheet"
 
   delta:
     added: "Added"

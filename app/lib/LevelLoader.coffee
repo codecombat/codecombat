@@ -137,12 +137,18 @@ module.exports = class LevelLoader extends CocoClass
     thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs) )
     nameModelTuples = ([thangType.get('name'), thangType] for thangType in @thangNames.models)
     nameModelMap = _.zipObject nameModelTuples
+    @spriteSheetsToBuild = []
 
     for thangTypeName in thangsToLoad
-      thang = nameModelMap[thangTypeName]
-      thang.fetch()
-      thang = @supermodel.loadModel(thang, 'thang').model
-      @listenToOnce thang, 'sync', @buildSpriteSheetsForThangType
+      thangType = nameModelMap[thangTypeName]
+      thangType.fetch()
+      thangType = @supermodel.loadModel(thangType, 'thang').model
+      res = @supermodel.addSomethingResource "sprite_sheet", 5
+      res.thangType = thangType
+      res.markLoading()
+      @spriteSheetsToBuild.push res
+
+    @buildLoopInterval = setInterval @buildLoop, 5
 
   maybeLoadURL: (url, Model, resourceName) ->
     return if @supermodel.getModel(url)
@@ -150,9 +156,22 @@ module.exports = class LevelLoader extends CocoClass
     @supermodel.loadModel(model, resourceName)
 
   onSupermodelLoaded: ->
+    console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms'
     @loadLevelSounds()
     @denormalizeSession()
     app.tracker.updatePlayState(@level, @session) unless @headless
+    
+  buildLoop: =>
+    return if @lastBuilt and new Date().getTime() - @lastBuilt < 10
+    return clearInterval @buildLoopInterval unless @spriteSheetsToBuild.length
+      
+    for spriteSheetResource, i in @spriteSheetsToBuild
+      if spriteSheetResource.thangType.loaded
+        @buildSpriteSheetsForThangType spriteSheetResource.thangType
+        @spriteSheetsToBuild.splice i, 1
+        @lastBuilt = new Date().getTime()
+        spriteSheetResource.markLoaded()
+        return
 
   denormalizeSession: ->
     return if @headless or @sessionDenormalized or @spectateMode
@@ -246,3 +265,7 @@ module.exports = class LevelLoader extends CocoClass
   # everything else sound wise is loaded as needed as worlds are generated
 
   progress: -> @supermodel.progress
+    
+  destroy: ->
+    clearInterval @buildLoopInterval if @buildLoopInterval
+    super()

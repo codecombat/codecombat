@@ -61,7 +61,9 @@ module.exports = class ThangType extends CocoModel
     return false unless @isFullyLoaded()
     @options = @fillOptions options
     key = @spriteSheetKey(@options)
+    if ss = @spriteSheets[key] then return ss
     return if @building[key]
+    @t0 = new Date().getTime()
     @initBuild(options)
     @addGeneralFrames() unless @options.portraitOnly
     @addPortrait()
@@ -151,9 +153,8 @@ module.exports = class ThangType extends CocoModel
       @builder.buildAsync() unless buildQueue.length > 1
       @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
       return true
-    t0 = new Date()
     spriteSheet = @builder.build()
-    console.debug "Built #{@get('name')} in #{new Date() - t0}ms."
+    console.debug "Built #{@get('name')} in #{new Date().getTime() - @t0}ms."
     @spriteSheets[key] = spriteSheet
     delete @building[key]
     spriteSheet

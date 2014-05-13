@@ -19,7 +19,6 @@ module.exports = class SuperModel extends Backbone.Model
   loadModel: (model, name, fetchOptions, value=1) ->
     cachedModel = @getModelByURL(model.getURL())
     if cachedModel
-      console.debug 'Model cache hit', cachedModel.get('name') or cachedModel.getURL()
       if cachedModel.loaded
         res = @addModelResource(cachedModel, name, fetchOptions, 0)
         res.markLoaded()
@@ -141,7 +140,7 @@ module.exports = class SuperModel extends Backbone.Model
     @listenToOnce(resource, 'loaded', @onResourceLoaded)
     @listenTo(resource, 'failed', @onResourceFailed)
     @denom += value
-    @updateProgress() if @denom
+    _.defer @updateProgress if @denom
 
   onResourceLoaded: (r) ->
     @num += r.value
