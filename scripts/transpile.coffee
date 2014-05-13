@@ -14,14 +14,14 @@ Aether.addGlobal '_', _
 
 transpileLevelSession = (sessionID, cb) ->
   query = LevelSession
-    .find("_id": sessionID)
+    .findOne("_id": sessionID)
     .select("submittedCode")
     .lean()
   query.exec (err, session) ->
     if err then return cb err
     submittedCode = session.submittedCode
     transpiledCode = {}
-      
+    
     for thang, spells of submittedCode
       transpiledCode[thang] = {}
       for spellID, spell of spells
@@ -29,22 +29,24 @@ transpileLevelSession = (sessionID, cb) ->
           problems: {}
           language: "javascript"
           functionName: spellID
-          functionParameters: {}
+          functionParameters: []
           yieldConditionally: spellID is "plan"
           globals: ['Vector', '_']
           protectAPI: true
           includeFlow: false
         aether = new Aether aetherOptions
         transpiledCode[thang][spellID] = aether.transpile spell
-    cb "Prematurely ended"
-    
-  
-  
+        cb null
+    conditions = 
+      "_id": sessionID
+    update = 
+      "transpiledCode"
+    query = LevelSession
+      .update("_id")
 
 findLadderLevelSessions = (levelID, cb) ->
   queryParameters = 
-    level:
-      original: levelID + ""
+    "level.original": levelID + ""
     submitted: true
     
   selectString = "_id"
@@ -55,17 +57,18 @@ findLadderLevelSessions = (levelID, cb) ->
   query.exec (err, levelSessions) ->
     if err then return cb err
     levelSessionIDs = _.pluck levelSessions, "_id"
-    async.each levelSessionIDs, transpileLevelSession, (err) ->
-      if err then return cb err
-      cb null
+    transpileLevelSession levelSessionIDs[0], (err) ->
+      throw err if err
+    #async.each levelSessionIDs, transpileLevelSession, (err) ->
+    #  if err then return cb err
+    #  cb null
     
   
 transpileLadderSessions = ->
   queryParameters = 
     type: "ladder"
-    version:
-      "isLatestMajor": true
-      "isLatestMinor": true
+    "version.isLatestMajor": true
+    "version.isLatestMinor": true
   selectString = "original"
   query = Level
     .find(queryParameters)
@@ -74,10 +77,10 @@ transpileLadderSessions = ->
   query.exec (err, ladderLevels) ->
     throw err if err
     ladderLevels = _.pluck ladderLevels, "original"
-    console.log "Found ladderlevels"
-    console.log ladderLevels
-    async.each ladderLevels, findLadderLevelSessions, (err) ->
+    findLadderLevelSessions ladderLevels[3], (err) ->
       throw err if err
+    #async.each ladderLevels, findLadderLevelSessions, (err) ->
+    #  throw err if err
 serverSetup.connectToDatabase()
 transpileLadderSessions()
     
