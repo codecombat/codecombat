@@ -174,7 +174,7 @@ module.exports = class MyMatchesTabView extends CocoView
     button = $(e.target).closest('.rank-button')
     sessionID = button.data('session-id')
     session = _.find @sessions.models, {id: sessionID}
-    return unless @readyToRank(session)
+    return unless session.readyToRank()
 
     @setRankingButtonText(button, 'submitting')
     success = =>
