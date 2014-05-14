@@ -699,6 +699,7 @@
     user_schema: "User Schema"
     user_profile: "User Profile"
     patches: "Patches"
+    patched_model: "Source Document"
     model: "Model"
     system: "System"
     component: "Component"
@@ -709,10 +710,12 @@
     opponent_session: "Opponent Session"
     article: "Article"
     user_names: "User Names"
+    thang_names: "Thang Names"
     files: "Files"
     top_simulators: "Top Simulators"
     source_document: "Source Document"
     document: "Document" # note to diplomats: not a physical document, a document in MongoDB, ie a record in a database
+    sprite_sheet: "Sprite Sheet"
 
   delta:
     added: "Added"

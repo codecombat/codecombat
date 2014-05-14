@@ -109,19 +109,29 @@ module.exports = class HUDView extends View
     @update()
 
   createAvatar: (thangType, thang, colorConfig) ->
+    unless thangType.isFullyLoaded()
+      args = arguments
+      unless @listeningToCreateAvatar
+        @listenToOnce thangType, 'sync', -> @createAvatar(args...)
+        @listeningToCreateAvatar = true
+      return
+    @listeningToCreateAvatar = false
     options = thang.getSpriteOptions() or {}
     options.async = false
     options.colorConfig = colorConfig if colorConfig
-    stage = thangType.getPortraitStage options
     wrapper = @$el.find '.thang-canvas-wrapper'
-    newCanvas = $(stage.canvas).addClass('thang-canvas')
-    wrapper.empty().append(newCanvas)
     team = @thang?.team or @speakerSprite?.thang?.team
     wrapper.removeClass (i, css) -> (css.match(/\bteam-\S+/g) or []).join ' '
     wrapper.addClass "team-#{team}"
-    stage.update()
-    @stage?.stopTalking()
-    @stage = stage
+    if thangType.get('raster')
+      wrapper.empty().append($('<img />').attr('src', '/file/'+thangType.get('raster')))
+    else
+      stage = thangType.getPortraitStage options
+      newCanvas = $(stage.canvas).addClass('thang-canvas')
+      wrapper.empty().append(newCanvas)
+      stage.update()
+      @stage?.stopTalking()
+      @stage = stage
 
   onThangBeganTalking: (e) ->
     return unless @stage and @thang is e.thang

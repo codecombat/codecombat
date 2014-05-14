@@ -67,7 +67,7 @@ module.exports = class SpellView extends View
       @createFirepad()
     else
       # needs to happen after the code generating this view is complete
-      setTimeout @onAllLoaded, 1
+      _.defer @onAllLoaded
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html

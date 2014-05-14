@@ -5,6 +5,7 @@ module.exports = class SuperModel extends Backbone.Model
     @progress = 0
     @resources = {}
     @rid = 0
+    @maxProgress = 1
 
     @models = {}
     @collections = {}
@@ -19,7 +20,6 @@ module.exports = class SuperModel extends Backbone.Model
   loadModel: (model, name, fetchOptions, value=1) ->
     cachedModel = @getModelByURL(model.getURL())
     if cachedModel
-      console.debug 'Model cache hit', cachedModel.getURL(), 'already loaded', cachedModel.loaded
       if cachedModel.loaded
         res = @addModelResource(cachedModel, name, fetchOptions, 0)
         res.markLoaded()
@@ -96,7 +96,7 @@ module.exports = class SuperModel extends Backbone.Model
     @registerCollection(collection)
 
   registerCollection: (collection) ->
-    @collections[collection.getURL()] = collection
+    @collections[collection.getURL()] = collection if collection.isCachable
     # consolidate models
     for model, i in collection.models
       cachedModel = @getModelByURL(model.getURL())
@@ -141,7 +141,7 @@ module.exports = class SuperModel extends Backbone.Model
     @listenToOnce(resource, 'loaded', @onResourceLoaded)
     @listenTo(resource, 'failed', @onResourceFailed)
     @denom += value
-    @updateProgress() if @denom
+    _.defer @updateProgress if @denom
 
   onResourceLoaded: (r) ->
     @num += r.value
@@ -155,11 +155,18 @@ module.exports = class SuperModel extends Backbone.Model
     # a bunch of things load all at once.
     # So make sure we only emit events if @progress has changed.
     newProg = if @denom then @num / @denom else 1
-    return if @progress is newProg
+    newProg = Math.min @maxProgress, newProg
+    return if @progress >= newProg
     @progress = newProg
     @trigger('update-progress', @progress)
     @trigger('loaded-all') if @finished()
-
+    
+  setMaxProgress: (@maxProgress) ->
+  resetProgress: -> @progress = 0
+  clearMaxProgress: ->
+    @maxProgress = 1
+    _.defer @updateProgress
+    
   getProgress: -> return @progress
 
   getResource: (rid) ->
@@ -202,6 +209,7 @@ class ModelResource extends Resource
     super(name, value)
     @model = modelOrCollection
     @fetchOptions = fetchOptions
+    @jqxhr = @model.jqxhr
 
   load: ->
     @markLoading()
