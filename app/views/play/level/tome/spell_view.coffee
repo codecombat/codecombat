@@ -468,7 +468,7 @@ module.exports = class SpellView extends View
     @highlightCurrentLine()
 
   onCoordinateSelected: (e) ->
-    return unless e.x? and e.y?
+    return unless @ace.isFocused() and e.x? and e.y?
     @ace.insert "{x: #{e.x}, y: #{e.y}}"
     @highlightCurrentLine()
 

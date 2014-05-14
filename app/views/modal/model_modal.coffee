@@ -9,7 +9,7 @@ module.exports = class ModelModal extends View
     super options
     @models = options.models
     for model in @models when not model.loaded
-      @addResourceToLoad model, 'model'
+      @supermodel.loadModel model, 'source_document'
       model.fetch()
 
   getRenderData: ->
@@ -18,8 +18,7 @@ module.exports = class ModelModal extends View
     c
 
   afterRender: ->
-    super()
-    return if @loading()
+    return unless @supermodel.finished()
     for model in @models
       data = $.extend true, {}, model.attributes
       schema = $.extend true, {}, model.schema()

@@ -519,10 +519,10 @@ module.exports = Surface = class Surface extends CocoClass
     if @debug and not @debugDisplay
       @screenLayer.addChild @debugDisplay = new DebugDisplay canvasWidth: @camera.canvasWidth, canvasHeight: @camera.canvasHeight
 
-  # uh
+  # Some mouse handling callbacks
 
   onMouseMove: (e) =>
-    @mouseSurfacePos = {x:e.stageX, y:e.stageY}
+    @mouseScreenPos = {x: e.stageX, y: e.stageY}
     return if @disabled
     Backbone.Mediator.publish 'surface:mouse-moved', x: e.stageX, y: e.stageY
 
@@ -538,7 +538,7 @@ module.exports = Surface = class Surface extends CocoClass
     event =
       deltaX: e.deltaX
       deltaY: e.deltaY
-      surfacePos: @mouseSurfacePos
+      screenPos: @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
   hookUpChooseControls: ->
