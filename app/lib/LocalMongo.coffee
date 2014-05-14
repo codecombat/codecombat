@@ -18,20 +18,21 @@ doQuerySelector = (value, operatorObj) ->
       when '$ne' then return false if mapred value, body, (l, r) -> l == r
       when '$in' then return false unless _.reduce value, ((result, val) -> result or val in body), false
       when '$nin' then return false if _.reduce value, ((result, val) -> result or val in body), false
+      else return false
   true
 
-
-LocalMongo.doLogicalOperator = (target, operatorObj) ->
-  for operator, body of operatorObj
-    switch operator
-      when '$or' then return false unless _.reduce body (res, query) -> res or matchesQuery target query, false
-      when '$and' then return false unless _.reduce body (res, query) -> res and matchesQuery target query, true
-
-
-LocalMongo.matchesQuery = (target, queryObj) =>
+matchesQuery = (target, queryObj) ->
   for prop, query of queryObj
-    return false unless prop of target
-    if typeof query != 'object' or _.isArray query
-      return false unless target[prop] == query or (query in target[prop] if _.isArray target[prop])
-    else return false unless doQuerySelector(target[prop], query)
+    if prop[0] == '$'
+      switch prop
+        when '$or' then return false unless _.reduce query, ((res, obj) -> res or matchesQuery target, obj), false
+        when '$and' then return false unless _.reduce query, ((res, obj) -> res and matchesQuery target, obj), true
+        else return false
+    else
+      return false unless prop of target
+      if typeof query != 'object' or _.isArray query
+        return false unless target[prop] == query or (query in target[prop] if _.isArray target[prop])
+      else return false unless doQuerySelector target[prop], query
   true
+
+LocalMongo.matchesQuery = matchesQuery
