@@ -38,6 +38,9 @@ module.exports = class Thang
     event.thang = @
     @world.publishNote channel, event
 
+  getGoalState: (goalID) ->
+    @world.getGoalState goalID
+    
   setGoalState: (goalID, status) ->
     @world.setGoalState goalID, status
 

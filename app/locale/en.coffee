@@ -120,7 +120,7 @@
     forum_suffix: " instead."
     send: "Send Feedback"
     contact_candidate: "Contact Candidate"
-    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 18% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
+    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
 
   diplomat_suggestion:
     title: "Help translate CodeCombat!"
@@ -699,6 +699,7 @@
     user_schema: "User Schema"
     user_profile: "User Profile"
     patches: "Patches"
+    patched_model: "Source Document"
     model: "Model"
     system: "System"
     component: "Component"
@@ -709,10 +710,12 @@
     opponent_session: "Opponent Session"
     article: "Article"
     user_names: "User Names"
+    thang_names: "Thang Names"
     files: "Files"
     top_simulators: "Top Simulators"
     source_document: "Source Document"
     document: "Document" # note to diplomats: not a physical document, a document in MongoDB, ie a record in a database
+    sprite_sheet: "Sprite Sheet"
 
   delta:
     added: "Added"

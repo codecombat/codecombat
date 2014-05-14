@@ -200,7 +200,7 @@ module.exports = class Mark extends CocoClass
     Backbone.Mediator.publish 'sprite:loaded'
 
   update: (pos=null) ->
-    return false unless @on and @mark
+    return false unless @on and @mark and @sprite?.thangType.isFullyLoaded()
     @mark.visible = not @hidden
     @updatePosition pos
     @updateRotation()
@@ -242,7 +242,7 @@ module.exports = class Mark extends CocoClass
       oldMark.parent.removeChild oldMark
     return unless @name in ["selection", "target", "repair", "highlight"]
     scale = 0.5
-    if @sprite
+    if @sprite?.imageObject
       size = @sprite.getAverageDimension()
       size += 60 if @name is 'selection'
       size += 60 if @name is 'repair'

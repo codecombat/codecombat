@@ -70,7 +70,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @age = 0
     @scaleFactor = @targetScaleFactor = 1
     @displayObject = new createjs.Container()
-    if @thangType.get('actions')
+    if @thangType.isFullyLoaded()
       @setupSprite()
     else
       @stillLoading = true
@@ -79,9 +79,30 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   setupSprite: ->
     @stillLoading = false
-    @actions = @thangType.getActions()
-    @buildFromSpriteSheet @buildSpriteSheet()
-    @createMarks()
+    if @thangType.get('raster')
+      @isRaster = true
+      @setUpRasterImage()
+      @actions = {}
+    else
+      @actions = @thangType.getActions()
+      @buildFromSpriteSheet @buildSpriteSheet()
+      @createMarks()
+
+  setUpRasterImage: ->
+    raster = @thangType.get('raster')
+    sprite = @imageObject = new createjs.Bitmap('/file/'+raster)
+    $(sprite.image).one 'load', => @updateScale?()
+    @displayObject.addChild(sprite)
+    @configureMouse()
+    @originalScaleX = sprite.scaleX
+    @originalScaleY = sprite.scaleY
+    @displayObject.sprite = @
+    @displayObject.layerPriority = @thangType.get 'layerPriority'
+    @displayObject.name = @thang?.spriteName or @thangType.get 'name'
+    reg = @getOffset 'registration'
+    @imageObject.regX = -reg.x
+    @imageObject.regY = -reg.y
+    @updateScale()
 
   destroy: ->
     mark.destroy() for name, mark of @marks
@@ -126,6 +147,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   queueAction: (action) ->
     # The normal way to have an action play
+    return unless @thangType.isFullyLoaded()
     action = @actions[action] if _.isString(action)
     action ?= @actions.idle
     @actionQueue = []
@@ -143,6 +165,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @playAction(@actionQueue.splice(0,1)[0]) if @actionQueue.length
 
   playAction: (action) ->
+    return if @isRaster
     @currentAction = action
     return @hide() unless action.animation or action.container or action.relatedActions
     @show()
@@ -245,15 +268,22 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @hasMoved = true
 
   updateScale: ->
+    return unless @imageObject
     if @thangType.get('matchWorldDimensions') and @thang
       if @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight
-        [@lastThangWidth, @lastThangHeight] = [@thang.width, @thang.height]
         bounds = @imageObject.getBounds()
+        return unless bounds
         @imageObject.scaleX = @thang.width * Camera.PPM / bounds.width
         @imageObject.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height
+        @imageObject.regX ?= 0
+        @imageObject.regX += bounds.width / 2
+        @imageObject.regY ?= 0
+        @imageObject.regY += bounds.height / 2
+        
         unless @thang.spriteName is 'Beam'
           @imageObject.scaleX *= @thangType.get('scale') ? 1
           @imageObject.scaleY *= @thangType.get('scale') ? 1
+        [@lastThangWidth, @lastThangHeight] = [@thang.width, @thang.height]
       return
     scaleX = if @getActionProp 'flipX' then -1 else 1
     scaleY = if @getActionProp 'flipY' then -1 else 1
@@ -270,6 +300,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       angle = -angle if angle < 0
       angle = 180 - angle if angle > 90
       scaleX = 0.5 + 0.5 * (90 - angle) / 90
+      
+    if @isRaster # scale is worked into building the sprite sheet for animations
+      scale = @thangType.get('scale') or 1
+      scaleX *= scale
+      scaleY *= scale
+      
     scaleFactorX = @thang.scaleFactorX ? @scaleFactor
     scaleFactorY = @thang.scaleFactorY ? @scaleFactor
     @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
@@ -322,6 +358,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   ##################################################
   updateAction: ->
+    return if @isRaster
     action = @determineAction()
     isDifferent = action isnt @currentRootAction or action is null
     if not action and @thang?.actionActivated and not @stopLogging
@@ -443,10 +480,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     def = x: 0, y: {registration: 0, torso: -50, mouth: -60, aboveHead: -100}[prop]
     pos = @getActionProp 'positions', prop, def
     pos = x: pos.x, y: pos.y
-    scale = @getActionProp 'scale', null, 1
-    scale *= @options.resolutionFactor if prop is 'registration'
-    pos.x *= scale
-    pos.y *= scale
+    if not @isRaster
+      scale = @getActionProp 'scale', null, 1
+      scale *= @options.resolutionFactor if prop is 'registration'
+      pos.x *= scale 
+      pos.y *= scale
     if @thang and prop isnt 'registration'
       scaleFactor = @thang.scaleFactor ? 1
       pos.x *= @thang.scaleFactorX ? scaleFactor
@@ -658,7 +696,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       z = @shadow.pos.z
       @shadow.pos = pos
       @shadow.pos.z = z
-      @imageObject.gotoAndPlay(endAnimation)
+      @imageObject.gotoAndPlay?(endAnimation)
       return
 
     @shadow.action = 'move'

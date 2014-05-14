@@ -213,6 +213,9 @@ module.exports = class GoalManager extends CocoClass
         else
           state[progressObjectName][thang] = false
 
+  getGoalState: (goalID) ->
+    @goalStates[goalID].status
+
   setGoalState: (goalID, status) ->
     state = @goalStates[goalID]
     state.status = status
