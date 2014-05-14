@@ -185,6 +185,6 @@ module.exports = class EmployersView extends View
       else  
         window.location.hash = id
       url = "/account/profile/#{id}"
-      app.router.navigate url, {trigger: true}
+      window.open url,"_blank"
     else
       @openModalView new EmployerSignupView
