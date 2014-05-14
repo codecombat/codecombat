@@ -91,6 +91,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   setUpRasterImage: ->
     raster = @thangType.get('raster')
     sprite = @imageObject = new createjs.Bitmap('/file/'+raster)
+    $(sprite.image).one 'load', => @updateScale?()
     @displayObject.addChild(sprite)
     @configureMouse()
     @originalScaleX = sprite.scaleX
@@ -271,9 +272,14 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if @thangType.get('matchWorldDimensions') and @thang
       if @thang.width isnt @lastThangWidth or @thang.height isnt @lastThangHeight
         bounds = @imageObject.getBounds()
-        return unless bounds # TODO: remove this because it's a bandaid over the image sometimes not being loaded
+        return unless bounds
         @imageObject.scaleX = @thang.width * Camera.PPM / bounds.width
         @imageObject.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height
+        @imageObject.regX ?= 0
+        @imageObject.regX += bounds.width / 2
+        @imageObject.regY ?= 0
+        @imageObject.regY += bounds.height / 2
+        
         unless @thang.spriteName is 'Beam'
           @imageObject.scaleX *= @thangType.get('scale') ? 1
           @imageObject.scaleY *= @thangType.get('scale') ? 1
