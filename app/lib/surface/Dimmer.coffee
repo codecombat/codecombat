@@ -67,7 +67,7 @@ module.exports = class Dimmer extends CocoClass
     @dimMask.graphics.clear()
     for thangID, sprite of @sprites
       continue unless (thangID in @highlightedThangIDs) or sprite.isTalking?() or sprite.thang?.id is 'My Wizard'
-      sup = x: sprite.displayObject.x, y: sprite.displayObject.y
+      sup = x: sprite.imageObject.x, y: sprite.imageObject.y
       cap = @camera.surfaceToCanvas sup
       r = 50 * @camera.zoom  # TODO: find better way to get the radius based on the sprite's size
       @dimMask.graphics.beginRadialGradientFill(["rgba(0,0,0,1)", "rgba(0,0,0,0)"], [0.5, 1], cap.x, cap.y, 0, cap.x, cap.y, r).drawCircle(cap.x, cap.y, r)

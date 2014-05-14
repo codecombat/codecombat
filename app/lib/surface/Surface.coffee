@@ -249,7 +249,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onSetCamera: (e) ->
     if e.thangID
-      return unless target = @spriteBoss.spriteFor(e.thangID)?.displayObject
+      return unless target = @spriteBoss.spriteFor(e.thangID)?.imageObject
     else if e.pos
       target = @camera.worldToSurface e.pos
     else
