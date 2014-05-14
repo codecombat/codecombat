@@ -272,6 +272,7 @@ constructTaskObject = (taskMessageBody, message, callback) ->
         "submitDate": session.submitDate
         "team": session.team ? "No team"
         "code": session.submittedCode
+        "transpiledCode": session.transpiledCode
         "teamSpells": session.teamSpells ? {}
         "levelID": session.levelID
         "creator": session.creator
@@ -296,7 +297,7 @@ processTaskObject = (taskObject,taskLogObject, message, cb) ->
 getSessionInformation = (sessionIDString, callback) ->
   findParameters =
     _id: sessionIDString
-  selectString = 'submitDate team submittedCode teamSpells levelID creator creatorName'
+  selectString = 'submitDate team submittedCode teamSpells levelID creator creatorName transpiledCode'
   query = LevelSession
   .findOne(findParameters)
   .select(selectString)
