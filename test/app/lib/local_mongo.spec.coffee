@@ -31,6 +31,7 @@ describe 'Local Mongo queries', ->
     expect(LocalMongo.matchesQuery(this.fixture1, 'value': '$gte': 9001)).toBeFalsy()
     expect(LocalMongo.matchesQuery(this.fixture1, 'value': '$gte': 9000)).toBeTruthy()
     expect(LocalMongo.matchesQuery(this.fixture1, 'value': '$gte': [9000, 10000])).toBeTruthy()
+    expect(LocalMongo.matchesQuery(this.fixture1, 'levels': '$gte': [21, 30])).toBeTruthy()
 
   it '$lt selector', ->
     expect(LocalMongo.matchesQuery(this.fixture1, 'value': '$lt': 9001)).toBeTruthy()
@@ -60,3 +61,11 @@ describe 'Local Mongo queries', ->
     expect(LocalMongo.matchesQuery(this.fixture1, 'type': '$nin': ['cats', 'dogs'])).toBeTruthy()
     expect(LocalMongo.matchesQuery(this.fixture1, 'likes': '$nin': ['popcorn', 'chicken'])).toBeFalsy()
 
+  it '$or operator', ->
+    expect(LocalMongo.matchesQuery(this.fixture1, $or: [{value:9000}, {type:'zebra'}])).toBeTruthy()
+    expect(LocalMongo.matchesQuery(this.fixture1, $or: [{value:9001}, {worth:$lt:10}])).toBeTruthy()
+
+  it '$and operator', ->
+    expect(LocalMongo.matchesQuery(this.fixture1, $and: [{value:9000}, {type:'zebra'}])).toBeFalsy()
+    expect(LocalMongo.matchesQuery(this.fixture1, $and: [{value:9000}, {type:'unicorn'}])).toBeTruthy()
+    expect(LocalMongo.matchesQuery(this.fixture1, $and: [{value:$gte:9000}, {worth:$lt:10}])).toBeTruthy()
