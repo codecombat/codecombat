@@ -162,6 +162,7 @@ module.exports = class SuperModel extends Backbone.Model
     @trigger('loaded-all') if @finished()
     
   setMaxProgress: (@maxProgress) ->
+  resetProgress: -> @progress = 0
   clearMaxProgress: ->
     @maxProgress = 1
     _.defer @updateProgress

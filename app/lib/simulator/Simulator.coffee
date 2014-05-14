@@ -74,7 +74,7 @@ module.exports = class Simulator extends CocoClass
       return
 
     @supermodel ?= new SuperModel()
-
+    @supermodel.resetProgress()
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
     if @supermodel.finished()
       @simulateGame()
