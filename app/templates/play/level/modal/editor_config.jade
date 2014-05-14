@@ -10,8 +10,9 @@ block modal-body-content
       select#tome-language(name="language")
         option(value="javascript" selected=(language === "javascript")) JavaScript
         option(value="coffeescript" selected=(language === "coffeescript")) CoffeeScript
+        option(value="python" selected=(language === "python")) Python (Experimental)
         option(value="clojure" selected=(language === "clojure")) Clojure (Experimental)
-        option(value="lua" selected=(language === "lua")) Lua (Soon)
+        option(value="lua" selected=(language === "lua")) Lua (Experimental)
       span.help-block(data-i18n="play_level.editor_config_language_description") Define the programming language you want to code in.
     .form-group.select-group
       label.control-label(for="tome-key-bindings" data-i18n="play_level.editor_config_keybindings_label") Key Bindings

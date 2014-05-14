@@ -20,6 +20,7 @@ module.exports = class SpellView extends View
     'coffeescript': 'ace/mode/coffee'
     'clojure': 'ace/mode/clojure'
     'lua': 'ace/mode/lua'
+    'python': 'ace/mode/lua'
 
   keyBindings:
     'default': null
@@ -359,6 +360,7 @@ module.exports = class SpellView extends View
   displayAether: (aether) ->
     @displayedAether = aether
     isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
+    isCast = isCast or (me.get('aceConfig') ? {})['language'] isnt 'javascript'  # Since we don't have linting for other languages
     problem.destroy() for problem in @problems  # Just in case another problem was added since clearAetherDisplay() ran.
     @problems = []
     annotations = []
