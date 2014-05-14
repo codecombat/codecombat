@@ -47,7 +47,7 @@ module.exports = class SpriteBoss extends CocoClass
   toString: -> "<SpriteBoss: #{@spriteArray.length} sprites>"
 
   thangTypeFor: (type) ->
-    _.find @options.thangTypes, (m) -> m.get('original') is type or m.get('name') is type
+    _.find @options.thangTypes, (m) -> m.get('actions') and m.get('original') is type or m.get('name') is type
 
   createLayers: ->
     @spriteLayers = {}
@@ -144,7 +144,11 @@ module.exports = class SpriteBoss extends CocoClass
 
   addThangToSprites: (thang, layer=null) ->
     return console.warn 'Tried to add Thang to the surface it already has:', thang.id if @sprites[thang.id]
-    thangType = _.find @options.thangTypes, (m) -> m.get('name') is thang.spriteName
+    thangType = _.find @options.thangTypes, (m) ->
+      return false unless m.get('actions') or m.get('raster')
+      return m.get('name') is thang.spriteName
+    thangType ?= _.find @options.thangTypes, (m) -> return m.get('name') is thang.spriteName
+
     options = @createSpriteOptions thang: thang
     options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else 4
     sprite = new CocoSprite thangType, options
@@ -196,6 +200,8 @@ module.exports = class SpriteBoss extends CocoClass
   cache: (update=false) ->
     return if @cached and not update
     wallSprites = (sprite for sprite in @spriteArray when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
+    unless _.all (s.thangType.isFullyLoaded() for s in wallSprites)
+      return 
     walls = (sprite.thang for sprite in wallSprites)
     @world.calculateBounds()
     wallGrid = new Grid walls, @world.size()...

@@ -101,4 +101,5 @@ module.exports = class Layer extends createjs.Container
   cache: ->
     return unless @children.length
     bounds = @getBounds()
+    return unless bounds
     super bounds.x, bounds.y, bounds.width, bounds.height, 2

@@ -74,7 +74,7 @@ module.exports = class Simulator extends CocoClass
       return
 
     @supermodel ?= new SuperModel()
-
+    @supermodel.resetProgress()
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
     if @supermodel.finished()
       @simulateGame()
@@ -269,7 +269,8 @@ module.exports = class Simulator extends CocoClass
     if spellTeam not in playerTeams then useProtectAPI = false
     @spells[spellKey].thangs[thang.id].aether = @createAether @spells[spellKey].name, method, useProtectAPI
 
-  transpileSpell: (thang, spellKey, methodName) ->
+  transpileSpell: (thang, spellKey, methodName) -> 
+
     slugifiedThangID = _.string.slugify thang.id
     source = @currentUserCodeMap[[slugifiedThangID,methodName].join '/'] ? ""
     aether = @spells[spellKey].thangs[thang.id].aether
@@ -284,7 +285,7 @@ module.exports = class Simulator extends CocoClass
       functionName: methodName
       protectAPI: useProtectAPI
       includeFlow: false
-      yieldConditionally: false
+      yieldConditionally: methodName is "plan"
       globals: ['Vector', '_']
       problems:
         jshint_W040: {level: "ignore"}

@@ -104,13 +104,14 @@ module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
   originalLevelID = req.body.originalLevelID
   currentLevelID = req.body.levelID
+  transpiledCode = req.body.transpiledCode
   requestLevelMajorVersion = parseInt(req.body.levelMajorVersion)
 
   async.waterfall [
     validatePermissions.bind(@,req,requestSessionID)
     fetchAndVerifyLevelType.bind(@,currentLevelID)
     fetchSessionObjectToSubmit.bind(@, requestSessionID)
-    updateSessionToSubmit
+    updateSessionToSubmit.bind(@, transpiledCode)
     fetchInitialSessionsToRankAgainst.bind(@, requestLevelMajorVersion, originalLevelID)
     generateAndSendTaskPairsToTheQueue
   ], (err, successMessageObject) ->
@@ -163,10 +164,11 @@ fetchSessionObjectToSubmit = (sessionID, callback) ->
   query.exec (err, session) ->
     callback err, session?.toObject()
 
-updateSessionToSubmit = (sessionToUpdate, callback) ->
+updateSessionToSubmit = (transpiledCode, sessionToUpdate, callback) ->
   sessionUpdateObject =
     submitted: true
     submittedCode: sessionToUpdate.code
+    transpiledCode: transpiledCode
     submitDate: new Date()
     meanStrength: 25
     standardDeviation: 25/3

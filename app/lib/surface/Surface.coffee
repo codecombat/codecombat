@@ -84,6 +84,8 @@ module.exports = Surface = class Surface extends CocoClass
     @initAudio()
     @onResize = _.debounce @onResize, 500
     $(window).on 'resize', @onResize
+    if @world.ended
+      _.defer => @setWorld @world
 
   destroy: ->
     @dead = true
