@@ -60,7 +60,6 @@ module.exports = class PlayLevelView extends View
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:session-will-save': 'onSessionWillSave'
     'level:set-team': 'setTeam'
-    'god:new-world-created': 'loadSoundsForWorld'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
 
@@ -309,9 +308,6 @@ module.exports = class PlayLevelView extends View
     $('#level-done-button', @$el).hide()
     application.tracker?.trackEvent 'Confirmed Restart', level: @world.name, label: @world.name
 
-  onNewWorld: (e) ->
-    @world = e.world
-
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
     @openModalView new InfiniteLoopModal()
@@ -484,11 +480,11 @@ module.exports = class PlayLevelView extends View
 
   # Dynamic sound loading
 
-  loadSoundsForWorld: (e) ->
+  onNewWorld: (e) ->
     return if @headless
-    world = e.world
+    @world = e.world
     thangTypes = @supermodel.getModels(ThangType)
-    for [spriteName, message] in world.thangDialogueSounds()
+    for [spriteName, message] in @world.thangDialogueSounds()
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
