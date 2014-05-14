@@ -5,6 +5,7 @@ module.exports = class SuperModel extends Backbone.Model
     @progress = 0
     @resources = {}
     @rid = 0
+    @maxProgress = 1
 
     @models = {}
     @collections = {}
@@ -154,11 +155,17 @@ module.exports = class SuperModel extends Backbone.Model
     # a bunch of things load all at once.
     # So make sure we only emit events if @progress has changed.
     newProg = if @denom then @num / @denom else 1
-    return if @progress is newProg
+    newProg = Math.min @maxProgress, newProg
+    return if @progress >= newProg
     @progress = newProg
     @trigger('update-progress', @progress)
     @trigger('loaded-all') if @finished()
-
+    
+  setMaxProgress: (@maxProgress) ->
+  clearMaxProgress: ->
+    @maxProgress = 1
+    _.defer @updateProgress
+    
   getProgress: -> return @progress
 
   getResource: (rid) ->

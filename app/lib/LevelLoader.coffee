@@ -25,6 +25,7 @@ module.exports = class LevelLoader extends CocoClass
     @t0 = new Date().getTime()
     super()
     @supermodel = options.supermodel
+    @supermodel.setMaxProgress 0.2
     @levelID = options.levelID
     @sessionID = options.sessionID
     @opponentSessionID = options.opponentSessionID
@@ -133,6 +134,7 @@ module.exports = class LevelLoader extends CocoClass
 
   onWorldNecessitiesLoaded: =>
     @initWorld()
+    @supermodel.clearMaxProgress()
     return if @headless and not @editorMode
     thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs) )
     nameModelTuples = ([thangType.get('name'), thangType] for thangType in @thangNames.models)
