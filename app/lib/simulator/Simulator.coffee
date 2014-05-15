@@ -55,6 +55,7 @@ module.exports = class Simulator extends CocoClass
     console.log info
     @trigger 'statusUpdate', info
     @simulateAnotherTaskAfterDelay()
+    application.tracker?.trackEvent 'Simulator Result', label: "No Games"
 
   simulateAnotherTaskAfterDelay: =>
     console.log "Retrying in #{@retryDelayInSeconds}"
@@ -169,6 +170,7 @@ module.exports = class Simulator extends CocoClass
     unless @options.headlessClient
       simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
       $('#simulated-by-you').text(simulatedBy)
+    application.tracker?.trackEvent 'Simulator Result', label: "Success"
 
   handleTaskResultsTransferError: (error) =>
     @trigger 'statusUpdate', 'There was an error sending the results back to the server.'
@@ -270,7 +272,7 @@ module.exports = class Simulator extends CocoClass
     if spellTeam not in playerTeams then useProtectAPI = false
     @spells[spellKey].thangs[thang.id].aether = @createAether @spells[spellKey].name, method, useProtectAPI
 
-  transpileSpell: (thang, spellKey, methodName) -> 
+  transpileSpell: (thang, spellKey, methodName) ->
 
     slugifiedThangID = _.string.slugify thang.id
     source = @currentUserCodeMap[[slugifiedThangID,methodName].join '/'] ? ""
