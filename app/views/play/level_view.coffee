@@ -199,7 +199,7 @@ module.exports = class PlayLevelView extends View
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
 
-    opponentCode = @otherSession?.get('submittedCode') or {}
+    opponentCode = @otherSession?.get('transpiledCode') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
