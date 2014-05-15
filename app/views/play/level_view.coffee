@@ -242,7 +242,7 @@ module.exports = class PlayLevelView extends View
 
   insertSubviews: ->
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
-    @insertSubView new PlaybackView {}
+    @insertSubView new PlaybackView session: @session
     @insertSubView new GoalsView {}
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}

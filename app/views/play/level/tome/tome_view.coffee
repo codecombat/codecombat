@@ -105,6 +105,7 @@ module.exports = class TomeView extends View
     return teamSpellMap
 
   createSpells: (programmableThangs, world) ->
+    language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'javascript'
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
     @thangSpells ?= {}
@@ -120,7 +121,7 @@ module.exports = class TomeView extends View
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
           skipProtectAPI = @getQueryVariable "skip_protect_api", (@options.levelID in ['gridmancer'])
-          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipProtectAPI: skipProtectAPI, worker: @worker
+          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipProtectAPI: skipProtectAPI, worker: @worker, language: language
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
       if thang
@@ -207,8 +208,9 @@ module.exports = class TomeView extends View
     spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team or (spell.team in ["common", "neutral", null])
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: false
 
-  updateLanguageForAllSpells: ->
-    spell.updateLanguageAether() for spellKey, spell of @spells
+  updateLanguageForAllSpells: (e) ->
+    spell.updateLanguageAether e.language for spellKey, spell of @spells when spell.canWrite()
+    @cast()
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
