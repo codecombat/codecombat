@@ -109,6 +109,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   destroy: ->
     mark.destroy() for name, mark of @marks
     label.destroy() for name, label of @labels
+    p.removeChild @healthBar if p = @healthBar?.parent
     @imageObject?.off 'animationend', @playNextAction
     clearInterval @effectInterval if @effectInterval
     super()
