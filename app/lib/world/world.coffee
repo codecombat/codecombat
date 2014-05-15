@@ -30,15 +30,8 @@ module.exports = class World
     @systems = []
     @systemMap = {}
     @scriptNotes = []
-    # We want a seed thats not always 0 yet reproducable.
-    @rand = new Rand @getSeed()
+    @rand = new Rand 0  # Existence System may change this seed
     @frames = [new WorldFrame(@, 0)]
-
-  getSeed: ->
-    #Generates a seed that depends on the usercode
-    @hashString((methods for thangID, methods of @userCodeMap).reduce(((ret, methods) ->
-      ret.push method for methodID, method of methods
-    ), []).sort().join())
 
   getFrame: (frameIndex) ->
     # Optimize it a bit--assume we have all if @ended and are at the previous frame otherwise
@@ -492,7 +485,3 @@ module.exports = class World
   teamForPlayer: (n) ->
     playableTeams = @playableTeams ? ['humans']
     playableTeams[n % playableTeams.length]
-
-  #djb2 algorithm
-  hashString: (str) ->
-    (str.charCodeAt i for i in [0...str.length]).reduce(((hash, char) -> ((hash << 5) + hash) + char), 5381) # hash * 33 + c

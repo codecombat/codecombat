@@ -103,9 +103,9 @@ module.exports = class PlayLevelView extends View
     @supermodel.collections = givenSupermodel.collections
     @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
 
-    @god?.level = @level.serialize @supermodel
+    serializedLevel = @level.serialize @supermodel
+    @god?.setLevel serializedLevel
     if @world
-      serializedLevel = @level.serialize(@supermodel)
       @world.loadFromLevel serializedLevel, false
     else
       @load()
@@ -169,6 +169,7 @@ module.exports = class PlayLevelView extends View
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
     @god.setLevel @level.serialize @supermodel
+    @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
     @setTeam team
     @initSurface()
