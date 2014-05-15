@@ -263,8 +263,10 @@
     skip_tutorial: "Skip (esc)"
     editor_config: "Editor Config"
     editor_config_title: "Editor Configuration"
-    editor_config_language_label: "Programming Language"
-    editor_config_language_description: "Define the programming language you want to code in."
+    editor_config_level_language_label: "Language for This Level"
+    editor_config_level_language_description: "Define the programming language for this particular level."
+    editor_config_default_language_label: "Default Programming Language"
+    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
     editor_config_keybindings_label: "Key Bindings"
     editor_config_keybindings_default: "Default (Ace)"
     editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
@@ -725,4 +727,3 @@
     text_diff: "Text Diff"
     merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "No Changes"
-    

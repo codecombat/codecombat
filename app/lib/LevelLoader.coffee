@@ -162,11 +162,11 @@ module.exports = class LevelLoader extends CocoClass
     @loadLevelSounds()
     @denormalizeSession()
     app.tracker.updatePlayState(@level, @session) unless @headless
-    
+
   buildLoop: =>
     return if @lastBuilt and new Date().getTime() - @lastBuilt < 10
     return clearInterval @buildLoopInterval unless @spriteSheetsToBuild.length
-      
+
     for spriteSheetResource, i in @spriteSheetsToBuild
       if spriteSheetResource.thangType.loaded
         @buildSpriteSheetsForThangType spriteSheetResource.thangType
@@ -267,7 +267,7 @@ module.exports = class LevelLoader extends CocoClass
   # everything else sound wise is loaded as needed as worlds are generated
 
   progress: -> @supermodel.progress
-    
+
   destroy: ->
     clearInterval @buildLoopInterval if @buildLoopInterval
     super()
