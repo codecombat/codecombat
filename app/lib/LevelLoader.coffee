@@ -136,7 +136,7 @@ module.exports = class LevelLoader extends CocoClass
     @initWorld()
     @supermodel.clearMaxProgress()
     return if @headless and not @editorMode
-    thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs) )
+    thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs when t.exists) )
     nameModelTuples = ([thangType.get('name'), thangType] for thangType in @thangNames.models)
     nameModelMap = _.zipObject nameModelTuples
     @spriteSheetsToBuild = []

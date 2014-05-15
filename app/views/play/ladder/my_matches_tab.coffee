@@ -32,6 +32,7 @@ module.exports = class MyMatchesTabView extends CocoView
     return @finishRendering() unless ids.length
 
     success = (nameMap) =>
+      return if @destroyed
       for session in @sessions.models
         for match in session.get('matches') or []
           opponent = match.opponents[0]
@@ -178,10 +179,10 @@ module.exports = class MyMatchesTabView extends CocoView
 
     @setRankingButtonText(button, 'submitting')
     success = =>
-      @setRankingButtonText(button, 'submitted')
+      @setRankingButtonText(button, 'submitted') unless @destroyed
     failure = (jqxhr, textStatus, errorThrown) =>
       console.log jqxhr.responseText
-      @setRankingButtonText(button, 'failed')
+      @setRankingButtonText(button, 'failed') unless @destroyed
     transpiledCode = @transpileSession session
 
     ajaxData =

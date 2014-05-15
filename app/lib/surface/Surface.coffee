@@ -425,6 +425,9 @@ module.exports = Surface = class Surface extends CocoClass
     oldHeight = parseInt @canvas.attr('height'), 10
     newWidth = @canvas.width()
     newHeight = @canvas.height()
+    #if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
+    #  newWidth = Math.min 924, newWidth
+    #  newHeight = Math.min 589, newHeight
     @canvas.attr width: newWidth, height: newHeight
     @stage.scaleX *= newWidth / oldWidth
     @stage.scaleY *= newHeight / oldHeight
