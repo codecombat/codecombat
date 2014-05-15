@@ -38,6 +38,7 @@ module.exports = class SimulateTabView extends CocoView
   # Simulations
 
   onSimulateButtonClick: (e) ->
+    application.tracker?.trackEvent 'Simulate Button Click', {}
     $("#simulate-button").prop "disabled", true
     $("#simulate-button").text "Simulating..."
 
