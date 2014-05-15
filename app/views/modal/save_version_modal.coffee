@@ -14,7 +14,8 @@ module.exports = class SaveVersionModal extends ModalView
     'click #save-version-button': 'onClickSaveButton'
     'click #cla-link': 'onClickCLALink'
     'click #agreement-button': 'onAgreedToCLA'
-    'click #submit-patch-button': 'onClickPatchButton'
+    'click #submit-patch-button': 'submitPatch'
+    'submit form': 'submitPatch'
 
   constructor: (options) ->
     super options
@@ -45,7 +46,7 @@ module.exports = class SaveVersionModal extends ModalView
       commitMessage: @$el.find('#commit-message').val()
     }
 
-  onClickPatchButton: ->
+  submitPatch: ->
     forms.clearFormAlerts @$el
     patch = new Patch()
     patch.set 'delta', @model.getDelta()

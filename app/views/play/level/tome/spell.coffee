@@ -14,6 +14,7 @@ module.exports = class Spell
     @spellKey = options.spellKey
     @pathComponents = options.pathComponents
     @session = options.session
+    @spectateView = options.spectateView
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
@@ -21,6 +22,7 @@ module.exports = class Spell
 
     @name = p.name
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
+    @useTranspiledCode = @permissions.readwrite.length and ((not _.contains(@session.get('teamSpells')[@session.get('team')],@spellKey)) or (@session.get('creator') isnt me.id) or @spectateView)
     @source = @originalSource = p.source
     @parameters = p.parameters
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
@@ -64,10 +66,15 @@ module.exports = class Spell
     else
       source = @getSource()
     [pure, problems] = [null, null]
+    if @useTranspiledCode
+      transpiledCode = @session.get('code')
     for thangID, spellThang of @thangs
       unless pure
-        pure = spellThang.aether.transpile source
-        problems = spellThang.aether.problems
+        if @useTranspiledCode and transpiledSpell = transpiledCode[_.string.slugify thangID]?[@name]
+          spellThang.aether.pure = transpiledSpell
+        else
+          pure = spellThang.aether.transpile source
+          problems = spellThang.aether.problems
         #console.log "aether transpiled", source.length, "to", pure.length, "for", thangID, @spellKey
       else
         spellThang.aether.pure = pure

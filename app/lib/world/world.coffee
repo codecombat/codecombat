@@ -30,7 +30,7 @@ module.exports = class World
     @systems = []
     @systemMap = {}
     @scriptNotes = []
-    @rand = new Rand 0
+    @rand = new Rand 0  # Existence System may change this seed
     @frames = [new WorldFrame(@, 0)]
 
   getFrame: (frameIndex) ->
@@ -405,7 +405,7 @@ module.exports = class World
         return
     @finishDeserializing w, finishedWorldCallback, perf
 
-  @finishDeserializing: (w, finishedWorldCallback, perf) =>
+  @finishDeserializing: (w, finishedWorldCallback, perf) ->
     perf.t4 = now()
     w.ended = true
     w.getFrame(w.totalFrames - 1).restoreState()

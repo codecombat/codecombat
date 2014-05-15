@@ -268,6 +268,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
     if (!self.debugWorld || userCodeMapHasChanged || args.frame < self.currentDebugWorldFrame) {
         try {
             self.debugWorld = new World(args.userCodeMap);
+            self.debugWorld.levelSessionIDs = args.levelSessionIDs;
             if (args.level)
                 self.debugWorld.loadFromLevel(args.level, true);
             self.debugWorld.debugging = true;
@@ -320,6 +321,7 @@ self.runWorld = function runWorld(args) {
 
   try {
     self.world = new World(args.userCodeMap);
+    self.world.levelSessionIDs = args.levelSessionIDs;
     if(args.level)
       self.world.loadFromLevel(args.level, true);
     self.world.preloading = args.preload;

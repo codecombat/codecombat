@@ -76,6 +76,7 @@ module.exports = class MultiplayerModal extends View
     for thang, spells of submittedCode
       transpiledCode[thang] = {}
       for spellID, spell of spells
+        unless _.contains(session.get('teamSpells')[session.get('team')], thang + "/" + spellID) then continue
         #DRY this
         aetherOptions =
           problems: {}
