@@ -17,7 +17,7 @@ module.exports = class ProblemAlertView extends View
 
   getRenderData: (context={}) ->
     context = super context
-    format = (s) -> s?.replace('<', '&lt;').replace('>', '&gt;').replace("\n", "<br>")
+    format = (s) -> s?.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')
     message = @problem.aetherProblem.message
     age = @problem.aetherProblem.userInfo.age
     if age?
