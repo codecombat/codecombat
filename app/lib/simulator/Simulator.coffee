@@ -103,6 +103,7 @@ module.exports = class Simulator extends CocoClass
 
   setupGod: ->
     @god.setLevel @level.serialize @supermodel
+    @god.setLevelSessionIDs (session.id for session in @task.getSessions())
     @god.setWorldClassMap @world.classMap
     @god.setGoalManager new GoalManager(@world, @level.get 'goals')
 

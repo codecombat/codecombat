@@ -239,6 +239,7 @@ module.exports = class LevelLoader extends CocoClass
     return if @initialized
     @initialized = true
     @world = new World()
+    @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
     console.log "World has been initialized from level loader."

@@ -46,6 +46,7 @@ module.exports = class God extends CocoClass
     super()
 
   setLevel: (@level) ->
+  setLevelSessionIDs: (@levelSessionIDs) ->
   setGoalManager: (goalManager) -> @angelsShare.goalManager = goalManager
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
@@ -73,6 +74,7 @@ module.exports = class God extends CocoClass
     @angelsShare.workQueue.push
       userCodeMap: userCodeMap
       level: @level
+      levelSessionIDs: @levelSessionIDs
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
       preload: preload
@@ -99,6 +101,7 @@ module.exports = class God extends CocoClass
       args:
         userCodeMap: @currentUserCodeMap
         level: @level
+        levelSessionIDs: @levelSessionIDs
         goals: @goalManager?.getGoals()
         frame: args.frame
         currentThangID: args.thangID

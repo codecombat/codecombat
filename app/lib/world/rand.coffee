@@ -1,8 +1,7 @@
-# If we ever need a seedable PRNG, we can use this.
 # http://coffeescriptcookbook.com/chapters/math/generating-predictable-random-numbers
 class Rand
   @className: "Rand"
-  # if created without a seed, uses current time as seed
+  # If created without a seed, uses current time as seed.
   constructor: (@seed) ->
     # Knuth and Lewis' improvements to Park and Miller's LCPRNG
     @multiplier = 1664525
@@ -11,9 +10,9 @@ class Rand
     unless @seed? and 0 <= seed < @modulo
       @seed = (new Date().valueOf() * new Date().getMilliseconds()) % @modulo
 
-  # sets new seed value
-  seed: (seed) ->
-    @seed = seed
+  # sets new seed value, even handling negative numbers
+  setSeed: (seed) ->
+    @seed = ((seed % @modulo) + @modulo) % @modulo
 
   # return a random integer 0 <= n < @modulo
   randn: =>
