@@ -121,7 +121,17 @@ module.exports = class TomeView extends View
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
           skipProtectAPI = @getQueryVariable "skip_protect_api", (@options.levelID in ['gridmancer'])
-          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipProtectAPI: skipProtectAPI, worker: @worker, language: language
+          spell = @spells[spellKey] = new Spell 
+            programmableMethod: method
+            spellKey: spellKey
+            pathComponents: pathPrefixComponents.concat(pathComponents)
+            session: @options.session
+            supermodel: @supermodel
+            skipProtectAPI: skipProtectAPI
+            worker: @worker
+            language: language
+            spectateView: @options.spectateView
+            
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
       if thang

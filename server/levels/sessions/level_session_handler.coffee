@@ -14,7 +14,14 @@ class LevelSessionHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @getActiveSessions req, res if args.length is 2 and args[1] is 'active'
     super(arguments...)
-
+    
+  formatEntity: (req, document) ->
+    documentObject = super(req, document)
+    if req.user.isAdmin() or req.user.id is document.creator
+      return documentObject
+    else
+      return _.omit documentObject, ['submittedCode','code']
+      
   getActiveSessions: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user.isAdmin()
     start = new Date()

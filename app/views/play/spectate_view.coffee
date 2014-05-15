@@ -196,13 +196,14 @@ module.exports = class SpectateLevelView extends View
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
 
-    opponentCode = @otherSession?.get('submittedCode') or {}
-    myCode = @session.get('submittedCode') or {}
+    opponentCode = @otherSession?.get('transpiledCode') or {}
+    myCode = @session.get('transpiledCode') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
       c = opponentCode[thang]?[spell]
       myCode[thang] ?= {}
       if c then myCode[thang][spell] = c else delete myCode[thang][spell]
+    
     @session.set('code', myCode)
     if @session.get('multiplayer') and @otherSession?
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
@@ -231,7 +232,7 @@ module.exports = class SpectateLevelView extends View
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, spectateView: true
     @insertSubView new PlaybackView {}
 
     @insertSubView new GoldView {}

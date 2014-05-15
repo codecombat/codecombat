@@ -85,6 +85,7 @@ module.exports = class VictoryModal extends View
       transpiledCode[thang] = {}
       for spellID, spell of spells
         #DRY this
+        unless _.contains(session.get('teamSpells')[session.get('team')], thang + "/" + spellID) then continue
         aetherOptions =
           problems: {}
           language: "javascript"
