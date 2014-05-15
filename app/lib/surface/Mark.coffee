@@ -113,7 +113,7 @@ module.exports = class Mark extends CocoClass
     @mark.regX = width / 2
     @mark.regY = height / 2
     @mark.layerIndex = 10
-    #@mark.cache 0, 0, diameter, diameter  # not actually faster than simple ellipse draw
+    @mark.cache 0, 0, width, height # not actually faster than simple ellipse draw
 
   buildRadius: (range) ->
     alpha = 0.15
