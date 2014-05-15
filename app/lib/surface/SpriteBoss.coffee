@@ -11,7 +11,7 @@ module.exports = class SpriteBoss extends CocoClass
   subscriptions:
     'bus:player-joined': 'onPlayerJoined'
     'bus:player-left': 'onPlayerLeft'
-    'level-set-debug': 'onSetDebug'
+#    'level-set-debug': 'onSetDebug'
     'level-highlight-sprites': 'onHighlightSprites'
     'sprite:mouse-up': 'onSpriteMouseUp'
     'surface:stage-mouse-down': 'onStageMouseDown'
@@ -79,8 +79,8 @@ module.exports = class SpriteBoss extends CocoClass
     @sprites[id] = sprite
     @spriteArray.push sprite
     layer ?= @spriteLayers["Obstacle"] if sprite.thang?.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
-    layer ?= @layerForChild sprite.displayObject, sprite
-    layer.addChild sprite.displayObject
+    layer ?= @layerForChild sprite.imageObject, sprite
+    layer.addChild sprite.imageObject
     layer.updateLayerOrder()
     sprite
 
@@ -157,7 +157,7 @@ module.exports = class SpriteBoss extends CocoClass
     sprite
 
   removeSprite: (sprite) ->
-    sprite.displayObject.parent.removeChild sprite.displayObject
+    sprite.imageObject.parent.removeChild sprite.imageObject
     thang = sprite.thang
     delete @sprites[sprite.thang.id]
     @spriteArray.splice @spriteArray.indexOf(sprite), 1
@@ -183,11 +183,11 @@ module.exports = class SpriteBoss extends CocoClass
       else
         sprite = @addThangToSprites(thang)
         Backbone.Mediator.publish 'surface:new-thang-added', thang:thang, sprite:sprite
-        updateCache = updateCache or sprite.displayObject.parent is @spriteLayers["Obstacle"]
+        updateCache = updateCache or sprite.imageObject.parent is @spriteLayers["Obstacle"]
         sprite.playSounds()
     for thangID, sprite of @sprites
       missing = not (sprite.notOfThisWorld or @world.thangMap[thangID]?.exists)
-      isObstacle = sprite.displayObject.parent is @spriteLayers["Obstacle"]
+      isObstacle = sprite.imageObject.parent is @spriteLayers["Obstacle"]
       updateCache = updateCache or (isObstacle and (missing or sprite.hasMoved))
       sprite.hasMoved = false
       @removeSprite sprite if missing
@@ -264,9 +264,9 @@ module.exports = class SpriteBoss extends CocoClass
   selectSprite: (e, sprite=null, spellName=null, treemaThangSelected = null) ->
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = sprite?.thang?.pos
-    worldPos ?= @camera.canvasToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
+    worldPos ?= @camera.screenToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
     if worldPos and (@options.navigateToSelection or not sprite or treemaThangSelected)
-      @camera.zoomTo(sprite?.displayObject or @camera.worldToSurface(worldPos), @camera.zoom, 1000, true)
+      @camera.zoomTo(sprite?.imageObject or @camera.worldToSurface(worldPos), @camera.zoom, 1000, true)
     sprite = null if @options.choosing  # Don't select sprites while choosing
     if sprite isnt @selectedSprite
       @selectedSprite?.selected = false

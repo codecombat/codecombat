@@ -10,8 +10,16 @@ module.exports = class GoldView extends View
     'surface:gold-changed': 'onGoldChanged'
     'level-set-letterbox': 'onSetLetterbox'
 
+  constructor: (options) ->
+    super options
+    @teamGold = {}
+    @teamGoldEarned = {}
+
   onGoldChanged: (e) ->
     @$el.show()
+    return if @teamGold[e.team] is e.gold and @teamGoldEarned[e.team] is e.goldEarned
+    @teamGold[e.team] = e.gold
+    @teamGoldEarned[e.team] = e.goldEarned
     goldEl = @$el.find('.gold-amount.team-' + e.team)
     unless goldEl.length
       teamEl = teamTemplate team: e.team
@@ -21,6 +29,10 @@ module.exports = class GoldView extends View
     if e.goldEarned and e.goldEarned > e.gold
       text += " (#{e.goldEarned})"
     goldEl.text text
+    @updateTitle()
+
+  updateTitle: ->
+    @$el.attr 'title', ("Team '#{team}' has #{gold} now of #{@teamGoldEarned[team]} gold earned." for team, gold of @teamGold).join ' '
 
   onSetLetterbox: (e) ->
     @$el.toggle not e.on

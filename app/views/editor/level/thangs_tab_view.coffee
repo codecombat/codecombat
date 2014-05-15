@@ -277,7 +277,7 @@ module.exports = class ThangsTabView extends View
       thang = @createAddThang()
       @addThangSprite = @surface.spriteBoss.addThangToSprites thang, @surface.spriteBoss.spriteLayers["Floating"]
       @addThangSprite.notOfThisWorld = true
-      @addThangSprite.displayObject.alpha = 0.75
+      @addThangSprite.imageObject.alpha = 0.75
       @addThangSprite.playSound? 'selected'
       pos ?= x: Math.round(@world.width / 2), y: Math.round(@world.height / 2)
       @adjustThangPos @addThangSprite, thang, pos
@@ -324,11 +324,11 @@ module.exports = class ThangsTabView extends View
 
   onSurfaceMouseOver: (e) ->
     return unless @addThangSprite
-    @addThangSprite.displayObject.visible = true
+    @addThangSprite.imageObject.visible = true
 
   onSurfaceMouseOut: (e) ->
     return unless @addThangSprite
-    @addThangSprite.displayObject.visible = false
+    @addThangSprite.imageObject.visible = false
 
   calculateMovement: (pctX, pctY, widthHeightRatio) ->
     MOVE_TOP_MARGIN = 1.0 - MOVE_MARGIN

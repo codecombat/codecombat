@@ -182,7 +182,7 @@ module.exports = class Mark extends CocoClass
     CocoSprite = require './CocoSprite'
     markSprite = new CocoSprite @thangType, @thangType.spriteOptions
     markSprite.queueAction 'idle'
-    @mark = markSprite.displayObject
+    @mark = markSprite.imageObject
     @markSprite = markSprite
 
   loadThangType: ->
@@ -205,7 +205,6 @@ module.exports = class Mark extends CocoClass
     @updatePosition pos
     @updateRotation()
     @updateScale()
-    @mark.advance?()
     if @name is 'highlight' and @highlightDelay and not @highlightTween
       @mark.visible = false
       @highlightTween = createjs.Tween.get(@mark).to({}, @highlightDelay).call =>
@@ -220,7 +219,7 @@ module.exports = class Mark extends CocoClass
         worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2 + @sprite.getBobOffset()
         @mark.alpha = 0.451 / Math.sqrt(worldZ / 2 + 1)
     else
-      pos ?= @sprite?.displayObject
+      pos ?= @sprite?.imageObject
     @mark.x = pos.x
     @mark.y = pos.y
     if @statusEffect or @name is 'highlight'
@@ -251,6 +250,9 @@ module.exports = class Mark extends CocoClass
       if @sprite?.thang.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
         scale *= 2
     @mark.scaleX = @mark.scaleY = Math.min 1, scale
+    if @markSprite?
+      @mark.scaleX *= @markSprite.originalScaleX
+      @mark.scaleY *= @markSprite.originalScaleY
     if @name in ['selection', 'target', 'repair']
       @mark.scaleY *= @camera.y2x  # code applies perspective
 

@@ -6,7 +6,7 @@ TIMEOUT = 1000 * 30 # no activity for 30 seconds means it's not active
 
 class LevelSessionHandler extends Handler
   modelClass: LevelSession
-  editableProperties: ['multiplayer', 'players', 'code', 'completed', 'state',
+  editableProperties: ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
                        'levelName', 'creatorName', 'levelID', 'screenshot',
                        'chat', 'teamSpells', 'submitted', 'unsubscribed']
   jsonSchema: require '../../../app/schemas/models/level_session'
