@@ -26,7 +26,7 @@ module.exports = class ThangType extends CocoModel
     @buildActions()
     @spriteSheets = {}
     @building = {}
-    
+
   isFullyLoaded: ->
     # TODO: Come up with a better way to identify when the model doesn't have everything needed to build the sprite. ie when it's a projection without all the required data.
     return @get('actions') or @get('raster') # needs one of these two things
@@ -154,13 +154,13 @@ module.exports = class ThangType extends CocoModel
       @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
       return true
     spriteSheet = @builder.build()
-    console.debug "Built #{@get('name')} in #{new Date().getTime() - @t0}ms."
+    console.debug "Built #{@get('name')}#{if @options.portraitOnly then ' portrait' else ''} in #{new Date().getTime() - @t0}ms."
     @spriteSheets[key] = spriteSheet
     delete @building[key]
     spriteSheet
 
   onBuildSpriteSheetComplete: (e, key) ->
-    console.log "Built #{@get('name')} async in #{new Date().getTime() - @builder.t0}ms." if @builder
+    console.log "Built #{@get('name')}#{if @options.portraitOnly then ' portrait' else ''} async in #{new Date().getTime() - @builder.t0}ms." if @builder
     buildQueue = buildQueue.slice(1)
     buildQueue[0].t0 = new Date().getTime() if buildQueue[0]
     buildQueue[0]?.buildAsync()
