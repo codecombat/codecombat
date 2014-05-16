@@ -21,19 +21,30 @@ module.exports = class LevelBus extends Bus
     'level-show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
-
+    'application:idle-changed': 'onIdleChanged'
+    
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
     @saveSession = _.debounce(@saveSession, 1000, {maxWait: 5000})
-
+    @playerIsIdle = false
+    
   init: ->
     super()
     @fireScriptsRef = @fireRef?.child('scripts')
 
   setSession: (@session) ->
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
+    @timerIntervalID = setInterval(@incrementSessionPlaytime, 1000)
+    
+  onIdleChanged: (e) ->
+    @playerIsIdle = e.idle
 
+  incrementSessionPlaytime: =>
+    if @playerIsIdle then return
+    @changedSessionProperties.playtime = true
+    @session.set("playtime",@session.get("playtime") + 1)
+    
   onPoint: ->
     return true unless @session?.get('multiplayer')
     super()
@@ -226,4 +237,5 @@ module.exports = class LevelBus extends Bus
     tempSession.save(patch, {patch: true})
 
   destroy: ->
+    clearInterval(@timerIntervalID)
     super()
