@@ -198,7 +198,8 @@ module.exports = class PlayLevelView extends View
     for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
-
+    if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells') 
+      @session.set('teamSpells',@otherSession.get('teamSpells'))
     opponentCode = @otherSession?.get('transpiledCode') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
