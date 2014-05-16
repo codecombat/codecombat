@@ -22,7 +22,10 @@ module.exports = class Spell
 
     @name = p.name
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
-    @useTranspiledCode = @permissions.readwrite.length and ((not _.contains(@session.get('teamSpells')[@session.get('team')],@spellKey)) or (@session.get('creator') isnt me.id) or @spectateView)
+    teamSpells = @session.get('teamSpells')
+    team = @session.get('team') ? 'humans'
+    @useTranspiledCode = @permissions.readwrite.length and ((teamSpells and not _.contains(teamSpells[team], @spellKey)) or (@session.get('creator') isnt me.id) or @spectateView)
+    console.log @spellKey, "using transpiled code?", @useTranspiledCode
     @source = @originalSource = p.source
     @parameters = p.parameters
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
