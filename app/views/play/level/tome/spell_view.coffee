@@ -20,7 +20,7 @@ module.exports = class SpellView extends View
     'coffeescript': 'ace/mode/coffee'
     'clojure': 'ace/mode/clojure'
     'lua': 'ace/mode/lua'
-    'python': 'ace/mode/lua'
+    'python': 'ace/mode/python'
 
   keyBindings:
     'default': null
