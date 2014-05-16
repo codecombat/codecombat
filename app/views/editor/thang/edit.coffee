@@ -100,10 +100,8 @@ module.exports = class ThangTypeEditView extends View
   initStage: ->
     canvas = @$el.find('#canvas')
     @stage = new createjs.Stage(canvas[0])
-    canvasWidth = parseInt(canvas.attr('width'), 10)
-    canvasHeight = parseInt(canvas.attr('height'), 10)
     @camera?.destroy()
-    @camera = new Camera canvasWidth, canvasHeight
+    @camera = new Camera canvas
 
     @torsoDot = @makeDot('blue')
     @mouthDot = @makeDot('yellow')

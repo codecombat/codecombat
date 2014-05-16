@@ -400,7 +400,7 @@ module.exports = Surface = class Surface extends CocoClass
     canvasWidth = parseInt @canvas.attr('width'), 10
     canvasHeight = parseInt @canvas.attr('height'), 10
     @camera?.destroy()
-    @camera = new Camera canvasWidth, canvasHeight
+    @camera = new Camera @canvas
     AudioPlayer.camera = @camera
     @layers.push @surfaceLayer = new Layer name: "Surface", layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @layers.push @surfaceTextLayer = new Layer name: "Surface Text", layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
@@ -425,6 +425,7 @@ module.exports = Surface = class Surface extends CocoClass
     oldHeight = parseInt @canvas.attr('height'), 10
     newWidth = @canvas.width()
     newHeight = @canvas.height()
+    return unless newWidth > 0 and newHeight > 0
     #if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
     #  newWidth = Math.min 924, newWidth
     #  newHeight = Math.min 589, newHeight
@@ -544,6 +545,7 @@ module.exports = Surface = class Surface extends CocoClass
       deltaX: e.deltaX
       deltaY: e.deltaY
       screenPos: @mouseScreenPos
+      canvas: @canvas
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
   hookUpChooseControls: ->
