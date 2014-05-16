@@ -34,9 +34,23 @@ module.exports = class DebugView extends View
     @cache = {}
     @lastFrameRequested = -1
     @workerIsSimulating = false
+  
+
+  pad2: (num) ->
+    if not num? or num is 0 then "00" else ((if num < 10 then "0" else "") + num)
+  
+  calculateCurrentTimeString: =>
+    time = @currentFrame / @frameRate
+    console.log "Current frame is",@currentFrame
+    console.log "Current framerate is",@frameRate
+    mins = Math.floor(time / 60)
+    secs = (time - mins * 60).toFixed(1)
+    "#{mins}:#{@pad2 secs}"
+    
     
   setTooltipKeyAndValue: (key, value) =>
-    @$el.find("code").text "#{key}: #{value}"
+    message = "Time: #{@calculateCurrentTimeString()}\n#{key}: #{value}"
+    @$el.find("code").text message
     @$el.show().css(@pos)
     
   setTooltipText: (text) =>
@@ -128,9 +142,11 @@ module.exports = class DebugView extends View
 
   onNewWorld: (e) ->
     @thang = @options.thang = e.world.thangMap[@thang.id] if @thang
+    @frameRate = e.world.frameRate
     
   onFrameChanged: (data) ->
     @currentFrame = data.frame
+    @frameRate = data.world.frameRate
     
   update: ->
     if @variableChain
