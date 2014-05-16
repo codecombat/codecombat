@@ -199,6 +199,8 @@ module.exports = class Simulator extends CocoClass
         sessionID: session.sessionID
         submitDate: session.submitDate
         creator: session.creator
+        name: session.creatorName
+        totalScore: session.totalScore
         metrics:
           rank: @calculateSessionRank session.sessionID, simulationResults.goalStates, @task.generateTeamToSessionMap()
       if session.sessionID is taskResults.originalSessionID
