@@ -201,7 +201,7 @@ module.exports = class SpriteBoss extends CocoClass
     return if @cached and not update
     wallSprites = (sprite for sprite in @spriteArray when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
     unless _.all (s.thangType.isFullyLoaded() for s in wallSprites)
-      return 
+      return
     walls = (sprite.thang for sprite in wallSprites)
     @world.calculateBounds()
     wallGrid = new Grid walls, @world.size()...
@@ -273,7 +273,7 @@ module.exports = class SpriteBoss extends CocoClass
       @selectedSprite?.selected = false
       sprite?.selected = true
       @selectedSprite = sprite
-    alive = sprite?.thang.health > 0
+    alive = not (sprite?.thang.health < 0)
 
     Backbone.Mediator.publish 'surface:sprite-selected',
       thang: if sprite then sprite.thang else null
