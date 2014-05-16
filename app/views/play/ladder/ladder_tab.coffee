@@ -242,7 +242,8 @@ module.exports = class LadderTabView extends CocoView
     if teamName.toLowerCase() is "humans" then rankClass = "rank-text humans-rank-text"
 
     message = "#{histogramData.length} players"
-    if @leaderboards[teamName].session? then message="##{@leaderboards[teamName].myRank} of #{histogramData.length}"
+    if @leaderboards[teamName].session? and @leaderboards[teamName].myRank <= histogramData.length
+      message="##{@leaderboards[teamName].myRank} of #{histogramData.length}"
     svg.append("g")
       .append("text")
       .attr("class",rankClass)
