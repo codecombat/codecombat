@@ -115,6 +115,10 @@ module.exports = class CocoView extends Backbone.View
     context
 
   afterRender: ->
+    @renderScrollbar()
+
+  renderScrollbar: ->
+    @$el.find('.nano').nanoScroller()
 
   updateProgress: (progress) ->
     @loadProgress.progress = progress if progress > @loadProgress.progress
