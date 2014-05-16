@@ -34,40 +34,38 @@ module.exports = class DebugView extends View
     @cache = {}
     @lastFrameRequested = -1
     @workerIsSimulating = false
-  
+
 
   pad2: (num) ->
     if not num? or num is 0 then "00" else ((if num < 10 then "0" else "") + num)
-  
+
   calculateCurrentTimeString: =>
     time = @currentFrame / @frameRate
-    console.log "Current frame is",@currentFrame
-    console.log "Current framerate is",@frameRate
     mins = Math.floor(time / 60)
     secs = (time - mins * 60).toFixed(1)
     "#{mins}:#{@pad2 secs}"
-    
-    
+
+
   setTooltipKeyAndValue: (key, value) =>
     message = "Time: #{@calculateCurrentTimeString()}\n#{key}: #{value}"
     @$el.find("code").text message
     @$el.show().css(@pos)
-    
+
   setTooltipText: (text) =>
     #perhaps changing styling here in the future
     @$el.find("code").text text
     @$el.show().css(@pos)
-    
+
   onTomeCast: ->
     @invalidateCache()
-    
+
   invalidateCache: -> @cache = {}
-  
+
   retrieveValueFromCache: (thangID,spellID,variableChain,frame) ->
     joinedVariableChain = variableChain.join()
     value = @cache[frame]?[thangID]?[spellID]?[joinedVariableChain]
     return value ? undefined
-  
+
   updateCache: (thangID, spellID, variableChain, frame, value) ->
     currentObject = @cache
     keys = [frame,thangID,spellID,variableChain.join()]
@@ -77,8 +75,8 @@ module.exports = class DebugView extends View
         currentObject[key] = {}
       currentObject = currentObject[key]
     currentObject[keys[keys.length - 1]] = value
-  
-      
+
+
   changeCurrentThangAndSpell: (thangAndSpellObject) ->
     @thang = thangAndSpellObject.thang
     @spell = thangAndSpellObject.spell
@@ -143,11 +141,11 @@ module.exports = class DebugView extends View
   onNewWorld: (e) ->
     @thang = @options.thang = e.world.thangMap[@thang.id] if @thang
     @frameRate = e.world.frameRate
-    
+
   onFrameChanged: (data) ->
     @currentFrame = data.frame
     @frameRate = data.world.frameRate
-    
+
   update: ->
     if @variableChain
       if @variableChain.length is 2 and @variableChain[0] is "this"
@@ -173,7 +171,7 @@ module.exports = class DebugView extends View
     else
       @notifyPropertyHovered()
     @updateMarker()
-    
+
   stringifyValue: (value, depth) ->
     return value if not value or _.isString value
     if _.isFunction value
@@ -214,7 +212,7 @@ module.exports = class DebugView extends View
     @hoveredProperty = if @variableChain?.length is 2 then owner: @variableChain[0], property: @variableChain[1] else {}
     unless _.isEqual oldHoveredProperty, @hoveredProperty
       Backbone.Mediator.publish 'tome:spell-debug-property-hovered', @hoveredProperty
-      
+
   updateMarker: ->
     if @marker
       @ace.getSession().removeMarker @marker

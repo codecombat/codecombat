@@ -20,6 +20,7 @@ module.exports = class Mark extends CocoClass
     @build()
 
   destroy: ->
+    createjs.Tween.removeTweens @mark
     @mark?.parent?.removeChild @mark
     @markSprite?.destroy()
     @sprite = null
