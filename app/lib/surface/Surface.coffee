@@ -84,6 +84,8 @@ module.exports = Surface = class Surface extends CocoClass
     @initAudio()
     @onResize = _.debounce @onResize, 500
     $(window).on 'resize', @onResize
+    if @world.ended
+      _.defer => @setWorld @world
 
   destroy: ->
     @dead = true
@@ -247,7 +249,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onSetCamera: (e) ->
     if e.thangID
-      return unless target = @spriteBoss.spriteFor(e.thangID)?.displayObject
+      return unless target = @spriteBoss.spriteFor(e.thangID)?.imageObject
     else if e.pos
       target = @camera.worldToSurface e.pos
     else
@@ -423,6 +425,9 @@ module.exports = Surface = class Surface extends CocoClass
     oldHeight = parseInt @canvas.attr('height'), 10
     newWidth = @canvas.width()
     newHeight = @canvas.height()
+    #if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
+    #  newWidth = Math.min 924, newWidth
+    #  newHeight = Math.min 589, newHeight
     @canvas.attr width: newWidth, height: newHeight
     @stage.scaleX *= newWidth / oldWidth
     @stage.scaleY *= newHeight / oldHeight
@@ -519,10 +524,10 @@ module.exports = Surface = class Surface extends CocoClass
     if @debug and not @debugDisplay
       @screenLayer.addChild @debugDisplay = new DebugDisplay canvasWidth: @camera.canvasWidth, canvasHeight: @camera.canvasHeight
 
-  # uh
+  # Some mouse handling callbacks
 
   onMouseMove: (e) =>
-    @mouseSurfacePos = {x:e.stageX, y:e.stageY}
+    @mouseScreenPos = {x: e.stageX, y: e.stageY}
     return if @disabled
     Backbone.Mediator.publish 'surface:mouse-moved', x: e.stageX, y: e.stageY
 
@@ -538,7 +543,7 @@ module.exports = Surface = class Surface extends CocoClass
     event =
       deltaX: e.deltaX
       deltaY: e.deltaY
-      surfacePos: @mouseSurfacePos
+      screenPos: @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
   hookUpChooseControls: ->

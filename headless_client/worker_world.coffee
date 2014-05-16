@@ -78,6 +78,7 @@ work = () ->
 
     try
       self.world = new World(args.userCodeMap)
+      self.world.levelSessionIDs = args.levelSessionIDs
       self.world.loadFromLevel args.level, true  if args.level
       self.world.headless = args.headless
       self.goalManager = new GoalManager(self.world)

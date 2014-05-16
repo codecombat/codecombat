@@ -60,7 +60,6 @@ module.exports = class PlayLevelView extends View
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:session-will-save': 'onSessionWillSave'
     'level:set-team': 'setTeam'
-    'god:new-world-created': 'loadSoundsForWorld'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
 
@@ -83,7 +82,6 @@ module.exports = class PlayLevelView extends View
     @sessionID = @getQueryVariable 'session'
 
     $(window).on('resize', @onWindowResize)
-    @listenToOnce(@supermodel, 'error', @onLevelLoadError)
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
@@ -103,9 +101,9 @@ module.exports = class PlayLevelView extends View
     @supermodel.collections = givenSupermodel.collections
     @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
 
-    @god?.level = @level.serialize @supermodel
+    serializedLevel = @level.serialize @supermodel
+    @god?.setLevel serializedLevel
     if @world
-      serializedLevel = @level.serialize(@supermodel)
       @world.loadFromLevel serializedLevel, false
     else
       @load()
@@ -133,6 +131,9 @@ module.exports = class PlayLevelView extends View
 
   updateProgress: (progress) ->
     super(progress)
+    if not @worldInitialized and @levelLoader.session.loaded and @levelLoader.level.loaded and @levelLoader.world and (not @levelLoader.opponentSession or @levelLoader.opponentSession.loaded)
+      @grabLevelLoaderData()
+      @onWorldInitialized()
     return if @seenDocs
     return unless @levelLoader.session.loaded and @levelLoader.level.loaded
     return unless showFrequency = @levelLoader.level.get('showsGuide')
@@ -143,6 +144,22 @@ module.exports = class PlayLevelView extends View
     for article in articles
       return unless article.loaded
     @showGuide()
+
+  onWorldInitialized: ->
+    @worldInitialized = true
+    team = @getQueryVariable("team") ? @world.teamForPlayer(0)
+    @loadOpponentTeam(team)
+    @god.setLevel @level.serialize @supermodel
+    @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
+    @god.setWorldClassMap @world.classMap
+    @setTeam team
+    @initGoalManager()
+    @insertSubviews ladderGame: (@level.get('type') is "ladder")
+    @initVolume()
+    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
+    @originalSessionState = $.extend(true, {}, @session.get('state'))
+    @register()
+    @controlBar.setBus(@bus)
 
   showGuide: ->
     @seenDocs = true
@@ -165,33 +182,16 @@ module.exports = class PlayLevelView extends View
     if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
       me.set('lastLevel', @levelID)
       me.save()
-    @grabLevelLoaderData()
-    team = @getQueryVariable("team") ? @world.teamForPlayer(0)
-    @loadOpponentTeam(team)
-    @god.setLevel @level.serialize @supermodel
-    @god.setWorldClassMap @world.classMap
-    @setTeam team
+    @levelLoader.destroy()
+    @levelLoader = null
     @initSurface()
-    @initGoalManager()
     @initScriptManager()
-    @insertSubviews()
-    @initVolume()
-    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
-    @originalSessionState = $.extend(true, {}, @session.get('state'))
-    @register()
-    @controlBar.setBus(@bus)
-    @surface.showLevel()
-    if @otherSession
-      # TODO: colorize name and cloud by team, colorize wizard by user's color config
-      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
 
   grabLevelLoaderData: ->
     @session = @levelLoader.session
     @world = @levelLoader.world
     @level = @levelLoader.level
     @otherSession = @levelLoader.opponentSession
-    @levelLoader.destroy()
-    @levelLoader = null
 
   loadOpponentTeam: (myTeam) ->
     opponentSpells = []
@@ -199,7 +199,7 @@ module.exports = class PlayLevelView extends View
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
 
-    opponentCode = @otherSession?.get('submittedCode') or {}
+    opponentCode = @otherSession?.get('transpiledCode') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
@@ -212,6 +212,10 @@ module.exports = class PlayLevelView extends View
       @session.set 'multiplayer', false
 
   onLevelStarted: (e) ->
+    @surface.showLevel()
+    if @otherSession
+      # TODO: colorize name and cloud by team, colorize wizard by user's color config
+      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
     @loadingView?.unveil()
 
   onLoadingViewUnveiled: (e) ->
@@ -240,7 +244,7 @@ module.exports = class PlayLevelView extends View
 
   insertSubviews: ->
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
-    @insertSubView new PlaybackView {}
+    @insertSubView new PlaybackView session: @session
     @insertSubView new GoalsView {}
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
@@ -305,9 +309,6 @@ module.exports = class PlayLevelView extends View
     Backbone.Mediator.publish 'level:restarted'
     $('#level-done-button', @$el).hide()
     application.tracker?.trackEvent 'Confirmed Restart', level: @world.name, label: @world.name
-
-  onNewWorld: (e) ->
-    @world = e.world
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
@@ -481,11 +482,11 @@ module.exports = class PlayLevelView extends View
 
   # Dynamic sound loading
 
-  loadSoundsForWorld: (e) ->
+  onNewWorld: (e) ->
     return if @headless
-    world = e.world
+    @world = e.world
     thangTypes = @supermodel.getModels(ThangType)
-    for [spriteName, message] in world.thangDialogueSounds()
+    for [spriteName, message] in @world.thangDialogueSounds()
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound

@@ -8,7 +8,7 @@ module.exports = class PatchesView extends CocoView
   template: template
   className: 'patches-view'
   status: 'pending'
-  
+
   events:
     'change .status-buttons': 'onStatusButtonsChanged'
     'click .patch-icon': 'openPatchModal'
@@ -16,16 +16,16 @@ module.exports = class PatchesView extends CocoView
   constructor: (@model, options) ->
     super(options)
     @initPatches()
-    
+
   initPatches: ->
     @startedLoading = false
     @patches = new PatchesCollection([], {}, @model, @status)
-    
+
   load: ->
     @initPatches()
     @patches = @supermodel.loadCollection(@patches, 'patches').model
     @listenTo @patches, 'sync', @onPatchesLoaded
-    
+
   onPatchesLoaded: ->
     ids = (p.get('creator') for p in @patches.models)
     jqxhrOptions = nameLoader.loadNames ids
@@ -37,19 +37,20 @@ module.exports = class PatchesView extends CocoView
     c.patches = @patches.models
     c.status
     c
-  
+
   afterRender: ->
     @$el.find(".#{@status}").addClass 'active'
 
   onStatusButtonsChanged: (e) ->
     @status = $(e.target).val()
     @reloadPatches()
-    
+
   reloadPatches: ->
     @load()
     @render()
 
   openPatchModal: (e) ->
+    console.log "open patch modal"
     patch = _.find @patches.models, {id:$(e.target).data('patch-id')}
     modal = new PatchModal(patch, @model)
     @openModalView(modal)

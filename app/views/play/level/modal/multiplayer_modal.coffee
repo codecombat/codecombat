@@ -54,7 +54,12 @@ module.exports = class MultiplayerModal extends View
     button = @$el.find('.rank-game-button')
     button.text($.i18n.t('play_level.victory_ranking_game', defaultValue: 'Submitting...'))
     button.prop 'disabled', true
-    ajaxData = session: @session.id, levelID: @level.id, originalLevelID: @level.get('original'), levelMajorVersion: @level.get('version').major
+    ajaxData = 
+      session: @session.id
+      levelID: @level.id
+      originalLevelID: @level.get('original')
+      levelMajorVersion: @level.get('version').major
+      transpiledCode: @transpileSession(@session)
     ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
     goToLadder = -> Backbone.Mediator.publish 'router:navigate', route: ladderURL
     $.ajax '/queue/scoring',
@@ -64,6 +69,29 @@ module.exports = class MultiplayerModal extends View
       failure: (response) ->
         console.error "Couldn't submit game for ranking:", response
         goToLadder()
+  
+  transpileSession: (session) ->
+    submittedCode = session.get('code')
+    transpiledCode = {}
+    for thang, spells of submittedCode
+      transpiledCode[thang] = {}
+      for spellID, spell of spells
+        unless _.contains(session.get('teamSpells')[session.get('team')], thang + "/" + spellID) then continue
+        #DRY this
+        aetherOptions =
+          problems: {}
+          language: "javascript"
+          functionName: spellID
+          functionParameters: []
+          yieldConditionally: spellID is "plan"
+          globals: ['Vector', '_']
+          protectAPI: true
+          includeFlow: false
+        if spellID is "hear" then aetherOptions["functionParameters"] = ["speaker","message","data"]
 
+        aether = new Aether aetherOptions
+        transpiledCode[thang][spellID] = aether.transpile spell
+    transpiledCode
+    
   destroy: ->
     super()

@@ -108,7 +108,11 @@ _.extend LevelSessionSchema.properties,
       additionalProperties:
         type: 'string'
         format: 'javascript'
-
+  
+  codeLanguage:
+    type: 'string'
+    default: 'javascript'
+    
   teamSpells:
     type: 'object'
     additionalProperties:
@@ -146,8 +150,7 @@ _.extend LevelSessionSchema.properties,
   submittedCodeLanguage:
     type: 'string'
     default: 'javascript'
-    enum: ['javascript', 'coffeescript', 'clojure', 'lua','python']
-
+    
   transpiledCode:
     type: 'object'
     additionalProperties:

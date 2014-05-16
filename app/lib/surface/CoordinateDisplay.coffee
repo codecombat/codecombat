@@ -81,7 +81,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
   show: =>
     return unless @mouseInBounds and @lastPos and not @destroyed
-    @label.text = "(#{@lastPos.x}, #{@lastPos.y})"
+    @label.text = "{x: #{@lastPos.x}, y: #{@lastPos.y}}"
     [width, height] = @updateSize()
     sup = @camera.worldToSurface @lastPos
     @x = sup.x

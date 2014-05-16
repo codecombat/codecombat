@@ -120,7 +120,7 @@
     forum_suffix: " instead."
     send: "Send Feedback"
     contact_candidate: "Contact Candidate"
-    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 18% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
+    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
 
   diplomat_suggestion:
     title: "Help translate CodeCombat!"
@@ -263,8 +263,10 @@
     skip_tutorial: "Skip (esc)"
     editor_config: "Editor Config"
     editor_config_title: "Editor Configuration"
-    editor_config_language_label: "Programming Language"
-    editor_config_language_description: "Define the programming language you want to code in."
+    editor_config_level_language_label: "Language for This Level"
+    editor_config_level_language_description: "Define the programming language for this particular level."
+    editor_config_default_language_label: "Default Programming Language"
+    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
     editor_config_keybindings_label: "Key Bindings"
     editor_config_keybindings_default: "Default (Ace)"
     editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
@@ -699,6 +701,7 @@
     user_schema: "User Schema"
     user_profile: "User Profile"
     patches: "Patches"
+    patched_model: "Source Document"
     model: "Model"
     system: "System"
     component: "Component"
@@ -709,10 +712,12 @@
     opponent_session: "Opponent Session"
     article: "Article"
     user_names: "User Names"
+    thang_names: "Thang Names"
     files: "Files"
     top_simulators: "Top Simulators"
     source_document: "Source Document"
     document: "Document" # note to diplomats: not a physical document, a document in MongoDB, ie a record in a database
+    sprite_sheet: "Sprite Sheet"
 
   delta:
     added: "Added"
@@ -722,4 +727,3 @@
     text_diff: "Text Diff"
     merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "No Changes"
-    

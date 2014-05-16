@@ -14,16 +14,28 @@ module.exports = class ThangAvatarView extends View
     super options
     @thang = options.thang
     @includeName = options.includeName
+    @thangType = @getSpriteThangType()
+    if not @thangType
+      console.error 'Thang avatar view expected a thang type to be provided.'
+      return
+      
+    unless @thangType.isFullyLoaded() or @thangType.loading
+      @thangType.fetch()
+    
+    @supermodel.loadModel @thangType, 'thang'
+
+  getSpriteThangType: ->
+    thangs = @supermodel.getModels(ThangType)
+    thangs = (t for t in thangs when t.get('name') is @thang.spriteName)
+    loadedThangs = (t for t in thangs when t.isFullyLoaded())
+    return loadedThangs[0] or thangs[0] # try to return one with all the goods, otherwise a projection
 
   getRenderData: (context={}) ->
     context = super context
     context.thang = @thang
-    thangs = @supermodel.getModels(ThangType)
-    thangs = (t for t in thangs when t.get('name') is @thang.spriteName)
-    thang = thangs[0]
     options = @thang?.getSpriteOptions() or {}
     options.async = false
-    context.avatarURL = thang.getPortraitSource(options)
+    context.avatarURL = @thangType.getPortraitSource(options) unless @thangType.loading
     context.includeName = @includeName
     context
 

@@ -154,9 +154,9 @@ module.exports = class Camera extends CocoClass
     ratio = 1 + 0.05 * Math.sqrt(Math.abs(e.deltaY))
     ratio = 1 / ratio if e.deltaY > 0
     newZoom = @zoom * ratio
-    if e.surfacePos and not @focusedOnSprite()
+    if e.screenPos and not @focusedOnSprite()
       # zoom based on mouse position, adjusting the target so the point under the mouse stays the same
-      mousePoint = @canvasToSurface(e.surfacePos)
+      mousePoint = @screenToSurface(e.screenPos)
       ratioPosX = (mousePoint.x - @surfaceViewport.x) / @surfaceViewport.width
       ratioPosY = (mousePoint.y - @surfaceViewport.y) / @surfaceViewport.height
       newWidth = @canvasWidth / newZoom

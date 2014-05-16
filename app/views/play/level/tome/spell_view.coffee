@@ -67,7 +67,7 @@ module.exports = class SpellView extends View
       @createFirepad()
     else
       # needs to happen after the code generating this view is complete
-      setTimeout @onAllLoaded, 1
+      _.defer @onAllLoaded
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -76,7 +76,7 @@ module.exports = class SpellView extends View
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
     @aceSession.setUseWorker false
-    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
+    @aceSession.setMode @editModes[@spell.language]
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode "unix"
@@ -360,7 +360,7 @@ module.exports = class SpellView extends View
   displayAether: (aether) ->
     @displayedAether = aether
     isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
-    isCast = isCast or (me.get('aceConfig') ? {})['language'] isnt 'javascript'  # Since we don't have linting for other languages
+    isCast = isCast or @language isnt 'javascript'  # Since we don't have linting for other languages
     problem.destroy() for problem in @problems  # Just in case another problem was added since clearAetherDisplay() ran.
     @problems = []
     annotations = []
@@ -468,7 +468,7 @@ module.exports = class SpellView extends View
     @highlightCurrentLine()
 
   onCoordinateSelected: (e) ->
-    return unless e.x? and e.y?
+    return unless @ace.isFocused() and e.x? and e.y?
     @ace.insert "{x: #{e.x}, y: #{e.y}}"
     @highlightCurrentLine()
 
@@ -601,16 +601,14 @@ module.exports = class SpellView extends View
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
     @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
-  # @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
 
   onChangeLanguage: (e) ->
-    aceConfig = me.get('aceConfig') ? {}
-    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
+    if @spell.canWrite()
+      @aceSession.setMode @editModes[e.language]
 
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       @recompile() if hasChanged
-
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick

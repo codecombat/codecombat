@@ -63,7 +63,7 @@ LevelHandler = class LevelHandler extends Handler
       # TODO: generalize this for levels based on their teams
       else if level.get('type') is 'ladder'
         sessionQuery.team = 'humans'
-      
+
       Session.findOne(sessionQuery).exec (err, doc) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, doc) if doc?
@@ -88,6 +88,7 @@ LevelHandler = class LevelHandler extends Handler
         access:'write'
       }
     ]
+    initVals.codeLanguage = req.user.get('aceConfig')?.language ? 'javascript'
     session = new Session(initVals)
 
     session.save (err) =>
@@ -107,7 +108,7 @@ LevelHandler = class LevelHandler extends Handler
     query = Level.findOne(findParameters)
       .select(selectString)
       .lean()
-    
+
     query.exec (err, level) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless level?
@@ -116,22 +117,22 @@ LevelHandler = class LevelHandler extends Handler
           original: level.original.toString()
           majorVersion: level.version.major
         creator: req.user._id+''
-      
+
       query = Session.find(sessionQuery).select('-screenshot')
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
-          
+
   getHistogramData: (req, res,slug) ->
     query = Session.aggregate [
       {$match: {"levelID":slug, "submitted": true, "team":req.query.team}}
       {$project: {totalScore: 1, _id: 0}}
     ]
-    
+
     query.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
       valueArray = _.pluck data, "totalScore"
       @sendSuccess res, valueArray
-  
+
   checkExistence: (req, res, slugOrID) ->
     findParameters = {}
     if Handler.isID slugOrID
@@ -155,7 +156,7 @@ LevelHandler = class LevelHandler extends Handler
     sortParameters =
       "totalScore": req.query.order
     selectProperties = ['totalScore', 'creatorName', 'creator']
-    
+
     query = Session
       .find(sessionsQueryParameters)
       .limit(req.query.limit)

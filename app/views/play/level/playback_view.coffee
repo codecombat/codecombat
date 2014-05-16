@@ -156,16 +156,14 @@ module.exports = class PlaybackView extends View
 
     @timePopup ?= new HoverPopup
 
-
-    #TODO: Why do we need defaultValues here at all? Fallback language has been set to 'en'... oO
     t = $.i18n.t
-    @second = t 'units.second', defaultValue: 'second'
-    @seconds = t 'units.seconds', defaultValue: 'seconds'
-    @minute = t 'units.minute', defaultValue: 'minute'
-    @minutes = t 'units.minutes', defaultValue: 'minutes'
-    @goto = t 'play_level.time_goto', defaultValue: "Go to:"
-    @current = t 'play_level.time_current', defaultValue: "Now:"
-    @total = t 'play_level.time_total', defaultValue: "Max:"
+    @second = t 'units.second'
+    @seconds = t 'units.seconds'
+    @minute = t 'units.minute'
+    @minutes = t 'units.minutes'
+    @goto = t 'play_level.time_goto'
+    @current = t 'play_level.time_current'
+    @total = t 'play_level.time_total'
 
   onToggleDebug: ->
     return if @shouldIgnore()
@@ -181,7 +179,7 @@ module.exports = class PlaybackView extends View
     Backbone.Mediator.publish 'edit-wizard-settings'
 
   onEditEditorConfig: ->
-    @openModalView(new EditorConfigModal())
+    @openModalView new EditorConfigModal session: @options.session
 
   onCastSpells: (e) ->
     return if e.preload
@@ -194,8 +192,8 @@ module.exports = class PlaybackView extends View
       $('button', @$el).addClass('disabled')
       try
         @$progressScrubber.slider('disable', true)
-      catch e
-        #console.warn('error disabling scrubber')
+      catch error
+        console.warn('error disabling scrubber', error)
       @timePopup?.disable()
     $('#volume-button', @$el).removeClass('disabled')
 
@@ -205,8 +203,8 @@ module.exports = class PlaybackView extends View
       $('button', @$el).removeClass('disabled')
       try
         @$progressScrubber.slider('enable', true)
-      catch e
-        #console.warn('error enabling scrubber')
+      catch error
+        console.warn('error enabling scrubber', error)
       @timePopup?.enable()
 
   onSetPlaying: (e) ->

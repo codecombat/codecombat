@@ -55,6 +55,7 @@ module.exports = class Simulator extends CocoClass
     console.log info
     @trigger 'statusUpdate', info
     @simulateAnotherTaskAfterDelay()
+    application.tracker?.trackEvent 'Simulator Result', label: "No Games"
 
   simulateAnotherTaskAfterDelay: =>
     console.log "Retrying in #{@retryDelayInSeconds}"
@@ -74,7 +75,7 @@ module.exports = class Simulator extends CocoClass
       return
 
     @supermodel ?= new SuperModel()
-
+    @supermodel.resetProgress()
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
     if @supermodel.finished()
       @simulateGame()
@@ -97,12 +98,14 @@ module.exports = class Simulator extends CocoClass
 
   assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->
     @world = @levelLoader.world
+    @task.setWorld(@world)
     @level = @levelLoader.level
     @levelLoader.destroy()
     @levelLoader = null
 
   setupGod: ->
     @god.setLevel @level.serialize @supermodel
+    @god.setLevelSessionIDs (session.id for session in @task.getSessions())
     @god.setWorldClassMap @world.classMap
     @god.setGoalManager new GoalManager(@world, @level.get 'goals')
 
@@ -168,6 +171,7 @@ module.exports = class Simulator extends CocoClass
     unless @options.headlessClient
       simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
       $('#simulated-by-you').text(simulatedBy)
+    application.tracker?.trackEvent 'Simulator Result', label: "Success"
 
   handleTaskResultsTransferError: (error) =>
     @trigger 'statusUpdate', 'There was an error sending the results back to the server.'
@@ -269,22 +273,27 @@ module.exports = class Simulator extends CocoClass
     if spellTeam not in playerTeams then useProtectAPI = false
     @spells[spellKey].thangs[thang.id].aether = @createAether @spells[spellKey].name, method, useProtectAPI
 
+
   transpileSpell: (thang, spellKey, methodName) ->
     slugifiedThangID = _.string.slugify thang.id
-    source = @currentUserCodeMap[[slugifiedThangID,methodName].join '/'] ? ""
+    generatedSpellKey = [slugifiedThangID,methodName].join '/'
+    source = @currentUserCodeMap[generatedSpellKey] ? ""
     aether = @spells[spellKey].thangs[thang.id].aether
-    try
-      aether.transpile source
-    catch e
-      console.log "Couldn't transpile #{spellKey}:\n#{source}\n", e
-      aether.transpile ''
+    unless _.contains(@task.spellKeysToTranspile, generatedSpellKey)
+      aether.pure = source
+    else
+      try
+        aether.transpile source
+      catch e
+        console.log "Couldn't transpile #{spellKey}:\n#{source}\n", e
+        aether.transpile ''
 
   createAether: (methodName, method, useProtectAPI) ->
     aetherOptions =
       functionName: methodName
       protectAPI: useProtectAPI
       includeFlow: false
-      yieldConditionally: false
+      yieldConditionally: methodName is "plan"
       globals: ['Vector', '_']
       problems:
         jshint_W040: {level: "ignore"}
@@ -300,6 +309,7 @@ module.exports = class Simulator extends CocoClass
 class SimulationTask
   constructor: (@rawData) ->
     @spellKeyToTeamMap = {}
+    @spellKeysToTranspile = []
 
   getLevelName: ->
     levelName = @rawData.sessions?[0]?.levelID
@@ -329,6 +339,9 @@ class SimulationTask
 
   getPlayerTeams: -> _.pluck @rawData.sessions, 'team'
 
+  setWorld: (@world) ->
+
+
   generateSpellKeyToSourceMap: ->
     playerTeams = _.pluck @rawData.sessions, 'team'
     spellKeyToSourceMap = {}
@@ -340,10 +353,12 @@ class SimulationTask
         for spell in session.teamSpells[team]
           @spellKeyToTeamMap[spell] = team
       for nonPlayerTeam in nonPlayerTeams
-        teamSpells = teamSpells.concat(session.teamSpells[nonPlayerTeam])
+        for spell in session.teamSpells[nonPlayerTeam]
+          spellKeyToSourceMap[spell] ?= @getWorldProgrammableSource(spell, @world)
+          @spellKeysToTranspile.push spell
       teamCode = {}
 
-      for thangName, thangSpells of session.code
+      for thangName, thangSpells of session.transpiledCode
         for spellName, spell of thangSpells
           fullSpellName = [thangName,spellName].join '/'
           if _.contains(teamSpells, fullSpellName)
@@ -352,3 +367,23 @@ class SimulationTask
       _.merge spellKeyToSourceMap, teamCode
 
     spellKeyToSourceMap
+
+  getWorldProgrammableSource: (desiredSpellKey ,world) ->
+    programmableThangs = _.filter world.thangs, 'isProgrammable'
+    language = @getSessions()[0]['codeLanguage'] ? me.get('aceConfig')?.language ? 'javascript'
+    @spells ?= {}
+    @thangSpells ?= {}
+    for thang in programmableThangs
+      continue if @thangSpells[thang.id]?
+      @thangSpells[thang.id] = []
+      for methodName, method of thang.programmableMethods
+        pathComponents = [thang.id, methodName]
+        if method.cloneOf
+          pathComponents[0] = method.cloneOf  # referencing another Thang's method
+        pathComponents[0] = _.string.slugify pathComponents[0]
+        spellKey = pathComponents.join '/'
+        @thangSpells[thang.id].push spellKey
+        if not method.cloneOf and spellKey is desiredSpellKey
+          console.log "Setting #{desiredSpellKey} from world!"
+
+          return method.source

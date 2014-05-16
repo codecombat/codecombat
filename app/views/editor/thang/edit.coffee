@@ -197,6 +197,7 @@ module.exports = class ThangTypeEditView extends View
   # animation select
 
   refreshAnimation: ->
+    return @showRasterImage() if @thangType.get('raster')
     options = @getSpriteOptions()
     @thangType.resetSpriteSheetCache()
     spriteSheet = @thangType.buildSpriteSheet(options)
@@ -206,6 +207,13 @@ module.exports = class ThangTypeEditView extends View
       $('#spritesheets').append(image)
     @showAnimation()
     @updatePortrait()
+
+  showRasterImage: ->
+    sprite = new CocoSprite(@thangType, @getSpriteOptions())
+    @currentSprite?.destroy()
+    @currentSprite = sprite
+    @showImageObject(sprite.imageObject)
+    @updateScale()
 
   showAnimation: (animationName) ->
     animationName = @$el.find('#animations-select').val() unless _.isString animationName
@@ -226,7 +234,7 @@ module.exports = class ThangTypeEditView extends View
     if reg
       movieClip.regX = -reg.x
       movieClip.regY = -reg.y
-    @showDisplayObject(movieClip)
+    @showImageObject(movieClip)
 
   getSpriteOptions: -> { resolutionFactor: @resolution, thang: @mockThang}
 
@@ -236,7 +244,7 @@ module.exports = class ThangTypeEditView extends View
     sprite.queueAction(actionName)
     @currentSprite?.destroy()
     @currentSprite = sprite
-    @showDisplayObject(sprite.displayObject)
+    @showImageObject(sprite.imageObject)
 
   updatePortrait: ->
     options = @getSpriteOptions()
@@ -246,12 +254,12 @@ module.exports = class ThangTypeEditView extends View
     portrait.addClass 'img-thumbnail'
     $('#portrait').replaceWith(portrait)
 
-  showDisplayObject: (displayObject) ->
+  showImageObject: (imageObject) ->
     @clearDisplayObject()
-    displayObject.x = CENTER.x
-    displayObject.y = CENTER.y
-    @stage.addChildAt(displayObject, 1)
-    @currentObject = displayObject
+    imageObject.x = CENTER.x
+    imageObject.y = CENTER.y
+    @stage.addChildAt(imageObject, 1)
+    @currentObject = imageObject
     @updateDots()
 
   clearDisplayObject: ->
@@ -310,8 +318,13 @@ module.exports = class ThangTypeEditView extends View
 
     res.success =>
       url = "/editor/thang/#{newThangType.get('slug') or newThangType.id}"
-      newThangType.uploadGenericPortrait ->
-        document.location.href = url
+      portraitSource = null
+      if @thangType.get('raster')
+        image = @currentSprite.imageObject.image
+        portraitSource = imageToPortrait image
+        # bit of a hacky way to get that portrait
+      success = -> document.location.href = url
+      newThangType.uploadGenericPortrait success, portraitSource
 
   clearRawData: ->
     @thangType.resetRawData()
@@ -368,7 +381,7 @@ module.exports = class ThangTypeEditView extends View
       bounds = obj.frameBounds[0]
       obj.regX = bounds.x + bounds.width / 2
       obj.regY = bounds.y + bounds.height / 2
-    @showDisplayObject(obj) if obj
+    @showImageObject(obj) if obj
     obj.y = 200 if obj # truly center the container
     @showingSelectedNode = true
     @currentSprite?.destroy()
@@ -393,3 +406,14 @@ module.exports = class ThangTypeEditView extends View
   destroy: ->
     @camera?.destroy()
     super()
+
+imageToPortrait = (img) ->
+  canvas = document.createElement("canvas")
+  canvas.width = 100
+  canvas.height = 100
+  ctx = canvas.getContext("2d")
+  scaleX = 100 / img.width
+  scaleY = 100 / img.height
+  ctx.scale scaleX, scaleY
+  ctx.drawImage img, 0, 0
+  canvas.toDataURL("image/png") 

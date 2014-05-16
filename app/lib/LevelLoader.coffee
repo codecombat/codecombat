@@ -4,6 +4,7 @@ LevelSystem = require 'models/LevelSystem'
 Article = require 'models/Article'
 LevelSession = require 'models/LevelSession'
 ThangType = require 'models/ThangType'
+ThangNamesCollection = require 'collections/ThangNamesCollection'
 
 CocoClass = require 'lib/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
@@ -21,8 +22,10 @@ World = require 'lib/world/world'
 module.exports = class LevelLoader extends CocoClass
 
   constructor: (options) ->
+    @t0 = new Date().getTime()
     super()
     @supermodel = options.supermodel
+    @supermodel.setMaxProgress 0.2
     @levelID = options.levelID
     @sessionID = options.sessionID
     @opponentSessionID = options.opponentSessionID
@@ -103,17 +106,18 @@ module.exports = class LevelLoader extends CocoClass
 
     objUniq = (array) -> _.uniq array, false, (arg) -> JSON.stringify(arg)
 
-    for thangID in _.uniq thangIDs
-      url = "/db/thang.type/#{thangID}/version"
-      url += "?project=true" if @headless and not @editorMode
-      res = @maybeLoadURL url, ThangType, 'thang'
-      @listenToOnce res.model, 'sync', @buildSpriteSheetsForThangType if res
+    worldNecessities = []
+
+    @thangIDs = _.uniq thangIDs
+    @thangNames = new ThangNamesCollection(@thangIDs)
+    worldNecessities.push @supermodel.loadCollection(@thangNames, 'thang_names')
+
     for obj in objUniq componentVersions
       url = "/db/level.component/#{obj.original}/version/#{obj.majorVersion}"
-      @maybeLoadURL url, LevelComponent, 'component'
+      worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
     for obj in objUniq systemVersions
       url = "/db/level.system/#{obj.original}/version/#{obj.majorVersion}"
-      @maybeLoadURL url, LevelSystem, 'system'
+      worldNecessities.push @maybeLoadURL(url, LevelSystem, 'system')
     for obj in objUniq articleVersions
       url = "/db/article/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Article, 'article'
@@ -125,16 +129,51 @@ module.exports = class LevelLoader extends CocoClass
       wizard = ThangType.loadUniversalWizard()
       @supermodel.loadModel wizard, 'thang'
 
+    jqxhrs = (resource.jqxhr for resource in worldNecessities when resource?.jqxhr)
+    $.when(jqxhrs...).done(@onWorldNecessitiesLoaded)
+
+  onWorldNecessitiesLoaded: =>
+    @initWorld()
+    @supermodel.clearMaxProgress()
+    return if @headless and not @editorMode
+    thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs when t.exists) )
+    nameModelTuples = ([thangType.get('name'), thangType] for thangType in @thangNames.models)
+    nameModelMap = _.zipObject nameModelTuples
+    @spriteSheetsToBuild = []
+
+    for thangTypeName in thangsToLoad
+      thangType = nameModelMap[thangTypeName]
+      thangType.fetch()
+      thangType = @supermodel.loadModel(thangType, 'thang').model
+      res = @supermodel.addSomethingResource "sprite_sheet", 5
+      res.thangType = thangType
+      res.markLoading()
+      @spriteSheetsToBuild.push res
+
+    @buildLoopInterval = setInterval @buildLoop, 5
+
   maybeLoadURL: (url, Model, resourceName) ->
     return if @supermodel.getModel(url)
     model = new Model().setURL url
     @supermodel.loadModel(model, resourceName)
 
   onSupermodelLoaded: ->
+    console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms'
     @loadLevelSounds()
     @denormalizeSession()
     app.tracker.updatePlayState(@level, @session) unless @headless
-    @initWorld()
+
+  buildLoop: =>
+    return if @lastBuilt and new Date().getTime() - @lastBuilt < 10
+    return clearInterval @buildLoopInterval unless @spriteSheetsToBuild.length
+
+    for spriteSheetResource, i in @spriteSheetsToBuild
+      if spriteSheetResource.thangType.loaded
+        @buildSpriteSheetsForThangType spriteSheetResource.thangType
+        @spriteSheetsToBuild.splice i, 1
+        @lastBuilt = new Date().getTime()
+        spriteSheetResource.markLoaded()
+        return
 
   denormalizeSession: ->
     return if @headless or @sessionDenormalized or @spectateMode
@@ -156,9 +195,13 @@ module.exports = class LevelLoader extends CocoClass
 
   buildSpriteSheetsForThangType: (thangType) ->
     return if @headless
+    # TODO: Finish making sure the supermodel loads the raster image before triggering load complete, and that the cocosprite has access to the asset.
+#    if f = thangType.get('raster')
+#      queue = new createjs.LoadQueue()
+#      queue.loadFile('/file/'+f)
     @grabThangTypeTeams() unless @thangTypeTeams
     for team in @thangTypeTeams[thangType.get('original')] ? [null]
-      spriteOptions = {resolutionFactor: 4, async: false}
+      spriteOptions = {resolutionFactor: SPRITE_RESOLUTION_FACTOR, async: false}
       if thangType.get('kind') is 'Floor'
         spriteOptions.resolutionFactor = 2
       if team and color = @teamConfigs[team]?.color
@@ -196,8 +239,10 @@ module.exports = class LevelLoader extends CocoClass
     return if @initialized
     @initialized = true
     @world = new World()
+    @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
+    console.log "World has been initialized from level loader."
 
   # Initial Sound Loading
 
@@ -223,3 +268,7 @@ module.exports = class LevelLoader extends CocoClass
   # everything else sound wise is loaded as needed as worlds are generated
 
   progress: -> @supermodel.progress
+
+  destroy: ->
+    clearInterval @buildLoopInterval if @buildLoopInterval
+    super()
