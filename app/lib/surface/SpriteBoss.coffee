@@ -150,7 +150,7 @@ module.exports = class SpriteBoss extends CocoClass
     thangType ?= _.find @options.thangTypes, (m) -> return m.get('name') is thang.spriteName
 
     options = @createSpriteOptions thang: thang
-    options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else 4
+    options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else SPRITE_RESOLUTION_FACTOR
     sprite = new CocoSprite thangType, options
     @addSprite sprite, null, layer
     sprite.setDebug @debug
@@ -213,8 +213,9 @@ module.exports = class SpriteBoss extends CocoClass
     @spriteLayers["Obstacle"].uncache() if @spriteLayers["Obstacle"].cacheID  # might have changed sizes
     @spriteLayers["Obstacle"].cache()
     # test performance of doing land layer, too, to see if it's faster
-    #@spriteLayers["Land"].uncache() if @spriteLayers["Land"].cacheID  # might have changed sizes
-    #@spriteLayers["Land"].cache()
+#    @spriteLayers["Land"].uncache() if @spriteLayers["Land"].cacheID  # might have changed sizes
+#    @spriteLayers["Land"].cache()
+    # I don't notice much difference - Scott
     @cached = true
 
   spriteFor: (thangID) -> @sprites[thangID]

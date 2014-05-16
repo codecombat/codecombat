@@ -24,7 +24,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   ranges: null
 
   options:
-    resolutionFactor: 4
+    resolutionFactor: SPRITE_RESOLUTION_FACTOR
     groundLayer: null
     textLayer: null
     floatingLayer: null
