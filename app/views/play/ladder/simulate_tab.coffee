@@ -29,6 +29,7 @@ module.exports = class SimulateTabView extends CocoView
     ctx = super()
     ctx.simulationStatus = @simulationStatus
     ctx.simulatorsLeaderboardData = @simulatorsLeaderboardData
+    ctx.numberOfGamesInQueue = @simulatorsLeaderboardData.numberOfGamesInQueue
     ctx._ = _
     ctx
 
@@ -43,6 +44,11 @@ module.exports = class SimulateTabView extends CocoView
     $("#simulate-button").text "Simulating..."
 
     @simulator.fetchAndSimulateTask()
+
+  refresh: ->
+    success = (numberOfGamesInQueue) ->
+      $("#games-in-queue").text numberOfGamesInQueue
+    $.ajax "/queue/messagesInQueueCount", {success}
 
   updateSimulationStatus: (simulationStatus, sessions) ->
     @simulationStatus = simulationStatus
@@ -92,13 +98,17 @@ class SimulatorsLeaderboardData extends CocoClass
     promises.push @topSimulators.fetch()
     unless @me.get('anonymous')
       score = @me.get('simulatedBy') or 0
+      queueSuccess = (@numberOfGamesInQueue) =>
+      promises.push $.ajax "/queue/messagesInQueueCount", {success: queueSuccess}
       @playersAbove = new SimulatorsLeaderboardCollection({order:1, scoreOffset: score, limit: 4})
       promises.push @playersAbove.fetch()
       if score
         @playersBelow = new SimulatorsLeaderboardCollection({order:-1, scoreOffset: score, limit: 4})
         promises.push @playersBelow.fetch()
       success = (@myRank) =>
+
       promises.push $.ajax "/db/user/me/simulator_leaderboard_rank?scoreOffset=#{score}", {success}
+
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise.fail @onFail
@@ -121,7 +131,7 @@ class SimulatorsLeaderboardData extends CocoClass
     above = @playersAbove.models
     l = l.concat(above)
     l.reverse()
-    l.push @me
+    #l.push @me
     l = l.concat(@playersBelow.models) if @playersBelow
     if @myRank
       startRank = @myRank - 4
