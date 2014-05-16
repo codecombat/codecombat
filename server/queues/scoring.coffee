@@ -277,6 +277,7 @@ constructTaskObject = (taskMessageBody, message, callback) ->
         "levelID": session.levelID
         "creator": session.creator
         "creatorName":session.creatorName
+        "totalScore": session.totalScore
 
       taskObject.sessions.push sessionInformation
     callback null, taskObject, message
@@ -297,7 +298,7 @@ processTaskObject = (taskObject,taskLogObject, message, cb) ->
 getSessionInformation = (sessionIDString, callback) ->
   findParameters =
     _id: sessionIDString
-  selectString = 'submitDate team submittedCode teamSpells levelID creator creatorName transpiledCode'
+  selectString = 'submitDate team submittedCode teamSpells levelID creator creatorName transpiledCode totalScore'
   query = LevelSession
   .findOne(findParameters)
   .select(selectString)
@@ -445,6 +446,8 @@ addMatchToSessions = (newScoreObject, callback) ->
     matchObject.opponents[sessionID] = {}
     matchObject.opponents[sessionID].sessionID = sessionID
     matchObject.opponents[sessionID].userID = session.creator
+    matchObject.opponents[sessionID].name = session.name
+    matchObject.opponents[sessionID].totalScore = session.totalScore
     matchObject.opponents[sessionID].metrics = {}
     matchObject.opponents[sessionID].metrics.rank = Number(newScoreObject[sessionID].gameRanking)
 
@@ -462,11 +465,13 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   opponentsClone = _.omit opponentsClone, sessionID
   opponentsArray = _.toArray opponentsClone
   currentMatchObject.opponents = opponentsArray
-
-  sessionUpdateObject =
-    $push: {matches: {$each: [currentMatchObject], $slice: -200}}
-  #log.info "Updating session #{sessionID}"
-  LevelSession.update {"_id":sessionID}, sessionUpdateObject, callback
+  LevelSession.findOne {"_id": sessionID}, (err, session) ->
+    session = session.toObject()
+    currentMatchObject.playtime = session.playtime ? 0
+    sessionUpdateObject =
+      $push: {matches: {$each: [currentMatchObject], $slice: -200}}
+    #log.info "Updating session #{sessionID}"
+    LevelSession.update {"_id":sessionID}, sessionUpdateObject, callback
 
 updateUserSimulationCounts = (reqUserID,callback) ->
   incrementUserSimulationCount reqUserID, 'simulatedBy', (err) =>
