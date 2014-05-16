@@ -8,6 +8,9 @@ CocoView = require 'views/kinds/CocoView'
 
 marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
+# TODO, add C-style macro constants like this?
+window.SPRITE_RESOLUTION_FACTOR = 4
+
 # Prevent Ctrl/Cmd + [ / ], P, S
 ctrlDefaultPrevented = [219, 221, 80, 83]
 preventBackspace = (event) ->

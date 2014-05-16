@@ -201,7 +201,7 @@ module.exports = class LevelLoader extends CocoClass
 #      queue.loadFile('/file/'+f)
     @grabThangTypeTeams() unless @thangTypeTeams
     for team in @thangTypeTeams[thangType.get('original')] ? [null]
-      spriteOptions = {resolutionFactor: 4, async: false}
+      spriteOptions = {resolutionFactor: SPRITE_RESOLUTION_FACTOR, async: false}
       if thangType.get('kind') is 'Floor'
         spriteOptions.resolutionFactor = 2
       if team and color = @teamConfigs[team]?.color

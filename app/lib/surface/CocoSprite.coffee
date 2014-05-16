@@ -24,7 +24,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   ranges: null
 
   options:
-    resolutionFactor: 4
+    resolutionFactor: SPRITE_RESOLUTION_FACTOR
     groundLayer: null
     textLayer: null
     floatingLayer: null
@@ -63,8 +63,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     console.error @toString(), "has no ThangType!" unless @thangType
 
     # this is a stub, use @setImageObject to swap it out for something else later
-    @imageObject = new createjs.Container 
-    
+    @imageObject = new createjs.Container
+
     @actionQueue = []
     @marks = {}
     @labels = {}
@@ -80,6 +80,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @listenToOnce(@thangType, 'sync', @setupSprite)
 
   setupSprite: ->
+    for trigger, sounds of @thangType.get('soundTriggers') or {} when trigger isnt 'say'
+      AudioPlayer.preloadSoundReference sound for sound in sounds
     @stillLoading = false
     if @thangType.get('raster')
       @isRaster = true
@@ -121,7 +123,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     options.colorConfig = @options.colorConfig if @options.colorConfig
     options.async = false
     @thangType.getSpriteSheet options
-    
+
   setImageObject: (newImageObject) ->
     if parent = @imageObject?.parent
       parent.removeChild @imageObject
@@ -287,7 +289,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         @imageObject.regX += bounds.width / 2
         @imageObject.regY ?= 0
         @imageObject.regY += bounds.height / 2
-        
+
         unless @thang.spriteName is 'Beam'
           @imageObject.scaleX *= @thangType.get('scale') ? 1
           @imageObject.scaleY *= @thangType.get('scale') ? 1
@@ -308,12 +310,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       angle = -angle if angle < 0
       angle = 180 - angle if angle > 90
       scaleX = 0.5 + 0.5 * (90 - angle) / 90
-      
+
     if @isRaster # scale is worked into building the sprite sheet for animations
       scale = @thangType.get('scale') or 1
       scaleX *= scale
       scaleY *= scale
-      
+
     scaleFactorX = @thang.scaleFactorX ? @scaleFactor
     scaleFactorY = @thang.scaleFactorY ? @scaleFactor
     @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
@@ -490,7 +492,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if not @isRaster
       scale = @getActionProp 'scale', null, 1
       scale *= @options.resolutionFactor if prop is 'registration'
-      pos.x *= scale 
+      pos.x *= scale
       pos.y *= scale
     if @thang and prop isnt 'registration'
       scaleFactor = @thang.scaleFactor ? 1
@@ -674,7 +676,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.getFPS() else 0
     name = AudioPlayer.nameForSoundReference sound
     instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
-#    console.log @thang?.id, "played sound", name, "with delay", delay, "volume", volume, "and got sound instance", instance
+    #console.log @thang?.id, "played sound", name, "with delay", delay, "volume", volume, "and got sound instance", instance
     instance
 
   onMove: (e) ->
