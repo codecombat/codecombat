@@ -273,7 +273,7 @@ module.exports = class SpriteBoss extends CocoClass
       @selectedSprite?.selected = false
       sprite?.selected = true
       @selectedSprite = sprite
-    alive = not (sprite?.thang.health < 0)
+    alive = sprite and not (sprite.thang.health < 0)
 
     Backbone.Mediator.publish 'surface:sprite-selected',
       thang: if sprite then sprite.thang else null

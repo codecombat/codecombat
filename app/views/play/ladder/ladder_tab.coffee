@@ -201,7 +201,7 @@ module.exports = class LadderTabView extends CocoView
     x = d3.scale.linear().domain([-3000,6000]).range([0,width])
 
     data = d3.layout.histogram().bins(x.ticks(20))(histogramData)
-    y = d3.scale.linear().domain([0,d3.max(data, (d) -> d.y)]).range([height,0])
+    y = d3.scale.linear().domain([0,d3.max(data, (d) -> d.y)]).range([height,10])
 
     #create the x axis
     xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5).outerTickSize(0)
@@ -242,7 +242,11 @@ module.exports = class LadderTabView extends CocoView
     if teamName.toLowerCase() is "humans" then rankClass = "rank-text humans-rank-text"
 
     message = "#{histogramData.length} players"
-    if @leaderboards[teamName].session? then message="##{@leaderboards[teamName].myRank} of #{histogramData.length}"
+    if @leaderboards[teamName].session? 
+      if @leaderboards[teamName].myRank <= histogramData.length
+        message="##{@leaderboards[teamName].myRank} of #{histogramData.length}"
+      else
+        message="Rank your session!"
     svg.append("g")
       .append("text")
       .attr("class",rankClass)
