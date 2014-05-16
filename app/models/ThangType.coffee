@@ -53,7 +53,7 @@ module.exports = class ThangType extends CocoModel
   fillOptions: (options) ->
     options ?= {}
     options = _.clone options
-    options.resolutionFactor ?= 4
+    options.resolutionFactor ?= SPRITE_RESOLUTION_FACTOR
     options.async ?= false
     options
 
