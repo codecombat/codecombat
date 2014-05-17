@@ -221,8 +221,8 @@ module.exports = class ThangTypeEditView extends View
       @showMovieClip(animationName)
     else
       @showSprite(animationName)
-    @updateScale()
     @updateRotation()
+    @updateScale() # must happen after update rotation, because updateRotation calls the sprite update() method.
 
   showMovieClip: (animationName) ->
     vectorParser = new SpriteBuilder(@thangType)
@@ -279,11 +279,12 @@ module.exports = class ThangTypeEditView extends View
       @currentSprite.update(true)
 
   updateScale: =>
-    value = (@scaleSlider.slider('value') + 1) / 10
-    fixed = value.toFixed(1)
-    @scale = value
+    resValue = (@resolutionSlider.slider('value') + 1) / 10
+    scaleValue = (@scaleSlider.slider('value') + 1) / 10
+    fixed = scaleValue.toFixed(1)
+    @scale = scaleValue
     @$el.find('.scale-label').text " #{fixed}x "
-    @currentObject.scaleX = @currentObject.scaleY = value if @currentObject?
+    @currentObject.scaleX = @currentObject.scaleY = scaleValue / resValue if @currentObject?
     @updateGrid()
     @updateDots()
 
