@@ -204,7 +204,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    candidates_count_many: "many"
 #    candidates_count_suffix: "highly skilled and vetted developers looking for work."
     candidate_name: "Nome"
-#    candidate_location: "Local"
+    candidate_location: "Localização"
 #    candidate_looking_for: "Looking For"
 #    candidate_role: "Role"
 #    candidate_top_skills: "Top Skills"
