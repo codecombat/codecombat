@@ -46,7 +46,7 @@ module.exports = class SpriteBoss extends CocoClass
   toString: -> "<SpriteBoss: #{@spriteArray.length} sprites>"
 
   thangTypeFor: (type) ->
-    _.find @options.thangTypes, (m) -> m.get('actions') and m.get('original') is type or m.get('name') is type
+    _.find @options.thangTypes, (m) -> m.get('original') is type or m.get('name') is type
 
   createLayers: ->
     @spriteLayers = {}
