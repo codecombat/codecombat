@@ -233,8 +233,6 @@
     victory_sign_up: "Sign Up to Save Progress"
     victory_sign_up_poke: "Want to save your code? Create a free account!"
     victory_rate_the_level: "Rate the level: "
-    victory_rank_my_game: "Rank My Game"
-    victory_ranking_game: "Submitting..."
     victory_return_to_ladder: "Return to Ladder"
     victory_play_next_level: "Play Next Level"
     victory_go_home: "Go Home"
