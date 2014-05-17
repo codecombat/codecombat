@@ -22,6 +22,7 @@ doQuerySelector = (value, operatorObj) ->
   true
 
 matchesQuery = (target, queryObj) ->
+  return true unless queryObj
   for prop, query of queryObj
     if prop[0] == '$'
       switch prop
@@ -29,10 +30,15 @@ matchesQuery = (target, queryObj) ->
         when '$and' then return false unless _.reduce query, ((res, obj) -> res and matchesQuery target, obj), true
         else return false
     else
-      return false unless prop of target
+      # Do nested properties
+      pieces = prop.split('.')
+      obj = target
+      for piece in pieces
+        return false unless piece of obj
+        obj = obj[piece]
       if typeof query != 'object' or _.isArray query
-        return false unless target[prop] == query or (query in target[prop] if _.isArray target[prop])
-      else return false unless doQuerySelector target[prop], query
+        return false unless obj == query or (query in obj if _.isArray obj)
+      else return false unless doQuerySelector obj, query
   true
 
 LocalMongo.matchesQuery = matchesQuery
