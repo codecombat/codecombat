@@ -498,7 +498,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     Backbone.Mediator.publish ourEventName, newEvent
 
   addHealthBar: ->
-    return unless @thang?.health? and "health" in (@thang?.hudProperties ? [])
+    return unless @thang?.health? and "health" in (@thang?.hudProperties ? []) and @options.floatingLayer
     healthColor = healthColors[@thang?.team] ? healthColors["neutral"]
     healthOffset = @getOffset 'aboveHead'
     bar = @healthBar = createProgressBar(healthColor, healthOffset)
