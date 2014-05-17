@@ -198,7 +198,7 @@ module.exports = class PlayLevelView extends View
     for spellTeam, spells of @session.get('teamSpells') ? @otherSession?.get('teamSpells') ? {}
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
-    if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells') 
+    if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells')
       @session.set('teamSpells',@otherSession.get('teamSpells'))
     opponentCode = @otherSession?.get('transpiledCode') or {}
     myCode = @session.get('code') or {}
@@ -295,7 +295,7 @@ module.exports = class PlayLevelView extends View
     @victorySeen = true
     victoryTime = (new Date()) - @loadEndTime
     if victoryTime > 10 * 1000   # Don't track it if we're reloading an already-beaten level
-      application.tracker?.trackEvent 'Saw Victory', level: @world.name, label: @world.name
+      application.tracker?.trackEvent 'Saw Victory', level: @level.get('name'), label: @level.get('name')
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID, 100
 
   showVictory: ->
@@ -309,12 +309,12 @@ module.exports = class PlayLevelView extends View
     @tome.reloadAllCode()
     Backbone.Mediator.publish 'level:restarted'
     $('#level-done-button', @$el).hide()
-    application.tracker?.trackEvent 'Confirmed Restart', level: @world.name, label: @world.name
+    application.tracker?.trackEvent 'Confirmed Restart', level: @level.get('name'), label: @level.get('name')
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
     @openModalView new InfiniteLoopModal()
-    application.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
+    application.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @level.get('name'), label: @level.get('name')
 
   onPlayNextLevel: ->
     nextLevelID = @getNextLevelID()
@@ -485,7 +485,9 @@ module.exports = class PlayLevelView extends View
 
   onNewWorld: (e) ->
     return if @headless
+    scripts = @world.scripts  # Since these worlds don't have scripts, preserve them.
     @world = e.world
+    @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
     for [spriteName, message] in @world.thangDialogueSounds()
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName

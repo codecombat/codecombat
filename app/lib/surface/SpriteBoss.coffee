@@ -13,7 +13,6 @@ module.exports = class SpriteBoss extends CocoClass
     'bus:player-left': 'onPlayerLeft'
 #    'level-set-debug': 'onSetDebug'
     'level-highlight-sprites': 'onHighlightSprites'
-    'sprite:mouse-up': 'onSpriteMouseUp'
     'surface:stage-mouse-down': 'onStageMouseDown'
     'level-select-sprite': 'onSelectSprite'
     'level-suppress-selection-sounds': 'onSuppressSelectionSounds'
@@ -47,7 +46,7 @@ module.exports = class SpriteBoss extends CocoClass
   toString: -> "<SpriteBoss: #{@spriteArray.length} sprites>"
 
   thangTypeFor: (type) ->
-    _.find @options.thangTypes, (m) -> m.get('actions') and m.get('original') is type or m.get('name') is type
+    _.find @options.thangTypes, (m) -> m.get('original') is type or m.get('name') is type
 
   createLayers: ->
     @spriteLayers = {}
@@ -152,6 +151,7 @@ module.exports = class SpriteBoss extends CocoClass
     options = @createSpriteOptions thang: thang
     options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else SPRITE_RESOLUTION_FACTOR
     sprite = new CocoSprite thangType, options
+    @listenTo sprite, 'sprite:mouse-up', @onSpriteMouseUp
     @addSprite sprite, null, layer
     sprite.setDebug @debug
     sprite

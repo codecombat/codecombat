@@ -14,15 +14,15 @@ module.exports = class ControlBarView extends View
 
   events:
     'click #multiplayer-button': ->
-      window.tracker?.trackEvent 'Clicked Multiplayer', level: @worldName, label: @worldName
+      window.tracker?.trackEvent 'Clicked Multiplayer', level: @level.get('name'), label: @level.get('name')
       @showMultiplayerModal()
 
     'click #docs-button': ->
-      window.tracker?.trackEvent 'Clicked Docs', level: @worldName, label: @worldName
+      window.tracker?.trackEvent 'Clicked Docs', level: @level.get('name'), label: @level.get('name')
       @showGuideModal()
 
     'click #restart-button': ->
-      window.tracker?.trackEvent 'Clicked Restart', level: @worldName, label: @worldName
+      window.tracker?.trackEvent 'Clicked Restart', level: @level.get('name'), label: @level.get('name')
       @showRestartModal()
 
     'click #next-game-button': ->

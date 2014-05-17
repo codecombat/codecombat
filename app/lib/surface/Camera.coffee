@@ -25,6 +25,8 @@ module.exports = class Camera extends CocoClass
   # what the camera is pointed at right now
   target: DEFAULT_TARGET
   zoom: DEFAULT_ZOOM
+  canvasScaleFactorX: 1
+  canvasScaleFactorY: 1
 
   # properties for tracking going between targets
   oldZoom: null
@@ -40,14 +42,16 @@ module.exports = class Camera extends CocoClass
   subscriptions:
     'camera-zoom-in': 'onZoomIn'
     'camera-zoom-out': 'onZoomOut'
-    'surface:mouse-scrolled': 'onMouseScrolled'
+    'camera-zoom-to': 'onZoomTo'
     'level:restarted': 'onLevelRestarted'
+    'surface:mouse-scrolled': 'onMouseScrolled'
     'sprite:mouse-down': 'onMouseDown'
     'sprite:dragged': 'onMouseDragged'
-    'camera-zoom-to': 'onZoomTo'
 
-  constructor: (@canvasWidth, @canvasHeight, angle=Math.asin(0.75), hFOV=d2r(30)) ->
+  constructor: (@canvas, angle=Math.asin(0.75), hFOV=d2r(30)) ->
     super()
+    @canvasWidth = parseInt(@canvas.attr('width'), 10)
+    @canvasHeight = parseInt(@canvas.attr('height'), 10)
     @offset = {x: 0, y: 0}
     @calculateViewingAngle angle
     @calculateFieldOfView hFOV
@@ -151,6 +155,7 @@ module.exports = class Camera extends CocoClass
   onZoomIn: (e) -> @zoomTo @target, @zoom * 1.15, 300
   onZoomOut: (e) -> @zoomTo @target, @zoom / 1.15, 300
   onMouseScrolled: (e) ->
+    return unless e.canvas is @canvas
     ratio = 1 + 0.05 * Math.sqrt(Math.abs(e.deltaY))
     ratio = 1 / ratio if e.deltaY > 0
     newZoom = @zoom * ratio
@@ -169,10 +174,12 @@ module.exports = class Camera extends CocoClass
     @zoomTo target, newZoom, 0
 
   onMouseDown: (e) ->
+    return unless e.canvas is @canvas
     return if @dragDisabled
     @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
 
   onMouseDragged: (e) ->
+    return unless e.canvas is @canvas
     return if @dragDisabled
     target = @boundTarget(@target, @zoom)
     newPos =

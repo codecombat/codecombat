@@ -465,7 +465,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   onMouseEvent: (e, ourEventName) ->
     return if @letterboxOn
-    Backbone.Mediator.publish ourEventName, sprite: @, thang: @thang, originalEvent: e
+    p = @imageObject
+    p = p.parent while p.parent
+    newEvent = sprite: @, thang: @thang, originalEvent: e, canvas:p
+    @trigger ourEventName, newEvent
+    Backbone.Mediator.publish ourEventName, newEvent
 
   addHealthBar: ->
     return unless @thang?.health? and "health" in (@thang?.hudProperties ? [])

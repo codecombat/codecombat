@@ -85,6 +85,12 @@ module.exports = class World
       frameToLoadUntil = @totalFrames
     i = @frames.length
     while i < frameToLoadUntil
+      if @debugging
+        for thang in @thangs when thang.isProgrammable
+          userCode = @userCodeMap[thang.id] ? {}
+          for methodName, aether of userCode
+            framesToLoadFlowBefore = if methodName is 'plan' then 200 else 1  # Adjust if plan() is taking even longer
+            aether._shouldSkipFlow = i < loadUntilFrame - framesToLoadFlowBefore
       try
         @getFrame(i)
         ++i  # increment this after we have succeeded in getting the frame, otherwise we'll have to do that frame again
