@@ -10,6 +10,8 @@ describe 'Local Mongo queries', ->
       'type': 'unicorn'
       'likes': ['poptarts', 'popsicles', 'popcorn']
 
+    this.fixture2 = this: is: so: 'deep'
+
   it 'regular match of a property', ->
     expect(LocalMongo.matchesQuery(this.fixture1, 'gender': 'unicorn')).toBeFalsy()
     expect(LocalMongo.matchesQuery(this.fixture1, 'type':'unicorn')).toBeTruthy()
@@ -19,6 +21,9 @@ describe 'Local Mongo queries', ->
   it 'array match of a property', ->
     expect(LocalMongo.matchesQuery(this.fixture1, 'likes':'poptarts')).toBeTruthy()
     expect(LocalMongo.matchesQuery(this.fixture1, 'likes':'walks on the beach')).toBeFalsy()
+
+  it 'nested match', ->
+    expect(LocalMongo.matchesQuery(this.fixture2, 'this.is.so':'deep')).toBeTruthy()
 
   it '$gt selector', ->
     expect(LocalMongo.matchesQuery(this.fixture1, 'value': '$gt': 8000)).toBeTruthy()
@@ -69,3 +74,4 @@ describe 'Local Mongo queries', ->
     expect(LocalMongo.matchesQuery(this.fixture1, $and: [{value:9000}, {type:'zebra'}])).toBeFalsy()
     expect(LocalMongo.matchesQuery(this.fixture1, $and: [{value:9000}, {type:'unicorn'}])).toBeTruthy()
     expect(LocalMongo.matchesQuery(this.fixture1, $and: [{value:$gte:9000}, {worth:$lt:10}])).toBeTruthy()
+
