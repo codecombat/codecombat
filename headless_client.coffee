@@ -8,8 +8,8 @@ headlessClientPath = "./headless_client/"
 # SETTINGS
 options =
   workerCode: require headlessClientPath + 'worker_world'
-  debug: true # Enable logging of ajax calls mainly
-  testing: true # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
+  debug: false # Enable logging of ajax calls mainly
+  testing: false # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
   testFile: require headlessClientPath + 'test.js'
   leakTest: false # Install callback that tries to find leaks automatically
   exitOnLeak: false # Exit if leak is found. Only useful if leaktest is set to true, obviously.
@@ -104,4 +104,4 @@ $.ajax
     GLOBAL.window.userObject = response # JSON.parse response
     Simulator = require 'lib/simulator/Simulator'
     sim = new Simulator options
-    #sim.fetchAndSimulateTask()
+    sim.fetchAndSimulateTask()
