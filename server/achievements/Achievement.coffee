@@ -10,4 +10,4 @@ AchievementSchema = new mongoose.Schema({
   query: Object
 }, {strict: false})
 
-module.exports = Achievement = mongoose.model('achievements', AchievementSchema)
+module.exports = Achievement = mongoose.model('achievement', AchievementSchema)
