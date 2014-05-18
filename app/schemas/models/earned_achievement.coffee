@@ -24,6 +24,8 @@ module.exports =
         type: 'string'
       created:
         type: 'date'
+      changed:
+        type: 'date'
       achievedAmount:
         type: 'number'
       notified:
