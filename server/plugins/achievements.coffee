@@ -1,6 +1,7 @@
 mongoose = require('mongoose')
 Achievement = require('../achievements/Achievement')
-AchievementEarned = require '../achievements/earned/AchievementEarned'
+EarnedAchievement = require '../achievements/EarnedAchievement'
+LocalMongo = require '../../app/lib/LocalMongo'
 
 achievements = {}
 
@@ -9,11 +10,11 @@ loadAchievements = ->
   query = Achievement.find({})
   query.exec (err, docs) ->
     _.each docs, (achievement) ->
-      achievements[achievement.get 'collection'] = [] unless achievement.collection in achievements
-      achievements[achievement.get 'collection'].push achievement
+      category = achievement.get 'model'
+      achievements[category] = [] unless category of achievements
+      achievements[category].push achievement
 
 loadAchievements()
-
 
 
 # TODO make a difference between '$userID' and '$userObjectID' ?
@@ -24,18 +25,41 @@ module.exports = AchievablePlugin = (schema, options) ->
     for achievement in achievements[collectionName]
       console.log achievement.get 'name'
 
-  fetched = {}
+  before = {}
 
   schema.post 'init', (doc) ->
-    fetched[doc.id] = doc
-    collectionName = doc.constructor.modelName
-    for achievement in achievements[collectionName]
-      console.log achievement.get 'name'
-
+    before[doc.id] = doc
   schema.post 'save', (doc) ->
-    collectionName = doc.constructor.modelName
-    docBefore = fetched?.doc.id
-    for achievement in achievements[collectionName]
-      "placeholder"
-      # continue if init'd and already achieved
-      # else if new doc validates, new achievement! make the fucker
+    isNew = not doc.isInit('_id')
+    console.log doc
+    console.log 'is new: ' + isNew
+
+    category = doc.constructor.modelName
+    console.log 'category: ' + category
+
+    if category of achievements
+      docObj = doc.toObject()
+      for achievement in achievements[category]
+        query = achievement.get('query')
+        isRepeatable = achievement.get('proportionalTo')?
+        console.log 'isRepeatable: ' + isRepeatable
+        alreadyAchieved = false
+        unless isNew
+          previousDocObj = before[doc.id].toObject()
+          alreadyAchieved = LocalMongo.matchesQuery previousDocObj, query
+          console.log 'Already achieved: ' + alreadyAchieved
+        console.log 'Matches: ' + LocalMongo.matchesQuery(docObj, query)
+        if LocalMongo.matchesQuery(docObj, query) and (isRepeatable or not alreadyAchieved)
+          userID = doc.get(achievement.get('userField'))
+          console.log 'Creating a new earned achievement for \'' + (achievement.get 'name') + '\' for ' + userID
+          earned = new EarnedAchievement(
+            user: if _.isObject userID then userID else new mongoose.Types.ObjectId(userID) # Standardize! Use ObjectId's
+            achievement: achievement._id
+            achievementName: achievement.get 'name'
+          )
+          console.log earned
+          earned.save (err, doc) ->
+            console.log 'so something went wrong' if err?
+
+    delete before[doc.id] unless isNew # This assumes everything we patch has a _id
+    return
