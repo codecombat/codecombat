@@ -28,14 +28,13 @@ module.exports = AchievablePlugin = (schema, options) ->
   before = {}
 
   schema.post 'init', (doc) ->
-    before[doc.id] = doc
+    before[doc.id] = doc.toObject()
+
   schema.post 'save', (doc) ->
     isNew = not doc.isInit('_id')
-    console.log doc
-    console.log 'is new: ' + isNew
+    previousDocObj = before[doc.id] unless isNew
 
     category = doc.constructor.modelName
-    console.log 'category: ' + category
 
     if category of achievements
       docObj = doc.toObject()
@@ -43,12 +42,7 @@ module.exports = AchievablePlugin = (schema, options) ->
         query = achievement.get('query')
         isRepeatable = achievement.get('proportionalTo')?
         console.log 'isRepeatable: ' + isRepeatable
-        alreadyAchieved = false
-        unless isNew
-          previousDocObj = before[doc.id].toObject()
-          alreadyAchieved = LocalMongo.matchesQuery previousDocObj, query
-          console.log 'Already achieved: ' + alreadyAchieved
-        console.log 'Matches: ' + LocalMongo.matchesQuery(docObj, query)
+        alreadyAchieved = if isNew then false else LocalMongo.matchesQuery previousDocObj, query
         if LocalMongo.matchesQuery(docObj, query) and (isRepeatable or not alreadyAchieved)
           userID = doc.get(achievement.get('userField'))
           console.log 'Creating a new earned achievement for \'' + (achievement.get 'name') + '\' for ' + userID
