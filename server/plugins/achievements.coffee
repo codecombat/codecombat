@@ -2,6 +2,7 @@ mongoose = require('mongoose')
 Achievement = require('../achievements/Achievement')
 EarnedAchievement = require '../achievements/EarnedAchievement'
 LocalMongo = require '../../app/lib/LocalMongo'
+util = require '../../app/lib/utils'
 
 achievements = {}
 
@@ -32,7 +33,7 @@ module.exports = AchievablePlugin = (schema, options) ->
 
   schema.post 'save', (doc) ->
     isNew = not doc.isInit('_id')
-    previousDocObj = before[doc.id] unless isNew
+    originalDocObj = before[doc.id] unless isNew
 
     category = doc.constructor.modelName
 
@@ -42,18 +43,39 @@ module.exports = AchievablePlugin = (schema, options) ->
         query = achievement.get('query')
         isRepeatable = achievement.get('proportionalTo')?
         console.log 'isRepeatable: ' + isRepeatable
-        alreadyAchieved = if isNew then false else LocalMongo.matchesQuery previousDocObj, query
-        if LocalMongo.matchesQuery(docObj, query) and (isRepeatable or not alreadyAchieved)
-          userID = doc.get(achievement.get('userField'))
-          console.log 'Creating a new earned achievement for \'' + (achievement.get 'name') + '\' for ' + userID
+        alreadyAchieved = if isNew then false else LocalMongo.matchesQuery originalDocObj, query
+        newlyAchieved = LocalMongo.matchesQuery(docObj, query)
+
+        userObjectID = doc.get(achievement.get('userField'))
+        userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's
+
+        if newlyAchieved and not alreadyAchieved
+          console.log 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
           earned = new EarnedAchievement(
-            user: if _.isObject userID then userID else new mongoose.Types.ObjectId(userID) # Standardize! Use ObjectId's
-            achievement: achievement._id
+            user: userID
+            achievement: achievement._id.toHexString()
             achievementName: achievement.get 'name'
           )
-          console.log earned
           earned.save (err, doc) ->
-            console.log 'so something went wrong' if err?
+            console.log err if err?
+        else if newlyAchieved and isRepeatable
+          proportionalTo = achievement.get 'proportionalTo'
+          originalValue = util.getByPath(originalDocObj, proportionalTo)
+          newValue = docObj.get proportionalTo
+
+          if originalValue != newValue
+            upsertQuery = EarnedAchievement.findOneAndUpdate
+              user: userID
+              achievement: achievement._id.toHexString(),
+              notified: false
+              achievedAmount: newValue
+              changed: Date.now(),
+              upsert: true
+            upsertQuery.exec (err, docs) ->
+              console.log err if err?
+
+
+
 
     delete before[doc.id] unless isNew # This assumes everything we patch has a _id
     return
