@@ -17,6 +17,7 @@ module.exports = class DebugView extends View
     'tome:spell-shown': 'changeCurrentThangAndSpell'
     'tome:cast-spells': 'onTomeCast'
     'surface:frame-changed': 'onFrameChanged'
+    'tome:spell-has-changed-significantly-calculation': 'onSpellChangedCalculation'
 
   events: {}
 
@@ -34,6 +35,8 @@ module.exports = class DebugView extends View
     @cache = {}
     @lastFrameRequested = -1
     @workerIsSimulating = false
+    @spellHasChanged = false
+    
 
 
   pad2: (num) ->
@@ -145,11 +148,17 @@ module.exports = class DebugView extends View
   onFrameChanged: (data) ->
     @currentFrame = data.frame
     @frameRate = data.world.frameRate
-
+  onSpellChangedCalculation: (data) ->
+    @spellHasChanged = data.hasChangedSignificantly
+    
   update: ->
     if @variableChain
-      if @variableChain.length is 2 and @variableChain[0] is "this"
+      if @spellHasChanged
+        @setTooltipText("You've changed this spell! \nPlease recast to use the hover debugger.")
+      else if @variableChain.length is 2 and @variableChain[0] is "this"
         @setTooltipKeyAndValue(@variableChain.join("."),@stringifyValue(@thang[@variableChain[1]],0))
+      else if @variableChain.length is 1 and Aether.globals[@variableChain[0]]
+        @setTooltipKeyAndValue(@variableChain.join("."),@stringifyValue(Aether.globals[@variableChain[0]],0))
       else if @workerIsSimulating
         @setTooltipText("World is simulating, please wait...")
       else if @currentFrame is @lastFrameRequested and (cacheValue = @retrieveValueFromCache(@thang.id, @spell.name, @variableChain, @currentFrame))

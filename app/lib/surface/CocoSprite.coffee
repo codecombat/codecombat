@@ -69,7 +69,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @marks = {}
     @labels = {}
     @ranges = []
-    @handledAoEs = {}
+    @handledDisplayEvents = {}
     @age = 0
     @scaleFactor = @targetScaleFactor = 1
     if @thangType.isFullyLoaded()
@@ -213,6 +213,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @updatePosition()
     frameChanged = frameChanged or @targetScaleFactor isnt @scaleFactor
     if frameChanged
+      @handledDisplayEvents = {}
       @updateScale()  # must happen before rotation
       @updateAlpha()
       @updateRotation()
@@ -220,6 +221,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @updateStats()
       @updateGold()
       @showAreaOfEffects()
+      @showTextEvents()
       @updateHealthBar()
     @updateMarks()
     @updateLabels()
@@ -228,9 +230,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return unless @thang?.currentEvents
     for event in @thang.currentEvents
       continue unless event.startsWith 'aoe-'
-      continue if @handledAoEs[event]
+      continue if @handledDisplayEvents[event]
 
-      @handledAoEs[event] = true
+      @handledDisplayEvents[event] = true
       args = JSON.parse(event[4...])
       pos = @options.camera.worldToSurface {x:args[0], y:args[1]}
       circle = new createjs.Shape()
@@ -248,7 +250,31 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         .call =>
           return if @destroyed
           @options.groundLayer.removeChild circle
-          delete @handledAoEs[event]
+          delete @handledDisplayEvents[event]
+        
+  showTextEvents: ->
+    return unless @thang?.currentEvents
+    for event in @thang.currentEvents
+      continue unless event.startsWith 'text-'
+      continue if @handledDisplayEvents[event]
+      @handledDisplayEvents[event] = true
+      options = JSON.parse(event[5...])
+      label = new createjs.Text options.text, "bold #{options.size or 16}px Arial", options.color or '#FFF'
+      label.shadow = new createjs.Shadow '#000', 0, 0, 2
+      offset = @getOffset 'aboveHead'
+      [label.x, label.y] = [@imageObject.x + offset.x - label.getMeasuredWidth() / 2, @imageObject.y + offset.y]
+      @options.floatingLayer.addChild label
+      window.labels ?= []
+      window.labels.push label
+      label.alpha = 0
+      createjs.Tween.get(label)
+        .to({y:label.y-2, alpha:1}, 200, createjs.Ease.linear)
+        .to({y:label.y-12}, 1000, createjs.Ease.linear)
+        .to({y:label.y-22, alpha:0}, 1000, createjs.Ease.linear)
+        .call =>
+          return if @destroyed
+          @options.floatingLayer.removeChild label
+
 
   cache: ->
     bounds = @imageObject.getBounds()
@@ -472,7 +498,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     Backbone.Mediator.publish ourEventName, newEvent
 
   addHealthBar: ->
-    return unless @thang?.health? and "health" in (@thang?.hudProperties ? [])
+    return unless @thang?.health? and "health" in (@thang?.hudProperties ? []) and @options.floatingLayer
     healthColor = healthColors[@thang?.team] ? healthColors["neutral"]
     healthOffset = @getOffset 'aboveHead'
     bar = @healthBar = createProgressBar(healthColor, healthOffset)

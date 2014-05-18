@@ -35,7 +35,7 @@ path = __dirname
 
 m = require 'module'
 request = require 'request'
-
+Deferred = require "JQDeferred"
 originalLoader = m._load
 
 unhook = () ->
@@ -90,6 +90,7 @@ GLOBAL.$ = GLOBAL.jQuery = (input) ->
   append: (input)-> exports: ()->
 
 cookies = request.jar()
+$.when = Deferred.when 
 
 $.ajax = (options) ->
   responded = false

@@ -31,6 +31,11 @@ block content
         a(href="#my-matches", data-toggle="tab", data-i18n="ladder.my_matches") My Matches
       li
         a(href="#simulate", data-toggle="tab", data-i18n="ladder.simulate") Simulate
+    if level.get('name') == 'Greed'
+      li
+        a(href="#prizes", data-toggle="tab", data-i18n="ladder.prizes") Prizes
+      li
+        a(href="#rules", data-toggle="tab", data-i18n="ladder.rules") Rules
 
   div.tab-content
     .tab-pane.active.well#ladder
@@ -39,3 +44,9 @@ block content
       #my-matches-tab-view
     .tab-pane.well#simulate
       #simulate-tab-view
+    .tab-pane.well#prizes
+      h1(data-i18n="ladder.prizes_remember_to_add_i18n_tags") Tournament Prizes
+      p(data-i18n="ladder.prizes_but_this_is_just_placeholder") Fill in the Greed prizes list here.
+    .tab-pane.well#rules
+      h1(data-i18n="ladder.rules_remember_to_add_i18n_tags") Tournament Rules
+      p(data-i18n="ladder.rules_but_this_is_just_placeholder") We probably don't have to translate legal documents from English, but we should translate any conversational summary.

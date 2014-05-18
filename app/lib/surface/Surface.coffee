@@ -591,12 +591,14 @@ module.exports = Surface = class Surface extends CocoClass
       @mouseInBounds = mib
 
   restoreWorldState: ->
-    @world.getFrame(@getCurrentFrame()).restoreState()
+    frame = @world.getFrame(@getCurrentFrame())
+    frame.restoreState()
     current = Math.max(0, Math.min(@currentFrame, @world.totalFrames - 1))
     if current - Math.floor(current) > 0.01
       next = Math.ceil current
       ratio = current % 1
       @world.frames[next].restorePartialState ratio if next > 1
+    frame.clearEvents() if parseInt(@currentFrame) is parseInt(@lastFrame)
     @spriteBoss.updateSounds()
 
   updateState: (frameChanged) ->

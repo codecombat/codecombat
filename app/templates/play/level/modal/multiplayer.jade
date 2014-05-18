@@ -29,7 +29,7 @@ block modal-body-content
     if me.get('anonymous')
       p(data-i18n="play_level.multiplayer_sign_in_leaderboard") Sign in or create an account and get your solution on the leaderboard.
     else if readyToRank
-      button.btn.btn-success.rank-game-button(data-i18n="play_level.victory_rank_my_game") Rank My Game
+      .ladder-submission-view
     else
       a.btn.btn-primary(href="/play/ladder/#{levelSlug}#my-matches", data-i18n="play_level.victory_go_ladder") Return to Ladder
 

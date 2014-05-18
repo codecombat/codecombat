@@ -1,15 +1,18 @@
 View = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/multiplayer'
-{me} = require('lib/auth')
+{me} = require 'lib/auth'
+LadderSubmissionView = require 'views/play/common/ladder_submission_view'
 
 module.exports = class MultiplayerModal extends View
   id: 'level-multiplayer-modal'
   template: template
 
+  subscriptions:
+    'ladder:game-submitted': 'onGameSubmitted'
+
   events:
     'click textarea': 'onClickLink'
     'change #multiplayer': 'updateLinkSection'
-    'click .rank-game-button': 'onRankGame'
 
   constructor: (options) ->
     super(options)
@@ -36,9 +39,15 @@ module.exports = class MultiplayerModal extends View
   afterRender: ->
     super()
     @updateLinkSection()
+    @ladderSubmissionView = new LadderSubmissionView session: @session, level: @level
+    @insertSubView @ladderSubmissionView, @$el.find('.ladder-submission-view')
 
   onClickLink: (e) ->
     e.target.select()
+
+  onGameSubmitted: (e) ->
+    ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
+    Backbone.Mediator.publish 'router:navigate', route: ladderURL
 
   updateLinkSection: ->
     multiplayer = @$el.find('#multiplayer').prop('checked')
@@ -50,48 +59,5 @@ module.exports = class MultiplayerModal extends View
     multiplayer = Boolean(@$el.find('#multiplayer').prop('checked'))
     @session.set('multiplayer', multiplayer)
 
-  onRankGame: (e) ->
-    button = @$el.find('.rank-game-button')
-    button.text($.i18n.t('play_level.victory_ranking_game', defaultValue: 'Submitting...'))
-    button.prop 'disabled', true
-    ajaxData = 
-      session: @session.id
-      levelID: @level.id
-      originalLevelID: @level.get('original')
-      levelMajorVersion: @level.get('version').major
-      transpiledCode: @transpileSession(@session)
-    ladderURL = "/play/ladder/#{@level.get('slug')}#my-matches"
-    goToLadder = -> Backbone.Mediator.publish 'router:navigate', route: ladderURL
-    $.ajax '/queue/scoring',
-      type: 'POST'
-      data: ajaxData
-      success: goToLadder
-      failure: (response) ->
-        console.error "Couldn't submit game for ranking:", response
-        goToLadder()
-  
-  transpileSession: (session) ->
-    submittedCode = session.get('code')
-    transpiledCode = {}
-    for thang, spells of submittedCode
-      transpiledCode[thang] = {}
-      for spellID, spell of spells
-        unless _.contains(session.get('teamSpells')[session.get('team')], thang + "/" + spellID) then continue
-        #DRY this
-        aetherOptions =
-          problems: {}
-          language: "javascript"
-          functionName: spellID
-          functionParameters: []
-          yieldConditionally: spellID is "plan"
-          globals: ['Vector', '_']
-          protectAPI: true
-          includeFlow: false
-        if spellID is "hear" then aetherOptions["functionParameters"] = ["speaker","message","data"]
-
-        aether = new Aether aetherOptions
-        transpiledCode[thang][spellID] = aether.transpile spell
-    transpiledCode
-    
   destroy: ->
     super()
