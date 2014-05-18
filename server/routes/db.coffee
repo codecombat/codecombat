@@ -31,6 +31,7 @@ module.exports.setup = (app) ->
       moduleName = module.replace '.', '_'
       name = handlers[moduleName]
       handler = require('../' + name)
+      console.log parts
       return handler.getLatestVersion(req, res, parts[1], parts[3]) if parts[2] is 'version'
       return handler.versions(req, res, parts[1]) if parts[2] is 'versions'
       return handler.files(req, res, parts[1]) if parts[2] is 'files'
