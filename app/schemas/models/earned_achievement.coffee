@@ -20,6 +20,10 @@ module.exports =
               href: '/db/user/{($)}'
             }
           ]
+      achievementName:
+        type: 'string'
+      created:
+        type: 'date'
       achievedAmount:
         type: 'number'
       notified:

@@ -7,8 +7,9 @@ module.exports =
       name: c.shortString({title: 'Display Name'})
       query: { $ref: 'mongoFindQuery' } # TODO make this happen
       worth: { type: 'number' }
-      collection: { type: 'string' }
+      model: { type: 'string' }
       description: { type: 'string' }
+      userField: { type: 'string' }
       proportionalTo:
         type: 'string'
         description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
