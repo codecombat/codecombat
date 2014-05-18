@@ -107,6 +107,10 @@ module.exports = class Handler
       return @getNamesByOriginals(req, res)
     @getPropertiesFromMultipleDocuments res, User, "name", ids
 
+  getAll: (req, res) ->
+    # Should be overwritten by subclasses that want all documents to be gettablegit
+    return @sendNotFoundError(res)
+
   getNamesByOriginals: (req, res) ->
     ids = req.query.ids or req.body.ids
     ids = ids.split(',') if _.isString ids
