@@ -30,7 +30,6 @@ module.exports.setup = (app) ->
     try
       moduleName = module.replace '.', '_'
       name = handlers[moduleName]
-      console.log parts
       handler = require('../' + name)
       return handler.getLatestVersion(req, res, parts[1], parts[3]) if parts[2] is 'version'
       return handler.versions(req, res, parts[1]) if parts[2] is 'versions'

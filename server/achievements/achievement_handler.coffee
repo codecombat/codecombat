@@ -4,7 +4,12 @@ Handler = require '../commons/Handler'
 class AchievementHandler extends Handler
   modelClass: Achievement
 
+  # Used to determine which properties requests may edit
+  editableProperties: ['name', 'query', 'worth', 'model', 'description', 'userField', 'proportionalTo']
   jsonSchema = require '../../app/schemas/models/achievement.coffee'
+
+  hasAccess: (req) ->
+    req.method is 'GET' or req.user?.isAdmin()
 
   getAll: (req, res) ->
     query = @modelClass.find({})
