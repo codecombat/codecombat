@@ -8,6 +8,12 @@ EarnedAchievementSchema = new mongoose.Schema({
   notified:
     type: Boolean
     default: false
+  user:
+    type: mongoose.Schema.Types.ObjectId
+    ref: 'User'
+  achievement:
+    type: mongoose.Schema.Types.ObjectId
+    ref: 'Achievement'
 }, {strict:false})
 
-module.exports = EarnedAchievement = mongoose.model('earned_achievement', EarnedAchievementSchema)
+module.exports = EarnedAchievement = mongoose.model('EarnedAchievement', EarnedAchievementSchema)
