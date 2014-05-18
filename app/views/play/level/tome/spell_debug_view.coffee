@@ -150,6 +150,8 @@ module.exports = class DebugView extends View
     if @variableChain
       if @variableChain.length is 2 and @variableChain[0] is "this"
         @setTooltipKeyAndValue(@variableChain.join("."),@stringifyValue(@thang[@variableChain[1]],0))
+      else if @variableChain.length is 1 and Aether.globals[@variableChain[0]]
+        @setTooltipKeyAndValue(@variableChain.join("."),@stringifyValue(Aether.globals[@variableChain[0]],0))
       else if @workerIsSimulating
         @setTooltipText("World is simulating, please wait...")
       else if @currentFrame is @lastFrameRequested and (cacheValue = @retrieveValueFromCache(@thang.id, @spell.name, @variableChain, @currentFrame))

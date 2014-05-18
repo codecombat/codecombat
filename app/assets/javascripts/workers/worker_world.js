@@ -188,10 +188,17 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
             {
                 try
                 {
-                    var flowStates = self.debugWorld.userCodeMap[currentThangID][currentSpellID].flow.states;
-                    //we have to go to the second last flowState as we run the world for one additional frame
-                    //to collect the flow
-                    value = _.last(flowStates[flowStates.length - 1].statements).variables[prop];
+                    if (Aether.globals[prop])
+                    {
+                        value = Aether.globals[prop];
+                    }
+                    else
+                    {
+                        var flowStates = self.debugWorld.userCodeMap[currentThangID][currentSpellID].flow.states;
+                        //we have to go to the second last flowState as we run the world for one additional frame
+                        //to collect the flow
+                        value = _.last(flowStates[flowStates.length - 1].statements).variables[prop];
+                    }
                 }
                 catch (e)
                 {
