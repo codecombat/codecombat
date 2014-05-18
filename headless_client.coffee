@@ -1,6 +1,5 @@
 ###
 This file will simulate games on node.js by emulating the browser environment.
-At some point, most of the code can be merged with Simulator.coffee
 ###
 
 bowerComponentsPath = "./bower_components/"
@@ -9,7 +8,7 @@ headlessClientPath = "./headless_client/"
 # SETTINGS
 options =
   workerCode: require headlessClientPath + 'worker_world'
-  debug: false # Enable logging of ajax calls mainly
+  debug: true # Enable logging of ajax calls mainly
   testing: false # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
   testFile: require headlessClientPath + 'test.js'
   leakTest: false # Install callback that tries to find leaks automatically
@@ -26,7 +25,6 @@ disable = [
   'locale/locale'
   '../locale/locale'
 ]
-
 
 # Start of the actual code. Setting up the enivronment to match the environment of the browser
 
@@ -108,6 +106,9 @@ $.ajax = (options) ->
 
   console.log "Requesting: " + JSON.stringify options if options.debug
   console.log "URL: " + url if options.debug
+
+  deferred = Deferred()
+
   request
     url: url
     jar: cookies
@@ -124,14 +125,18 @@ $.ajax = (options) ->
       if (error)
         console.warn "\t↳Returned: error: #{error}"
         options.error(error) if options.error?
+        deferred.resolve()
       else
         console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}" if options.debug
         options.success(body, response, status: response.statusCode) if options.success?
-
+        deferred.reject()
 
       statusCode = response.statusCode if response?
       options.complete(status: statusCode) if options.complete?
       responded = true
+
+  deferred.promise()
+
 
 $.extend = (deep, into, from) ->
   copy = _.clone(from, deep);

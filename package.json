@@ -67,7 +67,7 @@
     "node-gyp": "~0.13.0",
     "aether": "~0.2.3",
     "JASON": "~0.1.3",
-    "JQDeferred": "^2.1.0"
+    "JQDeferred": "~2.1.0"
   },
   "devDependencies": {
     "jade": "0.33.x",
