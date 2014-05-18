@@ -10,8 +10,6 @@ class EarnedAchievementHandler extends Handler
     req.method is 'GET'
 
   getByRelationship: (req, res, related, id) ->
-    console.log related
-    console.log id
     switch related
       when 'user'
         query = @modelClass.find({user: new mongoose.Types.ObjectId(id)})
