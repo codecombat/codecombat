@@ -8,7 +8,7 @@ headlessClientPath = "./headless_client/"
 # SETTINGS
 options =
   workerCode: require headlessClientPath + 'worker_world'
-  debug: true # Enable logging of ajax calls mainly
+  debug: false # Enable logging of ajax calls mainly
   testing: false # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
   testFile: require headlessClientPath + 'test.js'
   leakTest: false # Install callback that tries to find leaks automatically
@@ -125,11 +125,12 @@ $.ajax = (options) ->
       if (error)
         console.warn "\t↳Returned: error: #{error}"
         options.error(error) if options.error?
-        deferred.resolve()
+        deferred.reject()
+
       else
         console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}" if options.debug
         options.success(body, response, status: response.statusCode) if options.success?
-        deferred.reject()
+        deferred.resolve()
 
       statusCode = response.statusCode if response?
       options.complete(status: statusCode) if options.complete?
