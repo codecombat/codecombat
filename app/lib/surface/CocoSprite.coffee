@@ -344,12 +344,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       angle = 180 - angle if angle > 90
       scaleX = 0.5 + 0.5 * (90 - angle) / 90
 
-    console.error "No thang for", @ unless @thang
+#    console.error "No thang for", @ unless @thang
     # TODO: support using scaleFactorX/Y from the thang object
     @imageObject.scaleX = @baseScaleX * @scaleFactor * scaleX
     @imageObject.scaleY = @baseScaleY * @scaleFactor * scaleY
 
-    if (@thang.scaleFactor or 1) isnt @targetScaleFactor
+    if @thang and (@thang.scaleFactor or 1) isnt @targetScaleFactor
       createjs.Tween.removeTweens(@)
       createjs.Tween.get(@).to({scaleFactor:@thang.scaleFactor or 1}, 2000, createjs.Ease.elasticOut)
       @targetScaleFactor = @thang.scaleFactor or 1
