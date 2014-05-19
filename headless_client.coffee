@@ -1,8 +1,11 @@
 ###
 This file will simulate games on node.js by emulating the browser environment.
-At some point, most of the code can be merged with Simulator.coffee
 ###
-
+simulateOneGame = false
+if process.argv[2] is "one-game"
+  #calculate result of one game here
+  simulateOneGame = true
+  console.log "Simulating #{process.argv[3]} vs #{process.argv[4]}"
 bowerComponentsPath = "./bower_components/"
 headlessClientPath = "./headless_client/"
 
@@ -10,7 +13,7 @@ headlessClientPath = "./headless_client/"
 options =
   workerCode: require headlessClientPath + 'worker_world'
   debug: false # Enable logging of ajax calls mainly
-  testing: false # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
+  testing: true # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
   testFile: require headlessClientPath + 'test.js'
   leakTest: false # Install callback that tries to find leaks automatically
   exitOnLeak: false # Exit if leak is found. Only useful if leaktest is set to true, obviously.
@@ -26,7 +29,6 @@ disable = [
   'locale/locale'
   '../locale/locale'
 ]
-
 
 # Start of the actual code. Setting up the enivronment to match the environment of the browser
 
@@ -108,6 +110,9 @@ $.ajax = (options) ->
 
   console.log "Requesting: " + JSON.stringify options if options.debug
   console.log "URL: " + url if options.debug
+
+  deferred = Deferred()
+
   request
     url: url
     jar: cookies
@@ -124,14 +129,19 @@ $.ajax = (options) ->
       if (error)
         console.warn "\t↳Returned: error: #{error}"
         options.error(error) if options.error?
+        deferred.reject()
+
       else
         console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}" if options.debug
         options.success(body, response, status: response.statusCode) if options.success?
-
+        deferred.resolve()
 
       statusCode = response.statusCode if response?
       options.complete(status: statusCode) if options.complete?
       responded = true
+
+  deferred.promise()
+
 
 $.extend = (deep, into, from) ->
   copy = _.clone(from, deep);
@@ -175,7 +185,6 @@ hook()
 
 login = require './login.coffee' #should contain an object containing they keys 'username' and 'password'
 
-
 #Login user and start the code.
 $.ajax
   url: '/auth/login'
@@ -184,7 +193,7 @@ $.ajax
   parse: true
   error: (error) -> "Bad Error. Can't connect to server or something. " + error
   success: (response) ->
-    console.log "User: " + response
+    console.log "User: " + JSON.stringify response
     GLOBAL.window.userObject = response # JSON.parse response
 
     User = require 'models/User'
@@ -200,7 +209,9 @@ $.ajax
     CocoClass = require 'lib/CocoClass'
 
     Simulator = require 'lib/simulator/Simulator'
-
+    
     sim = new Simulator options
-
-    sim.fetchAndSimulateTask()
+    if simulateOneGame
+      sim.fetchAndSimulateOneGame(process.argv[3],process.argv[4])
+    else
+      sim.fetchAndSimulateTask()

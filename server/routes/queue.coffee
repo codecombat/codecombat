@@ -18,6 +18,9 @@ module.exports.setup = (app) ->
     handler = loadQueueHandler 'scoring'
     handler.resimulateAllSessions req, res
     
+  app.post '/queue/scoring/getTwoGames', (req, res) ->
+    handler = loadQueueHandler 'scoring'
+    handler.getTwoGames req, res    
     
   app.all '/queue/*', (req, res) ->
     setResponseHeaderToJSONContentType res

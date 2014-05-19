@@ -3,6 +3,7 @@ template = require 'templates/play/level/playback'
 {me} = require 'lib/auth'
 
 EditorConfigModal = require './modal/editor_config_modal'
+KeyboardShortcutsModal = require './modal/keyboard_shortcuts_modal'
 
 module.exports = class PlaybackView extends View
   id: "playback-view"
@@ -29,6 +30,7 @@ module.exports = class PlaybackView extends View
     'click #grid-toggle': 'onToggleGrid'
     'click #edit-wizard-settings': 'onEditWizardSettings'
     'click #edit-editor-config': 'onEditEditorConfig'
+    'click #view-keyboard-shortcuts': 'onViewKeyboardShortcuts'
     'click #music-button': 'onToggleMusic'
     'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @shouldIgnore()
     'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @shouldIgnore()
@@ -180,6 +182,9 @@ module.exports = class PlaybackView extends View
 
   onEditEditorConfig: ->
     @openModalView new EditorConfigModal session: @options.session
+
+  onViewKeyboardShortcuts: ->
+    @openModalView new KeyboardShortcutsModal()
 
   onCastSpells: (e) ->
     return if e.preload

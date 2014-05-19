@@ -23,7 +23,78 @@ module.exports = class Simulator extends CocoClass
     @cleanupSimulation()
     @god?.destroy()
     super()
+  fetchAndSimulateOneGame: (humanGameID, ogresGameID) =>
+    return if @destroyed
+    $.ajax
+      url: "/queue/scoring/getTwoGames"
+      type: "POST"
+      parse: true
+      data:
+        "humansGameID": humanGameID
+        "ogresGameID": ogresGameID
+      error: (errorData) ->
+        console.log "There was an error fetching two games! #{JSON.stringify errorData}"
+      success: (taskData) =>
 
+        #refactor this
+        @task = new SimulationTask(taskData)
+        
+        @supermodel ?= new SuperModel()
+        @supermodel.resetProgress()
+        @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
+        
+        if @supermodel.finished()
+          @simulateSingleGame()
+        else
+          @listenToOnce @supermodel, 'loaded-all', @simulateSingleGame
+  simulateSingleGame: ->
+    return if @destroyed
+    console.log "Commencing simulation!"
+    @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
+    @setupGod()
+    try
+      @commenceSingleSimulation()
+    catch err
+      console.log err
+      @handleSingleSimulationError()
+  commenceSingleSimulation: ->
+    @god.createWorld @generateSpellsObject()
+    Backbone.Mediator.subscribeOnce 'god:infinite-loop', @handleSingleSimulationInfiniteLoop, @
+    Backbone.Mediator.subscribeOnce 'god:goals-calculated', @processSingleGameResults, @
+    
+  handleSingleSimulationError: ->
+    console.log "There was an error simulating a single game!"
+    if @options.headlessClient
+      console.log "GAMERESULT:tie"
+      process.exit(0)
+    @cleanupSimulation()
+  
+  handleSingleSimulationInfiniteLoop: ->
+    console.log "There was an infinite loop in the single game!"
+    if @options.headlessClient
+      console.log "GAMERESULT:tie"
+      process.exit(0)
+    @cleanupSimulation()
+    
+  processSingleGameResults: (simulationResults) ->
+    console.log "Processing results!"
+    taskResults = @formTaskResultsObject simulationResults
+    humanSessionRank = taskResults.sessions[0].metrics.rank
+    ogreSessionRank = taskResults.sessions[1].metrics.rank
+    if @options.headlessClient
+      if humanSessionRank is ogreSessionRank
+        console.log "GAMERESULT:tie"
+      else if humanSessionRank < ogreSessionRank
+        console.log "GAMERESULT:humans"
+      else if ogreSessionRank < humanSessionRank
+        console.log "GAMERESULT:ogres"
+      process.exit(0)
+      
+    @cleanupSimulation()
+    
+    
+    
+    
   fetchAndSimulateTask: =>
     return if @destroyed
 
