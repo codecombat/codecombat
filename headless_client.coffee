@@ -13,7 +13,7 @@ headlessClientPath = "./headless_client/"
 options =
   workerCode: require headlessClientPath + 'worker_world'
   debug: false # Enable logging of ajax calls mainly
-  testing: true # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
+  testing: false # Instead of simulating 'real' games, use the same one over and over again. Good for leak hunting.
   testFile: require headlessClientPath + 'test.js'
   leakTest: false # Install callback that tries to find leaks automatically
   exitOnLeak: false # Exit if leak is found. Only useful if leaktest is set to true, obviously.
