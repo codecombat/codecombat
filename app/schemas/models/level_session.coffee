@@ -235,7 +235,7 @@ _.extend LevelSessionSchema.properties,
               totalScore:
                 title: 'Opponent total score'
                 description: 'The totalScore of a user when the match was computed'
-                type: 'number'
+                type: ['number','string']
               metrics:
                 type: 'object'
                 properties:
