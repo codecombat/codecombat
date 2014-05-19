@@ -31,6 +31,7 @@ module.exports = class SearchView extends View
     'shown.bs.modal #new-model-modal': 'focusOnName'
     'hidden.bs.modal #new-model-modal': 'onModalHidden'
 
+
   constructor: (options) ->
     @runSearch = _.debounce(@runSearch, 500)
     super options
