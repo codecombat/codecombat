@@ -44,6 +44,11 @@ module.exports = class SearchView extends View
         context.currentNew = 'editor.new_article_title'
         context.currentNewSignup = 'editor.new_article_title_signup'
         context.currentSearch = 'editor.article_search_title'
+      when 'Achievement'
+        context.currentEditor = 'Achievement'
+        context.currentNew = 'Achievement'
+        context.currentNewSignup = 'Dont care'
+        context.currentSearch = 'Search for thingsies'
     @$el.i18n()
     context
 
