@@ -121,7 +121,7 @@ module.exports = class Handler
         @modelClass.findOne(criteria, project).sort(sort).exec (err, document) ->
           return done(err) if err
           callback(null, document?.toObject() or null)
-          
+
     funcs = {}
     for id in ids
       return errors.badInput(res, "Given an invalid id: #{id}") unless Handler.isID(id)
