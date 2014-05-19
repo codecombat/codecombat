@@ -103,7 +103,7 @@ module.exports.getTwoGames = (req, res) ->
   #if userIsAnonymous req then return errors.unauthorized(res, "You need to be logged in to get games.")
   humansGameID = req.body.humansGameID
   ogresGameID = req.body.ogresGameID
-  
+
   unless ogresGameID and humansGameID
     #fetch random games here
     return errors.badInput(res, "You need to supply two games(for now)")
@@ -121,10 +121,10 @@ module.exports.getTwoGames = (req, res) ->
           "transpiledCode": session.transpiledCode
           "teamSpells": session.teamSpells ? {}
           "levelID": session.levelID
-  
+
         taskObject.sessions.push sessionInformation
       sendResponseObject req, res, taskObject
-      
+
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
   originalLevelID = req.body.originalLevelID
@@ -214,7 +214,7 @@ fetchInitialSessionsToRankAgainst = (levelMajorVersion, levelID, submittedSessio
     submittedCode:
       $exists: true
     team: opposingTeam
-  
+
   sortParameters =
     totalScore: 1
 
@@ -663,9 +663,7 @@ retrieveOldSessionData = (sessionID, callback) ->
       "totalScore":session.totalScore ? (25 - 1.8*(25/3))
       "id": sessionID
     callback err, oldScoreObject
-    
-markSessionAsDoneRanking = (sessionID, cb) -> 
+
+markSessionAsDoneRanking = (sessionID, cb) ->
   #console.log "Marking session as done ranking..."
   LevelSession.update {"_id":sessionID}, {"isRanking":false}, cb
-    
-  
