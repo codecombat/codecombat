@@ -4,8 +4,12 @@ forms = require('lib/forms')
 app = require('application')
 
 class SearchCollection extends Backbone.Collection
-  initialize: (modelURL, @model, @term) ->
-    @url = "#{modelURL}/search?project=true"
+  initialize: (modelURL, @model, @term, @projection) ->
+    @url = "#{modelURL}/search?project="
+    if @projection? and not @projection == []
+      @url += projection[0]
+      @url += ',' + projected for projected in projection[1..]
+    else @url += "true"
     @url += "&term=#{term}" if @term
 
 module.exports = class SearchView extends View
@@ -17,6 +21,7 @@ module.exports = class SearchView extends View
   model: null # Article
   modelURL: null # '/db/article'
   tableTemplate: null # require 'templates/editor/article/table'
+  projected: null # ['name', 'description', 'version'] or null for default
 
   events:
     'change input#search': 'runSearch'

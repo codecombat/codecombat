@@ -11,7 +11,7 @@ module.exports =
       collection: { type: 'string' }
       description: { type: 'string' }
       userField: { type: 'string' }
-      related: { type: 'stringID' }
+      related: c.objectId
       proportionalTo:
         type: 'string'
         description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'

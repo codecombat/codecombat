@@ -17,9 +17,11 @@ module.exports =
           [
             {
               rel: 'extra'
-              href: '/db/user/{($)}'
+              href: '/db/achievement/{($)}'
             }
           ]
+      collection:
+        type: 'string'
       achievementName:
         type: 'string'
       created:
