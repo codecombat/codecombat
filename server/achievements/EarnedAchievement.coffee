@@ -13,4 +13,7 @@ EarnedAchievementSchema = new mongoose.Schema({
     default: false
 }, {strict:false})
 
+# Maybe consider indexing on changed: -1 as well?
+EarnedAchievementSchema.index({user: 1, achievement: 1}, {unique: true, name: 'earned achievement index'})
+
 module.exports = EarnedAchievement = mongoose.model('EarnedAchievement', EarnedAchievementSchema)

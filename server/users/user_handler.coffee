@@ -10,7 +10,7 @@ async = require 'async'
 log = require 'winston'
 LevelSession = require('../levels/sessions/LevelSession')
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
-EarnedAchievement = require '../achievements/earned_achievement_handler'
+EarnedAchievement = require '../achievements/EarnedAchievement'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
