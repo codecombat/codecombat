@@ -91,8 +91,8 @@ setupFallbackRouteToIndex = (app) ->
 sendMain = (req, res) ->
   fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err, data) ->
     log.error "Error modifying main.html: #{err}" if err
-    # insert the user object directly into the html so the application can have it immediately
-    data = data.replace('"userObjectTag"', JSON.stringify(UserHandler.formatEntity(req, req.user)))
+    # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
+    data = data.replace('"userObjectTag"', JSON.stringify(UserHandler.formatEntity(req, req.user)).replace('/', '\\/'))
     res.send data
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
