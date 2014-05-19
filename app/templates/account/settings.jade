@@ -38,7 +38,7 @@ block content
               input#email.form-control(name="email", type="text", value="#{me.get('email')}")
             if !isProduction
               .form-group.checkbox
-                label(for="email", data-i18n="account_settings.admin") Admin
+                label(for="admin", data-i18n="account_settings.admin") Admin
                 input#admin(name="admin", type="checkbox", checked=me.get('permissions').indexOf('admin') != -1)
               
   
