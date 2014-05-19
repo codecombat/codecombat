@@ -9,14 +9,4 @@ class EarnedAchievementHandler extends Handler
   hasAccess: (req) ->
     req.method is 'GET'
 
-  getByRelationship: (req, res, related, id) ->
-    switch related
-      when 'user'
-        query = @modelClass.find({user: new mongoose.Types.ObjectId(id)})
-        query.exec (err, documents) =>
-          return @sendDatabaseError(res, err) if err?
-          documents = (@formatEntity(req, doc) for doc in documents)
-          @sendSuccess(res, documents)
-      else return @sendNotFoundError(res)
-
 module.exports = new EarnedAchievementHandler()
