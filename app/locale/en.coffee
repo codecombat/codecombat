@@ -274,6 +274,7 @@
     editor_config_indentguides_description: "Displays vertical lines to see indentation better."
     editor_config_behaviors_label: "Smart Behaviors"
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+    keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Ready!"
     tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
     tip_toggle_play: "Toggle play/paused with Ctrl+P."
@@ -309,6 +310,23 @@
     infinite_loop_try_again: "Try Again"
     infinite_loop_reset_level: "Reset Level"
     infinite_loop_comment_out: "Comment Out My Code"
+
+  keyboard_shortcuts:
+    keyboard_shortcuts: "Keyboard Shortcuts"
+    space: "Space"
+    enter: "Enter"
+    escape: "Escape"
+    cast_spell: "Cast current spell."
+    continue_script: "Continue past current script."
+    skip_scripts: "Skip past all skippable scripts."
+    toggle_playback: "Toggle play/pause."
+    scrub_playback: "Scrub back and forward through time."
+    scrub_execution: "Scrub through current spell execution."
+    toggle_debug: "Toggle debug display."
+    toggle_grid: "Toggle grid overlay."
+    toggle_pathfinding: "Toggle pathfinding overlay."
+    beautify: "Beautify your code by standardizing its formatting."
+    move_wizard: "Move your Wizard around the level."
 
   admin:
     av_title: "Admin Views"

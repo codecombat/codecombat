@@ -20,7 +20,6 @@ module.exports = class CastButtonView extends View
     super options
     @spells = options.spells
     @levelID = options.levelID
-    isMac = navigator.platform.toUpperCase().indexOf('MAC') isnt -1
     @castShortcut = "⇧↵"
     @castShortcutVerbose = "Shift+Enter"
 
@@ -79,7 +78,7 @@ module.exports = class CastButtonView extends View
     async.some _.values(@spells), (spell, callback) =>
       spell.hasChangedSignificantly spell.getSource(), null, callback
     , (castable) =>
-      Backbone.Mediator.publish 'tome:spell-has-changed-significantly-calculation', hasChangedSignificantly: castable 
+      Backbone.Mediator.publish 'tome:spell-has-changed-significantly-calculation', hasChangedSignificantly: castable
       @castButtonGroup.toggleClass('castable', castable).toggleClass('casting', @casting)
       if @casting
         s = $.i18n.t("play_level.tome_cast_button_casting", defaultValue: "Casting")

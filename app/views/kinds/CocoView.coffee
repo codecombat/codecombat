@@ -38,7 +38,7 @@ module.exports = class CocoView extends Backbone.View
       @supermodel.models = options.supermodel.models
       @supermodel.collections = options.supermodel.collections
       @supermodel.shouldSaveBackups = options.supermodel.shouldSaveBackups
-      
+
     @subscriptions = utils.combineAncestralObject(@, 'subscriptions')
     @events = utils.combineAncestralObject(@, 'events')
     @scope = makeScopeName()
@@ -118,7 +118,7 @@ module.exports = class CocoView extends Backbone.View
   updateProgress: (progress) ->
     @loadProgress.progress = progress if progress > @loadProgress.progress
     @updateProgressBar(progress)
-      
+
   updateProgressBar: (progress) =>
     prog = "#{parseInt(progress*100)}%"
     @$el?.find('.loading-container .progress-bar').css('width', prog)
@@ -134,11 +134,11 @@ module.exports = class CocoView extends Backbone.View
       resourceIndex: r.rid,
       responseText: r.jqxhr?.responseText
     })).i18n()
-  
+
   onRetryResource: (e) ->
     res = @supermodel.getResource($(e.target).data('resource-index'))
     # different views may respond to this call, and not all have the resource to reload
-    return unless res and res.isFailed 
+    return unless res and res.isFailed
     res.load()
     $(e.target).closest('.loading-error-alert').remove()
 
@@ -277,6 +277,9 @@ module.exports = class CocoView extends Backbone.View
   isIE: ->
     ua = navigator.userAgent or navigator.vendor or window.opera
     return ua.search("MSIE") != -1
+
+  isMac: ->
+    navigator.platform.toUpperCase().indexOf('MAC') isnt -1
 
   initSlider: ($el, startValue, changeCallback) ->
     slider = $el.slider({ animate: "fast" })
