@@ -1,12 +1,12 @@
 spawn = require("child_process").spawn
 
 [sessionOne, sessionTwo] = [process.argv[2],process.argv[3]]
-
+homeDirectory = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE
 unless sessionOne and sessionTwo and sessionOne.length is 24 and sessionTwo.length is 24
   console.log "Not enough games to continue!"
   process.exit(1)
 run = (cb) ->
-  command = spawn("coffee",["headless_client.coffee","one-game",sessionOne,sessionTwo],{cwd:"/Users/schmatz/codecombat/"})
+  command = spawn("coffee",["headless_client.coffee","one-game",sessionOne,sessionTwo],{cwd: homeDirectory + "/codecombat/"})
   result = ""
   command.stdout.on 'data', (data) ->
     result += data.toString()

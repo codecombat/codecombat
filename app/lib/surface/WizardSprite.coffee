@@ -29,16 +29,17 @@ module.exports = class WizardSprite extends IndieSprite
     'right': 'onMoveKey'
 
   constructor: (thangType, options) ->
-    if options?.isSelf
+    if @isSelf = options.isSelf
       options.colorConfig = $.extend(true, {}, me.get('wizard')?.colorConfig) or {}
     super thangType, options
-    @isSelf = options.isSelf
     @targetPos = @thang.pos
     if @isSelf
       @setNameLabel me.displayName()
       @setColorHue me.get('wizardColor1')
     else if options.name
       @setNameLabel options.name
+
+  finishSetup: ->  # No initial setup update needed.
 
   makeIndieThang: (thangType, thangID, pos) ->
     thang = super thangType, thangID, pos

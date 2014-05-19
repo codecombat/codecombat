@@ -144,6 +144,14 @@ module.exports = class PlayView extends View
 
     arenas = [
       {
+        name: 'Greed'
+        difficulty: 4
+        id: 'greed'
+        image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
+        description: "Liked Dungeon Arena and Gold Rush? Put them together in this economic arena!"
+        levelPath: 'ladder'
+      }
+      {
         name: 'Dungeon Arena'
         difficulty: 3
         id: 'dungeon-arena'
@@ -157,14 +165,6 @@ module.exports = class PlayView extends View
         id: 'gold-rush'
         image: '/file/db/level/52602ecb026e8481e7000001/generic_1.png'
         description: "Prove you are better at collecting gold than your opponent!"
-        levelPath: 'ladder'
-      }
-      {
-        name: 'Greed'
-        difficulty: 4
-        id: 'greed'
-        image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
-        description: "Liked Dungeon Arena and Gold Rush? Put them together in this economic arena!"
         levelPath: 'ladder'
       }
       {

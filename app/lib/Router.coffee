@@ -17,7 +17,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/:model(/:slug_or_id)(/:subview)': 'editorModelView'
 
     # Experimenting with direct links
-#    'play/ladder/:levelID/team/:team': go('play/ladder/team_view')
+    'play/ladder/:levelID': go('play/ladder/ladder_view')
+    'play/ladder': go('play/ladder_home')
 
     # db and file urls call the server directly
     'db/*path': 'routeToServer'
