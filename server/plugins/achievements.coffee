@@ -11,7 +11,7 @@ loadAchievements = ->
   query = Achievement.find({})
   query.exec (err, docs) ->
     _.each docs, (achievement) ->
-      category = achievement.get 'model'
+      category = achievement.get 'collection'
       achievements[category] = [] unless category of achievements
       achievements[category].push achievement
 
@@ -49,29 +49,28 @@ module.exports = AchievablePlugin = (schema, options) ->
         userObjectID = doc.get(achievement.get('userField'))
         userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's
 
-        if newlyAchieved and not alreadyAchieved
-          console.log 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
-          earned = new EarnedAchievement(
+        if newlyAchieved and (not alreadyAchieved or isRepeatable)
+          earned = {
             user: userID
             achievement: achievement._id.toHexString()
             achievementName: achievement.get 'name'
-          )
-          earned.save (err, doc) ->
-            console.log err if err?
-        else if newlyAchieved and isRepeatable
-          proportionalTo = achievement.get 'proportionalTo'
-          originalValue = util.getByPath(originalDocObj, proportionalTo)
-          newValue = docObj.get proportionalTo
+          }
+          if isRepeatable
+            console.log 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
+            proportionalTo = achievement.get 'proportionalTo'
+            originalValue = util.getByPath(originalDocObj, proportionalTo)
+            newValue = docObj.get proportionalTo
 
-          if originalValue != newValue
-            upsertQuery = EarnedAchievement.findOneAndUpdate
-              user: userID
-              achievement: achievement._id.toHexString(),
-              notified: false
-              achievedAmount: newValue
-              changed: Date.now(),
-              upsert: true
-            upsertQuery.exec (err, docs) ->
+            if originalValue != newValue
+              earned.notified = false
+              earned.achievedAmount = newValue
+              earned.changed = Date.now()
+              upsertQuery = EarnedAchievement.findOneAndUpdate earned, upsert:true
+              upsertQuery.exec (err, docs) ->
+                console.log err if err?
+          else # alreadyAchieved
+            console.log 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
+            (new EarnedAchievement(earned)).save (err, doc) ->
               console.log err if err?
 
 

@@ -10,6 +10,10 @@ module.exports =
       model: { type: 'string' }
       description: { type: 'string' }
       userField: { type: 'string' }
+<<<<<<< HEAD
+=======
+      related: c.objectId
+>>>>>>> 97602db... Refactored achievements and their endpoints as per the feedback by Scott.
       proportionalTo:
         type: 'string'
         description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
