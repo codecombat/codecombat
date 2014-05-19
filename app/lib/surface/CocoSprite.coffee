@@ -84,13 +84,17 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       AudioPlayer.preloadSoundReference sound for sound in sounds
     @stillLoading = false
     if @thangType.get('raster')
+      @actions = {}
       @isRaster = true
       @setUpRasterImage()
-      @actions = {}
     else
       @actions = @thangType.getActions()
       @buildFromSpriteSheet @buildSpriteSheet()
       @createMarks()
+
+  finishSetup: ->
+    return unless @thang
+    @update true  # Reflect initial scale and other state
 
   setUpRasterImage: ->
     raster = @thangType.get('raster')
@@ -106,7 +110,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     reg = @getOffset 'registration'
     @imageObject.regX = -reg.x
     @imageObject.regY = -reg.y
-    @updateScale()
+    @finishSetup()
 
   destroy: ->
     mark.destroy() for name, mark of @marks
@@ -150,6 +154,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @imageObject.layerPriority = @thangType.get 'layerPriority'
     @imageObject.name = @thang?.spriteName or @thangType.get 'name'
     @imageObject.on 'animationend', @playNextAction
+    @finishSetup()
 
   ##################################################
   # QUEUEING AND PLAYING ACTIONS
@@ -251,7 +256,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
           return if @destroyed
           @options.groundLayer.removeChild circle
           delete @handledDisplayEvents[event]
-        
+
   showTextEvents: ->
     return unless @thang?.currentEvents
     for event in @thang.currentEvents
@@ -342,6 +347,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       scaleX *= scale
       scaleY *= scale
 
+    console.error "No thang for", @ unless @thang
     scaleFactorX = @thang.scaleFactorX ? @scaleFactor
     scaleFactorY = @thang.scaleFactorY ? @scaleFactor
     @imageObject.scaleX = @originalScaleX * scaleX * scaleFactorX
