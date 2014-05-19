@@ -1,0 +1,54 @@
+@import "app/styles/bootstrap/mixins"
+@import "app/styles/bootstrap/variables"
+
+#ladder-home-view
+  .level
+    width: 100%
+    position: relative
+    margin-bottom: 20px
+    text-shadow: 2px 2px 5px black
+
+    &:hover div
+      color: lighten($yellow, 20%)
+
+    &:hover img
+      filter: brightness(1.2)
+      -webkit-filter: brightness(1.2)
+      box-shadow: 0 0 5px black
+
+    .level-image
+      width: 100%
+
+    .overlay-text
+      color: $yellow
+      font-family: Bangers
+      @include transition(color .10s linear)
+
+    .level-difficulty
+      position: absolute
+      left: 0px
+      bottom: 0px
+      font-size: 25px
+      padding-right: 10px
+      background-color: rgba(255, 255, 255, 0.75)
+      border-radius: 6px
+
+    .play-text-container
+      position: absolute
+      left: 50%
+      bottom: -10px
+
+      .play-text
+        margin-left: -50%
+        font-size: 50px
+
+  a[disabled] .level
+    opacity: 0.7
+
+  a.complete .level-difficulty:after
+    content: " - Complete!"
+    color: $yellow
+
+  a.started .level-difficulty:after
+    content: " - Started"
+    color: desaturate($yellow, 50%)

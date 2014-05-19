@@ -214,7 +214,6 @@
     candidate_active: "Them?"
 
   play_level:
-    level_load_error: "Level could not be loaded: "
     done: "Done"
     grid: "Grid"
     customize_wizard: "Customize Wizard"

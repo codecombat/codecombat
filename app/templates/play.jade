@@ -2,12 +2,6 @@ extends /templates/base
 
 block content
 
-  if notFound
-    div(class="alert alert-warning") 
-      h2
-        span(data-i18n="play_level.level_load_error") Level could not be loaded: 
-        | #{notFound}
-
   h1(data-i18n="play.choose_your_level") Choose Your Level
   p
     span(data-i18n="play.adventurer_prefix") You can jump to any level below, or discuss the levels on 

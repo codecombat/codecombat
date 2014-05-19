@@ -2,14 +2,14 @@ RootView = require 'views/kinds/RootView'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
-{teamDataFromLevel} = require './ladder/utils'
+{teamDataFromLevel} = require './utils'
 {me} = require 'lib/auth'
 application = require 'application'
 
-LadderTabView = require './ladder/ladder_tab'
-MyMatchesTabView = require './ladder/my_matches_tab'
-SimulateTabView = require './ladder/simulate_tab'
-LadderPlayModal = require './ladder/play_modal'
+LadderTabView = require './ladder_tab'
+MyMatchesTabView = require './my_matches_tab'
+SimulateTabView = require './simulate_tab'
+LadderPlayModal = require './play_modal'
 CocoClass = require 'lib/CocoClass'
 
 
@@ -25,7 +25,7 @@ class LevelSessionsCollection extends CocoCollection
 
 module.exports = class LadderView extends RootView
   id: 'ladder-view'
-  template: require 'templates/play/ladder'
+  template: require 'templates/play/ladder/ladder'
 
   subscriptions:
     'application:idle-changed': 'onIdleChanged'
