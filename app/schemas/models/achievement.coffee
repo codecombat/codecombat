@@ -4,16 +4,18 @@ module.exports =
   AchievementSchema =
     type: 'object'
     properties:
+      achievementID: { type: 'string' }
       name: c.shortString({title: 'Display Name'})
       query: { $ref: 'mongoFindQuery' } # TODO make this happen
       worth: { type: 'number' }
-      model: { type: 'string' }
+      collection: { type: 'string' }
       description: { type: 'string' }
       userField: { type: 'string' }
+      related: { type: 'stringID' }
       proportionalTo:
         type: 'string'
         description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
-    required: ['name', 'query', 'worth', 'collection']
+    required: ['achievementID', 'name', 'query', 'worth', 'collection']
 
 MongoFindQuerySchema =
   title: 'MongoDB Query'

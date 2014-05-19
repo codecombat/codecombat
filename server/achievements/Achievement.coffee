@@ -1,4 +1,5 @@
 mongoose = require('mongoose')
+plugins = require('../plugins/plugins')
 jsonschema = require('../../app/schemas/models/achievement')
 
 # `pre` and `post` are not called for update operations executed directly on the database,
@@ -9,5 +10,8 @@ jsonschema = require('../../app/schemas/models/achievement')
 AchievementSchema = new mongoose.Schema({
   query: Object
 }, {strict: false})
+
+AchievementSchema.plugin(plugins.SearchablePlugin, {searchable: ['name']})
+AchievementSchema.plugin(plugins.NamedPlugin)
 
 module.exports = Achievement = mongoose.model('Achievement', AchievementSchema)
