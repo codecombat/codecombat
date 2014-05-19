@@ -153,10 +153,10 @@ module.exports = class Handler
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, @formatEntity(req, document))
 
+  # project=true or project=name,description,slug for example
   search: (req, res) ->
     unless @modelClass.schema.uses_coco_search
       return @sendNotFoundError(res)
-
     term = req.query.term
     matchedObjects = []
     filters = [{filter: {index: true}}]

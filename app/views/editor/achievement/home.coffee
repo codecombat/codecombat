@@ -12,7 +12,7 @@ module.exports = class AchievementSearchView extends SearchView
     context = super()
     context.currentEditor = 'editor.achievement_title'
     context.currentNew = 'editor.new_achievement_title'
-    context.currentNewSignup = 'editor.new_achievement_title_signup'
+    context.currentNewSignup = 'editor.new_achievement_title_login'
     context.currentSearch = 'editor.achievement_search_title'
     @$el.i18n()
     context
