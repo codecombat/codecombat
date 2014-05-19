@@ -19,7 +19,8 @@ module.exports = class GoalsView extends View
     'surface:playback-ended': 'onSurfacePlaybackEnded'
 
   events:
-    'click': 'toggleCollapse'
+    'mouseenter': -> @$el.css('top', -10)
+    'mouseleave': -> @updateTop()
 
   toggleCollapse: (e) ->
     @$el.toggleClass('expanded').toggleClass('collapsed')
@@ -60,6 +61,14 @@ module.exports = class GoalsView extends View
   render: ->
     super()
     @$el.addClass('secret').addClass('expanded')
+    
+  afterRender: ->
+    super()
+    @updateTop()
+    
+  updateTop: ->
+    @$el.css('top', 26 - @$el.outerHeight())
 
   onSetLetterbox: (e) ->
     @$el.toggle not e.on
+    @updateTop()
