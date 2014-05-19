@@ -1,6 +1,13 @@
 ###
 This file will simulate games on node.js by emulating the browser environment.
 ###
+if process.argv[2] is "one-game"
+  #calculate result of one game here
+  if Math.random() > 0.5
+    process.stdout.write "ogres"
+  else
+    process.stdout.write "humans"
+  process.exit(0)
 
 bowerComponentsPath = "./bower_components/"
 headlessClientPath = "./headless_client/"
