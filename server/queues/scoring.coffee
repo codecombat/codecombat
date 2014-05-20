@@ -614,13 +614,16 @@ determineIfSessionShouldContinueAndUpdateLog = (cb) ->
 
 
 findNearestBetterSessionID = (cb) ->
-  levelOriginalID = @levelSession.level.original
-  levelMajorVersion = @levelSession.level.majorVersion
-  sessionID = @clientResponseObject.originalSessionID
-  sessionTotalScore = @newScoresObject[sessionID].totalScore
-  opponentSessionID = _.pull(_.keys(@newScoresObject), sessionID)
-  opponentSessionTotalScore = @newScoresObject[opponentSessionID].totalScore
-  opposingTeam = calculateOpposingTeam(@clientResponseObject.originalSessionTeam)
+  try
+    levelOriginalID = @levelSession.level.original
+    levelMajorVersion = @levelSession.level.majorVersion
+    sessionID = @clientResponseObject.originalSessionID
+    sessionTotalScore = @newScoresObject[sessionID].totalScore
+    opponentSessionID = _.pull(_.keys(@newScoresObject), sessionID)
+    opponentSessionTotalScore = @newScoresObject[opponentSessionID].totalScore
+    opposingTeam = calculateOpposingTeam(@clientResponseObject.originalSessionTeam)
+  catch e
+    cb e
 
   retrieveAllOpponentSessionIDs sessionID, (err, opponentSessionIDs) ->
     if err? then return cb err, null
