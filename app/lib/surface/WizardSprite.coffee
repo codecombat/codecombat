@@ -47,6 +47,13 @@ module.exports = class WizardSprite extends IndieSprite
     thang.pos.z += thang.bobHeight
     thang
 
+  finishSetup: ->
+    @updateBaseScale()
+    @scaleFactor = @thang.scaleFactor if @thang?.scaleFactor
+    @updateScale()
+    @updateRotation()
+    # Don't call general update() because Thang isn't built yet
+
   onPlayerStatesChanged: (e) ->
     for playerID, state of e.states
       continue unless playerID is @thang.id
