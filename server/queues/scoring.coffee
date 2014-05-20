@@ -363,6 +363,7 @@ constructTaskObject = (taskMessageBody, message, callback) ->
         "sessionID": session._id
         "submitDate": session.submitDate
         "team": session.team ? "No team"
+        "code": session.submittedCode
         "transpiledCode": session.transpiledCode
         "teamSpells": session.teamSpells ? {}
         "levelID": session.levelID
