@@ -16,7 +16,7 @@ class CocoModel extends Backbone.Model
       console.error("#{@} needs a className set.")
     @markToRevert()
     @addSchemaDefaults()
-    @once 'sync', @onLoaded, @
+    @on 'sync', @onLoaded, @
     @on 'error', @onError, @
     @saveBackup = _.debounce(@saveBackup, 500)
 
