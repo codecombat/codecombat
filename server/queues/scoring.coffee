@@ -439,6 +439,7 @@ verifyClientResponse = (responseObject, callback) ->
     callback "The response to that query is required to be a JSON object."
   else
     @clientResponseObject = responseObject
+    
     #log.info "Verified client response!"
     callback null, responseObject
 
@@ -497,11 +498,12 @@ updateSessions = (callback) ->
 
   async.map sessionIDs, retrieveOldSessionData, (err, oldScores) =>
     if err? then callback err, {"error": "There was an error retrieving the old scores"}
-
-    oldScoreArray = _.toArray putRankingFromMetricsIntoScoreObject @clientResponseObject, oldScores
-    newScoreArray = bayes.updatePlayerSkills oldScoreArray
-    saveNewScoresToDatabase newScoreArray, callback
-
+    try
+      oldScoreArray = _.toArray putRankingFromMetricsIntoScoreObject @clientResponseObject, oldScores
+      newScoreArray = bayes.updatePlayerSkills oldScoreArray
+      saveNewScoresToDatabase newScoreArray, callback
+    catch e
+      callback e
 
 saveNewScoresToDatabase = (newScoreArray, callback) ->
   async.eachSeries newScoreArray, updateScoreInSession, (err) ->
