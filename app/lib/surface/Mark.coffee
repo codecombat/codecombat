@@ -201,7 +201,8 @@ module.exports = class Mark extends CocoClass
     Backbone.Mediator.publish 'sprite:loaded'
 
   update: (pos=null) ->
-    return false unless @on and @mark and @sprite?.thangType.isFullyLoaded()
+    return false unless @on and @mark
+    return false if @sprite? and not @sprite.thangType.isFullyLoaded()
     @mark.visible = not @hidden
     @updatePosition pos
     @updateRotation()
@@ -250,10 +251,12 @@ module.exports = class Mark extends CocoClass
       scale = size / {selection: 128, target: 128, repair: 320, highlight: 160}[@name]
       if @sprite?.thang.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
         scale *= 2
-    @mark.scaleX = @mark.scaleY = Math.min 1, scale
+    
     if @markSprite?
-      @mark.scaleX *= @markSprite.originalScaleX
-      @mark.scaleY *= @markSprite.originalScaleY
+      @markSprite.scaleFactor = scale
+      @markSprite.updateScale()
+    else
+      @mark.scaleX = @mark.scaleY = Math.min 1, scale
     if @name in ['selection', 'target', 'repair']
       @mark.scaleY *= @camera.y2x  # code applies perspective
 

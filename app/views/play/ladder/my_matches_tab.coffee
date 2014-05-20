@@ -91,7 +91,7 @@ module.exports = class MyMatchesTabView extends CocoView
       session = _.find @sessions.models, {id: sessionID}
       ladderSubmissionView = new LadderSubmissionView session: session, level: @level
       @insertSubView ladderSubmissionView, placeholder
-      ladderSubmissionView.$el.find('.rank-button').addClass 'btn-block'
+      ladderSubmissionView.$el.find('.rank-button').addClass 'btn-block btn-lg'
 
     @$el.find('.score-chart-wrapper').each (i, el) =>
       scoreWrapper = $(el)

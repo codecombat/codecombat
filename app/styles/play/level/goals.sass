@@ -5,24 +5,26 @@
   left: 10px
   top: -100px
   @include transition(top 0.5s ease-in-out)
-  background-color: rgba(200,200,200,0.8)
-  
-  &.brighter
-    background-color: rgba(200,200,200,1.0)
+  background-color: rgba(200,200,200,1.0)
   
   border: black
-  padding: 15px 7px 5px 5px
+  padding: 15px 7px 2px 5px
   box-sizing: border-box
   border:  1px solid #333
   border-radius: 5px
   
-  h3
+  .goals-status
     font-size: 14px
     margin: 0
     color: black
-    
-    i
-      margin-right: 5px
+    .success
+      color: darkgreen
+    .timed-out
+      color: darkslategray
+    .failure
+      color: darkred
+    .incomplete
+      color: darkgoldenrod
     
   ul
     padding-left: 0

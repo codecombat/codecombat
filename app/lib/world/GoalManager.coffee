@@ -104,7 +104,11 @@ module.exports = class GoalManager extends CocoClass
 
   notifyGoalChanges: ->
     overallStatus = @checkOverallStatus()
-    event = {goalStates: @goalStates, goals: @goals, overallStatus: overallStatus}
+    event =
+      goalStates: @goalStates
+      goals: @goals
+      overallStatus: overallStatus
+      timedOut: @world.totalFrames is @world.maxTotalFrames
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
   checkOverallStatus: (ignoreIncomplete=false) ->

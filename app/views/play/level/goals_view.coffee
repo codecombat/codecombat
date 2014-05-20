@@ -19,13 +19,26 @@ module.exports = class GoalsView extends View
     'surface:playback-ended': 'onSurfacePlaybackEnded'
 
   events:
-    'mouseenter': -> @$el.css('top', -10)
-    'mouseleave': -> @updateTop()
+    'mouseenter': ->
+      @mouseEntered = true
+      @updatePlacement()
+      
+    'mouseleave': ->
+      @mouseEntered = false
+      @updatePlacement()
 
   toggleCollapse: (e) ->
     @$el.toggleClass('expanded').toggleClass('collapsed')
 
   onNewGoalStates: (e) ->
+    @$el.find('.goal-status').addClass 'secret'
+    classToShow = null
+    classToShow = 'success' if e.overallStatus is 'success'
+    classToShow = 'failure' if e.overallStatus is 'failure'
+    classToShow ?= 'timed-out' if e.timedOut
+    classToShow ?= 'incomplete'
+    @$el.find('.goal-status.'+classToShow).removeClass 'secret'
+    
     list = $('#primary-goals-list', @$el)
     list.empty()
     goals = []
@@ -53,10 +66,14 @@ module.exports = class GoalsView extends View
     @$el.removeClass('secret') if goals.length > 0
 
   onSurfacePlaybackRestarted: ->
+    @playbackEnded = false
     @$el.removeClass 'brighter'
+    @updatePlacement()
 
   onSurfacePlaybackEnded: ->
+    @playbackEnded = true
     @$el.addClass 'brighter'
+    @updatePlacement()
 
   render: ->
     super()
@@ -64,11 +81,16 @@ module.exports = class GoalsView extends View
     
   afterRender: ->
     super()
-    @updateTop()
+    @updatePlacement()
     
-  updateTop: ->
-    @$el.css('top', 26 - @$el.outerHeight())
+  updatePlacement: ->
+    if @playbackEnded or @mouseEntered
+      # expand
+      @$el.css('top', -10)
+    else
+      # collapse
+      @$el.css('top', 26 - @$el.outerHeight())
 
   onSetLetterbox: (e) ->
     @$el.toggle not e.on
-    @updateTop()
+    @updatePlacement()

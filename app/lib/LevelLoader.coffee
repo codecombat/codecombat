@@ -135,6 +135,7 @@ module.exports = class LevelLoader extends CocoClass
   onWorldNecessitiesLoaded: =>
     @initWorld()
     @supermodel.clearMaxProgress()
+    @trigger 'world-necessities-loaded'
     return if @headless and not @editorMode
     thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs when t.exists) )
     nameModelTuples = ([thangType.get('name'), thangType] for thangType in @thangNames.models)
