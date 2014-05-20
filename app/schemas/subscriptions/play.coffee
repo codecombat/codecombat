@@ -74,8 +74,31 @@ module.exports =
   "script:ended":
     {} # TODO schema
 
+  "end-all-scripts": {}
+
   "script:state-changed":
     {} # TODO schema
+
+  'script-manager:tick':
+    type: 'object'
+    additionalProperties: false
+    properties:
+      scriptRunning: { type: 'string' }
+      noteGroupRunning: { type: 'string' }
+      timeSinceLastScriptEnded: { type: 'number' }
+      scriptStates: 
+        type: 'object'
+        additionalProperties:
+          title: 'Script State'
+          type: 'object'
+          additionalProperties: false
+          properties:
+            timeSinceLastEnded: 
+              type: 'number'
+              description: 'seconds since this script ended last'
+            timeSinceLastTriggered:
+              type: 'number'
+              description: 'seconds since this script was triggered last'
 
   "play-sound":
     {} # TODO schema
@@ -113,6 +136,22 @@ module.exports =
 
   "level-scrub-back":
     {} # TODO schema
+
+  "level-show-victory":
+    type: 'object'
+    additionalProperties: false
+    properties:
+      showModal: { type: 'boolean' }
+      
+  "level-highlight-dom":
+    type: 'object'
+    additionalProperties: false
+    properties:
+      selector: { type: 'string' }
+      delay: { type: 'number' }
+      sides: { type: 'array', items: { 'enum': ['left', 'right', 'top', 'bottom'] }}
+      offset: { type: 'object' }
+      rotation: { type: 'number' }
 
   "goal-manager:new-goal-states":
     {} # TODO schema

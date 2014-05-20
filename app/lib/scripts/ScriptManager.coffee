@@ -52,6 +52,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @debugScripts = @view.getQueryVariable 'dev'
     @initProperties()
     @addScriptSubscriptions()
+    @beginTicking()
 
   setScripts: (@originalScripts) ->
     @quiet = true
@@ -74,6 +75,25 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       script.id = (idNum++).toString() unless script.id
       callback = makeCallback(script.channel) # curry in the channel argument
       @addNewSubscription(script.channel, callback)
+      
+  beginTicking: ->
+    @tickInterval = setInterval @tick, 5000
+    
+  tick: =>
+    scriptStates = {}
+    now = new Date()
+    for script in @scripts
+      scriptStates[script.id] =
+        timeSinceLastEnded: (if script.lastEnded then now - script.lastEnded else 0) / 1000
+        timeSinceLastTriggered: (if script.lastTriggered then now - script.lastTriggered else 0) / 1000
+    
+    stateEvent =
+      scriptRunning: @currentNoteGroup?.scriptID or ''
+      noteGroupRunning: @currentNoteGroup?.name or ''
+      scriptStates: scriptStates
+      timeSinceLastScriptEnded: (if @lastScriptEnded then now - @lastScriptEnded else 0) / 1000
+
+    Backbone.Mediator.publish 'script-manager:tick', stateEvent
 
   loadFromSession: ->
     # load the queue with note groups to skip through
@@ -123,6 +143,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   destroy: ->
     @onEndAll()
+    clearInterval @tickInterval
     super()
 
   # TRIGGERERING NOTES
@@ -274,7 +295,6 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       @processNote(note, @currentNoteGroup) for note in module.endNotes()
     Backbone.Mediator.publish 'note-group-ended' unless @quiet
     @scriptInProgress = false
-    @ended.push(@currentNoteGroup.scriptID) if @currentNoteGroup.isLast
     @trackScriptCompletions(@currentNoteGroup)
     @currentNoteGroup = null
     unless @noteGroupQueue.length
@@ -321,6 +341,10 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return if @quiet
     return unless noteGroup.isLast
     @ended.push(noteGroup.scriptID) unless noteGroup.scriptID in @ended
+    for script in @scripts
+      if script.id is noteGroup.scriptID
+        script.lastEnded = new Date()
+    @lastScriptEnded = new Date()
     Backbone.Mediator.publish 'script:ended', {scriptID: noteGroup.scriptID}
 
   notifyScriptStateChanged: ->
