@@ -153,6 +153,11 @@ module.exports = class SpellView extends View
       name: 'spell-beautify'
       bindKey: {win: 'Ctrl-Shift-B', mac: 'Command-Shift-B|Ctrl-Shift-B'}
       exec: -> Backbone.Mediator.publish 'spell-beautify'
+    addCommand
+      name: 'prevent-line-jump'
+      bindKey: {win: 'Ctrl-L', mac: 'Command-L'}
+      passEvent: true
+      exec: ->  # just prevent default ACE go-to-line alert
 
   fillACE: ->
     @ace.setValue @spell.source
