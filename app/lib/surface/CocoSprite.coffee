@@ -758,7 +758,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
     endFunc = =>
       @lastTween = null
-      @imageObject.gotoAndPlay(endAnimation)
+      @imageObject.gotoAndPlay(endAnimation) unless @stillLoading
       @shadow.action = 'idle'
       @update true
       @possessed = false
