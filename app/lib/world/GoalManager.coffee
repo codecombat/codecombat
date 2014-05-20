@@ -15,7 +15,7 @@ module.exports = class GoalManager extends CocoClass
 
   nextGoalID: 0
 
-  constructor: (@world, @initialGoals) ->
+  constructor: (@world, @initialGoals, @team) ->
     super()
     @init()
 
@@ -114,7 +114,9 @@ module.exports = class GoalManager extends CocoClass
 
   checkOverallStatus: (ignoreIncomplete=false) ->
     overallStatus = null
-    statuses = if @goalStates then (val.status for key, val of @goalStates) else []
+    goals = if @goalStates then _.values @goalStates else []
+    goals = (g for g in goals when g.team in [undefined, @team]) if @team
+    statuses = if @goalStates then (goal.status for goal in goals) else []
     overallStatus = 'success' if statuses.length > 0 and _.every(statuses, (s) -> s is 'success' or (ignoreIncomplete and s is null))
     overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
     overallStatus

@@ -211,9 +211,10 @@ module.exports = class PlayLevelView extends View
     team ?= 'humans'
     me.team = team
     Backbone.Mediator.publish 'level:team-set', team: team
+    @team = team
 
   initGoalManager: ->
-    @goalManager = new GoalManager(@world, @level.get('goals'))
+    @goalManager = new GoalManager(@world, @level.get('goals'), @team)
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
