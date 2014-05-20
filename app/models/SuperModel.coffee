@@ -160,13 +160,13 @@ module.exports = class SuperModel extends Backbone.Model
     @progress = newProg
     @trigger('update-progress', @progress)
     @trigger('loaded-all') if @finished()
-    
+
   setMaxProgress: (@maxProgress) ->
   resetProgress: -> @progress = 0
   clearMaxProgress: ->
     @maxProgress = 1
     _.defer @updateProgress
-    
+
   getProgress: -> return @progress
 
   getResource: (rid) ->
