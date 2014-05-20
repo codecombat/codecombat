@@ -78,8 +78,8 @@ module.exports = class GoalManager extends CocoClass
   # main instance gets them and updates their existing goal states,
   # passes the word along
   onNewWorldCreated: (e) ->
-    @updateGoalStates(e.goalStates) if e.goalStates?
     @world = e.world
+    @updateGoalStates(e.goalStates) if e.goalStates?
 
   updateGoalStates: (newGoalStates) ->
     for goalID, goalState of newGoalStates
@@ -109,6 +109,7 @@ module.exports = class GoalManager extends CocoClass
       goals: @goals
       overallStatus: overallStatus
       timedOut: @world.totalFrames is @world.maxTotalFrames
+    console.log 'timed out', @world.totalFrames is @world.maxTotalFrames, @world.totalFrames, @world.maxTotalFrames, @world.frames.length
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
   checkOverallStatus: (ignoreIncomplete=false) ->
