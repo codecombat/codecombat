@@ -24,6 +24,22 @@
 
     .sponsor-logos
       padding: 10px 15px 10px 15px
+
+      -webkit-filter: grayscale(100%)
+      -webkit-transition: .5s ease-in-out
+      -moz-filter: grayscale(100%) 
+      -moz-transition: .5s ease-in-out
+      -o-filter: grayscale(100%) 
+      -o-transition: .5s ease-in-out
+      filter: grayscale(100%)
+      transition: .5s ease-in-out
+
+      &:hover
+        -webkit-filter: grayscale(0%)
+        -moz-filter: grayscale(0%)
+        -o-filter: grayscale(0%)
+        filter: grayscale(0%)
+
       img
         margin: 0px 15px
     
