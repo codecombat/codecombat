@@ -181,7 +181,8 @@ module.exports = class Mark extends CocoClass
 
     return @listenToOnce(@thangType, 'sync', @onLoadedThangType) if not @thangType.loaded
     CocoSprite = require './CocoSprite'
-    markSprite = new CocoSprite @thangType, @thangType.spriteOptions
+    # don't bother with making these render async for now, but maybe later for fun and more complexity of code
+    markSprite = new CocoSprite @thangType, {async: false}
     markSprite.queueAction 'idle'
     @mark = markSprite.imageObject
     @markSprite = markSprite

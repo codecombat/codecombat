@@ -39,8 +39,6 @@ module.exports = class WizardSprite extends IndieSprite
     else if options.name
       @setNameLabel options.name
 
-  finishSetup: ->  # No initial setup update needed.
-
   makeIndieThang: (thangType, thangID, pos) ->
     thang = super thangType, thangID, pos
     thang.isSelectable = false
