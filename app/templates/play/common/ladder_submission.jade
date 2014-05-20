@@ -7,7 +7,9 @@ button.btn.btn-lg.btn-block.btn-success.rank-button
   span(data-i18n="ladder.rank_being_ranked").ranking.secret Game Being Ranked
 
 if lastSubmitted
-  .last-submitted.secret submitted #{lastSubmitted}
+  .last-submitted.secret
+    span(data-i18n="ladder.rank_last_submitted") submitted 
+    | #{lastSubmitted}
 
 a(href=simulateURL, data-i18n="ladder.help_simulate").help-simulate.secret Help simulate games?
 
