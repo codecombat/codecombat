@@ -317,10 +317,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         return unless bounds
         @imageObject.scaleX = @thang.width * Camera.PPM / bounds.width
         @imageObject.scaleY = @thang.height * Camera.PPM * @options.camera.y2x / bounds.height
-        @imageObject.regX ?= 0
-        @imageObject.regX += bounds.width / 2
-        @imageObject.regY ?= 0
-        @imageObject.regY += bounds.height / 2
+        @imageObject.regX = bounds.width / 2
+        @imageObject.regY = bounds.height / 2
 
         unless @thang.spriteName is 'Beam'
           @imageObject.scaleX *= @thangType.get('scale') ? 1
