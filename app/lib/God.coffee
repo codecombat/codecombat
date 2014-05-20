@@ -47,7 +47,9 @@ module.exports = class God extends CocoClass
 
   setLevel: (@level) ->
   setLevelSessionIDs: (@levelSessionIDs) ->
-  setGoalManager: (goalManager) -> @angelsShare.goalManager = goalManager
+  setGoalManager: (goalManager) ->
+    @angelsShare.goalManager?.destroy() unless @angelsShare.goalManager is goalManager
+    @angelsShare.goalManager = goalManager
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
   onTomeCast: (e) ->

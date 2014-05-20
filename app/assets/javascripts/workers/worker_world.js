@@ -378,6 +378,7 @@ self.onWorldLoaded = function onWorldLoaded() {
   }
   var t3 = new Date();
   console.log("And it was so: (" + (diff / self.world.totalFrames).toFixed(3) + "ms per frame,", self.world.totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
+  self.world.goalManager.destroy();
   self.world = null;
 };
 
@@ -408,6 +409,7 @@ self.onWorldLoadProgress = function onWorldLoadProgress(progress) {
 self.abort = function abort() {
   if(self.world) {
     self.world.abort();
+    self.world.goalManager.destroy();
     self.world = null;
   }
   self.postMessage({type: 'abort'});

@@ -234,7 +234,7 @@ module.exports = class Mark extends CocoClass
     if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ["rectangle", "box"])
       @mark.rotation = @sprite.thang.rotation * 180 / Math.PI
 
-  updateScale: ->
+  updateScale: (log) ->
     if @name is 'bounds' and (@sprite.thang.width isnt @lastWidth or @sprite.thang.height isnt @lastHeight)
       oldMark = @mark
       @buildBounds()
@@ -243,6 +243,7 @@ module.exports = class Mark extends CocoClass
       oldMark.parent.removeChild oldMark
     
     if @markSprite?
+      @markSprite.scaleFactor = 1.2
       @markSprite.updateScale()
     return unless @name in ["selection", "target", "repair", "highlight"]
     if @sprite?.imageObject
