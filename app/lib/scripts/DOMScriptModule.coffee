@@ -35,6 +35,7 @@ module.exports = class DOMScriptModule extends ScriptModule
         sides: dom.highlight.sides
         offset: dom.highlight.offset
         rotation: dom.highlight.rotation
+    note.event = _.pick note.event, (value) -> not _.isUndefined value
     @maybeApplyDelayToNote note
     note
 

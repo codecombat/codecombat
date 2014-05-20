@@ -17,6 +17,10 @@ module.exports =
       response:
         type: "string"
     required: ["response"]
+    
+  "facebook-logged-out": {}
+  
+  "linkedin-loaded": {}
 
   "gapi-loaded":
     {} # TODO schema

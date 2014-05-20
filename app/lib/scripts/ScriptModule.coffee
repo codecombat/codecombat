@@ -36,4 +36,4 @@ module.exports = class ScriptModule extends CocoClass
     Math.max(0, sums...)
 
   maybeApplyDelayToNote: (note) ->
-    note.delay = @scrubbingTime + @movementTime
+    note.delay = (@scrubbingTime + @movementTime) or 0
