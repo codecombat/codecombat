@@ -72,6 +72,9 @@ module.exports = class LadderSubmissionView extends CocoView
 
   transpileSession: ->
     submittedCode = @session.get('code')
+    language = @session.get('codeLanguage') or 'javascript'
+    @session.set('submittedCodeLanguage', language)
+    @session.save()  # TODO: maybe actually use a callback to make sure this works?
     transpiledCode = {}
     for thang, spells of submittedCode
       transpiledCode[thang] = {}
@@ -80,7 +83,7 @@ module.exports = class LadderSubmissionView extends CocoView
         #DRY this
         aetherOptions =
           problems: {}
-          language: "javascript"
+          language: language
           functionName: spellID
           functionParameters: []
           yieldConditionally: spellID is "plan"
