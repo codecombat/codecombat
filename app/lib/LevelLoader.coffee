@@ -165,16 +165,25 @@ module.exports = class LevelLoader extends CocoClass
     app.tracker.updatePlayState(@level, @session) unless @headless
 
   buildLoop: =>
-    return if @lastBuilt and new Date().getTime() - @lastBuilt < 10
-    return clearInterval @buildLoopInterval unless @spriteSheetsToBuild.length
-
+    someLeft = false
     for spriteSheetResource, i in @spriteSheetsToBuild
-      if spriteSheetResource.thangType.loaded
-        @buildSpriteSheetsForThangType spriteSheetResource.thangType
-        @spriteSheetsToBuild.splice i, 1
-        @lastBuilt = new Date().getTime()
-        spriteSheetResource.markLoaded()
-        return
+      continue if spriteSheetResource.spriteSheetKeys
+      someLeft = true
+      thangType = spriteSheetResource.thangType
+      if thangType.loaded and not thangType.loading
+        @listenTo spriteSheetResource.thangType, 'build-complete', @onBuildComplete
+        keys = @buildSpriteSheetsForThangType spriteSheetResource.thangType
+        spriteSheetResource.spriteSheetKeys = keys
+        spriteSheetResource.markLoaded() if keys.length is 0
+          
+    clearInterval @buildLoopInterval unless someLeft
+
+  onBuildComplete: (e) ->
+    resource = null
+    for resource in @spriteSheetsToBuild
+      break if e.thangType is resource.thangType
+    resource.spriteSheetKeys = (k for k in resource.spriteSheetKeys when k isnt e.key)
+    resource.markLoaded() if resource.spriteSheetKeys.length is 0
 
   denormalizeSession: ->
     return if @headless or @sessionDenormalized or @spectateMode
@@ -201,13 +210,16 @@ module.exports = class LevelLoader extends CocoClass
 #      queue = new createjs.LoadQueue()
 #      queue.loadFile('/file/'+f)
     @grabThangTypeTeams() unless @thangTypeTeams
+    keys = []
     for team in @thangTypeTeams[thangType.get('original')] ? [null]
-      spriteOptions = {resolutionFactor: SPRITE_RESOLUTION_FACTOR, async: false}
+      spriteOptions = {resolutionFactor: SPRITE_RESOLUTION_FACTOR, async: true}
       if thangType.get('kind') is 'Floor'
         spriteOptions.resolutionFactor = 2
       if team and color = @teamConfigs[team]?.color
         spriteOptions.colorConfig = team: color
-      @buildSpriteSheet thangType, spriteOptions
+      key = @buildSpriteSheet thangType, spriteOptions
+      if _.isString(key) then keys.push key
+    keys
 
   grabThangTypeTeams: ->
     @grabTeamConfigs()
