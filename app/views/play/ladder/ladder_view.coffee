@@ -100,6 +100,8 @@ module.exports = class LadderView extends RootView
       e.stopPropagation()
       e.preventDefault()
       @showApologeticSignupModal()
+    if link and /#rules$/.test link
+      @$el.find('a[href="#rules"]').tab('show')
 
   destroy: ->
     clearInterval @refreshInterval
