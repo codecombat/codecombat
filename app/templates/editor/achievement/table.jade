@@ -1,0 +1,17 @@
+extends /templates/kinds/table
+
+block tableHeader
+  tr
+    th(data-i18n="general.name") Name
+    th(data-i18n="general.description") Description
+    th(data-i18n="general.collection") Collection
+
+block tableBody
+  for data in documents
+    - data = data.attributes
+    tr
+      td
+        a(href="/editor/achievement/#{data.slug || data._id}")
+          | #{data.name}
+      td #{data.description}
+      td #{data.collection}
