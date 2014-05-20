@@ -21,8 +21,10 @@ module.exports = class ThangAvatarView extends View
       
     unless @thangType.isFullyLoaded() or @thangType.loading
       @thangType.fetch()
-    
-    @supermodel.loadModel @thangType, 'thang'
+  
+    # couldn't get the level view to load properly through the supermodel
+    # so just doing it manually this time.
+    @listenTo @thangType, 'sync', @render
 
   getSpriteThangType: ->
     thangs = @supermodel.getModels(ThangType)
