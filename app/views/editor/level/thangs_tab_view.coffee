@@ -39,7 +39,6 @@ module.exports = class ThangsTabView extends View
     'level-thang-edited': 'onLevelThangEdited'
     'level-thang-done-editing': 'onLevelThangDoneEditing'
     'level:view-switched': 'onViewSwitched'
-    'sprite:mouse-down': 'onSpriteMouseDown'
     'sprite:dragged': 'onSpriteDragged'
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
@@ -181,13 +180,13 @@ module.exports = class ThangsTabView extends View
 
   onSpriteMouseDown: (e) ->
     # Sprite clicks happen after stage clicks, but we need to know whether a sprite is being clicked.
-    clearTimeout @backgroundAddClickTimeout
-    if e.originalEvent.nativeEvent.button == 2
-      @onSpriteContextMenu e
+    # clearTimeout @backgroundAddClickTimeout
+    # if e.originalEvent.nativeEvent.button == 2
+    #   @onSpriteContextMenu e
 
   onStageMouseUp: (e) ->
     if @addThangSprite
-      # If we click on the background, we need to add @addThangSprite, but not if onSpriteMouseDown will fire.
+      # If we click on the background, we need to add @addThangSprite, but not if onSpriteMouseUp will fire.
       @backgroundAddClickTimeout = _.defer => @onExtantThangSelected {}
     $('#contextmenu').hide()
 
@@ -202,6 +201,9 @@ module.exports = class ThangsTabView extends View
     @calculateMovement(stageX / w, stageY / h, w / h)
 
   onSpriteMouseUp: (e) ->
+    clearTimeout @backgroundAddClickTimeout
+    if e.originalEvent.nativeEvent.button == 2
+      @onSpriteContextMenu e
     clearInterval(@movementInterval) if @movementInterval?
     @movementInterval = null
     @surface.camera.dragDisabled = false
