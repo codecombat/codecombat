@@ -13,6 +13,7 @@ module.exports = class DocsModal extends View
     'enter': 'hide'
 
   constructor: (options) ->
+    @firstOnly = options.firstOnly
     @docs = options?.docs
     general = @docs.generalArticles or []
     specific = @docs.specificArticles or []
@@ -25,6 +26,7 @@ module.exports = class DocsModal extends View
 
     @docs = specific.concat(general)
     @docs = $.extend(true, [], @docs)
+    @docs = [@docs[0]] if @firstOnly and @docs[0]
     doc.html = marked(utils.i18n doc, 'body') for doc in @docs
     doc.name = (utils.i18n doc, 'name') for doc in @docs
     doc.slug = _.string.slugify(doc.name) for doc in @docs

@@ -133,7 +133,10 @@ module.exports = class PlayLevelView extends View
   showGuide: ->
     @seenDocs = true
     DocsModal = require './level/modal/docs_modal'
-    options = {docs: @levelLoader.level.get('documentation'), supermodel: @supermodel}
+    options =
+      docs: @levelLoader.level.get('documentation')
+      supermodel: @supermodel
+      firstOnly: true
     @openModalView(new DocsModal(options), true)
     Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelStarted, @
     return true
