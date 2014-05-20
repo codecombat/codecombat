@@ -98,6 +98,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   finishSetup: ->
     return unless @thang
     @updateBaseScale()
+    @scaleFactor = @thang.scaleFactor if @thang?.scaleFactor
     @update true  # Reflect initial scale and other state
 
   setUpRasterImage: ->
