@@ -94,6 +94,7 @@ module.exports = class MyMatchesTabView extends CocoView
 
   afterRender: ->
     super()
+    @removeSubView subview for key, subview of @subviews when subview instanceof LadderSubmissionView
     @$el.find('.ladder-submission-view').each (i, el) =>
       placeholder = $(el)
       sessionID = placeholder.data('session-id')
