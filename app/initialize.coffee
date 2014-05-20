@@ -21,7 +21,7 @@ init = ->
   # Set up Backbone.Mediator schemas
   setUpDefinitions()
   setUpChannels()
-  Backbone.Mediator.setValidationEnabled true
+  Backbone.Mediator.setValidationEnabled document.location.href.search(/codecombat.com/) is -1
   app.initialize()
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
