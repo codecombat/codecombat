@@ -458,6 +458,7 @@
     thang_description: "Build units, defining their default logic, graphics and audio. Currently only supports importing Flash exported vector graphics."
     level_title: "Level Editor"
     level_description: "Includes the tools for scripting, uploading audio, and constructing custom logic to create all sorts of levels. Everything we use ourselves!"
+    achievement_title: "Achievement Editor"
     got_questions: "Questions about using the CodeCombat editors?"
     contact_us: "Contact us!"
     hipchat_prefix: "You can also find us in our"
@@ -503,9 +504,12 @@
     new_article_title_login: "Log In to Create a New Article"
     new_thang_title_login: "Log In to Create a New Thang Type"
     new_level_title_login: "Log In to Create a New Level"
+    new_achievement_title: "Create a New Achievement"
+    new_achievement_title_login: "Sign Up to Create a New Achievement"
     article_search_title: "Search Articles Here"
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"
+    achievement_search_title: "Search Achievements"
     read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
 
   article:

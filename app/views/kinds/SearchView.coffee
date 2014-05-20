@@ -6,7 +6,7 @@ app = require('application')
 class SearchCollection extends Backbone.Collection
   initialize: (modelURL, @model, @term, @projection) ->
     @url = "#{modelURL}/search?project="
-    if @projection? and not @projection == []
+    if @projection? and not (@projection == [])
       @url += projection[0]
       @url += ',' + projected for projected in projection[1..]
     else @url += "true"
@@ -49,7 +49,7 @@ module.exports = class SearchView extends View
     return if @sameSearch(term)
     @removeOldSearch()
 
-    @collection = new SearchCollection(@modelURL, @model, term)
+    @collection = new SearchCollection(@modelURL, @model, term, @projection)
     @collection.term = term # needed?
     @listenTo(@collection, 'sync', @onSearchChange)
     @showLoading(@$el.find('.results'))
