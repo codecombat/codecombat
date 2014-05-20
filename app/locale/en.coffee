@@ -660,6 +660,7 @@
     rank_submitted: "Submitted for Ranking"
     rank_failed: "Failed to Rank"
     rank_being_ranked: "Game Being Ranked"
+    rank_last_submitted: "submitted "
     help_simulate: "Help simulate games?"
     code_being_simulated: "Your new code is being simulated by other players for ranking. This will refresh as new matches come in."
     no_ranked_matches_pre: "No ranked matches for the "
@@ -680,6 +681,7 @@
     fight: "Fight!"
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
+    tournament_rules: "Tournament Rules"
 
   ladder_prizes:
     title: "Tournament Prizes"

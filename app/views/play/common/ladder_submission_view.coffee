@@ -19,6 +19,7 @@ module.exports = class LadderSubmissionView extends CocoView
     ctx.readyToRank = @session?.readyToRank()
     ctx.isRanking = @session?.get('isRanking')
     ctx.simulateURL = "/play/ladder/#{@level.get('slug')}#simulate"
+    ctx.lastSubmitted = moment(submitDate).fromNow() if submitDate = @session?.get('submitDate')
     ctx
 
   afterRender: ->
@@ -41,6 +42,8 @@ module.exports = class LadderSubmissionView extends CocoView
     @rankButton.toggleClass 'disabled', spanClass isnt 'rank'
     helpSimulate = spanClass in ['submitted', 'ranking']
     @$el.find('.help-simulate').toggle(helpSimulate, 'slow')
+    showLastSubmitted = not (spanClass in ['submitting'])
+    @$el.find('.last-submitted').toggle(showLastSubmitted)
 
   rankSession: (e) ->
     return unless @session.readyToRank()
