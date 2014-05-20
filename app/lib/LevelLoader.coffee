@@ -171,10 +171,12 @@ module.exports = class LevelLoader extends CocoClass
       someLeft = true
       thangType = spriteSheetResource.thangType
       if thangType.loaded and not thangType.loading
-        @listenTo spriteSheetResource.thangType, 'build-complete', @onBuildComplete
         keys = @buildSpriteSheetsForThangType spriteSheetResource.thangType
-        spriteSheetResource.spriteSheetKeys = keys
-        spriteSheetResource.markLoaded() if keys.length is 0
+        if keys and keys.length
+          @listenTo spriteSheetResource.thangType, 'build-complete', @onBuildComplete
+          spriteSheetResource.spriteSheetKeys = keys
+        else
+          spriteSheetResource.markLoaded()
           
     clearInterval @buildLoopInterval unless someLeft
 
