@@ -68,7 +68,7 @@ module.exports = class PlayLevelView extends View
 
   shortcuts:
     'ctrl+s': 'onCtrlS'
-    
+
   # Initial Setup #############################################################
 
   constructor: (options, @levelID) ->
@@ -90,7 +90,7 @@ module.exports = class PlayLevelView extends View
     else
       @load()
       application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID
-      
+
   setUpHourOfCode: ->
     me.set 'hourOfCode', true
     me.save()
@@ -116,7 +116,7 @@ module.exports = class PlayLevelView extends View
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
 
   # CocoView overridden methods ###############################################
-      
+
   updateProgress: (progress) ->
     super(progress)
     return if @seenDocs
@@ -135,7 +135,7 @@ module.exports = class PlayLevelView extends View
     DocsModal = require './level/modal/docs_modal'
     options = {docs: @levelLoader.level.get('documentation'), supermodel: @supermodel}
     @openModalView(new DocsModal(options), true)
-    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaded, @
+    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelStarted, @
     return true
 
   getRenderData: ->
@@ -159,7 +159,7 @@ module.exports = class PlayLevelView extends View
     @showWizardSettingsModal() if not me.get('name')
 
   # Partially Loaded Setup ####################################################
-    
+
   onWorldNecessitiesLoaded: ->
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
@@ -241,18 +241,15 @@ module.exports = class PlayLevelView extends View
     @bus.setSession(@session)
     @bus.setSpells @tome.spells
     @bus.connect() if @session.get('multiplayer')
-    
+
   # Load Completed Setup ######################################################
 
   onLoaded: ->
     _.defer => @onLevelLoaded()
-    
+
   onLevelLoaded: ->
     # Everything is now loaded
-    return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
-    @loadingView.showReady()
-    if window.currentModal and not window.currentModal.destroyed
-      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaded, @
+    return unless @levelLoader.progress() is 1  # double check, since closing the guide may trigger this early
 
     # Save latest level played in local storage
     if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
@@ -273,6 +270,9 @@ module.exports = class PlayLevelView extends View
   # Once Surface is Loaded ####################################################
 
   onLevelStarted: ->
+    @loadingView.showReady()
+    if window.currentModal and not window.currentModal.destroyed
+      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelStarted, @
     @surface.showLevel()
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
