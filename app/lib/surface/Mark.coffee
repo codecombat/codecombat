@@ -241,21 +241,19 @@ module.exports = class Mark extends CocoClass
       oldMark.parent.addChild @mark
       oldMark.parent.swapChildren oldMark, @mark
       oldMark.parent.removeChild oldMark
+    
+    if @markSprite?
+      @markSprite.updateScale()
     return unless @name in ["selection", "target", "repair", "highlight"]
-    scale = 0.5
     if @sprite?.imageObject
       size = @sprite.getAverageDimension()
       size += 60 if @name is 'selection'
       size += 60 if @name is 'repair'
       size *= @sprite.scaleFactor
       scale = size / {selection: 128, target: 128, repair: 320, highlight: 160}[@name]
+      scale /= 3
       if @sprite?.thang.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
         scale *= 2
-    
-    if @markSprite?
-      @markSprite.scaleFactor = scale
-      @markSprite.updateScale()
-    else
       @mark.scaleX = @mark.scaleY = Math.min 1, scale
     if @name in ['selection', 'target', 'repair']
       @mark.scaleY *= @camera.y2x  # code applies perspective
