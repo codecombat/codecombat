@@ -363,7 +363,6 @@ constructTaskObject = (taskMessageBody, message, callback) ->
         "sessionID": session._id
         "submitDate": session.submitDate
         "team": session.team ? "No team"
-        "code": session.submittedCode
         "transpiledCode": session.transpiledCode
         "teamSpells": session.teamSpells ? {}
         "levelID": session.levelID
@@ -403,35 +402,37 @@ getSessionInformation = (sessionIDString, callback) ->
 
 module.exports.processTaskResult = (req, res) ->
   originalSessionID = req.body?.originalSessionID
-  async.waterfall [
-    verifyClientResponse.bind(@,req.body)
-    fetchTaskLog.bind(@)
-    checkTaskLog.bind(@)
-    deleteQueueMessage.bind(@)
-    fetchLevelSession.bind(@)
-    checkSubmissionDate.bind(@)
-    logTaskComputation.bind(@)
-    updateSessions.bind(@)
-    indexNewScoreArray.bind(@)
-    addMatchToSessions.bind(@)
-    updateUserSimulationCounts.bind(@, req.user._id)
-    determineIfSessionShouldContinueAndUpdateLog.bind(@)
-    findNearestBetterSessionID.bind(@)
-    addNewSessionsToQueue.bind(@)
-  ], (err, results) ->
-    if err is "shouldn't continue"
-      markSessionAsDoneRanking originalSessionID, (err) ->
-        if err? then return sendResponseObject req, res, {"error":"There was an error marking the session as done ranking"}
-        sendResponseObject req, res, {"message":"The scores were updated successfully, person lost so no more games are being inserted!"}
-    else if err is "no session was found"
-      markSessionAsDoneRanking originalSessionID, (err) ->
-        if err? then return sendResponseObject req, res, {"error":"There was an error marking the session as done ranking"}
-        sendResponseObject req, res, {"message":"There were no more games to rank (game is at top)!"}
-    else if err?
-      errors.serverError res, "There was an error:#{err}"
-    else
-      sendResponseObject req, res, {"message":"The scores were updated successfully and more games were sent to the queue!"}
-
+  try
+    async.waterfall [
+      verifyClientResponse.bind(@,req.body)
+      fetchTaskLog.bind(@)
+      checkTaskLog.bind(@)
+      deleteQueueMessage.bind(@)
+      fetchLevelSession.bind(@)
+      checkSubmissionDate.bind(@)
+      logTaskComputation.bind(@)
+      updateSessions.bind(@)
+      indexNewScoreArray.bind(@)
+      addMatchToSessions.bind(@)
+      updateUserSimulationCounts.bind(@, req.user._id)
+      determineIfSessionShouldContinueAndUpdateLog.bind(@)
+      findNearestBetterSessionID.bind(@)
+      addNewSessionsToQueue.bind(@)
+    ], (err, results) ->
+      if err is "shouldn't continue"
+        markSessionAsDoneRanking originalSessionID, (err) ->
+          if err? then return sendResponseObject req, res, {"error":"There was an error marking the session as done ranking"}
+          sendResponseObject req, res, {"message":"The scores were updated successfully, person lost so no more games are being inserted!"}
+      else if err is "no session was found"
+        markSessionAsDoneRanking originalSessionID, (err) ->
+          if err? then return sendResponseObject req, res, {"error":"There was an error marking the session as done ranking"}
+          sendResponseObject req, res, {"message":"There were no more games to rank (game is at top)!"}
+      else if err?
+        errors.serverError res, "There was an error:#{err}"
+      else
+        sendResponseObject req, res, {"message":"The scores were updated successfully and more games were sent to the queue!"}
+  catch e
+    errors.serverError res, "There was an error processing the task result!"
 verifyClientResponse = (responseObject, callback) ->
   #TODO: better verification
   if typeof responseObject isnt "object" or responseObject?.originalSessionID?.length isnt 24
@@ -716,7 +717,10 @@ handleTimedOutTask = (req, res, taskBody) -> errors.clientTimeout res, "The resu
 
 putRankingFromMetricsIntoScoreObject = (taskObject,scoreObject) ->
   scoreObject = _.indexBy scoreObject, 'id'
-  scoreObject[session.sessionID].gameRanking = session.metrics.rank for session in taskObject.sessions
+  try
+    scoreObject[session.sessionID].gameRanking = session.metrics.rank for session in taskObject.sessions
+  catch e
+    console.log "There was an error setting gameRanking for session #{JSON.stringify session}"
   return scoreObject
 
 retrieveOldSessionData = (sessionID, callback) ->
