@@ -36,7 +36,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   nav:
     play: "Уровни"
-#    community: "Community"
+    community: "Сообщество"
     editor: "Редактор"
     blog: "Блог"
     forum: "Форум"
@@ -138,8 +138,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     group: "Группа"
     clothes: "Одежда"
     trim: "Отделка"
-#    cloud: "Cloud"
-    team: "Облако"
+    cloud: "Облако"
+    team: "Команда"
     spell: "Заклинание"
     boots: "Обувь"
     hue: "Оттенок"
