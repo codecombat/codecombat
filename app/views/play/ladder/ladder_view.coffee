@@ -53,6 +53,7 @@ module.exports = class LadderView extends RootView
     ctx.levelID = @levelID
     ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
     ctx._ = _
+    ctx.tournamentTimeLeft = moment(new Date(1402444800000)).fromNow()
     ctx
 
   afterRender: ->
@@ -100,6 +101,10 @@ module.exports = class LadderView extends RootView
       e.stopPropagation()
       e.preventDefault()
       @showApologeticSignupModal()
+    if link and /#rules$/.test link
+      @$el.find('a[href="#rules"]').tab('show')
+    if link and /#prizes/.test link
+      @$el.find('a[href="#prizes"]').tab('show')
 
   destroy: ->
     clearInterval @refreshInterval

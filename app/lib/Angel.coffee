@@ -113,6 +113,7 @@ module.exports = class Angel extends CocoClass
     @doWork()
 
   finalizePreload: ->
+    @say "Finalize preload."
     @worker.postMessage func: 'finalizePreload'
 
   infinitelyLooped: =>

@@ -1,6 +1,47 @@
 #ladder-view
+  .main-content-area
+    background-color: whitesmoke
+
+  #level-column img
+    margin: -14px -12px 0px -12px
+    width: 100%
+    width: -webkit-calc(100% + 24px)
+    width: calc(100% + 24px)
+
   h1
     text-align: center
+
+  .tournament-blurb
+    margin: -20px -12px 20px -12px
+    padding: 10px
+    background-color: white
+
+    h2
+      text-align: center
+
+    a
+      font-weight: bold
+
+    .sponsor-logos
+      padding: 10px 15px 10px 15px
+
+      -webkit-filter: grayscale(100%)
+      -webkit-transition: .5s ease-in-out
+      -moz-filter: grayscale(100%) 
+      -moz-transition: .5s ease-in-out
+      -o-filter: grayscale(100%) 
+      -o-transition: .5s ease-in-out
+      filter: grayscale(100%)
+      transition: .5s ease-in-out
+
+      &:hover
+        -webkit-filter: grayscale(0%)
+        -moz-filter: grayscale(0%)
+        -o-filter: grayscale(0%)
+        filter: grayscale(0%)
+
+      img
+        margin: 0px 15px
     
   .tab-pane
     margin-top: 10px
@@ -63,16 +104,36 @@
   td
     padding: 1px 2px
     
-  tr.stale
-    opacity: 0.5
-
-  tr.win .state-cell
-    color: #172
-  tr.loss .state-cell
-    color: #712
-
   #must-log-in button
     margin-right: 10px
+
+  #prize_table
+    width: 960px
+    font-weight: bold
+
+    thead
+      font-size: 24px
+
+    tbody
+      tr:not(:first-child)
+        border-top: 10px solid #ddd
+  
+      td
+        vertical-align: middle
+        
+        &:nth-child(1), &:nth-child(3)
+          text-align: center
+          font-size: 24px
+  
+        li
+          list-style: none
+
+          &:not(:last-child)
+            margin-bottom: 10px
+            border-bottom: 1px solid #ddd
+  
+          img
+            margin-right: 10px
 
 @media only screen and (max-width: 800px)
   #ladder-view

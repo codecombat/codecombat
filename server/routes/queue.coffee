@@ -21,6 +21,10 @@ module.exports.setup = (app) ->
   app.post '/queue/scoring/getTwoGames', (req, res) ->
     handler = loadQueueHandler 'scoring'
     handler.getTwoGames req, res    
+  
+  app.put '/queue/scoring/recordTwoGames', (req, res) ->
+    handler = loadQueueHandler 'scoring'
+    handler.recordTwoGames req, res
     
   app.all '/queue/*', (req, res) ->
     setResponseHeaderToJSONContentType res

@@ -69,14 +69,13 @@ module.exports = class PlayLevelView extends View
   shortcuts:
     'ctrl+s': 'onCtrlS'
 
+  # Initial Setup #############################################################
+
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
     super options
     if not me.get('hourOfCode') and @getQueryVariable "hour_of_code"
-      me.set 'hourOfCode', true
-      me.save()
-      $('body').append($("<img src='http://code.org/api/hour/begin_codecombat.png' style='visibility: hidden;'>"))
-      application.tracker?.trackEvent 'Hour of Code Begin', {}
+      @setUpHourOfCode()
 
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = @getQueryVariable 'session'
@@ -92,9 +91,11 @@ module.exports = class PlayLevelView extends View
       @load()
       application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID
 
-  onLevelLoadError: (e) ->
-    # TODO NOW: remove this in favor of the supermodel handling it
-    application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
+  setUpHourOfCode: ->
+    me.set 'hourOfCode', true
+    me.save()
+    $('body').append($("<img src='http://code.org/api/hour/begin_codecombat.png' style='visibility: hidden;'>"))
+    application.tracker?.trackEvent 'Hour of Code Begin', {}
 
   setLevel: (@level, givenSupermodel) ->
     @supermodel.models = givenSupermodel.models
@@ -112,6 +113,33 @@ module.exports = class PlayLevelView extends View
     @loadStartTime = new Date()
     @god = new God debugWorker: true
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
+    @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
+
+  # CocoView overridden methods ###############################################
+
+  updateProgress: (progress) ->
+    super(progress)
+    return if @seenDocs
+    return unless @levelLoader.session.loaded and @levelLoader.level.loaded
+    return unless showFrequency = @levelLoader.level.get('showsGuide')
+    session = @levelLoader.session
+    diff = new Date().getTime() - new Date(session.get('created')).getTime()
+    return if showFrequency is 'first-time' and diff > (5 * 60 * 1000)
+    articles = @levelLoader.supermodel.getModels Article
+    for article in articles
+      return unless article.loaded
+    @showGuide()
+
+  showGuide: ->
+    @seenDocs = true
+    DocsModal = require './level/modal/docs_modal'
+    options =
+      docs: @levelLoader.level.get('documentation')
+      supermodel: @supermodel
+      firstOnly: true
+    @openModalView(new DocsModal(options), true)
+    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelStarted, @
+    return true
 
   getRenderData: ->
     c = super()
@@ -129,62 +157,26 @@ module.exports = class PlayLevelView extends View
     @$el.find('#level-done-button').hide()
     $('body').addClass('is-playing')
 
-  updateProgress: (progress) ->
-    super(progress)
-    if not @worldInitialized and @levelLoader.session.loaded and @levelLoader.level.loaded and @levelLoader.world and (not @levelLoader.opponentSession or @levelLoader.opponentSession.loaded)
-      @grabLevelLoaderData()
-      @onWorldInitialized()
-    return if @seenDocs
-    return unless @levelLoader.session.loaded and @levelLoader.level.loaded
-    return unless showFrequency = @levelLoader.level.get('showsGuide')
-    session = @levelLoader.session
-    diff = new Date().getTime() - new Date(session.get('created')).getTime()
-    return if showFrequency is 'first-time' and diff > (5 * 60 * 1000)
-    articles = @levelLoader.supermodel.getModels Article
-    for article in articles
-      return unless article.loaded
-    @showGuide()
+  afterInsert: ->
+    super()
+    @showWizardSettingsModal() if not me.get('name')
 
-  onWorldInitialized: ->
-    @worldInitialized = true
+  # Partially Loaded Setup ####################################################
+
+  onWorldNecessitiesLoaded: ->
+    # Called when we have enough to build the world, but not everything is loaded
+    @grabLevelLoaderData()
     team = @getQueryVariable("team") ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @god.setLevel @level.serialize @supermodel
-    @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
-    @god.setWorldClassMap @world.classMap
+    @setupGod()
     @setTeam team
     @initGoalManager()
-    @insertSubviews ladderGame: (@level.get('type') is "ladder")
+    @insertSubviews()
     @initVolume()
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @originalSessionState = $.extend(true, {}, @session.get('state'))
     @register()
     @controlBar.setBus(@bus)
-
-  showGuide: ->
-    @seenDocs = true
-    DocsModal = require './level/modal/docs_modal'
-    options = {docs: @levelLoader.level.get('documentation'), supermodel: @supermodel}
-    @openModalView(new DocsModal(options), true)
-    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaded, @
-    return true
-
-  onLoaded: ->
-    _.defer => @onLevelLoaded()
-
-  onLevelLoaded: ->
-    return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
-    @loadingView.showReady()
-    if window.currentModal and not window.currentModal.destroyed
-      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaded, @
-
-    # Save latest level played in local storage
-    if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
-      me.set('lastLevel', @levelID)
-      me.save()
-    @levelLoader.destroy()
-    @levelLoader = null
-    @initSurface()
     @initScriptManager()
 
   grabLevelLoaderData: ->
@@ -212,7 +204,79 @@ module.exports = class PlayLevelView extends View
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
       @session.set 'multiplayer', false
 
-  onLevelStarted: (e) ->
+  setupGod: ->
+    @god.setLevel @level.serialize @supermodel
+    @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
+    @god.setWorldClassMap @world.classMap
+
+  setTeam: (team) ->
+    team = team?.team unless _.isString team
+    team ?= 'humans'
+    me.team = team
+    Backbone.Mediator.publish 'level:team-set', team: team
+    @team = team
+
+  initGoalManager: ->
+    @goalManager = new GoalManager(@world, @level.get('goals'), @team)
+    @god.setGoalManager @goalManager
+
+  insertSubviews: ->
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
+    @insertSubView new PlaybackView session: @session
+    @insertSubView new GoalsView {}
+    @insertSubView new GoldView {}
+    @insertSubView new HUDView {}
+    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
+    worldName = utils.i18n @level.attributes, 'name'
+    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams}
+  #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
+
+  initVolume: ->
+    volume = me.get('volume')
+    volume = 1.0 unless volume?
+    Backbone.Mediator.publish 'level-set-volume', volume: volume
+
+  initScriptManager: ->
+    @scriptManager = new ScriptManager({scripts: @world.scripts or [], view:@, session: @session})
+    @scriptManager.loadFromSession()
+
+  register: ->
+    @bus = LevelBus.get(@levelID, @session.id)
+    @bus.setSession(@session)
+    @bus.setSpells @tome.spells
+    @bus.connect() if @session.get('multiplayer')
+
+  # Load Completed Setup ######################################################
+
+  onLoaded: ->
+    _.defer => @onLevelLoaded()
+
+  onLevelLoaded: ->
+    # Everything is now loaded
+    return unless @levelLoader.progress() is 1  # double check, since closing the guide may trigger this early
+
+    # Save latest level played in local storage
+    if not (@levelLoader.level.get('type') in ['ladder', 'ladder-tutorial'])
+      me.set('lastLevel', @levelID)
+      me.save()
+    @levelLoader.destroy()
+    @levelLoader = null
+    @initSurface()
+
+  initSurface: ->
+    surfaceCanvas = $('canvas#surface', @$el)
+    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview)
+    worldBounds = @world.getBounds()
+    bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
+    @surface.camera.setBounds(bounds)
+    @surface.camera.zoomTo({x:0, y:0}, 0.1, 0)
+
+  # Once Surface is Loaded ####################################################
+
+  onLevelStarted: ->
+    @loadingView.showReady()
+    if window.currentModal and not window.currentModal.destroyed
+      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelStarted, @
     @surface.showLevel()
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
@@ -229,34 +293,17 @@ module.exports = class PlayLevelView extends View
       application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration
       application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
 
-  onSupermodelLoadedOne: =>
-    @modelsLoaded ?= 0
-    @modelsLoaded += 1
-    @updateInitString()
-
-  updateInitString: ->
-    return if @surface
-    @modelsLoaded ?= 0
-    canvas = @$el.find('#surface')[0]
-    ctx = canvas.getContext('2d')
-    ctx.font="20px Georgia"
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
-
-  insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
-    @insertSubView new PlaybackView session: @session
-    @insertSubView new GoalsView {}
-    @insertSubView new GoldView {}
-    @insertSubView new HUDView {}
-    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
-    worldName = utils.i18n @level.attributes, 'name'
-    @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams}
-    #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
-
-  afterInsert: ->
-    super()
-    @showWizardSettingsModal() if not me.get('name')
+  onSurfaceSetUpNewWorld: ->
+    return if @alreadyLoadedState
+    @alreadyLoadedState = true
+    state = @originalSessionState
+    if state.frame and @level.get('type') isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
+      Backbone.Mediator.publish 'level-set-time', { time: 0, frameOffset: state.frame }
+    if state.selected
+      # TODO: Should also restore selected spell here by saving spellName
+      Backbone.Mediator.publish 'level-select-sprite', { thangID: state.selected, spellName: null }
+    if state.playing?
+      Backbone.Mediator.publish 'level-set-playing', { playing: state.playing }
 
   # callbacks
 
@@ -412,45 +459,10 @@ module.exports = class PlayLevelView extends View
       @bus.removeFirebaseData =>
         @bus.disconnect()
 
-  # initialization
-
   addPointer: ->
     p = $('#pointer')
     return if p.length
     @$el.append($('<img src="/images/level/pointer.png" id="pointer">'))
-
-  initSurface: ->
-    surfaceCanvas = $('canvas#surface', @$el)
-    @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview)
-    worldBounds = @world.getBounds()
-    bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
-    @surface.camera.setBounds(bounds)
-    @surface.camera.zoomTo({x:0, y:0}, 0.1, 0)
-
-  initGoalManager: ->
-    @goalManager = new GoalManager(@world, @level.get('goals'))
-    @god.setGoalManager @goalManager
-
-  initScriptManager: ->
-    @scriptManager = new ScriptManager({scripts: @world.scripts or [], view:@, session: @session})
-    @scriptManager.loadFromSession()
-
-  initVolume: ->
-    volume = me.get('volume')
-    volume = 1.0 unless volume?
-    Backbone.Mediator.publish 'level-set-volume', volume: volume
-
-  onSurfaceSetUpNewWorld: ->
-    return if @alreadyLoadedState
-    @alreadyLoadedState = true
-    state = @originalSessionState
-    if state.frame and @level.get('type') isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
-      Backbone.Mediator.publish 'level-set-time', { time: 0, frameOffset: state.frame }
-    if state.selected
-      # TODO: Should also restore selected spell here by saving spellName
-      Backbone.Mediator.publish 'level-select-sprite', { thangID: state.selected, spellName: null }
-    if state.playing?
-      Backbone.Mediator.publish 'level-set-playing', { playing: state.playing }
 
   preloadNextLevel: =>
     # TODO: Loading models in the middle of gameplay causes stuttering. Most of the improvement in loading time is simply from passing the supermodel from this level to the next, but if we can find a way to populate the level early without it being noticeable, that would be even better.
@@ -460,12 +472,6 @@ module.exports = class PlayLevelView extends View
 #    @supermodel.populateModel nextLevel
 #    @preloaded = true
 
-  register: ->
-    @bus = LevelBus.get(@levelID, @session.id)
-    @bus.setSession(@session)
-    @bus.setSpells @tome.spells
-    @bus.connect() if @session.get('multiplayer')
-
   onSessionWillSave: (e) ->
     # Something interesting has happened, so (at a lower frequency), we'll save a screenshot.
     #@saveScreenshot e.session
@@ -474,12 +480,6 @@ module.exports = class PlayLevelView extends View
   saveScreenshot: (session) =>
     return unless screenshot = @surface?.screenshot()
     session.save {screenshot: screenshot}, {patch: true}
-
-  setTeam: (team) ->
-    team = team?.team unless _.isString team
-    team ?= 'humans'
-    me.team = team
-    Backbone.Mediator.publish 'level:team-set', team: team
 
   # Dynamic sound loading
 

@@ -15,6 +15,8 @@ module.exports = class LevelLoadingView extends View
     @$el.find('.to-remove').remove()
 
   showReady: ->
+    return if @shownReady
+    @shownReady = true
     ready = $.i18n.t('play_level.loading_ready', defaultValue: 'Ready!')
     @$el.find('#tip-wrapper .tip').addClass('ready').text ready
     Backbone.Mediator.publish 'play-sound', trigger: 'level_loaded', volume: 0.75  # old: loading_ready

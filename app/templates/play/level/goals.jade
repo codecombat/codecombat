@@ -1,3 +1,8 @@
 ul#primary-goals-list
-h3
-  span(data-i18n="play_level.goals") Goals
+div.goals-status
+  strong(data-i18n="play_level.goals") Goals
+  span.spl.spr :
+  span(data-i18n="play_level.success").secret.goal-status.success Success!
+  span(data-i18n="play_level.incomplete").secret.goal-status.incomplete Incomplete
+  span(data-i18n="play_level.timed_out").secret.goal-status.timed-out Ran out of time
+  span(data-i18n="play_level.failing").secret.goal-status.failure Failing

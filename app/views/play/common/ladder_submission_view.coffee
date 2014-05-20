@@ -2,11 +2,12 @@ CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/common/ladder_submission'
 
 module.exports = class LadderSubmissionView extends CocoView
-  class: "ladder-submission-view"
+  className: "ladder-submission-view"
   template: template
 
   events:
     'click .rank-button': 'rankSession'
+    'click .help-simulate': 'onHelpSimulate'
 
   constructor: (options) ->
     super options
@@ -16,9 +17,11 @@ module.exports = class LadderSubmissionView extends CocoView
   getRenderData: ->
     ctx = super()
     ctx.readyToRank = @session?.readyToRank()
-    ctx.isRanking = @ession?.get('isRanking')
+    ctx.isRanking = @session?.get('isRanking')
+    ctx.simulateURL = "/play/ladder/#{@level.get('slug')}#simulate"
+    ctx.lastSubmitted = moment(submitDate).fromNow() if submitDate = @session?.get('submitDate')
     ctx
-      
+
   afterRender: ->
     super()
     return unless @supermodel.finished()
@@ -34,9 +37,13 @@ module.exports = class LadderSubmissionView extends CocoView
     @setRankingButtonText rankingState
 
   setRankingButtonText: (spanClass) ->
-    @rankButton.find('span').addClass('hidden')
-    @rankButton.find(".#{spanClass}").removeClass('hidden')
+    @rankButton.find('span').hide()
+    @rankButton.find(".#{spanClass}").show()
     @rankButton.toggleClass 'disabled', spanClass isnt 'rank'
+    helpSimulate = spanClass in ['submitted', 'ranking']
+    @$el.find('.help-simulate').toggle(helpSimulate, 'slow')
+    showLastSubmitted = not (spanClass in ['submitting'])
+    @$el.find('.last-submitted').toggle(showLastSubmitted)
 
   rankSession: (e) ->
     return unless @session.readyToRank()
@@ -86,3 +93,5 @@ module.exports = class LadderSubmissionView extends CocoView
         transpiledCode[thang][spellID] = aether.transpile spell
     transpiledCode
 
+  onHelpSimulate: ->
+    $('a[href="#simulate"]').tab('show')

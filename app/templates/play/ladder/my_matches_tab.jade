@@ -30,7 +30,7 @@ div#columns.row
           th(data-i18n="general.when") When
           th
         for match in team.matches
-          tr(class=(match.stale ? "stale " : "") + match.state)
+          tr(class=(match.stale ? "stale " : "") + (match.fresh ? "fresh " : "") + match.state)
             td.state-cell
               if match.state === 'win'
                 span(data-i18n="general.win").win Win

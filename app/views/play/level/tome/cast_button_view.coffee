@@ -46,7 +46,6 @@ module.exports = class CastButtonView extends View
     Backbone.Mediator.publish 'tome:manual-cast', {}
 
   onCastOptionsClick: (e) =>
-    console.log 'cast options click', $(e.target)
     Backbone.Mediator.publish 'focus-editor'
     @castButtonGroup.removeClass 'open'
     @setAutocastDelay $(e.target).attr 'data-delay'
@@ -58,7 +57,9 @@ module.exports = class CastButtonView extends View
   onCastSpells: (e) ->
     return if e.preload
     @casting = true
-    Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.5
+    if @hasStartedCastingOnce  # Don't play this sound the first time
+      Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.5
+    @hasStartedCastingOnce = true
     @updateCastButton()
     @onWorldLoadProgressChanged progress: 0
 
@@ -69,7 +70,9 @@ module.exports = class CastButtonView extends View
 
   onNewWorld: (e) ->
     @casting = false
-    Backbone.Mediator.publish 'play-sound', trigger: 'cast-end', volume: 0.5
+    if @hasCastOnce  # Don't play this sound the first time
+      Backbone.Mediator.publish 'play-sound', trigger: 'cast-end', volume: 0.5
+    @hasCastOnce = true
     @updateCastButton()
 
   updateCastButton: ->

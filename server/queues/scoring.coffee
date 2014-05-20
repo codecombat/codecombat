@@ -103,28 +103,89 @@ module.exports.getTwoGames = (req, res) ->
   #if userIsAnonymous req then return errors.unauthorized(res, "You need to be logged in to get games.")
   humansGameID = req.body.humansGameID
   ogresGameID = req.body.ogresGameID
-  
+
   unless ogresGameID and humansGameID
     #fetch random games here
-    return errors.badInput(res, "You need to supply two games(for now)")
-  LevelSession.findOne(_id: humansGameID).lean().exec (err, humanSession) =>
-    if err? then return errors.serverError(res, "Couldn't find the human game")
-    LevelSession.findOne(_id: ogresGameID).lean().exec (err, ogreSession) =>
-      if err? then return errors.serverError(res, "Couldn't find the ogre game")
-      taskObject =
-        "messageGenerated": Date.now()
-        "sessions": []
-      for session in [humanSession, ogreSession]
-        sessionInformation =
-          "sessionID": session._id
-          "team": session.team ? "No team"
-          "transpiledCode": session.transpiledCode
-          "teamSpells": session.teamSpells ? {}
-          "levelID": session.levelID
+    queryParams = 
+      "levelID":"greed"
+      "submitted":true
+      "team":"humans"
+    selection = "team totalScore transpiledCode teamSpells levelID creatorName creator"
+    LevelSession.count queryParams, (err, numberOfHumans) =>
+      query = LevelSession
+        .find(queryParams)
+        .limit(1)
+        .select(selection)
+        .skip(Math.floor(Math.random()*numberOfHumans))
+        .lean()
+      query.exec (err, randomSession) =>
+        if err? then return errors.serverError(res, "Couldn't select a top 15 random session!")
+        randomSession = randomSession[0]
+        queryParams =
+          "levelID":"greed"
+          "submitted":true
+          "totalScore":
+            $lte: randomSession.totalScore
+          "team": "ogres"
+        query = LevelSession
+          .find(queryParams)
+          .select(selection)
+          .sort(totalScore: -1)
+          .limit(1)
+          .lean()
+        query.exec (err, otherSession) =>
+          if err? then return errors.serverError(res, "Couldnt' select the other top 15 random session!")
+          otherSession = otherSession[0]
+          taskObject =
+            "messageGenerated": Date.now()
+            "sessions": []
+          for session in [randomSession, otherSession]
+            sessionInformation =
+              "sessionID": session._id
+              "team": session.team ? "No team"
+              "transpiledCode": session.transpiledCode
+              "teamSpells": session.teamSpells ? {}
+              "levelID": session.levelID
+              "creatorName": session.creatorName
+              "creator": session.creator
+              "totalScore": session.totalScore
+    
+            taskObject.sessions.push sessionInformation
+          sendResponseObject req, res, taskObject
+  else
+    LevelSession.findOne(_id: humansGameID).lean().exec (err, humanSession) =>
+      if err? then return errors.serverError(res, "Couldn't find the human game")
+      LevelSession.findOne(_id: ogresGameID).lean().exec (err, ogreSession) =>
+        if err? then return errors.serverError(res, "Couldn't find the ogre game")
+        taskObject =
+          "messageGenerated": Date.now()
+          "sessions": []
+        for session in [humanSession, ogreSession]
+          sessionInformation =
+            "sessionID": session._id
+            "team": session.team ? "No team"
+            "transpiledCode": session.transpiledCode
+            "teamSpells": session.teamSpells ? {}
+            "levelID": session.levelID
+    
+          taskObject.sessions.push sessionInformation
+        sendResponseObject req, res, taskObject
+
+module.exports.recordTwoGames = (req, res) ->
+  @clientResponseObject = req.body
   
-        taskObject.sessions.push sessionInformation
-      sendResponseObject req, res, taskObject
-      
+  async.waterfall [
+    fetchLevelSession.bind(@)
+    updateSessions.bind(@)
+    indexNewScoreArray.bind(@)
+    addMatchToSessions.bind(@)
+    updateUserSimulationCounts.bind(@, req.user._id)
+  ], (err, successMessageObject) ->
+    if err? then return errors.serverError res, "There was an error recording the single game:#{err}"
+    sendResponseObject req, res, {"message":"The single game was submitted successfully!"}
+    
+
+
 module.exports.createNewTask = (req, res) ->
   requestSessionID = req.body.session
   originalLevelID = req.body.originalLevelID
@@ -214,7 +275,7 @@ fetchInitialSessionsToRankAgainst = (levelMajorVersion, levelID, submittedSessio
     submittedCode:
       $exists: true
     team: opposingTeam
-  
+
   sortParameters =
     totalScore: 1
 
@@ -663,9 +724,7 @@ retrieveOldSessionData = (sessionID, callback) ->
       "totalScore":session.totalScore ? (25 - 1.8*(25/3))
       "id": sessionID
     callback err, oldScoreObject
-    
-markSessionAsDoneRanking = (sessionID, cb) -> 
+
+markSessionAsDoneRanking = (sessionID, cb) ->
   #console.log "Marking session as done ranking..."
   LevelSession.update {"_id":sessionID}, {"isRanking":false}, cb
-    
-  
