@@ -13,6 +13,7 @@ module.exports = class MyMatchesTabView extends CocoView
   constructor: (options, @level, @sessions) ->
     super(options)
     @nameMap = {}
+    @previouslyRankingTeams = {}
     @refreshMatches()
 
   refreshMatches: ->
@@ -58,6 +59,9 @@ module.exports = class MyMatchesTabView extends CocoView
       state = 'win'
       state = 'loss' if match.metrics.rank > opponent.metrics.rank
       state = 'tie' if match.metrics.rank is opponent.metrics.rank
+      fresh = match.date > (new Date(new Date() - 20 * 1000)).toISOString()
+      if fresh
+        Backbone.Mediator.publish 'play-sound', trigger: 'chat_received'
       {
         state: state
         opponentName: @nameMap[opponent.userID]
@@ -65,6 +69,7 @@ module.exports = class MyMatchesTabView extends CocoView
         when: moment(match.date).fromNow()
         sessionID: opponent.sessionID
         stale: match.date < submitDate
+        fresh: fresh
       }
 
     for team in @teams
@@ -81,6 +86,10 @@ module.exports = class MyMatchesTabView extends CocoView
       if scoreHistory?.length > 1
         team.scoreHistory = scoreHistory
 
+      if not team.isRanking and @previouslyRankingTeams[team.id]
+        Backbone.Mediator.publish 'play-sound', trigger: 'cast-end'
+      @previouslyRankingTeams[team.id] = team.isRanking
+
     ctx
 
   afterRender: ->
@@ -91,12 +100,14 @@ module.exports = class MyMatchesTabView extends CocoView
       session = _.find @sessions.models, {id: sessionID}
       ladderSubmissionView = new LadderSubmissionView session: session, level: @level
       @insertSubView ladderSubmissionView, placeholder
-      ladderSubmissionView.$el.find('.rank-button').addClass 'btn-block btn-lg'
+      ladderSubmissionView.$el.find('.rank-button').addClass 'btn-block'
 
     @$el.find('.score-chart-wrapper').each (i, el) =>
       scoreWrapper = $(el)
       team = _.find @teams, name: scoreWrapper.data('team-name')
       @generateScoreLineChart(scoreWrapper.attr('id'), team.scoreHistory, team.name)
+
+    @$el.find('tr.fresh').removeClass('fresh', 5000)
 
   generateScoreLineChart: (wrapperID, scoreHistory,teamName) =>
     margin =

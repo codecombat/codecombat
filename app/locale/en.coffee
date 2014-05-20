@@ -680,6 +680,7 @@
     fight: "Fight!"
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
+    tournament_rules: "Tournament Rules"
 
   ladder_prizes:
     title: "Tournament Prizes"
