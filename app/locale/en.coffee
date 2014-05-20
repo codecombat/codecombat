@@ -681,6 +681,27 @@
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
 
+  ladder_prizes:
+    title: "Tournament Prizes"
+    blurb_1: "These prizes will be awarded according to"
+    blurb_2: "the tournament rules"
+    blurb_3: "to the top human and ogre players."
+    blurb_4: "Two teams means double the prizes!"
+    blurb_5: "(There will be two first place winners, two second-place winners, etc.)"
+    rank: "Rank"
+    prizes: "Prizes"
+    total_value: "Total Value"
+    in_cash: "in cash"
+    custom_wizard: "Custom CodeCombat Wizard"
+    custom_avatar: "Custom CodeCombat avatar"
+    heap: "span for six months of \"Startup\" access"
+    credits: "credits"
+    one_month_coupon: "coupon: choose either Rails or HTML"
+    one_month_discount: "discount, 30% off: choose either Rails or HTML"
+    license: "license"
+    oreilly: "ebook of your choice"
+
+
   multiplayer_launch:
     introducing_dungeon_arena: "Introducing Dungeon Arena"
     new_way: "The new way to compete with code."
