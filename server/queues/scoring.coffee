@@ -112,46 +112,52 @@ module.exports.getTwoGames = (req, res) ->
       "team":"humans"
     selection = "team totalScore transpiledCode teamSpells levelID creatorName creator"
     LevelSession.count queryParams, (err, numberOfHumans) =>
-      query = LevelSession
-        .find(queryParams)
-        .limit(1)
-        .select(selection)
-        .skip(Math.floor(Math.random()*numberOfHumans))
-        .lean()
-      query.exec (err, randomSession) =>
-        if err? then return errors.serverError(res, "Couldn't select a top 15 random session!")
-        randomSession = randomSession[0]
-        queryParams =
-          "levelID":"greed"
-          "submitted":true
-          "totalScore":
-            $lte: randomSession.totalScore
-          "team": "ogres"
+      if err? then return errors.serverError(res, "Couldn't get the number of human games")
+      ogreCountParams = 
+        "levelID": "greed"
+        "submitted":true
+        "team":"ogres"
+      LevelSession.count ogreCountParams, (err, numberOfOgres) =>
+        if err? then return errors.serverError(res, "Couldnt' get the number of ogre games")
         query = LevelSession
           .find(queryParams)
-          .select(selection)
-          .sort(totalScore: -1)
           .limit(1)
+          .select(selection)
+          .skip(Math.floor(Math.random()*numberOfHumans))
           .lean()
-        query.exec (err, otherSession) =>
-          if err? then return errors.serverError(res, "Couldnt' select the other top 15 random session!")
-          otherSession = otherSession[0]
-          taskObject =
-            "messageGenerated": Date.now()
-            "sessions": []
-          for session in [randomSession, otherSession]
-            sessionInformation =
-              "sessionID": session._id
-              "team": session.team ? "No team"
-              "transpiledCode": session.transpiledCode
-              "teamSpells": session.teamSpells ? {}
-              "levelID": session.levelID
-              "creatorName": session.creatorName
-              "creator": session.creator
-              "totalScore": session.totalScore
-    
-            taskObject.sessions.push sessionInformation
-          sendResponseObject req, res, taskObject
+        query.exec (err, randomSession) =>
+          if err? then return errors.serverError(res, "Couldn't select a random session!")
+          randomSession = randomSession[0]
+          queryParams =
+            "levelID":"greed"
+            "submitted":true
+            "team": "ogres"
+          query = LevelSession
+            .find(queryParams)
+            .limit(1)
+            .select(selection)
+            .skip(Math.floor(Math.random()*numberOfOgres))
+            .lean()
+          
+          query.exec (err, otherSession) =>
+            if err? then return errors.serverError(res, "Couldnt' select the other random session!")
+            otherSession = otherSession[0]
+            taskObject =
+              "messageGenerated": Date.now()
+              "sessions": []
+            for session in [randomSession, otherSession]
+              sessionInformation =
+                "sessionID": session._id
+                "team": session.team ? "No team"
+                "transpiledCode": session.transpiledCode
+                "teamSpells": session.teamSpells ? {}
+                "levelID": session.levelID
+                "creatorName": session.creatorName
+                "creator": session.creator
+                "totalScore": session.totalScore
+      
+              taskObject.sessions.push sessionInformation
+            sendResponseObject req, res, taskObject
   else
     LevelSession.findOne(_id: humansGameID).lean().exec (err, humanSession) =>
       if err? then return errors.serverError(res, "Couldn't find the human game")
