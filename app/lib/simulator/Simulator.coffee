@@ -23,6 +23,7 @@ module.exports = class Simulator extends CocoClass
     @cleanupSimulation()
     @god?.destroy()
     super()
+    
   fetchAndSimulateOneGame: (humanGameID, ogresGameID) =>
     return if @destroyed
     $.ajax
@@ -35,7 +36,7 @@ module.exports = class Simulator extends CocoClass
       error: (errorData) ->
         console.log "There was an error fetching two games! #{JSON.stringify errorData}"
       success: (taskData) =>
-
+        @trigger 'statusUpdate', 'Setting up simulation...'
         #refactor this
         @task = new SimulationTask(taskData)
         
@@ -49,7 +50,7 @@ module.exports = class Simulator extends CocoClass
           @listenToOnce @supermodel, 'loaded-all', @simulateSingleGame
   simulateSingleGame: ->
     return if @destroyed
-    console.log "Commencing simulation!"
+    @trigger 'statusUpdate', 'Simulating...'
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
     @setupGod()
     try
@@ -57,6 +58,7 @@ module.exports = class Simulator extends CocoClass
     catch err
       console.log err
       @handleSingleSimulationError()
+      
   commenceSingleSimulation: ->
     @god.createWorld @generateSpellsObject()
     Backbone.Mediator.subscribeOnce 'god:infinite-loop', @handleSingleSimulationInfiniteLoop, @
@@ -89,10 +91,22 @@ module.exports = class Simulator extends CocoClass
       else if ogreSessionRank < humanSessionRank
         console.log "GAMERESULT:ogres"
       process.exit(0)
+    else
+      @sendSingleGameBackToServer(taskResults)
       
     @cleanupSimulation()
+  
+  sendSingleGameBackToServer: (results) ->
+    @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
     
-    
+    $.ajax
+      url: "/queue/scoring/recordTwoGames"
+      data: results
+      type: "PUT"
+      parse: true
+      success: @handleTaskResultsTransferSuccess
+      error: @handleTaskResultsTransferError
+      complete: @cleanupAndSimulateAnotherTask
     
     
   fetchAndSimulateTask: =>
@@ -120,12 +134,13 @@ module.exports = class Simulator extends CocoClass
     console.error "There was a horrible Error: #{JSON.stringify errorData}"
     @trigger 'statusUpdate', 'There was an error fetching games to simulate. Retrying in 10 seconds.'
     @simulateAnotherTaskAfterDelay()
+    
 
   handleNoGamesResponse: ->
-    info = 'There were no games to simulate--all simulations are done or in process. Retrying in 10 seconds.'
+    info = 'Finding game to simulate...'
     console.log info
     @trigger 'statusUpdate', info
-    @simulateAnotherTaskAfterDelay()
+    @fetchAndSimulateOneGame()
     application.tracker?.trackEvent 'Simulator Result', label: "No Games"
 
   simulateAnotherTaskAfterDelay: =>
