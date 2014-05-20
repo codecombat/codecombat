@@ -53,6 +53,7 @@ module.exports = class LadderView extends RootView
     ctx.levelID = @levelID
     ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
     ctx._ = _
+    ctx.tournamentTimeLeft = moment(new Date(1402444800000)).fromNow()
     ctx
 
   afterRender: ->

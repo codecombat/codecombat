@@ -681,7 +681,10 @@
     fight: "Fight!"
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
+    tournament_ends: "Tournament ends"
     tournament_rules: "Tournament Rules"
+    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
+    tournament_blurb_blog: "on our blog"
 
   ladder_prizes:
     title: "Tournament Prizes"
@@ -696,7 +699,7 @@
     in_cash: "in cash"
     custom_wizard: "Custom CodeCombat Wizard"
     custom_avatar: "Custom CodeCombat avatar"
-    heap: "span for six months of \"Startup\" access"
+    heap: "for six months of \"Startup\" access"
     credits: "credits"
     one_month_coupon: "coupon: choose either Rails or HTML"
     one_month_discount: "discount, 30% off: choose either Rails or HTML"

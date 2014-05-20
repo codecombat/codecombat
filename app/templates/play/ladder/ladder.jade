@@ -1,11 +1,37 @@
 extends /templates/base
 block content
+  - var base = "/images/pages/play/ladder/prize_";
 
   div#level-column
     if levelDescription
       div!= levelDescription
     else
       h1= level.get('name')
+
+  if level.get('name') == 'Greed'
+    .tournament-blurb
+      h2
+        span(data-i18n="ladder.tournament_ends") Tournament ends
+        |  #{tournamentTimeLeft}
+      p
+        span(data-i18n="ladder.tournament_blurb") Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details
+        |  
+        a(href="http://blog.codecombat.com/multiplayer-programming-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
+        | .
+
+      .sponsor-logos
+        a(href="https://heapanalytics.com/")
+          img(src=base + "heap.png")
+        a(href="https://www.firebase.com/")
+          img(src=base + "firebase.png")
+        a(href="https://onemonthrails.com/")
+          img(src=base + "one_month.png")
+        a(href="http://www.jetbrains.com/webstorm/")
+          img(src=base + "webstorm.png")
+        a(href="http://shop.oreilly.com/category/ebooks.do")
+          img(src=base + "oreilly.png")
+        a(href="http://aws.amazon.com/")
+          img(src=base + "aws.png")
 
   div#columns.row
     div.column.col-md-2
@@ -56,7 +82,6 @@ block content
         strong(data-i18n="ladder_prizes.blurb_4") Two teams means double the prizes!
         |  
         span(data-i18n="ladder_prizes.blurb_5") (There will be two first place winners, two second-place winners, etc.)
-      - var base = "/images/pages/play/ladder/prize_";
 
       table#prize_table.table
         thead
@@ -84,7 +109,7 @@ block content
                   span
                     a(href="https://heapanalytics.com/") Heap Analytics
                     |  
-                    span(data-i18n="ladder_prizes.heap") span for six months of "Startup" access
+                    span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
                     |  - $354
                 li
                   img(src=base + "firebase.png")
@@ -138,7 +163,7 @@ block content
                   span
                     a(href="https://heapanalytics.com/") Heap Analytics
                     |  
-                    span(data-i18n="ladder_prizes.heap") span for six months of "Startup" access
+                    span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
                     |  - $354
                 li
                   img(src=base + "firebase.png")
@@ -192,7 +217,7 @@ block content
                   span
                     a(href="https://heapanalytics.com/") Heap Analytics
                     |  
-                    span(data-i18n="ladder_prizes.heap") span for six months of "Startup" access
+                    span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
                     |  - $354
                 li
                   img(src=base + "firebase.png")
@@ -243,7 +268,7 @@ block content
                   span
                     a(href="https://heapanalytics.com/") Heap Analytics
                     |  
-                    span(data-i18n="ladder_prizes.heap") span for six months of "Startup" access
+                    span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
                     |  - $354
                 li
                   img(src=base + "firebase.png")
@@ -294,7 +319,7 @@ block content
                   span
                     a(href="https://heapanalytics.com/") Heap Analytics
                     |  
-                    span(data-i18n="ladder_prizes.heap") span for six months of "Startup" access
+                    span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
                     |  - $354
                 li
                   img(src=base + "firebase.png")
