@@ -53,8 +53,9 @@ module.exports =
   "level:team-set":
     {} # TODO schema
 
-  "level:docs-hidden":
-    {} # TODO schema
+  "level:docs-shown": {}
+
+  "level:docs-hidden": {}
 
   "level:victory-hidden":
     {} # TODO schema

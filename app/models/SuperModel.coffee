@@ -16,6 +16,16 @@ module.exports = class SuperModel extends Backbone.Model
   # retries, progress, and filling the cache. Note that the resource it passes back will not
   # necessarily have the same model or collection that was passed in, if it was fetched from
   # the cache.
+  
+  report: ->
+    # Useful for debugging why a SuperModel never finishes loading.
+    console.info "SuperModel report ------------------------"
+    console.info "#{_.values(@resources).length} resources."
+    unfinished = []
+    for resource in _.values(@resources)
+      console.info '\t', resource.name, "loaded", resource.isLoaded
+      unfinished.push resource unless resource.isLoaded
+    unfinished
 
   loadModel: (model, name, fetchOptions, value=1) ->
     cachedModel = @getModelByURL(model.getURL())
