@@ -148,6 +148,7 @@ module.exports = class LevelLoader extends CocoClass
 
     for thangTypeName in thangsToLoad
       thangType = nameModelMap[thangTypeName]
+      continue if thangType.isFullyLoaded()
       thangType.fetch()
       thangType = @supermodel.loadModel(thangType, 'thang').model
       res = @supermodel.addSomethingResource "sprite_sheet", 5
