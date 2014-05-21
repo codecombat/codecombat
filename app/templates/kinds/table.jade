@@ -5,17 +5,19 @@ table.table
         | Results
       span
         |: #{documents.length}
-  
-  tr
-    th(data-i18n="general.name") Name
-    th(data-i18n="general.description") Description
-    th(data-i18n="general.version") Version
-  
-  for data in documents 
-    - data = data.attributes;
+
+  block tableHeader
     tr
-      td
-        a(href="/editor/#{page}/#{data.slug || data._id}")
-          | #{data.name}
-      td.body-row #{data.description}
-      td #{data.version.major}.#{data.version.minor}
+      th(data-i18n="general.name") Name
+      th(data-i18n="general.description") Description
+      th(data-i18n="general.version") Version
+
+  block tableBody
+    for data in documents
+      - data = data.attributes;
+      tr
+        td
+          a(href="/editor/#{page}/#{data.slug || data._id}")
+            | #{data.name}
+        td.body-row #{data.description}
+        td #{data.version.major}.#{data.version.minor}

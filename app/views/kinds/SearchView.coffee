@@ -4,8 +4,12 @@ forms = require('lib/forms')
 app = require('application')
 
 class SearchCollection extends Backbone.Collection
-  initialize: (modelURL, @model, @term) ->
-    @url = "#{modelURL}/search?project=true"
+  initialize: (modelURL, @model, @term, @projection) ->
+    @url = "#{modelURL}/search?project="
+    if @projection? and not (@projection == [])
+      @url += projection[0]
+      @url += ',' + projected for projected in projection[1..]
+    else @url += "true"
     @url += "&term=#{term}" if @term
 
 module.exports = class SearchView extends View
@@ -17,6 +21,7 @@ module.exports = class SearchView extends View
   model: null # Article
   modelURL: null # '/db/article'
   tableTemplate: null # require 'templates/editor/article/table'
+  projected: null # ['name', 'description', 'version'] or null for default
 
   events:
     'change input#search': 'runSearch'
@@ -44,6 +49,11 @@ module.exports = class SearchView extends View
         context.currentNew = 'editor.new_article_title'
         context.currentNewSignup = 'editor.new_article_title_signup'
         context.currentSearch = 'editor.article_search_title'
+      when 'Achievement'
+        context.currentEditor = 'Achievement'
+        context.currentNew = 'Achievement'
+        context.currentNewSignup = 'Dont care'
+        context.currentSearch = 'Search for thingsies'
     @$el.i18n()
     context
 
@@ -65,7 +75,7 @@ module.exports = class SearchView extends View
     return if @sameSearch(term)
     @removeOldSearch()
 
-    @collection = new SearchCollection(@modelURL, @model, term)
+    @collection = new SearchCollection(@modelURL, @model, term, @projection)
     @collection.term = term # needed?
     @listenTo(@collection, 'sync', @onSearchChange)
     @showLoading(@$el.find('.results'))
