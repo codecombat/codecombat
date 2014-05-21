@@ -139,7 +139,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     clothes: "Одежда"
     trim: "Отделка"
     cloud: "Облако"
-    team: "Команда"
+    team: "Облако"
     spell: "Заклинание"
     boots: "Обувь"
     hue: "Оттенок"
