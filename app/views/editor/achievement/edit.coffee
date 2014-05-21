@@ -9,10 +9,10 @@ module.exports = class AchievementEditView extends View
   startsLoading: true
 
   events:
-    'click #save-button': 'openSaveModal'
+    'click #save-button': 'saveAchievement'
 
   subscriptions:
-    'save-achievement': 'saveAchievement'
+    'save-new': 'saveAchievement'
 
   constructor: (options, @achievementID) ->
     super options
@@ -49,7 +49,7 @@ module.exports = class AchievementEditView extends View
     @treema.build()
 
   pushChangesToPreview: =>
-    'TODO'
+    'TODO' # TODO might want some intrinsic preview thing
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -58,7 +58,18 @@ module.exports = class AchievementEditView extends View
     context
 
   openSaveModal: ->
-    'TODO'
+    'Maybe later' # TODO
 
   saveAchievement: (e) ->
-    'TODO'
+    @treema.endExistingEdits()
+    for key, value of @treema.data
+      @achievement.set(key, value)
+
+    res = @achievement.save()
+
+    res.error =>
+      console.log 'Failed to save achievement'
+
+    res.success =>
+      url = "/editor/achievement/#{@achievement.get('slug') or @achievement.id}"
+      document.location.href = url

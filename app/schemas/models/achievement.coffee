@@ -20,14 +20,10 @@ MongoFindQuerySchema =
   id: 'mongoFindQuery'
   type: 'object'
   patternProperties:
-    '^[-a-zA-Z0-9_]*$':
+    #'^[-a-zA-Z0-9_]*$':
+    '^[-a-zA-Z0-9]*$':
       oneOf: [
         #{ $ref: '#/definitions/' + MongoQueryOperatorSchema.id},
-        { type: 'string' }
-      ]
-  properties:
-    'levelID':
-      oneOf: [
         { type: 'string' }
       ]
   additionalProperties: false
@@ -35,27 +31,26 @@ MongoFindQuerySchema =
 
 MongoFindQuerySchema.definitions[MongoQueryOperatorSchema.id] = MongoQueryOperatorSchema
 
-AchievementSchema =
-  type: 'object'
-  properties:
-    name: c.shortString({title: 'Display Name'})
-    query:
-      #type: 'object'
-      $ref: '#/definitions/' + MongoFindQuerySchema.id
-    worth: { type: 'number' }
-    collection: { type: 'string' }
-    description: { type: 'string' }
-    userField: { type: 'string' }
-    related: c.objectId
-    proportionalTo:
-      type: 'string'
-      description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
-  definitions: {}
-
-AchievementSchema.definitions[MongoFindQuerySchema.id] = MongoFindQuerySchema
-
+AchievementSchema = c.object()
 c.extendNamedProperties AchievementSchema
 c.extendBasicProperties AchievementSchema, 'article'
 c.extendSearchableProperties AchievementSchema
+
+_.extend(AchievementSchema.properties,
+  query:
+    type:'object'
+    #$ref: '#/definitions/' + MongoFindQuerySchema.id
+  worth: { type: 'number' }
+  collection: { type: 'string' }
+  description: { type: 'string' }
+  userField: { type: 'string' }
+  related: c.objectId
+  proportionalTo:
+    type: 'string'
+    description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
+)
+
+AchievementSchema.definitions = {}
+AchievementSchema.definitions[MongoFindQuerySchema.id] = MongoFindQuerySchema
 
 module.exports = AchievementSchema
