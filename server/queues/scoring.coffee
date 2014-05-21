@@ -134,7 +134,7 @@ module.exports.getTwoGames = (req, res) ->
       "levelID":"greed"
       "submitted":true
       "team":"humans"
-    selection = "team totalScore transpiledCode teamSpells levelID creatorName creator"
+    selection = "team totalScore transpiledCode teamSpells levelID creatorName creator submitDate"
     LevelSession.count queryParams, (err, numberOfHumans) =>
       if err? then return errors.serverError(res, "Couldn't get the number of human games")
       humanSkipCount = selectRandomSkipIndex(numberOfHumans)
@@ -495,6 +495,8 @@ deleteQueueMessage = (callback) ->
 fetchLevelSession = (callback) ->
   findParameters =
     _id: @clientResponseObject.originalSessionID
+  console.log "Find parameters are",findParameters
+  
   query = LevelSession
   .findOne(findParameters)
   .lean()
@@ -589,6 +591,7 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   opponentsArray = _.toArray opponentsClone
   currentMatchObject.opponents = opponentsArray
   LevelSession.findOne {"_id": sessionID}, (err, session) ->
+    console.log "Updated session #{sessionID}"
     session = session.toObject()
     currentMatchObject.playtime = session.playtime ? 0
     sessionUpdateObject =
