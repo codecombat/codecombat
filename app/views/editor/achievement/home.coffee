@@ -6,7 +6,7 @@ module.exports = class AchievementSearchView extends SearchView
   model: require 'models/Achievement'
   modelURL: '/db/achievement'
   tableTemplate: require 'templates/editor/achievement/table'
-  projection: ['name', 'description', 'collection']
+  projection: ['name', 'description', 'collection', 'slug']
 
   getRenderData: ->
     context = super()
