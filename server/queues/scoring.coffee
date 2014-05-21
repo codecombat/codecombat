@@ -292,7 +292,7 @@ updateSessionToSubmit = (transpiledCode, sessionToUpdate, callback) ->
     submitDate: new Date()
     meanStrength: 25
     standardDeviation: 25/3
-    totalScore: 10
+    #totalScore: 10 #this should be a fun experiment
     numberOfWinsAndTies: 0
     numberOfLosses: 0
     isRanking: true
@@ -495,7 +495,6 @@ deleteQueueMessage = (callback) ->
 fetchLevelSession = (callback) ->
   findParameters =
     _id: @clientResponseObject.originalSessionID
-  console.log "Find parameters are",findParameters
   
   query = LevelSession
   .findOne(findParameters)
@@ -591,7 +590,6 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   opponentsArray = _.toArray opponentsClone
   currentMatchObject.opponents = opponentsArray
   LevelSession.findOne {"_id": sessionID}, (err, session) ->
-    console.log "Updated session #{sessionID}"
     session = session.toObject()
     currentMatchObject.playtime = session.playtime ? 0
     sessionUpdateObject =
