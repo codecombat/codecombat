@@ -99,6 +99,30 @@ resimulateSession = (originalLevelID, levelMajorVersion, session, cb) =>
         if taskPairError? then return cb taskPairError, null
         cb null
 
+selectRandomSkipIndex = (numberOfSessions) ->
+  numbers = [0...numberOfSessions]
+  numberWeights = []
+  lambda = 0.025
+
+  for number, index in numbers
+    numberWeights[index] = lambda*Math.exp(-1*lambda*number) + lambda/(numberOfSessions/15)
+  sum = numberWeights.reduce (a, b) -> a + b
+
+  for number,index in numberWeights
+    numberWeights[index] /= sum
+
+  rand = (min, max) -> Math.random() * (max - min) + min
+
+  totalWeight = 1
+  randomNumber = Math.random()
+  weightSum = 0
+
+  for number, i in numbers
+    weightSum += numberWeights[i]
+
+    if (randomNumber <= weightSum)
+      return numbers[i]
+
 module.exports.getTwoGames = (req, res) ->
   #if userIsAnonymous req then return errors.unauthorized(res, "You need to be logged in to get games.")
   humansGameID = req.body.humansGameID
@@ -113,32 +137,36 @@ module.exports.getTwoGames = (req, res) ->
     selection = "team totalScore transpiledCode teamSpells levelID creatorName creator"
     LevelSession.count queryParams, (err, numberOfHumans) =>
       if err? then return errors.serverError(res, "Couldn't get the number of human games")
+      humanSkipCount = selectRandomSkipIndex(numberOfHumans)
       ogreCountParams = 
         "levelID": "greed"
         "submitted":true
         "team":"ogres"
       LevelSession.count ogreCountParams, (err, numberOfOgres) =>
         if err? then return errors.serverError(res, "Couldnt' get the number of ogre games")
+        ogresSkipCount = selectRandomSkipIndex(numberOfOgres)
+
         query = LevelSession
-          .find(queryParams)
+          .aggregate()
+          .match(queryParams)
+          .project(selection)
+          .sort({"submitDate": -1})
+          .skip(humanSkipCount)
           .limit(1)
-          .select(selection)
-          .skip(Math.floor(Math.random()*numberOfHumans))
-          .lean()
         query.exec (err, randomSession) =>
-          if err? then return errors.serverError(res, "Couldn't select a random session!")
+          if err? then return errors.serverError(res, "Couldn't select a random session! #{err}")
           randomSession = randomSession[0]
           queryParams =
             "levelID":"greed"
             "submitted":true
             "team": "ogres"
           query = LevelSession
-            .find(queryParams)
+            .aggregate()
+            .match(queryParams)
+            .project(selection)
+            .sort({"submitDate": -1})
+            .skip(ogresSkipCount)
             .limit(1)
-            .select(selection)
-            .skip(Math.floor(Math.random()*numberOfOgres))
-            .lean()
-          
           query.exec (err, otherSession) =>
             if err? then return errors.serverError(res, "Couldnt' select the other random session!")
             otherSession = otherSession[0]

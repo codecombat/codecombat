@@ -103,6 +103,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.removeAllChildren()
     @stage.removeEventListener 'stagemousemove', @onMouseMove
     @stage.removeEventListener 'stagemousedown', @onMouseDown
+    @stage.removeEventListener 'stagemouseup', @onMouseUp
     @stage.removeAllEventListeners()
     @stage.enableDOMEvents false
     @stage.enableMouseOver 0
@@ -416,6 +417,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown
+    @stage.addEventListener 'stagemouseup', @onMouseUp
     @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
@@ -538,6 +540,11 @@ module.exports = Surface = class Surface extends CocoClass
     return if @disabled
     onBackground = not @stage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-down', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
+
+  onMouseUp: (e) =>
+    return if @disabled
+    onBackground = not @stage.hitTest e.stageX, e.stageY
+    Backbone.Mediator.publish 'surface:stage-mouse-up', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
 
   onMouseWheel: (e) =>
     # https://github.com/brandonaaron/jquery-mousewheel
