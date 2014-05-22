@@ -1,6 +1,7 @@
 mongoose = require('mongoose')
 Achievement = require('../achievements/Achievement')
 EarnedAchievement = require '../achievements/EarnedAchievement'
+User = require '../users/User'
 LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/lib/utils'
 
@@ -58,17 +59,24 @@ module.exports = AchievablePlugin = (schema, options) ->
           if isRepeatable
             console.log 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
             proportionalTo = achievement.get 'proportionalTo'
-            originalValue = util.getByPath(originalDocObj, proportionalTo)
-            newValue = docObj.get proportionalTo
+            originalAmount = util.getByPath(originalDocObj, proportionalTo) or 0
+            newAmount = docObj.get proportionalTo
 
-            if originalValue != newValue
+            if originalAmount isnt newAmount
               earned.notified = false
-              earned.achievedAmount = newValue
+              earned.achievedAmount = newAmount
               earned.changed = Date.now()
               upsertQuery = EarnedAchievement.findOneAndUpdate earned, upsert:true
               upsertQuery.exec (err, docs) ->
-                console.log err if err?
-          else # alreadyAchieved
+                return console.log err if err?
+
+              # Update user's denormalized score
+              userQuery = User.findOne(_id: userID)
+              userQuery.exec (err, user) ->
+                return console.error(err) if err?
+                previousPoints = user.get('points') - achievement.get('worth') * originalAmount
+                user.set('points', previousPoints + achievement.get('worth') * newAmount)
+          else # not alreadyAchieved
             console.log 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
             (new EarnedAchievement(earned)).save (err, doc) ->
               console.log err if err?

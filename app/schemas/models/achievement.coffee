@@ -26,7 +26,7 @@ MongoFindQuerySchema =
         #{ $ref: '#/definitions/' + MongoQueryOperatorSchema.id},
         { type: 'string' }
       ]
-  additionalProperties: false
+  additionalProperties: true
   definitions: {}
 
 MongoFindQuerySchema.definitions[MongoQueryOperatorSchema.id] = MongoQueryOperatorSchema
@@ -38,13 +38,14 @@ c.extendSearchableProperties AchievementSchema
 
 _.extend(AchievementSchema.properties,
   query:
-    type:'object'
-    #$ref: '#/definitions/' + MongoFindQuerySchema.id
+    #type:'object'
+    $ref: '#/definitions/' + MongoFindQuerySchema.id
   worth: { type: 'number' }
   collection: { type: 'string' }
   description: { type: 'string' }
   userField: { type: 'string' }
-  related: c.objectId
+  related: c.objectId(description: 'Related entity')
+  icon: { type: 'string', format: 'image-file', title: 'Icon' }
   proportionalTo:
     type: 'string'
     description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'

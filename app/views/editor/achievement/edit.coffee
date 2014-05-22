@@ -39,7 +39,7 @@ module.exports = class AchievementEditView extends View
     data = $.extend(true, {}, @achievement.attributes)
     options =
       data: data
-      #filePath: "db/thang.type/#{@article.get('original')}"
+      filePath: "db/achievement/#{@achievement.get('_id')}"
       schema: Achievement.schema
       readOnly: me.get('anonymous')
       callbacks:
