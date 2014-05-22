@@ -587,7 +587,8 @@ addMatchToSessions = (newScoreObject, callback) ->
   #log.info "Writing match object to database..."
   #use bind with async to do the writes
   sessionIDs = _.pluck @clientResponseObject.sessions, 'sessionID'
-  async.each sessionIDs, updateMatchesInSession.bind(@,matchObject), (err) -> callback err
+  async.each sessionIDs, updateMatchesInSession.bind(@,matchObject), (err) ->
+    callback err
 
 updateMatchesInSession = (matchObject, sessionID, callback) ->
   currentMatchObject = {}
@@ -608,7 +609,11 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
 updateUserSimulationCounts = (reqUserID,callback) ->
   incrementUserSimulationCount reqUserID, 'simulatedBy', (err) =>
     if err? then return callback err
-    incrementUserSimulationCount @levelSession.creator, 'simulatedFor', callback unless @isRandomMatch
+    console.log "Incremented user simulation count!"
+    unless @isRandomMatch
+      incrementUserSimulationCount @levelSession.creator, 'simulatedFor', callback
+    else
+      callback null
 
 incrementUserSimulationCount = (userID, type, callback) =>
   inc = {}
