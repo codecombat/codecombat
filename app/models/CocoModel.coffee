@@ -6,6 +6,7 @@ class CocoModel extends Backbone.Model
   loaded: false
   loading: false
   saveBackups: false
+  notyErrors: true
   @schema: null
 
   getMe: -> @me or @me = require('lib/auth').me
@@ -77,6 +78,7 @@ class CocoModel extends Backbone.Model
       @clearBackup()
     options.error = (model, res) =>
       error(@, res) if error
+      return unless @notyErrors
       errorMessage = "Error saving #{@get('name') ? @type()}"
       console.error errorMessage, res.responseJSON
       noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
