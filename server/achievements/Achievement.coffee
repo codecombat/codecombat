@@ -18,11 +18,9 @@ AchievementSchema.methods.objectifyQuery = () ->
   catch error
     #log.error "Couldn't convert query string to object because of #{error}"
     @set('query', {})
-  console.log @
 
 AchievementSchema.methods.stringifyQuery = () ->
   @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != "string"
-  console.log @
 
 AchievementSchema.post('init', (doc) -> doc.objectifyQuery())
 

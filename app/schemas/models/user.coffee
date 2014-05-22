@@ -114,6 +114,7 @@ UserSchema = c.object {},
     linkedinID: c.shortString {title:"LinkedInID", description: "The user's LinkedIn ID when they signed the contract."}
     date: c.date {title: "Date signed employer agreement"}
     data: c.object {description: "Cached LinkedIn data slurped from profile."}
+  points: {type:'number'}
 
 
 c.extendBasicProperties UserSchema, 'user'

@@ -5,7 +5,7 @@ class AchievementHandler extends Handler
   modelClass: Achievement
 
   # Used to determine which properties requests may edit
-  editableProperties: ['name', 'query', 'worth', 'collection', 'description', 'userField', 'proportionalTo']
+  editableProperties: ['name', 'query', 'worth', 'collection', 'description', 'userField', 'proportionalTo', 'icon']
   jsonSchema = require '../../app/schemas/models/achievement.coffee'
 
   hasAccess: (req) ->
