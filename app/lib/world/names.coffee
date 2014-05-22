@@ -185,6 +185,22 @@ module.exports.thangNames = thangNames =
     "Lacos"
     "Upfish"
   ]
+  "Ogre Peon M": [
+    "Durbo"
+    "Kurger"
+    "Mudwich"
+    "Ba Bo"
+    "Zugger"
+    "Toe Pod"
+  ]
+  "Ogre Peon F": [
+    "Iblet"
+    "Lorba"
+    "Zzoya"
+    "Yamra"
+    "Greeke"
+    "Vapa"
+  ]
   "Ogre M": [
     "Krogg"
     "Dronck"

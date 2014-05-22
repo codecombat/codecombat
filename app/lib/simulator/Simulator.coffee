@@ -34,7 +34,7 @@ module.exports = class Simulator extends CocoClass
         "humansGameID": humanGameID
         "ogresGameID": ogresGameID
       error: (errorData) ->
-        console.log "There was an error fetching two games! #{JSON.stringify errorData}"
+        console.warn "There was an error fetching two games! #{JSON.stringify errorData}"
       success: (taskData) =>
         return if @destroyed
         @trigger 'statusUpdate', 'Setting up simulation...'
@@ -57,17 +57,16 @@ module.exports = class Simulator extends CocoClass
     @setupGod()
     try
       @commenceSingleSimulation()
-    catch err
-      console.log err
-      @handleSingleSimulationError()
+    catch error
+      @handleSingleSimulationError error
 
   commenceSingleSimulation: ->
     @god.createWorld @generateSpellsObject()
     Backbone.Mediator.subscribeOnce 'god:infinite-loop', @handleSingleSimulationInfiniteLoop, @
     Backbone.Mediator.subscribeOnce 'god:goals-calculated', @processSingleGameResults, @
 
-  handleSingleSimulationError: ->
-    console.log "There was an error simulating a single game!"
+  handleSingleSimulationError: (error) ->
+    console.error "There was an error simulating a single game!", error
     if @options.headlessClient
       console.log "GAMERESULT:tie"
       process.exit(0)
@@ -81,8 +80,8 @@ module.exports = class Simulator extends CocoClass
     @cleanupSimulation()
 
   processSingleGameResults: (simulationResults) ->
-    console.log "Processing results!"
     taskResults = @formTaskResultsObject simulationResults
+    console.log "Processing results:", taskResults
     humanSessionRank = taskResults.sessions[0].metrics.rank
     ogreSessionRank = taskResults.sessions[1].metrics.rank
     if @options.headlessClient
@@ -237,7 +236,7 @@ module.exports = class Simulator extends CocoClass
 
   sendResultsBackToServer: (results) ->
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
-    console.log "Sending result back to server!", results
+    console.log "Sending result back to server:", results
 
     if @options.headlessClient and @options.testing
       return @fetchAndSimulateTask()
@@ -255,7 +254,7 @@ module.exports = class Simulator extends CocoClass
     return if @destroyed
     console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
-    console.log "Simulated by you: " + @simulatedByYou
+    console.log "Simulated by you:", @simulatedByYou
     @simulatedByYou++
     unless @options.headlessClient
       simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
@@ -477,6 +476,5 @@ class SimulationTask
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         if not method.cloneOf and spellKey is desiredSpellKey
-          console.log "Setting #{desiredSpellKey} from world!"
-
+          #console.log "Setting #{desiredSpellKey} from world!"
           return method.source
