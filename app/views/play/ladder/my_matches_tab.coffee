@@ -26,6 +26,9 @@ module.exports = class MyMatchesTabView extends CocoView
     for session in @sessions.models
       for match in (session.get('matches') or [])
         id = match.opponents[0].userID
+        unless id
+          console.error "Found bad opponent ID in malformed match:", match, "from session", session
+          continue
         ids.push id unless @nameMap[id]
 
     return @finishRendering() unless ids.length
@@ -35,7 +38,7 @@ module.exports = class MyMatchesTabView extends CocoView
       for session in @sessions.models
         for match in session.get('matches') or []
           opponent = match.opponents[0]
-          @nameMap[opponent.userID] ?= nameMap[opponent.userID].name
+          @nameMap[opponent.userID] ?= nameMap[opponent.userID]?.name ? "<bad match data>"
       @finishRendering()
 
     $.ajax('/db/user/-/names', {
