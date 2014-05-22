@@ -9,7 +9,7 @@ module.exports = class CocoClass
   @nicksUsed: {}
   @remainingNicks: []
   @nextNick: ->
-    return "CocoClass " + classCount unless @nicks.length
+    return (@name or "CocoClass") + " " + classCount unless @nicks.length
     @remainingNicks = if @remainingNicks.length then @remainingNicks else @nicks.slice()
     baseNick = @remainingNicks.splice(Math.floor(Math.random() * @remainingNicks.length), 1)[0]
     i = 0
@@ -37,7 +37,7 @@ module.exports = class CocoClass
   destroy: ->
     # teardown subscriptions, prevent new ones
     @stopListening?()
-    @off()
+    @off?()
     @unsubscribeAll()
     @stopListeningToShortcuts()
     @constructor.nicksUsed[@nick] = false
@@ -65,6 +65,7 @@ module.exports = class CocoClass
     Backbone.Mediator.subscribe(channel, func, @)
 
   unsubscribeAll: ->
+    return unless Backbone?.Mediator?
     for channel, func of @subscriptions
       func = utils.normalizeFunc(func, @)
       Backbone.Mediator.unsubscribe(channel, func, @)

@@ -1,3 +1,4 @@
+Backbone.Mediator.setValidationEnabled false
 app = require 'application'
 
 channelSchemas =
@@ -17,6 +18,10 @@ definitionSchemas =
   'misc': require './schemas/definitions/misc'
 
 init = ->
+  # Set up Backbone.Mediator schemas
+  setUpDefinitions()
+  setUpChannels()
+  Backbone.Mediator.setValidationEnabled document.location.href.search(/codecombat.com/) is -1
   app.initialize()
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
@@ -24,10 +29,6 @@ init = ->
   treemaExt = require 'treema-ext'
   treemaExt.setup()
   filepicker.setKey('AvlkNoldcTOU4PvKi2Xm7z')
-
-  # Set up Backbone.Mediator schemas
-  setUpDefinitions()
-  setUpChannels()
 
 $ -> init()
   

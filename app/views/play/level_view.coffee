@@ -133,7 +133,10 @@ module.exports = class PlayLevelView extends View
   showGuide: ->
     @seenDocs = true
     DocsModal = require './level/modal/docs_modal'
-    options = {docs: @levelLoader.level.get('documentation'), supermodel: @supermodel}
+    options =
+      docs: @levelLoader.level.get('documentation')
+      supermodel: @supermodel
+      firstOnly: true
     @openModalView(new DocsModal(options), true)
     Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelStarted, @
     return true
@@ -287,6 +290,7 @@ module.exports = class PlayLevelView extends View
     unless @isEditorPreview
       @loadEndTime = new Date()
       loadDuration = @loadEndTime - @loadStartTime
+      console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
       application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration
       application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
 

@@ -15,8 +15,21 @@ module.exports =
     type: "object"
     properties:
       response:
-        type: "string"
+        type: "object"
+        properties:
+          status: { type: "string" }
+          authResponse:
+            type: "object"
+            properties:
+              accessToken: { type: "string" }
+              expiresIn: { type: "number" }
+              signedRequest: { type: "string" }
+              userID: { type: "string" }
     required: ["response"]
+    
+  "facebook-logged-out": {}
+  
+  "linkedin-loaded": {}
 
   "gapi-loaded":
     {} # TODO schema

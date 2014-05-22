@@ -37,7 +37,7 @@ class CocoModel extends Backbone.Model
     @loading = false
     @markToRevert()
     @loadFromBackup()
-    
+
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
 
   set: ->
@@ -69,11 +69,17 @@ class CocoModel extends Backbone.Model
     @set 'editPath', document.location.pathname
     options ?= {}
     success = options.success
-    options.success = (resp) =>
+    error = options.error
+    options.success = (model, res) =>
       @trigger "save:success", @
-      success(@, resp) if success
+      success(@, res) if success
       @markToRevert()
       @clearBackup()
+    options.error = (model, res) =>
+      error(@, res) if error
+      errorMessage = "Error saving #{@get('name') ? @type()}"
+      console.error errorMessage, res.responseJSON
+      noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
     @trigger "save", @
     return super attrs, options
 
@@ -164,7 +170,7 @@ class CocoModel extends Backbone.Model
   getDelta: ->
     differ = deltasLib.makeJSONDiffer()
     differ.diff @_revertAttributes, @attributes
-    
+
   getDeltaWith: (otherModel) ->
     differ = deltasLib.makeJSONDiffer()
     differ.diff @attributes, otherModel.attributes

@@ -150,9 +150,12 @@ module.exports = class LadderTabView extends CocoView
   # LADDER LOADING
 
   refreshLadder: ->
+    @supermodel.resetProgress()
     @ladderLimit ?= parseInt @getQueryVariable('top_players', 20)
     for team in @teams
-      @leaderboards[team.id]?.destroy()
+      if oldLeaderboard = @leaderboards[team.id]
+        @supermodel.removeModelResource oldLeaderboard
+        oldLeaderboard.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit)
       @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', 3)
@@ -242,7 +245,7 @@ module.exports = class LadderTabView extends CocoView
     if teamName.toLowerCase() is "humans" then rankClass = "rank-text humans-rank-text"
 
     message = "#{histogramData.length} players"
-    if @leaderboards[teamName].session? 
+    if @leaderboards[teamName].session?
       if @leaderboards[teamName].myRank <= histogramData.length
         message="##{@leaderboards[teamName].myRank} of #{histogramData.length}"
       else

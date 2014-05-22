@@ -223,19 +223,19 @@ _.extend LevelSessionSchema.properties,
               sessionID:
                 title: 'Opponent Session ID'
                 description: 'The session ID of an opponent.'
-                type: ['object', 'string']
+                type: ['object', 'string','null']
               userID:
                 title: 'Opponent User ID'
                 description: 'The user ID of an opponent'
-                type: ['object','string']
+                type: ['object','string','null']
               name:
                 title: 'Opponent name'
                 description: 'The name of the opponent'
-                type: 'string'
+                type: ['string','null']
               totalScore:
                 title: 'Opponent total score'
                 description: 'The totalScore of a user when the match was computed'
-                type: ['number','string']
+                type: ['number','string', 'null']
               metrics:
                 type: 'object'
                 properties:

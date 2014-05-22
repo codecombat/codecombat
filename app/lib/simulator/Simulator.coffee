@@ -23,7 +23,7 @@ module.exports = class Simulator extends CocoClass
     @cleanupSimulation()
     @god?.destroy()
     super()
-    
+
   fetchAndSimulateOneGame: (humanGameID, ogresGameID) =>
     return if @destroyed
     $.ajax
@@ -34,20 +34,22 @@ module.exports = class Simulator extends CocoClass
         "humansGameID": humanGameID
         "ogresGameID": ogresGameID
       error: (errorData) ->
-        console.log "There was an error fetching two games! #{JSON.stringify errorData}"
+        console.warn "There was an error fetching two games! #{JSON.stringify errorData}"
       success: (taskData) =>
+        return if @destroyed
         @trigger 'statusUpdate', 'Setting up simulation...'
         #refactor this
         @task = new SimulationTask(taskData)
-        
+
         @supermodel ?= new SuperModel()
         @supermodel.resetProgress()
         @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
-        
+
         if @supermodel.finished()
           @simulateSingleGame()
         else
           @listenToOnce @supermodel, 'loaded-all', @simulateSingleGame
+
   simulateSingleGame: ->
     return if @destroyed
     @trigger 'statusUpdate', 'Simulating...'
@@ -55,32 +57,31 @@ module.exports = class Simulator extends CocoClass
     @setupGod()
     try
       @commenceSingleSimulation()
-    catch err
-      console.log err
-      @handleSingleSimulationError()
-      
+    catch error
+      @handleSingleSimulationError error
+
   commenceSingleSimulation: ->
     @god.createWorld @generateSpellsObject()
     Backbone.Mediator.subscribeOnce 'god:infinite-loop', @handleSingleSimulationInfiniteLoop, @
     Backbone.Mediator.subscribeOnce 'god:goals-calculated', @processSingleGameResults, @
-    
-  handleSingleSimulationError: ->
-    console.log "There was an error simulating a single game!"
+
+  handleSingleSimulationError: (error) ->
+    console.error "There was an error simulating a single game!", error
     if @options.headlessClient
       console.log "GAMERESULT:tie"
       process.exit(0)
     @cleanupSimulation()
-  
+
   handleSingleSimulationInfiniteLoop: ->
     console.log "There was an infinite loop in the single game!"
     if @options.headlessClient
       console.log "GAMERESULT:tie"
       process.exit(0)
     @cleanupSimulation()
-    
+
   processSingleGameResults: (simulationResults) ->
-    console.log "Processing results!"
     taskResults = @formTaskResultsObject simulationResults
+    console.log "Processing results:", taskResults
     humanSessionRank = taskResults.sessions[0].metrics.rank
     ogreSessionRank = taskResults.sessions[1].metrics.rank
     if @options.headlessClient
@@ -93,12 +94,12 @@ module.exports = class Simulator extends CocoClass
       process.exit(0)
     else
       @sendSingleGameBackToServer(taskResults)
-      
+
     @cleanupSimulation()
-  
+
   sendSingleGameBackToServer: (results) ->
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
-    
+
     $.ajax
       url: "/queue/scoring/recordTwoGames"
       data: results
@@ -107,8 +108,8 @@ module.exports = class Simulator extends CocoClass
       success: @handleTaskResultsTransferSuccess
       error: @handleTaskResultsTransferError
       complete: @cleanupAndSimulateAnotherTask
-    
-    
+
+
   fetchAndSimulateTask: =>
     return if @destroyed
 
@@ -134,7 +135,7 @@ module.exports = class Simulator extends CocoClass
     console.error "There was a horrible Error: #{JSON.stringify errorData}"
     @trigger 'statusUpdate', 'There was an error fetching games to simulate. Retrying in 10 seconds.'
     @simulateAnotherTaskAfterDelay()
-    
+
 
   handleNoGamesResponse: ->
     info = 'Finding game to simulate...'
@@ -191,7 +192,7 @@ module.exports = class Simulator extends CocoClass
 
   setupGod: ->
     @god.setLevel @level.serialize @supermodel
-    @god.setLevelSessionIDs (session.id for session in @task.getSessions())
+    @god.setLevelSessionIDs (session.sessionID for session in @task.getSessions())
     @god.setWorldClassMap @world.classMap
     @god.setGoalManager new GoalManager(@world, @level.get 'goals')
 
@@ -235,7 +236,7 @@ module.exports = class Simulator extends CocoClass
 
   sendResultsBackToServer: (results) ->
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
-    console.log "Sending result back to server!", results
+    console.log "Sending result back to server:", results
 
     if @options.headlessClient and @options.testing
       return @fetchAndSimulateTask()
@@ -250,9 +251,10 @@ module.exports = class Simulator extends CocoClass
       complete: @cleanupAndSimulateAnotherTask
 
   handleTaskResultsTransferSuccess: (result) =>
+    return if @destroyed
     console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
-    console.log "Simulated by you: " + @simulatedByYou
+    console.log "Simulated by you:", @simulatedByYou
     @simulatedByYou++
     unless @options.headlessClient
       simulatedBy = parseInt($('#simulated-by-you').text(), 10) + 1
@@ -260,10 +262,12 @@ module.exports = class Simulator extends CocoClass
     application.tracker?.trackEvent 'Simulator Result', label: "Success"
 
   handleTaskResultsTransferError: (error) =>
+    return if @destroyed
     @trigger 'statusUpdate', 'There was an error sending the results back to the server.'
     console.log "Task registration error: #{JSON.stringify error}"
 
   cleanupAndSimulateAnotherTask: =>
+    return if @destroyed
     @cleanupSimulation()
     @fetchAndSimulateTask()
 
@@ -472,6 +476,5 @@ class SimulationTask
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         if not method.cloneOf and spellKey is desiredSpellKey
-          console.log "Setting #{desiredSpellKey} from world!"
-
+          #console.log "Setting #{desiredSpellKey} from world!"
           return method.source

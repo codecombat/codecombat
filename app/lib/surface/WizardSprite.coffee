@@ -39,8 +39,6 @@ module.exports = class WizardSprite extends IndieSprite
     else if options.name
       @setNameLabel options.name
 
-  finishSetup: ->  # No initial setup update needed.
-
   makeIndieThang: (thangType, thangID, pos) ->
     thang = super thangType, thangID, pos
     thang.isSelectable = false
@@ -48,6 +46,13 @@ module.exports = class WizardSprite extends IndieSprite
     thang.bobTime = 2
     thang.pos.z += thang.bobHeight
     thang
+
+  finishSetup: ->
+    @updateBaseScale()
+    @scaleFactor = @thang.scaleFactor if @thang?.scaleFactor
+    @updateScale()
+    @updateRotation()
+    # Don't call general update() because Thang isn't built yet
 
   onPlayerStatesChanged: (e) ->
     for playerID, state of e.states

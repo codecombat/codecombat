@@ -103,6 +103,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.removeAllChildren()
     @stage.removeEventListener 'stagemousemove', @onMouseMove
     @stage.removeEventListener 'stagemousedown', @onMouseDown
+    @stage.removeEventListener 'stagemouseup', @onMouseUp
     @stage.removeAllEventListeners()
     @stage.enableDOMEvents false
     @stage.enableMouseOver 0
@@ -281,6 +282,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
+    @setPlayingCalled = true
     if @playing and @currentFrame >= (@world.totalFrames - 5)
       @currentFrame = 0
     if @fastForwarding and not @playing
@@ -352,6 +354,7 @@ module.exports = Surface = class Surface extends CocoClass
     @casting = true
     @wasPlayingWhenCastingBegan = @playing
     Backbone.Mediator.publish 'level-set-playing', { playing: false }
+    @setPlayingCalled = false # don't overwrite playing settings if they changed by, say, scripts
 
     if @coordinateDisplay?
       @surfaceTextLayer.removeChild @coordinateDisplay
@@ -370,7 +373,7 @@ module.exports = Surface = class Surface extends CocoClass
 
     # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
     # so only run it after the first world is created.
-    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan } unless event.firstWorld
+    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan } unless event.firstWorld or @setPlayingCalled
 
     fastForwardTo = null
     if @playing
@@ -414,6 +417,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown
+    @stage.addEventListener 'stagemouseup', @onMouseUp
     @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
@@ -536,6 +540,11 @@ module.exports = Surface = class Surface extends CocoClass
     return if @disabled
     onBackground = not @stage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-down', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
+
+  onMouseUp: (e) =>
+    return if @disabled
+    onBackground = not @stage.hitTest e.stageX, e.stageY
+    Backbone.Mediator.publish 'surface:stage-mouse-up', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
 
   onMouseWheel: (e) =>
     # https://github.com/brandonaaron/jquery-mousewheel

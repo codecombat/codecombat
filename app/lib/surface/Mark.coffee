@@ -181,7 +181,8 @@ module.exports = class Mark extends CocoClass
 
     return @listenToOnce(@thangType, 'sync', @onLoadedThangType) if not @thangType.loaded
     CocoSprite = require './CocoSprite'
-    markSprite = new CocoSprite @thangType, @thangType.spriteOptions
+    # don't bother with making these render async for now, but maybe later for fun and more complexity of code
+    markSprite = new CocoSprite @thangType, {async: false}
     markSprite.queueAction 'idle'
     @mark = markSprite.imageObject
     @markSprite = markSprite
@@ -234,28 +235,27 @@ module.exports = class Mark extends CocoClass
     if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ["rectangle", "box"])
       @mark.rotation = @sprite.thang.rotation * 180 / Math.PI
 
-  updateScale: ->
+  updateScale: (log) ->
     if @name is 'bounds' and (@sprite.thang.width isnt @lastWidth or @sprite.thang.height isnt @lastHeight)
       oldMark = @mark
       @buildBounds()
       oldMark.parent.addChild @mark
       oldMark.parent.swapChildren oldMark, @mark
       oldMark.parent.removeChild oldMark
+    
+    if @markSprite?
+      @markSprite.scaleFactor = 1.2
+      @markSprite.updateScale()
     return unless @name in ["selection", "target", "repair", "highlight"]
-    scale = 0.5
     if @sprite?.imageObject
       size = @sprite.getAverageDimension()
       size += 60 if @name is 'selection'
       size += 60 if @name is 'repair'
       size *= @sprite.scaleFactor
       scale = size / {selection: 128, target: 128, repair: 320, highlight: 160}[@name]
+      scale /= 3
       if @sprite?.thang.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
         scale *= 2
-    
-    if @markSprite?
-      @markSprite.scaleFactor = scale
-      @markSprite.updateScale()
-    else
       @mark.scaleX = @mark.scaleY = Math.min 1, scale
     if @name in ['selection', 'target', 'repair']
       @mark.scaleY *= @camera.y2x  # code applies perspective

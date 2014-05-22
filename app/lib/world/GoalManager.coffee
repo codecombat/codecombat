@@ -14,6 +14,7 @@ module.exports = class GoalManager extends CocoClass
   # If you want weird goals or hybrid goals, make a custom goal.
 
   nextGoalID: 0
+  nicks: ["GoalManager"]
 
   constructor: (@world, @initialGoals, @team) ->
     super()

@@ -22,7 +22,7 @@ productionLogging = (tokens, req, res) ->
   else if status >= 300 then color = 36
   elapsed = (new Date()) - req._startTime
   elapsedColor = if elapsed < 500 then 90 else 31
-  if (status isnt 200 and status isnt 304 and status isnt 302) or elapsed > 500
+  if (status isnt 200 and status isnt 204 and status isnt 304 and status isnt 302) or elapsed > 500
     return "\x1b[90m#{req.method} #{req.originalUrl} \x1b[#{color}m#{res.statusCode} \x1b[#{elapsedColor}m#{elapsed}ms\x1b[0m"
   null
 
@@ -92,7 +92,7 @@ sendMain = (req, res) ->
   fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err, data) ->
     log.error "Error modifying main.html: #{err}" if err
     # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
-    data = data.replace('"userObjectTag"', JSON.stringify(UserHandler.formatEntity(req, req.user)).replace('/', '\\/'))
+    data = data.replace('"userObjectTag"', JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/'))
     res.send data
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->

@@ -33,6 +33,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     camera: null
     spriteSheetCache: null
     showInvisible: false
+    async: true
 
   possessed: false
   flipped: false
@@ -75,28 +76,32 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @ranges = []
     @handledDisplayEvents = {}
     @age = 0
+    @stillLoading = true
     if @thangType.isFullyLoaded()
       @setupSprite()
     else
-      @stillLoading = true
       @thangType.fetch()
       @listenToOnce(@thangType, 'sync', @setupSprite)
 
   setupSprite: ->
     for trigger, sounds of @thangType.get('soundTriggers') or {} when trigger isnt 'say'
       AudioPlayer.preloadSoundReference sound for sound in sounds
-    @stillLoading = false
     if @thangType.get('raster')
+      @stillLoading = false
       @actions = {}
       @isRaster = true
       @setUpRasterImage()
     else
-      @actions = @thangType.getActions()
-      @buildFromSpriteSheet @buildSpriteSheet()
-      @createMarks()
+      result = @buildSpriteSheet()
+      if _.isString result # async build
+        @listenToOnce @thangType,  'build-complete', @setupSprite
+      else
+        @stillLoading = false
+        @actions = @thangType.getActions()
+        @buildFromSpriteSheet result
+        @createMarks()
 
   finishSetup: ->
-    return unless @thang
     @updateBaseScale()
     @scaleFactor = @thang.scaleFactor if @thang?.scaleFactor
     @update true  # Reflect initial scale and other state
@@ -120,7 +125,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   buildSpriteSheet: ->
     options = _.extend @options, @thang?.getSpriteOptions?() ? {}
     options.colorConfig = @options.colorConfig if @options.colorConfig
-    options.async = false
+    options.async = @options.async
     @thangType.getSpriteSheet options
 
   setImageObject: (newImageObject) ->
@@ -677,6 +682,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   updateGold: ->
     # TODO: eventually this should be moved into some sort of team-based update
     # rather than an each-thang-that-shows-gold-per-team thing.
+    return unless @thang
     return if @thang.gold is @lastGold
     gold = Math.floor @thang.gold
     if @thang.world.age is 0
@@ -752,7 +758,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
     endFunc = =>
       @lastTween = null
-      @imageObject.gotoAndPlay(endAnimation)
+      @imageObject.gotoAndPlay(endAnimation) unless @stillLoading
       @shadow.action = 'idle'
       @update true
       @possessed = false
