@@ -629,11 +629,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @addMark 'debug', @options.floatingLayer if debug
     @marks.debug?.toggle debug
 
-  getAverageDimension: ->
-    bounds = @imageObject.getBounds()
-    averageDimension = (bounds.height + bounds.width) / 2
-    Math.min(80, averageDimension)
-
   addLabel: (name, style) ->
     @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style
     @labels[name]

@@ -235,7 +235,7 @@ module.exports = class Mark extends CocoClass
     if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ["rectangle", "box"])
       @mark.rotation = @sprite.thang.rotation * 180 / Math.PI
 
-  updateScale: (log) ->
+  updateScale: ->
     if @name is 'bounds' and (@sprite.thang.width isnt @lastWidth or @sprite.thang.height isnt @lastHeight)
       oldMark = @mark
       @buildBounds()
@@ -247,16 +247,20 @@ module.exports = class Mark extends CocoClass
       @markSprite.scaleFactor = 1.2
       @markSprite.updateScale()
     return unless @name in ["selection", "target", "repair", "highlight"]
+    
+    # scale these marks to 10m (100px). Adjust based on sprite size.
+    factor = 0.3 # default size: 3m width, most commonly for target when pointing to a location
+
     if @sprite?.imageObject
-      size = @sprite.getAverageDimension()
-      size += 60 if @name is 'selection'
-      size += 60 if @name is 'repair'
-      size *= @sprite.scaleFactor
-      scale = size / {selection: 128, target: 128, repair: 320, highlight: 160}[@name]
-      scale /= 3
-      if @sprite?.thang.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
-        scale *= 2
-      @mark.scaleX = @mark.scaleY = Math.min 1, scale
+      width = @sprite.imageObject.getBounds()?.width or 0
+      width /= @sprite.options.resolutionFactor
+      # all targets should be set to have a width of 100px, and then be scaled accordingly
+      factor = width / 100 # normalize
+      factor *= 1.1 # add margin
+      factor = Math.max(factor, 0.3) # lower bound
+    @mark.scaleX *= factor
+    @mark.scaleY *= factor
+      
     if @name in ['selection', 'target', 'repair']
       @mark.scaleY *= @camera.y2x  # code applies perspective
 
