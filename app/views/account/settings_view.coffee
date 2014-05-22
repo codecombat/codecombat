@@ -3,7 +3,7 @@ template = require 'templates/account/settings'
 {me} = require('lib/auth')
 forms = require('lib/forms')
 User = require('models/User')
-LoginModalView = require 'views/modal/login_modal'
+AuthModalView = require 'views/modal/auth_modal'
 
 WizardSettingsView = require './wizard_settings_view'
 JobProfileView = require './job_profile_view'
@@ -49,7 +49,7 @@ module.exports = class SettingsView extends View
   afterInsert: ->
     super()
     if me.get('anonymous')
-      @openModalView new LoginModalView()
+      @openModalView new AuthModalView()
 
   chooseTab: (category) ->
     id = "##{category}-pane"

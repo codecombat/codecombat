@@ -4,7 +4,8 @@ module.exports.formToObject = (el) ->
   inputs = $('input', el).add('textarea', el)
   for input in inputs
     input = $(input)
-    obj[input.attr('name')] = input.val()
+    continue unless name = input.attr('name')
+    obj[name] = input.val()
 
   obj
 
