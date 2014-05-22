@@ -37,8 +37,10 @@ body
               span.glyphicon.glyphicon-user
 
         else
-          button.btn.btn-primary.navbuttontext.header-font(data-toggle="coco-modal", data-target="modal/signup", data-i18n="login.sign_up") Create Account
-          button.btn.btn-primary.navbuttontext.header-font(data-toggle="coco-modal", data-target="modal/login", data-i18n="login.log_in") Log In
+          button.btn.btn-primary.navbuttontext.header-font.auth-button 
+            span(data-i18n="login.log_in") Log In
+            span.spr.spl /
+            span(data-i18n="login.sign_up") Create Account
 
         ul(class='navbar-link-text').nav.navbar-nav.pull-right
           li.play

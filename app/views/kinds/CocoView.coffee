@@ -111,6 +111,7 @@ module.exports = class CocoView extends Backbone.View
     context.isMobile = @isMobile()
     context.isIE = @isIE()
     context.moment = moment
+    context.translate = $.i18n.t
     context
 
   afterRender: ->

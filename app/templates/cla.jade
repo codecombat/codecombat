@@ -80,12 +80,13 @@
   hr
   
   if me.get('anonymous')
-    h1
-      | Either 
-      a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="login.sign_up") create an account
-      |  or 
-      a(data-toggle="coco-modal", data-target="modal/login", data-i18n="login.log_in") log In
-      |  to sign this agreement.
+    p
+      strong You must be signed in to sign this agreement.
+    
+    button.btn.btn-primary.auth-button
+      span(data-i18n="login.log_in") Log In
+      span.spr.spl /
+      span(data-i18n="login.sign_up") Create Account
 
   else
     h3 SIGN HERE

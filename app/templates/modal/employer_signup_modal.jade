@@ -50,10 +50,10 @@ block modal-footer
         br
         br
         | Already have a CodeCombat account? 
-        a.login-link(data-toggle="coco-modal", data-target="modal/login") Log in to continue!
+        a.login-link(data-toggle="coco-modal", data-target="modal/auth") Log in to continue!
     else
       .modal-footer.linkedin
-        a.login-link(data-toggle="coco-modal", data-target="modal/login") Please log in to continue.
+        a.login-link(data-toggle="coco-modal", data-target="modal/auth") Please log in to continue.
   else if !userIsAnonymous && !userIsAuthorized
     .modal-footer.linkedin
   else if userIsAuthorized && !userHasSignedContract
@@ -62,5 +62,3 @@ block modal-footer
   else
     .modal-footer.linkedin
        | Thanks! You've already agreed to the contract.
-    
-    

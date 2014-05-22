@@ -17,6 +17,7 @@ module.exports = class RootView extends CocoView
     "click #logout-button": "logoutAccount"
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
+    'click .auth-button': 'onClickAuthbutton'
 
   logoutAccount: ->
     logoutUser($('#login-email').val())
@@ -25,6 +26,10 @@ module.exports = class RootView extends CocoView
     WizardSettingsModal = require('views/modal/wizard_settings_modal')
     subview = new WizardSettingsModal {}
     @openModalView subview
+
+  onClickAuthbutton: ->
+    AuthModal = require 'views/modal/auth_modal'
+    @openModalView new AuthModal {}
 
   showLoading: ($el) ->
     $el ?= @$el.find('.main-content-area')
