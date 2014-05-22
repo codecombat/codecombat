@@ -293,7 +293,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       p1.z += bobOffset
     x: p1.x, y: p1.y, z: if @thang.isLand then 0 else p1.z - @thang.depth / 2
 
-  updatePosition: ->
+  updatePosition: (log) ->
+    return if @stillLoading
     return unless @thang?.pos and @options.camera?
     wop = @getWorldPosition()
     [p0, p1] = [@lastPos, @thang.pos]
