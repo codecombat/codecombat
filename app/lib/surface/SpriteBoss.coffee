@@ -161,6 +161,7 @@ module.exports = class SpriteBoss extends CocoClass
     thang = sprite.thang
     delete @sprites[sprite.thang.id]
     @spriteArray.splice @spriteArray.indexOf(sprite), 1
+    @stopListening sprite
     sprite.destroy()
     sprite.thang = thang  # Keep around so that we know which thang the destroyed thang was for
 

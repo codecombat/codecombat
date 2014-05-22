@@ -302,7 +302,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     [@imageObject.x, @imageObject.y] = [sup.x, sup.y]
     @lastPos = p1.copy?() or _.clone(p1)
     @hasMoved = true
-    
+
   updateBaseScale: ->
     scale = 1
     scale = @thangType.get('scale') or 1 if @isRaster
@@ -331,9 +331,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
           @imageObject.scaleY *= @thangType.get('scale') ? 1
         [@lastThangWidth, @lastThangHeight] = [@thang.width, @thang.height]
       return
-    
+
     scaleX = scaleY = 1
-      
+
     if @thangType.get('name') in ['Arrow', 'Spear']
       # Scales the arrow so it appears longer when flying parallel to horizon.
       # To do that, we convert angle to [0, 90] (mirroring half-planes twice), then make linear function out of it:
