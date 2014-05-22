@@ -110,7 +110,6 @@ module.exports = class GoalManager extends CocoClass
       goals: @goals
       overallStatus: overallStatus
       timedOut: @world.totalFrames is @world.maxTotalFrames
-    console.log 'timed out', @world.totalFrames is @world.maxTotalFrames, @world.totalFrames, @world.maxTotalFrames, @world.frames.length
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
   checkOverallStatus: (ignoreIncomplete=false) ->
