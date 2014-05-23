@@ -260,7 +260,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @handledDisplayEvents[event] = true
       options = JSON.parse(event[5...])
       label = new createjs.Text options.text, "bold #{options.size or 16}px Arial", options.color or '#FFF'
-      label.shadow = new createjs.Shadow '#000', 0, 0, 2
+      shadowColor = {humans: '#F00', ogres: '#00F', neutral: '#0F0', common: '#0F0'}[@thang.team] ? '#000'
+      label.shadow = new createjs.Shadow shadowColor, 1, 1, 3
       offset = @getOffset 'aboveHead'
       [label.x, label.y] = [@imageObject.x + offset.x - label.getMeasuredWidth() / 2, @imageObject.y + offset.y]
       @options.floatingLayer.addChild label
@@ -575,7 +576,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @marks[range['name']].toggle false for range in @ranges
 
     if @thangType.get('name') in ['Arrow', 'Spear'] and @thang.action is 'die'
-      @marks.shadow.hide()
+      @marks.shadow?.hide()
     mark.update() for name, mark of @marks
     #@thang.effectNames = ['berserk', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
     @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length

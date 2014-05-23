@@ -52,6 +52,7 @@ module.exports = class LadderTabView extends CocoView
     @fbStatusRes.load()
 
     FB.getLoginStatus (response) =>
+      return if @destroyed
       @facebookStatus = response.status
       @loadFacebookFriends() if @facebookStatus is 'connected'
       @fbStatusRes.markLoaded()
