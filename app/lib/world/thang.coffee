@@ -31,6 +31,12 @@ module.exports = class Thang
     @addTrackedProperties ['exists', 'boolean']  # TODO: move into Systems/Components, too?
     #console.log "Generated #{@toString()}."
 
+  destroy: ->
+    # Just trying to destroy __aetherAPIClone, but might as well nuke everything just in case
+    @[key] = undefined for key of @
+    @destroyed = true
+    @destroy = ->
+
   updateRegistration: ->
     system.register @ for system in @world.systems
 
@@ -40,7 +46,7 @@ module.exports = class Thang
 
   getGoalState: (goalID) ->
     @world.getGoalState goalID
-    
+
   setGoalState: (goalID, status) ->
     @world.setGoalState goalID, status
 
