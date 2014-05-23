@@ -14,7 +14,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     manual: "Kézi"
 #    fork: "Fork"
     play: "Játék"
-#   retry: "Próbáld újra!"
+    retry: "Próbáld újra!"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
@@ -36,7 +36,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   nav:
     play: "Játék"
-#   community: "Közösség"
+    community: "Közösség"
     editor: "Szerkesztő"
     blog: "Blog"
     forum: "Fórum"
@@ -49,6 +49,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     contact: "Kapcsolat"
     twitter_follow: "Követés"
     employers: "Munkaadók"
+
   versions:
     save_version_title: "Új verzió mentése"
     new_major_version: "Új főverzió"
@@ -121,7 +122,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     contact_candidate: "Vedd fel a kapcsolatot a jelölttel"
     recruitment_reminder: "Használd ezt az űrlapot, hogy tudasd a jelöltekkel, szívesen fogadnád őket egy interjúra. Ne feledd, CodeCombat felszámítja az első évi fizetés 15%-át. A díj a munkavállaló alkalmazásakor esedékes, és 90 napig visszafizetendő, ha a munkavállaó nem marad alkalmazásban. Részidőben, távmunkára és szerződéssel alkalmazottak után nem kell fizetni, valamint gyakornokok után sem."
 
-    diplomat_suggestion:
+  diplomat_suggestion:
     title: "Segítsd lefordítani a CodeCombat-ot!"
     sub_heading: "Szükségünk van a segítségedre!"
     pitch_body: "Az oldalt angol nyelven fejlesztettük, de máris rengeteg játékosunk van szerte a világban. Nagyon sokan szeretnének közülük magyarul játszani, de nem beszélnek angolul. Ha te beszélsz angolul is, magyarul is, kérlek jelentkezz Diplomatának, s segíts lefordítani mind a honlapot, mind a pályákat magyarra."
