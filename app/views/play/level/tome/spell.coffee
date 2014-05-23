@@ -25,7 +25,7 @@ module.exports = class Spell
     teamSpells = @session.get('teamSpells')
     team = @session.get('team') ? 'humans'
     @useTranspiledCode = @permissions.readwrite.length and ((teamSpells and not _.contains(teamSpells[team], @spellKey)) or (@session.get('creator') isnt me.id) or @spectateView)
-    console.log @spellKey, "using transpiled code?", @useTranspiledCode
+    #console.log @spellKey, "using transpiled code?", @useTranspiledCode
     @source = @originalSource = p.source
     @parameters = p.parameters
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
@@ -73,12 +73,12 @@ module.exports = class Spell
       transpiledCode = @session.get('code')
     for thangID, spellThang of @thangs
       unless pure
-        if @useTranspiledCode and transpiledSpell = transpiledCode[_.string.slugify thangID]?[@name]
+        if @useTranspiledCode and transpiledSpell = transpiledCode[@spellKey.split('/')[0]]?[@name]
           spellThang.aether.pure = transpiledSpell
         else
           pure = spellThang.aether.transpile source
           problems = spellThang.aether.problems
-        #console.log "aether transpiled", source.length, "to", pure.length, "for", thangID, @spellKey
+        #console.log "aether transpiled", source.length, "to", spellThang.aether.pure.length, "for", thangID, @spellKey
       else
         spellThang.aether.pure = pure
         spellThang.aether.problems = problems
