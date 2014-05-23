@@ -480,11 +480,9 @@ verifyClientResponse = (responseObject, callback) ->
     callback null, responseObject
 
 fetchTaskLog = (responseObject, callback) ->
-  findParameters =
-    _id: responseObject.taskID
-  query = TaskLog
-  .findOne(findParameters)
+  query = TaskLog.findOne _id: responseObject.taskID
   query.exec (err, taskLog) =>
+    return callback new Error("Couldn't find TaskLog for _id #{responseObject.taskID}!") unless taskLog
     @taskLog = taskLog
     #log.info "Fetched task log!"
     callback err, taskLog.toObject()
