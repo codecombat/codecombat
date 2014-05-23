@@ -30,7 +30,7 @@ module.exports = class ThangType extends CocoModel
   isFullyLoaded: ->
     # TODO: Come up with a better way to identify when the model doesn't have everything needed to build the sprite. ie when it's a projection without all the required data.
     return @get('actions') or @get('raster') # needs one of these two things
-  
+
   getActions: ->
     return {} unless @isFullyLoaded()
     return @actions or @buildActions()
@@ -62,7 +62,9 @@ module.exports = class ThangType extends CocoModel
     @options = @fillOptions options
     key = @spriteSheetKey(@options)
     if ss = @spriteSheets[key] then return ss
-    return key if @building[key]
+    if @building[key]
+      @options = null
+      return key
     @t0 = new Date().getTime()
     @initBuild(options)
     @addGeneralFrames() unless @options.portraitOnly
@@ -159,6 +161,7 @@ module.exports = class ThangType extends CocoModel
     @spriteSheets[key] = spriteSheet
     delete @building[key]
     @builder = null
+    @options = null
     spriteSheet
 
   onBuildSpriteSheetComplete: (e, data) ->

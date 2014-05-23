@@ -161,6 +161,7 @@ module.exports = class SpriteBoss extends CocoClass
     thang = sprite.thang
     delete @sprites[sprite.thang.id]
     @spriteArray.splice @spriteArray.indexOf(sprite), 1
+    @stopListening sprite
     sprite.destroy()
     sprite.thang = thang  # Keep around so that we know which thang the destroyed thang was for
 
@@ -200,8 +201,7 @@ module.exports = class SpriteBoss extends CocoClass
   cache: (update=false) ->
     return if @cached and not update
     wallSprites = (sprite for sprite in @spriteArray when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
-    unless _.all (s.thangType.isFullyLoaded() for s in wallSprites)
-      return
+    return if _.any (s.stillLoading for s in wallSprites)
     walls = (sprite.thang for sprite in wallSprites)
     @world.calculateBounds()
     wallGrid = new Grid walls, @world.size()...

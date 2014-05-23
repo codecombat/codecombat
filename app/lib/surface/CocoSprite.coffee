@@ -293,7 +293,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       p1.z += bobOffset
     x: p1.x, y: p1.y, z: if @thang.isLand then 0 else p1.z - @thang.depth / 2
 
-  updatePosition: ->
+  updatePosition: (log) ->
+    return if @stillLoading
     return unless @thang?.pos and @options.camera?
     wop = @getWorldPosition()
     [p0, p1] = [@lastPos, @thang.pos]
@@ -302,7 +303,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     [@imageObject.x, @imageObject.y] = [sup.x, sup.y]
     @lastPos = p1.copy?() or _.clone(p1)
     @hasMoved = true
-    
+
   updateBaseScale: ->
     scale = 1
     scale = @thangType.get('scale') or 1 if @isRaster
@@ -331,9 +332,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
           @imageObject.scaleY *= @thangType.get('scale') ? 1
         [@lastThangWidth, @lastThangHeight] = [@thang.width, @thang.height]
       return
-    
+
     scaleX = scaleY = 1
-      
+
     if @thangType.get('name') in ['Arrow', 'Spear']
       # Scales the arrow so it appears longer when flying parallel to horizon.
       # To do that, we convert angle to [0, 90] (mirroring half-planes twice), then make linear function out of it:
@@ -628,11 +629,6 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return unless @thang?.collides and @options.camera?
     @addMark 'debug', @options.floatingLayer if debug
     @marks.debug?.toggle debug
-
-  getAverageDimension: ->
-    bounds = @imageObject.getBounds()
-    averageDimension = (bounds.height + bounds.width) / 2
-    Math.min(80, averageDimension)
 
   addLabel: (name, style) ->
     @labels[name] ?= new Label sprite: @, camera: @options.camera, layer: @options.textLayer, style: style

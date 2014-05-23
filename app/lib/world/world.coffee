@@ -33,6 +33,13 @@ module.exports = class World
     @rand = new Rand 0  # Existence System may change this seed
     @frames = [new WorldFrame(@, 0)]
 
+  destroy: ->
+    @goalManager?.destroy()
+    thang.destroy() for thang in @thangs
+    @[key] = undefined for key of @
+    @destroyed = true
+    @destroy = ->
+
   getFrame: (frameIndex) ->
     # Optimize it a bit--assume we have all if @ended and are at the previous frame otherwise
     frames = @frames
@@ -109,6 +116,7 @@ module.exports = class World
           console.log('  Loaded', i, 'of', @totalFrames, "(+" + (t2 - @t0).toFixed(0) + "ms)")
           @t0 = t2
         continueFn = =>
+          return if @destroyed
           if loadUntilFrame
             @loadFrames(loadedCallback,errorCallback,loadProgressCallback, skipDeferredLoading, loadUntilFrame)
           else
