@@ -14,7 +14,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     manual: "Kézi"
 #    fork: "Fork"
     play: "Játék"
-#    retry: "Retry"
+    retry: "Próbáld újra!"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
@@ -36,7 +36,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   nav:
     play: "Játék"
-#    community: "Community"
+    community: "Közösség"
     editor: "Szerkesztő"
     blog: "Blog"
     forum: "Fórum"
@@ -48,7 +48,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     about: "Rólunk"
     contact: "Kapcsolat"
     twitter_follow: "Követés"
-#    employers: "Employers"
+    employers: "Munkaadók"
 
   versions:
     save_version_title: "Új verzió mentése"
@@ -119,8 +119,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     forum_page: "fórumban"
     forum_suffix: " is."
     send: "Visszajelzés küldése"
-#    contact_candidate: "Contact Candidate"
-#    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
+    contact_candidate: "Vedd fel a kapcsolatot a jelölttel"
+    recruitment_reminder: "Használd ezt az űrlapot, hogy tudasd a jelöltekkel, szívesen fogadnád őket egy interjúra. Ne feledd, CodeCombat felszámítja az első évi fizetés 15%-át. A díj a munkavállaló alkalmazásakor esedékes, és 90 napig visszafizetendő, ha a munkavállaó nem marad alkalmazásban. Részidőben, távmunkára és szerződéssel alkalmazottak után nem kell fizetni, valamint gyakornokok után sem."
 
   diplomat_suggestion:
     title: "Segítsd lefordítani a CodeCombat-ot!"
@@ -139,7 +139,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     clothes: "Öltözetek"
 #    trim: "Trim"
     cloud: "Felhő"
-#    team: "Team"
+    team: "Csapat"
     spell: "Varázslat"
     boots: "Lábbelik"
     hue: "Árnyalat"
@@ -152,7 +152,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     autosave: "A változtatásokat automatikusan elmentjük."
     me_tab: "Rólad"
     picture_tab: "Kép"
-#    upload_picture: "Upload a picture"
+    upload_picture: "Tölts föl egy képet"
     wizard_tab: "Varázsló"
     password_tab: "Jelszó"
     emails_tab: "Levelek"
