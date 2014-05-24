@@ -4,6 +4,7 @@ WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
 Simulator = require 'lib/simulator/Simulator'
 {me} = require '/lib/auth'
+application  = require 'application'
 
 module.exports = class HomeView extends View
   id: 'home-view'
@@ -16,13 +17,18 @@ module.exports = class HomeView extends View
   getRenderData: ->
     c = super()
     if $.browser
-      majorVersion = parseInt($.browser.version.split('.')[0])
+      majorVersion = $.browser.versionNumber
       c.isOldBrowser = true if $.browser.mozilla && majorVersion < 21
       c.isOldBrowser = true if $.browser.chrome && majorVersion < 17
-      c.isOldBrowser = true if $.browser.safari && majorVersion < 536
+      c.isOldBrowser = true if $.browser.safari && majorVersion < 6
     else
       console.warn 'no more jquery browser version...'
     c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
+    c.languageName = me.get('preferredLanguage')
+    # A/B test: https://github.com/codecombat/codecombat/issues/769
+    c.frontPageContent = {0: "video", 1: "screenshot", 2: "nothing"}[me.get('testGroupNumber') % 3]
+    application.tracker.identify frontPageContent: c.frontPageContent
+    application.tracker.trackEvent 'Front Page Content', frontPageContent: c.frontPageContent
     c
 
   afterRender: ->

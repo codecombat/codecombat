@@ -16,12 +16,12 @@ module.exports = class RegionChooser extends CocoClass
 
   onMouseDown: (e) =>
     return unless key.shift
-    @firstPoint = @options.camera.canvasToWorld {x: e.stageX, y: e.stageY}
+    @firstPoint = @options.camera.screenToWorld {x: e.stageX, y: e.stageY}
     @options.camera.dragDisabled = true
 
   onMouseMove: (e) =>
     return unless @firstPoint
-    @secondPoint = @options.camera.canvasToWorld {x: e.stageX, y: e.stageY}
+    @secondPoint = @options.camera.screenToWorld {x: e.stageX, y: e.stageY}
     @restrictRegion() if @options.restrictRatio
     @updateShape()
 
@@ -33,7 +33,7 @@ module.exports = class RegionChooser extends CocoClass
     @options.camera.dragDisabled = false
 
   restrictRegion: ->
-    RATIO = 1.56876  # 1848 / 1178
+    RATIO = 1.56876  # 924 / 589
     rect = @options.camera.normalizeBounds([@firstPoint, @secondPoint])
     currentRatio = rect.width / rect.height
     if currentRatio > RATIO

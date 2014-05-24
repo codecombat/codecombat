@@ -20,7 +20,6 @@ module.exports = class CastButtonView extends View
     super options
     @spells = options.spells
     @levelID = options.levelID
-    isMac = navigator.platform.toUpperCase().indexOf('MAC') isnt -1
     @castShortcut = "⇧↵"
     @castShortcutVerbose = "Shift+Enter"
 
@@ -36,7 +35,7 @@ module.exports = class CastButtonView extends View
     @castOptions = $('.autocast-delays', @$el)
     delay = me.get('autocastDelay')
     delay ?= 5000
-    if @levelID in ['brawlwood', 'brawlwood-tutorial', 'dungeon-arena', 'dungeon-arena-tutorial']
+    if @levelID in ['brawlwood', 'brawlwood-tutorial', 'dungeon-arena', 'dungeon-arena-tutorial', 'gold-rush', 'greed']
       delay = 90019001
     @setAutocastDelay delay
 
@@ -47,7 +46,6 @@ module.exports = class CastButtonView extends View
     Backbone.Mediator.publish 'tome:manual-cast', {}
 
   onCastOptionsClick: (e) =>
-    console.log 'cast options click', $(e.target)
     Backbone.Mediator.publish 'focus-editor'
     @castButtonGroup.removeClass 'open'
     @setAutocastDelay $(e.target).attr 'data-delay'
@@ -57,8 +55,11 @@ module.exports = class CastButtonView extends View
     @updateCastButton()
 
   onCastSpells: (e) ->
+    return if e.preload
     @casting = true
-    Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.5
+    if @hasStartedCastingOnce  # Don't play this sound the first time
+      Backbone.Mediator.publish 'play-sound', trigger: 'cast', volume: 0.5
+    @hasStartedCastingOnce = true
     @updateCastButton()
     @onWorldLoadProgressChanged progress: 0
 
@@ -69,21 +70,27 @@ module.exports = class CastButtonView extends View
 
   onNewWorld: (e) ->
     @casting = false
-    Backbone.Mediator.publish 'play-sound', trigger: 'cast-end', volume: 0.5
+    if @hasCastOnce  # Don't play this sound the first time
+      Backbone.Mediator.publish 'play-sound', trigger: 'cast-end', volume: 0.5
+    @hasCastOnce = true
     @updateCastButton()
 
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded
-    castable = _.some @spells, (spell) => spell.hasChangedSignificantly spell.getSource()
-    @castButtonGroup.toggleClass('castable', castable).toggleClass('casting', @casting)
-    if @casting
-      s = $.i18n.t("play_level.tome_cast_button_casting", defaultValue: "Casting")
-    else if castable
-      s = $.i18n.t("play_level.tome_cast_button_castable", defaultValue: "Cast Spell") + " " + @castShortcut
-    else
-      s = $.i18n.t("play_level.tome_cast_button_cast", defaultValue: "Spell Cast")
-    @castButton.text s
-    @castButton.prop 'disabled', not castable
+
+    async.some _.values(@spells), (spell, callback) =>
+      spell.hasChangedSignificantly spell.getSource(), null, callback
+    , (castable) =>
+      Backbone.Mediator.publish 'tome:spell-has-changed-significantly-calculation', hasChangedSignificantly: castable
+      @castButtonGroup.toggleClass('castable', castable).toggleClass('casting', @casting)
+      if @casting
+        s = $.i18n.t("play_level.tome_cast_button_casting", defaultValue: "Casting")
+      else if castable
+        s = $.i18n.t("play_level.tome_cast_button_castable", defaultValue: "Cast Spell") + " " + @castShortcut
+      else
+        s = $.i18n.t("play_level.tome_cast_button_cast", defaultValue: "Spell Cast")
+      @castButton.text s
+      @castButton.prop 'disabled', not castable
 
   setAutocastDelay: (delay) ->
     #console.log "Set autocast delay to", delay

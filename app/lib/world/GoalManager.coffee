@@ -14,8 +14,9 @@ module.exports = class GoalManager extends CocoClass
   # If you want weird goals or hybrid goals, make a custom goal.
 
   nextGoalID: 0
+  nicks: ["GoalManager"]
 
-  constructor: (@world, @initialGoals) ->
+  constructor: (@world, @initialGoals, @team) ->
     super()
     @init()
 
@@ -78,8 +79,8 @@ module.exports = class GoalManager extends CocoClass
   # main instance gets them and updates their existing goal states,
   # passes the word along
   onNewWorldCreated: (e) ->
-    @updateGoalStates(e.goalStates) if e.goalStates?
     @world = e.world
+    @updateGoalStates(e.goalStates) if e.goalStates?
 
   updateGoalStates: (newGoalStates) ->
     for goalID, goalState of newGoalStates
@@ -95,7 +96,7 @@ module.exports = class GoalManager extends CocoClass
     return if @goalStates[goal.id]?
     @goals.push(goal)
     goal.isPositive = @goalIsPositive goal.id
-    @goalStates[goal.id] = {status: 'incomplete', keyFrame: 0}
+    @goalStates[goal.id] = {status: 'incomplete', keyFrame: 0, team: goal.team}
     @notifyGoalChanges()
     return unless goal.notificationGoal
     f = (channel) => (event) => @onNote(channel, event)
@@ -104,12 +105,18 @@ module.exports = class GoalManager extends CocoClass
 
   notifyGoalChanges: ->
     overallStatus = @checkOverallStatus()
-    event = {goalStates: @goalStates, goals: @goals, overallStatus: overallStatus}
+    event =
+      goalStates: @goalStates
+      goals: @goals
+      overallStatus: overallStatus
+      timedOut: @world.totalFrames is @world.maxTotalFrames
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
   checkOverallStatus: (ignoreIncomplete=false) ->
     overallStatus = null
-    statuses = if @goalStates then (val.status for key, val of @goalStates) else []
+    goals = if @goalStates then _.values @goalStates else []
+    goals = (g for g in goals when g.team in [undefined, @team]) if @team
+    statuses = if @goalStates then (goal.status for goal in goals) else []
     overallStatus = 'success' if statuses.length > 0 and _.every(statuses, (s) -> s is 'success' or (ignoreIncomplete and s is null))
     overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
     overallStatus
@@ -123,6 +130,7 @@ module.exports = class GoalManager extends CocoClass
       state = {
         status: null # should eventually be either 'success', 'failure', or 'incomplete'
         keyFrame: 0 # when it became a 'success' or 'failure'
+        team: goal.team
       }
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
       for getTo in goal.getAllToLocations ? []
@@ -203,7 +211,7 @@ module.exports = class GoalManager extends CocoClass
 
     arrays = (prop for prop in whos when prop?.length)
     return unless arrays.length
-    state[progressObjectName] = {}
+    state[progressObjectName] ?= {}
     for array in arrays
       for thang in array
         if @thangTeams[thang]?
@@ -211,6 +219,9 @@ module.exports = class GoalManager extends CocoClass
             state[progressObjectName][t] = false
         else
           state[progressObjectName][thang] = false
+
+  getGoalState: (goalID) ->
+    @goalStates[goalID].status
 
   setGoalState: (goalID, status) ->
     state = @goalStates[goalID]
@@ -234,7 +245,7 @@ module.exports = class GoalManager extends CocoClass
       numNeeded = goal.howMany ? Math.max(1, _.size stateThangs)
     else
       # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be "done"
-      numNeeded = _.size(stateThangs) - Math.min((goal.howMany ? 1), _.size stateThangs) + 1
+      numNeeded = _.size(stateThangs) - Math.max((goal.howMany ? 1), _.size stateThangs) + 1
     numDone = _.filter(stateThangs).length
     #console.log "needed", numNeeded, "done", numDone, "of total", _.size(stateThangs), "with how many", goal.howMany, "and stateThangs", stateThangs
     return unless numDone >= numNeeded

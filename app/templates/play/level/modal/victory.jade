@@ -12,7 +12,7 @@ block modal-body-content
   
 block modal-footer-content
   if readyToRank
-    button.btn.btn-success.rank-game-button(data-i18n="play_level.victory_rank_my_game") Rank My Game
+    .ladder-submission-view
   else if level.get('type') === 'ladder'
     a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_go_ladder") Return to Ladder
   else if hasNextLevel
@@ -22,7 +22,7 @@ block modal-footer-content
   if me.get('anonymous')
     p.sign-up-poke
       button.btn.btn-success.sign-up-button.btn-large(data-toggle="coco-modal", data-target="modal/signup", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
-        span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
+      span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
     p.clearfix
   else
     div.rating.secret

@@ -36,7 +36,7 @@ ThangListView = require './thang_list_view'
 SpellPaletteView = require './spell_palette_view'
 CastButtonView = require './cast_button_view'
 
-window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.coffee'
+window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.js'
 
 module.exports = class TomeView extends View
   id: 'tome-view'
@@ -51,6 +51,7 @@ module.exports = class TomeView extends View
     'tome:change-language': 'updateLanguageForAllSpells'
     'surface:sprite-selected': 'onSpriteSelected'
     'god:new-world-created': 'onNewWorld'
+    'tome:comment-my-code': 'onCommentMyCode'
 
   events:
     'click #spell-view': 'onSpellViewClick'
@@ -72,33 +73,22 @@ module.exports = class TomeView extends View
     delete @options.thangs
 
   onNewWorld: (e) ->
-    thangs = _.filter e.world.thangs, 'isSelectable'
+    thangs = _.filter e.world.thangs, 'inThangList'
     programmableThangs = _.filter thangs, 'isProgrammable'
     @createSpells programmableThangs, e.world
     @thangList.adjustThangs @spells, thangs
     @spellList.adjustSpells @spells
 
+  onCommentMyCode: (e) ->
+    for spellKey, spell of @spells when spell.canWrite()
+      console.log "Commenting out", spellKey
+      commentedSource = 'return;  // Commented out to stop infinite loop.\n' + spell.getSource()
+      spell.view.updateACEText commentedSource
+      spell.view.recompile false
+    @cast()
+
   createWorker: ->
-    return
-    # In progress
-    worker = cw
-      initialize: (scope) ->
-        self.window = self
-        self.global = self
-        console.log 'Tome worker initialized.'
-      doIt: (data, callback, scope) ->
-        console.log 'doing', what
-        try
-          importScripts '/javascripts/tome_aether.js'
-        catch err
-          console.log err.toString()
-        a = new Aether()
-        callback 'good'
-        undefined
-    onAccepted = (s) -> console.log 'accepted', s
-    onRejected = (s) -> console.log 'rejected', s
-    worker.doIt('hmm').then onAccepted, onRejected
-    worker
+    return new Worker("/javascripts/workers/aether_worker.js")
 
   generateTeamSpellMap: (spellObject) ->
     teamSpellMap = {}
@@ -115,6 +105,7 @@ module.exports = class TomeView extends View
     return teamSpellMap
 
   createSpells: (programmableThangs, world) ->
+    language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'javascript'
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
     @thangSpells ?= {}
@@ -129,9 +120,18 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          skipProtectAPI = @getQueryVariable "skip_protect_api", not @options.ladderGame
-          skipFlow = @getQueryVariable "skip_flow", @options.levelID is 'brawlwood'
-          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: skipFlow, skipProtectAPI: skipProtectAPI, worker: @worker
+          skipProtectAPI = @getQueryVariable "skip_protect_api", (@options.levelID in ['gridmancer'])
+          spell = @spells[spellKey] = new Spell
+            programmableMethod: method
+            spellKey: spellKey
+            pathComponents: pathPrefixComponents.concat(pathComponents)
+            session: @options.session
+            supermodel: @supermodel
+            skipProtectAPI: skipProtectAPI
+            worker: @worker
+            language: language
+            spectateView: @options.spectateView
+
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
       if thang
@@ -149,19 +149,10 @@ module.exports = class TomeView extends View
   onCastSpell: (e) ->
     # A single spell is cast.
     # Hmm; do we need to make sure other spells are all cast here?
-    @cast()
+    @cast e?.preload
 
-  cast: ->
-    if @options.levelID is 'brawlwood'
-      # For performance reasons, only includeFlow on the currently Thang.
-      for spellKey, spell of @spells
-        for thangID, spellThang of spell.thangs
-          hadFlow = Boolean spellThang.aether.options.includeFlow
-          willHaveFlow = spellThang is @spellView?.spellThang
-          spellThang.aether.options.includeFlow = spellThang.aether.originalOptions.includeFlow = willHaveFlow
-          spellThang.aether.transpile spell.source unless hadFlow is willHaveFlow
-          #console.log "set includeFlow to", spellThang.aether.options.includeFlow, "for", thangID, "of", spellKey
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
+  cast: (preload=false) ->
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload
 
   onToggleSpellList: (e) ->
     @spellList.rerenderEntries()
@@ -188,14 +179,12 @@ module.exports = class TomeView extends View
     thang = e.thang
     spellName = e.spellName
     @spellList?.$el.hide()
-    return @clearSpellView() unless thang?.isProgrammable
-    selectedThangSpells = (@spells[spellKey] for spellKey in @thangSpells[thang.id])
-    if spellName
-      spell = _.find selectedThangSpells, {name: spellName}
-    else
-      spell = @thangList.topSpellForThang thang
-      #spell = selectedThangSpells[0]  # TODO: remember last selected spell for this thang
-    return @clearSpellView() unless spell?.canRead()
+    return @clearSpellView() unless thang
+    spell = @spellFor thang, spellName
+    unless spell?.canRead()
+      @clearSpellView()
+      @updateSpellPalette thang, spell
+      return
     unless spell.view is @spellView
       @clearSpellView()
       @spellView = spell.view
@@ -208,18 +197,32 @@ module.exports = class TomeView extends View
     @spellList.setThangAndSpell thang, spell
     @spellView?.setThang thang
     @spellTabView?.setThang thang
-    if @spellPaletteView?.thang isnt thang
-      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel
-      @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
+    @updateSpellPalette thang, spell
+
+  updateSpellPalette: (thang, spell) ->
+    return unless thang and @spellPaletteView?.thang isnt thang and thang.programmableProperties or thang.apiProperties
+    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel, programmable: spell?.canRead()
+    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell   # TODO: know when palette should have been disabled but didn't exist
+
+  spellFor: (thang, spellName) ->
+    return null unless thang?.isProgrammable
+    selectedThangSpells = (@spells[spellKey] for spellKey in @thangSpells[thang.id])
+    if spellName
+      spell = _.find selectedThangSpells, {name: spellName}
+    else
+      spell = @thangList.topSpellForThang thang
+      #spell = selectedThangSpells[0]  # TODO: remember last selected spell for this thang
+    spell
 
   reloadAllCode: ->
-    spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
+    spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team or (spell.team in ["common", "neutral", null])
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: false
 
-  updateLanguageForAllSpells: ->
-    spell.updateLanguageAether() for spellKey, spell of @spells
+  updateLanguageForAllSpells: (e) ->
+    spell.updateLanguageAether e.language for spellKey, spell of @spells when spell.canWrite()
+    @cast()
 
   destroy: ->
     spell.destroy() for spellKey, spell of @spells
-    @worker?._close()
+    @worker?.terminate()
     super()

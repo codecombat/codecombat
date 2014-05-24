@@ -8,10 +8,8 @@ for /f "tokens=4-5 delims=. " %%i in ('ver') do set VERSION=%%i.%%j
 if "%version%" == "5.2" ( call:set_os XP )
 if "%version%" == "6.0" ( call:set_os Vista )
 if "%version%" == "6.1" ( call:set_os Win7 )
-:: we handle win8.0 as win7
-if "%version%" == "6.2" ( call:set_os Win7 )
-:: we handle win8.1 as win7
-if "%version%" == "6.3" ( call:set_os Win7 )
+if "%version%" == "6.2" ( call:set_os Win8 )
+if "%version%" == "6.3" ( call:set_os Win8 )
 
 goto:end
 

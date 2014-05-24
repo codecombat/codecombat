@@ -23,17 +23,29 @@ module.exports = class EditorConfigModal extends View
 
   constructor: (options) ->
     super(options)
+    @session = options.session
 
   getRenderData: ->
     @aceConfig = _.cloneDeep me.get('aceConfig') ? {}
     @aceConfig = _.defaults @aceConfig, @defaultConfig
     c = super()
+    c.languages = [
+      {id: 'javascript', name: 'JavaScript'}
+      {id: 'coffeescript', name: 'CoffeeScript'}
+      {id: 'python', name: 'Python (Experimental)'}
+      {id: 'clojure', name: 'Clojure (Experimental)'}
+      {id: 'lua', name: 'Lua (Experimental)'}
+    ]
+    c.sessionLanguage = @session.get('codeLanguage') ? @aceConfig.language
     c.language = @aceConfig.language
     c.keyBindings = @aceConfig.keyBindings
     c.invisibles = @aceConfig.invisibles
     c.indentGuides = @aceConfig.indentGuides
     c.behaviors = @aceConfig.behaviors
     c
+
+  updateSessionLanguage: ->
+    @session.set 'codeLanguage', @$el.find('#tome-session-language').val()
 
   updateLanguage: ->
     @aceConfig.language = @$el.find('#tome-language').val()
@@ -54,7 +66,9 @@ module.exports = class EditorConfigModal extends View
     super()
 
   onHidden: ->
-    oldLanguage = @aceConfig.language
+    oldLanguage = @session.get('codeLanguage') ? @aceConfig.language
+    newLanguage = @$el.find('#tome-session-language').val()
+    @session.set 'codeLanguage', newLanguage
     @aceConfig.language = @$el.find('#tome-language').val()
     @aceConfig.invisibles = @$el.find('#tome-invisibles').prop('checked')
     @aceConfig.keyBindings = @$el.find('#tome-key-bindings').val()
@@ -62,7 +76,8 @@ module.exports = class EditorConfigModal extends View
     @aceConfig.behaviors = @$el.find('#tome-behaviors').prop('checked')
     me.set 'aceConfig', @aceConfig
     Backbone.Mediator.publish 'tome:change-config'
-    Backbone.Mediator.publish 'tome:change-language' unless @aceConfig.language isnt oldLanguage
+    Backbone.Mediator.publish 'tome:change-language', language: newLanguage unless newLanguage is oldLanguage
+    @session.save() unless newLanguage is oldLanguage
     me.save()
 
   destroy: ->

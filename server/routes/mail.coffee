@@ -1,5 +1,4 @@
 mail = require '../commons/mail'
-map = _.invert mail.MAILCHIMP_GROUP_MAP
 User = require '../users/User.coffee'
 errors = require '../commons/errors'
 #request = require 'request'
@@ -37,8 +36,9 @@ getTimeFromDaysAgo = (now, daysAgo) ->
   t = now - 86400 * 1000 * daysAgo - LADDER_PREGAME_INTERVAL
 
 isRequestFromDesignatedCronHandler = (req, res) ->
-  if req.ip isnt config.mail.cronHandlerPublicIP and req.ip isnt config.mail.cronHandlerPrivateIP
-    console.log "RECEIVED REQUEST FROM IP #{req.ip}(headers indicate #{req.headers['x-forwarded-for']}"
+  requestIP = req.headers['x-forwarded-for']?.replace(" ","").split(",")[0]
+  if requestIP isnt config.mail.cronHandlerPublicIP and requestIP isnt config.mail.cronHandlerPrivateIP
+    console.log "RECEIVED REQUEST FROM IP #{requestIP}(headers indicate #{req.headers['x-forwarded-for']}"
     console.log "UNAUTHORIZED ATTEMPT TO SEND TRANSACTIONAL LADDER EMAIL THROUGH CRON MAIL HANDLER"
     res.send("You aren't authorized to perform that action. Only the specified Cron handler may perform that action.")
     res.end()
@@ -53,7 +53,7 @@ handleLadderUpdate = (req, res) ->
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
   # TODO: somehow fetch the histograms
-  emailDays = [1, 2, 4, 7, 30]
+  emailDays = [1, 2, 4, 7, 14, 30]
   now = new Date()
   for daysAgo in emailDays
     # Get every session that was submitted in a 5-minute window after the time.
@@ -76,17 +76,18 @@ handleLadderUpdate = (req, res) ->
         sendLadderUpdateEmail result, now, daysAgo for result in results
 
 sendLadderUpdateEmail = (session, now, daysAgo) ->
-  User.findOne({_id: session.creator}).select("name email firstName lastName emailSubscriptions preferredLanguage").lean().exec (err, user) ->
+  User.findOne({_id: session.creator}).select("name email firstName lastName emailSubscriptions emails preferredLanguage").exec (err, user) ->
     if err
       log.error "Couldn't find user for #{session.creator} from session #{session._id}"
       return
-    unless user.email and ('notification' in user.emailSubscriptions) and not session.unsubscribed
-      log.info "Not sending email to #{user.email} #{user.name} because they only want emails about #{user.emailSubscriptions} - session unsubscribed: #{session.unsubscribed}"
+    allowNotes = user.isEmailSubscriptionEnabled 'anyNotes'
+    unless user.get('email') and allowNotes and not session.unsubscribed
+      log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{user.get('emailSubscriptions')}, #{user.get('emails')} - session unsubscribed: #{session.unsubscribed}"
       return
     unless session.levelName
-      log.info "Not sending email to #{user.email} #{user.name} because the session had no levelName in it."
+      log.info "Not sending email to #{user.get('email')} #{user.get('name')} because the session had no levelName in it."
       return
-    name = if user.firstName and user.lastName then "#{user.firstName}" else user.name
+    name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
     name = "Wizard" if not name or name is "Anoner"
 
     # Fetch the most recent defeat and victory, if there are any.
@@ -107,7 +108,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
       context =
         email_id: sendwithus.templates.ladder_update_email
         recipient:
-          address: if DEBUGGING then 'nick@codecombat.com' else user.email
+          address: if DEBUGGING then 'nick@codecombat.com' else user.get('email')
           name: name
         email_data:
           name: name
@@ -197,13 +198,11 @@ handleMailchimpWebHook = (req, res) ->
       return errors.serverError(res) if err
       res.end('Success')
 
+module.exports.handleProfileUpdate = handleProfileUpdate = (user, post) ->
+  mailchimpSubs = post.data.merges.INTERESTS.split(', ')
 
-handleProfileUpdate = (user, post) ->
-  groups = post.data.merges.INTERESTS.split(', ')
-  groups = (map[g] for g in groups when map[g])
-  otherSubscriptions = (g for g in user.get('emailSubscriptions') when not mail.MAILCHIMP_GROUP_MAP[g])
-  groups = groups.concat otherSubscriptions
-  user.set 'emailSubscriptions', groups
+  for [mailchimpEmailGroup, emailGroup] in _.zip(mail.MAILCHIMP_GROUPS, mail.NEWS_GROUPS)
+    user.setEmailSubscription emailGroup, mailchimpEmailGroup in mailchimpSubs
 
   fname = post.data.merges.FNAME
   user.set('firstName', fname) if fname
@@ -216,7 +215,9 @@ handleProfileUpdate = (user, post) ->
 
 #  badLog("Updating user object to: #{JSON.stringify(user.toObject(), null, '\t')}")
 
-handleUnsubscribe = (user) ->
+module.exports.handleUnsubscribe = handleUnsubscribe = (user) ->
   user.set 'emailSubscriptions', []
+  for emailGroup in mail.NEWS_GROUPS
+    user.setEmailSubscription emailGroup, false
 
 #  badLog("Unsubscribing user object to: #{JSON.stringify(user.toObject(), null, '\t')}")

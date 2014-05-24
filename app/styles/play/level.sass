@@ -1,6 +1,11 @@
 @import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
 
+body.is-playing
+  background-color: black
+  .footer
+    background-color: black
+
 #level-view
   margin: 0 auto
   @include user-select(none)
@@ -11,9 +16,10 @@
   #canvas-wrapper
     width: 55%
     position: relative
+    overflow: hidden
     
   canvas#surface
-    background-color: #ddd
+    background-color: #333
     width: 100%
     display: block
     z-index: 1
@@ -55,12 +61,6 @@
   #multiplayer-join-link
     font-size: 12px
       
-  #level-done-button
-    position: absolute
-    right: 46%
-    top: 43px
-    @include box-shadow(4px 4px 15px black)
-
   // Custom Buttons
   .btn.banner
     @include banner-button(#FFF, #333)

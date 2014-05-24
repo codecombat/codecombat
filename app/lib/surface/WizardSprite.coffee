@@ -29,10 +29,9 @@ module.exports = class WizardSprite extends IndieSprite
     'right': 'onMoveKey'
 
   constructor: (thangType, options) ->
-    if options?.isSelf
+    if @isSelf = options.isSelf
       options.colorConfig = $.extend(true, {}, me.get('wizard')?.colorConfig) or {}
     super thangType, options
-    @isSelf = options.isSelf
     @targetPos = @thang.pos
     if @isSelf
       @setNameLabel me.displayName()
@@ -47,6 +46,13 @@ module.exports = class WizardSprite extends IndieSprite
     thang.bobTime = 2
     thang.pos.z += thang.bobHeight
     thang
+
+  finishSetup: ->
+    @updateBaseScale()
+    @scaleFactor = @thang.scaleFactor if @thang?.scaleFactor
+    @updateScale()
+    @updateRotation()
+    # Don't call general update() because Thang isn't built yet
 
   onPlayerStatesChanged: (e) ->
     for playerID, state of e.states
@@ -64,7 +70,7 @@ module.exports = class WizardSprite extends IndieSprite
 
   onMeSynced: (e) ->
     return unless @isSelf
-    @setNameLabel me.displayName() if @displayObject.visible  # not if we hid the wiz
+    @setNameLabel me.displayName() if @imageObject.visible  # not if we hid the wiz
     newColorConfig = me.get('wizard')?.colorConfig or {}
     shouldUpdate = not _.isEqual(newColorConfig, @options.colorConfig)
     @options.colorConfig = $.extend(true, {}, newColorConfig)
@@ -77,12 +83,12 @@ module.exports = class WizardSprite extends IndieSprite
     @setTarget e.sprite or e.worldPos
 
   animateIn: ->
-    @displayObject.scaleX = @displayObject.scaleY = @displayObject.alpha = 0
-    createjs.Tween.get(@displayObject)
+    @imageObject.scaleX = @imageObject.scaleY = @imageObject.alpha = 0
+    createjs.Tween.get(@imageObject)
       .to({scaleX: 1, scaleY: 1, alpha: 1}, 1000, createjs.Ease.getPowInOut(2.2))
 
   animateOut: (callback) ->
-    tween = createjs.Tween.get(@displayObject)
+    tween = createjs.Tween.get(@imageObject)
       .to({scaleX: 0, scaleY: 0, alpha: 0}, 1000, createjs.Ease.getPowInOut(2.2))
     tween.call(callback) if callback
 
@@ -202,8 +208,8 @@ module.exports = class WizardSprite extends IndieSprite
     @thang.pos = @getCurrentPosition()
     @faceTarget()
     sup = @options.camera.worldToSurface x: @thang.pos.x, y: @thang.pos.y, z: @thang.pos.z - @thang.depth / 2
-    @displayObject.x = sup.x
-    @displayObject.y = sup.y
+    @imageObject.x = sup.x
+    @imageObject.y = sup.y
 
   getCurrentPosition: ->
     """
@@ -244,7 +250,7 @@ module.exports = class WizardSprite extends IndieSprite
       @pointToward(@targetSprite.thang.pos)
 
   updateMarks: ->
-    super() if @displayObject.visible  # not if we hid the wiz
+    super() if @imageObject.visible  # not if we hid the wiz
 
   onMoveKey: (e) ->
     return unless @isSelf

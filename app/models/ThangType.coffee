@@ -5,6 +5,7 @@ buildQueue = []
 
 module.exports = class ThangType extends CocoModel
   @className: "ThangType"
+  @schema: require 'schemas/models/thang_type'
   urlRoot: "/db/thang.type"
   building: {}
 
@@ -26,11 +27,17 @@ module.exports = class ThangType extends CocoModel
     @spriteSheets = {}
     @building = {}
 
+  isFullyLoaded: ->
+    # TODO: Come up with a better way to identify when the model doesn't have everything needed to build the sprite. ie when it's a projection without all the required data.
+    return @get('actions') or @get('raster') # needs one of these two things
+
   getActions: ->
+    return {} unless @isFullyLoaded()
     return @actions or @buildActions()
 
   buildActions: ->
-    @actions = $.extend(true, {}, @get('actions') or {})
+    return null unless @isFullyLoaded()
+    @actions = $.extend(true, {}, @get('actions'))
     for name, action of @actions
       action.name = name
       for relatedName, relatedAction of action.relatedActions ? {}
@@ -46,14 +53,19 @@ module.exports = class ThangType extends CocoModel
   fillOptions: (options) ->
     options ?= {}
     options = _.clone options
-    options.resolutionFactor ?= 4
+    options.resolutionFactor ?= SPRITE_RESOLUTION_FACTOR
     options.async ?= false
     options
 
   buildSpriteSheet: (options) ->
+    return false unless @isFullyLoaded()
     @options = @fillOptions options
     key = @spriteSheetKey(@options)
-    return if @building[key]
+    if ss = @spriteSheets[key] then return ss
+    if @building[key]
+      @options = null
+      return key
+    @t0 = new Date().getTime()
     @initBuild(options)
     @addGeneralFrames() unless @options.portraitOnly
     @addPortrait()
@@ -141,25 +153,34 @@ module.exports = class ThangType extends CocoModel
       buildQueue.push @builder
       @builder.t0 = new Date().getTime()
       @builder.buildAsync() unless buildQueue.length > 1
-      @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, key
-      return true
-    t0 = new Date()
+      @builder.on 'complete', @onBuildSpriteSheetComplete, @, true, [@builder, key, @options]
+      @builder = null
+      return key
     spriteSheet = @builder.build()
-    console.warn "Built #{@get('name')} in #{new Date() - t0}ms on main thread."
+    @logBuild @t0, false, @options.portraitOnly
     @spriteSheets[key] = spriteSheet
     delete @building[key]
+    @builder = null
+    @options = null
     spriteSheet
 
-  onBuildSpriteSheetComplete: (e, key) ->
-    console.log "Built #{@get('name')} async in #{new Date().getTime() - @builder.t0}ms." if @builder
+  onBuildSpriteSheetComplete: (e, data) ->
+    [builder, key, options] = data
+    @logBuild builder.t0, true, options.portraitOnly
     buildQueue = buildQueue.slice(1)
     buildQueue[0].t0 = new Date().getTime() if buildQueue[0]
     buildQueue[0]?.buildAsync()
     @spriteSheets[key] = e.target.spriteSheet
     delete @building[key]
-    @trigger 'build-complete'
-    @builder = null
+    @trigger 'build-complete', {key:key, thangType:@}
     @vectorParser = null
+
+  logBuild: (startTime, async, portrait) ->
+    kind = if async then 'Async' else 'Sync '
+    portrait = if portrait then '(Portrait)' else ''
+    name = _.string.rpad @get('name'), 20
+    time = _.string.lpad '' + new Date().getTime() - startTime, 6
+    console.debug "Built sheet:  #{name} #{time}ms  #{kind}  #{portrait}"
 
   spriteSheetKey: (options) ->
     colorConfigs = []
@@ -179,6 +200,7 @@ module.exports = class ThangType extends CocoModel
     stage?.toDataURL()
 
   getPortraitStage: (spriteOptionsOrKey, size=100) ->
+    return unless @isFullyLoaded()
     key = spriteOptionsOrKey
     key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
     spriteSheet = @spriteSheets[key]
@@ -186,6 +208,7 @@ module.exports = class ThangType extends CocoModel
       options = if _.isPlainObject spriteOptionsOrKey then spriteOptionsOrKey else {}
       options.portraitOnly = true
       spriteSheet = @buildSpriteSheet(options)
+    return if _.isString spriteSheet
     return unless spriteSheet
     canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
     stage = new createjs.Stage(canvas[0])
@@ -209,8 +232,8 @@ module.exports = class ThangType extends CocoModel
       @tick = null
     stage
 
-  uploadGenericPortrait: (callback) ->
-    src = @getPortraitSource()
+  uploadGenericPortrait: (callback, src) ->
+    src ?= @getPortraitSource()
     return callback?() unless src
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =

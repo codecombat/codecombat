@@ -14,15 +14,15 @@ module.exports = class ControlBarView extends View
 
   events:
     'click #multiplayer-button': ->
-      window.tracker?.trackEvent 'Clicked Multiplayer', level: @worldName, label: @worldName
+      window.tracker?.trackEvent 'Clicked Multiplayer', level: @level.get('name'), label: @level.get('name')
       @showMultiplayerModal()
 
     'click #docs-button': ->
-      window.tracker?.trackEvent 'Clicked Docs', level: @worldName, label: @worldName
+      window.tracker?.trackEvent 'Clicked Docs', level: @level.get('name'), label: @level.get('name')
       @showGuideModal()
 
     'click #restart-button': ->
-      window.tracker?.trackEvent 'Clicked Restart', level: @worldName, label: @worldName
+      window.tracker?.trackEvent 'Clicked Restart', level: @level.get('name'), label: @level.get('name')
       @showRestartModal()
 
     'click #next-game-button': ->
@@ -35,7 +35,6 @@ module.exports = class ControlBarView extends View
     @session = options.session
     @level = options.level
     @playableTeams = options.playableTeams
-    @ladderGame = options.ladderGame
     @spectateGame = options.spectateGame ? false
     super options
 
@@ -55,13 +54,12 @@ module.exports = class ControlBarView extends View
     super c
     c.worldName = @worldName
     c.multiplayerEnabled = @session.get('multiplayer')
-    c.ladderGame = @ladderGame
+    c.ladderGame = @level.get('type') is 'ladder'
     c.spectateGame = @spectateGame
-    c.homeLink = "/"
-    levelID = @level.get('slug')
-    if levelID in ["brawlwood", "brawlwood-tutorial", "dungeon-arena", "dungeon-arena-tutorial"]
-      levelID = 'brawlwood' if levelID is 'brawlwood-tutorial'
-      c.homeLink = "/play/ladder/" + levelID
+    if @level.get('type') in ['ladder', 'ladder-tutorial']
+      c.homeLink = '/play/ladder/' + @level.get('slug').replace /\-tutorial$/, ''
+    else
+      c.homeLink = '/'
     c
 
   afterRender: ->

@@ -1,7 +1,7 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/play'
 LevelSession = require 'models/LevelSession'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 
 class LevelSessionsCollection extends CocoCollection
   url: ''
@@ -138,17 +138,33 @@ module.exports = class PlayView extends View
         difficulty: 5
         id: 'gridmancer'
         image: '/file/db/level/52ae2460ef42c52f13000008/gridmancer_icon.png'
-        description: "Challenge! Beat this level, get a job!"
+        description: "Super algorithm challenge level!"
       }
     ]
 
     arenas = [
+      {
+        name: 'Greed'
+        difficulty: 4
+        id: 'greed'
+        image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
+        description: "Liked Dungeon Arena and Gold Rush? Put them together in this economic arena!"
+        levelPath: 'ladder'
+      }
       {
         name: 'Dungeon Arena'
         difficulty: 3
         id: 'dungeon-arena'
         image: '/file/db/level/526ae95c1e5cd30000000008/zone_of_danger_icon.png'
         description: "Play head-to-head against fellow Wizards in a dungeon melee!"
+        levelPath: 'ladder'
+      }
+      {
+        name: 'Gold Rush'
+        difficulty: 3
+        id: 'gold-rush'
+        image: '/file/db/level/52602ecb026e8481e7000001/generic_1.png'
+        description: "Prove you are better at collecting gold than your opponent!"
         levelPath: 'ladder'
       }
       {
@@ -204,6 +220,21 @@ module.exports = class PlayView extends View
         image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
         description: "Transfer a stack of ogres while preserving their honor. - by Alexandru"
       }
+      {
+        name: 'Find the Spy'
+        difficulty: 2
+        id: 'find-the-spy'
+        image: '/file/db/level/526ae95c1e5cd30000000008/zone_of_danger_icon.png'
+        description: "Identify the spies hidden among your soldiers - by Nathan Gossett"
+      }
+      {
+        name: 'Harvest Time'
+        difficulty: 2
+        id: 'harvest-time'
+        image: '/file/db/level/529662dfe0df8f0000000007/grab_the_mushroom_icon.png'
+        description: "Collect a hundred mushrooms in just five lines of code - by Nathan Gossett"
+      }
+
       #{
       #  name: 'Enemy Artillery'
       #  difficulty: 1

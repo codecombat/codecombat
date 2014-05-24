@@ -3,6 +3,7 @@ template = require 'templates/play/level/playback'
 {me} = require 'lib/auth'
 
 EditorConfigModal = require './modal/editor_config_modal'
+KeyboardShortcutsModal = require './modal/keyboard_shortcuts_modal'
 
 module.exports = class PlaybackView extends View
   id: "playback-view"
@@ -29,6 +30,7 @@ module.exports = class PlaybackView extends View
     'click #grid-toggle': 'onToggleGrid'
     'click #edit-wizard-settings': 'onEditWizardSettings'
     'click #edit-editor-config': 'onEditEditorConfig'
+    'click #view-keyboard-shortcuts': 'onViewKeyboardShortcuts'
     'click #music-button': 'onToggleMusic'
     'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @shouldIgnore()
     'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @shouldIgnore()
@@ -107,9 +109,12 @@ module.exports = class PlaybackView extends View
     @hookUpScrubber()
     @updateMusicButton()
     $(window).on('resize', @onWindowResize)
+    ua = navigator.userAgent.toLowerCase()
+    if /safari/.test(ua) and not /chrome/.test(ua)
+      @$el.find('.toggle-fullscreen').hide()
 
   updatePopupContent: ->
-    @timePopup.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"
+    @timePopup?.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"
 
   # These functions could go to some helper class
 
@@ -151,18 +156,16 @@ module.exports = class PlaybackView extends View
     @newTime = 0
     @currentTime = 0
 
-    @timePopup = new HoverPopup unless @timePopup?
+    @timePopup ?= new HoverPopup
 
-
-    #TODO: Why do we need defaultValues here at all? Fallback language has been set to 'en'... oO
     t = $.i18n.t
-    @second = t 'units.second', defaultValue: 'second'
-    @seconds = t 'units.seconds', defaultValue: 'seconds'
-    @minute = t 'units.minute', defaultValue: 'minute'
-    @minutes = t 'units.minutes', defaultValue: 'minutes'
-    @goto = t 'play_level.time_goto', defaultValue: "Go to:"
-    @current = t 'play_level.time_current', defaultValue: "Now:"
-    @total = t 'play_level.time_total', defaultValue: "Max:"
+    @second = t 'units.second'
+    @seconds = t 'units.seconds'
+    @minute = t 'units.minute'
+    @minutes = t 'units.minutes'
+    @goto = t 'play_level.time_goto'
+    @current = t 'play_level.time_current'
+    @total = t 'play_level.time_total'
 
   onToggleDebug: ->
     return if @shouldIgnore()
@@ -178,9 +181,13 @@ module.exports = class PlaybackView extends View
     Backbone.Mediator.publish 'edit-wizard-settings'
 
   onEditEditorConfig: ->
-    @openModalView(new EditorConfigModal())
+    @openModalView new EditorConfigModal session: @options.session
 
-  onCastSpells: ->
+  onViewKeyboardShortcuts: ->
+    @openModalView new KeyboardShortcutsModal()
+
+  onCastSpells: (e) ->
+    return if e.preload
     @casting = true
     @$progressScrubber.slider('disable', true)
 
@@ -190,9 +197,9 @@ module.exports = class PlaybackView extends View
       $('button', @$el).addClass('disabled')
       try
         @$progressScrubber.slider('disable', true)
-      catch e
-        #console.warn('error disabling scrubber')
-      @timePopup.disable()
+      catch error
+        console.warn('error disabling scrubber', error)
+      @timePopup?.disable()
     $('#volume-button', @$el).removeClass('disabled')
 
   onEnableControls: (e) ->
@@ -201,9 +208,9 @@ module.exports = class PlaybackView extends View
       $('button', @$el).removeClass('disabled')
       try
         @$progressScrubber.slider('enable', true)
-      catch e
-        #console.warn('error enabling scrubber')
-      @timePopup.enable()
+      catch error
+        console.warn('error enabling scrubber', error)
+      @timePopup?.enable()
 
   onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
@@ -235,36 +242,36 @@ module.exports = class PlaybackView extends View
       @currentTime = e.frame / e.world.frameRate
       # Game will sometimes stop at 29.97, but with only one digit, this is unnecesary.
       # @currentTime = @totalTime if Math.abs(@totalTime - @currentTime) < 0.04
-      @updatePopupContent()
+      @updatePopupContent() if @timePopup?.shown
 
       @updateProgress(e.progress)
       @updatePlayButton(e.progress)
     @lastProgress = e.progress
 
   onProgressEnter: (e) ->
-    #Why it needs itself as parameter you ask? Ask Twitter instead..
-    @timePopup.enter @timePopup
+    # Why it needs itself as parameter you ask? Ask Twitter instead.
+    @timePopup?.enter @timePopup
 
   onProgressLeave: (e) ->
-    @timePopup.leave @timePopup
+    @timePopup?.leave @timePopup
 
   onProgressHover: (e) ->
     timeRatio = @$progressScrubber.width() / @totalTime
     @newTime = e.offsetX / timeRatio
     @updatePopupContent()
-    @timePopup.onHover e
+    @timePopup?.onHover e
 
-    #Show it instantaniously if close enough to current time.
-    if Math.abs(@currentTime - @newTime) < 1 and not @timePopup.shown
-      @timePopup.show() unless @timePopup.shown
+    # Show it instantaneously if close enough to current time.
+    if @timePopup and Math.abs(@currentTime - @newTime) < 1 and not @timePopup.shown
+      @timePopup.show()
 
   updateProgress: (progress) ->
     $('.scrubber .progress-bar', @$el).css('width', "#{progress*100}%")
 
   updatePlayButton: (progress) ->
-    if progress >= 1.0 and @lastProgress < 1.0
+    if progress >= 0.99 and @lastProgress < 0.99
       $('#play-button').removeClass('playing').removeClass('paused').addClass('ended')
-    if progress < 1.0 and @lastProgress >= 1.0
+    if progress < 0.99 and @lastProgress >= 0.99
       b = $('#play-button').removeClass('ended')
       if @playing then b.addClass('playing') else b.addClass('paused')
 

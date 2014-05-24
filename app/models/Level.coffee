@@ -5,10 +5,12 @@ ThangType = require './ThangType'
 
 module.exports = class Level extends CocoModel
   @className: "Level"
+  @schema: require 'schemas/models/level'
   urlRoot: "/db/level"
-
+  
   serialize: (supermodel) ->
-    o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
+    # o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
+    o = $.extend true, {}, @attributes
 
     # Figure out Components
     o.levelComponents = _.cloneDeep (lc.attributes for lc in supermodel.getModels LevelComponent)
@@ -106,15 +108,3 @@ module.exports = class Level extends CocoModel
         width = c.width if c.width? and c.width > width
         height = c.height if c.height? and c.height > height
     return {width:width, height:height}
-
-  getReferencedModels: (data, schema, path='/', shouldLoadProjection=null) ->
-    models = super data, schema, path, shouldLoadProjection
-    if path.match(/\/systems\/\d+\/config\//) and data?.indieSprites?.length
-      # Ugh, we need to make sure we grab the IndieSprite ThangTypes
-      for indieSprite in data.indieSprites
-        link = "/db/thang.type/#{indieSprite.thangType}/version"
-        model = CocoModel.getOrMakeModelFromLink link, shouldLoadProjection
-        models.push model if model
-    else if path is '/'
-      models.push ThangType.loadUniversalWizard()
-    models

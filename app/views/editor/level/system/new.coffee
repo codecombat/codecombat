@@ -32,6 +32,6 @@ module.exports = class LevelSystemNewView extends View
       console.log "Got errors:", JSON.parse(res.responseText)
       forms.applyErrorsToForm(@$el, JSON.parse(res.responseText))
     res.success =>
-      @supermodel.addModel system
+      @supermodel.registerModel system
       Backbone.Mediator.publish 'edit-level-system', original: system.get('_id'), majorVersion: 0
       @hide()

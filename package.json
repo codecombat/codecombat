@@ -46,8 +46,8 @@
     "mongoose": "3.8.x",
     "mongoose-text-search": "~0.0.2",
     "request": "2.12.x",
-    "tv4": "1.0.11",
-    "lodash": "~2.0.0",
+    "tv4": "~1.0.16",
+    "lodash": "~2.4.1",
     "underscore.string": "2.3.x",
     "async": "0.2.x",
     "connect": "2.7.x",
@@ -60,9 +60,14 @@
     "gridfs-stream": "0.4.x",
     "stream-buffers": "0.2.x",
     "sendwithus": "2.0.x",
-    "aws-sdk":"~2.0.0",
-    "bayesian-battle":"0.0.x",
-    "redis": ""
+    "aws-sdk": "~2.0.0",
+    "bayesian-battle": "0.0.x",
+    "redis": "",
+    "webworker-threads": "~0.4.11",
+    "node-gyp": "~0.13.0",
+    "aether": "~0.2.8",
+    "JASON": "~0.1.3",
+    "JQDeferred": "~2.1.0"
   },
   "devDependencies": {
     "jade": "0.33.x",
@@ -73,7 +78,6 @@
     "css-brunch": "> 1.0 < 1.8",
     "jade-brunch": "> 1.0 < 1.8",
     "uglify-js-brunch": "~1.7.4",
-    "clean-css-brunch": "> 1.0 < 1.8",
     "auto-reload-brunch": "> 1.0 < 1.8",
     "brunch": "~1.7.4",
     "jasmine-node": "1.13.x",
@@ -92,7 +96,9 @@
     "karma-requirejs": "~0.2.1",
     "karma-phantomjs-launcher": "~0.1.1",
     "karma": "~0.10.9",
-    "karma-coverage": "~0.1.4"
+    "karma-coverage": "~0.1.4",
+    "compressible": "~1.0.1",
+    "jasmine-spec-reporter": "~0.3.0"
   },
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,

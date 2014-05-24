@@ -11,7 +11,6 @@ module.exports = class SystemsTabView extends View
   id: "editor-level-systems-tab-view"
   template: template
   className: 'tab-pane'
-  startsLoading: true
 
   subscriptions:
     'level-system-added': 'onLevelSystemAdded'
@@ -23,53 +22,38 @@ module.exports = class SystemsTabView extends View
   events:
     'click #add-system-button': 'addLevelSystem'
     'click #create-new-system-button': 'createNewLevelSystem'
+    'click #create-new-system': 'createNewLevelSystem'
 
   constructor: (options) ->
     super options
-    @toLoad = 0
     for system in @buildDefaultSystems()
       url = "/db/level.system/#{system.original}/version/#{system.majorVersion}"
-      ls = new LevelSystem()
-      ls.saveBackups = true
-      do (url) -> ls.url = -> url
-      continue if @supermodel.getModelByURL ls.url
-      ls.fetch()
-      @listenTo(ls, 'sync', @onSystemLoaded)
-      ++@toLoad
-    @onDefaultSystemsLoaded() unless @toLoad
+      ls = new LevelSystem().setURL(url)
+      @supermodel.loadModel(ls, 'system')
 
-  onSystemLoaded: (ls) ->
-    @supermodel.addModel ls
-    --@toLoad
-    @onDefaultSystemsLoaded() unless @toLoad
-
-  onDefaultSystemsLoaded: ->
-    @startsLoading = false
-    @render()  # do it again but without the loading screen
-    @onLevelLoaded level: @level if @level
-
+  afterRender: ->
+    @buildSystemsTreema()
+    
+  onLoaded: ->
+    super()
+      
   onLevelLoaded: (e) ->
     @level = e.level
-    return if @startsLoading
     @buildSystemsTreema()
 
   buildSystemsTreema: ->
+    return unless @level and @supermodel.finished()
     systems = $.extend(true, [], @level.get('systems') ? [])
     unless systems.length
       systems = @buildDefaultSystems()
       insertedDefaults = true
-
-    systemModels = @supermodel.getModels LevelSystem
-    systemModelMap = {}
-    systemModelMap[sys.get('original')] = sys.get('name') for sys in systemModels
-    systems = _.sortBy systems, (sys) -> systemModelMap[sys.original]
-    
+    systems = @getSortedByName systems
     treemaOptions =
       # TODO: somehow get rid of the + button, or repurpose it to open the LevelSystemAddView instead
       supermodel: @supermodel
-      schema: Level.schema.get('properties').systems
+      schema: Level.schema.properties.systems
       data: systems
-      readOnly: true unless me.isAdmin() or @level.hasWriteAccess(me)
+      readOnly: me.get('anonymous')
       callbacks:
         change: @onSystemsChanged
         select: @onSystemSelected
@@ -83,7 +67,14 @@ module.exports = class SystemsTabView extends View
     @onSystemsChanged() if insertedDefaults
 
   onSystemsChanged: (e) =>
-    @level.set 'systems', @systemsTreema.data
+    systems = @getSortedByName @systemsTreema.data
+    @level.set 'systems', systems
+
+  getSortedByName: (systems) =>
+    systemModels = @supermodel.getModels LevelSystem
+    systemModelMap = {}
+    systemModelMap[sys.get('original')] = sys.get('name') for sys in systemModels
+    _.sortBy systems, (sys) -> systemModelMap[sys.original]
 
   onSystemSelected: (e, selected) =>
     selected = if selected.length > 1 then selected[0].getLastSelectedTreema() else selected[0]
@@ -143,9 +134,9 @@ class LevelSystemNode extends TreemaObjectNode
     @collection = @system?.attributes?.configSchema?.properties?
 
   grabDBComponent: ->
-    @system = @settings.supermodel.getModelByOriginalAndMajorVersion LevelSystem, @data.original, @data.majorVersion
-    #@system = _.find @settings.supermodel.getModels(LevelSystem), (m) =>
-    #  m.get('original') is @data.original and m.get('version').major is @data.majorVersion
+    unless _.isString @data.original
+      return alert('Press the "Add System" button at the bottom instead of the "+". Sorry.')
+    @system = @settings.supermodel.getModelByOriginalAndMajorVersion(LevelSystem, @data.original, @data.majorVersion)
     console.error "Couldn't find system for", @data.original, @data.majorVersion, "from models", @settings.supermodel.models unless @system
 
   getChildSchema: (key) ->
@@ -157,11 +148,12 @@ class LevelSystemNode extends TreemaObjectNode
     name = "#{@system.get('name')} v#{@system.get('version').major}"
     @buildValueForDisplaySimply valEl, "#{name}"
 
-  onEnterPressed: ->
+  onEnterPressed: (e) ->
+    super e
     Backbone.Mediator.publish 'edit-level-system', original: @data.original, majorVersion: @data.majorVersion
 
-  open: ->
-    super()
+  open: (depth) ->
+    super depth
     cTreema = @childrenTreemas.config
     if cTreema? and (cTreema.getChildren().length or cTreema.canAddChild())
       cTreema.open()

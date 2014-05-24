@@ -1,29 +1,30 @@
+@import "../../bootstrap/mixins"
+
 #goals-view
   position: absolute
   left: 10px
-  top: 42px
-  background-color: rgba(200,200,200,0.8)
-  
-  &.brighter
-    background-color: rgba(200,200,200,1.0)
+  top: -100px
+  @include transition(top 0.5s ease-in-out)
+  background-color: rgba(200,200,200,1.0)
   
   border: black
-  padding: 5px 7px 5px 5px
+  padding: 15px 7px 2px 5px
   box-sizing: border-box
   border:  1px solid #333
   border-radius: 5px
-  cursor: pointer
-  user-select: none
-  -webkit-user-select: none
   
-  h3
-    font-size: 16px
+  .goals-status
+    font-size: 14px
     margin: 0
-    line-height: 20px
     color: black
-    
-    i
-      margin-right: 5px
+    .success
+      color: darkgreen
+    .timed-out
+      color: darkslategray
+    .failure
+      color: darkred
+    .incomplete
+      color: darkgoldenrod
     
   ul
     padding-left: 0

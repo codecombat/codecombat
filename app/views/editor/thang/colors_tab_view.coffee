@@ -12,7 +12,7 @@ module.exports = class ColorsTabView extends CocoView
 
   constructor: (@thangType, options) ->
     @listenToOnce(@thangType, 'sync', @tryToBuild)
-    @listenToOnce(@thangType.schema(), 'sync', @tryToBuild)
+    # @listenToOnce(@thangType.schema(), 'sync', @tryToBuild)
     @colorConfig = { hue: 0, saturation: 0.5, lightness: 0.5 }
     @spriteBuilder = new SpriteBuilder(@thangType)
     f = =>
@@ -24,7 +24,8 @@ module.exports = class ColorsTabView extends CocoView
   destroy: ->
     clearInterval @interval
     super()
-
+  
+  onLoaded: -> @render()
   afterRender: ->
     super()
     @createShapeButtons()
@@ -112,10 +113,10 @@ module.exports = class ColorsTabView extends CocoView
     @buttons = buttons
 
   tryToBuild: ->
-    return unless @thangType.loaded and @thangType.schema().loaded
+    return unless @thangType.loaded
     data = @thangType.get('colorGroups')
     data ?= {}
-    schema = @thangType.schema().attributes.properties?.colorGroups
+    schema = @thangType.schema().properties?.colorGroups
     treemaOptions =
       data: data
       schema: schema

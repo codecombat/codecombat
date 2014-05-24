@@ -18,6 +18,9 @@ module.exports = class SpellView extends View
   editModes:
     'javascript': 'ace/mode/javascript'
     'coffeescript': 'ace/mode/coffee'
+    'clojure': 'ace/mode/clojure'
+    'lua': 'ace/mode/lua'
+    'python': 'ace/mode/python'
 
   keyBindings:
     'default': null
@@ -47,10 +50,11 @@ module.exports = class SpellView extends View
 
   constructor: (options) ->
     super options
+    @worker = options.worker
     @session = options.session
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @spell = options.spell
-    @problems = {}
+    @problems = []
     @writable = false unless me.team in @spell.permissions.readwrite  # TODO: make this do anything
     @highlightCurrentLine = _.throttle @highlightCurrentLine, 100
 
@@ -63,7 +67,7 @@ module.exports = class SpellView extends View
       @createFirepad()
     else
       # needs to happen after the code generating this view is complete
-      setTimeout @onAllLoaded, 1
+      _.defer @onAllLoaded
 
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -72,7 +76,7 @@ module.exports = class SpellView extends View
     @aceSession = @ace.getSession()
     @aceDoc = @aceSession.getDocument()
     @aceSession.setUseWorker false
-    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
+    @aceSession.setMode @editModes[@spell.language]
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode "unix"
@@ -96,8 +100,12 @@ module.exports = class SpellView extends View
       aceCommands.push c.name
     addCommand
       name: 'run-code'
-      bindKey: {win: 'Shift-Enter|Ctrl-Enter|Ctrl-S', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter|Command-S|Ctrl-S'}
+      bindKey: {win: 'Shift-Enter|Ctrl-Enter', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter'}
       exec: -> Backbone.Mediator.publish 'tome:manual-cast', {}
+    addCommand
+      name: 'no-op'
+      bindKey: {win: 'Ctrl-S', mac: 'Command-S|Ctrl-S'}
+      exec: ->  # just prevent page save call
     addCommand
       name: 'toggle-playing'
       bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
@@ -106,8 +114,8 @@ module.exports = class SpellView extends View
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
       passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
-      # No easy way to selectively cancel shift+space, since we don't get access to the event.
-      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
+    # No easy way to selectively cancel shift+space, since we don't get access to the event.
+    # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
       exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
     addCommand
       name: 'end-all-scripts'
@@ -145,6 +153,11 @@ module.exports = class SpellView extends View
       name: 'spell-beautify'
       bindKey: {win: 'Ctrl-Shift-B', mac: 'Command-Shift-B|Ctrl-Shift-B'}
       exec: -> Backbone.Mediator.publish 'spell-beautify'
+    addCommand
+      name: 'prevent-line-jump'
+      bindKey: {win: 'Ctrl-L', mac: 'Command-L'}
+      passEvent: true
+      exec: ->  # just prevent default ACE go-to-line alert
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -157,7 +170,7 @@ module.exports = class SpellView extends View
       @firepad?.dispose()
 
   createFirepad: ->
-     # load from firebase or the original source if there's nothing there
+    # load from firebase or the original source if there's nothing there
     return if @firepadLoading
     @eventsSuppressed = true
     @loaded = false
@@ -188,7 +201,7 @@ module.exports = class SpellView extends View
     @createToolbarView()
 
   createDebugView: ->
-    @debugView = new SpellDebugView ace: @ace, thang: @thang
+    @debugView = new SpellDebugView ace: @ace, thang: @thang, spell:@spell
     @$el.append @debugView.render().$el.hide()
 
   createToolbarView: ->
@@ -209,11 +222,11 @@ module.exports = class SpellView extends View
     @createDebugView() unless @debugView
     @debugView.thang = @thang
     @toolbarView?.toggleFlow false
-    @updateAether false, true
+    @updateAether false, false
     @highlightCurrentLine()
 
-  cast: ->
-    Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang
+  cast: (preload=false) ->
+    Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload
 
   notifySpellChanged: =>
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
@@ -278,35 +291,27 @@ module.exports = class SpellView extends View
     ]
     @onCodeChangeMetaHandler = =>
       return if @eventsSuppressed
-      if not @spellThang or @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw
-        callback() for callback in onSignificantChange  # Do these first
-      callback() for callback in onAnyChange  # Then these
+      @spell.hasChangedSignificantly @getSource(), @spellThang.aether.raw, (hasChanged) =>
+        if not @spellThang or hasChanged
+          callback() for callback in onSignificantChange  # Do these first
+        callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
 
-  setRecompileNeeded: (needed=true) =>
-    if needed
-      @recompileNeeded = needed  # and @recompileValid  # todo, remove if not caring about validity
-    else
-      @recompileNeeded = false
+  setRecompileNeeded: (@recompileNeeded) =>
 
   onCursorActivity: =>
     @currentAutocastHandler?()
 
   # Design for a simpler system?
-  # * Turn off ACE's JSHint worker
   # * Keep Aether linting, debounced, on any significant change
-  # - Don't send runtime errors from in-progress worlds
   # - All problems just vanish when you make any change to the code
   # * You wouldn't accept any Aether updates/runtime information/errors unless its code was current when you got it
-  # * Store the last run Aether in each spellThang and use it whenever its code actually is current
-  #   This suffers from the problem that any whitespace/comment changes will lose your info, but what else
-  #   could you do other than somehow maintain a mapping from current to original code locations?
-  #   I guess you could use dynamic markers for problem ranges and keep annotations/alerts in when insignificant
+  # * Store the last run Aether in each spellThang and use it whenever its code actually is current.
+  #   Use dynamic markers for problem ranges and keep annotations/alerts in when insignificant
   #   changes happen, but always treat any change in the (trimmed) number of lines as a significant change.
-  #   Ooh, that's pretty nice. Gets you most of the way there and is simple.
   # - All problems have a master representation as a Problem, and we can easily generate all Problems from
   #   any Aether instance. Then when we switch contexts in any way, we clear, recreate, and reapply the Problems.
-  # * Problem alerts will have their own templated ProblemAlertViews
+  # * Problem alerts have their own templated ProblemAlertViews.
   # * We'll only show the first problem alert, and it will always be at the bottom.
   #   Annotations and problem ranges can show all, I guess.
   # * The editor will reserve space for one annotation as a codeless area.
@@ -317,20 +322,39 @@ module.exports = class SpellView extends View
     # to a new spellThang, we may want to refresh our Aether display.
     return unless aether = @spellThang?.aether
     source = @getSource()
-    codeHasChangedSignificantly = force or @spell.hasChangedSignificantly source, aether.raw
-    needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
-    return if not needsUpdate and aether is @displayedAether
-    castAether = @spellThang.castAether
-    codeIsAsCast = castAether and not @spell.hasChangedSignificantly source, castAether.raw
-    aether = castAether if codeIsAsCast
-    return if not needsUpdate and aether is @displayedAether
+    @spell.hasChangedSignificantly source, aether.raw, (hasChanged) =>
+      codeHasChangedSignificantly = force or hasChanged
+      needsUpdate = codeHasChangedSignificantly or @spellThang isnt @lastUpdatedAetherSpellThang
+      return if not needsUpdate and aether is @displayedAether
+      castAether = @spellThang.castAether
+      codeIsAsCast = castAether and source is castAether.raw
+      aether = castAether if codeIsAsCast
+      return if not needsUpdate and aether is @displayedAether
 
-    # Now that that's figured out, perform the update.
-    @clearAetherDisplay()
-    aether.transpile source if codeHasChangedSignificantly and not codeIsAsCast
-    @displayAether aether
-    @lastUpdatedAetherSpellThang = @spellThang
-    @guessWhetherFinished aether if fromCodeChange
+      # Now that that's figured out, perform the update.
+      # The web worker Aether won't track state, so don't have to worry about updating it
+      finishUpdatingAether = (aether) =>
+        @displayAether aether
+        @lastUpdatedAetherSpellThang = @spellThang
+        @guessWhetherFinished aether if fromCodeChange
+
+      @clearAetherDisplay()
+      if codeHasChangedSignificantly and not codeIsAsCast
+        workerMessage =
+          function: "transpile"
+          spellKey: @spell.spellKey
+          source: source
+
+        @worker.addEventListener "message", (e) =>
+          workerData = JSON.parse e.data
+          if workerData.function is "transpile" and workerData.spellKey is @spell.spellKey
+            @worker.removeEventListener "message", arguments.callee, false
+            aether.problems = workerData.problems
+            aether.raw = source
+            finishUpdatingAether(aether)
+        @worker.postMessage JSON.stringify(workerMessage)
+      else
+        finishUpdatingAether(aether)
 
   clearAetherDisplay: ->
     problem.destroy() for problem in @problems
@@ -341,6 +365,8 @@ module.exports = class SpellView extends View
   displayAether: (aether) ->
     @displayedAether = aether
     isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
+    isCast = isCast or @spell.language isnt 'javascript'  # Since we don't have linting for other languages
+    problem.destroy() for problem in @problems  # Just in case another problem was added since clearAetherDisplay() ran.
     @problems = []
     annotations = []
     seenProblemKeys = {}
@@ -362,28 +388,36 @@ module.exports = class SpellView extends View
 
   # Autocast:
   # Goes immediately if the code is a) changed and b) complete/valid and c) the cursor is at beginning or end of a line
-  # We originall thought it would:
+  # We originally thought it would:
   # - Go after specified delay if a) and b) but not c)
   # - Go only when manually cast or deselecting a Thang when there are errors
   # But the error message display was delayed, so now trying:
   # - Go after specified delay if a) and not b) or c)
   guessWhetherFinished: (aether) ->
-    return if @autocastDelay > 60000
-    #@recompileValid = not aether.getAllProblems().length
     valid = not aether.getAllProblems().length
     cursorPosition = @ace.getCursorPosition()
     currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(/[ \t]*\/\/[^"']*/g, ''))  # trim // unless inside "
     endOfLine = cursorPosition.column >= currentLine.length  # just typed a semicolon or brace, for example
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
     #console.log "finished?", valid, endOfLine, beginningOfLine, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
-    if valid and endOfLine or beginningOfLine
-      @recompile()
-      #console.log "recompile now!"
-    #else if not valid
-    #  # if this works, we can get rid of all @recompileValid logic
-    #  console.log "not valid, but so we'll wait to do it in", @autocastDelay + "ms"
-    #else
-    #  console.log "valid but not at end of line; recompile in", @autocastDelay + "ms"
+    if valid and (endOfLine or beginningOfLine)
+      if @autocastDelay > 60000
+        @preload()
+      else
+        @recompile()
+
+  preload: ->
+    # Send this code over to the God for preloading, but don't change the cast state.
+    oldSource = @spell.source
+    oldSpellThangAethers = {}
+    for thangID, spellThang of @spell.thangs
+      oldSpellThangAethers[thangID] = spellThang.aether.serialize()  # Get raw, pure, and problems
+    @spell.transpile @getSource()
+    @cast true
+    @spell.source = oldSource
+    for thangID, spellThang of @spell.thangs
+      for key, value of oldSpellThangAethers[thangID]
+        spellThang.aether[key] = value
 
   onSpellChanged: (e) ->
     @spellHasChanged = true
@@ -400,10 +434,11 @@ module.exports = class SpellView extends View
     return @onInfiniteLoop e if e.problem.id is "runtime_InfiniteLoop"
     return unless e.problem.userInfo.methodName is @spell.name
     return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
-    return if @spell.hasChangedSignificantly @getSource()  # don't show this error if we've since edited the code
-    spellThang.aether.addProblem e.problem
-    @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
-    @updateAether false, false
+    @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
+      return if hasChanged
+      spellThang.aether.addProblem e.problem
+      @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
+      @updateAether false, false
 
   onInfiniteLoop: (e) ->
     return unless @spellThang
@@ -418,7 +453,7 @@ module.exports = class SpellView extends View
       aether = e.world.userCodeMap[thangID]?[@spell.name]  # Might not be there if this is a new Programmable Thang.
       spellThang.castAether = aether
       spellThang.aether = @spell.createAether thang
-      #console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
+    #console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
     @spell.transpile()
     @updateAether false, false
 
@@ -438,7 +473,7 @@ module.exports = class SpellView extends View
     @highlightCurrentLine()
 
   onCoordinateSelected: (e) ->
-    return unless e.x? and e.y?
+    return unless @ace.isFocused() and e.x? and e.y?
     @ace.insert "{x: #{e.x}, y: #{e.y}}"
     @highlightCurrentLine()
 
@@ -469,7 +504,7 @@ module.exports = class SpellView extends View
           break
         _.last(executed).push state
         executedRows[state.range[0].row] = true
-        #state.executing = true if state.userInfo?.time is @thang.world.age  # no work
+    #state.executing = true if state.userInfo?.time is @thang.world.age  # no work
     currentCallIndex ?= callNumber - 1
     #console.log "got call index", currentCallIndex, "for time", @thang.world.age, "out of", states.length
 
@@ -571,14 +606,14 @@ module.exports = class SpellView extends View
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
     @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
-    # @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
 
   onChangeLanguage: (e) ->
-    aceConfig = me.get('aceConfig') ? {}
-    @aceSession.setMode @editModes[aceConfig.language ? 'javascript']
+    if @spell.canWrite()
+      @aceSession.setMode @editModes[e.language]
 
   dismiss: ->
-    @recompile() if @spell.hasChangedSignificantly @getSource()
+    @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
+      @recompile() if hasChanged
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick

@@ -17,6 +17,7 @@ module.exports = class RootView extends CocoView
     "click #logout-button": "logoutAccount"
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
+    'click .auth-button': 'onClickAuthbutton'
 
   logoutAccount: ->
     logoutUser($('#login-email').val())
@@ -26,23 +27,33 @@ module.exports = class RootView extends CocoView
     subview = new WizardSettingsModal {}
     @openModalView subview
 
+  onClickAuthbutton: ->
+    AuthModal = require 'views/modal/auth_modal'
+    @openModalView new AuthModal {}
+
   showLoading: ($el) ->
     $el ?= @$el.find('.main-content-area')
     super($el)
+
+  renderScrollbar: ->
+    $('.nano-pane').css('display','none')
+    $ -> $('.nano').nanoScroller()
 
   afterInsert: ->
     # force the browser to scroll to the hash
     # also messes with the browser history, so perhaps come up with a better solution
     super()
-    hash = location.hash
-    location.hash = ''
-    location.hash = hash
-    @buildLanguages()
+    #hash = location.hash
+    #location.hash = ''
+    #location.hash = hash
+    @renderScrollbar()
     #@$('.antiscroll-wrap').antiscroll()  # not yet, buggy
 
   afterRender: ->
     super(arguments...)
     @chooseTab(location.hash.replace('#','')) if location.hash
+    @buildLanguages()
+    $('body').removeClass('is-playing')
 
   chooseTab: (category) ->
     $("a[href='##{category}']", @$el).tab('show')
@@ -52,7 +63,7 @@ module.exports = class RootView extends CocoView
   buildLanguages: ->
     $select = @$el.find(".language-dropdown").empty()
     if $select.hasClass("fancified")
-      $select.parent().find('.options,.trigger').remove()
+      $select.parent().find('.options, .trigger').remove()
       $select.unwrap().removeClass("fancified")
     preferred = me.lang()
     codes = _.keys(locale)
@@ -70,10 +81,8 @@ module.exports = class RootView extends CocoView
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
     @render()
-    @buildLanguages()
     unless newLang.split('-')[0] is "en"
       @openModalView(application.router.getView("modal/diplomat_suggestion", "_modal"))
-    $('body').attr('lang', newLang)
 
   saveLanguage: (newLang) ->
     me.set('preferredLanguage', newLang)

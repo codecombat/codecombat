@@ -21,21 +21,33 @@ module.exports = class MusicPlayer extends CocoClass
 
   onPlayMusic: (e) ->
     src = e.file
-    if src
-      src = "/file#{src}#{AudioPlayer.ext}"
-      return @currentMusic.play('none', 0, 0, -1, 0.3) if src is @currentMusic?.src
-      media = AudioPlayer.getStatus(src)
-      if not media?.loaded
-        AudioPlayer.preloadSound(src)
-        @standingBy = e
-        return
+    src = "/file#{e.file}#{AudioPlayer.ext}"
+    if (not e.file) or src is @currentMusic?.src
+      if e.play then @restartCurrentMusic() else @fadeOutCurrentMusic()
+      return
+      
+    media = AudioPlayer.getStatus(src)
+    if not media?.loaded
+      AudioPlayer.preloadSound(src)
+      @standingBy = e
+      return
 
     @standingBy = null
-    if @currentMusic
-      f = -> @stop()
-      createjs.Tween.get(@currentMusic).to({volume:0.0}, CROSSFADE_LENGTH).call(f)
-
-    @currentMusic = createjs.Sound.play(src, 'none', 0, 0, -1, 0.3) if src and e.play
+    @fadeOutCurrentMusic()
+    @startNewMusic(src) if e.play
+      
+  restartCurrentMusic: ->
+    return unless @currentMusic
+    @currentMusic.play('none', 0, 0, -1, 0.3)
+    @updateMusicVolume()
+    
+  fadeOutCurrentMusic: ->
+    return unless @currentMusic
+    f = -> @stop()
+    createjs.Tween.get(@currentMusic).to({volume:0.0}, CROSSFADE_LENGTH).call(f)
+    
+  startNewMusic: (src) ->
+    @currentMusic = createjs.Sound.play(src, 'none', 0, 0, -1, 0.3) if src
     return unless @currentMusic
     @currentMusic.volume = 0.0
     if me.get('music')

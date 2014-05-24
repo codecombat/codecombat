@@ -1,6 +1,9 @@
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
+File = require 'models/File'
 
 module.exports = class ModelFiles extends CocoCollection
+  model: File
+  
   constructor: (model) ->
     super()
     url = model.constructor.prototype.urlRoot

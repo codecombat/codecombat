@@ -1,9 +1,62 @@
 require '../common'
 request = require 'request'
+User = require '../../../server/users/User'
 
 urlUser = '/db/user'
 
+describe 'Server user object', ->
+  
+  it 'uses the schema defaults to fill in email preferences', (done) ->
+    user = new User()
+    expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('anyNotes')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('recruitNotes')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('archmageNews')).toBeFalsy()
+    done()
+
+  it 'uses old subs if they\'re around', (done) ->
+    user = new User()
+    user.set 'emailSubscriptions', ['tester']
+    expect(user.isEmailSubscriptionEnabled('adventurerNews')).toBeTruthy()
+    expect(user.isEmailSubscriptionEnabled('generalNews')).toBeFalsy()
+    done()
+
+  it 'maintains the old subs list if it\'s around', (done) ->
+    user = new User()
+    user.set 'emailSubscriptions', ['tester']
+    user.setEmailSubscription('artisanNews', true)
+    expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester','level_creator']))
+    done()
+    
+describe 'User.updateMailChimp', ->
+  makeMC = (callback) ->
+    GLOBAL.mc =
+      lists:
+        subscribe: callback
+
+  it 'uses emails to determine what to send to MailChimp', (done) ->
+    makeMC (params) ->
+      expect(JSON.stringify(params.merge_vars.groupings[0].groups)).toBe(JSON.stringify(['Announcements']))
+      done()
+
+    user = new User({emailSubscriptions:['announcement'], email:'tester@gmail.com'})
+    User.updateMailChimp(user)
+
 describe 'POST /db/user', ->
+
+  createAnonNameUser = (done)->
+    request.post getURL('/auth/logout'), ->
+      request.get getURL('/auth/whoami'), ->
+        req = request.post(getURL('/db/user'), (err, response) ->
+          expect(response.statusCode).toBe(200)
+          request.get getURL('/auth/whoami'), (request, response, body) ->
+            res = JSON.parse(response.body)
+            expect(res.anonymous).toBeTruthy()
+            expect(res.name).toEqual('Jim')
+            done() 
+        )
+        form = req.form()
+        form.append('name', 'Jim')
 
   it 'preparing test : clears the db first', (done) ->
     clearModels [User], (err) ->
@@ -50,6 +103,36 @@ describe 'POST /db/user', ->
           expect(user.email).toBeUndefined()
           expect(user.passwordHash).toBeUndefined()
           done()
+
+  it 'should allow setting anonymous user name', (done) ->
+    createAnonNameUser(done)
+
+  it 'should allow multiple anonymous users with same name', (done) ->
+    createAnonNameUser(done)
+
+
+  it 'should not allow setting existing user name to anonymous user', (done) ->
+
+    createAnonUser = ->
+      request.post getURL('/auth/logout'), ->
+        request.get getURL('/auth/whoami'), ->
+          req = request.post(getURL('/db/user'), (err, response) ->
+            expect(response.statusCode).toBe(409)
+            done() 
+          )
+          form = req.form()
+          form.append('name', 'Jim')
+
+    req = request.post(getURL('/db/user'), (err,response,body) ->
+      expect(response.statusCode).toBe(200)
+      request.get getURL('/auth/whoami'), (request, response, body) ->
+        res = JSON.parse(response.body)
+        expect(res.anonymous).toBeFalsy()
+        createAnonUser()
+    )
+    form = req.form()
+    form.append('email', 'new@user.com')
+    form.append('password', 'new')
 
 
 describe 'PUT /db/user', ->
@@ -108,11 +191,20 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
         form.append('_id', String(admin._id))
         form.append('email', joe.get('email').toUpperCase())
 
-  it 'works', (done) ->
+  it 'does not care if you include your existing name', (done) ->
+    unittest.getNormalJoe (joe) ->
+      req = request.put getURL(urlUser+'/'+joe._id), (err, res) ->
+        expect(res.statusCode).toBe(200)
+        done()
+      form = req.form()
+      form.append('_id', String(joe._id))
+      form.append('name', 'Joe')
+
+  it 'accepts name and email changes', (done) ->
     unittest.getNormalJoe (joe) ->
       req = request.put getURL(urlUser), (err, res) ->
         expect(res.statusCode).toBe(200)
-        unittest.getUser('New@email.com', 'null', (joe) ->
+        unittest.getUser('Wilhelm', 'New@email.com', 'null', (joe) ->
           expect(joe.get('name')).toBe('Wilhelm')
           expect(joe.get('emailLower')).toBe('new@email.com')
           expect(joe.get('email')).toBe('New@email.com')
@@ -121,7 +213,6 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
       form.append('_id', String(joe._id))
       form.append('email', 'New@email.com')
       form.append('name', 'Wilhelm')
-
 
 describe 'GET /db/user', ->
 

@@ -84,3 +84,12 @@ describe '/db/article', ->
       body = JSON.parse(body)
       expect(body.type).toBeDefined()
       done()
+
+  it 'does not allow naming an article a reserved word', (done) ->
+    loginAdmin ->
+      new_article = {name: 'Search', body:'is a reserved word'}
+      request.post {uri:url, json:new_article}, (err, res, body) ->
+        expect(res.statusCode).toBe(422)
+        done()
+        
+       
