@@ -1,7 +1,7 @@
 View = require 'views/kinds/CocoView'
 add_thangs_template = require 'templates/editor/level/add_thangs'
 ThangType = require 'models/ThangType'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 
 class ThangTypeSearchCollection extends CocoCollection
   url: '/db/thang.type/search?project=true'
@@ -22,13 +22,9 @@ module.exports = class AddThangsView extends View
   constructor: (options) ->
     super options
     @world = options.world
-    @thangTypes = @supermodel.getCollection new ThangTypeSearchCollection()  # should load depended-on Components, too
-    @listenToOnce(@thangTypes, 'sync', @onThangTypesLoaded)
-    @thangTypes.fetch()
 
-  onThangTypesLoaded: ->
-    return if @destroyed
-    @render()  # do it again but without the loading screen
+    # should load depended-on Components, too
+    @thangTypes = @supermodel.loadCollection(new ThangTypeSearchCollection(), 'thangs').model
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -59,7 +55,6 @@ module.exports = class AddThangsView extends View
     context
 
   afterRender: ->
-    return if @startsLoading
     super()
 
   runSearch: (e) =>

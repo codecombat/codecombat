@@ -37,10 +37,12 @@ class SetupFactory(object):
         try:
             mongo_version_string = subprocess.check_output("mongod --version",shell=True)
             mongo_version_string = mongo_version_string.decode(encoding='UTF-8')
-        except:
-            print("Mongod not found.")
+        except Exception as e:
+            print("Mongod not found: %s"%e)
         if "v2.6." not in mongo_version_string:
-            print("MongoDB not found, so installing...")
+            if mongo_version_string:
+                print("Had MongoDB version: %s"%mongo_version_string)
+            print("MongoDB not found, so installing a local copy...")
             self.mongo.download_dependencies()
             self.mongo.install_dependencies()
         self.node.download_dependencies()

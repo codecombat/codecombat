@@ -5,6 +5,7 @@ module.exports = class ModalView extends CocoView
   closeButton: true
   closesOnClickOutside: true
   modalWidthPercent: null
+  plain: false
 
   shortcuts:
     'esc': 'hide'
@@ -31,6 +32,7 @@ module.exports = class ModalView extends CocoView
     @$el.on 'hide.bs.modal', =>
       @onHidden() unless @hidden
       @hidden = true
+    @$el.find('.background-wrapper').addClass('plain') if @plain
 
   afterInsert: ->
     super()
@@ -43,9 +45,11 @@ module.exports = class ModalView extends CocoView
     super($el)
 
   hide: ->
+    @trigger 'hide'
     @$el.removeClass('fade').modal "hide"
 
   onHidden: ->
+    @trigger 'hidden'
 
   destroy: ->
     @hide() unless @hidden

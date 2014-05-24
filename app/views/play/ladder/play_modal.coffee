@@ -11,6 +11,7 @@ module.exports = class LadderPlayModal extends View
   closeButton: true
   startsLoading: true
   @shownTutorialButton: false
+  tutorialLevelExists: null
 
   events:
     'click #skip-tutorial-button': 'hideTutorialButtons'
@@ -58,9 +59,11 @@ module.exports = class LadderPlayModal extends View
   # PART 4: Render
 
   finishRendering: ->
-    @startsLoading = false
-    @render()
-    @maybeShowTutorialButtons()
+    @checkTutorialLevelExists (exists) =>
+      @tutorialLevelExists = exists
+      @startsLoading = false
+      @render()
+      @maybeShowTutorialButtons()
 
   getRenderData: ->
     ctx = super()
@@ -69,6 +72,7 @@ module.exports = class LadderPlayModal extends View
     ctx.teamName = _.string.titleize @team
     ctx.teamID = @team
     ctx.otherTeamID = @otherTeam
+    ctx.tutorialLevelExists = @tutorialLevelExists
 
     teamsList = teamDataFromLevel @level
     teams = {}
@@ -94,7 +98,7 @@ module.exports = class LadderPlayModal extends View
     ctx
 
   maybeShowTutorialButtons: ->
-    return if @session or LadderPlayModal.shownTutorialButton
+    return if @session or LadderPlayModal.shownTutorialButton or not @tutorialLevelExists
     @$el.find('#normal-view').addClass('secret')
     @$el.find('.modal-header').addClass('secret')
     @$el.find('#noob-view').removeClass('secret')
@@ -104,6 +108,17 @@ module.exports = class LadderPlayModal extends View
     @$el.find('#normal-view').removeClass('secret')
     @$el.find('.modal-header').removeClass('secret')
     @$el.find('#noob-view').addClass('secret')
+
+  checkTutorialLevelExists: (cb) ->
+    levelID = @level.get('slug') or @level.id
+    tutorialLevelID = "#{levelID}-tutorial"
+    success = => cb true
+    failure = => cb false
+    $.ajax
+      type: "GET"
+      url: "/db/level/#{tutorialLevelID}/exists"
+      success: success
+      error: failure
 
   # Choosing challengers
 

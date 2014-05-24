@@ -48,7 +48,7 @@ module.exports = Surface = class Surface extends CocoClass
     coords: true
     playJingle: false
     showInvisible: false
-    frameRate: 60  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
+    frameRate: 30  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
 
   subscriptions:
     'level-disable-controls': 'onDisableControls'
@@ -65,6 +65,8 @@ module.exports = Surface = class Surface extends CocoClass
     'god:new-world-created': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
     'level-set-letterbox': 'onSetLetterbox'
+    'application:idle-changed': 'onIdleChanged'
+    'camera:zoom-updated': 'onZoomUpdated'
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -80,6 +82,10 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.extend(@options, givenOptions) if givenOptions
     @initEasel()
     @initAudio()
+    @onResize = _.debounce @onResize, 500
+    $(window).on 'resize', @onResize
+    if @world.ended
+      _.defer => @setWorld @world
 
   destroy: ->
     @dead = true
@@ -97,10 +103,14 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.removeAllChildren()
     @stage.removeEventListener 'stagemousemove', @onMouseMove
     @stage.removeEventListener 'stagemousedown', @onMouseDown
+    @stage.removeEventListener 'stagemouseup', @onMouseUp
     @stage.removeAllEventListeners()
     @stage.enableDOMEvents false
     @stage.enableMouseOver 0
     @canvas.off 'mousewheel', @onMouseWheel
+    $(window).off 'resize', @onResize
+    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
+    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
     super()
 
   setWorld: (@world) ->
@@ -221,8 +231,8 @@ module.exports = Surface = class Surface extends CocoClass
         @currentFrame = tempFrame
         frame = @world.getFrame(@getCurrentFrame())
         frame.restoreState()
-        for thangID, sprite of @spriteBoss.sprites
-          sprite.playSounds false, Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
+        volume = Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
+        sprite.playSounds false, volume for sprite in @spriteBoss.spriteArray
         tempFrame += if rising then 1 else -1
       @currentFrame = actualCurrentFrame
 
@@ -240,7 +250,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onSetCamera: (e) ->
     if e.thangID
-      return unless target = @spriteBoss.spriteFor(e.thangID)?.displayObject
+      return unless target = @spriteBoss.spriteFor(e.thangID)?.imageObject
     else if e.pos
       target = @camera.worldToSurface e.pos
     else
@@ -248,6 +258,11 @@ module.exports = Surface = class Surface extends CocoClass
     @camera.setBounds e.bounds if e.bounds
     @cameraBorder.updateBounds @camera.bounds
     @camera.zoomTo target, e.zoom, e.duration  # TODO: SurfaceScriptModule perhaps shouldn't assign e.zoom if not set
+
+  onZoomUpdated: (e) ->
+    if @ended
+      @setPaused false
+      @surfaceZoomPauseTimeout = _.delay (=> @setPaused true), 3000
 
   setDisabled: (@disabled) ->
     @spriteBoss.disabled = @disabled
@@ -267,6 +282,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onSetPlaying: (e) ->
     @playing = (e ? {}).playing ? true
+    @setPlayingCalled = true
     if @playing and @currentFrame >= (@world.totalFrames - 5)
       @currentFrame = 0
     if @fastForwarding and not @playing
@@ -301,22 +317,44 @@ module.exports = Surface = class Surface extends CocoClass
     )
 
     if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames - 1
-      @spriteBoss.stop()
-      @playbackOverScreen.show()
       @ended = true
+      @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended'
     else if @currentFrame < @world.totalFrames and @ended
-      @spriteBoss.play()
-      @playbackOverScreen.hide()
       @ended = false
+      @setPaused false
       Backbone.Mediator.publish 'surface:playback-restarted'
 
     @lastFrame = @currentFrame
 
-  onCastSpells: ->
+  onIdleChanged: (e) ->
+    @setPaused e.idle unless @ended
+
+  setPaused: (paused) ->
+    # We want to be able to essentially stop rendering the surface if it doesn't need to animate anything.
+    # If pausing, though, we want to give it enough time to finish any tweens.
+    performToggle = =>
+      createjs.Ticker.setFPS if paused then 1 else @options.frameRate
+      @surfacePauseTimeout = null
+    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
+    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
+    @surfacePauseTimeout = @surfaceZoomPauseTimeout = null
+    if paused
+      @surfacePauseTimeout = _.delay performToggle, 2000
+      @spriteBoss.stop()
+      @playbackOverScreen.show()
+    else
+      performToggle()
+      @spriteBoss.play()
+      @playbackOverScreen.hide()
+
+  onCastSpells: (e) ->
+    return if e.preload
+    @setPaused false if @ended
     @casting = true
     @wasPlayingWhenCastingBegan = @playing
     Backbone.Mediator.publish 'level-set-playing', { playing: false }
+    @setPlayingCalled = false # don't overwrite playing settings if they changed by, say, scripts
 
     if @coordinateDisplay?
       @surfaceTextLayer.removeChild @coordinateDisplay
@@ -328,10 +366,14 @@ module.exports = Surface = class Surface extends CocoClass
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
     @casting = false
+    if @ended and not @wasPlayingWhenCastingBegan
+      @setPaused true
+    else
+      @spriteBoss.play()
 
     # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
     # so only run it after the first world is created.
-    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan } unless event.firstWorld
+    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan } unless event.firstWorld or @setPlayingCalled
 
     fastForwardTo = null
     if @playing
@@ -358,10 +400,10 @@ module.exports = Surface = class Surface extends CocoClass
   initEasel: ->
     # takes DOM objects, not jQuery objects
     @stage = new createjs.Stage(@canvas[0])
-    canvasWidth = parseInt(@canvas.attr('width'), 10)
-    canvasHeight = parseInt(@canvas.attr('height'), 10)
+    canvasWidth = parseInt @canvas.attr('width'), 10
+    canvasHeight = parseInt @canvas.attr('height'), 10
     @camera?.destroy()
-    @camera = new Camera canvasWidth, canvasHeight
+    @camera = new Camera @canvas
     AudioPlayer.camera = @camera
     @layers.push @surfaceLayer = new Layer name: "Surface", layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @layers.push @surfaceTextLayer = new Layer name: "Surface Text", layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
@@ -375,10 +417,26 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown
+    @stage.addEventListener 'stagemouseup', @onMouseUp
     @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
     createjs.Ticker.setFPS @options.frameRate
+    @onResize()
+
+  onResize: (e) =>
+    oldWidth = parseInt @canvas.attr('width'), 10
+    oldHeight = parseInt @canvas.attr('height'), 10
+    newWidth = @canvas.width()
+    newHeight = @canvas.height()
+    return unless newWidth > 0 and newHeight > 0
+    #if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
+    #  newWidth = Math.min 924, newWidth
+    #  newHeight = Math.min 589, newHeight
+    @canvas.attr width: newWidth, height: newHeight
+    @stage.scaleX *= newWidth / oldWidth
+    @stage.scaleY *= newHeight / oldHeight
+    @camera.onResize newWidth, newHeight
 
   showLevel: ->
     return if @dead
@@ -471,10 +529,10 @@ module.exports = Surface = class Surface extends CocoClass
     if @debug and not @debugDisplay
       @screenLayer.addChild @debugDisplay = new DebugDisplay canvasWidth: @camera.canvasWidth, canvasHeight: @camera.canvasHeight
 
-  # uh
+  # Some mouse handling callbacks
 
   onMouseMove: (e) =>
-    @mouseSurfacePos = {x:e.stageX, y:e.stageY}
+    @mouseScreenPos = {x: e.stageX, y: e.stageY}
     return if @disabled
     Backbone.Mediator.publish 'surface:mouse-moved', x: e.stageX, y: e.stageY
 
@@ -483,6 +541,11 @@ module.exports = Surface = class Surface extends CocoClass
     onBackground = not @stage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-down', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
 
+  onMouseUp: (e) =>
+    return if @disabled
+    onBackground = not @stage.hitTest e.stageX, e.stageY
+    Backbone.Mediator.publish 'surface:stage-mouse-up', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
+
   onMouseWheel: (e) =>
     # https://github.com/brandonaaron/jquery-mousewheel
     e.preventDefault()
@@ -490,7 +553,8 @@ module.exports = Surface = class Surface extends CocoClass
     event =
       deltaX: e.deltaX
       deltaY: e.deltaY
-      surfacePos: @mouseSurfacePos
+      screenPos: @mouseScreenPos
+      canvas: @canvas
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
   hookUpChooseControls: ->
@@ -536,12 +600,14 @@ module.exports = Surface = class Surface extends CocoClass
       @mouseInBounds = mib
 
   restoreWorldState: ->
-    @world.getFrame(@getCurrentFrame()).restoreState()
+    frame = @world.getFrame(@getCurrentFrame())
+    frame.restoreState()
     current = Math.max(0, Math.min(@currentFrame, @world.totalFrames - 1))
     if current - Math.floor(current) > 0.01
       next = Math.ceil current
       ratio = current % 1
       @world.frames[next].restorePartialState ratio if next > 1
+    frame.clearEvents() if parseInt(@currentFrame) is parseInt(@lastFrame)
     @spriteBoss.updateSounds()
 
   updateState: (frameChanged) ->
@@ -575,8 +641,6 @@ module.exports = Surface = class Surface extends CocoClass
     @paths.parent.removeChild @paths
     @paths = null
 
-  # Screenshot
-
   screenshot: (scale=0.25, format='image/jpeg', quality=0.8, zoom=2) ->
     # Quality doesn't work with image/png, just image/jpeg and image/webp
     [w, h] = [@camera.canvasWidth, @camera.canvasHeight]
@@ -586,6 +650,5 @@ module.exports = Surface = class Surface extends CocoClass
     #console.log "Screenshot with scale", scale, "format", format, "quality", quality, "was", Math.floor(imageData.length / 1024), "kB"
     screenshot = document.createElement("img")
     screenshot.src = imageData
-    #$('body').append(screenshot)
     @stage.uncache()
     imageData

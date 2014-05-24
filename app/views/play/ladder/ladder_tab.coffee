@@ -2,9 +2,11 @@ CocoView = require 'views/kinds/CocoView'
 CocoClass = require 'lib/CocoClass'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
+User = require 'models/User'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
+ModelModal = require 'views/modal/model_modal'
 
 HIGHEST_SCORE = 1000000
 
@@ -23,6 +25,8 @@ module.exports = class LadderTabView extends CocoView
   events:
     'click .connect-facebook': 'onConnectFacebook'
     'click .connect-google-plus': 'onConnectGPlus'
+    'click .name-col-cell': 'onClickPlayerName'
+    'click .load-more-ladder-entries': 'onLoadMoreLadderEntries'
 
   subscriptions:
     'fbapi-loaded': 'checkFriends'
@@ -32,7 +36,7 @@ module.exports = class LadderTabView extends CocoView
 
   constructor: (options, @level, @sessions) ->
     super(options)
-    @addSomethingToLoad("social_network_apis")
+    @socialNetworkRes = @supermodel.addSomethingResource("social_network_apis", 0)
     @teams = teamDataFromLevel @level
     @leaderboards = {}
     @refreshLadder()
@@ -41,18 +45,24 @@ module.exports = class LadderTabView extends CocoView
   checkFriends: ->
     return if @checked or (not window.FB) or (not window.gapi)
     @checked = true
-    
-    @addSomethingToLoad("facebook_status")
+
+    # @addSomethingToLoad("facebook_status")
+
+    @fbStatusRes = @supermodel.addSomethingResource("facebook_status", 0)
+    @fbStatusRes.load()
+
     FB.getLoginStatus (response) =>
+      return if @destroyed
       @facebookStatus = response.status
       @loadFacebookFriends() if @facebookStatus is 'connected'
-      @somethingLoaded("facebook_status")
+      @fbStatusRes.markLoaded()
 
     if application.gplusHandler.loggedIn is undefined
       @listenToOnce(application.gplusHandler, 'checked-state', @gplusSessionStateLoaded)
     else
       @gplusSessionStateLoaded()
-    @somethingLoaded("social_network_apis")
+
+    @socialNetworkRes.markLoaded()
 
   # FACEBOOK
 
@@ -63,23 +73,29 @@ module.exports = class LadderTabView extends CocoView
   onConnectedWithFacebook: -> location.reload() if @connecting
 
   loadFacebookFriends: ->
-    @addSomethingToLoad("facebook_friends")
+    # @addSomethingToLoad("facebook_friends")
+
+    @fbFriendRes = @supermodel.addSomethingResource("facebook_friends", 0)
+    @fbFriendRes.load()
+
     FB.api '/me/friends', @onFacebookFriendsLoaded
-    
+
   onFacebookFriendsLoaded: (response) =>
     @facebookData = response.data
     @loadFacebookFriendSessions()
-    @somethingLoaded("facebook_friends")
+    @fbFriendRes.markLoaded()
 
   loadFacebookFriendSessions: ->
     levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
     url = "/db/level/#{levelFrag}/leaderboard_facebook_friends"
-    jqxhr = $.ajax url, {
+
+    @fbFriendSessionRes = @supermodel.addRequestResource('facebook_friend_sessions', {
+      url: url
       data: { friendIDs: (f.id for f in @facebookData) }
       method: 'POST'
       success: @onFacebookFriendSessionsLoaded
-    }
-    @addRequestToLoad(jqxhr, 'facebook_friend_sessions', 'loadFacebookFriendSessions')
+    })
+    @fbFriendSessionRes.load()
 
   onFacebookFriendSessionsLoaded: (result) =>
     friendsMap = {}
@@ -89,7 +105,7 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = "http://graph.facebook.com/#{friend.facebookID}/picture"
     @facebookFriendSessions = result
-    
+
   # GOOGLE PLUS
 
   onConnectGPlus: ->
@@ -98,26 +114,30 @@ module.exports = class LadderTabView extends CocoView
     application.gplusHandler.reauthorize()
 
   onConnectedWithGPlus: -> location.reload() if @connecting
-    
+
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
-      @addSomethingToLoad("gplus_friends")
+      #@addSomethingToLoad("gplus_friends")
+      @gpFriendRes = @supermodel.addSomethingResource("gplus_friends", 0)
+      @gpFriendRes.load()
       application.gplusHandler.loadFriends @gplusFriendsLoaded
 
   gplusFriendsLoaded: (friends) =>
     @gplusData = friends.items
     @loadGPlusFriendSessions()
-    @somethingLoaded("gplus_friends")
+    @gpFriendRes.markLoaded()
 
   loadGPlusFriendSessions: ->
     levelFrag = "#{@level.get('original')}.#{@level.get('version').major}"
     url = "/db/level/#{levelFrag}/leaderboard_gplus_friends"
-    jqxhr = $.ajax url, {
+
+    @gpFriendSessionRes = @supermodel.addRequestResource('gplus_friend_sessions', {
+      url: url
       data: { friendIDs: (f.id for f in @gplusData) }
       method: 'POST'
       success: @onGPlusFriendSessionsLoaded
-    }
-    @addRequestToLoad(jqxhr, 'gplus_friend_sessions', 'loadGPlusFriendSessions')
+    })
+    @gpFriendSessionRes.load()
 
   onGPlusFriendSessionsLoaded: (result) =>
     friendsMap = {}
@@ -127,20 +147,24 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = friendsMap[friend.gplusID].image.url
     @gplusFriendSessions = result
-    
+
   # LADDER LOADING
 
   refreshLadder: ->
+    @supermodel.resetProgress()
+    @ladderLimit ?= parseInt @getQueryVariable('top_players', 20)
     for team in @teams
-      @leaderboards[team.id]?.destroy()
+      if oldLeaderboard = @leaderboards[team.id]
+        @supermodel.removeModelResource oldLeaderboard
+        oldLeaderboard.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
-      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession)
-
-      @addResourceToLoad @leaderboards[team.id], 'leaderboard', 3
+      @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit)
+      @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', 3)
+      @leaderboardRes.load()
 
   render: ->
     super()
-  
+
     @$el.find('.histogram-display').each (i, el) =>
       histogramWrapper = $(el)
       team = _.find @teams, name: histogramWrapper.data('team-name')
@@ -148,8 +172,8 @@ module.exports = class LadderTabView extends CocoView
       $.when(
         $.get("/db/level/#{@level.get('slug')}/histogram_data?team=#{team.name.toLowerCase()}", (data) -> histogramData = data)
       ).then =>
-        @generateHistogram(histogramWrapper, histogramData, team.name.toLowerCase())
-        
+        @generateHistogram(histogramWrapper, histogramData, team.name.toLowerCase()) unless @destroyed
+
   getRenderData: ->
     ctx = super()
     ctx.level = @level
@@ -166,7 +190,7 @@ module.exports = class LadderTabView extends CocoView
     #renders twice, hack fix
     if $("#"+histogramElement.attr("id")).has("svg").length then return
     histogramData = histogramData.map (d) -> d*100
-      
+
     margin =
       top: 20
       right: 20
@@ -175,17 +199,17 @@ module.exports = class LadderTabView extends CocoView
 
     width = 300 - margin.left - margin.right
     height = 125 - margin.top - margin.bottom
-    
+
     formatCount = d3.format(",.0")
-    
+
     x = d3.scale.linear().domain([-3000,6000]).range([0,width])
 
     data = d3.layout.histogram().bins(x.ticks(20))(histogramData)
-    y = d3.scale.linear().domain([0,d3.max(data, (d) -> d.y)]).range([height,0])
-    
+    y = d3.scale.linear().domain([0,d3.max(data, (d) -> d.y)]).range([height,10])
+
     #create the x axis
     xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5).outerTickSize(0)
-    
+
     svg = d3.select("#"+histogramElement.attr("id")).append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -194,13 +218,13 @@ module.exports = class LadderTabView extends CocoView
     barClass = "bar"
     if teamName.toLowerCase() is "ogres" then barClass = "ogres-bar"
     if teamName.toLowerCase() is "humans" then barClass = "humans-bar"
-    
+
     bar = svg.selectAll(".bar")
       .data(data)
     .enter().append("g")
       .attr("class",barClass)
-      .attr("transform", (d) -> "translate(#{x(d.x)},#{y(d.y)})")  
-    
+      .attr("transform", (d) -> "translate(#{x(d.x)},#{y(d.y)})")
+
     bar.append("rect")
       .attr("x",1)
       .attr("width",width/20)
@@ -212,7 +236,7 @@ module.exports = class LadderTabView extends CocoView
         .enter().append("g")
         .attr("class","specialbar")
         .attr("transform", "translate(#{x(playerScore)},#{y(9001)})")
-      
+
       scorebar.append("rect")
         .attr("x",1)
         .attr("width",3)
@@ -220,9 +244,13 @@ module.exports = class LadderTabView extends CocoView
     rankClass = "rank-text"
     if teamName.toLowerCase() is "ogres" then rankClass = "rank-text ogres-rank-text"
     if teamName.toLowerCase() is "humans" then rankClass = "rank-text humans-rank-text"
-    
+
     message = "#{histogramData.length} players"
-    if @leaderboards[teamName].session? then message="#{@leaderboards[teamName].myRank}/#{histogramData.length}"
+    if @leaderboards[teamName].session?
+      if @leaderboards[teamName].myRank <= histogramData.length
+        message="##{@leaderboards[teamName].myRank} of #{histogramData.length}"
+      else
+        message="Rank your session!"
     svg.append("g")
       .append("text")
       .attr("class",rankClass)
@@ -230,14 +258,14 @@ module.exports = class LadderTabView extends CocoView
       .attr("text-anchor","end")
       .attr("x",width)
       .text(message)
-        
+
     #Translate the x-axis up
     svg.append("g")
       .attr("class", "x axis")
       .attr("transform","translate(0," + height + ")")
       .call(xAxis)
-    
-    
+
+
   consolidateFriends: ->
     allFriendSessions = (@facebookFriendSessions or []).concat(@gplusFriendSessions or [])
     sessions = _.uniq allFriendSessions, false, (session) -> session._id
@@ -245,17 +273,30 @@ module.exports = class LadderTabView extends CocoView
     sessions.reverse()
     sessions
 
+  # Admin view of players' code
+  onClickPlayerName: (e) ->
+    return unless me.isAdmin()
+    row = $(e.target).parent()
+    player = new User _id: row.data 'player-id'
+    session = new LevelSession _id: row.data 'session-id'
+    @openModalView new ModelModal models: [session, player]
+
+  onLoadMoreLadderEntries: (e) ->
+    @ladderLimit ?= 100
+    @ladderLimit += 100
+    @refreshLadder()
+
 class LeaderboardData extends CocoClass
   ###
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
-  
-  constructor: (@level, @team, @session) ->
+
+  constructor: (@level, @team, @session, @limit) ->
     super()
     @fetch()
-    
+
   fetch: ->
-    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: 20})
+    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})
     promises = []
     promises.push @topPlayers.fetch()
 
@@ -279,7 +320,7 @@ class LeaderboardData extends CocoClass
     @trigger 'sync', @
     # TODO: cache user ids -> names mapping, and load them here as needed,
     #   and apply them to sessions. Fetching each and every time is too costly.
-  
+
   onFail: (resource, jqxhr) =>
     return if @destroyed
     @trigger 'error', @, jqxhr
@@ -291,8 +332,8 @@ class LeaderboardData extends CocoClass
     return [] unless @session?.get('totalScore')
     l = []
     above = @playersAbove.models
-    above.reverse()
     l = l.concat(above)
+    l.reverse()
     l.push @session
     l = l.concat(@playersBelow.models)
     if @myRank

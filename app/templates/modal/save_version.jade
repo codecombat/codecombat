@@ -1,30 +1,46 @@
 extends /templates/modal/modal_base
 
 block modal-header-content
-  h3(data-i18n="versions.save_version_title") Save New Version
+  if isPatch
+    h3(data-i18n="versions.submit_patch_title") Submit Patch
+  else
+    h3(data-i18n="versions.save_version_title") Save New Version
 
 block modal-body-content
-  form.form
-    .form-group
-      label.control-label(for="commitMessage", data-i18n="general.commit_msg") Commit Message      
-      textarea#commit-message.input-large.form-control(name="commitMessage", type="text")
-    .form-group
-      label.control-label(for="level-version-is-major", data-i18n="versions.new_major_version") New Major Version      
-      input#major-version.input-large.form-control(name="version-is-major", type="checkbox")
-      span.help-block
+  if hasChanges
+    .changes-stub
+    form.form-inline
+      .form-group.commit-message
+        input.form-control#commit-message(name="commitMessage", type="text")
+      if !isPatch
+        .checkbox
+          label
+            input#major-version(name="version-is-major", type="checkbox")
+            span(data-i18n="versions.new_major_version") New Major Version
+  else
+    .alert.alert-danger No changes
 
 block modal-body-wait-content
-  h3(data-i18n="common.saving") Saving...
+  if hasChanges
+    if isPatch
+      h3(data-i18n="versions.submitting_patch") Submitting Patch...
+    else
+      h3(data-i18n="common.saving") Saving...
 
 block modal-footer-content
-  if !noSaveButton
+  if hasChanges
     #accept-cla-wrapper.alert.alert-info
       span(data-i18n="versions.cla_prefix") To save changes, first you must agree to our
       |  
       strong#cla-link(data-i18n="versions.cla_url") CLA
       span(data-i18n="versions.cla_suffix") .
-      button.btn#agreement-button(data-i18n="versions.cla_agree") I AGREE
+      button.btn.btn-sm#agreement-button(data-i18n="versions.cla_agree") I AGREE
+    if isPatch
+      .alert.alert-info An owner will need to approve it before your changes will become visible.
     
-  button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
-  if !noSaveButton
-    button.btn.btn-primary#save-version-button(data-i18n="common.save") Save
+  .buttons
+    button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
+    if hasChanges && !isPatch
+      button.btn.btn-primary#save-version-button(data-i18n="common.save") Save
+    if hasChanges && isPatch
+      button.btn.btn-primary#submit-patch-button(data-i18n="versions.submit_patch") Submit Patch

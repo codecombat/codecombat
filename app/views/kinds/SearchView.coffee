@@ -8,7 +8,7 @@ class SearchCollection extends Backbone.Collection
     @url = "#{modelURL}/search?project=true"
     @url += "&term=#{term}" if @term
 
-module.exports = class ThangTypeHomeView extends View
+module.exports = class SearchView extends View
   template: template
   className: 'search-view'
 
@@ -32,14 +32,17 @@ module.exports = class ThangTypeHomeView extends View
       when 'Level'
         context.currentEditor = 'editor.level_title'
         context.currentNew = 'editor.new_level_title'
+        context.currentNewSignup = 'editor.new_level_title_login'
         context.currentSearch = 'editor.level_search_title'
       when 'Thang Type'
         context.currentEditor = 'editor.thang_title'
         context.currentNew = 'editor.new_thang_title'
+        context.currentNewSignup = 'editor.new_thang_title_login'
         context.currentSearch = 'editor.thang_search_title'
       when 'Article'
         context.currentEditor = 'editor.article_title'
         context.currentNew = 'editor.new_article_title'
+        context.currentNewSignup = 'editor.new_article_title_login'
         context.currentSearch = 'editor.article_search_title'
     @$el.i18n()
     context
@@ -96,7 +99,7 @@ module.exports = class ThangTypeHomeView extends View
     name = @$el.find('#name').val()
     model = new @model()
     model.set('name', name)
-    if @model.schema.get('properties').permissions
+    if @model.schema.properties.permissions
       model.set 'permissions', [{access: 'owner', target: me.id}]
     res = model.save()
     return unless res

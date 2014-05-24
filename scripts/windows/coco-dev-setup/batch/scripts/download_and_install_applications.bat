@@ -38,6 +38,7 @@ call get_local_text install_process_winpath install process winpath
 echo !install_process_s1!
 echo !install_process_s2!
 echo !install_process_s3!
+echo.
 echo !install_process_s4!
 echo.
 echo !install_process_winpath!

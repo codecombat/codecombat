@@ -3,11 +3,13 @@ template = require 'templates/editor/level/save'
 forms = require 'lib/forms'
 LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
+DeltaView = require 'views/editor/delta'
 
 module.exports = class LevelSaveView extends SaveVersionModal
   template: template
   instant: false
   modalWidthPercent: 60
+  plain: true
 
   events:
     'click #save-version-button': 'commitLevel'
@@ -23,10 +25,27 @@ module.exports = class LevelSaveView extends SaveVersionModal
     context.levelNeedsSave = @level.hasLocalChanges()
     context.modifiedComponents = _.filter @supermodel.getModels(LevelComponent), @shouldSaveEntity
     context.modifiedSystems = _.filter @supermodel.getModels(LevelSystem), @shouldSaveEntity
-    context.noSaveButton = not (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
+    context.hasChanges = (context.levelNeedsSave or context.modifiedComponents.length or context.modifiedSystems.length)
+    @lastContext = context
     context
 
+  afterRender: ->
+    super(false)
+    changeEls = @$el.find('.changes-stub')
+    models = if @lastContext.levelNeedsSave then [@level] else []
+    models = models.concat @lastContext.modifiedComponents
+    models = models.concat @lastContext.modifiedSystems
+    models = (m for m in models when m.hasWriteAccess())
+    for changeEl, i in changeEls
+      model = models[i]
+      try
+        deltaView = new DeltaView({model:model})
+        @insertSubView(deltaView, $(changeEl))
+      catch e
+        console.error "Couldn't create delta view:", e
+
   shouldSaveEntity: (m) ->
+    return false unless m.hasWriteAccess()
     return true if m.hasLocalChanges()
     return true if (m.get('version').major is 0 and m.get('version').minor is 0) or not m.isPublished() and not m.collection
     # Sometimes we have two versions: one in a search collection and one with a URL. We only save changes to the latter.

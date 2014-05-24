@@ -45,10 +45,12 @@ module.exports = class Label extends CocoClass
 
   update: ->
     return unless @text
-    offset = @sprite.getOffset? (if @style is 'dialogue' then 'mouth' else 'aboveHead')
+    offset = @sprite.getOffset? (if @style in ['dialogue', 'say'] then 'mouth' else 'aboveHead')
     offset ?= x: 0, y: 0  # temp (if not CocoSprite)
-    @label.x = @background.x = @sprite.displayObject.x + offset.x
-    @label.y = @background.y = @sprite.displayObject.y + offset.y
+    rotation = @sprite.getRotation()
+    offset.x *= -1 if rotation >= 135 or rotation <= -135
+    @label.x = @background.x = @sprite.imageObject.x + offset.x
+    @label.y = @background.y = @sprite.imageObject.y + offset.y
     null
 
   buildLabelOptions: ->
@@ -59,7 +61,7 @@ module.exports = class Label extends CocoClass
     o.fontWeight = {D: "bold", S: "bold", N: "bold"}[st]
     o.shadow = {D: false, S: true, N: true}[st]
     o.shadowColor = {D: "#FFF", S: "#000", N: "#FFF"}[st]
-    o.fontSize = {D: 50, S: 24, N: 24}[st]
+    o.fontSize = {D: 25, S: 12, N: 12}[st]
     fontFamily = {D: "Arial", S: "Arial", N: "Arial"}[st]
     o.fontDescriptor = "#{o.fontWeight} #{o.fontSize}px #{fontFamily}"
     o.fontColor = {D: "#000", S: "#FFF", N: "#00a"}[st]
@@ -106,7 +108,7 @@ module.exports = class Label extends CocoClass
       pointerWidth += radius  # Convenience value including pointer width and border radius
 
       # Figure out the position of the pointer for the bubble
-      sup = x: @sprite.displayObject.x, y: @sprite.displayObject.y  # a little more accurate to aim for mouth--how?
+      sup = x: @sprite.imageObject.x, y: @sprite.imageObject.y  # a little more accurate to aim for mouth--how?
       cap = @camera.surfaceToCanvas sup
       hPos = if cap.x / @camera.canvasWidth > 0.53 then 'right' else 'left'
       vPos = if cap.y / @camera.canvasHeight > 0.53 then 'bottom' else 'top'
@@ -172,6 +174,8 @@ module.exports = class Label extends CocoClass
       if width > maxWidth
         if row.length is 1 # one long word, truncate it
           row[0] = _.string.truncate(row[0], 40)
+          text.text = row[0]
+          textWidth = Math.max(text.getMeasuredWidth(), textWidth)
           rows.push(row)
           row = []
         else
@@ -180,7 +184,7 @@ module.exports = class Label extends CocoClass
           row = [word]
       else
         textWidth = Math.max(textWidth, width)
-    rows.push(row)
+    rows.push(row) if row.length
     for row, i in rows
       rows[i] = _.string.join(" ", row...)
     text: _.string.join("\n", rows...), textWidth: textWidth

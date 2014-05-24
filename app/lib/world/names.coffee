@@ -29,8 +29,6 @@ module.exports.thangNames = thangNames =
     "Phineas"
     "Ferb"
     "Felix"
-    "Arthur"
-    "Galahad"
     "Ezra"
     "Lucian"
     "Augustus"
@@ -69,25 +67,18 @@ module.exports.thangNames = thangNames =
     "Buffy"
     "Allankrita"
   ]
-  "Peasant": [
+  "Peasant M": [
     "Yorik"
     "Hector"
     "Thad"
     "Victor"
     "Lyle"
     "Charles"
-    "Mary"
-    "Brandy"
-    "Gwendolin"
-    "Tabitha"
-    "Regan"
     "Yusef"
     "Hingle"
     "Azgot"
     "Piers"
     "Carlton"
-    "Giselle"
-    "Bernadette"
     "Hershell"
     "Gawain"
     "Durfkor"
@@ -99,6 +90,13 @@ module.exports.thangNames = thangNames =
     "Icey"
     "Matilda"
     "Mertia"
+    "Mary"
+    "Brandy"
+    "Gwendolin"
+    "Tabitha"
+    "Regan"
+    "Giselle"
+    "Bernadette"
   ]
   "Archer F": [
     "Phoebe"
@@ -174,6 +172,7 @@ module.exports.thangNames = thangNames =
     "Snortt"
     "Kog"
     "Ursa"
+    "Ragtime"
   ]
   "Ogre Munchkin F": [
     "Iyert"
@@ -184,6 +183,23 @@ module.exports.thangNames = thangNames =
     "Dosha"
     "Inski"
     "Lacos"
+    "Upfish"
+  ]
+  "Ogre Peon M": [
+    "Durbo"
+    "Kurger"
+    "Mudwich"
+    "Ba Bo"
+    "Zugger"
+    "Toe Pod"
+  ]
+  "Ogre Peon F": [
+    "Iblet"
+    "Lorba"
+    "Zzoya"
+    "Yamra"
+    "Greeke"
+    "Vapa"
   ]
   "Ogre M": [
     "Krogg"
@@ -202,6 +218,7 @@ module.exports.thangNames = thangNames =
     "Mokrul"
     "Polifemo"
     "Muthyala"
+    "Saltporker"
   ]
   "Ogre F": [
     "Nareng"
@@ -231,6 +248,8 @@ module.exports.thangNames = thangNames =
     "Tuguro"
     "York"
     "Ork'han"
+    "Roast Beefy"
+    "Haggar"
   ]
   "Ogre Fangrider": [
     "Dreek"
@@ -272,6 +291,7 @@ module.exports.thangNames = thangNames =
     "Gogg"
     "Ghuk"
     "Makas"
+    "Drun"
   ]
   "Ogre Thrower": [
     "Kyrgg"
@@ -293,10 +313,12 @@ module.exports.thangNames = thangNames =
   "Burl": [
     "Borlit"
     "Burlosh"
+    "Dorf"
   ]
   "Griffin Rider": [
     "Aeoldan"
     "Bestarius"
+
   ]
   "Potion Master": [
     "Snake"
@@ -305,6 +327,7 @@ module.exports.thangNames = thangNames =
     "Arora"
     "Curie"
     "Clause"
+    "Vanders"
   ]
   "Librarian": [
     "Hushbaum"
@@ -318,4 +341,30 @@ module.exports.thangNames = thangNames =
     "Ryder"
     "Thoron"
     "Mirial"
+    "Neely"
+  ]
+  "Knight": [
+    "Tharin"
+    "Arthur"
+    "Galahad"
+    "Mace"
+    "Drake"
+    "Duran"
+    "Almeric"
+    "Hunfray"
+    "Hank"
+    "Jeph"
+    "Neville"
+  ]
+  "Captain": [
+    "Anya"
+    "Brigette"
+    "Sarre"
+    "Katana"
+    "Lily"
+    "Isa"
+    "Dimia"
+    "Jane"
+    "Lia"
+    "Hardcastle"
   ]

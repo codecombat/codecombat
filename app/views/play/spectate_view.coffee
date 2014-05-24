@@ -8,7 +8,7 @@ World = require 'lib/world/world'
 
 # tools
 Surface = require 'lib/surface/Surface'
-God = require 'lib/God'
+God = require 'lib/God' # 'lib/Buddha'
 GoalManager = require 'lib/world/GoalManager'
 ScriptManager = require 'lib/scripts/ScriptManager'
 LevelLoader = require 'lib/LevelLoader'
@@ -90,9 +90,9 @@ module.exports = class SpectateLevelView extends View
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
-    @god?.level = @level.serialize @supermodel
+    serializedLevel = @level.serialize @supermodel
+    @god?.setLevel serializedLevel
     if @world
-      serializedLevel = @level.serialize(@supermodel)
       @world.loadFromLevel serializedLevel, false
     else
       @load()
@@ -106,8 +106,7 @@ module.exports = class SpectateLevelView extends View
       spectateMode: true
       team: @getQueryVariable("team")
     @listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
-    @listenTo(@levelLoader, 'progress', @onLevelLoaderProgressChanged)
-    @god = new God maxWorkerPoolSize: 1, maxAngels: 1
+    @god = new God maxAngels: 1
 
   getRenderData: ->
     c = super()
@@ -119,8 +118,10 @@ module.exports = class SpectateLevelView extends View
     @insertSubView @loadingView = new LoadingView {}
     @$el.find('#level-done-button').hide()
     super()
+    $('body').addClass('is-playing')
 
-  onLevelLoaderProgressChanged: ->
+  updateProgress: (progress) ->
+    super(progress)
     return if @seenDocs
     return unless showFrequency = @levelLoader.level.get('showGuide')
     session = @levelLoader.session
@@ -140,7 +141,10 @@ module.exports = class SpectateLevelView extends View
     Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
     return true
 
-  onLevelLoaderLoaded: ->
+  onLoaded: ->
+    _.defer => @onLevelLoaded()
+
+  onLevelLoaded: ->
     return unless @levelLoader.progress() is 1 # double check, since closing the guide may trigger this early
     # Save latest level played in local storage
     if window.currentModal and not window.currentModal.destroyed
@@ -151,13 +155,14 @@ module.exports = class SpectateLevelView extends View
     #at this point, all requisite data is loaded, and sessions are not denormalized
     team = @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @god.level = @level.serialize @supermodel
-    @god.worldClassMap = @world.classMap
+    @god.setLevel @level.serialize @supermodel
+    @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
+    @god.setWorldClassMap @world.classMap
     @setTeam team
     @initSurface()
     @initGoalManager()
     @initScriptManager()
-    @insertSubviews ladderGame: @otherSession?
+    @insertSubviews()
     @initVolume()
 
     @originalSessionState = $.extend(true, {}, @session.get('state'))
@@ -191,13 +196,14 @@ module.exports = class SpectateLevelView extends View
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
 
-    opponentCode = @otherSession?.get('submittedCode') or {}
-    myCode = @session.get('submittedCode') or {}
+    opponentCode = @otherSession?.get('transpiledCode') or {}
+    myCode = @session.get('transpiledCode') or {}
     for spell in opponentSpells
       [thang, spell] = spell.split '/'
       c = opponentCode[thang]?[spell]
       myCode[thang] ?= {}
       if c then myCode[thang][spell] = c else delete myCode[thang][spell]
+    
     @session.set('code', myCode)
     if @session.get('multiplayer') and @otherSession?
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
@@ -207,8 +213,9 @@ module.exports = class SpectateLevelView extends View
     @loadingView?.unveil()
 
   onLoadingViewUnveiled: (e) ->
-    @removeSubView @loadingView
-    @loadingView = null
+    # Don't remove it; we want its decoration around on large screens.
+    #@removeSubView @loadingView
+    #@loadingView = null
 
   onSupermodelLoadedOne: =>
     @modelsLoaded ?= 0
@@ -224,8 +231,8 @@ module.exports = class SpectateLevelView extends View
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
-  insertSubviews: (subviewOptions) ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, ladderGame: subviewOptions.ladderGame
+  insertSubviews: ->
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel, spectateView: true
     @insertSubView new PlaybackView {}
 
     @insertSubView new GoldView {}
@@ -382,7 +389,7 @@ module.exports = class SpectateLevelView extends View
 
   initGoalManager: ->
     @goalManager = new GoalManager(@world, @level.get('goals'))
-    @god.goalManager = @goalManager
+    @god.setGoalManager @goalManager
 
   initScriptManager: ->
     if @world.scripts

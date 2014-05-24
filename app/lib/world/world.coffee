@@ -8,7 +8,6 @@ WorldScriptNote = require './world_script_note'
 {now, consolidateThangs, typedArraySupport} = require './world_utils'
 Component = require 'lib/world/component'
 System = require 'lib/world/system'
-
 PROGRESS_UPDATE_INTERVAL = 200
 DESERIALIZATION_INTERVAL = 20
 
@@ -16,21 +15,30 @@ module.exports = class World
   @className: "World"
   age: 0
   ended: false
+  preloading: false  # Whether we are just preloading a world in case we soon cast it
+  debugging: false  # Whether we are just rerunning to debug a world we've already cast
+  headless: false  # Whether we are just simulating for goal states instead of all serialized results
   apiProperties: ['age', 'dt']
-  constructor: (name, @userCodeMap, classMap) ->
+  constructor: (@userCodeMap, classMap) ->
     # classMap is needed for deserializing Worlds, Thangs, and other classes
     @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang}
     Thang.resetThangIDs()
 
-    @name ?= name ? "Unnamed World"
     @userCodeMap ?= {}
     @thangs = []
     @thangMap = {}
     @systems = []
     @systemMap = {}
     @scriptNotes = []
-    @rand = new Rand 0
+    @rand = new Rand 0  # Existence System may change this seed
     @frames = [new WorldFrame(@, 0)]
+
+  destroy: ->
+    @goalManager?.destroy()
+    thang.destroy() for thang in @thangs
+    @[key] = undefined for key of @
+    @destroyed = true
+    @destroy = ->
 
   getFrame: (frameIndex) ->
     # Optimize it a bit--assume we have all if @ended and are at the previous frame otherwise
@@ -72,36 +80,62 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback) ->
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) ->
     return if @aborted
     unless @thangs.length
       console.log "Warning: loadFrames called on empty World (no thangs)."
     t1 = now()
     @t0 ?= t1
+    if loadUntilFrame
+      frameToLoadUntil = loadUntilFrame + 1
+    else
+      frameToLoadUntil = @totalFrames
     i = @frames.length
-    while i < @totalFrames
+    while i < frameToLoadUntil
+      if @debugging
+        for thang in @thangs when thang.isProgrammable
+          userCode = @userCodeMap[thang.id] ? {}
+          for methodName, aether of userCode
+            framesToLoadFlowBefore = if methodName is 'plan' then 200 else 1  # Adjust if plan() is taking even longer
+            aether._shouldSkipFlow = i < loadUntilFrame - framesToLoadFlowBefore
       try
         @getFrame(i)
         ++i  # increment this after we have succeeded in getting the frame, otherwise we'll have to do that frame again
       catch error
         # Not an Aether.errors.UserCodeError; maybe we can't recover
         @addError error
-      for error in (@unhandledRuntimeErrors ? [])
-        return unless errorCallback error  # errorCallback tells us whether the error is recoverable
-      @unhandledRuntimeErrors = []
+      unless @preloading or @debugging
+        for error in (@unhandledRuntimeErrors ? [])
+          return unless errorCallback error  # errorCallback tells us whether the error is recoverable
+        @unhandledRuntimeErrors = []
       t2 = now()
       if t2 - t1 > PROGRESS_UPDATE_INTERVAL
-        loadProgressCallback? i / @totalFrames
+        loadProgressCallback? i / @totalFrames unless @preloading
         t1 = t2
         if t2 - @t0 > 1000
           console.log('  Loaded', i, 'of', @totalFrames, "(+" + (t2 - @t0).toFixed(0) + "ms)")
           @t0 = t2
-        setTimeout((=> @loadFrames(loadedCallback, errorCallback, loadProgressCallback)), 0)
+        continueFn = =>
+          return if @destroyed
+          if loadUntilFrame
+            @loadFrames(loadedCallback,errorCallback,loadProgressCallback, skipDeferredLoading, loadUntilFrame)
+          else
+            @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading)
+        if skipDeferredLoading
+          continueFn()
+        else
+          setTimeout(continueFn, 0)
         return
-    @ended = true
-    system.finish @thangs for system in @systems
-    loadProgressCallback? 1
-    loadedCallback()
+    unless @debugging
+      @ended = true
+      system.finish @thangs for system in @systems
+    unless @preloading
+      loadProgressCallback? 1
+      loadedCallback()
+
+  finalizePreload: (loadedCallback) ->
+    @preloading = false
+    loadedCallback() if @ended
 
   abort: ->
     @aborted = true
@@ -221,12 +255,15 @@ module.exports = class World
       @scriptNotes.push scriptNote
     return unless @goalManager
     @goalManager.submitWorldGenerationEvent(channel, event, @frames.length)
-    
+
+  getGoalState: (goalID) ->
+    @goalManager.getGoalState(goalID)
+
   setGoalState: (goalID, status) ->
     @goalManager.setGoalState(goalID, status)
 
   endWorld: (victory=false, delay=3, tentative=false) ->
-    @totalFrames = Math.min(@totalFrames, @frames.length + Math.floor(delay / @dt)) - 1  # end a few seconds later
+    @totalFrames = Math.min(@totalFrames, @frames.length + Math.floor(delay / @dt))  # end a few seconds later
     @victory = victory  # TODO: should just make this signify the winning superteam
     @victoryIsTentative = tentative
     status = if @victory then 'won' else 'lost'
@@ -250,7 +287,7 @@ module.exports = class World
     # Code hotspot; optimize it
     if @frames.length < @totalFrames then throw new Error("World Should Be Over Before Serialization")
     [transferableObjects, nontransferableObjects] = [0, 0]
-    o = {name: @name, totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
+    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
@@ -336,14 +373,14 @@ module.exports = class World
       console.log "Whoa, serializing a lot of WorldScriptNotes here:", o.scriptNotes.length
     {serializedWorld: o, transferableObjects: [o.storageBuffer]}
 
-  @deserialize: (o, classMap, oldSerializedWorldFrames, worldCreationTime, finishedWorldCallback) ->
+  @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback) ->
     # Code hotspot; optimize it
     #console.log "Deserializing", o, "length", JSON.stringify(o).length
     #console.log JSON.stringify(o)
     #console.log "Got special keys and values:", o.specialValuesToKeys, o.specialKeysToValues
     perf = {}
     perf.t0 = now()
-    w = new World o.name, o.userCodeMap, classMap
+    w = new World o.userCodeMap, classMap
     [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory]
     w[prop] = val for prop, val of o.trackedProperties
 
@@ -382,7 +419,7 @@ module.exports = class World
         return
     @finishDeserializing w, finishedWorldCallback, perf
 
-  @finishDeserializing: (w, finishedWorldCallback, perf) =>
+  @finishDeserializing: (w, finishedWorldCallback, perf) ->
     perf.t4 = now()
     w.ended = true
     w.getFrame(w.totalFrames - 1).restoreState()

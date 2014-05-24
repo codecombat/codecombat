@@ -1,44 +1,46 @@
 @import "app/styles/mixins"
+@import "app/styles/bootstrap/mixins"
 
 #gold-view
+  display: none
   position: absolute
   right: 46%
   top: 42px
   user-select: none
   -webkit-user-select: none
+  @include transition(box-shadow .2s linear)
+  padding: 4px
+  background: transparent url(/images/level/gold_background.png) no-repeat
+  background-size: 100% 100%
+  border-radius: 4px
 
-  h3
+  &:hover
+    box-shadow: 2px 2px 2px black
+
+  .team-gold
     font-size: 16px
     margin: 0
     line-height: 20px
-    color: hsla(205,0%,31%,1)
-    text-shadow: 0px 1px 1px white, 0px -1px 1px white, 1px 0px 1px white, -1px 0px 1px white
+    color: hsla(205,0%,51%,1)
+    display: inline-block
+    padding: 0px 4px
 
     &.team-humans
       color: hsla(4,80%,51%,1)
 
     &.team-ogres
-      color: hsla(205,100%,31%,1)
+      color: hsla(205,100%,51%,1)
 
     &.team-allies, &.team-minions
-      color: hsla(116,80%,31%,1)
+      color: hsla(116,80%,51%,1)
 
     img
       width: 16px
       height: 16px
       border-radius: 2px
-      padding: 2px
-      @include gradient-radial-custom-stops(hsla(205,0%,74%,1), 20%, hsla(205,0%,31%,1), 70%)
+      padding: 1px
+      margin-top: -1px
   
-    &.team-humans img
-      @include gradient-radial-custom-stops(hsla(4,80%,74%,1), 20%, hsla(4,80%,51%,1), 70%)
-
-    &.team-ogres img
-      @include gradient-radial-custom-stops(hsla(205,100%,74%,1), 20%, hsla(205,100%,31%,1), 70%)
-
-    &.team-allies img, &.team-minions img
-      @include gradient-radial-custom-stops(hsla(116,80%,74%,1), 20%, hsla(116,80%,31%,1), 70%)
-
     .gold-amount
       display: inline-block
-      width: 20px
+      min-width: 20px

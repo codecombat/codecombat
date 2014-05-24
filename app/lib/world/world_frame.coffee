@@ -36,6 +36,8 @@ module.exports = class WorldFrame
         #console.log "Frame", @time, "restoring state for", thang.id, "in particular and saying it don't exist"
       return
     thangState.restore()
+    
+  clearEvents: -> thang.currentEvents = [] for thang in @world.thangs
 
   toString: ->
     map = ((' ' for x in [0 .. @world.width])  \

@@ -34,6 +34,7 @@
   <script src="/lib/ace/ace.js"></script>  
   <!--[if IE 9]>     <script src="/javascripts/vendor_with_box2d.js"></script> <![endif]-->
   <!--[if !IE]><!--> <script src="/javascripts/vendor.js"></script>            <!--<![endif]-->
+  <script src="/javascripts/aether.js"></script>
   <script src="/javascripts/app.js"></script> <!-- it's all Backbone! -->
   
   <script>
@@ -42,7 +43,18 @@
   
   <script>require('initialize');</script>
 
-
+  <!-- begin LinkedIn code -->
+  <script>
+    window.linkedInAsyncInit = function() {
+      Backbone.Mediator.publish('linkedin-loaded');
+    };
+  </script>
+  <script type="text/javascript" src="http://platform.linkedin.com/in.js">
+    api_key: 75v8mv4ictvmx6
+    onLoad: linkedInAsyncInit
+    authorize: true
+  </script>
+  <!-- end LinkedIn code -->
   <!-- begin segment.io code -->
   <script type="text/javascript">
   var analytics=analytics||[];(function(){var e=["identify","track","trackLink","trackForm","trackClick","trackSubmit","page","pageview","ab","alias","ready","group"],t=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var n=0;n<e.length;n++)analytics[e[n]]=t(e[n])})(),analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n)};
@@ -70,9 +82,10 @@
     /* custom configuration goes here (www.olark.com/documentation) */
     olark.identify('1451-787-10-5544');/*]]>*/</script>
   <!-- end olark code -->
+    
 
 </head>
-<body>
+<body class="nano clearfix">
   <div id="fb-root"></div>
 
 <!-- begin facebook code -->
@@ -117,16 +130,9 @@
 
   <header class="header-container" id="header-container"></header>
   
-  <div id="page-container"></div>
-  <!--
-  <div class="antiscroll-wrap">
-    <div class="antiscroll-inner">
-      <div id="page-container"></div>
-    </div>
-  </div>
-  -->
+  <div id="page-container" class="nano-content"></div>
 
-  <div id="modal-wrapper"></div>
+  <div id="modal-wrapper" class="modal-content"></div>
 
   <!-- begin google api/plus code -->
   <script type="text/javascript">

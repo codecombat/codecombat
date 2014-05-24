@@ -11,16 +11,14 @@ module.exports = class SpriteBoss extends CocoClass
   subscriptions:
     'bus:player-joined': 'onPlayerJoined'
     'bus:player-left': 'onPlayerLeft'
-    'level-set-debug': 'onSetDebug'
+#    'level-set-debug': 'onSetDebug'
     'level-highlight-sprites': 'onHighlightSprites'
-    'sprite:mouse-up': 'onSpriteMouseUp'
     'surface:stage-mouse-down': 'onStageMouseDown'
     'level-select-sprite': 'onSelectSprite'
     'level-suppress-selection-sounds': 'onSuppressSelectionSounds'
     'level-lock-select': 'onSetLockSelect'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
-    'tome:cast-spells': 'onCastSpells'
     'camera:dragged': 'onCameraDragged'
     'sprite:loaded': -> @update(true)
 
@@ -34,6 +32,7 @@ module.exports = class SpriteBoss extends CocoClass
     @world = options.world
     @options.thangTypes ?= []
     @sprites = {}
+    @spriteArray = []  # Mirror @sprites, but faster for when we just need to iterate
     @selfWizardSprite = null
     @createLayers()
     @spriteSheetCache = {}
@@ -44,7 +43,7 @@ module.exports = class SpriteBoss extends CocoClass
     @selectionMark?.destroy()
     super()
 
-  toString: -> "<SpriteBoss: #{@sprites.length} sprites>"
+  toString: -> "<SpriteBoss: #{@spriteArray.length} sprites>"
 
   thangTypeFor: (type) ->
     _.find @options.thangTypes, (m) -> m.get('original') is type or m.get('name') is type
@@ -77,9 +76,10 @@ module.exports = class SpriteBoss extends CocoClass
     id ?= sprite.thang.id
     console.error "Sprite collision! Already have:", id if @sprites[id]
     @sprites[id] = sprite
+    @spriteArray.push sprite
     layer ?= @spriteLayers["Obstacle"] if sprite.thang?.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
-    layer ?= @layerForChild sprite.displayObject, sprite
-    layer.addChild sprite.displayObject
+    layer ?= @layerForChild sprite.imageObject, sprite
+    layer.addChild sprite.imageObject
     layer.updateLayerOrder()
     sprite
 
@@ -94,11 +94,8 @@ module.exports = class SpriteBoss extends CocoClass
     unless @indieSprites
       @indieSprites = []
       @indieSprites = (@createIndieSprite indieSprite for indieSprite in indieSprites) if indieSprites
-    unless @selfWizardSprite
+    if withWizards and not @selfWizardSprite
       @selfWizardSprite = @createWizardSprite thangID: "My Wizard", isSelf: true, sprites: @sprites
-    unless withWizards
-      @selfWizardSprite.displayObject.visible = false
-      @selfWizardSprite.labels.name.setText null
 
   createIndieSprite: (indieSprite) ->
     unless thangType = @thangTypeFor indieSprite.thangType
@@ -116,7 +113,6 @@ module.exports = class SpriteBoss extends CocoClass
       sprite.targetPos = if opponent.team is 'ogres' then {x:72, y: 39} else {x: 9, y:39}
     else
       sprite.targetPos = if opponent.team is 'ogres' then {x:52, y: 28} else {x: 20, y:28}
-
 
   createWizardSprite: (options) ->
     sprite = new WizardSprite @thangTypeFor("Wizard"), @createSpriteOptions(options)
@@ -138,7 +134,7 @@ module.exports = class SpriteBoss extends CocoClass
   onSetDebug: (e) ->
     return if e.debug is @debug
     @debug = e.debug
-    sprite.setDebug @debug for thangID, sprite of @sprites
+    sprite.setDebug @debug for sprite in @spriteArray
 
   onHighlightSprites: (e) ->
     highlightedIDs = e.thangIDs or []
@@ -147,27 +143,34 @@ module.exports = class SpriteBoss extends CocoClass
 
   addThangToSprites: (thang, layer=null) ->
     return console.warn 'Tried to add Thang to the surface it already has:', thang.id if @sprites[thang.id]
-    thangType = _.find @options.thangTypes, (m) -> m.get('name') is thang.spriteName
+    thangType = _.find @options.thangTypes, (m) ->
+      return false unless m.get('actions') or m.get('raster')
+      return m.get('name') is thang.spriteName
+    thangType ?= _.find @options.thangTypes, (m) -> return m.get('name') is thang.spriteName
+
     options = @createSpriteOptions thang: thang
-    options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else 4
+    options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else SPRITE_RESOLUTION_FACTOR
     sprite = new CocoSprite thangType, options
+    @listenTo sprite, 'sprite:mouse-up', @onSpriteMouseUp
     @addSprite sprite, null, layer
     sprite.setDebug @debug
     sprite
 
   removeSprite: (sprite) ->
-    sprite.displayObject.parent.removeChild sprite.displayObject
+    sprite.imageObject.parent.removeChild sprite.imageObject
     thang = sprite.thang
     delete @sprites[sprite.thang.id]
+    @spriteArray.splice @spriteArray.indexOf(sprite), 1
+    @stopListening sprite
     sprite.destroy()
     sprite.thang = thang  # Keep around so that we know which thang the destroyed thang was for
 
   updateSounds: ->
-    sprite.playSounds() for thangID, sprite of @sprites  # hmm; doesn't work for sprites which we didn't add yet in adjustSpriteExistence
+    sprite.playSounds() for sprite in @spriteArray  # hmm; doesn't work for sprites which we didn't add yet in adjustSpriteExistence
 
   update: (frameChanged) ->
     @adjustSpriteExistence() if frameChanged
-    sprite.update frameChanged for thangID, sprite of @sprites
+    sprite.update frameChanged for sprite in @spriteArray
     @updateSelection()
     @spriteLayers["Default"].updateLayerOrder()
     @cache()
@@ -181,11 +184,11 @@ module.exports = class SpriteBoss extends CocoClass
       else
         sprite = @addThangToSprites(thang)
         Backbone.Mediator.publish 'surface:new-thang-added', thang:thang, sprite:sprite
-        updateCache = updateCache or sprite.displayObject.parent is @spriteLayers["Obstacle"]
+        updateCache = updateCache or sprite.imageObject.parent is @spriteLayers["Obstacle"]
         sprite.playSounds()
     for thangID, sprite of @sprites
       missing = not (sprite.notOfThisWorld or @world.thangMap[thangID]?.exists)
-      isObstacle = sprite.displayObject.parent is @spriteLayers["Obstacle"]
+      isObstacle = sprite.imageObject.parent is @spriteLayers["Obstacle"]
       updateCache = updateCache or (isObstacle and (missing or sprite.hasMoved))
       sprite.hasMoved = false
       @removeSprite sprite if missing
@@ -197,7 +200,8 @@ module.exports = class SpriteBoss extends CocoClass
 
   cache: (update=false) ->
     return if @cached and not update
-    wallSprites = (sprite for thangID, sprite of @sprites when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
+    wallSprites = (sprite for sprite in @spriteArray when sprite.thangType?.get('name').search(/(dungeon|indoor).wall/i) isnt -1)
+    return if _.any (s.stillLoading for s in wallSprites)
     walls = (sprite.thang for sprite in wallSprites)
     @world.calculateBounds()
     wallGrid = new Grid walls, @world.size()...
@@ -209,25 +213,23 @@ module.exports = class SpriteBoss extends CocoClass
     @spriteLayers["Obstacle"].uncache() if @spriteLayers["Obstacle"].cacheID  # might have changed sizes
     @spriteLayers["Obstacle"].cache()
     # test performance of doing land layer, too, to see if it's faster
-    #@spriteLayers["Land"].uncache() if @spriteLayers["Land"].cacheID  # might have changed sizes
-    #@spriteLayers["Land"].cache()
+#    @spriteLayers["Land"].uncache() if @spriteLayers["Land"].cacheID  # might have changed sizes
+#    @spriteLayers["Land"].cache()
+    # I don't notice much difference - Scott
     @cached = true
 
   spriteFor: (thangID) -> @sprites[thangID]
 
   onNewWorld: (e) ->
     @world = @options.world = e.world
-    @play()
-
-  onCastSpells: -> @stop()
 
   play: ->
-    sprite.imageObject.play() for thangID, sprite of @sprites
+    sprite.play() for sprite in @spriteArray
     @selectionMark?.play()
     @targetMark?.play()
 
   stop: ->
-    sprite.imageObject.stop() for thangID, sprite of @sprites
+    sprite.stop() for sprite in @spriteArray
     @selectionMark?.stop()
     @targetMark?.stop()
 
@@ -263,15 +265,15 @@ module.exports = class SpriteBoss extends CocoClass
   selectSprite: (e, sprite=null, spellName=null, treemaThangSelected = null) ->
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = sprite?.thang?.pos
-    worldPos ?= @camera.canvasToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
+    worldPos ?= @camera.screenToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
     if worldPos and (@options.navigateToSelection or not sprite or treemaThangSelected)
-      @camera.zoomTo(sprite?.displayObject or @camera.worldToSurface(worldPos), @camera.zoom, 1000)
+      @camera.zoomTo(sprite?.imageObject or @camera.worldToSurface(worldPos), @camera.zoom, 1000, true)
     sprite = null if @options.choosing  # Don't select sprites while choosing
     if sprite isnt @selectedSprite
       @selectedSprite?.selected = false
       sprite?.selected = true
       @selectedSprite = sprite
-    alive = sprite?.thang.health > 0
+    alive = sprite and not (sprite.thang.health < 0)
 
     Backbone.Mediator.publish 'surface:sprite-selected',
       thang: if sprite then sprite.thang else null

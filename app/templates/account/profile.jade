@@ -1,72 +1,130 @@
 extends /templates/base
 
 block content
+
+  if myProfile || (me.isAdmin() && user.get('jobProfile'))
+    .profile-control-bar
+      if myProfile
+        a(href=user.get('jobProfile') ? "/account/settings#job-profile" : "/account/settings")
+          button.btn.edit-settings-button
+            i.icon-cog
+            span(data-i18n="account_profile.edit_settings") Edit Settings
+      if me.isAdmin() && user.get('jobProfile')
+        button.btn.edit-settings-button#toggle-job-profile-approved
+          i.icon-cog
+          span(data-i18n='account_profile.approved').approved Approved
+          span(data-i18n='account_profile.not_approved').not-approved Not Approved
+        if user.id != me.id
+          button.btn.edit-settings-button#enter-espionage-mode 007
   
-  if myProfile
-    a(href="/account/settings")
-      button.btn
-        i.icon-cog
-        span(data-i18n="account_profile.edit_settings") Edit Settings
+  if user.get('jobProfile') && allowedToViewJobProfile
+    - var profile = user.get('jobProfile');
+    .job-profile-container
+      .job-profile-row
+        .left-column.full-height-column
+          .sub-column
+            .profile-photo-container
+              img.profile-photo(src=user.getPhotoURL(240, true))
+              .profile-caption= profile.jobTitle || 'Software Developer'
   
-  h2 
-    if grav && grav.name && grav.name.formatted
-      span(data-i18n="account_profile.profile_for_prefix") Profile for 
-      span= grav.name.formatted
-      span(data-i18n="account_profile.profile_for_suffix") 
-    else
-      span(data-i18n="account_profile.profile") Profile
+            if profileLinks.length
+              ul.links
+                each link in profileLinks
+                  if link.link && link.name
+                    li(title=profile.name + " on " + link.name, class=link.icon ? "has-icon" : "")
+                      a(href=link.link)
+                        if link.icon
+                          img(src=link.icon.url, alt=link.icon.name)
+                        else
+                          button.btn.btn-large.btn-inverse.flat-button= link.name
+  
+            div= profile.city + ', ' + profile.country
+            div= profile.visa
+            div
+              span(data-i18n="account_profile.looking_for") Looking for:
+              |  #{profile.lookingFor}
+            div
+              span(data-i18n="account_profile.last_updated") Last updated:
+              |  #{moment(profile.updated).fromNow()}
+  
+            button#contact-candidate.btn.btn-large.btn-inverse.flat-button
+              span(data-i18n="account_profile.contact") Contact
+              |  #{profile.name.split(' ')[0]}
 
-  if loadingProfile
-    p(data-i18n="common.loading") Loading...
+        .middle-column.full-height-column
+          .sub-column
+            h3= profile.name || "Anonymous Developer"
+            if profile.shortDescription
+              p= profile.shortDescription
+  
+            each skill in profile.skills
+              code= skill
+              span  
+            if profile.longDescription
+              div.long-description!= marked(profile.longDescription)
+  
+            if profile.work.length
+              h3.experience-header
+                img.header-icon(src="/images/pages/account/profile/work.png", alt="")
+                span(data-i18n="account_profile.work_experience") Work Experience
+              each job in profile.work
+                if job.role && job.employer
+                  div.experience-entry
+                    div.duration.pull-right= job.duration
+                    | #{job.role} at #{job.employer}
+                    .clearfix
+                    if job.description
+                      div!= marked(job.description)
+  
+            if profile.education.length
+              h3.experience-header
+                img.header-icon(src="/images/pages/account/profile/education.png", alt="")
+                span(data-i18n="account_profile.education") Education
+              each school in profile.education
+                if school.degree && school.school
+                  div.experience-entry
+                    div.duration.pull-right= school.duration
+                    | #{school.degree} at #{school.school}
+                    .clearfix
+                    if school.description
+                      div!= marked(school.description)
+  
+            if user.get('jobProfileNotes') || me.isAdmin()
+              h3.experience-header(data-i18n="account_profile.our_notes") Our Notes
+              - var notes = user.get('jobProfileNotes') || '';
+              if me.isAdmin()
+                textarea#job-profile-notes!= notes
+                button.btn.btn-primary#save-notes-button Save Notes
+              else
+                div!= marked(notes)
 
-  else if !user.get('emailHash')
-    p(data-i18n="account_profile.user_not_found") No user found. Check the URL?
-
-  else if !user.gravatarProfile
-    if myProfile
-      p
-        span(data-i18n="account_profile.gravatar_not_found_mine") We couldn't find your profile associated with:
-        strong  "#{me.get('email')}"
-        span(data-i18n="account_profile.gravatar_not_found_email_suffix") .
-        span  
-        span(data-i18n="account_profile.gravatar_signup_prefix") Sign up at 
-        a(href="http://en.gravatar.com/") Gravatar
-        span(data-i18n="account_profile.gravatar_signup_suffix")  to get set up!
-    else
-        p(data-i18n="account_profile.gravatar_not_found_other")
-          | Alas, there's no profile associated with this person's email address.
-
+        .right-column.full-height-column
+          .sub-column
+            if profile.projects.length
+              h3(data-i18n="account_profile.projects") Projects
+              ul.projects
+                each project in profile.projects
+                  if project.name
+                    li
+                      if project.link && project.link.length && project.link != 'http://example.com'
+                        a(href=project.link)
+                      if project.picture
+                        .project-image(style="background-image: url('/file/" + project.picture + "')")
+                      p= project.name
+                      div!= marked(project.description)
+  else if allowedToViewJobProfile
+    .public-profile-container
+      h2 Loading...
+      
+                        
   else
-    .container
-      div.row
-        div.col-xs-3
-          img(src=photoURL).img-thumbnail
-          
-          p.about-me #{grav.aboutMe}
+    .public-profile-container
+      h2 
+        span(data-i18n="account_profile.profile_for_prefix") Profile for 
+        span= user.get('name')
+        span(data-i18n="account_profile.profile_for_suffix") 
   
-        if grav.emails
-          div.col-xs-3
-            h3(data-i18n="account_profile.gravatar_contact") Contact
-            ul
-              each email in grav.emails
-                li #{email.value}
-                  
-        if grav.urls && grav.urls.length
-          div.col-xs-3
-            h3(data-i18n="account_profile.gravatar_websites") Websites
-            ul
-              each url in grav.urls
-                li
-                  a(href="#{url.value}") #{url.title} 
-                                
-        if grav.accounts
-          div.col-xs-3
-            h3(data-i18n="account_profile.gravatar_accounts") As Seen On
-            ul
-              each account in grav.accounts
-                li
-                  a(href="#{account.url}") #{account.domain}
-     
-    hr
-    p
-      a(href="#{grav.profileUrl}", data-i18n="account_profile.gravatar_profile_link") Full Gravatar Profile
+      img.profile-photo(src=user.getPhotoURL(256))
+  
+      h2 TODO
+      p Public user profiles are not ready yet. If you are seeing this, we probably have a bug leading to a broken link.

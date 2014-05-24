@@ -1,9 +1,3 @@
-//if matches.length
-//  p#your-score
-//    span Your Current Score:
-//    span  
-//    strong= score
-
 div#columns.row
   for team in teams
     div.matches-column.col-md-6
@@ -23,20 +17,12 @@ div#columns.row
         if team.session
           tr
             th(colspan=4)
-              button.btn.btn-warning.btn-block.rank-button(data-session-id=team.session.id)
-                span(data-i18n="ladder.rank_no_code").unavailable.hidden No New Code to Rank
-                span(data-i18n="ladder.rank_my_game").rank.hidden Rank My Game!
-                span(data-i18n="ladder.rank_submitting").submitting.hidden Submitting...
-                span(data-i18n="ladder.rank_submitted").submitted.hidden Submitted for Ranking
-                span(data-i18n="ladder.rank_failed").failed.hidden Failed to Rank
-                span(data-i18n="ladder.rank_being_ranked").ranking.hidden Game Being Ranked
+              .ladder-submission-view(data-session-id=team.session.id)
 
-        if team.chartData
+        if team.scoreHistory
           tr
             th(colspan=4, style="color: #{team.primaryColor}")
               div(class="score-chart-wrapper", data-team-name=team.name, id="score-chart-#{team.name}")
-
-
 
         tr
           th(data-i18n="general.result") Result
@@ -44,7 +30,7 @@ div#columns.row
           th(data-i18n="general.when") When
           th
         for match in team.matches
-          tr(class=(match.stale ? "stale " : "") + match.state)
+          tr(class=(match.stale ? "stale " : "") + (match.fresh ? "fresh " : "") + match.state)
             td.state-cell
               if match.state === 'win'
                 span(data-i18n="general.win").win Win

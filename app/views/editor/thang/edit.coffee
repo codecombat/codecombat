@@ -9,6 +9,8 @@ View = require 'views/kinds/RootView'
 ThangComponentEditView = require 'views/editor/components/main'
 VersionHistoryView = require './versions_view'
 ColorsTabView = require './colors_tab_view'
+PatchesView = require 'views/editor/patches_view'
+SaveVersionModal = require 'views/modal/save_version_modal'
 ErrorView = require '../../error_view'
 template = require 'templates/editor/thang/edit'
 
@@ -33,6 +35,8 @@ module.exports = class ThangTypeEditView extends View
     'click #marker-button': 'toggleDots'
     'click #end-button': 'endAnimation'
     'click #history-button': 'showVersionHistory'
+    'click #save-button': 'openSaveModal'
+    'click #patches-tab': -> @patchesView.load()
 
   subscriptions:
     'save-new-version': 'saveNewThangType'
@@ -43,31 +47,12 @@ module.exports = class ThangTypeEditView extends View
     super options
     @mockThang = $.extend(true, {}, @mockThang)
     @thangType = new ThangType(_id: @thangTypeID)
+    @thangType = @supermodel.loadModel(@thangType, 'thang').model
     @thangType.saveBackups = true
-
-    @listenToOnce(@thangType, 'error',
-      () =>
-        @hideLoading()
-
-        # Hack: editor components appear after calling insertSubView.
-        # So we need to hide them first.
-        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
-
-        @insertSubView(new ErrorView())
-    )
-
-    @thangType.fetch()
-    @thangType.loadSchema()
-    @listenToOnce(@thangType.schema(), 'sync', @onThangTypeSync)
-    @listenToOnce(@thangType, 'sync', @onThangTypeSync)
+    @listenToOnce @thangType, 'sync', ->
+      console.log 'files for?', @thangType.id, @thangType.get 'name'
+      @files = @supermodel.loadCollection(new DocumentFiles(@thangType), 'files').model
     @refreshAnimation = _.debounce @refreshAnimation, 500
-
-  onThangTypeSync: ->
-    return unless @thangType.loaded and ThangType.hasSchema()
-    @startsLoading = false
-    @files = new DocumentFiles(@thangType)
-    @files.fetch()
-    @render()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -81,16 +66,17 @@ module.exports = class ThangTypeEditView extends View
     raw = ("raw:#{name}" for name in raw)
     main = _.keys(@thangType.get('actions') or {})
     main.concat(raw)
-
+  
   afterRender: ->
     super()
-    return unless @thangType.loaded
+    return unless @supermodel.finished()
     @initStage()
     @buildTreema()
     @initSliders()
     @initComponents()
     @insertSubView(new ColorsTabView(@thangType))
-    @showReadOnly() unless me.isAdmin() or @thangType.hasWriteAccess(me)
+    @patchesView = @insertSubView(new PatchesView(@thangType), @$el.find('.patches-view'))
+    @showReadOnly() if me.get('anonymous')
 
   initComponents: =>
     options =
@@ -114,10 +100,8 @@ module.exports = class ThangTypeEditView extends View
   initStage: ->
     canvas = @$el.find('#canvas')
     @stage = new createjs.Stage(canvas[0])
-    canvasWidth = parseInt(canvas.attr('width'), 10)
-    canvasHeight = parseInt(canvas.attr('height'), 10)
     @camera?.destroy()
-    @camera = new Camera canvasWidth, canvasHeight
+    @camera = new Camera canvas
 
     @torsoDot = @makeDot('blue')
     @mouthDot = @makeDot('yellow')
@@ -211,6 +195,7 @@ module.exports = class ThangTypeEditView extends View
   # animation select
 
   refreshAnimation: ->
+    return @showRasterImage() if @thangType.get('raster')
     options = @getSpriteOptions()
     @thangType.resetSpriteSheetCache()
     spriteSheet = @thangType.buildSpriteSheet(options)
@@ -221,6 +206,13 @@ module.exports = class ThangTypeEditView extends View
     @showAnimation()
     @updatePortrait()
 
+  showRasterImage: ->
+    sprite = new CocoSprite(@thangType, @getSpriteOptions())
+    @currentSprite?.destroy()
+    @currentSprite = sprite
+    @showImageObject(sprite.imageObject)
+    @updateScale()
+
   showAnimation: (animationName) ->
     animationName = @$el.find('#animations-select').val() unless _.isString animationName
     return unless animationName
@@ -229,8 +221,8 @@ module.exports = class ThangTypeEditView extends View
       @showMovieClip(animationName)
     else
       @showSprite(animationName)
-    @updateScale()
     @updateRotation()
+    @updateScale() # must happen after update rotation, because updateRotation calls the sprite update() method.
 
   showMovieClip: (animationName) ->
     vectorParser = new SpriteBuilder(@thangType)
@@ -240,7 +232,7 @@ module.exports = class ThangTypeEditView extends View
     if reg
       movieClip.regX = -reg.x
       movieClip.regY = -reg.y
-    @showDisplayObject(movieClip)
+    @showImageObject(movieClip)
 
   getSpriteOptions: -> { resolutionFactor: @resolution, thang: @mockThang}
 
@@ -250,7 +242,7 @@ module.exports = class ThangTypeEditView extends View
     sprite.queueAction(actionName)
     @currentSprite?.destroy()
     @currentSprite = sprite
-    @showDisplayObject(sprite.displayObject)
+    @showImageObject(sprite.imageObject)
 
   updatePortrait: ->
     options = @getSpriteOptions()
@@ -260,12 +252,12 @@ module.exports = class ThangTypeEditView extends View
     portrait.addClass 'img-thumbnail'
     $('#portrait').replaceWith(portrait)
 
-  showDisplayObject: (displayObject) ->
+  showImageObject: (imageObject) ->
     @clearDisplayObject()
-    displayObject.x = CENTER.x
-    displayObject.y = CENTER.y
-    @stage.addChildAt(displayObject, 1)
-    @currentObject = displayObject
+    imageObject.x = CENTER.x
+    imageObject.y = CENTER.y
+    @stage.addChildAt(imageObject, 1)
+    @currentObject = imageObject
     @updateDots()
 
   clearDisplayObject: ->
@@ -287,11 +279,16 @@ module.exports = class ThangTypeEditView extends View
       @currentSprite.update(true)
 
   updateScale: =>
-    value = (@scaleSlider.slider('value') + 1) / 10
-    fixed = value.toFixed(1)
-    @scale = value
+    resValue = (@resolutionSlider.slider('value') + 1) / 10
+    scaleValue = (@scaleSlider.slider('value') + 1) / 10
+    fixed = scaleValue.toFixed(1)
+    @scale = scaleValue
     @$el.find('.scale-label').text " #{fixed}x "
-    @currentObject.scaleX = @currentObject.scaleY = value if @currentObject?
+    if @currentSprite
+      @currentSprite.scaleFactor = scaleValue
+      @currentSprite.updateScale()
+    else if @currentObject?
+      @currentObject.scaleX = @currentObject.scaleY = scaleValue / resValue
     @updateGrid()
     @updateDots()
 
@@ -324,8 +321,13 @@ module.exports = class ThangTypeEditView extends View
 
     res.success =>
       url = "/editor/thang/#{newThangType.get('slug') or newThangType.id}"
-      newThangType.uploadGenericPortrait ->
-        document.location.href = url
+      portraitSource = null
+      if @thangType.get('raster')
+        image = @currentSprite.imageObject.image
+        portraitSource = imageToPortrait image
+        # bit of a hacky way to get that portrait
+      success = -> document.location.href = url
+      newThangType.uploadGenericPortrait success, portraitSource
 
   clearRawData: ->
     @thangType.resetRawData()
@@ -339,7 +341,7 @@ module.exports = class ThangTypeEditView extends View
 
   buildTreema: ->
     data = @getThangData()
-    schema = _.cloneDeep ThangType.schema.attributes
+    schema = _.cloneDeep ThangType.schema
     schema.properties = _.pick schema.properties, (value, key) => not (key in ['components'])
     options =
       data: data
@@ -382,7 +384,7 @@ module.exports = class ThangTypeEditView extends View
       bounds = obj.frameBounds[0]
       obj.regX = bounds.x + bounds.width / 2
       obj.regY = bounds.y + bounds.height / 2
-    @showDisplayObject(obj) if obj
+    @showImageObject(obj) if obj
     obj.y = 200 if obj # truly center the container
     @showingSelectedNode = true
     @currentSprite?.destroy()
@@ -396,11 +398,25 @@ module.exports = class ThangTypeEditView extends View
     @showAnimation()
     @showingSelectedNode = false
 
-  destroy: ->
-    @camera?.destroy()
-    super()
-
   showVersionHistory: (e) ->
     versionHistoryView = new VersionHistoryView thangType:@thangType, @thangTypeID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
+
+  openSaveModal: ->
+    @openModalView(new SaveVersionModal({model: @thangType}))
+
+  destroy: ->
+    @camera?.destroy()
+    super()
+
+imageToPortrait = (img) ->
+  canvas = document.createElement("canvas")
+  canvas.width = 100
+  canvas.height = 100
+  ctx = canvas.getContext("2d")
+  scaleX = 100 / img.width
+  scaleY = 100 / img.height
+  ctx.scale scaleX, scaleY
+  ctx.drawImage img, 0, 0
+  canvas.toDataURL("image/png") 

@@ -13,6 +13,11 @@ module.exports = class DebugView extends View
 
   subscriptions:
     'god:new-world-created': 'onNewWorld'
+    'god:debug-value-return': 'handleDebugValue'
+    'tome:spell-shown': 'changeCurrentThangAndSpell'
+    'tome:cast-spells': 'onTomeCast'
+    'surface:frame-changed': 'onFrameChanged'
+    'tome:spell-has-changed-significantly-calculation': 'onSpellChangedCalculation'
 
   events: {}
 
@@ -20,11 +25,72 @@ module.exports = class DebugView extends View
     super options
     @ace = options.ace
     @thang = options.thang
+    @spell = options.spell
     @variableStates = {}
-    @globals = {Math: Math, _: _}  # ... add more as documented
-    for className, klass of serializedClasses
-      @globals[className] = klass
+    @globals = {Math: Math, _: _, String: String, Number: Number, Array: Array, Object: Object}  # ... add more as documented
+    for className, serializedClass of serializedClasses
+      @globals[className] = serializedClass
+
     @onMouseMove = _.throttle @onMouseMove, 25
+    @cache = {}
+    @lastFrameRequested = -1
+    @workerIsSimulating = false
+    @spellHasChanged = false
+    
+
+
+  pad2: (num) ->
+    if not num? or num is 0 then "00" else ((if num < 10 then "0" else "") + num)
+
+  calculateCurrentTimeString: =>
+    time = @currentFrame / @frameRate
+    mins = Math.floor(time / 60)
+    secs = (time - mins * 60).toFixed(1)
+    "#{mins}:#{@pad2 secs}"
+
+
+  setTooltipKeyAndValue: (key, value) =>
+    message = "Time: #{@calculateCurrentTimeString()}\n#{key}: #{value}"
+    @$el.find("code").text message
+    @$el.show().css(@pos)
+
+  setTooltipText: (text) =>
+    #perhaps changing styling here in the future
+    @$el.find("code").text text
+    @$el.show().css(@pos)
+
+  onTomeCast: ->
+    @invalidateCache()
+
+  invalidateCache: -> @cache = {}
+
+  retrieveValueFromCache: (thangID,spellID,variableChain,frame) ->
+    joinedVariableChain = variableChain.join()
+    value = @cache[frame]?[thangID]?[spellID]?[joinedVariableChain]
+    return value ? undefined
+
+  updateCache: (thangID, spellID, variableChain, frame, value) ->
+    currentObject = @cache
+    keys = [frame,thangID,spellID,variableChain.join()]
+    for keyIndex in [0...(keys.length - 1)]
+      key = keys[keyIndex]
+      unless key of currentObject
+        currentObject[key] = {}
+      currentObject = currentObject[key]
+    currentObject[keys[keys.length - 1]] = value
+
+
+  changeCurrentThangAndSpell: (thangAndSpellObject) ->
+    @thang = thangAndSpellObject.thang
+    @spell = thangAndSpellObject.spell
+
+  handleDebugValue: (returnObject) ->
+    @workerIsSimulating = false
+    {key, value} = returnObject
+    @updateCache(@thang.id,@spell.name,key.split("."),@lastFrameRequested,value)
+    if @variableChain and not key is @variableChain.join(".") then return
+    @setTooltipKeyAndValue(key,value)
+
 
   afterRender: ->
     super()
@@ -33,17 +99,18 @@ module.exports = class DebugView extends View
   setVariableStates: (@variableStates) ->
     @update()
 
+  isIdentifier: (t) ->
+    t and (t.type is 'identifier' or t.value is 'this' or @globals[t.value])
+
   onMouseMove: (e) =>
     return if @destroyed
     pos = e.getDocumentPosition()
-    endOfDoc = pos.row is @ace.getSession().getDocument().getLength() - 1
     it = new TokenIterator e.editor.session, pos.row, pos.column
-    isIdentifier = (t) => t and (t.type is 'identifier' or t.value is 'this' or @globals[t.value])
-    while it.getCurrentTokenRow() is pos.row and not isIdentifier(token = it.getCurrentToken())
+    endOfLine = it.getCurrentToken()?.index is it.$rowTokens.length - 1
+    while it.getCurrentTokenRow() is pos.row and not @isIdentifier(token = it.getCurrentToken())
+      break if endOfLine or not token  # Don't iterate beyond end or beginning of line
       it.stepBackward()
-      break unless token
-      break if endOfDoc  # Don't iterate backward on last line, since we might be way below.
-    if isIdentifier token
+    if @isIdentifier token
       # This could be a property access, like "enemy.target.pos" or "this.spawnedRectangles".
       # We have to realize this and dig into the nesting of the objects.
       start = it.getCurrentTokenColumn()
@@ -53,11 +120,12 @@ module.exports = class DebugView extends View
         break unless it.getCurrentToken()?.value is "."
         it.stepBackward()
         token = null  # If we're doing a complex access like this.getEnemies().length, then length isn't a valid var.
-        break unless isIdentifier(prev = it.getCurrentToken())
+        break unless @isIdentifier(prev = it.getCurrentToken())
         token = prev
         start = it.getCurrentTokenColumn()
         chain.unshift token.value
-    if token and (token.value of @variableStates or token.value is "this" or @globals[token.value])
+    #Highlight all tokens, so true overrides all other conditions TODO: Refactor this later
+    if token and (true or token.value of @variableStates or token.value is "this" or @globals[token.value])
       @variableChain = chain
       offsetX = e.domEvent.offsetX ? e.clientX - $(e.domEvent.target).offset().left
       offsetY = e.domEvent.offsetY ? e.clientY - $(e.domEvent.target).offset().top
@@ -75,12 +143,35 @@ module.exports = class DebugView extends View
 
   onNewWorld: (e) ->
     @thang = @options.thang = e.world.thangMap[@thang.id] if @thang
+    @frameRate = e.world.frameRate
 
+  onFrameChanged: (data) ->
+    @currentFrame = data.frame
+    @frameRate = data.world.frameRate
+  onSpellChangedCalculation: (data) ->
+    @spellHasChanged = data.hasChangedSignificantly
+    
   update: ->
     if @variableChain
-      {key, value} = @deserializeVariableChain @variableChain
-      @$el.find("code").text "#{key}: #{value}"
-      @$el.show().css(@pos)
+      if @spellHasChanged
+        @setTooltipText("You've changed this spell! \nPlease recast to use the hover debugger.")
+      else if @variableChain.length is 2 and @variableChain[0] is "this"
+        @setTooltipKeyAndValue(@variableChain.join("."),@stringifyValue(@thang[@variableChain[1]],0))
+      else if @variableChain.length is 1 and Aether.globals[@variableChain[0]]
+        @setTooltipKeyAndValue(@variableChain.join("."),@stringifyValue(Aether.globals[@variableChain[0]],0))
+      else if @workerIsSimulating
+        @setTooltipText("World is simulating, please wait...")
+      else if @currentFrame is @lastFrameRequested and (cacheValue = @retrieveValueFromCache(@thang.id, @spell.name, @variableChain, @currentFrame))
+        @setTooltipKeyAndValue(@variableChain.join("."),cacheValue)
+      else
+        Backbone.Mediator.publish 'tome:spell-debug-value-request',
+          thangID: @thang.id
+          spellID: @spell.name
+          variableChain: @variableChain
+          frame: @currentFrame
+        if @currentFrame isnt @lastFrameRequested then @workerIsSimulating = true
+        @lastFrameRequested = @currentFrame
+        @setTooltipText("Finding value...")
     else
       @$el.hide()
     if @variableChain?.length is 2
@@ -89,21 +180,6 @@ module.exports = class DebugView extends View
     else
       @notifyPropertyHovered()
     @updateMarker()
-
-  notifyPropertyHovered: =>
-    clearTimeout @hoveredPropertyTimeout if @hoveredPropertyTimeout
-    @hoveredPropertyTimeout = null
-    oldHoveredProperty = @hoveredProperty
-    @hoveredProperty = if @variableChain?.length is 2 then owner: @variableChain[0], property: @variableChain[1] else {}
-    unless _.isEqual oldHoveredProperty, @hoveredProperty
-      Backbone.Mediator.publish 'tome:spell-debug-property-hovered', @hoveredProperty
-
-  updateMarker: ->
-    if @marker
-      @ace.getSession().removeMarker @marker
-      @marker = null
-    if @markerRange
-      @marker = @ace.getSession().addMarker @markerRange, "ace_bracket", "text"
 
   stringifyValue: (value, depth) ->
     return value if not value or _.isString value
@@ -138,27 +214,21 @@ module.exports = class DebugView extends View
     prefix ?= "Object" if isObject
     prefix = if prefix then prefix + " " else ""
     return "#{prefix}#{brackets[0]}#{sep}  #{values.join(sep + '  ')}#{sep}#{brackets[1]}"
+  notifyPropertyHovered: =>
+    clearTimeout @hoveredPropertyTimeout if @hoveredPropertyTimeout
+    @hoveredPropertyTimeout = null
+    oldHoveredProperty = @hoveredProperty
+    @hoveredProperty = if @variableChain?.length is 2 then owner: @variableChain[0], property: @variableChain[1] else {}
+    unless _.isEqual oldHoveredProperty, @hoveredProperty
+      Backbone.Mediator.publish 'tome:spell-debug-property-hovered', @hoveredProperty
 
-  deserializeVariableChain: (chain) ->
-    keys = []
-    for prop, i in chain
-      if prop is "this"
-        value = @thang
-      else if i is 0
-        value = @variableStates[prop]
-        if typeof value is "undefined" then value = @globals[prop]
-      else
-        value = value[prop]
-      keys.push prop
-      break unless value
-      if theClass = serializedClasses[value.CN]
-        if value.CN is "Thang"
-          thang = @thang.world.thangMap[value.id]
-          value = thang or "<Thang #{value.id} (non-existent)>"
-        else
-          value = theClass.deserializeFromAether(value)
-    value = @stringifyValue value, 0
-    key: keys.join("."), value: value
+  updateMarker: ->
+    if @marker
+      @ace.getSession().removeMarker @marker
+      @marker = null
+    if @markerRange
+      @marker = @ace.getSession().addMarker @markerRange, "ace_bracket", "text"
+
 
   destroy: ->
     @ace?.removeEventListener "mousemove", @onMouseMove

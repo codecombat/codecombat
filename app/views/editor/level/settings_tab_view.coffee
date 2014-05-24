@@ -3,6 +3,7 @@ template = require 'templates/editor/level/settings_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './treema_nodes'
+{me} = require 'lib/auth'
 
 module.exports = class SettingsTabView extends View
   id: 'editor-level-settings-tab-view'
@@ -20,12 +21,12 @@ module.exports = class SettingsTabView extends View
 
   constructor: (options) ->
     super options
-    @world = options.world
 
+  onLoaded: ->
   onLevelLoaded: (e) ->
     @level = e.level
     data = _.pick @level.attributes, (value, key) => key in @editableSettings
-    schema = _.cloneDeep Level.schema.attributes
+    schema = _.cloneDeep Level.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
     thangIDs = @getThangIDs()
@@ -34,7 +35,7 @@ module.exports = class SettingsTabView extends View
       supermodel: @supermodel
       schema: schema
       data: data
-      readOnly: true unless me.isAdmin() or @level.hasWriteAccess(me)
+      readOnly: me.get('anonymous')
       callbacks: {change: @onSettingsChanged}
       thangIDs: thangIDs
       nodeClasses:

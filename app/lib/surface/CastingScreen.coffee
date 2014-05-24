@@ -14,9 +14,9 @@ module.exports = class CastingScreen extends CocoClass
     console.error @toString(), "needs a camera." unless @camera
     console.error @toString(), "needs a layer." unless @layer
     @build()
-    
-  onCastingBegins: -> @show()
-  onCastingEnds: -> @hide()
+
+  onCastingBegins: (e) -> @show() unless e.preload
+  onCastingEnds: (e) -> @hide()
 
   toString: -> "<CastingScreen>"
 

@@ -109,19 +109,29 @@ module.exports = class HUDView extends View
     @update()
 
   createAvatar: (thangType, thang, colorConfig) ->
+    unless thangType.isFullyLoaded()
+      args = arguments
+      unless @listeningToCreateAvatar
+        @listenToOnce thangType, 'sync', -> @createAvatar(args...)
+        @listeningToCreateAvatar = true
+      return
+    @listeningToCreateAvatar = false
     options = thang.getSpriteOptions() or {}
     options.async = false
     options.colorConfig = colorConfig if colorConfig
-    stage = thangType.getPortraitStage options
     wrapper = @$el.find '.thang-canvas-wrapper'
-    newCanvas = $(stage.canvas).addClass('thang-canvas')
-    wrapper.empty().append(newCanvas)
     team = @thang?.team or @speakerSprite?.thang?.team
     wrapper.removeClass (i, css) -> (css.match(/\bteam-\S+/g) or []).join ' '
     wrapper.addClass "team-#{team}"
-    stage.update()
-    @stage?.stopTalking()
-    @stage = stage
+    if thangType.get('raster')
+      wrapper.empty().append($('<img />').attr('src', '/file/'+thangType.get('raster')))
+    else
+      stage = thangType.getPortraitStage options
+      newCanvas = $(stage.canvas).addClass('thang-canvas')
+      wrapper.empty().append(newCanvas)
+      stage.update()
+      @stage?.stopTalking()
+      @stage = stage
 
   onThangBeganTalking: (e) ->
     return unless @stage and @thang is e.thang
@@ -160,6 +170,8 @@ module.exports = class HUDView extends View
 
   setMessage: (message, mood, responses) ->
     message = marked message
+    # Fix old HTML icons like <i class='icon-play'></i> in the Markdown
+    message = message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
     clearInterval(@messageInterval) if @messageInterval
     @bubble = $('.dialogue-bubble', @$el)
     @bubble.removeClass(@lastMood) if @lastMood
@@ -249,7 +261,7 @@ module.exports = class HUDView extends View
       return null  # included in the bar
     context =
       prop: prop
-      hasIcon: prop in ["health", "pos", "target", "inventory", "gold", "visualRange", "attackDamage", "attackRange", "maxSpeed"]
+      hasIcon: prop in ["health", "pos", "target", "inventory", "gold", "bountyGold", "visualRange", "attackDamage", "attackRange", "maxSpeed"]
       hasBar: prop in ["health"]
     $(prop_template(context))
 
@@ -306,10 +318,11 @@ module.exports = class HUDView extends View
     for actionName, action of @thang.actions
       @updateActionElement(actionName, @timespans[actionName], @thang.action is actionName)
     tableContainer = @$el.find('.table-container')
-    timelineWidth = tableContainer.find('tr:not(.secret) .action-timeline').width()
-    right = (1 - (@timeProgress ? 0)) * timelineWidth
     arrow = tableContainer.find('.progress-arrow')
-    arrow.css 'right', right - arrow.width() / 2
+    @timelineWidth ||= tableContainer.find('tr:not(.secret) .action-timeline').width()
+    @actionArrowWidth ||= arrow.width()
+    right = (1 - (@timeProgress ? 0)) * @timelineWidth
+    arrow.css 'right', right - @actionArrowWidth / 2
     tableContainer.find('.progress-line').css 'right', right
 
   buildActionTimespans: ->

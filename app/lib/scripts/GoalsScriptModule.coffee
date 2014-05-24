@@ -12,7 +12,7 @@ module.exports = class GoalsScriptModule extends ScriptModule
 
   endNotes: ->
     return []
-    
+
   skipNotes: ->
     return @startNotes()
 
@@ -21,7 +21,6 @@ module.exports = class GoalsScriptModule extends ScriptModule
       channel: 'level-add-goals'
       event:
         goals: @noteGroup.goals.add
-        worldName: @view.world.name
     return note
 
   removeNote: ->
@@ -29,7 +28,4 @@ module.exports = class GoalsScriptModule extends ScriptModule
       channel: 'level-remove-goals'
       event:
         goals: @noteGroup.goals.remove
-        worldName: @view.world.name
     return note
-
- 

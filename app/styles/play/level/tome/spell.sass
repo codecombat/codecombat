@@ -1,4 +1,4 @@
-@import "../../../bootstrap/mixins"
+@import "app/styles/bootstrap/mixins"
 
 @mixin editor-height($extraHeight)
   @include box-sizing(border-box)
@@ -41,6 +41,9 @@
     .ace_editor
       width: 100%
       height: 100%
+
+    .powered-by-firepad
+      display: none
 
   .ace_editor
     // When Firepad isn't active, .ace_editor needs the width/height set itself.
@@ -109,8 +112,9 @@
         // Override faint gray
         border-color: #BFF
 
-    .ace_identifier
-      border-bottom: 1px dotted rgba(255, 128, 128, 0.45)
+    // Decided it wasn't useful to show what can be hovered, since almost anything can, so we have to make it too faint to be useful if we don't want it to be really distracting.
+    //.ace_identifier
+    //  border-bottom: 1px dotted rgba(0, 51, 255, 0.25)
 
     .ace_text-layer .ace_comment
       color: darken(rgb(103, 164, 200), 5%)
@@ -119,3 +123,13 @@
       // https://github.com/codecombat/codecombat/issues/6
       color: rgb(145, 48, 50)
 
+    .ace_search
+      background-color: rgba(216, 187, 165, 1)
+      border: 0
+      @include box-shadow(1px 2px 1px #444)
+      
+      .ace_search_field
+        width: 190px
+
+      .ace_searchbtn, .ace_replacebtn
+        padding: 0px 4px

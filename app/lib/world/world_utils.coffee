@@ -42,12 +42,15 @@ module.exports.clone = clone = (obj, skipThangs=false) ->
   if skipThangs and obj.isThang
     return obj
 
+  if _.isArray obj
+    return obj.slice()
+
   if ArrayBufferView and obj instanceof ArrayBufferView
-    newInstance = new obj.constructor obj
-  else
-    newInstance = new obj.constructor()
-    for key of obj
-      newInstance[key] = clone obj[key]
+    return new obj.constructor obj
+
+  newInstance = new obj.constructor()
+  for key of obj
+    newInstance[key] = clone obj[key], skipThangs
 
   newInstance
 

@@ -47,14 +47,14 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       'client_id' : clientID
       'scope' : scope
     gapi.auth.authorize params, @onGPlusLogin
-    
+
   onGPlusLogin: (e) =>
     @loggedIn = true
     storage.save(GPLUS_TOKEN_KEY, e)
     @accessToken = e
     @trigger 'logged-in'
-    return if (not me) or me.get 'gplusID' # so only get more data 
-    
+    return if (not me) or me.get 'gplusID' # so only get more data
+
     # email and profile data loaded separately
     @responsesComplete = 0
     gapi.client.request(path:plusURL, callback:@onPersonEntityReceived)
@@ -104,12 +104,13 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       success: (model) ->
         window.location.reload() if wasAnonymous and not model.get('anonymous')
     })
-    
+
   loadFriends: (friendsCallback) ->
     return friendsCallback() unless @loggedIn
-    expires_in = if @accessToken then parseInt(@accessToken.expires_at) - new Date().getTime()/1000 else -1
+    expiresIn = if @accessToken then parseInt(@accessToken.expires_at) - new Date().getTime()/1000 else -1
     onReauthorized = => gapi.client.request({path:'/plus/v1/people/me/people/visible', callback: friendsCallback})
-    if expires_in < 0
+    if expiresIn < 0
+      # TODO: this tries to open a popup window, which might not ever finish or work, so the callback may never be called.
       @reauthorize()
       @listenToOnce(@, 'logged-in', onReauthorized)
     else

@@ -1,5 +1,5 @@
 CocoModel = require 'models/CocoModel'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 {me} = require('lib/auth')
 locale = require 'locale/locale'
 
@@ -28,7 +28,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
     valEl.append(
       $('<div></div>').append(
         $('<button>Pick Image</button>')
-          .addClass('btn')
+          .addClass('btn btn-sm btn-primary')
           .click(=> filepicker.pick @onFileChosen)
       )
     )
@@ -55,38 +55,38 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   buildValueForDisplay: (valEl) ->
     @editor?.destroy()
     valEl.html(marked(@data))
-    
+
 class SoundFileTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-sound-file'
   editable: false
   soundCollection: 'files'
-  
+
   onClick: (e) ->
     return if $(e.target).closest('.btn').length
     super(arguments...)
-    
+
   getFiles: ->
     @settings[@soundCollection]?.models or []
 
   buildValueForDisplay: (valEl) ->
     mimetype = "audio/#{@keyForParent}"
-    pickButton = $('<a class="btn"><i class="icon-upload"></i></a>')
+    pickButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-upload"></span></a>')
       .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
-    playButton = $('<a class="btn"><i class="icon-play"></i></a>')
+    playButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-play"></span></a>')
       .click(@playFile)
-    stopButton = $('<a class="btn"><i class="icon-stop"></i></a>')
+    stopButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-stop"></span></a>')
       .click(@stopFile)
-    
+
     dropdown = $('<div class="btn-group dropdown"></div>')
 
     dropdownButton = $('<a></a>')
-      .addClass('btn dropdown-toggle')
+      .addClass('btn btn-primary btn-xs dropdown-toggle')
       .attr('href', '#')
-      .append($('<span class="caret"></span>'))
+      .append($('<span class="glyphicon glyphicon-chevron-down"></span>'))
       .dropdown()
-    
+
     dropdown.append dropdownButton
-    
+
     menu = $('<div class="dropdown-menu"></div>')
     files = @getFiles()
     for file in files
@@ -102,22 +102,22 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
       @data = $(e.target).data('fullPath') or @data
       @reset()
     dropdown.append(menu)
-    
+
     valEl.append(pickButton)
     if @data
       valEl.append(playButton)
       valEl.append(stopButton)
-    valEl.append(dropdown) if files.length and @canEdit()
+    valEl.append(dropdown) # if files.length and @canEdit()
     if @data
       path = @data.split('/')
       name = path[path.length-1]
       valEl.append($('<span></span>').text(name))
-    
+
   reset: ->
     @instance = null
     @flushChanges()
     @refreshDisplay()
-    
+
   playFile: =>
     @src = "/file/#{@data}"
 
@@ -129,27 +129,27 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
       registered = createjs.Sound.registerSound(@src)
       if registered is true
         @instance = createjs.Sound.play(@src)
-      
+
       else
         f = (event) =>
           @instance = createjs.Sound.play(event.src) if event.src is @src
           createjs.Sound.removeEventListener('fileload', f)
         createjs.Sound.addEventListener('fileload', f)
-      
+
   stopFile: => @instance?.stop()
-    
+
   onFileChosen: (InkBlob) =>
     if not @settings.filePath
       console.error('Need to specify a filePath for this treema', @getRoot())
       throw Error('cannot upload file')
-      
+
     body =
       url: InkBlob.url
       filename: InkBlob.filename
       mimetype: InkBlob.mimetype
       path: @settings.filePath
       force: true
-      
+
     @uploadingPath = [@settings.filePath, InkBlob.filename].join('/')
     $.ajax('/file', { type: 'POST', data: body, success: @onFileUploaded })
 
@@ -168,7 +168,7 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
 
   buildValueForDisplay: (valEl) ->
     mimetype = 'image/*'
-    pickButton = $('<a class="btn"><i class="icon-upload"></i></a>')
+    pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload Picture</a>')
       .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
 
     valEl.append(pickButton)
@@ -233,6 +233,7 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
       type: "object"
       properties: {}
     }
+    return i18nChildSchema unless @parent
     unless @schema.props?
       console.warn "i18n props array is empty! Filling with all parent properties by default"
       @schema.props = (prop for prop,_ of @parent.schema.properties when prop isnt "i18n")
@@ -279,13 +280,13 @@ class LatestVersionReferenceNode extends TreemaNode
   search: =>
     term = @getValEl().find('input').val()
     return if term is @lastTerm
-    
+
     # HACK while search is broken
     if @collection
       @lastTerm = term
       @searchCallback()
       return
-      
+
     @getSearchResultsEl().empty() if @lastTerm and not term
     return unless term
     @lastTerm = term
@@ -295,9 +296,9 @@ class LatestVersionReferenceNode extends TreemaNode
     # HACK while search is broken
 #    @collection.url = "#{@url}?term=#{term}&project=true"
     @collection.url = "#{@url}?term=#{''}&project=true"
-    
+
     @collection.fetch()
-    @listenTo(@collection, 'sync', @searchCallback)
+    @collection.once 'sync', @searchCallback, @
 
   searchCallback: ->
     container = @getSearchResultsEl().detach().empty()
@@ -306,10 +307,10 @@ class LatestVersionReferenceNode extends TreemaNode
       row = $('<div></div>').addClass('treema-search-result-row')
       text = @formatDocument(model)
       continue unless text?
-      
+
       # HACK while search is broken
       continue unless text.toLowerCase().indexOf(@lastTerm.toLowerCase()) >= 0
-      
+
       row.addClass('treema-search-selected') if first
       first = false
       row.text(text)
@@ -332,7 +333,7 @@ class LatestVersionReferenceNode extends TreemaNode
     if @instance and not m
       m = @instance
       m.url = -> urlGoingFor
-      @settings.supermodel.addModel(m)
+      @settings.supermodel.registerModel(m)
     return 'Unknown' unless m
     return m.get('name')
 

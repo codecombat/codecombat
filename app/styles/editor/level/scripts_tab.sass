@@ -1,5 +1,11 @@
 #editor-level-scripts-tab-view
   
+  .toggle
+    z-index: 11
+    margin-top: -10px
+    margin-left: -10px
+    float: left
+  
   .treema-script
     cursor: pointer
     
@@ -9,9 +15,15 @@
     bottom: 0
     width: 250px
     overflow: scroll
+    @media screen and (max-width: 800px)
+      top: 40px
+      z-index: 11
     
   #script-treema
     margin-left: 290px
     max-height: 100%
     overflow: scroll
     box-sizing: border-box
+    @media screen and (max-width: 800px)
+      margin-left: 30px
+      top: -50px

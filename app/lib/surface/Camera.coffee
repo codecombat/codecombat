@@ -10,6 +10,8 @@ MIN_ZOOM = 0.1
 DEFAULT_ZOOM = 2.0
 DEFAULT_TARGET = {x:0, y:0}
 DEFAULT_TIME = 1000
+STANDARD_ZOOM_WIDTH = 924
+STANDARD_ZOOM_HEIGHT = 589
 
 # You can't mutate any of the constructor parameters after construction.
 # You can only call zoomTo to change the zoom target and zoom level.
@@ -23,6 +25,8 @@ module.exports = class Camera extends CocoClass
   # what the camera is pointed at right now
   target: DEFAULT_TARGET
   zoom: DEFAULT_ZOOM
+  canvasScaleFactorX: 1
+  canvasScaleFactorY: 1
 
   # properties for tracking going between targets
   oldZoom: null
@@ -38,20 +42,26 @@ module.exports = class Camera extends CocoClass
   subscriptions:
     'camera-zoom-in': 'onZoomIn'
     'camera-zoom-out': 'onZoomOut'
-    'surface:mouse-scrolled': 'onMouseScrolled'
+    'camera-zoom-to': 'onZoomTo'
     'level:restarted': 'onLevelRestarted'
+    'surface:mouse-scrolled': 'onMouseScrolled'
     'sprite:mouse-down': 'onMouseDown'
     'sprite:dragged': 'onMouseDragged'
-    'camera-zoom-to': 'onZoomTo'
 
-  constructor: (@canvasWidth, @canvasHeight, angle=Math.asin(0.75), hFOV=d2r(30)) ->
+  constructor: (@canvas, angle=Math.asin(0.75), hFOV=d2r(30)) ->
     super()
-    @offset = {x: 0, y:0}
+    @canvasWidth = parseInt(@canvas.attr('width'), 10)
+    @canvasHeight = parseInt(@canvas.attr('height'), 10)
+    @offset = {x: 0, y: 0}
     @calculateViewingAngle angle
     @calculateFieldOfView hFOV
     @calculateAxisConversionFactors()
+    @calculateMinMaxZoom()
     @updateViewports()
-    @calculateMinZoom()
+
+  onResize: (newCanvasWidth, newCanvasHeight) ->
+    @canvasScaleFactorX = newCanvasWidth / @canvasWidth
+    @canvasScaleFactorY = newCanvasHeight / @canvasHeight
 
   calculateViewingAngle: (angle) ->
     # Operate on open interval between 0 - 90 degrees to make the math easier
@@ -91,15 +101,11 @@ module.exports = class Camera extends CocoClass
   surfaceToCanvas: (pos) ->
     {x: (pos.x - @surfaceViewport.x) * @zoom, y: (pos.y - @surfaceViewport.y) * @zoom}
 
-  # TODO: do we even need separate screen coordinates?
-  # We would need some other properties for the actual ratio of screen size to canvas size.
   canvasToScreen: (pos) ->
-    #{x: pos.x * @someCanvasToScreenXScaleFactor, y: pos.y * @someCanvasToScreenYScaleFactor}
-    {x: pos.x, y: pos.y}
+    {x: pos.x * @canvasScaleFactorX, y: pos.y * @canvasScaleFactorY}
 
   screenToCanvas: (pos) ->
-    #{x: pos.x / @someCanvasToScreenXScaleFactor, y: pos.y / @someCanvasToScreenYScaleFactor}
-    {x: pos.x, y: pos.y}
+    {x: pos.x / @canvasScaleFactorX, y: pos.y / @canvasScaleFactorY}
 
   canvasToSurface: (pos) ->
     {x: pos.x / @zoom + @surfaceViewport.x, y: pos.y / @zoom + @surfaceViewport.y}
@@ -149,35 +155,36 @@ module.exports = class Camera extends CocoClass
   onZoomIn: (e) -> @zoomTo @target, @zoom * 1.15, 300
   onZoomOut: (e) -> @zoomTo @target, @zoom / 1.15, 300
   onMouseScrolled: (e) ->
+    return unless e.canvas is @canvas
     ratio = 1 + 0.05 * Math.sqrt(Math.abs(e.deltaY))
     ratio = 1 / ratio if e.deltaY > 0
     newZoom = @zoom * ratio
-    if e.surfacePos and not @focusedOnSprite()
+    if e.screenPos and not @focusedOnSprite()
       # zoom based on mouse position, adjusting the target so the point under the mouse stays the same
-      mousePoint = @canvasToSurface(e.surfacePos)
+      mousePoint = @screenToSurface(e.screenPos)
       ratioPosX = (mousePoint.x - @surfaceViewport.x) / @surfaceViewport.width
       ratioPosY = (mousePoint.y - @surfaceViewport.y) / @surfaceViewport.height
       newWidth = @canvasWidth / newZoom
       newHeight = @canvasHeight / newZoom
       newTargetX = mousePoint.x - (newWidth * ratioPosX) + (newWidth / 2)
       newTargetY = mousePoint.y - (newHeight * ratioPosY) + (newHeight / 2)
-      target = {x: newTargetX, y:newTargetY}
+      target = {x: newTargetX, y: newTargetY}
     else
       target = @target
-    if not(newZoom >= MAX_ZOOM or newZoom <= Math.max(@minZoom, MIN_ZOOM))
-      @zoomTo target, newZoom, 0
+    @zoomTo target, newZoom, 0
 
   onMouseDown: (e) ->
+    return unless e.canvas is @canvas
     return if @dragDisabled
     @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
 
   onMouseDragged: (e) ->
+    return unless e.canvas is @canvas
     return if @dragDisabled
     target = @boundTarget(@target, @zoom)
-    newPos = {
+    newPos =
       x: target.x + (@lastPos.x - e.originalEvent.rawX) / @zoom
       y: target.y + (@lastPos.y - e.originalEvent.rawY) / @zoom
-    }
     @zoomTo newPos, @zoom, 0
     @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
     Backbone.Mediator.publish 'camera:dragged'
@@ -191,7 +198,7 @@ module.exports = class Camera extends CocoClass
     # receives an array of two world points. Normalize and apply them
     @firstBounds = worldBounds unless @firstBounds
     @bounds = @normalizeBounds(worldBounds)
-    @calculateMinZoom()
+    @calculateMinMaxZoom()
     @updateZoom true if updateZoom
     @target = @currentTarget unless @focusedOnSprite()
 
@@ -207,29 +214,31 @@ module.exports = class Camera extends CocoClass
     p2 = @worldToSurface({x:right, y:bottom})
     {x:p1.x, y:p1.y, width:p2.x-p1.x, height:p2.y-p1.y}
 
-  calculateMinZoom: ->
+  calculateMinMaxZoom: ->
     # Zoom targets are always done in Surface coordinates.
-    if not @bounds
-      @minZoom = 0.5
-      return
+    @maxZoom = MAX_ZOOM
+    return @minZoom = MIN_ZOOM unless @bounds
     @minZoom = Math.max @canvasWidth / @bounds.width, @canvasHeight / @bounds.height
-    @zoom = Math.max(@minZoom, @zoom) if @zoom
+    if @zoom
+      @zoom = Math.max @minZoom, @zoom
+      @zoom = Math.min @maxZoom, @zoom
 
   zoomTo: (newTarget=null, newZoom=1.0, time=1500) ->
     # Target is either just a {x, y} pos or a display object with {x, y} that might change; surface coordinates.
     time = 0 if @instant
-    newTarget ?= {x:0, y:0}
+    newTarget ?= {x: 0, y: 0}
     newTarget = (@newTarget or @target) if @locked
-    newZoom = Math.min((Math.max @minZoom, newZoom), MAX_ZOOM)
+    newZoom = Math.max newZoom, @minZoom
+    newZoom = Math.min newZoom, @maxZoom
 
     thangType = @target?.sprite?.thangType
     if thangType
-      @offset = _.clone(thangType.get('positions')?.torso or {x: 0, y:0})
+      @offset = _.clone(thangType.get('positions')?.torso or {x: 0, y: 0})
       scale = thangType.get('scale') or 1
       @offset.x *= scale
       @offset.y *= scale
     else
-      @offset = {x: 0, y:0}
+      @offset = {x: 0, y: 0}
 
     return if @zoom is newZoom and newTarget is newTarget.x and newTarget.y is newTarget.y
 
@@ -310,4 +319,4 @@ module.exports = class Camera extends CocoClass
     super()
 
   onZoomTo: (pos, time) ->
-    @zoomTo(@worldToSurface(pos), @zoom, time)
+    @zoomTo @worldToSurface(pos), @zoom, time

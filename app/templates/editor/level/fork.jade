@@ -6,12 +6,12 @@ block modal-header-content
 block modal-body-content
   form#save-level-form.form
     .form-group
-      label(for="level-name") Name
+      label(for="level-name", data-i18n="general.name") Name
       input#level-name(name="name", type="text").form-control
 
 block modal-footer-content
-  button.btn(data-dismiss="modal") Cancel
-  button.btn.btn-primary#fork-level-confirm-button Save
+  button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
+  button.btn.btn-primary#fork-level-confirm-button(data-i18n="common.save") Save
     
 block modal-body-wait-content
-  h3 Creating Fork...
+  h3(data-i18n="editor.fork_creating") Creating Fork...

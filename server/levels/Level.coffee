@@ -1,6 +1,6 @@
 mongoose = require('mongoose')
 plugins = require('../plugins/plugins')
-jsonschema = require('./level_schema')
+jsonschema = require('../../app/schemas/models/level')
 
 LevelSchema = new mongoose.Schema({
   description: String
@@ -10,6 +10,7 @@ LevelSchema.plugin(plugins.NamedPlugin)
 LevelSchema.plugin(plugins.PermissionsPlugin)
 LevelSchema.plugin(plugins.VersionedPlugin)
 LevelSchema.plugin(plugins.SearchablePlugin, {searchable: ['name', 'description']})
+LevelSchema.plugin(plugins.PatchablePlugin)
 
 LevelSchema.pre 'init', (next) ->
   return next() unless jsonschema.properties?

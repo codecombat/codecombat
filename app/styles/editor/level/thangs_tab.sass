@@ -1,5 +1,7 @@
 @import "../../bootstrap/mixins"
-
+   
+$mobile: 1050px
+    
 #editor-level-thangs-tab-view
   $addPaletteIconColumns: 3
   $extantThangsWidth: 300px
@@ -8,12 +10,60 @@
   $addPaletteIconMargin: 2px
   $addPaletteWidth: ($addPaletteIconWidth + 2 * $addPaletteIconPadding + 2 * $addPaletteIconMargin) * $addPaletteIconColumns + 20
 
+  #toggle
+    display: none
+    position: absolute
+    z-index: 11
+    left: -14px
+    @media screen and (max-width: $mobile)
+      display: block
+      
+    .toggle
+      left: 0
+    
+  .toggle
+    display: none
+    float: none
+    z-index: 11
+    position: absolute
+    right: -14px
+    z-index: 11
+    margin: 0
+    padding: 8px
+    @media screen and (max-width: $mobile)
+      display: block
+  
+  .thangs-column
+    background-color: #E4CF8C
+    
+    @media screen and (max-width: $mobile)
+      display: block
+    
+    h3
+      @media screen and (max-width: $mobile)
+        display: none
+        
+  #all-thangs
+    display: block
+    @media screen and (max-width: $mobile)
+      display: none
+  
   .thangs-container
     width: $extantThangsWidth
     position: absolute
     left: 0
     top: 0
     bottom: 0
+    z-index: 11
+    @media screen and (max-width: $mobile)
+      width: auto
+      left: 18px
+      bottom: -18px
+      
+    .btn-group
+      margin: 0
+      @media screen and (max-width: $mobile)
+        margin: 5px
     
     h3
       margin: 0 -20px 0 0
@@ -25,6 +75,10 @@
       right: 0
       bottom: 0
       overflow: scroll
+      margin: 0
+      @media screen and (max-width: $mobile)
+        margin: 5px
+        top: 40px
 
       &.hide-except-Unit
         .treema-node
@@ -62,11 +116,15 @@
   .world-container
     margin-left: $extantThangsWidth
     margin-right: $addPaletteWidth
+    @media screen and (max-width: $mobile)
+      margin-left: 0
+      margin-right: 0
     padding: 0 20px
     box-sizing: border-box
 
     h3
       margin: 0 -10px 0 0
+      text-align: center
 
   .add-thangs-palette
     width: $addPaletteWidth
@@ -75,6 +133,20 @@
     right: 0
     top: 0
     bottom: 0
+    @media screen and (max-width: $mobile)
+      display: none
+      right: 18px
+      z-index: 11
+      width: $addPaletteWidth + 10
+      bottom: -15px
+      //height: auto
+      //padding-bottom: 10px
+      
+    input
+      width: $addPaletteWidth
+      margin: 0
+      @media screen and (max-width: $mobile)
+        margin: 0 5px
 
     #thangs-list
       position: relative
@@ -83,6 +155,9 @@
       bottom: 10px
       overflow: scroll
       height: 100%
+      margin: 0
+      @media screen and (max-width: $mobile)
+        margin: 0 5px
 
     h3
       margin: 0 -20px 0 0

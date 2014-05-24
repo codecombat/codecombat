@@ -3,6 +3,9 @@ mongoose = require('mongoose')
 Grid = require 'gridfs-stream'
 errors = require './errors'
 log = require 'winston'
+Patch = require '../patches/Patch'
+User = require '../users/User'
+sendwithus = require '../sendwithus'
 
 PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
 FETCH_LIMIT = 200
@@ -20,15 +23,14 @@ module.exports = class Handler
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.user?.isAdmin()
     if @modelClass.schema.uses_coco_permissions
-      return document.hasPermissionsForMethod(req.user, method or req.method)
+      return document.hasPermissionsForMethod?(req.user, method or req.method)
     return true
 
   formatEntity: (req, document) -> document?.toObject()
   getEditableProperties: (req, document) ->
     props = @editableProperties.slice()
     isBrandNew = req.method is 'POST' and not req.body.original
-    if isBrandNew
-      props = props.concat @postEditableProperties
+    props = props.concat @postEditableProperties if isBrandNew
 
     if @modelClass.schema.uses_coco_permissions
       # can only edit permissions if this is a brand new property,
@@ -37,8 +39,8 @@ module.exports = class Handler
       if isBrandNew or isOwner or req.user?.isAdmin()
         props.push 'permissions'
 
-    if @modelClass.schema.uses_coco_versions
-      props.push 'commitMessage'
+    props.push 'commitMessage' if @modelClass.schema.uses_coco_versions
+    props.push 'allowPatches' if @modelClass.schema.is_patchable
 
     props
 
@@ -48,6 +50,7 @@ module.exports = class Handler
   sendMethodNotAllowed: (res) -> errors.badMethod(res)
   sendBadInputError: (res, message) -> errors.badInput(res, message)
   sendDatabaseError: (res, err) ->
+    return @sendError(res, err.code, err.response) if err.response and err.code
     log.error "Database error, #{err}"
     errors.serverError(res, 'Database error, ' + err)
 
@@ -82,6 +85,7 @@ module.exports = class Handler
       @sendSuccess(res, documents)
 
   getById: (req, res, id) ->
+    # return @sendNotFoundError(res) # for testing
     return @sendUnauthorizedError(res) unless @hasAccess(req)
 
     @getDocumentForIdOrSlug id, (err, document) =>
@@ -92,7 +96,62 @@ module.exports = class Handler
 
   getByRelationship: (req, res, args...) ->
     # this handler should be overwritten by subclasses
+    if @modelClass.schema.is_patchable
+      return @getPatchesFor(req, res, args[0]) if req.route.method is 'get' and args[1] is 'patches'
+      return @setWatching(req, res, args[0]) if req.route.method is 'put' and args[1] is 'watch'
     return @sendNotFoundError(res)
+
+  getNamesByIDs: (req, res) ->
+    ids = req.query.ids or req.body.ids
+    if @modelClass.schema.uses_coco_versions
+      return @getNamesByOriginals(req, res)
+    @getPropertiesFromMultipleDocuments res, User, "name", ids
+
+  getNamesByOriginals: (req, res) ->
+    ids = req.query.ids or req.body.ids
+    ids = ids.split(',') if _.isString ids
+    ids = _.uniq ids
+
+    project = {name:1, original:1}
+    sort = {'version.major':-1, 'version.minor':-1}
+
+    makeFunc = (id) =>
+      (callback) =>
+        criteria = {original:mongoose.Types.ObjectId(id)}
+        @modelClass.findOne(criteria, project).sort(sort).exec (err, document) ->
+          return done(err) if err
+          callback(null, document?.toObject() or null)
+
+    funcs = {}
+    for id in ids
+      return errors.badInput(res, "Given an invalid id: #{id}") unless Handler.isID(id)
+      funcs[id] = makeFunc(id)
+
+    async.parallel funcs, (err, results) ->
+      return errors.serverError err if err
+      res.send (d for d in _.values(results) when d)
+      res.end()
+
+  getPatchesFor: (req, res, id) ->
+    query = { 'target.original': mongoose.Types.ObjectId(id), status: req.query.status or 'pending' }
+    Patch.find(query).sort('-created').exec (err, patches) =>
+      return @sendDatabaseError(res, err) if err
+      patches = (patch.toObject() for patch in patches)
+      @sendSuccess(res, patches)
+
+  setWatching: (req, res, id) ->
+    @getDocumentForIdOrSlug id, (err, document) =>
+      return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, document, 'get')
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless document?
+      watchers = document.get('watchers') or []
+      me = req.user.get('_id')
+      watchers = (l for l in watchers when not l.equals(me))
+      watchers.push me if req.body.on and req.body.on isnt 'false'
+      document.set 'watchers', watchers
+      document.save (err, document) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, @formatEntity(req, document))
 
   search: (req, res) ->
     unless @modelClass.schema.uses_coco_search
@@ -141,8 +200,6 @@ module.exports = class Handler
     aggregate = $match: query
     @modelClass.aggregate(aggregate).project(selectString).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
       return @sendDatabaseError(res, err) if err
-      for doc in results
-        return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
       res.send(results)
       res.end()
 
@@ -203,12 +260,14 @@ module.exports = class Handler
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'id should not be included.') if req.body._id
     return @sendUnauthorizedError(res) unless @hasAccess(req)
-    validation = @validateDocumentInput(req.body)
-    return @sendBadInputError(res, validation.errors) unless validation.valid
     document = @makeNewInstance(req)
     @saveChangesToDocument req, document, (err) =>
+      return @sendBadInputError(res, err.errors) if err?.valid is false
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, @formatEntity(req, document))
+      @onPostSuccess(req, document)
+
+  onPostSuccess: (req, doc) ->
 
   ###
   TODO: think about pulling some common stuff out of postFirstVersion/postNewVersion
@@ -220,13 +279,11 @@ module.exports = class Handler
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'id should not be included.') if req.body._id
     return @sendUnauthorizedError(res) unless @hasAccess(req)
-    validation = @validateDocumentInput(req.body)
-    return @sendBadInputError(res, validation.errors) unless validation.valid
     document = @makeNewInstance(req)
     document.set('original', document._id)
     document.set('creator', req.user._id)
     @saveChangesToDocument req, document, (err) =>
-      return @sendBadInputError(res, err.response) if err?.response
+      return @sendBadInputError(res, err.errors) if err?.valid is false
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, @formatEntity(req, document))
 
@@ -245,8 +302,6 @@ module.exports = class Handler
     return @sendBadInputError(res, 'This entity is not versioned') unless @modelClass.schema.uses_coco_versions
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendUnauthorizedError(res) unless @hasAccess(req)
-    validation = @validateDocumentInput(req.body)
-    return @sendBadInputError(res, validation.errors) unless validation.valid
     @getDocumentForIdOrSlug req.body._id, (err, parentDocument) =>
       return @sendBadInputError(res, 'Bad id.') if err and err.name is 'CastError'
       return @sendDatabaseError(res, err) if err
@@ -261,6 +316,8 @@ module.exports = class Handler
           delete updatedObject[prop]
       delete updatedObject._id
       major = req.body.version?.major
+      validation = @validateDocumentInput(updatedObject)
+      return @sendBadInputError(res, validation.errors) unless validation.valid
 
       done = (err, newDocument) =>
         return @sendDatabaseError(res, err) if err
@@ -268,6 +325,7 @@ module.exports = class Handler
         newDocument.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, @formatEntity(req, newDocument))
+          @notifyWatchersOfChange(req.user, newDocument, req.body.editPath) if @modelClass.schema.is_patchable
 
       if major?
         parentDocument.makeNewMinorVersion(updatedObject, major, done)
@@ -275,15 +333,38 @@ module.exports = class Handler
       else
         parentDocument.makeNewMajorVersion(updatedObject, done)
 
+  notifyWatchersOfChange: (editor, changedDocument, editPath) ->
+    watchers = changedDocument.get('watchers') or []
+    watchers = (w for w in watchers when not w.equals(editor.get('_id')))
+    return unless watchers.length
+    User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) =>
+      for watcher in watchers
+        @notifyWatcherOfChange editor, watcher, changedDocument, editPath
+
+  notifyWatcherOfChange: (editor, watcher, changedDocument, editPath) ->
+    context =
+      email_id: sendwithus.templates.change_made_notify_watcher
+      recipient:
+        address: watcher.get('email')
+        name: watcher.get('name')
+      email_data:
+        doc_name: changedDocument.get('name') or '???'
+        submitter_name: editor.get('name') or '???'
+        doc_link: if editPath then "http://codecombat.com#{editPath}" else null
+        commit_message: changedDocument.get('commitMessage')
+    sendwithus.api.send context, (err, result) ->
+
   makeNewInstance: (req) ->
-    new @modelClass({})
+    model = new @modelClass({})
+    model.set 'watchers', [req.user.get('_id')] if @modelClass.schema.is_patchable
+    model
 
   validateDocumentInput: (input) ->
     tv4 = require('tv4').tv4
     res = tv4.validateMultiple(input, @jsonSchema)
     res
 
-  @isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-z0-9]/gi)?.length is 24
+  @isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
 
   getDocumentForIdOrSlug: (idOrSlug, done) ->
     idOrSlug = idOrSlug+''
@@ -324,3 +405,17 @@ module.exports = class Handler
     return done(validation) unless validation.valid
 
     document.save (err) -> done(err)
+
+  getPropertiesFromMultipleDocuments: (res, model, properties, ids) ->
+    query = model.find()
+    ids = ids.split(',') if _.isString ids
+    ids = _.uniq ids
+    for id in ids
+      return errors.badInput(res, "Given an invalid id: #{id}") unless Handler.isID(id)
+    query.where({'_id': { $in: ids} })
+    query.select(properties).exec (err, documents) ->
+      dict = {}
+      _.each documents, (document) ->
+        dict[document.id] = document
+      res.send dict
+      res.end()

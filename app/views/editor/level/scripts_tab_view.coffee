@@ -3,7 +3,6 @@ template = require 'templates/editor/level/scripts_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './treema_nodes'
-defaultScripts = require 'lib/scripts/defaultScripts'
 
 module.exports = class ScriptsTabView extends View
   id: "editor-level-scripts-tab-view"
@@ -17,14 +16,14 @@ module.exports = class ScriptsTabView extends View
     super options
     @world = options.world
     @files = options.files
-
+  
+  onLoaded: ->
   onLevelLoaded: (e) ->
     @level = e.level
     @dimensions = @level.dimensions()
     scripts = $.extend(true, [], @level.get('scripts') ? [])
-    scripts = _.cloneDeep defaultScripts unless scripts.length
     treemaOptions =
-      schema: Level.schema.get('properties').scripts
+      schema: Level.schema.properties.scripts
       data: scripts
       callbacks:
         change: @onScriptsChanged
@@ -54,12 +53,12 @@ module.exports = class ScriptsTabView extends View
       filePath: "db/level/#{@level.get('original')}"
       files: @files
       view: @
-      schema: Level.schema.get('properties').scripts.items
+      schema: Level.schema.properties.scripts.items
       data: selected.data
       thangIDs: thangIDs
       dimensions: @dimensions
       supermodel: @supermodel
-      readOnly: true unless me.isAdmin() or @level.hasWriteAccess(me)
+      readOnly: me.get('anonymous')
       callbacks:
         change: @onScriptChanged
       nodeClasses:
