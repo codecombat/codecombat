@@ -417,7 +417,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown
-    @stage.addEventListener 'stagemouseup', @onMouseUp
+    @canvas[0].addEventListener 'mouseup', @onMouseUp
     @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
