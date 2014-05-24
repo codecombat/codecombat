@@ -118,7 +118,8 @@ module.exports = class CocoView extends Backbone.View
     @renderScrollbar()
 
   renderScrollbar: ->
-    @$el.find('.nano').nanoScroller()
+    #Defer the call till the content actually gets rendered, nanoscroller requires content to be visible
+    _.defer => @$el.find('.nano').nanoScroller()
 
   updateProgress: (progress) ->
     @loadProgress.progress = progress if progress > @loadProgress.progress

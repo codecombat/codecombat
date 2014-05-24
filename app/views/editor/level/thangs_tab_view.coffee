@@ -114,10 +114,6 @@ module.exports = class ThangsTabView extends View
     @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
     @buildInterface() # refactor to not have this trigger when this view re-renders?
 
-  renderScrollbar: ->
-    @$el.find('.nano').nanoScroller()
-    @$el.find('.nano-pane').css({'display': 'block'})
-
   onFilterExtantThangs: (e) ->
     @$el.find('#extant-thangs-filter button.active').button('toggle')
     button = $(e.target).closest('button')
