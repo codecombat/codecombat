@@ -157,7 +157,7 @@ $.isPlainObject = (object) ->
   _.isPlainObject object
 
 
-do (setupLodash = this) ->
+do (@setupLodash = this) ->
   GLOBAL._ = require 'lodash'
   _.str = require 'underscore.string'
   _.string = _.str
