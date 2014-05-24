@@ -6,6 +6,9 @@ CocoView = require './CocoView'
 {logoutUser, me} = require('lib/auth')
 locale = require 'locale/locale'
 
+AchievementNotify = require '../../templates/achievement_notify'
+Achievement = require '../../models/Achievement'
+
 filterKeyboardEvents = (allowedEvents, func) ->
   return (splat...) ->
     e = splat[0]
@@ -18,6 +21,41 @@ module.exports = class RootView extends CocoView
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
     'click .auth-button': 'onClickAuthbutton'
+
+  subscriptions:
+    'achievements:new': 'handleNewAchievements'
+
+  initialize: ->
+    $ ->
+      $.notify.addStyle 'achievement',
+        html: $(AchievementNotify())
+
+  showNewAchievement: (achievement) ->
+    imageURL = '/file/' + achievement.get('icon')
+    data =
+      title: 'Achievement Unlocked'
+      name: achievement.get('name')
+      image: $("<img src='#{imageURL}' />")
+      description: achievement.get('description')
+
+    options =
+      autoHideDelay: 15000
+      globalPosition: 'bottom right'
+      showDuration: 400
+      style: 'achievement'
+      autoHide: true
+      clickToHide: true
+
+    $.notify( data, options )
+
+  handleNewAchievements: (earnedAchievements) ->
+    # TODO performance?
+    _.each(earnedAchievements.models, (earnedAchievement) =>
+      achievement = new Achievement(earnedAchievement.get('achievement'))
+      achievement.fetch(
+        success: @showNewAchievement
+      )
+    )
 
   logoutAccount: ->
     logoutUser($('#login-email').val())

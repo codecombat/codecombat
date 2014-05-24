@@ -21,6 +21,12 @@ candidateProperties = [
   'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
 ]
 
+parseLiteral = (literalString) ->
+  return true if literalString is 'true'
+  return false if literalString is 'false'
+  return number if (number = Number(literalString)) isnt NaN
+  literalString
+
 UserHandler = class UserHandler extends Handler
   modelClass: User
 
@@ -238,11 +244,16 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, documents)
 
   getEarnedAchievements: (req, res, userID) ->
-    query = EarnedAchievement.find(user: userID)
+    queryObject = {$query: {user: userID}, $orderby: {changed: -1}}
+    queryObject.$query[key] = parseLiteral(val) for key, val of req.query
+    query = EarnedAchievement.find(queryObject)
     query.exec (err, documents) =>
       return @sendDatabaseError(res, err) if err?
-      documents = (@formatEntity(req, doc) for doc in documents)
-      @sendSuccess(res, documents)
+      cleandocs = (@formatEntity(req, doc) for doc in documents)
+      for doc in documents  # Maybe move this logic elsewhere
+        doc.set('notified', true)
+        doc.save()
+      @sendSuccess(res, cleandocs)
 
   agreeToEmployerAgreement: (req, res) ->
     userIsAnonymous = req.user?.get('anonymous')

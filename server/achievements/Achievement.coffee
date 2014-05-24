@@ -16,7 +16,7 @@ AchievementSchema.methods.objectifyQuery = () ->
   try
     @set('query', JSON.parse(@get('query'))) if typeof @get('query') == "string"
   catch error
-    #log.error "Couldn't convert query string to object because of #{error}"
+    log.error "Couldn't convert query string to object because of #{error}"
     @set('query', {})
 
 AchievementSchema.methods.stringifyQuery = () ->
