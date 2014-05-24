@@ -156,12 +156,10 @@ $.isArray = (object) ->
 $.isPlainObject = (object) ->
   _.isPlainObject object
 
-
-do (setupLodash = this) ->
-  GLOBAL._ = require 'lodash'
-  _.str = require 'underscore.string'
-  _.string = _.str
-  _.mixin _.str.exports()
+GLOBAL._ = require 'lodash'
+_.str = require 'underscore.string'
+_.string = _.str
+_.mixin _.str.exports()
 
 
 # load Backbone. Needs hooked loader to reroute underscore to lodash.
