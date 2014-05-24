@@ -61,9 +61,9 @@ module.exports = class Simulator extends CocoClass
       @handleSingleSimulationError error
 
   commenceSingleSimulation: ->
-    @god.createWorld @generateSpellsObject()
     Backbone.Mediator.subscribeOnce 'god:infinite-loop', @handleSingleSimulationInfiniteLoop, @
     Backbone.Mediator.subscribeOnce 'god:goals-calculated', @processSingleGameResults, @
+    @god.createWorld @generateSpellsObject()
 
   handleSingleSimulationError: (error) ->
     console.error "There was an error simulating a single game!", error
@@ -197,9 +197,9 @@ module.exports = class Simulator extends CocoClass
     @god.setGoalManager new GoalManager(@world, @level.get 'goals')
 
   commenceSimulationAndSetupCallback: ->
-    @god.createWorld @generateSpellsObject()
     Backbone.Mediator.subscribeOnce 'god:infinite-loop', @onInfiniteLoop, @
     Backbone.Mediator.subscribeOnce 'god:goals-calculated', @processResults, @
+    @god.createWorld @generateSpellsObject()
 
     #Search for leaks, headless-client only.
     if @options.headlessClient and @options.leakTest and not @memwatch?
