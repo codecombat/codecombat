@@ -21,12 +21,12 @@ MongoFindQuerySchema =
   type: 'object'
   patternProperties:
     #'^[-a-zA-Z0-9_]*$':
-    '^[-a-zA-Z0-9]*$':
+    '^[-a-zA-Z0-9\.]*$':
       oneOf: [
         #{ $ref: '#/definitions/' + MongoQueryOperatorSchema.id},
         { type: 'string' }
       ]
-  additionalProperties: true
+  additionalProperties: true # TODO make Treema accept new pattern matched keys
   definitions: {}
 
 MongoFindQuerySchema.definitions[MongoQueryOperatorSchema.id] = MongoQueryOperatorSchema

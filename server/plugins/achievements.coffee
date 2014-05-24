@@ -18,8 +18,6 @@ loadAchievements = ->
 
 loadAchievements()
 
-
-# TODO make a difference between '$userID' and '$userObjectID' ?
 module.exports = AchievablePlugin = (schema, options) ->
   checkForAchievement = (doc) ->
     collectionName = doc.constructor.modelName
@@ -43,9 +41,11 @@ module.exports = AchievablePlugin = (schema, options) ->
       for achievement in achievements[category]
         query = achievement.get('query')
         isRepeatable = achievement.get('proportionalTo')?
-        console.log 'isRepeatable: ' + isRepeatable
         alreadyAchieved = if isNew then false else LocalMongo.matchesQuery originalDocObj, query
         newlyAchieved = LocalMongo.matchesQuery(docObj, query)
+        console.log 'isRepeatable: ' + isRepeatable
+        console.log 'alreadyAchieved: ' +  alreadyAchieved
+        console.log 'newlyAchieved: ' + newlyAchieved
 
         userObjectID = doc.get(achievement.get('userField'))
         userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's

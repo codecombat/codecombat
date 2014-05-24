@@ -167,7 +167,7 @@ module.exports = class Handler
       projection = PROJECT
     else if req.query.project
       if @modelClass.className is 'User'
-        projection = PROJECTION
+        projection = PROJECT
         log.warn "Whoa, we haven't yet thought about public properties for User projection yet."
       else
         projection = {}
