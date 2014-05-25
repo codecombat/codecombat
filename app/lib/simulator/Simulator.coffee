@@ -395,6 +395,7 @@ module.exports = class Simulator extends CocoClass
         jshint_W030: {level: "ignore"}  # aether_NoEffect instead
         aether_MissingThis: {level: 'error'}
       #functionParameters: # TODOOOOO
+      executionLimit: 1 * 1000 * 1000
     if methodName is 'hear'
       aetherOptions.functionParameters = ['speaker', 'message', 'data']
     #console.log "creating aether with options", aetherOptions

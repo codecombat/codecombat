@@ -129,6 +129,7 @@ module.exports = class Spell
       # TODO: Gridmancer doesn't currently work with protectAPI, so hack it off
       protectAPI: not (@skipProtectAPI or window.currentView?.level.get('name').match("Gridmancer")) and writable  # If anyone can write to this method, we must protect it.
       includeFlow: false
+      executionLimit: 1 * 1000 * 1000
     #console.log "creating aether with options", aetherOptions
     aether = new Aether aetherOptions
     workerMessage =
