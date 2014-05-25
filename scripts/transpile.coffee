@@ -22,7 +22,7 @@ transpileLevelSession = (sessionID, cb) ->
     for thang, spells of submittedCode
       transpiledCode[thang] = {}
       for spellID, spell of spells
-        
+
         aetherOptions =
           problems: {}
           language: "javascript"
@@ -32,43 +32,44 @@ transpileLevelSession = (sessionID, cb) ->
           globals: ['Vector', '_']
           protectAPI: true
           includeFlow: false
+          executionLimit: 1 * 1000 * 1000
         if spellID is "hear" then aetherOptions["functionParameters"] = ["speaker","message","data"]
-          
+
         aether = new Aether aetherOptions
         transpiledCode[thang][spellID] = aether.transpile spell
-    conditions = 
+    conditions =
       "_id": sessionID
-    update = 
+    update =
       "transpiledCode": transpiledCode
       "submittedCodeLanguage": "javascript"
     query = LevelSession.update(conditions,update)
-    
+
     query.exec (err, numUpdated) -> cb err
 
 findLadderLevelSessions = (levelID, cb) ->
-  queryParameters = 
+  queryParameters =
     "level.original": levelID + ""
     submitted: true
-    
+
   selectString = "_id"
   query = LevelSession.find(queryParameters).select(selectString).lean()
-  
+
   query.exec (err, levelSessions) ->
     if err then return cb err
     levelSessionIDs = _.pluck levelSessions, "_id"
     async.eachSeries levelSessionIDs, transpileLevelSession, (err) ->
       if err then return cb err
       cb null
-    
-  
+
+
 transpileLadderSessions = ->
-  queryParameters = 
+  queryParameters =
     type: "ladder"
     "version.isLatestMajor": true
     "version.isLatestMinor": true
   selectString = "original"
   query = Level.find(queryParameters).select(selectString).lean()
-  
+
   query.exec (err, ladderLevels) ->
     throw err if err
     ladderLevels = _.pluck ladderLevels, "original"
@@ -77,5 +78,3 @@ transpileLadderSessions = ->
 
 serverSetup.connectToDatabase()
 transpileLadderSessions()
-    
- 

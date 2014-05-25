@@ -164,6 +164,7 @@ module.exports = class LevelLoader extends CocoClass
     @supermodel.loadModel(model, resourceName)
 
   onSupermodelLoaded: ->
+    return if @destroyed
     console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms'
     @loadLevelSounds()
     @denormalizeSession()
@@ -182,7 +183,7 @@ module.exports = class LevelLoader extends CocoClass
           spriteSheetResource.spriteSheetKeys = keys
         else
           spriteSheetResource.markLoaded()
-          
+
     clearInterval @buildLoopInterval unless someLeft
 
   onBuildComplete: (e) ->
