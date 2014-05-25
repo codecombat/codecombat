@@ -21,7 +21,7 @@ options =
   headlessClient: true
 
 options.heapdump = require('heapdump') if options.heapdump
-server = if options.testing then "http://127.0.0.1:3000" else "http://codecombat.com"
+server = if options.testing then "http://127.0.0.1:3000" else "https://codecombat.com"
 
 # Disabled modules
 disable = [
@@ -32,37 +32,16 @@ disable = [
 
 # Start of the actual code. Setting up the enivronment to match the environment of the browser
 
-# the path used for the loader. __dirname is module dependent.
-path = __dirname
-
-m = require 'module'
-request = require 'request'
-Deferred = require "JQDeferred"
-originalLoader = m._load
-
-unhook = () ->
-  m._load = originalLoader
-
-hook = () ->
-  m._load = hookedLoader
-
-
-JASON = require 'jason'
-
 # Global emulated stuff
 GLOBAL.window = GLOBAL
 GLOBAL.document = location: pathname: "headless_client"
 GLOBAL.console.debug = console.log
-
 GLOBAL.Worker = require('webworker-threads').Worker
 Worker::removeEventListener = (what) ->
   if what is 'message'
     @onmessage = -> #This webworker api has only one event listener at a time.
-
 GLOBAL.tv4 = require('tv4').tv4
-
 GLOBAL.marked = setOptions: ->
-
 store = {}
 GLOBAL.localStorage =
     getItem: (key) => store[key]
@@ -73,6 +52,10 @@ GLOBAL.localStorage =
 # The signature of this function *must* match that of Node's Module._load,
 # since it will replace that.
 # (Why is there no easier way?)
+# the path used for the loader. __dirname is module dependent.
+path = __dirname
+m = require 'module'
+originalLoader = m._load
 hookedLoader = (request, parent, isMain) ->
   if request in disable or ~request.indexOf('templates')
     console.log 'Ignored ' + request if options.debug
@@ -81,81 +64,16 @@ hookedLoader = (request, parent, isMain) ->
     request = path + '/app/' + request
   else if request is 'underscore'
     request = 'lodash'
-
   console.log "loading " + request if options.debug
   originalLoader request, parent, isMain
+unhook = () ->
+  m._load = originalLoader
+hook = () ->
+  m._load = hookedLoader
 
-
-#jQuery wrapped for compatibility purposes. Poorly.
-GLOBAL.$ = GLOBAL.jQuery = (input) ->
-  console.log 'Ignored jQuery: ' + input if options.debug
-  append: (input)-> exports: ()->
-
-cookies = request.jar()
-$.when = Deferred.when 
-
-$.ajax = (options) ->
-  responded = false
-  url = options.url
-  if url.indexOf('http')
-    url = '/' + url unless url[0] is '/'
-    url = server + url
-
-  data = options.data
-
-
-  #if (typeof data) is 'object'
-    #console.warn JSON.stringify data
-    #data = JSON.stringify data
-
-  console.log "Requesting: " + JSON.stringify options if options.debug
-  console.log "URL: " + url if options.debug
-
-  deferred = Deferred()
-
-  request
-    url: url
-    jar: cookies
-    json: options.parse
-    method: options.type
-    body: data
-    , (error, response, body) ->
-      console.log "HTTP Request:" + JSON.stringify options if options.debug and not error
-
-      if responded
-        console.log "\t↳Already returned before." if options.debug
-        return
-
-      if (error)
-        console.warn "\t↳Returned: error: #{error}"
-        options.error(error) if options.error?
-        deferred.reject()
-
-      else
-        console.log "\t↳Returned: statusCode #{response.statusCode}: #{if options.parse then JSON.stringify body else body}" if options.debug
-        options.success(body, response, status: response.statusCode) if options.success?
-        deferred.resolve()
-
-      statusCode = response.statusCode if response?
-      options.complete(status: statusCode) if options.complete?
-      responded = true
-
-  deferred.promise()
-
-
-$.extend = (deep, into, from) ->
-  copy = _.clone(from, deep);
-  if into
-    _.assign into, copy
-    copy = into
-  copy
-
-$.isArray = (object) ->
-  _.isArray object
-
-$.isPlainObject = (object) ->
-  _.isPlainObject object
-
+GLOBAL.$ = GLOBAL.jQuery = require headlessClientPath + 'jQlone'
+$._debug = options.debug
+$._server = server
 
 do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
@@ -163,24 +81,15 @@ do (setupLodash = this) ->
   _.string = _.str
   _.mixin _.str.exports()
 
-
 # load Backbone. Needs hooked loader to reroute underscore to lodash.
 hook()
 GLOBAL.Backbone = require bowerComponentsPath + 'backbone/backbone'
+# Use original loader for theese
 unhook()
 Backbone.$ = $
-
 require bowerComponentsPath + 'validated-backbone-mediator/backbone-mediator'
-# Instead of mediator, dummy might be faster yet suffice?
-#Mediator = class Mediator
-#  publish: (id, object) ->
-#    console.Log "Published #{id}: #{object}"
-#  @subscribe: () ->
-#  @unsubscribe: () ->
-
 GLOBAL.Aether = require 'aether'
-
-# Set up new loader.
+# Set up new loader. Again.
 hook()
 
 login = require './login.coffee' #should contain an object containing they keys 'username' and 'password'
@@ -192,24 +101,14 @@ $.ajax
   data: login
   parse: true
   error: (error) -> "Bad Error. Can't connect to server or something. " + error
-  success: (response) ->
-    console.log "User: " + JSON.stringify response
+  success: (response, textStatus, jqXHR) ->
+    console.log "User: ", response if options.debug
+    unless jqXHR.status is 200
+      console.log "User not authenticated. Status code: ", jqXHR.status
+      return
     GLOBAL.window.userObject = response # JSON.parse response
-
-    User = require 'models/User'
-
-    World = require 'lib/world/world'
-    LevelLoader = require 'lib/LevelLoader'
-    GoalManager = require 'lib/world/GoalManager'
-
-    SuperModel = require 'models/SuperModel'
-
-    log = require 'winston'
-
-    CocoClass = require 'lib/CocoClass'
-
     Simulator = require 'lib/simulator/Simulator'
-    
+
     sim = new Simulator options
     if simulateOneGame
       sim.fetchAndSimulateOneGame(process.argv[3],process.argv[4])
