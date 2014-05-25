@@ -131,7 +131,7 @@ class SimulatorsLeaderboardData extends CocoClass
     above = @playersAbove.models
     l = l.concat(above)
     l.reverse()
-    #l.push @me
+    l.push @me
     l = l.concat(@playersBelow.models) if @playersBelow
     if @myRank
       startRank = @myRank - 4
