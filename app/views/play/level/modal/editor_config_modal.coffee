@@ -35,6 +35,7 @@ module.exports = class EditorConfigModal extends View
       {id: 'python', name: 'Python (Experimental)'}
       {id: 'clojure', name: 'Clojure (Experimental)'}
       {id: 'lua', name: 'Lua (Experimental)'}
+      {id: 'io', name: 'Io (Experimental)'}
     ]
     c.sessionLanguage = @session.get('codeLanguage') ? @aceConfig.language
     c.language = @aceConfig.language

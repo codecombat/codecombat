@@ -21,6 +21,7 @@ module.exports = class SpellView extends View
     'clojure': 'ace/mode/clojure'
     'lua': 'ace/mode/lua'
     'python': 'ace/mode/python'
+    'io': 'ace/mode/text'
 
   keyBindings:
     'default': null
