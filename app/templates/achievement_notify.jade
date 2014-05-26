@@ -1,12 +1,12 @@
 div
   div.clearfix.achievement-body
     div.achievement-image(data-notify-html="image")
-    div.achievement-title(data-notify-html="title")
-    div.achievement-description(data-notify-html="description")
+    div.achievement-content
+      div.achievement-title(data-notify-html="title")
+      div.achievement-description(data-notify-html="description")
 
-    div.achievement-progress
-      div.achievement-message(data-notify-html="message")
-      div.progress-wrapper
-        div.progress-bar-wrapper(data-notify-html="progressBar")
-        div.earned-exp(data-notify-html="earnedExp")
-
+      div.achievement-progress
+        div.achievement-message(data-notify-html="message")
+        div.progress-wrapper
+          div.earned-exp(data-notify-html="earnedExp")
+          div.progress-bar-wrapper(data-notify-html="progressBar")

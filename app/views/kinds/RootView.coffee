@@ -31,8 +31,9 @@ module.exports = class RootView extends CocoView
       $.notify.addStyle 'achievement',
         html: $(AchievementNotify())
 
-      test = new Achievement(_id:'537ce4855c91b8d1dda7fda8')
-      test.fetch(success:@showNewAchievement)
+      # TODO Remove this. Allows for easy testing right now though
+      #test = new Achievement(_id:'537ce4855c91b8d1dda7fda8')
+      #test.fetch(success:@showNewAchievement)
 
   showNewAchievement: (achievement) ->
     currentLevel = me.level()
