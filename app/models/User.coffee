@@ -74,3 +74,17 @@ module.exports = class User extends CocoModel
     @set('emails', newSubs)
     
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
+
+  a = 5
+  b = 40
+
+  # y = a * ln(1/b * (x + b))
+  @levelFromExp: (xp) ->
+    if xp > 0 then Math.floor(a * Math.log((1/b) * (xp + b))) else 0
+
+  # x = (e^(y/a) - 1) * b
+  @expForLevel: (level) ->
+    Math.ceil((Math.exp(level / a) - 1) * b)
+
+  level: ->
+    User.levelFromExp(@get('points'))

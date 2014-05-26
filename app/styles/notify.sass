@@ -1,19 +1,36 @@
 .notifyjs-achievement-base
   opacity: 0.85
-  width: 200px
+  width: 400px
   background: #F5F5F5
-  padding: 5px
+  padding: 40px 10px 0px 10px
   border-radius: 10px
   text-align: center
 
-  .achievement-title
-    font-weight: bold
+  .achievement-body
 
-  .achievement-image
-    // pass
+    .achievement-title
+      font-family: Bangers
+      font-size: 22px
 
-  .achievement-name
-    // pass
+    .achievement-image
+      img
+        float: left
+        width: 100px
+        height: 100px
+        border-radius: 50%
+        margin: 0px 30px 30px 30px
 
-  .achievement-description
-    // pass
+    .achievement-message
+      &:empty
+        display: none
+
+
+    .achievement-progress
+      padding: 10px 0px 0px 0px
+
+      .progress-wrapper
+        .progress-bar-wrapper
+          width: 100%
+        .earned-exp
+          font-family: Bangers
+          float: right

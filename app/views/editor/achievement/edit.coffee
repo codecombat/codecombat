@@ -16,6 +16,7 @@ module.exports = class AchievementEditView extends View
 
   constructor: (options, @achievementID) ->
     super options
+    console.log @achievementID
     @achievement = new Achievement(_id: @achievementID)
     @achievement.saveBackups = true
 

@@ -8,6 +8,7 @@ locale = require 'locale/locale'
 
 AchievementNotify = require '../../templates/achievement_notify'
 Achievement = require '../../models/Achievement'
+User = require '../../models/User'
 
 filterKeyboardEvents = (allowedEvents, func) ->
   return (splat...) ->
@@ -26,32 +27,57 @@ module.exports = class RootView extends CocoView
     'achievements:new': 'handleNewAchievements'
 
   initialize: ->
-    $ ->
+    $ =>
       $.notify.addStyle 'achievement',
         html: $(AchievementNotify())
 
+      test = new Achievement(_id:'537ce4855c91b8d1dda7fda8')
+      test.fetch(success:@showNewAchievement)
+
   showNewAchievement: (achievement) ->
+    currentLevel = me.level()
+    nextLevel = currentLevel + 1
+    currentLevelExp = User.expForLevel(currentLevel)
+    nextLevelExp = User.expForLevel(nextLevel)
+    totalExpNeeded = nextLevelExp - currentLevelExp
+    currentExp = me.get('points')
+    worth = achievement.get('worth')
+    alreadyAchievedPercentage = 100 * (currentExp - currentLevelExp - achievement.get('worth')) / totalExpNeeded
+    newlyAchievedPercentage = 100 * achievement.get('worth') / totalExpNeeded
+
+    console.debug "Current level is #{currentLevel} (#{currentLevelExp} xp), next level is #{nextLevel} (#{nextLevelExp} xp)."
+    console.debug "Need a total of #{nextLevelExp - currentLevelExp}, already had #{currentExp - currentLevelExp - worth} and just now earned #{worth}"
+
+    alreadyAchievedBar = $("<div class='progress-bar progress-bar-warning' style='width:#{alreadyAchievedPercentage}%'></div>")
+    newlyAchievedBar = $("<div class='progress-bar progress-bar-success' style='width:#{newlyAchievedPercentage}%'></div>")
+    progressBar = $('<div class="progress"></div>').append(alreadyAchievedBar).append(newlyAchievedBar)
+    message = "Reached level #{currentLevel}!" if currentExp - worth < currentLevelExp
+
     imageURL = '/file/' + achievement.get('icon')
     data =
-      title: 'Achievement Unlocked'
-      name: achievement.get('name')
+      title: achievement.get('name')
       image: $("<img src='#{imageURL}' />")
       description: achievement.get('description')
+      progressBar: progressBar
+      earnedExp: "+ #{worth} XP"
+      message: message
 
     options =
       autoHideDelay: 15000
       globalPosition: 'bottom right'
       showDuration: 400
       style: 'achievement'
-      autoHide: true
+      autoHide: false
       clickToHide: true
 
     $.notify( data, options )
 
   handleNewAchievements: (earnedAchievements) ->
+    console.debug 'Got new earned achievements'
     # TODO performance?
     _.each(earnedAchievements.models, (earnedAchievement) =>
-      achievement = new Achievement(earnedAchievement.get('achievement'))
+      achievement = new Achievement(_id: earnedAchievement.get('achievement'))
+      console.log achievement
       achievement.fetch(
         success: @showNewAchievement
       )
