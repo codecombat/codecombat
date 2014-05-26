@@ -5,6 +5,5 @@ module.exports = class Achievement extends CocoModel
   @schema: require 'schemas/models/achievement'
   urlRoot: '/db/achievement'
 
-  initialize: (id) ->
-    super()
-    @set('_id', id) if id?
+  isRepeatable: ->
+    @get('proportionalTo')?

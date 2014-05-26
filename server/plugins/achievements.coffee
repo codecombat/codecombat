@@ -21,7 +21,6 @@ loadAchievements()
 module.exports = AchievablePlugin = (schema, options) ->
   checkForAchievement = (doc) ->
     collectionName = doc.constructor.modelName
-    console.log achievements
     for achievement in achievements[collectionName]
       console.log achievement.get 'name'
 
@@ -56,7 +55,14 @@ module.exports = AchievablePlugin = (schema, options) ->
             achievement: achievement._id.toHexString()
             achievementName: achievement.get 'name'
           }
-          if isRepeatable
+          earnedPoints = 0
+          wrapUp = ->
+            # Update user's experience points
+            User.update({_id: userID}, {$inc: {points: earnedPoints}}, {}, (err, count) ->
+              console.error err if err?
+            )
+
+          if isRepeatable # TODO test more thoroughly
             console.log 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
             proportionalTo = achievement.get 'proportionalTo'
             originalAmount = util.getByPath(originalDocObj, proportionalTo) or 0
@@ -66,20 +72,22 @@ module.exports = AchievablePlugin = (schema, options) ->
               earned.notified = false
               earned.achievedAmount = newAmount
               earned.changed = Date.now()
-              upsertQuery = EarnedAchievement.findOneAndUpdate earned, upsert:true
-              upsertQuery.exec (err, docs) ->
-                return console.log err if err?
+              EarnedAchievement.findOneAndUpdate({achievement:earned.achievement, user:earned.user}, earned, upsert:true, (err, docs) ->
+                  return console.log err if err?
+              )
 
-              # Update user's denormalized score
-              userQuery = User.findOne(_id: userID)
-              userQuery.exec (err, user) ->
-                return console.error(err) if err?
-                previousPoints = user.get('points') - achievement.get('worth') * originalAmount
-                user.set('points', previousPoints + achievement.get('worth') * newAmount)
+              earnedPoints = achievement.get('worth') * (newAmount - originalAmount)
+              wrapUp()
+
           else # not alreadyAchieved
             console.log 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
             (new EarnedAchievement(earned)).save (err, doc) ->
-              console.log err if err?
+              return console.log err if err?
+
+              earnedPoints = achievement.get('worth')
+              wrapUp()
+
+
 
 
 
