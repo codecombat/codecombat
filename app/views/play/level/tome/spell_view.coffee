@@ -35,6 +35,7 @@ module.exports = class SpellView extends View
     'surface:coordinate-selected': 'onCoordinateSelected'
     'god:new-world-created': 'onNewWorld'
     'god:user-code-problem': 'onUserCodeProblem'
+    'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
     'tome:reload-code': 'onCodeReload'
     'tome:spell-changed': 'onSpellChanged'
@@ -441,9 +442,18 @@ module.exports = class SpellView extends View
       @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
       @updateAether false, false
 
+  onNonUserCodeProblem: (e) ->
+    return unless @spellThang
+    problem = @spellThang.aether.createUserCodeProblem type: 'runtime', kind: 'Unhandled', message: "Unhandled error: #{e.problem.message}"
+    @spellThang.aether.addProblem problem
+    @spellThang.castAether?.addProblem problem
+    @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
+    @updateAether false, false  # TODO: doesn't work, error doesn't display
+
   onInfiniteLoop: (e) ->
     return unless @spellThang
     @spellThang.aether.addProblem e.problem
+    @spellThang.castAether?.addProblem e.problem
     @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
     @updateAether false, false
 

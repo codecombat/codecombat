@@ -71,6 +71,14 @@ module.exports = class Angel extends CocoClass
       when 'user-code-problem'
         Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
 
+      # We have to abort like an infinite loop if we see one of these; they're not really recoverable
+      when 'non-user-code-problem'
+        Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem
+        if @shared.firstWorld
+          @infinitelyLooped()  # For now, this should do roughly the right thing if it happens during load.
+        else
+          @fireWorker()
+
       # Either the world finished simulating successfully, or we abort the worker.
       when 'new-world'
         @beholdWorld event.data.serialized, event.data.goalStates
