@@ -100,6 +100,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         @actions = @thangType.getActions()
         @buildFromSpriteSheet result
         @createMarks()
+        @queueAction 'idle'
 
   finishSetup: ->
     @updateBaseScale()
