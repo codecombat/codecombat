@@ -100,6 +100,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         @actions = @thangType.getActions()
         @buildFromSpriteSheet result
         @createMarks()
+        @queueAction 'idle'
 
   finishSetup: ->
     @updateBaseScale()
@@ -501,7 +502,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return if @letterboxOn
     p = @imageObject
     p = p.parent while p.parent
-    newEvent = sprite: @, thang: @thang, originalEvent: e, canvas:p
+    newEvent = sprite: @, thang: @thang, originalEvent: e, canvas:p.canvas
     @trigger ourEventName, newEvent
     Backbone.Mediator.publish ourEventName, newEvent
 

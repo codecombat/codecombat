@@ -32,10 +32,12 @@ class CocoModel extends Backbone.Model
 
   onError: ->
     @loading = false
+    @jqxhr = null
 
   onLoaded: ->
     @loaded = true
     @loading = false
+    @jqxhr = null
     @markToRevert()
     @loadFromBackup()
 
@@ -91,6 +93,7 @@ class CocoModel extends Backbone.Model
     @jqxhr
 
   markToRevert: ->
+    return unless @saveBackups
     if @type() is 'ThangType'
       @_revertAttributes = _.clone @attributes  # No deep clones for these!
     else

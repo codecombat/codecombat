@@ -8,8 +8,8 @@ CocoClass = require 'lib/CocoClass'
 module.exports = class Angel extends CocoClass
   @nicks: ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger']
 
-  infiniteLoopIntervalDuration: 5000  # check this often
-  infiniteLoopTimeoutDuration: 2500  # wait this long for a response when checking
+  infiniteLoopIntervalDuration: 7500  # check this often
+  infiniteLoopTimeoutDuration: 5000  # wait this long for a response when checking
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
 
   constructor: (@shared) ->
@@ -70,6 +70,14 @@ module.exports = class Angel extends CocoClass
         @log event.data.args...
       when 'user-code-problem'
         Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
+
+      # We have to abort like an infinite loop if we see one of these; they're not really recoverable
+      when 'non-user-code-problem'
+        Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem
+        if @shared.firstWorld
+          @infinitelyLooped()  # For now, this should do roughly the right thing if it happens during load.
+        else
+          @fireWorker()
 
       # Either the world finished simulating successfully, or we abort the worker.
       when 'new-world'

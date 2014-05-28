@@ -43,6 +43,7 @@ module.exports = class Simulator extends CocoClass
 
         @supermodel ?= new SuperModel()
         @supermodel.resetProgress()
+        @stopListening @supermodel, 'loaded-all'
         @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @task.getLevelName(), sessionID: @task.getFirstSessionID(), headless: true
 
         if @supermodel.finished()
@@ -95,7 +96,7 @@ module.exports = class Simulator extends CocoClass
     else
       @sendSingleGameBackToServer(taskResults)
 
-    @cleanupSimulation()
+    @cleanupAndSimulateAnotherTask()
 
   sendSingleGameBackToServer: (results) ->
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
@@ -163,6 +164,7 @@ module.exports = class Simulator extends CocoClass
 
     @supermodel ?= new SuperModel()
     @supermodel.resetProgress()
+    @stopListening @supermodel, 'loaded-all'
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: levelID, sessionID: @task.getFirstSessionID(), headless: true
     if @supermodel.finished()
       @simulateGame()
@@ -232,6 +234,7 @@ module.exports = class Simulator extends CocoClass
 
   processResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults
+    console.error "*** Error: taskResults has no taskID ***\ntaskResults:", taskResults, "\ntask:", @task unless taskResults.taskID
     @sendResultsBackToServer taskResults
 
   sendResultsBackToServer: (results) ->
@@ -392,6 +395,7 @@ module.exports = class Simulator extends CocoClass
         jshint_W030: {level: "ignore"}  # aether_NoEffect instead
         aether_MissingThis: {level: 'error'}
       #functionParameters: # TODOOOOO
+      executionLimit: 1 * 1000 * 1000
     if methodName is 'hear'
       aetherOptions.functionParameters = ['speaker', 'message', 'data']
     #console.log "creating aether with options", aetherOptions

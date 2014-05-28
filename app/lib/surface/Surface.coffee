@@ -201,7 +201,7 @@ module.exports = Surface = class Surface extends CocoClass
       createjs.Tween.removeTweens(@)
       @currentFrame = @scrubbingTo
 
-    @scrubbingTo = Math.min(Math.floor(progress * @world.totalFrames), @world.totalFrames)
+    @scrubbingTo = Math.min(Math.round(progress * @world.totalFrames), @world.totalFrames)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     if scrubDuration
       t = createjs.Tween
@@ -417,7 +417,7 @@ module.exports = Surface = class Surface extends CocoClass
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown
-    @stage.addEventListener 'stagemouseup', @onMouseUp
+    @canvas[0].addEventListener 'mouseup', @onMouseUp
     @canvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED

@@ -266,7 +266,6 @@ self.enableFlowOnThangSpell = function (thangID, spellID, userCodeMap) {
 self.setupDebugWorldToRunUntilFrame = function (args) {
     self.debugPostedErrors = {};
     self.debugt0 = new Date();
-    self.debugPostedErrors = false;
     self.logsLogged = 0;
 
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
@@ -324,7 +323,6 @@ self.debugAbort = function () {
 self.runWorld = function runWorld(args) {
   self.postedErrors = {};
   self.t0 = new Date();
-  self.postedErrors = false;
   self.logsLogged = 0;
 
   try {
@@ -394,6 +392,7 @@ self.onWorldError = function onWorldError(error) {
   }
   else {
     console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
+    self.postMessage({type: 'non-user-code-problem', problem: {message: error.toString()}});
   }
   /*  We don't actually have the recoverable property any more; hmm
   if(!error.recoverable) {
