@@ -108,7 +108,29 @@ _.extend LevelSessionSchema.properties,
       additionalProperties:
         type: 'string'
         format: 'javascript'
-  
+
+  codeHistory:
+    type: 'object'
+      type: 'object'     #Need this? Dunno.
+      description: 'One vcs tree for every code language'
+        type: 'array'
+        properties:
+          type: 'object'
+          properties:
+            time:
+              id: 'The id'
+              title: 'The time of creation.'
+              description: 'At what time this item has been created.'
+              type: 'Number'
+            previous:
+              title: 'The previous item'
+            next:
+              title: 'The next item'
+            diff:
+              title: 'Diff'
+              description: 'The diff from the next to this item.'
+              type: ['object', 'string','null']
+
   codeLanguage:
     type: 'string'
     default: 'javascript'

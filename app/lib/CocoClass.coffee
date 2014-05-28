@@ -75,8 +75,7 @@ module.exports = class CocoClass
   listenToShortcuts: ->
     return unless key?
     for shortcut, func of @shortcuts
-      func = utils.normalizeFunc(func, @)
-      key(shortcut, @scope, _.bind(func, @))
+      func = utils.normalizeFunc(func, @)ey(shortcut, @scope, _.bind(func, @))
 
   stopListeningToShortcuts: ->
     return unless key?
