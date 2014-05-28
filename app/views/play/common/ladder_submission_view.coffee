@@ -90,6 +90,7 @@ module.exports = class LadderSubmissionView extends CocoView
           globals: ['Vector', '_']
           protectAPI: true
           includeFlow: false
+          executionLimit: 1 * 1000 * 1000
         if spellID is "hear" then aetherOptions["functionParameters"] = ["speaker","message","data"]
 
         aether = new Aether aetherOptions

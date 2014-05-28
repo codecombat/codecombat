@@ -35,10 +35,6 @@ module.exports = class RootView extends CocoView
     $el ?= @$el.find('.main-content-area')
     super($el)
 
-  renderScrollbar: ->
-    $('.nano-pane').css('display','none')
-    $ -> $('.nano').nanoScroller()
-
   afterInsert: ->
     # force the browser to scroll to the hash
     # also messes with the browser history, so perhaps come up with a better solution

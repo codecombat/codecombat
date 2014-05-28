@@ -174,12 +174,12 @@ module.exports = class Camera extends CocoClass
     @zoomTo target, newZoom, 0
 
   onMouseDown: (e) ->
-    return unless e.canvas is @canvas
+    return unless e.canvas is @canvas[0]
     return if @dragDisabled
     @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
 
   onMouseDragged: (e) ->
-    return unless e.canvas is @canvas
+    return unless e.canvas is @canvas[0]
     return if @dragDisabled
     target = @boundTarget(@target, @zoom)
     newPos =

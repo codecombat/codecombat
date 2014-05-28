@@ -27,6 +27,12 @@ block modal-body-content
       code #{ctrl}+]
     dd(data-i18n="keyboard_shortcuts.scrub_playback") Scrub back and forward through time.
   dl.dl-horizontal
+    dt(title=ctrlName + "+[, " + ctrlName + "+]")
+      code #{ctrl}+⇧+[
+      | ,
+      code #{ctrl}+⇧+]
+    dd(data-i18n="keyboard_shortcuts.single_scrub_playback") Scrub back and forward through time by a single frame.
+  dl.dl-horizontal
     dt(title=ctrlName + "+" + altName + "+[, " + ctrlName + "+" + altName + "+]")
       code #{ctrl}+#{alt}+[
       | , 

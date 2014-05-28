@@ -19,7 +19,7 @@ module.exports = class ProblemAlertView extends View
     context = super context
     format = (s) -> s?.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')
     message = @problem.aetherProblem.message
-    age = @problem.aetherProblem.userInfo.age
+    age = @problem.aetherProblem.userInfo?.age
     if age?
       if /^Line \d+:/.test message
         message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"

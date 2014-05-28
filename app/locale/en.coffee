@@ -325,6 +325,7 @@
     skip_scripts: "Skip past all skippable scripts."
     toggle_playback: "Toggle play/pause."
     scrub_playback: "Scrub back and forward through time."
+    single_scrub_playback: "Scrub back and forward through time by a single frame."
     scrub_execution: "Scrub through current spell execution."
     toggle_debug: "Toggle debug display."
     toggle_grid: "Toggle grid overlay."

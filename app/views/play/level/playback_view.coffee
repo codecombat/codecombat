@@ -44,7 +44,10 @@ module.exports = class PlaybackView extends View
   shortcuts:
     '⌘+p, p, ctrl+p': 'onTogglePlay'
     '⌘+[, ctrl+[': 'onScrubBack'
+    '⌘+⇧+[, ctrl+⇧+[': 'onSingleScrubBack'
     '⌘+], ctrl+]': 'onScrubForward'
+    '⌘+⇧+], ctrl+⇧+]': 'onSingleScrubForward'
+
 
   # popover that shows at the current mouse position on the progressbar, using the bootstrap popover.
   # Could make this into a jQuery plugins itself theoretically.
@@ -229,13 +232,22 @@ module.exports = class PlaybackView extends View
     button.addClass(classes[1]) if e.volume > 0.0 and e.volume < 1.0
     button.addClass(classes[2]) if e.volume >= 1.0
 
-  onScrubForward: (e) ->
+  onScrub: (e, options) ->
     e?.preventDefault()
-    Backbone.Mediator.publish('level-set-time', ratioOffset: 0.05, scrubDuration: 500)
+    options.scrubDuration = 500
+    Backbone.Mediator.publish('level-set-time', options)
+
+  onScrubForward: (e) ->
+    @onScrub e, ratioOffset: 0.05
+
+  onSingleScrubForward: (e) ->
+    @onScrub e, frameOffset: 1
 
   onScrubBack: (e) ->
-    e?.preventDefault()
-    Backbone.Mediator.publish('level-set-time', ratioOffset: -0.05, scrubDuration: 500)
+    @onScrub e, ratioOffset: -0.05
+
+  onSingleScrubBack: (e) ->
+    @onScrub e, frameOffset: -1
 
   onFrameChanged: (e) ->
     if e.progress isnt @lastProgress
