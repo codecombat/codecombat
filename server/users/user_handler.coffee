@@ -21,12 +21,6 @@ candidateProperties = [
   'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
 ]
 
-parseLiteral = (literalString) ->
-  return true if literalString is 'true'
-  return false if literalString is 'false'
-  return number if (number = Number(literalString)) isnt NaN
-  literalString
-
 UserHandler = class UserHandler extends Handler
   modelClass: User
 
@@ -245,7 +239,7 @@ UserHandler = class UserHandler extends Handler
 
   getEarnedAchievements: (req, res, userID) ->
     queryObject = {$query: {user: userID}, $orderby: {changed: -1}}
-    queryObject.$query[key] = parseLiteral(val) for key, val of req.query
+    queryObject.$query.notified = false if req.query.notified is 'false'
     query = EarnedAchievement.find(queryObject)
     query.exec (err, documents) =>
       return @sendDatabaseError(res, err) if err?
