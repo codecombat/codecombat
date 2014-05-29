@@ -18,9 +18,9 @@ module.exports = class SpellView extends View
   editModes:
     'javascript': 'ace/mode/javascript'
     'coffeescript': 'ace/mode/coffee'
+    'python': 'ace/mode/python'
     'clojure': 'ace/mode/clojure'
     'lua': 'ace/mode/lua'
-    'python': 'ace/mode/python'
     'io': 'ace/mode/text'
 
   keyBindings:

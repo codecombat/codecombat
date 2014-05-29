@@ -60,7 +60,7 @@ UserSchema = c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
   aceConfig: c.object {},
-    language: {type: 'string', 'default': 'javascript', 'enum': ['javascript', 'coffeescript', 'clojure', 'lua', 'python', 'io']}
+    language: {type: 'string', 'default': 'javascript', 'enum': ['javascript', 'coffeescript', 'python', 'clojure', 'lua', 'io']}
     keyBindings: {type: 'string', 'default': 'default', 'enum': ['default', 'vim', 'emacs']}
     invisibles: {type: 'boolean', 'default': false}
     indentGuides: {type: 'boolean', 'default': false}

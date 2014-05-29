@@ -289,6 +289,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             return;
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
+        Aether.replaceBuiltin("Math", Math);
     }
     self.debugWorld.totalFrames = args.frame; //hack to work around error checking
     self.currentDebugWorldFrame = args.frame;
@@ -343,6 +344,7 @@ self.runWorld = function runWorld(args) {
     return;
   }
   Math.random = self.world.rand.randf;  // so user code is predictable
+  Aether.replaceBuiltin("Math", Math);
   self.postMessage({type: 'start-load-frames'});
   self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
 };

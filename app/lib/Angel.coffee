@@ -211,6 +211,7 @@ module.exports = class Angel extends CocoClass
   doSimulateWorld: (work) ->
     work.t1 = now()
     Math.random = work.testWorld.rand.randf  # so user code is predictable
+    Aether.replaceBuiltin("Math", Math)
     i = 0
     while i < work.testWorld.totalFrames
       frame = work.testWorld.getFrame i++

@@ -91,6 +91,7 @@ work = () ->
       self.onWorldError error
       return
     Math.random = self.world.rand.randf # so user code is predictable
+    Aether.replaceBuiltin("Math", Math)
     console.log "Loading frames."
 
     self.postMessage type: "start-load-frames"
