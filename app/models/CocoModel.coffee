@@ -107,7 +107,7 @@ class CocoModel extends Backbone.Model
     storage.remove @id
 
   hasLocalChanges: ->
-    not _.isEqual @attributes, @_revertAttributes
+    @_revertAttributes and not _.isEqual @attributes, @_revertAttributes
 
   cloneNewMinorVersion: ->
     newData = _.clone @attributes
