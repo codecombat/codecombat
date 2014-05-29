@@ -69,7 +69,7 @@ module.exports = class ThangsTabView extends View
     @level = options.level
 
     $(document).bind 'contextmenu', @preventDefaultContextMenu
-    
+
   getRenderData: (context={}) ->
     context = super(context)
     return context unless @supermodel.finished()
@@ -102,7 +102,7 @@ module.exports = class ThangsTabView extends View
       $('#thangs-list').height(oldHeight - thangsHeaderHeight - 40)
     else
       $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
-      
+
 
   afterRender: ->
     super()
@@ -440,18 +440,15 @@ module.exports = class ThangsTabView extends View
 
   onDuplicateClicked: (e) ->
     $('#contextmenu').hide()
-    if !@addThangType
-      thang = @selectedExtantThang.spriteName
-      e.target = $(".add-thang-palette-icon[data-thang-type='" + thang + "']").get 0
-    @selectAddThang e
-    
+    @selectAddThangType @selectedExtantThang.spriteName, @selectedExtantThang
+
   toggleThangsContainer: (e) ->
     $('#all-thangs').toggle()
-    
+
   toggleThangsPalette: (e) ->
     $('#add-thangs-column').toggle()
     @onWindowResize e
-   
+
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
