@@ -8,6 +8,7 @@ locale = require 'locale/locale'
 
 Achievement = require '../../models/Achievement'
 User = require '../../models/User'
+# TODO remove
 
 filterKeyboardEvents = (allowedEvents, func) ->
   return (splat...) ->
@@ -28,6 +29,16 @@ module.exports = class RootView extends CocoView
   initialize: ->
     $ =>
       # TODO Ruben remove this. Allows for easy testing right now though
+      btn = $('<a href="#" id="testbtn" class="btn">Increment</a>')
+      input = $('<input type="text" id="testinp">')
+      $('body').append(btn)
+      $('body').append(input)
+      btn.on 'click', (e) =>
+        val = input.val()
+        me.set(val, me.get(val) + 1)
+        console.debug me.get(val)
+        me.save()
+
       #test = new Achievement(_id:'537ce4855c91b8d1dda7fda8')
       #test.fetch(success:@showNewAchievement)
 

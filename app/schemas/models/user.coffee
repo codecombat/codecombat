@@ -127,4 +127,6 @@ c.definitions =
     lastSent: c.date()
     count: {type: 'integer'}
 
+UserSchema.additionalProperties = true # TODO Ruben seriously remove this
+
 module.exports = UserSchema

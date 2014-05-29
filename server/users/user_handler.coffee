@@ -24,8 +24,9 @@ candidateProperties = [
 UserHandler = class UserHandler extends Handler
   modelClass: User
 
+  # TODO Ruben change this back! Really really do. Don't you dare forget. NO COOKIES
   editableProperties: [
-    'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
+    'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume', 'simulatedBy',
     'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
     'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
     'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile'
