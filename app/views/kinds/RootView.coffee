@@ -6,7 +6,6 @@ CocoView = require './CocoView'
 {logoutUser, me} = require('lib/auth')
 locale = require 'locale/locale'
 
-AchievementNotify = require '../../templates/achievement_notify'
 Achievement = require '../../models/Achievement'
 User = require '../../models/User'
 
@@ -28,10 +27,7 @@ module.exports = class RootView extends CocoView
 
   initialize: ->
     $ =>
-      $.notify.addStyle 'achievement',
-        html: $(AchievementNotify())
-
-      # TODO Remove this. Allows for easy testing right now though
+      # TODO Ruben remove this. Allows for easy testing right now though
       #test = new Achievement(_id:'537ce4855c91b8d1dda7fda8')
       #test.fetch(success:@showNewAchievement)
 

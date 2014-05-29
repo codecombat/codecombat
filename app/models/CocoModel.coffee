@@ -1,9 +1,7 @@
 storage = require 'lib/storage'
 deltasLib = require 'lib/deltas'
 
-class NewAchievementCollection extends Backbone.Collection
-  initialize: (me = require('lib/auth').me) ->
-    @url = "/db/user/#{me.id}/achievements?notified=false"
+NewAchievementCollection = require '../collections/NewAchievementCollection'
 
 class CocoModel extends Backbone.Model
   idAttribute: "_id"
