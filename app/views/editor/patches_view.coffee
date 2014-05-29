@@ -46,6 +46,7 @@ module.exports = class PatchesView extends CocoView
     @reloadPatches()
 
   reloadPatches: ->
+    @supermodel.resetProgress()
     @load()
     @render()
 
