@@ -159,7 +159,7 @@ module.exports = class ThangType extends CocoModel
     spriteSheet = @builder.build()
     @logBuild @t0, false, @options.portraitOnly
     @spriteSheets[key] = spriteSheet
-    delete @building[key]
+    @building[key] = false
     @builder = null
     @options = null
     spriteSheet
@@ -171,7 +171,7 @@ module.exports = class ThangType extends CocoModel
     buildQueue[0].t0 = new Date().getTime() if buildQueue[0]
     buildQueue[0]?.buildAsync()
     @spriteSheets[key] = e.target.spriteSheet
-    delete @building[key]
+    @building[key] = false
     @trigger 'build-complete', {key:key, thangType:@}
     @vectorParser = null
 

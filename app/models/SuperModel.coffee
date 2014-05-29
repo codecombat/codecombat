@@ -169,9 +169,9 @@ module.exports = class SuperModel extends Backbone.Model
     _.defer @updateProgress
     r.clean()
 
-  onResourceFailed: (source) ->
+  onResourceFailed: (r) ->
     return unless @resources[r.rid]
-    @trigger('failed', source)
+    @trigger('failed', resource: r)
     r.clean()
 
   updateProgress: =>
@@ -216,14 +216,14 @@ class Resource extends Backbone.Model
 
   markFailed: ->
     return if @isLoaded
-    @trigger('failed', {resource: @})
+    @trigger('failed', @)
     @isLoaded = @isLoading = false
     @isFailed = true
 
   markLoading: ->
     @isLoaded = @isFailed = false
     @isLoading = true
-    
+
   clean: ->
     # request objects get rather large. Clean them up after the request is finished.
     @jqxhr = null
