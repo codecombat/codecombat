@@ -15,10 +15,10 @@ class CocoModel extends Backbone.Model
     super()
     if not @constructor.className
       console.error("#{@} needs a className set.")
-    @markToRevert()
     @addSchemaDefaults()
     @on 'sync', @onLoaded, @
     @on 'error', @onError, @
+    @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
 
   type: ->
@@ -38,14 +38,15 @@ class CocoModel extends Backbone.Model
     @loaded = true
     @loading = false
     @jqxhr = null
-    @markToRevert()
     @loadFromBackup()
 
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
 
   set: ->
+    inFlux = @loading or not @loaded
+    @markToRevert() unless inFlux or @_revertAttributes
     res = super(arguments...)
-    @saveBackup() if @saveBackups and @loaded and @hasLocalChanges()
+    @saveBackup() if @saveBackups and (not inFlux) and @hasLocalChanges()
     res
 
   loadFromBackup: ->
@@ -77,7 +78,7 @@ class CocoModel extends Backbone.Model
     options.success = (model, res) =>
       @trigger "save:success", @
       success(@, res) if success
-      @markToRevert()
+      @markToRevert() if @_revertAttributes
       @clearBackup()
     options.error = (model, res) =>
       error(@, res) if error
@@ -93,8 +94,8 @@ class CocoModel extends Backbone.Model
     @loading = true
     @jqxhr
 
-  markToRevert: (force=false) ->
-    return unless @saveBackups or force
+  markToRevert: ->
+    console.debug "Saving _revertAttributes for #{@constructor.className}: '#{@get('name')}'"
     if @type() is 'ThangType'
       @_revertAttributes = _.clone @attributes  # No deep clones for these!
     else
@@ -143,7 +144,6 @@ class CocoModel extends Backbone.Model
       #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
       @set prop, sch.default if sch.default?
     if @loaded
-      @markToRevert()
       @loadFromBackup()
 
   @isObjectID: (s) ->
