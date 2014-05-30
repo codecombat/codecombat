@@ -63,7 +63,7 @@ class CocoModel extends Backbone.Model
   schema: -> return @constructor.schema
 
   validate: ->
-    result = tv4.validateMultiple(@attributes, @constructor.schema? or {})
+    result = tv4.validateMultiple(@attributes, @constructor.schema or {})
     if result.errors?.length
       console.log @, "got validate result with errors:", result
     return result.errors unless result.valid
