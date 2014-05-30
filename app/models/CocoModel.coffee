@@ -69,8 +69,9 @@ class CocoModel extends Backbone.Model
     return result.errors unless result.valid
 
   save: (attrs, options) ->
-    @set 'editPath', document.location.pathname
     options ?= {}
+    options.headers ?= {}
+    options.headers['X-Current-Path'] = document.location.pathname
     success = options.success
     error = options.error
     options.success = (model, res) =>

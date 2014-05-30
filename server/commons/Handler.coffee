@@ -325,7 +325,8 @@ module.exports = class Handler
         newDocument.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, @formatEntity(req, newDocument))
-          @notifyWatchersOfChange(req.user, newDocument, req.body.editPath) if @modelClass.schema.is_patchable
+          if @modelClass.schema.is_patchable
+            @notifyWatchersOfChange(req.user, newDocument, req.headers['x-current-path'])
 
       if major?
         parentDocument.makeNewMinorVersion(updatedObject, major, done)
