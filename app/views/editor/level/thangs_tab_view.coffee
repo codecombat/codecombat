@@ -259,7 +259,7 @@ module.exports = class ThangsTabView extends View
     @$el.find('.add-thangs-palette .add-thang-palette-icon.selected').removeClass('selected')
     @selectAddThangType(if wasSelected then null else target.attr 'data-thang-type') unless key.alt or key.meta
     target.addClass('selected') if @addThangType
-    false
+    #false # was causing #1099, any reason to keep?
 
   moveAddThangSelection: (direction) ->
     return unless @addThangType
