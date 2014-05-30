@@ -92,8 +92,8 @@ class CocoModel extends Backbone.Model
     @loading = true
     @jqxhr
 
-  markToRevert: ->
-    return unless @saveBackups
+  markToRevert: (force=false) ->
+    return unless @saveBackups or force
     if @type() is 'ThangType'
       @_revertAttributes = _.clone @attributes  # No deep clones for these!
     else

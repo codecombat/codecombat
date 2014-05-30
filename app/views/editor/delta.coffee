@@ -44,26 +44,27 @@ module.exports = class DeltaView extends CocoView
       @expandedDeltas = @model.getExpandedDeltaWith(@comparisonModel)
     else
       @expandedDeltas = @model.getExpandedDelta()
-      
-    @filterExpandedDeltas()
+    [@expandedDeltas, @skippedDeltas] = @filterDeltas(@expandedDeltas)
       
     if @headModel
       @headDeltas = @headModel.getExpandedDelta()
+      @headDeltas = @filterDeltas(@headDeltas)[0]
       @conflicts = deltasLib.getConflicts(@headDeltas, @expandedDeltas)
 
-  filterExpandedDeltas: ->
-    return unless @skipPaths
+  filterDeltas: (deltas) ->
+    return [deltas, []] unless @skipPaths
     for path, i in @skipPaths
       @skipPaths[i] = [path] if _.isString(path)
     newDeltas = []
-    for delta in @expandedDeltas
+    skippedDeltas = []
+    for delta in deltas
       skip = false
       for skipPath in @skipPaths
         if _.isEqual _.first(delta.dataPath, skipPath.length), skipPath
           skip = true
           break
-      newDeltas.push delta unless skip
-    @expandedDeltas = newDeltas
+      if skip then skippedDeltas.push delta else newDeltas.push delta
+    [newDeltas, skippedDeltas]
 
   getRenderData: ->
     c = super()
@@ -87,7 +88,7 @@ module.exports = class DeltaView extends CocoView
       @expandDetails(deltaEl, deltaData)
       
   expandDetails: (deltaEl, deltaData) ->
-    treemaOptions = { schema: deltaData.schema, readOnly: true }
+    treemaOptions = { schema: deltaData.schema or {}, readOnly: true }
     
     if _.isObject(deltaData.left) and leftEl = deltaEl.find('.old-value')
       options = _.defaults {data: deltaData.left}, treemaOptions
@@ -109,5 +110,6 @@ module.exports = class DeltaView extends CocoView
 
   getApplicableDelta: ->
     delta = @model.getDelta()
-    delta = deltasLib.pruneConflictsFromDelta delta, @conflicts if @conflicts 
+    delta = deltasLib.pruneConflictsFromDelta delta, @conflicts if @conflicts
+    delta = deltasLib.pruneExpandedDeltasFromDelta delta, @skippedDeltas if @skippedDeltas
     delta
