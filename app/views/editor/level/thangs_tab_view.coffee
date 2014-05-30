@@ -194,7 +194,7 @@ module.exports = class ThangsTabView extends View
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
     @surface.camera.dragDisabled = true
     {stageX, stageY} = e.originalEvent
-    wop = @surface.camera.canvasToWorld x: stageX, y: stageY
+    wop = @surface.camera.screenToWorld x: stageX, y: stageY
     wop.z = @selectedExtantThang.depth / 2
     @adjustThangPos @selectedExtantSprite, @selectedExtantThang, wop
     [w, h] = [@surface.camera.canvasWidth, @surface.camera.canvasHeight]
@@ -320,7 +320,7 @@ module.exports = class ThangsTabView extends View
 
   onSurfaceMouseMoved: (e) ->
     return unless @addThangSprite
-    wop = @surface.camera.canvasToWorld x: e.x, y: e.y
+    wop = @surface.camera.screenToWorld x: e.x, y: e.y
     wop.z = 0.5
     @adjustThangPos @addThangSprite, @addThangSprite.thang, wop
     null
