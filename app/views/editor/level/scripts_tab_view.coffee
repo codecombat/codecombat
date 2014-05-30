@@ -152,32 +152,6 @@ class EventPrereqNode extends TreemaNode.nodeMap.object
 class ChannelNode extends TreemaNode.nodeMap.string
   buildValueForEditing: (valEl) ->
     super(valEl)
-    valEl.find('input').autocomplete(source: channels, minLength: 0, delay: 0, autoFocus: true)
+    autocompleteValues = ({label: val?.title or key, value: key} for key, val of Backbone.Mediator.channelSchemas)
+    valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true)
     valEl
-
-channels = [
-  "tome:palette-hovered",
-  "tome:palette-clicked",
-  "tome:spell-shown",
-  "end-current-script",
-  "goal-manager:new-goal-states",
-  "god:new-world-created",
-  "help-multiplayer",
-  "help-next",
-  "help-overview",
-  "level-restart-ask",
-  "level-set-playing",
-  "level:docs-hidden",
-  "level:team-set",
-  "playback:manually-scrubbed",
-  "sprite:speech-updated",
-  "surface:coordinates-shown",
-  "surface:frame-changed",
-  "surface:sprite-selected",
-  "world:thang-attacked-when-out-of-range",
-  "world:thang-collected-item",
-  "world:thang-died",
-  "world:thang-left-map",
-  "world:thang-touched-goal",
-  "world:won"
-]
