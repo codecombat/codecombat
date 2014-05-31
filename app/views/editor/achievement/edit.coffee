@@ -1,5 +1,4 @@
 View = require 'views/kinds/RootView'
-ErrorView = require '../../error_view'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
 
@@ -16,7 +15,6 @@ module.exports = class AchievementEditView extends View
 
   constructor: (options, @achievementID) ->
     super options
-    console.log @achievementID
     @achievement = new Achievement(_id: @achievementID)
     @achievement.saveBackups = true
 
@@ -48,7 +46,6 @@ module.exports = class AchievementEditView extends View
     @treema = @$el.find('#achievement-treema').treema(options)
 
     @treema.build()
-    console.log @treema
 
   pushChangesToPreview: =>
     'TODO' # TODO might want some intrinsic preview thing
@@ -69,8 +66,8 @@ module.exports = class AchievementEditView extends View
 
     res = @achievement.save()
 
-    res.error =>
-      console.log 'Failed to save achievement'
+    res.error (collection, response, options) =>
+      console.error response
 
     res.success =>
       url = "/editor/achievement/#{@achievement.get('slug') or @achievement.id}"
