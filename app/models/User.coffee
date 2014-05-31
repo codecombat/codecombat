@@ -78,13 +78,17 @@ module.exports = class User extends CocoModel
   a = 5
   b = 40
 
-  # y = a * ln(1/b * (x + b))
+  # y = a * ln(1/b * (x + b)) + 1
   @levelFromExp: (xp) ->
-    if xp > 0 then Math.floor(a * Math.log((1/b) * (xp + b))) else 0
+    if xp > 0 then Math.floor(a * Math.log((1/b) * (xp + b))) + 1 else 1
 
-  # x = (e^(y/a) - 1) * b
+  # x = (e^((y-1)/a) - 1) * b
   @expForLevel: (level) ->
-    Math.ceil((Math.exp(level / a) - 1) * b)
+    Math.ceil((Math.exp((level - 1)/ a) - 1) * b)
 
   level: ->
     User.levelFromExp(@get('points'))
+
+  levelFromExp: (xp) -> User.levelFromExp(xp)
+
+  expForLevel: (level) -> User.expForLevel(level)

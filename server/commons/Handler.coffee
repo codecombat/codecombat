@@ -159,7 +159,7 @@ module.exports = class Handler
       return @sendNotFoundError(res)
     term = req.query.term
     matchedObjects = []
-    filters = [{filter: {index: true}}]
+    filters = if @modelClass.schema.uses_coco_versions or @modelClass.schema.uses_coco_permissions then [filter: {index: true}] else [filter: {}]
     if @modelClass.schema.uses_coco_permissions and req.user
       filters.push {filter: {index: req.user.get('id')}}
     projection = null

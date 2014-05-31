@@ -25,6 +25,7 @@ MongoFindQuerySchema =
       oneOf: [
         #{ $ref: '#/definitions/' + MongoQueryOperatorSchema.id},
         { type: 'string' }
+        { type: 'object' }
       ]
   additionalProperties: true # TODO make Treema accept new pattern matched keys
   definitions: {}
@@ -49,6 +50,24 @@ _.extend(AchievementSchema.properties,
   proportionalTo:
     type: 'string'
     description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
+  function:
+    type: 'object'
+    oneOf: [
+      linear:
+        type: 'object'
+        properties:
+          a: {type: 'number', default: 1},
+          required: ['a']
+        description: 'f(x) = a * x'
+      logarithmic:
+        type:'object'
+        properties:
+          a: {type: 'number', default: 1}
+          b: {type: 'number', default: 1}
+        required: ['a', 'b']
+        description: 'f(x) = a * ln(1/b * (x + b))'
+    ]
+    default: linear: a: 1
 )
 
 AchievementSchema.definitions = {}

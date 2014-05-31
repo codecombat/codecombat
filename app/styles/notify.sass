@@ -1,10 +1,12 @@
 .notifyjs-achievement-base
-  background: url("/images/pages/base/notify_mockup.png")
+  //background: url("/images/pages/base/notify_mockup.png")
+  background-image: url("/images/pages/base/modal_background.png")
   background-size: 100% 100%
   width: 500px
   height: 200px
-  padding: 35px 20px 15px 15px
+  padding: 35px 35px 15px 15px
   text-align: center
+  cursor: auto
 
   .achievement-body
     .achievement-image
@@ -13,7 +15,10 @@
         width: 100px
         height: 100px
         border-radius: 50%
-        margin: 30px 40px 20px 30px
+        margin: 20px 30px 20px 30px
+        -webkit-box-shadow: 0px 0px 36px 0px white
+        -moz-box-shadow: 0px 0px 36px 0px white
+        box-shadow: 0px 0px 36px 0px white
 
     .achievement-title
       font-family: Bangers
@@ -23,13 +28,14 @@
       margin-top: 10px
       font-size: 16px
 
-    .achievement-message
-      &:empty
-        display: none
-
-
     .achievement-progress
-      padding: 25px 0px 0px 0px
+      padding: 15px 0px 0px 0px
+
+      .achievement-message
+        font-family: Bangers
+        font-size: 18px
+        &:empty
+          display: none
 
       .progress-wrapper
         .progress-bar-wrapper

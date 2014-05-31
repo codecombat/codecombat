@@ -273,7 +273,7 @@ class CocoModel extends Backbone.Model
     achievements = new NewAchievementCollection
     achievements.fetch(
       success: (collection) ->
-        Backbone.Mediator.publish('achievements:new', collection) unless _.isEmpty(collection.models)
+        me.fetch (success: -> Backbone.Mediator.publish('achievements:new', collection)) unless _.isEmpty(collection.models)
     )
 
 

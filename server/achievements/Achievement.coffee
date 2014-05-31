@@ -29,7 +29,7 @@ AchievementSchema.pre('save', (next) ->
   next()
 )
 
-AchievementSchema.plugin(plugins.SearchablePlugin, {searchable: ['name']})
 AchievementSchema.plugin(plugins.NamedPlugin)
+AchievementSchema.plugin(plugins.SearchablePlugin, {searchable: ['name']})
 
 module.exports = Achievement = mongoose.model('Achievement', AchievementSchema)

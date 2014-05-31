@@ -15,7 +15,6 @@ loadAchievements = ->
       category = achievement.get 'collection'
       achievements[category] = [] unless category of achievements
       achievements[category].push achievement
-
 loadAchievements()
 
 module.exports = AchievablePlugin = (schema, options) ->
@@ -62,11 +61,11 @@ module.exports = AchievablePlugin = (schema, options) ->
               console.error err if err?
             )
 
-          if isRepeatable # TODO test more thoroughly
+          if isRepeatable
             console.log 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
             proportionalTo = achievement.get 'proportionalTo'
             originalAmount = util.getByPath(originalDocObj, proportionalTo) or 0
-            newAmount = docObj.get proportionalTo
+            newAmount = docObj[proportionalTo]
 
             if originalAmount isnt newAmount
               earned.notified = false
@@ -86,11 +85,6 @@ module.exports = AchievablePlugin = (schema, options) ->
 
               earnedPoints = achievement.get('worth')
               wrapUp()
-
-
-
-
-
 
     delete before[doc.id] unless isNew # This assumes everything we patch has a _id
     return

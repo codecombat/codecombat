@@ -48,6 +48,7 @@ module.exports = class AchievementEditView extends View
     @treema = @$el.find('#achievement-treema').treema(options)
 
     @treema.build()
+    console.log @treema
 
   pushChangesToPreview: =>
     'TODO' # TODO might want some intrinsic preview thing
