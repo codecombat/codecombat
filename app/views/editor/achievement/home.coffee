@@ -8,13 +8,6 @@ module.exports = class AchievementSearchView extends SearchView
   tableTemplate: require 'templates/editor/achievement/table'
   projection: ['name', 'description', 'collection', 'slug']
 
-  initialize: ->
-    console.log me.isAdmin()
-    unless me.isAdmin()
-      NotFoundView = require '../../not_found'
-      return new NotFoundView
-    else super()
-
   getRenderData: ->
     context = super()
     context.currentEditor = 'editor.achievement_title'
