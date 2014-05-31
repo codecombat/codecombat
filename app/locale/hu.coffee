@@ -78,7 +78,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     creating: "Fiók létrehozása"
     sign_up: "Regisztráció"
     log_in: "Belépés meglévő fiókkal"
-#    social_signup: "Or, you can sign up through Facebook or G+:"
+    social_signup: "De regisztrálhatsz a Facebook-on vagy a G+:-on keresztül is."
 #    required: "You need to log in before you can go that way."
 
   home:
@@ -166,10 +166,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     email_announcements_description: "Szeretnél levelet kapni a legújabb fejlesztéseinkről?"
     email_notifications: "Értesítések"
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
-#    email_any_notes: "Any Notifications"
-#    email_any_notes_description: "Disable to stop all activity notification emails."
-#    email_recruit_notes: "Job Opportunities"
-#    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
+    email_any_notes: "Bármely értesítés"
+    email_any_notes_description: "Minden tevékenységgel kapcsolatos e-mail értesítés letiltása."
+    email_recruit_notes: "Álláslehetőségek"
+    email_recruit_notes_description: "Ha igazán jól játszol lehet, hogy felveszzük veled a kapcsolatot és megbeszéljük, hogy szerezzünk-e neked egy (jobb) állást."
     contributor_emails: "Hozzájárulóknak szóló levelek"
     contribute_prefix: "Folyamatosan keresünk embereket, hogy csatlakozzanak hozzánk. Nézz rá a "
     contribute_page: "segítők oldalára"
@@ -181,8 +181,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     job_profile: "Munkaköri leírás"
     job_profile_approved: "Munkaköri leírásodat a Codecombat jóváhagyta. Munkaadók mindaddig láthatják, amíg meg nem jelölöd inaktíként, vagy négy hétig,ha addig nem kerül megváltoztatásra."
     job_profile_explanation: "Szió! Töltsd ki ezt és majd kapcsolatba lépünk veled és keresünk neked egy szoftware fejlesztői állást."
-#    sample_profile: "See a sample profile"
-#    view_profile: "View Your Profile"
+    sample_profile: "Nézz meg egy mintaprofilt!"
+    view_profile: "Nézd meg a profilodat!"
 
   account_profile:
     edit_settings: "Beállítások szerkesztése"
