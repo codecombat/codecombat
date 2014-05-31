@@ -62,13 +62,19 @@ class CocoModel extends Backbone.Model
 
   @backedUp = {}
   schema: -> return @constructor.schema
+    
+  getValidationErrors: ->
+    errors = tv4.validateMultiple(@attributes, @constructor.schema or {}).errors
+    return errors if errors?.length
 
   validate: ->
-    result = tv4.validateMultiple(@attributes, @constructor.schema or {})
-    if result.errors?.length
-      console.log @, "got validate result with errors:", result
-    return result.errors unless result.valid
-
+    errors = @getValidationErrors()
+    if errors?.length
+      console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
+      for error in errors
+        console.debug "\t", error.dataPath, ":", error.message
+      return errors
+  
   save: (attrs, options) ->
     options ?= {}
     options.headers ?= {}

@@ -53,7 +53,7 @@ module.exports = class LevelSaveView extends SaveVersionModal
 
   commitLevel: ->
     modelsToSave = []
-    @showLoading()
+    formsToSave = []
     for form in @$el.find('form')
       # Level form is first, then LevelComponents' forms, then LevelSystems' forms
       fields = {}
@@ -75,7 +75,19 @@ module.exports = class LevelSaveView extends SaveVersionModal
           @level.publish()
       else if @level.isPublished() and not newModel.isPublished()
         newModel.publish()  # Publish any LevelComponents that weren't published yet
+      formsToSave.push form
+    
+    for model in modelsToSave
+      if errors = model.getValidationErrors()
+        messages = ("\t #{error.dataPath}: #{error.message}" for error in errors)
+        messages = messages.join('<br />')
+        @$el.find('#errors-wrapper .errors').html(messages)
+        @$el.find('#errors-wrapper').removeClass('hide')
+        return
 
+    @showLoading()
+    tuples = _.zip(modelsToSave, formsToSave)
+    for [newModel, form] in tuples
       res = newModel.save()
       do (newModel, form) =>
         res.error =>

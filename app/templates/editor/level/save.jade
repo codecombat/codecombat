@@ -53,3 +53,7 @@ block modal-body-content
           label
             input(id=id + "-version-is-major", name="version-is-major", type="checkbox")
             span(data-i18n="versions.new_major_version") New Major Version
+
+  #errors-wrapper.alert.alert-danger.hide
+    strong Validation Error! Save failed.
+    p.errors
