@@ -2,120 +2,214 @@ extends /templates/base
 
 block content
 
-  if myProfile || (me.isAdmin() && user.get('jobProfile'))
+  if allowedToEditJobProfile
     .profile-control-bar
-      if myProfile
-        a(href=user.get('jobProfile') ? "/account/settings#job-profile" : "/account/settings")
-          button.btn.edit-settings-button
-            i.icon-cog
-            span(data-i18n="account_profile.edit_settings") Edit Settings
+      button.btn.edit-settings-button#toggle-editing
+        i.icon-cog
+        if editing
+          span(data-i18n="account_profile.done_editing_settings") Done Editing
+        else
+          span(data-i18n="account_profile.edit_settings") Edit Settings
       if me.isAdmin() && user.get('jobProfile')
         button.btn.edit-settings-button#toggle-job-profile-approved
           i.icon-cog
           span(data-i18n='account_profile.approved').approved Approved
           span(data-i18n='account_profile.not_approved').not-approved Not Approved
-        if user.id != me.id
+        if !myProfile
           button.btn.edit-settings-button#enter-espionage-mode 007
   
   if user.get('jobProfile') && allowedToViewJobProfile
     - var profile = user.get('jobProfile');
-    .job-profile-container
+    div(class="job-profile-container" + (editing ? " editable-profile" : ""))
       .job-profile-row
         .left-column.full-height-column
           .sub-column
-            .profile-photo-container
+            .profile-photo-container.editable-section(title="Click to change your photo")
+              .editable-icon.glyphicon.glyphicon-pencil
               img.profile-photo(src=user.getPhotoURL(240, true))
               .profile-caption= profile.jobTitle || 'Software Developer'
   
-            if profileLinks.length
-              ul.links
-                each link in profileLinks
-                  if link.link && link.name
-                    li(title=profile.name + " on " + link.name, class=link.icon ? "has-icon" : "")
-                      a(href=link.link)
-                        if link.icon
-                          img(src=link.icon.url, alt=link.icon.name)
-                        else
-                          button.btn.btn-large.btn-inverse.flat-button= link.name
+            .links-container.editable-section(title="Click to add social and personal links")
+              .editable-display(title="Click to edit your basic info")
+                .editable-icon.glyphicon.glyphicon-pencil
+                if profileLinks.length
+                  ul.links.editable-thinner
+                    each link in profileLinks
+                      if link.link && link.name
+                        li(title=profile.name + " on " + link.name, class=link.icon ? "has-icon" : "")
+                          a(href=link.link)
+                            if link.icon
+                              img(src=link.icon.url, alt=link.icon.name)
+                            else
+                              button.btn.btn-large.btn-inverse.flat-button= link.name
+                else if editing
+                  h3.edit-label(data-i18n="account_profile.add_links") Add some links
+
+              form.editable-form
+                .editable-icon.glyphicon.glyphicon-remove
+                h3 Personal Links
+                p.help-block Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog.
+                .editable-array
+                  for link, index in profile.links.concat({})
+                    .array-item.link-container.well.well-sm
+                      .form-group
+                        label.control-label Link Name
+                        input.form-control(type='link-name', maxlength='30', data-schemaformat='link-name', name='root[links][' + index + '][name]', value=link.name)
+                        if !index
+                          p.help-block What are you linking to? Ex: "Personal Website", "GitHub"
+                      .form-group
+                        label.control-label Link URL
+                        input.form-control(type='url', pattern='^(ht|f)tp(s?)://[0-9a-zA-Z]([-.w]*[0-9a-zA-Z])*(:(0-9)*)*(/?)([a-zA-Z0-9-‌​.?,\'/\+&%$#_=]*)?$', data-schemaformat='url', name='root[links][' + index + '][link]', value=link.link)
+                        if !index
+                          p.help-block Ex.: "https://github.com/nwinter"                
+                button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
+
+            .basic-info-container.editable-section
+              .editable-display(title="Click to edit your basic info")
+                .editable-icon.glyphicon.glyphicon-pencil
+                if editing && profile.city == "Defaultsville, CA"
+                  h3.edit-label Update basic info
+                div= profile.city + ', ' + profile.country
+                div= profile.visa
+                div
+                  span(data-i18n="account_profile.looking_for") Looking for:
+                  |  #{profile.lookingFor}
+                div
+                  span(data-i18n="account_profile.last_updated") Last updated:
+                  |  #{moment(profile.updated).fromNow()}
+
+              form.editable-form
+                .editable-icon.glyphicon.glyphicon-remove
+                .form-group
+                  label.control-label Open to Offers
+                  select.form-control(name='root[active]')
+                    option(value='1', selected=profile.active) Yes, I want interviews
+                    option(value='', selected=!profile.active) No, not right now
+                  p.help-block Want interview offers right now?
+                .form-group
+                  label.control-label Desired Job Title
+                  input.form-control(type='text', maxlength='50', name='root[jobTitle]', value=profile.jobTitle)
+                  p.help-block
+                    | What role are you looking for? Ex.: "Full Stack Engineer", "Front-End Developer", "iOS Developer"
+                .form-group
+                  label.control-label City
+                  input.form-control(type='city', maxlength='100', data-schemaformat='city', name='root[city]', value=profile.city)
+                  p.help-block
+                    | City you want to work in (or live in now), like "San Francisco" or "Lubbock, TX".
+                .form-group
+                  label.control-label Country
+                  input.form-control(type='country', maxlength='100', data-schemaformat='country', name='root[country]', value=profile.country)
+                  p.help-block Country you want to work in (or live in now), like "USA" or "France".
+                .form-group
+                  label.control-label Looking For
+                  select.form-control(name='root[lookingFor]')
+                    option(value='Full-time', selected=profile.lookingFor == "Full-time") Full-time
+                    option(value='Part-time', selected=profile.lookingFor == "Part-time") Part-time
+                    option(value='Remote', selected=profile.lookingFor == "Remote") Remote
+                    option(value='Contracting', selected=profile.lookingFor == "Contracting") Contracting
+                    option(value='Internship', selected=profile.lookingFor == "Internship") Internship
+                  p.help-block What kind of developer position do you want?
+                button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
   
-            div= profile.city + ', ' + profile.country
-            div= profile.visa
-            div
-              span(data-i18n="account_profile.looking_for") Looking for:
-              |  #{profile.lookingFor}
-            div
-              span(data-i18n="account_profile.last_updated") Last updated:
-              |  #{moment(profile.updated).fromNow()}
-  
-            button#contact-candidate.btn.btn-large.btn-inverse.flat-button
+            button#contact-candidate.btn.btn-large.btn-inverse.flat-button(disabled=editing)
               span(data-i18n="account_profile.contact") Contact
               |  #{profile.name.split(' ')[0]}
 
         .middle-column.full-height-column
           .sub-column
-            h3= profile.name || "Anonymous Developer"
-            if profile.shortDescription
-              p= profile.shortDescription
+            .name-container.editable-section(title="Click to fill in your name")
+              .editable-icon.glyphicon.glyphicon-pencil
+              h3= profile.name || (editing ? "Fill in your name" : "Anonymous Developer")
+            
+            .short-description-container.editable-section(title="Click to write your short description")
+              .editable-icon.glyphicon.glyphicon-pencil
+              if editing && (!profile.shortDescription || profile.shortDescription == jobProfileSchema.properties.shortDescription.default)
+                h3.edit-label(data-i18n="account_profile.add_short_description") Write a short description of yourself
+              else if profile.shortDescription
+                p.editable-thinner= profile.shortDescription
+    
+            .skills-container.editable-section.editable-thinner(title="Click to tag your programming skills")
+              .editable-icon.glyphicon.glyphicon-pencil
+              if editing && profile.skills.length == 1 && profile.skills[0] == 'javascript'
+                h3.edit-label Tag your programming skills
+              else
+                each skill in profile.skills
+                  code= skill
+                  span  
+            
+            .long-description-container.editable-section(title="Click to start writing your longer description")
+              .editable-icon.glyphicon.glyphicon-pencil
+              if editing && (!profile.longDescription || profile.longDescription == jobProfileSchema.properties.longDescription.default)
+                h3.edit-label Detail your desired position
+              else if profile.longDescription
+                div.long-description.editable-thinner!= marked(profile.longDescription)
   
-            each skill in profile.skills
-              code= skill
-              span  
-            if profile.longDescription
-              div.long-description!= marked(profile.longDescription)
+            .work-container.editable-section(title="Click to add work experience")
+              .editable-icon.glyphicon.glyphicon-pencil
+              if profile.work.length
+                h3.experience-header
+                  img.header-icon(src="/images/pages/account/profile/work.png", alt="")
+                  span(data-i18n="account_profile.work_experience") Work Experience
+                each job in profile.work
+                  if job.role && job.employer
+                    div.experience-entry
+                      div.duration.pull-right= job.duration
+                      | #{job.role} at #{job.employer}
+                      .clearfix
+                      if job.description
+                        div!= marked(job.description)
+              else if editing
+                h3.edit-label Chronicle your work history
   
-            if profile.work.length
-              h3.experience-header
-                img.header-icon(src="/images/pages/account/profile/work.png", alt="")
-                span(data-i18n="account_profile.work_experience") Work Experience
-              each job in profile.work
-                if job.role && job.employer
-                  div.experience-entry
-                    div.duration.pull-right= job.duration
-                    | #{job.role} at #{job.employer}
-                    .clearfix
-                    if job.description
-                      div!= marked(job.description)
-  
-            if profile.education.length
-              h3.experience-header
-                img.header-icon(src="/images/pages/account/profile/education.png", alt="")
-                span(data-i18n="account_profile.education") Education
-              each school in profile.education
-                if school.degree && school.school
-                  div.experience-entry
-                    div.duration.pull-right= school.duration
-                    | #{school.degree} at #{school.school}
-                    .clearfix
-                    if school.description
-                      div!= marked(school.description)
+            .education-container.editable-section(title="Click to add academic experience")
+              .editable-icon.glyphicon.glyphicon-pencil
+              if profile.education.length
+                h3.experience-header
+                  img.header-icon(src="/images/pages/account/profile/education.png", alt="")
+                  span(data-i18n="account_profile.education") Education
+                each school in profile.education
+                  if school.degree && school.school
+                    div.experience-entry
+                      div.duration.pull-right= school.duration
+                      | #{school.degree} at #{school.school}
+                      .clearfix
+                      if school.description
+                        div!= marked(school.description)
+              else if editing
+                h3.edit-label Recount your academic ordeals
   
             if user.get('jobProfileNotes') || me.isAdmin()
-              h3.experience-header(data-i18n="account_profile.our_notes") Our Notes
-              - var notes = user.get('jobProfileNotes') || '';
-              if me.isAdmin()
-                textarea#job-profile-notes!= notes
-                button.btn.btn-primary#save-notes-button Save Notes
-              else
-                div!= marked(notes)
+              div(class="our-notes-section" + (editing ? " deemphasized" : ""))
+                h3.experience-header(data-i18n="account_profile.our_notes") Our Notes
+                - var notes = user.get('jobProfileNotes') || '';
+                if me.isAdmin()
+                  textarea#job-profile-notes!= notes
+                  button.btn.btn-primary#save-notes-button Save Notes
+                else
+                  div!= marked(notes)
 
         .right-column.full-height-column
           .sub-column
-            if profile.projects.length
-              h3(data-i18n="account_profile.projects") Projects
-              ul.projects
-                each project in profile.projects
-                  if project.name
-                    li
-                      if project.link && project.link.length && project.link != 'http://example.com'
-                        a(href=project.link)
-                      if project.picture
-                        .project-image(style="background-image: url('/file/" + project.picture + "')")
-                      p= project.name
-                      div!= marked(project.description)
+            .projects-container.editable-section(title="Click to add your projects")
+              .editable-icon.glyphicon.glyphicon-pencil
+              if profile.projects.length
+                h3(data-i18n="account_profile.projects") Projects
+                ul.projects
+                  each project in profile.projects
+                    if project.name
+                      li
+                        if project.link && project.link.length && project.link != 'http://example.com'
+                          a(href=project.link)
+                        if project.picture
+                          .project-image(style="background-image: url('/file/" + project.picture + "')")
+                        p= project.name
+                        div!= marked(project.description)
+              else if editing
+                h3.edit-label Add 3 projects
+
   else if allowedToViewJobProfile
     .public-profile-container
-      h2 Loading...
-      
+      h2(data-i18n="common.loading") Loading...
                         
   else
     .public-profile-container
@@ -128,3 +222,4 @@ block content
   
       h2 TODO
       p Public user profiles are not ready yet. If you are seeing this, we probably have a bug leading to a broken link.
+

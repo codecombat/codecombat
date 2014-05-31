@@ -186,6 +186,7 @@
 
   account_profile:
     edit_settings: "Edit Settings"
+    done_editing_settings: "Done Editing"
     profile_for_prefix: "Profile for "
     profile_for_suffix: ""
     approved: "Approved"
