@@ -38,9 +38,8 @@ module.exports = class RootView extends CocoView
         me.set(val, me.get(val) + 1)
         console.debug me.get(val)
         me.save()
-
-      #test = new Achievement(_id:'537ce4855c91b8d1dda7fda8')
-      #test.fetch(success:@showNewAchievement)
+      test = new Achievement(_id:'537ce4855c91b8d1dda7fda8')
+      test.fetch(success:@showNewAchievement)
 
   showNewAchievement: (achievement) ->
     currentLevel = me.level()

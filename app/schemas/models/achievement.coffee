@@ -57,12 +57,17 @@ _.extend(AchievementSchema.properties,
         type: 'object'
         properties:
           a: {type: 'number', default: 1},
+          required: ['a']
+        description: 'f(x) = a * x'
       logarithmic:
         type:'object'
         properties:
           a: {type: 'number', default: 1}
           b: {type: 'number', default: 1}
+        required: ['a', 'b']
+        description: 'f(x) = a * ln(1/b * (x + b))'
     ]
+    default: linear: a: 1
 )
 
 AchievementSchema.definitions = {}
