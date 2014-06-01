@@ -194,7 +194,7 @@ module.exports = class ThangsTabView extends View
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
     @surface.camera.dragDisabled = true
     {stageX, stageY} = e.originalEvent
-    wop = @surface.camera.canvasToWorld x: stageX, y: stageY
+    wop = @surface.camera.screenToWorld x: stageX, y: stageY
     wop.z = @selectedExtantThang.depth / 2
     @adjustThangPos @selectedExtantSprite, @selectedExtantThang, wop
     [w, h] = [@surface.camera.canvasWidth, @surface.camera.canvasHeight]
@@ -250,6 +250,7 @@ module.exports = class ThangsTabView extends View
 #      @thangsTreema.deselectAll()
 
   selectAddThang: (e) =>
+    return if e? and $(e.target).closest('#thang-search').length # Ignore if you're trying to search thangs
     return unless e? and $(e.target).closest('#editor-level-thangs-tab-view').length or key.isPressed('esc')
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
     return true if target.attr('id') is 'surface'
@@ -258,7 +259,7 @@ module.exports = class ThangsTabView extends View
     @$el.find('.add-thangs-palette .add-thang-palette-icon.selected').removeClass('selected')
     @selectAddThangType(if wasSelected then null else target.attr 'data-thang-type') unless key.alt or key.meta
     target.addClass('selected') if @addThangType
-    false
+    #false # was causing #1099, any reason to keep?
 
   moveAddThangSelection: (direction) ->
     return unless @addThangType
@@ -319,7 +320,7 @@ module.exports = class ThangsTabView extends View
 
   onSurfaceMouseMoved: (e) ->
     return unless @addThangSprite
-    wop = @surface.camera.canvasToWorld x: e.x, y: e.y
+    wop = @surface.camera.screenToWorld x: e.x, y: e.y
     wop.z = 0.5
     @adjustThangPos @addThangSprite, @addThangSprite.thang, wop
     null
