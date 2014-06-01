@@ -16,6 +16,13 @@ module.exports = class ThangType extends CocoModel
     @on 'sync', @setDefaults
     @spriteSheets = {}
 
+    ## Testing memory clearing
+    #f = =>
+    #  console.info 'resetting raw data'
+    #  @unset 'raw'
+    #  @_previousAttributes.raw = null
+    #setTimeout f, 40000
+
   setDefaults: ->
     @resetRawData() unless @get('raw')
 
