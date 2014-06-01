@@ -32,7 +32,7 @@ module.exports = class LadderView extends RootView
 
   events:
     'click .play-button': 'onClickPlayButton'
-    'click a': 'onClickedLink'
+    'click a:not([data-toggle])': 'onClickedLink'
 
   constructor: (options, @levelID) ->
     super(options)

@@ -7,12 +7,28 @@
     background-color: rgb(78, 78, 78)
     width: 100%
     text-align: center
+    max-height: 70px
 
-    button.edit-settings-button
+    button
       margin: 2px
       i
         margin-right: 5px
-    
+
+    .sample-profile
+      position: absolute
+      right: 5px
+  
+    .profile-completion-progress
+      width: 100%
+      display: inline-block
+      height: 33px
+      margin-bottom: 0
+      border-radius: 0
+  
+      .progress-bar
+        line-height: 33px
+        font-size: 16px
+  
   .approved, .not-approved
     display: none
 
@@ -201,28 +217,27 @@
                 left: 0
                 z-index: 1
         
-              .project-image
-                width: 230px
-                height: 115px
-                background-size: cover
-                background-repeat: no-repeat
-                background-position: center
+          .project-image
+            width: 230px
+            height: 115px
+            background-size: cover
+            background-repeat: no-repeat
+            background-position: center
 
-                -webkit-filter: grayscale(100%)
-                -webkit-transition: .5s ease-in-out
-                -moz-filter: grayscale(100%) 
-                -moz-transition: .5s ease-in-out
-                -o-filter: grayscale(100%) 
-                -o-transition: .5s ease-in-out
-                filter: grayscale(100%)
-                transition: .5s ease-in-out
+            -webkit-filter: grayscale(100%)
+            -webkit-transition: .5s ease-in-out
+            -moz-filter: grayscale(100%) 
+            -moz-transition: .5s ease-in-out
+            -o-filter: grayscale(100%) 
+            -o-transition: .5s ease-in-out
+            filter: grayscale(100%)
+            transition: .5s ease-in-out
 
-            li:hover
-              .project-image
-                -webkit-filter: grayscale(0%)
-                -moz-filter: grayscale(0%)
-                -o-filter: grayscale(0%)
-                filter: grayscale(0%)
+          ul.projects li:hover .project-image, .project-image:hover
+            -webkit-filter: grayscale(0%)
+            -moz-filter: grayscale(0%)
+            -o-filter: grayscale(0%)
+            filter: grayscale(0%)
 
   .main-content-area
 
@@ -234,6 +249,18 @@
           display: none
           background-color: white
           padding: 5px 5px 5px 5px
+
+          .skill-array-item
+            display: inline-block
+
+            input
+              width: 120px
+              margin: 5px
+
+          .project-image
+            width: 210px
+            height: 105px
+            cursor: pointer
 
       .editable-icon
         display: none
@@ -259,6 +286,15 @@
         opacity: 0.5
           
       .edit-label
+        color: $blue
+
+      .edit-example-button
+        background-color: transparentize($blue, 0.25)
+
+      .edit-example-text
+        color: $blue
+
+      code.edit-example-tag
         color: $blue
       
       .editable-section.deemphasized, .our-notes-section.deemphasized

@@ -198,6 +198,8 @@
     education: "Education"
     our_notes: "Our Notes"
     projects: "Projects"
+    active: "Looking for interview offers now"
+    inactive: "Not looking for offers right now"
 
   employers:
     want_to_hire_our_players: "Want to hire expert CodeCombat players?"
