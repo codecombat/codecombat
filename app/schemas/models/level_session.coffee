@@ -109,27 +109,40 @@ _.extend LevelSessionSchema.properties,
         type: 'string'
         format: 'javascript'
 
-  codeHistory:
-    type: 'object'
-      type: 'object'     #Need this? Dunno.
-      description: 'One vcs tree for every code language'
-        type: 'array'
+  codeVCS:
+    type: 'object'     #Need this? Dunno.
+    description: 'One VCS tree for every supported-language.'
+    additionalProperties:
+      title: 'Programming Language'
+      description: 'The VCS tree for this programming language, containing the revisions as an array with descending timestamps.'
+      type: 'array'
+      properties:
+        title: "Revision"
+        description: 'The current revision. May contain code and/or the diff to the previous.'
+        type: 'object'
         properties:
-          type: 'object'
-          properties:
-            time:
-              id: 'The id'
-              title: 'The time of creation.'
-              description: 'At what time this item has been created.'
-              type: 'Number'
-            previous:
-              title: 'The previous item'
-            next:
-              title: 'The next item'
-            diff:
-              title: 'Diff'
-              description: 'The diff from the next to this item.'
-              type: ['object', 'string','null']
+          time:
+            title: 'Creation time.'
+            description: 'The time of creation.'
+            type: 'string'
+          nexts:
+            title: 'Next Items'
+            description: 'Contains an array of the next items for ease of access.'
+            type: 'array'
+            items:
+              title: 'Next Item'
+              description: "Calculate the current node's code from on of theese."
+              type: 'string'
+          previous:
+            title: 'The timestamp of the previous item'
+            type: 'string'
+          code:
+            title: 'The code of this node. If this is not set, is has to be calculated from one of the next difs.'
+            type: ['string', 'null']
+          diff:
+            title: 'Diff'
+            description: 'The diff to the previous item.'
+            type: ['string','null']
 
   codeLanguage:
     type: 'string'

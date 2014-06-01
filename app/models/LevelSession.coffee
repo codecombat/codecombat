@@ -10,9 +10,10 @@ module.exports = class LevelSession extends CocoModel
     @on 'sync', (e) =>
       state = @get('state') or {}
       state.scripts ?= {}
-      @set('state', state)
+      @set 'state', state
 
   saveVersion: (previous, source) ->
+    @get
     prevCode = previous.generateCode()
 
 
@@ -27,9 +28,13 @@ module.exports = class LevelSession extends CocoModel
 
   lookupTable:
 
+
   deserializeVCS:
     for node in @levelfoo[language]
       lookupTable[node.id] = node
+
+
+
 
 
 
