@@ -41,6 +41,7 @@ module.exports = class ProfileView extends View
     context.myProfile = @user.id is context.me.id
     context.allowedToViewJobProfile = me.isAdmin() or "employer" in me.get('permissions') or context.myProfile
     context.allowedToEditJobProfile = me.isAdmin() or context.myProfile
+    context.profileApproved = @user.get 'jobProfileApproved'
     context.progress = @progress ? @updateProgress()
     @editing ?= context.progress < 0.8
     context.editing = @editing
@@ -59,18 +60,12 @@ module.exports = class ProfileView extends View
 
   afterRender: ->
     super()
-    @updateProfileApproval() if me.isAdmin()
     unless @user.get('jobProfile')?.projects?.length or @editing
       @$el.find('.right-column').hide()
       @$el.find('.middle-column').addClass('double-column')
     unless @editing
       @$el.find('.editable-display').attr('title', '')
-    @progress = @updateProgress()
-
-  updateProfileApproval: ->
-    approved = @user.get 'jobProfileApproved'
-    @$el.find('.approved').toggle Boolean(approved)
-    @$el.find('.not-approved').toggle not approved
+    _.defer => @progress = @updateProgress()
 
   toggleEditing: ->
     @editing = not @editing
@@ -79,8 +74,8 @@ module.exports = class ProfileView extends View
   toggleJobProfileApproved: ->
     approved = not @user.get 'jobProfileApproved'
     @user.set 'jobProfileApproved', approved
-    @user.save()
-    @updateProfileApproval()
+    res = @user.save {jobProfileApproved: approved}, {patch: true}
+    res.success (model, response, options) => @render()
 
   toggleJobProfileActive: ->
     active = not @user.get('jobProfile').active
@@ -101,7 +96,7 @@ module.exports = class ProfileView extends View
   onJobProfileNotesChanged: (e) =>
     notes = @$el.find("#job-profile-notes").val()
     @user.set 'jobProfileNotes', notes
-    @user.save()
+    @user.save {jobProfileNotes: notes}, {patch: true}
 
   iconForLink: (link) ->
     icons = [
@@ -184,7 +179,6 @@ module.exports = class ProfileView extends View
     form = $(e.target).closest('form')
     isEmpty = @arrayItemIsEmpty
     section.find('.array-item').each ->
-      console.log "removing", @ if isEmpty @
       $(@).remove() if isEmpty @
     resetOnce = false  # We have to clear out arrays if we're going to redo them
     serialized = form.serializeArray()
@@ -195,14 +189,12 @@ module.exports = class ProfileView extends View
       value = @extractFieldValue keyChain[0], field.value
       parent = jobProfile
       for key, i in keyChain
-        console.log key, i
         rootPropertiesSeen[key] = true unless i
         break if i is keyChain.length - 1
         child = parent[key]
         if _.isArray(child) and not resetOnce
           child = parent[key] = []
           resetOnce = true
-          console.log "  resetting"
         else unless child?
           child = parent[key] = {}
         parent = child
@@ -272,10 +264,8 @@ module.exports = class ProfileView extends View
       text = "#{progress}% complete. Next: #{next}"
     else if next and progress > 30
       text = "#{progress}%. Next: #{next}"
-    else if next and progress > 20
+    else if next and progress > 11
       text = "#{progress}%: #{next}"
-    else if progress > 11
-      text = "#{progress}% complete."
     else if progress > 3
       text = "#{progress}%"
     bar.text text
@@ -283,24 +273,22 @@ module.exports = class ProfileView extends View
     completed / totalWeight
 
   getProgressMetrics: ->
-    return @progressMetrics if @progressMetrics
     schema = me.schema().properties.jobProfile
-    jobProfile = @user.get('jobProfile')
+    jobProfile = @user.get('jobProfile') ? {}
     exists = (field) -> -> jobProfile[field]
     modified = (field) -> -> jobProfile[field] and jobProfile[field] isnt schema.properties[field].default
     listStarted = (field, subfields) -> -> jobProfile[field]?.length and _.every subfields, (subfield) -> jobProfile[field][0][subfield]
     @progressMetrics = [
-      {name: "job title?", weight: 0, fn: exists 'jobTitle'}
-      {name: "choose your city.", weight: 1, fn: modified 'city'}
-      {name: "pick your country.", weight: 0, fn: exists 'country'}
-      {name: "provide your name.", weight: 1, fn: modified 'name'}
-      {name: "summarize yourself at a glance.", weight: 2, fn: modified 'shortDescription'}
-      {name: "list at least five skills.", weight: 2, fn: -> jobProfile.skills.length >= 5}
-      {name: "describe the work you're looking for.", weight: 3, fn: modified 'longDescription'}
-      {name: "list your work experience.", weight: 3, fn: listStarted 'work', ['role', 'employer']}
-      {name: "recount your educational ordeals.", weight: 3, fn: listStarted 'education', ['degree', 'school']}
-      {name: "show off up to three projects you've worked on.", weight: 3, fn: listStarted 'projects', ['name']}
-      {name: "add any personal or social links.", weight: 2, fn: listStarted 'links', ['link', 'name']}
-      {name: "add an optional professional photo.", weight: 2, fn: modified 'photoURL'}
+      {name: "city?", weight: 1, container: 'basic-info-container', fn: modified 'city'}
+      {name: "pick your country.", weight: 0, container: 'basic-info-container', fn: exists 'country'}
+      {name: "provide your name.", weight: 1, container: 'name-container', fn: modified 'name'}
+      {name: "summarize yourself at a glance.", weight: 2, container: 'short-description-container', fn: modified 'shortDescription'}
+      {name: "list at least five skills.", weight: 2, container: 'skills-container', fn: -> jobProfile.skills?.length >= 5}
+      {name: "describe the work you're looking for.", weight: 3, container: 'long-description-container', fn: modified 'longDescription'}
+      {name: "list your work experience.", weight: 3, container: 'work-container', fn: listStarted 'work', ['role', 'employer']}
+      {name: "recount your educational ordeals.", weight: 3, container: 'education-container', fn: listStarted 'education', ['degree', 'school']}
+      {name: "show off up to three projects you've worked on.", weight: 3, container: 'projects-container', fn: listStarted 'projects', ['name']}
+      {name: "add any personal or social links.", weight: 2, container: 'links-container', fn: listStarted 'links', ['link', 'name']}
+      {name: "add an optional professional photo.", weight: 2, container: 'profile-photo-container', fn: modified 'photoURL'}
       {name: "mark yourself open to offers to show up in searches.", weight: 1, fn: modified 'active'}
     ]

@@ -21,13 +21,16 @@ block content
         button.btn#toggle-job-profile-active
           i.icon-eye-close
           span(data-i18n="account_profile.inactive") Not looking for offers right now
-      if me.isAdmin() && user.get('jobProfile')
-        button.btn.edit-settings-button#toggle-job-profile-approved
-          i.icon-cog
-          span(data-i18n='account_profile.approved').approved Approved
-          span(data-i18n='account_profile.not_approved').not-approved Not Approved
-        if !myProfile
-          button.btn.edit-settings-button#enter-espionage-mode 007
+      if profileApproved
+        button.btn.btn-success#toggle-job-profile-approved
+          i.icon-eye-open
+          span(data-i18n='account_profile.approved') Approved
+      else if me.isAdmin()
+        button.btn#toggle-job-profile-approved
+          i.icon-eye-close
+          span(data-i18n='account_profile.not_approved') Not Approved
+      if me.isAdmin() && !myProfile
+        button.btn.edit-settings-button#enter-espionage-mode 007
       if editing && myProfile
         a.sample-profile(href="http://codecombat.com/images/pages/account/profile/sample_profile.png", target="_blank")
           button.btn
@@ -50,7 +53,7 @@ block content
             .links-container.editable-section
               .editable-display(title="Click to add social and personal links")
                 .editable-icon.glyphicon.glyphicon-pencil
-                if profileLinks.length
+                if profileLinks && profileLinks.length
                   ul.links.editable-thinner
                     each link in profileLinks
                       if link.link && link.name
@@ -70,7 +73,7 @@ block content
                 h3 Personal Links
                 p.help-block Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog.
                 .editable-array(data-property='links')
-                  for link, index in profile.links.concat({})
+                  for link, index in (profile.links || []).concat({})
                     .array-item.link-container.well.well-sm
                       .form-group
                         label.control-label Link Name
@@ -84,7 +87,7 @@ block content
                           p.help-block Ex.: "https://github.com/nwinter"                
                 button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
 
-            .basic-info-container.editable-section
+            .editable-section.basic-info-container
               - var editableDefaults = editing && profile.city == jobProfileSchema.properties.city.default
               div(class="editable-display" + (editableDefaults ? " edit-example-text" : ""), title="Click to edit your basic info")
                 .editable-icon.glyphicon.glyphicon-pencil
@@ -181,7 +184,7 @@ block content
             .skills-container.editable-section
               .editable-display.editable-thinner(title="Click to tag your programming skills")
                 .editable-icon.glyphicon.glyphicon-pencil
-                if editing && !profile.skills.length || (profile.skills.length == 1 && profile.skills[0] == 'javascript')
+                if editing && (!profile.skills || !profile.skills.length || (profile.skills.length == 1 && profile.skills[0] == 'javascript'))
                   h3.edit-label Tag your programming skills
                   each skill in ["python", "coffeescript", "node", "ios", "objective-c", "javascript", "app-engine", "mongodb", "web dev", "django", "backbone"]
                     code.edit-example-tag= skill
@@ -198,7 +201,7 @@ block content
                   | Tag relevant developer skills in order of proficiency.
                   | Ex.: "objective-c", "mongodb", "rails", "android", "javascript"
                 .editable-array(data-property='skills')
-                  for skill, index in profile.skills.concat('')
+                  for skill, index in (profile.skills || []).concat('')
                     .array-item.skill-array-item
                       input.form-control(type='skill', maxlength='20', pattern='.{1,}', data-schemaformat='skill', name='root[skills][0]', value=skill)
                 button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
@@ -226,7 +229,7 @@ block content
             .work-container.editable-section
               .editable-display(title="Click to add work experience")
                 .editable-icon.glyphicon.glyphicon-pencil
-                if profile.work.length
+                if profile.work && profile.work.length
                   h3.experience-header
                     img.header-icon(src="/images/pages/account/profile/work.png", alt="")
                     span(data-i18n="account_profile.work_experience") Work Experience
@@ -256,8 +259,7 @@ block content
 
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
-                h3
-                  span Work Experience
+                h3 Work Experience
                 .form-group
                   label.control-label Years of Experience
                   input.form-control(type='text', name='root[experience]')
@@ -265,7 +267,7 @@ block content
                     | How many years of professional experience (getting paid) developing software do you have?
                 p List your relevant work experience, most recent first.
                 .editable-array(data-property='work')
-                  for job, index in profile.work.concat({})
+                  for job, index in (profile.work || []).concat({})
                     .array-item.well.well-sm
                       .form-group
                         label.control-label Employer
@@ -289,7 +291,7 @@ block content
             .education-container.editable-section
               .editable-display(title="Click to add academic experience")
                 .editable-icon.glyphicon.glyphicon-pencil
-                if profile.education.length
+                if profile.education && profile.education.length
                   h3.experience-header
                     img.header-icon(src="/images/pages/account/profile/education.png", alt="")
                     span(data-i18n="account_profile.education") Education
@@ -312,14 +314,10 @@ block content
 
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
-                h3
-                  span Education
-                  .btn-group(style='margin-left: 10px;')
-                    button.btn.btn-default.json-editor-btn-collapse(title='Collapse', style='display: none;')
-                      i.glyphicon.glyphicon-chevron-down
+                h3 Education
                 p List your academic ordeals.
                 .editable-array(data-property='education')
-                  for school, index in profile.education.concat({})
+                  for school, index in (profile.education || []).concat({})
                     .array-item.well.well-sm
                       .form-group
                         label.control-label School
@@ -356,7 +354,7 @@ block content
             .projects-container.editable-section
               .editable-display(title="Click to add your projects")
                 .editable-icon.glyphicon.glyphicon-pencil
-                if profile.projects.length
+                if profile.projects && profile.projects.length
                   h3(data-i18n="account_profile.projects") Projects
                   ul.projects
                     each project in profile.projects
@@ -389,7 +387,7 @@ block content
                 h3 Projects (Top 3)
                 p Highlight your projects to amaze employers.
                 for index in [0, 1, 2]
-                  - var project = profile.projects[index] || {};
+                  - var project = (profile.projects || [])[index] || {};
                   .array-item.well.well-sm
                     .form-group
                       label.control-label Project Name
