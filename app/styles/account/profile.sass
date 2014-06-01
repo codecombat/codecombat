@@ -24,10 +24,14 @@
       height: 33px
       margin-bottom: 0
       border-radius: 0
+      background-color: $sideBackground
   
       .progress-bar
         line-height: 33px
         font-size: 16px
+        text-overflow: ellipsis
+        overflow: hidden
+        white-space: nowrap
   
   .main-content-area
     padding: 0
@@ -92,7 +96,7 @@
             width: $side-width - 2 * $side-padding
             overflow-wrap: break-word
 
-          .profile-photo-container
+          #profile-photo-container
             position: relative
             margin-bottom: 10px
 
@@ -241,6 +245,11 @@
     .job-profile-container
       .editable-section
         position: relative
+        transition: box-shadow 0.5s easeInOutQuad
+
+        &.just-saved
+          box-shadow: 0px 0px 80px 0px #080
+          z-index: 1
 
         .editable-form
           display: none
@@ -294,7 +303,7 @@
       code.edit-example-tag
         color: $blue
       
-      .editable-section.deemphasized, .our-notes-section.deemphasized
+      .editable-section.deemphasized:not(.just-saved), .our-notes-section.deemphasized
         opacity: 0.5
 
       .editable-section:hover

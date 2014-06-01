@@ -2,6 +2,8 @@ View = require 'views/kinds/RootView'
 template = require 'templates/account/profile'
 User = require 'models/User'
 JobProfileContactView = require 'views/modal/job_profile_contact_modal'
+JobProfileView = require 'views/account/job_profile_view'
+forms = require 'lib/forms'
 
 module.exports = class ProfileView extends View
   id: "profile-view"
@@ -24,9 +26,11 @@ module.exports = class ProfileView extends View
     'click .editable-profile a': 'onClickLinkWhileEditing'
 
   constructor: (options, @userID) ->
+    @userID ?= me.id
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
     super options
     @uploadFilePath = "db/user/#{@userID}"
+    @highlightedContainers = []
     if @userID is me.id
       @user = me
     else if me.isAdmin() or "employer" in me.get('permissions')
@@ -34,9 +38,19 @@ module.exports = class ProfileView extends View
       @user.fetch()
       @listenTo @user, "sync", =>
         @render()
+    else
+      @user = User.getByID(@userID)
 
   getRenderData: ->
     context = super()
+    context.jobProfileSchema = me.schema().properties.jobProfile
+    unless jobProfile = @user.get 'jobProfile'
+      jobProfile = {}
+      for prop, schema of context.jobProfileSchema.properties
+        jobProfile[prop] = _.clone schema.default if schema.default?
+      @user.set 'jobProfile', jobProfile
+    jobProfile.name ?= (@user.get('firstName') + ' ' + @user.get('lastName')).trim() if @user.get('firstName')
+    context.profile = jobProfile
     context.user = @user
     context.myProfile = @user.id is context.me.id
     context.allowedToViewJobProfile = me.isAdmin() or "employer" in me.get('permissions') or context.myProfile
@@ -45,13 +59,9 @@ module.exports = class ProfileView extends View
     context.progress = @progress ? @updateProgress()
     @editing ?= context.progress < 0.8
     context.editing = @editing
-    context.jobProfileSchema = me.schema().properties.jobProfile
     context.marked = marked
     context.moment = moment
     context.iconForLink = @iconForLink
-    unless jobProfile = @user.get 'jobProfile'
-      @user.set 'jobProfile', jobProfile = {}
-    jobProfile.name ?= (@user.get('firstName') + ' ' + @user.get('lastName')).trim() if @user.get('firstName')
     if links = jobProfile.links
       links = ($.extend(true, {}, link) for link in links)
       link.icon = @iconForLink link for link in links
@@ -65,7 +75,18 @@ module.exports = class ProfileView extends View
       @$el.find('.middle-column').addClass('double-column')
     unless @editing
       @$el.find('.editable-display').attr('title', '')
-    _.defer => @progress = @updateProgress()
+    @initializeAutocomplete()
+    highlightNext = @highlightNext
+    justSavedSection = @$el.find('#' + @justSavedSectionID).addClass "just-saved"
+    _.defer =>
+      @progress = @updateProgress highlightNext
+      _.delay ->
+        justSavedSection.removeClass "just-saved", duration: 1500, easing: 'easeOutQuad'
+      , 500
+
+  initializeAutocomplete: (container) ->
+    (container ? @$el).find('input[data-autocomplete]').each ->
+      $(@).autocomplete(source: JobProfileView[$(@).data('autocomplete')], minLength: parseInt($(@).data('autocomplete-min-length')), delay: 0, autoFocus: true)
 
   toggleEditing: ->
     @editing = not @editing
@@ -115,21 +136,31 @@ module.exports = class ProfileView extends View
   onContactCandidate: (e) ->
     @openModalView new JobProfileContactView recipientID: @user.id
 
-  saveEdits: (e) ->
-    res = @user.validate()
-    if res?
-      console.error "Couldn't save because of validation errors:", res
-      # TODO: show some sort of problem message here
-      return
+  showErrors: (errors) ->
+    section = @$el.find '.saving'
+    console.error "Couldn't save because of validation errors:", errors
+    section.removeClass 'saving'
+    forms.clearFormAlerts section
+    # This is pretty lame, since we don't easily match which field had the error like forms.applyErrorsToForm can.
+    section.find('form').addClass('has-error').find('.save-section').before($("<span class='help-block error-help-block'>#{errors[0].message}</span>"))
+
+  saveEdits: (highlightNext) ->
+    errors = @user.validate()
+    return @showErrors errors if errors
     jobProfile = @user.get('jobProfile')
     jobProfile.updated = (new Date()).toISOString()
     @user.set 'jobProfile', jobProfile
     return unless res = @user.save()
-    res.error ->
-      errors = JSON.parse(res.responseText)
-      # TODO: show some sort of problem message here
+    res.error =>
+      return if @destroyed
+      @showErrors [message: res.responseText]
     res.success (model, response, options) =>
+      return if @destroyed
+      @justSavedSectionID = @$el.find('.editable-section.saving').removeClass('saving').attr('id')
+      @highlightNext = highlightNext
       @render()
+      @highlightNext = false
+      @justSavedSectionID = null
 
   onEditProfilePhoto: (e) ->
     onSaving = =>
@@ -163,8 +194,8 @@ module.exports = class ProfileView extends View
       onSaved uploadingPath
 
   onEditSection: (e) ->
-    section = $(e.target).closest('.editable-section')
-    section.find('.editable-form').show()
+    section = $(e.target).closest('.editable-section').removeClass 'deemphasized'
+    section.find('.editable-form').show().find('select, input, textarea').first().focus()
     section.find('.editable-display').hide()
     @$el.find('.editable-section').not(section).addClass 'deemphasized'
     column = section.closest('.full-height-column')
@@ -198,7 +229,10 @@ module.exports = class ProfileView extends View
         else unless child?
           child = parent[key] = {}
         parent = child
-      parent[key] = value
+      if key is 'link' and keyChain[0] is 'projects' and not value
+        delete parent[key]
+      else
+        parent[key] = value
     form.find('.editable-array').each ->
       key = $(@).data('property')
       unless rootPropertiesSeen[key]
@@ -206,7 +240,7 @@ module.exports = class ProfileView extends View
     if section.hasClass('projects-container') and not section.find('.array-item').length
       jobProfile.projects = []
     section.addClass 'saving'
-    @saveEdits()
+    @saveEdits true
 
   extractFieldKeyChain: (key) ->
     # "root[projects][0][name]" -> ["projects", "0", "name"]
@@ -236,10 +270,11 @@ module.exports = class ProfileView extends View
         toRemove.unshift index
     $(arrayItems[emptyIndex]).remove() for emptyIndex in toRemove
     unless lastEmpty
-      clone = $(arrayItem).clone(true)
+      clone = $(arrayItem).clone(false)
       clone.find('input').each -> $(@).val('')
       clone.find('textarea').each -> $(@).text('')
       array.append clone
+      @initializeAutocomplete clone
     for arrayItem, index in array.find('.array-item')
       for input in $(arrayItem).find('input, textarea')
         $(input).attr('name', $(input).attr('name').replace(/\[\d+\]/, "[#{index}]"))
@@ -247,7 +282,7 @@ module.exports = class ProfileView extends View
   onClickLinkWhileEditing: (e) ->
     e.preventDefault()
 
-  updateProgress: ->
+  updateProgress: (highlightNext) ->
     completed = 0
     totalWeight = 0
     next = null
@@ -255,21 +290,26 @@ module.exports = class ProfileView extends View
       done = metric.fn()
       completed += metric.weight if done
       totalWeight += metric.weight
-      next = metric.name unless next or done
+      next = metric unless next or done
     progress = Math.round 100 * completed / totalWeight
     bar = @$el.find('.profile-completion-progress .progress-bar')
     bar.css 'width', "#{progress}%"
     text = ""
+    t = $.i18n.t
     if next and progress > 40
-      text = "#{progress}% complete. Next: #{next}"
+      text = "#{progress}% #{t 'account_profile.complete'}. #{t 'account_profile.next'}: #{next.name}"
     else if next and progress > 30
-      text = "#{progress}%. Next: #{next}"
+      text = "#{progress}%. #{t 'account_profile.next'}: #{next.name}"
     else if next and progress > 11
-      text = "#{progress}%: #{next}"
+      text = "#{progress}%: #{next.name}"
     else if progress > 3
       text = "#{progress}%"
     bar.text text
     bar.parent().toggle Boolean progress
+    if highlightNext and next?.container and not (next.container in @highlightedContainers)
+      @onEditSection target: next.container
+      @highlightedContainers.push next.container
+      $('#page-container').scrollTop 0
     completed / totalWeight
 
   getProgressMetrics: ->
@@ -278,17 +318,18 @@ module.exports = class ProfileView extends View
     exists = (field) -> -> jobProfile[field]
     modified = (field) -> -> jobProfile[field] and jobProfile[field] isnt schema.properties[field].default
     listStarted = (field, subfields) -> -> jobProfile[field]?.length and _.every subfields, (subfield) -> jobProfile[field][0][subfield]
+    t = $.i18n.t
     @progressMetrics = [
-      {name: "city?", weight: 1, container: 'basic-info-container', fn: modified 'city'}
-      {name: "pick your country.", weight: 0, container: 'basic-info-container', fn: exists 'country'}
-      {name: "provide your name.", weight: 1, container: 'name-container', fn: modified 'name'}
-      {name: "summarize yourself at a glance.", weight: 2, container: 'short-description-container', fn: modified 'shortDescription'}
-      {name: "list at least five skills.", weight: 2, container: 'skills-container', fn: -> jobProfile.skills?.length >= 5}
-      {name: "describe the work you're looking for.", weight: 3, container: 'long-description-container', fn: modified 'longDescription'}
-      {name: "list your work experience.", weight: 3, container: 'work-container', fn: listStarted 'work', ['role', 'employer']}
-      {name: "recount your educational ordeals.", weight: 3, container: 'education-container', fn: listStarted 'education', ['degree', 'school']}
-      {name: "show off up to three projects you've worked on.", weight: 3, container: 'projects-container', fn: listStarted 'projects', ['name']}
-      {name: "add any personal or social links.", weight: 2, container: 'links-container', fn: listStarted 'links', ['link', 'name']}
-      {name: "add an optional professional photo.", weight: 2, container: 'profile-photo-container', fn: modified 'photoURL'}
-      {name: "mark yourself open to offers to show up in searches.", weight: 1, fn: modified 'active'}
+      {name: t('account_profile.next_city'), weight: 1, container: '#basic-info-container', fn: modified 'city'}
+      {name: t('account_profile.next_country'), weight: 0, container: '#basic-info-container', fn: exists 'country'}
+      {name: t('account_profile.next_name'), weight: 1, container: '#name-container', fn: modified 'name'}
+      {name: t('account_profile.next_short_description'), weight: 2, container: '#short-description-container', fn: modified 'shortDescription'}
+      {name: t('account_profile.next_skills'), weight: 2, container: '#skills-container', fn: -> jobProfile.skills?.length >= 5}
+      {name: t('account_profile.next_long_description'), weight: 3, container: '#long-description-container', fn: modified 'longDescription'}
+      {name: t('account_profile.next_work'), weight: 3, container: '#work-container', fn: listStarted 'work', ['role', 'employer']}
+      {name: t('account_profile.next_education'), weight: 3, container: '#education-container', fn: listStarted 'education', ['degree', 'school']}
+      {name: t('account_profile.next_projects'), weight: 3, container: '#projects-container', fn: listStarted 'projects', ['name']}
+      {name: t('account_profile.next_links'), weight: 2, container: '#links-container', fn: listStarted 'links', ['link', 'name']}
+      {name: t('account_profile.next_photo'), weight: 2, container: '#profile-photo-container', fn: modified 'photoURL'}
+      {name: t('account_profile.next_active'), weight: 1, fn: modified 'active'}
     ]
