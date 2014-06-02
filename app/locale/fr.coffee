@@ -96,7 +96,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   play:
     choose_your_level: "Choisissez votre niveau"
     adventurer_prefix: "Vous pouvez passer à n'importe quel niveau ci-dessous, ou discuter des niveaux sur "
-    adventurer_forum: "le forum de l'Aventurier"
+    adventurer_forum: "Le forum de l'Aventurier"
     adventurer_suffix: "."
     campaign_beginner: "Campagne du Débutant"
     campaign_beginner_description: "... dans laquelle vous apprendrez la magie de la programmation."
@@ -114,7 +114,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     contact_us: "Contacter CodeCombat"
     welcome: "Ravi d'avoir de vos nouvelles! Utilisez ce formulaire pour nous envoyer un mail."
     contribute_prefix: "Si vous voulez contribuer, consultez notre "
-    contribute_page: "page de contributions"
+    contribute_page: "Page de contributions"
     contribute_suffix: "!"
     forum_prefix: "Pour tout sujet d'ordre publique, merci d'utiliser "
     forum_page: "notre forum"
