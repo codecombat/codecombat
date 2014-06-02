@@ -36,7 +36,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   nav:
     play: "Jouer"
-#    community: "Community"
+#    community: "Communauté"
     editor: "Éditeur"
     blog: "Blog"
     forum: "Forum"
@@ -721,17 +721,17 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     so_ready: "Je Suis Prêt Pour Ca"
 
 #  loading_error:
-#    could_not_load: "Error loading from server"
-#    connection_failure: "Connection failed."
-#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
-#    forbidden: "You do not have the permissions."
-#    not_found: "Not found."
-#    not_allowed: "Method not allowed."
-#    timeout: "Server timeout."
-#    conflict: "Resource conflict."
-#    bad_input: "Bad input."
-#    server_error: "Server error."
-#    unknown: "Unknown error."
+#    could_not_load: "Erreur de chargement du serveur"
+#    connection_failure: "La connexion a échouée."
+#    unauthorized: "Vous devez être identifiée pour faire cela. Avez-vous désactivé les cookies ?"
+#    forbidden: "Vous n'avez pas la permission."
+#    not_found: "Introuvable."
+#    not_allowed: "Méthode non autorisée."
+#    timeout: "Connexion au serveur écoulée."
+#    conflict: "Conflit de Ressources."
+#    bad_input: "Données incorrectes ."
+#    server_error: "Erreur serveur."
+#    unknown: "Erreur inconnue."
 
 #  resources:
 #    your_sessions: "Your Sessions"
