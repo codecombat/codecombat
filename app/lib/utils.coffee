@@ -67,3 +67,11 @@ module.exports.i18n = (say, target, language=me.lang(), fallback='en') ->
   return fallbackResult if fallbackResult?
   return say[target] if target of say
   null
+
+module.exports.getByPath = (target, path) ->
+  pieces = path.split('.')
+  obj = target
+  for piece in pieces
+    return undefined unless piece of obj
+    obj = obj[piece]
+  obj

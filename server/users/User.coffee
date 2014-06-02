@@ -127,3 +127,6 @@ UserSchema.statics.hashPassword = (password) ->
   shasum.digest('hex')
 
 module.exports = User = mongoose.model('User', UserSchema)
+
+AchievablePlugin = require '../plugins/achievements'
+UserSchema.plugin(AchievablePlugin)

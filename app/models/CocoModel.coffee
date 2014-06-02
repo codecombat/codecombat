@@ -1,6 +1,8 @@
 storage = require 'lib/storage'
 deltasLib = require 'lib/deltas'
 
+NewAchievementCollection = require '../collections/NewAchievementCollection'
+
 class CocoModel extends Backbone.Model
   idAttribute: "_id"
   loaded: false
@@ -86,6 +88,7 @@ class CocoModel extends Backbone.Model
       success(@, res) if success
       @markToRevert() if @_revertAttributes
       @clearBackup()
+      CocoModel.pollAchievements()
     options.error = (model, res) =>
       error(@, res) if error
       return unless @notyErrors
@@ -265,5 +268,15 @@ class CocoModel extends Backbone.Model
 
   getURL: ->
     return if _.isString @url then @url else @url()
+
+  @pollAchievements: ->
+    achievements = new NewAchievementCollection
+    achievements.fetch(
+      success: (collection) ->
+        me.fetch (success: -> Backbone.Mediator.publish('achievements:new', collection)) unless _.isEmpty(collection.models)
+    )
+
+
+CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
 
 module.exports = CocoModel

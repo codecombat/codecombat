@@ -17,7 +17,7 @@ me.shortString = (ext) -> combine({type: 'string', maxLength: 100}, ext)
 me.pct = (ext) -> combine({type: 'number', maximum: 1.0, minimum: 0.0}, ext)
 me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)
 # should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
-me.objectId = (ext) -> schema = combine({type: ['object', 'string'] }, ext)
+me.objectId = (ext) -> schema = combine(['object', 'string'], ext)
 me.url = (ext) -> combine({type: 'string', format: 'url', pattern: urlPattern}, ext)
 
 PointSchema = me.object {title: "Point", description: "An {x, y} coordinate point.", format: "point2d", required: ["x", "y"]},
@@ -48,7 +48,7 @@ me.colorConfig = (props) ->
 # BASICS
 
 basicProps = (linkFragment) ->
-  _id: me.objectId(links: [{rel: 'self', href: "/db/#{linkFragment}/{($)}"}], format: 'hidden')
+  _id: me.objectId(links: [{rel: 'self', href: "/db/#{linkFragment}/{($)}"}], format:"hidden")
   __v: { title: 'Mongoose Version', format: 'hidden' }
 
 me.extendBasicProperties = (schema, linkFragment) ->

@@ -10,6 +10,7 @@ async = require 'async'
 log = require 'winston'
 LevelSession = require('../levels/sessions/LevelSession')
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
+EarnedAchievement = require '../achievements/EarnedAchievement'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
@@ -192,6 +193,7 @@ UserHandler = class UserHandler extends Handler
     return @getCandidates(req, res) if args[1] is 'candidates'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
+    return @getEarnedAchievements(req, res, args[0]) if args[1] is 'achievements'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -234,6 +236,18 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError(res, err) if err
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
+
+  getEarnedAchievements: (req, res, userID) ->
+    queryObject = {$query: {user: userID}, $orderby: {changed: -1}}
+    queryObject.$query.notified = false if req.query.notified is 'false'
+    query = EarnedAchievement.find(queryObject)
+    query.exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err?
+      cleandocs = (@formatEntity(req, doc) for doc in documents)
+      for doc in documents  # Maybe move this logic elsewhere
+        doc.set('notified', true)
+        doc.save()
+      @sendSuccess(res, cleandocs)
 
   agreeToEmployerAgreement: (req, res) ->
     userIsAnonymous = req.user?.get('anonymous')

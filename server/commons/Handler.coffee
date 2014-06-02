@@ -153,13 +153,13 @@ module.exports = class Handler
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, @formatEntity(req, document))
 
+  # project=true or project=name,description,slug for example
   search: (req, res) ->
     unless @modelClass.schema.uses_coco_search
       return @sendNotFoundError(res)
-
     term = req.query.term
     matchedObjects = []
-    filters = [{filter: {index: true}}]
+    filters = if @modelClass.schema.uses_coco_versions or @modelClass.schema.uses_coco_permissions then [filter: {index: true}] else [filter: {}]
     if @modelClass.schema.uses_coco_permissions and req.user
       filters.push {filter: {index: req.user.get('id')}}
     projection = null
@@ -167,7 +167,7 @@ module.exports = class Handler
       projection = PROJECT
     else if req.query.project
       if @modelClass.className is 'User'
-        projection = PROJECTION
+        projection = PROJECT
         log.warn "Whoa, we haven't yet thought about public properties for User projection yet."
       else
         projection = {}

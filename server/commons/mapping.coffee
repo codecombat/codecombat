@@ -9,6 +9,8 @@ module.exports.handlers =
   'patch': 'patches/patch_handler'
   'thang_type': 'levels/thangs/thang_type_handler'
   'user': 'users/user_handler'
+  'achievement': 'achievements/achievement_handler'
+  'earned_achievement': 'achievements/earned_achievement_handler'
 
 module.exports.routes =
   [
