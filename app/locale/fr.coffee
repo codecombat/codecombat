@@ -36,7 +36,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   nav:
     play: "Jouer"
-#    community: "Community"
+#    community: "Communauté"
     editor: "Éditeur"
     blog: "Blog"
     forum: "Forum"
@@ -96,7 +96,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   play:
     choose_your_level: "Choisissez votre niveau"
     adventurer_prefix: "Vous pouvez passer à n'importe quel niveau ci-dessous, ou discuter des niveaux sur "
-    adventurer_forum: "le forum de l'Aventurier"
+    adventurer_forum: "Le forum de l'Aventurier"
     adventurer_suffix: "."
     campaign_beginner: "Campagne du Débutant"
     campaign_beginner_description: "... dans laquelle vous apprendrez la magie de la programmation."
@@ -114,7 +114,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     contact_us: "Contacter CodeCombat"
     welcome: "Ravi d'avoir de vos nouvelles! Utilisez ce formulaire pour nous envoyer un mail."
     contribute_prefix: "Si vous voulez contribuer, consultez notre "
-    contribute_page: "page de contributions"
+    contribute_page: "Page de contributions"
     contribute_suffix: "!"
     forum_prefix: "Pour tout sujet d'ordre publique, merci d'utiliser "
     forum_page: "notre forum"
@@ -721,17 +721,17 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     so_ready: "Je Suis Prêt Pour Ca"
 
 #  loading_error:
-#    could_not_load: "Error loading from server"
-#    connection_failure: "Connection failed."
-#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
-#    forbidden: "You do not have the permissions."
-#    not_found: "Not found."
-#    not_allowed: "Method not allowed."
-#    timeout: "Server timeout."
-#    conflict: "Resource conflict."
-#    bad_input: "Bad input."
-#    server_error: "Server error."
-#    unknown: "Unknown error."
+#    could_not_load: "Erreur de chargement du serveur"
+#    connection_failure: "La connexion a échouée."
+#    unauthorized: "Vous devez être identifiée pour faire cela. Avez-vous désactivé les cookies ?"
+#    forbidden: "Vous n'avez pas la permission."
+#    not_found: "Introuvable."
+#    not_allowed: "Méthode non autorisée."
+#    timeout: "Connexion au serveur écoulée."
+#    conflict: "Conflit de Ressources."
+#    bad_input: "Données incorrectes ."
+#    server_error: "Erreur serveur."
+#    unknown: "Erreur inconnue."
 
 #  resources:
 #    your_sessions: "Your Sessions"

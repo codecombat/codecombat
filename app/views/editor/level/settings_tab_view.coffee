@@ -51,5 +51,5 @@ module.exports = class SettingsTabView extends View
   onSettingsChanged: (e) =>
     $('.level-title').text @settingsTreema.data.name
     for key in @editableSettings
-      continue unless @settingsTreema.data[key] is undefined
+      continue if @settingsTreema.data[key] is undefined
       @level.set key, @settingsTreema.data[key]

@@ -17,7 +17,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     retry: "Tente novamente"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
-#    submit_patch: "Submit Patch"
+    submit_patch: "Enviar arranjo"
 
   units:
     second: "segundo"
@@ -178,7 +178,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     error_saving: "Erro no salvamento"
     saved: "Alterações Salvas"
     password_mismatch: "As senhas não estão iguais"
-#    job_profile: "Job Profile"
+    job_profile: "Perfil de trabalho"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
     sample_profile: "Veja um perfil de exemplo"
@@ -194,8 +194,8 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     last_updated: "Última atualização:"
     contact: "Contato"
 #    work_experience: "Work Experience"
-    education: "Formação"
-#    our_notes: "Our Notes"
+    education: "Educação"
+    our_notes: "Nossas notas"
     projects: "Projetos"
 
 #  employers:
@@ -420,7 +420,7 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     body: "Principal"
     version: "Versão"
     commit_msg: "Mensagem do Commit"
-#    version_history: "Version History"
+    version_history: "Version History Histórico de Versão"
     version_history_for: "Histórico de Versão para: "
     result: "Resultado"
     results: "Resultados"
