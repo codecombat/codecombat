@@ -75,3 +75,12 @@ module.exports.getByPath = (target, path) ->
     return undefined unless piece of obj
     obj = obj[piece]
   obj
+
+module.exports.round = _.curry (digits, n) ->
+  n = +n.toFixed(digits)
+
+module.exports.createLinearFunc = (params) ->
+  (x) -> (params.a or 1) * x + (params.b or 0)
+
+module.exports.createLogFunc = (params) ->
+  (x) -> (params.a or 1) * Math.log((params.b or 1) * (x + (params.c or 0)))

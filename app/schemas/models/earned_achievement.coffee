@@ -20,15 +20,10 @@ module.exports =
               href: '/db/achievement/{($)}'
             }
           ]
-      collection:
-        type: 'string'
-      achievementName:
-        type: 'string'
-      created:
-        type: 'date'
-      changed:
-        type: 'date'
-      achievedAmount:
-        type: 'number'
-      notified:
-        type: 'boolean'
+      collection: type: 'string'
+      achievementName: type: 'string'
+      created: type: 'date'
+      changed: type: 'date'
+      achievedAmount: type: 'number'
+      previouslyAchievedAmount: {type: 'number', default: 0}
+      notified: type: 'boolean'

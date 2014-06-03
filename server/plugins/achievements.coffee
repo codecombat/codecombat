@@ -54,6 +54,8 @@ module.exports = AchievablePlugin = (schema, options) ->
             achievement: achievement._id.toHexString()
             achievementName: achievement.get 'name'
           }
+
+          worth = achievement.get('worth')
           earnedPoints = 0
           wrapUp = ->
             # Update user's experience points
@@ -68,22 +70,23 @@ module.exports = AchievablePlugin = (schema, options) ->
             newAmount = docObj[proportionalTo]
 
             if originalAmount isnt newAmount
+              expFunction = achievement.getExpFunction()
               earned.notified = false
               earned.achievedAmount = newAmount
-              earned.changed = Date.now()
+              earned.previouslyAchievedAmount = originalAmount
               EarnedAchievement.findOneAndUpdate({achievement:earned.achievement, user:earned.user}, earned, upsert:true, (err, docs) ->
                   return log.debug err if err?
               )
 
-              earnedPoints = achievement.get('worth') * (newAmount - originalAmount)
+              earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * worth
+              log.debug earnedPoints
               wrapUp()
 
           else # not alreadyAchieved
             log.debug 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
             (new EarnedAchievement(earned)).save (err, doc) ->
               return log.debug err if err?
-
-              earnedPoints = achievement.get('worth')
+              earnedPoints = worth
               wrapUp()
 
     delete before[doc.id] unless isNew # This assumes everything we patch has a _id

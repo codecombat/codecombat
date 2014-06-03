@@ -1,6 +1,7 @@
 mongoose = require('mongoose')
 jsonschema = require('../../app/schemas/models/achievement')
 log = require 'winston'
+util = require '../../app/lib/utils'
 
 # `pre` and `post` are not called for update operations executed directly on the database,
 # including `Model.update`,`.findByIdAndUpdate`,`.findOneAndUpdate`, `.findOneAndRemove`,and `.findByIdAndRemove`.order
@@ -11,15 +12,21 @@ AchievementSchema = new mongoose.Schema({
   userField: String
 }, {strict: false})
 
-AchievementSchema.methods.objectifyQuery = () ->
+AchievementSchema.methods.objectifyQuery = ->
   try
     @set('query', JSON.parse(@get('query'))) if typeof @get('query') == "string"
   catch error
     log.error "Couldn't convert query string to object because of #{error}"
     @set('query', {})
 
-AchievementSchema.methods.stringifyQuery = () ->
+AchievementSchema.methods.stringifyQuery = ->
   @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != "string"
+
+AchievementSchema.methods.getExpFunction = ->
+  kind = @get('function.kind') or jsonschema.function.default.kind
+  parameters = @get('function.parameters') or jsonschema.function.default.parameters
+  funcCreator = if kind is 'linear' then util.createLinearFunc else if kind is 'logarithmic' then util.createLogFunc
+  return funcCreator(parameters) if funcCreator?
 
 AchievementSchema.post('init', (doc) -> doc.objectifyQuery())
 
