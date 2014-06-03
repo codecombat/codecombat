@@ -73,17 +73,18 @@ module.exports = AchievablePlugin = (schema, options) ->
               expFunction = achievement.getExpFunction()
               earned.notified = false
               earned.achievedAmount = newAmount
+              earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * worth
               earned.previouslyAchievedAmount = originalAmount
-              EarnedAchievement.findOneAndUpdate({achievement:earned.achievement, user:earned.user}, earned, upsert:true, (err, docs) ->
-                  return log.debug err if err?
-              )
+              EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
+                return log.debug err if err?
 
-              earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * worth
+              earnedPoints = earned.earnedPoints
               log.debug earnedPoints
               wrapUp()
 
           else # not alreadyAchieved
             log.debug 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
+            earned.earnedPoints = worth
             (new EarnedAchievement(earned)).save (err, doc) ->
               return log.debug err if err?
               earnedPoints = worth

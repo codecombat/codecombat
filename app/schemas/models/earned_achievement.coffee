@@ -25,5 +25,6 @@ module.exports =
       created: type: 'date'
       changed: type: 'date'
       achievedAmount: type: 'number'
+      earnedPoints: type: 'number'
       previouslyAchievedAmount: {type: 'number', default: 0}
       notified: type: 'boolean'

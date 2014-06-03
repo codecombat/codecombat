@@ -1,5 +1,6 @@
 mongoose = require 'mongoose'
 jsonschema = require '../../app/schemas/models/earned_achievement'
+User = require '../users/User'
 
 EarnedAchievementSchema = new mongoose.Schema({
   created:
@@ -20,8 +21,6 @@ EarnedAchievementSchema.pre 'save', (next) ->
 EarnedAchievementSchema.index({user: 1, achievement: 1}, {unique: true, name: 'earned achievement index'})
 EarnedAchievementSchema.index({user: 1, changed: -1}, {name: 'latest '})
 
-EarnedAchievementSchema.static 'recalculate', (callback) ->
-  callback('pass')
 
 module.exports = EarnedAchievement = mongoose.model('EarnedAchievement', EarnedAchievementSchema)
 

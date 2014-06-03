@@ -2,8 +2,11 @@ log = require 'winston'
 errors = require '../commons/errors'
 handlers = require('../commons/mapping').handlers
 
+mongoose = require('mongoose')
+
 module.exports.setup = (app) ->
-  app.all '/admin/*', (req, res) ->
+  app.post '/admin/*', (req, res) ->
+    # TODO apparently I can leave this out as long as I use res.send
     res.setHeader('Content-Type', 'application/json')
 
     module = req.path[7..]
