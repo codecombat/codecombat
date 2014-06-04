@@ -18,6 +18,7 @@ doQuerySelector = (value, operatorObj) ->
       when '$ne' then return false if mapred value, body, (l, r) -> l == r
       when '$in' then return false unless _.reduce value, ((result, val) -> result or val in body), false
       when '$nin' then return false if _.reduce value, ((result, val) -> result or val in body), false
+      when '$exists' then return false if value[0]? isnt body[0]
       else return false
   true
 
@@ -34,7 +35,9 @@ matchesQuery = (target, queryObj) ->
       pieces = prop.split('.')
       obj = target
       for piece in pieces
-        return false unless piece of obj
+        unless piece of obj
+          obj = null
+          break
         obj = obj[piece]
       if typeof query != 'object' or _.isArray query
         return false unless obj == query or (query in obj if _.isArray obj)

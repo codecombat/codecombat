@@ -17,45 +17,45 @@ class EarnedAchievementHandler extends Handler
   recalculate: (req, res) ->
     onSuccess = (data) => @sendSuccess(res, data)
     if 'achievements' of req.query # Support both slugs and IDs separated by commas
-      achievementSlugsOrIDs = req.query.id.split(',')
+      achievementSlugsOrIDs = req.query.achievements.split(',')
       EarnedAchievementHandler.recalculate achievementSlugsOrIDs, onSuccess
     else
       EarnedAchievementHandler.recalculate onSuccess
-      @sendSuccess res
+    @sendSuccess res
 
   # Returns success: boolean
   @recalculate: (callbackOrSlugsOrIDs, callback) ->
     if _.isArray callbackOrSlugsOrIDs
-      achievementSlugs = (thing unless Handler.isID(thing) for thing in callbackOrSlugsOrIDs)
-      achievementIDs = (thing if Handler.isID(thing) for thing in callbackOrSlugsOrIDs)
+      achievementSlugs = (thing for thing in callbackOrSlugsOrIDs when not Handler.isID(thing))
+      achievementIDs = (thing for thing in callbackOrSlugsOrIDs when Handler.isID(thing))
     else
       callback = callbackOrSlugsOrIDs
 
     filter = {}
     filter.$or = [
-      _id: $in: achievementIDs
-      slug: $in: achievementSlugs
+      {_id: $in: achievementIDs},
+      {slug: $in: achievementSlugs}
     ] if achievementSlugs? or achievementIDs?
 
     Achievement.find filter, (err, achievements) ->
       return false and log.error err if err?
       User.find {}, (err, users) ->
         _.each users, (user) ->
-          # Keep track of a user's already achieved so as to set the notified values correctly
+          # Keep track of a user's already achieved in order to set the notified values correctly
           userID = user.get('_id').toHexString()
           EarnedAchievement.find {user: userID}, (err, alreadyEarned) ->
             alreadyEarnedIDs = []
             previousPoints = 0
             _.each alreadyEarned, (earned) ->
-              alreadyEarnedIDs.push earned.get('achievement')
-              previousPoints += earned.get 'earnedPoints'
+              if (_.find achievements, (single) -> earned.get('achievement') is single.get('_id').toHexString())
+                alreadyEarnedIDs.push earned.get('achievement')
+                previousPoints += earned.get 'earnedPoints'
 
             # TODO maybe also delete earned? Make sure you don't delete too many
 
             newTotalPoints = 0
 
             earnedAchievementSaverGenerator = (achievement) -> (callback) ->
-              log.debug 'Checking out tha fancy achievement'
               isRepeatable = achievement.get('proportionalTo')?
               model = mongoose.model(achievement.get('collection'))
               if not model?
@@ -78,9 +78,12 @@ class EarnedAchievementHandler extends Handler
                   earned.previouslyAchievedAmount = 0
 
                   expFunction = achievement.getExpFunction()
-                  newTotalPoints += expFunction(earned.achievedAmount) * achievement.get('worth')
+                  newPoints = expFunction(earned.achievedAmount) * achievement.get('worth')
                 else
-                  newTotalPoints += achievement.get 'worth'
+                  newPoints = achievement.get 'worth'
+
+                earned.earnedPoints = newPoints
+                newTotalPoints += newPoints
 
                 EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
                   log.error err if err?
@@ -93,11 +96,13 @@ class EarnedAchievementHandler extends Handler
               if _.isEmpty filter # Completely clean
                 User.update {_id: userID}, {$set: points: newTotalPoints}, {}, (err) -> log.error err if err?
               else
+                log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
                 User.update {_id: userID}, {$inc: points: newTotalPoints - previousPoints}, {}, (err) -> log.error err if err?
 
             earnedAchievementSavers = (earnedAchievementSaverGenerator(achievement) for achievement in achievements)
             earnedAchievementSavers.push saveUserPoints
 
+            # We need to have all these database updates chained so we know the final score
             async.series earnedAchievementSavers
 
 
