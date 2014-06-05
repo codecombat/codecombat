@@ -87,7 +87,7 @@ block content
                           p.help-block Ex.: "https://github.com/nwinter"
                 button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
 
-            .editable-section.basic-info-container
+            .editable-section#basic-info-container
               - var editableDefaults = editing && profile.city == jobProfileSchema.properties.city.default
               div(class="editable-display" + (editableDefaults ? " edit-example-text" : ""), title="Click to edit your basic info")
                 .editable-icon.glyphicon.glyphicon-pencil
@@ -242,6 +242,7 @@ block content
                     img.header-icon(src="/images/pages/account/profile/work.png", alt="")
                     span(data-i18n="account_profile.work_experience") Work Experience
                     |  - #{profile.experience}
+                    |  
                     span(data-i18n=profile.experience == 1 ? "units.year" : "units.years")
                   each job in profile.work
                     if job.role && job.employer

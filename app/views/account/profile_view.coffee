@@ -48,6 +48,8 @@ module.exports = class ProfileView extends View
       jobProfile = {}
       for prop, schema of context.jobProfileSchema.properties
         jobProfile[prop] = _.clone schema.default if schema.default?
+      for prop in context.jobProfileSchema.required
+        jobProfile[prop] ?= {string: '', boolean: false, number: 0, integer: 0, array: []}[context.jobProfileSchema.properties[prop].type]
       @user.set 'jobProfile', jobProfile
     jobProfile.name ?= (@user.get('firstName') + ' ' + @user.get('lastName')).trim() if @user.get('firstName')
     context.profile = jobProfile
@@ -93,6 +95,7 @@ module.exports = class ProfileView extends View
     @render()
 
   toggleJobProfileApproved: ->
+    return unless me.isAdmin()
     approved = not @user.get 'jobProfileApproved'
     @user.set 'jobProfileApproved', approved
     res = @user.save {jobProfileApproved: approved}, {patch: true}
