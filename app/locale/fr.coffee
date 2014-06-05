@@ -198,7 +198,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     our_notes: "Notes"
     projects: "Projets"
 
-#  employers:
+  employers:
 #    want_to_hire_our_players: "Want to hire expert CodeCombat players?"
 #    see_candidates: "Click here to see our candidates"
     candidates_count_prefix: "Nous avons actuellement "
@@ -315,7 +315,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     infinite_loop_reset_level: "Redemarrer le niveau"
     infinite_loop_comment_out: "Supprimez les commentaire de mon code"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
     keyboard_shortcuts: "Raccourcis Clavier"
     space: "Espace"
     enter: "Entrer"
@@ -686,7 +686,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
     tournament_blurb_blog: "Sur notre blog"
 
-#  ladder_prizes:
+  ladder_prizes:
     title: "Prix du tournoi"
 #    blurb_1: "These prizes will be awarded according to"
     blurb_2: "Régles du tournoi"
@@ -733,7 +733,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     server_error: "Erreur serveur."
     unknown: "Erreur inconnue."
 
-#  resources:
+  resources:
 #    your_sessions: "Your Sessions"
     level: "Niveau"
 #    social_network_apis: "Social Network APIs"
@@ -764,7 +764,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     document: "Document"
 #    sprite_sheet: "Sprite Sheet"
 
-#  delta:
+  delta:
     added: "Ajouté"
     modified: "Modifié"
     deleted: "Supprimé"
