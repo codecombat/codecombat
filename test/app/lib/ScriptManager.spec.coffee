@@ -1,11 +1,11 @@
 describe('ScriptManager', ->
-  SM = require 'lib/scripts/ScriptManager'
+  ScriptManager = require 'lib/scripts/ScriptManager'
   xit('broadcasts note with event upon hearing from channel', ->
     note = {channel: 'cnn', event: {1:1}}
     noteGroup = {duration: 0, notes: [note]}
     script = {channel: 'pbs', noteChain: [noteGroup]}
 
-    sm = new SM({scripts: [script]})
+    sm = new ScriptManager({scripts: [script]})
     sm.paused = false
 
     gotEvent = {}
@@ -30,7 +30,7 @@ describe('ScriptManager', ->
 
       noteChain: [noteGroup]
 
-    sm = new SM([script])
+    sm = new ScriptManager([script])
     sm.paused = false
 
     gotEvent = null
@@ -52,7 +52,7 @@ describe('ScriptManager', ->
     note = {event: {1:1}} # channel is required
     noteGroup = {notes: [note]}
     script = {channel: 'pbs', noteChain: [noteGroup]}
-    sm = new SM([script])
+    sm = new ScriptManager([script])
     expect(sm.subscriptions['pbs']).toBe(undefined)
     sm.destroy()
   )
@@ -71,7 +71,7 @@ describe('ScriptManager', ->
 
     script = {channel: 'pbs', noteChain: [noteGroup]}
 
-    sm = new SM([script])
+    sm = new ScriptManager([script])
     sm.paused = false
 
     Backbone.Mediator.publish('pbs')
@@ -93,7 +93,7 @@ describe('ScriptManager', ->
     noteGroup1 = {duration: 0, notes: [note1]}
     noteGroup2 = {duration: 0, notes: [note2]}
     script = {channel: 'pbs', noteChain: [noteGroup1, noteGroup2]}
-    sm = new SM({scripts:[script]})
+    sm = new ScriptManager({scripts:[script]})
     sm.paused = false
 
     gotCnnEvent = null
@@ -132,7 +132,7 @@ describe('ScriptManager', ->
     script1 = {channel: 'channel1', id: 'channel1Script', noteChain: [noteGroup1]}
     script2 = {channel: 'channel2', scriptPrereqs: ['channel1Script'], noteChain: [noteGroup2]}
 
-    sm = new SM([script1, script2])
+    sm = new ScriptManager([script1, script2])
     sm.paused = false
     gotCbsEvent = null
     f = (event) -> gotCbsEvent = event

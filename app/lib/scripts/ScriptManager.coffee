@@ -2,6 +2,7 @@
 
 
 CocoClass = require 'lib/CocoClass'
+CocoView = require 'views/kinds/CocoView'
 {scriptMatchesEventPrereqs} = require './../world/script_event_prereqs'
 
 allScriptModules = []
@@ -47,9 +48,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
   constructor: (options) ->
     super(options)
     @originalScripts = options.scripts
-    @view = options.view
     @session = options.session
-    @debugScripts = @view.getQueryVariable 'dev'
+    @debugScripts = CocoView.getQueryVariable 'dev'
     @initProperties()
     @addScriptSubscriptions()
     @beginTicking()
@@ -210,7 +210,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     noteGroup.script ?= {}
     noteGroup.script.yields ?= true
     noteGroup.script.skippable ?= true
-    noteGroup.modules = (new Module(noteGroup, @view) for Module in allScriptModules when Module.neededFor(noteGroup))
+    noteGroup.modules = (new Module(noteGroup) for Module in allScriptModules when Module.neededFor(noteGroup))
 
   endYieldingNote: ->
     if @scriptInProgress and @currentNoteGroup?.script.yields

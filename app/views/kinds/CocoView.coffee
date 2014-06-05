@@ -264,7 +264,8 @@ module.exports = class CocoView extends Backbone.View
 
   # Utilities
 
-  getQueryVariable: (param, defaultValue) ->
+  getQueryVariable: (param, defaultValue) -> CocoView.getQueryVariable(param, defaultValue)
+  @getQueryVariable: (param, defaultValue) ->
     query = document.location.search.substring 1
     pairs = (pair.split("=") for pair in query.split "&")
     for pair in pairs when pair[0] is param
