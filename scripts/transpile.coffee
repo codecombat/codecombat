@@ -13,19 +13,23 @@ Aether.addGlobal 'Vector', require '../app/lib/world/vector'
 Aether.addGlobal '_', _
 
 transpileLevelSession = (sessionID, cb) ->
-  query = LevelSession.findOne("_id": sessionID).select("submittedCode").lean()
+  query = LevelSession.findOne("_id": sessionID).select("submittedCode submittedCodeLanguage").lean()
   query.exec (err, session) ->
     if err then return cb err
     submittedCode = session.submittedCode
+    unless session.submittedCodeLanguage
+      throw "SUBMITTED CODE LANGUAGE DOESN'T EXIST"
+    else
+      console.log "Transpiling code for session #{session._id} in language #{session.submittedCodeLanguage}"
     transpiledCode = {}
-    console.log "Updating session #{sessionID}"
+    #console.log "Updating session #{sessionID}"
     for thang, spells of submittedCode
       transpiledCode[thang] = {}
       for spellID, spell of spells
 
         aetherOptions =
           problems: {}
-          language: "javascript"
+          language: session.submittedCodeLanguage 
           functionName: spellID
           functionParameters: []
           yieldConditionally: spellID is "plan"
@@ -41,7 +45,6 @@ transpileLevelSession = (sessionID, cb) ->
       "_id": sessionID
     update =
       "transpiledCode": transpiledCode
-      "submittedCodeLanguage": "javascript"
     query = LevelSession.update(conditions,update)
 
     query.exec (err, numUpdated) -> cb err
