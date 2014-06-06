@@ -232,8 +232,11 @@ module.exports = class Simulator extends CocoClass
 
   processResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults
-    console.error "*** Error: taskResults has no taskID ***\ntaskResults:", taskResults, "\ntask:", @task unless taskResults.taskID
-    @sendResultsBackToServer taskResults
+    unless taskResults.taskID
+      console.error "*** Error: taskResults has no taskID ***\ntaskResults:", taskResults
+      @cleanupAndSimulateAnotherTask()
+    else
+      @sendResultsBackToServer taskResults
 
   sendResultsBackToServer: (results) ->
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
