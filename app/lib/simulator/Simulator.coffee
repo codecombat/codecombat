@@ -68,14 +68,14 @@ module.exports = class Simulator extends CocoClass
 
   handleSingleSimulationError: (error) ->
     console.error "There was an error simulating a single game!", error
-    if @options.headlessClient
+    if @options.headlessClient and @options.simulateOnlyOneGame
       console.log "GAMERESULT:tie"
       process.exit(0)
     @cleanupSimulation()
 
   handleSingleSimulationInfiniteLoop: ->
     console.log "There was an infinite loop in the single game!"
-    if @options.headlessClient
+    if @options.headlessClient and @options.simulateOnlyOneGame
       console.log "GAMERESULT:tie"
       process.exit(0)
     @cleanupSimulation()
