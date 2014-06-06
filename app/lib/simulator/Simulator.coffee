@@ -85,7 +85,7 @@ module.exports = class Simulator extends CocoClass
     console.log "Processing results:", taskResults
     humanSessionRank = taskResults.sessions[0].metrics.rank
     ogreSessionRank = taskResults.sessions[1].metrics.rank
-    if @options.headlessClient
+    if @options.headlessClient and @options.simulateOnlyOneGame
       if humanSessionRank is ogreSessionRank
         console.log "GAMERESULT:tie"
       else if humanSessionRank < ogreSessionRank
@@ -95,8 +95,6 @@ module.exports = class Simulator extends CocoClass
       process.exit(0)
     else
       @sendSingleGameBackToServer(taskResults)
-
-    @cleanupAndSimulateAnotherTask()
 
   sendSingleGameBackToServer: (results) ->
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
@@ -239,7 +237,8 @@ module.exports = class Simulator extends CocoClass
 
   sendResultsBackToServer: (results) ->
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
-    console.log "Sending result back to server:", results
+    console.log "Sending result back to server:"
+    console.log JSON.stringify results
 
     if @options.headlessClient and @options.testing
       return @fetchAndSimulateTask()
