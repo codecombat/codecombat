@@ -71,14 +71,14 @@ module.exports = class Simulator extends CocoClass
     if @options.headlessClient and @options.simulateOnlyOneGame
       console.log "GAMERESULT:tie"
       process.exit(0)
-    @cleanupSimulation()
+    @cleanupAndSimulateAnotherTask()
 
   handleSingleSimulationInfiniteLoop: ->
     console.log "There was an infinite loop in the single game!"
     if @options.headlessClient and @options.simulateOnlyOneGame
       console.log "GAMERESULT:tie"
       process.exit(0)
-    @cleanupSimulation()
+    @cleanupAndSimulateAnotherTask()
 
   processSingleGameResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults
