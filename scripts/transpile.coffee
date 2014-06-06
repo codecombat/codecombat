@@ -11,21 +11,28 @@ LevelSession = require '../server/levels/sessions/LevelSession.coffee'
 
 Aether.addGlobal 'Vector', require '../app/lib/world/vector'
 Aether.addGlobal '_', _
-
+i = 0
 transpileLevelSession = (sessionID, cb) ->
-  query = LevelSession.findOne("_id": sessionID).select("submittedCode").lean()
+  query = LevelSession.findOne("_id": sessionID).select("team teamSpells submittedCode submittedCodeLanguage").lean()
   query.exec (err, session) ->
     if err then return cb err
     submittedCode = session.submittedCode
+    unless session.submittedCodeLanguage
+      throw "SUBMITTED CODE LANGUAGE DOESN'T EXIST"
+    else
+      console.log "Transpiling code for session #{i++} #{session._id} in language #{session.submittedCodeLanguage}"
     transpiledCode = {}
-    console.log "Updating session #{sessionID}"
+    #console.log "Updating session #{sessionID}"
     for thang, spells of submittedCode
       transpiledCode[thang] = {}
       for spellID, spell of spells
+        spellName = thang + "/" + spellID
 
+        if session.teamSpells and not (spellName in session.teamSpells[session.team]) then continue
+        #console.log "Transpiling spell #{spellName}"
         aetherOptions =
           problems: {}
-          language: "javascript"
+          language: session.submittedCodeLanguage
           functionName: spellID
           functionParameters: []
           yieldConditionally: spellID is "plan"
@@ -41,7 +48,6 @@ transpileLevelSession = (sessionID, cb) ->
       "_id": sessionID
     update =
       "transpiledCode": transpiledCode
-      "submittedCodeLanguage": "javascript"
     query = LevelSession.update(conditions,update)
 
     query.exec (err, numUpdated) -> cb err
@@ -59,7 +65,7 @@ findLadderLevelSessions = (levelID, cb) ->
     levelSessionIDs = _.pluck levelSessions, "_id"
     async.eachSeries levelSessionIDs, transpileLevelSession, (err) ->
       if err then return cb err
-      cb null
+      return cb null
 
 
 transpileLadderSessions = ->

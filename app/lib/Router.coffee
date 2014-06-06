@@ -17,6 +17,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/:model(/:slug_or_id)(/:subview)': 'editorModelView'
 
     # Experimenting with direct links
+    'test/*subpath': go('test')
     'play/ladder/:levelID': go('play/ladder/ladder_view')
     'play/ladder': go('play/ladder_home')
 
@@ -93,6 +94,8 @@ module.exports = class CocoRouter extends Backbone.Router
     return view
 
   routeDirectly: (path, args) ->
+    if window.currentView?.reloadOnClose
+      return document.location.reload()
     path = "views/#{path}"
     ViewClass = @tryToLoadModule path
     return @showNotFound() if not ViewClass

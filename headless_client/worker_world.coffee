@@ -137,20 +137,18 @@ work = () ->
 
 
   self.onWorldError = onWorldError = (error) ->
-    self.postMessage type: "end-load-frames"
-    if error instanceof Aether.problems.UserCodeProblem
-      #console.log "Aether userCodeProblem occured."
-      unless self.postedErrors[error.key]
-        problem = error.serialize()
+    if error.isUserCodeProblem
+      errorKey = error.userInfo.key
+      if not errorKey or not self.postedErrors[errorKey]
         self.postMessage
           type: "user-code-problem"
-          problem: problem
-
-        self.postedErrors[error.key] = problem
+          problem: error
+        self.postedErrors[errorKey] = error
     else
       console.log "Non-UserCodeError:", error.toString() + "\n" + error.stack or error.stackTrace
-    self.cleanUp()
-
+      self.cleanUp()
+    return true
+    
   self.onWorldLoadProgress = onWorldLoadProgress = (progress) ->
     #console.log "Worker onWorldLoadProgress"
     self.postMessage
