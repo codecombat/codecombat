@@ -36,10 +36,10 @@ module.exports = class LadderTabView extends CocoView
 
   constructor: (options, @level, @sessions) ->
     super(options)
-    @socialNetworkRes = @supermodel.addSomethingResource("social_network_apis", 0)
     @teams = teamDataFromLevel @level
     @leaderboards = {}
     @refreshLadder()
+    @socialNetworkRes = @supermodel.addSomethingResource("social_network_apis", 0)
     @checkFriends()
 
   checkFriends: ->
@@ -159,7 +159,7 @@ module.exports = class LadderTabView extends CocoView
         oldLeaderboard.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit)
-      @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', 3)
+      @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', {}, 3)
       @leaderboardRes.load()
 
   render: ->
@@ -286,16 +286,16 @@ module.exports = class LadderTabView extends CocoView
     @ladderLimit += 100
     @refreshLadder()
 
-class LeaderboardData extends CocoClass
+module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends CocoClass
   ###
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
   constructor: (@level, @team, @session, @limit) ->
     super()
-    @fetch()
 
   fetch: ->
+    console.warn 'Already have top players on', @ if @topPlayers
     @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})
     promises = []
     promises.push @topPlayers.fetch()
@@ -315,8 +315,9 @@ class LeaderboardData extends CocoClass
     @promise
 
   onLoad: =>
-    return if @destroyed
+    return if @destroyed or not @topPlayers.loaded
     @loaded = true
+    @loading = false
     @trigger 'sync', @
     # TODO: cache user ids -> names mapping, and load them here as needed,
     #   and apply them to sessions. Fetching each and every time is too costly.
