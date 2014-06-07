@@ -13,9 +13,9 @@ module.exports = class TestView extends CocoView
   constructor: (options, @subPath='') ->
     super(options)
     @subPath = @subPath[1..] if @subPath[0] is '/'
-    @loadJasmine() unless TestView.loaded
+    @loadTestingLibs() unless TestView.loaded
 
-  loadJasmine: ->
+  loadTestingLibs: ->
     @queue = new createjs.LoadQueue()
     @queue.on('complete', @scriptsLoaded, @)
     for f in ['jasmine', 'jasmine-html', 'boot', 'mock-ajax', 'test-app']
@@ -102,7 +102,15 @@ module.exports = class TestView extends CocoView
       jasmine.Ajax.install()
       beforeEach ->
         jasmine.Ajax.requests.reset()
-        # TODO get some setup and teardown prepped
+        Backbone.Mediator.init()
+        # TODO Stubbify more things
+        #   * document.location
+        #   * firebase
+      
+      afterEach ->
+        # TODO Clean up more things
+        #   * Events
+        
       require f for f in @specFiles # runs the tests
 
   destroy: ->
