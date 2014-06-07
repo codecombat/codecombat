@@ -1,6 +1,7 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/account/profile'
 User = require 'models/User'
+{me} = require 'lib/auth'
 JobProfileContactView = require 'views/modal/job_profile_contact_modal'
 JobProfileView = require 'views/account/job_profile_view'
 forms = require 'lib/forms'
@@ -8,9 +9,12 @@ forms = require 'lib/forms'
 module.exports = class ProfileView extends View
   id: "profile-view"
   template: template
-
+  subscriptions:
+    'linkedin-loaded': 'onLinkedInLoaded'
+    
   events:
     'click #toggle-editing': 'toggleEditing'
+    'click #importLinkedIn': 'importLinkedIn'
     'click #toggle-job-profile-active': 'toggleJobProfileActive'
     'click #toggle-job-profile-approved': 'toggleJobProfileApproved'
     'click save-notes-button': 'onJobProfileNotesChanged'
@@ -28,6 +32,13 @@ module.exports = class ProfileView extends View
   constructor: (options, @userID) ->
     @userID ?= me.id
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
+    @authorizedWithLinkedIn = IN?.User?.isAuthorized()
+    @linkedInLoaded = Boolean(IN.parse)
+    @waitingForLinkedIn = false
+    window.contractCallback = =>
+      @authorizedWithLinkedIn = IN?.User?.isAuthorized()
+      @render()
+
     super options
     @uploadFilePath = "db/user/#{@userID}"
     @highlightedContainers = []
@@ -41,8 +52,90 @@ module.exports = class ProfileView extends View
     else
       @user = User.getByID(@userID)
 
+  onLinkedInLoaded: =>
+    @linkedinLoaded = true
+    if @waitingForLinkedIn
+      @renderLinkedInButton()
+
+  renderLinkedInButton: =>
+    IN.parse()
+
+  afterInsert: ->
+    super()
+    linkedInButtonParentElement = document.getElementById("linkedInAuthButton")
+    if linkedInButtonParentElement
+      if @linkedinLoaded
+        @renderLinkedInButton()
+      else
+        @waitingForLinkedIn = true
+  importLinkedIn: =>
+    application.linkedinHandler.getProfileData (err, profileData) =>
+      console.log profileData
+      @processLinkedInProfileData profileData, ->
+        console.log "DONE"
+        
+  processLinkedInProfileData: (p, cb) ->
+    #handle formatted-name
+    currentJobProfile = me.get('jobProfile')
+    if p["formattedName"]? and p["formattedName"] isnt "private"
+      currentJobProfile.name = p["formattedName"]
+    if p["skills"]?["values"].length
+      skillNames = []
+      for skill in p.skills.values
+        skillNames.push skill.skill.name
+        
+      console.log "Skills: #{skillNames}"
+      currentJobProfile.skills = skillNames
+    if p["headline"]
+      console.log "jobProfile.shortDescription: #{p["headline"]}"
+      currentJobProfile.shortDescription = p["headline"]
+    if p["summary"]
+      console.log "jobProfile.longDescription: #{p.summary}"
+      currentJobProfile.longDescription = p.summary
+    if p["positions"]?["values"]?.length
+      newWorks = []
+      for position in p["positions"]["values"]
+        workObj = {}
+        workObj.description = position.summary?.slice(0,139)
+        if position.startDate?.year
+          workObj.duration = "#{position.startDate.year} - "
+          if (not position.endDate?.year) or (position.endDate?.year and position.endDate?.year > (new Date().getFullYear()))
+            workObj.duration += "present"
+          else
+            workObj.duration += position.endDate.year
+        else
+          workObj.duration = ""
+        workObj.employer = position.company?.name ? ""
+        workObj.role = position.title ? ""
+        newWorks.push workObj
+      currentJobProfile.work = newWorks
+      
+        
+    if p["educations"]?["values"]?.length
+      newEducation = []
+      for education in p["educations"]["values"]
+        educationObject = {}
+        educationObject.degree = education.degree ? "Studied"
+        if education.startDate?.year
+          educationObject.duration = "#{education.startDate.year} - "
+          if (not education.endDate?.year) or (education.endDate?.year and education.endDate?.year > (new Date().getFullYear()))
+            educationObject.duration += "present"
+            if educationObject.degree is "Studied"
+              educationObject.degree = "Studying"
+          else
+            educationObject.duration += education.endDate.year
+
+        educationObject.school = education.schoolName ? ""
+        educationObject.description = ""
+        console.log "Educated at:#{education.schoolName}"
+        newEducation.push educationObject
+      currentJobProfile.education = newEducation
+    me.set('jobProfile',currentJobProfile)
+    @render()
+    
   getRenderData: ->
     context = super()
+    context.linkedInAuthorized = @authorizedWithLinkedIn
     context.jobProfileSchema = me.schema().properties.jobProfile
     unless jobProfile = @user.get 'jobProfile'
       jobProfile = {}
