@@ -17,10 +17,12 @@ DEBUGGING = true
 
 sendInitialRecruitingEmail = ->
   leaderboards = [
-    {slug: 'brawlwood', team: 'humans', limit: 55, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
-    {slug: 'brawlwood', team: 'ogres', limit: 40, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
-    {slug: 'dungeon-arena', team: 'humans', limit: 200, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
-    {slug: 'dungeon-arena', team: 'ogres', limit: 150, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
+    #{slug: 'brawlwood', team: 'humans', limit: 55, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
+    #{slug: 'brawlwood', team: 'ogres', limit: 40, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
+    #{slug: 'dungeon-arena', team: 'humans', limit: 200, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
+    #{slug: 'dungeon-arena', team: 'ogres', limit: 150, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
+    {slug: 'greed', team: 'humans', limit: 320, name: "Greed", original: "53558b5a9914f5a90d7ccddb", majorVersion: 0}
+    {slug: 'greed', team: 'ogres', limit: 300, name: "Greed", original: "53558b5a9914f5a90d7ccddb", majorVersion: 0}
   ]
   async.waterfall [
     (callback) -> async.map leaderboards, grabSessions, callback
@@ -38,13 +40,12 @@ grabSessions = (levelInfo, callback) ->
     submitted: true
   sortParameters = totalScore: -1
   selectString = 'totalScore creator'
-  query = LevelSession
-    .find(queryParameters)
-    .limit(levelInfo.limit)
-    .sort(sortParameters)
-    .select(selectString)
-    .lean()
-  query.exec (err, sessions) ->
+  LevelSession.aggregate [
+    {$match: queryParameters}
+    {$project: {totalScore: 1, creator: 1}}
+    {$sort: sortParameters}
+    {$limit: levelInfo.limit}
+  ], (err, sessions) ->
     return callback err if err
     for session, rank in sessions
       session.levelInfo = levelInfo
@@ -80,7 +81,7 @@ emailUser = (user, callback) ->
   #return callback null, false if user.emails?.anyNotes?.enabled is false  # TODO: later, uncomment to obey also "anyNotes" when that's untangled
   return callback null, false if user.emails?.recruitNotes?.enabled is false
   return callback null, false if user.email in alreadyEmailed
-  return callback null, false if DEBUGGING and (totalEmailsSent > 1 or Math.random() > 0.1)
+  return callback null, false if DEBUGGING and (totalEmailsSent > 1 or Math.random() > 0.05)
   ++totalEmailsSent
   name = if user.firstName and user.lastName then "#{user.firstName}" else user.name
   name = "Wizard" if not name or name is "Anoner"
@@ -96,6 +97,7 @@ emailUser = (user, callback) ->
       level_name: user.session.levelInfo.name
       place: "##{user.session.rank}"  # like "#31"
       level_race: team
+      ladder_link: "http://codecombat.com/play/ladder/#{user.session.levelInfo.name.toLowerCase()}"
   sendwithus.api.send context, (err, result) ->
     return callback err if err
     callback null, user

@@ -18,7 +18,7 @@ block content
         button.btn#toggle-editing
           i.icon-cog
           span(data-i18n="account_profile.edit_profile") Edit Profile
-      if profile.active
+      if profile && profile.active
         button.btn.btn-success#toggle-job-profile-active
           i.icon-eye-open
           span(data-i18n="account_profile.active") Looking for interview offers now
@@ -26,7 +26,7 @@ block content
         button.btn#toggle-job-profile-active
           i.icon-eye-close
           span(data-i18n="account_profile.inactive") Not looking for offers right now
-      if profile.active || me.isAdmin()
+      if profile && (profile.active || me.isAdmin())
         if !profileApproved
           button.btn.btn-success#toggle-job-profile-approved(disabled=!me.isAdmin())
             i.icon-eye-open
@@ -444,7 +444,7 @@ block content
     .public-profile-container
       h2(data-i18n="common.loading") Loading...
                         
-  else
+  else if user
     .public-profile-container
       h2 
         span(data-i18n="account_profile.profile_for_prefix") Profile for 
@@ -454,3 +454,12 @@ block content
       img.profile-photo(src=user.getPhotoURL(256))
   
       p To see a private user profile, you may need to log in.
+
+  else
+    .public-profile-container
+      h2 
+        span(data-i18n="account_profile.profile_for_prefix") Profile for 
+        span= userID
+        span(data-i18n="account_profile.profile_for_suffix") 
+        |  
+        span(data-i18n="loading_error.not_found")
