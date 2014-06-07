@@ -4,13 +4,20 @@ block content
   if allowedToEditJobProfile
     .profile-control-bar
       if editing
+        .progress.profile-completion-progress
+          .progress-bar.progress-bar-success(style="width: #{100 * progress}%")
+          .progress-text
+      a.btn(href="/account/settings")
+        i.icon-cog
+        span(data-i18n="account_profile.settings") Settings
+      if editing
         button.btn.btn-success#toggle-editing
           i.icon-ok
-          span(data-i18n="account_profile.done_editing_settings") Done Editing
+          span(data-i18n="account_profile.done_editing") Done Editing
       else
         button.btn#toggle-editing
           i.icon-cog
-          span(data-i18n="account_profile.edit_settings") Edit Settings
+          span(data-i18n="account_profile.edit_profile") Edit Profile
       if profile.active
         button.btn.btn-success#toggle-job-profile-active
           i.icon-eye-open
@@ -19,24 +26,22 @@ block content
         button.btn#toggle-job-profile-active
           i.icon-eye-close
           span(data-i18n="account_profile.inactive") Not looking for offers right now
-      if profileApproved
-        button.btn.btn-success#toggle-job-profile-approved
-          i.icon-eye-open
-          span(data-i18n='account_profile.approved') Approved
-      else if me.isAdmin()
-        button.btn#toggle-job-profile-approved
-          i.icon-eye-close
-          span(data-i18n='account_profile.not_approved') Not Approved
+      if profile.active || me.isAdmin()
+        if !profileApproved
+          button.btn.btn-success#toggle-job-profile-approved(disabled=!me.isAdmin())
+            i.icon-eye-open
+            span(data-i18n='account_profile.approved') Approved
+        else if me.isAdmin()
+          button.btn#toggle-job-profile-approved
+            i.icon-eye-close
+            span(data-i18n='account_profile.not_approved') Not Approved
       if me.isAdmin() && !myProfile
         button.btn.edit-settings-button#enter-espionage-mode 007
-      if editing && myProfile
-        a.sample-profile(href="http://codecombat.com/images/pages/account/profile/sample_profile.png", target="_blank")
-          button.btn
-            i.icon-user
-            span(data-i18n="account_settings.sample_profile") See a sample profile
-      if editing
-        .progress.profile-completion-progress
-          .progress-bar.progress-bar-success(style="width: #{100 * progress}%")
+      //if editing && myProfile
+      //  a.sample-profile(href="http://codecombat.com/images/pages/account/profile/sample_profile.png", target="_blank")
+      //    button.btn
+      //      i.icon-user
+      //      span(data-i18n="account_settings.sample_profile") See a sample profile
   
   if profile && allowedToViewJobProfile
     div(class="job-profile-container" + (editing ? " editable-profile" : ""))
@@ -63,8 +68,21 @@ block content
                               button.btn.btn-large.btn-inverse.flat-button= link.name
                 else if editing
                   h3.edit-label(data-i18n="account_profile.add_links") Add some links
-                  button.btn.btn-large.btn-inverse.flat-button.edit-example-button(data-i18n="account_profile.example_blog") Your Blog
-                  button.btn.btn-large.btn-inverse.flat-button.edit-example-button(data-i18n="account_profile.example_githu") Your GitHub
+                  ul.links
+                    li.has-icon
+                      a(href='http://example.com')
+                        img(src='/images/pages/account/profile/icon_github.png', alt='GitHub')
+                    li.has-icon
+                      a(href='http://example.com')
+                        img(src='/images/pages/account/profile/icon_facebook.png', alt='Facebook')
+                    li.has-icon
+                      a(href='http://example.com')
+                        img(src='/images/pages/account/profile/icon_twitter.png', alt='Twitter')
+                    li.has-icon
+                      a(href='http://example.com/')
+                        img(src='/images/pages/account/profile/icon_linkedin.png', alt='LinkedIn')
+                  button.btn.btn-large.btn-inverse.flat-button.edit-example-button(data-i18n="account_profile.example_blog") Blog
+                  button.btn.btn-large.btn-inverse.flat-button.edit-example-button(data-i18n="account_profile.example_personal_site") Personal Site
 
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
@@ -145,7 +163,7 @@ block content
                   p.help-block(data-i18n="account_profile.basics_looking_for_help") What kind of developer position do you want?
                 button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
   
-            if !editing
+            if !editing && !myProfile
               button#contact-candidate.btn.btn-large.btn-inverse.flat-button
                 span(data-i18n="account_profile.contact") Contact
                 |  #{profile.name.split(' ')[0]}
@@ -172,11 +190,11 @@ block content
 
             
             #short-description-container.editable-section
-              .editable-display(title="Click to write your short description")
+              .editable-display(title="Click to write your tagline")
                 .editable-icon.glyphicon.glyphicon-pencil
                 if editing && (!profile.shortDescription || profile.shortDescription == jobProfileSchema.properties.shortDescription.default)
                   h3.edit-label(data-i18n="account_profile.short_description_header") Write a short description of yourself
-                  p.edit-example-text(data-i18n="account_profile.short_description_blurb") Add a blurb here that will show, at a glance, whether you might be just the developer that an employer is looking for.
+                  p.edit-example-text(data-i18n="account_profile.short_description_blurb") Add a tagline to help an employer quickly learn more about you.
                   
                 else if profile.shortDescription
                   p.editable-thinner= profile.shortDescription
@@ -184,7 +202,7 @@ block content
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
                 .form-group
-                  label.control-label(data-i18n="account_profile.short_description") Short Description
+                  label.control-label(data-i18n="account_profile.short_description") Tagline
                   textarea.form-control(rows=3, maxlength='140', name='root[shortDescription]')= profile.shortDescription
                   p.help-block(data-i18n="account_profile.short_description_help") Who are you, and what are you looking for? 140 characters max.
                 button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
@@ -219,17 +237,17 @@ block content
             #long-description-container.editable-section
               .editable-display(title="Click to start writing your longer description")
                 .editable-icon.glyphicon.glyphicon-pencil
-                if editing && (!profile.longDescription || profile.longDescription == jobProfileSchema.properties.longDescription.default)
-                  h3.edit-label(data-i18n="account_profile.long_description_header") Detail your desired position
-                  p.edit-example-text(data-i18n="account_profile.long_description_blurb_1") Write a little longer section here to describe the role you would like to pursue next.
-                  p.edit-example-text(data-i18n="account_profile.long_description_blurb_2") Talk about how awesome you are and why it would be a good idea to hire you.
-                else if profile.longDescription
+                - var modified = profile.longDescription && profile.longDescription != jobProfileSchema.properties.longDescription.default
+                if editing && !modified
+                  h3.edit-label(data-i18n="account_profile.long_description_header") Describe your desired position
+                  p.edit-example-text(data-i18n="account_profile.long_description_blurb") Tell employers how awesome you are and what role you want.
+                else if modified
                   div.long-description.editable-thinner!= marked(profile.longDescription)
   
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
                 .form-group
-                  label.control-label(data-i18n="account_profile.long_description") Description
+                  label.control-label(data-i18n="account_profile.long_description") Self Description
                   textarea.form-control(rows=20, maxlength='600', data-schemaformat='markdown', name='root[longDescription]')= profile.longDescription
                   p.help-block(data-i18n="account_profile.long_description_help") Describe yourself to potential employers. Keep it short and to the point. We recommend outlining the position that would most interest you. Tasteful markdown okay; 600 characters max.
                 button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
@@ -265,14 +283,14 @@ block content
                       div.duration.pull-right 1999 - 2012
                       | Software Engineer at Initrode
                       .clearfix
-                      div Architected a peer-to-peer streaming automatic TPS report fulfillment system.
+                      div Built a P2P streaming TPS report fulfillment system.
 
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
                 h3(data-i18n="account_profile.work_experience") Work Experience
                 .form-group
                   label.control-label(data-i18n="account_profile.work_years") Years of Experience
-                  input.form-control(type='text', name='root[experience]')
+                  input.form-control(type='text', name='root[experience]', value=profile.experience)
                   p.help-block(data-i18n="account_profile.work_years_help") How many years of professional experience (getting paid) developing software do you have?
                 p(data-i18n="account_profile.work_blurb") List your relevant work experience, most recent first.
                 .editable-array(data-property='work')
@@ -321,7 +339,7 @@ block content
                     div.duration.pull-right 1995 - 1997
                     | Ph.D. Janitorial Science at MIT
                     .clearfix
-                    div Anonymously solved difficult problems in algebraic graph theory. Swept the floors.
+                    div Anonymously solved problems in algebraic graph theory. Swept floors.
 
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
@@ -384,17 +402,17 @@ block content
                   h3.edit-label(data-i18n="account_profile.projects_header") Add 3 projects
                   ul.projects
                     li.edit-example-text
-                      .project-image(style="background-image: url('/file/db/user/52a57252a89409700d0000d9/godzilla_babies.jpg')")
-                      p HTML5 Godzilla Babies
-                      div I orchestrated a combat between a young Godzilla and nine thousand young human baby infants, filmed for fun and profit, using Shadow DOM.
+                      .project-image(style="background-image: url('/images/pages/account/profile/sample_project.png')")
+                      p Cog.js
+                      div JS microlibrary to animate fixie bike cogs on ecommerce sites that sell bike hardware.
                     li.edit-example-text
-                      .project-image(style="background-image: url('/images/level/hud_center.png')")
-                      p Node.js Framework Framework
-                      div Yo dawg, I heard you like web frameworks, so I made a web framework framework...
+                      .project-image(style="background-image: url('/images/pages/account/profile/sample_project.png')")
+                      p Combjoy
+                      div Ember.js project that schedules hair stylists to ride in Ubers with you to comb your hair on your way to work.
                     li.edit-example-text
-                      .project-image(style="background-image: url('/images/level/popover_background.png')")
-                      p Unfinished 2.5D MMORPGFPS
-                      div A real-time multiplayer game engine with cross-platform streaming shader support and hand-drawn characters.
+                      .project-image(style="background-image: url('/images/pages/account/profile/sample_project.png')")
+                      p Bass Drop
+                      div Insert a few lines of JS into your site and get a "Drop the bass!" button for your website. Plays techno.
 
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
@@ -413,7 +431,7 @@ block content
                       p.help-block(data-i18n="account_profile.projects_description_help") Briefly describe the project.
                     .form-group
                       label.control-label(data-i18n="account_profile.projects_picture") Picture
-                      .project-image(style="background-image: url('" + (src=project.picture ? "/file/" + project.picture : "/images/jquery.minicolors.png") + "')")
+                      .project-image(style="background-image: url('" + (src=project.picture ? "/file/" + project.picture : "/images/pages/account/profile/sample_project.png") + "')")
                       input(type="hidden", name="root[projects][#{index}][picture]", value=project.picture)
                       p.help-block(data-i18n="account_profile.projects_picture_help") Upload a 230x115px or larger image showing off the project.
                     .form-group
@@ -430,11 +448,9 @@ block content
     .public-profile-container
       h2 
         span(data-i18n="account_profile.profile_for_prefix") Profile for 
-        span= user.get('name')
+        span= user.get('name') || "Anonymous Wizard"
         span(data-i18n="account_profile.profile_for_suffix") 
   
       img.profile-photo(src=user.getPhotoURL(256))
   
-      h2 TODO
-      p Public user profiles are not ready yet. If you are seeing this, we probably have a bug leading to a broken link.
-
+      p To see a private user profile, you may need to log in.

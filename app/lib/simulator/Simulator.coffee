@@ -68,24 +68,24 @@ module.exports = class Simulator extends CocoClass
 
   handleSingleSimulationError: (error) ->
     console.error "There was an error simulating a single game!", error
-    if @options.headlessClient
+    if @options.headlessClient and @options.simulateOnlyOneGame
       console.log "GAMERESULT:tie"
       process.exit(0)
-    @cleanupSimulation()
+    @cleanupAndSimulateAnotherTask()
 
   handleSingleSimulationInfiniteLoop: ->
     console.log "There was an infinite loop in the single game!"
-    if @options.headlessClient
+    if @options.headlessClient and @options.simulateOnlyOneGame
       console.log "GAMERESULT:tie"
       process.exit(0)
-    @cleanupSimulation()
+    @cleanupAndSimulateAnotherTask()
 
   processSingleGameResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults
     console.log "Processing results:", taskResults
     humanSessionRank = taskResults.sessions[0].metrics.rank
     ogreSessionRank = taskResults.sessions[1].metrics.rank
-    if @options.headlessClient
+    if @options.headlessClient and @options.simulateOnlyOneGame
       if humanSessionRank is ogreSessionRank
         console.log "GAMERESULT:tie"
       else if humanSessionRank < ogreSessionRank
@@ -95,8 +95,6 @@ module.exports = class Simulator extends CocoClass
       process.exit(0)
     else
       @sendSingleGameBackToServer(taskResults)
-
-    @cleanupAndSimulateAnotherTask()
 
   sendSingleGameBackToServer: (results) ->
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
@@ -234,12 +232,16 @@ module.exports = class Simulator extends CocoClass
 
   processResults: (simulationResults) ->
     taskResults = @formTaskResultsObject simulationResults
-    console.error "*** Error: taskResults has no taskID ***\ntaskResults:", taskResults, "\ntask:", @task unless taskResults.taskID
-    @sendResultsBackToServer taskResults
+    unless taskResults.taskID
+      console.error "*** Error: taskResults has no taskID ***\ntaskResults:", taskResults
+      @cleanupAndSimulateAnotherTask()
+    else
+      @sendResultsBackToServer taskResults
 
   sendResultsBackToServer: (results) ->
     @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
-    console.log "Sending result back to server:", results
+    console.log "Sending result back to server:"
+    console.log JSON.stringify results
 
     if @options.headlessClient and @options.testing
       return @fetchAndSimulateTask()

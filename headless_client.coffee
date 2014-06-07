@@ -19,6 +19,7 @@ options =
   exitOnLeak: false # Exit if leak is found. Only useful if leaktest is set to true, obviously.
   heapdump: false # Dumps the whole heap after every pass. The heap dumps can then be viewed in Chrome browser.
   headlessClient: true
+  simulateOnlyOneGame: simulateOneGame
 
 options.heapdump = require('heapdump') if options.heapdump
 server = if options.testing then "http://127.0.0.1:3000" else "https://codecombat.com"
