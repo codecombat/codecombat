@@ -55,8 +55,8 @@ module.exports = class ProfileView extends View
     context.profile = jobProfile
     context.user = @user
     context.myProfile = @user.id is context.me.id
-    context.allowedToViewJobProfile = me.isAdmin() or "employer" in me.get('permissions') or context.myProfile
-    context.allowedToEditJobProfile = me.isAdmin() or context.myProfile
+    context.allowedToViewJobProfile = me.isAdmin() or "employer" in me.get('permissions') or (context.myProfile && !me.get('anonymous'))
+    context.allowedToEditJobProfile = me.isAdmin() or (context.myProfile && !me.get('anonymous'))
     context.profileApproved = @user.get 'jobProfileApproved'
     context.progress = @progress ? @updateProgress()
     @editing ?= context.progress < 0.8
@@ -78,7 +78,7 @@ module.exports = class ProfileView extends View
     unless @editing
       @$el.find('.editable-display').attr('title', '')
     @initializeAutocomplete()
-    highlightNext = @highlightNext
+    highlightNext = @highlightNext ? true
     justSavedSection = @$el.find('#' + @justSavedSectionID).addClass "just-saved"
     _.defer =>
       @progress = @updateProgress highlightNext
@@ -197,6 +197,7 @@ module.exports = class ProfileView extends View
       onSaved uploadingPath
 
   onEditSection: (e) ->
+    @$el.find('.emphasized').removeClass('emphasized')
     section = $(e.target).closest('.editable-section').removeClass 'deemphasized'
     section.find('.editable-form').show().find('select, input, textarea').first().focus()
     section.find('.editable-display').hide()
@@ -297,22 +298,18 @@ module.exports = class ProfileView extends View
     progress = Math.round 100 * completed / totalWeight
     bar = @$el.find('.profile-completion-progress .progress-bar')
     bar.css 'width', "#{progress}%"
-    text = ""
-    t = $.i18n.t
-    if next and progress > 40
+    if next
+      text = ""
+      t = $.i18n.t
       text = "#{progress}% #{t 'account_profile.complete'}. #{t 'account_profile.next'}: #{next.name}"
-    else if next and progress > 30
-      text = "#{progress}%. #{t 'account_profile.next'}: #{next.name}"
-    else if next and progress > 11
-      text = "#{progress}%: #{next.name}"
-    else if progress > 3
-      text = "#{progress}%"
-    bar.text text
-    bar.parent().toggle Boolean progress
-    if highlightNext and next?.container and not (next.container in @highlightedContainers)
-      @onEditSection target: next.container
-      @highlightedContainers.push next.container
-      $('#page-container').scrollTop 0
+      bar.parent().show().find('.progress-text').text text
+      if highlightNext and next?.container and not (next.container in @highlightedContainers)
+        @highlightedContainers.push next.container
+        @$el.find(next.container).addClass 'emphasized'
+        #@onEditSection target: next.container
+        #$('#page-container').scrollTop 0
+    else
+      bar.parent().hide()
     completed / totalWeight
 
   getProgressMetrics: ->
@@ -323,8 +320,6 @@ module.exports = class ProfileView extends View
     listStarted = (field, subfields) -> -> jobProfile[field]?.length and _.every subfields, (subfield) -> jobProfile[field][0][subfield]
     t = $.i18n.t
     @progressMetrics = [
-      {name: t('account_profile.next_city'), weight: 1, container: '#basic-info-container', fn: modified 'city'}
-      {name: t('account_profile.next_country'), weight: 0, container: '#basic-info-container', fn: exists 'country'}
       {name: t('account_profile.next_name'), weight: 1, container: '#name-container', fn: modified 'name'}
       {name: t('account_profile.next_short_description'), weight: 2, container: '#short-description-container', fn: modified 'shortDescription'}
       {name: t('account_profile.next_skills'), weight: 2, container: '#skills-container', fn: -> jobProfile.skills?.length >= 5}
@@ -332,6 +327,8 @@ module.exports = class ProfileView extends View
       {name: t('account_profile.next_work'), weight: 3, container: '#work-container', fn: listStarted 'work', ['role', 'employer']}
       {name: t('account_profile.next_education'), weight: 3, container: '#education-container', fn: listStarted 'education', ['degree', 'school']}
       {name: t('account_profile.next_projects'), weight: 3, container: '#projects-container', fn: listStarted 'projects', ['name']}
+      {name: t('account_profile.next_city'), weight: 1, container: '#basic-info-container', fn: modified 'city'}
+      {name: t('account_profile.next_country'), weight: 0, container: '#basic-info-container', fn: exists 'country'}
       {name: t('account_profile.next_links'), weight: 2, container: '#links-container', fn: listStarted 'links', ['link', 'name']}
       {name: t('account_profile.next_photo'), weight: 2, container: '#profile-photo-container', fn: modified 'photoURL'}
       {name: t('account_profile.next_active'), weight: 1, fn: modified 'active'}

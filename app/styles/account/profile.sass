@@ -4,34 +4,43 @@
   $sideBackground: rgb(220, 220, 220)
 
   .profile-control-bar
-    background-color: rgb(78, 78, 78)
+    background-color: $sideBackground
     width: 100%
     text-align: center
-    max-height: 70px
 
-    button
-      margin: 2px
-      i
-        margin-right: 5px
-
-    .sample-profile
-      position: absolute
-      right: 5px
-  
     .profile-completion-progress
       width: 100%
-      display: inline-block
       height: 33px
       margin-bottom: 0
       border-radius: 0
-      background-color: $sideBackground
+      background-color: darken($sideBackground, 15%)
   
       .progress-bar
         line-height: 33px
         font-size: 16px
-        text-overflow: ellipsis
-        overflow: hidden
-        white-space: nowrap
+
+      .progress-text
+        position: absolute
+        width: 100%
+        text-align: center
+        line-height: 33px
+        font-size: 16px
+        color: white
+        text-shadow: 0px 1px 0px black
+  
+    button, a.btn
+      margin: 10px 2px 10px 2px
+      
+      &:disabled
+        border-radius: 0
+        opacity: 1
+
+      i
+        margin-right: 5px
+      
+    .sample-profile
+      position: absolute
+      right: 5px
   
   .main-content-area
     padding: 0
@@ -246,9 +255,10 @@
       .editable-section
         position: relative
         transition: box-shadow 0.5s easeInOutQuad
+        min-height: 30px
 
         &.just-saved
-          box-shadow: 0px 0px 80px 0px #080
+          box-shadow: 0px 0px 20px 0px #080
           z-index: 1
 
         .editable-form
@@ -293,6 +303,7 @@
           
       .edit-label
         color: $blue
+        font-weight: 300
 
       .edit-example-button
         background-color: transparentize($blue, 0.25)
@@ -303,6 +314,9 @@
       code.edit-example-tag
         color: $blue
       
+      .emphasized
+        outline: 1px solid $green
+
       .editable-section.deemphasized:not(.just-saved), .our-notes-section.deemphasized
         opacity: 0.5
 
