@@ -99,8 +99,9 @@ module.exports = class TestView extends CocoView
 
   runTests: ->
     describe 'CodeCombat Client', =>
+      jasmine.Ajax.install()
       beforeEach ->
-        jasmine.Ajax.install()
+        jasmine.Ajax.requests.reset()
         # TODO get some setup and teardown prepped
       require f for f in @specFiles # runs the tests
 
