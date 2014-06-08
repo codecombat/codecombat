@@ -15,21 +15,22 @@ class EarnedAchievementHandler extends Handler
     req.method is 'GET' # or req.user.isAdmin()
 
   recalculate: (req, res) ->
-    onSuccess = (data) => @sendSuccess(res, data)
-    if 'achievements' of req.query # Support both slugs and IDs separated by commas
-      achievementSlugsOrIDs = req.query.achievements.split(',')
+    onSuccess = (data) => log.debug "Finished recalculating achievements"
+    if 'achievements' of req.body # Support both slugs and IDs separated by commas
+      achievementSlugsOrIDs = req.body.achievements
       EarnedAchievementHandler.recalculate achievementSlugsOrIDs, onSuccess
     else
       EarnedAchievementHandler.recalculate onSuccess
-    @sendSuccess res
+    @sendSuccess res, {}
 
   # Returns success: boolean
-  @recalculate: (callbackOrSlugsOrIDs, callback) ->
+  # TODO call onFinished
+  @recalculate: (callbackOrSlugsOrIDs, onFinished) ->
     if _.isArray callbackOrSlugsOrIDs
       achievementSlugs = (thing for thing in callbackOrSlugsOrIDs when not Handler.isID(thing))
       achievementIDs = (thing for thing in callbackOrSlugsOrIDs when Handler.isID(thing))
     else
-      callback = callbackOrSlugsOrIDs
+      onFinished = callbackOrSlugsOrIDs
 
     filter = {}
     filter.$or = [
@@ -37,12 +38,17 @@ class EarnedAchievementHandler extends Handler
       {slug: $in: achievementSlugs}
     ] if achievementSlugs? or achievementIDs?
 
+    # Fetch all relevant achievements
     Achievement.find filter, (err, achievements) ->
-      return false and log.error err if err?
+      return log.error err if err?
+
+      # Fetch every single user
       User.find {}, (err, users) ->
         _.each users, (user) ->
           # Keep track of a user's already achieved in order to set the notified values correctly
           userID = user.get('_id').toHexString()
+
+          # Fetch all of a user's earned achievements
           EarnedAchievement.find {user: userID}, (err, alreadyEarned) ->
             alreadyEarnedIDs = []
             previousPoints = 0
