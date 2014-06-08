@@ -95,7 +95,7 @@
     "requirejs": "~2.1.10",
     "karma-requirejs": "~0.2.1",
     "karma-phantomjs-launcher": "~0.1.1",
-    "karma": "~0.10.9",
+    "karma": "~0.12",
     "karma-coverage": "~0.1.4",
     "compressible": "~1.0.1",
     "jasmine-spec-reporter": "~0.3.0"
