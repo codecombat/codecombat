@@ -11,5 +11,5 @@ before_script:
   - "./node_modules/.bin/brunch b"
 
 script:
-  - "./node_modules/.bin/karma start --browsers Firefox --single-run"
+  - "./node_modules/karma/bin/karma start --browsers Firefox --single-run"
 

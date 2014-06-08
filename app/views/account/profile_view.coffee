@@ -13,7 +13,7 @@ module.exports = class ProfileView extends View
     'click #toggle-editing': 'toggleEditing'
     'click #toggle-job-profile-active': 'toggleJobProfileActive'
     'click #toggle-job-profile-approved': 'toggleJobProfileApproved'
-    'click save-notes-button': 'onJobProfileNotesChanged'
+    'click #save-notes-button': 'onJobProfileNotesChanged'
     'click #contact-candidate': 'onContactCandidate'
     'click #enter-espionage-mode': 'enterEspionageMode'
     'click .editable-profile .profile-photo': 'onEditProfilePhoto'
@@ -27,8 +27,18 @@ module.exports = class ProfileView extends View
 
   constructor: (options, @userID) ->
     @userID ?= me.id
-    @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
     super options
+    if User.isObjectID @userID
+      @finishInit()
+    else
+      console.log "getting", @userID
+      $.ajax "/db/user/#{@userID}/nameToID", success: (@userID) =>
+        console.log " got", @userID
+        @finishInit() unless @destroyed
+        @render()
+
+  finishInit: ->
+    return unless @userID
     @uploadFilePath = "db/user/#{@userID}"
     @highlightedContainers = []
     if @userID is me.id
@@ -43,28 +53,29 @@ module.exports = class ProfileView extends View
 
   getRenderData: ->
     context = super()
+    context.userID = @userID
     context.jobProfileSchema = me.schema().properties.jobProfile
-    unless jobProfile = @user.get 'jobProfile'
+    if @user and not jobProfile = @user.get 'jobProfile'
       jobProfile = {}
       for prop, schema of context.jobProfileSchema.properties
         jobProfile[prop] = _.clone schema.default if schema.default?
       for prop in context.jobProfileSchema.required
         jobProfile[prop] ?= {string: '', boolean: false, number: 0, integer: 0, array: []}[context.jobProfileSchema.properties[prop].type]
       @user.set 'jobProfile', jobProfile
-    jobProfile.name ?= (@user.get('firstName') + ' ' + @user.get('lastName')).trim() if @user.get('firstName')
+    jobProfile.name ?= (@user.get('firstName') + ' ' + @user.get('lastName')).trim() if @user?.get('firstName')
     context.profile = jobProfile
     context.user = @user
-    context.myProfile = @user.id is context.me.id
-    context.allowedToViewJobProfile = me.isAdmin() or "employer" in me.get('permissions') or (context.myProfile && !me.get('anonymous'))
-    context.allowedToEditJobProfile = me.isAdmin() or (context.myProfile && !me.get('anonymous'))
-    context.profileApproved = @user.get 'jobProfileApproved'
+    context.myProfile = @user?.id is context.me.id
+    context.allowedToViewJobProfile = @user and (me.isAdmin() or "employer" in me.get('permissions') or (context.myProfile && !me.get('anonymous')))
+    context.allowedToEditJobProfile = @user and (me.isAdmin() or (context.myProfile && !me.get('anonymous')))
+    context.profileApproved = @user?.get 'jobProfileApproved'
     context.progress = @progress ? @updateProgress()
     @editing ?= context.progress < 0.8
     context.editing = @editing
     context.marked = marked
     context.moment = moment
     context.iconForLink = @iconForLink
-    if links = jobProfile.links
+    if links = jobProfile?.links
       links = ($.extend(true, {}, link) for link in links)
       link.icon = @iconForLink link for link in links
       context.profileLinks = _.sortBy links, (link) -> not link.icon  # icons first
@@ -72,6 +83,7 @@ module.exports = class ProfileView extends View
 
   afterRender: ->
     super()
+    return unless @user
     unless @user.get('jobProfile')?.projects?.length or @editing
       @$el.find('.right-column').hide()
       @$el.find('.middle-column').addClass('double-column')
@@ -287,6 +299,7 @@ module.exports = class ProfileView extends View
     e.preventDefault()
 
   updateProgress: (highlightNext) ->
+    return unless @user
     completed = 0
     totalWeight = 0
     next = null

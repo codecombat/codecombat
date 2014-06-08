@@ -130,7 +130,7 @@ UserHandler = class UserHandler extends Handler
     @getPropertiesFromMultipleDocuments res, User, properties, ids
 
   nameToID: (req, res, name) ->
-    User.findOne({nameLower:name.toLowerCase(),anonymous:false}).exec (err, otherUser) ->
+    User.findOne({nameLower:unescape(name).toLowerCase(),anonymous:false}).exec (err, otherUser) ->
       res.send(if otherUser then otherUser._id else JSON.stringify(''))
       res.end()
 

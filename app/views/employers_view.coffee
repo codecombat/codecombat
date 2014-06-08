@@ -94,6 +94,7 @@ module.exports = class EmployersView extends View
           for s in [a, b]
             n = parseInt s
             n = 0 unless _.isNumber n
+            n = 1 if /^a/.test s
             for [duration, factor] in [
               [/second/i, 1 / (86400 * 1000)]
               [/minute/i, 1 / 1440]
@@ -182,7 +183,7 @@ module.exports = class EmployersView extends View
         oldState = _.cloneDeep window.history.state ? {}
         oldState["lastViewedCandidateID"] = id
         window.history.replaceState(oldState,"")
-      else  
+      else
         window.location.hash = id
       url = "/account/profile/#{id}"
       window.open url,"_blank"

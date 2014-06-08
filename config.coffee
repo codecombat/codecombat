@@ -76,6 +76,8 @@ exports.config =
   framework: 'backbone'
 
   plugins:
+    autoReload:
+      delay: 300 # for race conditions, particularly waiting for onCompile to do its thing
     coffeelint:
       pattern: /^app\/.*\.coffee$/
       options:
@@ -91,3 +93,12 @@ exports.config =
     uglify:
       output:
         semicolons: false
+
+  onCompile: (files) ->
+    exec = require('child_process').exec
+    regexFrom = '\\/\\/# sourceMappingURL=([^\\/].*)\\.map'
+    regexTo = '\\/\\/# sourceMappingURL=\\/javascripts\\/$1\\.map'
+    regex = "s/#{regexFrom}/#{regexTo}/g"
+    for file in files
+      c = "perl -pi -e '#{regex}' #{file.path}"
+      exec c
