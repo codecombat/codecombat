@@ -150,7 +150,7 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError(res, err) if err
       res.send JSON.stringify(count + 1)
 
-   getSimulatorLeaderboardQueryParameters: (req) ->
+  getSimulatorLeaderboardQueryParameters: (req) ->
     @validateSimulateLeaderboardRequestParameters(req)
 
     query = {}
