@@ -3,7 +3,7 @@ template = require 'templates/test'
 
 TEST_BASE_PATH = 'test/app/'
 
-module.exports = class TestView extends CocoView
+module.exports = TestView = class TestView extends CocoView
   id: "test-view"
   template: template
   reloadOnClose: true
@@ -27,7 +27,7 @@ module.exports = class TestView extends CocoView
   scriptsLoaded: ->
     @initSpecFiles()
     @render()
-    @runTests()
+    TestView.runTests(@specFiles)
     
   # RENDER DATA
     
@@ -89,15 +89,15 @@ module.exports = class TestView extends CocoView
     children
     
   # RUNNING TESTS
-    
+  
   initSpecFiles: ->
-    allFiles = window.require.list()
-    @specFiles = (f for f in allFiles when f.indexOf('.spec') > -1)
+    @specFiles = TestView.getAllSpecFiles()
     if @subPath
       prefix = TEST_BASE_PATH + @subPath
       @specFiles = (f for f in @specFiles when f.startsWith prefix)
 
-  runTests: ->
+  @runTests: (specFiles) ->
+    specFiles ?= @getAllSpecFiles()
     describe 'CodeCombat Client', =>
       jasmine.Ajax.install()
       beforeEach ->
@@ -111,7 +111,11 @@ module.exports = class TestView extends CocoView
         # TODO Clean up more things
         #   * Events
         
-      require f for f in @specFiles # runs the tests
+      require f for f in specFiles # runs the tests
+
+  @getAllSpecFiles = ->
+    allFiles = window.require.list()
+    (f for f in allFiles when f.indexOf('.spec') > -1)
 
   destroy: ->
     # hack to get jasmine tests to properly run again on clicking links, and make sure if you
