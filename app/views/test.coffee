@@ -103,6 +103,7 @@ module.exports = TestView = class TestView extends CocoView
       beforeEach ->
         jasmine.Ajax.requests.reset()
         Backbone.Mediator.init()
+        Backbone.Mediator.setValidationEnabled false
         # TODO Stubbify more things
         #   * document.location
         #   * firebase
