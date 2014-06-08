@@ -27,7 +27,7 @@ block content
           i.icon-eye-close
           span(data-i18n="account_profile.inactive") Not looking for offers right now
       if profile && (profile.active || me.isAdmin())
-        if !profileApproved
+        if profileApproved
           button.btn.btn-success#toggle-job-profile-approved(disabled=!me.isAdmin())
             i.icon-eye-open
             span(data-i18n='account_profile.approved') Approved
