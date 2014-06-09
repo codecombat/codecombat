@@ -28,6 +28,8 @@ xdescribe '/file', ->
     my_buffer_url: 'http://fc07.deviantart.net/fs37/f/2008/283/5/1/Chu_Chu_Pikachu_by_angelishi.gif'
   }
 
+  allowHeader = 'GET, POST'
+
   it 'preparing test : deletes all the files first', (done) ->
     dropGridFS ->
       done()
@@ -147,19 +149,28 @@ xdescribe '/file', ->
 
     request.post(options, func)
 
+  it ' can\'t be requested with HTTP PATCH method', (done) ->
+    request {method: 'patch', uri:url}, (err, res) ->
+      expect(res.statusCode).toBe(405)
+      expect(res.headers.allow).toBe(allowHeader)
+      done()
+
   it ' can\'t be requested with HTTP PUT method', (done) ->
     request.put {uri:url}, (err, res) ->
       expect(res.statusCode).toBe(405)
+      expect(res.headers.allow).toBe(allowHeader)
       done()
 
   it ' can\'t be requested with HTTP HEAD method', (done) ->
     request.head {uri:url}, (err, res) ->
       expect(res.statusCode).toBe(405)
+      expect(res.headers.allow).toBe(allowHeader)
       done()
 
   it ' can\'t be requested with HTTP DEL method', (done) ->
     request.del {uri:url}, (err, res) ->
       expect(res.statusCode).toBe(405)
+      expect(res.headers.allow).toBe(allowHeader)
       done()
 
 # TODO: test server errors, see what they do

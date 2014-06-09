@@ -2,6 +2,7 @@ mongoose = require('mongoose')
 jsonschema = require('../../app/schemas/models/achievement')
 log = require 'winston'
 util = require '../../app/lib/utils'
+plugins = require('../plugins/plugins')
 
 # `pre` and `post` are not called for update operations executed directly on the database,
 # including `Model.update`,`.findByIdAndUpdate`,`.findOneAndUpdate`, `.findOneAndRemove`,and `.findByIdAndRemove`.order
@@ -35,9 +36,7 @@ AchievementSchema.pre('save', (next) ->
   next()
 )
 
-module.exports = Achievement = mongoose.model('Achievement', AchievementSchema)
-
-plugins = require('../plugins/plugins')
-
 AchievementSchema.plugin(plugins.NamedPlugin)
 AchievementSchema.plugin(plugins.SearchablePlugin, {searchable: ['name']})
+
+module.exports = Achievement = mongoose.model('Achievement', AchievementSchema)
