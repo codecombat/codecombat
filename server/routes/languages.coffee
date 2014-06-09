@@ -11,7 +11,7 @@ module.exports.setup = (app) ->
 
   app.all '/languages', (req, res) ->
     # Now that these are in the client, not sure when we would use this, but hey
-    return errors.badMethod(res) if req.route.method isnt 'get'
+    return errors.badMethod(res, ['GET']) if req.route.method isnt 'get'
     res.send(languages)
     return res.end()
 
