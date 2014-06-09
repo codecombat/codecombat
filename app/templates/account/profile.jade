@@ -18,6 +18,13 @@ block content
         button.btn#toggle-editing
           i.icon-cog
           span(data-i18n="account_profile.edit_profile") Edit Profile
+      if linkedInAuthorized && editing
+        button.btn.btn-success#importLinkedIn
+          i.icon-arrow-down
+          span Import LinkedIn
+      else if editing
+        button.btn.linked-in-button
+          script(type="in/Login" id="linkedInAuthButton" data-onAuth="contractCallback")
       if profile && profile.active
         button.btn.btn-success#toggle-job-profile-active
           i.icon-eye-open
@@ -42,7 +49,7 @@ block content
       //    button.btn
       //      i.icon-user
       //      span(data-i18n="account_settings.sample_profile") See a sample profile
-  
+
   if profile && allowedToViewJobProfile
     div(class="job-profile-container" + (editing ? " editable-profile" : ""))
       .job-profile-row
@@ -52,7 +59,7 @@ block content
               .editable-icon.glyphicon.glyphicon-pencil
               img.profile-photo(src=user.getPhotoURL(240, true))
               .profile-caption= profile.jobTitle || 'Software Developer'
-  
+
             #links-container.editable-section
               .editable-display(title="Click to add social and personal links")
                 .editable-icon.glyphicon.glyphicon-pencil
@@ -162,7 +169,7 @@ block content
                     option(value='Internship', selected=profile.lookingFor == "Internship", data-i18n="account_profile.basics_looking_for_internship") Internship
                   p.help-block(data-i18n="account_profile.basics_looking_for_help") What kind of developer position do you want?
                 button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
-  
+
             if !editing && !myProfile
               button#contact-candidate.btn.btn-large.btn-inverse.flat-button
                 span(data-i18n="account_profile.contact") Contact
@@ -188,14 +195,14 @@ block content
                   p.help-block(data-i18n="account_profile.name_help") Name you want employers to see, like 'Nick Winter'.
                 button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
 
-            
+
             #short-description-container.editable-section
               .editable-display(title="Click to write your tagline")
                 .editable-icon.glyphicon.glyphicon-pencil
                 if editing && (!profile.shortDescription || profile.shortDescription == jobProfileSchema.properties.shortDescription.default)
                   h3.edit-label(data-i18n="account_profile.short_description_header") Write a short description of yourself
                   p.edit-example-text(data-i18n="account_profile.short_description_blurb") Add a tagline to help an employer quickly learn more about you.
-                  
+
                 else if profile.shortDescription
                   p.editable-thinner= profile.shortDescription
 
@@ -207,7 +214,7 @@ block content
                   p.help-block(data-i18n="account_profile.short_description_help") Who are you, and what are you looking for? 140 characters max.
                 button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
 
-    
+
             #skills-container.editable-section
               .editable-display.editable-thinner(title="Click to tag your programming skills")
                 .editable-icon.glyphicon.glyphicon-pencil
@@ -215,12 +222,12 @@ block content
                   h3.edit-label Tag your programming skills
                   each skill in ["python", "coffeescript", "node", "ios", "objective-c", "javascript", "app-engine", "mongodb", "web dev", "django", "backbone"]
                     code.edit-example-tag= skill
-                    span  
+                    span
                 else
                   each skill in profile.skills
                     code= skill
-                    span  
-            
+                    span
+
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
                 h3(data-i18n="account_profile.skills_header") Skills
@@ -243,7 +250,7 @@ block content
                   p.edit-example-text(data-i18n="account_profile.long_description_blurb") Tell employers how awesome you are and what role you want.
                 else if modified
                   div.long-description.editable-thinner!= marked(profile.longDescription)
-  
+
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
                 .form-group
@@ -260,7 +267,7 @@ block content
                     img.header-icon(src="/images/pages/account/profile/work.png", alt="")
                     span(data-i18n="account_profile.work_experience") Work Experience
                     |  - #{profile.experience}
-                    |  
+                    |
                     span(data-i18n=profile.experience == 1 ? "units.year" : "units.years")
                   each job in profile.work
                     if job.role && job.employer
@@ -307,7 +314,7 @@ block content
                       .form-group
                         label.control-label(data-i18n="account_profile.work_duration") Duration
                         input.form-control(type='text', maxlength='100', name="root[work][#{index}][duration]", value=job.duration)
-                        p.help-block 
+                        p.help-block
                           span(data-i18n="account_profile.work_duration_help") When did you hold this gig?
                           |  Ex.: "Feb 2013 - present".
                       .form-group
@@ -370,7 +377,7 @@ block content
                         p.help-block(data-i18n="account_profile.education_description_help") Highlight anything about this educational experience. (140 chars; optional)
                 button.btn.btn-success.btn-block.save-section(data-i18n="common.save") Save
 
-  
+
             if user.get('jobProfileNotes') || me.isAdmin()
               div(class="our-notes-section" + (editing ? " deemphasized" : ""))
                 h3.experience-header(data-i18n="account_profile.our_notes") Our Notes
@@ -443,23 +450,23 @@ block content
   else if allowedToViewJobProfile
     .public-profile-container
       h2(data-i18n="common.loading") Loading...
-                        
+
   else if user
     .public-profile-container
-      h2 
-        span(data-i18n="account_profile.profile_for_prefix") Profile for 
+      h2
+        span(data-i18n="account_profile.profile_for_prefix") Profile for
         span= user.get('name') || "Anonymous Wizard"
-        span(data-i18n="account_profile.profile_for_suffix") 
-  
+        span(data-i18n="account_profile.profile_for_suffix")
+
       img.profile-photo(src=user.getPhotoURL(256))
-  
+
       p To see a private user profile, you may need to log in.
 
   else
     .public-profile-container
-      h2 
-        span(data-i18n="account_profile.profile_for_prefix") Profile for 
+      h2
+        span(data-i18n="account_profile.profile_for_prefix") Profile for
         span= userID
-        span(data-i18n="account_profile.profile_for_suffix") 
-        |  
+        span(data-i18n="account_profile.profile_for_suffix")
+        |
         span(data-i18n="loading_error.not_found")

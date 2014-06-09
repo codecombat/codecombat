@@ -78,7 +78,7 @@ UserSchema = c.object {},
     city: c.shortString {title: 'City', description: 'City you want to work in (or live in now), like "San Francisco" or "Lubbock, TX".', default: 'Defaultsville, CA', format: 'city'}
     country: c.shortString {title: 'Country', description: 'Country you want to work in (or live in now), like "USA" or "France".', default: 'USA', format: 'country'}
     skills: c.array {title: 'Skills', description: 'Tag relevant developer skills in order of proficiency.', default: ['javascript'], minItems: 1, maxItems: 30, uniqueItems: true},
-      {type: 'string', minLength: 1, maxLength: 20, description: 'Ex.: "objective-c", "mongodb", "rails", "android", "javascript"', format: 'skill'}
+      {type: 'string', minLength: 1, maxLength: 50, description: 'Ex.: "objective-c", "mongodb", "rails", "android", "javascript"', format: 'skill'}
     experience: {type: 'integer', title: 'Years of Experience', minimum: 0, description: 'How many years of professional experience (getting paid) developing software do you have?'}
     shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.', default: 'Programmer seeking to build great software.'}
     longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'Describe yourself to potential employers. Keep it short and to the point. We recommend outlining the position that would most interest you. Tasteful markdown okay; 600 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
