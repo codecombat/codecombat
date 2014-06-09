@@ -88,5 +88,8 @@ mongo_db_path = os.path.abspath(os.path.join(current_directory,os.pardir)) + os.
 if not os.path.exists(mongo_db_path):
     os.mkdir(mongo_db_path)
 mongo_arguments = [mongo_executable + u" --setParameter textSearchEnabled=true --dbpath=" + mongo_db_path]
+
+if 'fork' in sys.argv: mongo_arguments[0] += " --fork --logpath ./mongodb.log"
+
 call(mongo_arguments,shell=True)
 
