@@ -69,35 +69,43 @@ module.exports = class ProfileView extends View
       else
         @waitingForLinkedIn = true
   importLinkedIn: =>
+    overwriteConfirm = confirm("Importing LinkedIn data will overwrite your current work experience, skills, name, descriptions, and education. Continue?")
+    unless overwriteConfirm then return
     application.linkedinHandler.getProfileData (err, profileData) =>
       console.log profileData
       @processLinkedInProfileData profileData, ->
-        console.log "DONE"
-        
+  jobProfileSchema: -> @user.schema().properties.jobProfile.properties
+    
   processLinkedInProfileData: (p, cb) ->
     #handle formatted-name
-    currentJobProfile = me.get('jobProfile')
+    currentJobProfile = @user.get('jobProfile')
+    jobProfileSchema = @user.schema().properties.jobProfile.properties
+    
     if p["formattedName"]? and p["formattedName"] isnt "private"
-      currentJobProfile.name = p["formattedName"]
+      nameMaxLength = jobProfileSchema.name.maxLength
+      currentJobProfile.name = p["formattedName"].slice(0,nameMaxLength)
     if p["skills"]?["values"].length
       skillNames = []
+      skillMaxLength = jobProfileSchema.skills.items.maxLength
       for skill in p.skills.values
-        skillNames.push skill.skill.name
-        
-      console.log "Skills: #{skillNames}"
+        skillNames.push skill.skill.name.slice(0,skillMaxLength)
       currentJobProfile.skills = skillNames
     if p["headline"]
-      console.log "jobProfile.shortDescription: #{p["headline"]}"
-      currentJobProfile.shortDescription = p["headline"]
+      shortDescriptionMaxLength = jobProfileSchema.shortDescription.maxLength
+      currentJobProfile.shortDescription = p["headline"].slice(0,shortDescriptionMaxLength)
     if p["summary"]
-      console.log "jobProfile.longDescription: #{p.summary}"
-      currentJobProfile.longDescription = p.summary
+      longDescriptionMaxLength = jobProfileSchema.longDescription.maxLength
+      currentJobProfile.longDescription = p.summary.slice(0,longDescriptionMaxLength)
     if p["positions"]?["values"]?.length
       newWorks = []
+      workSchema = jobProfileSchema.work.items.properties
       for position in p["positions"]["values"]
         workObj = {}
-        workObj.description = position.summary?.slice(0,139)
-        if position.startDate?.year
+        descriptionMaxLength = workSchema.description.maxLength
+        
+        workObj.description = position.summary?.slice(0,descriptionMaxLength)
+        workObj.description ?= ""
+        if position.startDate?.year?
           workObj.duration = "#{position.startDate.year} - "
           if (not position.endDate?.year) or (position.endDate?.year and position.endDate?.year > (new Date().getFullYear()))
             workObj.duration += "present"
@@ -105,18 +113,26 @@ module.exports = class ProfileView extends View
             workObj.duration += position.endDate.year
         else
           workObj.duration = ""
+        durationMaxLength = workSchema.duration.maxLength
+        workObj.duration = workObj.duration.slice(0,durationMaxLength)
+        employerMaxLength = workSchema.employer.maxLength
         workObj.employer = position.company?.name ? ""
+        workObj.employer = workObj.employer.slice(0,employerMaxLength)
         workObj.role = position.title ? ""
+        roleMaxLength = workSchema.role.maxLength
+        workObj.role = workObj.role.slice(0,roleMaxLength)
         newWorks.push workObj
       currentJobProfile.work = newWorks
       
         
     if p["educations"]?["values"]?.length
       newEducation = []
+      eduSchema = jobProfileSchema.education.items.properties
       for education in p["educations"]["values"]
         educationObject = {}
         educationObject.degree = education.degree ? "Studied"
-        if education.startDate?.year
+        educationObject.degree = educationObject.degree.slice(0,eduSchema.degree.maxLength)
+        if education.startDate?.year?
           educationObject.duration = "#{education.startDate.year} - "
           if (not education.endDate?.year) or (education.endDate?.year and education.endDate?.year > (new Date().getFullYear()))
             educationObject.duration += "present"
@@ -124,14 +140,21 @@ module.exports = class ProfileView extends View
               educationObject.degree = "Studying"
           else
             educationObject.duration += education.endDate.year
-
+        else
+          educationObject.duration = ""
+        educationObject.duration = educationObject.duration.slice(0,eduSchema.duration.maxLength)
         educationObject.school = education.schoolName ? ""
+        educationObject.school = educationObject.school.slice(0,eduSchema.school.maxLength)
         educationObject.description = ""
-        console.log "Educated at:#{education.schoolName}"
         newEducation.push educationObject
       currentJobProfile.education = newEducation
-    me.set('jobProfile',currentJobProfile)
-    @render()
+    validationErrors = @user.validate()
+    if validationErrors 
+      return alert("Please notify team@codecombat.com! There were validation errors from the import: #{JSON.stringify validationErrors}")
+    else
+      @user.set('jobProfile',currentJobProfile)
+      @user.save()
+      @render()
     
   getRenderData: ->
     context = super()
@@ -186,6 +209,7 @@ module.exports = class ProfileView extends View
   toggleEditing: ->
     @editing = not @editing
     @render()
+    IN.parse()
 
   toggleJobProfileApproved: ->
     return unless me.isAdmin()
