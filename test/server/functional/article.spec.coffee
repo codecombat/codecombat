@@ -92,4 +92,33 @@ describe '/db/article', ->
         expect(res.statusCode).toBe(422)
         done()
         
-       
+  it 'allows regular users to get all articles', (done) ->
+    loginJoe ->
+      request.get {uri:url}, (err, res, body) ->
+        expect(res.statusCode).toBe(200)
+        expect(body.length).toBe(2)
+
+  it 'allows regular users to get articles and use projection', (done) ->
+    loginJoe ->
+      # default projection
+      request.get {uri:url + '?project=true'}, (err, res, body) ->
+        expect(res.statusCode).toBe(200)
+        expect(body.length).toBe(2)
+        expect(body[0].created?).toBeUndefined()
+        expect(body[0].version?).toBeDefined()
+
+        # custom projection
+        request.get {uri:url + '?project=original'}, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          expect(body.length).toBe(2)
+          expect(Object.keys(body[0]).length).toBe(2)
+          expect(body[0].original).toBeDefined()
+          done()
+
+  it 'allows regular users to perform a text search', (done) ->
+    loginJoe ->
+      request.get {uri:url + 'term="friend"'}, (err, res, body) ->
+        expect(res.statusCode).toBe(200)
+        expect(body.length).toBe(1)
+        # expect name blabla
+        done()

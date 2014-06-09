@@ -11,11 +11,5 @@ class AchievementHandler extends Handler
   hasAccess: (req) ->
     req.method is 'GET' or req.user?.isAdmin()
 
-  get: (req, res) ->
-    query = @modelClass.find({})
-    query.exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err
-      documents = (@formatEntity(req, doc) for doc in documents)
-      @sendSuccess(res, documents)
 
 module.exports = new AchievementHandler()

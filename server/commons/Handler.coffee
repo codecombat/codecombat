@@ -63,26 +63,72 @@ module.exports = class Handler
 
   # generic handlers
   get: (req, res) ->
-    # by default, ordinary users never get unfettered access to the database
-    return @sendUnauthorizedError(res) unless req.user?.isAdmin()
+    @sendUnauthorizedError(res) if not @hasAccess(req)
 
-    # admins can send any sort of query down the wire, though
-    conditions = JSON.parse(req.query.conditions || '[]')
-    query = @modelClass.find()
+    specialParameters = ['term', 'project', 'conditions']
 
-    try
-      for condition in conditions
-        name = condition[0]
-        f = query[name]
-        args = condition[1..]
-        query = query[name](args...)
-    catch e
-      return @sendError(res, 422, 'Badly formed conditions.')
+    # If the model uses coco search it's probably a text search
+    if @modelClass.schema.uses_coco_search
+      term = req.query.term
+      matchedObjects = []
+      filters = if @modelClass.schema.uses_coco_versions or @modelClass.schema.uses_coco_permissions then [filter: {index: true}] else [filter: {}]
+      if @modelClass.schema.uses_coco_permissions and req.user
+        filters.push {filter: {index: req.user.get('id')}}
+      projection = null
+      if req.query.project is 'true'
+        projection = PROJECT
+      else if req.query.project
+        if @modelClass.className is 'User'
+          projection = PROJECT
+          log.warn "Whoa, we haven't yet thought about public properties for User projection yet."
+        else
+          projection = {}
+          projection[field] = 1 for field in req.query.project.split(',')
+      for filter in filters
+        callback = (err, results) =>
+          return @sendDatabaseError(res, err) if err
+          for r in results.results ? results
+            obj = r.obj ? r
+            continue if obj in matchedObjects  # TODO: probably need a better equality check
+            matchedObjects.push obj
+          filters.pop()  # doesn't matter which one
+          unless filters.length
+            res.send matchedObjects
+            res.end()
+        if term
+          filter.project = projection
+          @modelClass.textSearch term, filter, callback
+        else
+          args = [filter.filter]
+          args.push projection if projection
+          @modelClass.find(args...).limit(FETCH_LIMIT).exec callback
+    # if it's not a text search but the user is an admin, let him try stuff anyway
+    else if req.user?.isAdmin()
+      # admins can send any sort of query down the wire
+      filter = {}
+      filter[key] = (val for own key, val of req.query.filter when key not in specialParameters) if 'filter' of req.query
 
-    query.exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err
-      documents = (@formatEntity(req, doc) for doc in documents)
-      @sendSuccess(res, documents)
+      query = @modelClass.find(filter)
+
+      # Conditions are chained query functions, for example: query.find().limit(20).sort('-dateCreated')
+      conditions = JSON.parse(req.query.conditions || '[]')
+      try
+        for condition in conditions
+          name = condition[0]
+          f = query[name]
+          args = condition[1..]
+          query = query[name](args...)
+      catch e
+        return @sendError(res, 422, 'Badly formed conditions.')
+
+      query.exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        documents = (@formatEntity(req, doc) for doc in documents)
+        @sendSuccess(res, documents)
+    # regular users are only allowed text searches for now, without any additional filters or sorting
+    else
+      return @sendUnauthorizedError(res)
+
 
   getById: (req, res, id) ->
     # return @sendNotFoundError(res) # for testing
@@ -152,44 +198,6 @@ module.exports = class Handler
       document.save (err, document) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, @formatEntity(req, document))
-
-  # project=true or project=name,description,slug for example
-  search: (req, res) ->
-    unless @modelClass.schema.uses_coco_search
-      return @sendNotFoundError(res)
-    term = req.query.term
-    matchedObjects = []
-    filters = if @modelClass.schema.uses_coco_versions or @modelClass.schema.uses_coco_permissions then [filter: {index: true}] else [filter: {}]
-    if @modelClass.schema.uses_coco_permissions and req.user
-      filters.push {filter: {index: req.user.get('id')}}
-    projection = null
-    if req.query.project is 'true'
-      projection = PROJECT
-    else if req.query.project
-      if @modelClass.className is 'User'
-        projection = PROJECT
-        log.warn "Whoa, we haven't yet thought about public properties for User projection yet."
-      else
-        projection = {}
-        projection[field] = 1 for field in req.query.project.split(',')
-    for filter in filters
-      callback = (err, results) =>
-        return @sendDatabaseError(res, err) if err
-        for r in results.results ? results
-          obj = r.obj ? r
-          continue if obj in matchedObjects  # TODO: probably need a better equality check
-          matchedObjects.push obj
-        filters.pop()  # doesn't matter which one
-        unless filters.length
-          res.send matchedObjects
-          res.end()
-      if term
-        filter.project = projection
-        @modelClass.textSearch term, filter, callback
-      else
-        args = [filter.filter]
-        args.push projection if projection
-        @modelClass.find(args...).limit(FETCH_LIMIT).exec callback
 
   versions: (req, res, id) ->
     # TODO: a flexible system for doing GAE-like cursors for these sort of paginating queries
