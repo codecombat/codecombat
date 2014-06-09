@@ -1,6 +1,5 @@
 mongoose = require 'mongoose'
 jsonschema = require '../../app/schemas/models/earned_achievement'
-User = require '../users/User'
 
 EarnedAchievementSchema = new mongoose.Schema({
   created:
