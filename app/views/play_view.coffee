@@ -223,7 +223,7 @@ module.exports = class PlayView extends View
       {
         name: 'Danger! Minefield'
         difficulty: 3
-        id: 'danger!-minefield'
+        id: 'danger-minefield'
         image: '/file/db/level/526ae95c1e5cd30000000008/zone_of_danger_icon.png'
         description: "Learn how to find prime numbers while defusing mines ! - by Alexandru Caciulescu"
       }
