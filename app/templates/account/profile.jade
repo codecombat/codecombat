@@ -24,7 +24,8 @@ block content
           i.icon-arrow-down
           span Import LinkedIn
       else
-        script(type="in/Login" id="linkedInAuthButton" data-onAuth="contractCallback")
+        button.btn.linked-in-button
+          script(type="in/Login" id="linkedInAuthButton" data-onAuth="contractCallback")
       if profile.active
         button.btn.btn-success#toggle-job-profile-active
           i.icon-eye-open
