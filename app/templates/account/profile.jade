@@ -19,7 +19,7 @@ block content
         button.btn#toggle-editing
           i.icon-cog
           span(data-i18n="account_profile.edit_profile") Edit Profile
-      if linkedInAuthorized
+      if linkedInAuthorized && editing
         button.btn.btn-success#importLinkedIn
           i.icon-arrow-down
           span Import LinkedIn

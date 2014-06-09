@@ -79,6 +79,7 @@ module.exports = class ProfileView extends View
   processLinkedInProfileData: (p, cb) ->
     #handle formatted-name
     currentJobProfile = @user.get('jobProfile')
+    oldJobProfile = _.cloneDeep(currentJobProfile)
     jobProfileSchema = @user.schema().properties.jobProfile.properties
     
     if p["formattedName"]? and p["formattedName"] isnt "private"
@@ -131,7 +132,7 @@ module.exports = class ProfileView extends View
       for education in p["educations"]["values"]
         educationObject = {}
         educationObject.degree = education.degree ? "Studied"
-        educationObject.degree = educationObject.degree.slice(0,eduSchema.degree.maxLength)
+        
         if education.startDate?.year?
           educationObject.duration = "#{education.startDate.year} - "
           if (not education.endDate?.year) or (education.endDate?.year and education.endDate?.year > (new Date().getFullYear()))
@@ -142,18 +143,37 @@ module.exports = class ProfileView extends View
             educationObject.duration += education.endDate.year
         else
           educationObject.duration = ""
+        if education.fieldOfStudy
+          if educationObject.degree is "Studied" or educationObject.degree is "Studying"
+            educationObject.degree += " #{education.fieldOfStudy}"
+          else
+            educationObject.degree += " in #{education.fieldOfStudy}"
+        educationObject.degree = educationObject.degree.slice(0,eduSchema.degree.maxLength)
         educationObject.duration = educationObject.duration.slice(0,eduSchema.duration.maxLength)
         educationObject.school = education.schoolName ? ""
         educationObject.school = educationObject.school.slice(0,eduSchema.school.maxLength)
         educationObject.description = ""
         newEducation.push educationObject
       currentJobProfile.education = newEducation
+    if p["publicProfileUrl"]
+      #search for linkedin link
+      links = currentJobProfile.links
+      alreadyHasLinkedIn = false
+      for link in links
+        if link.link.toLowerCase().indexOf("linkedin") > -1
+          alreadyHasLinkedIn = true
+          break
+      unless alreadyHasLinkedIn
+        newLink = 
+          link: p["publicProfileUrl"]
+          name: "LinkedIn"
+        currentJobProfile.links.push newLink
+    @user.set('jobProfile',currentJobProfile)
     validationErrors = @user.validate()
     if validationErrors 
-      return alert("Please notify team@codecombat.com! There were validation errors from the import: #{JSON.stringify validationErrors}")
+      @user.set('jobProfile',oldJobProfile)
+      return alert("Please notify team@codecombat.com! There were validation errors from the LinkedIn import: #{JSON.stringify validationErrors}")
     else
-      @user.set('jobProfile',currentJobProfile)
-      @user.save()
       @render()
     
   getRenderData: ->

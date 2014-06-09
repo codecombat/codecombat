@@ -25,7 +25,7 @@ module.exports = LinkedInHandler = class LinkedInHandler extends CocoClass
       
   getProfileData: (cb) =>
     IN.API.Profile("me")
-    .fields(["formatted-name","educations","skills","headline","summary","positions"])
+    .fields(["formatted-name","educations","skills","headline","summary","positions","public-profile-url"])
     .error(cb)
     .result (profiles) =>
       cb null, profiles.values[0]
