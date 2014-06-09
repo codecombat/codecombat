@@ -73,10 +73,10 @@ module.exports = class ProfileView extends View
     unless overwriteConfirm then return
     application.linkedinHandler.getProfileData (err, profileData) =>
       console.log profileData
-      @processLinkedInProfileData profileData, ->
+      @processLinkedInProfileData profileData
   jobProfileSchema: -> @user.schema().properties.jobProfile.properties
     
-  processLinkedInProfileData: (p, cb) ->
+  processLinkedInProfileData: (p) ->
     #handle formatted-name
     currentJobProfile = @user.get('jobProfile')
     oldJobProfile = _.cloneDeep(currentJobProfile)
@@ -230,6 +230,7 @@ module.exports = class ProfileView extends View
     @editing = not @editing
     @render()
     IN.parse()
+    @saveEdits()
 
   toggleJobProfileApproved: ->
     return unless me.isAdmin()
