@@ -37,11 +37,11 @@ block content
         if profileApproved
           button.btn.btn-success#toggle-job-profile-approved(disabled=!me.isAdmin())
             i.icon-eye-open
-            span(data-i18n='account_profile.approved') Approved
+            span(data-i18n='account_profile.featured') Featured
         else if me.isAdmin()
           button.btn#toggle-job-profile-approved
             i.icon-eye-close
-            span(data-i18n='account_profile.not_approved') Not Approved
+            span(data-i18n='account_profile.not_featured') Not Featured
       if me.isAdmin() && !myProfile
         button.btn.edit-settings-button#enter-espionage-mode 007
       //if editing && myProfile

@@ -278,13 +278,11 @@ UserHandler = class UserHandler extends Handler
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
-    #query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
     query = {'jobProfile.updated': {$gt: since}}
-    query.jobProfileApproved = true unless req.user.isAdmin()
+    #query.jobProfileApproved = true unless req.user.isAdmin()  # We split into featured and other now.
     query['jobProfile.active'] = true unless req.user.isAdmin()
-    selection = 'jobProfile'
+    selection = 'jobProfile jobProfileApproved'
     selection += ' email' if authorized
-    selection += ' jobProfileApproved' if req.user.isAdmin()
     User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
@@ -292,7 +290,7 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
-    fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile']
+    fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile', 'jobProfileApproved']
     obj = _.pick document.toObject(), fields
     obj.photoURL ||= obj.jobProfile.photoURL if authorized
     subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active']
