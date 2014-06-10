@@ -1,5 +1,4 @@
 mongoose = require('mongoose')
-Achievement = require('../achievements/Achievement')
 EarnedAchievement = require '../achievements/EarnedAchievement'
 LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/lib/utils'
@@ -7,18 +6,9 @@ log = require 'winston'
 
 achievements = {}
 
-loadAchievements = ->
-  achievements = {}
-  query = Achievement.find({})
-  query.exec (err, docs) ->
-    _.each docs, (achievement) ->
-      category = achievement.get 'collection'
-      achievements[category] = [] unless category of achievements
-      achievements[category].push achievement
-loadAchievements()
-
 module.exports = AchievablePlugin = (schema, options) ->
-  User = require '../users/User'
+  User = require '../users/User'  # Avoid mutual inclusion cycles
+  Achievement = require('../achievements/Achievement')
 
   checkForAchievement = (doc) ->
     collectionName = doc.constructor.modelName
@@ -92,3 +82,15 @@ module.exports = AchievablePlugin = (schema, options) ->
 
     delete before[doc.id] unless isNew # This assumes everything we patch has a _id
     return
+
+module.exports.loadAchievements = ->
+  achievements = {}
+  Achievement = require('../achievements/Achievement')
+  query = Achievement.find({})
+  query.exec (err, docs) ->
+    _.each docs, (achievement) ->
+      category = achievement.get 'collection'
+      achievements[category] = [] unless category of achievements
+      achievements[category].push achievement
+
+AchievablePlugin.loadAchievements()

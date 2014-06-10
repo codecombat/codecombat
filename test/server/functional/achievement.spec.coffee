@@ -1,25 +1,29 @@
 require '../common'
 
+unlockable =
+  name: 'Dungeon Arena Started'
+  description: 'Started playing Dungeon Arena.'
+  worth: 3
+  collection: 'level.session'
+  query: "{\"level.original\":\"dungeon-arena\"}"
+  userField: 'creator'
+
+repeatable =
+  name: 'Simulated'
+  description: 'Simulated Games.'
+  worth: 1
+  collection: 'User'
+  query: "{\"simulatedBy\":{\"$gt\":\"0\"}}"
+  userField: '_id'
+  proportionalTo: 'simulatedBy'
+
+url = getURL('/db/achievement')
+
 describe 'Achievement', ->
-
-  unlockable =
-    name: 'One Time Only'
-    description: 'So you did the really cool thing.'
-    worth: 6.66
-    collection: 'level.session'
-
-  repeatable =
-    name: 'Lots of em'
-    description: 'Oops you did it again.'
-    worth: 1
-    collection: 'User'
-    proportionalTo: '_id'
-
-  url = getURL('/db/achievement')
   allowHeader = 'GET, POST, PUT, PATCH'
 
   it 'preparing test: deleting all Achievements first', (done) ->
-    clearModels [Achievement], (err) ->
+    clearModels [Achievement, EarnedAchievement, LevelSession, User], (err) ->
       expect(err).toBeNull()
       done()
 
@@ -43,13 +47,17 @@ describe 'Achievement', ->
       request.post {uri: url, json: unlockable}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         unlockable._id = body._id
-        done()
+
+        request.post {uri: url, json: repeatable}, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          repeatable._id = body._id
+          done()
 
   it 'can get all for ordinary users', (done) ->
     loginJoe ->
       request.get {uri: url, json: unlockable}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
-        expect(body.length).toBe(1)
+        expect(body.length).toBe(2)
         done()
 
   it 'can be read by ordinary users', (done) ->
@@ -80,7 +88,23 @@ describe 'Achievement', ->
       expect(body.type).toBeDefined()
       done()
 
-  it 'cleaning up test: deleting all Achievements', (done) ->
-    clearModels [Achievement], (err) ->
+
+describe 'Achieving Achievements', ->
+
+  it 'allows users to unlock one-time Achievements', (done) ->
+    loginJoe (joe) ->
+      levelSession =
+        creator: joe._id
+        level: original: 'dungeon-arena'
+
+      request.post {uri:getURL('/db/level.session'), json:levelSession}, (session) ->
+
+        done()
+
+
+  xit 'cleaning up test: deleting all Achievements and relates', (done) ->
+    clearModels [Achievement, EarnedAchievement, LevelSession], (err) ->
       expect(err).toBeNull()
       done()
+
+

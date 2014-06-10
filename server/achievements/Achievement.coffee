@@ -40,3 +40,7 @@ AchievementSchema.plugin(plugins.NamedPlugin)
 AchievementSchema.plugin(plugins.SearchablePlugin, {searchable: ['name']})
 
 module.exports = Achievement = mongoose.model('Achievement', AchievementSchema)
+
+# Reload achievements upon save
+AchievablePlugin = require '../plugins/achievements'
+AchievementSchema.post 'save', (doc) -> AchievablePlugin.loadAchievements()
