@@ -436,6 +436,7 @@
     av_entities_sub_title: "Entities"
     av_entities_users_url: "Users"
     av_entities_active_instances_url: "Active Instances"
+    av_entities_employer_list_url: "Employer List"
     av_other_sub_title: "Other"
     av_other_debug_base_url: "Base (for debugging base.jade)"
     u_title: "User List"

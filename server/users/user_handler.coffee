@@ -48,7 +48,7 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in serverProperties
     includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
-    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj)
+    includeCandidate = includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj)
     delete obj[prop] for prop in candidateProperties unless includeCandidate
     return obj
 
@@ -191,9 +191,11 @@ UserHandler = class UserHandler extends Handler
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
+    return @getEmployers(req, res) if args[1] is 'employers'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @getEarnedAchievements(req, res, args[0]) if args[1] is 'achievements'
+    return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -249,6 +251,25 @@ UserHandler = class UserHandler extends Handler
         doc.save()
       @sendSuccess(res, cleandocs)
 
+  trackActivity: (req, res, userID, activityName, increment=1) ->
+    return @sendMethodNotAllowed res unless req.method is 'POST'
+    isMe = userID is req.user._id + ''
+    isAuthorized = isMe or req.user.isAdmin()
+    isAuthorized ||= ('employer' in req.user.get('permissions')) and (activityName in ['viewed_by_employer', 'messaged_by_employer'])
+    return @sendUnauthorizedError res unless isAuthorized
+    updateUser = (user) =>
+      activity = user.trackActivity activityName, increment
+      user.update {activity: activity}, (err) =>
+        return @sendDatabaseError res, err if err
+        @sendSuccess res, result: 'success'
+    if isMe
+      updateUser(req.user)
+    else
+      @getDocumentForIdOrSlug userID, (err, user) =>
+        return @sendDatabaseError res, err if err
+        return @sendNotFoundError res unless user
+        updateUser user
+
   agreeToEmployerAgreement: (req, res) ->
     userIsAnonymous = req.user?.get('anonymous')
     if userIsAnonymous then return errors.unauthorized(res, "You need to be logged in to agree to the employer agreeement.")
@@ -281,7 +302,7 @@ UserHandler = class UserHandler extends Handler
     query = {'jobProfile.updated': {$gt: since}}
     #query.jobProfileApproved = true unless req.user.isAdmin()  # We split into featured and other now.
     query['jobProfile.active'] = true unless req.user.isAdmin()
-    selection = 'jobProfile jobProfileApproved'
+    selection = 'jobProfile jobProfileApproved photoURL'
     selection += ' email' if authorized
     User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
@@ -308,6 +329,14 @@ UserHandler = class UserHandler extends Handler
         log.info "#{employer.get('name')} at #{employer.get('employerAt')} can't see #{candidate.jobProfile.name} because s/he worked there."
       return false if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
     true
+
+  getEmployers: (req, res) ->
+    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    query = {employerAt: {$exists: true}}
+    selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
+    User.find(query).select(selection).lean().exec (err, documents) =>
+      return @sendDatabaseError res, err if err
+      @sendSuccess res, documents
 
   buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user

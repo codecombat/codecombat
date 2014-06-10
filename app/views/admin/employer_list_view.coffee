@@ -1,13 +1,13 @@
 View = require 'views/kinds/RootView'
-template = require 'templates/employers'
+template = require 'templates/admin/employer_list'
 app = require 'application'
 User = require 'models/User'
 {me} = require 'lib/auth'
 CocoCollection = require 'collections/CocoCollection'
-EmployerSignupView = require 'views/modal/employer_signup_modal'
+ModelModal = require 'views/modal/model_modal'
 
-class CandidatesCollection extends CocoCollection
-  url: '/db/user/x/candidates'
+class EmployersCollection extends CocoCollection
+  url: '/db/user/x/employers'
   model: User
 
 module.exports = class EmployersView extends View
@@ -15,54 +15,27 @@ module.exports = class EmployersView extends View
   template: template
 
   events:
-    'click tbody tr': 'onCandidateClicked'
+    'click tbody tr td:first-child': 'onEmployerClicked'
 
   constructor: (options) ->
     super options
-    @getCandidates()
+    @getEmployers()
 
   afterRender: ->
     super()
-    @sortTable() if @candidates.models.length
-
-  afterInsert: ->
-    super()
-    _.delay @checkForEmployerSignupHash, 500
+    @sortTable() if @employers.models.length
 
   getRenderData: ->
     ctx = super()
-    ctx.isEmployer = @isEmployer()
-    ctx.candidates = _.sortBy @candidates.models, (c) -> c.get('jobProfile').updated
-    ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
-    ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
-    ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
-    ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
+    ctx.employers = @employers.models
     ctx.moment = moment
-    ctx._ = _
     ctx
 
-  isEmployer: ->
-    userPermissions = me.get('permissions') ? []
-    _.contains userPermissions, "employer"
-
-  getCandidates: ->
-    @candidates = new CandidatesCollection()
-    @candidates.fetch()
+  getEmployers: ->
+    @employers = new EmployersCollection()
+    @employers.fetch()
     # Re-render when we have fetched them, but don't wait and show a progress bar while loading.
-    @listenToOnce @candidates, 'all', @renderCandidatesAndSetupScrolling
-
-  renderCandidatesAndSetupScrolling: =>
-    @render()
-    $(".nano").nanoScroller()
-    if window.history?.state?.lastViewedCandidateID
-      $(".nano").nanoScroller({scrollTo:$("#" + window.history.state.lastViewedCandidateID)})
-    else if window.location.hash.length is 25
-      $(".nano").nanoScroller({scrollTo:$(window.location.hash)})
-
-  checkForEmployerSignupHash: =>
-    if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get("permissions"))
-      @openModalView application.router.getView("modal/employer_signup","_modal")
-      window.location.hash = ""
+    @listenToOnce @employers, 'all', => @render()
 
   sortTable: ->
     # http://mottie.github.io/tablesorter/docs/example-widget-bootstrap-theme.html
@@ -119,7 +92,7 @@ module.exports = class EmployersView extends View
               n *= -1
             days.push n
           days[0] - days[1]
-      sortList: if @isEmployer() or me.isAdmin() then [[6, 0]] else [[0, 1]]
+      sortList: [[6, 0]]
       # widget code contained in the jquery.tablesorter.widgets.js file
       # use the zebra stripe widget if you plan on hiding any rows (filter widget)
       widgets: ["uitheme", "zebra", "filter"]
@@ -158,40 +131,30 @@ module.exports = class EmployersView extends View
         filter_startsWith: false
 
         filter_functions:
-          2:
-            "Full-time": filterSelectExactMatch
-            "Part-time": filterSelectExactMatch
-            "Contracting": filterSelectExactMatch
-            "Remote": filterSelectExactMatch
-            "Internship": filterSelectExactMatch
+          3:
+            "0-1": (e, n, f, i, $r) -> parseInt(e) <= 1
+            "2-5": (e, n, f, i, $r) -> 2 <= parseInt(e) <= 5
+            "6+": (e, n, f, i, $r) -> 6 <= parseInt(e)
+          4:
+            "0-1": (e, n, f, i, $r) -> parseInt(e) <= 1
+            "2-5": (e, n, f, i, $r) -> 2 <= parseInt(e) <= 5
+            "6+": (e, n, f, i, $r) -> 6 <= parseInt(e)
           5:
-            "0-1": (e, n, f, i, $r) -> n <= 1
-            "2-5": (e, n, f, i, $r) -> 2 <= n <= 5
-            "6+": (e, n, f, i, $r) -> 6 <= n
+            "0-1": (e, n, f, i, $r) -> parseInt(e) <= 1
+            "2-5": (e, n, f, i, $r) -> 2 <= parseInt(e) <= 5
+            "6+": (e, n, f, i, $r) -> 6 <= parseInt(e)
           6:
             "Last day": (e, n, f, i, $r) ->
-              days = parseFloat $($r.find('td')[i]).data('profile-age')
+              days = parseFloat $($r.find('td')[i]).data('employer-age')
               days <= 1
             "Last week": (e, n, f, i, $r) ->
-              days = parseFloat $($r.find('td')[i]).data('profile-age')
+              days = parseFloat $($r.find('td')[i]).data('employer-age')
               days <= 7
             "Last 4 weeks": (e, n, f, i, $r) ->
-              days = parseFloat $($r.find('td')[i]).data('profile-age')
+              days = parseFloat $($r.find('td')[i]).data('employer-age')
               days <= 28
-          7:
-            "✓": filterSelectExactMatch
-            "✗": filterSelectExactMatch
 
-  onCandidateClicked: (e) ->
-    id = $(e.target).closest('tr').data('candidate-id')
-    if id
-      if window.history
-        oldState = _.cloneDeep window.history.state ? {}
-        oldState["lastViewedCandidateID"] = id
-        window.history.replaceState(oldState,"")
-      else
-        window.location.hash = id
-      url = "/account/profile/#{id}"
-      window.open url,"_blank"
-    else
-      @openModalView new EmployerSignupView
+  onEmployerClicked: (e) ->
+    return unless id = $(e.target).closest('tr').data('employer-id')
+    employer = new User _id: id
+    @openModalView new ModelModal models: [employer]

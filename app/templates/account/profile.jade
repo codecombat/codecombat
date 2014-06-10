@@ -44,11 +44,6 @@ block content
             span(data-i18n='account_profile.not_featured') Not Featured
       if me.isAdmin() && !myProfile
         button.btn.edit-settings-button#enter-espionage-mode 007
-      //if editing && myProfile
-      //  a.sample-profile(href="http://codecombat.com/images/pages/account/profile/sample_profile.png", target="_blank")
-      //    button.btn
-      //      i.icon-user
-      //      span(data-i18n="account_settings.sample_profile") See a sample profile
 
   if profile && allowedToViewJobProfile
     div(class="job-profile-container" + (editing ? " editable-profile" : ""))
