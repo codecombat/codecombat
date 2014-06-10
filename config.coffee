@@ -3,14 +3,10 @@ startsWith = (string, substring) ->
   string.lastIndexOf(substring, 0) is 0
 
 exports.config =
-  server:
-    path: 'server.coffee'
   paths:
     'public': 'public'
   conventions:
     ignored: (path) -> startsWith(sysPath.basename(path), '_')
-  workers:
-    enabled: false  # turned out to be much, much slower than without workers
   sourceMaps: true
   files:
     javascripts:
@@ -55,7 +51,6 @@ exports.config =
           'vendor/scripts/movieclip-NEXT.min.js'
           # Validated Backbone Mediator dependencies
           'bower_components/tv4/tv4.js'
-
           # Aether before box2d for some strange Object.defineProperty thing
           'bower_components/aether/build/aether.js'
           'bower_components/d3/d3.min.js'
@@ -77,7 +72,7 @@ exports.config =
 
   plugins:
     autoReload:
-      delay: 300 # for race conditions, particularly waiting for onCompile to do its thing
+      delay: 300 
     coffeelint:
       pattern: /^app\/.*\.coffee$/
       options:
