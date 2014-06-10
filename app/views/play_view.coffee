@@ -224,8 +224,8 @@ module.exports = class PlayView extends View
         name: 'Danger! Minefield'
         difficulty: 3
         id: 'danger-minefield'
-        image: '/file/db/level/526ae95c1e5cd30000000008/zone_of_danger_icon.png'
-        description: "Learn how to find prime numbers while defusing mines ! - by Alexandru Caciulescu"
+        image: '/file/db/level/526bda3fe79aefde2a003e36/mobile_artillery_icon.png'
+        description: "Learn how to find prime numbers while defusing mines! - by Alexandru Caciulescu"
       }
       {
         name: 'Find the Spy'
@@ -241,16 +241,6 @@ module.exports = class PlayView extends View
         image: '/file/db/level/529662dfe0df8f0000000007/grab_the_mushroom_icon.png'
         description: "Collect a hundred mushrooms in just five lines of code - by Nathan Gossett"
       }
-      
-
-      #{
-      #  name: 'Enemy Artillery'
-      #  difficulty: 1
-      #  id: 'enemy-artillery'
-      #  image: '/file/db/level/526dba94a188322044000a40/mobile_artillery_icon.png'
-      #  description: "Take cover while shells fly, then strike! - by mcdavid1991"
-      #  disabled: true
-      #}
     ]
 
     context.campaigns = [
