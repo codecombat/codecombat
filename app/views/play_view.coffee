@@ -211,14 +211,21 @@ module.exports = class PlayView extends View
         difficulty: 3
         id: 'bubble-sort-bootcamp-battle'
         image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
-        description: "Write a bubble sort to organize your soldiers. - by Alexandru"
+        description: "Write a bubble sort to organize your soldiers. - by Alexandru Caciulescu"
       }
       {
         name: 'Ogres of Hanoi'
         difficulty: 3
         id: 'ogres-of-hanoi'
         image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
-        description: "Transfer a stack of ogres while preserving their honor. - by Alexandru"
+        description: "Transfer a stack of ogres while preserving their honor. - by Alexandru Caciulescu"
+      }
+      {
+        name: 'Danger! Minefield'
+        difficulty: 3
+        id: 'danger-minefield'
+        image: '/file/db/level/526bda3fe79aefde2a003e36/mobile_artillery_icon.png'
+        description: "Learn how to find prime numbers while defusing mines! - by Alexandru Caciulescu"
       }
       {
         name: 'Find the Spy'
@@ -234,15 +241,6 @@ module.exports = class PlayView extends View
         image: '/file/db/level/529662dfe0df8f0000000007/grab_the_mushroom_icon.png'
         description: "Collect a hundred mushrooms in just five lines of code - by Nathan Gossett"
       }
-
-      #{
-      #  name: 'Enemy Artillery'
-      #  difficulty: 1
-      #  id: 'enemy-artillery'
-      #  image: '/file/db/level/526dba94a188322044000a40/mobile_artillery_icon.png'
-      #  description: "Take cover while shells fly, then strike! - by mcdavid1991"
-      #  disabled: true
-      #}
     ]
 
     context.campaigns = [
