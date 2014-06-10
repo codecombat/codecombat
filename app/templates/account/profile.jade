@@ -222,11 +222,11 @@ block content
                   h3.edit-label Tag your programming skills
                   each skill in ["python", "coffeescript", "node", "ios", "objective-c", "javascript", "app-engine", "mongodb", "web dev", "django", "backbone"]
                     code.edit-example-tag= skill
-                    span
+                    span  
                 else
                   each skill in profile.skills
                     code= skill
-                    span
+                    span  
 
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
@@ -267,7 +267,7 @@ block content
                     img.header-icon(src="/images/pages/account/profile/work.png", alt="")
                     span(data-i18n="account_profile.work_experience") Work Experience
                     |  - #{profile.experience}
-                    |
+                    | 
                     span(data-i18n=profile.experience == 1 ? "units.year" : "units.years")
                   each job in profile.work
                     if job.role && job.employer
@@ -454,9 +454,9 @@ block content
   else if user
     .public-profile-container
       h2
-        span(data-i18n="account_profile.profile_for_prefix") Profile for
+        span(data-i18n="account_profile.profile_for_prefix") Profile for 
         span= user.get('name') || "Anonymous Wizard"
-        span(data-i18n="account_profile.profile_for_suffix")
+        span(data-i18n="account_profile.profile_for_suffix")  
 
       img.profile-photo(src=user.getPhotoURL(256))
 
@@ -465,8 +465,8 @@ block content
   else
     .public-profile-container
       h2
-        span(data-i18n="account_profile.profile_for_prefix") Profile for
+        span(data-i18n="account_profile.profile_for_prefix") Profile for 
         span= userID
-        span(data-i18n="account_profile.profile_for_suffix")
-        |
+        span(data-i18n="account_profile.profile_for_suffix") 
+        |  
         span(data-i18n="loading_error.not_found")

@@ -6,7 +6,7 @@ describe 'LevelComponent', ->
     name:'Bashes Everything'
     description:'Makes the unit uncontrollably bash anything bashable, using the bash system.'
     code: 'bash();'
-    language: 'javascript'
+    codeLanguage: 'javascript'
     official: true
     permissions:simplePermissions
 

@@ -60,13 +60,13 @@ DependencySchema = c.object {
 LevelComponentSchema = c.object {
   title: "Component"
   description: "A Component which can affect Thang behavior."
-  required: ["system", "name", "description", "code", "dependencies", "propertyDocumentation", "language"]
+  required: ["system", "name", "description", "code", "dependencies", "propertyDocumentation", "codeLanguage"]
   "default":
     system: "ai"
     name: "AttacksSelf"
     description: "This Component makes the Thang attack itself."
     code: attackSelfCode
-    language: "coffeescript"
+    codeLanguage: "coffeescript"
     dependencies: []  # TODO: should depend on something by default
     propertyDocumentation: []
 }
@@ -85,7 +85,7 @@ _.extend LevelComponentSchema.properties,
     type: "string"
     maxLength: 2000
     "default": "This Component makes the Thang attack itself."
-  language:
+  codeLanguage:
     type: "string"
     title: "Language"
     description: "Which programming language this Component is written in."
