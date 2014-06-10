@@ -54,7 +54,7 @@ basicProps = (linkFragment) ->
 me.extendBasicProperties = (schema, linkFragment) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, basicProps(linkFragment))
-  
+
 # PATCHABLE
 
 patchableProps = ->
@@ -65,7 +65,7 @@ patchableProps = ->
   allowPatches: { type: 'boolean' }
   watchers: me.array({title:'Watchers'},
     me.objectId(links: [{rel: 'extra', href: "/db/user/{($)}"}]))
-  
+
 me.extendPatchableProperties = (schema) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, patchableProps())
@@ -170,3 +170,8 @@ me.FunctionArgumentSchema = me.object {
     title: "Default"
     description: "Default value of the argument. (Your code should set this.)"
     "default": null
+
+me.activity = me.object {description: "Stats on an activity"},
+  first: me.date()
+  last: me.date()
+  count: {type: 'integer', minimum: 0}

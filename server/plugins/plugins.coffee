@@ -9,7 +9,7 @@ module.exports.MigrationPlugin = (schema, migrations) ->
   # 1. Change the schema and the client/server logic to use the new name
   # 2. Add this plugin to the target models, passing in a dictionary of old/new names.
   # 3. Check that tests still run, deploy to production.
-  # 4. Run db.<collection>.update({}, { $rename: {'<oldname>':'<newname>'} }) on the server
+  # 4. Run db.<collection>.update({}, { $rename: {'<oldname>':'<newname>'} }, { multi: true }) on the server
   # 5. Remove the names you added to the migrations dictionaries for the next deploy
 
   schema.post 'init', ->

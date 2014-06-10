@@ -59,6 +59,8 @@ module.exports = class ProfileView extends View
       @user.fetch()
       @listenTo @user, "sync", =>
         @render()
+      $.post "/db/user/#{me.id}/track/view_candidate"
+      $.post "/db/user/#{@userID}/track/viewed_by_employer" unless me.isAdmin()
     else
       @user = User.getByID(@userID)
 
@@ -113,7 +115,7 @@ module.exports = class ProfileView extends View
       for position in p["positions"]["values"]
         workObj = {}
         descriptionMaxLength = workSchema.description.maxLength
-        
+
         workObj.description = position.summary?.slice(0,descriptionMaxLength)
         workObj.description ?= ""
         if position.startDate?.year?
