@@ -12,7 +12,6 @@ LevelComponentSchema.plugin plugins.PermissionsPlugin
 LevelComponentSchema.plugin plugins.VersionedPlugin
 LevelComponentSchema.plugin plugins.SearchablePlugin, {searchable: ['name', 'description', 'system']}
 LevelComponentSchema.plugin plugins.PatchablePlugin
-LevelComponentSchema.plugin plugins.MigrationPlugin, {'language': 'codeLanguage'}
 
 LevelComponentSchema.pre 'init', (next) ->
   return next() unless jsonschema.properties?
