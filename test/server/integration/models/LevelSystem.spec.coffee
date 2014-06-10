@@ -9,7 +9,7 @@ describe 'LevelSystem', ->
       constructor: (world) ->
         super world
     """
-    language: 'coffeescript'
+    codeLanguage: 'coffeescript'
     official: true
     permissions:simplePermissions
 

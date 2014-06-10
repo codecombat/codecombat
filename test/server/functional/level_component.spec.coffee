@@ -6,7 +6,7 @@ describe 'LevelComponent', ->
     name:'BashesEverything'
     description:'Makes the unit uncontrollably bash anything bashable, using the bash system.'
     code: 'bash();'
-    language: 'coffeescript'
+    codeLanguage: 'coffeescript'
     permissions:simplePermissions
     propertyDocumentation: []
     system: 'ai'
@@ -35,7 +35,7 @@ describe 'LevelComponent', ->
         expect(body.name).toBe(component.name)
         expect(body.description).toBe(component.description)
         expect(body.code).toBe(component.code)
-        expect(body.language).toBe(component.language)
+        expect(body.codeLanguage).toBe(component.codeLanguage)
         expect(body.__v).toBe(0)
         expect(body.creator).toBeDefined()
         expect(body.original).toBeDefined()
@@ -69,7 +69,7 @@ describe 'LevelComponent', ->
         expect(body.slug).toBeDefined()
         expect(body.description).toBe(components[0].description)
         expect(body.code).toBe(components[0].code)
-        expect(body.language).toBe(components[0].language)
+        expect(body.codeLanguage).toBe(components[0].codeLanguage)
         expect(body.__v).toBe(0)
         expect(body.official).toBeDefined()
         expect(body.creator).toBeDefined()

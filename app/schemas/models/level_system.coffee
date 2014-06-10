@@ -54,12 +54,12 @@ DependencySchema = c.object {
 LevelSystemSchema = c.object {
   title: "System"
   description: "A System which can affect Level behavior."
-  required: ["name", "description", "code", "dependencies", "propertyDocumentation", "language"]
+  required: ["name", "description", "code", "dependencies", "propertyDocumentation", "codeLanguage"]
   "default":
     name: "JitterSystem"
     description: "This System makes all idle, movable Thangs jitter around."
     code: jitterSystemCode
-    language: "coffeescript"
+    codeLanguage: "coffeescript"
     dependencies: []  # TODO: should depend on something by default
     propertyDocumentation: []
 }
@@ -72,7 +72,7 @@ _.extend LevelSystemSchema.properties,
     type: "string"
     maxLength: 2000
     "default": "This System doesn't do anything yet."
-  language:
+  codeLanguage:
     type: "string"
     title: "Language"
     description: "Which programming language this System is written in."
