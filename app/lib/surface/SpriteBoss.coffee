@@ -266,7 +266,7 @@ module.exports = class SpriteBoss extends CocoClass
     return if e and (@disabled or @selectLocked)  # Ignore clicks for selection/panning/wizard movement while disabled or select is locked
     worldPos = sprite?.thang?.pos
     worldPos ?= @camera.screenToWorld {x: e.originalEvent.rawX, y: e.originalEvent.rawY} if e
-    if worldPos and (@options.navigateToSelection or not sprite or treemaThangSelected)
+    if worldPos and (@options.navigateToSelection or not sprite or treemaThangSelected) and e?.originalEvent?.nativeEvent?.which isnt 3
       @camera.zoomTo(sprite?.imageObject or @camera.worldToSurface(worldPos), @camera.zoom, 1000, true)
     sprite = null if @options.choosing  # Don't select sprites while choosing
     if sprite isnt @selectedSprite

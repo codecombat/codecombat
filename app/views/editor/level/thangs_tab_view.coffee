@@ -202,7 +202,7 @@ module.exports = class ThangsTabView extends View
 
   onSpriteMouseUp: (e) ->
     clearTimeout @backgroundAddClickTimeout
-    if e.originalEvent.nativeEvent.button == 2
+    if e.originalEvent.nativeEvent.button == 2 and @selectedExtantThang
       @onSpriteContextMenu e
     clearInterval(@movementInterval) if @movementInterval?
     @movementInterval = null
