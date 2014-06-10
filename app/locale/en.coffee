@@ -198,8 +198,8 @@
     done_editing: "Done Editing"
     profile_for_prefix: "Profile for "
     profile_for_suffix: ""
-    approved: "Approved"
-    not_approved: "Not Approved"
+    featured: "Featured"
+    not_featured: "Not Featured"
     looking_for: "Looking for:"
     last_updated: "Last updated:"
     contact: "Contact"
@@ -295,7 +295,6 @@
     project_link: "Link"
     project_link_help: "Link to the project."
 
-
   employers:
     want_to_hire_our_players: "Want to hire expert CodeCombat players?"
     see_candidates: "Click here to see our candidates"
@@ -309,8 +308,9 @@
     candidate_top_skills: "Top Skills"
     candidate_years_experience: "Yrs Exp"
     candidate_last_updated: "Last Updated"
-    candidate_approved: "Us?"
-    candidate_active: "Them?"
+    featured_developers: "Featured Developers"
+    other_developers: "Other Developers"
+    inactive_developers: "Inactive Developers"
 
   play_level:
     done: "Done"
