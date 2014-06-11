@@ -93,7 +93,10 @@ sendMain = (req, res) ->
     log.error "Error modifying main.html: #{err}" if err
     # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
     data = data.replace('"userObjectTag"', JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/'))
-    res.send data
+    res.header "Cache-Control", "no-cache, no-store, must-revalidate"
+    res.header "Pragma", "no-cache"
+    res.header "Expires", 0
+    res.send 200, data
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
   app.get '/channel.html', (req, res) ->
