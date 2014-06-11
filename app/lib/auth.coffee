@@ -10,7 +10,7 @@ init = ->
   if me and not me.get('testGroupNumber')?
     # Assign testGroupNumber to returning visitors; new ones in server/routes/auth
     me.set 'testGroupNumber', Math.floor(Math.random() * 256)
-    me.save()
+    me.patch()
 
   Backbone.listenTo(me, 'sync', Backbone.Mediator.publish('me:synced', {me:me}))
 
