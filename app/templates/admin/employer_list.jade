@@ -57,9 +57,9 @@ block content
                     strong= act.count
                     |  
                     br
-                    span= moment(activity.login.first).fromNow()
+                    span= moment(act.first).fromNow()
                     br
-                    span= moment(activity.login.last).fromNow()
+                    span= moment(act.last).fromNow()
                 else
                   td 0
               td(data-employer-age=(new Date() - new Date(employer.get('signedEmployerAgreement').date)) / 86400 / 1000)= moment(employer.get('signedEmployerAgreement').date).fromNow()
