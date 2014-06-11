@@ -9,6 +9,10 @@ jasmine.getEnv().addReporter(new jasmine.SpecReporter({
   displaySuccessfulSpec: true,
   displayFailedSpec: true
   }))
+
+rep = new jasmine.JsApiReporter()
+jasmine.getEnv().addReporter(rep)
+
 GLOBAL._ = require('lodash')
 _.str = require('underscore.string')
 _.mixin(_.str.exports())
@@ -149,3 +153,13 @@ _drop = (done) ->
     chunks = mongoose.connection.db.collection('media.chunks')
     chunks.remove {}, ->
       done()
+
+tickInterval = null
+tick = ->
+  # When you want jasmine-node to exit after running the tests,
+  # you have to close the connection first.
+  if rep.finished
+    mongoose.disconnect()
+    clearTimeout tickInterval
+
+tickInterval = setInterval tick, 1000 
