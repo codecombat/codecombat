@@ -104,14 +104,14 @@ class CocoModel extends Backbone.Model
     options.patch = true
     
     attrs = {_id: @id}
-    anythingChanged = false
+    keys = []
     for key in _.keys @attributes
       unless _.isEqual @attributes[key], @_revertAttributes[key]
         attrs[key] = @attributes[key]
-        anythingChanged = true
+        keys.push key
     
-    return unless anythingChanged
-    console.debug 'Patching', @, attrs
+    return unless keys.length
+    console.debug 'Patching', @get('name') or @, keys
     @save(attrs, options)
 
   fetch: ->
@@ -120,7 +120,6 @@ class CocoModel extends Backbone.Model
     @jqxhr
 
   markToRevert: ->
-    console.debug "Saving _revertAttributes for #{@constructor.className}: '#{@get('name')}'"
     if @type() is 'ThangType'
       @_revertAttributes = _.clone @attributes  # No deep clones for these!
     else
