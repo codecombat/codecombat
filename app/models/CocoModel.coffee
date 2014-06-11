@@ -97,6 +97,18 @@ class CocoModel extends Backbone.Model
       noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
     @trigger "save", @
     return super attrs, options
+    
+  patch: (options) ->
+    return false unless @_revertAttributes
+    options ?= {}
+    options.patch = true
+    
+    attrs = {_id: @id}
+    for key in _.keys @attributes
+      unless _.isEqual @attributes[key], @_revertAttributes[key]
+        attrs[key] = @attributes[key]
+      
+    @save(attrs, options)
 
   fetch: ->
     @jqxhr = super(arguments...)
