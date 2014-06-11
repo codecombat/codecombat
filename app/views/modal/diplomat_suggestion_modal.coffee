@@ -12,7 +12,7 @@ module.exports = class DiplomatSuggestionView extends View
 
   subscribeAsDiplomat: ->
     me.setEmailSubscription 'diplomatNews', true
-    me.save()
+    me.patch()
     $("#email_translator").prop("checked", 1)
     @hide()
     return

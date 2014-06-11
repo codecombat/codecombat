@@ -104,10 +104,14 @@ class CocoModel extends Backbone.Model
     options.patch = true
     
     attrs = {_id: @id}
+    anythingChanged = false
     for key in _.keys @attributes
       unless _.isEqual @attributes[key], @_revertAttributes[key]
         attrs[key] = @attributes[key]
-      
+        anythingChanged = true
+    
+    return unless anythingChanged
+    console.debug 'Patching', @, attrs
     @save(attrs, options)
 
   fetch: ->

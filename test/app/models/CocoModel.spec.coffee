@@ -75,3 +75,10 @@ describe 'CocoModel', ->
       params = JSON.parse request.params
       expect(params.object).toBeUndefined()
       
+    it 'does nothing when there\'s nothing to patch', ->
+      b = new BlandClass({_id: 'test', number:1})
+      b.loaded = true
+      b.set('number', 1)
+      b.patch()
+      request = jasmine.Ajax.requests.mostRecent()
+      expect(request).toBeUndefined()
