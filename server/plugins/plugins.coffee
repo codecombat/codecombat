@@ -1,5 +1,4 @@
 mongoose = require('mongoose')
-User = require('../users/User')
 textSearch = require('mongoose-text-search')
 
 module.exports.MigrationPlugin = (schema, migrations) ->

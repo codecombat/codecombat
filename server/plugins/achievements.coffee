@@ -1,7 +1,6 @@
 mongoose = require('mongoose')
 Achievement = require('../achievements/Achievement')
 EarnedAchievement = require '../achievements/EarnedAchievement'
-User = require '../users/User'
 LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/lib/utils'
 log = require 'winston'
@@ -19,6 +18,8 @@ loadAchievements = ->
 loadAchievements()
 
 module.exports = AchievablePlugin = (schema, options) ->
+  User = require '../users/User'
+
   checkForAchievement = (doc) ->
     collectionName = doc.constructor.modelName
 
