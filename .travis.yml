@@ -15,7 +15,8 @@ before_script:
   - "./node_modules/.bin/bower install"
   - "gem install sass"
   - "./node_modules/.bin/brunch b"
-  - "./bin/coco-mongodb fork"
+  - "mkdir mongo"
+  - "mongod --dbpath=./mongo --fork --logpath ./mongodb.log"
   - "node index.js --unittest &"
 
 script:
