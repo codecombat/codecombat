@@ -6,7 +6,8 @@ describe '/file', ->
   options = {
     uri:url
     json: {
-      url: 'http://scotterickson.info/images/where-are-you.jpg'
+      # url: 'http://scotterickson.info/images/where-are-you.jpg'
+      url: 'http://fc07.deviantart.net/fs37/f/2008/283/5/1/Chu_Chu_Pikachu_by_angelishi.gif'
       filename: 'where-are-you.jpg'
       mimetype: 'image/jpeg'
       description: 'None!'
@@ -20,7 +21,8 @@ describe '/file', ->
     filename: 'ittybitty.data'
     mimetype: 'application/octet-stream'
     description: 'rando-info'
-    my_buffer_url: 'http://scotterickson.info/images/where-are-you.jpg'
+    # my_buffer_url: 'http://scotterickson.info/images/where-are-you.jpg'
+    my_buffer_url: 'http://fc07.deviantart.net/fs37/f/2008/283/5/1/Chu_Chu_Pikachu_by_angelishi.gif'
   }
 
   it 'preparing test : deletes all the files first', (done) ->

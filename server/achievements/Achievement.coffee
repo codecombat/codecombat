@@ -1,5 +1,4 @@
 mongoose = require('mongoose')
-plugins = require('../plugins/plugins')
 jsonschema = require('../../app/schemas/models/achievement')
 log = require 'winston'
 
@@ -29,7 +28,9 @@ AchievementSchema.pre('save', (next) ->
   next()
 )
 
+module.exports = Achievement = mongoose.model('Achievement', AchievementSchema)
+
+plugins = require('../plugins/plugins')
+
 AchievementSchema.plugin(plugins.NamedPlugin)
 AchievementSchema.plugin(plugins.SearchablePlugin, {searchable: ['name']})
-
-module.exports = Achievement = mongoose.model('Achievement', AchievementSchema)
