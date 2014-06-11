@@ -48,6 +48,11 @@ mockMe =
       start_date: "2008-06-01"
     }
   ]
+  
+window.FB ?= { 
+  api: ->
+}
+  
 describe 'lib/FacebookHandler.coffee', ->
   it 'on facebook-logged-in, gets data from FB and sends a patch to the server', ->
     me.clear({silent:true})

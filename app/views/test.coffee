@@ -107,6 +107,7 @@ module.exports = TestView = class TestView extends CocoView
         # TODO Stubbify more things
         #   * document.location
         #   * firebase
+        #   * all the services that load in main.html
       
       afterEach ->
         # TODO Clean up more things
