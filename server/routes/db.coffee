@@ -34,7 +34,6 @@ module.exports.setup = (app) ->
       return handler.getLatestVersion(req, res, parts[1], parts[3]) if parts[2] is 'version'
       return handler.versions(req, res, parts[1]) if parts[2] is 'versions'
       return handler.files(req, res, parts[1]) if parts[2] is 'files'
-      return handler.search(req, res) if req.route.method is 'get' and parts[1] is 'search'
       return handler.getNamesByIDs(req, res) if req.route.method in ['get', 'post'] and parts[1] is 'names'
       return handler.getByRelationship(req, res, parts[1..]...) if parts.length > 2
       return handler.getById(req, res, parts[1]) if req.route.method is 'get' and parts[1]?
