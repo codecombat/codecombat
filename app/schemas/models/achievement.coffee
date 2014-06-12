@@ -52,22 +52,17 @@ _.extend(AchievementSchema.properties,
     description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
   function:
     type: 'object'
-    oneOf: [
-      linear:
+    properties:
+      kind: {enum: ['linear', 'logarithmic'], default: 'linear'}
+      parameters:
         type: 'object'
-        properties:
-          a: {type: 'number', default: 1},
-          required: ['a']
-        description: 'f(x) = a * x'
-      logarithmic:
-        type:'object'
         properties:
           a: {type: 'number', default: 1}
           b: {type: 'number', default: 1}
-        required: ['a', 'b']
-        description: 'f(x) = a * ln(1/b * (x + b))'
-    ]
-    default: linear: a: 1
+          c: {type: 'number', default: 1}
+    default: {kind: 'linear', parameters: a: 1}
+    required: ['kind', 'parameters']
+    additionalProperties: false
 )
 
 AchievementSchema.definitions = {}

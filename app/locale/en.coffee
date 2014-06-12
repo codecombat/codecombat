@@ -507,7 +507,7 @@
     new_thang_title_login: "Log In to Create a New Thang Type"
     new_level_title_login: "Log In to Create a New Level"
     new_achievement_title: "Create a New Achievement"
-    new_achievement_title_login: "Sign Up to Create a New Achievement"
+    new_achievement_title_login: "Log In to Create a New Achievement"
     article_search_title: "Search Articles Here"
     thang_search_title: "Search Thang Types Here"
     level_search_title: "Search Levels Here"

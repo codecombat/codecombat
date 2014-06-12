@@ -17,6 +17,7 @@ module.exports = class Handler
   postEditableProperties: []
   jsonSchema: {}
   waterfallFunctions: []
+  allowedMethods: ['GET', 'POST', 'PUT', 'PATCH']
 
   # subclasses should override these methods
   hasAccess: (req) -> true
@@ -420,3 +421,7 @@ module.exports = class Handler
         dict[document.id] = document
       res.send dict
       res.end()
+
+  delete: (req, res) -> @sendMethodNotAllowed res, @allowedMethods, "DELETE not allowed."
+
+  head: (req, res) -> @sendMethodNotAllowed res, @allowedMethods, "HEAD not allowed."

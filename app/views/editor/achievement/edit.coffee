@@ -1,6 +1,7 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
+ConfirmModal = require 'views/modal/confirm'
 
 module.exports = class AchievementEditView extends View
   id: "editor-achievement-edit-view"
@@ -9,6 +10,7 @@ module.exports = class AchievementEditView extends View
 
   events:
     'click #save-button': 'saveAchievement'
+    'click #recalculate-button': 'confirmRecalculation'
 
   subscriptions:
     'save-new': 'saveAchievement'
@@ -72,3 +74,34 @@ module.exports = class AchievementEditView extends View
     res.success =>
       url = "/editor/achievement/#{@achievement.get('slug') or @achievement.id}"
       document.location.href = url
+
+  confirmRecalculation: (e) ->
+    renderData =
+      'confirmTitle': "Are you really sure?"
+      'confirmBody': "This will trigger recalculation of the achievement for all users. Are you really sure you want to go down this path?"
+      'confirmDecline': "Not really"
+      'confirmConfirm': "Definitely"
+
+    confirmModal = new ConfirmModal(renderData)
+    confirmModal.onConfirm @recalculateAchievement
+    @openModalView confirmModal
+
+  recalculateAchievement: =>
+    $.ajax
+      data: JSON.stringify(achievements: [@achievement.get('slug') or @achievement.get('_id')])
+      success: (data, status, jqXHR) ->
+        noty
+          timeout: 5000
+          text: 'Recalculation process started'
+          type: 'success'
+          layout: 'topCenter'
+      error: (jqXHR, status, error) ->
+        console.error jqXHR
+        noty
+          timeout: 5000
+          text: "Starting recalculation process failed with error code #{jqXHR.status}"
+          type: 'error'
+          layout: 'topCenter'
+      url: '/admin/earned.achievement/recalculate'
+      type: 'POST'
+      contentType: 'application/json'

@@ -17,8 +17,9 @@ module.exports.notFound = (res, message='Not found.') ->
   res.send 404, message
   res.end()
 
-module.exports.badMethod = (res, message='Method Not Allowed') ->
-  # TODO: The response MUST include an Allow header containing a list of valid methods for the requested resource
+module.exports.badMethod = (res, allowed=['GET', 'POST', 'PUT', 'PATCH'], message='Method Not Allowed') ->
+  allowHeader = _.reduce allowed, ((str, current) -> str += ', ' + current)
+  res.set 'Allow', allowHeader # TODO not sure if these are always the case
   res.send 405, message
   res.end()
 

@@ -123,12 +123,12 @@ describe 'LevelSystem', ->
 
   it ' can\'t be requested with HTTP HEAD method', (done) ->
     request.head {uri:url+'/'+systems[0]._id}, (err, res) ->
-      expect(res.statusCode).toBe(404)
+      expect(res.statusCode).toBe(405)
       done()
 
   it ' can\'t be requested with HTTP DEL method', (done) ->
     request.del {uri:url+'/'+systems[0]._id}, (err, res) ->
-      expect(res.statusCode).toBe(404)
+      expect(res.statusCode).toBe(405)
       done()
 
   it 'get schema', (done) ->

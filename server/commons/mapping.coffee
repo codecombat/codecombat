@@ -14,6 +14,7 @@ module.exports.handlers =
 
 module.exports.routes =
   [
+    'routes/admin'
     'routes/auth'
     'routes/contact'
     'routes/db'
