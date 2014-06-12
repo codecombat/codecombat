@@ -93,7 +93,7 @@ module.exports = class PlayLevelView extends View
 
   setUpHourOfCode: ->
     me.set 'hourOfCode', true
-    me.save()
+    me.patch()
     $('body').append($("<img src='http://code.org/api/hour/begin_codecombat.png' style='visibility: hidden;'>"))
     application.tracker?.trackEvent 'Hour of Code Begin', {}
 

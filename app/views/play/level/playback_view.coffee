@@ -355,7 +355,7 @@ module.exports = class PlaybackView extends View
   onToggleMusic: (e) ->
     e?.preventDefault()
     me.set('music', not me.get('music'))
-    me.save()
+    me.patch()
     $(document.activeElement).blur()
 
   destroy: ->

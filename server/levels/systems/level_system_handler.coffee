@@ -7,7 +7,7 @@ LevelSystemHandler = class LevelSystemHandler extends Handler
     'description'
     'code'
     'js'
-    'language'
+    'codeLanguage'
     'dependencies'
     'propertyDocumentation'
     'configSchema'

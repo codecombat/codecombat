@@ -170,6 +170,19 @@ block content
                 span(data-i18n="account_profile.contact") Contact
                 |  #{profile.name.split(' ')[0]}
 
+            if !editing && sessions.length
+              h3(data-i18n="account_profile.player_code") Player Code
+              ul.sessions
+                each session in sessions
+                  li
+                    - var sessionLink = "/play/level/" + session.levelID + "?team=" + (session.team || 'humans') + "&session=" + session._id;
+                    a(href=sessionLink)
+                      span= session.levelName
+                      if session.team
+                        span  #{session.team}
+                    if session.codeLanguage != 'javascript'
+                      span  - #{{coffeescript: 'CoffeeScript', python: 'Python', lua: 'Lua', io: 'Io', clojure: 'Clojure'}[session.codeLanguage]}
+
         .middle-column.full-height-column
           .sub-column
             #name-container.editable-section

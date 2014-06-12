@@ -40,7 +40,7 @@ module.exports = class WizardSettingsModal extends View
       forms.applyErrorsToForm(@$el, res)
       return
 
-    res = me.save()
+    res = me.patch()
     return unless res
     save = $('#save-button', @$el).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
       .addClass('btn-info').show().removeClass('btn-danger')

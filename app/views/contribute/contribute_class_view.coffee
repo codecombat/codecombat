@@ -36,7 +36,7 @@ module.exports = class ContributeClassView extends View
     subscription = el.attr('name')
     
     me.setEmailSubscription subscription+'News', checked
-    me.save()
+    me.patch()
     @openModalView new SignupModalView() if me.get 'anonymous'
     el.parent().find('.saved-notification').finish().show('fast').delay(3000).fadeOut(2000)
 

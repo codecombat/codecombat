@@ -150,7 +150,7 @@ module.exports = class RootView extends CocoView
 
   saveLanguage: (newLang) ->
     me.set('preferredLanguage', newLang)
-    res = me.save()
+    res = me.patch()
     return unless res
     res.error ->
       errors = JSON.parse(res.responseText)

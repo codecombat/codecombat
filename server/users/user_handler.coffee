@@ -189,6 +189,7 @@ UserHandler = class UserHandler extends Handler
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
+    return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
     return @getEmployers(req, res) if args[1] is 'employers'
@@ -227,9 +228,18 @@ UserHandler = class UserHandler extends Handler
       res.redirect photoURL
       res.end()
 
+  getLevelSessionsForEmployer: (req, res, userID) ->
+    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in req.user.get('permissions'))
+    query = creator: userID, levelID: {$in: ['gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
+    projection = 'levelName levelID team playtime codeLanguage submitted'  # code totalScore
+    LevelSession.find(query).select(projection).exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+      @sendSuccess(res, documents)
+
   getLevelSessions: (req, res, userID) ->
     return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin()
-    query = {'creator': userID}
+    query = creator: userID
     projection = null
     if req.query.project
       projection = {}

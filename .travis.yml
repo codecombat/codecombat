@@ -15,8 +15,10 @@ before_script:
   - "./node_modules/.bin/bower install"
   - "gem install sass"
   - "./node_modules/.bin/brunch b"
-  - "./bin/coco-mongodb fork"
+  - "mkdir mongo"
+  - "mongod --dbpath=./mongo --fork --logpath ./mongodb.log"
   - "node index.js --unittest &"
+  - "sleep 5" # to give node a chance to start
 
 script:
   - "./node_modules/jasmine-node/bin/jasmine-node test/server/ --coffee --captureExceptions"
