@@ -4,7 +4,7 @@ ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 
 class ThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang.type/search?project=true'
+  url: '/db/thang.type?project=true'
   model: ThangType
 
   addTerm: (term) ->

@@ -11,19 +11,21 @@ block content
         li.active
           | #{achievement.attributes.name}
 
-      button(data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary#save-button Save
+    button(data-i18n="", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#recalculate-button Recalculate
+    button(data-i18n="common.save", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#save-button Save
 
-      h3(data-i18n="achievement.edit_achievement_title") Edit Achievement
-        span
-          |: "#{achievement.attributes.name}"
+    h3(data-i18n="achievement.edit_achievement_title") Edit Achievement
+      span
+        |: "#{achievement.attributes.name}"
 
-      #achievement-treema
+    #achievement-treema
 
-      #achievement-view
+    #achievement-view
 
-      hr
+    hr
 
-      div#error-view
+    div#error-view
+
   else
     .alert.alert-danger
       span Admin only. Turn around.

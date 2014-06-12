@@ -224,8 +224,11 @@ module.exports = class ProfileView extends View
       links = ($.extend(true, {}, link) for link in links)
       link.icon = @iconForLink link for link in links
       context.profileLinks = _.sortBy links, (link) -> not link.icon  # icons first
-    context.sessions = (s.attributes for s in @sessions.models when (s.get('submitted') or s.get('level-id') is 'gridmancer'))
-    context.sessions.sort (a, b) -> (b.playtime ? 0) - (a.playtime ? 0)
+    if @sessions
+      context.sessions = (s.attributes for s in @sessions.models when (s.get('submitted') or s.get('level-id') is 'gridmancer'))
+      context.sessions.sort (a, b) -> (b.playtime ? 0) - (a.playtime ? 0)
+    else
+      context.sessions = []
     context
 
   afterRender: ->

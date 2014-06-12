@@ -30,6 +30,8 @@ models_path = [
   '../../server/levels/thangs/LevelThangType'
   '../../server/users/User'
   '../../server/patches/Patch'
+  '../../server/achievements/Achievement'
+  '../../server/achievements/EarnedAchievement'
 ]
 
 for m in models_path

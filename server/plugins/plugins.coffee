@@ -23,7 +23,7 @@ module.exports.PatchablePlugin = (schema) ->
   schema.is_patchable = true
   schema.index({'target.original':1, 'status':'1', 'created':-1})
   
-RESERVED_NAMES = ['search', 'names']
+RESERVED_NAMES = ['names']
 
 module.exports.NamedPlugin = (schema) ->
   schema.uses_coco_names = true
