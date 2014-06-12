@@ -13,5 +13,4 @@ module.exports = class Achievement extends CocoModel
   getExpFunction: ->
     kind = @get('function')?.kind or @schema.function.default.kind
     parameters = @get('function')?.parameters or @schema.function.default.parameters
-    funcCreator = if kind is 'linear' then util.createLinearFunc else if kind is 'logarithmic' then utils.createLogFunc
-    return funcCreator(parameters) if funcCreator?
+    return utils.functionCreators[kind](parameters) if kind of utils.functionCreators

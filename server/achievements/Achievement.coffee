@@ -23,11 +23,10 @@ AchievementSchema.methods.objectifyQuery = ->
 AchievementSchema.methods.stringifyQuery = ->
   @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != "string"
 
-AchievementSchema.methods.getExpFunction = ->
-  kind = @get('function.kind') or jsonschema.function.default.kind
-  parameters = @get('function.parameters') or jsonschema.function.default.parameters
-  funcCreator = if kind is 'linear' then util.createLinearFunc else if kind is 'logarithmic' then util.createLogFunc
-  return funcCreator(parameters) if funcCreator?
+  getExpFunction: ->
+    kind = @get('function')?.kind or jsonschema.function.default.kind
+    parameters = @get('function')?.parameters or jsonschema.function.default.parameters
+    return utils.functionCreators[kind](parameters) if kind of utils.functionCreators
 
 AchievementSchema.post('init', (doc) -> doc.objectifyQuery())
 
