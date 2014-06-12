@@ -2,9 +2,9 @@ extends /templates/base
 
 block content
 
-  h1(data-i18n="employers.want_to_hire_our_players") Want to hire expert CodeCombat players?
+  h1(data-i18n="employers.want_to_hire_our_players") Hire CodeCombat Players
 
-  p
+  //p
     span(data-i18n="employers.candidates_count_prefix") We currently have 
     if activeCandidates.length
       | #{activeCandidates.length}
@@ -13,9 +13,48 @@ block content
     |  
     span(data-i18n="employers.candidates_count_suffix") highly skilled and vetted developers looking for work.
 
+  div#info_wrapper
+
+    div#leftside
+
+      div.information_row
+
+        img(class="employer_icon" src="/images/pages/employer/employer_icon1.png")
+
+        h2 What is CodeCombat?
+
+        p CodeCombat is a multiplayer browser-based programming game. Players write code to control their forces in battle against other developers. We support JavaScript, Python, Lua, Clojure, and Io.
+
+      div.information_row
+
+        img(class="employer_icon" src="/images/pages/employer/employer_icon3.png")
+
+        h2 Who Are the Players?
+
+        p CodeCombateers are software developers who enjoy using their programming skills to play games. They range from college seniors at top 20 engineering programs to 20-year industry veterans.
+
+    div#rightside
+
+      div.information_row
+
+        img(class="employer_icon" src="/images/pages/employer/employer_icon2.png")
+
+        h2 How Do We Find Players?
+
+        p We host competitive tournaments to attract competitive software engieneers. We then use in-house algorithms to identify the best players among the top 5% of tournament winners.
+
+      div.information_row
+
+        img(class="employer_icon" src="/images/pages/employer/employer_icon4.png")
+
+        h2 Why Hire Through Us?
+
+        p Every CodeCombateer listed is looking for work, has demonstrated top notch technical skills, and has been personally screened by us. It's also completely free to search through us.
+
   if !isEmployer && !me.isAdmin()
-    h3.see-candidates-header
-      a#see-candidates(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/employer_signup", data-i18n="employers.see_candidates") Click here to see our candidates
+      h3.see-candidates-header
+        a#see-candidates(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/employer_signup", data-i18n="employers.see_candidates") Click here to see our candidates
+
 
   if candidates.length
 

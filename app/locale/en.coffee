@@ -297,7 +297,7 @@
     player_code: "Player Code"
 
   employers:
-    want_to_hire_our_players: "Want to hire expert CodeCombat players?"
+    want_to_hire_our_players: "Hire CodeCombat Players"
     see_candidates: "Click here to see our candidates"
     candidates_count_prefix: "We currently have "
     candidates_count_many: "many"
