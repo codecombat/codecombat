@@ -533,7 +533,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     message: "Message"
     code: "Code"
     ladder: "Companion"
-    when: "Lorsuqe"
+    when: "Quand"
     opponent: "Adversaire"
     rank: "Rang"
     score: "Score"
