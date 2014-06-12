@@ -52,6 +52,7 @@ module.exports = class EmployersView extends View
     @listenToOnce @candidates, 'all', @renderCandidatesAndSetupScrolling
 
   renderCandidatesAndSetupScrolling: =>
+
     @render()
     $(".nano").nanoScroller()
     if window.history?.state?.lastViewedCandidateID

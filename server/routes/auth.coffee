@@ -62,7 +62,6 @@ module.exports.setup = (app) ->
       req.logIn(user, (err) ->
         return next(err) if (err)
         activity = req.user.trackActivity 'login', 1
-        console.log "updating", activity
         user.update {activity: activity}, (err) ->
           return next(err) if (err)
           res.send(UserHandler.formatEntity(req, req.user))

@@ -43,7 +43,7 @@ module.exports = class LadderView extends RootView
 
   onLoaded: ->
     @teams = teamDataFromLevel @level
-    @render()
+    super()
 
   getRenderData: ->
     ctx = super()

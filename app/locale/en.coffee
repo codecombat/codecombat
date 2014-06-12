@@ -294,6 +294,7 @@
     project_picture_help: "Upload a 230x115px or larger image showing off the project."
     project_link: "Link"
     project_link_help: "Link to the project."
+    player_code: "Player Code"
 
   employers:
     want_to_hire_our_players: "Want to hire expert CodeCombat players?"
@@ -867,6 +868,7 @@
     source_document: "Source Document"
     document: "Document" # note to diplomats: not a physical document, a document in MongoDB, ie a record in a database
     sprite_sheet: "Sprite Sheet"
+    candidate_sessions: "Candidate Sessions"
 
   delta:
     added: "Added"
