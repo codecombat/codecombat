@@ -789,6 +789,8 @@
     tournament_rules: "Tournament Rules"
     tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
     tournament_blurb_blog: "on our blog"
+    rules: "Rules"
+    winners: "Winners"
 
   ladder_prizes:
     title: "Tournament Prizes"
@@ -809,7 +811,6 @@
     one_month_discount: "discount, 30% off: choose either Rails or HTML"
     license: "license"
     oreilly: "ebook of your choice"
-
 
   multiplayer_launch:
     introducing_dungeon_arena: "Introducing Dungeon Arena"
