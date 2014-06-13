@@ -43,6 +43,8 @@ module.exports = class SpellPaletteView extends View
 
   createPalette: ->
     lcs = @supermodel.getModels LevelComponent
+    console.log 'IMPORTANT', lcs
+    Backbone.Mediator.publish 'tome:update-snippets', lcs: lcs
     allDocs = {}
     for lc in lcs
       for doc in (lc.get('propertyDocumentation') ? [])
@@ -66,6 +68,7 @@ module.exports = class SpellPaletteView extends View
         'this': 'apiProperties'
     count = 0
     propGroups = {}
+    console.log 'thang', @thang
     for owner, storage of propStorage
       props = _.reject @thang[storage] ? [], (prop) -> prop[0] is '_'  # no private properties
       added = propGroups[owner] = _.sortBy(props).slice()
@@ -74,6 +77,7 @@ module.exports = class SpellPaletteView extends View
     shortenize = count > 6
     tabbify = count >= 10
     @entries = []
+
     for owner, props of propGroups
       for prop in props
         doc = _.find (allDocs['__' + prop] ? []), (doc) ->

@@ -6,6 +6,7 @@ Range = ace.require("ace/range").Range
 Problem = require './problem'
 SpellDebugView = require './spell_debug_view'
 SpellToolbarView = require './spell_toolbar_view'
+LevelComponent = require 'models/LevelComponent'
 
 module.exports = class SpellView extends View
   id: 'spell-view'
@@ -45,6 +46,7 @@ module.exports = class SpellView extends View
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
     'tome:change-language': 'onChangeLanguage'
     'tome:change-config': 'onChangeEditorConfig'
+    'tome:update-snippets': 'addZatannaSnippets'
     'spell-beautify': 'onSpellBeautify'
 
   events:
@@ -93,6 +95,9 @@ module.exports = class SpellView extends View
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
+    @zatanna = new Zatanna @ace
+    # @addZatannaSnippets()
+    # window.aceEditor = @ace
 
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
@@ -165,6 +170,69 @@ module.exports = class SpellView extends View
     @ace.setValue @spell.source
     @ace.clearSelection()
 
+  addZatannaSnippets: (e) ->
+    # window.sm = @supermodel
+    # window.lcM = LevelComponent
+    # lcs = @supermodel.getModels LevelComponent
+    # console.log '!!!'
+    lcs = e.lcs
+    allDocs = {}
+    # console.log 'lcs', lcs
+    for lc in lcs
+      for doc in (lc.get('propertyDocumentation') ? [])
+        # console.log '::::'
+        # console.log 'docX', doc
+        doc = _.clone doc
+        allDocs['__' + doc.name] ?= []
+        allDocs['__' + doc.name].push doc
+        if doc.type is 'snippet' then doc.owner = 'snippets'
+
+    @options.programmable = true
+    if @options.programmable
+      propStorage =
+        'this': 'programmableProperties'
+        more: 'moreProgrammableProperties'
+        Math: 'programmableMathProperties'
+        Array: 'programmableArrayProperties'
+        Object: 'programmableObjectProperties'
+        String: 'programmableStringProperties'
+        Vector: 'programmableVectorProperties'
+        snippets: 'programmableSnippets'
+    else
+      propStorage =
+        'this': 'apiProperties'
+
+    # console.log 'thang', @thang
+
+    propGroups = {}
+    for owner, storage of propStorage
+      props = _.reject @thang[storage] ? [], (prop) -> prop[0] is '_'
+      propGroups[owner] = _.sortBy(props).slice()
+
+    # console.log 'groups', propGroups
+    # console.log 'docs', allDocs
+    snippetEntries = []
+    for owner, props of propGroups
+      for prop in props
+        doc = _.find (allDocs['__' + prop] ? []), (doc) ->
+          return true if doc.owner is owner
+          return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
+        console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propGroups unless doc
+        # console.log 'doc', doc
+        doc ?= prop
+        if doc.snippets?
+          entry = 
+            content: doc.snippets[@spell.language].code
+            name: doc.name
+            tabTrigger: doc.snippets[@spell.language].tab
+          snippetEntries.push entry
+
+    # console.log '??'
+    window.zatanna = @zatanna
+    window.snippetEntries = snippetEntries
+
+    # @zatanna.addSnippets snippetEntries
+
   onMultiplayerChanged: ->
     if @session.get('multiplayer')
       @createFirepad()
@@ -225,6 +293,7 @@ module.exports = class SpellView extends View
     @debugView.thang = @thang
     @toolbarView?.toggleFlow false
     @updateAether false, false
+    # @addZatannaSnippets()
     @highlightCurrentLine()
 
   cast: (preload=false) ->

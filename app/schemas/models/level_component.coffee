@@ -30,6 +30,16 @@ PropertyDocumentationSchema = c.object {
   args: c.array {title: "Arguments", description: "If this property has type 'function', then provide documentation for any function arguments."}, c.FunctionArgumentSchema
   owner: {title: "Owner", type: 'string', description: 'Owner of the property, like "this" or "Math".'}
   example: {title: "Example", type: 'string', description: 'An optional example code block.', format: 'javascript'}
+  snippets: c.object {
+    title: "Snippets", 
+    description: "List of snippets for the respective programming languages"
+  }, 
+    javascript: c.object {title: 'JavaScript'}, c.codeSnippet 'javascript'
+    coffeescript: c.object {title: 'CoffeeScript'}, c.codeSnippet 'coffee'
+    python: c.object {title: 'Python'}, c.codeSnippet 'python'
+    clojure: c.object {title: 'Clojure'}, c.codeSnippet 'clojure'
+    lua: c.object {title: 'Lua'}, c.codeSnippet 'lua'
+    io: c.object {title: 'IO'}, c.codeSnippet 'io'
   returns: c.object {
     title: "Return Value"
     description: 'Optional documentation of any return value.'
