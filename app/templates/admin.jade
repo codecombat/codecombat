@@ -23,6 +23,8 @@ block content
       a(href="/admin/users", data-i18n="admin.av_entities_users_url") Users
     li
       a(href="/admin/level_sessions", data-i18n="admin.av_entities_active_instances_url") Active Instances
+    li
+      a(href="/admin/employer_list", data-i18n="admin.av_entities_employer_list_url") Employer List
         
   h4(data-i18n="admin.av_other_sub_title") Other
 
@@ -31,3 +33,11 @@ block content
       a(href="/admin/base", data-i18n="admin.av_other_debug_base_url") Base (for debugging base.jade)
     li
       a(href="/admin/clas", data-i18n="admin.clas") CLAs
+
+  hr
+
+  h3 Achievements
+  p This is just some stuff for temporary achievement testing. Should be replaced by a demo system.
+
+  input#increment-field(type="text")
+  a.btn.btn-secondary#increment-button(href="#") Increment

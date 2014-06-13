@@ -61,8 +61,11 @@ module.exports.setup = (app) ->
 
       req.logIn(user, (err) ->
         return next(err) if (err)
-        res.send(UserHandler.formatEntity(req, req.user))
-        return res.end()
+        activity = req.user.trackActivity 'login', 1
+        user.update {activity: activity}, (err) ->
+          return next(err) if (err)
+          res.send(UserHandler.formatEntity(req, req.user))
+          return res.end()
       )
     )(req, res, next)
   )
@@ -134,12 +137,12 @@ module.exports.setup = (app) ->
 
       emails = _.clone(user.get('emails')) or {}
       msg = ''
-      
+
       if req.query.recruitNotes
         emails.recruitNotes ?= {}
         emails.recruitNotes.enabled = false
         msg = "Unsubscribed #{req.query.email} from recruiting emails."
-      
+
       else
         msg = "Unsubscribed #{req.query.email} from all CodeCombat emails. Sorry to see you go!"
         emailSettings.enabled = false for emailSettings in _.values(emails)
@@ -147,7 +150,7 @@ module.exports.setup = (app) ->
         emails.generalNews.enabled = false
         emails.anyNotes ?= {}
         emails.anyNotes.enabled = false
-        
+
       user.update {$set: {emails: emails}}, {}, =>
         return errors.serverError res, 'Database failure.' if err
         res.send msg + "<p><a href='/account/settings'>Account settings</a></p>"
@@ -172,7 +175,7 @@ module.exports.makeNewUser = makeNewUser = (req) ->
   user = new User({anonymous:true})
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/lib/auth
   user.set 'preferredLanguage', languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
-        
+
 createMailOptions = (receiver, password) ->
   # TODO: use email templates here
   options =
@@ -181,4 +184,3 @@ createMailOptions = (receiver, password) ->
     replyTo: config.mail.username
     subject: "[CodeCombat] Password Reset"
     text: "You can log into your account with: #{password}"
-

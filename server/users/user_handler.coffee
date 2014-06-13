@@ -48,7 +48,7 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in serverProperties
     includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
     delete obj[prop] for prop in privateProperties unless includePrivates
-    includeCandidate = includePrivates or (obj.jobProfileApproved and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj)
+    includeCandidate = includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj)
     delete obj[prop] for prop in candidateProperties unless includeCandidate
     return obj
 
@@ -189,11 +189,14 @@ UserHandler = class UserHandler extends Handler
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
+    return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getCandidates(req, res) if args[1] is 'candidates'
+    return @getEmployers(req, res) if args[1] is 'employers'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @getEarnedAchievements(req, res, args[0]) if args[1] is 'achievements'
+    return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -225,9 +228,18 @@ UserHandler = class UserHandler extends Handler
       res.redirect photoURL
       res.end()
 
+  getLevelSessionsForEmployer: (req, res, userID) ->
+    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in req.user.get('permissions'))
+    query = creator: userID, levelID: {$in: ['gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
+    projection = 'levelName levelID team playtime codeLanguage submitted'  # code totalScore
+    LevelSession.find(query).select(projection).exec (err, documents) =>
+      return @sendDatabaseError(res, err) if err
+      documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+      @sendSuccess(res, documents)
+
   getLevelSessions: (req, res, userID) ->
     return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin()
-    query = {'creator': userID}
+    query = creator: userID
     projection = null
     if req.query.project
       projection = {}
@@ -248,6 +260,25 @@ UserHandler = class UserHandler extends Handler
         doc.set('notified', true)
         doc.save()
       @sendSuccess(res, cleandocs)
+
+  trackActivity: (req, res, userID, activityName, increment=1) ->
+    return @sendMethodNotAllowed res unless req.method is 'POST'
+    isMe = userID is req.user._id + ''
+    isAuthorized = isMe or req.user.isAdmin()
+    isAuthorized ||= ('employer' in req.user.get('permissions')) and (activityName in ['viewed_by_employer', 'messaged_by_employer'])
+    return @sendUnauthorizedError res unless isAuthorized
+    updateUser = (user) =>
+      activity = user.trackActivity activityName, increment
+      user.update {activity: activity}, (err) =>
+        return @sendDatabaseError res, err if err
+        @sendSuccess res, result: 'success'
+    if isMe
+      updateUser(req.user)
+    else
+      @getDocumentForIdOrSlug userID, (err, user) =>
+        return @sendDatabaseError res, err if err
+        return @sendNotFoundError res unless user
+        updateUser user
 
   agreeToEmployerAgreement: (req, res) ->
     userIsAnonymous = req.user?.get('anonymous')
@@ -278,13 +309,11 @@ UserHandler = class UserHandler extends Handler
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
-    #query = {'jobProfile.active': true, 'jobProfile.updated': {$gt: since}}
     query = {'jobProfile.updated': {$gt: since}}
-    query.jobProfileApproved = true unless req.user.isAdmin()
+    #query.jobProfileApproved = true unless req.user.isAdmin()  # We split into featured and other now.
     query['jobProfile.active'] = true unless req.user.isAdmin()
-    selection = 'jobProfile'
+    selection = 'jobProfile jobProfileApproved photoURL'
     selection += ' email' if authorized
-    selection += ' jobProfileApproved' if req.user.isAdmin()
     User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
@@ -292,7 +321,7 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
-    fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile']
+    fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile', 'jobProfileApproved']
     obj = _.pick document.toObject(), fields
     obj.photoURL ||= obj.jobProfile.photoURL if authorized
     subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active']
@@ -310,6 +339,14 @@ UserHandler = class UserHandler extends Handler
         log.info "#{employer.get('name')} at #{employer.get('employerAt')} can't see #{candidate.jobProfile.name} because s/he worked there."
       return false if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
     true
+
+  getEmployers: (req, res) ->
+    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    query = {employerAt: {$exists: true}}
+    selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
+    User.find(query).select(selection).lean().exec (err, documents) =>
+      return @sendDatabaseError res, err if err
+      @sendSuccess res, documents
 
   buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user

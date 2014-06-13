@@ -10,14 +10,6 @@ ModelModal = require 'views/modal/model_modal'
 
 HIGHEST_SCORE = 1000000
 
-class LevelSessionsCollection extends CocoCollection
-  url: ''
-  model: LevelSession
-
-  constructor: (levelID) ->
-    super()
-    @url = "/db/level/#{levelID}/all_sessions"
-
 module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
   template: require 'templates/play/ladder/ladder_tab'

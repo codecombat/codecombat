@@ -1,24 +1,15 @@
 mongoose = require('mongoose')
-Achievement = require('../achievements/Achievement')
 EarnedAchievement = require '../achievements/EarnedAchievement'
-User = require '../users/User'
 LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/lib/utils'
 log = require 'winston'
 
 achievements = {}
 
-loadAchievements = ->
-  achievements = {}
-  query = Achievement.find({})
-  query.exec (err, docs) ->
-    _.each docs, (achievement) ->
-      category = achievement.get 'collection'
-      achievements[category] = [] unless category of achievements
-      achievements[category].push achievement
-loadAchievements()
-
 module.exports = AchievablePlugin = (schema, options) ->
+  User = require '../users/User'  # Avoid mutual inclusion cycles
+  Achievement = require('../achievements/Achievement')
+
   checkForAchievement = (doc) ->
     collectionName = doc.constructor.modelName
 
@@ -53,6 +44,8 @@ module.exports = AchievablePlugin = (schema, options) ->
             achievement: achievement._id.toHexString()
             achievementName: achievement.get 'name'
           }
+
+          worth = achievement.get('worth')
           earnedPoints = 0
           wrapUp = ->
             # Update user's experience points
@@ -67,23 +60,37 @@ module.exports = AchievablePlugin = (schema, options) ->
             newAmount = docObj[proportionalTo]
 
             if originalAmount isnt newAmount
+              expFunction = achievement.getExpFunction()
               earned.notified = false
               earned.achievedAmount = newAmount
-              earned.changed = Date.now()
-              EarnedAchievement.findOneAndUpdate({achievement:earned.achievement, user:earned.user}, earned, upsert:true, (err, docs) ->
-                  return log.debug err if err?
-              )
+              earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * worth
+              earned.previouslyAchievedAmount = originalAmount
+              EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
+                return log.debug err if err?
 
-              earnedPoints = achievement.get('worth') * (newAmount - originalAmount)
+              earnedPoints = earned.earnedPoints
+              log.debug earnedPoints
               wrapUp()
 
           else # not alreadyAchieved
             log.debug 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
+            earned.earnedPoints = worth
             (new EarnedAchievement(earned)).save (err, doc) ->
               return log.debug err if err?
-
-              earnedPoints = achievement.get('worth')
+              earnedPoints = worth
               wrapUp()
 
     delete before[doc.id] unless isNew # This assumes everything we patch has a _id
     return
+
+module.exports.loadAchievements = ->
+  achievements = {}
+  Achievement = require('../achievements/Achievement')
+  query = Achievement.find({})
+  query.exec (err, docs) ->
+    _.each docs, (achievement) ->
+      category = achievement.get 'collection'
+      achievements[category] = [] unless category of achievements
+      achievements[category].push achievement
+
+AchievablePlugin.loadAchievements()

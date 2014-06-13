@@ -7,9 +7,10 @@ async = require 'async'
 
 serverSetup = require '../server_setup'
 sendwithus = require '../server/sendwithus'
-User = require '../server/users/User.coffee'
-Level = require '../server/levels/Level.coffee'
-LevelSession = require '../server/levels/sessions/LevelSession.coffee'
+User = require '../server/users/User'
+Level = require '../server/levels/Level'
+LevelSession = require '../server/levels/sessions/LevelSession'
+tournamentResults = require '../app/views/play/ladder/tournament_results'
 
 alreadyEmailed = []
 
@@ -27,7 +28,7 @@ sendInitialRecruitingEmail = ->
   async.waterfall [
     (callback) -> async.map leaderboards, grabSessions, callback
     (sessionLists, callback) -> async.map collapseSessions(sessionLists), grabUser, callback
-    (users, callback) -> async.map users, emailUser, callback
+    (users, callback) -> async.map users, emailUserInitialRecruiting, callback
   ], (err, results) ->
     return console.log "Error:", err if err
     console.log "Looked at sending to #{results.length} users; sent to #{_.filter(results).length}."
@@ -77,7 +78,7 @@ grabUser = (session, callback) ->
     callback null, user
 
 totalEmailsSent = 0
-emailUser = (user, callback) ->
+emailUserInitialRecruiting = (user, callback) ->
   #return callback null, false if user.emails?.anyNotes?.enabled is false  # TODO: later, uncomment to obey also "anyNotes" when that's untangled
   return callback null, false if user.emails?.recruitNotes?.enabled is false
   return callback null, false if user.email in alreadyEmailed
@@ -102,5 +103,64 @@ emailUser = (user, callback) ->
     return callback err if err
     callback null, user
 
+
+sendTournamentResultsEmail = ->
+  winners = tournamentResults.greed.humans.concat tournamentResults.greed.ogres
+  async.waterfall [
+    (callback) -> async.map winners, grabSession, callback
+    (winners, callback) -> async.map winners, grabEmail, callback
+    (winners, callback) -> async.map winners, emailUserTournamentResults, callback
+  ], (err, results) ->
+    return console.log "Error:", err if err
+    console.log "Looked at sending to #{results.length} users; sent to #{_.filter(results).length}."
+    console.log "Sent to: ['#{(user.email for user in results when user).join('\', \'')}']"
+
+grabSession = (winner, callback) ->
+  LevelSession.findOne(_id: winner.sessionID).select('creator').lean().exec (err, session) ->
+    return callback err if err
+    winner.userID = session.creator
+    callback null, winner
+
+grabEmail = (winner, callback) ->
+  User.findOne(_id: winner.userID).select('email').lean().exec (err, user) ->
+    return callback err if err
+    winner.email = user.email
+    callback null, winner
+
+emailUserTournamentResults = (winner, callback) ->
+  return callback null, false if DEBUGGING and (winner.team is 'humans' or totalEmailsSent > 1)
+  ++totalEmailsSent
+  name = winner.name
+  team = winner.team.substr(0, winner.team.length - 1)
+  context =
+    email_id: sendwithus.templates.greed_tournament_rank
+    recipient:
+      address: if DEBUGGING then 'nick@codecombat.com' else winner.email
+      name: name
+    email_data:
+      userID: winner.userID
+      name: name
+      level_name: "Greed"
+      wins: winner.wins
+      ties: {humans: 377, ogres: 407}[winner.team] - winner.wins - winner.losses
+      losses: winner.losses
+      rank: winner.rank
+      team_name: team
+      ladder_url: "http://codecombat.com/play/ladder/greed#winners"
+      top3: winner.rank <= 3
+      top5: winner.rank <= 5
+      top10: winner.rank <= 10
+      top40: winner.rank <= 40
+      top100: winner.rank <= 100
+  sendwithus.api.send context, (err, result) ->
+    return callback err if err
+    callback null, winner
+
+
 serverSetup.connectToDatabase()
-sendInitialRecruitingEmail()
+
+fn = process.argv[2]
+try
+  eval fn + '()'
+catch err
+  console.log "Error running #{fn}", err

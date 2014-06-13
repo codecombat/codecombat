@@ -8,7 +8,7 @@ SaveVersionModal = require 'views/modal/save_version_modal'
 module.exports = class LevelSystemEditView extends View
   id: "editor-level-system-edit-view"
   template: template
-  editableSettings: ['name', 'description', 'language', 'dependencies', 'propertyDocumentation', 'i18n']
+  editableSettings: ['name', 'description', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
 
   events:
     'click #done-editing-system-button': 'endEditing'

@@ -81,7 +81,7 @@ module.exports = class VictoryModal extends View
       if enough and not me.get('hourOfCodeComplete')
         $('body').append($("<img src='http://code.org/api/hour/finish_codecombat.png' style='visibility: hidden;'>"))
         me.set 'hourOfCodeComplete', true
-        me.save()
+        me.patch()
         window.tracker?.trackEvent 'Hour of Code Finish', {}
       # Show the "I'm done" button if they get to the end, unless it's been over two hours
       tooMuch = elapsed >= 120 * 60 * 1000

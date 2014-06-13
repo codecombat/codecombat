@@ -97,6 +97,22 @@ class CocoModel extends Backbone.Model
       noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
     @trigger "save", @
     return super attrs, options
+    
+  patch: (options) ->
+    return false unless @_revertAttributes
+    options ?= {}
+    options.patch = true
+    
+    attrs = {_id: @id}
+    keys = []
+    for key in _.keys @attributes
+      unless _.isEqual @attributes[key], @_revertAttributes[key]
+        attrs[key] = @attributes[key]
+        keys.push key
+    
+    return unless keys.length
+    console.debug 'Patching', @get('name') or @, keys
+    @save(attrs, options)
 
   fetch: ->
     @jqxhr = super(arguments...)
@@ -104,7 +120,6 @@ class CocoModel extends Backbone.Model
     @jqxhr
 
   markToRevert: ->
-    console.debug "Saving _revertAttributes for #{@constructor.className}: '#{@get('name')}'"
     if @type() is 'ThangType'
       @_revertAttributes = _.clone @attributes  # No deep clones for these!
     else

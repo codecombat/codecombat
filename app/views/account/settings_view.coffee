@@ -113,7 +113,7 @@ module.exports = class SettingsView extends View
 
     return unless me.hasLocalChanges()
 
-    res = me.save()
+    res = me.patch()
     return unless res
     save = $('#save-button', @$el).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
       .removeClass('btn-danger').addClass('btn-success').show()

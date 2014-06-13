@@ -8,6 +8,7 @@ locale = require 'locale/locale'
 
 Achievement = require '../../models/Achievement'
 User = require '../../models/User'
+# TODO remove
 
 filterKeyboardEvents = (allowedEvents, func) ->
   return (splat...) ->
@@ -25,26 +26,24 @@ module.exports = class RootView extends CocoView
   subscriptions:
     'achievements:new': 'handleNewAchievements'
 
-  initialize: ->
-    $ =>
-      # TODO Ruben remove this. Allows for easy testing right now though
-      #test = new Achievement(_id:'537ce4855c91b8d1dda7fda8')
-      #test.fetch(success:@showNewAchievement)
 
-  showNewAchievement: (achievement) ->
+  showNewAchievement: (achievement, earnedAchievement) ->
     currentLevel = me.level()
     nextLevel = currentLevel + 1
     currentLevelExp = User.expForLevel(currentLevel)
     nextLevelExp = User.expForLevel(nextLevel)
     totalExpNeeded = nextLevelExp - currentLevelExp
+    expFunction = achievement.getExpFunction()
     currentExp = me.get('points')
-    worth = achievement.get('worth')
-    leveledUp = currentExp - worth < currentLevelExp
-    alreadyAchievedPercentage = 100 * (currentExp - currentLevelExp - worth) / totalExpNeeded
-    newlyAchievedPercentage = if currentLevelExp is currentExp then 0 else 100 * worth / totalExpNeeded
+    previousExp = currentExp - achievement.get('worth')
+    previousExp = expFunction(earnedAchievement.get('previouslyAchievedAmount')) * achievement.get('worth') if achievement.isRepeatable()
+    achievedExp = currentExp - previousExp
+    leveledUp = currentExp - achievedExp < currentLevelExp
+    alreadyAchievedPercentage = 100 * (previousExp - currentLevelExp) / totalExpNeeded
+    newlyAchievedPercentage = if leveledUp then 100 * (currentExp - currentLevelExp) / totalExpNeeded else  100 * achievedExp / totalExpNeeded
 
     console.debug "Current level is #{currentLevel} (#{currentLevelExp} xp), next level is #{nextLevel} (#{nextLevelExp} xp)."
-    console.debug "Need a total of #{nextLevelExp - currentLevelExp}, already had #{currentExp - currentLevelExp - worth} and just now earned #{worth} totalling on #{currentExp}"
+    console.debug "Need a total of #{nextLevelExp - currentLevelExp}, already had #{previousExp} and just now earned #{achievedExp} totalling on #{currentExp}"
 
     alreadyAchievedBar = $("<div class='progress-bar progress-bar-warning' style='width:#{alreadyAchievedPercentage}%'></div>")
     newlyAchievedBar = $("<div data-toggle='tooltip' class='progress-bar progress-bar-success' style='width:#{newlyAchievedPercentage}%'></div>")
@@ -53,7 +52,7 @@ module.exports = class RootView extends CocoView
     message = if (currentLevel isnt 1) and leveledUp then "Reached level #{currentLevel}!" else null
 
     alreadyAchievedBar.tooltip(title: "#{currentExp} XP in total")
-    newlyAchievedBar.tooltip(title: "#{worth} XP earned")
+    newlyAchievedBar.tooltip(title: "#{achievedExp} XP earned")
     emptyBar.tooltip(title: "#{nextLevelExp - currentExp} XP until level #{nextLevel}")
 
     # TODO a default should be linked here
@@ -63,7 +62,7 @@ module.exports = class RootView extends CocoView
       image: $("<img src='#{imageURL}' />")
       description: achievement.get('description')
       progressBar: progressBar
-      earnedExp: "+ #{worth} XP"
+      earnedExp: "+ #{achievedExp} XP"
       message: message
 
     options =
@@ -77,13 +76,11 @@ module.exports = class RootView extends CocoView
     $.notify( data, options )
 
   handleNewAchievements: (earnedAchievements) ->
-    console.debug 'Got new earned achievements'
-    # TODO performance?
     _.each(earnedAchievements.models, (earnedAchievement) =>
       achievement = new Achievement(_id: earnedAchievement.get('achievement'))
       console.log achievement
       achievement.fetch(
-        success: @showNewAchievement
+        success: (achievement) => @showNewAchievement(achievement, earnedAchievement)
       )
     )
 
@@ -150,7 +147,7 @@ module.exports = class RootView extends CocoView
 
   saveLanguage: (newLang) ->
     me.set('preferredLanguage', newLang)
-    res = me.save()
+    res = me.patch()
     return unless res
     res.error ->
       errors = JSON.parse(res.responseText)

@@ -37,18 +37,13 @@ block content
         if profileApproved
           button.btn.btn-success#toggle-job-profile-approved(disabled=!me.isAdmin())
             i.icon-eye-open
-            span(data-i18n='account_profile.approved') Approved
+            span(data-i18n='account_profile.featured') Featured
         else if me.isAdmin()
           button.btn#toggle-job-profile-approved
             i.icon-eye-close
-            span(data-i18n='account_profile.not_approved') Not Approved
+            span(data-i18n='account_profile.not_featured') Not Featured
       if me.isAdmin() && !myProfile
         button.btn.edit-settings-button#enter-espionage-mode 007
-      //if editing && myProfile
-      //  a.sample-profile(href="http://codecombat.com/images/pages/account/profile/sample_profile.png", target="_blank")
-      //    button.btn
-      //      i.icon-user
-      //      span(data-i18n="account_settings.sample_profile") See a sample profile
 
   if profile && allowedToViewJobProfile
     div(class="job-profile-container" + (editing ? " editable-profile" : ""))
@@ -175,6 +170,19 @@ block content
                 span(data-i18n="account_profile.contact") Contact
                 |  #{profile.name.split(' ')[0]}
 
+            if !editing && sessions.length
+              h3(data-i18n="account_profile.player_code") Player Code
+              ul.sessions
+                each session in sessions
+                  li
+                    - var sessionLink = "/play/level/" + session.levelID + "?team=" + (session.team || 'humans') + (myProfile ? '' : "&session=" + session._id);
+                    a(href=sessionLink)
+                      span= session.levelName
+                      if session.team
+                        span  #{session.team}
+                    if session.codeLanguage != 'javascript'
+                      span  - #{{coffeescript: 'CoffeeScript', python: 'Python', lua: 'Lua', io: 'Io', clojure: 'Clojure'}[session.codeLanguage]}
+
         .middle-column.full-height-column
           .sub-column
             #name-container.editable-section
@@ -222,11 +230,11 @@ block content
                   h3.edit-label Tag your programming skills
                   each skill in ["python", "coffeescript", "node", "ios", "objective-c", "javascript", "app-engine", "mongodb", "web dev", "django", "backbone"]
                     code.edit-example-tag= skill
-                    span
+                    span  
                 else
                   each skill in profile.skills
                     code= skill
-                    span
+                    span  
 
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
@@ -267,7 +275,7 @@ block content
                     img.header-icon(src="/images/pages/account/profile/work.png", alt="")
                     span(data-i18n="account_profile.work_experience") Work Experience
                     |  - #{profile.experience}
-                    |
+                    | 
                     span(data-i18n=profile.experience == 1 ? "units.year" : "units.years")
                   each job in profile.work
                     if job.role && job.employer
@@ -454,9 +462,9 @@ block content
   else if user
     .public-profile-container
       h2
-        span(data-i18n="account_profile.profile_for_prefix") Profile for
+        span(data-i18n="account_profile.profile_for_prefix") Profile for 
         span= user.get('name') || "Anonymous Wizard"
-        span(data-i18n="account_profile.profile_for_suffix")
+        span(data-i18n="account_profile.profile_for_suffix")  
 
       img.profile-photo(src=user.getPhotoURL(256))
 
@@ -465,8 +473,8 @@ block content
   else
     .public-profile-container
       h2
-        span(data-i18n="account_profile.profile_for_prefix") Profile for
+        span(data-i18n="account_profile.profile_for_prefix") Profile for 
         span= userID
-        span(data-i18n="account_profile.profile_for_suffix")
-        |
+        span(data-i18n="account_profile.profile_for_suffix") 
+        |  
         span(data-i18n="loading_error.not_found")

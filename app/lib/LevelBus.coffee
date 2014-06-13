@@ -22,13 +22,13 @@ module.exports = class LevelBus extends Bus
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
     'application:idle-changed': 'onIdleChanged'
-    
+
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
     @saveSession = _.debounce(@saveSession, 1000, {maxWait: 5000})
     @playerIsIdle = false
-    
+
   init: ->
     super()
     @fireScriptsRef = @fireRef?.child('scripts')
@@ -36,7 +36,7 @@ module.exports = class LevelBus extends Bus
   setSession: (@session) ->
     @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
     @timerIntervalID = setInterval(@incrementSessionPlaytime, 1000)
-    
+
   onIdleChanged: (e) ->
     @playerIsIdle = e.idle
 
@@ -44,7 +44,7 @@ module.exports = class LevelBus extends Bus
     if @playerIsIdle then return
     @changedSessionProperties.playtime = true
     @session.set("playtime",@session.get("playtime") + 1)
-    
+
   onPoint: ->
     return true unless @session?.get('multiplayer')
     super()
@@ -224,7 +224,7 @@ module.exports = class LevelBus extends Bus
 
   saveSession: ->
     return if _.isEmpty @changedSessionProperties
-    # don't let peaking admins mess with the session accidentally
+    # don't let peeking admins mess with the session accidentally
     return unless @session.get('multiplayer') or @session.get('creator') is me.id
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}

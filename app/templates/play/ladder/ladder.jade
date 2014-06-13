@@ -11,13 +11,22 @@ block content
   if level.get('name') == 'Greed'
     .tournament-blurb
       h2
-        span(data-i18n="ladder.tournament_ends") Tournament ends
+        //span(data-i18n="ladder.tournament_ends") Tournament ends
+        span(data-i18n="ladder.tournament_ended") Tournament ended
         |  #{tournamentTimeLeft}
       p
         span(data-i18n="ladder.tournament_blurb") Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details
         |  
         a(href="http://blog.codecombat.com/multiplayer-programming-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
         | .
+      p
+        strong Tournament ended! 
+        a(href="#winners") Behold the winners
+        | . Thanks for playing!
+      p
+        | Want to commiserate? Head over to 
+        a(href="http://discourse.codecombat.com/") the forum
+        |  and discuss your strategies, your triumphs, and your turmoils.
 
       .sponsor-logos
         a(href="https://heapanalytics.com/")
@@ -59,9 +68,11 @@ block content
         a(href="#simulate", data-toggle="tab", data-i18n="ladder.simulate") Simulate
     if level.get('name') == 'Greed'
       li
-        a(href="#prizes", data-toggle="tab", data-i18n="ladder.prizes") Prizes
+        a(href="#prizes", data-toggle="tab", data-i18n="ladder_prizes.prizes") Prizes
       li
         a(href="#rules", data-toggle="tab", data-i18n="ladder.rules") Rules
+      li
+        a(href="#winners", data-toggle="tab", data-i18n="ladder.winners") Winners
 
   div.tab-content
     .tab-pane.active.well#ladder
@@ -70,628 +81,668 @@ block content
       #my-matches-tab-view
     .tab-pane.well#simulate
       #simulate-tab-view
-    .tab-pane.well#prizes
-      h1(data-i18n="ladder_prizes.title") Tournament Prizes
-      p
-        span(data-i18n="ladder_prizes.blurb_1") These prizes will be awarded according to
-        |  
-        a(href="#rules", data-i18n="ladder_prizes.blurb_2") the tournament rules
-        |  
-        span(data-i18n="ladder_prizes.blurb_3") to the top human and ogre players.
-        |  
-        strong(data-i18n="ladder_prizes.blurb_4") Two teams means double the prizes!
-        |  
-        span(data-i18n="ladder_prizes.blurb_5") (There will be two first place winners, two second-place winners, etc.)
-
-      table#prize_table.table
-        thead
-          tr
-            td(data-i18n="ladder_prizes.rank") Rank
-            td(data-i18n="ladder_prizes.prizes") Prizes
-            td(data-i18n="ladder_prizes.total_value") Total Value
-        tbody
-          tr 
-            td 1st
-            td 
-              ul.list-unstyled
-                li
-                  img(src=base + "cash1.png")
-                  span $512 
-                  span(data-i18n="ladder_prizes.in_cash") in cash
-                li
-                  img(src=base + "custom_wizard.png")
-                  span(data-i18n="ladder_prizes.custom_wizard") Custom CodeCombat Wizard
-                li
-                  img(src=base + "custom_avatar.png")
-                  span(data-i18n="ladder_prizes.custom_avatar") Custom CodeCombat avatar
-                li
-                  img(src=base + "heap.png")
-                  span
-                    a(href="https://heapanalytics.com/") Heap Analytics
-                    |  
-                    span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
-                    |  - $354
-                li
-                  img(src=base + "firebase.png")
-                  span
-                    a(href="https://www.firebase.com/") Firebase
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $300
-                li
-                  img(src=base + "one_month.png")
-                  span
-                    a(href="https://onemonthrails.com/") One Month Rails
-                    |  
-                    span(data-i18n="ladder_prizes.one_month_coupon") coupon: choose either Rails or HTML
-                    |  - $99
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $2054
-          tr 
-            td 2nd
-            td 
-              ul.list-unstyled
-                li
-                  img(src=base + "cash2.png")
-                  span $256 
-                  span(data-i18n="ladder_prizes.in_cash") in cash
-                li
-                  img(src=base + "custom_avatar.png")
-                  span(data-i18n="ladder_prizes.custom_avatar") Custom CodeCombat avatar
-                li
-                  img(src=base + "heap.png")
-                  span
-                    a(href="https://heapanalytics.com/") Heap Analytics
-                    |  
-                    span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
-                    |  - $354
-                li
-                  img(src=base + "firebase.png")
-                  span
-                    a(href="https://www.firebase.com/") Firebase
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $300
-                li
-                  img(src=base + "one_month.png")
-                  span
-                    a(href="https://onemonthrails.com/") One Month Rails
-                    |  
-                    span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                    |  - $30
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $1229
-          tr 
-            td 3rd
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "cash2.png")
-                  span $128 
-                  span(data-i18n="ladder_prizes.in_cash") in cash
-                li
-                  img(src=base + "custom_avatar.png")
-                  span(data-i18n="ladder_prizes.custom_avatar") Custom CodeCombat avatar
-                li
-                  img(src=base + "heap.png")
-                  span
-                    a(href="https://heapanalytics.com/") Heap Analytics
-                    |  
-                    span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
-                    |  - $354
-                li
-                  img(src=base + "firebase.png")
-                  span
-                    a(href="https://www.firebase.com/") Firebase
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $300
-                li
-                  img(src=base + "one_month.png")
-                  span
-                    a(href="https://onemonthrails.com/") One Month Rails
-                    |  
-                    span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                    |  - $30
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $1101
-          tr 
-            td 4th
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "cash3.png")
-                  span $64 
-                  span(data-i18n="ladder_prizes.in_cash") in cash
-                li
-                  img(src=base + "heap.png")
-                  span
-                    a(href="https://heapanalytics.com/") Heap Analytics
-                    |  
-                    span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
-                    |  - $354
-                li
-                  img(src=base + "firebase.png")
-                  span
-                    a(href="https://www.firebase.com/") Firebase
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $300
-                li
-                  img(src=base + "one_month.png")
-                  span
-                    a(href="https://onemonthrails.com/") One Month Rails
-                    |  
-                    span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                    |  - $30
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $887
-          tr 
-            td 5th
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "cash3.png")
-                  span $32 
-                  span(data-i18n="ladder_prizes.in_cash") in cash
-                li
-                  img(src=base + "heap.png")
-                  span
-                    a(href="https://heapanalytics.com/") Heap Analytics
-                    |  
-                    span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
-                    |  - $354
-                li
-                  img(src=base + "firebase.png")
-                  span
-                    a(href="https://www.firebase.com/") Firebase
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $300
-                li
-                  img(src=base + "one_month.png")
-                  span
-                    a(href="https://onemonthrails.com/") One Month Rails
-                    |  
-                    span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                    |  - $30
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $855
-          tr 
-            td 6th
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "cash3.png")
-                  span $16 
-                  span(data-i18n="ladder_prizes.in_cash") in cash
-                li
-                  img(src=base + "firebase.png")
-                  span
-                    a(href="https://www.firebase.com/") Firebase
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $300
-                li
-                  img(src=base + "one_month.png")
-                  span
-                    a(href="https://onemonthrails.com/") One Month Rails
-                    |  
-                    span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                    |  - $30
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $485
-          tr 
-            td 7th
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "cash3.png")
-                  span $8 
-                  span(data-i18n="ladder_prizes.in_cash") in cash
-                li
-                  img(src=base + "firebase.png")
-                  span
-                    a(href="https://www.firebase.com/") Firebase
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $300
-                li
-                  img(src=base + "one_month.png")
-                  span
-                    a(href="https://onemonthrails.com/") One Month Rails
-                    |  
-                    span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                    |  - $30
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $477
-          tr 
-            td 8th
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "cash3.png")
-                  span $4 
-                  span(data-i18n="ladder_prizes.in_cash") in cash
-                li
-                  img(src=base + "firebase.png")
-                  span
-                    a(href="https://www.firebase.com/") Firebase
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $300
-                li
-                  img(src=base + "one_month.png")
-                  span
-                    a(href="https://onemonthrails.com/") One Month Rails
-                    |  
-                    span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                    |  - $30
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $473
-          tr 
-            td 9th
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "cash3.png")
-                  span $2 
-                  span(data-i18n="ladder_prizes.in_cash") in cash
-                li
-                  img(src=base + "firebase.png")
-                  span
-                    a(href="https://www.firebase.com/") Firebase
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $300
-                li
-                  img(src=base + "one_month.png")
-                  span
-                    a(href="https://onemonthrails.com/") One Month Rails
-                    |  
-                    span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                    |  - $30
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $471
-          tr 
-            td 10th
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "cash3.png")
-                  span $1 
-                  span(data-i18n="ladder_prizes.in_cash") in cash
-                li
-                  img(src=base + "firebase.png")
-                  span
-                    a(href="https://www.firebase.com/") Firebase
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $300
-                li
-                  img(src=base + "one_month.png")
-                  span
-                    a(href="https://onemonthrails.com/") One Month Rails
-                    |  
-                    span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                    |  - $30
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $470
-          tr 
-            td 11 - 40
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "webstorm.png")
-                  span
-                    a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                    |  
-                    span(data-i18n="ladder_prizes.license") license
-                    |  - $49
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $139
-          tr 
-            td 41 - 100
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "oreilly.png")
-                  span
-                    a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                    |  
-                    span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                    |  - $40
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $90
-          tr 
-            td 101+
-            td
-              ul.list-unstyled
-                li
-                  img(src=base + "aws.png")
-                  span
-                    a(href="http://aws.amazon.com/") Amazon Web Services
-                    |  
-                    span(data-i18n="ladder_prizes.credits") credits
-                    |  - $50
-            td $50
-
-    .tab-pane.well#rules
-      h1(data-i18n="ladder.tournament_rules") Tournament Rules
-      h2 General
-      p You don't have to buy anything to participate in the tournament, and trying to pay us won't increase your odds of winning. Although we don't anticipate the rules changing, they are subject to change.
-
-      h2 Dates and Times
-      p The tournament starts on Tuesday, May 20 at 8:30AM and ends on Tuesday, June 10 at 5:00PM PDT. After the tournament finishes, we will check the games manually to prevent duplicate entries and cheating. We will email all the winners within two weeks of the end date.
-
-      h2 Eligilibity
-      p The tournament is open to anyone over the age of 13. Players are allowed to form teams to compete, but we will only be rewarding submissions, so if a team of 10 wins, they will need to split the prize.
-
-      p The tournament is NOT open to people who live in countries or states that prohibit participating or receiving a prize in a challenge (these include, but are not limited to Brazil, Quebec, Italy, Cuba, Sudan, Iran, North Korea, and Syria). To clarify, people from the aforementioned places are welcome to play the Greed level, but cannot receive prizes. Organizations involved in putting the tournament together (namely CodeCombat and all of our employees) are excluded from participating/winning prizes.
-
-      h2 Submission Requirements
-      p 
-        | To be eligible to win prizes, players must submit their code to the Greed ladder for ranking AND defeat our default AI. Every player that submits their code to the ladder and beats our default AI will receive $50 in AWS credits as described on the 
-        a(href="#prizes", data-i18n="ladder_prizes.tournament_prizes") Tournament Prizes
-        |  page.
-
-      p
-        | There are some restrictions regarding who can use the AWS credits. Please see the additional rules of use on 
-        a(href="https://aws.amazon.com/awscredits") Amazon's AWS credits page.
-
-      h2 Submission Rights
-      p We reserve the right to use your submission and site identity (including username, avatar, and any information you mark as public) to promote the tournament. This is in keeping with our overall site terms of service.
-
-      h2 Judging Criteria
-      p
-        | We will calculate final rankings by running the top games from the public leaderboard from both teams against each other and sorting solutions by wins and losses. The number of games from each side to be used in the final ranking is yet to be determined, but is probably around 150. The final ranking will be performed with a snapshot of solutions taken the end of the contest. The final ranking methedology is subject to change. We will not be evaluating code in any manual way for common traits like adequate documentation, cleanliness, etc. We reserve the right to disqualify any player for any reason. The public leaderboards are a good proxy for your final rank, but are not guaranteed to be accurate. To repeat, 
-        strong the leaderboards are only a preliminary proxy for your final rank
-        | .
-
-      p
-        | Your rank will change as players submit more solutions and more matches are played according to 
-        a(href="https://github.com/codecombat/bayesian-battle") our open-source ranking library, Bayesian Battle
-        | , but our final ranking will use an exhaustive pairwise matching round amongst the top players as described above.
-
-      h2 Prizes
-      p 
-        | Prizes will be awarded to everyone that achieves a rank covered on the 
-        a(href="#prizes", data-i18n="ladder.prizes") Tournament Prizes
-        |  page.
-
-      p Please remember that the player ranks listed on the prize page refer to ranks WITHIN a leaderboard. So if you are the #2 Ogre player, you will win the #2 prize. Similarly, if you are the #3 Human player, you will receive the #3 prize. If you have submissions on both leaderboards, we will only count your highest submission for the purposes of distributing prizes. As a result, your final ranking may be higher than your preliminary ranking due to removing duplicate submissions above you.
-
-      h2 Verifying Potential Winners
-      p We may ask players to identify themselves so that we can detect duplicate entries. This may be done in the form of a Facebook, Google+, or LinkedIn profile, but we may need more information. All players eligible for prizes agree that refusing to provide us with identifying information may lead to ineligibility for prizes. 
-
-      p On a related note, if we have reason to believe that a player has intentionally submitted duplicate entries for the purpose of receiving more prizes or manipulating the leaderboards in any way, we will remove that player and all submissions we believe to be associated with them. We want this to be fair for everyone.
-
-      h2 Prize Distribution
-      p Different sponsors require different ways of claiming their prizes, and we will work with winners to ensure they are able to redeem their prizes in a timely fashion. For cash prizes, we will deliver the money via PayPal. We will not ship checks, money orders, or cash through the mail. We will assume reasonable international money transfer costs to deliver cash prizes through Paypal.
-
-      p Winners are responsible for any taxes associated with claiming their prizes. CodeCombat is not responsible for filing paperwork on behalf of winners for tax claims. 
-
-      h2 Contact
-      p
-        | If you have any questions or would like to get in touch with us for any other reason, we can be reached at team@codecombat.com. You can also post to our public 
-        a(href="http://discourse.codecombat.com/") Discourse forum
-        | .
+    if level.get('name') == 'Greed'
+      .tab-pane.well#prizes
+        h1(data-i18n="ladder_prizes.title") Tournament Prizes
+        p
+          span(data-i18n="ladder_prizes.blurb_1") These prizes will be awarded according to
+          |  
+          a(href="#rules", data-i18n="ladder_prizes.blurb_2") the tournament rules
+          |  
+          span(data-i18n="ladder_prizes.blurb_3") to the top human and ogre players.
+          |  
+          strong(data-i18n="ladder_prizes.blurb_4") Two teams means double the prizes!
+          |  
+          span(data-i18n="ladder_prizes.blurb_5") (There will be two first place winners, two second-place winners, etc.)
+  
+        table#prize_table.table
+          thead
+            tr
+              td(data-i18n="ladder_prizes.rank") Rank
+              td(data-i18n="ladder_prizes.prizes") Prizes
+              td(data-i18n="ladder_prizes.total_value") Total Value
+          tbody
+            tr 
+              td 1st
+              td 
+                ul.list-unstyled
+                  li
+                    img(src=base + "cash1.png")
+                    span $512 
+                    span(data-i18n="ladder_prizes.in_cash") in cash
+                  li
+                    img(src=base + "custom_wizard.png")
+                    span(data-i18n="ladder_prizes.custom_wizard") Custom CodeCombat Wizard
+                  li
+                    img(src=base + "custom_avatar.png")
+                    span(data-i18n="ladder_prizes.custom_avatar") Custom CodeCombat avatar
+                  li
+                    img(src=base + "heap.png")
+                    span
+                      a(href="https://heapanalytics.com/") Heap Analytics
+                      |  
+                      span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
+                      |  - $354
+                  li
+                    img(src=base + "firebase.png")
+                    span
+                      a(href="https://www.firebase.com/") Firebase
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $300
+                  li
+                    img(src=base + "one_month.png")
+                    span
+                      a(href="https://onemonthrails.com/") One Month Rails
+                      |  
+                      span(data-i18n="ladder_prizes.one_month_coupon") coupon: choose either Rails or HTML
+                      |  - $99
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $2054
+            tr 
+              td 2nd
+              td 
+                ul.list-unstyled
+                  li
+                    img(src=base + "cash2.png")
+                    span $256 
+                    span(data-i18n="ladder_prizes.in_cash") in cash
+                  li
+                    img(src=base + "custom_avatar.png")
+                    span(data-i18n="ladder_prizes.custom_avatar") Custom CodeCombat avatar
+                  li
+                    img(src=base + "heap.png")
+                    span
+                      a(href="https://heapanalytics.com/") Heap Analytics
+                      |  
+                      span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
+                      |  - $354
+                  li
+                    img(src=base + "firebase.png")
+                    span
+                      a(href="https://www.firebase.com/") Firebase
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $300
+                  li
+                    img(src=base + "one_month.png")
+                    span
+                      a(href="https://onemonthrails.com/") One Month Rails
+                      |  
+                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      |  - $30
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $1229
+            tr 
+              td 3rd
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "cash2.png")
+                    span $128 
+                    span(data-i18n="ladder_prizes.in_cash") in cash
+                  li
+                    img(src=base + "custom_avatar.png")
+                    span(data-i18n="ladder_prizes.custom_avatar") Custom CodeCombat avatar
+                  li
+                    img(src=base + "heap.png")
+                    span
+                      a(href="https://heapanalytics.com/") Heap Analytics
+                      |  
+                      span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
+                      |  - $354
+                  li
+                    img(src=base + "firebase.png")
+                    span
+                      a(href="https://www.firebase.com/") Firebase
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $300
+                  li
+                    img(src=base + "one_month.png")
+                    span
+                      a(href="https://onemonthrails.com/") One Month Rails
+                      |  
+                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      |  - $30
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $1101
+            tr 
+              td 4th
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "cash3.png")
+                    span $64 
+                    span(data-i18n="ladder_prizes.in_cash") in cash
+                  li
+                    img(src=base + "heap.png")
+                    span
+                      a(href="https://heapanalytics.com/") Heap Analytics
+                      |  
+                      span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
+                      |  - $354
+                  li
+                    img(src=base + "firebase.png")
+                    span
+                      a(href="https://www.firebase.com/") Firebase
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $300
+                  li
+                    img(src=base + "one_month.png")
+                    span
+                      a(href="https://onemonthrails.com/") One Month Rails
+                      |  
+                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      |  - $30
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $887
+            tr 
+              td 5th
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "cash3.png")
+                    span $32 
+                    span(data-i18n="ladder_prizes.in_cash") in cash
+                  li
+                    img(src=base + "heap.png")
+                    span
+                      a(href="https://heapanalytics.com/") Heap Analytics
+                      |  
+                      span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
+                      |  - $354
+                  li
+                    img(src=base + "firebase.png")
+                    span
+                      a(href="https://www.firebase.com/") Firebase
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $300
+                  li
+                    img(src=base + "one_month.png")
+                    span
+                      a(href="https://onemonthrails.com/") One Month Rails
+                      |  
+                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      |  - $30
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $855
+            tr 
+              td 6th
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "cash3.png")
+                    span $16 
+                    span(data-i18n="ladder_prizes.in_cash") in cash
+                  li
+                    img(src=base + "firebase.png")
+                    span
+                      a(href="https://www.firebase.com/") Firebase
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $300
+                  li
+                    img(src=base + "one_month.png")
+                    span
+                      a(href="https://onemonthrails.com/") One Month Rails
+                      |  
+                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      |  - $30
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $485
+            tr 
+              td 7th
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "cash3.png")
+                    span $8 
+                    span(data-i18n="ladder_prizes.in_cash") in cash
+                  li
+                    img(src=base + "firebase.png")
+                    span
+                      a(href="https://www.firebase.com/") Firebase
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $300
+                  li
+                    img(src=base + "one_month.png")
+                    span
+                      a(href="https://onemonthrails.com/") One Month Rails
+                      |  
+                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      |  - $30
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $477
+            tr 
+              td 8th
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "cash3.png")
+                    span $4 
+                    span(data-i18n="ladder_prizes.in_cash") in cash
+                  li
+                    img(src=base + "firebase.png")
+                    span
+                      a(href="https://www.firebase.com/") Firebase
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $300
+                  li
+                    img(src=base + "one_month.png")
+                    span
+                      a(href="https://onemonthrails.com/") One Month Rails
+                      |  
+                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      |  - $30
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $473
+            tr 
+              td 9th
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "cash3.png")
+                    span $2 
+                    span(data-i18n="ladder_prizes.in_cash") in cash
+                  li
+                    img(src=base + "firebase.png")
+                    span
+                      a(href="https://www.firebase.com/") Firebase
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $300
+                  li
+                    img(src=base + "one_month.png")
+                    span
+                      a(href="https://onemonthrails.com/") One Month Rails
+                      |  
+                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      |  - $30
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $471
+            tr 
+              td 10th
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "cash3.png")
+                    span $1 
+                    span(data-i18n="ladder_prizes.in_cash") in cash
+                  li
+                    img(src=base + "firebase.png")
+                    span
+                      a(href="https://www.firebase.com/") Firebase
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $300
+                  li
+                    img(src=base + "one_month.png")
+                    span
+                      a(href="https://onemonthrails.com/") One Month Rails
+                      |  
+                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      |  - $30
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $470
+            tr 
+              td 11 - 40
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "webstorm.png")
+                    span
+                      a(href="http://www.jetbrains.com/webstorm/") Webstorm
+                      |  
+                      span(data-i18n="ladder_prizes.license") license
+                      |  - $49
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $139
+            tr 
+              td 41 - 100
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "oreilly.png")
+                    span
+                      a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
+                      |  
+                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      |  - $40
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $90
+            tr 
+              td 101+
+              td
+                ul.list-unstyled
+                  li
+                    img(src=base + "aws.png")
+                    span
+                      a(href="http://aws.amazon.com/") Amazon Web Services
+                      |  
+                      span(data-i18n="ladder_prizes.credits") credits
+                      |  - $50
+              td $50
+  
+      .tab-pane.well#rules
+        h1(data-i18n="ladder.tournament_rules") Tournament Rules
+        h2 General
+        p You don't have to buy anything to participate in the tournament, and trying to pay us won't increase your odds of winning. Although we don't anticipate the rules changing, they are subject to change.
+  
+        h2 Dates and Times
+        p The tournament starts on Tuesday, May 20 at 8:30AM and ends on Tuesday, June 10 at 5:00PM PDT. After the tournament finishes, we will check the games manually to prevent duplicate entries and cheating. We will email all the winners within two weeks of the end date.
+  
+        h2 Eligilibity
+        p The tournament is open to anyone over the age of 13. Players are allowed to form teams to compete, but we will only be rewarding submissions, so if a team of 10 wins, they will need to split the prize.
+  
+        p The tournament is NOT open to people who live in countries or states that prohibit participating or receiving a prize in a challenge (these include, but are not limited to Brazil, Quebec, Italy, Cuba, Sudan, Iran, North Korea, and Syria). To clarify, people from the aforementioned places are welcome to play the Greed level, but cannot receive prizes. Organizations involved in putting the tournament together (namely CodeCombat and all of our employees) are excluded from participating/winning prizes.
+  
+        h2 Submission Requirements
+        p 
+          | To be eligible to win prizes, players must submit their code to the Greed ladder for ranking AND defeat our default AI. Every player that submits their code to the ladder and beats our default AI will receive $50 in AWS credits as described on the 
+          a(href="#prizes", data-i18n="ladder_prizes.tournament_prizes") Tournament Prizes
+          |  page.
+  
+        p
+          | There are some restrictions regarding who can use the AWS credits. Please see the additional rules of use on 
+          a(href="https://aws.amazon.com/awscredits") Amazon's AWS credits page.
+  
+        h2 Submission Rights
+        p We reserve the right to use your submission and site identity (including username, avatar, and any information you mark as public) to promote the tournament. This is in keeping with our overall site terms of service.
+  
+        h2 Judging Criteria
+        p
+          | We will calculate final rankings by running the top games from the public leaderboard from both teams against each other and sorting solutions by wins and losses. The number of games from each side to be used in the final ranking is yet to be determined, but is probably around 150. The final ranking will be performed with a snapshot of solutions taken the end of the contest. The final ranking methedology is subject to change. We will not be evaluating code in any manual way for common traits like adequate documentation, cleanliness, etc. We reserve the right to disqualify any player for any reason. The public leaderboards are a good proxy for your final rank, but are not guaranteed to be accurate. To repeat, 
+          strong the leaderboards are only a preliminary proxy for your final rank
+          | .
+  
+        p
+          | Your rank will change as players submit more solutions and more matches are played according to 
+          a(href="https://github.com/codecombat/bayesian-battle") our open-source ranking library, Bayesian Battle
+          | , but our final ranking will use an exhaustive pairwise matching round amongst the top players as described above.
+  
+        h2 Prizes
+        p 
+          | Prizes will be awarded to everyone that achieves a rank covered on the 
+          a(href="#prizes", data-i18n="ladder.prizes") Tournament Prizes
+          |  page.
+  
+        p Please remember that the player ranks listed on the prize page refer to ranks WITHIN a leaderboard. So if you are the #2 Ogre player, you will win the #2 prize. Similarly, if you are the #3 Human player, you will receive the #3 prize. If you have submissions on both leaderboards, we will only count your highest submission for the purposes of distributing prizes. As a result, your final ranking may be higher than your preliminary ranking due to removing duplicate submissions above you.
+  
+        h2 Verifying Potential Winners
+        p We may ask players to identify themselves so that we can detect duplicate entries. This may be done in the form of a Facebook, Google+, or LinkedIn profile, but we may need more information. All players eligible for prizes agree that refusing to provide us with identifying information may lead to ineligibility for prizes. 
+  
+        p On a related note, if we have reason to believe that a player has intentionally submitted duplicate entries for the purpose of receiving more prizes or manipulating the leaderboards in any way, we will remove that player and all submissions we believe to be associated with them. We want this to be fair for everyone.
+  
+        h2 Prize Distribution
+        p Different sponsors require different ways of claiming their prizes, and we will work with winners to ensure they are able to redeem their prizes in a timely fashion. For cash prizes, we will deliver the money via PayPal. We will not ship checks, money orders, or cash through the mail. We will assume reasonable international money transfer costs to deliver cash prizes through Paypal.
+  
+        p Winners are responsible for any taxes associated with claiming their prizes. CodeCombat is not responsible for filing paperwork on behalf of winners for tax claims. 
+  
+        h2 Contact
+        p
+          | If you have any questions or would like to get in touch with us for any other reason, we can be reached at team@codecombat.com. You can also post to our public 
+          a(href="http://discourse.codecombat.com/") Discourse forum
+          | .
+  
+      .tab-pane.well#winners
+        h1(data-i18n="ladder.winners") Winners
+  
+        table.table.table-hover.table-condensed
+          thead
+            tr
+              th(data-i18n="ladder_prizes.rank") Rank
+              th Human
+              th Human wins/losses/ties
+              th Ogre
+              th Ogre wins/losses/ties
+              th Spectate
+          tbody
+            each human, index in winners.humans
+              - var ogre = winners.ogres[index]
+              tr 
+                td= human.rank
+                td= human.name
+                td
+                  span.win= human.wins
+                  |  - 
+                  span.loss= human.losses
+                  |  - 
+                  span.tie= 377 - human.wins - human.losses
+                if ogre
+                  td= ogre.name
+                  td
+                    span.win= ogre.wins
+                    |  - 
+                    span.loss= ogre.losses
+                    |  - 
+                    span.tie= 407 - ogre.wins - ogre.losses
+                  td
+                    a(href="/play/spectate/" + level.get('slug') + "?session-one=" + human.sessionID + "&session-two=" + ogre.sessionID) Watch the battle
+                else
+                  td
+                  td
+                  td

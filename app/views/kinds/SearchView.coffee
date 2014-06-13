@@ -5,7 +5,7 @@ app = require('application')
 
 class SearchCollection extends Backbone.Collection
   initialize: (modelURL, @model, @term, @projection) ->
-    @url = "#{modelURL}/search?project="
+    @url = "#{modelURL}?project="
     if @projection? and not (@projection == [])
       @url += projection[0]
       @url += ',' + projected for projected in projection[1..]

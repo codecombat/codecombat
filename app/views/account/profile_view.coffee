@@ -1,10 +1,18 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/account/profile'
 User = require 'models/User'
+LevelSession = require 'models/LevelSession'
+CocoCollection = require 'collections/CocoCollection'
 {me} = require 'lib/auth'
 JobProfileContactView = require 'views/modal/job_profile_contact_modal'
 JobProfileView = require 'views/account/job_profile_view'
 forms = require 'lib/forms'
+
+class LevelSessionsCollection extends CocoCollection
+  url: -> "/db/user/#{@userID}/level.sessions/employer"
+  model: LevelSession
+  constructor: (@userID) ->
+    super()
 
 module.exports = class ProfileView extends View
   id: "profile-view"
@@ -42,9 +50,7 @@ module.exports = class ProfileView extends View
     if User.isObjectID @userID
       @finishInit()
     else
-      console.log "getting", @userID
       $.ajax "/db/user/#{@userID}/nameToID", success: (@userID) =>
-        console.log " got", @userID
         @finishInit() unless @destroyed
         @render()
 
@@ -59,8 +65,11 @@ module.exports = class ProfileView extends View
       @user.fetch()
       @listenTo @user, "sync", =>
         @render()
+      $.post "/db/user/#{me.id}/track/view_candidate"
+      $.post "/db/user/#{@userID}/track/viewed_by_employer" unless me.isAdmin()
     else
       @user = User.getByID(@userID)
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@userID), 'candidate_sessions').model
 
   onLinkedInLoaded: =>
     @linkedinLoaded = true
@@ -78,11 +87,11 @@ module.exports = class ProfileView extends View
         @renderLinkedInButton()
       else
         @waitingForLinkedIn = true
+
   importLinkedIn: =>
     overwriteConfirm = confirm("Importing LinkedIn data will overwrite your current work experience, skills, name, descriptions, and education. Continue?")
     unless overwriteConfirm then return
     application.linkedinHandler.getProfileData (err, profileData) =>
-      console.log profileData
       @processLinkedInProfileData profileData
   jobProfileSchema: -> @user.schema().properties.jobProfile.properties
 
@@ -113,7 +122,7 @@ module.exports = class ProfileView extends View
       for position in p["positions"]["values"]
         workObj = {}
         descriptionMaxLength = workSchema.description.maxLength
-        
+
         workObj.description = position.summary?.slice(0,descriptionMaxLength)
         workObj.description ?= ""
         if position.startDate?.year?
@@ -215,6 +224,11 @@ module.exports = class ProfileView extends View
       links = ($.extend(true, {}, link) for link in links)
       link.icon = @iconForLink link for link in links
       context.profileLinks = _.sortBy links, (link) -> not link.icon  # icons first
+    if @sessions
+      context.sessions = (s.attributes for s in @sessions.models when (s.get('submitted') or s.get('level-id') is 'gridmancer'))
+      context.sessions.sort (a, b) -> (b.playtime ? 0) - (a.playtime ? 0)
+    else
+      context.sessions = []
     context
 
   afterRender: ->
@@ -301,7 +315,7 @@ module.exports = class ProfileView extends View
     errors = @user.validate()
     return @showErrors errors if errors
     jobProfile = @user.get('jobProfile')
-    jobProfile.updated = (new Date()).toISOString()
+    jobProfile.updated = (new Date()).toISOString() if @user is me
     @user.set 'jobProfile', jobProfile
     return unless res = @user.save()
     res.error =>

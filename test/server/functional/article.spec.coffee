@@ -8,6 +8,8 @@ describe '/db/article', ->
       done()
 
   article = {name: 'Yo', body:'yo ma'}
+  article2 = {name: 'Original', body:'yo daddy'}
+
   url = getURL('/db/article')
   articles = {}
 
@@ -27,11 +29,22 @@ describe '/db/article', ->
         expect(body.original).toBeDefined()
         expect(body.creator).toBeDefined()
         articles[0] = body
-        done()
+
+        # Having two articles allow for testing article search and such
+        request.post {uri:url, json:article2}, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          expect(body.slug).toBeDefined()
+          expect(body.body).toBeDefined()
+          expect(body.name).toBeDefined()
+          expect(body.original).toBeDefined()
+          expect(body.creator).toBeDefined()
+          articles[0] = body
+
+          done()
 
   it 'allows admins to make new minor versions', (done) ->
     new_article = _.clone(articles[0])
-    new_article.body = '...'
+    new_article.body = 'yo daddy'
     request.post {uri:url, json:new_article}, (err, res, body) ->
       expect(res.statusCode).toBe(200)
       expect(body.version.major).toBe(0)
@@ -61,7 +74,6 @@ describe '/db/article', ->
         expect(res.statusCode).toBe(200)
         expect(body.body).toBe(articles[0].body)
         done()
-    
   
   it 'does not allow regular users to make new versions', (done) ->
     new_article = _.clone(articles[2])
@@ -87,9 +99,41 @@ describe '/db/article', ->
 
   it 'does not allow naming an article a reserved word', (done) ->
     loginAdmin ->
-      new_article = {name: 'Search', body:'is a reserved word'}
+      new_article = {name: 'Names', body:'is a reserved word'}
       request.post {uri:url, json:new_article}, (err, res, body) ->
         expect(res.statusCode).toBe(422)
         done()
         
-       
+  it 'allows regular users to get all articles', (done) ->
+    loginJoe ->
+      request.get {uri:url, json:{}}, (err, res, body) ->
+        expect(res.statusCode).toBe(200)
+        expect(body.length).toBe(2)
+        done()
+
+  it 'allows regular users to get articles and use projection', (done) ->
+    loginJoe ->
+      # default projection
+      request.get {uri:url + '?project=true', json:{}}, (err, res, body) ->
+        expect(res.statusCode).toBe(200)
+        expect(body.length).toBe(2)
+        expect(body[0].created).toBeUndefined()
+        expect(body[0].version).toBeDefined()
+
+        # custom projection
+        request.get {uri:url + '?project=original', json:{}}, (err, res, body) ->
+          expect(res.statusCode).toBe(200)
+          expect(body.length).toBe(2)
+          expect(Object.keys(body[0]).length).toBe(2)
+          expect(body[0].original).toBeDefined()
+          done()
+
+  it 'allows regular users to perform a text search', (done) ->
+    loginJoe ->
+      request.get {uri:url + '?term="daddy"', json:{}}, (err, res, body) ->
+        expect(res.statusCode).toBe(200)
+        expect(body.length).toBe(1)
+        expect(body[0].name).toBe(article2.name)
+        expect(body[0].body).toBe(article2.body)
+        done()
+

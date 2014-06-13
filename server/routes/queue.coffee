@@ -28,7 +28,7 @@ module.exports.setup = (app) ->
     
   app.all '/queue/*', (req, res) ->
     setResponseHeaderToJSONContentType res
-      
+
     queueName = getQueueNameFromPath req.path
     try
       handler = loadQueueHandler queueName
@@ -64,7 +64,7 @@ isHTTPMethodPost = (req) -> return req.route.method is 'post'
 isHTTPMethodPut = (req) -> return req.route.method is 'put'
 
 
-sendMethodNotSupportedError = (req, res) -> errors.badMethod(res,"Queues do not support the HTTP method used." )
+sendMethodNotSupportedError = (req, res) -> errors.badMethod(res, ['GET', 'POST', 'PUT'], "Queues do not support the HTTP method used." )
 
 sendQueueError = (req,res, error) -> errors.serverError(res, "Route #{req.path} had a problem: #{error}")
 

@@ -79,7 +79,7 @@ module.exports = class EditorConfigModal extends View
     Backbone.Mediator.publish 'tome:change-config'
     Backbone.Mediator.publish 'tome:change-language', language: newLanguage unless newLanguage is oldLanguage
     @session.save() unless newLanguage is oldLanguage
-    me.save()
+    me.patch()
 
   destroy: ->
     super()

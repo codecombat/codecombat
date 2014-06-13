@@ -9,6 +9,10 @@ jasmine.getEnv().addReporter(new jasmine.SpecReporter({
   displaySuccessfulSpec: true,
   displayFailedSpec: true
   }))
+
+rep = new jasmine.JsApiReporter()
+jasmine.getEnv().addReporter(rep)
+
 GLOBAL._ = require('lodash')
 _.str = require('underscore.string')
 _.mixin(_.str.exports())
@@ -26,6 +30,8 @@ models_path = [
   '../../server/levels/thangs/LevelThangType'
   '../../server/users/User'
   '../../server/patches/Patch'
+  '../../server/achievements/Achievement'
+  '../../server/achievements/EarnedAchievement'
 ]
 
 for m in models_path
@@ -149,3 +155,13 @@ _drop = (done) ->
     chunks = mongoose.connection.db.collection('media.chunks')
     chunks.remove {}, ->
       done()
+
+tickInterval = null
+tick = ->
+  # When you want jasmine-node to exit after running the tests,
+  # you have to close the connection first.
+  if rep.finished
+    mongoose.disconnect()
+    clearTimeout tickInterval
+
+tickInterval = setInterval tick, 1000 

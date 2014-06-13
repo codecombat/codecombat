@@ -13,9 +13,6 @@ userPropsToSave =
 
 
 module.exports = FacebookHandler = class FacebookHandler extends CocoClass
-  constructor: ->
-    super()
-
   subscriptions:
     'facebook-logged-in':'onFacebookLogin'
     'facebook-logged-out': 'onFacebookLogout'
@@ -42,22 +39,18 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
       return
 
     oldEmail = me.get('email')
-    patch = {}
-    patch.firstName = r.first_name if r.first_name
-    patch.lastName = r.last_name if r.last_name
-    patch.gender = r.gender if r.gender
-    patch.email = r.email if r.email
-    patch.facebookID = r.id if r.id
-    me.set(patch)
-    patch._id = me.id
-
+    me.set('firstName', r.first_name) if r.first_name
+    me.set('lastName', r.last_name) if r.last_name
+    me.set('gender', r.gender) if r.gender
+    me.set('email', r.email) if r.email
+    me.set('facebookID', r.id) if r.id
+    
     Backbone.Mediator.publish('logging-in-with-facebook')
     window.tracker?.trackEvent 'Facebook Login'
     window.tracker?.identify()
-    me.save(patch, {
-      patch: true
+    me.patch({
       error: backboneFailure,
-      url: "/db/user?facebookID=#{r.id}&facebookAccessToken=#{@authResponse.accessToken}"
+      url: "/db/user/#{me.id}?facebookID=#{r.id}&facebookAccessToken=#{@authResponse.accessToken}"
       success: (model) ->
         window.location.reload() if model.get('email') isnt oldEmail
     })
