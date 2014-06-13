@@ -4,6 +4,7 @@ template = require 'templates/modal/model'
 module.exports = class ModelModal extends View
   id: 'model-modal'
   template: template
+  plain: true
 
   constructor: (options) ->
     super options
