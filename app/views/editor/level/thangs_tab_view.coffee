@@ -186,6 +186,7 @@ module.exports = class ThangsTabView extends View
 
   onStageMouseUp: (e) ->
     if @addThangSprite
+      @surface.camera.lock()
       # If we click on the background, we need to add @addThangSprite, but not if onSpriteMouseUp will fire.
       @backgroundAddClickTimeout = _.defer => @onExtantThangSelected {}
     $('#contextmenu').hide()
@@ -202,7 +203,8 @@ module.exports = class ThangsTabView extends View
 
   onSpriteMouseUp: (e) ->
     clearTimeout @backgroundAddClickTimeout
-    if e.originalEvent.nativeEvent.button == 2
+    @surface.camera.unlock()
+    if e.originalEvent.nativeEvent.button == 2 and @selectedExtantThang
       @onSpriteContextMenu e
     clearInterval(@movementInterval) if @movementInterval?
     @movementInterval = null
@@ -276,7 +278,6 @@ module.exports = class ThangsTabView extends View
     @surface.spriteBoss.removeSprite @addThangSprite if @addThangSprite
     @addThangType = type
     if @addThangType
-      @surface.camera.lock()
       thang = @createAddThang()
       @addThangSprite = @surface.spriteBoss.addThangToSprites thang, @surface.spriteBoss.spriteLayers["Floating"]
       @addThangSprite.notOfThisWorld = true
@@ -285,7 +286,6 @@ module.exports = class ThangsTabView extends View
       pos ?= x: Math.round(@world.width / 2), y: Math.round(@world.height / 2)
       @adjustThangPos @addThangSprite, thang, pos
     else
-      @surface.camera.unlock()
       @addThangSprite = null
 
   createEssentialComponents: ->
