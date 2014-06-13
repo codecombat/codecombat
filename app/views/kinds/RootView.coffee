@@ -22,6 +22,9 @@ module.exports = class RootView extends CocoView
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
     'click .auth-button': 'onClickAuthbutton'
+    'click a': 'toggleModal'
+    'click button': 'toggleModal'
+    'click li': 'toggleModal'
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
