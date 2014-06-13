@@ -11,7 +11,8 @@ block content
   if level.get('name') == 'Greed'
     .tournament-blurb
       h2
-        span(data-i18n="ladder.tournament_ends") Tournament ends
+        //span(data-i18n="ladder.tournament_ends") Tournament ends
+        span(data-i18n="ladder.tournament_ended") Tournament ended
         |  #{tournamentTimeLeft}
       p
         span(data-i18n="ladder.tournament_blurb") Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details
@@ -19,11 +20,9 @@ block content
         a(href="http://blog.codecombat.com/multiplayer-programming-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
         | .
       p
-        strong Tournament ended!
-        |  At 5PM PDT, we took a snapshot of submitted code and are running an exhaustive pairwise ranking between all players. Winners will be sorted by 
-        code wins - losses
-        | , and especially given deduplication on each team, final rankings may look significantly different than these preliminary rankings.
-        | We will announce winners as soon as we can. Thanks for playing!
+        strong Tournament ended! 
+        a(href="#winners") Behold the winners
+        | . Thanks for playing!
       p
         | Want to commiserate? Head over to 
         a(href="http://discourse.codecombat.com/") the forum
