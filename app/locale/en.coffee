@@ -297,11 +297,22 @@
     player_code: "Player Code"
 
   employers:
-    want_to_hire_our_players: "Want to hire expert CodeCombat players?"
+    want_to_hire_our_players: "Hire CodeCombat Players"
+    what: "What is CodeCombat?"
+    what_blurb: "CodeCombat is a multiplayer browser programming game. Players write code to control their forces in battle against other developers. We support JavaScript, Python, Lua, Clojure, CoffeeScript, and Io."
+    who: "Who Are the Players?"
+    who_blurb: "CodeCombateers are software developers who enjoy using their programming skills to play games. They range from college seniors at top 20 engineering programs to 20-year industry veterans."
+    how: "How Do We Find Developers?"
+    how_blurb: "We host competitive tournaments to attract competitive software engieneers. We then use in-house algorithms to identify the best players among the top 5% of tournament winners."
+    why: "Why Hire Through Us?"
+    why_blurb_1: "We will save you time. Every CodeCombateer we feaure is "
+    why_blurb_2: "looking for work"
+    why_blurb_3: ", has "
+    why_blurb_4: "demonstrated top notch technical skills"
+    why_blurb_5: ", and has been "
+    why_blurb_6: "personally screened by us"
+    why_blurb_7: ". Stop screening and start hiring."
     see_candidates: "Click here to see our candidates"
-    candidates_count_prefix: "We currently have "
-    candidates_count_many: "many"
-    candidates_count_suffix: "highly skilled and vetted developers looking for work."
     candidate_name: "Name"
     candidate_location: "Location"
     candidate_looking_for: "Looking For"
@@ -786,9 +797,12 @@
     watch_victory: "Watch your victory"
     defeat_the: "Defeat the"
     tournament_ends: "Tournament ends"
+    tournament_ended: "Tournament ended"
     tournament_rules: "Tournament Rules"
     tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
     tournament_blurb_blog: "on our blog"
+    rules: "Rules"
+    winners: "Winners"
 
   ladder_prizes:
     title: "Tournament Prizes"
@@ -809,7 +823,6 @@
     one_month_discount: "discount, 30% off: choose either Rails or HTML"
     license: "license"
     oreilly: "ebook of your choice"
-
 
   multiplayer_launch:
     introducing_dungeon_arena: "Introducing Dungeon Arena"
@@ -866,7 +879,7 @@
     files: "Files"
     top_simulators: "Top Simulators"
     source_document: "Source Document"
-    document: "Document" # note to diplomats: not a physical document, a document in MongoDB, ie a record in a database
+    document: "Document"
     sprite_sheet: "Sprite Sheet"
     candidate_sessions: "Candidate Sessions"
 

@@ -54,6 +54,7 @@ module.exports = class LadderView extends RootView
     ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
     ctx._ = _
     ctx.tournamentTimeLeft = moment(new Date(1402444800000)).fromNow()
+    ctx.winners = require('views/play/ladder/tournament_results')[@levelID]
     ctx
 
   afterRender: ->
