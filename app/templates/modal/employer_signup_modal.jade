@@ -10,16 +10,31 @@ block modal-body-content
   if userIsAnonymous
     if userIsAuthorized
       | You appear to be authorized on CodeCombat with LinkedIn. 
+    else if sentMoreInfoEmail
+      | Thanks! You should receive an email from George shortly.
     else
       h4(data-i18n="employer_signup.sub_heading") Let us find your next brilliant developers.
       p Create an account to get started!
-      .form
+      .form#signup-form
         .form-group
           label.control-label(for="signup-email", data-i18n="general.email") Email
           input#signup-email.form-control.input-large(name="email",type="email")
         .form-group
           label.control-label(for="signup-password", data-i18n="general.password") Password              
           input#signup-password.input-large.form-control(name="password", type="password")
+      .modal-footer.linkedin
+        button.btn.btn-primary(id="create-account-button") Create Account
+        br
+        br
+        | Already have a CodeCombat account? 
+        a.login-link(data-toggle="coco-modal", data-target="modal/auth") Log in to continue!
+      h4 Want more information first?
+      p Enter your email and George, our CEO, will contact you shortly.
+      .form
+        .form-group
+          label.control-label(for="more-info-email", data-i18n="general.email") Email
+          input#more-info-email.form-control.input-large(name="more-info-email",type="email")
+      button.btn.btn-primary(id="more-info-button") Send me more information!
   else if !userIsAuthorized
     .modal-footer.linkedin
       p Please sign into your LinkedIn account to verify your identity.
@@ -44,14 +59,7 @@ block modal-body-content
     | By clicking Agree, you are agreeing to CodeCombat's Placement Agreement on behalf of your company. You also consent to CodeCombat storing basic LinkedIn profile data for verification purposes, including your name, email, public profile URL, and work history.
 block modal-footer
   if userIsAnonymous   
-    if !userIsAuthorized
-      .modal-footer.linkedin
-        button.btn.btn-primary(id="create-account-button") Create Account
-        br
-        br
-        | Already have a CodeCombat account? 
-        a.login-link(data-toggle="coco-modal", data-target="modal/auth") Log in to continue!
-    else
+    if userIsAuthorized
       .modal-footer.linkedin
         a.login-link(data-toggle="coco-modal", data-target="modal/auth") Please log in to continue.
   else if !userIsAnonymous && !userIsAuthorized

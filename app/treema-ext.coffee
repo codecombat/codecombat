@@ -253,7 +253,7 @@ class LatestVersionCollection extends CocoCollection
 class LatestVersionReferenceNode extends TreemaNode
   searchValueTemplate: '<input placeholder="Search" /><div class="treema-search-results"></div>'
   valueClass: 'treema-latest-version'
-  url: '/db/article/search'
+  url: '/db/article'
   lastTerm: null
 
   constructor: ->
@@ -264,7 +264,7 @@ class LatestVersionReferenceNode extends TreemaNode
     link = (l for l in links when l.rel is 'db')[0]
     return unless link
     parts = (p for p in link.href.split('/') when p.length)
-    @url = "/db/#{parts[1]}/search"
+    @url = "/db/#{parts[1]}"
     @model = require('models/' + _.string.classify(parts[1]))
 
   buildValueForDisplay: (valEl) ->
