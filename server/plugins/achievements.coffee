@@ -10,9 +10,6 @@ module.exports = AchievablePlugin = (schema, options) ->
   User = require '../users/User'  # Avoid mutual inclusion cycles
   Achievement = require('../achievements/Achievement')
 
-  checkForAchievement = (doc) ->
-    collectionName = doc.constructor.modelName
-
   before = {}
 
   schema.post 'init', (doc) ->
@@ -84,6 +81,7 @@ module.exports = AchievablePlugin = (schema, options) ->
     return
 
 module.exports.loadAchievements = ->
+  log.debug 'Reloading all achievements'
   achievements = {}
   Achievement = require('../achievements/Achievement')
   query = Achievement.find({})
