@@ -36,7 +36,7 @@ module.exports = class JobProfileContactView extends ContactView
     contactMessage.recipientID = @options.recipientID
     res = tv4.validateMultiple contactMessage, contactSchema
     return forms.applyErrorsToForm @$el, res.errors unless res.valid
-    contactMessage.message += '\n\n\n\n[CodeCombat says: please let us know if you end up accepting this job. Thanks!]'
+    contactMessage.message += "\n\n\n\n[CodeCombat says: please let us know if you end up accepting this job. Thanks, #{@options.recipientUserName}!]"
     window.tracker?.trackEvent 'Sent Job Profile Message', message: contactMessage
     sendContactMessage contactMessage, @$el
     $.post "/db/user/#{me.id}/track/contact_candidate"

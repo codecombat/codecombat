@@ -301,7 +301,7 @@ module.exports = class ProfileView extends View
     null
 
   onContactCandidate: (e) ->
-    @openModalView new JobProfileContactView recipientID: @user.id
+    @openModalView new JobProfileContactView recipientID: @user.id, recipientUserName: @user.get('name')
 
   showErrors: (errors) ->
     section = @$el.find '.saving'
