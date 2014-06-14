@@ -16,8 +16,9 @@ module.exports = class CocoRouter extends Backbone.Router
     # editor views tend to have the same general structure
     'editor/:model(/:slug_or_id)(/:subview)': 'editorModelView'
 
-    # Experimenting with direct links
-    'test/*subpath': go('test')
+    # Direct links
+    'test/*subpath': go('TestView')
+    'demo/*subpath': go('DemoView')
     'play/ladder/:levelID': go('play/ladder/ladder_view')
     'play/ladder': go('play/ladder_home')
 
