@@ -2,7 +2,7 @@ CocoView = require 'views/kinds/CocoView'
 template = require 'templates/demo'
 requireUtils = require 'lib/requireUtils'
 
-DEMO_REQUIRE_PREFIX = 'demo/app/'
+DEMO_REQUIRE_PREFIX = 'test/demo/'
 DEMO_URL_PREFIX = '/demo/'
 
 ###
@@ -37,7 +37,8 @@ module.exports = DemoView = class DemoView extends CocoView
   loadDemoingLibs: ->
     @queue = new createjs.LoadQueue()
     @queue.on('complete', @scriptsLoaded, @)
-    for f in ['jasmine', 'jasmine-html', 'boot', 'mock-ajax', 'demo-app']
+    window.jasmine = {} # so that mock-ajax properly loads. It expects jasmine to be loaded
+    for f in ['mock-ajax', 'demo-app']
       @queue.loadFile({
         src: "/javascripts/#{f}.js"
         type: createjs.LoadQueue.JAVASCRIPT
@@ -64,7 +65,7 @@ module.exports = DemoView = class DemoView extends CocoView
   initDemoFiles: ->
     @demoFiles = @getAllDemoFiles()
     if @subPath
-      prefix = TEST_REQUIRE_PREFIX + @subPath
+      prefix = DEMO_REQUIRE_PREFIX + @subPath
       @demoFiles = (f for f in @demoFiles when f.startsWith prefix)
 
   runDemo: ->
@@ -75,11 +76,13 @@ module.exports = DemoView = class DemoView extends CocoView
     if not _.isFunction(demoFunc)
       console.error "Demo files must export a function. #{requirePath} does not."
       return
+
+    jasmine.Ajax.install()
     view = demoFunc()
     return unless view
-    @$el.find('#demo-area').empty().append(view.el)
+    @$el.find('#demo-area').empty().append(view.$el)
     # TODO, maybe handle root views differently than modal views differently than everything else?
 
-  getAllDemoFiles = ->
+  getAllDemoFiles: ->
     allFiles = window.require.list()
     (f for f in allFiles when f.indexOf('.demo') > -1)

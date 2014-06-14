@@ -5,7 +5,6 @@ startsWith = (string, substring) ->
 exports.config =
   paths:
     'public': 'public'
-    'watched': ['app', 'test', 'vendor', 'demo', 'bower_components']
   conventions:
     ignored: (path) -> startsWith(sysPath.basename(path), '_')
   sourceMaps: true
@@ -36,7 +35,7 @@ exports.config =
           (bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
         )///
         'javascripts/test-app.js': /^test[\/\\]app/
-        'javascripts/demo-app.js': /^demo/
+        'javascripts/demo-app.js': /^test[\/\\]demo/
         
       order:
         before: [
