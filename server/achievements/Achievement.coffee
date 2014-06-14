@@ -24,10 +24,29 @@ AchievementSchema.methods.objectifyQuery = ->
 AchievementSchema.methods.stringifyQuery = ->
   @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != "string"
 
-AchievementSchema.methods.getExpFunction: ->
+AchievementSchema.methods.getExpFunction = ->
   kind = @get('function')?.kind or jsonschema.function.default.kind
   parameters = @get('function')?.parameters or jsonschema.function.default.parameters
   return utils.functionCreators[kind](parameters) if kind of utils.functionCreators
+
+AchievementSchema.statics.achievements = {}
+
+AchievementSchema.statics.loadAchievements = (done) ->
+  AchievementSchema.statics.resetAchievements()
+  Achievement = require('../achievements/Achievement')
+  query = Achievement.find({})
+  query.exec (err, docs) ->
+    _.each docs, (achievement) ->
+      category = achievement.get 'collection'
+      AchievementSchema.statics.achievements[category] = [] unless category of AchievementSchema.statics.achievements
+      AchievementSchema.statics.achievements[category].push achievement
+    done(AchievementSchema.statics.achievements) if done?
+
+AchievementSchema.statics.getLoadedAchievements = ->
+  AchievementSchema.statics.achievements
+
+AchievementSchema.statics.resetAchievements = ->
+  delete AchievementSchema.statics.achievements[category] for category of AchievementSchema.statics.achievements
 
 AchievementSchema.post 'init', (doc) -> doc.objectifyQuery()
 
@@ -36,10 +55,11 @@ AchievementSchema.pre 'save', (next) ->
   next()
 
 # Reload achievements upon save
-AchievementSchema.post 'save', -> AchievablePlugin.loadAchievements()
+AchievementSchema.post 'save', -> @constructor.loadAchievements()
 
 AchievementSchema.plugin(plugins.NamedPlugin)
 AchievementSchema.plugin(plugins.SearchablePlugin, {searchable: ['name']})
 
 module.exports = Achievement = mongoose.model('Achievement', AchievementSchema)
 
+AchievementSchema.statics.loadAchievements()

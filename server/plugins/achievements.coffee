@@ -4,26 +4,30 @@ LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/lib/utils'
 log = require 'winston'
 
-achievements = {}
 
-module.exports = AchievablePlugin = (schema, options) ->
+AchievablePlugin = (schema, options) ->
   User = require '../users/User'  # Avoid mutual inclusion cycles
   Achievement = require('../achievements/Achievement')
 
   before = {}
 
   schema.post 'init', (doc) ->
+    #log.debug 'initd'
+    #log.debug doc.toObject()
     before[doc.id] = doc.toObject()
 
   schema.post 'save', (doc) ->
+    #log.debug 'waiting in init: ' + Object.keys(before).length
     isNew = not doc.isInit('_id')
     originalDocObj = before[doc.id] unless isNew
 
     category = doc.constructor.modelName
+    loadedAchievements = Achievement.getLoadedAchievements()
+    log.debug 'about to save ' + category + ', number of achievements is ' + Object.keys(loadedAchievements).length
 
-    if category of achievements
+    if category of loadedAchievements
       docObj = doc.toObject()
-      for achievement in achievements[category]
+      for achievement in loadedAchievements[category]
         query = achievement.get('query')
         isRepeatable = achievement.get('proportionalTo')?
         alreadyAchieved = if isNew then false else LocalMongo.matchesQuery originalDocObj, query
@@ -80,15 +84,4 @@ module.exports = AchievablePlugin = (schema, options) ->
     delete before[doc.id] unless isNew # This assumes everything we patch has a _id
     return
 
-module.exports.loadAchievements = ->
-  log.debug 'Reloading all achievements'
-  achievements = {}
-  Achievement = require('../achievements/Achievement')
-  query = Achievement.find({})
-  query.exec (err, docs) ->
-    _.each docs, (achievement) ->
-      category = achievement.get 'collection'
-      achievements[category] = [] unless category of achievements
-      achievements[category].push achievement
-
-AchievablePlugin.loadAchievements()
+module.exports = AchievablePlugin
