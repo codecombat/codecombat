@@ -12,7 +12,7 @@ class BlandClass extends CocoModel
       _id: {type: 'string'}
   }
   urlRoot: '/db/bland'
-  
+
 describe 'CocoModel', ->
   describe 'save', ->
     
@@ -82,3 +82,23 @@ describe 'CocoModel', ->
       b.patch()
       request = jasmine.Ajax.requests.mostRecent()
       expect(request).toBeUndefined()
+
+  describe 'Achievement polling', ->
+
+    it 'achievements are polled upon saving a model', (done) ->
+      #spyOn(CocoModel, 'pollAchievements')
+
+      b = new BlandClass({})
+      res = b.save()
+      request = jasmine.Ajax.requests.mostRecent()
+      request.response({status: 200, responseText: {}})
+      jasmine.Ajax.requests.reset()
+
+      #expect(CocoModel.pollAchievements).toHaveBeenCalled()
+      console.log jasmine.Ajax.requests.mostRecent()
+
+      request = jasmine.Ajax.requests.mostRecent()
+      #expect(request.url).toBe("")
+
+      done()
+
