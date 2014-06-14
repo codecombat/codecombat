@@ -93,6 +93,15 @@ describe 'Achievement', ->
 
 
 describe 'Achieving Achievements', ->
+  it 'wait for achievements to be loaded', (done) ->
+    Achievement.loadAchievements (achievements) ->
+      expect(Object.keys(achievements).length).toBe(2)
+
+      loadedAchievements = Achievement.getLoadedAchievements()
+      expect(Object.keys(loadedAchievements).length).toBe(2)
+
+      done()
+
 
   it 'allows users to unlock one-time Achievements', (done) ->
     loginJoe (joe) ->
@@ -106,17 +115,24 @@ describe 'Achieving Achievements', ->
         expect(err).toBeNull()
         expect(doc).toBeDefined()
         expect(doc.creator).toBe(session.creator)
+        done()
 
-        EarnedAchievement.find {}, (err, docs) ->
-          expect(err).toBeNull()
-          console.log docs
-          expect(docs.length).toBe(1)
-          done()
+  it 'check if the earned achievement was already saved', (done) ->
+    EarnedAchievement.find {}, (err, docs) ->
+      expect(err).toBeNull()
+      expect(docs.length).toBe(1)
+      done()
 
   it 'cleaning up test: deleting all Achievements and relates', (done) ->
     clearModels [Achievement, EarnedAchievement, LevelSession], (err) ->
       expect(err).toBeNull()
+
+      Achievement.resetAchievements()
+      loadedAchievements = Achievement.getLoadedAchievements()
+      expect(Object.keys(loadedAchievements).length).toBe(0)
+
       done()
+
 
 
 
