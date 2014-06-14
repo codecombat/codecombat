@@ -17,5 +17,12 @@ class BlandModel extends CocoModel
 
 module.exports = ->
   model = new BlandModel({_id:'12345'})
-  new PatchesView(model)
+  v = new PatchesView(model)
+  v.load()
+
+  # doesn't quite work yet. Intercepts a mixpanel request instead
+  r = jasmine.Ajax.requests.mostRecent()
+  r.send({statusCode:200, responseText:"[]"}) 
+  v.render()
+  v
   
