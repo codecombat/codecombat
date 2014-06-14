@@ -4,7 +4,10 @@ LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/lib/utils'
 log = require 'winston'
 
-
+# Warning: To ensure proper functioning one must always `find` documents before saving them.
+# Otherwise the schema's `post init` won't be triggered and the plugin can't keep track of changes
+# TODO if this is still a common scenario I could implement a database hit after all, but only
+# on the condition that it's necessary and still not too frequent in occurrence
 AchievablePlugin = (schema, options) ->
   User = require '../users/User'  # Avoid mutual inclusion cycles
   Achievement = require('../achievements/Achievement')
@@ -12,18 +15,19 @@ AchievablePlugin = (schema, options) ->
   before = {}
 
   schema.post 'init', (doc) ->
-    #log.debug 'initd'
-    #log.debug doc.toObject()
     before[doc.id] = doc.toObject()
+    # TODO check out how many objects go unreleased
 
   schema.post 'save', (doc) ->
-    #log.debug 'waiting in init: ' + Object.keys(before).length
-    isNew = not doc.isInit('_id')
+    isNew = not doc.isInit('_id') or not (doc.id of before)
     originalDocObj = before[doc.id] unless isNew
+
+    if doc.isInit('_id') and not doc.id of before
+      log.warn 'document was already initialized but did not go through `init` and is therefore treated as new while it might not be'
 
     category = doc.constructor.modelName
     loadedAchievements = Achievement.getLoadedAchievements()
-    log.debug 'about to save ' + category + ', number of achievements is ' + Object.keys(loadedAchievements).length
+    #log.debug 'about to save ' + category + ', number of achievements is ' + Object.keys(loadedAchievements).length
 
     if category of loadedAchievements
       docObj = doc.toObject()
@@ -57,7 +61,7 @@ AchievablePlugin = (schema, options) ->
           if isRepeatable
             log.debug 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
             proportionalTo = achievement.get 'proportionalTo'
-            originalAmount = util.getByPath(originalDocObj, proportionalTo) or 0
+            originalAmount = if originalDocObj then util.getByPath(originalDocObj, proportionalTo) or 0 else 0
             newAmount = docObj[proportionalTo]
 
             if originalAmount isnt newAmount
@@ -81,7 +85,6 @@ AchievablePlugin = (schema, options) ->
               earnedPoints = worth
               wrapUp()
 
-    delete before[doc.id] unless isNew # This assumes everything we patch has a _id
-    return
+    delete before[doc.id] if doc.id of before
 
 module.exports = AchievablePlugin

@@ -24,6 +24,7 @@ doQuerySelector = (value, operatorObj) ->
 
 matchesQuery = (target, queryObj) ->
   return true unless queryObj
+  throw new Error 'Expected an object to match a query against, instead got null' unless target
   for prop, query of queryObj
     if prop[0] == '$'
       switch prop

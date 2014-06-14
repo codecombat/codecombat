@@ -17,6 +17,17 @@ repeatable =
   userField: '_id'
   proportionalTo: 'simulatedBy'
 
+diminishing =
+  name: 'Simulated2'
+  worth: 1.5
+  collection: 'User'
+  query: "{\"simulatedBy\":{\"$gt\":\"0\"}}"
+  userField: '_id'
+  proportionalTo: 'simulatedBy'
+  function:
+    kind: 'logarithmic'
+    parameters: {a: 1, b: .5, c: .5, d: 1}
+
 url = getURL('/db/achievement')
 
 describe 'Achievement', ->
@@ -52,15 +63,19 @@ describe 'Achievement', ->
           expect(res.statusCode).toBe(200)
           repeatable._id = body._id
 
-          Achievement.find {}, (err, docs) ->
-            expect(docs.length).toBe(2)
-          done()
+          request.post {uri: url, json: diminishing}, (err, res, body) ->
+            expect(res.statusCode).toBe(200)
+            diminishing._id = body._id
+
+            Achievement.find {}, (err, docs) ->
+              expect(docs.length).toBe 3
+            done()
 
   it 'can get all for ordinary users', (done) ->
     loginJoe ->
       request.get {uri: url, json: unlockable}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
-        expect(body.length).toBe(2)
+        expect(body.length).toBe 3
         done()
 
   it 'can be read by ordinary users', (done) ->
@@ -103,8 +118,8 @@ describe 'Achieving Achievements', ->
       done()
 
 
-  it 'allows users to unlock one-time Achievements', (done) ->
-    loginJoe (joe) ->
+  it 'saving an object that should trigger an unlockable achievement', (done) ->
+    unittest.getNormalJoe (joe) ->
       session = new LevelSession(
         permissions: simplePermissions
         creator: joe._id
@@ -117,21 +132,70 @@ describe 'Achieving Achievements', ->
         expect(doc.creator).toBe(session.creator)
         done()
 
-  it 'check if the earned achievement was already saved', (done) ->
-    EarnedAchievement.find {}, (err, docs) ->
-      expect(err).toBeNull()
-      expect(docs.length).toBe(1)
-      done()
+
+  it 'verify that an unlockable achievement has been earned', (done) ->
+    unittest.getNormalJoe (joe) ->
+      EarnedAchievement.find {}, (err, docs) ->
+        expect(err).toBeNull()
+        expect(docs.length).toBe(1)
+        achievement = docs[0]
+
+        expect(achievement.get 'achievement').toBe unlockable._id
+        expect(achievement.get 'user').toBe joe._id.toHexString()
+        expect(achievement.get 'notified').toBeFalsy()
+        expect(achievement.get 'earnedPoints').toBe unlockable.worth
+        expect(achievement.get 'achievedAmount').toBeUndefined()
+        expect(achievement.get 'previouslyAchievedAmount').toBeUndefined()
+
+        done()
+
+  it 'saving an object that should trigger a repeatable achievement', (done) ->
+    unittest.getNormalJoe (joe) ->
+      expect(joe.get 'simulatedBy').toBeFalsy()
+      joe.set('simulatedBy', 2)
+      joe.save (err, doc) ->
+        expect(err).toBeNull()
+        done()
+
+  it 'verify that a repeatable achievement has been earned', (done) ->
+    unittest.getNormalJoe (joe) ->
+      EarnedAchievement.find {achievementName: repeatable.name}, (err, docs) ->
+        expect(err).toBeNull()
+        expect(docs.length).toBe(1)
+        achievement = docs[0]
+
+        expect(achievement.get 'achievement').toBe repeatable._id
+        expect(achievement.get 'user').toBe joe._id.toHexString()
+        expect(achievement.get 'notified').toBeFalsy()
+        expect(achievement.get 'earnedPoints').toBe 2 * repeatable.worth
+        expect(achievement.get 'achievedAmount').toBe 2
+        expect(achievement.get 'previouslyAchievedAmount').toBeFalsy()
+        done()
+
+
+  it 'verify that the repeatable achievement with complex exp has been earned', (done) ->
+    unittest.getNormalJoe (joe) ->
+      EarnedAchievement.find {achievementName: diminishing.name}, (err, docs) ->
+        expect(err).toBeNull()
+        expect(docs.length).toBe 1
+        achievement = docs[0]
+
+        expect(achievement.get 'achievedAmount').toBe 2
+        expect(achievement.get 'earnedPoints').toBe (Math.log(.5 * (2 + .5)) + 1) * diminishing.worth
+
+        done()
 
   it 'cleaning up test: deleting all Achievements and relates', (done) ->
     clearModels [Achievement, EarnedAchievement, LevelSession], (err) ->
       expect(err).toBeNull()
 
+      # reset achievements in memory as well
       Achievement.resetAchievements()
       loadedAchievements = Achievement.getLoadedAchievements()
       expect(Object.keys(loadedAchievements).length).toBe(0)
 
       done()
+
 
 
 
