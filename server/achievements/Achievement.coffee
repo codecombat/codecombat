@@ -1,7 +1,7 @@
 mongoose = require('mongoose')
 jsonschema = require('../../app/schemas/models/achievement')
 log = require 'winston'
-util = require '../../app/lib/utils'
+utils = require '../../app/lib/utils'
 plugins = require('../plugins/plugins')
 AchievablePlugin = require '../plugins/achievements'
 
@@ -25,10 +25,11 @@ AchievementSchema.methods.stringifyQuery = ->
   @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != "string"
 
 AchievementSchema.methods.getExpFunction = ->
-  kind = @get('function')?.kind or jsonschema.function.default.kind
-  parameters = @get('function')?.parameters or jsonschema.function.default.parameters
+  kind = @get('function')?.kind or jsonschema.properties.function.default.kind
+  parameters = @get('function')?.parameters or jsonschema.properties.function.default.parameters
   return utils.functionCreators[kind](parameters) if kind of utils.functionCreators
 
+AchievementSchema.statics.jsonschema = jsonschema
 AchievementSchema.statics.achievements = {}
 
 AchievementSchema.statics.loadAchievements = (done) ->
