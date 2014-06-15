@@ -83,7 +83,7 @@ module.exports = class EmployerSignupView extends View
     alert "There was an error signing the contract. Please contact team@codecombat.com with this error: #{error.responseText}"
 
   checkForFormSubmissionEnterPress: (e) ->
-    if e.which is 13 
+    if e.which is 13
       if $("#signup-email").val() isnt '' and $("#signup-password").val() isnt ''
         @createAccount(e)
       else if $("#more-info-email").val() isnt ''
@@ -104,7 +104,7 @@ module.exports = class EmployerSignupView extends View
     return forms.applyErrorsToForm(el, res.errors) unless res.valid
     @enableModalInProgress(el)
     auth.createUserWithoutReload userObject, null
-    
+
   submitMoreInfoEmail: (e) =>
     emailAddress = $("#more-info-email").val()
     window.tracker?.trackEvent 'Employer requested more information.'
@@ -121,7 +121,8 @@ module.exports = class EmployerSignupView extends View
         message: "THIS IS AN AUTOMATED MESSAGE FROM THE EMPLOYER SIGNUP FORM \n Please send me more info about hiring CodeCombat players."
       success: successFunc
       error: errorFunc
-    
+    $.post "/stacklead", email: emailAddress
+
   setHashToOpenModalAutomatically: (e) ->
     window.location.hash = "employerSignupLoggingIn"
 
