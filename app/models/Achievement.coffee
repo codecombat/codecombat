@@ -11,6 +11,6 @@ module.exports = class Achievement extends CocoModel
 
   # TODO logic is duplicated in Mongoose Achievement schema
   getExpFunction: ->
-    kind = @get('function')?.kind or @schema.function.default.kind
-    parameters = @get('function')?.parameters or @schema.function.default.parameters
+    kind = @get('function')?.kind or jsonschema.properties.function.default.kind
+    parameters = @get('function')?.parameters or jsonschema.properties.function.default.parameters
     return utils.functionCreators[kind](parameters) if kind of utils.functionCreators

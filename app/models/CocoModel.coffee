@@ -286,6 +286,7 @@ class CocoModel extends Backbone.Model
 
   @pollAchievements: ->
     achievements = new NewAchievementCollection
+    console.log 'ohai'
     achievements.fetch(
       success: (collection) ->
         me.fetch (success: -> Backbone.Mediator.publish('achievements:new', collection)) unless _.isEmpty(collection.models)
