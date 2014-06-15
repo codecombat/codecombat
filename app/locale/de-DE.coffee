@@ -251,7 +251,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    short_description_blurb: "Add a tagline to help an employer quickly learn more about you."
 #    short_description: "Tagline"
 #    short_description_help: "Who are you, and what are you looking for? 140 characters max."
-F    skills_header: "Fähigkeiten"
+    skills_header: "Fähigkeiten"
 #    skills_help: "Tag relevant developer skills in order of proficiency."
     long_description_header: "Beschreibe deine gewünschte Position"
 #    long_description_blurb: "Tell employers how awesome you are and what role you want."
