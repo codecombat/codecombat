@@ -19,6 +19,7 @@ definitionSchemas =
 
 init = ->
   # Set up Backbone.Mediator schemas
+  initializeVendors()
   setUpDefinitions()
   setUpChannels()
   Backbone.Mediator.setValidationEnabled document.location.href.search(/codecombat.com/) is -1
@@ -60,3 +61,15 @@ setUpChannels = ->
 setUpDefinitions = ->
   for definition of definitionSchemas
     Backbone.Mediator.addDefSchemas definitionSchemas[definition]
+
+initializeVendors = ->
+  initializers =
+    filepicker: require './lib/filepicker'
+    #olark: require './lib/olark'
+    facebook: require './lib/facebook'
+    google: require './lib/google'
+    twitter: require './lib/twitter'
+    #segmentio: require './lib/segmentio'
+
+  for name, initializer of initializers
+    initializer() 
