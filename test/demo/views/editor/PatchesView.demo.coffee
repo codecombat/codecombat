@@ -16,13 +16,28 @@ class BlandModel extends CocoModel
 
 
 module.exports = ->
-  model = new BlandModel({_id:'12345'})
+  model = new BlandModel({_id:'12345', name:'name', original:'original'})
   v = new PatchesView(model)
   v.load()
 
-  # doesn't quite work yet. Intercepts a mixpanel request instead
+  # Respond to request for pending patches.
   r = jasmine.Ajax.requests.mostRecent()
-  r.send({statusCode:200, responseText:"[]"}) 
+  patches = [
+    {
+      delta: null
+      commitMessage: 'Demo message'
+      creator: '12345'
+      created: "2014-01-01T12:00:00.000Z"
+      status: 'pending'
+    }
+  ]
+  r.response({ status:200, responseText: JSON.stringify patches })
+  
+  # Respond to request for user ids -> names
+  r = jasmine.Ajax.requests.mostRecent()
+  names = { '12345': { name: 'Patchman' } }
+  r.response({ status:200, responseText: JSON.stringify names })
+  
   v.render()
   v
   
