@@ -17,7 +17,7 @@ module.exports = initializeSegmentio = ->
     ]
     t = (e) ->
       ->
-        analytics.push [e].concat(Array::slice.call(arguments_, 0))
+        analytics.push [e].concat(Array::slice.call(arguments, 0))
         return
 
     n = 0

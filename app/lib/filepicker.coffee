@@ -14,7 +14,7 @@ module.exports = initializeFilepicker = ->
       ->
         b.push [
           a
-          arguments_
+          arguments
         ]
         return
 

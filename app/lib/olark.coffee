@@ -11,7 +11,7 @@ module.exports = initializeOlark = ->
         f[z] r
         return
       f[z] = ->
-        (a.s = a.s or []).push arguments_
+        (a.s = a.s or []).push arguments
         return
 
       a = f[z]._ = {}
@@ -19,7 +19,7 @@ module.exports = initializeOlark = ->
       while q--
         ((n) ->
           f[z][n] = ->
-            f[z] "call", n, arguments_
+            f[z] "call", n, arguments
             return
 
           return
