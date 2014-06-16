@@ -424,7 +424,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     infinite_loop_reset_level: "Сбросить уровень"
     infinite_loop_comment_out: "Закомментировать мой код"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
     keyboard_shortcuts: "Горячие клавиши"
     space: "Пробел"
     enter: "Enter"
