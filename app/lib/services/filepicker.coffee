@@ -23,6 +23,7 @@ module.exports = initializeFilepicker = ->
     while g < e.length
       d[e[g]] = f(e[g], d._queue)
       g++
+    d.setKey('AvlkNoldcTOU4PvKi2Xm7z')
     window.filepicker = d
     return
   ) document

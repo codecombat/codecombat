@@ -18,11 +18,11 @@ definitionSchemas =
   'misc': require './schemas/definitions/misc'
 
 init = ->
-  # Don't initialize all the social scripts when visiting demo pages
-  if not (/.*\/demo\/.*/).exec window.location.href
-    initializeSocial()
-
-  initializeVendors()
+  path = document.location.pathname
+  testing = path.startsWith '/test'
+  demoing = path.startsWith '/demo'
+  initializeServices() unless testing or demoing
+ 
   # Set up Backbone.Mediator schemas
   setUpDefinitions()
   setUpChannels()
@@ -33,7 +33,6 @@ init = ->
 
   treemaExt = require 'treema-ext'
   treemaExt.setup()
-  filepicker.setKey('AvlkNoldcTOU4PvKi2Xm7z')
 
 $ -> init()
   
@@ -66,22 +65,17 @@ setUpDefinitions = ->
   for definition of definitionSchemas
     Backbone.Mediator.addDefSchemas definitionSchemas[definition]
 
-initializeVendors = ->
-  initializers =
-    filepicker: require './lib/filepicker'
-    segmentio: require './lib/segmentio'
+initializeServices = ->
+  services = [
+    './lib/services/filepicker'
+    './lib/services/segmentio'
+    './lib/services/olark'
+    './lib/services/facebook'
+    './lib/services/google'
+    './lib/services/twitter'
+    './lib/services/linkedin'
+  ]
 
-  for name, initializer of initializers
-    initializer()
-
-initializeSocial = ->
-  initializers =
-
-    olark: require './lib/olark'
-    facebook: require './lib/facebook'
-    google: require './lib/google'
-    twitter: require './lib/twitter'
-    linkedin: require './lib/linkedin'
-
-  for name, initializer of initializers
-    initializer() 
+  for service in services
+    service = require service
+    service()
