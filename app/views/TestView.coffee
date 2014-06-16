@@ -15,7 +15,7 @@ module.exports = TestView = class TestView extends CocoView
   constructor: (options, @subPath='') ->
     super(options)
     @subPath = @subPath[1..] if @subPath[0] is '/'
-    @loadTestingLibs() unless TestView.loaded
+    @loadTestingLibs()
 
   loadTestingLibs: ->
     @queue = new createjs.LoadQueue()
@@ -30,6 +30,7 @@ module.exports = TestView = class TestView extends CocoView
     @initSpecFiles()
     @render()
     TestView.runTests(@specFiles)
+    window.runJasmine()
     
   # RENDER DATA
     
