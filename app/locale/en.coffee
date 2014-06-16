@@ -879,7 +879,7 @@
     files: "Files"
     top_simulators: "Top Simulators"
     source_document: "Source Document"
-    document: "Document" # note to diplomats: not a physical document, a document in MongoDB, ie a record in a database
+    document: "Document"
     sprite_sheet: "Sprite Sheet"
     candidate_sessions: "Candidate Sessions"
 

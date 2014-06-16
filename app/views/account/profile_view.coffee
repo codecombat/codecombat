@@ -233,6 +233,8 @@ module.exports = class ProfileView extends View
 
   afterRender: ->
     super()
+    if me.get('employerAt')
+      @$el.addClass 'viewed-by-employer'
     return unless @user
     unless @user.get('jobProfile')?.projects?.length or @editing
       @$el.find('.right-column').hide()
@@ -269,6 +271,9 @@ module.exports = class ProfileView extends View
     active = not @user.get('jobProfile').active
     @user.get('jobProfile').active = active
     @saveEdits()
+    if active and not (me.isAdmin() or @stackLed)
+      $.post "/stacklead"
+      @stackLed = true
 
   enterEspionageMode: ->
     postData = emailLower: @user.get('email').toLowerCase(), usernameLower: @user.get('name').toLowerCase()
@@ -301,7 +306,7 @@ module.exports = class ProfileView extends View
     null
 
   onContactCandidate: (e) ->
-    @openModalView new JobProfileContactView recipientID: @user.id
+    @openModalView new JobProfileContactView recipientID: @user.id, recipientUserName: @user.get('name')
 
   showErrors: (errors) ->
     section = @$el.find '.saving'
