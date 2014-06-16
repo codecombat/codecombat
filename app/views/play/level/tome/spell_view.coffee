@@ -171,54 +171,13 @@ module.exports = class SpellView extends View
     @ace.clearSelection()
 
   addZatannaSnippets: (e) ->
-    # window.sm = @supermodel
-    # window.lcM = LevelComponent
-    # lcs = @supermodel.getModels LevelComponent
-    # console.log '!!!'
-    lcs = e.lcs
-    allDocs = {}
-    # console.log 'lcs', lcs
-    for lc in lcs
-      for doc in (lc.get('propertyDocumentation') ? [])
-        # console.log '::::'
-        # console.log 'docX', doc
-        doc = _.clone doc
-        allDocs['__' + doc.name] ?= []
-        allDocs['__' + doc.name].push doc
-        if doc.type is 'snippet' then doc.owner = 'snippets'
-
-    @options.programmable = true
-    if @options.programmable
-      propStorage =
-        'this': 'programmableProperties'
-        more: 'moreProgrammableProperties'
-        Math: 'programmableMathProperties'
-        Array: 'programmableArrayProperties'
-        Object: 'programmableObjectProperties'
-        String: 'programmableStringProperties'
-        Vector: 'programmableVectorProperties'
-        snippets: 'programmableSnippets'
-    else
-      propStorage =
-        'this': 'apiProperties'
-
-    # console.log 'thang', @thang
-
-    propGroups = {}
-    for owner, storage of propStorage
-      props = _.reject @thang[storage] ? [], (prop) -> prop[0] is '_'
-      propGroups[owner] = _.sortBy(props).slice()
-
-    # console.log 'groups', propGroups
-    # console.log 'docs', allDocs
     snippetEntries = []
-    for owner, props of propGroups
+    for owner, props of e.propGroups
       for prop in props
-        doc = _.find (allDocs['__' + prop] ? []), (doc) ->
+        doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
-        console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propGroups unless doc
-        # console.log 'doc', doc
+        console.log 'could not find doc for', prop, 'from', e.allDocs['__' + prop], 'for', owner, 'of', propGroups unless doc
         doc ?= prop
         if doc.snippets?
           entry = 
@@ -227,11 +186,9 @@ module.exports = class SpellView extends View
             tabTrigger: doc.snippets[@spell.language].tab
           snippetEntries.push entry
 
-    # console.log '??'
     window.zatanna = @zatanna
     window.snippetEntries = snippetEntries
-
-    # @zatanna.addSnippets snippetEntries
+    @zatanna.addSnippets snippetEntries, @spell.language
 
   onMultiplayerChanged: ->
     if @session.get('multiplayer')

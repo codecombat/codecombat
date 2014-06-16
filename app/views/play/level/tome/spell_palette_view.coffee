@@ -43,8 +43,6 @@ module.exports = class SpellPaletteView extends View
 
   createPalette: ->
     lcs = @supermodel.getModels LevelComponent
-    console.log 'IMPORTANT', lcs
-    Backbone.Mediator.publish 'tome:update-snippets', lcs: lcs
     allDocs = {}
     for lc in lcs
       for doc in (lc.get('propertyDocumentation') ? [])
@@ -77,6 +75,8 @@ module.exports = class SpellPaletteView extends View
     shortenize = count > 6
     tabbify = count >= 10
     @entries = []
+
+    Backbone.Mediator.publish 'tome:update-snippets', propGroups: propGroups, allDocs: allDocs
 
     for owner, props of propGroups
       for prop in props
