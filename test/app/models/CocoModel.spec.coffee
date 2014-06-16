@@ -84,21 +84,37 @@ describe 'CocoModel', ->
       expect(request).toBeUndefined()
 
   describe 'Achievement polling', ->
+    NewAchievementCollection = require 'collections/NewAchievementCollection'
+    EarnedAchievement = require 'models/EarnedAchievement'
 
     it 'achievements are polled upon saving a model', (done) ->
       #spyOn(CocoModel, 'pollAchievements')
+      Backbone.Mediator.subscribe 'achievements:new', (collection) ->
+        Backbone.Mediator.unsubscribe 'achievements:new'
+        expect(collection.constructor.name).toBe('NewAchievementCollection')
+        done()
 
       b = new BlandClass({})
       res = b.save()
       request = jasmine.Ajax.requests.mostRecent()
       request.response({status: 200, responseText: {}})
-      jasmine.Ajax.requests.reset()
 
-      #expect(CocoModel.pollAchievements).toHaveBeenCalled()
-      console.log jasmine.Ajax.requests.mostRecent()
+      _.delay (->
+        collection = []
+        model =
+          _id: "5390f7637b4d6f2a074a7bb4"
+          achievement: "537ce4855c91b8d1dda7fda8"
+        collection.push model
 
-      request = jasmine.Ajax.requests.mostRecent()
-      #expect(request.url).toBe("")
+        request = jasmine.Ajax.requests.mostRecent()
+        achievementURLMatch = (/.*achievements\?notified=false$/).exec request.url
+        expect(achievementURLMatch).not.toBeNull()
+        request.response {status: 200, responseText: JSON.stringify collection}
 
-      done()
-
+        _.delay (->
+          request = jasmine.Ajax.requests.mostRecent()
+          userURLMatch = (/^\/db\/user\/[a-zA-Z0-9]*$/).exec request.url
+          expect(userURLMatch).not.toBeNull()
+          request.response {status:200, responseText: JSON.stringify me}
+        ), 1000
+      ), 1000
