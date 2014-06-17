@@ -7,7 +7,7 @@ module.exports = class Achievement extends CocoModel
   urlRoot: '/db/achievement'
 
   isRepeatable: ->
-    @get('proportionalTo')?
+    @get('proportionalTo')?a
 
   # TODO logic is duplicated in Mongoose Achievement schema
   getExpFunction: ->

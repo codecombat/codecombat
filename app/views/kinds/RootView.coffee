@@ -29,8 +29,7 @@ module.exports = class RootView extends CocoView
   subscriptions:
     'achievements:new': 'handleNewAchievements'
 
-
-  @showNewAchievement: (achievement, earnedAchievement) ->
+  createNotifyData: (achievement, earnedAchievement) ->
     currentLevel = me.level()
     nextLevel = currentLevel + 1
     currentLevelExp = User.expForLevel(currentLevel)
@@ -67,7 +66,10 @@ module.exports = class RootView extends CocoView
       progressBar: progressBar
       earnedExp: "+ #{achievedExp} XP"
       message: message
+    data
 
+  showNewAchievement: (achievement, earnedAchievement) ->
+    data = createNotifyData achievement, earnedAchievement
     options =
       autoHideDelay: 10000
       globalPosition: 'bottom right'
@@ -83,7 +85,7 @@ module.exports = class RootView extends CocoView
       achievement = new Achievement(_id: earnedAchievement.get('achievement'))
       console.log achievement
       achievement.fetch(
-        success: (achievement) => RootView.showNewAchievement(achievement, earnedAchievement)
+        success: (achievement) => @showNewAchievement(achievement, earnedAchievement)
       )
     )
 

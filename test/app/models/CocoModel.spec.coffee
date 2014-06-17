@@ -1,4 +1,5 @@
 CocoModel = require 'models/CocoModel'
+utils = require 'lib/utils'
 
 class BlandClass extends CocoModel
   @className: 'Bland'
@@ -97,24 +98,29 @@ describe 'CocoModel', ->
       b = new BlandClass({})
       res = b.save()
       request = jasmine.Ajax.requests.mostRecent()
-      request.response({status: 200, responseText: {}})
+      request.response(status: 200, responseText: '{}')
 
-      _.delay (->
-        collection = []
-        model =
-          _id: "5390f7637b4d6f2a074a7bb4"
-          achievement: "537ce4855c91b8d1dda7fda8"
-        collection.push model
+      collection = []
+      model =
+        _id: "5390f7637b4d6f2a074a7bb4"
+        achievement: "537ce4855c91b8d1dda7fda8"
+      collection.push model
 
+      utils.keepDoingUntil (ready) ->
         request = jasmine.Ajax.requests.mostRecent()
         achievementURLMatch = (/.*achievements\?notified=false$/).exec request.url
-        expect(achievementURLMatch).not.toBeNull()
+        if achievementURLMatch
+          ready true
+        else return ready false
+
         request.response {status: 200, responseText: JSON.stringify collection}
 
-        _.delay (->
+        utils.keepDoingUntil (ready) ->
           request = jasmine.Ajax.requests.mostRecent()
           userURLMatch = (/^\/db\/user\/[a-zA-Z0-9]*$/).exec request.url
-          expect(userURLMatch).not.toBeNull()
+          if userURLMatch
+            ready true
+          else return ready false
+
           request.response {status:200, responseText: JSON.stringify me}
-        ), 1000
-      ), 1000
+
