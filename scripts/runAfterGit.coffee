@@ -73,10 +73,7 @@ downloadDB = ->
   # TODO: What if mongo is not running?
   console.log "Downloading Database dump. It's big. This may take a while..."
   request = http.get dbDump, (response)->
-    unzip = response.pipe  npm = if process.platform is "win32" then "npm.cmd" else "npm"
-  npminstall = run npm, ['update']
-  npminstall.done ->
-    bowerinstall = run 'bower', ['update'](zlib.createGunzip()).pipe(tar.Extract(path: dbLocalPath))
+    unzip = response.pipe(zlib.createGunzip()).pipe(tar.Extract(path: dbLocalPath))
     # Log download
     currentChunk = 0
     cur = 0
