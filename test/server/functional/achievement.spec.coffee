@@ -51,6 +51,9 @@ describe 'Achievement', ->
         request.post {uri: url, json: repeatable}, (err, res, body) ->
           expect(res.statusCode).toBe(200)
           repeatable._id = body._id
+
+          Achievement.find {}, (err, docs) ->
+            expect(docs.length).toBe(2)
           done()
 
   it 'can get all for ordinary users', (done) ->
@@ -93,18 +96,29 @@ describe 'Achieving Achievements', ->
 
   it 'allows users to unlock one-time Achievements', (done) ->
     loginJoe (joe) ->
-      levelSession =
+      session = new LevelSession(
+        permissions: simplePermissions
         creator: joe._id
         level: original: 'dungeon-arena'
+      )
 
-      request.post {uri:getURL('/db/level.session'), json:levelSession}, (session) ->
+      session.save (err, doc) ->
+        expect(err).toBeNull()
+        expect(doc).toBeDefined()
+        expect(doc.creator).toBe(session.creator)
 
-        done()
+        EarnedAchievement.find {}, (err, docs) ->
+          expect(err).toBeNull()
+          console.log docs
+          expect(docs.length).toBe(1)
+          done()
 
-
-  xit 'cleaning up test: deleting all Achievements and relates', (done) ->
+  it 'cleaning up test: deleting all Achievements and relates', (done) ->
     clearModels [Achievement, EarnedAchievement, LevelSession], (err) ->
       expect(err).toBeNull()
       done()
+
+
+
 
 
