@@ -11,7 +11,6 @@ http = require 'http'
 fs = require 'fs'
 zlib = require 'zlib'
 Deferred = require 'JQDeferred'
-#config = require '../server_config'
 
 #TODO: Could kill current coco server here.
 
@@ -54,14 +53,7 @@ resetDB = () ->
   console.log "Downloading Database dump. It's big. This may take a while..."
   request = http.get dbDump, (response)->
     unzip = response.pipe(zlib.createGunzip()).pipe(tar.Extract(path: dbLocalPath))
-    unzip.on('error', (err) -> console.log "An error occurred while downloading DB Dump: " + err)
-    unzip.on 'end', ->
-      mongoose = require 'mongoose'
-      require('../server/commons/database').connect()
-      mongoose.connection.db.dropDatabase()
-      mongorestore = run 'mongorestore', ['dbLocalPath']
-      mongorestore.always ->
-        removeDir dbLocalPath
+    # Log download
     currentChunk = 0
     cur = 0
     len = parseInt(response.headers['content-length'], 10)
@@ -70,9 +62,19 @@ resetDB = () ->
       cur += chunk.length
       console.log 'DB dump download received chunk ' + currentChunk++ + ", "  + (100.0 * cur / len).toFixed(2) + "% finished of " + total.toFixed(0) + " mb"
 
-unless '--skipupdate' in process.argv
-  npm = if process.platform is "win32" then "npm.cmd" else "npm"
+    unzip.on('error', (err) -> console.log "An error occurred while downloading DB Dump: " + err)
+    unzip.on 'end', ->
+      console.log "Finished downloading. Dropping Database"
+      mongodrop = run "mongo", ["coco", "--eval", "db.dropDatabase()"]
+      mongodrop.fail -> console.error "Error occurred"
+      mongodrop.always ->
+        console.log "Restoring from dump."
+        mongorestore = run "mongorestore", [dbLocalPath]
+        mongorestore.done ->
+          removeDir dbLocalPath
 
+unless '--skipupdates' in process.argv
+  npm = if process.platform is "win32" then "npm.cmd" else "npm"
   npminstall = run npm, ['update']
   npminstall.done ->
     bowerinstall = run 'bower', ['update']
