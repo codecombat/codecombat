@@ -1,12 +1,15 @@
 div
   .clearfix.achievement-body
-    .achievement-image(data-notify-html="image")
+    .achievement-icon.achievement-border-silver
+      .achievement-image(data-notify-html="image")
     .achievement-content
       .achievement-title(data-notify-html="title")
-      .achievement-description(data-notify-html="description")
+      p.achievement-description(data-notify-html="description")
 
       .achievement-progress
         .achievement-message(data-notify-html="message")
         .progress-wrapper
-          .earned-exp(data-notify-html="earnedExp")
+          //.earned-exp(data-notify-html="earnedExp")
           .progress-bar-wrapper(data-notify-html="progressBar")
+          .progress-bar-border
+            img(src='/images/achievements/bar_border-01.png' width='100%')

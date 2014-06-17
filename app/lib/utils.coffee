@@ -98,3 +98,11 @@ module.exports.functionCreators =
   linear: positify(createLinearFunc)
   quadratic: positify(createQuadraticFunc)
   logarithmic: positify(createLogFunc)
+
+# Call done with true to satisfy the 'until' goal and stop repeating func
+module.exports.keepDoingUntil = (func, wait=100, totalWait=5000) ->
+  waitSoFar = 0
+  (done = (success) ->
+    if (waitSoFar += wait) <= totalWait && not success
+      _.delay (-> func done), wait) false
+
