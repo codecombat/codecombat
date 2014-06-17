@@ -33,6 +33,8 @@ class SystemConfiguration(object):
             return 64
         else:
             if self.operating_system == u"mac":
+                if os.uname()[4] == u"x86_64":
+                  return 64
                 raise NotSupportedError(u"Your processor is determined to have a maxSize of" + str(sys.maxsize) +
                                         u",\n which doesn't correspond with a 64-bit architecture.")
             return 32
