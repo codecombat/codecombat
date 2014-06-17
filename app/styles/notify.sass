@@ -1,50 +1,91 @@
 .notifyjs-achievement-base
   //background: url("/images/pages/base/notify_mockup.png")
-  background-image: url("/images/pages/base/modal_background.png")
-  background-size: 100% 100%
-  width: 500px
-  height: 200px
-  padding: 35px 35px 15px 15px
-  text-align: center
   cursor: auto
+  white-space: nowrap
+  text-overflow: ellipsis
+  padding: 20px 0px
 
   .achievement-body
-    .achievement-image
-      img
-        float: left
-        width: 100px
-        height: 100px
-        border-radius: 50%
-        margin: 20px 30px 20px 30px
-        -webkit-box-shadow: 0px 0px 36px 0px white
-        -moz-box-shadow: 0px 0px 36px 0px white
-        box-shadow: 0px 0px 36px 0px white
+    .achievement-icon
+      position: absolute
+      width: 200px
+      height: 200px
+      left: -150px
+      top: 0px
 
-    .achievement-title
-      font-family: Bangers
-      font-size: 28px
+      .achievement-image
+        width: 100%
+        height: 100%
+        img
+          position: absolute
+          margin: auto
+          top: 0
+          left: 0
+          right: 0
+          bottom: 0
+          width: 72%
 
-    .achievement-description
-      margin-top: 10px
-      font-size: 16px
+    .achievement-border-wood
+      background: url("/images/achievements/border_wood-01.png") no-repeat
+      //background-color: transparent
+      background-size: 100% 100%
 
-    .achievement-progress
-      padding: 15px 0px 0px 0px
+    .achievement-border-silver
+      background: url("/images/achievements/border_silver-01.png") no-repeat
+      //background-color: transparent
+      background-size: 100% 100%
 
-      .achievement-message
+    .achievement-content
+      background-image: url("/images/achievements/reward_background2.png")
+      background-size: 100% 100%
+      width: 450px
+      height: 160px
+      text-align: center
+      padding: 24px 30px 20px 60px
+      overflow: hidden
+
+
+      .achievement-title
         font-family: Bangers
-        font-size: 18px
-        &:empty
-          display: none
+        font-size: 28px
+        padding-left: -50px
+        overflow: hidden
 
-      .progress-wrapper
-        .progress-bar-wrapper
-          width: 100%
-        .earned-exp
-          padding-left: 5px
+      .achievement-description
+        white-space: initial
+        font-size: 15px
+        line-height: 1.3em
+        overflow: hidden
+        max-height: 2.6em
+        margin-top: auto
+        margin-bottom: 0px !important
+
+      .achievement-progress
+        padding: 8px 0px 0px 0px
+
+        .achievement-message
           font-family: Bangers
-          font-size: 16px
-          float: right
+          font-size: 18px
+          &:empty
+            display: none
 
+        .progress-wrapper
+          position: absolute
+          padding-right: 30px
+          bottom: 0px
+
+          .progress-bar-wrapper
+            width: 100%
+            .progress
+              border-radius: 20px
+          .progress-bar-border
+            position: relative
+            top: -44px
+          /*.earned-exp
+            padding-left: 5px
+            font-family: Bangers
+            font-size: 16px
+            float: right
+            */
 .progress-bar-white
   background-color: white
