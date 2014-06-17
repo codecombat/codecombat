@@ -235,6 +235,10 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     this.at = function(index) {
       return requests[index];
     };
+   
+    this.all = function() {
+      return requests.slice(0);
+    };
 
     this.filter = function(url_to_match) {
       if (requests.length == 0) return [];
