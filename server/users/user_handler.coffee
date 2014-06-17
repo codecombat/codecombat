@@ -24,7 +24,7 @@ candidateProperties = [
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
-
+  jsonSchema: schema
   editableProperties: [
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
     'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
@@ -32,15 +32,11 @@ UserHandler = class UserHandler extends Handler
     'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile'
   ]
 
-  jsonSchema: schema
-
-  constructor: ->
-    super(arguments...)
-    @editableProperties.push('permissions') unless config.isProduction
-
   getEditableProperties: (req, document) ->
     props = super req, document
-    props.push 'jobProfileApproved', 'jobProfileNotes' if req.user.isAdmin()
+    props.push 'permissions' unless config.isProduction
+    props.push 'jobProfileApproved', 'jobProfileNotes' if req.user.isAdmin()  # Admins naturally edit these
+    props.push privateProperties... if req.user.isAdmin()  # Admins are mad with power
     props
 
   formatEntity: (req, document) ->
@@ -344,7 +340,7 @@ UserHandler = class UserHandler extends Handler
 
   getEmployers: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user.isAdmin()
-    query = {employerAt: {$exists: true}}
+    query = {employerAt: {$exists: true, $ne: ''}}
     selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
     User.find(query).select(selection).lean().exec (err, documents) =>
       return @sendDatabaseError res, err if err
