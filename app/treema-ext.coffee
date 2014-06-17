@@ -6,6 +6,8 @@ locale = require 'locale/locale'
 class DateTimeTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-date-time'
   buildValueForDisplay: (el) -> el.text(moment(@data).format('llll'))
+  buildValueForEditing: (valEl) ->
+    @buildValueForEditingSimply valEl, null, 'date'
 
 class VersionTreema extends TreemaNode
   valueClass: 'treema-version'

@@ -11,6 +11,7 @@ log = require 'winston'
 LevelSession = require('../levels/sessions/LevelSession')
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
+UserRemark = require './remarks/UserRemark'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
@@ -197,6 +198,7 @@ UserHandler = class UserHandler extends Handler
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @getEarnedAchievements(req, res, args[0]) if args[1] is 'achievements'
     return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
+    return @getRemark(req, res, args[0]) if args[1] is 'remark'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -313,7 +315,7 @@ UserHandler = class UserHandler extends Handler
     #query.jobProfileApproved = true unless req.user.isAdmin()  # We split into featured and other now.
     query['jobProfile.active'] = true unless req.user.isAdmin()
     selection = 'jobProfile jobProfileApproved photoURL'
-    selection += ' email' if authorized
+    selection += ' email name' if authorized
     User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
@@ -321,7 +323,7 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
-    fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile', 'jobProfileApproved']
+    fields = if authorized then ['name', 'jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile', 'jobProfileApproved']
     obj = _.pick document.toObject(), fields
     obj.photoURL ||= obj.jobProfile.photoURL if authorized
     subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active']
@@ -362,5 +364,18 @@ UserHandler = class UserHandler extends Handler
     else
       hash.update(user.get('_id') + '')
     hash.digest('hex')
+
+  getRemark: (req, res, userID) ->
+    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    query = user: userID
+    projection = null
+    if req.query.project
+      projection = {}
+      projection[field] = 1 for field in req.query.project.split(',')
+    UserRemark.findOne(query).select(projection).exec (err, remark) =>
+      return @sendDatabaseError res, err if err
+      return @sendNotFoundError res unless remark?
+      @sendSuccess res, remark
+
 
 module.exports = new UserHandler()
