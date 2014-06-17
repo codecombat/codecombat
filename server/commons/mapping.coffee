@@ -1,4 +1,3 @@
-
 module.exports.handlers =
   'article': 'articles/article_handler'
   'level': 'levels/level_handler'
@@ -24,4 +23,5 @@ module.exports.routes =
     'routes/mail'
     'routes/sprites'
     'routes/queue'
+    'routes/stacklead'
   ]

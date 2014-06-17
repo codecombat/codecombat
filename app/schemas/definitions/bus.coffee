@@ -7,8 +7,8 @@ module.exports =
     type: "object"
     properties: # TODO
       joined:
-        type: "boolean"
+        type: ["boolean", "null"]
       players:
         type: "object"
     required: ["joined", "players"]
-    additionalProperties: false
+    additionalProperties: true
