@@ -30,7 +30,7 @@ module.exports = class RootView extends CocoView
     'achievements:new': 'handleNewAchievements'
 
 
-  @showNewAchievement: (achievement, earnedAchievement) ->
+  showNewAchievement: (achievement, earnedAchievement) ->
     currentLevel = me.level()
     nextLevel = currentLevel + 1
     currentLevelExp = User.expForLevel(currentLevel)
@@ -83,7 +83,7 @@ module.exports = class RootView extends CocoView
       achievement = new Achievement(_id: earnedAchievement.get('achievement'))
       console.log achievement
       achievement.fetch(
-        success: (achievement) => RootView.showNewAchievement(achievement, earnedAchievement)
+        success: (achievement) => @showNewAchievement(achievement, earnedAchievement)
       )
     )
 
