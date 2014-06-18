@@ -95,9 +95,10 @@ module.exports = class SpellView extends View
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
-    @zatanna = new Zatanna @ace
-    # @addZatannaSnippets()
-    # window.aceEditor = @ace
+    @zatanna = new Zatanna @ace,
+      liveCompletion: aceConfig.liveCompletion ? false
+      completers:
+        keywords: false
 
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
@@ -643,10 +644,12 @@ module.exports = class SpellView extends View
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
     @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    @zatanna.set 'liveCompletion', (aceConfig.liveCompletion ? false)
 
   onChangeLanguage: (e) ->
     if @spell.canWrite()
       @aceSession.setMode @editModes[e.language]
+      @zatanna.set 'language', @editModes[e.language].substr('ace/mode/')
 
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
