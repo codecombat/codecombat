@@ -53,13 +53,14 @@ _.extend(AchievementSchema.properties,
   function:
     type: 'object'
     properties:
-      kind: {enum: ['linear', 'logarithmic'], default: 'linear'}
+      kind: {enum: ['linear', 'logarithmic', 'quadratic'], default: 'linear'}
       parameters:
         type: 'object'
         properties:
           a: {type: 'number', default: 1}
           b: {type: 'number', default: 1}
           c: {type: 'number', default: 1}
+        additionalProperties: true
     default: {kind: 'linear', parameters: a: 1}
     required: ['kind', 'parameters']
     additionalProperties: false
