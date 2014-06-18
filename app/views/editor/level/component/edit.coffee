@@ -25,6 +25,7 @@ module.exports = class LevelComponentEditView extends View
     super options
     @levelComponent = @supermodel.getModelByOriginalAndMajorVersion LevelComponent, options.original, options.majorVersion or 0
     console.log "Couldn't get levelComponent for", options, "from", @supermodel.models unless @levelComponent
+    @onEditorChange = _.debounce @onEditorChange, 1500
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -95,6 +96,7 @@ module.exports = class LevelComponentEditView extends View
     @editor.on('change', @onEditorChange)
 
   onEditorChange: =>
+    return if @destroyed
     @levelComponent.set 'code', @editor.getValue()
     Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
     null

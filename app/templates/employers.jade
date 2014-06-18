@@ -84,6 +84,8 @@ block content
                 th(data-i18n="employers.candidate_top_skills") Top Skills
                 th(data-i18n="employers.candidate_years_experience") Yrs Exp
                 th(data-i18n="employers.candidate_last_updated") Last Updated
+                if me.isAdmin()
+                  th(data-i18n="employers.candidate_who") Who
                 if me.isAdmin() && area.id == 'inactive-candidates'
                   th ✓?
         
@@ -95,7 +97,10 @@ block content
                   td
                     if authorized
                       img(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, height=50)
-                      p= profile.name
+                      if profile.name
+                        p= profile.name
+                      else if me.isAdmin()
+                        p (#{candidate.get('name')})
                     else
                       img(src="/images/pages/contribute/archmage.png", alt="", title="Sign up as an employer to see our candidates", width=50)
                       p Developer ##{index + 1 + (area.id == 'featured-candidates' ? 0 : featuredCandidates.length)}
@@ -111,6 +116,8 @@ block content
                       span  
                   td= profile.experience
                   td(data-profile-age=(new Date() - new Date(profile.updated)) / 86400 / 1000)= moment(profile.updated).fromNow()
+                  if me.isAdmin()
+                    td= remarks[candidate.id] ? remarks[candidate.id].get('contactName') : ''
                   if me.isAdmin() && area.id == 'inactive-candidates'
                     if candidate.get('jobProfileApproved')
                       td ✓

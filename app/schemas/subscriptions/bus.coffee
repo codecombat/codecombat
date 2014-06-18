@@ -33,7 +33,7 @@ module.exports =
     type: "object"
     properties:
       message:
-        type: "string"
+        type: "object"
       bus:
         $ref: "bus"
 

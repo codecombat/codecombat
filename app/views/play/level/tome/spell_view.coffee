@@ -647,9 +647,12 @@ module.exports = class SpellView extends View
     @zatanna.set 'liveCompletion', (aceConfig.liveCompletion ? false)
 
   onChangeLanguage: (e) ->
-    if @spell.canWrite()
-      @aceSession.setMode @editModes[e.language]
-      @zatanna.set 'language', @editModes[e.language].substr('ace/mode/')
+    return unless @spell.canWrite()
+    @aceSession.setMode @editModes[e.language]
+    @zatanna.set 'language', @editModes[e.language].substr('ace/mode/')
+    wasDefault = @getSource() is @spell.originalSource
+    @spell.setLanguage e.language
+    @reloadCode true if wasDefault
 
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
