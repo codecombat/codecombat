@@ -54,18 +54,15 @@ module.exports = class ModelModal extends View
     container = $(e.target).closest('.model-container')
     model = _.find @models, id: container.data('model-id')
     treema = @modelTreemas[model.id]
-    changes = {}
     for key, val of treema.data when not _.isEqual val, model.get key
       console.log "Updating", key, "from", model.get(key), "to", val
       model.set key, val
-      changes[key] = val
     for key, val of model.attributes when treema.get(key) is undefined and not _.string.startsWith key, '_'
       console.log "Deleting", key, "which was", val, "but man, that ain't going to work, now is it?"
-      #changes[key] = undefined
       model.unset key
     if errors = model.validate()
       return console.warn model, "failed validation with errors:", errors
-    res = model.save changes, {patch: true}
+    return unless res = model.patch()
     res.error =>
       return if @destroyed
       console.error model, "failed to save with error:", res.responseText

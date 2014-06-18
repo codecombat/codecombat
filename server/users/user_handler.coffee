@@ -229,7 +229,7 @@ UserHandler = class UserHandler extends Handler
   getLevelSessionsForEmployer: (req, res, userID) ->
     return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     query = creator: userID, levelID: {$in: ['gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
-    projection = 'levelName levelID team playtime codeLanguage submitted'  # code totalScore
+    projection = 'levelName levelID team playtime codeLanguage submitted code totalScore'
     LevelSession.find(query).select(projection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
