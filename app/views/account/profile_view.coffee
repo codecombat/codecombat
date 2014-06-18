@@ -254,7 +254,7 @@ module.exports = class ProfileView extends View
       link.icon = @iconForLink link for link in links
       context.profileLinks = _.sortBy links, (link) -> not link.icon  # icons first
     if @sessions
-      context.sessions = (s.attributes for s in @sessions.models when (s.get('submitted') or s.get('level-id') is 'gridmancer'))
+      context.sessions = (s.attributes for s in @sessions.models when (s.get('submitted') or (s.get('levelID') is 'gridmancer') and s.get('code')?.thoktar?.plan?.length isnt 942))  # no default code
       context.sessions.sort (a, b) -> (b.playtime ? 0) - (a.playtime ? 0)
     else
       context.sessions = []

@@ -150,12 +150,6 @@ module.exports = class CocoView extends Backbone.View
   @lastToggleModalCall = 0
 
   toggleModal: (e) ->
-    if new Date().getTime() - CocoView.lastToggleModalCall < 5
-      # Defensive move. This function has had a history of messing things up.
-      console.error 'toggleModal is getting called too often!'
-      return
-    CocoView.lastToggleModalCall = new Date().getTime()
-      
     if $(e.currentTarget).prop('target') is '_blank'
       return true
     # special handler for opening modals that are dynamically loaded, rather than static in the page. It works (or should work) like Bootstrap's modals, except use coco-modal for the data-toggle value.
@@ -163,6 +157,7 @@ module.exports = class CocoView extends Backbone.View
     return unless elem.data('toggle') is 'coco-modal'
     target = elem.data('target')
     view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to
+    e.stopPropagation()
     @openModalView(view)
 
   openModalView: (modalView, softly=false) ->
