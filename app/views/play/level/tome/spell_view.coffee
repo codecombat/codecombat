@@ -619,8 +619,11 @@ module.exports = class SpellView extends View
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
 
   onChangeLanguage: (e) ->
-    if @spell.canWrite()
-      @aceSession.setMode @editModes[e.language]
+    return unless @spell.canWrite()
+    @aceSession.setMode @editModes[e.language]
+    wasDefault = @getSource() is @spell.originalSource
+    @spell.setLanguage e.language
+    @reloadCode true if wasDefault
 
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>

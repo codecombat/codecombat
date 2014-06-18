@@ -43,7 +43,9 @@ block content
             i.icon-eye-close
             span(data-i18n='account_profile.not_featured') Not Featured
       if me.isAdmin() && !myProfile
-        button.btn.edit-settings-button#enter-espionage-mode 007
+        button.btn#enter-espionage-mode 007
+      if me.isAdmin()
+        button.btn#open-model-modal Raw
 
   if profile && allowedToViewJobProfile
     div(class="job-profile-container" + (editing ? " editable-profile" : ""))

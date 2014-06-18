@@ -8,6 +8,7 @@ JobProfileContactView = require 'views/modal/job_profile_contact_modal'
 JobProfileView = require 'views/account/job_profile_view'
 UserRemark = require 'models/UserRemark'
 forms = require 'lib/forms'
+ModelModal = require 'views/modal/model_modal'
 
 class LevelSessionsCollection extends CocoCollection
   url: -> "/db/user/#{@userID}/level.sessions/employer"
@@ -37,6 +38,7 @@ module.exports = class ProfileView extends View
     'click #save-notes-button': 'onJobProfileNotesChanged'
     'click #contact-candidate': 'onContactCandidate'
     'click #enter-espionage-mode': 'enterEspionageMode'
+    'click #open-model-modal': 'openModelModal'
     'click .editable-profile .profile-photo': 'onEditProfilePhoto'
     'click .editable-profile .project-image': 'onEditProjectImage'
     'click .editable-profile .editable-display': 'onEditSection'
@@ -252,7 +254,7 @@ module.exports = class ProfileView extends View
       link.icon = @iconForLink link for link in links
       context.profileLinks = _.sortBy links, (link) -> not link.icon  # icons first
     if @sessions
-      context.sessions = (s.attributes for s in @sessions.models when (s.get('submitted') or s.get('level-id') is 'gridmancer'))
+      context.sessions = (s.attributes for s in @sessions.models when (s.get('submitted') or (s.get('levelID') is 'gridmancer') and s.get('code')?.thoktar?.plan?.length isnt 942))  # no default code
       context.sessions.sort (a, b) -> (b.playtime ? 0) - (a.playtime ? 0)
     else
       context.sessions = []
@@ -339,6 +341,9 @@ module.exports = class ProfileView extends View
 
   espionageSuccess: (model) ->
     window.location.reload()
+
+  openModelModal: (e) ->
+    @openModalView new ModelModal models: [@user]
 
   onJobProfileNotesChanged: (e) =>
     notes = @$el.find("#job-profile-notes").val()
