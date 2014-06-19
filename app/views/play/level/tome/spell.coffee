@@ -26,6 +26,7 @@ module.exports = class Spell
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
     @setLanguage if @canWrite() then options.language else 'javascript'
     @useTranspiledCode = @shouldUseTranspiledCode()
+    console.log "Spell", @spellKey, "is using transpiled code (should only happen if it's an enemy/spectate writable method)." if @useTranspiledCode
 
     @source = @originalSource
     @parameters = p.parameters
