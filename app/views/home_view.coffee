@@ -10,6 +10,9 @@ module.exports = class HomeView extends View
   id: 'home-view'
   template: template
 
+  events:
+    'click .code-language': 'onCodeLanguageSelected'
+
   constructor: ->
     super(arguments...)
     ThangType.loadUniversalWizard()
@@ -25,6 +28,7 @@ module.exports = class HomeView extends View
       console.warn 'no more jquery browser version...'
     c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
     c.languageName = me.get('preferredLanguage')
+    c.codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
     c
 
   afterRender: ->
@@ -42,3 +46,17 @@ module.exports = class HomeView extends View
         href[href.length-1] = lastLevel if href.length isnt 0
         href = href.join("/")
         playLink.attr("href", href)
+
+    codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
+    @$el.find(".code-language[data-code-language=#{codeLanguage}]").addClass 'selected-language'
+
+  onCodeLanguageSelected: (e) ->
+    target = $(e.target).closest('.code-language')
+    codeLanguage = target.data('code-language')
+    @$el.find('.code-language').removeClass 'selected-language'
+    target.addClass 'selected-language'
+    aceConfig = me.get('aceConfig') ? {}
+    return if (aceConfig.language or 'javascript') is codeLanguage
+    aceConfig.language = codeLanguage
+    me.set 'aceConfig', aceConfig
+    me.save()  # me.patch() doesn't work if aceConfig previously existed and we switched just once
