@@ -38,6 +38,19 @@
   <script src="/javascripts/app.js"></script> <!-- it's all Backbone! -->
   
   <script>
+    window.linkedInAsyncInit = function() {
+      console.log("Linkedin Async Init!");
+      Backbone.Mediator.publish('linkedin-loaded');
+    };
+    
+  </script>
+  <script type="text/javascript" async src="http://platform.linkedin.com/in.js">
+    api_key: 75v8mv4ictvmx6
+    onLoad: linkedInAsyncInit
+    authorize: true
+  </script>
+  
+  <script>
     window.userObject = "userObjectTag";
   </script>
   
