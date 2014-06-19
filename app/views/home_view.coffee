@@ -25,10 +25,6 @@ module.exports = class HomeView extends View
       console.warn 'no more jquery browser version...'
     c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
     c.languageName = me.get('preferredLanguage')
-    # A/B test: https://github.com/codecombat/codecombat/issues/769
-    c.frontPageContent = {0: "video", 1: "screenshot", 2: "nothing"}[me.get('testGroupNumber') % 3]
-    application.tracker.identify frontPageContent: c.frontPageContent
-    application.tracker.trackEvent 'Front Page Content', frontPageContent: c.frontPageContent
     c
 
   afterRender: ->
