@@ -236,12 +236,14 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, documents)
 
   getLevelSessions: (req, res, userID) ->
-    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin()
     query = creator: userID
+    isAuthorized = req.user._id+'' is userID or req.user.isAdmin()
     projection = null
     if req.query.project
       projection = {}
-      projection[field] = 1 for field in req.query.project.split(',')
+      projection[field] = 1 for field in req.query.project.split(',') when isAuthorized or not (field in LevelSessionHandler.privateProperties)
+    # If no req.query.project, then LevelSessionHandler.formatEntity will remove private properties if needed.
+
     LevelSession.find(query).select(projection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)

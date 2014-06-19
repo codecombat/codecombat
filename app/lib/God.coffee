@@ -124,6 +124,8 @@ module.exports = class God extends CocoClass
         console.log "|#{@nick}'s debugger|", event.data.args...
       when 'debug-value-return'
         Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized
+      when 'debug-world-load-progress-changed'
+        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', event.data
 
   onNewWorldCreated: (e) ->
     @currentUserCodeMap = @filterUserCodeMapWhenFromWorld e.world.userCodeMap

@@ -148,7 +148,7 @@ work = () ->
       console.log "Non-UserCodeError:", error.toString() + "\n" + error.stack or error.stackTrace
       self.cleanUp()
     return true
-    
+
   self.onWorldLoadProgress = onWorldLoadProgress = (progress) ->
     #console.log "Worker onWorldLoadProgress"
     self.postMessage
