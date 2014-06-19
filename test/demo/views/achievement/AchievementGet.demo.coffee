@@ -8,6 +8,8 @@ class MockServer
 
 
 module.exports = ->
+  me.set('points', 48)
+
   unlockableObj =
     name: 'Dungeon Arena Started'
     description: 'Started playing Dungeon Arena. '
@@ -25,7 +27,7 @@ module.exports = ->
 
   console.log currentView
   data = currentView.createNotifyData unlockable, earnedUnlockable
-  imageURL = '/images/achievements/swords.png'
+  imageURL = '/images/achievements/swords-01.png'
   data.image = $("<img src='#{imageURL}' />")
   options =
     autoHideDelay: 10000
