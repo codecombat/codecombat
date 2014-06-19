@@ -1,10 +1,10 @@
 mail = require '../commons/mail'
-User = require '../users/User.coffee'
+User = require '../users/User'
 errors = require '../commons/errors'
 #request = require 'request'
 config = require '../../server_config'
-LevelSession = require '../levels/sessions/LevelSession.coffee'
-Level = require '../levels/Level.coffee'
+LevelSession = require '../levels/sessions/LevelSession'
+Level = require '../levels/Level'
 log = require 'winston'
 sendwithus = require '../sendwithus'
 
