@@ -96,7 +96,7 @@ module.exports = class SpellView extends View
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     @zatanna = new Zatanna @ace,
-      liveCompletion: aceConfig.liveCompletion ? false
+      liveCompletion: aceConfig.liveCompletion ? true
       completers:
         keywords: false
 
