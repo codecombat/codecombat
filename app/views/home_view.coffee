@@ -49,6 +49,10 @@ module.exports = class HomeView extends View
 
     codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
     @$el.find(".code-language[data-code-language=#{codeLanguage}]").addClass 'selected-language'
+    @updateLanguageLogos codeLanguage
+
+  updateLanguageLogos: (codeLanguage) ->
+    @$el.find('.game-mode-wrapper .code-language-logo').css('background-image', "url(/images/pages/home/language_logo_#{codeLanguage}.png)").toggleClass 'inverted', (codeLanguage in ['io', 'coffeescript'])
 
   onCodeLanguageSelected: (e) ->
     target = $(e.target).closest('.code-language')
@@ -60,3 +64,8 @@ module.exports = class HomeView extends View
     aceConfig.language = codeLanguage
     me.set 'aceConfig', aceConfig
     me.save()  # me.patch() doesn't work if aceConfig previously existed and we switched just once
+
+    firstButton = @$el.find('#beginner-campaign .game-mode-wrapper').delay(500).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
+    lastButton = @$el.find('#multiplayer .game-mode-wrapper').delay(1000).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
+    $('#page-container').animate {scrollTop: firstButton.offset().top - 100, easing: 'easeInOutCubic'}, 500
+    @updateLanguageLogos codeLanguage

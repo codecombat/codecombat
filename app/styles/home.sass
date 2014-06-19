@@ -32,6 +32,7 @@
     img
       display: block
       margin: 0 auto
+      @include transition(box-shadow .50s ease-in-out)
 
     text-shadow: 2px 2px 5px black
     
@@ -58,14 +59,27 @@
       color: $yellow
       font-size: 90px
       font-family: Bangers
-      @include transition(color .10s linear)
+      @include transition(color .25s ease-in-out)
           
-    &:hover div
+    &:hover div, &.hovered div
       color: lighten($yellow, 20%)
-    &:hover img
+    &:hover img, &.hovered img
       filter: brightness(1.2)
       -webkit-filter: brightness(1.2)
-      box-shadow: 0 0 5px black
+      box-shadow: 0 0 15px black
+
+    .code-language-logo
+      background-color: transparent
+      background-repeat: no-repeat
+      position: absolute
+      right: 35px
+      top: 15px
+      width: 50px
+      height: 50px
+
+      &.inverted
+        filter: invert(100%)
+        -webkit-filter: invert(100%)
 
   .code-languages
     margin: 10px 0 30px 0
