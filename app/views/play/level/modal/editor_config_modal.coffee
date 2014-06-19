@@ -13,6 +13,7 @@ module.exports = class EditorConfigModal extends View
     invisibles: false
     indentGuides: false
     behaviors: false
+    liveCompletion: true
 
   events:
     'change #tome-invisibles': 'updateInvisibles'
@@ -20,6 +21,7 @@ module.exports = class EditorConfigModal extends View
     'change #tome-key-bindings': 'updateKeyBindings'
     'change #tome-indent-guides': 'updateIndentGuides'
     'change #tome-behaviors': 'updateBehaviors'
+    'change #tome-live-completion': 'updateLiveCompletion'
 
   constructor: (options) ->
     super(options)
@@ -43,6 +45,7 @@ module.exports = class EditorConfigModal extends View
     c.invisibles = @aceConfig.invisibles
     c.indentGuides = @aceConfig.indentGuides
     c.behaviors = @aceConfig.behaviors
+    c.liveCompletion = @aceConfig.liveCompletion
     c
 
   updateSessionLanguage: ->
@@ -63,6 +66,9 @@ module.exports = class EditorConfigModal extends View
   updateBehaviors: ->
     @aceConfig.behaviors = @$el.find('#tome-behaviors').prop('checked')
 
+  updateLiveCompletion: ->
+    @aceConfig.liveCompletion = @$el.find('#tome-live-completion').prop('checked')
+
   afterRender: ->
     super()
 
@@ -75,6 +81,7 @@ module.exports = class EditorConfigModal extends View
     @aceConfig.keyBindings = @$el.find('#tome-key-bindings').val()
     @aceConfig.indentGuides = @$el.find('#tome-indent-guides').prop('checked')
     @aceConfig.behaviors = @$el.find('#tome-behaviors').prop('checked')
+    @aceConfig.liveCompletion = @$el.find('#tome-live-completion').prop('checked')
     me.set 'aceConfig', @aceConfig
     Backbone.Mediator.publish 'tome:change-config'
     Backbone.Mediator.publish 'tome:change-language', language: newLanguage unless newLanguage is oldLanguage

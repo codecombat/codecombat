@@ -384,6 +384,8 @@
     editor_config_keybindings_label: "Key Bindings"
     editor_config_keybindings_default: "Default (Ace)"
     editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
+    editor_config_livecompletion_label: "Live Autocompletion"
+    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
     editor_config_invisibles_label: "Show Invisibles"
     editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
     editor_config_indentguides_label: "Show Indent Guides"
