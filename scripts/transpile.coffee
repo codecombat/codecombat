@@ -6,8 +6,8 @@ Aether = require "aether"
 async = require 'async'
 
 serverSetup = require '../server_setup'
-Level = require '../server/levels/Level.coffee'
-LevelSession = require '../server/levels/sessions/LevelSession.coffee'
+Level = require '../server/levels/Level'
+LevelSession = require '../server/levels/sessions/LevelSession'
 
 Aether.addGlobal 'Vector', require '../app/lib/world/vector'
 Aether.addGlobal '_', _
