@@ -90,7 +90,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Naučte se programování JavaScriptu při hraní více-hráčové programovací hry."
+    slogan: "Naučte se programování tu při hraní více-hráčové programovací hry."
     no_ie: "Omlouváme se, ale CodeCombat boužel nefunguje v Internet Exploreru 9 nebo starším."
     no_mobile: "CodeCombat není navržen pro mobilní zařízení a nemusí fungovat správně!"
     play: "Hrát"

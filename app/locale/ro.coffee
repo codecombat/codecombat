@@ -90,7 +90,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Învață sa scrii JavaScript jucându-te"
+    slogan: "Învață sa scrii cod jucându-te"
     no_ie: "CodeCombat nu merge pe Internet Explorer 9 sau mai vechi. Scuze!"
     no_mobile: "CodeCombat nu a fost proiectat pentru dispozitive mobile si s-ar putea sa nu meargă!"
     play: "Joacă"

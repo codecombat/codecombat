@@ -90,7 +90,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     required: "Csak akkor mehetsz arra, ha már bejelentkeztél."
 
   home:
-    slogan: "Tanulj meg JavaScript nyelven programozni, miközben játszol!"
+    slogan: "Tanulj meg nyelven programozni, miközben játszol!"
     no_ie: "A CodeCombat nem támogatja az Internet Explorer 9, vagy korábbi verzióit. Bocsi!"
     no_mobile: "A CodeCombat nem mobil eszközökre lett tervezve. Valószínűleg nem működik helyesen."
     play: "Játssz!"

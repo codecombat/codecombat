@@ -90,7 +90,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Μάθε να προγραμμάτιζεις με JavaScript μέσω ενός παιχνιδιού"
+    slogan: "Μάθε να προγραμμάτιζεις μέσω ενός παιχνιδιού"
     no_ie: "Το CodeCombat δεν παίζει με το Internet Explorer 9 ή κάποια παλαιότερη έκδοση.Συγνώμη!"
     no_mobile: "Το CodeCombat δεν σχεδιάστηκε για κινητά και μπορεί να μην δουλεύει!"
     play: "Παίξε"

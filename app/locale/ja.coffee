@@ -90,7 +90,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "ゲームをプレイしてJavaScriptを学びましょう"
+    slogan: "ゲームをプレイして学びましょう"
     no_ie: "大変申し訳ありませんが、ご利用のブラウザ（IE8以下）はサポートされていません。(ChromeやFirefoxをご利用ください)"
     no_mobile: "CodeCombat は携帯端末向けに制作されていないため、動作しない可能性があります。"
     play: "ゲームスタート"

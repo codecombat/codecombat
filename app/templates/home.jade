@@ -2,30 +2,55 @@ extends /templates/base
 
 block content
 
-  h1#site-slogan(data-i18n="home.slogan") Learn to Code JavaScript by Playing a Game
+  h1#site-slogan(data-i18n="home.slogan") Learn to Code by Playing a Game
 
   .code-languages
     .primary-code-languages.row
-      .code-language.col-md-6#javascript(data-code-language='javascript')
-        h2 JavaScript
-        p language of web yo
+      .col-md-6
+        .code-language.selected-language#javascript(data-code-language='javascript')
+          .code-wizard
+          h2 JavaScript
+          p The language of the web. Great for writing websites, web apps, HTML5 games, and servers.
 
-      .code-language.beta.col-md-6#python(data-code-language='python')
-        h2 Python
-        p language of badassery
+      .col-md-6
+        .code-language.beta#python(data-code-language='python')
+          .code-wizard
+          .code-language-beta
+          h2 Python
+          p Simple yet powerful, Python is a great general purpose programming language.
 
     .secondary-code-languages.row
-      .code-language.beta.col-md-4#clojure(data-code-language='clojure')
-        h3 Clojure
-        p language of geekery
+      .col-md-3
+        .code-language.beta#coffeescript(data-code-language='coffeescript')
+          .code-language-logo
+          .code-wizard
+          .code-language-beta
+          h3 CoffeeScript
+          p Nicer JavaScript syntax
 
-      .code-language.beta.col-md-4#clojure(data-code-language='lua')
-        h3 Lua
-        p language of game scripting
+      .col-md-3
+        .code-language.beta#clojure(data-code-language='clojure')
+          .code-language-logo
+          .code-wizard
+          .code-language-beta
+          h3 Clojure
+          p A modern Lisp
 
-      .code-language.beta.col-md-4#clojure(data-code-language='io')
-        h3 Io
-        p language of simplicity
+      .col-md-3
+        .code-language.beta#lua(data-code-language='lua')
+          .code-language-logo
+          .code-wizard
+          .code-language-beta
+          h3 Lua
+          p Game scripting language
+
+      .col-md-3
+        .code-language.beta#io(data-code-language='io')
+          .code-language-logo
+          .code-wizard
+          .code-language-beta
+          h3 Io
+          p Simple but obscure
 
 
   .alert.alert-danger.lt-ie10

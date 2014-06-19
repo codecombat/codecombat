@@ -90,7 +90,7 @@
     required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Learn to Code JavaScript by Playing a Game"
+    slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
     no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
     play: "Play"
