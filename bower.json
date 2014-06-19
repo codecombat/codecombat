@@ -43,7 +43,8 @@
     "treema": "~0.0.8",
     "bootstrap": "~3.1.1",
     "validated-backbone-mediator": "~0.1.3",
-    "jquery.browser": "~0.0.6"
+    "jquery.browser": "~0.0.6",
+    "zatanna": "~0.0.1"
   },
   "overrides": {
     "backbone": {

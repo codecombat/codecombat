@@ -65,6 +65,7 @@ UserSchema = c.object {},
     invisibles: {type: 'boolean', 'default': false}
     indentGuides: {type: 'boolean', 'default': false}
     behaviors: {type: 'boolean', 'default': false}
+    liveCompletion: {type: 'boolean', 'default': false}
 
   simulatedBy: {type: 'integer', minimum: 0, default: 0}
   simulatedFor: {type: 'integer', minimum: 0, default: 0}
