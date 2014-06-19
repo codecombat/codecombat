@@ -178,7 +178,7 @@ module.exports = class SpellView extends View
         doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
-        console.log 'could not find doc for', prop, 'from', e.allDocs['__' + prop], 'for', owner, 'of', propGroups unless doc
+        console.log 'could not find doc for', prop, 'from', e.allDocs['__' + prop], 'for', owner, 'of', e.propGroups unless doc
         doc ?= prop
         if doc.snippets?
           entry = 
