@@ -265,7 +265,7 @@ UserHandler = class UserHandler extends Handler
     return @sendMethodNotAllowed res unless req.method is 'POST'
     isMe = userID is req.user._id + ''
     isAuthorized = isMe or req.user.isAdmin()
-    isAuthorized ||= ('employer' in req.user.get('permissions')) and (activityName in ['viewed_by_employer', 'messaged_by_employer'])
+    isAuthorized ||= ('employer' in req.user.get('permissions')) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
     return @sendUnauthorizedError res unless isAuthorized
     updateUser = (user) =>
       activity = user.trackActivity activityName, increment
