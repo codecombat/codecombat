@@ -2,6 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/employers'
 app = require 'application'
 User = require 'models/User'
+UserRemark = require 'models/UserRemark'
 {me} = require 'lib/auth'
 CocoCollection = require 'collections/CocoCollection'
 EmployerSignupView = require 'views/modal/employer_signup_modal'
@@ -9,6 +10,10 @@ EmployerSignupView = require 'views/modal/employer_signup_modal'
 class CandidatesCollection extends CocoCollection
   url: '/db/user/x/candidates'
   model: User
+
+class UserRemarksCollection extends CocoCollection
+  url: '/db/user.remark?project=contact,contactName,user'
+  model: UserRemark
 
 module.exports = class EmployersView extends View
   id: "employers-view"
@@ -37,6 +42,8 @@ module.exports = class EmployersView extends View
     ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
     ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
+    ctx.remarks = {}
+    ctx.remarks[remark.get('user')] = remark for remark in @remarks.models
     ctx.moment = moment
     ctx._ = _
     ctx
@@ -48,11 +55,13 @@ module.exports = class EmployersView extends View
   getCandidates: ->
     @candidates = new CandidatesCollection()
     @candidates.fetch()
+    @remarks = new UserRemarksCollection()
+    @remarks.fetch()
     # Re-render when we have fetched them, but don't wait and show a progress bar while loading.
     @listenToOnce @candidates, 'all', @renderCandidatesAndSetupScrolling
+    @listenToOnce @remarks, 'all', @renderCandidatesAndSetupScrolling
 
   renderCandidatesAndSetupScrolling: =>
-
     @render()
     $(".nano").nanoScroller()
     if window.history?.state?.lastViewedCandidateID
@@ -179,7 +188,7 @@ module.exports = class EmployersView extends View
             "Last 4 weeks": (e, n, f, i, $r) ->
               days = parseFloat $($r.find('td')[i]).data('profile-age')
               days <= 28
-          7:
+          8:
             "✓": filterSelectExactMatch
             "✗": filterSelectExactMatch
 

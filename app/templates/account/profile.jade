@@ -43,7 +43,9 @@ block content
             i.icon-eye-close
             span(data-i18n='account_profile.not_featured') Not Featured
       if me.isAdmin() && !myProfile
-        button.btn.edit-settings-button#enter-espionage-mode 007
+        button.btn#enter-espionage-mode 007
+      if me.isAdmin()
+        button.btn#open-model-modal Raw
 
   if profile && allowedToViewJobProfile
     div(class="job-profile-container" + (editing ? " editable-profile" : ""))
@@ -169,6 +171,10 @@ block content
               button#contact-candidate.btn.btn-large.btn-inverse.flat-button
                 span(data-i18n="account_profile.contact") Contact
                 |  #{profile.name.split(' ')[0]}
+            if me.isAdmin()
+              select#admin-contact.form-control
+                for contact in adminContacts
+                  option(value=contact.id, selected=remark && remark.get('contact') == contact.id)= contact.name
 
             if !editing && sessions.length
               h3(data-i18n="account_profile.player_code") Player Code
@@ -191,9 +197,12 @@ block content
                 if editing && !profile.name
                   h3.edit-label(data-i18n="account_profile.name_header") Fill in your name
                 else if profile.name
-                  h3= profile.name
+                  h3= profile.name + (me.isAdmin() ? ' (' + user.get('name') + ')' : '')
                 else
-                  h3(data-i18n="account_profile.name_anonymous") Anonymous Developer
+                  h3
+                    span(data-i18n="account_profile.name_anonymous") Anonymous Developer
+                    if me.isAdmin()
+                      span  (#{user.get('name')})
 
               form.editable-form
                 .editable-icon.glyphicon.glyphicon-remove
@@ -395,6 +404,10 @@ block content
                   button.btn.btn-primary#save-notes-button(data-i18n="common.save") Save
                 else
                   div!= marked(notes)
+
+            if me.isAdmin()
+              h3(data-i18n="account_profile.remarks") Remarks
+              #remark-treema
 
         .right-column.full-height-column
           .sub-column

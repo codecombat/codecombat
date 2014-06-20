@@ -6,13 +6,23 @@ CocoCollection = require 'collections/CocoCollection'
 {me} = require 'lib/auth'
 JobProfileContactView = require 'views/modal/job_profile_contact_modal'
 JobProfileView = require 'views/account/job_profile_view'
+UserRemark = require 'models/UserRemark'
 forms = require 'lib/forms'
+ModelModal = require 'views/modal/model_modal'
 
 class LevelSessionsCollection extends CocoCollection
   url: -> "/db/user/#{@userID}/level.sessions/employer"
   model: LevelSession
   constructor: (@userID) ->
     super()
+
+adminContacts = [
+  {id: "", name: "Assign a Contact"}
+  {id: "512ef4805a67a8c507000001", name: "Nick"}
+  {id: "5162fab9c92b4c751e000274", name: "Scott"}
+  {id: "51eb2714fa058cb20d0006ef", name: "Michael"}
+  {id: "51538fdb812dd9af02000001", name: "George"}
+]
 
 module.exports = class ProfileView extends View
   id: "profile-view"
@@ -28,6 +38,7 @@ module.exports = class ProfileView extends View
     'click #save-notes-button': 'onJobProfileNotesChanged'
     'click #contact-candidate': 'onContactCandidate'
     'click #enter-espionage-mode': 'enterEspionageMode'
+    'click #open-model-modal': 'openModelModal'
     'click .editable-profile .profile-photo': 'onEditProfilePhoto'
     'click .editable-profile .project-image': 'onEditProjectImage'
     'click .editable-profile .editable-display': 'onEditSection'
@@ -36,12 +47,14 @@ module.exports = class ProfileView extends View
     'change .editable-profile .editable-array input': 'onEditArray'
     'keyup .editable-profile .editable-array input': 'onEditArray'
     'click .editable-profile a': 'onClickLinkWhileEditing'
+    'change #admin-contact': 'onAdminContactChanged'
 
   constructor: (options, @userID) ->
     @userID ?= me.id
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
+    @onRemarkChanged = _.debounce @onRemarkChanged, 1000
     @authorizedWithLinkedIn = IN?.User?.isAuthorized()
-    @linkedInLoaded = Boolean(IN.parse)
+    @linkedInLoaded = Boolean(IN?.parse)
     @waitingForLinkedIn = false
     window.contractCallback = =>
       @authorizedWithLinkedIn = IN?.User?.isAuthorized()
@@ -70,6 +83,22 @@ module.exports = class ProfileView extends View
     else
       @user = User.getByID(@userID)
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@userID), 'candidate_sessions').model
+    if me.isAdmin()
+      # Mimicking how the VictoryModal fetches LevelFeedback
+      @remark = new UserRemark()
+      @remark.setURL "/db/user/#{@userID}/remark"
+      @remark.fetch()
+      @listenToOnce @remark, 'sync', @onRemarkLoaded
+      @listenToOnce @remark, 'error', @onRemarkNotFound
+
+  onRemarkLoaded: ->
+    @remark.setURL "/db/user.remark/#{@remark.id}"
+    @render()
+
+  onRemarkNotFound: ->
+    @remark = new UserRemark()  # hmm, why do we create a new one here?
+    @remark.set 'user', @userID
+    @remark.set 'userName', name if name = @user.get('name')
 
   onLinkedInLoaded: =>
     @linkedinLoaded = true
@@ -225,10 +254,12 @@ module.exports = class ProfileView extends View
       link.icon = @iconForLink link for link in links
       context.profileLinks = _.sortBy links, (link) -> not link.icon  # icons first
     if @sessions
-      context.sessions = (s.attributes for s in @sessions.models when (s.get('submitted') or s.get('level-id') is 'gridmancer'))
+      context.sessions = (s.attributes for s in @sessions.models when (s.get('submitted') or (s.get('levelID') is 'gridmancer') and s.get('code')?.thoktar?.plan?.length isnt 942))  # no default code
       context.sessions.sort (a, b) -> (b.playtime ? 0) - (a.playtime ? 0)
     else
       context.sessions = []
+    context.adminContacts = adminContacts
+    context.remark = @remark
     context
 
   afterRender: ->
@@ -249,6 +280,31 @@ module.exports = class ProfileView extends View
       _.delay ->
         justSavedSection.removeClass "just-saved", duration: 1500, easing: 'easeOutQuad'
       , 500
+    if me.isAdmin()
+      visibleSettings = ['history', 'tasks']
+      data = _.pick (@remark.attributes), (value, key) -> key in visibleSettings
+      data.history ?= []
+      data.tasks ?= []
+      schema = _.cloneDeep @remark.schema()
+      schema.properties = _.pick schema.properties, (value, key) => key in visibleSettings
+      schema.required = _.intersection (schema.required ? []), visibleSettings
+      treemaOptions =
+        filePath: "db/user/#{@userID}"
+        schema: schema
+        data: data
+        aceUseWrapMode: true
+        callbacks: {change: @onRemarkChanged}
+      @remarkTreema = @$el.find('#remark-treema').treema treemaOptions
+      @remarkTreema.build()
+      @remarkTreema.open(3)
+
+  onRemarkChanged: (e) =>
+    return unless @remarkTreema.isValid()
+    for key in ['history', 'tasks']
+      val = _.filter(@remarkTreema.get(key), (entry) -> entry?.content or entry?.action)
+      entry.date ?= (new Date()).toISOString() for entry in val if key is 'history'
+      @remark.set key, val
+    @saveRemark()
 
   initializeAutocomplete: (container) ->
     (container ? @$el).find('input[data-autocomplete]').each ->
@@ -285,6 +341,9 @@ module.exports = class ProfileView extends View
 
   espionageSuccess: (model) ->
     window.location.reload()
+
+  openModelModal: (e) ->
+    @openModalView new ModelModal models: [@user]
 
   onJobProfileNotesChanged: (e) =>
     notes = @$el.find("#job-profile-notes").val()
@@ -454,6 +513,26 @@ module.exports = class ProfileView extends View
 
   onClickLinkWhileEditing: (e) ->
     e.preventDefault()
+
+  onAdminContactChanged: (e) ->
+    newContact = @$el.find('#admin-contact').val()
+    newContactName = if newContact then _.find(adminContacts, id: newContact).name else ''
+    @remark.set 'contact', newContact
+    @remark.set 'contactName', newContactName
+    @saveRemark()
+
+  saveRemark: ->
+    @remark.set 'user', @user.id
+    @remark.set 'userName', @user.get('name')
+    if errors = @remark.validate()
+      return console.error "UserRemark", @remark, "failed validation with errors:", errors
+    res = @remark.save()
+    res.error =>
+      return if @destroyed
+      console.error "UserRemark", @remark, "failed to save with error:", res.responseText
+    res.success (model, response, options) =>
+      return if @destroyed
+      console.log "Saved UserRemark", @remark, "with response", response
 
   updateProgress: (highlightNext) ->
     return unless @user

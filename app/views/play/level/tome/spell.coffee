@@ -18,19 +18,20 @@ module.exports = class Spell
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
-    p = options.programmableMethod
 
+    p = options.programmableMethod
+    @languages = p.languages ? {}
+    @languages.javascript ?= p.source
     @name = p.name
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
-    teamSpells = @session.get('teamSpells')
-    team = @session.get('team') ? 'humans'
-    @useTranspiledCode = @permissions.readwrite.length and ((teamSpells and not _.contains(teamSpells[team], @spellKey)) or (@session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions'))) or @spectateView)
-    #console.log @spellKey, "using transpiled code?", @useTranspiledCode
-    @source = @originalSource = p.source
+    @setLanguage if @canWrite() then options.language else 'javascript'
+    @useTranspiledCode = @shouldUseTranspiledCode()
+    console.log "Spell", @spellKey, "is using transpiled code (should only happen if it's an enemy/spectate writable method)." if @useTranspiledCode
+
+    @source = @originalSource
     @parameters = p.parameters
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
       @source = sessionSource
-    @language = if @canWrite() then options.language else 'javascript'
     @thangs = {}
     @view = new SpellView {spell: @, session: @session, worker: @worker}
     @view.render()  # Get it ready and code loaded in advance
@@ -44,6 +45,9 @@ module.exports = class Spell
     @tabView.destroy()
     @thangs = null
     @worker = null
+
+  setLanguage: (@language) ->
+    @originalSource = @languages[language] ? @languages.javascript
 
   addThang: (thang) ->
     if @thangs[thang.id]
@@ -151,3 +155,14 @@ module.exports = class Spell
 
   toString: ->
     "<Spell: #{@spellKey}>"
+
+  shouldUseTranspiledCode: ->
+    # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
+    return false unless @permissions.readwrite.length  # Only player-writable code will be stored transpiled.
+    return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
+    teamSpells = @session.get('teamSpells')
+    team = @session.get('team') ? 'humans'
+    return true if teamSpells and not _.contains(teamSpells[team], @spellKey)  # Use transpiled for enemy spells.
+    # Players without permissions can't view the raw code.
+    return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions'))
+    false

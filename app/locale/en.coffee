@@ -282,6 +282,7 @@
     education_description: "Description"
     education_description_help: "Highlight anything about this educational experience. (140 chars; optional)"
     our_notes: "Our Notes"
+    remarks: "Remarks"
     projects: "Projects"
     projects_header: "Add 3 projects"
     projects_header_2: "Projects (Top 3)"
@@ -320,6 +321,7 @@
     candidate_top_skills: "Top Skills"
     candidate_years_experience: "Yrs Exp"
     candidate_last_updated: "Last Updated"
+    candidate_who: "Who"
     featured_developers: "Featured Developers"
     other_developers: "Other Developers"
     inactive_developers: "Inactive Developers"
@@ -382,6 +384,8 @@
     editor_config_keybindings_label: "Key Bindings"
     editor_config_keybindings_default: "Default (Ace)"
     editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
+    editor_config_livecompletion_label: "Live Autocompletion"
+    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
     editor_config_invisibles_label: "Show Invisibles"
     editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
     editor_config_indentguides_label: "Show Indent Guides"
@@ -882,6 +886,7 @@
     document: "Document"
     sprite_sheet: "Sprite Sheet"
     candidate_sessions: "Candidate Sessions"
+    user_remark: "User Remark"
 
   delta:
     added: "Added"

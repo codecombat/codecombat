@@ -35,7 +35,8 @@ exports.config =
           (bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
         )///
         'javascripts/test-app.js': /^test[\/\\]app/
-#        'test/javascripts/test-vendor.js': /^test[\/\\](?=vendor)/
+        'javascripts/demo-app.js': /^test[\/\\]demo/
+        
       order:
         before: [
           'bower_components/jquery/dist/jquery.js'

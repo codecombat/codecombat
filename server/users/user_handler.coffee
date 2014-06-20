@@ -11,6 +11,7 @@ log = require 'winston'
 LevelSession = require('../levels/sessions/LevelSession')
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
+UserRemark = require './remarks/UserRemark'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
 privateProperties = [
@@ -23,7 +24,7 @@ candidateProperties = [
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
-
+  jsonSchema: schema
   editableProperties: [
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
     'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
@@ -31,15 +32,11 @@ UserHandler = class UserHandler extends Handler
     'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile'
   ]
 
-  jsonSchema: schema
-
-  constructor: ->
-    super(arguments...)
-    @editableProperties.push('permissions') unless config.isProduction
-
   getEditableProperties: (req, document) ->
     props = super req, document
-    props.push 'jobProfileApproved', 'jobProfileNotes' if req.user.isAdmin()
+    props.push 'permissions' unless config.isProduction
+    props.push 'jobProfileApproved', 'jobProfileNotes' if req.user.isAdmin()  # Admins naturally edit these
+    props.push privateProperties... if req.user.isAdmin()  # Admins are mad with power
     props
 
   formatEntity: (req, document) ->
@@ -197,6 +194,7 @@ UserHandler = class UserHandler extends Handler
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @getEarnedAchievements(req, res, args[0]) if args[1] is 'achievements'
     return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
+    return @getRemark(req, res, args[0]) if args[1] is 'remark'
     return @sendNotFoundError(res)
     super(arguments...)
 
@@ -231,19 +229,21 @@ UserHandler = class UserHandler extends Handler
   getLevelSessionsForEmployer: (req, res, userID) ->
     return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     query = creator: userID, levelID: {$in: ['gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
-    projection = 'levelName levelID team playtime codeLanguage submitted'  # code totalScore
+    projection = 'levelName levelID team playtime codeLanguage submitted code totalScore'
     LevelSession.find(query).select(projection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
 
   getLevelSessions: (req, res, userID) ->
-    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin()
     query = creator: userID
-    projection = null
+    isAuthorized = req.user._id+'' is userID or req.user.isAdmin()
+    projection = {}
     if req.query.project
-      projection = {}
-      projection[field] = 1 for field in req.query.project.split(',')
+      projection[field] = 1 for field in req.query.project.split(',') when isAuthorized or not (field in LevelSessionHandler.privateProperties)
+    else unless isAuthorized
+      projection[field] = 0 for field in LevelSessionHandler.privateProperties
+
     LevelSession.find(query).select(projection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
@@ -265,7 +265,7 @@ UserHandler = class UserHandler extends Handler
     return @sendMethodNotAllowed res unless req.method is 'POST'
     isMe = userID is req.user._id + ''
     isAuthorized = isMe or req.user.isAdmin()
-    isAuthorized ||= ('employer' in req.user.get('permissions')) and (activityName in ['viewed_by_employer', 'messaged_by_employer'])
+    isAuthorized ||= ('employer' in req.user.get('permissions')) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
     return @sendUnauthorizedError res unless isAuthorized
     updateUser = (user) =>
       activity = user.trackActivity activityName, increment
@@ -313,7 +313,7 @@ UserHandler = class UserHandler extends Handler
     #query.jobProfileApproved = true unless req.user.isAdmin()  # We split into featured and other now.
     query['jobProfile.active'] = true unless req.user.isAdmin()
     selection = 'jobProfile jobProfileApproved photoURL'
-    selection += ' email' if authorized
+    selection += ' email name' if authorized
     User.find(query).select(selection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
@@ -321,7 +321,7 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
-    fields = if authorized then ['jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile', 'jobProfileApproved']
+    fields = if authorized then ['name', 'jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile', 'jobProfileApproved']
     obj = _.pick document.toObject(), fields
     obj.photoURL ||= obj.jobProfile.photoURL if authorized
     subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active']
@@ -342,7 +342,7 @@ UserHandler = class UserHandler extends Handler
 
   getEmployers: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user.isAdmin()
-    query = {employerAt: {$exists: true}}
+    query = {employerAt: {$exists: true, $ne: ''}}
     selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
     User.find(query).select(selection).lean().exec (err, documents) =>
       return @sendDatabaseError res, err if err
@@ -362,5 +362,18 @@ UserHandler = class UserHandler extends Handler
     else
       hash.update(user.get('_id') + '')
     hash.digest('hex')
+
+  getRemark: (req, res, userID) ->
+    return @sendUnauthorizedError(res) unless req.user.isAdmin()
+    query = user: userID
+    projection = null
+    if req.query.project
+      projection = {}
+      projection[field] = 1 for field in req.query.project.split(',')
+    UserRemark.findOne(query).select(projection).exec (err, remark) =>
+      return @sendDatabaseError res, err if err
+      return @sendNotFoundError res unless remark?
+      @sendSuccess res, remark
+
 
 module.exports = new UserHandler()
