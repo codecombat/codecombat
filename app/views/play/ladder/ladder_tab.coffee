@@ -32,7 +32,6 @@ module.exports = class LadderTabView extends CocoView
     @leaderboards = {}
     @refreshLadder()
     @socialNetworkRes = @supermodel.addSomethingResource("social_network_apis", 0)
-    @checkFriends()
 
   checkFriends: ->
     return if @checked or (not window.FB) or (not window.gapi)
@@ -97,6 +96,9 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = "http://graph.facebook.com/#{friend.facebookID}/picture"
     @facebookFriendSessions = result
+    @getRenderData()
+    @render()
+
 
   # GOOGLE PLUS
 
