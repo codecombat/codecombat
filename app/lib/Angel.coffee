@@ -9,7 +9,7 @@ module.exports = class Angel extends CocoClass
   @nicks: ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger']
 
   infiniteLoopIntervalDuration: 7500  # check this often
-  infiniteLoopTimeoutDuration: 5000  # wait this long for a response when checking
+  infiniteLoopTimeoutDuration: 10000  # wait this long for a response when checking
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
 
   constructor: (@shared) ->
