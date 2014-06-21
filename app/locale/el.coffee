@@ -19,7 +19,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 
-#  units:
+  units:
     second: "δευτερόλεπτο"
     seconds: "δευτερόλεπτα"
     minute: "λεπτό"
@@ -139,7 +139,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     learn_more: "Μάθετε περισσότερα σχετικά με το να είστε ένας Διπλωμάτης"
     subscribe_as_diplomat: "Εγγραφή ως Διπλωμάτης"
 
-#  wizard_settings:
+  wizard_settings:
     title: "Ρυθμίσεις Μάγου"
     customize_avatar: "Διαμόρφωσε το  Avatar σου"
     active: "Ενεργό"
@@ -529,7 +529,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    edit_btn_preview: "Preview"
 #    edit_article_title: "Edit Article"
 
-#  general:
+  general:
     and: "και"
     name: "Όνομα"
 #    body: "Body"
@@ -735,7 +735,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
 #    translating_diplomats: "Our Translating Diplomats:"
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
-#  classes:
+  classes:
     archmage_title: "Αρχιμάγος"
     archmage_title_description: "(Προγραμματιστής)"
     artisan_title: "Τεχνίτης"
