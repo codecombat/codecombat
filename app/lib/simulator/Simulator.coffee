@@ -180,7 +180,7 @@ module.exports = class Simulator extends CocoClass
     try
       @commenceSimulationAndSetupCallback()
     catch err
-      console.log "There was an error in simulation(#{err}). Trying again in #{@retryDelayInSeconds} seconds"
+      console.error "There was an error in simulation:", err, "-- trying again in #{@retryDelayInSeconds} seconds"
       @simulateAnotherTaskAfterDelay()
 
   assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->
@@ -367,8 +367,13 @@ module.exports = class Simulator extends CocoClass
     spellTeam = @task.getSpellKeyToTeamMap()[spellKey]
     playerTeams = @task.getPlayerTeams()
     useProtectAPI = true
-    if spellTeam not in playerTeams then useProtectAPI = false
-    @spells[spellKey].thangs[thang.id].aether = @createAether @spells[spellKey].name, method, useProtectAPI
+    if spellTeam not in playerTeams
+      useProtectAPI = false
+    else
+      spellSession = _.filter(@task.getSessions(), {team: spellTeam})[0]
+      unless codeLanguage = spellSession?.submittedCodeLanguage
+        console.warn "Session", spellSession.creatorName, spellSession.team, "didn't have submittedCodeLanguage, just:", spellSession
+    @spells[spellKey].thangs[thang.id].aether = @createAether @spells[spellKey].name, method, useProtectAPI, codeLanguage ? 'javascript'
 
 
   transpileSpell: (thang, spellKey, methodName) ->
@@ -385,7 +390,7 @@ module.exports = class Simulator extends CocoClass
         console.log "Couldn't transpile #{spellKey}:\n#{source}\n", e
         aether.transpile ''
 
-  createAether: (methodName, method, useProtectAPI) ->
+  createAether: (methodName, method, useProtectAPI, codeLanguage) ->
     aetherOptions =
       functionName: methodName
       protectAPI: useProtectAPI
@@ -398,10 +403,10 @@ module.exports = class Simulator extends CocoClass
         aether_MissingThis: {level: 'error'}
       #functionParameters: # TODOOOOO
       executionLimit: 1 * 1000 * 1000
-    if methodName is 'hear'
-      aetherOptions.functionParameters = ['speaker', 'message', 'data']
-    if methodName is 'makeBid'
-      aetherOptions.functionParameters = ['blockNumber']
+      language: codeLanguage
+    if methodName is 'hear' then aetherOptions.functionParameters = ['speaker', 'message', 'data']
+    if methodName is 'makeBid' then aetherOptions.functionParameters = ['blockNumber']
+    if methodName is "findCentroids" then aetherOptions.functionParameters = ["centroids"]
     #console.log "creating aether with options", aetherOptions
     return new Aether aetherOptions
 
@@ -470,7 +475,6 @@ class SimulationTask
 
   getWorldProgrammableSource: (desiredSpellKey ,world) ->
     programmableThangs = _.filter world.thangs, 'isProgrammable'
-    language = @getSessions()[0]['codeLanguage'] ? me.get('aceConfig')?.language ? 'javascript'
     @spells ?= {}
     @thangSpells ?= {}
     for thang in programmableThangs

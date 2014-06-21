@@ -23,7 +23,7 @@ module.exports = class GoldView extends View
     goldEl = @$el.find('.gold-amount.team-' + e.team)
     unless goldEl.length
       teamEl = teamTemplate team: e.team
-      @$el.append(teamEl)
+      @$el[if e.team is 'humans' then 'prepend' else 'append'](teamEl)
       goldEl = $('.gold-amount.team-' + e.team, teamEl)
     text = '' + e.gold
     if e.goldEarned and e.goldEarned > e.gold

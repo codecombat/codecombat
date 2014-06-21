@@ -14,6 +14,7 @@ module.exports = class Spell
     @spellKey = options.spellKey
     @pathComponents = options.pathComponents
     @session = options.session
+    @otherSession = options.otherSession
     @spectateView = options.spectateView
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
@@ -24,7 +25,12 @@ module.exports = class Spell
     @languages.javascript ?= p.source
     @name = p.name
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
-    @setLanguage if @canWrite() then options.language else 'javascript'
+    if @canWrite()
+      @setLanguage options.language
+    else if @isEnemySpell()
+      @setLanguage options.otherSession.get 'submittedCodeLanguage'
+    else
+      @setLanguage 'javascript'
     @useTranspiledCode = @shouldUseTranspiledCode()
     console.log "Spell", @spellKey, "is using transpiled code (should only happen if it's an enemy/spectate writable method)." if @useTranspiledCode
 
@@ -125,7 +131,7 @@ module.exports = class Spell
         jshint_E043: {level: "ignore"}  # https://github.com/codecombat/codecombat/issues/813 -- since we can't actually tell JSHint to really ignore things
         jshint_Unknown: {level: "ignore"}  # E043 also triggers Unknown, so ignore that, too
         aether_MissingThis: {level: 'error'}
-      language: if @canWrite() then @language else 'javascript'
+      language: @language
       functionName: @name
       functionParameters: @parameters
       yieldConditionally: thang.plan?
@@ -156,13 +162,16 @@ module.exports = class Spell
   toString: ->
     "<Spell: #{@spellKey}>"
 
-  shouldUseTranspiledCode: ->
-    # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
-    return false unless @permissions.readwrite.length  # Only player-writable code will be stored transpiled.
-    return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
+  isEnemySpell: ->
+    return false unless @permissions.readwrite.length
     teamSpells = @session.get('teamSpells')
     team = @session.get('team') ? 'humans'
-    return true if teamSpells and not _.contains(teamSpells[team], @spellKey)  # Use transpiled for enemy spells.
+    teamSpells and not _.contains(teamSpells[team], @spellKey)
+
+  shouldUseTranspiledCode: ->
+    # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
+    return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
+    return true if @isEnemySpell()  # Use transpiled for enemy spells.
     # Players without permissions can't view the raw code.
     return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions'))
     false
