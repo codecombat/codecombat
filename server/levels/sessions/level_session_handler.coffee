@@ -8,7 +8,7 @@ class LevelSessionHandler extends Handler
   modelClass: LevelSession
   editableProperties: ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
                        'levelName', 'creatorName', 'levelID', 'screenshot',
-                       'chat', 'teamSpells', 'submitted', 'unsubscribed','playtime']
+                       'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage', 'unsubscribed', 'playtime']
   privateProperties: ['code', 'submittedCode', 'unsubscribed']
   jsonSchema: require '../../../app/schemas/models/level_session'
 

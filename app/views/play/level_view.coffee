@@ -221,7 +221,7 @@ module.exports = class PlayLevelView extends View
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel
     @insertSubView new PlaybackView session: @session
     @insertSubView new GoalsView {}
     @insertSubView new GoldView {}

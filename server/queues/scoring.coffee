@@ -135,7 +135,7 @@ module.exports.getTwoGames = (req, res) ->
       "levelID":"greed"
       "submitted":true
       "team":"humans"
-    selection = "team totalScore transpiledCode teamSpells levelID creatorName creator submitDate"
+    selection = "team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate"
     LevelSession.count queryParams, (err, numberOfHumans) =>
       if err? then return errors.serverError(res, "Couldn't get the number of human games")
       humanSkipCount = Math.floor(Math.random() * numberOfHumans)
@@ -179,6 +179,7 @@ module.exports.getTwoGames = (req, res) ->
                 "sessionID": session._id
                 "team": session.team ? "No team"
                 "transpiledCode": session.transpiledCode
+                "submittedCodeLanguage": session.submittedCodeLanguage
                 "teamSpells": session.teamSpells ? {}
                 "levelID": session.levelID
                 "creatorName": session.creatorName
@@ -189,9 +190,9 @@ module.exports.getTwoGames = (req, res) ->
             sendResponseObject req, res, taskObject
   else
     console.log "Directly simulating #{humansGameID} vs. #{ogresGameID}."
-    LevelSession.findOne(_id: humansGameID).lean().exec (err, humanSession) =>
+    LevelSession.findOne(_id: humansGameID).select(selection).lean().exec (err, humanSession) =>
       if err? then return errors.serverError(res, "Couldn't find the human game")
-      LevelSession.findOne(_id: ogresGameID).lean().exec (err, ogreSession) =>
+      LevelSession.findOne(_id: ogresGameID).select(selection).lean().exec (err, ogreSession) =>
         if err? then return errors.serverError(res, "Couldn't find the ogre game")
         taskObject =
           "messageGenerated": Date.now()
@@ -201,8 +202,12 @@ module.exports.getTwoGames = (req, res) ->
             "sessionID": session._id
             "team": session.team ? "No team"
             "transpiledCode": session.transpiledCode
+            "submittedCodeLanguage": session.submittedCodeLanguage
             "teamSpells": session.teamSpells ? {}
             "levelID": session.levelID
+            "creatorName": session.creatorName
+            "creator": session.creator
+            "totalScore": session.totalScore
 
           taskObject.sessions.push sessionInformation
         sendResponseObject req, res, taskObject
@@ -398,6 +403,7 @@ constructTaskObject = (taskMessageBody, message, callback) ->
         "submitDate": session.submitDate
         "team": session.team ? "No team"
         "transpiledCode": session.transpiledCode
+        "submittedCodeLanguage": session.submittedCodeLanguage
         "teamSpells": session.teamSpells ? {}
         "levelID": session.levelID
         "creator": session.creator
@@ -423,7 +429,7 @@ processTaskObject = (taskObject,taskLogObject, message, cb) ->
 getSessionInformation = (sessionIDString, callback) ->
   findParameters =
     _id: sessionIDString
-  selectString = 'submitDate team submittedCode teamSpells levelID creator creatorName transpiledCode totalScore'
+  selectString = 'submitDate team submittedCode teamSpells levelID creator creatorName transpiledCode submittedCodeLanguage totalScore'
   query = LevelSession
   .findOne(findParameters)
   .select(selectString)

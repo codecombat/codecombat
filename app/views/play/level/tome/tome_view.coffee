@@ -126,6 +126,7 @@ module.exports = class TomeView extends View
             spellKey: spellKey
             pathComponents: pathPrefixComponents.concat(pathComponents)
             session: @options.session
+            otherSession: @options.otherSession
             supermodel: @supermodel
             skipProtectAPI: skipProtectAPI
             worker: @worker
