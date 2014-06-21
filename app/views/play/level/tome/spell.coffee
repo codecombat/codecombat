@@ -27,7 +27,7 @@ module.exports = class Spell
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
     if @canWrite()
       @setLanguage options.language
-    else if @isEnemySpell
+    else if @isEnemySpell()
       @setLanguage options.otherSession.get 'submittedCodeLanguage'
     else
       @setLanguage 'javascript'
@@ -163,13 +163,13 @@ module.exports = class Spell
     "<Spell: #{@spellKey}>"
 
   isEnemySpell: ->
+    return false unless @permissions.readwrite.length
     teamSpells = @session.get('teamSpells')
     team = @session.get('team') ? 'humans'
     teamSpells and not _.contains(teamSpells[team], @spellKey)
 
   shouldUseTranspiledCode: ->
     # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
-    return false unless @permissions.readwrite.length  # Only player-writable code will be stored transpiled.
     return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
     return true if @isEnemySpell()  # Use transpiled for enemy spells.
     # Players without permissions can't view the raw code.
