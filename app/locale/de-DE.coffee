@@ -821,8 +821,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    credits: "credits"
 #    one_month_coupon: "coupon: choose either Rails or HTML"
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
-#    license: "Lizenz"
-#    oreilly: "Ebook deiner Wahl"
+    license: "Lizenz"
+    oreilly: "Ebook deiner Wahl"
 
 #  multiplayer_launch:
 #    introducing_dungeon_arena: "Introducing Dungeon Arena"
