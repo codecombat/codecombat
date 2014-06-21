@@ -164,6 +164,7 @@ module.exports = class Spell
 
   isEnemySpell: ->
     return false unless @permissions.readwrite.length
+    return false unless @otherSession
     teamSpells = @session.get('teamSpells')
     team = @session.get('team') ? 'humans'
     teamSpells and not _.contains(teamSpells[team], @spellKey)
