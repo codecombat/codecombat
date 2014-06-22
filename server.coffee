@@ -12,7 +12,7 @@ module.exports.startServer = ->
   app = createAndConfigureApp()
   http.createServer(app).listen(app.get('port'))
   log.info("Express SSL server listening on port " + app.get('port'))
-  return app
+  app
 
 createAndConfigureApp = ->
   serverSetup.setupLogging()
