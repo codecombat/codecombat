@@ -57,6 +57,8 @@ module.exports = class ThangsTabView extends View
     'delete, del, backspace': 'deleteSelectedExtantThang'
     'left': -> @moveAddThangSelection -1
     'right': -> @moveAddThangSelection 1
+    'ctrl+z': 'undoAction'
+    'ctrl+shift+z': 'redoAction'
 
   constructor: (options) ->
     super options
@@ -449,6 +451,12 @@ module.exports = class ThangsTabView extends View
   toggleThangsPalette: (e) ->
     $('#add-thangs-column').toggle()
     @onWindowResize e
+
+  undoAction: (e) ->
+    @thangsTreema.undo()
+
+  redoAction: (e) ->
+    @thangsTreema.redo()
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
