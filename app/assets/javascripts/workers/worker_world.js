@@ -51,7 +51,12 @@ var console = {
         self.postMessage({type: 'console-log', args: args, id: self.workerID});
       }
       catch(error) {
-        self.postMessage({type: 'console-log', args: ["Could not post log: " + args, error.toString(), error.stack, error.stackTrace], id: self.workerID});
+        try {
+          self.postMessage({type: 'console-log', args: ["Could not post log: " + args, error.toString(), error.stack, error.stackTrace], id: self.workerID});
+        }
+        catch(error2) {
+          self.postMessage({type: 'console-log', args: ["Wow, we had a serious problem trying to console.log something."]});
+        }
       }
     }
   }};  // so that we don't crash when debugging statements happen

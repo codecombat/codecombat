@@ -86,3 +86,5 @@ transpileLadderSessions = ->
 
 serverSetup.connectToDatabase()
 transpileLadderSessions()
+# 2014-06-21: took about an hour to do 5480 sessions, ~93/min
+# eta: db.level.sessions.find({submitted: true}).count() / 93
