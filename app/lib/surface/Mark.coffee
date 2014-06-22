@@ -5,6 +5,7 @@ markThangTypes = {}
 
 module.exports = class Mark extends CocoClass
   subscriptions: {}
+  alpha: 1
 
   constructor: (options) ->
     super()
@@ -216,11 +217,10 @@ module.exports = class Mark extends CocoClass
     true
 
   updatePosition: (pos) ->
-    if @name in ['shadow', 'debug']
+    if @sprite?.thang and @name in ['shadow', 'debug', 'target', 'selection', 'repair']
       pos = @camera.worldToSurface x: @sprite.thang.pos.x, y: @sprite.thang.pos.y
       if @name is 'shadow'
-        worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2 + @sprite.getBobOffset()
-        @mark.alpha = 0.451 / Math.sqrt(worldZ / 2 + 1)
+        @updateAlpha @alpha
     else
       pos ?= @sprite?.imageObject
     @mark.x = pos.x
@@ -230,6 +230,14 @@ module.exports = class Mark extends CocoClass
       @mark.x += offset.x
       @mark.y += offset.y
       @mark.y -= 3 if @statusEffect
+
+  updateAlpha: (@alpha) ->
+    return if not @mark or @name is 'debug'
+    if @name is 'shadow'
+      worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2 + @sprite.getBobOffset()
+      @mark.alpha = @alpha * 0.451 / Math.sqrt(worldZ / 2 + 1)
+    else
+      @mark.alpha = @alpha
 
   updateRotation: ->
     if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ["rectangle", "box"])
@@ -242,12 +250,12 @@ module.exports = class Mark extends CocoClass
       oldMark.parent.addChild @mark
       oldMark.parent.swapChildren oldMark, @mark
       oldMark.parent.removeChild oldMark
-    
+
     if @markSprite?
       @markSprite.scaleFactor = 1.2
       @markSprite.updateScale()
     return unless @name in ["selection", "target", "repair", "highlight"]
-    
+
     # scale these marks to 10m (100px). Adjust based on sprite size.
     factor = 0.3 # default size: 3m width, most commonly for target when pointing to a location
 
@@ -260,7 +268,7 @@ module.exports = class Mark extends CocoClass
       factor = Math.max(factor, 0.3) # lower bound
     @mark.scaleX *= factor
     @mark.scaleY *= factor
-      
+
     if @name in ['selection', 'target', 'repair']
       @mark.scaleY *= @camera.y2x  # code applies perspective
 
