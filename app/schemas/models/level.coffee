@@ -228,7 +228,7 @@ _.extend LevelSchema.properties,
     links: [{rel: "extra", href: "/db/level/{($)}"}, {rel:'db', href: "/db/level/{(original)}/version/{(majorVersion)}"}],
     format: 'latest-version-reference',
     title: "Next Level",
-    description: "Reference to the next level players will player after beating this one."
+    description: "Reference to the next level players will play after beating this one."
   }
   scripts: c.array {title: "Scripts", description: "An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.", "default": []}, ScriptSchema
   thangs: c.array {title: "Thangs", description: "An array of Thangs that make up the level.", "default": []}, LevelThangSchema
