@@ -103,7 +103,7 @@ NoteGroupSchema = c.object {title: "Note Group", description: "A group of notes 
     highlight: c.object {title: "Highlight", description: "Highlight the target DOM selector string with a big arrow."},
       target: c.shortString(title: "Target", description: "Target highlight element DOM selector string.")
       delay: {type: 'integer', minimum: 0, title: "Delay", description: "Show the highlight after this many milliseconds. Doesn't affect the dim shade cutout highlight method."}
-      offset:  _.extend _.cloneDeep(PointSchema), {title: 'Offset', description: 'Pointing arrow tip offset in pixels from the default target.', format: null}
+      offset: _.extend _.cloneDeep(PointSchema), {title: 'Offset', description: 'Pointing arrow tip offset in pixels from the default target.', format: null}
       rotation: {type: 'number', minimum: 0, title: "Rotation", description: "Rotation of the pointing arrow, in radians. PI / 2 points left, PI points up, etc."}
       sides: c.array {title: "Sides", description: "Which sides of the target element to point at."}, {type: 'string', 'enum': ['left', 'right', 'top', 'bottom'], title: "Side", description: "A side of the target element to point at."}
     lock: {title: "Lock", description: "Whether the interface should be locked so that the player's focus is on the script, or specific areas to lock.", type: ['boolean', 'array'], items: {type: 'string', enum: ['surface', 'editor', 'palette', 'hud', 'playback', 'playback-hover', 'level']}}
@@ -253,4 +253,4 @@ module.exports = LevelSchema
 # 2. Open up the Treema demo page http://localhost:9090/demo.html
 # 3. tv4.addSchema(metaschema.id, metaschema)
 # 4. S = <paste big schema here>
-# 5. tv4.validateMultiple(S, metaschema)   and look for errors
+# 5. tv4.validateMultiple(S, metaschema) and look for errors
