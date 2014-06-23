@@ -228,6 +228,13 @@ module.exports = class PlayView extends View
         description: "Learn how to find prime numbers while defusing mines! - by Alexandru Caciulescu"
       }
       {
+        name: 'K-means++ Cluster Wars'
+        difficulty: 4
+        id: 'k-means-cluster-wars'
+        image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
+        description: "Learn cluster analysis while leading armies into battle! - by Alexandru Caciulescu"
+      }
+      {
         name: 'Find the Spy'
         difficulty: 2
         id: 'find-the-spy'
