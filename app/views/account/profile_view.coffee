@@ -104,6 +104,7 @@ module.exports = class ProfileView extends View
     @linkedinLoaded = true
     if @waitingForLinkedIn
       @renderLinkedInButton()
+    @authorizedWithLinkedIn = IN?.User?.isAuthorized()
 
   renderLinkedInButton: =>
     IN?.parse()
