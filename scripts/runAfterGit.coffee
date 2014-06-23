@@ -14,7 +14,7 @@ May need an initial npm install upfront if newly checked out. \n
 
 ' if '--help' in process.argv
 
-#TODO: MD5 Verification, using http://23.21.59.137/dump.md5
+#TODO: MD5 Verification, using http://23.21.59.137/dump.md5 using digest stream https://github.com/jeffbski/digest-stream
 dbDump = 'http://23.21.59.137/dump.tar.gz' # Don't change this unless you know what you're doing
 dbLocalPath = '../temp'
 
