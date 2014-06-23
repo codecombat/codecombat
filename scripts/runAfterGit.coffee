@@ -1,15 +1,20 @@
-return console.log '-------------------------------------------------
-Commandline utility written in Coffeescript to run all updates, download latest database and install it after you git pushed.
-Params:
-\t--skipupdates skips npm and bower update
-\t--dldb: download the latest database (Over 300 mb!)
-\t--resetdb: to reset the database and load dump from tmp. Will need a downloaded database or --dbdownload specified
-\t--mongopath <.path/to/mongo>: to specify mongodb folder if not set in PATH.
-\t--help: Yo fund this one already.
 
-May need an initial npm install upfront if newly checked out.
-' if '--help' in path
+# This is written in coffeescript. Run this using coffee, not node.           (Line to yield nice warnings on node. :))
+return console.log '------------------------------------------------- \n
 
+Commandline utility written in Coffeescript to run all updates, download latest database and install it after you git pushed. \n
+Params: \n
+\t--skipupdates skips npm and bower update \n
+\t--dldb: download the latest database (Over 300 mb!) \n
+\t--resetdb: to reset the database and load dump from tmp. Will need a downloaded database or --dbdownload specified \n
+\t--mongopath <.path/to/mongo>: to specify mongodb folder if not set in PATH. \n
+\t--help: Yo fund this one already. \n
+\n
+May need an initial npm install upfront if newly checked out. \n
+
+' if '--help' in process.argv
+
+#TODO: MD5 Verification, using http://23.21.59.137/dump.md5
 dbDump = 'http://23.21.59.137/dump.tar.gz' # Don't change this unless you know what you're doing
 dbLocalPath = '../temp'
 
@@ -29,7 +34,7 @@ for path in process.argv
   if useNext
     mongopath = path
     break
-  useNext = path == '--mongopath'
+  useNext = path is '--mongopath'
 mongopath += '/bin/' if mongopath.length
 mongopath += 'mongodb' # mongodb is in path.
 
@@ -40,10 +45,12 @@ run = (proc, args) ->
   spawned.stderr.on "data", (data) -> process.stderr.write data
   spawned.on "exit", (code) ->
     console.log proc + " exited with code " + code
-    unless code is null
-      deferred.reject code
-    else
-      deferred.resolve()
+    # unless code is null doesn't seem to work
+    #  deferred.reject()
+    deferred.resolve code
+  spawned.on "error", (code, error) ->
+    console.error proc + " failed!"
+    deferred.reject()
   deferred.promise()
 
 removeDir = (path) ->
@@ -60,11 +67,11 @@ resetDB = ->
   deferred = Deferred()
   console.log "Dropping Database"
   mongodrop = run "mongo", ["coco", "--eval", "db.dropDatabase()"]
-  mongodrop.fail -> console.error "Error occurred"
-  mongodrop.always ->
+  mongodrop.fail -> console.error "Error occurred while dropping mongo. Make sure CoCo's MongoDB is running."
+  mongodrop.done ->
     console.log "Restoring from dump."
     mongorestore = run "mongorestore", [dbLocalPath]
-    mongorestore.always = deferred.resolve
+    mongorestore.always = deferred.resolve()
   deferred.promise()
 
 downloadDB = ->
@@ -105,13 +112,15 @@ unless '--skipupdates' in process.argv
   installUpdates()
 
 if '--resetdb' in process.argv
-  if '--skipdownload' in process.argv
-    resetDB().done ->
-      cleanUpTmp() if '--cleanup' in process.argv
-  else
-    downloadDB().always ->
+  if '--dldb' in process.argv
+    downloadDB().done ->
         resetDB().done ->
           cleanUpTmp() if '--cleanup' in process.argv
+  else
+    resetDB().done ->
+      cleanUpTmp() if '--cleanup' in process.argv
+else if '--dldb' in process.argv
+  downloadDB()
 
 # TODO: Could advice to start SCOCODE.bat et al. here
 
