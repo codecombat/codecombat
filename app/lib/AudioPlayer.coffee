@@ -4,8 +4,8 @@ cache = {}
 
 # Top 20 obscene words (plus 'fiddlesticks') will trigger swearing Simlish with *beeps*.
 # Didn't like leaving so much profanity lying around in the source, so rot13'd.
-rot13 = (s) -> s.replace /[A-z]/g, (c) -> String.fromCharCode c.charCodeAt(0) + (if c.toUpperCase() <= "M" then 13 else -13)
-swears = (rot13 s for s in ["nefrubyr", "nffubyr", "onfgneq", "ovgpu", "oybbql", "obyybpxf", "ohttre", "pbpx", "penc", "phag", "qnza", "qnea", "qvpx", "qbhpur", "snt", "shpx", "cvff", "chffl", "fuvg", "fyhg", "svqqyrfgvpxf"])
+rot13 = (s) -> s.replace /[A-z]/g, (c) -> String.fromCharCode c.charCodeAt(0) + (if c.toUpperCase() <= 'M' then 13 else -13)
+swears = (rot13 s for s in ['nefrubyr', 'nffubyr', 'onfgneq', 'ovgpu', 'oybbql', 'obyybpxf', 'ohttre', 'pbpx', 'penc', 'phag', 'qnza', 'qnea', 'qvpx', 'qbhpur', 'snt', 'shpx', 'cvff', 'chffl', 'fuvg', 'fyhg', 'svqqyrfgvpxf'])
 
 createjs.Sound.registerPlugins([createjs.WebAudioPlugin, createjs.FlashPlugin, createjs.HTMLAudioPlugin])
 

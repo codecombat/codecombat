@@ -65,7 +65,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     super()
     @options = _.extend($.extend(true, {}, @options), options)
     @setThang @options.thang
-    console.error @toString(), "has no ThangType!" unless @thangType
+    console.error "#{@toString()} has no ThangType!" unless @thangType
 
     # this is a stub, use @setImageObject to swap it out for something else later
     @imageObject = new createjs.Container
@@ -180,7 +180,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @show()
     @updateBaseScale()
     return @updateActionDirection() unless action.animation or action.container
-    m = if action.container then "gotoAndStop" else "gotoAndPlay"
+    m = if action.container then 'gotoAndStop' else 'gotoAndPlay'
     @imageObject.framerate = action.framerate or 20
     @imageObject[m] action.name
     reg = @getOffset 'registration'
@@ -281,7 +281,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   cache: ->
     bounds = @imageObject.getBounds()
     @imageObject.cache 0, 0, bounds.width, bounds.height
-    #console.log "just cached", @thang.id, "which was at", @imageObject.x, @imageObject.y, bounds.width, bounds.height, "with scale", Math.max(@imageObject.scaleX, @imageObject.scaleY)
+    #console.log "just cached #{@thang.id} which was at #{@imageObject.x} #{@imageObject.y} #{bounds.width} #{bounds.height} with scale #{Math.max(@imageObject.scaleX, @imageObject.scaleY)}"
 
   getBobOffset: ->
     return 0 unless @thang.bobHeight
@@ -351,7 +351,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       angle = 180 - angle if angle > 90
       scaleX = 0.5 + 0.5 * (90 - angle) / 90
 
-#    console.error "No thang for", @ unless @thang
+#    console.error "No thang for #{@}" unless @thang
     # TODO: support using scaleFactorX/Y from the thang object
     @imageObject.scaleX = @baseScaleX * @scaleFactor * scaleX
     @imageObject.scaleY = @baseScaleY * @scaleFactor * scaleY
@@ -410,7 +410,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     action = @determineAction()
     isDifferent = action isnt @currentRootAction or action is null
     if not action and @thang?.actionActivated and not @stopLogging
-      console.error "action is", action, "for", @thang?.id, "from", @currentRootAction, @thang.action, @thang.getActionName?()
+      console.error "action is #{action} for #{@thang?.id} from #{@currentRootAction} #{@thang.action} #{@thang.getActionName?()}"
       @stopLogging = true
     @queueAction(action) if action and (isDifferent or (@thang?.actionActivated and action.name isnt 'move'))
     @updateActionDirection()
@@ -423,7 +423,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     action ?= 'idle'
     unless @actions[action]?
       @warnedFor ?= {}
-      console.warn 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
+      console.warn "Cannot show action #{action} for #{@thangType.get('name')} because it DNE" unless @warnedFor[action]
       @warnedFor[action] = true
       return if @action is 'idle' then null else 'idle'
     action = 'break' if @actions.break? and @thang?.erroredOut
@@ -439,7 +439,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     rootAction ?= @currentRootAction
     return null unless relatedActions = rootAction?.relatedActions ? {}
     rotation = @getRotation()
-    if relatedActions["111111111111"]  # has grid-surrounding-wall-based actions
+    if relatedActions['111111111111']  # has grid-surrounding-wall-based actions
       if @wallGrid
         action = ''
         tileSize = 4
@@ -452,25 +452,25 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
               wallThangs = ['outside of the map yo']
             if wallThangs.length is 0
               if y is gy and x is gx
-                action += "1"  # the center wall we're placing
+                action += '1'  # the center wall we're placing
               else
-                action += "0"
+                action += '0'
             else if wallThangs.length is 1
-              action += "1"
+              action += '1'
             else
-              console.error "Overlapping walls at", x, y, "...", wallThangs
-              action += "1"
+              console.error "Overlapping walls at #{x} #{y} ... #{wallThangs}"
+              action += '1'
         matchedAction = '111111111111'
         for relatedAction of relatedActions
           if action.match(relatedAction.replace(/\?/g, '.'))
             matchedAction = relatedAction
             break
-        #console.log "returning", matchedAction, "for", @thang.id, "at", gx, gy
+        #console.log "returning #{matchedAction} for #{@thang.id} at #{gx} #{gy}"
         return relatedActions[matchedAction]
       else
         keys = _.keys relatedActions
         index = Math.max 0, Math.floor((179 + rotation) / 360 * keys.length)
-        #console.log "Showing", relatedActions[keys[index]]
+        #console.log "Showing #{relatedActions[keys[index]]}"
         return relatedActions[keys[index]]
     value = Math.abs(rotation)
     direction = null
@@ -510,8 +510,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     Backbone.Mediator.publish ourEventName, newEvent
 
   addHealthBar: ->
-    return unless @thang?.health? and "health" in (@thang?.hudProperties ? []) and @options.floatingLayer
-    healthColor = healthColors[@thang?.team] ? healthColors["neutral"]
+    return unless @thang?.health? and 'health' in (@thang?.hudProperties ? []) and @options.floatingLayer
+    healthColor = healthColors[@thang?.team] ? healthColors['neutral']
     healthOffset = @getOffset 'aboveHead'
     bar = @healthBar = createProgressBar(healthColor, healthOffset)
     bar.name = 'health bar'
@@ -660,7 +660,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
     @instance?.stop()
     if @instance = @playSound sound, false
-      @instance.addEventListener "complete", -> Backbone.Mediator.publish 'dialogue-sound-completed'
+      @instance.addEventListener 'complete', -> Backbone.Mediator.publish 'dialogue-sound-completed'
     @notifySpeechUpdated e
 
   onClearDialogue: (e) ->
@@ -714,7 +714,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.getFPS() else 0
     name = AudioPlayer.nameForSoundReference sound
     instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
-    #console.log @thang?.id, "played sound", name, "with delay", delay, "volume", volume, "and got sound instance", instance
+    #console.log "#{@thang?.id} played sound #{name} with delay #{delay} volume #{volume} and got sound instance #{instance}"
     instance
 
   onMove: (e) ->
@@ -723,7 +723,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if _.isArray pos
       pos = new Vector pos...
     else if _.isString pos
-      return console.warn "Couldn't find target sprite", pos, "from", @options.sprites unless pos of @options.sprites
+      return console.warn "Couldn't find target sprite #{pos} from #{@options.sprites}" unless pos of @options.sprites
       target = @options.sprites[pos].thang
       heading = Vector.subtract(target.pos, @thang.pos).normalize()
       distance = @thang.pos.distance target.pos

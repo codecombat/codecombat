@@ -21,7 +21,7 @@ UserSchema = c.object {},
   lastLevel: { type: 'string' }
 
   emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}
-  emails: c.object {title: "Email Settings", default: {generalNews: {enabled:true}, anyNotes: {enabled:true}, recruitNotes: {enabled:true}}},
+  emails: c.object {title: 'Email Settings', default: {generalNews: {enabled:true}, anyNotes: {enabled:true}, recruitNotes: {enabled:true}}},
     # newsletters
     generalNews: { $ref: '#/definitions/emailSubscription' }
     adventurerNews: { $ref: '#/definitions/emailSubscription' }
@@ -72,14 +72,14 @@ UserSchema = c.object {},
 
   jobProfile: c.object {title: 'Job Profile', required: ['lookingFor', 'jobTitle', 'active', 'name', 'city', 'country', 'skills', 'experience', 'shortDescription', 'longDescription', 'visa', 'work', 'education', 'projects', 'links']},
     lookingFor: {title: 'Looking For', type: 'string', enum: ['Full-time', 'Part-time', 'Remote', 'Contracting', 'Internship'], default: 'Full-time', description: 'What kind of developer position do you want?'}
-    jobTitle: {type: 'string', maxLength: 50, title: 'Desired Job Title', description: 'What role are you looking for? Ex.: "Full Stack Engineer", "Front-End Developer", "iOS Developer"', default: 'Software Developer'}
+    jobTitle: {type: 'string', maxLength: 50, title: 'Desired Job Title', description: 'What role are you looking for? Ex.: \"Full Stack Engineer\", \"Front-End Developer\", \"iOS Developer\"', default: 'Software Developer'}
     active: {title: 'Open to Offers', type: 'boolean', description: 'Want interview offers right now?'}
     updated: c.date {title: 'Last Updated', description: 'How fresh your profile appears to employers. Profiles go inactive after 4 weeks.'}
-    name: c.shortString {title: 'Name', description: 'Name you want employers to see, like "Nick Winter".'}
-    city: c.shortString {title: 'City', description: 'City you want to work in (or live in now), like "San Francisco" or "Lubbock, TX".', default: 'Defaultsville, CA', format: 'city'}
-    country: c.shortString {title: 'Country', description: 'Country you want to work in (or live in now), like "USA" or "France".', default: 'USA', format: 'country'}
+    name: c.shortString {title: 'Name', description: 'Name you want employers to see, like \"Nick Winter\".'}
+    city: c.shortString {title: 'City', description: 'City you want to work in (or live in now), like \"San Francisco\" or \"Lubbock, TX\".', default: 'Defaultsville, CA', format: 'city'}
+    country: c.shortString {title: 'Country', description: 'Country you want to work in (or live in now), like \"USA\" or \"France\".', default: 'USA', format: 'country'}
     skills: c.array {title: 'Skills', description: 'Tag relevant developer skills in order of proficiency.', default: ['javascript'], minItems: 1, maxItems: 30, uniqueItems: true},
-      {type: 'string', minLength: 1, maxLength: 50, description: 'Ex.: "objective-c", "mongodb", "rails", "android", "javascript"', format: 'skill'}
+      {type: 'string', minLength: 1, maxLength: 50, description: 'Ex.: \"objective-c\", \"mongodb\", \"rails\", \"android\", \"javascript\"', format: 'skill'}
     experience: {type: 'integer', title: 'Years of Experience', minimum: 0, description: 'How many years of professional experience (getting paid) developing software do you have?'}
     shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.', default: 'Programmer seeking to build great software.'}
     longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'Describe yourself to potential employers. Keep it short and to the point. We recommend outlining the position that would most interest you. Tasteful markdown okay; 600 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
@@ -88,13 +88,13 @@ UserSchema = c.object {},
       c.object {title: 'Job', description: 'Some work experience you had.', required: ['employer', 'role', 'duration']},
         employer: c.shortString {title: 'Employer', description: 'Name of your employer.'}
         role: c.shortString {title: 'Job Title', description: 'What was your job title or role?'}
-        duration: c.shortString {title: 'Duration', description: 'When did you hold this gig? Ex.: "Feb 2013 - present".'}
+        duration: c.shortString {title: 'Duration', description: 'When did you hold this gig? Ex.: \"Feb 2013 - present\".'}
         description: {type: 'string', title: 'Description', description: 'What did you do there? (140 chars; optional)', maxLength: 140}
     education: c.array {title: 'Education', description: 'List your academic ordeals.'},
       c.object {title: 'Ordeal', description: 'Some education that befell you.', required: ['school', 'degree', 'duration']},
         school: c.shortString {title: 'School', description: 'Name of your school.'}
         degree: c.shortString {title: 'Degree', description: 'What was your degree and field of study? Ex. Ph.D. Human-Computer Interaction (incomplete)'}
-        duration: c.shortString {title: 'Dates', description: 'When? Ex.: "Aug 2004 - May 2008".'}
+        duration: c.shortString {title: 'Dates', description: 'When? Ex.: \"Aug 2004 - May 2008\".'}
         description: {type: 'string', title: 'Description', description: 'Highlight anything about this educational experience. (140 chars; optional)', maxLength: 140}
     projects: c.array {title: 'Projects (Top 3)', description: 'Highlight your projects to amaze employers.', maxItems: 3},
       c.object {title: 'Project', description: 'A project you created.', required: ['name', 'description', 'picture'], default: {name: 'My Project', description: 'A project I worked on.', link: 'http://example.com', picture: ''}},
@@ -104,17 +104,17 @@ UserSchema = c.object {},
         link: c.url {title: 'Link', description: 'Link to the project.', default: 'http://example.com'}
     links: c.array {title: 'Personal and Social Links', description: 'Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog.'},
       c.object {title: 'Link', description: 'A link to another site you want to highlight, like your GitHub, your LinkedIn, or your blog.', required: ['name', 'link']},
-        name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "GitHub"', format: 'link-name'}
+        name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: \"Personal Website\", \"GitHub\"', format: 'link-name'}
         link: c.url {title: 'Link', description: 'The URL.', default: 'http://example.com'}
     photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image if you want to show a different profile picture to employers than your normal avatar.'}
 
   jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
-  jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: "CodeCombat's notes on the candidate.", format: 'markdown', default: ''}
-  employerAt: c.shortString {description: "If given employer permissions to view job candidates, for which employer?"}
+  jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: 'CodeCombat\'s notes on the candidate.', format: 'markdown', default: ''}
+  employerAt: c.shortString {description: 'If given employer permissions to view job candidates, for which employer?'}
   signedEmployerAgreement: c.object {},
-    linkedinID: c.shortString {title:"LinkedInID", description: "The user's LinkedIn ID when they signed the contract."}
-    date: c.date {title: "Date signed employer agreement"}
-    data: c.object {description: "Cached LinkedIn data slurped from profile.", additionalProperties: true}
+    linkedinID: c.shortString {title:'LinkedInID', description: 'The user\'s LinkedIn ID when they signed the contract.'}
+    date: c.date {title: 'Date signed employer agreement'}
+    data: c.object {description: 'Cached LinkedIn data slurped from profile.', additionalProperties: true}
   points: {type:'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
 

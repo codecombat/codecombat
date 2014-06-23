@@ -1,5 +1,5 @@
 module.exports.clone = (obj) ->
-  return obj if obj is null or typeof (obj) isnt "object"
+  return obj if obj is null or typeof (obj) isnt 'object'
   temp = obj.constructor()
   for key of obj
     temp[key] = module.exports.clone(obj[key])
@@ -25,7 +25,7 @@ module.exports.normalizeFunc = (func_thing, object) ->
   if _.isString(func_thing)
     func = object[func_thing]
     if not func
-      console.error("Could not find method", func_thing, 'in object', @)
+      console.error('Could not find method', func_thing, 'in object', @)
       return => null # always return a func, or Mediator will go boom
     func_thing = func
   return func_thing
@@ -36,7 +36,7 @@ module.exports.hexToHSL = (hex) ->
 hexToR = (h) -> parseInt (cutHex(h)).substring(0, 2), 16
 hexToG = (h) -> parseInt (cutHex(h)).substring(2, 4), 16
 hexToB = (h) -> parseInt (cutHex(h)).substring(4, 6), 16
-cutHex = (h) -> (if (h.charAt(0) is "#") then h.substring(1, 7) else h)
+cutHex = (h) -> (if (h.charAt(0) is '#') then h.substring(1, 7) else h)
 
 module.exports.hslToHex = (hsl) ->
   '#' + (toHex(n) for n in hslToRgb(hsl...)).join('')

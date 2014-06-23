@@ -1,6 +1,6 @@
 # https://github.com/hornairs/blog/blob/master/assets/coffeescripts/flocking/vector.coffee
 class Vector
-  @className: "Vector"
+  @className: 'Vector'
   # Class methods for nondestructively operating
   for name in ['add', 'subtract', 'multiply', 'divide', 'limit', 'normalize']
     do (name) ->

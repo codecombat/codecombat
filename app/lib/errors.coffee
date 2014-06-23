@@ -3,9 +3,9 @@ errorModalTemplate = require('templates/modal/error')
 
 module.exports.parseServerError = (text) ->
   try
-    error = JSON.parse(text) or {message:"Unknown error."}
+    error = JSON.parse(text) or {message:'Unknown error.'}
   catch SyntaxError
-    error = {message:text or "Unknown error."}
+    error = {message:text or 'Unknown error.'}
   error = error[0] if _.isArray(error)
   error
 

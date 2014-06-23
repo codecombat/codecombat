@@ -5,8 +5,8 @@ LevelFeedbackLevelSchema = c.object {required: ['original', 'majorVersion']}, {
   majorVersion: {type: 'integer', minimum: 0, default: 0}}
 
 LevelFeedbackSchema = c.object {
-  title: "Feedback"
-  description: "Feedback on a level."
+  title: 'Feedback'
+  description: 'Feedback on a level.'
 }
 
 _.extend LevelFeedbackSchema.properties,
@@ -15,9 +15,9 @@ _.extend LevelFeedbackSchema.properties,
   levelName: { type: 'string' }
   levelID: { type: 'string' }
 
-  creator: c.objectId(links: [{rel: 'extra', href: "/db/user/{($)}"}])
+  creator: c.objectId(links: [{rel: 'extra', href: '/db/user/{($)}'}])
   created: c.date( { title: 'Created', readOnly: true })
-  
+
   level: LevelFeedbackLevelSchema
   rating: { type: 'number', minimum: 1, maximum: 5 }
   review: { type: 'string' }

@@ -78,7 +78,7 @@ module.exports = class Camera extends CocoClass
       console.log "Restricted given horizontal field of view to #{r2d(hFOV)} to #{r2d(@hFOV)}."
     @vFOV = 2 * Math.atan(Math.tan(@hFOV / 2) * @canvasHeight / @canvasWidth)
     if @vFOV > Math.PI
-      console.log "Vertical field of view problem: expected canvas not to be taller than it is wide with high field of view."
+      console.log 'Vertical field of view problem: expected canvas not to be taller than it is wide with high field of view.'
       @vFOV = Math.PI - epsilon
 
   calculateAxisConversionFactors: ->

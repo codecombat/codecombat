@@ -63,7 +63,7 @@ module.exports = class WizardSprite extends IndieSprite
       continue unless state.wizard?
       @setColorHue state.wizard.wizardColor1
       if targetID = state.wizard.targetSprite
-        return console.warn "Wizard Sprite couldn't find target sprite", targetID unless targetID of @options.sprites
+        return console.warn "Wizard Sprite couldn't find target sprite #{targetID}" unless targetID of @options.sprites
         @setTarget @options.sprites[targetID]
       else
         @setTarget state.wizard.targetPos

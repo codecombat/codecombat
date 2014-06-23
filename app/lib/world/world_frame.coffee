@@ -1,7 +1,7 @@
 ThangState = require './thang_state'
 
 module.exports = class WorldFrame
-  @className: "WorldFrame"
+  @className: 'WorldFrame'
   constructor: (@world, @time=0) ->
     @thangStateMap = {}
     @setState() if @world
@@ -22,7 +22,7 @@ module.exports = class WorldFrame
     thangState.restore() for thangID, thangState of @thangStateMap
     for thang in @world.thangs
       if not @thangStateMap[thang.id] and not thang.stateless
-        #console.log "Frame", @time, "restoring state for", thang.id, "and saying it don't exist"
+        #console.log 'Frame', @time, 'restoring state for', thang.id, 'and saying it don\'t exist'
         thang.exists = false
 
   restorePartialState: (ratio) ->
@@ -33,16 +33,16 @@ module.exports = class WorldFrame
     if not thangState
       if not thang.stateless
         thang.exists = false
-        #console.log "Frame", @time, "restoring state for", thang.id, "in particular and saying it don't exist"
+        #console.log 'Frame', @time, 'restoring state for', thang.id, 'in particular and saying it don\'t exist'
       return
     thangState.restore()
-    
+
   clearEvents: -> thang.currentEvents = [] for thang in @world.thangs
 
   toString: ->
     map = ((' ' for x in [0 .. @world.width])  \
            for y in [0 .. @world.height])
-    symbols = ".ox@dfga[]/D"
+    symbols = '.ox@dfga[]/D'
     for thang, i in @world.thangs when thang.rectangle
       rect = thang.rectangle().axisAlignedBoundingBox()
       for y in [Math.floor(rect.y - rect.height / 2) ... Math.ceil(rect.y + rect.height / 2)]
