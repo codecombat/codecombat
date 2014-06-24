@@ -25,7 +25,7 @@ AchievablePlugin = (schema, options) ->
     if doc.isInit('_id') and not doc.id of before
       log.warn 'document was already initialized but did not go through `init` and is therefore treated as new while it might not be'
 
-    category = doc.constructor.modelName
+    category = doc.constructor.collection.name
     loadedAchievements = Achievement.getLoadedAchievements()
     #log.debug 'about to save ' + category + ', number of achievements is ' + Object.keys(loadedAchievements).length
 

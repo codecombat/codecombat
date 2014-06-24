@@ -4,7 +4,7 @@ unlockable =
   name: 'Dungeon Arena Started'
   description: 'Started playing Dungeon Arena.'
   worth: 3
-  collection: 'level.session'
+  collection: 'level.sessions'
   query: "{\"level.original\":\"dungeon-arena\"}"
   userField: 'creator'
 
@@ -12,7 +12,7 @@ repeatable =
   name: 'Simulated'
   description: 'Simulated Games.'
   worth: 1
-  collection: 'User'
+  collection: 'users'
   query: "{\"simulatedBy\":{\"$gt\":\"0\"}}"
   userField: '_id'
   proportionalTo: 'simulatedBy'
@@ -20,7 +20,7 @@ repeatable =
 diminishing =
   name: 'Simulated2'
   worth: 1.5
-  collection: 'User'
+  collection: 'users'
   query: "{\"simulatedBy\":{\"$gt\":\"0\"}}"
   userField: '_id'
   proportionalTo: 'simulatedBy'

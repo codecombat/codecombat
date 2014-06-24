@@ -7,6 +7,9 @@ module.exports = class User extends CocoModel
   @schema: require 'schemas/models/user'
   urlRoot: "/db/user"
 
+  defaults:
+    points: 0
+
   initialize: ->
     super()
     @migrateEmails()
@@ -88,7 +91,3 @@ module.exports = class User extends CocoModel
 
   level: ->
     User.levelFromExp(@get('points'))
-
-  levelFromExp: (xp) -> User.levelFromExp(xp)
-
-  expForLevel: (level) -> User.expForLevel(level)

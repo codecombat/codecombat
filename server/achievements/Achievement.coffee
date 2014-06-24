@@ -32,6 +32,8 @@ AchievementSchema.methods.getExpFunction = ->
 AchievementSchema.statics.jsonschema = jsonschema
 AchievementSchema.statics.achievements = {}
 
+# Reloads all achievements into memory.
+# TODO might want to tweak this to only load new achievements
 AchievementSchema.statics.loadAchievements = (done) ->
   AchievementSchema.statics.resetAchievements()
   Achievement = require('../achievements/Achievement')
@@ -49,6 +51,7 @@ AchievementSchema.statics.getLoadedAchievements = ->
 AchievementSchema.statics.resetAchievements = ->
   delete AchievementSchema.statics.achievements[category] for category of AchievementSchema.statics.achievements
 
+# Queries are stored as JSON strings, objectify them upon loading
 AchievementSchema.post 'init', (doc) -> doc.objectifyQuery()
 
 AchievementSchema.pre 'save', (next) ->

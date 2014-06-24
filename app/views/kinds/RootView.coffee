@@ -51,11 +51,31 @@ module.exports = class RootView extends CocoView
     newlyAchievedBar = $("<div data-toggle='tooltip' class='progress-bar progress-bar-success' style='width:#{newlyAchievedPercentage}%'></div>")
     emptyBar = $("<div data-toggle='tooltip' class='progress-bar progress-bar-white' style='width:#{100 - newlyAchievedPercentage - alreadyAchievedPercentage}%'></div>")
     progressBar = $('<div class="progress" data-toggle="tooltip"></div>').append(alreadyAchievedBar).append(newlyAchievedBar).append(emptyBar)
-    message = if (currentLevel isnt 1) and leveledUp then "Reached level #{currentLevel}!" else null
+    #message = if (currentLevel isnt 1) and leveledUp then "Reached level #{currentLevel}!" else null
 
     alreadyAchievedBar.tooltip(title: "#{currentExp} XP in total")
     newlyAchievedBar.tooltip(title: "#{achievedExp} XP earned")
     emptyBar.tooltip(title: "#{nextLevelExp - currentExp} XP until level #{nextLevel}")
+
+    barBorder = $('<img src="/images/achievements/bar_border.png" />')
+
+    barBorder.hover (e) ->
+      #console.debug e
+      x = e.pageX
+      y = e.pageY
+      $actualHover = _.find [$('.progress-bar-warning'), $('.progress-bar-success'), $('.progress-bar-white')], (el) ->
+        offset = el.offset()
+        l = offset.left
+        t = offset.top
+        h = el.height() + 10
+        w = el.width() + 10
+
+        maxx = l + w
+        maxy = t + h
+
+        return (y <= maxy && y >= t) && (x <= maxx && x >= l) ? true : null
+      #console.debug $actualHover
+      $actualHover.trigger e if $actualHover
 
     # TODO a default should be linked here
     imageURL = '/file/' + achievement.get('icon')
@@ -65,7 +85,10 @@ module.exports = class RootView extends CocoView
       description: achievement.get('description')
       progressBar: progressBar
       earnedExp: "+ #{achievedExp} XP"
-      message: message
+      #message: message
+      level: currentLevel
+      barBorder: barBorder
+
     data
 
   showNewAchievement: (achievement, earnedAchievement) ->

@@ -49,14 +49,37 @@ module.exports = class AchievementEditView extends View
 
     @treema.build()
 
-  pushChangesToPreview: =>
-    'TODO' # TODO might want some intrinsic preview thing
-
   getRenderData: (context={}) ->
     context = super(context)
     context.achievement = @achievement
     context.authorized = me.isAdmin()
     context
+
+  afterRender: ->
+    super(arguments...)
+    @pushChangesToPreview()
+
+  pushChangesToPreview: =>
+    $('.notifyjs-wrapper').trigger 'notify-hide'
+
+    if @treema?
+      for key, value of @treema.data
+        @achievement.set key, value
+
+    earned =
+      earnedPoints: @achievement.get 'worth'
+
+    data = @createNotifyData @achievement, earned
+    options =
+      style: 'achievement'
+      autoHide: false
+      clickToHide: false
+      arrowShow: false
+      elementPosition: 'bottom center'
+      hideDuration: 0
+      showDuration: 0
+l
+    $('#achievement-view-inner').notify data, options
 
   openSaveModal: ->
     'Maybe later' # TODO

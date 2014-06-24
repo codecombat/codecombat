@@ -8,7 +8,7 @@ class MockServer
 
 
 module.exports = ->
-  me.set('points', 48)
+  me.set 'points', 48
 
   unlockableObj =
     name: 'Dungeon Arena Started'
