@@ -405,7 +405,7 @@ module.exports = class Simulator extends CocoClass
       executionLimit: 1 * 1000 * 1000
       language: codeLanguage
     if methodName is 'hear' then aetherOptions.functionParameters = ['speaker', 'message', 'data']
-    if methodName is 'makeBid' then aetherOptions.functionParameters = ['blockNumber']
+    if methodName is 'makeBid' then aetherOptions.functionParameters = ['tileGroupNumber']
     if methodName is "findCentroids" then aetherOptions.functionParameters = ["centroids"]
     #console.log "creating aether with options", aetherOptions
     return new Aether aetherOptions
