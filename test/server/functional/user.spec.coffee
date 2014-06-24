@@ -270,9 +270,11 @@ describe 'GET /db/user', ->
     )
 
 describe 'statistics', ->
+  LevelSession = require '../../../server/levels/sessions/LevelSession'
+  User = require '../../../server/users/User'
+  UserHandler = require '../../../server/users/user_handler'
+
   it 'games completed', (done) ->
-    LevelSession = require '../../../server/levels/sessions/LevelSession'
-    User = require '../../../server/users/User'
 
     session = new LevelSession
       name: 'Beat Gandalf'
@@ -286,9 +288,31 @@ describe 'statistics', ->
       session.save (err) ->
         expect(err).toBeNull()
 
-        User.findOne {_id: joe.get 'id'}, (err, guy) ->
+        User.findById joe.get('id'), (err, guy) ->
           expect(err).toBeNull()
           expect(guy.get 'id').toBe joe.get 'id'
           expect(guy.get 'stats.gamesCompleted').toBe 1
 
           done()
+
+  it 'recalculates games completed', (done) ->
+    unittest.getNormalJoe (joe) ->
+      loginAdmin ->
+        User.findByIdAndUpdate joe.get('id'), {$set:'stats.gamesCompleted':0}, (err, guy) ->
+          expect(err).toBeNull()
+          expect(guy.get 'id').toBe joe.get 'id'
+          expect(guy.get 'stats.gamesCompleted').toBe 0
+
+          UserHandler.statHandlers.gamesCompleted ->
+            User.findById joe.get('id'), (err, guy) ->
+              expect(err).toBeNull()
+              expect(guy.get 'id').toBe joe.get 'id'
+              expect(guy.get 'stats.gamesCompleted').toBe 1
+              done()
+
+
+  xit 'cleans up', (done) ->
+    clearModels [LevelSession], (err) ->
+      expect(err).toBeNull()
+
+      done()

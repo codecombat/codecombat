@@ -13,7 +13,7 @@ module.exports.setup = (app) ->
     parts = module.split('/')
     module = parts[0]
 
-    return errors.unauthorized(res, 'Must be admin to access this area.') unless req.user?.isAdmin()
+    return errors.forbidden(res, 'Admins only') unless req.user?.isAdmin()
 
     try
       moduleName = module.replace '.', '_'

@@ -21,7 +21,7 @@ class EarnedAchievementHandler extends Handler
       EarnedAchievementHandler.recalculate achievementSlugsOrIDs, onSuccess
     else
       EarnedAchievementHandler.recalculate onSuccess
-    @sendSuccess res, {}
+    @sendAccepted res, {}
 
   # Returns success: boolean
   # TODO call onFinished

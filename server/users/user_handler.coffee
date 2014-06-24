@@ -375,5 +375,28 @@ UserHandler = class UserHandler extends Handler
       return @sendNotFoundError res unless remark?
       @sendSuccess res, remark
 
+  statHandlers:
+    gamesCompleted: (done) ->
+      LevelSession = require '../levels/sessions/LevelSession'
+
+      User.find {}, (err, users) ->
+        async.eachSeries users, ((user, doneWithUser) ->
+          userID = user.get('_id').toHexString()
+
+          LevelSession.find {creator: userID, 'state.completed': true}, (err, sessions) ->
+            completedCount = sessions.length
+            User.findOneAndUpdate {_id: user.get '_id'}, {$set: 'stats.gamesCompleted': completedCount}, (err) ->
+              log.error err if err?
+              doneWithUser()
+        ), done
+
+  recalculate: (req, res, statName) ->
+    return @sendForbiddenError(res) unless req.user.isAdmin()
+
+    if statName of @statHandlers
+      @statHandlers[statName] -> log.debug "Finished recalculating stats"
+      return @sendAccepted res, {}
+    else return @sendNotFoundError(res)
+
 
 module.exports = new UserHandler()

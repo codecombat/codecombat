@@ -47,6 +47,7 @@ module.exports = class Handler
 
   # sending functions
   sendUnauthorizedError: (res) -> errors.forbidden(res) #TODO: rename sendUnauthorizedError to sendForbiddenError
+  sendForbiddenError: (res) -> errors.forbidden(res)
   sendNotFoundError: (res) -> errors.notFound(res)
   sendMethodNotAllowed: (res) -> errors.badMethod(res)
   sendBadInputError: (res, message) -> errors.badInput(res, message)
@@ -60,6 +61,18 @@ module.exports = class Handler
 
   sendSuccess: (res, message) ->
     res.send(message)
+    res.end()
+
+  sendCreated: (res, message) ->
+    res.send 201, message
+    res.end()
+
+  sendAccepted: (res, message) ->
+    res.send 202, message
+    res.end()
+
+  sendNoContent: (res, message) ->
+    res.send 204, message
     res.end()
 
   # generic handlers
