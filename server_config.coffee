@@ -4,6 +4,8 @@ config.unittest = process.argv.indexOf("--unittest") > -1
 
 config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or 3000
 config.ssl_port = process.env.COCO_SSL_PORT or process.env.COCO_SSL_NODE_PORT or 3443
+config.cloudflare =
+  token: process.env.COCO_CLOUDFLARE_API_KEY or ''
 
 config.mongo =
   port: process.env.COCO_MONGO_PORT or 27017

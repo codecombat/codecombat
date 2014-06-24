@@ -3,6 +3,7 @@ fs = require 'fs'
 request = require 'request'
 mongoose = require('mongoose')
 errors = require '../commons/errors'
+config = require '../../server_config'
 
 module.exports.setup = (app) ->
   app.all '/file*', (req, res) ->
@@ -176,13 +177,17 @@ createPostOptions = (req) ->
   options
 
 clearCloudFlareCacheForFile = (path='/file') ->
+  unless config.cloudflare.token
+    console.log 'skipping clearing cloud cache, not configured'
+    return
+
   request = require 'request'
   r = request.post 'https://www.cloudflare.com/api_json.html', (err, httpResponse, body) ->
     if (err)
       console.error('CloudFlare file cache clear failed:', body)
   
   form = r.form()
-  form.append 'tkn', 'dea38682b209901a014dba2b2702afa5476a0'
+  form.append 'tkn', config.cloudflare.token
   form.append 'email', 'scott@codecombat.com'
   form.append 'z', 'codecombat.com'
   form.append 'a', 'zone_file_purge'
