@@ -11,5 +11,4 @@ class AchievementHandler extends Handler
   hasAccess: (req) ->
     req.method is 'GET' or req.user?.isAdmin()
 
-
 module.exports = new AchievementHandler()

@@ -90,7 +90,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Oyun oynayarak JavaScript kodlamayı öğrenin"
+    slogan: "Oyun oynayarak kodlamayı öğrenin"
     no_ie: "CodeCombat maalesef Internet Explorer 9 veya daha eski sürümlerde çalışmaz."
     no_mobile: "CodeCombat mobil cihazlar için tasarlanmamıştır bu sebeple mobil cihazlarda çalışmayabilir."
     play: "Oyna"

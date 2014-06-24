@@ -32,6 +32,7 @@
     img
       display: block
       margin: 0 auto
+      @include transition(box-shadow .50s ease-in-out)
 
     text-shadow: 2px 2px 5px black
     
@@ -58,14 +59,160 @@
       color: $yellow
       font-size: 90px
       font-family: Bangers
-      @include transition(color .10s linear)
+      @include transition(color .25s ease-in-out)
           
-    &:hover div
+    &:hover div, &.hovered div
       color: lighten($yellow, 20%)
-    &:hover img
+    &:hover img, &.hovered img
       filter: brightness(1.2)
       -webkit-filter: brightness(1.2)
-      box-shadow: 0 0 5px black
+      box-shadow: 0 0 15px black
+
+    .code-language-logo
+      background-color: transparent
+      background-repeat: no-repeat
+      position: absolute
+      right: 35px
+      top: 15px
+      width: 50px
+      height: 50px
+
+      &.inverted
+        filter: invert(100%)
+        -webkit-filter: invert(100%)
+
+  .code-languages
+    margin: 10px 0 30px 0
+
+    &:hover
+      .code-language
+        opacity: 0.6
+
+      .code-language.selected-language:not(:hover)
+        opacity: 0.8
+
+        h2, h3
+          text-shadow: none
+
+        .code-wizard
+          opacity: 0.5
+
+    .code-language
+      cursor: pointer
+      text-align: center
+      position: relative
+      opacity: 0.6
+
+      &:hover
+        opacity: 1
+
+        h2, h3
+          text-shadow: 0px 0px 5px white
+
+        .code-wizard
+          display: block
+          opacity: 1
+
+      &.selected-language
+        opacity: 1
+
+        h2, h3
+          text-shadow: 0px 0px 5px white
+
+        .code-wizard
+          display: block
+
+      .code-wizard
+        position: absolute
+        background: transparent url(/images/pages/home/wizard.png) no-repeat
+        background-size: contain
+        width: 111px
+        height: 97px
+        display: none
+
+      .code-language-beta
+        background: transparent url(/images/pages/home/language_beta_sticker.png) no-repeat
+        background-size: contain
+        width: 100px
+        height: 32px
+        position: absolute
+        right: 20px
+        top: -7px
+
+    .primary-code-languages
+
+      #javascript
+        background: transparent url(/images/pages/home/language_js.png) no-repeat
+        padding-right: 150px
+
+        .code-wizard
+          left: 120px
+
+      #python
+        background: transparent url(/images/pages/home/language_python.png) no-repeat
+        padding-left: 150px
+
+        .code-wizard
+          right: 120px
+
+      .code-language
+        width: 498px
+        height: 153px
+        padding: 30px
+        margin: 0px 0 0 -6px
+
+        .code-wizard
+          top: -65px
+
+        h2
+          margin: 15px 0 5px
+
+    .secondary-code-languages
+      margin-left: -10px
+
+      .col-md-3
+        padding: 0px
+
+      .code-language
+        background: transparent url(/images/pages/home/language_background_small.png) no-repeat
+        width: 250px
+        height: 80px
+        margin: 20px 0 20px 0
+        padding: 20px 20px 20px 70px
+
+        .code-wizard
+          top: -51px
+          left: 89px
+          height: 63px
+
+        .code-language-logo
+          position: absolute
+          left: 15px
+          top: 17px
+          width: 50px
+          height: 50px
+
+        .code-language-beta
+          right: -15px
+          top: -16px
+          height: 24px
+
+        h3
+          margin: 0
+          padding: 0
+
+      #coffeescript .code-language-logo
+        background: transparent url(/images/pages/home/language_logo_coffeescript.png) no-repeat center
+
+      #clojure .code-language-logo
+        background: transparent url(/images/pages/home/language_logo_clojure.png) no-repeat center
+
+      #lua .code-language-logo
+        background: transparent url(/images/pages/home/language_logo_lua.png) no-repeat center
+
+      #io .code-language-logo
+        background: transparent url(/images/pages/home/language_logo_io.png) no-repeat center
+
   
 #multiplayer-launch-modal
   .modal-dialog

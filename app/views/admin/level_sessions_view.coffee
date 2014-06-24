@@ -8,7 +8,7 @@ class LevelSessionCollection extends Backbone.Collection
   model: LevelSession
 
 module.exports = class LevelSessionsView extends View
-  id: "admin-level-sessions-view"
+  id: 'admin-level-sessions-view'
   template: template
 
   constructor: (options) ->

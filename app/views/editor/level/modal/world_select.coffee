@@ -57,7 +57,7 @@ module.exports = class WorldSelectModal extends View
     window.s = @surface
     @surface.playing = false
     @surface.setWorld @world
-    @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
+    @surface.camera.zoomTo({x: 262, y: -164}, 1.66, 0)
     @showDefaults()
 
   showDefaults: ->

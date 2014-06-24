@@ -90,7 +90,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     required: "Войдите для того чтобы продолжить."
 
   home:
-    slogan: "Научитесь программировать на JavaScript, играя в игру"
+    slogan: "Научитесь программировать, играя в игру"
     no_ie: "CodeCombat не работает в IE8 или более старых версиях. Нам очень жаль!"
     no_mobile: "CodeCombat не приспособлен для работы на мобильных устройствах и может не работать!"
     play: "Играть"

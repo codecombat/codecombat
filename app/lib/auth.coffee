@@ -34,7 +34,7 @@ module.exports.createUserWithoutReload = (userObject, failure=backboneFailure) -
   user.save({}, {
     error: failure
     success: ->
-      Backbone.Mediator.publish("created-user-without-reload")
+      Backbone.Mediator.publish('created-user-without-reload')
   })
 
 module.exports.loginUser = (userObject, failure=genericFailure) ->

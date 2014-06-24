@@ -90,7 +90,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "打遊戲來學 Javascript"
+    slogan: "打遊戲來學編程"
     no_ie: "對弗住！箇網站叻 Internet Explorer 9 箇粒老個瀏覽器嘸處用。"
     no_mobile: "CodeCombat 勿是照手機設備設計個，怪得嘸數达弗到頂讚個享受！"
     play: "遊戲開打"

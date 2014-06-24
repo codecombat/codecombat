@@ -11,11 +11,22 @@ if doc.example
   p.example
     strong Example:
     div!= marked("```\n" + doc.example + "```")
-else if doc.type == 'function'
+else if doc.type == 'function' && argumentExamples.length
   p.example
     strong Example:
     div
-      code= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
+      if language == 'javascript'
+        code= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
+      else if language == 'coffeescript'
+        code= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + doc.name + ' ' + argumentExamples.join(', ')
+      else if language == 'python'
+        code= doc.ownerName + '.' + doc.name + '(' + argumentExamples.join(', ') + ')'
+      else if language == 'clojure'
+        code= '(.' + doc.name + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
+      else if language == 'lua'
+        code= doc.ownerName + ':' + doc.name + '(' + argumentExamples.join(', ') + ')'
+      else if language == 'io'
+        code= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + doc.name + '(' + argumentExamples.join(', ') + ')'
 
 if (doc.type != 'function' && doc.type != 'snippet') || doc.name == 'now'
   p.value

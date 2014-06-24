@@ -308,9 +308,9 @@ UserHandler = class UserHandler extends Handler
 
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
-    since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
+    months = if req.user.isAdmin() then 12 else 2
+    since = (new Date((new Date()) - months * 30.4 * 86400 * 1000)).toISOString()
     query = {'jobProfile.updated': {$gt: since}}
-    #query.jobProfileApproved = true unless req.user.isAdmin()  # We split into featured and other now.
     query['jobProfile.active'] = true unless req.user.isAdmin()
     selection = 'jobProfile jobProfileApproved photoURL'
     selection += ' email name' if authorized

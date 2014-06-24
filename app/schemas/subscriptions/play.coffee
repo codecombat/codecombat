@@ -2,157 +2,154 @@ module.exports =
   # TODO There should be a better way to divide these channels into smaller ones
 
   # TODO location is debatable
-  "echo-self-wizard-sprite":
+  'echo-self-wizard-sprite':
     {} # TODO schema
 
-  "level:session-will-save":
+  'level:session-will-save':
     {} # TODO schema
 
-  "level-loader:progress-changed":
+  'level-loader:progress-changed':
     {} # TODO schema
 
-  "level:shift-space-pressed":
+  'level:shift-space-pressed':
     {} # TODO schema
 
-  "level:escape-pressed":
+  'level:escape-pressed':
     {} # TODO schema
 
-  "level-enable-controls":
+  'level-enable-controls':
     {} # TODO schema
 
-  "level-set-letterbox":
+  'level-set-letterbox':
     {} # TODO schema
 
-  "level:started":
+  'level:started':
     {} # TODO schema
 
-  "level-set-debug":
+  'level-set-debug':
     {} # TODO schema
 
-  "level-set-grid":
+  'level-set-grid':
     {} # TODO schema
 
-  "tome:cast-spell":
+  'tome:cast-spell':
     {} # TODO schema
 
-  "level:restarted":
+  'level:restarted':
     {} # TODO schema
 
-  "level-set-volume":
+  'level-set-volume':
     {} # TODO schema
 
-  "level-set-time":
+  'level-set-time':
     {} # TODO schema
 
-  "level-select-sprite":
+  'level-select-sprite':
     {} # TODO schema
 
-  "level-set-playing":
+  'level-set-playing':
     {} # TODO schema
 
-  "level:team-set":
+  'level:team-set':
     {} # TODO schema
 
-  "level:docs-shown": {}
+  'level:docs-shown': {}
 
-  "level:docs-hidden": {}
+  'level:docs-hidden': {}
 
-  "level:victory-hidden":
+  'level:victory-hidden':
     {} # TODO schema
 
-  "next-game-pressed":
+  'next-game-pressed':
     {} # TODO schema
 
-  "focus-editor":
+  'end-current-script':
     {} # TODO schema
 
-  "end-current-script":
+  'script:reset':
     {} # TODO schema
 
-  "script:reset":
+  'script:ended':
     {} # TODO schema
 
-  "script:ended":
-    {} # TODO schema
+  'end-all-scripts': {}
 
-  "end-all-scripts": {}
-
-  "script:state-changed":
+  'script:state-changed':
     {} # TODO schema
 
   'script-manager:tick':
     type: 'object'
     additionalProperties: false
     properties:
-      scriptRunning: { type: 'string' }
-      noteGroupRunning: { type: 'string' }
-      timeSinceLastScriptEnded: { type: 'number' }
-      scriptStates: 
+      scriptRunning: {type: 'string'}
+      noteGroupRunning: {type: 'string'}
+      timeSinceLastScriptEnded: {type: 'number'}
+      scriptStates:
         type: 'object'
         additionalProperties:
           title: 'Script State'
           type: 'object'
           additionalProperties: false
           properties:
-            timeSinceLastEnded: 
+            timeSinceLastEnded:
               type: 'number'
               description: 'seconds since this script ended last'
             timeSinceLastTriggered:
               type: 'number'
               description: 'seconds since this script was triggered last'
 
-  "play-sound":
+  'play-sound':
     {} # TODO schema
 
   # TODO refactor name
-  "onLoadingViewUnveiled":
+  'onLoadingViewUnveiled':
     {} # TODO schema
 
-  "playback:manually-scrubbed":
+  'playback:manually-scrubbed':
     {} # TODO schema
 
-  "change:editor-config":
+  'change:editor-config':
     {} # TODO schema
 
-  "restart-level":
+  'restart-level':
     {} # TODO schema
 
-  "play-next-level":
+  'play-next-level':
     {} # TODO schema
 
-  "level-select-sprite":
+  'level-select-sprite':
     {} # TODO schema
 
-  "level-toggle-grid":
+  'level-toggle-grid':
     {} # TODO schema
 
-  "level-toggle-debug":
+  'level-toggle-debug':
     {} # TODO schema
 
-  "level-toggle-pathfinding":
+  'level-toggle-pathfinding':
     {} # TODO schema
 
-  "level-scrub-forward":
+  'level-scrub-forward':
     {} # TODO schema
 
-  "level-scrub-back":
+  'level-scrub-back':
     {} # TODO schema
 
-  "level-show-victory":
+  'level-show-victory':
     type: 'object'
     additionalProperties: false
     properties:
-      showModal: { type: 'boolean' }
-      
-  "level-highlight-dom":
+      showModal: {type: 'boolean'}
+
+  'level-highlight-dom':
     type: 'object'
     additionalProperties: false
     properties:
-      selector: { type: 'string' }
-      delay: { type: 'number' }
-      sides: { type: 'array', items: { 'enum': ['left', 'right', 'top', 'bottom'] }}
-      offset: { type: 'object' }
-      rotation: { type: 'number' }
+      selector: {type: 'string'}
+      delay: {type: 'number'}
+      sides: {type: 'array', items: {'enum': ['left', 'right', 'top', 'bottom']}}
+      offset: {type: 'object'}
+      rotation: {type: 'number'}
 
-  "goal-manager:new-goal-states":
+  'goal-manager:new-goal-states':
     {} # TODO schema

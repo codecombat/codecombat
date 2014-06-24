@@ -11,17 +11,17 @@ block modal-body-content
     table.table.table-condensed
       tr
         th
-        th(data-i18n="general.name") Name
-        th(data-i18n="general.version") Version
+        th
+        th
+        th
         th(data-i18n="general.commit_msg") Commit Message
       for data in dataList
         tr
           td
             input(type="checkbox", value=data._id).select
-          td
-            a(href="/editor/#{page}/#{data.slug || data._id}")
-              | #{data.name}
           td #{data.version.major}.#{data.version.minor}
+          td= moment(data.created).format('l')
+          td= data.creator
           td #{data.commitMessage}
 
   div.delta-container

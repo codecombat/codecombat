@@ -90,7 +90,7 @@
     required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Learn to Code JavaScript by Playing a Game"
+    slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
     no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
     play: "Play"
@@ -302,11 +302,15 @@
     what: "What is CodeCombat?"
     what_blurb: "CodeCombat is a multiplayer browser programming game. Players write code to control their forces in battle against other developers. We support JavaScript, Python, Lua, Clojure, CoffeeScript, and Io."
     who: "Who Are the Players?"
-    who_blurb: "CodeCombateers are software developers who enjoy using their programming skills to play games. They range from college seniors at top 20 engineering programs to 20-year industry veterans."
+    who_blurb: "CodeCombateers are CTOs, VPs of Engineering, and graduates of top 20 engineering schools. Our advanced players enjoy playing with difficult code and solving problems."
     how: "How Do We Find Developers?"
     how_blurb: "We host competitive tournaments to attract competitive software engieneers. We then use in-house algorithms to identify the best players among the top 5% of tournament winners."
     why: "Why Hire Through Us?"
     why_blurb_1: "We will save you time. Every CodeCombateer we feaure is "
+    cost: "How much do we charge?"
+    cost_blurb: "We charge 15% of first year's salary and offer a 100% money back guarantee for 90 days. We don't charge for candidates who are already actively being interviewed at your company."
+    response: "What's the response rate?"
+    response_blurb: "Almost every developer you contact on CodeCombat will respond to inquires whether or not they want to interivew. If you would like help finding a candidate for your role, we can make recommendations."
     why_blurb_2: "looking for work"
     why_blurb_3: ", has "
     why_blurb_4: "demonstrated top notch technical skills"
@@ -422,6 +426,7 @@
     tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
     tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
     tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
+    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
@@ -887,6 +892,7 @@
     sprite_sheet: "Sprite Sheet"
     candidate_sessions: "Candidate Sessions"
     user_remark: "User Remark"
+    versions: "Versions"
 
   delta:
     added: "Added"

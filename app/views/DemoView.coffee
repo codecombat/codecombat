@@ -7,7 +7,7 @@ DEMO_URL_PREFIX = '/demo/'
 
 ###
   What are demo files?
-  
+
   They could be a function which returns an element to insert into the demo page.
   But what about demoing achievements? They'll get put into the main html. Or modals.
   Well, I was thinking that a single folder would show all demos at the same time, line them up.
@@ -16,15 +16,15 @@ DEMO_URL_PREFIX = '/demo/'
   It could work like Jasmine, where it modifies the path and so when you select to run them, they all run with page reloads.
   I think for now, I'll just say: have it be a function which we can run anytime.
   It may or may not return an element to be inserted into the main area.
-    
+
   Another idea. Do we want root views to just take over the full view?
   Or should they just go into the central part?
   Probably should take over the full view, and if you want to get out of the demo, you navigate back.
-  
+
 ###
 
 module.exports = DemoView = class DemoView extends CocoView
-  id: "demo-view"
+  id: 'demo-view'
   template: template
 
   # INITIALIZE

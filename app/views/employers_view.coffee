@@ -16,7 +16,7 @@ class UserRemarksCollection extends CocoCollection
   model: UserRemark
 
 module.exports = class EmployersView extends View
-  id: "employers-view"
+  id: 'employers-view'
   template: template
 
   events:
@@ -50,7 +50,7 @@ module.exports = class EmployersView extends View
 
   isEmployer: ->
     userPermissions = me.get('permissions') ? []
-    _.contains userPermissions, "employer"
+    _.contains userPermissions, 'employer'
 
   getCandidates: ->
     @candidates = new CandidatesCollection()
@@ -63,37 +63,36 @@ module.exports = class EmployersView extends View
 
   renderCandidatesAndSetupScrolling: =>
     @render()
-    $(".nano").nanoScroller()
+    $('.nano').nanoScroller()
     if window.history?.state?.lastViewedCandidateID
-      $(".nano").nanoScroller({scrollTo:$("#" + window.history.state.lastViewedCandidateID)})
+      $('.nano').nanoScroller({scrollTo: $('#' + window.history.state.lastViewedCandidateID)})
     else if window.location.hash.length is 25
-      $(".nano").nanoScroller({scrollTo:$(window.location.hash)})
+      $('.nano').nanoScroller({scrollTo: $(window.location.hash)})
 
   checkForEmployerSignupHash: =>
-    if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get("permissions"))
-      @openModalView application.router.getView("modal/employer_signup","_modal")
-      window.location.hash = ""
+    if window.location.hash is '#employerSignupLoggingIn' and not ('employer' in me.get('permissions'))
+      @openModalView application.router.getView('modal/employer_signup', '_modal')
+      window.location.hash = ''
 
   sortTable: ->
     # http://mottie.github.io/tablesorter/docs/example-widget-bootstrap-theme.html
     $.extend $.tablesorter.themes.bootstrap,
       # these classes are added to the table. To see other table classes available,
       # look here: http://twitter.github.com/bootstrap/base-css.html#tables
-      table: "table table-bordered"
-      caption: "caption"
-      header: "bootstrap-header" # give the header a gradient background
-      footerRow: ""
-      footerCells: ""
-      icons: "" # add "icon-white" to make them white; this icon class is added to the <i> in the header
-      sortNone: "bootstrap-icon-unsorted"
-      sortAsc: "icon-chevron-up"  # glyphicon glyphicon-chevron-up" # we are still using v2 icons
-      sortDesc: "icon-chevron-down"  # glyphicon-chevron-down" # we are still using v2 icons
-      active: "" # applied when column is sorted
-      hover: "" # use custom css here - bootstrap class may not override it
-      filterRow: "" # filter row class
-      even: "" # odd row zebra striping
-      odd: "" # even row zebra striping
-
+      table: 'table table-bordered'
+      caption: 'caption'
+      header: 'bootstrap-header' # give the header a gradient background
+      footerRow: ''
+      footerCells: ''
+      icons: '' # add 'icon-white' to make them white; this icon class is added to the <i> in the header
+      sortNone: 'bootstrap-icon-unsorted'
+      sortAsc: 'icon-chevron-up'  # glyphicon glyphicon-chevron-up' # we are still using v2 icons
+      sortDesc: 'icon-chevron-down'  # glyphicon-chevron-down' # we are still using v2 icons
+      active: '' # applied when column is sorted
+      hover: '' # use custom css here - bootstrap class may not override it
+      filterRow: '' # filter row class
+      even: '' # odd row zebra striping
+      odd: '' # even row zebra striping
 
     # e = exact text from cell
     # n = normalized value returned by the column parser
@@ -103,10 +102,10 @@ module.exports = class EmployersView extends View
     filterSelectExactMatch = (e, n, f, i, $r) -> e is f
 
     # call the tablesorter plugin and apply the uitheme widget
-    @$el.find(".tablesorter").tablesorter
-      theme: "bootstrap"
+    @$el.find('.tablesorter').tablesorter
+      theme: 'bootstrap'
       widthFixed: true
-      headerTemplate: "{content} {icon}"
+      headerTemplate: '{content} {icon}'
       textSorter:
         6: (a, b, direction, column, table) ->
           days = []
@@ -115,9 +114,9 @@ module.exports = class EmployersView extends View
             n = 0 unless _.isNumber n
             n = 1 if /^a/.test s
             for [duration, factor] in [
-              [/second/i, 1 / (86400 * 1000)]
-              [/minute/i, 1 / 1440]
-              [/hour/i, 1 / 24]
+              [/second/i, 1/(86400*1000)]
+              [/minute/i, 1/1440]
+              [/hour/i, 1/24]
               [/week/i, 7]
               [/month/i, 30.42]
               [/year/i, 365.2425]
@@ -132,16 +131,16 @@ module.exports = class EmployersView extends View
       sortList: if @isEmployer() or me.isAdmin() then [[6, 0]] else [[0, 1]]
       # widget code contained in the jquery.tablesorter.widgets.js file
       # use the zebra stripe widget if you plan on hiding any rows (filter widget)
-      widgets: ["uitheme", "zebra", "filter"]
+      widgets: ['uitheme', 'zebra', 'filter']
       widgetOptions:
         # using the default zebra striping class name, so it actually isn't included in the theme variable above
         # this is ONLY needed for bootstrap theming if you are using the filter widget, because rows are hidden
-        zebra: ["even", "odd"]
+        zebra: ['even', 'odd']
 
         # extra css class applied to the table row containing the filters & the inputs within that row
-        filter_cssFilter: ""
+        filter_cssFilter: ''
 
-        # If there are child rows in the table (rows with class name from "cssChildRow" option)
+        # If there are child rows in the table (rows with class name from 'cssChildRow' option)
         # and this option is true and a match is found anywhere in the child row, then it will make that row
         # visible; default is false
         filter_childRows: false
@@ -154,7 +153,7 @@ module.exports = class EmployersView extends View
         filter_ignoreCase: true
 
         # jQuery selector string of an element used to reset the filters
-        filter_reset: ".reset"
+        filter_reset: '.reset'
 
         # Use the $.tablesorter.storage utility to save the most recent filters
         filter_saveFilters: true
@@ -164,44 +163,44 @@ module.exports = class EmployersView extends View
         filter_searchDelay: 150
 
         # Set this option to true to use the filter to find text from the start of the column
-        # So typing in "a" will find "albert" but not "frank", both have a's; default is false
+        # So typing in 'a' will find 'albert' but not 'frank', both have a's; default is false
         filter_startsWith: false
 
         filter_functions:
           2:
-            "Full-time": filterSelectExactMatch
-            "Part-time": filterSelectExactMatch
-            "Contracting": filterSelectExactMatch
-            "Remote": filterSelectExactMatch
-            "Internship": filterSelectExactMatch
+            'Full-time': filterSelectExactMatch
+            'Part-time': filterSelectExactMatch
+            'Contracting': filterSelectExactMatch
+            'Remote': filterSelectExactMatch
+            'Internship': filterSelectExactMatch
           5:
-            "0-1": (e, n, f, i, $r) -> n <= 1
-            "2-5": (e, n, f, i, $r) -> 2 <= n <= 5
-            "6+": (e, n, f, i, $r) -> 6 <= n
+            '0-1': (e, n, f, i, $r) -> n <= 1
+            '2-5': (e, n, f, i, $r) -> 2 <= n <= 5
+            '6+': (e, n, f, i, $r) -> 6 <= n
           6:
-            "Last day": (e, n, f, i, $r) ->
+            'Last day': (e, n, f, i, $r) ->
               days = parseFloat $($r.find('td')[i]).data('profile-age')
               days <= 1
-            "Last week": (e, n, f, i, $r) ->
+            'Last week': (e, n, f, i, $r) ->
               days = parseFloat $($r.find('td')[i]).data('profile-age')
               days <= 7
-            "Last 4 weeks": (e, n, f, i, $r) ->
+            'Last 4 weeks': (e, n, f, i, $r) ->
               days = parseFloat $($r.find('td')[i]).data('profile-age')
               days <= 28
           8:
-            "✓": filterSelectExactMatch
-            "✗": filterSelectExactMatch
+            '✓': filterSelectExactMatch
+            '✗': filterSelectExactMatch
 
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
     if id
       if window.history
         oldState = _.cloneDeep window.history.state ? {}
-        oldState["lastViewedCandidateID"] = id
-        window.history.replaceState(oldState,"")
+        oldState['lastViewedCandidateID'] = id
+        window.history.replaceState(oldState, '')
       else
         window.location.hash = id
       url = "/account/profile/#{id}"
-      window.open url,"_blank"
+      window.open url, '_blank'
     else
       @openModalView new EmployerSignupView

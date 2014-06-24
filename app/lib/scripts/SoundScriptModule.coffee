@@ -26,7 +26,7 @@ module.exports = class SoundScriptModule extends ScriptModule
       channel: 'level-suppress-selection-sounds'
       event: {suppress: @noteGroup.sound.suppressSelectionSounds}
     return note
-    
+
   addMusicNote: ->
     note =
       channel: 'level-play-music'

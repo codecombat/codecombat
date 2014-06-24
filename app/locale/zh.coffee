@@ -90,7 +90,7 @@ module.exports = nativeDescription: "中文", englishDescription: "Chinese", tra
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "通过游戏学习Javascript脚本语言"
+    slogan: "通过游戏学习编程"
     no_ie: "抱歉！Internet Explorer 9等更旧的预览器打不开此网站"
     no_mobile: "CodeCombat暂时没有手机版本，可能无法运行!"
     play: "玩"

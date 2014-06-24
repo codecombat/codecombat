@@ -12,7 +12,8 @@ module.exports = class SpellListEntryView extends View
   controlsEnabled: true
 
   subscriptions:
-    'tome:problems-updated': "onProblemsUpdated"
+    'tome:problems-updated': 'onProblemsUpdated'
+    'tome:spell-changed-language': 'onSpellChangedLanguage'
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
     'god:new-world-created': 'onNewWorld'
@@ -30,10 +31,37 @@ module.exports = class SpellListEntryView extends View
   getRenderData: (context={}) ->
     context = super context
     context.spell = @spell
-    context.parameters = (@spell.parameters or []).join ', '
-    context.thangNames = (thangID for thangID, spellThang of @spell.thangs when spellThang.thang.exists).join(', ')  # + ", Marcus, Robert, Phoebe, Will Smith, Zap Brannigan, You, Gandaaaaalf"
+    context.methodSignature = @createMethodSignature()
+    context.thangNames = (thangID for thangID, spellThang of @spell.thangs when spellThang.thang.exists).join(', ')  # + ', Marcus, Robert, Phoebe, Will Smith, Zap Brannigan, You, Gandaaaaalf'
     context.showTopDivider = @showTopDivider
     context
+
+  createMethodSignature: ->
+    parameters = (@spell.parameters or []).slice()
+    if @spell.language in ['python', 'lua']
+      parameters.unshift 'self'
+    else if @spell.language is 'io'
+      parameters.unshift '...'
+    paramString = parameters.join ', '
+    name = @spell.name
+    switch @spell.language
+      when 'io'
+        "#{name} := method(#{paramString})"
+      when 'clojure'
+        "(defn #{name} [#{paramString}] ...)"
+      when 'python'
+        "def #{name}(#{paramString}):"
+      when 'lua'
+        "function #{name}(#{paramString}) ... end"
+      when 'coffeescript'
+        if parameters.length
+          "@#{name} = (#{paramString}) ->"
+        else
+          "@#{name} = ->"
+      when 'javascript'
+        "function #{name}(#{paramString}) { ... }"
+      else
+        "#{name}(#{paramString})"
 
   getPrimarySpellThang: ->
     if @lastSelectedThang
@@ -42,7 +70,7 @@ module.exports = class SpellListEntryView extends View
     for thangID, spellThang of @spell.thangs
       continue unless spellThang.thang.exists
       return spellThang  # Just do the first one else
-  
+
   afterRender: ->
     super()
     return unless @options.showTopDivider  # Don't repeat Thang avatars when not changed from previous entry
@@ -60,7 +88,7 @@ module.exports = class SpellListEntryView extends View
 
   onClick: (e) ->
     spellThang = @getPrimarySpellThang()
-    Backbone.Mediator.publish "level-select-sprite", thangID: spellThang.thang.id, spellName: @spell.name
+    Backbone.Mediator.publish 'level-select-sprite', thangID: spellThang.thang.id, spellName: @spell.name
 
   onMouseEnterAvatar: (e) ->
     return unless @controlsEnabled and _.size(@spell.thangs) > 1
@@ -90,7 +118,11 @@ module.exports = class SpellListEntryView extends View
 
   onProblemsUpdated: (e) ->
     return unless e.spell is @spell
-    @$el.toggleClass "user-code-problem", e.problems.length
+    @$el.toggleClass 'user-code-problem', e.problems.length
+
+  onSpellChangedLanguage: (e) ->
+    return unless e.spell is @spell
+    @render()  # So that we can update parameters if needed
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
@@ -105,7 +137,7 @@ module.exports = class SpellListEntryView extends View
 
   onNewWorld: (e) ->
     @lastSelectedThang = e.world.thangMap[@lastSelectedThang.id] if @lastSelectedThang
-    
+
   destroy: ->
     @avatar?.destroy()
     super()

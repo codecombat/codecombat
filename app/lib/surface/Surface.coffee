@@ -90,7 +90,7 @@ module.exports = Surface = class Surface extends CocoClass
   destroy: ->
     @dead = true
     @camera?.destroy()
-    createjs.Ticker.removeEventListener("tick", @tick)
+    createjs.Ticker.removeEventListener('tick', @tick)
     createjs.Sound.stop()
     layer.destroy() for layer in @layers
     @spriteBoss.destroy()
@@ -160,12 +160,12 @@ module.exports = Surface = class Surface extends CocoClass
   addMeshRectanglesToContainer: (mesh, container) ->
     for rect in mesh
       shape = new createjs.Shape()
-      pos = @camera.worldToSurface {x:rect.x, y:rect.y}
-      dim = @camera.worldToSurface {x:rect.width, y:rect.height}
+      pos = @camera.worldToSurface {x: rect.x, y: rect.y}
+      dim = @camera.worldToSurface {x: rect.width, y: rect.height}
       shape.graphics
         .setStrokeStyle(3)
-        .beginFill('rgba(0, 0, 128, 0.3)')
-        .beginStroke('rgba(0, 0, 128, 0.7)')
+        .beginFill('rgba(0,0,128,0.3)')
+        .beginStroke('rgba(0,0,128,0.7)')
         .drawRect(pos.x - dim.x/2, pos.y - dim.y/2, dim.x, dim.y)
       container.addChild shape
 
@@ -181,7 +181,7 @@ module.exports = Surface = class Surface extends CocoClass
     shape.graphics
       .setStrokeStyle(1)
       .moveTo(v1.x, v1.y)
-      .beginStroke('rgba(128, 0, 0, 0.4)')
+      .beginStroke('rgba(128,0,0,0.4)')
       .lineTo(v2.x, v2.y)
       .endStroke()
     container.addChild shape
@@ -206,7 +206,7 @@ module.exports = Surface = class Surface extends CocoClass
     if scrubDuration
       t = createjs.Tween
         .get(@)
-        .to({currentFrame:@scrubbingTo}, scrubDuration, createjs.Ease.sineInOut)
+        .to({currentFrame: @scrubbingTo}, scrubDuration, createjs.Ease.sineInOut)
         .call(onTweenEnd)
       t.addEventListener('change', @onFramesScrubbed)
     else
@@ -309,7 +309,7 @@ module.exports = Surface = class Surface extends CocoClass
     return if @currentFrame is @lastFrame and not force
     progress = @getProgress()
     Backbone.Mediator.publish('surface:frame-changed',
-      type: "frame-changed"
+      type: 'frame-changed'
       selectedThang: @spriteBoss.selectedSprite?.thang
       progress: progress
       frame: @currentFrame
@@ -353,7 +353,7 @@ module.exports = Surface = class Surface extends CocoClass
     @setPaused false if @ended
     @casting = true
     @wasPlayingWhenCastingBegan = @playing
-    Backbone.Mediator.publish 'level-set-playing', { playing: false }
+    Backbone.Mediator.publish 'level-set-playing', {playing: false}
     @setPlayingCalled = false # don't overwrite playing settings if they changed by, say, scripts
 
     if @coordinateDisplay?
@@ -361,7 +361,7 @@ module.exports = Surface = class Surface extends CocoClass
       @coordinateDisplay.destroy()
 
     createjs.Tween.removeTweens(@surfaceLayer)
-    createjs.Tween.get(@surfaceLayer).to({alpha:0.9}, 1000, createjs.Ease.getPowOut(4.0))
+    createjs.Tween.get(@surfaceLayer).to({alpha: 0.9}, 1000, createjs.Ease.getPowOut(4.0))
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
@@ -373,7 +373,7 @@ module.exports = Surface = class Surface extends CocoClass
 
     # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
     # so only run it after the first world is created.
-    Backbone.Mediator.publish 'level-set-playing', { playing: @wasPlayingWhenCastingBegan } unless event.firstWorld or @setPlayingCalled
+    Backbone.Mediator.publish 'level-set-playing', {playing: @wasPlayingWhenCastingBegan} unless event.firstWorld or @setPlayingCalled
 
     fastForwardTo = null
     if @playing
@@ -391,9 +391,9 @@ module.exports = Surface = class Surface extends CocoClass
         @setProgress fastForwardToRatio, 1000 * fastForwardToTime / fastForwardSpeed
         @fastForwarding = true
     createjs.Tween.get(@surfaceLayer)
-      .to({alpha:0.0}, 50)
+      .to({alpha: 0.0}, 50)
       .call(f)
-      .to({alpha:1.0}, 2000, createjs.Ease.getPowOut(2.0))
+      .to({alpha: 1.0}, 2000, createjs.Ease.getPowOut(2.0))
 
   # initialization
 
@@ -405,9 +405,9 @@ module.exports = Surface = class Surface extends CocoClass
     @camera?.destroy()
     @camera = new Camera @canvas
     AudioPlayer.camera = @camera
-    @layers.push @surfaceLayer = new Layer name: "Surface", layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
-    @layers.push @surfaceTextLayer = new Layer name: "Surface Text", layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
-    @layers.push @screenLayer = new Layer name: "Screen", layerPriority: 2, transform: Layer.TRANSFORM_SCREEN, camera: @camera
+    @layers.push @surfaceLayer = new Layer name: 'Surface', layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
+    @layers.push @surfaceTextLayer = new Layer name: 'Surface Text', layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
+    @layers.push @screenLayer = new Layer name: 'Screen', layerPriority: 2, transform: Layer.TRANSFORM_SCREEN, camera: @camera
     @stage.addChild @layers...
     @surfaceLayer.addChild @cameraBorder = new CameraBorder bounds: @camera.bounds
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
@@ -449,7 +449,7 @@ module.exports = Surface = class Surface extends CocoClass
     @updateState true
     @drawCurrentFrame()
     @showGrid() if @options.grid  # TODO: pay attention to world grid setting (which we only know when world simulates)
-    createjs.Ticker.addEventListener "tick", @tick
+    createjs.Ticker.addEventListener 'tick', @tick
     Backbone.Mediator.publish 'level:started'
 
   createOpponentWizard: (opponent) ->
@@ -469,10 +469,10 @@ module.exports = Surface = class Surface extends CocoClass
       @gridLayer.z = 90019001
       @gridLayer.mouseEnabled = false
       @gridShape.alpha = 0.125
-      @gridShape.graphics.beginStroke "blue"
+      @gridShape.graphics.beginStroke 'blue'
       gridSize = Math.round(@world.size()[0] / 20)
       unless gridSize > 0.1
-        return console.error "Grid size is", gridSize, "so we can't draw a grid."
+        return console.error 'Grid size is', gridSize, 'so we can\'t draw a grid.'
       wopStart = x: 0, y: 0
       wopEnd = x: @world.size()[0], y: @world.size()[1]
       supStart = @camera.worldToSurface wopStart
@@ -481,7 +481,7 @@ module.exports = Surface = class Surface extends CocoClass
       while wop.x < wopEnd.x
         sup = @camera.worldToSurface wop
         @gridShape.graphics.mt(sup.x, supStart.y).lt(sup.x, supEnd.y)
-        t = new createjs.Text(wop.x.toFixed(0), "16px Arial", "blue")
+        t = new createjs.Text(wop.x.toFixed(0), '16px Arial', 'blue')
         t.x = sup.x - t.getMeasuredWidth() / 2
         t.y = supStart.y - 10 - t.getMeasuredHeight() / 2
         t.alpha = 0.75
@@ -490,7 +490,7 @@ module.exports = Surface = class Surface extends CocoClass
       while wop.y < wopEnd.y
         sup = @camera.worldToSurface wop
         @gridShape.graphics.mt(supStart.x, sup.y).lt(supEnd.x, sup.y)
-        t = new createjs.Text(wop.y.toFixed(0), "16px Arial", "blue")
+        t = new createjs.Text(wop.y.toFixed(0), '16px Arial', 'blue')
         t.x = 10 - t.getMeasuredWidth() / 2
         t.y = sup.y - t.getMeasuredHeight() / 2
         t.alpha = 0.75
@@ -596,7 +596,7 @@ module.exports = Surface = class Surface extends CocoClass
     Backbone.Mediator.publish('surface:ticked', {dt: 1 / @options.frameRate})
     mib = @stage.mouseInBounds
     if @mouseInBounds isnt mib
-      Backbone.Mediator.publish('surface:mouse-' + (if mib then "over" else "out"), {})
+      Backbone.Mediator.publish('surface:mouse-' + (if mib then 'over' else 'out'), {})
       @mouseInBounds = mib
 
   restoreWorldState: ->
@@ -631,10 +631,10 @@ module.exports = Surface = class Surface extends CocoClass
     return if @world.showPaths is 'paused' and @playing
     return if @world.showPaths is 'selected' and not selectedThang
     @trailmaster ?= new path.Trailmaster @camera
-    selectedOnly = @playing and @world.showPaths is "selected"
+    selectedOnly = @playing and @world.showPaths is 'selected'
     @paths = @trailmaster.generatePaths @world, @getCurrentFrame(), selectedThang, @spriteBoss.sprites, selectedOnly
     @paths.name = 'paths'
-    @spriteBoss.spriteLayers["Path"].addChild @paths
+    @spriteBoss.spriteLayers['Path'].addChild @paths
 
   hidePaths: ->
     return if not @paths
@@ -647,8 +647,8 @@ module.exports = Surface = class Surface extends CocoClass
     margin = (1 - 1 / zoom) / 2
     @stage.cache margin * w, margin * h, w / zoom, h / zoom, scale * zoom
     imageData = @stage.cacheCanvas.toDataURL(format, quality)
-    #console.log "Screenshot with scale", scale, "format", format, "quality", quality, "was", Math.floor(imageData.length / 1024), "kB"
-    screenshot = document.createElement("img")
+    #console.log 'Screenshot with scale', scale, 'format', format, 'quality', quality, 'was', Math.floor(imageData.length / 1024), 'kB'
+    screenshot = document.createElement('img')
     screenshot.src = imageData
     @stage.uncache()
     imageData

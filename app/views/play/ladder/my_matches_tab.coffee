@@ -27,7 +27,7 @@ module.exports = class MyMatchesTabView extends CocoView
       for match in (session.get('matches') or [])
         id = match.opponents[0].userID
         unless id
-          console.error "Found bad opponent ID in malformed match:", match, "from session", session
+          console.error 'Found bad opponent ID in malformed match:', match, 'from session', session
           continue
         ids.push id unless @nameMap[id]
 
@@ -38,7 +38,7 @@ module.exports = class MyMatchesTabView extends CocoView
       for session in @sessions.models
         for match in session.get('matches') or []
           opponent = match.opponents[0]
-          @nameMap[opponent.userID] ?= nameMap[opponent.userID]?.name ? "<bad match data>"
+          @nameMap[opponent.userID] ?= nameMap[opponent.userID]?.name ? '<bad match data>'
       @finishRendering()
 
     $.ajax('/db/user/-/names', {
@@ -112,7 +112,7 @@ module.exports = class MyMatchesTabView extends CocoView
 
     @$el.find('tr.fresh').removeClass('fresh', 5000)
 
-  generateScoreLineChart: (wrapperID, scoreHistory,teamName) =>
+  generateScoreLineChart: (wrapperID, scoreHistory, teamName) =>
     margin =
       top: 20
       right: 20
@@ -121,20 +121,20 @@ module.exports = class MyMatchesTabView extends CocoView
 
     width = 450 - margin.left - margin.right
     height = 125
-    x = d3.time.scale().range([0,width])
-    y = d3.scale.linear().range([height,0])
+    x = d3.time.scale().range([0, width])
+    y = d3.scale.linear().range([height, 0])
 
-    xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(4).outerTickSize(0)
-    yAxis = d3.svg.axis().scale(y).orient("left").ticks(4).outerTickSize(0)
+    xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(4).outerTickSize(0)
+    yAxis = d3.svg.axis().scale(y).orient('left').ticks(4).outerTickSize(0)
 
     line = d3.svg.line().x(((d) -> x(d.date))).y((d) -> y(d.close))
-    selector = "#" + wrapperID
+    selector = '#' + wrapperID
 
-    svg = d3.select(selector).append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform","translate(#{margin.left},#{margin.top})")
+    svg = d3.select(selector).append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', "translate(#{margin.left}, #{margin.top})")
     time = 0
     data = scoreHistory.map (d) ->
       time +=1
@@ -146,19 +146,19 @@ module.exports = class MyMatchesTabView extends CocoView
     x.domain(d3.extent(data, (d) -> d.date))
     y.domain(d3.extent(data, (d) -> d.close))
 
-    svg.append("g")
-      .attr("class", "y axis")
+    svg.append('g')
+      .attr('class', 'y axis')
       .call(yAxis)
-      .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y",4)
-      .attr("dy", ".75em")
-      .style("text-anchor","end")
-      .text("Score")
-    lineClass = "line"
-    if teamName.toLowerCase() is "ogres" then lineClass = "ogres-line"
-    if teamName.toLowerCase() is "humans" then lineClass = "humans-line"
-    svg.append("path")
+      .append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', 4)
+      .attr('dy', '.75em')
+      .style('text-anchor', 'end')
+      .text('Score')
+    lineClass = 'line'
+    if teamName.toLowerCase() is 'ogres' then lineClass = 'ogres-line'
+    if teamName.toLowerCase() is 'humans' then lineClass = 'humans-line'
+    svg.append('path')
       .datum(data)
-      .attr("class",lineClass)
-      .attr("d",line)
+      .attr('class', lineClass)
+      .attr('d', line)

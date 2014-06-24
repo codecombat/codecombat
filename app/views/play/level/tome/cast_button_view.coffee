@@ -11,7 +11,7 @@ module.exports = class CastButtonView extends View
     'click .autocast-delays a': 'onCastOptionsClick'
 
   subscriptions:
-    'tome:spell-changed': "onSpellChanged"
+    'tome:spell-changed': 'onSpellChanged'
     'tome:cast-spells': 'onCastSpells'
     'god:world-load-progress-changed': 'onWorldLoadProgressChanged'
     'god:new-world-created': 'onNewWorld'
@@ -20,8 +20,8 @@ module.exports = class CastButtonView extends View
     super options
     @spells = options.spells
     @levelID = options.levelID
-    @castShortcut = "⇧↵"
-    @castShortcutVerbose = "Shift+Enter"
+    @castShortcut = '⇧↵'
+    @castShortcutVerbose = 'Shift+Enter'
 
   getRenderData: (context={}) ->
     context = super context
@@ -46,7 +46,7 @@ module.exports = class CastButtonView extends View
     Backbone.Mediator.publish 'tome:manual-cast', {}
 
   onCastOptionsClick: (e) =>
-    Backbone.Mediator.publish 'focus-editor'
+    Backbone.Mediator.publish 'tome:focus-editor'
     @castButtonGroup.removeClass 'open'
     @setAutocastDelay $(e.target).attr 'data-delay'
     false
@@ -84,16 +84,16 @@ module.exports = class CastButtonView extends View
       Backbone.Mediator.publish 'tome:spell-has-changed-significantly-calculation', hasChangedSignificantly: castable
       @castButtonGroup.toggleClass('castable', castable).toggleClass('casting', @casting)
       if @casting
-        s = $.i18n.t("play_level.tome_cast_button_casting", defaultValue: "Casting")
+        s = $.i18n.t('play_level.tome_cast_button_casting', defaultValue: 'Casting')
       else if castable
-        s = $.i18n.t("play_level.tome_cast_button_castable", defaultValue: "Cast Spell") + " " + @castShortcut
+        s = $.i18n.t('play_level.tome_cast_button_castable', defaultValue: 'Cast Spell') + ' ' + @castShortcut
       else
-        s = $.i18n.t("play_level.tome_cast_button_cast", defaultValue: "Spell Cast")
+        s = $.i18n.t('play_level.tome_cast_button_cast', defaultValue: 'Spell Cast')
       @castButton.text s
       @castButton.prop 'disabled', not castable
 
   setAutocastDelay: (delay) ->
-    #console.log "Set autocast delay to", delay
+    #console.log 'Set autocast delay to', delay
     return unless delay
     @autocastDelay = delay = parseInt delay
     me.set('autocastDelay', delay)
