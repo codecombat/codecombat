@@ -8,7 +8,7 @@ module.exports = class PatchModal extends ModalView
   template: template
   plain: true
   modalWidthPercent: 60
-  @DOC_SKIP_PATHS = ['_id','version', 'commitMessage', 'parent', 'created', 'slug', 'index', '__v', 'patches']
+  @DOC_SKIP_PATHS = ['_id','version', 'commitMessage', 'parent', 'created', 'slug', 'index', '__v', 'patches', 'creator']
 
   events:
     'click #withdraw-button': 'withdrawPatch'
@@ -23,6 +23,20 @@ module.exports = class PatchModal extends ModalView
     else
       @originalSource = new @targetModel.constructor({_id:targetID})
       @supermodel.loadModel @originalSource, 'source_document'
+      
+  onLoaded: ->
+    @headModel = null
+    if @targetModel.hasWriteAccess()
+      @headModel = @originalSource.clone(false)
+      @headModel.markToRevert true
+      @headModel.set(@targetModel.attributes)
+      @headModel.loaded = true
+
+    @pendingModel = @originalSource.clone(false)
+    @pendingModel.markToRevert true
+    @deltaWorked = @pendingModel.applyDelta(@patch.get('delta'))
+    @pendingModel.loaded = true
+    super()
 
   getRenderData: ->
     c = super()
@@ -30,23 +44,12 @@ module.exports = class PatchModal extends ModalView
     c.isPatchRecipient = @targetModel.hasWriteAccess()
     c.status = @patch.get 'status'
     c.patch = @patch
+    c.deltaWorked = @deltaWorked
     c
 
   afterRender: ->
-    return unless @supermodel.finished()
-    headModel = null
-    if @targetModel.hasWriteAccess()
-      headModel = @originalSource.clone(false)
-      headModel.markToRevert true
-      headModel.set(@targetModel.attributes)
-      headModel.loaded = true
-
-    pendingModel = @originalSource.clone(false)
-    pendingModel.markToRevert true
-    pendingModel.applyDelta(@patch.get('delta'))
-    pendingModel.loaded = true
-
-    @deltaView = new DeltaView({model:pendingModel, headModel:headModel, skipPaths: PatchModal.DOC_SKIP_PATHS})
+    return super() unless @supermodel.finished() and @deltaWorked
+    @deltaView = new DeltaView({model:@pendingModel, headModel:@headModel, skipPaths: PatchModal.DOC_SKIP_PATHS})
     changeEl = @$el.find('.changes-stub')
     @insertSubView(@deltaView, changeEl)
     super()
