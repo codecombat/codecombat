@@ -93,8 +93,7 @@ module.exports = class Mark extends CocoClass
       @mark.addChild text
     else if @sprite.thang.drawsBoundsStyle is 'corner-text'
       return if @sprite.thang.world.age is 0
-      #letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[@drawsBoundsIndex % 26]
-      letter = @sprite.thang.drawsBoundsIndex
+      letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[@drawsBoundsIndex % 26]
       text = new createjs.Text letter, "14px Arial", "#333333"   # color.replace('0.5', '1')
       text.x = -w / 2 + 2
       text.y = -h / 2 + 2
