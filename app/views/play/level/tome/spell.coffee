@@ -14,23 +14,30 @@ module.exports = class Spell
     @spellKey = options.spellKey
     @pathComponents = options.pathComponents
     @session = options.session
+    @otherSession = options.otherSession
     @spectateView = options.spectateView
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
-    p = options.programmableMethod
 
+    p = options.programmableMethod
+    @languages = p.languages ? {}
+    @languages.javascript ?= p.source
     @name = p.name
     @permissions = read: p.permissions?.read ? [], readwrite: p.permissions?.readwrite ? []  # teams
-    teamSpells = @session.get('teamSpells')
-    team = @session.get('team') ? 'humans'
-    @useTranspiledCode = @permissions.readwrite.length and ((teamSpells and not _.contains(teamSpells[team], @spellKey)) or (@session.get('creator') isnt me.id) or @spectateView)
-    #console.log @spellKey, "using transpiled code?", @useTranspiledCode
-    @source = @originalSource = p.source
+    if @canWrite()
+      @setLanguage options.language
+    else if @isEnemySpell()
+      @setLanguage options.otherSession.get 'submittedCodeLanguage'
+    else
+      @setLanguage 'javascript'
+    @useTranspiledCode = @shouldUseTranspiledCode()
+    console.log "Spell", @spellKey, "is using transpiled code (should only happen if it's an enemy/spectate writable method)." if @useTranspiledCode
+
+    @source = @originalSource
     @parameters = p.parameters
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
       @source = sessionSource
-    @language = if @canWrite() then options.language else 'javascript'
     @thangs = {}
     @view = new SpellView {spell: @, session: @session, worker: @worker}
     @view.render()  # Get it ready and code loaded in advance
@@ -44,6 +51,9 @@ module.exports = class Spell
     @tabView.destroy()
     @thangs = null
     @worker = null
+
+  setLanguage: (@language) ->
+    @originalSource = @languages[language] ? @languages.javascript
 
   addThang: (thang) ->
     if @thangs[thang.id]
@@ -121,7 +131,7 @@ module.exports = class Spell
         jshint_E043: {level: "ignore"}  # https://github.com/codecombat/codecombat/issues/813 -- since we can't actually tell JSHint to really ignore things
         jshint_Unknown: {level: "ignore"}  # E043 also triggers Unknown, so ignore that, too
         aether_MissingThis: {level: 'error'}
-      language: if @canWrite() then @language else 'javascript'
+      language: @language
       functionName: @name
       functionParameters: @parameters
       yieldConditionally: thang.plan?
@@ -129,6 +139,7 @@ module.exports = class Spell
       # TODO: Gridmancer doesn't currently work with protectAPI, so hack it off
       protectAPI: not (@skipProtectAPI or window.currentView?.level.get('name').match("Gridmancer")) and writable  # If anyone can write to this method, we must protect it.
       includeFlow: false
+      executionLimit: 1 * 1000 * 1000
     #console.log "creating aether with options", aetherOptions
     aether = new Aether aetherOptions
     workerMessage =
@@ -150,3 +161,18 @@ module.exports = class Spell
 
   toString: ->
     "<Spell: #{@spellKey}>"
+
+  isEnemySpell: ->
+    return false unless @permissions.readwrite.length
+    return false unless @otherSession
+    teamSpells = @session.get('teamSpells')
+    team = @session.get('team') ? 'humans'
+    teamSpells and not _.contains(teamSpells[team], @spellKey)
+
+  shouldUseTranspiledCode: ->
+    # Determine whether this code has already been transpiled, or whether it's raw source needing transpilation.
+    return true if @spectateView  # Use transpiled code for both teams if we're just spectating.
+    return true if @isEnemySpell()  # Use transpiled for enemy spells.
+    # Players without permissions can't view the raw code.
+    return true if @session.get('creator') isnt me.id and not (me.isAdmin() or 'employer' in me.get('permissions'))
+    false

@@ -1,6 +1,8 @@
 storage = require 'lib/storage'
 deltasLib = require 'lib/deltas'
 
+NewAchievementCollection = require '../collections/NewAchievementCollection'
+
 class CocoModel extends Backbone.Model
   idAttribute: "_id"
   loaded: false
@@ -15,10 +17,10 @@ class CocoModel extends Backbone.Model
     super()
     if not @constructor.className
       console.error("#{@} needs a className set.")
-    @markToRevert()
     @addSchemaDefaults()
     @on 'sync', @onLoaded, @
     @on 'error', @onError, @
+    @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
 
   type: ->
@@ -32,18 +34,21 @@ class CocoModel extends Backbone.Model
 
   onError: ->
     @loading = false
+    @jqxhr = null
 
   onLoaded: ->
     @loaded = true
     @loading = false
-    @markToRevert()
+    @jqxhr = null
     @loadFromBackup()
 
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
 
   set: ->
+    inFlux = @loading or not @loaded
+    @markToRevert() unless inFlux or @_revertAttributes
     res = super(arguments...)
-    @saveBackup() if @saveBackups and @loaded and @hasLocalChanges()
+    @saveBackup() if @saveBackups and (not inFlux) and @hasLocalChanges()
     res
 
   loadFromBackup: ->
@@ -59,23 +64,31 @@ class CocoModel extends Backbone.Model
 
   @backedUp = {}
   schema: -> return @constructor.schema
+    
+  getValidationErrors: ->
+    errors = tv4.validateMultiple(@attributes, @constructor.schema or {}).errors
+    return errors if errors?.length
 
   validate: ->
-    result = tv4.validateMultiple(@attributes, @constructor.schema? or {})
-    if result.errors?.length
-      console.log @, "got validate result with errors:", result
-    return result.errors unless result.valid
-
+    errors = @getValidationErrors()
+    if errors?.length
+      console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
+      for error in errors
+        console.debug "\t", error.dataPath, ":", error.message
+      return errors
+  
   save: (attrs, options) ->
-    @set 'editPath', document.location.pathname
     options ?= {}
+    options.headers ?= {}
+    options.headers['X-Current-Path'] = document.location.pathname
     success = options.success
     error = options.error
     options.success = (model, res) =>
       @trigger "save:success", @
       success(@, res) if success
-      @markToRevert()
+      @markToRevert() if @_revertAttributes
       @clearBackup()
+      CocoModel.pollAchievements()
     options.error = (model, res) =>
       error(@, res) if error
       return unless @notyErrors
@@ -84,6 +97,22 @@ class CocoModel extends Backbone.Model
       noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
     @trigger "save", @
     return super attrs, options
+    
+  patch: (options) ->
+    return false unless @_revertAttributes
+    options ?= {}
+    options.patch = true
+    
+    attrs = {_id: @id}
+    keys = []
+    for key in _.keys @attributes
+      unless _.isEqual @attributes[key], @_revertAttributes[key]
+        attrs[key] = @attributes[key]
+        keys.push key
+    
+    return unless keys.length
+    console.debug 'Patching', @get('name') or @, keys
+    @save(attrs, options)
 
   fetch: ->
     @jqxhr = super(arguments...)
@@ -104,7 +133,7 @@ class CocoModel extends Backbone.Model
     storage.remove @id
 
   hasLocalChanges: ->
-    not _.isEqual @attributes, @_revertAttributes
+    @_revertAttributes and not _.isEqual @attributes, @_revertAttributes
 
   cloneNewMinorVersion: ->
     newData = _.clone @attributes
@@ -139,7 +168,6 @@ class CocoModel extends Backbone.Model
       #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
       @set prop, sch.default if sch.default?
     if @loaded
-      @markToRevert()
       @loadFromBackup()
 
   @isObjectID: (s) ->
@@ -255,5 +283,15 @@ class CocoModel extends Backbone.Model
 
   getURL: ->
     return if _.isString @url then @url else @url()
+
+  @pollAchievements: ->
+    achievements = new NewAchievementCollection
+    achievements.fetch(
+      success: (collection) ->
+        me.fetch (success: -> Backbone.Mediator.publish('achievements:new', collection)) unless _.isEmpty(collection.models)
+    )
+
+
+CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
 
 module.exports = CocoModel

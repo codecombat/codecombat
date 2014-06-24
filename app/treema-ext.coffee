@@ -6,6 +6,8 @@ locale = require 'locale/locale'
 class DateTimeTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-date-time'
   buildValueForDisplay: (el) -> el.text(moment(@data).format('llll'))
+  buildValueForEditing: (valEl) ->
+    @buildValueForEditingSimply valEl, null, 'date'
 
 class VersionTreema extends TreemaNode
   valueClass: 'treema-version'
@@ -253,7 +255,7 @@ class LatestVersionCollection extends CocoCollection
 class LatestVersionReferenceNode extends TreemaNode
   searchValueTemplate: '<input placeholder="Search" /><div class="treema-search-results"></div>'
   valueClass: 'treema-latest-version'
-  url: '/db/article/search'
+  url: '/db/article'
   lastTerm: null
 
   constructor: ->
@@ -264,7 +266,7 @@ class LatestVersionReferenceNode extends TreemaNode
     link = (l for l in links when l.rel is 'db')[0]
     return unless link
     parts = (p for p in link.href.split('/') when p.length)
-    @url = "/db/#{parts[1]}/search"
+    @url = "/db/#{parts[1]}"
     @model = require('models/' + _.string.classify(parts[1]))
 
   buildValueForDisplay: (valEl) ->

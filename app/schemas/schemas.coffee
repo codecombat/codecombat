@@ -8,7 +8,7 @@ combine = (base, ext) ->
   return base unless ext?
   return _.extend(base, ext)
 
-urlPattern = '^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-‌​\.\?\,\'\/\\\+&%\$#_=]*)?$'
+urlPattern = '^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_=]*)?$'
 
 # Common schema properties
 me.object = (ext, props) -> combine {type: 'object', additionalProperties: false, properties: props or {}}, ext
@@ -48,13 +48,13 @@ me.colorConfig = (props) ->
 # BASICS
 
 basicProps = (linkFragment) ->
-  _id: me.objectId(links: [{rel: 'self', href: "/db/#{linkFragment}/{($)}"}], format: 'hidden')
+  _id: me.objectId(links: [{rel: 'self', href: "/db/#{linkFragment}/{($)}"}], format:"hidden")
   __v: { title: 'Mongoose Version', format: 'hidden' }
 
 me.extendBasicProperties = (schema, linkFragment) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, basicProps(linkFragment))
-  
+
 # PATCHABLE
 
 patchableProps = ->
@@ -65,7 +65,7 @@ patchableProps = ->
   allowPatches: { type: 'boolean' }
   watchers: me.array({title:'Watchers'},
     me.objectId(links: [{rel: 'extra', href: "/db/user/{($)}"}]))
-  
+
 me.extendPatchableProperties = (schema) ->
   schema.properties = {} unless schema.properties?
   _.extend(schema.properties, patchableProps())
@@ -170,3 +170,15 @@ me.FunctionArgumentSchema = me.object {
     title: "Default"
     description: "Default value of the argument. (Your code should set this.)"
     "default": null
+
+me.codeSnippet = (mode) ->
+  return snippet = 
+    code: {type: 'string', title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
+    # code: {type: 'string', format: 'ace', aceMode: 'ace/mode/'+mode, title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
+    tab: {type: 'string', description: 'Tab completion text. Will be expanded to the snippet if typed and hit tab.'}
+
+me.activity = me.object {description: "Stats on an activity"},
+  first: me.date()
+  last: me.date()
+  count: {type: 'integer', minimum: 0}
+

@@ -7,9 +7,10 @@ async = require 'async'
 
 serverSetup = require '../server_setup'
 sendwithus = require '../server/sendwithus'
-User = require '../server/users/User.coffee'
-Level = require '../server/levels/Level.coffee'
-LevelSession = require '../server/levels/sessions/LevelSession.coffee'
+User = require '../server/users/User'
+Level = require '../server/levels/Level'
+LevelSession = require '../server/levels/sessions/LevelSession'
+tournamentResults = require '../app/views/play/ladder/tournament_results'
 
 alreadyEmailed = []
 
@@ -17,15 +18,17 @@ DEBUGGING = true
 
 sendInitialRecruitingEmail = ->
   leaderboards = [
-    {slug: 'brawlwood', team: 'humans', limit: 55, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
-    {slug: 'brawlwood', team: 'ogres', limit: 40, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
-    {slug: 'dungeon-arena', team: 'humans', limit: 200, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
-    {slug: 'dungeon-arena', team: 'ogres', limit: 150, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
+    #{slug: 'brawlwood', team: 'humans', limit: 55, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
+    #{slug: 'brawlwood', team: 'ogres', limit: 40, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
+    #{slug: 'dungeon-arena', team: 'humans', limit: 200, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
+    #{slug: 'dungeon-arena', team: 'ogres', limit: 150, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
+    {slug: 'greed', team: 'humans', limit: 320, name: "Greed", original: "53558b5a9914f5a90d7ccddb", majorVersion: 0}
+    {slug: 'greed', team: 'ogres', limit: 300, name: "Greed", original: "53558b5a9914f5a90d7ccddb", majorVersion: 0}
   ]
   async.waterfall [
     (callback) -> async.map leaderboards, grabSessions, callback
     (sessionLists, callback) -> async.map collapseSessions(sessionLists), grabUser, callback
-    (users, callback) -> async.map users, emailUser, callback
+    (users, callback) -> async.map users, emailUserInitialRecruiting, callback
   ], (err, results) ->
     return console.log "Error:", err if err
     console.log "Looked at sending to #{results.length} users; sent to #{_.filter(results).length}."
@@ -38,13 +41,12 @@ grabSessions = (levelInfo, callback) ->
     submitted: true
   sortParameters = totalScore: -1
   selectString = 'totalScore creator'
-  query = LevelSession
-    .find(queryParameters)
-    .limit(levelInfo.limit)
-    .sort(sortParameters)
-    .select(selectString)
-    .lean()
-  query.exec (err, sessions) ->
+  LevelSession.aggregate [
+    {$match: queryParameters}
+    {$project: {totalScore: 1, creator: 1}}
+    {$sort: sortParameters}
+    {$limit: levelInfo.limit}
+  ], (err, sessions) ->
     return callback err if err
     for session, rank in sessions
       session.levelInfo = levelInfo
@@ -76,11 +78,11 @@ grabUser = (session, callback) ->
     callback null, user
 
 totalEmailsSent = 0
-emailUser = (user, callback) ->
+emailUserInitialRecruiting = (user, callback) ->
   #return callback null, false if user.emails?.anyNotes?.enabled is false  # TODO: later, uncomment to obey also "anyNotes" when that's untangled
   return callback null, false if user.emails?.recruitNotes?.enabled is false
   return callback null, false if user.email in alreadyEmailed
-  return callback null, false if DEBUGGING and (totalEmailsSent > 1 or Math.random() > 0.1)
+  return callback null, false if DEBUGGING and (totalEmailsSent > 1 or Math.random() > 0.05)
   ++totalEmailsSent
   name = if user.firstName and user.lastName then "#{user.firstName}" else user.name
   name = "Wizard" if not name or name is "Anoner"
@@ -96,9 +98,69 @@ emailUser = (user, callback) ->
       level_name: user.session.levelInfo.name
       place: "##{user.session.rank}"  # like "#31"
       level_race: team
+      ladder_link: "http://codecombat.com/play/ladder/#{user.session.levelInfo.name.toLowerCase()}"
   sendwithus.api.send context, (err, result) ->
     return callback err if err
     callback null, user
 
+
+sendTournamentResultsEmail = ->
+  winners = tournamentResults.greed.humans.concat tournamentResults.greed.ogres
+  async.waterfall [
+    (callback) -> async.map winners, grabSession, callback
+    (winners, callback) -> async.map winners, grabEmail, callback
+    (winners, callback) -> async.map winners, emailUserTournamentResults, callback
+  ], (err, results) ->
+    return console.log "Error:", err if err
+    console.log "Looked at sending to #{results.length} users; sent to #{_.filter(results).length}."
+    console.log "Sent to: ['#{(user.email for user in results when user).join('\', \'')}']"
+
+grabSession = (winner, callback) ->
+  LevelSession.findOne(_id: winner.sessionID).select('creator').lean().exec (err, session) ->
+    return callback err if err
+    winner.userID = session.creator
+    callback null, winner
+
+grabEmail = (winner, callback) ->
+  User.findOne(_id: winner.userID).select('email').lean().exec (err, user) ->
+    return callback err if err
+    winner.email = user.email
+    callback null, winner
+
+emailUserTournamentResults = (winner, callback) ->
+  return callback null, false if DEBUGGING and (winner.team is 'humans' or totalEmailsSent > 1)
+  ++totalEmailsSent
+  name = winner.name
+  team = winner.team.substr(0, winner.team.length - 1)
+  context =
+    email_id: sendwithus.templates.greed_tournament_rank
+    recipient:
+      address: if DEBUGGING then 'nick@codecombat.com' else winner.email
+      name: name
+    email_data:
+      userID: winner.userID
+      name: name
+      level_name: "Greed"
+      wins: winner.wins
+      ties: {humans: 377, ogres: 407}[winner.team] - winner.wins - winner.losses
+      losses: winner.losses
+      rank: winner.rank
+      team_name: team
+      ladder_url: "http://codecombat.com/play/ladder/greed#winners"
+      top3: winner.rank <= 3
+      top5: winner.rank <= 5
+      top10: winner.rank <= 10
+      top40: winner.rank <= 40
+      top100: winner.rank <= 100
+  sendwithus.api.send context, (err, result) ->
+    return callback err if err
+    callback null, winner
+
+
 serverSetup.connectToDatabase()
-sendInitialRecruitingEmail()
+
+fn = process.argv[2]
+try
+  eval fn + '()'
+catch err
+  console.log "Error running #{fn}", err

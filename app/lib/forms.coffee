@@ -34,5 +34,5 @@ module.exports.applyErrorsToForm = (el, errors) ->
 
 module.exports.clearFormAlerts = (el) ->
   $('.has-error', el).removeClass('has-error')
-  $('.alert', el).remove()
+  $('.alert.alert-danger', el).remove()
   el.find('.help-block.error-help-block').remove()

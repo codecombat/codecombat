@@ -18,6 +18,11 @@ definitionSchemas =
   'misc': require './schemas/definitions/misc'
 
 init = ->
+  path = document.location.pathname
+  testing = path.startsWith '/test'
+  demoing = path.startsWith '/demo'
+  initializeServices() unless testing or demoing
+ 
   # Set up Backbone.Mediator schemas
   setUpDefinitions()
   setUpChannels()
@@ -28,7 +33,6 @@ init = ->
 
   treemaExt = require 'treema-ext'
   treemaExt.setup()
-  filepicker.setKey('AvlkNoldcTOU4PvKi2Xm7z')
 
 $ -> init()
   
@@ -60,3 +64,18 @@ setUpChannels = ->
 setUpDefinitions = ->
   for definition of definitionSchemas
     Backbone.Mediator.addDefSchemas definitionSchemas[definition]
+
+initializeServices = ->
+  services = [
+    './lib/services/filepicker'
+    './lib/services/segmentio'
+    './lib/services/olark'
+    './lib/services/facebook'
+    './lib/services/google'
+    './lib/services/twitter'
+    './lib/services/linkedin'
+  ]
+
+  for service in services
+    service = require service
+    service()

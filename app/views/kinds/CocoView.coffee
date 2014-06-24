@@ -4,6 +4,7 @@ CocoClass = require 'lib/CocoClass'
 loadingScreenTemplate = require 'templates/loading'
 loadingErrorTemplate = require 'templates/loading_error'
 
+lastToggleModalCall = 0
 visibleModal = null
 waitingModal = null
 classCount = 0
@@ -15,9 +16,6 @@ module.exports = class CocoView extends Backbone.View
   template: -> ''
 
   events:
-    'click a': 'toggleModal'
-    'click button': 'toggleModal'
-    'click li': 'toggleModal'
     'click .retry-loading-resource': 'onRetryResource'
     'click .retry-loading-request': 'onRetryRequest'
 
@@ -46,7 +44,6 @@ module.exports = class CocoView extends Backbone.View
     @subviews = {}
     @listenToShortcuts()
     @updateProgressBar = _.debounce @updateProgressBar, 100
-    @toggleModal = _.debounce @toggleModal, 100
     # Backbone.Mediator handles subscription setup/teardown automatically
 
     @listenTo(@supermodel, 'loaded-all', @onLoaded)
@@ -115,6 +112,11 @@ module.exports = class CocoView extends Backbone.View
     context
 
   afterRender: ->
+    @renderScrollbar()
+
+  renderScrollbar: ->
+    #Defer the call till the content actually gets rendered, nanoscroller requires content to be visible
+    _.defer => @$el.find('.nano').nanoScroller() unless @destroyed
 
   updateProgress: (progress) ->
     @loadProgress.progress = progress if progress > @loadProgress.progress
@@ -144,6 +146,8 @@ module.exports = class CocoView extends Backbone.View
     $(e.target).closest('.loading-error-alert').remove()
 
   # Modals
+  
+  @lastToggleModalCall = 0
 
   toggleModal: (e) ->
     if $(e.currentTarget).prop('target') is '_blank'
@@ -153,6 +157,7 @@ module.exports = class CocoView extends Backbone.View
     return unless elem.data('toggle') is 'coco-modal'
     target = elem.data('target')
     view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to
+    e.stopPropagation()
     @openModalView(view)
 
   openModalView: (modalView, softly=false) ->
@@ -259,7 +264,8 @@ module.exports = class CocoView extends Backbone.View
 
   # Utilities
 
-  getQueryVariable: (param, defaultValue) ->
+  getQueryVariable: (param, defaultValue) -> CocoView.getQueryVariable(param, defaultValue)
+  @getQueryVariable: (param, defaultValue) ->
     query = document.location.search.substring 1
     pairs = (pair.split("=") for pair in query.split "&")
     for pair in pairs when pair[0] is param

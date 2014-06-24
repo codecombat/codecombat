@@ -6,9 +6,8 @@ urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')
 
 describe '/auth/whoami', ->
-  http = require 'http'
   it 'returns 200', (done) ->
-    http.get(getURL('/auth/whoami'), (response) ->
+    request.get(getURL('/auth/whoami'), (err, response) ->
       expect(response).toBeDefined()
       expect(response.statusCode).toBe(200)
       done()

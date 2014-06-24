@@ -9,7 +9,7 @@ describe 'LevelSystem', ->
       constructor: (world) ->
         super world
     """
-    language: 'coffeescript'
+    codeLanguage: 'coffeescript'
     permissions:simplePermissions
     dependencies: []
     propertyDocumentation: []
@@ -37,7 +37,7 @@ describe 'LevelSystem', ->
         expect(body.name).toBe(system.name)
         expect(body.description).toBe(system.description)
         expect(body.code).toBe(system.code)
-        expect(body.language).toBe(system.language)
+        expect(body.codeLanguage).toBe(system.codeLanguage)
         expect(body.__v).toBe(0)
         expect(body.creator).toBeDefined()
         expect(body.original).toBeDefined()
@@ -71,7 +71,7 @@ describe 'LevelSystem', ->
         expect(body.slug).toBeDefined()
         expect(body.description).toBe(systems[0].description)
         expect(body.code).toBe(systems[0].code)
-        expect(body.language).toBe(systems[0].language)
+        expect(body.codeLanguage).toBe(systems[0].codeLanguage)
         expect(body.__v).toBe(0)
         expect(body.official).toBeDefined()
         expect(body.creator).toBeDefined()
@@ -123,12 +123,12 @@ describe 'LevelSystem', ->
 
   it ' can\'t be requested with HTTP HEAD method', (done) ->
     request.head {uri:url+'/'+systems[0]._id}, (err, res) ->
-      expect(res.statusCode).toBe(404)
+      expect(res.statusCode).toBe(405)
       done()
 
   it ' can\'t be requested with HTTP DEL method', (done) ->
     request.del {uri:url+'/'+systems[0]._id}, (err, res) ->
-      expect(res.statusCode).toBe(404)
+      expect(res.statusCode).toBe(405)
       done()
 
   it 'get schema', (done) ->

@@ -6,6 +6,11 @@ module.exports = class ModalView extends CocoView
   closesOnClickOutside: true
   modalWidthPercent: null
   plain: false
+  
+  events:
+    'click a': 'toggleModal'
+    'click button': 'toggleModal'
+    'click li': 'toggleModal'
 
   shortcuts:
     'esc': 'hide'

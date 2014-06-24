@@ -2,6 +2,7 @@ ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/versions'
 tableTemplate = require 'templates/kinds/table'
 DeltaView = require 'views/editor/delta'
+PatchModal = require 'views/editor/patch_modal'
 
 class VersionsViewCollection extends Backbone.Collection
   url: ""
@@ -49,7 +50,7 @@ module.exports = class VersionsModalView extends ModalView
     
     laterVersion = new @model(_id:$(rows[0]).val())
     earlierVersion = new @model(_id:$(rows[1]).val())
-    @deltaView = new DeltaView({model:earlierVersion, comparisonModel:laterVersion, skipPaths:['_id','version', 'commitMessage', 'parent', 'created', 'slug', 'index']})
+    @deltaView = new DeltaView({model:earlierVersion, comparisonModel:laterVersion, skipPaths:PatchModal.DOC_SKIP_PATHS})
     @insertSubView(@deltaView, deltaEl)
 
   getRenderData: (context={}) ->

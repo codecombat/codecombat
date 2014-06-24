@@ -6,6 +6,7 @@ Range = ace.require("ace/range").Range
 Problem = require './problem'
 SpellDebugView = require './spell_debug_view'
 SpellToolbarView = require './spell_toolbar_view'
+LevelComponent = require 'models/LevelComponent'
 
 module.exports = class SpellView extends View
   id: 'spell-view'
@@ -18,9 +19,10 @@ module.exports = class SpellView extends View
   editModes:
     'javascript': 'ace/mode/javascript'
     'coffeescript': 'ace/mode/coffee'
+    'python': 'ace/mode/python'
     'clojure': 'ace/mode/clojure'
     'lua': 'ace/mode/lua'
-    'python': 'ace/mode/python'
+    'io': 'ace/mode/text'
 
   keyBindings:
     'default': null
@@ -34,6 +36,7 @@ module.exports = class SpellView extends View
     'surface:coordinate-selected': 'onCoordinateSelected'
     'god:new-world-created': 'onNewWorld'
     'god:user-code-problem': 'onUserCodeProblem'
+    'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
     'tome:reload-code': 'onCodeReload'
     'tome:spell-changed': 'onSpellChanged'
@@ -43,6 +46,7 @@ module.exports = class SpellView extends View
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
     'tome:change-language': 'onChangeLanguage'
     'tome:change-config': 'onChangeEditorConfig'
+    'tome:update-snippets': 'addZatannaSnippets'
     'spell-beautify': 'onSpellBeautify'
 
   events:
@@ -91,6 +95,10 @@ module.exports = class SpellView extends View
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
+    @zatanna = new Zatanna @ace,
+      liveCompletion: aceConfig.liveCompletion ? true
+      completers:
+        keywords: false
 
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
@@ -163,6 +171,26 @@ module.exports = class SpellView extends View
     @ace.setValue @spell.source
     @ace.clearSelection()
 
+  addZatannaSnippets: (e) ->
+    snippetEntries = []
+    for owner, props of e.propGroups
+      for prop in props
+        doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
+          return true if doc.owner is owner
+          return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
+        console.log 'could not find doc for', prop, 'from', e.allDocs['__' + prop], 'for', owner, 'of', e.propGroups unless doc
+        doc ?= prop
+        if doc.snippets?
+          entry = 
+            content: doc.snippets[@spell.language].code
+            name: doc.name
+            tabTrigger: doc.snippets[@spell.language].tab
+          snippetEntries.push entry
+
+    window.zatanna = @zatanna
+    window.snippetEntries = snippetEntries
+    @zatanna.addSnippets snippetEntries, @spell.language
+
   onMultiplayerChanged: ->
     if @session.get('multiplayer')
       @createFirepad()
@@ -223,6 +251,7 @@ module.exports = class SpellView extends View
     @debugView.thang = @thang
     @toolbarView?.toggleFlow false
     @updateAether false, false
+    # @addZatannaSnippets()
     @highlightCurrentLine()
 
   cast: (preload=false) ->
@@ -440,9 +469,18 @@ module.exports = class SpellView extends View
       @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
       @updateAether false, false
 
+  onNonUserCodeProblem: (e) ->
+    return unless @spellThang
+    problem = @spellThang.aether.createUserCodeProblem type: 'runtime', kind: 'Unhandled', message: "Unhandled error: #{e.problem.message}"
+    @spellThang.aether.addProblem problem
+    @spellThang.castAether?.addProblem problem
+    @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
+    @updateAether false, false  # TODO: doesn't work, error doesn't display
+
   onInfiniteLoop: (e) ->
     return unless @spellThang
     @spellThang.aether.addProblem e.problem
+    @spellThang.castAether?.addProblem e.problem
     @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
     @updateAether false, false
 
@@ -606,10 +644,15 @@ module.exports = class SpellView extends View
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
     @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    @zatanna.set 'liveCompletion', (aceConfig.liveCompletion ? false)
 
   onChangeLanguage: (e) ->
-    if @spell.canWrite()
-      @aceSession.setMode @editModes[e.language]
+    return unless @spell.canWrite()
+    @aceSession.setMode @editModes[e.language]
+    @zatanna.set 'language', @editModes[e.language].substr('ace/mode/')
+    wasDefault = @getSource() is @spell.originalSource
+    @spell.setLanguage e.language
+    @reloadCode true if wasDefault
 
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>

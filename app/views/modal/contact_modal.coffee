@@ -33,3 +33,4 @@ module.exports = class ContactView extends View
     return forms.applyErrorsToForm @$el, res.errors unless res.valid
     window.tracker?.trackEvent 'Sent Feedback', message: contactMessage
     sendContactMessage contactMessage, @$el
+    $.post "/db/user/#{me.id}/track/contact_codecombat"

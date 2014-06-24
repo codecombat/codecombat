@@ -5,7 +5,7 @@ module.exports = class ScriptModule extends CocoClass
   scrubbingTime = 0
   movementTime = 0
   
-  constructor: (@noteGroup, @view) ->
+  constructor: (@noteGroup) ->
     super()
     if not @noteGroup.prepared
       @analyzeNoteGroup(noteGroup)

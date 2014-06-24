@@ -1,5 +1,6 @@
 module.exports.thangNames = thangNames =
   "Soldier M": [
+    "Duke"
     "William"
     "Lucas"
     "Marcus"
@@ -66,6 +67,7 @@ module.exports.thangNames = thangNames =
     "Coco"
     "Buffy"
     "Allankrita"
+    "Kay"
   ]
   "Peasant M": [
     "Yorik"
@@ -355,6 +357,8 @@ module.exports.thangNames = thangNames =
     "Hank"
     "Jeph"
     "Neville"
+    "Alphonse"
+    "Edward"
   ]
   "Captain": [
     "Anya"
@@ -367,4 +371,5 @@ module.exports.thangNames = thangNames =
     "Jane"
     "Lia"
     "Hardcastle"
+    "Leona"
   ]

@@ -6,6 +6,10 @@ CocoView = require './CocoView'
 {logoutUser, me} = require('lib/auth')
 locale = require 'locale/locale'
 
+Achievement = require '../../models/Achievement'
+User = require '../../models/User'
+# TODO remove
+
 filterKeyboardEvents = (allowedEvents, func) ->
   return (splat...) ->
     e = splat[0]
@@ -18,6 +22,70 @@ module.exports = class RootView extends CocoView
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
     'click .auth-button': 'onClickAuthbutton'
+    'click a': 'toggleModal'
+    'click button': 'toggleModal'
+    'click li': 'toggleModal'
+
+  subscriptions:
+    'achievements:new': 'handleNewAchievements'
+
+
+  showNewAchievement: (achievement, earnedAchievement) ->
+    currentLevel = me.level()
+    nextLevel = currentLevel + 1
+    currentLevelExp = User.expForLevel(currentLevel)
+    nextLevelExp = User.expForLevel(nextLevel)
+    totalExpNeeded = nextLevelExp - currentLevelExp
+    expFunction = achievement.getExpFunction()
+    currentExp = me.get('points')
+    previousExp = currentExp - achievement.get('worth')
+    previousExp = expFunction(earnedAchievement.get('previouslyAchievedAmount')) * achievement.get('worth') if achievement.isRepeatable()
+    achievedExp = currentExp - previousExp
+    leveledUp = currentExp - achievedExp < currentLevelExp
+    alreadyAchievedPercentage = 100 * (previousExp - currentLevelExp) / totalExpNeeded
+    newlyAchievedPercentage = if leveledUp then 100 * (currentExp - currentLevelExp) / totalExpNeeded else  100 * achievedExp / totalExpNeeded
+
+    console.debug "Current level is #{currentLevel} (#{currentLevelExp} xp), next level is #{nextLevel} (#{nextLevelExp} xp)."
+    console.debug "Need a total of #{nextLevelExp - currentLevelExp}, already had #{previousExp} and just now earned #{achievedExp} totalling on #{currentExp}"
+
+    alreadyAchievedBar = $("<div class='progress-bar progress-bar-warning' style='width:#{alreadyAchievedPercentage}%'></div>")
+    newlyAchievedBar = $("<div data-toggle='tooltip' class='progress-bar progress-bar-success' style='width:#{newlyAchievedPercentage}%'></div>")
+    emptyBar = $("<div data-toggle='tooltip' class='progress-bar progress-bar-white' style='width:#{100 - newlyAchievedPercentage - alreadyAchievedPercentage}%'></div>")
+    progressBar = $('<div class="progress" data-toggle="tooltip"></div>').append(alreadyAchievedBar).append(newlyAchievedBar).append(emptyBar)
+    message = if (currentLevel isnt 1) and leveledUp then "Reached level #{currentLevel}!" else null
+
+    alreadyAchievedBar.tooltip(title: "#{currentExp} XP in total")
+    newlyAchievedBar.tooltip(title: "#{achievedExp} XP earned")
+    emptyBar.tooltip(title: "#{nextLevelExp - currentExp} XP until level #{nextLevel}")
+
+    # TODO a default should be linked here
+    imageURL = '/file/' + achievement.get('icon')
+    data =
+      title: achievement.get('name')
+      image: $("<img src='#{imageURL}' />")
+      description: achievement.get('description')
+      progressBar: progressBar
+      earnedExp: "+ #{achievedExp} XP"
+      message: message
+
+    options =
+      autoHideDelay: 10000
+      globalPosition: 'bottom right'
+      showDuration: 400
+      style: 'achievement'
+      autoHide: true
+      clickToHide: true
+
+    $.notify( data, options )
+
+  handleNewAchievements: (earnedAchievements) ->
+    _.each(earnedAchievements.models, (earnedAchievement) =>
+      achievement = new Achievement(_id: earnedAchievement.get('achievement'))
+      console.log achievement
+      achievement.fetch(
+        success: (achievement) => @showNewAchievement(achievement, earnedAchievement)
+      )
+    )
 
   logoutAccount: ->
     logoutUser($('#login-email').val())
@@ -34,10 +102,6 @@ module.exports = class RootView extends CocoView
   showLoading: ($el) ->
     $el ?= @$el.find('.main-content-area')
     super($el)
-
-  renderScrollbar: ->
-    $('.nano-pane').css('display','none')
-    $ -> $('.nano').nanoScroller()
 
   afterInsert: ->
     # force the browser to scroll to the hash
@@ -86,7 +150,7 @@ module.exports = class RootView extends CocoView
 
   saveLanguage: (newLang) ->
     me.set('preferredLanguage', newLang)
-    res = me.save()
+    res = me.patch()
     return unless res
     res.error ->
       errors = JSON.parse(res.responseText)

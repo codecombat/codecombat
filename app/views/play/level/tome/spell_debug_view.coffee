@@ -14,6 +14,7 @@ module.exports = class DebugView extends View
   subscriptions:
     'god:new-world-created': 'onNewWorld'
     'god:debug-value-return': 'handleDebugValue'
+    'god:debug-world-load-progress-changed': 'handleWorldLoadProgressChanged'
     'tome:spell-shown': 'changeCurrentThangAndSpell'
     'tome:cast-spells': 'onTomeCast'
     'surface:frame-changed': 'onFrameChanged'
@@ -26,6 +27,7 @@ module.exports = class DebugView extends View
     @ace = options.ace
     @thang = options.thang
     @spell = options.spell
+    @progress = 0
     @variableStates = {}
     @globals = {Math: Math, _: _, String: String, Number: Number, Array: Array, Object: Object}  # ... add more as documented
     for className, serializedClass of serializedClasses
@@ -36,6 +38,7 @@ module.exports = class DebugView extends View
     @lastFrameRequested = -1
     @workerIsSimulating = false
     @spellHasChanged = false
+    @debouncedTooltipUpdate = _.debounce @updateTooltipProgress, 100
     
 
 
@@ -50,15 +53,30 @@ module.exports = class DebugView extends View
 
 
   setTooltipKeyAndValue: (key, value) =>
+    @hideProgressBarAndShowText()
     message = "Time: #{@calculateCurrentTimeString()}\n#{key}: #{value}"
     @$el.find("code").text message
     @$el.show().css(@pos)
 
   setTooltipText: (text) =>
     #perhaps changing styling here in the future
+    @hideProgressBarAndShowText()
     @$el.find("code").text text
     @$el.show().css(@pos)
-
+    
+  setTooltipProgress: (progress) =>
+    @showProgressBarAndHideText()
+    @$el.find(".progress-bar").css('width',progress + '%').attr 'aria-valuenow', progress
+    @$el.show().css(@pos)
+    
+  showProgressBarAndHideText: ->
+    @$el.find("pre").css("display","none")
+    @$el.find(".progress").css("display","block")
+    
+  hideProgressBarAndShowText: ->
+    @$el.find("pre").css("display","block")
+    @$el.find(".progress").css("display","none")
+    
   onTomeCast: ->
     @invalidateCache()
 
@@ -91,7 +109,9 @@ module.exports = class DebugView extends View
     if @variableChain and not key is @variableChain.join(".") then return
     @setTooltipKeyAndValue(key,value)
 
-
+  handleWorldLoadProgressChanged: (data) ->
+    @progress = data.progress
+    
   afterRender: ->
     super()
     @ace.on "mousemove", @onMouseMove
@@ -140,7 +160,12 @@ module.exports = class DebugView extends View
   onMouseOut: (e) ->
     @variableChain = @markerRange = null
     @update()
-
+    
+  updateTooltipProgress: =>
+    if @variableChain and @progress < 1
+      @setTooltipProgress(@progress * 100)
+      _.delay @updateTooltipProgress, 100
+      
   onNewWorld: (e) ->
     @thang = @options.thang = e.world.thangMap[@thang.id] if @thang
     @frameRate = e.world.frameRate
@@ -148,6 +173,7 @@ module.exports = class DebugView extends View
   onFrameChanged: (data) ->
     @currentFrame = data.frame
     @frameRate = data.world.frameRate
+    
   onSpellChangedCalculation: (data) ->
     @spellHasChanged = data.hasChangedSignificantly
     
@@ -159,8 +185,8 @@ module.exports = class DebugView extends View
         @setTooltipKeyAndValue(@variableChain.join("."),@stringifyValue(@thang[@variableChain[1]],0))
       else if @variableChain.length is 1 and Aether.globals[@variableChain[0]]
         @setTooltipKeyAndValue(@variableChain.join("."),@stringifyValue(Aether.globals[@variableChain[0]],0))
-      else if @workerIsSimulating
-        @setTooltipText("World is simulating, please wait...")
+      else if @workerIsSimulating and @progress < 1
+        @debouncedTooltipUpdate()
       else if @currentFrame is @lastFrameRequested and (cacheValue = @retrieveValueFromCache(@thang.id, @spell.name, @variableChain, @currentFrame))
         @setTooltipKeyAndValue(@variableChain.join("."),cacheValue)
       else
@@ -171,7 +197,8 @@ module.exports = class DebugView extends View
           frame: @currentFrame
         if @currentFrame isnt @lastFrameRequested then @workerIsSimulating = true
         @lastFrameRequested = @currentFrame
-        @setTooltipText("Finding value...")
+        @progress = 0
+        @debouncedTooltipUpdate()
     else
       @$el.hide()
     if @variableChain?.length is 2

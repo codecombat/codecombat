@@ -100,6 +100,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         @actions = @thangType.getActions()
         @buildFromSpriteSheet result
         @createMarks()
+        @queueAction 'idle'
 
   finishSetup: ->
     @updateBaseScale()
@@ -363,9 +364,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   updateAlpha: ->
     @imageObject.alpha = if @hiding then 0 else 1
     return unless @thang?.alpha?
+    return if @imageObject.alpha is @thang.alpha
     @imageObject.alpha = @thang.alpha
     if @options.showInvisible
       @imageObject.alpha = Math.max 0.5, @imageObject.alpha
+    mark.updateAlpha @thang.alpha for name, mark of @marks
+    @healthBar?.alpha = @thang.alpha
 
   updateRotation: (imageObject) ->
     rotationType = @thangType.get('rotationType')
@@ -501,7 +505,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return if @letterboxOn
     p = @imageObject
     p = p.parent while p.parent
-    newEvent = sprite: @, thang: @thang, originalEvent: e, canvas:p
+    newEvent = sprite: @, thang: @thang, originalEvent: e, canvas:p.canvas
     @trigger ourEventName, newEvent
     Backbone.Mediator.publish ourEventName, newEvent
 

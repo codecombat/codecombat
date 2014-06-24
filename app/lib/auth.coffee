@@ -5,11 +5,12 @@ BEEN_HERE_BEFORE_KEY = 'beenHereBefore'
 
 init = ->
   module.exports.me = window.me = new User(window.userObject) # inserted into main.html
+  module.exports.me.onLoaded()
   trackFirstArrival()
   if me and not me.get('testGroupNumber')?
     # Assign testGroupNumber to returning visitors; new ones in server/routes/auth
     me.set 'testGroupNumber', Math.floor(Math.random() * 256)
-    me.save()
+    me.patch()
 
   Backbone.listenTo(me, 'sync', Backbone.Mediator.publish('me:synced', {me:me}))
 

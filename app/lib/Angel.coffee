@@ -8,8 +8,8 @@ CocoClass = require 'lib/CocoClass'
 module.exports = class Angel extends CocoClass
   @nicks: ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger']
 
-  infiniteLoopIntervalDuration: 2500  # check this often
-  infiniteLoopTimeoutDuration: 7500  # wait this long between checks
+  infiniteLoopIntervalDuration: 10000  # check this often; must be longer than other two combined
+  infiniteLoopTimeoutDuration: 7500  # wait this long for a response when checking
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
 
   constructor: (@shared) ->
@@ -37,7 +37,11 @@ module.exports = class Angel extends CocoClass
   log: (args...) -> console.log "|#{@shared.godNick}'s #{@nick}|", args...
 
   testWorker: =>
-    @worker.postMessage func: 'reportIn' unless @destroyed
+    return if @destroyed
+    clearTimeout @condemnTimeout
+    @condemnTimeout = _.delay @infinitelyLooped, @infiniteLoopTimeoutDuration
+    @say "Let's give it", @infiniteLoopTimeoutDuration, "to not loop."
+    @worker.postMessage func: 'reportIn'
 
   onWorkerMessage: (event) =>
     return @say 'Currently aborting old work.' if @aborting and event.data.type isnt 'abort'
@@ -53,8 +57,8 @@ module.exports = class Angel extends CocoClass
       # We watch over the worker as it loads the world frames to make sure it doesn't infinitely loop.
       when 'start-load-frames'
         clearTimeout @condemnTimeout
-        @condemnTimeout = _.delay @infinitelyLooped, @infiniteLoopTimeoutDuration
       when 'report-in'
+        @say "Worker reported in."
         clearTimeout @condemnTimeout
       when 'end-load-frames'
         clearTimeout @condemnTimeout
@@ -67,6 +71,14 @@ module.exports = class Angel extends CocoClass
         @log event.data.args...
       when 'user-code-problem'
         Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
+
+      # We have to abort like an infinite loop if we see one of these; they're not really recoverable
+      when 'non-user-code-problem'
+        Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem
+        if @shared.firstWorld
+          @infinitelyLooped()  # For now, this should do roughly the right thing if it happens during load.
+        else
+          @fireWorker()
 
       # Either the world finished simulating successfully, or we abort the worker.
       when 'new-world'
@@ -117,6 +129,7 @@ module.exports = class Angel extends CocoClass
     @worker.postMessage func: 'finalizePreload'
 
   infinitelyLooped: =>
+    @say "On infinitely looped! Aborting?", @aborting
     return if @aborting
     problem = type: "runtime", level: "error", id: "runtime_InfiniteLoop", message: "Code never finished. It's either really slow or has an infinite loop."
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
@@ -134,6 +147,7 @@ module.exports = class Angel extends CocoClass
       @shared.busyAngels.push @
       @worker.postMessage func: 'runWorld', args: @work
       clearTimeout @purgatoryTimer
+      @say "Infinite loop timer started at interval of", @infiniteLoopIntervalDuration
       @purgatoryTimer = setInterval @testWorker, @infiniteLoopIntervalDuration
     else
       @say "No work to do."
@@ -198,6 +212,7 @@ module.exports = class Angel extends CocoClass
   doSimulateWorld: (work) ->
     work.t1 = now()
     Math.random = work.testWorld.rand.randf  # so user code is predictable
+    Aether.replaceBuiltin("Math", Math)
     i = 0
     while i < work.testWorld.totalFrames
       frame = work.testWorld.getFrame i++

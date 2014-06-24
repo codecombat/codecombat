@@ -51,7 +51,12 @@ var console = {
         self.postMessage({type: 'console-log', args: args, id: self.workerID});
       }
       catch(error) {
-        self.postMessage({type: 'console-log', args: ["Could not post log: " + args, error.toString(), error.stack, error.stackTrace], id: self.workerID});
+        try {
+          self.postMessage({type: 'console-log', args: ["Could not post log: " + args, error.toString(), error.stack, error.stackTrace], id: self.workerID});
+        }
+        catch(error2) {
+          self.postMessage({type: 'console-log', args: ["Wow, we had a serious problem trying to console.log something."]});
+        }
       }
     }
   }};  // so that we don't crash when debugging statements happen
@@ -60,11 +65,14 @@ self.console = console;
 
 self.importScripts('/javascripts/world.js', '/javascripts/lodash.js', '/javascripts/aether.js');
 
-// We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
-Object.defineProperty(self, "XMLHttpRequest", {
-  get: function() { throw new Error("Access to XMLHttpRequest is forbidden."); },
-  configurable: false
-});
+var restricted = ["XMLHttpRequest", "importScripts", "Worker"];
+for(var i = 0; i < restricted.length; ++i) {
+  // We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
+  Object.defineProperty(self, restricted[i], {
+    get: function() { throw new Error("Access to that global property is forbidden."); },
+    configurable: false
+  });
+}
 
 self.transferableSupported = function transferableSupported() {
   if (typeof self._transferableSupported !== 'undefined') return self._transferableSupported;
@@ -266,7 +274,6 @@ self.enableFlowOnThangSpell = function (thangID, spellID, userCodeMap) {
 self.setupDebugWorldToRunUntilFrame = function (args) {
     self.debugPostedErrors = {};
     self.debugt0 = new Date();
-    self.debugPostedErrors = false;
     self.logsLogged = 0;
 
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
@@ -290,6 +297,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
             return;
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
+        Aether.replaceBuiltin("Math", Math);
     }
     self.debugWorld.totalFrames = args.frame; //hack to work around error checking
     self.currentDebugWorldFrame = args.frame;
@@ -324,7 +332,6 @@ self.debugAbort = function () {
 self.runWorld = function runWorld(args) {
   self.postedErrors = {};
   self.t0 = new Date();
-  self.postedErrors = false;
   self.logsLogged = 0;
 
   try {
@@ -345,6 +352,7 @@ self.runWorld = function runWorld(args) {
     return;
   }
   Math.random = self.world.rand.randf;  // so user code is predictable
+  Aether.replaceBuiltin("Math", Math);
   self.postMessage({type: 'start-load-frames'});
   self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
 };
@@ -394,6 +402,7 @@ self.onWorldError = function onWorldError(error) {
   }
   else {
     console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
+    self.postMessage({type: 'non-user-code-problem', problem: {message: error.toString()}});
   }
   /*  We don't actually have the recoverable property any more; hmm
   if(!error.recoverable) {

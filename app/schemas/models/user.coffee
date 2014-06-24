@@ -60,11 +60,12 @@ UserSchema = c.object {},
     colorConfig: c.object {additionalProperties: c.colorConfig()}
 
   aceConfig: c.object {},
-    language: {type: 'string', 'default': 'javascript', 'enum': ['javascript', 'coffeescript', 'clojure', 'lua', 'python']}
+    language: {type: 'string', 'default': 'javascript', 'enum': ['javascript', 'coffeescript', 'python', 'clojure', 'lua', 'io']}
     keyBindings: {type: 'string', 'default': 'default', 'enum': ['default', 'vim', 'emacs']}
     invisibles: {type: 'boolean', 'default': false}
     indentGuides: {type: 'boolean', 'default': false}
     behaviors: {type: 'boolean', 'default': false}
+    liveCompletion: {type: 'boolean', 'default': true}
 
   simulatedBy: {type: 'integer', minimum: 0, default: 0}
   simulatedFor: {type: 'integer', minimum: 0, default: 0}
@@ -77,8 +78,8 @@ UserSchema = c.object {},
     name: c.shortString {title: 'Name', description: 'Name you want employers to see, like "Nick Winter".'}
     city: c.shortString {title: 'City', description: 'City you want to work in (or live in now), like "San Francisco" or "Lubbock, TX".', default: 'Defaultsville, CA', format: 'city'}
     country: c.shortString {title: 'Country', description: 'Country you want to work in (or live in now), like "USA" or "France".', default: 'USA', format: 'country'}
-    skills: c.array {title: 'Skills', description: 'Tag relevant developer skills in order of proficiency. Employers will see the first five at a glance.', default: ['javascript'], minItems: 1, maxItems: 30, uniqueItems: true},
-      {type: 'string', minLength: 1, maxLength: 20, description: 'Ex.: "objective-c", "mongodb", "rails", "android", "javascript"', format: 'skill'}
+    skills: c.array {title: 'Skills', description: 'Tag relevant developer skills in order of proficiency.', default: ['javascript'], minItems: 1, maxItems: 30, uniqueItems: true},
+      {type: 'string', minLength: 1, maxLength: 50, description: 'Ex.: "objective-c", "mongodb", "rails", "android", "javascript"', format: 'skill'}
     experience: {type: 'integer', title: 'Years of Experience', minimum: 0, description: 'How many years of professional experience (getting paid) developing software do you have?'}
     shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.', default: 'Programmer seeking to build great software.'}
     longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'Describe yourself to potential employers. Keep it short and to the point. We recommend outlining the position that would most interest you. Tasteful markdown okay; 600 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
@@ -103,7 +104,7 @@ UserSchema = c.object {},
         link: c.url {title: 'Link', description: 'Link to the project.', default: 'http://example.com'}
     links: c.array {title: 'Personal and Social Links', description: 'Link any other sites or profiles you want to highlight, like your GitHub, your LinkedIn, or your blog.'},
       c.object {title: 'Link', description: 'A link to another site you want to highlight, like your GitHub, your LinkedIn, or your blog.', required: ['name', 'link']},
-        name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "Twitter"', format: 'link-name'}
+        name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "GitHub"', format: 'link-name'}
         link: c.url {title: 'Link', description: 'The URL.', default: 'http://example.com'}
     photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image if you want to show a different profile picture to employers than your normal avatar.'}
 
@@ -113,7 +114,10 @@ UserSchema = c.object {},
   signedEmployerAgreement: c.object {},
     linkedinID: c.shortString {title:"LinkedInID", description: "The user's LinkedIn ID when they signed the contract."}
     date: c.date {title: "Date signed employer agreement"}
-    data: c.object {description: "Cached LinkedIn data slurped from profile."}
+    data: c.object {description: "Cached LinkedIn data slurped from profile.", additionalProperties: true}
+  points: {type:'number'}
+  activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
+
 
 
 c.extendBasicProperties UserSchema, 'user'

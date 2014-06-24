@@ -9,7 +9,7 @@ LevelComponentHandler = class LevelComponentHandler extends Handler
     'description'
     'code'
     'js'
-    'language'
+    'codeLanguage'
     'dependencies'
     'propertyDocumentation'
     'configSchema'

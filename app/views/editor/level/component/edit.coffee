@@ -8,7 +8,7 @@ SaveVersionModal = require 'views/modal/save_version_modal'
 module.exports = class LevelComponentEditView extends View
   id: "editor-level-component-edit-view"
   template: template
-  editableSettings: ['name', 'description', 'system', 'language', 'dependencies', 'propertyDocumentation', 'i18n']
+  editableSettings: ['name', 'description', 'system', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
 
   events:
     'click #done-editing-component-button': 'endEditing'
@@ -25,6 +25,7 @@ module.exports = class LevelComponentEditView extends View
     super options
     @levelComponent = @supermodel.getModelByOriginalAndMajorVersion LevelComponent, options.original, options.majorVersion or 0
     console.log "Couldn't get levelComponent for", options, "from", @supermodel.models unless @levelComponent
+    @onEditorChange = _.debounce @onEditorChange, 1000
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -95,6 +96,7 @@ module.exports = class LevelComponentEditView extends View
     @editor.on('change', @onEditorChange)
 
   onEditorChange: =>
+    return if @destroyed
     @levelComponent.set 'code', @editor.getValue()
     Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
     null

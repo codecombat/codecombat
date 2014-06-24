@@ -8,7 +8,7 @@ module.exports.setup = (app) ->
   app.all '/file*', (req, res) ->
     return fileGet(req, res) if req.route.method is 'get'
     return filePost(req, res) if req.route.method is 'post'
-    return errors.badMethod(res)
+    return errors.badMethod(res, ['GET', 'POST'])
 
 
 fileGet = (req, res) ->

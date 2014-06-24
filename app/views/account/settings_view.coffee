@@ -107,12 +107,13 @@ module.exports = class SettingsView extends View
     @grabData()
     res = me.validate()
     if res?
+      console.error "Couldn't save because of validation errors:", res
       forms.applyErrorsToForm(@$el, res)
       return
 
     return unless me.hasLocalChanges()
 
-    res = me.save()
+    res = me.patch()
     return unless res
     save = $('#save-button', @$el).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
       .removeClass('btn-danger').addClass('btn-success').show()
@@ -144,7 +145,7 @@ module.exports = class SettingsView extends View
     me.set 'name', $('#name', @$el).val()
     me.set 'email', $('#email', @$el).val()
     for emailName, enabled of @getSubscriptions()
-      me.setEmailSubscription emailName, enabled 
+      me.setEmailSubscription emailName, enabled
     me.set 'photoURL', @pictureTreema.get('/photoURL')
 
     adminCheckbox = @$el.find('#admin')

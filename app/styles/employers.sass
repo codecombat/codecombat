@@ -1,6 +1,32 @@
 #employers-view
-  #see-candidates
-    cursor: pointer
+
+  h1, h2, h3
+    font: Arial
+
+  .see-candidates-header
+    margin: 30px
+    text-align: center
+
+    #see-candidates
+      cursor: pointer
+
+  .employer_icon
+    width: 125px
+    float: left
+    margin: 0px 15px 15px 0px
+
+  .information_row
+    height: 150px
+    padding-right: 15px
+
+  #leftside
+    width: 500px
+    float: left
+
+  #rightside
+    width: 500px
+    float: left
+
   .tablesorter
     //img
     //  display: none
@@ -36,3 +62,10 @@
       min-width: 50px
     td:nth-child(7) select
       min-width: 100px
+
+#employers-view, #profile-view.viewed-by-employer
+  #outer-content-wrapper, #intermediate-content-wrapper, #inner-content-wrapper
+    background: #949494
+
+  .main-content-area
+    background-color: #EAEAEA

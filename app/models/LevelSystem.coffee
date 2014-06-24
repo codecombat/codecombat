@@ -21,8 +21,8 @@ module.exports = class LevelSystem extends CocoModel
     SystemNameLoader.setName @
 
   compile: (code) ->
-    if @get('language') and @get('language') isnt 'coffeescript'
-      return console.error("Can't compile", @get('language'), "-- only CoffeeScript.", @)
+    if @get('codeLanguage') and @get('codeLanguage') isnt 'coffeescript'
+      return console.error("Can't compile", @get('codeLanguage'), "-- only CoffeeScript.", @)
     try
       js = CoffeeScript.compile(code, bare: true)
     catch e

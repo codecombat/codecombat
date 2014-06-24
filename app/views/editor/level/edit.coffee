@@ -113,6 +113,7 @@ module.exports = class EditorLevelView extends View
     button.find('> span').toggleClass('secret')
     
   toggleTab: (e) ->
+    @renderScrollbar()
     return unless $(document).width() <= 800
     li = $(e.target).closest('li')
     if li.hasClass('active')

@@ -2,6 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/employers'
 app = require 'application'
 User = require 'models/User'
+UserRemark = require 'models/UserRemark'
 {me} = require 'lib/auth'
 CocoCollection = require 'collections/CocoCollection'
 EmployerSignupView = require 'views/modal/employer_signup_modal'
@@ -9,6 +10,10 @@ EmployerSignupView = require 'views/modal/employer_signup_modal'
 class CandidatesCollection extends CocoCollection
   url: '/db/user/x/candidates'
   model: User
+
+class UserRemarksCollection extends CocoCollection
+  url: '/db/user.remark?project=contact,contactName,user'
+  model: UserRemark
 
 module.exports = class EmployersView extends View
   id: "employers-view"
@@ -20,10 +25,7 @@ module.exports = class EmployersView extends View
   constructor: (options) ->
     super options
     @getCandidates()
-  checkForEmployerSignupHash: =>
-    if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get("permissions"))
-      @openModalView application.router.getView("modal/employer_signup","_modal")
-      window.location.hash = ""
+
   afterRender: ->
     super()
     @sortTable() if @candidates.models.length
@@ -33,19 +35,31 @@ module.exports = class EmployersView extends View
     _.delay @checkForEmployerSignupHash, 500
 
   getRenderData: ->
-    c = super()
-    c.candidates = @candidates.models
-    userPermissions = me.get('permissions') ? []
+    ctx = super()
+    ctx.isEmployer = @isEmployer()
+    ctx.candidates = _.sortBy @candidates.models, (c) -> c.get('jobProfile').updated
+    ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
+    ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
+    ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
+    ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
+    ctx.remarks = {}
+    ctx.remarks[remark.get('user')] = remark for remark in @remarks.models
+    ctx.moment = moment
+    ctx._ = _
+    ctx
 
-    c.isEmployer = _.contains userPermissions, "employer"
-    c.moment = moment
-    c
+  isEmployer: ->
+    userPermissions = me.get('permissions') ? []
+    _.contains userPermissions, "employer"
 
   getCandidates: ->
     @candidates = new CandidatesCollection()
     @candidates.fetch()
+    @remarks = new UserRemarksCollection()
+    @remarks.fetch()
     # Re-render when we have fetched them, but don't wait and show a progress bar while loading.
     @listenToOnce @candidates, 'all', @renderCandidatesAndSetupScrolling
+    @listenToOnce @remarks, 'all', @renderCandidatesAndSetupScrolling
 
   renderCandidatesAndSetupScrolling: =>
     @render()
@@ -54,6 +68,11 @@ module.exports = class EmployersView extends View
       $(".nano").nanoScroller({scrollTo:$("#" + window.history.state.lastViewedCandidateID)})
     else if window.location.hash.length is 25
       $(".nano").nanoScroller({scrollTo:$(window.location.hash)})
+
+  checkForEmployerSignupHash: =>
+    if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get("permissions"))
+      @openModalView application.router.getView("modal/employer_signup","_modal")
+      window.location.hash = ""
 
   sortTable: ->
     # http://mottie.github.io/tablesorter/docs/example-widget-bootstrap-theme.html
@@ -94,6 +113,7 @@ module.exports = class EmployersView extends View
           for s in [a, b]
             n = parseInt s
             n = 0 unless _.isNumber n
+            n = 1 if /^a/.test s
             for [duration, factor] in [
               [/second/i, 1 / (86400 * 1000)]
               [/minute/i, 1 / 1440]
@@ -109,7 +129,7 @@ module.exports = class EmployersView extends View
               n *= -1
             days.push n
           days[0] - days[1]
-      sortList: [[6, 0]]
+      sortList: if @isEmployer() or me.isAdmin() then [[6, 0]] else [[0, 1]]
       # widget code contained in the jquery.tablesorter.widgets.js file
       # use the zebra stripe widget if you plan on hiding any rows (filter widget)
       widgets: ["uitheme", "zebra", "filter"]
@@ -168,9 +188,6 @@ module.exports = class EmployersView extends View
             "Last 4 weeks": (e, n, f, i, $r) ->
               days = parseFloat $($r.find('td')[i]).data('profile-age')
               days <= 28
-          7:
-            "✓": filterSelectExactMatch
-            "✗": filterSelectExactMatch
           8:
             "✓": filterSelectExactMatch
             "✗": filterSelectExactMatch
@@ -182,7 +199,7 @@ module.exports = class EmployersView extends View
         oldState = _.cloneDeep window.history.state ? {}
         oldState["lastViewedCandidateID"] = id
         window.history.replaceState(oldState,"")
-      else  
+      else
         window.location.hash = id
       url = "/account/profile/#{id}"
       window.open url,"_blank"

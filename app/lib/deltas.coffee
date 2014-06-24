@@ -162,10 +162,14 @@ groupDeltasByAffectingPaths = (deltas) ->
   prunedMap
   
 module.exports.pruneConflictsFromDelta = (delta, conflicts) ->
+  expandedDeltas = (conflict.pendingDelta for conflict in conflicts)
+  module.exports.pruneExpandedDeltasFromDelta delta, expandedDeltas
+    
+module.exports.pruneExpandedDeltasFromDelta = (delta, expandedDeltas) ->
   # the jsondiffpatch delta mustn't include any dangling nodes,
   # or else things will get removed which shouldn't be, or errors will occur
-  for conflict in conflicts
-    prunePath delta, conflict.pendingDelta.deltaPath
+  for expandedDelta in expandedDeltas
+    prunePath delta, expandedDelta.deltaPath
   if _.isEmpty delta then undefined else delta
     
 prunePath = (delta, path) ->

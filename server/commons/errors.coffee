@@ -17,8 +17,9 @@ module.exports.notFound = (res, message='Not found.') ->
   res.send 404, message
   res.end()
 
-module.exports.badMethod = (res, message='Method Not Allowed') ->
-  # TODO: The response MUST include an Allow header containing a list of valid methods for the requested resource
+module.exports.badMethod = (res, allowed=['GET', 'POST', 'PUT', 'PATCH'], message='Method Not Allowed') ->
+  allowHeader = _.reduce allowed, ((str, current) -> str += ', ' + current)
+  res.set 'Allow', allowHeader # TODO not sure if these are always the case
   res.send 405, message
   res.end()
 
@@ -38,6 +39,6 @@ module.exports.gatewayTimeoutError = (res, message="Gateway timeout") ->
   res.send 504, message
   res.end()
 
-module.exports.clientTimeout = (res, message="The server did not recieve the client response in a timely manner") ->
+module.exports.clientTimeout = (res, message="The server did not receive the client response in a timely manner") ->
   res.send 408, message
   res.end()

@@ -8,6 +8,7 @@ module.exports = class PatchModal extends ModalView
   template: template
   plain: true
   modalWidthPercent: 60
+  @DOC_SKIP_PATHS = ['_id','version', 'commitMessage', 'parent', 'created', 'slug', 'index', '__v', 'patches']
 
   events:
     'click #withdraw-button': 'withdrawPatch'
@@ -36,14 +37,16 @@ module.exports = class PatchModal extends ModalView
     headModel = null
     if @targetModel.hasWriteAccess()
       headModel = @originalSource.clone(false)
+      headModel.markToRevert true
       headModel.set(@targetModel.attributes)
       headModel.loaded = true
 
     pendingModel = @originalSource.clone(false)
+    pendingModel.markToRevert true
     pendingModel.applyDelta(@patch.get('delta'))
     pendingModel.loaded = true
 
-    @deltaView = new DeltaView({model:pendingModel, headModel:headModel})
+    @deltaView = new DeltaView({model:pendingModel, headModel:headModel, skipPaths: PatchModal.DOC_SKIP_PATHS})
     changeEl = @$el.find('.changes-stub')
     @insertSubView(@deltaView, changeEl)
     super()

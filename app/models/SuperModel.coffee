@@ -122,7 +122,7 @@ module.exports = class SuperModel extends Backbone.Model
     return @progress is 1.0 or not @denom
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
-    modelOrCollection.saveBackups = @shouldSaveBackups(modelOrCollection)
+    modelOrCollection.saveBackups = modelOrCollection.saveBackups or @shouldSaveBackups(modelOrCollection)
     @checkName(name)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)
     @storeResource(res, value)
@@ -169,9 +169,9 @@ module.exports = class SuperModel extends Backbone.Model
     _.defer @updateProgress
     r.clean()
 
-  onResourceFailed: (source) ->
+  onResourceFailed: (r) ->
     return unless @resources[r.rid]
-    @trigger('failed', source)
+    @trigger('failed', resource: r)
     r.clean()
 
   updateProgress: =>
@@ -216,14 +216,14 @@ class Resource extends Backbone.Model
 
   markFailed: ->
     return if @isLoaded
-    @trigger('failed', {resource: @})
+    @trigger('failed', @)
     @isLoaded = @isLoading = false
     @isFailed = true
 
   markLoading: ->
     @isLoaded = @isFailed = false
     @isLoading = true
-    
+
   clean: ->
     # request objects get rather large. Clean them up after the request is finished.
     @jqxhr = null

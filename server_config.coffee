@@ -26,9 +26,10 @@ config.mail =
   mailchimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ""
   mailchimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or "/mail/webhook"
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ""
+  stackleadAPIKey: process.env.COCO_STACKLEAD_API_KEY or ""
   cronHandlerPublicIP: process.env.COCO_CRON_PUBLIC_IP or ""
   cronHandlerPrivateIP: process.env.COCO_CRON_PRIVATE_IP or ""
-  
+
 config.queue =
   accessKeyId: process.env.COCO_AWS_ACCESS_KEY_ID or ""
   secretAccessKey: process.env.COCO_AWS_SECRET_ACCESS_KEY or ""

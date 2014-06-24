@@ -8,20 +8,21 @@ class LevelSessionHandler extends Handler
   modelClass: LevelSession
   editableProperties: ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
                        'levelName', 'creatorName', 'levelID', 'screenshot',
-                       'chat', 'teamSpells', 'submitted', 'unsubscribed','playtime']
+                       'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage', 'unsubscribed', 'playtime']
+  privateProperties: ['code', 'submittedCode', 'unsubscribed']
   jsonSchema: require '../../../app/schemas/models/level_session'
 
   getByRelationship: (req, res, args...) ->
     return @getActiveSessions req, res if args.length is 2 and args[1] is 'active'
     super(arguments...)
-    
+
   formatEntity: (req, document) ->
     documentObject = super(req, document)
-    if req.user.isAdmin() or req.user.id is document.creator
+    if req.user.isAdmin() or req.user.id is document.creator or ('employer' in req.user.get('permissions'))
       return documentObject
     else
-      return _.omit documentObject, ['submittedCode','code']
-      
+      return _.omit documentObject, @privateProperties
+
   getActiveSessions: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user.isAdmin()
     start = new Date()
@@ -34,6 +35,7 @@ class LevelSessionHandler extends Handler
 
   hasAccessToDocument: (req, document, method=null) ->
     return true if req.method is 'GET' and document.get('totalScore')
+    return true if ('employer' in req.user.get('permissions')) and (method ? req.method).toLowerCase() is 'get'
     super(arguments...)
 
 module.exports = new LevelSessionHandler()

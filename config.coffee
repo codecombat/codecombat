@@ -3,14 +3,10 @@ startsWith = (string, substring) ->
   string.lastIndexOf(substring, 0) is 0
 
 exports.config =
-  server:
-    path: 'server.coffee'
   paths:
     'public': 'public'
   conventions:
     ignored: (path) -> startsWith(sysPath.basename(path), '_')
-  workers:
-    enabled: false  # turned out to be much, much slower than without workers
   sourceMaps: true
   files:
     javascripts:
@@ -38,8 +34,9 @@ exports.config =
         'javascripts/aether.js': ///^(
           (bower_components[\/\\]aether[\/\\]build[\/\\]aether.js)
         )///
-#        'test/javascripts/test.js': /^test[\/\\](?!vendor)/
-#        'test/javascripts/test-vendor.js': /^test[\/\\](?=vendor)/
+        'javascripts/test-app.js': /^test[\/\\]app/
+        'javascripts/demo-app.js': /^test[\/\\]demo/
+        
       order:
         before: [
           'bower_components/jquery/dist/jquery.js'
@@ -55,7 +52,6 @@ exports.config =
           'vendor/scripts/movieclip-NEXT.min.js'
           # Validated Backbone Mediator dependencies
           'bower_components/tv4/tv4.js'
-
           # Aether before box2d for some strange Object.defineProperty thing
           'bower_components/aether/build/aether.js'
           'bower_components/d3/d3.min.js'
@@ -76,6 +72,8 @@ exports.config =
   framework: 'backbone'
 
   plugins:
+    autoReload:
+      delay: 300 
     coffeelint:
       pattern: /^app\/.*\.coffee$/
       options:
@@ -91,3 +89,12 @@ exports.config =
     uglify:
       output:
         semicolons: false
+
+  onCompile: (files) ->
+    exec = require('child_process').exec
+    regexFrom = '\\/\\/# sourceMappingURL=([^\\/].*)\\.map'
+    regexTo = '\\/\\/# sourceMappingURL=\\/javascripts\\/$1\\.map'
+    regex = "s/#{regexFrom}/#{regexTo}/g"
+    for file in files
+      c = "perl -pi -e '#{regex}' #{file.path}"
+      exec c
