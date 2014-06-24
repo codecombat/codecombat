@@ -36,11 +36,10 @@ LevelSessionSchema.pre 'save', (next) ->
   # newly completed level
   if not (initd and previous[id]['state.completed']) and @get('state.completed')
     User = require '../../users/User'  # Avoid mutual inclusion cycles
-    User.update {_id: @get 'creator'}, {$inc: {'stats.gamesCompleted': 1}}, {}, (err, count) ->
+    User.update {_id: @get 'creator'}, {$inc: 'stats.gamesCompleted': 1}, {}, (err, count) ->
       log.error err if err?
 
   delete previous[id] if initd
-
   next()
 
 module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema)

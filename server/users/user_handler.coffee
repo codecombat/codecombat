@@ -394,7 +394,7 @@ UserHandler = class UserHandler extends Handler
     return @sendForbiddenError(res) unless req.user.isAdmin()
 
     if statName of @statHandlers
-      @statHandlers[statName] -> log.debug "Finished recalculating stats"
+      @statHandlers[statName]()
       return @sendAccepted res, {}
     else return @sendNotFoundError(res)
 

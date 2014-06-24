@@ -269,13 +269,13 @@ describe 'GET /db/user', ->
       done()
     )
 
-describe 'statistics', ->
+describe 'Statistics', ->
   LevelSession = require '../../../server/levels/sessions/LevelSession'
+  Article = require '../../../server/articles/Article'
   User = require '../../../server/users/User'
   UserHandler = require '../../../server/users/user_handler'
 
-  it 'games completed', (done) ->
-
+  it 'keeps track of games completed', (done) ->
     session = new LevelSession
       name: 'Beat Gandalf'
       permissions: simplePermissions
@@ -310,9 +310,38 @@ describe 'statistics', ->
               expect(guy.get 'stats.gamesCompleted').toBe 1
               done()
 
+  it 'keeps track of article edits', (done) ->
+    article = new Article
+      name: 'My very first'
+      body: 'I don\'t have much to say I\'m afraid'
 
-  xit 'cleans up', (done) ->
-    clearModels [LevelSession], (err) ->
+    unittest.getAdmin (carl) ->
+      expect(carl.get 'stats.articleEdits').toBeUndefined()
+
+      article.set 'creator', carl.get 'id'
+      article.save (err) -> # Creates a new article, version 1.0
+        expect(err).toBeNull()
+
+        User.findById carl.get('id'), (err, guy) ->
+          expect(err).toBeNull()
+          expect(guy.get 'id').toBe carl.get 'id'
+          expect(guy.get 'stats.articleEdits').toBe 1
+
+          article.set 'version', {major: 1}
+          article.set 'body', 'I thought of something!'
+          article.save (err) -> # Creates a new minor, version 1.1
+            expect(err).toBeNull()
+
+            User.findById carl.get('id'), (err, guy) ->
+              expect(err).toBeNull()
+              expect(guy.get 'id').toBe carl.get 'id'
+              expect(guy.get 'stats.articleEdits').toBe 2
+
+              done()
+
+
+  it 'cleans up', (done) ->
+    clearModels [LevelSession, Article], (err) ->
       expect(err).toBeNull()
 
       done()
