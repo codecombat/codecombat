@@ -4,7 +4,7 @@ namesCache = {}
 
 class NameLoader extends CocoClass
   loadNames: (ids) ->
-    toLoad = (id for id in ids when not namesCache[id])
+    toLoad = _.uniq (id for id in ids when not namesCache[id])
     return false unless toLoad.length
     jqxhrOptions = {
       url: '/db/user/x/names', 
