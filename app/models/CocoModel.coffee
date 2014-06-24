@@ -211,7 +211,9 @@ class CocoModel extends Backbone.Model
       jsondiffpatch.patch newAttributes, delta
     catch error
       console.error "Error applying delta", delta, "to attributes", newAttributes, error
+      return false
     @set newAttributes
+    return true
 
   getExpandedDelta: ->
     delta = @getDelta()

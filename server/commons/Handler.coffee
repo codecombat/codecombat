@@ -205,7 +205,7 @@ module.exports = class Handler
     # Keeping it simple for now and just allowing access to the first FETCH_LIMIT results.
     query = {'original': mongoose.Types.ObjectId(id)}
     sort = {'created': -1}
-    selectString = 'slug name version commitMessage created permissions'
+    selectString = 'slug name version commitMessage created creator permissions'
     aggregate = $match: query
     @modelClass.aggregate(aggregate).project(selectString).limit(FETCH_LIMIT).sort(sort).exec (err, results) =>
       return @sendDatabaseError(res, err) if err

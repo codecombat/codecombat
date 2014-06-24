@@ -887,6 +887,7 @@
     sprite_sheet: "Sprite Sheet"
     candidate_sessions: "Candidate Sessions"
     user_remark: "User Remark"
+    versions: "Versions"
 
   delta:
     added: "Added"

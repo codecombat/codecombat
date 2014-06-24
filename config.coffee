@@ -7,7 +7,7 @@ exports.config =
     'public': 'public'
   conventions:
     ignored: (path) -> startsWith(sysPath.basename(path), '_')
-  sourceMaps: true
+  sourceMaps: false
   files:
     javascripts:
       defaultExtension: 'coffee'
