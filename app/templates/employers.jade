@@ -93,7 +93,9 @@ block content
               for candidate, index in area.candidates
                 - var profile = candidate.get('jobProfile');
                 - var authorized = candidate.id;  // If we have the id, then we are authorized.
-                tr(data-candidate-id=candidate.id, id=candidate.id)
+                - var profileAge = (new Date() - new Date(profile.updated)) / 86400 / 1000;
+                - var expired = profileAge > 2 * 30.4;
+                tr(data-candidate-id=candidate.id, id=candidate.id, class=expired ? "expired" : "")
                   td
                     if authorized
                       img(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, height=50)
@@ -115,7 +117,7 @@ block content
                       code= skill
                       span  
                   td= profile.experience
-                  td(data-profile-age=(new Date() - new Date(profile.updated)) / 86400 / 1000)= moment(profile.updated).fromNow()
+                  td(data-profile-age=profileAge)= moment(profile.updated).fromNow()
                   if me.isAdmin()
                     td= remarks[candidate.id] ? remarks[candidate.id].get('contactName') : ''
                   if me.isAdmin() && area.id == 'inactive-candidates'

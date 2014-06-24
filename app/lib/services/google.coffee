@@ -1,8 +1,8 @@
 module.exports = initializeGoogle = ->
-  onGPlusLoaded = ->
+  window.onGPlusLoaded = ->
     Backbone.Mediator.publish "gapi-loaded"
     return
-  signinCallback = (authResult) ->
+  window.signinCallback = (authResult) ->
     Backbone.Mediator.publish "gplus-logged-in", authResult  if authResult["access_token"]
     return
   (->

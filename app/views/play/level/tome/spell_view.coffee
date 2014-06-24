@@ -180,8 +180,8 @@ module.exports = class SpellView extends View
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         console.log 'could not find doc for', prop, 'from', e.allDocs['__' + prop], 'for', owner, 'of', e.propGroups unless doc
         doc ?= prop
-        if doc.snippets?
-          entry = 
+        if doc.snippets?[@spell.language]
+          entry =
             content: doc.snippets[@spell.language].code
             name: doc.name
             tabTrigger: doc.snippets[@spell.language].tab

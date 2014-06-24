@@ -14,9 +14,9 @@ module.exports = class GoldView extends View
     super options
     @teamGold = {}
     @teamGoldEarned = {}
+    @shownOnce = false
 
   onGoldChanged: (e) ->
-    @$el.show()
     return if @teamGold[e.team] is e.gold and @teamGoldEarned[e.team] is e.goldEarned
     @teamGold[e.team] = e.gold
     @teamGoldEarned[e.team] = e.goldEarned
@@ -30,9 +30,11 @@ module.exports = class GoldView extends View
       text += " (#{e.goldEarned})"
     goldEl.text text
     @updateTitle()
+    @$el.show()
+    @shownOnce = true
 
   updateTitle: ->
     @$el.attr 'title', ("Team '#{team}' has #{gold} now of #{@teamGoldEarned[team]} gold earned." for team, gold of @teamGold).join ' '
 
   onSetLetterbox: (e) ->
-    @$el.toggle not e.on
+    @$el.toggle not e.on if @shownOnce

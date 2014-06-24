@@ -22,6 +22,7 @@ adminContacts = [
   {id: "5162fab9c92b4c751e000274", name: "Scott"}
   {id: "51eb2714fa058cb20d0006ef", name: "Michael"}
   {id: "51538fdb812dd9af02000001", name: "George"}
+  {id: "52a57252a89409700d0000d9", name: "Ignore"}
 ]
 
 module.exports = class ProfileView extends View
@@ -104,6 +105,7 @@ module.exports = class ProfileView extends View
     @linkedinLoaded = true
     if @waitingForLinkedIn
       @renderLinkedInButton()
+    @authorizedWithLinkedIn = IN?.User?.isAuthorized()
 
   renderLinkedInButton: =>
     IN?.parse()

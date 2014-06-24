@@ -288,10 +288,13 @@ module.exports = class Camera extends CocoClass
   boundTarget: (pos, zoom) ->
     # Given an {x, y} in Surface coordinates, return one that will keep our viewport on the Surface.
     return pos unless @bounds
+    y = pos.y
+    if thang = pos.sprite?.thang
+      y = @worldToSurface(x: thang.pos.x, y: thang.pos.y).y  # ignore z
     marginX = (@canvasWidth / zoom / 2)
     marginY = (@canvasHeight / zoom / 2)
     x = Math.min(Math.max(marginX + @bounds.x, pos.x + @offset.x), @bounds.x + @bounds.width - marginX)
-    y = Math.min(Math.max(marginY + @bounds.y, pos.y + @offset.y), @bounds.y + @bounds.height - marginY)
+    y = Math.min(Math.max(marginY + @bounds.y, y + @offset.y), @bounds.y + @bounds.height - marginY)
     {x: x, y: y}
 
   updateViewports: (target) ->

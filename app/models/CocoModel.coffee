@@ -64,7 +64,7 @@ class CocoModel extends Backbone.Model
 
   @backedUp = {}
   schema: -> return @constructor.schema
-    
+
   getValidationErrors: ->
     errors = tv4.validateMultiple(@attributes, @constructor.schema or {}).errors
     return errors if errors?.length
@@ -76,7 +76,7 @@ class CocoModel extends Backbone.Model
       for error in errors
         console.debug "\t", error.dataPath, ":", error.message
       return errors
-  
+
   save: (attrs, options) ->
     options ?= {}
     options.headers ?= {}
@@ -97,19 +97,19 @@ class CocoModel extends Backbone.Model
       noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
     @trigger "save", @
     return super attrs, options
-    
+
   patch: (options) ->
     return false unless @_revertAttributes
     options ?= {}
     options.patch = true
-    
+
     attrs = {_id: @id}
     keys = []
     for key in _.keys @attributes
       unless _.isEqual @attributes[key], @_revertAttributes[key]
         attrs[key] = @attributes[key]
         keys.push key
-    
+
     return unless keys.length
     console.debug 'Patching', @get('name') or @, keys
     @save(attrs, options)
@@ -207,7 +207,10 @@ class CocoModel extends Backbone.Model
 
   applyDelta: (delta) ->
     newAttributes = $.extend(true, {}, @attributes)
-    jsondiffpatch.patch newAttributes, delta
+    try
+      jsondiffpatch.patch newAttributes, delta
+    catch error
+      console.error "Error applying delta", delta, "to attributes", newAttributes, error
     @set newAttributes
 
   getExpandedDelta: ->
