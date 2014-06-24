@@ -298,47 +298,57 @@ describe 'Statistics', ->
   it 'recalculates games completed', (done) ->
     unittest.getNormalJoe (joe) ->
       loginAdmin ->
-        User.findByIdAndUpdate joe.get('id'), {$set:'stats.gamesCompleted':0}, (err, guy) ->
+        User.findByIdAndUpdate joe.get('id'), {$unset:'stats.gamesCompleted': ''}, (err, guy) ->
           expect(err).toBeNull()
-          expect(guy.get 'id').toBe joe.get 'id'
-          expect(guy.get 'stats.gamesCompleted').toBe 0
+          expect(guy.get 'stats.gamesCompleted').toBeUndefined()
 
           UserHandler.statHandlers.gamesCompleted ->
             User.findById joe.get('id'), (err, guy) ->
               expect(err).toBeNull()
-              expect(guy.get 'id').toBe joe.get 'id'
               expect(guy.get 'stats.gamesCompleted').toBe 1
               done()
 
   it 'keeps track of article edits', (done) ->
-    article = new Article
+    article =
       name: 'My very first'
       body: 'I don\'t have much to say I\'m afraid'
+    url = getURL('/db/article')
 
-    unittest.getAdmin (carl) ->
+    loginAdmin (carl) ->
       expect(carl.get 'stats.articleEdits').toBeUndefined()
+      article.creator = carl.get 'id'
 
-      article.set 'creator', carl.get 'id'
-      article.save (err) -> # Creates a new article, version 1.0
+      # Create major version 1.0
+      request.post {uri:url, json: article}, (err, res, body) ->
         expect(err).toBeNull()
+        expect(res.statusCode).toBe 200
+        article = body
 
         User.findById carl.get('id'), (err, guy) ->
           expect(err).toBeNull()
-          expect(guy.get 'id').toBe carl.get 'id'
           expect(guy.get 'stats.articleEdits').toBe 1
 
-          article.set 'version', {major: 1}
-          article.set 'body', 'I thought of something!'
-          article.save (err) -> # Creates a new minor, version 1.1
+          # Create minor version 1.1
+          request.post {uri:url, json: article}, (err, res, body) ->
             expect(err).toBeNull()
 
             User.findById carl.get('id'), (err, guy) ->
               expect(err).toBeNull()
-              expect(guy.get 'id').toBe carl.get 'id'
               expect(guy.get 'stats.articleEdits').toBe 2
 
               done()
 
+  it 'recalculates article edits', (done) ->
+    loginAdmin (carl) ->
+      User.findByIdAndUpdate carl.get('id'), {$unset:'stats.articleEdits': ''}, (err, guy) ->
+        expect(err).toBeNull()
+        expect(guy.get 'stats.articleEdits').toBeUndefined()
+
+        UserHandler.statHandlers.articleEdits ->
+          User.findById carl.get('id'), (err, guy) ->
+            expect(err).toBeNull()
+            expect(guy.get 'stats.articleEdits').toBe 2
+            done()
 
   it 'cleans up', (done) ->
     clearModels [LevelSession, Article], (err) ->

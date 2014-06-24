@@ -383,9 +383,23 @@ UserHandler = class UserHandler extends Handler
         async.eachSeries users, ((user, doneWithUser) ->
           userID = user.get('_id').toHexString()
 
-          LevelSession.find {creator: userID, 'state.completed': true}, (err, sessions) ->
-            completedCount = sessions.length
-            User.findOneAndUpdate {_id: user.get '_id'}, {$set: 'stats.gamesCompleted': completedCount}, (err) ->
+          LevelSession.count {creator: userID, 'state.completed': true}, (err, count) ->
+            update = if count then {$set: 'stats.gamesCompleted': count} else {$unset: 'stats.gamesCompleted': ''}
+            User.findByIdAndUpdate user.get('_id'), update, (err) ->
+              log.error err if err?
+              doneWithUser()
+        ), done
+
+    articleEdits: (done) ->
+      Article = require '../articles/Article'
+
+      User.find {}, (err, users) ->
+        async.eachSeries users, ((user, doneWithUser) ->
+          userID = user.get('_id').toHexString()
+
+          Article.count {creator: userID}, (err, count) ->
+            update = if count then {$set: 'stats.articleEdits': count} else {$unset: 'stats.articleEdits': ''}
+            User.findByIdAndUpdate user.get('_id'), update, (err) ->
               log.error err if err?
               doneWithUser()
         ), done
