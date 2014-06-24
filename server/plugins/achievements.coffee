@@ -55,7 +55,7 @@ AchievablePlugin = (schema, options) ->
           wrapUp = ->
             # Update user's experience points
             User.update({_id: userID}, {$inc: {points: earnedPoints}}, {}, (err, count) ->
-              console.error err if err?
+              log.error err if err?
             )
 
           if isRepeatable

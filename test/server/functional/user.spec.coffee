@@ -268,3 +268,27 @@ describe 'GET /db/user', ->
       expect(response.statusCode).toBe(422)
       done()
     )
+
+describe 'statistics', ->
+  it 'games completed', (done) ->
+    LevelSession = require '../../../server/levels/sessions/LevelSession'
+    User = require '../../../server/users/User'
+
+    session = new LevelSession
+      name: 'Beat Gandalf'
+      permissions: simplePermissions
+      state: completed: true
+
+    unittest.getNormalJoe (joe) ->
+      expect(joe.get 'stats.gamesCompleted').toBeUndefined()
+
+      session.set 'creator', joe.get 'id'
+      session.save (err) ->
+        expect(err).toBeNull()
+
+        User.findOne {_id: joe.get 'id'}, (err, guy) ->
+          expect(err).toBeNull()
+          expect(guy.get 'id').toBe joe.get 'id'
+          expect(guy.get 'stats.gamesCompleted').toBe 1
+
+          done()

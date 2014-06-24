@@ -4,6 +4,7 @@ mongoose = require('mongoose')
 plugins = require('../../plugins/plugins')
 AchievablePlugin = require '../../plugins/achievements'
 jsonschema = require('../../../app/schemas/models/level_session')
+log = require 'winston'
 
 LevelSessionSchema = new mongoose.Schema({
   created:
@@ -20,8 +21,26 @@ LevelSessionSchema.pre 'init', (next) ->
     @set(prop, _.cloneDeep(sch.default)) if sch.default?
   next()
 
+previous = {}
+
+LevelSessionSchema.post 'init', (doc) ->
+  previous[doc.get 'id'] =
+    'state.completed': doc.get 'state.completed'
+
 LevelSessionSchema.pre 'save', (next) ->
   @set('changed', new Date())
+
+  id = @get('id')
+  initd = id of previous
+
+  # newly completed level
+  if not (initd and previous[id]['state.completed']) and @get('state.completed')
+    User = require '../../users/User'  # Avoid mutual inclusion cycles
+    User.update {_id: @get 'creator'}, {$inc: {'stats.gamesCompleted': 1}}, {}, (err, count) ->
+      log.error err if err?
+
+  delete previous[id] if initd
+
   next()
 
 module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema)

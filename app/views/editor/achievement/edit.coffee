@@ -78,7 +78,7 @@ module.exports = class AchievementEditView extends View
       elementPosition: 'bottom center'
       hideDuration: 0
       showDuration: 0
-l
+
     $('#achievement-view-inner').notify data, options
 
   openSaveModal: ->
