@@ -130,6 +130,8 @@ checkExistence = (options, req, res, force, done) ->
       errors.conflict(res, {canForce:userCanEditFile(req.user, file)})
       done(true)
     else if file
+      fullPath = "/file/#{options.metadata.path}/#{options.filename}"
+      clearCloudFlareCacheForFile(fullPath)
       q = { _id: file._id }
       q.root = 'media'
       Grid.gfs.remove q, (err) ->
@@ -172,3 +174,16 @@ createPostOptions = (req) ->
   options.metadata.description = req.body.description if req.body.description?
 
   options
+
+clearCloudFlareCacheForFile = (path='/file') ->
+  request = require 'request'
+  r = request.post 'https://www.cloudflare.com/api_json.html', (err, httpResponse, body) ->
+    if (err)
+      console.error('CloudFlare file cache clear failed:', body)
+  
+  form = r.form()
+  form.append 'tkn', 'dea38682b209901a014dba2b2702afa5476a0'
+  form.append 'email', 'scott@codecombat.com'
+  form.append 'z', 'codecombat.com'
+  form.append 'a', 'zone_file_purge'
+  form.append 'url', "http://codecombat.com#{path}"
