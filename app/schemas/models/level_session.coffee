@@ -5,7 +5,7 @@ LevelSessionPlayerSchema = c.object
     links: [
       {
         rel: 'extra'
-        href: "/db/user/{($)}"
+        href: '/db/user/{($)}'
       }
     ]
   time:
@@ -23,8 +23,8 @@ LevelSessionLevelSchema = c.object {required: ['original', 'majorVersion']},
 
 
 LevelSessionSchema = c.object
-  title: "Session"
-  description: "A single session for a given level."
+  title: 'Session'
+  description: 'A single session for a given level.'
 
 
 _.extend LevelSessionSchema.properties,
@@ -42,7 +42,7 @@ _.extend LevelSessionSchema.properties,
       [
         {
           rel: 'extra'
-          href: "/db/user/{($)}"
+          href: '/db/user/{($)}'
         }
       ]
   created: c.date
@@ -108,17 +108,17 @@ _.extend LevelSessionSchema.properties,
       additionalProperties:
         type: 'string'
         format: 'javascript'
-  
+
   codeLanguage:
     type: 'string'
     default: 'javascript'
-    
+
   playtime:
     type: 'number'
     title: 'Playtime'
     default: 0
     description: 'The total playtime on this session'
-    
+
   teamSpells:
     type: 'object'
     additionalProperties:
@@ -156,7 +156,7 @@ _.extend LevelSessionSchema.properties,
   submittedCodeLanguage:
     type: 'string'
     default: 'javascript'
-    
+
   transpiledCode:
     type: 'object'
     additionalProperties:
@@ -203,7 +203,7 @@ _.extend LevelSessionSchema.properties,
           title: 'Playtime so far'
           description: 'The total seconds of playtime on this session when the match was computed.'
           type: 'number'
-        
+
         metrics:
           type: 'object'
           title: 'Metrics'

@@ -15,9 +15,9 @@ module.exports = class Mark extends CocoClass
     @camera = options.camera
     @layer = options.layer
     @thangType = options.thangType
-    console.error @toString(), "needs a name." unless @name
-    console.error @toString(), "needs a camera." unless @camera
-    console.error @toString(), "needs a layer." unless @layer
+    console.error "#{@toString()} needs a name." unless @name
+    console.error "#{@toString()} needs a camera." unless @camera
+    console.error "#{@toString()} needs a layer." unless @layer
     @build()
 
   destroy: ->
@@ -58,7 +58,7 @@ module.exports = class Mark extends CocoClass
       else if @name is 'debug' then @buildDebug()
       else if @name.match(/.+(Range|Distance|Radius)$/) then @buildRadius(@name)
       else if @thangType then @buildSprite()
-      else console.error "Don't know how to build mark for", @name
+      else console.error "Don't know how to build mark for #{@name}"
       @mark?.mouseEnabled = false
     @
 
@@ -76,17 +76,17 @@ module.exports = class Mark extends CocoClass
     shape.graphics.beginStroke color
     shape.graphics.beginFill color.replace('0.5', '0.25')
     [w, h] = [@sprite.thang.width * Camera.PPM, @sprite.thang.height * Camera.PPM * @camera.y2x]
-    if @sprite.thang.shape in ["ellipsoid", "disc"]
+    if @sprite.thang.shape in ['ellipsoid', 'disc']
       shape.drawEllipse 0, 0, w, h
     else
       shape.graphics.drawRect -w / 2, -h / 2, w, h
     shape.graphics.endStroke()
     shape.graphics.endFill()
 
-    text = new createjs.Text "" + index, "20px Arial", color.replace('0.5', '1')
+    text = new createjs.Text '' + index, '20px Arial', color.replace('0.5', '1')
     text.regX = text.getMeasuredWidth() / 2
     text.regY = text.getMeasuredHeight() / 2
-    text.shadow = new createjs.Shadow("#000000", 1, 1, 0)
+    text.shadow = new createjs.Shadow('#000000', 1, 1, 0)
 
     @mark.addChild shape, text
     if w > 0 and h > 0
@@ -167,7 +167,7 @@ module.exports = class Mark extends CocoClass
     [w, h] = [Math.max(PX, @sprite.thang.width * Camera.PPM), Math.max(PX, @sprite.thang.height * Camera.PPM) * @camera.y2x]
     @mark.alpha = 0.5
     @mark.graphics.beginFill '#abcdef'
-    if @sprite.thang.shape in ["ellipsoid", "disc"]
+    if @sprite.thang.shape in ['ellipsoid', 'disc']
       [w, h] = [Math.max(PX, w, h), Math.max(PX, w, h)]
       @mark.graphics.drawCircle 0, 0, w / 2
     else
@@ -240,7 +240,7 @@ module.exports = class Mark extends CocoClass
       @mark.alpha = @alpha
 
   updateRotation: ->
-    if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ["rectangle", "box"])
+    if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ['rectangle', 'box'])
       @mark.rotation = @sprite.thang.rotation * 180 / Math.PI
 
   updateScale: ->
@@ -254,7 +254,7 @@ module.exports = class Mark extends CocoClass
     if @markSprite?
       @markSprite.scaleFactor = 1.2
       @markSprite.updateScale()
-    return unless @name in ["selection", "target", "repair", "highlight"]
+    return unless @name in ['selection', 'target', 'repair', 'highlight']
 
     # scale these marks to 10m (100px). Adjust based on sprite size.
     factor = 0.3 # default size: 3m width, most commonly for target when pointing to a location

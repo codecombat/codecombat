@@ -168,7 +168,7 @@ module.exports.Trailmaster = class Trailmaster
       clone.scaleY *= CLONE_SCALE
       if sprite.expandActions  # old Sprite
         sprite.updateRotation(clone, sprite.data)
-        animActions = sprite.expandActions(if thang.acts then thang.getActionName() else "idle")
+        animActions = sprite.expandActions(if thang.acts then thang.getActionName() else 'idle')
         sprite.applyActionsToSprites(animActions, [clone], true)
         animation = clone.spriteSheet.getAnimation(clone.currentAnimation)
         clone.currentAnimationFrame = Math.min(@clock % (animation.frames.length * 3), animation.frames.length - 1)

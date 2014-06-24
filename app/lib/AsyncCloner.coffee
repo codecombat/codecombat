@@ -6,17 +6,17 @@
 #    super()
 #    @indexLists = []
 #    @initClone()
-#  
+#
 #  initClone: () ->
 #    @target = AsyncCloner.cloneToDepth(@source, @depth)
 #    @indexLists = [_.keys(@target)] if _.isObject @target
-#    
+#
 #  @cloneToDepth: (value, depth) ->
 #    value = _.clone(value)
 #    return value unless depth and _.isObject value
 #    value[key] = @cloneToDepth(value[key], depth-1) for key in _.keys value
 #    value
-#    
+#
 #  clone: ->
 #    while @indexLists.length
 #      #console.log 'Clone loop:', JSON.stringify @indexLists
@@ -25,7 +25,7 @@
 #      @cloneOne()
 #      @moveIndexForwardOne()
 #      break if @done() or @timeToSleep()
-#      
+#
 #  moveIndexForward: ->
 #    while @indexLists.length
 #      nextValue = @getNextValue()
@@ -34,7 +34,7 @@
 #          # push a new list if it's a collection
 #          @indexLists.push _.keys(nextValue)
 #          continue
-#        else 
+#        else
 #          break # we done, the next value needs to be deep cloned
 #      #console.log 'Skipping:', @getNextPath()
 #      @moveIndexForwardOne() # move past this value otherwise
@@ -44,15 +44,15 @@
 #    value = @target
 #    value = value[indexList[0]] for indexList in @indexLists
 #    value
-#    
+#
 #  getNextParent: ->
 #    parent = @target
 #    parent = parent[indexList[0]] for indexList in @indexLists[...-1]
 #    parent
-#    
+#
 #  getNextPath: ->
 #    (indexList[0] for indexList in @indexLists when indexList.length).join '.'
-#    
+#
 #  moveIndexForwardOne: ->
 #    @indexLists[@indexLists.length-1].shift() # move the index forward one
 #    # if we reached the end of an index list, trim down through all finished lists
@@ -69,7 +69,7 @@
 #    #console.log 'Deep Cloned:', @getNextPath()
 #
 #  done: -> not @indexLists.length
-#    
+#
 #  timeToSleep: -> false
 
 

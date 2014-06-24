@@ -11,21 +11,21 @@ module.exports = class CastingScreen extends CocoClass
     options ?= {}
     @camera = options.camera
     @layer = options.layer
-    console.error @toString(), "needs a camera." unless @camera
-    console.error @toString(), "needs a layer." unless @layer
+    console.error "#{@toString()} needs a camera." unless @camera
+    console.error "#{@toString()} needs a layer." unless @layer
     @build()
 
   onCastingBegins: (e) -> @show() unless e.preload
   onCastingEnds: (e) -> @hide()
 
-  toString: -> "<CastingScreen>"
+  toString: -> '<CastingScreen>'
 
   build: ->
     @dimLayer = new createjs.Container()
     @dimLayer.mouseEnabled = @dimLayer.mouseChildren = false
     @dimLayer.layerIndex = -11
     @dimLayer.addChild @dimScreen = new createjs.Shape()
-    @dimScreen.graphics.beginFill("rgba(0,0,0,0.5)").rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
+    @dimScreen.graphics.beginFill('rgba(0,0,0,0.5)').rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
     @dimLayer.alpha = 0
     @layer.addChild @dimLayer
     @dimLayer.addChild @makeProgressBar()
@@ -54,7 +54,7 @@ module.exports = class CastingScreen extends CocoClass
 
   makeCastingText: ->
     size = @camera.canvasHeight / 15
-    text = new createjs.Text("Casting", "#{size}px cursive", "#aaaaaa")
+    text = new createjs.Text('Casting', "#{size}px cursive", '#aaaaaa')
     text.regX = text.getMeasuredWidth() / 2
     text.regY = text.getMeasuredHeight() / 2
     text.x = @camera.canvasWidth / 2

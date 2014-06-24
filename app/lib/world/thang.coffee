@@ -131,7 +131,7 @@ module.exports = class Thang
       source.original = chain.original.toString()
       source.user = chain.user?.toString()
     else
-      source.original = @[methodName]?.toString() ? ""
+      source.original = @[methodName]?.toString() ? ''
     source.original = Aether.getFunctionBody source.original
     source
 

@@ -6,18 +6,18 @@ module.exports = class PlaybackOverScreen extends CocoClass
     options ?= {}
     @camera = options.camera
     @layer = options.layer
-    console.error @toString(), "needs a camera." unless @camera
-    console.error @toString(), "needs a layer." unless @layer
+    console.error "#{@toString()} needs a camera." unless @camera
+    console.error "#{@toString()} needs a layer." unless @layer
     @build()
 
-  toString: -> "<PlaybackOverScreen>"
+  toString: -> '<PlaybackOverScreen>'
 
   build: ->
     @dimLayer = new createjs.Container()
     @dimLayer.mouseEnabled = @dimLayer.mouseChildren = false
     @dimLayer.layerIndex = -12
     @dimLayer.addChild @dimScreen = new createjs.Shape()
-    @dimScreen.graphics.beginFill("rgba(0,0,0,0.4)").rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
+    @dimScreen.graphics.beginFill('rgba(0,0,0,0.4)').rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
     @dimLayer.cache 0, 0, @camera.canvasWidth, @camera.canvasHeight
     @dimLayer.alpha = 0
     @layer.addChild @dimLayer

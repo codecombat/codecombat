@@ -14,7 +14,7 @@ module.exports = class SpriteBuilder
   buildMovieClip: (animationName, movieClipArgs...) ->
     animData = @animationStore[animationName]
     unless animData
-      console.error "couldn't find animData from", @animationStore, "for", animationName
+      console.error "couldn't find animData from #{@animationStore} for #{animationName}"
       return null
     locals = {}
     _.extend locals, @buildMovieClipShapes(animData.shapes)
@@ -111,7 +111,7 @@ module.exports = class SpriteBuilder
     shape
 
   buildContainerFromStore: (containerKey) ->
-    console.error "Yo we don't have no", containerKey unless containerKey
+    console.error "Yo we don't have no #{containerKey}" unless containerKey
     contData = @containerStore[containerKey]
     cont = new createjs.Container()
     cont.initialize()
