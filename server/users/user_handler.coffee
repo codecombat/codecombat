@@ -375,6 +375,23 @@ UserHandler = class UserHandler extends Handler
       return @sendNotFoundError res unless remark?
       @sendSuccess res, remark
 
+  countEdits = (model, statKey, done) ->
+    User.find {}, (err, users) ->
+      async.eachSeries users, ((user, doneWithUser) ->
+        userID = user.get('_id').toHexString()
+
+        model.count {creator: userID}, (err, count) ->
+          if count
+            update = $set: {}
+            update.$set[statKey] = count
+          else
+            update = $unset: {}
+            update.$unset[statKey] = ''
+          User.findByIdAndUpdate user.get('_id'), update, (err) ->
+            log.error err if err?
+            doneWithUser()
+      ), done
+
   statHandlers:
     gamesCompleted: (done) ->
       LevelSession = require '../levels/sessions/LevelSession'
@@ -392,17 +409,24 @@ UserHandler = class UserHandler extends Handler
 
     articleEdits: (done) ->
       Article = require '../articles/Article'
+      countEdits Article, 'stats.articleEdits', done
 
-      User.find {}, (err, users) ->
-        async.eachSeries users, ((user, doneWithUser) ->
-          userID = user.get('_id').toHexString()
+    levelEdits: (done) ->
+      Level = require '../levels/Level'
+      countEdits Level, 'stats.levelEdits', done
 
-          Article.count {creator: userID}, (err, count) ->
-            update = if count then {$set: 'stats.articleEdits': count} else {$unset: 'stats.articleEdits': ''}
-            User.findByIdAndUpdate user.get('_id'), update, (err) ->
-              log.error err if err?
-              doneWithUser()
-        ), done
+    levelComponentEdits: (done) ->
+      LevelComponent = require '../levels/components/LevelComponent'
+      countEdits LevelComponent, 'stats.levelComponentEdits', done
+
+    levelSystemEdits: (done) ->
+      LevelSystem = require '../levels/systems/LevelSystem'
+      countEdits LevelSystem, 'stats.levelSystemEdits', done
+
+    thangTypeEdits: (done) ->
+      ThangType = require '../levels/thangs/ThangType'
+      countEdits ThangType, 'stats.thangTypeEdits', done
+
 
   recalculate: (req, res, statName) ->
     return @sendForbiddenError(res) unless req.user.isAdmin()

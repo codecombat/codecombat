@@ -256,6 +256,16 @@ module.exports.VersionedPlugin = (schema) ->
       )
     )
 
+  schema.pre 'save', (next) ->
+    return next() unless @get('creator')
+    User = require '../users/User'  # Avoid mutual inclusion cycles
+
+    userID = @get('creator').toHexString()
+    User.update {_id: userID}, {$inc: 'stats.levelEdits': 1}, {}, (err, docs) ->
+      log.error err if err?
+
+    next()
+
 
 module.exports.SearchablePlugin = (schema, options) ->
   # this plugin must be added only after the others (specifically Versioned and Permissions)

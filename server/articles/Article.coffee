@@ -8,7 +8,6 @@ ArticleSchema.plugin(plugins.VersionedPlugin)
 ArticleSchema.plugin(plugins.SearchablePlugin, {searchable: ['body', 'name']})
 ArticleSchema.plugin(plugins.PatchablePlugin)
 
-
 # Assumes every article save is a new version
 ArticleSchema.pre 'save', (next) ->
   return next() unless @get('creator')
