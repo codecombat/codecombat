@@ -3,7 +3,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     loading: "Töltés..."
     saving: "Mentés..."
     sending: "Küldés..."
-#    send: "Send"
+#   send: "Küldés indítása"
     cancel: "Mégse"
     save: "Mentés"
 #    publish: "Publish"
