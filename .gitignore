@@ -44,6 +44,7 @@ always-ignore extensions
 *.rej
 *.vi
 *.sass-cache
+.zedstate
 
 # OS or Editor folders
 .cache
@@ -86,4 +87,6 @@ login.coffee
 # debugging
 *.heapsnapshot
 
+temp/
 ### If you add something here, copy it to the end of .npmignore, too. ###
+
