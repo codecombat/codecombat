@@ -44,6 +44,7 @@ always-ignore extensions
 *.rej
 *.vi
 *.sass-cache
+.zedstate
 
 # OS or Editor folders
 .cache
