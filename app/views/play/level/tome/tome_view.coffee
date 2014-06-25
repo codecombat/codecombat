@@ -162,7 +162,7 @@ module.exports = class TomeView extends View
     @spellList.$el.hide()
 
   onClick: (e) ->
-    Backbone.Mediator.publish 'focus-editor' unless $(e.target).parents('.popover').length
+    Backbone.Mediator.publish 'tome:focus-editor' unless $(e.target).parents('.popover').length
 
   clearSpellView: ->
     @spellView?.dismiss()
@@ -201,7 +201,7 @@ module.exports = class TomeView extends View
 
   updateSpellPalette: (thang, spell) ->
     return unless thang and @spellPaletteView?.thang isnt thang and thang.programmableProperties or thang.apiProperties
-    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel, programmable: spell?.canRead()
+    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel, programmable: spell?.canRead(), language: spell.language, session: @options.session
     @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell   # TODO: know when palette should have been disabled but didn't exist
 
   spellFor: (thang, spellName) ->

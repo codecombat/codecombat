@@ -146,6 +146,7 @@ module.exports = class Spell
     for thangId, spellThang of @thangs
       spellThang.aether?.setLanguage @language
       spellThang.castAether = null
+      Backbone.Mediator.publish 'tome:spell-changed-language', spell: @
     workerMessage =
       function: "updateLanguageAether"
       newLanguage: @language

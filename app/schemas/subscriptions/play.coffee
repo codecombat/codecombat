@@ -63,9 +63,6 @@ module.exports =
   "next-game-pressed":
     {} # TODO schema
 
-  "focus-editor":
-    {} # TODO schema
-
   "end-current-script":
     {} # TODO schema
 
@@ -87,14 +84,14 @@ module.exports =
       scriptRunning: { type: 'string' }
       noteGroupRunning: { type: 'string' }
       timeSinceLastScriptEnded: { type: 'number' }
-      scriptStates: 
+      scriptStates:
         type: 'object'
         additionalProperties:
           title: 'Script State'
           type: 'object'
           additionalProperties: false
           properties:
-            timeSinceLastEnded: 
+            timeSinceLastEnded:
               type: 'number'
               description: 'seconds since this script ended last'
             timeSinceLastTriggered:
@@ -143,7 +140,7 @@ module.exports =
     additionalProperties: false
     properties:
       showModal: { type: 'boolean' }
-      
+
   "level-highlight-dom":
     type: 'object'
     additionalProperties: false

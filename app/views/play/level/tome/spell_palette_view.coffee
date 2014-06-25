@@ -4,6 +4,7 @@ template = require 'templates/play/level/tome/spell_palette'
 filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './spell_palette_entry_view'
 LevelComponent = require 'models/LevelComponent'
+EditorConfigModal = require '../modal/editor_config_modal'
 
 N_ROWS = 4
 
@@ -16,6 +17,10 @@ module.exports = class SpellPaletteView extends View
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
     'surface:frame-changed': "onFrameChanged"
+    'tome:change-language': 'onTomeChangedLanguage'
+
+  events:
+    'click .code-language-logo': 'onEditEditorConfig'
 
   constructor: (options) ->
     super options
@@ -39,7 +44,12 @@ module.exports = class SpellPaletteView extends View
         for entry in entryColumn
           col.append entry.el
           entry.render()  # Render after appending so that we can access parent container for popover
-      $('.nano').nanoScroller()
+    $('.nano').nanoScroller()
+    @updateCodeLanguage @options.language
+
+  updateCodeLanguage: (language) ->
+    @options.language = language
+    @$el.find('.code-language-logo').removeClass().addClass 'code-language-logo ' + language
 
   createPalette: ->
     lcs = @supermodel.getModels LevelComponent
@@ -127,6 +137,12 @@ module.exports = class SpellPaletteView extends View
   onFrameChanged: (e) ->
     return unless e.selectedThang?.id is @thang.id
     @options.thang = @thang = e.selectedThang  # Update our thang to the current version
+
+  onTomeChangedLanguage: (e) ->
+    @updateCodeLanguage e.language
+
+  onEditEditorConfig: (e) ->
+    @openModalView new EditorConfigModal session: @options.session
 
   destroy: ->
     entry.destroy() for entry in @entries
