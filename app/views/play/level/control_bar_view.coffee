@@ -28,7 +28,7 @@ module.exports = class ControlBarView extends View
     'click #next-game-button': ->
       Backbone.Mediator.publish 'next-game-pressed'
 
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': -> Backbone.Mediator.publish 'tome:focus-editor'
 
   constructor: (options) ->
     @worldName = options.worldName

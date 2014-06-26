@@ -36,7 +36,7 @@ module.exports = class PlaybackView extends View
     'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': -> Backbone.Mediator.publish 'tome:focus-editor'
     'mouseenter #timeProgress': 'onProgressEnter'
     'mouseleave #timeProgress': 'onProgressLeave'
     'mousemove #timeProgress': 'onProgressHover'

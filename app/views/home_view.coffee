@@ -10,6 +10,9 @@ module.exports = class HomeView extends View
   id: 'home-view'
   template: template
 
+  events:
+    'click .code-language': 'onCodeLanguageSelected'
+
   constructor: ->
     super(arguments...)
     ThangType.loadUniversalWizard()
@@ -25,10 +28,7 @@ module.exports = class HomeView extends View
       console.warn 'no more jquery browser version...'
     c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
     c.languageName = me.get('preferredLanguage')
-    # A/B test: https://github.com/codecombat/codecombat/issues/769
-    c.frontPageContent = {0: "video", 1: "screenshot", 2: "nothing"}[me.get('testGroupNumber') % 3]
-    application.tracker.identify frontPageContent: c.frontPageContent
-    application.tracker.trackEvent 'Front Page Content', frontPageContent: c.frontPageContent
+    c.codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
     c
 
   afterRender: ->
@@ -46,3 +46,26 @@ module.exports = class HomeView extends View
         href[href.length-1] = lastLevel if href.length isnt 0
         href = href.join("/")
         playLink.attr("href", href)
+
+    codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
+    @$el.find(".code-language[data-code-language=#{codeLanguage}]").addClass 'selected-language'
+    @updateLanguageLogos codeLanguage
+
+  updateLanguageLogos: (codeLanguage) ->
+    @$el.find('.game-mode-wrapper .code-language-logo').css('background-image', "url(/images/pages/home/language_logo_#{codeLanguage}.png)").toggleClass 'inverted', (codeLanguage in ['io', 'coffeescript'])
+
+  onCodeLanguageSelected: (e) ->
+    target = $(e.target).closest('.code-language')
+    codeLanguage = target.data('code-language')
+    @$el.find('.code-language').removeClass 'selected-language'
+    target.addClass 'selected-language'
+    aceConfig = me.get('aceConfig') ? {}
+    return if (aceConfig.language or 'javascript') is codeLanguage
+    aceConfig.language = codeLanguage
+    me.set 'aceConfig', aceConfig
+    me.save()  # me.patch() doesn't work if aceConfig previously existed and we switched just once
+
+    firstButton = @$el.find('#beginner-campaign .game-mode-wrapper').delay(500).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
+    lastButton = @$el.find('#multiplayer .game-mode-wrapper').delay(1000).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
+    $('#page-container').animate {scrollTop: firstButton.offset().top - 100, easing: 'easeInOutCubic'}, 500
+    @updateLanguageLogos codeLanguage

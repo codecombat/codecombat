@@ -31,7 +31,7 @@ module.exports = class HUDView extends View
     @$el.addClass 'no-selection'
 
   onClick: (e) ->
-    Backbone.Mediator.publish 'focus-editor' unless $(e.target).parents('.thang-props').length
+    Backbone.Mediator.publish 'tome:focus-editor' unless $(e.target).parents('.thang-props').length
 
   onFrameChanged: (e) ->
     @timeProgress = e.progress
@@ -126,7 +126,7 @@ module.exports = class HUDView extends View
     if thangType.get('raster')
       wrapper.empty().append($('<img />').attr('src', '/file/'+thangType.get('raster')))
     else
-      stage = thangType.getPortraitStage options
+      return unless stage = thangType.getPortraitStage options
       newCanvas = $(stage.canvas).addClass('thang-canvas')
       wrapper.empty().append(newCanvas)
       stage.update()

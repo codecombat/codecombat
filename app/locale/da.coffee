@@ -90,7 +90,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Lær at Kode Javascript ved at Spille et Spil"
+    slogan: "Lær at Kode ved at Spille et Spil"
     no_ie: "CodeCombat kan desværre ikke køre i Internet Explorer 9 eller ældre. Beklager!"
     no_mobile: "CodeCombat er ikke designet til mobile enheder og vil måske ikke virke!"
     play: "Spil"

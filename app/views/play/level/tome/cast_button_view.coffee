@@ -46,7 +46,7 @@ module.exports = class CastButtonView extends View
     Backbone.Mediator.publish 'tome:manual-cast', {}
 
   onCastOptionsClick: (e) =>
-    Backbone.Mediator.publish 'focus-editor'
+    Backbone.Mediator.publish 'tome:focus-editor'
     @castButtonGroup.removeClass 'open'
     @setAutocastDelay $(e.target).attr 'data-delay'
     false
