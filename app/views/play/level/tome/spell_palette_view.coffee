@@ -31,6 +31,7 @@ module.exports = class SpellPaletteView extends View
     c = super()
     c.entryGroups = @entryGroups
     c.entryGroupSlugs = @entryGroupSlugs
+    c.entryGroupNames = @entryGroupNames
     c.tabbed = _.size(@entryGroups) > 1
     c.defaultGroupSlug = @defaultGroupSlug
     c
@@ -96,7 +97,7 @@ module.exports = class SpellPaletteView extends View
       return 'more' if entry.doc.owner is 'this' and entry.doc.name in (propGroups.more ? [])
       entry.doc.owner
     @entries = _.sortBy @entries, (entry) ->
-      order = ['this', 'more', 'Math', 'Vector', 'snippets']
+      order = ['this', 'more', 'Math', 'Vector', 'String', 'Object', 'Array', 'Function', 'snippets']
       index = order.indexOf groupForEntry entry
       index = String.fromCharCode if index is -1 then order.length else index
       index += entry.doc.name
@@ -108,13 +109,18 @@ module.exports = class SpellPaletteView extends View
       @entryGroups[defaultGroup] = @entries
       @defaultGroupSlug = _.string.slugify defaultGroup
     @entryGroupSlugs = {}
+    @entryGroupNames = {}
     for group, entries of @entryGroups
-      @entryGroupSlugs[group] = _.string.slugify group
       @entryGroups[group] = _.groupBy entries, (entry, i) -> Math.floor i / N_ROWS
+      @entryGroupSlugs[group] = _.string.slugify group
+      @entryGroupNames[group] = group
+    if thisName = {coffeescript: '@', lua: 'self', clojure: 'self'}[@options.language]
+      if @entryGroupNames.this
+        @entryGroupNames.this = thisName
     null
 
   addEntry: (doc, shortenize, tabbify, isSnippet=false) ->
-    new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, tabbify: tabbify, isSnippet: isSnippet
+    new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, tabbify: tabbify, isSnippet: isSnippet, language: @options.language
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
@@ -140,6 +146,9 @@ module.exports = class SpellPaletteView extends View
 
   onTomeChangedLanguage: (e) ->
     @updateCodeLanguage e.language
+    entry.destroy() for entry in @entries
+    @createPalette()
+    @render()
 
   onEditEditorConfig: (e) ->
     @openModalView new EditorConfigModal session: @options.session

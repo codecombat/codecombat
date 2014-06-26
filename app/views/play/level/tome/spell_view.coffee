@@ -272,7 +272,10 @@ module.exports = class SpellView extends View
     else
       @ace.setValue source
     @eventsSuppressed = false
-    @ace.resize true  # hack: @ace may not have updated its text properly, so we force it to refresh
+    try
+      @ace.resize true  # hack: @ace may not have updated its text properly, so we force it to refresh
+    catch error
+      console.warn "Error resizing ACE after an update:", error
 
   # Called from CastButtonView initially and whenever the delay is changed
   setAutocastDelay: (@autocastDelay) ->

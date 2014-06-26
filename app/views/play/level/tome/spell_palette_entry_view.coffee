@@ -77,21 +77,48 @@ module.exports = class SpellPaletteEntryView extends View
     if _.isString @doc
       @doc = name: @doc, type: typeof @thang[@doc]
     if options.isSnippet
-      @doc.type = @doc.owner = 'snippet'
+      @doc.type = 'snippet'
+      @doc.owner = 'snippets'
       @doc.shortName = @doc.shorterName = @doc.title = @doc.name
     else
       @doc.owner ?= 'this'
-      suffix = ''
+      ownerName = @doc.ownerName = if @doc.owner isnt 'this' then @doc.owner else switch options.language
+        when 'python', 'lua' then 'self'
+        when 'coffeescript' then '@'
+        else 'this'
       if @doc.type is 'function'
-        argNames = (arg.name for arg in @doc.args ? []).join(', ')
-        argNames = '...' if argNames.length > 6
-        suffix = "(#{argNames})"
-      @doc.shortName = "#{@doc.owner}.#{@doc.name}#{suffix};"
-      if @doc.owner is 'this' or options.tabbify
-        @doc.shorterName = "#{@doc.name}#{suffix}"
+        sep = {clojure: ' '}[options.language] ? ', '
+        argNames = (arg.name for arg in @doc.args ? []).join sep
+        argString = if argNames then '__ARGS__' else ''
+        @doc.shortName = switch options.language
+          when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{@doc.name}#{if argString then ' ' + argString else '()'}"
+          when 'python' then "#{ownerName}.#{@doc.name}(#{argString})"
+          when 'lua' then "#{ownerName}:#{@doc.name}(#{argString})"
+          when 'clojure' then "(#{@doc.name} #{ownerName}#{if argNames then ' ' + argString else ''})"
+          when 'io' then "#{if ownerName is 'this' then '' else ownerName + ' '}#{@doc.name}#{if argNames then '(' + argNames + ')' else ''}"
+          else "#{ownerName}.#{@doc.name}(#{argString});"
       else
+        @doc.shortName = switch options.language
+          when 'coffeescript' then "#{ownerName}#{if ownerName is '@' then '' else '.'}#{@doc.name}"
+          when 'python' then "#{ownerName}.#{@doc.name}"
+          when 'lua' then "#{ownerName}.#{@doc.name}"
+          when 'clojure' then "(#{@doc.name} #{ownerName})"
+          when 'io' then "#{if ownerName is 'this' then '' else ownerName + ' '}#{@doc.name}"
+          else "#{ownerName}.#{@doc.name};"
+      @doc.shorterName = @doc.shortName
+      if @doc.type is 'function' and argString
+        @doc.shortName = @doc.shorterName.replace argString, argNames
+        @doc.shorterName = @doc.shorterName.replace argString, (if argNames.length > 6 then '...' else argNames)
+      if @options.language is 'javascript'
         @doc.shorterName = @doc.shortName.replace ';', ''
+        if @doc.owner is 'this' or options.tabbify
+          @doc.shorterName = @doc.shorterName.replace /^this\./, ''
       @doc.title = if options.shortenize then @doc.shorterName else @doc.shortName
+
+    if example = @doc.example?[options.language]
+      @doc.example = example
+    else unless _.isString @doc.example
+      @doc.example = null
 
   getRenderData: ->
     c = super()

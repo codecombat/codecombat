@@ -29,7 +29,16 @@ PropertyDocumentationSchema = c.object {
   description: {title: "Description", type: 'string', description: "Description of the property.", format: 'markdown', maxLength: 1000}
   args: c.array {title: "Arguments", description: "If this property has type 'function', then provide documentation for any function arguments."}, c.FunctionArgumentSchema
   owner: {title: "Owner", type: 'string', description: 'Owner of the property, like "this" or "Math".'}
-  example: {title: "Example", type: 'string', description: 'An optional example code block.', format: 'javascript'}
+  example:
+    oneOf: [
+      {title: "Example", type: 'string', description: 'An optional example code block.', format: 'javascript'}
+      {
+        type: 'object',
+        title: "Language Examples",
+        description: "Examples by code language.",
+        additionalProperties: {type: 'string', description: 'An example code block.', format: 'javascript'}  # TODO: not JS
+      }
+    ]
   returns: c.object {
     title: "Return Value"
     description: 'Optional documentation of any return value.'
