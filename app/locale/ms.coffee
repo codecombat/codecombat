@@ -90,7 +90,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Belajar Kod JavaScript Dengan Permainan"
+    slogan: "Belajar Kod bDengan Permainan"
     no_ie: "CodeCombat tidak berfungsi dalam Internet Explorer 9 dan terdahulu. Maaf!"
     no_mobile: "CodeCombat tidak dibangunkan untuk telefon mudah-alih dan tablet dan tidak akan berfungsi!"
     play: "Mula"

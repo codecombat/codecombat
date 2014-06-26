@@ -90,7 +90,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     required: "Vous devez être connecté pour voir cela"
 
   home:
-    slogan: "Apprenez à coder en JavaScript tout en jouant"
+    slogan: "Apprenez à coder tout en jouant"
     no_ie: "CodeCombat ne fonctionnera pas sous Internet Explorer 9 ou moins. Désolé !"
     no_mobile: "CodeCombat n'a pas été créé pour les plateformes mobiles donc il est possible qu'il ne fonctionne pas correctement ! "
     play: "Jouer"

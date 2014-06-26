@@ -90,7 +90,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Навчіться програмувати на JavaScript, граючи у гру"
+    slogan: "Навчіться програмувати, граючи у гру"
     no_ie: "На жаль, CodeCombat не працює в IE8 чи більш старих версіях!"
     no_mobile: "CodeCombat не призначений для мобільних приладів і може не працювати!"
     play: "Грати"

@@ -67,7 +67,29 @@ module.exports =
   "tome:spell-shown":
     {} # TODO schema
 
-  # TODO proposition: add tome to name
-  "focus-editor":
+  "tome:focus-editor":
     {} # TODO schema
 
+  "tome:change-language":
+    title: "Tome Change Language"
+    $schema: "http://json-schema.org/draft-04/schema#"
+    description: "Published when the Tome should update its programming language."
+    type: "object"
+    additionalProperties: false
+    properties:
+      language:
+        type: "string"
+    required: ["language"]
+
+  "tome:spell-changed-language":
+    title: "Spell Changed Language"
+    $schema: "http://json-schema.org/draft-04/schema#"
+    description: "Published when an individual spell has updated its code language."
+    type: "object"
+    additionalProperties: false
+    properties:
+      spell:
+        type: "object"
+      language:
+        type: "string"
+    required: ["spell"]

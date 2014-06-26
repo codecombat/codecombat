@@ -90,7 +90,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Научи да пишеш JavaScript играјући игру"
+    slogan: "Научи да пишеш код играјући игру"
     no_ie: "CodeCombat не ради у IE8 и старијим верзијама. Жао нам је!"
     no_mobile: "CodeCombat није дизајниран за мобилне уређаје и може да се деси да не ради!"
     play: "Играј"
