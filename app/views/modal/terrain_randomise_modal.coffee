@@ -8,7 +8,7 @@ module.exports = class TerrainRandomiseModal extends ModalView
   thangs = []
 
   events:
-    'click .play-option': 'onRandomise'
+    'click .choose-option': 'onRandomise'
 
   onRevertModel: (e) ->
     id = $(e.target).val()
@@ -17,6 +17,17 @@ module.exports = class TerrainRandomiseModal extends ModalView
     @reloadOnClose = true
 
   onRandomise: (e) ->
+    @thangs = []
+    @thangs.push {
+      'id':'Grass01'
+      'pos':{
+        'x':20
+        'y':20
+        }
+      }
+    Backbone.Mediator.publish('randomise:terrain-generated', 
+      'thangs': @thangs
+    )
     
   getRenderData: ->
     c = super()

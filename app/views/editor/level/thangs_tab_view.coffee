@@ -43,6 +43,7 @@ module.exports = class ThangsTabView extends View
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-up': 'onStageMouseUp'
+    'randomise:terrain-generated': 'onRandomiseTerrain'
 
   events:
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
@@ -222,6 +223,11 @@ module.exports = class ThangsTabView extends View
   onSpriteDoubleClicked: (e) ->
     return unless e.thang
     @editThang thangID: e.thang.id
+
+  onRandomiseTerrain: (e) ->
+    console.log e
+    for thang in e.thangs
+      console.log thang.id, thang.pos
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
