@@ -68,6 +68,7 @@ always-ignore extensions
 *.rej
 *.vi
 *.sass-cache
+.zedstate
 
 # OS or Editor folders
 .cache
@@ -94,6 +95,8 @@ bin/mongo/
 
 # Karma coverage
 coverage/
+
+temp/
 
 # local settings
 login.coffee

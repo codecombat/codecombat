@@ -90,7 +90,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "通過玩遊戲學習Javascript 腳本語言"
+    slogan: "通過玩遊戲學習編程"
     no_ie: "抱歉！Internet Explorer 9 等舊的瀏覽器打不開此網站"
     no_mobile: "CodeCombat 不是針對手機設備設計的，所以可能會出問題！"
     play: "開始遊戲"

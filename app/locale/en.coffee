@@ -90,7 +90,7 @@
     required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Learn to Code JavaScript by Playing a Game"
+    slogan: "Learn to Code by Playing a Game"
     no_ie: "CodeCombat does not run in Internet Explorer 9 or older. Sorry!"
     no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"
     play: "Play"
@@ -426,6 +426,7 @@
     tip_impossible: "It always seems impossible until it's done. - Nelson Mandela"
     tip_talk_is_cheap: "Talk is cheap. Show me the code. - Linus Torvalds"
     tip_first_language: "The most disastrous thing that you can ever learn is your first programming language. - Alan Kay"
+    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem."
     time_current: "Now:"
     time_total: "Max:"
     time_goto: "Go to:"
