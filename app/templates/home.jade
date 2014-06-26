@@ -4,54 +4,59 @@ block content
 
   h1#site-slogan(data-i18n="home.slogan") Learn to Code by Playing a Game
 
-  .code-languages
-    .primary-code-languages.row
-      .col-md-6
-        .code-language#javascript(data-code-language='javascript')
-          .code-wizard
-          h2 JavaScript
-          p The language of the web. Great for writing websites, web apps, HTML5 games, and servers.
-
-      .col-md-6
-        .code-language.beta#python(data-code-language='python')
-          .code-wizard
-          .code-language-beta
-          h2 Python
-          p Simple yet powerful, Python is a great general purpose programming language.
-
-    .secondary-code-languages.row
-      .col-md-3
-        .code-language.beta#coffeescript(data-code-language='coffeescript')
-          .code-language-logo
-          .code-wizard
-          .code-language-beta
-          h3 CoffeeScript
-          p Nicer JavaScript syntax
-
-      .col-md-3
-        .code-language.beta#clojure(data-code-language='clojure')
-          .code-language-logo
-          .code-wizard
-          .code-language-beta
-          h3 Clojure
-          p A modern Lisp
-
-      .col-md-3
-        .code-language.beta#lua(data-code-language='lua')
-          .code-language-logo
-          .code-wizard
-          .code-language-beta
-          h3 Lua
-          p Game scripting language
-
-      .col-md-3
-        .code-language.beta#io(data-code-language='io')
-          .code-language-logo
-          .code-wizard
-          .code-language-beta
-          h3 Io
-          p Simple but obscure
-
+  if me.isAdmin()
+    // Admin gate until fully tested
+    .code-languages
+      .primary-code-languages.row
+        .col-md-6
+          .code-language#javascript(data-code-language='javascript')
+            .code-wizard
+            h2 JavaScript
+            p The language of the web. Great for writing websites, web apps, HTML5 games, and servers.
+  
+        .col-md-6
+          .code-language.beta#python(data-code-language='python')
+            .code-wizard
+            .code-language-beta
+            h2 Python
+            p Simple yet powerful, Python is a great general purpose programming language.
+  
+      .secondary-code-languages.row
+        .col-md-3
+          .code-language.beta#coffeescript(data-code-language='coffeescript')
+            .code-language-logo
+            .code-wizard
+            .code-language-beta
+            h3 CoffeeScript
+            p Nicer JavaScript syntax
+  
+        .col-md-3
+          .code-language.beta#clojure(data-code-language='clojure')
+            .code-language-logo
+            .code-wizard
+            .code-language-beta
+            h3 Clojure
+            p A modern Lisp
+  
+        .col-md-3
+          .code-language.beta#lua(data-code-language='lua')
+            .code-language-logo
+            .code-wizard
+            .code-language-beta
+            h3 Lua
+            p Game scripting language
+  
+        .col-md-3
+          .code-language.beta#io(data-code-language='io')
+            .code-language-logo
+            .code-wizard
+            .code-language-beta
+            h3 Io
+            p Simple but obscure
+  else
+    // Old
+    #front-screenshot
+      img(src="/images/pages/home/front_screenshot_01.png", alt="")
 
   .alert.alert-danger.lt-ie10
     strong(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 9 or older. Sorry!

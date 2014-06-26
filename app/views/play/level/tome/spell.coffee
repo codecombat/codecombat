@@ -34,7 +34,7 @@ module.exports = class Spell
     @thangs = {}
     @view = new SpellView {spell: @, session: @session, worker: @worker}
     @view.render()  # Get it ready and code loaded in advance
-    @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel
+    @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, language: @language
     @tabView.render()
     @team = @permissions.readwrite[0] ? "common"
     Backbone.Mediator.publish 'tome:spell-created', spell: @
@@ -146,7 +146,7 @@ module.exports = class Spell
     for thangId, spellThang of @thangs
       spellThang.aether?.setLanguage @language
       spellThang.castAether = null
-      Backbone.Mediator.publish 'tome:spell-changed-language', spell: @
+      Backbone.Mediator.publish 'tome:spell-changed-language', spell: @, language: @language
     workerMessage =
       function: "updateLanguageAether"
       newLanguage: @language

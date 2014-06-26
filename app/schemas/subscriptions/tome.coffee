@@ -90,4 +90,6 @@ module.exports =
     properties:
       spell:
         type: "object"
+      language:
+        type: "string"
     required: ["spell"]
