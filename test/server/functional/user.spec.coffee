@@ -272,6 +272,10 @@ describe 'GET /db/user', ->
 describe 'Statistics', ->
   LevelSession = require '../../../server/levels/sessions/LevelSession'
   Article = require '../../../server/articles/Article'
+  Level = require '../../../server/levels/Level'
+  LevelSystem = require '../../../server/levels/systems/LevelSystem'
+  LevelComponent = require '../../../server/levels/components/LevelComponent'
+  ThangType = require '../../../server/levels/thangs/ThangType'
   User = require '../../../server/users/User'
   UserHandler = require '../../../server/users/user_handler'
 
@@ -315,7 +319,7 @@ describe 'Statistics', ->
     url = getURL('/db/article')
 
     loginAdmin (carl) ->
-      expect(carl.get 'stats.articleEdits').toBeUndefined()
+      expect(carl.get User.statsMapping.edits.article).toBeUndefined()
       article.creator = carl.get 'id'
 
       # Create major version 1.0
@@ -326,7 +330,7 @@ describe 'Statistics', ->
 
         User.findById carl.get('id'), (err, guy) ->
           expect(err).toBeNull()
-          expect(guy.get 'stats.articleEdits').toBe 1
+          expect(guy.get User.statsMapping.edits.article).toBe 1
 
           # Create minor version 1.1
           request.post {uri:url, json: article}, (err, res, body) ->
@@ -334,7 +338,7 @@ describe 'Statistics', ->
 
             User.findById carl.get('id'), (err, guy) ->
               expect(err).toBeNull()
-              expect(guy.get 'stats.articleEdits').toBe 2
+              expect(guy.get User.statsMapping.edits.article).toBe 2
 
               done()
 
@@ -342,16 +346,52 @@ describe 'Statistics', ->
     loginAdmin (carl) ->
       User.findByIdAndUpdate carl.get('id'), {$unset:'stats.articleEdits': ''}, (err, guy) ->
         expect(err).toBeNull()
-        expect(guy.get 'stats.articleEdits').toBeUndefined()
+        expect(guy.get User.statsMapping.edits.article).toBeUndefined()
 
         UserHandler.statHandlers.articleEdits ->
           User.findById carl.get('id'), (err, guy) ->
             expect(err).toBeNull()
-            expect(guy.get 'stats.articleEdits').toBe 2
+            expect(guy.get User.statsMapping.edits.article).toBe 2
+            done()
+
+  it 'keeps track of level edits', (done) ->
+    level = new Level
+      name: "King's Peak 3"
+      description: 'Climb a mountain.'
+      permissions: simplePermissions
+      scripts: []
+      thangs: []
+
+    loginAdmin (carl) ->
+      expect(carl.get User.statsMapping.edits.level).toBeUndefined()
+      level.creator = carl.get 'id'
+      level.save (err) ->
+        expect(err).toBeNull()
+
+        User.findById carl.get('id'), (err, guy) ->
+          expect(err).toBeNull()
+          expect(guy.get 'id').toBe carl.get 'id'
+          expect(guy.get User.statsMapping.edits.level).toBe 1
+
+          done()
+
+  it 'recalculates level edits', (done) ->
+    unittest.getAdmin (jose) ->
+      User.findByIdAndUpdate jose.get('id'), {$unset:'stats.levelEdits':''}, (err, guy) ->
+        expect(err).toBeNull()
+        expect(guy.get User.statsMapping.edits.level).toBeUndefined()
+
+        UserHandler.statHandlers.levelEdits ->
+          User.findById jose.get('id'), (err, guy) ->
+            expect(err).toBeNull()
+            expect(guy.get User.statsMapping.edits.level).toBe 1
             done()
 
   it 'cleans up', (done) ->
-    clearModels [LevelSession, Article], (err) ->
+    clearModels [LevelSession, Article, Level, LevelSystem, LevelComponent, ThangType], (err) ->
       expect(err).toBeNull()
 
       done()
+
+
+

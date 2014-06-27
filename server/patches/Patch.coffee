@@ -1,7 +1,8 @@
 mongoose = require('mongoose')
+deltas = require '../../app/lib/deltas'
 {handlers} = require '../commons/mapping'
 
-PatchSchema = new mongoose.Schema({}, {strict: false})
+PatchSchema = new mongoose.Schema({status: String}, {strict: false})
 
 PatchSchema.pre 'save', (next) ->
   return next() unless @isNew # patch can't be altered after creation, so only need to check data once
@@ -44,5 +45,32 @@ PatchSchema.pre 'save', (next) ->
     document.set 'patches', patches, {strict: false}
     @targetLoaded = document
     document.save (err) -> next(err)
+
+PatchSchema.methods.isTranslationPatch = ->
+  console.log @get 'delta'
+  expanded = deltas.expandDelta @get('delta')
+  console.log 'expanded'
+  _.some expanded, (delta) -> 'i18n' in expanded.dataPath
+
+PatchSchema.methods.isMiscPatch = ->
+  expanded = deltas.expandDelta @get 'delta'
+  _.some expanded, (delta) -> 'i18n' not in expanded.dataPath
+
+# Keep track of when a patch is pending. Accepted patches can be rejected still.
+PatchSchema.path('status').set (newVal) ->
+  @set '_wasPending', @status is 'pending' and newVal isnt 'pending'
+  newVal
+
+PatchSchema.pre 'save', (next) ->
+  User = require '../users/User'
+  userID = @get('creator').toHexString()
+
+  if @get('status') is 'accepted'
+    User.incrementStat userID, 'stats.patchesContributed' # accepted patches
+  else if @get('status') is 'pending'
+    User.incrementStat userID, 'stats.patchesSubmitted'   # submitted patches
+
+  next()
+
 
 module.exports = mongoose.model('patch', PatchSchema)

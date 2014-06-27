@@ -375,7 +375,9 @@ UserHandler = class UserHandler extends Handler
       return @sendNotFoundError res unless remark?
       @sendSuccess res, remark
 
-  countEdits = (model, statKey, done) ->
+  countEdits = (model, done) ->
+    statKey = User.statsMapping.edits[model.modelName]
+    return done(new Error 'Could not resolve statKey for model') unless statKey?
     User.find {}, (err, users) ->
       async.eachSeries users, ((user, doneWithUser) ->
         userID = user.get('_id').toHexString()
@@ -409,23 +411,23 @@ UserHandler = class UserHandler extends Handler
 
     articleEdits: (done) ->
       Article = require '../articles/Article'
-      countEdits Article, 'stats.articleEdits', done
+      countEdits Article,  done
 
     levelEdits: (done) ->
       Level = require '../levels/Level'
-      countEdits Level, 'stats.levelEdits', done
+      countEdits Level, done
 
     levelComponentEdits: (done) ->
       LevelComponent = require '../levels/components/LevelComponent'
-      countEdits LevelComponent, 'stats.levelComponentEdits', done
+      countEdits LevelComponent,  done
 
     levelSystemEdits: (done) ->
       LevelSystem = require '../levels/systems/LevelSystem'
-      countEdits LevelSystem, 'stats.levelSystemEdits', done
+      countEdits LevelSystem, done
 
     thangTypeEdits: (done) ->
       ThangType = require '../levels/thangs/ThangType'
-      countEdits ThangType, 'stats.thangTypeEdits', done
+      countEdits ThangType, done
 
 
   recalculate: (req, res, statName) ->

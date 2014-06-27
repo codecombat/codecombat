@@ -21,16 +21,5 @@ LevelSchema.pre 'init', (next) ->
 LevelSchema.post 'init', (doc) ->
   if _.isString(doc.get('nextLevel'))
     doc.set('nextLevel', undefined)
-    
-# Assumes every level save is a new level
-LevelSchema.pre 'save', (next) ->
-  return next() unless @get('creator')
-  User = require '../users/User'  # Avoid mutual inclusion cycles
-
-  userID = @get('creator').toHexString()
-  User.update {_id: userID}, {$inc: 'stats.levelEdits': 1}, {}, (err, docs) ->
-    log.error err if err?
-
-  next()
 
 module.exports = Level = mongoose.model('level', LevelSchema)

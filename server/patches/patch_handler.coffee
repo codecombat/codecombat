@@ -48,11 +48,18 @@ PatchHandler = class PatchHandler extends Handler
         
         if newStatus is 'withdrawn'
           return @sendUnauthorizedError(res) unless req.user.get('_id').equals patch.get('creator')
-          
+
+        # newly accepted
+        if newStatus is 'accepted' and patch.get '_wasPending'
+          accepter = req.user.get 'id'
+          User.incrementStat accepter, 'stats.'
+
         # these require callbacks
-        patch.update {$set:{status:newStatus}}, {}, ->
-        target.update {$pull:{patches:patch.get('_id')}}, {}, ->
-        @sendSuccess(res, null)
+        patch.set 'status', newStatus
+        patch.save (err) =>
+          log.error err if err?
+          target.update {$pull:{patches:patch.get('_id')}}, {}, ->
+          @sendSuccess(res, null)
 
   onPostSuccess: (req, doc) ->
     log.error "Error sending patch created: could not find the loaded target on the patch object." unless doc.targetLoaded

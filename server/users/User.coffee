@@ -108,6 +108,19 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
 
   mc?.lists.subscribe params, onSuccess, onFailure
 
+UserSchema.statics.statsMapping =
+  edits:
+    article: 'stats.articleEdits'
+    level: 'stats.levelEdits'
+    'level.component': 'stats.levelComponentEdits'
+    'level.system': 'stats.levelSystemEdits'
+    'thang.type': 'stats.thangTypeEdits'
+
+UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
+  update = $inc: {}
+  update.$inc[statName] = inc
+  @update {_id:id}, update, {}, (err) ->
+    done err if done?
 
 UserSchema.pre('save', (next) ->
   @set('emailLower', @get('email')?.toLowerCase())

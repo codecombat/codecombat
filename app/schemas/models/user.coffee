@@ -160,7 +160,13 @@ UserSchema = c.object {},
     data: c.object {description: "Cached LinkedIn data slurped from profile.", additionalProperties: true}
   points: {type:'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
-
+  stats: c.object {additionalProperties: true}, # TODO set to false after dev
+    gamesCompleted: type: 'integer'
+    articleEdits: type: 'integer'
+    levelEdits: type: 'integer'
+    levelSystemEdits: type: 'integer'
+    levelComponentEdits: type: 'integer'
+    thangTypeEdits: type: 'integer'
 
 
 c.extendBasicProperties UserSchema, 'user'

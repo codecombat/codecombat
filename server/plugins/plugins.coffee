@@ -1,5 +1,6 @@
 mongoose = require('mongoose')
 textSearch = require('mongoose-text-search')
+log = require 'winston'
 
 module.exports.MigrationPlugin = (schema, migrations) ->
   # Property name migrations made EZ
@@ -256,13 +257,14 @@ module.exports.VersionedPlugin = (schema) ->
       )
     )
 
+  # Assume ever save is a new version, hence an edit
   schema.pre 'save', (next) ->
-    return next() unless @get('creator')
     User = require '../users/User'  # Avoid mutual inclusion cycles
+    userID = @get('creator')?.toHexString()
+    return next() unless userID?
 
-    userID = @get('creator').toHexString()
-    User.update {_id: userID}, {$inc: 'stats.levelEdits': 1}, {}, (err, docs) ->
-      log.error err if err?
+    statName = User.statsMapping.edits[@constructor.modelName]
+    User.incrementStat userID, statName
 
     next()
 

@@ -1,4 +1,4 @@
-SystemNameLoader = require 'lib/SystemNameLoader'
+SystemNameLoader = require './SystemNameLoader'
 ### 
   Good-to-knows:
     dataPath: an array of keys that walks you up a JSON object that's being patched
@@ -10,7 +10,6 @@ SystemNameLoader = require 'lib/SystemNameLoader'
 module.exports.expandDelta = (delta, left, schema) ->
   flattenedDeltas = flattenDelta(delta)
   (expandFlattenedDelta(fd, left, schema) for fd in flattenedDeltas)
-  
 
 flattenDelta = (delta, dataPath=null, deltaPath=null) ->
   # takes a single jsondiffpatch delta and returns an array of objects with
@@ -27,9 +26,7 @@ flattenDelta = (delta, dataPath=null, deltaPath=null) ->
     results = results.concat flattenDelta(
       childDelta, dataPath.concat([dataIndex]), deltaPath.concat([deltaIndex]))
   results
-  
-
-expandFlattenedDelta = (delta, left, schema) ->
+  pandFlattenedDelta = (delta, left, schema) ->
   # takes a single flattened delta and converts into an object that can be
   # easily formatted into something human readable.
   
