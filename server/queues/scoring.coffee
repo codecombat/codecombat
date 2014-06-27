@@ -138,6 +138,9 @@ module.exports.getTwoGames = (req, res) ->
     selection = "team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate"
     LevelSession.count queryParams, (err, numberOfHumans) =>
       if err? then return errors.serverError(res, "Couldn't get the number of human games")
+      unless numberOfHumans
+        res.send(204, "No games to score.")
+        return res.end()
       humanSkipCount = Math.floor(Math.random() * numberOfHumans)
       ogreCountParams =
         "levelID": "greed"
@@ -145,6 +148,9 @@ module.exports.getTwoGames = (req, res) ->
         "team":"ogres"
       LevelSession.count ogreCountParams, (err, numberOfOgres) =>
         if err? then return errors.serverError(res, "Couldnt' get the number of ogre games")
+        unless numberOfOgres
+          res.send(204, "No games to score.")
+          return res.end()
         ogresSkipCount = Math.floor(Math.random() * numberOfOgres)
 
         query = LevelSession

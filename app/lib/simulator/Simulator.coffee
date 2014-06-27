@@ -37,6 +37,10 @@ module.exports = class Simulator extends CocoClass
         console.warn "There was an error fetching two games! #{JSON.stringify errorData}"
       success: (taskData) =>
         return if @destroyed
+        unless taskData
+          @trigger 'statusUpdate', "No games to simulate. Trying another game in #{@retryDelayInSeconds} seconds."
+          @simulateAnotherTaskAfterDelay()
+          return
         @trigger 'statusUpdate', 'Setting up simulation...'
         #refactor this
         @task = new SimulationTask(taskData)
