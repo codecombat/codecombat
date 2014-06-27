@@ -30,7 +30,9 @@ block content
         tbody
           for employer, index in employers
             - var activity = employer.get('activity') || {};
-            - var linkedIn = employer.get('signedEmployerAgreement').data
+            - var hasLinkedIn = typeof employer.get('signedEmployerAgreement') !== "undefined";
+            - var emptyDate = {date: Date.now()};
+            - var linkedIn = hasLinkedIn ? employer.get('signedEmployerAgreement').data : emptyDate;
             tr(data-employer-id=employer.id)
               td
                 img(src=employer.getPhotoURL(50), height=50)
@@ -48,7 +50,10 @@ block content
                   if !employer.get('firstName') && !linkedIn.firstName && !employer.get('name')
                     | Anoner
               td
-                a(href=employer.get('signedEmployerAgreement').data.publicProfileUrl)= employer.get('employerAt')
+                if employer.get('signedEmployerAgreement')
+                  a(href=employer.get('signedEmployerAgreement').data.publicProfileUrl)= employer.get('employerAt')
+                else
+                  | Unknown
               td= employer.get('email')
               for a in ['login', 'view_candidate', 'contact_candidate']
                 - var act = activity[a];
@@ -62,4 +67,4 @@ block content
                     span= moment(act.last).fromNow()
                 else
                   td 0
-              td(data-employer-age=(new Date() - new Date(employer.get('signedEmployerAgreement').date)) / 86400 / 1000)= moment(employer.get('signedEmployerAgreement').date).fromNow()
+              td(data-employer-age=(new Date() - new Date(linkedIn.date)) / 86400 / 1000)= moment(employer.get('signedEmployerAgreement') ? employer.get('signedEmployerAgreement').date : linkedIn.date).fromNow()
