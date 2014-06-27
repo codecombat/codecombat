@@ -69,6 +69,13 @@ module.exports = class SpellPaletteView extends View
         Array: 'programmableArrayProperties'
         Object: 'programmableObjectProperties'
         String: 'programmableStringProperties'
+        Global: 'programmableGlobalProperties'
+        Function: 'programmableFunctionProperties'
+        RegExp: 'programmableRegExpProperties'
+        Date: 'programmableDateProperties'
+        Number: 'programmableNumberProperties'
+        JSON: 'programmableJSONProperties'
+        LoDash: 'programmableLoDashProperties'
         Vector: 'programmableVectorProperties'
         snippets: 'programmableSnippets'
     else
