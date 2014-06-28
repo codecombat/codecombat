@@ -115,6 +115,19 @@ UserSchema.statics.statsMapping =
     'level.component': 'stats.levelComponentEdits'
     'level.system': 'stats.levelSystemEdits'
     'thang.type': 'stats.thangTypeEdits'
+  translations:
+    article: 'stats.articleTranslationPatches'
+    level: 'stats.levelTranslationPatches'
+    'level.component': 'stats.levelComponentTranslationPatches'
+    'level.system': 'stats.levelSystemTranslationPatches'
+    'thang.type': 'stats.thangTypeTranslationPatches'
+  misc:
+    article: 'stats.articleMiscPatches'
+    level: 'stats.levelMiscPatches'
+    'level.component': 'stats.levelComponentMiscPatches'
+    'level.system': 'stats.levelSystemMiscPatches'
+    'thang.type': 'stats.thangTypeMiscPatches'
+    
 
 UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
   update = $inc: {}

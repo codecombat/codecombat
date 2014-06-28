@@ -1,7 +1,6 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/delta'
 deltasLib = require 'lib/deltas'
-window.delta = deltasLib
 
 TEXTDIFF_OPTIONS =
   baseTextName: "Old"

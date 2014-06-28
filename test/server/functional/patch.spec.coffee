@@ -40,7 +40,7 @@ describe '/db/patch', ->
         expect(body.creator).toBe(joe.id)
         patches[0] = body
         done()
-      
+
   it 'adds a patch to the target document', (done) ->
     Article.findOne({}).exec (err, article) ->
       expect(article.toObject().patches[0]).toBeDefined()
@@ -110,10 +110,24 @@ describe '/db/patch', ->
               expect(article.get('status')).toBe 'accepted'
               done()
 
-  it 'does not allow the recipient to withdraw the pull request', (done) ->
-    statusURL = getURL("/db/patch/#{patches[0]._id}/status")
-    request.put {uri: statusURL, json: {status:'withdrawn'}}, (err, res, body) ->
-      expect(res.statusCode).toBe(403)
-      Patch.findOne({}).exec (err, article) ->
-        expect(article.get('status')).toBe 'accepted'
+  it 'keeps track of amount of submitted and accepted patches', (done) ->
+    loginJoe (joe) ->
+      User.findById joe.get('id'), (err, guy) ->
+        expect(err).toBeNull()
+        expect(guy.get 'stats.patchesSubmitted').toBe 1
+        expect(guy.get 'stats.patchesContributed').toBe 1
+        expect(guy.get 'stats.totalMiscPatches').toBe 1
+        expect(guy.get 'stats.articleMiscPatches').toBe 1
+        expect(guy.get 'stats.totalTranslationPatches').toBeUndefined()
         done()
+
+  it 'does not allow the recipient to withdraw the pull request', (done) ->
+    loginAdmin ->
+      statusURL = getURL("/db/patch/#{patches[0]._id}/status")
+      request.put {uri: statusURL, json: {status:'withdrawn'}}, (err, res, body) ->
+        expect(res.statusCode).toBe(403)
+        Patch.findOne({}).exec (err, article) ->
+          expect(article.get('status')).toBe 'accepted'
+          done()
+
+

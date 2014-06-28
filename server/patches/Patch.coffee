@@ -54,10 +54,14 @@ PatchSchema.methods.isMiscPatch = ->
   expanded = deltas.flattenDelta @get('delta')
   _.some expanded, (delta) -> 'i18n' not in delta.dataPath
 
-# Keep track of when a patch is pending. Accepted patches can be rejected still.
+# Keep track of when a patch is pending and newly approved.
 PatchSchema.path('status').set (newVal) ->
   @set '_wasPending', @status is 'pending' and newVal isnt 'pending'
+  @set '_newlyAccepted', newVal is 'accepted' and not @get('_newlyAccepted') # Only true on the first accept
   newVal
+
+PatchSchema.methods.isNewlyAccepted = -> @get('_newlyAccepted')
+PatchSchema.methods.wasPending = -> @get '_wasPending'
 
 PatchSchema.pre 'save', (next) ->
   User = require '../users/User'
