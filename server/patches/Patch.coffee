@@ -47,14 +47,12 @@ PatchSchema.pre 'save', (next) ->
     document.save (err) -> next(err)
 
 PatchSchema.methods.isTranslationPatch = ->
-  console.log @get 'delta'
-  expanded = deltas.expandDelta @get('delta')
-  console.log 'expanded'
-  _.some expanded, (delta) -> 'i18n' in expanded.dataPath
+  expanded = deltas.flattenDelta @get('delta')
+  _.some expanded, (delta) -> 'i18n' in delta.dataPath
 
 PatchSchema.methods.isMiscPatch = ->
-  expanded = deltas.expandDelta @get 'delta'
-  _.some expanded, (delta) -> 'i18n' not in expanded.dataPath
+  expanded = deltas.flattenDelta @get('delta')
+  _.some expanded, (delta) -> 'i18n' not in delta.dataPath
 
 # Keep track of when a patch is pending. Accepted patches can be rejected still.
 PatchSchema.path('status').set (newVal) ->
