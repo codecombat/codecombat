@@ -225,9 +225,7 @@ module.exports = class ThangsTabView extends View
     @editThang thangID: e.thang.id
 
   onRandomiseTerrain: (e) ->
-    console.log e
     for thang in e.thangs
-      console.log thang.id, thang.pos
       @selectAddThangType thang.id
       @addThang @addThangType, thang.pos
 
@@ -282,7 +280,6 @@ module.exports = class ThangsTabView extends View
     @selectAddThang {target: icons[nextSelectedIndex]}
 
   selectAddThangType: (type, @cloneSourceThang) ->
-    console.log type
     if _.isString type
       type = _.find @supermodel.getModels(ThangType), (m) -> m.get('name') is type
     pos = @addThangSprite?.thang.pos  # Maintain old sprite's pos if we have it
@@ -400,7 +397,6 @@ module.exports = class ThangsTabView extends View
     @editThang thangID: id if id
 
   addThang: (thangType, pos) ->
-    console.log thangType, pos
     thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
