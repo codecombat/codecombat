@@ -62,6 +62,7 @@ patchableProps = ->
     _id: me.objectId(links: [{rel: "db", href: "/db/patch/{($)}"}], title: "Patch ID", description: "A reference to the patch.")
     status: { enum: ['pending', 'accepted', 'rejected', 'cancelled']}
   })
+  pendingPatches: { type: 'integer' }
   allowPatches: { type: 'boolean' }
   watchers: me.array({title:'Watchers'},
     me.objectId(links: [{rel: 'extra', href: "/db/user/{($)}"}]))

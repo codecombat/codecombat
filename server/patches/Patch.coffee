@@ -1,7 +1,7 @@
 mongoose = require('mongoose')
 {handlers} = require '../commons/mapping'
 
-PatchSchema = new mongoose.Schema({}, {strict: false})
+PatchSchema = new mongoose.Schema({status: String}, {strict: false})
 
 PatchSchema.pre 'save', (next) ->
   return next() unless @isNew # patch can't be altered after creation, so only need to check data once
@@ -44,5 +44,29 @@ PatchSchema.pre 'save', (next) ->
     document.set 'patches', patches, {strict: false}
     @targetLoaded = document
     document.save (err) -> next(err)
+
+PatchSchema.post 'init', (doc) ->
+  doc.set '_wasPending', undefined
+
+# Keep track of when a patch is pending. Accepted patches can be rejected still.
+PatchSchema.path('status').set (newVal) ->
+  @set '_wasPending', @status is 'pending' and newVal isnt 'pending'
+  newVal
+
+PatchSchema.pre 'save', (next) ->
+  target = @get('target')
+  targetID = target.id
+  collection = target.collection
+  handler = require('../' + handlers[collection])
+  handler.getDocumentForIdOrSlug targetID, (err, document) =>
+    return next(err) if err?
+    if @get '_wasPending'
+      document.set 'pendingPatches', (document.get('pendingPatches') or 0) - 1
+      document.save (err) -> next(err)
+    else if @get('status') is 'pending'
+      document.set 'pendingPatches', (document.get('pendingPatches') or 0) + 1
+      document.save (err) -> next(err)
+    else
+      next(err)
 
 module.exports = mongoose.model('patch', PatchSchema)

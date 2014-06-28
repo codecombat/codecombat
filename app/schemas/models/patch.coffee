@@ -20,6 +20,9 @@ PatchSchema = c.object({title:'Patch', required:['target', 'delta', 'commitMessa
         major: { type: 'number', minimum: 0 }
         minor: { type: 'number', minimum: 0 }
   })
+
+  # TODO try to get rid of it on the app side
+  _wasPending: type: 'boolean'
 })
 
 c.extendBasicProperties(PatchSchema, 'patch')

@@ -30,9 +30,9 @@ block header
         li
           a(href="#editor-level-patches", data-toggle="tab")#patches-tab
             span(data-i18n="resources.patches").spr Patches
-            - var patches = level.get('patches')
-            if patches && patches.length
-              span.badge= patches.length
+            - var pending = level.get('pendingPatches')
+            if pending
+              span.badge= pending
       
       .navbar-header
         span.navbar-brand #{level.attributes.name}
