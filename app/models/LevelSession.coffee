@@ -34,5 +34,5 @@ module.exports = class LevelSession extends CocoModel
     for item in thangSpellArr
       thang = item[0]
       spell = item[1]
-      return true if c1[thang][spell] isnt c2[thang][spell]
+      return true if c1[thang][spell] isnt c2[thang]?[spell]
     false

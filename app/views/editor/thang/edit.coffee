@@ -66,7 +66,7 @@ module.exports = class ThangTypeEditView extends View
     raw = ("raw:#{name}" for name in raw)
     main = _.keys(@thangType.get('actions') or {})
     main.concat(raw)
-  
+
   afterRender: ->
     super()
     return unless @supermodel.finished()
@@ -326,7 +326,9 @@ module.exports = class ThangTypeEditView extends View
         image = @currentSprite.imageObject.image
         portraitSource = imageToPortrait image
         # bit of a hacky way to get that portrait
-      success = -> document.location.href = url
+      success = =>
+        @thangType.clearBackup()
+        document.location.href = url
       newThangType.uploadGenericPortrait success, portraitSource
 
   clearRawData: ->
@@ -419,4 +421,4 @@ imageToPortrait = (img) ->
   scaleY = 100 / img.height
   ctx.scale scaleX, scaleY
   ctx.drawImage img, 0, 0
-  canvas.toDataURL("image/png") 
+  canvas.toDataURL("image/png")

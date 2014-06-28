@@ -122,7 +122,7 @@ module.exports = class SuperModel extends Backbone.Model
     return @progress is 1.0 or not @denom
 
   addModelResource: (modelOrCollection, name, fetchOptions, value=1) ->
-    modelOrCollection.saveBackups = @shouldSaveBackups(modelOrCollection)
+    modelOrCollection.saveBackups = modelOrCollection.saveBackups or @shouldSaveBackups(modelOrCollection)
     @checkName(name)
     res = new ModelResource(modelOrCollection, name, fetchOptions, value)
     @storeResource(res, value)

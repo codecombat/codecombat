@@ -25,7 +25,7 @@ module.exports = class LevelComponentEditView extends View
     super options
     @levelComponent = @supermodel.getModelByOriginalAndMajorVersion LevelComponent, options.original, options.majorVersion or 0
     console.log "Couldn't get levelComponent for", options, "from", @supermodel.models unless @levelComponent
-    @onEditorChange = _.debounce @onEditorChange, 1500
+    @onEditorChange = _.debounce @onEditorChange, 1000
 
   getRenderData: (context={}) ->
     context = super(context)

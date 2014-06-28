@@ -364,9 +364,12 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   updateAlpha: ->
     @imageObject.alpha = if @hiding then 0 else 1
     return unless @thang?.alpha?
+    return if @imageObject.alpha is @thang.alpha
     @imageObject.alpha = @thang.alpha
     if @options.showInvisible
       @imageObject.alpha = Math.max 0.5, @imageObject.alpha
+    mark.updateAlpha @thang.alpha for name, mark of @marks
+    @healthBar?.alpha = @thang.alpha
 
   updateRotation: (imageObject) ->
     rotationType = @thangType.get('rotationType')

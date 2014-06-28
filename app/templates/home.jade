@@ -2,31 +2,55 @@ extends /templates/base
 
 block content
 
-  h1#site-slogan(data-i18n="home.slogan") Learn to Code JavaScript by Playing a Game
+  h1#site-slogan(data-i18n="home.slogan") Learn to Code by Playing a Game
 
-  if frontPageContent == 'video'
-    //- if language is Chinese, we use youku, because China can't visit youtube.
-    //- otherwise, we use youtube.
-    if languageName == "zh-HANS"
-      #trailer-wrapper
-        <embed src="http://player.youku.com/player.php/sid/XNjk2Mzg5NjYw/v.swf" style="margin-left:15px; margin-top:8px;"allowFullScreen="true" quality="high" width="920" height="518" wmode="opaque"></embed>
-        img(src="/images/pages/home/video_border.png")
-      #mobile-trailer-wrapper
-        <embed src="http://player.youku.com/player.php/sid/XNjk2Mzg5NjYw/v.swf" style="margin-left:15px; margin-top:8px;"allowFullScreen="true" quality="high" width="280" height="158" wmode="opaque"></embed>
-    else
-      #trailer-wrapper
-        <iframe width="920" height="518" src="//www.youtube.com/embed/1zjaA13k-dA?rel=0&controls=0&modestbranding=1&showinfo=0&iv_load_policy=3&vq=hd720&wmode=transparent" frameborder="0" wmode="opaque" allowfullscreen></iframe>
-        img(src="/images/pages/home/video_border.png")
-      #mobile-trailer-wrapper
-        <iframe src="//www.youtube.com/embed/1zjaA13k-dA" frameborder="0" width="280" height="158"></iframe> 
-    hr
+  .code-languages
+    .primary-code-languages.row
+      .col-md-6
+        .code-language#javascript(data-code-language='javascript')
+          .code-wizard
+          h2 JavaScript
+          p The language of the web. Great for writing websites, web apps, HTML5 games, and servers.
 
-  else if frontPageContent == 'screenshot'
-    #front-screenshot
-      img(src="/images/pages/home/front_screenshot_01.png", alt="")
+      .col-md-6
+        .code-language.beta#python(data-code-language='python')
+          .code-wizard
+          .code-language-beta
+          h2 Python
+          p Simple yet powerful, Python is a great general purpose programming language.
 
-  else if frontPageContent == 'nothing'
-    p &nbsp;
+    .secondary-code-languages.row
+      .col-md-3
+        .code-language.beta#coffeescript(data-code-language='coffeescript')
+          .code-language-logo
+          .code-wizard
+          .code-language-beta
+          h3 CoffeeScript
+          p Nicer JavaScript syntax
+
+      .col-md-3
+        .code-language.beta#clojure(data-code-language='clojure')
+          .code-language-logo
+          .code-wizard
+          .code-language-beta
+          h3 Clojure
+          p A modern Lisp
+
+      .col-md-3
+        .code-language.beta#lua(data-code-language='lua')
+          .code-language-logo
+          .code-wizard
+          .code-language-beta
+          h3 Lua
+          p Game scripting language
+
+      .col-md-3
+        .code-language.beta#io(data-code-language='io', title="Careful: Io is still quite buggy")
+          .code-language-logo
+          .code-wizard
+          .code-language-beta
+          h3 Io
+          p Simple but obscure
 
   .alert.alert-danger.lt-ie10
     strong(data-i18n="home.no_ie") CodeCombat does not run in Internet Explorer 9 or older. Sorry!
@@ -49,6 +73,7 @@ block content
         h3(data-i18n="home.campaign") Campaign
         h4(data-i18n="home.for_beginners") For Beginners
       .play-text(data-i18n="home.play") Play
+      .code-language-logo
 
   a#multiplayer(href="/play/ladder")
     div.game-mode-wrapper
@@ -59,5 +84,6 @@ block content
         h3(data-i18n="home.multiplayer") Multiplayer
         h4(data-i18n="home.for_developers") For Developers
       .play-text(data-i18n="home.play") Play
+      .code-language-logo
 
   .clearfix

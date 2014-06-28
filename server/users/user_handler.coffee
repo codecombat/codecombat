@@ -236,12 +236,14 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, documents)
 
   getLevelSessions: (req, res, userID) ->
-    return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin()
     query = creator: userID
-    projection = null
+    isAuthorized = req.user._id+'' is userID or req.user.isAdmin()
+    projection = {}
     if req.query.project
-      projection = {}
-      projection[field] = 1 for field in req.query.project.split(',')
+      projection[field] = 1 for field in req.query.project.split(',') when isAuthorized or not (field in LevelSessionHandler.privateProperties)
+    else unless isAuthorized
+      projection[field] = 0 for field in LevelSessionHandler.privateProperties
+
     LevelSession.find(query).select(projection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
@@ -263,7 +265,7 @@ UserHandler = class UserHandler extends Handler
     return @sendMethodNotAllowed res unless req.method is 'POST'
     isMe = userID is req.user._id + ''
     isAuthorized = isMe or req.user.isAdmin()
-    isAuthorized ||= ('employer' in req.user.get('permissions')) and (activityName in ['viewed_by_employer', 'messaged_by_employer'])
+    isAuthorized ||= ('employer' in req.user.get('permissions')) and (activityName in ['viewed_by_employer', 'contacted_by_employer'])
     return @sendUnauthorizedError res unless isAuthorized
     updateUser = (user) =>
       activity = user.trackActivity activityName, increment
@@ -306,9 +308,9 @@ UserHandler = class UserHandler extends Handler
 
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
-    since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
+    months = if req.user.isAdmin() then 12 else 2
+    since = (new Date((new Date()) - months * 30.4 * 86400 * 1000)).toISOString()
     query = {'jobProfile.updated': {$gt: since}}
-    #query.jobProfileApproved = true unless req.user.isAdmin()  # We split into featured and other now.
     query['jobProfile.active'] = true unless req.user.isAdmin()
     selection = 'jobProfile jobProfileApproved photoURL'
     selection += ' email name' if authorized

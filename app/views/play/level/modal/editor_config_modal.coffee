@@ -13,7 +13,7 @@ module.exports = class EditorConfigModal extends View
     invisibles: false
     indentGuides: false
     behaviors: false
-    liveCompletion: false
+    liveCompletion: true
 
   events:
     'change #tome-invisibles': 'updateInvisibles'

@@ -18,12 +18,14 @@ DEBUGGING = true
 
 sendInitialRecruitingEmail = ->
   leaderboards = [
-    #{slug: 'brawlwood', team: 'humans', limit: 55, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
-    #{slug: 'brawlwood', team: 'ogres', limit: 40, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
-    #{slug: 'dungeon-arena', team: 'humans', limit: 200, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
-    #{slug: 'dungeon-arena', team: 'ogres', limit: 150, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
-    {slug: 'greed', team: 'humans', limit: 320, name: "Greed", original: "53558b5a9914f5a90d7ccddb", majorVersion: 0}
-    {slug: 'greed', team: 'ogres', limit: 300, name: "Greed", original: "53558b5a9914f5a90d7ccddb", majorVersion: 0}
+    {slug: 'brawlwood', team: 'humans', limit: 55, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
+    {slug: 'brawlwood', team: 'ogres', limit: 40, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
+    {slug: 'dungeon-arena', team: 'humans', limit: 300, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
+    {slug: 'dungeon-arena', team: 'ogres', limit: 250, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
+    {slug: 'greed', team: 'humans', limit: 465, name: "Greed", original: "53558b5a9914f5a90d7ccddb", majorVersion: 0}
+    {slug: 'greed', team: 'ogres', limit: 371, name: "Greed", original: "53558b5a9914f5a90d7ccddb", majorVersion: 0}
+    {slug: 'gold-rush', team: 'humans', limit: 253, name: "Gold Rush", original: "533353722a61b7ca6832840c", majorVersion: 0}
+    {slug: 'gold-rush', team: 'ogres', limit: 203, name: "Gold Rush", original: "533353722a61b7ca6832840c", majorVersion: 0}
   ]
   async.waterfall [
     (callback) -> async.map leaderboards, grabSessions, callback
@@ -89,7 +91,7 @@ emailUserInitialRecruiting = (user, callback) ->
   team = user.session.levelInfo.team
   team = team.substr(0, team.length - 1)
   context =
-    email_id: sendwithus.templates.one_time_recruiting_email
+    email_id: sendwithus.templates.recruiting_email
     recipient:
       address: if DEBUGGING then 'nick@codecombat.com' else user.email
       name: name
@@ -98,7 +100,7 @@ emailUserInitialRecruiting = (user, callback) ->
       level_name: user.session.levelInfo.name
       place: "##{user.session.rank}"  # like "#31"
       level_race: team
-      ladder_link: "http://codecombat.com/play/ladder/#{user.session.levelInfo.name.toLowerCase()}"
+      ladder_link: "http://codecombat.com/play/ladder/#{user.session.levelInfo.slug}"
   sendwithus.api.send context, (err, result) ->
     return callback err if err
     callback null, user

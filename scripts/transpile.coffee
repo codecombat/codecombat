@@ -6,8 +6,8 @@ Aether = require "aether"
 async = require 'async'
 
 serverSetup = require '../server_setup'
-Level = require '../server/levels/Level.coffee'
-LevelSession = require '../server/levels/sessions/LevelSession.coffee'
+Level = require '../server/levels/Level'
+LevelSession = require '../server/levels/sessions/LevelSession'
 
 Aether.addGlobal 'Vector', require '../app/lib/world/vector'
 Aether.addGlobal '_', _
@@ -40,7 +40,9 @@ transpileLevelSession = (sessionID, cb) ->
           protectAPI: true
           includeFlow: false
           executionLimit: 1 * 1000 * 1000
-        if spellID is "hear" then aetherOptions["functionParameters"] = ["speaker","message","data"]
+        if spellID is "hear" then aetherOptions.functionParameters = ["speaker","message","data"]
+        if spellID is "makeBid" then aetherOptions.functionParameters = ["tileGroupLetter"]
+        if spellID is "findCentroids" then aetherOptions.functionParameters = ["centroids"]
 
         aether = new Aether aetherOptions
         transpiledCode[thang][spellID] = aether.transpile spell
@@ -84,3 +86,5 @@ transpileLadderSessions = ->
 
 serverSetup.connectToDatabase()
 transpileLadderSessions()
+# 2014-06-21: took about an hour to do 5480 sessions, ~93/min
+# eta: db.level.sessions.find({submitted: true}).count() / 93

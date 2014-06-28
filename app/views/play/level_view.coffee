@@ -89,7 +89,7 @@ module.exports = class PlayLevelView extends View
       setTimeout f, 100
     else
       @load()
-      application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID
+      application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID, ['Google Analytics']
 
   setUpHourOfCode: ->
     me.set 'hourOfCode', true
@@ -221,7 +221,7 @@ module.exports = class PlayLevelView extends View
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel
     @insertSubView new PlaybackView session: @session
     @insertSubView new GoalsView {}
     @insertSubView new GoldView {}
@@ -291,7 +291,7 @@ module.exports = class PlayLevelView extends View
       @loadEndTime = new Date()
       loadDuration = @loadEndTime - @loadStartTime
       console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
-      application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration
+      application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration, ['Google Analytics']
       application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
 
   onSurfaceSetUpNewWorld: ->

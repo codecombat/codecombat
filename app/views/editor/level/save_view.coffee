@@ -76,7 +76,7 @@ module.exports = class LevelSaveView extends SaveVersionModal
       else if @level.isPublished() and not newModel.isPublished()
         newModel.publish()  # Publish any LevelComponents that weren't published yet
       formsToSave.push form
-    
+
     for model in modelsToSave
       if errors = model.getValidationErrors()
         messages = ("\t #{error.dataPath}: #{error.message}" for error in errors)
@@ -96,6 +96,8 @@ module.exports = class LevelSaveView extends SaveVersionModal
           forms.applyErrorsToForm($(form), JSON.parse(res.responseText))
         res.success =>
           modelsToSave = _.without modelsToSave, newModel
+          oldModel = _.find @supermodel.models, (m) -> m.get('original') is newModel.get('original')
+          oldModel.clearBackup()  # Otherwise looking at old versions is confusing.
           unless modelsToSave.length
             url = "/editor/level/#{@level.get('slug') or @level.id}"
             document.location.href = url

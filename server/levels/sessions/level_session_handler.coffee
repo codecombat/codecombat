@@ -8,7 +8,8 @@ class LevelSessionHandler extends Handler
   modelClass: LevelSession
   editableProperties: ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
                        'levelName', 'creatorName', 'levelID', 'screenshot',
-                       'chat', 'teamSpells', 'submitted', 'unsubscribed','playtime']
+                       'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage', 'unsubscribed', 'playtime']
+  privateProperties: ['code', 'submittedCode', 'unsubscribed']
   jsonSchema: require '../../../app/schemas/models/level_session'
 
   getByRelationship: (req, res, args...) ->
@@ -20,7 +21,7 @@ class LevelSessionHandler extends Handler
     if req.user.isAdmin() or req.user.id is document.creator or ('employer' in req.user.get('permissions'))
       return documentObject
     else
-      return _.omit documentObject, ['submittedCode','code']
+      return _.omit documentObject, @privateProperties
 
   getActiveSessions: (req, res) ->
     return @sendUnauthorizedError(res) unless req.user.isAdmin()

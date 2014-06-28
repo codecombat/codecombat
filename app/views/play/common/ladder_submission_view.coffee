@@ -91,7 +91,9 @@ module.exports = class LadderSubmissionView extends CocoView
           protectAPI: true
           includeFlow: false
           executionLimit: 1 * 1000 * 1000
-        if spellID is "hear" then aetherOptions["functionParameters"] = ["speaker","message","data"]
+        if spellID is "hear" then aetherOptions.functionParameters = ["speaker","message","data"]
+        if spellID is "makeBid" then aetherOptions.functionParameters = ["tileGroupLetter"]
+        if spellID is "findCentroids" then aetherOptions.functionParameters = ["centroids"]
 
         aether = new Aether aetherOptions
         transpiledCode[thang][spellID] = aether.transpile spell

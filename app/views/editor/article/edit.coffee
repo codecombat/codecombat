@@ -81,7 +81,7 @@ module.exports = class ArticleEditView extends View
     @preview.focus() if window.focus
     @preview.onload = => @pushChangesToPreview()
     return false
-    
+
   openSaveModal: ->
     @openModalView(new SaveVersionModal({model: @article}))
 
@@ -101,6 +101,7 @@ module.exports = class ArticleEditView extends View
       @disableModalInProgress(modal)
 
     res.success =>
+      @article.clearBackup()
       modal.modal('hide')
       url = "/editor/article/#{newArticle.get('slug') or newArticle.id}"
       document.location.href = url

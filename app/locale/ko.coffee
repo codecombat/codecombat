@@ -90,7 +90,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "쉽고 간단한 게임으로 자바스크립트 배우기"
+    slogan: "쉽고 간단한 게임배우기"
     no_ie: "죄송하지만 코드컴뱃은 인터넷 익스플로러 9에서는 동작하지 않습니다."
     no_mobile: "코드 컴뱃은 모바일 기기용으로 제작되지 않았습니다. 아마 동작하지 않을 가능성이 높습니다."
     play: "시작"

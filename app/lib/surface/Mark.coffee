@@ -5,6 +5,7 @@ markThangTypes = {}
 
 module.exports = class Mark extends CocoClass
   subscriptions: {}
+  alpha: 1
 
   constructor: (options) ->
     super()
@@ -66,28 +67,40 @@ module.exports = class Mark extends CocoClass
     @mark.mouseChildren = false
 
     # Confusingly make some semi-random colors that'll be consistent based on the drawsBoundsIndex
-    index = @sprite.thang.drawsBoundsIndex
-    colors = (128 + Math.floor(('0.'+Math.sin(3 * index + i).toString().substr(6)) * 128) for i in [1 ... 4])
+    @drawsBoundsIndex = @sprite.thang.drawsBoundsIndex
+    colors = (128 + Math.floor(('0.'+Math.sin(3 * @drawsBoundsIndex + i).toString().substr(6)) * 128) for i in [1 ... 4])
     color = "rgba(#{colors[0]}, #{colors[1]}, #{colors[2]}, 0.5)"
-
-    shape = new createjs.Shape()
-    shape.graphics.setStrokeStyle 5
-    shape.graphics.beginStroke color
-    shape.graphics.beginFill color.replace('0.5', '0.25')
     [w, h] = [@sprite.thang.width * Camera.PPM, @sprite.thang.height * Camera.PPM * @camera.y2x]
-    if @sprite.thang.shape in ["ellipsoid", "disc"]
-      shape.drawEllipse 0, 0, w, h
+
+    if @sprite.thang.drawsBoundsStyle is 'border-text'
+      shape = new createjs.Shape()
+      shape.graphics.setStrokeStyle 5
+      shape.graphics.beginStroke color
+      shape.graphics.beginFill color.replace('0.5', '0.25')
+      if @sprite.thang.shape in ["ellipsoid", "disc"]
+        shape.drawEllipse 0, 0, w, h
+      else
+        shape.graphics.drawRect -w / 2, -h / 2, w, h
+      shape.graphics.endStroke()
+      shape.graphics.endFill()
+      @mark.addChild shape
+
+    if @sprite.thang.drawsBoundsStyle is 'border-text'
+      text = new createjs.Text "" + @drawsBoundsIndex, "20px Arial", color.replace('0.5', '1')
+      text.regX = text.getMeasuredWidth() / 2
+      text.regY = text.getMeasuredHeight() / 2
+      text.shadow = new createjs.Shadow("#000000", 1, 1, 0)
+      @mark.addChild text
+    else if @sprite.thang.drawsBoundsStyle is 'corner-text'
+      return if @sprite.thang.world.age is 0
+      letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[@drawsBoundsIndex % 26]
+      text = new createjs.Text letter, "14px Arial", "#333333"   # color.replace('0.5', '1')
+      text.x = -w / 2 + 2
+      text.y = -h / 2 + 2
+      @mark.addChild text
     else
-      shape.graphics.drawRect -w / 2, -h / 2, w, h
-    shape.graphics.endStroke()
-    shape.graphics.endFill()
+      console.warn @sprite.thang.id, "didn't know how to draw bounds style:", @sprite.thang.drawsBoundsStyle
 
-    text = new createjs.Text "" + index, "20px Arial", color.replace('0.5', '1')
-    text.regX = text.getMeasuredWidth() / 2
-    text.regY = text.getMeasuredHeight() / 2
-    text.shadow = new createjs.Shadow("#000000", 1, 1, 0)
-
-    @mark.addChild shape, text
     if w > 0 and h > 0
       @mark.cache -w / 2, -h / 2, w, h, 2
     @lastWidth = @sprite.thang.width
@@ -216,11 +229,10 @@ module.exports = class Mark extends CocoClass
     true
 
   updatePosition: (pos) ->
-    if @name in ['shadow', 'debug']
+    if @sprite?.thang and @name in ['shadow', 'debug', 'target', 'selection', 'repair']
       pos = @camera.worldToSurface x: @sprite.thang.pos.x, y: @sprite.thang.pos.y
       if @name is 'shadow'
-        worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2 + @sprite.getBobOffset()
-        @mark.alpha = 0.451 / Math.sqrt(worldZ / 2 + 1)
+        @updateAlpha @alpha
     else
       pos ?= @sprite?.imageObject
     @mark.x = pos.x
@@ -231,23 +243,36 @@ module.exports = class Mark extends CocoClass
       @mark.y += offset.y
       @mark.y -= 3 if @statusEffect
 
+  updateAlpha: (@alpha) ->
+    return if not @mark or @name is 'debug'
+    if @name is 'shadow'
+      worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2 + @sprite.getBobOffset()
+      @mark.alpha = @alpha * 0.451 / Math.sqrt(worldZ / 2 + 1)
+    else if @name isnt "bounds"
+      @mark.alpha = @alpha
+
   updateRotation: ->
     if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ["rectangle", "box"])
       @mark.rotation = @sprite.thang.rotation * 180 / Math.PI
 
   updateScale: ->
-    if @name is 'bounds' and (@sprite.thang.width isnt @lastWidth or @sprite.thang.height isnt @lastHeight)
+    if @name is 'bounds' and ((@sprite.thang.width isnt @lastWidth or @sprite.thang.height isnt @lastHeight) or (@sprite.thang.drawsBoundsIndex isnt @drawsBoundsIndex))
       oldMark = @mark
       @buildBounds()
       oldMark.parent.addChild @mark
       oldMark.parent.swapChildren oldMark, @mark
       oldMark.parent.removeChild oldMark
-    
+
     if @markSprite?
       @markSprite.scaleFactor = 1.2
       @markSprite.updateScale()
+
+    if @name is 'shadow' and thang = @sprite.thang
+      @mark.scaleX = thang.scaleFactor ? thang.scaleFactorX ? 1
+      @mark.scaleY = thang.scaleFactor ? thang.scaleFactorY ? 1
+
     return unless @name in ["selection", "target", "repair", "highlight"]
-    
+
     # scale these marks to 10m (100px). Adjust based on sprite size.
     factor = 0.3 # default size: 3m width, most commonly for target when pointing to a location
 
@@ -260,7 +285,7 @@ module.exports = class Mark extends CocoClass
       factor = Math.max(factor, 0.3) # lower bound
     @mark.scaleX *= factor
     @mark.scaleY *= factor
-      
+
     if @name in ['selection', 'target', 'repair']
       @mark.scaleY *= @camera.y2x  # code applies perspective
 

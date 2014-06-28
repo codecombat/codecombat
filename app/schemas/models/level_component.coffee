@@ -26,14 +26,32 @@ PropertyDocumentationSchema = c.object {
   name: {type: 'string', title: "Name", description: "Name of the property."}
   # not actual JS types, just whatever they describe...
   type: c.shortString(title: "Type", description: "Intended type of the property.")
-  description: {title: "Description", type: 'string', description: "Description of the property.", format: 'markdown', maxLength: 1000}
+  description:
+    oneOf: [
+      {title: "Description", type: 'string', description: "Description of the property.", maxLength: 1000, format: 'markdown'}
+      {
+        type: 'object',
+        title: "Language Descriptions",
+        description: "Property descriptions by code language.",
+        additionalProperties: {type: 'string', description: "Description of the property.", maxLength: 1000, format: 'markdown'}
+      }
+    ]
   args: c.array {title: "Arguments", description: "If this property has type 'function', then provide documentation for any function arguments."}, c.FunctionArgumentSchema
   owner: {title: "Owner", type: 'string', description: 'Owner of the property, like "this" or "Math".'}
-  example: {title: "Example", type: 'string', description: 'An optional example code block.', format: 'javascript'}
+  example:
+    oneOf: [
+      {title: "Example", type: 'string', description: 'An optional example code block.', format: 'javascript'}
+      {
+        type: 'object',
+        title: "Language Examples",
+        description: "Examples by code language.",
+        additionalProperties: {type: 'string', description: 'An example code block.', format: 'javascript'}  # TODO: not JS
+      }
+    ]
   snippets: c.object {
-    title: "Snippets", 
+    title: "Snippets",
     description: "List of snippets for the respective programming languages"
-  }, 
+  },
     javascript: c.object {title: 'JavaScript'}, c.codeSnippet 'javascript'
     coffeescript: c.object {title: 'CoffeeScript'}, c.codeSnippet 'coffee'
     python: c.object {title: 'Python'}, c.codeSnippet 'python'
@@ -47,8 +65,26 @@ PropertyDocumentationSchema = c.object {
     default: {type: 'null'}
   },
     type: c.shortString(title: "Type", description: "Type of the return value")
-    example: c.shortString(title: "Example", description: "Example return value")
-    description: {title: "Description", type: 'string', description: "Description of the return value.", maxLength: 1000}
+    example:
+      oneOf: [
+        c.shortString(title: "Example", description: "Example return value")
+        {
+          type: 'object',
+          title: "Language Examples",
+          description: "Example return values by code language.",
+          additionalProperties: c.shortString(description: 'Example return value.', format: 'javascript')  # TODO: not JS
+        }
+      ]
+    description:
+      oneOf: [
+        {title: "Description", type: 'string', description: "Description of the return value.", maxLength: 1000}
+        {
+          type: 'object',
+          title: "Language Descriptions",
+          description: "Example return values by code language.",
+          additionalProperties: {type: 'string', description: "Description of the return value.", maxLength: 1000}
+        }
+      ]
 
 DependencySchema = c.object {
   title: "Component Dependency"

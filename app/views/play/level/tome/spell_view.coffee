@@ -42,7 +42,7 @@ module.exports = class SpellView extends View
     'tome:spell-changed': 'onSpellChanged'
     'level:session-will-save': 'onSessionWillSave'
     'modal-closed': 'focus'
-    'focus-editor': 'focus'
+    'tome:focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
     'tome:change-language': 'onChangeLanguage'
     'tome:change-config': 'onChangeEditorConfig'
@@ -96,7 +96,7 @@ module.exports = class SpellView extends View
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     @zatanna = new Zatanna @ace,
-      liveCompletion: aceConfig.liveCompletion ? false
+      liveCompletion: aceConfig.liveCompletion ? true
       completers:
         keywords: false
 
@@ -178,10 +178,10 @@ module.exports = class SpellView extends View
         doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
-        console.log 'could not find doc for', prop, 'from', e.allDocs['__' + prop], 'for', owner, 'of', propGroups unless doc
+        console.log 'could not find doc for', prop, 'from', e.allDocs['__' + prop], 'for', owner, 'of', e.propGroups unless doc
         doc ?= prop
-        if doc.snippets?
-          entry = 
+        if doc.snippets?[@spell.language]
+          entry =
             content: doc.snippets[@spell.language].code
             name: doc.name
             tabTrigger: doc.snippets[@spell.language].tab
@@ -299,7 +299,10 @@ module.exports = class SpellView extends View
     else
       @ace.setValue source
     @eventsSuppressed = false
-    @ace.resize true  # hack: @ace may not have updated its text properly, so we force it to refresh
+    try
+      @ace.resize true  # hack: @ace may not have updated its text properly, so we force it to refresh
+    catch error
+      console.warn "Error resizing ACE after an update:", error
 
   # Called from CastButtonView initially and whenever the delay is changed
   setAutocastDelay: (@autocastDelay) ->

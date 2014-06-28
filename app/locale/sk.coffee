@@ -90,7 +90,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Nauč sa programovať v Javascripte pomocou hry"
+    slogan: "Nauč sa programovať pomocou hry"
     no_ie: "CodeCombat nefunguje v prehliadači Internet Explorer 9 a jeho starších verziách. Ospravedlňujeme sa."
     no_mobile: "CodeCombat nebol navrhnutý pre mobilné zariadenia a nemusí na nich fungovať správne!"
     play: "Hraj"

@@ -96,7 +96,7 @@ module.exports = class World
         for thang in @thangs when thang.isProgrammable
           userCode = @userCodeMap[thang.id] ? {}
           for methodName, aether of userCode
-            framesToLoadFlowBefore = if methodName is 'plan' then 200 else 1  # Adjust if plan() is taking even longer
+            framesToLoadFlowBefore = if methodName is 'plan' or methodName is 'makeBid' then 200 else 1  # Adjust if plan() is taking even longer
             aether._shouldSkipFlow = i < loadUntilFrame - framesToLoadFlowBefore
       try
         @getFrame(i)

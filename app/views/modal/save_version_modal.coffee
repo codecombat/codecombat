@@ -57,7 +57,6 @@ module.exports = class SaveVersionModal extends ModalView
     }
     errors = patch.validate()
     forms.applyErrorsToForm(@$el, errors) if errors
-    patch.set 'editPath', document.location.pathname
     res = patch.save()
     return unless res
     @enableModalInProgress(@$el)

@@ -42,7 +42,4 @@ module.exports =
     $schema: "http://json-schema.org/draft-04/schema#"
     description: "Published when you successfully logged in with G+"
     type: "object"
-    properties:
-      authResult:
-        type: "string"
-    required: ["authResult"]
+    required: ["access_token"]
