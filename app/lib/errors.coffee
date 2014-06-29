@@ -1,5 +1,5 @@
-errorModalTemplate = require('templates/modal/error')
-{applyErrorsToForm} = require('lib/forms')
+errorModalTemplate = require 'templates/modal/error'
+{applyErrorsToForm} = require 'lib/forms'
 
 module.exports.parseServerError = (text) ->
   try

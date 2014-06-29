@@ -1,4 +1,4 @@
-CocoModel = require('./CocoModel')
+CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
 buildQueue = []

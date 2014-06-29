@@ -289,7 +289,7 @@ module.exports = class CocoView extends Backbone.View
     navigator.platform.toUpperCase().indexOf('MAC') isnt -1
 
   initSlider: ($el, startValue, changeCallback) ->
-    slider = $el.slider({ animate: 'fast' })
+    slider = $el.slider({animate: 'fast'})
     slider.slider('value', startValue)
     slider.on('slide', changeCallback)
     slider.on('slidechange', changeCallback)

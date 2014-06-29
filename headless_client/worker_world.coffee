@@ -200,7 +200,7 @@ ret = """
 
     // the actual function
     #{JASON.stringify work}();
-  }catch (error) {
+  } catch (error) {
     self.postMessage({'type': 'console-log', args: ['An unhandled error occured: ', error.toString(), error.stack], id: -1});
   }
 """

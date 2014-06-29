@@ -88,7 +88,7 @@ module.exports = class DeltaView extends CocoView
       @expandDetails(deltaEl, deltaData)
 
   expandDetails: (deltaEl, deltaData) ->
-    treemaOptions = { schema: deltaData.schema or {}, readOnly: true }
+    treemaOptions = {schema: deltaData.schema or {}, readOnly: true}
 
     if _.isObject(deltaData.left) and leftEl = deltaEl.find('.old-value')
       options = _.defaults {data: deltaData.left}, treemaOptions

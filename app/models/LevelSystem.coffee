@@ -1,5 +1,5 @@
-CocoModel = require('./CocoModel')
-SystemNameLoader = require('lib/SystemNameLoader')
+CocoModel = require './CocoModel'
+SystemNameLoader = require 'lib/SystemNameLoader'
 
 module.exports = class LevelSystem extends CocoModel
   @className: 'LevelSystem'

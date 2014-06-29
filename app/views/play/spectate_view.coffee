@@ -456,8 +456,9 @@ module.exports = class SpectateLevelView extends View
             spectateSessions: {sessionOne: @sessionOne, sessionTwo: @sessionTwo}
             supermodel: @supermodel
           }
-          @levelID ]
-        }
+          @levelID
+        ]
+      }
       history?.pushState? {}, '', url  # Backbone won't update the URL if just query parameters change
 
   fetchRandomSessionPair: (cb) ->

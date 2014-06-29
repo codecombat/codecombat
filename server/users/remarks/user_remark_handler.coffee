@@ -1,5 +1,5 @@
-UserRemark = require('./UserRemark')
-Handler = require('../../commons/Handler')
+UserRemark = require './UserRemark'
+Handler = require '../../commons/Handler'
 
 class UserRemarkHandler extends Handler
   modelClass: UserRemark

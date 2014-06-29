@@ -1,4 +1,4 @@
-CocoModel = require('./CocoModel')
+CocoModel = require './CocoModel'
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'

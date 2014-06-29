@@ -1,6 +1,6 @@
 GRAVATAR_URL = 'https://www.gravatar.com/'
 cache = {}
-CocoModel = require('./CocoModel')
+CocoModel = require './CocoModel'
 
 module.exports = class User extends CocoModel
   @className: 'User'
@@ -31,7 +31,7 @@ module.exports = class User extends CocoModel
     return "/db/user/#{@id}/avatar?s=#{size}"
 
   @getByID = (id, properties, force) ->
-    {me} = require('lib/auth')
+    {me} = require 'lib/auth'
     return me if me.id is id
     user = cache[id] or new module.exports({_id: id})
     if force or not cache[id]
@@ -70,7 +70,7 @@ module.exports = class User extends CocoModel
     return if @attributes.emails or not @attributes.emailSubscriptions
     oldSubs = @get('emailSubscriptions') or []
     newSubs = {}
-    newSubs[newSubName] = { enabled: oldSubName in oldSubs } for oldSubName, newSubName of @emailMap
+    newSubs[newSubName] = {enabled: oldSubName in oldSubs} for oldSubName, newSubName of @emailMap
     @set('emails', newSubs)
 
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled

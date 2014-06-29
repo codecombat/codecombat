@@ -223,7 +223,7 @@ class CocoModel extends Backbone.Model
     deltasLib.expandDelta(delta, @attributes, @schema())
 
   watch: (doWatch=true) ->
-    $.ajax("#{@urlRoot}/#{@id}/watch", {type:'PUT', data: {on: doWatch}})
+    $.ajax("#{@urlRoot}/#{@id}/watch", {type: 'PUT', data: {on: doWatch}})
     @watching = -> doWatch
 
   watching: ->

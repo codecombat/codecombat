@@ -71,11 +71,11 @@ describe 'Rectangle', ->
   it 'is its own AABB when not rotated', ->
     rect = new Rectangle 10, 20, 30, 40
     aabb = rect.axisAlignedBoundingBox()
-    for prop in ["x", "y", "width", "height"]
+    for prop in ['x', 'y', 'width', 'height']
       expect(rect[prop]).toBe aabb[prop]
 
   it 'is its own AABB when rotated 180', ->
     rect = new Rectangle 10, 20, 30, 40, Math.PI
     aabb = rect.axisAlignedBoundingBox()
-    for prop in ["x", "y", "width", "height"]
+    for prop in ['x', 'y', 'width', 'height']
       expect(rect[prop]).toBe aabb[prop]
