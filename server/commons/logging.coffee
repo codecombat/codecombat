@@ -1,4 +1,4 @@
-winston = require('winston')
+winston = require 'winston'
 
 module.exports.setup = ->
   winston.remove(winston.transports.Console)

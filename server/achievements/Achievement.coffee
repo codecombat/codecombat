@@ -1,8 +1,8 @@
-mongoose = require('mongoose')
-jsonschema = require('../../app/schemas/models/achievement')
+mongoose = require 'mongoose'
+jsonschema = require '../../app/schemas/models/achievement'
 log = require 'winston'
 util = require '../../app/lib/utils'
-plugins = require('../plugins/plugins')
+plugins = require '../plugins/plugins'
 
 # `pre` and `post` are not called for update operations executed directly on the database,
 # including `Model.update`,`.findByIdAndUpdate`,`.findOneAndUpdate`, `.findOneAndRemove`,and `.findByIdAndRemove`.order
@@ -15,13 +15,13 @@ AchievementSchema = new mongoose.Schema({
 
 AchievementSchema.methods.objectifyQuery = ->
   try
-    @set('query', JSON.parse(@get('query'))) if typeof @get('query') == "string"
+    @set('query', JSON.parse(@get('query'))) if typeof @get('query') == 'string'
   catch error
     log.error "Couldn't convert query string to object because of #{error}"
     @set('query', {})
 
 AchievementSchema.methods.stringifyQuery = ->
-  @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != "string"
+  @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != 'string'
 
   getExpFunction: ->
     kind = @get('function')?.kind or jsonschema.function.default.kind

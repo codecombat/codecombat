@@ -1,6 +1,6 @@
 # http://coffeescriptcookbook.com/chapters/math/generating-predictable-random-numbers
 class Rand
-  @className: "Rand"
+  @className: 'Rand'
   # If created without a seed, uses current time as seed.
   constructor: (@seed) ->
     # Knuth and Lewis' improvements to Park and Miller's LCPRNG

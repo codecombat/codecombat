@@ -9,7 +9,7 @@ module.exports.getParentFolders = (subPath, urlPrefix='/test/') ->
       url: urlPrefix + parts.join('/')
     }
   paths
-  
+
 module.exports.parseImmediateChildren = (allChildren, subPath, baseRequirePath='test/app/', urlPrefix='/test/') ->
   return [] unless allChildren
   folders = {}

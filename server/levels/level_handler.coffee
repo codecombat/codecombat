@@ -1,11 +1,12 @@
-Level = require('./Level')
-Session = require('./sessions/LevelSession')
+Level = require './Level'
+Session = require './sessions/LevelSession'
 User = require '../users/User'
-SessionHandler = require('./sessions/level_session_handler')
-Feedback = require('./feedbacks/LevelFeedback')
-Handler = require('../commons/Handler')
-mongoose = require('mongoose')
+SessionHandler = require './sessions/level_session_handler'
+Feedback = require './feedbacks/LevelFeedback'
+Handler = require '../commons/Handler'
+mongoose = require 'mongoose'
 async = require 'async'
+
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
   jsonSchema: require '../../app/schemas/models/level'
@@ -34,7 +35,7 @@ LevelHandler = class LevelHandler extends Handler
     return @getMyLeaderboardRank(req, res, args[0]) if args[1] is 'leaderboard_rank'
     return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
     return @getFeedback(req, res, args[0]) if args[1] is 'feedback'
-    return @getRandomSessionPair(req,res,args[0]) if args[1] is 'random_session_pair'
+    return @getRandomSessionPair(req, res, args[0]) if args[1] is 'random_session_pair'
     return @getLeaderboardFacebookFriends(req, res, args[0]) if args[1] is 'leaderboard_facebook_friends'
     return @getLeaderboardGPlusFriends(req, res, args[0]) if args[1] is 'leaderboard_gplus_friends'
     return @getHistogramData(req, res, args[0]) if args[1] is 'histogram_data'
@@ -69,23 +70,22 @@ LevelHandler = class LevelHandler extends Handler
         return @sendSuccess(res, doc) if doc?
         @createAndSaveNewSession sessionQuery, req, res
 
-
   createAndSaveNewSession: (sessionQuery, req, res) =>
     initVals = sessionQuery
 
     initVals.state =
-      complete:false
+      complete: false
       scripts:
-        currentScript:null # will not save empty objects
+        currentScript: null # will not save empty objects
 
     initVals.permissions = [
       {
-        target:req.user.id
-        access:'owner'
+        target: req.user.id
+        access: 'owner'
       }
       {
-        target:'public'
-        access:'write'
+        target: 'public'
+        access: 'write'
       }
     ]
     initVals.codeLanguage = req.user.get('aceConfig')?.language ? 'javascript'
@@ -101,9 +101,9 @@ LevelHandler = class LevelHandler extends Handler
   getMySessions: (req, res, slugOrID) ->
     findParameters = {}
     if Handler.isID slugOrID
-      findParameters["_id"] = slugOrID
+      findParameters['_id'] = slugOrID
     else
-      findParameters["slug"] = slugOrID
+      findParameters['slug'] = slugOrID
     selectString = 'original version.major permissions'
     query = Level.findOne(findParameters)
       .select(selectString)
@@ -122,23 +122,23 @@ LevelHandler = class LevelHandler extends Handler
       query.exec (err, results) =>
         if err then @sendDatabaseError(res, err) else @sendSuccess res, results
 
-  getHistogramData: (req, res,slug) ->
+  getHistogramData: (req, res, slug) ->
     query = Session.aggregate [
-      {$match: {"levelID":slug, "submitted": true, "team":req.query.team}}
+      {$match: {'levelID': slug, 'submitted': true, 'team': req.query.team}}
       {$project: {totalScore: 1, _id: 0}}
     ]
 
     query.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
-      valueArray = _.pluck data, "totalScore"
+      valueArray = _.pluck data, 'totalScore'
       @sendSuccess res, valueArray
 
   checkExistence: (req, res, slugOrID) ->
     findParameters = {}
     if Handler.isID slugOrID
-      findParameters["_id"] = slugOrID
+      findParameters['_id'] = slugOrID
     else
-      findParameters["slug"] = slugOrID
+      findParameters['slug'] = slugOrID
     selectString = 'original version.major permissions'
     query = Level.findOne(findParameters)
     .select(selectString)
@@ -147,14 +147,14 @@ LevelHandler = class LevelHandler extends Handler
     query.exec (err, level) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless level?
-      res.send({"exists":true})
+      res.send({'exists': true})
       res.end()
 
   getLeaderboard: (req, res, id) ->
     sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
 
     sortParameters =
-      "totalScore": req.query.order
+      'totalScore': req.query.order
     selectProperties = ['totalScore', 'creatorName', 'creator']
 
     query = Session
@@ -180,7 +180,7 @@ LevelHandler = class LevelHandler extends Handler
     [original, version] = id.split '.'
     version = parseInt(version) ? 0
     scoreQuery = {}
-    scoreQuery[if req.query.order is 1 then "$gt" else "$lt"] = req.query.scoreOffset
+    scoreQuery[if req.query.order is 1 then '$gt' else '$lt'] = req.query.scoreOffset
     query =
       level:
         original: original
@@ -203,14 +203,14 @@ LevelHandler = class LevelHandler extends Handler
     return res.send([]) unless friendIDs.length
 
     q = {}
-    q[serviceProperty] = {$in:friendIDs}
+    q[serviceProperty] = {$in: friendIDs}
     query = User.find(q).select("#{serviceProperty} name").lean()
 
     query.exec (err, userResults) ->
       return res.send([]) unless userResults.length
       [id, version] = id.split('.')
       userIDs = (r._id+'' for r in userResults)
-      q = {'level.original':id, 'level.majorVersion': parseInt(version), creator: {$in:userIDs}, totalScore:{$exists:true}}
+      q = {'level.original': id, 'level.majorVersion': parseInt(version), creator: {$in: userIDs}, totalScore: {$exists: true}}
       query = Session.find(q)
       .select('creator creatorName totalScore team')
       .lean()
@@ -225,9 +225,9 @@ LevelHandler = class LevelHandler extends Handler
   getRandomSessionPair: (req, res, slugOrID) ->
     findParameters = {}
     if Handler.isID slugOrID
-      findParameters["_id"] = slugOrID
+      findParameters['_id'] = slugOrID
     else
-      findParameters["slug"] = slugOrID
+      findParameters['slug'] = slugOrID
     selectString = 'original version'
     query = Level.findOne(findParameters)
     .select(selectString)
@@ -241,17 +241,17 @@ LevelHandler = class LevelHandler extends Handler
         level:
           original: level.original.toString()
           majorVersion: level.version.major
-        submitted:true
+        submitted: true
 
-      query = Session.find(sessionsQueryParameters).distinct("team")
+      query = Session.find(sessionsQueryParameters).distinct('team')
       query.exec (err, teams) =>
         return @sendDatabaseError res, err if err? or not teams
         findTop20Players = (sessionQueryParams, team, cb) ->
-          sessionQueryParams["team"] = team
+          sessionQueryParams['team'] = team
           Session.aggregate [
             {$match: sessionQueryParams}
-            {$project: {"totalScore":1}}
-            {$sort: {"totalScore":-1}}
+            {$project: {'totalScore': 1}}
+            {$sort: {'totalScore': -1}}
             {$limit: 20}
           ], cb
 
@@ -260,9 +260,8 @@ LevelHandler = class LevelHandler extends Handler
           sessions = []
           for mapItem in map
             sessions.push _.sample(mapItem)
-          if map.length != 2 then return @sendDatabaseError res, "There aren't sessions of 2 teams, so cannot choose random opponents!"
+          if map.length != 2 then return @sendDatabaseError res, 'There aren\'t sessions of 2 teams, so cannot choose random opponents!'
           @sendSuccess res, sessions
-
 
   getFeedback: (req, res, id) ->
     return @sendNotFoundError(res) unless req.user

@@ -28,7 +28,7 @@ module.exports = Bus = class Bus extends CocoClass
   connect: ->
     Backbone.Mediator.publish 'bus:connecting', {bus:@}
     Firebase.goOnline()
-    @fireRef = new Firebase(Bus.fireHost + "/" + @docName)
+    @fireRef = new Firebase(Bus.fireHost + '/' + @docName)
     @fireRef.once 'value', @onFireOpen
 
   onFireOpen: (snapshot) =>
@@ -59,7 +59,7 @@ module.exports = Bus = class Bus extends CocoClass
     @firePlayersRef = @fireRef.child('players')
     @join()
     @listenForChanges()
-    @sendMessage("/me joined.", true)
+    @sendMessage('/me joined.', true)
 
   join: ->
     @joined = true
@@ -128,7 +128,7 @@ module.exports = Bus = class Bus extends CocoClass
   # TEARDOWN
 
   destroy: ->
-    @sendMessage("/me left.", true) if @joined
+    @sendMessage('/me left.', true) if @joined
     delete Bus.activeBuses[@docName] if @docName of Bus.activeBuses
     @disconnect()
     super()

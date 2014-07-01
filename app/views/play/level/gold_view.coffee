@@ -3,7 +3,7 @@ template = require 'templates/play/level/gold'
 teamTemplate = require 'templates/play/level/team_gold'
 
 module.exports = class GoldView extends View
-  id: "gold-view"
+  id: 'gold-view'
   template: template
 
   subscriptions:

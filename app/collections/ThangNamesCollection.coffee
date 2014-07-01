@@ -7,7 +7,7 @@ module.exports = class ThangNamesCollection extends CocoCollection
   isCachable: false
 
   constructor: (@ids) -> super()
-    
+
   fetch: (options) ->
     options ?= {}
     _.extend options, {type:'POST', data:{ids:@ids}}

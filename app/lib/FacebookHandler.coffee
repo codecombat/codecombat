@@ -44,7 +44,7 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
     me.set('gender', r.gender) if r.gender
     me.set('email', r.email) if r.email
     me.set('facebookID', r.id) if r.id
-    
+
     Backbone.Mediator.publish('logging-in-with-facebook')
     window.tracker?.trackEvent 'Facebook Login'
     window.tracker?.identify()

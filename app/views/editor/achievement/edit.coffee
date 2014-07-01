@@ -4,7 +4,7 @@ Achievement = require 'models/Achievement'
 ConfirmModal = require 'views/modal/confirm'
 
 module.exports = class AchievementEditView extends View
-  id: "editor-achievement-edit-view"
+  id: 'editor-achievement-edit-view'
   template: template
   startsLoading: true
 
@@ -77,10 +77,10 @@ module.exports = class AchievementEditView extends View
 
   confirmRecalculation: (e) ->
     renderData =
-      'confirmTitle': "Are you really sure?"
-      'confirmBody': "This will trigger recalculation of the achievement for all users. Are you really sure you want to go down this path?"
-      'confirmDecline': "Not really"
-      'confirmConfirm': "Definitely"
+      'confirmTitle': 'Are you really sure?'
+      'confirmBody': 'This will trigger recalculation of the achievement for all users. Are you really sure you want to go down this path?'
+      'confirmDecline': 'Not really'
+      'confirmConfirm': 'Definitely'
 
     confirmModal = new ConfirmModal(renderData)
     confirmModal.onConfirm @recalculateAchievement

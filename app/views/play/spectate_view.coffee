@@ -1,6 +1,6 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/play/spectate'
-{me} = require('lib/auth')
+{me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
 utils = require 'lib/utils'
 
@@ -104,7 +104,7 @@ module.exports = class SpectateLevelView extends View
       sessionID: @sessionOne
       opponentSessionID: @sessionTwo
       spectateMode: true
-      team: @getQueryVariable("team")
+      team: @getQueryVariable('team')
     @listenToOnce(@levelLoader, 'loaded-all', @onLevelLoaderLoaded)
     @god = new God maxAngels: 1
 
@@ -203,7 +203,7 @@ module.exports = class SpectateLevelView extends View
       c = opponentCode[thang]?[spell]
       myCode[thang] ?= {}
       if c then myCode[thang][spell] = c else delete myCode[thang][spell]
-    
+
     @session.set('code', myCode)
     if @session.get('multiplayer') and @otherSession?
       # For now, ladderGame will disallow multiplayer, because session code combining doesn't play nice yet.
@@ -227,7 +227,7 @@ module.exports = class SpectateLevelView extends View
     @modelsLoaded ?= 0
     canvas = @$el.find('#surface')[0]
     ctx = canvas.getContext('2d')
-    ctx.font="20px Georgia"
+    ctx.font='20px Georgia'
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillText("Loaded #{@modelsLoaded} thingies",50,50)
 
@@ -349,7 +349,6 @@ module.exports = class SpectateLevelView extends View
       @pointerInterval = setInterval(@animatePointer, 1200)
     ), 1)
 
-
   animatePointer: ->
     pointer = $('#pointer')
     pointer.css('transition', 'all 0.6s ease-out')
@@ -394,9 +393,9 @@ module.exports = class SpectateLevelView extends View
   initScriptManager: ->
     if @world.scripts
       nonVictoryPlaybackScripts = _.reject @world.scripts, (script) ->
-        script.id.indexOf("Set Camera Boundaries and Goals") == -1
+        script.id.indexOf('Set Camera Boundaries and Goals') == -1
     else
-      console.log "World scripts don't exist!"
+      console.log 'World scripts don\'t exist!'
       nonVictoryPlaybackScripts = []
     console.log nonVictoryPlaybackScripts
     @scriptManager = new ScriptManager({scripts: nonVictoryPlaybackScripts, view:@, session: @session})
@@ -418,7 +417,7 @@ module.exports = class SpectateLevelView extends View
 
   onSessionWillSave: (e) ->
     # Something interesting has happened, so (at a lower frequency), we'll save a screenshot.
-    console.log "Session is saving but shouldn't save!!!!!!!"
+    console.log 'Session is saving but shouldn\'t save!!!!!!!'
 
   # Throttled
   saveScreenshot: (session) =>
@@ -443,7 +442,7 @@ module.exports = class SpectateLevelView extends View
       AudioPlayer.preloadSoundReference sound
 
   onNextGamePressed: (e) ->
-    console.log "You want to see the next game!"
+    console.log 'You want to see the next game!'
     @fetchRandomSessionPair (err, data) =>
       if err? then return console.log "There was an error fetching the random session pair: #{data}"
       @sessionOne = data[0]._id
@@ -457,19 +456,20 @@ module.exports = class SpectateLevelView extends View
             spectateSessions: {sessionOne: @sessionOne, sessionTwo: @sessionTwo}
             supermodel: @supermodel
           }
-          @levelID ]
-        }
-      history?.pushState? {}, "", url  # Backbone won't update the URL if just query parameters change
+          @levelID
+        ]
+      }
+      history?.pushState? {}, '', url  # Backbone won't update the URL if just query parameters change
 
   fetchRandomSessionPair: (cb) ->
-    console.log "Fetching random session pair!"
+    console.log 'Fetching random session pair!'
     randomSessionPairURL = "/db/level/#{@levelID}/random_session_pair"
     $.ajax
       url: randomSessionPairURL
-      type: "GET"
+      type: 'GET'
       complete: (jqxhr, textStatus) ->
-        if textStatus isnt "success"
-          cb("error", jqxhr.statusText)
+        if textStatus isnt 'success'
+          cb('error', jqxhr.statusText)
         else
           cb(null, $.parseJSON(jqxhr.responseText))
 

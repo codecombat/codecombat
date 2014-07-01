@@ -16,7 +16,7 @@ module.exports = class SpellPaletteView extends View
   subscriptions:
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
-    'surface:frame-changed': "onFrameChanged"
+    'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
 
   events:
@@ -114,7 +114,7 @@ module.exports = class SpellPaletteView extends View
     if tabbify and _.find @entries, ((entry) -> entry.doc.owner isnt 'this')
       @entryGroups = _.groupBy @entries, groupForEntry
     else
-      defaultGroup = $.i18n.t("play_level.tome_available_spells", defaultValue: "Available Spells")
+      defaultGroup = $.i18n.t('play_level.tome_available_spells', defaultValue: 'Available Spells')
       @entryGroups = {}
       @entryGroups[defaultGroup] = @entries
       @defaultGroupSlug = _.string.slugify defaultGroup

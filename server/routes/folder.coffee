@@ -1,4 +1,4 @@
-mongoose = require('mongoose')
+mongoose = require 'mongoose'
 errors = require '../commons/errors'
 
 module.exports.setup = (app) ->
@@ -11,7 +11,7 @@ folderGet = (req, res) ->
   userfolder = "/user-#{req.user.id}/"
   folder = userfolder if folder is '/me/'
   return errors.forbidden(res) unless (folder is userfolder) or (req.user.isAdmin())
-    
+
   mongoose.connection.db.collection 'media.files', (errors, collection) ->
     collection.find({'metadata.path': folder}).toArray (err, results) ->
       res.send(results)

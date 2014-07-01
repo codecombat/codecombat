@@ -4,9 +4,8 @@ LevelSystem = require 'models/LevelSystem'
 forms = require 'lib/forms'
 {me} = require 'lib/auth'
 
-
 module.exports = class LevelSystemNewView extends View
-  id: "editor-level-system-new-modal"
+  id: 'editor-level-system-new-modal'
   template: template
   instant: false
   modalWidthPercent: 60
@@ -29,7 +28,7 @@ module.exports = class LevelSystemNewView extends View
     @showLoading()
     res.error =>
       @hideLoading()
-      console.log "Got errors:", JSON.parse(res.responseText)
+      console.log 'Got errors:', JSON.parse(res.responseText)
       forms.applyErrorsToForm(@$el, JSON.parse(res.responseText))
     res.success =>
       @supermodel.registerModel system

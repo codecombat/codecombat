@@ -22,13 +22,13 @@ getAllLadderScores = (next) ->
     .lean()
   query.exec (err, levels) ->
     if err
-      log.error "Couldn't fetch ladder levels. Error: ", err
+      log.error 'Couldn\'t fetch ladder levels. Error: ', err
       return next []
     for level in levels
       for team in ['humans', 'ogres']
         'I ... am not doing this.'
         # Query to get sessions to make histogram
-        # db.level.sessions.find({"submitted":true,"levelID":"brawlwood",team:"ogres"},{"_id":0,"totalScore":1})
+        # db.level.sessions.find({'submitted': true, 'levelID': 'brawlwood', team: 'ogres'}, {'_id': 0, 'totalScore': 1})
 
 DEBUGGING = false
 LADDER_PREGAME_INTERVAL = 2 * 3600 * 1000  # Send emails two hours before players last submitted.
@@ -36,17 +36,17 @@ getTimeFromDaysAgo = (now, daysAgo) ->
   t = now - 86400 * 1000 * daysAgo - LADDER_PREGAME_INTERVAL
 
 isRequestFromDesignatedCronHandler = (req, res) ->
-  requestIP = req.headers['x-forwarded-for']?.replace(" ","").split(",")[0]
+  requestIP = req.headers['x-forwarded-for']?.replace(' ', '').split(',')[0]
   if requestIP isnt config.mail.cronHandlerPublicIP and requestIP isnt config.mail.cronHandlerPrivateIP
     console.log "RECEIVED REQUEST FROM IP #{requestIP}(headers indicate #{req.headers['x-forwarded-for']}"
-    console.log "UNAUTHORIZED ATTEMPT TO SEND TRANSACTIONAL LADDER EMAIL THROUGH CRON MAIL HANDLER"
-    res.send("You aren't authorized to perform that action. Only the specified Cron handler may perform that action.")
+    console.log 'UNAUTHORIZED ATTEMPT TO SEND TRANSACTIONAL LADDER EMAIL THROUGH CRON MAIL HANDLER'
+    res.send('You aren\'t authorized to perform that action. Only the specified Cron handler may perform that action.')
     res.end()
     return false
   return true
 
 handleLadderUpdate = (req, res) ->
-  log.info("Going to see about sending ladder update emails.")
+  log.info('Going to see about sending ladder update emails.')
   requestIsFromDesignatedCronHandler = isRequestFromDesignatedCronHandler req, res
   return unless requestIsFromDesignatedCronHandler or DEBUGGING
 
@@ -63,7 +63,7 @@ handleLadderUpdate = (req, res) ->
       endTime = startTime + 15 * 60 * 1000  # Debugging: make sure there's something to send
     findParameters = {submitted: true, submitDate: {$gt: new Date(startTime), $lte: new Date(endTime)}}
     # TODO: think about putting screenshots in the email
-    selectString = "creator team levelName levelID totalScore matches submitted submitDate scoreHistory"
+    selectString = 'creator team levelName levelID totalScore matches submitted submitDate scoreHistory'
     query = LevelSession.find(findParameters)
       .select(selectString)
       .lean()
@@ -76,7 +76,7 @@ handleLadderUpdate = (req, res) ->
         sendLadderUpdateEmail result, now, daysAgo for result in results
 
 sendLadderUpdateEmail = (session, now, daysAgo) ->
-  User.findOne({_id: session.creator}).select("name email firstName lastName emailSubscriptions emails preferredLanguage").exec (err, user) ->
+  User.findOne({_id: session.creator}).select('name email firstName lastName emailSubscriptions emails preferredLanguage').exec (err, user) ->
     if err
       log.error "Couldn't find user for #{session.creator} from session #{session._id}"
       return
@@ -88,7 +88,7 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
       log.info "Not sending email to #{user.get('email')} #{user.get('name')} because the session had no levelName in it."
       return
     name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
-    name = "Wizard" if not name or name is "Anoner"
+    name = 'Wizard' if not name or name is 'Anoner'
 
     # Fetch the most recent defeat and victory, if there are any.
     # (We could look at strongest/weakest, but we'd have to fetch everyone, or denormalize more.)
@@ -135,22 +135,22 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
       if err
         log.error "Couldn't find defeateded opponent: #{err}"
         defeatedOpponent = null
-      victoryContext = {opponent_name: defeatedOpponent?.name ? "Anoner", url: urlForMatch(victory)} if victory
+      victoryContext = {opponent_name: defeatedOpponent?.name ? 'Anoner', url: urlForMatch(victory)} if victory
 
       onFetchedVictoriousOpponent = (err, victoriousOpponent) ->
         if err
           log.error "Couldn't find victorious opponent: #{err}"
           victoriousOpponent = null
-        defeatContext = {opponent_name: victoriousOpponent?.name ? "Anoner", url: urlForMatch(defeat)} if defeat
+        defeatContext = {opponent_name: victoriousOpponent?.name ? 'Anoner', url: urlForMatch(defeat)} if defeat
         sendEmail defeatContext, victoryContext
 
       if defeat
-        User.findOne({_id: defeat.opponents[0].userID}).select("name").lean().exec onFetchedVictoriousOpponent
+        User.findOne({_id: defeat.opponents[0].userID}).select('name').lean().exec onFetchedVictoriousOpponent
       else
         onFetchedVictoriousOpponent null, null
 
     if victory
-      User.findOne({_id: victory.opponents[0].userID}).select("name").lean().exec onFetchedDefeatedOpponent
+      User.findOne({_id: victory.opponents[0].userID}).select('name').lean().exec onFetchedDefeatedOpponent
     else
       onFetchedDefeatedOpponent null, null
 
@@ -184,7 +184,7 @@ handleMailchimpWebHook = (req, res) ->
     res.send 'No email provided'
     return res.end()
 
-  query = {'mailChimp.leid':post.data.web_id}
+  query = {'mailChimp.leid': post.data.web_id}
   User.findOne query, (err, user) ->
     return errors.serverError(res) if err
     if not user

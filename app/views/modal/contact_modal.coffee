@@ -19,12 +19,12 @@ contactSchema =
       minLength: 1
 
 module.exports = class ContactView extends View
-  id: "contact-modal"
+  id: 'contact-modal'
   template: template
   closeButton: true
 
   events:
-    "click #contact-submit-button": "contact"
+    'click #contact-submit-button': 'contact'
 
   contact: ->
     forms.clearFormAlerts @$el
