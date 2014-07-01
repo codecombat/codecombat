@@ -1,9 +1,9 @@
 module.exports =
-  "me:synced":
+  'me:synced':
     {} # TODO schema
 
-  "user-fetched":
+  'user-fetched':
     {} # TODO schema
 
-  "edit-wizard-settings":
+  'edit-wizard-settings':
     {} # TODO schema

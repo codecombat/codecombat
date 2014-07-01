@@ -2,7 +2,7 @@ log = require 'winston'
 errors = require '../commons/errors'
 handlers = require('../commons/mapping').handlers
 
-mongoose = require('mongoose')
+mongoose = require 'mongoose'
 
 module.exports.setup = (app) ->
   app.post '/admin/*', (req, res) ->

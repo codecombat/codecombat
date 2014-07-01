@@ -56,7 +56,7 @@ describe '/auth/login', ->
   it 'rejects wrong passwords', (done) ->
     req = request.post(urlLogin, (error, response) ->
       expect(response.statusCode).toBe(401)
-      expect(response.body.indexOf("wrong")).toBeGreaterThan(-1)
+      expect(response.body.indexOf('wrong')).toBeGreaterThan(-1)
       done()
     )
     form = req.form()
@@ -71,7 +71,6 @@ describe '/auth/login', ->
     form = req.form()
     form.append('username', 'scoTT@gmaIL.com')
     form.append('password', 'NaDa')
-
 
 describe '/auth/reset', ->
   passwordReset = ''
@@ -143,7 +142,7 @@ describe '/auth/unsubscribe', ->
       request.get getURL('/auth/whoami'), ->
         throw err if err
         done()
-  
+
   it 'removes just recruitment emails if you include ?recruitNotes=1', (done) ->
     loginJoe (joe) ->
       url = getURL('/auth/unsubscribe?recruitNotes=1&email='+joe.get('email'))

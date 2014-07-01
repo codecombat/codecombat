@@ -3,26 +3,25 @@ describe 'utils library', ->
 
   beforeEach ->
     this.fixture1 =
-      "text": "G'day, Wizard! Come to practice? Well, let's get started..."
-      "blurb": "G'day"
-      "i18n":
-        "es-419":
-          "text": "¡Buenas, Hechicero! ¿Vienes a practicar? Bueno, empecemos..."
-        "es-ES":
-          "text": "¡Buenas Mago! ¿Vienes a practicar? Bien, empecemos..."
-        "es":
-          "text": "¡Buenas Mago! ¿Vienes a practicar? Muy bien, empecemos..."
-        "fr":
-          "text": "S'lut, Magicien! Venu pratiquer? Ok, bien débutons..."
-        "pt-BR":
-          "text": "Bom dia, feiticeiro! Veio praticar? Então vamos começar..."
-        "en":
-          "text": "Ohai Magician!"
-        "de":
-          "text": "'N Tach auch, Zauberer! Kommst Du zum Üben? Dann lass uns anfangen..."
-        "sv":
-          "text": "Godagens, trollkarl! Kommit för att öva? Nå, låt oss börja..."
-
+      'text': 'G\'day, Wizard! Come to practice? Well, let\'s get started...'
+      'blurb': 'G\'day'
+      'i18n':
+        'es-419':
+          'text': '¡Buenas, Hechicero! ¿Vienes a practicar? Bueno, empecemos...'
+        'es-ES':
+          'text': '¡Buenas Mago! ¿Vienes a practicar? Bien, empecemos...'
+        'es':
+          'text': '¡Buenas Mago! ¿Vienes a practicar? Muy bien, empecemos...'
+        'fr':
+          'text': 'S\'lut, Magicien! Venu pratiquer? Ok, bien débutons...'
+        'pt-BR':
+          'text': 'Bom dia, feiticeiro! Veio praticar? Então vamos começar...'
+        'en':
+          'text': 'Ohai Magician!'
+        'de':
+          'text': '\'N Tach auch, Zauberer! Kommst Du zum Üben? Dann lass uns anfangen...'
+        'sv':
+          'text': 'Godagens, trollkarl! Kommit för att öva? Nå, låt oss börja...'
 
   it 'i18n should find a valid target string', ->
     expect(util.i18n(this.fixture1, 'text', 'sv')).toEqual(this.fixture1.i18n['sv'].text)

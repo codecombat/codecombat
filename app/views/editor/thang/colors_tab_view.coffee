@@ -13,7 +13,7 @@ module.exports = class ColorsTabView extends CocoView
   constructor: (@thangType, options) ->
     @listenToOnce(@thangType, 'sync', @tryToBuild)
     # @listenToOnce(@thangType.schema(), 'sync', @tryToBuild)
-    @colorConfig = { hue: 0, saturation: 0.5, lightness: 0.5 }
+    @colorConfig = {hue: 0, saturation: 0.5, lightness: 0.5}
     @spriteBuilder = new SpriteBuilder(@thangType)
     f = =>
       @offset++
@@ -24,7 +24,7 @@ module.exports = class ColorsTabView extends CocoView
   destroy: ->
     clearInterval @interval
     super()
-  
+
   onLoaded: -> @render()
   afterRender: ->
     super()
@@ -36,9 +36,9 @@ module.exports = class ColorsTabView extends CocoView
   # sliders
 
   initSliders: ->
-    @hueSlider = @initSlider $("#hue-slider", @$el), 0, @makeSliderCallback 'hue'
-    @saturationSlider = @initSlider $("#saturation-slider", @$el), 50, @makeSliderCallback 'saturation'
-    @lightnessSlider = @initSlider $("#lightness-slider", @$el), 50, @makeSliderCallback 'lightness'
+    @hueSlider = @initSlider $('#hue-slider', @$el), 0, @makeSliderCallback 'hue'
+    @saturationSlider = @initSlider $('#saturation-slider', @$el), 50, @makeSliderCallback 'saturation'
+    @lightnessSlider = @initSlider $('#lightness-slider', @$el), 50, @makeSliderCallback 'lightness'
 
   makeSliderCallback: (property) ->
     (e, result) =>
@@ -51,7 +51,7 @@ module.exports = class ColorsTabView extends CocoView
     canvas = @$el.find('#tinting-display')
     @stage = new createjs.Stage(canvas[0])
     createjs.Ticker.setFPS 20
-    createjs.Ticker.addEventListener("tick", @stage)
+    createjs.Ticker.addEventListener('tick', @stage)
     @updateMovieClip()
 
   updateMovieClip: ->

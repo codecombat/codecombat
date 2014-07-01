@@ -51,8 +51,8 @@ module.exports = class PatchesView extends CocoView
     @render()
 
   openPatchModal: (e) ->
-    console.log "open patch modal"
-    patch = _.find @patches.models, {id:$(e.target).data('patch-id')}
+    console.log 'open patch modal'
+    patch = _.find @patches.models, {id: $(e.target).data('patch-id')}
     modal = new PatchModal(patch, @model)
     @openModalView(modal)
     @listenTo modal, 'accepted-patch', -> @trigger 'accepted-patch'

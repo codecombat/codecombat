@@ -6,7 +6,7 @@ MultiplayerModal = require './modal/multiplayer_modal'
 ReloadModal = require './modal/reload_modal'
 
 module.exports = class ControlBarView extends View
-  id: "control-bar-view"
+  id: 'control-bar-view'
   template: template
 
   subscriptions:

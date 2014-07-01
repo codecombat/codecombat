@@ -4,11 +4,11 @@ DeltaView = require 'views/editor/delta'
 auth = require 'lib/auth'
 
 module.exports = class PatchModal extends ModalView
-  id: "patch-modal"
+  id: 'patch-modal'
   template: template
   plain: true
   modalWidthPercent: 60
-  @DOC_SKIP_PATHS = ['_id','version', 'commitMessage', 'parent', 'created', 'slug', 'index', '__v', 'patches', 'creator']
+  @DOC_SKIP_PATHS = ['_id', 'version', 'commitMessage', 'parent', 'created', 'slug', 'index', '__v', 'patches', 'creator']
 
   events:
     'click #withdraw-button': 'withdrawPatch'
@@ -21,9 +21,9 @@ module.exports = class PatchModal extends ModalView
     if targetID is @targetModel.id
       @originalSource = @targetModel.clone(false)
     else
-      @originalSource = new @targetModel.constructor({_id:targetID})
+      @originalSource = new @targetModel.constructor({_id: targetID})
       @supermodel.loadModel @originalSource, 'source_document'
-      
+
   onLoaded: ->
     @headModel = null
     if @targetModel.hasWriteAccess()
@@ -49,7 +49,7 @@ module.exports = class PatchModal extends ModalView
 
   afterRender: ->
     return super() unless @supermodel.finished() and @deltaWorked
-    @deltaView = new DeltaView({model:@pendingModel, headModel:@headModel, skipPaths: PatchModal.DOC_SKIP_PATHS})
+    @deltaView = new DeltaView({model: @pendingModel, headModel: @headModel, skipPaths: PatchModal.DOC_SKIP_PATHS})
     changeEl = @$el.find('.changes-stub')
     @insertSubView(@deltaView, changeEl)
     super()

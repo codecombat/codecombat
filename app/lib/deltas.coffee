@@ -1,23 +1,23 @@
 SystemNameLoader = require 'lib/SystemNameLoader'
-### 
+###
   Good-to-knows:
     dataPath: an array of keys that walks you up a JSON object that's being patched
       ex: ['scripts', 0, 'description']
     deltaPath: an array of keys that walks you up a JSON Diff Patch object.
       ex: ['scripts', '_0', 'description']
 ###
-  
+
 module.exports.expandDelta = (delta, left, schema) ->
   flattenedDeltas = flattenDelta(delta)
   (expandFlattenedDelta(fd, left, schema) for fd in flattenedDeltas)
-  
+
 
 flattenDelta = (delta, dataPath=null, deltaPath=null) ->
   # takes a single jsondiffpatch delta and returns an array of objects with
   return [] unless delta
   dataPath ?= []
   deltaPath ?= []
-  return [{dataPath:dataPath, deltaPath: deltaPath, o:delta}] if _.isArray delta
+  return [{dataPath: dataPath, deltaPath: deltaPath, o: delta}] if _.isArray delta
 
   results = []
   affectingArray = delta._t is 'a'
@@ -27,12 +27,12 @@ flattenDelta = (delta, dataPath=null, deltaPath=null) ->
     results = results.concat flattenDelta(
       childDelta, dataPath.concat([dataIndex]), deltaPath.concat([deltaIndex]))
   results
-  
+
 
 expandFlattenedDelta = (delta, left, schema) ->
   # takes a single flattened delta and converts into an object that can be
   # easily formatted into something human readable.
-  
+
   delta.action = '???'
   o = delta.o # the raw jsondiffpatch delta
 
@@ -80,34 +80,34 @@ expandFlattenedDelta = (delta, left, schema) ->
     humanPath.push humanKey
     parentLeft = childLeft
     parentSchema = childSchema
-    
+
   delta.humanPath = humanPath.join(' :: ')
   delta.schema = childSchema
   delta.left = childLeft
   delta.right = jsondiffpatch.patch childLeft, delta.o unless delta.action is 'moved-index'
-  
+
   delta
-  
+
 module.exports.makeJSONDiffer = ->
   hasher = (obj) -> obj.name || obj.id || obj._id || JSON.stringify(_.keys(obj))
-  jsondiffpatch.create({objectHash:hasher})
-    
+  jsondiffpatch.create({objectHash: hasher})
+
 module.exports.getConflicts = (headDeltas, pendingDeltas) ->
   # headDeltas and pendingDeltas should be lists of deltas returned by interpretDelta
   # Returns a list of conflict objects with properties:
   #   headDelta
   #   pendingDelta
   # The deltas that have conflicts also have conflict properties pointing to one another.
-  
+
   headPathMap = groupDeltasByAffectingPaths(headDeltas)
   pendingPathMap = groupDeltasByAffectingPaths(pendingDeltas)
   paths = _.keys(headPathMap).concat(_.keys(pendingPathMap))
-  
+
   # Here's my thinking: conflicts happen when one delta path is a substring of another delta path
   # So, sort paths from both deltas together, which will naturally make conflicts adjacent,
   # and if one is identified, one path is from the headDeltas, the other is from pendingDeltas
   # This is all to avoid an O(nm) brute force search.
-  
+
   conflicts = []
   paths.sort()
   for path, i in paths
@@ -116,12 +116,12 @@ module.exports.getConflicts = (headDeltas, pendingDeltas) ->
     if nextPath.startsWith path
       headDelta = (headPathMap[path] or headPathMap[nextPath])[0].delta
       pendingDelta = (pendingPathMap[path] or pendingPathMap[nextPath])[0].delta
-      conflicts.push({headDelta:headDelta, pendingDelta:pendingDelta})
+      conflicts.push({headDelta: headDelta, pendingDelta: pendingDelta})
       pendingDelta.conflict = headDelta
       headDelta.conflict = pendingDelta
 
   return conflicts if conflicts.length
-  
+
 groupDeltasByAffectingPaths = (deltas) ->
   metaDeltas = []
   for delta in deltas
@@ -139,7 +139,7 @@ groupDeltasByAffectingPaths = (deltas) ->
         delta: delta
         path: (item.toString() for item in path).join('/')
       }
-  
+
   map = _.groupBy metaDeltas, 'path'
 
   # Turns out there are cases where a single delta can include paths
@@ -158,20 +158,20 @@ groupDeltasByAffectingPaths = (deltas) ->
     continue if path.startsWith previousPath
     prunedMap[path] = map[path]
     previousPath = path
-  
+
   prunedMap
-  
+
 module.exports.pruneConflictsFromDelta = (delta, conflicts) ->
   expandedDeltas = (conflict.pendingDelta for conflict in conflicts)
   module.exports.pruneExpandedDeltasFromDelta delta, expandedDeltas
-    
+
 module.exports.pruneExpandedDeltasFromDelta = (delta, expandedDeltas) ->
   # the jsondiffpatch delta mustn't include any dangling nodes,
   # or else things will get removed which shouldn't be, or errors will occur
   for expandedDelta in expandedDeltas
     prunePath delta, expandedDelta.deltaPath
   if _.isEmpty delta then undefined else delta
-    
+
 prunePath = (delta, path) ->
   if path.length is 1
     delete delta[path]

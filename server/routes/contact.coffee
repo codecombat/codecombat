@@ -35,4 +35,4 @@ createMailOptions = (sender, message, user, recipientID, subject, done) ->
         options.to = document.get('email')
       done options
   else
-    done options 
+    done options

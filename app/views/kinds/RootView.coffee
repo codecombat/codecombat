@@ -18,7 +18,7 @@ filterKeyboardEvents = (allowedEvents, func) ->
 
 module.exports = class RootView extends CocoView
   events:
-    "click #logout-button": "logoutAccount"
+    'click #logout-button': 'logoutAccount'
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
     'click .auth-button': 'onClickAuthbutton'
@@ -28,7 +28,6 @@ module.exports = class RootView extends CocoView
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
-
 
   showNewAchievement: (achievement, earnedAchievement) ->
     currentLevel = me.level()
@@ -115,7 +114,7 @@ module.exports = class RootView extends CocoView
 
   afterRender: ->
     super(arguments...)
-    @chooseTab(location.hash.replace('#','')) if location.hash
+    @chooseTab(location.hash.replace('#', '')) if location.hash
     @buildLanguages()
     $('body').removeClass('is-playing')
 
@@ -125,10 +124,10 @@ module.exports = class RootView extends CocoView
   # TODO: automate tabs to put in hashes when they are clicked
 
   buildLanguages: ->
-    $select = @$el.find(".language-dropdown").empty()
-    if $select.hasClass("fancified")
+    $select = @$el.find('.language-dropdown').empty()
+    if $select.hasClass('fancified')
       $select.parent().find('.options, .trigger').remove()
-      $select.unwrap().removeClass("fancified")
+      $select.unwrap().removeClass('fancified')
     preferred = me.lang()
     codes = _.keys(locale)
     genericCodes = _.filter codes, (code) ->
@@ -136,17 +135,17 @@ module.exports = class RootView extends CocoView
         code2 isnt code and code2.split('-')[0] is code)
     for code, localeInfo of locale when not (code in genericCodes) or code is preferred
       $select.append(
-        $("<option></option>").val(code).text(localeInfo.nativeDescription))
+        $('<option></option>').val(code).text(localeInfo.nativeDescription))
     $select.val(preferred).fancySelect().parent().find('.trigger').addClass('header-font')
     $('body').attr('lang', preferred)
 
   onLanguageChanged: ->
-    newLang = $(".language-dropdown").val()
+    newLang = $('.language-dropdown').val()
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
     @render()
-    unless newLang.split('-')[0] is "en"
-      @openModalView(application.router.getView("modal/diplomat_suggestion", "_modal"))
+    unless newLang.split('-')[0] is 'en'
+      @openModalView(application.router.getView('modal/diplomat_suggestion', '_modal'))
 
   saveLanguage: (newLang) ->
     me.set('preferredLanguage', newLang)
@@ -154,9 +153,9 @@ module.exports = class RootView extends CocoView
     return unless res
     res.error ->
       errors = JSON.parse(res.responseText)
-      console.warn "Error saving language:", errors
+      console.warn 'Error saving language:', errors
     res.success (model, response, options) ->
-      #console.log "Saved language:", newLang
+      #console.log 'Saved language:', newLang
 
   toggleFullscreen: (e) ->
     # https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode?redirectlocale=en-US&redirectslug=Web/Guide/DOM/Using_full_screen_mode

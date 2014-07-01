@@ -1,7 +1,7 @@
-CocoModel = require('./CocoModel')
+CocoModel = require './CocoModel'
 
 module.exports = class Article extends CocoModel
-  @className: "Article"
+  @className: 'Article'
   @schema: require 'schemas/models/article'
-  urlRoot: "/db/article"
+  urlRoot: '/db/article'
   saveBackups: true

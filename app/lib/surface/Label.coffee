@@ -1,9 +1,9 @@
 CocoClass = require 'lib/CocoClass'
 
 module.exports = class Label extends CocoClass
-  @STYLE_DIALOGUE = "dialogue"  # A speech bubble from a script
-  @STYLE_SAY = "say"  # A piece of text generated from the world
-  @STYLE_NAME = "name"  # A name like Scott set up for the Wizard
+  @STYLE_DIALOGUE = 'dialogue'  # A speech bubble from a script
+  @STYLE_SAY = 'say'  # A piece of text generated from the world
+  @STYLE_NAME = 'name'  # A name like Scott set up for the Wizard
   # We might want to combine 'say' and 'name'; they're very similar
   # Nick designed 'say' based off of Scott's 'name' back when they were using two systems
 
@@ -16,9 +16,9 @@ module.exports = class Label extends CocoClass
     @camera = options.camera
     @layer = options.layer
     @style = options.style ? Label.STYLE_SAY
-    console.error @toString(), "needs a sprite." unless @sprite
-    console.error @toString(), "needs a camera." unless @camera
-    console.error @toString(), "needs a layer." unless @layer
+    console.error @toString(), 'needs a sprite.' unless @sprite
+    console.error @toString(), 'needs a camera.' unless @camera
+    console.error @toString(), 'needs a layer.' unless @layer
     @setText options.text if options.text
 
   destroy: ->
@@ -58,15 +58,15 @@ module.exports = class Label extends CocoClass
     st = {dialogue: 'D', say: 'S', name: 'N'}[@style]
     o.marginX = {D: 5, S: 6, N: 3}[st]
     o.marginY = {D: 6, S: 4, N: 3}[st]
-    o.fontWeight = {D: "bold", S: "bold", N: "bold"}[st]
+    o.fontWeight = {D: 'bold', S: 'bold', N: 'bold'}[st]
     o.shadow = {D: false, S: true, N: true}[st]
-    o.shadowColor = {D: "#FFF", S: "#000", N: "#FFF"}[st]
+    o.shadowColor = {D: '#FFF', S: '#000', N: '#FFF'}[st]
     o.fontSize = {D: 25, S: 12, N: 12}[st]
-    fontFamily = {D: "Arial", S: "Arial", N: "Arial"}[st]
+    fontFamily = {D: 'Arial', S: 'Arial', N: 'Arial'}[st]
     o.fontDescriptor = "#{o.fontWeight} #{o.fontSize}px #{fontFamily}"
-    o.fontColor = {D: "#000", S: "#FFF", N: "#00a"}[st]
-    o.backgroundFillColor = {D: "white", S: "rgba(0, 0, 0, 0.4)", N: "rgba(255, 255, 255, 0.5)"}[st]
-    o.backgroundStrokeColor = {D: "black", S: "rgba(0, 0, 0, .6)", N: "rgba(0, 0, 0, 0.0)"}[st]
+    o.fontColor = {D: '#000', S: '#FFF', N: '#00a'}[st]
+    o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(255,255,255,0.5)'}[st]
+    o.backgroundStrokeColor = {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)'}[st]
     o.backgroundStrokeStyle = {D: 2, S: 1, N: 1}[st]
     o.backgroundBorderRadius = {D: 10, S: 3, N: 3}[st]
     o.layerPriority = {D: 10, S: 5, N: 5}[st]
@@ -169,7 +169,7 @@ module.exports = class Label extends CocoClass
     textWidth = 0
     for word in words
       row.push(word)
-      text = new createjs.Text(_.string.join(' ', row...), fontDescriptor, "#000")
+      text = new createjs.Text(_.string.join(' ', row...), fontDescriptor, '#000')
       width = text.getMeasuredWidth()
       if width > maxWidth
         if row.length is 1 # one long word, truncate it
@@ -186,5 +186,5 @@ module.exports = class Label extends CocoClass
         textWidth = Math.max(textWidth, width)
     rows.push(row) if row.length
     for row, i in rows
-      rows[i] = _.string.join(" ", row...)
+      rows[i] = _.string.join(' ', row...)
     text: _.string.join("\n", rows...), textWidth: textWidth

@@ -1,10 +1,10 @@
-CocoModel = require('./CocoModel')
-SystemNameLoader = require('lib/SystemNameLoader')
+CocoModel = require './CocoModel'
+SystemNameLoader = require 'lib/SystemNameLoader'
 
 module.exports = class LevelSystem extends CocoModel
-  @className: "LevelSystem"
+  @className: 'LevelSystem'
   @schema: require 'schemas/models/level_system'
-  urlRoot: "/db/level.system"
+  urlRoot: '/db/level.system'
 
   set: (key, val, options) ->
     if _.isObject key
@@ -22,11 +22,11 @@ module.exports = class LevelSystem extends CocoModel
 
   compile: (code) ->
     if @get('codeLanguage') and @get('codeLanguage') isnt 'coffeescript'
-      return console.error("Can't compile", @get('codeLanguage'), "-- only CoffeeScript.", @)
+      return console.error('Can\'t compile', @get('codeLanguage'), '-- only CoffeeScript.', @)
     try
       js = CoffeeScript.compile(code, bare: true)
     catch e
-      #console.log "couldn't compile", code, "for", @get('name'), "because", e
+      #console.log 'couldn\'t compile', code, 'for', @get('name'), 'because', e
       js = @get 'js'
     js
 

@@ -15,7 +15,7 @@ class EarnedAchievementHandler extends Handler
     req.method is 'GET' # or req.user.isAdmin()
 
   recalculate: (req, res) ->
-    onSuccess = (data) => log.debug "Finished recalculating achievements"
+    onSuccess = (data) => log.debug 'Finished recalculating achievements'
     if 'achievements' of req.body # Support both slugs and IDs separated by commas
       achievementSlugsOrIDs = req.body.achievements
       EarnedAchievementHandler.recalculate achievementSlugsOrIDs, onSuccess
@@ -91,7 +91,7 @@ class EarnedAchievementHandler extends Handler
                 earned.earnedPoints = newPoints
                 newTotalPoints += newPoints
 
-                EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
+                EarnedAchievement.update {achievement: earned.achievement, user: earned.user}, earned, {upsert: true}, (err) ->
                   log.error err if err?
                   callback()
 
@@ -110,6 +110,5 @@ class EarnedAchievementHandler extends Handler
 
             # We need to have all these database updates chained so we know the final score
             async.series earnedAchievementSavers
-
 
 module.exports = new EarnedAchievementHandler()

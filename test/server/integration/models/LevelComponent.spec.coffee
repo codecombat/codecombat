@@ -3,12 +3,12 @@ require '../../common'
 describe 'LevelComponent', ->
 
   raw =
-    name:'Bashes Everything'
-    description:'Makes the unit uncontrollably bash anything bashable, using the bash system.'
+    name: 'Bashes Everything'
+    description: 'Makes the unit uncontrollably bash anything bashable, using the bash system.'
     code: 'bash();'
     codeLanguage: 'javascript'
     official: true
-    permissions:simplePermissions
+    permissions: simplePermissions
 
   comp = new LevelComponent(raw)
 
@@ -21,4 +21,3 @@ describe 'LevelComponent', ->
     comp.save (err) ->
       expect(err).toBeNull()
       done()
-

@@ -7,10 +7,10 @@ describe 'LeaderboardData', ->
     level = new Level(fixtures.LadderLevel)
     leaderboard = new LadderTabView.LeaderboardData(level, 'humans', null, 4)
     leaderboard.fetch()
-    
+
     # no session passed in, so only one request
     expect(jasmine.Ajax.requests.count()).toBe(1)
-    
+
     request = jasmine.Ajax.requests.mostRecent()
     triggered = false
     leaderboard.once 'sync', -> triggered = true

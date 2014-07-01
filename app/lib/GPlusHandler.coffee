@@ -14,8 +14,8 @@ userPropsToSave =
 fieldsToFetch = 'displayName,gender,image,name(familyName,givenName),id'
 plusURL = '/plus/v1/people/me?fields='+fieldsToFetch
 revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token='
-clientID = "800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com"
-scope = "https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email"
+clientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
+scope = 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email'
 
 module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   constructor: ->
@@ -32,7 +32,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
       # We need to check the current state, given our access token
       gapi.auth.setToken 'token', @accessToken
       session_state = @accessToken.session_state
-      gapi.auth.checkSessionState({client_id:clientID, session_state:session_state}, @onCheckedSessionState)
+      gapi.auth.checkSessionState({client_id: clientID, session_state: session_state}, @onCheckedSessionState)
     else
       # If we ran checkSessionState, it might return true, that the user is logged into Google, but has not authorized us
       @loggedIn = false
@@ -57,7 +57,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
 
     # email and profile data loaded separately
     @responsesComplete = 0
-    gapi.client.request(path:plusURL, callback:@onPersonEntityReceived)
+    gapi.client.request(path: plusURL, callback: @onPersonEntityReceived)
     gapi.client.load('oauth2', 'v2', =>
       gapi.client.oauth2.userinfo.get().execute(@onEmailReceived))
 
@@ -108,7 +108,7 @@ module.exports = GPlusHandler = class GPlusHandler extends CocoClass
   loadFriends: (friendsCallback) ->
     return friendsCallback() unless @loggedIn
     expiresIn = if @accessToken then parseInt(@accessToken.expires_at) - new Date().getTime()/1000 else -1
-    onReauthorized = => gapi.client.request({path:'/plus/v1/people/me/people/visible', callback: friendsCallback})
+    onReauthorized = => gapi.client.request({path: '/plus/v1/people/me/people/visible', callback: friendsCallback})
     if expiresIn < 0
       # TODO: this tries to open a popup window, which might not ever finish or work, so the callback may never be called.
       @reauthorize()

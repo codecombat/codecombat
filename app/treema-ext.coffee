@@ -18,7 +18,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
 
   constructor: ->
     super(arguments...)
-    @schema.aceMode = "ace/mode/markdown"
+    @schema.aceMode = 'ace/mode/markdown'
 
   buildValueForEditing: (valEl) ->
     super(valEl)
@@ -200,7 +200,7 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
 class CoffeeTreema extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
-    @schema.aceMode = "ace/mode/coffee"
+    @schema.aceMode = 'ace/mode/coffee'
     @schema.aceTabSize = 2
 
   buildValueForEditing: (valEl) ->
@@ -216,7 +216,7 @@ class CoffeeTreema extends TreemaNode.nodeMap.ace
 class JavaScriptTreema extends CoffeeTreema
   constructor: ->
     super(arguments...)
-    @schema.aceMode = "ace/mode/javascript"
+    @schema.aceMode = 'ace/mode/javascript'
     @schema.aceTabSize = 4
 
 KB = 1024
@@ -232,13 +232,13 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
 
     i18nChildSchema = {
       title: @findLanguageName(key)
-      type: "object"
+      type: 'object'
       properties: {}
     }
     return i18nChildSchema unless @parent
     unless @schema.props?
-      console.warn "i18n props array is empty! Filling with all parent properties by default"
-      @schema.props = (prop for prop,_ of @parent.schema.properties when prop isnt "i18n")
+      console.warn 'i18n props array is empty! Filling with all parent properties by default'
+      @schema.props = (prop for prop,_ of @parent.schema.properties when prop isnt 'i18n')
 
     for i18nProperty in @schema.props
       i18nChildSchema.properties[i18nProperty] = @parent.schema.properties[i18nProperty]

@@ -9,8 +9,8 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   id: 'spell-list-tab-entry-view'
 
   subscriptions:
-    'tome:spell-loaded': "onSpellLoaded"
-    'tome:spell-changed': "onSpellChanged"
+    'tome:spell-loaded': 'onSpellLoaded'
+    'tome:spell-changed': 'onSpellChanged'
     'god:new-world-created': 'onNewWorld'
     'tome:spell-changed-language': 'onSpellChangedLanguage'
 
@@ -80,11 +80,11 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   onCodeReload: ->
     return unless @controlsEnabled
-    Backbone.Mediator.publish "tome:reload-code", spell: @spell
+    Backbone.Mediator.publish 'tome:reload-code', spell: @spell
 
   onBeautifyClick: ->
     return unless @controlsEnabled
-    Backbone.Mediator.publish "spell-beautify", spell: @spell
+    Backbone.Mediator.publish 'spell-beautify', spell: @spell
 
   updateReloadButton: ->
     changed = @spell.hasChanged null, @spell.getSource()

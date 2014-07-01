@@ -11,9 +11,9 @@ module.exports = class SpellPaletteEntryView extends View
   popoverPinned: false
 
   subscriptions:
-    'surface:frame-changed': "onFrameChanged"
-    'tome:palette-hovered': "onPaletteHovered"
-    'tome:palette-pin-toggled': "onPalettePinToggled"
+    'surface:frame-changed': 'onFrameChanged'
+    'tome:palette-hovered': 'onPaletteHovered'
+    'tome:palette-pin-toggled': 'onPalettePinToggled'
     'tome:spell-debug-property-hovered': 'onSpellDebugPropertyHovered'
 
   events:

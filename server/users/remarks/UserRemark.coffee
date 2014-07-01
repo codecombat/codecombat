@@ -1,6 +1,6 @@
-mongoose = require('mongoose')
-plugins = require('../../plugins/plugins')
-jsonschema = require('../../../app/schemas/models/user_remark')
+mongoose = require 'mongoose'
+plugins = require '../../plugins/plugins'
+jsonschema = require '../../../app/schemas/models/user_remark'
 
 UserRemarkSchema = new mongoose.Schema({
   created:

@@ -18,10 +18,10 @@
 ###
 
 module.exports = class Layer extends createjs.Container
-  @TRANSFORM_CHILD = "child"  # Layer transform is managed by its parents
-  @TRANSFORM_SURFACE = "surface"  # Layer moves/scales/zooms with the Surface of the World
-  @TRANSFORM_SURFACE_TEXT = "surface_text"  # Layer moves with the Surface but is size-independent
-  @TRANSFORM_SCREEN = "screen"  # Layer stays fixed to the screen (different from child?)
+  @TRANSFORM_CHILD = 'child'  # Layer transform is managed by its parents
+  @TRANSFORM_SURFACE = 'surface'  # Layer moves/scales/zooms with the Surface of the World
+  @TRANSFORM_SURFACE_TEXT = 'surface_text'  # Layer moves with the Surface but is size-independent
+  @TRANSFORM_SCREEN = 'screen'  # Layer stays fixed to the screen (different from child?)
 
   subscriptions:
     'camera:zoom-updated': 'onZoomUpdated'
@@ -30,11 +30,11 @@ module.exports = class Layer extends createjs.Container
     super()
     @initialize()
     options ?= {}
-    @name = options.name ? "Unnamed"
+    @name = options.name ? 'Unnamed'
     @layerPriority = options.layerPriority ? 0
     @transformStyle = options.transform ? Layer.TRANSFORM_CHILD
     @camera = options.camera
-    console.error @toString(), "needs a camera." unless @camera
+    console.error @toString(), 'needs a camera.' unless @camera
     @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
     Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions
 
@@ -60,7 +60,7 @@ module.exports = class Layer extends createjs.Container
         child.scaleY *= @scaleY
 
   updateLayerOrder: =>
-    #console.log @, @toString(), "sorting children", _.clone @children if @name is 'Default'
+    #console.log @, @toString(), 'sorting children', _.clone @children if @name is 'Default'
     @sortChildren @layerOrderComparator
 
   layerOrderComparator: (a, b) ->

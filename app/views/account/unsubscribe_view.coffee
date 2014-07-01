@@ -3,7 +3,7 @@ template = require 'templates/account/unsubscribe'
 {me} = require 'lib/auth'
 
 module.exports = class UnsubscribeView extends RootView
-  id: "unsubscribe-view"
+  id: 'unsubscribe-view'
   template: template
 
   events:

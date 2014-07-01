@@ -1,12 +1,12 @@
 CocoView = require './CocoView'
 
 module.exports = class ModalView extends CocoView
-  className: "modal fade"
+  className: 'modal fade'
   closeButton: true
   closesOnClickOutside: true
   modalWidthPercent: null
   plain: false
-  
+
   events:
     'click a': 'toggleModal'
     'click button': 'toggleModal'
@@ -17,7 +17,7 @@ module.exports = class ModalView extends CocoView
 
   constructor: (options) ->
     options ?= {}
-    @className = @className.replace " fade", "" if options.instant
+    @className = @className.replace ' fade', '' if options.instant
     @closeButton = options.closeButton if options.closeButton?
     @modalWidthPercent = options.modalWidthPercent if options.modalWidthPercent
     super options
@@ -51,7 +51,7 @@ module.exports = class ModalView extends CocoView
 
   hide: ->
     @trigger 'hide'
-    @$el.removeClass('fade').modal "hide"
+    @$el.removeClass('fade').modal 'hide'
 
   onHidden: ->
     @trigger 'hidden'
