@@ -1,11 +1,89 @@
 extends /templates/recruitment_base
 
 block content
-  #tagline
-    h1(data-i18n="employers.hire_developers_not_credentials") Hire developers, not credentials.
-    button.btn.get-started-button Get started
-
-
+  if !isEmployer && !me.isAdmin()
+    #tagline
+      h1(data-i18n="employers.hire_developers_not_credentials") Hire developers, not credentials.
+      button.btn.get-started-button Get started
+  else
+    #filter
+      .panel-group#filter_panel
+        .panel.panel-default
+          .panel-heading
+            h4.panel-title
+              a(data-toggle="collapse" data-target="#collapseOne" href="#collapseOne")
+                span.glyphicon.glyphicon-folder-open
+                |  Filter
+        .panel-collapse.collapse.in#collapseOne
+          .panel-body
+            form#filters
+              .filter_section#screened_filter
+                h4 Screened
+                input(type="checkbox" name="phoneScreenFilter" value=true) 
+                | Phone Screened
+              .filter_section#visa_filter
+                h4 Visa
+                input(type="checkbox" name="visa" value="Authorized to work in the US")
+                | US Authorized
+                br
+                input(type="checkbox" name="visa" value="Need visa sponsorship")
+                | Not Authorized
+              .filter_section#school_filter
+                h4 School
+                input(type="checkbox" name="schoolFilter" value="Top 20 Eng.")
+                | Top 20 Eng.
+                br
+                input(type="checkbox" name="schoolFilter" value="Other US")
+                | Other US
+                br
+                input(type="checkbox" name="schoolFilter" value="Other Intl.")
+                | Other Intl.
+              .filter_section#location_filter
+                h4 Location
+                input(type="checkbox" name="locationFilter" value="Bay Area")
+                | Bay Area
+                br
+                input(type="checkbox" name="locationFilter" value="New York")
+                | New York
+                br
+                input(type="checkbox" name="locationFilter" value="Other US")
+                | Other US
+                br
+                input(type="checkbox" name="locationFilter" value="International")
+                | International
+              .filter_section#role_filter
+                h4 Role
+                input(type="checkbox" name="roleFilter" value="Web Developer")
+                | Web Developer
+                br
+                input(type="checkbox" name="roleFilter" value="Software Developer")
+                | Software Developer
+                br
+                input(type="checkbox" name="roleFilter" value="iOS Developer")
+                | iOS Developer
+                br
+                input(type="checkbox" name="roleFilter" value="Android Developer")
+                | Android Developer
+                br
+                input(type="checkbox" name="roleFilter" value="Project Manager")
+                | Project Developer
+              .filter_section#seniority_filter
+                h4 Seniority
+                input(type="checkbox" name="seniorityFilter" value="College Student")
+                | College Student
+                br
+                input(type="checkbox" name="seniorityFilter" value="Recent Grad")
+                | Recent Grad
+                br
+                input(type="checkbox" name="seniorityFilter" value="Junior")
+                | Junior
+                br
+                input(type="checkbox" name="seniorityFilter" value="Senior")
+                | Senior
+                br
+                input(type="checkbox" name="seniorityFilter" value="Management")
+                | Management
+         
   if candidates.length
     #candidate-table
       table
@@ -38,7 +116,7 @@ block content
               else
                 td Hi
 
-  if (!isEmployer && !me.isAdmin()) || true
+  if !isEmployer && !me.isAdmin()
     div#info_wrapper
       span.hiring-call-to-action
         h2#start-hiring(data-i18n="employers.start_hiring") Start hiring.

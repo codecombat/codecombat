@@ -21,11 +21,13 @@ module.exports = class EmployersView extends View
 
   events:
     'click tbody tr': 'onCandidateClicked'
+    'change #filters input': 'onFilterChanged'
 
   constructor: (options) ->
     super options
     @getCandidates()
-
+    @setFilterDefaults()
+    
   afterRender: ->
     super()
     @sortTable() if @candidates.models.length
@@ -33,7 +35,45 @@ module.exports = class EmployersView extends View
   afterInsert: ->
     super()
     _.delay @checkForEmployerSignupHash, 500
-
+  onFilterChanged: (e) ->
+    @resetFilters()
+    that = @
+    $("#filters :input").each ->
+      input = $(this)
+      checked = input.prop 'checked'
+      name = input.attr 'name'
+      if checked
+        that.filters[name] = _.union that.filters[name], [input.val()]
+    @render()
+  resetFilters: ->
+    for filterName, filterValues of @filters
+      @filters[filterName] = []
+      
+  applyFilters: (candidateList) ->
+    filteredCandidates = []
+    for filterName, filterValues of @filters
+      if filterName is "visa"
+        filteredCandidates = _.union filteredCandidates, _.filter(candidateList, (c) -> 
+          fieldValue = c.get('jobProfile').visa
+          return _.contains filterValues, fieldValue
+        )
+      else
+        filteredCandidates = _.union filteredCandidates, _.filter(candidateList, (c) ->
+          unless c.get('jobProfile').curated then return false
+          fieldValue = c.get('jobProfile').curated?[filterName]
+          return _.contains filterValues, fieldValue
+        )
+    return filteredCandidates
+  setFilterDefaults: ->
+    @filters = 
+      phoneScreenFilter: [true]
+      visa: ['Authorized to work in the US', 'Need visa sponsorship']
+      schoolFilter: ['Top 20 Eng.', 'Other US', 'Other Intl.']
+      locationFilter: ['Bay Area', 'New York', 'Other US', 'International']
+      roleFilter: ['Web Developer', 'Software Developer', 'iOS Developer', 'Android Developer', 'Project Manager']
+      seniorityFilter: ['College Student', 'Recent Grad', 'Junior', 'Senior', 'Management']
+      
+    
   getRenderData: ->
     ctx = super()
     ctx.isEmployer = @isEmployer()
@@ -41,8 +81,10 @@ module.exports = class EmployersView extends View
     ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
+    ctx.featuredCandidates = @applyFilters(ctx.featuredCandidates)
+    
     #ctx.featuredCandidates = _.filter ctx.featuredCandidates, (c) -> c.get('jobProfile').curated
-    ctx.featuredCandidates = ctx.featuredCandidates.slice(0,8)
+    #ctx.featuredCandidates = ctx.featuredCandidates.slice(0,8)
     ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
     ctx.remarks = {}
     ctx.remarks[remark.get('user')] = remark for remark in @remarks.models
