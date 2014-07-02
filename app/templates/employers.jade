@@ -98,7 +98,7 @@ block content
               td(rowspan=2)
                 img.candidate-picture(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, height=50)
               td.candidate-description #{profile.shortDescription}
-            tr.border_row
+            tr.border_row(data-candidate-id=candidate.id)
               if curated
                 - var workHistory = curated.workHistory.join(",");
                 td.tag_column

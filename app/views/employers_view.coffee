@@ -44,12 +44,15 @@ module.exports = class EmployersView extends View
       name = input.attr 'name'
       if checked
         that.filters[name] = _.union that.filters[name], [input.val()]
-    @render()
+    @applyFilters()
   resetFilters: ->
     for filterName, filterValues of @filters
       @filters[filterName] = []
       
-  applyFilters: (candidateList) ->
+  applyFilters: ->
+    candidateList = _.sortBy @candidates.models, (c) -> c.get('jobProfile').updated
+    candidateList = _.filter candidateList, (c) -> c.get('jobProfileApproved')
+    
     filteredCandidates = []
     for filterName, filterValues of @filters
       if filterName is "visa"
@@ -63,6 +66,12 @@ module.exports = class EmployersView extends View
           fieldValue = c.get('jobProfile').curated?[filterName]
           return _.contains filterValues, fieldValue
         )
+    candidateIDsToShow = _.pluck filteredCandidates, 'id'
+    $("#candidate-table tr").each -> $(this).hide()
+    candidateIDsToShow.forEach (id) ->
+      $("[data-candidate-id=#{id}]").show()
+    
+      
     return filteredCandidates
   setFilterDefaults: ->
     @filters = 
@@ -81,8 +90,6 @@ module.exports = class EmployersView extends View
     ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
-    ctx.featuredCandidates = @applyFilters(ctx.featuredCandidates)
-    
     #ctx.featuredCandidates = _.filter ctx.featuredCandidates, (c) -> c.get('jobProfile').curated
     #ctx.featuredCandidates = ctx.featuredCandidates.slice(0,8)
     ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
