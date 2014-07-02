@@ -17,13 +17,15 @@
   z-index: 0
   //overflow-y: auto
   
-  img
+  .code-palette-background
     position: absolute
     left: 0
     top: 0
     width: 100%
     height: 100%
     z-index: -1
+    border-width: 25px
+    border-image: url(/images/level/code_palette_background.png) 25 fill round
 
   &.disabled
     @include opacity(0.80)
