@@ -17,15 +17,17 @@
   width: -webkit-calc(100% - 100px)
   width: calc(100% - 100px)
   padding: 0px 8px
-  background: transparent url(/images/level/code_editor_tab_background.png) no-repeat
-  background-size: 100% 100%
+  // background: transparent url(/images/level/code_editor_tab_background.png) no-repeat
+  // background-size: 100% 100%
+  border-width: 3px
+  border-image: url(/images/level/code_editor_tab_background.png) 4 fill repeat
   text-align: center
 
   &.read-only
     background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.2) 100%), url(/images/level/code_editor_tab_background.png)
     background-size: 100% 100%
   
-  .spell-list-button, .thang-avatar-wrapper, .reload-code, .beautify-code
+  .spell-list-button, .thang-avatar-wrapper, .reload-code, .beautify-code, .fullscreen-code
     width: $childSize
     height: $childSize
     margin: $childMargin
@@ -41,6 +43,9 @@
   .beautify-code
     float: right
 
+  .fullscreen-code
+    float: right
+
   .btn.btn-small
     background: transparent
     padding: 0
@@ -49,7 +54,7 @@
       border-color: transparent
       @include box-shadow(none)
 
-    .icon-chevron-down, .icon-repeat, .icon-magnet
+    .icon-chevron-down, .icon-repeat, .icon-magnet, .icon-fullscreen
       margin-top: 7px
     
   .thang-avatar-wrapper
