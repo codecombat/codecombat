@@ -45,6 +45,12 @@
 
   .fullscreen-code
     float: right
+    &:not(.maximized)
+      .icon-resize-small
+        display: none
+    &.maximized
+      .icon-fullscreen
+        display: none
 
   .btn.btn-small
     background: transparent
@@ -54,7 +60,7 @@
       border-color: transparent
       @include box-shadow(none)
 
-    .icon-chevron-down, .icon-repeat, .icon-magnet, .icon-fullscreen
+    .icon-chevron-down, .icon-repeat, .icon-magnet, .icon-fullscreen, .icon-resize-small
       margin-top: 7px
     
   .thang-avatar-wrapper
