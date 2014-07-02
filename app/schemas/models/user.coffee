@@ -107,7 +107,46 @@ UserSchema = c.object {},
         name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "GitHub"', format: 'link-name'}
         link: c.url {title: 'Link', description: 'The URL.', default: 'http://example.com'}
     photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image if you want to show a different profile picture to employers than your normal avatar.'}
-
+    curated: c.object {title: 'Curated', required: ['mainTag','location','education','workHistory','phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter']},
+      mainTag:
+        title: 'Main tag'
+        description: 'A main tag to describe this candidate'
+        type: 'string'
+      location:
+        title: 'Location'
+        description: "The CURRENT location of the candidate"
+        type: 'string'
+      education:
+        title: 'Education'
+        description: 'The main educational institution of the candidate'
+        type: 'string'
+      workHistory: c.array
+        title: 'Work history'
+        description: 'One or two places the candidate has worked'
+        type: 'array'
+      ,
+        title: 'Workplace'
+        type: 'string'
+      phoneScreenFilter:
+        title: 'Phone screened'
+        type: 'boolean'
+        description: 'Whether the candidate has been phone screened.'
+      schoolFilter:
+        title: 'School'
+        type: 'string'
+        enum: ['Top 20 Eng.', 'Other US', 'Other Intl.']
+      locationFilter:
+        title: 'Location'
+        type: 'string'
+        enum: ['Bay Area', 'New York', 'Other US', 'International']
+      roleFilter:
+        title: 'Role'
+        type: 'string'
+        enum: ['Web Developer', 'Software Developer', 'iOS Developer', 'Android Developer', 'Project Manager']
+      seniorityFilter:
+        title: 'Seniority'
+        type: 'string'
+        enum: ['College Student', 'Recent Grad', 'Junior', 'Senior', 'Management']
   jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
   jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: "CodeCombat's notes on the candidate.", format: 'markdown', default: ''}
   employerAt: c.shortString {description: "If given employer permissions to view job candidates, for which employer?"}
