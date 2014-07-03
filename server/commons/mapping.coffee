@@ -26,3 +26,12 @@ module.exports.routes =
     'routes/queue'
     'routes/stacklead'
   ]
+
+mongoose = require 'mongoose'
+module.exports.modules = modules = # by collection name
+  'achievements': 'Achievement'
+  'level.sessions': 'level.session'
+  'users': 'User'
+
+mongoose.modelNameByCollection = (collection) ->
+  mongoose.model modules[collection] if collection of modules

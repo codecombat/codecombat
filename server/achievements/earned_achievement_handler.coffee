@@ -23,14 +23,13 @@ class EarnedAchievementHandler extends Handler
       EarnedAchievementHandler.recalculate onSuccess
     @sendAccepted res, {}
 
-  # Returns success: boolean
-  # TODO call onFinished
-  @recalculate: (callbackOrSlugsOrIDs, onFinished) ->
-    if _.isArray callbackOrSlugsOrIDs
+  @recalculate: (callbackOrSlugsOrIDs, callback) ->
+    if _.isArray callbackOrSlugsOrIDs # slugs or ids
       achievementSlugs = (thing for thing in callbackOrSlugsOrIDs when not Handler.isID(thing))
       achievementIDs = (thing for thing in callbackOrSlugsOrIDs when Handler.isID(thing))
-    else
-      onFinished = callbackOrSlugsOrIDs
+    else # just a callback
+      callback = callbackOrSlugsOrIDs
+    onFinished = -> callback arguments... if callback?
 
     filter = {}
     filter.$or = [
@@ -40,11 +39,11 @@ class EarnedAchievementHandler extends Handler
 
     # Fetch all relevant achievements
     Achievement.find filter, (err, achievements) ->
-      return log.error err if err?
+      log.error err if err?
 
       # Fetch every single user
       User.find {}, (err, users) ->
-        _.each users, (user) ->
+        async.each users, ((user, doneWithUser) ->
           # Keep track of a user's already achieved in order to set the notified values correctly
           userID = user.get('_id').toHexString()
 
@@ -52,64 +51,70 @@ class EarnedAchievementHandler extends Handler
           EarnedAchievement.find {user: userID}, (err, alreadyEarned) ->
             alreadyEarnedIDs = []
             previousPoints = 0
-            _.each alreadyEarned, (earned) ->
-              if (_.find achievements, (single) -> earned.get('achievement') is single.get('_id').toHexString())
+            async.each alreadyEarned, ((earned, doneWithEarned) ->
+              if (_.find achievements, (single) -> earned.get('achievement') is single.get('_id').toHexString()) # if already earned
                 alreadyEarnedIDs.push earned.get('achievement')
                 previousPoints += earned.get 'earnedPoints'
+              doneWithEarned()
+            ), -> # After checking already achieved
+              # TODO maybe also delete earned? Make sure you don't delete too many
 
-            # TODO maybe also delete earned? Make sure you don't delete too many
+              newTotalPoints = 0
 
-            newTotalPoints = 0
+              async.each achievements, ((achievement, doneWithAchievement) ->
+                isRepeatable = achievement.get('proportionalTo')?
+                model = mongoose.modelNameByCollection(achievement.get('collection'))
+                if not model?
+                  log.error "Model with collection '#{achievement.get 'collection'}' doesn't exist."
+                  return doneWithAchievement()
 
-            earnedAchievementSaverGenerator = (achievement) -> (callback) ->
-              isRepeatable = achievement.get('proportionalTo')?
-              model = mongoose.model(achievement.get('collection'))
-              if not model?
-                log.error "Model #{achievement.get 'collection'} doesn't even exist."
-                return callback()
+                finalQuery = _.clone achievement.get 'query'
+                finalQuery.$or = [{}, {}] # Allow both ObjectIDs or hexa string IDs
+                finalQuery.$or[0][achievement.userField] = userID
+                finalQuery.$or[1][achievement.userField] = ObjectId userID
 
-              model.findOne achievement.query, (err, something) ->
-                return callback() unless something
+                model.findOne finalQuery, (err, something) ->
+                  return doneWithAchievement() if _.isEmpty something
 
-                log.debug "Matched an achievement: #{achievement.get 'name'}"
+                  log.debug "Matched an achievement: #{achievement.get 'name'} for #{user.get 'name'}"
 
-                earned =
-                  user: userID
-                  achievement: achievement._id.toHexString()
-                  achievementName: achievement.get 'name'
-                  notified: achievement._id in alreadyEarnedIDs
+                  earned =
+                    user: userID
+                    achievement: achievement._id.toHexString()
+                    achievementName: achievement.get 'name'
+                    notified: achievement._id in alreadyEarnedIDs
 
-                if isRepeatable
-                  earned.achievedAmount = something.get(achievement.get 'proportionalTo')
-                  earned.previouslyAchievedAmount = 0
+                  if isRepeatable
+                    earned.achievedAmount = something.get(achievement.get 'proportionalTo')
+                    earned.previouslyAchievedAmount = 0
 
-                  expFunction = achievement.getExpFunction()
-                  newPoints = expFunction(earned.achievedAmount) * achievement.get('worth')
+                    expFunction = achievement.getExpFunction()
+                    newPoints = expFunction(earned.achievedAmount) * achievement.get('worth')
+                  else
+                    newPoints = achievement.get 'worth'
+
+                  earned.earnedPoints = newPoints
+                  newTotalPoints += newPoints
+
+                  EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
+                    log.error err if err?
+                    doneWithAchievement()
+              ), saveUserPoints = ->
+                # In principle it is enough to deduct the old amount of points and add the new amount,
+                # but just to be entirely safe let's start from 0 in case we're updating all of a user's achievements
+                return doneWithUser() unless newTotalPoints
+                log.debug "Matched a total of #{newTotalPoints} new points"
+                if _.isEmpty filter # Completely clean
+                  log.debug "Setting this user's score to #{newTotalPoints}"
+                  User.update {_id: userID}, {$set: points: newTotalPoints}, {}, (err) ->
+                    log.error err if err?
+                    doneWithUser()
                 else
-                  newPoints = achievement.get 'worth'
-
-                earned.earnedPoints = newPoints
-                newTotalPoints += newPoints
-
-                EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
-                  log.error err if err?
-                  callback()
-
-            saveUserPoints = (callback) ->
-              # In principle it is enough to deduct the old amount of points and add the new amount,
-              # but just to be entirely safe let's start from 0 in case we're updating all of a user's achievements
-              log.debug "Matched a total of #{newTotalPoints} new points"
-              if _.isEmpty filter # Completely clean
-                User.update {_id: userID}, {$set: points: newTotalPoints}, {}, (err) -> log.error err if err?
-              else
-                log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
-                User.update {_id: userID}, {$inc: points: newTotalPoints - previousPoints}, {}, (err) -> log.error err if err?
-
-            earnedAchievementSavers = (earnedAchievementSaverGenerator(achievement) for achievement in achievements)
-            earnedAchievementSavers.push saveUserPoints
-
-            # We need to have all these database updates chained so we know the final score
-            async.series earnedAchievementSavers
+                  log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
+                  User.update {_id: userID}, {$inc: points: newTotalPoints - previousPoints}, {}, (err) ->
+                    log.error err if err?
+                    doneWithUser()
+        ), onFinished
 
 
 module.exports = new EarnedAchievementHandler()

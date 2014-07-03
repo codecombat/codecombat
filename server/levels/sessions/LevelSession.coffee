@@ -42,4 +42,4 @@ LevelSessionSchema.pre 'save', (next) ->
   delete previous[id] if initd
   next()
 
-module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema)
+module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema, 'level.sessions')

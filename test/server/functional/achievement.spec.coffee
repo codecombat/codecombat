@@ -13,7 +13,7 @@ repeatable =
   description: 'Simulated Games.'
   worth: 1
   collection: 'users'
-  query: "{\"simulatedBy\":{\"$gt\":\"0\"}}"
+  query: "{\"simulatedBy\":{\"$gt\":0}}"
   userField: '_id'
   proportionalTo: 'simulatedBy'
 
@@ -21,7 +21,7 @@ diminishing =
   name: 'Simulated2'
   worth: 1.5
   collection: 'users'
-  query: "{\"simulatedBy\":{\"$gt\":\"0\"}}"
+  query: "{\"simulatedBy\":{\"$gt\":0}}"
   userField: '_id'
   proportionalTo: 'simulatedBy'
   function:
@@ -106,7 +106,6 @@ describe 'Achievement', ->
       expect(body.type).toBeDefined()
       done()
 
-
 describe 'Achieving Achievements', ->
   it 'wait for achievements to be loaded', (done) ->
     Achievement.loadAchievements (achievements) ->
@@ -120,11 +119,10 @@ describe 'Achieving Achievements', ->
 
   it 'saving an object that should trigger an unlockable achievement', (done) ->
     unittest.getNormalJoe (joe) ->
-      session = new LevelSession(
+      session = new LevelSession
         permissions: simplePermissions
         creator: joe._id
         level: original: 'dungeon-arena'
-      )
 
       session.save (err, doc) ->
         expect(err).toBeNull()
@@ -139,6 +137,7 @@ describe 'Achieving Achievements', ->
         expect(err).toBeNull()
         expect(docs.length).toBe(1)
         achievement = docs[0]
+        expect(achievement).toBeDefined()
 
         expect(achievement.get 'achievement').toBe unlockable._id
         expect(achievement.get 'user').toBe joe._id.toHexString()
@@ -185,7 +184,55 @@ describe 'Achieving Achievements', ->
 
         done()
 
-  it 'cleaning up test: deleting all Achievements and relates', (done) ->
+describe 'Recalculate Achievements', ->
+  EarnedAchievementHandler = require '../../../server/achievements/earned_achievement_handler'
+
+  it 'remove earned achievements', (done) ->
+    clearModels [EarnedAchievement], (err) ->
+      expect(err).toBeNull()
+      EarnedAchievement.find {}, (err, earned) ->
+        expect(earned.length).toBe 0
+
+        User.update {}, {$set: {points: 0}}, {multi:true}, (err) ->
+          expect(err).toBeNull()
+          done()
+
+  it 'can not be accessed by regular users', (done) ->
+    loginJoe -> request.post {uri:getURL '/admin/earned_achievement/recalculate'}, (err, res, body) ->
+      expect(res.statusCode).toBe 403
+      done()
+
+  it 'can recalculate a selection of achievements', (done) ->
+    loginAdmin ->
+      EarnedAchievementHandler.constructor.recalculate ['dungeon-arena-started'], ->
+        EarnedAchievement.find {}, (err, earnedAchievements) ->
+          expect(earnedAchievements.length).toBe 1
+
+          # Recalculate again, doesn't change a thing
+          EarnedAchievementHandler.constructor.recalculate ['dungeon-arena-started'], ->
+            EarnedAchievement.find {}, (err, earnedAchievements) ->
+              expect(earnedAchievements.length).toBe 1
+
+              unittest.getNormalJoe (joe) ->
+                User.findById joe.get('id'), (err, guy) ->
+                  expect(err).toBeNull()
+                  expect(guy.get 'points').toBe unlockable.worth
+                  done()
+
+  it 'can recalculate all achievements', (done) ->
+    loginAdmin ->
+      Achievement.count {}, (err, count) ->
+        expect(count).toBe 3
+        EarnedAchievementHandler.constructor.recalculate ->
+          EarnedAchievement.find {}, (err, earnedAchievements) ->
+            expect(earnedAchievements.length).toBe 3
+            unittest.getNormalJoe (joe) ->
+              User.findById joe.get('id'), (err, guy) ->
+                expect(err).toBeNull()
+                expect(guy.get 'points').toBe unlockable.worth + 2 * repeatable.worth + (Math.log(.5 * (2 + .5)) + 1) * diminishing.worth
+                done()
+
+  it 'cleaning up test: deleting all Achievements and related', (done) ->
     clearModels [Achievement, EarnedAchievement, LevelSession], (err) ->
       expect(err).toBeNull()
 

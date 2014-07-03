@@ -64,6 +64,6 @@ AchievementSchema.post 'save', -> @constructor.loadAchievements()
 AchievementSchema.plugin(plugins.NamedPlugin)
 AchievementSchema.plugin(plugins.SearchablePlugin, {searchable: ['name']})
 
-module.exports = Achievement = mongoose.model('Achievement', AchievementSchema)
+module.exports = Achievement = mongoose.model('Achievement', AchievementSchema, 'achievements')
 
 AchievementSchema.statics.loadAchievements()

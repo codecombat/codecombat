@@ -14,10 +14,12 @@ AchievablePlugin = (schema, options) ->
 
   before = {}
 
+  # Keep track the document before it's saved
   schema.post 'init', (doc) ->
     before[doc.id] = doc.toObject()
     # TODO check out how many objects go unreleased
 
+  # Check if an achievement has been earned
   schema.post 'save', (doc) ->
     isNew = not doc.isInit('_id') or not (doc.id of before)
     originalDocObj = before[doc.id] unless isNew
@@ -36,27 +38,25 @@ AchievablePlugin = (schema, options) ->
         isRepeatable = achievement.get('proportionalTo')?
         alreadyAchieved = if isNew then false else LocalMongo.matchesQuery originalDocObj, query
         newlyAchieved = LocalMongo.matchesQuery(docObj, query)
-        log.debug 'isRepeatable: ' + isRepeatable
-        log.debug 'alreadyAchieved: ' +  alreadyAchieved
-        log.debug 'newlyAchieved: ' + newlyAchieved
+        #log.debug 'isRepeatable: ' + isRepeatable
+        #log.debug 'alreadyAchieved: ' +  alreadyAchieved
+        #log.debug 'newlyAchieved: ' + newlyAchieved
 
         userObjectID = doc.get(achievement.get('userField'))
         userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's
 
         if newlyAchieved and (not alreadyAchieved or isRepeatable)
-          earned = {
+          earned =
             user: userID
             achievement: achievement._id.toHexString()
             achievementName: achievement.get 'name'
-          }
 
           worth = achievement.get('worth')
           earnedPoints = 0
           wrapUp = ->
             # Update user's experience points
-            User.update({_id: userID}, {$inc: {points: earnedPoints}}, {}, (err, count) ->
+            User.update {_id: userID}, {$inc: {points: earnedPoints}}, {}, (err, count) ->
               log.error err if err?
-            )
 
           if isRepeatable
             log.debug 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
@@ -81,7 +81,7 @@ AchievablePlugin = (schema, options) ->
             log.debug 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
             earned.earnedPoints = worth
             (new EarnedAchievement(earned)).save (err, doc) ->
-              return log.debug err if err?
+              return log.error err if err?
               earnedPoints = worth
               wrapUp()
 
