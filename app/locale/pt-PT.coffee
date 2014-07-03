@@ -78,7 +78,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     send_password: "Enviar Password de Recuperação"
 
   signup:
-#   create_account_title: "Create Account to Save Progress"
+    create_account_title: "Criar uma conta para guardar o teu progresso"
     description: "É grátis. Só precisamos de umas coisas e fica tudo pronto:"
     email_announcements: "Receber anúncios por e-mail"
     coppa: "13+ ou não-EUA "
