@@ -107,7 +107,11 @@ UserSchema = c.object {},
         name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "GitHub"', format: 'link-name'}
         link: c.url {title: 'Link', description: 'The URL.', default: 'http://example.com'}
     photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image if you want to show a different profile picture to employers than your normal avatar.'}
-    curated: c.object {title: 'Curated', required: ['mainTag','location','education','workHistory','phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter']},
+    curated: c.object {title: 'Curated', required: ['shortDescription','mainTag','location','education','workHistory','phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter']},
+      shortDescription:
+        title: 'Short description'
+        description: 'A sentence or two describing the candidate'
+        type: 'string'
       mainTag:
         title: 'Main tag'
         description: 'A main tag to describe this candidate'
