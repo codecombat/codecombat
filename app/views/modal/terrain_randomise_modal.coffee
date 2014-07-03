@@ -2,12 +2,51 @@ ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/terrain_randomise'
 CocoModel = require 'models/CocoModel'
 
+clusters = {
+  'rocks': ['Rock 1', 'Rock 2', 'Rock 3', 'Rock 4', 'Rock 5', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
+  'trees': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']  
+  'shrubs': ['Shrub 1', 'Shrub 2', 'Shrub 3']
+  'houses': ['House 1', 'House 2', 'House 3', 'House 4']
+  'animals': ['Cow', 'Horse']
+  'wood': ['Firewood 1', 'Firewood 2', 'Firewood 3', 'Barrel']
+  'farm': ['Farm']
+}
+
 presets = {
-  'dungeon': {
-    'type':'dungeon'
-    'borders':['Dungeon Wall']
-    'floors':['Dungeon Floor']
-    'decorations':[]
+  # 'dungeon': {
+  #   'type':'dungeon'
+  #   'borders':['Dungeon Wall']
+  #   'floors':['Dungeon Floor']
+  #   'decorations':[]
+  # }
+  'grassy': {
+    'type':'grassy'
+    'borders':['Tree 1', 'Tree 2', 'Tree 3']
+    'floors':['Grass01', 'Grass02', 'Grass03']
+    'decorations': {
+      'house': {
+        'num':[1,2] #min-max
+        'width': 20
+        'height': 20
+        'clusters': {
+          'houses':[1,1]
+          'trees':[1,2]
+          'shrubs':[0,3]
+          'rocks':[1,2]
+        }
+      }
+      'farm': {
+        'num':[1,2] #min-max
+        'width': 20
+        'height': 20
+        'clusters': {
+          'farm':[1,1]
+          'shrubs':[2,3]
+          'wood':[2,4]
+          'animals':[2,3]
+        }
+      }
+    }
   }
 }
 
@@ -45,12 +84,12 @@ module.exports = class TerrainRandomiseModal extends ModalView
     @reloadOnClose = true
 
   onRandomise: (e) ->
-    @thangs = []
     target = $(e.target)
     presetType = target.attr 'data-preset-type'
     presetSize = target.attr 'data-preset-size'
     @randomiseThangs presetType, presetSize
-
+    # console.log target, target.attr 'data-preset-type'
+    # console.log target.attr 'data-preset-size'
     Backbone.Mediator.publish('randomise:terrain-generated', 
       'thangs': @thangs
     )
@@ -61,6 +100,8 @@ module.exports = class TerrainRandomiseModal extends ModalView
     @thangs = []
     @randomiseFloor preset, presetSize
     @randomiseBorder preset, presetSize
+    @randomiseDecorations preset, presetSize
+    # console.log _.range(0, presetSize.x, sizes.floorSize)
 
   randomiseFloor: (preset, presetSize) ->
     for i in _.range(0, presetSize.x, sizes.floorSize.x)
@@ -106,9 +147,41 @@ module.exports = class TerrainRandomiseModal extends ModalView
         }
       }
 
+  randomiseDecorations: (preset, presetSize)->
+    console.log preset.decorations
+    for name, decoration of preset.decorations
+      console.log 'here', decoration
+      for num in _.range(_.random(decoration.num[0], decoration.num[1]))
+        center = 
+        {
+          'x':_.random(decoration.width, presetSize.x - decoration.width), 
+          'y':_.random(decoration.height, presetSize.y - decoration.height)
+        }
+        min = 
+        {
+          'x':center.x - decoration.width/2
+          'y':center.y - decoration.height/2     
+        }
+        max = 
+        {
+          'x':center.x + decoration.width/2
+          'y':center.y + decoration.height/2     
+        }
+        console.log center, min, max
+        for cluster, range of decoration.clusters
+          for i in _.range(_.random(range[0], range[1]))
+            @thangs.push {
+              'id':@getRandomThang(clusters[cluster])
+              'pos':{
+                'x':_.random(min.x, max.x)
+                'y':_.random(min.y, max.y)
+              }
+            }
+
+
   getRandomThang: (thangList) ->
     return thangList[_.random(0, thangList.length-1)]
-    
+
   getRenderData: ->
     c = super()
     models = _.values CocoModel.backedUp
