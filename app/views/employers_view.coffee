@@ -26,6 +26,7 @@ module.exports = class EmployersView extends View
     'change #select_all_checkbox': 'handleSelectAllChange'
     'click .get-started-button': 'openSignupModal'
     'click .navbar-brand': 'restoreBodyColor'
+    'click #login-link': 'onClickAuthbutton'
 
   constructor: (options) ->
     super options
@@ -276,7 +277,7 @@ module.exports = class EmployersView extends View
 
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
-    if id
+    if id and (@isEmployer() or me.isAdmin())
       if window.history
         oldState = _.cloneDeep window.history.state ? {}
         oldState["lastViewedCandidateID"] = id
