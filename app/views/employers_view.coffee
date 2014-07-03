@@ -24,6 +24,9 @@ module.exports = class EmployersView extends View
     'change #filters input': 'onFilterChanged'
     'click #filter-button': 'applyFilters'
     'change #select_all_checkbox': 'handleSelectAllChange'
+    'click .get-started-button': 'openSignupModal'
+    'click .navbar-brand': 'restoreBodyColor'
+    'click #login-link': 'onClickAuthbutton'
 
   constructor: (options) ->
     super options
@@ -38,7 +41,13 @@ module.exports = class EmployersView extends View
   afterInsert: ->
     super()
     _.delay @checkForEmployerSignupHash, 500
+    #fairly hacky, change this in the future
+    @originalBackgroundColor = $("body").css 'background-color'
+    $("body").css 'background-color', '#B4B4B4'
       
+  restoreBodyColor: ->
+    $("body").css 'background-color', @originalBackgroundColor
+    
   onFilterChanged: ->
     @resetFilters()
     that = @
@@ -53,6 +62,13 @@ module.exports = class EmployersView extends View
         that.filters[name] = _.union that.filters[name], [value]
       else
         that.filters[name] = _.difference that.filters[name], [value]
+        
+    for filterName, filterValues of @filters
+      if filterValues.length is 0
+        @filters[filterName] = @defaultFilters[filterName]
+    
+  openSignupModal: ->
+    @openModalView new EmployerSignupView
   handleSelectAllChange: (e) ->
     checkedState = e.currentTarget.checked
     $("#filters :input").each ->
@@ -95,7 +111,8 @@ module.exports = class EmployersView extends View
       locationFilter: ['Bay Area', 'New York', 'Other US', 'International']
       roleFilter: ['Web Developer', 'Software Developer', 'iOS Developer', 'Android Developer', 'Project Manager']
       seniorityFilter: ['College Student', 'Recent Grad', 'Junior', 'Senior', 'Management']
-      
+    @defaultFilters = _.cloneDeep @filters
+    
     
   getRenderData: ->
     ctx = super()
@@ -104,8 +121,9 @@ module.exports = class EmployersView extends View
     ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
-    #ctx.featuredCandidates = _.filter ctx.featuredCandidates, (c) -> c.get('jobProfile').curated
-    #ctx.featuredCandidates = ctx.featuredCandidates.slice(0,8)
+    unless @isEmployer() or me.isAdmin()
+      ctx.featuredCandidates = _.filter ctx.featuredCandidates, (c) -> c.get('jobProfile').curated
+      ctx.featuredCandidates = ctx.featuredCandidates.slice(0,7)
     ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
     ctx.remarks = {}
     ctx.remarks[remark.get('user')] = remark for remark in @remarks.models
@@ -259,7 +277,7 @@ module.exports = class EmployersView extends View
 
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
-    if id
+    if id and (@isEmployer() or me.isAdmin())
       if window.history
         oldState = _.cloneDeep window.history.state ? {}
         oldState["lastViewedCandidateID"] = id

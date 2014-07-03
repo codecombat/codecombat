@@ -1,11 +1,17 @@
 extends /templates/recruitment_base
 
 block content
+  if me.get('anonymous')
+    a#login-link Login
+    br
   if !isEmployer && !me.isAdmin()
     #tagline
       h1(data-i18n="employers.hire_developers_not_credentials") Hire developers, not credentials.
       button.btn.get-started-button Get started
   else
+    if !me.get('anonymous')
+      a#logout-button(data-i18n="login.log_out") Logout
+      br
     #filter
       .panel-group#filter_panel
         .panel.panel-default
@@ -86,8 +92,8 @@ block content
                 br
                 input(type="checkbox" name="seniorityFilter" value="Management" checked)
                 | Management
-            input#select_all_checkbox(type="checkbox" name="select_all" checked)
-            | Select all
+            //input#select_all_checkbox(type="checkbox" name="select_all" checked)
+            //| Select all
             button.btn#filter-button Filter
             //button.btn#create-alert-button Create Alert
   if candidates.length
