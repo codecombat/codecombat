@@ -78,7 +78,7 @@ UserSchema = c.object {},
     name: c.shortString {title: 'Name', description: 'Name you want employers to see, like "Nick Winter".'}
     city: c.shortString {title: 'City', description: 'City you want to work in (or live in now), like "San Francisco" or "Lubbock, TX".', default: 'Defaultsville, CA', format: 'city'}
     country: c.shortString {title: 'Country', description: 'Country you want to work in (or live in now), like "USA" or "France".', default: 'USA', format: 'country'}
-    skills: c.array {title: 'Skills', description: 'Tag relevant developer skills in order of proficiency.', default: ['javascript'], minItems: 1, maxItems: 30, uniqueItems: true},
+    skills: c.array {title: 'Skills', description: 'Tag relevant developer skills in order of proficiency.', default: ['javascript'], minItems: 1, maxItems: 40, uniqueItems: true},
       {type: 'string', minLength: 1, maxLength: 50, description: 'Ex.: "objective-c", "mongodb", "rails", "android", "javascript"', format: 'skill'}
     experience: {type: 'integer', title: 'Years of Experience', minimum: 0, description: 'How many years of professional experience (getting paid) developing software do you have?'}
     shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.', default: 'Programmer seeking to build great software.'}
@@ -107,8 +107,11 @@ UserSchema = c.object {},
         name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "GitHub"', format: 'link-name'}
         link: c.url {title: 'Link', description: 'The URL.', default: 'http://example.com'}
     photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image if you want to show a different profile picture to employers than your normal avatar.'}
-    
-    curated: c.object {title: 'Curated', required: ['mainTag','location','education','workHistory','phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter']},
+    curated: c.object {title: 'Curated', required: ['shortDescription','mainTag','location','education','workHistory','phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter']},
+      shortDescription:
+        title: 'Short description'
+        description: 'A sentence or two describing the candidate'
+        type: 'string'
       mainTag:
         title: 'Main tag'
         description: 'A main tag to describe this candidate'

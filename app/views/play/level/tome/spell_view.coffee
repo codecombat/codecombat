@@ -96,6 +96,7 @@ module.exports = class SpellView extends View
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
     @zatanna = new Zatanna @ace,
+
       liveCompletion: aceConfig.liveCompletion ? true
       completers:
         keywords: false
@@ -180,16 +181,17 @@ module.exports = class SpellView extends View
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
         console.log 'could not find doc for', prop, 'from', e.allDocs['__' + prop], 'for', owner, 'of', e.propGroups unless doc
         doc ?= prop
-        if doc.snippets?[@spell.language]
+        if doc.snippets?[e.language]
           entry =
-            content: doc.snippets[@spell.language].code
+            content: doc.snippets[e.language].code
             name: doc.name
-            tabTrigger: doc.snippets[@spell.language].tab
+            tabTrigger: doc.snippets[e.language].tab
           snippetEntries.push entry
 
-    window.zatanna = @zatanna
-    window.snippetEntries = snippetEntries
-    @zatanna.addSnippets snippetEntries, @spell.language
+    # window.zatanna = @zatanna
+    # window.snippetEntries = snippetEntries
+    lang = @editModes[e.language].substr 'ace/mode/'.length
+    @zatanna.addSnippets snippetEntries, lang
 
   onMultiplayerChanged: ->
     if @session.get('multiplayer')
@@ -652,7 +654,7 @@ module.exports = class SpellView extends View
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
     @aceSession.setMode @editModes[e.language]
-    @zatanna.set 'language', @editModes[e.language].substr('ace/mode/')
+    # @zatanna.set 'language', @editModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault
