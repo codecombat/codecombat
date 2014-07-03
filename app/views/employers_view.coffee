@@ -22,6 +22,7 @@ module.exports = class EmployersView extends View
   events:
     'click tbody tr': 'onCandidateClicked'
     'change #filters input': 'onFilterChanged'
+    'click #filter-button': 'applyFilters'
 
   constructor: (options) ->
     super options
@@ -44,7 +45,7 @@ module.exports = class EmployersView extends View
       name = input.attr 'name'
       if checked
         that.filters[name] = _.union that.filters[name], [input.val()]
-    @applyFilters()
+        
   resetFilters: ->
     for filterName, filterValues of @filters
       @filters[filterName] = []
