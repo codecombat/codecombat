@@ -25,72 +25,72 @@ block content
             form#filters
               .filter_section#screened_filter
                 h4 Screened
-                input(type="checkbox" name="phoneScreenFilter" value="true" checked) 
+                input(type="checkbox" name="phoneScreenFilter" value="true")
                 | Phone Screened
                 br
-                input(type="checkbox" name="phoneScreenFilter" value="false" checked)
+                input(type="checkbox" name="phoneScreenFilter" value="false")
                 | Not Phone Screened
               .filter_section#visa_filter
                 h4 Visa
-                input(type="checkbox" name="visa" value="Authorized to work in the US" checked)
+                input(type="checkbox" name="visa" value="Authorized to work in the US")
                 | US Authorized
                 br
-                input(type="checkbox" name="visa" value="Need visa sponsorship" checked)
+                input(type="checkbox" name="visa" value="Need visa sponsorship")
                 | Not Authorized
               .filter_section#school_filter
                 h4 School
-                input(type="checkbox" name="schoolFilter" value="Top 20 Eng." checked)
+                input(type="checkbox" name="schoolFilter" value="Top 20 Eng.")
                 | Top 20 Eng.
                 br
-                input(type="checkbox" name="schoolFilter" value="Other US" checked)
+                input(type="checkbox" name="schoolFilter" value="Other US")
                 | Other US
                 br
-                input(type="checkbox" name="schoolFilter" value="Other Intl." checked)
+                input(type="checkbox" name="schoolFilter" value="Other Intl.")
                 | Other Intl.
               .filter_section#location_filter
                 h4 Location
-                input(type="checkbox" name="locationFilter" value="Bay Area" checked)
+                input(type="checkbox" name="locationFilter" value="Bay Area")
                 | Bay Area
                 br
-                input(type="checkbox" name="locationFilter" value="New York" checked)
+                input(type="checkbox" name="locationFilter" value="New York")
                 | New York
                 br
-                input(type="checkbox" name="locationFilter" value="Other US" checked)
+                input(type="checkbox" name="locationFilter" value="Other US")
                 | Other US
                 br
-                input(type="checkbox" name="locationFilter" value="International" checked)
+                input(type="checkbox" name="locationFilter" value="International")
                 | International
               .filter_section#role_filter
                 h4 Role
-                input(type="checkbox" name="roleFilter" value="Web Developer" checked)
+                input(type="checkbox" name="roleFilter" value="Web Developer")
                 | Web Developer
                 br
-                input(type="checkbox" name="roleFilter" value="Software Developer" checked)
+                input(type="checkbox" name="roleFilter" value="Software Developer")
                 | Software Developer
                 br
-                input(type="checkbox" name="roleFilter" value="iOS Developer" checked)
+                input(type="checkbox" name="roleFilter" value="iOS Developer")
                 | iOS Developer
                 br
-                input(type="checkbox" name="roleFilter" value="Android Developer" checked)
+                input(type="checkbox" name="roleFilter" value="Android Developer")
                 | Android Developer
                 br
-                input(type="checkbox" name="roleFilter" value="Project Manager" checked)
+                input(type="checkbox" name="roleFilter" value="Project Manager")
                 | Project Developer
               .filter_section#seniority_filter
                 h4 Seniority
-                input(type="checkbox" name="seniorityFilter" value="College Student" checked)
+                input(type="checkbox" name="seniorityFilter" value="College Student")
                 | College Student
                 br
-                input(type="checkbox" name="seniorityFilter" value="Recent Grad" checked)
+                input(type="checkbox" name="seniorityFilter" value="Recent Grad")
                 | Recent Grad
                 br
-                input(type="checkbox" name="seniorityFilter" value="Junior" checked)
+                input(type="checkbox" name="seniorityFilter" value="Junior")
                 | Junior
                 br
-                input(type="checkbox" name="seniorityFilter" value="Senior" checked)
+                input(type="checkbox" name="seniorityFilter" value="Senior")
                 | Senior
                 br
-                input(type="checkbox" name="seniorityFilter" value="Management" checked)
+                input(type="checkbox" name="seniorityFilter" value="Management")
                 | Management
             //input#select_all_checkbox(type="checkbox" name="select_all" checked)
             //| Select all
@@ -106,30 +106,31 @@ block content
             - var profileAge = (new Date() - new Date(profile.updated)) / 86400 / 1000;
             - var expired = profileAge > 2 * 30.4;
             - var curated = profile.curated;
-            tr(data-candidate-id=candidate.id, id=candidate.id, class=expired ? "expired" : "")
+            
+            tr.candidate-row(data-candidate-id=candidate.id, id=candidate.id, class=expired ? "expired" : "")
               td(rowspan=2)
                 img.candidate-picture(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, height=50)
               if curated && curated.shortDescription
                 td.candidate-description #{curated.shortDescription}
               else
                 td.candidate-description #{profile.shortDescription}
-            tr.border_row(data-candidate-id=candidate.id)
-              if curated
-                - var workHistory = curated.workHistory.join(",");
-                td.tag_column
-                  img(src="/images/pages/employer/tag.png")
-                  |  #{curated.mainTag}
-                td.location_column
-                  img(src="/images/pages/employer/location.png")
-                  |  #{curated.location}
-                td.education_column
-                  img(src="/images/pages/employer/education.png")
-                  |  #{curated.education}
-                td.work_column
-                  img(src="/images/pages/employer/briefcase.png")
-                  |  #{workHistory}
-              else
-                td Hi
+              tr.border_row(data-candidate-id=candidate.id)
+                if curated
+                  - var workHistory = curated.workHistory.join(",");
+                  td.tag_column
+                    img(src="/images/pages/employer/tag.png")
+                    |  #{curated.mainTag}
+                  td.location_column
+                    img(src="/images/pages/employer/location.png")
+                    |  #{curated.location}
+                  td.education_column
+                    img(src="/images/pages/employer/education.png")
+                    |  #{curated.education}
+                  td.work_column
+                    img(src="/images/pages/employer/briefcase.png")
+                    |  #{workHistory}
+                else
+                  td Hi
 
   if !isEmployer && !me.isAdmin()
     div#info_wrapper
