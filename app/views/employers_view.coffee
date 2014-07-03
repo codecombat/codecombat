@@ -152,10 +152,10 @@ module.exports = class EmployersView extends View
   renderCandidatesAndSetupScrolling: =>
     @render()
     $(".nano").nanoScroller()
-    if window.history?.state?.lastViewedCandidateID
-      $(".nano").nanoScroller({scrollTo:$("#" + window.history.state.lastViewedCandidateID)})
-    else if window.location.hash.length is 25
-      $(".nano").nanoScroller({scrollTo:$(window.location.hash)})
+    #if window.history?.state?.lastViewedCandidateID
+    #  $(".nano").nanoScroller({scrollTo:$("#" + window.history.state.lastViewedCandidateID)})
+    #else if window.location.hash.length is 25
+    #  $(".nano").nanoScroller({scrollTo:$(window.location.hash)})
 
   checkForEmployerSignupHash: =>
     if window.location.hash is "#employerSignupLoggingIn" and not ("employer" in me.get("permissions"))
