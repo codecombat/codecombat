@@ -14,11 +14,12 @@ block content
       br
     #filter
       .panel-group#filter_panel
-        .panel.panel-default
-          .panel-heading
-            h4.panel-title
-              a(data-toggle="collapse" data-target="#collapseOne")
-                span.glyphicon.glyphicon-folder-open
+        a#filter-link(data-toggle="collapse" data-target="#collapseOne")
+          .panel.panel-default
+            .panel-heading
+              h4.panel-title
+               
+                span.glyphicon.glyphicon-folder-open#folder-icon
                 |  Filter
         .panel-collapse.collapse.in#collapseOne
           .panel-body
@@ -95,6 +96,7 @@ block content
             //input#select_all_checkbox(type="checkbox" name="select_all" checked)
             //| Select all
             button.btn#filter-button Filter
+            p#results #{numberOfCandidates} results
             //button.btn#create-alert-button Create Alert
   if candidates.length
     #candidate-table
@@ -109,28 +111,29 @@ block content
             
             tr.candidate-row(data-candidate-id=candidate.id, id=candidate.id, class=expired ? "expired" : "")
               td(rowspan=2)
-                img.candidate-picture(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, height=50)
+                .candidate-picture
+                  img(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, width=50)
               if curated && curated.shortDescription
                 td.candidate-description #{curated.shortDescription}
               else
                 td.candidate-description #{profile.shortDescription}
-              tr.border_row(data-candidate-id=candidate.id)
-                if curated
-                  - var workHistory = curated.workHistory.join(",");
-                  td.tag_column
-                    img(src="/images/pages/employer/tag.png")
-                    |  #{curated.mainTag}
-                  td.location_column
-                    img(src="/images/pages/employer/location.png")
-                    |  #{curated.location}
-                  td.education_column
-                    img(src="/images/pages/employer/education.png")
-                    |  #{curated.education}
-                  td.work_column
-                    img(src="/images/pages/employer/briefcase.png")
-                    |  #{workHistory}
-                else
-                  td Hi
+            tr.border_row(data-candidate-id=candidate.id)
+              if curated
+                - var workHistory = curated.workHistory.join(",");
+                td.tag_column
+                  img(src="/images/pages/employer/tag.png")
+                  |  #{curated.mainTag}
+                td.location_column
+                  img(src="/images/pages/employer/location.png")
+                  |  #{curated.location}
+                td.education_column
+                  img(src="/images/pages/employer/education.png")
+                  |  #{curated.education}
+                td.work_column
+                  img(src="/images/pages/employer/briefcase.png")
+                  |  #{workHistory}
+              else
+                td Hi
 
   if !isEmployer && !me.isAdmin()
     div#info_wrapper

@@ -101,9 +101,11 @@
     margin-right: 2%
     background-color: #E7E7E7
     table
+      cursor: pointer
       width: 96%
       margin-left: 2%
       margin-right: 2%
+      margin-bottom: 30px
       .tag_column
         width: 25%
         display: inline-block
@@ -118,8 +120,10 @@
         width: 25%
       tr 
         .candidate-picture
+          width: 50px
           height: 50px
           border-radius: 5px
+          overflow: hidden
           
         .candidate-description
           width: 100%
@@ -127,11 +131,15 @@
       td
         margin-bottom: 10px
         margin-top: 10px
+        padding-bottom: 5px
+        padding-top: 10px
       .border_row
         border-bottom: 1px solid #d3d3d3
         vertical-align: bottom
+        padding-top: 0px
       
-      
+  #results
+    display: inline-block
   .tablesorter
     //img
     //  display: none
