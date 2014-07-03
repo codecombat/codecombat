@@ -6,6 +6,12 @@ block content
       h1(data-i18n="employers.hire_developers_not_credentials") Hire developers, not credentials.
       button.btn.get-started-button Get started
   else
+    if me.get('anonymous')
+      a#login-link(href="/account") Login
+      br
+    else
+      a#logout-button(data-i18n="login.log_out") Logout
+      br
     #filter
       .panel-group#filter_panel
         .panel.panel-default

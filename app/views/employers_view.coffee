@@ -24,6 +24,8 @@ module.exports = class EmployersView extends View
     'change #filters input': 'onFilterChanged'
     'click #filter-button': 'applyFilters'
     'change #select_all_checkbox': 'handleSelectAllChange'
+    'click .get-started-button': 'openSignupModal'
+    'click .navbar-brand': 'restoreBodyColor'
 
   constructor: (options) ->
     super options
@@ -38,7 +40,13 @@ module.exports = class EmployersView extends View
   afterInsert: ->
     super()
     _.delay @checkForEmployerSignupHash, 500
+    #fairly hacky, change this in the future
+    @originalBackgroundColor = $("body").css 'background-color'
+    $("body").css 'background-color', '#B4B4B4'
       
+  restoreBodyColor: ->
+    $("body").css 'background-color', @originalBackgroundColor
+    
   onFilterChanged: ->
     @resetFilters()
     that = @
@@ -58,6 +66,8 @@ module.exports = class EmployersView extends View
       if filterValues.length is 0
         @filters[filterName] = @defaultFilters[filterName]
     
+  openSignupModal: ->
+    @openModalView new EmployerSignupView
   handleSelectAllChange: (e) ->
     checkedState = e.currentTarget.checked
     $("#filters :input").each ->
