@@ -98,7 +98,10 @@ block content
             tr(data-candidate-id=candidate.id, id=candidate.id, class=expired ? "expired" : "")
               td(rowspan=2)
                 img.candidate-picture(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, height=50)
-              td.candidate-description #{profile.shortDescription}
+              if curated && curated.shortDescription
+                td.candidate-description #{curated.shortDescription}
+              else
+                td.candidate-description #{profile.shortDescription}
             tr.border_row(data-candidate-id=candidate.id)
               if curated
                 - var workHistory = curated.workHistory.join(",");
