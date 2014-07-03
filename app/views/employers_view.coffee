@@ -23,11 +23,13 @@ module.exports = class EmployersView extends View
     'click tbody tr': 'onCandidateClicked'
     'change #filters input': 'onFilterChanged'
     'click #filter-button': 'applyFilters'
+    'change #select_all_checkbox': 'handleSelectAllChange'
 
   constructor: (options) ->
     super options
     @getCandidates()
     @setFilterDefaults()
+    
     
   afterRender: ->
     super()
@@ -36,16 +38,27 @@ module.exports = class EmployersView extends View
   afterInsert: ->
     super()
     _.delay @checkForEmployerSignupHash, 500
-  onFilterChanged: (e) ->
+      
+  onFilterChanged: ->
     @resetFilters()
     that = @
     $("#filters :input").each ->
       input = $(this)
       checked = input.prop 'checked'
       name = input.attr 'name'
+      value = input.val()
+      if name is "phoneScreenFilter"
+        value = JSON.parse(input.prop 'value')
       if checked
-        that.filters[name] = _.union that.filters[name], [input.val()]
-        
+        that.filters[name] = _.union that.filters[name], [value]
+      else
+        that.filters[name] = _.difference that.filters[name], [value]
+  handleSelectAllChange: (e) ->
+    checkedState = e.currentTarget.checked
+    $("#filters :input").each ->
+      $(this).prop 'checked', checkedState
+    @onFilterChanged()
+    
   resetFilters: ->
     for filterName, filterValues of @filters
       @filters[filterName] = []
@@ -54,18 +67,18 @@ module.exports = class EmployersView extends View
     candidateList = _.sortBy @candidates.models, (c) -> c.get('jobProfile').updated
     candidateList = _.filter candidateList, (c) -> c.get('jobProfileApproved')
     
-    filteredCandidates = []
+    filteredCandidates = candidateList
     for filterName, filterValues of @filters
       if filterName is "visa"
-        filteredCandidates = _.union filteredCandidates, _.filter(candidateList, (c) -> 
+        filteredCandidates = _.difference filteredCandidates, _.filter(filteredCandidates, (c) ->
           fieldValue = c.get('jobProfile').visa
-          return _.contains filterValues, fieldValue
+          return not (_.contains filterValues, fieldValue)
         )
       else
-        filteredCandidates = _.union filteredCandidates, _.filter(candidateList, (c) ->
-          unless c.get('jobProfile').curated then return false
+        filteredCandidates = _.difference filteredCandidates, _.filter(filteredCandidates, (c) ->
+          unless c.get('jobProfile').curated then return true
           fieldValue = c.get('jobProfile').curated?[filterName]
-          return _.contains filterValues, fieldValue
+          return not (_.contains filterValues, fieldValue)
         )
     candidateIDsToShow = _.pluck filteredCandidates, 'id'
     $("#candidate-table tr").each -> $(this).hide()
@@ -76,7 +89,7 @@ module.exports = class EmployersView extends View
     return filteredCandidates
   setFilterDefaults: ->
     @filters = 
-      phoneScreenFilter: [true]
+      phoneScreenFilter: [true, false]
       visa: ['Authorized to work in the US', 'Need visa sponsorship']
       schoolFilter: ['Top 20 Eng.', 'Other US', 'Other Intl.']
       locationFilter: ['Bay Area', 'New York', 'Other US', 'International']

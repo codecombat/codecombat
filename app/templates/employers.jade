@@ -11,7 +11,7 @@ block content
         .panel.panel-default
           .panel-heading
             h4.panel-title
-              a(data-toggle="collapse" data-target="#collapseOne" href="#collapseOne")
+              a(data-toggle="collapse" data-target="#collapseOne")
                 span.glyphicon.glyphicon-folder-open
                 |  Filter
         .panel-collapse.collapse.in#collapseOne
@@ -19,72 +19,77 @@ block content
             form#filters
               .filter_section#screened_filter
                 h4 Screened
-                input(type="checkbox" name="phoneScreenFilter" value=true) 
+                input(type="checkbox" name="phoneScreenFilter" value="true" checked) 
                 | Phone Screened
+                br
+                input(type="checkbox" name="phoneScreenFilter" value="false" checked)
+                | Not Phone Screened
               .filter_section#visa_filter
                 h4 Visa
-                input(type="checkbox" name="visa" value="Authorized to work in the US")
+                input(type="checkbox" name="visa" value="Authorized to work in the US" checked)
                 | US Authorized
                 br
-                input(type="checkbox" name="visa" value="Need visa sponsorship")
+                input(type="checkbox" name="visa" value="Need visa sponsorship" checked)
                 | Not Authorized
               .filter_section#school_filter
                 h4 School
-                input(type="checkbox" name="schoolFilter" value="Top 20 Eng.")
+                input(type="checkbox" name="schoolFilter" value="Top 20 Eng." checked)
                 | Top 20 Eng.
                 br
-                input(type="checkbox" name="schoolFilter" value="Other US")
+                input(type="checkbox" name="schoolFilter" value="Other US" checked)
                 | Other US
                 br
-                input(type="checkbox" name="schoolFilter" value="Other Intl.")
+                input(type="checkbox" name="schoolFilter" value="Other Intl." checked)
                 | Other Intl.
               .filter_section#location_filter
                 h4 Location
-                input(type="checkbox" name="locationFilter" value="Bay Area")
+                input(type="checkbox" name="locationFilter" value="Bay Area" checked)
                 | Bay Area
                 br
-                input(type="checkbox" name="locationFilter" value="New York")
+                input(type="checkbox" name="locationFilter" value="New York" checked)
                 | New York
                 br
-                input(type="checkbox" name="locationFilter" value="Other US")
+                input(type="checkbox" name="locationFilter" value="Other US" checked)
                 | Other US
                 br
-                input(type="checkbox" name="locationFilter" value="International")
+                input(type="checkbox" name="locationFilter" value="International" checked)
                 | International
               .filter_section#role_filter
                 h4 Role
-                input(type="checkbox" name="roleFilter" value="Web Developer")
+                input(type="checkbox" name="roleFilter" value="Web Developer" checked)
                 | Web Developer
                 br
-                input(type="checkbox" name="roleFilter" value="Software Developer")
+                input(type="checkbox" name="roleFilter" value="Software Developer" checked)
                 | Software Developer
                 br
-                input(type="checkbox" name="roleFilter" value="iOS Developer")
+                input(type="checkbox" name="roleFilter" value="iOS Developer" checked)
                 | iOS Developer
                 br
-                input(type="checkbox" name="roleFilter" value="Android Developer")
+                input(type="checkbox" name="roleFilter" value="Android Developer" checked)
                 | Android Developer
                 br
-                input(type="checkbox" name="roleFilter" value="Project Manager")
+                input(type="checkbox" name="roleFilter" value="Project Manager" checked)
                 | Project Developer
               .filter_section#seniority_filter
                 h4 Seniority
-                input(type="checkbox" name="seniorityFilter" value="College Student")
+                input(type="checkbox" name="seniorityFilter" value="College Student" checked)
                 | College Student
                 br
-                input(type="checkbox" name="seniorityFilter" value="Recent Grad")
+                input(type="checkbox" name="seniorityFilter" value="Recent Grad" checked)
                 | Recent Grad
                 br
-                input(type="checkbox" name="seniorityFilter" value="Junior")
+                input(type="checkbox" name="seniorityFilter" value="Junior" checked)
                 | Junior
                 br
-                input(type="checkbox" name="seniorityFilter" value="Senior")
+                input(type="checkbox" name="seniorityFilter" value="Senior" checked)
                 | Senior
                 br
-                input(type="checkbox" name="seniorityFilter" value="Management")
+                input(type="checkbox" name="seniorityFilter" value="Management" checked)
                 | Management
+            input#select_all_checkbox(type="checkbox" name="select_all" checked)
+            | Select all
             button.btn#filter-button Filter
-            button.btn#create-alert-button Create Alert
+            //button.btn#create-alert-button Create Alert
   if candidates.length
     #candidate-table
       table
