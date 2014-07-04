@@ -20,15 +20,9 @@ module.exports = class PatchModal extends ModalView
     targetID = @patch.get('target').id
     if targetID is @targetModel.id
       @originalSource = @targetModel.clone(false)
-      @targetIsCurrent = true
     else
       @originalSource = new @targetModel.constructor({_id:targetID})
       @supermodel.loadModel @originalSource, 'source_document'
-      @targetIsCurrent = false
-      
-  onLoaded: ->
-    super()
-    @render()
 
   applyDelta: ->
     @headModel = null
@@ -44,8 +38,7 @@ module.exports = class PatchModal extends ModalView
     @pendingModel.loaded = true
 
   render: ->
-    return @showLoading() if not (@targetIsCurrent or @supermodel.finished()) # finished() is true when no model is loaded
-    @applyDelta()
+    @applyDelta() if @supermodel.finished()
     super()
 
   getRenderData: ->
