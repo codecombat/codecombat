@@ -93,7 +93,7 @@ module.exports = class SpellPaletteView extends View
     tabbify = count >= 10
     @entries = []
 
-    Backbone.Mediator.publish 'tome:update-snippets', propGroups: propGroups, allDocs: allDocs
+    Backbone.Mediator.publish 'tome:update-snippets', propGroups: propGroups, allDocs: allDocs, language: @options.language
 
     for owner, props of propGroups
       for prop in props

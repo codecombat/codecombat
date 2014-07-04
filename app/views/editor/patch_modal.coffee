@@ -57,6 +57,7 @@ module.exports = class PatchModal extends ModalView
   acceptPatch: ->
     delta = @deltaView.getApplicableDelta()
     @targetModel.applyDelta(delta)
+    @targetModel.saveBackupNow()
     @patch.setStatus('accepted')
     @trigger 'accepted-patch'
     @hide()

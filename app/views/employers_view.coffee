@@ -21,10 +21,19 @@ module.exports = class EmployersView extends View
 
   events:
     'click tbody tr': 'onCandidateClicked'
+    'change #filters input': 'onFilterChanged'
+    'click #filter-button': 'applyFilters'
+    'change #select_all_checkbox': 'handleSelectAllChange'
+    'click .get-started-button': 'openSignupModal'
+    'click .navbar-brand': 'restoreBodyColor'
+    'click #login-link': 'onClickAuthbutton'
+    'click #filter-link': 'swapFolderIcon'
 
   constructor: (options) ->
     super options
     @getCandidates()
+    @setFilterDefaults()
+
 
   afterRender: ->
     super()
@@ -33,19 +42,98 @@ module.exports = class EmployersView extends View
   afterInsert: ->
     super()
     _.delay @checkForEmployerSignupHash, 500
+    #fairly hacky, change this in the future
+    @originalBackgroundColor = $('body').css 'background-color'
+    $('body').css 'background-color', '#B4B4B4'
+
+  restoreBodyColor: ->
+    $('body').css 'background-color', @originalBackgroundColor
+
+  swapFolderIcon: ->
+    $('#folder-icon').toggleClass('glyphicon-folder-close').toggleClass('glyphicon-folder-open')
+  onFilterChanged: ->
+    @resetFilters()
+    that = @
+    $('#filters :input').each ->
+      input = $(this)
+      checked = input.prop 'checked'
+      name = input.attr 'name'
+      value = input.val()
+      if name is 'phoneScreenFilter'
+        value = JSON.parse(input.prop 'value')
+      if checked
+        that.filters[name] = _.union that.filters[name], [value]
+      else
+        that.filters[name] = _.difference that.filters[name], [value]
+
+    for filterName, filterValues of @filters
+      if filterValues.length is 0
+        @filters[filterName] = @defaultFilters[filterName]
+
+  openSignupModal: ->
+    @openModalView new EmployerSignupView
+  handleSelectAllChange: (e) ->
+    checkedState = e.currentTarget.checked
+    $('#filters :input').each ->
+      $(this).prop 'checked', checkedState
+    @onFilterChanged()
+
+  resetFilters: ->
+    for filterName, filterValues of @filters
+      @filters[filterName] = []
+
+  applyFilters: ->
+    candidateList = _.sortBy @candidates.models, (c) -> c.get('jobProfile').updated
+    candidateList = _.filter candidateList, (c) -> c.get('jobProfileApproved')
+
+    filteredCandidates = candidateList
+    for filterName, filterValues of @filters
+      if filterName is 'visa'
+        filteredCandidates = _.difference filteredCandidates, _.filter(filteredCandidates, (c) ->
+          fieldValue = c.get('jobProfile').visa
+          return not (_.contains filterValues, fieldValue)
+        )
+      else
+        filteredCandidates = _.difference filteredCandidates, _.filter(filteredCandidates, (c) ->
+          unless c.get('jobProfile').curated then return true
+          fieldValue = c.get('jobProfile').curated?[filterName]
+          return not (_.contains filterValues, fieldValue)
+        )
+    candidateIDsToShow = _.pluck filteredCandidates, 'id'
+    $('#candidate-table tr').each -> $(this).hide()
+    candidateIDsToShow.forEach (id) ->
+      $("[data-candidate-id=#{id}]").show()
+    $('#results').text(candidateIDsToShow.length + ' results')
+
+
+    return filteredCandidates
+  setFilterDefaults: ->
+    @filters =
+      phoneScreenFilter: [true, false]
+      visa: ['Authorized to work in the US', 'Need visa sponsorship']
+      schoolFilter: ['Top 20 Eng.', 'Other US', 'Other Intl.']
+      locationFilter: ['Bay Area', 'New York', 'Other US', 'International']
+      roleFilter: ['Web Developer', 'Software Developer', 'iOS Developer', 'Android Developer', 'Project Manager']
+      seniorityFilter: ['College Student', 'Recent Grad', 'Junior', 'Senior', 'Management']
+    @defaultFilters = _.cloneDeep @filters
+
 
   getRenderData: ->
     ctx = super()
     ctx.isEmployer = @isEmployer()
-    ctx.candidates = _.sortBy @candidates.models, (c) -> c.get('jobProfile').updated
+    ctx.candidates = _.sortBy @candidates.models, (c) -> -1 * c.get('jobProfile').experience
     ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
+    unless @isEmployer() or me.isAdmin()
+      ctx.featuredCandidates = _.filter ctx.featuredCandidates, (c) -> c.get('jobProfile').curated
+      ctx.featuredCandidates = ctx.featuredCandidates.slice(0,7)
     ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
     ctx.remarks = {}
     ctx.remarks[remark.get('user')] = remark for remark in @remarks.models
     ctx.moment = moment
     ctx._ = _
+    ctx.numberOfCandidates = ctx.featuredCandidates.length
     ctx
 
   isEmployer: ->
@@ -64,10 +152,10 @@ module.exports = class EmployersView extends View
   renderCandidatesAndSetupScrolling: =>
     @render()
     $('.nano').nanoScroller()
-    if window.history?.state?.lastViewedCandidateID
-      $('.nano').nanoScroller({scrollTo: $('#' + window.history.state.lastViewedCandidateID)})
-    else if window.location.hash.length is 25
-      $('.nano').nanoScroller({scrollTo: $(window.location.hash)})
+    #if window.history?.state?.lastViewedCandidateID
+    #  $('.nano').nanoScroller({scrollTo: $('#' + window.history.state.lastViewedCandidateID)})
+    #else if window.location.hash.length is 25
+    #  $('.nano').nanoScroller({scrollTo: $(window.location.hash)})
 
   checkForEmployerSignupHash: =>
     if window.location.hash is '#employerSignupLoggingIn' and not ('employer' in me.get('permissions'))
@@ -193,7 +281,7 @@ module.exports = class EmployersView extends View
 
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
-    if id
+    if id and (@isEmployer() or me.isAdmin())
       if window.history
         oldState = _.cloneDeep window.history.state ? {}
         oldState['lastViewedCandidateID'] = id
