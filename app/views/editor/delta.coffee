@@ -43,8 +43,9 @@ module.exports = class DeltaView extends CocoView
       @expandedDeltas = @model.getExpandedDeltaWith(@comparisonModel)
     else
       @expandedDeltas = @model.getExpandedDelta()
+      console.log @expandedDeltas
     [@expandedDeltas, @skippedDeltas] = @filterDeltas(@expandedDeltas)
-      
+
     if @headModel
       @headDeltas = @headModel.getExpandedDelta()
       @headDeltas = @filterDeltas(@headDeltas)[0]
@@ -71,32 +72,32 @@ module.exports = class DeltaView extends CocoView
     c.counter = DeltaView.deltaCounter
     DeltaView.deltaCounter += @expandedDeltas.length
     c
-    
+
   afterRender: ->
     deltas = @$el.find('.details')
     for delta, i in deltas
       deltaEl = $(delta)
       deltaData = @expandedDeltas[i]
       @expandDetails(deltaEl, deltaData)
-      
+
     conflictDeltas = @$el.find('.conflict-details')
     conflicts = (delta.conflict for delta in @expandedDeltas when delta.conflict)
     for delta, i in conflictDeltas
       deltaEl = $(delta)
       deltaData = conflicts[i]
       @expandDetails(deltaEl, deltaData)
-      
+
   expandDetails: (deltaEl, deltaData) ->
     treemaOptions = { schema: deltaData.schema or {}, readOnly: true }
-    
+
     if _.isObject(deltaData.left) and leftEl = deltaEl.find('.old-value')
       options = _.defaults {data: deltaData.left}, treemaOptions
       TreemaNode.make(leftEl, options).build()
-      
+
     if _.isObject(deltaData.right) and rightEl = deltaEl.find('.new-value')
       options = _.defaults {data: deltaData.right}, treemaOptions
       TreemaNode.make(rightEl, options).build()
-      
+
     if deltaData.action is 'text-diff'
       left = difflib.stringAsLines deltaData.left
       right = difflib.stringAsLines deltaData.right
