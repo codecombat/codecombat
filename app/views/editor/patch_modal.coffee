@@ -23,8 +23,8 @@ module.exports = class PatchModal extends ModalView
     else
       @originalSource = new @targetModel.constructor({_id:targetID})
       @supermodel.loadModel @originalSource, 'source_document'
-      
-  onLoaded: ->
+
+  applyDelta: ->
     @headModel = null
     if @targetModel.hasWriteAccess()
       @headModel = @originalSource.clone(false)
@@ -36,6 +36,9 @@ module.exports = class PatchModal extends ModalView
     @pendingModel.markToRevert true
     @deltaWorked = @pendingModel.applyDelta(@patch.get('delta'))
     @pendingModel.loaded = true
+
+  render: ->
+    @applyDelta() if @supermodel.finished()
     super()
 
   getRenderData: ->
