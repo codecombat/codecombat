@@ -46,6 +46,7 @@ module.exports = class SearchView extends View
     searchInput.focus()
 
   runSearch: =>
+    return unless @$el
     term = @$el.find('input#search').val()
     return if @sameSearch(term)
     @removeOldSearch()
