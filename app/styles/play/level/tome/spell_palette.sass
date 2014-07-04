@@ -24,8 +24,13 @@
     width: 100%
     height: 100%
     z-index: -1
+    
+  span.code-palette-background
     border-width: 25px
     border-image: url(/images/level/code_palette_background.png) 25 fill round
+
+  img.code-palette-background
+    display: none
 
   &.disabled
     @include opacity(0.80)
@@ -88,3 +93,9 @@
     &.io
       background-image: url(/images/pages/home/language_logo_io.png)
 
+html.no-borderimage
+  #spell-palette-view
+    span.code-palette-background
+      display: none
+    img.code-palette-background
+      display: block

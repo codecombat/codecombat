@@ -17,8 +17,6 @@
   width: -webkit-calc(100% - 100px)
   width: calc(100% - 100px)
   padding: 0px 8px
-  // background: transparent url(/images/level/code_editor_tab_background.png) no-repeat
-  // background-size: 100% 100%
   border-width: 3px
   border-image: url(/images/level/code_editor_tab_background.png) 4 fill repeat
   text-align: center
@@ -105,3 +103,11 @@
     .thang-avatar-wrapper
       margin: 0 5px 0 0
       //margin: 2px 10px 2px 5px
+
+
+html.no-borderimage 
+  .spell-list-entry-view.spell-tab  
+    border-width: 0
+    border-image: none
+    background: transparent url(/images/level/code_editor_tab_background.png) no-repeat
+    background-size: 100% 100%
