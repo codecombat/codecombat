@@ -58,7 +58,9 @@ class CocoModel extends Backbone.Model
       @set(existing, {silent:true})
       CocoModel.backedUp[@id] = @
 
-  saveBackup: ->
+  saveBackup: -> @saveBackupNow()
+    
+  saveBackupNow: ->
     storage.save(@id, @attributes)
     CocoModel.backedUp[@id] = @
 
