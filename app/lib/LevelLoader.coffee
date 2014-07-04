@@ -83,6 +83,8 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   onLevelLoaded: ->
+    console.log @level
+    window.level = @level
     @populateLevel()
 
   populateLevel: ->
