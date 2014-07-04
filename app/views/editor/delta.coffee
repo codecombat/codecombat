@@ -30,8 +30,7 @@ module.exports = class DeltaView extends CocoView
     @skipPaths = options.skipPaths
     
     for modelName in ['model', 'headModel', 'comparisonModel']
-      continue unless m = options[modelName]
-      @[modelName] = @supermodel.loadModel(m, 'document').model
+      @[modelName] = options[modelName]
     
     @buildDeltas() if @supermodel.finished()
     
