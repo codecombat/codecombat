@@ -128,12 +128,13 @@ UserSchema.statics.statsMapping =
     'level.system': 'stats.levelSystemMiscPatches'
     'thang.type': 'stats.thangTypeMiscPatches'
     
-# TODO Ruben make this not use update in order to go through the middleware
 UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
-  update = $inc: {}
-  update.$inc[statName] = inc
-  @update {_id:id}, update, {}, (err) ->
-    done err if done?
+  @findById id, (err, User) ->
+    User.incrementStat statName, done, inc=1
+
+UserSchema.methods.incrementStat = (statName, done, inc=1) ->
+  @set statName, (@get(statName) or 0) + inc
+  @save (err) -> done err if done?
 
 UserSchema.pre('save', (next) ->
   @set('emailLower', @get('email')?.toLowerCase())
