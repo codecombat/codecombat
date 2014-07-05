@@ -269,6 +269,18 @@ class LatestVersionReferenceNode extends TreemaNode
     @url = "/db/#{parts[1]}"
     @model = require('models/' + _.string.classify(parts[1]))
 
+    @m = CocoModel.getReferencedModel(@data, @schema)
+    urlGoingFor = @m.url()
+    superm = @settings.supermodel?.getModel(urlGoingFor)
+    if superm # use cached version if found in supermodel
+      @m = superm
+    else if @instance # use instance if it exists
+      @m = @instance
+      @m.url = -> urlGoingFor
+      @settings.supermodel.registerModel(m)
+    else if @m # fetch anew if not found in the supermodel
+      @m.fetch success: => @refreshDisplay()
+
   buildValueForDisplay: (valEl) ->
     val = if @data then @formatDocument(@data) else 'None'
     @buildValueForDisplaySimply(valEl, val)
@@ -328,16 +340,7 @@ class LatestVersionReferenceNode extends TreemaNode
   formatDocument: (docOrModel) ->
     doc = docOrModel.attributes or docOrModel
     return doc.name if doc.name?
-    return 'Unknown' unless @settings.supermodel?
-    m = CocoModel.getReferencedModel(@data, @schema)
-    urlGoingFor = m.url()
-    m = @settings.supermodel.getModel(urlGoingFor)
-    if @instance and not m
-      m = @instance
-      m.url = -> urlGoingFor
-      @settings.supermodel.registerModel(m)
-    return 'Unknown' unless m
-    return m.get('name')
+    if name = @m?.get 'name' then name else 'Unknown'
 
   saveChanges: ->
     selected = @getSelectedResultEl()
