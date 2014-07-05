@@ -21,7 +21,7 @@ module.exports = class DeltaView extends CocoView
   ###
   
   @deltaCounter: 0
-  className: "delta-view"
+  className: 'delta-view'
   template: template
 
   constructor: (options) ->

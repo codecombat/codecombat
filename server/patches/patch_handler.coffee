@@ -1,9 +1,9 @@
-Patch = require('./Patch')
+Patch = require './Patch'
 User = require '../users/User'
-Handler = require('../commons/Handler')
+Handler = require '../commons/Handler'
 schema = require '../../app/schemas/models/patch'
 {handlers} = require '../commons/mapping'
-mongoose = require('mongoose')
+mongoose = require 'mongoose'
 log = require 'winston'
 sendwithus = require '../sendwithus'
 
@@ -23,12 +23,12 @@ PatchHandler = class PatchHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @setStatus(req, res, args[0]) if req.route.method is 'put' and args[1] is 'status'
     super(arguments...)
-    
+
   setStatus: (req, res, id) ->
     newStatus = req.body.status
     unless newStatus in ['rejected', 'accepted', 'withdrawn']
-      return @sendBadInputError(res, "Status must be 'rejected', 'accepted', or 'withdrawn'")
-      
+      return @sendBadInputError(res, 'Status must be "rejected", "accepted", or "withdrawn"')
+
     @getDocumentForIdOrSlug id, (err, patch) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless patch?
@@ -45,25 +45,25 @@ PatchHandler = class PatchHandler extends Handler
 
         if newStatus in ['rejected', 'accepted']
           return @sendUnauthorizedError(res) unless targetHandler.hasAccessToDocument(req, target, 'put')
-        
+
         if newStatus is 'withdrawn'
           return @sendUnauthorizedError(res) unless req.user.get('_id').equals patch.get('creator')
-          
+
         # these require callbacks
-        patch.update {$set:{status:newStatus}}, {}, ->
-        target.update {$pull:{patches:patch.get('_id')}}, {}, ->
+        patch.update {$set: {status: newStatus}}, {}, ->
+        target.update {$pull: {patches: patch.get('_id')}}, {}, ->
         @sendSuccess(res, null)
 
   onPostSuccess: (req, doc) ->
-    log.error "Error sending patch created: could not find the loaded target on the patch object." unless doc.targetLoaded
+    log.error 'Error sending patch created: could not find the loaded target on the patch object.' unless doc.targetLoaded
     return unless doc.targetLoaded
     watchers = doc.targetLoaded.get('watchers') or []
     watchers = (w for w in watchers when not w.equals(req.user.get('_id')))
     return unless watchers?.length
-    User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) =>
+    User.find({_id: {$in: watchers}}).select({email: 1, name: 1}).exec (err, watchers) =>
       for watcher in watchers
         @sendPatchCreatedEmail req.user, watcher, doc, doc.targetLoaded, req.body.editPath
-    
+
   sendPatchCreatedEmail: (patchCreator, watcher, patch, target, editPath) ->
 #    return if watcher._id is patchCreator._id
     context =

@@ -6,25 +6,25 @@ User = require 'models/User'
 application  = require 'application'
 
 module.exports = class AuthModalView extends View
-  id: "auth-modal"
+  id: 'auth-modal'
   template: template
   mode: 'login' # or 'signup'
-  
+
   events:
     # login buttons
-    "click #switch-to-signup-button": "onSignupInstead"
-    "click #signup-confirm-age": "checkAge"
+    'click #switch-to-signup-button': 'onSignupInstead'
+    'click #signup-confirm-age': 'checkAge'
     'submit': 'onSubmitForm' # handles both submit buttons
 
   subscriptions:
     'server-error': 'onServerError'
     'logging-in-with-facebook': 'onLoggingInWithFacebook'
-    
+
   getRenderData: ->
     c = super()
     c.showRequiredError = @options.showRequiredError
-    c.title = {0: "short", 1: "long"}[me.get('testGroupNumber') % 2]
-    c.descriptionOn = {0: "yes", 1: "no"}[Math.floor(me.get('testGroupNumber')/2) % 2]
+    c.title = {0: 'short', 1: 'long'}[me.get('testGroupNumber') % 2]
+    c.descriptionOn = {0: 'yes', 1: 'no'}[Math.floor(me.get('testGroupNumber')/2) % 2]
     if @mode is 'signup'
       application.tracker.identify authModalTitle: c.title
       application.tracker.trackEvent 'Started Signup', authModalTitle: c.title, descriptionOn: c.descriptionOn
@@ -35,20 +35,20 @@ module.exports = class AuthModalView extends View
   afterInsert: ->
     super()
     _.delay application.router.renderLoginButtons, 500
-    
+
   onSignupInstead: (e) ->
     @mode = 'signup'
     @previousFormInputs = forms.formToObject @$el
     @render()
     _.delay application.router.renderLoginButtons, 500
-    
+
   onSubmitForm: (e) ->
     e.preventDefault()
     if @mode is 'login' then @loginAccount() else @createAccount()
     false
 
   checkAge: (e) ->
-    $("#signup-button", @$el).prop 'disabled', not $(e.target).prop('checked')
+    $('#signup-button', @$el).prop 'disabled', not $(e.target).prop('checked')
 
   loginAccount: ->
     forms.clearFormAlerts(@$el)
@@ -62,8 +62,8 @@ module.exports = class AuthModalView extends View
     forms.clearFormAlerts(@$el)
     userObject = forms.formToObject @$el
     delete userObject.subscribe
-    delete userObject["confirm-age"]
-    for key, val of me.attributes when key in ["preferredLanguage", "testGroupNumber", "dateCreated", "wizardColor1", "name", "music", "volume", "emails"]
+    delete userObject['confirm-age']
+    for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails']
       userObject[key] ?= val
     subscribe = @$el.find('#signup-subscribe').prop('checked')
     userObject.emails ?= {}

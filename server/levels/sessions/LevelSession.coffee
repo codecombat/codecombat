@@ -1,9 +1,9 @@
 # TODO: not updated since rename from level_instance, or since we redid how all models are done; probably busted
 
-mongoose = require('mongoose')
-plugins = require('../../plugins/plugins')
+mongoose = require 'mongoose'
+plugins = require '../../plugins/plugins'
 AchievablePlugin = require '../../plugins/achievements'
-jsonschema = require('../../../app/schemas/models/level_session')
+jsonschema = require '../../../app/schemas/models/level_session'
 
 LevelSessionSchema = new mongoose.Schema({
   created:

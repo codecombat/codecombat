@@ -4,7 +4,7 @@ DeltaView = require 'views/editor/delta'
 auth = require 'lib/auth'
 
 module.exports = class PatchModal extends ModalView
-  id: "patch-modal"
+  id: 'patch-modal'
   template: template
   plain: true
   modalWidthPercent: 60

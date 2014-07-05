@@ -36,16 +36,16 @@ module.exports = class HomeView extends View
     @$el.find('.modal').on 'shown.bs.modal', ->
       $('input:visible:first', @).focus()
 
-    # Try to find latest level and set "Play" link to go to that level
-    lastLevel = me.get("lastLevel")
-    lastLevel ?= localStorage?["lastLevel"]  # Temp, until it's migrated to user property
+    # Try to find latest level and set 'Play' link to go to that level
+    lastLevel = me.get('lastLevel')
+    lastLevel ?= localStorage?['lastLevel']  # Temp, until it's migrated to user property
     if lastLevel
-      playLink = @$el.find("#beginner-campaign")
+      playLink = @$el.find('#beginner-campaign')
       if playLink[0]?
-        href = playLink.attr("href").split("/")
+        href = playLink.attr('href').split('/')
         href[href.length-1] = lastLevel if href.length isnt 0
-        href = href.join("/")
-        playLink.attr("href", href)
+        href = href.join('/')
+        playLink.attr('href', href)
 
     codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
     @$el.find(".code-language[data-code-language=#{codeLanguage}]").addClass 'selected-language'

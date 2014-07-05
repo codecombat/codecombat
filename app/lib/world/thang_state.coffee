@@ -8,15 +8,15 @@ else
   bytesPerFloat = 4
 
 module.exports = class ThangState
-  @className: "ThangState"
+  @className: 'ThangState'
   @trackedPropertyTypes: [
-    "boolean"
-    "number"
-    "string"
-    "array"  # will turn everything into strings
-    "object"  # grrr
-    "Vector"
-    "Thang"  # serialized as ids, like strings
+    'boolean'
+    'number'
+    'string'
+    'array'  # will turn everything into strings
+    'object'  # grrr
+    'Vector'
+    'Thang'  # serialized as ids, like strings
   ]
 
   hasRestored: false
@@ -40,7 +40,7 @@ module.exports = class ThangState
     unless type
       type = @trackedPropertyTypes[propIndex]
       storage = @trackedPropertyValues[propIndex]
-    if type is "Vector"
+    if type is 'Vector'
       value = new Vector storage[3 * @frameIndex], storage[3 * @frameIndex + 1], storage[3 * @frameIndex + 2]
     else if type is 'string'
       specialKey = storage[@frameIndex]
@@ -78,7 +78,7 @@ module.exports = class ThangState
         type = @trackedPropertyTypes[propIndex]
         storage = @trackedPropertyValues[propIndex]
         props.push(@thang[prop] = @getStoredProp propIndex, type, storage)
-        #console.log @frameIndex, @thang.id, prop, propIndex, type, storage, "got", @thang[prop]
+        #console.log @frameIndex, @thang.id, prop, propIndex, type, storage, 'got', @thang[prop]
       @props = props
       @trackedPropertyTypes = @trackedPropertyValues = @specialKeysToValues = null  # leave @trackedPropertyKeys for indexing
       @hasRestored = true
@@ -90,14 +90,14 @@ module.exports = class ThangState
 
   restorePartial: (ratio) ->
     inverse = 1 - ratio
-    for prop, propIndex in @trackedPropertyKeys when prop is "pos" or prop is "rotation"
+    for prop, propIndex in @trackedPropertyKeys when prop is 'pos' or prop is 'rotation'
       if @hasRestored
         value = @props[propIndex]
       else
         type = @trackedPropertyTypes[propIndex]
         storage = @trackedPropertyValues[propIndex]
         value = @getStoredProp propIndex, type, storage
-      if prop is "pos"
+      if prop is 'pos'
         if @thang.teleport and @thang.pos.distanceSquared(value) > 900
           # Don't interpolate; it was probably a teleport. https://github.com/codecombat/codecombat/issues/738
           @thang.pos = value
@@ -106,7 +106,7 @@ module.exports = class ThangState
           @thang.pos.x = inverse * @thang.pos.x + ratio * value.x
           @thang.pos.y = inverse * @thang.pos.y + ratio * value.y
           @thang.pos.z = inverse * @thang.pos.z + ratio * value.z
-      else if prop is "rotation"
+      else if prop is 'rotation'
         @thang.rotation = inverse * @thang.rotation + ratio * value
       @thang.partialState = true
     @
@@ -119,7 +119,7 @@ module.exports = class ThangState
       value = @props[originalPropIndex]
       if value
         # undefined, null, false, 0 won't trigger in this serialization code scheme anyway, so we can't differentiate between them when deserializing
-        if type is "Vector"
+        if type is 'Vector'
           storage[3 * frameIndex] = value.x
           storage[3 * frameIndex + 1] = value.y
           storage[3 * frameIndex + 2] = value.z
@@ -157,7 +157,7 @@ module.exports = class ThangState
           storage[frameIndex] = specialKey
         else
           storage[frameIndex] = value
-        #console.log @thang.id, "assigned prop", originalPropIndex, newPropIndex, value, type, "at", frameIndex, "to", storage[frameIndex]
+        #console.log @thang.id, 'assigned prop', originalPropIndex, newPropIndex, value, type, 'at', frameIndex, 'to', storage[frameIndex]
     null
 
   @deserialize: (world, frameIndex, thang, trackedPropertyKeys, trackedPropertyTypes, trackedPropertyValues, specialKeysToValues) ->
@@ -173,12 +173,12 @@ module.exports = class ThangState
 
   @transferableBytesNeededForType: (type, nFrames) ->
     bytes = switch type
-      when "boolean" then 1
-      when "number" then bytesPerFloat
-      when "Vector" then bytesPerFloat * 3
-      when "string" then 4
-      when "Thang" then 4  # turn them into strings of their ids
-      when "array"  then 4  # turn them into strings and hope it doesn't explode?
+      when 'boolean' then 1
+      when 'number' then bytesPerFloat
+      when 'Vector' then bytesPerFloat * 3
+      when 'string' then 4
+      when 'Thang' then 4  # turn them into strings of their ids
+      when 'array'  then 4  # turn them into strings and hope it doesn't explode?
       else 0
     # We need to be a multiple of bytesPerFloat otherwise bigger-byte array (Float64Array, etc.) offsets won't work
     # http://www.kirupa.com/forum/showthread.php?378737-Typed-Arrays-Y-U-No-offset-at-values-other-than-multiples-of-element-size
@@ -187,17 +187,17 @@ module.exports = class ThangState
   @createArrayForType: (type, nFrames, buffer, offset) ->
     bytes = @transferableBytesNeededForType type, nFrames
     storage = switch type
-      when "boolean"
+      when 'boolean'
         new Uint8Array(buffer, offset, nFrames)
-      when "number"
+      when 'number'
         new FloatArrayType(buffer, offset, nFrames)
-      when "Vector"
+      when 'Vector'
         new FloatArrayType(buffer, offset, nFrames * 3)
-      when "string"
+      when 'string'
         new Uint32Array(buffer, offset, nFrames)
-      when "Thang"
+      when 'Thang'
         new Uint32Array(buffer, offset, nFrames)
-      when "array"
+      when 'array'
         new Uint32Array(buffer, offset, nFrames)
       else
         []

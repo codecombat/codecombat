@@ -103,7 +103,7 @@ module.exports = class CocoView extends Backbone.View
     context ?= {}
     context.isProduction = document.location.href.search(/codecombat.com/) isnt -1
     context.me = me
-    context.pathname = document.location.pathname  # like "/play/level"
+    context.pathname = document.location.pathname  # like '/play/level'
     context.fbRef = context.pathname.replace(/[^a-zA-Z0-9+/=\-.:_]/g, '').slice(0, 40) or 'home'
     context.isMobile = @isMobile()
     context.isIE = @isIE()
@@ -146,7 +146,7 @@ module.exports = class CocoView extends Backbone.View
     $(e.target).closest('.loading-error-alert').remove()
 
   # Modals
-  
+
   @lastToggleModalCall = 0
 
   toggleModal: (e) ->
@@ -205,7 +205,7 @@ module.exports = class CocoView extends Backbone.View
 
   showReadOnly: ->
     return if me.isAdmin()
-    warning = $.i18n.t 'editor.read_only_warning2', defaultValue: "Note: you can't save any edits here, because you're not logged in."
+    warning = $.i18n.t 'editor.read_only_warning2', defaultValue: 'Note: you can\'t save any edits here, because you\'re not logged in.'
     noty text: warning, layout: 'center', type: 'information', killer: true, timeout: 5000
 
   # Loading ModalViews
@@ -267,9 +267,9 @@ module.exports = class CocoView extends Backbone.View
   getQueryVariable: (param, defaultValue) -> CocoView.getQueryVariable(param, defaultValue)
   @getQueryVariable: (param, defaultValue) ->
     query = document.location.search.substring 1
-    pairs = (pair.split("=") for pair in query.split "&")
+    pairs = (pair.split('=') for pair in query.split '&')
     for pair in pairs when pair[0] is param
-      return {"true": true, "false": false}[pair[1]] ? decodeURIComponent(pair[1])
+      return {'true': true, 'false': false}[pair[1]] ? decodeURIComponent(pair[1])
     defaultValue
 
   getRootView: ->
@@ -283,16 +283,16 @@ module.exports = class CocoView extends Backbone.View
 
   isIE: ->
     ua = navigator.userAgent or navigator.vendor or window.opera
-    return ua.search("MSIE") != -1
+    return ua.search('MSIE') != -1
 
   isMac: ->
     navigator.platform.toUpperCase().indexOf('MAC') isnt -1
 
   initSlider: ($el, startValue, changeCallback) ->
-    slider = $el.slider({ animate: "fast" })
+    slider = $el.slider({animate: 'fast'})
     slider.slider('value', startValue)
-    slider.on('slide',changeCallback)
-    slider.on('slidechange',changeCallback)
+    slider.on('slide', changeCallback)
+    slider.on('slidechange', changeCallback)
     slider
 
 

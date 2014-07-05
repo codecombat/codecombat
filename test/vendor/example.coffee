@@ -1,1 +1,1 @@
-massivelyUsefulTestExample = "test..."
+massivelyUsefulTestExample = 'test...'

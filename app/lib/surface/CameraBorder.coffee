@@ -25,6 +25,6 @@ module.exports = class CameraBorder extends createjs.Container
     i = width
     while i
       opacity = 3 * (1 - (i/width)) / width
-      @border.graphics.setStrokeStyle(i,"round").beginStroke("rgba(0,0,0,#{opacity})").drawRect(bounds.x, bounds.y, bounds.width, bounds.height)
+      @border.graphics.setStrokeStyle(i, 'round').beginStroke("rgba(0,0,0,#{opacity})").drawRect(bounds.x, bounds.y, bounds.width, bounds.height)
       i -= 1
     @border.cache bounds.x, bounds.y, bounds.width, bounds.height

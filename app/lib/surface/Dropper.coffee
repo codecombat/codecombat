@@ -25,5 +25,4 @@ Dropper = class Dropper
   drop: ->
     return @drop_counter > 0
 
-
 module.exports = new Dropper()

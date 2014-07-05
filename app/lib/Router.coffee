@@ -1,4 +1,4 @@
-gplusClientID = "800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com"
+gplusClientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
 
 go = (path) -> -> @routeDirectly path, arguments
 
@@ -75,16 +75,16 @@ module.exports = class CocoRouter extends Backbone.Router
     gapi.plusone.go?()  # Handles +1 button
     for gplusButton in $('.gplus-login-button')
       params = {
-        callback:"signinCallback",
-        clientid:gplusClientID,
-        cookiepolicy:"single_host_origin",
-        scope:"https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email",
-        height: "short",
+        callback: 'signinCallback',
+        clientid: gplusClientID,
+        cookiepolicy: 'single_host_origin',
+        scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+        height: 'short',
       }
       if gapi.signin?.render
         gapi.signin.render(gplusButton, params)
       else
-        console.warn "Didn't have gapi.signin to render G+ login button. (DoNotTrackMe extension?)"
+        console.warn 'Didn\'t have gapi.signin to render G+ login button. (DoNotTrackMe extension?)'
 
   getViewFromCache: (route) ->
     if route of @cache
@@ -106,7 +106,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
   getView: (route, suffix='_view') ->
     # iteratively breaks down the url pieces looking for the view
-    # passing the broken off pieces as args. This way views like "resource/14394893"
+    # passing the broken off pieces as args. This way views like 'resource/14394893'
     # will get passed to the resource view with arg '14394893'
     pieces = _.string.words(route, '/')
     split = Math.max(1, pieces.length-1)

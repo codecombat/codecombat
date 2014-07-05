@@ -18,21 +18,21 @@ DEBUGGING = true
 
 sendInitialRecruitingEmail = ->
   leaderboards = [
-    {slug: 'brawlwood', team: 'humans', limit: 55, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
-    {slug: 'brawlwood', team: 'ogres', limit: 40, name: "Brawlwood", original: "52d97ecd32362bc86e004e87", majorVersion: 0}
-    {slug: 'dungeon-arena', team: 'humans', limit: 300, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
-    {slug: 'dungeon-arena', team: 'ogres', limit: 250, name: "Dungeon Arena", original: "53173f76c269d400000543c2", majorVersion: 0}
-    {slug: 'greed', team: 'humans', limit: 465, name: "Greed", original: "53558b5a9914f5a90d7ccddb", majorVersion: 0}
-    {slug: 'greed', team: 'ogres', limit: 371, name: "Greed", original: "53558b5a9914f5a90d7ccddb", majorVersion: 0}
-    {slug: 'gold-rush', team: 'humans', limit: 253, name: "Gold Rush", original: "533353722a61b7ca6832840c", majorVersion: 0}
-    {slug: 'gold-rush', team: 'ogres', limit: 203, name: "Gold Rush", original: "533353722a61b7ca6832840c", majorVersion: 0}
+    {slug: 'brawlwood', team: 'humans', limit: 55, name: 'Brawlwood', original: '52d97ecd32362bc86e004e87', majorVersion: 0}
+    {slug: 'brawlwood', team: 'ogres', limit: 40, name: 'Brawlwood', original: '52d97ecd32362bc86e004e87', majorVersion: 0}
+    {slug: 'dungeon-arena', team: 'humans', limit: 300, name: 'Dungeon Arena', original: '53173f76c269d400000543c2', majorVersion: 0}
+    {slug: 'dungeon-arena', team: 'ogres', limit: 250, name: 'Dungeon Arena', original: '53173f76c269d400000543c2', majorVersion: 0}
+    {slug: 'greed', team: 'humans', limit: 465, name: 'Greed', original: '53558b5a9914f5a90d7ccddb', majorVersion: 0}
+    {slug: 'greed', team: 'ogres', limit: 371, name: 'Greed', original: '53558b5a9914f5a90d7ccddb', majorVersion: 0}
+    {slug: 'gold-rush', team: 'humans', limit: 253, name: 'Gold Rush', original: '533353722a61b7ca6832840c', majorVersion: 0}
+    {slug: 'gold-rush', team: 'ogres', limit: 203, name: 'Gold Rush', original: '533353722a61b7ca6832840c', majorVersion: 0}
   ]
   async.waterfall [
     (callback) -> async.map leaderboards, grabSessions, callback
     (sessionLists, callback) -> async.map collapseSessions(sessionLists), grabUser, callback
     (users, callback) -> async.map users, emailUserInitialRecruiting, callback
   ], (err, results) ->
-    return console.log "Error:", err if err
+    return console.log 'Error:', err if err
     console.log "Looked at sending to #{results.length} users; sent to #{_.filter(results).length}."
     console.log "Sent to: ['#{(user.email for user in results when user).join('\', \'')}']"
 
@@ -81,13 +81,13 @@ grabUser = (session, callback) ->
 
 totalEmailsSent = 0
 emailUserInitialRecruiting = (user, callback) ->
-  #return callback null, false if user.emails?.anyNotes?.enabled is false  # TODO: later, uncomment to obey also "anyNotes" when that's untangled
+  #return callback null, false if user.emails?.anyNotes?.enabled is false  # TODO: later, uncomment to obey also 'anyNotes' when that's untangled
   return callback null, false if user.emails?.recruitNotes?.enabled is false
   return callback null, false if user.email in alreadyEmailed
   return callback null, false if DEBUGGING and (totalEmailsSent > 1 or Math.random() > 0.05)
   ++totalEmailsSent
   name = if user.firstName and user.lastName then "#{user.firstName}" else user.name
-  name = "Wizard" if not name or name is "Anoner"
+  name = 'Wizard' if not name or name is 'Anoner'
   team = user.session.levelInfo.team
   team = team.substr(0, team.length - 1)
   context =
@@ -98,13 +98,12 @@ emailUserInitialRecruiting = (user, callback) ->
     email_data:
       name: name
       level_name: user.session.levelInfo.name
-      place: "##{user.session.rank}"  # like "#31"
+      place: "##{user.session.rank}"  # like '#31'
       level_race: team
       ladder_link: "http://codecombat.com/play/ladder/#{user.session.levelInfo.slug}"
   sendwithus.api.send context, (err, result) ->
     return callback err if err
     callback null, user
-
 
 sendTournamentResultsEmail = ->
   winners = tournamentResults.greed.humans.concat tournamentResults.greed.ogres
@@ -113,7 +112,7 @@ sendTournamentResultsEmail = ->
     (winners, callback) -> async.map winners, grabEmail, callback
     (winners, callback) -> async.map winners, emailUserTournamentResults, callback
   ], (err, results) ->
-    return console.log "Error:", err if err
+    return console.log 'Error:', err if err
     console.log "Looked at sending to #{results.length} users; sent to #{_.filter(results).length}."
     console.log "Sent to: ['#{(user.email for user in results when user).join('\', \'')}']"
 
@@ -142,13 +141,13 @@ emailUserTournamentResults = (winner, callback) ->
     email_data:
       userID: winner.userID
       name: name
-      level_name: "Greed"
+      level_name: 'Greed'
       wins: winner.wins
       ties: {humans: 377, ogres: 407}[winner.team] - winner.wins - winner.losses
       losses: winner.losses
       rank: winner.rank
       team_name: team
-      ladder_url: "http://codecombat.com/play/ladder/greed#winners"
+      ladder_url: 'http://codecombat.com/play/ladder/greed#winners'
       top3: winner.rank <= 3
       top5: winner.rank <= 5
       top10: winner.rank <= 10
@@ -157,7 +156,6 @@ emailUserTournamentResults = (winner, callback) ->
   sendwithus.api.send context, (err, result) ->
     return callback err if err
     callback null, winner
-
 
 serverSetup.connectToDatabase()
 

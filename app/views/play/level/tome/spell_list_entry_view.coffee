@@ -12,7 +12,7 @@ module.exports = class SpellListEntryView extends View
   controlsEnabled: true
 
   subscriptions:
-    'tome:problems-updated': "onProblemsUpdated"
+    'tome:problems-updated': 'onProblemsUpdated'
     'tome:spell-changed-language': 'onSpellChangedLanguage'
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
@@ -32,7 +32,7 @@ module.exports = class SpellListEntryView extends View
     context = super context
     context.spell = @spell
     context.methodSignature = @createMethodSignature()
-    context.thangNames = (thangID for thangID, spellThang of @spell.thangs when spellThang.thang.exists).join(', ')  # + ", Marcus, Robert, Phoebe, Will Smith, Zap Brannigan, You, Gandaaaaalf"
+    context.thangNames = (thangID for thangID, spellThang of @spell.thangs when spellThang.thang.exists).join(', ')  # + ', Marcus, Robert, Phoebe, Will Smith, Zap Brannigan, You, Gandaaaaalf'
     context.showTopDivider = @showTopDivider
     context
 
@@ -88,7 +88,7 @@ module.exports = class SpellListEntryView extends View
 
   onClick: (e) ->
     spellThang = @getPrimarySpellThang()
-    Backbone.Mediator.publish "level-select-sprite", thangID: spellThang.thang.id, spellName: @spell.name
+    Backbone.Mediator.publish 'level-select-sprite', thangID: spellThang.thang.id, spellName: @spell.name
 
   onMouseEnterAvatar: (e) ->
     return unless @controlsEnabled and _.size(@spell.thangs) > 1
@@ -118,7 +118,7 @@ module.exports = class SpellListEntryView extends View
 
   onProblemsUpdated: (e) ->
     return unless e.spell is @spell
-    @$el.toggleClass "user-code-problem", e.problems.length
+    @$el.toggleClass 'user-code-problem', e.problems.length
 
   onSpellChangedLanguage: (e) ->
     return unless e.spell is @spell

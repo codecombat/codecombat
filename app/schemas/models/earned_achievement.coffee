@@ -9,7 +9,7 @@ module.exports =
           [
             {
               rel: 'extra'
-              href: "/db/user/{($)}"
+              href: '/db/user/{($)}'
             }
           ]
       achievement: c.objectId

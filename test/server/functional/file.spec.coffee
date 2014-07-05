@@ -7,7 +7,7 @@ xdescribe '/file', ->
   url = getURL('/file')
   files = []
   options = {
-    uri:url
+    uri: url
     json: {
       # url: 'http://scotterickson.info/images/where-are-you.jpg'
       url: 'http://fc07.deviantart.net/fs37/f/2008/283/5/1/Chu_Chu_Pikachu_by_angelishi.gif'
@@ -63,25 +63,25 @@ xdescribe '/file', ->
     request.post(options, func)
 
   it 'can be read by an admin.', (done) ->
-    request.get {uri:url+'/'+files[0]._id}, (err, res) ->
+    request.get {uri: url+'/'+files[0]._id}, (err, res) ->
       expect(res.statusCode).toBe(200)
       expect(res.headers['content-type']).toBe(files[0].contentType)
       done()
 
   it 'returns 404 for missing files', (done) ->
     id = '000000000000000000000000'
-    request.get {uri:url+'/'+id}, (err, res) ->
+    request.get {uri: url+'/'+id}, (err, res) ->
       expect(res.statusCode).toBe(404)
       done()
 
   it 'returns 404 for invalid ids', (done) ->
-    request.get {uri:url+'/thiswillnotwork'}, (err, res) ->
+    request.get {uri: url+'/thiswillnotwork'}, (err, res) ->
       expect(res.statusCode).toBe(404)
       done()
 
   it 'can be created directly with form parameters', (done) ->
     options2 = {
-      uri:url
+      uri: url
     }
 
     func = (err, res, body) ->
@@ -112,7 +112,7 @@ xdescribe '/file', ->
     form.append('my_buffer', request(jsonOptions.my_buffer_url))
 
   it 'created directly, can be read', (done) ->
-    request.get {uri:url+'/'+files[1]._id}, (err, res) ->
+    request.get {uri: url+'/'+files[1]._id}, (err, res) ->
       expect(res.statusCode).toBe(200)
       expect(res.headers['content-type']).toBe(files[1].contentType)
       done()
@@ -133,7 +133,7 @@ xdescribe '/file', ->
     request.post(options, func)
 
   it 'does overwrite existing files if force is true', (done) ->
-    options.json.force = "true" # TODO ask why it's a string and not a boolean ?
+    options.json.force = 'true' # TODO ask why it's a string and not a boolean ?
 
     func = (err, res, body) ->
       expect(res.statusCode).toBe(200)
@@ -150,25 +150,25 @@ xdescribe '/file', ->
     request.post(options, func)
 
   it ' can\'t be requested with HTTP PATCH method', (done) ->
-    request {method: 'patch', uri:url}, (err, res) ->
+    request {method: 'patch', uri: url}, (err, res) ->
       expect(res.statusCode).toBe(405)
       expect(res.headers.allow).toBe(allowHeader)
       done()
 
   it ' can\'t be requested with HTTP PUT method', (done) ->
-    request.put {uri:url}, (err, res) ->
+    request.put {uri: url}, (err, res) ->
       expect(res.statusCode).toBe(405)
       expect(res.headers.allow).toBe(allowHeader)
       done()
 
   it ' can\'t be requested with HTTP HEAD method', (done) ->
-    request.head {uri:url}, (err, res) ->
+    request.head {uri: url}, (err, res) ->
       expect(res.statusCode).toBe(405)
       expect(res.headers.allow).toBe(allowHeader)
       done()
 
   it ' can\'t be requested with HTTP DEL method', (done) ->
-    request.del {uri:url}, (err, res) ->
+    request.del {uri: url}, (err, res) ->
       expect(res.statusCode).toBe(405)
       expect(res.headers.allow).toBe(allowHeader)
       done()

@@ -2,14 +2,14 @@
 #Leaves out all the dome stuff but allows ajax.
 _ = require 'lodash'
 request = require 'request'
-Deferred = require "JQDeferred"
+Deferred = require 'JQDeferred'
 module.exports = $ = (input) ->
   console.log 'Ignored jQuery: ', input if $._debug
   append: (input)-> exports: ()->
 
 # Non-standard jQuery stuff. Don't use outside of server.
 $._debug = false
-$._server = "https://codecombat.com"
+$._server = 'https://codecombat.com'
 $._cookies = request.jar()
 
 $.when = Deferred.when
@@ -21,8 +21,8 @@ $.ajax = (options) ->
     url = $._server + url
 
   data = options.data
-  console.log "Requesting: " + JSON.stringify options if $._debug
-  console.log "URL: " + url if $._debug
+  console.log 'Requesting: ' + JSON.stringify options if $._debug
+  console.log 'URL: ' + url if $._debug
   deferred = Deferred()
   request
     url: url
@@ -31,9 +31,9 @@ $.ajax = (options) ->
     method: options.type
     body: data
     , (error, response, body) ->
-      console.log "HTTP Request:" + JSON.stringify options if $._debug and not error
+      console.log 'HTTP Request:' + JSON.stringify options if $._debug and not error
       if responded
-        console.log "\t↳Already returned before." if $._debug
+        console.log '\t↳Already returned before.' if $._debug
         return
       if (error)
         console.warn "\t↳Returned: error: #{error}"
