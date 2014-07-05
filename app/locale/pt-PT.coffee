@@ -17,7 +17,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     retry: "Tentar novamente"
 #   watch: "Watch"
 #   unwatch: "Unwatch"
-#   submit_patch: "Submit Patch"
+    submit_patch: "Submeter Versão"
 
   units:
     second: "segundo"
