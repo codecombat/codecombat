@@ -62,14 +62,13 @@ class WorldRegionNode extends TreemaNode.nodeMap.object
   callback: (e) =>
     x = Math.min e.points[0].x, e.points[1].x
     y = Math.min e.points[0].y, e.points[1].y
-    @data.pos = {x:x, y:y, z:0}
+    @data.pos = {x: x, y: y, z: 0}
     @data.width = Math.abs e.points[0].x - e.points[1].x
     @data.height = Math.min e.points[0].y - e.points[1].y
     @refreshDisplay()
 
   createWorldBounds: ->
     # not yet written
-
 
 module.exports.WorldViewportNode = class WorldViewportNode extends TreemaNode.nodeMap.object
   # selecting ratio'd dimensions in the world, ie the camera in level scripts
@@ -132,15 +131,15 @@ module.exports.WorldBoundsNode = class WorldBoundsNode extends TreemaNode.nodeMa
     if btn.length then @openMap() else super(arguments...)
 
   openMap: ->
-    bounds = @data or [{x:0, y:0}, {x:100, y: 80}]
+    bounds = @data or [{x: 0, y: 0}, {x: 100, y: 80}]
     modal = new WorldSelectModal(world: @settings.world, dataType: 'region', default: bounds, supermodel: @settings.supermodel)
     modal.callback = @callback
     @settings.view.openModalView modal
 
   callback: (e) =>
     return unless e
-    @set '/0', { x: shorten(e.points[0].x), y: shorten(e.points[0].y) }
-    @set '/1', { x: shorten(e.points[1].x), y: shorten(e.points[1].y) }
+    @set '/0', {x: shorten(e.points[0].x), y: shorten(e.points[0].y)}
+    @set '/1', {x: shorten(e.points[1].x), y: shorten(e.points[1].y)}
 
 module.exports.ThangNode = class ThangNode extends TreemaNode.nodeMap.string
   buildValueForEditing: (valEl) ->
@@ -201,7 +200,7 @@ module.exports.ThangTypeNode = class ThangTypeNode extends TreemaNode.nodeMap.st
   constructor: (args...) ->
     super args...
     @thangType = _.find @settings.supermodel.getModels(ThangType), (m) => m.get('original') is @data if @data
-    console.log "ThangTypeNode found ThangType", @thangType, "for data", @data
+    console.log 'ThangTypeNode found ThangType', @thangType, 'for data', @data
 
   buildValueForDisplay: (valEl) ->
     @buildValueForDisplaySimply(valEl, @thangType?.get('name') or 'None')

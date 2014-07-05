@@ -51,14 +51,14 @@ module.exports = class LevelChatView extends View
     @playNoise() if e.message.authorID isnt me.id
 
   playNoise: ->
-    Backbone.Mediator.publish 'play-sound', trigger: "chat_received"
+    Backbone.Mediator.publish 'play-sound', trigger: 'chat_received'
 
   messageObjectToJQuery: (message) ->
     td = $('<td></td>')
     content = message.content
     content = _.string.escapeHTML(content)
-    content = content.replace(/\n/g, "<br/>")
-    content = content.replace(RegExp('  ', 'g'), "&nbsp; ") # coffeescript can't compile "/  /g"
+    content = content.replace(/\n/g, '<br/>')
+    content = content.replace(RegExp('  ', 'g'), '&nbsp; ') # coffeescript can't compile '/  /g'
     if _.string.startsWith(content, '/me')
       content = message.authorName + content.slice(3)
 

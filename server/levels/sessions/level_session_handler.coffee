@@ -1,5 +1,5 @@
-LevelSession = require('./LevelSession')
-Handler = require('../../commons/Handler')
+LevelSession = require './LevelSession'
+Handler = require '../../commons/Handler'
 log = require 'winston'
 
 TIMEOUT = 1000 * 30 # no activity for 30 seconds means it's not active

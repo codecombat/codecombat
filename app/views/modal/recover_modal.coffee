@@ -1,6 +1,6 @@
 View = require 'views/kinds/ModalView'
 template = require 'templates/modal/recover'
-forms = require('lib/forms')
+forms = require 'lib/forms'
 {genericFailure} = require 'lib/errors'
 
 filterKeyboardEvents = (allowedEvents, func) ->
@@ -10,12 +10,12 @@ filterKeyboardEvents = (allowedEvents, func) ->
     return func(splat...)
 
 module.exports = class RecoverModalView extends View
-  id: "recover-modal"
+  id: 'recover-modal'
   template: template
-  
+
   events:
-    "click #recover-button": "recoverAccount"
-    "keydown input": "recoverAccount"
+    'click #recover-button': 'recoverAccount'
+    'keydown input': 'recoverAccount'
 
   subscriptions:
     'server-error': 'onServerError'
@@ -31,10 +31,10 @@ module.exports = class RecoverModalView extends View
     forms.clearFormAlerts(@$el)
     email = (forms.formToObject @$el).email
     return unless email
-    res = $.post '/auth/reset', {email:email}, @successfullyRecovered
+    res = $.post '/auth/reset', {email: email}, @successfullyRecovered
     res.fail(genericFailure)
     @enableModalInProgress(@$el)
-    
+
   successfullyRecovered: =>
     @disableModalInProgress(@$el)
     @$el.find('.modal-body:visible').text('Recovery email sent.')

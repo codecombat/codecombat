@@ -7,18 +7,18 @@ safeJSONStringify = (input, maxDepth) ->
     output = {}
     pPath = undefined
     refIdx = undefined
-    path = path or ""
+    path = path or ''
     depth = depth or 0
     depth++
-    return "{depth over " + maxDepth + "}"  if maxDepth and depth > maxDepth
+    return '{depth over ' + maxDepth + '}' if maxDepth and depth > maxDepth
     for p of input
-      pPath = ((if path then (path + ".") else "")) + p
-      if typeof input[p] is "function"
-        output[p] = "{function}"
-      else if typeof input[p] is "object"
+      pPath = ((if path then (path + '.') else '')) + p
+      if typeof input[p] is 'function'
+        output[p] = '{function}'
+      else if typeof input[p] is 'object'
         refIdx = refs.indexOf(input[p])
         if -1 isnt refIdx
-          output[p] = "{reference to " + refsPaths[refIdx] + "}"
+          output[p] = '{reference to ' + refsPaths[refIdx] + '}'
         else
           refs.push input[p]
           refsPaths.push pPath
@@ -29,7 +29,7 @@ safeJSONStringify = (input, maxDepth) ->
   refs = []
   refsPaths = []
   maxDepth = maxDepth or 5
-  if typeof input is "object"
+  if typeof input is 'object'
     output = recursion(input)
   else
     output = input

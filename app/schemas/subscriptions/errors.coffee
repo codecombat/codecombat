@@ -1,5 +1,4 @@
 module.exports =
   # app/lib/errors
-  "server-error":
+  'server-error':
     {} # TODO schema
-

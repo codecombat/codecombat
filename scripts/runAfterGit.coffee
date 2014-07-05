@@ -1,4 +1,3 @@
-
 # This is written in coffeescript. Run this using coffee, not node.           (Line to yield nice warnings on node. :))
 return console.log '------------------------------------------------- \n
 
@@ -41,22 +40,22 @@ mongopath += 'mongodb' # mongodb is in path.
 run = (proc, args) ->
   deferred = Deferred()
   spawned = spawn proc, args
-  spawned.stdout.on "data", (data) -> process.stdout.write data
-  spawned.stderr.on "data", (data) -> process.stderr.write data
-  spawned.on "exit", (code) ->
-    console.log proc + " exited with code " + code
+  spawned.stdout.on 'data', (data) -> process.stdout.write data
+  spawned.stderr.on 'data', (data) -> process.stderr.write data
+  spawned.on 'exit', (code) ->
+    console.log proc + ' exited with code ' + code
     # unless code is null doesn't seem to work
     #  deferred.reject()
     deferred.resolve code
-  spawned.on "error", (code, error) ->
-    console.error proc + " failed!"
+  spawned.on 'error', (code, error) ->
+    console.error proc + ' failed!'
     deferred.reject()
   deferred.promise()
 
 removeDir = (path) ->
   if fs.existsSync(path)
     fs.readdirSync(path).forEach (file) ->
-      current = path + "/" + file
+      current = path + '/' + file
       if fs.lstatSync(current).isDirectory() # recurse
         removeDir current
       else # delete file
@@ -65,12 +64,12 @@ removeDir = (path) ->
 
 resetDB = ->
   deferred = Deferred()
-  console.log "Dropping Database"
-  mongodrop = run "mongo", ["coco", "--eval", "db.dropDatabase()"]
-  mongodrop.fail -> console.error "Error occurred while dropping mongo. Make sure CoCo's MongoDB is running."
+  console.log 'Dropping Database'
+  mongodrop = run 'mongo', ['coco', '--eval', 'db.dropDatabase()']
+  mongodrop.fail -> console.error 'Error occurred while dropping mongo. Make sure CoCo\'s MongoDB is running.'
   mongodrop.done ->
-    console.log "Restoring from dump."
-    mongorestore = run "mongorestore", [dbLocalPath]
+    console.log 'Restoring from dump.'
+    mongorestore = run 'mongorestore', [dbLocalPath]
     mongorestore.always = deferred.resolve()
   deferred.promise()
 
@@ -78,7 +77,7 @@ downloadDB = ->
   deferred = Deferred()
   #mongoose = require 'mongoose'
   # TODO: What if mongo is not running?
-  console.log "Downloading Database dump. It's big. This may take a while..."
+  console.log 'Downloading Database dump. It\'s big. This may take a while...'
   request = http.get dbDump, (response)->
     unzip = response.pipe(zlib.createGunzip()).pipe(tar.Extract(path: dbLocalPath))
     # Log download
@@ -88,17 +87,17 @@ downloadDB = ->
     total = len / 1048576 #1048576 - bytes in  1Megabyte
     response.on 'data', (chunk) ->
       cur += chunk.length
-      console.log 'DB dump download received chunk ' + currentChunk++ + ", "  + (100.0 * cur / len).toFixed(2) + "% finished of " + total.toFixed(0) + " mb"
-    unzip.on('data', -> console.log "Unpacking zip...")
-    unzip.on('error', (err) -> console.log "An error occurred while downloading DB Dump: " + err)
+      console.log 'DB dump download received chunk ' + currentChunk++ + ', '  + (100.0 * cur / len).toFixed(2) + '% finished of ' + total.toFixed(0) + ' mb'
+    unzip.on('data', -> console.log 'Unpacking zip...')
+    unzip.on('error', (err) -> console.log 'An error occurred while downloading DB Dump: ' + err)
     unzip.on 'end', ->
-      console.log "Finished downloading."
+      console.log 'Finished downloading.'
       deferred.resolve()
     deferred.promise()
 
 installUpdates = ->
   deferred = Deferred()
-  npm = if process.platform is "win32" then "npm.cmd" else "npm"
+  npm = if process.platform is 'win32' then 'npm.cmd' else 'npm'
   npminstall = run npm, ['update']
   npminstall.done ->
     bowerinstall = run 'bower', ['update']
@@ -123,4 +122,3 @@ else if '--dldb' in process.argv
   downloadDB()
 
 # TODO: Could advice to start SCOCODE.bat et al. here
-

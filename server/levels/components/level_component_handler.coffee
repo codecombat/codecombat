@@ -1,5 +1,5 @@
-LevelComponent = require('./LevelComponent')
-Handler = require('../../commons/Handler')
+LevelComponent = require './LevelComponent'
+Handler = require '../../commons/Handler'
 
 LevelComponentHandler = class LevelComponentHandler extends Handler
   modelClass: LevelComponent

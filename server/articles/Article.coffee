@@ -1,7 +1,7 @@
-mongoose = require('mongoose')
-plugins = require('../plugins/plugins')
+mongoose = require 'mongoose'
+plugins = require '../plugins/plugins'
 
-ArticleSchema = new mongoose.Schema(body: String, {strict:false})
+ArticleSchema = new mongoose.Schema(body: String, {strict: false})
 
 ArticleSchema.plugin(plugins.NamedPlugin)
 ArticleSchema.plugin(plugins.VersionedPlugin)

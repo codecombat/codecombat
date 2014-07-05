@@ -1,20 +1,20 @@
 module.exports =
-  "audio-played:loaded":
+  'audio-played:loaded':
     {} # TODO schema
 
   # TODO location is debatable
-  "note-group-started":
+  'note-group-started':
     {} # TODO schema
 
-  "note-group-ended":
+  'note-group-ended':
     {} # TODO schema
 
-  "modal-closed":
+  'modal-closed':
     {} # TODO schema
 
   # TODO I propose prepending 'modal:'
-  "save-new-version":
+  'save-new-version':
     {} # TODO schema
 
-  "router:navigate":
+  'router:navigate':
     {} # TODO schema

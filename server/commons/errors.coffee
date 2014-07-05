@@ -1,5 +1,3 @@
-
-
 module.exports.custom = (res, code=500, message='Internal Server Error') ->
   res.send code, message
   res.end()
@@ -35,10 +33,10 @@ module.exports.serverError = (res, message='Internal Server Error') ->
   res.send 500, message
   res.end()
 
-module.exports.gatewayTimeoutError = (res, message="Gateway timeout") ->
+module.exports.gatewayTimeoutError = (res, message='Gateway timeout') ->
   res.send 504, message
   res.end()
 
-module.exports.clientTimeout = (res, message="The server did not receive the client response in a timely manner") ->
+module.exports.clientTimeout = (res, message='The server did not receive the client response in a timely manner') ->
   res.send 408, message
   res.end()

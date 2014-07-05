@@ -17,16 +17,16 @@ class LevelSessionsCollection extends CocoCollection
     super()
 
 adminContacts = [
-  {id: "", name: "Assign a Contact"}
-  {id: "512ef4805a67a8c507000001", name: "Nick"}
-  {id: "5162fab9c92b4c751e000274", name: "Scott"}
-  {id: "51eb2714fa058cb20d0006ef", name: "Michael"}
-  {id: "51538fdb812dd9af02000001", name: "George"}
-  {id: "52a57252a89409700d0000d9", name: "Ignore"}
+  {id: '', name: 'Assign a Contact'}
+  {id: '512ef4805a67a8c507000001', name: 'Nick'}
+  {id: '5162fab9c92b4c751e000274', name: 'Scott'}
+  {id: '51eb2714fa058cb20d0006ef', name: 'Michael'}
+  {id: '51538fdb812dd9af02000001', name: 'George'}
+  {id: '52a57252a89409700d0000d9', name: 'Ignore'}
 ]
 
 module.exports = class ProfileView extends View
-  id: "profile-view"
+  id: 'profile-view'
   template: template
   subscriptions:
     'linkedin-loaded': 'onLinkedInLoaded'
@@ -74,10 +74,10 @@ module.exports = class ProfileView extends View
     @highlightedContainers = []
     if @userID is me.id
       @user = me
-    else if me.isAdmin() or "employer" in me.get('permissions')
+    else if me.isAdmin() or 'employer' in me.get('permissions')
       @user = User.getByID(@userID)
       @user.fetch()
-      @listenTo @user, "sync", =>
+      @listenTo @user, 'sync', =>
         @render()
       $.post "/db/user/#{me.id}/track/view_candidate"
       $.post "/db/user/#{@userID}/track/viewed_by_employer" unless me.isAdmin()
@@ -112,7 +112,7 @@ module.exports = class ProfileView extends View
 
   afterInsert: ->
     super()
-    linkedInButtonParentElement = document.getElementById("linkedInAuthButton")
+    linkedInButtonParentElement = document.getElementById('linkedInAuthButton')
     if linkedInButtonParentElement
       if @linkedinLoaded
         @renderLinkedInButton()
@@ -120,10 +120,11 @@ module.exports = class ProfileView extends View
         @waitingForLinkedIn = true
 
   importLinkedIn: =>
-    overwriteConfirm = confirm("Importing LinkedIn data will overwrite your current work experience, skills, name, descriptions, and education. Continue?")
+    overwriteConfirm = confirm('Importing LinkedIn data will overwrite your current work experience, skills, name, descriptions, and education. Continue?')
     unless overwriteConfirm then return
     application.linkedinHandler.getProfileData (err, profileData) =>
       @processLinkedInProfileData profileData
+
   jobProfileSchema: -> @user.schema().properties.jobProfile.properties
 
   processLinkedInProfileData: (p) ->
@@ -132,96 +133,95 @@ module.exports = class ProfileView extends View
     oldJobProfile = _.cloneDeep(currentJobProfile)
     jobProfileSchema = @user.schema().properties.jobProfile.properties
 
-    if p["formattedName"]? and p["formattedName"] isnt "private"
+    if p['formattedName']? and p['formattedName'] isnt 'private'
       nameMaxLength = jobProfileSchema.name.maxLength
-      currentJobProfile.name = p["formattedName"].slice(0,nameMaxLength)
-    if p["skills"]?["values"].length
+      currentJobProfile.name = p['formattedName'].slice(0, nameMaxLength)
+    if p['skills']?['values'].length
       skillNames = []
       skillMaxLength = jobProfileSchema.skills.items.maxLength
       for skill in p.skills.values
-        skillNames.push skill.skill.name.slice(0,skillMaxLength)
+        skillNames.push skill.skill.name.slice(0, skillMaxLength)
       currentJobProfile.skills = skillNames
-    if p["headline"]
+    if p['headline']
       shortDescriptionMaxLength = jobProfileSchema.shortDescription.maxLength
-      currentJobProfile.shortDescription = p["headline"].slice(0,shortDescriptionMaxLength)
-    if p["summary"]
+      currentJobProfile.shortDescription = p['headline'].slice(0, shortDescriptionMaxLength)
+    if p['summary']
       longDescriptionMaxLength = jobProfileSchema.longDescription.maxLength
-      currentJobProfile.longDescription = p.summary.slice(0,longDescriptionMaxLength)
-    if p["positions"]?["values"]?.length
+      currentJobProfile.longDescription = p.summary.slice(0, longDescriptionMaxLength)
+    if p['positions']?['values']?.length
       newWorks = []
       workSchema = jobProfileSchema.work.items.properties
-      for position in p["positions"]["values"]
+      for position in p['positions']['values']
         workObj = {}
         descriptionMaxLength = workSchema.description.maxLength
 
-        workObj.description = position.summary?.slice(0,descriptionMaxLength)
-        workObj.description ?= ""
+        workObj.description = position.summary?.slice(0, descriptionMaxLength)
+        workObj.description ?= ''
         if position.startDate?.year?
           workObj.duration = "#{position.startDate.year} - "
           if (not position.endDate?.year) or (position.endDate?.year and position.endDate?.year > (new Date().getFullYear()))
-            workObj.duration += "present"
+            workObj.duration += 'present'
           else
             workObj.duration += position.endDate.year
         else
-          workObj.duration = ""
+          workObj.duration = ''
         durationMaxLength = workSchema.duration.maxLength
-        workObj.duration = workObj.duration.slice(0,durationMaxLength)
+        workObj.duration = workObj.duration.slice(0, durationMaxLength)
         employerMaxLength = workSchema.employer.maxLength
-        workObj.employer = position.company?.name ? ""
-        workObj.employer = workObj.employer.slice(0,employerMaxLength)
-        workObj.role = position.title ? ""
+        workObj.employer = position.company?.name ? ''
+        workObj.employer = workObj.employer.slice(0, employerMaxLength)
+        workObj.role = position.title ? ''
         roleMaxLength = workSchema.role.maxLength
-        workObj.role = workObj.role.slice(0,roleMaxLength)
+        workObj.role = workObj.role.slice(0, roleMaxLength)
         newWorks.push workObj
       currentJobProfile.work = newWorks
 
-
-    if p["educations"]?["values"]?.length
+    if p['educations']?['values']?.length
       newEducation = []
       eduSchema = jobProfileSchema.education.items.properties
-      for education in p["educations"]["values"]
+      for education in p['educations']['values']
         educationObject = {}
-        educationObject.degree = education.degree ? "Studied"
+        educationObject.degree = education.degree ? 'Studied'
 
         if education.startDate?.year?
           educationObject.duration = "#{education.startDate.year} - "
           if (not education.endDate?.year) or (education.endDate?.year and education.endDate?.year > (new Date().getFullYear()))
-            educationObject.duration += "present"
-            if educationObject.degree is "Studied"
-              educationObject.degree = "Studying"
+            educationObject.duration += 'present'
+            if educationObject.degree is 'Studied'
+              educationObject.degree = 'Studying'
           else
             educationObject.duration += education.endDate.year
         else
-          educationObject.duration = ""
+          educationObject.duration = ''
         if education.fieldOfStudy
-          if educationObject.degree is "Studied" or educationObject.degree is "Studying"
+          if educationObject.degree is 'Studied' or educationObject.degree is 'Studying'
             educationObject.degree += " #{education.fieldOfStudy}"
           else
             educationObject.degree += " in #{education.fieldOfStudy}"
-        educationObject.degree = educationObject.degree.slice(0,eduSchema.degree.maxLength)
-        educationObject.duration = educationObject.duration.slice(0,eduSchema.duration.maxLength)
-        educationObject.school = education.schoolName ? ""
-        educationObject.school = educationObject.school.slice(0,eduSchema.school.maxLength)
-        educationObject.description = ""
+        educationObject.degree = educationObject.degree.slice(0, eduSchema.degree.maxLength)
+        educationObject.duration = educationObject.duration.slice(0, eduSchema.duration.maxLength)
+        educationObject.school = education.schoolName ? ''
+        educationObject.school = educationObject.school.slice(0, eduSchema.school.maxLength)
+        educationObject.description = ''
         newEducation.push educationObject
       currentJobProfile.education = newEducation
-    if p["publicProfileUrl"]
+    if p['publicProfileUrl']
       #search for linkedin link
       links = currentJobProfile.links
       alreadyHasLinkedIn = false
       for link in links
-        if link.link.toLowerCase().indexOf("linkedin") > -1
+        if link.link.toLowerCase().indexOf('linkedin') > -1
           alreadyHasLinkedIn = true
           break
       unless alreadyHasLinkedIn
         newLink =
-          link: p["publicProfileUrl"]
-          name: "LinkedIn"
+          link: p['publicProfileUrl']
+          name: 'LinkedIn'
         currentJobProfile.links.push newLink
-    @user.set('jobProfile',currentJobProfile)
+    @user.set('jobProfile', currentJobProfile)
     validationErrors = @user.validate()
     if validationErrors
-      @user.set('jobProfile',oldJobProfile)
+      @user.set('jobProfile', oldJobProfile)
       return alert("Please notify team@codecombat.com! There were validation errors from the LinkedIn import: #{JSON.stringify validationErrors}")
     else
       @render()
@@ -242,7 +242,7 @@ module.exports = class ProfileView extends View
     context.profile = jobProfile
     context.user = @user
     context.myProfile = @user?.id is context.me.id
-    context.allowedToViewJobProfile = @user and (me.isAdmin() or "employer" in me.get('permissions') or (context.myProfile && !me.get('anonymous')))
+    context.allowedToViewJobProfile = @user and (me.isAdmin() or 'employer' in me.get('permissions') or (context.myProfile && !me.get('anonymous')))
     context.allowedToEditJobProfile = @user and (me.isAdmin() or (context.myProfile && !me.get('anonymous')))
     context.profileApproved = @user?.get 'jobProfileApproved'
     context.progress = @progress ? @updateProgress()
@@ -276,11 +276,11 @@ module.exports = class ProfileView extends View
       @$el.find('.editable-display').attr('title', '')
     @initializeAutocomplete()
     highlightNext = @highlightNext ? true
-    justSavedSection = @$el.find('#' + @justSavedSectionID).addClass "just-saved"
+    justSavedSection = @$el.find('#' + @justSavedSectionID).addClass 'just-saved'
     _.defer =>
       @progress = @updateProgress highlightNext
       _.delay ->
-        justSavedSection.removeClass "just-saved", duration: 1500, easing: 'easeOutQuad'
+        justSavedSection.removeClass 'just-saved', duration: 1500, easing: 'easeOutQuad'
       , 500
     if me.isAdmin()
       visibleSettings = ['history', 'tasks']
@@ -330,14 +330,14 @@ module.exports = class ProfileView extends View
     @user.get('jobProfile').active = active
     @saveEdits()
     if active and not (me.isAdmin() or @stackLed)
-      $.post "/stacklead"
+      $.post '/stacklead'
       @stackLed = true
 
   enterEspionageMode: ->
     postData = emailLower: @user.get('email').toLowerCase(), usernameLower: @user.get('name').toLowerCase()
     $.ajax
-      type: "POST",
-      url: "/auth/spy"
+      type: 'POST',
+      url: '/auth/spy'
       data: postData
       success: @espionageSuccess
 
@@ -348,7 +348,7 @@ module.exports = class ProfileView extends View
     @openModalView new ModelModal models: [@user]
 
   onJobProfileNotesChanged: (e) =>
-    notes = @$el.find("#job-profile-notes").val()
+    notes = @$el.find('#job-profile-notes').val()
     @user.set 'jobProfileNotes', notes
     @user.save {jobProfileNotes: notes}, {patch: true}
 
@@ -371,7 +371,7 @@ module.exports = class ProfileView extends View
 
   showErrors: (errors) ->
     section = @$el.find '.saving'
-    console.error "Couldn't save because of validation errors:", errors
+    console.error 'Couldn\'t save because of validation errors:', errors
     section.removeClass 'saving'
     forms.clearFormAlerts section
     # This is pretty lame, since we don't easily match which field had the error like forms.applyErrorsToForm can.
@@ -477,7 +477,7 @@ module.exports = class ProfileView extends View
     @saveEdits true
 
   extractFieldKeyChain: (key) ->
-    # "root[projects][0][name]" -> ["projects", "0", "name"]
+    # 'root[projects][0][name]' -> ['projects', '0', 'name']
     key.replace(/^root/, '').replace(/\[(.*?)\]/g, '.$1').replace(/^\./, '').split(/\./)
 
   extractFieldValue: (key, value) ->
@@ -527,14 +527,14 @@ module.exports = class ProfileView extends View
     @remark.set 'user', @user.id
     @remark.set 'userName', @user.get('name')
     if errors = @remark.validate()
-      return console.error "UserRemark", @remark, "failed validation with errors:", errors
+      return console.error 'UserRemark', @remark, 'failed validation with errors:', errors
     res = @remark.save()
     res.error =>
       return if @destroyed
-      console.error "UserRemark", @remark, "failed to save with error:", res.responseText
+      console.error 'UserRemark', @remark, 'failed to save with error:', res.responseText
     res.success (model, response, options) =>
       return if @destroyed
-      console.log "Saved UserRemark", @remark, "with response", response
+      console.log 'Saved UserRemark', @remark, 'with response', response
 
   updateProgress: (highlightNext) ->
     return unless @user
@@ -550,7 +550,7 @@ module.exports = class ProfileView extends View
     bar = @$el.find('.profile-completion-progress .progress-bar')
     bar.css 'width', "#{progress}%"
     if next
-      text = ""
+      text = ''
       t = $.i18n.t
       text = "#{progress}% #{t 'account_profile.complete'}. #{t 'account_profile.next'}: #{next.name}"
       bar.parent().show().find('.progress-text').text text

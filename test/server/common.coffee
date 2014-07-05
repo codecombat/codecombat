@@ -3,7 +3,7 @@
 
 console.log 'IT BEGINS'
 
-require('jasmine-spec-reporter')
+require 'jasmine-spec-reporter'
 jasmine.getEnv().reporter.subReporters_ = []
 jasmine.getEnv().addReporter(new jasmine.SpecReporter({
   displaySuccessfulSpec: true,
@@ -13,12 +13,12 @@ jasmine.getEnv().addReporter(new jasmine.SpecReporter({
 rep = new jasmine.JsApiReporter()
 jasmine.getEnv().addReporter(rep)
 
-GLOBAL._ = require('lodash')
-_.str = require('underscore.string')
+GLOBAL._ = require 'lodash'
+_.str = require 'underscore.string'
 _.mixin(_.str.exports())
 GLOBAL.mongoose = require 'mongoose'
 mongoose.connect('mongodb://localhost/coco_unittest')
-path = require('path')
+path = require 'path'
 GLOBAL.testing = true
 
 models_path = [
@@ -67,7 +67,7 @@ GLOBAL.saveModels = (models, done) ->
   async.parallel funcs, (err, results) ->
     done(err)
 
-GLOBAL.simplePermissions = [target:'public', access:'owner']
+GLOBAL.simplePermissions = [target: 'public', access: 'owner']
 GLOBAL.ObjectId = mongoose.Types.ObjectId
 GLOBAL.request = require 'request'
 
@@ -90,8 +90,8 @@ unittest.getUser = (name, email, password, done, force) ->
     request.get getURL('/auth/whoami'), ->
       req = request.post(getURL('/db/user'), (err, response, body) ->
         throw err if err
-        User.findOne({email:email}).exec((err, user) ->
-          user.set('permissions', if password is '80yqxpb38j' then [ 'admin' ] else [])
+        User.findOne({email: email}).exec((err, user) ->
+          user.set('permissions', if password is '80yqxpb38j' then ['admin'] else [])
           user.set('name', name)
           user.save (err) ->
             wrapUpGetUser(email, user, done)
@@ -164,4 +164,4 @@ tick = ->
     mongoose.disconnect()
     clearTimeout tickInterval
 
-tickInterval = setInterval tick, 1000 
+tickInterval = setInterval tick, 1000

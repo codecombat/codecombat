@@ -28,5 +28,5 @@ module.exports.sendStackLead = sendStackLead = (email, user) ->
       form.last_name = data.lastName if data.lastName
       form.linkedin = data.publicProfileUrl if data.publicProfileUrl
       data.company = company if company = data.positions?.values?[0]?.company?.name
-  request.post {uri: "https://stacklead.com/api/leads", form: form}, (err, res, body) ->
-    return log.error "Error sending StackLead request:", err or body if err or /error/.test body
+  request.post {uri: 'https://stacklead.com/api/leads', form: form}, (err, res, body) ->
+    return log.error 'Error sending StackLead request:', err or body if err or /error/.test body

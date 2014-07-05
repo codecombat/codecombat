@@ -39,10 +39,10 @@ module.exports = class LevelSaveView extends SaveVersionModal
     for changeEl, i in changeEls
       model = models[i]
       try
-        deltaView = new DeltaView({model:model})
+        deltaView = new DeltaView({model: model})
         @insertSubView(deltaView, $(changeEl))
       catch e
-        console.error "Couldn't create delta view:", e
+        console.error 'Couldn\'t create delta view:', e
 
   shouldSaveEntity: (m) ->
     return false unless m.hasWriteAccess()
@@ -58,14 +58,14 @@ module.exports = class LevelSaveView extends SaveVersionModal
       # Level form is first, then LevelComponents' forms, then LevelSystems' forms
       fields = {}
       for field in $(form).serializeArray()
-        fields[field.name] = if field.value is "on" then true else field.value
+        fields[field.name] = if field.value is 'on' then true else field.value
       isLevelForm = $(form).attr('id') is 'save-level-form'
       if isLevelForm
         model = @level
       else
         [kind, klass] = if $(form).hasClass 'component-form' then ['component', LevelComponent] else ['system', LevelSystem]
         model = @supermodel.getModelByOriginalAndMajorVersion klass, fields["#{kind}-original"], parseInt(fields["#{kind}-parent-major-version"], 10)
-        console.log "Couldn't find model for", kind, fields, "from", @supermodel.models unless model
+        console.log 'Couldn\'t find model for', kind, fields, 'from', @supermodel.models unless model
       newModel = if fields.major then model.cloneNewMajorVersion() else model.cloneNewMinorVersion()
       newModel.set 'commitMessage', fields['commit-message']
       modelsToSave.push newModel
@@ -92,7 +92,7 @@ module.exports = class LevelSaveView extends SaveVersionModal
       do (newModel, form) =>
         res.error =>
           @hideLoading()
-          console.log "Got errors:", JSON.parse(res.responseText)
+          console.log 'Got errors:', JSON.parse(res.responseText)
           forms.applyErrorsToForm($(form), JSON.parse(res.responseText))
         res.success =>
           modelsToSave = _.without modelsToSave, newModel

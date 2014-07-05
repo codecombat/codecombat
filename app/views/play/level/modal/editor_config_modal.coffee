@@ -1,6 +1,6 @@
 View = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/editor_config'
-{me} = require('lib/auth')
+{me} = require 'lib/auth'
 
 module.exports = class EditorConfigModal extends View
   id: 'level-editor-config-modal'

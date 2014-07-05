@@ -24,7 +24,7 @@ module.exports = class SpellToolbarView extends View
     super()
 
   toggleFlow: (to) ->
-    @$el.find(".flow").toggle to
+    @$el.find('.flow').toggle to
 
   setStatementIndex: (statementIndex) ->
     return unless total = @callState?.statementsExecuted
@@ -55,8 +55,8 @@ module.exports = class SpellToolbarView extends View
         $metrics.find('.statements-executed-total').text " (#{@metrics.statementsExecuted})"
         titleSuffix = " (#{@metrics.statementsExecuted} statements total)"
       else
-        $metrics.find('.statements-executed-total').text ""
-        titleSuffix = ""
+        $metrics.find('.statements-executed-total').text ''
+        titleSuffix = ''
       $metrics.find('.statements-metric').show().attr('title', "Statement #{@statementIndex + 1} of #{statementsExecuted} this call#{titleSuffix}")
     else
       $metrics.find('.statements-metric').hide()
