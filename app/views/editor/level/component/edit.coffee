@@ -45,6 +45,7 @@ module.exports = class LevelComponentEditView extends View
 
   buildSettingsTreema: ->
     data = _.pick @levelComponent.attributes, (value, key) => key in @editableSettings
+    data = $.extend(true, {}, data)
     schema = _.cloneDeep LevelComponent.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings

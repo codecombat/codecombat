@@ -211,7 +211,7 @@ class CocoModel extends Backbone.Model
     try
       jsondiffpatch.patch newAttributes, delta
     catch error
-      console.error 'Error applying delta', delta, 'to attributes', newAttributes, error
+      console.error 'Error applying delta\n', JSON.stringify(delta, null, '\t'), '\n\nto attributes\n\n', newAttributes
       return false
     @set newAttributes
     return true
