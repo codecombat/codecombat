@@ -97,6 +97,7 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = "http://graph.facebook.com/#{friend.facebookID}/picture"
     @facebookFriendSessions = result
+    @render() # because the ladder tab renders before waiting for fb to finish
 
   # GOOGLE PLUS
 
@@ -139,6 +140,7 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = friendsMap[friend.gplusID].image.url
     @gplusFriendSessions = result
+    @render() # because the ladder tab renders before waiting for gplus to finish
 
   # LADDER LOADING
 
