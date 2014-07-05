@@ -6,9 +6,9 @@ Filters.getPixels = (img) ->
   c = @getCanvas(img.naturalWidth, img.naturalHeight)
   ctx = c.getContext('2d')
   ctx.drawImage(img, 0, 0)
-  return ctx.getImageData(0,0,c.width,c.height)
+  return ctx.getImageData(0, 0, c.width, c.height)
 
-Filters.getCanvas = (w,h) ->
+Filters.getCanvas = (w, h) ->
   c = document.createElement('canvas')
   c.width = w
   c.height = h
@@ -34,7 +34,7 @@ module.exports.darkenImage = darkenImage = (img, pct=0.5) ->
   return img.src = cachedValue if cachedValue
   jqimg.data('original', img.src) unless jqimg.data('original')
   if not (img.naturalWidth > 0 and img.naturalHeight > 0)
-    console.warn "Tried to darken image", img, "but it has natural dimensions", img.naturalWidth, img.naturalHeight
+    console.warn 'Tried to darken image', img, 'but it has natural dimensions', img.naturalWidth, img.naturalHeight
     return img
   imageData = Filters.filterImage(Filters.brightness, img, pct)
   c = Filters.getCanvas(img.naturalWidth, img.naturalHeight)

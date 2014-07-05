@@ -1,4 +1,4 @@
-mongoose = require('mongoose')
+mongoose = require 'mongoose'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/lib/utils'
@@ -70,7 +70,7 @@ AchievablePlugin = (schema, options) ->
               earned.achievedAmount = newAmount
               earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * worth
               earned.previouslyAchievedAmount = originalAmount
-              EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
+              EarnedAchievement.update {achievement: earned.achievement, user: earned.user}, earned, {upsert: true}, (err) ->
                 return log.debug err if err?
 
               earnedPoints = earned.earnedPoints

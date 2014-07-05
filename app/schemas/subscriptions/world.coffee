@@ -1,15 +1,15 @@
 module.exports =
-  "god:user-code-problem":
+  'god:user-code-problem':
     {} # TODO schema
 
-  "god:infinite-loop":
+  'god:infinite-loop':
     {} # TODO schema
 
-  "god:user-code-problem":
+  'god:user-code-problem':
     {} # TODO schema
 
-  "god:new-world-created":
+  'god:new-world-created':
     {} # TODO schema
 
-  "god:world-load-progress-changed":
+  'god:world-load-progress-changed':
     {} # TODO schema

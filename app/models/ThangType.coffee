@@ -1,12 +1,12 @@
-CocoModel = require('./CocoModel')
+CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 
 buildQueue = []
 
 module.exports = class ThangType extends CocoModel
-  @className: "ThangType"
+  @className: 'ThangType'
   @schema: require 'schemas/models/thang_type'
-  urlRoot: "/db/thang.type"
+  urlRoot: '/db/thang.type'
   building: {}
 
   initialize: ->
@@ -27,7 +27,7 @@ module.exports = class ThangType extends CocoModel
     @resetRawData() unless @get('raw')
 
   resetRawData: ->
-    @set('raw', {shapes:{}, containers:{}, animations:{}})
+    @set('raw', {shapes: {}, containers: {}, animations: {}})
 
   resetSpriteSheetCache: ->
     @buildActions()
@@ -48,7 +48,7 @@ module.exports = class ThangType extends CocoModel
     for name, action of @actions
       action.name = name
       for relatedName, relatedAction of action.relatedActions ? {}
-        relatedAction.name = action.name + "_" + relatedName
+        relatedAction.name = action.name + '_' + relatedName
         @actions[relatedAction.name] = relatedAction
     @actions
 
@@ -114,12 +114,12 @@ module.exports = class ThangType extends CocoModel
       mc = @vectorParser.buildMovieClip name
       continue unless mc
       @builder.addMovieClip mc, null, animation.scale * @options.resolutionFactor
-      framesMap[animation.scale + "_" + name] = @builder._animations[name].frames
+      framesMap[animation.scale + '_' + name] = @builder._animations[name].frames
 
     for name, action of @actions when action.animation
       continue if name is 'portrait'
       scale = action.scale ? @get('scale') ? 1
-      frames = framesMap[scale + "_" + action.animation]
+      frames = framesMap[scale + '_' + action.animation]
       continue unless frames
       frames = @mapFrames(action.frames, frames[0]) if action.frames?
       next = true
@@ -179,7 +179,7 @@ module.exports = class ThangType extends CocoModel
     buildQueue[0]?.buildAsync()
     @spriteSheets[key] = e.target.spriteSheet
     @building[key] = false
-    @trigger 'build-complete', {key:key, thangType:@}
+    @trigger 'build-complete', {key: key, thangType: @}
     @vectorParser = null
 
   logBuild: (startTime, async, portrait) ->
@@ -249,14 +249,14 @@ module.exports = class ThangType extends CocoModel
       path: "db/thang.type/#{@get('original')}"
       b64png: src
       force: 'true'
-    $.ajax('/file', { type: 'POST', data: body, success: callback or @onFileUploaded })
+    $.ajax('/file', {type: 'POST', data: body, success: callback or @onFileUploaded})
 
   onFileUploaded: =>
     console.log 'Image uploaded'
 
   @loadUniversalWizard: ->
     return @wizardType if @wizardType
-    wizOriginal = "52a00d55cf1818f2be00000b"
+    wizOriginal = '52a00d55cf1818f2be00000b'
     url = "/db/thang.type/#{wizOriginal}/version"
     @wizardType = new module.exports()
     @wizardType.url = -> url

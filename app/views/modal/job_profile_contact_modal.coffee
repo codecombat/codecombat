@@ -27,7 +27,7 @@ contactSchema =
       minLength: 1
 
 module.exports = class JobProfileContactView extends ContactView
-  id: "job-profile-contact-modal"
+  id: 'job-profile-contact-modal'
   template: template
 
   contact: ->

@@ -4,7 +4,7 @@ deltasLib = require 'lib/deltas'
 NewAchievementCollection = require '../collections/NewAchievementCollection'
 
 class CocoModel extends Backbone.Model
-  idAttribute: "_id"
+  idAttribute: '_id'
   loaded: false
   loading: false
   saveBackups: false
@@ -55,7 +55,7 @@ class CocoModel extends Backbone.Model
     return unless @saveBackups
     existing = storage.load @id
     if existing
-      @set(existing, {silent:true})
+      @set(existing, {silent: true})
       CocoModel.backedUp[@id] = @
 
   saveBackup: -> @saveBackupNow()
@@ -76,7 +76,7 @@ class CocoModel extends Backbone.Model
     if errors?.length
       console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
       for error in errors
-        console.debug "\t", error.dataPath, ":", error.message
+        console.debug "\t", error.dataPath, ':', error.message
       return errors
 
   save: (attrs, options) ->
@@ -86,7 +86,7 @@ class CocoModel extends Backbone.Model
     success = options.success
     error = options.error
     options.success = (model, res) =>
-      @trigger "save:success", @
+      @trigger 'save:success', @
       success(@, res) if success
       @markToRevert() if @_revertAttributes
       @clearBackup()
@@ -97,7 +97,7 @@ class CocoModel extends Backbone.Model
       errorMessage = "Error saving #{@get('name') ? @type()}"
       console.error errorMessage, res.responseJSON
       noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
-    @trigger "save", @
+    @trigger 'save', @
     return super attrs, options
 
   patch: (options) ->
@@ -139,7 +139,6 @@ class CocoModel extends Backbone.Model
 
   cloneNewMinorVersion: ->
     newData = _.clone @attributes
-
     clone = new @constructor(newData)
     clone
 
@@ -154,20 +153,20 @@ class CocoModel extends Backbone.Model
     false
 
   publish: ->
-    if @isPublished() then throw new Error("Can't publish what's already-published. Can't kill what's already dead.")
-    @set "permissions", (@get("permissions") or []).concat({access: 'read', target: 'public'})
+    if @isPublished() then throw new Error('Can\'t publish what\'s already-published. Can\'t kill what\'s already dead.')
+    @set 'permissions', (@get('permissions') or []).concat({access: 'read', target: 'public'})
 
   addSchemaDefaults: ->
     return if @addedSchemaDefaults
     @addedSchemaDefaults = true
     for prop, defaultValue of @constructor.schema.default or {}
       continue if @get(prop)?
-      #console.log "setting", prop, "to", defaultValue, "from attributes.default"
+      #console.log 'setting', prop, 'to', defaultValue, 'from attributes.default'
       @set prop, defaultValue
     for prop, sch of @constructor.schema.properties or {}
       continue if @get(prop)?
       continue if prop is 'emails' # hack, defaults are handled through User.coffee's email-specific methods.
-      #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
+      #console.log 'setting', prop, 'to', sch.default, 'from sch.default' if sch.default?
       @set prop, sch.default if sch.default?
     if @loaded
       @loadFromBackup()
@@ -212,7 +211,7 @@ class CocoModel extends Backbone.Model
     try
       jsondiffpatch.patch newAttributes, delta
     catch error
-      console.error "Error applying delta", delta, "to attributes", newAttributes, error
+      console.error 'Error applying delta\n', JSON.stringify(delta, null, '\t'), '\n\nto attributes\n\n', newAttributes
       return false
     @set newAttributes
     return true
@@ -226,7 +225,7 @@ class CocoModel extends Backbone.Model
     deltasLib.expandDelta(delta, @attributes, @schema())
 
   watch: (doWatch=true) ->
-    $.ajax("#{@urlRoot}/#{@id}/watch", {type:'PUT', data:{on:doWatch}})
+    $.ajax("#{@urlRoot}/#{@id}/watch", {type: 'PUT', data: {on: doWatch}})
     @watching = -> doWatch
 
   watching: ->
@@ -256,9 +255,9 @@ class CocoModel extends Backbone.Model
 
   @getReferencedModel: (data, schema) ->
     return null unless schema.links?
-    linkObject = _.find schema.links, rel: "db"
+    linkObject = _.find schema.links, rel: 'db'
     return null unless linkObject
-    return null if linkObject.href.match("thang.type") and not @isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
+    return null if linkObject.href.match('thang.type') and not @isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
 
     # not fully extensible, but we can worry about that later
     link = linkObject.href
@@ -299,7 +298,6 @@ class CocoModel extends Backbone.Model
       error: (collection, res, options) ->
         console.error 'Miserably failed to fetch unnotified achievements'
     )
-
 
 CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
 

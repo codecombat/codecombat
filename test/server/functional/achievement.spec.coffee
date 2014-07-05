@@ -46,7 +46,7 @@ describe 'Achievement', ->
 
   it 'can\'t be updated by ordinary users', (done) ->
     loginJoe ->
-      request.put {uri: url, json:unlockable}, (err, res, body) ->
+      request.put {uri: url, json: unlockable}, (err, res, body) ->
         expect(res.statusCode).toBe(403)
 
         request {method: 'patch', uri: url, json: unlockable}, (err, res, body) ->
@@ -100,7 +100,7 @@ describe 'Achievement', ->
         done()
 
   it 'get schema', (done) ->
-    request.get {uri:url + '/schema'}, (err, res, body) ->
+    request.get {uri: url + '/schema'}, (err, res, body) ->
       expect(res.statusCode).toBe(200)
       body = JSON.parse(body)
       expect(body.type).toBeDefined()
@@ -113,9 +113,7 @@ describe 'Achieving Achievements', ->
 
       loadedAchievements = Achievement.getLoadedAchievements()
       expect(Object.keys(loadedAchievements).length).toBe(2)
-
       done()
-
 
   it 'saving an object that should trigger an unlockable achievement', (done) ->
     unittest.getNormalJoe (joe) ->
@@ -123,13 +121,11 @@ describe 'Achieving Achievements', ->
         permissions: simplePermissions
         creator: joe._id
         level: original: 'dungeon-arena'
-
       session.save (err, doc) ->
         expect(err).toBeNull()
         expect(doc).toBeDefined()
         expect(doc.creator).toBe(session.creator)
         done()
-
 
   it 'verify that an unlockable achievement has been earned', (done) ->
     unittest.getNormalJoe (joe) ->
@@ -145,7 +141,6 @@ describe 'Achieving Achievements', ->
         expect(achievement.get 'earnedPoints').toBe unlockable.worth
         expect(achievement.get 'achievedAmount').toBeUndefined()
         expect(achievement.get 'previouslyAchievedAmount').toBeUndefined()
-
         done()
 
   it 'saving an object that should trigger a repeatable achievement', (done) ->
@@ -242,10 +237,3 @@ describe 'Recalculate Achievements', ->
       expect(Object.keys(loadedAchievements).length).toBe(0)
 
       done()
-
-
-
-
-
-
-

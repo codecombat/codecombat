@@ -11,7 +11,7 @@ MongoQueryOperatorSchema =
     '$in': type: 'array'
     '$lt': type: 'number'
     '$lte': type: 'number'
-    '$ne': type: [ 'number', 'string' ]
+    '$ne': type: ['number', 'string']
     '$nin': type: 'array'
   additionalProperties: true # TODO set to false when the schema's done
 
@@ -23,9 +23,9 @@ MongoFindQuerySchema =
     #'^[-a-zA-Z0-9_]*$':
     '^[-a-zA-Z0-9\.]*$':
       oneOf: [
-        #{ $ref: '#/definitions/' + MongoQueryOperatorSchema.id},
-        { type: 'string' }
-        { type: 'object' }
+        #{$ref: '#/definitions/' + MongoQueryOperatorSchema.id},
+        {type: 'string'},
+        {type: 'object'}
       ]
   additionalProperties: true # TODO make Treema accept new pattern matched keys
   definitions: {}
@@ -41,12 +41,12 @@ _.extend(AchievementSchema.properties,
   query:
     #type:'object'
     $ref: '#/definitions/' + MongoFindQuerySchema.id
-  worth: { type: 'number' }
-  collection: { type: 'string' }
-  description: { type: 'string' }
-  userField: { type: 'string' }
+  worth: {type: 'number'}
+  collection: {type: 'string'}
+  description: {type: 'string'}
+  userField: {type: 'string'}
   related: c.objectId(description: 'Related entity')
-  icon: { type: 'string', format: 'image-file', title: 'Icon' }
+  icon: {type: 'string', format: 'image-file', title: 'Icon'}
   proportionalTo:
     type: 'string'
     description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'

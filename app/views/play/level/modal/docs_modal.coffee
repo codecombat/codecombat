@@ -50,7 +50,7 @@ module.exports = class DocsModal extends View
 
   clickTab: (e) =>
     @$el.find('li.active').removeClass('active')
-    
+
   afterInsert: ->
     super()
     Backbone.Mediator.publish 'level:docs-shown'

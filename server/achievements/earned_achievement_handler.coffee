@@ -15,7 +15,7 @@ class EarnedAchievementHandler extends Handler
     req.method is 'GET' # or req.user.isAdmin()
 
   recalculate: (req, res) ->
-    onSuccess = (data) => log.debug "Finished recalculating achievements"
+    onSuccess = (data) => log.debug 'Finished recalculating achievements'
     if 'achievements' of req.body # Support both slugs and IDs separated by commas
       achievementSlugsOrIDs = req.body.achievements
       EarnedAchievementHandler.recalculate achievementSlugsOrIDs, onSuccess
@@ -115,6 +115,5 @@ class EarnedAchievementHandler extends Handler
                     log.error err if err?
                     doneWithUser()
         ), onFinished
-
 
 module.exports = new EarnedAchievementHandler()

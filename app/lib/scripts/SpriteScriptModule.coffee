@@ -45,7 +45,7 @@ module.exports = class SpritesScriptModule extends ScriptModule
       event:
         message: text
         blurb: blurb
-        mood: sprite.say.mood or "explain"
+        mood: sprite.say.mood or 'explain'
         responses: responses
         spriteID: sprite.id
         sound: sound

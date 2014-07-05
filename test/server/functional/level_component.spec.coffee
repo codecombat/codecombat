@@ -3,11 +3,11 @@ require '../common'
 describe 'LevelComponent', ->
 
   component =
-    name:'BashesEverything'
-    description:'Makes the unit uncontrollably bash anything bashable, using the bash system.'
+    name: 'BashesEverything'
+    description: 'Makes the unit uncontrollably bash anything bashable, using the bash system.'
     code: 'bash();'
     codeLanguage: 'coffeescript'
-    permissions:simplePermissions
+    permissions: simplePermissions
     propertyDocumentation: []
     system: 'ai'
     dependencies: []
@@ -23,13 +23,13 @@ describe 'LevelComponent', ->
 
   it 'can\'t be created by ordinary users.', (done) ->
     loginJoe ->
-      request.post {uri:url, json:component}, (err, res, body) ->
+      request.post {uri: url, json: component}, (err, res, body) ->
         expect(res.statusCode).toBe(403)
         done()
 
   it 'can be created by an admin.', (done) ->
     loginAdmin ->
-      request.post {uri:url, json:component}, (err, res, body) ->
+      request.post {uri: url, json: component}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         expect(body._id).toBeDefined()
         expect(body.name).toBe(component.name)
@@ -47,13 +47,13 @@ describe 'LevelComponent', ->
 
   it 'have a unique name.', (done) ->
     loginAdmin ->
-      request.post {uri:url, json:component}, (err, res, body) ->
+      request.post {uri: url, json: component}, (err, res, body) ->
         expect(res.statusCode).toBe(409)
         done()
 
   it 'can be read by an admin.', (done) ->
     loginAdmin ->
-      request.get {uri:url+'/'+components[0]._id}, (err, res, body) ->
+      request.get {uri: url+'/'+components[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
         expect(body._id).toBe(components[0]._id)
@@ -61,7 +61,7 @@ describe 'LevelComponent', ->
 
   it 'can be read by ordinary users.', (done) ->
     loginJoe ->
-      request.get {uri:url+'/'+components[0]._id}, (err, res, body) ->
+      request.get {uri: url+'/'+components[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
         expect(body._id).toBe(components[0]._id)
@@ -85,7 +85,7 @@ describe 'LevelComponent', ->
 
   it 'is unofficial by default', (done) ->
     loginJoe ->
-      request.get {uri:url+'/'+components[0]._id}, (err, res, body) ->
+      request.get {uri: url+'/'+components[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
         expect(body._id).toBe(components[0]._id)
@@ -94,24 +94,24 @@ describe 'LevelComponent', ->
 
   it 'has system ai by default', (done) ->
     loginJoe ->
-      request.get {uri:url+'/'+components[0]._id}, (err, res, body) ->
+      request.get {uri: url+'/'+components[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
         expect(body._id).toBe(components[0]._id)
-        expect(body.system).toBe("ai")
+        expect(body.system).toBe('ai')
         done()
 
   it 'official property isn\'t editable by an ordinary user.', (done) ->
     components[0].official = true
     loginJoe ->
-      request.post {uri:url, json:components[0]}, (err, res, body) ->
+      request.post {uri: url, json: components[0]}, (err, res, body) ->
         expect(res.statusCode).toBe(403)
         done()
 
   it 'official property is editable by an admin.', (done) ->
     components[0].official = true
     loginAdmin ->
-      request.post {uri:url, json:components[0]}, (err, res, body) ->
+      request.post {uri: url, json: components[0]}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         expect(body.official).toBe(true)
         expect(body.original).toBe(components[0].original)
@@ -119,7 +119,7 @@ describe 'LevelComponent', ->
         expect(body.version.isLatestMajor).toBe(true)
         components[1] = body
 
-        request.get {uri:url+'/'+components[0]._id}, (err, res, body) ->
+        request.get {uri: url+'/'+components[0]._id}, (err, res, body) ->
           expect(res.statusCode).toBe(200)
           body = JSON.parse(body)
           expect(body._id).toBe(components[0]._id)
@@ -129,22 +129,22 @@ describe 'LevelComponent', ->
           done()
 
   xit ' can\'t be requested with HTTP PUT method', (done) ->
-    request.put {uri:url+'/'+components[0]._id}, (err, res) ->
+    request.put {uri: url+'/'+components[0]._id}, (err, res) ->
       expect(res.statusCode).toBe(405)
       done()
 
   it ' can\'t be requested with HTTP HEAD method', (done) ->
-    request.head {uri:url+'/'+components[0]._id}, (err, res) ->
+    request.head {uri: url+'/'+components[0]._id}, (err, res) ->
       expect(res.statusCode).toBe(405)
       done()
 
   it ' can\'t be requested with HTTP DEL method', (done) ->
-    request.del {uri:url+'/'+components[0]._id}, (err, res) ->
+    request.del {uri: url+'/'+components[0]._id}, (err, res) ->
       expect(res.statusCode).toBe(405)
       done()
 
   it 'get schema', (done) ->
-    request.get {uri:url+'/schema'}, (err, res, body) ->
+    request.get {uri: url+'/schema'}, (err, res, body) ->
       expect(res.statusCode).toBe(200)
       body = JSON.parse(body)
       expect(body.type).toBeDefined()

@@ -1,9 +1,8 @@
 View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/level_loading'
 
-
 module.exports = class LevelLoadingView extends View
-  id: "level-loading-view"
+  id: 'level-loading-view'
   template: template
 
   onLoaded: ->

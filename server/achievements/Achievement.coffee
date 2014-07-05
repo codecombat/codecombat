@@ -1,5 +1,5 @@
-mongoose = require('mongoose')
-jsonschema = require('../../app/schemas/models/achievement')
+mongoose = require 'mongoose'
+jsonschema = require '../../app/schemas/models/achievement'
 log = require 'winston'
 utils = require '../../app/lib/utils'
 plugins = require('../plugins/plugins')
@@ -16,13 +16,13 @@ AchievementSchema = new mongoose.Schema({
 
 AchievementSchema.methods.objectifyQuery = ->
   try
-    @set('query', JSON.parse(@get('query'))) if typeof @get('query') == "string"
+    @set('query', JSON.parse(@get('query'))) if typeof @get('query') == 'string'
   catch error
     log.error "Couldn't convert query string to object because of #{error}"
     @set('query', {})
 
 AchievementSchema.methods.stringifyQuery = ->
-  @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != "string"
+  @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != 'string'
 
 AchievementSchema.methods.getExpFunction = ->
   kind = @get('function')?.kind or jsonschema.properties.function.default.kind

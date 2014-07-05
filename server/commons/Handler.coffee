@@ -1,5 +1,5 @@
 async = require 'async'
-mongoose = require('mongoose')
+mongoose = require 'mongoose'
 Grid = require 'gridfs-stream'
 errors = require './errors'
 log = require 'winston'
@@ -7,7 +7,7 @@ Patch = require '../patches/Patch'
 User = require '../users/User'
 sendwithus = require '../sendwithus'
 
-PROJECT = {original:1, name:1, version:1, description: 1, slug:1, kind: 1}
+PROJECT = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1}
 FETCH_LIMIT = 200
 
 module.exports = class Handler
@@ -94,7 +94,7 @@ module.exports = class Handler
       else if req.query.project
         if @modelClass.className is 'User'
           projection = PROJECT
-          log.warn "Whoa, we haven't yet thought about public properties for User projection yet."
+          log.warn 'Whoa, we haven\'t yet thought about public properties for User projection yet.'
         else
           projection = {}
           projection[field] = 1 for field in req.query.project.split(',')
@@ -143,7 +143,6 @@ module.exports = class Handler
     else
       return @sendUnauthorizedError(res)
 
-
   getById: (req, res, id) ->
     # return @sendNotFoundError(res) # for testing
     return @sendUnauthorizedError(res) unless @hasAccess(req)
@@ -165,7 +164,7 @@ module.exports = class Handler
     ids = req.query.ids or req.body.ids
     if @modelClass.schema.uses_coco_versions
       return @getNamesByOriginals(req, res)
-    @getPropertiesFromMultipleDocuments res, User, "name", ids
+    @getPropertiesFromMultipleDocuments res, User, 'name', ids
 
   getNamesByOriginals: (req, res) ->
     ids = req.query.ids or req.body.ids
@@ -398,7 +397,6 @@ module.exports = class Handler
       @modelClass.findOne {slug: idOrSlug}, (err, document) ->
         done(err, document)
 
-
   doWaterfallChecks: (req, document, done) ->
     return done(null, document) unless @waterfallFunctions.length
 
@@ -443,6 +441,6 @@ module.exports = class Handler
       res.send dict
       res.end()
 
-  delete: (req, res) -> @sendMethodNotAllowed res, @allowedMethods, "DELETE not allowed."
+  delete: (req, res) -> @sendMethodNotAllowed res, @allowedMethods, 'DELETE not allowed.'
 
-  head: (req, res) -> @sendMethodNotAllowed res, @allowedMethods, "HEAD not allowed."
+  head: (req, res) -> @sendMethodNotAllowed res, @allowedMethods, 'HEAD not allowed.'

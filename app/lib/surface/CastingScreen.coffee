@@ -11,21 +11,21 @@ module.exports = class CastingScreen extends CocoClass
     options ?= {}
     @camera = options.camera
     @layer = options.layer
-    console.error @toString(), "needs a camera." unless @camera
-    console.error @toString(), "needs a layer." unless @layer
+    console.error @toString(), 'needs a camera.' unless @camera
+    console.error @toString(), 'needs a layer.' unless @layer
     @build()
 
   onCastingBegins: (e) -> @show() unless e.preload
   onCastingEnds: (e) -> @hide()
 
-  toString: -> "<CastingScreen>"
+  toString: -> '<CastingScreen>'
 
   build: ->
     @dimLayer = new createjs.Container()
     @dimLayer.mouseEnabled = @dimLayer.mouseChildren = false
     @dimLayer.layerIndex = -11
     @dimLayer.addChild @dimScreen = new createjs.Shape()
-    @dimScreen.graphics.beginFill("rgba(0,0,0,0.5)").rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
+    @dimScreen.graphics.beginFill('rgba(0,0,0,0.5)').rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
     @dimLayer.alpha = 0
     @layer.addChild @dimLayer
     @dimLayer.addChild @makeProgressBar()
@@ -34,7 +34,7 @@ module.exports = class CastingScreen extends CocoClass
   onWorldLoadProgressChanged: (e) ->
     if new Date().getTime() - @t0 > 500
       createjs.Tween.removeTweens @progressBar
-      createjs.Tween.get(@progressBar).to({scaleX:e.progress}, 200)
+      createjs.Tween.get(@progressBar).to({scaleX: e.progress}, 200)
 
   makeProgressBar: ->
     BAR_PIXEL_HEIGHT = 3
@@ -44,8 +44,8 @@ module.exports = class CastingScreen extends CocoClass
     barY = 3 * (@camera.canvasHeight / 5)
 
     g = new createjs.Graphics()
-    g.beginFill(createjs.Graphics.getRGB(255,255, 255))
-    g.drawRoundRect(0,0,pixelWidth, BAR_PIXEL_HEIGHT, 3)
+    g.beginFill(createjs.Graphics.getRGB(255, 255, 255))
+    g.drawRoundRect(0, 0, pixelWidth, BAR_PIXEL_HEIGHT, 3)
     @progressBar = new createjs.Shape(g)
     @progressBar.x = pixelMargin
     @progressBar.y = barY
@@ -54,7 +54,7 @@ module.exports = class CastingScreen extends CocoClass
 
   makeCastingText: ->
     size = @camera.canvasHeight / 15
-    text = new createjs.Text("Casting", "#{size}px cursive", "#aaaaaa")
+    text = new createjs.Text('Casting', "#{size}px cursive", '#aaaaaa')
     text.regX = text.getMeasuredWidth() / 2
     text.regY = text.getMeasuredHeight() / 2
     text.x = @camera.canvasWidth / 2
@@ -70,7 +70,7 @@ module.exports = class CastingScreen extends CocoClass
     @progressBar.scaleX = 0
     @dimLayer.alpha = 0
     createjs.Tween.removeTweens @dimLayer
-    createjs.Tween.get(@dimLayer).to({alpha:1}, 500)
+    createjs.Tween.get(@dimLayer).to({alpha: 1}, 500)
 
   hide: ->
     return unless @showing
@@ -78,4 +78,4 @@ module.exports = class CastingScreen extends CocoClass
 
     createjs.Tween.removeTweens @progressBar
     createjs.Tween.removeTweens @dimLayer
-    createjs.Tween.get(@dimLayer).to({alpha:0}, 500)
+    createjs.Tween.get(@dimLayer).to({alpha: 0}, 500)

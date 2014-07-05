@@ -10,7 +10,7 @@ module.exports = class LevelThangEditView extends View
   ThangType editor view.
   ###
 
-  id: "editor-level-thang-edit"
+  id: 'editor-level-thang-edit'
   template: template
 
   events:

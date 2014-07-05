@@ -36,7 +36,7 @@ exports.config =
         )///
         'javascripts/test-app.js': /^test[\/\\]app/
         'javascripts/demo-app.js': /^test[\/\\]demo/
-        
+
       order:
         before: [
           'bower_components/jquery/dist/jquery.js'
@@ -73,19 +73,19 @@ exports.config =
 
   plugins:
     autoReload:
-      delay: 300 
+      delay: 300
     coffeelint:
       pattern: /^app\/.*\.coffee$/
       options:
         line_endings:
-          value: "unix"
-          level: "error"
+          value: 'unix'
+          level: 'error'
         max_line_length:
-          level: "ignore"
+          level: 'ignore'
         no_trailing_whitespace:
-          level: "ignore"  # PyCharm can't just autostrip for .coffee, needed for .jade
+          level: 'ignore'  # PyCharm can't just autostrip for .coffee, needed for .jade
         no_unnecessary_fat_arrows:
-          level: "ignore"
+          level: 'ignore'
     uglify:
       output:
         semicolons: false

@@ -6,7 +6,7 @@ PatchesView = require 'views/editor/patches_view'
 SaveVersionModal = require 'views/modal/save_version_modal'
 
 module.exports = class LevelComponentEditView extends View
-  id: "editor-level-component-edit-view"
+  id: 'editor-level-component-edit-view'
   template: template
   editableSettings: ['name', 'description', 'system', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
 
@@ -24,7 +24,7 @@ module.exports = class LevelComponentEditView extends View
   constructor: (options) ->
     super options
     @levelComponent = @supermodel.getModelByOriginalAndMajorVersion LevelComponent, options.original, options.majorVersion or 0
-    console.log "Couldn't get levelComponent for", options, "from", @supermodel.models unless @levelComponent
+    console.log 'Couldn\'t get levelComponent for', options, 'from', @supermodel.models unless @levelComponent
     @onEditorChange = _.debounce @onEditorChange, 1000
 
   getRenderData: (context={}) ->
@@ -34,6 +34,7 @@ module.exports = class LevelComponentEditView extends View
     context
 
   onLoaded: -> @render()
+
   afterRender: ->
     super()
     @buildSettingsTreema()
@@ -44,6 +45,7 @@ module.exports = class LevelComponentEditView extends View
 
   buildSettingsTreema: ->
     data = _.pick @levelComponent.attributes, (value, key) => key in @editableSettings
+    data = $.extend(true, {}, data)
     schema = _.cloneDeep LevelComponent.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
@@ -111,7 +113,7 @@ module.exports = class LevelComponentEditView extends View
     Backbone.Mediator.publish 'level:view-switched', e
 
   startPatchingComponent: (e) ->
-    @openModalView new SaveVersionModal({model:@levelComponent})
+    @openModalView new SaveVersionModal({model: @levelComponent})
     Backbone.Mediator.publish 'level:view-switched', e
 
   toggleWatchComponent: ->

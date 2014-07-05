@@ -54,7 +54,7 @@ module.exports = class VictoryModal extends View
     @feedback = new LevelFeedback()
     @feedback.set('levelID', @level.get('slug') or @level.id)
     @feedback.set('levelName', @level.get('name') or '')
-    @feedback.set('level', {majorVersion: @level.get('version').major, original:@level.get('original')})
+    @feedback.set('level', {majorVersion: @level.get('version').major, original: @level.get('original')})
     @showStars()
 
   onPlayNextLevel: ->
@@ -79,7 +79,7 @@ module.exports = class VictoryModal extends View
       elapsed = (new Date() - new Date(me.get('dateCreated')))
       enough = not c.hasNextLevel or elapsed >= 30 * 60 * 1000
       if enough and not me.get('hourOfCodeComplete')
-        $('body').append($("<img src='http://code.org/api/hour/finish_codecombat.png' style='visibility: hidden;'>"))
+        $('body').append($('<img src="http://code.org/api/hour/finish_codecombat.png" style="visibility: hidden;">'))
         me.set 'hourOfCodeComplete', true
         me.patch()
         window.tracker?.trackEvent 'Hour of Code Finish', {}
@@ -95,7 +95,7 @@ module.exports = class VictoryModal extends View
 
   afterInsert: ->
     super()
-    Backbone.Mediator.publish 'play-sound', trigger: "victory"
+    Backbone.Mediator.publish 'play-sound', trigger: 'victory'
     gapi?.plusone?.go? @$el[0]
     FB?.XFBML?.parse? @$el[0]
     twttr?.widgets?.load?()

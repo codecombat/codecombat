@@ -27,7 +27,7 @@ elementAcceptsKeystrokes = (el) ->
   type = el.type?.toLowerCase()
   textInputTypes = ['text', 'password', 'file', 'number', 'search', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetimelocal']
   # not radio, checkbox, range, or color
-  return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ["", "true"]) and not (el.readOnly or el.disabled)
+  return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ['', 'true']) and not (el.readOnly or el.disabled)
 
 COMMON_FILES = ['/images/pages/base/modal_background.png', '/images/level/code_palette_background.png', '/images/level/popover_background.png', '/images/level/code_editor_background.png']
 preload = (arrayOfImages) ->
@@ -49,7 +49,7 @@ Application = initialize: ->
     resStore: locale
     #debug: true
     #sendMissing: true
-    #sendMissingTo: "current"
+    #sendMissingTo: 'current'
     #resPostPath: '/languages/add/__lng__/__ns__'
   }, (t) =>
     @router = new Router()

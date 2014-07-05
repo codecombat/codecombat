@@ -1,6 +1,6 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/account/wizard_settings'
-{me} = require('lib/auth')
+{me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 {hslToHex, hexToHSL} = require 'lib/utils'
@@ -77,7 +77,7 @@ module.exports = class WizardSettingsView extends CocoView
       input = colorGroup.find('.minicolors-input')
       hex = input.val()
       hsl = hexToHSL(hex)
-      config = {hue: hsl[0], saturation:hsl[1], lightness:hsl[2]}
+      config = {hue: hsl[0], saturation: hsl[1], lightness: hsl[2]}
       wizardSettings.colorConfig[colorName] = config
     else
       delete wizardSettings.colorConfig[colorName]

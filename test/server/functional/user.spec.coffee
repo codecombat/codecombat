@@ -5,7 +5,7 @@ User = require '../../../server/users/User'
 urlUser = '/db/user'
 
 describe 'Server user object', ->
-  
+
   it 'uses the schema defaults to fill in email preferences', (done) ->
     user = new User()
     expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
@@ -25,9 +25,9 @@ describe 'Server user object', ->
     user = new User()
     user.set 'emailSubscriptions', ['tester']
     user.setEmailSubscription('artisanNews', true)
-    expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester','level_creator']))
+    expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester', 'level_creator']))
     done()
-    
+
 describe 'User.updateMailChimp', ->
   makeMC = (callback) ->
     GLOBAL.mc =
@@ -39,7 +39,7 @@ describe 'User.updateMailChimp', ->
       expect(JSON.stringify(params.merge_vars.groupings[0].groups)).toBe(JSON.stringify(['Announcements']))
       done()
 
-    user = new User({emailSubscriptions:['announcement'], email:'tester@gmail.com'})
+    user = new User({emailSubscriptions: ['announcement'], email: 'tester@gmail.com'})
     User.updateMailChimp(user)
 
 describe 'POST /db/user', ->
@@ -53,7 +53,7 @@ describe 'POST /db/user', ->
             res = JSON.parse(response.body)
             expect(res.anonymous).toBeTruthy()
             expect(res.name).toEqual('Jim')
-            done() 
+            done()
         )
         form = req.form()
         form.append('name', 'Jim')
@@ -118,12 +118,12 @@ describe 'POST /db/user', ->
         request.get getURL('/auth/whoami'), ->
           req = request.post(getURL('/db/user'), (err, response) ->
             expect(response.statusCode).toBe(409)
-            done() 
+            done()
           )
           form = req.form()
           form.append('name', 'Jim')
 
-    req = request.post(getURL('/db/user'), (err,response,body) ->
+    req = request.post(getURL('/db/user'), (err, response, body) ->
       expect(response.statusCode).toBe(200)
       request.get getURL('/auth/whoami'), (request, response, body) ->
         res = JSON.parse(response.body)
@@ -133,7 +133,6 @@ describe 'POST /db/user', ->
     form = req.form()
     form.append('email', 'new@user.com')
     form.append('password', 'new')
-
 
 describe 'PUT /db/user', ->
 
@@ -165,8 +164,8 @@ describe 'PUT /db/user', ->
         done()
       form = req.form()
       form.append('_id', joe.id)
-      form.append('email', "farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlar
-ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl")
+      form.append('email', 'farghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlar
+ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl')
 
   it 'logs in as admin', (done) ->
     loginAdmin -> done()
@@ -178,7 +177,7 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
       done()
     form = req.form()
     form.append('_id', '513108d4cb8b610000000004')
-    form.append('email', "perfectly@good.com")
+    form.append('email', 'perfectly@good.com')
 
   it 'denies if the email being changed is already taken', (done) ->
     unittest.getNormalJoe (joe) ->
@@ -226,7 +225,7 @@ describe 'GET /db/user', ->
     form.append('password', '80yqxpb38j')
 
   it 'get schema', (done) ->
-    request.get {uri:getURL(urlUser+'/schema')}, (err, res, body) ->
+    request.get {uri: getURL(urlUser+'/schema')}, (err, res, body) ->
       expect(res.statusCode).toBe(200)
       body = JSON.parse(body)
       expect(body.type).toBeDefined()

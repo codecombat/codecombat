@@ -6,7 +6,7 @@ Article = require 'models/Article'
 SaveVersionModal = require 'views/modal/save_version_modal'
 
 module.exports = class ArticleEditView extends View
-  id: "editor-article-edit-view"
+  id: 'editor-article-edit-view'
   template: template
   startsLoading: true
 
@@ -107,6 +107,6 @@ module.exports = class ArticleEditView extends View
       document.location.href = url
 
   showVersionHistory: (e) ->
-    versionHistoryView = new VersionHistoryView article:@article, @articleID
+    versionHistoryView = new VersionHistoryView article: @article, @articleID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e

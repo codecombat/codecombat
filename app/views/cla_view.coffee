@@ -3,7 +3,7 @@ template = require 'templates/cla'
 {me} = require 'lib/auth'
 
 module.exports = class CLAView extends View
-  id: "cla-view"
+  id: 'cla-view'
   template: template
 
   events:
@@ -17,8 +17,8 @@ module.exports = class CLAView extends View
   onAgree: ->
     @$el.find('#agreement-button').prop('disabled', true).text('Saving')
     $.ajax({
-      url: "/db/user/me/agreeToCLA"
-      data: { 'githubUsername': @$el.find('#github-username').val() }
+      url: '/db/user/me/agreeToCLA'
+      data: {'githubUsername': @$el.find('#github-username').val()}
       method: 'POST'
       success: @onAgreeSucceeded
       error: @onAgreeFailed

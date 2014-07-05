@@ -6,7 +6,7 @@ LeaderboardCollection = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
 
 module.exports = class LadderPlayModal extends View
-  id: "ladder-play-modal"
+  id: 'ladder-play-modal'
   template: template
   closeButton: true
   startsLoading: true
@@ -115,7 +115,7 @@ module.exports = class LadderPlayModal extends View
     success = => cb true
     failure = => cb false
     $.ajax
-      type: "GET"
+      type: 'GET'
       url: "/db/level/#{tutorialLevelID}/exists"
       success: success
       error: failure
@@ -166,18 +166,17 @@ module.exports = class LadderPlayModal extends View
       opponentID: opponent.userID
     }
 
-
 class ChallengersData
   constructor: (@level, @team, @otherTeam, @session) ->
     _.extend @, Backbone.Events
     score = @session?.get('totalScore') or 25
-    @easyPlayer = new LeaderboardCollection(@level, {order:1, scoreOffset: score - 5, limit: 1, team: @otherTeam})
+    @easyPlayer = new LeaderboardCollection(@level, {order: 1, scoreOffset: score - 5, limit: 1, team: @otherTeam})
     @easyPlayer.fetch()
     @listenToOnce(@easyPlayer, 'sync', @challengerLoaded)
-    @mediumPlayer = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 1, team: @otherTeam})
+    @mediumPlayer = new LeaderboardCollection(@level, {order: 1, scoreOffset: score, limit: 1, team: @otherTeam})
     @mediumPlayer.fetch()
     @listenToOnce(@mediumPlayer, 'sync', @challengerLoaded)
-    @hardPlayer = new LeaderboardCollection(@level, {order:-1, scoreOffset: score + 5, limit: 1, team: @otherTeam})
+    @hardPlayer = new LeaderboardCollection(@level, {order: -1, scoreOffset: score + 5, limit: 1, team: @otherTeam})
     @hardPlayer.fetch()
     @listenToOnce(@hardPlayer, 'sync', @challengerLoaded)
 

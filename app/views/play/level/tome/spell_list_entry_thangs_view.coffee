@@ -30,10 +30,10 @@ module.exports = class SpellListEntryThangsView extends View
       avatar.render()
       avatar.setSelected thang is @thang
       avatar.$el.data('thang-id', thang.id).click (e) ->
-        Backbone.Mediator.publish "level-select-sprite", thangID: $(@).data('thang-id'), spellName: spellName
+        Backbone.Mediator.publish 'level-select-sprite', thangID: $(@).data('thang-id'), spellName: spellName
       avatar.onProblemsUpdated spell: @spell
       @avatars.push avatar
-      
+
   destroy: ->
     avatar.destroy() for avatar in @avatars
     super()
