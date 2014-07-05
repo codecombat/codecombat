@@ -25,7 +25,11 @@ module.exports.normalizeFunc = (func_thing, object) ->
   if _.isString(func_thing)
     func = object[func_thing]
     if not func
+<<<<<<< HEAD
       console.error('Could not find method', func_thing, 'in object', @)
+=======
+      console.error "Could not find method #{func_thing} in object #{@}"
+>>>>>>> 329f0e7e2206191d653e7896758c240fccfd7d40
       return => null # always return a func, or Mediator will go boom
     func_thing = func
   return func_thing
@@ -57,10 +61,10 @@ module.exports.i18n = (say, target, language=me.lang(), fallback='en') ->
     if target of locale
       result = locale[target]
     else continue
-    return result if localeName == language
-    generalResult = result if localeName == generalName
-    fallbackResult = result if localeName == fallback
-    fallforwardResult = result if localeName.indexOf(language) == 0 and not fallforwardResult?
+    return result if localeName is language
+    generalResult = result if localeName is generalName
+    fallbackResult = result if localeName is fallback
+    fallforwardResult = result if localeName.indexOf(language) is 0 and not fallforwardResult?
 
   return generalResult if generalResult?
   return fallforwardResult if fallforwardResult?
