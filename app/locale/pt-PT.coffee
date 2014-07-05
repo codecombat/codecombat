@@ -56,7 +56,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     about: "Sobre"
     contact: "Contacte"
     twitter_follow: "Seguir"
-    employers: "Patrões"
+    employers: "Empregadores"
 
   versions:
     save_version_title: "Guardar Nova Versão"
