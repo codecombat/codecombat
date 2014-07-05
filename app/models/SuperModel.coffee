@@ -19,11 +19,11 @@ module.exports = class SuperModel extends Backbone.Model
 
   report: ->
     # Useful for debugging why a SuperModel never finishes loading.
-    console.info "SuperModel report ------------------------"
+    console.info 'SuperModel report ------------------------'
     console.info "#{_.values(@resources).length} resources."
     unfinished = []
     for resource in _.values(@resources) when resource
-      console.info '\t', resource.name, "loaded", resource.isLoaded
+      console.info "\t", resource.name, 'loaded', resource.isLoaded
       unfinished.push resource unless resource.isLoaded
     unfinished
 
@@ -38,7 +38,6 @@ module.exports = class SuperModel extends Backbone.Model
         res = @addModelResource(cachedModel, name, fetchOptions, value)
         res.markLoading()
         return res
-
     else
       @registerModel(model)
       res = @addModelResource(model, name, fetchOptions, value)
@@ -57,7 +56,6 @@ module.exports = class SuperModel extends Backbone.Model
         res = @addModelResource(cachedCollection, name, fetchOptions, value)
         res.markLoading()
         return res
-
     else
       @addCollection collection
       @listenToOnce collection, 'sync', (c) ->
@@ -196,8 +194,6 @@ module.exports = class SuperModel extends Backbone.Model
   getResource: (rid) ->
     return @resources[rid]
 
-
-
 class Resource extends Backbone.Model
   constructor: (name, value=1) ->
     @name = name
@@ -230,8 +226,6 @@ class Resource extends Backbone.Model
 
   load: -> @
 
-
-
 class ModelResource extends Resource
   constructor: (modelOrCollection, name, fetchOptions, value)->
     super(name, value)
@@ -253,7 +247,6 @@ class ModelResource extends Resource
     @jqxhr = null
     @model.jqxhr = null
 
-
 class RequestResource extends Resource
   constructor: (name, jqxhrOptions, value) ->
     super(name, value)
@@ -266,7 +259,5 @@ class RequestResource extends Resource
     @jqxhr.done => _.defer => @markLoaded()
     @jqxhr.fail => _.defer => @markFailed()
     @
-
-
 
 class SomethingResource extends Resource

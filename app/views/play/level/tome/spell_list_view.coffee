@@ -26,7 +26,7 @@ module.exports = class SpellListView extends View
     # Keep only spells for which we have permissions
     spells = _.filter @options.spells, (s) -> s.canRead()
     @spells = _.sortBy spells, @sortScoreForSpell
-    #console.log "Kept sorted spells", @spells
+    #console.log 'Kept sorted spells', @spells
 
   sortScoreForSpell: (s) =>
     # Sort by most spells per fewest Thangs
@@ -66,7 +66,7 @@ module.exports = class SpellListView extends View
     for entry in newEntries
       @$el.append entry.el
       entry.render()  # Render after appending so that we can access parent container for popover
-  
+
   rerenderEntries: ->
     entry.render() for entry in @entries
 

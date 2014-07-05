@@ -51,12 +51,12 @@ module.exports = class SpriteBoss extends CocoClass
   createLayers: ->
     @spriteLayers = {}
     for [name, priority] in [
-      ["Land", -40]
-      ["Ground", -30]
-      ["Obstacle", -20]
-      ["Path", -10]
-      ["Default", 0]
-      ["Floating", 10]
+      ['Land', -40]
+      ['Ground', -30]
+      ['Obstacle', -20]
+      ['Path', -10]
+      ['Default', 0]
+      ['Floating', 10]
     ]
       @spriteLayers[name] = new Layer name: name, layerPriority: priority, transform: Layer.TRANSFORM_CHILD, camera: @camera
     @surfaceLayer.addChild _.values(@spriteLayers)...
@@ -66,36 +66,36 @@ module.exports = class SpriteBoss extends CocoClass
       # TODO: make better system
       child.layerPriority = 0 if sprite?.thang?.isSelectable
       child.layerPriority = -40 if sprite?.thang?.isLand
-    return @spriteLayers["Default"] unless child.layerPriority
+    return @spriteLayers['Default'] unless child.layerPriority
     layer = _.findLast @spriteLayers, (layer, name) ->
       layer.layerPriority <= child.layerPriority
-    #console.log "layer for", child, "is", (layer ? @spriteLayers["Default"])
-    layer ? @spriteLayers["Default"]
+    #console.log 'layer for', child, 'is', (layer ? @spriteLayers['Default'])
+    layer ? @spriteLayers['Default']
 
   addSprite: (sprite, id=null, layer=null) ->
     id ?= sprite.thang.id
-    console.error "Sprite collision! Already have:", id if @sprites[id]
+    console.error 'Sprite collision! Already have:', id if @sprites[id]
     @sprites[id] = sprite
     @spriteArray.push sprite
-    layer ?= @spriteLayers["Obstacle"] if sprite.thang?.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
+    layer ?= @spriteLayers['Obstacle'] if sprite.thang?.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
     layer ?= @layerForChild sprite.imageObject, sprite
     layer.addChild sprite.imageObject
     layer.updateLayerOrder()
     sprite
 
   createMarks: ->
-    @targetMark = new Mark name: 'target', camera: @camera, layer: @spriteLayers["Ground"], thangType: 'target'
-    @selectionMark = new Mark name: 'selection', camera: @camera, layer: @spriteLayers["Ground"], thangType: 'selection'
+    @targetMark = new Mark name: 'target', camera: @camera, layer: @spriteLayers['Ground'], thangType: 'target'
+    @selectionMark = new Mark name: 'selection', camera: @camera, layer: @spriteLayers['Ground'], thangType: 'selection'
 
   createSpriteOptions: (options) ->
-    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers["Ground"], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers["Floating"], spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible
+    _.extend options, camera: @camera, resolutionFactor: 4, groundLayer: @spriteLayers['Ground'], textLayer: @surfaceTextLayer, floatingLayer: @spriteLayers['Floating'], spriteSheetCache: @spriteSheetCache, showInvisible: @options.showInvisible
 
   createIndieSprites: (indieSprites, withWizards) ->
     unless @indieSprites
       @indieSprites = []
       @indieSprites = (@createIndieSprite indieSprite for indieSprite in indieSprites) if indieSprites
     if withWizards and not @selfWizardSprite
-      @selfWizardSprite = @createWizardSprite thangID: "My Wizard", isSelf: true, sprites: @sprites
+      @selfWizardSprite = @createWizardSprite thangID: 'My Wizard', isSelf: true, sprites: @sprites
 
   createIndieSprite: (indieSprite) ->
     unless thangType = @thangTypeFor indieSprite.thangType
@@ -107,16 +107,16 @@ module.exports = class SpriteBoss extends CocoClass
   createOpponentWizard: (opponent) ->
     # TODO: colorize name and cloud by team, colorize wizard by user's color config, level-specific wizard spawn points
     sprite = @createWizardSprite thangID: opponent.id, name: opponent.name
-    if not opponent.levelSlug or opponent.levelSlug is "brawlwood"
+    if not opponent.levelSlug or opponent.levelSlug is 'brawlwood'
       sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
-    else if opponent.levelSlug is "dungeon-arena"
-      sprite.targetPos = if opponent.team is 'ogres' then {x:72, y: 39} else {x: 9, y:39}
+    else if opponent.levelSlug is 'dungeon-arena'
+      sprite.targetPos = if opponent.team is 'ogres' then {x: 72, y: 39} else {x: 9, y: 39}
     else
-      sprite.targetPos = if opponent.team is 'ogres' then {x:52, y: 28} else {x: 20, y:28}
+      sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 28} else {x: 20, y: 28}
 
   createWizardSprite: (options) ->
-    sprite = new WizardSprite @thangTypeFor("Wizard"), @createSpriteOptions(options)
-    @addSprite sprite, sprite.thang.id, @spriteLayers["Floating"]
+    sprite = new WizardSprite @thangTypeFor('Wizard'), @createSpriteOptions(options)
+    @addSprite sprite, sprite.thang.id, @spriteLayers['Floating']
 
   onPlayerJoined: (e) ->
     # Create another WizardSprite, unless this player is just me
@@ -172,7 +172,7 @@ module.exports = class SpriteBoss extends CocoClass
     @adjustSpriteExistence() if frameChanged
     sprite.update frameChanged for sprite in @spriteArray
     @updateSelection()
-    @spriteLayers["Default"].updateLayerOrder()
+    @spriteLayers['Default'].updateLayerOrder()
     @cache()
 
   adjustSpriteExistence: ->
@@ -184,11 +184,11 @@ module.exports = class SpriteBoss extends CocoClass
       else
         sprite = @addThangToSprites(thang)
         Backbone.Mediator.publish 'surface:new-thang-added', thang:thang, sprite:sprite
-        updateCache = updateCache or sprite.imageObject.parent is @spriteLayers["Obstacle"]
+        updateCache = updateCache or sprite.imageObject.parent is @spriteLayers['Obstacle']
         sprite.playSounds()
     for thangID, sprite of @sprites
       missing = not (sprite.notOfThisWorld or @world.thangMap[thangID]?.exists)
-      isObstacle = sprite.imageObject.parent is @spriteLayers["Obstacle"]
+      isObstacle = sprite.imageObject.parent is @spriteLayers['Obstacle']
       updateCache = updateCache or (isObstacle and (missing or sprite.hasMoved))
       sprite.hasMoved = false
       @removeSprite sprite if missing
@@ -210,11 +210,11 @@ module.exports = class SpriteBoss extends CocoClass
       wallSprite.updateScale()
       wallSprite.updatePosition()
     #console.log @wallGrid.toString()
-    @spriteLayers["Obstacle"].uncache() if @spriteLayers["Obstacle"].cacheID  # might have changed sizes
-    @spriteLayers["Obstacle"].cache()
+    @spriteLayers['Obstacle'].uncache() if @spriteLayers['Obstacle'].cacheID  # might have changed sizes
+    @spriteLayers['Obstacle'].cache()
     # test performance of doing land layer, too, to see if it's faster
-#    @spriteLayers["Land"].uncache() if @spriteLayers["Land"].cacheID  # might have changed sizes
-#    @spriteLayers["Land"].cache()
+#    @spriteLayers['Land'].uncache() if @spriteLayers['Land'].cacheID  # might have changed sizes
+#    @spriteLayers['Land'].cache()
     # I don't notice much difference - Scott
     @cached = true
 
@@ -290,7 +290,6 @@ module.exports = class SpriteBoss extends CocoClass
         Backbone.Mediator.publish 'thang-began-talking', thang: sprite?.thang
         instance.addEventListener 'complete', ->
           Backbone.Mediator.publish 'thang-finished-talking', thang: sprite?.thang
-
 
   # Marks
 

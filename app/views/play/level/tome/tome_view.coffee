@@ -45,8 +45,8 @@ module.exports = class TomeView extends View
   cache: false
 
   subscriptions:
-    'tome:spell-loaded': "onSpellLoaded"
-    'tome:cast-spell': "onCastSpell"
+    'tome:spell-loaded': 'onSpellLoaded'
+    'tome:cast-spell': 'onCastSpell'
     'tome:toggle-spell-list': 'onToggleSpellList'
     'tome:change-language': 'updateLanguageForAllSpells'
     'surface:sprite-selected': 'onSpriteSelected'
@@ -69,7 +69,7 @@ module.exports = class TomeView extends View
       @teamSpellMap = @generateTeamSpellMap(@spells)
     else
       @cast()
-      console.warn "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
+      console.warn 'Warning: There are no Programmable Thangs in this level, which makes it unplayable.'
     delete @options.thangs
 
   onNewWorld: (e) ->
@@ -81,14 +81,14 @@ module.exports = class TomeView extends View
 
   onCommentMyCode: (e) ->
     for spellKey, spell of @spells when spell.canWrite()
-      console.log "Commenting out", spellKey
+      console.log 'Commenting out', spellKey
       commentedSource = 'return;  // Commented out to stop infinite loop.\n' + spell.getSource()
       spell.view.updateACEText commentedSource
       spell.view.recompile false
     @cast()
 
   createWorker: ->
-    return new Worker("/javascripts/workers/aether_worker.js")
+    return new Worker('/javascripts/workers/aether_worker.js')
 
   generateTeamSpellMap: (spellObject) ->
     teamSpellMap = {}
@@ -120,7 +120,7 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          skipProtectAPI = @getQueryVariable "skip_protect_api", (@options.levelID in ['gridmancer'])
+          skipProtectAPI = @getQueryVariable 'skip_protect_api', (@options.levelID in ['gridmancer'])
           spell = @spells[spellKey] = new Spell
             programmableMethod: method
             spellKey: spellKey
@@ -216,7 +216,7 @@ module.exports = class TomeView extends View
     spell
 
   reloadAllCode: ->
-    spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team or (spell.team in ["common", "neutral", null])
+    spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team or (spell.team in ['common', 'neutral', null])
     Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: false
 
   updateLanguageForAllSpells: (e) ->

@@ -3,7 +3,7 @@ require '../../common'
 describe 'Level', ->
 
   level = new Level(
-    name: "King's Peak"
+    name: 'King\'s Peak'
     description: 'Climb a mountain!!!'
     permissions: simplePermissions
     original: new ObjectId()

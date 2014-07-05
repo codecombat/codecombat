@@ -3,7 +3,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/admin'
 
 module.exports = class AdminView extends View
-  id: "admin-view"
+  id: 'admin-view'
   template: template
 
   events:
@@ -11,16 +11,16 @@ module.exports = class AdminView extends View
     'click #increment-button': 'incrementUserAttribute'
 
   enterEspionageMode: ->
-    userEmail = $("#user-email").val().toLowerCase()
-    username = $("#user-username").val().toLowerCase()
+    userEmail = $('#user-email').val().toLowerCase()
+    username = $('#user-username').val().toLowerCase()
 
     postData =
       usernameLower: username
       emailLower: userEmail
 
     $.ajax
-      type: "POST",
-      url: "/auth/spy"
+      type: 'POST',
+      url: '/auth/spy'
       data: postData
       success: @espionageSuccess
       error: @espionageFailure

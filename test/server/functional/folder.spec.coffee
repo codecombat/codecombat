@@ -17,7 +17,7 @@ describe 'folder', ->
       done()
 
   it 'can\'t be requested with HTTP PATCH method', (done) ->
-    request {method:'patch', uri: url}, (err, res, body) ->
+    request {method: 'patch', uri: url}, (err, res, body) ->
       expect(res.statusCode).toBe(405)
       expect(res.headers.allow).toBe(allowHeader)
       done()

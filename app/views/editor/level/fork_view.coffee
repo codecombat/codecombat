@@ -4,7 +4,7 @@ forms = require 'lib/forms'
 Level = require 'models/Level'
 
 module.exports = class LevelForkView extends View
-  id: "editor-level-fork-modal"
+  id: 'editor-level-fork-modal'
   template: template
   instant: false
   modalWidthPercent: 60

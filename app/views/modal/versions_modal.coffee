@@ -7,7 +7,7 @@ nameLoader = require 'lib/NameLoader'
 CocoCollection = require 'collections/CocoCollection'
 
 class VersionsViewCollection extends CocoCollection
-  url: ""
+  url: ''
   model: null
 
   initialize: (@url, @levelID, @model) ->
@@ -22,10 +22,10 @@ module.exports = class VersionsModalView extends ModalView
   modalWidthPercent: 80
 
   # needs to be overwritten by child
-  id: ""
-  url: ""
-  page: ""
-  
+  id: ''
+  url: ''
+  page: ''
+
   events:
     'change input.select': 'onSelectionChanged'
 
@@ -50,11 +50,11 @@ module.exports = class VersionsModalView extends ModalView
     deltaEl = @$el.find '.delta-view'
     @removeSubView(@deltaView) if @deltaView
     @deltaView = null
-    if rows.length isnt 2 then return 
-    
-    laterVersion = new @model(_id:$(rows[0]).val())
-    earlierVersion = new @model(_id:$(rows[1]).val())
-    @deltaView = new DeltaView({model:earlierVersion, comparisonModel:laterVersion, skipPaths:PatchModal.DOC_SKIP_PATHS})
+    if rows.length isnt 2 then return
+
+    laterVersion = new @model(_id: $(rows[0]).val())
+    earlierVersion = new @model(_id: $(rows[1]).val())
+    @deltaView = new DeltaView({model: earlierVersion, comparisonModel: laterVersion, skipPaths: PatchModal.DOC_SKIP_PATHS})
     @insertSubView(@deltaView, deltaEl)
 
   getRenderData: (context={}) ->

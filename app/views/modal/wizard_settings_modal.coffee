@@ -3,10 +3,10 @@ template = require 'templates/modal/wizard_settings'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
 {me} = require 'lib/auth'
-forms = require('lib/forms')
+forms = require 'lib/forms'
 
 module.exports = class WizardSettingsModal extends View
-  id: "wizard-settings-modal"
+  id: 'wizard-settings-modal'
   template: template
   closesOnClickOutside: false
 
@@ -29,7 +29,7 @@ module.exports = class WizardSettingsModal extends View
     name = $('#wizard-settings-name').val()
     success = (id) =>
       forms.clearFormAlerts(@$el)
-      forms.applyErrorsToForm(@$el, {property:'name', message:'is already taken'}) if id and id isnt me.id
+      forms.applyErrorsToForm(@$el, {property: 'name', message: 'is already taken'}) if id and id isnt me.id
     $.ajax("/db/user/#{name}/nameToID", {success: success})
 
   onWizardSettingsDone: ->
@@ -47,7 +47,7 @@ module.exports = class WizardSettingsModal extends View
 
     res.error =>
       errors = JSON.parse(res.responseText)
-      console.warn "Got errors saving user:", errors
+      console.warn 'Got errors saving user:', errors
       forms.applyErrorsToForm(@$el, errors)
       @disableModalInProgress(@$el)
 

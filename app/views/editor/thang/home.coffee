@@ -18,6 +18,6 @@ module.exports = class ThangTypeHomeView extends SearchView
 
   onSearchChange: =>
     super()
-    @$el.find("img").error(-> $(this).hide())
+    @$el.find('img').error(-> $(this).hide())
 
   # TODO: do the new thing on click, not just enter

@@ -22,7 +22,7 @@ init = ->
   testing = path.startsWith '/test'
   demoing = path.startsWith '/demo'
   initializeServices() unless testing or demoing
- 
+
   # Set up Backbone.Mediator schemas
   setUpDefinitions()
   setUpChannels()
@@ -35,10 +35,10 @@ init = ->
   treemaExt.setup()
 
 $ -> init()
-  
+
 handleNormalUrls = ->
   # http://artsy.github.com/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
-  $(document).on "click", "a[href^='/']", (event) ->
+  $(document).on 'click', "a[href^='/']", (event) ->
 
     href = $(event.currentTarget).attr('href')
 

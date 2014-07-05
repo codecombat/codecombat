@@ -1,7 +1,7 @@
 describe('ScriptManager', ->
   ScriptManager = require 'lib/scripts/ScriptManager'
   xit('broadcasts note with event upon hearing from channel', ->
-    note = {channel: 'cnn', event: {1:1}}
+    note = {channel: 'cnn', event: {1: 1}}
     noteGroup = {duration: 0, notes: [note]}
     script = {channel: 'pbs', noteChain: [noteGroup]}
 
@@ -19,7 +19,7 @@ describe('ScriptManager', ->
   )
 
   xit('is silent when script event do not match', ->
-    note = {channel: 'cnn', event: {1:1}}
+    note = {channel: 'cnn', event: {1: 1}}
     noteGroup = {duration: 0, notes: [note]}
     script =
       channel: 'pbs'
@@ -38,18 +38,18 @@ describe('ScriptManager', ->
     Backbone.Mediator.subscribe('cnn', f, @)
 
     # bunch of mismatches
-    Backbone.Mediator.publish('pbs', {foo:'rad'})
+    Backbone.Mediator.publish('pbs', {foo: 'rad'})
     expect(gotEvent).toBeNull()
     Backbone.Mediator.publish('pbs', 'bar')
     Backbone.Mediator.publish('pbs')
-    Backbone.Mediator.publish('pbs', {foo:'bar'})
+    Backbone.Mediator.publish('pbs', {foo: 'bar'})
     expect(gotEvent[1]).toBe(note.event[1])
     sm.destroy()
     Backbone.Mediator.unsubscribe('cnn', f, @)
   )
 
   xit('makes no subscriptions when something is invalid', ->
-    note = {event: {1:1}} # channel is required
+    note = {event: {1: 1}} # channel is required
     noteGroup = {notes: [note]}
     script = {channel: 'pbs', noteChain: [noteGroup]}
     sm = new ScriptManager([script])
@@ -58,11 +58,11 @@ describe('ScriptManager', ->
   )
 
   xit('fills out lots of notes based on note group properties', ->
-    note = {channel: 'cnn', event: {1:1}}
+    note = {channel: 'cnn', event: {1: 1}}
 
     noteGroup =
       duration: 0
-      botPos: [1,2]
+      botPos: [1, 2]
       botMessage: 'testers'
       domHighlight: '#code-area'
       surfaceHighlights: ['Guy0', 'Guy1']
@@ -88,12 +88,12 @@ describe('ScriptManager', ->
   )
 
   xit('releases notes based on user confirmation', ->
-    note1 = {channel: 'cnn', event: {1:1}}
-    note2 = {channel: 'cbs', event: {2:2}}
+    note1 = {channel: 'cnn', event: {1: 1}}
+    note2 = {channel: 'cbs', event: {2: 2}}
     noteGroup1 = {duration: 0, notes: [note1]}
     noteGroup2 = {duration: 0, notes: [note2]}
     script = {channel: 'pbs', noteChain: [noteGroup1, noteGroup2]}
-    sm = new ScriptManager({scripts:[script]})
+    sm = new ScriptManager({scripts: [script]})
     sm.paused = false
 
     gotCnnEvent = null
@@ -110,7 +110,7 @@ describe('ScriptManager', ->
     expect(sm.scriptInProgress).toBe(true)
     runs(-> Backbone.Mediator.publish('end-current-script'))
     f = -> gotCbsEvent?
-    waitsFor(f, "The next event should have been published", 20)
+    waitsFor(f, 'The next event should have been published', 20)
     f = ->
       expect(gotCnnEvent[1]).toBe(1)
       expect(gotCbsEvent[2]).toBe(2)
@@ -125,8 +125,8 @@ describe('ScriptManager', ->
 
   xit('ignores triggers for scripts waiting for other scripts to fire', ->
     # channel2 won't fire the cbs notification until channel1 does its thing
-    note1 = {channel: 'cnn', event: {1:1}}
-    note2 = {channel: 'cbs', event: {2:2}}
+    note1 = {channel: 'cnn', event: {1: 1}}
+    note2 = {channel: 'cbs', event: {2: 2}}
     noteGroup1 = {duration: 0, notes: [note1]}
     noteGroup2 = {duration: 0, notes: [note2]}
     script1 = {channel: 'channel1', id: 'channel1Script', noteChain: [noteGroup1]}

@@ -6,10 +6,10 @@ TEST_REQUIRE_PREFIX = 'test/app/'
 TEST_URL_PREFIX = '/test/'
 
 module.exports = TestView = class TestView extends CocoView
-  id: "test-view"
+  id: 'test-view'
   template: template
   reloadOnClose: true
-  
+
   # INITIALIZE
 
   constructor: (options, @subPath='') ->
@@ -25,15 +25,15 @@ module.exports = TestView = class TestView extends CocoView
         src: "/javascripts/#{f}.js"
         type: createjs.LoadQueue.JAVASCRIPT
       })
-    
+
   scriptsLoaded: ->
     @initSpecFiles()
     @render()
     TestView.runTests(@specFiles)
     window.runJasmine()
-    
+
   # RENDER DATA
-    
+
   getRenderData: ->
     c = super(arguments...)
     c.parentFolders = requireUtils.getParentFolders(@subPath, TEST_URL_PREFIX)
@@ -41,9 +41,9 @@ module.exports = TestView = class TestView extends CocoView
     parts = @subPath.split('/')
     c.currentFolder = parts[parts.length-1] or parts[parts.length-2] or 'All'
     c
-    
+
   # RUNNING TESTS
-  
+
   initSpecFiles: ->
     @specFiles = TestView.getAllSpecFiles()
     if @subPath
@@ -62,11 +62,11 @@ module.exports = TestView = class TestView extends CocoView
         #   * document.location
         #   * firebase
         #   * all the services that load in main.html
-      
+
       afterEach ->
         # TODO Clean up more things
         #   * Events
-        
+
       require f for f in specFiles # runs the tests
 
   @getAllSpecFiles = ->

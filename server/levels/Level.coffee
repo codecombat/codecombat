@@ -1,6 +1,6 @@
-mongoose = require('mongoose')
-plugins = require('../plugins/plugins')
-jsonschema = require('../../app/schemas/models/level')
+mongoose = require 'mongoose'
+plugins = require '../plugins/plugins'
+jsonschema = require '../../app/schemas/models/level'
 
 LevelSchema = new mongoose.Schema({
   description: String
@@ -17,7 +17,7 @@ LevelSchema.pre 'init', (next) ->
   for prop, sch of jsonschema.properties
     @set(prop, _.cloneDeep(sch.default)) if sch.default?
   next()
-  
+
 LevelSchema.post 'init', (doc) ->
   if _.isString(doc.get('nextLevel'))
     doc.set('nextLevel', undefined)

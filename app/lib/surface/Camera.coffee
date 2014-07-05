@@ -8,7 +8,7 @@ d2r = (degrees) -> degrees / 180 * Math.PI
 MAX_ZOOM = 8
 MIN_ZOOM = 0.1
 DEFAULT_ZOOM = 2.0
-DEFAULT_TARGET = {x:0, y:0}
+DEFAULT_TARGET = {x: 0, y: 0}
 DEFAULT_TIME = 1000
 STANDARD_ZOOM_WIDTH = 924
 STANDARD_ZOOM_HEIGHT = 589
@@ -78,7 +78,7 @@ module.exports = class Camera extends CocoClass
       console.log "Restricted given horizontal field of view to #{r2d(hFOV)} to #{r2d(@hFOV)}."
     @vFOV = 2 * Math.atan(Math.tan(@hFOV / 2) * @canvasHeight / @canvasWidth)
     if @vFOV > Math.PI
-      console.log "Vertical field of view problem: expected canvas not to be taller than it is wide with high field of view."
+      console.log 'Vertical field of view problem: expected canvas not to be taller than it is wide with high field of view.'
       @vFOV = Math.PI - epsilon
 
   calculateAxisConversionFactors: ->
@@ -210,9 +210,9 @@ module.exports = class Camera extends CocoClass
     right = Math.max(worldBounds[0].x, worldBounds[1].x)
     bottom -= 1 if top is bottom
     right += 1 if left is right
-    p1 = @worldToSurface({x:left, y:top})
-    p2 = @worldToSurface({x:right, y:bottom})
-    {x:p1.x, y:p1.y, width:p2.x-p1.x, height:p2.y-p1.y}
+    p1 = @worldToSurface({x: left, y: top})
+    p2 = @worldToSurface({x: right, y: bottom})
+    {x: p1.x, y: p1.y, width: p2.x-p1.x, height: p2.y-p1.y}
 
   calculateMinMaxZoom: ->
     # Zoom targets are always done in Surface coordinates.
@@ -314,6 +314,7 @@ module.exports = class Camera extends CocoClass
   lock: ->
     @target = @currentTarget
     @locked = true
+
   unlock: ->
     @locked = false
 
