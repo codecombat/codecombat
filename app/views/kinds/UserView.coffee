@@ -6,14 +6,19 @@ module.exports = class UserView extends RootView
   template: template
   className: 'user-view'
 
-  constructor: (options, nameOrID) ->
-    # TODO Ruben Assume ID for now
-    user = new User nameOrID
-    user.fetch
-      success: ->
-        console.log 'helabaaa'
-      error: (model, response, options) ->
-        console.log response
-        console.log options
-
+  constructor: (options, @nameOrID) ->
     super options
+
+    # TODO Ruben Assume ID for now
+    @user = @supermodel.loadModel(new User(_id: nameOrID), 'user').model
+
+  onLoaded: ->
+    @render()
+
+  getRenderData: ->
+    context = super()
+    context.currentUserView = 'Achievements'
+    context.user = @user
+    context
+
+  isMe: ->  @nameOrID is me.id
