@@ -277,9 +277,12 @@ class LatestVersionReferenceNode extends TreemaNode
     else if @instance # use instance if it exists
       @m = @instance
       @m.url = -> urlGoingFor
-      @settings.supermodel.registerModel(m)
+      @settings.supermodel.registerModel(@m)
     else if @m # fetch anew if not found in the supermodel
-      @m.fetch success: => @refreshDisplay()
+      @m.fetch success: =>
+        @m.url = -> urlGoingFor
+        @settings.supermodel.registerModel(@m)
+        @refreshDisplay()
 
   buildValueForDisplay: (valEl) ->
     val = if @data then @formatDocument(@data) else 'None'
