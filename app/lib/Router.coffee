@@ -16,6 +16,9 @@ module.exports = class CocoRouter extends Backbone.Router
     # editor views tend to have the same general structure
     'editor/:model(/:slug_or_id)(/:subview)': 'editorModelView'
 
+    # user views
+    'user/:nameOrID(/:subview)': 'userView'
+
     # Direct links
     'test/*subpath': go('TestView')
     'demo/*subpath': go('DemoView')
@@ -44,6 +47,15 @@ module.exports = class CocoRouter extends Backbone.Router
       return @openRoute(args.join('/'))
     view = new ViewClass({}, slugOrId)
     view.render()
+    @openView if view then view else @notFoundView()
+
+  userView: (nameOrID, subview) ->
+    modulePrefix = 'views/user/'
+    suffix = subview or 'home'
+    ViewClass = @tryToLoadModule modulePrefix + suffix
+    if ViewClass
+      view = new ViewClass {}, nameOrID
+      view.render()
     @openView if view then view else @notFoundView()
 
   cache: {}
