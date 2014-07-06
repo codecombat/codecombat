@@ -9,11 +9,13 @@ module.exports = class UserView extends RootView
   constructor: (options, @nameOrID) ->
     super options
 
-    # TODO Ruben Assume ID for now
-    @user = @supermodel.loadModel(new User(_id: nameOrID), 'user').model
+    @listenTo @, 'userLoaded', @onUserLoaded
 
-  onLoaded: ->
-    @render()
+    # TODO Ruben Assume ID for now
+    @user = User.getByID(@nameOrID, {}, true) # Force fetching a user isn't really the clean way to go
+    @user.fetch
+      success: =>
+        @trigger 'userLoaded', @user
 
   getRenderData: ->
     context = super()
@@ -21,4 +23,6 @@ module.exports = class UserView extends RootView
     context.user = @user
     context
 
-  isMe: ->  @nameOrID is me.id
+  isMe: -> @nameOrID is me.id
+
+  onUserLoaded: ->
