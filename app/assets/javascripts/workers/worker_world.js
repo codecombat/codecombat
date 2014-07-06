@@ -63,7 +63,7 @@ var console = {
 console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
-self.importScripts('/javascripts/world.js', '/javascripts/lodash.js', '/javascripts/aether.js');
+self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
 
 var restricted = ["XMLHttpRequest", "importScripts", "Worker"];
 for(var i = 0; i < restricted.length; ++i) {

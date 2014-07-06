@@ -18,6 +18,7 @@ exports.config =
           |(app[\/\\]lib[\/\\]utils.coffee)
           |(vendor[\/\\]scripts[\/\\]Box2dWeb-2.1.a.3)
           |(vendor[\/\\]scripts[\/\\]string_score.js)
+          |(bower_components[\/\\]underscore.string)
         )///
         'javascripts/app.js': /^app/
         'javascripts/vendor.js': ///^(
