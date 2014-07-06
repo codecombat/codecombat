@@ -4,7 +4,7 @@ template = require 'templates/user/achievements'
 Achievement = require 'models/Achievement'
 AchievementCollection = require 'collections/AchievementCollection'
 
-module.exports = class UserAchievementsViewe extends UserView
+module.exports = class UserAchievementsView extends UserView
   id: 'user-achievements-view'
   template: template
 

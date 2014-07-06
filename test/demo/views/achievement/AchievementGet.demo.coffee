@@ -4,19 +4,11 @@ utils = require 'lib/utils'
 Achievement = require 'models/Achievement'
 EarnedAchievement = require 'models/EarnedAchievement'
 
-class MockServer
-
 
 module.exports = ->
   me.set 'points', 48
 
-  unlockableObj =
-    name: 'Dungeon Arena Started'
-    description: 'Started playing Dungeon Arena. '
-    worth: 3
-    collection: 'level.session'
-    query: "{\"level.original\":\"dungeon-arena\"}"
-    userField: 'creator'
+  unlockableObj = fixtures.DungeonArenaStarted
 
   earnedUnlockableObj =
     earnedPoints: 3
