@@ -137,12 +137,14 @@ module.exports = class CocoView extends Backbone.View
       resourceIndex: r.rid,
       responseText: r.jqxhr?.responseText
     })).i18n()
+    @$el.find('.progress').hide()
 
   onRetryResource: (e) ->
     res = @supermodel.getResource($(e.target).data('resource-index'))
     # different views may respond to this call, and not all have the resource to reload
     return unless res and res.isFailed
     res.load()
+    @$el.find('.progress').show()
     $(e.target).closest('.loading-error-alert').remove()
 
   # Modals
