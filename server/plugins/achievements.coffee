@@ -10,7 +10,7 @@ log = require 'winston'
 # on the condition that it's necessary and still not too frequent in occurrence
 AchievablePlugin = (schema, options) ->
   User = require '../users/User'  # Avoid mutual inclusion cycles
-  Achievement = require('../achievements/Achievement')
+  Achievement = require '../achievements/Achievement'
 
   before = {}
 

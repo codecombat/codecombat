@@ -44,7 +44,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @openRoute(args.join('/'))
     view = new ViewClass({}, slugOrId)
     view.render()
-    if view then @openView(view) else @showNotFound()
+    @openView if view then view else @notFoundView()
 
   cache: {}
   openRoute: (route) ->
@@ -99,7 +99,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return document.location.reload()
     path = "views/#{path}"
     ViewClass = @tryToLoadModule path
-    return @showNotFound() if not ViewClass
+    return @openView @notFoundView() if not ViewClass
     view = new ViewClass({}, args...)  # options, then any path fragment args
     view.render()
     @openView(view)
@@ -117,7 +117,7 @@ module.exports = class CocoRouter extends Backbone.Router
       break if ViewClass
       split -= 1
 
-    return @showNotFound() if not ViewClass
+    return @notFoundView() if not ViewClass
     args = pieces[split+1..]
     view = new ViewClass({}, args...)  # options, then any path fragment args
     view.render()
@@ -129,7 +129,7 @@ module.exports = class CocoRouter extends Backbone.Router
       if error.toString().search('Cannot find module "' + path + '" from') is -1
         throw error
 
-  showNotFound: ->
+  notFoundView: ->
     NotFoundView = require('views/not_found')
     view = new NotFoundView()
     view.render()

@@ -107,7 +107,7 @@ UserSchema = c.object {},
         name: {type: 'string', maxLength: 30, title: 'Link Name', description: 'What are you linking to? Ex: "Personal Website", "GitHub"', format: 'link-name'}
         link: c.url {title: 'Link', description: 'The URL.', default: 'http://example.com'}
     photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image if you want to show a different profile picture to employers than your normal avatar.'}
-    curated: c.object {title: 'Curated', required: ['shortDescription','mainTag','location','education','workHistory','phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter']},
+    curated: c.object {title: 'Curated', required: ['shortDescription', 'mainTag', 'location', 'education', 'workHistory', 'phoneScreenFilter', 'schoolFilter', 'locationFilter', 'roleFilter', 'seniorityFilter']},
       shortDescription:
         title: 'Short description'
         description: 'A sentence or two describing the candidate'
@@ -118,17 +118,13 @@ UserSchema = c.object {},
         type: 'string'
       location:
         title: 'Location'
-        description: "The CURRENT location of the candidate"
+        description: 'The CURRENT location of the candidate'
         type: 'string'
       education:
         title: 'Education'
         description: 'The main educational institution of the candidate'
         type: 'string'
-      workHistory: c.array
-        title: 'Work history'
-        description: 'One or two places the candidate has worked'
-        type: 'array'
-      ,
+      workHistory: c.array {title: 'Work history', description: 'One or two places the candidate has worked', type: 'array'},
         title: 'Workplace'
         type: 'string'
       phoneScreenFilter:
