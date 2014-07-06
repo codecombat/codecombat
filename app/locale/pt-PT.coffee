@@ -116,7 +116,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     campaign_player_created_description: "... onde combate contra a criatividade dos seus colegas <a href=\"/contribute#artisan\">Feiticeiros Artesãos</a>."
     level_difficulty: "Dificuldade: "
     play_as: "Jogar Como"
-    spectate: "Observar"
+    spectate: "Espectar"
 
   contact:
     contact_us: "Contacte o CodeCombat"
