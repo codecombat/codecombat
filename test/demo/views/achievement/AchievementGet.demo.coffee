@@ -3,7 +3,7 @@ RootView = require 'views/kinds/RootView'
 utils = require 'lib/utils'
 Achievement = require 'models/Achievement'
 EarnedAchievement = require 'models/EarnedAchievement'
-
+fixtures = require '../../fixtures/achievements'
 
 module.exports = ->
   me.set 'points', 48

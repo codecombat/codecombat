@@ -2,7 +2,9 @@ UserView = require 'views/kinds/UserView'
 template = require 'templates/user/achievements'
 {me} = require 'lib/auth'
 Achievement = require 'models/Achievement'
+EarnedAchievement = require 'models/EarnedAchievement'
 AchievementCollection = require 'collections/AchievementCollection'
+EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
 
 module.exports = class UserAchievementsView extends UserView
   id: 'user-achievements-view'
