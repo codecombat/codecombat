@@ -112,7 +112,7 @@ block content
             tr.candidate-row(data-candidate-id=candidate.id, id=candidate.id, class=expired ? "expired" : "")
               td(rowspan=2)
                 .candidate-picture
-                  img(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, width=50)
+                  img(src=candidate.getPhotoURL(50,false,true), alt=profile.name, title=profile.name, width=50)
               if curated && curated.shortDescription
                 td.candidate-description #{curated.shortDescription}
               else
@@ -130,8 +130,9 @@ block content
                   img(src="/images/pages/employer/education.png")
                   |  #{curated.education}
                 td.work_column
-                  img(src="/images/pages/employer/briefcase.png")
-                  |  #{workHistory}
+                  if workHistory
+                    img(src="/images/pages/employer/briefcase.png")
+                    |  #{workHistory}
               else
                 td Hi
 
