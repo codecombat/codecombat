@@ -2,15 +2,18 @@ div
   .clearfix.achievement-body
     .achievement-icon.achievement-border-silver
       .achievement-image(data-notify-html="image")
+        if imgURL
+          img(src=imgURL)
     .achievement-content
-      .achievement-title(data-notify-html="title")
-      p.achievement-description(data-notify-html="description")
+      .achievement-title(data-notify-html="title") #{title}
+      p.achievement-description(data-notify-html="description") #{description}
 
-      .achievement-progress
-        .achievement-message(data-notify-html="message")
-        .progress-wrapper
-          //.earned-exp(data-notify-html="earnedExp")
-          span.achievement-level.badge(data-notify-html="level")
-          .progress-bar-wrapper(data-notify-html="progressBar")
-          .progress-bar-border(data-notify-html="barBorder")
-            //img(src='/images/achievements/bar_border.png' width='100%')
+      if popup
+        .achievement-progress
+          .achievement-message(data-notify-html="message")
+          .progress-wrapper
+            //.earned-exp(data-notify-html="earnedExp")
+            span.achievement-level.badge(data-notify-html="level")
+            .progress-bar-wrapper(data-notify-html="progressBar")
+            .progress-bar-border(data-notify-html="barBorder")
+              //img(src='/images/achievements/bar_border.png' width='100%')

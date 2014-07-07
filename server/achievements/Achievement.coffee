@@ -30,7 +30,7 @@ AchievementSchema.methods.getExpFunction = ->
   return utils.functionCreators[kind](parameters) if kind of utils.functionCreators
 
 AchievementSchema.statics.jsonschema = jsonschema
-AchievementSchema.statics.achievements = {}
+AchievementSchema.statics.earnedAchievements = {}
 
 # Reloads all achievements into memory.
 # TODO might want to tweak this to only load new achievements
@@ -41,15 +41,15 @@ AchievementSchema.statics.loadAchievements = (done) ->
   query.exec (err, docs) ->
     _.each docs, (achievement) ->
       category = achievement.get 'collection'
-      AchievementSchema.statics.achievements[category] = [] unless category of AchievementSchema.statics.achievements
-      AchievementSchema.statics.achievements[category].push achievement
-    done(AchievementSchema.statics.achievements) if done?
+      AchievementSchema.statics.earnedAchievements[category] = [] unless category of AchievementSchema.statics.earnedAchievements
+      AchievementSchema.statics.earnedAchievements[category].push achievement
+    done(AchievementSchema.statics.earnedAchievements) if done?
 
 AchievementSchema.statics.getLoadedAchievements = ->
-  AchievementSchema.statics.achievements
+  AchievementSchema.statics.earnedAchievements
 
 AchievementSchema.statics.resetAchievements = ->
-  delete AchievementSchema.statics.achievements[category] for category of AchievementSchema.statics.achievements
+  delete AchievementSchema.statics.earnedAchievements[category] for category of AchievementSchema.statics.earnedAchievements
 
 # Queries are stored as JSON strings, objectify them upon loading
 AchievementSchema.post 'init', (doc) -> doc.objectifyQuery()

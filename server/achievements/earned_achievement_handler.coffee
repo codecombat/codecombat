@@ -17,7 +17,7 @@ class EarnedAchievementHandler extends Handler
   recalculate: (req, res) ->
     onSuccess = (data) => log.debug 'Finished recalculating achievements'
     if 'achievements' of req.body # Support both slugs and IDs separated by commas
-      achievementSlugsOrIDs = req.body.achievements
+      achievementSlugsOrIDs = req.body.earnedAchievements
       EarnedAchievementHandler.recalculate achievementSlugsOrIDs, onSuccess
     else
       EarnedAchievementHandler.recalculate onSuccess

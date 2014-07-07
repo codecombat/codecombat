@@ -40,7 +40,7 @@ Application = initialize: ->
   @facebookHandler = new FacebookHandler()
   @gplusHandler = new GPlusHandler()
   $(document).bind 'keydown', preventBackspace
-  $.notify.addStyle 'achievement', html: $(AchievementNotify())
+  $.notify.addStyle 'achievement', html: $(AchievementNotify popup:true)
   @linkedinHandler = new LinkedInHandler()
   preload(COMMON_FILES)
   $.i18n.init {
