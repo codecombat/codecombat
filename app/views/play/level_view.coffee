@@ -274,6 +274,7 @@ module.exports = class PlayLevelView extends View
   # Once Surface is Loaded ####################################################
 
   onLevelStarted: ->
+    return unless @surface?
     @loadingView.showReady()
     if window.currentModal and not window.currentModal.destroyed
       return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelStarted, @
