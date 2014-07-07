@@ -4,7 +4,7 @@ oneDayBefore = (new Date now).setDate(now.getDate() - 1)
 module.exports.DungeonArenaStarted = DungeonArenaStarted =
   _id: '53ba76249259823746b6b481'
   name: 'Dungeon Arena Started'
-  description: 'Started playing Dungeon Arena. '
+  description: 'Started playing Dungeon Arena. It was a really really hard game. So hard in fact, that this line should already be spanning'
   icon: '/images/achievements/swords-01.png'
   worth: 3
   collection: 'level.session'
@@ -21,6 +21,20 @@ module.exports.Simulated = Simulated =
   query: "{\"simulatedBy\":{\"$gt\":0}}"
   userField: '_id'
   proportionalTo: 'simulatedBy'
+
+module.exports.Simulated2 = Simulated2 =
+  _id: '53ba76249259823746b6b483'
+  name: 'Simulated2'
+  description: 'Simulated games for real.'
+  icon: '/images/achievements/cup-02.png'
+  worth: 1.5
+  collection: 'users'
+  query: "{\"simulatedBy\":{\"$gt\":0}}"
+  userField: '_id'
+  proportionalTo: 'simulatedBy'
+  function:
+    kind: 'logarithmic'
+    parameters: {a: 1, b: .5, c: .5, d: 1}
 
 module.exports.DungeonArenaStartedEarned = DungeonArenaStartedEarned =
   user: ''
@@ -47,5 +61,5 @@ module.exports.SimulatedEarned = SimulatedEarned =
   notified: true
 
 
-module.exports.achievements = [DungeonArenaStarted, Simulated]
+module.exports.achievements = [DungeonArenaStarted, Simulated, Simulated2]
 module.exports.earnedAchievements = [DungeonArenaStartedEarned, SimulatedEarned]

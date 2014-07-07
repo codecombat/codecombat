@@ -103,6 +103,6 @@ module.exports.functionCreators =
 module.exports.keepDoingUntil = (func, wait=100, totalWait=5000) ->
   waitSoFar = 0
   (done = (success) ->
-    if (waitSoFar += wait) <= totalWait && not success
+    if (waitSoFar += wait) <= totalWait and not success
       _.delay (-> func done), wait) false
 

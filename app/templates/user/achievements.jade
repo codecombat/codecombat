@@ -6,5 +6,6 @@ block append content
       - var title = achievement.get('name');
       - var description = achievement.get('description');
       - var imgURL = achievement.get('icon');
-      .col-sm-6.col-xs-12
+      - var locked = ! achievement.get('unlocked');
+      .col-lg-4.col-xs-12
         include ../achievement_notify

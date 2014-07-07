@@ -1,15 +1,11 @@
-.notifyjs-achievement-base
-  cursor: auto
-  white-space: nowrap
-  text-overflow: ellipsis
-  padding: 20px 0px
+.locked
+  filter: grayscale(100%)
+  -moz-filter: grayscale(100%)
+  -webkit-filter: grayscale(100%)
 
 .achievement-body
   .achievement-icon
     position: absolute
-    width: 200px
-    height: 200px
-    left: -140px
     top: 0px
 
     .achievement-image
@@ -23,6 +19,25 @@
         right: 0
         bottom: 0
 
+  .achievement-content
+    background-image: url("/images/achievements/reward_background2.png")
+    background-size: 100% 100%
+    text-align: center
+    overflow: hidden
+
+    .achievement-title
+      font-family: Bangers
+      overflow: hidden
+
+    .achievement-description
+      white-space: initial
+      font-size: 12px
+      line-height: 1.3em
+      overflow: hidden
+      max-height: 2.6em
+      margin-top: auto
+      margin-bottom: 0px !important
+
   .achievement-border-wood
     background: url("/images/achievements/border_wood.png") no-repeat
     background-size: 100% 100%
@@ -31,70 +46,109 @@
     background: url("/images/achievements/border_silver.png") no-repeat
     background-size: 100% 100%
 
-  .achievement-content
-    background-image: url("/images/achievements/reward_background2.png")
-    background-size: 100% 100%
-    width: 450px
-    height: 160px
-    text-align: center
-    padding: 24px 30px 20px 60px
-    overflow: hidden
+#user-achievements-view
+  .row
+    //.col-lg-4, .col-xs-12
+      padding-right: 0px !important
 
+  .achievement-body
+    width: 335px
+    height: 120px
+    margin: 10px 0px
 
-    .achievement-title
-      font-family: Bangers
-      font-size: 28px
-      padding-left: -50px
-      overflow: hidden
+    .achievement-icon
+      width: 120px
+      height: 120px
+      top: 0px
 
-    .achievement-description
-      white-space: initial
-      font-size: 15px
-      line-height: 1.3em
-      overflow: hidden
-      max-height: 2.6em
-      margin-top: auto
-      margin-bottom: 0px !important
+      .achievement-image
+        img
+          -moz-transform: scale(0.6)
+          -webkit-transform: scale(0.6)
+          transform: scale(0.6)
 
-    .achievement-progress
-      padding: 8px 0px 0px 0px
+    .achievement-content
+      margin-left: 60px
+      margin-right: 5px
+      width: 260px
+      height: 100px
+      padding: 20px 10px 20px 60px
 
-      .achievement-message
-        font-family: Bangers
-        font-size: 18px
-        &:empty
-          display: none
+      .achievement-title
+        font-size: 20px
+        padding-left: -50px
 
+      .achievement-description
+        font-size: 12px
+        line-height: 1.3em
+        max-height: 2.6em
 
+.notifyjs-achievement-base
+  padding: 20px 0px
 
-      .progress-wrapper
-        position: absolute
-        padding-right: 30px
-        bottom: 0px
+  .achievement-body
+    .achievement-icon
+      width: 200px
+      height: 200px
+      left: -140px
+      top: 0px
 
-        .achievement-level
-          float: left
-          font-size: 15px
+      .achievement-image
+        img
+          position: absolute
+          margin: auto
+          top: 0
+          left: 0
+          right: 0
+          bottom: 0
 
-        .progress-bar-wrapper
-          padding-left: 30px
-          width: 100%
-          .progress
-            border-radius: 20px
+    .achievement-content
+      width: 450px
+      height: 160px
+      padding: 24px 30px 20px 60px
 
-        .progress-bar-border
-          padding-left: 30px
-          position: relative
-          top: -44px
+      .achievement-title
+        font-size: 28px
+        padding-left: -50px
 
-        .progress-bar-border img
-          width: 100%
-        /*.earned-exp
-          padding-left: 5px
+      .achievement-description
+        font-size: 15px
+        line-height: 1.3em
+        max-height: 2.6em
+        margin-top: auto
+        margin-bottom: 0px !important
+
+      .achievement-progress
+        padding: 8px 0px 0px 0px
+
+        .achievement-message
           font-family: Bangers
-          font-size: 16px
-          float: right
-          */
+          font-size: 18px
+          &:empty
+            display: none
+
+        .progress-wrapper
+          position: absolute
+          padding-right: 30px
+          bottom: 0px
+
+          .achievement-level
+            float: left
+            font-size: 15px
+
+          .progress-bar-wrapper
+            padding-left: 30px
+            width: 100%
+            .progress
+              border-radius: 20px
+
+          .progress-bar-border
+            padding-left: 30px
+            position: relative
+            top: -44px
+
+          .progress-bar-border img
+            width: 100%
 
 .progress-bar-white
   background-color: white

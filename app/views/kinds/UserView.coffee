@@ -28,5 +28,4 @@ module.exports = class UserView extends RootView
     console.log 'onUserLoaded'
 
   onLoaded: ->
-    console.log 'onLoaded'
     super()
