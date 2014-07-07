@@ -12,8 +12,7 @@ module.exports = class UserView extends RootView
     @listenTo @, 'userLoaded', @onUserLoaded
 
     # TODO Ruben Assume ID for now
-    @user = User.getByID(@nameOrID, {}, true) # Force fetching a user isn't really the clean way to go
-    @user.fetch
+    @user = User.getByID @nameOrID, {}, true,
       success: =>
         @trigger 'userLoaded', @user
 

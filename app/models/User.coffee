@@ -33,9 +33,12 @@ module.exports = class User extends CocoModel
       return "/file/#{photoURL}#{prefix}s=#{size}"
     return "/db/user/#{@id}/avatar?s=#{size}"
 
-  @getByID = (id, properties, force) ->
+  # Callbacks can be either 'success' or 'error'
+  @getByID = (id, properties, force, callbacks={}) ->
     {me} = require 'lib/auth'
-    return me if me.id is id
+    if me.id is id
+      callbacks.success me if callbacks.success?
+      return me
     user = cache[id] or new module.exports({_id: id})
     if force or not cache[id]
       user.loading = true
@@ -43,7 +46,8 @@ module.exports = class User extends CocoModel
         success: ->
           user.loading = false
           Backbone.Mediator.publish('user:fetched')
-          #user.trigger 'sync'   # needed?
+          callbacks.success arguments... if callbacks.success?
+        error: -> callbacks.error arguments... if callbacks.error?
       )
     cache[id] = user
     user
