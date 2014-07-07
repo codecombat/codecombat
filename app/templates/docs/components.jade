@@ -1,0 +1,6 @@
+extends /templates/base
+
+block content
+  ul
+    for component in components
+      li= component.get('name')
