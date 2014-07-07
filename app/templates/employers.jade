@@ -130,8 +130,9 @@ block content
                   img(src="/images/pages/employer/education.png")
                   |  #{curated.education}
                 td.work_column
-                  img(src="/images/pages/employer/briefcase.png")
-                  |  #{workHistory}
+                  if workHistory
+                    img(src="/images/pages/employer/briefcase.png")
+                    |  #{workHistory}
               else
                 td Hi
 
