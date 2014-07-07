@@ -90,7 +90,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     required: "Precisa de iniciar sessão antes de prosseguir dessa forma."
 
   home:
-    slogan: "Aprende a Programar ao Jogar um Jogo"
+    slogan: "Aprenda a Programar ao Jogar um Jogo"
     no_ie: "O CodeCombat não funciona no Internet Explorer 9 ou anterior. Desculpe!"
     no_mobile: "O CodeCombat não foi feito para dispositivos móveis e pode não funcionar!"
     play: "Jogar"
