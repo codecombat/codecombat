@@ -15,7 +15,7 @@ module.exports = class GoldView extends View
     @teamGold = {}
     @teamGoldEarned = {}
     @shownOnce = false
-
+    
   onGoldChanged: (e) ->
     return if @teamGold[e.team] is e.gold and @teamGoldEarned[e.team] is e.goldEarned
     @teamGold[e.team] = e.gold
@@ -24,7 +24,7 @@ module.exports = class GoldView extends View
     unless goldEl.length
       teamEl = teamTemplate team: e.team
       @$el[if e.team is 'humans' then 'prepend' else 'append'](teamEl)
-      goldEl = $('.gold-amount.team-' + e.team, teamEl)
+      goldEl = @$el.find('.gold-amount.team-' + e.team)
     text = '' + e.gold
     if e.goldEarned and e.goldEarned > e.gold
       text += " (#{e.goldEarned})"
