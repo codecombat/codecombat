@@ -34,7 +34,13 @@ module.exports = class GoldView extends View
     @shownOnce = true
 
   updateTitle: ->
-    @$el.attr 'title', ("Team '#{team}' has #{gold} now of #{@teamGoldEarned[team]} gold earned." for team, gold of @teamGold).join ' '
+    strings = []
+    for team, gold of @teamGold
+      if @teamGoldEarned[team]
+        strings.push "Team '#{team}' has #{gold} now of #{@teamGoldEarned[team]} gold earned."
+      else
+        strings.push "Team '#{team}' has #{gold} gold."
+    @$el.attr 'title', strings.join ' '
 
   onSetLetterbox: (e) ->
     @$el.toggle not e.on if @shownOnce
