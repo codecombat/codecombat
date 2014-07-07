@@ -25,3 +25,8 @@ module.exports = class UserView extends RootView
   isMe: -> @nameOrID is me.id
 
   onUserLoaded: ->
+    console.log 'onUserLoaded'
+
+  onLoaded: ->
+    console.log 'onLoaded'
+    super()

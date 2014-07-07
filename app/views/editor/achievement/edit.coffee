@@ -111,7 +111,7 @@ module.exports = class AchievementEditView extends View
 
   recalculateAchievement: =>
     $.ajax
-      data: JSON.stringify(achievements: [@achievement.get('slug') or @achievement.get('_id')])
+      data: JSON.stringify(earnedAchievements: [@achievement.get('slug') or @achievement.get('_id')])
       success: (data, status, jqXHR) ->
         noty
           timeout: 5000
