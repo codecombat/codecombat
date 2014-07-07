@@ -1,4 +1,5 @@
 View = require 'views/kinds/RootView'
+ErrorView = require '../../error_view'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
 ConfirmModal = require 'views/modal/confirm'
@@ -19,15 +20,12 @@ module.exports = class AchievementEditView extends View
     super options
     @achievement = new Achievement(_id: @achievementID)
     @achievement.saveBackups = true
-
     @listenToOnce(@achievement, 'error',
       () =>
         @hideLoading()
         $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
-
         @insertSubView(new ErrorView())
     )
-
     @achievement.fetch()
     @listenToOnce(@achievement, 'sync', @buildTreema)
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)

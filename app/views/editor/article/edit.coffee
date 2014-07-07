@@ -22,7 +22,6 @@ module.exports = class ArticleEditView extends View
     super options
     @article = new Article(_id: @articleID)
     @article.saveBackups = true
-
     @listenToOnce(@article, 'error',
       () =>
         @hideLoading()
@@ -33,7 +32,6 @@ module.exports = class ArticleEditView extends View
 
         @insertSubView(new ErrorView())
     )
-
     @article.fetch()
     @listenToOnce(@article, 'sync', @buildTreema)
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
