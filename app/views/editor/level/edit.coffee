@@ -42,6 +42,12 @@ module.exports = class EditorLevelView extends View
       model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, editorMode: true
     @level = @levelLoader.level
+    @listenToOnce(@level, 'error',
+      () =>
+        @hideLoading()
+        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
+        @insertSubView(new ErrorView())
+    )
     @files = new DocumentFiles(@levelLoader.level)
     @supermodel.loadCollection(@files, 'file_names')
 

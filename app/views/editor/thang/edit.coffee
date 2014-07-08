@@ -49,6 +49,12 @@ module.exports = class ThangTypeEditView extends View
     @thangType = new ThangType(_id: @thangTypeID)
     @thangType = @supermodel.loadModel(@thangType, 'thang').model
     @thangType.saveBackups = true
+    @listenToOnce(@thangType, 'error',
+      () =>
+        @hideLoading()
+        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
+        @insertSubView(new ErrorView())
+    )
     @listenToOnce @thangType, 'sync', ->
       console.log 'files for?', @thangType.id, @thangType.get 'name'
       @files = @supermodel.loadCollection(new DocumentFiles(@thangType), 'files').model
