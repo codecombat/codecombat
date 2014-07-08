@@ -72,11 +72,14 @@ module.exports = class Mark extends CocoClass
     color = "rgba(#{colors[0]}, #{colors[1]}, #{colors[2]}, 0.5)"
     [w, h] = [@sprite.thang.width * Camera.PPM, @sprite.thang.height * Camera.PPM * @camera.y2x]
 
-    if @sprite.thang.drawsBoundsStyle is 'border-text'
-      shape = new createjs.Shape()
+    if @sprite.thang.drawsBoundsStyle in ['border-text', 'corner-text']
+      @drawsBoundsBorderShape = shape = new createjs.Shape()
       shape.graphics.setStrokeStyle 5
       shape.graphics.beginStroke color
-      shape.graphics.beginFill color.replace('0.5', '0.25')
+      if @sprite.thang.drawsBoundsStyle is 'border-text'
+        shape.graphics.beginFill color.replace('0.5', '0.25')
+      else
+        shape.graphics.beginFill color
       if @sprite.thang.shape in ['ellipsoid', 'disc']
         shape.drawEllipse 0, 0, w, h
       else
@@ -101,7 +104,7 @@ module.exports = class Mark extends CocoClass
     else
       console.warn @sprite.thang.id, 'didn\'t know how to draw bounds style:', @sprite.thang.drawsBoundsStyle
 
-    if w > 0 and h > 0
+    if w > 0 and h > 0 and @sprite.thang.drawsBoundsStyle is 'border-text'
       @mark.cache -w / 2, -h / 2, w, h, 2
     @lastWidth = @sprite.thang.width
     @lastHeight = @sprite.thang.height
@@ -226,13 +229,12 @@ module.exports = class Mark extends CocoClass
       @highlightTween = createjs.Tween.get(@mark).to({}, @highlightDelay).call =>
         @mark.visible = true
         @highlightDelay = @highlightTween = null
+    @updateAlpha @alpha if @name in ['shadow', 'bounds']
     true
 
   updatePosition: (pos) ->
     if @sprite?.thang and @name in ['shadow', 'debug', 'target', 'selection', 'repair']
       pos = @camera.worldToSurface x: @sprite.thang.pos.x, y: @sprite.thang.pos.y
-      if @name is 'shadow'
-        @updateAlpha @alpha
     else
       pos ?= @sprite?.imageObject
     @mark.x = pos.x
@@ -248,7 +250,9 @@ module.exports = class Mark extends CocoClass
     if @name is 'shadow'
       worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2 + @sprite.getBobOffset()
       @mark.alpha = @alpha * 0.451 / Math.sqrt(worldZ / 2 + 1)
-    else if @name isnt 'bounds'
+    else if @name is 'bounds'
+      @drawsBoundsBorderShape?.alpha = Math.floor @sprite.thang.alpha  # Stop drawing bounds as soon as alpha is reduced at all
+    else
       @mark.alpha = @alpha
 
   updateRotation: ->
