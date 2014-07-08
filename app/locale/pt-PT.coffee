@@ -107,7 +107,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     adventurer_forum: "fórum do Aventureiro"
     adventurer_suffix: "."
     campaign_beginner: "Campanha para Iniciantes"
-    campaign_beginner_description: "... onde aprende a feitiçaria da programação."
+    campaign_beginner_description: "... onde aprende a magia da programação."
     campaign_dev: "Níveis mais Difíceis Aleatórios"
     campaign_dev_description: "... onde aprende a interface enquanto faz coisas um bocadinho mais difíceis."
     campaign_multiplayer: "Arenas Multijogador"
