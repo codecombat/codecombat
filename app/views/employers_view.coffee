@@ -112,7 +112,7 @@ module.exports = class EmployersView extends View
     @filters =
       phoneScreenFilter: [true, false]
       visa: ['Authorized to work in the US', 'Need visa sponsorship']
-      schoolFilter: ['Top 20 Eng.', 'Other US', 'Other Intl.', 'Top School', 'Other']
+      schoolFilter: ['Top School', 'Other']
       locationFilter: ['Bay Area', 'New York', 'Other US', 'International']
       roleFilter: ['Web Developer', 'Software Developer', 'Mobile Developer']
       seniorityFilter: ['College Student', 'Recent Grad', 'Junior', 'Senior']
@@ -122,9 +122,9 @@ module.exports = class EmployersView extends View
   getRenderData: ->
     ctx = super()
     ctx.isEmployer = @isEmployer()
-    ctx.candidates = _.sortBy @candidates.models, (c) -> c.get('jobProfile').curated?.featured
-    ctx.candidates = _.sortBy ctx.candidates, (c) -> -1 * c.get('jobProfile').experience
+    ctx.candidates = _.sortBy @candidates.models, (c) -> -1 * c.get('jobProfile').experience
     ctx.candidates = _.sortBy ctx.candidates, (c) -> not c.get('jobProfile').curated?
+    ctx.candidates = _.sortBy ctx.candidates, (c) -> c.get('jobProfile').curated?.featured
     ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
