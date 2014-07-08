@@ -1,9 +1,9 @@
 View = require 'views/kinds/RootView'
 VersionHistoryView = require './versions_view'
-ErrorView = require '../../error_view'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
 SaveVersionModal = require 'views/modal/save_version_modal'
+PatchesView = require 'views/editor/patches_view'
 
 module.exports = class ArticleEditView extends View
   id: 'editor-article-edit-view'
@@ -37,7 +37,7 @@ module.exports = class ArticleEditView extends View
     @article.fetch()
     @listenToOnce(@article, 'sync', @buildTreema)
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
-
+    
   buildTreema: ->
     return if @treema? or (not @article.loaded)
     unless @article.attributes.body
@@ -68,13 +68,15 @@ module.exports = class ArticleEditView extends View
   getRenderData: (context={}) ->
     context = super(context)
     context.article = @article
-    context.authorized = me.isAdmin() or @article.hasWriteAccess(me)
+    context.authorized = not me.get('anonymous')
     context
 
   afterRender: ->
     super()
     return if @startsLoading
     @showReadOnly() if me.get('anonymous')
+    @patchesView = @insertSubView(new PatchesView(@article), @$el.find('.patches-view'))
+    @patchesView.load()
 
   openPreview: ->
     @preview = window.open('/editor/article/x/preview', 'preview', 'height=800,width=600')

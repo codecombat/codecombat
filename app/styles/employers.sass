@@ -1,6 +1,6 @@
 #employers-view
 
-  button
+  .employer-button
     background: #fce232 /* Old browsers */
     background: -moz-linear-gradient(top, #fce232 0%, #ea8e2b 100%) 
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fce232), color-stop(100%,#ea8e2b))
@@ -17,15 +17,24 @@
     margin-bottom: 10px
     .panel-heading
       background-color: darkgrey
+      cursor: pointer
     .panel-body
       background-color: darkgrey
+      border-radius: 4px
+      border-top-left-radius: 0px
+      border-top-right-radius: 0px
+    .panel
+      border: 1px red
+      border-radius: 0px
      
   #filters
     .filter_section
-      width: 16%
+      width: 25%
       display: inline-block
       vertical-align: top
     margin-bottom: 10px
+    label input
+      margin-right: 10px
   .get-started-button
     vertical-align: text-bottom
     margin-left: 10px
@@ -33,13 +42,13 @@
   #filter-button, #create-alert-button
     float: right
     
-  #login-link, #logout-button
+  #login-link, #logout-link
     float: right
     color: #333333
     display: inline-block
     :visited
       color: #333333
-  #logout-button:hover
+  #logout-link:hover
     cursor: pointer
       
   #tagline, .hiring-call-to-action

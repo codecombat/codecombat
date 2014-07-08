@@ -11,6 +11,11 @@ module.exports = class WizardSettingsView extends CocoView
   startsLoading: true
 
   events:
+    'click .color-group': (e) ->
+      return if $(e.target).closest('.minicolors')[0]
+      return if $(e.target).closest('.color-group-checkbox')[0]
+      return if $(e.target).closest('label')[0]
+      $(e.target).closest('.color-group').find('.color-group-checkbox').click()
     'change .color-group-checkbox': (e) ->
       colorGroup = $(e.target).closest('.color-group')
       @updateColorSettings(colorGroup)

@@ -7,10 +7,10 @@ block content
   if !isEmployer && !me.isAdmin()
     #tagline
       h1(data-i18n="employers.hire_developers_not_credentials") Hire developers, not credentials.
-      button.btn.get-started-button Get started
+      button.btn.get-started-button.employer-button Get started
   else
     if !me.get('anonymous')
-      a#logout-button(data-i18n="login.log_out") Logout
+      a#logout-link(data-i18n="login.log_out") Logout
       br
     #filter
       .panel-group#filter_panel
@@ -24,78 +24,66 @@ block content
         .panel-collapse.collapse.in#collapseOne
           .panel-body
             form#filters
-              .filter_section#screened_filter
-                h4 Screened
-                input(type="checkbox" name="phoneScreenFilter" value="true")
-                | Phone Screened
-                br
-                input(type="checkbox" name="phoneScreenFilter" value="false")
-                | Not Phone Screened
               .filter_section#visa_filter
                 h4 Visa
-                input(type="checkbox" name="visa" value="Authorized to work in the US")
-                | US Authorized
+                label
+                  input(type="checkbox" name="visa" value="Authorized to work in the US")
+                  | US Authorized
                 br
-                input(type="checkbox" name="visa" value="Need visa sponsorship")
-                | Not Authorized
+                label
+                  input(type="checkbox" name="visa" value="Need visa sponsorship")
+                  | Not Authorized
               .filter_section#school_filter
                 h4 School
-                input(type="checkbox" name="schoolFilter" value="Top 20 Eng.")
-                | Top 20 Eng.
+                label
+                  input(type="checkbox" name="schoolFilter" value="Top 20 Eng.")
+                  | Top 20 Eng.
                 br
-                input(type="checkbox" name="schoolFilter" value="Other US")
-                | Other US
+                label
+                  input(type="checkbox" name="schoolFilter" value="Other US")
+                  | Other US
                 br
-                input(type="checkbox" name="schoolFilter" value="Other Intl.")
-                | Other Intl.
-              .filter_section#location_filter
-                h4 Location
-                input(type="checkbox" name="locationFilter" value="Bay Area")
-                | Bay Area
-                br
-                input(type="checkbox" name="locationFilter" value="New York")
-                | New York
-                br
-                input(type="checkbox" name="locationFilter" value="Other US")
-                | Other US
-                br
-                input(type="checkbox" name="locationFilter" value="International")
-                | International
+                label
+                  input(type="checkbox" name="schoolFilter" value="Other Intl.")
+                  | Other Intl.
               .filter_section#role_filter
                 h4 Role
-                input(type="checkbox" name="roleFilter" value="Web Developer")
-                | Web Developer
+                label
+                  input(type="checkbox" name="roleFilter" value="Web Developer")
+                  | Web Developer
                 br
-                input(type="checkbox" name="roleFilter" value="Software Developer")
-                | Software Developer
+                label
+                  input(type="checkbox" name="roleFilter" value="Software Developer")
+                  | Software Developer
                 br
-                input(type="checkbox" name="roleFilter" value="iOS Developer")
-                | iOS Developer
+                label
+                  input(type="checkbox" name="roleFilter" value="iOS Developer")
+                  | iOS Developer
                 br
-                input(type="checkbox" name="roleFilter" value="Android Developer")
-                | Android Developer
-                br
-                input(type="checkbox" name="roleFilter" value="Project Manager")
-                | Project Developer
+                label
+                  input(type="checkbox" name="roleFilter" value="Android Developer")
+                  | Android Developer
               .filter_section#seniority_filter
                 h4 Seniority
-                input(type="checkbox" name="seniorityFilter" value="College Student")
-                | College Student
+                label
+                  input(type="checkbox" name="seniorityFilter" value="Senior")
+                  | Senior
                 br
-                input(type="checkbox" name="seniorityFilter" value="Recent Grad")
-                | Recent Grad
+                label
+                  input(type="checkbox" name="seniorityFilter" value="Junior")
+                  | Junior
                 br
-                input(type="checkbox" name="seniorityFilter" value="Junior")
-                | Junior
+                label
+                  input(type="checkbox" name="seniorityFilter" value="Recent Grad")
+                  | Recent Grad
                 br
-                input(type="checkbox" name="seniorityFilter" value="Senior")
-                | Senior
-                br
-                input(type="checkbox" name="seniorityFilter" value="Management")
-                | Management
+                label
+                  input(type="checkbox" name="seniorityFilter" value="College Student")
+                  | College Student
+                
             //input#select_all_checkbox(type="checkbox" name="select_all" checked)
             //| Select all
-            button.btn#filter-button Filter
+            button.btn.employer-button#filter-button Filter
             p#results #{numberOfCandidates} results
             //button.btn#create-alert-button Create Alert
   if candidates.length
@@ -108,11 +96,15 @@ block content
             - var profileAge = (new Date() - new Date(profile.updated)) / 86400 / 1000;
             - var expired = profileAge > 2 * 30.4;
             - var curated = profile.curated;
-            
+              
             tr.candidate-row(data-candidate-id=candidate.id, id=candidate.id, class=expired ? "expired" : "")
-              td(rowspan=2)
+              td(rowspan=3)
                 .candidate-picture
                   img(src=candidate.getPhotoURL(50,false,true), alt=profile.name, title=profile.name, width=50)
+              td
+                strong
+                  | #{profile.name}
+            tr.description_row(data-candidate-id=candidate.id)
               if curated && curated.shortDescription
                 td.candidate-description #{curated.shortDescription}
               else
@@ -122,7 +114,7 @@ block content
                 - var workHistory = curated.workHistory.join(",");
                 td.tag_column
                   img(src="/images/pages/employer/tag.png")
-                  |  #{curated.mainTag}
+                  |  #{profile.jobTitle}
                 td.location_column
                   img(src="/images/pages/employer/location.png")
                   |  #{curated.location}
@@ -133,14 +125,13 @@ block content
                   if workHistory
                     img(src="/images/pages/employer/briefcase.png")
                     |  #{workHistory}
-              else
-                td Hi
+
 
   if !isEmployer && !me.isAdmin()
     div#info_wrapper
       span.hiring-call-to-action
         h2#start-hiring(data-i18n="employers.start_hiring") Start hiring.
-        button.btn.get-started-button Get started
+        button.btn.get-started-button.employer-button Get started
       
       h2#hiring-reasons.hiring-call-to-action(data-i18n="employers.reasons") 3 reasons you should hire through us:
       .reasons#top_row
@@ -162,7 +153,7 @@ block content
           p(data-i18n="employers.pass_screen_blurb") All of these developers have ranked in our programming competitions. One employer found that 5x as many of our devs passed their technical screen than hiring from Hacker News.
       span.hiring-call-to-action
         h2(data-i18n="employers.make_hiring_easier") Make my hiring easier, please.
-        button.btn.get-started-button Get started
+        button.btn.get-started-button.employer-button Get started
       .reasons#bottom_row
         .reason_long
           img.employer_icon(src="/images/pages/employer/employer_icon1.png")

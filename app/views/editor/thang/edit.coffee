@@ -58,7 +58,7 @@ module.exports = class ThangTypeEditView extends View
     context = super(context)
     context.thangType = @thangType
     context.animations = @getAnimationNames()
-    context.authorized = me.isAdmin() or @thangType.hasWriteAccess(me)
+    context.authorized = not me.get('anonymous')
     context
 
   getAnimationNames: ->
@@ -350,7 +350,7 @@ module.exports = class ThangTypeEditView extends View
       schema: schema
       files: @files
       filePath: "db/thang.type/#{@thangType.get('original')}"
-      readOnly: true unless me.isAdmin() or @thangType.hasWriteAccess(me)
+      readOnly: me.get('anonymous')
       callbacks:
         change: @pushChangesToPreview
         select: @onSelectNode
