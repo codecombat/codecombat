@@ -15,20 +15,7 @@ sendwithus = require '../sendwithus'
 module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
-
-getAllLadderScores = (next) ->
-  query = Level.find({type: 'ladder'})
-    .select('levelID')
-    .lean()
-  query.exec (err, levels) ->
-    if err
-      log.error 'Couldn\'t fetch ladder levels. Error: ', err
-      return next []
-    for level in levels
-      for team in ['humans', 'ogres']
-        'I ... am not doing this.'
-        # Query to get sessions to make histogram
-        # db.level.sessions.find({'submitted': true, 'levelID': 'brawlwood', team: 'ogres'}, {'_id': 0, 'totalScore': 1})
+  
 
 DEBUGGING = false
 LADDER_PREGAME_INTERVAL = 2 * 3600 * 1000  # Send emails two hours before players last submitted.
