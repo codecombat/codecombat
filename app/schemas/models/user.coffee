@@ -142,7 +142,7 @@ UserSchema = c.object {},
       roleFilter:
         title: 'Role'
         type: 'string'
-        enum: ['Web Developer', 'Software Developer', 'iOS Developer', 'Android Developer', 'Mobile Developer']
+        enum: ['Web Developer', 'Software Developer', 'Mobile Developer']
       seniorityFilter:
         title: 'Seniority'
         type: 'string'
