@@ -93,9 +93,10 @@ block content
               td(rowspan=3)
                 .candidate-picture
                   img(src=candidate.getPhotoURL(50,false,true), alt=profile.name, title=profile.name, width=50)
-              td
-                strong
-                  | #{profile.name}
+              if !isntEmployer
+                td.candidate-name-cell
+                  strong
+                    | #{profile.name}
             tr.description_row(data-candidate-id=candidate.id)
               if curated && curated.shortDescription
                 td.candidate-description #{curated.shortDescription}
@@ -136,9 +137,7 @@ block content
           h3(data-i18n="employers.weeding") We've done the weeding for you.
           //this will break in i18n. Fix the inlining
           p(data-i18n="employers.weeding_blurb")
-          | Every candidate that has a 
-          span.glyphicon.glyphicon-earphone
-          | icon has already gone through a phone screen with us. We only feature developers that we would work with.
+            | We only feature developers that we would work with. We've reviewed each profile (in addition to meeting with many of the candidates.)
         .reason
           img(class="employer_icon" src="/images/pages/employer/employer_icon3.png")
           h3(data-i18n="employers.pass_screen") They will pass your technical screen.
