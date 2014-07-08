@@ -121,13 +121,18 @@ module.exports = class EmployersView extends View
   getRenderData: ->
     ctx = super()
     ctx.isEmployer = @isEmployer()
-    ctx.candidates = _.sortBy @candidates.models, (c) -> -1 * c.get('jobProfile').experience
+    ctx.candidates = _.sortBy @candidates.models, (c) -> c.get('jobProfile').curated?.featured
+    ctx.candidates = _.sortBy ctx.candidates, (c) -> -1 * c.get('jobProfile').experience
+    ctx.candidates = _.sortBy ctx.candidates, (c) -> not c.get('jobProfile').curated?
     ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
+    
     unless @isEmployer() or me.isAdmin()
       ctx.featuredCandidates = _.filter ctx.featuredCandidates, (c) -> c.get('jobProfile').curated
       ctx.featuredCandidates = ctx.featuredCandidates.slice(0,7)
+    if me.isAdmin()
+      ctx.featuredCandidates = ctx.candidates
     ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
     ctx.remarks = {}
     ctx.remarks[remark.get('user')] = remark for remark in @remarks.models
