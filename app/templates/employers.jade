@@ -28,50 +28,50 @@ block content
                 h4 Visa
                 label
                   input(type="checkbox" name="visa" value="Authorized to work in the US")
-                  | US Authorized
+                  | US Authorized (#{candidatesInFilter("visa","Authorized to work in the US")})
                 br
                 label
                   input(type="checkbox" name="visa" value="Need visa sponsorship")
-                  | Not Authorized
+                  | Not Authorized (#{candidatesInFilter("visa","Need visa sponsorship")})
               .filter_section#school_filter
                 h4 Education
                 label
                   input(type="checkbox" name="schoolFilter" value="Top School")
-                  | Top School
+                  | Top School (#{candidatesInFilter("schoolFilter","Top School")})
                 br
                 label
                   input(type="checkbox" name="schoolFilter" value="Other")
-                  | Other
+                  | Other (#{candidatesInFilter("schoolFilter","Other")})
               .filter_section#role_filter
                 h4 Role
                 label
                   input(type="checkbox" name="roleFilter" value="Web Developer")
-                  | Web Developer
+                  | Web Developer (#{candidatesInFilter("roleFilter","Web Developer")})
                 br
                 label
                   input(type="checkbox" name="roleFilter" value="Software Developer")
-                  | Software Developer
+                  | Software Developer (#{candidatesInFilter("roleFilter","Software Developer")})
                 br
                 label
                   input(type="checkbox" name="roleFilter" value="Mobile Developer")
-                  | Mobile Developer
+                  | Mobile Developer (#{candidatesInFilter("roleFilter","Mobile Developer")})
               .filter_section#seniority_filter
                 h4 Seniority
                 label
                   input(type="checkbox" name="seniorityFilter" value="Senior")
-                  | Senior
+                  | Senior (#{candidatesInFilter("seniorityFilter","Senior")})
                 br
                 label
                   input(type="checkbox" name="seniorityFilter" value="Junior")
-                  | Junior
+                  | Junior (#{candidatesInFilter("seniorityFilter","Junior")})
                 br
                 label
                   input(type="checkbox" name="seniorityFilter" value="Recent Grad")
-                  | Recent Grad
+                  | Recent Grad (#{candidatesInFilter("seniorityFilter","Recent Grad")})
                 br
                 label
                   input(type="checkbox" name="seniorityFilter" value="College Student")
-                  | College Student
+                  | College Student (#{candidatesInFilter("seniorityFilter","College Student")})
                 
             //input#select_all_checkbox(type="checkbox" name="select_all" checked)
             //| Select all
