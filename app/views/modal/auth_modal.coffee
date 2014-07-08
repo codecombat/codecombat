@@ -30,8 +30,9 @@ module.exports = class AuthModalView extends View
       application.tracker.trackEvent 'Started Signup', authModalTitle: c.title, descriptionOn: c.descriptionOn
     c.mode = @mode
     c.formValues = @previousFormInputs or {}
+    c.onEmployersPage = Backbone.history.fragment is "employers"
     c
-
+    
   afterInsert: ->
     super()
     _.delay application.router.renderLoginButtons, 500

@@ -179,7 +179,7 @@ module.exports = class EmployersView extends View
     #  $('.nano').nanoScroller({scrollTo: $(window.location.hash)})
 
   checkForEmployerSignupHash: =>
-    if window.location.hash is '#employerSignupLoggingIn' and not ('employer' in me.get('permissions'))
+    if window.location.hash is '#employerSignupLoggingIn' and not ('employer' in me.get('permissions')) and not me.isAdmin()
       @openModalView application.router.getView('modal/employer_signup', '_modal')
       window.location.hash = ''
 
