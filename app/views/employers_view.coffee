@@ -21,6 +21,7 @@ module.exports = class EmployersView extends View
 
   events:
     'click tbody tr': 'onCandidateClicked'
+    'click #logout-link': 'logoutAccount'
     'change #filters input': 'onFilterChanged'
     'click #filter-button': 'applyFilters'
     'change #select_all_checkbox': 'handleSelectAllChange'
