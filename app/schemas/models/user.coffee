@@ -134,7 +134,7 @@ UserSchema = c.object {},
       schoolFilter:
         title: 'School'
         type: 'string'
-        enum: ['Top 20 Eng.', 'Other US', 'Other Intl.']
+        enum: ['Top 20 Eng.', 'Other US', 'Other Intl.','Top School', 'Other']
       locationFilter:
         title: 'Location'
         type: 'string'
