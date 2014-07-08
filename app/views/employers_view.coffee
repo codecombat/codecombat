@@ -112,10 +112,10 @@ module.exports = class EmployersView extends View
     @filters =
       phoneScreenFilter: [true, false]
       visa: ['Authorized to work in the US', 'Need visa sponsorship']
-      schoolFilter: ['Top 20 Eng.', 'Other US', 'Other Intl.']
+      schoolFilter: ['Top 20 Eng.', 'Other US', 'Other Intl.', 'Top School', 'Other']
       locationFilter: ['Bay Area', 'New York', 'Other US', 'International']
-      roleFilter: ['Web Developer', 'Software Developer', 'iOS Developer', 'Android Developer', 'Project Manager']
-      seniorityFilter: ['College Student', 'Recent Grad', 'Junior', 'Senior', 'Management']
+      roleFilter: ['Web Developer', 'Software Developer', 'Mobile Developer']
+      seniorityFilter: ['College Student', 'Recent Grad', 'Junior', 'Senior']
     @defaultFilters = _.cloneDeep @filters
 
 
