@@ -300,7 +300,9 @@ module.exports = class EmployersView extends View
           8:
             '✓': filterSelectExactMatch
             '✗': filterSelectExactMatch
-
+  logoutAccount: ->
+    window.location.hash = ''
+    super()
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
     if id and (@isEmployer() or me.isAdmin())
