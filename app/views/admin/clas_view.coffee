@@ -2,7 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/admin/clas'
 
 module.exports = class CLAsView extends View
-  id: "admin-clas-view"
+  id: 'admin-clas-view'
   template: template
   startsLoading: true
 

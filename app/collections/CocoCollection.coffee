@@ -1,7 +1,12 @@
+CocoModel = require 'models/CocoModel'
+
 module.exports = class CocoCollection extends Backbone.Collection
   loaded: false
+  model: null
 
   initialize: ->
+    if not @model
+      console.error @constructor.name, 'does not have a model defined. This will not do!'
     super()
     @once 'sync', =>
       @loaded = true

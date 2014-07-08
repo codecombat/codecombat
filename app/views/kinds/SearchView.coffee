@@ -1,7 +1,7 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/kinds/search'
-forms = require('lib/forms')
-app = require('application')
+forms = require 'lib/forms'
+app = require 'application'
 
 class SearchCollection extends Backbone.Collection
   initialize: (modelURL, @model, @term, @projection) ->
@@ -9,7 +9,7 @@ class SearchCollection extends Backbone.Collection
     if @projection? and not (@projection == [])
       @url += projection[0]
       @url += ',' + projected for projected in projection[1..]
-    else @url += "true"
+    else @url += 'true'
     @url += "&term=#{term}" if @term
 
 module.exports = class SearchView extends View
@@ -31,7 +31,6 @@ module.exports = class SearchView extends View
     'shown.bs.modal #new-model-modal': 'focusOnName'
     'hidden.bs.modal #new-model-modal': 'onModalHidden'
 
-
   constructor: (options) ->
     @runSearch = _.debounce(@runSearch, 500)
     super options
@@ -46,6 +45,7 @@ module.exports = class SearchView extends View
     searchInput.focus()
 
   runSearch: =>
+    return if @destroyed
     term = @$el.find('input#search').val()
     return if @sameSearch(term)
     @removeOldSearch()
@@ -59,7 +59,7 @@ module.exports = class SearchView extends View
     @collection.fetch()
 
   updateHash: (term) ->
-    newPath = document.location.pathname + (if term then "#" + term else "")
+    newPath = document.location.pathname + (if term then '#' + term else '')
     currentPath = document.location.pathname + document.location.hash
     app.router.navigate(newPath) if newPath isnt currentPath
 
@@ -103,7 +103,7 @@ module.exports = class SearchView extends View
   onModalHidden: ->
     # Can only redirect after the modal hidden event has triggered
     base = document.location.pathname[1..] + '/'
-    app.router.navigate(base + (@model.get('slug') or @model.id), {trigger:true})
+    app.router.navigate(base + (@model.get('slug') or @model.id), {trigger: true})
 
   focusOnName: ->
     @$el.find('#name').focus()

@@ -121,12 +121,12 @@ module.exports.Trailmaster = class Trailmaster
     return unless thang.allTargets
     g = new createjs.Graphics()
     g.setStrokeStyle(0.5)
-    g.beginStroke(createjs.Graphics.getRGB(0,0,0))
+    g.beginStroke(createjs.Graphics.getRGB(0, 0, 0))
     color = colorForThang(thang.team)
 
     i = 0
     while i < thang.allTargets.length
-      g.beginStroke(createjs.Graphics.getRGB(0,0,0))
+      g.beginStroke(createjs.Graphics.getRGB(0, 0, 0))
       g.beginFill(createjs.Graphics.getRGB(color...))
       sup = @camera.worldToSurface x: thang.allTargets[i], y: thang.allTargets[i + 1]
       g.drawEllipse(sup.x - 5, sup.y - 3, 10, 6)
@@ -168,7 +168,7 @@ module.exports.Trailmaster = class Trailmaster
       clone.scaleY *= CLONE_SCALE
       if sprite.expandActions  # old Sprite
         sprite.updateRotation(clone, sprite.data)
-        animActions = sprite.expandActions(if thang.acts then thang.getActionName() else "idle")
+        animActions = sprite.expandActions(if thang.acts then thang.getActionName() else 'idle')
         sprite.applyActionsToSprites(animActions, [clone], true)
         animation = clone.spriteSheet.getAnimation(clone.currentAnimation)
         clone.currentAnimationFrame = Math.min(@clock % (animation.frames.length * 3), animation.frames.length - 1)
@@ -185,9 +185,6 @@ module.exports.Trailmaster = class Trailmaster
 
     @world.frames[@currentFrame].restoreStateForThang(thang)
     sprites
-
-
-
 
 createPath = (points, options={}, g=null) ->
   options = options or {}
@@ -290,5 +287,3 @@ colorForThang = (team, brightness=100, alpha=1.0) =>
   return color
 
 module.exports.createPath = createPath
-
-

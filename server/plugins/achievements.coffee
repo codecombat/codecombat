@@ -1,4 +1,4 @@
-mongoose = require('mongoose')
+mongoose = require 'mongoose'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 LocalMongo = require '../../app/lib/LocalMongo'
 util = require '../../app/lib/utils'
@@ -8,7 +8,7 @@ achievements = {}
 
 module.exports = AchievablePlugin = (schema, options) ->
   User = require '../users/User'  # Avoid mutual inclusion cycles
-  Achievement = require('../achievements/Achievement')
+  Achievement = require '../achievements/Achievement'
 
   checkForAchievement = (doc) ->
     collectionName = doc.constructor.modelName
@@ -65,7 +65,7 @@ module.exports = AchievablePlugin = (schema, options) ->
               earned.achievedAmount = newAmount
               earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * worth
               earned.previouslyAchievedAmount = originalAmount
-              EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
+              EarnedAchievement.update {achievement: earned.achievement, user: earned.user}, earned, {upsert: true}, (err) ->
                 return log.debug err if err?
 
               earnedPoints = earned.earnedPoints
@@ -85,7 +85,7 @@ module.exports = AchievablePlugin = (schema, options) ->
 
 module.exports.loadAchievements = ->
   achievements = {}
-  Achievement = require('../achievements/Achievement')
+  Achievement = require '../achievements/Achievement'
   query = Achievement.find({})
   query.exec (err, docs) ->
     _.each docs, (achievement) ->

@@ -1,8 +1,8 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/account/settings'
-{me} = require('lib/auth')
-forms = require('lib/forms')
-User = require('models/User')
+{me} = require 'lib/auth'
+forms = require 'lib/forms'
+User = require 'models/User'
 AuthModalView = require 'views/modal/auth_modal'
 
 WizardSettingsView = require './wizard_settings_view'
@@ -35,7 +35,7 @@ module.exports = class SettingsView extends View
       forms.clearFormAlerts($('#password-pane', @$el))
     )
 
-    @chooseTab(location.hash.replace('#',''))
+    @chooseTab(location.hash.replace('#', ''))
 
     wizardSettingsView = new WizardSettingsView()
     @listenTo wizardSettingsView, 'change', @save
@@ -107,7 +107,7 @@ module.exports = class SettingsView extends View
     @grabData()
     res = me.validate()
     if res?
-      console.error "Couldn't save because of validation errors:", res
+      console.error 'Couldn\'t save because of validation errors:', res
       forms.applyErrorsToForm(@$el, res)
       return
 
@@ -135,7 +135,7 @@ module.exports = class SettingsView extends View
     bothThere = Boolean(password1) and Boolean(password2)
     if bothThere and password1 isnt password2
       message = $.i18n.t('account_settings.password_mismatch', defaultValue: 'Password does not match.')
-      err = [message:message, property:'password2', formatted:true]
+      err = [message: message, property: 'password2', formatted: true]
       forms.applyErrorsToForm(@$el, err)
       return
     if bothThere

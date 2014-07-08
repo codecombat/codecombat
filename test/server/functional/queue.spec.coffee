@@ -5,7 +5,7 @@ describe 'queue', ->
   allowHeader = 'GET, POST, PUT'
 
   xit 'can\'t be requested with HTTP PATCH method', (done) ->
-    request {method:'patch', uri: someURL}, (err, res, body) ->
+    request {method: 'patch', uri: someURL}, (err, res, body) ->
       expect(res.statusCode).toBe(405)
       expect(res.headers.allow).toBe(allowHeader)
       done()
@@ -21,5 +21,3 @@ describe 'queue', ->
       expect(res.statusCode).toBe(405)
       expect(res.headers.allow).toBe(allowHeader)
       done()
-
-

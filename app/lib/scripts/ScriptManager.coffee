@@ -76,10 +76,10 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       script.id = (idNum++).toString() unless script.id
       callback = makeCallback(script.channel) # curry in the channel argument
       @addNewSubscription(script.channel, callback)
-      
+
   beginTicking: ->
     @tickInterval = setInterval @tick, 5000
-    
+
   tick: =>
     scriptStates = {}
     now = new Date()
@@ -87,7 +87,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       scriptStates[script.id] =
         timeSinceLastEnded: (if script.lastEnded then now - script.lastEnded else 0) / 1000
         timeSinceLastTriggered: (if script.lastTriggered then now - script.lastTriggered else 0) / 1000
-    
+
     stateEvent =
       scriptRunning: @currentNoteGroup?.scriptID or ''
       noteGroupRunning: @currentNoteGroup?.name or ''
@@ -123,7 +123,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     for scriptID in scriptsToSkip
       script = _.find @scripts, {id: scriptID}
       unless script
-        console.warn "Couldn't find script for", scriptID, "from scripts", @scripts, "when restoring session scripts."
+        console.warn 'Couldn\'t find script for', scriptID, 'from scripts', @scripts, 'when restoring session scripts.'
         continue
       continue if script.repeats # repeating scripts are not 'rerun'
       @triggered.push(scriptID)

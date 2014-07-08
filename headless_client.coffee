@@ -2,12 +2,12 @@
 This file will simulate games on node.js by emulating the browser environment.
 ###
 simulateOneGame = false
-if process.argv[2] is "one-game"
+if process.argv[2] is 'one-game'
   #calculate result of one game here
   simulateOneGame = true
   console.log "Simulating #{process.argv[3]} vs #{process.argv[4]}"
-bowerComponentsPath = "./bower_components/"
-headlessClientPath = "./headless_client/"
+bowerComponentsPath = './bower_components/'
+headlessClientPath = './headless_client/'
 
 # SETTINGS
 options =
@@ -22,7 +22,7 @@ options =
   simulateOnlyOneGame: simulateOneGame
 
 options.heapdump = require('heapdump') if options.heapdump
-server = if options.testing then "http://127.0.0.1:3000" else "https://codecombat.com"
+server = if options.testing then 'http://127.0.0.1:3000' else 'https://codecombat.com'
 
 # Disabled modules
 disable = [
@@ -35,7 +35,7 @@ disable = [
 
 # Global emulated stuff
 GLOBAL.window = GLOBAL
-GLOBAL.document = location: pathname: "headless_client"
+GLOBAL.document = location: pathname: 'headless_client'
 GLOBAL.console.debug = console.log
 GLOBAL.Worker = require('webworker-threads').Worker
 Worker::removeEventListener = (what) ->
@@ -65,7 +65,7 @@ hookedLoader = (request, parent, isMain) ->
     request = path + '/app/' + request
   else if request is 'underscore'
     request = 'lodash'
-  console.log "loading " + request if options.debug
+  console.log 'loading ' + request if options.debug
   originalLoader request, parent, isMain
 unhook = () ->
   m._load = originalLoader
@@ -98,14 +98,14 @@ login = require './login.coffee' #should contain an object containing they keys 
 #Login user and start the code.
 $.ajax
   url: '/auth/login'
-  type: "POST"
+  type: 'POST'
   data: login
   parse: true
-  error: (error) -> "Bad Error. Can't connect to server or something. " + error
+  error: (error) -> 'Bad Error. Can\'t connect to server or something. ' + error
   success: (response, textStatus, jqXHR) ->
-    console.log "User: ", response if options.debug
+    console.log 'User: ', response if options.debug
     unless jqXHR.status is 200
-      console.log "User not authenticated. Status code: ", jqXHR.status
+      console.log 'User not authenticated. Status code: ', jqXHR.status
       return
     GLOBAL.window.userObject = response # JSON.parse response
     Simulator = require 'lib/simulator/Simulator'

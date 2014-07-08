@@ -43,7 +43,7 @@ module.exports = class LevelBus extends Bus
   incrementSessionPlaytime: =>
     if @playerIsIdle then return
     @changedSessionProperties.playtime = true
-    @session.set("playtime",@session.get("playtime") + 1)
+    @session.set('playtime', @session.get('playtime') + 1)
 
   onPoint: ->
     return true unless @session?.get('multiplayer')
@@ -123,7 +123,7 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.teamSpells = true
     @session.set({'teamSpells': @teamSpellMap})
     @saveSession()
-    if spellTeam is me.team or spellTeam is "common"
+    if spellTeam is me.team or spellTeam is 'common'
       @onSpellChanged e  # Save the new spell to the session, too.
 
   onScriptStateChanged: (e) ->
@@ -233,7 +233,7 @@ module.exports = class LevelBus extends Bus
 
     # since updates are coming fast and loose for session objects
     # don't let what the server returns overwrite changes since the save began
-    tempSession = new LevelSession _id:@session.id
+    tempSession = new LevelSession _id: @session.id
     tempSession.save(patch, {patch: true})
 
   destroy: ->

@@ -9,7 +9,7 @@ module.exports.getParentFolders = (subPath, urlPrefix='/test/') ->
       url: urlPrefix + parts.join('/')
     }
   paths
-  
+
 module.exports.parseImmediateChildren = (allChildren, subPath, baseRequirePath='test/app/', urlPrefix='/test/') ->
   return [] unless allChildren
   folders = {}
@@ -34,14 +34,14 @@ module.exports.parseImmediateChildren = (allChildren, subPath, baseRequirePath='
 
   for name in _.keys(folders)
     children.push {
-      type:'folder',
+      type: 'folder',
       url: urlPrefix+name
       name: name+'/'
       size: folders[name]
     }
   for name in _.keys(files)
     children.push {
-      type:'file',
+      type: 'file',
       url: urlPrefix+name
       name: name
     }

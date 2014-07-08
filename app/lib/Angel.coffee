@@ -15,7 +15,7 @@ module.exports = class Angel extends CocoClass
   constructor: (@shared) ->
     super()
     @say 'Got my wings.'
-    if window.navigator and (window.navigator.userAgent.search("MSIE") isnt -1 or window.navigator.appName is 'Microsoft Internet Explorer')
+    if window.navigator and (window.navigator.userAgent.search('MSIE') isnt -1 or window.navigator.appName is 'Microsoft Internet Explorer')
       @infiniteLoopIntervalDuration *= 10  # since it's so slow to serialize without transferable objects, we can't trust it
       @infiniteLoopTimeoutDuration *= 10
       @abortTimeoutDuration *= 10
@@ -34,13 +34,13 @@ module.exports = class Angel extends CocoClass
 
   # say: debugging stuff, usually off; log: important performance indicators, keep on
   say: (args...) -> #@log args...
-  log: (args...) -> console.log "|#{@shared.godNick}'s #{@nick}|", args...
+  log: (args...) -> console.info "|#{@shared.godNick}'s #{@nick}|", args...
 
   testWorker: =>
     return if @destroyed
     clearTimeout @condemnTimeout
     @condemnTimeout = _.delay @infinitelyLooped, @infiniteLoopTimeoutDuration
-    @say "Let's give it", @infiniteLoopTimeoutDuration, "to not loop."
+    @say 'Let\'s give it', @infiniteLoopTimeoutDuration, 'to not loop.'
     @worker.postMessage func: 'reportIn'
 
   onWorkerMessage: (event) =>
@@ -58,7 +58,7 @@ module.exports = class Angel extends CocoClass
       when 'start-load-frames'
         clearTimeout @condemnTimeout
       when 'report-in'
-        @say "Worker reported in."
+        @say 'Worker reported in.'
         clearTimeout @condemnTimeout
       when 'end-load-frames'
         clearTimeout @condemnTimeout
@@ -84,7 +84,7 @@ module.exports = class Angel extends CocoClass
       when 'new-world'
         @beholdWorld event.data.serialized, event.data.goalStates
       when 'abort'
-        @say "Aborted.", event.data
+        @say 'Aborted.', event.data
         clearTimeout @abortTimeout
         @aborting = false
         @running = false
@@ -92,7 +92,7 @@ module.exports = class Angel extends CocoClass
         @doWork()
 
       else
-        @log "Received unsupported message:", event.data
+        @log 'Received unsupported message:', event.data
 
   beholdGoalStates: (goalStates) ->
     return if @aborting
@@ -125,37 +125,37 @@ module.exports = class Angel extends CocoClass
     @doWork()
 
   finalizePreload: ->
-    @say "Finalize preload."
+    @say 'Finalize preload.'
     @worker.postMessage func: 'finalizePreload'
 
   infinitelyLooped: =>
-    @say "On infinitely looped! Aborting?", @aborting
+    @say 'On infinitely looped! Aborting?', @aborting
     return if @aborting
-    problem = type: "runtime", level: "error", id: "runtime_InfiniteLoop", message: "Code never finished. It's either really slow or has an infinite loop."
+    problem = type: 'runtime', level: 'error', id: 'runtime_InfiniteLoop', message: 'Code never finished. It\'s either really slow or has an infinite loop.'
     Backbone.Mediator.publish 'god:user-code-problem', problem: problem
     Backbone.Mediator.publish 'god:infinite-loop', firstWorld: @shared.firstWorld
     @fireWorker()
 
   doWork: ->
     return if @aborting
-    return @say "Not initialized for work yet." unless @initialized
+    return @say 'Not initialized for work yet.' unless @initialized
     if @shared.workQueue.length
       @work = @shared.workQueue.shift()
       return _.defer @simulateSync, @work if @work.synchronous
-      @say "Running world..."
+      @say 'Running world...'
       @running = true
       @shared.busyAngels.push @
       @worker.postMessage func: 'runWorld', args: @work
       clearTimeout @purgatoryTimer
-      @say "Infinite loop timer started at interval of", @infiniteLoopIntervalDuration
+      @say 'Infinite loop timer started at interval of', @infiniteLoopIntervalDuration
       @purgatoryTimer = setInterval @testWorker, @infiniteLoopIntervalDuration
     else
-      @say "No work to do."
+      @say 'No work to do.'
       @hireWorker()
 
   abort: ->
     return unless @worker and @running
-    @say "Aborting..."
+    @say 'Aborting...'
     @running = false
     @work = null
     _.remove @shared.busyAngels, @
@@ -172,14 +172,14 @@ module.exports = class Angel extends CocoClass
     @worker = null
     clearTimeout @condemnTimeout
     clearInterval @purgatoryTimer
-    @say "Fired worker."
+    @say 'Fired worker.'
     @initialized = false
     @work = null
     @hireWorker() if rehire
 
   hireWorker: ->
     return if @worker
-    @say "Hiring worker."
+    @say 'Hiring worker.'
     @worker = new Worker @shared.workerCode
     @worker.addEventListener 'message', @onWorkerMessage
     @worker.creationTime = new Date()
@@ -199,7 +199,7 @@ module.exports = class Angel extends CocoClass
       testWorld.setGoalManager testGM
     @doSimulateWorld work
     console?.profileEnd?() if imitateIE9?
-    console.log "Construction:", (work.t1 - work.t0).toFixed(0), "ms. Simulation:", (work.t2 - work.t1).toFixed(0), "ms --", ((work.t2 - work.t1) / testWorld.frames.length).toFixed(3), "ms per frame, profiled."
+    console.log 'Construction:', (work.t1 - work.t0).toFixed(0), 'ms. Simulation:', (work.t2 - work.t1).toFixed(0), 'ms --', ((work.t2 - work.t1) / testWorld.frames.length).toFixed(3), 'ms per frame, profiled.'
 
     # If performance was really a priority in IE9, we would rework things to be able to skip this step.
     goalStates = testGM?.getGoalStates()
@@ -212,7 +212,7 @@ module.exports = class Angel extends CocoClass
   doSimulateWorld: (work) ->
     work.t1 = now()
     Math.random = work.testWorld.rand.randf  # so user code is predictable
-    Aether.replaceBuiltin("Math", Math)
+    Aether.replaceBuiltin('Math', Math)
     i = 0
     while i < work.testWorld.totalFrames
       frame = work.testWorld.getFrame i++

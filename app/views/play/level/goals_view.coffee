@@ -9,7 +9,7 @@ stateIconMap =
   failure: 'icon-remove'
 
 module.exports = class GoalsView extends View
-  id: "goals-view"
+  id: 'goals-view'
   template: template
 
   subscriptions:
@@ -22,7 +22,7 @@ module.exports = class GoalsView extends View
     'mouseenter': ->
       @mouseEntered = true
       @updatePlacement()
-      
+
     'mouseleave': ->
       @mouseEntered = false
       @updatePlacement()
@@ -38,7 +38,7 @@ module.exports = class GoalsView extends View
     classToShow ?= 'timed-out' if e.timedOut
     classToShow ?= 'incomplete'
     @$el.find('.goal-status.'+classToShow).removeClass 'secret'
-    
+
     list = $('#primary-goals-list', @$el)
     list.empty()
     goals = []
@@ -78,11 +78,11 @@ module.exports = class GoalsView extends View
   render: ->
     super()
     @$el.addClass('secret').addClass('expanded')
-    
+
   afterRender: ->
     super()
     @updatePlacement()
-    
+
   updatePlacement: ->
     if @playbackEnded or @mouseEntered
       # expand

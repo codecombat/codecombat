@@ -29,8 +29,8 @@ module.exports = class SpriteParser
   parse: (source) ->
     # Grab the library properties' width/height so we can subtract half of each from frame bounds
     properties = source.match(/.*lib\.properties = \{\n.*?width: (\d+),\n.*?height: (\d+)/im)
-    @width = parseInt(properties?[1] ? "0", 10)
-    @height = parseInt(properties?[2] ? "0", 10)
+    @width = parseInt(properties?[1] ? '0', 10)
+    @height = parseInt(properties?[2] ? '0', 10)
 
     options = {loc: false, range: true}
     ast = esprima.parse source, options
@@ -60,7 +60,7 @@ module.exports = class SpriteParser
         continue if gotIt
         for c in localContainers
           if c.bn is bn
-            instructions.push { t: c.t, gn: c.gn }
+            instructions.push {t: c.t, gn: c.gn}
             break
       @addContainer {c: instructions, b: container.bounds}, container.name
     for movieClip in movieClips
@@ -101,7 +101,7 @@ module.exports = class SpriteParser
     if not shortKey?
       shortKey = name
       if @thangType.containers[shortKey]?
-        shortKey = @animationName + ":" + name
+        shortKey = @animationName + ':' + name
       @thangType.containers[shortKey] = container
       @containerLongKeys[longKey] = shortKey
     @containerRenamings[name] = shortKey
@@ -115,7 +115,7 @@ module.exports = class SpriteParser
     else
       shortKey = name
       if @thangType.animations[shortKey]?
-        shortKey = @animationName + ":" + name
+        shortKey = @animationName + ':' + name
       @thangType.animations[shortKey] = animation
       @animationLongKeys[longKey] = shortKey
       @animationRenamings[name] = shortKey
@@ -173,7 +173,7 @@ module.exports = class SpriteParser
             frameBoundsRange = frameBoundsStatement.expression.right.range
             frameBoundsSource = @subSourceFromRange frameBoundsRange, source
             if frameBoundsSource.search(/\[rect/) is -1  # some other statement; we don't have multiframe bounds
-              console.log "Didn't have multiframe bounds for this movie clip."
+              console.log 'Didn\'t have multiframe bounds for this movie clip.'
               frameBounds = [nominalBounds]
             else
               lastRect = nominalBounds
@@ -204,10 +204,10 @@ module.exports = class SpriteParser
     functionExpressions
 
   ###
-    this.shape_1.graphics.f("#605E4A").s().p("AAOD/IgOgaIAEhkIgmgdIgMgBIgPgFIgVgJQA1h9g8jXQAQAHAOASQAQAUAKAeQARAuAJBJQAHA/gBA5IAAADIACAfIAFARIACAGIAEAHIAHAHQAVAXAQAUQAUAaANAUIABACIgsgdIgggXIAAAnIABAwIgBgBg");
+    this.shape_1.graphics.f('#605E4A').s().p('AAOD/IgOgaIAEhkIgmgdIgMgBIgPgFIgVgJQA1h9g8jXQAQAHAOASQAQAUAKAeQARAuAJBJQAHA/gBA5IAAADIACAfIAFARIACAGIAEAHIAHAHQAVAXAQAUQAUAaANAUIABACIgsgdIgggXIAAAnIABAwIgBgBg');
     this.shape_1.sett(23.2,30.1);
 
-    this.shape.graphics.f().s("#000000").ss(0.1,1,1).p("AAAAAQAAAAAAAA");
+    this.shape.graphics.f().s('#000000').ss(0.1,1,1).p('AAAAAQAAAAAAAA');
     this.shape.sett(3.8,22.4);
   ###
 
@@ -218,7 +218,7 @@ module.exports = class SpriteParser
       return unless node.type is 'NewExpression' and node.callee.property.name is 'Graphics'
       blockName = node.parent.parent.parent.id.name
       graphicsString = node.parent.parent.arguments[0].value
-      localGraphics.push({p:graphicsString, bn:blockName})
+      localGraphics.push {p:graphicsString, bn:blockName}
 
     @walk block, null, gatherShapeDefinitions
     return localGraphics
@@ -233,7 +233,7 @@ module.exports = class SpriteParser
       if not name
         name = node.parent?.parent?.id?.name
         return unless name and name.indexOf('mask') is 0 and node.property?.name is 'Shape'
-        shape = { bn: name, im: true }
+        shape = {bn: name, im: true}
         localShapes.push shape
         return
       return unless name.search('shape') is 0 and node.object.property?.name is 'graphics'
@@ -243,14 +243,14 @@ module.exports = class SpriteParser
         linearGradientFill = @grabFunctionArguments linearGradientFillSource.replace(/.*?lf\(/, 'lf('), true
       else
         fillColor = fillCall.arguments[0]?.value ? null
-        console.error "What is this?! Not a fill!" unless fillCall.callee.property.name is 'f'
+        console.error 'What is this?! Not a fill!' unless fillCall.callee.property.name is 'f'
       strokeCall = node.parent.parent.parent.parent
       if strokeCall.object.callee.property.name is 'ls'
         linearGradientStrokeSource = @subSourceFromRange strokeCall.parent.range, source
         linearGradientStroke = @grabFunctionArguments linearGradientStrokeSource.replace(/.*?ls\(/, 'ls(').replace(/\).ss\(.*/, ')'), true
       else
         strokeColor = strokeCall.object.arguments?[0]?.value ? null
-        console.error "What is this?! Not a stroke!" unless strokeCall.object.callee.property.name is 's'
+        console.error 'What is this?! Not a stroke!' unless strokeCall.object.callee.property.name is 's'
       strokeStyle = null
       graphicsStatement = strokeCall.parent
       if strokeColor or linearGradientStroke
@@ -264,7 +264,7 @@ module.exports = class SpriteParser
         drawEllipse = @grabFunctionArguments drawEllipseSource.replace(/.*?de\(/, 'de('), true
       else
         path = graphicsStatement.arguments?[0]?.value ? null
-        console.error "What is this?! Not a path!" unless graphicsStatement.callee.property.name is 'p'
+        console.error 'What is this?! Not a path!' unless graphicsStatement.callee.property.name is 'p'
       body = graphicsStatement.parent.parent.body
       graphicsStatementIndex = _.indexOf body, graphicsStatement.parent
       t = body[graphicsStatementIndex + 1].expression
@@ -295,8 +295,8 @@ module.exports = class SpriteParser
       shape.fc = fillColor if fillColor
       shape.lf = linearGradientFill if linearGradientFill
       shape.ls = linearGradientStroke if linearGradientStroke
-      if name.search('shape') isnt -1 and shape.fc is "rgba(0,0,0,0.451)" and not shape.ss and not shape.sc
-        console.log "Skipping a shadow", name, shape, "because we're doing shadows separately now."
+      if name.search('shape') isnt -1 and shape.fc is 'rgba(0,0,0,0.451)' and not shape.ss and not shape.sc
+        console.log 'Skipping a shadow', name, shape, 'because we\'re doing shadows separately now.'
         return
       shapeKeys.push shapeKey = @addShape shape
       localShape = {bn: name, gn: shapeKey}
@@ -372,17 +372,17 @@ module.exports = class SpriteParser
         return if name is 'get' and callExpressions.length # avoid Ease calls in the tweens
         flattenedRanges = _.flatten [a.range for a in node.arguments]
         range = [_.min(flattenedRanges), _.max(flattenedRanges)]
-        # Replace "this.<local>" references with just the "name"
+        # Replace 'this.<local>' references with just the 'name'
         argsSource = @subSourceFromRange(range, source)
         argsSource = argsSource.replace(/mask/g, 'this.mask') # so the mask thing will be handled correctly as a blockName in the next line
-        argsSource = argsSource.replace(/this\.([a-z_0-9]+)/ig, '"$1"') # turns this.shape literal to "shape" string
+        argsSource = argsSource.replace(/this\.([a-z_0-9]+)/ig, '"$1"') # turns this.shape literal to 'shape' string
         argsSource = argsSource.replace(/cjs(.+)\)/, '"createjs$1)"') # turns cjs.Ease.get(0.5)
 
         args = eval "[#{argsSource}]"
         shadowTween = args[0]?.search?('shape') is 0 and not _.find(localShapes, bn: args[0])
-        shadowTween = shadowTween or args[0]?.state?[0]?.t?.search?("shape") is 0 and not _.find(localShapes, bn: args[0].state[0].t)
+        shadowTween = shadowTween or args[0]?.state?[0]?.t?.search?('shape') is 0 and not _.find(localShapes, bn: args[0].state[0].t)
         if shadowTween
-          console.log "Skipping tween", name, argsSource, args, "from localShapes", localShapes, "presumably because it's a shadow we skipped."
+          console.log 'Skipping tween', name, argsSource, args, 'from localShapes', localShapes, 'presumably because it\'s a shadow we skipped.'
           return
         callExpressions.push {n: name, a: args}
       @walk node.parent.parent, null, gatherCallExpressions
@@ -395,7 +395,7 @@ module.exports = class SpriteParser
     block = block.expression.object.right.body
     localArgs = []
     gatherAddChildCalls = (node) =>
-      return unless node.type is "Identifier" and node.name is "addChild"
+      return unless node.type is 'Identifier' and node.name is 'addChild'
       args = node.parent.parent.arguments
       args = (arg.property.name for arg in args)
       localArgs.push arg for arg in args
@@ -427,18 +427,18 @@ var p; // shortcut to reference prototypes
 
   // Layer 7
   this.shape = new cjs.Shape();
-  this.shape.graphics.f("#4F6877").s().p("AgsAxQgSgVgB");
+  this.shape.graphics.f('#4F6877').s().p('AgsAxQgSgVgB');
   this.shape.setTransform(283.1,146.1);
 
   // Layer 7 2
   this.shape_1 = new cjs.Shape();
-  this.shape_1.graphics.f("rgba(255,255,255,0.4)").s().p("ArTs0QSMB7EbVGQhsBhiGBHQjg1IvVkhg");
+  this.shape_1.graphics.f('rgba(255,255,255,0.4)').s().p('ArTs0QSMB7EbVGQhsBhiGBHQjg1IvVkhg');
   this.shape_1.setTransform(400.2,185.5);
 
   this.timeline.addTween(cjs.Tween.get({}).to({state:[]}).to({state:[{t:this.shape}]},7).to({state:[]},2).wait(6));
 
   // Wing
-  this.instance_9 = new lib.Wing_Animation("synched",0);
+  this.instance_9 = new lib.Wing_Animation('synched',0);
   this.instance_9.setTransform(313.9,145.6,1,1,0,0,0,49,-83.5);
 
   this.timeline.addTween(cjs.Tween.get(this.instance_9).to({y:128,startPosition:7},7).wait(1));
@@ -455,11 +455,11 @@ p.nominalBounds = new cjs.Rectangle(7.1,48.9,528.7,431.1);
 
   // Isolation Mode
   this.shape = new cjs.Shape();
-  this.shape.graphics.f("#1D2226").s().p("AgVAwQgUgdgN");
+  this.shape.graphics.f('#1D2226').s().p('AgVAwQgUgdgN');
   this.shape.setTransform(75,25.8);
 
   this.shape_1 = new cjs.Shape();
-  this.shape_1.graphics.f("#1D2226").s().p("AgnBXQACABAF");
+  this.shape_1.graphics.f('#1D2226').s().p('AgnBXQACABAF');
   this.shape_1.setTransform(80.8,22);
 
   this.addChild(this.shape_1,this.shape);
@@ -471,15 +471,15 @@ p.nominalBounds = new cjs.Rectangle(5.8,0,87.9,85);
 
   // Layer 1
   this.shape = new cjs.Shape();
-  this.shape.graphics.f("#DBDDBC").s().p("Ag3BeQgCgRA");
+  this.shape.graphics.f('#DBDDBC').s().p('Ag3BeQgCgRA');
   this.shape.setTransform(10.6,19.7,1.081,1.081);
 
   this.shape_1 = new cjs.Shape();
-  this.shape_1.graphics.f("#1D2226").s().p("AB4CDQgGg");
+  this.shape_1.graphics.f('#1D2226').s().p('AB4CDQgGg');
   this.shape_1.setTransform(19.9,17.6,1.081,1.081);
 
   this.shape_2 = new cjs.Shape();
-  this.shape_2.graphics.f("#605E4A").s().p("AiECbQgRg");
+  this.shape_2.graphics.f('#605E4A').s().p('AiECbQgRg');
   this.shape_2.setTransform(19.5,18.4,1.081,1.081);
 
   this.addChild(this.shape_2,this.shape_1,this.shape);

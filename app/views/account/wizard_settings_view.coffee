@@ -1,6 +1,6 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/account/wizard_settings'
-{me} = require('lib/auth')
+{me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 {hslToHex, hexToHSL} = require 'lib/utils'
@@ -11,6 +11,11 @@ module.exports = class WizardSettingsView extends CocoView
   startsLoading: true
 
   events:
+    'click .color-group': (e) ->
+      return if $(e.target).closest('.minicolors')[0]
+      return if $(e.target).closest('.color-group-checkbox')[0]
+      return if $(e.target).closest('label')[0]
+      $(e.target).closest('.color-group').find('.color-group-checkbox').click()
     'change .color-group-checkbox': (e) ->
       colorGroup = $(e.target).closest('.color-group')
       @updateColorSettings(colorGroup)
@@ -77,7 +82,7 @@ module.exports = class WizardSettingsView extends CocoView
       input = colorGroup.find('.minicolors-input')
       hex = input.val()
       hsl = hexToHSL(hex)
-      config = {hue: hsl[0], saturation:hsl[1], lightness:hsl[2]}
+      config = {hue: hsl[0], saturation: hsl[1], lightness: hsl[2]}
       wizardSettings.colorConfig[colorName] = config
     else
       delete wizardSettings.colorConfig[colorName]

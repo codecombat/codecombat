@@ -1,5 +1,5 @@
-LevelComponent = require('./LevelComponent')
-Handler = require('../../commons/Handler')
+LevelComponent = require './LevelComponent'
+Handler = require '../../commons/Handler'
 
 LevelComponentHandler = class LevelComponentHandler extends Handler
   modelClass: LevelComponent
@@ -22,7 +22,7 @@ LevelComponentHandler = class LevelComponentHandler extends Handler
     props
 
   hasAccess: (req) ->
-    req.method is 'GET' or req.user?.isAdmin()
+    req.method in ['GET', 'PUT'] or req.user?.isAdmin()
 
 
 module.exports = new LevelComponentHandler()

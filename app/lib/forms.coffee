@@ -16,13 +16,13 @@ module.exports.applyErrorsToForm = (el, errors) ->
     if error.dataPath
       prop = error.dataPath[1..]
       message = error.message
-      
+
     else
       message = "#{error.property} #{error.message}."
       message = message[0].toUpperCase() + message[1..]
       message = error.message if error.formatted
       prop = error.property
-      
+
     input = $("[name='#{prop}']", el)
     if not input.length
       missingErrors.push(error)

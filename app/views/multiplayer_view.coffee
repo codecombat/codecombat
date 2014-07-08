@@ -9,7 +9,7 @@ module.exports = class MultiplayerLaunchView extends HomeView
 
 class MultiplayerLaunchModal extends ModalView
   template: modalTemplate
-  id: "multiplayer-launch-modal"
+  id: 'multiplayer-launch-modal'
 
   hide: ->
     $('#multiplayer-video').attr('src','')

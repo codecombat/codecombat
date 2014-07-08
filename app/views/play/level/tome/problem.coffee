@@ -1,5 +1,5 @@
 ProblemAlertView = require './problem_alert_view'
-Range = ace.require("ace/range").Range
+Range = ace.require('ace/range').Range
 
 module.exports = class Problem
   annotation: null
@@ -25,7 +25,7 @@ module.exports = class Problem
       column: start.col,
       raw: text,
       text: text,
-      type: @aetherProblem.level ? "error"
+      type: @aetherProblem.level ? 'error'
 
   buildAlertView: ->
     @alertView = new ProblemAlertView problem: @
@@ -39,7 +39,7 @@ module.exports = class Problem
     @markerRange = new Range start.row, start.col, end.row, end.col
     @markerRange.start = @ace.getSession().getDocument().createAnchor @markerRange.start
     @markerRange.end = @ace.getSession().getDocument().createAnchor @markerRange.end
-    @markerRange.id = @ace.getSession().addMarker @markerRange, clazz, "text"
+    @markerRange.id = @ace.getSession().addMarker @markerRange, clazz, 'text'
 
   removeMarkerRange: ->
     return unless @markerRange

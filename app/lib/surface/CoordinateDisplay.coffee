@@ -11,7 +11,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     super()
     @initialize()
     @camera = options.camera
-    console.error "CoordinateDisplay needs camera." unless @camera
+    console.error 'CoordinateDisplay needs camera.' unless @camera
     @build()
     @show = _.debounce @show, 125
     Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions
@@ -24,10 +24,10 @@ module.exports = class CoordinateDisplay extends createjs.Container
   build: ->
     @mouseEnabled = @mouseChildren = false
     @addChild @background = new createjs.Shape()
-    @addChild @label = new createjs.Text("", "bold 16px Arial", "#FFFFFF")
+    @addChild @label = new createjs.Text('', 'bold 16px Arial', '#FFFFFF')
     @label.name = 'Coordinate Display Text'
-    @label.shadow = new createjs.Shadow("#000000", 1, 1, 0)
-    @background.name = "Coordinate Display Background"
+    @label.shadow = new createjs.Shadow('#000000', 1, 1, 0)
+    @background.name = 'Coordinate Display Background'
 
   onMouseOver: (e) -> @mouseInBounds = true
   onMouseOut: (e) -> @mouseInBounds = false
@@ -71,8 +71,8 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @label.regY = @background.regY = height / 2 - margin
     @background.graphics
       .clear()
-      .beginFill("rgba(0, 0, 0, 0.4)")
-      .beginStroke("rgba(0, 0, 0, 0.6)")
+      .beginFill('rgba(0,0,0,0.4)')
+      .beginStroke('rgba(0,0,0,0.6)')
       .setStrokeStyle(1)
       .drawRoundRect(0, 0, width, height, radius)
       .endFill()

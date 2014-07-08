@@ -14,7 +14,7 @@ module.exports = class GoalManager extends CocoClass
   # If you want weird goals or hybrid goals, make a custom goal.
 
   nextGoalID: 0
-  nicks: ["GoalManager"]
+  nicks: ['GoalManager']
 
   constructor: (@world, @initialGoals, @team) ->
     super()
@@ -134,9 +134,9 @@ module.exports = class GoalManager extends CocoClass
       }
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
       for getTo in goal.getAllToLocations ? []
-        @initGoalState(state,[ getTo.getToLocation?.who , [] ], 'arrived')
+        @initGoalState(state, [getTo.getToLocation?.who, []], 'arrived')
       for keepFrom in goal.keepAllFromLocations ? []
-        @initGoalState(state,[ [] , keepFrom.keepFromLocation?.who], 'arrived')
+        @initGoalState(state, [[], keepFrom.keepFromLocation?.who], 'arrived')
       @initGoalState(state, [goal.getToLocations?.who, goal.keepFromLocations?.who], 'arrived')
       @initGoalState(state, [goal.leaveOffSides?.who, goal.keepFromLeavingOffSides?.who], 'left')
       @initGoalState(state, [goal.collectThangs?.who, goal.keepFromCollectingThangs?.who], 'collected')
@@ -229,8 +229,8 @@ module.exports = class GoalManager extends CocoClass
     if overallStatus = @checkOverallStatus true
       matchedGoals = (_.find(@goals, {id: goalID}) for goalID, goalState of @goalStates when goalState.status is overallStatus)
       mostEagerGoal = _.min matchedGoals, 'worldEndsAfter'
-      victory = overallStatus is "success"
-      tentative = overallStatus is "success"
+      victory = overallStatus is 'success'
+      tentative = overallStatus is 'success'
       @world.endWorld victory, mostEagerGoal.worldEndsAfter, tentative if mostEagerGoal isnt Infinity
 
   updateGoalState: (goalID, thangID, progressObjectName, frameNumber) ->
@@ -244,20 +244,20 @@ module.exports = class GoalManager extends CocoClass
     if success
       numNeeded = goal.howMany ? Math.max(1, _.size stateThangs)
     else
-      # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be "done"
+      # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be 'done'
       numNeeded = _.size(stateThangs) - Math.max((goal.howMany ? 1), _.size stateThangs) + 1
     numDone = _.filter(stateThangs).length
-    #console.log "needed", numNeeded, "done", numDone, "of total", _.size(stateThangs), "with how many", goal.howMany, "and stateThangs", stateThangs
+    #console.log 'needed', numNeeded, 'done', numDone, 'of total', _.size(stateThangs), 'with how many', goal.howMany, 'and stateThangs', stateThangs
     return unless numDone >= numNeeded
     return if state.status and not success  # already failed it; don't wipe keyframe
-    state.status = if success then "success" else "failure"
+    state.status = if success then 'success' else 'failure'
     state.keyFrame = frameNumber
-    #console.log goalID, "became", success, "on frame", frameNumber, "with overallStatus", @checkOverallStatus true
+    #console.log goalID, 'became', success, 'on frame', frameNumber, 'with overallStatus', @checkOverallStatus true
     if overallStatus = @checkOverallStatus true
       matchedGoals = (_.find(@goals, {id: goalID}) for goalID, goalState of @goalStates when goalState.status is overallStatus)
       mostEagerGoal = _.min matchedGoals, 'worldEndsAfter'
-      victory = overallStatus is "success"
-      tentative = overallStatus is "success"
+      victory = overallStatus is 'success'
+      tentative = overallStatus is 'success'
       @world.endWorld victory, mostEagerGoal.worldEndsAfter, tentative if mostEagerGoal isnt Infinity
 
   goalIsPositive: (goalID) ->

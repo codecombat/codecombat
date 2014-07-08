@@ -6,7 +6,7 @@ samples = require 'lib/sprites/parser_samples_artillery'
 ThangType = require 'models/ThangType'
 
 module.exports = class SpriteParserTestView extends View
-  id: "sprite-parser-test-view"
+  id: 'sprite-parser-test-view'
   template: template
 
   afterRender: ->
@@ -17,6 +17,6 @@ module.exports = class SpriteParserTestView extends View
     for sample in _.shuffle samples
       parser = new SpriteParser(thangType)
       parser.parse(sample)
-    console.log "thang type is now", thangType
+    console.log 'thang type is now', thangType
     console.log JSON.stringify(thangType).length
 #    console.log JSON.stringify(thangType.attributes.raw.animations.tharin_defend.tweens)
