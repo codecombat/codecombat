@@ -155,6 +155,7 @@ module.exports = class EmployersView extends View
     ctx.moment = moment
     ctx._ = _
     ctx.numberOfCandidates = ctx.featuredCandidates.length
+    ctx.isntEmployer = not (@isEmployer() or me.isAdmin())
     ctx
 
   isEmployer: ->
