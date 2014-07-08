@@ -857,8 +857,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    timeout: "Server timeout."
 #    conflict: "Resource conflict."
 #    bad_input: "Bad input."
-#    server_error: "Server error."
-#    unknown: "Unknown error."
+    server_error: "Erro do servidor."
+    unknown: "Erro desconhecido."
 
   resources:
 #    your_sessions: "Your Sessions"
