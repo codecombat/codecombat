@@ -70,6 +70,7 @@ module.exports = class EmployersView extends View
     for filterName, filterValues of @filters
       if filterValues.length is 0
         @filters[filterName] = @defaultFilters[filterName]
+    @applyFilters()
 
   openSignupModal: ->
     @openModalView new EmployerSignupView
