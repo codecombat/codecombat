@@ -112,19 +112,33 @@ module.exports = class EmployersView extends View
     @filters =
       phoneScreenFilter: [true, false]
       visa: ['Authorized to work in the US', 'Need visa sponsorship']
-      schoolFilter: ['Top 20 Eng.', 'Other US', 'Other Intl.', 'Top School', 'Other']
+      schoolFilter: ['Top School', 'Other']
       locationFilter: ['Bay Area', 'New York', 'Other US', 'International']
       roleFilter: ['Web Developer', 'Software Developer', 'Mobile Developer']
       seniorityFilter: ['College Student', 'Recent Grad', 'Junior', 'Senior']
     @defaultFilters = _.cloneDeep @filters
 
-
+  candidatesInFilter: (filterName, filterValue) =>
+    candidates = @getActiveAndApprovedCandidates()
+    if filterName and filterValue
+      if filterName is 'visa'
+        return (_.filter candidates, (c) -> c.get('jobProfile').visa is filterValue).length
+      else
+        return (_.filter candidates, (c) -> c.get('jobProfile').curated?[filterName] is filterValue).length
+    else
+      return Math.floor(Math.random() * 500)
+      
+  getActiveAndApprovedCandidates: =>
+    candidates = _.filter @candidates.models, (c) -> c.get('jobProfile').active
+    return _.filter candidates, (c) -> c.get('jobProfileApproved')
+    
   getRenderData: ->
     ctx = super()
     ctx.isEmployer = @isEmployer()
-    ctx.candidates = _.sortBy @candidates.models, (c) -> c.get('jobProfile').curated?.featured
-    ctx.candidates = _.sortBy ctx.candidates, (c) -> -1 * c.get('jobProfile').experience
+    #If you change the candidates displayed, change candidatesInFilter()
+    ctx.candidates = _.sortBy @candidates.models, (c) -> -1 * c.get('jobProfile').experience
     ctx.candidates = _.sortBy ctx.candidates, (c) -> not c.get('jobProfile').curated?
+    ctx.candidates = _.sortBy ctx.candidates, (c) -> c.get('jobProfile').curated?.featured
     ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
@@ -134,6 +148,7 @@ module.exports = class EmployersView extends View
       ctx.featuredCandidates = ctx.featuredCandidates.slice(0,7)
     if me.isAdmin()
       ctx.featuredCandidates = ctx.candidates
+    ctx.candidatesInFilter = @candidatesInFilter
     ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
     ctx.remarks = {}
     ctx.remarks[remark.get('user')] = remark for remark in @remarks.models
