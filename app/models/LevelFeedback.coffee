@@ -1,6 +1,6 @@
-CocoModel = require('./CocoModel')
+CocoModel = require './CocoModel'
 
 module.exports = class LevelFeedback extends CocoModel
-  @className: "LevelFeedback"
+  @className: 'LevelFeedback'
   @schema: require 'schemas/models/level_feedback'
-  urlRoot: "/db/level.feedback"
+  urlRoot: '/db/level.feedback'

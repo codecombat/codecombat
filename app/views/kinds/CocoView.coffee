@@ -4,6 +4,7 @@ CocoClass = require 'lib/CocoClass'
 loadingScreenTemplate = require 'templates/loading'
 loadingErrorTemplate = require 'templates/loading_error'
 
+lastToggleModalCall = 0
 visibleModal = null
 waitingModal = null
 classCount = 0
@@ -15,9 +16,6 @@ module.exports = class CocoView extends Backbone.View
   template: -> ''
 
   events:
-    'click a': 'toggleModal'
-    'click button': 'toggleModal'
-    'click li': 'toggleModal'
     'click .retry-loading-resource': 'onRetryResource'
     'click .retry-loading-request': 'onRetryRequest'
 
@@ -46,7 +44,6 @@ module.exports = class CocoView extends Backbone.View
     @subviews = {}
     @listenToShortcuts()
     @updateProgressBar = _.debounce @updateProgressBar, 100
-    @toggleModal = _.debounce @toggleModal, 100
     # Backbone.Mediator handles subscription setup/teardown automatically
 
     @listenTo(@supermodel, 'loaded-all', @onLoaded)
@@ -106,7 +103,7 @@ module.exports = class CocoView extends Backbone.View
     context ?= {}
     context.isProduction = document.location.href.search(/codecombat.com/) isnt -1
     context.me = me
-    context.pathname = document.location.pathname  # like "/play/level"
+    context.pathname = document.location.pathname  # like '/play/level'
     context.fbRef = context.pathname.replace(/[^a-zA-Z0-9+/=\-.:_]/g, '').slice(0, 40) or 'home'
     context.isMobile = @isMobile()
     context.isIE = @isIE()
@@ -150,6 +147,8 @@ module.exports = class CocoView extends Backbone.View
 
   # Modals
 
+  @lastToggleModalCall = 0
+
   toggleModal: (e) ->
     if $(e.currentTarget).prop('target') is '_blank'
       return true
@@ -158,6 +157,7 @@ module.exports = class CocoView extends Backbone.View
     return unless elem.data('toggle') is 'coco-modal'
     target = elem.data('target')
     view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to
+    e.stopPropagation()
     @openModalView(view)
 
   openModalView: (modalView, softly=false) ->
@@ -205,7 +205,7 @@ module.exports = class CocoView extends Backbone.View
 
   showReadOnly: ->
     return if me.isAdmin()
-    warning = $.i18n.t 'editor.read_only_warning2', defaultValue: "Note: you can't save any edits here, because you're not logged in."
+    warning = $.i18n.t 'editor.read_only_warning2', defaultValue: 'Note: you can\'t save any edits here, because you\'re not logged in.'
     noty text: warning, layout: 'center', type: 'information', killer: true, timeout: 5000
 
   # Loading ModalViews
@@ -264,11 +264,12 @@ module.exports = class CocoView extends Backbone.View
 
   # Utilities
 
-  getQueryVariable: (param, defaultValue) ->
+  getQueryVariable: (param, defaultValue) -> CocoView.getQueryVariable(param, defaultValue)
+  @getQueryVariable: (param, defaultValue) ->
     query = document.location.search.substring 1
-    pairs = (pair.split("=") for pair in query.split "&")
+    pairs = (pair.split('=') for pair in query.split '&')
     for pair in pairs when pair[0] is param
-      return {"true": true, "false": false}[pair[1]] ? decodeURIComponent(pair[1])
+      return {'true': true, 'false': false}[pair[1]] ? decodeURIComponent(pair[1])
     defaultValue
 
   getRootView: ->
@@ -282,16 +283,16 @@ module.exports = class CocoView extends Backbone.View
 
   isIE: ->
     ua = navigator.userAgent or navigator.vendor or window.opera
-    return ua.search("MSIE") != -1
+    return ua.search('MSIE') != -1
 
   isMac: ->
     navigator.platform.toUpperCase().indexOf('MAC') isnt -1
 
   initSlider: ($el, startValue, changeCallback) ->
-    slider = $el.slider({ animate: "fast" })
+    slider = $el.slider({animate: 'fast'})
     slider.slider('value', startValue)
-    slider.on('slide',changeCallback)
-    slider.on('slidechange',changeCallback)
+    slider.on('slide', changeCallback)
+    slider.on('slidechange', changeCallback)
     slider
 
 

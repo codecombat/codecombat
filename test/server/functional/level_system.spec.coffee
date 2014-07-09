@@ -3,14 +3,14 @@ require '../common'
 describe 'LevelSystem', ->
 
   system =
-    name:'Bashing'
-    description:'Performs Thang bashing updates for Bashes Thangs.'
+    name: 'Bashing'
+    description: 'Performs Thang bashing updates for Bashes Thangs.'
     code: """class Bashing extends System
       constructor: (world) ->
         super world
     """
-    language: 'coffeescript'
-    permissions:simplePermissions
+    codeLanguage: 'coffeescript'
+    permissions: simplePermissions
     dependencies: []
     propertyDocumentation: []
 
@@ -25,19 +25,19 @@ describe 'LevelSystem', ->
 
   it 'can\'t be created by ordinary users.', (done) ->
     loginJoe ->
-      request.post {uri:url, json:system}, (err, res, body) ->
+      request.post {uri: url, json: system}, (err, res, body) ->
         expect(res.statusCode).toBe(403)
         done()
 
   it 'can be created by an admin.', (done) ->
     loginAdmin ->
-      request.post {uri:url, json:system}, (err, res, body) ->
+      request.post {uri: url, json: system}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         expect(body._id).toBeDefined()
         expect(body.name).toBe(system.name)
         expect(body.description).toBe(system.description)
         expect(body.code).toBe(system.code)
-        expect(body.language).toBe(system.language)
+        expect(body.codeLanguage).toBe(system.codeLanguage)
         expect(body.__v).toBe(0)
         expect(body.creator).toBeDefined()
         expect(body.original).toBeDefined()
@@ -49,13 +49,13 @@ describe 'LevelSystem', ->
 
   it 'have a unique name.', (done) ->
     loginAdmin ->
-      request.post {uri:url, json:system}, (err, res, body) ->
+      request.post {uri: url, json: system}, (err, res, body) ->
         expect(res.statusCode).toBe(409)
         done()
 
   it 'can be read by an admin.', (done) ->
     loginAdmin ->
-      request.get {uri:url+'/'+systems[0]._id}, (err, res, body) ->
+      request.get {uri: url+'/'+systems[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
         expect(body._id).toBe(systems[0]._id)
@@ -63,7 +63,7 @@ describe 'LevelSystem', ->
 
   it 'can be read by ordinary users.', (done) ->
     loginJoe ->
-      request.get {uri:url+'/'+systems[0]._id}, (err, res, body) ->
+      request.get {uri: url+'/'+systems[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
         expect(body._id).toBe(systems[0]._id)
@@ -71,7 +71,7 @@ describe 'LevelSystem', ->
         expect(body.slug).toBeDefined()
         expect(body.description).toBe(systems[0].description)
         expect(body.code).toBe(systems[0].code)
-        expect(body.language).toBe(systems[0].language)
+        expect(body.codeLanguage).toBe(systems[0].codeLanguage)
         expect(body.__v).toBe(0)
         expect(body.official).toBeDefined()
         expect(body.creator).toBeDefined()
@@ -87,7 +87,7 @@ describe 'LevelSystem', ->
 
   it 'is unofficial by default', (done) ->
     loginJoe ->
-      request.get {uri:url+'/'+systems[0]._id}, (err, res, body) ->
+      request.get {uri: url+'/'+systems[0]._id}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         body = JSON.parse(body)
         expect(body._id).toBe(systems[0]._id)
@@ -97,14 +97,14 @@ describe 'LevelSystem', ->
   it 'official property isn\'t editable by an ordinary user.', (done) ->
     systems[0].official = true
     loginJoe ->
-      request.post {uri:url, json:systems[0]}, (err, res, body) ->
+      request.post {uri: url, json: systems[0]}, (err, res, body) ->
         expect(res.statusCode).toBe(403)
         done()
 
   it 'official property is editable by an admin.', (done) ->
     systems[0].official = true
     loginAdmin ->
-      request.post {uri:url, json:systems[0]}, (err, res, body) ->
+      request.post {uri: url, json: systems[0]}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         expect(body.official).toBe(true)
         expect(body.original).toBe(systems[0].original)
@@ -112,7 +112,7 @@ describe 'LevelSystem', ->
         expect(body.version.isLatestMajor).toBe(true)
         systems[1] = body
 
-        request.get {uri:url+'/'+systems[0]._id}, (err, res, body) ->
+        request.get {uri: url+'/'+systems[0]._id}, (err, res, body) ->
           expect(res.statusCode).toBe(200)
           body = JSON.parse(body)
           expect(body._id).toBe(systems[0]._id)
@@ -122,17 +122,17 @@ describe 'LevelSystem', ->
           done()
 
   it ' can\'t be requested with HTTP HEAD method', (done) ->
-    request.head {uri:url+'/'+systems[0]._id}, (err, res) ->
-      expect(res.statusCode).toBe(404)
+    request.head {uri: url+'/'+systems[0]._id}, (err, res) ->
+      expect(res.statusCode).toBe(405)
       done()
 
   it ' can\'t be requested with HTTP DEL method', (done) ->
-    request.del {uri:url+'/'+systems[0]._id}, (err, res) ->
-      expect(res.statusCode).toBe(404)
+    request.del {uri: url+'/'+systems[0]._id}, (err, res) ->
+      expect(res.statusCode).toBe(405)
       done()
 
   it 'get schema', (done) ->
-    request.get {uri:url+'/schema'}, (err, res, body) ->
+    request.get {uri: url+'/schema'}, (err, res, body) ->
       expect(res.statusCode).toBe(200)
       body = JSON.parse(body)
       expect(body.type).toBeDefined()

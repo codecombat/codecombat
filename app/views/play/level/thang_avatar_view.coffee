@@ -7,7 +7,7 @@ module.exports = class ThangAvatarView extends View
   template: template
 
   subscriptions:
-    'tome:problems-updated': "onProblemsUpdated"
+    'tome:problems-updated': 'onProblemsUpdated'
     'god:new-world-created': 'onNewWorld'
 
   constructor: (options) ->
@@ -18,10 +18,10 @@ module.exports = class ThangAvatarView extends View
     if not @thangType
       console.error 'Thang avatar view expected a thang type to be provided.'
       return
-      
+
     unless @thangType.isFullyLoaded() or @thangType.loading
       @thangType.fetch()
-  
+
     # couldn't get the level view to load properly through the supermodel
     # so just doing it manually this time.
     @listenTo @thangType, 'sync', @render

@@ -19,12 +19,12 @@ contactSchema =
       minLength: 1
 
 module.exports = class ContactView extends View
-  id: "contact-modal"
+  id: 'contact-modal'
   template: template
   closeButton: true
 
   events:
-    "click #contact-submit-button": "contact"
+    'click #contact-submit-button': 'contact'
 
   contact: ->
     forms.clearFormAlerts @$el
@@ -33,3 +33,4 @@ module.exports = class ContactView extends View
     return forms.applyErrorsToForm @$el, res.errors unless res.valid
     window.tracker?.trackEvent 'Sent Feedback', message: contactMessage
     sendContactMessage contactMessage, @$el
+    $.post "/db/user/#{me.id}/track/contact_codecombat"

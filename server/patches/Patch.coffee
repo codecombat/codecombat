@@ -1,4 +1,4 @@
-mongoose = require('mongoose')
+mongoose = require 'mongoose'
 {handlers} = require '../commons/mapping'
 
 PatchSchema = new mongoose.Schema({}, {strict: false})
@@ -10,22 +10,22 @@ PatchSchema.pre 'save', (next) ->
   Handler = require '../commons/Handler'
   if not Handler.isID(targetID)
     err = new Error('Invalid input.')
-    err.response = {message:"isn't a MongoDB id.", property:'target.id'}
+    err.response = {message: 'isn\'t a MongoDB id.', property: 'target.id'}
     err.code = 422
     return next(err)
-  
+
   collection = target.collection
   handler = require('../' + handlers[collection])
   handler.getDocumentForIdOrSlug targetID, (err, document) =>
     if err
       err = new Error('Server error.')
-      err.response = {message:'', property:'target.id'}
+      err.response = {message: '', property: 'target.id'}
       err.code = 500
       return next(err)
 
     if not document
       err = new Error('Target of patch not found.')
-      err.response = {message:'was not found.', property:'target.id'}
+      err.response = {message: 'was not found.', property: 'target.id'}
       err.code = 404
       return next(err)
 
@@ -37,7 +37,7 @@ PatchSchema.pre 'save', (next) ->
       @set('target', target)
     else
       target.original = targetID
-    
+
     patches = document.get('patches') or []
     patches = _.clone patches
     patches.push @_id

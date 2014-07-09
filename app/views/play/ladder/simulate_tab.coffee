@@ -40,15 +40,15 @@ module.exports = class SimulateTabView extends CocoView
 
   onSimulateButtonClick: (e) ->
     application.tracker?.trackEvent 'Simulate Button Click', {}
-    $("#simulate-button").prop "disabled", true
-    $("#simulate-button").text "Simulating..."
+    $('#simulate-button').prop 'disabled', true
+    $('#simulate-button').text 'Simulating...'
 
     @simulator.fetchAndSimulateTask()
 
   refresh: ->
     success = (numberOfGamesInQueue) ->
-      $("#games-in-queue").text numberOfGamesInQueue
-    $.ajax "/queue/messagesInQueueCount", {success}
+      $('#games-in-queue').text numberOfGamesInQueue
+    $.ajax '/queue/messagesInQueueCount', {success}
 
   updateSimulationStatus: (simulationStatus, sessions) ->
     @simulationStatus = simulationStatus
@@ -56,15 +56,15 @@ module.exports = class SimulateTabView extends CocoView
       if sessions?
         #TODO: Fetch names from Redis, the creatorName is denormalized
         creatorNames = (session.creatorName for session in sessions)
-        @simulationStatus = "Simulating game between "
+        @simulationStatus = 'Simulating game between '
         for index in [0...creatorNames.length]
           unless creatorNames[index]
-            creatorNames[index] = "Anonymous"
-          @simulationStatus += (if index != 0 then " and " else "") + creatorNames[index]
-        @simulationStatus += "..."
+            creatorNames[index] = 'Anonymous'
+          @simulationStatus += (if index != 0 then ' and ' else '') + creatorNames[index]
+        @simulationStatus += '...'
     catch e
       console.log "There was a problem with the named simulation status: #{e}"
-    $("#simulation-status-text").text @simulationStatus
+    $('#simulation-status-text').text @simulationStatus
 
   resimulateAllSessions: ->
     postData =
@@ -93,17 +93,17 @@ class SimulatorsLeaderboardData extends CocoClass
     super()
 
   fetch: ->
-    @topSimulators = new SimulatorsLeaderboardCollection({order:-1, scoreOffset: -1, limit: 20})
+    @topSimulators = new SimulatorsLeaderboardCollection({order: -1, scoreOffset: -1, limit: 20})
     promises = []
     promises.push @topSimulators.fetch()
     unless @me.get('anonymous')
       score = @me.get('simulatedBy') or 0
       queueSuccess = (@numberOfGamesInQueue) =>
-      promises.push $.ajax "/queue/messagesInQueueCount", {success: queueSuccess}
-      @playersAbove = new SimulatorsLeaderboardCollection({order:1, scoreOffset: score, limit: 4})
+      promises.push $.ajax '/queue/messagesInQueueCount', {success: queueSuccess}
+      @playersAbove = new SimulatorsLeaderboardCollection({order: 1, scoreOffset: score, limit: 4})
       promises.push @playersAbove.fetch()
       if score
-        @playersBelow = new SimulatorsLeaderboardCollection({order:-1, scoreOffset: score, limit: 4})
+        @playersBelow = new SimulatorsLeaderboardCollection({order: -1, scoreOffset: score, limit: 4})
         promises.push @playersBelow.fetch()
       success = (@myRank) =>
 

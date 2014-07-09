@@ -5,19 +5,20 @@ BEEN_HERE_BEFORE_KEY = 'beenHereBefore'
 
 init = ->
   module.exports.me = window.me = new User(window.userObject) # inserted into main.html
+  module.exports.me.onLoaded()
   trackFirstArrival()
   if me and not me.get('testGroupNumber')?
     # Assign testGroupNumber to returning visitors; new ones in server/routes/auth
     me.set 'testGroupNumber', Math.floor(Math.random() * 256)
-    me.save()
+    me.patch()
 
-  Backbone.listenTo(me, 'sync', Backbone.Mediator.publish('me:synced', {me:me}))
+  Backbone.listenTo(me, 'sync', Backbone.Mediator.publish('me:synced', {me: me}))
 
 module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) ->
   user = new User(userObject)
   user.notyErrors = false
   user.save({}, {
-    error: (model,jqxhr,options) ->
+    error: (model, jqxhr, options) ->
       error = parseServerError(jqxhr.responseText)
       property = error.property if error.property
       if jqxhr.status is 409 and property is 'name'
@@ -33,14 +34,14 @@ module.exports.createUserWithoutReload = (userObject, failure=backboneFailure) -
   user.save({}, {
     error: failure
     success: ->
-      Backbone.Mediator.publish("created-user-without-reload")
+      Backbone.Mediator.publish('created-user-without-reload')
   })
 
 module.exports.loginUser = (userObject, failure=genericFailure) ->
   jqxhr = $.post('/auth/login',
     {
-      username:userObject.email,
-      password:userObject.password
+      username: userObject.email,
+      password: userObject.password
     },
     (model) -> window.location.reload()
   )

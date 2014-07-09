@@ -8,6 +8,7 @@ utils = require 'lib/utils'
 module.exports = class DocsModal extends View
   template: template
   id: 'docs-modal'
+  plain: true
 
   shortcuts:
     'enter': 'hide'
@@ -49,7 +50,7 @@ module.exports = class DocsModal extends View
 
   clickTab: (e) =>
     @$el.find('li.active').removeClass('active')
-    
+
   afterInsert: ->
     super()
     Backbone.Mediator.publish 'level:docs-shown'

@@ -1,19 +1,53 @@
+@import "app/styles/bootstrap/variables"
+
 #profile-view
+  $sideBackground: rgb(220, 220, 220)
+
   .profile-control-bar
-    background-color: rgb(78, 78, 78)
+    background-color: $sideBackground
     width: 100%
     text-align: center
 
-    button.edit-settings-button
-      margin: 2px
+    .profile-completion-progress
+      width: 100%
+      height: 33px
+      margin-bottom: 0
+      border-radius: 0
+      background-color: darken($sideBackground, 15%)
+  
+      .progress-bar
+        line-height: 33px
+        font-size: 16px
+
+      .progress-text
+        position: absolute
+        width: 100%
+        text-align: center
+        line-height: 33px
+        font-size: 16px
+        color: white
+        text-shadow: 0px 1px 0px black
+  
+    button, a.btn
+      margin: 10px 2px 10px 2px
+      
+      &:disabled
+        border-radius: 0
+        opacity: 1
+
       i
         margin-right: 5px
-    
-  .approved, .not-approved
-    display: none
+      
+    .linked-in-button
+      cursor: default
 
+    .sample-profile
+      position: absolute
+      right: 5px
+  
   .main-content-area
     padding: 0
+    background-color: white
 
     .flat-button
       width: 100%
@@ -41,7 +75,7 @@
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
         color: #555
 
-      ul.links, ul.projects
+      ul.links, ul.projects, ul.sessions
         margin: 0
         padding: 0
     
@@ -68,20 +102,20 @@
         .left-column
           width: $side-width - 2 * $side-padding
           padding: $side-padding
-          background-color: rgb(220, 220, 220)
+          background-color: $sideBackground
 
           .sub-column
             width: $side-width - 2 * $side-padding
             overflow-wrap: break-word
 
-          .profile-photo-container
+          #profile-photo-container
             position: relative
             margin-bottom: 10px
 
             img.profile-photo
               width: $side-width - 2 * $side-padding
               border-radius: 6px
-                
+
             .profile-caption
               background-color: rgba(0, 0, 0, 0.5)
               color: white
@@ -106,7 +140,7 @@
             background-color: rgb(177, 55, 25)
             padding: 15px
             font-size: 20px
-      
+
         .middle-column
           width: $middle-width - 2 * $middle-padding
           padding-left: $middle-padding
@@ -128,7 +162,7 @@
               overflow-wrap: break-word
 
           code
-            background-color: rgb(220, 220, 220)
+            background-color: $sideBackground
             color: #555
             margin: 2px 0
             display: inline-block
@@ -159,9 +193,14 @@
             width: 100%
             height: 100px
 
+          #remark-treema
+            background-color: white
+            border: 0
+            padding-top: 0
+
         .right-column
           width: $side-width
-          background-color: rgb(220, 220, 220)
+          background-color: $sideBackground
 
           .sub-column
             width: $side-width - 2 * $side-padding
@@ -176,7 +215,7 @@
             li
               margin-bottom: 10px
               padding: 5px 3px
-              border: 2px solid rgb(220, 220, 220)
+              border: 2px solid $sideBackground
               transition: .5s ease-in-out
               position: relative
               background-color: white
@@ -196,25 +235,106 @@
                 left: 0
                 z-index: 1
         
-              .project-image
-                width: 230px
-                height: 115px
-                background-size: cover
-                background-repeat: no-repeat
-                background-position: center
+          .project-image
+            width: 230px
+            height: 115px
+            background-size: cover
+            background-repeat: no-repeat
+            background-position: center
 
-                -webkit-filter: grayscale(100%)
-                -webkit-transition: .5s ease-in-out
-                -moz-filter: grayscale(100%) 
-                -moz-transition: .5s ease-in-out
-                -o-filter: grayscale(100%) 
-                -o-transition: .5s ease-in-out
-                filter: grayscale(100%)
-                transition: .5s ease-in-out
+            -webkit-filter: grayscale(100%)
+            -webkit-transition: .5s ease-in-out
+            -moz-filter: grayscale(100%) 
+            -moz-transition: .5s ease-in-out
+            -o-filter: grayscale(100%) 
+            -o-transition: .5s ease-in-out
+            filter: grayscale(100%)
+            transition: .5s ease-in-out
 
-            li:hover
-              .project-image
-                -webkit-filter: grayscale(0%)
-                -moz-filter: grayscale(0%)
-                -o-filter: grayscale(0%)
-                filter: grayscale(0%)
+          ul.projects li:hover .project-image, .project-image:hover
+            -webkit-filter: grayscale(0%)
+            -moz-filter: grayscale(0%)
+            -o-filter: grayscale(0%)
+            filter: grayscale(0%)
+
+  .main-content-area
+
+    .job-profile-container
+      .editable-section
+        position: relative
+        transition: box-shadow 0.5s easeInOutQuad
+        min-height: 30px
+
+        &.just-saved
+          box-shadow: 0px 0px 20px 0px #080
+          z-index: 1
+
+        .editable-form
+          display: none
+          background-color: white
+          padding: 5px 5px 5px 5px
+
+          .skill-array-item
+            display: inline-block
+
+            input
+              width: 120px
+              margin: 5px
+
+          .project-image
+            width: 210px
+            height: 105px
+            cursor: pointer
+
+      .editable-icon
+        display: none
+  
+    .job-profile-container.editable-profile
+
+      .full-height-column.deemphasized
+        background-color: $sideBackground
+
+      .saving
+        opacity: 0.75
+  
+      .editable-thinner
+        padding-right: 30px
+                
+      .editable-icon
+        display: block
+        position: absolute
+        right: 5px
+        top: 5px
+        font-size: 20px
+        color: $blue
+        opacity: 0.5
+          
+      .edit-label
+        color: $blue
+        font-weight: 300
+
+      .edit-example-button
+        background-color: transparentize($blue, 0.25)
+
+      .edit-example-text
+        color: $blue
+
+      code.edit-example-tag
+        color: $blue
+      
+      .emphasized
+        outline: 1px solid $green
+
+      .editable-section.deemphasized:not(.just-saved), .our-notes-section.deemphasized
+        opacity: 0.5
+
+      .editable-section:hover
+        cursor: pointer
+        outline: 1px solid $blue
+  
+        .editable-icon
+          opacity: 1.0
+          cursor: pointer
+
+        .editable-form
+          cursor: default

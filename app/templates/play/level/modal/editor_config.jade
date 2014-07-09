@@ -28,6 +28,12 @@ block modal-body-content
       span.help-block(data-i18n="play_level.editor_config_keybindings_description") Adds additional shortcuts known from the common editors.
 
     .form-group.checkbox
+      label(for="tome-live-completion")
+        input#tome-live-completion(name="liveCompletion", type="checkbox", checked=liveCompletion)
+        span(data-i18n="play_level.editor_config_livecompletion_label") Live Autocompletion
+      span.help-block(data-i18n="play_level.editor_config_livecompletion_description") Displays autocomplete suggestions while typing.
+
+    .form-group.checkbox
       label(for="tome-invisibles")
         input#tome-invisibles(name="invisibles", type="checkbox", checked=invisibles)
         span(data-i18n="play_level.editor_config_invisibles_label") Show Invisibles

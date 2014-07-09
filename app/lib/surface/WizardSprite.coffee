@@ -63,7 +63,7 @@ module.exports = class WizardSprite extends IndieSprite
       continue unless state.wizard?
       @setColorHue state.wizard.wizardColor1
       if targetID = state.wizard.targetSprite
-        return console.warn "Wizard Sprite couldn't find target sprite", targetID unless targetID of @options.sprites
+        return console.warn 'Wizard Sprite couldn\'t find target sprite', targetID unless targetID of @options.sprites
         @setTarget @options.sprites[targetID]
       else
         @setTarget state.wizard.targetPos
@@ -129,7 +129,7 @@ module.exports = class WizardSprite extends IndieSprite
     @targetPos = @boundWizard targetPos
     @beginMoveTween(duration, isLinear)
     @shoveOtherWizards()
-    Backbone.Mediator.publish('self-wizard:target-changed', {sender:@}) if @isSelf
+    Backbone.Mediator.publish('self-wizard:target-changed', {sender: @}) if @isSelf
 
   boundWizard: (target) ->
     # Passed an {x, y} in world coordinates, returns {x, y} within world bounds
@@ -168,7 +168,7 @@ module.exports = class WizardSprite extends IndieSprite
 
     createjs.Tween
       .get(@)
-      .to({tweenPercentage:0.0}, duration, ease)
+      .to({tweenPercentage: 0.0}, duration, ease)
       .call(@endMoveTween)
     @reachedTarget = false
     @update true
@@ -176,7 +176,7 @@ module.exports = class WizardSprite extends IndieSprite
   shoveOtherWizards: (removeMe) ->
     return unless @targetSprite
     allWizards = []
-    Backbone.Mediator.publish('echo-all-wizard-sprites', {payload:allWizards})
+    Backbone.Mediator.publish('echo-all-wizard-sprites', {payload: allWizards})
     allOfUs = (wizard for wizard in allWizards when wizard.targetSprite is @targetSprite)
     allOfUs = (wizard for wizard in allOfUs when wizard isnt @) if removeMe
 

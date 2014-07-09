@@ -2,10 +2,11 @@ View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
-Range = ace.require("ace/range").Range
+Range = ace.require('ace/range').Range
 Problem = require './problem'
 SpellDebugView = require './spell_debug_view'
 SpellToolbarView = require './spell_toolbar_view'
+LevelComponent = require 'models/LevelComponent'
 
 module.exports = class SpellView extends View
   id: 'spell-view'
@@ -18,9 +19,9 @@ module.exports = class SpellView extends View
   editModes:
     'javascript': 'ace/mode/javascript'
     'coffeescript': 'ace/mode/coffee'
+    'python': 'ace/mode/python'
     'clojure': 'ace/mode/clojure'
     'lua': 'ace/mode/lua'
-    'python': 'ace/mode/python'
     'io': 'ace/mode/text'
 
   keyBindings:
@@ -41,10 +42,11 @@ module.exports = class SpellView extends View
     'tome:spell-changed': 'onSpellChanged'
     'level:session-will-save': 'onSessionWillSave'
     'modal-closed': 'focus'
-    'focus-editor': 'focus'
+    'tome:focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
     'tome:change-language': 'onChangeLanguage'
     'tome:change-config': 'onChangeEditorConfig'
+    'tome:update-snippets': 'addZatannaSnippets'
     'spell-beautify': 'onSpellBeautify'
 
   events:
@@ -81,7 +83,7 @@ module.exports = class SpellView extends View
     @aceSession.setMode @editModes[@spell.language]
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
-    @aceSession.setNewLineMode "unix"
+    @aceSession.setNewLineMode 'unix'
     @aceSession.setUseSoftTabs true
     @ace.setTheme 'ace/theme/textmate'
     @ace.setDisplayIndentGuides aceConfig.indentGuides
@@ -93,6 +95,11 @@ module.exports = class SpellView extends View
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
+    @zatanna = new Zatanna @ace,
+
+      liveCompletion: aceConfig.liveCompletion ? true
+      completers:
+        keywords: false
 
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
@@ -165,6 +172,27 @@ module.exports = class SpellView extends View
     @ace.setValue @spell.source
     @ace.clearSelection()
 
+  addZatannaSnippets: (e) ->
+    snippetEntries = []
+    for owner, props of e.propGroups
+      for prop in props
+        doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
+          return true if doc.owner is owner
+          return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
+        console.log 'could not find doc for', prop, 'from', e.allDocs['__' + prop], 'for', owner, 'of', e.propGroups unless doc
+        doc ?= prop
+        if doc.snippets?[e.language]
+          entry =
+            content: doc.snippets[e.language].code
+            name: doc.name
+            tabTrigger: doc.snippets[e.language].tab
+          snippetEntries.push entry
+
+    # window.zatanna = @zatanna
+    # window.snippetEntries = snippetEntries
+    lang = @editModes[e.language].substr 'ace/mode/'.length
+    @zatanna.addSnippets snippetEntries, lang
+
   onMultiplayerChanged: ->
     if @session.get('multiplayer')
       @createFirepad()
@@ -225,6 +253,7 @@ module.exports = class SpellView extends View
     @debugView.thang = @thang
     @toolbarView?.toggleFlow false
     @updateAether false, false
+    # @addZatannaSnippets()
     @highlightCurrentLine()
 
   cast: (preload=false) ->
@@ -272,7 +301,10 @@ module.exports = class SpellView extends View
     else
       @ace.setValue source
     @eventsSuppressed = false
-    @ace.resize true  # hack: @ace may not have updated its text properly, so we force it to refresh
+    try
+      @ace.resize true  # hack: @ace may not have updated its text properly, so we force it to refresh
+    catch error
+      console.warn 'Error resizing ACE after an update:', error
 
   # Called from CastButtonView initially and whenever the delay is changed
   setAutocastDelay: (@autocastDelay) ->
@@ -343,14 +375,14 @@ module.exports = class SpellView extends View
       @clearAetherDisplay()
       if codeHasChangedSignificantly and not codeIsAsCast
         workerMessage =
-          function: "transpile"
+          function: 'transpile'
           spellKey: @spell.spellKey
           source: source
 
-        @worker.addEventListener "message", (e) =>
+        @worker.addEventListener 'message', (e) =>
           workerData = JSON.parse e.data
-          if workerData.function is "transpile" and workerData.spellKey is @spell.spellKey
-            @worker.removeEventListener "message", arguments.callee, false
+          if workerData.function is 'transpile' and workerData.spellKey is @spell.spellKey
+            @worker.removeEventListener 'message', arguments.callee, false
             aether.problems = workerData.problems
             aether.raw = source
             finishUpdatingAether(aether)
@@ -401,7 +433,7 @@ module.exports = class SpellView extends View
     currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(/[ \t]*\/\/[^"']*/g, ''))  # trim // unless inside "
     endOfLine = cursorPosition.column >= currentLine.length  # just typed a semicolon or brace, for example
     beginningOfLine = not currentLine.substr(0, cursorPosition.column).trim().length  # uncommenting code, for example
-    #console.log "finished?", valid, endOfLine, beginningOfLine, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
+    #console.log 'finished?', valid, endOfLine, beginningOfLine, cursorPosition, currentLine.length, aether, new Date() - 0, currentLine
     if valid and (endOfLine or beginningOfLine)
       if @autocastDelay > 60000
         @preload()
@@ -433,7 +465,7 @@ module.exports = class SpellView extends View
     @spellHasChanged = false
 
   onUserCodeProblem: (e) ->
-    return @onInfiniteLoop e if e.problem.id is "runtime_InfiniteLoop"
+    return @onInfiniteLoop e if e.problem.id is 'runtime_InfiniteLoop'
     return unless e.problem.userInfo.methodName is @spell.name
     return unless spellThang = _.find @spell.thangs, (spellThang, thangID) -> thangID is e.problem.userInfo.thangID
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
@@ -464,7 +496,7 @@ module.exports = class SpellView extends View
       aether = e.world.userCodeMap[thangID]?[@spell.name]  # Might not be there if this is a new Programmable Thang.
       spellThang.castAether = aether
       spellThang.aether = @spell.createAether thang
-    #console.log thangID, @spell.spellKey, "ran", aether.metrics.callsExecuted, "times over", aether.metrics.statementsExecuted, "statements, with max recursion depth", aether.metrics.maxDepth, "and full flow/metrics", aether.metrics, aether.flow
+    #console.log thangID, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
     @spell.transpile()
     @updateAether false, false
 
@@ -517,7 +549,7 @@ module.exports = class SpellView extends View
         executedRows[state.range[0].row] = true
     #state.executing = true if state.userInfo?.time is @thang.world.age  # no work
     currentCallIndex ?= callNumber - 1
-    #console.log "got call index", currentCallIndex, "for time", @thang.world.age, "out of", states.length
+    #console.log 'got call index', currentCallIndex, 'for time', @thang.world.age, 'out of', states.length
 
     @decoratedGutter = @decoratedGutter || {}
 
@@ -532,7 +564,7 @@ module.exports = class SpellView extends View
         @aceSession.removeGutterDecoration row, 'executing'
         @aceSession.removeGutterDecoration row, 'executed'
         @decoratedGutter[row] = ''
-    if not executed.length or (@spell.name is "plan" and @spellThang.castAether.metrics.statementsExecuted < 20)
+    if not executed.length or (@spell.name is 'plan' and @spellThang.castAether.metrics.statementsExecuted < 20)
       @toolbarView?.toggleFlow false
       @debugView.setVariableStates {}
       return
@@ -549,11 +581,11 @@ module.exports = class SpellView extends View
       if clazz is 'executed'
         continue if marked[start.row]
         marked[start.row] = true
-        markerType = "fullLine"
+        markerType = 'fullLine'
       else
         @debugView.setVariableStates state.variables
         gotVariableStates = true
-        markerType = "text"
+        markerType = 'text'
       markerRange = new Range start.row, start.col, end.row, end.col
       markerRange.start = @aceDoc.createAnchor markerRange.start
       markerRange.end = @aceDoc.createAnchor markerRange.end
@@ -594,7 +626,7 @@ module.exports = class SpellView extends View
     disabled = not enabled
     $('body').focus() if disabled and $(document.activeElement).is('.ace_text-input')
     @ace.setReadOnly disabled
-    @ace[if disabled then "setStyle" else "unsetStyle"] "disabled"
+    @ace[if disabled then 'setStyle' else 'unsetStyle'] 'disabled'
     @toggleBackground()
 
   toggleBackground: =>
@@ -617,10 +649,15 @@ module.exports = class SpellView extends View
     @ace.setDisplayIndentGuides aceConfig.indentGuides # default false
     @ace.setShowInvisibles aceConfig.invisibles # default false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
+    @zatanna.set 'liveCompletion', (aceConfig.liveCompletion ? false)
 
   onChangeLanguage: (e) ->
-    if @spell.canWrite()
-      @aceSession.setMode @editModes[e.language]
+    return unless @spell.canWrite()
+    @aceSession.setMode @editModes[e.language]
+    # @zatanna.set 'language', @editModes[e.language].substr('ace/mode/')
+    wasDefault = @getSource() is @spell.originalSource
+    @spell.setLanguage e.language
+    @reloadCode true if wasDefault
 
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>

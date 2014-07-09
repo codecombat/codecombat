@@ -55,9 +55,9 @@ module.exports = class ThangListView extends View
   addThangListEntries: ->
     @entries = []
     for [thangs, section, permission] in [
-      [@readwriteThangs, "#readwrite-thangs", "readwrite"]  # Your Minions
-      [@readThangs, "#read-thangs", "read"]  # Read-Only
-      [@muggleThangs, "#muggle-thangs", null]  # Non-Castable
+      [@readwriteThangs, '#readwrite-thangs', 'readwrite']  # Your Minions
+      [@readThangs, '#read-thangs', 'read']  # Read-Only
+      [@muggleThangs, '#muggle-thangs', null]  # Non-Castable
     ]
       section = @$el.find(section).toggle thangs.length > 0
       for thang in thangs
@@ -84,4 +84,3 @@ module.exports = class ThangListView extends View
   destroy: ->
     entry.destroy() for entry in @entries
     super()
-

@@ -10,14 +10,6 @@ ModelModal = require 'views/modal/model_modal'
 
 HIGHEST_SCORE = 1000000
 
-class LevelSessionsCollection extends CocoCollection
-  url: ''
-  model: LevelSession
-
-  constructor: (levelID) ->
-    super()
-    @url = "/db/level/#{levelID}/all_sessions"
-
 module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
   template: require 'templates/play/ladder/ladder_tab'
@@ -36,19 +28,19 @@ module.exports = class LadderTabView extends CocoView
 
   constructor: (options, @level, @sessions) ->
     super(options)
-    @socialNetworkRes = @supermodel.addSomethingResource("social_network_apis", 0)
     @teams = teamDataFromLevel @level
     @leaderboards = {}
     @refreshLadder()
+    @socialNetworkRes = @supermodel.addSomethingResource('social_network_apis', 0)
     @checkFriends()
 
   checkFriends: ->
     return if @checked or (not window.FB) or (not window.gapi)
     @checked = true
 
-    # @addSomethingToLoad("facebook_status")
+    # @addSomethingToLoad('facebook_status')
 
-    @fbStatusRes = @supermodel.addSomethingResource("facebook_status", 0)
+    @fbStatusRes = @supermodel.addSomethingResource('facebook_status', 0)
     @fbStatusRes.load()
 
     FB.getLoginStatus (response) =>
@@ -73,9 +65,9 @@ module.exports = class LadderTabView extends CocoView
   onConnectedWithFacebook: -> location.reload() if @connecting
 
   loadFacebookFriends: ->
-    # @addSomethingToLoad("facebook_friends")
+    # @addSomethingToLoad('facebook_friends')
 
-    @fbFriendRes = @supermodel.addSomethingResource("facebook_friends", 0)
+    @fbFriendRes = @supermodel.addSomethingResource('facebook_friends', 0)
     @fbFriendRes.load()
 
     FB.api '/me/friends', @onFacebookFriendsLoaded
@@ -105,6 +97,7 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = "http://graph.facebook.com/#{friend.facebookID}/picture"
     @facebookFriendSessions = result
+    @render() # because the ladder tab renders before waiting for fb to finish
 
   # GOOGLE PLUS
 
@@ -117,8 +110,8 @@ module.exports = class LadderTabView extends CocoView
 
   gplusSessionStateLoaded: ->
     if application.gplusHandler.loggedIn
-      #@addSomethingToLoad("gplus_friends")
-      @gpFriendRes = @supermodel.addSomethingResource("gplus_friends", 0)
+      #@addSomethingToLoad('gplus_friends')
+      @gpFriendRes = @supermodel.addSomethingResource('gplus_friends', 0)
       @gpFriendRes.load()
       application.gplusHandler.loadFriends @gplusFriendsLoaded
 
@@ -147,6 +140,7 @@ module.exports = class LadderTabView extends CocoView
       friend.otherTeam = if friend.team is 'humans' then 'ogres' else 'humans'
       friend.imageSource = friendsMap[friend.gplusID].image.url
     @gplusFriendSessions = result
+    @render() # because the ladder tab renders before waiting for gplus to finish
 
   # LADDER LOADING
 
@@ -159,7 +153,7 @@ module.exports = class LadderTabView extends CocoView
         oldLeaderboard.destroy()
       teamSession = _.find @sessions.models, (session) -> session.get('team') is team.id
       @leaderboards[team.id] = new LeaderboardData(@level, team.id, teamSession, @ladderLimit)
-      @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', 3)
+      @leaderboardRes = @supermodel.addModelResource(@leaderboards[team.id], 'leaderboard', {}, 3)
       @leaderboardRes.load()
 
   render: ->
@@ -188,7 +182,7 @@ module.exports = class LadderTabView extends CocoView
 
   generateHistogram: (histogramElement, histogramData, teamName) ->
     #renders twice, hack fix
-    if $("#"+histogramElement.attr("id")).has("svg").length then return
+    if $('#' + histogramElement.attr('id')).has('svg').length then return
     histogramData = histogramData.map (d) -> d*100
 
     margin =
@@ -200,71 +194,70 @@ module.exports = class LadderTabView extends CocoView
     width = 300 - margin.left - margin.right
     height = 125 - margin.top - margin.bottom
 
-    formatCount = d3.format(",.0")
+    formatCount = d3.format(',.0')
 
-    x = d3.scale.linear().domain([-3000,6000]).range([0,width])
+    x = d3.scale.linear().domain([-3000, 6000]).range([0, width])
 
     data = d3.layout.histogram().bins(x.ticks(20))(histogramData)
-    y = d3.scale.linear().domain([0,d3.max(data, (d) -> d.y)]).range([height,10])
+    y = d3.scale.linear().domain([0, d3.max(data, (d) -> d.y)]).range([height, 10])
 
     #create the x axis
-    xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5).outerTickSize(0)
+    xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(5).outerTickSize(0)
 
-    svg = d3.select("#"+histogramElement.attr("id")).append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-      .attr("transform","translate(#{margin.left},#{margin.top})")
-    barClass = "bar"
-    if teamName.toLowerCase() is "ogres" then barClass = "ogres-bar"
-    if teamName.toLowerCase() is "humans" then barClass = "humans-bar"
+    svg = d3.select('#' + histogramElement.attr('id')).append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+    .append('g')
+      .attr('transform', "translate(#{margin.left}, #{margin.top})")
+    barClass = 'bar'
+    if teamName.toLowerCase() is 'ogres' then barClass = 'ogres-bar'
+    if teamName.toLowerCase() is 'humans' then barClass = 'humans-bar'
 
-    bar = svg.selectAll(".bar")
+    bar = svg.selectAll('.bar')
       .data(data)
-    .enter().append("g")
-      .attr("class",barClass)
-      .attr("transform", (d) -> "translate(#{x(d.x)},#{y(d.y)})")
+    .enter().append('g')
+      .attr('class', barClass)
+      .attr('transform', (d) -> "translate(#{x(d.x)}, #{y(d.y)})")
 
-    bar.append("rect")
-      .attr("x",1)
-      .attr("width",width/20)
-      .attr("height", (d) -> height - y(d.y))
+    bar.append('rect')
+      .attr('x', 1)
+      .attr('width', width/20)
+      .attr('height', (d) -> height - y(d.y))
     if @leaderboards[teamName].session?
       playerScore = @leaderboards[teamName].session.get('totalScore') * 100
-      scorebar = svg.selectAll(".specialbar")
+      scorebar = svg.selectAll('.specialbar')
         .data([playerScore])
-        .enter().append("g")
-        .attr("class","specialbar")
-        .attr("transform", "translate(#{x(playerScore)},#{y(9001)})")
+        .enter().append('g')
+        .attr('class', 'specialbar')
+        .attr('transform', "translate(#{x(playerScore)}, #{y(9001)})")
 
-      scorebar.append("rect")
-        .attr("x",1)
-        .attr("width",3)
-        .attr("height",height - y(9001))
-    rankClass = "rank-text"
-    if teamName.toLowerCase() is "ogres" then rankClass = "rank-text ogres-rank-text"
-    if teamName.toLowerCase() is "humans" then rankClass = "rank-text humans-rank-text"
+      scorebar.append('rect')
+        .attr('x', 1)
+        .attr('width', 3)
+        .attr('height', height - y(9001))
+    rankClass = 'rank-text'
+    if teamName.toLowerCase() is 'ogres' then rankClass = 'rank-text ogres-rank-text'
+    if teamName.toLowerCase() is 'humans' then rankClass = 'rank-text humans-rank-text'
 
     message = "#{histogramData.length} players"
     if @leaderboards[teamName].session?
       if @leaderboards[teamName].myRank <= histogramData.length
         message="##{@leaderboards[teamName].myRank} of #{histogramData.length}"
       else
-        message="Rank your session!"
-    svg.append("g")
-      .append("text")
-      .attr("class",rankClass)
-      .attr("y",0)
-      .attr("text-anchor","end")
-      .attr("x",width)
+        message='Rank your session!'
+    svg.append('g')
+      .append('text')
+      .attr('class', rankClass)
+      .attr('y', 0)
+      .attr('text-anchor', 'end')
+      .attr('x', width)
       .text(message)
 
     #Translate the x-axis up
-    svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform","translate(0," + height + ")")
+    svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0, ' + height + ')')
       .call(xAxis)
-
 
   consolidateFriends: ->
     allFriendSessions = (@facebookFriendSessions or []).concat(@gplusFriendSessions or [])
@@ -286,25 +279,25 @@ module.exports = class LadderTabView extends CocoView
     @ladderLimit += 100
     @refreshLadder()
 
-class LeaderboardData extends CocoClass
+module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends CocoClass
   ###
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   ###
 
   constructor: (@level, @team, @session, @limit) ->
     super()
-    @fetch()
 
   fetch: ->
-    @topPlayers = new LeaderboardCollection(@level, {order:-1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})
+    console.warn 'Already have top players on', @ if @topPlayers
+    @topPlayers = new LeaderboardCollection(@level, {order: -1, scoreOffset: HIGHEST_SCORE, team: @team, limit: @limit})
     promises = []
     promises.push @topPlayers.fetch()
 
     if @session
       score = @session.get('totalScore') or 10
-      @playersAbove = new LeaderboardCollection(@level, {order:1, scoreOffset: score, limit: 4, team: @team})
+      @playersAbove = new LeaderboardCollection(@level, {order: 1, scoreOffset: score, limit: 4, team: @team})
       promises.push @playersAbove.fetch()
-      @playersBelow = new LeaderboardCollection(@level, {order:-1, scoreOffset: score, limit: 4, team: @team})
+      @playersBelow = new LeaderboardCollection(@level, {order: -1, scoreOffset: score, limit: 4, team: @team})
       promises.push @playersBelow.fetch()
       level = "#{@level.get('original')}.#{@level.get('version').major}"
       success = (@myRank) =>
@@ -315,8 +308,9 @@ class LeaderboardData extends CocoClass
     @promise
 
   onLoad: =>
-    return if @destroyed
+    return if @destroyed or not @topPlayers.loaded
     @loaded = true
+    @loading = false
     @trigger 'sync', @
     # TODO: cache user ids -> names mapping, and load them here as needed,
     #   and apply them to sessions. Fetching each and every time is too costly.

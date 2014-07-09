@@ -9,7 +9,7 @@ module.exports = class ProblemAlertView extends View
   subscriptions: {}
 
   events:
-    "click .close": "onRemoveClicked"
+    'click .close': 'onRemoveClicked'
 
   constructor: (options) ->
     super options

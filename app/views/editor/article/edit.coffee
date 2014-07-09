@@ -6,7 +6,7 @@ Article = require 'models/Article'
 SaveVersionModal = require 'views/modal/save_version_modal'
 
 module.exports = class ArticleEditView extends View
-  id: "editor-article-edit-view"
+  id: 'editor-article-edit-view'
   template: template
   startsLoading: true
 
@@ -81,7 +81,7 @@ module.exports = class ArticleEditView extends View
     @preview.focus() if window.focus
     @preview.onload = => @pushChangesToPreview()
     return false
-    
+
   openSaveModal: ->
     @openModalView(new SaveVersionModal({model: @article}))
 
@@ -101,11 +101,12 @@ module.exports = class ArticleEditView extends View
       @disableModalInProgress(modal)
 
     res.success =>
+      @article.clearBackup()
       modal.modal('hide')
       url = "/editor/article/#{newArticle.get('slug') or newArticle.id}"
       document.location.href = url
 
   showVersionHistory: (e) ->
-    versionHistoryView = new VersionHistoryView article:@article, @articleID
+    versionHistoryView = new VersionHistoryView article: @article, @articleID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e

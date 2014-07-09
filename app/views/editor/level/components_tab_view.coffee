@@ -9,7 +9,7 @@ class LevelComponentCollection extends Backbone.Collection
   model: LevelComponent
 
 module.exports = class ComponentsTabView extends View
-  id: "editor-level-components-tab-view"
+  id: 'editor-level-components-tab-view'
   template: template
   className: 'tab-pane'
 
@@ -35,13 +35,13 @@ module.exports = class ComponentsTabView extends View
 
     componentModels = @supermodel.getModels LevelComponent
     componentModelMap = {}
-    componentModelMap[comp.get('original')] = comp for comp in componentModels    
+    componentModelMap[comp.get('original')] = comp for comp in componentModels
     components = ({original: key.split('.')[0], majorVersion: parseInt(key.split('.')[1], 10), thangs: value, count: value.length} for key, value of @presentComponents)
     treemaData = _.sortBy components, (comp) ->
       comp = componentModelMap[comp.original]
       res = [comp.get('system'), comp.get('name')]
       return res
-      
+
     treemaOptions =
       supermodel: @supermodel
       schema: {type: 'array', items: {type: 'object', format: 'level-component'}}
@@ -82,9 +82,9 @@ class LevelComponentNode extends TreemaObjectNode
   valueClass: 'treema-level-component'
   collection: false
   buildValueForDisplay: (valEl) ->
-    count = if @data.count is 1 then @data.thangs[0] else ((if @data.count >= 100 then "100+" else @data.count) + " Thangs")
-    if @data.original.match ":"
-      name = "Old: " + @data.original.replace('systems/', '')
+    count = if @data.count is 1 then @data.thangs[0] else ((if @data.count >= 100 then '100+' else @data.count) + ' Thangs')
+    if @data.original.match ':'
+      name = 'Old: ' + @data.original.replace('systems/', '')
     else
       comp = _.find @settings.supermodel.getModels(LevelComponent), (m) =>
         m.get('original') is @data.original and m.get('version').major is @data.majorVersion

@@ -5,6 +5,7 @@ locale = require 'locale/locale'
 {me} = require 'lib/auth'
 Tracker = require 'lib/Tracker'
 CocoView = require 'views/kinds/CocoView'
+AchievementNotify = require '../../templates/achievement_notify'
 
 marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
@@ -26,7 +27,7 @@ elementAcceptsKeystrokes = (el) ->
   type = el.type?.toLowerCase()
   textInputTypes = ['text', 'password', 'file', 'number', 'search', 'url', 'tel', 'email', 'date', 'month', 'week', 'time', 'datetimelocal']
   # not radio, checkbox, range, or color
-  return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ["", "true"]) and not (el.readOnly or el.disabled)
+  return (tag is 'textarea' or (tag is 'input' and type in textInputTypes) or el.contentEditable in ['', 'true']) and not (el.readOnly or el.disabled)
 
 COMMON_FILES = ['/images/pages/base/modal_background.png', '/images/level/code_palette_background.png', '/images/level/popover_background.png', '/images/level/code_editor_background.png']
 preload = (arrayOfImages) ->
@@ -39,6 +40,7 @@ Application = initialize: ->
   @facebookHandler = new FacebookHandler()
   @gplusHandler = new GPlusHandler()
   $(document).bind 'keydown', preventBackspace
+  $.notify.addStyle 'achievement', html: $(AchievementNotify())
   @linkedinHandler = new LinkedInHandler()
   preload(COMMON_FILES)
   $.i18n.init {
@@ -47,7 +49,7 @@ Application = initialize: ->
     resStore: locale
     #debug: true
     #sendMissing: true
-    #sendMissingTo: "current"
+    #sendMissingTo: 'current'
     #resPostPath: '/languages/add/__lng__/__ns__'
   }, (t) =>
     @router = new Router()

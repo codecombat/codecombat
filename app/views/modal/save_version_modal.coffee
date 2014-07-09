@@ -34,10 +34,10 @@ module.exports = class SaveVersionModal extends ModalView
     changeEl = @$el.find('.changes-stub')
     if insertDeltaView
       try
-        deltaView = new DeltaView({model:@model})
+        deltaView = new DeltaView({model: @model})
         @insertSubView(deltaView, changeEl)
       catch e
-        console.error "Couldn't create delta view:", e
+        console.error 'Couldn\'t create delta view:', e
     @$el.find('.commit-message input').attr('placeholder', $.i18n.t('general.commit_msg'))
 
   onClickSaveButton: ->
@@ -57,7 +57,6 @@ module.exports = class SaveVersionModal extends ModalView
     }
     errors = patch.validate()
     forms.applyErrorsToForm(@$el, errors) if errors
-    patch.set 'editPath', document.location.pathname
     res = patch.save()
     return unless res
     @enableModalInProgress(@$el)
@@ -74,7 +73,7 @@ module.exports = class SaveVersionModal extends ModalView
   onAgreedToCLA: ->
     @$el.find('#agreement-button').text('Saving').prop('disabled', true)
     $.ajax({
-      url: "/db/user/me/agreeToCLA"
+      url: '/db/user/me/agreeToCLA'
       method: 'POST'
       success: @onAgreeSucceeded
       error: @onAgreeFailed

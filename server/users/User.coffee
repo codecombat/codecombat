@@ -1,7 +1,7 @@
-mongoose = require('mongoose')
-jsonschema = require('../../app/schemas/models/user')
-crypto = require('crypto')
-{salt, isProduction} = require('../../server_config')
+mongoose = require 'mongoose'
+jsonschema = require '../../app/schemas/models/user'
+crypto = require 'crypto'
+{salt, isProduction} = require '../../server_config'
 mail = require '../commons/mail'
 log = require 'winston'
 
@@ -28,6 +28,17 @@ UserSchema.post('init', ->
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
+
+UserSchema.methods.trackActivity = (activityName, increment) ->
+  now = new Date()
+  increment ?= parseInt increment or 1
+  increment = Math.max increment, 0
+  activity = @get('activity') ? {}
+  activity[activityName] ?= {first: now, count: 0}
+  activity[activityName].count += increment
+  activity[activityName].last = now
+  @set 'activity', activity
+  activity
 
 emailNameMap =
   generalNews: 'announcement'
@@ -79,8 +90,8 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
 
   params = {}
   params.id = mail.MAILCHIMP_LIST_ID
-  params.email = if existingProps then {leid:existingProps.leid} else {email:doc.get('email')}
-  params.merge_vars = { groupings: [ {id: mail.MAILCHIMP_GROUP_ID, groups: newGroups} ] }
+  params.email = if existingProps then {leid: existingProps.leid} else {email: doc.get('email')}
+  params.merge_vars = {groupings: [{id: mail.MAILCHIMP_GROUP_ID, groups: newGroups}]}
   params.update_existing = true
   params.double_optin = false
 
@@ -96,7 +107,6 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
     callback?()
 
   mc?.lists.subscribe params, onSuccess, onFailure
-
 
 UserSchema.pre('save', (next) ->
   @set('emailLower', @get('email')?.toLowerCase())
@@ -127,3 +137,6 @@ UserSchema.statics.hashPassword = (password) ->
   shasum.digest('hex')
 
 module.exports = User = mongoose.model('User', UserSchema)
+
+AchievablePlugin = require '../plugins/achievements'
+UserSchema.plugin(AchievablePlugin)

@@ -12,7 +12,6 @@ SimulateTabView = require './simulate_tab'
 LadderPlayModal = require './play_modal'
 CocoClass = require 'lib/CocoClass'
 
-
 HIGHEST_SCORE = 1000000
 
 class LevelSessionsCollection extends CocoCollection
@@ -32,18 +31,18 @@ module.exports = class LadderView extends RootView
 
   events:
     'click .play-button': 'onClickPlayButton'
-    'click a': 'onClickedLink'
+    'click a:not([data-toggle])': 'onClickedLink'
 
   constructor: (options, @levelID) ->
     super(options)
-    @level = @supermodel.loadModel(new Level(_id:@levelID), 'level').model
+    @level = @supermodel.loadModel(new Level(_id: @levelID), 'level').model
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(levelID), 'your_sessions').model
 
     @teams = []
 
   onLoaded: ->
     @teams = teamDataFromLevel @level
-    @render()
+    super()
 
   getRenderData: ->
     ctx = super()
@@ -54,6 +53,7 @@ module.exports = class LadderView extends RootView
     ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
     ctx._ = _
     ctx.tournamentTimeLeft = moment(new Date(1402444800000)).fromNow()
+    ctx.winners = require('views/play/ladder/tournament_results')[@levelID]
     ctx
 
   afterRender: ->
@@ -70,7 +70,7 @@ module.exports = class LadderView extends RootView
 
   fetchSessionsAndRefreshViews: ->
     return if @destroyed or application.userIsIdle or (new Date() - 2000 < @lastRefreshTime) or not @supermodel.finished()
-    @sessions.fetch({"success": @refreshViews})
+    @sessions.fetch({'success': @refreshViews})
 
   refreshViews: =>
     return if @destroyed or application.userIsIdle
@@ -93,7 +93,7 @@ module.exports = class LadderView extends RootView
 
   showApologeticSignupModal: ->
     SignupModal = require 'views/modal/auth_modal'
-    @openModalView(new SignupModal({showRequiredError:true}))
+    @openModalView(new SignupModal({showRequiredError: true}))
 
   onClickedLink: (e) ->
     link = $(e.target).closest('a').attr('href')

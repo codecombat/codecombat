@@ -2,6 +2,12 @@ language: node_js
 node_js:
   - 0.10
 
+before_install:
+  - "sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10"
+  - "echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list"
+  - "sudo apt-get update"
+  - "sudo apt-get install mongodb-org-server"
+  
 before_script:
   - "npm install"
   - export DISPLAY=:99.0
@@ -9,7 +15,11 @@ before_script:
   - "./node_modules/.bin/bower install"
   - "gem install sass"
   - "./node_modules/.bin/brunch b"
+  - "mkdir mongo"
+  - "mongod --dbpath=./mongo --fork --logpath ./mongodb.log"
+  - "node index.js --unittest &"
+  - "sleep 10" # to give node a chance to start
 
 script:
-  - "./node_modules/.bin/karma start --browsers Firefox --single-run"
-
+  - "./node_modules/jasmine-node/bin/jasmine-node test/server/ --coffee --captureExceptions"
+  - "./node_modules/karma/bin/karma start --browsers Firefox --single-run"

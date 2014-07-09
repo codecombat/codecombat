@@ -3,7 +3,7 @@
 # Other Systems might be things like Attraction, EdgeBounce, EdgeWrap, and non-physics ones, too, like Rendering, Animation, ...
 
 module.exports = class System
-  @className: "System"
+  @className: 'System'
   constructor: (@world, config) ->
     # Unlike with Component, we don't automatically copy all our properties onto the World.
     # Subclasses can copy select properties here if they like.

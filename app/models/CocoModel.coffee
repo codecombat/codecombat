@@ -1,8 +1,10 @@
 storage = require 'lib/storage'
 deltasLib = require 'lib/deltas'
 
+NewAchievementCollection = require '../collections/NewAchievementCollection'
+
 class CocoModel extends Backbone.Model
-  idAttribute: "_id"
+  idAttribute: '_id'
   loaded: false
   loading: false
   saveBackups: false
@@ -15,10 +17,10 @@ class CocoModel extends Backbone.Model
     super()
     if not @constructor.className
       console.error("#{@} needs a className set.")
-    @markToRevert()
     @addSchemaDefaults()
     @on 'sync', @onLoaded, @
     @on 'error', @onError, @
+    @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
 
   type: ->
@@ -38,54 +40,81 @@ class CocoModel extends Backbone.Model
     @loaded = true
     @loading = false
     @jqxhr = null
-    @markToRevert()
     @loadFromBackup()
 
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
 
   set: ->
+    inFlux = @loading or not @loaded
+    @markToRevert() unless inFlux or @_revertAttributes
     res = super(arguments...)
-    @saveBackup() if @saveBackups and @loaded and @hasLocalChanges()
+    @saveBackup() if @saveBackups and (not inFlux) and @hasLocalChanges()
     res
 
   loadFromBackup: ->
     return unless @saveBackups
     existing = storage.load @id
     if existing
-      @set(existing, {silent:true})
+      @set(existing, {silent: true})
       CocoModel.backedUp[@id] = @
 
-  saveBackup: ->
+  saveBackup: -> @saveBackupNow()
+    
+  saveBackupNow: ->
     storage.save(@id, @attributes)
     CocoModel.backedUp[@id] = @
 
   @backedUp = {}
   schema: -> return @constructor.schema
 
+  getValidationErrors: ->
+    errors = tv4.validateMultiple(@attributes, @constructor.schema or {}).errors
+    return errors if errors?.length
+
   validate: ->
-    result = tv4.validateMultiple(@attributes, @constructor.schema? or {})
-    if result.errors?.length
-      console.log @, "got validate result with errors:", result
-    return result.errors unless result.valid
+    errors = @getValidationErrors()
+    if errors?.length
+      console.debug "Validation failed for #{@constructor.className}: '#{@get('name') or @}'."
+      for error in errors
+        console.debug "\t", error.dataPath, ':', error.message
+      return errors
 
   save: (attrs, options) ->
-    @set 'editPath', document.location.pathname
     options ?= {}
+    options.headers ?= {}
+    options.headers['X-Current-Path'] = document.location.pathname
     success = options.success
     error = options.error
     options.success = (model, res) =>
-      @trigger "save:success", @
+      @trigger 'save:success', @
       success(@, res) if success
-      @markToRevert()
+      @markToRevert() if @_revertAttributes
       @clearBackup()
+      CocoModel.pollAchievements()
     options.error = (model, res) =>
       error(@, res) if error
       return unless @notyErrors
       errorMessage = "Error saving #{@get('name') ? @type()}"
       console.error errorMessage, res.responseJSON
       noty text: "#{errorMessage}: #{res.status} #{res.statusText}", layout: 'topCenter', type: 'error', killer: false, timeout: 10000
-    @trigger "save", @
+    @trigger 'save', @
     return super attrs, options
+
+  patch: (options) ->
+    return false unless @_revertAttributes
+    options ?= {}
+    options.patch = true
+
+    attrs = {_id: @id}
+    keys = []
+    for key in _.keys @attributes
+      unless _.isEqual @attributes[key], @_revertAttributes[key]
+        attrs[key] = @attributes[key]
+        keys.push key
+
+    return unless keys.length
+    console.debug 'Patching', @get('name') or @, keys
+    @save(attrs, options)
 
   fetch: ->
     @jqxhr = super(arguments...)
@@ -93,7 +122,6 @@ class CocoModel extends Backbone.Model
     @jqxhr
 
   markToRevert: ->
-    return unless @saveBackups
     if @type() is 'ThangType'
       @_revertAttributes = _.clone @attributes  # No deep clones for these!
     else
@@ -107,11 +135,10 @@ class CocoModel extends Backbone.Model
     storage.remove @id
 
   hasLocalChanges: ->
-    not _.isEqual @attributes, @_revertAttributes
+    @_revertAttributes and not _.isEqual @attributes, @_revertAttributes
 
   cloneNewMinorVersion: ->
     newData = _.clone @attributes
-
     clone = new @constructor(newData)
     clone
 
@@ -126,23 +153,22 @@ class CocoModel extends Backbone.Model
     false
 
   publish: ->
-    if @isPublished() then throw new Error("Can't publish what's already-published. Can't kill what's already dead.")
-    @set "permissions", (@get("permissions") or []).concat({access: 'read', target: 'public'})
+    if @isPublished() then throw new Error('Can\'t publish what\'s already-published. Can\'t kill what\'s already dead.')
+    @set 'permissions', (@get('permissions') or []).concat({access: 'read', target: 'public'})
 
   addSchemaDefaults: ->
     return if @addedSchemaDefaults
     @addedSchemaDefaults = true
     for prop, defaultValue of @constructor.schema.default or {}
       continue if @get(prop)?
-      #console.log "setting", prop, "to", defaultValue, "from attributes.default"
+      #console.log 'setting', prop, 'to', defaultValue, 'from attributes.default'
       @set prop, defaultValue
     for prop, sch of @constructor.schema.properties or {}
       continue if @get(prop)?
       continue if prop is 'emails' # hack, defaults are handled through User.coffee's email-specific methods.
-      #console.log "setting", prop, "to", sch.default, "from sch.default" if sch.default?
+      #console.log 'setting', prop, 'to', sch.default, 'from sch.default' if sch.default?
       @set prop, sch.default if sch.default?
     if @loaded
-      @markToRevert()
       @loadFromBackup()
 
   @isObjectID: (s) ->
@@ -182,8 +208,13 @@ class CocoModel extends Backbone.Model
 
   applyDelta: (delta) ->
     newAttributes = $.extend(true, {}, @attributes)
-    jsondiffpatch.patch newAttributes, delta
+    try
+      jsondiffpatch.patch newAttributes, delta
+    catch error
+      console.error 'Error applying delta\n', JSON.stringify(delta, null, '\t'), '\n\nto attributes\n\n', newAttributes
+      return false
     @set newAttributes
+    return true
 
   getExpandedDelta: ->
     delta = @getDelta()
@@ -194,7 +225,7 @@ class CocoModel extends Backbone.Model
     deltasLib.expandDelta(delta, @attributes, @schema())
 
   watch: (doWatch=true) ->
-    $.ajax("#{@urlRoot}/#{@id}/watch", {type:'PUT', data:{on:doWatch}})
+    $.ajax("#{@urlRoot}/#{@id}/watch", {type: 'PUT', data: {on: doWatch}})
     @watching = -> doWatch
 
   watching: ->
@@ -224,9 +255,9 @@ class CocoModel extends Backbone.Model
 
   @getReferencedModel: (data, schema) ->
     return null unless schema.links?
-    linkObject = _.find schema.links, rel: "db"
+    linkObject = _.find schema.links, rel: 'db'
     return null unless linkObject
-    return null if linkObject.href.match("thang.type") and not @isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
+    return null if linkObject.href.match('thang.type') and not @isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
 
     # not fully extensible, but we can worry about that later
     link = linkObject.href
@@ -258,5 +289,14 @@ class CocoModel extends Backbone.Model
 
   getURL: ->
     return if _.isString @url then @url else @url()
+
+  @pollAchievements: ->
+    achievements = new NewAchievementCollection
+    achievements.fetch(
+      success: (collection) ->
+        me.fetch (success: -> Backbone.Mediator.publish('achievements:new', collection)) unless _.isEmpty(collection.models)
+    )
+
+CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
 
 module.exports = CocoModel

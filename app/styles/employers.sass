@@ -1,6 +1,149 @@
 #employers-view
-  #see-candidates
+
+  button
+    background: #fce232 /* Old browsers */
+    background: -moz-linear-gradient(top, #fce232 0%, #ea8e2b 100%) 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fce232), color-stop(100%,#ea8e2b))
+    background: -webkit-linear-gradient(top, #fce232 0%,#ea8e2b 100%) 
+    background: -o-linear-gradient(top, #fce232 0%,#ea8e2b 100%) 
+    background: -ms-linear-gradient(top, #fce232 0%,#ea8e2b 100%) 
+    background: linear-gradient(to bottom, #fce232 0%,#ea8e2b 100%)
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fce232', endColorstr='#ea8e2b',GradientType=0 )
+    vertical-align: text-bottom
+    margin-left: 30px
+    
+  //filter panels
+  #filter
+    margin-bottom: 10px
+    .panel-heading
+      background-color: darkgrey
+    .panel-body
+      background-color: darkgrey
+     
+  #filters
+    .filter_section
+      width: 16%
+      display: inline-block
+      vertical-align: top
+    margin-bottom: 10px
+  .get-started-button
+    vertical-align: text-bottom
+    margin-left: 10px
+  
+  #filter-button, #create-alert-button
+    float: right
+    
+  #login-link, #logout-button
+    float: right
+    color: #333333
+    display: inline-block
+    :visited
+      color: #333333
+  #logout-button:hover
     cursor: pointer
+      
+  #tagline, .hiring-call-to-action
+    width: 100%
+    text-align: center
+    display: inline-block
+    margin-top: 20px
+    h1, h2, h3 
+      display: inline-block
+    button
+      display: inline-block
+  h1, h2, h3, h4
+    font-family: Arial, Helvetica, sans-serif
+    color: #333333
+  #tagline
+    margin-bottom: 20px
+
+  .see-candidates-header
+    margin: 30px
+    text-align: center
+
+    #see-candidates
+      cursor: pointer
+
+  .reasons
+    height: 275px
+    margin-bottom: 25px
+    width: 100%    
+
+    .information_row
+      height: 150px
+      padding-right: 15px
+    
+
+    .reason
+      width: 33%
+      padding-left: 3%
+      height: 150px
+      display: inline-block
+      vertical-align: top
+    .employer_icon
+      width: 125px
+      margin: 0px auto
+      
+    .reason_long
+      width: 50%
+      padding-left: 3%
+      display: inline-block
+      .employer_icon
+        display: inline-block
+        width: 25%
+        max-width: 125px
+        vertical-align: text-bottom
+      .reason_text
+        display: inline-block
+        width: 75%
+  #bottom_row
+    height: auto
+  #candidate-table
+    width: 96%
+    margin-left: 2%
+    margin-right: 2%
+    background-color: #E7E7E7
+    table
+      cursor: pointer
+      width: 96%
+      margin-left: 2%
+      margin-right: 2%
+      margin-bottom: 30px
+      .tag_column
+        width: 25%
+        display: inline-block
+      .location_column
+        display: inline-block
+        width: 25%
+      .education_column
+        display: inline-block
+        width: 25%
+      .work_column
+        display: inline-block
+        width: 25%
+      tr 
+        .candidate-picture
+          width: 50px
+          height: 50px
+          border-radius: 5px
+          overflow: hidden
+          margin-right: 10px
+          
+        .candidate-description
+          width: 100%
+          vertical-align: bottom
+      td
+        margin-bottom: 10px
+        margin-top: 10px
+        padding-bottom: 5px
+        padding-top: 10px
+      .border_row
+        border-bottom: 1px solid #d3d3d3
+        vertical-align: bottom
+        padding-top: 0px
+      
+  #results
+    display: inline-block
   .tablesorter
     //img
     //  display: none
@@ -23,6 +166,9 @@
     tr
       cursor: pointer
 
+    tr.expired
+      opacity: 0.5
+
     code
       background-color: rgb(220, 220, 220)
       color: #555
@@ -36,3 +182,10 @@
       min-width: 50px
     td:nth-child(7) select
       min-width: 100px
+
+#employers-view, #profile-view.viewed-by-employer
+  #outer-content-wrapper, #intermediate-content-wrapper, #inner-content-wrapper
+    background: #B4B4B4
+
+  .main-content-area
+    background-color: #EAEAEA

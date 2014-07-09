@@ -1,6 +1,6 @@
 SignupModalView = require 'views/modal/signup_modal'
 View = require 'views/kinds/RootView'
-{me} = require('lib/auth')
+{me} = require 'lib/auth'
 contributorSignupAnonymousTemplate = require 'templates/contribute/contributor_signup_anonymous'
 contributorSignupTemplate = require 'templates/contribute/contributor_signup'
 contributorListTemplate = require 'templates/contribute/contributor_list'
@@ -34,9 +34,9 @@ module.exports = class ContributeClassView extends View
     el = $(e.target)
     checked = el.prop('checked')
     subscription = el.attr('name')
-    
+
     me.setEmailSubscription subscription+'News', checked
-    me.save()
+    me.patch()
     @openModalView new SignupModalView() if me.get 'anonymous'
     el.parent().find('.saved-notification').finish().show('fast').delay(3000).fadeOut(2000)
 

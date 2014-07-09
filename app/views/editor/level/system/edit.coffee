@@ -6,9 +6,9 @@ PatchesView = require 'views/editor/patches_view'
 SaveVersionModal = require 'views/modal/save_version_modal'
 
 module.exports = class LevelSystemEditView extends View
-  id: "editor-level-system-edit-view"
+  id: 'editor-level-system-edit-view'
   template: template
-  editableSettings: ['name', 'description', 'language', 'dependencies', 'propertyDocumentation', 'i18n']
+  editableSettings: ['name', 'description', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']
 
   events:
     'click #done-editing-system-button': 'endEditing'
@@ -24,7 +24,7 @@ module.exports = class LevelSystemEditView extends View
   constructor: (options) ->
     super options
     @levelSystem = @supermodel.getModelByOriginalAndMajorVersion LevelSystem, options.original, options.majorVersion or 0
-    console.log "Couldn't get levelSystem for", options, "from", @supermodel.models unless @levelSystem
+    console.log 'Couldn\'t get levelSystem for', options, 'from', @supermodel.models unless @levelSystem
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -106,7 +106,7 @@ module.exports = class LevelSystemEditView extends View
     Backbone.Mediator.publish 'level:view-switched', e
 
   startPatchingSystem: (e) ->
-    @openModalView new SaveVersionModal({model:@levelSystem})
+    @openModalView new SaveVersionModal({model: @levelSystem})
     Backbone.Mediator.publish 'level:view-switched', e
 
   toggleWatchSystem: ->

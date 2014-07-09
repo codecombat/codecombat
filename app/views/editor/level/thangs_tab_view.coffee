@@ -17,15 +17,15 @@ MOVE_SPEED = 13
 
 # Essential component original ids
 componentOriginals =
-  "existence.Exists"          : "524b4150ff92f1f4f8000024"
-  "physics.Physical"          : "524b75ad7fc0f6d519000001"
+  'existence.Exists': '524b4150ff92f1f4f8000024'
+  'physics.Physical': '524b75ad7fc0f6d519000001'
 
 class ThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang.type/search?project=original,name,version,slug,kind,components'
+  url: '/db/thang.type?project=original,name,version,slug,kind,components'
   model: ThangType
 
 module.exports = class ThangsTabView extends View
-  id: "editor-level-thangs-tab-view"
+  id: 'editor-level-thangs-tab-view'
   className: 'tab-pane active'
   template: thangs_template
   startsLoading: true
@@ -69,7 +69,7 @@ module.exports = class ThangsTabView extends View
     @level = options.level
 
     $(document).bind 'contextmenu', @preventDefaultContextMenu
-    
+
   getRenderData: (context={}) ->
     context = super(context)
     return context unless @supermodel.finished()
@@ -102,7 +102,7 @@ module.exports = class ThangsTabView extends View
       $('#thangs-list').height(oldHeight - thangsHeaderHeight - 40)
     else
       $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
-      
+
 
   afterRender: ->
     super()
@@ -166,7 +166,7 @@ module.exports = class ThangsTabView extends View
     }
     @surface.playing = false
     @surface.setWorld @world
-    @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
+    @surface.camera.zoomTo({x: 262, y: -164}, 1.66, 0)
 
   destroy: ->
     @selectAddThangType null
@@ -186,6 +186,7 @@ module.exports = class ThangsTabView extends View
 
   onStageMouseUp: (e) ->
     if @addThangSprite
+      @surface.camera.lock()
       # If we click on the background, we need to add @addThangSprite, but not if onSpriteMouseUp will fire.
       @backgroundAddClickTimeout = _.defer => @onExtantThangSelected {}
     $('#contextmenu').hide()
@@ -194,7 +195,7 @@ module.exports = class ThangsTabView extends View
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
     @surface.camera.dragDisabled = true
     {stageX, stageY} = e.originalEvent
-    wop = @surface.camera.canvasToWorld x: stageX, y: stageY
+    wop = @surface.camera.screenToWorld x: stageX, y: stageY
     wop.z = @selectedExtantThang.depth / 2
     @adjustThangPos @selectedExtantSprite, @selectedExtantThang, wop
     [w, h] = [@surface.camera.canvasWidth, @surface.camera.canvasHeight]
@@ -202,14 +203,15 @@ module.exports = class ThangsTabView extends View
 
   onSpriteMouseUp: (e) ->
     clearTimeout @backgroundAddClickTimeout
-    if e.originalEvent.nativeEvent.button == 2
+    @surface.camera.unlock()
+    if e.originalEvent.nativeEvent.button == 2 and @selectedExtantThang
       @onSpriteContextMenu e
     clearInterval(@movementInterval) if @movementInterval?
     @movementInterval = null
     @surface.camera.dragDisabled = false
     return unless @selectedExtantThang and e.thang?.id is @selectedExtantThang?.id
     pos = @selectedExtantThang.pos
-    physicalOriginal = componentOriginals["physics.Physical"]
+    physicalOriginal = componentOriginals['physics.Physical']
     path = "id=#{@selectedExtantThang.id}/components/original=#{physicalOriginal}"  # TODO: hack
     physical = @thangsTreema.get path
     return if not physical or (physical.config.pos.x is pos.x and physical.config.pos.y is pos.y)
@@ -227,7 +229,7 @@ module.exports = class ThangsTabView extends View
     if e.thang and (key.alt or key.meta)
       # We alt-clicked, so create a clone addThang
       @selectAddThangType e.thang.spriteName, @selectedExtantThang
-    else if e.thang and not (@addThangSprite and @addThangType is "Blood Torch Test")  # TODO: figure out which Thangs can be placed on other Thangs
+    else if e.thang and not (@addThangSprite and @addThangType is 'Blood Torch Test')  # TODO: figure out which Thangs can be placed on other Thangs
       # We clicked on a Thang (or its Treema), so select the Thang
       @selectAddThang null
       @selectedExtantThangClickTime = new Date()
@@ -250,6 +252,7 @@ module.exports = class ThangsTabView extends View
 #      @thangsTreema.deselectAll()
 
   selectAddThang: (e) =>
+    return if e? and $(e.target).closest('#thang-search').length # Ignore if you're trying to search thangs
     return unless e? and $(e.target).closest('#editor-level-thangs-tab-view').length or key.isPressed('esc')
     if e then target = $(e.target) else target = @$el.find('.add-thangs-palette')  # pretend to click on background if no event
     return true if target.attr('id') is 'surface'
@@ -258,7 +261,7 @@ module.exports = class ThangsTabView extends View
     @$el.find('.add-thangs-palette .add-thang-palette-icon.selected').removeClass('selected')
     @selectAddThangType(if wasSelected then null else target.attr 'data-thang-type') unless key.alt or key.meta
     target.addClass('selected') if @addThangType
-    false
+    #false # was causing #1099, any reason to keep?
 
   moveAddThangSelection: (direction) ->
     return unless @addThangType
@@ -270,27 +273,25 @@ module.exports = class ThangsTabView extends View
 
   selectAddThangType: (type, @cloneSourceThang) ->
     if _.isString type
-      type = _.find @supermodel.getModels(ThangType), (m) -> m.get("name") is type
+      type = _.find @supermodel.getModels(ThangType), (m) -> m.get('name') is type
     pos = @addThangSprite?.thang.pos  # Maintain old sprite's pos if we have it
     @surface.spriteBoss.removeSprite @addThangSprite if @addThangSprite
     @addThangType = type
     if @addThangType
-      @surface.camera.lock()
       thang = @createAddThang()
-      @addThangSprite = @surface.spriteBoss.addThangToSprites thang, @surface.spriteBoss.spriteLayers["Floating"]
+      @addThangSprite = @surface.spriteBoss.addThangToSprites thang, @surface.spriteBoss.spriteLayers['Floating']
       @addThangSprite.notOfThisWorld = true
       @addThangSprite.imageObject.alpha = 0.75
       @addThangSprite.playSound? 'selected'
       pos ?= x: Math.round(@world.width / 2), y: Math.round(@world.height / 2)
       @adjustThangPos @addThangSprite, thang, pos
     else
-      @surface.camera.unlock()
       @addThangSprite = null
 
   createEssentialComponents: ->
     [
-      {original: componentOriginals["existence.Exists"], majorVersion: 0, config: {}}
-      {original: componentOriginals["physics.Physical"], majorVersion: 0, config: {pos: {x: 10, y: 10, z: 1}, width: 2, height: 2, depth: 2, shape: "box"}}
+      {original: componentOriginals['existence.Exists'], majorVersion: 0, config: {}}
+      {original: componentOriginals['physics.Physical'], majorVersion: 0, config: {pos: {x: 10, y: 10, z: 1}, width: 2, height: 2, depth: 2, shape: 'box'}}
     ]
 
   createAddThang: ->
@@ -303,9 +304,9 @@ module.exports = class ThangsTabView extends View
     for raw in mockThang.components
       comp = _.find allComponents, {original: raw.original}
       continue if comp.name in ['Selectable', 'Attackable']  # Don't draw health bars or intercept clicks
-      componentClass = @world.loadClassFromCode comp.js, comp.name, "component"
+      componentClass = @world.loadClassFromCode comp.js, comp.name, 'component'
       components.push [componentClass, raw.config]
-    thang = new Thang @world, @addThangType.get('name'), "Add Thang Phantom"
+    thang = new Thang @world, @addThangType.get('name'), 'Add Thang Phantom'
     thang.addComponents components...
     thang
 
@@ -319,7 +320,7 @@ module.exports = class ThangsTabView extends View
 
   onSurfaceMouseMoved: (e) ->
     return unless @addThangSprite
-    wop = @surface.camera.canvasToWorld x: e.x, y: e.y
+    wop = @surface.camera.screenToWorld x: e.x, y: e.y
     wop.z = 0.5
     @adjustThangPos @addThangSprite, @addThangSprite.thang, wop
     null
@@ -355,7 +356,7 @@ module.exports = class ThangsTabView extends View
   moveSide: =>
     return unless @speed
     c = @surface.camera
-    p = {x:c.target.x + @moveLatitude * @speed / c.zoom, y:c.target.y + @moveLongitude * @speed / c.zoom}
+    p = {x: c.target.x + @moveLatitude * @speed / c.zoom, y: c.target.y + @moveLongitude * @speed / c.zoom}
     c.zoomTo(p, c.zoom, 0)
 
   deleteSelectedExtantThang: (e) =>
@@ -440,18 +441,14 @@ module.exports = class ThangsTabView extends View
 
   onDuplicateClicked: (e) ->
     $('#contextmenu').hide()
-    if !@addThangType
-      thang = @selectedExtantThang.spriteName
-      e.target = $(".add-thang-palette-icon[data-thang-type='" + thang + "']").get 0
-    @selectAddThang e
-    
+    @selectAddThangType @selectedExtantThang.spriteName, @selectedExtantThang
+
   toggleThangsContainer: (e) ->
     $('#all-thangs').toggle()
-    
+
   toggleThangsPalette: (e) ->
     $('#add-thangs-column').toggle()
     @onWindowResize e
-   
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
@@ -476,11 +473,11 @@ class ThangNode extends TreemaObjectNode
       kind = ThangNode.thangKindMap[s]
       @$el.addClass "treema-#{kind}"
       s = name
-    s += " - " + @data.id if @data.id isnt s
+    s += ' - ' + @data.id if @data.id isnt s
     if pos
       s += " (#{Math.round(pos.x)}, #{Math.round(pos.y)})"
     else
-      s += " (non-physical)"
+      s += ' (non-physical)'
     @buildValueForDisplaySimply valEl, s
 
   onEnterPressed: ->

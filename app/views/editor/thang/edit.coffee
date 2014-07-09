@@ -14,10 +14,10 @@ SaveVersionModal = require 'views/modal/save_version_modal'
 ErrorView = require '../../error_view'
 template = require 'templates/editor/thang/edit'
 
-CENTER = {x:200, y:300}
+CENTER = {x: 200, y: 300}
 
 module.exports = class ThangTypeEditView extends View
-  id: "editor-thang-type-edit-view"
+  id: 'editor-thang-type-edit-view'
   template: template
   startsLoading: true
   resolution: 4
@@ -66,7 +66,7 @@ module.exports = class ThangTypeEditView extends View
     raw = ("raw:#{name}" for name in raw)
     main = _.keys(@thangType.get('actions') or {})
     main.concat(raw)
-  
+
   afterRender: ->
     super()
     return unless @supermodel.finished()
@@ -112,7 +112,7 @@ module.exports = class ThangTypeEditView extends View
     @refreshAnimation()
 
     createjs.Ticker.setFPS(30)
-    createjs.Ticker.addEventListener("tick", @stage)
+    createjs.Ticker.addEventListener('tick', @stage)
 
   toggleDots: ->
     @showDots = not @showDots
@@ -234,7 +234,7 @@ module.exports = class ThangTypeEditView extends View
       movieClip.regY = -reg.y
     @showImageObject(movieClip)
 
-  getSpriteOptions: -> { resolutionFactor: @resolution, thang: @mockThang}
+  getSpriteOptions: -> {resolutionFactor: @resolution, thang: @mockThang}
 
   showSprite: (actionName) ->
     options = @getSpriteOptions()
@@ -266,7 +266,7 @@ module.exports = class ThangTypeEditView extends View
   # sliders
 
   initSliders: ->
-    @rotationSlider = @initSlider $("#rotation-slider", @$el), 50, @updateRotation
+    @rotationSlider = @initSlider $('#rotation-slider', @$el), 50, @updateRotation
     @scaleSlider = @initSlider $('#scale-slider', @$el), 29, @updateScale
     @resolutionSlider = @initSlider $('#resolution-slider', @$el), 39, @updateResolution
     @healthSlider = @initSlider $('#health-slider', @$el), 100, @updateHealth
@@ -326,7 +326,9 @@ module.exports = class ThangTypeEditView extends View
         image = @currentSprite.imageObject.image
         portraitSource = imageToPortrait image
         # bit of a hacky way to get that portrait
-      success = -> document.location.href = url
+      success = =>
+        @thangType.clearBackup()
+        document.location.href = url
       newThangType.uploadGenericPortrait success, portraitSource
 
   clearRawData: ->
@@ -399,7 +401,7 @@ module.exports = class ThangTypeEditView extends View
     @showingSelectedNode = false
 
   showVersionHistory: (e) ->
-    versionHistoryView = new VersionHistoryView thangType:@thangType, @thangTypeID
+    versionHistoryView = new VersionHistoryView thangType: @thangType, @thangTypeID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
 
@@ -411,12 +413,12 @@ module.exports = class ThangTypeEditView extends View
     super()
 
 imageToPortrait = (img) ->
-  canvas = document.createElement("canvas")
+  canvas = document.createElement('canvas')
   canvas.width = 100
   canvas.height = 100
-  ctx = canvas.getContext("2d")
+  ctx = canvas.getContext('2d')
   scaleX = 100 / img.width
   scaleY = 100 / img.height
   ctx.scale scaleX, scaleY
   ctx.drawImage img, 0, 0
-  canvas.toDataURL("image/png") 
+  canvas.toDataURL('image/png')

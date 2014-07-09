@@ -31,7 +31,7 @@ module.exports = class HUDView extends View
     @$el.addClass 'no-selection'
 
   onClick: (e) ->
-    Backbone.Mediator.publish 'focus-editor' unless $(e.target).parents('.thang-props').length
+    Backbone.Mediator.publish 'tome:focus-editor' unless $(e.target).parents('.thang-props').length
 
   onFrameChanged: (e) ->
     @timeProgress = e.progress
@@ -126,7 +126,7 @@ module.exports = class HUDView extends View
     if thangType.get('raster')
       wrapper.empty().append($('<img />').attr('src', '/file/'+thangType.get('raster')))
     else
-      stage = thangType.getPortraitStage options
+      return unless stage = thangType.getPortraitStage options
       newCanvas = $(stage.canvas).addClass('thang-canvas')
       wrapper.empty().append(newCanvas)
       stage.update()
@@ -143,7 +143,7 @@ module.exports = class HUDView extends View
 
   createProperties: ->
     props = @$el.find('.thang-props')
-    props.find(":not(.thang-name)").remove()
+    props.find(':not(.thang-name)').remove()
     props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
     propNames = _.without @thang.hudProperties ? [], 'action'
     nColumns = Math.ceil propNames.length / 5
@@ -187,8 +187,8 @@ module.exports = class HUDView extends View
         group.append(button)
         response.button = $('button:last', group)
     else
-      s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (shift+space)")
-      sk = $.i18n.t('play_level.skip_tutorial', defaultValue: "skip: esc")
+      s = $.i18n.t('play_level.hud_continue', defaultValue: 'Continue (shift+space)')
+      sk = $.i18n.t('play_level.skip_tutorial', defaultValue: 'skip: esc')
       if not @escapePressed
         group.append('<span class="hud-hint">' + sk + '</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
@@ -201,7 +201,7 @@ module.exports = class HUDView extends View
     if @animator.done()
       clearInterval(@messageInterval)
       @messageInterval = null
-      $('.enter', @bubble).removeClass("secret").css('opacity', 0.0).delay(500).animate({opacity:1.0}, 500, @animateEnterButton)
+      $('.enter', @bubble).removeClass('secret').css('opacity', 0.0).delay(500).animate({opacity: 1.0}, 500, @animateEnterButton)
       if @lastResponses
         buttons = $('.enter button')
         for response, i in @lastResponses
@@ -228,7 +228,7 @@ module.exports = class HUDView extends View
     return unless @bubble
     button = $('.enter', @bubble)
     dot = $('.dot', button)
-    dot.animate({opacity:0.2}, 300).animate({opacity:1.9}, 600, @animateEnterButton)
+    dot.animate({opacity: 0.2}, 300).animate({opacity: 1.9}, 600, @animateEnterButton)
 
   switchToDialogueElements: ->
     @dialogueMode = true
@@ -236,11 +236,11 @@ module.exports = class HUDView extends View
     @$el.find('.thang-canvas-wrapper').removeClass('secret')
     $('.dialogue-area', @$el)
       .removeClass('secret')
-      .animate({opacity:1.0}, 200)
+      .animate({opacity: 1.0}, 200)
     $('.dialogue-bubble', @$el)
       .css('opacity', 0.0)
       .delay(200)
-      .animate({opacity:1.0}, 200)
+      .animate({opacity: 1.0}, 200)
     clearTimeout @hintNextSelectionTimeout
 
   switchToThangElements: ->
@@ -257,26 +257,26 @@ module.exports = class HUDView extends View
     @updateActions()
 
   createPropElement: (prop) ->
-    if prop in ["maxHealth"]
+    if prop in ['maxHealth']
       return null  # included in the bar
     context =
       prop: prop
-      hasIcon: prop in ["health", "pos", "target", "inventory", "gold", "bountyGold", "visualRange", "attackDamage", "attackRange", "maxSpeed"]
-      hasBar: prop in ["health"]
+      hasIcon: prop in ['health', 'pos', 'target', 'inventory', 'gold', 'bountyGold', 'visualRange', 'attackDamage', 'attackRange', 'maxSpeed']
+      hasBar: prop in ['health']
     $(prop_template(context))
 
   updatePropElement: (prop, val) ->
     pel = @$el.find '.thang-props *[name=' + prop + ']'
-    if prop in ["maxHealth"]
+    if prop in ['maxHealth']
       return  # Don't show maxes--they're built into bar labels.
-    if prop in ["health"]
-      max = @thang["max" + prop.charAt(0).toUpperCase() + prop.slice(1)]
-      regen = @thang[prop + "ReplenishRate"]
+    if prop in ['health']
+      max = @thang['max' + prop.charAt(0).toUpperCase() + prop.slice(1)]
+      regen = @thang[prop + 'ReplenishRate']
       percent = Math.round 100 * val / max
-      pel.find('.bar').css 'width', percent + "%"
-      labelText = prop + ": " + @formatValue(prop, val) + " / " + @formatValue(prop, max)
+      pel.find('.bar').css 'width', percent + '%'
+      labelText = prop + ': ' + @formatValue(prop, val) + ' / ' + @formatValue(prop, max)
       if regen
-        labelText += " (+" + @formatValue(prop, regen) + "/s)"
+        labelText += ' (+' + @formatValue(prop, regen) + '/s)'
       pel.find('.bar-prop-value').text(Math.round(max)) if max
     else
       s = @formatValue(prop, val)
@@ -290,11 +290,11 @@ module.exports = class HUDView extends View
     pel
 
   formatValue: (prop, val) ->
-    if prop is "target" and not val
-      val = @thang["targetPos"]
+    if prop is 'target' and not val
+      val = @thang['targetPos']
       val = null if val?.isZero()
-    if prop is "rotation"
-      return (val * 180 / Math.PI).toFixed(0) + "˚"
+    if prop is 'rotation'
+      return (val * 180 / Math.PI).toFixed(0) + '˚'
     if prop.search(/Range$/) isnt -1
       return val + 'm'
     if typeof val is 'number'
@@ -302,14 +302,14 @@ module.exports = class HUDView extends View
       if -10 < val < 10 then return val.toFixed(2)
       if -100 < val < 100 then return val.toFixed(1)
       return val.toFixed(0)
-    if val and typeof val is "object"
+    if val and typeof val is 'object'
       if val.id
         return val.id
       else if val.x and val.y
         return "x: #{val.x.toFixed(0)} y: #{val.y.toFixed(0)}"
         #return "x: #{val.x.toFixed(0)} y: #{val.y.toFixed(0)}, z: #{val.z.toFixed(0)}"  # Debugging: include z
     else if not val?
-      return "No " + prop
+      return 'No ' + prop
     return val
 
   updateActions: ->

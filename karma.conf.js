@@ -13,9 +13,11 @@ module.exports = function(config) {
     files : [
       'public/javascripts/vendor.js',
       'public/lib/ace/ace.js',
+      'public/javascripts/aether.js',
       'public/javascripts/app.js',
-
-      'test/app/**/*.coffee'
+      'public/javascripts/mock-ajax.js',
+      'public/javascripts/test-app.js',
+      'public/javascripts/run-tests.js'
     ],
 
     preprocessors : {

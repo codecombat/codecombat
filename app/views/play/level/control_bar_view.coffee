@@ -6,7 +6,7 @@ MultiplayerModal = require './modal/multiplayer_modal'
 ReloadModal = require './modal/reload_modal'
 
 module.exports = class ControlBarView extends View
-  id: "control-bar-view"
+  id: 'control-bar-view'
   template: template
 
   subscriptions:
@@ -28,7 +28,7 @@ module.exports = class ControlBarView extends View
     'click #next-game-button': ->
       Backbone.Mediator.publish 'next-game-pressed'
 
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': -> Backbone.Mediator.publish 'tome:focus-editor'
 
   constructor: (options) ->
     @worldName = options.worldName

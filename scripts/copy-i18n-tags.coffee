@@ -9,7 +9,7 @@ for file in dir when not (file in ['locale.coffee', 'en.coffee'])
   for enCat, enTags of en
     catMissing = not categories[enCat]
     cat = (categories[enCat] ?= {})
-    lines.push "" unless first  # blank lines between categories
+    lines.push '' unless first  # blank lines between categories
     lines.push "#{if catMissing then '#' else ''}  #{enCat}:"
     first = false
     for enTag, enString of enTags

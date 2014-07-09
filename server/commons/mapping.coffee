@@ -1,4 +1,3 @@
-
 module.exports.handlers =
   'article': 'articles/article_handler'
   'level': 'levels/level_handler'
@@ -9,9 +8,13 @@ module.exports.handlers =
   'patch': 'patches/patch_handler'
   'thang_type': 'levels/thangs/thang_type_handler'
   'user': 'users/user_handler'
+  'user_remark': 'users/remarks/user_remark_handler'
+  'achievement': 'achievements/achievement_handler'
+  'earned_achievement': 'achievements/earned_achievement_handler'
 
 module.exports.routes =
   [
+    'routes/admin'
     'routes/auth'
     'routes/contact'
     'routes/db'
@@ -21,4 +24,5 @@ module.exports.routes =
     'routes/mail'
     'routes/sprites'
     'routes/queue'
+    'routes/stacklead'
   ]

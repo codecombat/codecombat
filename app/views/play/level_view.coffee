@@ -1,6 +1,6 @@
 View = require 'views/kinds/RootView'
 template = require 'templates/play/level'
-{me} = require('lib/auth')
+{me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
 utils = require 'lib/utils'
 
@@ -74,7 +74,7 @@ module.exports = class PlayLevelView extends View
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
     super options
-    if not me.get('hourOfCode') and @getQueryVariable "hour_of_code"
+    if not me.get('hourOfCode') and @getQueryVariable 'hour_of_code'
       @setUpHourOfCode()
 
     @isEditorPreview = @getQueryVariable 'dev'
@@ -89,12 +89,12 @@ module.exports = class PlayLevelView extends View
       setTimeout f, 100
     else
       @load()
-      application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID
+      application.tracker?.trackEvent 'Started Level Load', level: @levelID, label: @levelID, ['Google Analytics']
 
   setUpHourOfCode: ->
     me.set 'hourOfCode', true
-    me.save()
-    $('body').append($("<img src='http://code.org/api/hour/begin_codecombat.png' style='visibility: hidden;'>"))
+    me.patch()
+    $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))
     application.tracker?.trackEvent 'Hour of Code Begin', {}
 
   setLevel: (@level, givenSupermodel) ->
@@ -112,7 +112,7 @@ module.exports = class PlayLevelView extends View
   load: ->
     @loadStartTime = new Date()
     @god = new God debugWorker: true
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable("team")
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @getQueryVariable('opponent'), team: @getQueryVariable('team')
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
 
   # CocoView overridden methods ###############################################
@@ -166,7 +166,7 @@ module.exports = class PlayLevelView extends View
   onWorldNecessitiesLoaded: ->
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
-    team = @getQueryVariable("team") ? @world.teamForPlayer(0)
+    team = @getQueryVariable('team') ? @world.teamForPlayer(0)
     @loadOpponentTeam(team)
     @setupGod()
     @setTeam team
@@ -191,7 +191,7 @@ module.exports = class PlayLevelView extends View
       continue if spellTeam is myTeam or not myTeam
       opponentSpells = opponentSpells.concat spells
     if (not @session.get('teamSpells')) and @otherSession?.get('teamSpells')
-      @session.set('teamSpells',@otherSession.get('teamSpells'))
+      @session.set('teamSpells', @otherSession.get('teamSpells'))
     opponentCode = @otherSession?.get('transpiledCode') or {}
     myCode = @session.get('code') or {}
     for spell in opponentSpells
@@ -221,7 +221,7 @@ module.exports = class PlayLevelView extends View
     @god.setGoalManager @goalManager
 
   insertSubviews: ->
-    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, thangs: @world.thangs, supermodel: @supermodel
+    @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel
     @insertSubView new PlaybackView session: @session
     @insertSubView new GoalsView {}
     @insertSubView new GoldView {}
@@ -237,7 +237,7 @@ module.exports = class PlayLevelView extends View
     Backbone.Mediator.publish 'level-set-volume', volume: volume
 
   initScriptManager: ->
-    @scriptManager = new ScriptManager({scripts: @world.scripts or [], view:@, session: @session})
+    @scriptManager = new ScriptManager({scripts: @world.scripts or [], view: @, session: @session})
     @scriptManager.loadFromSession()
 
   register: ->
@@ -267,9 +267,9 @@ module.exports = class PlayLevelView extends View
     surfaceCanvas = $('canvas#surface', @$el)
     @surface = new Surface(@world, surfaceCanvas, thangTypes: @supermodel.getModels(ThangType), playJingle: not @isEditorPreview)
     worldBounds = @world.getBounds()
-    bounds = [{x:worldBounds.left, y:worldBounds.top}, {x:worldBounds.right, y:worldBounds.bottom}]
+    bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
-    @surface.camera.zoomTo({x:0, y:0}, 0.1, 0)
+    @surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0)
 
   # Once Surface is Loaded ####################################################
 
@@ -291,7 +291,7 @@ module.exports = class PlayLevelView extends View
       @loadEndTime = new Date()
       loadDuration = @loadEndTime - @loadStartTime
       console.debug "Level unveiled after #{(loadDuration / 1000).toFixed(2)}s"
-      application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration
+      application.tracker?.trackEvent 'Finished Level Load', level: @levelID, label: @levelID, loadDuration: loadDuration, ['Google Analytics']
       application.tracker?.trackTiming loadDuration, 'Level Load Time', @levelID, @levelID
 
   onSurfaceSetUpNewWorld: ->
@@ -370,7 +370,7 @@ module.exports = class PlayLevelView extends View
     Backbone.Mediator.publish 'router:navigate', {
       route: nextLevelURL,
       viewClass: PlayLevelView,
-      viewArgs: [{supermodel:@supermodel}, nextLevelID]}
+      viewArgs: [{supermodel: @supermodel}, nextLevelID]}
 
   getNextLevel: ->
     return null unless nextLevelOriginal = @level.get('nextLevel')?.original
@@ -438,7 +438,6 @@ module.exports = class PlayLevelView extends View
       clearInterval(@pointerInterval)
       @pointerInterval = setInterval(@animatePointer, 1200)
     , 1)
-
 
   animatePointer: =>
     pointer = $('#pointer')

@@ -1,7 +1,7 @@
 Vector = require './vector'
 
 class Rectangle
-  @className: "Rectangle"
+  @className: 'Rectangle'
   # Class methods for nondestructively operating
   for name in ['add', 'subtract', 'multiply', 'divide']
     do (name) ->

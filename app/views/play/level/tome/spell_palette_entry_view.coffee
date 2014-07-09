@@ -1,57 +1,8 @@
 View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell_palette_entry'
-popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
-{downTheChain} = require 'lib/world/world_utils'
-window.Vector = require 'lib/world/vector'  # So we can document it
-
-safeJSONStringify = (input, maxDepth) ->
-  recursion = (input, path, depth) ->
-    output = {}
-    pPath = undefined
-    refIdx = undefined
-    path = path or ""
-    depth = depth or 0
-    depth++
-    return "{depth over " + maxDepth + "}"  if maxDepth and depth > maxDepth
-    for p of input
-      pPath = ((if path then (path + ".") else "")) + p
-      if typeof input[p] is "function"
-        output[p] = "{function}"
-      else if typeof input[p] is "object"
-        refIdx = refs.indexOf(input[p])
-        if -1 isnt refIdx
-          output[p] = "{reference to " + refsPaths[refIdx] + "}"
-        else
-          refs.push input[p]
-          refsPaths.push pPath
-          output[p] = recursion(input[p], pPath, depth)
-      else
-        output[p] = input[p]
-    output
-  refs = []
-  refsPaths = []
-  maxDepth = maxDepth or 5
-  if typeof input is "object"
-    output = recursion(input)
-  else
-    output = input
-  JSON.stringify output, null, 1
-
-# http://stackoverflow.com/a/987376/540620
-$.fn.selectText = ->
-  el = @[0]
-  if document.body.createTextRange
-    range = document.body.createTextRange()
-    range.moveToElementText(el)
-    range.select()
-  else if window.getSelection
-    selection = window.getSelection()
-    range = document.createRange()
-    range.selectNodeContents(el)
-    selection.removeAllRanges()
-    selection.addRange(range)
+DocFormatter = require './doc_formatter'
 
 module.exports = class SpellPaletteEntryView extends View
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
@@ -60,9 +11,9 @@ module.exports = class SpellPaletteEntryView extends View
   popoverPinned: false
 
   subscriptions:
-    'surface:frame-changed': "onFrameChanged"
-    'tome:palette-hovered': "onPaletteHovered"
-    'tome:palette-pin-toggled': "onPalettePinToggled"
+    'surface:frame-changed': 'onFrameChanged'
+    'tome:palette-hovered': 'onPaletteHovered'
+    'tome:palette-pin-toggled': 'onPalettePinToggled'
     'tome:spell-debug-property-hovered': 'onSpellDebugPropertyHovered'
 
   events:
@@ -73,25 +24,8 @@ module.exports = class SpellPaletteEntryView extends View
   constructor: (options) ->
     super options
     @thang = options.thang
-    @doc = options.doc
-    if _.isString @doc
-      @doc = name: @doc, type: typeof @thang[@doc]
-    if options.isSnippet
-      @doc.type = @doc.owner = 'snippet'
-      @doc.shortName = @doc.shorterName = @doc.title = @doc.name
-    else
-      @doc.owner ?= 'this'
-      suffix = ''
-      if @doc.type is 'function'
-        argNames = (arg.name for arg in @doc.args ? []).join(', ')
-        argNames = '...' if argNames.length > 6
-        suffix = "(#{argNames})"
-      @doc.shortName = "#{@doc.owner}.#{@doc.name}#{suffix};"
-      if @doc.owner is 'this' or options.tabbify
-        @doc.shorterName = "#{@doc.name}#{suffix}"
-      else
-        @doc.shorterName = @doc.shortName.replace ';', ''
-      @doc.title = if options.shortenize then @doc.shorterName else @doc.shortName
+    @docFormatter = new DocFormatter options
+    @doc = @docFormatter.doc
 
   getRenderData: ->
     c = super()
@@ -106,46 +40,15 @@ module.exports = class SpellPaletteEntryView extends View
       html: true
       placement: 'top'
       trigger: 'manual'  # Hover, until they click, which will then pin it until unclick.
-      content: @formatPopover()
+      content: @docFormatter.formatPopover()
       container: '#tome-view'
     )
     @$el.on 'show.bs.popover', =>
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
 
-  formatPopover: ->
-    content = popoverTemplate doc: @doc, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? [])
-    owner = if @doc.owner is 'this' then @thang else window[@doc.owner]
-    content = content.replace /#{spriteName}/g, @thang.type ? @thang.spriteName  # Prefer type, and excluded the quotes we'd get with @formatValue
-    content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
-
-  formatValue: (v) ->
-    return null if @doc.type is 'snippet'
-    return @thang.now() if @doc.name is 'now'
-    return '[Function]' if not v and @doc.type is 'function'
-    unless v?
-      if @doc.owner is 'this'
-        v = @thang[@doc.name]
-      else
-        v = window[@doc.owner][@doc.name]  # grab Math or Vector
-    if @doc.type is 'number' and not isNaN v
-      if v == Math.round v
-        return v
-      return v.toFixed 2
-    if _.isString v
-      return "\"#{v}\""
-    if v?.id
-      return v.id
-    if v?.name
-      return v.name
-    if _.isArray v
-      return '[' + (@formatValue v2 for v2 in v).join(', ') + ']'
-    if _.isPlainObject v
-      return safeJSONStringify v, 2
-    v
-
   onMouseEnter: (e) ->
     # Make sure the doc has the updated Thang so it can regenerate its prop value
-    @$el.data('bs.popover').options.content = @formatPopover()
+    @$el.data('bs.popover').options.content = @docFormatter.formatPopover()
     @$el.popover('setContent')
     @$el.popover 'show' unless @popoverPinned or @otherPopoverPinned
 
@@ -173,7 +76,7 @@ module.exports = class SpellPaletteEntryView extends View
 
   onFrameChanged: (e) ->
     return unless e.selectedThang?.id is @thang.id
-    @options.thang = @thang = e.selectedThang  # Update our thang to the current version
+    @options.thang = @thang = @docFormatter.options.thang = e.selectedThang  # Update our thang to the current version
 
   onPaletteHovered: (e) ->
     return if e.entry is @

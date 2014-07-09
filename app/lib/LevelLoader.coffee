@@ -48,7 +48,7 @@ module.exports = class LevelLoader extends CocoClass
     # Apparently the jingle, when it tries to play immediately during all this loading, you can't hear it.
     # Add the timeout to fix this weird behavior.
     f = ->
-      jingles = ["ident_1", "ident_2"]
+      jingles = ['ident_1', 'ident_2']
       AudioPlayer.playInterfaceSound jingles[Math.floor Math.random() * jingles.length]
     setTimeout f, 500
 
@@ -63,7 +63,7 @@ module.exports = class LevelLoader extends CocoClass
       url += "?team=#{@team}" if @team
 
     session = new LevelSession().setURL url
-    @sessionResource = @supermodel.loadModel(session, 'level_session', {cache:false})
+    @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     @session.once 'sync', -> @url = -> '/db/level.session/' + @id
 
@@ -151,7 +151,7 @@ module.exports = class LevelLoader extends CocoClass
       continue if thangType.isFullyLoaded()
       thangType.fetch()
       thangType = @supermodel.loadModel(thangType, 'thang').model
-      res = @supermodel.addSomethingResource "sprite_sheet", 5
+      res = @supermodel.addSomethingResource 'sprite_sheet', 5
       res.thangType = thangType
       res.markLoading()
       @spriteSheetsToBuild.push res
@@ -246,7 +246,7 @@ module.exports = class LevelLoader extends CocoClass
         break
     unless @teamConfigs
       # Hack: pulled from Alliance System code. TODO: put in just one place.
-      @teamConfigs = {"humans":{"superteam":"humans","color":{"hue":0,"saturation":0.75,"lightness":0.5},"playable":true},"ogres":{"superteam":"ogres","color":{"hue":0.66,"saturation":0.75,"lightness":0.5},"playable":false},"neutral":{"superteam":"neutral","color":{"hue":0.33,"saturation":0.75,"lightness":0.5}}}
+      @teamConfigs = {'humans': {'superteam': 'humans', 'color': {'hue': 0, 'saturation': 0.75, 'lightness': 0.5}, 'playable': true}, 'ogres': {'superteam': 'ogres', 'color': {'hue': 0.66, 'saturation': 0.75, 'lightness': 0.5}, 'playable': false}, 'neutral': {'superteam': 'neutral', 'color': {'hue': 0.33, 'saturation': 0.75, 'lightness': 0.5}}}
     @teamConfigs
 
   buildSpriteSheet: (thangType, options) ->
@@ -263,13 +263,13 @@ module.exports = class LevelLoader extends CocoClass
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
     serializedLevel = @level.serialize(@supermodel)
     @world.loadFromLevel serializedLevel, false
-    console.log "World has been initialized from level loader."
+    console.log 'World has been initialized from level loader.'
 
   # Initial Sound Loading
 
   loadAudio: ->
     return if @headless
-    AudioPlayer.preloadInterfaceSounds ["victory"]
+    AudioPlayer.preloadInterfaceSounds ['victory']
 
   loadLevelSounds: ->
     return if @headless
