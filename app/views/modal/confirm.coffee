@@ -2,7 +2,7 @@ ModalView = require '../kinds/ModalView'
 template = require 'templates/modal/confirm'
 
 module.exports = class ConfirmModal extends ModalView
-  id: "confirm-modal"
+  id: 'confirm-modal'
   template: template
   closeButton: true
   closeOnConfirm: true

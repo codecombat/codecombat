@@ -19,12 +19,13 @@ VersionHistoryView = require './versions_view'
 ErrorView = require '../../error_view'
 
 module.exports = class EditorLevelView extends View
-  id: "editor-level-view"
+  id: 'editor-level-view'
   template: template
   cache: false
 
   events:
     'click #play-button': 'onPlayLevel'
+    'click .play-with-team-button': 'onPlayLevel'
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
     'click #level-history-button': 'showVersionHistory'
@@ -34,7 +35,7 @@ module.exports = class EditorLevelView extends View
     'click #level-watch-button': 'toggleWatchLevel'
     'click #pop-level-i18n-button': -> @level.populateI18N()
     'mouseup .nav-tabs > li a': 'toggleTab'
-    
+
   constructor: (options, @levelID) ->
     super options
     @supermodel.shouldSaveBackups = (model) ->
@@ -73,10 +74,11 @@ module.exports = class EditorLevelView extends View
     Backbone.Mediator.publish 'level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
-    @listenTo @patchesView, 'accepted-patch', -> setTimeout "location.reload()", 400
+    @listenTo @patchesView, 'accepted-patch', -> location.reload()
     @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
 
   onPlayLevel: (e) ->
+    team = $(e.target).data('team')
     sendLevel = =>
       @childWindow.Backbone.Mediator.publish 'level-reload-from-data', level: @level, supermodel: @supermodel
     if @childWindow and not @childWindow.closed
@@ -84,15 +86,16 @@ module.exports = class EditorLevelView extends View
       sendLevel()
     else
       # Create a new Window with a blank LevelView
-      scratchLevelID = @level.get('slug') + "?dev=true"
+      scratchLevelID = @level.get('slug') + '?dev=true'
+      scratchLevelID += "&team=#{team}" if team
       @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1024,height=560,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
       @childWindow.onPlayLevelViewLoaded = (e) => sendLevel()  # still a hack
     @childWindow.focus()
 
   startPatchingLevel: (e) ->
-    @openModalView new SaveVersionModal({model:@level})
+    @openModalView new SaveVersionModal({model: @level})
     Backbone.Mediator.publish 'level:view-switched', e
-    
+
   startCommittingLevel: (e) ->
     @openModalView new LevelSaveView level: @level, supermodel: @supermodel
     Backbone.Mediator.publish 'level:view-switched', e
@@ -103,7 +106,7 @@ module.exports = class EditorLevelView extends View
     Backbone.Mediator.publish 'level:view-switched', e
 
   showVersionHistory: (e) ->
-    versionHistoryView = new VersionHistoryView level:@level, @levelID
+    versionHistoryView = new VersionHistoryView level: @level, @levelID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e
 
@@ -111,7 +114,7 @@ module.exports = class EditorLevelView extends View
     button = @$el.find('#level-watch-button')
     @level.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')
-    
+
   toggleTab: (e) ->
     @renderScrollbar()
     return unless $(document).width() <= 800

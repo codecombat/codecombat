@@ -18,7 +18,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
 
   constructor: ->
     super(arguments...)
-    @schema.aceMode = "ace/mode/markdown"
+    @schema.aceMode = 'ace/mode/markdown'
 
   buildValueForEditing: (valEl) ->
     super(valEl)
@@ -197,14 +197,28 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
     @flushChanges()
     @refreshDisplay()
 
-class CoffeeTreema extends TreemaNode.nodeMap.ace
+
+codeLanguages =
+  javascript: 'ace/mode/javascript'
+  coffeescript: 'ace/mode/coffee'
+  python: 'ace/mode/python'
+  clojure: 'ace/mode/clojure'
+  lua: 'ace/mode/lua'
+  io: 'ace/mode/text'
+
+class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
+  childPropertiesAvailable: ->
+    (key for key in _.keys(codeLanguages) when not @data[key]?)
+
+class CodeTreema extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
-    @schema.aceMode = "ace/mode/coffee"
-    @schema.aceTabSize = 2
+    @schema.aceTabSize = 4
 
   buildValueForEditing: (valEl) ->
     super(valEl)
+    if not @schema.aceMode and mode = codeLanguages[@keyForParent]
+      @editor.getSession().setMode mode
     @editor.on('change', @onEditorChange)
     valEl
 
@@ -213,14 +227,17 @@ class CoffeeTreema extends TreemaNode.nodeMap.ace
     @flushChanges()
     @getRoot().broadcastChanges()
 
-class JavaScriptTreema extends CoffeeTreema
+class CoffeeTreema extends CodeTreema
   constructor: ->
     super(arguments...)
-    @schema.aceMode = "ace/mode/javascript"
-    @schema.aceTabSize = 4
+    @schema.aceMode = 'ace/mode/coffee'
+    @schema.aceTabSize = 2
 
-KB = 1024
-MB = 1024*1024
+class JavaScriptTreema extends CodeTreema
+  constructor: ->
+    super(arguments...)
+    @schema.aceMode = 'ace/mode/javascript'
+    @schema.aceTabSize = 4
 
 
 class InternationalizationNode extends TreemaNode.nodeMap.object
@@ -232,13 +249,13 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
 
     i18nChildSchema = {
       title: @findLanguageName(key)
-      type: "object"
+      type: 'object'
       properties: {}
     }
     return i18nChildSchema unless @parent
     unless @schema.props?
-      console.warn "i18n props array is empty! Filling with all parent properties by default"
-      @schema.props = (prop for prop,_ of @parent.schema.properties when prop isnt "i18n")
+      console.warn 'i18n props array is empty! Filling with all parent properties by default'
+      @schema.props = (prop for prop,_ of @parent.schema.properties when prop isnt 'i18n')
 
     for i18nProperty in @schema.props
       i18nChildSchema.properties[i18nProperty] = @parent.schema.properties[i18nProperty]
@@ -246,8 +263,7 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
     #this must be filled out in order for the i18n node to work
 
   childPropertiesAvailable: ->
-    return _.keys locale
-
+    (key for key in _.keys(locale) when not @data[key]?)
 
 
 class LatestVersionCollection extends CocoCollection
@@ -395,6 +411,8 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass('date-time', DateTimeTreema)
   TreemaNode.setNodeSubclass('version', VersionTreema)
   TreemaNode.setNodeSubclass('markdown', LiveEditingMarkup)
+  TreemaNode.setNodeSubclass('code-languages-object', CodeLanguagesObjectTreema)
+  TreemaNode.setNodeSubclass('code', CodeTreema)
   TreemaNode.setNodeSubclass('coffee', CoffeeTreema)
   TreemaNode.setNodeSubclass('javascript', JavaScriptTreema)
   TreemaNode.setNodeSubclass('image-file', ImageFileTreema)

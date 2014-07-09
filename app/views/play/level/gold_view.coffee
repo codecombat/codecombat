@@ -3,7 +3,7 @@ template = require 'templates/play/level/gold'
 teamTemplate = require 'templates/play/level/team_gold'
 
 module.exports = class GoldView extends View
-  id: "gold-view"
+  id: 'gold-view'
   template: template
 
   subscriptions:
@@ -15,7 +15,7 @@ module.exports = class GoldView extends View
     @teamGold = {}
     @teamGoldEarned = {}
     @shownOnce = false
-
+    
   onGoldChanged: (e) ->
     return if @teamGold[e.team] is e.gold and @teamGoldEarned[e.team] is e.goldEarned
     @teamGold[e.team] = e.gold
@@ -24,7 +24,7 @@ module.exports = class GoldView extends View
     unless goldEl.length
       teamEl = teamTemplate team: e.team
       @$el[if e.team is 'humans' then 'prepend' else 'append'](teamEl)
-      goldEl = $('.gold-amount.team-' + e.team, teamEl)
+      goldEl = @$el.find('.gold-amount.team-' + e.team)
     text = '' + e.gold
     if e.goldEarned and e.goldEarned > e.gold
       text += " (#{e.goldEarned})"
@@ -34,7 +34,13 @@ module.exports = class GoldView extends View
     @shownOnce = true
 
   updateTitle: ->
-    @$el.attr 'title', ("Team '#{team}' has #{gold} now of #{@teamGoldEarned[team]} gold earned." for team, gold of @teamGold).join ' '
+    strings = []
+    for team, gold of @teamGold
+      if @teamGoldEarned[team]
+        strings.push "Team '#{team}' has #{gold} now of #{@teamGoldEarned[team]} gold earned."
+      else
+        strings.push "Team '#{team}' has #{gold} gold."
+    @$el.attr 'title', strings.join ' '
 
   onSetLetterbox: (e) ->
     @$el.toggle not e.on if @shownOnce

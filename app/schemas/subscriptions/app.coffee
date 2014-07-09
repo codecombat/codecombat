@@ -1,48 +1,45 @@
 module.exports =
-  "application:idle-changed":
+  'application: idle-changed':
     {} # TODO schema
 
-  "fbapi-loaded":
+  'fbapi-loaded':
     {} # TODO schema
 
-  "logging-in-with-facebook":
+  'logging-in-with-facebook':
     {} # TODO schema
 
-  "facebook-logged-in":
-    title: "Facebook logged in"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you successfully logged in with facebook"
-    type: "object"
+  'facebook-logged-in':
+    title: 'Facebook logged in'
+    $schema: 'http://json-schema.org/draft-04/schema#'
+    description: 'Published when you successfully logged in with facebook'
+    type: 'object'
     properties:
       response:
-        type: "object"
+        type: 'object'
         properties:
-          status: { type: "string" }
+          status: {type: 'string'}
           authResponse:
-            type: "object"
+            type: 'object'
             properties:
-              accessToken: { type: "string" }
-              expiresIn: { type: "number" }
-              signedRequest: { type: "string" }
-              userID: { type: "string" }
-    required: ["response"]
-    
-  "facebook-logged-out": {}
-  
-  "linkedin-loaded": {}
+              accessToken: {type: 'string'}
+              expiresIn: {type: 'number'}
+              signedRequest: {type: 'string'}
+              userID: {type: 'string'}
+    required: ['response']
 
-  "gapi-loaded":
+  'facebook-logged-out': {}
+
+  'linkedin-loaded': {}
+
+  'gapi-loaded':
     {} # TODO schema
 
-  "logging-in-with-gplus":
+  'logging-in-with-gplus':
     {} # TODO schema
 
-  "gplus-logged-in":
-    title: "G+ logged in"
-    $schema: "http://json-schema.org/draft-04/schema#"
-    description: "Published when you successfully logged in with G+"
-    type: "object"
-    properties:
-      authResult:
-        type: "string"
-    required: ["authResult"]
+  'gplus-logged-in':
+    title: 'G+ logged in'
+    $schema: 'http://json-schema.org/draft-04/schema#'
+    description: 'Published when you successfully logged in with G+'
+    type: 'object'
+    required: ['access_token']

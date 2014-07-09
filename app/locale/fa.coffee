@@ -90,7 +90,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "کد نویسی به زبان جاوااسکریپت را با بازی بیاموزید"
+    slogan: "کد نویسیا با بازی بیاموزید"
     no_ie: "متاسفیم اما بازی بر روی مرورگر های اینترنت اکسپلورر نسخه ۹ به قبل اجرا نمی شود"
     no_mobile: "این بازی برای دستگاه های موبایل طراحی نشده است و بر روی آن ها اجرا نمی شود"
     play: "شروع بازی"

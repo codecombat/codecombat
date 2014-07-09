@@ -7,7 +7,10 @@ block modal-header-content
 block modal-body-content
   .modal-body
     p= patch.get('commitMessage')
-    .changes-stub
+    if deltaWorked
+      .changes-stub
+    else
+      .alert.alert-danger Could not apply this delta to the current version.
 
 
 block modal-footer

@@ -31,7 +31,7 @@ createMailOptions = (sender, message, user, recipientID, subject, done) ->
       if err
         log.error "Error looking up recipient to email from #{recipientID}: #{err}" if err
       else
-        options.bcc = options.to
+        options.bcc = [options.to, sender]
         options.to = document.get('email')
       done options
   else

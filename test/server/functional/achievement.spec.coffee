@@ -5,7 +5,7 @@ unlockable =
   description: 'Started playing Dungeon Arena.'
   worth: 3
   collection: 'level.session'
-  query: "{\"level.original\":\"dungeon-arena\"}"
+  query: "{\"level.original\": \"dungeon-arena\"}"
   userField: 'creator'
 
 repeatable =
@@ -13,7 +13,7 @@ repeatable =
   description: 'Simulated Games.'
   worth: 1
   collection: 'User'
-  query: "{\"simulatedBy\":{\"$gt\":\"0\"}}"
+  query: "{\"simulatedBy\": {\"$gt\": \"0\"}}"
   userField: '_id'
   proportionalTo: 'simulatedBy'
 
@@ -35,7 +35,7 @@ describe 'Achievement', ->
 
   it 'can\'t be updated by ordinary users', (done) ->
     loginJoe ->
-      request.put {uri: url, json:unlockable}, (err, res, body) ->
+      request.put {uri: url, json: unlockable}, (err, res, body) ->
         expect(res.statusCode).toBe(403)
 
         request {method: 'patch', uri: url, json: unlockable}, (err, res, body) ->
@@ -82,12 +82,11 @@ describe 'Achievement', ->
         done()
 
   it 'get schema', (done) ->
-    request.get {uri:url + '/schema'}, (err, res, body) ->
+    request.get {uri: url + '/schema'}, (err, res, body) ->
       expect(res.statusCode).toBe(200)
       body = JSON.parse(body)
       expect(body.type).toBeDefined()
       done()
-
 
 describe 'Achieving Achievements', ->
 
@@ -97,14 +96,11 @@ describe 'Achieving Achievements', ->
         creator: joe._id
         level: original: 'dungeon-arena'
 
-      request.post {uri:getURL('/db/level.session'), json:levelSession}, (session) ->
+      request.post {uri: getURL('/db/level.session'), json: levelSession}, (session) ->
 
         done()
-
 
   xit 'cleaning up test: deleting all Achievements and relates', (done) ->
     clearModels [Achievement, EarnedAchievement, LevelSession], (err) ->
       expect(err).toBeNull()
       done()
-
-

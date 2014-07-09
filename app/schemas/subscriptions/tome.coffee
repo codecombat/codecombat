@@ -1,73 +1,95 @@
 module.exports =
-  "tome:cast-spell":
+  'tome:cast-spell':
     {} # TODO schema
 
   # TODO do we really need both 'cast-spell' and 'cast-spells'?
-  "tome:cast-spells":
+  'tome:cast-spells':
     {} # TODO schema
 
-  "tome:manual-cast":
+  'tome:manual-cast':
     {} # TODO schema
 
-  "tome:spell-created":
+  'tome:spell-created':
     {} # TODO schema
 
-  "tome:spell-debug-property-hovered":
+  'tome:spell-debug-property-hovered':
     {} # TODO schema
 
-  "tome:toggle-spell-list":
+  'tome:toggle-spell-list':
     {} # TODO schema
 
-  "tome:reload-code":
+  'tome:reload-code':
     {} # TODO schema
 
-  "tome:palette-hovered":
+  'tome:palette-hovered':
     {} # TODO schema
 
-  "tome:palette-pin-toggled":
+  'tome:palette-pin-toggled':
     {} # TODO schema
 
-  "tome:palette-clicked":
+  'tome:palette-clicked':
     {} # TODO schema
 
-  "tome:spell-statement-index-updated":
+  'tome:spell-statement-index-updated':
     {} # TODO schema
 
   # TODO proposition: refactor 'tome' into spell events
-  "spell-beautify":
+  'spell-beautify':
     {} # TODO schema
 
-  "spell-step-forward":
+  'spell-step-forward':
     {} # TODO schema
 
-  "spell-step-backward":
+  'spell-step-backward':
     {} # TODO schema
 
-  "tome:spell-loaded":
+  'tome:spell-loaded':
     {} # TODO schema
 
-  "tome:cast-spell":
+  'tome:cast-spell':
     {} # TODO schema
 
-  "tome:spell-changed":
+  'tome:spell-changed':
     {} # TODO schema
 
-  "tome:editing-ended":
+  'tome:editing-ended':
     {} # TODO schema
 
-  "tome:editing-began":
+  'tome:editing-began':
     {} # TODO schema
 
-  "tome:problems-updated":
+  'tome:problems-updated':
     {} # TODO schema
 
-  "tome:thang-list-entry-popover-shown":
+  'tome:thang-list-entry-popover-shown':
     {} # TODO schema
 
-  "tome:spell-shown":
+  'tome:spell-shown':
     {} # TODO schema
 
-  # TODO proposition: add tome to name
-  "focus-editor":
+  'tome:focus-editor':
     {} # TODO schema
 
+  'tome:change-language':
+    title: 'Tome Change Language'
+    $schema: 'http://json-schema.org/draft-04/schema#'
+    description: 'Published when the Tome should update its programming language.'
+    type: 'object'
+    additionalProperties: false
+    properties:
+      language:
+        type: 'string'
+    required: ['language']
+
+  'tome:spell-changed-language':
+    title: 'Spell Changed Language'
+    $schema: 'http://json-schema.org/draft-04/schema#'
+    description: 'Published when an individual spell has updated its code language.'
+    type: 'object'
+    additionalProperties: false
+    properties:
+      spell:
+        type: 'object'
+      language:
+        type: 'string'
+    required: ['spell']

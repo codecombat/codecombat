@@ -8,7 +8,7 @@ config = require '../../server_config'
 errors = require '../commons/errors'
 async = require 'async'
 log = require 'winston'
-LevelSession = require('../levels/sessions/LevelSession')
+LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
@@ -61,7 +61,7 @@ UserHandler = class UserHandler extends Handler
         log.warn "Error grabbing FB token: #{err}" if err
         body = JSON.parse(body)
         emailsMatch = req.body.email is body.email
-        return callback(res:'Invalid Facebook Access Token.', code:422) unless emailsMatch
+        return callback(res: 'Invalid Facebook Access Token.', code: 422) unless emailsMatch
         callback(null, req, user)
       )
 
@@ -75,7 +75,7 @@ UserHandler = class UserHandler extends Handler
         log.warn "Error grabbing G+ token: #{err}" if err
         body = JSON.parse(body)
         emailsMatch = req.body.email is body.email
-        return callback(res:'Invalid G+ Access Token.', code:422) unless emailsMatch
+        return callback(res: 'Invalid G+ Access Token.', code: 422) unless emailsMatch
         callback(null, req, user)
       )
 
@@ -84,18 +84,18 @@ UserHandler = class UserHandler extends Handler
       return callback(null, req, user) unless req.body.email?
       emailLower = req.body.email.toLowerCase()
       return callback(null, req, user) if emailLower is user.get('emailLower')
-      User.findOne({emailLower:emailLower}).exec (err, otherUser) ->
+      User.findOne({emailLower: emailLower}).exec (err, otherUser) ->
         log.error "Database error setting user email: #{err}" if err
-        return callback(res:'Database error.', code:500) if err
+        return callback(res: 'Database error.', code: 500) if err
 
         if (req.query.gplusID or req.query.facebookID) and otherUser
           # special case, log in as that user
           return req.logIn(otherUser, (err) ->
-            return callback(res:'Facebook user login error.', code:500) if err
+            return callback(res: 'Facebook user login error.', code: 500) if err
             return callback(null, req, otherUser)
           )
-        r = {message:'is already used by another account', property:'email'}
-        return callback({res:r, code:409}) if otherUser
+        r = {message: 'is already used by another account', property: 'email'}
+        return callback({res: r, code: 409}) if otherUser
         user.set('email', req.body.email)
         callback(null, req, user)
 
@@ -105,12 +105,12 @@ UserHandler = class UserHandler extends Handler
       nameLower = req.body.name?.toLowerCase()
       return callback(null, req, user) unless nameLower
       return callback(null, req, user) if nameLower is user.get('nameLower') and not user.get('anonymous')
-      User.findOne({nameLower:nameLower,anonymous:false}).exec (err, otherUser) ->
+      User.findOne({nameLower: nameLower, anonymous: false}).exec (err, otherUser) ->
         log.error "Database error setting user name: #{err}" if err
-        return callback(res:'Database error.', code:500) if err
-        r = {message:'is already used by another account', property:'name'}
+        return callback(res: 'Database error.', code: 500) if err
+        r = {message: 'is already used by another account', property: 'name'}
         console.log 'Another user exists' if otherUser
-        return callback({res:r, code:409}) if otherUser
+        return callback({res: r, code: 409}) if otherUser
         user.set('name', req.body.name)
         callback(null, req, user)
   ]
@@ -123,17 +123,17 @@ UserHandler = class UserHandler extends Handler
   getNamesByIDs: (req, res) ->
     ids = req.query.ids or req.body.ids
     returnWizard = req.query.wizard or req.body.wizard
-    properties = if returnWizard then "name wizard" else "name"
+    properties = if returnWizard then 'name wizard' else 'name'
     @getPropertiesFromMultipleDocuments res, User, properties, ids
 
   nameToID: (req, res, name) ->
-    User.findOne({nameLower:unescape(name).toLowerCase(),anonymous:false}).exec (err, otherUser) ->
+    User.findOne({nameLower: unescape(name).toLowerCase(), anonymous: false}).exec (err, otherUser) ->
       res.send(if otherUser then otherUser._id else JSON.stringify(''))
       res.end()
 
   getSimulatorLeaderboard: (req, res) ->
     queryParameters = @getSimulatorLeaderboardQueryParameters(req)
-    leaderboardQuery = User.find(queryParameters.query).select("name simulatedBy simulatedFor").sort({"simulatedBy":queryParameters.sortOrder}).limit(queryParameters.limit)
+    leaderboardQuery = User.find(queryParameters.query).select('name simulatedBy simulatedFor').sort({'simulatedBy': queryParameters.sortOrder}).limit(queryParameters.limit)
     leaderboardQuery.exec (err, otherUsers) ->
         otherUsers = _.reject otherUsers, _id: req.user._id if req.query.scoreOffset isnt -1
         otherUsers ?= []
@@ -155,11 +155,11 @@ UserHandler = class UserHandler extends Handler
     limit = if req.query.limit > 30 then 30 else req.query.limit
     if req.query.scoreOffset isnt -1
       simulatedByQuery = {}
-      simulatedByQuery[if req.query.order is 1 then "$gt" else "$lte"] = req.query.scoreOffset
+      simulatedByQuery[if req.query.order is 1 then '$gt' else '$lte'] = req.query.scoreOffset
       query.simulatedBy = simulatedByQuery
       sortOrder = 1 if req.query.order is 1
     else
-      query.simulatedBy = {"$exists": true}
+      query.simulatedBy = {'$exists': true}
     {query: query, sortOrder: sortOrder, limit: limit}
 
   validateSimulateLeaderboardRequestParameters: (req) ->
@@ -182,7 +182,7 @@ UserHandler = class UserHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
-    return @agreeToEmployerAgreement(req,res) if args[1] is 'agreeToEmployerAgreement'
+    return @agreeToEmployerAgreement(req, res) if args[1] is 'agreeToEmployerAgreement'
     return @avatar(req, res, args[0]) if args[1] is 'avatar'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
@@ -213,7 +213,7 @@ UserHandler = class UserHandler extends Handler
         req.user.set('signedCLA', doc.created)
         req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
-          @sendSuccess(res, {result:'success'})
+          @sendSuccess(res, {result: 'success'})
 
   avatar: (req, res, id) ->
     @modelClass.findById(id).exec (err, document) =>
@@ -221,6 +221,8 @@ UserHandler = class UserHandler extends Handler
       photoURL = document?.get('photoURL')
       if photoURL
         photoURL = "/file/#{photoURL}"
+      else if req.query.employerPageAvatar is "true"
+        photoURL = @buildGravatarURL document, req.query.s, "/images/pages/employer/anon_user.png"
       else
         photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
       res.redirect photoURL
@@ -282,35 +284,35 @@ UserHandler = class UserHandler extends Handler
 
   agreeToEmployerAgreement: (req, res) ->
     userIsAnonymous = req.user?.get('anonymous')
-    if userIsAnonymous then return errors.unauthorized(res, "You need to be logged in to agree to the employer agreeement.")
+    if userIsAnonymous then return errors.unauthorized(res, 'You need to be logged in to agree to the employer agreeement.')
     profileData = req.body
     #TODO: refactor this bit to make it more elegant
     if not profileData.id or not profileData.positions or not profileData.emailAddress or not profileData.firstName or not profileData.lastName
-      return errors.badInput(res, "You need to have a more complete profile to sign up for this service.")
+      return errors.badInput(res, 'You need to have a more complete profile to sign up for this service.')
     @modelClass.findById(req.user.id).exec (err, user) =>
-      if user.get('employerAt') or user.get('signedEmployerAgreement') or "employer" in user.get('permissions')
-        return errors.conflict(res, "You already have signed the agreement!")
+      if user.get('employerAt') or user.get('signedEmployerAgreement') or 'employer' in user.get('permissions')
+        return errors.conflict(res, 'You already have signed the agreement!')
       #TODO: Search for the current position
-      employerAt = _.filter(profileData.positions.values,"isCurrent")[0]?.company.name ? "Not available"
+      employerAt = _.filter(profileData.positions.values, 'isCurrent')[0]?.company.name ? 'Not available'
       signedEmployerAgreement =
         linkedinID: profileData.id
         date: new Date()
         data: profileData
       updateObject =
-        "employerAt": employerAt
-        "signedEmployerAgreement": signedEmployerAgreement
-        $push: "permissions":'employer'
+        'employerAt': employerAt
+        'signedEmployerAgreement': signedEmployerAgreement
+        $push: 'permissions': 'employer'
 
-      User.update {"_id": req.user.id}, updateObject, (err, result) =>
+      User.update {'_id': req.user.id}, updateObject, (err, result) =>
         if err? then return errors.serverError(res, "There was an issue updating the user object to reflect employer status: #{err}")
-        res.send({"message": "The agreement was successful."})
+        res.send({'message': 'The agreement was successful.'})
         res.end()
 
   getCandidates: (req, res) ->
     authorized = req.user.isAdmin() or ('employer' in req.user.get('permissions'))
-    since = (new Date((new Date()) - 2 * 30.4 * 86400 * 1000)).toISOString()
+    months = if req.user.isAdmin() then 12 else 2
+    since = (new Date((new Date()) - months * 30.4 * 86400 * 1000)).toISOString()
     query = {'jobProfile.updated': {$gt: since}}
-    #query.jobProfileApproved = true unless req.user.isAdmin()  # We split into featured and other now.
     query['jobProfile.active'] = true unless req.user.isAdmin()
     selection = 'jobProfile jobProfileApproved photoURL'
     selection += ' email name' if authorized
@@ -321,10 +323,10 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, candidates)
 
   formatCandidate: (authorized, document) ->
-    fields = if authorized then ['name', 'jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['jobProfile', 'jobProfileApproved']
+    fields = if authorized then ['name', 'jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['_id','jobProfile', 'jobProfileApproved']
     obj = _.pick document.toObject(), fields
-    obj.photoURL ||= obj.jobProfile.photoURL if authorized
-    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active']
+    obj.photoURL ||= obj.jobProfile.photoURL #if authorized
+    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active', 'shortDescription', 'curated', 'visa']
     if authorized
       subfields = subfields.concat ['name']
     obj.jobProfile = _.pick obj.jobProfile, subfields
@@ -350,7 +352,7 @@ UserHandler = class UserHandler extends Handler
 
   buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user
-    fallback ?= "http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png"
+    fallback ?= 'http://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png'
     fallback = "http://codecombat.com#{fallback}" unless /^http/.test fallback
     "https://www.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
 
@@ -374,6 +376,5 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError res, err if err
       return @sendNotFoundError res unless remark?
       @sendSuccess res, remark
-
 
 module.exports = new UserHandler()

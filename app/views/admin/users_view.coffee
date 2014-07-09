@@ -5,7 +5,7 @@ User = require 'models/User'
 module.exports = class UsersView extends View
   # TODO: Pagination, choosing filters on the page itself.
 
-  id: "admin-users-view"
+  id: 'admin-users-view'
   template: template
 
   constructor: (options) ->

@@ -10,8 +10,8 @@
     max-height: 500px
     overflow: scroll
     padding: 4%
-    background: transparent url(/images/level/popover_background.png)
-    background-size: 100% 100%
+    border-image: url(/images/level/popover_background.png) 18 fill round
+    border-width: 15px
     
     .thang-avatar-view
       cursor: pointer
@@ -20,4 +20,9 @@
       display: inline-block
     
 
-    
+html.no-borderimage
+  .spell-list-entry-view
+    .spell-list-entry-thangs-view
+      background: transparent url(/images/level/popover_background.png)
+      background-size: 100% 100%
+      border: 0

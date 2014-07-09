@@ -6,7 +6,7 @@ EditorConfigModal = require './modal/editor_config_modal'
 KeyboardShortcutsModal = require './modal/keyboard_shortcuts_modal'
 
 module.exports = class PlaybackView extends View
-  id: "playback-view"
+  id: 'playback-view'
   template: template
 
   subscriptions:
@@ -36,7 +36,7 @@ module.exports = class PlaybackView extends View
     'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': -> Backbone.Mediator.publish 'tome:focus-editor'
     'mouseenter #timeProgress': 'onProgressEnter'
     'mouseleave #timeProgress': 'onProgressLeave'
     'mousemove #timeProgress': 'onProgressHover'
@@ -48,14 +48,13 @@ module.exports = class PlaybackView extends View
     '⌘+], ctrl+]': 'onScrubForward'
     '⌘+⇧+], ctrl+⇧+]': 'onSingleScrubForward'
 
-
   # popover that shows at the current mouse position on the progressbar, using the bootstrap popover.
   # Could make this into a jQuery plugins itself theoretically.
   class HoverPopup extends $.fn.popover.Constructor
     constructor: () ->
       @enabled = true
       @shown = false
-      @type = "HoverPopup"
+      @type = 'HoverPopup'
       @options =
         placement: 'top'
         container: 'body'
@@ -66,7 +65,7 @@ module.exports = class PlaybackView extends View
       @$element = $('#timeProgress')
       @$tip = $('#timePopover')
 
-      @content = ""
+      @content = ''
 
     getContent: -> @content
 
@@ -122,7 +121,7 @@ module.exports = class PlaybackView extends View
   # These functions could go to some helper class
 
   pad2: (num) ->
-    if not num? or num is 0 then "00" else ((if num < 10 then "0" else "") + num)
+    if not num? or num is 0 then '00' else ((if num < 10 then '0' else '') + num)
 
   formatTime: (text, time) =>
     "#{text}\t#{@timeToString time}"
@@ -131,9 +130,9 @@ module.exports = class PlaybackView extends View
     mins = Math.floor(time / 60)
     secs = (time - mins * 60).toFixed(1)
     if withUnits
-      ret = ""
-      ret = (mins + " " + (if mins is 1 then @minute else @minutes)) if (mins > 0)
-      ret = (ret + " " + secs + " " + (if secs is 1 then @second else @seconds)) if (secs > 0 or mins is 0)
+      ret = ''
+      ret = (mins + ' ' + (if mins is 1 then @minute else @minutes)) if (mins > 0)
+      ret = (ret + ' ' + secs + ' ' + (if secs is 1 then @second else @seconds)) if (secs > 0 or mins is 0)
     else
       "#{mins}:#{@pad2 secs}"
 
@@ -302,7 +301,7 @@ module.exports = class PlaybackView extends View
     @clickingSlider = false  # whether the mouse has been pressed down without moving
     @$progressScrubber.slider(
       max: @sliderIncrements
-      animate: "slow"
+      animate: 'slow'
       slide: (event, ui) =>
         @scrubTo ui.value / @sliderIncrements
         @slideCount += 1

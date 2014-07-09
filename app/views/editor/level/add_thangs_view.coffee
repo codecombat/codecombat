@@ -11,7 +11,7 @@ class ThangTypeSearchCollection extends CocoCollection
     @url += "&term=#{term}" if term
 
 module.exports = class AddThangsView extends View
-  id: "add-thangs-column"
+  id: 'add-thangs-column'
   className: 'add-thangs-palette thangs-column'
   template: add_thangs_template
   startsLoading: false
@@ -72,5 +72,5 @@ module.exports = class AddThangsView extends View
     @lastSearch = term
 
   onEscapePressed: ->
-    @$el.find('input#thang-search').val("")
+    @$el.find('input#thang-search').val('')
     @runSearch

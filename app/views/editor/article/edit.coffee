@@ -1,12 +1,12 @@
 View = require 'views/kinds/RootView'
 VersionHistoryView = require './versions_view'
-ErrorView = require '../../error_view'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
 SaveVersionModal = require 'views/modal/save_version_modal'
+PatchesView = require 'views/editor/patches_view'
 
 module.exports = class ArticleEditView extends View
-  id: "editor-article-edit-view"
+  id: 'editor-article-edit-view'
   template: template
   startsLoading: true
 
@@ -37,7 +37,7 @@ module.exports = class ArticleEditView extends View
     @article.fetch()
     @listenToOnce(@article, 'sync', @buildTreema)
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
-
+    
   buildTreema: ->
     return if @treema? or (not @article.loaded)
     unless @article.attributes.body
@@ -68,20 +68,22 @@ module.exports = class ArticleEditView extends View
   getRenderData: (context={}) ->
     context = super(context)
     context.article = @article
-    context.authorized = me.isAdmin() or @article.hasWriteAccess(me)
+    context.authorized = not me.get('anonymous')
     context
 
   afterRender: ->
     super()
     return if @startsLoading
     @showReadOnly() if me.get('anonymous')
+    @patchesView = @insertSubView(new PatchesView(@article), @$el.find('.patches-view'))
+    @patchesView.load()
 
   openPreview: ->
     @preview = window.open('/editor/article/x/preview', 'preview', 'height=800,width=600')
     @preview.focus() if window.focus
     @preview.onload = => @pushChangesToPreview()
     return false
-    
+
   openSaveModal: ->
     @openModalView(new SaveVersionModal({model: @article}))
 
@@ -101,11 +103,12 @@ module.exports = class ArticleEditView extends View
       @disableModalInProgress(modal)
 
     res.success =>
+      @article.clearBackup()
       modal.modal('hide')
       url = "/editor/article/#{newArticle.get('slug') or newArticle.id}"
       document.location.href = url
 
   showVersionHistory: (e) ->
-    versionHistoryView = new VersionHistoryView article:@article, @articleID
+    versionHistoryView = new VersionHistoryView article: @article, @articleID
     @openModalView versionHistoryView
     Backbone.Mediator.publish 'level:view-switched', e

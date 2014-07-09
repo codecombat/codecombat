@@ -90,7 +90,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Học mã Javascript bằng chơi Games"
+    slogan: "Học mã bằng chơi Games"
     no_ie: "Codecombat không chạy trong Internet Explorer 9 hoặc cũ hơn. Xin lỗi!"
     no_mobile: "Codecombat không được thiết kế cho các thiết bị di động và có thể không hoạt động được!"
     play: "Chơi"

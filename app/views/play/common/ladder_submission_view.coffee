@@ -2,7 +2,7 @@ CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/common/ladder_submission'
 
 module.exports = class LadderSubmissionView extends CocoView
-  className: "ladder-submission-view"
+  className: 'ladder-submission-view'
   template: template
 
   events:
@@ -79,21 +79,21 @@ module.exports = class LadderSubmissionView extends CocoView
     for thang, spells of submittedCode
       transpiledCode[thang] = {}
       for spellID, spell of spells
-        unless _.contains(@session.get('teamSpells')[@session.get('team')], thang + "/" + spellID) then continue
+        unless _.contains(@session.get('teamSpells')[@session.get('team')], thang + '/' + spellID) then continue
         #DRY this
         aetherOptions =
           problems: {}
           language: language
           functionName: spellID
           functionParameters: []
-          yieldConditionally: spellID is "plan"
+          yieldConditionally: spellID is 'plan'
           globals: ['Vector', '_']
           protectAPI: true
           includeFlow: false
           executionLimit: 1 * 1000 * 1000
-        if spellID is "hear" then aetherOptions.functionParameters = ["speaker","message","data"]
-        if spellID is "makeBid" then aetherOptions.functionParameters = ["blockNumber"]
-        if spellID is "findCentroids" then aetherOptions.functionParameters = ["centroids"]
+        if spellID is 'hear' then aetherOptions.functionParameters = ['speaker', 'message', 'data']
+        if spellID is 'makeBid' then aetherOptions.functionParameters = ['tileGroupLetter']
+        if spellID is 'findCentroids' then aetherOptions.functionParameters = ['centroids']
 
         aether = new Aether aetherOptions
         transpiledCode[thang][spellID] = aether.transpile spell

@@ -47,9 +47,20 @@ block header
             a
               span.glyphicon-floppy-disk.glyphicon
         
-        li(title="⌃↩ or ⌘↩: Play preview of current level")#play-button
-          a
-            span.glyphicon-play.glyphicon
+        if level.get('type') === 'ladder'
+          li.dropdown
+            a(data-toggle='dropdown')
+              span.glyphicon-play.glyphicon
+            ul.dropdown-menu
+              li.dropdown-header Play As Which Team?
+              li
+                for team in ['humans', 'ogres']
+                  a.play-with-team-button(data-team=team)= team
+        
+        else
+          li(title="⌃↩ or ⌘↩: Play preview of current level")#play-button
+            a
+              span.glyphicon-play.glyphicon
         li.dropdown
           a(data-toggle='dropdown')
             span.glyphicon-chevron-down.glyphicon

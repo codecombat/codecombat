@@ -1,4 +1,4 @@
-gplusClientID = "800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com"
+gplusClientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
 
 go = (path) -> -> @routeDirectly path, arguments
 
@@ -44,7 +44,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @openRoute(args.join('/'))
     view = new ViewClass({}, slugOrId)
     view.render()
-    if view then @openView(view) else @showNotFound()
+    @openView if view then view else @notFoundView()
 
   cache: {}
   openRoute: (route) ->
@@ -75,16 +75,16 @@ module.exports = class CocoRouter extends Backbone.Router
     gapi.plusone.go?()  # Handles +1 button
     for gplusButton in $('.gplus-login-button')
       params = {
-        callback:"signinCallback",
-        clientid:gplusClientID,
-        cookiepolicy:"single_host_origin",
-        scope:"https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email",
-        height: "short",
+        callback: 'signinCallback',
+        clientid: gplusClientID,
+        cookiepolicy: 'single_host_origin',
+        scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/userinfo.email',
+        height: 'short',
       }
       if gapi.signin?.render
         gapi.signin.render(gplusButton, params)
       else
-        console.warn "Didn't have gapi.signin to render G+ login button. (DoNotTrackMe extension?)"
+        console.warn 'Didn\'t have gapi.signin to render G+ login button. (DoNotTrackMe extension?)'
 
   getViewFromCache: (route) ->
     if route of @cache
@@ -99,14 +99,14 @@ module.exports = class CocoRouter extends Backbone.Router
       return document.location.reload()
     path = "views/#{path}"
     ViewClass = @tryToLoadModule path
-    return @showNotFound() if not ViewClass
+    return @openView @notFoundView() if not ViewClass
     view = new ViewClass({}, args...)  # options, then any path fragment args
     view.render()
     @openView(view)
 
   getView: (route, suffix='_view') ->
     # iteratively breaks down the url pieces looking for the view
-    # passing the broken off pieces as args. This way views like "resource/14394893"
+    # passing the broken off pieces as args. This way views like 'resource/14394893'
     # will get passed to the resource view with arg '14394893'
     pieces = _.string.words(route, '/')
     split = Math.max(1, pieces.length-1)
@@ -117,7 +117,7 @@ module.exports = class CocoRouter extends Backbone.Router
       break if ViewClass
       split -= 1
 
-    return @showNotFound() if not ViewClass
+    return @notFoundView() if not ViewClass
     args = pieces[split+1..]
     view = new ViewClass({}, args...)  # options, then any path fragment args
     view.render()
@@ -129,7 +129,7 @@ module.exports = class CocoRouter extends Backbone.Router
       if error.toString().search('Cannot find module "' + path + '" from') is -1
         throw error
 
-  showNotFound: ->
+  notFoundView: ->
     NotFoundView = require('views/not_found')
     view = new NotFoundView()
     view.render()

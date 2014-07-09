@@ -9,7 +9,7 @@ class LevelSystemSearchCollection extends CocoCollection
   model: LevelSystem
 
 module.exports = class LevelSystemAddView extends View
-  id: "editor-level-system-add-modal"
+  id: 'editor-level-system-add-modal'
   template: template
   instant: true
 
@@ -52,7 +52,7 @@ module.exports = class LevelSystemAddView extends View
     id = $(e.currentTarget).data('system-id')
     system = _.find @systems.models, id: id
     unless system
-      return console.error "Couldn't find system for id", id, "out of", @systems.models
+      return console.error 'Couldn\'t find system for id', id, 'out of', @systems.models
     # Add all dependencies, recursively, unless we already have them
     toAdd = system.getDependencies(@systems.models)
     _.remove toAdd, (s1) =>

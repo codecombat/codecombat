@@ -1,125 +1,162 @@
-extends /templates/base
+extends /templates/recruitment_base
 
 block content
-
-  h1(data-i18n="employers.want_to_hire_our_players") Hire CodeCombat Players
-
+  .artisanal-claim
+    | Always 100% Pre-Screened
+  if me.get('anonymous')
+    a#login-link Login
+    br
   if !isEmployer && !me.isAdmin()
-    div#info_wrapper
-  
-      div#leftside
-  
-        div.information_row
-  
-          img(class="employer_icon" src="/images/pages/employer/employer_icon1.png")
-  
-          h2(data-i18n="employers.what") What is CodeCombat?
-  
-          p(data-i18n="employers.what_blurb") CodeCombat is a multiplayer browser programming game. Players write code to control their forces in battle against other developers. We support JavaScript, Python, Lua, Clojure, CoffeeScript, and Io.
-  
-        div.information_row
-  
-          img(class="employer_icon" src="/images/pages/employer/employer_icon3.png")
-  
-          h2(data-i18n="employers.who") Who Are the Players?
-  
-          p(data-i18n="employers.who_blurb") CodeCombateers are software developers who enjoy using their programming skills to play games. They range from college seniors at top 20 engineering programs to 20-year industry veterans.
-  
-      div#rightside
-  
-        div.information_row
-  
-          img(class="employer_icon" src="/images/pages/employer/employer_icon2.png")
-  
-          h2(data-i18n="employers.how") How Do We Find Developers?
-  
-          p(data-i18n="employers.how_blurb") We host competitive tournaments to attract competitive software engieneers. We then use in-house algorithms to identify the best players among the top 5% of tournament winners.
-  
-        div.information_row
-  
-          img(class="employer_icon" src="/images/pages/employer/employer_icon4.png")
-  
-          h2(data-i18n="employers.why") Why Hire Through Us?
-  
-          p
-            span(data-i18n="employers.why_blurb_1") We will save you time. Every CodeCombateer we feaure is 
-            strong(data-i18n="employers.why_blurb_2") looking for work
-            span(data-i18n="employers.why_blurb_3") , has 
-            strong(data-i18n="employers.why_blurb_4") demonstrated top notch technical skills
-            span(data-i18n="employers.why_blurb_5") , and has been 
-            strong(data-i18n="employers.why_blurb_6") personally screened by us
-            span(data-i18n="employers.why_blurb_7") . Stop screening and start hiring.
-
-      h3.see-candidates-header
-        a#see-candidates(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/employer_signup", data-i18n="employers.see_candidates") Click here to see our candidates
-
-  if candidates.length
-
-    ul.nav.nav-pills
-      li.active
-        a(href="#featured-candidates", data-toggle="tab")
-          span(data-i18n="employers.featured_developers") Featured Developers
-          |  (#{featuredCandidates.length})
-      if otherCandidates.length
-        li
-          a(href="#other-candidates", data-toggle="tab")
-            span(data-i18n="employers.other_developers") Other Developers
-            |  (#{otherCandidates.length})
-      if me.isAdmin() && inactiveCandidates.length
-        li
-          a(href="#inactive-candidates", data-toggle="tab")
-            span(data-i18n="employers.inactive_developers") Inactive Developers
-            |  (#{inactiveCandidates.length})
-
-    div.tab-content
-      for area, tabIndex in [{id: "featured-candidates", candidates: featuredCandidates}, {id: "other-candidates", candidates: otherCandidates}, {id: "inactive-candidates", candidates: inactiveCandidates}]
-        div(class="tab-pane well" + (tabIndex ? "" : " active"), id=area.id)
-          table.table.table-condensed.table-hover.table-responsive.tablesorter
-            thead
-              tr
-                th(data-i18n="general.name") Name
-                th(data-i18n="employers.candidate_location") Location
-                th(data-i18n="employers.candidate_looking_for") Looking For
-                th(data-i18n="employers.candidate_role") Role
-                th(data-i18n="employers.candidate_top_skills") Top Skills
-                th(data-i18n="employers.candidate_years_experience") Yrs Exp
-                th(data-i18n="employers.candidate_last_updated") Last Updated
-                if me.isAdmin()
-                  th(data-i18n="employers.candidate_who") Who
-                if me.isAdmin() && area.id == 'inactive-candidates'
-                  th ✓?
-        
+    #tagline
+      h1(data-i18n="employers.hire_developers_not_credentials") Hire developers, not credentials.
+      button.btn.get-started-button.employer-button Get started
+  else
+    if !me.get('anonymous')
+      a#logout-link(data-i18n="login.log_out") Logout
+      br
+  .row
+    - var fullProfiles = isEmployer || me.isAdmin();
+    #candidates-column(class=fullProfiles ? "full-profiles col-md-9" : "teaser-profiles col-md-12")
+      if candidates.length
+        #candidate-table
+          table
             tbody
-              for candidate, index in area.candidates
+              for candidate, index in featuredCandidates
                 - var profile = candidate.get('jobProfile');
                 - var authorized = candidate.id;  // If we have the id, then we are authorized.
-                tr(data-candidate-id=candidate.id, id=candidate.id)
-                  td
-                    if authorized
-                      img(src=candidate.getPhotoURL(50), alt=profile.name, title=profile.name, height=50)
-                      if profile.name
-                        p= profile.name
-                      else if me.isAdmin()
-                        p (#{candidate.get('name')})
-                    else
-                      img(src="/images/pages/contribute/archmage.png", alt="", title="Sign up as an employer to see our candidates", width=50)
-                      p Developer ##{index + 1 + (area.id == 'featured-candidates' ? 0 : featuredCandidates.length)}
-                  if profile.country == 'USA'
-                    td= profile.city
+                - var profileAge = (new Date() - new Date(profile.updated)) / 86400 / 1000;
+                - var expired = profileAge > 2 * 30.4;
+                - var curated = profile.curated;
+                - var photoSize = fullProfiles ? 100 : 50;
+
+                tr.candidate-row(data-candidate-id=candidate.id, id=candidate.id, class=expired ? "expired" : "")
+                  td(rowspan=3)
+                    .candidate-picture
+                      img(src=candidate.getPhotoURL(photoSize, false, true), alt=profile.name, title=profile.name, width=photoSize)
+                  if fullProfiles
+                    td.candidate-name-cell
+                      strong= profile.name
+                      |  - 
+                      span= profile.jobTitle
+                tr.description_row(data-candidate-id=candidate.id)
+                  if curated && curated.shortDescription
+                    td.candidate-description #{curated.shortDescription}
                   else
-                    td= profile.country
-                  td= profile.lookingFor
-                  td= profile.jobTitle
-                  td
-                    each skill in profile.skills
-                      code= skill
-                      span  
-                  td= profile.experience
-                  td(data-profile-age=(new Date() - new Date(profile.updated)) / 86400 / 1000)= moment(profile.updated).fromNow()
-                  if me.isAdmin()
-                    td= remarks[candidate.id] ? remarks[candidate.id].get('contactName') : ''
-                  if me.isAdmin() && area.id == 'inactive-candidates'
-                    if candidate.get('jobProfileApproved')
-                      td ✓
-                    else
-                      td ✗
+                    td.candidate-description #{profile.shortDescription}
+                tr.border_row(data-candidate-id=candidate.id)
+                  if curated
+                    - var workHistory = curated.workHistory.join(",");
+                    if !fullProfiles
+                      td.tag_column
+                        img(src="/images/pages/employer/tag.png")
+                        |  #{profile.jobTitle}
+                    td.location_column
+                      img(src="/images/pages/employer/location.png")
+                      |  #{curated.location}
+                    td.education_column
+                      img(src="/images/pages/employer/education.png")
+                      |  #{curated.education}
+                    td.work_column
+                      if workHistory
+                        img(src="/images/pages/employer/briefcase.png")
+                        |  #{workHistory}
+    if fullProfiles
+      .col-md-3
+        #filter
+          .panel-group#filter_panel
+            a#filter-link(data-toggle="collapse" data-target="#collapseOne")
+              .panel.panel-default
+                .panel-heading
+                  h4.panel-title
+                    span.glyphicon.glyphicon-folder-open#folder-icon
+                    | Filter
+            .panel-collapse.collapse.in#collapseOne
+              .panel-body
+                p
+                  strong We've already technically screened all our candidates
+                  | , but you can also filter further:
+                form#filters
+                    .filter_section#visa_filter
+                      h4 Visa
+                      label
+                        input(type="checkbox" name="visa" value="Authorized to work in the US")
+                        | US Authorized (#{candidatesInFilter("visa","Authorized to work in the US")})
+                      label
+                        input(type="checkbox" name="visa" value="Need visa sponsorship")
+                        | Not Authorized (#{candidatesInFilter("visa","Need visa sponsorship")})
+                    .filter_section#school_filter
+                      h4 Education
+                      label
+                        input(type="checkbox" name="schoolFilter" value="Top School")
+                        | Top School (#{candidatesInFilter("schoolFilter","Top School")})
+                      label
+                        input(type="checkbox" name="schoolFilter" value="Other")
+                        | Other (#{candidatesInFilter("schoolFilter","Other")})
+                    .filter_section#role_filter
+                      h4 Role
+                      label
+                        input(type="checkbox" name="roleFilter" value="Web Developer")
+                        | Web Developer (#{candidatesInFilter("roleFilter","Web Developer")})
+                      label
+                        input(type="checkbox" name="roleFilter" value="Software Developer")
+                        | Software Developer (#{candidatesInFilter("roleFilter","Software Developer")})
+                      label
+                        input(type="checkbox" name="roleFilter" value="Mobile Developer")
+                        | Mobile Developer (#{candidatesInFilter("roleFilter","Mobile Developer")})
+                    .filter_section#seniority_filter
+                      h4 Experience
+                      label
+                        input(type="checkbox" name="seniorityFilter" value="Senior")
+                        | Senior (#{candidatesInFilter("seniorityFilter","Senior")})
+                      label
+                        input(type="checkbox" name="seniorityFilter" value="Junior")
+                        | Junior (#{candidatesInFilter("seniorityFilter","Junior")})
+                      label
+                        input(type="checkbox" name="seniorityFilter" value="Recent Grad")
+                        | Recent Grad (#{candidatesInFilter("seniorityFilter","Recent Grad")})
+                      label
+                        input(type="checkbox" name="seniorityFilter" value="College Student")
+                        | College Student (#{candidatesInFilter("seniorityFilter","College Student")})
+
+                //input#select_all_checkbox(type="checkbox" name="select_all" checked)
+                //| Select all
+                p#results #{numberOfCandidates} results
+                //button.btn#create-alert-button Create Alert
+
+
+  if !fullProfiles
+    div#info_wrapper
+      span.hiring-call-to-action
+        h2#start-hiring(data-i18n="employers.start_hiring") Start hiring.
+        button.btn.get-started-button.employer-button Get started
+      
+      h2#hiring-reasons.hiring-call-to-action(data-i18n="employers.reasons") 3 reasons you should hire through us:
+      .reasons#top_row
+        .reason
+          img.employer_icon(src="/images/pages/employer/employer_icon2.png")
+          h3(data-i18n="employers.everyone_looking") Everyone here is looking for work.
+          p(data-i18n="employers.everyone_looking_blurb") Forget about 20% LinkedIn InMail response rates. Everyone that we list on this site wants to find their next position and will respond to your request for an introduction.
+        .reason
+          img.employer_icon(src="/images/pages/employer/employer_icon6.png")
+          h3(data-i18n="employers.weeding") We've done the weeding for you.
+          //this will break in i18n. Fix the inlining
+          p(data-i18n="employers.weeding_blurb")
+            | We only feature developers that we would work with. We've reviewed each profile (in addition to meeting with many of the candidates.)
+        .reason
+          img(class="employer_icon" src="/images/pages/employer/employer_icon3.png")
+          h3(data-i18n="employers.pass_screen") They will pass your technical screen.
+          p(data-i18n="employers.pass_screen_blurb") All of these developers have ranked in our programming competitions. One employer found that 5x as many of our devs passed their technical screen than hiring from Hacker News.
+      span.hiring-call-to-action
+        h2(data-i18n="employers.make_hiring_easier") Make my hiring easier, please.
+        button.btn.get-started-button.employer-button Get started
+      .reasons#bottom_row
+        .reason_long
+          img.employer_icon(src="/images/pages/employer/employer_icon1.png")
+          .reason_text
+            h3(data-i18n="employers.what") What is CodeCombat?
+            p(data-i18n="employers.what_blurb") CodeCombat is a multiplayer browser programming game. Players write code to control their forces in battle against other developers. We support JavaScript, Python, Lua, Clojure, CoffeeScript, and Io.
+        .reason_long
+          img.employer_icon(src="/images/pages/employer/employer_icon5.png")
+          .reason_text
+            h3(data-i18n="employers.cost") Who Are the Players?
+            p(data-i18n="employers.cost_blurb") CodeCombateers are CTOs, VPs of Engineering, and graduates of top 20 engineering schools. No junior developers here. Our players enjoy playing with code and solving problems.

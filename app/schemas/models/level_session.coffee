@@ -5,14 +5,13 @@ LevelSessionPlayerSchema = c.object
     links: [
       {
         rel: 'extra'
-        href: "/db/user/{($)}"
+        href: '/db/user/{($)}'
       }
     ]
   time:
     type: 'Number'
   changes:
     type: 'Number'
-
 
 LevelSessionLevelSchema = c.object {required: ['original', 'majorVersion']},
   original: c.objectId({})
@@ -21,11 +20,9 @@ LevelSessionLevelSchema = c.object {required: ['original', 'majorVersion']},
     minimum: 0
     default: 0
 
-
 LevelSessionSchema = c.object
-  title: "Session"
-  description: "A single session for a given level."
-
+  title: 'Session'
+  description: 'A single session for a given level.'
 
 _.extend LevelSessionSchema.properties,
   # denormalization
@@ -42,7 +39,7 @@ _.extend LevelSessionSchema.properties,
       [
         {
           rel: 'extra'
-          href: "/db/user/{($)}"
+          href: '/db/user/{($)}'
         }
       ]
   created: c.date
@@ -154,13 +151,13 @@ _.extend LevelSessionSchema.properties,
   codeLanguage:
     type: 'string'
     default: 'javascript'
-    
+
   playtime:
     type: 'number'
     title: 'Playtime'
     default: 0
     description: 'The total playtime on this session'
-    
+
   teamSpells:
     type: 'object'
     additionalProperties:
@@ -176,7 +173,7 @@ _.extend LevelSessionSchema.properties,
     type: 'number'
 
   standardDeviation:
-    type:'number'
+    type: 'number'
     minimum: 0
 
   totalScore:
@@ -198,7 +195,7 @@ _.extend LevelSessionSchema.properties,
   submittedCodeLanguage:
     type: 'string'
     default: 'javascript'
-    
+
   transpiledCode:
     type: 'object'
     additionalProperties:
@@ -245,7 +242,6 @@ _.extend LevelSessionSchema.properties,
           title: 'Playtime so far'
           description: 'The total seconds of playtime on this session when the match was computed.'
           type: 'number'
-        
         metrics:
           type: 'object'
           title: 'Metrics'
@@ -265,19 +261,19 @@ _.extend LevelSessionSchema.properties,
               sessionID:
                 title: 'Opponent Session ID'
                 description: 'The session ID of an opponent.'
-                type: ['object', 'string','null']
+                type: ['object', 'string', 'null']
               userID:
                 title: 'Opponent User ID'
                 description: 'The user ID of an opponent'
-                type: ['object','string','null']
+                type: ['object', 'string', 'null']
               name:
                 title: 'Opponent name'
                 description: 'The name of the opponent'
-                type: ['string','null']
+                type: ['string', 'null']
               totalScore:
                 title: 'Opponent total score'
                 description: 'The totalScore of a user when the match was computed'
-                type: ['number','string', 'null']
+                type: ['number', 'string', 'null']
               metrics:
                 type: 'object'
                 properties:
@@ -285,11 +281,6 @@ _.extend LevelSessionSchema.properties,
                     title: 'Opponent Rank'
                     description: 'The opponent\'s ranking in a given match'
                     type: 'number'
-
-
-
-
-
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
 c.extendPermissionsProperties LevelSessionSchema, 'level.session'

@@ -4,9 +4,8 @@ LevelComponent = require 'models/LevelComponent'
 forms = require 'lib/forms'
 {me} = require 'lib/auth'
 
-
 module.exports = class LevelComponentNewView extends View
-  id: "editor-level-component-new-modal"
+  id: 'editor-level-component-new-modal'
   template: template
   instant: false
   modalWidthPercent: 60
@@ -14,7 +13,12 @@ module.exports = class LevelComponentNewView extends View
   events:
     'click #new-level-component-submit': 'makeNewLevelComponent'
     'submit form': 'makeNewLevelComponent'
-
+    
+  getRenderData: ->
+    c = super()
+    c.systems = LevelComponent.schema.properties.system.enum
+    c
+    
   makeNewLevelComponent: (e) ->
     e.preventDefault()
     system = @$el.find('#level-component-system').val()
@@ -30,7 +34,7 @@ module.exports = class LevelComponentNewView extends View
     @showLoading()
     res.error =>
       @hideLoading()
-      console.log "Got errors:", JSON.parse(res.responseText)
+      console.log 'Got errors:', JSON.parse(res.responseText)
       forms.applyErrorsToForm(@$el, JSON.parse(res.responseText))
     res.success =>
       @supermodel.registerModel component

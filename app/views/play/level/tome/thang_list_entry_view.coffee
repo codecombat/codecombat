@@ -15,10 +15,10 @@ module.exports = class ThangListEntryView extends View
   reasonsToBeDisabled: {}
 
   subscriptions:
-    'tome:problems-updated': "onProblemsUpdated"
+    'tome:problems-updated': 'onProblemsUpdated'
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
-    'surface:frame-changed': "onFrameChanged"
+    'surface:frame-changed': 'onFrameChanged'
     'level-set-letterbox': 'onSetLetterbox'
     'tome:thang-list-entry-popover-shown': 'onThangListEntryPopoverShown'
     'surface:coordinates-shown': 'onSurfaceCoordinatesShown'
@@ -83,7 +83,7 @@ module.exports = class ThangListEntryView extends View
   onClick: (e) ->
     return unless @controlsEnabled
     @sortSpells()
-    Backbone.Mediator.publish "level-select-sprite", thangID: @thang.id, spellName: @spells[0]?.name
+    Backbone.Mediator.publish 'level-select-sprite', thangID: @thang.id, spellName: @spells[0]?.name
 
   onMouseEnter: (e) ->
     return unless @controlsEnabled and @spells.length
@@ -122,7 +122,7 @@ module.exports = class ThangListEntryView extends View
     @popover.mouseleave (e) => @hideSpells()
     thangID = @thang.id
     @popover.find('code').click (e) ->
-      Backbone.Mediator.publish "level-select-sprite", thangID: thangID, spellName: $(@).data 'spell-name'
+      Backbone.Mediator.publish 'level-select-sprite', thangID: thangID, spellName: $(@).data 'spell-name'
     Backbone.Mediator.publish 'tome:thang-list-entry-popover-shown', entry: @
 
   hideSpells: =>

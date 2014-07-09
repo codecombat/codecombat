@@ -90,7 +90,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
 #    required: "You need to log in before you can go that way."
 
   home:
-    slogan: "Lær å Kode JavaScript ved å Spille et Spill"
+    slogan: "Lær å Kode ved å Spille et Spill"
     no_ie: "CodeCombat kjører ikke på IE8 eller eldre. Beklager!"
     no_mobile: "CodeCombat ble ikke designet for mobile enheter, og vil muligens ikke virke!"
     play: "Spill"

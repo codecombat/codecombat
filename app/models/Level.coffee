@@ -4,10 +4,10 @@ LevelSystem = require './LevelSystem'
 ThangType = require './ThangType'
 
 module.exports = class Level extends CocoModel
-  @className: "Level"
+  @className: 'Level'
   @schema: require 'schemas/models/level'
-  urlRoot: "/db/level"
-  
+  urlRoot: '/db/level'
+
   serialize: (supermodel) ->
     # o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
     o = $.extend true, {}, @attributes
@@ -23,7 +23,6 @@ module.exports = class Level extends CocoModel
     @fillInDefaultSystemConfiguration o.systems
 
     o.thangTypes = (original: tt.get('original'), name: tt.get('name') for tt in supermodel.getModels ThangType)
-
     o
 
   sortSystems: (levelSystems, systemModels) ->
@@ -31,11 +30,11 @@ module.exports = class Level extends CocoModel
     visit = (system) ->
       return if system.original of originalsSeen
       systemModel = _.find systemModels, {original: system.original}
-      console.error "Couldn't find model for original", system.original, "from", systemModels unless systemModel
+      console.error 'Couldn\'t find model for original', system.original, 'from', systemModels unless systemModel
       for d in systemModel.dependencies or []
         system2 = _.find levelSystems, {original: d.original}
         visit system2
-      #console.log "sorted systems adding", systemModel.name
+      #console.log 'sorted systems adding', systemModel.name
       sorted.push {model: systemModel, config: _.cloneDeep system.config}
       originalsSeen[system.original] = true
     visit system for system in levelSystems
@@ -54,21 +53,21 @@ module.exports = class Level extends CocoModel
       visit = (c) ->
         return if c in sorted
         lc = _.find levelComponents, {original: c.original}
-        console.error thang.id, "couldn't find lc for", c unless lc
-        if lc.name is "Programmable"
+        console.error thang.id, 'couldn\'t find lc for', c unless lc
+        if lc.name is 'Programmable'
           # Programmable always comes last
           visit c2 for c2 in _.without thang.components, c
         else
           for d in lc.dependencies or []
             c2 = _.find thang.components, {original: d.original}
-            console.error thang.id, "couldn't find dependent Component", d.original, "from", lc.name unless c2
+            console.error thang.id, 'couldn\'t find dependent Component', d.original, 'from', lc.name unless c2
             visit c2
-          if lc.name is "Collides"
-            allied = _.find levelComponents, {name: "Allied"}
+          if lc.name is 'Collides'
+            allied = _.find levelComponents, {name: 'Allied'}
             if allied
               collides = _.find(thang.components, {original: allied.original})
               visit collides if collides
-        #console.log thang.id, "sorted comps adding", lc.name
+        #console.log thang.id, 'sorted comps adding', lc.name
         sorted.push c
       for comp in thang.components
         visit comp
@@ -90,7 +89,7 @@ module.exports = class Level extends CocoModel
     return unless properties
     for prop, schema of properties
       if schema.default? and config[prop] is undefined
-        #console.log "Setting default of", config, "for", prop, "to", schema.default
+        #console.log 'Setting default of', config, 'for', prop, 'to', schema.default
         config[prop] = schema.default
       if schema.type is 'object' and config[prop]
         @walkDefaults config[prop], schema.properties
@@ -107,4 +106,4 @@ module.exports = class Level extends CocoModel
         continue unless c?
         width = c.width if c.width? and c.width > width
         height = c.height if c.height? and c.height > height
-    return {width:width, height:height}
+    return {width: width, height: height}
