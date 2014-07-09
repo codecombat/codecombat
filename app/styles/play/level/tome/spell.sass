@@ -26,6 +26,13 @@
     top: 0
     height: 100%
     width: 100%
+    
+  span.code-background
+    border-width: 22px
+    border-image: url(/images/level/code_editor_background.png) 22 fill round
+
+  img.code-background
+    display: none
 
   .save-status
     display: none
@@ -64,7 +71,7 @@
 
     .ace_gutter
       background-color: rgba(255, 255, 255, 0.25)
-      width: 40px
+      width: 47px
       margin-left: 4px
       border-bottom: 1px dotted #2f261d
 
@@ -133,3 +140,11 @@
 
       .ace_searchbtn, .ace_replacebtn
         padding: 0px 4px
+
+html.no-borderimage
+  #spell-view
+    span.code-background
+      display: none
+    img.code-background
+      display: block
+

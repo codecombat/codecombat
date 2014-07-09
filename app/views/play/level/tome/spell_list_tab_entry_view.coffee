@@ -18,6 +18,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     'click .spell-list-button': 'onDropdownClick'
     'click .reload-code': 'onCodeReload'
     'click .beautify-code': 'onBeautifyClick'
+    'click .fullscreen-code': 'onFullscreenClick'
 
   constructor: (options) ->
     super options
@@ -85,6 +86,14 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   onBeautifyClick: ->
     return unless @controlsEnabled
     Backbone.Mediator.publish 'spell-beautify', spell: @spell
+
+  onFullscreenClick: ->
+    unless $('.fullscreen-code').hasClass 'maximized'
+      $('#code-area').addClass 'fullscreen-editor'
+      $('.fullscreen-code').addClass 'maximized'
+    else
+      $('#code-area').removeClass 'fullscreen-editor'
+      $('.fullscreen-code').removeClass 'maximized'
 
   updateReloadButton: ->
     changed = @spell.hasChanged null, @spell.getSource()
