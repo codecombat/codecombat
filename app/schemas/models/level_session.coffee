@@ -109,6 +109,13 @@ _.extend LevelSessionSchema.properties,
         type: 'string'
         format: 'javascript'
 
+  vcsTags:
+    type: 'array'
+    description: 'All current VCS Tags sorted by timestamp'
+    items:
+      description: 'one tag'
+      type: 'string'
+
   codeVCS:
     type: 'object'     #Need this? Dunno.
     description: 'One VCS tree for every supported-language.'
