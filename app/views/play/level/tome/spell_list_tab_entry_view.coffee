@@ -95,6 +95,14 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
       $('#code-area').removeClass 'fullscreen-editor'
       $('.fullscreen-code').removeClass 'maximized'
 
+  onFullscreenClick: ->
+    unless $('.fullscreen-code').hasClass 'maximized'
+      $('#code-area').addClass 'fullscreen-editor'
+      $('.fullscreen-code').addClass 'maximized'
+    else
+      $('#code-area').removeClass 'fullscreen-editor'
+      $('.fullscreen-code').removeClass 'maximized'
+
   updateReloadButton: ->
     changed = @spell.hasChanged null, @spell.getSource()
     @$el.find('.reload-code').css('display', if changed then 'inline-block' else 'none')
