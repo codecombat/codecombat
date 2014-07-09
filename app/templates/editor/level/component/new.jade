@@ -7,7 +7,10 @@ block modal-body-content
   form.form
     .form-group
       label(for="level-component-system", data-i18n="editor.new_component_field_system").control-label System
-      input.form-control#level-component-system(name="system", type="text")
+      select.form-control#level-component-system(name='system')
+        for system in systems
+          option(value=system)= system
+      //input.form-control#level-component-system(name="system", type="text")
     .form-group
       label(for="level-component-name", data-i18n="general.name").control-label Name
       input.form-control#level-component-name(name="name", type="text")

@@ -1,6 +1,15 @@
 #employers-view
+  .artisanal-claim
+    font-variant: small-caps
+    text-align: center
+    font-size: 20px
+    font-weight: bold
+    font-family: Copperplate, "Copperplate Gothic Light", fantasy
+    border-top: 1px solid #DBDBDB
+    border-bottom: 1px solid #DBDBDB
+    margin-bottom: 5px
 
-  button
+  .employer-button
     background: #fce232 /* Old browsers */
     background: -moz-linear-gradient(top, #fce232 0%, #ea8e2b 100%) 
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fce232), color-stop(100%,#ea8e2b))
@@ -14,18 +23,42 @@
     
   //filter panels
   #filter
+    border: 2px solid #CBCBCB
     margin-bottom: 10px
     .panel-heading
-      background-color: darkgrey
+      background-color: #D9D9D9
+      cursor: pointer
+      border-top-left-radius: 0px
+      border-top-right-radius: 0px
+      #folder-icon
+        margin-right: 5px
     .panel-body
-      background-color: darkgrey
+      background-color: #D9D9D9
+      border-top-left-radius: 0px
+      border-top-right-radius: 0px
+    .panel
+      border: 1px red
+      border-radius: 0px
      
   #filters
+    margin-bottom: 10px
     .filter_section
-      width: 16%
+      min-width: 25%
+      margin-right: 10px
       display: inline-block
       vertical-align: top
-    margin-bottom: 10px
+
+    h4
+      margin-bottom: 5px
+
+    label
+      display: block
+      font-weight: normal
+      margin-bottom: 0
+      cursor: pointer
+      input
+        margin-right: 5px
+
   .get-started-button
     vertical-align: text-bottom
     margin-left: 10px
@@ -33,13 +66,13 @@
   #filter-button, #create-alert-button
     float: right
     
-  #login-link, #logout-button
+  #login-link, #logout-link
     float: right
     color: #333333
     display: inline-block
     :visited
       color: #333333
-  #logout-button:hover
+  #logout-link:hover
     cursor: pointer
       
   #tagline, .hiring-call-to-action
@@ -73,7 +106,6 @@
       height: 150px
       padding-right: 15px
     
-
     .reason
       width: 33%
       padding-left: 3%
@@ -99,9 +131,6 @@
   #bottom_row
     height: auto
   #candidate-table
-    width: 96%
-    margin-left: 2%
-    margin-right: 2%
     background-color: #E7E7E7
     table
       cursor: pointer
@@ -109,38 +138,48 @@
       margin-left: 2%
       margin-right: 2%
       margin-bottom: 30px
-      .tag_column
-        width: 25%
+      .tag_column, .location_column, .education_column, .work_column
+        width: 33%
         display: inline-block
-      .location_column
-        display: inline-block
-        width: 25%
-      .education_column
-        display: inline-block
-        width: 25%
-      .work_column
-        display: inline-block
-        width: 25%
+        img
+          margin-right: 5px
+          vertical-align: top
       tr 
         .candidate-picture
-          width: 50px
-          height: 50px
+          width: 100px
+          height: 100px
           border-radius: 5px
           overflow: hidden
           margin-right: 10px
+          img
+            border-radius: 5px
           
         .candidate-description
           width: 100%
           vertical-align: bottom
-      td
-        margin-bottom: 10px
-        margin-top: 10px
+      td.candidate-description
         padding-bottom: 5px
-        padding-top: 10px
+      td.candidate-name-cell
+        padding-top: 15px
+        padding-bottom: 5px
+        font-size: 18px
+
       .border_row
         border-bottom: 1px solid #d3d3d3
         vertical-align: bottom
-        padding-top: 0px
+        td
+          padding-top: 5px
+          padding-bottom: 15px
+
+  .teaser-profiles #candidate-table table
+    .tag_column, .location_column, .education_column, .work_column
+      width: 25%
+    tr
+      .candidate-description
+        padding-top: 15px
+      .candidate-picture
+        width: 50px
+        height: 50px
       
   #results
     display: inline-block

@@ -236,7 +236,7 @@
     basics_country: "Country"
     basics_country_help: "Country you want to work in (or live in now)."
     basics_visa: "US Work Status"
-    basics_visa_help: "Are you authorized to work in the US, or do you need visa sponsorship?"
+    basics_visa_help: "Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)"
     basics_looking_for: "Looking For"
     basics_looking_for_full_time: "Full-time"
     basics_looking_for_part_time: "Part-time"

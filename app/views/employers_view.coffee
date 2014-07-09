@@ -21,6 +21,7 @@ module.exports = class EmployersView extends View
 
   events:
     'click tbody tr': 'onCandidateClicked'
+    'click #logout-link': 'logoutAccount'
     'change #filters input': 'onFilterChanged'
     'click #filter-button': 'applyFilters'
     'change #select_all_checkbox': 'handleSelectAllChange'
@@ -69,6 +70,7 @@ module.exports = class EmployersView extends View
     for filterName, filterValues of @filters
       if filterValues.length is 0
         @filters[filterName] = @defaultFilters[filterName]
+    @applyFilters()
 
   openSignupModal: ->
     @openModalView new EmployerSignupView
@@ -111,23 +113,43 @@ module.exports = class EmployersView extends View
     @filters =
       phoneScreenFilter: [true, false]
       visa: ['Authorized to work in the US', 'Need visa sponsorship']
-      schoolFilter: ['Top 20 Eng.', 'Other US', 'Other Intl.']
+      schoolFilter: ['Top School', 'Other']
       locationFilter: ['Bay Area', 'New York', 'Other US', 'International']
-      roleFilter: ['Web Developer', 'Software Developer', 'iOS Developer', 'Android Developer', 'Project Manager']
-      seniorityFilter: ['College Student', 'Recent Grad', 'Junior', 'Senior', 'Management']
+      roleFilter: ['Web Developer', 'Software Developer', 'Mobile Developer']
+      seniorityFilter: ['College Student', 'Recent Grad', 'Junior', 'Senior']
     @defaultFilters = _.cloneDeep @filters
 
+  candidatesInFilter: (filterName, filterValue) =>
+    candidates = @getActiveAndApprovedCandidates()
+    if filterName and filterValue
+      if filterName is 'visa'
+        return (_.filter candidates, (c) -> c.get('jobProfile').visa is filterValue).length
+      else
+        return (_.filter candidates, (c) -> c.get('jobProfile').curated?[filterName] is filterValue).length
+    else
+      return Math.floor(Math.random() * 500)
+
+  getActiveAndApprovedCandidates: =>
+    candidates = _.filter @candidates.models, (c) -> c.get('jobProfile').active
+    return _.filter candidates, (c) -> c.get('jobProfileApproved')
 
   getRenderData: ->
     ctx = super()
     ctx.isEmployer = @isEmployer()
+    #If you change the candidates displayed, change candidatesInFilter()
     ctx.candidates = _.sortBy @candidates.models, (c) -> -1 * c.get('jobProfile').experience
+    ctx.candidates = _.sortBy ctx.candidates, (c) -> not c.get('jobProfile').curated?
+    ctx.candidates = _.sortBy ctx.candidates, (c) -> c.get('jobProfile').curated?.featured
     ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
+
     unless @isEmployer() or me.isAdmin()
       ctx.featuredCandidates = _.filter ctx.featuredCandidates, (c) -> c.get('jobProfile').curated
       ctx.featuredCandidates = ctx.featuredCandidates.slice(0,7)
+    if me.isAdmin()
+      ctx.featuredCandidates = ctx.candidates
+    ctx.candidatesInFilter = @candidatesInFilter
     ctx.otherCandidates = _.reject ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
     ctx.remarks = {}
     ctx.remarks[remark.get('user')] = remark for remark in @remarks.models
@@ -158,7 +180,7 @@ module.exports = class EmployersView extends View
     #  $('.nano').nanoScroller({scrollTo: $(window.location.hash)})
 
   checkForEmployerSignupHash: =>
-    if window.location.hash is '#employerSignupLoggingIn' and not ('employer' in me.get('permissions'))
+    if window.location.hash is '#employerSignupLoggingIn' and not ('employer' in me.get('permissions')) and not me.isAdmin()
       @openModalView application.router.getView('modal/employer_signup', '_modal')
       window.location.hash = ''
 
@@ -278,7 +300,9 @@ module.exports = class EmployersView extends View
           8:
             '✓': filterSelectExactMatch
             '✗': filterSelectExactMatch
-
+  logoutAccount: ->
+    window.location.hash = ''
+    super()
   onCandidateClicked: (e) ->
     id = $(e.target).closest('tr').data('candidate-id')
     if id and (@isEmployer() or me.isAdmin())

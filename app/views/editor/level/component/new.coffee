@@ -13,7 +13,12 @@ module.exports = class LevelComponentNewView extends View
   events:
     'click #new-level-component-submit': 'makeNewLevelComponent'
     'submit form': 'makeNewLevelComponent'
-
+    
+  getRenderData: ->
+    c = super()
+    c.systems = LevelComponent.schema.properties.system.enum
+    c
+    
   makeNewLevelComponent: (e) ->
     e.preventDefault()
     system = @$el.find('#level-component-system').val()

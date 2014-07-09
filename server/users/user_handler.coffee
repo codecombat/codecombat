@@ -221,6 +221,8 @@ UserHandler = class UserHandler extends Handler
       photoURL = document?.get('photoURL')
       if photoURL
         photoURL = "/file/#{photoURL}"
+      else if req.query.employerPageAvatar is "true"
+        photoURL = @buildGravatarURL document, req.query.s, "/images/pages/employer/anon_user.png"
       else
         photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
       res.redirect photoURL

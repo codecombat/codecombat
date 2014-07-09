@@ -12,7 +12,7 @@ init = ->
     me.set 'testGroupNumber', Math.floor(Math.random() * 256)
     me.patch()
 
-  Backbone.listenTo(me, 'sync', Backbone.Mediator.publish('me:synced', {me: me}))
+  Backbone.listenTo(me, 'sync', -> Backbone.Mediator.publish('me:synced', {me: me}))
 
 module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) ->
   user = new User(userObject)

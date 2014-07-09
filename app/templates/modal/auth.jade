@@ -19,12 +19,19 @@ block modal-body-content
         p(data-i18n="signup.description") It's free. Just need a couple things and you'll be good to go:
 
   form.form
-    .form-group
-      label.control-label(for="email", data-i18n="general.email") Email
-      input#email.input-large.form-control(name="email", type="email", value=formValues.email)
-    .form-group
-      label.control-label(for="password", data-i18n="general.password") Password
-      input#password.input-large.form-control(name="password", type="password", value=formValues.password)
+    if onEmployersPage
+      .form-group
+        input#email.input-large.form-control(name="email", type="email", value=formValues.email, placeholder="Email")
+      .form-group
+        input#password.input-large.form-control(name="password", type="password", value=formValues.password, placeholder="Password")
+    
+    else
+      .form-group
+        label.control-label(for="email", data-i18n="general.email") Email
+        input#email.input-large.form-control(name="email", type="email", value=formValues.email)
+      .form-group
+        label.control-label(for="password", data-i18n="general.password") Password
+        input#password.input-large.form-control(name="password", type="password", value=formValues.password)
 
     if mode === 'signup'
       .form-group.checkbox
@@ -38,8 +45,11 @@ block modal-body-content
           a(href="https://en.wikipedia.org/wiki/Children's_Online_Privacy_Protection_Act", data-i18n="signup.coppa_why", target="_blank") (Why?)
 
     if mode === 'login'
-      input.btn.btn-info.btn-large#login-button(value=translate("login.log_in"), type="submit")
-      .btn.btn-default.btn-large#switch-to-signup-button(data-i18n="login.sign_up") Create Account
+      if onEmployersPage
+        input.btn.btn-info.btn-large#login-button(value=translate("login.log_in"), type="submit")
+      else
+        input.btn.btn-info.btn-large#login-button(value=translate("login.log_in"), type="submit")
+        .btn.btn-default.btn-large#switch-to-signup-button(data-i18n="login.sign_up") Create Account
     if mode === 'signup'
       input.btn.btn-info.btn-large#signup-button(value=translate("signup.sign_up"), type="submit")
 
