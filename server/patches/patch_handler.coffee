@@ -62,7 +62,7 @@ PatchHandler = class PatchHandler extends Handler
     return unless watchers?.length
     User.find({_id: {$in: watchers}}).select({email: 1, name: 1}).exec (err, watchers) =>
       for watcher in watchers
-        @sendPatchCreatedEmail req.user, watcher, doc, doc.targetLoaded, req.body.editPath
+        @sendPatchCreatedEmail req.user, watcher, doc, doc.targetLoaded, req.headers['x-current-path']
 
   sendPatchCreatedEmail: (patchCreator, watcher, patch, target, editPath) ->
 #    return if watcher._id is patchCreator._id
