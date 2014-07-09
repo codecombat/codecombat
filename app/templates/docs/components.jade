@@ -1,6 +1,23 @@
 extends /templates/base
 
+
 block content
-  ul
-    for component in components
-      li= component.get('name')
+    div.main
+        div.left
+            ul
+                for component in components
+                    li= component.get('name')
+                    ul
+                        each doc in component.attributes.propertyDocumentation
+                            a(href="##{component.get('name')}#{doc.name}")
+                                li
+                                    | #{doc.name}
+
+        div.right
+            ul
+                for component in components
+                    each doc in component.attributes.propertyDocumentation
+                        li(id="#{component.get('name')}#{doc.name}")
+                            | #{doc.name}
+                            ul.specialList
+                                li=doc.description

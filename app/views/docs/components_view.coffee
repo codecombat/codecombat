@@ -18,6 +18,7 @@ module.exports = class UnnamedView extends RootView
     
   onLoaded: ->
     console.log 'we have the components...', (c.get('name') for c in @componentDocs.models)
+    console.log 'we have the attributes...', (c.attributes for c in @componentDocs.models)
     super()
 
   getRenderData: ->
