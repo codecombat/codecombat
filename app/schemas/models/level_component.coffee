@@ -33,6 +33,7 @@ PropertyDocumentationSchema = c.object {
         title: 'Language Descriptions',
         description: 'Property descriptions by code language.',
         additionalProperties: {type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown'}
+        format: 'code-languages-object'
       }
     ]
   args: c.array {title: 'Arguments', description: 'If this property has type "function", then provide documentation for any function arguments.'}, c.FunctionArgumentSchema
@@ -44,19 +45,11 @@ PropertyDocumentationSchema = c.object {
         type: 'object',
         title: 'Language Examples',
         description: 'Examples by code language.',
-        additionalProperties: {type: 'string', description: 'An example code block.', format: 'javascript'}  # TODO: not JS
+        additionalProperties: {type: 'string', description: 'An example code block.', format: 'code'}
+        format: 'code-languages-object'
       }
     ]
-  snippets: c.object {
-    title: 'Snippets',
-    description: 'List of snippets for the respective programming languages'
-  },
-    javascript: c.object {title: 'JavaScript'}, c.codeSnippet 'javascript'
-    coffeescript: c.object {title: 'CoffeeScript'}, c.codeSnippet 'coffee'
-    python: c.object {title: 'Python'}, c.codeSnippet 'python'
-    clojure: c.object {title: 'Clojure'}, c.codeSnippet 'clojure'
-    lua: c.object {title: 'Lua'}, c.codeSnippet 'lua'
-    io: c.object {title: 'IO'}, c.codeSnippet 'io'
+  snippets: {type: 'object', title: 'Snippets', description: 'List of snippets for the respective programming languages', additionalProperties: c.codeSnippet, format: 'code-languages-object'}
   returns: c.object {
     title: 'Return Value'
     description: 'Optional documentation of any return value.'
@@ -71,7 +64,8 @@ PropertyDocumentationSchema = c.object {
           type: 'object',
           title: 'Language Examples',
           description: 'Example return values by code language.',
-          additionalProperties: c.shortString(description: 'Example return value.', format: 'javascript')  # TODO: not JS
+          additionalProperties: c.shortString(description: 'Example return value.', format: 'code')
+          format: 'code-languages-object'
         }
       ]
     description:
@@ -82,6 +76,7 @@ PropertyDocumentationSchema = c.object {
           title: 'Language Descriptions',
           description: 'Example return values by code language.',
           additionalProperties: {type: 'string', description: 'Description of the return value.', maxLength: 1000}
+          format: 'code-languages-object'
         }
       ]
 

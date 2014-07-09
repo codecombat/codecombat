@@ -186,11 +186,9 @@ me.FunctionArgumentSchema = me.object {
     description: 'Default value of the argument. (Your code should set this.)'
     'default': null
 
-me.codeSnippet = (mode) ->
-  return snippet =
-    code: {type: 'string', title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
-    # code: {type: 'string', format: 'ace', aceMode: 'ace/mode/'+mode, title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
-    tab: {type: 'string', title: 'Tab Trigger', description: 'Tab completion text. Will be expanded to the snippet if typed and hit tab.'}
+me.codeSnippet =
+  code: {type: 'string', title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
+  tab: {type: 'string', title: 'Tab Trigger', description: 'Tab completion text. Will be expanded to the snippet if typed and hit tab.'}
 
 me.activity = me.object {description: 'Stats on an activity'},
   first: me.date()

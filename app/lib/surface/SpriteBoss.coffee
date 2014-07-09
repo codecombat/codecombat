@@ -111,6 +111,8 @@ module.exports = class SpriteBoss extends CocoClass
       sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
     else if opponent.levelSlug is 'dungeon-arena'
       sprite.targetPos = if opponent.team is 'ogres' then {x: 72, y: 39} else {x: 9, y: 39}
+    else if opponent.levelSlug is 'criss-cross'
+      sprite.targetPos = if opponent.team is 'ogres' then {x: 50, y: 12} else {x: 0, y: 40}
     else
       sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 28} else {x: 20, y: 28}
 
