@@ -52,7 +52,7 @@ module.exports = class WizardSettingsView extends CocoView
         exists: wizardSettings[name]
         rgb: hslToHex(hsl)
       }
-    c.colorGroups = (f(colorName) for colorName in _.keys colorGroups)
+    c.colorGroups = (f(colorName) for colorName in _.keys colorGroups when colorName isnt 'team')
     c
 
   afterRender: ->
