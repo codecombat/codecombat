@@ -1,4 +1,5 @@
 mail = require '../commons/mail'
+MailTask = require '../mail/tasks/MailTask'
 User = require '../users/User'
 errors = require '../commons/errors'
 config = require '../../server_config'
@@ -6,11 +7,16 @@ LevelSession = require '../levels/sessions/LevelSession'
 Level = require '../levels/Level'
 log = require 'winston'
 sendwithus = require '../sendwithus'
-
+if config.isProduction || true
+  redis = require 'redis'
+  redisClient = redis.createClient(config.redis.port,config.redis.host)
 
 module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
+  app.post '/mail/task', createMailTask
+
+  #setInterval(handleScheduledMail, 5000)
   
 
 DEBUGGING = false
@@ -28,6 +34,18 @@ isRequestFromDesignatedCronHandler = (req, res) ->
     return false
   return true
 
+createMailTask = (req, res) ->
+  #unless req.user?.isAdmin() then return errors.forbidden(res)
+  unless req.body.url and req.body.frequency then return errors.badInput(res)
+  console.log "Creating mail task with url #{req.body.url} and frequency #{req.body.frequency}"
+  newMailTask = new MailTask {}
+  newMailTask.set("url",req.body.url)
+  newMailTask.set("frequency",req.body.frequency)
+  newMailTask.save (err) ->
+    if err? then return errors.serverError(res, err)
+    res.send("Created mail task!")
+    res.end()
+  
 handleLadderUpdate = (req, res) ->
   log.info('Going to see about sending ladder update emails.')
   requestIsFromDesignatedCronHandler = isRequestFromDesignatedCronHandler req, res
