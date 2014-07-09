@@ -44,6 +44,20 @@ describe 'User.updateMailChimp', ->
 
 describe 'POST /db/user', ->
 
+  createAnonNameUser = (name, done)->
+    request.post getURL('/auth/logout'), ->
+      request.get getURL('/auth/whoami'), ->
+        req = request.post(getURL('/db/user'), (err, response) ->
+          expect(response.statusCode).toBe(200)
+          request.get getURL('/auth/whoami'), (request, response, body) ->
+            res = JSON.parse(response.body)
+            expect(res.anonymous).toBeTruthy()
+            expect(res.name).toEqual(name)
+            done()
+        )
+        form = req.form()
+        form.append('name', name)
+
   it 'preparing test : clears the db first', (done) ->
     clearModels [User], (err) ->
       throw err if err
@@ -91,32 +105,10 @@ describe 'POST /db/user', ->
           done()
 
   it 'should allow setting anonymous user name', (done) ->
-    request.post getURL('/auth/logout'), ->
-      request.get getURL('/auth/whoami'), ->
-        req = request.post(getURL('/db/user'), (err, response) ->
-          expect(response.statusCode).toBe(200)
-          request.get getURL('/auth/whoami'), (request, response, body) ->
-            res = JSON.parse(response.body)
-            expect(res.anonymous).toBeTruthy()
-            expect(res.name).toEqual('Jim')
-            done()
-        )
-        form = req.form()
-        form.append('name', 'Jim')
+    createAnonNameUser('Jim', done)
 
   it 'should not allow multiple anonymous users with same name anymore', (done) ->
-    request.post getURL('/auth/logout'), ->
-      request.get getURL('/auth/whoami'), ->
-        req = request.post(getURL('/db/user'), (err, response) ->
-          expect(response.statusCode).toBe(409)
-          request.get getURL('/auth/whoami'), (request, response, body) ->
-            res = JSON.parse(response.body)
-            expect(res.anonymous).toBeTruthy()
-            expect(res.name).not.toEqual('Jim')
-            done()
-        )
-        form = req.form()
-        form.append('name', 'Jim')
+    createAnonNameUser('Jim', done)
 
   it 'should not allow setting existing user name to anonymous user', (done) ->
 
