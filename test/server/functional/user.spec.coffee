@@ -44,20 +44,6 @@ describe 'User.updateMailChimp', ->
 
 describe 'POST /db/user', ->
 
-  createAnonNameUser = (done)->
-    request.post getURL('/auth/logout'), ->
-      request.get getURL('/auth/whoami'), ->
-        req = request.post(getURL('/db/user'), (err, response) ->
-          expect(response.statusCode).toBe(200)
-          request.get getURL('/auth/whoami'), (request, response, body) ->
-            res = JSON.parse(response.body)
-            expect(res.anonymous).toBeTruthy()
-            expect(res.name).toEqual('Jim')
-            done()
-        )
-        form = req.form()
-        form.append('name', 'Jim')
-
   it 'preparing test : clears the db first', (done) ->
     clearModels [User], (err) ->
       throw err if err
@@ -105,11 +91,32 @@ describe 'POST /db/user', ->
           done()
 
   it 'should allow setting anonymous user name', (done) ->
-    createAnonNameUser(done)
+    request.post getURL('/auth/logout'), ->
+      request.get getURL('/auth/whoami'), ->
+        req = request.post(getURL('/db/user'), (err, response) ->
+          expect(response.statusCode).toBe(200)
+          request.get getURL('/auth/whoami'), (request, response, body) ->
+            res = JSON.parse(response.body)
+            expect(res.anonymous).toBeTruthy()
+            expect(res.name).toEqual('Jim')
+            done()
+        )
+        form = req.form()
+        form.append('name', 'Jim')
 
-  it 'should allow multiple anonymous users with same name', (done) ->
-    createAnonNameUser(done)
-
+  it 'should not allow multiple anonymous users with same name anymore', (done) ->
+    request.post getURL('/auth/logout'), ->
+      request.get getURL('/auth/whoami'), ->
+        req = request.post(getURL('/db/user'), (err, response) ->
+          expect(response.statusCode).toBe(409)
+          request.get getURL('/auth/whoami'), (request, response, body) ->
+            res = JSON.parse(response.body)
+            expect(res.anonymous).toBeTruthy()
+            expect(res.name).not.toEqual('Jim')
+            done()
+        )
+        form = req.form()
+        form.append('name', 'Jim')
 
   it 'should not allow setting existing user name to anonymous user', (done) ->
 
@@ -267,3 +274,30 @@ describe 'GET /db/user', ->
       expect(response.statusCode).toBe(422)
       done()
     )
+
+  it 'can fetch myself by id completely', (done) ->
+    loginSam (sam) ->
+      request.get {url: getURL(urlUser + '/' + sam.id)}, (err, response) ->
+        expect(err).toBeNull()
+        expect(response.statusCode).toBe(200)
+        done()
+
+  # TODO Ruben should be able to fetch other users but probably with restricted data access
+  # Add to the test case above an extra data check
+
+  it 'can fetch myself by slug completely', (done) ->
+    loginSam (sam) ->
+      request.get {url: getURL(urlUser + '/sam')}, (err, response) ->
+        expect(err).toBeNull()
+        expect(response.statusCode).toBe(200)
+        guy = JSON.parse response.body
+        expect(guy._id).toBe sam.get('_id').toHexString()
+        expect(guy.name).toBe sam.get 'name'
+        done()
+
+
+
+
+
+
+
