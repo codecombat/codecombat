@@ -128,7 +128,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     forum_page: "nosso fórum"
     forum_suffix: " como alternativa."
     send: "Enviar Feedback"
-#    contact_candidate: "Contact Candidat"
+#    contact_candidate: "Contact Candidate"
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
 
   diplomat_suggestion:
