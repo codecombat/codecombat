@@ -1,34 +1,17 @@
 mail = require '../commons/mail'
 User = require '../users/User'
 errors = require '../commons/errors'
-#request = require 'request'
 config = require '../../server_config'
 LevelSession = require '../levels/sessions/LevelSession'
 Level = require '../levels/Level'
 log = require 'winston'
 sendwithus = require '../sendwithus'
 
-#badLog = (text) ->
-#  console.log text
-#  request.post 'http://requestb.in/1brdpaz1', { form: {log: text} }
 
 module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
-
-getAllLadderScores = (next) ->
-  query = Level.find({type: 'ladder'})
-    .select('levelID')
-    .lean()
-  query.exec (err, levels) ->
-    if err
-      log.error 'Couldn\'t fetch ladder levels. Error: ', err
-      return next []
-    for level in levels
-      for team in ['humans', 'ogres']
-        'I ... am not doing this.'
-        # Query to get sessions to make histogram
-        # db.level.sessions.find({'submitted': true, 'levelID': 'brawlwood', team: 'ogres'}, {'_id': 0, 'totalScore': 1})
+  
 
 DEBUGGING = false
 LADDER_PREGAME_INTERVAL = 2 * 3600 * 1000  # Send emails two hours before players last submitted.
@@ -95,13 +78,9 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
     matches = _.filter session.matches, (match) -> match.date >= getTimeFromDaysAgo now, daysAgo
     defeats = _.filter matches, (match) -> match.metrics.rank is 1 and match.opponents[0].metrics.rank is 0
     victories = _.filter matches, (match) -> match.metrics.rank is 0 and match.opponents[0].metrics.rank is 1
-    #ties = _.filter matches, (match) -> match.metrics.rank is 0 and match.opponents[0].metrics.rank is 0
+
     defeat = _.last defeats
     victory = _.last victories
-
-    #log.info "#{user.name} had #{matches.length} matches from last #{daysAgo} days out of #{session.matches.length} total matches. #{defeats.length} defeats, #{victories.length} victories, and #{ties.length} ties."
-    #matchInfos = ("\t#{match.date}\t#{match.date >= getTimeFromDaysAgo(now, daysAgo)}\t#{match.metrics.rank}\t#{match.opponents[0].metrics.rank}" for match in session.matches)
-    #log.info "Matches:\n#{matchInfos.join('\n')}"
 
     sendEmail = (defeatContext, victoryContext) ->
       # TODO: do something with the preferredLanguage?
@@ -174,7 +153,6 @@ getScoreHistoryGraphURL = (session, daysAgo) ->
 
 handleMailchimpWebHook = (req, res) ->
   post = req.body
-  #badLog("Got post data: #{JSON.stringify(post, null, '\t')}")
 
   unless post.type in ['unsubscribe', 'profile']
     res.send 'Bad post type'
@@ -213,11 +191,8 @@ module.exports.handleProfileUpdate = handleProfileUpdate = (user, post) ->
   user.set 'mailChimp.email', post.data.email
   user.set 'mailChimp.euid', post.data.id
 
-#  badLog("Updating user object to: #{JSON.stringify(user.toObject(), null, '\t')}")
 
 module.exports.handleUnsubscribe = handleUnsubscribe = (user) ->
   user.set 'emailSubscriptions', []
   for emailGroup in mail.NEWS_GROUPS
     user.setEmailSubscription emailGroup, false
-
-#  badLog("Unsubscribing user object to: #{JSON.stringify(user.toObject(), null, '\t')}")

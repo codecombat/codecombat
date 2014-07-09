@@ -128,11 +128,11 @@ module.exports = class EmployersView extends View
         return (_.filter candidates, (c) -> c.get('jobProfile').curated?[filterName] is filterValue).length
     else
       return Math.floor(Math.random() * 500)
-      
+
   getActiveAndApprovedCandidates: =>
     candidates = _.filter @candidates.models, (c) -> c.get('jobProfile').active
     return _.filter candidates, (c) -> c.get('jobProfileApproved')
-    
+
   getRenderData: ->
     ctx = super()
     ctx.isEmployer = @isEmployer()
@@ -143,7 +143,7 @@ module.exports = class EmployersView extends View
     ctx.activeCandidates = _.filter ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.inactiveCandidates = _.reject ctx.candidates, (c) -> c.get('jobProfile').active
     ctx.featuredCandidates = _.filter ctx.activeCandidates, (c) -> c.get('jobProfileApproved')
-    
+
     unless @isEmployer() or me.isAdmin()
       ctx.featuredCandidates = _.filter ctx.featuredCandidates, (c) -> c.get('jobProfile').curated
       ctx.featuredCandidates = ctx.featuredCandidates.slice(0,7)
@@ -156,7 +156,6 @@ module.exports = class EmployersView extends View
     ctx.moment = moment
     ctx._ = _
     ctx.numberOfCandidates = ctx.featuredCandidates.length
-    ctx.isntEmployer = not (@isEmployer() or me.isAdmin())
     ctx
 
   isEmployer: ->

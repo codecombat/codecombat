@@ -1,6 +1,8 @@
 extends /templates/recruitment_base
 
 block content
+  .artisanal-claim
+    | Always 100% Pre-Screened
   if me.get('anonymous')
     a#login-link Login
     br
@@ -12,114 +14,117 @@ block content
     if !me.get('anonymous')
       a#logout-link(data-i18n="login.log_out") Logout
       br
-    #filter
-      .panel-group#filter_panel
-        a#filter-link(data-toggle="collapse" data-target="#collapseOne")
-          .panel.panel-default
-            .panel-heading
-              h4.panel-title
-               
-                span.glyphicon.glyphicon-folder-open#folder-icon
-                |  Filter
-        .panel-collapse.collapse.in#collapseOne
-          .panel-body
-            form#filters
-              .filter_section#visa_filter
-                h4 Visa
-                label
-                  input(type="checkbox" name="visa" value="Authorized to work in the US")
-                  | US Authorized (#{candidatesInFilter("visa","Authorized to work in the US")})
-                br
-                label
-                  input(type="checkbox" name="visa" value="Need visa sponsorship")
-                  | Not Authorized (#{candidatesInFilter("visa","Need visa sponsorship")})
-              .filter_section#school_filter
-                h4 Education
-                label
-                  input(type="checkbox" name="schoolFilter" value="Top School")
-                  | Top School (#{candidatesInFilter("schoolFilter","Top School")})
-                br
-                label
-                  input(type="checkbox" name="schoolFilter" value="Other")
-                  | Other (#{candidatesInFilter("schoolFilter","Other")})
-              .filter_section#role_filter
-                h4 Role
-                label
-                  input(type="checkbox" name="roleFilter" value="Web Developer")
-                  | Web Developer (#{candidatesInFilter("roleFilter","Web Developer")})
-                br
-                label
-                  input(type="checkbox" name="roleFilter" value="Software Developer")
-                  | Software Developer (#{candidatesInFilter("roleFilter","Software Developer")})
-                br
-                label
-                  input(type="checkbox" name="roleFilter" value="Mobile Developer")
-                  | Mobile Developer (#{candidatesInFilter("roleFilter","Mobile Developer")})
-              .filter_section#seniority_filter
-                h4 Seniority
-                label
-                  input(type="checkbox" name="seniorityFilter" value="Senior")
-                  | Senior (#{candidatesInFilter("seniorityFilter","Senior")})
-                br
-                label
-                  input(type="checkbox" name="seniorityFilter" value="Junior")
-                  | Junior (#{candidatesInFilter("seniorityFilter","Junior")})
-                br
-                label
-                  input(type="checkbox" name="seniorityFilter" value="Recent Grad")
-                  | Recent Grad (#{candidatesInFilter("seniorityFilter","Recent Grad")})
-                br
-                label
-                  input(type="checkbox" name="seniorityFilter" value="College Student")
-                  | College Student (#{candidatesInFilter("seniorityFilter","College Student")})
-                
-            //input#select_all_checkbox(type="checkbox" name="select_all" checked)
-            //| Select all
-            p#results #{numberOfCandidates} results
-            //button.btn#create-alert-button Create Alert
-  if candidates.length
-    #candidate-table
-      table
-        tbody
-          for candidate, index in featuredCandidates
-            - var profile = candidate.get('jobProfile');
-            - var authorized = candidate.id;  // If we have the id, then we are authorized.
-            - var profileAge = (new Date() - new Date(profile.updated)) / 86400 / 1000;
-            - var expired = profileAge > 2 * 30.4;
-            - var curated = profile.curated;
-              
-            tr.candidate-row(data-candidate-id=candidate.id, id=candidate.id, class=expired ? "expired" : "")
-              td(rowspan=3)
-                .candidate-picture
-                  img(src=candidate.getPhotoURL(50,false,true), alt=profile.name, title=profile.name, width=50)
-              if !isntEmployer
-                td.candidate-name-cell
-                  strong
-                    | #{profile.name}
-            tr.description_row(data-candidate-id=candidate.id)
-              if curated && curated.shortDescription
-                td.candidate-description #{curated.shortDescription}
-              else
-                td.candidate-description #{profile.shortDescription}
-            tr.border_row(data-candidate-id=candidate.id)
-              if curated
-                - var workHistory = curated.workHistory.join(",");
-                td.tag_column
-                  img(src="/images/pages/employer/tag.png")
-                  |  #{profile.jobTitle}
-                td.location_column
-                  img(src="/images/pages/employer/location.png")
-                  |  #{curated.location}
-                td.education_column
-                  img(src="/images/pages/employer/education.png")
-                  |  #{curated.education}
-                td.work_column
-                  if workHistory
-                    img(src="/images/pages/employer/briefcase.png")
-                    |  #{workHistory}
+  .row
+    - var fullProfiles = isEmployer || me.isAdmin();
+    #candidates-column(class=fullProfiles ? "full-profiles col-md-9" : "teaser-profiles col-md-12")
+      if candidates.length
+        #candidate-table
+          table
+            tbody
+              for candidate, index in featuredCandidates
+                - var profile = candidate.get('jobProfile');
+                - var authorized = candidate.id;  // If we have the id, then we are authorized.
+                - var profileAge = (new Date() - new Date(profile.updated)) / 86400 / 1000;
+                - var expired = profileAge > 2 * 30.4;
+                - var curated = profile.curated;
+                - var photoSize = fullProfiles ? 100 : 50;
+
+                tr.candidate-row(data-candidate-id=candidate.id, id=candidate.id, class=expired ? "expired" : "")
+                  td(rowspan=3)
+                    .candidate-picture
+                      img(src=candidate.getPhotoURL(photoSize, false, true), alt=profile.name, title=profile.name, width=photoSize)
+                  if fullProfiles
+                    td.candidate-name-cell
+                      strong= profile.name
+                      |  - 
+                      span= profile.jobTitle
+                tr.description_row(data-candidate-id=candidate.id)
+                  if curated && curated.shortDescription
+                    td.candidate-description #{curated.shortDescription}
+                  else
+                    td.candidate-description #{profile.shortDescription}
+                tr.border_row(data-candidate-id=candidate.id)
+                  if curated
+                    - var workHistory = curated.workHistory.join(",");
+                    if !fullProfiles
+                      td.tag_column
+                        img(src="/images/pages/employer/tag.png")
+                        |  #{profile.jobTitle}
+                    td.location_column
+                      img(src="/images/pages/employer/location.png")
+                      |  #{curated.location}
+                    td.education_column
+                      img(src="/images/pages/employer/education.png")
+                      |  #{curated.education}
+                    td.work_column
+                      if workHistory
+                        img(src="/images/pages/employer/briefcase.png")
+                        |  #{workHistory}
+    if fullProfiles
+      .col-md-3
+        #filter
+          .panel-group#filter_panel
+            a#filter-link(data-toggle="collapse" data-target="#collapseOne")
+              .panel.panel-default
+                .panel-heading
+                  h4.panel-title
+                    span.glyphicon.glyphicon-folder-open#folder-icon
+                    | Filter
+            .panel-collapse.collapse.in#collapseOne
+              .panel-body
+                p
+                  strong We've already technically screened all our candidates
+                  | , but you can also filter further:
+                form#filters
+                    .filter_section#visa_filter
+                      h4 Visa
+                      label
+                        input(type="checkbox" name="visa" value="Authorized to work in the US")
+                        | US Authorized (#{candidatesInFilter("visa","Authorized to work in the US")})
+                      label
+                        input(type="checkbox" name="visa" value="Need visa sponsorship")
+                        | Not Authorized (#{candidatesInFilter("visa","Need visa sponsorship")})
+                    .filter_section#school_filter
+                      h4 Education
+                      label
+                        input(type="checkbox" name="schoolFilter" value="Top School")
+                        | Top School (#{candidatesInFilter("schoolFilter","Top School")})
+                      label
+                        input(type="checkbox" name="schoolFilter" value="Other")
+                        | Other (#{candidatesInFilter("schoolFilter","Other")})
+                    .filter_section#role_filter
+                      h4 Role
+                      label
+                        input(type="checkbox" name="roleFilter" value="Web Developer")
+                        | Web Developer (#{candidatesInFilter("roleFilter","Web Developer")})
+                      label
+                        input(type="checkbox" name="roleFilter" value="Software Developer")
+                        | Software Developer (#{candidatesInFilter("roleFilter","Software Developer")})
+                      label
+                        input(type="checkbox" name="roleFilter" value="Mobile Developer")
+                        | Mobile Developer (#{candidatesInFilter("roleFilter","Mobile Developer")})
+                    .filter_section#seniority_filter
+                      h4 Experience
+                      label
+                        input(type="checkbox" name="seniorityFilter" value="Senior")
+                        | Senior (#{candidatesInFilter("seniorityFilter","Senior")})
+                      label
+                        input(type="checkbox" name="seniorityFilter" value="Junior")
+                        | Junior (#{candidatesInFilter("seniorityFilter","Junior")})
+                      label
+                        input(type="checkbox" name="seniorityFilter" value="Recent Grad")
+                        | Recent Grad (#{candidatesInFilter("seniorityFilter","Recent Grad")})
+                      label
+                        input(type="checkbox" name="seniorityFilter" value="College Student")
+                        | College Student (#{candidatesInFilter("seniorityFilter","College Student")})
+
+                //input#select_all_checkbox(type="checkbox" name="select_all" checked)
+                //| Select all
+                p#results #{numberOfCandidates} results
+                //button.btn#create-alert-button Create Alert
 
 
-  if !isEmployer && !me.isAdmin()
+  if !fullProfiles
     div#info_wrapper
       span.hiring-call-to-action
         h2#start-hiring(data-i18n="employers.start_hiring") Start hiring.

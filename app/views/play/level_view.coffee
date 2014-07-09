@@ -281,7 +281,7 @@ module.exports = class PlayLevelView extends View
     @surface.showLevel()
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
-      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team')
+      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team'), levelSlug: @level.get('slug')
     @loadingView?.unveil()
 
   onLoadingViewUnveiled: (e) ->
