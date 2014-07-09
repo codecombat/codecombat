@@ -18,6 +18,9 @@ module.exports = class User extends CocoModel
     permissions = @attributes['permissions'] or []
     return 'admin' in permissions
 
+  isAnonymous: ->
+    @get 'anonymous'
+
   displayName: ->
     @get('name') or 'Anoner'
 

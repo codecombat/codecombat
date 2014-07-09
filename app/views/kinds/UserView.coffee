@@ -10,22 +10,30 @@ module.exports = class UserView extends RootView
     super options
 
     @listenTo @, 'userLoaded', @onUserLoaded
+    @listenTo @, 'userNotFound', @ifUserNotFound
 
     # TODO Ruben Assume ID for now
     @user = User.getByID @nameOrID, {}, true,
-      success: =>
-        @trigger 'userLoaded', @user
+      success: (user) =>
+        @trigger 'userNotFound' unless user
+        @trigger 'userLoaded', user
+      error: =>
+        console.debug 'Error while fetching user'
+        @trigger 'userNotFound'
 
   getRenderData: ->
     context = super()
     context.currentUserView = 'Achievements'
-    context.user = @user
+    context.user = @user unless @user?.isAnonymous()
     context
 
   isMe: -> @nameOrID is me.id
 
-  onUserLoaded: ->
-    console.log 'onUserLoaded'
+  onUserLoaded: (user) ->
+    console.log 'onUserLoaded', user
+
+  ifUserNotFound: ->
+    console.warn 'user not found'
 
   onLoaded: ->
     super()

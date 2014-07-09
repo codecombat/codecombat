@@ -1,11 +1,12 @@
 extends /templates/kinds/user
 
 block append content
-  .row
-    each achievement, index in achievements
-      - var title = achievement.get('name');
-      - var description = achievement.get('description');
-      - var imgURL = achievement.get('icon');
-      - var locked = ! achievement.get('unlocked');
-      .col-lg-4.col-xs-12
-        include ../achievement_notify
+  if achievements
+    .row
+      each achievement, index in achievements
+        - var title = achievement.get('name');
+        - var description = achievement.get('description');
+        - var imgURL = achievement.get('icon');
+        - var locked = ! achievement.get('unlocked');
+        .col-lg-4.col-xs-12
+          include ../achievement_notify

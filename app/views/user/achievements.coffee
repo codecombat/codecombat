@@ -34,6 +34,7 @@ module.exports = class UserAchievementsView extends UserView
 
   getRenderData: ->
     context = super()
-    context.achievements = @achievements.models
-    context.earnedAchievements = @earnedAchievements.models
+    if @user and not @user.isAnonymous()
+      context.achievements = @achievements.models
+      context.earnedAchievements = @earnedAchievements.models
     context
