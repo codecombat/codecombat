@@ -248,6 +248,13 @@ module.exports = class PlayView extends View
         image: '/file/db/level/529662dfe0df8f0000000007/grab_the_mushroom_icon.png'
         description: 'Collect a hundred mushrooms in just five lines of code - by Nathan Gossett'
       }
+      {
+        name: 'Guide Everyone Home'
+        difficulty: 2
+        id: 'guide-everyone-home'
+        image: '/file/db/level/52740644904ac0411700067c/rescue_mission_icon.png'
+        description: 'Fetch the wizards teleporting into the area - by Nathan Gossett'
+      }
     ]
 
     context.campaigns = [

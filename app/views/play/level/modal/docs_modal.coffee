@@ -8,7 +8,6 @@ utils = require 'lib/utils'
 module.exports = class DocsModal extends View
   template: template
   id: 'docs-modal'
-  plain: true
 
   shortcuts:
     'enter': 'hide'
