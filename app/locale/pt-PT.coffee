@@ -12,11 +12,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
     manual: "Manual"
-#    fork: "Fork"
+    fork: "Bifurcar"
     play: "Jogar"
     retry: "Tentar novamente"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
+    watch: "Vigiar"
+    unwatch: "Desvigiar"
     submit_patch: "Submeter Versão"
 
   units:
@@ -37,7 +37,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   modal:
     close: "Fechar"
-    okay: "Okay"
+    okay: "Ok"
 
   not_found:
     page_not_found: "Página não encontrada"
@@ -128,7 +128,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     forum_page: "nosso fórum"
     forum_suffix: " como alternativa."
     send: "Enviar Feedback"
-#    contact_candidate: "Contact Candidate"
+#    contact_candidate: "Contact Candidat"
 #    recruitment_reminder: "Use this form to reach out to candidates you are interested in interviewing. Remember that CodeCombat charges 15% of first-year salary. The fee is due upon hiring the employee and is refundable for 90 days if the employee does not remain employed. Part time, remote, and contract employees are free, as are interns."
 
   diplomat_suggestion:
