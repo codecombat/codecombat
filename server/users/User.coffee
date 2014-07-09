@@ -4,6 +4,7 @@ crypto = require 'crypto'
 {salt, isProduction} = require '../../server_config'
 mail = require '../commons/mail'
 log = require 'winston'
+plugins = require '../plugins/plugins'
 
 sendwithus = require '../sendwithus'
 
@@ -135,6 +136,8 @@ UserSchema.statics.hashPassword = (password) ->
   shasum = crypto.createHash('sha512')
   shasum.update(salt + password)
   shasum.digest('hex')
+
+UserSchema.plugin plugins.NamedPlugin
 
 module.exports = User = mongoose.model('User', UserSchema)
 

@@ -116,7 +116,7 @@ UserHandler = class UserHandler extends Handler
   ]
 
   getById: (req, res, id) ->
-    if req.user?._id.equals(id)
+    if Handler.isID(id) and req.user?._id.equals(id)
       return @sendSuccess(res, @formatEntity(req, req.user, 256))
     super(req, res, id)
 
