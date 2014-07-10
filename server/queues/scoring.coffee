@@ -125,11 +125,12 @@ module.exports.getTwoGames = (req, res) ->
   #if userIsAnonymous req then return errors.unauthorized(res, 'You need to be logged in to get games.')
   humansGameID = req.body.humansGameID
   ogresGameID = req.body.ogresGameID
-
+  ladderGameIDs = ['greed','criss-cross','brawlwood','dungeon-arena','gold-rush']
+  levelID = _.sample ladderGameIDs
   unless ogresGameID and humansGameID
     #fetch random games here
     queryParams =
-      'levelID': 'greed'
+      'levelID': levelID
       'submitted': true
       'team': 'humans'
     selection = 'team totalScore transpiledCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate'
@@ -140,7 +141,7 @@ module.exports.getTwoGames = (req, res) ->
         return res.end()
       humanSkipCount = Math.floor(Math.random() * numberOfHumans)
       ogreCountParams =
-        'levelID': 'greed'
+        'levelID': levelID
         'submitted': true
         'team': 'ogres'
       LevelSession.count ogreCountParams, (err, numberOfOgres) =>
@@ -161,7 +162,7 @@ module.exports.getTwoGames = (req, res) ->
           if err? then return errors.serverError(res, "Couldn't select a random session! #{err}")
           randomSession = randomSession[0]
           queryParams =
-            'levelID': 'greed'
+            'levelID': levelID
             'submitted': true
             'team': 'ogres'
           query = LevelSession
