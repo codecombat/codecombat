@@ -228,6 +228,7 @@ module.exports = class ThangsTabView extends View
     for thang in e.thangs
       @selectAddThangType thang.id
       @addThang @addThangType, thang.pos
+    @selectAddThangType null
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
