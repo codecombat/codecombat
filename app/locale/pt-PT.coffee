@@ -861,8 +861,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     unknown: "Erro desconhecido."
 
   resources:
-#    your_sessions: "Your Sessions"
-#    level: "Level"
+    your_sessions: "As Suas Sessões"
+    level: "Nível"
 #    social_network_apis: "Social Network APIs"
 #    facebook_status: "Facebook Status"
 #    facebook_friends: "Facebook Friends"
