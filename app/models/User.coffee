@@ -1,6 +1,7 @@
 GRAVATAR_URL = 'https://www.gravatar.com/'
 cache = {}
 CocoModel = require './CocoModel'
+util = require 'lib/utils'
 
 module.exports = class User extends CocoModel
   @className: 'User'
@@ -43,6 +44,28 @@ module.exports = class User extends CocoModel
           #user.trigger 'sync'   # needed?
       )
     cache[id] = user
+    user
+
+  # callbacks can be either success or error
+  @getByIDOrSlug: (idOrSlug, force, callbacks={}) ->
+    {me} = require 'lib/auth'
+    isID = util.isID idOrSlug
+    if me.id is idOrSlug or me.slug is idOrSlug
+      callbacks.success me if callbacks.success?
+      return me
+    cached = cache[idOrSlug]
+    user = cached or new @ _id: idOrSlug
+    if force or not cached
+      user.loading = true
+      user.fetch
+        success: ->
+          user.loading = false
+          Backbone.Mediator.publish 'user:fetched'
+          callbacks.success user if callbacks.success?
+        error: ->
+          user.loading = false
+          callbacks.error user if callbacks.error?
+    cache[idOrSlug] = user
     user
 
   getEnabledEmails: ->
