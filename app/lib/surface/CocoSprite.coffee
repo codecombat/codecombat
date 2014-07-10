@@ -698,7 +698,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         AudioPlayer.playInterfaceSound 'coin_1', 0.25
     if @thang.actionActivated and (action = @thang.getActionName()) isnt 'say'
       @playSound action, withDelay, volume
-    if @thang.sayMessage and withDelay  # don't play sayMessages while scrubbing, annoying
+    if @thang.sayMessage and withDelay and not @thang.silent  # don't play sayMessages while scrubbing, annoying
       offsetFrames = Math.abs(@thang.sayStartTime - @thang.world.age) / @thang.world.dt
       if offsetFrames <= 2  # or (not withDelay and offsetFrames < 30)
         sound = AudioPlayer.soundForDialogue @thang.sayMessage, @thangType.get 'soundTriggers'
