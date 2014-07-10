@@ -1,8 +1,12 @@
 c = require './../schemas'
 emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification']
 
-UserSchema = c.object {},
-  name: c.shortString({title: 'Display Name', default: ''})
+UserSchema = c.object
+  title: 'User'
+
+c.extendNamedProperties UserSchema  # let's have the name be the first property
+
+_.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
   firstName: c.shortString({title: 'First Name'})
   lastName: c.shortString({title: 'Last Name'})

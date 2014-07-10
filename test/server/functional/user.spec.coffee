@@ -44,7 +44,7 @@ describe 'User.updateMailChimp', ->
 
 describe 'POST /db/user', ->
 
-  createAnonNameUser = (done)->
+  createAnonNameUser = (name, done)->
     request.post getURL('/auth/logout'), ->
       request.get getURL('/auth/whoami'), ->
         req = request.post(getURL('/db/user'), (err, response) ->
@@ -52,11 +52,11 @@ describe 'POST /db/user', ->
           request.get getURL('/auth/whoami'), (request, response, body) ->
             res = JSON.parse(response.body)
             expect(res.anonymous).toBeTruthy()
-            expect(res.name).toEqual('Jim')
+            expect(res.name).toEqual(name)
             done()
         )
         form = req.form()
-        form.append('name', 'Jim')
+        form.append('name', name)
 
   it 'preparing test : clears the db first', (done) ->
     clearModels [User], (err) ->
@@ -105,30 +105,18 @@ describe 'POST /db/user', ->
           done()
 
   it 'should allow setting anonymous user name', (done) ->
-    createAnonNameUser(done)
+    createAnonNameUser('Jim', done)
 
   it 'should allow multiple anonymous users with same name', (done) ->
-    createAnonNameUser(done)
+    createAnonNameUser('Jim', done)
 
-
-  it 'should not allow setting existing user name to anonymous user', (done) ->
-
-    createAnonUser = ->
-      request.post getURL('/auth/logout'), ->
-        request.get getURL('/auth/whoami'), ->
-          req = request.post(getURL('/db/user'), (err, response) ->
-            expect(response.statusCode).toBe(409)
-            done()
-          )
-          form = req.form()
-          form.append('name', 'Jim')
-
+  it 'should allow setting existing user name to anonymous user', (done) ->
     req = request.post(getURL('/db/user'), (err, response, body) ->
       expect(response.statusCode).toBe(200)
       request.get getURL('/auth/whoami'), (request, response, body) ->
         res = JSON.parse(response.body)
         expect(res.anonymous).toBeFalsy()
-        createAnonUser()
+        createAnonNameUser 'Jim', done
     )
     form = req.form()
     form.append('email', 'new@user.com')
@@ -213,6 +201,55 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
       form.append('email', 'New@email.com')
       form.append('name', 'Wilhelm')
 
+  it 'should not allow two users with the same name slug', (done) ->
+    loginSam (sam) ->
+      samsName = sam.get 'name'
+      sam.set 'name', 'admin'
+      request.put {uri:getURL(urlUser + '/' + sam.id), json: sam.toObject()}, (err, response) ->
+        expect(err).toBeNull()
+        expect(response.statusCode).toBe 409
+
+        # Restore Sam
+        sam.set 'name', samsName
+        done()
+
+  it 'should silently rename an anonymous user if their name conflicts upon signup', (done) ->
+    request.post getURL('/auth/logout'), ->
+      request.get getURL('/auth/whoami'), ->
+        req = request.post getURL('/db/user'), (err, response) ->
+          expect(response.statusCode).toBe(200)
+          request.get getURL('/auth/whoami'), (err, response) ->
+            expect(err).toBeNull()
+            guy = JSON.parse(response.body)
+            expect(guy.anonymous).toBeTruthy()
+            expect(guy.name).toEqual 'admin'
+
+            guy.email = 'blub@blub' # Email means registration
+            req = request.post {url: getURL('/db/user'), json: guy}, (err, response) ->
+              expect(err).toBeNull()
+              finalGuy = response.body
+              expect(finalGuy.anonymous).toBeFalsy()
+              expect(finalGuy.name).not.toEqual guy.name
+              expect(finalGuy.name.length).toBe guy.name.length + 1
+              done()
+        form = req.form()
+        form.append('name', 'admin')
+
+  it 'should be able to unset a slug by setting an empty name', (done) ->
+    loginSam (sam) ->
+      samsName = sam.get 'name'
+      sam.set 'name', ''
+      request.put {uri:getURL(urlUser + '/' + sam.id), json: sam.toObject()}, (err, response) ->
+        expect(err).toBeNull()
+        expect(response.statusCode).toBe 200
+        newSam = response.body
+
+        # Restore Sam
+        sam.set 'name', samsName
+        request.put {uri:getURL(urlUser + '/' + sam.id), json: sam.toObject()}, (err, response) ->
+          expect(err).toBeNull()
+          done()
+
 describe 'GET /db/user', ->
 
   it 'logs in as admin', (done) ->
@@ -267,3 +304,28 @@ describe 'GET /db/user', ->
       expect(response.statusCode).toBe(422)
       done()
     )
+
+  it 'can fetch myself by id completely', (done) ->
+    loginSam (sam) ->
+      request.get {url: getURL(urlUser + '/' + sam.id)}, (err, response) ->
+        expect(err).toBeNull()
+        expect(response.statusCode).toBe(200)
+        done()
+
+  it 'can fetch myself by slug completely', (done) ->
+    loginSam (sam) ->
+      request.get {url: getURL(urlUser + '/sam')}, (err, response) ->
+        expect(err).toBeNull()
+        expect(response.statusCode).toBe(200)
+        guy = JSON.parse response.body
+        expect(guy._id).toBe sam.get('_id').toHexString()
+        expect(guy.name).toBe sam.get 'name'
+        done()
+
+  # TODO Ruben should be able to fetch other users but probably with restricted data access
+  # Add to the test case above an extra data check
+
+  xit 'can fetch another user with restricted fields'
+
+
+
