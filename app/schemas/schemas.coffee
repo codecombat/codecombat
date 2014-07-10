@@ -163,30 +163,34 @@ me.FunctionArgumentSchema = me.object {
   type: me.shortString(title: 'Type', description: 'Intended type of the argument.')
   example:
     oneOf: [
-      me.shortString(title: 'Example', description: 'Example value for the argument.')
       {
         type: 'object',
         title: 'Language Examples',
         description: 'Examples by code language.',
         additionalProperties: me.shortString(description: 'Example value for the argument.')
+        format: 'code-languages-object'
+        default: {javascript: ''}
       }
+      me.shortString(title: 'Example', description: 'Example value for the argument.')
     ]
   description:
     oneOf: [
-      {title: 'Description', type: 'string', description: 'Description of the argument.', maxLength: 1000}
       {
         type: 'object',
         title: 'Language Descriptions',
         description: 'Example argument descriptions by code language.',
         additionalProperties: {type: 'string', description: 'Description of the argument.', maxLength: 1000}
+        format: 'code-languages-object'
+        default: {javascript: ''}
       }
+      {title: 'Description', type: 'string', description: 'Description of the argument.', maxLength: 1000}
     ]
   'default':
     title: 'Default'
     description: 'Default value of the argument. (Your code should set this.)'
     'default': null
 
-me.codeSnippet =
+me.codeSnippet = me.object {description: 'A language-specific code snippet'},
   code: {type: 'string', title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments'}
   tab: {type: 'string', title: 'Tab Trigger', description: 'Tab completion text. Will be expanded to the snippet if typed and hit tab.'}
 
