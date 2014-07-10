@@ -152,3 +152,27 @@ describe '/auth/unsubscribe', ->
           expect(user.get('emails').recruitNotes.enabled).toBe(false)
           expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
           done()
+
+describe '/auth/name', ->
+  url = '/auth/name'
+
+  it 'must provide a name to check with', (done) ->
+    request.get {url: getURL(url + '/'), json: {}}, (err, response) ->
+      expect(err).toBeNull()
+      expect(response.statusCode).toBe 422
+      done()
+
+  it 'can GET a non-conflicting name', (done) ->
+    request.get {url: getURL(url + '/Gandalf'), json: {}}, (err, response) ->
+      expect(err).toBeNull()
+      expect(response.statusCode).toBe 200
+      expect(response.body.name).toBe 'Gandalf'
+      done()
+
+  it 'can GET a new name in case of conflict', (done) ->
+    request.get {url: getURL(url + '/joe'), json: {}}, (err, response) ->
+      expect(err).toBeNull()
+      expect(response.statusCode).toBe 409
+      expect(response.body.name).not.toBe 'joe'
+      expect(response.body.name.length).toBe 4 # 'joe' and a random number
+      done()
