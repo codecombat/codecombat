@@ -108,58 +108,52 @@ _.extend LevelSessionSchema.properties,
 
   vcs:
     title: 'Code VCS'
-    description: 'Stores past revisions of user code'
+    description: 'Stores past revisions of user code.'
     type: 'object'
     properties:
-      tags:
-        type: 'array'
-        description: 'All Tags sorted by timestamp'
-        items:
-          title: 'Tag'
-          description: 'one tag'
-          type: 'object'
-          properties:
-            name:
-              type: 'string'
-
-      #TODO: Enter TIPS HERE while creating the tree.
-      tagCount:       #TODO: generate dynamically?
-        type: 'integer'
-      revisionCount:
-        type: 'integer'
-      maxRevisions:    #TODO: Away with this?
-        type: 'integer'
       revisions:
         title: 'Revisions'
-        description: 'all revisions sorted by age in increasing order'
+        description: 'all revisions sorted by age in increasing order (newest to oldest)'
         type: 'array'
         items:
           title: "Revision"
-          description: 'The current revision. May contain code and/or the diff to the previous.'
+          description: 'The current revision including code/diff and metadata.'
           type: 'object'
-          properties:
-            time:
-              title: 'Creation time.'
-              description: 'The time of creation.'
+          additionalProperties:
+            saveName:
+              title: 'Save Name (TAG)'
+              description: 'If this revision is saved(Tagged), the name is stored here.'
               type: 'string'
-            nexts:
-              title: 'Next Items'
-              description: 'Contains an array of the next items for ease of access.'
-              type: 'array'
-              items:
-                title: 'Next Item'
-                description: "Calculate the current node's code from on of theese."
+            oneOf: [
+              {required:['code']}
+              {required:['diff']}
+            ]
+            properties:
+              timestamp:
+                title: 'Creation time.'
+                description: "At what time this element has been created. It is the revision node's unique id at the same time"
                 type: 'string'
-            previous:
-              title: 'The timestamp of the previous item'
-              type: 'string'
-            code:
-              title: 'The code of this node. If this is not set, is has to be calculated from one of the next difs.'
-              type: ['string', 'null']
-            diff:
-              title: 'Diff'
-              description: 'The diff to the previous item.'
-              type: ['string','null']
+              previous:
+                description: 'Previous Item'
+                title: 'The timestamp (id) of the previous item'
+                type: 'string'
+              code:
+                type: 'object'
+                additionalProperties:
+                  type: 'object'
+                  additionalProperties:
+                  type: 'string'
+                  format: 'javascript'
+              diff:
+                title: 'Diff'
+                description: 'The delta to the previous item.'
+                type: 'object'
+
+
+            newBranch:
+              title: 'Start of Branch'
+              description: 'Indicates if this node is the start of a new branch (diff line ends here)'
+              type: 'boolean'
 
   codeLanguage:
     type: 'string'
