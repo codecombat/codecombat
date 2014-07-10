@@ -107,7 +107,7 @@ describe 'POST /db/user', ->
   it 'should allow setting anonymous user name', (done) ->
     createAnonNameUser('Jim', done)
 
-  it 'should not allow multiple anonymous users with same name anymore', (done) ->
+  it 'should allow multiple anonymous users with same name', (done) ->
     createAnonNameUser('Jim', done)
 
   it 'should not allow setting existing user name to anonymous user', (done) ->
@@ -274,9 +274,6 @@ describe 'GET /db/user', ->
         expect(response.statusCode).toBe(200)
         done()
 
-  # TODO Ruben should be able to fetch other users but probably with restricted data access
-  # Add to the test case above an extra data check
-
   it 'can fetch myself by slug completely', (done) ->
     loginSam (sam) ->
       request.get {url: getURL(urlUser + '/sam')}, (err, response) ->
@@ -287,6 +284,12 @@ describe 'GET /db/user', ->
         expect(guy.name).toBe sam.get 'name'
         done()
 
+  # TODO Ruben should be able to fetch other users but probably with restricted data access
+  # Add to the test case above an extra data check
+
+  xit 'can unset name and undefine slug'
+
+  xit 'can fetch another user with restricted fields'
 
 
 
