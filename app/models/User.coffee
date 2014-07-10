@@ -6,6 +6,7 @@ module.exports = class User extends CocoModel
   @className: 'User'
   @schema: require 'schemas/models/user'
   urlRoot: '/db/user'
+  notyErrors: false
 
   initialize: ->
     super()
