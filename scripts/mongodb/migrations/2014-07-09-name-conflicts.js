@@ -48,5 +48,9 @@ db.users.find({anonymous:false}, params).sort({_id:1}).forEach(function (user) {
   slugs[slug] = user.name;
   if(user.slug) return;
   print(_.str.sprintf('Setting user %s (%s) to slug %s with update %s', user.name, user.dateCreated, slug, JSON.stringify({$set:update})));
-  db.users.update({_id:user._id}, {$set:update});
+  var res = db.users.update({_id:user._id}, {$set:update});
+  if(res.hasWriteError()) {
+    print("\n\n\n\n\n\n\n\n\n\nOH NOOOOOOOOO\n\n\n\n\n\n\n");
+    db.changedEmails.insert({email:user.email, user:user._id, name:user.name, error:true});
+  }
 });
