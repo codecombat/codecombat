@@ -88,8 +88,6 @@ module.exports = class TerrainRandomiseModal extends ModalView
     presetType = target.attr 'data-preset-type'
     presetSize = target.attr 'data-preset-size'
     @randomiseThangs presetType, presetSize
-    # console.log target, target.attr 'data-preset-type'
-    # console.log target.attr 'data-preset-size'
     Backbone.Mediator.publish('randomise:terrain-generated', 
       'thangs': @thangs
     )
@@ -101,7 +99,6 @@ module.exports = class TerrainRandomiseModal extends ModalView
     @randomiseFloor preset, presetSize
     @randomiseBorder preset, presetSize
     @randomiseDecorations preset, presetSize
-    # console.log _.range(0, presetSize.x, sizes.floorSize)
 
   randomiseFloor: (preset, presetSize) ->
     for i in _.range(0, presetSize.x, sizes.floorSize.x)
@@ -148,9 +145,7 @@ module.exports = class TerrainRandomiseModal extends ModalView
       }
 
   randomiseDecorations: (preset, presetSize)->
-    console.log preset.decorations
     for name, decoration of preset.decorations
-      console.log 'here', decoration
       for num in _.range(_.random(decoration.num[0], decoration.num[1]))
         center = 
         {
@@ -167,7 +162,6 @@ module.exports = class TerrainRandomiseModal extends ModalView
           'x':center.x + decoration.width/2
           'y':center.y + decoration.height/2     
         }
-        console.log center, min, max
         for cluster, range of decoration.clusters
           for i in _.range(_.random(range[0], range[1]))
             @thangs.push {
