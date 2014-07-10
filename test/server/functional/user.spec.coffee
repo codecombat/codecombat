@@ -209,6 +209,7 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
         expect(err).toBeNull()
         expect(response.statusCode).toBe 409
 
+        # Restore Sam
         sam.set 'name', samsName
         done()
 
@@ -233,6 +234,21 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
               done()
         form = req.form()
         form.append('name', 'admin')
+
+  it 'should be able to unset a slug by setting an empty name', (done) ->
+    loginSam (sam) ->
+      samsName = sam.get 'name'
+      sam.set 'name', ''
+      request.put {uri:getURL(urlUser + '/' + sam.id), json: sam.toObject()}, (err, response) ->
+        expect(err).toBeNull()
+        expect(response.statusCode).toBe 200
+        newSam = response.body
+
+        # Restore Sam
+        sam.set 'name', samsName
+        request.put {uri:getURL(urlUser + '/' + sam.id), json: sam.toObject()}, (err, response) ->
+          expect(err).toBeNull()
+          done()
 
 describe 'GET /db/user', ->
 
@@ -308,8 +324,6 @@ describe 'GET /db/user', ->
 
   # TODO Ruben should be able to fetch other users but probably with restricted data access
   # Add to the test case above an extra data check
-
-  xit 'can unset name and undefine slug'
 
   xit 'can fetch another user with restricted fields'
 

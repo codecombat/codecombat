@@ -46,6 +46,7 @@ module.exports.NamedPlugin = (schema) ->
       @checkSlugConflicts(next)
     else if newSlug is '' and @get 'slug'
       @set 'slug', undefined
+      next()
     else
       next()
   )
