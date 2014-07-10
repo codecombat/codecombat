@@ -106,47 +106,60 @@ _.extend LevelSessionSchema.properties,
         type: 'string'
         format: 'javascript'
 
-  vcsTags:
-    type: 'array'
-    description: 'All current VCS Tags sorted by timestamp'
-    items:
-      description: 'one tag'
-      type: 'string'
-
-  codeVCS:
-    type: 'object'     #Need this? Dunno.
-    description: 'One VCS tree for every supported-language.'
-    additionalProperties:
-      title: 'Programming Language'
-      description: 'The VCS tree for this programming language, containing the revisions as an array with descending timestamps.'
-      type: 'array'
-      properties:
-        title: "Revision"
-        description: 'The current revision. May contain code and/or the diff to the previous.'
-        type: 'object'
-        properties:
-          time:
-            title: 'Creation time.'
-            description: 'The time of creation.'
-            type: 'string'
-          nexts:
-            title: 'Next Items'
-            description: 'Contains an array of the next items for ease of access.'
-            type: 'array'
-            items:
-              title: 'Next Item'
-              description: "Calculate the current node's code from on of theese."
+  vcs:
+    title: 'Code VCS'
+    description: 'Stores past revisions of user code'
+    type: 'object'
+    properties:
+      tags:
+        type: 'array'
+        description: 'All Tags sorted by timestamp'
+        items:
+          title: 'Tag'
+          description: 'one tag'
+          type: 'object'
+          properties:
+            name:
               type: 'string'
-          previous:
-            title: 'The timestamp of the previous item'
-            type: 'string'
-          code:
-            title: 'The code of this node. If this is not set, is has to be calculated from one of the next difs.'
-            type: ['string', 'null']
-          diff:
-            title: 'Diff'
-            description: 'The diff to the previous item.'
-            type: ['string','null']
+
+      #TODO: Enter TIPS HERE while creating the tree.
+      tagCount:       #TODO: generate dynamically?
+        type: 'integer'
+      revisionCount:
+        type: 'integer'
+      maxRevisions:    #TODO: Away with this?
+        type: 'integer'
+      revisions:
+        title: 'Revisions'
+        description: 'all revisions sorted by age in increasing order'
+        type: 'array'
+        items:
+          title: "Revision"
+          description: 'The current revision. May contain code and/or the diff to the previous.'
+          type: 'object'
+          properties:
+            time:
+              title: 'Creation time.'
+              description: 'The time of creation.'
+              type: 'string'
+            nexts:
+              title: 'Next Items'
+              description: 'Contains an array of the next items for ease of access.'
+              type: 'array'
+              items:
+                title: 'Next Item'
+                description: "Calculate the current node's code from on of theese."
+                type: 'string'
+            previous:
+              title: 'The timestamp of the previous item'
+              type: 'string'
+            code:
+              title: 'The code of this node. If this is not set, is has to be calculated from one of the next difs.'
+              type: ['string', 'null']
+            diff:
+              title: 'Diff'
+              description: 'The diff to the previous item.'
+              type: ['string','null']
 
   codeLanguage:
     type: 'string'
