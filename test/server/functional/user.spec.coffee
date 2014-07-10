@@ -110,24 +110,13 @@ describe 'POST /db/user', ->
   it 'should allow multiple anonymous users with same name', (done) ->
     createAnonNameUser('Jim', done)
 
-  it 'should not allow setting existing user name to anonymous user', (done) ->
-
-    createAnonUser = ->
-      request.post getURL('/auth/logout'), ->
-        request.get getURL('/auth/whoami'), ->
-          req = request.post(getURL('/db/user'), (err, response) ->
-            expect(response.statusCode).toBe(409)
-            done()
-          )
-          form = req.form()
-          form.append('name', 'Jim')
-
+  it 'should allow setting existing user name to anonymous user', (done) ->
     req = request.post(getURL('/db/user'), (err, response, body) ->
       expect(response.statusCode).toBe(200)
       request.get getURL('/auth/whoami'), (request, response, body) ->
         res = JSON.parse(response.body)
         expect(res.anonymous).toBeFalsy()
-        createAnonUser()
+        createAnonNameUser 'Jim', done
     )
     form = req.form()
     form.append('email', 'new@user.com')
@@ -212,6 +201,39 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
       form.append('email', 'New@email.com')
       form.append('name', 'Wilhelm')
 
+  it 'should not allow two users with the same name slug', (done) ->
+    loginSam (sam) ->
+      samsName = sam.get 'name'
+      sam.set 'name', 'admin'
+      request.put {uri:getURL(urlUser + '/' + sam.id), json: sam.toObject()}, (err, response) ->
+        expect(err).toBeNull()
+        expect(response.statusCode).toBe 409
+
+        sam.set 'name', samsName
+        done()
+
+  it 'should silently rename an anonymous user if their name conflicts upon signup', (done) ->
+    request.post getURL('/auth/logout'), ->
+      request.get getURL('/auth/whoami'), ->
+        req = request.post getURL('/db/user'), (err, response) ->
+          expect(response.statusCode).toBe(200)
+          request.get getURL('/auth/whoami'), (err, response) ->
+            expect(err).toBeNull()
+            guy = JSON.parse(response.body)
+            expect(guy.anonymous).toBeTruthy()
+            expect(guy.name).toEqual 'admin'
+
+            guy.email = 'blub@blub' # Email means registration
+            req = request.post {url: getURL('/db/user'), json: guy}, (err, response) ->
+              expect(err).toBeNull()
+              finalGuy = response.body
+              expect(finalGuy.anonymous).toBeFalsy()
+              expect(finalGuy.name).not.toEqual guy.name
+              expect(finalGuy.name.length).toBe guy.name.length + 1
+              done()
+        form = req.form()
+        form.append('name', 'admin')
+
 describe 'GET /db/user', ->
 
   it 'logs in as admin', (done) ->
@@ -290,9 +312,6 @@ describe 'GET /db/user', ->
   xit 'can unset name and undefine slug'
 
   xit 'can fetch another user with restricted fields'
-
-
-
 
 
 
