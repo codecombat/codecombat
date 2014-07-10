@@ -91,6 +91,7 @@ module.exports = class TerrainRandomiseModal extends ModalView
     Backbone.Mediator.publish('randomise:terrain-generated', 
       'thangs': @thangs
     )
+    @hide()
 
   randomiseThangs: (presetName, presetSize) ->
     preset = presets[presetName]
