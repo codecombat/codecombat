@@ -143,6 +143,14 @@ module.exports = class PlayView extends View
     ]
 
     arenas = [
+      #{
+      #  name: 'Criss-Cross'
+      #  difficulty: 4
+      #  id: 'criss-cross'
+      #  image: '/file/db/level/528aea2d7f37fc4e0700016b/its_a_trap_icon.png'
+      #  description: 'Participate in a bidding war with opponents to reach the other side!'
+      #  levelPath: 'ladder'
+      #}
       {
         name: 'Greed'
         difficulty: 4
