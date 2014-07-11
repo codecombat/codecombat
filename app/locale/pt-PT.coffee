@@ -858,7 +858,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     new_to_programming: ". Novo na programação? Faz a Campanha para Iniciantes para expandires as tuas capacidades."
     so_ready: "Estou mais que pronto para isto"
 
-  loading_error:
+#   loading_error:
 #    could_not_load: "Error loading from server"
 #    connection_failure: "Connection failed."
 #    unauthorized: "You need to be signed in. Do you have cookies disabled?"
@@ -868,12 +868,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    timeout: "Server timeout."
 #    conflict: "Resource conflict."
 #    bad_input: "Bad input."
-    server_error: "Erro do servidor."
-    unknown: "Erro desconhecido."
+#    server_error: "Server error."
+#    unknown: "Unknown error."
 
-  resources:
-    your_sessions: "As Suas Sessões"
-    level: "Nível"
+#   resources:
+#    your_sessions: "Your Sessions"
+#    level: "Level"
 #    social_network_apis: "Social Network APIs"
 #    facebook_status: "Facebook Status"
 #    facebook_friends: "Facebook Friends"
