@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "Português europeu", englishDescription: "Portuguese (Portugal)", translation:
+module.exports = nativeDescription: "Português (Portugal)", englishDescription: "Portuguese (Portugal)", translation:
   common:
     loading: "A carregar..."
     saving: "A guardar..."
@@ -12,11 +12,11 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
     manual: "Manual"
-#    fork: "Fork"
+    fork: "Bifurcar"
     play: "Jogar"
     retry: "Tentar novamente"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
+    watch: "Vigiar"
+    unwatch: "Desvigiar"
     submit_patch: "Submeter Versão"
 
   units:
@@ -37,7 +37,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 
   modal:
     close: "Fechar"
-    okay: "Okay"
+    okay: "Ok"
 
   not_found:
     page_not_found: "Página não encontrada"
@@ -81,7 +81,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     create_account_title: "Criar Conta para Guardar Progresso"
     description: "É grátis. Só são necessárias umas coisas e fica tudo pronto:"
     email_announcements: "Receber anúncios por e-mail"
-    coppa: "13+ ou não-EUA "
+    coppa: "Mais de 13 anos ou não estado-unidense "
     coppa_why: "(Porquê?)"
     creating: "A Criar Conta..."
     sign_up: "Registar"
@@ -107,7 +107,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     adventurer_forum: "fórum do Aventureiro"
     adventurer_suffix: "."
     campaign_beginner: "Campanha para Iniciantes"
-    campaign_beginner_description: "... onde aprende a feitiçaria da programação."
+    campaign_beginner_description: "... onde aprende a magia da programação."
     campaign_dev: "Níveis mais Difíceis Aleatórios"
     campaign_dev_description: "... onde aprende a interface enquanto faz coisas um bocadinho mais difíceis."
     campaign_multiplayer: "Arenas Multijogador"
@@ -236,7 +236,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    basics_country: "Country"
 #    basics_country_help: "Country you want to work in (or live in now)."
 #    basics_visa: "US Work Status"
-#    basics_visa_help: "Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)"
+#    basics_visa_help: "Are you authorized to work in the US, or do you need visa sponsorship?"
 #    basics_looking_for: "Looking For"
 #    basics_looking_for_full_time: "Full-time"
 #    basics_looking_for_part_time: "Part-time"
@@ -445,7 +445,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    infinite_loop_reset_level: "Reset Level"
 #    infinite_loop_comment_out: "Comment Out My Code"
 
-#  keyboard_shortcuts:
+  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
 #    space: "Space"
 #    enter: "Enter"
@@ -475,7 +475,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     lg_title: "Últimos Jogos"
 #    clas: "CLAs"
 
-#  community:
+  community:
 #    level_editor: "Level Editor"
 #    main_title: "CodeCombat Community"
 #    facebook: "Facebook"
@@ -579,7 +579,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     hard: "Difícil"
 #    player: "Player"
 
-#  about:
+  about:
 #    who_is_codecombat: "Who is CodeCombat?"
 #    why_codecombat: "Why CodeCombat?"
 #    who_description_prefix: "together started CodeCombat in 2013. We also created "
@@ -602,7 +602,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
 #    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
 
-#  legal:
+  legal:
 #    page_title: "Legal"
 #    opensource_intro: "CodeCombat is free to play and completely open source."
 #    opensource_description_prefix: "Check out "
@@ -663,7 +663,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
-#  contribute:
+  contribute:
 #    page_title: "Contributing"
 #    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
@@ -756,20 +756,20 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
   classes:
-    archmage_title: "Archmage"
-    archmage_title_description: "(Coder)"
-    artisan_title: "Artisan"
+#    archmage_title: "Archmage"
+#    archmage_title_description: "(Coder)"
+    artisan_title: "Artesão"
     artisan_title_description: "(Construtor de Níveis)"
-    adventurer_title: "Adventurer"
-    adventurer_title_description: "(Play-tester de Níveis)"
-    scribe_title: "Scribe"
+    adventurer_title: "Aventureiro"
+    adventurer_title_description: "(Testador de Níveis)"
+    scribe_title: "Escrivão"
     scribe_title_description: "(Editor de Artigos)"
-    diplomat_title: "Diplomat"
+    diplomat_title: "Diplomata"
     diplomat_title_description: "(Tradutor)"
-    ambassador_title: "Ambassador"
+    ambassador_title: "Embaixador"
     ambassador_title_description: "(Suporte)"
-    counselor_title: "Counselor"
-    counselor_title_description: "(Expert/ Professor)"
+    counselor_title: "Conselheiro"
+    counselor_title_description: "(Especialista/Professor)"
 
   ladder:
     please_login: "Por favor, faz log in antes de jogar um jogo para o campeonato."
@@ -824,7 +824,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    rules: "Rules"
 #    winners: "Winners"
 
-#  ladder_prizes:
+  ladder_prizes:
 #    title: "Tournament Prizes"
 #    blurb_1: "These prizes will be awarded according to"
 #    blurb_2: "the tournament rules"
@@ -858,7 +858,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     new_to_programming: ". Novo na programação? Faz a Campanha para Iniciantes para expandires as tuas capacidades."
     so_ready: "Estou mais que pronto para isto"
 
-#  loading_error:
+  loading_error:
 #    could_not_load: "Error loading from server"
 #    connection_failure: "Connection failed."
 #    unauthorized: "You need to be signed in. Do you have cookies disabled?"
@@ -868,12 +868,12 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    timeout: "Server timeout."
 #    conflict: "Resource conflict."
 #    bad_input: "Bad input."
-#    server_error: "Server error."
-#    unknown: "Unknown error."
+    server_error: "Erro do servidor."
+    unknown: "Erro desconhecido."
 
-#  resources:
-#    your_sessions: "Your Sessions"
-#    level: "Level"
+  resources:
+    your_sessions: "As Suas Sessões"
+    level: "Nível"
 #    social_network_apis: "Social Network APIs"
 #    facebook_status: "Facebook Status"
 #    facebook_friends: "Facebook Friends"
@@ -905,7 +905,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    user_remark: "User Remark"
 #    versions: "Versions"
 
-#  delta:
+  delta:
 #    added: "Added"
 #    modified: "Modified"
 #    deleted: "Deleted"
