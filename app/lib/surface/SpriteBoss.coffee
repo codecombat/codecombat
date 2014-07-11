@@ -11,7 +11,7 @@ module.exports = class SpriteBoss extends CocoClass
   subscriptions:
     'bus:player-joined': 'onPlayerJoined'
     'bus:player-left': 'onPlayerLeft'
-#    'level-set-debug': 'onSetDebug'
+    'level-set-debug': 'onSetDebug'
     'level-highlight-sprites': 'onHighlightSprites'
     'surface:stage-mouse-down': 'onStageMouseDown'
     'level-select-sprite': 'onSelectSprite'

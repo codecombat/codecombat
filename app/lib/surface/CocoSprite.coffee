@@ -45,8 +45,10 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   # Scale numbers
   baseScaleX: 1 # scale + flip (for current action) / resolutionFactor.
   baseScaleY: 1 # These numbers rarely change, so keep them around.
-  scaleFactor: 1 # Current scale adjustment. This can change rapidly.
-  targetScaleFactor: 1 # What the scaleFactor is going toward during a tween.
+  scaleFactorX: 1 # Current scale adjustment. This can change rapidly.
+  scaleFactorY: 1
+  targetScaleFactorX: 1 # What the scaleFactor is going toward during a tween.
+  targetScaleFactorY: 1
 
   # ACTION STATE
   # Actions have relations. If you say 'move', 'move_side' may play because of a direction
@@ -104,7 +106,10 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
 
   finishSetup: ->
     @updateBaseScale()
-    @scaleFactor = @thang.scaleFactor if @thang?.scaleFactor
+    @scaleFactorX = @thang.scaleFactorX if @thang?.scaleFactorX?
+    @scaleFactorX = @thang.scaleFactor if @thang?.scaleFactor?
+    @scaleFactorY = @thang.scaleFactorY if @thang?.scaleFactorY?
+    @scaleFactorY = @thang.scaleFactor if @thang?.scaleFactor?
     @update true  # Reflect initial scale and other state
 
   setUpRasterImage: ->
@@ -212,7 +217,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     # Gets the sprite to reflect what the current state of the thangs and surface are
     return if @stillLoading
     @updatePosition()
-    frameChanged = frameChanged or @targetScaleFactor isnt @scaleFactor
+    frameChanged = frameChanged or @targetScaleFactorX isnt @scaleFactorX or @targetScaleFactorY isnt @scaleFactorY
     if frameChanged
       @handledDisplayEvents = {}
       @updateScale()  # must happen before rotation
@@ -351,14 +356,16 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       scaleX = 0.5 + 0.5 * (90 - angle) / 90
 
 #    console.error 'No thang for', @ unless @thang
-    # TODO: support using scaleFactorX/Y from the thang object
-    @imageObject.scaleX = @baseScaleX * @scaleFactor * scaleX
-    @imageObject.scaleY = @baseScaleY * @scaleFactor * scaleY
+    @imageObject.scaleX = @baseScaleX * @scaleFactorX * scaleX
+    @imageObject.scaleY = @baseScaleY * @scaleFactorY * scaleY
 
-    if @thang and (@thang.scaleFactor or 1) isnt @targetScaleFactor
+    newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
+    newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
+    if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
+      @targetScaleFactorX = newScaleFactorX
+      @targetScaleFactorY = newScaleFactorY
       createjs.Tween.removeTweens(@)
-      createjs.Tween.get(@).to({scaleFactor: @thang.scaleFactor or 1}, 2000, createjs.Ease.elasticOut)
-      @targetScaleFactor = @thang.scaleFactor or 1
+      createjs.Tween.get(@).to({scaleFactorX: @targetScaleFactorX, scaleFactorY: @targetScaleFactorY}, 2000, createjs.Ease.elasticOut)
 
   updateAlpha: ->
     @imageObject.alpha = if @hiding then 0 else 1
@@ -536,9 +543,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       pos.x *= scale
       pos.y *= scale
     if @thang and prop isnt 'registration'
-      scaleFactor = @thang.scaleFactor ? 1
-      pos.x *= @thang.scaleFactorX ? scaleFactor
-      pos.y *= @thang.scaleFactorY ? scaleFactor
+      pos.x *= @thang.scaleFactorX ? @thang.scaleFactor ? 1
+      pos.y *= @thang.scaleFactorY ? @thang.scaleFactor ? 1
     # We might need to do this, but I don't have a good test case yet. TODO: figure out.
     #if prop isnt @registration
     #  pos.x *= if @getActionProp 'flipX' then -1 else 1

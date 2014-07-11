@@ -397,7 +397,7 @@ block content
 
             if user.get('jobProfileNotes') || me.isAdmin()
               div(class="our-notes-section" + (editing ? " deemphasized" : ""))
-                h3.experience-header(data-i18n="account_profile.our_notes") Our Notes
+                h3.experience-header(data-i18n="account_profile.our_notes") CodeCombat's Notes
                 - var notes = user.get('jobProfileNotes') || '';
                 if me.isAdmin()
                   textarea#job-profile-notes!= notes
