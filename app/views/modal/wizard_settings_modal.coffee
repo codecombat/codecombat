@@ -10,13 +10,14 @@ module.exports = class WizardSettingsModal extends View
   template: template
   closesOnClickOutside: false
 
+  events:
+    'keyup #wizard-settings-name': -> @trigger 'nameChanged'
+    'click #wizard-settings-done': 'onWizardSettingsDone'
+
   constructor: (options) ->
     @onNameChange = _.debounce(@checkNameExists, 500)
+    @on 'nameChanged', @onNameChange
     super options
-
-  events:
-    'keyup #wizard-settings-name': 'onNameChange'
-    'click #wizard-settings-done': 'onWizardSettingsDone'
 
   afterRender: ->
     WizardSettingsView = require 'views/account/wizard_settings_view'
@@ -27,10 +28,13 @@ module.exports = class WizardSettingsModal extends View
   checkNameExists: =>
     forms.clearFormAlerts(@$el)
     name = $('#wizard-settings-name').val()
-    success = (id) =>
-      forms.clearFormAlerts(@$el)
-      forms.applyErrorsToForm(@$el, {property: 'name', message: 'is already taken'}) if id and id isnt me.id
-    $.ajax("/db/user/#{name}/nameToID", {success: success})
+    $.ajax "/auth/name/#{name}",
+      success: (data) =>
+        forms.clearFormAlerts(@$el)
+      statusCode: 409: (data) =>
+        response = JSON.stringify data.responseText
+        #forms.applyErrorsToForm(@$el, {dataPath: ['/', 'name'], message: 'This name is already taken so you won\'t be able to keep it.'}, true)
+        forms.setErrorToProperty @$el, 'name', 'This name is already taken so you won\'t be able to keep it.', true
 
   onWizardSettingsDone: ->
     me.set('name', $('#wizard-settings-name').val())

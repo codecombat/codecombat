@@ -18,7 +18,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     # Direct links
     'test/*subpath': go('TestView')
-    'demo/*subpath': go('DemoView')
+    'demo(/*subpath)': go('DemoView')
     'play/ladder/:levelID': go('play/ladder/ladder_view')
     'play/ladder': go('play/ladder_home')
 
