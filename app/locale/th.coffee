@@ -1,11 +1,11 @@
 module.exports = nativeDescription: "ไทย", englishDescription: "Thai", translation:
   common:
     loading: "รอสักครู่..."
-#    saving: "Saving..."
+    saving: "กำลังบันทึก..."
 #    sending: "Sending..."
 #    send: "Send"
     cancel: "ยกเลิก"
-#    save: "Save"
+    save: "บันทึก"
 #    publish: "Publish"
 #    create: "Create"
     delay_1_sec: "1 วินาที"
@@ -19,21 +19,21 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 
-#  units:
-#    second: "second"
-#    seconds: "seconds"
-#    minute: "minute"
-#    minutes: "minutes"
-#    hour: "hour"
-#    hours: "hours"
-#    day: "day"
-#    days: "days"
-#    week: "week"
-#    weeks: "weeks"
-#    month: "month"
-#    months: "months"
-#    year: "year"
-#    years: "years"
+  units:
+    second: "วินาที"
+    seconds: "วินาที"
+    minute: "นาที"
+    minutes: "นาที"
+    hour: "ชั่วโมง"
+    hours: "ชั่วโมง"
+    day: "วัน"
+    days: "วัน"
+    week: "สัปดาห์"
+    weeks: "สัปดาห์"
+    month: "เดือน"
+    months: "เดือน"
+    year: "ปี"
+    years: "ปี"
 
   modal:
     close: "ปิด"
@@ -69,8 +69,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
   login:
     sign_up: "ลงทะเบียนใหม่"
     log_in: "ลงชื่อเข้าใช้"
-#    logging_in: "Logging In"
-    log_out: "ลงชื่ื่อออก"
+    logging_in: "กำลังเข้าสู่ระบบ"
+    log_out: "ลงชื่อออก"
     recover: "กู้บัญชีการใช้งาน"
 
 #  recover:
@@ -78,12 +78,12 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    send_password: "Send Recovery Password"
 
   signup:
-#    create_account_title: "Create Account to Save Progress"
+    create_account_title: "สร้างบัญชีใหม่เพื่อบันทึกความก้าวหน้า"
 #    description: "It's free. Just need a couple things and you'll be good to go:"
     email_announcements: "รับข่าวสารผ่านทางอีเมลล์"
 #    coppa: "13+ or non-USA "
     coppa_why: "(ทำไม?)"
-#    creating: "Creating Account..."
+    creating: "กำลังสร้างบัญชีใหม่..."
     sign_up: "สมัคร"
     log_in: "เข้าสู่ระบบด้วยรหัสผ่าน"
 #    social_signup: "Or, you can sign up through Facebook or G+:"
