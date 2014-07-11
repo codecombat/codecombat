@@ -38,6 +38,8 @@ module.exports = class DebugView extends View
     @lastFrameRequested = -1
     @workerIsSimulating = false
     @spellHasChanged = false
+    @currentFrame = 0
+    @frameRate = 10 #only time it won't be set is at very beginning
     @debouncedTooltipUpdate = _.debounce @updateTooltipProgress, 100
 
   pad2: (num) ->
