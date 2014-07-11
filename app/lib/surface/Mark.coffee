@@ -257,9 +257,6 @@ module.exports = class Mark extends CocoClass
 
   updateRotation: ->
     if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ['rectangle', 'box'])
-      rot = @sprite.thang.rotation * 180 / Math.PI
-      unless @mark.rotation is rot
-        console.log @toString(), "updating rotation", @name, @sprite.thang?.shape, @sprite.thang?.rotation, "to", rot, "from", @mark.rotation
       @mark.rotation = @sprite.thang.rotation * 180 / Math.PI
 
   updateScale: ->
