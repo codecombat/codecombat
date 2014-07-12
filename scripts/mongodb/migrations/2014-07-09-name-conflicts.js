@@ -46,7 +46,7 @@ db.users.find({anonymous:false}, params).sort({_id:1}).forEach(function (user) {
   }
   update.slug = slug;
   slugs[slug] = user.name;
-  if(user.slug) return;
+  if(user.slug === slug) return;
   print(_.str.sprintf('Setting user %s (%s) to slug %s with update %s', user.name, user.dateCreated, slug, JSON.stringify({$set:update})));
   var res = db.users.update({_id:user._id}, {$set:update});
   if(res.hasWriteError()) {
