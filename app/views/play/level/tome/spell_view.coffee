@@ -599,6 +599,7 @@ module.exports = class SpellView extends View
     null
 
   highlightComments: ->
+    return  # Slightly buggy and not that great, so let's not do it.
     lines = $(@ace.container).find('.ace_text-layer .ace_line_group')
     session = @aceSession
     top = Math.floor @ace.renderer.getScrollTopRow()

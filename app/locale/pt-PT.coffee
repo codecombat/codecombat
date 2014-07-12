@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "Português europeu", englishDescription: "Portuguese (Portugal)", translation:
+module.exports = nativeDescription: "Português (Portugal)", englishDescription: "Portuguese (Portugal)", translation:
   common:
     loading: "A carregar..."
     saving: "A guardar..."
@@ -12,11 +12,11 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     delay_3_sec: "3 segundos"
     delay_5_sec: "5 segundos"
     manual: "Manual"
-#    fork: "Fork"
+    fork: "Bifurcar"
     play: "Jogar"
     retry: "Tentar novamente"
-#    watch: "Watch"
-#    unwatch: "Unwatch"
+    watch: "Vigiar"
+    unwatch: "Desvigiar"
     submit_patch: "Submeter Versão"
 
   units:
@@ -37,7 +37,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 
   modal:
     close: "Fechar"
-    okay: "Okay"
+    okay: "Ok"
 
   not_found:
     page_not_found: "Página não encontrada"
@@ -81,7 +81,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     create_account_title: "Criar Conta para Guardar Progresso"
     description: "É grátis. Só são necessárias umas coisas e fica tudo pronto:"
     email_announcements: "Receber anúncios por e-mail"
-    coppa: "13+ ou não-EUA "
+    coppa: "Mais de 13 anos ou não estado-unidense "
     coppa_why: "(Porquê?)"
     creating: "A Criar Conta..."
     sign_up: "Registar"
@@ -107,7 +107,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
     adventurer_forum: "fórum do Aventureiro"
     adventurer_suffix: "."
     campaign_beginner: "Campanha para Iniciantes"
-    campaign_beginner_description: "... onde aprende a feitiçaria da programação."
+    campaign_beginner_description: "... onde aprende a magia da programação."
     campaign_dev: "Níveis mais Difíceis Aleatórios"
     campaign_dev_description: "... onde aprende a interface enquanto faz coisas um bocadinho mais difíceis."
     campaign_multiplayer: "Arenas Multijogador"
@@ -325,7 +325,7 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    pass_screen: "They will pass your technical screen."
 #    pass_screen_blurb: "Review each candidate's code before reaching out. One employer found that 5x as many of our devs passed their technical screen than hiring from Hacker News."
 #    make_hiring_easier: "Make my hiring easier, please."
-    what: "O Que é o CodeCombat?"
+    what: "O que é o CodeCombat?"
 #    what_blurb: "CodeCombat is a multiplayer browser programming game. Players write code to control their forces in battle against other developers. We support JavaScript, Python, Lua, Clojure, CoffeeScript, and Io."
 #    cost: "How much do we charge?"
 #    cost_blurb: "We charge 15% of first year's salary and offer a 100% money back guarantee for 90 days. We don't charge for candidates who are already actively being interviewed at your company."
@@ -756,20 +756,20 @@ module.exports = nativeDescription: "Português europeu", englishDescription: "P
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
   classes:
-    archmage_title: "Archmage"
-    archmage_title_description: "(Coder)"
-    artisan_title: "Artisan"
+#    archmage_title: "Archmage"
+#    archmage_title_description: "(Coder)"
+    artisan_title: "Artesão"
     artisan_title_description: "(Construtor de Níveis)"
-    adventurer_title: "Adventurer"
-    adventurer_title_description: "(Play-tester de Níveis)"
-    scribe_title: "Scribe"
+    adventurer_title: "Aventureiro"
+    adventurer_title_description: "(Testador de Níveis)"
+    scribe_title: "Escrivão"
     scribe_title_description: "(Editor de Artigos)"
-    diplomat_title: "Diplomat"
+    diplomat_title: "Diplomata"
     diplomat_title_description: "(Tradutor)"
-    ambassador_title: "Ambassador"
+    ambassador_title: "Embaixador"
     ambassador_title_description: "(Suporte)"
-    counselor_title: "Counselor"
-    counselor_title_description: "(Expert/ Professor)"
+    counselor_title: "Conselheiro"
+    counselor_title_description: "(Especialista/Professor)"
 
   ladder:
     please_login: "Por favor, faz log in antes de jogar um jogo para o campeonato."

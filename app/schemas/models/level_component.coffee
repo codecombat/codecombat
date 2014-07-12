@@ -23,6 +23,7 @@ PropertyDocumentationSchema = c.object {
   required: ['name', 'type', 'description']
 },
   name: {type: 'string', title: 'Name', description: 'Name of the property.'}
+  codeLanguages: c.array {title: 'Specific Code Languages', description: 'If present, then only the languages specified will show this documentation. Leave unset for language-independent documentation.', format: 'code-languages-array'}, c.shortString(title: 'Code Language', description: 'A specific code language to show this documentation for.', format: 'code-language')
   # not actual JS types, just whatever they describe...
   type: c.shortString(title: 'Type', description: 'Intended type of the property.')
   description:
