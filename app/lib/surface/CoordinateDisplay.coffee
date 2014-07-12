@@ -67,8 +67,10 @@ module.exports = class CoordinateDisplay extends createjs.Container
     radius = 2.5
     width = @label.getMeasuredWidth() + 2 * margin
     height = @label.getMeasuredHeight() + 2 * margin
-    @label.regX = @background.regX = width / 2 - margin
-    @label.regY = @background.regY = height / 2 - margin
+    @label.regX = @background.regX = width / 2
+    @label.regY = @background.regY = height / 2
+    @label.regX -= margin
+    @label.regY -= margin
     @background.graphics
       .clear()
       .beginFill('rgba(0,0,0,0.4)')
