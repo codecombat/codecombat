@@ -210,6 +210,12 @@ class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
     (key for key in _.keys(codeLanguages) when not @data[key]?)
 
+class CodeLanguageTreema extends TreemaNode.nodeMap.string
+  buildValueForEditing: (valEl) ->
+    super(valEl)
+    valEl.find('input').autocomplete(source: _.keys(codeLanguages), minLength: 0, delay: 0, autoFocus: true)
+    valEl
+
 class CodeTreema extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
@@ -412,6 +418,7 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass('version', VersionTreema)
   TreemaNode.setNodeSubclass('markdown', LiveEditingMarkup)
   TreemaNode.setNodeSubclass('code-languages-object', CodeLanguagesObjectTreema)
+  TreemaNode.setNodeSubclass('code-language', CodeLanguageTreema)
   TreemaNode.setNodeSubclass('code', CodeTreema)
   TreemaNode.setNodeSubclass('coffee', CoffeeTreema)
   TreemaNode.setNodeSubclass('javascript', JavaScriptTreema)
