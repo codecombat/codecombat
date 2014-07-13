@@ -1,5 +1,5 @@
 ModalView = require 'views/kinds/ModalView'
-template = require 'templates/modal/terrain_randomise'
+template = require 'templates/editor/level/modal/terrain_randomise'
 CocoModel = require 'models/CocoModel'
 
 clusters = {
