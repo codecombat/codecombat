@@ -4,6 +4,7 @@ crypto = require 'crypto'
 {salt, isProduction} = require '../../server_config'
 mail = require '../commons/mail'
 log = require 'winston'
+plugins = require '../plugins/plugins'
 
 sendwithus = require '../sendwithus'
 
@@ -28,6 +29,9 @@ UserSchema.post('init', ->
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
+
+UserSchema.methods.isAnonymous = ->
+  @get 'anonymous'
 
 UserSchema.methods.trackActivity = (activityName, increment) ->
   now = new Date()
@@ -136,6 +140,29 @@ UserSchema.methods.incrementStat = (statName, done, inc=1) ->
   @set statName, (@get(statName) or 0) + inc
   @save (err) -> done err if done?
 
+UserSchema.statics.unconflictName = unconflictName = (name, done) ->
+  User.findOne {slug: _.str.slugify(name)}, (err, otherUser) ->
+    return done err if err?
+    return done null, name unless otherUser
+    suffix = _.random(0, 9) + ''
+    unconflictName name + suffix, done
+
+UserSchema.methods.register = (done) ->
+  @set('anonymous', false)
+  @set('permissions', ['admin']) if not isProduction
+  if (name = @get 'name')? and name isnt ''
+    unconflictName name, (err, uniqueName) =>
+      return done err if err
+      @set 'name', uniqueName
+      done()
+  else done()
+  data =
+    email_id: sendwithus.templates.welcome_email
+    recipient:
+      address: @get 'email'
+  sendwithus.api.send data, (err, result) ->
+    log.error "sendwithus post-save error: #{err}, result: #{result}" if err
+
 UserSchema.pre('save', (next) ->
   @set('emailLower', @get('email')?.toLowerCase())
   @set('nameLower', @get('name')?.toLowerCase())
@@ -143,16 +170,10 @@ UserSchema.pre('save', (next) ->
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
     @set('password', undefined)
-  if @get('email') and @get('anonymous')
-    @set('anonymous', false)
-    @set('permissions', ['admin']) if not isProduction
-    data =
-      email_id: sendwithus.templates.welcome_email
-      recipient:
-        address: @get 'email'
-    sendwithus.api.send data, (err, result) ->
-      log.error "sendwithus post-save error: #{err}, result: #{result}" if err
-  next()
+  if @get('email') and @get('anonymous') # a user registers
+    @register next
+  else
+    next()
 )
 
 UserSchema.post 'save', (doc) ->
@@ -163,6 +184,8 @@ UserSchema.statics.hashPassword = (password) ->
   shasum = crypto.createHash('sha512')
   shasum.update(salt + password)
   shasum.digest('hex')
+
+UserSchema.plugin plugins.NamedPlugin
 
 module.exports = User = mongoose.model('User', UserSchema)
 

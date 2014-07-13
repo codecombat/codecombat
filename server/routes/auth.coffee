@@ -159,15 +159,11 @@ module.exports.setup = (app) ->
 
 module.exports.loginUser = loginUser = (req, res, user, send=true, next=null) ->
   user.save((err) ->
-    if err
-      return @sendDatabaseError(res, err)
+    return errors.serverError res, err if err?
 
     req.logIn(user, (err) ->
-      if err
-        return @sendDatabaseError(res, err)
-
-      if send
-        return @sendSuccess(res, user)
+      return errors.serverError res, err if err?
+      return res.send user if send
       next() if next
     )
   )

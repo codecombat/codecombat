@@ -21,8 +21,4 @@ LevelComponentHandler = class LevelComponentHandler extends Handler
     props.push('official') if req.user?.isAdmin()
     props
 
-  hasAccess: (req) ->
-    req.method is 'GET' or req.user?.isAdmin()
-
-
 module.exports = new LevelComponentHandler()

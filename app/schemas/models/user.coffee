@@ -1,8 +1,12 @@
 c = require './../schemas'
 emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification']
 
-UserSchema = c.object {},
-  name: c.shortString({title: 'Display Name', default: ''})
+UserSchema = c.object
+  title: 'User'
+
+c.extendNamedProperties UserSchema  # let's have the name be the first property
+
+_.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
   firstName: c.shortString({title: 'First Name'})
   lastName: c.shortString({title: 'Last Name'})
@@ -83,7 +87,7 @@ UserSchema = c.object {},
     experience: {type: 'integer', title: 'Years of Experience', minimum: 0, description: 'How many years of professional experience (getting paid) developing software do you have?'}
     shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.', default: 'Programmer seeking to build great software.'}
     longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'Describe yourself to potential employers. Keep it short and to the point. We recommend outlining the position that would most interest you. Tasteful markdown okay; 600 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
-    visa: c.shortString {title: 'US Work Status', description: 'Are you authorized to work in the US, or do you need visa sponsorship?', enum: ['Authorized to work in the US', 'Need visa sponsorship'], default: 'Authorized to work in the US'}
+    visa: c.shortString {title: 'US Work Status', description: 'Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)', enum: ['Authorized to work in the US', 'Need visa sponsorship'], default: 'Authorized to work in the US'}
     work: c.array {title: 'Work Experience', description: 'List your relevant work experience, most recent first.'},
       c.object {title: 'Job', description: 'Some work experience you had.', required: ['employer', 'role', 'duration']},
         employer: c.shortString {title: 'Employer', description: 'Name of your employer.'}
@@ -134,7 +138,7 @@ UserSchema = c.object {},
       schoolFilter:
         title: 'School'
         type: 'string'
-        enum: ['Top 20 Eng.', 'Other US', 'Other Intl.']
+        enum: ['Top School', 'Other']
       locationFilter:
         title: 'Location'
         type: 'string'
@@ -142,11 +146,15 @@ UserSchema = c.object {},
       roleFilter:
         title: 'Role'
         type: 'string'
-        enum: ['Web Developer', 'Software Developer', 'iOS Developer', 'Android Developer', 'Project Manager']
+        enum: ['Web Developer', 'Software Developer', 'Mobile Developer']
       seniorityFilter:
         title: 'Seniority'
         type: 'string'
-        enum: ['College Student', 'Recent Grad', 'Junior', 'Senior', 'Management']
+        enum: ['College Student', 'Recent Grad', 'Junior', 'Senior']
+      featured:
+        title: 'Featured'
+        type: 'boolean'
+        description: 'Should this candidate be prominently featured on the site?'
   jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
   jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: 'CodeCombat\'s notes on the candidate.', format: 'markdown', default: ''}
   employerAt: c.shortString {description: 'If given employer permissions to view job candidates, for which employer?'}

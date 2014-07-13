@@ -43,6 +43,7 @@ module.exports = class ThangsTabView extends View
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-up': 'onStageMouseUp'
+    'randomise:terrain-generated': 'onRandomiseTerrain'
 
   events:
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
@@ -57,6 +58,8 @@ module.exports = class ThangsTabView extends View
     'delete, del, backspace': 'deleteSelectedExtantThang'
     'left': -> @moveAddThangSelection -1
     'right': -> @moveAddThangSelection 1
+    'ctrl+z': 'undoAction'
+    'ctrl+shift+z': 'redoAction'
 
   constructor: (options) ->
     super options
@@ -220,6 +223,12 @@ module.exports = class ThangsTabView extends View
   onSpriteDoubleClicked: (e) ->
     return unless e.thang
     @editThang thangID: e.thang.id
+
+  onRandomiseTerrain: (e) ->
+    for thang in e.thangs
+      @selectAddThangType thang.id
+      @addThang @addThangType, thang.pos
+    @selectAddThangType null
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
@@ -449,6 +458,12 @@ module.exports = class ThangsTabView extends View
   toggleThangsPalette: (e) ->
     $('#add-thangs-column').toggle()
     @onWindowResize e
+
+  undoAction: (e) ->
+    @thangsTreema.undo()
+
+  redoAction: (e) ->
+    @thangsTreema.redo()
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'

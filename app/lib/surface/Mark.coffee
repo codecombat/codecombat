@@ -65,6 +65,8 @@ module.exports = class Mark extends CocoClass
   buildBounds: ->
     @mark = new createjs.Container()
     @mark.mouseChildren = false
+    style = @sprite.thang.drawsBoundsStyle
+    return if style is 'corner-text' and @sprite.thang.world.age is 0
 
     # Confusingly make some semi-random colors that'll be consistent based on the drawsBoundsIndex
     @drawsBoundsIndex = @sprite.thang.drawsBoundsIndex
@@ -72,11 +74,14 @@ module.exports = class Mark extends CocoClass
     color = "rgba(#{colors[0]}, #{colors[1]}, #{colors[2]}, 0.5)"
     [w, h] = [@sprite.thang.width * Camera.PPM, @sprite.thang.height * Camera.PPM * @camera.y2x]
 
-    if @sprite.thang.drawsBoundsStyle is 'border-text'
-      shape = new createjs.Shape()
+    if style in ['border-text', 'corner-text']
+      @drawsBoundsBorderShape = shape = new createjs.Shape()
       shape.graphics.setStrokeStyle 5
       shape.graphics.beginStroke color
-      shape.graphics.beginFill color.replace('0.5', '0.25')
+      if style is 'border-text'
+        shape.graphics.beginFill color.replace('0.5', '0.25')
+      else
+        shape.graphics.beginFill color
       if @sprite.thang.shape in ['ellipsoid', 'disc']
         shape.drawEllipse 0, 0, w, h
       else
@@ -85,13 +90,13 @@ module.exports = class Mark extends CocoClass
       shape.graphics.endFill()
       @mark.addChild shape
 
-    if @sprite.thang.drawsBoundsStyle is 'border-text'
+    if style is 'border-text'
       text = new createjs.Text '' + @drawsBoundsIndex, '20px Arial', color.replace('0.5', '1')
       text.regX = text.getMeasuredWidth() / 2
       text.regY = text.getMeasuredHeight() / 2
       text.shadow = new createjs.Shadow('#000000', 1, 1, 0)
       @mark.addChild text
-    else if @sprite.thang.drawsBoundsStyle is 'corner-text'
+    else if style is 'corner-text'
       return if @sprite.thang.world.age is 0
       letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[@drawsBoundsIndex % 26]
       text = new createjs.Text letter, '14px Arial', '#333333'   # color.replace('0.5', '1')
@@ -99,9 +104,9 @@ module.exports = class Mark extends CocoClass
       text.y = -h / 2 + 2
       @mark.addChild text
     else
-      console.warn @sprite.thang.id, 'didn\'t know how to draw bounds style:', @sprite.thang.drawsBoundsStyle
+      console.warn @sprite.thang.id, 'didn\'t know how to draw bounds style:', style
 
-    if w > 0 and h > 0
+    if w > 0 and h > 0 and style is 'border-text'
       @mark.cache -w / 2, -h / 2, w, h, 2
     @lastWidth = @sprite.thang.width
     @lastHeight = @sprite.thang.height
@@ -127,7 +132,7 @@ module.exports = class Mark extends CocoClass
     @mark.regX = width / 2
     @mark.regY = height / 2
     @mark.layerIndex = 10
-    @mark.cache -1, 0, width+2, height # not actually faster than simple ellipse draw
+    @mark.cache -1, -1, width + 2, height + 2 # not actually faster than simple ellipse draw
 
   buildRadius: (range) ->
     alpha = 0.15
@@ -226,13 +231,12 @@ module.exports = class Mark extends CocoClass
       @highlightTween = createjs.Tween.get(@mark).to({}, @highlightDelay).call =>
         @mark.visible = true
         @highlightDelay = @highlightTween = null
+    @updateAlpha @alpha if @name in ['shadow', 'bounds']
     true
 
   updatePosition: (pos) ->
     if @sprite?.thang and @name in ['shadow', 'debug', 'target', 'selection', 'repair']
       pos = @camera.worldToSurface x: @sprite.thang.pos.x, y: @sprite.thang.pos.y
-      if @name is 'shadow'
-        @updateAlpha @alpha
     else
       pos ?= @sprite?.imageObject
     @mark.x = pos.x
@@ -248,7 +252,9 @@ module.exports = class Mark extends CocoClass
     if @name is 'shadow'
       worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2 + @sprite.getBobOffset()
       @mark.alpha = @alpha * 0.451 / Math.sqrt(worldZ / 2 + 1)
-    else if @name isnt 'bounds'
+    else if @name is 'bounds'
+      @drawsBoundsBorderShape?.alpha = Math.floor @sprite.thang.alpha  # Stop drawing bounds as soon as alpha is reduced at all
+    else
       @mark.alpha = @alpha
 
   updateRotation: ->

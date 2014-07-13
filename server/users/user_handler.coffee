@@ -104,7 +104,8 @@ UserHandler = class UserHandler extends Handler
       return callback(null, req, user) unless req.body.name
       nameLower = req.body.name?.toLowerCase()
       return callback(null, req, user) unless nameLower
-      return callback(null, req, user) if nameLower is user.get('nameLower') and not user.get('anonymous')
+      return callback(null, req, user) if user.get 'anonymous' # anonymous users can have any name
+      return callback(null, req, user) if nameLower is user.get('nameLower')
       User.findOne({nameLower: nameLower, anonymous: false}).exec (err, otherUser) ->
         log.error "Database error setting user name: #{err}" if err
         return callback(res: 'Database error.', code: 500) if err
@@ -116,7 +117,7 @@ UserHandler = class UserHandler extends Handler
   ]
 
   getById: (req, res, id) ->
-    if req.user?._id.equals(id)
+    if Handler.isID(id) and req.user?._id.equals(id)
       return @sendSuccess(res, @formatEntity(req, req.user, 256))
     super(req, res, id)
 
@@ -221,6 +222,8 @@ UserHandler = class UserHandler extends Handler
       photoURL = document?.get('photoURL')
       if photoURL
         photoURL = "/file/#{photoURL}"
+      else if req.query.employerPageAvatar is "true"
+        photoURL = @buildGravatarURL document, req.query.s, "/images/pages/employer/anon_user.png"
       else
         photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
       res.redirect photoURL

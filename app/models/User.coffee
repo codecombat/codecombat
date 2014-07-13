@@ -1,6 +1,7 @@
 GRAVATAR_URL = 'https://www.gravatar.com/'
 cache = {}
 CocoModel = require './CocoModel'
+util = require 'lib/utils'
 
 module.exports = class User extends CocoModel
   @className: 'User'
@@ -27,14 +28,14 @@ module.exports = class User extends CocoModel
   lang: ->
     @get('preferredLanguage') or 'en-US'
 
-  getPhotoURL: (size=80, useJobProfilePhoto=false) ->
+  getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
     photoURL = if useJobProfilePhoto then @get('jobProfile')?.photoURL else null
     photoURL ||= @get('photoURL')
     if photoURL
       prefix = if photoURL.search(/\?/) is -1 then '?' else '&'
       return "#{photoURL}#{prefix}s=#{size}" if photoURL.search('http') isnt -1  # legacy
       return "/file/#{photoURL}#{prefix}s=#{size}"
-    return "/db/user/#{@id}/avatar?s=#{size}"
+    return "/db/user/#{@id}/avatar?s=#{size}&employerPageAvatar=#{useEmployerPageAvatar}"
 
   # Callbacks can be either 'success' or 'error'
   @getByID = (id, properties, force, callbacks={}) ->
@@ -53,6 +54,28 @@ module.exports = class User extends CocoModel
         error: -> callbacks.error arguments... if callbacks.error?
       )
     cache[id] = user
+    user
+
+  # callbacks can be either success or error
+  @getByIDOrSlug: (idOrSlug, force, callbacks={}) ->
+    {me} = require 'lib/auth'
+    isID = util.isID idOrSlug
+    if me.id is idOrSlug or me.slug is idOrSlug
+      callbacks.success me if callbacks.success?
+      return me
+    cached = cache[idOrSlug]
+    user = cached or new @ _id: idOrSlug
+    if force or not cached
+      user.loading = true
+      user.fetch
+        success: ->
+          user.loading = false
+          Backbone.Mediator.publish 'user:fetched'
+          callbacks.success user if callbacks.success?
+        error: ->
+          user.loading = false
+          callbacks.error user if callbacks.error?
+    cache[idOrSlug] = user
     user
 
   getEnabledEmails: ->

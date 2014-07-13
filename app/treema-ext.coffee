@@ -197,14 +197,34 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
     @flushChanges()
     @refreshDisplay()
 
-class CoffeeTreema extends TreemaNode.nodeMap.ace
+
+codeLanguages =
+  javascript: 'ace/mode/javascript'
+  coffeescript: 'ace/mode/coffee'
+  python: 'ace/mode/python'
+  clojure: 'ace/mode/clojure'
+  lua: 'ace/mode/lua'
+  io: 'ace/mode/text'
+
+class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
+  childPropertiesAvailable: ->
+    (key for key in _.keys(codeLanguages) when not @data[key]?)
+
+class CodeLanguageTreema extends TreemaNode.nodeMap.string
+  buildValueForEditing: (valEl) ->
+    super(valEl)
+    valEl.find('input').autocomplete(source: _.keys(codeLanguages), minLength: 0, delay: 0, autoFocus: true)
+    valEl
+
+class CodeTreema extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
-    @schema.aceMode = 'ace/mode/coffee'
-    @schema.aceTabSize = 2
+    @schema.aceTabSize = 4
 
   buildValueForEditing: (valEl) ->
     super(valEl)
+    if not @schema.aceMode and mode = codeLanguages[@keyForParent]
+      @editor.getSession().setMode mode
     @editor.on('change', @onEditorChange)
     valEl
 
@@ -213,19 +233,29 @@ class CoffeeTreema extends TreemaNode.nodeMap.ace
     @flushChanges()
     @getRoot().broadcastChanges()
 
-class JavaScriptTreema extends CoffeeTreema
+class CoffeeTreema extends CodeTreema
+  constructor: ->
+    super(arguments...)
+    @schema.aceMode = 'ace/mode/coffee'
+    @schema.aceTabSize = 2
+
+class JavaScriptTreema extends CodeTreema
   constructor: ->
     super(arguments...)
     @schema.aceMode = 'ace/mode/javascript'
     @schema.aceTabSize = 4
 
-KB = 1024
-MB = 1024*1024
-
 
 class InternationalizationNode extends TreemaNode.nodeMap.object
   findLanguageName: (languageCode) ->
+    # to get around mongoose emtpy object bug, there's a prop in the object which needs to be ignored
+    return '' if languageCode is '-' 
     locale[languageCode]?.nativeDescription or "#{languageCode} Not Found"
+    
+  getChildren: ->
+    res = super(arguments...)
+    res = (r for r in res when r[0] isnt '-')
+    res
 
   getChildSchema: (key) ->
     #construct the child schema here
@@ -246,8 +276,7 @@ class InternationalizationNode extends TreemaNode.nodeMap.object
     #this must be filled out in order for the i18n node to work
 
   childPropertiesAvailable: ->
-    return _.keys locale
-
+    (key for key in _.keys(locale) when not @data[key]?)
 
 
 class LatestVersionCollection extends CocoCollection
@@ -395,6 +424,9 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass('date-time', DateTimeTreema)
   TreemaNode.setNodeSubclass('version', VersionTreema)
   TreemaNode.setNodeSubclass('markdown', LiveEditingMarkup)
+  TreemaNode.setNodeSubclass('code-languages-object', CodeLanguagesObjectTreema)
+  TreemaNode.setNodeSubclass('code-language', CodeLanguageTreema)
+  TreemaNode.setNodeSubclass('code', CodeTreema)
   TreemaNode.setNodeSubclass('coffee', CoffeeTreema)
   TreemaNode.setNodeSubclass('javascript', JavaScriptTreema)
   TreemaNode.setNodeSubclass('image-file', ImageFileTreema)

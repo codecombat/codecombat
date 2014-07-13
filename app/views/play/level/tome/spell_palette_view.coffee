@@ -57,6 +57,7 @@ module.exports = class SpellPaletteView extends View
     allDocs = {}
     for lc in lcs
       for doc in (lc.get('propertyDocumentation') ? [])
+        continue if doc.codeLanguages and not (@options.language in doc.codeLanguages)
         allDocs['__' + doc.name] ?= []
         allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'
@@ -83,7 +84,6 @@ module.exports = class SpellPaletteView extends View
         'this': 'apiProperties'
     count = 0
     propGroups = {}
-    console.log 'thang', @thang
     for owner, storage of propStorage
       props = _.reject @thang[storage] ? [], (prop) -> prop[0] is '_'  # no private properties
       added = propGroups[owner] = _.sortBy(props).slice()

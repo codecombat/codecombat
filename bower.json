@@ -32,7 +32,7 @@
     "firepad": "~0.1.2",
     "marked": "~0.3.0",
     "moment": "~2.5.0",
-    "aether": "~0.2.9",
+    "aether": "~0.2.22",
     "underscore.string": "~2.3.3",
     "firebase": "~1.0.2",
     "catiline": "~2.9.3",
@@ -44,7 +44,8 @@
     "bootstrap": "~3.1.1",
     "validated-backbone-mediator": "~0.1.3",
     "jquery.browser": "~0.0.6",
-    "zatanna": "~0.0.2"
+    "zatanna": "~0.0.2",
+    "modernizr": "~2.8.3"
   },
   "overrides": {
     "backbone": {
@@ -81,6 +82,9 @@
         "./dist/fonts/glyphicons-halflings-regular.ttf",
         "./dist/fonts/glyphicons-halflings-regular.woff"
       ]
+    },
+    "modernizr": {
+      "main": "modernizr.js"
     }
   }
 }

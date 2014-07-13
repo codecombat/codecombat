@@ -1,0 +1,23 @@
+extends /templates/base
+
+
+block content
+  .row
+    .col-xs-3.index-column.nano
+      ul.nav.nav-list.list-group.nano-content
+        for component in components
+          li= component.get('name')
+          ul
+            each doc in component.attributes.propertyDocumentation
+              a(href="##{component.get('name')}#{doc.name}")
+                li
+                  | #{doc.name}
+    .col-xs-9.documentation-column.nano
+      ul.nano-content
+        for component in components
+          each doc in component.attributes.propertyDocumentation
+            li(id="#{component.get('name')}#{doc.name}")
+              | #{doc.name}
+              ul.specialList
+                li=doc.description
+  
