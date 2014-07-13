@@ -226,6 +226,9 @@ module.exports = class ThangsTabView extends View
 
   onRandomiseTerrain: (e) ->
     @thangsBatch = []
+    for id in @randomiseThangIDs?
+      @thangsTreema.delete "id=#{id}"
+    @randomiseThangIDs = []
     for thang in e.thangs
       @selectAddThangType thang.id
       @addThang @addThangType, thang.pos, true
@@ -405,6 +408,7 @@ module.exports = class ThangsTabView extends View
 
   addThang: (thangType, pos, batchInsert = false) ->
     thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
+    @randomiseThangIDs.push thangID
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
       @selectAddThang null
