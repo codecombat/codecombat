@@ -207,7 +207,11 @@ module.exports = class World
     map = if kind is 'component' then @componentCodeClassMap else @systemCodeClassMap
     c = map[js]
     return c if c
-    c = map[js] = eval js
+    try
+      c = map[js] = eval js
+    catch err
+      console.error "Couldn't compile #{kind} code:", err, "\n", js
+      c = map[js] = {}
     c.className = name
     c
 
