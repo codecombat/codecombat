@@ -1,30 +1,18 @@
 #docs-components-view
   color: saddlebrown
 
-.main
-  position : relative
+  .row
 
-  .left
-    bottom: 10em
-    left: 10em
-    overflow-y: scroll
-    overflow-x: hidden
-    position: fixed
-    top: 5em
-    white-space: nowrap
-    width: 20%
-    -webkit-overflow-scrolling: touch
+    .index-column, .documentation-column
+      overflow-y: scroll
+      overflow-x: hidden
+      min-height: 600px
 
-  .right
-    left: 28em
-    bottom: 10em
-    position: fixed
-    overflow-y: scroll
-    overflow-x: hidden
-    right: 10em
-    top: 5em
-    //width: 80%
-    -webkit-overflow-scrolling: touch
+      > ul
+        padding: 0px 20px 20px 20px
 
-    .specialList
-      list-style-type: none
+  
+    .documentation-column
+  
+      .specialList
+        list-style-type: none

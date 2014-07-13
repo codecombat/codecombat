@@ -143,6 +143,14 @@ module.exports = class PlayView extends View
     ]
 
     arenas = [
+      #{
+      #  name: 'Criss-Cross'
+      #  difficulty: 4
+      #  id: 'criss-cross'
+      #  image: '/file/db/level/528aea2d7f37fc4e0700016b/its_a_trap_icon.png'
+      #  description: 'Participate in a bidding war with opponents to reach the other side!'
+      #  levelPath: 'ladder'
+      #}
       {
         name: 'Greed'
         difficulty: 4
@@ -254,6 +262,13 @@ module.exports = class PlayView extends View
         id: 'guide-everyone-home'
         image: '/file/db/level/52740644904ac0411700067c/rescue_mission_icon.png'
         description: 'Fetch the wizards teleporting into the area - by Nathan Gossett'
+      }
+      {
+        name: "Let's go Fly a Kite"
+        difficulty: 3
+        id: 'lets-go-fly-a-kite'
+        image: '/file/db/level/526711d9add4f8965f000002/hunter_triplets_icon.png'
+        description: 'There is a horde of ogres marching on your village.  Stay out of reach and use your bow to take them out! - by Danny Whittaker'
       }
     ]
 

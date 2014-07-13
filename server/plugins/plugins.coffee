@@ -41,9 +41,12 @@ module.exports.NamedPlugin = (schema) ->
       err.response = {message: ' is a reserved name', property: 'name'}
       err.code = 422
       return next(err)
-    if newSlug isnt @get('slug')
+    if newSlug not in [@get('slug'), ''] and not @get 'anonymous'
       @set('slug', newSlug)
       @checkSlugConflicts(next)
+    else if newSlug is '' and @get 'slug'
+      @set 'slug', undefined
+      next()
     else
       next()
   )

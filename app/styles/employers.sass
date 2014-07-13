@@ -1,13 +1,8 @@
 #employers-view
   .artisanal-claim
-    font-variant: small-caps
-    text-align: center
-    font-size: 20px
-    font-weight: bold
-    font-family: Copperplate, "Copperplate Gothic Light", fantasy
-    border-top: 1px solid #DBDBDB
-    border-bottom: 1px solid #DBDBDB
+    background: transparent url(/images/pages/employer/artisanal_claim.png) no-repeat center
     margin-bottom: 5px
+    height: 24px
 
   .employer-button
     background: #fce232 /* Old browsers */
@@ -20,7 +15,15 @@
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fce232', endColorstr='#ea8e2b',GradientType=0 )
     vertical-align: text-bottom
     margin-left: 30px
-    
+
+  #filter-column
+    margin-left: 0px
+    padding-right: 0
+
+  #candidates-column
+    padding-left: 5px
+    padding-right: 5px
+
   //filter panels
   #filter
     border: 2px solid #CBCBCB
@@ -32,10 +35,12 @@
       border-top-right-radius: 0px
       #folder-icon
         margin-right: 5px
+        color: #919191
     .panel-body
       background-color: #D9D9D9
       border-top-left-radius: 0px
       border-top-right-radius: 0px
+      padding: 5px 10px 10px 10px
     .panel
       border: 1px red
       border-radius: 0px
@@ -67,11 +72,13 @@
     float: right
     
   #login-link, #logout-link
-    float: right
-    color: #333333
+    position: absolute
+    right: 10px
+    top: -25px
+    color: black
     display: inline-block
     :visited
-      color: #333333
+      color: black
   #logout-link:hover
     cursor: pointer
       
@@ -113,6 +120,7 @@
       display: inline-block
       vertical-align: top
     .employer_icon
+      display: block
       width: 125px
       margin: 0px auto
       
@@ -146,17 +154,26 @@
           vertical-align: top
       tr 
         .candidate-picture
-          width: 100px
-          height: 100px
+          background-color: transparent
+          background-size: cover
+          background-repeat: no-repeat
+          background-position: center
+          width: 75px
+          height: 75px
           border-radius: 5px
           overflow: hidden
           margin-right: 10px
-          img
-            border-radius: 5px
+          &.anonymous
+            background-size: contain
           
         .candidate-description
           width: 100%
           vertical-align: bottom
+          div
+            text-overflow: ellipsis
+            overflow: hidden
+            height: 17px
+
       td.candidate-description
         padding-bottom: 5px
       td.candidate-name-cell

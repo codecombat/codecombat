@@ -23,31 +23,34 @@ PropertyDocumentationSchema = c.object {
   required: ['name', 'type', 'description']
 },
   name: {type: 'string', title: 'Name', description: 'Name of the property.'}
+  codeLanguages: c.array {title: 'Specific Code Languages', description: 'If present, then only the languages specified will show this documentation. Leave unset for language-independent documentation.', format: 'code-languages-array'}, c.shortString(title: 'Code Language', description: 'A specific code language to show this documentation for.', format: 'code-language')
   # not actual JS types, just whatever they describe...
   type: c.shortString(title: 'Type', description: 'Intended type of the property.')
   description:
     oneOf: [
-      {title: 'Description', type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown'}
       {
         type: 'object',
         title: 'Language Descriptions',
         description: 'Property descriptions by code language.',
         additionalProperties: {type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown'}
         format: 'code-languages-object'
+        default: {javascript: ''}
       }
+      {title: 'Description', type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown'}
     ]
   args: c.array {title: 'Arguments', description: 'If this property has type "function", then provide documentation for any function arguments.'}, c.FunctionArgumentSchema
   owner: {title: 'Owner', type: 'string', description: 'Owner of the property, like "this" or "Math".'}
   example:
     oneOf: [
-      {title: 'Example', type: 'string', description: 'An optional example code block.', format: 'javascript'}
       {
         type: 'object',
         title: 'Language Examples',
         description: 'Examples by code language.',
         additionalProperties: {type: 'string', description: 'An example code block.', format: 'code'}
         format: 'code-languages-object'
+        default: {javascript: ''}
       }
+      {title: 'Example', type: 'string', description: 'An optional example code block.', format: 'javascript'}
     ]
   snippets: {type: 'object', title: 'Snippets', description: 'List of snippets for the respective programming languages', additionalProperties: c.codeSnippet, format: 'code-languages-object'}
   returns: c.object {
@@ -59,25 +62,27 @@ PropertyDocumentationSchema = c.object {
     type: c.shortString(title: 'Type', description: 'Type of the return value')
     example:
       oneOf: [
-        c.shortString(title: 'Example', description: 'Example return value')
         {
           type: 'object',
           title: 'Language Examples',
           description: 'Example return values by code language.',
           additionalProperties: c.shortString(description: 'Example return value.', format: 'code')
           format: 'code-languages-object'
+          default: {javascript: ''}
         }
+        c.shortString(title: 'Example', description: 'Example return value')
       ]
     description:
       oneOf: [
-        {title: 'Description', type: 'string', description: 'Description of the return value.', maxLength: 1000}
         {
           type: 'object',
           title: 'Language Descriptions',
           description: 'Example return values by code language.',
           additionalProperties: {type: 'string', description: 'Description of the return value.', maxLength: 1000}
           format: 'code-languages-object'
+          default: {javascript: ''}
         }
+        {title: 'Description', type: 'string', description: 'Description of the return value.', maxLength: 1000}
       ]
 
 DependencySchema = c.object {
