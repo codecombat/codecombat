@@ -5,7 +5,6 @@ async = require 'async'
 errors = require '../commons/errors'
 aws = require 'aws-sdk'
 db = require './../routes/db'
-mongoose = require 'mongoose'
 queues = require '../commons/queue'
 LevelSession = require '../levels/sessions/LevelSession'
 Level = require '../levels/Level'
@@ -21,7 +20,7 @@ module.exports.setup = (app) -> connectToScoringQueue()
 connectToScoringQueue = ->
   queues.initializeQueueClient ->
     queues.queueClient.registerQueue 'scoring', {}, (error, data) ->
-      if error? then throw new Error  "There was an error registering the scoring queue: #{error}"
+      if error? then throw new Error "There was an error registering the scoring queue: #{error}"
       scoringTaskQueue = data
       log.info 'Connected to scoring task queue!'
 
@@ -125,7 +124,7 @@ module.exports.getTwoGames = (req, res) ->
   #if userIsAnonymous req then return errors.unauthorized(res, 'You need to be logged in to get games.')
   humansGameID = req.body.humansGameID
   ogresGameID = req.body.ogresGameID
-  ladderGameIDs = ['greed','criss-cross','brawlwood','dungeon-arena','gold-rush']
+  ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush']
   levelID = _.sample ladderGameIDs
   unless ogresGameID and humansGameID
     #fetch random games here
@@ -545,7 +544,6 @@ saveNewScoresToDatabase = (newScoreArray, callback) ->
   async.eachSeries newScoreArray, updateScoreInSession, (err) ->
     #log.info 'Saved new scores to database'
     callback err, newScoreArray
-
 
 updateScoreInSession = (scoreObject, callback) ->
   LevelSession.findOne {'_id': scoreObject.id}, (err, session) ->
