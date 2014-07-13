@@ -19,6 +19,7 @@ module.exports = class SettingsView extends View
     'keyup #settings-panes input:text, #settings-panes input:password': (e) -> @trigger 'inputChanged', e
     'keyup #name': 'onNameChange'
     'click #toggle-all-button': 'toggleEmailSubscriptions'
+    'keypress #settings-panes': 'onKeyPress'
 
   constructor: (options) ->
     @save =  _.debounce(@save, 200)
@@ -30,6 +31,7 @@ module.exports = class SettingsView extends View
     @on 'checkboxToggled', @onToggle
     @on 'checkboxToggled', @onInputChanged
     @on 'inputChanged', @onInputChanged
+    @on 'enterPressed', @onEnter
 
   onInputChanged: (e) ->
     return @enableSaveButton() unless e?.currentTarget
@@ -48,18 +50,27 @@ module.exports = class SettingsView extends View
     $that = $(e.currentTarget)
     $that.val $that[0].checked
 
+  onEnter: ->
+    @save()
+
+  onKeyPress: (e) ->
+    @trigger 'enterPressed', e if e.which is 13
+
   enableSaveButton: ->
     $('#save-button', @$el).removeClass 'disabled'
+    $('#save-button', @$el).removeClass 'btn-danger'
     $('#save-button', @$el).removeAttr 'disabled'
     $('#save-button', @$el).text 'Save'
 
   disableSaveButton: ->
     $('#save-button', @$el).addClass 'disabled'
+    $('#save-button', @$el).removeClass 'btn-danger'
     $('#save-button', @$el).attr 'disabled', "true"
     $('#save-button', @$el).text 'No Changes'
 
   checkNameExists: =>
     name = $('#name', @$el).val()
+    return if name is me.get 'name'
     User.getUnconflictedName name, (newName) =>
       forms.clearFormAlerts(@$el)
       if name is newName
