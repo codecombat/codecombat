@@ -15,10 +15,15 @@ module.exports = class AuthModalView extends View
     'click #switch-to-signup-button': 'onSignupInstead'
     'click #signup-confirm-age': 'checkAge'
     'submit': 'onSubmitForm' # handles both submit buttons
+    'keyup #name': 'onNameChange'
 
   subscriptions:
     'server-error': 'onServerError'
     'logging-in-with-facebook': 'onLoggingInWithFacebook'
+
+  constructor: (options) ->
+    @onNameChange = _.debounce @checkNameExists, 500
+    super options
 
   getRenderData: ->
     c = super()
@@ -31,6 +36,7 @@ module.exports = class AuthModalView extends View
     c.mode = @mode
     c.formValues = @previousFormInputs or {}
     c.onEmployersPage = Backbone.history.fragment is "employers"
+    c.me = me
     c
     
   afterInsert: ->
@@ -64,6 +70,8 @@ module.exports = class AuthModalView extends View
     userObject = forms.formToObject @$el
     delete userObject.subscribe
     delete userObject['confirm-age']
+    delete userObject.name if userObject.name is ''
+    userObject.name = @suggestedName if @suggestedName
     for key, val of me.attributes when key in ['preferredLanguage', 'testGroupNumber', 'dateCreated', 'wizardColor1', 'name', 'music', 'volume', 'emails']
       userObject[key] ?= val
     subscribe = @$el.find('#signup-subscribe').prop('checked')
@@ -82,3 +90,14 @@ module.exports = class AuthModalView extends View
 
   onServerError: (e) -> # TODO: work error handling into a separate forms system
     @disableModalInProgress(@$el)
+
+  checkNameExists: =>
+    name = $('#name', @$el).val()
+    return forms.clearFormAlerts(@$el) if name is ''
+    User.getUnconflictedName name, (newName) =>
+      forms.clearFormAlerts(@$el)
+      if name is newName
+        @suggestedName = undefined
+      else
+        @suggestedName = newName
+        forms.setErrorToProperty @$el, 'name', "That name is taken! How about #{newName}?", true

@@ -15,7 +15,6 @@ module.exports = class SettingsView extends View
 
   events:
     'click #save-button': 'save'
-    #'change #settings-panes input': (e) -> @trigger 'inputChanged', e
     'change #settings-panes input:checkbox': (e) -> @trigger 'checkboxToggled', e
     'keyup #settings-panes input:text, #settings-panes input:password': (e) -> @trigger 'inputChanged', e
     'keyup #name': 'onNameChange'
@@ -38,7 +37,6 @@ module.exports = class SettingsView extends View
     $that = $(that)
     savedValue = $that.data 'saved-value'
     currentValue = $that.val()
-    console.debug savedValue, currentValue
     if savedValue isnt currentValue
       @changedFields.push that unless that in @changedFields
       @enableSaveButton()
@@ -49,7 +47,6 @@ module.exports = class SettingsView extends View
   onToggle: (e) ->
     $that = $(e.currentTarget)
     $that.val $that[0].checked
-    console.debug $that.val()
 
   enableSaveButton: ->
     $('#save-button', @$el).removeClass 'disabled'
@@ -62,14 +59,14 @@ module.exports = class SettingsView extends View
     $('#save-button', @$el).text 'No Changes'
 
   checkNameExists: =>
-    name = $('#name').val()
+    name = $('#name', @$el).val()
     User.getUnconflictedName name, (newName) =>
       forms.clearFormAlerts(@$el)
       if name is newName
         @suggestedName = undefined
       else
         @suggestedName = newName
-        forms.setErrorToProperty @$el, 'name', "This name is already taken. What about #{newName}?", true
+        forms.setErrorToProperty @$el, 'name', "That name is taken! How about #{newName}?", true
 
   afterRender: ->
     super()
