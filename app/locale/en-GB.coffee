@@ -482,7 +482,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    twitter: "Twitter"
 #    gplus: "Google+"
 
-#  editor:
+  editor:
 #    main_title: "CodeCombat Editors"
 #    main_description: "Build your own levels, campaigns, units and educational content. We provide all the tools you need!"
 #    article_title: "Article Editor"
@@ -501,6 +501,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    revert_models: "Revert Models"
 #    fork_title: "Fork New Version"
 #    fork_creating: "Creating Fork..."
+    randomize: "Randomise"
 #    more: "More"
 #    wiki: "Wiki"
 #    live_chat: "Live Chat"
