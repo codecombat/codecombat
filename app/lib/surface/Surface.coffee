@@ -608,7 +608,7 @@ module.exports = Surface = class Surface extends CocoClass
       ratio = current % 1
       @world.frames[next].restorePartialState ratio if next > 1
     frame.clearEvents() if parseInt(@currentFrame) is parseInt(@lastFrame)
-    @spriteBoss.updateSounds()
+    @spriteBoss.updateSounds() if parseInt(@currentFrame) isnt parseInt(@lastFrame)
 
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState

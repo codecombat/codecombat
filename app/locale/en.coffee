@@ -501,6 +501,7 @@
     revert_models: "Revert Models"
     fork_title: "Fork New Version"
     fork_creating: "Creating Fork..."
+    randomize: "Randomize"
     more: "More"
     wiki: "Wiki"
     live_chat: "Live Chat"
