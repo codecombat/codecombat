@@ -32,8 +32,6 @@ module.exports = class WizardSettingsModal extends View
       success: (data) =>
         forms.clearFormAlerts(@$el)
       statusCode: 409: (data) =>
-        response = JSON.stringify data.responseText
-        #forms.applyErrorsToForm(@$el, {dataPath: ['/', 'name'], message: 'This name is already taken so you won\'t be able to keep it.'}, true)
         forms.setErrorToProperty @$el, 'name', 'This name is already taken so you won\'t be able to keep it.', true
 
   onWizardSettingsDone: ->

@@ -17,19 +17,23 @@ module.exports = class SettingsView extends View
     'click #save-button': 'save'
     #'change #settings-panes input': (e) -> @trigger 'inputChanged', e
     'change #settings-panes input:checkbox': (e) -> @trigger 'checkboxToggled', e
-    'keyup #settings-panes input:text': (e) -> @trigger 'inputChanged', e
+    'keyup #settings-panes input:text, #settings-panes input:password': (e) -> @trigger 'inputChanged', e
+    'keyup #name': 'onNameChange'
     'click #toggle-all-button': 'toggleEmailSubscriptions'
 
   constructor: (options) ->
     @save =  _.debounce(@save, 200)
+    @onNameChange = _.debounce @checkNameExists, 500
     super options
     return unless me
+
     @listenTo(me, 'invalid', (errors) -> forms.applyErrorsToForm(@$el, me.validationError))
     @on 'checkboxToggled', @onToggle
     @on 'checkboxToggled', @onInputChanged
     @on 'inputChanged', @onInputChanged
 
   onInputChanged: (e) ->
+    return @enableSaveButton() unless e?.currentTarget
     that = e.currentTarget
     $that = $(that)
     savedValue = $that.data 'saved-value'
@@ -48,14 +52,27 @@ module.exports = class SettingsView extends View
     console.debug $that.val()
 
   enableSaveButton: ->
-    $('#save-button').removeClass 'disabled'
-    $('#save-button').removeAttr 'disabled'
-    $('#save-button').text 'Save'
+    $('#save-button', @$el).removeClass 'disabled'
+    $('#save-button', @$el).removeAttr 'disabled'
+    $('#save-button', @$el).text 'Save'
 
   disableSaveButton: ->
-    $('#save-button').addClass 'disabled'
-    $('#save-button').attr 'disabled', "true"
-    $('#save-button').text 'No Changes'
+    $('#save-button', @$el).addClass 'disabled'
+    $('#save-button', @$el).attr 'disabled', "true"
+    $('#save-button', @$el).text 'No Changes'
+
+  checkNameExists: =>
+    name = $('#name').val()
+    console.debug 'about to check for ' + name
+    $.ajax "/auth/name/#{name}",
+      success: (data) =>
+        forms.clearFormAlerts(@$el)
+        @suggestedName = undefined
+      statusCode: 409: (data) =>
+        forms.clearFormAlerts(@$el)
+        response = JSON.parse data.responseText
+        @suggestedName = response.name
+        forms.setErrorToProperty @$el, 'name', "This name is already taken. What about #{response.name}?", true
 
   afterRender: ->
     super()
@@ -133,11 +150,10 @@ module.exports = class SettingsView extends View
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   onPictureChanged: (e) =>
-    @trigger 'change'
+    @trigger 'inputChanged', e
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   save: (e) ->
-    console.log 'save called'
     $(e.target).addClass('changed') if e
     forms.clearFormAlerts(@$el)
     @grabData()
@@ -180,6 +196,7 @@ module.exports = class SettingsView extends View
       me.set('password', password1)
 
   grabOtherData: ->
+    $('#name', @$el).val @suggestedName if @suggestedName
     me.set 'name', $('#name', @$el).val()
     me.set 'email', $('#email', @$el).val()
     for emailName, enabled of @getSubscriptions()
