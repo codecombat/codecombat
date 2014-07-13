@@ -138,7 +138,13 @@ module.exports = class PlayLevelView extends View
       supermodel: @supermodel
       firstOnly: true
     @openModalView(new DocsModal(options), true)
-    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelStarted, @
+    onGuideOpened = ->
+      @guideOpenTime = new Date()
+    onGuideClosed = ->
+      application.tracker?.trackTiming new Date() - @guideOpenTime, 'Intro Guide Time', @levelID, @levelID, 100
+      @onLevelStarted()
+    Backbone.Mediator.subscribeOnce 'modal-opened', onGuideOpened, @
+    Backbone.Mediator.subscribeOnce 'modal-closed', onGuideClosed, @
     return true
 
   getRenderData: ->
