@@ -225,9 +225,11 @@ module.exports = class ThangsTabView extends View
     @editThang thangID: e.thang.id
 
   onRandomiseTerrain: (e) ->
+    @thangsBatch = []
     for thang in e.thangs
       @selectAddThangType thang.id
-      @addThang @addThangType, thang.pos
+      @addThang @addThangType, thang.pos, true
+    @batchInsert()
     @selectAddThangType null
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
@@ -397,7 +399,11 @@ module.exports = class ThangsTabView extends View
     id = treema?.data?.id
     @editThang thangID: id if id
 
-  addThang: (thangType, pos) ->
+  batchInsert: ->
+    @thangsTreema.set '', @thangsBatch
+    @thangsBatch = []
+
+  addThang: (thangType, pos, batchInsert = false) ->
     thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
@@ -408,7 +414,10 @@ module.exports = class ThangsTabView extends View
     physical = _.find components, (c) -> c.config?.pos?
     physical.config.pos = x: pos.x, y: pos.y, z: physical.config.pos.z if physical
     thang = thangType: thangType.get('original'), id: thangID, components: components
-    @thangsTreema.insert '', thang
+    if batchInsert
+      @thangsBatch.push thang
+    else 
+      @thangsTreema.insert '', thang
 
   editThang: (e) ->
     if e.target  # click event
