@@ -4,6 +4,7 @@ WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
 {me} = require 'lib/auth'
 forms = require 'lib/forms'
+User = require 'models/User'
 
 module.exports = class WizardSettingsModal extends View
   id: 'wizard-settings-modal'
@@ -28,10 +29,9 @@ module.exports = class WizardSettingsModal extends View
   checkNameExists: =>
     forms.clearFormAlerts(@$el)
     name = $('#wizard-settings-name').val()
-    $.ajax "/auth/name/#{name}",
-      success: (data) =>
-        forms.clearFormAlerts(@$el)
-      statusCode: 409: (data) =>
+    User.getUnconflictedName name, (newName) =>
+      forms.clearFormAlerts(@$el)
+      if name isnt newName
         forms.setErrorToProperty @$el, 'name', 'This name is already taken so you won\'t be able to keep it.', true
 
   onWizardSettingsDone: ->

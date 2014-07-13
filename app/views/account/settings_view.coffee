@@ -63,16 +63,13 @@ module.exports = class SettingsView extends View
 
   checkNameExists: =>
     name = $('#name').val()
-    console.debug 'about to check for ' + name
-    $.ajax "/auth/name/#{name}",
-      success: (data) =>
-        forms.clearFormAlerts(@$el)
+    User.getUnconflictedName name, (newName) =>
+      forms.clearFormAlerts(@$el)
+      if name is newName
         @suggestedName = undefined
-      statusCode: 409: (data) =>
-        forms.clearFormAlerts(@$el)
-        response = JSON.parse data.responseText
-        @suggestedName = response.name
-        forms.setErrorToProperty @$el, 'name', "This name is already taken. What about #{response.name}?", true
+      else
+        @suggestedName = newName
+        forms.setErrorToProperty @$el, 'name', "This name is already taken. What about #{newName}?", true
 
   afterRender: ->
     super()
