@@ -11,10 +11,13 @@ JobProfileView = require './job_profile_view'
 module.exports = class SettingsView extends View
   id: 'account-settings-view'
   template: template
+  changedFields: [] # DOM input fields
 
   events:
     'click #save-button': 'save'
-    'change #settings-panes input': 'save'
+    #'change #settings-panes input': (e) -> @trigger 'inputChanged', e
+    'change #settings-panes input:checkbox': (e) -> @trigger 'checkboxToggled', e
+    'keyup #settings-panes input:text': (e) -> @trigger 'inputChanged', e
     'click #toggle-all-button': 'toggleEmailSubscriptions'
 
   constructor: (options) ->
@@ -22,6 +25,37 @@ module.exports = class SettingsView extends View
     super options
     return unless me
     @listenTo(me, 'invalid', (errors) -> forms.applyErrorsToForm(@$el, me.validationError))
+    @on 'checkboxToggled', @onToggle
+    @on 'checkboxToggled', @onInputChanged
+    @on 'inputChanged', @onInputChanged
+
+  onInputChanged: (e) ->
+    that = e.currentTarget
+    $that = $(that)
+    savedValue = $that.data 'saved-value'
+    currentValue = $that.val()
+    console.debug savedValue, currentValue
+    if savedValue isnt currentValue
+      @changedFields.push that unless that in @changedFields
+      @enableSaveButton()
+    else
+      _.pull @changedFields, that
+      @disableSaveButton() if _.isEmpty @changedFields
+
+  onToggle: (e) ->
+    $that = $(e.currentTarget)
+    $that.val $that[0].checked
+    console.debug $that.val()
+
+  enableSaveButton: ->
+    $('#save-button').removeClass 'disabled'
+    $('#save-button').removeAttr 'disabled'
+    $('#save-button').text 'Save'
+
+  disableSaveButton: ->
+    $('#save-button').addClass 'disabled'
+    $('#save-button').attr 'disabled', "true"
+    $('#save-button').text 'No Changes'
 
   afterRender: ->
     super()
@@ -50,6 +84,7 @@ module.exports = class SettingsView extends View
     super()
     if me.get('anonymous')
       @openModalView new AuthModalView()
+    @updateSavedValues()
 
   chooseTab: (category) ->
     id = "##{category}-pane"
@@ -102,6 +137,7 @@ module.exports = class SettingsView extends View
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   save: (e) ->
+    console.log 'save called'
     $(e.target).addClass('changed') if e
     forms.clearFormAlerts(@$el)
     @grabData()
@@ -122,7 +158,9 @@ module.exports = class SettingsView extends View
       errors = JSON.parse(res.responseText)
       forms.applyErrorsToForm(@$el, errors)
       save.text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving')).removeClass('btn-success').addClass('btn-danger', 500)
-    res.success (model, response, options) ->
+    res.success (model, response, options) =>
+      @changedFields = []
+      @updateSavedValues()
       save.text($.i18n.t('account_settings.saved', defaultValue: 'Changes Saved')).removeClass('btn-success', 500)
 
   grabData: ->
@@ -162,3 +200,9 @@ module.exports = class SettingsView extends View
     if updated
       jobProfile.updated = (new Date()).toISOString()
       me.set 'jobProfile', jobProfile
+
+  updateSavedValues: ->
+    $('#settings-panes input:text').each ->
+      $(@).data 'saved-value', $(@).val()
+    $('#settings-panes input:checkbox').each ->
+      $(@).data 'saved-value', JSON.stringify $(@)[0].checked
