@@ -802,6 +802,7 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    no_ranked_matches_pre: "No ranked matches for the "
 #    no_ranked_matches_post: " team! Play against some competitors and then come back here to get your game ranked."
 #    choose_opponent: "Choose an Opponent"
+#    select_your_language: "Select your language!"
 #    tutorial_play: "Play Tutorial"
 #    tutorial_recommended: "Recommended if you've never played before"
 #    tutorial_skip: "Skip Tutorial"

@@ -579,6 +579,7 @@ addMatchToSessions = (newScoreObject, callback) ->
     matchObject.opponents[sessionID].totalScore = session.totalScore
     matchObject.opponents[sessionID].metrics = {}
     matchObject.opponents[sessionID].metrics.rank = Number(newScoreObject[sessionID]?.gameRanking ? 0)
+    matchObject.opponents[sessionID].codeLanguage = newScoreObject[sessionID].submittedCodeLanguage
 
   #log.info "Match object computed, result: #{matchObject}"
   #log.info 'Writing match object to database...'
@@ -595,6 +596,7 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   opponentsClone = _.omit opponentsClone, sessionID
   opponentsArray = _.toArray opponentsClone
   currentMatchObject.opponents = opponentsArray
+  currentMatchObject.codeLanguage = matchObject.opponents[opponentsArray[0].sessionID].codeLanguage
   LevelSession.findOne {'_id': sessionID}, (err, session) ->
     session = session.toObject()
     currentMatchObject.playtime = session.playtime ? 0
@@ -770,6 +772,7 @@ retrieveOldSessionData = (sessionID, callback) ->
       'meanStrength': session.meanStrength ? 25
       'totalScore': session.totalScore ? (25 - 1.8*(25/3))
       'id': sessionID
+      'submittedCodeLanguage': session.submittedCodeLanguage
     callback err, oldScoreObject
 
 markSessionAsDoneRanking = (sessionID, cb) ->

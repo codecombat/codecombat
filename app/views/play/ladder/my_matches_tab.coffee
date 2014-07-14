@@ -73,6 +73,7 @@ module.exports = class MyMatchesTabView extends CocoView
         sessionID: opponent.sessionID
         stale: match.date < submitDate
         fresh: fresh
+        codeLanguage: match.codeLanguage
       }
 
     for team in @teams
