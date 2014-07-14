@@ -58,7 +58,7 @@ body
               ul.dropdown-menu(role="menu")
                 li.user-dropdown-header
                   img.img-circle(src="#{me.getPhotoURL()}" alt="")
-                  p=me.get('name') || 'Anoner'
+                  h3=me.get('name') || 'Anoner'
                 li.user-dropdown-body
                   .col-xs-4.text-center
                     a(href="#") Profile
