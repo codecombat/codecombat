@@ -499,7 +499,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    back: "Back"
     revert: "되돌리기"
     revert_models: "모델 되돌리기"
-    #    pick_a_terrain: "Pick A Terrain"
+#    pick_a_terrain: "Pick A Terrain"
 #    small: "Small"
 #    grassy: "Grassy"
 #    fork_title: "Fork New Version"
