@@ -43,7 +43,7 @@ module.exports = class ThangsTabView extends View
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-up': 'onStageMouseUp'
-    'randomise:terrain-generated': 'onRandomiseTerrain'
+    'randomize:terrain-generated': 'onRandomizeTerrain'
 
   events:
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
@@ -224,11 +224,12 @@ module.exports = class ThangsTabView extends View
     return unless e.thang
     @editThang thangID: e.thang.id
 
-  onRandomiseTerrain: (e) ->
+  onRandomizeTerrain: (e) ->
+    console.log 'here'
     @thangsBatch = []
-    for id in @randomiseThangIDs?
+    for id in @randomizeThangIDs?
       @thangsTreema.delete "id=#{id}"
-    @randomiseThangIDs = []
+    @randomizeThangIDs = []
     for thang in e.thangs
       @selectAddThangType thang.id
       @addThang @addThangType, thang.pos, true
@@ -408,7 +409,7 @@ module.exports = class ThangsTabView extends View
 
   addThang: (thangType, pos, batchInsert = false) ->
     thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
-    @randomiseThangIDs.push thangID
+    @randomizeThangIDs.push thangID
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
       @selectAddThang null
