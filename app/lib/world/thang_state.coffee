@@ -30,7 +30,6 @@ module.exports = class ThangState
       if type is 'Vector'
         @props.push value?.copy()  # could try storing [x, y, z] or {x, y, z} here instead if this is expensive
       else if type is 'object' or type is 'array'
-        console.log 'storing', prop, 'as', value if prop is 'myTiles'
         @props.push clone(value, true)
       else
         @props.push value
