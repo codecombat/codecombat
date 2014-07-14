@@ -24,14 +24,14 @@ module.exports = class LadderPlayModal extends View
     indentGuides: false
     behaviors: false
     liveCompletion: true
-    
+
   constructor: (options, @level, @session, @team) ->
     super(options)
     @nameMap = {}
     @otherTeam = if team is 'ogres' then 'humans' else 'ogres'
     @startLoadingChallengersMaybe()
     @wizardType = ThangType.loadUniversalWizard()
-    
+
   updateLanguage: ->
     aceConfig = _.cloneDeep me.get('aceConfig') ? {}
     aceConfig = _.defaults aceConfig, @defaultAceConfig
@@ -176,7 +176,8 @@ module.exports = class LadderPlayModal extends View
     return unless session
     return {
       sessionID: session.id
-      opponentID: session.get('creator')
+      opponentID: session.get 'creator'
+      codeLanguage: session.get 'submittedCodeLanguage'
     }
 
   challengeInfoFromMatches: (matches) ->
@@ -186,6 +187,7 @@ module.exports = class LadderPlayModal extends View
     return {
       sessionID: opponent.sessionID
       opponentID: opponent.userID
+      codeLanguage: opponent.codeLanguage
     }
 
 class ChallengersData
