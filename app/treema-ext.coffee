@@ -249,9 +249,9 @@ class JavaScriptTreema extends CodeTreema
 class InternationalizationNode extends TreemaNode.nodeMap.object
   findLanguageName: (languageCode) ->
     # to get around mongoose emtpy object bug, there's a prop in the object which needs to be ignored
-    return '' if languageCode is '-' 
+    return '' if languageCode is '-'
     locale[languageCode]?.nativeDescription or "#{languageCode} Not Found"
-    
+
   getChildren: ->
     res = super(arguments...)
     res = (r for r in res when r[0] isnt '-')
@@ -322,7 +322,7 @@ class LatestVersionReferenceNode extends TreemaNode
     return unless term
     @lastTerm = term
     @getSearchResultsEl().empty().append('Searching')
-    @collection = new LatestVersionCollection()
+    @collection = new LatestVersionCollection([], model: @model)
 
     # HACK while search is broken
 #    @collection.url = "#{@url}?term=#{term}&project=true"

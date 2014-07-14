@@ -1,5 +1,5 @@
 ModalView = require 'views/kinds/ModalView'
-template = require 'templates/modal/terrain_randomise'
+template = require 'templates/editor/level/modal/terrain_randomize'
 CocoModel = require 'models/CocoModel'
 
 clusters = {
@@ -66,16 +66,17 @@ sizes = {
   'borderSize': {
     'x':4
     'y':4
+    'thickness':2
   }
 }
 
-module.exports = class TerrainRandomiseModal extends ModalView
-  id: 'terrain-randomise-modal'
+module.exports = class TerrainRandomizeModal extends ModalView
+  id: 'terrain-randomize-modal'
   template: template
   thangs = []
 
   events:
-    'click .choose-option': 'onRandomise'
+    'click .choose-option': 'onRandomize'
 
   onRevertModel: (e) ->
     id = $(e.target).val()
@@ -83,25 +84,25 @@ module.exports = class TerrainRandomiseModal extends ModalView
     $(e.target).closest('tr').remove()
     @reloadOnClose = true
 
-  onRandomise: (e) ->
+  onRandomize: (e) ->
     target = $(e.target)
     presetType = target.attr 'data-preset-type'
     presetSize = target.attr 'data-preset-size'
-    @randomiseThangs presetType, presetSize
-    Backbone.Mediator.publish('randomise:terrain-generated', 
+    @randomizeThangs presetType, presetSize
+    Backbone.Mediator.publish('randomize:terrain-generated', 
       'thangs': @thangs
     )
     @hide()
 
-  randomiseThangs: (presetName, presetSize) ->
+  randomizeThangs: (presetName, presetSize) ->
     preset = presets[presetName]
     presetSize = sizes[presetSize]
     @thangs = []
-    @randomiseFloor preset, presetSize
-    @randomiseBorder preset, presetSize
-    @randomiseDecorations preset, presetSize
+    @randomizeFloor preset, presetSize
+    @randomizeBorder preset, presetSize
+    @randomizeDecorations preset, presetSize
 
-  randomiseFloor: (preset, presetSize) ->
+  randomizeFloor: (preset, presetSize) ->
     for i in _.range(0, presetSize.x, sizes.floorSize.x)
       for j in _.range(0, presetSize.y, sizes.floorSize.y)
         @thangs.push {
@@ -112,40 +113,42 @@ module.exports = class TerrainRandomiseModal extends ModalView
           }
         }
 
-  randomiseBorder: (preset, presetSize) ->
+  randomizeBorder: (preset, presetSize) ->
     for i in _.range(0-sizes.floorSize.x/2+sizes.borderSize.x, presetSize.x-sizes.floorSize.x/2, sizes.borderSize.x)
-      @thangs.push {
-        'id': @getRandomThang(preset.borders)
-        'pos': {
-          'x': i
-          'y': 0-sizes.floorSize.x/2
+      for j in _.range(sizes.borderSize.thickness)
+        @thangs.push {
+          'id': @getRandomThang(preset.borders)
+          'pos': {
+            'x': i + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
+            'y': 0 - sizes.floorSize.x/2 + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
+          }
         }
-      }
-      @thangs.push {
-        'id': @getRandomThang(preset.borders)
-        'pos': {
-          'x': i
-          'y': presetSize.y - sizes.borderSize.y
+        @thangs.push {
+          'id': @getRandomThang(preset.borders)
+          'pos': {
+            'x': i + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
+            'y': presetSize.y - sizes.borderSize.y + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
+          }
         }
-      }
 
     for i in _.range(0-sizes.floorSize.y/2, presetSize.y-sizes.borderSize.y, sizes.borderSize.y)
-      @thangs.push {
-        'id': @getRandomThang(preset.borders)
-        'pos': {
-          'x': 0-sizes.floorSize.x/2+sizes.borderSize.x
-          'y': i
+      for j in _.range(3)
+        @thangs.push {
+          'id': @getRandomThang(preset.borders)
+          'pos': {
+            'x': 0-sizes.floorSize.x/2+sizes.borderSize.x + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+            'y': i + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+          }
         }
-      }
-      @thangs.push {
-        'id': @getRandomThang(preset.borders)
-        'pos': {
-          'x': presetSize.x - sizes.borderSize.x - sizes.floorSize.x/2
-          'y': i
+        @thangs.push {
+          'id': @getRandomThang(preset.borders)
+          'pos': {
+            'x': presetSize.x - sizes.borderSize.x - sizes.floorSize.x/2 + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+            'y': i + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+          }
         }
-      }
 
-  randomiseDecorations: (preset, presetSize)->
+  randomizeDecorations: (preset, presetSize)->
     for name, decoration of preset.decorations
       for num in _.range(_.random(decoration.num[0], decoration.num[1]))
         center = 

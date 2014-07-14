@@ -54,6 +54,7 @@ module.exports.i18n = (say, target, language=me.lang(), fallback='en') ->
   generalName = matches[0] if matches
 
   for localeName, locale of say.i18n
+    continue if localeName is '-'
     if target of locale
       result = locale[target]
     else continue

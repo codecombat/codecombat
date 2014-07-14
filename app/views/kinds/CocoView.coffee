@@ -177,6 +177,7 @@ module.exports = class CocoView extends Backbone.View
     $('#modal-wrapper .modal').modal(modalOptions).on 'hidden.bs.modal', @modalClosed
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
+    Backbone.Mediator.publish 'modal-opened', {}
 
   modalClosed: =>
     visibleModal.willDisappear() if visibleModal
@@ -190,7 +191,7 @@ module.exports = class CocoView extends Backbone.View
       @openModalView(wm)
     else
       @getRootView().listenToShortcuts(true)
-      Backbone.Mediator.publish 'modal-closed'
+      Backbone.Mediator.publish 'modal-closed', {}
 
   # Loading RootViews
 

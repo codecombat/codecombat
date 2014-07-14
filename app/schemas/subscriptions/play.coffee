@@ -32,9 +32,6 @@ module.exports =
   'level-set-grid':
     {} # TODO schema
 
-  'tome:cast-spell':
-    {} # TODO schema
-
   'level:restarted':
     {} # TODO schema
 

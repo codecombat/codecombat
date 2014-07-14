@@ -70,16 +70,24 @@ setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
     return next() if req.query['try-old-browser-anyway'] or not isOldBrowser req
     res.sendfile(path.join(__dirname, 'public', 'index_old_browser.html'))
 
+<<<<<<< HEAD
 setupRedirectMiddleware = (app) ->
   app.all '/account/profile/*', (req, res, next) ->
     nameOrID = req.path.split('/')[3]
     res.redirect 301, "/user/#{nameOrID}/profile"
+=======
+setupTrailingSlashRemovingMiddleware = (app) ->
+  app.use (req, res, next) ->
+    return res.redirect 301, req.url[...-1] if req.url.length > 1 and req.url.slice(-1) is '/'
+    next()
+>>>>>>> master
 
 exports.setupMiddleware = (app) ->
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupPassportMiddleware app
   setupOneSecondDelayMiddleware app
+  setupTrailingSlashRemovingMiddleware app
   setupRedirectMiddleware app
 
 ###Routing function implementations###
