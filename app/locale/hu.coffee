@@ -173,7 +173,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     email_announcements: "Bejelentések"
     email_announcements_description: "Szeretnél levelet kapni a legújabb fejlesztéseinkről?"
     email_notifications: "Értesítések"
-    email_notifications_summary: CodeCombat tevékenységedre vonatkozó személyre szóló, automatikus értesítések beállításai."
+    email_notifications_summary: "CodeCombat tevékenységedre vonatkozó személyre szóló, automatikus értesítések beállításai."
     email_any_notes: "Bármely megjegyzés"
     email_any_notes_description: "Minden tevékenységgel kapcsolatos e-mail értesítés letiltása."
     email_recruit_notes: "Álláslehetőségek"
