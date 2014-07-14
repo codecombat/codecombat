@@ -1,14 +1,14 @@
 @import "../bootstrap/variables"
 
 // This is still very blocky. Browser reflows? Investigate why.
-//.open > .dropdown-menu
+.open > .dropdown-menu
   animation-name: fadeAnimation
   animation-duration: .7s
   animation-iteration-count: 1
   animation-timing-function: ease
   animation-fill-mode: forwards
   -webkit-animation-name: fadeAnimation
-  -webkit-animation-duration: 2s
+  -webkit-animation-duration: .7s
   -webkit-animation-iteration-count: 1
   -webkit-animation-timing-function: ease
   -webkit-animation-fill-mode: backwards
@@ -58,11 +58,8 @@
     font-size: 16px
     margin-right: 5px
 
-  //#9F915B
-  //#E4CF8C
   .dropdown
     .dropdown-menu
-      right: 0
       left: auto
       width: 280px
       padding: 0px
@@ -75,7 +72,7 @@
         padding: 10px
         text-align: center
         color: black
-        border-bottom: #32281E 1px solid
+        border-bottom: #32281e 1px solid
         img
           border: #e3be7a 8px solid
           height: 98px // Includes the border
@@ -87,8 +84,8 @@
       li.user-dropdown-body
         color: black
         padding: 15px
+        letter-spacing: 1px
         font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif
-
         &:after
           display: table
           content: " "
@@ -98,20 +95,16 @@
         padding: 10px
         margin-left: 0px
         font-size: 14px
-
         &:after
           display: table
           content: " "
           clear: both
-
-        .btn
-          margin: 0px
-
         .btn-flat
           border: #ddd 1px solid
           border-radius: 0px
+          margin: 0px
 
-  .nav.navbar-link-text, .nav.navbar-link-text > li > a
+  .nav.navbar-link-text > li > a
     font-weight: normal
     font-size: 25px
     letter-spacing: 2px
@@ -155,9 +148,6 @@
         top: 13px
       max-width: 140px
 
-  .nav
-    margin-bottom: 0
-    
   div.fancy-select
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
     div.trigger
