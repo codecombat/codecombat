@@ -6,17 +6,21 @@ module.exports = class UserView extends RootView
   template: template
   className: 'user-view'
 
-  constructor: (options, @nameOrID) ->
+  constructor: (options, @userID) ->
     super options
 
     @listenTo @, 'userLoaded', @onUserLoaded
     @listenTo @, 'userNotFound', @ifUserNotFound
 
-    # TODO Ruben Assume ID for now
-    @user = User.getByID @nameOrID, {}, true,
-      success: (user) =>
-        @trigger 'userNotFound' unless user
-        @trigger 'userLoaded', user
+    @userID ?= me.id
+    @fetchUser @userID
+
+  # TODO Ruben make this use the new getByNameOrID as soon as that is merged in
+  fetchUser: (id) ->
+    User.getByID id, {}, true,
+      success: (@user) =>
+        @trigger 'userNotFound' unless @user
+        @trigger 'userLoaded', @user
       error: =>
         console.debug 'Error while fetching user'
         @trigger 'userNotFound'
@@ -27,13 +31,15 @@ module.exports = class UserView extends RootView
     context.user = @user unless @user?.isAnonymous()
     context
 
-  isMe: -> @nameOrID is me.id
+  isMe: -> @userID is me.id
 
-  onUserLoaded: (user) ->
-    console.log 'onUserLoaded', user
+  onUserLoaded: ->
+    console.log 'onUserLoaded', @user
+    @render()
 
   ifUserNotFound: ->
     console.warn 'user not found'
+    @render()
 
   onLoaded: ->
     super()

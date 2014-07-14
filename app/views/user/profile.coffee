@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+UserView = require 'views/kinds/UserView'
 template = require 'templates/account/profile'
 User = require 'models/User'
 LevelSession = require 'models/LevelSession'
@@ -25,7 +25,7 @@ adminContacts = [
   {id: '52a57252a89409700d0000d9', name: 'Ignore'}
 ]
 
-module.exports = class ProfileView extends View
+module.exports = class ProfileView extends UserView
   id: 'profile-view'
   template: template
   subscriptions:
@@ -50,8 +50,7 @@ module.exports = class ProfileView extends View
     'click .editable-profile a': 'onClickLinkWhileEditing'
     'change #admin-contact': 'onAdminContactChanged'
 
-  constructor: (options, @userID) ->
-    @userID ?= me.id
+  constructor: (options, userID) ->
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
     @onRemarkChanged = _.debounce @onRemarkChanged, 1000
     @authorizedWithLinkedIn = IN?.User?.isAuthorized()
@@ -60,31 +59,23 @@ module.exports = class ProfileView extends View
     window.contractCallback = =>
       @authorizedWithLinkedIn = IN?.User?.isAuthorized()
       @render()
-    super options
-    if User.isObjectID @userID
-      @finishInit()
-    else
-      $.ajax "/db/user/#{@userID}/nameToID", success: (@userID) =>
-        @finishInit() unless @destroyed
-        @render()
+    super options, userID
+
+  onUserLoaded: ->
+    @finishInit() unless @destroyed
+    super()
 
   finishInit: ->
+    console.debug 'finishing that init'
     return unless @userID
     @uploadFilePath = "db/user/#{@userID}"
     @highlightedContainers = []
-    if @userID is me.id
-      @user = me
-    else if me.isAdmin() or 'employer' in me.get('permissions')
-      @user = User.getByID(@userID)
-      @user.fetch()
-      @listenTo @user, 'sync', =>
-        @render()
+    if me.isAdmin() or 'employer' in me.get('permissions')
       $.post "/db/user/#{me.id}/track/view_candidate"
       $.post "/db/user/#{@userID}/track/viewed_by_employer" unless me.isAdmin()
-    else
-      @user = User.getByID(@userID)
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@userID), 'candidate_sessions').model
     if me.isAdmin()
+      console.debug 'fetching that remark'
       # Mimicking how the VictoryModal fetches LevelFeedback
       @remark = new UserRemark()
       @remark.setURL "/db/user/#{@userID}/remark"
@@ -282,7 +273,8 @@ module.exports = class ProfileView extends View
       _.delay ->
         justSavedSection.removeClass 'just-saved', duration: 1500, easing: 'easeOutQuad'
       , 500
-    if me.isAdmin()
+    console.debug @user
+    if me.isAdmin() and @user
       visibleSettings = ['history', 'tasks']
       data = _.pick (@remark.attributes), (value, key) -> key in visibleSettings
       data.history ?= []

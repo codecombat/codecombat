@@ -20,7 +20,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:nameOrID(/:subview)': 'userView'
 
     # account views
-    'account(/:subview)(/*rest)': 'accountView'
+    # 'account(/:subview)(/*rest)': 'accountView'
 
     # Direct links
     'test/*subpath': go('TestView')
@@ -60,9 +60,6 @@ module.exports = class CocoRouter extends Backbone.Router
       view = new ViewClass {}, nameOrID
       view.render()
     @openView if view then view else @notFoundView()
-
-  accountView: (nameOrID, subview) ->
-
 
   cache: {}
   openRoute: (route) ->

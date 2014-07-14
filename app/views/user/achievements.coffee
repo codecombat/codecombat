@@ -13,8 +13,8 @@ module.exports = class UserAchievementsView extends UserView
   events:
     'userLoaded': 'onUserLoaded'
 
-  constructor: (options, nameOrID) ->
-    super options, nameOrID
+  constructor: (options, userID) ->
+    super options, userID
 
   onUserLoaded: (user) ->
     super user
