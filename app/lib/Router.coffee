@@ -23,7 +23,9 @@ module.exports = class CocoRouter extends Backbone.Router
     # 'account(/:subview)(/*rest)': 'accountView'
 
     # Direct links
+    'test': go('TestView')
     'test/*subpath': go('TestView')
+    'demo': go('DemoView')
     'demo/*subpath': go('DemoView')
     'play/ladder/:levelID': go('play/ladder/ladder_view')
     'play/ladder': go('play/ladder_home')

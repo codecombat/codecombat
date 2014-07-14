@@ -64,7 +64,7 @@ exports.config =
         'stylesheets/app.css': /^(app|vendor|bower_components)/
       order:
         before: [
-          'app/styles/bootstrap.scss'
+          'app/styles/bootstrap/*'
           'vendor/styles/nanoscroller.scss'
         ]
     templates:
