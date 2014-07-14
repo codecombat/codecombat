@@ -298,6 +298,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
         Aether.replaceBuiltin("Math", Math);
+        _ = _.runInContext(self);
     }
     self.debugWorld.totalFrames = args.frame; //hack to work around error checking
     self.currentDebugWorldFrame = args.frame;
