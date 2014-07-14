@@ -38,14 +38,39 @@
         height: 175px
         padding: 10px
         text-align: center
+        color: black
+        border: #32281E 1px solid
 
         img
           border: #e3be7a 8px solid
+        p
+          margin-top: 10px
+          text-shadow: 2px 2px 3px white
 
       li.user-dropdown-body
-        // placeholder
+        color: black
+        padding: 15px
+
+        &:after
+          display: table
+          content: " "
+          clear: both
+
       li.user-dropdown-footer
-        // placeholder
+        padding: 10px
+        margin-left: 0px
+
+        &:after
+          display: table
+          content: " "
+          clear: both
+
+        .btn
+          margin: 0px
+
+        .btn-flat
+          border: #ddd 1px solid
+          border-radius: 0px
 
   .nav.navbar-link-text, .nav.navbar-link-text > li > a
     font-weight: normal
@@ -55,7 +80,7 @@
     &:hover
       color: #f8e413
 
-  .navbar-link-text a:hover
+  .navbar-link-text > a:hover
     background: darken($body-bg, 3%)
 
   .btn, .btn-group, .fancy-select

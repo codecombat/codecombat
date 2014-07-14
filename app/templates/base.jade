@@ -58,15 +58,19 @@ body
               ul.dropdown-menu(role="menu")
                 li.user-dropdown-header
                   img.img-circle(src="#{me.getPhotoURL()}" alt="")
-                  p Lorem Ipsum
+                  p=me.get('name') || 'Anoner'
                 li.user-dropdown-body
                   .col-xs-4.text-center
-                    Profile
+                    a(href="#") Profile
                   .col-xs-4.text-center
-                    Statistics
+                    a(href="#") Stats
                   .col-xs-4.text-center
-                    Code
+                    a.disabled(href="#") Code
                 li.user-dropdown-footer
+                  .pull-left
+                    a.btn.btn-default.btn-flat(href="") Account
+                  .pull-right
+                    a.btn.btn-default.btn-flat(href="") Log Out
 
   block outer_content
     #outer-content-wrapper
