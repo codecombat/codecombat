@@ -285,7 +285,7 @@ module.exports = class ThangTypeEditView extends View
     @scale = scaleValue
     @$el.find('.scale-label').text " #{fixed}x "
     if @currentSprite
-      @currentSprite.scaleFactor = scaleValue
+      @currentSprite.scaleFactorX = @currentSprite.scaleFactorY = scaleValue
       @currentSprite.updateScale()
     else if @currentObject?
       @currentObject.scaleX = @currentObject.scaleY = scaleValue / resValue
