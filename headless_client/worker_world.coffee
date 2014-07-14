@@ -91,6 +91,8 @@ work = () ->
       return
     Math.random = self.world.rand.randf # so user code is predictable
     Aether.replaceBuiltin('Math', Math)
+    replacedLoDash = _.runInContext(self)
+    _[key] = replacedLoDash[key] for key, val of replacedLoDash
     console.log 'Loading frames.'
 
     self.postMessage type: 'start-load-frames'
