@@ -368,7 +368,7 @@ module.exports = class SpellView extends View
       # Now that that's figured out, perform the update.
       # The web worker Aether won't track state, so don't have to worry about updating it
       finishUpdatingAether = (aether) =>
-        @displayAether aether
+        @displayAether aether, codeIsAsCast
         @lastUpdatedAetherSpellThang = @spellThang
         @guessWhetherFinished aether if fromCodeChange
 
@@ -396,10 +396,9 @@ module.exports = class SpellView extends View
     @aceSession.setAnnotations []
     @highlightCurrentLine {}  # This'll remove all highlights
 
-  displayAether: (aether) ->
+  displayAether: (aether, isCast=false) ->
     @displayedAether = aether
-    isCast = not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
-    isCast = isCast or @spell.language isnt 'javascript'  # Since we don't have linting for other languages
+    isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
     problem.destroy() for problem in @problems  # Just in case another problem was added since clearAetherDisplay() ran.
     @problems = []
     annotations = []
