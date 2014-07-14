@@ -11,17 +11,73 @@ JobProfileView = require './job_profile_view'
 module.exports = class SettingsView extends View
   id: 'account-settings-view'
   template: template
+  changedFields: [] # DOM input fields
 
   events:
     'click #save-button': 'save'
-    'change #settings-panes input': 'save'
+    'change #settings-panes input:checkbox': (e) -> @trigger 'checkboxToggled', e
+    'keyup #settings-panes input:text, #settings-panes input:password': (e) -> @trigger 'inputChanged', e
+    'keyup #name': 'onNameChange'
     'click #toggle-all-button': 'toggleEmailSubscriptions'
+    'keypress #settings-panes': 'onKeyPress'
 
   constructor: (options) ->
     @save =  _.debounce(@save, 200)
+    @onNameChange = _.debounce @checkNameExists, 500
     super options
     return unless me
+
     @listenTo(me, 'invalid', (errors) -> forms.applyErrorsToForm(@$el, me.validationError))
+    @on 'checkboxToggled', @onToggle
+    @on 'checkboxToggled', @onInputChanged
+    @on 'inputChanged', @onInputChanged
+    @on 'enterPressed', @onEnter
+
+  onInputChanged: (e) ->
+    return @enableSaveButton() unless e?.currentTarget
+    that = e.currentTarget
+    $that = $(that)
+    savedValue = $that.data 'saved-value'
+    currentValue = $that.val()
+    if savedValue isnt currentValue
+      @changedFields.push that unless that in @changedFields
+      @enableSaveButton()
+    else
+      _.pull @changedFields, that
+      @disableSaveButton() if _.isEmpty @changedFields
+
+  onToggle: (e) ->
+    $that = $(e.currentTarget)
+    $that.val $that[0].checked
+
+  onEnter: ->
+    @save()
+
+  onKeyPress: (e) ->
+    @trigger 'enterPressed', e if e.which is 13
+
+  enableSaveButton: ->
+    $('#save-button', @$el).removeClass 'disabled'
+    $('#save-button', @$el).removeClass 'btn-danger'
+    $('#save-button', @$el).removeAttr 'disabled'
+    $('#save-button', @$el).text 'Save'
+
+  disableSaveButton: ->
+    $('#save-button', @$el).addClass 'disabled'
+    $('#save-button', @$el).removeClass 'btn-danger'
+    $('#save-button', @$el).attr 'disabled', "true"
+    $('#save-button', @$el).text 'No Changes'
+
+  checkNameExists: =>
+    name = $('#name', @$el).val()
+    return if name is me.get 'name'
+    User.getUnconflictedName name, (newName) =>
+      forms.clearFormAlerts(@$el)
+      if name is newName
+        @suggestedName = undefined
+      else
+        @suggestedName = newName
+        forms.setErrorToProperty @$el, 'name', "That name is taken! How about #{newName}?", true
 
   afterRender: ->
     super()
@@ -50,6 +106,7 @@ module.exports = class SettingsView extends View
     super()
     if me.get('anonymous')
       @openModalView new AuthModalView()
+    @updateSavedValues()
 
   chooseTab: (category) ->
     id = "##{category}-pane"
@@ -98,7 +155,7 @@ module.exports = class SettingsView extends View
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   onPictureChanged: (e) =>
-    @trigger 'change'
+    @trigger 'inputChanged', e
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   save: (e) ->
@@ -122,7 +179,9 @@ module.exports = class SettingsView extends View
       errors = JSON.parse(res.responseText)
       forms.applyErrorsToForm(@$el, errors)
       save.text($.i18n.t('account_settings.error_saving', defaultValue: 'Error Saving')).removeClass('btn-success').addClass('btn-danger', 500)
-    res.success (model, response, options) ->
+    res.success (model, response, options) =>
+      @changedFields = []
+      @updateSavedValues()
       save.text($.i18n.t('account_settings.saved', defaultValue: 'Changes Saved')).removeClass('btn-success', 500)
 
   grabData: ->
@@ -142,6 +201,7 @@ module.exports = class SettingsView extends View
       me.set('password', password1)
 
   grabOtherData: ->
+    $('#name', @$el).val @suggestedName if @suggestedName
     me.set 'name', $('#name', @$el).val()
     me.set 'email', $('#email', @$el).val()
     for emailName, enabled of @getSubscriptions()
@@ -162,3 +222,9 @@ module.exports = class SettingsView extends View
     if updated
       jobProfile.updated = (new Date()).toISOString()
       me.set 'jobProfile', jobProfile
+
+  updateSavedValues: ->
+    $('#settings-panes input:text').each ->
+      $(@).data 'saved-value', $(@).val()
+    $('#settings-panes input:checkbox').each ->
+      $(@).data 'saved-value', JSON.stringify $(@)[0].checked

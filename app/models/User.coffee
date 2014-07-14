@@ -69,6 +69,13 @@ module.exports = class User extends CocoModel
     cache[idOrSlug] = user
     user
 
+  @getUnconflictedName: (name, done) ->
+    $.ajax "/auth/name/#{name}",
+      success: (data) -> done data.name
+      statusCode: 409: (data) ->
+        response = JSON.parse data.responseText
+        done response.name
+
   getEnabledEmails: ->
     @migrateEmails()
     emails = _.clone(@get('emails')) or {}
