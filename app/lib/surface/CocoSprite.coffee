@@ -242,7 +242,10 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       args = JSON.parse(event[4...])
       pos = @options.camera.worldToSurface {x: args[0], y: args[1]}
       circle = new createjs.Shape()
-      circle.graphics.beginFill(args[3]).drawCircle(0, 0, args[2]*Camera.PPM)
+      if args.length=4
+        circle.graphics.beginFill(args[3]).drawCircle(0, 0, args[2]*Camera.PPM)
+      else
+        circle.graphics.beginFill(args[3]).arc(0,0, args[2]*Camera.PPM,args[4],args[5])
       circle.x = pos.x
       circle.y = pos.y
       circle.scaleY = @options.camera.y2x * 0.7
@@ -256,7 +259,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         .call =>
           return if @destroyed
           @options.groundLayer.removeChild circle
-          delete @handledDisplayEvents[event]
+          delete @handledDisplayEvents[event]        
 
   showTextEvents: ->
     return unless @thang?.currentEvents
