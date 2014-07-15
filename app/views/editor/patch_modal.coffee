@@ -8,7 +8,9 @@ module.exports = class PatchModal extends ModalView
   template: template
   plain: true
   modalWidthPercent: 60
-  @DOC_SKIP_PATHS = ['_id','version', 'commitMessage', 'parent', 'created', 'slug', 'index', '__v', 'patches', 'creator', 'js']
+  @DOC_SKIP_PATHS = [
+    '_id','version', 'commitMessage', 'parent', 'created', 
+    'slug', 'index', '__v', 'patches', 'creator', 'js', 'watchers']
 
   events:
     'click #withdraw-button': 'withdrawPatch'
