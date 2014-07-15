@@ -1,0 +1,35 @@
+extends /templates/base
+
+block content
+  h2 Account
+  div
+  .col-sm-3.text-center
+    img#avatar(src="#{me.getPhotoURL(100)}")
+    h3=me.get('name') || 'Anoner'
+  .col-sm-6
+    dl.dl-horizontal
+      if me.get('firstName') || me.get('lastName')
+        dt Full name
+        dd=me.get('firstName') + ' ' + me.get('lastName')
+      dt Email
+      dd
+        span.spr=me.get('email')
+        span (subscriptions)
+
+  .col-sm-3
+    h3 Account
+    ul
+      li
+        a Settings
+      li
+        a Payment
+    h3 Public
+    ul
+      li
+        a Public profile
+      li
+        a Job Profile
+      li
+        a Statistics
+      li
+        a Code

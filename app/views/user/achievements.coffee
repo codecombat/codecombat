@@ -10,9 +10,6 @@ module.exports = class UserAchievementsView extends UserView
   id: 'user-achievements-view'
   template: template
 
-  events:
-    'userLoaded': 'onUserLoaded'
-
   constructor: (options, userID) ->
     super options, userID
 

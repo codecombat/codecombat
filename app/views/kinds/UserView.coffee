@@ -5,6 +5,7 @@ User = require 'models/User'
 module.exports = class UserView extends RootView
   template: template
   className: 'user-view'
+  viewName: null # Used for the breadcrumbs
 
   constructor: (options, @userID) ->
     super options
@@ -27,7 +28,7 @@ module.exports = class UserView extends RootView
 
   getRenderData: ->
     context = super()
-    context.currentUserView = 'Achievements'
+    context.viewName = @viewName
     context.user = @user unless @user?.isAnonymous()
     context
 

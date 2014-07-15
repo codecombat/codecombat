@@ -20,7 +20,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'user/:nameOrID(/:subview)': 'userView'
 
     # account views
-    # 'account(/:subview)(/*rest)': 'accountView'
+    'account(/:subview)': 'accountView'
 
     # Direct links
     'test': go('TestView')
@@ -60,6 +60,18 @@ module.exports = class CocoRouter extends Backbone.Router
     ViewClass = @tryToLoadModule modulePrefix + suffix
     if ViewClass
       view = new ViewClass {}, nameOrID
+      view.render()
+    @openView if view then view else @notFoundView()
+
+  # TODO There should be a uniform way to define these routes. This is backwards compatible
+  accountView: (subview) ->
+    modulePrefix = 'views/account/'
+    suffix = subview or 'home'
+    suffix2 = suffix + '_view'
+    ViewClass = @tryToLoadModule modulePrefix + suffix
+    ViewClass = @tryToLoadModule modulePrefix + suffix2 unless ViewClass
+    if ViewClass
+      view = new ViewClass
       view.render()
     @openView if view then view else @notFoundView()
 

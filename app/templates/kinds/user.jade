@@ -3,14 +3,15 @@ extends /templates/base
 // User pages might have some user page specific header, if not remove this
 block content
   div
-    if user
+    if user && viewName
       ol.breadcrumb
         li
           - var userName = user.get('name');
           a(href="/user/#{user.id}") #{userName}
         li.active
-          | #{currentUserView}
-    else
+          | #{viewName}
+    else if !user
       // TODO Ruben make this all fancy as soon as we can query users by name
       | User not found.
+
 
