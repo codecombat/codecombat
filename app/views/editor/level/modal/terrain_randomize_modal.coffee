@@ -22,7 +22,8 @@ presets = {
   'grassy': {
     'type':'grassy'
     'borders':['Tree 1', 'Tree 2', 'Tree 3']
-    'floors':['Grass01', 'Grass02', 'Grass03']
+    'floors':['Grass']
+    # 'floors':['Grass01', 'Grass02', 'Grass03']
     'decorations': {
       'house': {
         'num':[1,2] #min-max
@@ -61,12 +62,12 @@ sizes = {
   }
   'floorSize': {
     'x':20
-    'y':20
+    'y':17
   }
   'borderSize': {
     'x':4
     'y':4
-    'thickness':2
+    'thickness':3
   }
 }
 
@@ -108,19 +109,19 @@ module.exports = class TerrainRandomizeModal extends ModalView
         @thangs.push {
           'id': @getRandomThang(preset.floors)
           'pos': {
-            'x': i
-            'y': j
+            'x': i + sizes.floorSize.x/2
+            'y': j + sizes.floorSize.y/2
           }
         }
 
   randomizeBorder: (preset, presetSize) ->
-    for i in _.range(0-sizes.floorSize.x/2+sizes.borderSize.x, presetSize.x-sizes.floorSize.x/2, sizes.borderSize.x)
+    for i in _.range(0+sizes.borderSize.x, presetSize.x, sizes.borderSize.x)
       for j in _.range(sizes.borderSize.thickness)
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
             'x': i + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
-            'y': 0 - sizes.floorSize.x/2 + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
+            'y': 0 + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
           }
         }
         @thangs.push {
@@ -131,19 +132,19 @@ module.exports = class TerrainRandomizeModal extends ModalView
           }
         }
 
-    for i in _.range(0-sizes.floorSize.y/2, presetSize.y-sizes.borderSize.y, sizes.borderSize.y)
+    for i in _.range(0, presetSize.y-sizes.borderSize.y, sizes.borderSize.y)
       for j in _.range(3)
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
-            'x': 0-sizes.floorSize.x/2+sizes.borderSize.x + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+            'x': 0+sizes.borderSize.x + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
             'y': i + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
           }
         }
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
-            'x': presetSize.x - sizes.borderSize.x - sizes.floorSize.x/2 + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+            'x': presetSize.x + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
             'y': i + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
           }
         }
