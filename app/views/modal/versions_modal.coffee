@@ -54,7 +54,12 @@ module.exports = class VersionsModalView extends ModalView
 
     laterVersion = new @model(_id: $(rows[0]).val())
     earlierVersion = new @model(_id: $(rows[1]).val())
-    @deltaView = new DeltaView({model: earlierVersion, comparisonModel: laterVersion, skipPaths: PatchModal.DOC_SKIP_PATHS})
+    @deltaView = new DeltaView({
+      model: earlierVersion
+      comparisonModel: laterVersion
+      skipPaths: PatchModal.DOC_SKIP_PATHS
+      loadModels: true
+    })
     @insertSubView(@deltaView, deltaEl)
 
   getRenderData: (context={}) ->
