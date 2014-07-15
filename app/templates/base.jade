@@ -27,17 +27,16 @@ body
 
         select.language-dropdown
 
-        if me.get('anonymous') === false
-          button.btn.btn-primary.navbuttontext.header-font#logout-button(data-i18n="login.log_out") Log Out
-          a.btn.btn-primary.navbuttontext.header-font(href=me.get('jobProfile') ? "/account/profile/#{me.id}" : "/account/settings")
+          //button.btn.btn-primary.navbuttontext.header-font#logout-button(data-i18n="login.log_out") Log Out
+          //a.btn.btn-primary.navbuttontext.header-font(href=me.get('jobProfile') ? "/account/profile/#{me.id}" : "/account/settings")
             div.navbuttontext-account(data-i18n="nav.account") Account
             if me.get('photoURL')
               img.account-settings-image(src=me.getPhotoURL(18), alt="")
             else
               span.glyphicon.glyphicon-user
 
-        else
-          button.btn.btn-primary.navbuttontext.header-font.auth-button 
+        //else
+          button.btn.btn-primary.navbuttontext.header-font.auth-button
             span(data-i18n="login.log_in") Log In
             span.spr.spl /
             span(data-i18n="login.sign_up") Create Account
@@ -47,6 +46,31 @@ body
             a.header-font(href='/play', data-i18n="nav.play") Levels
           li
             a.header-font(href='/community', data-i18n="nav.community") Community
+          if me.get('anonymous') === false
+            li.dropdown
+              button.btn.btn-primary.navbuttontext.header-font.dropdown-toggle(href="#", data-toggle="dropdown")
+                if me.get('photoURL')
+                  img.account-settings-image(src=me.getPhotoURL(18), alt="")
+                else
+                  i.glyphicon.glyphicon-user
+                .navbuttontext-account(data-i18n="nav.account") Account
+                span.caret
+              ul.dropdown-menu(role="menu")
+                li.user-dropdown-header
+                  img.img-circle(src="#{me.getPhotoURL()}" alt="")
+                  h3=me.get('name') || 'Anoner'
+                li.user-dropdown-body
+                  .col-xs-4.text-center
+                    a(href="#") Profile
+                  .col-xs-4.text-center
+                    a(href="#") Stats
+                  .col-xs-4.text-center
+                    a.disabled(href="#") Code
+                li.user-dropdown-footer
+                  .pull-left
+                    a.btn.btn-default.btn-flat(href="") Account
+                  .pull-right
+                    a.btn.btn-default.btn-flat(href="") Log Out
 
   block outer_content
     #outer-content-wrapper
