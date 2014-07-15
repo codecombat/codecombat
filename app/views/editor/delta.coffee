@@ -31,6 +31,9 @@ module.exports = class DeltaView extends CocoView
     
     for modelName in ['model', 'headModel', 'comparisonModel']
       @[modelName] = options[modelName]
+      continue unless @[modelName]
+      if not @[modelName].isLoaded
+        @[modelName] = @supermodel.loadModel(@[modelName], 'document').model
     
     @buildDeltas() if @supermodel.finished()
     

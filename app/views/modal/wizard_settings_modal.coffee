@@ -4,19 +4,21 @@ WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
 {me} = require 'lib/auth'
 forms = require 'lib/forms'
+User = require 'models/User'
 
 module.exports = class WizardSettingsModal extends View
   id: 'wizard-settings-modal'
   template: template
   closesOnClickOutside: false
 
+  events:
+    'keyup #wizard-settings-name': -> @trigger 'nameChanged'
+    'click #wizard-settings-done': 'onWizardSettingsDone'
+
   constructor: (options) ->
     @onNameChange = _.debounce(@checkNameExists, 500)
+    @on 'nameChanged', @onNameChange
     super options
-
-  events:
-    'keyup #wizard-settings-name': 'onNameChange'
-    'click #wizard-settings-done': 'onWizardSettingsDone'
 
   afterRender: ->
     WizardSettingsView = require 'views/account/wizard_settings_view'
@@ -27,10 +29,10 @@ module.exports = class WizardSettingsModal extends View
   checkNameExists: =>
     forms.clearFormAlerts(@$el)
     name = $('#wizard-settings-name').val()
-    success = (id) =>
+    User.getUnconflictedName name, (newName) =>
       forms.clearFormAlerts(@$el)
-      forms.applyErrorsToForm(@$el, {property: 'name', message: 'is already taken'}) if id and id isnt me.id
-    $.ajax("/db/user/#{name}/nameToID", {success: success})
+      if name isnt newName
+        forms.setErrorToProperty @$el, 'name', 'This name is already taken so you won\'t be able to keep it.', true
 
   onWizardSettingsDone: ->
     me.set('name', $('#wizard-settings-name').val())
