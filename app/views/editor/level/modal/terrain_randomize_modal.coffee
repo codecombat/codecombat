@@ -115,36 +115,36 @@ module.exports = class TerrainRandomizeModal extends ModalView
         }
 
   randomizeBorder: (preset, presetSize) ->
-    for i in _.range(0+sizes.borderSize.x, presetSize.x, sizes.borderSize.x)
+    for i in _.range(0, presetSize.x, sizes.borderSize.x)
       for j in _.range(sizes.borderSize.thickness)
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
             'x': i + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
-            'y': 0 + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+            'y': 0 + _.random(-sizes.borderSize.y/2, sizes.borderSize.y)
           }
         }
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
             'x': i + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
-            'y': presetSize.y - sizes.borderSize.y + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
+            'y': presetSize.y + _.random(-sizes.borderSize.y, sizes.borderSize.y/2)
           }
         }
 
-    for i in _.range(0, presetSize.y-sizes.borderSize.y, sizes.borderSize.y)
+    for i in _.range(0, presetSize.y, sizes.borderSize.y)
       for j in _.range(3)
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
-            'x': 0+sizes.borderSize.x + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+            'x': 0 + _.random(-sizes.borderSize.x/2, sizes.borderSize.x)
             'y': i + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
           }
         }
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
-            'x': presetSize.x + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+            'x': presetSize.x + _.random(-sizes.borderSize.x, sizes.borderSize.x/2)
             'y': i + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
           }
         }
