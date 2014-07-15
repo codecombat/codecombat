@@ -242,7 +242,17 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       args = JSON.parse(event[4...])
       pos = @options.camera.worldToSurface {x: args[0], y: args[1]}
       circle = new createjs.Shape()
-      circle.graphics.beginFill(args[3]).drawCircle(0, 0, args[2]*Camera.PPM)
+      radius = args[2] * Camera.PPM
+      if args.length is 4
+        circle.graphics.beginFill(args[3]).drawCircle(0, 0, radius)
+      else
+        startAngle = args[4]
+        endAngle = args[5]
+        circle.graphics.beginFill(args[3])
+          .lineTo(0, 0)
+          .lineTo(radius * Math.cos(startAngle), radius * Math.sin(endAngle))
+          .arc(0, 0, radius, startAngle, endAngle)
+          .lineTo(0, 0)
       circle.x = pos.x
       circle.y = pos.y
       circle.scaleY = @options.camera.y2x * 0.7
