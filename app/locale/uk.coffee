@@ -186,7 +186,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     error_saving: "Помилка при збереженні"
     saved: "Зміни збережено"
     password_mismatch: "Паролі не збігаються."
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
     job_profile: "Профіль роботи"
     job_profile_approved: "Ваш робочий пофіль буде затверджений CodeCombat. Роботодавці зможуть бачити його якщо він буде відмічений як активний, або він не зазнає змін протягом 4 тижнів."
     job_profile_explanation: "Привіт! Заповніть це і ми з Вами зв‘яжемось знайшовши для Вас роботу розробника ПЗ."

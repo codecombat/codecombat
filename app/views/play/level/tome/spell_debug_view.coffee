@@ -6,6 +6,8 @@ serializedClasses =
   Thang: require 'lib/world/thang'
   Vector: require 'lib/world/vector'
   Rectangle: require 'lib/world/rectangle'
+  Ellipse: require 'lib/world/ellipse'
+  LineSegment: require 'lib/world/line_segment'
 
 module.exports = class DebugView extends View
   className: 'spell-debug-view'

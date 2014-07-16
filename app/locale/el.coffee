@@ -186,7 +186,7 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     error_saving: "Σφάλμα αποθήκευσης"
     saved: "Οι αλλαγές αποθηκεύτηκαν"
     password_mismatch: "Οι κωδικοί δεν ταιριάζουν"
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."

@@ -186,7 +186,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     error_saving: "Ошибка сохранения"
     saved: "Изменения сохранены"
     password_mismatch: "Пароли не совпадают."
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
     job_profile: "Профиль соискателя"
     job_profile_approved: "Ваш профиль соискателя был одобрен CodeCombat. Работодатели смогут видеть его, пока вы не отметите его неактивным или он не будет изменен в течение четырёх недель."
     job_profile_explanation: "Привет! Заполните это, и мы свяжемся с вами при нахождении работы разработчика программного обеспечения для вас."

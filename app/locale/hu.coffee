@@ -186,7 +186,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     error_saving: "Hiba a mentés során"
     saved: "Változtatások elmentve"
     password_mismatch: "A jelszavak nem egyeznek."
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
     job_profile: "Munkaköri leírás"
     job_profile_approved: "Munkaköri leírásodat a Codecombat jóváhagyta. Munkaadók mindaddig láthatják, amíg meg nem jelölöd inaktívként, vagy négy hétig, ha addig nem kerül megváltoztatásra."
     job_profile_explanation: "Szió! Töltsd ki ezt és majd kapcsolatba lépünk veled és keresünk neked egy szoftware fejlesztői állást."

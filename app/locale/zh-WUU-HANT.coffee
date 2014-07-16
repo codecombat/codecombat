@@ -186,7 +186,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     error_saving: "保存時出錯"
     saved: "保存起來哉"
     password_mismatch: "密碼弗合。"
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
     job_profile: "工作經歷"
     job_profile_approved: "爾填個工作經歷會讓CodeCombat來確認. 僱主會望着箇許訊息，除非爾畀渠調成望弗着狀態要勿粘牢四個星期朆改動。"
     job_profile_explanation: "爾好！填箇許訊息，我裏會用渠幫爾尋一份軟件開發個工作。"
