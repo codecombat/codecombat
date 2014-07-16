@@ -186,7 +186,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     error_saving: "保存时出错"
     saved: "更改已保存"
     password_mismatch: "密码不匹配。"
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
     job_profile: "工作经历"
     job_profile_approved: "你填写的工作经历将由CodeCombat认证. 雇主将看到这些信息，除非你将它设置为不启用状态或者连续四周没有更新."
     job_profile_explanation: "你好! 填写这些信息, 我们将使用它帮你寻找一份软件开发的工作."

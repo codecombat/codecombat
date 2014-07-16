@@ -186,7 +186,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     error_saving: "Problème d'enregistrement"
     saved: "Changements sauvegardés"
     password_mismatch: "Le mot de passe ne correspond pas."
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
     job_profile: "Profil d'emploi"
     job_profile_approved: "Votre profil d'emploi a été approuvé par CodeCombat. Les employeurs seront en mesure de voir votre profil jusqu'à ce que vous le marquez inactif ou qu'il n'a pas été changé pendant quatre semaines."
     job_profile_explanation: "Salut! Remplissez-le et nous prendrons contact pour vous trouver un emploi de développeur de logiciels."

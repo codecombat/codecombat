@@ -186,7 +186,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     error_saving: "Error al Guardar"
     saved: "Cambios Guardados"
     password_mismatch: "La contraseña no coincide."
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
     job_profile: "Perfil de Trabajo"
     job_profile_approved: "Tu perfil de trabajo ha sido aprobado por CodeCombat. Los empleadores podrán verlo hasta que lo marques como inactivo o permanezca sin cambios por cuatro semanas."
     job_profile_explanation: "¡Hola! Llena esto, y te contactaremos acerca de encontrar un trabajo como desarrollador de software."

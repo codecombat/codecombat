@@ -186,7 +186,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     error_saving: "Fehler beim Speichern"
     saved: "Änderungen gespeichert"
     password_mismatch: "Passwörter stimmen nicht überein."
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
     job_profile: "Jobprofil"
     job_profile_approved: "Dein Jobprofil wurde von CodeCombat freigegeben. Arbeitgeber können dieses solange einsehen, bis du es als inaktiv markiert oder wenn innerhalb von vier Wochen keine Änderung daran vorgenommen wurde."
     job_profile_explanation: "Hi! Fülle dies aus und wir melden uns bei dir bezüglich des Auffindens eines Jobs als Programmierer"

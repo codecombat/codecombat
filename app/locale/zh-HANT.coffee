@@ -186,7 +186,7 @@ module.exports = nativeDescription: "繁体中文", englishDescription: "Chinese
     error_saving: "保存時發生錯誤"
     saved: "修改已儲存"
     password_mismatch: "密碼不正確。"
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."

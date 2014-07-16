@@ -186,7 +186,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     error_saving: "セーブ中にエラーが発生しました"
     saved: "変更しました"
     password_mismatch: "パスワードが違います"
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
     job_profile: "求職情報"
     job_profile_approved: "CodeCombatは、あなたの求職情報を承りました。無効にする、もしくは4週間の間変更をしなければ雇用者はあなたの求職情報を見ることができなくなります。"
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."

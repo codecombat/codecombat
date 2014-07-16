@@ -186,7 +186,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     error_saving: "Fout Tijdens Het Opslaan"
     saved: "Aanpassingen Opgeslagen"
     password_mismatch: "Het wachtwoord komt niet overeen."
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
     job_profile: "Job Profiel"
     job_profile_approved: "Jouw job profiel werd goedgekeurd door CodeCombat. Werkgevers zullen het kunnen bekijken totdat je het inactief zet of als er geen verandering in komt voor vier weken."
     job_profile_explanation: "Hey! Vul dit in en we zullen je contacteren om je een job als softwareontwikkelaar te helpen vinden."

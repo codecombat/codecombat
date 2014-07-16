@@ -186,7 +186,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     error_saving: "오류 저장"
     saved: "변경사항 저장 완료"
     password_mismatch: "비밀번호가 일치하지 않습니다."
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."

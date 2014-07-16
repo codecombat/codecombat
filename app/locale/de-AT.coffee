@@ -186,7 +186,7 @@ module.exports = nativeDescription: "Deutsch (Österreich)", englishDescription:
 #    error_saving: "Error Saving"
 #    saved: "Changes Saved"
 #    password_mismatch: "Password does not match."
-#    password_repeat: "Please repeat your massword."
+#    password_repeat: "Please repeat your password."
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
