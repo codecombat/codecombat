@@ -35,12 +35,6 @@ body
             else
               span.glyphicon.glyphicon-user
 
-        //else
-          button.btn.btn-primary.navbuttontext.header-font.auth-button
-            span(data-i18n="login.log_in") Log In
-            span.spr.spl /
-            span(data-i18n="login.sign_up") Create Account
-
         ul(class='navbar-link-text').nav.navbar-nav.pull-right
           li.play
             a.header-font(href='/play', data-i18n="nav.play") Levels
@@ -53,7 +47,7 @@ body
                   img.account-settings-image(src=me.getPhotoURL(18), alt="")
                 else
                   i.glyphicon.glyphicon-user
-                .navbuttontext-account(data-i18n="nav.account") Account
+                .navbuttontext-account(data-i18n="nav.account" href="/account") Account
                 span.caret
               ul.dropdown-menu(role="menu")
                 li.user-dropdown-header
@@ -65,12 +59,18 @@ body
                   .col-xs-4.text-center
                     a(href="#") Stats
                   .col-xs-4.text-center
-                    a.disabled(href="#") Code
+                    a.disabled() Code
                 li.user-dropdown-footer
                   .pull-left
-                    a.btn.btn-default.btn-flat(href="") Account
+                    a.btn.btn-default.btn-flat(href="/account") Account
                   .pull-right
-                    a.btn.btn-default.btn-flat(href="") Log Out
+                    button#logout-button.btn.btn-default.btn-flat(data-i18n="login.log_out") Log Out
+          else
+            li
+              button.btn.btn-primary.navbuttontext.header-font.auth-button
+                span(data-i18n="login.log_in") Log In
+                span.spr.spl /
+                span(data-i18n="login.sign_up") Create Account
 
   block outer_content
     #outer-content-wrapper

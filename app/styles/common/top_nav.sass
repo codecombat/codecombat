@@ -1,4 +1,5 @@
 @import "../bootstrap/variables"
+@import "../bootstrap/mixins"
 
 // This is still very blocky. Browser reflows? Investigate why.
 .open > .dropdown-menu
@@ -34,6 +35,9 @@
     opacity: 1
     top: 100%
 
+a.disabled
+  color: #5b5855
+
 #top-nav
   a.navbar-brand
     padding: 4px 20px 0px 20px
@@ -53,6 +57,7 @@
   .account-settings-image
     width: 18px
     height: 18px
+    margin-right: 5px
 
   .glyphicon-user
     font-size: 16px
@@ -86,19 +91,14 @@
         padding: 15px
         letter-spacing: 1px
         font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif
-        &:after
-          display: table
-          content: " "
-          clear: both
+        +clearfix()
 
       li.user-dropdown-footer
         padding: 10px
         margin-left: 0px
         font-size: 14px
-        &:after
-          display: table
-          content: " "
-          clear: both
+        +clearfix()
+
         .btn-flat
           border: #ddd 1px solid
           border-radius: 0px
@@ -112,7 +112,7 @@
     &:hover
       color: #f8e413
 
-  .navbar-link-text > a:hover
+  .navbar-link-text > li > a:hover
     background: darken($body-bg, 3%)
 
   .btn, .btn-group, .fancy-select

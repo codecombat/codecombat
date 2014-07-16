@@ -42,4 +42,6 @@ LevelSessionSchema.pre 'save', (next) ->
   delete previous[id] if initd
   next()
 
+LevelSessionSchema.index {user: 1, changed: -1}, {sparse: true, name: 'last played index'}
+
 module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema, 'level.sessions')

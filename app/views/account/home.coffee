@@ -12,6 +12,12 @@ module.exports = class AccountHomeView extends View
     super options
     return unless me
 
+  getRenderData: ->
+    c = super()
+    c.subs = {}
+    c.subs[sub] = 1 for sub in c.me.getEnabledEmails()
+    c
+
   afterRender: ->
     super()
     @openModelView new AuthModalView if me.isAnonymous()
