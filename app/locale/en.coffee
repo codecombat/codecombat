@@ -744,13 +744,6 @@
     ambassador_join_note_desc: "One of our top priorities is to build multiplayer where players having difficulty solving levels can summon higher level wizards to help them. This will be a great way for ambassadors to do their thing. We'll keep you posted!"
     more_about_ambassador: "Learn More About Becoming an Ambassador"
     ambassador_subscribe_desc: "Get emails on support updates and multiplayer developments."
-    counselor_summary: "None of the above roles fit what you are interested in? Do not worry, we are on the lookout for anybody who wants a hand in the development of CodeCombat! If you are interested in teaching, game development, open source management, or anything else that you think will be relevant to us, then this class is for you."
-    counselor_introduction_1: "Do you have life experience? A different perspective on things that can help us decide how to shape CodeCombat? Of all these roles, this will probably take the least time, but individually you may make the most difference. We're on the lookout for wisened sages, particularly in areas like: teaching, game development, open source project management, technical recruiting, entrepreneurship, or design."
-    counselor_introduction_2: "Or really anything that is relevant to the development of CodeCombat. If you have knowledge and want to share it to help grow this project, then this class might be for you."
-    counselor_attribute_1: "Experience, in any of the areas above or something you think might be helpful."
-    counselor_attribute_2: "A little bit of free time!"
-    counselor_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll put you in our contact list and be in touch when we could use advice (not too often)."
-    more_about_counselor: "Learn More About Becoming a Counselor"
     changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
     diligent_scribes: "Our Diligent Scribes:"
     powerful_archmages: "Our Powerful Archmages:"
@@ -772,8 +765,6 @@
     diplomat_title_description: "(Translator)"
     ambassador_title: "Ambassador"
     ambassador_title_description: "(Support)"
-    counselor_title: "Counselor"
-    counselor_title_description: "(Expert/Teacher)"
 
   ladder:
     please_login: "Please log in first before playing a ladder game."
