@@ -425,7 +425,7 @@
     tip_baby_coders: "In the future, even babies will be Archmages."
     tip_morale_improves: "Loading will continue until morale improves."
     tip_all_species: "We believe in equal opportunities to learn programming for all species."
-    tip_reticulating: "Reticulating splines."
+    tip_reticulating: "Reticulating spines."
     tip_harry: "Yer a Wizard, "
     tip_great_responsibility: "With great coding skill comes great debug responsibility."
     tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
