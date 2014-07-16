@@ -55,9 +55,12 @@ module.exports = class SpellPaletteView extends View
   createPalette: ->
     lcs = @supermodel.getModels LevelComponent
     allDocs = {}
+    excludedDocs = {}
     for lc in lcs
       for doc in (lc.get('propertyDocumentation') ? [])
-        continue if doc.codeLanguages and not (@options.language in doc.codeLanguages)
+        if doc.codeLanguages and not (@options.language in doc.codeLanguages)
+          excludedDocs[doc.name] = doc
+          continue
         allDocs['__' + doc.name] ?= []
         allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'
@@ -100,9 +103,11 @@ module.exports = class SpellPaletteView extends View
         doc = _.find (allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
-        console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propGroups unless doc
-        doc ?= prop
-        @entries.push @addEntry(doc, shortenize, tabbify, owner is 'snippets')
+        if not doc and not excludedDocs[prop]
+          console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propGroups unless doc
+          doc ?= prop
+        if doc
+          @entries.push @addEntry(doc, shortenize, tabbify, owner is 'snippets')
     groupForEntry = (entry) ->
       return 'more' if entry.doc.owner is 'this' and entry.doc.name in (propGroups.more ? [])
       entry.doc.owner
