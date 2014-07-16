@@ -23,7 +23,7 @@ module.exports.setup = (app) ->
 setupScheduledEmails = ->
   testForLockManager()
   mailTaskMap = 
-    "test_mail_task": candidateUpdateProfileTask
+    "test_mail_task": employerNewCandidatesAvailableTask
     
   MailTask.find({}).lean().exec (err, mailTasks) ->
     if err? then throw "Failed to schedule mailTasks! #{err}"
@@ -50,6 +50,7 @@ findAllCandidatesWithinTimeRange = (cb) ->
     "jobProfile.updated":
       $gt: @timeRange.start
       $lte: @timeRange.end
+    "jobProfileApproved": true
   selection =  "_id email jobProfile.name jobProfile.updated"
   User.find(findParameters).select(selection).lean().exec cb
   
@@ -109,7 +110,7 @@ candidateUpdateProfileTask = ->
   lockManager.setLock mailTaskName, lockDurationMs, (err, lockResult) ->
     if err? then return log.error "Error getting a task lock!"
     async.each timeRanges, emailTimeRange.bind(mailTaskName: mailTaskName), (err) ->
-      if err then return log.error JSON.stringify err else log.info "Sent candidate update reminders!"
+      if err then log.error JSON.stringify err else log.info "Sent candidate update reminders!"
       lockManager.releaseLock mailTaskName, (err, result) -> if err? then return log.error err
         
 ### End Candidate Update Reminder Task ###
@@ -125,18 +126,19 @@ emailInternalCandidateUpdateReminder = (cb) ->
     "mailTaskName": @mailTaskName
     
   async.waterfall [
-    findCandidatesWhoUpdatedJobProfileToday.bind(asyncContext)
+    findNonApprovedCandidatesWhoUpdatedJobProfileToday.bind(asyncContext)
     (unfilteredCandidates, cb) ->
       async.reject unfilteredCandidates, candidatesUpdatedTodayFilter.bind(asyncContext), cb.bind(null,null)
     (filteredCandidates, cb) ->
       async.each filteredCandidates, sendInternalCandidateUpdateReminder.bind(asyncContext), cb
   ], cb
     
-findCandidatesWhoUpdatedJobProfileToday = (cb) ->
+findNonApprovedCandidatesWhoUpdatedJobProfileToday = (cb) ->
   findParameters = 
     "jobProfile.updated":
       $lte: @currentTime.toISOString()
       gt: @beginningOfUTCDay.toISOString()
+    "jobProfileApproved": false
   User.find(findParameters).select("_id jobProfile.name jobProfile.updated").lean().exec cb
   
 candidatesUpdatedTodayFilter = (candidate, cb) ->
@@ -174,17 +176,69 @@ internalCandidateUpdateTask = ->
   lockManager.setLock mailTaskName, lockDurationMs, (err, lockResult) ->
     if err? then return log.error "Error getting a task lock!"
     emailInternalCandidateUpdateReminder.apply {"mailTaskName":mailTaskName}, (err) ->
-      if err? then return log.error "There was an error sending the internal candidate update reminder."
+      if err? then log.error "There was an error sending the internal candidate update reminder."
       lockManager.releaseLock mailTaskName, (err, result) -> if err? then return log.error err
 ### End Internal Candidate Update Reminder Email ###
   
 ### Employer New Candidates Available Email ###
+
+emailEmployerNewCandidatesAvailableEmail = (cb) ->
+  currentTime = new Date()
+  asyncContext = 
+    "currentTime": currentTime
+    "mailTaskName": @mailTaskName
+    
+  async.waterfall [
+    findAllEmployers
+    makeEmployerNamesEasilyAccessible
+    (allEmployers, cb) ->
+      console.log "Found #{allEmployers.length} employers to email about new candidates available"
+      async.reject allEmployers, employersEmailedDigestMoreThanWeekAgoFilter.bind(asyncContext), cb.bind(null,null)
+    (employersToEmail, cb) ->
+      async.each employersToEmail, sendEmployerNewCandidatesAvailableEmail.bind(asyncContext), cb
+  ], cb
+      
+findAllEmployers = (cb) ->
+  findParameters = 
+    "employerAt":
+      $exists: true
+    permissions: "employer"
+  User.find(findParameters).select("_id email employerAt signedEmployerAgreement.data.firstName signedEmployerAgreement.data.lastName").lean().exec cb
+  
+makeEmployerNamesEasilyAccessible = (allEmployers, cb) ->
+  #Make names easily accessible
+  for employer, index in allEmployers
+    if employer.signedEmployerAgreement?.data?.firstName
+      employer.name = employer.signedEmployerAgreement.data.firstName + " " + employer.signedEmployerAgreement.data.lastName
+      delete employer.signedEmployerAgreement
+    allEmployers[index] = employer
+  cb null, allEmployers
+  
+employersEmailedDigestMoreThanWeekAgoFilter = (employer, cb) ->
+  findParameters = 
+    "user": employer._id
+    "mailTask": @mailTaskName
+    "sent":
+      $lte: new Date(@currentTime.getTime() - 7 * 24 * 60 * 60 * 1000) 
+  MailSent.find(findParameters).lean().exec (err, sentMail) ->
+    if err? then return errors.serverError("Error fetching sent mail in #{@mailTaskName}")
+    cb Boolean(sentMail.length)
+
+sendEmployerNewCandidatesAvailableEmail = (employer, cb) ->
+  cb null
+  
+
 employerNewCandidatesAvailableTask = ->
   #  tem_CCcHKr95Nvu5bT7c7iHCtm
   #initialize featuredDate to job profile updated
   mailTaskName = "employerNewCandidatesAvailableTask"
   lockDurationMs = 6000
   lockManager.setLock mailTaskName, lockDurationMs, (err, lockResult) ->
+    if err? then return log.error "There was an error getting a task lock!"
+    emailEmployerNewCandidatesAvailableEmail.apply {"mailTaskName":mailTaskName}, (err) ->
+      if err? then return log.error "There was an error performing the #{mailTaskName} email task."
+      lockManager.releaseLock mailTaskName, (err, result) -> if err? then return log.error err
+
 
 ### End Employer New Candidates Available Email ###
   
