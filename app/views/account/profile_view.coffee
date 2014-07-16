@@ -322,7 +322,7 @@ module.exports = class ProfileView extends View
     return unless me.isAdmin()
     approved = not @user.get 'jobProfileApproved'
     @user.set 'jobProfileApproved', approved
-    res = @user.save {jobProfileApproved: approved}, {patch: true}
+    res = @user.patch()
     res.success (model, response, options) => @render()
 
   toggleJobProfileActive: ->
