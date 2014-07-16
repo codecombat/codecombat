@@ -203,7 +203,8 @@ findAllEmployers = (cb) ->
     "employerAt":
       $exists: true
     permissions: "employer"
-  User.find(findParameters).select("_id email employerAt signedEmployerAgreement.data.firstName signedEmployerAgreement.data.lastName").lean().exec cb
+  selection = "_id email employerAt signedEmployerAgreement.data.firstName signedEmployerAgreement.data.lastName activity dateCreated"
+  User.find(findParameters).select(selection).lean().exec cb
   
 makeEmployerNamesEasilyAccessible = (allEmployers, cb) ->
   #Make names easily accessible
@@ -219,17 +220,49 @@ employersEmailedDigestMoreThanWeekAgoFilter = (employer, cb) ->
     "user": employer._id
     "mailTask": @mailTaskName
     "sent":
-      $lte: new Date(@currentTime.getTime() - 7 * 24 * 60 * 60 * 1000) 
+      $gt: new Date(@currentTime.getTime() - 7 * 24 * 60 * 60 * 1000) 
   MailSent.find(findParameters).lean().exec (err, sentMail) ->
     if err? then return errors.serverError("Error fetching sent mail in #{@mailTaskName}")
     cb Boolean(sentMail.length)
 
 sendEmployerNewCandidatesAvailableEmail = (employer, cb) ->
-  cb null
-  
+  lastLoginDate = employer.activity?.login?.last ? employer.dateCreated
+  countParameters =
+    "jobProfileApproved": true
+    "jobProfile": 
+      $exists: true
+    $or: [
+        jobProfileApprovedDate: 
+          $gt: lastLoginDate.toISOString()
+      ,
+        jobProfileApprovedDate:
+          $exists: false
+        "jobProfile.updated":
+          $gt: lastLoginDate.toISOString()   
+    ]
+  User.count countParameters, (err, numberOfCandidatesSinceLogin) =>
+    if err? then return cb err
+    context =
+      email_id: "tem_CCcHKr95Nvu5bT7c7iHCtm"
+      recipient:
+        address: employer.email
+        name: employer.name
+      email_data:
+        new_candidates: numberOfCandidatesSinceLogin
+        employer_company_name: employer.employerAt
+        company_name: "CodeCombat"
+    
+    log.info "Sending available candidates update reminder to #{context.recipient.name}(#{context.recipient.address})"
+    newSentMail =
+      mailTask: @mailTaskName
+      user: employer._id
+    MailSent.create newSentMail, (err) ->
+      if err? then return cb err
+      sendwithus.api.send context, (err, result) ->
+        log.error "Error sending ladder update email: #{err} with result #{result}" if err
+        cb err
 
 employerNewCandidatesAvailableTask = ->
-  #  tem_CCcHKr95Nvu5bT7c7iHCtm
   #initialize featuredDate to job profile updated
   mailTaskName = "employerNewCandidatesAvailableTask"
   lockDurationMs = 6000
