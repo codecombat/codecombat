@@ -111,6 +111,9 @@ _.extend LevelSessionSchema.properties,
     description: 'Stores past revisions of user code.'
     type: 'object'
     properties:
+      languageBarriers:
+        title: 'Language Barriers'
+        type: ''
       revisions:
         title: 'Revisions'
         description: 'all revisions sorted by age in increasing order (newest to oldest)'
@@ -119,41 +122,49 @@ _.extend LevelSessionSchema.properties,
           title: "Revision"
           description: 'The current revision including code/diff and metadata.'
           type: 'object'
-          additionalProperties:
+          oneOf: [
+            {required:['code']}
+            {required:['diff']}
+          ]
+          properties:
             saveName:
               title: 'Save Name (TAG)'
               description: 'If this revision is saved(Tagged), the name is stored here.'
               type: 'string'
-            oneOf: [
-              {required:['code']}
-              {required:['diff']}
-            ]
-            properties:
-              timestamp:
-                title: 'Creation time.'
-                description: "At what time this element has been created. It is the revision node's unique id at the same time"
-                type: 'string'
-              previous:
-                description: 'Previous Item'
-                title: 'The timestamp (id) of the previous item'
-                type: 'string'
-              code:
+            timestamp:
+              title: 'Creation time.'
+              description: "At what time this element has been created. It is the revision node's unique id at the same time"
+              type: 'string'
+            previous:
+              title: 'Previous Item'
+              description: 'The timestamp (id) of the previous item or the language of the tree for the last item'
+              type: 'string'
+            code:
+              title: 'Code'
+              description: 'The code of this item. Either this or the delta to the previous item must be set'
+              type: 'object'
+              additionalProperties:
                 type: 'object'
                 additionalProperties:
-                  type: 'object'
-                  additionalProperties:
                   type: 'string'
                   format: 'javascript'
-              diff:
-                title: 'Diff'
-                description: 'The delta to the previous item.'
+            diff:
+              title: 'Diff'
+              description: 'The delta to the previous item.'
+              type: 'object'
+              additionalProperties:
                 type: 'object'
-
-
+                additionalProperties:
+                  type: 'string'
+                  format: 'javascript'
             newBranch:
               title: 'Start of Branch'
               description: 'Indicates if this node is the start of a new branch (diff line ends here)'
               type: 'boolean'
+            codeLanguage:
+              title: 'CodeLanguage'
+              description:  'The programming language used for this code. If this is empty, a previous item defines the language.'
+              type: 'string'
 
   codeLanguage:
     type: 'string'

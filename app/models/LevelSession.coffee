@@ -26,11 +26,11 @@ module.exports = class LevelSession extends CocoModel
   mergeVersion: (language, timestamp1, timestamp2) ->
     # Save a new version using the merged source of timestamp11 and timestamp2 if possible, else return false.
 
-  lookupTable:
-
 
   deserializeVCS:
-    for node in @levelfoo[language]
+    for node in @levelfoo.get('language')
+
+
       lookupTable[node.id] = node
 
 
