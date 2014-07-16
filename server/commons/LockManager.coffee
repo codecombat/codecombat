@@ -1,5 +1,6 @@
 config = require '../../server_config'
 redis = require 'redis'
+
 class LockManager
   constructor: ->
     unless config.isProduction or config.redis.host isnt "localhost"
@@ -10,15 +11,20 @@ class LockManager
   
   setLock: (lockName, timeoutMs, cb) =>
     randomNumber = Math.floor(Math.random() * 1000000000)
-    @redisClient.set [lockName,randomNumber, "NX", "PX", timeoutMs], (err, res) ->
+    @redisClient.set [lockName,randomNumber, "NX", "PX", timeoutMs], (err, res) =>
       if err? then return cb err, null
-      @lockValues[lockName] = randomNumber
-      cb null, res
+      if res is "OK"
+        @lockValues[lockName] = randomNumber
+        return cb null, "Lock set!"
+      unless res 
+        return cb "Lock already set!", null
       
   releaseLock: (lockName, cb) =>
     @redisClient.eval [@unlockScript, 1, lockName, @lockValues[lockName]], (err, res) -> 
       if err? then return cb err, null
-      #1 represents success, 0 failure
-      cb null, Boolean(Number(res))
-  
-module.exports = new RedisLock() 
+      if res
+        cb null, "The lock was released!"
+      else
+        cb "The lock was not released.", null
+
+module.exports = new LockManager() 
