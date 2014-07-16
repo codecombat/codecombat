@@ -326,7 +326,7 @@
     pass_screen_blurb: "Review each candidate's code before reaching out. One employer found that 5x as many of our devs passed their technical screen than hiring from Hacker News."
     make_hiring_easier: "Make my hiring easier, please."
     what: "What is CodeCombat?"
-    what_blurb: "CodeCombat is a multiplayer browser programming game. Players write code to control their forces in battle against other developers. We support JavaScript, Python, Lua, Clojure, CoffeeScript, and Io."
+    what_blurb: "CodeCombat is a multiplayer browser programming game. Players write code to control their forces in battle against other developers. Our players have experience with all major tech stacks."
     cost: "How much do we charge?"
     cost_blurb: "We charge 15% of first year's salary and offer a 100% money back guarantee for 90 days. We don't charge for candidates who are already actively being interviewed at your company."
     candidate_name: "Name"
