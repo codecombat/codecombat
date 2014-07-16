@@ -8,7 +8,7 @@ block modal-body-content
     each sizeObject, size in presetSizes
       each preset in presets 
         a(href="#")
-          div.choose-option(data-preset-type=preset.type, data-preset-size=size, style="background:url(/images/pages/editor/level/preset_grassy_small.jpg) no-repeat center; background-size: cover")
+          div.choose-option(data-preset-type=preset.type, data-preset-size=size, style="background:url(/images/pages/editor/level/preset_"+preset.type+"_"+size+".jpg) no-repeat center; background-size: cover")
             div.preset-size.name-label.capitalize
               span(data-i18n="editor."+size)  #{size}
             div.preset-name.capitalize
