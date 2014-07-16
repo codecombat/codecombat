@@ -9,6 +9,7 @@ _.extend MailSentSchema.properties,
   mailTask: c.objectId {}
   user: c.objectId links: [{rel: 'extra', href: '/db/user/{($)}'}]
   sent: c.date title: 'Sent', readOnly: true
+  metadata: c.object {}, {}
 
 c.extendBasicProperties MailSentSchema, 'mail.sent'
 
