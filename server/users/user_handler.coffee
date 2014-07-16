@@ -35,7 +35,7 @@ UserHandler = class UserHandler extends Handler
   getEditableProperties: (req, document) ->
     props = super req, document
     props.push 'permissions' unless config.isProduction
-    props.push 'jobProfileApproved', 'jobProfileNotes' if req.user.isAdmin()  # Admins naturally edit these
+    props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
     props.push privateProperties... if req.user.isAdmin()  # Admins are mad with power
     props
 

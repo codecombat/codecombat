@@ -186,6 +186,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     error_saving: "Lỗi lưu"
     saved: "Thay đổi được lưu"
     password_mismatch: "Mật khẩu không khớp."
+#    password_repeat: "Please repeat your massword."
 #    job_profile: "Job Profile"
 #    job_profile_approved: "Your job profile has been approved by CodeCombat. Employers will be able to see it until you either mark it inactive or it has not been changed for four weeks."
 #    job_profile_explanation: "Hi! Fill this out, and we will get in touch about finding you a software developer job."
@@ -326,7 +327,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    pass_screen_blurb: "Review each candidate's code before reaching out. One employer found that 5x as many of our devs passed their technical screen than hiring from Hacker News."
 #    make_hiring_easier: "Make my hiring easier, please."
 #    what: "What is CodeCombat?"
-#    what_blurb: "CodeCombat is a multiplayer browser programming game. Players write code to control their forces in battle against other developers. We support JavaScript, Python, Lua, Clojure, CoffeeScript, and Io."
+#    what_blurb: "CodeCombat is a multiplayer browser programming game. Players write code to control their forces in battle against other developers. Our players have experience with all major tech stacks."
 #    cost: "How much do we charge?"
 #    cost_blurb: "We charge 15% of first year's salary and offer a 100% money back guarantee for 90 days. We don't charge for candidates who are already actively being interviewed at your company."
 #    candidate_name: "Name"
@@ -667,7 +668,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
-  contribute:
+#  contribute:
 #    page_title: "Contributing"
 #    character_classes_title: "Character Classes"
 #    introduction_desc_intro: "We have high hopes for CodeCombat."
@@ -744,13 +745,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    ambassador_join_note_desc: "One of our top priorities is to build multiplayer where players having difficulty solving levels can summon higher level wizards to help them. This will be a great way for ambassadors to do their thing. We'll keep you posted!"
 #    more_about_ambassador: "Learn More About Becoming an Ambassador"
 #    ambassador_subscribe_desc: "Get emails on support updates and multiplayer developments."
-#    counselor_summary: "None of the above roles fit what you are interested in? Do not worry, we are on the lookout for anybody who wants a hand in the development of CodeCombat! If you are interested in teaching, game development, open source management, or anything else that you think will be relevant to us, then this class is for you."
-#    counselor_introduction_1: "Do you have life experience? A different perspective on things that can help us decide how to shape CodeCombat? Of all these roles, this will probably take the least time, but individually you may make the most difference. We're on the lookout for wisened sages, particularly in areas like: teaching, game development, open source project management, technical recruiting, entrepreneurship, or design."
-#    counselor_introduction_2: "Or really anything that is relevant to the development of CodeCombat. If you have knowledge and want to share it to help grow this project, then this class might be for you."
-#    counselor_attribute_1: "Experience, in any of the areas above or something you think might be helpful."
-    counselor_attribute_2: "Rảnh rỗi một chút!"
-    counselor_join_desc: "Nói cho chúng tôi điều gì đó về bạn, bạn đã làm cái gì và bạn hứng thú về cái gì. Chúng tôi sẽ đưa bạn vào danh sách liên lạc và chúng tôi sẽ liên hệ khi chúng tôi có thể(không thường xuyên)."
-#    more_about_counselor: "Learn More About Becoming a Counselor"
 #    changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
 #    diligent_scribes: "Our Diligent Scribes:"
 #    powerful_archmages: "Our Powerful Archmages:"
@@ -772,8 +766,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     diplomat_title_description: "(Người phiên dịch)"
 #    ambassador_title: "Ambassador"
     ambassador_title_description: "(Hỗ trợ)"
-    counselor_title: "Người tư vấn"
-    counselor_title_description: "(Chuyên gia/ Giáo viên)"
 
 #  ladder:
 #    please_login: "Please log in first before playing a ladder game."

@@ -259,8 +259,6 @@ module.exports.thangNames = thangNames =
     'Mizzy'
     'Secka'
     'Arizard'
-    'Secka'
-    'Arizard'
     'Morzgret'
     'Doralt'
     'Geggret'

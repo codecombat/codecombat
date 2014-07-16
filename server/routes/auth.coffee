@@ -157,12 +157,10 @@ module.exports.setup = (app) ->
         res.send msg + '<p><a href="/account/settings">Account settings</a></p>'
         res.end()
 
-  app.get '/auth/name/?*', (req, res) ->
+  app.get '/auth/name*', (req, res) ->
     parts = req.path.split '/'
-    console.log parts
-    originalName = parts[3]
-
-    return errors.badInput res, 'No name provided.' unless originalName and originalName isnt ''
+    originalName = decodeURI parts[3]
+    return errors.badInput res, 'No name provided.' unless parts.length > 3 and originalName? and originalName isnt ''
     return errors.notFound res if parts.length isnt 4
 
     User.unconflictName originalName, (err, name) ->

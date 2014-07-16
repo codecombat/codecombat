@@ -250,7 +250,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         endAngle = args[5]
         circle.graphics.beginFill(args[3])
           .lineTo(0, 0)
-          .lineTo(radius * Math.cos(startAngle), radius * Math.sin(endAngle))
+          .lineTo(radius * Math.cos(startAngle), radius * Math.sin(startAngle))
           .arc(0, 0, radius, startAngle, endAngle)
           .lineTo(0, 0)
       circle.x = pos.x
