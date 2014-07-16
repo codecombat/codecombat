@@ -87,23 +87,25 @@ module.exports = class SettingsView extends View
 
       # make sure errors show up in the general pane, but keep the password pane clean
       $('#password-pane input').val('')
-      @save() unless $(e.target).attr('href') is '#password-pane'
+      #@save() unless $(e.target).attr('href') is '#password-pane'
       forms.clearFormAlerts($('#password-pane', @$el))
     )
 
     @chooseTab(location.hash.replace('#', ''))
 
     wizardSettingsView = new WizardSettingsView()
-    @listenTo wizardSettingsView, 'change', @save
+    @listenTo wizardSettingsView, 'change', @enableSaveButton
     @insertSubView wizardSettingsView
 
     @jobProfileView = new JobProfileView()
-    @listenTo @jobProfileView, 'change', @save
+    @listenTo @jobProfileView, 'change', @enableSaveButton
     @insertSubView @jobProfileView
     _.defer => @buildPictureTreema()  # Not sure why, but the Treemas don't fully build without this if you reload the page.
 
   afterInsert: ->
     super()
+    $('#email-pane input[type="checkbox"]').on 'change', ->
+      $(@).addClass 'changed'
     if me.get('anonymous')
       @openModalView new AuthModalView()
     @updateSavedValues()
@@ -159,7 +161,7 @@ module.exports = class SettingsView extends View
     @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
 
   save: (e) ->
-    $(e.target).addClass('changed') if e
+    $('#settings-tabs input').removeClass 'changed'
     forms.clearFormAlerts(@$el)
     @grabData()
     res = me.validate()
@@ -182,7 +184,7 @@ module.exports = class SettingsView extends View
     res.success (model, response, options) =>
       @changedFields = []
       @updateSavedValues()
-      save.text($.i18n.t('account_settings.saved', defaultValue: 'Changes Saved')).removeClass('btn-success', 500)
+      save.text($.i18n.t('account_settings.saved', defaultValue: 'Changes Saved')).removeClass('btn-success', 500).attr('disabled', 'true')
 
   grabData: ->
     @grabPasswordData()
@@ -199,6 +201,10 @@ module.exports = class SettingsView extends View
       return
     if bothThere
       me.set('password', password1)
+    else if password1
+      message = $.i18n.t('account_settings.password_repeat', defaultValue: 'Please repeat your password.')
+      err = [message: message, property: 'password2', formatted: true]
+      forms.applyErrorsToForm(@$el, err)
 
   grabOtherData: ->
     $('#name', @$el).val @suggestedName if @suggestedName
@@ -217,7 +223,7 @@ module.exports = class SettingsView extends View
     jobProfile = me.get('jobProfile') ? {}
     updated = false
     for key, val of @jobProfileView.getData()
-      updated = updated or jobProfile[key] isnt val
+      updated = updated or not _.isEqual jobProfile[key], val
       jobProfile[key] = val
     if updated
       jobProfile.updated = (new Date()).toISOString()
