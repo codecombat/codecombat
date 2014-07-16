@@ -274,25 +274,27 @@ employerNewCandidatesAvailableTask = ->
 
 
 ### End Employer New Candidates Available Email ###
-  
+
 ### New Recruit Leaderboard Email ###
+###
 newRecruitLeaderboardEmailTask = ->
   # tem_kMQFCKX3v4DNAQDsMAsPJC
   #maxRank and maxRankTime should be recorded if isSimulating is false
   mailTaskName = "newRecruitLeaderboardEmailTask"
   lockDurationMs = 6000
   lockManager.setLock mailTaskName, lockDurationMs, (err, lockResult) ->
-
+###
 ### End New Recruit Leaderboard Email ###
   
 ### Employer Matching Candidate Notification Email ### 
+###
 employerMatchingCandidateNotificationTask = ->
   # tem_mYsepTfWQ265noKfZJcbBH
   #save email filters in their own collection
   mailTaskName = "employerMatchingCandidateNotificationTask"
   lockDurationMs = 6000
   lockManager.setLock mailTaskName, lockDurationMs, (err, lockResult) ->
-
+###
 ### End Employer Matching Candidate Notification Email ###
 ### Ladder Update Email ###
 
