@@ -9,12 +9,12 @@ module.exports.formToObject = (el) ->
 
   obj
 
-module.exports.applyErrorsToForm = (el, errors) ->
+module.exports.applyErrorsToForm = (el, errors, warning=false) ->
   errors = [errors] if not $.isArray(errors)
-  missingErrors = []
   for error in errors
     if error.dataPath
       prop = error.dataPath[1..]
+      console.log prop
       message = error.message
 
     else
@@ -23,16 +23,28 @@ module.exports.applyErrorsToForm = (el, errors) ->
       message = error.message if error.formatted
       prop = error.property
 
-    input = $("[name='#{prop}']", el)
-    if not input.length
-      missingErrors.push(error)
-      continue
-    formGroup = input.closest('.form-group')
-    formGroup.addClass 'has-error'
-    formGroup.append($("<span class='help-block error-help-block'>#{message}</span>"))
-  return missingErrors
+    setErrorToProperty el, prop, message, warning
+
+module.exports.setErrorToField = setErrorToField = (el, message, warning=false) ->
+  formGroup = el.closest('.form-group')
+  unless formGroup.length
+    return console.error "#{el} did not contain a form group"
+
+  kind = if warning then 'warning' else 'error'
+  formGroup.addClass "has-#{kind}"
+  formGroup.append $("<span class='help-block #{kind}-help-block'>#{message}</span>")
+
+module.exports.setErrorToProperty = setErrorToProperty = (el, property, message, warning=false) ->
+  input = $("[name='#{property}']", el)
+  unless input.length
+    return console.error "#{property} not found in #{el}"
+
+  setErrorToField input, message, warning
 
 module.exports.clearFormAlerts = (el) ->
   $('.has-error', el).removeClass('has-error')
+  $('.has-warning', el).removeClass('has-warning')
   $('.alert.alert-danger', el).remove()
+  $('.alert.alert-warning', el).remove()
   el.find('.help-block.error-help-block').remove()
+  el.find('.help-block.warning-help-block').remove()

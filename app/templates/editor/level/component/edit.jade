@@ -28,9 +28,10 @@ nav.navbar.navbar-default(role='navigation')
               span.glyphicon.glyphicon-eye-close
               span.spl Unwatch
   
-        li#patch-component-button
-          a(data-i18n="common.submit_patch") Submit Patch
-        if me.isAdmin()
+        if !component.hasWriteAccess()
+          li#patch-component-button
+            a(data-i18n="common.submit_patch") Submit Patch
+        if !me.get('anonymous')
           li#create-new-component-button
             a(data-i18n="editor.level_component_b_new") Create New Component
         

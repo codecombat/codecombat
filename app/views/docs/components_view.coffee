@@ -24,4 +24,5 @@ module.exports = class UnnamedView extends RootView
   getRenderData: ->
     c = super()
     c.components = @componentDocs.models
+    c.marked = marked
     c

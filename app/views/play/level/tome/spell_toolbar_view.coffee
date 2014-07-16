@@ -76,7 +76,8 @@ module.exports = class SpellToolbarView extends View
   onProgressHoverLong: (e) =>
     e ?= @lastHoverEvent
     @hoverTimeout = null
-    @setStatementRatio e.offsetX / @$el.find('.progress').width()
+    offsetX = e.offsetX or e.clientX - $(e.target).offset().left
+    @setStatementRatio offsetX / @$el.find('.progress').width()
     @updateTime()
     @maintainIndexHover = true
     @updateScroll()

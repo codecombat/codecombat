@@ -157,13 +157,30 @@ module.exports.setup = (app) ->
         res.send msg + '<p><a href="/account/settings">Account settings</a></p>'
         res.end()
 
+  app.get '/auth/name/?*', (req, res) ->
+    parts = req.path.split '/'
+    console.log parts
+    originalName = parts[3]
+
+    return errors.badInput res, 'No name provided.' unless originalName and originalName isnt ''
+    return errors.notFound res if parts.length isnt 4
+
+    User.unconflictName originalName, (err, name) ->
+      return errors.serverError res, err if err
+      response = name: name
+      if originalName is name
+        res.send 200, response
+      else
+        errors.conflict res, response
+
+
 module.exports.loginUser = loginUser = (req, res, user, send=true, next=null) ->
   user.save((err) ->
     return errors.serverError res, err if err?
 
     req.logIn(user, (err) ->
       return errors.serverError res, err if err?
-      return res.send user if send
+      return res.send(user) and res.end() if send
       next() if next
     )
   )

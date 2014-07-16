@@ -3,30 +3,34 @@ h4
   |  - 
   code.prop-type= doc.type == 'function' && doc.owner == 'this' ? 'method' : doc.type
   if doc.type != 'function'
-    |  (read-only)
+    if writable
+      |  (writable)
+    else
+      |  (read-only)
 
 .description!= marked(doc.description || 'Still undocumented, sorry.')
 
-if doc.example
-  p.example
-    strong Example:
-    div!= marked("```\n" + doc.example + "```")
-else if doc.type == 'function' && argumentExamples.length
-  p.example
-    strong Example:
-    div
-      if language == 'javascript'
-        code= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
-      else if language == 'coffeescript'
-        code= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + doc.name + ' ' + argumentExamples.join(', ')
-      else if language == 'python'
-        code= doc.ownerName + '.' + doc.name + '(' + argumentExamples.join(', ') + ')'
-      else if language == 'clojure'
-        code= '(.' + doc.name + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
-      else if language == 'lua'
-        code= doc.ownerName + ':' + doc.name + '(' + argumentExamples.join(', ') + ')'
-      else if language == 'io'
-        code= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + doc.name + '(' + argumentExamples.join(', ') + ')'
+if !selectedMethod
+  if doc.example
+    p.example
+      strong Example:
+      div!= marked("```\n" + doc.example + "```")
+  else if doc.type == 'function' && argumentExamples.length
+    p.example
+      strong Example:
+      div
+        if language == 'javascript'
+          code= doc.owner + '.' + doc.name + '(' + argumentExamples.join(', ') + ');'
+        else if language == 'coffeescript'
+          code= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + doc.name + ' ' + argumentExamples.join(', ')
+        else if language == 'python'
+          code= doc.ownerName + '.' + doc.name + '(' + argumentExamples.join(', ') + ')'
+        else if language == 'clojure'
+          code= '(.' + doc.name + ' ' + doc.ownerName + ' ' + argumentExamples.join(', ') + ')'
+        else if language == 'lua'
+          code= doc.ownerName + ':' + doc.name + '(' + argumentExamples.join(', ') + ')'
+        else if language == 'io'
+          code= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + doc.name + '(' + argumentExamples.join(', ') + ')'
 
 if (doc.type != 'function' && doc.type != 'snippet') || doc.name == 'now'
   p.value
@@ -64,3 +68,7 @@ if doc.returns
         | )
       if doc.returns.description
         div!= marked(doc.returns.description)
+
+if selectedMethod
+  p
+    em Write the body of this method below.

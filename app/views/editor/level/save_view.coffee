@@ -4,6 +4,7 @@ forms = require 'lib/forms'
 LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
 DeltaView = require 'views/editor/delta'
+PatchModal = require 'views/editor/patch_modal'
 
 module.exports = class LevelSaveView extends SaveVersionModal
   template: template
@@ -39,7 +40,7 @@ module.exports = class LevelSaveView extends SaveVersionModal
     for changeEl, i in changeEls
       model = models[i]
       try
-        deltaView = new DeltaView({model: model})
+        deltaView = new DeltaView({model: model, skipPaths: PatchModal.DOC_SKIP_PATHS})
         @insertSubView(deltaView, $(changeEl))
       catch e
         console.error 'Couldn\'t create delta view:', e
