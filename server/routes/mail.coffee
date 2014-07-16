@@ -1,5 +1,4 @@
 mail = require '../commons/mail'
-MailTask = require '../mail/tasks/MailTask'
 MailSent = require '../mail/sent/MailSent'
 User = require '../users/User'
 async = require 'async'
@@ -12,42 +11,36 @@ sendwithus = require '../sendwithus'
 if config.isProduction or config.redis.host isnt "localhost" #TODO: Ask Nick and Scott to change their environment variables and change the deploy ones
   lockManager = require '../commons/LockManager'
 #TODO: Ask Nick about email unsubscriptions
-createMailTask = (req, res) -> #TODO: Ask Nick whether he thinks it is a good idea or not to hardcode the mail tasks
-  unless req.user?.isAdmin() then return errors.forbidden(res)
-  unless req.body.url and req.body.frequency then return errors.badInput(res)
-  console.log "Creating mail task with url #{req.body.url} and frequency #{req.body.frequency}"
-  newMailTask = new MailTask {}
-  newMailTask.set("url",req.body.url)
-  newMailTask.set("frequency",req.body.frequency)
-  newMailTask.save (err) ->
-    if err? then return errors.serverError(res, err)
-    res.send("Created mail task!")
-    res.end()
 
 module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
-  app.post '/mail/task', createMailTask
   if lockManager
     setupScheduledEmails()
   
 setupScheduledEmails = ->
   testForLockManager()
-  mailTaskMap = #TODO: Edit this to include additional emails
-    "test_mail_task": candidateUpdateProfileTask
+  mailTasks = [
+      taskFunction: candidateUpdateProfileTask
+      frequencyMs: 30 * 60 * 1000 #30 minutes
+    ,
+      taskFunction: internalCandidateUpdateTask
+      frequencyMs: 10 * 60 * 1000 #10 minutes
+    ,
+      taskFunction: employerNewCandidatesAvailableTask
+      frequencyMs: 30 * 60 * 1000 #30 minutes
+  ]
+
+  for mailTask in mailTasks
+    setInterval mailTask.taskFunction, mailTask.frequencyMs 
     
-  MailTask.find({}).lean().exec (err, mailTasks) -> #TODO: Ask Nick whether or not to remove this
-    if err? then throw "Failed to schedule mailTasks! #{err}"
-    for mailTask in mailTasks
-      setInterval mailTaskMap[mailTask.url], mailTask.frequency*2 #TODO: Have some random offset to prevent lock contention
-      
 testForLockManager = -> unless lockManager then throw "The system isn't configured to do distributed locking!"
   
 ### Candidate Update Reminder Task ###
 
 candidateUpdateProfileTask = ->
   mailTaskName = "candidateUpdateProfileTask"
-  lockDurationMs = 20000 #TODO: Change these to something appropriate for the mail frequency (ideally longer than the task but shorter than frequency)
+  lockDurationMs = 2 * 60 * 1000 
   currentDate = new Date()
   timeRanges = []
   for weekPair in [[4, 2,'two weeks'], [8, 4, 'four weeks'], [8, 52, 'eight weeks']]
@@ -86,10 +79,13 @@ findAllCandidatesWithinTimeRange = (cb) ->
       $gt: @timeRange.start
       $lte: @timeRange.end
     "jobProfileApproved": true
-  selection =  "_id email jobProfile.name jobProfile.updated"
+  selection =  "_id email jobProfile.name jobProfile.updated emails" #make sure to check for anyNotes too.
   User.find(findParameters).select(selection).lean().exec cb
   
 candidateFilter = (candidate, sentEmailFilterCallback) ->
+  if candidate.emails?.anyNotes?.enabled is false or candidate.emails?.recruitNotes?.enabled is false
+    log.info "Candidate #{candidate.jobProfile.name} opted out of emails, not sending to them."
+    return sentEmailFilterCallback true
   findParameters =
     "user": candidate._id
     "mailTask": @mailTaskName
@@ -139,7 +135,7 @@ sendReminderEmailToCandidate = (candidate, sendEmailCallback) ->
 ### Internal Candidate Update Reminder Email ###
 internalCandidateUpdateTask = ->
   mailTaskName = "internalCandidateUpdateTask"
-  lockDurationMs = 6000 #TODO: Change lock duration
+  lockDurationMs = 2 * 60 * 1000 
   lockManager.setLock mailTaskName, lockDurationMs, (err) ->
     if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}!"
     emailInternalCandidateUpdateReminder.apply {"mailTaskName":mailTaskName}, (err) ->
@@ -211,7 +207,7 @@ sendInternalCandidateUpdateReminder = (candidate, cb) ->
 ### Employer New Candidates Available Email ###
 employerNewCandidatesAvailableTask = ->
   mailTaskName = "employerNewCandidatesAvailableTask"
-  lockDurationMs = 6000 #TODO: Update this lock duration
+  lockDurationMs = 2 * 60 * 1000 
   lockManager.setLock mailTaskName, lockDurationMs, (err) ->
     if err? then return log.error "There was an error getting a task lock!"
     emailEmployerNewCandidatesAvailable.apply {"mailTaskName":mailTaskName}, (err) ->
@@ -242,7 +238,7 @@ findAllEmployers = (cb) ->
     "employerAt":
       $exists: true 
     permissions: "employer"
-  selection = "_id email employerAt signedEmployerAgreement.data.firstName signedEmployerAgreement.data.lastName activity dateCreated"
+  selection = "_id email employerAt signedEmployerAgreement.data.firstName signedEmployerAgreement.data.lastName activity dateCreated emails"
   User.find(findParameters).select(selection).lean().exec cb
   
 makeEmployerNamesEasilyAccessible = (allEmployers, cb) ->
@@ -254,6 +250,9 @@ makeEmployerNamesEasilyAccessible = (allEmployers, cb) ->
   cb null, allEmployers
   
 employersEmailedDigestMoreThanWeekAgoFilter = (employer, cb) ->
+  if employer.emails?.employerNotes?.enabled is false
+    log.info "Employer #{employer.name}(#{employer.email}) opted out of emails, not sending to them."
+    return sentEmailFilterCallback true
   findParameters = 
     "user": employer._id
     "mailTask": @mailTaskName

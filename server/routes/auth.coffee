@@ -143,7 +143,10 @@ module.exports.setup = (app) ->
         emails.recruitNotes ?= {}
         emails.recruitNotes.enabled = false
         msg = "Unsubscribed #{req.query.email} from recruiting emails."
-
+      else if req.query.employerNotes
+        emails.employerNotes ?= {}
+        emails.employerNotes.enabled = false
+        msg = "Unsubscribed #{req.query.email} from employer emails."
       else
         msg = "Unsubscribed #{req.query.email} from all CodeCombat emails. Sorry to see you go!"
         emailSettings.enabled = false for emailSettings in _.values(emails)
