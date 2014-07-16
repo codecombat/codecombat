@@ -328,7 +328,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @baseScaleX *= -1 if @getActionProp 'flipX'
     @baseScaleY *= -1 if @getActionProp 'flipY'
     # temp, until these are re-exported with perspective
-    floors = ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Goal Trigger', 'Obstacle']
+    floors = ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05', 'Goal Trigger', 'Obstacle']
     if @options.camera and @thangType.get('name') in floors
       @baseScaleY *= @options.camera.y2x
 

@@ -4,7 +4,7 @@ CocoModel = require 'models/CocoModel'
 
 clusters = {
   'rocks': ['Rock 1', 'Rock 2', 'Rock 3', 'Rock 4', 'Rock 5', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
-  'trees': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']  
+  'trees': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']
   'shrubs': ['Shrub 1', 'Shrub 2', 'Shrub 3']
   'houses': ['House 1', 'House 2', 'House 3', 'House 4']
   'animals': ['Cow', 'Horse']
@@ -22,8 +22,7 @@ presets = {
   'grassy': {
     'type':'grassy'
     'borders':['Tree 1', 'Tree 2', 'Tree 3']
-    'floors':['Grass']
-    # 'floors':['Grass01', 'Grass02', 'Grass03']
+    'floors':['Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05']
     'decorations': {
       'house': {
         'num':[1,2] #min-max
@@ -90,7 +89,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
     presetType = target.attr 'data-preset-type'
     presetSize = target.attr 'data-preset-size'
     @randomizeThangs presetType, presetSize
-    Backbone.Mediator.publish('randomize:terrain-generated', 
+    Backbone.Mediator.publish('randomize:terrain-generated',
       'thangs': @thangs
     )
     @hide()
@@ -152,20 +151,20 @@ module.exports = class TerrainRandomizeModal extends ModalView
   randomizeDecorations: (preset, presetSize)->
     for name, decoration of preset.decorations
       for num in _.range(_.random(decoration.num[0], decoration.num[1]))
-        center = 
+        center =
         {
-          'x':_.random(decoration.width, presetSize.x - decoration.width), 
+          'x':_.random(decoration.width, presetSize.x - decoration.width),
           'y':_.random(decoration.height, presetSize.y - decoration.height)
         }
-        min = 
+        min =
         {
           'x':center.x - decoration.width/2
-          'y':center.y - decoration.height/2     
+          'y':center.y - decoration.height/2
         }
-        max = 
+        max =
         {
           'x':center.x + decoration.width/2
-          'y':center.y + decoration.height/2     
+          'y':center.y + decoration.height/2
         }
         for cluster, range of decoration.clusters
           for i in _.range(_.random(range[0], range[1]))
