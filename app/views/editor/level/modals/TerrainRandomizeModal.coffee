@@ -185,9 +185,8 @@ module.exports = class TerrainRandomizeModal extends ModalView
 
   getRenderData: ->
     c = super()
-    models = _.values CocoModel.backedUp
-    models = (m for m in models when m.hasLocalChanges())
-    c.models = models
+    c.presets = presets
+    c.presetSizes = presetSizes
     c
 
   onHidden: ->
