@@ -91,8 +91,8 @@ sendReminderEmailToCandidate = (candidate, sendEmailCallback) ->
     MailSent.create newSentMail, (err) ->
       if err? then return sendEmailCallback err
       sendwithus.api.send context, (err, result) ->
-        log.error "Error sending ladder update email: #{err} with result #{result}" if err
-        sendEmailCallback err
+        log.error "Error sending candidate update reminder email: #{err} with result #{result}" if err
+        sendEmailCallback null
 
 generateWeekOffset = (originalDate, numberOfWeeks) ->
   return (new Date(originalDate.getTime() - numberOfWeeks * 7 * 24 * 60 * 60 * 1000)).toISOString()
@@ -167,8 +167,8 @@ sendInternalCandidateUpdateReminder = (candidate, cb) ->
   MailSent.create newSentMail, (err) ->
     if err? then return cb err
     sendwithus.api.send context, (err, result) ->
-      log.error "Error sending ladder update email: #{err} with result #{result}" if err
-      cb err
+      log.error "Error sending interal candidate update email: #{err} with result #{result}" if err
+      cb null
   
 internalCandidateUpdateTask = ->
   mailTaskName = "internalCandidateUpdateTask"
@@ -259,8 +259,8 @@ sendEmployerNewCandidatesAvailableEmail = (employer, cb) ->
     MailSent.create newSentMail, (err) ->
       if err? then return cb err
       sendwithus.api.send context, (err, result) ->
-        log.error "Error sending ladder update email: #{err} with result #{result}" if err
-        cb err
+        log.error "Error sending employer candidates available email: #{err} with result #{result}" if err
+        cb null
 
 employerNewCandidatesAvailableTask = ->
   #initialize featuredDate to job profile updated
