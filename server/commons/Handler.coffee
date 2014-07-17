@@ -232,7 +232,11 @@ module.exports = class Handler
       query['version.minor'] = minorVersion unless _.isNaN(minorVersion)
     sort = { 'version.major': -1, 'version.minor': -1 }
     args = [query]
-    args.push PROJECT if req.query.project
+    if req.query.project
+      projection = {}
+      fields = if req.query.project is 'true' then _.keys(PROJECT) else req.query.project.split(',')
+      projection[field] = 1 for field in fields
+      args.push projection
     @modelClass.findOne(args...).sort(sort).exec (err, doc) =>
       return @sendNotFoundError(res) unless doc?
       return @sendUnauthorizedError(res) unless @hasAccessToDocument(req, doc)
