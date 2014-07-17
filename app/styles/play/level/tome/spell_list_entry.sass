@@ -13,13 +13,14 @@
   $childMargin: 2px
   $childSize: $height - 2 * $childMargin
   height: $height
-  width: 80%
-  width: -webkit-calc(100% - 100px)
-  width: calc(100% - 100px)
+  width: 90%
+  width: -webkit-calc(100% - 50px)
+  width: calc(100% - 50px)
   padding: 0px 8px
   border-width: 3px
   border-image: url(/images/level/code_editor_tab_background.png) 4 fill repeat
-  text-align: center
+  white-space: nowrap
+  position: relative
 
   &.read-only
     background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.2) 100%), url(/images/level/code_editor_tab_background.png)
@@ -33,6 +34,11 @@
 
   .spell-list-button, .thang-avatar-wrapper
     float: left
+
+  .spell-tool-buttons
+    position: absolute
+    right: 0px
+    top: 0px
 
   .reload-code
     float: right
@@ -66,6 +72,7 @@
 
   code
     margin-top: 7px
+    font-size: 1vw
 
 .spell-list-entry-view:not(.spell-tab)
   cursor: pointer

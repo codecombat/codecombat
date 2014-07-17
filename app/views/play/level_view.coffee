@@ -138,7 +138,13 @@ module.exports = class PlayLevelView extends View
       supermodel: @supermodel
       firstOnly: true
     @openModalView(new DocsModal(options), true)
-    Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelStarted, @
+    onGuideOpened = ->
+      @guideOpenTime = new Date()
+    onGuideClosed = ->
+      application.tracker?.trackTiming new Date() - @guideOpenTime, 'Intro Guide Time', @levelID, @levelID, 100
+      @onLevelStarted()
+    Backbone.Mediator.subscribeOnce 'modal-opened', onGuideOpened, @
+    Backbone.Mediator.subscribeOnce 'modal-closed', onGuideClosed, @
     return true
 
   getRenderData: ->
@@ -281,7 +287,7 @@ module.exports = class PlayLevelView extends View
     @surface.showLevel()
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
-      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team'), levelSlug: @level.get('slug')
+      @surface.createOpponentWizard id: @otherSession.get('creator'), name: @otherSession.get('creatorName'), team: @otherSession.get('team'), levelSlug: @level.get('slug'), codeLanguage: @otherSession.get('submittedCodeLanguage')
     @loadingView?.unveil()
 
   onLoadingViewUnveiled: (e) ->

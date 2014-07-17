@@ -93,7 +93,7 @@ module.exports = class DocFormatter
         obj[prop] = null
 
   formatPopover: ->
-    content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? [])
+    content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
     content = content.replace /#{spriteName}/g, @options.thang.type ? @options.thang.spriteName  # Prefer type, and excluded the quotes we'd get with @formatValue
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))

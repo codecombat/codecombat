@@ -46,6 +46,10 @@ module.exports = class User extends CocoModel
       )
     cache[id] = user
     user
+  set: ->
+    if arguments[0] is 'jobProfileApproved' and @get("jobProfileApproved") is false and not @get("jobProfileApprovedDate")
+      @set "jobProfileApprovedDate", (new Date()).toISOString()
+    super arguments...
 
   # callbacks can be either success or error
   @getByIDOrSlug: (idOrSlug, force, callbacks={}) ->
@@ -68,6 +72,13 @@ module.exports = class User extends CocoModel
           callbacks.error user if callbacks.error?
     cache[idOrSlug] = user
     user
+
+  @getUnconflictedName: (name, done) ->
+    $.ajax "/auth/name/#{name}",
+      success: (data) -> done data.name
+      statusCode: 409: (data) ->
+        response = JSON.parse data.responseText
+        done response.name
 
   getEnabledEmails: ->
     @migrateEmails()

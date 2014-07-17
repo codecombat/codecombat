@@ -9,6 +9,9 @@ module.exports =
   'note-group-ended':
     {} # TODO schema
 
+  'modal-opened':
+    {} # TODO schema
+
   'modal-closed':
     {} # TODO schema
 

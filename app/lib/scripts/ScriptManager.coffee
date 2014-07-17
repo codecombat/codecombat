@@ -320,6 +320,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       if ((noteGroup.script?.skippable) is false) and not options.force
         @noteGroupQueue = @noteGroupQueue[i..]
         @run()
+        @notifyScriptStateChanged()
         return
 
       @processNoteGroup(noteGroup)
@@ -331,6 +332,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @noteGroupQueue = []
 
     @resetThings()
+    @notifyScriptStateChanged()
 
   onNoteGroupTimeout: (noteGroup) ->
     return unless noteGroup is @currentNoteGroup

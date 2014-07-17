@@ -239,6 +239,9 @@ _.extend LevelSessionSchema.properties,
                     title: 'Opponent Rank'
                     description: 'The opponent\'s ranking in a given match'
                     type: 'number'
+              codeLanguage:
+                type: 'string'
+                description: 'What submittedCodeLanguage the opponent used during the match'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
 c.extendPermissionsProperties LevelSessionSchema, 'level.session'

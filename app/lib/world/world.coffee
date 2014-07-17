@@ -1,5 +1,7 @@
 Vector = require './vector'
 Rectangle = require './rectangle'
+Ellipse = require './ellipse'
+LineSegment = require './line_segment'
 WorldFrame = require './world_frame'
 Thang = require './thang'
 ThangState = require './thang_state'
@@ -21,7 +23,7 @@ module.exports = class World
   apiProperties: ['age', 'dt']
   constructor: (@userCodeMap, classMap) ->
     # classMap is needed for deserializing Worlds, Thangs, and other classes
-    @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang}
+    @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang, Ellipse: Ellipse, LineSegment: LineSegment}
     Thang.resetThangIDs()
 
     @userCodeMap ?= {}
@@ -207,7 +209,11 @@ module.exports = class World
     map = if kind is 'component' then @componentCodeClassMap else @systemCodeClassMap
     c = map[js]
     return c if c
-    c = map[js] = eval js
+    try
+      c = map[js] = eval js
+    catch err
+      console.error "Couldn't compile #{kind} code:", err, "\n", js
+      c = map[js] = {}
     c.className = name
     c
 

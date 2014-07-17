@@ -43,7 +43,7 @@ module.exports = class ThangsTabView extends View
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-up': 'onStageMouseUp'
-    'randomise:terrain-generated': 'onRandomiseTerrain'
+    'randomize:terrain-generated': 'onRandomizeTerrain'
 
   events:
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
@@ -224,10 +224,14 @@ module.exports = class ThangsTabView extends View
     return unless e.thang
     @editThang thangID: e.thang.id
 
-  onRandomiseTerrain: (e) ->
+  onRandomizeTerrain: (e) ->
+    @thangsBatch = []
+    nonRandomThangs = (thang for thang in @thangsTreema.get('') when not /Random/.test thang.id)
+    @thangsTreema.set '', nonRandomThangs
     for thang in e.thangs
       @selectAddThangType thang.id
-      @addThang @addThangType, thang.pos
+      @addThang @addThangType, thang.pos, true
+    @batchInsert()
     @selectAddThangType null
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
@@ -397,8 +401,15 @@ module.exports = class ThangsTabView extends View
     id = treema?.data?.id
     @editThang thangID: id if id
 
-  addThang: (thangType, pos) ->
-    thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
+  batchInsert: ->
+    @thangsTreema.set '', @thangsTreema.get('').concat(@thangsBatch)
+    @thangsBatch = []
+
+  addThang: (thangType, pos, batchInsert=false) ->
+    if batchInsert
+      thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
+    else
+      thangID = Thang.nextID(thangType.get('name'), @world) until thangID and not @thangsTreema.get "id=#{thangID}"
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
       @selectAddThang null
@@ -408,7 +419,10 @@ module.exports = class ThangsTabView extends View
     physical = _.find components, (c) -> c.config?.pos?
     physical.config.pos = x: pos.x, y: pos.y, z: physical.config.pos.z if physical
     thang = thangType: thangType.get('original'), id: thangID, components: components
-    @thangsTreema.insert '', thang
+    if batchInsert
+      @thangsBatch.push thang
+    else
+      @thangsTreema.insert '', thang
 
   editThang: (e) ->
     if e.target  # click event

@@ -1,5 +1,7 @@
 Vector = require './vector'
 Rectangle = require './rectangle'
+Ellipse = require './ellipse'
+LineSegment = require './line_segment'
 Grid = require './Grid'
 
 module.exports.typedArraySupport = typedArraySupport = Float32Array?  # Not in IE until IE 10; we'll fall back to normal arrays
@@ -36,7 +38,7 @@ module.exports.clone = clone = (obj, skipThangs=false) ->
     flags += 'y' if obj.sticky?
     return new RegExp(obj.source, flags)
 
-  if (obj instanceof Vector) or (obj instanceof Rectangle)
+  if (obj instanceof Vector) or (obj instanceof Rectangle) or (obj instanceof Ellipse) or (obj instanceof LineSegment)
     return obj.copy()
 
   if skipThangs and obj.isThang

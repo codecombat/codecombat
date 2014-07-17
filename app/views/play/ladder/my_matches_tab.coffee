@@ -73,6 +73,7 @@ module.exports = class MyMatchesTabView extends CocoView
         sessionID: opponent.sessionID
         stale: match.date < submitDate
         fresh: fresh
+        codeLanguage: match.codeLanguage
       }
 
     for team in @teams
@@ -82,9 +83,9 @@ module.exports = class MyMatchesTabView extends CocoView
       team.matches = (convertMatch(match, team.session.get('submitDate')) for match in team.session?.get('matches') or [])
       team.matches.reverse()
       team.score = (team.session?.get('totalScore') or 10).toFixed(2)
-      team.wins = _.filter(team.matches, {state: 'win'}).length
-      team.ties = _.filter(team.matches, {state: 'tie'}).length
-      team.losses = _.filter(team.matches, {state: 'loss'}).length
+      team.wins = _.filter(team.matches, {state: 'win', stale: false}).length
+      team.ties = _.filter(team.matches, {state: 'tie', stale: false}).length
+      team.losses = _.filter(team.matches, {state: 'loss', stale: false}).length
       scoreHistory = team.session?.get('scoreHistory')
       if scoreHistory?.length > 1
         team.scoreHistory = scoreHistory
