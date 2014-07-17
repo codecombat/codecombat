@@ -26,8 +26,8 @@ block content
                 li(id="#{component.get('name')}#{doc.name}")
                   | #{doc.name}
                   ul.specialList
-                    if doc.description[language.substring(1,language.length-1)]
-                      li!=marked(doc.description[language.substring(1,language.length-1)])
+                    if doc.description[language]
+                      li!=marked(doc.description[language])
                     else
                       li!=marked(doc.description)
       
