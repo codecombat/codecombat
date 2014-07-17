@@ -230,6 +230,7 @@ _.extend LevelSchema.properties,
     title: 'Next Level',
     description: 'Reference to the next level players will play after beating this one.'
   }
+  employerDescription: { type:'string' }
   scripts: c.array {title: 'Scripts', description: 'An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.', 'default': []}, ScriptSchema
   thangs: c.array {title: 'Thangs', description: 'An array of Thangs that make up the level.', 'default': []}, LevelThangSchema
   systems: c.array {title: 'Systems', description: 'Levels are configured by changing the Systems attached to them.', uniqueItems: true, default: []}, LevelSystemSchema  # TODO: uniqueness should be based on 'original', not whole thing

@@ -181,13 +181,14 @@ block content
               ul.sessions
                 each session in sessions
                   li
-                    - var sessionLink = "/play/level/" + session.levelID + "?team=" + (session.team || 'humans') + (myProfile ? '' : "&session=" + session._id);
-                    a(href=sessionLink)
-                      span= session.levelName
-                      if session.team
-                        span  #{session.team}
-                    if session.codeLanguage != 'javascript'
-                      span  - #{{coffeescript: 'CoffeeScript', python: 'Python', lua: 'Lua', io: 'Io', clojure: 'Clojure'}[session.codeLanguage]}
+                    span.session-link(data-session-id=session._id)= session.levelName
+                    //- var sessionLink = "/play/level/" + session.levelID + "?team=" + (session.team || 'humans') + (myProfile ? '' : "&session=" + session._id);
+                    //a(href=sessionLink)
+                    //  span= session.levelName
+                    //  if session.team
+                    //    span  #{session.team}
+                    //if session.codeLanguage != 'javascript'
+                    //  span  - #{{coffeescript: 'CoffeeScript', python: 'Python', lua: 'Lua', io: 'Io', clojure: 'Clojure'}[session.codeLanguage]}
 
         .middle-column.full-height-column
           .sub-column

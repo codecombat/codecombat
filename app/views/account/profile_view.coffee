@@ -9,6 +9,7 @@ JobProfileView = require 'views/account/job_profile_view'
 UserRemark = require 'models/UserRemark'
 forms = require 'lib/forms'
 ModelModal = require 'views/modal/model_modal'
+JobProfileCodeModal = require './JobProfileCodeModal'
 
 class LevelSessionsCollection extends CocoCollection
   url: -> "/db/user/#{@userID}/level.sessions/employer"
@@ -51,6 +52,7 @@ module.exports = class ProfileView extends RootView
     'keyup .editable-profile .editable-array input': 'onEditArray'
     'click .editable-profile a': 'onClickLinkWhileEditing'
     'change #admin-contact': 'onAdminContactChanged'
+    'click .session-link': 'onSessionLinkPressed'
 
   constructor: (options, @userID) ->
     @userID ?= me.id
@@ -586,3 +588,9 @@ module.exports = class ProfileView extends RootView
       {name: t('account_profile.next_photo'), weight: 2, container: '#profile-photo-container', fn: modified 'photoURL'}
       {name: t('account_profile.next_active'), weight: 1, fn: modified 'active'}
     ]
+
+  onSessionLinkPressed: (e) ->
+    sessionID = $(e.target).data('session-id')
+    session = _.find @sessions.models, (session) -> session.id is sessionID
+    modal = new JobProfileCodeModal({session:session})
+    @openModalView modal

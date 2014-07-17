@@ -1,0 +1,13 @@
+div#session-info
+  img(src='/file/'+levelIcon alt='levelIcon')#level-icon
+  div#level-meta-data
+    strong= levelName
+    p!= levelDescription
+  
+div#session-code
+  for spell in levelSpells
+    .panel.panel-success
+      .panel-heading
+        h3= spell.name
+      .panel-body
+        .code= spell.code
