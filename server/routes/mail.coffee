@@ -187,7 +187,7 @@ sendInternalCandidateUpdateReminder = (candidate, cb) ->
   context =
     email_id: "tem_Ac7nhgKqatTHBCgDgjF5pE"
     recipient: 
-      address: "team@codecombat.com" #Change to whatever email address is necessary
+      address: "team@codecombat.com"
       name: "The CodeCombat Team"
     email_data:
       new_candidate_profile: "https://codecombat.com/account/profile/#{candidate._id}"
