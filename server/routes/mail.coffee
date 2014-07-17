@@ -10,8 +10,7 @@ log = require 'winston'
 sendwithus = require '../sendwithus'
 if config.isProduction or config.redis.host isnt "localhost" #TODO: Ask Nick and Scott to change their environment variables and change the deploy ones
   lockManager = require '../commons/LockManager'
-#TODO: Ask Nick about email unsubscriptions
-
+  
 module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
@@ -84,7 +83,6 @@ findAllCandidatesWithinTimeRange = (cb) ->
   
 candidateFilter = (candidate, sentEmailFilterCallback) ->
   if candidate.emails?.anyNotes?.enabled is false or candidate.emails?.recruitNotes?.enabled is false
-    log.info "Candidate #{candidate.jobProfile.name} opted out of emails, not sending to them."
     return sentEmailFilterCallback true
   findParameters =
     "user": candidate._id
@@ -138,7 +136,7 @@ internalCandidateUpdateTask = ->
   lockDurationMs = 2 * 60 * 1000 
   lockManager.setLock mailTaskName, lockDurationMs, (err) ->
     if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}!"
-    emailInternalCandidateUpdateReminder.apply {"mailTaskName":mailTaskName}, (err) ->
+    emailInternalCandidateUpdateReminder.call {"mailTaskName":mailTaskName}, (err) ->
       if err
         log.error "There was an error sending the internal candidate update reminder.: #{err}"
       else
@@ -166,7 +164,7 @@ findNonApprovedCandidatesWhoUpdatedJobProfileToday = (cb) ->
   findParameters = 
     "jobProfile.updated":
       $lte: @currentTime.toISOString()
-      gt: @beginningOfUTCDay.toISOString()
+      $gt: @beginningOfUTCDay.toISOString()
     "jobProfileApproved": false 
   User.find(findParameters).select("_id jobProfile.name jobProfile.updated").lean().exec cb
   
@@ -209,8 +207,8 @@ employerNewCandidatesAvailableTask = ->
   mailTaskName = "employerNewCandidatesAvailableTask"
   lockDurationMs = 2 * 60 * 1000 
   lockManager.setLock mailTaskName, lockDurationMs, (err) ->
-    if err? then return log.error "There was an error getting a task lock!"
-    emailEmployerNewCandidatesAvailable.apply {"mailTaskName":mailTaskName}, (err) ->
+    if err? then return log.error "There was an error getting a task lock!: #{err}"
+    emailEmployerNewCandidatesAvailable.call {"mailTaskName":mailTaskName}, (err) ->
       if err
         log.error "There was an error completing the new candidates available task: #{err}"
       else
