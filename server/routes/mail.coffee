@@ -327,7 +327,7 @@ employerMatchingCandidateNotificationTask = ->
 ###
 ### End Employer Matching Candidate Notification Email ###
 ### Ladder Update Email ###
-
+### Employer ignore ###
 DEBUGGING = false
 LADDER_PREGAME_INTERVAL = 2 * 3600 * 1000  # Send emails two hours before players last submitted.
 getTimeFromDaysAgo = (now, daysAgo) ->
