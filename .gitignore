@@ -28,6 +28,9 @@ Thumbs.db
 *.sublime-project
 *.sublime-workspace
 
+# IntelliJ/WebStorm
+*.iml
+
 # NPM packages folder.
 node_modules/
 bower_components/
@@ -41,6 +44,7 @@ always-ignore extensions
 *.rej
 *.vi
 *.sass-cache
+.zedstate
 
 # OS or Editor folders
 .cache
@@ -77,4 +81,12 @@ bin/mongo/
 # windows
 /SCOCODE.bat
 
+# local settings
+login.coffee
+
+# debugging
+*.heapsnapshot
+
+temp/
 ### If you add something here, copy it to the end of .npmignore, too. ###
+

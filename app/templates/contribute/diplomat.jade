@@ -23,7 +23,7 @@ block content
         span , 
         span(data-i18n="contribute.diplomat_introduction_suf")
           | it's that there
-          | is sizeable interest in CodeCombat in other countries, particularly Brazil!
+          | is sizeable interest in CodeCombat in other countries!
           | We're building a corps of translators eager to turn one set of words into
           | another set of words to get CodeCombat as accessible across the world as possible.
           | If you like getting sneak peeks at upcoming content and getting these levels to
@@ -37,58 +37,44 @@ block content
       
       h4(data-i18n="contribute.how_to_join") How to Join
       p
-        span(data-i18n="contribute.diplomat_join_pref")
-          | We've started a lot of initial translations at 
-        a(href="https://docs.google.com/a/codecombat.com/spreadsheet/ccc?key=0AjsR1nOoMQ4MdFBqS1NqUmRTVG1hbEMxWTZEd1JrNXc&usp=drive_web#gid=0", data-i18n="contribute.diplomat_doc_url")
-          | this Google Doc
-        span , 
-        span(data-i18n="contribute.diplomat_join_suf")
-          | so check it out and add things for your language. Also, check this box below to 
+        span(data-i18n="contribute.diplomat_join_pref_github")
+          | Find your language locale file 
+        a(data-i18n="contribute.diplomat_github_url", href='https://github.com/codecombat/codecombat/tree/master/app/locale') on GitHub
+        span(data-i18n="contribute.diplomat_join_suf_github")
+          | , edit it online, and submit a pull request. Also, check this box below to 
           | keep up-to-date on new internationalization developments!
 
-      if me.attributes.anonymous
-        div#sign-up.alert.alert-info
-          strong(data-i18n="contribute.alert_account_message_intro")
-            | Hey there!
-          span  
-          span(data-i18n="contribute.alert_account_message_pref") 
-            | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
-            | create an account
-          span  
-          span(data-i18n="contribute.alert_account_message_suf")
-          | first.
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="translator", data-contributor-class-name="diplomat")
 
-      label.checkbox(for="translator").well
-        input(type='checkbox', name="translator", id="translator")
-        span(data-i18n="contribute.diplomat_subscribe_desc")
-          | Get emails about i18n developments and levels to translate.
-        .saved-notification  ✓ Saved
+      h3(data-i18n="contribute.translating_diplomats")
+        | Our Translating Diplomats:
 
-      h4(data-i18n="contribute.changes_auto_save")
-        | Changes are saved automatically when you toggle checkboxes.
-
-      #Contributors
-        h3(data-i18n="contribute.translating_diplomats")
-          | Our Translating Diplomats:
-        ul.diplomats
-          li Turkish - Nazım Gediz Aydındoğmuş
-          li Brazilian Portuguese - Gutenberg Barros, Kieizroe, Matthew Burt
-          li Portugal Portuguese - Matthew Burt
-          li German - Dirk, Anon
-          li Thai - Kamolchanok Jittrepit
-          li Vietnamese - An Nguyen Hoang Thien
-          li Dutch - Glen De Cauwsemaecker
-          li Greek - Stergios
-          li Latin American Spanish - Jesús Ruppel, Matthew Burt, Mariano Luzza
-          li Spain Spanish - Matthew Burt, Anon
-          li French - Xeonarno, Anon
-          li Hungarian - Anon
-          li Japanese - g1itch
-          li Chinese - spacepope
-          li Polish - Anon
-          li Danish - Anon
-          li Slovak - Anon
-          li Persian - Reza Habibi(Rehb)
+      //#contributor-list
+      // TODO: collect CodeCombat userids for these guys so we can include a tiled list
+      ul.diplomats
+        li Turkish - Nazım Gediz Aydındoğmuş, cobaimelan, wakeup
+        li Brazilian Portuguese - Gutenberg Barros, Kieizroe, Matthew Burt, brunoporto, cassiocardoso
+        li Portugal Portuguese - Matthew Burt, ReiDuKuduro
+        li German - Dirk, faabsen, HiroP0, Anon, bkimminich
+        li Thai - Kamolchanok Jittrepit
+        li Vietnamese - An Nguyen Hoang Thien
+        li Dutch - Glen De Cauwsemaecker, Guido Zuidhof, Ruben Vereecken, Jasper D'haene
+        li Greek - Stergios
+        li Latin American Spanish - Jesús Ruppel, Matthew Burt, Mariano Luzza
+        li Spain Spanish - Matthew Burt, DanielRodriguezRivero, Anon, Pouyio
+        li French - Xeonarno, Elfisen, Armaldio, MartinDelille, pstweb, veritable, jaybi, xavismeh, Anon, Feugy
+        li Hungarian - ferpeter, csuvsaregal, atlantisguru, Anon
+        li Japanese - g1itch, kengos, treby
+        li Chinese - Adam23, spacepope, yangxuan8282, Cheng Zheng
+        li Polish - Anon, Kacper Ciepielewski
+        li Danish - Einar Rasmussen, sorsjen, Randi Hillerøe, Anon
+        li Slovak - Anon
+        li Persian - Reza Habibi (Rehb)
+        li Czech - vanous
+        li Russian - fess89, ser-storchak, Mr A, a1ip
+        li Ukrainian - fess89
+        li Italian - flauta
+        li Norwegian - bardeh
 
     div.clearfix

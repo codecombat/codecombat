@@ -9,20 +9,30 @@ module.exports = class ProblemAlertView extends View
   subscriptions: {}
 
   events:
-    "click .close": "onRemoveClicked"
+    'click .close': 'onRemoveClicked'
 
   constructor: (options) ->
     super options
     @problem = options.problem
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
-    context.message = @problem.aetherProblem.message.replace("\n", "<br>")
+    format = (s) -> s?.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>')
+    message = @problem.aetherProblem.message
+    age = @problem.aetherProblem.userInfo?.age
+    if age?
+      if /^Line \d+:/.test message
+        message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
+      else
+        message = "Time #{age.toFixed(1)}: #{message}"
+    context.message = format message
+    context.hint = format @problem.aetherProblem.hint
     context
 
   afterRender: ->
     super()
-    @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}")
+    @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
+    Backbone.Mediator.publish 'play-sound', trigger: 'error_appear', volume: 1.0
 
   onRemoveClicked: ->
     @$el.remove()

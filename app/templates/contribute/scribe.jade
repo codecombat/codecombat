@@ -16,7 +16,7 @@ block content
         span  
         span(data-i18n="classes.scribe_title_description") (Article Editor)
       p
-        span(data-i18n="account_settings.scribe_introduction_pref")
+        span(data-i18n="contribute.scribe_introduction_pref")
           | CodeCombat isn't just going to be a bunch of levels.
           | It will also include a resource for knowledge, a wiki of programming concepts that levels can hook into.
           | That way rather than each Artisan having to describe in detail what a comparison operator is, they
@@ -24,7 +24,7 @@ block content
           | Something along the lines of what the 
         a(href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide", data-i18n="contribute.scribe_introduction_url_mozilla")
           | Mozilla Developer Network 
-        span(data-i18n="account_settings.scribe_introduction_suf")  
+        span(data-i18n="contribute.scribe_introduction_suf")  
           | has built. If your idea of fun is articulating the concepts of programming in Markdown form,
           | then this class might be for you.
   
@@ -44,33 +44,12 @@ block content
           | tell us a little about yourself, your experience with programming and
           | what sort of things you'd like to write about. We'll go from there!
 
-      if me.attributes.anonymous
-        div#sign-up.alert.alert-info
-          strong(data-i18n="contribute.alert_account_message_intro")
-            | Hey there!
-          span  
-          span(data-i18n="contribute.alert_account_message_pref") 
-            | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
-            | create an account
-          span  
-          span(data-i18n="contribute.alert_account_message_suf")
-            | first.
+      .contributor-signup-anonymous
+      .contributor-signup(data-contributor-class-id="article_editor", data-contributor-class-name="scribe")
 
-      label.checkbox(for="article_editor").well
-        input(type='checkbox', name="article_editor", id="article_editor")
-        span(data-i18n="contribute.scribe_subscribe_desc")
-          | Get emails about article writing announcements.
-        .saved-notification  ✓ Saved
-
-      h4(data-i18n="contribute.changes_auto_save")
-        | Changes are saved automatically when you toggle checkboxes.
-
-      #Contributors
-        h3(data-i18n="contribute.diligent_scribes")
-          | Our Diligent Scribes:
-        ul.scribes
-          li Ryan Faidley
-          li Glen De Cauwsemaecker
+      h3(data-i18n="contribute.diligent_scribes")
+        | Our Diligent Scribes:
+      
+      #contributor-list(data-contributor-class-name="scribe")
 
     div.clearfix

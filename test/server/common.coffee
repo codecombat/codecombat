@@ -1,24 +1,37 @@
 # import this at the top of every file so we're not juggling connections
 # and common libraries are available
 
-GLOBAL._ = require('lodash')
-_.str = require('underscore.string')
+console.log 'IT BEGINS'
+
+require 'jasmine-spec-reporter'
+jasmine.getEnv().reporter.subReporters_ = []
+jasmine.getEnv().addReporter(new jasmine.SpecReporter({
+  displaySuccessfulSpec: true,
+  displayFailedSpec: true
+  }))
+
+rep = new jasmine.JsApiReporter()
+jasmine.getEnv().addReporter(rep)
+
+GLOBAL._ = require 'lodash'
+_.str = require 'underscore.string'
 _.mixin(_.str.exports())
 GLOBAL.mongoose = require 'mongoose'
 mongoose.connect('mongodb://localhost/coco_unittest')
-path = require('path')
+path = require 'path'
+GLOBAL.testing = true
 
 models_path = [
   '../../server/articles/Article'
-  '../../server/campaigns/Campaign'
-  '../../server/campaigns/CampaignStatus'
   '../../server/levels/Level'
   '../../server/levels/components/LevelComponent'
   '../../server/levels/systems/LevelSystem'
-  '../../server/levels/drafts/LevelDraft'
   '../../server/levels/sessions/LevelSession'
   '../../server/levels/thangs/LevelThangType'
   '../../server/users/User'
+  '../../server/patches/Patch'
+  '../../server/achievements/Achievement'
+  '../../server/achievements/EarnedAchievement'
 ]
 
 for m in models_path
@@ -54,7 +67,7 @@ GLOBAL.saveModels = (models, done) ->
   async.parallel funcs, (err, results) ->
     done(err)
 
-GLOBAL.simplePermissions = [target:'public', access:'owner']
+GLOBAL.simplePermissions = [target: 'public', access: 'owner']
 GLOBAL.ObjectId = mongoose.Types.ObjectId
 GLOBAL.request = require 'request'
 
@@ -62,32 +75,31 @@ GLOBAL.unittest = {}
 unittest.users = unittest.users or {}
 
 unittest.getNormalJoe = (done, force) ->
-  unittest.getUser('normal@jo.com', 'food', done, force)
+  unittest.getUser('Joe', 'normal@jo.com', 'food', done, force)
 unittest.getOtherSam = (done, force) ->
-  unittest.getUser('other@sam.com', 'beer', done, force)
+  unittest.getUser('Sam', 'other@sam.com', 'beer', done, force)
 unittest.getAdmin = (done, force) ->
-  unittest.getUser('admin@afc.com', '80yqxpb38j', done, force)
+  unittest.getUser('Admin', 'admin@afc.com', '80yqxpb38j', done, force)
 
-unittest.getUser = (email, password, done, force) ->
+unittest.getUser = (name, email, password, done, force) ->
   # Creates the user if it doesn't already exist.
 
   return done(unittest.users[email]) if unittest.users[email] and not force
   request = require 'request'
   request.post getURL('/auth/logout'), ->
-    req = request.post(getURL('/db/user'), (err, response, body) ->
-      throw err if err
-      User.findOne({email:email}).exec((err, user) ->
-        if password is '80yqxpb38j'
-          user.set('permissions', [ 'admin' ])
+    request.get getURL('/auth/whoami'), ->
+      req = request.post(getURL('/db/user'), (err, response, body) ->
+        throw err if err
+        User.findOne({email: email}).exec((err, user) ->
+          user.set('permissions', if password is '80yqxpb38j' then ['admin'] else [])
+          user.set('name', name)
           user.save (err) ->
             wrapUpGetUser(email, user, done)
-        else
-          wrapUpGetUser(email, user, done)
+        )
       )
-    )
-    form = req.form()
-    form.append('email', email)
-    form.append('password', password)
+      form = req.form()
+      form.append('email', email)
+      form.append('password', password)
 
 wrapUpGetUser = (email, user, done) ->
   unittest.users[email] = user
@@ -143,3 +155,13 @@ _drop = (done) ->
     chunks = mongoose.connection.db.collection('media.chunks')
     chunks.remove {}, ->
       done()
+
+tickInterval = null
+tick = ->
+  # When you want jasmine-node to exit after running the tests,
+  # you have to close the connection first.
+  if rep.finished
+    mongoose.disconnect()
+    clearTimeout tickInterval
+
+tickInterval = setInterval tick, 1000

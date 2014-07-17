@@ -7,23 +7,38 @@ module.exports = class ThangAvatarView extends View
   template: template
 
   subscriptions:
-    'tome:problems-updated': "onProblemsUpdated"
+    'tome:problems-updated': 'onProblemsUpdated'
     'god:new-world-created': 'onNewWorld'
 
   constructor: (options) ->
     super options
     @thang = options.thang
     @includeName = options.includeName
+    @thangType = @getSpriteThangType()
+    if not @thangType
+      console.error 'Thang avatar view expected a thang type to be provided.'
+      return
 
-  getRenderData: (context={}) =>
-    context = super context
-    context.thang = @thang
+    unless @thangType.isFullyLoaded() or @thangType.loading
+      @thangType.fetch()
+
+    # couldn't get the level view to load properly through the supermodel
+    # so just doing it manually this time.
+    @listenTo @thangType, 'sync', @render
+    @listenTo @thangType, 'build-complete', @render
+
+  getSpriteThangType: ->
     thangs = @supermodel.getModels(ThangType)
     thangs = (t for t in thangs when t.get('name') is @thang.spriteName)
-    thang = thangs[0]
+    loadedThangs = (t for t in thangs when t.isFullyLoaded())
+    return loadedThangs[0] or thangs[0] # try to return one with all the goods, otherwise a projection
+
+  getRenderData: (context={}) ->
+    context = super context
+    context.thang = @thang
     options = @thang?.getSpriteOptions() or {}
-    options.async = false
-    context.avatarURL = thang.getPortraitSource(options)
+    options.async = true
+    context.avatarURL = @thangType.getPortraitSource(options) unless @thangType.loading
     context.includeName = @includeName
     context
 
@@ -56,3 +71,6 @@ module.exports = class ThangAvatarView extends View
 
   onNewWorld: (e) ->
     @options.thang = @thang = e.world.thangMap[@thang.id] if @thang
+
+  destroy: ->
+    super()

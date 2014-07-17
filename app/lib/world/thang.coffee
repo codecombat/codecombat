@@ -8,7 +8,6 @@ module.exports = class Thang
   @remainingThangNames: {}
 
   @nextID: (spriteName, world) ->
-    Thang.lastIDNums ?= {}
     originals = thangNames[spriteName] or [spriteName]
     remaining = Thang.remainingThangNames[spriteName]
     remaining = Thang.remainingThangNames[spriteName] = originals.slice() unless remaining?.length
@@ -23,7 +22,7 @@ module.exports = class Thang
     name
 
   @resetThangIDs: -> Thang.remainingThangNames = {}
-
+  isThang: true
   apiProperties: ['id', 'spriteName', 'health', 'pos', 'team']
 
   constructor: (@world, @spriteName, @id) ->
@@ -32,12 +31,27 @@ module.exports = class Thang
     @addTrackedProperties ['exists', 'boolean']  # TODO: move into Systems/Components, too?
     #console.log "Generated #{@toString()}."
 
+  destroy: ->
+    # Just trying to destroy __aetherAPIClone, but might as well nuke everything just in case
+    @[key] = undefined for key of @
+    @destroyed = true
+    @destroy = ->
+
   updateRegistration: ->
     system.register @ for system in @world.systems
 
   publishNote: (channel, event) ->
     event.thang = @
     @world.publishNote channel, event
+
+  getGoalState: (goalID) ->
+    @world.getGoalState goalID
+
+  setGoalState: (goalID, status) ->
+    @world.setGoalState goalID, status
+
+  getThangByID: (id) ->
+    @world.getThangByID id
 
   addComponents: (components...) ->
     # We don't need to keep the components around after attaching them, but we will keep their initial config for recreating Thangs
@@ -117,7 +131,7 @@ module.exports = class Thang
       source.original = chain.original.toString()
       source.user = chain.user?.toString()
     else
-      source.original = @[methodName]?.toString() ? ""
+      source.original = @[methodName]?.toString() ? ''
     source.original = Aether.getFunctionBody source.original
     source
 

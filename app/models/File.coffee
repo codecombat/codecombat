@@ -1,5 +1,6 @@
-CocoModel = require('./CocoModel')
+CocoModel = require './CocoModel'
 
 module.exports = class File extends CocoModel
-  @className: "File"
-  urlRoot: "/db/file"
+  @className: 'File'
+  @schema: {}
+  urlRoot: '/db/file'

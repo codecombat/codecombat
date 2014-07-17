@@ -36,6 +36,8 @@ ThangListView = require './thang_list_view'
 SpellPaletteView = require './spell_palette_view'
 CastButtonView = require './cast_button_view'
 
+window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.js'
+
 module.exports = class TomeView extends View
   id: 'tome-view'
   template: template
@@ -43,43 +45,71 @@ module.exports = class TomeView extends View
   cache: false
 
   subscriptions:
-    'tome:spell-loaded': "onSpellLoaded"
-    'tome:cast-spell': "onCastSpell"
+    'tome:spell-loaded': 'onSpellLoaded'
+    'tome:cast-spell': 'onCastSpell'
     'tome:toggle-spell-list': 'onToggleSpellList'
+    'tome:change-language': 'updateLanguageForAllSpells'
     'surface:sprite-selected': 'onSpriteSelected'
-    'surface:new-thang-added': 'onNewThangAdded'
+    'god:new-world-created': 'onNewWorld'
+    'tome:comment-my-code': 'onCommentMyCode'
 
   events:
     'click #spell-view': 'onSpellViewClick'
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': 'onClick'
 
   afterRender: ->
     super()
+    @worker = @createWorker()
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
-
     if programmableThangs.length
-      @createSpells programmableThangs  # Do before spellList, thangList, and castButton
+      @createSpells programmableThangs, programmableThangs[0].world  # Do before spellList, thangList, and castButton
       @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
       @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
-      @castButton = @insertSubView new CastButtonView spells: @spells
+      @castButton = @insertSubView new CastButtonView spells: @spells, levelID: @options.levelID
+      @teamSpellMap = @generateTeamSpellMap(@spells)
     else
       @cast()
-      console.log "Warning: There are no Programmable Thangs in this level, which makes it unplayable."
+      console.warn 'Warning: There are no Programmable Thangs in this level, which makes it unplayable.'
+    delete @options.thangs
 
-  onNewThangAdded: (e) ->
-    return unless e.thang.isProgrammable and not _.find @thangList.thangs, id: e.thang.id
-    @createSpells [e.thang]
-    @spellList.addThang e.thang
-    @thangList.addThang e.thang
+  onNewWorld: (e) ->
+    thangs = _.filter e.world.thangs, 'inThangList'
+    programmableThangs = _.filter thangs, 'isProgrammable'
+    @createSpells programmableThangs, e.world
+    @thangList.adjustThangs @spells, thangs
+    @spellList.adjustSpells @spells
 
-  createSpells: (programmableThangs) ->
-    # If needed, we could make this able to update when programmableThangs changes.
-    # We haven't done that yet, so call it just once on init.
+  onCommentMyCode: (e) ->
+    for spellKey, spell of @spells when spell.canWrite()
+      console.log 'Commenting out', spellKey
+      commentedSource = 'return;  // Commented out to stop infinite loop.\n' + spell.getSource()
+      spell.view.updateACEText commentedSource
+      spell.view.recompile false
+    @cast()
+
+  createWorker: ->
+    return new Worker('/javascripts/workers/aether_worker.js')
+
+  generateTeamSpellMap: (spellObject) ->
+    teamSpellMap = {}
+    for spellName, spell of spellObject
+      teamName = spell.team
+      teamSpellMap[teamName] ?= []
+
+      spellNameElements = spellName.split '/'
+      thangName = spellNameElements[0]
+      spellName = spellNameElements[1]
+
+      teamSpellMap[teamName].push thangName if thangName not in teamSpellMap[teamName]
+
+    return teamSpellMap
+
+  createSpells: (programmableThangs, world) ->
+    language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'javascript'
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
     @thangSpells ?= {}
     for thang in programmableThangs
-      world = thang.world
       continue if @thangSpells[thang.id]?
       @thangSpells[thang.id] = []
       for methodName, method of thang.programmableMethods
@@ -90,10 +120,26 @@ module.exports = class TomeView extends View
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          spell = @spells[spellKey] = new Spell programmableMethod: method, spellKey: spellKey, pathComponents: pathPrefixComponents.concat(pathComponents), session: @options.session, supermodel: @supermodel, skipFlow: @getQueryVariable("skip_flow") is "true", skipProtectAPI: @getQueryVariable("skip_protect_api") is "true"
+          skipProtectAPI = @getQueryVariable 'skip_protect_api', (@options.levelID in ['gridmancer'])
+          spell = @spells[spellKey] = new Spell
+            programmableMethod: method
+            spellKey: spellKey
+            pathComponents: pathPrefixComponents.concat(pathComponents)
+            session: @options.session
+            otherSession: @options.otherSession
+            supermodel: @supermodel
+            skipProtectAPI: skipProtectAPI
+            worker: @worker
+            language: language
+            spectateView: @options.spectateView
+
     for thangID, spellKeys of @thangSpells
-      thang = world.getThangByID(thangID)
-      @spells[spellKey].addThang thang for spellKey in spellKeys
+      thang = world.getThangByID thangID
+      if thang
+        @spells[spellKey].addThang thang for spellKey in spellKeys
+      else
+        delete @thangSpells[thangID]
+        spell.removeThangID thangID for spell in @spells
     null
 
   onSpellLoaded: (e) ->
@@ -104,16 +150,20 @@ module.exports = class TomeView extends View
   onCastSpell: (e) ->
     # A single spell is cast.
     # Hmm; do we need to make sure other spells are all cast here?
-    @cast()
+    @cast e?.preload
 
-  cast: ->
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
+  cast: (preload=false) ->
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload
 
   onToggleSpellList: (e) ->
+    @spellList.rerenderEntries()
     @spellList.$el.toggle()
 
   onSpellViewClick: (e) ->
     @spellList.$el.hide()
+
+  onClick: (e) ->
+    Backbone.Mediator.publish 'tome:focus-editor' unless $(e.target).parents('.popover').length
 
   clearSpellView: ->
     @spellView?.dismiss()
@@ -122,6 +172,7 @@ module.exports = class TomeView extends View
     @spellTabView?.$el.after('<div id="' + @spellTabView.id + '"></div>').detach()
     @spellTabView = null
     @removeSubView @spellPaletteView if @spellPaletteView
+    @spellPaletteView = null
     @castButton?.$el.hide()
     @thangList?.$el.show()
 
@@ -129,40 +180,50 @@ module.exports = class TomeView extends View
     thang = e.thang
     spellName = e.spellName
     @spellList?.$el.hide()
-    return @clearSpellView() unless thang?.isProgrammable
+    return @clearSpellView() unless thang
+    spell = @spellFor thang, spellName
+    unless spell?.canRead()
+      @clearSpellView()
+      @updateSpellPalette thang, spell
+      return
+    unless spell.view is @spellView
+      @clearSpellView()
+      @spellView = spell.view
+      @spellTabView = spell.tabView
+      @$el.find('#' + @spellView.id).after(@spellView.el).remove()
+      @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
+      @castButton.attachTo @spellView
+      @thangList.$el.hide()
+      Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
+    @spellList.setThangAndSpell thang, spell
+    @spellView?.setThang thang
+    @spellTabView?.setThang thang
+    @updateSpellPalette thang, spell
+
+  updateSpellPalette: (thang, spell) ->
+    return unless thang and @spellPaletteView?.thang isnt thang and thang.programmableProperties or thang.apiProperties
+    @spellPaletteView = @insertSubView new SpellPaletteView thang: thang, supermodel: @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session
+    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell   # TODO: know when palette should have been disabled but didn't exist
+
+  spellFor: (thang, spellName) ->
+    return null unless thang?.isProgrammable
     selectedThangSpells = (@spells[spellKey] for spellKey in @thangSpells[thang.id])
     if spellName
       spell = _.find selectedThangSpells, {name: spellName}
     else
       spell = @thangList.topSpellForThang thang
       #spell = selectedThangSpells[0]  # TODO: remember last selected spell for this thang
-    return @clearSpellView() unless spell?.canRead()
-    @spellList.setThangAndSpell thang, spell
-    @spellView?.setThang thang
-    @spellTabView?.setThang thang
-    if @spellPaletteView?.thang isnt thang
-      @spellPaletteView = @insertSubView new SpellPaletteView thang: thang
-      @spellPaletteView.toggleControls {}, spell.view.controlsEnabled   # TODO: know when palette should have been disabled but didn't exist
-    return if spell.view is @spellView
-    @clearSpellView()
-    @spellView = spell.view
-    @spellTabView = spell.tabView
-    @$el.find('#' + @spellView.id).after(@spellView.el).remove()
-    @$el.find('#' + @spellTabView.id).after(@spellTabView.el).remove()
-    @spellView.setThang thang
-    @spellTabView.setThang thang
-    @castButton.attachTo @spellView
-    @thangList.$el.hide()
-    # New, good event
-    Backbone.Mediator.publish 'tome:spell-shown', thang: thang, spell: spell
-    # Bad, old one for old scripts (TODO)
-    Backbone.Mediator.publish 'editor:tab-shown', thang: thang, methodName: spell.name
+    spell
 
   reloadAllCode: ->
-    spell.view.reloadCode false for spellKey, spell of @spells
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells
+    spell.view.reloadCode false for spellKey, spell of @spells when spell.team is me.team or (spell.team in ['common', 'neutral', null])
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: false
+
+  updateLanguageForAllSpells: (e) ->
+    spell.updateLanguageAether e.language for spellKey, spell of @spells when spell.canWrite()
+    @cast()
 
   destroy: ->
+    spell.destroy() for spellKey, spell of @spells
+    @worker?.terminate()
     super()
-    for spellKey, spell of @spells
-      spell.view.destroy()

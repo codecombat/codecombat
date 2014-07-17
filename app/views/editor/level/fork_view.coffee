@@ -4,7 +4,7 @@ forms = require 'lib/forms'
 Level = require 'models/Level'
 
 module.exports = class LevelForkView extends View
-  id: "editor-level-fork-modal"
+  id: 'editor-level-fork-modal'
   template: template
   instant: false
   modalWidthPercent: 60
@@ -17,7 +17,7 @@ module.exports = class LevelForkView extends View
     super options
     @level = options.level
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.level = @level
     context
@@ -25,7 +25,7 @@ module.exports = class LevelForkView extends View
   forkLevel: ->
     @showLoading()
     forms.clearFormAlerts(@$el)
-    newLevel = new Level(_.cloneDeep(@level.attributes))
+    newLevel = new Level($.extend(true, {}, @level.attributes))
     newLevel.unset '_id'
     newLevel.unset 'version'
     newLevel.unset 'creator'

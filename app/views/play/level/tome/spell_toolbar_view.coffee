@@ -24,7 +24,7 @@ module.exports = class SpellToolbarView extends View
     super()
 
   toggleFlow: (to) ->
-    @$el.find(".flow").toggle to
+    @$el.find('.flow').toggle to
 
   setStatementIndex: (statementIndex) ->
     return unless total = @callState?.statementsExecuted
@@ -55,8 +55,8 @@ module.exports = class SpellToolbarView extends View
         $metrics.find('.statements-executed-total').text " (#{@metrics.statementsExecuted})"
         titleSuffix = " (#{@metrics.statementsExecuted} statements total)"
       else
-        $metrics.find('.statements-executed-total').text ""
-        titleSuffix = ""
+        $metrics.find('.statements-executed-total').text ''
+        titleSuffix = ''
       $metrics.find('.statements-metric').show().attr('title', "Statement #{@statementIndex + 1} of #{statementsExecuted} this call#{titleSuffix}")
     else
       $metrics.find('.statements-metric').hide()
@@ -76,7 +76,8 @@ module.exports = class SpellToolbarView extends View
   onProgressHoverLong: (e) =>
     e ?= @lastHoverEvent
     @hoverTimeout = null
-    @setStatementRatio e.offsetX / @$el.find('.progress').width()
+    offsetX = e.offsetX or e.clientX - $(e.target).offset().left
+    @setStatementRatio offsetX / @$el.find('.progress').width()
     @updateTime()
     @maintainIndexHover = true
     @updateScroll()
@@ -103,8 +104,8 @@ module.exports = class SpellToolbarView extends View
 
   updateScroll: ->
     return unless statementStart = @callState?.statements?[@statementIndex]?.range[0]
-    text = @ace.getValue()
-    currentLine = text.substr(0, statementStart).split('\n').length - 1
+    text = @ace.getValue() # code in editor
+    currentLine = statementStart.row
     @ace.scrollToLine currentLine, true, true
 
   setCallState: (callState, statementIndex, @callIndex, @metrics) ->

@@ -34,7 +34,7 @@
     height: 100%
     left: 0
     top: 0
-    z-index: -1
+    z-index: 0
     background-image: url(/images/level/hud_left_wing.png)
     background-position: right
 
@@ -44,7 +44,7 @@
     height: 100%
     right: 0
     top: 0
-    z-index: -1
+    z-index: 0
     background-image: url(/images/level/hud_right_wing.png)
     background-position: left
 
@@ -57,6 +57,8 @@
     color: #BEBEBE
     font-size: 12px
     overflow: hidden
+    z-index: 1
+    position: relative
 
     .no-selection-message
       display: none
@@ -84,53 +86,82 @@
         @include gradient-radial-custom-stops(hsla(116,80%,74%,1), 20%, hsla(116,80%,31%,1), 70%)
 
     .thang-props
-      width: 144px
-      height: 100px
       margin: 8px 8px 0 0
-      overflow-y: scroll
       float: left
 
-      .prop
-        img
+      .thang-props-column
+        float: left
+        width: 144px
+        height: 100px
+        @include user-select(text)
+  
+        &.nonexistent
+          visibility: hidden
+
+        .text-prop
+          width: 50%
+
+        .prop-label-icon
+          $iconSize: 16px
+          display: inline-block
+          width: $iconSize
+          height: $iconSize
           margin-right: 5px
+          background: transparent url(/images/level/hud_info_icons.png) no-repeat
+          background-size: auto $iconSize
+          float: left
 
-      .text-prop
-        width: 50%
-
-      .prop-value.bar-prop
-        width: 100px
-        display: inline-block
-        height: 6px
-        background: #ddd
-        border: 1px solid black
-        border-radius: 6px
-        overflow: hidden
-
-        .bar
-          background: black
-          width: 100%
+          &.prop-label-icon-pos
+            background-position-x: -1 * $iconSize
+          &.prop-label-icon-target
+            background-position-x: -2 * $iconSize
+          &.prop-label-icon-inventory
+            background-position-x: -3 * $iconSize
+          &.prop-label-icon-visualRange
+            background-position-x: -4 * $iconSize
+          &.prop-label-icon-attackDamage
+            background-position-x: -5 * $iconSize
+          &.prop-label-icon-attackRange
+            background-position-x: -6 * $iconSize
+          &.prop-label-icon-maxSpeed
+            background-position-x: -7 * $iconSize
+          &.prop-label-icon-gold, &.prop-label-icon-bountyGold
+            background-position-x: -8 * $iconSize
+  
+        .prop-value.bar-prop
+          width: 100px
+          display: inline-block
+          height: 6px
+          background: #ddd
+          border: 1px solid black
+          border-radius: 6px
+          overflow: hidden
+  
+          .bar
+            background: black
+            width: 100%
+            height: 100%
+  
+        .prop[name="health"] .bar
+          background: #C5362B
+  
+        .message
+          text-align: center
+          display: table
           height: 100%
-
-      .prop[name="health"] .bar
-        background: #C5362B
-
-      .message
-        text-align: center
-        display: table
-        height: 100%
-        width: 100%
-
-        p
-          display: table-cell
-          vertical-align: middle
-          font-size: 20px
+          width: 100%
+  
+          p
+            display: table-cell
+            vertical-align: middle
+            font-size: 20px
 
     .thang-actions
       width: 212px
       height: 100px
       margin: 8px 24px 8px 0
       float: left
-      overflow-y: scroll
+      overflow-y: auto
       overflow-x: hidden
 
       .table-container
@@ -180,11 +211,11 @@
               height: 19px
 
               div
-                @include box-sizing(border-box)
+                border-radius: 1px
                 background-color: #6BA1C8
                 height: 100%
-                border-bottom: 2px groove #201B15
-                border-right: 1px solid #201B15
+                border-bottom: 2px groove darken(#6BA1C8, 30%)
+                border-right: 1px solid darken(#6BA1C8, 10%)
                 position: absolute
                 top: 0
 
@@ -223,7 +254,7 @@
 
         .hud-hint
           font-weight: normal
-          color: #888888
+          color: #999
 
         .enter
           position: absolute
@@ -245,7 +276,7 @@
           padding-right: 20px
 
         h3
-          margin: 0 0 5px
+          margin: 0
           font-size: 16px
           line-height: 16px
           color: #338

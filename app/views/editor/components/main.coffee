@@ -3,11 +3,12 @@ template = require 'templates/editor/components/main'
 
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
+LevelSystem = require 'models/LevelSystem'
 ComponentsCollection = require 'collections/ComponentsCollection'
 ComponentConfigView = require './config'
 
 module.exports = class ThangComponentEditView extends CocoView
-  id: "thang-components-edit-view"
+  id: 'thang-components-edit-view'
   template: template
 
   constructor: (options) ->
@@ -16,34 +17,21 @@ module.exports = class ThangComponentEditView extends CocoView
     @world = options.world
     @level = options.level
     @callback = options.callback
-
-  render: =>
-    for model in [Level, LevelComponent]
-      (new model()).on 'schema-loaded', @render unless model.schema?.loaded
-    if not @componentCollection
-      @componentCollection = @supermodel.getCollection new ComponentsCollection()
-    unless @componentCollection.loaded
-      @componentCollection.once 'sync', @onComponentsSync
-      @componentCollection.fetch()
-    super() # do afterRender at the end
+    @componentCollection = @supermodel.loadCollection(new ComponentsCollection(), 'components').model
 
   afterRender: ->
     super()
-    return @showLoading() unless @componentCollection?.loaded and Level.schema.loaded and LevelComponent.schema.loaded
-    @hideLoading()
+    return unless @supermodel.finished()
     @buildExtantComponentTreema()
     @buildAddComponentTreema()
 
-  onComponentsSync: =>
-    @supermodel.addCollection @componentCollection
-    @render()
-
   buildExtantComponentTreema: ->
+    level = new Level()
     treemaOptions =
       supermodel: @supermodel
-      schema: Level.schema.get('properties').thangs.items.properties.components
+      schema: level.schema().properties.thangs.items.properties.components
       data: _.cloneDeep @components
-      callbacks: {select: @onSelectExtantComponent, change:@onChangeExtantComponents}
+      callbacks: {select: @onSelectExtantComponent, change: @onChangeExtantComponents}
       noSortable: true
       nodeClasses:
         'thang-components-array': ThangComponentsArrayNode
@@ -61,13 +49,13 @@ module.exports = class ThangComponentEditView extends CocoView
     components = (m.attributes for m in @componentCollection.models)
     _.remove components, (comp) =>
       _.find extantComponents, {original: comp.original}  # already have this one added
-    components = _.sortBy components, (comp) -> comp.system + "." + comp.name
+    components = _.sortBy components, (comp) -> comp.system + '.' + comp.name
 
     treemaOptions =
       supermodel: @supermodel
-      schema: { type: 'array', items: LevelComponent.schema.attributes }
-      data: (_.cloneDeep(c) for c in components)
-      callbacks: {select: @onSelectAddableComponent, enter: @onAddComponentEnterPressed }
+      schema: {type: 'array', items: LevelComponent.schema}
+      data: ($.extend(true, {}, c) for c in components)
+      callbacks: {select: @onSelectAddableComponent, enter: @onAddComponentEnterPressed}
       readOnly: true
       noSortable: true
       nodeClasses:
@@ -77,7 +65,8 @@ module.exports = class ThangComponentEditView extends CocoView
     _.defer (=>
       @addComponentsTreema = @$el.find('#add-component-column .treema').treema treemaOptions
       @addComponentsTreema.build()
-    ), 100
+      @hideLoading()
+    ), 500
 
   onSelectAddableComponent: (e, selected) =>
     @extantComponentsTreema.deselectAll()
@@ -93,6 +82,34 @@ module.exports = class ThangComponentEditView extends CocoView
     @alreadySaving = true
     @closeExistingView()
     @alreadySaving = false
+
+    return unless selected.length
+
+    # select dependencies.
+    node = selected[0]
+    original = node.data.original
+
+    toRemoveTreema = []
+    dependent_class = 'treema-dependent'
+    try
+      for index, child of @extantComponentsTreema.childrenTreemas
+        $(child.$el).removeClass(dependent_class)
+
+      for index, child of @extantComponentsTreema.childrenTreemas
+        if child.data.original == original # Here we assume that the treemas are sorted by their dependency.
+          break
+
+        dep_originals = (d.original for d in child.component.attributes.dependencies)
+        for dep_original in dep_originals
+          if original == dep_original
+            toRemoveTreema.push child
+
+      for dep_treema in toRemoveTreema
+        dep_treema.toggleSelect()
+        $(dep_treema.$el).addClass(dependent_class)
+
+    catch error
+      console.error error
 
     return unless selected.length
     row = selected[0]
@@ -127,12 +144,25 @@ module.exports = class ThangComponentEditView extends CocoView
     @reportChanges()
 
   onAddComponentEnterPressed: (node) =>
+    if extantSystems
+      extantSystems =
+        (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
+      requireSystem = node.data.system.toLowerCase()
+
+      if requireSystem not in extantSystems
+        warn_element = 'Component <b>' + node.data.name + '</b> requires system <b>' + requireSystem + '</b> which is currently not specified in this level.'
+        noty({
+          text: warn_element,
+          layout: 'bottomLeft',
+          type: 'warning'
+        })
+
     currentSelection = @addComponentsTreema?.getLastSelectedTreema()?.data._id
 
     id = node.data._id
     comp = _.find @componentCollection.models, id: id
     unless comp
-      return console.error "Couldn't find component for id", id, "out of", @components.models
+      return console.error 'Couldn\'t find component for id', id, 'out of', @components.models
     # Add all dependencies, recursively, unless we already have them
     toAdd = comp.getDependencies(@componentCollection.models)
     _.remove toAdd, (c1) =>
@@ -151,9 +181,8 @@ module.exports = class ThangComponentEditView extends CocoView
         treema.select()
         return
 
-
   reportChanges: ->
-    @callback?(_.cloneDeep(@extantComponentsTreema.data))
+    @callback?($.extend(true, [], @extantComponentsTreema.data))
 
 class ThangComponentsArrayNode extends TreemaArrayNode
   valueClass: 'treema-thang-components-array'
@@ -180,11 +209,11 @@ class ThangComponentNode extends TreemaObjectNode
 
   grabDBComponent: ->
     @component = @settings.supermodel.getModelByOriginalAndMajorVersion LevelComponent, @data.original, @data.majorVersion
-    console.error "Couldn't find comp for", @data.original, @data.majorVersion, "from models", @settings.supermodel.models unless @component
+    console.error 'Couldn\'t find comp for', @data.original, @data.majorVersion, 'from models', @settings.supermodel.models unless @component
 
   buildValueForDisplay: (valEl) ->
     return super valEl unless @data.original and @component
-    s = @component.get('system') + "." + @component.get('name')
+    s = @component.get('system') + '.' + @component.get('name')
     @buildValueForDisplaySimply valEl, s
 
 class ComponentArrayNode extends TreemaArrayNode
@@ -204,7 +233,7 @@ class ComponentNode extends TreemaObjectNode
   collection: false
 
   buildValueForDisplay: (valEl) ->
-    s = @data.system + "." + @data.name
+    s = @data.system + '.' + @data.name
     @buildValueForDisplaySimply valEl, s
 
   onEnterPressed: (args...) ->

@@ -8,8 +8,10 @@ d2r = (degrees) -> degrees / 180 * Math.PI
 MAX_ZOOM = 8
 MIN_ZOOM = 0.1
 DEFAULT_ZOOM = 2.0
-DEFAULT_TARGET = {x:0, y:0}
+DEFAULT_TARGET = {x: 0, y: 0}
 DEFAULT_TIME = 1000
+STANDARD_ZOOM_WIDTH = 924
+STANDARD_ZOOM_HEIGHT = 589
 
 # You can't mutate any of the constructor parameters after construction.
 # You can only call zoomTo to change the zoom target and zoom level.
@@ -17,12 +19,14 @@ module.exports = class Camera extends CocoClass
   @PPM: 10   # pixels per meter
   @MPP: 0.1  # meters per pixel; should match @PPM
 
-  bounds: null # list of two surface points defining the viewable rectangle in the world
+  bounds: null  # list of two surface points defining the viewable rectangle in the world
                 # or null if there are no bounds
 
   # what the camera is pointed at right now
   target: DEFAULT_TARGET
   zoom: DEFAULT_ZOOM
+  canvasScaleFactorX: 1
+  canvasScaleFactorY: 1
 
   # properties for tracking going between targets
   oldZoom: null
@@ -38,17 +42,26 @@ module.exports = class Camera extends CocoClass
   subscriptions:
     'camera-zoom-in': 'onZoomIn'
     'camera-zoom-out': 'onZoomOut'
-    'surface:mouse-scrolled': 'onMouseScrolled'
+    'camera-zoom-to': 'onZoomTo'
     'level:restarted': 'onLevelRestarted'
+    'surface:mouse-scrolled': 'onMouseScrolled'
+    'sprite:mouse-down': 'onMouseDown'
+    'sprite:dragged': 'onMouseDragged'
 
-  # TODO: Fix tests to not use mainLayer
-  constructor: (@canvasWidth, @canvasHeight, angle=Math.asin(0.75), hFOV=d2r(30)) ->
+  constructor: (@canvas, angle=Math.asin(0.75), hFOV=d2r(30)) ->
     super()
+    @canvasWidth = parseInt(@canvas.attr('width'), 10)
+    @canvasHeight = parseInt(@canvas.attr('height'), 10)
+    @offset = {x: 0, y: 0}
     @calculateViewingAngle angle
     @calculateFieldOfView hFOV
     @calculateAxisConversionFactors()
+    @calculateMinMaxZoom()
     @updateViewports()
-    @calculateMinZoom()
+
+  onResize: (newCanvasWidth, newCanvasHeight) ->
+    @canvasScaleFactorX = newCanvasWidth / @canvasWidth
+    @canvasScaleFactorY = newCanvasHeight / @canvasHeight
 
   calculateViewingAngle: (angle) ->
     # Operate on open interval between 0 - 90 degrees to make the math easier
@@ -65,7 +78,7 @@ module.exports = class Camera extends CocoClass
       console.log "Restricted given horizontal field of view to #{r2d(hFOV)} to #{r2d(@hFOV)}."
     @vFOV = 2 * Math.atan(Math.tan(@hFOV / 2) * @canvasHeight / @canvasWidth)
     if @vFOV > Math.PI
-      console.log "Vertical field of view problem: expected canvas not to be taller than it is wide with high field of view."
+      console.log 'Vertical field of view problem: expected canvas not to be taller than it is wide with high field of view.'
       @vFOV = Math.PI - epsilon
 
   calculateAxisConversionFactors: ->
@@ -88,15 +101,11 @@ module.exports = class Camera extends CocoClass
   surfaceToCanvas: (pos) ->
     {x: (pos.x - @surfaceViewport.x) * @zoom, y: (pos.y - @surfaceViewport.y) * @zoom}
 
-  # TODO: do we even need separate screen coordinates?
-  # We would need some other properties for the actual ratio of screen size to canvas size.
   canvasToScreen: (pos) ->
-    #{x: pos.x * @someCanvasToScreenXScaleFactor, y: pos.y * @someCanvasToScreenYScaleFactor}
-    {x: pos.x, y: pos.y}
+    {x: pos.x * @canvasScaleFactorX, y: pos.y * @canvasScaleFactorY}
 
   screenToCanvas: (pos) ->
-    #{x: pos.x / @someCanvasToScreenXScaleFactor, y: pos.y / @someCanvasToScreenYScaleFactor}
-    {x: pos.x, y: pos.y}
+    {x: pos.x / @canvasScaleFactorX, y: pos.y / @canvasScaleFactorY}
 
   canvasToSurface: (pos) ->
     {x: pos.x / @zoom + @surfaceViewport.x, y: pos.y / @zoom + @surfaceViewport.y}
@@ -146,21 +155,52 @@ module.exports = class Camera extends CocoClass
   onZoomIn: (e) -> @zoomTo @target, @zoom * 1.15, 300
   onZoomOut: (e) -> @zoomTo @target, @zoom / 1.15, 300
   onMouseScrolled: (e) ->
+    return unless e.canvas is @canvas
     ratio = 1 + 0.05 * Math.sqrt(Math.abs(e.deltaY))
     ratio = 1 / ratio if e.deltaY > 0
-    @zoomTo @target, @zoom * ratio, 0
+    newZoom = @zoom * ratio
+    if e.screenPos and not @focusedOnSprite()
+      # zoom based on mouse position, adjusting the target so the point under the mouse stays the same
+      mousePoint = @screenToSurface(e.screenPos)
+      ratioPosX = (mousePoint.x - @surfaceViewport.x) / @surfaceViewport.width
+      ratioPosY = (mousePoint.y - @surfaceViewport.y) / @surfaceViewport.height
+      newWidth = @canvasWidth / newZoom
+      newHeight = @canvasHeight / newZoom
+      newTargetX = mousePoint.x - (newWidth * ratioPosX) + (newWidth / 2)
+      newTargetY = mousePoint.y - (newHeight * ratioPosY) + (newHeight / 2)
+      target = {x: newTargetX, y: newTargetY}
+    else
+      target = @target
+    @zoomTo target, newZoom, 0
+
+  onMouseDown: (e) ->
+    return unless e.canvas is @canvas[0]
+    return if @dragDisabled
+    @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
+
+  onMouseDragged: (e) ->
+    return unless e.canvas is @canvas[0]
+    return if @dragDisabled
+    target = @boundTarget(@target, @zoom)
+    newPos =
+      x: target.x + (@lastPos.x - e.originalEvent.rawX) / @zoom
+      y: target.y + (@lastPos.y - e.originalEvent.rawY) / @zoom
+    @zoomTo newPos, @zoom, 0
+    @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
+    Backbone.Mediator.publish 'camera:dragged'
+
   onLevelRestarted: ->
-    @setBounds(@firstBounds)
+    @setBounds(@firstBounds, false)
 
   # COMMANDS
 
-  setBounds: (worldBounds) ->
+  setBounds: (worldBounds, updateZoom=true) ->
     # receives an array of two world points. Normalize and apply them
     @firstBounds = worldBounds unless @firstBounds
     @bounds = @normalizeBounds(worldBounds)
-    @calculateMinZoom()
-    @updateZoom true
-    @target = @currentTarget unless @target.name
+    @calculateMinMaxZoom()
+    @updateZoom true if updateZoom
+    @target = @currentTarget unless @focusedOnSprite()
 
   normalizeBounds: (worldBounds) ->
     return null unless worldBounds
@@ -170,24 +210,36 @@ module.exports = class Camera extends CocoClass
     right = Math.max(worldBounds[0].x, worldBounds[1].x)
     bottom -= 1 if top is bottom
     right += 1 if left is right
-    p1 = @worldToSurface({x:left, y:top})
-    p2 = @worldToSurface({x:right, y:bottom})
-    {x:p1.x, y:p1.y, width:p2.x-p1.x, height:p2.y-p1.y}
+    p1 = @worldToSurface({x: left, y: top})
+    p2 = @worldToSurface({x: right, y: bottom})
+    {x: p1.x, y: p1.y, width: p2.x-p1.x, height: p2.y-p1.y}
 
-  calculateMinZoom: ->
+  calculateMinMaxZoom: ->
     # Zoom targets are always done in Surface coordinates.
-    if not @bounds
-      @minZoom = 0.5
-      return
+    @maxZoom = MAX_ZOOM
+    return @minZoom = MIN_ZOOM unless @bounds
     @minZoom = Math.max @canvasWidth / @bounds.width, @canvasHeight / @bounds.height
-    @zoom = Math.max(@minZoom, @zoom) if @zoom
+    if @zoom
+      @zoom = Math.max @minZoom, @zoom
+      @zoom = Math.min @maxZoom, @zoom
 
   zoomTo: (newTarget=null, newZoom=1.0, time=1500) ->
     # Target is either just a {x, y} pos or a display object with {x, y} that might change; surface coordinates.
     time = 0 if @instant
-    newTarget ?= {x:0, y:0}
-    newTarget = (@newTarget or @target) if @locked 
-    newZoom = Math.min((Math.max @minZoom, newZoom), MAX_ZOOM)
+    newTarget ?= {x: 0, y: 0}
+    newTarget = (@newTarget or @target) if @locked
+    newZoom = Math.max newZoom, @minZoom
+    newZoom = Math.min newZoom, @maxZoom
+
+    thangType = @target?.sprite?.thangType
+    if thangType
+      @offset = _.clone(thangType.get('positions')?.torso or {x: 0, y: 0})
+      scale = thangType.get('scale') or 1
+      @offset.x *= scale
+      @offset.y *= scale
+    else
+      @offset = {x: 0, y: 0}
+
     return if @zoom is newZoom and newTarget is newTarget.x and newTarget.y is newTarget.y
 
     @finishTween(true)
@@ -198,20 +250,21 @@ module.exports = class Camera extends CocoClass
       @newZoom = newZoom
       @tweenProgress = 0.01
       createjs.Tween.get(@)
-        .to({tweenProgress: 1.0}, time, createjs.Ease.getPowInOut(3))
-        .call @onTweenEnd
+        .to({tweenProgress: 1.0}, time, createjs.Ease.getPowOut(4))
+        .call @finishTween
 
     else
       @target = newTarget
       @zoom = newZoom
       @updateZoom true
 
-  onTweenEnd: => @finishTween()
+  focusedOnSprite: ->
+    return @target?.name
 
   finishTween: (abort=false) =>
     createjs.Tween.removeTweens(@)
     return unless @newTarget
-    unless abort
+    unless abort is true
       @target = @newTarget
       @zoom = @newZoom
     @newZoom = @oldZoom = @newTarget = @newTarget = @tweenProgress = null
@@ -219,7 +272,7 @@ module.exports = class Camera extends CocoClass
 
   updateZoom: (force=false) ->
     # Update when we're focusing on a Thang, tweening, or forcing it, unless we're locked
-    return if (not force) and (@locked or (not @newTarget and not @target?.name))
+    return if (not force) and (@locked or (not @newTarget and not @focusedOnSprite()))
     if @newTarget
       t = @tweenProgress
       @zoom = @oldZoom + t * (@newZoom - @oldZoom)
@@ -235,10 +288,13 @@ module.exports = class Camera extends CocoClass
   boundTarget: (pos, zoom) ->
     # Given an {x, y} in Surface coordinates, return one that will keep our viewport on the Surface.
     return pos unless @bounds
+    y = pos.y
+    if thang = pos.sprite?.thang
+      y = @worldToSurface(x: thang.pos.x, y: thang.pos.y).y  # ignore z
     marginX = (@canvasWidth / zoom / 2)
     marginY = (@canvasHeight / zoom / 2)
-    x = Math.min(Math.max(marginX + @bounds.x, pos.x), @bounds.x + @bounds.width - marginX)
-    y = Math.min(Math.max(marginY + @bounds.y, pos.y), @bounds.y + @bounds.height - marginY)
+    x = Math.min(Math.max(marginX + @bounds.x, pos.x + @offset.x), @bounds.x + @bounds.width - marginX)
+    y = Math.min(Math.max(marginY + @bounds.y, y + @offset.y), @bounds.y + @bounds.height - marginY)
     {x: x, y: y}
 
   updateViewports: (target) ->
@@ -258,5 +314,13 @@ module.exports = class Camera extends CocoClass
   lock: ->
     @target = @currentTarget
     @locked = true
+
   unlock: ->
     @locked = false
+
+  destroy: ->
+    createjs.Tween.removeTweens @
+    super()
+
+  onZoomTo: (pos, time) ->
+    @zoomTo @worldToSurface(pos), @zoom, time

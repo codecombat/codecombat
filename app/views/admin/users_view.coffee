@@ -5,7 +5,7 @@ User = require 'models/User'
 module.exports = class UsersView extends View
   # TODO: Pagination, choosing filters on the page itself.
 
-  id: "admin-users-view"
+  id: 'admin-users-view'
   template: template
 
   constructor: (options) ->
@@ -36,10 +36,9 @@ module.exports = class UsersView extends View
     })
     @users = new UserCollection()
     @users.fetch()
-    @users.on('all', @render)
+    @listenTo(@users, 'all', @render)
 
-  getRenderData: =>
+  getRenderData: ->
     c = super()
     c.users = (user.attributes for user in @users.models)
-    console.log('our render data', c)
     c

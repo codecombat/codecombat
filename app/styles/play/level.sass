@@ -1,6 +1,11 @@
 @import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
 
+body.is-playing
+  background-color: black
+  .footer
+    background-color: black
+
 #level-view
   margin: 0 auto
   @include user-select(none)
@@ -11,15 +16,14 @@
   #canvas-wrapper
     width: 55%
     position: relative
+    overflow: hidden
     
   canvas#surface
-    background-color: #ddd
+    background-color: #333
     width: 100%
     display: block
     z-index: 1
     
-    
-  //max-width: 1680px   // guideline, but for now let's let it stretch out
   min-width: 1024px
   position: relative
 
@@ -33,6 +37,12 @@
     right: 0
     top: 0px
     bottom: 0
+    transition: width 0.5s ease-in-out
+    &.fullscreen-editor
+      position: fixed
+      width: 100%
+      height: 100%
+      z-index: 20
     
   #pointer
     position: absolute
@@ -57,12 +67,6 @@
   #multiplayer-join-link
     font-size: 12px
       
-  #level-done-button
-    position: absolute
-    right: 46%
-    top: 43px
-    @include box-shadow(4px 4px 15px black)
-
   // Custom Buttons
   .btn.banner
     @include banner-button(#FFF, #333)
@@ -131,3 +135,22 @@
     top: 0
     height: 100%
     width: 2%
+
+  .footer
+    @media screen and (min-aspect-ratio: 17/10)
+      display: none
+
+    &:not(:hover)
+      @include opacity(0.6)
+ 
+    .hour-of-code-explanation
+      margin-top: 5px
+      color: white
+      font-size: 12px
+
+      &:not(:hover)
+        @include opacity(0.75)
+
+      a
+        color: white
+        text-decoration: underline

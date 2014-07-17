@@ -4,11 +4,13 @@ LevelSystem = require './LevelSystem'
 ThangType = require './ThangType'
 
 module.exports = class Level extends CocoModel
-  @className: "Level"
-  urlRoot: "/db/level"
+  @className: 'Level'
+  @schema: require 'schemas/models/level'
+  urlRoot: '/db/level'
 
   serialize: (supermodel) ->
-    o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
+    # o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
+    o = $.extend true, {}, @attributes
 
     # Figure out Components
     o.levelComponents = _.cloneDeep (lc.attributes for lc in supermodel.getModels LevelComponent)
@@ -21,7 +23,6 @@ module.exports = class Level extends CocoModel
     @fillInDefaultSystemConfiguration o.systems
 
     o.thangTypes = (original: tt.get('original'), name: tt.get('name') for tt in supermodel.getModels ThangType)
-
     o
 
   sortSystems: (levelSystems, systemModels) ->
@@ -29,11 +30,11 @@ module.exports = class Level extends CocoModel
     visit = (system) ->
       return if system.original of originalsSeen
       systemModel = _.find systemModels, {original: system.original}
-      console.error "Couldn't find model for original", system.original, "from", systemModels unless systemModel
+      return console.error 'Couldn\'t find model for original', system.original, 'from', systemModels unless systemModel
       for d in systemModel.dependencies or []
         system2 = _.find levelSystems, {original: d.original}
         visit system2
-      #console.log "sorted systems adding", systemModel.name
+      #console.log 'sorted systems adding', systemModel.name
       sorted.push {model: systemModel, config: _.cloneDeep system.config}
       originalsSeen[system.original] = true
     visit system for system in levelSystems
@@ -52,20 +53,21 @@ module.exports = class Level extends CocoModel
       visit = (c) ->
         return if c in sorted
         lc = _.find levelComponents, {original: c.original}
-        console.error "Couldn't find lc for", c unless lc
-        if lc.name is "Programmable"
+        console.error thang.id, 'couldn\'t find lc for', c unless lc
+        if lc.name is 'Programmable'
           # Programmable always comes last
           visit c2 for c2 in _.without thang.components, c
         else
           for d in lc.dependencies or []
             c2 = _.find thang.components, {original: d.original}
-            visit c2
-          if lc.name is "Collides"
-            allied = _.find levelComponents, {name: "Allied"}
+            console.error thang.id, 'couldn\'t find dependent Component', d.original, 'from', lc.name unless c2
+            visit c2 if c2
+          if lc.name is 'Collides'
+            allied = _.find levelComponents, {name: 'Allied'}
             if allied
               collides = _.find(thang.components, {original: allied.original})
               visit collides if collides
-        #console.log thang.id, "sorted comps adding", lc.name
+        #console.log thang.id, 'sorted comps adding', lc.name
         sorted.push c
       for comp in thang.components
         visit comp
@@ -87,7 +89,7 @@ module.exports = class Level extends CocoModel
     return unless properties
     for prop, schema of properties
       if schema.default? and config[prop] is undefined
-        #console.log "Setting default of", config, "for", prop, "to", schema.default
+        #console.log 'Setting default of', config, 'for', prop, 'to', schema.default
         config[prop] = schema.default
       if schema.type is 'object' and config[prop]
         @walkDefaults config[prop], schema.properties
@@ -104,26 +106,4 @@ module.exports = class Level extends CocoModel
         continue unless c?
         width = c.width if c.width? and c.width > width
         height = c.height if c.height? and c.height > height
-    return {width:width, height:height}
-
-  getReferencedModels: (data, schema, path='/') ->
-    models = super data, schema, path
-    if path.match(/\/systems\/\d+\/config\//) and data?.indieSprites?.length
-      # Ugh, we need to make sure we grab the IndieSprite ThangTypes
-      for indieSprite in data.indieSprites
-        link = "/db/thang_type/#{indieSprite.thangType}/version"
-        model = CocoModel.getOrMakeModelFromLink link
-        models.push model if model
-    else if path is '/'
-      # We also we need to make sure we grab the Wizard ThangType and the Marks. Hackitrooooid!
-      for [type, original] in [
-        ["Wizard", "52a00d55cf1818f2be00000b"]
-        ["Highlight", "529f8fdbdacd325127000003"]
-        ["Selection", "52aa5f7520fccb0000000002"]
-        ["Target", "52b32ad97385ec3d03000001"]
-        ["Repair", "52bcc4591f766a891c000003"]
-      ]
-        link = "/db/thang_type/#{original}/version"
-        model = CocoModel.getOrMakeModelFromLink link
-        models.push model if model
-    models
+    return {width: width, height: height}

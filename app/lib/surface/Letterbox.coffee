@@ -1,5 +1,4 @@
 module.exports = class Letterbox extends createjs.Container
-
   subscriptions:
     'level-set-letterbox': 'onSetLetterbox'
 
@@ -8,7 +7,7 @@ module.exports = class Letterbox extends createjs.Container
     @initialize()
     @canvasWidth = options.canvasWidth
     @canvasHeight = options.canvasHeight
-    console.error "Letterbox needs canvasWidth/Height." unless @canvasWidth and @canvasHeight
+    console.error 'Letterbox needs canvasWidth/Height.' unless @canvasWidth and @canvasHeight
     @build()
     Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions
 
@@ -16,7 +15,7 @@ module.exports = class Letterbox extends createjs.Container
     @mouseEnabled = @mouseChildren = false
     @matteHeight = 0.10 * @canvasHeight
     @upperMatte = new createjs.Shape()
-    @upperMatte.graphics.beginFill("black").rect(0, 0, @canvasWidth, @matteHeight)
+    @upperMatte.graphics.beginFill('black').rect(0, 0, @canvasWidth, @matteHeight)
     @lowerMatte = @upperMatte.clone()
     @upperMatte.x = @lowerMatte.x = 0
     @upperMatte.y = -@matteHeight

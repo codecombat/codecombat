@@ -1,6 +1,7 @@
 View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/goals'
 {me} = require 'lib/auth'
+utils = require 'lib/utils'
 
 stateIconMap =
   incomplete: 'icon-minus'
@@ -8,27 +9,44 @@ stateIconMap =
   failure: 'icon-remove'
 
 module.exports = class GoalsView extends View
-  id: "goals-view"
+  id: 'goals-view'
   template: template
 
   subscriptions:
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'level-set-letterbox': 'onSetLetterbox'
+    'surface:playback-restarted': 'onSurfacePlaybackRestarted'
+    'surface:playback-ended': 'onSurfacePlaybackEnded'
 
   events:
-    'click': 'toggleCollapse'
+    'mouseenter': ->
+      @mouseEntered = true
+      @updatePlacement()
 
-  toggleCollapse: (e) =>
+    'mouseleave': ->
+      @mouseEntered = false
+      @updatePlacement()
+
+  toggleCollapse: (e) ->
     @$el.toggleClass('expanded').toggleClass('collapsed')
 
   onNewGoalStates: (e) ->
+    @$el.find('.goal-status').addClass 'secret'
+    classToShow = null
+    classToShow = 'success' if e.overallStatus is 'success'
+    classToShow = 'failure' if e.overallStatus is 'failure'
+    classToShow ?= 'timed-out' if e.timedOut
+    classToShow ?= 'incomplete'
+    @$el.find('.goal-status.'+classToShow).removeClass 'secret'
+
     list = $('#primary-goals-list', @$el)
     list.empty()
     goals = []
     for goal in e.goals
       state = e.goalStates[goal.id]
       continue if goal.hiddenGoal and state.status isnt 'failure'
-      text = goal.i18n?[me.lang()]?.name ? goal.name
+      continue if goal.team and me.team isnt goal.team
+      text = utils.i18n goal, 'name'
       if state.killed
         dead = _.filter(_.values(state.killed)).length
         targeted = _.values(state.killed).length
@@ -45,11 +63,34 @@ module.exports = class GoalsView extends View
       li.prepend($('<i></i>').addClass(stateIconMap[state.status]))
       list.append(li)
       goals.push goal
-    if goals.length then @$el.removeClass('hide') else @$el.addClass('hide')
+    @$el.removeClass('secret') if goals.length > 0
+
+  onSurfacePlaybackRestarted: ->
+    @playbackEnded = false
+    @$el.removeClass 'brighter'
+    @updatePlacement()
+
+  onSurfacePlaybackEnded: ->
+    @playbackEnded = true
+    @$el.addClass 'brighter'
+    @updatePlacement()
 
   render: ->
     super()
-    @$el.addClass('hide').addClass('expanded')
+    @$el.addClass('secret').addClass('expanded')
+
+  afterRender: ->
+    super()
+    @updatePlacement()
+
+  updatePlacement: ->
+    if @playbackEnded or @mouseEntered
+      # expand
+      @$el.css('top', -10)
+    else
+      # collapse
+      @$el.css('top', 26 - @$el.outerHeight())
 
   onSetLetterbox: (e) ->
-    if e.on then @$el.hide() else @$el.show()
+    @$el.toggle not e.on
+    @updatePlacement()

@@ -5,10 +5,11 @@ module.exports = class PointChooser extends CocoClass
     super()
     @buildShape()
     @options.stage.addEventListener 'stagemousedown', @onMouseDown
+    @options.camera.dragDisabled = true
 
   destroy: ->
-    super()
     @options.stage.removeEventListener 'stagemousedown', @onMouseDown
+    super()
 
   # Called also from WorldSelectModal
   setPoint: (@point) ->
@@ -18,14 +19,14 @@ module.exports = class PointChooser extends CocoClass
     @shape = new createjs.Shape()
     @shape.alpha = 0.9
     @shape.mouseEnabled = false
-    @shape.graphics.setStrokeStyle(1, "round").beginStroke("#000000").beginFill('#fedcba')
+    @shape.graphics.setStrokeStyle(1, 'round').beginStroke('#000000').beginFill('#fedcba')
     @shape.graphics.drawCircle(0, 0, 4).endFill()
     @shape.layerIndex = 100
 
   onMouseDown: (e) =>
-    console.log "got stagemousedown", e, key.shift
+    console.log 'got stagemousedown', e, key.shift
     return unless key.shift
-    @setPoint @options.camera.canvasToWorld {x: e.stageX, y: e.stageY}
+    @setPoint @options.camera.screenToWorld {x: e.stageX, y: e.stageY}
     Backbone.Mediator.publish 'choose-point', point: @point
 
   updateShape: ->

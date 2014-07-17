@@ -39,7 +39,7 @@ $brand-primary:         #948754 !default;
 $brand-success:         $green !default;
 $brand-warning:         $orange !default;
 $brand-danger:          $red !default;
-$brand-info:            #f9e811 !default;
+$brand-info:            $blueDark !default;
 
 // Scaffolding
 // -------------------------
@@ -472,7 +472,7 @@ $modal-content-bg:                             none !default;
 $modal-content-border-color:                   transparent !default;
 $modal-content-fallback-border-color:          transparent !default;
 
-$modal-backdrop-bg:           transparent !default;
+$modal-backdrop-bg:           black !default;
 $modal-header-border-color:   transparent !default;
 $modal-footer-border-color:   $modal-header-border-color !default;
 

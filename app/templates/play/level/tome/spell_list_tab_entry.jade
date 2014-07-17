@@ -2,9 +2,17 @@
   i.icon-chevron-down
 .thang-avatar-placeholder
 
-code #{spell.name}(#{parameters})
+code #{methodSignature}
 
-.btn.btn-small.reload-code(title="Reload original code for " + spell.name)
-  i.icon-repeat
+.spell-tool-buttons
+  .btn.btn-small.fullscreen-code(title="Expand code editor")
+    i.icon-fullscreen
+    i.icon-resize-small
+      
+  .btn.btn-small.reload-code(title="Reload original code for " + spell.name)
+    i.icon-repeat
+  
+  .btn.btn-small.beautify-code(title="Ctrl+Shift+B: Beautify code for " + spell.name)
+    i.icon-magnet
 
-.clearfix
+  .clearfix

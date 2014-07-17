@@ -3,10 +3,9 @@ template = require 'templates/editor/level/scripts_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './treema_nodes'
-defaultScripts = require 'lib/scripts/defaultScripts'
 
 module.exports = class ScriptsTabView extends View
-  id: "editor-level-scripts-tab-view"
+  id: 'editor-level-scripts-tab-view'
   template: template
   className: 'tab-pane'
 
@@ -18,13 +17,13 @@ module.exports = class ScriptsTabView extends View
     @world = options.world
     @files = options.files
 
+  onLoaded: ->
   onLevelLoaded: (e) ->
     @level = e.level
     @dimensions = @level.dimensions()
-    scripts = _.cloneDeep(@level.get('scripts') ? [])
-    scripts = _.cloneDeep defaultScripts unless scripts.length
+    scripts = $.extend(true, [], @level.get('scripts') ? [])
     treemaOptions =
-      schema: Level.schema.get('properties').scripts
+      schema: Level.schema.properties.scripts
       data: scripts
       callbacks:
         change: @onScriptsChanged
@@ -54,11 +53,12 @@ module.exports = class ScriptsTabView extends View
       filePath: "db/level/#{@level.get('original')}"
       files: @files
       view: @
-      schema: Level.schema.get('properties').scripts.items
+      schema: Level.schema.properties.scripts.items
       data: selected.data
       thangIDs: thangIDs
       dimensions: @dimensions
       supermodel: @supermodel
+      readOnly: me.get('anonymous')
       callbacks:
         change: @onScriptChanged
       nodeClasses:
@@ -81,13 +81,10 @@ module.exports = class ScriptsTabView extends View
     @selectedScriptPath = newPath
 
   getThangIDs: ->
-    ids = (t.id for t in @level.get('thangs') when t.id isnt 'Interface')
-    ids = ['My Wizard', 'Captain Anya'].concat(ids)
-    ids
+    (t.id for t in @level.get('thangs') when t.id isnt 'Interface')
 
   onScriptChanged: =>
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)
-
 
 class ScriptNode extends TreemaObjectNode
   valueClass: 'treema-script'
@@ -110,7 +107,6 @@ class ScriptNode extends TreemaObjectNode
     firstRow = @settings.view.scriptTreema?.$el.find('.treema-node:visible').data('instance')
     return unless firstRow?
     firstRow.select()
-
 
 class EventPropsNode extends TreemaNode.nodeMap.string
   valueClass: 'treema-event-props'
@@ -154,32 +150,6 @@ class EventPrereqNode extends TreemaNode.nodeMap.object
 class ChannelNode extends TreemaNode.nodeMap.string
   buildValueForEditing: (valEl) ->
     super(valEl)
-    valEl.find('input').autocomplete(source: channels, minLength: 0, delay: 0, autoFocus: true)
+    autocompleteValues = ({label: val?.title or key, value: key} for key, val of Backbone.Mediator.channelSchemas)
+    valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true)
     valEl
-
-channels = [
-  "tome:palette-hovered",
-  "tome:palette-clicked",
-  "tome:spell-shown",
-  "end-current-script",
-  "goal-manager:new-goal-states",
-  "god:new-world-created",
-  "help-multiplayer",
-  "help-next",
-  "help-overview",
-  "level-restart-ask",
-  "level-set-playing",
-  "level:docs-hidden",
-  "level:team-set",
-  "playback:manually-scrubbed",
-  "sprite:speech-updated",
-  "surface:coordinates-shown",
-  "surface:frame-changed",
-  "surface:sprite-selected",
-  "world:thang-attacked-when-out-of-range",
-  "world:thang-collected-item",
-  "world:thang-died",
-  "world:thang-left-map",
-  "world:thang-touched-goal",
-  "world:won"
-]

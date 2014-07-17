@@ -1,11 +1,13 @@
-.modal-dialog
-  .modal-header
-    button(type='button', data-dismiss="modal", aria-hidden="true").close &times;
-    h3(data-i18n="play_level.infinite_loop_title") Infinite Loop Detected
-  
+extends /templates/modal/modal_base
+
+block modal-header-content
+  h3(data-i18n="play_level.infinite_loop_title") Infinite Loop Detected
+
+block modal-body-content
   .modal-body
     p(data-i18n="play_level.infinite_loop_explanation") The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know.
-  
-  .modal-footer
-    a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="play_level.infinite_loop_wait").btn#restart-level-infinite-loop-retry-button Try Again
-    a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="play_level.infinite_loop_reload").btn.btn-primary#restart-level-infinite-loop-confirm-button Reset Level
+
+block modal-footer-content
+  a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="play_level.infinite_loop_try_again").btn#restart-level-infinite-loop-retry-button Try Again
+  a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="play_level.infinite_loop_reset_level").btn.btn-danger#restart-level-infinite-loop-confirm-button Reset Level
+  a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="play_level.infinite_loop_comment_out").btn.btn-primary#restart-level-infinite-loop-comment-button Comment Out My Code

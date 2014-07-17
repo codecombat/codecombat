@@ -34,87 +34,35 @@ block content
         p(data-i18n="contribute.introduction_desc_ending")
           | We hope you'll join our party!
         p(data-i18n="contribute.introduction_desc_signature").signature
-          | - Nick, George, Scott, Michael, and Jeremy
+          | - Nick, George, Scott, Michael, Jeremy and Glen
         hr
 
-      if me.attributes.anonymous
-        div#sign-up.alert.alert-info
-          strong(data-i18n="contribute.alert_account_message_intro")
-            | Hey there!
-          span  
-          span(data-i18n="contribute.alert_account_message_pref") 
-            | To subscribe for class emails, you'll need to 
-          a(data-toggle="coco-modal", data-target="modal/signup", data-i18n="contribute.alert_account_message_create_url")
-            | create an account
-          span  
-          span(data-i18n="contribute.alert_account_message_suf")
-            | first.
+      .contributor-signup-anonymous
 
-      #archmage
-        .class_image.header-scrolling-fix
+      #archmage.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/archmage.png", alt="")
 
         h3.header-scrolling-fix
           span(data-i18n="classes.archmage_title") Archmage
           span  
           span(data-i18n="classes.archmage_title_description") (Coder)
-        p(data-i18n="contribute.archmage_introduction")
-          | One of the best parts about building games is they synthesize so many different things.
-          | Graphics, sound, real-time networking, social networking, and of course many of the
-          | more common aspects of programming, from low-level database management, 
-          | and server administration to user facing design and interface building. 
-          | There's a lot to do, and if you're an experienced programmer with a hankering
-          | to really dive into the nitty-gritty of CodeCombat, this class might be for you.
-          | We would love to have your help building the best programming game ever.
-      
-        h4(data-i18n="contribute.class_attributes") Class Attributes
-        ul
-          li
-            span(data-i18n="contribute.archmage_attribute_1_pref") Knowledge in 
-            a(href="http://coffeescript.org/") CoffeeScript
-            span(data-i18n="contribute.archmage_attribute_1_suf")
-              | , or a desire to learn. Most of our code is in this language.
-              | If you're a fan of Ruby or Python, you'll feel right at home.
-              | It's just JavaScript, but with a nicer syntax.
-          li(data-i18n="contribute.archmage_attribute_2")
-            | Some experience in programming and personal initiative.
-            | We'll help you get oriented, but we can't spend much time training you.
-        
-        h4(data-i18n="contribute.how_to_join") How To Join
-        
-        p
-          span(data-i18n="contribute.join_desc_1")
-            | Anyone can help out! Just check out our 
-          a(title='GitHub', href="https://github.com/codecombat/codecombat", tabindex=-1)
-            | GitHub
-          span  
-          span(data-i18n="contribute.join_desc_2")  
-            | to get started, and check the box below to mark yourself as a brave Archmage and get the latest news by email.
-            | Want to chat about what to do or how to get more deeply involved? 
-          a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="contribute.join_url_email")
-            | Email us
-          span(data-i18n="contribute.join_desc_3")
-            | , or find us in our 
-          a(href="http://www.hipchat.com/g3plnOKqa", data-i18n="contribute.join_url_hipchat") public HipChat room
-          span  
-          span(data-i18n="contribute.join_desc_4")
-            | and we'll go from there!
+        p(data-i18n="contribute.archmage_summary")
+          | Interested in working on game graphics, user interface design, database and server organization,
+          | multiplayer networking, physics, sound, or game engine performance? Want to help build a game to
+          | help other people learn what you are good at? We have a lot to do and if you are an experienced
+          | programmer and want to develop for CodeCombat, this class is for you. We would love your help
+          | building the best programming game ever.
 
         a(href="/contribute/archmage")
-          h3(data-i18n="contribute.more_about_archmage")
-            | Learn More About Becoming A Powerful Archmage
+          p.lead(data-i18n="contribute.more_about_archmage")
+            | Learn More About Becoming an Archmage
 
-        label.checkbox(for="developer").well
-          input(type='checkbox', name="developer", id="developer")
-          span(data-i18n="contribute.archmage_subscribe_desc")
-            | Get emails on new coding opportunities and announcements.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
+        .contributor-signup(data-contributor-class-id="developer", data-contributor-class-name="archmage")
 
-      #artisan
+      #artisan.header-scrolling-fix
 
-        .class_image.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/artisan.png", alt="")
 
         h3.header-scrolling-fix
@@ -122,122 +70,48 @@ block content
           span  
           span(data-i18n="classes.artisan_title_description") (Level Builder)
         p
-          span(data-i18n="contribute.artisan_introduction_pref")
-            | We must construct additional levels!
-            | People be clamoring for more content, and we can only build so many ourselves.
-            | Right now your workstation is level one; our level editor is barely
-            | usable even by its creators, so be wary.
-            | If you have visions of campaigns spanning for-loops to
+          span(data-i18n="contribute.artisan_summary_pref")
+            | Want to design levels and expand CodeCombat's arsenal? People are playing through our
+            | content at a pace faster than we can build! Right now, our level editor is barebone, 
+            | so be wary. Making levels will be a little challenging and buggy. If you have visions
+            | of campaigns spanning for-loops to
           span  
           a(href="http://stackoverflow.com/questions/758088/seeking-contrived-example-code-continuations/758105#758105")
-            |  Mondo Bizzaro 
-          span  
-          span(data-i18n="contribute.artisan_introduction_suf")
-            | to then this class might be for you.
-      
-        h4(data-i18n="contribute.class_attributes") Class Attributes
-        ul
-          li(data-i18n="contribute.artisan_attribute_1")
-            | Any experience in building content like this would be nice, such as using
-            | Blizzard's level editors. But not required!
-          li(data-i18n="contribute.artisan_attribute_2")
-            | A hankering to do a whole lot of testing and iteration.
-            | To make good levels, you need to take it to others and watch them play it,
-            | and be prepared to find a lot of things to fix.
-          li(data-i18n="contribute.artisan_attribute_3")
-            | For the time being, endurance en par with an Adventurer.
-            | Our Level Editor is super preliminary and frustrating to use. You have been warned!
-      
-        h4(data-i18n="contribute.how_to_join") How To Join
-        p
-          span(data-i18n="contribute.artisan_join_desc")
-            | Use the Level Editor in these steps, give or take:
-          ul
-            li
-              a(href="https://github.com/codecombat/codecombat/wiki/Artisan-Home", data-i18n="contribute.artisan_join_step1") Read the documentation.
-            li
-              a(href="/editor/level", data-i18n="contribute.artisan_join_step2") Create a new level and explore existing levels.
-            li
-              a(href="http://www.hipchat.com/g3plnOKqa", data-i18n="contribute.artisan_join_step3") Find us in our public HipChat room for help.
-            li
-              a(href="http://discourse.codecombat.com", data-i18n="contribute.artisan_join_step4") Post your levels on the forum for feedback.
+            | Mondo Bizzaro
+          span(data-i18n="contribute.artisan_summary_suf")
+            | , then this class is for you.
 
         a(href="/contribute/artisan")
-          h3(data-i18n="contribute.more_about_artisan")
-            | Learn More About Becoming A Creative Artisan
+          p.lead(data-i18n="contribute.more_about_artisan")
+            | Learn More About Becoming An Artisan
 
-        label.checkbox(for="level_creator").well
-          input(type='checkbox', name="level_creator", id="level_creator")
-          span(data-i18n="contribute.artisan_subscribe_desc")
-            | Get emails on level editor updates and announcements.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
+        .contributor-signup(data-contributor-class-id="level_creator", data-contributor-class-name="artisan")
 
-      #adventurer
+      #adventurer.header-scrolling-fix
 
-        .class_image.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/adventurer.png", alt="")
 
         h3.header-scrolling-fix
           span(data-i18n="classes.adventurer_title") Adventurer
           span  
           span(data-i18n="classes.adventurer_title_description") (Level Playtester)
-        p(data-i18n="contribute.adventurer_introduction")
-          | Let's be clear about your role: you are the tank. You're going to take heavy damage.
+        p(data-i18n="contribute.adventurer_summary")
+          | Let us be clear about your role: you are the tank. You are going to take heavy damage.
           | We need people to try out brand-new levels and help identify how to make things better.
           | The pain will be enormous; making good games is a long process and no one gets
           | it right the first time.
-          | If you can endure and have a high constitution score, then this class might be for you.
+          | If you can endure and have a high constitution score, then this class is for you.
         
-        h4(data-i18n="contribute.class_attributes") Class Attributes
-        ul
-          li(data-i18n="contribute.adventurer_attribute_1")
-            | A thirst for learning. You want to learn how to code and we want to teach you how to code.
-            | You'll probably be doing most of the teaching in this case, though.
-          li(data-i18n="contribute.adventurer_attribute_2")
-            | Charismatic. Be gentle but articulate about what needs improving, and offer suggestions
-            | on how to improve.
-      
-        h4(data-i18n="contribute.how_to_join") How To Join
-        p
-          span(data-i18n="contribute.adventurer_join_pref")
-            | Either get together with (or recruit!) an Artisan and work with them, or
-            | check the box below to receive emails when there are new levels to test.
-            | We'll also be posting about levels to review on our networks like
-          span  
-          a(href="http://discourse.codecombat.com/category/adventurer", data-i18n="contribute.adventurer_forum_url")
-            | our forum
-          span , 
-          a(href="https://www.facebook.com/codecombat")
-            | Facebook
-          span , 
-          a(href="https://twitter.com/CodeCombat")
-            | Twitter
-          span , 
-          span(data=i18n="general.and") and 
-          span  
-          a(href="https://plus.google.com/115285980638641924488/posts")
-            | Google+
-          span , 
-          span(data-i18n="contribute.adventurer_join_suf")
-            | so if you prefer to be notified those ways, sign up there!
-
         a(href="/contribute/adventurer")
-          h3(data-i18n="contribute.more_about_adventurer")
-            | Learn More About Becoming A Brave Adventurer
+          p.lead(data-i18n="contribute.more_about_adventurer")
+            | Learn More About Becoming an Adventurer
 
-        label.checkbox(for="tester").well
-          input(type='checkbox', name="tester", id="tester")
-          span(data-i18n="contribute.adventurer_subscribe_desc")  
-            | Get emails when there are new levels to test.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
+        .contributor-signup(data-contributor-class-id="tester", data-contributor-class-name="adventurer")
     
-      #scribe
+      #scribe.header-scrolling-fix
 
-        .class_image.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/scribe.png", alt="")
 
         h3.header-scrolling-fix
@@ -245,48 +119,25 @@ block content
           span  
           span(data-i18n="classes.scribe_title_description") (Article Editor)
         p
-          span(data-i18n="contribute.scribe_introduction_pref")
-            | CodeCombat isn't just going to be a bunch of levels.
-            | It will also include a resource for knowledge, a wiki of programming concepts that levels can hook into.
-            | That way rather than each Artisan having to describe in detail what a comparison operator is, they
-            | can simply link their level to the Article describing them that is already written for the player's edification.
-            | Something along the lines of what the 
+          span(data-i18n="contribute.scribe_summary_pref")
+            | CodeCombat is not just going to be a bunch of levels. It will also be a resource of
+            | programming knowledge that players can hook into. That way, each Artisan can link
+            | to a detailed article that for the player's edification:
+            | documentation akin to what the 
           a(href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide", data-i18n="contribute.scribe_introduction_url_mozilla")
             | Mozilla Developer Network
-          span(data-i18n="contribute.scribe_introduction_suf")  
-            |  has built. If your idea of fun is articulating the concepts of programming in Markdown form,
-            | then this class might be for you.
+          span(data-i18n="contribute.scribe_summary_suf")  
+            |  has built. If you enjoy explaining programming concepts, then this class is for you.
     
-        h4(data-i18n="contribute.class_attributes") Class Attributes
-        ul
-          li(data-i18n="contribute.scribe_attribute_1")
-            | Skill in words is pretty much all you need.
-            | Not only grammar and spelling, but able to convey complicated ideas to others.
-        
-        h4(data-i18n="contribute.how_to_join") How To Join
-        p
-          a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="contribute.contact_us_url")
-            | Contact us
-          span , 
-          span(data-i18n="contribute.scribe_join_description")
-            | tell us a little about yourself, your experience with programming and
-            | what sort of things you'd like to write about. We'll go from there!
-
         a(href="/contribute/scribe")
-          h3(data-i18n="contribute.more_about_scribe")
-            | Learn More About Becoming A Diligent Scribe
+          p.lead(data-i18n="contribute.more_about_scribe")
+            | Learn More About Becoming a Scribe
 
-        label.checkbox(for="article_editor").well
-          input(type='checkbox', name="article_editor", id="article_editor")
-          span(data-i18n="contribute.scribe_subscribe_desc")
-            | Get emails about article writing announcements.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
+        .contributor-signup(data-contributor-class-id="article_editor", data-contributor-class-name="scribe")
 
-      #diplomat
+      #diplomat.header-scrolling-fix
 
-        .class_image.header-scrolling-fix
+        .class_image
           img.img-responsive(src="/images/pages/contribute/diplomat.png", alt="")
 
         h3.header-scrolling-fix
@@ -294,143 +145,38 @@ block content
           span  
           span(data-i18n="classes.diplomat_title_description") (Translator)
         p
-          span(data-i18n="contribute.diplomat_introduction_pref")
-            | So, if there's one thing we learned from the 
-          a(href="blog.codecombat.com/post/64658141307/codecombat-in-y-combinator", data-i18n="contribute.diplomat_launch_url")
-            | launch in October
-          span , 
-          span(data-i18n="contribute.diplomat_introduction_suf")
-            | it's that there
-            | is sizeable interest in CodeCombat in other countries, particularly Brazil!
-            | We're building a corps of translators eager to turn one set of words into
-            | another set of words to get CodeCombat as accessible across the world as possible.
-            | If you like getting sneak peeks at upcoming content and getting these levels to
-            | your fellow nationals ASAP, then this class might be for you.
+          span(data-i18n="contribute.diplomat_summary")
+            | There is a large interest in CodeCombat in other countries that do not speak English!
+            | We are looking for translators who are willing to spend their time translating the 
+            | site's corpus of words so that CodeCombat is accessible across the world as soon as 
+            | possible. If you'd like to help getting CodeCombat international, then this class is 
+            | for you.
     
-        h4(data-i18n="contribute.class_attributes") Class Attributes
-        ul
-          li(data-i18n="contribute.diplomat_attribute_1")
-            | Fluency in English and the language you would like to translate to.
-            | When conveying complicated ideas, it's important to have a strong grasp in both!
-        
-        h4(data-i18n="contribute.how_to_join") How to Join
-        p
-          span(data-i18n="contribute.diplomat_join_pref")
-            | We're keeping the up-to-date contribution instructions at 
-          a(href="http://discourse.codecombat.com/t/category-definition-for-diplomat/60/14", data-i18n="contribute.diplomat_doc_url")
-            | this forum post
-          span , 
-          span(data-i18n="contribute.diplomat_join_suf")
-            | so check it out and add things for your language. Also, check this box below to 
-            | keep up-to-date on new internationalization developments!
-
         a(href="/contribute/diplomat")
-          h3(data-i18n="contribute.more_about_diplomat")
-            | Learn More About Becoming A Great Diplomat
+          p.lead(data-i18n="contribute.more_about_diplomat")
+            | Learn More About Becoming a Diplomat
 
-        label.checkbox(for="translator").well
-          input(type='checkbox', name="translator", id="translator")
-          span(data-i18n="contribute.diplomat_subscribe_desc")
-            | Get emails about i18n developments and levels to translate.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
-      
-      #ambassador
+        .contributor-signup(data-contributor-class-id="translator", data-contributor-class-name="diplomat")
 
-        .class_image.header-scrolling-fix
+      #ambassador.header-scrolling-fix
+
+        .class_image
           img.img-responsive(src="/images/pages/contribute/ambassador.png", alt="")
 
         h3.header-scrolling-fix
           span(data-i18n="classes.ambassador_title") Ambassador
           span  
           span(data-i18n="classes.ambassador_title_description") (Support)
-        p(data-i18n="contribute.ambassador_introduction")
-          | This is a community we're building, and you are the connections.
-          | We've got Olark chats, emails, and social networks with lots of people to talk with
-          | and help get acquainted with the game and learn from.
-          | If you want to help people get involved and have fun, and get a good feel of the pulse of
-          | CodeCombat and where we're going, then this class might be for you.
-    
-        h4(data-i18n="contribute.class_attributes") Class Attributes
-        ul
-          li(data-i18n="contribute.ambassador_attribute_1")
-            | Communication skills. Be able to identify the problems players are having
-            | and help them solve them. Also, keep the rest of us informed about what
-            | players are saying, what they like and don't like and want more of!
-    
-        h4(data-i18n="contribute.how_to_join") How to Join
-        p
-          a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="contribute.contact_us_url")
-            | Contact us
-          span , 
-          span(data-i18n="contribute.ambassador_join_desc")
-            | tell us a little about yourself, what you've done and what you'd
-            | be interested in doing. We'll go from there!
-    
-        p
-          strong(data-i18n="contribute.ambassador_join_note_strong")
-            | Note
-          span : 
-          span(data-i18n="contribute.ambassador_join_note_desc")
-            | One of our top priorities is to build multiplayer where players having difficulty
-            | solving levels can summon higher level wizards to help them.
-            | This will be a great way for ambassadors to do their thing. We'll keep you posted!
+        p(data-i18n="contribute.ambassador_summary")
+          | We are trying to build a community, and every community needs a support team when 
+          | there are troubles. We have got chats, emails, and social networks so that our users 
+          | can get acquainted with the game. If you want to help people get involved, have fun, 
+          | and learn some programming, then this c lass is for you.
 
         a(href="/contribute/ambassador")
-          h3(data-i18n="contribute.more_about_ambassador")
-            | Learn More About Becoming A Helpful Ambassador
+          p.lead(data-i18n="contribute.more_about_ambassador")
+            | Learn More About Becoming an Ambassador
 
-        label.checkbox(for="support").well
-          input(type='checkbox', name="support", id="support")
-          span(data-i18n="contribute.ambassador_subscribe_desc")
-            | Get emails on support updates and multiplayer developments.
-          .saved-notification
-            |  ✓
-            span(data-i18n="contribute.saved") Saved
-    
-      #counselor
-
-        .class_image.header-scrolling-fix
-          img.img-responsive(src="/images/pages/contribute/counselor.png", alt="")
-
-        h3.header-scrolling-fix
-          span(data-i18n="classes.counselor_title") Counselor
-          span  
-          span(data-i18n="classes.counselor_title_description") (Expert/Teacher)
-        p(data-i18n="contribute.counselor_introduction_1")
-          | Do you have life experience?
-          | A different perspective on things that can help us decide how to shape CodeCombat?
-          | Of all these roles, this will probably take the least time, but
-          | individually you may make the most difference.
-          | We're on the lookout for wisened sages, particularly in areas like: teaching,
-          | game development, open source project management, technical recruiting, entrepreneurship,
-          | or design.
-        
-        p(data-i18n="contribute.counselor_introduction_2")
-          | Or really anything that is relevant to the development of CodeCombat.
-          | If you have knowledge and want to share it to help grow this project, then
-          | this class might be for you.
-    
-        h4(data-i18n="contribute.class_attributes") Class Attributes
-        ul
-          li(data-i18n="contribute.counselor_attribute_1")
-            | Experience, in any of the areas above or something you think might be helpful.
-          li(data-i18n="contribute.counselor_attribute_2")
-            | A little bit of free time!
-    
-        h4(data-i18n="contribute.how_to_join") How to Join 
-        p 
-          a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="contribute.contact_us_url")
-            | Contact us
-          span , 
-          span(data-i18n="contribute.counselor_join_desc")
-            | tell us a little about yourself, what you've done and what you'd
-            | be interested in doing. We'll put you in our contact list and be in touch
-            | when we could use advice (not too often).
-
-        a(href="/contribute/counselor")
-          h3(data-i18n="contribute.more_about_counselor")
-            | Learn More About Becoming A Valuable Counselor
+        .contributor-signup(data-contributor-class-id="support", data-contributor-class-name="ambassador")
 
     div.clearfix

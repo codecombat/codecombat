@@ -2,55 +2,103 @@ View = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell_palette_entry'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
-Docs = require 'lib/world/docs'
+DocFormatter = require './doc_formatter'
 
 module.exports = class SpellPaletteEntryView extends View
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
   className: 'spell-palette-entry-view'
   template: template
+  popoverPinned: false
 
   subscriptions:
-    'surface:frame-changed': "onFrameChanged"
+    'surface:frame-changed': 'onFrameChanged'
+    'tome:palette-hovered': 'onPaletteHovered'
+    'tome:palette-pin-toggled': 'onPalettePinToggled'
+    'tome:spell-debug-property-hovered': 'onSpellDebugPropertyHovered'
 
   events:
-    'mouseover': 'onMouseOver'
+    'mouseenter': 'onMouseEnter'
+    'mouseleave': 'onMouseLeave'
     'click': 'onClick'
 
   constructor: (options) ->
     super options
     @thang = options.thang
-    @doc = options.doc
-    @shortenize = options.shortenize
+    @docFormatter = new DocFormatter options
+    @doc = @docFormatter.doc
+
+  getRenderData: ->
+    c = super()
+    c.doc = @doc
+    c
 
   afterRender: ->
     super()
-    text = if @shortenize then @doc.shorterName else @doc.shortName
-    @$el.text(text).addClass(@doc.type)
-    @$el.attr('title', @doc.title()).popover(
-      animation: true
+    @$el.addClass(@doc.type)
+    @$el.popover(
+      animation: false
       html: true
       placement: 'top'
-      trigger: 'hover'
-      content: @doc.html()
-      container: @$el.parent().parent().parent()
+      trigger: 'manual'  # Hover, until they click, which will then pin it until unclick.
+      content: @docFormatter.formatPopover()
+      container: '#tome-view'
     )
     @$el.on 'show.bs.popover', =>
-      # New, good event
-      Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.prop
-      # Bad, old one for old scripts (TODO)
-      Backbone.Mediator.publish 'editor:palette-hovered', thang: @thang, prop: @doc.prop
+      Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
 
-  onMouseOver: (e) ->
+  onMouseEnter: (e) ->
     # Make sure the doc has the updated Thang so it can regenerate its prop value
-    @doc.thang = @thang
-    @$el.data('bs.popover').options.content = @doc.html()
+    @$el.data('bs.popover').options.content = @docFormatter.formatPopover()
     @$el.popover('setContent')
+    @$el.popover 'show' unless @popoverPinned or @otherPopoverPinned
 
-  onClick: (e) ->
-    Backbone.Mediator.publish 'tome:palette-clicked', thang: @thang, prop: @doc.prop
+  onMouseLeave: (e) ->
+    @$el.popover 'hide' unless @popoverPinned or @otherPopoverPinned
+
+  togglePinned: ->
+    if @popoverPinned
+      @popoverPinned = false
+      @$el.add('#tome-view .popover').removeClass 'pinned'
+      $('#tome-view .popover .close').remove()
+      @$el.popover 'hide'
+    else
+      @popoverPinned = true
+      @$el.popover 'show'
+      @$el.add('#tome-view .popover').addClass 'pinned'
+      x = $('<button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>')
+      $('#tome-view .popover').append x
+      x.on 'click', @onClick
+    Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
+
+  onClick: (e) =>
+    @togglePinned()
+    Backbone.Mediator.publish 'tome:palette-clicked', thang: @thang, prop: @doc.name, entry: @
 
   onFrameChanged: (e) ->
     return unless e.selectedThang?.id is @thang.id
-    @options.thang = @thang = e.selectedThang  # Update our thang to the current version
-    @options.doc = @doc = Docs.getDocsFor(@thang, [@doc.prop])[0]
-    @$el.find("code.current-value").text(@doc.formatValue())  # Don't call any functions. (?? What does this mean?)
+    @options.thang = @thang = @docFormatter.options.thang = e.selectedThang  # Update our thang to the current version
+
+  onPaletteHovered: (e) ->
+    return if e.entry is @
+    @togglePinned() if @popoverPinned
+
+  onPalettePinToggled: (e) ->
+    return if e.entry is @
+    @otherPopoverPinned = e.pinned
+
+  onSpellDebugPropertyHovered: (e) ->
+    matched = e.property is @doc.name and e.owner is @doc.owner
+    if matched and not @debugHovered
+      @debugHovered = true
+      @togglePinned() unless @popoverPinned
+    else if @debugHovered and not matched
+      @debugHovered = false
+      @togglePinned() if @popoverPinned
+    null
+
+  destroy: ->
+    $('.popover.pinned').remove() if @popoverPinned  # @$el.popover('destroy') doesn't work
+    @togglePinned() if @popoverPinned
+    @$el.popover 'destroy'
+    @$el.off()
+    super()

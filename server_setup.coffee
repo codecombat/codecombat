@@ -1,34 +1,40 @@
 express = require 'express'
 path = require 'path'
-passport = require 'passport'
+authentication = require 'passport'
 useragent = require 'express-useragent'
 fs = require 'graceful-fs'
+log = require 'winston'
+compressible = require 'compressible'
 
-auth = require './server/routes/auth'
-db = require './server/routes/db'
-file = require './server/routes/file'
-folder = require './server/routes/folder'
+database = require './server/commons/database'
+baseRoute = require './server/routes/base'
 user = require './server/users/user_handler'
 logging = require './server/commons/logging'
-sprites = require './server/routes/sprites'
-contact = require './server/routes/contact'
-languages = require './server/routes/languages'
-mail = require './server/routes/mail'
-
 config = require './server_config'
+auth = require './server/routes/auth'
+UserHandler = require './server/users/user_handler'
 
-###Middleware setup functions implementation###
-setupRequestTimeoutMiddleware = (app) ->
-  app.use (req, res, next) ->
-    req.setTimeout 15000, ->
-      console.log 'timed out!'
-      req.abort()
-      self.emit('pass',message)
-    next()
+productionLogging = (tokens, req, res) ->
+  status = res.statusCode
+  color = 32
+  if status >= 500 then color = 31
+  else if status >= 400 then color = 33
+  else if status >= 300 then color = 36
+  elapsed = (new Date()) - req._startTime
+  elapsedColor = if elapsed < 500 then 90 else 31
+  if (status isnt 200 and status isnt 204 and status isnt 304 and status isnt 302) or elapsed > 500
+    return "\x1b[90m#{req.method} #{req.originalUrl} \x1b[#{color}m#{res.statusCode} \x1b[#{elapsedColor}m#{elapsed}ms\x1b[0m"
+  null
 
 setupExpressMiddleware = (app) ->
-  setupRequestTimeoutMiddleware app
-  app.use(express.logger('dev'))
+  if config.isProduction
+    express.logger.format('prod', productionLogging)
+    app.use(express.logger('prod'))
+    app.use express.compress filter: (req, res) ->
+      return false if req.headers.host is 'codecombat.com'  # Cloudflare will gzip it for us on codecombat.com
+      compressible res.getHeader('Content-Type')
+  else
+    app.use(express.logger('dev'))
   app.use(express.static(path.join(__dirname, 'public')))
   app.use(useragent.express())
 
@@ -39,22 +45,19 @@ setupExpressMiddleware = (app) ->
   app.use(express.cookieSession({secret:'defenestrate'}))
 
 setupPassportMiddleware = (app) ->
-  app.use(passport.initialize())
-  app.use(passport.session())
+  app.use(authentication.initialize())
+  app.use(authentication.session())
 
-setupOneSecondDelayMiddlware = (app) ->
+setupOneSecondDelayMiddleware = (app) ->
   if(config.slow_down)
     app.use((req, res, next) -> setTimeout((-> next()), 1000))
-
-setupUserMiddleware = (app) ->
-  user.setupMiddleware(app)
 
 setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
   isOldBrowser = (req) ->
     # https://github.com/biggora/express-useragent/blob/master/lib/express-useragent.js
     return false unless ua = req.useragent
     return true if ua.isiPad or ua.isiPod or ua.isiPhone or ua.isOpera
-    return false unless ua and ua.Browser in ["Chrome", "Safari", "Firefox", "IE"] and ua.Version
+    return false unless ua and ua.Browser in ['Chrome', 'Safari', 'Firefox', 'IE'] and ua.Version
     b = ua.Browser
     v = parseInt ua.Version.split('.')[0], 10
     return true if b is 'Chrome' and v < 17
@@ -67,18 +70,39 @@ setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
     return next() if req.query['try-old-browser-anyway'] or not isOldBrowser req
     res.sendfile(path.join(__dirname, 'public', 'index_old_browser.html'))
 
+setupTrailingSlashRemovingMiddleware = (app) ->
+  app.use (req, res, next) ->
+    return res.redirect 301, req.url[...-1] if req.url.length > 1 and req.url.slice(-1) is '/'
+    next()
+
 exports.setupMiddleware = (app) ->
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupPassportMiddleware app
-  setupOneSecondDelayMiddlware app
-  setupUserMiddleware app
+  setupOneSecondDelayMiddleware app
+  setupTrailingSlashRemovingMiddleware app
 
 ###Routing function implementations###
 
 setupFallbackRouteToIndex = (app) ->
-  app.get '*', (req, res) ->
-    res.sendfile path.join(__dirname, 'public', 'index.html')
+  app.all '*', (req, res) ->
+    if req.user
+      sendMain(req, res)
+    else
+      user = auth.makeNewUser(req)
+      makeNext = (req, res) -> -> sendMain(req, res)
+      next = makeNext(req, res)
+      auth.loginUser(req, res, user, false, next)
+
+sendMain = (req, res) ->
+  fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err, data) ->
+    log.error "Error modifying main.html: #{err}" if err
+    # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
+    data = data.replace('"userObjectTag"', JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/'))
+    res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+    res.header 'Pragma', 'no-cache'
+    res.header 'Expires', 0
+    res.send 200, data
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
   app.get '/channel.html', (req, res) ->
@@ -86,14 +110,8 @@ setupFacebookCrossDomainCommunicationRoute = (app) ->
 
 exports.setupRoutes = (app) ->
   app.use app.router
-  auth.setupRoutes app
-  db.setupRoutes app
-  sprites.setupRoutes app
-  contact.setupRoutes app
-  file.setupRoutes app
-  folder.setupRoutes app
-  languages.setupRoutes app
-  mail.setupRoutes app
+
+  baseRoute.setup app
   setupFacebookCrossDomainCommunicationRoute app
   setupFallbackRouteToIndex app
 
@@ -103,7 +121,7 @@ exports.setupLogging = ->
   logging.setup()
 
 exports.connectToDatabase = ->
-  db.connectDatabase()
+  database.connect()
 
 exports.setupMailchimp = ->
   mcapi = require 'mailchimp-api'
@@ -115,6 +133,5 @@ exports.setExpressConfigurationOptions = (app) ->
   app.set('views', __dirname + '/app/views')
   app.set('view engine', 'jade')
   app.set('view options', { layout: false })
-
-
-
+  app.set('env', if config.isProduction then 'production' else 'development')
+  app.set('json spaces', 0)

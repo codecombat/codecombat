@@ -1,33 +1,33 @@
-errorModalTemplate = require('templates/modal/error')
-{applyErrorsToForm} = require('lib/forms')
+errorModalTemplate = require 'templates/modal/error'
+{applyErrorsToForm} = require 'lib/forms'
 
 module.exports.parseServerError = (text) ->
   try
-    error = JSON.parse(text) or {message:"Unknown error."}
+    error = JSON.parse(text) or {message: 'Unknown error.'}
   catch SyntaxError
-    error = {message:text or "Unknown error."}
+    error = {message: text or 'Unknown error.'}
   error = error[0] if _.isArray(error)
   error
 
 module.exports.genericFailure = (jqxhr) ->
-  Backbone.Mediator.publish('server-error', {response:jqxhr})
+  Backbone.Mediator.publish('server-error', {response: jqxhr})
   return connectionFailure() if not jqxhr.status
 
   error = module.exports.parseServerError(jqxhr.responseText)
   message = error.message
   message = error.property + ' ' + message if error.property
-  res = errorModalTemplate(
-    status:jqxhr.status
-    statusText:jqxhr.statusText
-    message: message
-  )
   console.warn(jqxhr.status, jqxhr.statusText, error)
-  existingForm = $('.form-inline:visible:first')
+  existingForm = $('.form:visible:first')
   if existingForm[0]
     missingErrors = applyErrorsToForm(existingForm, [error])
     for error in missingErrors
-      existingForm.append($('<div class="alert"></div>').text(error.message))
+      existingForm.append($('<div class="alert alert-danger"></div>').text(error.message))
   else
+    res = errorModalTemplate(
+      status: jqxhr.status
+      statusText: jqxhr.statusText
+      message: message
+    )
     showErrorModal(res)
 
 module.exports.backboneFailure = (model, jqxhr, options) ->
@@ -36,7 +36,7 @@ module.exports.backboneFailure = (model, jqxhr, options) ->
 module.exports.connectionFailure = connectionFailure = ->
   html = errorModalTemplate(
     status: 0
-    statusText:'Connection Gone'
+    statusText: 'Connection Gone'
     message: 'No response from the CoCo servers, captain.'
   )
   showErrorModal(html)

@@ -11,8 +11,9 @@ module.exports = class SpellListEntryThangsView extends View
     @thangs = options.thangs
     @thang = options.thang
     @spell = options.spell
+    @avatars = []
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.thangs = @thangs
     context.spell = @spell
@@ -20,13 +21,19 @@ module.exports = class SpellListEntryThangsView extends View
 
   afterRender: ->
     super()
+    avatar.destroy() for avatar in @avatars if @avatars
     @avatars = []
     spellName = @spell.name
     for thang in @thangs
-      avatar = new ThangAvatarView thang: thang, includeName: true, supermodel: @supermodel
+      avatar = new ThangAvatarView thang: thang, includeName: true, supermodel: @supermodel, creator: @
       @$el.append avatar.el
       avatar.render()
       avatar.setSelected thang is @thang
       avatar.$el.data('thang-id', thang.id).click (e) ->
-        Backbone.Mediator.publish "level-select-sprite", thangID: $(@).data('thang-id'), spellName: spellName
+        Backbone.Mediator.publish 'level-select-sprite', thangID: $(@).data('thang-id'), spellName: spellName
       avatar.onProblemsUpdated spell: @spell
+      @avatars.push avatar
+
+  destroy: ->
+    avatar.destroy() for avatar in @avatars
+    super()

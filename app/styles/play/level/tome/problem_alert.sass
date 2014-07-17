@@ -3,16 +3,17 @@
 .problem-alert
   z-index: 10
   position: absolute
-  bottom: -110px
+  bottom: -120px
   left: 10px
   right: 10px
-  background: transparent url(/images/level/code_editor_error_background.png) no-repeat
-  background-size: 100% 100%
+  background: transparent
   border: 0
   padding: 18px 35px 18px 14px
   text-shadow: none
   color: white
   word-wrap: break-word
+  border-image: url(/images/level/code_editor_error_background.png) 16 20 fill round
+  border-width: 16px 20px
 
   .close
     @include opacity(0.80)
@@ -23,15 +24,35 @@
 
     &:hover, &:focus
       @include opacity(1)
+
+  .problem-hint
+    font-size: 80%
       
   //&.alert-error
 
   &.alert-warning
-    background-image: url(/images/level/code_editor_warning_background.png)
+    border-image-source: url(/images/level/code_editor_warning_background.png)
     
   &.alert-info
-    background-image: url(/images/level/code_editor_info_background.png)
+    border-image-source: url(/images/level/code_editor_info_background.png)
         
   &.alert-style
     // Do we ever want to do this for style?
-    background-image: url(/images/level/code_editor_info_background.png)
+    border-image-source: url(/images/level/code_editor_info_background.png)
+
+html.no-borderimage
+  .problem-alert
+    border-width: 0
+    border-image: none
+    background: transparent url(/images/level/code_editor_error_background.png) no-repeat
+    background-size: 100% 100%
+  
+    &.alert-warning
+      background-image: url(/images/level/code_editor_warning_background.png)
+      
+    &.alert-info
+      background-image: url(/images/level/code_editor_info_background.png)
+          
+    &.alert-style
+      // Do we ever want to do this for style?
+      background-image: url(/images/level/code_editor_info_background.png)

@@ -1,5 +1,7 @@
 Vector = require './vector'
 Rectangle = require './rectangle'
+Ellipse = require './ellipse'
+LineSegment = require './line_segment'
 Grid = require './Grid'
 
 module.exports.typedArraySupport = typedArraySupport = Float32Array?  # Not in IE until IE 10; we'll fall back to normal arrays
@@ -36,20 +38,21 @@ module.exports.clone = clone = (obj, skipThangs=false) ->
     flags += 'y' if obj.sticky?
     return new RegExp(obj.source, flags)
 
-  if (obj instanceof Vector) or (obj instanceof Rectangle)
+  if (obj instanceof Vector) or (obj instanceof Rectangle) or (obj instanceof Ellipse) or (obj instanceof LineSegment)
     return obj.copy()
 
-  # We don't have Thang class here, but we can fake it to avoid the circular import
-  #if skipThangs and obj instanceof Thang
-  if skipThangs and obj.id? and obj.trackedPropertiesKeys?
+  if skipThangs and obj.isThang
     return obj
 
+  if _.isArray obj
+    return obj.slice()
+
   if ArrayBufferView and obj instanceof ArrayBufferView
-    newInstance = new obj.constructor obj
-  else
-    newInstance = new obj.constructor()
-    for key of obj
-      newInstance[key] = clone obj[key]
+    return new obj.constructor obj
+
+  newInstance = new obj.constructor()
+  for key of obj
+    newInstance[key] = clone obj[key], skipThangs
 
   newInstance
 
@@ -77,17 +80,17 @@ module.exports.consolidateThangs = consolidateThangs = (thangs) ->
   topmost = _.max structural, (t) -> t.pos.y + t.height / 2
   leftmost = _.min structural, (t) -> t.pos.x - t.width / 2
   bottommost = _.min structural, (t) -> t.pos.y - t.height / 2
-  console.log "got rightmost", rightmost.id, "topmost", topmost.id, "lefmostmost", leftmost.id, "bottommost", bottommost.id, "out of", structural.length, "structural thangs" if debug
+  console.log 'got rightmost', rightmost.id, 'topmost', topmost.id, 'lefmostmost', leftmost.id, 'bottommost', bottommost.id, 'out of', structural.length, 'structural thangs' if debug
   left = Math.min 0, leftmost.pos.x - leftmost.width / 2
   bottom = Math.min 0, bottommost.pos.y - bottommost.height / 2
   if (left < 0) or (bottom < 0)
-    console.error "Negative structural Thangs aren't supported, sorry!"  # TODO: largestRectangle, AI System, and anything else that accesses grid directly need updating to finish this
+    console.error 'Negative structural Thangs aren\'t supported, sorry!'  # TODO: largestRectangle, AI System, and anything else that accesses grid directly need updating to finish this
   left = 0
   bottom = 0
   width = rightmost.pos.x + rightmost.width / 2 - left
   height = topmost.pos.y + topmost.height / 2 - bottom
   padding = 0
-  console.log "got max width", width, "height", height, "left", left, "bottom", bottom, "of thangs", thangs.length, "structural", structural.length if debug
+  console.log 'got max width', width, 'height', height, 'left', left, 'bottom', bottom, 'of thangs', thangs.length, 'structural', structural.length if debug
   grid = new Grid structural, width, height, padding, left, bottom
   console.log grid.toString() if debug
 
@@ -106,14 +109,14 @@ module.exports.consolidateThangs = consolidateThangs = (thangs) ->
           grid.grid[y2][x2] = []
       console.log grid.toString() if debug
       thang = structural[dissection.length]  # grab one we already know is configured properly
-      console.error "Hmm, our dissection has more Thangs than the original structural Thangs?", dissection.length unless thang
+      console.error 'Hmm, our dissection has more Thangs than the original structural Thangs?', dissection.length unless thang
       thang.width = rect.width
       thang.height = rect.height
       thang.pos.x = rect.x
       thang.pos.y = rect.y
       thang.createBodyDef()
       dissection.push thang
-  console.log "Turned", structural.length, "structural Thangs into", dissection.length, "dissecting Thangs."
+  console.log 'Turned', structural.length, 'structural Thangs into', dissection.length, 'dissecting Thangs.'
   thangs.push dissection...
   structural[dissection.length ... structural.length]
 
@@ -132,7 +135,7 @@ module.exports.largestRectangle = largestRectangle = (grid, bottomY, leftX, want
     break unless coveredRow
     coveredRows.push coveredRow
     shortestCoveredRow = Math.min(shortestCoveredRow, coveredRow)
-  console.log "largestRectangle() for", bottomY, leftX, "got coveredRows", coveredRows if debug
+  console.log 'largestRectangle() for', bottomY, leftX, 'got coveredRows', coveredRows if debug
   [maxArea, maxAreaRows, maxAreaRowLength, shortestRow] = [0, 0, 0, 0]
   for rowLength, rowIndex in coveredRows
     shortestRow ||= rowLength
@@ -142,7 +145,7 @@ module.exports.largestRectangle = largestRectangle = (grid, bottomY, leftX, want
       maxAreaRowLength = shortestRow
       maxArea = area
     shortestRow = Math.min(rowLength, shortestRow)
-  console.log "So largest rect has area", maxArea, "with", maxAreaRows, "rows of length", maxAreaRowLength if debug
+  console.log 'So largest rect has area', maxArea, 'with', maxAreaRows, 'rows of length', maxAreaRowLength if debug
   rect = new Rectangle leftX + maxAreaRowLength / 2, bottomY + maxAreaRows / 2, maxAreaRowLength, maxAreaRows
-  console.log "That corresponds to a rectangle", rect.toString() if debug
+  console.log 'That corresponds to a rectangle', rect.toString() if debug
   rect

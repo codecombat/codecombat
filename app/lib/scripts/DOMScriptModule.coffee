@@ -15,8 +15,8 @@ module.exports = class DOMScriptModule extends ScriptModule
 
   endNotes: ->
     notes = []
-    notes.push({ 'channel': 'end-level-highlight-dom' }) if @noteGroup.dom.highlight?
-    notes.push({ 'channel': 'level-enable-controls' }) if @noteGroup.dom.lock?
+    notes.push({'channel': 'end-level-highlight-dom'}) if @noteGroup.dom.highlight?
+    notes.push({'channel': 'level-enable-controls'}) if @noteGroup.dom.lock?
     return notes
 
   skipNotes: ->
@@ -35,6 +35,7 @@ module.exports = class DOMScriptModule extends ScriptModule
         sides: dom.highlight.sides
         offset: dom.highlight.offset
         rotation: dom.highlight.rotation
+    note.event = _.pick note.event, (value) -> not _.isUndefined value
     @maybeApplyDelayToNote note
     note
 
@@ -59,7 +60,7 @@ module.exports = class DOMScriptModule extends ScriptModule
     lock = @noteGroup.dom.lock
     event.controls = lock if _.isArray lock  # array: subset of controls
     channel = if lock then 'level-disable-controls' else 'level-enable-controls'
-    return { channel: channel, event: event }
+    return {channel: channel, event: event}
 
   letterboxNote: ->
-    return { channel: 'level-set-letterbox', event: { on: @noteGroup.dom.letterbox } }
+    return {channel: 'level-set-letterbox', event: {on: @noteGroup.dom.letterbox}}

@@ -1,14 +1,44 @@
-@import "../../../bootstrap/mixins"
+@import "app/styles/bootstrap/mixins"
+@import "app/styles/mixins"
 
 #tome-view
   height: 100%
+  margin-bottom: -20px
+
+  > .popover
+    // Only those popovers which are our direct children (spell documentation)
+    max-width: 600px
+
+    &.pinned
+      left: auto !important
+      top: auto !important
+      right: 100%
+      bottom: 151px
+      @include user-select(text)
+      // Wish I could set max-width and max-height (and override Bootstrap's stuff)
+      // but without explicitly setting height, child overflow-y: scroll doesn't work
+      min-width: 100%
+      height: 60%
+
+      .arrow
+        display: none
+
+      .close
+        position: absolute
+        top: 5%
+        right: 5%
+        font-size: 28px
+        font-weight: bold
+        @include opacity(0.6)
+        text-shadow: 0 1px 0 white
+
+        &:hover
+          @include opacity(1)
 
   .popover
-    padding: 10px
-    max-width: 400px
-    background: transparent url(/images/level/popover_background.png)
-    background-size: 100% 100%
-    border: 0
+    padding: 10px 10px 30px 10px
+    border-image: url(/images/level/popover_background.png) 18 fill round
+    border-width: 15px
     @include box-shadow(0 0 0 #000)
 
     h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
@@ -21,6 +51,9 @@
       border-bottom-color: #ccc
 
     .popover-content
+      max-height: 100%
+      overflow-y: auto
+      margin-right: 10px
       img
         float: right
 
@@ -33,3 +66,13 @@
     &.right .arrow
       left: -3%
 
+  pre
+    display: inline-block
+    padding: 5px
+
+html.no-borderimage
+  #tome-view
+    .popover
+      background: transparent url(/images/level/popover_background.png)
+      background-size: 100% 100%
+      border: 0

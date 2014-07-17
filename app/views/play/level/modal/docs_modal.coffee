@@ -1,16 +1,19 @@
 View = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/docs'
 Article = require 'models/Article'
+utils = require 'lib/utils'
 
 # let's implement this once we have the docs database schema set up
 
 module.exports = class DocsModal extends View
   template: template
-  
+  id: 'docs-modal'
+
   shortcuts:
     'enter': 'hide'
 
   constructor: (options) ->
+    @firstOnly = options.firstOnly
     @docs = options?.docs
     general = @docs.generalArticles or []
     specific = @docs.specificArticles or []
@@ -22,9 +25,10 @@ module.exports = class DocsModal extends View
     general = (article.attributes for article in general when article)
 
     @docs = specific.concat(general)
-    marked.setOptions {gfm: true, sanitize: false, smartLists: true, breaks: false}
-    @docs = _.cloneDeep(@docs)
-    doc.html = marked(doc.body) for doc in @docs
+    @docs = $.extend(true, [], @docs)
+    @docs = [@docs[0]] if @firstOnly and @docs[0]
+    doc.html = marked(utils.i18n doc, 'body') for doc in @docs
+    doc.name = (utils.i18n doc, 'name') for doc in @docs
     doc.slug = _.string.slugify(doc.name) for doc in @docs
     super()
 
@@ -45,6 +49,10 @@ module.exports = class DocsModal extends View
 
   clickTab: (e) =>
     @$el.find('li.active').removeClass('active')
+
+  afterInsert: ->
+    super()
+    Backbone.Mediator.publish 'level:docs-shown'
 
   onHidden: ->
     Backbone.Mediator.publish 'level:docs-hidden'

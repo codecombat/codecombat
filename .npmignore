@@ -53,6 +53,9 @@ Thumbs.db
 *.sublime-project
 *.sublime-workspace
 
+# IntelliJ/WebStorm
+*.iml
+
 # NPM packages folder.
 node_modules/
 
@@ -65,6 +68,7 @@ always-ignore extensions
 *.rej
 *.vi
 *.sass-cache
+.zedstate
 
 # OS or Editor folders
 .cache
@@ -89,6 +93,14 @@ mongo/
 bin/node/
 bin/mongo/
 
-
 # Karma coverage
 coverage/
+
+temp/
+
+# local settings
+login.coffee
+
+# debugging
+*.heapsnapshot
+

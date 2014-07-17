@@ -18,21 +18,32 @@ module.exports = class LevelBus extends Bus
     'surface:frame-changed': 'onFrameChanged'
     'surface:sprite-selected': 'onSpriteSelected'
     'level-set-playing': 'onSetPlaying'
-    'thang-code-ran': 'onCodeRan'
     'level-show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
+    'tome:spell-created': 'onSpellCreated'
+    'application:idle-changed': 'onIdleChanged'
 
   constructor: ->
     super(arguments...)
     @changedSessionProperties = {}
     @saveSession = _.debounce(@saveSession, 1000, {maxWait: 5000})
-    
+    @playerIsIdle = false
+
   init: ->
     super()
     @fireScriptsRef = @fireRef?.child('scripts')
 
   setSession: (@session) ->
-    @session.on('change:multiplayer', @onMultiplayerChanged)
+    @listenTo(@session, 'change:multiplayer', @onMultiplayerChanged)
+    @timerIntervalID = setInterval(@incrementSessionPlaytime, 1000)
+
+  onIdleChanged: (e) ->
+    @playerIsIdle = e.idle
+
+  incrementSessionPlaytime: =>
+    if @playerIsIdle then return
+    @changedSessionProperties.playtime = true
+    @session.set('playtime', @session.get('playtime') + 1)
 
   onPoint: ->
     return true unless @session?.get('multiplayer')
@@ -54,14 +65,14 @@ module.exports = class LevelBus extends Bus
     @wizardRef?.child('targetPos').set(wizardSprite?.targetPos or null)
     @wizardRef?.child('targetSprite').set(wizardSprite?.targetSprite?.thang.id or null)
     @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
-    
+
   disconnect: ->
     @wizardRef?.off()
     @wizardRef = null
     @fireScriptsRef?.off()
     @fireScriptsRef = null
     super()
-    
+
   removeFirebaseData: (callback) ->
     return callback?() unless @myConnection
     @myConnection.child('connected')
@@ -77,25 +88,43 @@ module.exports = class LevelBus extends Bus
 
   onEditingBegan: -> @wizardRef?.child('editing').set(true)
   onEditingEnded: -> @wizardRef?.child('editing').set(false)
-  
+
   # HACK: Backbone does not work with nested documents, but we want to
   #   patch only those props that have changed. Look into plugins to
   #   give Backbone support for nested docs and update the code here.
-  
+
   # TODO: The LevelBus doesn't need to be in charge of updating the
   #   LevelSession object. Either break this off into a separate class
   #   or have the LevelSession object listen for all these events itself.
+
+  setSpells: (spells) ->
+    @onSpellCreated spell: spell for spellKey, spell of spells
 
   onSpellChanged: (e) ->
     return unless @onPoint()
     code = @session.get('code')
     code ?= {}
     parts = e.spell.spellKey.split('/')
+
     code[parts[0]] ?= {}
     code[parts[0]][parts[1]] = e.spell.getSource()
     @changedSessionProperties.code = true
     @session.set({'code': code})
     @saveSession()
+
+  onSpellCreated: (e) ->
+    return unless @onPoint()
+    spellTeam = e.spell.team
+    @teamSpellMap ?= {}
+    @teamSpellMap[spellTeam] ?= []
+
+    unless e.spell.spellKey in @teamSpellMap[spellTeam]
+      @teamSpellMap[spellTeam].push e.spell.spellKey
+    @changedSessionProperties.teamSpells = true
+    @session.set({'teamSpells': @teamSpellMap})
+    @saveSession()
+    if spellTeam is me.team or spellTeam is 'common'
+      @onSpellChanged e  # Save the new spell to the session, too.
 
   onScriptStateChanged: (e) ->
     return unless @onPoint()
@@ -155,17 +184,6 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.state = true
     @saveSession()
 
-  onCodeRan: (e) ->
-    return unless @onPoint()
-    state = @session.get('state')
-    state.thangs ?= {}
-    methods = _.cloneDeep(e.methods)
-    delete method.metrics.statements for methodName, method of methods
-    state.thangs[e.thangID] = { methods: methods }
-    @session.set('state', state)
-    @changedSessionProperties.state = true
-    @saveSession()
-
   onVictory: ->
     return unless @onPoint()
     state = @session.get('state')
@@ -198,7 +216,7 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.chat = true
     @saveSession()
 
-  onMultiplayerChanged: =>
+  onMultiplayerChanged: ->
     @changedSessionProperties.multiplayer = true
     @session.updatePermissions()
     @changedSessionProperties.permissions = true
@@ -206,14 +224,18 @@ module.exports = class LevelBus extends Bus
 
   saveSession: ->
     return if _.isEmpty @changedSessionProperties
-    # don't let peaking admins mess with the session accidentally
+    # don't let peeking admins mess with the session accidentally
     return unless @session.get('multiplayer') or @session.get('creator') is me.id
     Backbone.Mediator.publish 'level:session-will-save', session: @session
     patch = {}
     patch[prop] = @session.get(prop) for prop of @changedSessionProperties
     @changedSessionProperties = {}
-    
+
     # since updates are coming fast and loose for session objects
     # don't let what the server returns overwrite changes since the save began
-    tempSession = new LevelSession _id:@session.id
+    tempSession = new LevelSession _id: @session.id
     tempSession.save(patch, {patch: true})
+
+  destroy: ->
+    clearInterval(@timerIntervalID)
+    super()

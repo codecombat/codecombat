@@ -364,6 +364,7 @@ var p = EventDispatcher.prototype;
 		target.hasEventListener = p.hasEventListener;
 		target.dispatchEvent = p.dispatchEvent;
 		target._dispatchEvent = p._dispatchEvent;
+		target.willTrigger = p.willTrigger;
 	};
 	
 // constructor:
@@ -558,7 +559,7 @@ var p = EventDispatcher.prototype;
 			eventObj = new createjs.Event(eventObj);
 		}
 		// TODO: deprecated. Target param is deprecated, only use case is MouseEvent/mousemove, remove.
-		eventObj.target = target||this;
+		try { eventObj.target = target||this; } catch (e) {} // allows redispatching of native events
 
 		if (!eventObj.bubbles || !this.parent) {
 			this._dispatchEvent(eventObj, 2);
@@ -580,7 +581,7 @@ var p = EventDispatcher.prototype;
 	};
 
 	/**
-	 * Indicates whether there is at least one listener for the specified event type and `useCapture` value.
+	 * Indicates whether there is at least one listener for the specified event type.
 	 * @method hasEventListener
 	 * @param {String} type The string type of the event.
 	 * @return {Boolean} Returns true if there is at least one listener for the specified event.
@@ -588,6 +589,26 @@ var p = EventDispatcher.prototype;
 	p.hasEventListener = function(type) {
 		var listeners = this._listeners, captureListeners = this._captureListeners;
 		return !!((listeners && listeners[type]) || (captureListeners && captureListeners[type]));
+	};
+	
+	/**
+	 * Indicates whether there is at least one listener for the specified event type on this object or any of its
+	 * ancestors (parent, parent's parent, etc). A return value of true indicates that if a bubbling event of the
+	 * specified type is dispatched from this object, it will trigger at least one listener.
+	 * 
+	 * This is similar to {{#crossLink "EventDispatcher/hasEventListener"}}{{/crossLink}}, but it searches the entire
+	 * event flow for a listener, not just this object.
+	 * @method willTrigger
+	 * @param {String} type The string type of the event.
+	 * @return {Boolean} Returns `true` if there is at least one listener for the specified event.
+	 **/
+	p.willTrigger = function(type) {
+		var o = this;
+		while (o) {
+			if (o.hasEventListener(type)) { return true; }
+			o = o.parent;
+		}
+		return false;
 	};
 
 	/**
@@ -610,8 +631,8 @@ var p = EventDispatcher.prototype;
 		if (eventObj && listeners) {
 			var arr = listeners[eventObj.type];
 			if (!arr||!(l=arr.length)) { return; }
-			eventObj.currentTarget = this;
-			eventObj.eventPhase = eventPhase;
+			try { eventObj.currentTarget = this; } catch (e) {}
+			try { eventObj.eventPhase = eventPhase; } catch (e) {}
 			eventObj.removed = false;
 			arr = arr.slice(); // to avoid issues with items being removed or added during the dispatch
 			for (var i=0; i<l && !eventObj.immediatePropagationStopped; i++) {
@@ -1425,7 +1446,6 @@ this.createjs = this.createjs||{};
 (function() {
 	"use strict";
 
-// TODO: deprecated. @uses EventDispatcher
 /**
  * Passed as the parameter to all mouse/pointer/touch related events. For a listing of mouse events and their properties,
  * see the {{#crossLink "DisplayObject"}}{{/crossLink}} and {{#crossLink "Stage"}}{{/crossLink}} event listings.
@@ -1441,7 +1461,6 @@ this.createjs = this.createjs||{};
  * @param {Number} rawX The raw x position relative to the stage.
  * @param {Number} rawY The raw y position relative to the stage.
  * @extends Event
- * @uses EventDispatcher
  * @constructor
  **/
 var MouseEvent = function(type, bubbles, cancelable, stageX, stageY, nativeEvent, pointerID, primary, rawX, rawY) {
@@ -1450,9 +1469,9 @@ var MouseEvent = function(type, bubbles, cancelable, stageX, stageY, nativeEvent
 var p = MouseEvent.prototype = new createjs.Event();
 
 // events:
-
+	// TODO: deprecated.
 	/**
-	 * For MouseEvent objects of type "mousedown", mousemove events will be dispatched from the event object until the
+	 * REMOVED. For MouseEvent objects of type "mousedown", mousemove events will be dispatched from the event object until the
 	 * user releases the mouse anywhere. This enables you to listen to mouse move interactions for the duration of a
 	 * press, which can be very useful for operations such as drag and drop.
 	 *
@@ -1463,7 +1482,7 @@ var p = MouseEvent.prototype = new createjs.Event();
 	 */
 
 	/**
-	 * For MouseEvent objects of type "mousedown", a mouseup event will be dispatched from the event object when the
+	 * REMOVED. For MouseEvent objects of type "mousedown", a mouseup event will be dispatched from the event object when the
 	 * user releases the mouse anywhere. This enables you to listen for a corresponding mouse up from a specific press,
 	 * which can be very useful for operations such as drag and drop.
 	 *
@@ -1546,17 +1565,6 @@ var p = MouseEvent.prototype = new createjs.Event();
 	 * @type {Boolean}
 	 */
 	p.primary = false;
-
-// mix-ins:
-	// EventDispatcher methods:
-	// TODO: deprecated:
-	p.addEventListener = null;
-	p.removeEventListener = null;
-	p.removeAllEventListeners = null;
-	p.dispatchEvent = null;
-	p.hasEventListener = null;
-	p._listeners = null;
-	createjs.EventDispatcher.initialize(p); // inject EventDispatcher methods.
 	
 // getter / setters:
 	/**
@@ -1785,6 +1793,14 @@ var p = Matrix2D.prototype;
 	 * @type String
 	 **/
 	p.compositeOperation = null;
+	
+	/**
+	 * Property representing the value for visible that will be applied to a display object. This is not part of matrix
+	 * operations, but is used for operations like getConcatenatedMatrix to provide concatenated visible values.
+	 * @property visible
+	 * @type Boolean
+	 **/
+	p.visible = true;
 
 // constructor:
 	/**
@@ -1869,7 +1885,7 @@ var p = Matrix2D.prototype;
 	 **/
 	p.prependMatrix = function(matrix) {
 		this.prepend(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
-		this.prependProperties(matrix.alpha, matrix.shadow,  matrix.compositeOperation);
+		this.prependProperties(matrix.alpha, matrix.shadow,  matrix.compositeOperation, matrix.visible);
 		return this;
 	};
 
@@ -1881,7 +1897,7 @@ var p = Matrix2D.prototype;
 	 **/
 	p.appendMatrix = function(matrix) {
 		this.append(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty);
-		this.appendProperties(matrix.alpha, matrix.shadow,  matrix.compositeOperation);
+		this.appendProperties(matrix.alpha, matrix.shadow,  matrix.compositeOperation, matrix.visible);
 		return this;
 	};
 
@@ -2047,6 +2063,7 @@ var p = Matrix2D.prototype;
 		this.alpha = this.a = this.d = 1;
 		this.b = this.c = this.tx = this.ty = 0;
 		this.shadow = this.compositeOperation = null;
+		this.visible = true;
 		return this;
 	};
 
@@ -2141,13 +2158,15 @@ var p = Matrix2D.prototype;
 	 * @param {Number} [alpha=1] desired alpha value
 	 * @param {Shadow} [shadow=null] desired shadow value
 	 * @param {String} [compositeOperation=null] desired composite operation value
+	 * @param {Boolean} [visible=true] desired visible value
 	 * @return {Matrix2D} This matrix. Useful for chaining method calls.
 	*/
-	p.reinitialize = function(a, b, c, d, tx, ty, alpha, shadow, compositeOperation) {
+	p.reinitialize = function(a, b, c, d, tx, ty, alpha, shadow, compositeOperation, visible) {
 		this.initialize(a,b,c,d,tx,ty);
 		this.alpha = alpha == null ? 1 : alpha;
 		this.shadow = shadow;
 		this.compositeOperation = compositeOperation;
+		this.visible = visible == null ? true : visible;
 		return this;
 	};
 	
@@ -2158,7 +2177,7 @@ var p = Matrix2D.prototype;
 	 * @return {Matrix2D} This matrix. Useful for chaining method calls.
 	*/
 	p.copy = function(matrix) {
-		return this.reinitialize(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty, matrix.alpha, matrix.shadow, matrix.compositeOperation);
+		return this.reinitialize(matrix.a, matrix.b, matrix.c, matrix.d, matrix.tx, matrix.ty, matrix.alpha, matrix.shadow, matrix.compositeOperation, matrix.visible);
 	};
 
 	/**
@@ -2167,12 +2186,14 @@ var p = Matrix2D.prototype;
 	 * @param {Number} alpha desired alpha value
 	 * @param {Shadow} shadow desired shadow value
 	 * @param {String} compositeOperation desired composite operation value
+	 * @param {Boolean} visible desired visible value
 	 * @return {Matrix2D} This matrix. Useful for chaining method calls.
 	*/
-	p.appendProperties = function(alpha, shadow, compositeOperation) {
+	p.appendProperties = function(alpha, shadow, compositeOperation, visible) {
 		this.alpha *= alpha;
 		this.shadow = shadow || this.shadow;
 		this.compositeOperation = compositeOperation || this.compositeOperation;
+		this.visible = this.visible && visible;
 		return this;
 	};
 
@@ -2182,12 +2203,14 @@ var p = Matrix2D.prototype;
 	 * @param {Number} alpha desired alpha value
 	 * @param {Shadow} shadow desired shadow value
 	 * @param {String} compositeOperation desired composite operation value
+	 * @param {Boolean} visible desired visible value
 	 * @return {Matrix2D} This matrix. Useful for chaining method calls.
 	*/
-	p.prependProperties = function(alpha, shadow, compositeOperation) {
+	p.prependProperties = function(alpha, shadow, compositeOperation, visible) {
 		this.alpha *= alpha;
 		this.shadow = this.shadow || shadow;
 		this.compositeOperation = this.compositeOperation || compositeOperation;
+		this.visible = this.visible && visible;
 		return this;
 	};
 
@@ -2576,6 +2599,52 @@ var p = ButtonHelper.prototype;
 	 * @type Boolean
 	 **/
 	p.play = false;
+	
+// getter / setters:
+	
+	/**
+	 * Enables or disables the button functionality on the target.
+	 * @property enabled
+	 * @type {Boolean}
+	 **/
+	/**
+	 * Enables or disables the button functionality on the target.
+	 * @deprecated in favour of the enabled property.
+	 * @method setEnabled
+	 * @param {Boolean} value
+	 **/
+	p.setEnabled = function(value) { // TODO: deprecated.
+		var o = this.target;
+		this._enabled = value;
+		if (value) {
+			o.cursor = "pointer";
+			o.addEventListener("rollover", this);
+			o.addEventListener("rollout", this);
+			o.addEventListener("mousedown", this);
+			o.addEventListener("pressup", this);
+		} else {
+			o.cursor = null;
+			o.removeEventListener("rollover", this);
+			o.removeEventListener("rollout", this);
+			o.removeEventListener("mousedown", this);
+			o.removeEventListener("pressup", this);
+		}
+	};
+	/**
+	 * Returns enabled state of this instance.
+	 * @deprecated in favour of the enabled property.
+	 * @method getEnabled
+	 * @return {Boolean} The last value passed to setEnabled().
+	 **/
+	p.getEnabled = function() {
+		return this._enabled;
+	};
+
+	try {
+		Object.defineProperties(p, {
+			enabled: { get: p.getEnabled, set: p.setEnabled }
+		});
+	} catch (e) {} // TODO: use Log
 
 //  private properties
 	/**
@@ -2591,6 +2660,13 @@ var p = ButtonHelper.prototype;
 	 * @protected
 	 **/
 	p._isOver = false;
+
+	/**
+	 * @property _enabled
+	 * @type Boolean
+	 * @protected
+	 **/
+	p._enabled = false;
 
 // constructor:
 	/**
@@ -2612,7 +2688,7 @@ var p = ButtonHelper.prototype;
 	p.initialize = function(target, outLabel, overLabel, downLabel, play, hitArea, hitLabel) {
 		if (!target.addEventListener) { return; }
 		this.target = target;
-		target.cursor = "pointer";
+		target.mouseChildren = false; // prevents issues when children are removed from the display list when state changes.
 		this.overLabel = overLabel == null ? "over" : overLabel;
 		this.outLabel = outLabel == null ? "out" : outLabel;
 		this.downLabel = downLabel == null ? "down" : downLabel;
@@ -2629,25 +2705,6 @@ var p = ButtonHelper.prototype;
 	};
 
 // public methods:
-	/**
-	 * Enables or disables the button functionality on the target.
-	 * @method setEnabled
-	 * @param {Boolean} value
-	 **/
-	p.setEnabled = function(value) {
-		var o = this.target;
-		if (value) {
-			o.addEventListener("rollover", this);
-			o.addEventListener("rollout", this);
-			o.addEventListener("mousedown", this);
-			o.addEventListener("pressup", this);
-		} else {
-			o.removeEventListener("rollover", this);
-			o.removeEventListener("rollout", this);
-			o.removeEventListener("mousedown", this);
-			o.removeEventListener("pressup", this);
-		}
-	};
 
 	/**
 	 * Returns a string representation of this object.
@@ -2667,7 +2724,6 @@ var p = ButtonHelper.prototype;
 	 **/
 	p.handleEvent = function(evt) {
 		var label, t = this.target, type = evt.type;
-
 		if (type == "mousedown") {
 			this._isPressed = true;
 			label = this.downLabel;
@@ -2957,6 +3013,11 @@ this.createjs = this.createjs||{};
  *      };
  *      var spriteSheet = new createjs.SpriteSheet(data);
  *      var animation = new createjs.Sprite(spriteSheet, "run");
+ *
+ *
+ * <strong>Warning:</strong> Images loaded cross-origin will throw cross-origin security errors when interacted with
+ * using a mouse, using methods such as `getObjectUnderPoint`, using filters, or caching. You can get around this by
+ * setting `crossOrigin` flags on your images before passing them to EaselJS, eg: `img.crossOrigin="Anonymous";`
  *
  * @class SpriteSheet
  * @constructor
@@ -4844,6 +4905,17 @@ var DisplayObject = function() {
   this.initialize();
 };
 var p = DisplayObject.prototype = new createjs.EventDispatcher();
+	
+	
+// static properties:
+	/**
+	 * Listing of mouse event names. Used in _hasMouseEventListener.
+	 * @property _MOUSE_EVENTS
+	 * @protected
+	 * @static
+	 * @type {Array}
+	 **/
+	DisplayObject._MOUSE_EVENTS = ["click","dblclick","mousedown","mouseout","mouseover","pressmove","pressup","rollout","rollover"];
 
 	/**
 	 * Suppresses errors generated when using features like hitTest, mouse events, and {{#crossLink "getObjectsUnderPoint"}}{{/crossLink}}
@@ -4854,6 +4926,15 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 	 * @default false
 	 **/
 	DisplayObject.suppressCrossDomainErrors = false;
+	
+	/**
+	 * @property _snapToPixelEnabled
+	 * @protected
+	 * @static
+	 * @type {Boolean}
+	 * @default false
+	 **/
+	DisplayObject._snapToPixelEnabled = false; // stage.snapToPixelEnabled is temporarily copied here during a draw to provide global access.
 
 	/**
 	 * @property _hitTestCanvas
@@ -4861,7 +4942,6 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 	 * @static
 	 * @protected
 	 **/
-	 
 	/**
 	 * @property _hitTestContext
 	 * @type {CanvasRenderingContext2D}
@@ -5170,21 +5250,14 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 	p.compositeOperation = null;
 
 	/**
-	 * Indicates whether the display object should have its x & y position rounded prior to drawing it to stage.
-	 * Snapping to whole pixels can result in a sharper and faster draw for images (ex. Bitmap & cached objects).
-	 * This only applies if the enclosing stage has {{#crossLink "Stage/snapPixelsEnabled:property"}}{{/crossLink}} set
-	 * to `true`. The snapToPixel property is `true` by default for {{#crossLink "Bitmap"}}{{/crossLink}} and {{#crossLink "Sprite"}}{{/crossLink}}
-	 * instances, and `false` for all other display objects.
-	 *
-	 * Note that this applies only rounds the display object's local position. You should ensure that all of the display
-	 * object's ancestors (parent containers) are also on a whole pixel. You can do this by setting the ancestors'
-	 * snapToPixel property to `true`.
+	 * Indicates whether the display object should be drawn to a whole pixel when
+	 * {{#crossLink "Stage/snapToPixelEnabled"}}{{/crossLink}} is true. To enable/disable snapping on whole
+	 * categories of display objects, set this value on the prototype (Ex. Text.prototype.snapToPixel = true).
 	 * @property snapToPixel
 	 * @type {Boolean}
-	 * @default false
-	 * @deprecated Hardware acceleration in modern browsers makes this unnecessary.
+	 * @default true
 	 **/
-	p.snapToPixel = false;
+	p.snapToPixel = true;
 	
 	// TODO: remove handler docs in future:
 	/**
@@ -5227,7 +5300,7 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 	 * event.
 	 * @property onTick
 	 * @type {Function}
-	 * @deprecatedtick
+	 * @deprecated Use addEventListener and the "tick" event.
 	 */
 
 	/**
@@ -5423,9 +5496,12 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 		}
 		
 		mtx = o._matrix.identity().appendTransform(o.x, o.y, o.scaleX, o.scaleY, o.rotation, o.skewX, o.skewY, o.regX, o.regY);
-		// TODO: should be a better way to manage this setting. For now, using dynamic access to avoid circular dependencies:
-		if (createjs["Stage"]._snapToPixelEnabled && o.snapToPixel) { ctx.transform(mtx.a,  mtx.b, mtx.c, mtx.d, mtx.tx+0.5|0, mtx.ty+0.5|0); }
-		else { ctx.transform(mtx.a,  mtx.b, mtx.c, mtx.d, mtx.tx, mtx.ty); }
+		var tx = mtx.tx, ty = mtx.ty;
+		if (DisplayObject._snapToPixelEnabled && o.snapToPixel) {
+			tx = tx + (tx < 0 ? -0.5 : 0.5) | 0;
+			ty = ty + (ty < 0 ? -0.5 : 0.5) | 0;
+		}
+		ctx.transform(mtx.a,  mtx.b, mtx.c, mtx.d, tx, ty);
 		ctx.globalAlpha *= o.alpha;
 		if (o.compositeOperation) { ctx.globalCompositeOperation = o.compositeOperation; }
 		if (o.shadow) { this._applyShadow(ctx, o.shadow); }
@@ -5692,7 +5768,7 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 	 * be used to transform positions between coordinate spaces, such as with {{#crossLink "DisplayObject/localToGlobal"}}{{/crossLink}}
 	 * and {{#crossLink "DisplayObject/globalToLocal"}}{{/crossLink}}.
 	 * @method getConcatenatedMatrix
-	 * @param {Matrix2D} [mtx] A {{#crossLink "Matrix2D"}}{{/crossLink}} object to populate with the calculated values.
+	 * @param {Matrix2D} [matrix] A {{#crossLink "Matrix2D"}}{{/crossLink}} object to populate with the calculated values.
 	 * If null, a new Matrix2D object is returned.
 	 * @return {Matrix2D} a concatenated Matrix2D object representing the combined transform of the display object and
 	 * all of its parent Containers up to the highest level ancestor (usually the {{#crossLink "Stage"}}{{/crossLink}}).
@@ -5702,7 +5778,7 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 		else { matrix = new createjs.Matrix2D(); }
 		var o = this;
 		while (o != null) {
-			matrix.prependTransform(o.x, o.y, o.scaleX, o.scaleY, o.rotation, o.skewX, o.skewY, o.regX, o.regY).prependProperties(o.alpha, o.shadow, o.compositeOperation);
+			matrix.prependTransform(o.x, o.y, o.scaleX, o.scaleY, o.rotation, o.skewX, o.skewY, o.regX, o.regY).prependProperties(o.alpha, o.shadow, o.compositeOperation, o.visible);
 			o = o.parent;
 		}
 		return matrix;
@@ -6042,9 +6118,24 @@ var p = DisplayObject.prototype = new createjs.EventDispatcher();
 		
 		return bounds.initialize(minX, minY, maxX-minX, maxY-minY);
 	};
+	
+	/**
+	 * Indicates whether the display object has any mouse event listeners or a cursor.
+	 * @method _isMouseOpaque
+	 * @return {Boolean}
+	 * @protected
+	 **/
+	p._hasMouseEventListener = function() {
+		var evts = DisplayObject._MOUSE_EVENTS;
+		for (var i= 0, l=evts.length; i<l; i++) {
+			if (this.hasEventListener(evts[i])) { return true; }
+		}
+		return !!this.cursor;
+	};
 
 createjs.DisplayObject = DisplayObject;
-}());/*
+}());
+/*
 * Container
 * Visit http://createjs.com/ for documentation, updates and examples.
 *
@@ -6607,25 +6698,30 @@ var p = Container.prototype = new createjs.DisplayObject();
 	 * @param {Number} x
 	 * @param {Number} y
 	 * @param {Array} arr
-	 * @param {Boolean} mouse If true, it will respect mouse interaction properties like mouseEnabled, mouseChildren, and hitArea.
+	 * @param {Boolean} mouse If true, it will respect mouse interaction properties like mouseEnabled, mouseChildren, and active listeners.
+	 * @param {Boolean} activeListener If true, there is an active mouse event listener.
 	 * @return {Array}
 	 * @protected
 	 **/
-	p._getObjectsUnderPoint = function(x, y, arr, mouse) {
+	p._getObjectsUnderPoint = function(x, y, arr, mouse, activeListener) {
 		var ctx = createjs.DisplayObject._hitTestContext;
 		var mtx = this._matrix;
+		activeListener = activeListener || (mouse&&this._hasMouseEventListener());
 
 		// draw children one at a time, and check if we get a hit:
-		var l = this.children.length;
+		var children = this.children;
+		var l = children.length;
 		for (var i=l-1; i>=0; i--) {
-			var child = this.children[i];
-			var hitArea = mouse&&child.hitArea;
+			var child = children[i];
+			var hitArea = child.hitArea;
 			if (!child.visible || (!hitArea && !child.isVisible()) || (mouse && !child.mouseEnabled)) { continue; }
 			// if a child container has a hitArea then we only need to check its hitArea, so we can treat it as a normal DO:
 			if (!hitArea && child instanceof Container) {
-				var result = child._getObjectsUnderPoint(x, y, arr, mouse);
+				var result = child._getObjectsUnderPoint(x, y, arr, mouse, activeListener);
 				if (!arr && result) { return (mouse && !this.mouseChildren) ? this : result; }
 			} else {
+				if (mouse && !activeListener && !child._hasMouseEventListener()) { continue; }
+				
 				child.getConcatenatedMatrix(mtx);
 				
 				if (hitArea) {
@@ -6741,17 +6837,6 @@ var Stage = function(canvas) {
   this.initialize(canvas);
 };
 var p = Stage.prototype = new createjs.Container();
-
-// static properties:
-	/**
-	 * @property _snapToPixelEnabled
-	 * @protected
-	 * @static
-	 * @type {Boolean}
-	 * @default false
-	 * @deprecated Hardware acceleration in modern browsers makes this unnecessary.
-	 **/
-	Stage._snapToPixelEnabled = false; // snapToPixelEnabled is temporarily copied here during a draw to provide global access.
 
 // events:
 
@@ -6892,14 +6977,13 @@ var p = Stage.prototype = new createjs.Container();
 	 * @deprecated Use addEventListener and the "stagemousedown" event.
 	 */
 
-	// TODO: deprecated.
 	/**
-	 * Indicates whether this stage should use the {{#crossLink "DisplayObject/snapToPixel"}}{{/crossLink}} property of
-	 * display objects when rendering them.
+	 * Indicates whether display objects should be rendered on whole pixels. You can set the
+	 * {{#crossLink "DisplayObject/snapToPixel"}}{{/crossLink}} property of
+	 * display objects to false to enable/disable this behaviour on a per instance basis.
 	 * @property snapToPixelEnabled
 	 * @type Boolean
 	 * @default false
-	 * @deprecated Hardware acceleration makes this not beneficial
 	 **/
 	p.snapToPixelEnabled = false;
 
@@ -6928,31 +7012,6 @@ var p = Stage.prototype = new createjs.Container();
 	 * @default false
 	 **/
 	p.mouseMoveOutside = false;
-	
-	// TODO: confirm naming and inclusion.
-	/**
-	 * NOTE: this name is not final. Feedback is appreciated.
-	 *
-	 * The stage assigned to this property will have mouse interactions relayed to it after this stage handles them.
-	 * This can be useful in cases where you have multiple canvases layered on top of one another and want your mouse
-	 * events to pass through. For example, this would relay mouse events from topStage to bottomStage:
-	 *
-	 *      topStage.nextStage = bottomStage;
-	 *
-	 * Note that each stage handles the interactions independently. As such, you could have a click register on an
-	 * object in the top stage, and another click register in the bottom stage. Consider using a single canvas with
-	 * cached {{#crossLink "Container"}}{{/crossLink}} instances instead of multiple canvases.
-	 *
-	 * MouseOver, MouseOut, RollOver, and RollOut interactions will not be passed through. They must be enabled using
-	 * {{#crossLink "Stage/enableMouseOver"}}{{/crossLink}} for each stage individually.
-	 * 
-	 * In most instances, you will also want to disable DOM events for the next stage to avoid duplicate interactions.
-	 * myNextStage.enableDOMEvents(false);
-	 * 
-	 * @property nextStage
-	 * @type Stage
-	 **/
-	p.nextStage = null;
 
 	/**
 	 * The hitArea property is not supported for Stage.
@@ -6960,6 +7019,52 @@ var p = Stage.prototype = new createjs.Container();
 	 * @type {DisplayObject}
 	 * @default null
 	 */
+	 
+// getter / setters:
+	/**
+	 * Specifies a target stage that will have mouse / touch interactions relayed to it after this stage handles them.
+	 * This can be useful in cases where you have multiple layered canvases and want user interactions
+	 * events to pass through. For example, this would relay mouse events from topStage to bottomStage:
+	 *
+	 *      topStage.nextStage = bottomStage;
+	 *
+	 * To disable relaying, set nextStage to null.
+	 * 
+	 * MouseOver, MouseOut, RollOver, and RollOut interactions are also passed through using the mouse over settings
+	 * of the top-most stage, but are only processed if the target stage has mouse over interactions enabled.
+	 * Considerations when using roll over in relay targets:<OL>
+	 * <LI> The top-most (first) stage must have mouse over interactions enabled (via enableMouseOver)</LI>
+	 * <LI> All stages that wish to participate in mouse over interaction must enable them via enableMouseOver</LI>
+	 * <LI> All relay targets will share the frequency value of the top-most stage</LI>
+	 * </OL>
+	 * To illustrate, in this example the targetStage would process mouse over interactions at 10hz (despite passing
+	 * 30 as it's desired frequency):
+	 * 	topStage.nextStage = targetStage;
+	 * 	topStage.enableMouseOver(10);
+	 * 	targetStage.enableMouseOver(30);
+	 * 
+	 * If the target stage's canvas is completely covered by this stage's canvas, you may also want to disable its
+	 * DOM events using:
+	 * 
+	 *	targetStage.enableDOMEvents(false);
+	 * 
+	 * @property nextStage
+	 * @type {Stage}
+	 **/
+	p._get_nextStage = function() {
+		return this._nextStage;
+	};
+	p._set_nextStage = function(value) {
+		if (this._nextStage) { this._nextStage._prevStage = null; }
+		if (value) { value._prevStage = this; }
+		this._nextStage = value;
+	};
+	
+	try {
+		Object.defineProperties(p, {
+			nextStage: { get: p._get_nextStage, set: p._set_nextStage }
+		});
+	} catch (e) {} // TODO: use Log
 
 // private properties:
 
@@ -6994,6 +7099,20 @@ var p = Stage.prototype = new createjs.Container();
 	 * @type Number
 	 **/
 	p._mouseOverIntervalID = null;
+	
+	/**
+	 * @property _nextStage
+	 * @protected
+	 * @type Stage
+	 **/
+	p._nextStage = null;
+	
+	/**
+	 * @property _prevStage
+	 * @protected
+	 * @type Stage
+	 **/
+	p._prevStage = null;
 
 // constructor:
 	/**
@@ -7043,7 +7162,7 @@ var p = Stage.prototype = new createjs.Container();
 			this.dispatchEvent("tickend");
 		}
 		this.dispatchEvent("drawstart"); // TODO: make cancellable?
-		Stage._snapToPixelEnabled = this.snapToPixelEnabled;
+		createjs.DisplayObject._snapToPixelEnabled = this.snapToPixelEnabled;
 		if (this.autoClear) { this.clear(); }
 		var ctx = this.canvas.getContext("2d");
 		ctx.save();
@@ -7267,6 +7386,8 @@ var p = Stage.prototype = new createjs.Container();
 			data = this._pointerData[id] = {x:0,y:0};
 			// if it's the first new touch, then make it the primary pointer id:
 			if (this._primaryPointerID == null) { this._primaryPointerID = id; }
+			// if it's the mouse (id == -1) or the first new touch, then make it the primary pointer id:
+		    if (this._primaryPointerID == null || this._primaryPointerID == -1) { this._primaryPointerID = id; }
 		}
 		return data;
 	};
@@ -7288,29 +7409,25 @@ var p = Stage.prototype = new createjs.Container();
 	 * @param {Event} e
 	 * @param {Number} pageX
 	 * @param {Number} pageY
+	 * @param {Stage} owner Indicates that the event has already been captured & handled by the indicated stage.
 	 **/
-	p._handlePointerMove = function(id, e, pageX, pageY) {
+	p._handlePointerMove = function(id, e, pageX, pageY, owner) {
+		if (this._prevStage && owner === undefined) { return; } // redundant listener.
 		if (!this.canvas) { return; }
-		var o = this._getPointerData(id);
+		var nextStage=this._nextStage, o=this._getPointerData(id);
 
 		var inBounds = o.inBounds;
 		this._updatePointerPosition(id, e, pageX, pageY);
-		if (!inBounds && !o.inBounds && !this.mouseMoveOutside) { return; }
-		if (id == -1 && o.inBounds == !inBounds) {
-			this._dispatchMouseEvent(this, (inBounds ? "mouseleave" : "mouseenter"), false, id, o, e);
+		if (inBounds || o.inBounds || this.mouseMoveOutside) {
+			if (id == -1 && o.inBounds == !inBounds) {
+				this._dispatchMouseEvent(this, (inBounds ? "mouseleave" : "mouseenter"), false, id, o, e);
+			}
+			
+			this._dispatchMouseEvent(this, "stagemousemove", false, id, o, e);
+			this._dispatchMouseEvent(o.target, "pressmove", true, id, o, e);
 		}
 		
-		this._dispatchMouseEvent(this, "stagemousemove", false, id, o, e);
-		this._dispatchMouseEvent(o.target, "pressmove", true, id, o, e);
-
-		// TODO: deprecated:
-		var oEvent = o.event;
-		if (oEvent && oEvent.hasEventListener("mousemove")) {
-			// this doesn't use _dispatchMouseEvent because it requires re-targeting.
-			oEvent.dispatchEvent(new createjs.MouseEvent("mousemove", false, false, o.x, o.y, e, id, (id == this._primaryPointerID), o.rawX, o.rawY), o.target);
-		}
-
-		this.nextStage&&this.nextStage._handlePointerMove(id, e, pageX, pageY);
+		nextStage&&nextStage._handlePointerMove(id, e, pageX, pageY, null);
 	};
 
 	/**
@@ -7365,33 +7482,25 @@ var p = Stage.prototype = new createjs.Container();
 	 * @param {Number} id
 	 * @param {Event} e
 	 * @param {Boolean} clear
+	 * @param {Stage} owner Indicates that the event has already been captured & handled by the indicated stage.
 	 **/
-	p._handlePointerUp = function(id, e, clear) {
-		var o = this._getPointerData(id);
-
+	p._handlePointerUp = function(id, e, clear, owner) {
+		var nextStage = this._nextStage, o = this._getPointerData(id);
+		if (this._prevStage && owner === undefined) { return; } // redundant listener.
+		
 		this._dispatchMouseEvent(this, "stagemouseup", false, id, o, e);
-
-		var oTarget = o.target;
-		if (oTarget) {
-			if (this._getObjectsUnderPoint(o.x, o.y, null, true) == oTarget) {
-				this._dispatchMouseEvent(oTarget, "click", true, id, o, e);
-			}
-			this._dispatchMouseEvent(oTarget, "pressup", true, id, o, e);
-		}
-
-		// TODO: deprecated:
-		var oEvent = o.event;
-		if (oEvent && oEvent.hasEventListener("mouseup")) {
-			// this doesn't use _dispatchMouseEvent because it requires re-targeting.
-			oEvent.dispatchEvent(new createjs.MouseEvent("mouseup", false, false, o.x, o.y, e, id, (id==this._primaryPointerID), o.rawX, o.rawY), oTarget);
-		}
-
+		
+		var target=null, oTarget = o.target;
+		if (!owner && (oTarget || nextStage)) { target = this._getObjectsUnderPoint(o.x, o.y, null, true); }
+		if (target == oTarget) { this._dispatchMouseEvent(oTarget, "click", true, id, o, e); }
+		this._dispatchMouseEvent(oTarget, "pressup", true, id, o, e);
+		
 		if (clear) {
 			if (id==this._primaryPointerID) { this._primaryPointerID = null; }
 			delete(this._pointerData[id]);
-		} else { o.event = o.target = null; }
-
-		this.nextStage&&this.nextStage._handlePointerUp(id, e, clear);
+		} else { o.target = null; }
+		
+		nextStage&&nextStage._handlePointerUp(id, e, clear, owner || target && this);
 	};
 
 	/**
@@ -7410,33 +7519,48 @@ var p = Stage.prototype = new createjs.Container();
 	 * @param {Event} e
 	 * @param {Number} pageX
 	 * @param {Number} pageY
+	 * @param {Stage} owner Indicates that the event has already been captured & handled by the indicated stage.
 	 **/
-	p._handlePointerDown = function(id, e, pageX, pageY) {
+	p._handlePointerDown = function(id, e, pageX, pageY, owner) {
 		if (pageY != null) { this._updatePointerPosition(id, e, pageX, pageY); }
-		var o = this._getPointerData(id);
+		var target = null, nextStage = this._nextStage, o = this._getPointerData(id);
 
-		this._dispatchMouseEvent(this, "stagemousedown", false, id, o, e);
+		if (o.inBounds) { this._dispatchMouseEvent(this, "stagemousedown", false, id, o, e); }
+		
+		
+		if (!owner) {
+			target = o.target = this._getObjectsUnderPoint(o.x, o.y, null, true);
+			this._dispatchMouseEvent(o.target, "mousedown", true, id, o, e);
+		}
 
-		o.target = this._getObjectsUnderPoint(o.x, o.y, null, true);
-		// TODO: holding onto the event is deprecated:
-		o.event =  this._dispatchMouseEvent(o.target, "mousedown", true, id, o, e);
-
-		this.nextStage&&this.nextStage._handlePointerDown(id, e, pageX, pageY);
+		nextStage&&nextStage._handlePointerDown(id, e, pageX, pageY, owner || target && this);
 	};
 
 	/**
 	 * @method _testMouseOver
 	 * @param {Boolean} clear If true, clears the mouseover / rollover (ie. no target)
+	 * @param {Stage} owner Indicates that the event has already been captured & handled by the indicated stage.
+	 * @param {Stage} eventTarget The stage that the cursor is actively over.
 	 * @protected
 	 **/
-	p._testMouseOver = function(clear) {
+	p._testMouseOver = function(clear, owner, eventTarget) {
+		if (this._prevStage && owner === undefined) { return; } // redundant listener.
+		
+		var nextStage = this._nextStage;
+		if (!this._mouseOverIntervalID) {
+			// not enabled for mouseover, but should still relay the event.
+			nextStage&&nextStage._testMouseOver(clear, owner, eventTarget);
+			return;
+		}
+		
 		// only update if the mouse position has changed. This provides a lot of optimization, but has some trade-offs.
 		if (this._primaryPointerID != -1 || (!clear && this.mouseX == this._mouseOverX && this.mouseY == this._mouseOverY && this.mouseInBounds)) { return; }
-		var o = this._getPointerData(-1);
-		var e = o.posEvtObj;
-		var target, common = -1, cursor="", t, i, l;
 		
-		if (clear || this.mouseInBounds && e && e.target == this.canvas) {
+		var o = this._getPointerData(-1), e = o.posEvtObj;
+		var isEventTarget = eventTarget || e&&(e.target == this.canvas);
+		var target=null, common = -1, cursor="", t, i, l;
+		
+		if (!owner && (clear || this.mouseInBounds && isEventTarget)) {
 			target = this._getObjectsUnderPoint(this.mouseX, this.mouseY, null, true);
 			this._mouseOverX = this.mouseX;
 			this._mouseOverY = this.mouseY;
@@ -7454,6 +7578,7 @@ var p = Stage.prototype = new createjs.Container();
 			t = t.parent;
 		}
 		this.canvas.style.cursor = cursor;
+		if (!owner && eventTarget) { eventTarget.canvas.style.cursor = cursor; }
 
 		// find common ancestor:
 		for (i=0,l=list.length; i<l; i++) {
@@ -7476,20 +7601,23 @@ var p = Stage.prototype = new createjs.Container();
 		if (oldTarget != target) {
 			this._dispatchMouseEvent(target, "mouseover", true, -1, o, e);
 		}
-
+		
+		nextStage&&nextStage._testMouseOver(clear, owner || target && this, eventTarget || isEventTarget && this);
 	};
 
 	/**
 	 * @method _handleDoubleClick
 	 * @protected
 	 * @param {MouseEvent} e
+	 * @param {Stage} owner Indicates that the event has already been captured & handled by the indicated stage.
 	 **/
-	p._handleDoubleClick = function(e) {
-		var o = this._getPointerData(-1);
-		var target = this._getObjectsUnderPoint(o.x, o.y, null, true);
-		this._dispatchMouseEvent(target, "dblclick", true, -1, o, e);
-
-		this.nextStage&&this.nextStage._handleDoubleClick(e);
+	p._handleDoubleClick = function(e, owner) {
+		var target=null, nextStage=this._nextStage, o=this._getPointerData(-1);
+		if (!owner) {
+			target = this._getObjectsUnderPoint(o.x, o.y, null, true);
+			this._dispatchMouseEvent(target, "dblclick", true, -1, o, e);
+		}
+		nextStage&&nextStage._handleDoubleClick(e, owner || target && this);
 	};
 
 	/**
@@ -7513,8 +7641,6 @@ var p = Stage.prototype = new createjs.Container();
 		*/
 		var evt = new createjs.MouseEvent(type, bubbles, false, o.x, o.y, nativeEvent, pointerId, pointerId==this._primaryPointerID, o.rawX, o.rawY);
 		target.dispatchEvent(evt);
-		// TODO: returning evt is deprecated:
-		return evt;
 	};
 
 createjs.Stage = Stage;
@@ -7571,6 +7697,9 @@ this.createjs = this.createjs||{};
  *     the Bitmap can be cached.</li>
  *     <li>Bitmaps with an SVG source will taint the canvas with cross-origin data, which prevents interactivity. This
  *     happens in all browsers except recent Firefox builds.</li>
+ *     <li>Images loaded cross-origin will throw cross-origin security errors when interacted with using a mouse, using
+ *     methods such as `getObjectUnderPoint`, or using filters, or caching. You can get around this by setting
+ *     `crossOrigin` flags on your images before passing them to EaselJS, eg: `img.crossOrigin="Anonymous";`</li>
  * </ol>
  *
  * @class Bitmap
@@ -7592,14 +7721,6 @@ var p = Bitmap.prototype = new createjs.DisplayObject();
 	 * @type Image | HTMLCanvasElement | HTMLVideoElement
 	 **/
 	p.image = null;
-	
-	/**
-	 * Whether or not the Bitmap should be draw to the canvas at whole pixel coordinates.
-	 * @property snapToPixel
-	 * @type Boolean
-	 * @default true
-	 **/
-	p.snapToPixel = true;
 
 	/**
 	 * Specifies an area of the source image to draw. If omitted, the whole image will be drawn.
@@ -7879,14 +8000,6 @@ var p = Sprite.prototype = new createjs.DisplayObject();
 	 * @readonly
 	 **/
 	p.spriteSheet = null;
-
-	/**
-	 * Whether or not the image should be draw to the canvas at whole pixel coordinates.
-	 * @property snapToPixel
-	 * @type {Boolean}
-	 * @default true
-	 **/
-	p.snapToPixel = true;
 
 	/**
 	 * @property offset
@@ -8936,9 +9049,27 @@ this.createjs = this.createjs || {};
 function BitmapText(text, spriteSheet) {
 	this.initialize(text, spriteSheet);
 }
-var p = BitmapText.prototype = new createjs.DisplayObject();
+var p = BitmapText.prototype = new createjs.Container();
 
 // static properties:
+	/**
+	 * BitmapText uses Sprite instances to draw text. To reduce the creation and destruction of instances (and thus garbage collection), it maintains
+	 * an internal object pool of sprite instances to reuse. Increasing this value can cause more sprites to be
+	 * retained, slightly increasing memory use, but reducing instantiation.
+	 * @property maxPoolSize
+	 * @type Number
+	 * @static
+	 * @default 100
+	 **/
+	BitmapText.maxPoolSize = 100;
+	
+	/**
+	 * Sprite object pool.
+	 * @type {Array}
+	 * @static
+	 * @private
+	 */
+	BitmapText._spritePool = [];
 
 // events:
 
@@ -8994,8 +9125,8 @@ var p = BitmapText.prototype = new createjs.DisplayObject();
 
 	/**
 	 * If a space character is not defined in the sprite sheet, then empty pixels equal to
-	 * spaceWidth will be inserted instead. If  0, then it will use a value calculated
-	 * by checking for the width of the "1", "E", or "A" character (in that order). If
+	 * spaceWidth will be inserted instead. If 0, then it will use a value calculated
+	 * by checking for the width of the "1", "l", "E", or "A" character (in that order). If
 	 * those characters are not defined, it will use the width of the first frame of the
 	 * sprite sheet.
 	 * @property spaceWidth
@@ -9005,14 +9136,20 @@ var p = BitmapText.prototype = new createjs.DisplayObject();
 	p.spaceWidth = 0;
 	
 // private properties:
+ 	/**
+	 * @property _oldProps
+	 * @type Object
+	 * @protected
+	 **/
+	p._oldProps = null;
 	
 // constructor:
 	/**
-	 * @property DisplayObject_initialize
+	 * @property Container_initialize
 	 * @type Function
 	 * @protected
 	 **/
-	p.DisplayObject_initialize = p.initialize;
+	p.Container_initialize = p.initialize;
 	
 	/**
 	 * Initialization method.
@@ -9022,10 +9159,11 @@ var p = BitmapText.prototype = new createjs.DisplayObject();
 	 * @protected
 	 **/
 	p.initialize = function (text, spriteSheet) {
-		this.DisplayObject_initialize();
+		this.Container_initialize();
 
 		this.text = text;
 		this.spriteSheet = spriteSheet;
+		this._oldProps = {text:0,spriteSheet:0,lineHeight:0,letterSpacing:0,spaceWidth:0};
 	};
 	
 // public methods:
@@ -9034,21 +9172,31 @@ var p = BitmapText.prototype = new createjs.DisplayObject();
 	 * @type Function
 	 * @protected
 	 **/
-	p.DisplayObject_draw = p.draw;
+	p.Container_draw = p.draw;
 	
 	/**
-	 * Draws the display object into the specified context ignoring it's visible, alpha, shadow, and transform.
-	 * Returns true if the draw was handled (useful for overriding functionality).
-	 * NOTE: This method is mainly for internal use, though it may be useful for advanced uses.
-	 * @method draw
-	 * @param {CanvasRenderingContext2D} ctx The canvas 2D context object to draw into.
-	 * @param {Boolean} ignoreCache Indicates whether the draw operation should ignore any current cache.
-	 * For example, used for drawing the cache (to prevent it from simply drawing an existing cache back
-	 * into itself).
+	 * Docced in superclass.
 	 **/
 	p.draw = function(ctx, ignoreCache) {
-		if (this.DisplayObject_draw(ctx, ignoreCache)) { return true; }
-		this._drawText(ctx);
+		if (this.DisplayObject_draw(ctx, ignoreCache)) { return; }
+		this._updateText();
+		this.Container_draw(ctx, ignoreCache);
+	};
+	
+	/**
+	 * @property Container_getBounds
+	 * @type Function
+	 * @protected
+	 **/
+	p.Container_getBounds = p.getBounds;
+	
+	/**
+	 * Docced in superclass.
+	 **/
+	p.getBounds = function() {
+		// getBounds is somewhat expensive 
+		this._updateText();
+		return this.Container_getBounds();
 	};
 	
 	/**
@@ -9063,44 +9211,51 @@ var p = BitmapText.prototype = new createjs.DisplayObject();
 		return !!(this.visible && this.alpha > 0 && this.scaleX != 0 && this.scaleY != 0 && hasContent);
 	};
 	
-	/**
-	 * Docced in superclass.
-	 */
-	p.getBounds = function() {
-		var bounds = this._rectangle;
-		this._drawText(null, bounds);
-		return bounds.width ? bounds : null;
-	};
+	// TODO: should probably disable addChild / addChildAt
 
 // private methods:
 	/**
-	 * @method _getFrame
+	 * @method _getFrameIndex
 	 * @param {String} character
 	 * @param {SpriteSheet} spriteSheet
+	 * @return {Number}
 	 * @protected
 	 **/
-	p._getFrame = function(character, spriteSheet) {
+	p._getFrameIndex = function(character, spriteSheet) {
 		var c, o = spriteSheet.getAnimation(character);
 		if (!o) {
 			(character != (c = character.toUpperCase())) || (character != (c = character.toLowerCase())) || (c=null);
 			if (c) { o = spriteSheet.getAnimation(c); }
 		}
-		return o && spriteSheet.getFrame(o.frames[0]);
+		return o && o.frames[0];
+	};
+	
+	/**
+	 * @method _getFrame
+	 * @param {String} character
+	 * @param {SpriteSheet} spriteSheet
+	 * @return {Object}
+	 * @protected
+	 **/
+	p._getFrame = function(character, spriteSheet) {
+		var index = this._getFrameIndex(character, spriteSheet);
+		return index == null ? index : spriteSheet.getFrame(index);
 	};
 	
 	/**
 	 * @method _getLineHeight
 	 * @param {SpriteSheet} ss
+	 * @return {Number}
 	 * @protected
 	 **/
 	p._getLineHeight = function(ss) {
 		var frame = this._getFrame("1",ss) || this._getFrame("T",ss) || this._getFrame("L",ss) || ss.getFrame(0);
 		return frame ? frame.rect.height : 1;
 	};
-	
 	/**
 	 * @method _getSpaceWidth
 	 * @param {SpriteSheet} ss
+	 * @return {Number}
 	 * @protected
 	 **/
 	p._getSpaceWidth = function(ss) {
@@ -9110,46 +9265,55 @@ var p = BitmapText.prototype = new createjs.DisplayObject();
 	
 	/**
 	 * @method _drawText
-	 * @param {CanvasRenderingContext2D} ctx
-	 * @param {Object | Rectangle} bounds
 	 * @protected
 	 **/
-	p._drawText = function(ctx, bounds) {
-		var w, h, rx, x=0, y=0, spaceW=this.spaceWidth, lineH=this.lineHeight, ss=this.spriteSheet;
-				
+	p._updateText = function() {
+		var x=0, y=0, o=this._oldProps, change=false, spaceW=this.spaceWidth, lineH=this.lineHeight, ss=this.spriteSheet;
+		var pool=BitmapText._spritePool, kids=this.children, childIndex=0, numKids=kids.length, sprite;
+		
+		for (var n in o) {
+			if (o[n] != this[n]) {
+				o[n] = this[n];
+				change = true;
+			}
+		}
+		if (!change) { return; }
+		
 		var hasSpace = !!this._getFrame(" ", ss);
 		if (!hasSpace && spaceW==0) { spaceW = this._getSpaceWidth(ss); }
 		if (lineH==0) { lineH = this._getLineHeight(ss); }
 		
-		var maxX = 0;
 		for(var i=0, l=this.text.length; i<l; i++) {
 			var character = this.text.charAt(i);
-			if (!hasSpace && character == " ") {
+			if (character == " " && !hasSpace) {
 				x += spaceW;
 				continue;
 			} else if (character=="\n" || character=="\r") {
 				if (character=="\r" && this.text.charAt(i+1) == "\n") { i++; } // crlf
-				if (x-rx > maxX) { maxX = x-rx; }
 				x = 0;
 				y += lineH;
 				continue;
 			}
 
-			var o = this._getFrame(character, ss);
-			if (!o) { continue; }
-			var rect = o.rect;
-			rx = o.regX;
-			w = rect.width;
-			ctx&&ctx.drawImage(o.image, rect.x, rect.y, w, h=rect.height, x-rx, y-o.regY, w, h);
+			var index = this._getFrameIndex(character, ss);
+			if (index == null) { continue; }
 			
-			x += w + this.letterSpacing;
+			if (childIndex < numKids) {
+				sprite = kids[childIndex];
+			} else {
+				sprite = this.addChild( pool.length ? pool.pop() : new createjs.Sprite() );
+				numKids++;
+			}
+			sprite.spriteSheet = ss;
+			sprite.gotoAndStop(index);
+			sprite.x = x;
+			sprite.y = y;
+			childIndex++;
+			
+			x += sprite.getBounds().width + this.letterSpacing;
 		}
-		if (x-rx > maxX) { maxX = x-rx; }
-		
-		if (bounds) {
-			bounds.width = maxX-this.letterSpacing;
-			bounds.height = y+lineH;
-		}
+		while (numKids > childIndex) { pool.push(sprite = kids.pop()); sprite.parent = null; } // faster than removeChild.
+		if (pool.length > BitmapText.maxPoolSize) { pool.length = BitmapText.maxPoolSize; }
 	};
 
 	createjs.BitmapText = BitmapText;
@@ -9622,18 +9786,17 @@ var p = SpriteSheetBuilder.prototype = new createjs.EventDispatcher;
 	 * source to draw to the frame. If not specified, it will look for a <code>getBounds</code> method, bounds property,
 	 * or <code>nominalBounds</code> property on the source to use. If one is not found, the frame will be skipped.
 	 * @param {Number} [scale=1] Optional. The scale to draw this frame at. Default is 1.
-	 * @param {Function} [setupFunction] Optional. A function to call immediately before drawing this frame.
-	 * @param {Array} [setupParams] Parameters to pass to the setup function.
-	 * @param {Object} [setupScope] The scope to call the setupFunction in.
+	 * @param {Function} [setupFunction] A function to call immediately before drawing this frame. It will be called with two parameters: the source, and setupData.
+	 * @param {Object} [setupData] Arbitrary setup data to pass to setupFunction as the second parameter.
 	 * @return {Number} The index of the frame that was just added, or null if a sourceRect could not be determined.
 	 **/
-	p.addFrame = function(source, sourceRect, scale, setupFunction, setupParams, setupScope) {
+	p.addFrame = function(source, sourceRect, scale, setupFunction, setupData) {
 		if (this._data) { throw SpriteSheetBuilder.ERR_RUNNING; }
 		var rect = sourceRect||source.bounds||source.nominalBounds;
 		if (!rect&&source.getBounds) { rect = source.getBounds(); }
 		if (!rect) { return null; }
 		scale = scale||1;
-		return this._frames.push({source:source, sourceRect:rect, scale:scale, funct:setupFunction, params:setupParams, scope:setupScope, index:this._frames.length, height:rect.height*scale})-1;
+		return this._frames.push({source:source, sourceRect:rect, scale:scale, funct:setupFunction, data:setupData, index:this._frames.length, height:rect.height*scale})-1;
 	};
 
 	/**
@@ -9653,37 +9816,35 @@ var p = SpriteSheetBuilder.prototype = new createjs.EventDispatcher;
 	};
 
 	/**
-	 * This will take a MovieClip, and add its frames and labels to this builder. Labels will be added as an animation
+	 * This will take a MovieClip instance, and add its frames and labels to this builder. Labels will be added as an animation
 	 * running from the label index to the next label. For example, if there is a label named "foo" at frame 0 and a label
 	 * named "bar" at frame 10, in a MovieClip with 15 frames, it will add an animation named "foo" that runs from frame
 	 * index 0 to 9, and an animation named "bar" that runs from frame index 10 to 14.
 	 *
 	 * Note that this will iterate through the full MovieClip with actionsEnabled set to false, ending on the last frame.
 	 * @method addMovieClip
-	 * @param {MovieClip} source The source MovieClip to add to the sprite sheet.
+	 * @param {MovieClip} source The source MovieClip instance to add to the sprite sheet.
 	 * @param {Rectangle} [sourceRect] A {{#crossLink "Rectangle"}}{{/crossLink}} defining the portion of the source to
 	 * draw to the frame. If not specified, it will look for a <code>getBounds</code> method, <code>frameBounds</code>
 	 * Array, <code>bounds</code> property, or <code>nominalBounds</code> property on the source to use. If one is not
 	 * found, the MovieClip will be skipped.
 	 * @param {Number} [scale=1] The scale to draw the movie clip at.
+	 * @param {Function} [setupFunction] A function to call immediately before drawing each frame. It will be called with three parameters: the source, setupData, and the frame index.
+	 * @param {Object} [setupData] Arbitrary setup data to pass to setupFunction as the second parameter.
+	 * @param {Function} [labelFunction] This method will be called for each movieclip label that is added with four parameters: the label name, the source movieclip instance, the starting frame index (in the movieclip timeline) and the end index. It must return a new name for the label/animation, or false to exclude the label.
 	 **/
-	p.addMovieClip = function(source, sourceRect, scale) {
+	p.addMovieClip = function(source, sourceRect, scale, setupFunction, setupData, labelFunction) {
 		if (this._data) { throw SpriteSheetBuilder.ERR_RUNNING; }
 		var rects = source.frameBounds;
 		var rect = sourceRect||source.bounds||source.nominalBounds;
 		if (!rect&&source.getBounds) { rect = source.getBounds(); }
-		if (!rect && !rects) { return null; }
+		if (!rect && !rects) { return; }
 
-		var baseFrameIndex = this._frames.length;
+		var i, l, baseFrameIndex = this._frames.length;
 		var duration = source.timeline.duration;
-		for (var i=0; i<duration; i++) {
+		for (i=0; i<duration; i++) {
 			var r = (rects&&rects[i]) ? rects[i] : rect;
-			this.addFrame(source, r, scale, function(frame) {
-				var ae = this.actionsEnabled;
-				this.actionsEnabled = false;
-				this.gotoAndStop(frame);
-				this.actionsEnabled = ae;
-			}, [i], source);
+			this.addFrame(source, r, scale, this._setupMovieClipFrame, {i:i, f:setupFunction, d:setupData});
 		}
 		var labels = source.timeline._labels;
 		var lbls = [];
@@ -9692,12 +9853,16 @@ var p = SpriteSheetBuilder.prototype = new createjs.EventDispatcher;
 		}
 		if (lbls.length) {
 			lbls.sort(function(a,b){ return a.index-b.index; });
-			for (var i=0,l=lbls.length; i<l; i++) {
+			for (i=0,l=lbls.length; i<l; i++) {
 				var label = lbls[i].label;
 				var start = baseFrameIndex+lbls[i].index;
 				var end = baseFrameIndex+((i == l-1) ? duration : lbls[i+1].index);
 				var frames = [];
 				for (var j=start; j<end; j++) { frames.push(j); }
+				if (labelFunction) {
+					label = labelFunction(label, source, start, end);
+					if (!label) { continue; }
+				}
 				this.addAnimation(label, frames, true); // for now, this loops all animations.
 			}
 		}
@@ -9797,6 +9962,20 @@ var p = SpriteSheetBuilder.prototype = new createjs.EventDispatcher;
 			}
 		}
 	};
+	
+	
+	/**
+	 * @method _setupMovieClipFrame
+	 * @protected
+	 * @return {Number} The width & height of the row.
+	 **/
+	p._setupMovieClipFrame = function(source, data) {
+		var ae = source.actionsEnabled;
+		source.actionsEnabled = false;
+		source.gotoAndStop(data.i);
+		source.actionsEnabled = ae;
+		data.f&&data.f(source, data.d, data.i);
+	};
 
 	/**
 	 * @method _getSize
@@ -9895,7 +10074,7 @@ var p = SpriteSheetBuilder.prototype = new createjs.EventDispatcher;
 		var sourceRect = frame.sourceRect;
 		var canvas = this._data.images[frame.img];
 		var ctx = canvas.getContext("2d");
-		frame.funct&&frame.funct.apply(frame.scope, frame.params);
+		frame.funct&&frame.funct(frame.source, frame.data);
 		ctx.save();
 		ctx.beginPath();
 		ctx.rect(rect.x, rect.y, rect.width, rect.height);
@@ -10059,7 +10238,6 @@ var p = DOMElement.prototype = new createjs.DisplayObject();
 	 */
 	p.draw = function(ctx, ignoreCache) {
 		// this relies on the _tick method because draw isn't called if a parent is not visible.
-		if (this.visible) { this._visible = true; }
 		// the actual update happens in _handleDrawEnd
 		return true;
 	};
@@ -10169,7 +10347,6 @@ var p = DOMElement.prototype = new createjs.DisplayObject();
 	 */
 	p._tick = function(params) {
 		var stage = this.getStage();
-		this._visible = false;
 		stage&&stage.on("drawend", this._handleDrawEnd, this, true);
 		this.DisplayObject__tick(params);
 	};
@@ -10184,11 +10361,12 @@ var p = DOMElement.prototype = new createjs.DisplayObject();
 		if (!o) { return; }
 		var style = o.style;
 		
-		var visibility = this._visible ? "visible" : "hidden";
-		if (visibility != style.visibility) { style.visibility = visibility; }
-		if (!this._visible) { return; }
-		
 		var mtx = this.getConcatenatedMatrix(this._matrix);
+		
+		var visibility = mtx.visible ? "visible" : "hidden";
+		if (visibility != style.visibility) { style.visibility = visibility; }
+		if (!mtx.visible) { return; }
+		
 		var oMtx = this._oldMtx;
 		var n = 10000; // precision
 		if (!oMtx || oMtx.alpha != mtx.alpha) {
@@ -10807,7 +10985,6 @@ this.createjs = this.createjs || {};
 		for(var i = 0; i < l; i += 4) {
 			data[i + 3] = map[i] || 0;
 		}
-		imageData.data = data;
 		targetCtx.putImageData(imageData, targetX, targetY);
 		return true;
 	};
@@ -11771,8 +11948,9 @@ var Touch = function() {
 	 * @static
 	 **/
 	Touch.isSupported = function() {
-		return	('ontouchstart' in window) || // iOS
-					(window.navigator['msPointerEnabled'] && window.navigator['msMaxTouchPoints'] > 0); // IE10
+		return	('ontouchstart' in window) // iOS
+			|| (window.navigator['msPointerEnabled'] && window.navigator['msMaxTouchPoints'] > 0) // IE10
+			|| (window.navigator['pointerEnabled'] && window.navigator['maxTouchPoints'] > 0); // IE11+
 	};
 
 	/**
@@ -11884,8 +12062,7 @@ var Touch = function() {
 		var canvas = stage.canvas;
 		var f = stage.__touch.f = function(e) { Touch._IE_handleEvent(stage,e); };
 
-		var prefixed = (window.navigator["pointerEnabled"] === undefined);
-		if (prefixed) {
+		if (window.navigator["pointerEnabled"] === undefined) {
 			canvas.addEventListener("MSPointerDown", f, false);
 			window.addEventListener("MSPointerMove", f, false);
 			window.addEventListener("MSPointerUp", f, false);
@@ -11911,8 +12088,7 @@ var Touch = function() {
 	Touch._IE_disable = function(stage) {
 		var f = stage.__touch.f;
 
-		var prefixed = (window.navigator["pointerEnabled"] === undefined);
-		if (prefixed) {
+		if (window.navigator["pointerEnabled"] === undefined) {
 			window.removeEventListener("MSPointerMove", f, false);
 			window.removeEventListener("MSPointerUp", f, false);
 			window.removeEventListener("MSPointerCancel", f, false);
@@ -12041,6 +12217,6 @@ this.createjs = this.createjs || {};
 	 * @type String
 	 * @static
 	 **/
-	s.buildDate = /*date*/"Tue, 19 Nov 2013 03:57:30 GMT"; // injected by build process
+	s.buildDate = /*date*/"Tue, 28 Jan 2014 21:54:26 GMT"; // injected by build process
 
 })();

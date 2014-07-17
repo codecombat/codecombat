@@ -15,11 +15,13 @@ module.exports = class ThangListEntryView extends View
   reasonsToBeDisabled: {}
 
   subscriptions:
-    'tome:problems-updated': "onProblemsUpdated"
+    'tome:problems-updated': 'onProblemsUpdated'
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
-    'surface:frame-changed': "onFrameChanged"
+    'surface:frame-changed': 'onFrameChanged'
     'level-set-letterbox': 'onSetLetterbox'
+    'tome:thang-list-entry-popover-shown': 'onThangListEntryPopoverShown'
+    'surface:coordinates-shown': 'onSurfaceCoordinatesShown'
 
   events:
     'click': 'onClick'
@@ -34,7 +36,7 @@ module.exports = class ThangListEntryView extends View
     @reasonsToBeDisabled = {}
     @sortSpells()
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context.thang = @thang
     context.spell = @spells
@@ -42,10 +44,12 @@ module.exports = class ThangListEntryView extends View
 
   afterRender: ->
     super()
+    @avatar?.destroy()
     @avatar = new ThangAvatarView thang: @thang, includeName: true, supermodel: @supermodel
     @$el.append @avatar.el  # Before rendering, so render can use parent for popover
     @avatar.render()
     @avatar.setSharedThangs @spells.length  # A bit weird to call it sharedThangs; could refactor if we like this
+    @$el.toggle Boolean(@thang.exists)
     @$el.popover(
       animation: false
       html: true
@@ -79,31 +83,50 @@ module.exports = class ThangListEntryView extends View
   onClick: (e) ->
     return unless @controlsEnabled
     @sortSpells()
-    Backbone.Mediator.publish "level-select-sprite", thangID: @thang.id, spellName: @spells[0]?.name
+    Backbone.Mediator.publish 'level-select-sprite', thangID: @thang.id, spellName: @spells[0]?.name
 
   onMouseEnter: (e) ->
     return unless @controlsEnabled and @spells.length
-    @showSpells()
+    @clearTimeouts()
+    @showSpellsTimeout = _.delay @showSpells, 100
 
   onMouseLeave: (e) ->
     return unless @controlsEnabled and @spells.length
+    @clearTimeouts()
     @hideSpellsTimeout = _.delay @hideSpells, 100
 
+  clearTimeouts: ->
+    clearTimeout @showSpellsTimeout if @showSpellsTimeout
+    clearTimeout @hideSpellsTimeout if @hideSpellsTimeout
+    @showSpellsTimeout = @hideSpellsTimeout = null
+
+  onThangListEntryPopoverShown: (e) ->
+    # I couldn't figure out how to get the mouseenter / mouseleave to always work, so this is a fallback
+    # to hide our popover if another Thang's popover gets shown.
+    return if e.entry is @
+    @hideSpells()
+
+  onSurfaceCoordinatesShown: (e) ->
+    # Definitely aren't hovering over this.
+    @hideSpells()
+
   showSpells: =>
+    @clearTimeouts()
     @sortSpells()
     @$el.data('bs.popover').options.content = @getSpellListHTML()
     @$el.popover('setContent').popover('show')
     @$el.parent().parent().parent().i18n()
-    clearTimeout @hideSpellsTimeout if @hideSpellsTimeout
-    popover = @$el.parent().parent().parent().find('.popover')
-    popover.off 'mouseenter mouseleave'
-    popover.mouseenter (e) => @onMouseEnter()
-    popover.mouseleave (e) => @onMouseLeave()
+    @popover = @$el.parent().parent().parent().find('.popover')
+    @popover.off 'mouseenter mouseleave'
+    @popover.mouseenter (e) => @showSpells() if @controlsEnabled
+    @popover.mouseleave (e) => @hideSpells()
     thangID = @thang.id
-    popover.find('code').click (e) ->
-      Backbone.Mediator.publish "level-select-sprite", thangID: thangID, spellName: $(@).data 'spell-name'
+    @popover.find('code').click (e) ->
+      Backbone.Mediator.publish 'level-select-sprite', thangID: thangID, spellName: $(@).data 'spell-name'
+    Backbone.Mediator.publish 'tome:thang-list-entry-popover-shown', entry: @
 
   hideSpells: =>
+    @clearTimeouts()
     @$el.popover('hide')
 
   getSpellListHTML: ->
@@ -116,13 +139,16 @@ module.exports = class ThangListEntryView extends View
   onSetLetterbox: (e) ->
     if e.on then @reasonsToBeDisabled.letterbox = true else delete @reasonsToBeDisabled.letterbox
     @updateControls()
+
   onDisableControls: (e) ->
     return if e.controls and not ('surface' in e.controls)  # disable selection?
     @reasonsToBeDisabled.controls = true
     @updateControls()
+
   onEnableControls: (e) ->
     delete @reasonsToBeDisabled.controls
     @updateControls()
+
   updateControls: ->
     enabled = _.keys(@reasonsToBeDisabled).length is 0
     return if enabled is @controlsEnabled
@@ -130,6 +156,20 @@ module.exports = class ThangListEntryView extends View
     @$el.toggleClass('disabled', not enabled)
 
   onFrameChanged: (e) ->
+    # Optimize
     return unless currentThang = e.world.thangMap[@thang.id]
-    @$el.toggle Boolean(currentThang.exists)
-    @$el.toggleClass 'dead', currentThang.health <= 0 if currentThang.exists
+    exists = Boolean currentThang.exists
+    if @thangDidExist isnt exists
+      @$el.toggle exists
+      @thangDidExist = exists
+    dead = exists and currentThang.health <= 0
+    if @thangWasDead isnt dead
+      @$el.toggleClass 'dead', dead
+      @thangWasDead = dead
+
+  destroy: ->
+    @avatar?.destroy()
+    @popover?.remove()
+    @popover?.off 'mouseenter mouseleave'
+    @popover?.find('code').off 'click'
+    super()

@@ -11,12 +11,23 @@ function checkDependencies { #usage: checkDependencies [name of dependency array
     done
 }
 
+function openUrl {
+    case "$OSTYPE" in
+        darwin*)
+            open $@;;
+        linux*)
+            xdg-open $@;;
+        *)
+            echo "$@";;
+    esac
+}
+
 function basicDependenciesErrorHandling {
     case "$1" in
     "python")
         echo "Python isn't installed. Please install it to continue."
         read -p "Press enter to open download link..."
-        open http://www.python.org/getit/
+        openUrl http://www.python.org/download/
         exit 1
         ;;
     "git")
@@ -44,8 +55,16 @@ function checkNodeVersion {
 
 checkDependencies deps[@] basicDependenciesErrorHandling
 #check for node
-checkNodeVersion
-#install git repository
-git clone $repositoryUrl coco
-#python ./coco/scripts/devSetup/setup.py
-echo "Now copy and paste 'sudo python ./coco/scripts/devSetup/setup.py' into the terminal!"
+if command -v node >/dev/null 2>&1; then
+    checkNodeVersion
+fi
+
+#check if a git repository already exists here
+if [ -d .git ]; then
+  echo "A git repository already exists here!"
+else
+  #install git repository
+  git clone $repositoryUrl coco
+  #python ./coco/scripts/devSetup/setup.py
+  echo "Now copy and paste 'sudo python ./coco/scripts/devSetup/setup.py' into the terminal!"
+fi

@@ -1,9 +1,9 @@
 CocoClass = require 'lib/CocoClass'
 
 module.exports = class Label extends CocoClass
-  @STYLE_DIALOGUE = "dialogue"  # A speech bubble from a script
-  @STYLE_SAY = "say"  # A piece of text generated from the world
-  @STYLE_NAME = "name"  # A name like Scott set up for the Wizard
+  @STYLE_DIALOGUE = 'dialogue'  # A speech bubble from a script
+  @STYLE_SAY = 'say'  # A piece of text generated from the world
+  @STYLE_NAME = 'name'  # A name like Scott set up for the Wizard
   # We might want to combine 'say' and 'name'; they're very similar
   # Nick designed 'say' based off of Scott's 'name' back when they were using two systems
 
@@ -16,9 +16,9 @@ module.exports = class Label extends CocoClass
     @camera = options.camera
     @layer = options.layer
     @style = options.style ? Label.STYLE_SAY
-    console.error @toString(), "needs a sprite." unless @sprite
-    console.error @toString(), "needs a camera." unless @camera
-    console.error @toString(), "needs a layer." unless @layer
+    console.error @toString(), 'needs a sprite.' unless @sprite
+    console.error @toString(), 'needs a camera.' unless @camera
+    console.error @toString(), 'needs a layer.' unless @layer
     @setText options.text if options.text
 
   destroy: ->
@@ -45,26 +45,30 @@ module.exports = class Label extends CocoClass
 
   update: ->
     return unless @text
-    offset = @sprite.getOffset? (if @style is 'dialogue' then 'mouth' else 'aboveHead')
+    offset = @sprite.getOffset? (if @style in ['dialogue', 'say'] then 'mouth' else 'aboveHead')
     offset ?= x: 0, y: 0  # temp (if not CocoSprite)
-    @label.x = @background.x = @sprite.displayObject.x + offset.x
-    @label.y = @background.y = @sprite.displayObject.y + offset.y
+    rotation = @sprite.getRotation()
+    offset.x *= -1 if rotation >= 135 or rotation <= -135
+    @label.x = @background.x = @sprite.imageObject.x + offset.x
+    @label.y = @background.y = @sprite.imageObject.y + offset.y
     null
 
   buildLabelOptions: ->
     o = {}
     st = {dialogue: 'D', say: 'S', name: 'N'}[@style]
-    o.marginX = {D: 5, S: 2, N: 3}[st]
-    o.marginY = {D: 6, S: 2, N: 3}[st]
+    o.marginX = {D: 5, S: 6, N: 3}[st]
+    o.marginY = {D: 6, S: 4, N: 3}[st]
+    o.fontWeight = {D: 'bold', S: 'bold', N: 'bold'}[st]
     o.shadow = {D: false, S: true, N: true}[st]
-    o.fontSize = {D: 25, S: 19, N: 14}[st]
-    fontFamily = {D: "Arial", S: "Arial", N: "Arial"}[st]
-    o.fontDescriptor = "#{o.fontSize}px #{fontFamily}"
-    o.fontColor = {D: "#000", S: "#000", N: "#00a"}[st]
-    o.backgroundFillColor = {D: "white", S: "rgba(255, 255, 255, 0.2)", N: "rgba(255, 255, 255, 0.5)"}[st]
-    o.backgroundStrokeColor = {D: "black", S: "rgba(0, 0, 0, 0.2)", N: "rgba(0, 0, 0, 0.0)"}[st]
+    o.shadowColor = {D: '#FFF', S: '#000', N: '#FFF'}[st]
+    o.fontSize = {D: 25, S: 12, N: 12}[st]
+    fontFamily = {D: 'Arial', S: 'Arial', N: 'Arial'}[st]
+    o.fontDescriptor = "#{o.fontWeight} #{o.fontSize}px #{fontFamily}"
+    o.fontColor = {D: '#000', S: '#FFF', N: '#00a'}[st]
+    o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(255,255,255,0.5)'}[st]
+    o.backgroundStrokeColor = {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)'}[st]
     o.backgroundStrokeStyle = {D: 2, S: 1, N: 1}[st]
-    o.backgroundBorderRadius = {D: 10, S: 5, N: 3}[st]
+    o.backgroundBorderRadius = {D: 10, S: 3, N: 3}[st]
     o.layerPriority = {D: 10, S: 5, N: 5}[st]
     maxWidth = {D: 300, S: 300, N: 180}[st]
     maxWidth = Math.max @camera.canvasWidth / 2 - 100, maxWidth  # Does this do anything?
@@ -79,7 +83,7 @@ module.exports = class Label extends CocoClass
     label.lineHeight = o.fontSize + 2
     label.x = o.marginX
     label.y = o.marginY
-    label.shadow = new createjs.Shadow "#FFF", 1, 1, 0 if o.shadow
+    label.shadow = new createjs.Shadow o.shadowColor, 1, 1, 0 if o.shadow
     label.layerPriority = o.layerPriority
     label.name = "Sprite Label - #{@style}"
     o.textHeight = label.getMeasuredHeight()
@@ -104,7 +108,7 @@ module.exports = class Label extends CocoClass
       pointerWidth += radius  # Convenience value including pointer width and border radius
 
       # Figure out the position of the pointer for the bubble
-      sup = x: @sprite.displayObject.x, y: @sprite.displayObject.y  # a little more accurate to aim for mouth--how?
+      sup = x: @sprite.imageObject.x, y: @sprite.imageObject.y  # a little more accurate to aim for mouth--how?
       cap = @camera.surfaceToCanvas sup
       hPos = if cap.x / @camera.canvasWidth > 0.53 then 'right' else 'left'
       vPos = if cap.y / @camera.canvasHeight > 0.53 then 'bottom' else 'top'
@@ -165,11 +169,13 @@ module.exports = class Label extends CocoClass
     textWidth = 0
     for word in words
       row.push(word)
-      text = new createjs.Text(_.string.join(' ', row...), fontDescriptor, "#000")
+      text = new createjs.Text(_.string.join(' ', row...), fontDescriptor, '#000')
       width = text.getMeasuredWidth()
       if width > maxWidth
         if row.length is 1 # one long word, truncate it
           row[0] = _.string.truncate(row[0], 40)
+          text.text = row[0]
+          textWidth = Math.max(text.getMeasuredWidth(), textWidth)
           rows.push(row)
           row = []
         else
@@ -178,7 +184,7 @@ module.exports = class Label extends CocoClass
           row = [word]
       else
         textWidth = Math.max(textWidth, width)
-    rows.push(row)
+    rows.push(row) if row.length
     for row, i in rows
-      rows[i] = _.string.join(" ", row...)
+      rows[i] = _.string.join(' ', row...)
     text: _.string.join("\n", rows...), textWidth: textWidth

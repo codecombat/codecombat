@@ -1,5 +1,7 @@
 Vector = require './vector'
 Rectangle = require './rectangle'
+Ellipse = require './ellipse'
+LineSegment = require './line_segment'
 WorldFrame = require './world_frame'
 Thang = require './thang'
 ThangState = require './thang_state'
@@ -8,35 +10,37 @@ WorldScriptNote = require './world_script_note'
 {now, consolidateThangs, typedArraySupport} = require './world_utils'
 Component = require 'lib/world/component'
 System = require 'lib/world/system'
-
 PROGRESS_UPDATE_INTERVAL = 200
 DESERIALIZATION_INTERVAL = 20
 
 module.exports = class World
-  @className: "World"
+  @className: 'World'
   age: 0
   ended: false
+  preloading: false  # Whether we are just preloading a world in case we soon cast it
+  debugging: false  # Whether we are just rerunning to debug a world we've already cast
+  headless: false  # Whether we are just simulating for goal states instead of all serialized results
   apiProperties: ['age', 'dt']
-  constructor: (name, @userCodeMap, classMap) ->
+  constructor: (@userCodeMap, classMap) ->
     # classMap is needed for deserializing Worlds, Thangs, and other classes
-    @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang}
+    @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang, Ellipse: Ellipse, LineSegment: LineSegment}
     Thang.resetThangIDs()
 
-    @name ?= name ? "Unnamed World"
     @userCodeMap ?= {}
     @thangs = []
     @thangMap = {}
     @systems = []
     @systemMap = {}
     @scriptNotes = []
-    @rand = new Rand 0
+    @rand = new Rand 0  # Existence System may change this seed
     @frames = [new WorldFrame(@, 0)]
 
-  # --- This config needs to move into Systems config --- TODO
-  playableTeams: ["humans"]
-  teamForPlayer: (n) ->
-    @playableTeams[n % @playableTeams.length]
-  # -----------------------------------------------------
+  destroy: ->
+    @goalManager?.destroy()
+    thang.destroy() for thang in @thangs
+    @[key] = undefined for key of @
+    @destroyed = true
+    @destroy = ->
 
   getFrame: (frameIndex) ->
     # Optimize it a bit--assume we have all if @ended and are at the previous frame otherwise
@@ -61,12 +65,12 @@ module.exports = class World
     @thangMap[thang.id] = thang
 
   thangDialogueSounds: ->
-    if @frames.length < @totalFrames then worldShouldBeOverBeforeGrabbingDialogue
+    if @frames.length < @totalFrames then throw new Error('World should be over before grabbing dialogue')
     [sounds, seen] = [[], {}]
     for frame in @frames
       for thangID, state of frame.thangStateMap
-        continue unless state.thang.say and sayMessage = state.getStateForProp "sayMessage"
-        soundKey = state.thang.spriteName + ":" + sayMessage
+        continue unless state.thang.say and sayMessage = state.getStateForProp 'sayMessage'
+        soundKey = state.thang.spriteName + ':' + sayMessage
         unless seen[soundKey]
           sounds.push [state.thang.spriteName, sayMessage]
           seen[soundKey] = true
@@ -78,36 +82,62 @@ module.exports = class World
     (@runtimeErrors ?= []).push error
     (@unhandledRuntimeErrors ?= []).push error
 
-  loadFrames: (loadedCallback, errorCallback, loadProgressCallback) =>
+  loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) ->
     return if @aborted
     unless @thangs.length
-      console.log "Warning: loadFrames called on empty World (no thangs)."
+      console.log 'Warning: loadFrames called on empty World (no thangs).'
     t1 = now()
     @t0 ?= t1
+    if loadUntilFrame
+      frameToLoadUntil = loadUntilFrame + 1
+    else
+      frameToLoadUntil = @totalFrames
     i = @frames.length
-    while i < @totalFrames
+    while i < frameToLoadUntil
+      if @debugging
+        for thang in @thangs when thang.isProgrammable
+          userCode = @userCodeMap[thang.id] ? {}
+          for methodName, aether of userCode
+            framesToLoadFlowBefore = if methodName is 'plan' or methodName is 'makeBid' then 200 else 1  # Adjust if plan() is taking even longer
+            aether._shouldSkipFlow = i < loadUntilFrame - framesToLoadFlowBefore
       try
         @getFrame(i)
         ++i  # increment this after we have succeeded in getting the frame, otherwise we'll have to do that frame again
       catch error
         # Not an Aether.errors.UserCodeError; maybe we can't recover
         @addError error
-      for error in (@unhandledRuntimeErrors ? [])
-        return unless errorCallback error  # errorCallback tells us whether the error is recoverable
-      @unhandledRuntimeErrors = []
+      unless @preloading or @debugging
+        for error in (@unhandledRuntimeErrors ? [])
+          return unless errorCallback error  # errorCallback tells us whether the error is recoverable
+        @unhandledRuntimeErrors = []
       t2 = now()
       if t2 - t1 > PROGRESS_UPDATE_INTERVAL
-        loadProgressCallback? i / @totalFrames
+        loadProgressCallback? i / @totalFrames unless @preloading
         t1 = t2
         if t2 - @t0 > 1000
-          console.log('  Loaded', i, 'of', @totalFrames, "(+" + (t2 - @t0).toFixed(0) + "ms)")
+          console.log '  Loaded', i, 'of', @totalFrames, '(+' + (t2 - @t0).toFixed(0) + 'ms)'
           @t0 = t2
-        setTimeout((=> @loadFrames(loadedCallback, errorCallback, loadProgressCallback)), 0)
+        continueFn = =>
+          return if @destroyed
+          if loadUntilFrame
+            @loadFrames(loadedCallback,errorCallback,loadProgressCallback, skipDeferredLoading, loadUntilFrame)
+          else
+            @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading)
+        if skipDeferredLoading
+          continueFn()
+        else
+          setTimeout(continueFn, 0)
         return
-    @ended = true
-    system.finish @thangs for system in @systems
-    loadProgressCallback? 1
-    loadedCallback()
+    unless @debugging
+      @ended = true
+      system.finish @thangs for system in @systems
+    unless @preloading
+      loadProgressCallback? 1
+      loadedCallback()
+
+  finalizePreload: (loadedCallback) ->
+    @preloading = false
+    loadedCallback() if @ended
 
   abort: ->
     @aborted = true
@@ -127,7 +157,7 @@ module.exports = class World
     for levelSystem in level.systems
       systemModel = levelSystem.model
       config = levelSystem.config
-      systemClass = @loadClassFromCode systemModel.js, systemModel.name, "system"
+      systemClass = @loadClassFromCode systemModel.js, systemModel.name, 'system'
       #console.log "using db system class ---\n", systemClass, "\n--- from code ---n", systemModel.js, "\n---"
       system = new systemClass @, config
       @addSystems system
@@ -141,15 +171,15 @@ module.exports = class World
     # Load new Thangs
     toAdd = []
     for d in level.thangs
-      continue if d.thangType is "Interface"  # ignore old Interface Thangs until we've migrated away
+      continue if d.thangType is 'Interface'  # ignore old Interface Thangs until we've migrated away
       components = []
       for component in d.components
         componentModel = _.find level.levelComponents, (c) -> c.original is component.original and c.version.major is (component.majorVersion ? 0)
-        #console.log "found model", componentModel, "from", component, "for", d.id, "from existing components", level.levelComponents
-        componentClass = @loadClassFromCode componentModel.js, componentModel.name, "component"
+        #console.log 'found model', componentModel, 'from', component, 'for', d.id, 'from existing components', level.levelComponents
+        componentClass = @loadClassFromCode componentModel.js, componentModel.name, 'component'
         components.push [componentClass, component.config]
-        #console.log "---", d.id, "using db component class ---\n", componentClass, "\n--- from code ---\n", componentModel.js, '\n---'
-        #console.log "(found", componentModel, "for id", component.original, "from", level.levelComponents, ")"
+        #console.log '---', d.id, "using db component class ---\n", componentClass, "\n--- from code ---\n", componentModel.js, '\n---'
+        #console.log '(found', componentModel, 'for id', component.original, 'from', level.levelComponents, ')'
       thangType = d.thangType
       thangTypeModel = _.find level.thangTypes, (t) -> t.original is thangType
       thangType = thangTypeModel.name if thangTypeModel
@@ -157,7 +187,7 @@ module.exports = class World
       try
         thang.addComponents components...
       catch e
-        console.error "couldn't load components for", d.thangType, d.id, "because", e, e.stack, e.stackTrace
+        console.error 'couldn\'t load components for', d.thangType, d.id, 'because', e, e.stack, e.stackTrace
       toAdd.push thang
     @extraneousThangs = consolidateThangs toAdd if willSimulate  # combine walls, for example; serialize the leftovers later
     for thang in toAdd
@@ -172,14 +202,18 @@ module.exports = class World
     @scripts = []
     @addScripts level.scripts...
 
-  loadClassFromCode: (js, name, kind="component") ->
+  loadClassFromCode: (js, name, kind='component') ->
     # Cache them based on source code so we don't have to worry about extra compilations
     @componentCodeClassMap ?= {}
     @systemCodeClassMap ?= {}
-    map = if kind is "component" then @componentCodeClassMap else @systemCodeClassMap
+    map = if kind is 'component' then @componentCodeClassMap else @systemCodeClassMap
     c = map[js]
     return c if c
-    c = map[js] = eval js
+    try
+      c = map[js] = eval js
+    catch err
+      console.error "Couldn't compile #{kind} code:", err, "\n", js
+      c = map[js] = {}
     c.className = name
     c
 
@@ -228,8 +262,14 @@ module.exports = class World
     return unless @goalManager
     @goalManager.submitWorldGenerationEvent(channel, event, @frames.length)
 
+  getGoalState: (goalID) ->
+    @goalManager.getGoalState(goalID)
+
+  setGoalState: (goalID, status) ->
+    @goalManager.setGoalState(goalID, status)
+
   endWorld: (victory=false, delay=3, tentative=false) ->
-    @totalFrames = Math.min(@totalFrames, @frames.length + Math.floor(delay / @dt)) - 1  # end a few seconds later
+    @totalFrames = Math.min(@totalFrames, @frames.length + Math.floor(delay / @dt))  # end a few seconds later
     @victory = victory  # TODO: should just make this signify the winning superteam
     @victoryIsTentative = tentative
     status = if @victory then 'won' else 'lost'
@@ -251,15 +291,15 @@ module.exports = class World
 
   serialize: ->
     # Code hotspot; optimize it
-    if @frames.length < @totalFrames then worldShouldBeOverBeforeSerialization
+    if @frames.length < @totalFrames then throw new Error('World Should Be Over Before Serialization')
     [transferableObjects, nontransferableObjects] = [0, 0]
-    o = {name: @name, totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
+    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
       serializedMethods = o.userCodeMap[thangID] = {}
       for methodName, method of methods
-        serializedMethods[methodName] = method.serialize()
+        serializedMethods[methodName] = method.serialize?() ? method # serialize the method again if it has been deserialized
 
     t0 = now()
     o.trackedPropertiesThangIDs = []
@@ -330,23 +370,23 @@ module.exports = class World
           flattened.push value
       o.storageBuffer = flattened
 
-    #console.log "Allocating memory:", (t1 - t0).toFixed(0), "ms; assigning values:", (t2 - t1).toFixed(0), "ms, so", ((t2 - t1) / @frames.length).toFixed(3), "ms per frame"
-    #console.log "Got", transferableObjects, "transferable objects and", nontransferableObjects, "nontransferable; stored", transferableStorageBytesNeeded, "bytes transferably"
+    #console.log 'Allocating memory:', (t1 - t0).toFixed(0), 'ms; assigning values:', (t2 - t1).toFixed(0), 'ms, so', ((t2 - t1) / @frames.length).toFixed(3), 'ms per frame'
+    #console.log 'Got', transferableObjects, 'transferable objects and', nontransferableObjects, 'nontransferable; stored', transferableStorageBytesNeeded, 'bytes transferably'
 
     o.thangs = (t.serialize() for t in @thangs.concat(@extraneousThangs ? []))
     o.scriptNotes = (sn.serialize() for sn in @scriptNotes)
     if o.scriptNotes.length > 200
-      console.log "Whoa, serializing a lot of WorldScriptNotes here:", o.scriptNotes.length
+      console.log 'Whoa, serializing a lot of WorldScriptNotes here:', o.scriptNotes.length
     {serializedWorld: o, transferableObjects: [o.storageBuffer]}
 
-  @deserialize: (o, classMap, oldSerializedWorldFrames, worldCreationTime, finishedWorldCallback) ->
+  @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback) ->
     # Code hotspot; optimize it
-    #console.log "Deserializing", o, "length", JSON.stringify(o).length
+    #console.log 'Deserializing', o, 'length', JSON.stringify(o).length
     #console.log JSON.stringify(o)
-    #console.log "Got special keys and values:", o.specialValuesToKeys, o.specialKeysToValues
+    #console.log 'Got special keys and values:', o.specialValuesToKeys, o.specialKeysToValues
     perf = {}
     perf.t0 = now()
-    w = new World o.name, o.userCodeMap, classMap
+    w = new World o.userCodeMap, classMap
     [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory]
     w[prop] = val for prop, val of o.trackedProperties
 
@@ -385,18 +425,18 @@ module.exports = class World
         return
     @finishDeserializing w, finishedWorldCallback, perf
 
-  @finishDeserializing: (w, finishedWorldCallback, perf) =>
+  @finishDeserializing: (w, finishedWorldCallback, perf) ->
     perf.t4 = now()
     w.ended = true
     w.getFrame(w.totalFrames - 1).restoreState()
     perf.t5 = now()
-    console.log "Deserialization:", (perf.t5 - perf.t0).toFixed(0) + "ms (" + ((perf.t5 - perf.t0) / w.frames.length).toFixed(3) + "ms per frame).", perf.batches, "batches."
+    console.log 'Deserialization:', (perf.t5 - perf.t0).toFixed(0) + 'ms (' + ((perf.t5 - perf.t0) / w.frames.length).toFixed(3) + 'ms per frame).', perf.batches, 'batches.'
     if false
-      console.log "  Deserializing--constructing new World:", (perf.t1 - perf.t0).toFixed(2) + "ms"
-      console.log "  Deserializing--Thangs and ScriptNotes:", (perf.t2 - perf.t1).toFixed(2) + "ms"
-      console.log "  Deserializing--reallocating memory:", (perf.t3 - perf.t2).toFixed(2) + "ms"
-      console.log "  Deserializing--WorldFrames:", (perf.t4 - perf.t3).toFixed(2) + "ms"
-      console.log "  Deserializing--restoring last WorldFrame:", (perf.t5 - perf.t4).toFixed(2) + "ms"
+      console.log '  Deserializing--constructing new World:', (perf.t1 - perf.t0).toFixed(2) + 'ms'
+      console.log '  Deserializing--Thangs and ScriptNotes:', (perf.t2 - perf.t1).toFixed(2) + 'ms'
+      console.log '  Deserializing--reallocating memory:', (perf.t3 - perf.t2).toFixed(2) + 'ms'
+      console.log '  Deserializing--WorldFrames:', (perf.t4 - perf.t3).toFixed(2) + 'ms'
+      console.log '  Deserializing--restoring last WorldFrame:', (perf.t5 - perf.t4).toFixed(2) + 'ms'
     finishedWorldCallback w
 
   findFirstChangedFrame: (oldWorld) ->
@@ -406,9 +446,9 @@ module.exports = class World
       break unless oldFrame and newFrame.hash is oldFrame.hash
     @firstChangedFrame = i
     if @frames[i]
-      console.log "First changed frame is", @firstChangedFrame, "with hash", @frames[i].hash, "compared to", oldWorld.frames[i]?.hash
+      console.log 'First changed frame is', @firstChangedFrame, 'with hash', @frames[i].hash, 'compared to', oldWorld.frames[i]?.hash
     else
-      console.log "No frames were changed out of all", @frames.length
+      console.log 'No frames were changed out of all', @frames.length
     @firstChangedFrame
 
   pointsForThang: (thangID, frameStart=0, frameEnd=null, camera=null, resolution=4) ->
@@ -426,7 +466,7 @@ module.exports = class World
           pos = camera.worldToSurface {x: pos.x, y: pos.y} if camera  # without z
           if not lastPos.x? or (Math.abs(lastPos.x - pos.x) + Math.abs(lastPos.y - pos.y)) > 1
             lastPos = pos
-        allPoints.push lastPos.y, lastPos.x
+        allPoints.push lastPos.y, lastPos.x unless lastPos.y is 0 and lastPos.x is 0
       allPoints.reverse()
       @pointsForThangCache[cacheKey] = allPoints
 
@@ -444,7 +484,7 @@ module.exports = class World
   actionsForThang: (thangID, keepIdle=false) ->
     # Optimized
     @actionsForThangCache ?= {}
-    cacheKey = thangID + "_" + Boolean(keepIdle)
+    cacheKey = thangID + '_' + Boolean(keepIdle)
     cached = @actionsForThangCache[cacheKey]
     return cached if cached
     states = (frame.thangStateMap[thangID] for frame in @frames)
@@ -464,3 +504,7 @@ module.exports = class World
     colorConfigs = {}
     colorConfigs[teamName] = config.color for teamName, config of teamConfigs
     colorConfigs
+
+  teamForPlayer: (n) ->
+    playableTeams = @playableTeams ? ['humans']
+    playableTeams[n % playableTeams.length]

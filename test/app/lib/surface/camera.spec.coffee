@@ -14,12 +14,11 @@ describe 'Camera (Surface point of view)', ->
 
     sup = cam.worldToSurface wop
     expect(sup.x).toBeCloseTo wop.x * Camera.PPM
-    expect(sup.y).toBeCloseTo cam.surfaceHeight - (wop.y + wop.z * cam.z2y) * cam.y2x * Camera.PPM
+    expect(sup.y).toBeCloseTo -(wop.y + wop.z * cam.z2y) * cam.y2x * Camera.PPM
 
     cap = cam.worldToCanvas wop
     expect(cap.x).toBeCloseTo (sup.x - cam.surfaceViewport.x) * cam.zoom
     expect(cap.y).toBeCloseTo (sup.y - cam.surfaceViewport.y) * cam.zoom
-
 
     scp = cam.worldToScreen wop
     # If we ever want to use screen conversion, then make it and add this test
@@ -52,7 +51,7 @@ describe 'Camera (Surface point of view)', ->
       x: cam.worldViewport.cx
       y: cam.worldViewport.cy - camDist * cam.y2x * cam.z2y
       z: camDist * cam.z2x * cam.y2z
-    #console.log "botFOV", botFOV * 180 / Math.PI, "botDist", botDist, "camDist", camDist, "target pos", targetPos, "actual pos", cam.cameraWorldPos()
+    #console.log 'botFOV', botFOV * 180 / Math.PI, 'botDist', botDist, 'camDist', camDist, 'target pos', targetPos, 'actual pos', cam.cameraWorldPos()
     expectPositionsEqual cam.cameraWorldPos(), targetPos
 
     if wop
@@ -84,47 +83,48 @@ describe 'Camera (Surface point of view)', ->
   testAngles = [0, Math.PI / 4, null, Math.PI / 2]
   testFOVs = [Math.PI / 6, Math.PI / 3, Math.PI / 2, Math.PI]
 
-  xit 'handles lots of different cases correctly', ->
+  it 'handles lots of different cases correctly', ->
     for wop in testWops
       for size in testCanvasSizes
         for zoom in testZooms
           for target in testZoomTargets
             for angle in testAngles
               for fov in testFOVs
-                cam = new Camera size.width, size.height, size.width * Camera.MPP, size.height * Camera.MPP, testLayer, zoom, null, angle, fov
+                cam = new Camera {attr: (attr) -> if 'attr' is 'width' then size.width else size.height}, angle, fov
                 checkCameraPos cam, wop
                 cam.zoomTo target, zoom, 0
                 checkConversionsFromWorldPos wop, cam
                 checkCameraPos cam, wop
 
   it 'works at 90 degrees', ->
-    cam = new Camera 100, 100, 100 * Camera.MPP, 100 * Camera.MPP, testLayer, 1, null, Math.PI / 2
+    cam = new Camera {attr: (attr) -> 100}, Math.PI / 2
     expect(cam.x2y).toBeCloseTo 1
     expect(cam.x2z).toBeGreaterThan 9001
     expect(cam.z2y).toBeCloseTo 0
 
   it 'works at 0 degrees', ->
-    cam = new Camera 100, 100, 100 * Camera.MPP, 100 * Camera.MPP, testLayer, 1, null, 0
-    expect(cam.x2z).toBeGreaterThan 9001
-    expect(cam.x2y).toBeCloseTo 1
-    expect(cam.z2y).toBeCloseTo 0
+    cam = new Camera {attr: (attr) -> 100}, 0
+    expect(cam.x2y).toBeGreaterThan 9001
+    expect(cam.x2z).toBeCloseTo 1
+    expect(cam.z2y).toBeGreaterThan 9001
 
   it 'works at 45 degrees', ->
-    cam = new Camera 100, 100, 100 * Camera.MPP, 100 * Camera.MPP, testLayer, 1, null, Math.PI / 4
-    expect(cam.x2y).toBeCloseTo 1
-    expect(cam.x2z).toBeGreaterThan 9001
-    expect(cam.z2y).toBeCloseTo 0
+    cam = new Camera {attr: (attr) -> 100}, Math.PI / 4
+    expect(cam.x2y).toBeCloseTo Math.sqrt(2)
+    expect(cam.x2z).toBeCloseTo Math.sqrt(2)
+    expect(cam.z2y).toBeCloseTo 1
 
-  xit 'works at default angle of asin(0.75) ~= 48.9 degrees', ->
-    cam = new Camera 100, 100, 100 * Camera.MPP, 100 * Camera.MPP, testLayer, 1
-    angle = 1 / Math.cos angle
+  it 'works at default angle of asin(0.75) ~= 48.9 degrees', ->
+    cam = new Camera {attr: (attr) -> 100}, null
+    angle = Math.asin(3 / 4)
     expect(cam.angle).toBeCloseTo angle
-    expect(cam.x2y).toBeCloseTo 1
-    expect(cam.x2z).toBeGreaterThan 9001
-    expect(cam.z2y).toBeCloseTo 0
+    expect(cam.x2y).toBeCloseTo 4 / 3
+    expect(cam.x2z).toBeCloseTo 1 / Math.cos angle
+    expect(cam.z2y).toBeCloseTo (4 / 3) * Math.cos angle
 
   xit 'works at 2x zoom, 90 degrees', ->
-    cam = new Camera 100, 100, 100 * Camera.MPP, 100 * Camera.MPP, testLayer, 2, null, Math.PI / 2
+    cam = new Camera {attr: (attr) -> 100}, Math.PI / 2
+    cam.zoomTo null, 2, 0
     checkCameraPos cam
     wop = x: 5, y: 2.5, z: 7
     cap = cam.worldToCanvas wop
@@ -144,7 +144,8 @@ describe 'Camera (Surface point of view)', ->
     expectPositionsEqual cap, {x: 0, y: 50}
 
   xit 'works at 2x zoom, 30 degrees', ->
-    cam = new Camera 100, 100, 100 * Camera.MPP, 2 * 100 * Camera.MPP, testLayer, 2, null, Math.PI / 6
+    cam = new Camera {attr: (attr) -> 100}, Math.PI / 6
+    cam.zoomTo null, 2, 0
     expect(cam.x2y).toBeCloseTo 1
     expect(cam.x2z).toBeGreaterThan 9001
     checkCameraPos cam
@@ -165,15 +166,18 @@ describe 'Camera (Surface point of view)', ->
     expectPositionsEqual cap, {x: 50, y: -100}
 
   it 'works at 2x zoom, 60 degree hFOV', ->
-    cam = new Camera 100, 100, 100 * Camera.MPP, 100 * Camera.MPP, testLayer, 2, null, null, 0.01
+    cam = new Camera {attr: (attr) -> 100}, null, Math.PI / 3
+    cam.zoomTo null, 2, 0
     checkCameraPos cam
 
-  it 'works at 2x zoom, 60 degree hFOV, 40 degree hFOV', ->
-    cam = new Camera 100, 63.041494, 100 * Camera.MPP, 63.041494 * Camera.MPP, testLayer, 2, null, null, Math.PI / 3
+  it 'works at 2x zoom, 60 degree hFOV, 40 degree vFOV', ->
+    cam = new Camera {attr: (attr) -> if attr is 'height' then 63.041494 else 100}, null, Math.PI / 3
+    cam.zoomTo null, 2, 0
     checkCameraPos cam
 
-  xit 'works on a surface wider than it is tall, 30 degrees, default viewing upper left corner', ->
-    cam = new Camera 100, 100, 200 * Camera.MPP, 2 * 50 * Camera.MPP, testLayer, 1, {x: 0, y: 0}, Math.PI / 6
+  xit 'works at 2x zoom on a surface wider than it is tall, 30 degrees, default viewing upper left corner', ->
+    cam = new Camera {attr: (attr) -> 100}, Math.PI / 6  # 200 * Camera.MPP, 2 * 50 * Camera.MPP
+    cam.zoomTo null, 2, 0
     checkCameraPos cam
     expect(cam.zoom).toBeCloseTo 2
     wop = x: 5, y: 4, z: 6 * cam.y2z  # like x: 5, y: 10 out of world width: 20, height: 10

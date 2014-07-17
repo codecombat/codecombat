@@ -1,8 +1,9 @@
 # TODO: not updated since rename from level_instance, or since we redid how all models are done; probably busted
 
-mongoose = require('mongoose')
-plugins = require('../../plugins/plugins')
-jsonschema = require('./level_session_schema')
+mongoose = require 'mongoose'
+plugins = require '../../plugins/plugins'
+AchievablePlugin = require '../../plugins/achievements'
+jsonschema = require '../../../app/schemas/models/level_session'
 
 LevelSessionSchema = new mongoose.Schema({
   created:
@@ -10,6 +11,7 @@ LevelSessionSchema = new mongoose.Schema({
     'default': Date.now
 }, {strict: false})
 LevelSessionSchema.plugin(plugins.PermissionsPlugin)
+LevelSessionSchema.plugin(AchievablePlugin)
 
 LevelSessionSchema.pre 'init', (next) ->
   # TODO: refactor this into a set of common plugins for all models?

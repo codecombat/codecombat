@@ -14,8 +14,9 @@ module.exports = class GoalManager extends CocoClass
   # If you want weird goals or hybrid goals, make a custom goal.
 
   nextGoalID: 0
+  nicks: ['GoalManager']
 
-  constructor: (@world) ->
+  constructor: (@world, @initialGoals, @team) ->
     super()
     @init()
 
@@ -25,6 +26,7 @@ module.exports = class GoalManager extends CocoClass
     @userCodeMap = {} # @userCodeMap.thangID.methodName.aether.raw = codeString
     @thangTeams = {}
     @initThangTeams()
+    @addGoal goal for goal in @initialGoals if @initialGoals
 
   initThangTeams: ->
     return unless @world
@@ -34,8 +36,6 @@ module.exports = class GoalManager extends CocoClass
       @thangTeams[thang.team].push(thang.id)
 
   subscriptions:
-    'level-add-goals': 'onAddGoals'
-    'level-remove-goals': 'onRemoveGoals'
     'god:new-world-created': 'onNewWorldCreated'
     'level:restarted': 'onLevelRestarted'
 
@@ -46,24 +46,14 @@ module.exports = class GoalManager extends CocoClass
     'world:thang-collected-item': 'onThangCollectedItem'
     'world:ended': 'onWorldEnded'
 
-  onLevelRestarted: =>
+  onLevelRestarted: ->
     @goals = []
     @goalStates = {}
     @userCodeMap = {}
     @notifyGoalChanges()
+    @addGoal goal for goal in @initialGoals if @initialGoals
 
   # INTERFACE AND LIFETIME OVERVIEW
-
-  # main instance receives goal updates from the script manager
-  onAddGoals: (e) =>
-    return unless e.worldName is @world.name
-    goals = e.goals
-    @addGoal(goal) for goal in goals
-
-  onRemoveGoals: (e) =>
-    if e.goal in @goals
-      @goals.remove(e.goal)
-      delete @goalStates[e.goal]
 
   # world generator gets current goals from the main instance
   getGoals: -> @goals
@@ -79,7 +69,7 @@ module.exports = class GoalManager extends CocoClass
     func = @backgroundSubscriptions[channel]
     func = utils.normalizeFunc(func, @)
     return unless func
-    func(event, frameNumber)
+    func.call(@, event, frameNumber)
 
   # after world generation, generated goal states
   # are grabbed to send back to main instance
@@ -88,7 +78,8 @@ module.exports = class GoalManager extends CocoClass
 
   # main instance gets them and updates their existing goal states,
   # passes the word along
-  onNewWorldCreated: (e) =>
+  onNewWorldCreated: (e) ->
+    @world = e.world
     @updateGoalStates(e.goalStates) if e.goalStates?
 
   updateGoalStates: (newGoalStates) ->
@@ -100,11 +91,12 @@ module.exports = class GoalManager extends CocoClass
   # IMPLEMENTATION DETAILS
 
   addGoal: (goal) ->
+    goal = $.extend(true, {}, goal)
     goal.id = @nextGoalID++ if not goal.id
     return if @goalStates[goal.id]?
     @goals.push(goal)
     goal.isPositive = @goalIsPositive goal.id
-    @goalStates[goal.id] = {status: 'incomplete', keyFrame: 0}
+    @goalStates[goal.id] = {status: 'incomplete', keyFrame: 0, team: goal.team}
     @notifyGoalChanges()
     return unless goal.notificationGoal
     f = (channel) => (event) => @onNote(channel, event)
@@ -113,13 +105,18 @@ module.exports = class GoalManager extends CocoClass
 
   notifyGoalChanges: ->
     overallStatus = @checkOverallStatus()
-    event = {goalStates: @goalStates, goals: @goals, overallStatus: overallStatus}
-    #console.log JSON.stringify(event), "new goal states"
+    event =
+      goalStates: @goalStates
+      goals: @goals
+      overallStatus: overallStatus
+      timedOut: @world.totalFrames is @world.maxTotalFrames
     Backbone.Mediator.publish('goal-manager:new-goal-states', event)
 
   checkOverallStatus: (ignoreIncomplete=false) ->
     overallStatus = null
-    statuses = if @goalStates then (val.status for key, val of @goalStates) else []
+    goals = if @goalStates then _.values @goalStates else []
+    goals = (g for g in goals when g.team in [undefined, @team]) if @team
+    statuses = if @goalStates then (goal.status for goal in goals) else []
     overallStatus = 'success' if statuses.length > 0 and _.every(statuses, (s) -> s is 'success' or (ignoreIncomplete and s is null))
     overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
     overallStatus
@@ -133,49 +130,59 @@ module.exports = class GoalManager extends CocoClass
       state = {
         status: null # should eventually be either 'success', 'failure', or 'incomplete'
         keyFrame: 0 # when it became a 'success' or 'failure'
+        team: goal.team
       }
-
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
+      for getTo in goal.getAllToLocations ? []
+        @initGoalState(state, [getTo.getToLocation?.who, []], 'arrived')
+      for keepFrom in goal.keepAllFromLocations ? []
+        @initGoalState(state, [[], keepFrom.keepFromLocation?.who], 'arrived')
       @initGoalState(state, [goal.getToLocations?.who, goal.keepFromLocations?.who], 'arrived')
       @initGoalState(state, [goal.leaveOffSides?.who, goal.keepFromLeavingOffSides?.who], 'left')
       @initGoalState(state, [goal.collectThangs?.who, goal.keepFromCollectingThangs?.who], 'collected')
       @goalStates[goal.id] = state
 
-  onThangDied: (e, frameNumber) =>
+  onThangDied: (e, frameNumber) ->
     for goal in @goals ? []
       @checkKillThangs(goal.id, goal.killThangs, e.thang, frameNumber) if goal.killThangs?
       @checkKillThangs(goal.id, goal.saveThangs, e.thang, frameNumber) if goal.saveThangs?
 
-  checkKillThangs: (goalID, targets, thang, frameNumber) =>
+  checkKillThangs: (goalID, targets, thang, frameNumber) ->
     return unless thang.id in targets or thang.team in targets
     @updateGoalState(goalID, thang.id, 'killed', frameNumber)
 
-  onThangTouchedGoal: (e, frameNumber) =>
+  onThangTouchedGoal: (e, frameNumber) ->
     for goal in @goals ? []
-      @checkArrived(goal.id, goal.getToLocations.who, goal.getToLocations.targets, e.actor.id, e.touched.id, frameNumber) if goal.getToLocations?
-      @checkArrived(goal.id, goal.keepFromLocations.who, goal.keepFromLocations.targets, e.actor.id, e.touched.id, frameNumber) if goal.keepFromLocations?
+      @checkArrived(goal.id, goal.getToLocations.who, goal.getToLocations.targets, e.actor, e.touched.id, frameNumber) if goal.getToLocations?
+      if goal.getAllToLocations?
+        for getTo in goal.getAllToLocations
+          @checkArrived(goal.id, getTo.getToLocation.who, getTo.getToLocation.targets, e.actor, e.touched.id, frameNumber)
+      @checkArrived(goal.id, goal.keepFromLocations.who, goal.keepFromLocations.targets, e.actor, e.touched.id, frameNumber) if goal.keepFromLocations?
+      if goal.keepAllFromLocations?
+        for keepFrom in goal.keepAllFromLocations
+          @checkArrived(goal.id, keepFrom.keepFromLocation.who , keepFrom.keepFromLocation.targets, e.actor, e.touched.id, frameNumber )
 
-  checkArrived: (goalID, who, targets, thangID, touchedID, frameNumber) =>
+  checkArrived: (goalID, who, targets, thang, touchedID, frameNumber) ->
     return unless touchedID in targets
-    return unless thangID in who
-    @updateGoalState(goalID, thangID, 'arrived', frameNumber)
+    return unless thang.id in who or thang.team in who
+    @updateGoalState(goalID, thang.id, 'arrived', frameNumber)
 
-  onThangLeftMap: (e, frameNumber) =>
+  onThangLeftMap: (e, frameNumber) ->
     for goal in @goals ? []
       @checkLeft(goal.id, goal.leaveOffSides.who, goal.leaveOffSides.sides, e.thang.id, e.side, frameNumber) if goal.leaveOffSides?
       @checkLeft(goal.id, goal.keepFromLeavingOffSides.who, goal.keepFromLeavingOffSides.sides, e.thang.id, e.side, frameNumber) if goal.keepFromLeavingOffSides?
 
-  checkLeft: (goalID, who, sides, thangID, side, frameNumber) =>
+  checkLeft: (goalID, who, sides, thangID, side, frameNumber) ->
     return if sides and side and not (side in sides)
     return unless thangID in who
     @updateGoalState(goalID, thangID, 'left', frameNumber)
 
-  onThangCollectedItem: (e, frameNumber) =>
+  onThangCollectedItem: (e, frameNumber) ->
     for goal in @goals ? []
       @checkCollected(goal.id, goal.collectThangs.who, goal.collectThangs.targets, e.actor.id, e.item.id, frameNumber) if goal.collectThangs?
       @checkCollected(goal.id, goal.keepFromCollectingThangs.who, goal.keepFromCollectingThangs.targets, e.actor.id, e.item.id, frameNumber) if goal.keepFromCollectingThangs?
 
-  checkCollected: (goalID, who, targets, thangID, itemID, frameNumber) =>
+  checkCollected: (goalID, who, targets, thangID, itemID, frameNumber) ->
     return unless itemID in targets
     return unless thangID in who
     @updateGoalState(goalID, thangID, 'collected', frameNumber)
@@ -201,9 +208,10 @@ module.exports = class GoalManager extends CocoClass
   initGoalState: (state, whos, progressObjectName) ->
     # 'whos' is an array of goal 'who' values.
     # This inits the progress object for the goal tracking.
+
     arrays = (prop for prop in whos when prop?.length)
     return unless arrays.length
-    state[progressObjectName] = {}
+    state[progressObjectName] ?= {}
     for array in arrays
       for thang in array
         if @thangTeams[thang]?
@@ -211,6 +219,19 @@ module.exports = class GoalManager extends CocoClass
             state[progressObjectName][t] = false
         else
           state[progressObjectName][thang] = false
+
+  getGoalState: (goalID) ->
+    @goalStates[goalID].status
+
+  setGoalState: (goalID, status) ->
+    state = @goalStates[goalID]
+    state.status = status
+    if overallStatus = @checkOverallStatus true
+      matchedGoals = (_.find(@goals, {id: goalID}) for goalID, goalState of @goalStates when goalState.status is overallStatus)
+      mostEagerGoal = _.min matchedGoals, 'worldEndsAfter'
+      victory = overallStatus is 'success'
+      tentative = overallStatus is 'success'
+      @world.endWorld victory, mostEagerGoal.worldEndsAfter, tentative if mostEagerGoal isnt Infinity
 
   updateGoalState: (goalID, thangID, progressObjectName, frameNumber) ->
     # A thang has done something related to the goal!
@@ -221,22 +242,22 @@ module.exports = class GoalManager extends CocoClass
     stateThangs[thangID] = true
     success = @goalIsPositive goalID
     if success
-      numNeeded = Math.max((goal.howMany ? 1), _.size stateThangs)
+      numNeeded = goal.howMany ? Math.max(1, _.size stateThangs)
     else
-      # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be "done"
-      numNeeded = _.size(stateThangs) - Math.min((goal.howMany ? 1), _.size stateThangs) + 1
+      # saveThangs: by default we would want to save all the Thangs, which means that we would want none of them to be 'done'
+      numNeeded = _.size(stateThangs) - Math.max((goal.howMany ? 1), _.size stateThangs) + 1
     numDone = _.filter(stateThangs).length
-    #console.log "needed", numNeeded, "done", numDone, "of total", _.size(stateThangs), "with how many", goal.howMany
+    #console.log 'needed', numNeeded, 'done', numDone, 'of total', _.size(stateThangs), 'with how many', goal.howMany, 'and stateThangs', stateThangs
     return unless numDone >= numNeeded
     return if state.status and not success  # already failed it; don't wipe keyframe
-    state.status = if success then "success" else "failure"
+    state.status = if success then 'success' else 'failure'
     state.keyFrame = frameNumber
-    #console.log goalID, "became", success, "on frame", frameNumber, "with overallStatus", @checkOverallStatus true
+    #console.log goalID, 'became', success, 'on frame', frameNumber, 'with overallStatus', @checkOverallStatus true
     if overallStatus = @checkOverallStatus true
       matchedGoals = (_.find(@goals, {id: goalID}) for goalID, goalState of @goalStates when goalState.status is overallStatus)
       mostEagerGoal = _.min matchedGoals, 'worldEndsAfter'
-      victory = overallStatus is "success"
-      tentative = overallStatus is "success"
+      victory = overallStatus is 'success'
+      tentative = overallStatus is 'success'
       @world.endWorld victory, mostEagerGoal.worldEndsAfter, tentative if mostEagerGoal isnt Infinity
 
   goalIsPositive: (goalID) ->
@@ -250,7 +271,9 @@ module.exports = class GoalManager extends CocoClass
     killThangs: 1
     saveThangs: 0
     getToLocations: 1
+    getAllToLocations: 1
     keepFromLocations: 0
+    keepAllFromLocations: 0
     leaveOffSides: 1
     keepFromLeavingOffSides: 0
     collectThangs: 1

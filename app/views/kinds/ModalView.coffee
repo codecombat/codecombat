@@ -1,22 +1,28 @@
 CocoView = require './CocoView'
 
 module.exports = class ModalView extends CocoView
-  className: "modal fade"
+  className: 'modal fade'
   closeButton: true
   closesOnClickOutside: true
   modalWidthPercent: null
-  
+  plain: false
+
+  events:
+    'click a': 'toggleModal'
+    'click button': 'toggleModal'
+    'click li': 'toggleModal'
+
   shortcuts:
     'esc': 'hide'
 
   constructor: (options) ->
     options ?= {}
-    @className = @className.replace " fade", "" if options.instant
+    @className = @className.replace ' fade', '' if options.instant
     @closeButton = options.closeButton if options.closeButton?
     @modalWidthPercent = options.modalWidthPercent if options.modalWidthPercent
     super options
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.closeButton = @closeButton
     context
@@ -26,12 +32,17 @@ module.exports = class ModalView extends CocoView
 
   afterRender: ->
     super()
+    if Backbone.history.fragment is "employers"
+      $(@$el).find(".background-wrapper").each ->
+        $(this).addClass("employer-modal-background-wrapper").removeClass("background-wrapper")
+        
     if @modalWidthPercent
       @$el.find('.modal-dialog').css width: "#{@modalWidthPercent}%"
-    @$el.on 'hide.bs.modal', =>      
+    @$el.on 'hide.bs.modal', =>
       @onHidden() unless @hidden
       @hidden = true
-      
+    @$el.find('.background-wrapper').addClass('plain') if @plain
+
   afterInsert: ->
     super()
     # This makes sure if you press enter right after opening the players guide,
@@ -42,7 +53,14 @@ module.exports = class ModalView extends CocoView
     $el = @$el.find('.modal-body') unless $el
     super($el)
 
-  hide: ->    
-    @$el.removeClass('fade').modal "hide"
+  hide: ->
+    @trigger 'hide'
+    @$el.removeClass('fade').modal 'hide'
 
-  onHidden: ->    
+  onHidden: ->
+    @trigger 'hidden'
+
+  destroy: ->
+    @hide() unless @hidden
+    @$el.off 'hide.bs.modal'
+    super()

@@ -1,25 +1,29 @@
 SpellListEntryView = require './spell_list_entry_view'
 ThangAvatarView = require 'views/play/level/thang_avatar_view'
 template = require 'templates/play/level/tome/spell_list_tab_entry'
-Docs = require 'lib/world/docs'
+LevelComponent = require 'models/LevelComponent'
+DocFormatter = require './doc_formatter'
 
 module.exports = class SpellListTabEntryView extends SpellListEntryView
   template: template
   id: 'spell-list-tab-entry-view'
 
   subscriptions:
-    'tome:spell-loaded': "onSpellLoaded"
-    'tome:spell-changed': "onSpellChanged"
+    'tome:spell-loaded': 'onSpellLoaded'
+    'tome:spell-changed': 'onSpellChanged'
     'god:new-world-created': 'onNewWorld'
+    'tome:spell-changed-language': 'onSpellChangedLanguage'
 
   events:
     'click .spell-list-button': 'onDropdownClick'
     'click .reload-code': 'onCodeReload'
+    'click .beautify-code': 'onBeautifyClick'
+    'click .fullscreen-code': 'onFullscreenClick'
 
   constructor: (options) ->
     super options
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super context
     context
 
@@ -48,26 +52,48 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     @avatar.render()
 
   buildDocs: ->
-    doc = Docs.getDocsFor(@thang, [@spell.name])[0]
-    @$el.find('code').attr('title', doc.title()).popover(
+    @docsBuilt = true
+    lcs = @supermodel.getModels LevelComponent
+    found = false
+    for lc in lcs when not found
+      for doc in lc.get('propertyDocumentation') ? []
+        if doc.name is @spell.name
+          found = true
+          break
+    return unless found
+    docFormatter = new DocFormatter doc: doc, thang: @thang, language: @options.language, selectedMethod: true
+    @$el.find('code').popover(
       animation: true
       html: true
       placement: 'bottom'
       trigger: 'hover'
-      content: doc.html()
+      content: docFormatter.formatPopover()
       container: @$el.parent()
     )
-    @docsBuilt = true
 
   onMouseEnterAvatar: (e) ->  # Don't call super
   onMouseLeaveAvatar: (e) ->  # Don't call super
   onClick: (e) ->  # Don't call super
 
   onDropdownClick: (e) ->
+    return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:toggle-spell-list'
 
   onCodeReload: ->
-    Backbone.Mediator.publish "tome:reload-code", spell: @spell
+    return unless @controlsEnabled
+    Backbone.Mediator.publish 'tome:reload-code', spell: @spell
+
+  onBeautifyClick: ->
+    return unless @controlsEnabled
+    Backbone.Mediator.publish 'spell-beautify', spell: @spell
+
+  onFullscreenClick: ->
+    unless $('.fullscreen-code').hasClass 'maximized'
+      $('#code-area').addClass 'fullscreen-editor'
+      $('.fullscreen-code').addClass 'maximized'
+    else
+      $('#code-area').removeClass 'fullscreen-editor'
+      $('.fullscreen-code').removeClass 'maximized'
 
   updateReloadButton: ->
     changed = @spell.hasChanged null, @spell.getSource()
@@ -81,9 +107,22 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     return unless e.spell is @spell
     @updateReloadButton()
 
+  onSpellChangedLanguage: (e) ->
+    return unless e.spell is @spell
+    @options.language = e.language
+    @$el.find('code').popover 'destroy'
+    @render()
+    @docsBuilt = false
+    @buildDocs() if @thang
+
   toggleControls: (e, enabled) ->
     # Don't call super; do it differently
     return if e.controls and not ('editor' in e.controls)
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'read-only', not enabled
+
+  destroy: ->
+    @avatar?.destroy()
+    @$el.find('code').popover 'destroy'
+    super()

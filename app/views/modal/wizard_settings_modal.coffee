@@ -2,79 +2,58 @@ View = require 'views/kinds/ModalView'
 template = require 'templates/modal/wizard_settings'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
+{me} = require 'lib/auth'
+forms = require 'lib/forms'
+User = require 'models/User'
 
-module.exports = class WizardSettingsView extends View
-  id: "wizard-settings-modal"
+module.exports = class WizardSettingsModal extends View
+  id: 'wizard-settings-modal'
   template: template
   closesOnClickOutside: false
 
   events:
-    'change #wizard-settings-name': 'onNameChange'
-    'click #random-name': 'onRandomNameClick'
-    'click #wizard-settings-done': 'saveSettings'
+    'keyup #wizard-settings-name': -> @trigger 'nameChanged'
+    'click #wizard-settings-done': 'onWizardSettingsDone'
 
-  render: ->
-    me.set('name', @randomName())  if not me.get('name')
-    super()
-
-  onRandomNameClick: =>
-    $('#wizard-settings-name').val(@randomName())
-    @saveSettings()
-
-  randomName: ->
-    return NameGenerator.getName(7, 9)
+  constructor: (options) ->
+    @onNameChange = _.debounce(@checkNameExists, 500)
+    @on 'nameChanged', @onNameChange
+    super options
 
   afterRender: ->
+    WizardSettingsView = require 'views/account/wizard_settings_view'
+    view = new WizardSettingsView()
+    @insertSubView view
     super()
-    @colorSlider = $( "#wizard-settings-color-1", @$el).slider({ animate: "fast" })
-    @colorSlider.slider('value', me.get('wizardColor1')*100)
-    @colorSlider.on('slide',@onSliderChange)
-    @colorSlider.on('slidechange',@onSliderChange)
-    @stage = new createjs.Stage($('canvas', @$el)[0])
-    @saveChanges = _.debounce(@saveChanges, 1000)
 
-    wizOriginal = "52a00d55cf1818f2be00000b"
-    url = "/db/thang_type/#{wizOriginal}/version"
-    @wizardType = new ThangType()
-    @wizardType.url = -> url
-    @wizardType.fetch()
-    @wizardType.once 'sync', @initCanvas
+  checkNameExists: =>
+    forms.clearFormAlerts(@$el)
+    name = $('#wizard-settings-name').val()
+    User.getUnconflictedName name, (newName) =>
+      forms.clearFormAlerts(@$el)
+      if name isnt newName
+        forms.setErrorToProperty @$el, 'name', 'This name is already taken so you won\'t be able to keep it.', true
 
-  initCanvas: =>
-    spriteOptions = thangID: "Config Wizard", resolutionFactor: 3
-    @wizardSprite = new WizardSprite @wizardType, spriteOptions
-    @wizardSprite.setColorHue(me.get('wizardColor1'))
-    @wizardDisplayObject = @wizardSprite.displayObject
-    @wizardDisplayObject.x = 10
-    @wizardDisplayObject.y = 15
-    @wizardDisplayObject.scaleX = @wizardDisplayObject.scaleY = 3.0
-    @stage.addChild(@wizardDisplayObject)
-    @updateSpriteColor()
-    @stage.update()
-
-  onSliderChange: =>
-    @updateSpriteColor()
-    @saveSettings()
-
-  getColorHue: ->
-    @colorSlider.slider('value') / 100
-
-  updateSpriteColor: ->
-    colorHue = @getColorHue()
-    @wizardSprite.setColorHue(colorHue)
-    @stage.update()
-
-  onNameChange: =>
-    @saveSettings()
-
-  saveSettings: ->
+  onWizardSettingsDone: ->
     me.set('name', $('#wizard-settings-name').val())
-    me.set('wizardColor1', @getColorHue())
-    @saveChanges()
+    forms.clearFormAlerts(@$el)
+    res = me.validate()
+    if res?
+      forms.applyErrorsToForm(@$el, res)
+      return
 
-  saveChanges: ->
-    me.save()
+    res = me.patch()
+    return unless res
+    save = $('#save-button', @$el).text($.i18n.t('common.saving', defaultValue: 'Saving...'))
+      .addClass('btn-info').show().removeClass('btn-danger')
 
-  destroy: ->
-    super()
-    @wizardSprite?.destroy()
+    res.error =>
+      errors = JSON.parse(res.responseText)
+      console.warn 'Got errors saving user:', errors
+      forms.applyErrorsToForm(@$el, errors)
+      @disableModalInProgress(@$el)
+
+    res.success (model, response, options) =>
+      @hide()
+
+    @enableModalInProgress(@$el)

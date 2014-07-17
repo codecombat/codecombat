@@ -124,7 +124,7 @@
       //final_score = (word_score + abbreviation_score) / 2;
       final_score = ((abbreviation_score * (abbreviation_length / string_length)) + abbreviation_score) / 2;
       
-      final_score = final_score / fuzzies;
+      final_score /= fuzzies;
       
       if (start_of_string_bonus && (final_score + 0.15 < 1)) {
         final_score += 0.15;

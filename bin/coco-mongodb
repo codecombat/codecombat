@@ -69,8 +69,10 @@ def which(cmd, mode=os.F_OK | os.X_OK, path=None):
 #TODO: Upgrade this so it works on windows
 #These scripts will be placed in coco/bin
 
+
 current_directory = os.path.dirname(os.path.realpath(sys.argv[0]))
-if which("mongod") and "v2.5.4" in subprocess.check_output("mongod --version",shell=True):
+allowedMongoVersions = ["v2.5.4","v2.5.5","v2.6.0"]
+if which("mongod") and any(i in subprocess.check_output("mongod --version",shell=True) for i in allowedMongoVersions):
     mongo_executable = "mongod"
 else:
     mongo_executable = None
@@ -86,5 +88,8 @@ mongo_db_path = os.path.abspath(os.path.join(current_directory,os.pardir)) + os.
 if not os.path.exists(mongo_db_path):
     os.mkdir(mongo_db_path)
 mongo_arguments = [mongo_executable + u" --setParameter textSearchEnabled=true --dbpath=" + mongo_db_path]
+
+if 'fork' in sys.argv: mongo_arguments[0] += " --fork --logpath ./mongodb.log"
+
 call(mongo_arguments,shell=True)
 

@@ -6,7 +6,7 @@ LevelComponent = require 'models/LevelComponent'
 nodes = require '../level/treema_nodes'
 
 module.exports = class ComponentConfigView extends CocoView
-  id: "component-config-column-view"
+  id: 'component-config-column-view'
   template: template
   className: 'column'
   changed: false
@@ -20,7 +20,7 @@ module.exports = class ComponentConfigView extends CocoView
     @editing = options.editing
     @callback = options.callback
 
-  getRenderData: (context={}) =>
+  getRenderData: (context={}) ->
     context = super(context)
     context.component = @component
     context.configProperties = []
@@ -29,7 +29,7 @@ module.exports = class ComponentConfigView extends CocoView
   afterRender: ->
     super()
     @buildTreema()
-    
+
   buildTreema: ->
     thangs = if @level? then @level.get('thangs') else []
     thangIDs = _.filter(_.pluck(thangs, 'id'))
@@ -63,9 +63,10 @@ module.exports = class ComponentConfigView extends CocoView
     @editThangTreema = @$el.find('.treema').treema treemaOptions
     @editThangTreema.build()
     @editThangTreema.open(2)
+    @hideLoading()
 
   onConfigEdited: =>
     @changed = true
     @callback?(@data())
-    
+
   data: -> @editThangTreema.data

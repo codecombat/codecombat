@@ -22,7 +22,10 @@ class SystemConfiguration(object):
             raise NotSupportedError(u"Your platform," + sys.platform + u",isn't supported.")
 
     def get_current_working_directory(self):
-        return os.getcwdu()
+        if sys.version_info.major < 3:
+            return os.getcwdu()
+        else:
+            return os.getcwd()
 
     def get_virtual_memory_address_width(self):
         is64Bit = sys.maxsize/3 > 2**32
@@ -30,7 +33,8 @@ class SystemConfiguration(object):
             return 64
         else:
             if self.operating_system == u"mac":
-                raise NotSupportedError(u"Your processor is determined to have a maxSize of" + sys.maxsize +
+                if os.uname()[4] == u"x86_64":
+                  return 64
+                raise NotSupportedError(u"Your processor is determined to have a maxSize of" + str(sys.maxsize) +
                                         u",\n which doesn't correspond with a 64-bit architecture.")
             return 32
-

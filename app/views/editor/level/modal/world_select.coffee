@@ -57,7 +57,7 @@ module.exports = class WorldSelectModal extends View
     window.s = @surface
     @surface.playing = false
     @surface.setWorld @world
-    @surface.camera.zoomTo({x:262, y:-164}, 1.66, 0)
+    @surface.camera.zoomTo({x: 262, y: -164}, 1.66, 0)
     @showDefaults()
 
   showDefaults: ->
@@ -78,8 +78,8 @@ module.exports = class WorldSelectModal extends View
 
   showZoomRegion: ->
     d = @defaultFromZoom
-    canvasWidth=924 # dimensions for canvas player. Need these somewhere
-    canvasHeight=589
+    canvasWidth = 924  # Dimensions for canvas player. Need these somewhere.
+    canvasHeight = 589
     dimensions = {x: canvasWidth/d.zoom, y: canvasHeight/d.zoom}
     dimensions = @surface.camera.surfaceToWorld(dimensions)
     width = dimensions.x

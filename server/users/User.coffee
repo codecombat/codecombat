@@ -1,8 +1,10 @@
-mongoose = require('mongoose')
-jsonschema = require('./user_schema')
-crypto = require('crypto')
-{salt, isProduction} = require('../../server_config')
+mongoose = require 'mongoose'
+jsonschema = require '../../app/schemas/models/user'
+crypto = require 'crypto'
+{salt, isProduction} = require '../../server_config'
 mail = require '../commons/mail'
+log = require 'winston'
+plugins = require '../plugins/plugins'
 
 sendwithus = require '../sendwithus'
 
@@ -15,52 +17,123 @@ UserSchema = new mongoose.Schema({
 UserSchema.pre('init', (next) ->
   return next() unless jsonschema.properties?
   for prop, sch of jsonschema.properties
+    continue if prop is 'emails' # defaults may change, so don't carry them over just yet
     @set(prop, sch.default) if sch.default?
   next()
 )
 
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
-  @currentSubscriptions = JSON.stringify(@get('emailSubscriptions'))
 )
 
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
-  
+
+UserSchema.methods.isAnonymous = ->
+  @get 'anonymous'
+
+UserSchema.methods.trackActivity = (activityName, increment) ->
+  now = new Date()
+  increment ?= parseInt increment or 1
+  increment = Math.max increment, 0
+  activity = @get('activity') ? {}
+  activity[activityName] ?= {first: now, count: 0}
+  activity[activityName].count += increment
+  activity[activityName].last = now
+  @set 'activity', activity
+  activity
+
+emailNameMap =
+  generalNews: 'announcement'
+  adventurerNews: 'tester'
+  artisanNews: 'level_creator'
+  archmageNews: 'developer'
+  scribeNews: 'article_editor'
+  diplomatNews: 'translator'
+  ambassadorNews: 'support'
+  anyNotes: 'notification'
+
+UserSchema.methods.setEmailSubscription = (newName, enabled) ->
+  oldSubs = _.clone @get('emailSubscriptions')
+  if oldSubs and oldName = emailNameMap[newName]
+    oldSubs = (s for s in oldSubs when s isnt oldName)
+    oldSubs.push(oldName) if enabled
+    @set('emailSubscriptions', oldSubs)
+
+  newSubs = _.clone(@get('emails') or _.cloneDeep(jsonschema.properties.emails.default))
+  newSubs[newName] ?= {}
+  newSubs[newName].enabled = enabled
+  @set('emails', newSubs)
+  @newsSubsChanged = true if newName in mail.NEWS_GROUPS
+
+UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
+  emails = @get 'emails'
+  if not emails
+    oldSubs = @get('emailSubscriptions')
+    oldName = emailNameMap[newName]
+    return oldName and oldName in oldSubs if oldSubs
+  emails ?= {}
+  _.defaults emails, _.cloneDeep(jsonschema.properties.emails.default)
+  return emails[newName]?.enabled
+
 UserSchema.statics.updateMailChimp = (doc, callback) ->
-  return callback?() unless isProduction
+  return callback?() unless isProduction or GLOBAL.testing
   return callback?() if doc.updatedMailChimp
   return callback?() unless doc.get('email')
   existingProps = doc.get('mailChimp')
   emailChanged = (not existingProps) or existingProps?.email isnt doc.get('email')
-  emailSubs = doc.get('emailSubscriptions')
-  gm = mail.MAILCHIMP_GROUP_MAP
-  newGroups = (gm[name] for name in emailSubs when gm[name]?)
+  return callback?() unless emailChanged or doc.newsSubsChanged
+
+  newGroups = []
+  for [mailchimpEmailGroup, emailGroup] in _.zip(mail.MAILCHIMP_GROUPS, mail.NEWS_GROUPS)
+    newGroups.push(mailchimpEmailGroup) if doc.isEmailSubscriptionEnabled(emailGroup)
+
   if (not existingProps) and newGroups.length is 0
     return callback?() # don't add totally unsubscribed people to the list
-  subsChanged = doc.currentSubscriptions isnt JSON.stringify(emailSubs)
-  return callback?() unless emailChanged or subsChanged
-  
+
   params = {}
   params.id = mail.MAILCHIMP_LIST_ID
-  params.email = if existingProps then {leid:existingProps.leid} else {email:doc.get('email')}
-  params.merge_vars = { groupings: [ {id: mail.MAILCHIMP_GROUP_ID, groups: newGroups} ] }
+  params.email = if existingProps then {leid: existingProps.leid} else {email: doc.get('email')}
+  params.merge_vars = {groupings: [{id: mail.MAILCHIMP_GROUP_ID, groups: newGroups}]}
   params.update_existing = true
   params.double_optin = false
-  
+
   onSuccess = (data) ->
     doc.set('mailChimp', data)
     doc.updatedMailChimp = true
     doc.save()
     callback?()
-    
+
   onFailure = (error) ->
-    console.error 'failed to subscribe', error, callback?
+    log.error 'failed to subscribe', error, callback?
     doc.updatedMailChimp = true
     callback?()
-  
-  mc.lists.subscribe params, onSuccess, onFailure
+
+  mc?.lists.subscribe params, onSuccess, onFailure
+
+UserSchema.statics.unconflictName = unconflictName = (name, done) ->
+  User.findOne {slug: _.str.slugify(name)}, (err, otherUser) ->
+    return done err if err?
+    return done null, name unless otherUser
+    suffix = _.random(0, 9) + ''
+    unconflictName name + suffix, done
+
+UserSchema.methods.register = (done) ->
+  @set('anonymous', false)
+  @set('permissions', ['admin']) if not isProduction
+  if (name = @get 'name')? and name isnt ''
+    unconflictName name, (err, uniqueName) =>
+      return done err if err
+      @set 'name', uniqueName
+      done()
+  else done()
+  data =
+    email_id: sendwithus.templates.welcome_email
+    recipient:
+      address: @get 'email'
+  sendwithus.api.send data, (err, result) ->
+    log.error "sendwithus post-save error: #{err}, result: #{result}" if err
 
 
 UserSchema.pre('save', (next) ->
@@ -70,15 +143,10 @@ UserSchema.pre('save', (next) ->
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
     @set('password', undefined)
-  if @get('email') and @get('anonymous')
-    @set('anonymous', false)
-    data =
-      email_id: sendwithus.templates.welcome_email
-      recipient:
-        address: @get 'email'        
-    sendwithus.api.send data, (err, result) ->
-      console.log 'error', err, 'result', result
-  next()
+  if @get('email') and @get('anonymous') # a user registers
+    @register next
+  else
+    next()
 )
 
 UserSchema.post 'save', (doc) ->
@@ -90,4 +158,9 @@ UserSchema.statics.hashPassword = (password) ->
   shasum.update(salt + password)
   shasum.digest('hex')
 
+UserSchema.plugin plugins.NamedPlugin
+
 module.exports = User = mongoose.model('User', UserSchema)
+
+AchievablePlugin = require '../plugins/achievements'
+UserSchema.plugin(AchievablePlugin)

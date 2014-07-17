@@ -1,0 +1,179 @@
+@import "app/styles/bootstrap/mixins"
+@import "app/styles/mixins"
+
+#spectate-level-view
+  #playback-view
+    width: 100%
+  #restart-button
+    display: none
+  #multiplayer-button
+    display: none
+  #docs-button
+    display: none
+  #gold-view
+    right: 1%
+  
+  #control-bar-view
+    width: 100%
+  
+    .title
+      position: absolute
+      display: inline-block
+      margin-left: 50%
+      right: 0
+      color: #BEBEBE
+      line-height: 15px
+      left: 0
+
+  max-width: 1920px
+  margin: 0 auto
+  @include user-select(none)
+  
+  #level-loading-view
+    max-height: 1284px
+
+  .level-content
+    //max-width: 1920px
+    position: relative
+    margin: 0px auto
+
+  #canvas-wrapper
+    height: 100%
+    position: relative
+    margin: 0 auto
+
+  canvas#surface
+    background-color: #333
+    max-height: 93%
+    max-height: -webkit-calc(100% - 60px)
+    max-height: calc(100% - 60px)
+    height: auto
+    max-width: 100%
+    display: block
+    z-index: 1
+    margin: 0 auto
+
+
+  min-width: 1024px
+  position: relative
+  #thang-hud
+    margin: 0 auto
+    display: none
+    
+
+  #pointer
+    position: absolute
+    left: 0
+    top: 0
+    height: 100px
+    opacity: 0.0
+    pointer-events: none
+    z-index: 10
+
+  // Level Docs
+  .ui-effects-transfer
+    border: 2px dotted gray
+
+  .modal
+    img
+      float: right
+
+    img.diagram
+      float: none
+
+  #multiplayer-join-link
+    font-size: 12px
+
+  #level-done-button
+    position: absolute
+    right: 46%
+    top: 43px
+    @include box-shadow(4px 4px 15px black)
+
+  // Custom Buttons
+  .btn.banner
+    @include banner-button(#FFF, #333)
+    @include box-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))
+    border: 1px solid black
+    text-shadow: none
+
+    $buttonConfig: 'primary' #6CA8EA, 'info' #71AACC, 'success' #90B236, 'warning' #CD6800, 'danger' #B43C20, 'inverse' #3A537F
+    @each $tuple in $buttonConfig
+      &.btn-#{nth($tuple, 1)}
+        @include banner-button(nth($tuple, 2), #FFF)
+
+  .footer .footer-link-text a
+    @include opacity(0.75)
+    @include transition(opacity .10s linear)
+
+    &:hover, &:active
+      @include opacity(1)
+
+  $GI: 0.5  // gradient intensity; can tweak this 0-1
+
+  .gradient
+    position: absolute
+    z-index: 10
+
+  #code-area-gradient
+    top: 0px
+    width: 3px
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,$GI) 100%)
+    left: -3px
+    bottom: 0
+
+  #hud-top-gradient
+    top: -32px
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+    left: 0
+    right: 0
+    bottom: 0
+    height: 3px
+
+  #canvas-left-gradient
+    left: 0px
+    width: 5px
+    background: linear-gradient(to left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+    bottom: -30px
+    top: 0
+
+  #canvas-top-gradient
+    top: 0
+    height: 5px
+    left: 0
+    right: 0
+    background: linear-gradient(to top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8*$GI) 100%)
+
+  #hud-left-gradient
+    background: linear-gradient(to right, rgba(0,0,0,$GI) 0%,rgba(0,0,0,0) 100%)
+    left: 0
+    top: 0
+    height: 100%
+    width: 2%
+
+  #hud-right-gradient
+    background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,$GI) 100%)
+    right: 0
+    position: absolute
+    top: 0
+    height: 100%
+    width: 2%
+
+  .footer
+    @media screen and (min-aspect-ratio: 17/10)
+      display: none
+
+    &:not(:hover)
+      @include opacity(0.6)
+
+    .hour-of-code-explanation
+      margin-top: 5px
+      color: white
+      font-size: 12px
+
+      &:not(:hover)
+        @include opacity(0.75)
+
+      a
+        color: white
+        text-decoration: underline

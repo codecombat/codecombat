@@ -1,10 +1,10 @@
-// TODO: refactor to be like other modals
-.modal-dialog
-  .modal-header
-    button(type='button', data-dismiss="modal", aria-hidden="true").close &times;
-    h3(data-i18n="play_level.multiplayer_title") Multiplayer Settings
-  
-  .modal-body
+extends /templates/modal/modal_base
+
+block modal-header-content
+  h3(data-i18n="play_level.multiplayer_title") Multiplayer Settings
+
+block modal-body-content
+  if !ladderGame
     .form
       .form-group.checkbox
         label(for="multiplayer")
@@ -24,6 +24,14 @@
         span(data-i18n="play_level.multiplayer_hint")  Click the link to select all, then press ⌘-C or Ctrl-C to copy the link.
     
       p(data-i18n="play_level.multiplayer_coming_soon") More multiplayer features to come!
-  
-  .modal-footer
-    a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close
+
+  if ladderGame
+    if me.get('anonymous')
+      p(data-i18n="play_level.multiplayer_sign_in_leaderboard") Sign in or create an account and get your solution on the leaderboard.
+    else if readyToRank
+      .ladder-submission-view
+    else
+      a.btn.btn-primary(href="/play/ladder/#{levelSlug}#my-matches", data-i18n="play_level.victory_go_ladder") Return to Ladder
+
+block modal-footer-content
+  a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="modal.close").btn.btn-primary Close

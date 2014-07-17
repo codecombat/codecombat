@@ -2,14 +2,14 @@ View = require 'views/kinds/ModalView'
 template = require 'templates/editor/level/system/add'
 availableSystemTemplate = require 'templates/editor/level/system/available_system'
 LevelSystem = require 'models/LevelSystem'
-CocoCollection = require 'models/CocoCollection'
+CocoCollection = require 'collections/CocoCollection'
 
 class LevelSystemSearchCollection extends CocoCollection
-  url: '/db/level_system/search'
+  url: '/db/level_system'
   model: LevelSystem
 
 module.exports = class LevelSystemAddView extends View
-  id: "editor-level-system-add-modal"
+  id: 'editor-level-system-add-modal'
   template: template
   instant: true
 
@@ -24,7 +24,7 @@ module.exports = class LevelSystemAddView extends View
     if not @systems
       @systems = @supermodel.getCollection new LevelSystemSearchCollection()
     unless @systems.loaded
-      @systems.once 'sync', @onSystemsSync
+      @listenToOnce(@systems, 'sync', @onSystemsSync)
       @systems.fetch()
     super() # do afterRender at the end
 
@@ -44,7 +44,7 @@ module.exports = class LevelSystemAddView extends View
     for system in systems
       ul.append $(availableSystemTemplate(system: system))
 
-  onSystemsSync: =>
+  onSystemsSync: ->
     @supermodel.addCollection @systems
     @render()
 
@@ -52,7 +52,7 @@ module.exports = class LevelSystemAddView extends View
     id = $(e.currentTarget).data('system-id')
     system = _.find @systems.models, id: id
     unless system
-      return console.error "Couldn't find system for id", id, "out of", @systems.models
+      return console.error 'Couldn\'t find system for id', id, 'out of', @systems.models
     # Add all dependencies, recursively, unless we already have them
     toAdd = system.getDependencies(@systems.models)
     _.remove toAdd, (s1) =>
@@ -61,7 +61,7 @@ module.exports = class LevelSystemAddView extends View
       levelSystem =
         original: s.get('original') ? id
         majorVersion: s.get('version').major ? 0
-        config: _.cloneDeep(s.get('configSchema').default ? {})
+        config: $.extend(true, {}, s.get('configSchema').default ? {})
       @extantSystems.push levelSystem
       Backbone.Mediator.publish 'level-system-added', system: levelSystem
     @renderAvailableSystems()

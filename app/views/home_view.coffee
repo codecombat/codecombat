@@ -2,24 +2,33 @@ View = require 'views/kinds/RootView'
 template = require 'templates/home'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
+Simulator = require 'lib/simulator/Simulator'
+{me} = require '/lib/auth'
+application  = require 'application'
 
 module.exports = class HomeView extends View
   id: 'home-view'
   template: template
 
   events:
-    'mouseover #beginner-campaign': 'onMouseOverButton'
-    'mouseout #beginner-campaign': 'onMouseOutButton'
+    'click .code-language': 'onCodeLanguageSelected'
+
+  constructor: ->
+    super(arguments...)
+    ThangType.loadUniversalWizard()
 
   getRenderData: ->
     c = super()
     if $.browser
-      majorVersion = parseInt($.browser.version.split('.')[0])
+      majorVersion = $.browser.versionNumber
       c.isOldBrowser = true if $.browser.mozilla && majorVersion < 21
       c.isOldBrowser = true if $.browser.chrome && majorVersion < 17
-      c.isOldBrowser = true if $.browser.safari && majorVersion < 536
+      c.isOldBrowser = true if $.browser.safari && majorVersion < 6
     else
       console.warn 'no more jquery browser version...'
+    c.isEnglish = (me.get('preferredLanguage') or 'en').startsWith 'en'
+    c.languageName = me.get('preferredLanguage')
+    c.codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
     c
 
   afterRender: ->
@@ -27,70 +36,36 @@ module.exports = class HomeView extends View
     @$el.find('.modal').on 'shown.bs.modal', ->
       $('input:visible:first', @).focus()
 
-    wizOriginal = "52a00d55cf1818f2be00000b"
-    url = "/db/thang_type/#{wizOriginal}/version"
-    @wizardType = new ThangType()
-    @wizardType.url = -> url
-    @wizardType.fetch()
-    @wizardType.once 'sync', @initCanvas
+    # Try to find latest level and set 'Play' link to go to that level
+    lastLevel = me.get('lastLevel')
+    lastLevel ?= localStorage?['lastLevel']  # Temp, until it's migrated to user property
+    if lastLevel
+      playLink = @$el.find('#beginner-campaign')
+      if playLink[0]?
+        href = playLink.attr('href').split('/')
+        href[href.length-1] = lastLevel if href.length isnt 0
+        href = href.join('/')
+        playLink.attr('href', href)
 
-    # Try to find latest level and set "Play" link to go to that level
-    if localStorage?
-      lastLevel = localStorage["lastLevel"]
-      if lastLevel? and lastLevel isnt ""
-        playLink = @$el.find("#beginner-campaign")
-        if playLink?
-          href = playLink.attr("href").split("/")
-          href[href.length-1] = lastLevel if href.length isnt 0
-          href = href.join("/")
-          playLink.attr("href", href)
-    else
-      console.log("TODO: Insert here code to get latest level played from the database. If this can't be found, we just let the user play the first level.")
+    codeLanguage = (me.get('aceConfig') ? {}).language or 'javascript'
+    @$el.find(".code-language[data-code-language=#{codeLanguage}]").addClass 'selected-language'
+    @updateLanguageLogos codeLanguage
 
-  initCanvas: =>
-    @stage = new createjs.Stage($('#beginner-campaign canvas', @$el)[0])
-    @createWizard()
+  updateLanguageLogos: (codeLanguage) ->
+    @$el.find('.game-mode-wrapper .code-language-logo').css('background-image', "url(/images/pages/home/language_logo_#{codeLanguage}.png)").toggleClass 'inverted', (codeLanguage in ['io', 'coffeescript'])
 
-  turnOnStageUpdates: ->
-    clearInterval @turnOff
-    @interval = setInterval(@updateStage, 40) unless @interval
+  onCodeLanguageSelected: (e) ->
+    target = $(e.target).closest('.code-language')
+    codeLanguage = target.data('code-language')
+    @$el.find('.code-language').removeClass 'selected-language'
+    target.addClass 'selected-language'
+    aceConfig = me.get('aceConfig') ? {}
+    return if (aceConfig.language or 'javascript') is codeLanguage
+    aceConfig.language = codeLanguage
+    me.set 'aceConfig', aceConfig
+    me.save()  # me.patch() doesn't work if aceConfig previously existed and we switched just once
 
-  turnOffStageUpdates: ->
-    turnOffFunc = =>
-      clearInterval @interval
-      clearInterval @turnOff
-      @interval = null
-      @turnOff = null
-    @turnOff = setInterval turnOffFunc, 2000
-
-  createWizard: (scale=1.0) ->
-    spriteOptions = thangID: "Beginner Wizard", resolutionFactor: scale
-    @wizardSprite = new WizardSprite @wizardType, spriteOptions
-    @wizardSprite.update()
-    wizardDisplayObject = @wizardSprite.displayObject
-    wizardDisplayObject.x = 120
-    wizardDisplayObject.y = 35
-    wizardDisplayObject.scaleX = wizardDisplayObject.scaleY = scale
-    wizardDisplayObject.scaleX *= -1
-    @stage.addChild wizardDisplayObject
-    @stage.update()
-
-  onMouseOverButton: ->
-    @turnOnStageUpdates()
-    @wizardSprite?.queueAction 'cast'
-
-  onMouseOutButton: ->
-    @turnOffStageUpdates()
-    @wizardSprite?.queueAction 'idle'
-
-  updateStage: =>
-    @stage.update()
-
-  willDisappear: ->
-    super()
-    clearInterval(@interval) if @interval
-    @interval = null
-
-  didReappear: ->
-    super()
-    @turnOnStageUpdates()
+    firstButton = @$el.find('#beginner-campaign .game-mode-wrapper').delay(500).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
+    lastButton = @$el.find('#multiplayer .game-mode-wrapper').delay(1000).addClass('hovered', 500).delay(500).removeClass('hovered', 500)
+    $('#page-container').animate {scrollTop: firstButton.offset().top - 100, easing: 'easeInOutCubic'}, 500
+    @updateLanguageLogos codeLanguage

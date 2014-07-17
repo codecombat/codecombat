@@ -36,10 +36,13 @@ class SetupFactory(object):
         mongo_version_string = ""
         try:
             mongo_version_string = subprocess.check_output("mongod --version",shell=True)
-        except:
-            print("Mongod not found.")
-        if "v2.5.4" not in mongo_version_string:
-            print("MongoDB 2.5.4 not found, so installing...")
+            mongo_version_string = mongo_version_string.decode(encoding='UTF-8')
+        except Exception as e:
+            print("Mongod not found: %s"%e)
+        if "v2.6." not in mongo_version_string:
+            if mongo_version_string:
+                print("Had MongoDB version: %s"%mongo_version_string)
+            print("MongoDB not found, so installing a local copy...")
             self.mongo.download_dependencies()
             self.mongo.install_dependencies()
         self.node.download_dependencies()
@@ -60,12 +63,17 @@ class SetupFactory(object):
         chown_directory = self.config.directory.root_dir + os.sep + "coco"
         subprocess.call(chown_command,shell=True,cwd=chown_directory)
 
-        print("Done! If you want to start the server, head into /coco/bin and run ")
+        print("")
+        print("Done! If you want to start the server, head into coco/bin and run ")
         print("1. ./coco-mongodb")
         print("2. ./coco-brunch ")
         print("3. ./coco-dev-server")
         print("NOTE: brunch may need to be run as sudo if it doesn't work (ulimit needs to be set higher than default)")
-        print("Once brunch is done, visit http://localhost:3000!")
+        print("")
+        print("Before can play any levels you must update the database. See the Setup section here:")
+        print("https://github.com/codecombat/codecombat/wiki/Developer-environment#setup")
+        print("")
+        print("Go to http://localhost:3000 to see your local CodeCombat in action!")
     def cleanup(self):
         self.config.directory.remove_tmp_directory()
 

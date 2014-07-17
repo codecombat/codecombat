@@ -1,5 +1,6 @@
-.level-content
+#level-loading-view
 
+.level-content
   #control-bar-view
   
   #code-area
@@ -10,11 +11,10 @@
     canvas(width=924, height=589)#surface
     #canvas-left-gradient.gradient
     #canvas-top-gradient.gradient
+    #goals-view.secret
   
-  a.btn.btn-primary.banner.hide#level-done-button(data-i18n="play_level.done") Done
-  
-  #goals-view.hide
-  
+  #gold-view.secret.expanded
+
   #level-chat-view
   
   #playback-view
@@ -24,4 +24,12 @@
 .footer
   .content
     p(class='footer-link-text')
-      a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Contact
+      a(title='Send CodeCombat a message', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Contact
+    if explainHourOfCode
+      // Does not show up unless lang is en-US.
+      div.hour-of-code-explanation
+        | The 'Hour of Code' is a nationwide initiative by 
+        a(href="http://csedweek.org") Computer Science Education Week
+        |  and 
+        a(href="http://code.org") Code.org
+        |  to introduce millions of students to one hour of computer science and computer programming.

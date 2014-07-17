@@ -2,14 +2,31 @@
 utils = require './utils'
 classCount = 0
 makeScopeName = -> "class-scope-#{classCount++}"
+doNothing = ->
 
 module.exports = class CocoClass
+  @nicks: []
+  @nicksUsed: {}
+  @remainingNicks: []
+  @nextNick: ->
+    return (@name or 'CocoClass') + ' ' + classCount unless @nicks.length
+    @remainingNicks = if @remainingNicks.length then @remainingNicks else @nicks.slice()
+    baseNick = @remainingNicks.splice(Math.floor(Math.random() * @remainingNicks.length), 1)[0]
+    i = 0
+    while true
+      nick = if i then "#{baseNick} #{i}" else baseNick
+      break unless @nicksUsed[nick]
+      i++
+    @nicksUsed[nick] = true
+    nick
+
   subscriptions: {}
   shortcuts: {}
-  
+
   # setup/teardown
 
   constructor: ->
+    @nick = @constructor.nextNick()
     @subscriptions = utils.combineAncestralObject(@, 'subscriptions')
     @shortcuts = utils.combineAncestralObject(@, 'shortcuts')
     @listenToSubscriptions()
@@ -19,13 +36,18 @@ module.exports = class CocoClass
 
   destroy: ->
     # teardown subscriptions, prevent new ones
-    @destroyed = true
     @stopListening?()
+    @off?()
     @unsubscribeAll()
     @stopListeningToShortcuts()
+    @constructor.nicksUsed[@nick] = false
+    @[key] = undefined for key of @
+    @destroyed = true
+    @off = doNothing
+    @destroy = doNothing
 
   # subscriptions
-    
+
   listenToSubscriptions: ->
     # for initting subscriptions
     return unless Backbone?.Mediator?
@@ -43,10 +65,11 @@ module.exports = class CocoClass
     Backbone.Mediator.subscribe(channel, func, @)
 
   unsubscribeAll: ->
+    return unless Backbone?.Mediator?
     for channel, func of @subscriptions
       func = utils.normalizeFunc(func, @)
       Backbone.Mediator.unsubscribe(channel, func, @)
-      
+
   # keymaster shortcuts
 
   listenToShortcuts: ->
@@ -54,7 +77,7 @@ module.exports = class CocoClass
     for shortcut, func of @shortcuts
       func = utils.normalizeFunc(func, @)
       key(shortcut, @scope, _.bind(func, @))
-      
+
   stopListeningToShortcuts: ->
     return unless key?
-    key.deleteScope(@scope)  
+    key.deleteScope(@scope)

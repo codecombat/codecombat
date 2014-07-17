@@ -22,6 +22,6 @@ block modal-body-content
       textarea#contact-message.form-control(name="message", rows=8)
 
 block modal-footer-content
-  span.sending-indicator.pull-left.hide(data-i18n="common.sending") Sending...
+  span.sending-indicator.pull-left.secret(data-i18n="common.sending") Sending...
   a(href='#', data-dismiss="modal", aria-hidden="true", data-i18n="common.cancel").btn Cancel
   button.btn.btn-primary#contact-submit-button(data-i18n="contact.send") Send Feedback

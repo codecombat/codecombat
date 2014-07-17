@@ -2,6 +2,7 @@
 
 
 CocoClass = require 'lib/CocoClass'
+CocoView = require 'views/kinds/CocoView'
 {scriptMatchesEventPrereqs} = require './../world/script_event_prereqs'
 
 allScriptModules = []
@@ -47,16 +48,18 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
   constructor: (options) ->
     super(options)
     @originalScripts = options.scripts
-    @view = options.view
     @session = options.session
+    @debugScripts = CocoView.getQueryVariable 'dev'
     @initProperties()
     @addScriptSubscriptions()
+    @beginTicking()
 
   setScripts: (@originalScripts) ->
     @quiet = true
     @initProperties()
     @loadFromSession()
     @quiet = false
+    @addScriptSubscriptions()
     @run()
 
   initProperties: ->
@@ -64,7 +67,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @triggered = []
     @ended = []
     @noteGroupQueue = []
-    @scripts = _.cloneDeep(@originalScripts)
+    @scripts = $.extend(true, [], @originalScripts)
 
   addScriptSubscriptions: ->
     idNum = 0
@@ -73,6 +76,25 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       script.id = (idNum++).toString() unless script.id
       callback = makeCallback(script.channel) # curry in the channel argument
       @addNewSubscription(script.channel, callback)
+
+  beginTicking: ->
+    @tickInterval = setInterval @tick, 5000
+
+  tick: =>
+    scriptStates = {}
+    now = new Date()
+    for script in @scripts
+      scriptStates[script.id] =
+        timeSinceLastEnded: (if script.lastEnded then now - script.lastEnded else 0) / 1000
+        timeSinceLastTriggered: (if script.lastTriggered then now - script.lastTriggered else 0) / 1000
+
+    stateEvent =
+      scriptRunning: @currentNoteGroup?.scriptID or ''
+      noteGroupRunning: @currentNoteGroup?.name or ''
+      scriptStates: scriptStates
+      timeSinceLastScriptEnded: (if @lastScriptEnded then now - @lastScriptEnded else 0) / 1000
+
+    Backbone.Mediator.publish 'script-manager:tick', stateEvent
 
   loadFromSession: ->
     # load the queue with note groups to skip through
@@ -87,6 +109,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return unless script
     @triggered.push(script.id)
     noteChain = @processScript(script)
+    return unless noteChain
     if scripts.currentScriptOffset
       noteGroup.skipMe = true for noteGroup in noteChain[..scripts.currentScriptOffset-1]
     @addNoteChain(noteChain, false)
@@ -100,11 +123,13 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     for scriptID in scriptsToSkip
       script = _.find @scripts, {id: scriptID}
       unless script
-        console.warn "Couldn't find script for", scriptID, "from scripts", @scripts, "when restoring session scripts."
+        console.warn 'Couldn\'t find script for', scriptID, 'from scripts', @scripts, 'when restoring session scripts.'
         continue
+      continue if script.repeats # repeating scripts are not 'rerun'
       @triggered.push(scriptID)
       @ended.push(scriptID)
       noteChain = @processScript(script)
+      return unless noteChain
       noteGroup.skipMe = true for noteGroup in noteChain
       @addNoteChain(noteChain, false)
 
@@ -120,8 +145,9 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @run() unless @worldLoading
 
   destroy: ->
-    super()
     @onEndAll()
+    clearInterval @tickInterval
+    super()
 
   # TRIGGERERING NOTES
 
@@ -131,14 +157,25 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       alreadyTriggered = script.id in @triggered
       continue unless script.channel is channel
       continue if alreadyTriggered and not script.repeats
+      continue if script.lastTriggered? and script.repeats is 'session'
       continue if script.lastTriggered? and new Date().getTime() - script.lastTriggered < 1
+      continue if script.neverRun
+
+      if script.notAfter
+        for scriptID in script.notAfter
+          if scriptID in @triggered
+            script.neverRun = true
+            break
+        continue if script.neverRun
+
       continue unless @scriptPrereqsSatisfied(script)
       continue unless scriptMatchesEventPrereqs(script, event)
       # everything passed!
-      console.log "SCRIPT: Running script '#{script.id}'"
+      console.debug "SCRIPT: Running script '#{script.id}'" if @debugScripts
       script.lastTriggered = new Date().getTime()
       @triggered.push(script.id) unless alreadyTriggered
       noteChain = @processScript(script)
+      if not noteChain then return @trackScriptCompletions (script.id)
       @addNoteChain(noteChain)
       @run()
 
@@ -147,10 +184,10 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   processScript: (script) ->
     noteChain = script.noteChain
+    return null unless noteChain?.length
     noteGroup.scriptID = script.id for noteGroup in noteChain
-    if noteChain.length
-      lastNoteGroup = noteChain[noteChain.length - 1]
-      lastNoteGroup.isLast = true
+    lastNoteGroup = noteChain[noteChain.length - 1]
+    lastNoteGroup.isLast = true
     return noteChain
 
   addNoteChain: (noteChain, clearYields=true) ->
@@ -173,7 +210,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     noteGroup.script ?= {}
     noteGroup.script.yields ?= true
     noteGroup.script.skippable ?= true
-    noteGroup.modules = (new Module(noteGroup, @view) for Module in allScriptModules when Module.neededFor(noteGroup))
+    noteGroup.modules = (new Module(noteGroup) for Module in allScriptModules when Module.neededFor(noteGroup))
 
   endYieldingNote: ->
     if @scriptInProgress and @currentNoteGroup?.script.yields
@@ -182,7 +219,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   # STARTING NOTES
 
-  run: =>
+  run: ->
     # catch all for analyzing the current state and doing whatever needs to happen next
     return if @scriptInProgress
     @skipAhead()
@@ -195,11 +232,11 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @notifyScriptStateChanged()
     @scriptInProgress = true
     @currentTimeouts = []
-    console.log "SCRIPT: Starting note group '#{nextNoteGroup.name}'"
+    console.debug "SCRIPT: Starting note group '#{nextNoteGroup.name}'" if @debugScripts
     for module in nextNoteGroup.modules
       @processNote(note, nextNoteGroup) for note in module.startNotes()
     if nextNoteGroup.script.duration
-      f = => @onNoteGroupTimeout nextNoteGroup
+      f = => @onNoteGroupTimeout? nextNoteGroup
       setTimeout(f, nextNoteGroup.script.duration)
     Backbone.Mediator.publish('note-group-started')
 
@@ -209,12 +246,12 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @ignoreEvents = true
     for noteGroup, i in @noteGroupQueue
       break unless noteGroup.skipMe
-      console.log "SCRIPT: Skipping note group '#{noteGroup.name}'"
+      console.debug "SCRIPT: Skipping note group '#{noteGroup.name}'" if @debugScripts
       @processNoteGroup(noteGroup)
       for module in noteGroup.modules
         notes = module.skipNotes()
         @processNote(note, noteGroup) for note in notes
-      @trackScriptCompletions(noteGroup)
+      @trackScriptCompletionsFromNoteGroup(noteGroup)
     @noteGroupQueue = @noteGroupQueue[i..]
     @ignoreEvents = false
 
@@ -256,14 +293,13 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return if @ending # kill infinite loops right here
     @ending = true
     return unless @currentNoteGroup?
-    console.log "SCRIPT: Ending note group '#{@currentNoteGroup.name}'"
+    console.debug "SCRIPT: Ending note group '#{@currentNoteGroup.name}'" if @debugScripts
     clearTimeout(timeout) for timeout in @currentTimeouts
     for module in @currentNoteGroup.modules
       @processNote(note, @currentNoteGroup) for note in module.endNotes()
     Backbone.Mediator.publish 'note-group-ended' unless @quiet
     @scriptInProgress = false
-    @ended.push(@currentNoteGroup.scriptID) if @currentNoteGroup.isLast
-    @trackScriptCompletions(@currentNoteGroup)
+    @trackScriptCompletionsFromNoteGroup(@currentNoteGroup)
     @currentNoteGroup = null
     unless @noteGroupQueue.length
       @notifyScriptStateChanged()
@@ -284,17 +320,19 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       if ((noteGroup.script?.skippable) is false) and not options.force
         @noteGroupQueue = @noteGroupQueue[i..]
         @run()
+        @notifyScriptStateChanged()
         return
 
       @processNoteGroup(noteGroup)
       for module in noteGroup.modules
         notes = module.skipNotes()
         @processNote(note, noteGroup) for note in notes unless @quiet
-      @trackScriptCompletions(noteGroup) unless @quiet
+      @trackScriptCompletionsFromNoteGroup(noteGroup) unless @quiet
 
     @noteGroupQueue = []
 
     @resetThings()
+    @notifyScriptStateChanged()
 
   onNoteGroupTimeout: (noteGroup) ->
     return unless noteGroup is @currentNoteGroup
@@ -305,11 +343,18 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     Backbone.Mediator.publish 'level-enable-controls', {}
     Backbone.Mediator.publish 'level-set-letterbox', { on: false }
 
-  trackScriptCompletions: (noteGroup) ->
-    return if @quiet
+  trackScriptCompletionsFromNoteGroup: (noteGroup) ->
     return unless noteGroup.isLast
-    @ended.push(noteGroup.scriptID) unless noteGroup.scriptID in @ended
-    Backbone.Mediator.publish 'script:ended', {scriptID: noteGroup.scriptID}
+    @trackScriptCompletions(noteGroup.scriptID)
+
+  trackScriptCompletions: (scriptID) ->
+    return if @quiet
+    @ended.push(scriptID) unless scriptID in @ended
+    for script in @scripts
+      if script.id is scriptID
+        script.lastEnded = new Date()
+    @lastScriptEnded = new Date()
+    Backbone.Mediator.publish 'script:ended', {scriptID: scriptID}
 
   notifyScriptStateChanged: ->
     return if @quiet

@@ -1,0 +1,1 @@
+call open_localized_text_file ..\\config\\localized\\readme

@@ -5,14 +5,14 @@ do (setupLodash = this) ->
 
 express = require 'express'
 http = require 'http'
-winston = require 'winston'
+log = require 'winston'
 serverSetup = require './server_setup'
 
 module.exports.startServer = ->
   app = createAndConfigureApp()
   http.createServer(app).listen(app.get('port'))
-  winston.info("Express SSL server listening on port " + app.get('port'))
-  return app
+  log.info('Express SSL server listening on port ' + app.get('port'))
+  app
 
 createAndConfigureApp = ->
   serverSetup.setupLogging()
@@ -24,15 +24,3 @@ createAndConfigureApp = ->
   serverSetup.setupMiddleware app
   serverSetup.setupRoutes app
   app
-
-
-
-
-
-
-
-
-
-
-
-

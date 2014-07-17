@@ -8,15 +8,20 @@
     background: #eee
     border-radius: 5px
 
-  #save-button
-    float: right
+  #save-button-container
+    position: fixed
+    top: 100px
+    width: 1000px
+    z-index: 10
 
-  .thumbnails
-    text-align: center
-    .thumbnail
-      margin-bottom: 30px
-      margin-right: 20px
-      float: left
+    #save-button
+      float: right
+    
+      &.btn-info, &.btn-danger
+        opacity: 1.0
+
+  .gravatar-fallback
+    margin-top: 10px
       
   input.range
     position: relative
@@ -39,42 +44,48 @@
   .form
     max-width: 600px
     
-#wizard-settings-tab-view
-  #color-settings
-    float: left
-    width: 600px
-    margin-left: 30px
-    
-  canvas
-    float: left
-    border: 2px solid black
-    margin: 20px
-    
-  .color-group
-    clear: both
-    padding-bottom: 10px
-    margin-bottom: 10px
-    border-bottom: 1px solid gray
+  #email-pane
+    #specific-notification-settings
+      padding-left: 20px
+      margin-left: 20px
+      border-left: 1px solid gray
 
-  .name-cell
-    float: left
-    width: 100px
-    padding-top: 2px
-    
+#job-profile-view
+  .profile-preview-button
+    &.bottom-preview
+      margin: 15px 0 0 0
+
+  .sample-profile-thumbnail
+    margin-top: -60px
+
+  .profile-completion-progress
+    width: 100%
+    display: inline-block
+    height: 33px
+
+    .progress-bar
+      line-height: 33px
+
+  .progress-next-item
+    margin-top: -20px
+    margin-bottom: 15px
+
+  #job-profile-treema
+    background-color: white
+
     input
-      margin-right: 10px
-      position: relative
-      top: -3px
-    
-  .checkbox-cell
-    float: left
-    width: 40px
-    
-  .slider-cell
-    margin-bottom: 10px
-    float: left
-    width: 120px
+      width: 790px
+      
+    .treema-description
+      font-size: 14px
+      line-height: 22px
+      opacity: 1
 
-  .selector
-    width: 100px
-    
+    .treema-row
+      padding-top: 6px
+
+    .treema-image-file
+      img
+        display: block
+        clear: both
+        max-width: 300px

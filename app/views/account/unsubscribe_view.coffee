@@ -3,9 +3,9 @@ template = require 'templates/account/unsubscribe'
 {me} = require 'lib/auth'
 
 module.exports = class UnsubscribeView extends RootView
-  id: "unsubscribe-view"
+  id: 'unsubscribe-view'
   template: template
-  
+
   events:
     'click #unsubscribe-button': 'onUnsubscribeButtonClicked'
 
@@ -15,21 +15,21 @@ module.exports = class UnsubscribeView extends RootView
     context
 
   onUnsubscribeButtonClicked: ->
-    @$el.find('#unsubscribe-button').addClass 'hide'
-    @$el.find('.progress').removeClass 'hide'
-    @$el.find('.alert').addClass 'hide'
-    
+    @$el.find('#unsubscribe-button').hide()
+    @$el.find('.progress').show()
+    @$el.find('.alert').hide()
+
     email = @getQueryVariable 'email'
     url = "/auth/unsubscribe?email=#{encodeURIComponent(email)}"
-    
+
     success = =>
-      @$el.find('.progress').addClass 'hide'
-      @$el.find('#success-alert').removeClass 'hide'
+      @$el.find('.progress').hide()
+      @$el.find('#success-alert').show()
       me.fetch()
-      
+
     error = =>
-      @$el.find('.progress').addClass 'hide'
-      @$el.find('#fail-alert').removeClass 'hide'
-      @$el.find('#unsubscribe-button').removeClass 'hide'
-      
+      @$el.find('.progress').hide()
+      @$el.find('#fail-alert').show()
+      @$el.find('#unsubscribe-button').show()
+
     $.ajax { url: url, success: success, error: error }

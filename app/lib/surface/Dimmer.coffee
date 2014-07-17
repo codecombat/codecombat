@@ -14,17 +14,14 @@ module.exports = class Dimmer extends CocoClass
     options ?= {}
     @camera = options.camera
     @layer = options.layer
-    console.error @toString(), "needs a camera." unless @camera
-    console.error @toString(), "needs a layer." unless @layer
+    console.error @toString(), 'needs a camera.' unless @camera
+    console.error @toString(), 'needs a layer.' unless @layer
     @build()
     @updateDimMask = _.throttle @updateDimMask, 10
     @highlightedThangIDs = []
     @sprites = {}
 
-  destroy: ->
-    super()
-
-  toString: -> "<Dimmer>"
+  toString: -> '<Dimmer>'
 
   build: ->
     @dimLayer = new createjs.Container()
@@ -32,7 +29,7 @@ module.exports = class Dimmer extends CocoClass
     @dimLayer.layerIndex = -10
     @dimLayer.addChild @dimScreen = new createjs.Shape()
     @dimLayer.addChild @dimMask = new createjs.Shape()
-    @dimScreen.graphics.beginFill("rgba(0,0,0,0.5)").rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
+    @dimScreen.graphics.beginFill('rgba(0,0,0,0.5)').rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
     @dimMask.compositeOperation = 'destination-out'
     @dimLayer.cache 0, 0, @camera.canvasWidth, @camera.canvasHeight
 
@@ -70,9 +67,9 @@ module.exports = class Dimmer extends CocoClass
     @dimMask.graphics.clear()
     for thangID, sprite of @sprites
       continue unless (thangID in @highlightedThangIDs) or sprite.isTalking?() or sprite.thang?.id is 'My Wizard'
-      sup = x: sprite.displayObject.x, y: sprite.displayObject.y
+      sup = x: sprite.imageObject.x, y: sprite.imageObject.y
       cap = @camera.surfaceToCanvas sup
       r = 50 * @camera.zoom  # TODO: find better way to get the radius based on the sprite's size
-      @dimMask.graphics.beginRadialGradientFill(["rgba(0,0,0,1)", "rgba(0,0,0,0)"], [0.5, 1], cap.x, cap.y, 0, cap.x, cap.y, r).drawCircle(cap.x, cap.y, r)
+      @dimMask.graphics.beginRadialGradientFill(['rgba(0,0,0,1)', 'rgba(0,0,0,0)'], [0.5, 1], cap.x, cap.y, 0, cap.x, cap.y, r).drawCircle(cap.x, cap.y, r)
 
     @dimLayer.updateCache 0, 0, @camera.canvasWidth, @camera.canvasHeight

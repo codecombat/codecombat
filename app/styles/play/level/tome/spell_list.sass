@@ -8,6 +8,11 @@
   left: 0%
   right: 10%
   padding: 4%
-  background: transparent url(/images/level/popover_background.png)
-  background-size: 100% 100%
+  border-image: url(/images/level/popover_background.png) 18 fill round
+  border-width: 15px
   
+html.no-borderimage
+  #spell-list-view
+    background: transparent url(/images/level/popover_background.png)
+    background-size: 100% 100%
+    border: 0

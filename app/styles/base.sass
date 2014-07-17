@@ -1,10 +1,21 @@
 @import "bootstrap/variables"
 @import "bootstrap/mixins"
 
+html
+  background-color: #2f261d
+
+body
+  position: absolute !important
+
+// https://github.com/twbs/bootstrap/issues/9237 -- need a version that's not !important
+.secret
+  display: none
+
 h1 h2 h3 h4
   letter-spacing: 2px
 
 .main-content-area
+  box-shadow: 0px 0px 10px
   position: relative
   width: 1024px
   margin: 56px auto 0
@@ -14,6 +25,9 @@ h1 h2 h3 h4
 
 #outer-content-wrapper
   background: #8cc63f url(/images/pages/base/repeat-tile.png) top center
+
+#intermediate-content-wrapper
+  background: url(/images/pages/base/sky_repeater.png) repeat-x
 
 #inner-content-wrapper
   background: url(/images/pages/base/background_texture.png) top center no-repeat
@@ -33,12 +47,12 @@ h1 h2 h3 h4
   margin: 0 auto
 
 .footer
-  height: 75px
   border-top: 1px solid black
   background-color: #2f261d
   p
     margin: 0
-    padding-top: 25px
+    padding-top: 10px
+    padding-bottom: 10px
     text-align: center
 
   .mixpanel-badge, .firebase-badge
@@ -60,7 +74,7 @@ a[data-toggle="modal"]
   cursor: pointer
 
 .share-buttons, .partner-badges
-  margin-top: 10px
+  padding-bottom: 10px
   text-align: center
   @include opacity(0.75)
 
@@ -74,6 +88,10 @@ a[data-toggle="modal"]
   .github-star-button
     margin-left: 20px
 
+  &>div
+    display: inline-block
+    vertical-align: top
+
 .error
   left: 8px
 
@@ -82,10 +100,19 @@ a[data-toggle="modal"]
 
 .modal-dialog
   padding: 5px
-  background: transparent url(/images/pages/base/modal_background.png)
-  background-size: 100% 100%
-  border: 0
-  @include box-shadow(0 0 0 #000)
+  margin-top: 30px
+  margin-bottom: 0px
+  padding-top: 30px
+  .background-wrapper
+    background: url("/images/pages/base/modal_background.png")
+    background-size: 100% 100%
+    border: 0
+    @include box-shadow(0 0 0 #000)
+    //position: absolute
+    width: 99%
+    
+  .background-wrapper.plain
+    background: white
 
   .modal-content
     @include box-shadow(none)
@@ -105,6 +132,14 @@ a[data-toggle="modal"]
     background-color: transparent
     margin: 0 14px
     border-bottom-color: #ccc
+  .modal-footer.linkedin
+    text-align: center
+    .signin-text
+      font-size: 15px
+      padding-bottom: 10px
+  .login-link
+    cursor: pointer
+      
 
 // Bigger versions of some Bootstrap icons
 // TODO: make the non-white versions of these if we ever need them
@@ -140,15 +175,28 @@ a[data-toggle="modal"]
 .icon-cog.big
   background-position: 0px 0px
 
+// loading screens for everything but the play view
 .loading-screen
-  text-align: center
   .progress
     width: 50%
     margin: 0 25%
+    
+// all loading screens
+.loading-container
+  text-align: center
   .progress-bar
-    width: 100%
-  
+    width: 0%
+    transition: width 0.1s ease
+  .errors .alert
+    padding: 5px
+    display: block
+    margin: 10px auto
+    .btn
+      margin-left: 10px
+
+
 .modal
+  overflow-y: auto !important
   .wait
     h3 
       text-align: center
@@ -168,3 +216,71 @@ table.table
   border: 1px solid black
 .ui-slider-handle
   border: 1px solid black !important
+
+.flag-cursor
+  cursor: crosshair
+
+
+// Fonts
+
+.header-font
+  font-family: $headings-font-family
+
+body[lang='ru'], body[lang|='zh'], body[lang='pl'], body[lang='tr'], body[lang='cs'], body[lang='el'], body[lang='ro'], body[lang='vi'], body[lang='th'], body[lang='ko'], body[lang='sk'], body[lang='sl'], body[lang='bg'], body[lang='he'], body[lang='lt'], body[lang='sr'], body[lang='uk'], body[lang='hi'], body[lang='ur'], body[lang='hu']
+  h1, h2, h3, h4, h5, h6
+    font-family: 'Open Sans Condensed', Impact, "Arial Narrow", "Arial", sans-serif
+    text-transform: uppercase
+    letter-spacing: -1px !important
+    
+  .header-font
+    font-family: 'Open Sans Condensed', Impact, "Arial Narrow", "Arial", sans-serif !important
+    text-transform: uppercase
+    letter-spacing: -1px !important
+
+body[lang='ja']
+  h1, h2, h3, h4, h5, h6
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", 'Open Sans Condensed', sans-serif
+    text-transform: uppercase
+    letter-spacing: -1px !important
+
+  .header-font
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "メイリオ", Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", 'Open Sans Condensed', sans-serif
+    text-transform: uppercase
+    letter-spacing: -1px !important
+
+  #top-nav
+    .navbar-nav
+      li
+        a.header-font
+          font-size: 16px
+   
+@media only screen and (max-width: 800px)
+  .main-content-area
+    width: 100%
+  .content
+    width: 100%
+    
+  .footer-link-text a
+    font-size: 17px
+    margin-left: 3px
+    margin-right: 3px
+    
+  .share-buttons
+    margin-bottom: 20px
+  .partner-badges
+    display: none
+
+// point the new glyphicons to the fonts in public
+  
+@font-face
+  font-family: 'Glyphicons Halflings'
+  src: url("/fonts/glyphicons-halflings-regular.eot")
+  src: url("/fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("/fonts/glyphicons-halflings-regular.woff") format("woff"), url("/fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular") format("svg")
+
+.spr:after
+  content: " "
+.spl:before
+  content: " "
+
+a[data-toggle="coco-modal"]
+  cursor: pointer

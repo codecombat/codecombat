@@ -1,9 +1,10 @@
-LevelFeedback = require('./LevelFeedback')
-Handler = require('../../commons/Handler')
+LevelFeedback = require './LevelFeedback'
+Handler = require '../../commons/Handler'
 
 class LevelFeedbackHandler extends Handler
   modelClass: LevelFeedback
   editableProperties: ['rating', 'review', 'level', 'levelID', 'levelName']
+  jsonSchema: require '../../../app/schemas/models/level_feedback'
 
   makeNewInstance: (req) ->
     feedback = super(req)

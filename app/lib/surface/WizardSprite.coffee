@@ -22,22 +22,42 @@ module.exports = class WizardSprite extends IndieSprite
     'echo-self-wizard-sprite': 'onEchoSelfWizardSprite'
     'echo-all-wizard-sprites': 'onEchoAllWizardSprites'
 
+  shortcuts:
+    'up': 'onMoveKey'
+    'down': 'onMoveKey'
+    'left': 'onMoveKey'
+    'right': 'onMoveKey'
+
   constructor: (thangType, options) ->
-    if options?.isSelf
-      options.colorConfig = me.get('wizard')?.colorConfig or {}
+    if @isSelf = options.isSelf
+      options.colorConfig = $.extend(true, {}, me.get('wizard')?.colorConfig) or {}
     super thangType, options
-    @isSelf = options.isSelf
     @targetPos = @thang.pos
     if @isSelf
       @setNameLabel me.displayName()
       @setColorHue me.get('wizardColor1')
+    else if options.name
+      @setNameLabel options.name
 
   makeIndieThang: (thangType, thangID, pos) ->
     thang = super thangType, thangID, pos
     thang.isSelectable = false
-    thang.bobHeight = 1.5
+    thang.bobHeight = 0.75
     thang.bobTime = 2
+    thang.pos.z += thang.bobHeight
     thang
+
+  finishSetup: ->
+    @updateBaseScale()
+    @scaleFactor = @thang.scaleFactor if @thang?.scaleFactor
+    @updateScale()
+    @updateRotation()
+    # Don't call general update() because Thang isn't built yet
+
+  setNameLabel: (name) ->
+    if @options.codeLanguage and @options.codeLanguage isnt 'javascript' and not @isSelf
+      name += " (#{@options.codeLanguage})"  # TODO: move on second line, capitalize properly
+    super name
 
   onPlayerStatesChanged: (e) ->
     for playerID, state of e.states
@@ -48,42 +68,37 @@ module.exports = class WizardSprite extends IndieSprite
       continue unless state.wizard?
       @setColorHue state.wizard.wizardColor1
       if targetID = state.wizard.targetSprite
-        return console.warn "Wizard Sprite couldn't find target sprite", targetID unless targetID of @options.sprites
+        return console.warn 'Wizard Sprite couldn\'t find target sprite', targetID unless targetID of @options.sprites
         @setTarget @options.sprites[targetID]
       else
         @setTarget state.wizard.targetPos
 
   onMeSynced: (e) ->
     return unless @isSelf
-    @setNameLabel me.displayName() if @displayObject.visible  # not if we hid the wiz
-    @setColorHue me.get('wizardColor1')
+    @setNameLabel me.displayName() if @imageObject.visible  # not if we hid the wiz
+    newColorConfig = me.get('wizard')?.colorConfig or {}
+    shouldUpdate = not _.isEqual(newColorConfig, @options.colorConfig)
+    @options.colorConfig = $.extend(true, {}, newColorConfig)
+    if shouldUpdate
+      @setupSprite()
+      @playAction(@currentAction)
 
   onSpriteSelected: (e) ->
     return unless @isSelf
     @setTarget e.sprite or e.worldPos
 
   animateIn: ->
-    @displayObject.scaleX = @displayObject.scaleY = @displayObject.alpha = 0
-    createjs.Tween.get(@displayObject)
+    @imageObject.scaleX = @imageObject.scaleY = @imageObject.alpha = 0
+    createjs.Tween.get(@imageObject)
       .to({scaleX: 1, scaleY: 1, alpha: 1}, 1000, createjs.Ease.getPowInOut(2.2))
 
   animateOut: (callback) ->
-    tween = createjs.Tween.get(@displayObject)
+    tween = createjs.Tween.get(@imageObject)
       .to({scaleX: 0, scaleY: 0, alpha: 0}, 1000, createjs.Ease.getPowInOut(2.2))
     tween.call(callback) if callback
 
-  # We need the generalizable tinting system included in spritesheet making
-  #updateColorFilters: ->
-  #  return if @colorHue is undefined
-  #  rgb = hslToRgb(@colorHue, 1.0, 0.75)
-  #  rgb = (parseInt(val) / 256 for val in rgb)
-  #  rgb = rgb.concat([1, 0, 0, 0, 0])
-  #  filter = new createjs.ColorFilter(rgb...)
-  #  dob = @imageObject
-  #  dob.filters = [filter]
-  #  dob.cache(0, 0, @data.width, @data.height, Math.abs(dob.scaleX*2))
-
   setColorHue: (newColorHue) ->
+    # TODO: is this needed any more?
     return if @colorHue is newColorHue
     @colorHue = newColorHue
     #@updateColorFilters()
@@ -101,10 +116,10 @@ module.exports = class WizardSprite extends IndieSprite
 
   onEchoSelfWizardSprite: (e) -> e.payload = @ if @isSelf
   onEchoAllWizardSprites: (e) -> e.payload.push @
-  defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @bobHeight
+  defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @thang.bobHeight
   move: (pos, duration) -> @setTarget(pos, duration)
 
-  setTarget: (newTarget, duration) ->
+  setTarget: (newTarget, duration, isLinear=false) ->
     # ignore targets you're already heading for
     targetPos = @getPosFromTarget(newTarget)
     return if @targetPos and @targetPos.x is targetPos.x and @targetPos.y is targetPos.y
@@ -116,10 +131,19 @@ module.exports = class WizardSprite extends IndieSprite
 
     @shoveOtherWizards(true) if @targetSprite
     @targetSprite = if isSprite then newTarget else null
-    @targetPos = targetPos
-    @beginMoveTween(duration)
+    @targetPos = @boundWizard targetPos
+    @beginMoveTween(duration, isLinear)
     @shoveOtherWizards()
-    Backbone.Mediator.publish('self-wizard:target-changed', {sender:@}) if @isSelf
+    Backbone.Mediator.publish('self-wizard:target-changed', {sender: @}) if @isSelf
+
+  boundWizard: (target) ->
+    # Passed an {x, y} in world coordinates, returns {x, y} within world bounds
+    return target unless @options.camera.bounds
+    @bounds = @options.camera.bounds
+    surfaceTarget = @options.camera.worldToSurface target
+    x = Math.min(Math.max(surfaceTarget.x, @bounds.x), @bounds.x + @bounds.width)
+    y = Math.min(Math.max(surfaceTarget.y, @bounds.y), @bounds.y + @bounds.height)
+    return @options.camera.surfaceToWorld {x: x, y: y}
 
   getPosFromTarget: (target) ->
     """
@@ -129,7 +153,7 @@ module.exports = class WizardSprite extends IndieSprite
     return target if target.x?
     return target.thang.pos
 
-  beginMoveTween: (duration=1000) ->
+  beginMoveTween: (duration=1000, isLinear=false) ->
     # clear the old tween
     createjs.Tween.removeTweens(@)
 
@@ -142,18 +166,22 @@ module.exports = class WizardSprite extends IndieSprite
       @updatePosition()
       @endMoveTween()
       return
+    if isLinear
+      ease = createjs.Ease.linear
+    else
+      ease = createjs.Ease.getPowInOut(3.0)
 
-    ease = createjs.Ease.getPowInOut(3.0)
     createjs.Tween
       .get(@)
-      .to({tweenPercentage:0.0}, duration, ease)
+      .to({tweenPercentage: 0.0}, duration, ease)
       .call(@endMoveTween)
     @reachedTarget = false
+    @update true
 
   shoveOtherWizards: (removeMe) ->
     return unless @targetSprite
     allWizards = []
-    Backbone.Mediator.publish('echo-all-wizard-sprites', {payload:allWizards})
+    Backbone.Mediator.publish('echo-all-wizard-sprites', {payload: allWizards})
     allOfUs = (wizard for wizard in allWizards when wizard.targetSprite is @targetSprite)
     allOfUs = (wizard for wizard in allOfUs when wizard isnt @) if removeMe
 
@@ -178,23 +206,24 @@ module.exports = class WizardSprite extends IndieSprite
     @thang.actionActivated = @thang.action is 'cast'
     @reachedTarget = true
     @faceTarget()
+    @update true
 
   updatePosition: ->
     return unless @options.camera
     @thang.pos = @getCurrentPosition()
     @faceTarget()
-    sup = @options.camera.worldToSurface x: @thang.pos.x, y: @thang.pos.y, z: @thang.pos.z - @thang.depth / 2 + @getBobOffset()
-    @displayObject.x = sup.x
-    @displayObject.y = sup.y
+    sup = @options.camera.worldToSurface x: @thang.pos.x, y: @thang.pos.y, z: @thang.pos.z - @thang.depth / 2
+    @imageObject.x = sup.x
+    @imageObject.y = sup.y
 
   getCurrentPosition: ->
     """
     Takes into account whether the wizard is in transit or not, and the bobbing up and down.
     Eventually will also adjust based on where other wizards are.
     """
-    @targetPos = @targetSprite.thang.pos if @targetSprite
+    @targetPos = @targetSprite.thang.pos if @targetSprite?.thang
     pos = _.clone(@targetPos)
-    pos.z += @thang.bobHeight
+    pos.z = @defaultPos().z + @getBobOffset()
     @adjustPositionToSideOfTarget(pos) if @targetSprite  # be off to the side depending on placement in world
     return pos if @reachedTarget  # stick like glue
 
@@ -222,8 +251,26 @@ module.exports = class WizardSprite extends IndieSprite
     targetPos.y += @spriteYOffset
 
   faceTarget: ->
-    if @targetSprite
+    if @targetSprite?.thang
       @pointToward(@targetSprite.thang.pos)
 
   updateMarks: ->
-    super() if @displayObject.visible  # not if we hid the wiz
+    super() if @imageObject.visible  # not if we hid the wiz
+
+  onMoveKey: (e) ->
+    return unless @isSelf
+    e?.preventDefault()
+    yMovement = 0
+    xMovement = 0
+    yMovement += 2 if key.isPressed('up')
+    yMovement -= 2 if key.isPressed('down')
+    xMovement += 2 if key.isPressed('right')
+    xMovement -= 2 if key.isPressed('left')
+    @moveWizard xMovement, yMovement
+
+  moveWizard: (x, y) ->
+    interval = 500
+    position = {x: @targetPos.x + x, y: @targetPos.y + y}
+    @setTarget(position, interval, true)
+    @updatePosition()
+    Backbone.Mediator.publish 'camera-zoom-to', position, interval

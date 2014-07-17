@@ -24,11 +24,14 @@ module.exports = class HUDView extends View
     'god:new-world-created': 'onNewWorld'
 
   events:
-    'click': -> Backbone.Mediator.publish 'focus-editor'
+    'click': 'onClick'
 
-  afterRender: =>
+  afterRender: ->
     super()
     @$el.addClass 'no-selection'
+
+  onClick: (e) ->
+    Backbone.Mediator.publish 'tome:focus-editor' unless $(e.target).parents('.thang-props').length
 
   onFrameChanged: (e) ->
     @timeProgress = e.progress
@@ -63,7 +66,10 @@ module.exports = class HUDView extends View
     @clearSpeaker()
 
   onNewWorld: (e) ->
+    hadThang = @thang
     @thang = e.world.thangMap[@thang.id] if @thang
+    if hadThang and not @thang
+      @setThang null, null
 
   setThang: (thang, thangType) ->
     unless @speaker
@@ -88,7 +94,7 @@ module.exports = class HUDView extends View
     return if speakerSprite is @speakerSprite
     @speakerSprite = speakerSprite
     @speaker = @speakerSprite.thang.id
-    @createAvatar @speakerSprite.thangType, @speakerSprite.thang
+    @createAvatar @speakerSprite.thangType, @speakerSprite.thang, @speakerSprite.options.colorConfig
     @$el.removeClass 'no-selection'
     @switchToDialogueElements()
 
@@ -102,19 +108,30 @@ module.exports = class HUDView extends View
     @bubble = null
     @update()
 
-  createAvatar: (thangType, thang) ->
+  createAvatar: (thangType, thang, colorConfig) ->
+    unless thangType.isFullyLoaded()
+      args = arguments
+      unless @listeningToCreateAvatar
+        @listenToOnce thangType, 'sync', -> @createAvatar(args...)
+        @listeningToCreateAvatar = true
+      return
+    @listeningToCreateAvatar = false
     options = thang.getSpriteOptions() or {}
     options.async = false
-    stage = thangType.getPortraitStage options
+    options.colorConfig = colorConfig if colorConfig
     wrapper = @$el.find '.thang-canvas-wrapper'
-    newCanvas = $(stage.canvas).addClass('thang-canvas')
-    wrapper.empty().append(newCanvas)
     team = @thang?.team or @speakerSprite?.thang?.team
     wrapper.removeClass (i, css) -> (css.match(/\bteam-\S+/g) or []).join ' '
     wrapper.addClass "team-#{team}"
-    stage.update()
-    @stage?.stopTalking()
-    @stage = stage
+    if thangType.get('raster')
+      wrapper.empty().append($('<img />').attr('src', '/file/'+thangType.get('raster')))
+    else
+      return unless stage = thangType.getPortraitStage options
+      newCanvas = $(stage.canvas).addClass('thang-canvas')
+      wrapper.empty().append(newCanvas)
+      stage.update()
+      @stage?.stopTalking()
+      @stage = stage
 
   onThangBeganTalking: (e) ->
     return unless @stage and @thang is e.thang
@@ -126,19 +143,26 @@ module.exports = class HUDView extends View
 
   createProperties: ->
     props = @$el.find('.thang-props')
-    props.find(":not(.thang-name)").remove()
-    props.find('.thang-name').text(if @thang.id is @thang.spriteName then @thang.id else "#{@thang.id} - #{@thang.spriteName}")
-    for prop in @thang.hudProperties ? []
+    props.find(':not(.thang-name)').remove()
+    props.find('.thang-name').text(if @thang.type then "#{@thang.id} - #{@thang.type}" else @thang.id)
+    propNames = _.without @thang.hudProperties ? [], 'action'
+    nColumns = Math.ceil propNames.length / 5
+    columns = ($('<div class="thang-props-column"></div>').appendTo(props) for i in [0 ... nColumns])
+    for prop, i in propNames
+      continue if prop is 'action'
       pel = @createPropElement prop
       continue unless pel?
       if pel.find('.bar').is('*') and props.find('.bar').is('*')
         props.find('.bar-prop').last().after pel  # Keep bars together
       else
-        props.append pel
+        columns[i % nColumns].append pel
+    null
 
   createActions: ->
     actions = @$el.find('.thang-actions tbody').empty()
-    return unless @thang.world and not _.isEmpty @thang.actions
+    showActions = @thang.world and not @thang.notOfThisWorld and not _.isEmpty(@thang.actions) and 'action' in (@thang.hudProperties ? [])
+    @$el.find('.thang-actions').toggleClass 'secret', not showActions
+    return unless showActions
     @buildActionTimespans()
     for actionName, action of @thang.actions
       actions.append @createActionElement(actionName)
@@ -146,12 +170,14 @@ module.exports = class HUDView extends View
 
   setMessage: (message, mood, responses) ->
     message = marked message
+    # Fix old HTML icons like <i class='icon-play'></i> in the Markdown
+    message = message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
     clearInterval(@messageInterval) if @messageInterval
     @bubble = $('.dialogue-bubble', @$el)
     @bubble.removeClass(@lastMood) if @lastMood
     @lastMood = mood
     @bubble.text('')
-    group = $('<div class="enter hide"></div>')
+    group = $('<div class="enter secret"></div>')
     @bubble.append(group)
     if responses
       @lastResponses = responses
@@ -161,9 +187,10 @@ module.exports = class HUDView extends View
         group.append(button)
         response.button = $('button:last', group)
     else
-      s = $.i18n.t('play_level.hud_continue', defaultValue: "Continue (press shift-space)")
-      if @shiftSpacePressed > 4 and not @escapePressed
-        group.append('<span class="hud-hint">Press esc to skip dialog</span>')
+      s = $.i18n.t('play_level.hud_continue', defaultValue: 'Continue (shift+space)')
+      sk = $.i18n.t('play_level.skip_tutorial', defaultValue: 'skip: esc')
+      if not @escapePressed
+        group.append('<span class="hud-hint">' + sk + '</span>')
       group.append($('<button class="btn btn-small banner with-dot">' + s + ' <div class="dot"></div></button>'))
       @lastResponses = null
     @bubble.append($("<h3>#{@speaker ? 'Captain Anya'}</h3>"))
@@ -174,7 +201,7 @@ module.exports = class HUDView extends View
     if @animator.done()
       clearInterval(@messageInterval)
       @messageInterval = null
-      $('.enter', @bubble).removeClass("hide").css('opacity', 0.0).delay(500).animate({opacity:1.0}, 500, @animateEnterButton)
+      $('.enter', @bubble).removeClass('secret').css('opacity', 0.0).delay(500).animate({opacity: 1.0}, 500, @animateEnterButton)
       if @lastResponses
         buttons = $('.enter button')
         for response, i in @lastResponses
@@ -201,92 +228,101 @@ module.exports = class HUDView extends View
     return unless @bubble
     button = $('.enter', @bubble)
     dot = $('.dot', button)
-    dot.animate({opacity:0.2}, 300).animate({opacity:1.9}, 600, @animateEnterButton)
+    dot.animate({opacity: 0.2}, 300).animate({opacity: 1.9}, 600, @animateEnterButton)
 
   switchToDialogueElements: ->
     @dialogueMode = true
-    $('.thang-elem', @$el).addClass('hide')
-    @$el.find('.thang-canvas-wrapper').removeClass('hide')
+    $('.thang-elem', @$el).addClass('secret')
+    @$el.find('.thang-canvas-wrapper').removeClass('secret')
     $('.dialogue-area', @$el)
-      .removeClass('hide')
-      .animate({opacity:1.0}, 200)
+      .removeClass('secret')
+      .animate({opacity: 1.0}, 200)
     $('.dialogue-bubble', @$el)
       .css('opacity', 0.0)
       .delay(200)
-      .animate({opacity:1.0}, 200)
+      .animate({opacity: 1.0}, 200)
     clearTimeout @hintNextSelectionTimeout
 
   switchToThangElements: ->
     @dialogueMode = false
-    $('.thang-elem', @$el).removeClass('hide')
-    $('.dialogue-area', @$el).addClass('hide')
+    $('.thang-elem', @$el).removeClass('secret')
+    $('.dialogue-area', @$el).addClass('secret')
 
   update: ->
     return unless @thang and not @speaker
-    # Update properties
-    @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
+    @$el.find('.thang-props-column').toggleClass 'nonexistent', not @thang.exists
+    if @thang.exists
+      @updatePropElement(prop, @thang[prop]) for prop in @thang.hudProperties ? []
     # Update action timeline
     @updateActions()
 
   createPropElement: (prop) ->
-    if prop in ["maxHealth"]
+    if prop in ['maxHealth']
       return null  # included in the bar
     context =
       prop: prop
-      hasIcon: prop in ["health", "pos", "target", "inventory"]
-      hasBar: prop in ["health"]
+      hasIcon: prop in ['health', 'pos', 'target', 'inventory', 'gold', 'bountyGold', 'visualRange', 'attackDamage', 'attackRange', 'maxSpeed']
+      hasBar: prop in ['health']
     $(prop_template(context))
 
   updatePropElement: (prop, val) ->
     pel = @$el.find '.thang-props *[name=' + prop + ']'
-    if prop in ["health"]
-      max = @thang["max" + prop.charAt(0).toUpperCase() + prop.slice(1)]
-      regen = @thang[prop + "ReplenishRate"]
+    if prop in ['maxHealth']
+      return  # Don't show maxes--they're built into bar labels.
+    if prop in ['health']
+      max = @thang['max' + prop.charAt(0).toUpperCase() + prop.slice(1)]
+      regen = @thang[prop + 'ReplenishRate']
       percent = Math.round 100 * val / max
-      pel.find('.bar').css 'width', percent + "%"
-      labelText = prop + ": " + @formatValue(prop, val) + " / " + @formatValue(prop, max)
+      pel.find('.bar').css 'width', percent + '%'
+      labelText = prop + ': ' + @formatValue(prop, val) + ' / ' + @formatValue(prop, max)
       if regen
-        labelText += " (+" + @formatValue(prop, regen) + "/s)"
-      pel.attr 'title', labelText
-    else if prop in ["maxHealth"]
-      return
+        labelText += ' (+' + @formatValue(prop, regen) + '/s)'
+      pel.find('.bar-prop-value').text(Math.round(max)) if max
     else
       s = @formatValue(prop, val)
+      labelText = "#{prop}: #{s}"
+      if prop is 'attackDamage'
+        cooldown = @thang.actions.attack.cooldown
+        dps = @thang.attackDamage / cooldown
+        labelText += " / #{cooldown.toFixed(2)}s (DPS: #{dps.toFixed(2)})"
       pel.find('.prop-value').text s
-      pel.attr 'title', "#{prop}: #{s}"
+    pel.attr 'title', labelText
     pel
 
   formatValue: (prop, val) ->
-    if prop is "target" and not val
-      val = @thang["targetPos"]
+    if prop is 'target' and not val
+      val = @thang['targetPos']
       val = null if val?.isZero()
-    if prop is "rotation"
-      return (val * 180 / Math.PI).toFixed(0) + "˚"
+    if prop is 'rotation'
+      return (val * 180 / Math.PI).toFixed(0) + '˚'
+    if prop.search(/Range$/) isnt -1
+      return val + 'm'
     if typeof val is 'number'
-      if Math.round(val) == val then return val.toFixed(0)  # int
+      if Math.round(val) == val or prop is 'gold' then return val.toFixed(0)  # int
       if -10 < val < 10 then return val.toFixed(2)
       if -100 < val < 100 then return val.toFixed(1)
       return val.toFixed(0)
-    if val and typeof val is "object"
+    if val and typeof val is 'object'
       if val.id
         return val.id
       else if val.x and val.y
         return "x: #{val.x.toFixed(0)} y: #{val.y.toFixed(0)}"
         #return "x: #{val.x.toFixed(0)} y: #{val.y.toFixed(0)}, z: #{val.z.toFixed(0)}"  # Debugging: include z
     else if not val?
-      return "No " + prop
+      return 'No ' + prop
     return val
 
   updateActions: ->
     return unless @thang.world and not _.isEmpty @thang.actions
     @buildActionTimespans() unless @timespans
     for actionName, action of @thang.actions
-      @updateActionElement(actionName, @timespans[actionName], @thang.action.name is actionName)
+      @updateActionElement(actionName, @timespans[actionName], @thang.action is actionName)
     tableContainer = @$el.find('.table-container')
-    timelineWidth = tableContainer.find('.action-timeline').width()
-    right = (1 - (@timeProgress ? 0)) * timelineWidth
     arrow = tableContainer.find('.progress-arrow')
-    arrow.css 'right', right - arrow.width() / 2
+    @timelineWidth ||= tableContainer.find('tr:not(.secret) .action-timeline').width()
+    @actionArrowWidth ||= arrow.width()
+    right = (1 - (@timeProgress ? 0)) * @timelineWidth
+    arrow.css 'right', right - @actionArrowWidth / 2
     tableContainer.find('.progress-line').css 'right', right
 
   buildActionTimespans: ->
@@ -294,11 +330,12 @@ module.exports = class HUDView extends View
     @timespans = {}
     dt = @thang.world.dt
     actionHistory = @thang.world.actionsForThang @thang.id, true
-    [lastFrame, lastAction] = [0, 'idle']
+    [lastFrame, lastAction] = [0, null]
     for hist in actionHistory.concat {frame: @thang.world.totalFrames, name: 'END'}
       [newFrame, newAction] = [hist.frame, hist.name]
       continue if newAction is lastAction
-      if newFrame > lastFrame
+      if newFrame > lastFrame and lastAction
+        # TODO: don't push it if it didn't exist until then
         (@timespans[lastAction] ?= []).push [lastFrame * dt, newFrame * dt]
       [lastFrame, lastAction] = [newFrame, newAction]
 
@@ -318,7 +355,7 @@ module.exports = class HUDView extends View
           changed = true
           break
       return unless changed
-    ael.toggleClass 'hidden', not timespans.length
+    ael.toggleClass 'secret', not timespans.length
     @lastActionTimespans[action] = timespans
     timeline = ael.find('.action-timeline .timeline-wrapper').empty()
     lifespan = @thang.world.totalFrames / @thang.world.frameRate
@@ -330,5 +367,7 @@ module.exports = class HUDView extends View
     ael
 
   destroy: ->
-    super()
     @stage?.stopTalking()
+    clearInterval(@messageInterval) if @messageInterval
+    clearTimeout @hintNextSelectionTimeout if @hintNextSelectionTimeout
+    super()

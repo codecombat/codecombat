@@ -1,52 +1,57 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/thang/colors_tab'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
-{hexToHSL} = require 'lib/utils' 
+{hexToHSL} = require 'lib/utils'
 
 module.exports = class ColorsTabView extends CocoView
   id: 'editor-thang-colors-tab-view'
   template: template
   className: 'tab-pane'
-  
+
   offset: 0
-  
+
   constructor: (@thangType, options) ->
-    @thangType.once 'sync', @tryToBuild, @
-    @thangType.schema().once 'sync', @tryToBuild, @
-    @colorConfig = { hue: 0, saturation: 0.5, lightness: 0.5 }
+    @listenToOnce(@thangType, 'sync', @tryToBuild)
+    # @listenToOnce(@thangType.schema(), 'sync', @tryToBuild)
+    @colorConfig = {hue: 0, saturation: 0.5, lightness: 0.5}
     @spriteBuilder = new SpriteBuilder(@thangType)
-    f = => 
+    f = =>
       @offset++
       @updateMovieClip()
     @interval = setInterval f, 1000
     super options
 
+  destroy: ->
+    clearInterval @interval
+    super()
+
+  onLoaded: -> @render()
   afterRender: ->
     super()
     @createShapeButtons()
     @initStage()
     @initSliders()
     @tryToBuild()
-    
+
   # sliders
 
   initSliders: ->
-    @hueSlider = @initSlider $("#hue-slider", @$el), 0, @makeSliderCallback 'hue'
-    @saturationSlider = @initSlider $("#saturation-slider", @$el), 50, @makeSliderCallback 'saturation'
-    @lightnessSlider = @initSlider $("#lightness-slider", @$el), 50, @makeSliderCallback 'lightness'
-    
+    @hueSlider = @initSlider $('#hue-slider', @$el), 0, @makeSliderCallback 'hue'
+    @saturationSlider = @initSlider $('#saturation-slider', @$el), 50, @makeSliderCallback 'saturation'
+    @lightnessSlider = @initSlider $('#lightness-slider', @$el), 50, @makeSliderCallback 'lightness'
+
   makeSliderCallback: (property) ->
     (e, result) =>
       @colorConfig[property] = result.value / 100
       @updateMovieClip()
-        
+
   # movie clip
-  
+
   initStage: ->
     canvas = @$el.find('#tinting-display')
     @stage = new createjs.Stage(canvas[0])
     createjs.Ticker.setFPS 20
-    createjs.Ticker.addEventListener("tick", @stage)
+    createjs.Ticker.addEventListener('tick', @stage)
     @updateMovieClip()
 
   updateMovieClip: ->
@@ -95,7 +100,7 @@ module.exports = class ColorsTabView extends CocoView
       aHSL = hexToHSL(a)
       bHSL = hexToHSL(b)
       if aHSL[0] > bHSL[0] then -1 else 1
-      
+
     for color in colors
       button = $('<button></button>').addClass('btn')
       button.css('background', color)
@@ -108,13 +113,14 @@ module.exports = class ColorsTabView extends CocoView
     @buttons = buttons
 
   tryToBuild: ->
-    return unless @thangType.loaded and @thangType.schema().loaded
+    return unless @thangType.loaded
     data = @thangType.get('colorGroups')
     data ?= {}
-    schema = @thangType.schema().attributes.properties?.colorGroups
+    schema = @thangType.schema().properties?.colorGroups
     treemaOptions =
       data: data
       schema: schema
+      readOnly: true unless me.isAdmin() or @thangType.hasWriteAccess(me)
       callbacks:
         change: @onColorGroupsChanged
         select: @onColorGroupSelected
@@ -130,23 +136,23 @@ module.exports = class ColorsTabView extends CocoView
     @thangType.set('colorGroups', @colorGroups.data)
 
   onColorGroupSelected: (e, selected) =>
-    @$el.find('#color-group-settings').toggleClass('hide', not selected.length)
+    @$el.find('#color-group-settings').toggle selected.length > 0
     treema = @colorGroups.getLastSelectedTreema()
     return unless treema
     @currentColorGroupTreema = treema
-    
+
     shapes = {}
     shapes[shape] = true for shape in treema.data
-    
+
     colors = {}
     for key, shape of @thangType.get('raw')?.shapes or {}
       continue unless shape.fc?
       colors[shape.fc] = true if shapes[key]
-    
+
     @buttons.find('button').removeClass('selected')
     @buttons.find('button').each (i, button) ->
       $(button).addClass('selected') if colors[$(button).val()]
-      
+
     @updateMovieClip()
 
   updateColorGroup: ->
@@ -155,7 +161,7 @@ module.exports = class ColorsTabView extends CocoView
       return unless $(button).hasClass('selected')
       window.button = button
       colors[$(button).val()] = true
-    
+
     shapes = []
     for key, shape of @thangType.get('raw')?.shapes or {}
       continue unless shape.fc?
