@@ -1,17 +1,330 @@
 mail = require '../commons/mail'
+MailSent = require '../mail/sent/MailSent'
 User = require '../users/User'
+async = require 'async'
 errors = require '../commons/errors'
 config = require '../../server_config'
 LevelSession = require '../levels/sessions/LevelSession'
 Level = require '../levels/Level'
 log = require 'winston'
 sendwithus = require '../sendwithus'
-
-
+if config.isProduction
+  lockManager = require '../commons/LockManager'
+  
 module.exports.setup = (app) ->
   app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
+  if lockManager
+    setupScheduledEmails()
   
+setupScheduledEmails = ->
+  testForLockManager()
+  mailTasks = [
+      taskFunction: candidateUpdateProfileTask
+      frequencyMs: 10 * 60 * 1000 #10 minutes
+    ,
+      taskFunction: internalCandidateUpdateTask
+      frequencyMs: 10 * 60 * 1000 #10 minutes
+    ,
+      taskFunction: employerNewCandidatesAvailableTask
+      frequencyMs: 10 * 60 * 1000 #10 minutes
+  ]
+
+  for mailTask in mailTasks
+    setInterval mailTask.taskFunction, mailTask.frequencyMs 
+    
+testForLockManager = -> unless lockManager then throw "The system isn't configured to do distributed locking!"
+  
+### Candidate Update Reminder Task ###
+
+candidateUpdateProfileTask = ->
+  mailTaskName = "candidateUpdateProfileTask"
+  lockDurationMs = 2 * 60 * 1000 
+  currentDate = new Date()
+  timeRanges = []
+  for weekPair in [[4, 2,'two weeks'], [8, 4, 'four weeks'], [8, 52, 'eight weeks']]
+    timeRanges.push
+      start: generateWeekOffset currentDate, weekPair[0]
+      end: generateWeekOffset currentDate, weekPair[1]
+      name: weekPair[2]
+  lockManager.setLock mailTaskName, lockDurationMs, (err) ->
+    if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}: #{err}"
+    async.each timeRanges, emailTimeRange.bind({mailTaskName: mailTaskName}), (err) ->
+      if err
+        log.error "There was an error sending the candidate profile update reminder emails: #{err}"
+      else
+        log.info "Completed mail task #{mailTaskName}"
+      lockManager.releaseLock mailTaskName, (err) ->
+        if err? then return log.error "There was an error releasing the distributed lock for task #{mailTaskName}: #{err}"
+
+generateWeekOffset = (originalDate, numberOfWeeks) ->
+  return (new Date(originalDate.getTime() - numberOfWeeks * 7 * 24 * 60 * 60 * 1000)).toISOString()
+
+emailTimeRange = (timeRange, emailTimeRangeCallback) ->
+  waterfallContext =
+    "timeRange": timeRange
+    "mailTaskName": @mailTaskName
+  async.waterfall [
+    findAllCandidatesWithinTimeRange.bind(waterfallContext)
+    (unfilteredCandidates, cb) -> 
+      async.reject unfilteredCandidates, candidateFilter.bind(waterfallContext), cb.bind(null, null)
+    (filteredCandidates, cb) ->
+      async.each filteredCandidates, sendReminderEmailToCandidate.bind(waterfallContext), cb
+  ], emailTimeRangeCallback
+  
+findAllCandidatesWithinTimeRange = (cb) ->
+  findParameters =
+    "jobProfile.updated":
+      $gt: @timeRange.start
+      $lte: @timeRange.end
+    "jobProfileApproved": true
+  selection =  "_id email jobProfile.name jobProfile.updated emails" #make sure to check for anyNotes too.
+  User.find(findParameters).select(selection).lean().exec cb
+  
+candidateFilter = (candidate, sentEmailFilterCallback) ->
+  if candidate.emails?.anyNotes?.enabled is false or candidate.emails?.recruitNotes?.enabled is false
+    return sentEmailFilterCallback true
+  findParameters =
+    "user": candidate._id
+    "mailTask": @mailTaskName
+    "metadata.timeRangeName": @timeRange.name
+    "metadata.updated": candidate.jobProfile.updated
+  MailSent.find(findParameters).lean().exec (err, sentMail) ->
+    if err?
+      log.error "Error finding mail sent for task #{@mailTaskName} and user #{candidate._id}!"
+      sentEmailFilterCallback true
+    else
+      sentEmailFilterCallback Boolean(sentMail.length)
+
+findEmployersSignedUpAfterDate = (dateObject, cb) ->
+  countParameters =
+    $or: [{"dateCreated": {$gte: dateObject}},{"signedEmployerAgreement":{$gte: dateObject}}]
+    employerAt: {$exists: true}
+    permissions: "employer"
+  User.count countParameters, cb
+  
+sendReminderEmailToCandidate = (candidate, sendEmailCallback) ->
+  findEmployersSignedUpAfterDate new Date(candidate.jobProfile.updated), (err, employersAfterCount) =>
+    if err?
+      log.error "There was an error finding employers who signed up after #{candidate.jobProfile.updated}: #{err}"
+      return sendEmailCallback err
+    if employersAfterCount < 2
+      employersAfterCount = 2
+    context =
+      email_id: "tem_CtTLsKQufxrxoPMn7upKiL"
+      recipient:
+        address: candidate.email
+        name: candidate.jobProfile.name
+      email_data:
+        new_company: employersAfterCount
+        company_name: "CodeCombat"
+        user_profile: "http://codecombat.com/account/profile/#{candidate._id}"
+        recipient_address: encodeURIComponent(candidate.email)
+    log.info "Sending #{@timeRange.name} update reminder to #{context.recipient.name}(#{context.recipient.address})"
+    newSentMail =
+      mailTask: @mailTaskName
+      user: candidate._id
+      metadata:
+        timeRangeName: @timeRange.name
+        updated: candidate.jobProfile.updated
+    MailSent.create newSentMail, (err) ->
+      if err? then return sendEmailCallback err
+      sendwithus.api.send context, (err, result) ->
+        log.error "Error sending candidate update reminder email: #{err} with result #{result}" if err
+        sendEmailCallback null
+### End Candidate Update Reminder Task ###
+### Internal Candidate Update Reminder Email ###
+internalCandidateUpdateTask = ->
+  mailTaskName = "internalCandidateUpdateTask"
+  lockDurationMs = 2 * 60 * 1000 
+  lockManager.setLock mailTaskName, lockDurationMs, (err) ->
+    if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}: #{err}"
+    emailInternalCandidateUpdateReminder.call {"mailTaskName":mailTaskName}, (err) ->
+      if err
+        log.error "There was an error sending the internal candidate update reminder.: #{err}"
+      else
+        log.info "Sent internal candidate update reminder email!"
+      lockManager.releaseLock mailTaskName, (err) ->
+        if err? then return log.error "There was an error releasing the distributed lock for task #{mailTaskName}: #{err}"
+
+emailInternalCandidateUpdateReminder = (internalCandidateUpdateReminderCallback) ->
+  currentTime = new Date()
+  beginningOfUTCDay = new Date()
+  beginningOfUTCDay.setUTCHours(0,0,0,0)
+  asyncContext =
+    "beginningOfUTCDay": beginningOfUTCDay
+    "currentTime": currentTime
+    "mailTaskName": @mailTaskName
+  async.waterfall [
+    findNonApprovedCandidatesWhoUpdatedJobProfileToday.bind(asyncContext)
+    (unfilteredCandidates, cb) ->
+      async.reject unfilteredCandidates, candidatesUpdatedTodayFilter.bind(asyncContext), cb.bind(null,null)
+    (filteredCandidates, cb) ->
+      async.each filteredCandidates, sendInternalCandidateUpdateReminder.bind(asyncContext), cb
+  ], internalCandidateUpdateReminderCallback
+    
+findNonApprovedCandidatesWhoUpdatedJobProfileToday = (cb) ->
+  findParameters = 
+    "jobProfile.updated":
+      $lte: @currentTime.toISOString()
+      $gt: @beginningOfUTCDay.toISOString()
+    "jobProfileApproved": false 
+  User.find(findParameters).select("_id jobProfile.name jobProfile.updated").lean().exec cb
+  
+candidatesUpdatedTodayFilter = (candidate, cb) ->
+  findParameters =
+    "user": candidate._id
+    "mailTask": @mailTaskName
+    "metadata.beginningOfUTCDay": @beginningOfUTCDay 
+  MailSent.find(findParameters).lean().exec (err, sentMail) ->
+    if err?
+      log.error "Error finding mail sent for task #{@mailTaskName} and user #{candidate._id}!"
+      cb true
+    else
+      cb Boolean(sentMail.length)
+    
+sendInternalCandidateUpdateReminder = (candidate, cb) ->
+  context =
+    email_id: "tem_Ac7nhgKqatTHBCgDgjF5pE"
+    recipient: 
+      address: "team@codecombat.com"
+      name: "The CodeCombat Team"
+    email_data:
+      new_candidate_profile: "https://codecombat.com/account/profile/#{candidate._id}"
+  log.info "Sending candidate updated reminder for #{candidate.jobProfile.name}"
+  newSentMail =
+    mailTask: @mailTaskName
+    user: candidate._id
+    metadata:
+      beginningOfUTCDay: @beginningOfUTCDay
+    
+  MailSent.create newSentMail, (err) ->
+    if err? then return cb err
+    sendwithus.api.send context, (err, result) ->
+      log.error "Error sending interal candidate update email: #{err} with result #{result}" if err
+      cb null
+
+### End Internal Candidate Update Reminder Email ###
+### Employer New Candidates Available Email ###
+employerNewCandidatesAvailableTask = ->
+  mailTaskName = "employerNewCandidatesAvailableTask"
+  lockDurationMs = 2 * 60 * 1000 
+  lockManager.setLock mailTaskName, lockDurationMs, (err) ->
+    if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}: #{err}"
+    emailEmployerNewCandidatesAvailable.call {"mailTaskName":mailTaskName}, (err) ->
+      if err
+        log.error "There was an error completing the new candidates available task: #{err}"
+      else
+        log.info "Completed the employer new candidates available task!"
+      lockManager.releaseLock mailTaskName, (err) ->
+        if err? then return log.error "There was an error releasing the distributed lock for task #{mailTaskName}: #{err}"
+
+emailEmployerNewCandidatesAvailable = (emailEmployerNewCandidatesAvailableCallback) ->
+  currentTime = new Date()
+  asyncContext = 
+    "currentTime": currentTime
+    "mailTaskName": @mailTaskName
+    
+  async.waterfall [
+    findAllEmployers
+    makeEmployerNamesEasilyAccessible
+    (allEmployers, cb) ->
+      async.reject allEmployers, employersEmailedDigestMoreThanWeekAgoFilter.bind(asyncContext), cb.bind(null,null)
+    (employersToEmail, cb) ->
+      async.each employersToEmail, sendEmployerNewCandidatesAvailableEmail.bind(asyncContext), cb
+  ], emailEmployerNewCandidatesAvailableCallback
+      
+findAllEmployers = (cb) ->
+  findParameters = 
+    "employerAt":
+      $exists: true 
+    permissions: "employer"
+  selection = "_id email employerAt signedEmployerAgreement.data.firstName signedEmployerAgreement.data.lastName activity dateCreated emails"
+  User.find(findParameters).select(selection).lean().exec cb
+  
+makeEmployerNamesEasilyAccessible = (allEmployers, cb) ->
+  for employer, index in allEmployers
+    if employer.signedEmployerAgreement?.data?.firstName
+      employer.name = employer.signedEmployerAgreement.data.firstName + " " + employer.signedEmployerAgreement.data.lastName
+      delete employer.signedEmployerAgreement
+    allEmployers[index] = employer
+  cb null, allEmployers
+  
+employersEmailedDigestMoreThanWeekAgoFilter = (employer, cb) ->
+  if employer.emails?.employerNotes?.enabled is false
+    return sentEmailFilterCallback true
+  findParameters = 
+    "user": employer._id
+    "mailTask": @mailTaskName
+    "sent":
+      $gt: new Date(@currentTime.getTime() - 7 * 24 * 60 * 60 * 1000) 
+  MailSent.find(findParameters).lean().exec (err, sentMail) ->
+    if err?
+      log.error "Error finding mail sent for task #{@mailTaskName} and employer #employer._id}!"
+      cb true
+    else
+      cb Boolean(sentMail.length)
+
+sendEmployerNewCandidatesAvailableEmail = (employer, cb) ->
+  lastLoginDate = employer.activity?.login?.last ? employer.dateCreated 
+  countParameters =
+    "jobProfileApproved": true
+    $or: [
+        jobProfileApprovedDate: 
+          $gt: lastLoginDate.toISOString()
+      ,
+        jobProfileApprovedDate:
+          $exists: false
+        "jobProfile.updated":
+          $gt: lastLoginDate.toISOString()   
+    ]
+  User.count countParameters, (err, numberOfCandidatesSinceLogin) =>
+    if err? then return cb err
+    context =
+      email_id: "tem_CCcHKr95Nvu5bT7c7iHCtm"
+      recipient:
+        address: employer.email
+      email_data:
+        new_candidates: numberOfCandidatesSinceLogin
+        employer_company_name: employer.employerAt
+        company_name: "CodeCombat"
+        recipient_address: encodeURIComponent(employer.email)
+    if employer.name
+      context.recipient.name = employer.name
+    log.info "Sending available candidates update reminder to #{context.recipient.name}(#{context.recipient.address})"
+    newSentMail =
+      mailTask: @mailTaskName
+      user: employer._id
+    MailSent.create newSentMail, (err) ->
+      if err? then return cb err
+      sendwithus.api.send context, (err, result) ->
+        log.error "Error sending employer candidates available email: #{err} with result #{result}" if err
+        cb null
+
+### End Employer New Candidates Available Email ###
+
+### New Recruit Leaderboard Email ###
+###
+newRecruitLeaderboardEmailTask = ->
+  # tem_kMQFCKX3v4DNAQDsMAsPJC
+  #maxRank and maxRankTime should be recorded if isSimulating is false
+  mailTaskName = "newRecruitLeaderboardEmailTask"
+  lockDurationMs = 6000
+  lockManager.setLock mailTaskName, lockDurationMs, (err, lockResult) ->
+###
+### End New Recruit Leaderboard Email ###
+  
+### Employer Matching Candidate Notification Email ### 
+###
+employerMatchingCandidateNotificationTask = ->
+  # tem_mYsepTfWQ265noKfZJcbBH
+  #save email filters in their own collection
+  mailTaskName = "employerMatchingCandidateNotificationTask"
+  lockDurationMs = 6000
+  lockManager.setLock mailTaskName, lockDurationMs, (err, lockResult) ->
+###
+### End Employer Matching Candidate Notification Email ###
+### Ladder Update Email ###
 
 DEBUGGING = false
 LADDER_PREGAME_INTERVAL = 2 * 3600 * 1000  # Send emails two hours before players last submitted.
@@ -28,6 +341,8 @@ isRequestFromDesignatedCronHandler = (req, res) ->
     return false
   return true
 
+
+  
 handleLadderUpdate = (req, res) ->
   log.info('Going to see about sending ladder update emails.')
   requestIsFromDesignatedCronHandler = isRequestFromDesignatedCronHandler req, res
@@ -151,6 +466,7 @@ getScoreHistoryGraphURL = (session, daysAgo) ->
   chartData = times.join(',') + '|' + scores.join(',')
   "https://chart.googleapis.com/chart?chs=600x75&cht=lxy&chtt=Score%3A+#{currentScore}&chts=222222,12,r&chf=a,s,000000FF&chls=2&chd=t:#{chartData}&chxt=y&chxr=0,#{minScore},#{maxScore}"
 
+### End Ladder Update Email ###
 handleMailchimpWebHook = (req, res) ->
   post = req.body
 
