@@ -21,13 +21,13 @@ setupScheduledEmails = ->
   testForLockManager()
   mailTasks = [
       taskFunction: candidateUpdateProfileTask
-      frequencyMs: 30 * 60 * 1000 #30 minutes
+      frequencyMs: 10 * 60 * 1000 #10 minutes
     ,
       taskFunction: internalCandidateUpdateTask
       frequencyMs: 10 * 60 * 1000 #10 minutes
     ,
       taskFunction: employerNewCandidatesAvailableTask
-      frequencyMs: 30 * 60 * 1000 #30 minutes
+      frequencyMs: 10 * 60 * 1000 #10 minutes
   ]
 
   for mailTask in mailTasks
@@ -48,7 +48,7 @@ candidateUpdateProfileTask = ->
       end: generateWeekOffset currentDate, weekPair[1]
       name: weekPair[2]
   lockManager.setLock mailTaskName, lockDurationMs, (err) ->
-    if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}!"
+    if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}: #{err}"
     async.each timeRanges, emailTimeRange.bind({mailTaskName: mailTaskName}), (err) ->
       if err
         log.error "There was an error sending the candidate profile update reminder emails: #{err}"
@@ -108,6 +108,8 @@ sendReminderEmailToCandidate = (candidate, sendEmailCallback) ->
     if err?
       log.error "There was an error finding employers who signed up after #{candidate.jobProfile.updated}: #{err}"
       return sendEmailCallback err
+    if employersAfterCount < 2
+      employersAfterCount = 2
     context =
       email_id: "tem_CtTLsKQufxrxoPMn7upKiL"
       recipient:
@@ -117,6 +119,7 @@ sendReminderEmailToCandidate = (candidate, sendEmailCallback) ->
         new_company: employersAfterCount
         company_name: "CodeCombat"
         user_profile: "http://codecombat.com/account/profile/#{candidate._id}"
+        recipient_address: encodeURIComponent(candidate.email)
     log.info "Sending #{@timeRange.name} update reminder to #{context.recipient.name}(#{context.recipient.address})"
     newSentMail =
       mailTask: @mailTaskName
@@ -135,7 +138,7 @@ internalCandidateUpdateTask = ->
   mailTaskName = "internalCandidateUpdateTask"
   lockDurationMs = 2 * 60 * 1000 
   lockManager.setLock mailTaskName, lockDurationMs, (err) ->
-    if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}!"
+    if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}: #{err}"
     emailInternalCandidateUpdateReminder.call {"mailTaskName":mailTaskName}, (err) ->
       if err
         log.error "There was an error sending the internal candidate update reminder.: #{err}"
@@ -207,7 +210,7 @@ employerNewCandidatesAvailableTask = ->
   mailTaskName = "employerNewCandidatesAvailableTask"
   lockDurationMs = 2 * 60 * 1000 
   lockManager.setLock mailTaskName, lockDurationMs, (err) ->
-    if err? then return log.error "There was an error getting a task lock!: #{err}"
+    if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}: #{err}"
     emailEmployerNewCandidatesAvailable.call {"mailTaskName":mailTaskName}, (err) ->
       if err
         log.error "There was an error completing the new candidates available task: #{err}"
@@ -249,7 +252,6 @@ makeEmployerNamesEasilyAccessible = (allEmployers, cb) ->
   
 employersEmailedDigestMoreThanWeekAgoFilter = (employer, cb) ->
   if employer.emails?.employerNotes?.enabled is false
-    log.info "Employer #{employer.name}(#{employer.email}) opted out of emails, not sending to them."
     return sentEmailFilterCallback true
   findParameters = 
     "user": employer._id
@@ -286,6 +288,7 @@ sendEmployerNewCandidatesAvailableEmail = (employer, cb) ->
         new_candidates: numberOfCandidatesSinceLogin
         employer_company_name: employer.employerAt
         company_name: "CodeCombat"
+        recipient_address: encodeURIComponent(employer.email)
     if employer.name
       context.recipient.name = employer.name
     log.info "Sending available candidates update reminder to #{context.recipient.name}(#{context.recipient.address})"
