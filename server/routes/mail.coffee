@@ -253,6 +253,8 @@ makeEmployerNamesEasilyAccessible = (allEmployers, cb) ->
 employersEmailedDigestMoreThanWeekAgoFilter = (employer, cb) ->
   if employer.emails?.employerNotes?.enabled is false
     return cb true
+  if not employer.signedEmployerAgreement and not employer.activity?.login?
+    return cb true
   findParameters = 
     "user": employer._id
     "mailTask": @mailTaskName
