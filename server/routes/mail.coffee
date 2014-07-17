@@ -8,7 +8,7 @@ LevelSession = require '../levels/sessions/LevelSession'
 Level = require '../levels/Level'
 log = require 'winston'
 sendwithus = require '../sendwithus'
-if config.isProduction or config.redis.host isnt "localhost" #TODO: Ask Nick and Scott to change their environment variables and change the deploy ones
+if config.isProduction
   lockManager = require '../commons/LockManager'
   
 module.exports.setup = (app) ->

@@ -4,7 +4,7 @@ log = require 'winston'
 
 class LockManager
   constructor: ->
-    unless config.isProduction or config.redis.host isnt "localhost"
+    unless config.isProduction
       throw "You shouldn't be instantiating distributed locks unless in production."
     @redisNotAvailable = true
     @redisClient = redis.createClient config.redis.port, config.redis.host
