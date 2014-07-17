@@ -42,7 +42,7 @@ candidateUpdateProfileTask = ->
   lockDurationMs = 2 * 60 * 1000 
   currentDate = new Date()
   timeRanges = []
-  for weekPair in [[4, 2,'two weeks'], [8, 4, 'four weeks'], [8, 52, 'eight weeks']]
+  for weekPair in [[4, 2,'two weeks'], [8, 4, 'four weeks'], [52, 8, 'eight weeks']]
     timeRanges.push
       start: generateWeekOffset currentDate, weekPair[0]
       end: generateWeekOffset currentDate, weekPair[1]
@@ -252,7 +252,7 @@ makeEmployerNamesEasilyAccessible = (allEmployers, cb) ->
   
 employersEmailedDigestMoreThanWeekAgoFilter = (employer, cb) ->
   if employer.emails?.employerNotes?.enabled is false
-    return sentEmailFilterCallback true
+    return cb true
   findParameters = 
     "user": employer._id
     "mailTask": @mailTaskName
