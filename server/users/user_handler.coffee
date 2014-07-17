@@ -219,6 +219,7 @@ UserHandler = class UserHandler extends Handler
   avatar: (req, res, id) ->
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless document
       photoURL = document?.get('photoURL')
       if photoURL
         photoURL = "/file/#{photoURL}"
