@@ -13,8 +13,10 @@ class CocoModel extends Backbone.Model
 
   getMe: -> @me or @me = require('lib/auth').me
 
-  initialize: ->
-    super()
+  initialize: (attributes, options) ->
+    super(arguments...)
+    options ?= {}
+    @setProjection options.project
     if not @constructor.className
       console.error("#{@} needs a className set.")
     @addSchemaDefaults()
@@ -22,6 +24,8 @@ class CocoModel extends Backbone.Model
     @on 'error', @onError, @
     @on 'add', @onLoaded, @
     @saveBackup = _.debounce(@saveBackup, 500)
+    
+  setProjection: (@project) ->
 
   type: ->
     @constructor.className
@@ -116,8 +120,11 @@ class CocoModel extends Backbone.Model
     console.debug 'Patching', @get('name') or @, keys
     @save(attrs, options)
 
-  fetch: ->
-    @jqxhr = super(arguments...)
+  fetch: (options) ->
+    options ?= {}
+    options.data ?= {}
+    options.data.project = @project.join(',') if @project
+    @jqxhr = super(options)
     @loading = true
     @jqxhr
 
