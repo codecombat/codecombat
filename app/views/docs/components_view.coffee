@@ -34,5 +34,5 @@ module.exports = class UnnamedView extends RootView
     if (me.get('aceConfig')?.language?) is false
       c.language = 'javascript'
     else
-      c.language = JSON.stringify(me.get('aceConfig').language)
+      c.language = me.get('aceConfig').language
     c
