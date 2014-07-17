@@ -84,8 +84,9 @@ module.exports = class PlayLevelView extends View
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
-      # wait to see if it's just given to us through setLevel
-      f = => @load() unless @levelLoader
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
+      f = => @load() unless @levelLoader  # Wait to see if it's just given to us through setLevel.
       setTimeout f, 100
     else
       @load()
