@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/account/profile'
 User = require 'models/User'
 LevelSession = require 'models/LevelSession'
@@ -9,6 +9,7 @@ JobProfileView = require 'views/account/job_profile_view'
 UserRemark = require 'models/UserRemark'
 forms = require 'lib/forms'
 ModelModal = require 'views/modal/model_modal'
+JobProfileCodeModal = require './JobProfileCodeModal'
 
 class LevelSessionsCollection extends CocoCollection
   url: -> "/db/user/#{@userID}/level.sessions/employer"
@@ -25,9 +26,11 @@ adminContacts = [
   {id: '52a57252a89409700d0000d9', name: 'Ignore'}
 ]
 
-module.exports = class ProfileView extends View
+module.exports = class ProfileView extends RootView
   id: 'profile-view'
   template: template
+  showBackground: false
+
   subscriptions:
     'linkedin-loaded': 'onLinkedInLoaded'
 
@@ -49,6 +52,7 @@ module.exports = class ProfileView extends View
     'keyup .editable-profile .editable-array input': 'onEditArray'
     'click .editable-profile a': 'onClickLinkWhileEditing'
     'change #admin-contact': 'onAdminContactChanged'
+    'click .session-link': 'onSessionLinkPressed'
 
   constructor: (options, @userID) ->
     @userID ?= me.id
@@ -584,3 +588,9 @@ module.exports = class ProfileView extends View
       {name: t('account_profile.next_photo'), weight: 2, container: '#profile-photo-container', fn: modified 'photoURL'}
       {name: t('account_profile.next_active'), weight: 1, fn: modified 'active'}
     ]
+
+  onSessionLinkPressed: (e) ->
+    sessionID = $(e.target).closest('.session-link').data('session-id')
+    session = _.find @sessions.models, (session) -> session.id is sessionID
+    modal = new JobProfileCodeModal({session:session})
+    @openModalView modal

@@ -25,6 +25,8 @@ LevelHandler = class LevelHandler extends Handler
     'goals'
     'type'
     'showsGuide'
+    'banner'
+    'employerDescription'
   ]
 
   postEditableProperties: ['name']
