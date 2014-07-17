@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/account/profile'
 User = require 'models/User'
 LevelSession = require 'models/LevelSession'
@@ -25,9 +25,11 @@ adminContacts = [
   {id: '52a57252a89409700d0000d9', name: 'Ignore'}
 ]
 
-module.exports = class ProfileView extends View
+module.exports = class ProfileView extends RootView
   id: 'profile-view'
   template: template
+  showBackground: false
+
   subscriptions:
     'linkedin-loaded': 'onLinkedInLoaded'
 
