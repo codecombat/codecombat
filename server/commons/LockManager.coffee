@@ -6,6 +6,7 @@ class LockManager
   constructor: ->
     unless config.isProduction or config.redis.host isnt "localhost"
       throw "You shouldn't be instantiating distributed locks unless in production."
+    @redisNotAvailable = true
     @redisClient = redis.createClient config.redis.port, config.redis.host
     @redisClient.on "ready", =>
       log.info "Redis ready!"
