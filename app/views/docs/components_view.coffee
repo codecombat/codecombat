@@ -19,10 +19,20 @@ module.exports = class UnnamedView extends RootView
   onLoaded: ->
     console.log 'we have the components...', (c.get('name') for c in @componentDocs.models)
     console.log 'we have the attributes...', (c.attributes for c in @componentDocs.models)
+    if (me.get('aceConfig')?.language?) is false
+      console.log 'default language javascript'
+    else
+      console.log 'language is =', me.get('aceConfig').language
+
+    #console.log 'test', @componentDocs.models[99].attributes.propertyDocumentation[1].description['python']
     super()
 
   getRenderData: ->
     c = super()
     c.components = @componentDocs.models
     c.marked = marked
+    if (me.get('aceConfig')?.language?) is false
+      c.language = 'javascript'
+    else
+      c.language = JSON.stringify(me.get('aceConfig').language)
     c

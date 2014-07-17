@@ -28,13 +28,13 @@ describe 'LineSegment', ->
   it 'can tell when a point is on a line or segment', ->
     lineSegment = new LineSegment v00, v11
     expect(lineSegment.pointOnLine v22, false).toBe true
-    #expect(lineSegment.pointOnLine v22, true).toBe false
-    #expect(lineSegment.pointOnLine v00, false).toBe true
-    #expect(lineSegment.pointOnLine v00, true).toBe true
-    #expect(lineSegment.pointOnLine v11, true).toBe true
-    #expect(lineSegment.pointOnLine v11, false).toBe true
-    #expect(lineSegment.pointOnLine v34, false).toBe false
-    #expect(lineSegment.pointOnLine v34, true).toBe false
+    expect(lineSegment.pointOnLine v22, true).toBe false
+    expect(lineSegment.pointOnLine v00, false).toBe true
+    expect(lineSegment.pointOnLine v00, true).toBe true
+    expect(lineSegment.pointOnLine v11, true).toBe true
+    expect(lineSegment.pointOnLine v11, false).toBe true
+    expect(lineSegment.pointOnLine v34, false).toBe false
+    expect(lineSegment.pointOnLine v34, true).toBe false
 
   it 'correctly calculates distance to points', ->
     lineSegment = new LineSegment v00, v11
