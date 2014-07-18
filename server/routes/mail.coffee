@@ -403,6 +403,10 @@ sendEmployerNewCandidatesAvailableEmail = (employer, cb) ->
         cb null
 
 ### End Employer New Candidates Available Email ###
+  
+### Task Emails ###
+userRemarkTaskEmailTask = ->
+  
 
 ### New Recruit Leaderboard Email ###
 ###
