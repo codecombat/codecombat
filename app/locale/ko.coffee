@@ -100,6 +100,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     for_beginners: "초보자용"
     multiplayer: "멀티플레이어"
     for_developers: "개발자용"
+#    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers."
+#    python_blurb: "Simple yet powerful, Python is a great general purpose programming language."
+#    coffeescript_blurb: "Nicer JavaScript syntax."
+#    clojure_blurb: "A modern Lisp."
+#    lua_blurb: "Game scripting language."
+#    io_blurb: "Simple but obscure."
 
   play:
     choose_your_level: "레벨을 선택하세요."

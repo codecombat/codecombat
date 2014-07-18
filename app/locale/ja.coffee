@@ -100,6 +100,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     for_beginners: "初心者向け"
     multiplayer: "マルチプレイヤー"
     for_developers: "開発者向け"
+#    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers."
+#    python_blurb: "Simple yet powerful, Python is a great general purpose programming language."
+#    coffeescript_blurb: "Nicer JavaScript syntax."
+#    clojure_blurb: "A modern Lisp."
+#    lua_blurb: "Game scripting language."
+#    io_blurb: "Simple but obscure."
 
   play:
     choose_your_level: "レベル選択"

@@ -117,7 +117,7 @@ module.exports = class PlayView extends View
         difficulty: 2
         id: 'emphasis-on-aim'
         image: '/file/db/level/525f384d96cd77000000000f/munchkin_masher_icon.png'
-        description: 'Chose your targets carefully.'
+        description: 'Choose your targets carefully.'
       }
       {
         name: 'Zone of Danger'

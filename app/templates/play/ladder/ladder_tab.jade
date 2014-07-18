@@ -21,7 +21,7 @@ div#columns.row
         for session, rank in topSessions
           - var myRow = session.get('creator') == me.id
           tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=session.id)
-            td.code-language-cell(style="background-image: url(/images/pages/home/language_logo_" + session.get('submittedCodeLanguage') + ".png)")
+            td.code-language-cell(style="background-image: url(/images/common/code_languages/" + session.get('submittedCodeLanguage') + "_icon.png)")
             td.rank-cell= rank + 1
             td.score-cell= Math.round(session.get('totalScore') * 100)
             td.name-col-cell= session.get('creatorName') || "Anonymous"
@@ -35,7 +35,7 @@ div#columns.row
           for session in team.leaderboard.nearbySessions()
             - var myRow = session.get('creator') == me.id
             tr(class=myRow ? "success" : "", data-player-id=session.get('creator'), data-session-id=session.id)
-              td.code-language-cell(style="background-image: url(/images/pages/home/language_logo_" + session.get('submittedCodeLanguage') + ".png)")
+              td.code-language-cell(style="background-image: url(/images/common/code_languages/" + session.get('submittedCodeLanguage') + "_icon.png)")
               td.rank-cell= session.rank
               td.score-cell= Math.round(session.get('totalScore') * 100)
               td.name-col-cell= session.get('creatorName') || "Anonymous"
