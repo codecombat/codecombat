@@ -52,7 +52,7 @@ module.exports = class HomeView extends View
     @updateLanguageLogos codeLanguage
 
   updateLanguageLogos: (codeLanguage) ->
-    @$el.find('.game-mode-wrapper .code-language-logo').css('background-image', "url(/images/pages/home/language_logo_#{codeLanguage}.png)").toggleClass 'inverted', (codeLanguage in ['io', 'coffeescript'])
+    @$el.find('.game-mode-wrapper .code-language-logo').css('background-image', "url(/images/common/code_languages/#{codeLanguage}_small.png)").toggleClass 'inverted', (codeLanguage in ['io', 'coffeescript'])
 
   onCodeLanguageSelected: (e) ->
     target = $(e.target).closest('.code-language')

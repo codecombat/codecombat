@@ -100,6 +100,12 @@ module.exports = nativeDescription: "ελληνικά", englishDescription: "Gre
     for_beginners: "Για αρχάριους"
 #    multiplayer: "Multiplayer"
     for_developers: "Για προγραμματιστές"
+#    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers."
+#    python_blurb: "Simple yet powerful, Python is a great general purpose programming language."
+#    coffeescript_blurb: "Nicer JavaScript syntax."
+#    clojure_blurb: "A modern Lisp."
+#    lua_blurb: "Game scripting language."
+#    io_blurb: "Simple but obscure."
 
   play:
     choose_your_level: "Διάλεξε την πίστα σου"

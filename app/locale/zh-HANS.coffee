@@ -100,6 +100,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     for_beginners: "适合初学者"
     multiplayer: "多人游戏"
     for_developers: "适合开发者"
+#    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers."
+#    python_blurb: "Simple yet powerful, Python is a great general purpose programming language."
+#    coffeescript_blurb: "Nicer JavaScript syntax."
+#    clojure_blurb: "A modern Lisp."
+#    lua_blurb: "Game scripting language."
+#    io_blurb: "Simple but obscure."
 
   play:
     choose_your_level: "选择关卡"
