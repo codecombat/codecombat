@@ -13,7 +13,7 @@ module.exports = class SettingsTabView extends View
   # not thangs or scripts or the backend stuff
   editableSettings: [
     'name', 'description', 'documentation', 'nextLevel', 'background', 'victory', 'i18n', 'icon', 'goals',
-    'type', 'showsGuide'
+    'type', 'showsGuide', 'banner', 'employerDescription'
   ]
 
   subscriptions:
