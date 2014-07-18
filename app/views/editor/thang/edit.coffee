@@ -11,7 +11,6 @@ VersionHistoryView = require './versions_view'
 ColorsTabView = require './colors_tab_view'
 PatchesView = require 'views/editor/patches_view'
 SaveVersionModal = require 'views/modal/save_version_modal'
-ErrorView = require '../../error_view'
 template = require 'templates/editor/thang/edit'
 
 CENTER = {x: 200, y: 300}

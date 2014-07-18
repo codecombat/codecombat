@@ -16,7 +16,6 @@ LevelForkView = require './fork_view'
 SaveVersionModal = require 'views/modal/save_version_modal'
 PatchesView = require 'views/editor/patches_view'
 VersionHistoryView = require './versions_view'
-ErrorView = require '../../error_view'
 
 module.exports = class EditorLevelView extends RootView
   id: 'editor-level-view'
