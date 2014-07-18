@@ -100,12 +100,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     for_beginners: "Para Iniciantes"
     multiplayer: "Multijogador"
     for_developers: "Para Programadores"
-    javascript_blurb: "A linguagem da web. Ótima para escrever websites, aplicações da web, jogos HTML5 e servidores."
-    python_blurb: "Simples mas poderoso, o Python é uma linguagem de programação ótima para propósitos gerais."
-    coffeescript_blurb: "Sintaxe do Javascript mais agradável."
-    clojure_blurb: "Um Lisp moderno"
-    lua_blurb: "Linguagem para scripts de jogos"
-    io_blurb: "Simples mas obscuro"
+#    javascript_blurb: "A linguagem da web. Ótima para escrever websites, aplicações da web, jogos HTML5 e servidores."
+#    python_blurb: "Simples mas poderoso, o Python é uma linguagem de programação ótima para propósitos gerais."
+#    coffeescript_blurb: "Sintaxe do Javascript mais agradável."
+#    clojure_blurb: "Um Lisp moderno"
+#    lua_blurb: "Linguagem para scripts de jogos"
+#    io_blurb: "Simples mas obscuro"
 
   play:
     choose_your_level: "Escolha o Seu Nível"
