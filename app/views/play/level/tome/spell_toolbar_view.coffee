@@ -1,7 +1,7 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell_toolbar'
 
-module.exports = class SpellToolbarView extends View
+module.exports = class SpellToolbarView extends CocoView
   className: 'spell-toolbar-view'
   template: template
   progressHoverDelay: 500

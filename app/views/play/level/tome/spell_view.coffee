@@ -1,4 +1,4 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
@@ -8,7 +8,7 @@ SpellDebugView = require './spell_debug_view'
 SpellToolbarView = require './spell_toolbar_view'
 LevelComponent = require 'models/LevelComponent'
 
-module.exports = class SpellView extends View
+module.exports = class SpellView extends CocoView
   id: 'spell-view'
   className: 'shown'
   template: template

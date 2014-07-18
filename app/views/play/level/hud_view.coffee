@@ -1,10 +1,10 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/hud'
 prop_template = require 'templates/play/level/hud_prop'
 action_template = require 'templates/play/level/hud_action'
 DialogueAnimator = require './dialogue_animator'
 
-module.exports = class HUDView extends View
+module.exports = class HUDView extends CocoView
   id: 'thang-hud'
   template: template
   dialogueMode: false

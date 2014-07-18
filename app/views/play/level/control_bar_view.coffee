@@ -1,11 +1,11 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/control_bar'
 
 DocsModal = require './modal/docs_modal'
 MultiplayerModal = require './modal/multiplayer_modal'
 ReloadModal = require './modal/reload_modal'
 
-module.exports = class ControlBarView extends View
+module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
   template: template
 

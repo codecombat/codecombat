@@ -1,10 +1,10 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/level/scripts_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './treema_nodes'
 
-module.exports = class ScriptsTabView extends View
+module.exports = class ScriptsTabView extends CocoView
   id: 'editor-level-scripts-tab-view'
   template: template
   className: 'tab-pane'

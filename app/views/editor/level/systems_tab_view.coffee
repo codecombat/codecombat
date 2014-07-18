@@ -1,4 +1,4 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/level/systems_tab'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
@@ -7,7 +7,7 @@ LevelSystemNewView = require './system/new'
 LevelSystemAddView = require './system/add'
 {ThangTypeNode} = require './treema_nodes'
 
-module.exports = class SystemsTabView extends View
+module.exports = class SystemsTabView extends CocoView
   id: 'editor-level-systems-tab-view'
   template: template
   className: 'tab-pane'

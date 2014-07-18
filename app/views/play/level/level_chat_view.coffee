@@ -1,9 +1,9 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/chat'
 {me} = require 'lib/auth'
 LevelBus = require 'lib/LevelBus'
 
-module.exports = class LevelChatView extends View
+module.exports = class LevelChatView extends CocoView
   id: 'level-chat-view'
   template: template
   open: false
