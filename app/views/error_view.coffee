@@ -1,6 +1,6 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/error'
 
-module.exports = class ErrorView extends View
+module.exports = class ErrorView extends RootView
   id: 'error-view'
   template: template

@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/play/spectate'
 {me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
@@ -33,7 +33,7 @@ InfiniteLoopModal = require './level/modal/infinite_loop_modal'
 
 PROFILE_ME = false
 
-module.exports = class SpectateLevelView extends View
+module.exports = class SpectateLevelView extends RootView
   id: 'spectate-level-view'
   template: template
   cache: false

@@ -1,11 +1,11 @@
 SignupModalView = require 'views/modal/signup_modal'
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 {me} = require 'lib/auth'
 contributorSignupAnonymousTemplate = require 'templates/contribute/contributor_signup_anonymous'
 contributorSignupTemplate = require 'templates/contribute/contributor_signup'
 contributorListTemplate = require 'templates/contribute/contributor_list'
 
-module.exports = class ContributeClassView extends View
+module.exports = class ContributeClassView extends RootView
   navPrefix: '/contribute'
 
   events:

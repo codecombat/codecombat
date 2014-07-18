@@ -1,6 +1,6 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/editor/article/preview'
 
-module.exports = class PreviewView extends View
+module.exports = class PreviewView extends RootView
   id: 'editor-article-preview-view'
   template: template

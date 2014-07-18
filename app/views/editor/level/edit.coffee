@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/editor/level/edit'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
@@ -18,7 +18,7 @@ PatchesView = require 'views/editor/patches_view'
 VersionHistoryView = require './versions_view'
 ErrorView = require '../../error_view'
 
-module.exports = class EditorLevelView extends View
+module.exports = class EditorLevelView extends RootView
   id: 'editor-level-view'
   template: template
   cache: false

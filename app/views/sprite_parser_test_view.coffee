@@ -1,11 +1,11 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/editor/thang/sprite_parser_test'
 SpriteParser = require 'lib/sprites/SpriteParser'
 mixed_samples = require 'lib/sprites/parser_samples'
 samples = require 'lib/sprites/parser_samples_artillery'
 ThangType = require 'models/ThangType'
 
-module.exports = class SpriteParserTestView extends View
+module.exports = class SpriteParserTestView extends RootView
   id: 'sprite-parser-test-view'
   template: template
 

@@ -8,6 +8,19 @@ module.exports = class CocoRouter extends Backbone.Router
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
 
   routes:
+    'about': go('AboutView')
+    'admin': go('AdminView')
+    'cla': go('CLAView')
+    'community': go('CommunityView')
+    
+    'contribute': go('contribute/MainContributeView')
+    'contribute/adventurer': go('contribute/AdventurerView')
+    'contribute/ambassador': go('contribute/AmbassadorView')
+    'contribute/archmage': go('contribute/ArchmageView')
+    'contribute/artisan': go('contribute/ArtisanView')
+    'contribute/diplomat': go('contribute/DiplomatView')
+    'contribute/scribe': go('contribute/ScribeView')
+  
     # every abnormal view gets listed here
     '': 'home'
     'preview': 'home'

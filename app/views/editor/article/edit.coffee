@@ -1,11 +1,11 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 VersionHistoryView = require './versions_view'
 template = require 'templates/editor/article/edit'
 Article = require 'models/Article'
 SaveVersionModal = require 'views/modal/save_version_modal'
 PatchesView = require 'views/editor/patches_view'
 
-module.exports = class ArticleEditView extends View
+module.exports = class ArticleEditView extends RootView
   id: 'editor-article-edit-view'
   template: template
   startsLoading: true

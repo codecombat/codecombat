@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/employers'
 app = require 'application'
 User = require 'models/User'
@@ -15,7 +15,7 @@ class UserRemarksCollection extends CocoCollection
   url: '/db/user.remark?project=contact,contactName,user'
   model: UserRemark
 
-module.exports = class EmployersView extends View
+module.exports = class EmployersView extends RootView
   id: 'employers-view'
   template: template
 

@@ -1,7 +1,7 @@
-ContributeClassView = require 'views/contribute/contribute_class_view'
+ContributeClassView = require 'views/contribute/ContributeClassView'
 template = require 'templates/contribute/contribute'
 
-module.exports = class ContributeView extends ContributeClassView
+module.exports = class MainContributeView extends ContributeClassView
   id: 'contribute-view'
   template: template
   navPrefix: ''

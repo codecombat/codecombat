@@ -1,8 +1,8 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/admin/users'
 User = require 'models/User'
 
-module.exports = class UsersView extends View
+module.exports = class UsersView extends RootView
   # TODO: Pagination, choosing filters on the page itself.
 
   id: 'admin-users-view'

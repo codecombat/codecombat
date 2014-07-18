@@ -1,6 +1,6 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/editor'
 
-module.exports = class EditorView extends View
+module.exports = class EditorView extends RootView
   id: 'editor-nav-view'
   template: template

@@ -1,6 +1,6 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/not_found'
 
-module.exports = class NotFoundView extends View
+module.exports = class NotFoundView extends RootView
   id: 'not-found-view'
   template: template

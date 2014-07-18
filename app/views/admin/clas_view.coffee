@@ -1,7 +1,7 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/admin/clas'
 
-module.exports = class CLAsView extends View
+module.exports = class CLAsView extends RootView
   id: 'admin-clas-view'
   template: template
   startsLoading: true

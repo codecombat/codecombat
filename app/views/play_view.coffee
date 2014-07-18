@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/play'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
@@ -11,7 +11,7 @@ class LevelSessionsCollection extends CocoCollection
     super()
     @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
 
-module.exports = class PlayView extends View
+module.exports = class PlayView extends RootView
   id: 'play-view'
   template: template
 

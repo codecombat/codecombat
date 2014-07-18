@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/play/level'
 {me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
@@ -35,7 +35,7 @@ InfiniteLoopModal = require './level/modal/infinite_loop_modal'
 
 PROFILE_ME = false
 
-module.exports = class PlayLevelView extends View
+module.exports = class PlayLevelView extends RootView
   id: 'level-view'
   template: template
   cache: false

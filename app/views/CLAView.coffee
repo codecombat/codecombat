@@ -1,8 +1,8 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/cla'
 {me} = require 'lib/auth'
 
-module.exports = class CLAView extends View
+module.exports = class CLAView extends RootView
   id: 'cla-view'
   template: template
 
