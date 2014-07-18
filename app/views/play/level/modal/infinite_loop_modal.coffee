@@ -1,7 +1,7 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/infinite_loop'
 
-module.exports = class InfiniteLoopModal extends View
+module.exports = class InfiniteLoopModal extends ModalView
   id: '#infinite-loop-modal'
   template: template
 

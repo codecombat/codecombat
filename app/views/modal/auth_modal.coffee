@@ -1,11 +1,11 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/auth'
 {loginUser, createUser, me} = require 'lib/auth'
 forms = require 'lib/forms'
 User = require 'models/User'
 application  = require 'application'
 
-module.exports = class AuthModalView extends View
+module.exports = class AuthModalView extends ModalView
   id: 'auth-modal'
   template: template
   mode: 'login' # or 'signup'

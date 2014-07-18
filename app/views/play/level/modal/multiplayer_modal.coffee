@@ -1,9 +1,9 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/multiplayer'
 {me} = require 'lib/auth'
 LadderSubmissionView = require 'views/play/common/ladder_submission_view'
 
-module.exports = class MultiplayerModal extends View
+module.exports = class MultiplayerModal extends ModalView
   id: 'level-multiplayer-modal'
   template: template
 

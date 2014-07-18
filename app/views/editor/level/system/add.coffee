@@ -1,4 +1,4 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/editor/level/system/add'
 availableSystemTemplate = require 'templates/editor/level/system/available_system'
 LevelSystem = require 'models/LevelSystem'
@@ -8,7 +8,7 @@ class LevelSystemSearchCollection extends CocoCollection
   url: '/db/level_system'
   model: LevelSystem
 
-module.exports = class LevelSystemAddView extends View
+module.exports = class LevelSystemAddView extends ModalView
   id: 'editor-level-system-add-modal'
   template: template
   instant: true
