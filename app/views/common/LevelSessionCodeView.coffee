@@ -39,7 +39,7 @@ module.exports = class LevelSessionCodeView extends CocoView
     teamSpells = @session.get('teamSpells')[team] or []
     filteredSpells = []
     for spell in teamSpells
-      code = @session.getSourceFor(spell)
+      code = @session.getSourceFor(spell) ? ''
       lines = code.split('\n').length
       height = lines * 16 + 20
       filteredSpells.push {
