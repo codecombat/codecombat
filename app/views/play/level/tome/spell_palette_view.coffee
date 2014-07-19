@@ -55,8 +55,12 @@ module.exports = class SpellPaletteView extends View
   createPalette: ->
     lcs = @supermodel.getModels LevelComponent
     allDocs = {}
+    excludedDocs = {}
     for lc in lcs
       for doc in (lc.get('propertyDocumentation') ? [])
+        if doc.codeLanguages and not (@options.language in doc.codeLanguages)
+          excludedDocs['__' + doc.name] = doc
+          continue
         allDocs['__' + doc.name] ?= []
         allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'
@@ -83,7 +87,6 @@ module.exports = class SpellPaletteView extends View
         'this': 'apiProperties'
     count = 0
     propGroups = {}
-    console.log 'thang', @thang
     for owner, storage of propStorage
       props = _.reject @thang[storage] ? [], (prop) -> prop[0] is '_'  # no private properties
       added = propGroups[owner] = _.sortBy(props).slice()
@@ -100,9 +103,11 @@ module.exports = class SpellPaletteView extends View
         doc = _.find (allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
-        console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propGroups unless doc
-        doc ?= prop
-        @entries.push @addEntry(doc, shortenize, tabbify, owner is 'snippets')
+        if not doc and not excludedDocs['__' + prop]
+          console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propGroups
+          doc ?= prop
+        if doc
+          @entries.push @addEntry(doc, shortenize, tabbify, owner is 'snippets')
     groupForEntry = (entry) ->
       return 'more' if entry.doc.owner is 'this' and entry.doc.name in (propGroups.more ? [])
       entry.doc.owner
@@ -130,7 +135,8 @@ module.exports = class SpellPaletteView extends View
     null
 
   addEntry: (doc, shortenize, tabbify, isSnippet=false) ->
-    new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, tabbify: tabbify, isSnippet: isSnippet, language: @options.language
+    writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])
+    new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, tabbify: tabbify, isSnippet: isSnippet, language: @options.language, writable: writable
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true

@@ -15,6 +15,15 @@ module.exports = class LadderPlayModal extends View
 
   events:
     'click #skip-tutorial-button': 'hideTutorialButtons'
+    'change #tome-language': 'updateLanguage'
+
+  defaultAceConfig:
+    language: 'javascript'
+    keyBindings: 'default'
+    invisibles: false
+    indentGuides: false
+    behaviors: false
+    liveCompletion: true
 
   constructor: (options, @level, @session, @team) ->
     super(options)
@@ -23,8 +32,14 @@ module.exports = class LadderPlayModal extends View
     @startLoadingChallengersMaybe()
     @wizardType = ThangType.loadUniversalWizard()
 
-  # PART 1: Load challengers from the db unless some are in the matches
+  updateLanguage: ->
+    aceConfig = _.cloneDeep me.get('aceConfig') ? {}
+    aceConfig = _.defaults aceConfig, @defaultAceConfig
+    aceConfig.language = @$el.find('#tome-language').val()
+    me.set 'aceConfig', aceConfig
+    me.patch()
 
+  # PART 1: Load challengers from the db unless some are in the matches
   startLoadingChallengersMaybe: ->
     matches = @session?.get('matches')
     if matches?.length then @loadNames() else @loadChallengers()
@@ -73,7 +88,14 @@ module.exports = class LadderPlayModal extends View
     ctx.teamID = @team
     ctx.otherTeamID = @otherTeam
     ctx.tutorialLevelExists = @tutorialLevelExists
-
+    ctx.languages = [
+      {id: 'javascript', name: 'JavaScript'}
+      {id: 'coffeescript', name: 'CoffeeScript'}
+      {id: 'python', name: 'Python (Experimental)'}
+      {id: 'clojure', name: 'Clojure (Experimental)'}
+      {id: 'lua', name: 'Lua (Experimental)'}
+      {id: 'io', name: 'Io (Experimental)'}
+    ]
     teamsList = teamDataFromLevel @level
     teams = {}
     teams[team.id] = team for team in teamsList
@@ -154,7 +176,8 @@ module.exports = class LadderPlayModal extends View
     return unless session
     return {
       sessionID: session.id
-      opponentID: session.get('creator')
+      opponentID: session.get 'creator'
+      codeLanguage: session.get 'submittedCodeLanguage'
     }
 
   challengeInfoFromMatches: (matches) ->
@@ -164,6 +187,7 @@ module.exports = class LadderPlayModal extends View
     return {
       sessionID: opponent.sessionID
       opponentID: opponent.userID
+      codeLanguage: opponent.codeLanguage
     }
 
 class ChallengersData

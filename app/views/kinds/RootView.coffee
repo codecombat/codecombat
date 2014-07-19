@@ -17,6 +17,8 @@ filterKeyboardEvents = (allowedEvents, func) ->
     return func(splat...)
 
 module.exports = class RootView extends CocoView
+  showBackground: true
+  
   events:
     'click #logout-button': 'logoutAccount'
     'change .language-dropdown': 'onLanguageChanged'
@@ -112,6 +114,11 @@ module.exports = class RootView extends CocoView
     @renderScrollbar()
     #@$('.antiscroll-wrap').antiscroll()  # not yet, buggy
 
+  getRenderData: ->
+    c = super()
+    c.showBackground = @showBackground
+    c
+  
   afterRender: ->
     super(arguments...)
     @chooseTab(location.hash.replace('#', '')) if location.hash

@@ -49,7 +49,7 @@ block header
         
         if level.get('type') === 'ladder'
           li.dropdown
-            a(data-toggle='dropdown')
+            a(data-toggle='dropdown').play-with-team-parent
               span.glyphicon-play.glyphicon
             ul.dropdown-menu
               li.dropdown-header Play As Which Team?
@@ -70,17 +70,17 @@ block header
               a#level-watch-button
                 span.watch
                   span.glyphicon.glyphicon-eye-open
-                  span.spl Watch
+                  span.spl(data-i18n="common.watch") Watch
                 span.unwatch.secret
                   span.glyphicon.glyphicon-eye-close
-                  span.spl Unwatch
+                  span.spl(data-i18n="common.unwatch") Unwatch
                   
             li(class=anonymous ? "disabled": "")
               a(data-i18n="common.fork")#fork-level-start-button Fork
             li(class=anonymous ? "disabled": "")
               a(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert")#revert-button Revert
             li(class=anonymous ? "disabled": "")
-              a(data-toggle="coco-modal", data-target="modal/terrain_randomise", data-i18n="editor.randomise")#randomise-button Randomise
+              a(data-toggle="coco-modal", data-target="editor/level/modal/terrain_randomize", data-i18n="editor.randomize")#randomize-button Randomize
             li(class=anonymous ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
             li.divider

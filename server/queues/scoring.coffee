@@ -5,7 +5,6 @@ async = require 'async'
 errors = require '../commons/errors'
 aws = require 'aws-sdk'
 db = require './../routes/db'
-mongoose = require 'mongoose'
 queues = require '../commons/queue'
 LevelSession = require '../levels/sessions/LevelSession'
 Level = require '../levels/Level'
@@ -21,7 +20,7 @@ module.exports.setup = (app) -> connectToScoringQueue()
 connectToScoringQueue = ->
   queues.initializeQueueClient ->
     queues.queueClient.registerQueue 'scoring', {}, (error, data) ->
-      if error? then throw new Error  "There was an error registering the scoring queue: #{error}"
+      if error? then throw new Error "There was an error registering the scoring queue: #{error}"
       scoringTaskQueue = data
       log.info 'Connected to scoring task queue!'
 
@@ -125,7 +124,7 @@ module.exports.getTwoGames = (req, res) ->
   #if userIsAnonymous req then return errors.unauthorized(res, 'You need to be logged in to get games.')
   humansGameID = req.body.humansGameID
   ogresGameID = req.body.ogresGameID
-  ladderGameIDs = ['greed','criss-cross','brawlwood','dungeon-arena','gold-rush']
+  ladderGameIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush']
   levelID = _.sample ladderGameIDs
   unless ogresGameID and humansGameID
     #fetch random games here
@@ -546,7 +545,6 @@ saveNewScoresToDatabase = (newScoreArray, callback) ->
     #log.info 'Saved new scores to database'
     callback err, newScoreArray
 
-
 updateScoreInSession = (scoreObject, callback) ->
   LevelSession.findOne {'_id': scoreObject.id}, (err, session) ->
     if err? then return callback err, null
@@ -581,6 +579,7 @@ addMatchToSessions = (newScoreObject, callback) ->
     matchObject.opponents[sessionID].totalScore = session.totalScore
     matchObject.opponents[sessionID].metrics = {}
     matchObject.opponents[sessionID].metrics.rank = Number(newScoreObject[sessionID]?.gameRanking ? 0)
+    matchObject.opponents[sessionID].codeLanguage = newScoreObject[sessionID].submittedCodeLanguage
 
   #log.info "Match object computed, result: #{matchObject}"
   #log.info 'Writing match object to database...'
@@ -597,6 +596,7 @@ updateMatchesInSession = (matchObject, sessionID, callback) ->
   opponentsClone = _.omit opponentsClone, sessionID
   opponentsArray = _.toArray opponentsClone
   currentMatchObject.opponents = opponentsArray
+  currentMatchObject.codeLanguage = matchObject.opponents[opponentsArray[0].sessionID].codeLanguage
   LevelSession.findOne {'_id': sessionID}, (err, session) ->
     session = session.toObject()
     currentMatchObject.playtime = session.playtime ? 0
@@ -772,6 +772,7 @@ retrieveOldSessionData = (sessionID, callback) ->
       'meanStrength': session.meanStrength ? 25
       'totalScore': session.totalScore ? (25 - 1.8*(25/3))
       'id': sessionID
+      'submittedCodeLanguage': session.submittedCodeLanguage
     callback err, oldScoreObject
 
 markSessionAsDoneRanking = (sessionID, cb) ->

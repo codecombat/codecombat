@@ -26,6 +26,7 @@ module.exports = class EditorLevelView extends View
   events:
     'click #play-button': 'onPlayLevel'
     'click .play-with-team-button': 'onPlayLevel'
+    'click .play-with-team-parent': 'onPlayLevelTeamSelect'
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
     'click #level-history-button': 'showVersionHistory'
@@ -39,7 +40,7 @@ module.exports = class EditorLevelView extends View
   constructor: (options, @levelID) ->
     super options
     @supermodel.shouldSaveBackups = (model) ->
-      model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem']
+      model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
     @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, editorMode: true
     @level = @levelLoader.level
     @files = new DocumentFiles(@levelLoader.level)
@@ -76,6 +77,12 @@ module.exports = class EditorLevelView extends View
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
     @listenTo @patchesView, 'accepted-patch', -> location.reload()
     @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
+
+  onPlayLevelTeamSelect: (e) ->
+    if @childWindow and not @childWindow.closed
+      # We already have a child window open, so we don't need to ask for a team; we'll use its existing team.
+      e.stopImmediatePropagation()
+      @onPlayLevel e
 
   onPlayLevel: (e) ->
     team = $(e.target).data('team')

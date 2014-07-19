@@ -35,7 +35,7 @@ UserHandler = class UserHandler extends Handler
   getEditableProperties: (req, document) ->
     props = super req, document
     props.push 'permissions' unless config.isProduction
-    props.push 'jobProfileApproved', 'jobProfileNotes' if req.user.isAdmin()  # Admins naturally edit these
+    props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
     props.push privateProperties... if req.user.isAdmin()  # Admins are mad with power
     props
 
@@ -219,6 +219,7 @@ UserHandler = class UserHandler extends Handler
   avatar: (req, res, id) ->
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless document
       photoURL = document?.get('photoURL')
       if photoURL
         photoURL = "/file/#{photoURL}"
@@ -232,7 +233,7 @@ UserHandler = class UserHandler extends Handler
   getLevelSessionsForEmployer: (req, res, userID) ->
     return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     query = creator: userID, levelID: {$in: ['gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
-    projection = 'levelName levelID team playtime codeLanguage submitted code totalScore'
+    projection = 'levelName levelID team playtime codeLanguage submitted code totalScore teamSpells level'
     LevelSession.find(query).select(projection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)

@@ -181,13 +181,12 @@ block content
               ul.sessions
                 each session in sessions
                   li
-                    - var sessionLink = "/play/level/" + session.levelID + "?team=" + (session.team || 'humans') + (myProfile ? '' : "&session=" + session._id);
-                    a(href=sessionLink)
+                    a.session-link(data-session-id=session._id)
                       span= session.levelName
                       if session.team
-                        span  #{session.team}
+                        span.spl - #{session.team}
                     if session.codeLanguage != 'javascript'
-                      span  - #{{coffeescript: 'CoffeeScript', python: 'Python', lua: 'Lua', io: 'Io', clojure: 'Clojure'}[session.codeLanguage]}
+                      span.spl - #{{coffeescript: 'CoffeeScript', python: 'Python', lua: 'Lua', io: 'Io', clojure: 'Clojure'}[session.codeLanguage]}
 
         .middle-column.full-height-column
           .sub-column
@@ -397,7 +396,7 @@ block content
 
             if user.get('jobProfileNotes') || me.isAdmin()
               div(class="our-notes-section" + (editing ? " deemphasized" : ""))
-                h3.experience-header(data-i18n="account_profile.our_notes") Our Notes
+                h3.experience-header(data-i18n="account_profile.our_notes") CodeCombat's Notes
                 - var notes = user.get('jobProfileNotes') || '';
                 if me.isAdmin()
                   textarea#job-profile-notes!= notes

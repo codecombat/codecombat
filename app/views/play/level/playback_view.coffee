@@ -268,7 +268,8 @@ module.exports = class PlaybackView extends View
 
   onProgressHover: (e) ->
     timeRatio = @$progressScrubber.width() / @totalTime
-    @newTime = e.offsetX / timeRatio
+    offsetX = e.offsetX or e.clientX - $(e.target).offset().left
+    @newTime = offsetX / timeRatio
     @updatePopupContent()
     @timePopup?.onHover e
 

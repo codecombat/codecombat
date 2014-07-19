@@ -25,9 +25,11 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @mouseEnabled = @mouseChildren = false
     @addChild @background = new createjs.Shape()
     @addChild @label = new createjs.Text('', 'bold 16px Arial', '#FFFFFF')
+    @addChild @pointMarker = new createjs.Shape()
     @label.name = 'Coordinate Display Text'
     @label.shadow = new createjs.Shadow('#000000', 1, 1, 0)
     @background.name = 'Coordinate Display Background'
+    @pointMarker.name = 'Point Marker'
 
   onMouseOver: (e) -> @mouseInBounds = true
   onMouseOut: (e) -> @mouseInBounds = false
@@ -60,24 +62,58 @@ module.exports = class CoordinateDisplay extends createjs.Container
     return unless @label.parent
     @removeChild @label
     @removeChild @background
+    @removeChild @pointMarker
     @uncache()
 
   updateSize: ->
     margin = 3
-    radius = 2.5
-    width = @label.getMeasuredWidth() + 2 * margin
-    height = @label.getMeasuredHeight() + 2 * margin
-    @label.regX = @background.regX = width / 2 - margin
-    @label.regY = @background.regY = height / 2 - margin
+    contentWidth = @label.getMeasuredWidth() + (2 * margin)
+    contentHeight = @label.getMeasuredHeight() + (2 * margin)
+
+    # Shift all contents up so marker is at pointer (affects container cache position)
+    @label.regY = @background.regY = @pointMarker.regY = contentHeight
+
+    pointMarkerStroke = 2
+    pointMarkerLength = 3
+    contributionsToTotalSize = []
+    contributionsToTotalSize = contributionsToTotalSize.concat @updateCoordinates contentWidth, contentHeight, pointMarkerStroke
+    contributionsToTotalSize = contributionsToTotalSize.concat @updatePointMarker contentHeight, pointMarkerLength, pointMarkerStroke
+
+    totalWidth = contentWidth + contributionsToTotalSize.reduce (a, b) -> a + b
+    totalHeight = contentHeight + contributionsToTotalSize.reduce (a, b) -> a + b
+    [totalWidth, totalHeight]
+
+  updateCoordinates: (contentWidth, contentHeight, initialXYOffset) ->
+    gap = 2
+    labelAndBgMarkerOffset = initialXYOffset * gap
+
+    # Center label horizontally and vertically
+    @label.x = contentWidth / 2 - (@label.getMeasuredWidth() / 2) + labelAndBgMarkerOffset
+    @label.y = contentHeight / 2 - (@label.getMeasuredHeight() / 2) - labelAndBgMarkerOffset
+
     @background.graphics
       .clear()
       .beginFill('rgba(0,0,0,0.4)')
       .beginStroke('rgba(0,0,0,0.6)')
-      .setStrokeStyle(1)
-      .drawRoundRect(0, 0, width, height, radius)
+      .setStrokeStyle(backgroundStroke = 1)
+      .drawRoundRect(labelAndBgMarkerOffset, -labelAndBgMarkerOffset, contentWidth, contentHeight, radius = 2.5)
       .endFill()
       .endStroke()
-    [width, height]
+    contributionsToTotalSize = [labelAndBgMarkerOffset, backgroundStroke]
+
+  updatePointMarker: (contentHeight, length, strokeSize) ->
+    shiftToLineupWithGrid = strokeSize / 2
+    pointMarkerInitialX = strokeSize - shiftToLineupWithGrid
+    pointMarkerInitialY = contentHeight - strokeSize + shiftToLineupWithGrid
+    @pointMarker.graphics
+      .beginStroke('rgb(142, 198, 67')
+      .setStrokeStyle(strokeSize, 'square')
+      .moveTo(pointMarkerInitialX, pointMarkerInitialY)
+      .lineTo(pointMarkerInitialX, pointMarkerInitialY - length)
+      .moveTo(pointMarkerInitialX, pointMarkerInitialY)
+      .lineTo(pointMarkerInitialX + length, pointMarkerInitialY)
+      .endStroke()
+    contributionsToTotalSize = [strokeSize]
 
   show: =>
     return unless @mouseInBounds and @lastPos and not @destroyed
@@ -85,8 +121,9 @@ module.exports = class CoordinateDisplay extends createjs.Container
     [width, height] = @updateSize()
     sup = @camera.worldToSurface @lastPos
     @x = sup.x
-    @y = sup.y - 2.5
+    @y = sup.y
     @addChild @background
     @addChild @label
-    @cache -width / 2, -height / 2, width, height
+    @addChild @pointMarker
+    @cache 0, -height, width, height
     Backbone.Mediator.publish 'surface:coordinates-shown', {}
