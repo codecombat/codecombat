@@ -1,12 +1,11 @@
 extends /templates/modal/modal_base
 
 block modal-header-content
-  .modal-header
-    h3 Applicant Code
+  h3 Applicant Code for
+    span.spl= session.get('levelName')
 
 block modal-body-content
-  .modal-body
-    .level-session-code-view
+  .level-session-code-view
 
 block modal-footer
   .modal-footer

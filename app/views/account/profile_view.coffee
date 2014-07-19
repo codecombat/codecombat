@@ -590,7 +590,7 @@ module.exports = class ProfileView extends RootView
     ]
 
   onSessionLinkPressed: (e) ->
-    sessionID = $(e.target).data('session-id')
+    sessionID = $(e.target).closest('.session-link').data('session-id')
     session = _.find @sessions.models, (session) -> session.id is sessionID
     modal = new JobProfileCodeModal({session:session})
     @openModalView modal

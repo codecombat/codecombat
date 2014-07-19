@@ -100,6 +100,12 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     for_beginners: "Dla początkujących"
 #    multiplayer: "Multiplayer"
     for_developers: "Dla developerów"
+#    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers."
+#    python_blurb: "Simple yet powerful, Python is a great general purpose programming language."
+#    coffeescript_blurb: "Nicer JavaScript syntax."
+#    clojure_blurb: "A modern Lisp."
+#    lua_blurb: "Game scripting language."
+#    io_blurb: "Simple but obscure."
 
   play:
     choose_your_level: "Wybierz poziom"

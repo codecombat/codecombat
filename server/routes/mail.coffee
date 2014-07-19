@@ -1,5 +1,6 @@
 mail = require '../commons/mail'
 MailSent = require '../mail/sent/MailSent'
+UserRemark = require '../users/remarks/UserRemark'
 User = require '../users/User'
 async = require 'async'
 errors = require '../commons/errors'
@@ -28,6 +29,12 @@ setupScheduledEmails = ->
     ,
       taskFunction: employerNewCandidatesAvailableTask
       frequencyMs: 10 * 60 * 1000 #10 minutes
+    ,
+      taskFunction: unapprovedCandidateFinishProfileTask
+      frequencyMs: 10 * 60 * 1000
+    ,
+      taskFunction: emailUserRemarkTaskRemindersTask
+      frequencyMs: 10 * 60 * 1000
   ]
 
   for mailTask in mailTasks
@@ -35,8 +42,7 @@ setupScheduledEmails = ->
 
 testForLockManager = -> unless lockManager then throw "The system isn't configured to do distributed locking!"
 
-### Candidate Update Reminder Task ###
-
+### Approved Candidate Update Reminder Task ###
 candidateUpdateProfileTask = ->
   mailTaskName = "candidateUpdateProfileTask"
   lockDurationMs = 2 * 60 * 1000
@@ -132,7 +138,103 @@ sendReminderEmailToCandidate = (candidate, sendEmailCallback) ->
       sendwithus.api.send context, (err, result) ->
         log.error "Error sending candidate update reminder email: #{err} with result #{result}" if err
         sendEmailCallback null
-### End Candidate Update Reminder Task ###
+### End Approved Candidate Update Reminder Task ###
+  
+### Unapproved Candidate Finish Reminder Task ###
+unapprovedCandidateFinishProfileTask = ->
+  mailTaskName = "unapprovedCandidateFinishProfileTask"
+  lockDurationMs = 2 * 60 * 1000
+  currentDate = new Date()
+  timeRanges = []
+  for weekPair in [[4, 2,'two weeks'], [8, 4, 'four weeks'], [52, 8, 'eight weeks']]
+    timeRanges.push
+      start: generateWeekOffset currentDate, weekPair[0]
+      end: generateWeekOffset currentDate, weekPair[1]
+      name: weekPair[2]
+  lockManager.setLock mailTaskName, lockDurationMs, (err) ->
+    if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}: #{err}"
+    async.each timeRanges, emailUnapprovedCandidateTimeRange.bind({mailTaskName: mailTaskName}), (err) ->
+      if err
+        log.error "There was an error sending the candidate profile update reminder emails: #{err}"
+      else
+        log.info "Completed mail task #{mailTaskName}"
+      lockManager.releaseLock mailTaskName, (err) ->
+        if err? then return log.error "There was an error releasing the distributed lock for task #{mailTaskName}: #{err}"
+
+emailUnapprovedCandidateTimeRange = (timeRange, emailTimeRangeCallback) ->
+  waterfallContext =
+    "timeRange": timeRange
+    "mailTaskName": @mailTaskName
+  async.waterfall [
+    findAllUnapprovedCandidatesWithinTimeRange.bind(waterfallContext)
+    (unfilteredCandidates, cb) ->
+      async.reject unfilteredCandidates, ignoredCandidateFilter, cb.bind(null,null)
+    (unfilteredPotentialCandidates, cb) ->
+      async.reject unfilteredPotentialCandidates, unapprovedCandidateFilter.bind(waterfallContext), cb.bind(null, null)
+    (filteredCandidates, cb) ->
+      async.each filteredCandidates, sendReminderEmailToUnapprovedCandidate.bind(waterfallContext), cb
+  ], emailTimeRangeCallback
+
+findAllUnapprovedCandidatesWithinTimeRange = (cb) ->
+  findParameters =
+    "jobProfile":
+      $exists: true
+    "jobProfile.updated":
+      $gt: @timeRange.start
+      $lte: @timeRange.end
+    "jobProfileApproved": false
+  selection =  "_id email jobProfile.name jobProfile.updated emails"
+  User.find(findParameters).select(selection).lean().exec cb
+
+ignoredCandidateFilter = (candidate, cb) ->
+  findParameters = 
+    "user": candidate._id
+    "contactName": "Ignore"
+  UserRemark.count findParameters, (err, results) ->
+    if err? then return true
+    return cb Boolean(results.length)
+    
+unapprovedCandidateFilter = (candidate, sentEmailFilterCallback) ->
+  if candidate.emails?.anyNotes?.enabled is false or candidate.emails?.recruitNotes?.enabled is false
+    return sentEmailFilterCallback true
+  findParameters =
+    "user": candidate._id
+    "mailTask": @mailTaskName
+    "metadata.timeRangeName": @timeRange.name
+    "metadata.updated": candidate.jobProfile.updated
+  MailSent.find(findParameters).lean().exec (err, sentMail) ->
+    if err?
+      log.error "Error finding mail sent for task #{@mailTaskName} and user #{candidate._id}!"
+      sentEmailFilterCallback true
+    else
+      sentEmailFilterCallback Boolean(sentMail.length)
+
+sendReminderEmailToUnapprovedCandidate = (candidate, sendEmailCallback) ->
+  if err?
+    log.error "There was an error finding employers who signed up after #{candidate.jobProfile.updated}: #{err}"
+    return sendEmailCallback err
+  context =
+    email_id: "tem_RXyjzmc7S2HJH287pfoSPN"
+    recipient:
+      address: candidate.email
+      name: candidate.jobProfile.name
+    email_data:
+      user_profile: "http://codecombat.com/account/profile/#{candidate._id}"
+      recipient_address: encodeURIComponent(candidate.email)
+  log.info "Sending #{@timeRange.name} finish profile reminder to #{context.recipient.name}(#{context.recipient.address})"
+  newSentMail =
+    mailTask: @mailTaskName
+    user: candidate._id
+    metadata:
+      timeRangeName: @timeRange.name
+      updated: candidate.jobProfile.updated
+  MailSent.create newSentMail, (err) ->
+    if err? then return sendEmailCallback err
+    sendwithus.api.send context, (err, result) ->
+      log.error "Error sending candidate finish profile reminder email: #{err} with result #{result}" if err
+      sendEmailCallback null
+### End Unapproved Candidate Finish Reminder Task ###
+  
 ### Internal Candidate Update Reminder Email ###
 internalCandidateUpdateTask = ->
   mailTaskName = "internalCandidateUpdateTask"
@@ -304,6 +406,99 @@ sendEmployerNewCandidatesAvailableEmail = (employer, cb) ->
         cb null
 
 ### End Employer New Candidates Available Email ###
+  
+### Task Emails ###
+emailUserRemarkTaskRemindersTask = ->
+  mailTaskName = "emailUserRemarkTaskRemindersTask"
+  lockDurationMs = 2 * 60 * 1000
+  lockManager.setLock mailTaskName, lockDurationMs, (err) ->
+    if err? then return log.error "Error getting a distributed lock for task #{mailTaskName}: #{err}"
+    emailUserRemarkTaskReminders.call {"mailTaskName":mailTaskName}, (err) ->
+      if err
+        log.error "There was an error completing the #{mailTaskName}: #{err}"
+      else
+        log.info "Completed the #{mailTaskName}"
+      lockManager.releaseLock mailTaskName, (err) ->
+        if err? then return log.error "There was an error releasing the distributed lock for task #{mailTaskName}: #{err}"
+
+emailUserRemarkTaskReminders = (cb) ->
+  currentTime = new Date()
+  asyncContext =
+    "currentTime": currentTime
+    "mailTaskName": @mailTaskName
+  
+  async.waterfall [
+    findAllIncompleteUserRemarkTasksDue.bind(asyncContext)
+    processRemarksIntoTasks.bind(asyncContext)
+    (allTasks, cb) ->
+      async.reject allTasks, taskReminderAlreadySentThisWeekFilter.bind(asyncContext), cb.bind(null,null)
+    (tasksToRemind, cb) ->
+      async.each tasksToRemind, sendUserRemarkTaskEmail.bind(asyncContext), cb
+  ], cb
+  
+findAllIncompleteUserRemarkTasksDue = (cb) ->
+  findParameters = 
+    tasks:
+      $exists: true
+      $elemMatch:
+        date:
+          $lte: @currentTime.toISOString()
+        status:
+          $ne: 'Completed'
+  selection = "contact user tasks"
+  UserRemark.find(findParameters).select(selection).lean().exec cb
+  
+processRemarksIntoTasks = (remarks, cb) ->
+  tasks = []
+  for remark in remarks
+      for task in remark.tasks
+        taskObject = 
+          date: task.date
+          action: task.action
+          contact: remark.contact
+          user: remark.user
+          remarkID: remark._id
+        tasks.push taskObject
+  cb null, tasks
+
+taskReminderAlreadySentThisWeekFilter = (task, cb) ->
+  findParameters =
+    "user": task.contact
+    "mailTask": @mailTaskName
+    "sent":
+      $gt: new Date(@currentTime.getTime() - 7 * 24 * 60 * 60 * 1000)
+    "metadata":
+      remarkID: task.remarkID
+      taskAction: task.action
+      date: task.date
+  MailSent.count findParameters, (err, count) ->
+    if err? then return cb true
+    return cb Boolean(count)
+  
+sendUserRemarkTaskEmail = (task, cb) ->
+  mailTaskName = @mailTaskName
+  User.findOne("_id":task.contact).select("email").lean().exec (err, contact) ->
+    if err? then return cb err
+    context =
+      email_id: "tem_aryDjyw6JmEmbKtCMTSwAM"
+      recipient:
+        address: contact.email
+      email_data:
+        candidate_link: "http://codecombat.com/account/profile/#{task.user}"
+        due_date: task.date
+    log.info "Sending recruitment task reminder to #{contact.email}"
+    newSentMail =
+      mailTask: mailTaskName
+      user: task.contact
+      "metadata":
+        remarkID: task.remarkID
+        taskAction: task.action
+        date: task.date
+    MailSent.create newSentMail, (err) ->
+      if err? then return cb err
+      sendwithus.api.send context, (err, result) ->
+        log.error "Error sending #{mailTaskName} to #{contact.email}: #{err} with result #{result}" if err
+        cb null
 
 ### New Recruit Leaderboard Email ###
 ###

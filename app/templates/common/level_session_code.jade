@@ -1,7 +1,7 @@
 div#session-info
   img(src='/file/'+levelIcon alt='levelIcon')#level-icon
   div#level-meta-data
-    strong= levelName
+    a.btn.btn-primary(href=sessionLink, target=_blank) Spectate
     p!= levelDescription
   
 div#session-code
@@ -10,4 +10,4 @@ div#session-code
       .panel-heading
         h3= spell.name
       .panel-body
-        .code= spell.code
+        .code(data-height=spell.height)= spell.code

@@ -230,13 +230,14 @@ _.extend LevelSchema.properties,
     title: 'Next Level',
     description: 'Reference to the next level players will play after beating this one.'
   }
-  employerDescription: { type:'string' }
+  employerDescription: { type:'string', format: 'markdown', title: 'Employer Description' }
   scripts: c.array {title: 'Scripts', description: 'An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.', 'default': []}, ScriptSchema
   thangs: c.array {title: 'Thangs', description: 'An array of Thangs that make up the level.', 'default': []}, LevelThangSchema
   systems: c.array {title: 'Systems', description: 'Levels are configured by changing the Systems attached to them.', uniqueItems: true, default: []}, LevelSystemSchema  # TODO: uniqueness should be based on 'original', not whole thing
   victory: c.object {title: 'Victory Screen', default: {}, properties: {'body': {type: 'string', format: 'markdown', title: 'Body Text', description: 'Inserted into the Victory Modal once this level is complete. Tell the player they did a good job and what they accomplished!'}, i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this victory message'}}}
   i18n: {type: 'object', format: 'i18n', props: ['name', 'description'], description: 'Help translate this level'}
   icon: {type: 'string', format: 'image-file', title: 'Icon'}
+  banner: {type: 'string', format: 'image-file', title: 'Banner'}
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
   type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial'])
   showsGuide: c.shortString(title: 'Shows Guide', description: 'If the guide is shown at the beginning of the level.', 'enum': ['first-time', 'always'])

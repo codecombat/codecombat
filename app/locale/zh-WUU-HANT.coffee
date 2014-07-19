@@ -100,6 +100,12 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     for_beginners: "適合學起頭個人"
     multiplayer: "聚隊打遊戲"
     for_developers: "適合開發個人"
+#    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers."
+#    python_blurb: "Simple yet powerful, Python is a great general purpose programming language."
+#    coffeescript_blurb: "Nicer JavaScript syntax."
+#    clojure_blurb: "A modern Lisp."
+#    lua_blurb: "Game scripting language."
+#    io_blurb: "Simple but obscure."
 
   play:
     choose_your_level: "揀關數"

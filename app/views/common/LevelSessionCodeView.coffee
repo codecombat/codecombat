@@ -7,27 +7,28 @@ LevelSession = require 'models/LevelSession'
 module.exports = class LevelSessionCodeView extends CocoView
   className: 'level-session-code-view'
   template: template
-  modalWidthPercent: 80
-  plain: true
 
   constructor: (options) ->
     super(options)
     @session = options.session
     @level = LevelSession.getReferencedModel(@session.get('level'), LevelSession.schema.properties.level)
-    @level.setProjection ['employerDescription', 'name', 'icon']
+    @level.setProjection ['employerDescription', 'name', 'icon', 'banner', 'slug']
     @supermodel.loadModel @level, 'level'
 
   getRenderData: ->
     c = super()
-    c.levelIcon = @level.get('icon')
+    c.levelIcon = @level.get('banner') or @level.get('icon')
     c.levelName = @level.get('name')
     c.levelDescription = marked(@level.get('employerDescription') or '')
     c.levelSpells = @organizeCode()
+    c.sessionLink = "/play/level/" + (@level.get('slug') or @level.id) + "?team=" + (@session.get('team') || 'humans') + "&session=" + @session.id
     c
     
   afterRender: ->
     super()
     @$el.find('.code').each (index, codeEl) ->
+      height = parseInt($(codeEl).data('height'))
+      $(codeEl).height(height)
       editor = ace.edit codeEl
       editor.setReadOnly true
       aceSession = editor.getSession()
@@ -38,9 +39,12 @@ module.exports = class LevelSessionCodeView extends CocoView
     teamSpells = @session.get('teamSpells')[team] or []
     filteredSpells = []
     for spell in teamSpells
-      code = @session.getSourceFor(spell)
+      code = @session.getSourceFor(spell) ? ''
+      lines = code.split('\n').length
+      height = lines * 16 + 20
       filteredSpells.push {
         code: code
-        name: spell.split('/')[1]
+        name: spell
+        height: height
       }
     filteredSpells 
