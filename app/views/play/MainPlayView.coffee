@@ -11,7 +11,7 @@ class LevelSessionsCollection extends CocoCollection
     super()
     @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
 
-module.exports = class PlayView extends RootView
+module.exports = class MainPlayView extends RootView
   id: 'play-view'
   template: template
 
