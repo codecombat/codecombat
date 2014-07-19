@@ -292,7 +292,7 @@ sendInternalCandidateUpdateReminder = (candidate, cb) ->
       address: "team@codecombat.com"
       name: "The CodeCombat Team"
     email_data:
-      new_candidate_profile: "https://codecombat.com/account/profile/#{candidate._id}"
+      new_candidate_profile: "http://codecombat.com/account/profile/#{candidate._id}"
   log.info "Sending candidate updated reminder for #{candidate.jobProfile.name}"
   newSentMail =
     mailTask: @mailTaskName
