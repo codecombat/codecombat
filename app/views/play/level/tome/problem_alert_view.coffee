@@ -1,8 +1,8 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/problem_alert'
 {me} = require 'lib/auth'
 
-module.exports = class ProblemAlertView extends View
+module.exports = class ProblemAlertView extends CocoView
   className: 'problem-alert'
   template: template
 

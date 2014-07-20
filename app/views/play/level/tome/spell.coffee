@@ -90,6 +90,7 @@ module.exports = class Spell
           problems = spellThang.aether.problems
         #console.log 'aether transpiled', source.length, 'to', spellThang.aether.pure.length, 'for', thangID, @spellKey
       else
+        spellThang.aether.raw = source
         spellThang.aether.pure = pure
         spellThang.aether.problems = problems
         #console.log 'aether reused transpilation for', thangID, @spellKey

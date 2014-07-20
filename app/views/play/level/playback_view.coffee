@@ -1,11 +1,11 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/playback'
 {me} = require 'lib/auth'
 
 EditorConfigModal = require './modal/editor_config_modal'
 KeyboardShortcutsModal = require './modal/keyboard_shortcuts_modal'
 
-module.exports = class PlaybackView extends View
+module.exports = class PlaybackView extends CocoView
   id: 'playback-view'
   template: template
 

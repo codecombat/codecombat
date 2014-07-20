@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/home'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
@@ -6,7 +6,7 @@ Simulator = require 'lib/simulator/Simulator'
 {me} = require '/lib/auth'
 application  = require 'application'
 
-module.exports = class HomeView extends View
+module.exports = class HomeView extends RootView
   id: 'home-view'
   template: template
 
@@ -52,7 +52,7 @@ module.exports = class HomeView extends View
     @updateLanguageLogos codeLanguage
 
   updateLanguageLogos: (codeLanguage) ->
-    @$el.find('.game-mode-wrapper .code-language-logo').css('background-image', "url(/images/common/code_languages/#{codeLanguage}_small.png)").toggleClass 'inverted', (codeLanguage in ['io', 'coffeescript'])
+    @$el.find('.game-mode-wrapper .code-language-logo').css('background-image', "url(/images/common/code_languages/#{codeLanguage}_small.png)")
 
   onCodeLanguageSelected: (e) ->
     target = $(e.target).closest('.code-language')

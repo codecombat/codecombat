@@ -1,7 +1,7 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/model'
 
-module.exports = class ModelModal extends View
+module.exports = class ModelModal extends ModalView
   id: 'model-modal'
   template: template
   plain: true

@@ -1,11 +1,11 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/employer_signup_modal'
 forms = require 'lib/forms'
 User = require 'models/User'
 auth = require 'lib/auth'
 me = auth.me
 
-module.exports = class EmployerSignupView extends View
+module.exports = class EmployerSignupView extends ModalView
   id: 'employer-signup'
   template: template
   closeButton: true

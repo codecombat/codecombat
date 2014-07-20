@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/account/settings'
 {me} = require 'lib/auth'
 forms = require 'lib/forms'
@@ -8,7 +8,7 @@ AuthModalView = require 'views/modal/auth_modal'
 WizardSettingsView = require './wizard_settings_view'
 JobProfileView = require './job_profile_view'
 
-module.exports = class SettingsView extends View
+module.exports = class SettingsView extends RootView
   id: 'account-settings-view'
   template: template
   changedFields: [] # DOM input fields

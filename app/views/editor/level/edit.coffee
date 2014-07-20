@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/editor/level/edit'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
@@ -16,9 +16,8 @@ LevelForkView = require './fork_view'
 SaveVersionModal = require 'views/modal/save_version_modal'
 PatchesView = require 'views/editor/patches_view'
 VersionHistoryView = require './versions_view'
-ErrorView = require '../../error_view'
 
-module.exports = class EditorLevelView extends View
+module.exports = class EditorLevelView extends RootView
   id: 'editor-level-view'
   template: template
   cache: false
@@ -95,7 +94,10 @@ module.exports = class EditorLevelView extends View
       # Create a new Window with a blank LevelView
       scratchLevelID = @level.get('slug') + '?dev=true'
       scratchLevelID += "&team=#{team}" if team
-      @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1024,height=560,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
+      if me.get('name') is 'Nick!'
+        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
+      else
+        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1024,height=560,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
       @childWindow.onPlayLevelViewLoaded = (e) => sendLevel()  # still a hack
     @childWindow.focus()
 

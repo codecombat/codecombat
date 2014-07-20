@@ -1,9 +1,9 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
 ConfirmModal = require 'views/modal/confirm'
 
-module.exports = class AchievementEditView extends View
+module.exports = class AchievementEditView extends RootView
   id: 'editor-achievement-edit-view'
   template: template
   startsLoading: true

@@ -1,4 +1,4 @@
-ContributeClassView = require 'views/contribute/contribute_class_view'
+ContributeClassView = require './ContributeClassView'
 template = require 'templates/contribute/adventurer'
 {me} = require 'lib/auth'
 

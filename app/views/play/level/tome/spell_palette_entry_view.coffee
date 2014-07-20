@@ -1,10 +1,10 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell_palette_entry'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './doc_formatter'
 
-module.exports = class SpellPaletteEntryView extends View
+module.exports = class SpellPaletteEntryView extends CocoView
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
   className: 'spell-palette-entry-view'
   template: template

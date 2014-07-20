@@ -1,13 +1,13 @@
 # TODO: be useful to add error indicator states to the spellsPopoverTemplate
 # TODO: reordering based on errors isn't working yet
 
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 ThangAvatarView = require 'views/play/level/thang_avatar_view'
 template = require 'templates/play/level/tome/thang_list_entry'
 spellsPopoverTemplate = require 'templates/play/level/tome/thang_list_entry_spells'
 {me} = require 'lib/auth'
 
-module.exports = class ThangListEntryView extends View
+module.exports = class ThangListEntryView extends CocoView
   tagName: 'div'  #'li'
   className: 'thang-list-entry-view'
   template: template

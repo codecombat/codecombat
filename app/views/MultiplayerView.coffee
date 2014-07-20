@@ -1,4 +1,4 @@
-HomeView = require './home_view'
+HomeView = require './HomeView'
 ModalView = require 'views/kinds/ModalView'
 modalTemplate = require 'templates/multiplayer_launch_modal'
 

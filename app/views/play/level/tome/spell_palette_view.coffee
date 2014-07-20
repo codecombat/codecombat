@@ -1,4 +1,4 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell_palette'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
@@ -8,7 +8,7 @@ EditorConfigModal = require '../modal/editor_config_modal'
 
 N_ROWS = 4
 
-module.exports = class SpellPaletteView extends View
+module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
   template: template
   controlsEnabled: true

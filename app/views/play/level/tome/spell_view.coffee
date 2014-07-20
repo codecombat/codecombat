@@ -1,4 +1,4 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
@@ -8,7 +8,7 @@ SpellDebugView = require './spell_debug_view'
 SpellToolbarView = require './spell_toolbar_view'
 LevelComponent = require 'models/LevelComponent'
 
-module.exports = class SpellView extends View
+module.exports = class SpellView extends CocoView
   id: 'spell-view'
   className: 'shown'
   template: template
@@ -396,7 +396,7 @@ module.exports = class SpellView extends View
 
   displayAether: (aether, isCast=false) ->
     @displayedAether = aether
-    isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
+    isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}
     problem.destroy() for problem in @problems  # Just in case another problem was added since clearAetherDisplay() ran.
     @problems = []
     annotations = []

@@ -1,11 +1,11 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/play/ladder/play_modal'
 ThangType = require 'models/ThangType'
 {me} = require 'lib/auth'
 LeaderboardCollection = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
 
-module.exports = class LadderPlayModal extends View
+module.exports = class LadderPlayModal extends ModalView
   id: 'ladder-play-modal'
   template: template
   closeButton: true

@@ -1,4 +1,4 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/contact'
 
 forms = require 'lib/forms'
@@ -18,7 +18,7 @@ contactSchema =
       type: 'string'
       minLength: 1
 
-module.exports = class ContactView extends View
+module.exports = class ContactView extends ModalView
   id: 'contact-modal'
   template: template
   closeButton: true
