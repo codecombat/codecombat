@@ -135,66 +135,73 @@ module.exports = class TerrainRandomizeModal extends ModalView
   randomizeBorder: (preset, presetSize, noiseFactor=1) ->
     for i in _.range(0, presetSize.x, thangSizes.borderSize.x)
       for j in _.range(thangSizes.borderSize.thickness)
-        @thangs.push {
+        while not @addThang {
           'id': @getRandomThang(preset.borders)
           'pos': {
             'x': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x/2)
             'y': 0 + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y)
           }
         }
-        @thangs.push {
+          continue
+        while not @addThang {
           'id': @getRandomThang(preset.borders)
           'pos': {
             'x': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x/2)
             'y': presetSize.y - preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y, thangSizes.borderSize.y/2)
           }
         }
+          continue
 
     for i in _.range(0, presetSize.y, thangSizes.borderSize.y)
       for j in _.range(3)
-        @thangs.push {
+        while not @addThang {
           'id': @getRandomThang(preset.borders)
           'pos': {
             'x': 0 + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x)
             'y': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y/2)
           }
         }
-        @thangs.push {
+          continue
+        while not @addThang {
           'id': @getRandomThang(preset.borders)
           'pos': {
             'x': presetSize.x - preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x, thangSizes.borderSize.x/2)
             'y': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y/2)
           }
         }
+          continue
 
   randomizeDecorations: (preset, presetSize)->
     for name, decoration of preset.decorations
       for num in _.range(_.random(decoration.num[0], decoration.num[1]))
-        center =
-        {
+        center = {
           'x':_.random(decoration.width, presetSize.x - decoration.width),
           'y':_.random(decoration.height, presetSize.y - decoration.height)
         }
-        min =
-        {
+        min = {
           'x':center.x - decoration.width/2
           'y':center.y - decoration.height/2
         }
-        max =
-        {
+        max = {
           'x':center.x + decoration.width/2
           'y':center.y + decoration.height/2
         }
         for cluster, range of decoration.clusters
           for i in _.range(_.random(range[0], range[1]))
-            @thangs.push {
+            while not @addThang {
               'id':@getRandomThang(clusters[cluster])
               'pos':{
                 'x':_.random(min.x, max.x)
                 'y':_.random(min.y, max.y)
               }
             }
+              continue
 
+  addThang: (thang) ->
+    for existingThang in @thangs
+      return false if thang.pos.x is existingThang.pos.x and thang.pos.y is existingThang.pos.y
+    @thangs.push thang
+    true
 
   getRandomThang: (thangList) ->
     return thangList[_.random(0, thangList.length-1)]
