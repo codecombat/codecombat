@@ -1,4 +1,4 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 AddThangsView = require './add_thangs_view'
 thangs_template = require 'templates/editor/level/thangs_tab'
 Level = require 'models/Level'
@@ -24,7 +24,7 @@ class ThangTypeSearchCollection extends CocoCollection
   url: '/db/thang.type?project=original,name,version,slug,kind,components'
   model: ThangType
 
-module.exports = class ThangsTabView extends View
+module.exports = class ThangsTabView extends CocoView
   id: 'editor-level-thangs-tab-view'
   className: 'tab-pane active'
   template: thangs_template

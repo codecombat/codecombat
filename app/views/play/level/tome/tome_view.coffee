@@ -27,7 +27,7 @@
 # The SpellListView shows spells to which your team has read or readwrite access.
 # It doubles as a Thang selector, since it's there when nothing is selected.
 
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/tome'
 {me} = require 'lib/auth'
 Spell = require './spell'
@@ -38,7 +38,7 @@ CastButtonView = require './cast_button_view'
 
 window.SHIM_WORKER_PATH = '/javascripts/workers/catiline_worker_shim.js'
 
-module.exports = class TomeView extends View
+module.exports = class TomeView extends CocoView
   id: 'tome-view'
   template: template
   controlsEnabled: true

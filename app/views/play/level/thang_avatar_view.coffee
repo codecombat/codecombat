@@ -1,8 +1,8 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/thang_avatar'
 ThangType = require 'models/ThangType'
 
-module.exports = class ThangAvatarView extends View
+module.exports = class ThangAvatarView extends CocoView
   className: 'thang-avatar-view'
   template: template
 

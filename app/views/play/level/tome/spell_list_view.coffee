@@ -4,12 +4,12 @@
 
 # TODO: showTopDivider should change when we reorder
 
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell_list'
 {me} = require 'lib/auth'
 SpellListEntryView = require './spell_list_entry_view'
 
-module.exports = class SpellListView extends View
+module.exports = class SpellListView extends CocoView
   className: 'spell-list-view'
   id: 'spell-list-view'
   template: template

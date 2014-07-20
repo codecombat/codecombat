@@ -1,11 +1,11 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/docs'
 Article = require 'models/Article'
 utils = require 'lib/utils'
 
 # let's implement this once we have the docs database schema set up
 
-module.exports = class DocsModal extends View
+module.exports = class DocsModal extends ModalView
   template: template
   id: 'docs-modal'
 

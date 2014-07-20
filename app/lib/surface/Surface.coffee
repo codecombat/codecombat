@@ -115,7 +115,8 @@ module.exports = Surface = class Surface extends CocoClass
 
   setWorld: (@world) ->
     @worldLoaded = true
-    @world.getFrame(Math.min(@getCurrentFrame(), @world.totalFrames - 1)).restoreState() unless @options.choosing
+    lastFrame = Math.min(@getCurrentFrame(), @world.totalFrames - 1)
+    @world.getFrame(lastFrame).restoreState() unless @options.choosing
     @spriteBoss.world = @world
 
     @showLevel()
@@ -241,7 +242,7 @@ module.exports = Surface = class Surface extends CocoClass
     @onFrameChanged()
 
   getCurrentFrame: ->
-    return Math.max(0, Math.min(Math.floor(@currentFrame), @world.totalFrames - 1))
+    return Math.max(0, Math.min(Math.floor(@currentFrame), @world.frames.length - 1))
 
   getProgress: -> @currentFrame / @world.totalFrames
 

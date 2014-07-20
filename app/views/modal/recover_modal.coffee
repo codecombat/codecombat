@@ -1,4 +1,4 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/recover'
 forms = require 'lib/forms'
 {genericFailure} = require 'lib/errors'
@@ -9,7 +9,7 @@ filterKeyboardEvents = (allowedEvents, func) ->
     return unless e.keyCode in allowedEvents or not e.keyCode
     return func(splat...)
 
-module.exports = class RecoverModalView extends View
+module.exports = class RecoverModalView extends ModalView
   id: 'recover-modal'
   template: template
 

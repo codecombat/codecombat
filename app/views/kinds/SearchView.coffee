@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/kinds/search'
 forms = require 'lib/forms'
 app = require 'application'
@@ -12,7 +12,7 @@ class SearchCollection extends Backbone.Collection
     else @url += 'true'
     @url += "&term=#{term}" if @term
 
-module.exports = class SearchView extends View
+module.exports = class SearchView extends RootView
   template: template
   className: 'search-view'
 

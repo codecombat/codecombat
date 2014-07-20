@@ -1,4 +1,4 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/goals'
 {me} = require 'lib/auth'
 utils = require 'lib/utils'
@@ -8,7 +8,7 @@ stateIconMap =
   success: 'icon-ok'
   failure: 'icon-remove'
 
-module.exports = class GoalsView extends View
+module.exports = class GoalsView extends CocoView
   id: 'goals-view'
   template: template
 

@@ -1,9 +1,9 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/level/thang/edit'
 ThangComponentEditView = require 'views/editor/components/main'
 ThangType = require 'models/ThangType'
 
-module.exports = class LevelThangEditView extends View
+module.exports = class LevelThangEditView extends CocoView
   ###
   In the level editor, is the bar at the top when editing a single thang.
   Everything below is part of the ThangComponentEditView, which is shared with the

@@ -1,4 +1,4 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/level/components_tab'
 LevelComponent = require 'models/LevelComponent'
 LevelComponentEditView = require './component/edit'
@@ -8,7 +8,7 @@ class LevelComponentCollection extends Backbone.Collection
   url: '/db/level.component'
   model: LevelComponent
 
-module.exports = class ComponentsTabView extends View
+module.exports = class ComponentsTabView extends CocoView
   id: 'editor-level-components-tab-view'
   template: template
   className: 'tab-pane'

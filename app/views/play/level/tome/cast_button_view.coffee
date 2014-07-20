@@ -1,8 +1,8 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/cast_button'
 {me} = require 'lib/auth'
 
-module.exports = class CastButtonView extends View
+module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'
   template: template
 

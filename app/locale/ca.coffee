@@ -100,6 +100,12 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     for_beginners: "Per a principiants"
     multiplayer: "Multijugador"
     for_developers: "Per a Desenvolupadors"
+#    javascript_blurb: "The language of the web. Great for writing websites, web apps, HTML5 games, and servers."
+#    python_blurb: "Simple yet powerful, Python is a great general purpose programming language."
+#    coffeescript_blurb: "Nicer JavaScript syntax."
+#    clojure_blurb: "A modern Lisp."
+#    lua_blurb: "Game scripting language."
+#    io_blurb: "Simple but obscure."
 
   play:
     choose_your_level: "Escull el teu nivell"

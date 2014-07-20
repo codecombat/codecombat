@@ -1,9 +1,9 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/editor/level/fork'
 forms = require 'lib/forms'
 Level = require 'models/Level'
 
-module.exports = class LevelForkView extends View
+module.exports = class LevelForkView extends ModalView
   id: 'editor-level-fork-modal'
   template: template
   instant: false

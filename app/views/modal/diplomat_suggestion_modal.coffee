@@ -1,9 +1,9 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/diplomat_suggestion'
 {me} = require 'lib/auth'
 forms = require 'lib/forms'
 
-module.exports = class DiplomatSuggestionView extends View
+module.exports = class DiplomatSuggestionView extends ModalView
   id: 'diplomat-suggestion-modal'
   template: template
 

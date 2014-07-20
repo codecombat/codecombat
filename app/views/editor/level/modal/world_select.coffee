@@ -1,9 +1,9 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/editor/level/modal/world_select'
 Surface = require 'lib/surface/Surface'
 ThangType = require 'models/ThangType'
 
-module.exports = class WorldSelectModal extends View
+module.exports = class WorldSelectModal extends ModalView
   id: 'select-point-modal'
   template: template
   modalWidthPercent: 80
