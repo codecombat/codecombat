@@ -10,18 +10,34 @@ clusters = {
   'animals': ['Cow', 'Horse']
   'wood': ['Firewood 1', 'Firewood 2', 'Firewood 3', 'Barrel']
   'farm': ['Farm']
+  'cave': ['Cave']
+  'stone': ['Gargoyle', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
 }
 
 presets = {
-  # 'dungeon': {
-  #   'type':'dungeon'
-  #   'borders':['Dungeon Wall']
-  #   'floors':['Dungeon Floor']
-  #   'decorations':[]
-  # }
+  'dungeon': {
+    'type':'dungeon'
+    'borders':['Dungeon Wall']
+    'borderNoise':0
+    'borderSize':4
+    'floors':['Dungeon Floor']
+    'decorations': {
+      'cave': {
+        'num':[1,1]
+        'width': 20
+        'height': 20
+        'clusters': {
+          'cave':[1,1]
+          'stone':[2,4]
+        }
+      }
+    }
+  }
   'grassy': {
     'type':'grassy'
     'borders':['Tree 1', 'Tree 2', 'Tree 3']
+    'borderNoise':1
+    'borderSize':0
     'floors':['Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05']
     'decorations': {
       'house': {
@@ -102,7 +118,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
     presetSize = presetSizes[presetSize]
     @thangs = []
     @randomizeFloor preset, presetSize
-    @randomizeBorder preset, presetSize
+    @randomizeBorder preset, presetSize, preset.borderNoise
     @randomizeDecorations preset, presetSize
 
   randomizeFloor: (preset, presetSize) ->
@@ -116,21 +132,21 @@ module.exports = class TerrainRandomizeModal extends ModalView
           }
         }
 
-  randomizeBorder: (preset, presetSize) ->
+  randomizeBorder: (preset, presetSize, noiseFactor=1) ->
     for i in _.range(0, presetSize.x, thangSizes.borderSize.x)
       for j in _.range(thangSizes.borderSize.thickness)
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
-            'x': i + _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x/2)
-            'y': 0 + _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y)
+            'x': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x/2)
+            'y': 0 + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y)
           }
         }
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
-            'x': i + _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x/2)
-            'y': presetSize.y + _.random(-thangSizes.borderSize.y, thangSizes.borderSize.y/2)
+            'x': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x/2)
+            'y': presetSize.y - preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y, thangSizes.borderSize.y/2)
           }
         }
 
@@ -139,15 +155,15 @@ module.exports = class TerrainRandomizeModal extends ModalView
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
-            'x': 0 + _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x)
-            'y': i + _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y/2)
+            'x': 0 + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x)
+            'y': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y/2)
           }
         }
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
-            'x': presetSize.x + _.random(-thangSizes.borderSize.x, thangSizes.borderSize.x/2)
-            'y': i + _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y/2)
+            'x': presetSize.x - preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x, thangSizes.borderSize.x/2)
+            'y': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y/2)
           }
         }
 
