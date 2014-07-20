@@ -172,8 +172,9 @@ module.exports = class TerrainRandomizeModal extends ModalView
           continue
 
   randomizeDecorations: (preset, presetSize)->
+    if presetSize is presetSizes['small'] then sizeFactor = 1 else sizeFactor = 2
     for name, decoration of preset.decorations
-      for num in _.range(_.random(decoration.num[0], decoration.num[1]))
+      for num in _.range(sizeFactor * _.random(decoration.num[0], decoration.num[1]))
         center = {
           'x':_.random(decoration.width, presetSize.x - decoration.width),
           'y':_.random(decoration.height, presetSize.y - decoration.height)
