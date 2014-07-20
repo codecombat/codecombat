@@ -396,7 +396,7 @@ module.exports = class SpellView extends CocoView
 
   displayAether: (aether, isCast=false) ->
     @displayedAether = aether
-    isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
+    isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}
     problem.destroy() for problem in @problems  # Just in case another problem was added since clearAetherDisplay() ran.
     @problems = []
     annotations = []
