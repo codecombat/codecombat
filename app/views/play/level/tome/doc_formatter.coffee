@@ -93,7 +93,7 @@ module.exports = class DocFormatter
         obj[prop] = null
 
   formatPopover: ->
-    content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod
+    content = popoverTemplate doc: @doc, language: @options.language, value: @formatValue(), marked: marked, argumentExamples: (arg.example or arg.default or arg.name for arg in @doc.args ? []), writable: @options.writable, selectedMethod: @options.selectedMethod, cooldowns: @inferCooldowns()
     owner = if @doc.owner is 'this' then @options.thang else window[@doc.owner]
     content = content.replace /#{spriteName}/g, @options.thang.type ? @options.thang.spriteName  # Prefer type, and excluded the quotes we'd get with @formatValue
     content.replace /\#\{(.*?)\}/g, (s, properties) => @formatValue downTheChain(owner, properties.split('.'))
@@ -122,3 +122,22 @@ module.exports = class DocFormatter
     if _.isPlainObject v
       return safeJSONStringify v, 2
     v
+
+  inferCooldowns: ->
+    return null unless @doc.type is 'function' and @doc.owner is 'this'
+    owner = @options.thang
+    cooldowns = null
+    spellName = @doc.name.match /^cast(.+)$/
+    if spellName
+      actionName = _.string.slugify _.string.underscored spellName[1]
+      action = owner.spells?[actionName]
+      type = 'spell'
+    else
+      actionName = _.string.slugify _.string.underscored @doc.name
+      action = owner.actions?[actionName]
+      type = 'action'
+    return null unless action
+    cooldowns = cooldown: action.cooldown, specificCooldown: action.specificCooldown, name: actionName, type: type
+    for prop in ['range', 'radius', 'duration', 'damage']
+      cooldowns[prop] = owner[_.string.camelize actionName + _.string.capitalize(prop)]
+    cooldowns
