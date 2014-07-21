@@ -4,7 +4,7 @@ CocoCollection = require 'collections/CocoCollection'
 LevelComponent = require 'models/LevelComponent'
 
 class ComponentDocsCollection extends CocoCollection
-  url: '/db/level.component?project=name,description,dependencies,propertyDocumentation'
+  url: '/db/level.component?project=name,description,dependencies,propertyDocumentation,code'
   model: LevelComponent
 
 module.exports = class UnnamedView extends RootView
