@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/play/ladder_home'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
@@ -11,7 +11,7 @@ class LevelSessionsCollection extends CocoCollection
     super()
     @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID"
 
-module.exports = class LadderHomeView extends View
+module.exports = class LadderHomeView extends RootView
   id: 'ladder-home-view'
   template: template
 

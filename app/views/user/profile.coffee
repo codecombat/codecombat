@@ -9,6 +9,7 @@ JobProfileView = require 'views/account/job_profile_view'
 UserRemark = require 'models/UserRemark'
 forms = require 'lib/forms'
 ModelModal = require 'views/modal/model_modal'
+JobProfileCodeModal = require './JobProfileCodeModal'
 
 class LevelSessionsCollection extends CocoCollection
   url: -> "/db/user/#{@userID}/level.sessions/employer"
@@ -28,6 +29,8 @@ adminContacts = [
 module.exports = class ProfileView extends UserView
   id: 'profile-view'
   template: template
+  showBackground: false
+
   subscriptions:
     'linkedin-loaded': 'onLinkedInLoaded'
 
@@ -49,6 +52,7 @@ module.exports = class ProfileView extends UserView
     'keyup .editable-profile .editable-array input': 'onEditArray'
     'click .editable-profile a': 'onClickLinkWhileEditing'
     'change #admin-contact': 'onAdminContactChanged'
+    'click .session-link': 'onSessionLinkPressed'
 
   constructor: (options, userID) ->
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
@@ -314,7 +318,7 @@ module.exports = class ProfileView extends UserView
     return unless me.isAdmin()
     approved = not @user.get 'jobProfileApproved'
     @user.set 'jobProfileApproved', approved
-    res = @user.save {jobProfileApproved: approved}, {patch: true}
+    res = @user.patch()
     res.success (model, response, options) => @render()
 
   toggleJobProfileActive: ->
@@ -576,3 +580,9 @@ module.exports = class ProfileView extends UserView
       {name: t('account_profile.next_photo'), weight: 2, container: '#profile-photo-container', fn: modified 'photoURL'}
       {name: t('account_profile.next_active'), weight: 1, fn: modified 'active'}
     ]
+
+  onSessionLinkPressed: (e) ->
+    sessionID = $(e.target).closest('.session-link').data('session-id')
+    session = _.find @sessions.models, (session) -> session.id is sessionID
+    modal = new JobProfileCodeModal({session:session})
+    @openModalView modal

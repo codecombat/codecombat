@@ -1,11 +1,11 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/level/system/edit'
 LevelSystem = require 'models/LevelSystem'
 VersionHistoryView = require 'views/editor/system/versions_view'
 PatchesView = require 'views/editor/patches_view'
 SaveVersionModal = require 'views/modal/save_version_modal'
 
-module.exports = class LevelSystemEditView extends View
+module.exports = class LevelSystemEditView extends CocoView
   id: 'editor-level-system-edit-view'
   template: template
   editableSettings: ['name', 'description', 'codeLanguage', 'dependencies', 'propertyDocumentation', 'i18n']

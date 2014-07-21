@@ -96,7 +96,9 @@ Aether.addGlobal('_', _);
 var serializedClasses = {
     "Thang": self.require('lib/world/thang'),
     "Vector": self.require('lib/world/vector'),
-    "Rectangle": self.require('lib/world/rectangle')
+    "Rectangle": self.require('lib/world/rectangle'),
+    "Ellipse": self.require('lib/world/ellipse'),
+    "LineSegment": self.require('lib/world/line_segment')
 };
 self.currentUserCodeMapCopy = "";
 self.currentDebugWorldFrame = 0;

@@ -1,11 +1,11 @@
 # TODO: This still needs a way to send problem states to its Thang
 
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 ThangAvatarView = require 'views/play/level/thang_avatar_view'
 SpellListEntryThangsView = require 'views/play/level/tome/spell_list_entry_thangs_view'
 template = require 'templates/play/level/tome/spell_list_entry'
 
-module.exports = class SpellListEntryView extends View
+module.exports = class SpellListEntryView extends CocoView
   tagName: 'div'  #'li'
   className: 'spell-list-entry-view'
   template: template

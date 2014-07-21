@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/play/level'
 {me} = require 'lib/auth'
 ThangType = require 'models/ThangType'
@@ -35,7 +35,7 @@ InfiniteLoopModal = require './level/modal/infinite_loop_modal'
 
 PROFILE_ME = false
 
-module.exports = class PlayLevelView extends View
+module.exports = class PlayLevelView extends RootView
   id: 'level-view'
   template: template
   cache: false
@@ -84,8 +84,9 @@ module.exports = class PlayLevelView extends View
     @saveScreenshot = _.throttle @saveScreenshot, 30000
 
     if @isEditorPreview
-      # wait to see if it's just given to us through setLevel
-      f = => @load() unless @levelLoader
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
+      f = => @load() unless @levelLoader  # Wait to see if it's just given to us through setLevel.
       setTimeout f, 100
     else
       @load()

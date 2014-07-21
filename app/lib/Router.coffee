@@ -1,4 +1,7 @@
 gplusClientID = '800329290710-j9sivplv2gpcdgkrsis9rff3o417mlfa.apps.googleusercontent.com'
+# TODO: Move to GPlusHandler
+
+NotFoundView = require('views/NotFoundView')
 
 go = (path) -> -> @routeDirectly path, arguments
 
@@ -8,10 +11,38 @@ module.exports = class CocoRouter extends Backbone.Router
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
 
   routes:
-    # every abnormal view gets listed here
-    '': 'home'
-    'preview': 'home'
-    'beta': 'home'
+    '': go('HomeView')
+
+    'about': go('AboutView')
+    'admin': go('AdminView')
+
+    'beta': go('HomeView')
+
+    'cla': go('CLAView')
+    'community': go('CommunityView')
+    'contribute': go('contribute/MainContributeView')
+    'contribute/adventurer': go('contribute/AdventurerView')
+    'contribute/ambassador': go('contribute/AmbassadorView')
+    'contribute/archmage': go('contribute/ArchmageView')
+    'contribute/artisan': go('contribute/ArtisanView')
+    'contribute/diplomat': go('contribute/DiplomatView')
+    'contribute/scribe': go('contribute/ScribeView')
+
+    'demo(/*subpath)': go('DemoView')
+    
+    'editor': go('editor/MainEditorView')
+    'employers': go('EmployersView')
+    
+    'legal': go('LegalView')
+    
+    'multiplayer': go('MultiplayerView')
+
+    'play': go('play/MainPlayView')
+    'preview': go('HomeView')
+
+    'teachers': go('TeachersView')
+    'test(/*subpath)': go('TestView')
+
 
     # editor views tend to have the same general structure
     'editor/:model(/:slug_or_id)(/:subview)': 'editorModelView'
@@ -23,11 +54,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'account(/:subview)': 'accountView'
 
     # Direct links
-    'test': go('TestView')
-    'test/*subpath': go('TestView')
 
-    'demo': go('DemoView')
-    'demo/*subpath': go('DemoView')
 
     'play/ladder/:levelID': go('play/ladder/ladder_view')
     'play/ladder': go('play/ladder_home')
@@ -65,7 +92,7 @@ module.exports = class CocoRouter extends Backbone.Router
       view.render()
     @openView if view then view else @notFoundView()
 
-  # TODO There should be a uniform way to define these routes. This is backwards compatible
+  # TODO Ruben There should be a uniform way to define these routes. This is backwards compatible
   accountView: (subview) ->
     modulePrefix = 'views/account/'
     suffix = subview or 'home'
@@ -161,7 +188,6 @@ module.exports = class CocoRouter extends Backbone.Router
         throw error
 
   notFoundView: ->
-    NotFoundView = require('views/not_found')
     view = new NotFoundView()
     view.render()
 

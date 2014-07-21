@@ -156,6 +156,7 @@ _.extend UserSchema.properties,
         type: 'boolean'
         description: 'Should this candidate be prominently featured on the site?'
   jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
+  jobProfileApprovedDate: c.date {title: 'Approved date', description: 'The date that the candidate was approved'}
   jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: 'CodeCombat\'s notes on the candidate.', format: 'markdown', default: ''}
   employerAt: c.shortString {description: 'If given employer permissions to view job candidates, for which employer?'}
   signedEmployerAgreement: c.object {},

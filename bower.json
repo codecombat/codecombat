@@ -31,7 +31,6 @@
     "i18next": "git://github.com/nwinter/i18next.git",
     "firepad": "~0.1.2",
     "marked": "~0.3.0",
-    "moment": "~2.5.0",
     "aether": "~0.2.22",
     "underscore.string": "~2.3.3",
     "firebase": "~1.0.2",

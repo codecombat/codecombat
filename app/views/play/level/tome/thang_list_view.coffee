@@ -1,12 +1,12 @@
 # The ThangListView lives in the code area behind the SpellView, so that when you don't have a spell, you can select any Thang.
 # It just ha a bunch of ThangListEntryViews (which are mostly ThangAvatarViews) in a few sections.
 
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/thang_list'
 {me} = require 'lib/auth'
 ThangListEntryView = require './thang_list_entry_view'
 
-module.exports = class ThangListView extends View
+module.exports = class ThangListView extends CocoView
   className: 'thang-list-view'
   id: 'thang-list-view'
   template: template

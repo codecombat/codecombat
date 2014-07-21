@@ -82,7 +82,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if @thangType.isFullyLoaded()
       @setupSprite()
     else
-      @thangType.fetch()
+      @thangType.fetch() unless @thangType.loading
       @listenToOnce(@thangType, 'sync', @setupSprite)
 
   setupSprite: ->
@@ -250,7 +250,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         endAngle = args[5]
         circle.graphics.beginFill(args[3])
           .lineTo(0, 0)
-          .lineTo(radius * Math.cos(startAngle), radius * Math.sin(endAngle))
+          .lineTo(radius * Math.cos(startAngle), radius * Math.sin(startAngle))
           .arc(0, 0, radius, startAngle, endAngle)
           .lineTo(0, 0)
       circle.x = pos.x
@@ -328,7 +328,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @baseScaleX *= -1 if @getActionProp 'flipX'
     @baseScaleY *= -1 if @getActionProp 'flipY'
     # temp, until these are re-exported with perspective
-    floors = ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Goal Trigger', 'Obstacle']
+    floors = ['Dungeon Floor', 'Indoor Floor', 'Grass', 'Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05', 'Goal Trigger', 'Obstacle']
     if @options.camera and @thangType.get('name') in floors
       @baseScaleY *= @options.camera.y2x
 
@@ -442,7 +442,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       console.warn 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
       @warnedFor[action] = true
       return if @action is 'idle' then null else 'idle'
-    action = 'break' if @actions.break? and @thang?.erroredOut
+    #action = 'break' if @actions.break? and @thang?.erroredOut  # This makes it looks like it's dead when it's not: bad in Brawlwood.
     action = 'die' if @actions.die? and thang?.health? and thang.health <= 0
     @actions[action]
 

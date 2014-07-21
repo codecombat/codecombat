@@ -1,11 +1,11 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/victory'
 {me} = require 'lib/auth'
 LadderSubmissionView = require 'views/play/common/ladder_submission_view'
 LevelFeedback = require 'models/LevelFeedback'
 utils = require 'lib/utils'
 
-module.exports = class VictoryModal extends View
+module.exports = class VictoryModal extends ModalView
   id: 'level-victory-modal'
   template: template
 

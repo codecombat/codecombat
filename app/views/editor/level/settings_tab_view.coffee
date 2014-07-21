@@ -1,11 +1,11 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/level/settings_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './treema_nodes'
 {me} = require 'lib/auth'
 
-module.exports = class SettingsTabView extends View
+module.exports = class SettingsTabView extends CocoView
   id: 'editor-level-settings-tab-view'
   className: 'tab-pane'
   template: template
@@ -13,7 +13,7 @@ module.exports = class SettingsTabView extends View
   # not thangs or scripts or the backend stuff
   editableSettings: [
     'name', 'description', 'documentation', 'nextLevel', 'background', 'victory', 'i18n', 'icon', 'goals',
-    'type', 'showsGuide'
+    'type', 'showsGuide', 'banner', 'employerDescription'
   ]
 
   subscriptions:

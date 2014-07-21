@@ -213,6 +213,8 @@ module.exports = class Angel extends CocoClass
     work.t1 = now()
     Math.random = work.testWorld.rand.randf  # so user code is predictable
     Aether.replaceBuiltin('Math', Math)
+    replacedLoDash = _.runInContext(window)
+    _[key] = replacedLoDash[key] for key, val of replacedLoDash
     i = 0
     while i < work.testWorld.totalFrames
       frame = work.testWorld.getFrame i++

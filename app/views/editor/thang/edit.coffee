@@ -5,18 +5,17 @@ CocoSprite = require 'lib/surface/CocoSprite'
 Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
 
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 ThangComponentEditView = require 'views/editor/components/main'
 VersionHistoryView = require './versions_view'
 ColorsTabView = require './colors_tab_view'
 PatchesView = require 'views/editor/patches_view'
 SaveVersionModal = require 'views/modal/save_version_modal'
-ErrorView = require '../../error_view'
 template = require 'templates/editor/thang/edit'
 
 CENTER = {x: 200, y: 300}
 
-module.exports = class ThangTypeEditView extends View
+module.exports = class ThangTypeEditView extends RootView
   id: 'editor-thang-type-edit-view'
   template: template
   startsLoading: true

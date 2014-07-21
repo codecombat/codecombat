@@ -117,7 +117,8 @@ module.exports.setup = (app) ->
     )
   )
 
-  app.get '/auth/unsubscribe', (req, res) ->
+  app.get '/auth/unsubscribe', (req, res) ->  
+    req.query.email = decodeURIComponent(req.query.email)
     email = req.query.email
     unless req.query.email
       return errors.badInput res, 'No email provided to unsubscribe.'
@@ -131,7 +132,7 @@ module.exports.setup = (app) ->
           return errors.serverError res, 'Database failure.' if err
           res.send "Unsubscribed #{req.query.email} from CodeCombat emails for #{session.levelName} #{session.team} ladder updates. Sorry to see you go! <p><a href='/play/ladder/#{session.levelID}#my-matches'>Ladder preferences</a></p>"
           res.end()
-
+    
     User.findOne({emailLower: req.query.email.toLowerCase()}).exec (err, user) ->
       if not user
         return errors.notFound res, "No user found with email '#{req.query.email}'"
@@ -143,7 +144,11 @@ module.exports.setup = (app) ->
         emails.recruitNotes ?= {}
         emails.recruitNotes.enabled = false
         msg = "Unsubscribed #{req.query.email} from recruiting emails."
-
+      else if req.query.employerNotes
+        emails.employerNotes ?= {}
+        emails.employerNotes.enabled = false
+        
+        msg = "Unsubscribed #{req.query.email} from employer emails."
       else
         msg = "Unsubscribed #{req.query.email} from all CodeCombat emails. Sorry to see you go!"
         emailSettings.enabled = false for emailSettings in _.values(emails)
@@ -157,12 +162,10 @@ module.exports.setup = (app) ->
         res.send msg + '<p><a href="/account/settings">Account settings</a></p>'
         res.end()
 
-  app.get '/auth/name/?*', (req, res) ->
+  app.get '/auth/name*', (req, res) ->
     parts = req.path.split '/'
-    console.log parts
-    originalName = parts[3]
-
-    return errors.badInput res, 'No name provided.' unless originalName and originalName isnt ''
+    originalName = decodeURI parts[3]
+    return errors.badInput res, 'No name provided.' unless parts.length > 3 and originalName? and originalName isnt ''
     return errors.notFound res if parts.length isnt 4
 
     User.unconflictName originalName, (err, name) ->

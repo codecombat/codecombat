@@ -4,7 +4,7 @@ CocoModel = require 'models/CocoModel'
 
 clusters = {
   'rocks': ['Rock 1', 'Rock 2', 'Rock 3', 'Rock 4', 'Rock 5', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
-  'trees': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']  
+  'trees': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']
   'shrubs': ['Shrub 1', 'Shrub 2', 'Shrub 3']
   'houses': ['House 1', 'House 2', 'House 3', 'House 4']
   'animals': ['Cow', 'Horse']
@@ -22,7 +22,7 @@ presets = {
   'grassy': {
     'type':'grassy'
     'borders':['Tree 1', 'Tree 2', 'Tree 3']
-    'floors':['Grass01', 'Grass02', 'Grass03']
+    'floors':['Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05']
     'decorations': {
       'house': {
         'num':[1,2] #min-max
@@ -61,12 +61,12 @@ sizes = {
   }
   'floorSize': {
     'x':20
-    'y':20
+    'y':17
   }
   'borderSize': {
     'x':4
     'y':4
-    'thickness':2
+    'thickness':3
   }
 }
 
@@ -89,7 +89,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
     presetType = target.attr 'data-preset-type'
     presetSize = target.attr 'data-preset-size'
     @randomizeThangs presetType, presetSize
-    Backbone.Mediator.publish('randomize:terrain-generated', 
+    Backbone.Mediator.publish('randomize:terrain-generated',
       'thangs': @thangs
     )
     @hide()
@@ -108,42 +108,42 @@ module.exports = class TerrainRandomizeModal extends ModalView
         @thangs.push {
           'id': @getRandomThang(preset.floors)
           'pos': {
-            'x': i
-            'y': j
+            'x': i + sizes.floorSize.x/2
+            'y': j + sizes.floorSize.y/2
           }
         }
 
   randomizeBorder: (preset, presetSize) ->
-    for i in _.range(0-sizes.floorSize.x/2+sizes.borderSize.x, presetSize.x-sizes.floorSize.x/2, sizes.borderSize.x)
+    for i in _.range(0, presetSize.x, sizes.borderSize.x)
       for j in _.range(sizes.borderSize.thickness)
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
             'x': i + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
-            'y': 0 - sizes.floorSize.x/2 + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
+            'y': 0 + _.random(-sizes.borderSize.y/2, sizes.borderSize.y)
           }
         }
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
             'x': i + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
-            'y': presetSize.y - sizes.borderSize.y + _.random(-sizes.borderSize.x/2, sizes.borderSize.x/2)
+            'y': presetSize.y + _.random(-sizes.borderSize.y, sizes.borderSize.y/2)
           }
         }
 
-    for i in _.range(0-sizes.floorSize.y/2, presetSize.y-sizes.borderSize.y, sizes.borderSize.y)
+    for i in _.range(0, presetSize.y, sizes.borderSize.y)
       for j in _.range(3)
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
-            'x': 0-sizes.floorSize.x/2+sizes.borderSize.x + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+            'x': 0 + _.random(-sizes.borderSize.x/2, sizes.borderSize.x)
             'y': i + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
           }
         }
         @thangs.push {
           'id': @getRandomThang(preset.borders)
           'pos': {
-            'x': presetSize.x - sizes.borderSize.x - sizes.floorSize.x/2 + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
+            'x': presetSize.x + _.random(-sizes.borderSize.x, sizes.borderSize.x/2)
             'y': i + _.random(-sizes.borderSize.y/2, sizes.borderSize.y/2)
           }
         }
@@ -151,20 +151,20 @@ module.exports = class TerrainRandomizeModal extends ModalView
   randomizeDecorations: (preset, presetSize)->
     for name, decoration of preset.decorations
       for num in _.range(_.random(decoration.num[0], decoration.num[1]))
-        center = 
+        center =
         {
-          'x':_.random(decoration.width, presetSize.x - decoration.width), 
+          'x':_.random(decoration.width, presetSize.x - decoration.width),
           'y':_.random(decoration.height, presetSize.y - decoration.height)
         }
-        min = 
+        min =
         {
           'x':center.x - decoration.width/2
-          'y':center.y - decoration.height/2     
+          'y':center.y - decoration.height/2
         }
-        max = 
+        max =
         {
           'x':center.x + decoration.width/2
-          'y':center.y + decoration.height/2     
+          'y':center.y + decoration.height/2
         }
         for cluster, range of decoration.clusters
           for i in _.range(_.random(range[0], range[1]))

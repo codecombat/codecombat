@@ -1,4 +1,4 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell_debug'
 Range = ace.require('ace/range').Range
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
@@ -6,8 +6,10 @@ serializedClasses =
   Thang: require 'lib/world/thang'
   Vector: require 'lib/world/vector'
   Rectangle: require 'lib/world/rectangle'
+  Ellipse: require 'lib/world/ellipse'
+  LineSegment: require 'lib/world/line_segment'
 
-module.exports = class DebugView extends View
+module.exports = class DebugView extends CocoView
   className: 'spell-debug-view'
   template: template
 

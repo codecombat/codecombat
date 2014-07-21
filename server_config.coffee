@@ -12,6 +12,10 @@ config.mongo =
   host: process.env.COCO_MONGO_HOST or 'localhost'
   db: process.env.COCO_MONGO_DATABASE_NAME or 'coco'
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
+  
+config.redis = 
+  port: process.env.COCO_REDIS_PORT or 6379
+  host: process.env.COCO_REDIS_HOST or 'localhost'
 
 if config.unittest
   config.port += 1

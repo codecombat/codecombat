@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/admin/employer_list'
 app = require 'application'
 User = require 'models/User'
@@ -10,7 +10,7 @@ class EmployersCollection extends CocoCollection
   url: '/db/user/x/employers'
   model: User
 
-module.exports = class EmployersView extends View
+module.exports = class EmployersView extends RootView
   id: 'employers-view'
   template: template
 

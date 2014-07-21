@@ -170,9 +170,9 @@ module.exports.pruneExpandedDeltasFromDelta = (delta, expandedDeltas) ->
 
 prunePath = (delta, path) ->
   if path.length is 1
-    delete delta[path]
+    delete delta[path] unless delta[path] is undefined
   else
-    prunePath delta[path[0]], path.slice(1)
+    prunePath delta[path[0]], path.slice(1) unless delta[path[0]] is undefined
     keys = (k for k in _.keys(delta[path[0]]) when k isnt '_t')
     delete delta[path[0]] if keys.length is 0
 

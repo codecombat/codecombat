@@ -1,4 +1,4 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/tome/spell'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
@@ -8,7 +8,7 @@ SpellDebugView = require './spell_debug_view'
 SpellToolbarView = require './spell_toolbar_view'
 LevelComponent = require 'models/LevelComponent'
 
-module.exports = class SpellView extends View
+module.exports = class SpellView extends CocoView
   id: 'spell-view'
   className: 'shown'
   template: template
@@ -179,9 +179,7 @@ module.exports = class SpellView extends View
         doc = _.find (e.allDocs['__' + prop] ? []), (doc) ->
           return true if doc.owner is owner
           return (owner is 'this' or owner is 'more') and (not doc.owner? or doc.owner is 'this')
-        console.log 'could not find doc for', prop, 'from', e.allDocs['__' + prop], 'for', owner, 'of', e.propGroups unless doc
-        doc ?= prop
-        if doc.snippets?[e.language]
+        if doc?.snippets?[e.language]
           entry =
             content: doc.snippets[e.language].code
             name: doc.name
@@ -398,7 +396,7 @@ module.exports = class SpellView extends View
 
   displayAether: (aether, isCast=false) ->
     @displayedAether = aether
-    isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.problems.errors, {type: 'runtime'}
+    isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}
     problem.destroy() for problem in @problems  # Just in case another problem was added since clearAetherDisplay() ran.
     @problems = []
     annotations = []

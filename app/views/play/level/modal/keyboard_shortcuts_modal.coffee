@@ -1,7 +1,7 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/play/level/modal/keyboard_shortcuts'
 
-module.exports = class KeyboardShortcutsModal extends View
+module.exports = class KeyboardShortcutsModal extends ModalView
   id: 'keyboard-shortcuts-modal'
   template: template
 

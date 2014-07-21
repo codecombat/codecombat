@@ -1,4 +1,4 @@
-View = require 'views/kinds/ModalView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/modal/wizard_settings'
 WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
@@ -6,7 +6,7 @@ ThangType = require 'models/ThangType'
 forms = require 'lib/forms'
 User = require 'models/User'
 
-module.exports = class WizardSettingsModal extends View
+module.exports = class WizardSettingsModal extends ModalView
   id: 'wizard-settings-modal'
   template: template
   closesOnClickOutside: false

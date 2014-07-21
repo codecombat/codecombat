@@ -1,8 +1,8 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 ThangAvatarView = require 'views/play/level/thang_avatar_view'
 template = require 'templates/play/level/tome/spell_list_entry_thangs'
 
-module.exports = class SpellListEntryThangsView extends View
+module.exports = class SpellListEntryThangsView extends CocoView
   className: 'spell-list-entry-thangs-view'
   template: template
 

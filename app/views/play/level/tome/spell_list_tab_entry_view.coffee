@@ -61,7 +61,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
           found = true
           break
     return unless found
-    docFormatter = new DocFormatter doc: doc, thang: @thang, language: @options.language
+    docFormatter = new DocFormatter doc: doc, thang: @thang, language: @options.language, selectedMethod: true
     @$el.find('code').popover(
       animation: true
       html: true

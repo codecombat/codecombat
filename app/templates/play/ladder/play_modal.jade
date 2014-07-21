@@ -33,7 +33,7 @@ block modal-body-content
           span= myName
         div.opponent-name.name-label
           span(data-i18n="ladder.simple_ai") Simple AI
-          //span.code-language(style="background-image: url(/images/pages/home/language_logo_javascript.png)")
+          //span.code-language(style="background-image: url(/images/common/code_languages/javascript_small.png)")
         div.difficulty
           span(data-i18n="ladder.warmup") Warmup
         div(data-i18n="ladder.vs").vs VS
@@ -50,7 +50,7 @@ block modal-body-content
           div.opponent-name.name-label
             span= challengers.easy.opponentName
             if challengers.easy.codeLanguage
-              span.code-language(style="background-image: url(/images/pages/home/language_logo_" + challengers.easy.codeLanguage + ".png)")
+              span.code-language(style="background-image: url(/images/common/code_languages/" + challengers.easy.codeLanguage + "_small.png)")
           div.difficulty
             span(data-i18n="general.easy") Easy
           div(data-i18n="ladder.vs").vs VS
@@ -67,7 +67,7 @@ block modal-body-content
           div.opponent-name.name-label
             span= challengers.medium.opponentName
             if challengers.medium.codeLanguage
-              span.code-language(style="background-image: url(/images/pages/home/language_logo_" + challengers.medium.codeLanguage + ".png)")
+              span.code-language(style="background-image: url(/images/common/code_languages/" + challengers.medium.codeLanguage + "_small.png)")
           div.difficulty
             span(data-i18n="general.medium") Medium
           div(data-i18n="ladder.vs").vs VS
@@ -84,7 +84,7 @@ block modal-body-content
           div.opponent-name.name-label
             span= challengers.hard.opponentName
             if challengers.hard.codeLanguage
-              span.code-language(style="background-image: url(/images/pages/home/language_logo_" + challengers.hard.codeLanguage + ".png)")
+              span.code-language(style="background-image: url(/images/common/code_languages/" + challengers.hard.codeLanguage + "_small.png)")
           div.difficulty
             span(data-i18n="general.hard") Hard
           div(data-i18n="ladder.vs").vs VS

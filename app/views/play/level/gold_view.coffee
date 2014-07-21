@@ -1,8 +1,8 @@
-View = require 'views/kinds/CocoView'
+CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/gold'
 teamTemplate = require 'templates/play/level/team_gold'
 
-module.exports = class GoldView extends View
+module.exports = class GoldView extends CocoView
   id: 'gold-view'
   template: template
 

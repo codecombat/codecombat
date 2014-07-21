@@ -1,4 +1,4 @@
-View = require 'views/kinds/RootView'
+RootView = require 'views/kinds/RootView'
 template = require 'templates/admin/level_sessions'
 LevelSession = require 'models/LevelSession'
 
@@ -7,7 +7,7 @@ class LevelSessionCollection extends Backbone.Collection
   url: '/db/level_session/x/active'
   model: LevelSession
 
-module.exports = class LevelSessionsView extends View
+module.exports = class LevelSessionsView extends RootView
   id: 'admin-level-sessions-view'
   template: template
 

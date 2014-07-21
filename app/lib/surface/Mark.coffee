@@ -181,12 +181,11 @@ module.exports = class Mark extends CocoClass
   buildDebug: ->
     @mark = new createjs.Shape()
     PX = 3
-    [w, h] = [Math.max(PX, @sprite.thang.width * Camera.PPM), Math.max(PX, @sprite.thang.height * Camera.PPM) * @camera.y2x]
+    [w, h] = [Math.max(PX, @sprite.thang.width * Camera.PPM), Math.max(PX, @sprite.thang.height * Camera.PPM) * @camera.y2x]  # TODO: doesn't work with rotation
     @mark.alpha = 0.5
     @mark.graphics.beginFill '#abcdef'
     if @sprite.thang.shape in ['ellipsoid', 'disc']
-      [w, h] = [Math.max(PX, w, h), Math.max(PX, w, h)]
-      @mark.graphics.drawCircle 0, 0, w / 2
+      @mark.graphics.drawEllipse -w / 2, -h / 2, w, h
     else
       @mark.graphics.drawRect -w / 2, -h / 2, w, h
     @mark.graphics.endFill()
@@ -259,7 +258,7 @@ module.exports = class Mark extends CocoClass
 
   updateRotation: ->
     if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ['rectangle', 'box'])
-      @mark.rotation = @sprite.thang.rotation * 180 / Math.PI
+      @mark.rotation = -@sprite.thang.rotation * 180 / Math.PI
 
   updateScale: ->
     if @name is 'bounds' and ((@sprite.thang.width isnt @lastWidth or @sprite.thang.height isnt @lastHeight) or (@sprite.thang.drawsBoundsIndex isnt @drawsBoundsIndex))

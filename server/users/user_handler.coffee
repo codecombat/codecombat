@@ -8,6 +8,7 @@ config = require '../../server_config'
 errors = require '../commons/errors'
 async = require 'async'
 log = require 'winston'
+moment = require 'moment'
 LevelSession = require '../levels/sessions/LevelSession'
 LevelSessionHandler = require '../levels/sessions/level_session_handler'
 EarnedAchievement = require '../achievements/EarnedAchievement'
@@ -35,7 +36,7 @@ UserHandler = class UserHandler extends Handler
   getEditableProperties: (req, document) ->
     props = super req, document
     props.push 'permissions' unless config.isProduction
-    props.push 'jobProfileApproved', 'jobProfileNotes' if req.user.isAdmin()  # Admins naturally edit these
+    props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
     props.push privateProperties... if req.user.isAdmin()  # Admins are mad with power
     props
 
@@ -194,6 +195,7 @@ UserHandler = class UserHandler extends Handler
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @getEarnedAchievements(req, res, args[0]) if args[1] is 'achievements'
+    return @getRecentlyPlayed(req, res, args[0]) if args[1] is 'recently_played'
     return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
     return @getRemark(req, res, args[0]) if args[1] is 'remark'
     return @sendNotFoundError(res)
@@ -219,6 +221,7 @@ UserHandler = class UserHandler extends Handler
   avatar: (req, res, id) ->
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless document
       photoURL = document?.get('photoURL')
       if photoURL
         photoURL = "/file/#{photoURL}"
@@ -232,7 +235,7 @@ UserHandler = class UserHandler extends Handler
   getLevelSessionsForEmployer: (req, res, userID) ->
     return @sendUnauthorizedError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in req.user.get('permissions'))
     query = creator: userID, levelID: {$in: ['gridmancer', 'greed', 'dungeon-arena', 'brawlwood', 'gold-rush']}
-    projection = 'levelName levelID team playtime codeLanguage submitted code totalScore'
+    projection = 'levelName levelID team playtime codeLanguage submitted code totalScore teamSpells level'
     LevelSession.find(query).select(projection).exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
@@ -263,6 +266,13 @@ UserHandler = class UserHandler extends Handler
         doc.set('notified', true)
         doc.save()
       @sendSuccess(res, cleandocs)
+
+  getRecentlyPlayed: (req, res, userID) ->
+    twoWeeksAgo = moment().subtract('days', 14).toDate()
+    LevelSession.find(creator: userID, changed: $gt: twoWeeksAgo).sort(changed: -1).exec (err, docs) =>
+      return @sendDatabaseError res, err if err?
+      cleandocs = (@formatEntity(req, doc) for doc in docs)
+      @sendSuccess res, cleandocs
 
   trackActivity: (req, res, userID, activityName, increment=1) ->
     return @sendMethodNotAllowed res unless req.method is 'POST'
