@@ -482,7 +482,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     lg_title: "가장 최근 게임"
 #    clas: "CLAs"
 
-#  community:
+  community:
     level_editor: "레벨 에디터"
     main_title: "코드 컴뱃 커뮤니티"
     facebook: "페이스북"
