@@ -14,9 +14,9 @@ module.exports = class UserAchievementsView extends UserView
     super options, userID
 
   onUserLoaded: (user) ->
-    super user
     @achievements = @supermodel.loadCollection(new AchievementCollection, 'achievements').model
     @earnedAchievements = @supermodel.loadCollection(new EarnedAchievementCollection(@user), 'earnedAchievements').model
+    super user
 
   onLoaded: ->
     console.log @earnedAchievements

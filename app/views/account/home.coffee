@@ -3,6 +3,7 @@ template = require 'templates/account/home'
 {me} = require 'lib/auth'
 User = require 'models/User'
 AuthModalView = require 'views/modal/auth_modal'
+RecentlyPlayedCollection = require 'collections/RecentlyPlayedCollection'
 
 module.exports = class AccountHomeView extends View
   id: 'account-home-view'
@@ -11,11 +12,13 @@ module.exports = class AccountHomeView extends View
   constructor: (options) ->
     super options
     return unless me
+    @recentlyPlayed = @supermodel.loadCollection(new RecentlyPlayedCollection(me.get('_id')), 'recentlyPlayed').model
 
   getRenderData: ->
     c = super()
     c.subs = {}
     c.subs[sub] = 1 for sub in c.me.getEnabledEmails()
+    c.recentlyPlayed = @recentlyPlayed.models
     c
 
   afterRender: ->

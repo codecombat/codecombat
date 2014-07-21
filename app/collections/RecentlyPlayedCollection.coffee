@@ -1,4 +1,4 @@
-CocoCollection = require './CocoCollections'
+CocoCollection = require './CocoCollection'
 LevelSession = require 'models/LevelSession'
 
 module.exports = class RecentlyPlayedCollection extends CocoCollection

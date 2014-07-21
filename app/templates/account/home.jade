@@ -92,6 +92,25 @@ block content
     .col-sm-6
       h2 Recently Played
       hr
+      if !recentlyPlayed
+        div Loading...
+      else if recentlyPlayed.length
+        table.table
+          tr
+            th Level
+            th Last Played
+            th Status
+          each session in recentlyPlayed
+            tr
+              td
+                a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
+              td= moment(session.get('changed')).fromNow()
+              if session.get('state').complete === true
+                td Completed
+      else
+        .panel.panel-default
+          .panel-body
+            div No games played during the past two weeks.
 
 //block content
   h2 Account
