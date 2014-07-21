@@ -181,7 +181,7 @@ _.extend UserSchema.properties,
   }, c.object({
     title: 'Saved filter set'
     description: 'A saved filter set'
-    required: ['phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter','visa','filterActive']
+    required: ['phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter','visa']
   }, {
     phoneScreenFilter:
       title: 'Phone screen filter values'
