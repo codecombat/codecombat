@@ -3,24 +3,63 @@ template = require 'templates/editor/level/modal/terrain_randomize'
 CocoModel = require 'models/CocoModel'
 
 clusters = {
-  'rocks': ['Rock 1', 'Rock 2', 'Rock 3', 'Rock 4', 'Rock 5', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
-  'trees': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']
-  'shrubs': ['Shrub 1', 'Shrub 2', 'Shrub 3']
-  'houses': ['House 1', 'House 2', 'House 3', 'House 4']
-  'animals': ['Cow', 'Horse']
-  'wood': ['Firewood 1', 'Firewood 2', 'Firewood 3', 'Barrel']
-  'farm': ['Farm']
-  'cave': ['Cave']
-  'stone': ['Gargoyle', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
+  'rocks': {
+    'thangs': ['Rock 1', 'Rock 2', 'Rock 3', 'Rock 4', 'Rock 5', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
+    'margin': 1
+  }
+  'trees': {
+    'thangs': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']
+    'margin': 0
+    } 
+  'shrubs': {
+    'thangs': ['Shrub 1', 'Shrub 2', 'Shrub 3']
+    'margin': 0
+    } 
+  'houses': {
+    'thangs': ['House 1', 'House 2', 'House 3', 'House 4']
+    'margin': 4
+    } 
+  'animals': {
+    'thangs': ['Cow', 'Horse']
+    'margin': 1
+    } 
+  'wood': {
+    'thangs': ['Firewood 1', 'Firewood 2', 'Firewood 3', 'Barrel']
+    'margin': 1
+    } 
+  'farm': {
+    'thangs': ['Farm']
+    'margin': 9
+    } 
+  'cave': {
+    'thangs': ['Cave']
+    'margin': 5
+    } 
+  'stone': {
+    'thangs': ['Gargoyle', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
+    'margin': 1
+    } 
+  'grass_floor': {
+    'thangs': ['Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05']
+    'margin': -1
+    } 
+  'dungeon_wall': {
+    'thangs': ['Dungeon Wall']
+    'margin': 0
+    } 
+  'dungeon_floor': {
+    'thangs': ['Dungeon Floor']
+    'margin': -1
+    } 
 }
 
 presets = {
   'dungeon': {
     'type':'dungeon'
-    'borders':['Dungeon Wall']
+    'borders':'dungeon_wall'
     'borderNoise':0
     'borderSize':4
-    'floors':['Dungeon Floor']
+    'floors':'dungeon_floor'
     'decorations': {
       'cave': {
         'num':[1,1]
@@ -35,15 +74,15 @@ presets = {
   }
   'grassy': {
     'type':'grassy'
-    'borders':['Tree 1', 'Tree 2', 'Tree 3']
+    'borders':'trees'
     'borderNoise':1
     'borderSize':0
-    'floors':['Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05']
+    'floors':'grass_floor'
     'decorations': {
       'house': {
         'num':[1,2] #min-max
-        'width': 20
-        'height': 20
+        'width': 15
+        'height': 15
         'clusters': {
           'houses':[1,1]
           'trees':[1,2]
@@ -52,9 +91,9 @@ presets = {
         }
       }
       'farm': {
-        'num':[1,2] #min-max
-        'width': 20
-        'height': 20
+        'num':[1,1] #min-max
+        'width': 25
+        'height': 15
         'clusters': {
           'farm':[1,1]
           'shrubs':[2,3]
@@ -93,7 +132,6 @@ module.exports = class TerrainRandomizeModal extends ModalView
   id: 'terrain-randomize-modal'
   template: template
   thangs = []
-
   events:
     'click .choose-option': 'onRandomize'
 
@@ -125,49 +163,54 @@ module.exports = class TerrainRandomizeModal extends ModalView
     for i in _.range(0, presetSize.x, thangSizes.floorSize.x)
       for j in _.range(0, presetSize.y, thangSizes.floorSize.y)
         @thangs.push {
-          'id': @getRandomThang(preset.floors)
+          'id': @getRandomThang(clusters[preset.floors].thangs)
           'pos': {
             'x': i + thangSizes.floorSize.x/2
             'y': j + thangSizes.floorSize.y/2
           }
+          'margin': clusters[preset.floors].margin
         }
 
   randomizeBorder: (preset, presetSize, noiseFactor=1) ->
     for i in _.range(0, presetSize.x, thangSizes.borderSize.x)
       for j in _.range(thangSizes.borderSize.thickness)
         while not @addThang {
-          'id': @getRandomThang(preset.borders)
+          'id': @getRandomThang(clusters[preset.borders].thangs)
           'pos': {
             'x': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x/2)
             'y': 0 + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y)
           }
+          'margin': clusters[preset.borders].margin
         }
           continue
         while not @addThang {
-          'id': @getRandomThang(preset.borders)
+          'id': @getRandomThang(clusters[preset.borders].thangs)
           'pos': {
             'x': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x/2)
             'y': presetSize.y - preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y, thangSizes.borderSize.y/2)
           }
+          'margin': clusters[preset.borders].margin
         }
           continue
 
     for i in _.range(0, presetSize.y, thangSizes.borderSize.y)
       for j in _.range(3)
         while not @addThang {
-          'id': @getRandomThang(preset.borders)
+          'id': @getRandomThang(clusters[preset.borders].thangs)
           'pos': {
             'x': 0 + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x/2, thangSizes.borderSize.x)
             'y': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y/2)
           }
+          'margin': clusters[preset.borders].margin
         }
           continue
         while not @addThang {
-          'id': @getRandomThang(preset.borders)
+          'id': @getRandomThang(clusters[preset.borders].thangs)
           'pos': {
             'x': presetSize.x - preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.x, thangSizes.borderSize.x/2)
             'y': i + preset.borderSize/2 + noiseFactor * _.random(-thangSizes.borderSize.y/2, thangSizes.borderSize.y/2)
           }
+          'margin': clusters[preset.borders].margin
         }
           continue
 
@@ -175,32 +218,30 @@ module.exports = class TerrainRandomizeModal extends ModalView
     if presetSize is presetSizes['small'] then sizeFactor = 1 else sizeFactor = 2
     for name, decoration of preset.decorations
       for num in _.range(sizeFactor * _.random(decoration.num[0], decoration.num[1]))
-        center = {
-          'x':_.random(decoration.width, presetSize.x - decoration.width),
-          'y':_.random(decoration.height, presetSize.y - decoration.height)
-        }
-        min = {
-          'x':center.x - decoration.width/2
-          'y':center.y - decoration.height/2
-        }
-        max = {
-          'x':center.x + decoration.width/2
-          'y':center.y + decoration.height/2
+        rect = {
+          'x':_.random(decoration.width/2 + preset.borderSize/2 + thangSizes.borderSize.x, presetSize.x - decoration.width/2 - preset.borderSize/2 - thangSizes.borderSize.x),
+          'y':_.random(decoration.height/2 + preset.borderSize/2 + thangSizes.borderSize.y, presetSize.y - decoration.height/2 - preset.borderSize/2 - thangSizes.borderSize.y)
+          'width':decoration.width
+          'height':decoration.height
         }
         for cluster, range of decoration.clusters
           for i in _.range(_.random(range[0], range[1]))
             while not @addThang {
-              'id':@getRandomThang(clusters[cluster])
+              'id':@getRandomThang(clusters[cluster].thangs)
               'pos':{
-                'x':_.random(min.x, max.x)
-                'y':_.random(min.y, max.y)
+                'x':_.random(rect.x - rect.width/2, rect.x + rect.width/2)
+                'y':_.random(rect.y - rect.height/2, rect.y + rect.height/2)
               }
+              'margin':clusters[cluster].margin
             }
               continue
 
   addThang: (thang) ->
     for existingThang in @thangs
-      return false if thang.pos.x is existingThang.pos.x and thang.pos.y is existingThang.pos.y
+      if existingThang.margin is -1 or thang.margin is -1
+        continue
+      if Math.abs(existingThang.pos.x - thang.pos.x) <= thang.margin + existingThang.margin and Math.abs(existingThang.pos.y - thang.pos.y) <= thang.margin + existingThang.margin
+        return false 
     @thangs.push thang
     true
 
