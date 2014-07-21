@@ -16,6 +16,7 @@ LevelForkView = require './fork_view'
 SaveVersionModal = require 'views/modal/save_version_modal'
 PatchesView = require 'views/editor/patches_view'
 VersionHistoryView = require './versions_view'
+ComponentDocsView = require 'views/docs/components_view'
 
 module.exports = class EditorLevelView extends RootView
   id: 'editor-level-view'
@@ -71,6 +72,7 @@ module.exports = class EditorLevelView extends RootView
     @scriptsTab = @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @componentsTab = @insertSubView new ComponentsTabView supermodel: @supermodel
     @systemsTab = @insertSubView new SystemsTabView supermodel: @supermodel
+    @componentDocsTab = @insertSubView new ComponentDocsView supermodel: @supermodel
     Backbone.Mediator.publish 'level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
