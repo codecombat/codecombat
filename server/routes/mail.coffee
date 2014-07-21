@@ -384,6 +384,8 @@ sendEmployerNewCandidatesAvailableEmail = (employer, cb) ->
     ]
   User.count countParameters, (err, numberOfCandidatesSinceLogin) =>
     if err? then return cb err
+    if numberOfCandidatesSinceLogin < 4
+      return cb null
     context =
       email_id: "tem_CCcHKr95Nvu5bT7c7iHCtm"
       recipient:
