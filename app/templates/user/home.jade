@@ -1,3 +1,21 @@
 extends /templates/kinds/user
 
 block append content
+  if user
+    .left-column
+      .picture-wrapper
+        img.picture(src="#{me.getPhotoURL(150)}" alt="")
+        h3.name= user.get('name')
+    .right-column
+      .panel.panel-default
+        .panel-heading
+          h3.panel-title Achievements
+        .panel-body
+      .panel.panel-default
+        .panel-heading
+          h3.panel-title S. Levels
+        .panel-body
+      .panel.panel-default
+        .panel-heading
+          h3.panel-title M. Levels
+        .panel-body

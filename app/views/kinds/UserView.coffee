@@ -20,16 +20,18 @@ module.exports = class UserView extends RootView
   fetchUser: (id) ->
     User.getByID id, {}, true,
       success: (@user) =>
+        @userLoaded = true
         @trigger 'userNotFound' unless @user
         @trigger 'userLoaded', @user
       error: =>
-        console.debug 'Error while fetching user'
+        @userLoaded = true
         @trigger 'userNotFound'
 
   getRenderData: ->
     context = super()
     context.viewName = @viewName
     context.user = @user unless @user?.isAnonymous()
+    context.userLoaded = @userLoaded
     context
 
   isMe: -> @userID is me.id
