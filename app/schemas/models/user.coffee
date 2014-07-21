@@ -183,12 +183,41 @@ _.extend UserSchema.properties,
     description: 'A saved filter set'
     required: ['phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter','visa','filterActive']
   }, {
-    phoneScreenFilter: phoneScreenFilter
-    schoolFilter: schoolFilter
-    locationFilter: locationFilter
-    roleFilter: roleFilter
-    seniorityFilter: seniorityFilter
-    visa: visa
+    phoneScreenFilter:
+      title: 'Phone screen filter values'
+      type: 'array'
+      items: 
+        type: 'boolean'
+    schoolFilter:
+      title: 'School filter values'
+      type: 'array'
+      items:
+        type: schoolFilter.type
+        enum: schoolFilter.enum
+    locationFilter: 
+      title: 'Location filter values'
+      type: 'array'
+      items:
+        type: locationFilter.type
+        enum: locationFilter.enum
+    roleFilter: 
+      title: 'Role filter values'
+      type: 'array'
+      items:
+        type: roleFilter.type
+        enum: roleFilter.enum
+    seniorityFilter: 
+      title: 'Seniority filter values'
+      type: 'array'
+      items:
+        type: roleFilter.type
+        enum: seniorityFilter.enum
+    visa: 
+      title: 'Visa filter values'
+      type: 'array'
+      items:
+        type: visa.type
+        enum: visa.enum
     filterActive: 
       title: 'Filter active'
       description: 'Whether or not an employer will receive emails based on this filter'
