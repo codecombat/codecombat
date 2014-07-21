@@ -479,26 +479,30 @@ sendUserRemarkTaskEmail = (task, cb) ->
   mailTaskName = @mailTaskName
   User.findOne("_id":task.contact).select("email").lean().exec (err, contact) ->
     if err? then return cb err
-    context =
-      email_id: "tem_aryDjyw6JmEmbKtCMTSwAM"
-      recipient:
-        address: contact.email
-      email_data:
-        candidate_link: "http://codecombat.com/account/profile/#{task.user}"
-        due_date: task.date
-    log.info "Sending recruitment task reminder to #{contact.email}"
-    newSentMail =
-      mailTask: mailTaskName
-      user: task.contact
-      "metadata":
-        remarkID: task.remarkID
-        taskAction: task.action
-        date: task.date
-    MailSent.create newSentMail, (err) ->
+    User.findOne("_id":task.user).select("jobProfile.name").lean().exec (err, user) ->
       if err? then return cb err
-      sendwithus.api.send context, (err, result) ->
-        log.error "Error sending #{mailTaskName} to #{contact.email}: #{err} with result #{result}" if err
-        cb null
+      context =
+        email_id: "tem_aryDjyw6JmEmbKtCMTSwAM"
+        recipient:
+          address: contact.email
+        email_data:
+          task_text: task.action
+          candidate_name: user.jobProfile?.name ? "(Name not listed in job profile)"
+          candidate_link: "http://codecombat.com/account/profile/#{task.user}"
+          due_date: task.date
+      log.info "Sending recruitment task reminder to #{contact.email}"
+      newSentMail =
+        mailTask: mailTaskName
+        user: task.contact
+        "metadata":
+          remarkID: task.remarkID
+          taskAction: task.action
+          date: task.date
+      MailSent.create newSentMail, (err) ->
+        if err? then return cb err
+        sendwithus.api.send context, (err, result) ->
+          log.error "Error sending #{mailTaskName} to #{contact.email}: #{err} with result #{result}" if err
+          cb null
 
 ### New Recruit Leaderboard Email ###
 ###
