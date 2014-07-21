@@ -218,11 +218,6 @@ _.extend UserSchema.properties,
       items:
         type: visa.type
         enum: visa.enum
-    filterActive: 
-      title: 'Filter active'
-      description: 'Whether or not an employer will receive emails based on this filter'
-      type: 'boolean'
-      default: false
   })
     
   points: {type: 'number'}
