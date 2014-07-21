@@ -361,7 +361,7 @@ employersEmailedDigestMoreThanWeekAgoFilter = (employer, cb) ->
     "user": employer._id
     "mailTask": @mailTaskName
     "sent":
-      $gt: new Date(@currentTime.getTime() - 7 * 24 * 60 * 60 * 1000)
+      $gt: new Date(@currentTime.getTime() - 14 * 24 * 60 * 60 * 1000)
   MailSent.find(findParameters).lean().exec (err, sentMail) ->
     if err?
       log.error "Error finding mail sent for task #{@mailTaskName} and employer #employer._id}!"
@@ -384,6 +384,8 @@ sendEmployerNewCandidatesAvailableEmail = (employer, cb) ->
     ]
   User.count countParameters, (err, numberOfCandidatesSinceLogin) =>
     if err? then return cb err
+    if numberOfCandidatesSinceLogin < 4
+      return cb null
     context =
       email_id: "tem_CCcHKr95Nvu5bT7c7iHCtm"
       recipient:
