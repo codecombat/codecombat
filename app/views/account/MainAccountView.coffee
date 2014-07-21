@@ -5,7 +5,7 @@ User = require 'models/User'
 AuthModalView = require 'views/modal/auth_modal'
 RecentlyPlayedCollection = require 'collections/RecentlyPlayedCollection'
 
-module.exports = class AccountHomeView extends View
+module.exports = class MainAccountView extends View
   id: 'account-home-view'
   template: template
 

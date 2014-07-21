@@ -47,11 +47,14 @@ module.exports = class CocoRouter extends Backbone.Router
     # editor views tend to have the same general structure
     'editor/:model(/:slug_or_id)(/:subview)': 'editorModelView'
 
-    # user views
-    'user/:nameOrID(/:subview)': 'userView'
+    'user/:slugOrID': go('user/MainUserView')
+    'user/:slugOrID/stats': go('user/AchievementsView')
+    'user/:slugOrID/profile': go('user/JobProfileView')
+    #'user/:slugOrID/code': go('user/CodeView')
 
-    # account views
-    'account(/:subview)': 'accountView'
+    'account': go('account/MainAccountView')
+    'account/settings': go('account/AccountSettingsView')
+    #'account/payment'
 
     # Direct links
 
@@ -81,27 +84,6 @@ module.exports = class CocoRouter extends Backbone.Router
       return @openRoute(args.join('/'))
     view = new ViewClass({}, slugOrId)
     view.render()
-    @openView if view then view else @notFoundView()
-
-  userView: (nameOrID, subview) ->
-    modulePrefix = 'views/user/'
-    suffix = subview or 'home'
-    ViewClass = @tryToLoadModule modulePrefix + suffix
-    if ViewClass
-      view = new ViewClass {}, nameOrID
-      view.render()
-    @openView if view then view else @notFoundView()
-
-  # TODO Ruben There should be a uniform way to define these routes. This is backwards compatible
-  accountView: (subview) ->
-    modulePrefix = 'views/account/'
-    suffix = subview or 'home'
-    suffix2 = suffix + '_view'
-    ViewClass = @tryToLoadModule modulePrefix + suffix
-    ViewClass = @tryToLoadModule modulePrefix + suffix2 unless ViewClass
-    if ViewClass
-      view = new ViewClass
-      view.render()
     @openView if view then view else @notFoundView()
 
   cache: {}

@@ -54,7 +54,7 @@ module.exports = class ProfileView extends UserView
     'change #admin-contact': 'onAdminContactChanged'
     'click .session-link': 'onSessionLinkPressed'
 
-  constructor: (options, userID) ->
+  constructor: (userID, options) ->
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
     @onRemarkChanged = _.debounce @onRemarkChanged, 1000
     @authorizedWithLinkedIn = IN?.User?.isAuthorized()

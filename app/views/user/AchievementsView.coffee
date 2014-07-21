@@ -6,11 +6,11 @@ EarnedAchievement = require 'models/EarnedAchievement'
 AchievementCollection = require 'collections/AchievementCollection'
 EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
 
-module.exports = class UserAchievementsView extends UserView
+module.exports = class AchievementsView extends UserView
   id: 'user-achievements-view'
   template: template
 
-  constructor: (options, userID) ->
+  constructor: (userID, options) ->
     super options, userID
 
   onUserLoaded: (user) ->
