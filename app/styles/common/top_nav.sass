@@ -73,29 +73,33 @@ a.disabled
       border-radius: 0px
       font-family: Bangers
 
-      li.user-dropdown-header
+      .user-dropdown-header
         background: #E4CF8C
         height: 160px
         padding: 10px
         text-align: center
         color: black
         border-bottom: #32281e 1px solid
+        a:hover
+          background-color: transparent
         img
           border: #e3be7a 8px solid
           height: 98px // Includes the border
-        h3
+          &:hover
+            box-shadow: 0 0 20px #e3be7a
+        > h3
           margin-top: 10px
           text-shadow: 2px 2px 3px white
           color: #31281E
 
-      li.user-dropdown-body
+      .user-dropdown-body
         color: black
         padding: 15px
         letter-spacing: 1px
         font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif
         +clearfix()
 
-      li.user-dropdown-footer
+      .user-dropdown-footer
         padding: 10px
         margin-left: 0px
         font-size: 14px

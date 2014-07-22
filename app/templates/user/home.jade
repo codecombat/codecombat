@@ -2,20 +2,64 @@ extends /templates/kinds/user
 
 block append content
   if user
-    .left-column
-      .picture-wrapper
-        img.picture(src="#{me.getPhotoURL(150)}" alt="")
-        h3.name= user.get('name')
-    .right-column
-      .panel.panel-default
-        .panel-heading
-          h3.panel-title Achievements
-        .panel-body
-      .panel.panel-default
-        .panel-heading
-          h3.panel-title S. Levels
-        .panel-body
-      .panel.panel-default
-        .panel-heading
-          h3.panel-title M. Levels
-        .panel-body
+    .vertical-buffer
+    .row
+      .left-column
+        .picture-wrapper
+          img.picture(src="#{me.getPhotoURL(150)}" alt="")
+          h3.name= user.get('name')
+        hr
+        ul.list-group
+          li.list-group-item
+            i.glyphicon.glyphicon-briefcase
+            a(href="profile") Job Profile
+          li.list-group-item
+            i.glyphicon.glyphicon-pencil
+            a(href="") Code
+        - var emails = user.get('emails')
+        if emails
+          hr
+          ul.contributor-categories
+            //li.contributor-category
+              img.contributor-image(src="/images/pages/user/general.png")
+              h4.contributor-title CodeCombateer
+            if emails.adventurerNews
+              li.contributor-category
+                img.contributor-image(src="/images/pages/user/adventurer.png")
+                h4.contributor-title
+                  a(href="/contribute#adventurer") Adventurer
+            if emails.ambassadorNews
+              li.contributor-category
+                img.contributor-image(src="/images/pages/user/ambassador.png")
+                h4.contributor-title
+                  a(href="/contribute#ambassador") Ambassador
+            if emails.archmageNews
+              li.contributor-category
+                img.contributor-image(src="/images/pages/user/archmage.png")
+                h4.contributor-title
+                  a(href="/contribute#archmage") Archmage
+            if emails.artisanNews
+              li.contributor-category
+                img.contributor-image(src="/images/pages/user/artisan.png")
+                h4.contributor-title
+                  a(href="/contribute#artisan") Artisan
+            if emails.scribeNews
+              li.contributor-category
+                img.contributor-image(src="/images/pages/user/scribe.png")
+                h4.contributor-title
+                  a(href="/contribute#scribe") Scribe
+
+
+      .right-column
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title Achievements
+          .panel-body
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title S. Levels
+          .panel-body
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title M. Levels
+          .panel-body

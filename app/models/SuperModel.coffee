@@ -57,9 +57,8 @@ module.exports = class SuperModel extends Backbone.Model
         res.markLoading()
         return res
     else
-      console.debug 'adding collection', collection
       @addCollection collection
-      @listenTo collection, 'sync', (c) ->
+      @listenToOnce collection, 'sync', (c) ->
         console.debug 'Registering collection', url
         @registerCollection c
       res = @addModelResource(collection, name, fetchOptions, value)

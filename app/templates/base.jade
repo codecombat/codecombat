@@ -27,14 +27,6 @@ body
 
         select.language-dropdown
 
-          //button.btn.btn-primary.navbuttontext.header-font#logout-button(data-i18n="login.log_out") Log Out
-          //a.btn.btn-primary.navbuttontext.header-font(href=me.get('jobProfile') ? "/account/profile/#{me.id}" : "/account/settings")
-            div.navbuttontext-account(data-i18n="nav.account") Account
-            if me.get('photoURL')
-              img.account-settings-image(src=me.getPhotoURL(18), alt="")
-            else
-              span.glyphicon.glyphicon-user
-
         ul(class='navbar-link-text').nav.navbar-nav.pull-right
           li.play
             a.header-font(href='/play', data-i18n="nav.play") Levels
@@ -51,11 +43,12 @@ body
                 span.caret
               ul.dropdown-menu(role="menu")
                 li.user-dropdown-header
-                  img.img-circle(src="#{me.getPhotoURL()}" alt="")
+                  a(href="/user/#{me.get('slug') || me.get('_id')}")
+                    img.img-circle(src="#{me.getPhotoURL()}" alt="")
                   h3=me.get('name') || 'Anoner'
                 li.user-dropdown-body
                   .col-xs-4.text-center
-                    a(href="#") Profile
+                    a(href="/user/#{me.get('slug') || me.get('_id')}") Profile
                   .col-xs-4.text-center
                     a(href="#") Stats
                   .col-xs-4.text-center
