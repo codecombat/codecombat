@@ -167,6 +167,10 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Ctrl-L', mac: 'Command-L'}
       passEvent: true
       exec: ->  # just prevent default ACE go-to-line alert
+    addCommand
+      name: 'open-fullscreen-editor'
+      bindKey: {win: 'Alt-Shift-F', mac: 'Ctrl-Shift-F'}
+      exec: -> Backbone.Mediator.publish 'tome:fullscreen-view'
 
   fillACE: ->
     @ace.setValue @spell.source
