@@ -10,14 +10,15 @@
   .right-column
     +make-sm-column(8)
 
-  .picture-wrapper
+  .profile-wrapper
     text-align: center
     outline: 1px solid darkgrey
-    max-width: 80%
+    max-width: 100%
     +center-block()
 
     > .picture
-      max-width: 100%
+      width: 100%
+      background-color: #dadada
       border: 4px solid white
 
     > .name
@@ -27,13 +28,24 @@
       color: white
       text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000
 
-  .list-group-item > a
-    color: #555555
-    margin-left: 5px
+  .profile-menu
+    padding-left: 0px
+    width: 100%
+    > a
+      border-radius: 0
+      border-width: 1px 0px
+      border-color: darkgrey
+      &:hover
+        border-color: #888
+      > span
+        color: #555555
+        font-size: 15px
+        margin-left: 5px
 
 .contributor-categories
   list-style: none
   padding: 0px
+  margin-top: 15px
 
   > .contributor-category
     outline: 1px solid black

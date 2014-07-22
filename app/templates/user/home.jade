@@ -5,20 +5,18 @@ block append content
     .vertical-buffer
     .row
       .left-column
-        .picture-wrapper
+        .profile-wrapper
           img.picture(src="#{me.getPhotoURL(150)}" alt="")
           h3.name= user.get('name')
-        hr
-        ul.list-group
-          li.list-group-item
-            i.glyphicon.glyphicon-briefcase
-            a(href="profile") Job Profile
-          li.list-group-item
-            i.glyphicon.glyphicon-pencil
-            a(href="") Code
+          .btn-group-vertical.profile-menu
+            a.btn.btn-default(href="/user/#{user.get('slug') || user.get('_id')}/profile")
+              i.glyphicon.glyphicon-briefcase
+              span Job Profile
+            a.btn.btn-default(href="profile")
+              i.glyphicon.glyphicon-pencil
+              span Code
         - var emails = user.get('emails')
         if emails
-          hr
           ul.contributor-categories
             //li.contributor-category
               img.contributor-image(src="/images/pages/user/general.png")
