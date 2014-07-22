@@ -13,7 +13,7 @@ TaskLog = require './task/ScoringTask'
 bayes = new (require 'bayesian-battle')()
 
 scoringTaskQueue = undefined
-scoringTaskTimeoutInSeconds = 240
+scoringTaskTimeoutInSeconds = 600
 
 module.exports.setup = (app) -> connectToScoringQueue()
 
