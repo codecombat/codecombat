@@ -65,6 +65,9 @@ module.exports = class ProfileView extends RootView
       @authorizedWithLinkedIn = IN?.User?.isAuthorized()
       @render()
     super options
+    if me.get('anonymous') is true
+      @render()
+      return
     if User.isObjectID @userID
       @finishInit()
     else
