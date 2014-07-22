@@ -6,11 +6,6 @@ TIMEOUT = 1000 * 30 # no activity for 30 seconds means it's not active
 
 class LevelSessionHandler extends Handler
   modelClass: LevelSession
-  editableProperties: ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
-                       'levelName', 'creatorName', 'levelID', 'screenshot',
-                       'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage', 'unsubscribed', 'playtime']
-  privateProperties: ['code', 'submittedCode', 'unsubscribed']
-  jsonSchema: require '../../../app/schemas/models/level_session'
 
   getByRelationship: (req, res, args...) ->
     return @getActiveSessions req, res if args.length is 2 and args[1] is 'active'
