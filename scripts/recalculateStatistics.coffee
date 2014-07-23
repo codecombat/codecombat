@@ -26,10 +26,12 @@ whenAllFinished = ->
   process.exit()
 
 async.series [
-  (c) -> report UserHandler.recalculateAsync, 'gamesCompleted', c
-  (c) -> report UserHandler.recalculateAsync, 'articleEdits', c
-  (c) -> report UserHandler.recalculateAsync, 'levelEdits', c
-  (c) -> report UserHandler.recalculateAsync, 'levelComponentEdits', c
-  (c) -> report UserHandler.recalculateAsync, 'levelSystemEdits', c
-  (c) -> report UserHandler.recalculateAsync, 'thangTypeEdits', c
+  # Misc
+  (c) -> report UserHandler.recalculateStats, 'gamesCompleted', c
+  # Edits
+  (c) -> report UserHandler.recalculateStats, 'articleEdits', c
+  (c) -> report UserHandler.recalculateStats, 'levelEdits', c
+  (c) -> report UserHandler.recalculateStats, 'levelComponentEdits', c
+  (c) -> report UserHandler.recalculateStats, 'levelSystemEdits', c
+  (c) -> report UserHandler.recalculateStats, 'thangTypeEdits', c
 ], whenAllFinished

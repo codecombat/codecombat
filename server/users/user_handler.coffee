@@ -393,9 +393,10 @@ UserHandler = class UserHandler extends Handler
     return done(new Error 'Could not resolve statKey for model') unless statKey?
     User.find {}, (err, users) ->
       async.eachSeries users, ((user, doneWithUser) ->
-        userID = user.get('_id').toHexString()
+        userObjectID = user.get('_id')
+        userStringID = userObjectID.toHexString()
 
-        model.count {creator: userID}, (err, count) ->
+        model.count {$or: [creator: userObjectID, creator: userStringID]}, (err, count) ->
           if count
             update = $set: {}
             update.$set[statKey] = count
@@ -442,7 +443,38 @@ UserHandler = class UserHandler extends Handler
       ThangType = require '../levels/thangs/ThangType'
       countEdits ThangType, done
 
-  recalculateAsync: (statName, done) =>
+    patchesContributed: (done) ->
+      Patch = require '../patches/Patch'
+
+      User.find {}, (err, users) ->
+        async.eachSeries users, ((user, doneWithUser) ->
+          userObjectID = user.get('_id')
+          userStringID = userObjectID.toHexString()
+
+          Patch.count {$or: [{creator: userObjectID}, {creator: userStringID}], 'status': 'accepted'}, (err, count) ->
+            update = if count then {$set: 'stats.patchesContributed': count} else {$unset: 'stats.patchesContributed': ''}
+            User.findByIdAndUpdate user.get('_id'), update, (err) ->
+              log.error err if err?
+              doneWithUser()
+        ), done
+
+    patchesSubmitted: (done) ->
+      Patch = require '../patches/Patch'
+
+      User.find {}, (err, users) ->
+        async.eachSeries users, ((user, doneWithUser) ->
+          userObjectID = user.get('_id')
+          userStringID = userObjectID.toHexString()
+
+          Patch.count {$or: [{creator: userObjectID}, {creator: userStringID}]}, (err, count) ->
+            update = if count then {$set: 'stats.patchesSubmitted': count} else {$unset: 'stats.patchesSubmitted': ''}
+            User.findByIdAndUpdate user.get('_id'), update, (err) ->
+              log.error err if err?
+              doneWithUser()
+        ), done
+
+
+  recalculateStats: (statName, done) =>
     return new Error 'Recalculation handler not found' unless statName of @statRecalculators
     @statRecalculators[statName] done
 
@@ -450,7 +482,7 @@ UserHandler = class UserHandler extends Handler
     return @sendForbiddenError(res) unless req.user.isAdmin()
     log.debug 'recalculate'
     return @sendNotFoundError(res) unless statName of @statRecalculators
-    @recalculateAsync statName
+    @recalculateStats statName
     @sendAccepted res, {}
 
 module.exports = new UserHandler()

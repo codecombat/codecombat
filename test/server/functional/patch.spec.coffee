@@ -2,6 +2,9 @@ require '../common'
 
 describe '/db/patch', ->
   request = require 'request'
+  async = require 'async'
+  UserHandler = require '../../../server/users/user_handler'
+
   it 'clears the db first', (done) ->
     clearModels [User, Article, Patch], (err) ->
       throw err if err
@@ -112,7 +115,7 @@ describe '/db/patch', ->
 
   it 'keeps track of amount of submitted and accepted patches', (done) ->
     loginJoe (joe) ->
-      User.findById joe.get('id'), (err, guy) ->
+      User.findById joe.get('_id'), (err, guy) ->
         expect(err).toBeNull()
         expect(guy.get 'stats.patchesSubmitted').toBe 1
         expect(guy.get 'stats.patchesContributed').toBe 1
@@ -120,6 +123,25 @@ describe '/db/patch', ->
         expect(guy.get 'stats.articleMiscPatches').toBe 1
         expect(guy.get 'stats.totalTranslationPatches').toBeUndefined()
         done()
+
+  it 'recalculates amount of submitted and accepted patches', (done) ->
+    loginJoe (joe) ->
+      console.log joe
+      User.findById joe.get('_id'), (err, joe) ->
+        expect(joe.get 'stats.patchesSubmitted').toBe 1
+        joe.update {$unset: stats: ''}, (err) ->
+          UserHandler.modelClass.findById joe.get('_id'), (err, joe) ->
+            expect(err).toBeNull()
+            expect(joe.get 'stats').toBeUndefined()
+            async.parallel [
+              (done) -> UserHandler.recalculateStats 'patchesContributed', done
+              (done) -> UserHandler.recalculateStats 'patchesSubmitted', done
+            ], (err) ->
+              expect(err).toBeNull()
+              UserHandler.modelClass.findById joe.get('_id'), (err, joe) ->
+                expect(joe.get 'stats.patchesContributed').toBe 1
+                expect(joe.get 'stats.patchesSubmitted').toBe 1
+                done()
 
   it 'does not allow the recipient to withdraw the pull request', (done) ->
     loginAdmin ->
@@ -129,3 +151,8 @@ describe '/db/patch', ->
         Patch.findOne({}).exec (err, article) ->
           expect(article.get('status')).toBe 'accepted'
           done()
+
+
+
+
+

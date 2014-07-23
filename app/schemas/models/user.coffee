@@ -165,13 +165,33 @@ _.extend UserSchema.properties,
     data: c.object {description: 'Cached LinkedIn data slurped from profile.', additionalProperties: true}
   points: {type: 'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
-  stats: c.object {additionalProperties: true}, # TODO set to false after dev
-    gamesCompleted: type: 'integer'
-    articleEdits: type: 'integer'
-    levelEdits: type: 'integer'
-    levelSystemEdits: type: 'integer'
-    levelComponentEdits: type: 'integer'
-    thangTypeEdits: type: 'integer'
+  stats: c.object {additionalProperties: false},
+    gamesCompleted: c.int()
+    articleEdits: c.int()
+    levelEdits: c.int()
+    levelSystemEdits: c.int()
+    levelComponentEdits: c.int()
+    thangTypeEdits: c.int()
+    'stats.patchesSubmitted': c.int
+      description: 'Amount of patches submitted, not necessarily accepted'
+    'stats.patchesContributed': c.int
+      description: 'Amount of patches submitted and accepted'
+    'stats.patchesAccepted': c.int
+      description: 'Amount of patches accepted by the user as owner'
+    # The below patches only apply to those that actually got accepted
+    'stats.totalTranslationPatches': c.int()
+    'stats.totalMiscPatches': c.int()
+    'stats.articleTranslationPatches': c.int()
+    'stats.articleMiscPatches': c.int()
+    'stats.levelTranslationPatches': c.int()
+    'stats.levelMiscPatches': c.int()
+    'stats.levelComponentTranslationPatches': c.int()
+    'stats.levelComponentMiscPatches': c.int()
+    'stats.levelSystemTranslationPatches': c.int()
+    'stats.levelSystemMiscPatches': c.int()
+    'stats.thangTypeTranslationPatches': c.int()
+    'stats.thangTypeMiscPatches': c.int()
+
 
 c.extendBasicProperties UserSchema, 'user'
 
