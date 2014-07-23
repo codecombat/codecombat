@@ -634,11 +634,11 @@ module.exports = class SpellView extends CocoView
   toggleBackground: =>
     # TODO: make the background an actual background and do the CSS trick
     # used in spell_list_entry.sass for disabling
-    background = @$el.find('.code-background')[0]
+    background = @$el.find('img.code-background')[0]
     if background.naturalWidth is 0  # not loaded yet
       return _.delay @toggleBackground, 100
-    filters.revertImage background if @controlsEnabled
-    filters.darkenImage background, 0.8 unless @controlsEnabled
+    filters.revertImage background, 'span.code-background' if @controlsEnabled
+    filters.darkenImage background, 'span.code-background', 0.8 unless @controlsEnabled
 
   onSpellBeautify: (e) ->
     return unless @spellThang and (@ace.isFocused() or e.spell is @spell)

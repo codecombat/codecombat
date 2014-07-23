@@ -3,12 +3,15 @@ ThangAvatarView = require 'views/play/level/thang_avatar_view'
 template = require 'templates/play/level/tome/spell_list_tab_entry'
 LevelComponent = require 'models/LevelComponent'
 DocFormatter = require './doc_formatter'
+filters = require 'lib/image_filter'
 
 module.exports = class SpellListTabEntryView extends SpellListEntryView
   template: template
   id: 'spell-list-tab-entry-view'
 
   subscriptions:
+    'level-disable-controls': 'onDisableControls'
+    'level-enable-controls': 'onEnableControls'
     'tome:spell-loaded': 'onSpellLoaded'
     'tome:spell-changed': 'onSpellChanged'
     'god:new-world-created': 'onNewWorld'
@@ -75,6 +78,8 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   onMouseEnterAvatar: (e) ->  # Don't call super
   onMouseLeaveAvatar: (e) ->  # Don't call super
   onClick: (e) ->  # Don't call super
+  onDisableControls: (e) -> @toggleControls e, false
+  onEnableControls: (e) -> @toggleControls e, true
 
   onDropdownClick: (e) ->
     return unless @controlsEnabled
@@ -89,12 +94,8 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     Backbone.Mediator.publish 'spell-beautify', spell: @spell
 
   onFullscreenClick: ->
-    unless $('.fullscreen-code').hasClass 'maximized'
-      $('#code-area').addClass 'fullscreen-editor'
-      $('.fullscreen-code').addClass 'maximized'
-    else
-      $('#code-area').removeClass 'fullscreen-editor'
-      $('.fullscreen-code').removeClass 'maximized'
+    $('#code-area').toggleClass 'fullscreen-editor'
+    $('.fullscreen-code').toggleClass 'maximized'
 
   updateReloadButton: ->
     changed = @spell.hasChanged null, @spell.getSource()
@@ -122,6 +123,16 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'read-only', not enabled
+    @toggleBackground()
+
+  toggleBackground: =>
+    # TODO: make the palette background an actual background and do the CSS trick
+    # used in spell_list_entry.sass for disabling
+    background = @$el.find('img.spell-tab-image-hidden')[0]
+    if background.naturalWidth is 0  # not loaded yet
+      return _.delay @toggleBackground, 100
+    filters.revertImage background, '.spell-list-entry-view.spell-tab' if @controlsEnabled
+    filters.darkenImage background, '.spell-list-entry-view.spell-tab', 0.8 unless @controlsEnabled
 
   destroy: ->
     @avatar?.destroy()
