@@ -49,5 +49,5 @@ module.exports.darkenImage = darkenImage = (img, borderImageSelector, pct=0.5) -
 module.exports.revertImage = revertImage = (img, borderImageSelector) ->
   jqimg = $(img)
   return unless jqimg.data('original')
-  $(borderImageSelector).css 'border-image-source', 'url(' + img.src + ')'
+  $(borderImageSelector).css 'border-image-source', 'url(' + jqimg.data('original') + ')'
   img.src = jqimg.data('original')
