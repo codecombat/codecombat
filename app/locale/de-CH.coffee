@@ -100,12 +100,12 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     for_beginners: "Für Afänger"
     multiplayer: "Multiplayer"
     for_developers: "Für Entwickler"
-#    javascript_blurb: "D Internetsproch. Super zum Websiite, Web Apps, HTML5 Games und Server schriibe."
-#    python_blurb: "Eifach und doch mächtig. Python isch grossartigi, allgemein isetzbari Programmiersproch."
-#    coffeescript_blurb: "Nettere JavaScript Syntax."
+    javascript_blurb: "D Internetsproch. Super zum Websiite, Web Apps, HTML5 Games und Server schriibe."
+    python_blurb: "Eifach und doch mächtig. Python isch grossartigi, allgemein isetzbari Programmiersproch."
+    coffeescript_blurb: "Nettere JavaScript Syntax."
 #    clojure_blurb: "A modern Lisp."
-#    lua_blurb: "D Sproch für Game Scripts."
-#    io_blurb: "Eifach aber undurchsichtig."
+    lua_blurb: "D Sproch für Game Scripts."
+    io_blurb: "Eifach aber undurchsichtig."
 
   play:
     choose_your_level: "Wähl dis Level us"
