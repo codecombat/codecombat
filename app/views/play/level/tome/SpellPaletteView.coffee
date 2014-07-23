@@ -84,13 +84,16 @@ module.exports = class SpellPaletteView extends CocoView
         snippets: 'programmableSnippets'
     else
       propStorage =
-        'this': 'apiProperties'
+        'this': ['apiProperties', 'apiMethods']
     count = 0
     propGroups = {}
-    for owner, storage of propStorage
-      props = _.reject @thang[storage] ? [], (prop) -> prop[0] is '_'  # no private properties
-      added = propGroups[owner] = _.sortBy(props).slice()
-      count += added.length
+    for owner, storages of propStorage
+      storages = [storages] if _.isString storages
+      for storage in storages
+        props = _.reject @thang[storage] ? [], (prop) -> prop[0] is '_'  # no private properties
+        added = _.sortBy(props).slice()
+        propGroups[owner] = (propGroups[owner] ? []).concat added
+        count += added.length
 
     shortenize = count > 6
     tabbify = count >= 10
