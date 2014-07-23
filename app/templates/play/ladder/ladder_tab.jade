@@ -49,7 +49,7 @@ div#columns.row
     h4.friends-header(data-i18n="ladder.friends_playing") Friends Playing
     if me.get('anonymous')
       div.alert.alert-info
-        a(data-toggle="coco-modal", data-target="modal/auth", data-i18n="ladder.log_in_for_friends") Log in to play with your friends!
+        a(data-toggle="coco-modal", data-target="modal/AuthModal", data-i18n="ladder.log_in_for_friends") Log in to play with your friends!
     
     else
       if !onFacebook || !onGPlus
