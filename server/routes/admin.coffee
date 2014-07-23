@@ -20,7 +20,9 @@ module.exports.setup = (app) ->
       name = handlers[moduleName]
       handler = require('../' + name)
 
+      return errors.notFound res, 'Handler not found for ' + moduleName unless handler
       return handler[parts[1]](req, res, parts[2..]...) if parts[1] of handler
+      return errors.notFound res, 'Method not found for handler ' + name
 
     catch error
       log.error("Error trying db method '#{req.route.method}' route '#{parts}' from #{name}: #{error}")
