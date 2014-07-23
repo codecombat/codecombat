@@ -178,6 +178,7 @@ module.exports = class LadderTabView extends CocoView
     ctx.friends = @consolidateFriends()
     ctx.onFacebook = @facebookStatus is 'connected'
     ctx.onGPlus = application.gplusHandler.loggedIn
+    ctx.capitalize = _.string.capitalize
     ctx
 
   generateHistogram: (histogramElement, histogramData, teamName) ->
