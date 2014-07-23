@@ -34,6 +34,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   afterRender: ->
     super()
     @$el.addClass 'spell-tab'
+    @attachTransitionEventListener()
 
   onNewWorld: (e) ->
     @thang = e.world.thangMap[@thang.id] if @thang
@@ -94,6 +95,8 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     Backbone.Mediator.publish 'spell-beautify', spell: @spell
 
   onFullscreenClick: ->
+    $codearea = $('#code-area')
+    $codearea.css 'z-index', 20 unless $codearea.hasClass 'fullscreen-editor'
     $('#code-area').toggleClass 'fullscreen-editor'
     $('.fullscreen-code').toggleClass 'maximized'
 
@@ -133,6 +136,23 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
       return _.delay @toggleBackground, 100
     filters.revertImage background, '.spell-list-entry-view.spell-tab' if @controlsEnabled
     filters.darkenImage background, '.spell-list-entry-view.spell-tab', 0.8 unless @controlsEnabled
+
+  attachTransitionEventListener: =>
+    transitionListener = ''
+    testEl = document.createElement 'fakeelement'
+    transitions = 
+      'transition':'transitionend'
+      'OTransition':'oTransitionEnd'
+      'MozTransition':'transitionend'
+      'WebkitTransition':'webkitTransitionEnd'
+    for transition, transitionEvent of transitions
+      unless testEl.style[transition] is undefined
+        transitionListener = transitionEvent
+        break
+    $codearea = $('#code-area')
+    $codearea.on transitionListener, =>
+      $codearea.css 'z-index', 1 unless $codearea.hasClass 'fullscreen-editor'
+
 
   destroy: ->
     @avatar?.destroy()
