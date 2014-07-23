@@ -15,7 +15,7 @@ describe 'recalculate statistics', ->
         expect(res.statusCode).toBe 202
         done()
 
-  xit 'responds with a 404 if handler not found', (done) ->
+  it 'responds with a 404 if handler not found', (done) ->
     loginAdmin ->
       request.post {uri:getURL '/admin/blobfish/swim'}, (err, res, body) ->
         expect(res.statusCode).toBe 404
@@ -32,3 +32,8 @@ describe 'recalculate statistics', ->
       request.post {uri:url + 'ballsKicked'}, (err, res, body) ->
         expect(res.statusCode).toBe 404
         done()
+
+
+
+
+

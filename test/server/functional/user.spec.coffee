@@ -364,7 +364,7 @@ describe 'Statistics', ->
           expect(err).toBeNull()
           expect(guy.get 'stats.gamesCompleted').toBeUndefined()
 
-          UserHandler.statHandlers.gamesCompleted ->
+          UserHandler.statRecalculators.gamesCompleted ->
             User.findById joe.get('id'), (err, guy) ->
               expect(err).toBeNull()
               expect(guy.get 'stats.gamesCompleted').toBe 1
@@ -406,7 +406,7 @@ describe 'Statistics', ->
         expect(err).toBeNull()
         expect(guy.get User.statsMapping.edits.article).toBeUndefined()
 
-        UserHandler.statHandlers.articleEdits ->
+        UserHandler.statRecalculators.articleEdits ->
           User.findById carl.get('id'), (err, guy) ->
             expect(err).toBeNull()
             expect(guy.get User.statsMapping.edits.article).toBe 2
@@ -439,7 +439,7 @@ describe 'Statistics', ->
         expect(err).toBeNull()
         expect(guy.get User.statsMapping.edits.level).toBeUndefined()
 
-        UserHandler.statHandlers.levelEdits ->
+        UserHandler.statRecalculators.levelEdits ->
           User.findById jose.get('id'), (err, guy) ->
             expect(err).toBeNull()
             expect(guy.get User.statsMapping.edits.level).toBe 1

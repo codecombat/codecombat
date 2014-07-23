@@ -407,7 +407,7 @@ UserHandler = class UserHandler extends Handler
             doneWithUser()
       ), done
 
-  statHandlers:
+  statRecalculators:
     gamesCompleted: (done) ->
       LevelSession = require '../levels/sessions/LevelSession'
 
@@ -442,14 +442,15 @@ UserHandler = class UserHandler extends Handler
       ThangType = require '../levels/thangs/ThangType'
       countEdits ThangType, done
 
+  recalculateAsync: (statName, done) =>
+    return new Error 'Recalculation handler not found' unless statName of @statRecalculators
+    @statRecalculators[statName] done
 
   recalculate: (req, res, statName) ->
     return @sendForbiddenError(res) unless req.user.isAdmin()
-
-    if statName of @statHandlers
-      @statHandlers[statName]()
-      return @sendAccepted res, {}
-    else return @sendNotFoundError(res)
-
+    log.debug 'recalculate'
+    return @sendNotFoundError(res) unless statName of @statRecalculators
+    @recalculateAsync statName
+    @sendAccepted res, {}
 
 module.exports = new UserHandler()
