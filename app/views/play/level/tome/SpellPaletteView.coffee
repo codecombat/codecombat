@@ -150,11 +150,11 @@ module.exports = class SpellPaletteView extends CocoView
   toggleBackground: =>
     # TODO: make the palette background an actual background and do the CSS trick
     # used in spell_list_entry.sass for disabling
-    background = @$el.find('.code-palette-background')[0]
+    background = @$el.find('img.code-palette-background')[0]
     if background.naturalWidth is 0  # not loaded yet
       return _.delay @toggleBackground, 100
-    filters.revertImage background if @controlsEnabled
-    filters.darkenImage background, 0.8 unless @controlsEnabled
+    filters.revertImage background, 'span.code-palette-background' if @controlsEnabled
+    filters.darkenImage background, 'span.code-palette-background', 0.8 unless @controlsEnabled
 
   onFrameChanged: (e) ->
     return unless e.selectedThang?.id is @thang.id
