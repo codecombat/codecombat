@@ -13,6 +13,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     'tome:spell-changed': 'onSpellChanged'
     'god:new-world-created': 'onNewWorld'
     'tome:spell-changed-language': 'onSpellChangedLanguage'
+    'tome:fullscreen-view': 'onFullscreenClick'
 
   events:
     'click .spell-list-button': 'onDropdownClick'
