@@ -3,7 +3,10 @@ extends /templates/base
 block content
   if !allowedToEditJobProfile && me.get('anonymous') == true
     div(class="job-profile-container")
-      h1#login-message Please login to view this profile.
+      h1#login-message 
+        |Please 
+        a.auth-button login 
+        | to view this profile.
   else
     if allowedToEditJobProfile
       .profile-control-bar
