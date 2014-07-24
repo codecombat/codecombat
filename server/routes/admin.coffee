@@ -18,9 +18,9 @@ module.exports.setup = (app) ->
     try
       moduleName = module.replace '.', '_'
       name = handlers[moduleName]
-      handler = require('../' + name)
+      return errors.notFound res, 'Handler not found for ' + moduleName unless name?
 
-      return errors.notFound res, 'Handler not found for ' + moduleName unless handler
+      handler = require('../' + name)
       return handler[parts[1]](req, res, parts[2..]...) if parts[1] of handler
       return errors.notFound res, 'Method not found for handler ' + name
 

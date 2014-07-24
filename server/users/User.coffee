@@ -133,8 +133,12 @@ UserSchema.statics.statsMapping =
     'thang.type': 'stats.thangTypeMiscPatches'
     
 UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
-  @findById id, (err, User) ->
-    User.incrementStat statName, done, inc=1
+  id = mongoose.Types.ObjectId id if _.isString id
+  @findById id, (err, user) ->
+    log.error err if err?
+    err = new Error "Could't find user with id '#{id}'" unless user or err
+    return done err if err?
+    user.incrementStat statName, done, inc=1
 
 UserSchema.methods.incrementStat = (statName, done, inc=1) ->
   @set statName, (@get(statName) or 0) + inc

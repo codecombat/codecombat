@@ -408,6 +408,43 @@ UserHandler = class UserHandler extends Handler
             doneWithUser()
       ), done
 
+  # I don't like leaking big variables, could remove this for readability
+  # Meant for passing into MongoDB
+  {isMiscPatch, isTranslationPatch} = do ->
+    deltas = require '../../app/lib/deltas'
+    flattenDelta = _.clone deltas.flattenDelta
+    some = _.clone _.some
+
+    isMiscPatch: ->
+      expanded = flattenDelta @delta
+      some expanded, (delta) -> 'i18n' not in delta.dataPath
+    isTranslationPatch: ->
+      expanded = flattenDelta @delta
+      some expanded, (delta) -> 'i18n' in delta.dataPath
+
+  countPatchesByUsers = (query, statName, done) ->
+    Patch = require '../patches/Patch'
+
+    User.find {}, (err, users) ->
+      async.eachSeries users, ((user, doneWithUser) ->
+        #log.debug user
+        userObjectID = user.get '_id'
+        userStringID = userObjectID.toHexString()
+        # Extend query with a patch ownership test
+        _.extend query, {$or: [{creator: userObjectID}, {creator: userStringID}]}
+        log.debug JSON.stringify query
+
+        Patch.count query, (err, count) ->
+          method = if count then '$set' else '$unset'
+          update = {}
+          update[method] = {}
+          update[method][statName] = count or ''
+          log.debug JSON.stringify update
+          User.findByIdAndUpdate user.get('_id'), update, (err) ->
+            log.error err if err?
+            doneWithUser()
+      ), done
+
   statRecalculators:
     gamesCompleted: (done) ->
       LevelSession = require '../levels/sessions/LevelSession'
@@ -444,38 +481,27 @@ UserHandler = class UserHandler extends Handler
       countEdits ThangType, done
 
     patchesContributed: (done) ->
-      Patch = require '../patches/Patch'
-
-      User.find {}, (err, users) ->
-        async.eachSeries users, ((user, doneWithUser) ->
-          userObjectID = user.get('_id')
-          userStringID = userObjectID.toHexString()
-
-          Patch.count {$or: [{creator: userObjectID}, {creator: userStringID}], 'status': 'accepted'}, (err, count) ->
-            update = if count then {$set: 'stats.patchesContributed': count} else {$unset: 'stats.patchesContributed': ''}
-            User.findByIdAndUpdate user.get('_id'), update, (err) ->
-              log.error err if err?
-              doneWithUser()
-        ), done
+      countPatchesByUsers {'status': 'accepted'}, 'stats.patchesContributed', done
 
     patchesSubmitted: (done) ->
-      Patch = require '../patches/Patch'
+      countPatchesByUsers {}, 'stats.patchesSubmitted', done
 
-      User.find {}, (err, users) ->
-        async.eachSeries users, ((user, doneWithUser) ->
-          userObjectID = user.get('_id')
-          userStringID = userObjectID.toHexString()
+    # The below don't work
+    totalTranslationPatches: (done) ->
+      countPatchesByUsers {$where: isTranslationPatch}, 'stats.totalTranslationPatches', done
 
-          Patch.count {$or: [{creator: userObjectID}, {creator: userStringID}]}, (err, count) ->
-            update = if count then {$set: 'stats.patchesSubmitted': count} else {$unset: 'stats.patchesSubmitted': ''}
-            User.findByIdAndUpdate user.get('_id'), update, (err) ->
-              log.error err if err?
-              doneWithUser()
-        ), done
+    totalMiscPatches: (done) ->
+      log.debug isMiscPatch
+      countPatchesByUsers {$where: isMiscPatch}, 'stats.totalMiscPatches', done
 
+    articleTranslationPatches: (done) ->
+      countPatchesByUsers {$where: isTranslationPatch}, User.statsMapping.translations.article, done
+
+    articleMiscPatches: (done) ->
+      countPatchesByUsers {$where: isMiscPatch}, User.statsMapping.translations.article, done
 
   recalculateStats: (statName, done) =>
-    return new Error 'Recalculation handler not found' unless statName of @statRecalculators
+    done new Error 'Recalculation handler not found' unless statName of @statRecalculators
     @statRecalculators[statName] done
 
   recalculate: (req, res, statName) ->

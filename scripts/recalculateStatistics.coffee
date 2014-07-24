@@ -34,4 +34,7 @@ async.series [
   (c) -> report UserHandler.recalculateStats, 'levelComponentEdits', c
   (c) -> report UserHandler.recalculateStats, 'levelSystemEdits', c
   (c) -> report UserHandler.recalculateStats, 'thangTypeEdits', c
+  # Patches
+  (c) -> report UserHandler.recalculateStats, 'patchesContributed', c
+  (c) -> report UserHandler.recalculateStats, 'patchesSubmitted', c
 ], whenAllFinished
