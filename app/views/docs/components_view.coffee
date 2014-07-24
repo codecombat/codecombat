@@ -1,7 +1,11 @@
-RootView = require 'views/kinds/RootView'
+#RootView = require 'views/kinds/RootView'
+CocoView = require 'views/kinds/RootView'
 template = require 'templates/docs/components'
 CocoCollection = require 'collections/CocoCollection'
 LevelComponent = require 'models/LevelComponent'
+
+class UnnamedView extends CocoView
+  className: 'tab-pane'
 
 class ComponentDocsCollection extends CocoCollection
   url: '/db/level.component?project=name,description,dependencies,propertyDocumentation,code'
