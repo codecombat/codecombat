@@ -316,15 +316,15 @@ module.exports = class TerrainRandomizeModal extends ModalView
         }
 
   addThang: (thang) ->
-    # if @falseCount > 20
-    #   console.log 'infinite loop', thang
-    #   @falseCount = 0
-    #   return true
+    if @falseCount > 20
+      console.log 'infinite loop', thang
+      @falseCount = 0
+      return true
     for existingThang in @thangs
       if existingThang.margin is -1 or thang.margin is -1
         continue
       if Math.abs(existingThang.pos.x - thang.pos.x) <= thang.margin + existingThang.margin and Math.abs(existingThang.pos.y - thang.pos.y) <= thang.margin + existingThang.margin
-        # @falseCount++
+        @falseCount++
         return false 
     @thangs.push thang
     true
