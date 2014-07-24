@@ -39,13 +39,17 @@ clusters = {
     'thangs': ['Gargoyle', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
     'margin': 1
     } 
+  'doors': {
+    'thangs': ['Dungeon Door']
+    'margin': -1
+    }
   'grass_floor': {
     'thangs': ['Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05']
     'margin': -1
     } 
   'dungeon_wall': {
     'thangs': ['Dungeon Wall']
-    'margin': 0
+    'margin': -1
     } 
   'dungeon_floor': {
     'thangs': ['Dungeon Floor']
@@ -63,12 +67,19 @@ presets = {
     'decorations': {
       'cave': {
         'num':[1,1]
-        'width': 20
-        'height': 20
+        'width': 10
+        'height': 10
         'clusters': {
           'cave':[1,1]
           'stone':[2,4]
         }
+      }
+      'Room': {
+        'num': [1,1]
+        'width': [12, 20]
+        'height': [8, 16]
+        'thickness': [2,2]
+        'cluster': 'dungeon_wall' 
       }
     }
   }
@@ -152,6 +163,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
     @hide()
 
   randomizeThangs: (presetName, presetSize) ->
+    @falseCount = 0
     preset = presets[presetName]
     presetSize = presetSizes[presetSize]
     @thangs = []
@@ -218,6 +230,9 @@ module.exports = class TerrainRandomizeModal extends ModalView
     if presetSize is presetSizes['small'] then sizeFactor = 1 else sizeFactor = 2
     for name, decoration of preset.decorations
       for num in _.range(sizeFactor * _.random(decoration.num[0], decoration.num[1]))
+        if @['build'+name] isnt undefined
+          @['build'+name](preset, presetSize, decoration)
+          continue
         rect = {
           'x':_.random(decoration.width/2 + preset.borderSize/2 + thangSizes.borderSize.x, presetSize.x - decoration.width/2 - preset.borderSize/2 - thangSizes.borderSize.x),
           'y':_.random(decoration.height/2 + preset.borderSize/2 + thangSizes.borderSize.y, presetSize.y - decoration.height/2 - preset.borderSize/2 - thangSizes.borderSize.y)
@@ -236,11 +251,80 @@ module.exports = class TerrainRandomizeModal extends ModalView
             }
               continue
 
+  buildRoom: (preset, presetSize, room) ->
+    if presetSize is presetSizes['small'] then sizeFactor = 1 else sizeFactor = 2
+    rect = {
+      'width':sizeFactor * (room.width[0] + preset.borderSize * _.random(0, (room.width[1] - room.width[0])/preset.borderSize))
+      'height':sizeFactor * (room.height[0] + preset.borderSize * _.random(0, (room.height[1] - room.height[0])/preset.borderSize)) 
+    }
+    roomThickness = _.random(room.thickness[0], room.thickness[1])
+    rect.x = _.random(rect.width/2 + preset.borderSize * (roomThickness+2), presetSize.x - rect.width/2 - preset.borderSize * (roomThickness+2))
+    rect.y = _.random(rect.height/2 + preset.borderSize * (roomThickness+2), presetSize.y - rect.height/2 - preset.borderSize * (roomThickness+2))
+
+    xRange = _.range(rect.x - rect.width/2 + preset.borderSize, rect.x + rect.width/2, preset.borderSize)
+    topDoor = _.random(1) > 0.5
+    topDoorX = xRange[_.random(0, xRange.length-1)]
+    bottomDoor = if not topDoor then true else _.random(1) > 0.5
+    bottomDoorX = xRange[_.random(0, xRange.length-1)]
+
+    for t in _.range(0, roomThickness+1)
+      for i in _.range(rect.x - rect.width/2 - (t-1) * preset.borderSize, rect.x + rect.width/2 + t * preset.borderSize, preset.borderSize)
+        thang = {
+          'id': @getRandomThang(clusters[room.cluster].thangs)
+          'pos': {
+            'x': i
+            'y': rect.y - rect.height/2 - t * preset.borderSize
+          }
+          'margin': clusters[room.cluster].margin
+        }
+        if i is bottomDoorX and bottomDoor
+          thang.id = @getRandomThang(clusters['doors'].thangs)
+          thang.pos.y -= preset.borderSize/3
+        @addThang thang unless i is bottomDoorX and t isnt roomThickness and bottomDoor
+
+        thang = {
+          'id': @getRandomThang(clusters[room.cluster].thangs)
+          'pos': {
+            'x': i
+            'y': rect.y + rect.height/2 + t * preset.borderSize
+          }
+          'margin': clusters[room.cluster].margin
+        }
+        if i is topDoorX and topDoor
+          thang.id = @getRandomThang(clusters['doors'].thangs)
+          thang.pos.y -= preset.borderSize
+        @addThang thang unless i is topDoorX and t isnt roomThickness and topDoor
+
+    for t in _.range(0, roomThickness)
+      for i in _.range(rect.y - rect.height/2 - t * preset.borderSize, rect.y + rect.height/2 + (t+1) * preset.borderSize, preset.borderSize)
+        @addThang {
+          'id': @getRandomThang(clusters[room.cluster].thangs)
+          'pos': {
+            'x': rect.x - rect.width/2 - t * preset.borderSize
+            'y': i
+          }
+          'margin': clusters[room.cluster].margin
+        }
+
+        @addThang {
+          'id': @getRandomThang(clusters[room.cluster].thangs)
+          'pos': {
+            'x': rect.x + rect.width/2 + t * preset.borderSize
+            'y': i
+          }
+          'margin': clusters[room.cluster].margin
+        }
+
   addThang: (thang) ->
+    # if @falseCount > 20
+    #   console.log 'infinite loop', thang
+    #   @falseCount = 0
+    #   return true
     for existingThang in @thangs
       if existingThang.margin is -1 or thang.margin is -1
         continue
       if Math.abs(existingThang.pos.x - thang.pos.x) <= thang.margin + existingThang.margin and Math.abs(existingThang.pos.y - thang.pos.y) <= thang.margin + existingThang.margin
+        # @falseCount++
         return false 
     @thangs.push thang
     true
