@@ -412,37 +412,58 @@ UserHandler = class UserHandler extends Handler
   # Meant for passing into MongoDB
   {isMiscPatch, isTranslationPatch} = do ->
     deltas = require '../../app/lib/deltas'
-    flattenDelta = _.clone deltas.flattenDelta
-    some = _.clone _.some
 
-    isMiscPatch: ->
-      expanded = flattenDelta @delta
-      some expanded, (delta) -> 'i18n' not in delta.dataPath
-    isTranslationPatch: ->
-      expanded = flattenDelta @delta
-      some expanded, (delta) -> 'i18n' in delta.dataPath
+    isMiscPatch: (obj) ->
+      expanded = deltas.flattenDelta obj.get 'delta'
+      _.some expanded, (delta) -> 'i18n' not in delta.dataPath
+    isTranslationPatch: (obj) ->
+      expanded = deltas.flattenDelta obj.get 'delta'
+      _.some expanded, (delta) -> 'i18n' in delta.dataPath
+
+  Patch = require '../patches/Patch'
+  # filter is passed a mongoose document and should return a boolean,
+  # determining whether the patch should be counted
+  countPatchesByUsersInMemory = (query, filter, statName, done) ->
+    updateUser = (user, count, doneUpdatingUser) ->
+      method = if count then '$set' else '$unset'
+      update = {}
+      update[method] = {}
+      update[method][statName] = count or ''
+      User.findByIdAndUpdate user.get('_id'), update, doneUpdatingUser
+
+    User.find {}, (err, users) ->
+      async.eachSeries users, ((user, doneWithUser) ->
+        userObjectID = user.get '_id'
+        userStringID = userObjectID.toHexString()
+        # Extend query with a patch ownership test
+        _.extend query, {$or: [{creator: userObjectID}, {creator: userStringID}]}
+
+        count = 0
+        stream = Patch.where(query).stream()
+        stream.on 'data', (doc) -> ++count if filter doc
+        stream.on 'error', (err) ->
+          updateUser user, count, doneWithUser
+          log.error "Recalculating #{statName} for user #{user} stopped prematurely because of error"
+        stream.on 'close', ->
+          updateUser user, count, doneWithUser
+      ), done
 
   countPatchesByUsers = (query, statName, done) ->
     Patch = require '../patches/Patch'
 
     User.find {}, (err, users) ->
       async.eachSeries users, ((user, doneWithUser) ->
-        #log.debug user
         userObjectID = user.get '_id'
         userStringID = userObjectID.toHexString()
         # Extend query with a patch ownership test
         _.extend query, {$or: [{creator: userObjectID}, {creator: userStringID}]}
-        log.debug JSON.stringify query
 
         Patch.count query, (err, count) ->
           method = if count then '$set' else '$unset'
           update = {}
           update[method] = {}
           update[method][statName] = count or ''
-          log.debug JSON.stringify update
-          User.findByIdAndUpdate user.get('_id'), update, (err) ->
-            log.error err if err?
-            doneWithUser()
+          User.findByIdAndUpdate user.get('_id'), update, doneWithUser
       ), done
 
   statRecalculators:
@@ -455,9 +476,7 @@ UserHandler = class UserHandler extends Handler
 
           LevelSession.count {creator: userID, 'state.completed': true}, (err, count) ->
             update = if count then {$set: 'stats.gamesCompleted': count} else {$unset: 'stats.gamesCompleted': ''}
-            User.findByIdAndUpdate user.get('_id'), update, (err) ->
-              log.error err if err?
-              doneWithUser()
+            User.findByIdAndUpdate user.get('_id'), update, doneWithUser
         ), done
 
     articleEdits: (done) ->
@@ -486,20 +505,44 @@ UserHandler = class UserHandler extends Handler
     patchesSubmitted: (done) ->
       countPatchesByUsers {}, 'stats.patchesSubmitted', done
 
-    # The below don't work
+    # The below need functions for filtering and are thus checked in memory
     totalTranslationPatches: (done) ->
-      countPatchesByUsers {$where: isTranslationPatch}, 'stats.totalTranslationPatches', done
+      countPatchesByUsersInMemory {}, isTranslationPatch, 'stats.totalTranslationPatches', done
 
     totalMiscPatches: (done) ->
-      log.debug isMiscPatch
-      countPatchesByUsers {$where: isMiscPatch}, 'stats.totalMiscPatches', done
-
-    articleTranslationPatches: (done) ->
-      countPatchesByUsers {$where: isTranslationPatch}, User.statsMapping.translations.article, done
+      countPatchesByUsersInMemory {}, isMiscPatch, 'stats.totalMiscPatches', done
 
     articleMiscPatches: (done) ->
-      countPatchesByUsers {$where: isMiscPatch}, User.statsMapping.translations.article, done
+      countPatchesByUsersInMemory {'target.collection': 'article'}, isMiscPatch, User.statsMapping.misc.article, done
 
+    levelMiscPatches: (done) ->
+      countPatchesByUsersInMemory {'target.collection': 'level'}, isMiscPatch, User.statsMapping.misc.level, done
+
+    levelComponentMiscPatches: (done) ->
+      countPatchesByUsersInMemory {'target.collection': 'level_component'}, isMiscPatch, User.statsMapping.misc['level.component'], done
+
+    levelSystemMiscPatches: (done) ->
+      countPatchesByUsersInMemory {'target.collection': 'level_system'}, isMiscPatch, User.statsMapping.misc['level.system'], done
+
+    thangTypeMiscPatches: (done) ->
+      countPatchesByUsersInMemory {'target.collection': 'thang_type'}, isMiscPatch, User.statsMapping.misc['thang.type'], done
+
+    articleTranslationPatches: (done) ->
+      countPatchesByUsersInMemory {'target.collection': 'article'}, isTranslationPatch, User.statsMapping.translations.article, done
+
+    levelTranslationPatches: (done) ->
+      countPatchesByUsersInMemory {'target.collection': 'level'}, isTranslationPatch, User.statsMapping.translations.level, done
+
+    levelComponentTranslationPatches: (done) ->
+      countPatchesByUsersInMemory {'target.collection': 'level_component'}, isTranslationPatch, User.statsMapping.translations['level.component'], done
+
+    levelSystemTranslationPatches: (done) ->
+      countPatchesByUsersInMemory {'target.collection': 'level_system'}, isTranslationPatch, User.statsMapping.translations['level.system'], done
+
+    thangTypeTranslationPatches: (done) ->
+      countPatchesByUsersInMemory {'target.collection': 'thang_type'}, isTranslationPatch, User.statsMapping.translations['thang.type'], done
+
+      
   recalculateStats: (statName, done) =>
     done new Error 'Recalculation handler not found' unless statName of @statRecalculators
     @statRecalculators[statName] done

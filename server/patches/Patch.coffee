@@ -1,5 +1,6 @@
 mongoose = require('mongoose')
 deltas = require '../../app/lib/deltas'
+log = require 'winston'
 {handlers} = require '../commons/mapping'
 
 PatchSchema = new mongoose.Schema({status: String}, {strict: false})
@@ -46,7 +47,7 @@ PatchSchema.pre 'save', (next) ->
     @targetLoaded = document
     document.save (err) -> next(err)
 
-PatchSchema.methods.isTranslationPatch = ->
+PatchSchema.methods.isTranslationPatch = -> # Don't ever fat arrow bind this one
   expanded = deltas.flattenDelta @get('delta')
   _.some expanded, (delta) -> 'i18n' in delta.dataPath
 
@@ -73,6 +74,5 @@ PatchSchema.pre 'save', (next) ->
     User.incrementStat userID, 'stats.patchesSubmitted'   # submitted patches
 
   next()
-
 
 module.exports = mongoose.model('patch', PatchSchema)

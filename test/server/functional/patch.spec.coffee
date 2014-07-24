@@ -143,10 +143,9 @@ describe '/db/patch', ->
               UserHandler.modelClass.findById joe.get('_id'), (err, joe) ->
                 expect(joe.get 'stats.patchesSubmitted').toBe 1
                 expect(joe.get 'stats.patchesContributed').toBe 1
-                # Recalculation of these stats doesn't work, alas
-                #expect(joe.get 'stats.totalMiscPatches').toBe 1
-                #expect(joe.get 'stats.articleMiscPatches').toBe 1
-                #expect(joe.get 'stats.totalTranslationPatches').toBeUndefined()
+                expect(joe.get 'stats.totalMiscPatches').toBe 1
+                expect(joe.get 'stats.articleMiscPatches').toBe 1
+                expect(joe.get 'stats.totalTranslationPatches').toBeUndefined()
                 done()
 
   it 'does not allow the recipient to withdraw the pull request', (done) ->

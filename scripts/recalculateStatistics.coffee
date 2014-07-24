@@ -25,7 +25,7 @@ whenAllFinished = ->
   log.info 'All recalculations finished.'
   process.exit()
 
-async.series [
+async.parallel [
   # Misc
   (c) -> report UserHandler.recalculateStats, 'gamesCompleted', c
   # Edits
@@ -37,4 +37,18 @@ async.series [
   # Patches
   (c) -> report UserHandler.recalculateStats, 'patchesContributed', c
   (c) -> report UserHandler.recalculateStats, 'patchesSubmitted', c
+  (c) -> report UserHandler.recalculateStats, 'totalTranslationPatches', c
+  (c) -> report UserHandler.recalculateStats, 'totalMiscPatches', c
+
+  (c) -> report UserHandler.recalculateStats, 'articleMiscPatches', c
+  (c) -> report UserHandler.recalculateStats, 'levelMiscPatches', c
+  (c) -> report UserHandler.recalculateStats, 'levelComponentMiscPatches', c
+  (c) -> report UserHandler.recalculateStats, 'levelSystemMiscPatches', c
+  (c) -> report UserHandler.recalculateStats, 'thangTypeMiscPatches', c
+
+  (c) -> report UserHandler.recalculateStats, 'articleTranslationPatches', c
+  (c) -> report UserHandler.recalculateStats, 'levelTranslationPatches', c
+  (c) -> report UserHandler.recalculateStats, 'levelComponentTranslationPatches', c
+  (c) -> report UserHandler.recalculateStats, 'levelSystemTranslationPatches', c
+  (c) -> report UserHandler.recalculateStats, 'thangTypeTranslationPatches', c
 ], whenAllFinished
