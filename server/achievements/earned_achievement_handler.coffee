@@ -29,7 +29,8 @@ class EarnedAchievementHandler extends Handler
       achievementIDs = (thing for thing in callbackOrSlugsOrIDs when Handler.isID(thing))
     else # just a callback
       callback = callbackOrSlugsOrIDs
-    onFinished = -> callback arguments... if callback?
+    callback = if callback then callback else -> # Make a dummy just for ease of coding
+    onFinished = -> callback arguments...
 
     filter = {}
     filter.$or = [
@@ -39,10 +40,15 @@ class EarnedAchievementHandler extends Handler
 
     # Fetch all relevant achievements
     Achievement.find filter, (err, achievements) ->
-      log.error err if err?
+      callback err if err?
+      callback new Error 'No achievements to recalculate' unless achievements.length
+      log.info "Recalculating a total of #{achievements.length} achievements..."
 
       # Fetch every single user
       User.find {}, (err, users) ->
+        callback err if err?
+        log.info "... for a total of #{users.length} users."
+
         async.each users, ((user, doneWithUser) ->
           # Keep track of a user's already achieved in order to set the notified values correctly
           userID = user.get('_id').toHexString()
@@ -97,8 +103,7 @@ class EarnedAchievementHandler extends Handler
                   newTotalPoints += newPoints
 
                   EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
-                    log.error err if err?
-                    doneWithAchievement()
+                    doneWithAchievement err
               ), saveUserPoints = ->
                 # In principle it is enough to deduct the old amount of points and add the new amount,
                 # but just to be entirely safe let's start from 0 in case we're updating all of a user's achievements
@@ -106,14 +111,10 @@ class EarnedAchievementHandler extends Handler
                 log.debug "Matched a total of #{newTotalPoints} new points"
                 if _.isEmpty filter # Completely clean
                   log.debug "Setting this user's score to #{newTotalPoints}"
-                  User.update {_id: userID}, {$set: points: newTotalPoints}, {}, (err) ->
-                    log.error err if err?
-                    doneWithUser()
+                  User.update {_id: userID}, {$set: points: newTotalPoints}, {}, doneWithUser
                 else
                   log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
-                  User.update {_id: userID}, {$inc: points: newTotalPoints - previousPoints}, {}, (err) ->
-                    log.error err if err?
-                    doneWithUser()
+                  User.update {_id: userID}, {$inc: points: newTotalPoints - previousPoints}, {}, doneWithUser
         ), onFinished
 
 module.exports = new EarnedAchievementHandler()
