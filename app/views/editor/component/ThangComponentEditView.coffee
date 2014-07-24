@@ -184,6 +184,12 @@ module.exports = class ThangComponentEditView extends CocoView
   reportChanges: ->
     @callback?($.extend(true, [], @extantComponentsTreema.data))
 
+  undo: ->
+    if @configView is null or @configView?.editing is false then @extantComponentsTreema.undo() else @configView.undo()
+
+  redo: ->
+    if @configView is null or @configView?.editing is false then @extantComponentsTreema.redo() else @configView.redo()
+
 class ThangComponentsArrayNode extends TreemaArrayNode
   valueClass: 'treema-thang-components-array'
   editable: false

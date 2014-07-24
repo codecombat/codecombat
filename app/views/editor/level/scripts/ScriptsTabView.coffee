@@ -86,6 +86,12 @@ module.exports = class ScriptsTabView extends CocoView
   onScriptChanged: =>
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)
 
+  undo: ->
+    @scriptsTreema.undo() if @scriptTreema.undo() is undefined
+  
+  redo: ->
+    @scriptsTreema.redo() if @scriptTreema.redo() is undefined
+
 class ScriptNode extends TreemaObjectNode
   valueClass: 'treema-script'
   collection: false

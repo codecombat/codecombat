@@ -69,4 +69,10 @@ module.exports = class ThangComponentConfigView extends CocoView
     @changed = true
     @callback?(@data())
 
+  undo: ->
+    @editThangTreema.undo()
+
+  redo: ->
+    @editThangTreema.redo()
+
   data: -> @editThangTreema.data

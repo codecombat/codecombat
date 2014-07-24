@@ -58,8 +58,8 @@ module.exports = class ThangsTabView extends CocoView
     'delete, del, backspace': 'deleteSelectedExtantThang'
     'left': -> @moveAddThangSelection -1
     'right': -> @moveAddThangSelection 1
-    'ctrl+z': 'undoAction'
-    'ctrl+shift+z': 'redoAction'
+    'ctrl+z': 'undo'
+    'ctrl+shift+z': 'redo'
 
   constructor: (options) ->
     super options
@@ -473,11 +473,11 @@ module.exports = class ThangsTabView extends CocoView
     $('#add-thangs-column').toggle()
     @onWindowResize e
 
-  undoAction: (e) ->
-    @thangsTreema.undo()
+  undo: (e) ->
+    if not @editThangView then @thangsTreema.undo() else @editThangView.undo()
 
-  redoAction: (e) ->
-    @thangsTreema.redo()
+  redo: (e) ->
+    if not @editThangView then @thangsTreema.redo() else @editThangView.redo()
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
