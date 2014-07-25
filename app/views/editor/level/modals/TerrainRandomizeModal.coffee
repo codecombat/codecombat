@@ -142,7 +142,6 @@ thangSizes = {
 module.exports = class TerrainRandomizeModal extends ModalView
   id: 'terrain-randomize-modal'
   template: template
-  thangs = []
   events:
     'click .choose-option': 'onRandomize'
 
@@ -167,6 +166,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
     preset = presets[presetName]
     presetSize = presetSizes[presetSize]
     @thangs = []
+    @rects = []
     @randomizeFloor preset, presetSize
     @randomizeBorder preset, presetSize, preset.borderNoise
     @randomizeDecorations preset, presetSize
@@ -233,12 +233,15 @@ module.exports = class TerrainRandomizeModal extends ModalView
         if @['build'+name] isnt undefined
           @['build'+name](preset, presetSize, decoration)
           continue
-        rect = {
-          'x':_.random(decoration.width/2 + preset.borderSize/2 + thangSizes.borderSize.x, presetSize.x - decoration.width/2 - preset.borderSize/2 - thangSizes.borderSize.x),
-          'y':_.random(decoration.height/2 + preset.borderSize/2 + thangSizes.borderSize.y, presetSize.y - decoration.height/2 - preset.borderSize/2 - thangSizes.borderSize.y)
-          'width':decoration.width
-          'height':decoration.height
-        }
+        while true
+          rect = {
+            'x':_.random(decoration.width/2 + preset.borderSize/2 + thangSizes.borderSize.x, presetSize.x - decoration.width/2 - preset.borderSize/2 - thangSizes.borderSize.x),
+            'y':_.random(decoration.height/2 + preset.borderSize/2 + thangSizes.borderSize.y, presetSize.y - decoration.height/2 - preset.borderSize/2 - thangSizes.borderSize.y)
+            'width':decoration.width
+            'height':decoration.height
+          }
+          break if @addRect rect
+            
         for cluster, range of decoration.clusters
           for i in _.range(_.random(range[0], range[1]))
             while not @addThang {
@@ -253,13 +256,20 @@ module.exports = class TerrainRandomizeModal extends ModalView
 
   buildRoom: (preset, presetSize, room) ->
     if presetSize is presetSizes['small'] then sizeFactor = 1 else sizeFactor = 2
-    rect = {
-      'width':sizeFactor * (room.width[0] + preset.borderSize * _.random(0, (room.width[1] - room.width[0])/preset.borderSize))
-      'height':sizeFactor * (room.height[0] + preset.borderSize * _.random(0, (room.height[1] - room.height[0])/preset.borderSize)) 
-    }
-    roomThickness = _.random(room.thickness[0], room.thickness[1])
-    rect.x = _.random(rect.width/2 + preset.borderSize * (roomThickness+2), presetSize.x - rect.width/2 - preset.borderSize * (roomThickness+2))
-    rect.y = _.random(rect.height/2 + preset.borderSize * (roomThickness+2), presetSize.y - rect.height/2 - preset.borderSize * (roomThickness+2))
+    while true
+      rect = {
+        'width':sizeFactor * (room.width[0] + preset.borderSize * _.random(0, (room.width[1] - room.width[0])/preset.borderSize))
+        'height':sizeFactor * (room.height[0] + preset.borderSize * _.random(0, (room.height[1] - room.height[0])/preset.borderSize)) 
+      }
+      roomThickness = _.random(room.thickness[0], room.thickness[1])
+      rect.x = _.random(rect.width/2 + preset.borderSize * (roomThickness+1), presetSize.x - rect.width/2 - preset.borderSize * (roomThickness+1))
+      rect.y = _.random(rect.height/2 + preset.borderSize * (roomThickness+1), presetSize.y - rect.height/2 - preset.borderSize * (roomThickness+1))
+      break if @addRect {
+        'x': rect.x
+        'y': rect.y
+        'width': rect.width + 2 * roomThickness * preset.borderSize
+        'height': rect.height + 2 * roomThickness * preset.borderSize
+      }
 
     xRange = _.range(rect.x - rect.width/2 + preset.borderSize, rect.x + rect.width/2, preset.borderSize)
     topDoor = _.random(1) > 0.5
@@ -316,7 +326,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
         }
 
   addThang: (thang) ->
-    if @falseCount > 20
+    if @falseCount > 100
       console.log 'infinite loop', thang
       @falseCount = 0
       return true
@@ -327,6 +337,18 @@ module.exports = class TerrainRandomizeModal extends ModalView
         @falseCount++
         return false 
     @thangs.push thang
+    true
+
+  addRect: (rect) ->
+    if @falseCount > 100
+      console.log 'infinite loop', rect
+      @falseCount = 0
+      return true
+    for existingRect in @rects
+      if Math.abs(existingRect.x - rect.x) <= rect.width/2 + existingRect.width/2 and Math.abs(existingRect.y - rect.y) <= rect.height/2 + existingRect.height/2
+        @falseCount++
+        return false 
+    @rects.push rect
     true
 
   getRandomThang: (thangList) ->
