@@ -58,8 +58,8 @@ module.exports = class ThangsTabView extends CocoView
     'delete, del, backspace': 'deleteSelectedExtantThang'
     'left': -> @moveAddThangSelection -1
     'right': -> @moveAddThangSelection 1
-    'ctrl+z': 'undoAction'
-    'ctrl+shift+z': 'redoAction'
+    'ctrl+z': 'undo'
+    'ctrl+shift+z': 'redo'
 
   constructor: (options) ->
     super options
@@ -116,6 +116,8 @@ module.exports = class ThangsTabView extends CocoView
     $(window).resize @onWindowResize
     @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
     @buildInterface() # refactor to not have this trigger when this view re-renders?
+    if @thangsTreema.data.length 
+      @$el.find('#canvas-overlay').css('display', 'none')
 
   onFilterExtantThangs: (e) ->
     @$el.find('#extant-thangs-filter button.active').button('toggle')
@@ -233,6 +235,8 @@ module.exports = class ThangsTabView extends CocoView
       @addThang @addThangType, thang.pos, true
     @batchInsert()
     @selectAddThangType null
+    @$el.find('#canvas-overlay').css('display', 'none')
+
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
@@ -473,11 +477,11 @@ module.exports = class ThangsTabView extends CocoView
     $('#add-thangs-column').toggle()
     @onWindowResize e
 
-  undoAction: (e) ->
-    @thangsTreema.undo()
+  undo: (e) ->
+    if not @editThangView then @thangsTreema.undo() else @editThangView.undo()
 
-  redoAction: (e) ->
-    @thangsTreema.redo()
+  redo: (e) ->
+    if not @editThangView then @thangsTreema.redo() else @editThangView.redo()
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'

@@ -53,3 +53,9 @@ module.exports = class SettingsTabView extends CocoView
     for key in @editableSettings
       continue if @settingsTreema.data[key] is undefined
       @level.set key, @settingsTreema.data[key]
+
+  undo: ->
+    @settingsTreema.undo()
+
+  redo: ->
+    @settingsTreema.redo()

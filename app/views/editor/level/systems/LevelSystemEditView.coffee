@@ -115,6 +115,18 @@ module.exports = class LevelSystemEditView extends CocoView
     @levelSystem.watch(button.find('.watch').is(':visible'))
     button.find('> span').toggleClass('secret')
 
+  undo: ->
+    if @$el.find('li.active > a#system-config-schema-tab')
+      @configSchemaTreema.undo()
+    if @$el.find('li.active > a#system-settings-tab')
+      @systemSettingsTreema.undo()
+
+  redo: ->
+    if @$el.find('li.active > a#system-config-schema-tab')
+      @configSchemaTreema.redo()
+    if @$el.find('li.active > a#system-settings-tab')
+      @systemSettingsTreema.redo()
+
   destroy: ->
     @editor?.destroy()
     super()

@@ -38,6 +38,12 @@ block header
         span.navbar-brand #{level.attributes.name}
 
       ul.nav.navbar-nav.navbar-right
+        li#undo-button(title="Undo (Ctrl+Z)")
+          a
+            span.glyphicon-arrow-left.glyphicon
+        li#redo-button(title="Redo (Ctrl+Shift+Z)")
+            a
+              span.glyphicon-repeat.glyphicon
         if authorized
           li#commit-level-start-button
             a
