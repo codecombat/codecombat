@@ -116,6 +116,8 @@ module.exports = class ThangsTabView extends CocoView
     $(window).resize @onWindowResize
     @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
     @buildInterface() # refactor to not have this trigger when this view re-renders?
+    if @thangsTreema.data.length 
+      @$el.find('#canvas-overlay').css('display', 'none')
 
   onFilterExtantThangs: (e) ->
     @$el.find('#extant-thangs-filter button.active').button('toggle')
@@ -233,6 +235,8 @@ module.exports = class ThangsTabView extends CocoView
       @addThang @addThangType, thang.pos, true
     @batchInsert()
     @selectAddThangType null
+    @$el.find('#canvas-overlay').css('display', 'none')
+
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
   onExtantThangSelected: (e) ->
