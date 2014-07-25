@@ -74,56 +74,54 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @label.regY = @background.regY = @pointMarker.regY = contentHeight
 
     pointMarkerStroke = 2
-    pointMarkerLength = 3
+    pointMarkerLength = 8
     contributionsToTotalSize = []
-    contributionsToTotalSize = contributionsToTotalSize.concat @updateCoordinates contentWidth, contentHeight, pointMarkerStroke
-    contributionsToTotalSize = contributionsToTotalSize.concat @updatePointMarker contentHeight, pointMarkerLength, pointMarkerStroke
+    contributionsToTotalSize = contributionsToTotalSize.concat @updateCoordinates contentWidth, contentHeight, pointMarkerLength
+    contributionsToTotalSize = contributionsToTotalSize.concat @updatePointMarker 0, contentHeight, pointMarkerLength, pointMarkerStroke
 
     totalWidth = contentWidth + contributionsToTotalSize.reduce (a, b) -> a + b
     totalHeight = contentHeight + contributionsToTotalSize.reduce (a, b) -> a + b
-    [totalWidth, totalHeight]
+
+    @cache  -pointMarkerLength, -totalHeight + pointMarkerLength, totalWidth, totalHeight
 
   updateCoordinates: (contentWidth, contentHeight, initialXYOffset) ->
-    gap = 2
-    labelAndBgMarkerOffset = initialXYOffset * gap
+    offsetForPointMarker = initialXYOffset
 
     # Center label horizontally and vertically
-    @label.x = contentWidth / 2 - (@label.getMeasuredWidth() / 2) + labelAndBgMarkerOffset
-    @label.y = contentHeight / 2 - (@label.getMeasuredHeight() / 2) - labelAndBgMarkerOffset
+    @label.x = contentWidth / 2 - (@label.getMeasuredWidth() / 2) + offsetForPointMarker
+    @label.y = contentHeight / 2 - (@label.getMeasuredHeight() / 2) - offsetForPointMarker
 
     @background.graphics
       .clear()
       .beginFill('rgba(0,0,0,0.4)')
       .beginStroke('rgba(0,0,0,0.6)')
       .setStrokeStyle(backgroundStroke = 1)
-      .drawRoundRect(labelAndBgMarkerOffset, -labelAndBgMarkerOffset, contentWidth, contentHeight, radius = 2.5)
+      .drawRoundRect(offsetForPointMarker, -offsetForPointMarker, contentWidth, contentHeight, radius = 2.5)
       .endFill()
       .endStroke()
-    contributionsToTotalSize = [labelAndBgMarkerOffset, backgroundStroke]
+    contributionsToTotalSize = [offsetForPointMarker, backgroundStroke]
 
-  updatePointMarker: (contentHeight, length, strokeSize) ->
-    shiftToLineupWithGrid = strokeSize / 2
-    pointMarkerInitialX = strokeSize - shiftToLineupWithGrid
-    pointMarkerInitialY = contentHeight - strokeSize + shiftToLineupWithGrid
+  updatePointMarker: (centerX, centerY, length, strokeSize) ->
+    strokeStyle = 'square'
     @pointMarker.graphics
-      .beginStroke('rgb(142, 198, 67')
-      .setStrokeStyle(strokeSize, 'square')
-      .moveTo(pointMarkerInitialX, pointMarkerInitialY)
-      .lineTo(pointMarkerInitialX, pointMarkerInitialY - length)
-      .moveTo(pointMarkerInitialX, pointMarkerInitialY)
-      .lineTo(pointMarkerInitialX + length, pointMarkerInitialY)
+      .beginStroke('rgb(255, 255, 255)')
+      .setStrokeStyle(strokeSize, strokeStyle)
+      .moveTo(centerX, centerY - length)
+      .lineTo(centerX, centerY + length)
+      .moveTo(centerX - length, centerY)
+      .lineTo(centerX + length, centerY)
       .endStroke()
-    contributionsToTotalSize = [strokeSize]
+    contributionsToTotalSize = [strokeSize, length]
 
   show: =>
     return unless @mouseInBounds and @lastPos and not @destroyed
     @label.text = "{x: #{@lastPos.x}, y: #{@lastPos.y}}"
-    [width, height] = @updateSize()
+    @updateSize()
     sup = @camera.worldToSurface @lastPos
     @x = sup.x
     @y = sup.y
     @addChild @background
     @addChild @label
     @addChild @pointMarker
-    @cache 0, -height, width, height
+    @updateCache()
     Backbone.Mediator.publish 'surface:coordinates-shown', {}

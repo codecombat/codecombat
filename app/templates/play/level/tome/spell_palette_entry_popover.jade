@@ -8,7 +8,43 @@ h4
     else
       |  (read-only)
 
-.description!= marked(doc.description || 'Still undocumented, sorry.')
+.description
+  p!= marked(doc.description || 'Still undocumented, sorry.')
+  if cooldowns && (cooldowns.cooldown || cooldowns.specificCooldown)
+    p
+      span
+        | #{cooldowns.type == 'spell' ? 'Spell' : 'Action'} name: 
+        code "#{cooldowns.name}"
+        | .
+      span.spl
+        | Cooldown: 
+        code= cooldowns.cooldown
+        | s.
+      if cooldowns.specificCooldown
+        span.spl
+          | Specific cooldown: 
+          code= cooldowns.specificCooldown
+          | s.
+      if cooldowns.damage
+        span.spl
+          | Damage: 
+          code= cooldowns.damage
+          | .
+      if cooldowns.range
+        span.spl
+          | Range: 
+          code= cooldowns.range
+          | m.
+      if cooldowns.radius
+        span.spl
+          | Radius: 
+          code= cooldowns.radius
+          | m.
+      if cooldowns.duration
+        span.spl
+          | Duration: 
+          code= cooldowns.duration
+          | s.
 
 if !selectedMethod
   if doc.example

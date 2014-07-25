@@ -35,7 +35,7 @@ preload = (arrayOfImages) ->
     $('<img/>')[0].src = @
 
 Application = initialize: ->
-  Router = require('lib/Router')
+  Router = require('Router')
   @tracker = new Tracker()
   @facebookHandler = new FacebookHandler()
   @gplusHandler = new GPlusHandler()
@@ -53,7 +53,6 @@ Application = initialize: ->
     #resPostPath: '/languages/add/__lng__/__ns__'
   }, (t) =>
     @router = new Router()
-    @router.subscribe()
     onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
     @idleTracker = new Idle
       onAway: onIdleChanged true

@@ -1,11 +1,10 @@
 RootView = require 'views/kinds/RootView'
 template = require 'templates/employers'
-app = require 'application'
 User = require 'models/User'
 UserRemark = require 'models/UserRemark'
 {me} = require 'lib/auth'
 CocoCollection = require 'collections/CocoCollection'
-EmployerSignupView = require 'views/modal/employer_signup_modal'
+EmployerSignupModal = require 'views/modal/EmployerSignupModal'
 
 class CandidatesCollection extends CocoCollection
   url: '/db/user/x/candidates'
@@ -20,15 +19,16 @@ module.exports = class EmployersView extends RootView
   template: template
 
   events:
-    'click tbody tr': 'onCandidateClicked'
+    'click #candidate-table': 'onCandidateClicked'
     'click #logout-link': 'logoutAccount'
     'change #filters input': 'onFilterChanged'
-    'click #filter-button': 'applyFilters'
     'change #select_all_checkbox': 'handleSelectAllChange'
     'click .get-started-button': 'openSignupModal'
     'click .navbar-brand': 'restoreBodyColor'
     'click #login-link': 'onClickAuthbutton'
     'click #filter-link': 'swapFolderIcon'
+    'click #create-alert-button': 'createFilterAlert'
+    'click .deletion-col': 'deleteFilterAlert'
 
   constructor: (options) ->
     super options
@@ -39,6 +39,7 @@ module.exports = class EmployersView extends RootView
   afterRender: ->
     super()
     @sortTable() if @candidates.models.length
+    @renderSavedFilters()
 
   afterInsert: ->
     super()
@@ -73,7 +74,7 @@ module.exports = class EmployersView extends RootView
     @applyFilters()
 
   openSignupModal: ->
-    @openModalView new EmployerSignupView
+    @openModalView new EmployerSignupModal
   handleSelectAllChange: (e) ->
     checkedState = e.currentTarget.checked
     $('#filters :input').each ->
@@ -128,7 +129,46 @@ module.exports = class EmployersView extends RootView
         return (_.filter candidates, (c) -> c.get('jobProfile').curated?[filterName] is filterValue).length
     else
       return Math.floor(Math.random() * 500)
-
+  createFilterAlert: ->
+    currentFilterSet = _.cloneDeep @filters
+    currentSavedFilters = _.cloneDeep me.get('savedEmployerFilterAlerts') ? []
+    currentSavedFilters.push currentFilterSet
+    @patchEmployerFilterAlerts currentSavedFilters, @renderSavedFilters
+      
+  deleteFilterAlert: (e) ->
+    index = $(e.target).closest('tbody tr').data('filter-index')
+    currentSavedFilters = me.get('savedEmployerFilterAlerts')
+    currentSavedFilters.splice(index,1)
+    @patchEmployerFilterAlerts currentSavedFilters, @renderSavedFilters
+    
+  patchEmployerFilterAlerts: (newFilters, cb) ->
+    me.set('savedEmployerFilterAlerts',newFilters)
+    unless me.isValid()
+      alert("There was an error setting the filter(me.isValid() returned false.) Reverting! Please notify team@codecombat.com.")
+      me.set 'savedEmployerFilterAlerts', me.previous('savedEmployerFilterAlerts')
+    else
+      triggerErrorAlert = -> alert("There was an error saving your filter alert! Please notify team@codecombat.com.")
+      res = me.save {"savedEmployerFilterAlerts": newFilters}, {patch: true, success: cb, error: triggerErrorAlert}
+      
+  renderSavedFilters: =>
+    savedFilters = me.get('savedEmployerFilterAlerts')
+    unless savedFilters?.length then return $("#saved-filter-table").hide()
+    $("#saved-filter-table").show()
+    $("#saved-filter-table").find("tbody tr").remove()
+    for filter, index in savedFilters
+      $("#saved-filter-table tbody").append("""<tr data-filter-index="#{index}"><td>#{@generateFilterAlertDescription(filter)}</td><td class="deletion-col"><a>✗</a></td></tr> """)
+      
+  
+  generateFilterAlertDescription: (filter) =>
+    descriptionString = ""
+    for key in _.keys(filter).sort()
+      value = filter[key]
+      if key is "filterActive" or _.without(@defaultFilters[key],value...).length is 0 then continue
+      if descriptionString.length then descriptionString += ", "
+      descriptionString += value.join(", ")
+    if descriptionString.length is 0 then descriptionString = "Any new candidate"
+    return descriptionString
+    
   getActiveAndApprovedCandidates: =>
     candidates = _.filter @candidates.models, (c) -> c.get('jobProfile').active
     return _.filter candidates, (c) -> c.get('jobProfileApproved')
@@ -181,7 +221,7 @@ module.exports = class EmployersView extends RootView
 
   checkForEmployerSignupHash: =>
     if window.location.hash is '#employerSignupLoggingIn' and not ('employer' in me.get('permissions')) and not me.isAdmin()
-      @openModalView application.router.getView('modal/employer_signup', '_modal')
+      @openModalView new EmployerSignupModal
       window.location.hash = ''
 
   sortTable: ->
@@ -315,4 +355,4 @@ module.exports = class EmployersView extends RootView
       url = "/account/profile/#{id}"
       window.open url, '_blank'
     else
-      @openModalView new EmployerSignupView
+      @openModalView new EmployerSignupModal
