@@ -33,7 +33,8 @@ block header
             - var patches = level.get('patches')
             if patches && patches.length
               span.badge= patches.length
-      
+        li
+          a(href="#docs-components-view", data-toggle="tab", data-i18n="editor.level_tab_docs") Documentation
       .navbar-header
         span.navbar-brand #{level.attributes.name}
 
@@ -119,6 +120,8 @@ block outer_content
     
       div.tab-pane#editor-level-patches
         .patches-view
+
+      div.tab-pane#docs-components-view
 
     div#error-view
 
