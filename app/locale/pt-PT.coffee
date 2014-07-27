@@ -305,7 +305,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    player_code: "Player Code"
 
   employers:
-    hire_developers_not_credentials: "Contrate desenvolvedores, não cartas de recomendação."
+    hire_developers_not_credentials: "Contrate programadores, não cartas de recomendação."
     get_started: "Começar"
     already_screened: "Nós já selecionamos tecnicamente todos os nossos candidatos"
     filter_further: ", mas ainda pode filtrar mais:"
@@ -333,7 +333,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    pass_screen_blurb: "Review each candidate's code before reaching out. One employer found that 5x as many of our devs passed their technical screen than hiring from Hacker News."
 #    make_hiring_easier: "Make my hiring easier, please."
     what: "O que é o CodeCombat?"
-    what_blurb: "O CodeCombat é um jogo de programação, no navegador e multijogador. Os jogadores escrevem código para controlar as forças deles em batalha contra outros desenvolvedores. Os nossos jogadores têm experiência com todos os conceitos tecnológicos principais."
+    what_blurb: "O CodeCombat é um jogo de programação, no navegador e multijogador. Os jogadores escrevem código para controlar as forças deles em batalha contra outros programadores. Os nossos jogadores têm experiência com todos os conceitos tecnológicos principais."
     cost: "Quanto é que cobramos?"
     cost_blurb: "Cobramos 15% do salário do primeiro ano e ofereçemos uma garantia de devolução de 100% do dinheiro durante 90 dias. Não cobramos por candidatos que já estejam a ser ativamente entrevistados na sua companhia."
     candidate_name: "Nome"
@@ -344,9 +344,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     candidate_years_experience: "Anos de Experiência"
     candidate_last_updated: "Última Vez Atualizado"
     candidate_who: "Quem"
-    featured_developers: "Desenvolvedores em Destaque"
-    other_developers: "Outros Desenvolvedores"
-    inactive_developers: "Desenvolvedores Inativos"
+    featured_developers: "Programadores em Destaque"
+    other_developers: "Outros Programadores"
+    inactive_developers: "Programadores Inativos"
 
   play_level:
     done: "Concluir"
@@ -630,7 +630,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     email_title: "E-mail"
     email_description_prefix: "Nós não o inundaremos com spam. Através das"
     email_settings_url: "suas definições de e-mail"
-    email_description_suffix: "ou através de ligações presentes nos e-mails que enviamos, pode mudar as suas preferências e parar a sua subscrição facilmente em qualquer momento."
+    email_description_suffix: "ou através de ligações presentes nos e-mails que enviamos, pode mudar as suas preferências e parar a sua subscrição facilmente, em qualquer momento."
     cost_title: "Custo"
 #    cost_description: "Currently, CodeCombat is 100% free! One of our main goals is to keep it that way, so that as many people can play as possible, regardless of place in life. If the sky darkens, we might have to charge subscriptions or for some content, but we'd rather not. With any luck, we'll be able to sustain the company with:"
     recruitment_title: "Recrutamento"
@@ -849,17 +849,17 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   multiplayer_launch:
     introducing_dungeon_arena: "Introduzindo a Dungeon Arena"
-    new_way: "Uma nova forma de competir com código."
-    to_battle: "Às armas, Programadores!"
-    modern_day_sorcerer: "Sabes programar? És tão forte! És um feiticeiro dos tempos modernos! Será que não está na altura de usares os teus poderes mágicos de programação para comandar os teus servos em combates épicos? E não estamos a falar de robots."
-    arenas_are_here: "As arenas mano-a-mano multiplayer de CodeCombat estão aqui."
-    ladder_explanation: "Escolhe os teus heróis, encanta os teus exércitos de ogres ou humanos, e constrói o teu caminho, derrotando outros Feiticeiros para chegares ao topo da classificação. Depois, desafia os teus amigos para gloriosas arenas de programação multijogador. Se te sentes criativo, podes até"
-    fork_our_arenas: "alterar as nossas arenas"
-    create_worlds: "e criar os teus próprios mundos."
-    javascript_rusty: "O teu JavaScript está enferrujado? Não te preocupes; Existe um"
+    new_way: "A nova forma de competir com código."
+    to_battle: "Para o Combate, Programadores!"
+    modern_day_sorcerer: "Sabe programar? Isso é demais! É um feiticeiro dos tempos modernos! Não estará na altura de usar os seus poderes mágicos de programação para comandar os seus minions em combates épicos? E não estamos a falar de robôs."
+    arenas_are_here: "As arenas multijogador do CodeCombat estão aqui."
+    ladder_explanation: "Escolha os seus heróis, enfeitice os seus exércitos de ogres ou de humanos e passe por cima de Feiticeiros derrotados para chegar ao topo da tabela classificativa - depois, compita contra os seus amigos nas nossas arenas de programação multijogador gloriosas. Se se sentir criativo, pode ainda"
+    fork_our_arenas: "bifurcar as nossas arenas"
+    create_worlds: "e criar os seus próprios mundos."
+    javascript_rusty: "O seu JavaScript está um pouco enferrujado? Não se preocupe; existe um"
     tutorial: "tutorial"
-    new_to_programming: ". Novo na programação? Faz a Campanha para Iniciantes para expandires as tuas capacidades."
-    so_ready: "Estou mais que pronto para isto"
+    new_to_programming: ". Novo na programação? Faça a nossa Campanha para Iniciantes para melhorar as suas capacidades."
+    so_ready: "Estou Mais Que Pronto Para Isto"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
