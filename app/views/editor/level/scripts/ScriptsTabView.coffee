@@ -124,7 +124,13 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     joined = '(unset)' if not joined.length
     @buildValueForDisplaySimply valEl, joined
 
-  buildValueForEditing: (valEl) -> @buildValueForEditingSimply(valEl, @arrayToString())
+  buildValueForEditing: (valEl) -> 
+    super(valEl)
+    channel = @getRoot().data.channel
+    channelSchema = Backbone.Mediator.channelSchemas[channel]
+    autocompleteValues = ({label: val?.title or key, value: key} for key, val of channelSchema?.properties)
+    valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true)
+    valEl
 
   saveChanges: (valEl) ->
     @data = (s for s in $('input', valEl).val().split('.') when s.length)
