@@ -36,8 +36,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    years: "years"
 
   modal:
-    close: "Close"
-    okay: "Okay"
+    close: "닫기"
+    okay: "확인"
 
   not_found:
     page_not_found: "페이지를 찾을 수 없습니다"
@@ -553,8 +553,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     article_search_title: "기사들은 여기에서 찾으세요"
     thang_search_title: "Thang 타입들은 여기에서 찾으세요"
     level_search_title: "레벨들은 여기에서 찾으세요"
-#    achievement_search_title: "Search Achievements"
-#    read_only_warning2: "Note: you can't save any edits here, because you're not logged in."
+    achievement_search_title: "업적 검색"
+    read_only_warning2: "주의: 로그인하지 않으셨기 때문에 내용을 저장할 수 없습니다."
 
   article:
     edit_btn_preview: "미리보기"
@@ -623,13 +623,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     opensource_description_suffix: "를 확인해보세요. 코드 컴뱃을 가능하게 만든 소프트웨어들을 찾아보실 수 있습니다."
 #    practices_title: "Respectful Best Practices"
 #    practices_description: "These are our promises to you, the player, in slightly less legalese."
-#    privacy_title: "Privacy"
+    privacy_title: "프라이버시"
 #    privacy_description: "We will not sell any of your personal information. We intend to make money through recruitment eventually, but rest assured we will not distribute your personal information to interested companies without your explicit consent."
 #    security_title: "Security"
 #    security_description: "We strive to keep your personal information safe. As an open source project, our site is freely open to anyone to review and improve our security systems."
-#    email_title: "Email"
+    email_title: "이메일"
 #    email_description_prefix: "We will not inundate you with spam. Through"
-#    email_settings_url: "your email settings"
+    email_settings_url: "이메일 설정"
 #    email_description_suffix: "or through links in the emails we send, you can change your preferences and easily unsubscribe at any time."
 #    cost_title: "Cost"
 #    cost_description: "Currently, CodeCombat is 100% free! One of our main goals is to keep it that way, so that as many people can play as possible, regardless of place in life. If the sky darkens, we might have to charge subscriptions or for some content, but we'd rather not. With any luck, we'll be able to sustain the company with:"
