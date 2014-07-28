@@ -53,7 +53,6 @@ module.exports = class RootView extends CocoView
     newlyAchievedBar = $("<div data-toggle='tooltip' class='progress-bar exp-bar-new' style='width:#{newlyAchievedPercentage}%'></div>")
     emptyBar = $("<div data-toggle='tooltip' class='progress-bar exp-bar-left' style='width:#{100 - newlyAchievedPercentage - alreadyAchievedPercentage}%'></div>")
     progressBar = $('<div class="progress" data-toggle="tooltip"></div>').append(alreadyAchievedBar).append(newlyAchievedBar).append(emptyBar)
-    #message = if (currentLevel isnt 1) and leveledUp then "Reached level #{currentLevel}!" else null
 
     alreadyAchievedBar.tooltip(title: "#{currentExp} XP in total")
     newlyAchievedBar.tooltip(title: "#{achievedExp} XP earned")
@@ -87,7 +86,6 @@ module.exports = class RootView extends CocoView
       description: achievement.get('description')
       progressBar: progressBar
       earnedExp: "+ #{achievedExp} XP"
-      #message: message
       level: currentLevel
       barBorder: barBorder
 

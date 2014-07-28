@@ -25,4 +25,4 @@ module.exports = class Achievement extends CocoModel
   getNotifyStyle: -> Achievement.styleMapping[@get 'difficulty']
 
   getImageURL: ->
-    if @get 'icon' then '/file/' + @get('icon') else '/images/achievements/stars.png'
+    if @get 'icon' then '/file/' + @get('icon') else '/images/achievements/default.png'

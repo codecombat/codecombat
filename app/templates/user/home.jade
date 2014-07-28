@@ -12,7 +12,7 @@ block append content
             a.btn.btn-default(href="/user/#{user.get('slug') || user.get('_id')}/profile")
               i.glyphicon.glyphicon-briefcase
               span Job Profile
-            a.btn.btn-default(href="profile")
+            a.btn.btn-default.disabled(href="#")
               i.glyphicon.glyphicon-pencil
               span Code
         - var emails = user.get('emails')

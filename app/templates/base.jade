@@ -43,6 +43,7 @@ body
                 span.caret
               ul.dropdown-menu(role="menu")
                 li.user-dropdown-header
+                  span.user-level.badge= me.level()
                   a(href="/user/#{me.get('slug') || me.get('_id')}")
                     img.img-circle(src="#{me.getPhotoURL()}" alt="")
                   h3=me.get('name') || 'Anoner'

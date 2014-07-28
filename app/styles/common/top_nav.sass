@@ -73,14 +73,15 @@ a.disabled
       border-radius: 0px
       font-family: Bangers
 
-      .user-dropdown-header
+      > .user-dropdown-header
+        position: relative
         background: #E4CF8C
         height: 160px
         padding: 10px
         text-align: center
         color: black
         border-bottom: #32281e 1px solid
-        a:hover
+        > a:hover
           background-color: transparent
         img
           border: #e3be7a 8px solid
@@ -91,6 +92,16 @@ a.disabled
           margin-top: 10px
           text-shadow: 2px 2px 3px white
           color: #31281E
+        .user-level
+          position: absolute
+          top: 85px
+          right: 100px
+          font-size: 20px
+          border-radius: 50%
+          background-color: #FFE4BC
+          box-shadow: 0 0 0 1px black // disable for double border
+          color: gold
+          text-shadow: 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black
 
       .user-dropdown-body
         color: black
