@@ -30,6 +30,10 @@ module.exports.NamedPlugin = (schema) ->
   schema.add({name: String, slug: String})
   schema.index({'slug': 1}, {unique: true, sparse: true, name: 'slug index'})
 
+  schema.statics.getBySlug = (slug, done) ->
+    @findOne {slug: slug}, (err, doc) ->
+      if err then done err else done doc
+
   schema.pre('save', (next) ->
     if schema.uses_coco_versions
       v = @get('version')

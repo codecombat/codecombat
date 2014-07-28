@@ -239,31 +239,38 @@ UserHandler = class UserHandler extends Handler
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
 
-  getLevelSessions: (req, res, userID) ->
-    query = creator: userID
-    isAuthorized = req.user._id+'' is userID or req.user.isAdmin()
-    projection = {}
-    if req.query.project
-      projection[field] = 1 for field in req.query.project.split(',') when isAuthorized or not (field in LevelSessionHandler.privateProperties)
-    else unless isAuthorized
-      projection[field] = 0 for field in LevelSessionHandler.privateProperties
+  IDify: (idOrSlug, done) ->
+    if Handler.isID idOrSlug
+      done idOrSlug
+    else
+      User.getBySlug idOrSlug, (user) -> done user?.get '_id'
 
-    LevelSession.find(query).select(projection).exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err
-      documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
-      @sendSuccess(res, documents)
+  getLevelSessions: (req, res, userIDOrSlug) ->
+    @IDify userIDOrSlug, (userID) =>
+      query = creator: userID + ''
+      isAuthorized = req.user._id+'' is userID or req.user.isAdmin()
+      projection = {}
+      if req.query.project
+        projection[field] = 1 for field in req.query.project.split(',') when isAuthorized or not (field in LevelSessionHandler.privateProperties)
+      else unless isAuthorized
+        projection[field] = 0 for field in LevelSessionHandler.privateProperties
 
-  getEarnedAchievements: (req, res, userID) ->
-    queryObject = {$query: {user: userID}, $orderby: {changed: -1}}
-    queryObject.$query.notified = false if req.query.notified is 'false'
-    query = EarnedAchievement.find(queryObject)
-    query.exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err?
-      cleandocs = (@formatEntity(req, doc) for doc in documents)
-      for doc in documents  # Maybe move this logic elsewhere
-        doc.set('notified', true)
-        doc.save()
-      @sendSuccess(res, cleandocs)
+      LevelSession.find(query).select(projection).exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+        @sendSuccess(res, documents)
+
+  getEarnedAchievements: (req, res, userIDOrSlug) ->
+    @IDify userIDOrSlug, (userID) =>
+      query = user: userID + ''
+      query.notified = false if req.query.notified is 'false'
+      EarnedAchievement.find(query).sort(changed: -1).exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err?
+        cleandocs = (@formatEntity(req, doc) for doc in documents)
+        for doc in documents  # TODO Ruben Maybe move this logic elsewhere
+          doc.set('notified', true)
+          doc.save()
+        @sendSuccess(res, cleandocs)
 
   trackActivity: (req, res, userID, activityName, increment=1) ->
     return @sendMethodNotAllowed res unless req.method is 'POST'
