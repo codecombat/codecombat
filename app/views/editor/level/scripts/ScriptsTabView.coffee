@@ -128,8 +128,9 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     super(valEl)
     channel = @getRoot().data.channel
     channelSchema = Backbone.Mediator.channelSchemas[channel]
-    autocompleteValues = ({label: val?.title or key, value: key} for key, val of channelSchema?.properties)
-    valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true)
+    autocompleteValues = []
+    autocompleteValues.push key for key, val of channelSchema?.properties
+    valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true).autocomplete("search", "")
     valEl
 
   saveChanges: (valEl) ->
