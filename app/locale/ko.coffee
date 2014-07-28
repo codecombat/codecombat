@@ -207,7 +207,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     profile_for_suffix: ""
 #    featured: "Featured"
 #    not_featured: "Not Featured"
-    희망 채용형태: "Looking for:"
+    looking_for: "희망 채용형태"
     last_updated: "최근 업데이트:"
     contact: "연락하기"
     active: "구직희망"
