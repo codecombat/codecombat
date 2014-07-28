@@ -452,8 +452,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     infinite_loop_reset_level: "레벨 리셋"
     infinite_loop_comment_out: "내 코드를 일시적 주석처리하기"
 
-#  keyboard_shortcuts:
-    keyboard_shortcuts: "키보드 단축키"
+  keyboard_shortcuts:
+    keyboard_shortcuts: "단축키"
     space: "스페이스"
     enter: "엔터"
     escape: "Esc"
@@ -773,26 +773,26 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     ambassador_title: "대사"
     ambassador_title_description: "(지원)"
 
-#  ladder:
+  ladder:
     please_login: "토너먼트 게임을 시작하기 앞서 로그인해주세요."
     my_matches: "나의 경기들"
     simulate: "시뮬레이션"
     simulation_explanation: "시뮬레이션을 통해 더 빨리 랭킹 평가를 받을 수 있습니다."
     simulate_games: "시뮬레이션 실행!"
     simulate_all: "리셋하고 시뮬레이션 하기"
-#    games_simulated_by: "Games simulated by you:"
-#    games_simulated_for: "Games simulated for you:"
+    games_simulated_by: "내가 시뮬레이션한 게임 수:"
+    games_simulated_for: "다른 사람에 의해 시뮬레이션된 게임 수:"
     games_simulated: "시뮬레이션 실행된 게임"
     games_played: "플레이한 게임"
-#    ratio: "Ratio"
+    ratio: "비율"
     leaderboard: "상위권 순위 차트"
 #    battle_as: "Battle as "
-#    summary_your: "Your "
+    summary_your: "당신의 "
 #    summary_matches: "Matches - "
 #    summary_wins: " Wins, "
 #    summary_losses: " Losses"
 #    rank_no_code: "No New Code to Rank"
-#    rank_my_game: "Rank My Game!"
+    rank_my_game: "내 게임 순위 매기기!"
     rank_submitting: "제출중..."
 #    rank_submitted: "Submitted for Ranking"
     rank_failed: "순위 매기기 실패"
@@ -808,7 +808,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tutorial_recommended: "전에 플레이해본 적이 없으시다면 튜토리얼을 보시는 걸 권장합니다."
     tutorial_skip: "튜토리얼 넘기기"
 #    tutorial_not_sure: "Not sure what's going on?"
-#    tutorial_play_first: "Play the Tutorial first."
+    tutorial_play_first: "튜토리얼을 먼저 플레이해보세요."
 #    simple_ai: "Simple AI"
 #    warmup: "Warmup"
     vs: "VS"
@@ -827,7 +827,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     rules: "규칙"
     winners: "승리자"
 
-#  ladder_prizes:
+  ladder_prizes:
 #    title: "Tournament Prizes"
 #    blurb_1: "These prizes will be awarded according to"
 #    blurb_2: "the tournament rules"
@@ -861,7 +861,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
 #    so_ready: "I Am So Ready for This"
 
-#  loading_error:
+  loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다."
     connection_failure: "연결 실패"
 #    unauthorized: "You need to be signed in. Do you have cookies disabled?"
@@ -874,7 +874,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     server_error: "서버 에러"
     unknown: "알 수 없는 에러 발생"
 
-#  resources:
+  resources:
 #    your_sessions: "Your Sessions"
     level: "레벨"
 #    social_network_apis: "Social Network APIs"
