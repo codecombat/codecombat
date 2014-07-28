@@ -49,9 +49,9 @@ module.exports = class RootView extends CocoView
     console.debug "Current level is #{currentLevel} (#{currentLevelExp} xp), next level is #{nextLevel} (#{nextLevelExp} xp)."
     console.debug "Need a total of #{nextLevelExp - currentLevelExp}, already had #{previousExp} and just now earned #{achievedExp} totalling on #{currentExp}"
 
-    alreadyAchievedBar = $("<div class='progress-bar progress-bar-warning' style='width:#{alreadyAchievedPercentage}%'></div>")
-    newlyAchievedBar = $("<div data-toggle='tooltip' class='progress-bar progress-bar-success' style='width:#{newlyAchievedPercentage}%'></div>")
-    emptyBar = $("<div data-toggle='tooltip' class='progress-bar progress-bar-white' style='width:#{100 - newlyAchievedPercentage - alreadyAchievedPercentage}%'></div>")
+    alreadyAchievedBar = $("<div class='progress-bar exp-bar-accumulated' style='width:#{alreadyAchievedPercentage}%'></div>")
+    newlyAchievedBar = $("<div data-toggle='tooltip' class='progress-bar exp-bar-new' style='width:#{newlyAchievedPercentage}%'></div>")
+    emptyBar = $("<div data-toggle='tooltip' class='progress-bar exp-bar-left' style='width:#{100 - newlyAchievedPercentage - alreadyAchievedPercentage}%'></div>")
     progressBar = $('<div class="progress" data-toggle="tooltip"></div>').append(alreadyAchievedBar).append(newlyAchievedBar).append(emptyBar)
     #message = if (currentLevel isnt 1) and leveledUp then "Reached level #{currentLevel}!" else null
 
@@ -61,6 +61,7 @@ module.exports = class RootView extends CocoView
 
     barBorder = $('<img src="/images/achievements/bar_border.png" />')
 
+    ###
     barBorder.hover (e) ->
       #console.debug e
       x = e.pageX
@@ -79,7 +80,7 @@ module.exports = class RootView extends CocoView
       #console.debug $actualHover
       $actualHover.trigger e if $actualHover
 
-    # TODO a default should be linked here
+    ###
     data =
       title: achievement.get('name')
       image: $("<img src='#{achievement.getImageURL()}' />")

@@ -19,14 +19,15 @@ module.exports = ->
 
   console.log currentView
   data = currentView.createNotifyData unlockable, earnedUnlockable
-  imageURL = '/images/achievements/swords-01.png'
-  data.image = $("<img src='#{imageURL}' />")
   options =
     autoHideDelay: 10000
     globalPosition: 'bottom right'
     showDuration: 400
-    style: 'achievement'
+    style: 'achievement-silver'
     autoHide: false
     clickToHide: false
 
   $.notify data, options
+
+  view = new RootView
+  view.render()

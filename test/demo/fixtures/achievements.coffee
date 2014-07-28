@@ -5,7 +5,7 @@ module.exports.DungeonArenaStarted = DungeonArenaStarted =
   _id: '53ba76249259823746b6b481'
   name: 'Dungeon Arena Started'
   description: 'Started playing Dungeon Arena. It was a really really hard game. So hard in fact, that this line should already be spanning'
-  icon: '/images/achievements/swords-01.png'
+  #icon: '/images/achievements/swords-01.png'
   worth: 3
   collection: 'level.session'
   query: "{\"level.original\":\"dungeon-arena\"}"
