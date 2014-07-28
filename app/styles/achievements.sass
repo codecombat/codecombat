@@ -38,14 +38,6 @@
       margin-top: auto
       margin-bottom: 0px !important
 
-  .achievement-border-wood
-    background: url("/images/achievements/border_wood.png") no-repeat
-    background-size: 100% 100%
-
-  .achievement-border-silver
-    background: url("/images/achievements/border_silver.png") no-repeat
-    background-size: 100% 100%
-
 #user-achievements-view
   .row
     //.col-lg-4, .col-xs-12
@@ -83,7 +75,8 @@
         line-height: 1.3em
         max-height: 2.6em
 
-.notifyjs-achievement-base
+.notifyjs-achievement-wood-base, .notifyjs-achievement-stone-base, .notifyjs-achievement-silver-base,
+.notifyjs-achievement-gold-base, .notifyjs-achievement-diamond-base
   padding: 20px 0px
 
   .achievement-body
@@ -149,6 +142,31 @@
 
           .progress-bar-border img
             width: 100%
+
+.notifyjs-achievement-wood-base
+  .achievement-icon
+    background: url("/images/achievements/border_wood.png") no-repeat
+    background-size: 100% 100%
+
+.notifyjs-achievement-stone-base
+  .achievement-icon
+    background: url("/images/achievements/border_stone.png") no-repeat
+    background-size: 100% 100%
+
+.notifyjs-achievement-silver-base
+  .achievement-icon
+    background: url("/images/achievements/border_silver.png") no-repeat
+    background-size: 100% 100%
+
+.notifyjs-achievement-gold-base
+  .achievement-icon
+    background: url("/images/achievements/border_gold.png") no-repeat
+    background-size: 100% 100%
+
+.notifyjs-achievement-diamond-base
+  .achievement-icon
+    background: url("/images/achievements/border_diamond.png") no-repeat
+    background-size: 100% 100%
 
 .progress-bar-white
   background-color: white

@@ -71,7 +71,7 @@ module.exports = class AchievementEditView extends RootView
 
     data = @createNotifyData @achievement, earned
     options =
-      style: 'achievement'
+      style: @achievement.getNotifyStyle()
       autoHide: false
       clickToHide: false
       arrowShow: false

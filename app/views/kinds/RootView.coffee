@@ -80,10 +80,9 @@ module.exports = class RootView extends CocoView
       $actualHover.trigger e if $actualHover
 
     # TODO a default should be linked here
-    imageURL = '/file/' + achievement.get('icon')
     data =
       title: achievement.get('name')
-      image: $("<img src='#{imageURL}' />")
+      image: $("<img src='#{achievement.getImageURL()}' />")
       description: achievement.get('description')
       progressBar: progressBar
       earnedExp: "+ #{achievedExp} XP"
@@ -99,7 +98,7 @@ module.exports = class RootView extends CocoView
       autoHideDelay: 10000
       globalPosition: 'bottom right'
       showDuration: 400
-      style: 'achievement'
+      style: achievement.getNotifyStyle()
       autoHide: true
       clickToHide: true
 

@@ -24,8 +24,9 @@ MongoFindQuerySchema =
     '^[-a-zA-Z0-9\.]*$':
       oneOf: [
         #{$ref: '#/definitions/' + MongoQueryOperatorSchema.id},
-        {type: 'string'},
+        {type: 'string'}
         {type: 'object'}
+        {type: 'boolean'}
       ]
   additionalProperties: true # TODO make Treema accept new pattern matched keys
   definitions: {}
@@ -72,7 +73,7 @@ _.extend AchievementSchema.properties,
     additionalProperties: false
 
 _.extend AchievementSchema, # Let's have these on the bottom
-  required: ['query', 'worth', 'collection', 'userField', 'category', 'difficulty']
+  required: ['name', 'description', 'query', 'worth', 'collection', 'userField', 'category', 'difficulty']
   additionalProperties: false
 
 AchievementSchema.definitions = {}
