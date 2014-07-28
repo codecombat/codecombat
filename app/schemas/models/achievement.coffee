@@ -34,10 +34,10 @@ MongoFindQuerySchema.definitions[MongoQueryOperatorSchema.id] = MongoQueryOperat
 
 AchievementSchema = c.object()
 c.extendNamedProperties AchievementSchema
-c.extendBasicProperties AchievementSchema, 'article'
+c.extendBasicProperties AchievementSchema, 'achievement' # TODO What's this about?
 c.extendSearchableProperties AchievementSchema
 
-_.extend(AchievementSchema.properties,
+_.extend AchievementSchema.properties,
   query:
     #type:'object'
     $ref: '#/definitions/' + MongoFindQuerySchema.id
@@ -47,11 +47,17 @@ _.extend(AchievementSchema.properties,
   userField: {type: 'string'}
   related: c.objectId(description: 'Related entity')
   icon: {type: 'string', format: 'image-file', title: 'Icon'}
+  category:
+    type: 'string'
+    description: "E.g. 'level', 'ladder', 'contributor'..." # TODO might make this enum?
+  difficulty: c.int
+    description: 'The higher the more difficult'
   proportionalTo:
     type: 'string'
     description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
   function:
     type: 'object'
+    description: 'Function that gives total experience for X amount achieved'
     properties:
       kind: {enum: ['linear', 'logarithmic', 'quadratic'], default: 'linear'}
       parameters:
@@ -64,7 +70,10 @@ _.extend(AchievementSchema.properties,
     default: {kind: 'linear', parameters: a: 1}
     required: ['kind', 'parameters']
     additionalProperties: false
-)
+
+_.extend AchievementSchema, # Let's have these on the bottom
+  required: ['query', 'worth', 'collection', 'userField', 'category', 'difficulty']
+  additionalProperties: false
 
 AchievementSchema.definitions = {}
 AchievementSchema.definitions[MongoFindQuerySchema.id] = MongoFindQuerySchema
