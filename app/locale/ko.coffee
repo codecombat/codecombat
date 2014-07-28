@@ -613,7 +613,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     michael_description: "프로그래머, 시스템 관리자, 기술 신동(대학생이래요),Michael 은 우리 서버를 계속 무결점상태로 유지시켜주는 사람입니다."
     glen_description: "프로그래머이자 열정적인 게임 개발자. 의미있는 것들을 개발함으로써 세상을 보다 더 나은 곳으로 변화시키고자 하는 개발자입니다. 그의 사전에 불가능이란 없습니다. 새로운 기술을 배우는 건 그에게 몹시 즐거운 일이죠!"
 
-#  legal:
+  legal:
 #    page_title: "Legal"
     opensource_intro: "코드 컴뱃은 무료이며 전적으로 오픈 소스를 기반으로 합니다."
     opensource_description_prefix: "코드 컴뱃의"
@@ -864,12 +864,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
   loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다."
     connection_failure: "연결 실패"
-#    unauthorized: "You need to be signed in. Do you have cookies disabled?"
+    unauthorized: "로그인한 상태가 아닙니다. 혹시 쿠키를 사용하지 못하게 설정해놓으셨나요?"
     forbidden: "권한이 필요합니다."
     not_found: "찾을 수 없습니다."
-#    not_allowed: "Method not allowed."
+    not_allowed: "잘못된 접근입니다."
     timeout: "서버 타임아웃"
-#    conflict: "Resource conflict."
+    conflict: "리소스 충돌"
 #    bad_input: "Bad input."
     server_error: "서버 에러"
     unknown: "알 수 없는 에러 발생"
