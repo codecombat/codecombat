@@ -133,12 +133,12 @@ module.exports = class PlayLevelView extends RootView
 
   showGuide: ->
     @seenDocs = true
-    DocsModal = require './modal/docs_modal'
+    LevelGuideModal = require './modal/LevelGuideModal'
     options =
       docs: @levelLoader.level.get('documentation')
       supermodel: @supermodel
       firstOnly: true
-    @openModalView(new DocsModal(options), true)
+    @openModalView(new LevelGuideModal(options), true)
     onGuideOpened = ->
       @guideOpenTime = new Date()
     onGuideClosed = ->

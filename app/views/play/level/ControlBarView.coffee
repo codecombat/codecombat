@@ -1,7 +1,7 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/control_bar'
 
-DocsModal = require './modal/LevelGuideModal'
+LevelGuideModal = require './modal/LevelGuideModal'
 MultiplayerModal = require './modal/MultiplayerModal'
 ReloadLevelModal = require './modal/ReloadLevelModal'
 
@@ -76,7 +76,7 @@ module.exports = class ControlBarView extends CocoView
 
   showGuideModal: ->
     options = {docs: @level.get('documentation'), supermodel: @supermodel}
-    @openModalView(new DocsModal(options))
+    @openModalView(new LevelGuideModal(options))
     clearInterval @guideHighlightInterval
     @guideHighlightInterval = null
 
