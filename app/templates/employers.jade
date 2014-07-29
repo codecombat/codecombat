@@ -90,7 +90,15 @@ block content
                 p#results 
                   | #{numberOfCandidates} 
                   span(data-i18n="employers.results") results
-                //button.btn#create-alert-button Create Alert
+                h4#filter-alerts-heading Filter Email Alerts
+                p Get an email whenever a candidate meeting certain criteria enters the system.
+                table#saved-filter-table
+                  thead
+                    tr
+                      th Filters
+                      th Remove
+                  tbody
+                button.btn#create-alert-button Create Alert with Current Filters
 
     #candidates-column(class=fullProfiles ? "full-profiles col-md-9" : "teaser-profiles col-md-12")
       if candidates.length

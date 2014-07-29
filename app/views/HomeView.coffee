@@ -4,7 +4,6 @@ WizardSprite = require 'lib/surface/WizardSprite'
 ThangType = require 'models/ThangType'
 Simulator = require 'lib/simulator/Simulator'
 {me} = require '/lib/auth'
-application  = require 'application'
 
 module.exports = class HomeView extends RootView
   id: 'home-view'

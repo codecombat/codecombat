@@ -181,7 +181,7 @@ _.extend UserSchema.properties,
   }, c.object({
     title: 'Saved filter set'
     description: 'A saved filter set'
-    required: ['phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter','visa','filterActive']
+    required: ['phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter','visa']
   }, {
     phoneScreenFilter:
       title: 'Phone screen filter values'
@@ -218,11 +218,6 @@ _.extend UserSchema.properties,
       items:
         type: visa.type
         enum: visa.enum
-    filterActive: 
-      title: 'Filter active'
-      description: 'Whether or not an employer will receive emails based on this filter'
-      type: 'boolean'
-      default: false
   })
     
   points: {type: 'number'}
