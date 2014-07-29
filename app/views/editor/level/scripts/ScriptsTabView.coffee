@@ -39,6 +39,13 @@ module.exports = class ScriptsTabView extends CocoView
 
   onScriptsChanged: (e) =>
     @level.set 'scripts', @scriptsTreema.data
+    lastAction = @scriptsTreema.trackedActions[@scriptsTreema.trackedActions.length - 1]
+
+    if lastAction.action is 'insert' and lastAction.parentPath is '/'
+      newScript = @scriptsTreema.get lastAction.path
+      if newScript.id is undefined
+        @scriptsTreema.set lastAction.path+'/id', 'Script-' + @scriptsTreema.data.length
+        @scriptTreema.refreshDisplay()
 
   onScriptSelected: (e, selected) =>
     selected = if selected.length > 1 then selected[0].getLastSelectedTreema() else selected[0]
