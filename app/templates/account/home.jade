@@ -110,8 +110,9 @@ block content
               td
                 a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
               td= moment(session.get('changed')).fromNow()
+              td
               if session.get('state').complete === true
-                td Completed
+                | Completed
       else
         .panel.panel-default
           .panel-body

@@ -7,10 +7,11 @@ block append content
       .left-column
         .profile-wrapper
           img.picture(src="#{me.getPhotoURL(150)}" alt="")
-          h3.name= user.get('name')
-          if favoriteLanguage
-            div.profile-info Favorite language is
-              span= favoriteLanguage
+          div.profile-info
+            h3.name= user.get('name')
+            if favoriteLanguage
+              div.extra-info Favorite language is
+                strong.spl.spr= favoriteLanguage
           .btn-group-vertical.profile-menu
             a.btn.btn-default(href="/user/#{user.get('slug') || user.get('_id')}/profile")
               i.glyphicon.glyphicon-briefcase
@@ -57,20 +58,49 @@ block append content
           .panel-body
         .panel.panel-default
           .panel-heading
-            h3.panel-title S. Levels
-          .panel-body
-            if (!singlePlayerSessions)
+            h3.panel-title Singleplayer Levels
+          if (!singlePlayerSessions)
+            .panel-body
               p Loading...
-            else if (singlePlayerSessions.length)
-              table.table
+          else if (singlePlayerSessions.length)
+            table.table
+              tr
+                th Level
+                th Last Played
+                th Status
+              each session in singlePlayerSessions
                 tr
-                  th Level
-                  th Last Played
-                  th Status
-
-              //each session in singlePlayerSessions
-
+                  td
+                    if session.get('levelName')
+                      a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
+                  td= moment(session.get('changed')).fromNow()
+                  if session.get('state').complete === true
+                    td Completed
+                  else
+                    td Unfinished
+          else
+            .panel-body
+              p No Singleplayer games played yet.
         .panel.panel-default
           .panel-heading
-            h3.panel-title M. Levels
-          .panel-body
+            h3.panel-title Multiplayer Levels
+          if (!multiPlayerSessions)
+            .panel-body
+              p Loading...
+          else if (multiPlayerSessions.length)
+            table.table
+              tr
+                th Level
+                th Team
+                th Last Played
+              each session in multiPlayerSessions
+                tr
+                  td
+                    a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
+                  td= session.get('team')
+                  td= moment(session.get('changed')).fromNow()
+                  if session.get('state').complete === true
+                    td Completed
+          else
+            .panel-body
+              p No Multiplayer games played yet.
