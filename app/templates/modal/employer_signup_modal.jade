@@ -23,7 +23,7 @@ block modal-body-content
         br
         br
         | Already have a CodeCombat account? 
-        a.login-link(data-toggle="coco-modal", data-target="modal/auth") Log in to continue!
+        a.login-link(data-toggle="coco-modal", data-target="modal/AuthModal") Log in to continue!
   else if !userIsAuthorized
     .modal-footer.linkedin
       p Please sign into your LinkedIn account to verify your identity.
@@ -50,7 +50,7 @@ block modal-footer
   if userIsAnonymous   
     if userIsAuthorized
       .modal-footer.linkedin
-        a.login-link(data-toggle="coco-modal", data-target="modal/auth") Please log in to continue.
+        a.login-link(data-toggle="coco-modal", data-target="modal/AuthModal") Please log in to continue.
   else if !userIsAnonymous && !userIsAuthorized
     .modal-footer.linkedin
   else if userIsAuthorized && !userHasSignedContract

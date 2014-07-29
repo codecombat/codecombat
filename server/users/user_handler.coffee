@@ -30,7 +30,7 @@ UserHandler = class UserHandler extends Handler
     'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
     'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
     'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
-    'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile'
+    'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts'
   ]
 
   getEditableProperties: (req, document) ->
@@ -241,33 +241,42 @@ UserHandler = class UserHandler extends Handler
       documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
 
-  getLevelSessions: (req, res, userID) ->
-    query = creator: userID
-    isAuthorized = req.user._id+'' is userID or req.user.isAdmin()
-    projection = {}
-    if req.query.project
-      projection[field] = 1 for field in req.query.project.split(',') when isAuthorized or not (field in LevelSessionHandler.privateProperties)
-    else unless isAuthorized
-      projection[field] = 0 for field in LevelSessionHandler.privateProperties
-    sort = {}
-    sort.changed = req.query.order if req.query.order
+  IDify: (idOrSlug, done) ->
+    return done null, idOrSlug if Handler.isID idOrSlug
+    User.getBySlug idOrSlug, (err, user) -> done err, user?.get '_id'
 
-    LevelSession.find(query).select(projection).sort(sort).exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err
-      documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
-      @sendSuccess(res, documents)
+  getLevelSessions: (req, res, userIDOrSlug) ->
+    @IDify userIDOrSlug, (err, userID) =>
+      return @sendDatabaseError res, err if err
+      return @sendNotFoundError res unless userID?
+      query = creator: userID + ''
+      isAuthorized = req.user._id+'' is userID or req.user.isAdmin()
+      projection = {}
+      if req.query.project
+        projection[field] = 1 for field in req.query.project.split(',') when isAuthorized or not (field in LevelSessionHandler.privateProperties)
+      else unless isAuthorized
+        projection[field] = 0 for field in LevelSessionHandler.privateProperties
+      sort = {}
+      sort.changed = req.query.order if req.query.order
 
-  getEarnedAchievements: (req, res, userID) ->
-    queryObject = {$query: {user: userID}, $orderby: {changed: -1}}
-    queryObject.$query.notified = false if req.query.notified is 'false'
-    query = EarnedAchievement.find(queryObject)
-    query.exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err?
-      cleandocs = (@formatEntity(req, doc) for doc in documents)
-      for doc in documents  # Maybe move this logic elsewhere
-        doc.set('notified', true)
-        doc.save()
-      @sendSuccess(res, cleandocs)
+      LevelSession.find(query).select(projection).sort(sort).exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err
+        documents = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
+        @sendSuccess(res, documents)
+
+  getEarnedAchievements: (req, res, userIDOrSlug) ->
+    @IDify userIDOrSlug, (err, userID) =>
+      return @sendDatabaseError res, err if err
+      return @sendNotFoundError res unless userID?
+      query = user: userID + ''
+      query.notified = false if req.query.notified is 'false'
+      EarnedAchievement.find(query).sort(changed: -1).exec (err, documents) =>
+        return @sendDatabaseError(res, err) if err?
+        cleandocs = (@formatEntity(req, doc) for doc in documents)
+        for doc in documents  # TODO Ruben Maybe move this logic elsewhere
+          doc.set('notified', true)
+          doc.save()
+        @sendSuccess(res, cleandocs)
 
   getRecentlyPlayed: (req, res, userID) ->
     twoWeeksAgo = moment().subtract('days', 14).toDate()

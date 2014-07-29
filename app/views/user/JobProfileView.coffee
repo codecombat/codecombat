@@ -4,11 +4,11 @@ User = require 'models/User'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 {me} = require 'lib/auth'
-JobProfileContactView = require 'views/modal/job_profile_contact_modal'
-JobProfileView = require 'views/account/job_profile_view'
+JobProfileContactModal = require 'views/modal/JobProfileContactModal'
+JobProfileTreemaView = require 'views/account/JobProfileTreemaView'
 UserRemark = require 'models/UserRemark'
 forms = require 'lib/forms'
-ModelModal = require 'views/modal/model_modal'
+ModelModal = require 'views/modal/ModelModal'
 JobProfileCodeModal = require './JobProfileCodeModal'
 
 class LevelSessionsCollection extends CocoCollection
@@ -26,7 +26,7 @@ adminContacts = [
   {id: '52a57252a89409700d0000d9', name: 'Ignore'}
 ]
 
-module.exports = class ProfileView extends UserView
+module.exports = class JobProfileView extends UserView
   id: 'profile-view'
   template: template
   showBackground: false
@@ -70,7 +70,6 @@ module.exports = class ProfileView extends UserView
     super()
 
   finishInit: ->
-    console.debug 'finishing that init'
     return unless @userID
     @uploadFilePath = "db/user/#{@userID}"
     @highlightedContainers = []
@@ -79,7 +78,6 @@ module.exports = class ProfileView extends UserView
       $.post "/db/user/#{@userID}/track/viewed_by_employer" unless me.isAdmin()
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@userID), 'candidate_sessions').model
     if me.isAdmin()
-      console.debug 'fetching that remark'
       # Mimicking how the VictoryModal fetches LevelFeedback
       @remark = new UserRemark()
       @remark.setURL "/db/user/#{@userID}/remark"
@@ -277,7 +275,6 @@ module.exports = class ProfileView extends UserView
       _.delay ->
         justSavedSection.removeClass 'just-saved', duration: 1500, easing: 'easeOutQuad'
       , 500
-    console.debug @user
     if me.isAdmin() and @user
       visibleSettings = ['history', 'tasks']
       data = _.pick (@remark.attributes), (value, key) -> key in visibleSettings
@@ -306,7 +303,7 @@ module.exports = class ProfileView extends UserView
 
   initializeAutocomplete: (container) ->
     (container ? @$el).find('input[data-autocomplete]').each ->
-      $(@).autocomplete(source: JobProfileView[$(@).data('autocomplete')], minLength: parseInt($(@).data('autocomplete-min-length')), delay: 0, autoFocus: true)
+      $(@).autocomplete(source: JobProfileTreemaView[$(@).data('autocomplete')], minLength: parseInt($(@).data('autocomplete-min-length')), delay: 0, autoFocus: true)
 
   toggleEditing: ->
     @editing = not @editing
@@ -363,7 +360,7 @@ module.exports = class ProfileView extends UserView
     null
 
   onContactCandidate: (e) ->
-    @openModalView new JobProfileContactView recipientID: @user.id, recipientUserName: @user.get('name')
+    @openModalView new JobProfileContactModal recipientID: @user.id, recipientUserName: @user.get('name')
 
   showErrors: (errors) ->
     section = @$el.find '.saving'

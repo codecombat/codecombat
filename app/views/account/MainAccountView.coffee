@@ -2,7 +2,7 @@ View = require 'views/kinds/RootView'
 template = require 'templates/account/home'
 {me} = require 'lib/auth'
 User = require 'models/User'
-AuthModalView = require 'views/modal/auth_modal'
+AuthModalView = require 'views/modal/AuthModal'
 RecentlyPlayedCollection = require 'collections/RecentlyPlayedCollection'
 
 module.exports = class MainAccountView extends View
