@@ -13,7 +13,7 @@ module.exports = class UserView extends RootView
     @listenTo @, 'userLoaded', @onUserLoaded
     @listenTo @, 'userNotFound', @ifUserNotFound
 
-    @userID ?= me.id
+    @userID ?= me.id # TODO Ruben really?
     @fetchUser @userID
 
   # TODO Ruben make this use the new getByNameOrID as soon as that is merged in

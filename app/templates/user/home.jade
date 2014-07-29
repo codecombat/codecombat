@@ -8,6 +8,9 @@ block append content
         .profile-wrapper
           img.picture(src="#{me.getPhotoURL(150)}" alt="")
           h3.name= user.get('name')
+          if favoriteLanguage
+            div.profile-info Favorite language is
+              span= favoriteLanguage
           .btn-group-vertical.profile-menu
             a.btn.btn-default(href="/user/#{user.get('slug') || user.get('_id')}/profile")
               i.glyphicon.glyphicon-briefcase
@@ -47,9 +50,8 @@ block append content
                 h4.contributor-title
                   a(href="/contribute#scribe") Scribe
 
-
       .right-column
-        .panel.panel-default
+        //.panel.panel-default
           .panel-heading
             h3.panel-title Achievements
           .panel-body
@@ -57,6 +59,17 @@ block append content
           .panel-heading
             h3.panel-title S. Levels
           .panel-body
+            if (!singlePlayerSessions)
+              p Loading...
+            else if (singlePlayerSessions.length)
+              table.table
+                tr
+                  th Level
+                  th Last Played
+                  th Status
+
+              //each session in singlePlayerSessions
+
         .panel.panel-default
           .panel-heading
             h3.panel-title M. Levels
