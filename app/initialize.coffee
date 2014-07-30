@@ -31,6 +31,7 @@ init = ->
   app.initialize()
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
+  setUpMoment() # Set up i18n for moment
 
   treemaExt = require 'treema-ext'
   treemaExt.setup()
@@ -63,6 +64,12 @@ setUpChannels = ->
 setUpDefinitions = ->
   for definition of definitionSchemas
     Backbone.Mediator.addDefSchemas definitionSchemas[definition]
+
+setUpMoment = ->
+  {me} = require 'lib/auth'
+  moment.lang me.lang(), {}
+  me.on 'change', (me) ->
+    moment.lang me.lang(), {} if me._previousAttributes.preferredLanguage isnt me.get 'preferredLanguage'
 
 initializeServices = ->
   services = [
