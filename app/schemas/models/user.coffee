@@ -229,25 +229,25 @@ _.extend UserSchema.properties,
     levelSystemEdits: c.int()
     levelComponentEdits: c.int()
     thangTypeEdits: c.int()
-    'stats.patchesSubmitted': c.int
+    patchesSubmitted: c.int
       description: 'Amount of patches submitted, not necessarily accepted'
-    'stats.patchesContributed': c.int
+    patchesContributed: c.int
       description: 'Amount of patches submitted and accepted'
-    'stats.patchesAccepted': c.int
+    patchesAccepted: c.int
       description: 'Amount of patches accepted by the user as owner'
     # The below patches only apply to those that actually got accepted
-    'stats.totalTranslationPatches': c.int()
-    'stats.totalMiscPatches': c.int()
-    'stats.articleTranslationPatches': c.int()
-    'stats.articleMiscPatches': c.int()
-    'stats.levelTranslationPatches': c.int()
-    'stats.levelMiscPatches': c.int()
-    'stats.levelComponentTranslationPatches': c.int()
-    'stats.levelComponentMiscPatches': c.int()
-    'stats.levelSystemTranslationPatches': c.int()
-    'stats.levelSystemMiscPatches': c.int()
-    'stats.thangTypeTranslationPatches': c.int()
-    'stats.thangTypeMiscPatches': c.int()
+    totalTranslationPatches: c.int()
+    totalMiscPatches: c.int()
+    articleTranslationPatches: c.int()
+    articleMiscPatches: c.int()
+    levelTranslationPatches: c.int()
+    levelMiscPatches: c.int()
+    levelComponentTranslationPatches: c.int()
+    levelComponentMiscPatches: c.int()
+    levelSystemTranslationPatches: c.int()
+    levelSystemMiscPatches: c.int()
+    thangTypeTranslationPatches: c.int()
+    thangTypeMiscPatches: c.int()
 
 
 c.extendBasicProperties UserSchema, 'user'

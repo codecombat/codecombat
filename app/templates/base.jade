@@ -51,7 +51,7 @@ body
                   .col-xs-4.text-center
                     a(href="/user/#{me.get('slug') || me.get('_id')}") Profile
                   .col-xs-4.text-center
-                    a(href="#") Stats
+                    a(href="/user/#{me.get('slug') || me.get('_id')}/stats") Stats
                   .col-xs-4.text-center
                     a.disabled() Code
                 li.user-dropdown-footer

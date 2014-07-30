@@ -75,9 +75,9 @@ class EarnedAchievementHandler extends Handler
                   return doneWithAchievement()
 
                 finalQuery = _.clone achievement.get 'query'
-                finalQuery.$or = [{}, {}] # Allow both ObjectIDs or hexa string IDs
+                finalQuery.$or = [{}, {}] # Allow both ObjectIDs or hex string IDs
                 finalQuery.$or[0][achievement.userField] = userID
-                finalQuery.$or[1][achievement.userField] = ObjectId userID
+                finalQuery.$or[1][achievement.userField] = mongoose.Types.ObjectId userID
 
                 model.findOne finalQuery, (err, something) ->
                   return doneWithAchievement() if _.isEmpty something

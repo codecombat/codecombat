@@ -1,6 +1,6 @@
-div
-  .clearfix.achievement-body
-    .achievement-icon(class=locked === true ? "locked" : "", class=border)
+div(class=notifyClass)
+  .clearfix.achievement-body(class=locked === true ? "locked" : "")
+    .achievement-icon
       .achievement-image(data-notify-html="image")
         if imgURL
           img(src=imgURL)

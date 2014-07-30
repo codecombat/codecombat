@@ -8,6 +8,8 @@ locale = require 'locale/locale'
 
 Achievement = require '../../models/Achievement'
 User = require '../../models/User'
+utils = require 'lib/utils'
+
 # TODO remove
 
 filterKeyboardEvents = (allowedEvents, func) ->
@@ -39,11 +41,15 @@ module.exports = class RootView extends CocoView
     totalExpNeeded = nextLevelExp - currentLevelExp
     expFunction = achievement.getExpFunction()
     currentExp = me.get('points')
-    previousExp = currentExp - achievement.get('worth')
-    previousExp = expFunction(earnedAchievement.get('previouslyAchievedAmount')) * achievement.get('worth') if achievement.isRepeatable()
-    achievedExp = currentExp - previousExp
+    if achievement.isRepeatable()
+      achievedExp = expFunction(earnedAchievement.get('previouslyAchievedAmount')) * achievement.get('worth') if achievement.isRepeatable()
+    else
+      achievedExp = achievement.get 'worth'
+    previousExp = currentExp - achievedExp
     leveledUp = currentExp - achievedExp < currentLevelExp
+    console.debug 'Leveled up' if leveledUp
     alreadyAchievedPercentage = 100 * (previousExp - currentLevelExp) / totalExpNeeded
+    alreadyAchievedPercentage = 0 if alreadyAchievedPercentage < 0 # In case of level up
     newlyAchievedPercentage = if leveledUp then 100 * (currentExp - currentLevelExp) / totalExpNeeded else  100 * achievedExp / totalExpNeeded
 
     console.debug "Current level is #{currentLevel} (#{currentLevelExp} xp), next level is #{nextLevel} (#{nextLevelExp} xp)."
@@ -92,25 +98,23 @@ module.exports = class RootView extends CocoView
     data
 
   showNewAchievement: (achievement, earnedAchievement) ->
-    data = createNotifyData achievement, earnedAchievement
+    data = @createNotifyData achievement, earnedAchievement
     options =
-      autoHideDelay: 10000
+      autoHideDelay: 1000000
       globalPosition: 'bottom right'
       showDuration: 400
       style: achievement.getNotifyStyle()
-      autoHide: true
+      autoHide: false
       clickToHide: true
 
+    console.debug 'showing achievement', achievement.get 'name'
     $.notify( data, options )
 
   handleNewAchievements: (earnedAchievements) ->
-    _.each(earnedAchievements.models, (earnedAchievement) =>
+    _.each earnedAchievements.models, (earnedAchievement) =>
       achievement = new Achievement(_id: earnedAchievement.get('achievement'))
-      console.log achievement
-      achievement.fetch(
+      achievement.fetch
         success: (achievement) => @showNewAchievement(achievement, earnedAchievement)
-      )
-    )
 
   logoutAccount: ->
     logoutUser($('#login-email').val())

@@ -3,14 +3,12 @@ extends /templates/base
 // User pages might have some user page specific header, if not remove this
 block content
   .clearfix
-    //-
-      if user && viewName
-        ol.breadcrumb
-          li
-            - var userName = user.get('name');
-            //_a(href="/user/#{user.id}") #{userName}
-          li.active
-            //-| #{viewName}
+    if user && viewName
+      ol.breadcrumb
+        li
+          a(href="/user/#{user.id}") #{user.displayName()}
+        li.active
+          | #{viewName}
     if !userLoaded
       | LOADING
     else if !user

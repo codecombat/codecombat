@@ -19,7 +19,7 @@ achievements =
     worth: 10
     collection: 'users'
     userField: '_id'
-    category: 'Miscellaneous'
+    category: 'miscellaneous'
     difficulty: 1
 
   completedFirstLevel:
@@ -29,7 +29,17 @@ achievements =
     worth: 50
     collection: 'users'
     userField: '_id'
-    category: 'Levels'
+    category: 'levels'
+    difficulty: 1
+
+  completedFiveLevels:
+    name: 'Completed one Level'
+    description: 'Completed your very first level.'
+    query: 'stats.gamesCompleted': $gte: 1
+    worth: 50
+    collection: 'users'
+    userField: '_id'
+    category: 'levels'
     difficulty: 1
 
   simulatedBy:
@@ -39,7 +49,7 @@ achievements =
     worth: 1
     collection: 'users'
     userField: '_id'
-    category: 'Miscellaneous'
+    category: 'miscellaneous'
     difficulty: 1
     proportionalTo: 'simulatedBy'
     function:

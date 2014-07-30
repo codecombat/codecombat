@@ -129,7 +129,8 @@
 
         > .progress-bar-wrapper
           position: absolute
-          width: 331px
+          margin-left: 12px
+          width: 319px
           height: 20px
           z-index: 2
 
@@ -147,27 +148,27 @@
           background-size: 100% 100%
           z-index: 1
 
-.notifyjs-achievement-wood-base
+.notifyjs-achievement-wood-base, .achievement-wood
   .achievement-icon
     background: url("/images/achievements/border_wood.png") no-repeat
     background-size: 100% 100%
 
-.notifyjs-achievement-stone-base
+.notifyjs-achievement-stone-base, .achievement-stone
   .achievement-icon
     background: url("/images/achievements/border_stone.png") no-repeat
     background-size: 100% 100%
 
-.notifyjs-achievement-silver-base
+.notifyjs-achievement-silver-base, .achievement-silver
   .achievement-icon
     background: url("/images/achievements/border_silver.png") no-repeat
     background-size: 100% 100%
 
-.notifyjs-achievement-gold-base
+.notifyjs-achievement-gold-base, .achievement-gold
   .achievement-icon
     background: url("/images/achievements/border_gold.png") no-repeat
     background-size: 100% 100%
 
-.notifyjs-achievement-diamond-base
+.notifyjs-achievement-diamond-base, .achievement-diamond
   .achievement-icon
     background: url("/images/achievements/border_diamond.png") no-repeat
     background-size: 100% 100%
@@ -185,3 +186,11 @@
   z-index: 1000
   box-shadow: 0 0 0 1px black, 0 0 0 3px lightgrey, 0 0 0 4px black
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif
+
+// Achievements page
+h2.achievements-category
+  margin-left: 20px
+
+.table-layout
+  #no-achievements
+    margin-top: 40px

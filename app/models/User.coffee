@@ -16,6 +16,10 @@ module.exports = class User extends CocoModel
     super()
     @migrateEmails()
 
+  onLoaded:  ->
+    CocoModel.pollAchievements() # Check for achievements on login
+    super arguments...
+
   isAdmin: ->
     permissions = @attributes['permissions'] or []
     return 'admin' in permissions
@@ -121,15 +125,16 @@ module.exports = class User extends CocoModel
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
   a = 5
-  b = 40
+  b = 100
+  c = b
 
-  # y = a * ln(1/b * (x + b)) + 1
+  # y = a * ln(1/b * (x + c)) + 1
   @levelFromExp: (xp) ->
-    if xp > 0 then Math.floor(a * Math.log((1/b) * (xp + b))) + 1 else 1
+    if xp > 0 then Math.floor(a * Math.log((1/b) * (xp + c))) + 1 else 1
 
-  # x = (e^((y-1)/a) - 1) * b
+  # x = b * e^((y-1)/a) - c
   @expForLevel: (level) ->
-    Math.ceil((Math.exp((level - 1)/ a) - 1) * b)
+    if level > 1 then Math.ceil Math.exp((level - 1)/ a) * b - c else 0
 
   level: ->
     User.levelFromExp(@get('points'))

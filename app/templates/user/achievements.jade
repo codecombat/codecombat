@@ -1,12 +1,46 @@
 extends /templates/kinds/user
 
 block append content
-  if achievements
-    .row
-      each achievement, index in achievements
-        - var title = achievement.get('name');
-        - var description = achievement.get('description');
-        - var imgURL = achievement.get('icon');
-        - var locked = ! achievement.get('unlocked');
-        .col-lg-4.col-xs-12
-          include ../achievement_notify
+  .btn-group.pull-right
+    button#grid-layout-button.btn.btn-default(data-layout='grid', class=activeLayout==='grid' ? 'active' : '') Grid
+    button#table-layout-button.btn.btn-default(data-layout='table', class=activeLayout==='table' ? 'active' : '') Table
+  if achievementsByCategory
+    if activeLayout === 'grid'
+      .grid-layout
+        each achievements, category in achievementsByCategory
+          .row
+            h2.achievements-category=category
+            each achievement, index in achievements
+              - var title = achievement.get('name');
+              - var description = achievement.get('description');
+              - var imgURL = achievement.getImageURL();
+              - var locked = ! achievement.get('unlocked');
+              - var notifyClass = achievement.getNotifyStyle()
+              .col-lg-4.col-xs-12
+                include ../achievement_notify
+    else if activeLayout === 'table'
+      .table-layout
+        if earnedAchievements.length
+          table.table
+            tr
+              th Name
+              th Description
+              th Date
+              th Amount
+              th XP
+            each earnedAchievement in earnedAchievements
+              - var achievement = earnedAchievement.get('achievement');
+              tr
+                td= achievement.get('name')
+                td= achievement.get('description')
+                td= moment().format("MMMM Do YY", earnedAchievement.get('changed'))
+                if achievement.isRepeatable()
+                  td= earnedAchievement.get('achievedAmount')
+                else
+                  td
+                td= earnedAchievement.get('earnedPoints')
+        else
+          .panel#no-achievements
+            .panel-body No achievements earned yet.
+    else
+      div How did you even do that?

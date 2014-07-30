@@ -9,6 +9,12 @@ EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
 module.exports = class AchievementsView extends UserView
   id: 'user-achievements-view'
   template: template
+  viewName: 'Stats'
+  activeLayout: 'grid'
+
+  events:
+    'click #grid-layout-button': 'layoutChanged'
+    'click #table-layout-button': 'layoutChanged'
 
   constructor: (userID, options) ->
     super options, userID
@@ -29,9 +35,20 @@ module.exports = class AchievementsView extends UserView
       earned.set 'achievement', relatedAchievement
     super()
 
+  layoutChanged: (e) ->
+    @activeLayout = $(e.currentTarget).data 'layout'
+    @render()
+
   getRenderData: ->
     context = super()
+    context.activeLayout = @activeLayout
+
+    # After user is loaded
     if @user and not @user.isAnonymous()
-      context.achievements = @achievements.models
       context.earnedAchievements = @earnedAchievements.models
+      context.achievements = @achievements.models
+      context.achievementsByCategory = {}
+      for achievement in @achievements.models
+        context.achievementsByCategory[achievement.get('category')] ?= []
+        context.achievementsByCategory[achievement.get('category')].push achievement
     context

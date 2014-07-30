@@ -58,9 +58,15 @@ module.exports = class SuperModel extends Backbone.Model
         return res
     else
       @addCollection collection
-      @listenToOnce collection, 'sync', (c) ->
-        console.debug 'Registering collection', url
-        @registerCollection c
+      onCollectionSynced = (c) ->
+        if collection.url is c.url
+          console.debug 'Registering collection', url, c
+          @registerCollection c
+        else
+          console.warn 'Sync triggered for collection', c
+          console.warn 'Yet got other object', c
+          @listenToOnce collection, 'sync', onCollectionSynced
+      @listenToOnce collection, 'sync', onCollectionSynced
       res = @addModelResource(collection, name, fetchOptions, value)
       res.load() if not (res.isLoading or res.isLoaded)
       return res
