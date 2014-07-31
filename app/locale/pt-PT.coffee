@@ -14,7 +14,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     manual: "Manual"
     fork: "Bifurcar"
     play: "Jogar"
-    retry: "Tentar novamente"
+    retry: "Tentar Novamente"
     watch: "Vigiar"
     unwatch: "Desvigiar"
     submit_patch: "Submeter Versão"
