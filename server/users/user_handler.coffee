@@ -240,13 +240,13 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess(res, documents)
 
   IDify: (idOrSlug, done) ->
-    if Handler.isID idOrSlug
-      done idOrSlug
-    else
-      User.getBySlug idOrSlug, (user) -> done user?.get '_id'
+    return done null, idOrSlug if Handler.isID idOrSlug
+    User.getBySlug idOrSlug, (err, user) -> done err, user?.get '_id'
 
   getLevelSessions: (req, res, userIDOrSlug) ->
-    @IDify userIDOrSlug, (userID) =>
+    @IDify userIDOrSlug, (err, userID) =>
+      return @sendDatabaseError res, err if err
+      return @sendNotFoundError res unless userID?
       query = creator: userID + ''
       isAuthorized = req.user._id+'' is userID or req.user.isAdmin()
       projection = {}
@@ -261,7 +261,9 @@ UserHandler = class UserHandler extends Handler
         @sendSuccess(res, documents)
 
   getEarnedAchievements: (req, res, userIDOrSlug) ->
-    @IDify userIDOrSlug, (userID) =>
+    @IDify userIDOrSlug, (err, userID) =>
+      return @sendDatabaseError res, err if err
+      return @sendNotFoundError res unless userID?
       query = user: userID + ''
       query.notified = false if req.query.notified is 'false'
       EarnedAchievement.find(query).sort(changed: -1).exec (err, documents) =>

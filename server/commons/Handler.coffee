@@ -47,7 +47,7 @@ module.exports = class Handler
 
   # sending functions
   sendUnauthorizedError: (res) -> errors.forbidden(res) #TODO: rename sendUnauthorizedError to sendForbiddenError
-  sendNotFoundError: (res) -> errors.notFound(res)
+  sendNotFoundError: (res, message) -> errors.notFound(res, message)
   sendMethodNotAllowed: (res) -> errors.badMethod(res)
   sendBadInputError: (res, message) -> errors.badInput(res, message)
   sendDatabaseError: (res, err) ->
