@@ -895,7 +895,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     thang: "Thang"
     thangs: "Thangs"
     level_session: "A Sua Sessão"
-    opponent_session: "Sessão Do Oponente"
+    opponent_session: "Sessão do Adversário"
     article: "Artigo"
 #    user_names: "User Names"
 #    thang_names: "Thang Names"
