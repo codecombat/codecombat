@@ -444,7 +444,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_impossible: "Parece sempre impossível até ser feito. - Nelson Mandela"
     tip_talk_is_cheap: "Falar é fácil. Mostra-me o código. - Linus Torvalds"
     tip_first_language: "A coisa mais desastrosa que pode aprender é a sua primeira linguagem de programação. - Alan Kay"
-    tip_hardware_problem: "P: Quantos programdores são necessários paramudar uma lâmpada?  R: Nenhum, é um problema de hardware."
+    tip_hardware_problem: "P: Quantos programadores são necessários para mudar uma lâmpada?  R: Nenhum, é um problema de hardware."
     time_current: "Agora:"
     time_total: "Máximo:"
     time_goto: "Ir para:"
@@ -468,7 +468,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
-    move_wizard: "Mover o seu feitiçeiro pelo nível."
+    move_wizard: "Mover o seu Feitiçeiro pelo nível."
 
   admin:
     av_title: "Vistas de Administrador"
