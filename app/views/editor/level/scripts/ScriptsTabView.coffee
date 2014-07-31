@@ -39,7 +39,23 @@ module.exports = class ScriptsTabView extends CocoView
 
   onScriptsChanged: (e) =>
     @level.set 'scripts', @scriptsTreema.data
+    lastAction = @scriptsTreema.trackedActions[@scriptsTreema.trackedActions.length - 1]
+    return unless lastAction
 
+    if lastAction.action is 'insert' and lastAction.parentPath is '/'
+      newScript = @scriptsTreema.get lastAction.path
+      if newScript.id is undefined
+        @scriptsTreema.set lastAction.path+'/id', 'Script-' + @scriptsTreema.data.length
+        @scriptTreema.refreshDisplay()
+
+    if lastAction.action is 'delete' and lastAction.parentPath[0] is '/'
+      for key, treema of @scriptsTreema.childrenTreemas
+        key = parseInt(key)
+        if /Script-[0-9]*/.test treema.data.id
+          existingKey = parseInt(treema.data.id.substr(7))
+          if existingKey isnt key+1
+            treema.set 'id', 'Script-' + (key+1)
+            
   onScriptSelected: (e, selected) =>
     selected = if selected.length > 1 then selected[0].getLastSelectedTreema() else selected[0]
     unless selected
@@ -124,7 +140,14 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     joined = '(unset)' if not joined.length
     @buildValueForDisplaySimply valEl, joined
 
-  buildValueForEditing: (valEl) -> @buildValueForEditingSimply(valEl, @arrayToString())
+  buildValueForEditing: (valEl) -> 
+    super(valEl)
+    channel = @getRoot().data.channel
+    channelSchema = Backbone.Mediator.channelSchemas[channel]
+    autocompleteValues = []
+    autocompleteValues.push key for key, val of channelSchema?.properties
+    valEl.find('input').autocomplete(source: autocompleteValues, minLength: 0, delay: 0, autoFocus: true).autocomplete('search')
+    valEl
 
   saveChanges: (valEl) ->
     @data = (s for s in $('input', valEl).val().split('.') when s.length)
