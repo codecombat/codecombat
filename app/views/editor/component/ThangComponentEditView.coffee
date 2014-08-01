@@ -39,6 +39,10 @@ module.exports = class ThangComponentEditView extends CocoView
 
     @extantComponentsTreema = @$el.find('#extant-components-column .treema').treema treemaOptions
     @extantComponentsTreema.build()
+    @$el.find('#extant-components-column .treema').droppable({
+      drop: =>
+        @onAddComponentEnterPressed @selectedRow
+      })
 
   buildAddComponentTreema: ->
     return unless @componentCollection and @extantComponentsTreema
@@ -65,6 +69,12 @@ module.exports = class ThangComponentEditView extends CocoView
     _.defer (=>
       @addComponentsTreema = @$el.find('#add-component-column .treema').treema treemaOptions
       @addComponentsTreema.build()
+      @$el.find('#add-component-column .treema-node').draggable({
+        revert: true 
+        start: (e) ->
+          # Hack to ensure dragged treema node is selected
+          $(@).trigger('click') unless $(@).hasClass 'treema-selected'
+        })
       @hideLoading()
     ), 500
 
