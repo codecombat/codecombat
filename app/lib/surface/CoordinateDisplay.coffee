@@ -72,17 +72,35 @@ module.exports = class CoordinateDisplay extends createjs.Container
     contentWidth = @label.getMeasuredWidth() + (2 * margin)
     contentHeight = @label.getMeasuredHeight() + (2 * margin)
 
-    # Shift all contents up so marker is at pointer (affects container cache position)
-    @label.regY = @background.regY = @pointMarker.regY = contentHeight
+    # Shift pointmarker up so it centers at pointer (affects container cache position)
+    @pointMarker.regY = contentHeight
 
     pointMarkerStroke = 2
     pointMarkerLength = 8
+    fullPointMarkerLength = pointMarkerLength + (pointMarkerStroke / 2)
     contributionsToTotalSize = []
-    contributionsToTotalSize = contributionsToTotalSize.concat @updateCoordinates contentWidth, contentHeight, pointMarkerLength
+    contributionsToTotalSize = contributionsToTotalSize.concat @updateCoordinates contentWidth, contentHeight, fullPointMarkerLength
     contributionsToTotalSize = contributionsToTotalSize.concat @updatePointMarker 0, contentHeight, pointMarkerLength, pointMarkerStroke
 
     totalWidth = contentWidth + contributionsToTotalSize.reduce (a, b) -> a + b
     totalHeight = contentHeight + contributionsToTotalSize.reduce (a, b) -> a + b
+
+    # All below is orientation dependent...
+    # Effected by orientation:
+    # background and label: regY and regX
+    # Caching position
+    # Crosshair stays in same place
+    # let e := edge
+    # if the :e: edge of coordinate display is outside camera :e: view, then show :e: edge orientation
+
+    orientationVerticalModifier = 1
+    cacheY = fullPointMarkerLength
+
+    if true # near top edge
+      orientationVerticalModifier = -orientationVerticalModifier
+      cacheY = cacheY * orientationVerticalModifier
+    else
+      cacheY = -totalHeight + cacheY
 
     @containerOverlay.graphics
       .clear()
@@ -90,10 +108,12 @@ module.exports = class CoordinateDisplay extends createjs.Container
       .drawRect(0, 0, totalWidth, totalHeight)
       .endFill()
       .beginFill('rgba(0,0,255,0.4)') # Cache position
-      .drawRect(-pointMarkerLength, -totalHeight + pointMarkerLength, totalWidth, totalHeight)
+      .drawRect(-fullPointMarkerLength, cacheY, totalWidth, totalHeight)
       .endFill()
 
-    @cache  -pointMarkerLength, -totalHeight + pointMarkerLength, totalWidth, totalHeight
+    @label.regY = @background.regY = (totalHeight - contentHeight) * orientationVerticalModifier
+
+    #@cache  -fullPointMarkerLength, -totalHeight + fullPointMarkerLength, totalWidth, totalHeight
 
   updateCoordinates: (contentWidth, contentHeight, initialXYOffset) ->
     offsetForPointMarker = initialXYOffset
@@ -135,5 +155,5 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @addChild @label
     @addChild @pointMarker
     @addChild @containerOverlay  # FOR TESTING - REMOVE BEFORE COMMIT
-    @updateCache()
+    #@updateCache()
     Backbone.Mediator.publish 'surface:coordinates-shown', {}
