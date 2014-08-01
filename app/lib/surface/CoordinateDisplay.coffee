@@ -30,6 +30,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @label.shadow = new createjs.Shadow('#000000', 1, 1, 0)
     @background.name = 'Coordinate Display Background'
     @pointMarker.name = 'Point Marker'
+    @containerOverlay = new createjs.Shape() # FOR TESTING - REMOVE BEFORE COMMIT
 
   onMouseOver: (e) -> @mouseInBounds = true
   onMouseOut: (e) -> @mouseInBounds = false
@@ -63,6 +64,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @removeChild @label
     @removeChild @background
     @removeChild @pointMarker
+    @removeChild @containerOverlay  # FOR TESTING - REMOVE BEFORE COMMIT
     @uncache()
 
   updateSize: ->
@@ -81,6 +83,15 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
     totalWidth = contentWidth + contributionsToTotalSize.reduce (a, b) -> a + b
     totalHeight = contentHeight + contributionsToTotalSize.reduce (a, b) -> a + b
+
+    @containerOverlay.graphics
+      .clear()
+      .beginFill('rgba(255,0,0,0.4)') # Actual position
+      .drawRect(0, 0, totalWidth, totalHeight)
+      .endFill()
+      .beginFill('rgba(0,0,255,0.4)') # Cache position
+      .drawRect(-pointMarkerLength, -totalHeight + pointMarkerLength, totalWidth, totalHeight)
+      .endFill()
 
     @cache  -pointMarkerLength, -totalHeight + pointMarkerLength, totalWidth, totalHeight
 
@@ -123,5 +134,6 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @addChild @background
     @addChild @label
     @addChild @pointMarker
+    @addChild @containerOverlay  # FOR TESTING - REMOVE BEFORE COMMIT
     @updateCache()
     Backbone.Mediator.publish 'surface:coordinates-shown', {}
