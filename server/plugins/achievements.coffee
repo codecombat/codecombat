@@ -38,9 +38,9 @@ AchievablePlugin = (schema, options) ->
         isRepeatable = achievement.get('proportionalTo')?
         alreadyAchieved = if isNew then false else LocalMongo.matchesQuery originalDocObj, query
         newlyAchieved = LocalMongo.matchesQuery(docObj, query)
-        #log.debug 'isRepeatable: ' + isRepeatable
-        #log.debug 'alreadyAchieved: ' +  alreadyAchieved
-        #log.debug 'newlyAchieved: ' + newlyAchieved
+        log.debug 'isRepeatable: ' + isRepeatable
+        log.debug 'alreadyAchieved: ' +  alreadyAchieved
+        log.debug 'newlyAchieved: ' + newlyAchieved
 
         userObjectID = doc.get(achievement.get('userField'))
         userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's

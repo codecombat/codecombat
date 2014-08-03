@@ -26,9 +26,8 @@ module.exports = class AchievementsView extends UserView
 
   onLoaded: ->
     console.log @earnedAchievements
-    console.log 'onLoaded'
+    console.log @achievements
     _.each @earnedAchievements.models, (earned) =>
-      console.log earned
       return unless relatedAchievement = _.find @achievements.models, (achievement) ->
         achievement.get('_id') is earned.get 'achievement'
       relatedAchievement.set 'unlocked', true

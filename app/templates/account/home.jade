@@ -106,13 +106,20 @@ block content
             th Last Played
             th Status
           each session in recentlyPlayed
-            tr
-              td
-                a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
-              td= moment(session.get('changed')).fromNow()
-              td
-              if session.get('state').complete === true
-                | Completed
+            if session.get('levelName')
+              tr
+                td
+                  - var posturl = ''
+                  - if (session.get('team')) posturl = '?team=' + session.get('team')
+                  a(href="/play/level/#{session.get('levelID') + posturl}")= session.get('levelName') + (session.get('team') ? ' (' + session.get('team') + ')' : '')
+                td= moment(session.get('changed')).fromNow()
+                if session.get('state').complete === true
+                  td Completed
+                else if ! session.isMultiplayer()
+                  td Unfinished
+                else
+                  td
+
       else
         .panel.panel-default
           .panel-body

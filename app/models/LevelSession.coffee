@@ -37,7 +37,7 @@ module.exports = class LevelSession extends CocoModel
       return true if c1[thang][spell] isnt c2[thang]?[spell]
     false
 
-  isMultiPlayer: ->
+  isMultiplayer: ->
     console.log @get 'levelName'
     console.log @
     console.log @get 'team'

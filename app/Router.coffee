@@ -51,7 +51,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor': go('editor/MainEditorView')
 
     'editor/achievement': go('editor/achievement/AchievementSearchView')
-    'editor/achievement': go('editor/achievement/AchievementEditView')
+    'editor/achievement/:articleID': go('editor/achievement/AchievementEditView')
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')

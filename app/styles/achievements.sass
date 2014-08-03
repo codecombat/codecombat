@@ -1,7 +1,7 @@
 .locked
-  filter: grayscale(100%)
-  -moz-filter: grayscale(100%)
-  -webkit-filter: grayscale(100%)
+  filter: desaturate(gray, 50)
+  -moz-filter: desaturate(gray, 50)
+  -webkit-filter: desaturate(gray, 50)
 
 .achievement-body
   .achievement-icon
@@ -37,8 +37,10 @@
       max-height: 2.6em
       margin-top: auto
       margin-bottom: 0px !important
-      padding-left: 8px
+      padding-left: 5px
+      text-overflow: ellipsis
 
+// Specific to the user stats page
 #user-achievements-view
   .row
     //.col-lg-4, .col-xs-12
@@ -65,7 +67,7 @@
       margin-right: 5px
       width: 260px
       height: 100px
-      padding: 20px 10px 20px 60px
+      padding: 15px 10px 20px 60px
 
       .achievement-title
         font-size: 20px

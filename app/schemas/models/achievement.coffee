@@ -56,6 +56,9 @@ _.extend AchievementSchema.properties,
   proportionalTo:
     type: 'string'
     description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
+  recalculable:
+    type: 'boolean'
+    description: 'Needs to be set to true before it is elligible for recalculation.'
   function:
     type: 'object'
     description: 'Function that gives total experience for X amount achieved'

@@ -25,7 +25,7 @@ module.exports = class MainUserView extends UserView
       multiPlayerSessions = []
       languageCounts = {}
       for levelSession in @levelSessions.models
-        if levelSession.isMultiPlayer()
+        if levelSession.isMultiplayer()
           multiPlayerSessions.push levelSession
         else
           singlePlayerSessions.push levelSession

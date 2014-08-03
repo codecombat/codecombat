@@ -47,7 +47,7 @@ class EarnedAchievementHandler extends Handler
       # Fetch every single user
       User.find {}, (err, users) ->
         callback err if err?
-        log.info "... for a total of #{users.length} users."
+        log.info "for a total of #{users.length} users."
 
         async.each users, ((user, doneWithUser) ->
           # Keep track of a user's already achieved in order to set the notified values correctly
@@ -68,6 +68,8 @@ class EarnedAchievementHandler extends Handler
               newTotalPoints = 0
 
               async.each achievements, ((achievement, doneWithAchievement) ->
+                return doneWithAchievement() unless achievement.isRecalculable()
+
                 isRepeatable = achievement.get('proportionalTo')?
                 model = mongoose.modelNameByCollection(achievement.get('collection'))
                 if not model?
@@ -78,6 +80,8 @@ class EarnedAchievementHandler extends Handler
                 finalQuery.$or = [{}, {}] # Allow both ObjectIDs or hex string IDs
                 finalQuery.$or[0][achievement.userField] = userID
                 finalQuery.$or[1][achievement.userField] = mongoose.Types.ObjectId userID
+
+                log.debug JSON.stringify finalQuery
 
                 model.findOne finalQuery, (err, something) ->
                   return doneWithAchievement() if _.isEmpty something
@@ -105,16 +109,12 @@ class EarnedAchievementHandler extends Handler
                   EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
                     doneWithAchievement err
               ), saveUserPoints = ->
-                # In principle it is enough to deduct the old amount of points and add the new amount,
-                # but just to be entirely safe let's start from 0 in case we're updating all of a user's achievements
+                # Since some achievements cannot be recalculated it's important to deduct the old amount of exp
+                # and add the new amount, instead of just setting to the new amount
                 return doneWithUser() unless newTotalPoints
                 log.debug "Matched a total of #{newTotalPoints} new points"
-                if _.isEmpty filter # Completely clean
-                  log.debug "Setting this user's score to #{newTotalPoints}"
-                  User.update {_id: userID}, {$set: points: newTotalPoints}, {}, doneWithUser
-                else
-                  log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
-                  User.update {_id: userID}, {$inc: points: newTotalPoints - previousPoints}, {}, doneWithUser
+                log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
+                User.update {_id: userID}, {$inc: points: newTotalPoints - previousPoints}, {}, doneWithUser
         ), onFinished
 
 module.exports = new EarnedAchievementHandler()

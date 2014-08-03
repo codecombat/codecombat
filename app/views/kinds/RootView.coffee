@@ -66,26 +66,6 @@ module.exports = class RootView extends CocoView
 
     barBorder = $('<img src="/images/achievements/bar_border.png" />')
 
-    ###
-    barBorder.hover (e) ->
-      #console.debug e
-      x = e.pageX
-      y = e.pageY
-      $actualHover = _.find [$('.progress-bar-warning'), $('.progress-bar-success'), $('.progress-bar-white')], (el) ->
-        offset = el.offset()
-        l = offset.left
-        t = offset.top
-        h = el.height() + 10
-        w = el.width() + 10
-
-        maxx = l + w
-        maxy = t + h
-
-        return (y <= maxy && y >= t) && (x <= maxx && x >= l) ? true : null
-      #console.debug $actualHover
-      $actualHover.trigger e if $actualHover
-
-    ###
     data =
       title: achievement.get('name')
       image: $("<img src='#{achievement.getImageURL()}' />")
@@ -99,16 +79,25 @@ module.exports = class RootView extends CocoView
 
   showNewAchievement: (achievement, earnedAchievement) ->
     data = @createNotifyData achievement, earnedAchievement
+    console.debug data
     options =
-      autoHideDelay: 1000000
+      autoHideDelay: 5000
+      elementPosition: 'top left'
       globalPosition: 'bottom right'
-      showDuration: 400
+      showDuration: 0
       style: achievement.getNotifyStyle()
       autoHide: false
       clickToHide: true
 
     console.debug 'showing achievement', achievement.get 'name'
-    $.notify( data, options )
+    unless @timeout?
+      $.notify data, options
+      @timeout = 2000
+    else
+      setTimeout ->
+        $.notify data, options
+        @timeout += 2000
+      , @timeout
 
   handleNewAchievements: (earnedAchievements) ->
     _.each earnedAchievements.models, (earnedAchievement) =>
