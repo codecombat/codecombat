@@ -109,3 +109,12 @@ module.exports.keepDoingUntil = (func, wait=100, totalWait=5000) ->
     if (waitSoFar += wait) <= totalWait and not success
       _.delay (-> func done), wait) false
 
+module.exports.grayscale = (imageData) ->
+  d = imageData.data
+  for i in [0..d.length] by 4
+    r = d[i]
+    g = d[i+1]
+    b = d[i+2]
+    v = 0.2126*r + 0.7152*g + 0.0722*b
+    d[i] = d[i+1] = d[i+2] = v
+  imageData

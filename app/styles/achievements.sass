@@ -1,7 +1,5 @@
 .locked
-  filter: desaturate(gray, 50)
-  -moz-filter: desaturate(gray, 50)
-  -webkit-filter: desaturate(gray, 50)
+  // This used to be a grayscale filter but they're mad intensive to paint
 
 .achievement-body
   .achievement-icon
@@ -19,8 +17,14 @@
         right: 0
         bottom: 0
 
+  &.locked
+    .achievement-content
+      background-image: url("/images/achievements/achievement_background_locked.png")
+  &:not(.locked)
+    .achievement-content
+      background-image: url("/images/achievements/achievement_background.png")
+
   .achievement-content
-    background-image: url("/images/achievements/reward_background2.png")
     background-size: 100% 100%
     text-align: center
     overflow: hidden
@@ -150,30 +154,48 @@
           background-size: 100% 100%
           z-index: 1
 
+.achievement-icon
+  background-size: 100% 100% !important
+
 .notifyjs-achievement-wood-base, .achievement-wood
-  .achievement-icon
-    background: url("/images/achievements/border_wood.png") no-repeat
-    background-size: 100% 100%
+  &.locked
+    .achievement-icon
+      background: url("/images/achievements/border_wood_locked.png") no-repeat
+  &:not(.locked)
+    .achievement-icon
+      background: url("/images/achievements/border_wood.png") no-repeat
 
 .notifyjs-achievement-stone-base, .achievement-stone
-  .achievement-icon
-    background: url("/images/achievements/border_stone.png") no-repeat
-    background-size: 100% 100%
+  &.locked
+    .achievement-icon
+      background: url("/images/achievements/border_stone_locked.png") no-repeat
+  &:not(.locked)
+    .achievement-icon
+      background: url("/images/achievements/border_stone.png") no-repeat
 
 .notifyjs-achievement-silver-base, .achievement-silver
-  .achievement-icon
-    background: url("/images/achievements/border_silver.png") no-repeat
-    background-size: 100% 100%
+  &.locked
+    .achievement-icon
+      background: url("/images/achievements/border_silver_locked.png") no-repeat
+  &:not(.locked)
+    .achievement-icon
+      background: url("/images/achievements/border_silver.png") no-repeat
 
 .notifyjs-achievement-gold-base, .achievement-gold
-  .achievement-icon
-    background: url("/images/achievements/border_gold.png") no-repeat
-    background-size: 100% 100%
+  &.locked
+    .achievement-icon
+      background: url("/images/achievements/border_gold_locked.png") no-repeat
+  &:not(.locked)
+    .achievement-icon
+      background: url("/images/achievements/border_gold.png") no-repeat
 
 .notifyjs-achievement-diamond-base, .achievement-diamond
-  .achievement-icon
-    background: url("/images/achievements/border_diamond.png") no-repeat
-    background-size: 100% 100%
+  &.locked
+    .achievement-icon
+      background: url("/images/achievements/border_diamond_locked.png") no-repeat
+  &:not(.locked)
+    .achievement-icon
+      background: url("/images/achievements/border_diamond.png") no-repeat
 
 .exp-bar-accumulated
   background-color: #680080

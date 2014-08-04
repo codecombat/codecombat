@@ -25,13 +25,16 @@ module.exports = class AchievementsView extends UserView
     super user
 
   onLoaded: ->
-    console.log @earnedAchievements
+    console.log @earnedAchievementsy
     console.log @achievements
-    _.each @earnedAchievements.models, (earned) =>
+    for earned in @earnedAchievements.models
       return unless relatedAchievement = _.find @achievements.models, (achievement) ->
         achievement.get('_id') is earned.get 'achievement'
       relatedAchievement.set 'unlocked', true
       earned.set 'achievement', relatedAchievement
+    deferredImages = (achievement.cacheLockedImage() for achievement in @achievements.models when not achievement.get 'unlocked')
+    whenever = $.when deferredImages...
+    whenever.done => @render()
     super()
 
   layoutChanged: (e) ->
