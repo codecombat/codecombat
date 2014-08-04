@@ -125,6 +125,13 @@ module.exports = class SystemsTabView extends CocoView
       {original: '528114e60268d018e300001a', majorVersion: 0}  # UI
       {original: '528114040268d018e3000011', majorVersion: 0}  # Physics
     ]
+  undo: ->
+    return unless @levelSystemEditView
+    @levelSystemEditView.undo()
+
+  redo: ->
+    return unless @levelSystemEditView
+    @levelSystemEditView.redo()
 
 class LevelSystemNode extends TreemaObjectNode
   valueClass: 'treema-level-system'

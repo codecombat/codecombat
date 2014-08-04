@@ -16,6 +16,7 @@ LevelForkView = require './modals/ForkLevelModal'
 SaveVersionModal = require 'views/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
 VersionHistoryView = require './modals/LevelVersionsModal'
+ComponentDocsView = require 'views/docs/ComponentDocumentationView'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
@@ -29,8 +30,10 @@ module.exports = class LevelEditView extends RootView
     'click #commit-level-start-button': 'startCommittingLevel'
     'click #fork-level-start-button': 'startForkingLevel'
     'click #level-history-button': 'showVersionHistory'
+    'click #undo-button': 'onUndo'
+    'click #redo-button': 'onRedo'
     'click #patches-tab': -> @patchesView.load()
-    'click #components-tab': -> @componentsTab.refreshLevelThangsTreema @level.get('thangs')
+    'click #components-tab': -> @subviews.editor_level_components_tab_view.refreshLevelThangsTreema @level.get('thangs')
     'click #level-patch-button': 'startPatchingLevel'
     'click #level-watch-button': 'toggleWatchLevel'
     'click #pop-level-i18n-button': -> @level.populateI18N()
@@ -66,11 +69,13 @@ module.exports = class LevelEditView extends RootView
     return unless @supermodel.finished()
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'level:view-switched', e
-    @thangsTab = @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
-    @settingsTab = @insertSubView new SettingsTabView supermodel: @supermodel
-    @scriptsTab = @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
-    @componentsTab = @insertSubView new ComponentsTabView supermodel: @supermodel
-    @systemsTab = @insertSubView new SystemsTabView supermodel: @supermodel
+    @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
+    @insertSubView new SettingsTabView supermodel: @supermodel
+    @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
+    @insertSubView new ComponentsTabView supermodel: @supermodel
+    @insertSubView new SystemsTabView supermodel: @supermodel
+    @insertSubView new ComponentDocsView supermodel: @supermodel
+
     Backbone.Mediator.publish 'level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
@@ -100,6 +105,19 @@ module.exports = class LevelEditView extends RootView
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1024,height=560,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
       @childWindow.onPlayLevelViewLoaded = (e) => sendLevel()  # still a hack
     @childWindow.focus()
+
+  onUndo: ->
+    @getCurrentView()?.undo?()
+
+  onRedo: ->
+    @getCurrentView()?.redo?()
+
+  getCurrentView: ->
+    tabText = _.string.underscored $('li.active')[0]?.textContent
+    currentView = @subviews["editor_level_#{tabText}_tab_view"]
+    if tabText is 'patches' then currentView = @patchesView
+    if tabText is 'documentation' then currentView = @subviews.docs_components_view
+    currentView
 
   startPatchingLevel: (e) ->
     @openModalView new SaveVersionModal({model: @level})

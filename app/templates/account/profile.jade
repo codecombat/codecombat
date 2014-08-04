@@ -3,7 +3,10 @@ extends /templates/base
 block content
   if !allowedToEditJobProfile && me.get('anonymous') == true
     div(class="job-profile-container")
-      h1#login-message Please login to view this profile.
+      h1#login-message 
+        |Please 
+        a.auth-button login 
+        | to view this profile.
   else
     if allowedToEditJobProfile
       .profile-control-bar
@@ -191,7 +194,9 @@ block content
                           span.spl - #{session.team}
                       if session.codeLanguage != 'javascript'
                         span.spl - #{{coffeescript: 'CoffeeScript', python: 'Python', lua: 'Lua', io: 'Io', clojure: 'Clojure'}[session.codeLanguage]}
-  
+              if !editing && !sessions.length
+                h3(data-i18n="account_profile.player_code") Player Code
+                p This player hasn't submitted code to our more recent tournaments.
           .middle-column.full-height-column
             .sub-column
               #name-container.editable-section

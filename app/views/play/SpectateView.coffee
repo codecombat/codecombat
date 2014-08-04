@@ -135,9 +135,9 @@ module.exports = class SpectateLevelView extends RootView
 
   showGuide: ->
     @seenDocs = true
-    DocsModal = require './level/modal/docs_modal'
+    LevelGuideModal = require './level/modal/LevelGuideModal'
     options = {docs: @levelLoader.level.get('documentation'), supermodel: @supermodel}
-    @openModalView(new DocsModal(options), true)
+    @openModalView(new LevelGuideModal(options), true)
     Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelLoaderLoaded, @
     return true
 
