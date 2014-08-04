@@ -47,6 +47,7 @@ module.exports = class SpellView extends CocoView
     'tome:change-language': 'onChangeLanguage'
     'tome:change-config': 'onChangeEditorConfig'
     'tome:update-snippets': 'addZatannaSnippets'
+    'tome:insert-snippet': 'onInsertSnippet'
     'spell-beautify': 'onSpellBeautify'
 
   events:
@@ -660,6 +661,13 @@ module.exports = class SpellView extends CocoView
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault
+
+  onInsertSnippet: (e) ->
+    console.log 'doc', e.doc
+    return unless e.doc.snippets?[e.language]?.code
+    snippetManager = ace.require('ace/snippets').snippetManager
+    snippetManager.insertSnippet @ace, e.doc.snippets[e.language].code
+    return
 
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
