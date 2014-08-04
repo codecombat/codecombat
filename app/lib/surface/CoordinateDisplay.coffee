@@ -85,22 +85,25 @@ module.exports = class CoordinateDisplay extends createjs.Container
     totalWidth = contentWidth + contributionsToTotalSize.reduce (a, b) -> a + b
     totalHeight = contentHeight + contributionsToTotalSize.reduce (a, b) -> a + b
 
-    # All below is orientation dependent...
-    # Effected by orientation:
-    # background and label: regY and regX
-    # Caching position
-    # Crosshair stays in same place
-    # let e := edge
-    # if the :e: edge of coordinate display is outside camera :e: view, then show :e: edge orientation
+    # Orientation
+    #find the current orientation and store it in an instance variable
+    # i.e.: topright, bottomright, bottomleft, topleft (default is topright)
+    #can be done separately:
+    #  -use regx and y to adjust label and background position
+    #  -adjust the cache position
+    # both can use the current orientation to do their work without knowing about the other
 
-    orientationVerticalModifier = 1
-    cacheY = fullPointMarkerLength
+    startPos =
+      x: -fullPointMarkerLength
+      y: -totalHeight + fullPointMarkerLength
+    posShift =
+      x: 0
+      y: contentHeight
 
-    if true # near top edge
-      orientationVerticalModifier = -orientationVerticalModifier
-      cacheY = cacheY * orientationVerticalModifier
-    else
-      cacheY = -totalHeight + cacheY
+    @orient startPos, posShift, totalHeight, totalWidth
+
+  orient: (startPos, posShift, totalHeight, totalWidth) ->
+    @label.regY = @background.regY = posShift.y
 
     @containerOverlay.graphics
       .clear()
@@ -108,29 +111,25 @@ module.exports = class CoordinateDisplay extends createjs.Container
       .drawRect(0, 0, totalWidth, totalHeight)
       .endFill()
       .beginFill('rgba(0,0,255,0.4)') # Cache position
-      .drawRect(-fullPointMarkerLength, cacheY, totalWidth, totalHeight)
+      .drawRect(startPos.x, startPos.y, totalWidth, totalHeight)
       .endFill()
 
-    @label.regY = @background.regY = (totalHeight - contentHeight) * orientationVerticalModifier
+    #@cache orientationX, orientationY, totalWidth, totalHeight
 
-    #@cache  -fullPointMarkerLength, -totalHeight + fullPointMarkerLength, totalWidth, totalHeight
-
-  updateCoordinates: (contentWidth, contentHeight, initialXYOffset) ->
-    offsetForPointMarker = initialXYOffset
-
+  updateCoordinates: (contentWidth, contentHeight, offset) ->
     # Center label horizontally and vertically
-    @label.x = contentWidth / 2 - (@label.getMeasuredWidth() / 2) + offsetForPointMarker
-    @label.y = contentHeight / 2 - (@label.getMeasuredHeight() / 2) - offsetForPointMarker
+    @label.x = contentWidth / 2 - (@label.getMeasuredWidth() / 2) + offset
+    @label.y = contentHeight / 2 - (@label.getMeasuredHeight() / 2) - offset
 
     @background.graphics
       .clear()
       .beginFill('rgba(0,0,0,0.4)')
       .beginStroke('rgba(0,0,0,0.6)')
       .setStrokeStyle(backgroundStroke = 1)
-      .drawRoundRect(offsetForPointMarker, -offsetForPointMarker, contentWidth, contentHeight, radius = 2.5)
+      .drawRoundRect(offset, -offset, contentWidth, contentHeight, radius = 2.5)
       .endFill()
       .endStroke()
-    contributionsToTotalSize = [offsetForPointMarker, backgroundStroke]
+    contributionsToTotalSize = [offset, backgroundStroke]
 
   updatePointMarker: (centerX, centerY, length, strokeSize) ->
     strokeStyle = 'square'

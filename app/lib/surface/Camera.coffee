@@ -150,6 +150,12 @@ module.exports = class Camera extends CocoClass
     #zv = Math.min(Math.max(0, worldPos.z - 5), cPos.z - 5) / (cPos.z - 5)
     #zv * ratioWithY + (1 - zv) * ratioWithoutY
 
+  distanceToTopEdge: (y) ->
+    @worldViewport.y - y
+
+  distanceToRightEdge: (x) ->
+    (@worldViewport.x + @worldViewport.width) - x
+
   # SUBSCRIPTIONS
 
   onZoomIn: (e) -> @zoomTo @target, @zoom * 1.15, 300
