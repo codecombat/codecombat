@@ -14,37 +14,26 @@ EarnedAchievement = require '../achievements/EarnedAchievement'
 UserRemark = require './remarks/UserRemark'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset']
-privateProperties = [
-  'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
-  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement'
-]
 candidateProperties = [
   'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
 ]
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
-  jsonSchema: schema
-  editableProperties: [
-    'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
-    'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
-    'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
-    'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts'
-  ]
 
   getEditableProperties: (req, document) ->
     props = super req, document
     props.push 'permissions' unless config.isProduction
     props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
-    props.push privateProperties... if req.user.isAdmin()  # Admins are mad with power
+    props.push @privateProperties... if req.user.isAdmin()  # Admins are mad with power
     props
 
-  formatEntity: (req, document) ->
+  formatEntity: (req, document) =>
     return null unless document?
     obj = document.toObject()
     delete obj[prop] for prop in serverProperties
     includePrivates = req.user and (req.user.isAdmin() or req.user._id.equals(document._id))
-    delete obj[prop] for prop in privateProperties unless includePrivates
+    delete obj[prop] for prop in @privateProperties unless includePrivates
     includeCandidate = includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj)
     delete obj[prop] for prop in candidateProperties unless includeCandidate
     return obj
