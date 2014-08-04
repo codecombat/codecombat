@@ -247,7 +247,15 @@ class ComponentArrayNode extends TreemaArrayNode
 
 class ComponentNode extends TreemaObjectNode
   valueClass: 'treema-component'
+  addButtonTemplate: '<span class="glyphicon-plus glyphicon add-button" style="float: right; display: none"></span>'
   collection: false
+
+  build: ->
+    super()
+    @$el.find('> .treema-row').append @addButtonTemplate
+    @$el.find('.add-button').click =>
+      @callbacks.enter?(@)
+    @$el
 
   buildValueForDisplay: (valEl) ->
     s = @data.system + '.' + @data.name
@@ -256,3 +264,11 @@ class ComponentNode extends TreemaObjectNode
   onEnterPressed: (args...) ->
     super(args...)
     @callbacks.enter?(@)
+
+  onMouseEnter: (e) ->
+    @$el.find('.add-button').show()
+    super()
+
+  onMouseLeave: (e) ->
+    @$el.find('.add-button').hide()
+    super()
