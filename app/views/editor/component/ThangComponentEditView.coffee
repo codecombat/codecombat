@@ -59,7 +59,13 @@ module.exports = class ThangComponentEditView extends CocoView
       supermodel: @supermodel
       schema: {type: 'array', items: LevelComponent.schema}
       data: ($.extend(true, {}, c) for c in components)
-      callbacks: {select: @onSelectAddableComponent, enter: @onAddComponentEnterPressed, dblclick: @onAddComponentDoubleClicked }
+      callbacks: {
+        select: @onSelectAddableComponent
+        enter: @onAddComponentEnterPressed
+        dblclick: @onAddComponentDoubleClicked
+        mouseenter: @onAddComponentMouseEnter 
+        mouseleave: @onAddComponentMouseLeave
+      }
       readOnly: true
       noSortable: true
       nodeClasses:
@@ -192,6 +198,13 @@ module.exports = class ThangComponentEditView extends CocoView
   onAddComponentDoubleClicked: (e, treema) =>
     @onAddComponentEnterPressed treema
 
+  onAddComponentMouseEnter: (e, treema) ->
+    treema.$el.find('.add-button').show()
+
+  onAddComponentMouseLeave: (e, treema) ->
+    treema.$el.find('.add-button').hide()
+    return
+
   reportChanges: ->
     @callback?($.extend(true, [], @extantComponentsTreema.data))
 
@@ -247,13 +260,15 @@ class ComponentArrayNode extends TreemaArrayNode
 
 class ComponentNode extends TreemaObjectNode
   valueClass: 'treema-component'
-  addButtonTemplate: '<span class="glyphicon-plus glyphicon add-button" style="float: right; display: none"></span>'
+  addButtonTemplate: '<span class="glyphicon-plus glyphicon add-button" style="float: right;"></span>'
   collection: false
 
   build: ->
     super()
     @$el.find('> .treema-row').append @addButtonTemplate
-    @$el.find('.add-button').click =>
+    addButton = @$el.find('.add-button')
+    addButton.hide()
+    addButton.click =>
       @callbacks.enter?(@)
     @$el
 
@@ -264,11 +279,3 @@ class ComponentNode extends TreemaObjectNode
   onEnterPressed: (args...) ->
     super(args...)
     @callbacks.enter?(@)
-
-  onMouseEnter: (e) ->
-    @$el.find('.add-button').show()
-    super()
-
-  onMouseLeave: (e) ->
-    @$el.find('.add-button').hide()
-    super()
