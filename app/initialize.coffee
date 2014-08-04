@@ -35,8 +35,6 @@ init = ->
   treemaExt = require 'treema-ext'
   treemaExt.setup()
 
-$ -> init()
-
 handleNormalUrls = ->
   # http://artsy.github.com/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
   $(document).on 'click', "a[href^='/']", (event) ->
@@ -93,3 +91,5 @@ watchForErrors = ->
     #msg += "\nError: #{error}" if error?
     #msg += "\nStack: #{stack}" if stack = error?.stack
     noty text: msg, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3, callback: {onClose: -> --currentErrors}
+
+$ -> init()

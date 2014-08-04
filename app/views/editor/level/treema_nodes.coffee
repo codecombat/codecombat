@@ -1,4 +1,4 @@
-WorldSelectModal = require './modal/world_select'
+WorldSelectModal = require './modals/WorldSelectModal'
 ThangType = require '/models/ThangType'
 
 makeButton = -> $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>')

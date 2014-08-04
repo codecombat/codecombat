@@ -26,7 +26,7 @@ div#columns.row
             td.score-cell= Math.round(session.get('totalScore') * 100)
             td.name-col-cell= session.get('creatorName') || "Anonymous"
             td.fight-cell
-              a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}")
+              a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}")
                 span(data-i18n="ladder.fight") Fight!
                 
         if !showJustTop && team.leaderboard.nearbySessions().length
@@ -40,7 +40,7 @@ div#columns.row
               td.score-cell= Math.round(session.get('totalScore') * 100)
               td.name-col-cell= session.get('creatorName') || "Anonymous"
               td.fight-cell
-                a(href="/play/level/#{level.get('slug') || level.id}/?team=#{team.otherTeam}&opponent=#{session.id}")
+                a(href="/play/level/#{level.get('slug') || level.id}?team=#{team.otherTeam}&opponent=#{session.id}")
                   span(data-i18n="ladder.fight") Fight!
         if teamIndex == 1
           .btn.btn-sm.load-more-ladder-entries More
@@ -49,7 +49,7 @@ div#columns.row
     h4.friends-header(data-i18n="ladder.friends_playing") Friends Playing
     if me.get('anonymous')
       div.alert.alert-info
-        a(data-toggle="coco-modal", data-target="modal/auth", data-i18n="ladder.log_in_for_friends") Log in to play with your friends!
+        a(data-toggle="coco-modal", data-target="modal/AuthModal", data-i18n="ladder.log_in_for_friends") Log in to play with your friends!
     
     else
       if !onFacebook || !onGPlus
