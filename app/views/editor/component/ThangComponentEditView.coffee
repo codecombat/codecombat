@@ -39,6 +39,10 @@ module.exports = class ThangComponentEditView extends CocoView
 
     @extantComponentsTreema = @$el.find('#extant-components-column .treema').treema treemaOptions
     @extantComponentsTreema.build()
+    @$el.find('#extant-components-column .treema').droppable({
+      drop: =>
+        @onAddComponentEnterPressed @selectedRow
+      })
 
   buildAddComponentTreema: ->
     return unless @componentCollection and @extantComponentsTreema
@@ -55,7 +59,13 @@ module.exports = class ThangComponentEditView extends CocoView
       supermodel: @supermodel
       schema: {type: 'array', items: LevelComponent.schema}
       data: ($.extend(true, {}, c) for c in components)
-      callbacks: {select: @onSelectAddableComponent, enter: @onAddComponentEnterPressed}
+      callbacks: {
+        select: @onSelectAddableComponent
+        enter: @onAddComponentEnterPressed
+        dblclick: @onAddComponentDoubleClicked
+        mouseenter: @onAddComponentMouseEnter 
+        mouseleave: @onAddComponentMouseLeave
+      }
       readOnly: true
       noSortable: true
       nodeClasses:
@@ -65,6 +75,12 @@ module.exports = class ThangComponentEditView extends CocoView
     _.defer (=>
       @addComponentsTreema = @$el.find('#add-component-column .treema').treema treemaOptions
       @addComponentsTreema.build()
+      @$el.find('#add-component-column .treema-node').draggable({
+        revert: true 
+        start: (e) ->
+          # Hack to ensure dragged treema node is selected
+          $(@).trigger('click') unless $(@).hasClass 'treema-selected'
+        })
       @hideLoading()
     ), 500
 
@@ -157,8 +173,6 @@ module.exports = class ThangComponentEditView extends CocoView
           type: 'warning'
         })
 
-    currentSelection = @addComponentsTreema?.getLastSelectedTreema()?.data._id
-
     id = node.data._id
     comp = _.find @componentCollection.models, id: id
     unless comp
@@ -174,12 +188,22 @@ module.exports = class ThangComponentEditView extends CocoView
         majorVersion: c.get('version').major ? 0
       }
 
-    return unless currentSelection
-    # reselect what was selected before the addComponentsTreema was rebuilt
-    for index, treema of @addComponentsTreema.childrenTreemas
-      if treema.data._id is currentSelection
+    # reselect newly added child treema in the extantComponentsTreema
+    for index, treema of @extantComponentsTreema.childrenTreemas
+      if treema.component.id is id
         treema.select()
+        @onSelectExtantComponent({}, [treema])
         return
+
+  onAddComponentDoubleClicked: (e, treema) =>
+    @onAddComponentEnterPressed treema
+
+  onAddComponentMouseEnter: (e, treema) ->
+    treema.$el.find('.add-button').show()
+
+  onAddComponentMouseLeave: (e, treema) ->
+    treema.$el.find('.add-button').hide()
+    return
 
   reportChanges: ->
     @callback?($.extend(true, [], @extantComponentsTreema.data))
@@ -236,7 +260,17 @@ class ComponentArrayNode extends TreemaArrayNode
 
 class ComponentNode extends TreemaObjectNode
   valueClass: 'treema-component'
+  addButtonTemplate: '<button type="button" class="add-button btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>'
   collection: false
+
+  build: ->
+    super()
+    @$el.find('> .treema-row').append @addButtonTemplate
+    addButton = @$el.find('.add-button')
+    addButton.hide()
+    addButton.click =>
+      @callbacks.enter?(@)
+    @$el
 
   buildValueForDisplay: (valEl) ->
     s = @data.system + '.' + @data.name
