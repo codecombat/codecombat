@@ -9,6 +9,7 @@ module.exports = TestView = class TestView extends CocoView
   id: 'test-view'
   template: template
   reloadOnClose: true
+  loadedFileIDs: []
 
   # INITIALIZE
 
@@ -18,13 +19,19 @@ module.exports = TestView = class TestView extends CocoView
     @loadTestingLibs()
 
   loadTestingLibs: ->
-    @queue = new createjs.LoadQueue()
+    @queue = new createjs.LoadQueue() unless @queue
     @queue.on('complete', @scriptsLoaded, @)
+    @queue.on('fileload', @onFileLoad, @)
     for f in ['jasmine', 'jasmine-html', 'boot', 'mock-ajax', 'test-app']
-      @queue.loadFile({
-        src: "/javascripts/#{f}.js"
-        type: createjs.LoadQueue.JAVASCRIPT
-      })
+      if f not in @loadedFileIDs
+        @queue.loadFile({
+          id: f
+          src: "/javascripts/#{f}.js"
+          type: createjs.LoadQueue.JAVASCRIPT
+        })
+
+  onFileLoad: (e) ->
+    @loadedFileIDs.push e.item.id if e.item.id
 
   scriptsLoaded: ->
     @initSpecFiles()

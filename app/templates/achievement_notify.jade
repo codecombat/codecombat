@@ -1,15 +1,16 @@
-- var addedClass = notifyClass + (locked === true ? ' locked' : '')
-.clearfix.achievement-body(class=addedClass)
-  .achievement-icon
-    .achievement-image(data-notify-html="image")
-      if imgURL
-        img(src=imgURL)
-  .achievement-content
-    .achievement-title(data-notify-html="title") #{title}
-    p.achievement-description(data-notify-html="description") #{description}
+div
+  - var addedClass = notifyClass + (locked === true ? ' locked' : '')
+  .clearfix.achievement-body(class=addedClass)
+    .achievement-icon
+      .achievement-image(data-notify-html="image")
+        if imgURL
+          img(src=imgURL)
+    .achievement-content
+      .achievement-title(data-notify-html="title") #{title}
+      p.achievement-description(data-notify-html="description") #{description}
 
-    if popup
-      .progress-wrapper
-        span.user-level.badge(data-notify-html="level")
-        .progress-bar-wrapper(data-notify-html="progressBar")
-        .progress-bar-border
+      if popup
+        .progress-wrapper
+          span.user-level.badge(data-notify-html="level")
+          .progress-bar-wrapper(data-notify-html="progressBar")
+          .progress-bar-border
