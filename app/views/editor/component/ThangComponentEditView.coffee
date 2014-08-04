@@ -260,7 +260,7 @@ class ComponentArrayNode extends TreemaArrayNode
 
 class ComponentNode extends TreemaObjectNode
   valueClass: 'treema-component'
-  addButtonTemplate: '<span class="glyphicon-plus glyphicon add-button" style="float: right;"></span>'
+  addButtonTemplate: '<button type="button" class="add-button btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>'
   collection: false
 
   build: ->
