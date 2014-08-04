@@ -15,6 +15,7 @@ SaveLevelModal = require './modals/SaveLevelModal'
 LevelForkView = require './modals/ForkLevelModal'
 SaveVersionModal = require 'views/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
+RelatedAchievementsView = require 'views/editor/RelatedAchievementsView'
 VersionHistoryView = require './modals/LevelVersionsModal'
 ComponentDocsView = require 'views/docs/ComponentDocumentationView'
 
@@ -75,6 +76,7 @@ module.exports = class LevelEditView extends RootView
     @subViews['scriptsTab'] = @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @subViews['componentsTab'] = @insertSubView new ComponentsTabView supermodel: @supermodel
     @subViews['systemsTab'] = @insertSubView new SystemsTabView supermodel: @supermodel
+    @subViews['achievementsTab'] = @insertSubView new RelatedAchievementsView supermodel: @supermodel, id: @level.id
     @subviews['componentsDocsTab'] = @insertSubView new ComponentDocsView supermodel: @supermodel
     
     Backbone.Mediator.publish 'level-loaded', level: @level

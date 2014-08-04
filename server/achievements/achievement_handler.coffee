@@ -11,4 +11,15 @@ class AchievementHandler extends Handler
   hasAccess: (req) ->
     req.method is 'GET' or req.user?.isAdmin()
 
+  get: (req, res) ->
+    # /db/achievement?related=<ID>
+    if req.query.related
+      return @sendUnauthorizedError(res) if not @hasAccess(req)
+      Achievement.find {related: req.query.related}, (err, docs) =>
+        return @sendDatabaseError(res, err) if err
+        docs = (@formatEntity(req, doc) for doc in docs)
+        @sendSuccess res, docs
+    else
+      super req, res
+
 module.exports = new AchievementHandler()
