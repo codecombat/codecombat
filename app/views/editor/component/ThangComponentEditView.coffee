@@ -59,7 +59,7 @@ module.exports = class ThangComponentEditView extends CocoView
       supermodel: @supermodel
       schema: {type: 'array', items: LevelComponent.schema}
       data: ($.extend(true, {}, c) for c in components)
-      callbacks: {select: @onSelectAddableComponent, enter: @onAddComponentEnterPressed}
+      callbacks: {select: @onSelectAddableComponent, enter: @onAddComponentEnterPressed, dblclick: @onAddComponentDoubleClicked }
       readOnly: true
       noSortable: true
       nodeClasses:
@@ -167,8 +167,6 @@ module.exports = class ThangComponentEditView extends CocoView
           type: 'warning'
         })
 
-    currentSelection = @addComponentsTreema?.getLastSelectedTreema()?.data._id
-
     id = node.data._id
     comp = _.find @componentCollection.models, id: id
     unless comp
@@ -184,12 +182,15 @@ module.exports = class ThangComponentEditView extends CocoView
         majorVersion: c.get('version').major ? 0
       }
 
-    return unless currentSelection
-    # reselect what was selected before the addComponentsTreema was rebuilt
-    for index, treema of @addComponentsTreema.childrenTreemas
-      if treema.data._id is currentSelection
+    # reselect newly added child treema in the extantComponentsTreema
+    for index, treema of @extantComponentsTreema.childrenTreemas
+      if treema.component.id is id
         treema.select()
+        @onSelectExtantComponent({}, [treema])
         return
+
+  onAddComponentDoubleClicked: (e, treema) =>
+    @onAddComponentEnterPressed treema
 
   reportChanges: ->
     @callback?($.extend(true, [], @extantComponentsTreema.data))
