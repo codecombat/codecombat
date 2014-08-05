@@ -47,7 +47,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
 
   shouldSaveEntity: (m) ->
     return false unless m.hasWriteAccess()
-    return true if m.hasLocalChanges()
+    return false unless m.hasLocalChanges()
     return true if (m.get('version').major is 0 and m.get('version').minor is 0) or not m.isPublished() and not m.collection
     # Sometimes we have two versions: one in a search collection and one with a URL. We only save changes to the latter.
     false
