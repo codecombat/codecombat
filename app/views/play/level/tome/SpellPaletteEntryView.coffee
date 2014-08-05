@@ -72,7 +72,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
 
   onClick: (e) =>
     if key.shift
-      Backbone.Mediator.publish 'tome:insert-snippet', doc: @options.doc, language: @options.language
+      Backbone.Mediator.publish 'tome:insert-snippet', doc: @options.doc, language: @options.language, formatted: @doc
       return
     @togglePinned()
     Backbone.Mediator.publish 'tome:palette-clicked', thang: @thang, prop: @doc.name, entry: @

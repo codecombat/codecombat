@@ -663,10 +663,15 @@ module.exports = class SpellView extends CocoView
     @reloadCode true if wasDefault
 
   onInsertSnippet: (e) ->
-    console.log 'doc', e.doc
-    return unless e.doc.snippets?[e.language]?.code
+    console.log 'doc', e.doc, e.formatted
+    snippetCode = null
+    if e.doc.snippets?[e.language]?.code
+      snippetCode = e.doc.snippets[e.language].code
+    else if (e.formatted.type isnt 'snippet') and e.formatted.shortName?
+      snippetCode = e.formatted.shortName
+    return unless snippetCode?
     snippetManager = ace.require('ace/snippets').snippetManager
-    snippetManager.insertSnippet @ace, e.doc.snippets[e.language].code
+    snippetManager.insertSnippet @ace, snippetCode
     return
 
   dismiss: ->
