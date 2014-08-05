@@ -12,11 +12,11 @@ module.exports = class NewModelModal extends ModalView
     'submit form': 'makeNewModel'
     'shown.bs.modal #new-model-modal': 'focusOnName'
 
-
   constructor: (options) ->
     super options
     @model = options.model
     @modelLabel = options.modelLabel
+    @properties = options.properties
 
   getRenderData: ->
     c = super()
@@ -31,6 +31,7 @@ module.exports = class NewModelModal extends ModalView
     model.set('name', name)
     if @model.schema.properties.permissions
       model.set 'permissions', [{access: 'owner', target: me.id}]
+    model.set(key, prop) for key, prop of @properties if @properties?
     res = model.save()
     return unless res
 

@@ -78,8 +78,6 @@ module.exports = class SearchView extends RootView
     @collection = null
 
   onNewModelSaved: (@model) ->
-    # Can only redirect after the modal hidden event has triggered
-    console.debug 'new model saved'
     base = document.location.pathname[1..] + '/'
     app.router.navigate(base + (@model.get('slug') or @model.id), {trigger: true})
 

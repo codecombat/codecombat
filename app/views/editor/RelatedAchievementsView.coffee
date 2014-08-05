@@ -1,12 +1,17 @@
 CocoView = require 'views/kinds/CocoView'
-template = require 'templates/editor/related_achievements'
+template = require 'templates/editor/related-achievements'
 RelatedAchievementsCollection = require 'collections/RelatedAchievementsCollection'
 Achievement = require 'models/Achievement'
+NewModelModal = require 'views/modal/NewModelModal'
+app = require 'application'
 
 module.exports = class RelatedAchievementsView extends CocoView
   id: 'related-achievements-view'
   template: template
   className: 'tab-pane'
+
+  events:
+    'click #new-achievement-button': 'makeNewAchievement'
 
   constructor: (options) ->
     super options
@@ -29,3 +34,11 @@ module.exports = class RelatedAchievementsView extends CocoView
   render: ->
     console.debug 'rendering achievements'
     super()
+
+  onNewAchievementSaved: (achievement) ->
+    app.router.navigate('/editor/achievement/' + (achievement.get('slug') or achievement.id), {trigger: true})
+
+  makeNewAchievement: ->
+    modal = new NewModelModal model: Achievement, modelLabel: 'Achievement', properties: related: @relatedID
+    modal.once 'success', @onNewAchievementSaved
+    @openModalView modal
