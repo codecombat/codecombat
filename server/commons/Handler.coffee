@@ -13,11 +13,19 @@ FETCH_LIMIT = 200
 module.exports = class Handler
   # subclasses should override these properties
   modelClass: null
+  privateProperties: []
   editableProperties: []
   postEditableProperties: []
   jsonSchema: {}
   waterfallFunctions: []
   allowedMethods: ['GET', 'POST', 'PUT', 'PATCH']
+
+  constructor: ->
+    # TODO The second 'or' is for backward compatibility only is for backward compatibility only
+    @privateProperties = @modelClass.privateProperties or @privateProperties or []
+    @editableProperties = @modelClass.editableProperties or @editableProperties or []
+    @postEditableProperties = @modelClass.postEditableProperties or @postEditableProperties or []
+    @jsonSchema = @modelClass.jsonSchema or @jsonSchema or {}
 
   # subclasses should override these methods
   hasAccess: (req) -> true
@@ -47,7 +55,7 @@ module.exports = class Handler
 
   # sending functions
   sendUnauthorizedError: (res) -> errors.forbidden(res) #TODO: rename sendUnauthorizedError to sendForbiddenError
-  sendNotFoundError: (res) -> errors.notFound(res)
+  sendNotFoundError: (res, message) -> errors.notFound(res, message)
   sendMethodNotAllowed: (res) -> errors.badMethod(res)
   sendBadInputError: (res, message) -> errors.badInput(res, message)
   sendDatabaseError: (res, err) ->
@@ -435,3 +443,11 @@ module.exports = class Handler
   delete: (req, res) -> @sendMethodNotAllowed res, @allowedMethods, 'DELETE not allowed.'
 
   head: (req, res) -> @sendMethodNotAllowed res, @allowedMethods, 'HEAD not allowed.'
+
+  # This is not a Mongoose user
+  projectionForUser: (req, model, ownerID) ->
+    return {} if 'privateProperties' not of model or req.user._id + '' is ownerID + '' or req.user.isAdmin()
+    projection = {}
+    projection[field] = 0 for field in model.privateProperties
+    projection
+

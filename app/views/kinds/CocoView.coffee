@@ -158,9 +158,9 @@ module.exports = class CocoView extends Backbone.View
     elem = $(e.target)
     return unless elem.data('toggle') is 'coco-modal'
     target = elem.data('target')
-    view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to
+    Modal = require 'views/'+target
     e.stopPropagation()
-    @openModalView(view)
+    @openModalView new Modal
 
   openModalView: (modalView, softly=false) ->
     return if waitingModal # can only have one waiting at once
