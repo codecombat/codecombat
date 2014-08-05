@@ -42,6 +42,12 @@ LevelSessionSchema.pre 'save', (next) ->
   delete previous[id] if initd
   next()
 
+LevelSessionSchema.statics.privateProperties = ['code', 'submittedCode', 'unsubscribed']
+LevelSessionSchema.statics.editableProperties = ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
+                                                 'levelName', 'creatorName', 'levelID', 'screenshot',
+                                                 'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage', 'unsubscribed', 'playtime']
+LevelSessionSchema.statics.jsonSchema = jsonschema
+
 LevelSessionSchema.index {user: 1, changed: -1}, {sparse: true, name: 'last played index'}
 
 module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema, 'level.sessions')
