@@ -1,6 +1,6 @@
 RootView = require 'views/kinds/RootView'
+NewModelModal = require 'views/modal/NewModelModal'
 template = require 'templates/kinds/search'
-forms = require 'lib/forms'
 app = require 'application'
 
 class SearchCollection extends Backbone.Collection
@@ -26,9 +26,7 @@ module.exports = class SearchView extends RootView
   events:
     'change input#search': 'runSearch'
     'keydown input#search': 'runSearch'
-    'click button.new-model-submit': 'makeNewModel'
-    'submit form': 'makeNewModel'
-    'shown.bs.modal #new-model-modal': 'focusOnName'
+    'click #new-model-button': 'newModel'
     'hidden.bs.modal #new-model-modal': 'onModalHidden'
 
   constructor: (options) ->
@@ -79,31 +77,13 @@ module.exports = class SearchView extends RootView
     @collection.off()
     @collection = null
 
-  makeNewModel: (e) ->
-    e.preventDefault()
-    name = @$el.find('#name').val()
-    model = new @model()
-    model.set('name', name)
-    if @model.schema.properties.permissions
-      model.set 'permissions', [{access: 'owner', target: me.id}]
-    res = model.save()
-    return unless res
-
-    modal = @$el.find('#new-model-modal')
-    forms.clearFormAlerts(modal)
-    @showLoading(modal.find('.modal-body'))
-    res.error =>
-      @hideLoading()
-      forms.applyErrorsToForm(modal, JSON.parse(res.responseText))
-    that = @
-    res.success ->
-      that.model = model
-      modal.modal('hide')
-
-  onModalHidden: ->
+  onNewModelSaved: (@model) ->
     # Can only redirect after the modal hidden event has triggered
+    console.debug 'new model saved'
     base = document.location.pathname[1..] + '/'
     app.router.navigate(base + (@model.get('slug') or @model.id), {trigger: true})
 
-  focusOnName: ->
-    @$el.find('#name').focus()
+  newModel: (e) ->
+    modal = new NewModelModal model: @model, modelLabel: @modelLabel
+    modal.once 'success', @onNewModelSaved
+    @openModalView modal

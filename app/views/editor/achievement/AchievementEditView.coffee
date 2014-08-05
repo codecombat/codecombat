@@ -2,6 +2,7 @@ RootView = require 'views/kinds/RootView'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
 ConfirmModal = require 'views/modal/ConfirmModal'
+errors = require 'lib/errors'
 
 module.exports = class AchievementEditView extends RootView
   id: 'editor-achievement-edit-view'
@@ -20,13 +21,10 @@ module.exports = class AchievementEditView extends RootView
     @achievement = new Achievement(_id: @achievementID)
     @achievement.saveBackups = true
 
-    @listenToOnce(@achievement, 'error',
-      () =>
-        @hideLoading()
-        $(@$el).find('.main-content-area').children('*').not('#error-view').remove()
-
-        @insertSubView(new ErrorView())
-    )
+    @achievement.once 'error', (achievement, jqxhr) =>
+      @hideLoading()
+      $(@$el).find('.main-content-area').children('*').not('.breadcrumb').remove()
+      errors.backboneFailure arguments...
 
     @achievement.fetch()
     @listenToOnce(@achievement, 'sync', @buildTreema)

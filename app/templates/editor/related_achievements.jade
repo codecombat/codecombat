@@ -1,0 +1,18 @@
+
+if achievements.loading
+  h2 Loading...
+else if ! achievements.models.length
+  .panel
+    .panel-body
+      p No achievements added for this level yet.
+else
+  table
+    tr
+      th Name
+      th Description
+      th XP
+    each achievement in achievements.models
+      tr
+        td= achievement.get('name')
+        td= achievement.get('description')
+        td= achievement.get('worth')

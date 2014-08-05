@@ -42,10 +42,12 @@ _.extend AchievementSchema.properties,
   query:
     #type:'object'
     $ref: '#/definitions/' + MongoFindQuerySchema.id
-  worth: {type: 'number'}
+  worth: c.float
+    default: 10
   collection: {type: 'string'}
-  description: {type: 'string'}
-  userField: {type: 'string'}
+  description: c.shortString
+    default: 'Probably the coolest you\'ll ever get.'
+  userField: c.shortString()
   related: c.objectId(description: 'Related entity')
   icon: {type: 'string', format: 'image-file', title: 'Icon'}
   category:
@@ -53,12 +55,14 @@ _.extend AchievementSchema.properties,
     description: "E.g. 'level', 'ladder', 'contributor'..." # TODO might make this enum?
   difficulty: c.int
     description: 'The higher the more difficult'
+    default: 1
   proportionalTo:
     type: 'string'
     description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
   recalculable:
     type: 'boolean'
     description: 'Needs to be set to true before it is elligible for recalculation.'
+    default: true
   function:
     type: 'object'
     description: 'Function that gives total experience for X amount achieved'
@@ -76,7 +80,8 @@ _.extend AchievementSchema.properties,
     additionalProperties: false
 
 _.extend AchievementSchema, # Let's have these on the bottom
-  required: ['name', 'description', 'query', 'worth', 'collection', 'userField', 'category', 'difficulty']
+  # TODO We really need some required properties in my opinion but this makes creating new achievements impossible as it is now
+  #required: ['name', 'description', 'query', 'worth', 'collection', 'userField', 'category', 'difficulty']
   additionalProperties: false
 
 AchievementSchema.definitions = {}

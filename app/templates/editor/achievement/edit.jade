@@ -2,14 +2,13 @@ extends /templates/base
 
 block content
   if me.isAdmin()
-    div
-      ol.breadcrumb
-        li
-          a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
-        li
-          a(href="/editor/achievement", data-i18n="editor.achievement_title") Achievement Editor
-        li.active
-          | #{achievement.attributes.name}
+    ol.breadcrumb
+      li
+        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
+      li
+        a(href="/editor/achievement", data-i18n="editor.achievement_title") Achievement Editor
+      li.active
+        | #{achievement.attributes.name}
 
     button(data-i18n="", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#recalculate-button Recalculate
     button(data-i18n="common.save", disabled=me.isAdmin() === true ? undefined : "true").btn.btn-primary#save-button Save
@@ -24,8 +23,6 @@ block content
       #achievement-view-inner
 
     hr
-
-    #error-view
 
   else
     .alert.alert-danger

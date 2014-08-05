@@ -75,7 +75,7 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @insertSubView new ComponentsTabView supermodel: @supermodel
     @insertSubView new SystemsTabView supermodel: @supermodel
-    @insertSubView new RelatedAchievementsView supermodel: @supermodel, id: @level.id
+    @insertSubView new RelatedAchievementsView supermodel: @supermodel, relatedID: @level.id
     @insertSubView new ComponentDocsView supermodel: @supermodel
 
     Backbone.Mediator.publish 'level-loaded', level: @level
