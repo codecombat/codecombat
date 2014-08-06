@@ -391,7 +391,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     rotationType = @thangType.get('rotationType')
     return if rotationType is 'fixed'
     rotation = @getRotation()
-    if @thangType.get('name') in ['Arrow', 'Spear']
+    if @thangType.get('name') in ['Arrow', 'Spear'] and @thang.velocity
       # Rotates the arrow to see it arc based on velocity.z.
       # Notice that rotation here does not affect thang's state - it is just the effect.
       # Thang's rotation is always pointing where it is heading.

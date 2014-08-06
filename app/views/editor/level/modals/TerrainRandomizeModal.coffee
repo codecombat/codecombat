@@ -10,35 +10,35 @@ clusters = {
   'trees': {
     'thangs': ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4']
     'margin': 0
-    } 
+    }
   'shrubs': {
     'thangs': ['Shrub 1', 'Shrub 2', 'Shrub 3']
     'margin': 0
-    } 
+    }
   'houses': {
     'thangs': ['House 1', 'House 2', 'House 3', 'House 4']
     'margin': 4
-    } 
+    }
   'animals': {
     'thangs': ['Cow', 'Horse']
     'margin': 1
-    } 
+    }
   'wood': {
     'thangs': ['Firewood 1', 'Firewood 2', 'Firewood 3', 'Barrel']
     'margin': 1
-    } 
+    }
   'farm': {
     'thangs': ['Farm']
     'margin': 9
-    } 
+    }
   'cave': {
     'thangs': ['Cave']
     'margin': 5
-    } 
+    }
   'stone': {
     'thangs': ['Gargoyle', 'Rock Cluster 1', 'Rock Cluster 2', 'Rock Cluster 3']
     'margin': 1
-    } 
+    }
   'doors': {
     'thangs': ['Dungeon Door']
     'margin': -1
@@ -46,15 +46,15 @@ clusters = {
   'grass_floor': {
     'thangs': ['Grass01', 'Grass02', 'Grass03', 'Grass04', 'Grass05']
     'margin': -1
-    } 
+    }
   'dungeon_wall': {
     'thangs': ['Dungeon Wall']
-    'margin': -1
-    } 
+    'margin': 2
+    }
   'dungeon_floor': {
     'thangs': ['Dungeon Floor']
     'margin': -1
-    } 
+    }
 }
 
 presets = {
@@ -79,7 +79,7 @@ presets = {
         'width': [12, 20]
         'height': [8, 16]
         'thickness': [2,2]
-        'cluster': 'dungeon_wall' 
+        'cluster': 'dungeon_wall'
       }
     }
   }
@@ -241,7 +241,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
             'height':decoration.height
           }
           break if @addRect rect
-            
+
         for cluster, range of decoration.clusters
           for i in _.range(_.random(range[0], range[1]))
             while not @addThang {
@@ -259,11 +259,14 @@ module.exports = class TerrainRandomizeModal extends ModalView
     while true
       rect = {
         'width':sizeFactor * (room.width[0] + preset.borderSize * _.random(0, (room.width[1] - room.width[0])/preset.borderSize))
-        'height':sizeFactor * (room.height[0] + preset.borderSize * _.random(0, (room.height[1] - room.height[0])/preset.borderSize)) 
+        'height':sizeFactor * (room.height[0] + preset.borderSize * _.random(0, (room.height[1] - room.height[0])/preset.borderSize))
       }
       roomThickness = _.random(room.thickness[0], room.thickness[1])
       rect.x = _.random(rect.width/2 + preset.borderSize * (roomThickness+1), presetSize.x - rect.width/2 - preset.borderSize * (roomThickness+1))
       rect.y = _.random(rect.height/2 + preset.borderSize * (roomThickness+1), presetSize.y - rect.height/2 - preset.borderSize * (roomThickness+1))
+      # Snap room walls to the wall grid.
+      rect.x = Math.round((rect.x - preset.borderSize / 2) / preset.borderSize) * preset.borderSize + preset.borderSize / 2
+      rect.y = Math.round((rect.y - preset.borderSize / 2) / preset.borderSize) * preset.borderSize + preset.borderSize / 2
       break if @addRect {
         'x': rect.x
         'y': rect.y
@@ -333,9 +336,9 @@ module.exports = class TerrainRandomizeModal extends ModalView
     for existingThang in @thangs
       if existingThang.margin is -1 or thang.margin is -1
         continue
-      if Math.abs(existingThang.pos.x - thang.pos.x) <= thang.margin + existingThang.margin and Math.abs(existingThang.pos.y - thang.pos.y) <= thang.margin + existingThang.margin
+      if Math.abs(existingThang.pos.x - thang.pos.x) < thang.margin + existingThang.margin and Math.abs(existingThang.pos.y - thang.pos.y) < thang.margin + existingThang.margin
         @falseCount++
-        return false 
+        return false
     @thangs.push thang
     true
 
@@ -345,9 +348,9 @@ module.exports = class TerrainRandomizeModal extends ModalView
       @falseCount = 0
       return true
     for existingRect in @rects
-      if Math.abs(existingRect.x - rect.x) <= rect.width/2 + existingRect.width/2 and Math.abs(existingRect.y - rect.y) <= rect.height/2 + existingRect.height/2
+      if Math.abs(existingRect.x - rect.x) < rect.width/2 + existingRect.width/2 and Math.abs(existingRect.y - rect.y) < rect.height/2 + existingRect.height/2
         @falseCount++
-        return false 
+        return false
     @rects.push rect
     true
 
