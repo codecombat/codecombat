@@ -13,11 +13,11 @@ module.exports = class LevelSession extends CocoModel
       @set 'state', state
 
   saveVersion: (previous, source) ->
-    @get
+    #@get
     prevCode = previous.generateCode()
 
 
-    jsondiffpatch.diff(source, )
+    #jsondiffpatch.diff(source, )
     #TODO: Save delta to last source in list, set source to current source
 
   loadVersion: (language, timestamp) ->
@@ -27,16 +27,9 @@ module.exports = class LevelSession extends CocoModel
     # Save a new version using the merged source of timestamp11 and timestamp2 if possible, else return false.
 
 
-  deserializeVCS:
+  deserializeVCS: ->
     for node in @levelfoo.get('language')
-
-
       lookupTable[node.id] = node
-
-
-
-
-
 
   ###deserializeVCS: (language) ->
     # No need to walk the whole list here, could do it lazily.
