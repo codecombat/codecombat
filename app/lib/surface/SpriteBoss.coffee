@@ -181,6 +181,7 @@ module.exports = class SpriteBoss extends CocoClass
     # Add anything new, remove anything old, update everything current
     updateCache = false
     for thang in @world.thangs when thang.exists
+      thang.equip() if thang.equip and not thang.equipped  # Pretty hacky, since initialize may not be called
       if sprite = @sprites[thang.id]
         sprite.setThang thang  # make sure Sprite has latest Thang
       else
