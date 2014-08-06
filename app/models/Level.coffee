@@ -24,6 +24,28 @@ module.exports = class Level extends CocoModel
 
     o.thangTypes = (original: tt.get('original'), name: tt.get('name') for tt in supermodel.getModels ThangType)
     o
+    
+  denormalize: (supermodel) ->
+    o = $.extend true, {}, @attributes
+    for levelThang in o.thangs
+      @denormalizeThang(levelThang, supermodel)
+    o
+
+  denormalizeThang: (levelThang, supermodel) ->
+    thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
+    configs = {}
+    for thangComponent in levelThang.components
+      configs[thangComponent.original] = thangComponent
+    
+    for defaultThangComponent in thangType.get('components')
+      if levelThangComponent = configs[defaultThangComponent.original]
+        # take the thang type default components and merge level-specific component config into it
+        copy = $.extend true, {}, defaultThangComponent.config
+        levelThangComponent.config = _.merge copy, levelThangComponent.config
+        
+      else
+        # just add the component as is
+        levelThang.components.push $.extend true, {}, defaultThangComponent
 
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]
