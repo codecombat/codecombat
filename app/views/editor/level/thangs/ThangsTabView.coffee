@@ -116,7 +116,7 @@ module.exports = class ThangsTabView extends CocoView
     $(window).resize @onWindowResize
     @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
     @buildInterface() # refactor to not have this trigger when this view re-renders?
-    if @thangsTreema.data.length 
+    if @thangsTreema.data.length
       @$el.find('#canvas-overlay').css('display', 'none')
 
   onFilterExtantThangs: (e) ->
@@ -500,7 +500,7 @@ class ThangNode extends TreemaObjectNode
     s = "#{@data.thangType}"
     if isObjectID s
       unless name = ThangNode.thangNameMap[s]
-        thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s
+        thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s and m.get('kind')
         name = ThangNode.thangNameMap[s] = thangType.get 'name'
         ThangNode.thangKindMap[s] = thangType.get 'kind'
       kind = ThangNode.thangKindMap[s]
