@@ -180,8 +180,11 @@ module.exports = class SpriteBoss extends CocoClass
   adjustSpriteExistence: ->
     # Add anything new, remove anything old, update everything current
     updateCache = false
+    itemsJustEquipped = []
     for thang in @world.thangs when thang.exists
-      thang.equip() if thang.equip and not thang.equipped  # Pretty hacky, since initialize may not be called
+      if thang.equip and not thang.equipped
+        thang.equip()  # Pretty hacky, since initialize may not be called
+        itemsJustEquipped.push thang
       if sprite = @sprites[thang.id]
         sprite.setThang thang  # make sure Sprite has latest Thang
       else
@@ -189,6 +192,7 @@ module.exports = class SpriteBoss extends CocoClass
         Backbone.Mediator.publish 'surface:new-thang-added', thang:thang, sprite:sprite
         updateCache = updateCache or sprite.imageObject.parent is @spriteLayers['Obstacle']
         sprite.playSounds()
+    item.modifyStats() for item in itemsJustEquipped
     for thangID, sprite of @sprites
       missing = not (sprite.notOfThisWorld or @world.thangMap[thangID]?.exists)
       isObstacle = sprite.imageObject.parent is @spriteLayers['Obstacle']
