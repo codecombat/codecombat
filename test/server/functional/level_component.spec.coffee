@@ -21,14 +21,8 @@ describe 'LevelComponent', ->
       expect(err).toBeNull()
       done()
 
-  it 'can\'t be created by ordinary users.', (done) ->
+  it 'can be created by ordinary users.', (done) ->
     loginJoe ->
-      request.post {uri: url, json: component}, (err, res, body) ->
-        expect(res.statusCode).toBe(403)
-        done()
-
-  it 'can be created by an admin.', (done) ->
-    loginAdmin ->
       request.post {uri: url, json: component}, (err, res, body) ->
         expect(res.statusCode).toBe(200)
         expect(body._id).toBeDefined()
@@ -105,7 +99,8 @@ describe 'LevelComponent', ->
     components[0].official = true
     loginJoe ->
       request.post {uri: url, json: components[0]}, (err, res, body) ->
-        expect(res.statusCode).toBe(403)
+        expect(res.statusCode).toBe(200)
+        expect(body.official).toBe(false)
         done()
 
   it 'official property is editable by an admin.', (done) ->

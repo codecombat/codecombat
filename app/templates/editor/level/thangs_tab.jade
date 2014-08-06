@@ -23,6 +23,8 @@ button.navbar-toggle.toggle.btn-primary#thangs-palette-toggle(type="button", dat
 .world-container.thangs-column
   h3(data-i18n="editor.level_tab_thangs_conditions") Starting Conditions
   #canvas-wrapper
+    #canvas-overlay
+      button.btn.btn-primary(id="randomize-button", data-toggle="coco-modal", data-target="editor/level/modals/TerrainRandomizeModal", data-i18n="editor.randomize", title="Randomize Terrain") Randomize
     ul.dropdown-menu#contextmenu
       li#delete
         a(data-i18n="editor.delete") Delete

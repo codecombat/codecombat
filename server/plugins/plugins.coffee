@@ -30,6 +30,9 @@ module.exports.NamedPlugin = (schema) ->
   schema.add({name: String, slug: String})
   schema.index({'slug': 1}, {unique: true, sparse: true, name: 'slug index'})
 
+  schema.statics.getBySlug = (slug, done) ->
+    @findOne {slug: slug}, done
+
   schema.pre('save', (next) ->
     if schema.uses_coco_versions
       v = @get('version')
@@ -41,9 +44,12 @@ module.exports.NamedPlugin = (schema) ->
       err.response = {message: ' is a reserved name', property: 'name'}
       err.code = 422
       return next(err)
-    if newSlug isnt @get('slug')
+    if newSlug not in [@get('slug'), ''] and not @get 'anonymous'
       @set('slug', newSlug)
       @checkSlugConflicts(next)
+    else if newSlug is '' and @get 'slug'
+      @set 'slug', undefined
+      next()
     else
       next()
   )

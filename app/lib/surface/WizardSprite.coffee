@@ -54,6 +54,11 @@ module.exports = class WizardSprite extends IndieSprite
     @updateRotation()
     # Don't call general update() because Thang isn't built yet
 
+  setNameLabel: (name) ->
+    if @options.codeLanguage and @options.codeLanguage isnt 'javascript' and not @isSelf
+      name += " (#{@options.codeLanguage})"  # TODO: move on second line, capitalize properly
+    super name
+
   onPlayerStatesChanged: (e) ->
     for playerID, state of e.states
       continue unless playerID is @thang.id

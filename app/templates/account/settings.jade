@@ -9,7 +9,7 @@ block content
 
   else
     #save-button-container
-      button.btn#save-button.disabled.secret(data-i18n="account_settings.autosave") Changes Save Automatically
+      button.btn#save-button.disabled(data-i18n="general.save" disabled="true") No Changes
   
     ul.nav.nav-pills#settings-tabs
       li
@@ -30,16 +30,19 @@ block content
       #general-pane.tab-pane
         p
           .form
+            - var name = me.get('name') || '';
+            - var email = me.get('email');
+            - var admin = me.get('permissions').indexOf('admin') != -1;
             .form-group
               label.control-label(for="name", data-i18n="general.name") Name
-              input#name.form-control(name="name", type="text", value="#{me.get('name') || ''}")
+              input#name.form-control(name="name", type="text", value="#{name}")
             .form-group
               label.control-label(for="email", data-i18n="general.email") Email
-              input#email.form-control(name="email", type="text", value="#{me.get('email')}")
+              input#email.form-control(name="email", type="text", value="#{email}")
             if !isProduction
               .form-group.checkbox
                 label(for="admin", data-i18n="account_settings.admin") Admin
-                input#admin(name="admin", type="checkbox", checked=me.get('permissions').indexOf('admin') != -1)
+                input#admin(name="admin", type="checkbox", checked=admin)
               
   
       #picture-pane.tab-pane

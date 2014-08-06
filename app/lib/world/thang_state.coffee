@@ -144,7 +144,7 @@ module.exports = class ThangState
           # We make sure the array keys won't collide with any string keys by using some unprintable characters.
           stringPieces = ['\x1D']  # Group Separator
           for element in value
-            if element and element.isThang
+            if element and element.id  # Was checking element.isThang, but we can't store non-strings anyway
               element = element.id
             stringPieces.push element, '\x1E'  # Record Separator(s)
           value = stringPieces.join('')

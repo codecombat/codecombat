@@ -28,10 +28,12 @@ Filters.brightness = (pixels, adjustment) ->
     i+=4
   return pixels
 
-module.exports.darkenImage = darkenImage = (img, pct=0.5) ->
+module.exports.darkenImage = darkenImage = (img, borderImageSelector, pct=0.5) ->
   jqimg = $(img)
   cachedValue = jqimg.data('darkened')
-  return img.src = cachedValue if cachedValue
+  if cachedValue
+    $(borderImageSelector).css 'border-image-source', 'url(' + cachedValue + ')'
+    return img.src = cachedValue 
   jqimg.data('original', img.src) unless jqimg.data('original')
   if not (img.naturalWidth > 0 and img.naturalHeight > 0)
     console.warn 'Tried to darken image', img, 'but it has natural dimensions', img.naturalWidth, img.naturalHeight
@@ -41,9 +43,11 @@ module.exports.darkenImage = darkenImage = (img, pct=0.5) ->
   ctx = c.getContext('2d')
   ctx.putImageData(imageData, 0, 0)
   img.src = c.toDataURL()
+  $(borderImageSelector).css 'border-image-source', 'url(' + img.src + ')'
   jqimg.data('darkened', img.src)
 
-module.exports.revertImage = revertImage = (img) ->
+module.exports.revertImage = revertImage = (img, borderImageSelector) ->
   jqimg = $(img)
   return unless jqimg.data('original')
+  $(borderImageSelector).css 'border-image-source', 'url(' + jqimg.data('original') + ')'
   img.src = jqimg.data('original')

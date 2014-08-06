@@ -1,5 +1,3 @@
-body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
-
 .html-reporter { font-size: 11px; font-family: Monaco, "Lucida Console", monospace; line-height: 14px; color: #333333; }
 .html-reporter a { text-decoration: none; }
 .html-reporter a:hover { text-decoration: underline; }

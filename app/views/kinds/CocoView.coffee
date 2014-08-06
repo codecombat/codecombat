@@ -158,9 +158,9 @@ module.exports = class CocoView extends Backbone.View
     elem = $(e.target)
     return unless elem.data('toggle') is 'coco-modal'
     target = elem.data('target')
-    view = application.router.getView(target, '_modal') # could set up a system for loading cached modals, if told to
+    Modal = require 'views/'+target
     e.stopPropagation()
-    @openModalView(view)
+    @openModalView new Modal
 
   openModalView: (modalView, softly=false) ->
     return if waitingModal # can only have one waiting at once
@@ -177,6 +177,7 @@ module.exports = class CocoView extends Backbone.View
     $('#modal-wrapper .modal').modal(modalOptions).on 'hidden.bs.modal', @modalClosed
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
+    Backbone.Mediator.publish 'modal-opened', {}
 
   modalClosed: =>
     visibleModal.willDisappear() if visibleModal
@@ -190,7 +191,7 @@ module.exports = class CocoView extends Backbone.View
       @openModalView(wm)
     else
       @getRootView().listenToShortcuts(true)
-      Backbone.Mediator.publish 'modal-closed'
+      Backbone.Mediator.publish 'modal-closed', {}
 
   # Loading RootViews
 

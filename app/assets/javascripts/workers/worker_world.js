@@ -96,7 +96,9 @@ Aether.addGlobal('_', _);
 var serializedClasses = {
     "Thang": self.require('lib/world/thang'),
     "Vector": self.require('lib/world/vector'),
-    "Rectangle": self.require('lib/world/rectangle')
+    "Rectangle": self.require('lib/world/rectangle'),
+    "Ellipse": self.require('lib/world/ellipse'),
+    "LineSegment": self.require('lib/world/line_segment')
 };
 self.currentUserCodeMapCopy = "";
 self.currentDebugWorldFrame = 0;
@@ -298,6 +300,9 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
         Aether.replaceBuiltin("Math", Math);
+        replacedLoDash = _.runInContext(self);
+        for(var key in replacedLoDash)
+          _[key] = replacedLoDash[key];
     }
     self.debugWorld.totalFrames = args.frame; //hack to work around error checking
     self.currentDebugWorldFrame = args.frame;
@@ -353,6 +358,9 @@ self.runWorld = function runWorld(args) {
   }
   Math.random = self.world.rand.randf;  // so user code is predictable
   Aether.replaceBuiltin("Math", Math);
+  replacedLoDash = _.runInContext(self);
+  for(var key in replacedLoDash)
+    _[key] = replacedLoDash[key];
   self.postMessage({type: 'start-load-frames'});
   self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
 };

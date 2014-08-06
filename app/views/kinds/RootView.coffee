@@ -17,6 +17,8 @@ filterKeyboardEvents = (allowedEvents, func) ->
     return func(splat...)
 
 module.exports = class RootView extends CocoView
+  showBackground: true
+  
   events:
     'click #logout-button': 'logoutAccount'
     'change .language-dropdown': 'onLanguageChanged'
@@ -90,12 +92,12 @@ module.exports = class RootView extends CocoView
     logoutUser($('#login-email').val())
 
   showWizardSettingsModal: ->
-    WizardSettingsModal = require('views/modal/wizard_settings_modal')
+    WizardSettingsModal = require('views/modal/WizardSettingsModal')
     subview = new WizardSettingsModal {}
     @openModalView subview
 
   onClickAuthbutton: ->
-    AuthModal = require 'views/modal/auth_modal'
+    AuthModal = require 'views/modal/AuthModal'
     @openModalView new AuthModal {}
 
   showLoading: ($el) ->
@@ -112,6 +114,11 @@ module.exports = class RootView extends CocoView
     @renderScrollbar()
     #@$('.antiscroll-wrap').antiscroll()  # not yet, buggy
 
+  getRenderData: ->
+    c = super()
+    c.showBackground = @showBackground
+    c
+  
   afterRender: ->
     super(arguments...)
     @chooseTab(location.hash.replace('#', '')) if location.hash
@@ -145,7 +152,8 @@ module.exports = class RootView extends CocoView
     @saveLanguage(newLang)
     @render()
     unless newLang.split('-')[0] is 'en'
-      @openModalView(application.router.getView('modal/diplomat_suggestion', '_modal'))
+      DiplomatModal = require 'views/modal/DiplomatSuggestionModal'
+      @openModalView(new DiplomatModal())
 
   saveLanguage: (newLang) ->
     me.set('preferredLanguage', newLang)

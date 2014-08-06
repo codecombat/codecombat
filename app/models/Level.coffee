@@ -30,7 +30,7 @@ module.exports = class Level extends CocoModel
     visit = (system) ->
       return if system.original of originalsSeen
       systemModel = _.find systemModels, {original: system.original}
-      console.error 'Couldn\'t find model for original', system.original, 'from', systemModels unless systemModel
+      return console.error 'Couldn\'t find model for original', system.original, 'from', systemModels unless systemModel
       for d in systemModel.dependencies or []
         system2 = _.find levelSystems, {original: d.original}
         visit system2
@@ -61,7 +61,7 @@ module.exports = class Level extends CocoModel
           for d in lc.dependencies or []
             c2 = _.find thang.components, {original: d.original}
             console.error thang.id, 'couldn\'t find dependent Component', d.original, 'from', lc.name unless c2
-            visit c2
+            visit c2 if c2
           if lc.name is 'Collides'
             allied = _.find levelComponents, {name: 'Allied'}
             if allied

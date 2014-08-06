@@ -210,6 +210,12 @@ class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
     (key for key in _.keys(codeLanguages) when not @data[key]?)
 
+class CodeLanguageTreema extends TreemaNode.nodeMap.string
+  buildValueForEditing: (valEl) ->
+    super(valEl)
+    valEl.find('input').autocomplete(source: _.keys(codeLanguages), minLength: 0, delay: 0, autoFocus: true)
+    valEl
+
 class CodeTreema extends TreemaNode.nodeMap.ace
   constructor: ->
     super(arguments...)
@@ -242,7 +248,14 @@ class JavaScriptTreema extends CodeTreema
 
 class InternationalizationNode extends TreemaNode.nodeMap.object
   findLanguageName: (languageCode) ->
+    # to get around mongoose emtpy object bug, there's a prop in the object which needs to be ignored
+    return '' if languageCode is '-'
     locale[languageCode]?.nativeDescription or "#{languageCode} Not Found"
+
+  getChildren: ->
+    res = super(arguments...)
+    res = (r for r in res when r[0] isnt '-')
+    res
 
   getChildSchema: (key) ->
     #construct the child schema here
@@ -309,7 +322,7 @@ class LatestVersionReferenceNode extends TreemaNode
     return unless term
     @lastTerm = term
     @getSearchResultsEl().empty().append('Searching')
-    @collection = new LatestVersionCollection()
+    @collection = new LatestVersionCollection([], model: @model)
 
     # HACK while search is broken
 #    @collection.url = "#{@url}?term=#{term}&project=true"
@@ -412,6 +425,7 @@ module.exports.setup = ->
   TreemaNode.setNodeSubclass('version', VersionTreema)
   TreemaNode.setNodeSubclass('markdown', LiveEditingMarkup)
   TreemaNode.setNodeSubclass('code-languages-object', CodeLanguagesObjectTreema)
+  TreemaNode.setNodeSubclass('code-language', CodeLanguageTreema)
   TreemaNode.setNodeSubclass('code', CodeTreema)
   TreemaNode.setNodeSubclass('coffee', CoffeeTreema)
   TreemaNode.setNodeSubclass('javascript', JavaScriptTreema)

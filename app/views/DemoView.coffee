@@ -35,6 +35,7 @@ module.exports = DemoView = class DemoView extends CocoView
     @loadDemoingLibs() unless DemoView.loaded
 
   loadDemoingLibs: ->
+    DemoView.loaded = true
     @queue = new createjs.LoadQueue()
     @queue.on('complete', @scriptsLoaded, @)
     window.jasmine = {} # so that mock-ajax properly loads. It expects jasmine to be loaded
@@ -81,8 +82,14 @@ module.exports = DemoView = class DemoView extends CocoView
     view = demoFunc()
     return unless view
     @$el.find('#demo-area').empty().append(view.$el)
+    view.afterInsert()
     # TODO, maybe handle root views differently than modal views differently than everything else?
 
   getAllDemoFiles: ->
     allFiles = window.require.list()
     (f for f in allFiles when f.indexOf('.demo') > -1)
+
+  destroy: ->
+    # hack to get jasmine tests to properly run again on clicking links, and make sure if you
+    # leave this page (say, back to the main site) that test stuff doesn't follow you.
+    document.location.reload()

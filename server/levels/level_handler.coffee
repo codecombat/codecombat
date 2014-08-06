@@ -25,6 +25,8 @@ LevelHandler = class LevelHandler extends Handler
     'goals'
     'type'
     'showsGuide'
+    'banner'
+    'employerDescription'
   ]
 
   postEditableProperties: ['name']
@@ -155,7 +157,7 @@ LevelHandler = class LevelHandler extends Handler
 
     sortParameters =
       'totalScore': req.query.order
-    selectProperties = ['totalScore', 'creatorName', 'creator']
+    selectProperties = ['totalScore', 'creatorName', 'creator', 'submittedCodeLanguage']
 
     query = Session
       .find(sessionsQueryParameters)

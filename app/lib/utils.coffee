@@ -54,6 +54,7 @@ module.exports.i18n = (say, target, language=me.lang(), fallback='en') ->
   generalName = matches[0] if matches
 
   for localeName, locale of say.i18n
+    continue if localeName is '-'
     if target of locale
       result = locale[target]
     else continue
@@ -75,6 +76,8 @@ module.exports.getByPath = (target, path) ->
     return undefined unless piece of obj
     obj = obj[piece]
   obj
+
+module.exports.isID = (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
 
 module.exports.round = _.curry (digits, n) ->
   n = +n.toFixed(digits)

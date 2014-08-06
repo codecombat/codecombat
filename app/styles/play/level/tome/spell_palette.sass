@@ -70,10 +70,10 @@
 
   .code-language-logo
     position: absolute
-    width: 20px
-    height: 20px
-    left: 12px
-    top: 34px
+    width: 16px
+    height: 16px
+    left: 16px
+    top: 36px
     z-index: 10
     background-color: transparent
     background-repeat: no-repeat
@@ -81,17 +81,23 @@
     cursor: pointer
 
     &.javascript
-      background-image: url(/images/pages/home/language_logo_javascript.png)
+      background-image: url(/images/common/code_languages/javascript_icon.png)
     &.python
-      background-image: url(/images/pages/home/language_logo_python.png)
+      background-image: url(/images/common/code_languages/python_icon.png)
     &.coffeescript
-      background-image: url(/images/pages/home/language_logo_coffeescript.png)
+      background-image: url(/images/common/code_languages/coffeescript_icon.png)
     &.clojure
-      background-image: url(/images/pages/home/language_logo_clojure.png)
+      background-image: url(/images/common/code_languages/clojure_icon.png)
     &.lua
-      background-image: url(/images/pages/home/language_logo_lua.png)
+      background-image: url(/images/common/code_languages/lua_icon.png)
     &.io
-      background-image: url(/images/pages/home/language_logo_io.png)
+      background-image: url(/images/common/code_languages/io_icon.png)
+
+    &:hover
+      outline: 1px outset #ccc
+
+      &:active
+        outline: 1px inset #ccc
 
 html.no-borderimage
   #spell-palette-view

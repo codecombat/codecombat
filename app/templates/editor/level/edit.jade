@@ -33,11 +33,18 @@ block header
             - var patches = level.get('patches')
             if patches && patches.length
               span.badge= patches.length
-      
+        li
+          a(href="#docs-components-view", data-toggle="tab", data-i18n="editor.level_tab_docs") Documentation
       .navbar-header
         span.navbar-brand #{level.attributes.name}
 
       ul.nav.navbar-nav.navbar-right
+        li#undo-button(title="Undo (Ctrl+Z)")
+          a
+            span.glyphicon-arrow-left.glyphicon
+        li#redo-button(title="Redo (Ctrl+Shift+Z)")
+            a
+              span.glyphicon-repeat.glyphicon
         if authorized
           li#commit-level-start-button
             a
@@ -49,7 +56,7 @@ block header
         
         if level.get('type') === 'ladder'
           li.dropdown
-            a(data-toggle='dropdown')
+            a(data-toggle='dropdown').play-with-team-parent
               span.glyphicon-play.glyphicon
             ul.dropdown-menu
               li.dropdown-header Play As Which Team?
@@ -70,15 +77,17 @@ block header
               a#level-watch-button
                 span.watch
                   span.glyphicon.glyphicon-eye-open
-                  span.spl Watch
+                  span.spl(data-i18n="common.watch") Watch
                 span.unwatch.secret
                   span.glyphicon.glyphicon-eye-close
-                  span.spl Unwatch
+                  span.spl(data-i18n="common.unwatch") Unwatch
                   
             li(class=anonymous ? "disabled": "")
               a(data-i18n="common.fork")#fork-level-start-button Fork
             li(class=anonymous ? "disabled": "")
-              a(data-toggle="coco-modal", data-target="modal/revert", data-i18n="editor.revert")#revert-button Revert
+              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
+            li(class=anonymous ? "disabled": "")
+              a(data-toggle="coco-modal", data-target="editor/level/modals/TerrainRandomizeModal", data-i18n="editor.randomize")#randomize-button Randomize
             li(class=anonymous ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
             li.divider
@@ -94,7 +103,7 @@ block header
             li
               a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum", target="_blank") Forum
             li
-              a(data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Email
+              a(data-toggle="coco-modal", data-target="modal/ContactModal", data-i18n="nav.contact") Email
 
 block outer_content
   .outer-content
@@ -111,6 +120,8 @@ block outer_content
     
       div.tab-pane#editor-level-patches
         .patches-view
+
+      div.tab-pane#docs-components-view
 
     div#error-view
 

@@ -14,6 +14,14 @@ class BlandClass extends CocoModel
   urlRoot: '/db/bland'
 
 describe 'CocoModel', ->
+  describe 'setProjection', ->
+    it 'takes an array of properties to project and adds them as a query parameter', ->
+      b = new BlandClass({})
+      b.setProjection ['number', 'object']
+      b.fetch()
+      request = jasmine.Ajax.requests.mostRecent()
+      expect(decodeURIComponent(request.url).indexOf('project=number,object')).toBeGreaterThan(-1)
+  
   describe 'save', ->
 
     it 'saves to db/<urlRoot>', ->

@@ -34,6 +34,12 @@ block modal-body-content
         input#password.input-large.form-control(name="password", type="password", value=formValues.password)
 
     if mode === 'signup'
+      .form-group
+        label.control-label(for="name", data-i18n="general.name") Name
+        if me.get('name')
+          input#name.input-large.form-control(name="name", type="text", value="#{me.get('name')}")
+        else
+          input#name.input-large.form-control(name="name", type="text", value="", placeholder="Anoner")
       .form-group.checkbox
         label.control-label(for="subscribe")
           input#subscribe(name="subscribe", type="checkbox", checked='checked')
@@ -68,4 +74,4 @@ block modal-footer
     div.network-login
       .gplus-login-button#gplus-login-button
     div#recover-account-wrapper
-      a(data-toggle="coco-modal", data-target="modal/recover", data-i18n="login.recover")#link-to-recover recover account
+      a(data-toggle="coco-modal", data-target="modal/RecoverModal", data-i18n="login.recover")#link-to-recover recover account

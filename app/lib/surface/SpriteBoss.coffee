@@ -11,7 +11,7 @@ module.exports = class SpriteBoss extends CocoClass
   subscriptions:
     'bus:player-joined': 'onPlayerJoined'
     'bus:player-left': 'onPlayerLeft'
-#    'level-set-debug': 'onSetDebug'
+    'level-set-debug': 'onSetDebug'
     'level-highlight-sprites': 'onHighlightSprites'
     'surface:stage-mouse-down': 'onStageMouseDown'
     'level-select-sprite': 'onSelectSprite'
@@ -106,7 +106,7 @@ module.exports = class SpriteBoss extends CocoClass
 
   createOpponentWizard: (opponent) ->
     # TODO: colorize name and cloud by team, colorize wizard by user's color config, level-specific wizard spawn points
-    sprite = @createWizardSprite thangID: opponent.id, name: opponent.name
+    sprite = @createWizardSprite thangID: opponent.id, name: opponent.name, codeLanguage: opponent.codeLanguage
     if not opponent.levelSlug or opponent.levelSlug is 'brawlwood'
       sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
     else if opponent.levelSlug is 'dungeon-arena'
@@ -181,6 +181,7 @@ module.exports = class SpriteBoss extends CocoClass
     # Add anything new, remove anything old, update everything current
     updateCache = false
     for thang in @world.thangs when thang.exists
+      thang.equip() if thang.equip and not thang.equipped  # Pretty hacky, since initialize may not be called
       if sprite = @sprites[thang.id]
         sprite.setThang thang  # make sure Sprite has latest Thang
       else

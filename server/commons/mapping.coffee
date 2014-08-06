@@ -9,6 +9,7 @@ module.exports.handlers =
   'thang_type': 'levels/thangs/thang_type_handler'
   'user': 'users/user_handler'
   'user_remark': 'users/remarks/user_remark_handler'
+  'mail_sent': 'mail/sent/mail_sent_handler'
   'achievement': 'achievements/achievement_handler'
   'earned_achievement': 'achievements/earned_achievement_handler'
 

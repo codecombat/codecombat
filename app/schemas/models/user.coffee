@@ -1,8 +1,39 @@
 c = require './../schemas'
 emailSubscriptions = ['announcement', 'tester', 'level_creator', 'developer', 'article_editor', 'translator', 'support', 'notification']
 
-UserSchema = c.object {},
-  name: c.shortString({title: 'Display Name', default: ''})
+UserSchema = c.object
+  title: 'User'
+
+c.extendNamedProperties UserSchema  # let's have the name be the first property
+
+#Put the various filters in variables for reusability
+phoneScreenFilter =
+  title: 'Phone screened'
+  type: 'boolean'
+  description: 'Whether the candidate has been phone screened.'
+schoolFilter = 
+  title: 'School'
+  type: 'string'
+  enum: ['Top School', 'Other']
+locationFilter = 
+  title: 'Location'
+  type: 'string'
+  enum: ['Bay Area', 'New York', 'Other US', 'International']
+roleFilter = 
+  title: 'Role'
+  type: 'string'
+  enum: ['Web Developer', 'Software Developer', 'Mobile Developer']
+seniorityFilter = 
+  title: 'Seniority'
+  type: 'string'
+  enum: ['College Student', 'Recent Grad', 'Junior', 'Senior']
+visa = c.shortString
+  title: 'US Work Status'
+  description: 'Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)'
+  enum: ['Authorized to work in the US', 'Need visa sponsorship']
+  default: 'Authorized to work in the US'
+  
+_.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
   firstName: c.shortString({title: 'First Name'})
   lastName: c.shortString({title: 'Last Name'})
@@ -83,7 +114,7 @@ UserSchema = c.object {},
     experience: {type: 'integer', title: 'Years of Experience', minimum: 0, description: 'How many years of professional experience (getting paid) developing software do you have?'}
     shortDescription: {type: 'string', maxLength: 140, title: 'Short Description', description: 'Who are you, and what are you looking for? 140 characters max.', default: 'Programmer seeking to build great software.'}
     longDescription: {type: 'string', maxLength: 600, title: 'Description', description: 'Describe yourself to potential employers. Keep it short and to the point. We recommend outlining the position that would most interest you. Tasteful markdown okay; 600 characters max.', format: 'markdown', default: '* I write great code.\n* You need great code?\n* Great!'}
-    visa: c.shortString {title: 'US Work Status', description: 'Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)', enum: ['Authorized to work in the US', 'Need visa sponsorship'], default: 'Authorized to work in the US'}
+    visa: visa
     work: c.array {title: 'Work Experience', description: 'List your relevant work experience, most recent first.'},
       c.object {title: 'Job', description: 'Some work experience you had.', required: ['employer', 'role', 'duration']},
         employer: c.shortString {title: 'Employer', description: 'Name of your employer.'}
@@ -127,37 +158,68 @@ UserSchema = c.object {},
       workHistory: c.array {title: 'Work history', description: 'One or two places the candidate has worked', type: 'array'},
         title: 'Workplace'
         type: 'string'
-      phoneScreenFilter:
-        title: 'Phone screened'
-        type: 'boolean'
-        description: 'Whether the candidate has been phone screened.'
-      schoolFilter:
-        title: 'School'
-        type: 'string'
-        enum: ['Top School', 'Other']
-      locationFilter:
-        title: 'Location'
-        type: 'string'
-        enum: ['Bay Area', 'New York', 'Other US', 'International']
-      roleFilter:
-        title: 'Role'
-        type: 'string'
-        enum: ['Web Developer', 'Software Developer', 'Mobile Developer']
-      seniorityFilter:
-        title: 'Seniority'
-        type: 'string'
-        enum: ['College Student', 'Recent Grad', 'Junior', 'Senior']
+      phoneScreenFilter: phoneScreenFilter
+      schoolFilter: schoolFilter
+      locationFilter: locationFilter
+      roleFilter: roleFilter
+      seniorityFilter: seniorityFilter
       featured:
         title: 'Featured'
         type: 'boolean'
         description: 'Should this candidate be prominently featured on the site?'
   jobProfileApproved: {title: 'Job Profile Approved', type: 'boolean', description: 'Whether your profile has been approved by CodeCombat.'}
+  jobProfileApprovedDate: c.date {title: 'Approved date', description: 'The date that the candidate was approved'}
   jobProfileNotes: {type: 'string', maxLength: 1000, title: 'Our Notes', description: 'CodeCombat\'s notes on the candidate.', format: 'markdown', default: ''}
   employerAt: c.shortString {description: 'If given employer permissions to view job candidates, for which employer?'}
   signedEmployerAgreement: c.object {},
     linkedinID: c.shortString {title: 'LinkedInID', description: 'The user\'s LinkedIn ID when they signed the contract.'}
     date: c.date {title: 'Date signed employer agreement'}
     data: c.object {description: 'Cached LinkedIn data slurped from profile.', additionalProperties: true}
+  savedEmployerFilterAlerts: c.array {
+    title: 'Saved Employer Filter Alerts'
+    description: 'Employers can get emailed alerts whenever there are new candidates matching their filters'
+  }, c.object({
+    title: 'Saved filter set'
+    description: 'A saved filter set'
+    required: ['phoneScreenFilter','schoolFilter','locationFilter','roleFilter','seniorityFilter','visa']
+  }, {
+    phoneScreenFilter:
+      title: 'Phone screen filter values'
+      type: 'array'
+      items: 
+        type: 'boolean'
+    schoolFilter:
+      title: 'School filter values'
+      type: 'array'
+      items:
+        type: schoolFilter.type
+        enum: schoolFilter.enum
+    locationFilter: 
+      title: 'Location filter values'
+      type: 'array'
+      items:
+        type: locationFilter.type
+        enum: locationFilter.enum
+    roleFilter: 
+      title: 'Role filter values'
+      type: 'array'
+      items:
+        type: roleFilter.type
+        enum: roleFilter.enum
+    seniorityFilter: 
+      title: 'Seniority filter values'
+      type: 'array'
+      items:
+        type: roleFilter.type
+        enum: seniorityFilter.enum
+    visa: 
+      title: 'Visa filter values'
+      type: 'array'
+      items:
+        type: visa.type
+        enum: visa.enum
+  })
+    
   points: {type: 'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
 

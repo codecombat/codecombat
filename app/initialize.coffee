@@ -18,6 +18,7 @@ definitionSchemas =
   'misc': require './schemas/definitions/misc'
 
 init = ->
+  watchForErrors()
   path = document.location.pathname
   testing = path.startsWith '/test'
   demoing = path.startsWith '/demo'
@@ -30,11 +31,10 @@ init = ->
   app.initialize()
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
+  setUpMoment() # Set up i18n for moment
 
   treemaExt = require 'treema-ext'
   treemaExt.setup()
-
-$ -> init()
 
 handleNormalUrls = ->
   # http://artsy.github.com/blog/2012/06/25/replacing-hashbang-routes-with-pushstate/
@@ -65,6 +65,12 @@ setUpDefinitions = ->
   for definition of definitionSchemas
     Backbone.Mediator.addDefSchemas definitionSchemas[definition]
 
+setUpMoment = ->
+  {me} = require 'lib/auth'
+  moment.lang me.lang(), {}
+  me.on 'change', (me) ->
+    moment.lang me.lang(), {} if me._previousAttributes.preferredLanguage isnt me.get 'preferredLanguage'
+
 initializeServices = ->
   services = [
     './lib/services/filepicker'
@@ -79,3 +85,18 @@ initializeServices = ->
   for service in services
     service = require service
     service()
+
+watchForErrors = ->
+  currentErrors = 0
+  window.onerror = (msg, url, line, col, error) ->
+    return if currentErrors >= 3
+    return unless me.isAdmin() or document.location.href.search(/codecombat.com/) is -1 or document.location.href.search(/\/editor\//) isnt -1
+    ++currentErrors
+    msg = "Error: #{msg}<br>Check the JS console for more."
+    #msg += "\nLine: #{line}" if line?
+    #msg += "\nColumn: #{col}" if col?
+    #msg += "\nError: #{error}" if error?
+    #msg += "\nStack: #{stack}" if stack = error?.stack
+    noty text: msg, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3, callback: {onClose: -> --currentErrors}
+
+$ -> init()
