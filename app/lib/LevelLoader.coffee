@@ -32,7 +32,6 @@ module.exports = class LevelLoader extends CocoClass
     @team = options.team
     @headless = options.headless
     @spectateMode = options.spectateMode ? false
-    @editorMode = options.editorMode # TODO: remove when the surface can load ThangTypes itself
 
     @loadSession()
     @loadLevel()
@@ -129,7 +128,7 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Level, 'level'
 
-    unless @headless and not @editorMode
+    unless @headless
       wizard = ThangType.loadUniversalWizard()
       @supermodel.loadModel wizard, 'thang'
 
@@ -140,7 +139,7 @@ module.exports = class LevelLoader extends CocoClass
     @initWorld()
     @supermodel.clearMaxProgress()
     @trigger 'world-necessities-loaded'
-    return if @headless and not @editorMode
+    return if @headless
     thangsToLoad = _.uniq( (t.spriteName for t in @world.thangs when t.exists) )
     nameModelTuples = ([thangType.get('name'), thangType] for thangType in @thangNames.models)
     nameModelMap = _.zipObject nameModelTuples
