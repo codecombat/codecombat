@@ -2,84 +2,99 @@ extends /templates/base
 
 block content
 
-  h1(data-i18n="community.main_title") CodeCombat Community
+  h1(data-i18n="community.main_title") Community
 
-  p There are dozens of ways you can get involved with CodeCombat. Check out the resources we've built, decide what sounds the most fun, and we look forward to working with you!
+  p Check out the ways you can get involved below, decide what sounds the most fun, and we look forward to working with you!
 
   div
 
     .community_columns
 
-      h2 Levels and Art
+      a(href="/editor/level")
+        img(src="/images/pages/community/level.png")
 
-      p We have built several tools that enable users to get not only edit, but also build new game content!
+      h2 
+        a.spl(href="/editor/level", data-i18n="community.level_editor")
 
-        ul
-          li
-            a(href="/editor/level", data-i18n="community.level_editor")
-            | : fork, edit, or build your own CodeCombat levels. New levels can be kept private or published to the community.
-          li
-            a(href="/editor/thang", data-i18n="editor.thang_title")
-            | : modify or import new art assets for the game using our powerful editor.
-          li
-            a(href="/editor/article", data-i18n="editor.article_title")
-            | : edit or create documentation used in CodeCombat levels.
-
-      p Right now most of our editing tools are very rough, but we are improving them constantly and welcome your feedback.
+      p Use the CodeCombat 
+        a.spl(href="/editor/level", data-i18n="community.level_editor")
+        |  to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!
 
     .community_columns
 
-      h2 Connect
+      a(href="/editor/thang")
+        img(src="/images/pages/community/thang.png")
 
-      p There are a bunch of ways you can connect with us and get involved in the ongoing development of CodeCombat:
 
-        ul
+      h2
+        a.spl(href="/editor/thang", data-i18n="editor.thang_title")
 
-          li We write about our progress and current projects on our
-            a.spl(href="http://blog.codecombat.com", data-i18n="nav.blog")
-            | .
-          li Participate in our active user community by checking out our
-            a.spl(href="http://discourse.codecombat.com", data-i18n="nav.forum")
-            | .
-          li For regular news about learning to code, games, and education, check out our
-            a.spl(href="https://www.facebook.com/codecombat", data-i18n="community.facebook")
-            | .
-          li For realtime status or to have a quick chat, follow us on
-            a.spl(href="https://twitter.com/CodeCombat", data-i18n="community.twitter")
-            | .
-          li Don't like Facebook? We're on
-            a.spl(href="https://plus.google.com/115285980638641924488/posts", data-i18n="community.gplus")
-            | .
-          li You can also find us in our
-            a.spl(href="http://www.hipchat.com/g3plnOKqa", data-i18n="editor.hipchat_url")
+      p We call items within the game "thangs." Use the
+        a.spl(href="/editor/thang", data-i18n="editor.thang_title") 
+        |  to modify the CodeCombat source artwork. Allow units to throw projectiles, alter the direction of an animation, change a unit's hit points, or upload your own JS art.
 
     .community_columns
 
-      h2 Contribute
+      a(href="/editor/article")
+        img(src="/images/pages/community/article.png")
 
-      p Put your skills to use helping us teach the world to code. We have a lot of roles you can consider, and if we don't have a role for you, let us know:
+      h2
+        a.spl(href="/editor/level", data-i18n="editor.article_title")
 
-        ul
+      p See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the 
+        a.spl(href="/editor/article", data-i18n="editor.article_title") 
+        |  and help CodeCombat players get the most out of their play time. 
 
-          li
-            a(href="/contribute#archmage", data-i18n="classes.archmage_title")
-            | : contribute by writing code.
-          li
-            a(href="/contribute#artisan", data-i18n="classes.artisan_title")
-            | : build new game levels.
-          li
-            a(href="/contribute#adventurer", data-i18n="classes.adventurer_title")
-            | : test new game levels.
-          li
-            a(href="/contribute#scribe", data-i18n="classes.scribe_title")
-            | : write educational documentation.
-          li
-            a(href="/contribute#diplomat", data-i18n="classes.diplomat_title")
-            | : translate site content.
-          li
-            a(href="/contribute#ambassador", data-i18n="classes.ambassador_title")
-            | : support our community of educators and coders.
+  div
 
-        | Check out the
-        a.spl(href="/contribute", data-i18n="nav.contribute")
-        |  page to find out more about the roles and how you can get started.
+    .half_width
+
+      h2.lower_titles Find us on these sites
+
+        .logo_row
+
+          a(href="http://blog.codecombat.com")
+            img(src="/images/pages/community/logo_sett.png")
+
+          a(href="http://discourse.codecombat.com")
+            img(src="/images/pages/community/logo_discourse.png")
+
+          a(href="https://www.facebook.com/codecombat")
+            img(src="/images/pages/community/logo_facebook.png")
+
+          a(href="https://twitter.com/CodeCombat")
+            img(src="/images/pages/community/logo_twitter.png")
+
+          a(href="https://plus.google.com/115285980638641924488/posts")
+            img(src="/images/pages/community/logo_g+.png")
+
+          a(href="http://www.hipchat.com/g3plnOKqa")
+            img(src="/images/pages/community/logo_hipchat.png")
+
+    .half_width
+
+      h2.lower_titles Contribute to the Project
+
+        .logo_row
+
+          a(href="/contribute#adventurer")
+            img(src="/images/pages/community/adventurer.png")
+
+          a(href="/contribute#ambassador")
+            img(src="/images/pages/community/ambassador.png")
+
+          a(href="/contribute#archmage")
+            img(src="/images/pages/community/archmage.png")
+
+          a(href="/contribute#scribe")
+            img(src="/images/pages/community/scribe.png")
+
+          a(href="/contribute#diplomat")
+            img(src="/images/pages/community/diplomat.png")
+
+          a(href="/contribute#artisan")
+            img(src="/images/pages/community/artisan.png")
+
+
+  .clearfix
+
