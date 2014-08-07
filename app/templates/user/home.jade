@@ -13,9 +13,12 @@ block append content
               div.extra-info Favorite language is
                 strong.spl.spr= favoriteLanguage
           .btn-group-vertical.profile-menu
-            a.btn.btn-default(href="/user/#{user.get('slug') || user.get('_id')}/profile")
+            a.btn.btn-default(href="/user/#{user.getSlugOrID()}/profile")
               i.glyphicon.glyphicon-briefcase
               span Job Profile
+            a.btn.btn-default(href="/user/#{user.getSlugOrID()}/stats")
+              i.glyphicon.glyphicon-certificate
+              span Stats
             a.btn.btn-default.disabled(href="#")
               i.glyphicon.glyphicon-pencil
               span Code
@@ -52,10 +55,6 @@ block append content
                   a(href="/contribute#scribe") Scribe
 
       .right-column
-        //.panel.panel-default
-          .panel-heading
-            h3.panel-title Achievements
-          .panel-body
         .panel.panel-default
           .panel-heading
             h3.panel-title Singleplayer Levels
@@ -65,9 +64,9 @@ block append content
           else if (singlePlayerSessions.length)
             table.table
               tr
-                th Level
-                th Last Played
-                th Status
+                th.col-xs-4 Level
+                th.col-xs-4 Last Played
+                th.col-xs-4 Status
               each session in singlePlayerSessions
                 if session.get('levelName')
                   tr
@@ -90,17 +89,43 @@ block append content
           else if (multiPlayerSessions.length)
             table.table
               tr
-                th Level
-                th Team
-                th Last Played
+                th.col-xs-4 Level
+                th.col-xs-4 Last Played
+                th.col-xs-4 Score
               each session in multiPlayerSessions
                 tr
                   td
-                    a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
-                  td= session.get('team')
+                    - var posturl = ''
+                    - if (session.get('team')) posturl = '?team=' + session.get('team')
+                    a(href="/play/level/#{session.get('levelID') + posturl}")= session.get('levelName') + (session.get('team') ? ' (' + session.get('team') + ')' : '')
                   td= moment(session.get('changed')).fromNow()
-                  if session.get('state').complete === true
-                    td Completed
+                  if session.get('totalScore')
+                    td= session.get('totalScore') * 100
+                  else
+                    td Unfinished
           else
             .panel-body
               p No Multiplayer games played yet.
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title Achievements
+          if ! earnedAchievements
+            .panel-body
+              p Loading...
+          else if ! earnedAchievements.length
+            .panel-body
+              p No achievements earned so far.
+          else
+            table.table
+              tr
+                th.col-xs-4 Achievement
+                th.col-xs-4 Last Earned
+                th.col-xs-4 Amount
+              each achievement in earnedAchievements.models
+                tr
+                  td= achievement.get('achievementName')
+                  td= moment().format("MMMM Do YY", achievement.get('changed'))
+                  if achievement.get('achievedAmount')
+                    td= achievement.get('achievedAmount')
+                  else
+                    td

@@ -3,12 +3,13 @@ CocoCollection = require 'collections/CocoCollection'
 LevelSession = require 'models/LevelSession'
 template = require 'templates/user/home'
 {me} = require 'lib/auth'
+EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
 
 class LevelSessionsCollection extends CocoCollection
   model: LevelSession
 
   constructor: (userID) ->
-    @url = "/db/user/#{userID}/level.sessions?project=state.complete,levelID,levelName,changed,team,submittedCodeLanguage&order=-1"
+    @url = "/db/user/#{userID}/level.sessions?project=state.complete,levelID,levelName,changed,team,submittedCodeLanguage,totalScore&order=-1"
     super()
 
 module.exports = class MainUserView extends UserView
@@ -20,7 +21,8 @@ module.exports = class MainUserView extends UserView
 
   getRenderData: ->
     context = super()
-    if @user
+    if @levelSessions and @levelSessions.loaded
+      console.debug 'yep sessions loaded'
       singlePlayerSessions = []
       multiPlayerSessions = []
       languageCounts = {}
@@ -39,11 +41,19 @@ module.exports = class MainUserView extends UserView
       context.singlePlayerSessions = singlePlayerSessions
       context.multiPlayerSessions = multiPlayerSessions
       context.favoriteLanguage = favoriteLanguage
+    if @earnedAchievements and @earnedAchievements.loaded
+      console.debug 'earned achievements loaded'
+      context.earnedAchievements = @earnedAchievements
     context
 
-  onUserLoaded: (user) ->
-    @levelSessions = @supermodel.loadCollection(new LevelSessionsCollection(@userID), 'levelSessions').model
-    super user
-
   onLoaded: ->
+    console.debug @earnedAchievements
+    console.debug @earnedAchievements?.loaded
+    if @user.loaded and not @earnedAchievements
+      @supermodel.resetProgress()
+      #@levelSessions = new LevelSessionsCollection @user.getSlugOrID()
+      @earnedAchievements = new EarnedAchievementCollection @user.getSlugOrID()
+      #@supermodel.loadCollection @levelSessions, 'levelSessions'
+      @supermodel.loadCollection @earnedAchievements, 'earnedAchievements'
+
     super()

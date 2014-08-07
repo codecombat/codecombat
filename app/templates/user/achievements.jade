@@ -9,7 +9,7 @@ block append content
       .grid-layout
         each achievements, category in achievementsByCategory
           .row
-            h2.achievements-category=category
+            h2.achievement-category-title=category.charAt(0).toUpperCase() + category.slice(1)
             each achievement, index in achievements
               - var title = achievement.get('name');
               - var description = achievement.get('description');
@@ -33,7 +33,7 @@ block append content
               th Date
               th Amount
               th XP
-            each earnedAchievement in earnedAchievements
+            each earnedAchievement in earnedAchievements.models
               - var achievement = earnedAchievement.get('achievement');
               tr
                 td= achievement.get('name')

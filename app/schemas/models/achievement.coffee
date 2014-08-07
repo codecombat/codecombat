@@ -35,7 +35,7 @@ MongoFindQuerySchema.definitions[MongoQueryOperatorSchema.id] = MongoQueryOperat
 
 AchievementSchema = c.object()
 c.extendNamedProperties AchievementSchema
-c.extendBasicProperties AchievementSchema, 'achievement' # TODO What's this about?
+c.extendBasicProperties AchievementSchema, 'achievement'
 c.extendSearchableProperties AchievementSchema
 
 _.extend AchievementSchema.properties,
@@ -51,8 +51,8 @@ _.extend AchievementSchema.properties,
   related: c.objectId(description: 'Related entity')
   icon: {type: 'string', format: 'image-file', title: 'Icon'}
   category:
-    type: 'string'
-    description: "E.g. 'level', 'ladder', 'contributor'..." # TODO might make this enum?
+    enum: ['level', 'ladder', 'contributor']
+    description: 'For categorizing and display purposes'
   difficulty: c.int
     description: 'The higher the more difficult'
     default: 1

@@ -45,7 +45,7 @@ AchievementSchema.statics.loadAchievements = (done) ->
       category = achievement.get 'collection'
       AchievementSchema.statics.earnedAchievements[category] = [] unless category of AchievementSchema.statics.earnedAchievements
       AchievementSchema.statics.earnedAchievements[category].push achievement
-    done(AchievementSchema.statics.earnedAchievements) if done?
+    done?(AchievementSchema.statics.earnedAchievements)
 
 AchievementSchema.statics.getLoadedAchievements = ->
   AchievementSchema.statics.earnedAchievements

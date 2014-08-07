@@ -142,7 +142,7 @@ UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
 
 UserSchema.methods.incrementStat = (statName, done, inc=1) ->
   @set statName, (@get(statName) or 0) + inc
-  @save (err) -> done err if done?
+  @save (err) -> done?(err)
 
 UserSchema.statics.unconflictName = unconflictName = (name, done) ->
   User.findOne {slug: _.str.slugify(name)}, (err, otherUser) ->

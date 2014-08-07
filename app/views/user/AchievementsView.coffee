@@ -19,22 +19,22 @@ module.exports = class AchievementsView extends UserView
   constructor: (userID, options) ->
     super options, userID
 
-  onUserLoaded: (user) ->
-    @achievements = @supermodel.loadCollection(new AchievementCollection, 'achievements').model
-    @earnedAchievements = @supermodel.loadCollection(new EarnedAchievementCollection(@user), 'earnedAchievements').model
-    super user
-
   onLoaded: ->
-    console.log @earnedAchievementsy
-    console.log @achievements
-    for earned in @earnedAchievements.models
-      return unless relatedAchievement = _.find @achievements.models, (achievement) ->
-        achievement.get('_id') is earned.get 'achievement'
-      relatedAchievement.set 'unlocked', true
-      earned.set 'achievement', relatedAchievement
-    deferredImages = (achievement.cacheLockedImage() for achievement in @achievements.models when not achievement.get 'unlocked')
-    whenever = $.when deferredImages...
-    whenever.done => @render()
+    unless @achievements or @earnedAchievements
+      @supermodel.resetProgress()
+      @achievements = new AchievementCollection
+      @earnedAchievements = new EarnedAchievementCollection @user.getSlugOrID()
+      @supermodel.loadCollection @achievements, 'achievements'
+      @supermodel.loadCollection @earnedAchievements, 'earnedAchievements'
+    else
+      for earned in @earnedAchievements.models
+        return unless relatedAchievement = _.find @achievements.models, (achievement) ->
+          achievement.get('_id') is earned.get 'achievement'
+        relatedAchievement.set 'unlocked', true
+        earned.set 'achievement', relatedAchievement
+      deferredImages = (achievement.cacheLockedImage() for achievement in @achievements.models when not achievement.get 'unlocked')
+      whenever = $.when deferredImages...
+      whenever.done => @render()
     super()
 
   layoutChanged: (e) ->
@@ -47,8 +47,8 @@ module.exports = class AchievementsView extends UserView
 
     # After user is loaded
     if @user and not @user.isAnonymous()
-      context.earnedAchievements = @earnedAchievements.models
-      context.achievements = @achievements.models
+      context.earnedAchievements = @earnedAchievements
+      context.achievements = @achievements
       context.achievementsByCategory = {}
       for achievement in @achievements.models
         context.achievementsByCategory[achievement.get('category')] ?= []

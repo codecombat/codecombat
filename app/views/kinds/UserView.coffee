@@ -9,40 +9,27 @@ module.exports = class UserView extends RootView
 
   constructor: (@userID, options) ->
     super options
-
-    @listenTo @, 'userLoaded', @onUserLoaded
     @listenTo @, 'userNotFound', @ifUserNotFound
-
-    @userID ?= me.id # TODO Ruben really?
     @fetchUser @userID
 
-  # TODO Ruben make this use the new getByNameOrID as soon as that is merged in
   fetchUser: (id) ->
-    User.getByID id, {}, true,
-      success: (@user) =>
-        @userLoaded = true
-        @trigger 'userNotFound' unless @user
-        @trigger 'userLoaded', @user
-      error: =>
-        @userLoaded = true
-        @trigger 'userNotFound'
+    if @isMe()
+      @user = me
+      @onLoaded()
+    @user = new User _id: id
+    @supermodel.loadModel @user, 'user'
 
   getRenderData: ->
     context = super()
     context.viewName = @viewName
     context.user = @user unless @user?.isAnonymous()
-    context.userLoaded = @userLoaded
     context
 
   isMe: -> @userID is me.id
 
-  onUserLoaded: ->
-    console.log 'onUserLoaded', @user
-    @render()
+  onLoaded: ->
+    super()
 
   ifUserNotFound: ->
     console.warn 'user not found'
     @render()
-
-  onLoaded: ->
-    super()

@@ -1,172 +1,138 @@
 extends /templates/base
 
 block content
-  .clearfix
-    .col-sm-6.clearfix
-      h2 Account Settings
-      hr
-      .panel.panel-default
-        .panel-heading
-          i.glyphicon.glyphicon-user.pull-left
-          h3.panel-title
-            a(href="account/settings#me") Me
-        .panel-body
-          dl
-            dt Name
-            dd=me.get('name')
-            dt Email
-            dd abe@lincoln
-      .panel.panel-default
-        .panel-heading
-          i.glyphicon.glyphicon-picture.pull-left
-          h3.panel-title
-            a(href="account/settings#picture") Picture
-        .panel-body.text-center
-          img#picture(src="#{me.getPhotoURL(150)}" alt="")
-      .panel.panel-default
-        .panel-heading
-          i.glyphicon.glyphicon-user.pull-left
-          h3.panel-title
-            a(href="account/settings#wizard") Wizard
-        //.panel-body
-          | Lorem Ipsum
-      .panel.panel-default
-        .panel-heading
-          i.glyphicon.glyphicon-envelope.pull-left
-          h3.panel-title
-            a(href="account/settings#emails") Emails
-        .panel-body
-          .form
-            .form-group.checkbox
-              label.control-label(for="email_archmageNews")
-                span General
-              input#email_archmageNews(name="email_archmageNews", type="checkbox", checked=subs.generalNews, disabled="true")
-            .form-group.checkbox
-              label.control-label(for="email_archmageNews")
-                span.spr(data-i18n="classes.archmage_title")
-                  | Archmage
-                span(data-i18n="classes.archmage_title_description")
-                  | (Coder)
-              input#email_archmageNews(name="email_archmageNews", type="checkbox", checked=subs.archmageNews, disabled="true")
-            .form-group.checkbox
-              label.control-label(for="email_artisanNews")
-                span.spr(data-i18n="classes.artisan_title")
-                  | Artisan
-                span(data-i18n="classes.artisan_title_description")
-                  | (Level Builder)
-              input#email_artisanNews(name="email_artisanNews", type="checkbox", checked=subs.artisanNews, disabled="true")
-            .form-group.checkbox
-              label.control-label(for="email_adventurerNews")
-                span.spr(data-i18n="classes.adventurer_title")
-                  | Adventurer
-                span(data-i18n="classes.adventurer_title_description")
-                  | (Level Playtester)
-              input#email_adventurerNews(name="email_adventurerNews", type="checkbox", checked=subs.adventurerNews, disabled="true")
-            .form-group.checkbox
-              label.control-label(for="email_scribeNews")
-                span.spr(data-i18n="classes.scribe_title")
-                  | Scribe
-                span(data-i18n="classes.scribe_title_description")
-                  | (Article Editor)
-              input#email_scribeNews(name="email_scribeNews", type="checkbox", checked=subs.scribeNews, disabled="true")
-            .form-group.checkbox
-              label.control-label(for="email_diplomatNews")
-                span.spr(data-i18n="classes.diplomat_title")
-                  | Diplomat
-                span(data-i18n="classes.diplomat_title_description")
-                  | (Translator)
-              input#email_diplomatNews(name="email_diplomatNews", type="checkbox", checked=subs.diplomatNews, disabled="true")
-            .form-group.checkbox
-              label.control-label(for="email_ambassadorNews")
-                span.spr(data-i18n="classes.ambassador_title")
-                  | Ambassador
-                span(data-i18n="classes.ambassador_title_description")
-                  | (Support)
-              input#email_ambassadorNews(name="email_ambassadorNews", type="checkbox", checked=subs.ambassadorNews, disabled="true")
-
-      .panel.panel-default
-        .panel-heading
-          i.glyphicon.glyphicon-wrench.pull-left
-          h3.panel-title
-            a(href="account/settings#password") Password
-      .panel.panel-default
-        .panel-heading
-          i.glyphicon.glyphicon-briefcase.pull-left
-          h3.panel-title
-            a(href="account/settings#job-profile") Job Profile
-    .col-sm-6
-      h2 Recently Played
-      hr
-      if !recentlyPlayed
-        div Loading...
-      else if recentlyPlayed.length
-        table.table
-          tr
-            th Level
-            th Last Played
-            th Status
-          each session in recentlyPlayed
-            if session.get('levelName')
-              tr
-                td
-                  - var posturl = ''
-                  - if (session.get('team')) posturl = '?team=' + session.get('team')
-                  a(href="/play/level/#{session.get('levelID') + posturl}")= session.get('levelName') + (session.get('team') ? ' (' + session.get('team') + ')' : '')
-                td= moment(session.get('changed')).fromNow()
-                if session.get('state').complete === true
-                  td Completed
-                else if ! session.isMultiplayer()
-                  td Unfinished
-                else
-                  td
-
-      else
-        .panel.panel-default
+  if !me.isAnonymous()
+    .clearfix
+      .col-sm-6.clearfix
+        h2 Account Settings
+          a.spl(href="settings")
+            i.glyphicon.glyphicon-cog
+        hr
+        .row
+          .col-xs-6
+            .panel.panel-default
+              .panel-heading
+                h3.panel-title
+                  i.glyphicon.glyphicon-picture
+                  a(href="account/settings#picture") Picture
+              .panel-body.text-center
+                img#picture(src="#{me.getPhotoURL(150)}" alt="")
+          .col-xs-6
+            .panel.panel-default
+              .panel-heading
+                h3.panel-title
+                  i.glyphicon.glyphicon-user
+                  a(href="account/settings#wizard") Wizard
+              if (wizardSource)
+              .panel-body.text-center
+                img(src="#{wizardSource}")
+        .panel.panel-default.panel-me
+          .panel-heading
+            h3.panel-title
+              i.glyphicon.glyphicon-user
+              a(href="account/settings#me") Me
           .panel-body
-            div No games played during the past two weeks.
+            table
+              tr
+                th Name
+                td=me.get('name') || 'Anoner'
+              tr
+                th Email
+                td=me.get('email')
+        .panel.panel-default.panel-emails
+          .panel-heading
+            h3.panel-title
+              i.glyphicon.glyphicon-envelope
+              a(href="account/settings#emails") Emails
+          .panel-body
+            if !hasEmailNotes && !hasEmailNews
+              p No email subscriptions.
+            if hasEmailNotes
+              h4 Notifications
+              ul
+                if subs.anyNotes
+                  li(data-i18n="account_settings.email_any_notes") Any Notifications
+                if subs.recruitNotes
+                  li(data-i18n="account_settings.email_recruit_notes") Job Opportunities
+            if hasEmailNews
+              h4 News
+              ul
+                if (subs.generalNews)
+                  li(data-i18n="account_settings.email_announcements") General
+                if (subs.archmageNews)
+                  li
+                    span(data-i18n="classes.archmage_title")
+                      | Archmage
+                    span(data-i18n="classes.archmage_title_description")
+                      | (Coder)
+                if (subs.artisanNews)
+                  li
+                    span.spr(data-i18n="classes.artisan_title")
+                      | Artisan
+                    span(data-i18n="classes.artisan_title_description")
+                      | (Level Builder)
+                if (subs.adventurerNews)
+                  li
+                    span.spr(data-i18n="classes.adventurer_title")
+                      | Adventurer
+                    span(data-i18n="classes.adventurer_title_description")
+                      | (Level Playtester)
+                if (subs.scribeNews)
+                  li
+                    span.spr(data-i18n="classes.scribe_title")
+                      | Scribe
+                    span(data-i18n="classes.scribe_title_description")
+                      | (Article Editor)
+                if (subs.diplomatNews)
+                  li
+                    span.spr(data-i18n="classes.diplomat_title")
+                      | Diplomat
+                    span(data-i18n="classes.diplomat_title_description")
+                      | (Translator)
+                if (subs.ambassadorNews)
+                  li
+                    span.spr(data-i18n="classes.ambassador_title")
+                      | Ambassador
+                    span(data-i18n="classes.ambassador_title_description")
+                      | (Support)
 
-//block content
-  h2 Account
-  .col-sm-3.text-center
-    img#avatar(src="#{me.getPhotoURL(100)}")
-    h3=me.get('name') || 'Anoner'
-  .col-sm-6
-    dl.dl-horizontal
-      if me.get('firstName') || me.get('lastName')
-        dt Full name
-        dd=me.get('firstName') || '' + ' ' + me.get('lastName') || ''
-      dt Email
-      dd
-        span.spr=me.get('email')
-        //span (subscriptions)
-      hr
-      - var dateCreated = me.get('dateCreated');
-      - var signedCLA = me.get('signedCLA');
-      - console.log(moment)
-      dt Member since
-      dd= moment(dateCreated).format('MMMM Do YYYY')
-      if signedCLA
-        dt Signed CLA
-        dd= moment(signedCLA).format('MMMM Do YYYY')
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title
+              i.glyphicon.glyphicon-wrench
+              a(href="account/settings#password") Password
+        .panel.panel-default
+          .panel-heading
+            h3.panel-title
+              i.glyphicon.glyphicon-briefcase
+              a(href="account/settings#job-profile") Job Profile
+      .col-sm-6
+        h2 Recently Played
+        hr
+        if !recentlyPlayed
+          div Loading...
+        else if recentlyPlayed.length
+          table.table
+            tr
+              th Level
+              th Last Played
+              th Status
+            each session in recentlyPlayed
+              if session.get('levelName')
+                tr
+                  td
+                    - var posturl = ''
+                    - if (session.get('team')) posturl = '?team=' + session.get('team')
+                    a(href="/play/level/#{session.get('levelID') + posturl}")= session.get('levelName') + (session.get('team') ? ' (' + session.get('team') + ')' : '')
+                  td= moment(session.get('changed')).fromNow()
+                  if session.get('state').complete === true
+                    td Completed
+                  else if ! session.isMultiplayer()
+                    td Unfinished
+                  else
+                    td
 
-      // TODO Have social network icons here for easy linking
-
-  .col-sm-3
-    h3 Account
-    ul
-      li
-        a Settings
-      li
-        a Payment
-    h3 Public
-    ul
-      li
-        a Public profile
-      li
-        a Job Profile
-      li
-        a Statistics
-      li
-        a Code
-
-
+        else
+          .panel.panel-default
+            .panel-body
+              div No games played during the past two weeks.

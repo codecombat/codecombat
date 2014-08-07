@@ -6,14 +6,8 @@ block content
     if user && viewName
       ol.breadcrumb
         li
-          a(href="/user/#{user.id}") #{user.displayName()}
+          a(href="/user/#{user.getSlugOrID()}") #{user.displayName()}
         li.active
           | #{viewName}
-    if !userLoaded
+    if !user || user.loading
       | LOADING
-    else if !user
-      // TODO Ruben make this all fancy as soon as we can query users by name
-      | User not found.
-
-
-

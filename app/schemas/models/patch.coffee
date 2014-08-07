@@ -21,8 +21,8 @@ PatchSchema = c.object({title: 'Patch', required: ['target', 'delta', 'commitMes
         minor: {type: 'number', minimum: 0}
   })
 
-  _wasPending: type: 'boolean'
-  _newlyAccepted: type: 'boolean'
+  wasPending: type: 'boolean'
+  newlyAccepted: type: 'boolean'
 })
 
 c.extendBasicProperties(PatchSchema, 'patch')

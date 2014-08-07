@@ -57,12 +57,12 @@ PatchSchema.methods.isMiscPatch = ->
 
 # Keep track of when a patch is pending and newly approved.
 PatchSchema.path('status').set (newVal) ->
-  @set '_wasPending', @status is 'pending' and newVal isnt 'pending'
-  @set '_newlyAccepted', newVal is 'accepted' and not @get('_newlyAccepted') # Only true on the first accept
+  @set 'wasPending', @status is 'pending' and newVal isnt 'pending'
+  @set 'newlyAccepted', newVal is 'accepted' and not @get('newlyAccepted') # Only true on the first accept
   newVal
 
-PatchSchema.methods.isNewlyAccepted = -> @get('_newlyAccepted')
-PatchSchema.methods.wasPending = -> @get '_wasPending'
+PatchSchema.methods.isNewlyAccepted = -> @get('newlyAccepted')
+PatchSchema.methods.wasPending = -> @get 'wasPending'
 
 PatchSchema.pre 'save', (next) ->
   User = require '../users/User'

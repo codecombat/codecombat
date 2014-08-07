@@ -29,7 +29,6 @@ class EarnedAchievementHandler extends Handler
       achievementIDs = (thing for thing in callbackOrSlugsOrIDs when Handler.isID(thing))
     else # just a callback
       callback = callbackOrSlugsOrIDs
-    callback = if callback then callback else -> # Make a dummy just for ease of coding
     onFinished = -> callback arguments...
 
     filter = {}
@@ -40,13 +39,13 @@ class EarnedAchievementHandler extends Handler
 
     # Fetch all relevant achievements
     Achievement.find filter, (err, achievements) ->
-      callback err if err?
-      callback new Error 'No achievements to recalculate' unless achievements.length
+      callback?(err) if err?
+      callback?(new Error 'No achievements to recalculate') unless achievements.length
       log.info "Recalculating a total of #{achievements.length} achievements..."
 
       # Fetch every single user
       User.find {}, (err, users) ->
-        callback err if err?
+        callback?(err) if err?
         log.info "for a total of #{users.length} users."
 
         async.each users, ((user, doneWithUser) ->

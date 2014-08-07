@@ -42,50 +42,12 @@ module.exports = class User extends CocoModel
       return "/file/#{photoURL}#{prefix}s=#{size}"
     return "/db/user/#{@id}/avatar?s=#{size}&employerPageAvatar=#{useEmployerPageAvatar}"
 
-  # Callbacks can be either 'success' or 'error'
-  @getByID = (id, properties, force, callbacks={}) ->
-    {me} = require 'lib/auth'
-    if me.id is id
-      callbacks.success me if callbacks.success?
-      return me
-    user = cache[id] or new module.exports({_id: id})
-    if force or not cache[id]
-      user.loading = true
-      user.fetch(
-        success: ->
-          user.loading = false
-          Backbone.Mediator.publish('user:fetched')
-          callbacks.success arguments... if callbacks.success?
-        error: -> callbacks.error arguments... if callbacks.error?
-      )
-    cache[id] = user
-    user
+  getSlugOrID: -> @get('slug') or @get('_id')
+
   set: ->
     if arguments[0] is 'jobProfileApproved' and @get("jobProfileApproved") is false and not @get("jobProfileApprovedDate")
       @set "jobProfileApprovedDate", (new Date()).toISOString()
     super arguments...
-
-  # callbacks can be either success or error
-  @getByIDOrSlug: (idOrSlug, force, callbacks={}) ->
-    {me} = require 'lib/auth'
-    isID = util.isID idOrSlug
-    if me.id is idOrSlug or me.slug is idOrSlug
-      callbacks.success me if callbacks.success?
-      return me
-    cached = cache[idOrSlug]
-    user = cached or new @ _id: idOrSlug
-    if force or not cached
-      user.loading = true
-      user.fetch
-        success: ->
-          user.loading = false
-          Backbone.Mediator.publish 'user:fetched'
-          callbacks.success user if callbacks.success?
-        error: ->
-          user.loading = false
-          callbacks.error user if callbacks.error?
-    cache[idOrSlug] = user
-    user
 
   @getUnconflictedName: (name, done) ->
     $.ajax "/auth/name/#{name}",

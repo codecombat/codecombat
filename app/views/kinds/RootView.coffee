@@ -47,13 +47,13 @@ module.exports = class RootView extends CocoView
       achievedExp = achievement.get 'worth'
     previousExp = currentExp - achievedExp
     leveledUp = currentExp - achievedExp < currentLevelExp
-    console.debug 'Leveled up' if leveledUp
+    #console.debug 'Leveled up' if leveledUp
     alreadyAchievedPercentage = 100 * (previousExp - currentLevelExp) / totalExpNeeded
     alreadyAchievedPercentage = 0 if alreadyAchievedPercentage < 0 # In case of level up
     newlyAchievedPercentage = if leveledUp then 100 * (currentExp - currentLevelExp) / totalExpNeeded else  100 * achievedExp / totalExpNeeded
 
-    console.debug "Current level is #{currentLevel} (#{currentLevelExp} xp), next level is #{nextLevel} (#{nextLevelExp} xp)."
-    console.debug "Need a total of #{nextLevelExp - currentLevelExp}, already had #{previousExp} and just now earned #{achievedExp} totalling on #{currentExp}"
+    #console.debug "Current level is #{currentLevel} (#{currentLevelExp} xp), next level is #{nextLevel} (#{nextLevelExp} xp)."
+    #console.debug "Need a total of #{nextLevelExp - currentLevelExp}, already had #{previousExp} and just now earned #{achievedExp} totalling on #{currentExp}"
 
     alreadyAchievedBar = $("<div class='progress-bar exp-bar-accumulated' style='width:#{alreadyAchievedPercentage}%'></div>")
     newlyAchievedBar = $("<div data-toggle='tooltip' class='progress-bar exp-bar-new' style='width:#{newlyAchievedPercentage}%'></div>")
@@ -79,7 +79,6 @@ module.exports = class RootView extends CocoView
 
   showNewAchievement: (achievement, earnedAchievement) ->
     data = @createNotifyData achievement, earnedAchievement
-    console.debug data
     options =
       autoHideDelay: 5000
       elementPosition: 'top left'
@@ -89,7 +88,6 @@ module.exports = class RootView extends CocoView
       autoHide: false
       clickToHide: true
 
-    console.debug 'showing achievement', achievement.get 'name'
     unless @timeout?
       $.notify data, options
       @timeout = 2000
