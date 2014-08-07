@@ -1,4 +1,4 @@
-ProfileView = require 'views/account/profile_view'
+JobProfileView = require 'views/account/JobProfileView'
 
 responses =
   '/db/user/joe/nameToID':'512ef4805a67a8c507000001'
@@ -564,7 +564,7 @@ responses =
 module.exports = ->
   me.isAdmin = -> false
   me.set('permissions', ['employer'])
-  v = new ProfileView({}, 'joe')
+  v = new JobProfileView({}, 'joe')
   for url, responseBody of responses
     requests = jasmine.Ajax.requests.filter(url)
     if not requests.length

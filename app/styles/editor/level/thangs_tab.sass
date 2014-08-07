@@ -110,6 +110,12 @@ $mobile: 1050px
         .treema-node.treema-Wall
           display: block
 
+      &.hide-except-Item
+        .treema-node
+          display: none
+        .treema-node.treema-Item
+          display: block
+
       &.hide-except-Misc
         .treema-node
           display: none
@@ -151,6 +157,8 @@ $mobile: 1050px
     input
       width: $addPaletteWidth
       margin: 0
+      margin-top: 5px
+      padding-left: 5px
       @media screen and (max-width: $mobile)
         margin: 0 5px
 
@@ -208,6 +216,22 @@ $mobile: 1050px
     #canvas-wrapper
       width: 100%
       position: relative
+
+      #canvas-overlay
+        display: none
+        position: absolute
+        width: 100%
+        height: 100%
+        background: white
+        opacity: 0.5
+        text-align: center
+
+        #randomize-button
+          position: absolute
+          top: 45%
+          height: 40px
+
+
   
     // Below snatched from play/level.sass; should refactor?
   

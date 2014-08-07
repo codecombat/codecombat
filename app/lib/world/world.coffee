@@ -240,7 +240,7 @@ module.exports = class World
   calculateBounds: ->
     bounds = {left: 0, top: 0, right: 0, bottom: 0}
     hasLand = _.some @thangs, 'isLand'
-    for thang in @thangs when thang.isLand or not hasLand  # Look at Lands only
+    for thang in @thangs when thang.isLand or (not hasLand and thang.rectangle)  # Look at Lands only
       rect = thang.rectangle().axisAlignedBoundingBox()
       bounds.left = Math.min(bounds.left, rect.x - rect.width / 2)
       bounds.right = Math.max(bounds.right, rect.x + rect.width / 2)

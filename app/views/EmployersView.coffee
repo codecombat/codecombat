@@ -1,11 +1,10 @@
 RootView = require 'views/kinds/RootView'
 template = require 'templates/employers'
-app = require 'application'
 User = require 'models/User'
 UserRemark = require 'models/UserRemark'
 {me} = require 'lib/auth'
 CocoCollection = require 'collections/CocoCollection'
-EmployerSignupView = require 'views/modal/employer_signup_modal'
+EmployerSignupModal = require 'views/modal/EmployerSignupModal'
 
 class CandidatesCollection extends CocoCollection
   url: '/db/user/x/candidates'
@@ -75,7 +74,7 @@ module.exports = class EmployersView extends RootView
     @applyFilters()
 
   openSignupModal: ->
-    @openModalView new EmployerSignupView
+    @openModalView new EmployerSignupModal
   handleSelectAllChange: (e) ->
     checkedState = e.currentTarget.checked
     $('#filters :input').each ->
@@ -222,7 +221,7 @@ module.exports = class EmployersView extends RootView
 
   checkForEmployerSignupHash: =>
     if window.location.hash is '#employerSignupLoggingIn' and not ('employer' in me.get('permissions')) and not me.isAdmin()
-      @openModalView application.router.getView('modal/employer_signup', '_modal')
+      @openModalView new EmployerSignupModal
       window.location.hash = ''
 
   sortTable: ->
@@ -356,4 +355,4 @@ module.exports = class EmployersView extends RootView
       url = "/account/profile/#{id}"
       window.open url, '_blank'
     else
-      @openModalView new EmployerSignupView
+      @openModalView new EmployerSignupModal

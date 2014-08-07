@@ -158,6 +158,18 @@ UserSchema.statics.hashPassword = (password) ->
   shasum.update(salt + password)
   shasum.digest('hex')
 
+UserSchema.statics.privateProperties = [
+  'permissions', 'email', 'firstName', 'lastName', 'gender', 'facebookID',
+  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement'
+]
+UserSchema.statics.jsonSchema = jsonschema
+UserSchema.statics.editableProperties = [
+  'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
+  'firstName', 'lastName', 'gender', 'facebookID', 'gplusID', 'emails',
+  'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
+  'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts'
+]
+
 UserSchema.plugin plugins.NamedPlugin
 
 module.exports = User = mongoose.model('User', UserSchema)

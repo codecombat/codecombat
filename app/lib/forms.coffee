@@ -11,6 +11,7 @@ module.exports.formToObject = (el) ->
 
 module.exports.applyErrorsToForm = (el, errors, warning=false) ->
   errors = [errors] if not $.isArray(errors)
+  missingErrors = []
   for error in errors
     if error.dataPath
       prop = error.dataPath[1..]
@@ -23,8 +24,10 @@ module.exports.applyErrorsToForm = (el, errors, warning=false) ->
       message = error.message if error.formatted
       prop = error.property
 
-    setErrorToProperty el, prop, message, warning
+    missingErrors.push error unless setErrorToProperty el, prop, message, warning
+  missingErrors
 
+# Returns the jQuery form group element in case of success, otherwise undefined
 module.exports.setErrorToField = setErrorToField = (el, message, warning=false) ->
   formGroup = el.closest('.form-group')
   unless formGroup.length

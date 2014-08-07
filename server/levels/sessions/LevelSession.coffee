@@ -24,4 +24,10 @@ LevelSessionSchema.pre 'save', (next) ->
   @set('changed', new Date())
   next()
 
+LevelSessionSchema.statics.privateProperties = ['code', 'submittedCode', 'unsubscribed']
+LevelSessionSchema.statics.editableProperties = ['multiplayer', 'players', 'code', 'codeLanguage', 'completed', 'state',
+                                                 'levelName', 'creatorName', 'levelID', 'screenshot',
+                                                 'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage', 'unsubscribed', 'playtime']
+LevelSessionSchema.statics.jsonSchema = jsonschema
+
 module.exports = LevelSession = mongoose.model('level.session', LevelSessionSchema)

@@ -5,11 +5,12 @@ block modal-header-content
 
 block modal-body-content
   div#normal-view
-    a(href="#")
-        div.choose-option(data-preset-type="grassy", data-preset-size="small")
-          div.preset-size.name-label
-            span(data-i18n="editor.small") Small
-          div.preset-name
-            span(data-i18n="editor.grassy") Grassy
-    //- for model in models
+    each sizeObject, size in presetSizes
+      each preset in presets 
+        a(href="#")
+          div.choose-option(data-preset-type=preset.type, data-preset-size=size, style="background:url(/images/pages/editor/level/preset_"+preset.type+"_"+size+".jpg) no-repeat center; background-size: cover")
+            div.preset-size.name-label.capitalize
+              span(data-i18n="editor."+size)  #{size}
+            div.preset-name.capitalize
+              span(data-i18n="editor."+preset.type) #{preset.type}
 block modal-footer

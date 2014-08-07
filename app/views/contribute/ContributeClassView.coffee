@@ -1,4 +1,4 @@
-SignupModalView = require 'views/modal/signup_modal'
+SignupModalView = require 'views/modal/SignupModal'
 RootView = require 'views/kinds/RootView'
 {me} = require 'lib/auth'
 contributorSignupAnonymousTemplate = require 'templates/contribute/contributor_signup_anonymous'
