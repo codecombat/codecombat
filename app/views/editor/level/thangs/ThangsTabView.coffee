@@ -157,6 +157,8 @@ module.exports = class ThangsTabView extends CocoView
     thangsHeaderHeight = $('#thangs-header').height()
     oldHeight = $('#thangs-list').height()
     $('#thangs-list').height(oldHeight - thangsHeaderHeight)
+    if data.thangs.length
+      @$el.find('#randomize-button').hide()    
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
@@ -235,7 +237,6 @@ module.exports = class ThangsTabView extends CocoView
       @addThang @addThangType, thang.pos, true
     @batchInsert()
     @selectAddThangType null
-    @$el.find('#canvas-overlay').css('display', 'none')
 
 
   # TODO: figure out a good way to have all Surface clicks and Treema clicks just proxy in one direction, so we can maintain only one way of handling selection and deletion
@@ -410,6 +411,7 @@ module.exports = class ThangsTabView extends CocoView
     @thangsBatch = []
 
   addThang: (thangType, pos, batchInsert=false) ->
+    @$el.find('#randomize-button').hide()
     if batchInsert
       thangID = "Random #{thangType.get('name')} #{@thangsBatch.length}"
     else
