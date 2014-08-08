@@ -29,7 +29,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     day: "день"
     days: "дня"
     week: "неделя"
-    weeks: "недел(ь)и"
+    weeks: "недели(ь)"
     month: "месяц"
     months: "месяца"
     year: "год"
@@ -446,7 +446,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_impossible: "Это всегда кажется невозможным, пока не сделано. - Nelson Mandela"
     tip_talk_is_cheap: "Слова ничего не стоят. Покажи мне код. - Linus Torvalds"
     tip_first_language: "Наиболее катастрофическая вещь, которую вы можете выучить - ваш первый язык программирования. - Alan Kay"
-    tip_hardware_problem: "В: Сколько программистов нужно, чтобы вкрутить лампочку? О: Нисколько, это проблемы с железом.
+    tip_hardware_problem: "В: Сколько программистов нужно, чтобы вкрутить лампочку? О: Нисколько, это проблемы с железом."
     time_current: "Текущее:"
     time_total: "Максимальное:"
     time_goto: "Перейти на:"
