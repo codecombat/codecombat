@@ -170,6 +170,7 @@ module.exports = class SuperModel extends Backbone.Model
     @num += r.value
     _.defer @updateProgress
     r.clean()
+    @trigger 'resource-loaded', r
 
   onResourceFailed: (r) ->
     return unless @resources[r.rid]

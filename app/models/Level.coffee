@@ -32,6 +32,7 @@ module.exports = class Level extends CocoModel
     o
 
   denormalizeThang: (levelThang, supermodel) ->
+    levelThang.components ?= []
     thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
     configs = {}
     for thangComponent in levelThang.components

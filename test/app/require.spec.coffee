@@ -1,6 +1,6 @@
 describe 'require', ->
   it 'has no modules that error when you import them', ->
-    modules = window.require.list()
+    modules = window.require.list();
     for module in modules
       try
         require(module)
