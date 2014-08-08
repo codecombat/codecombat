@@ -805,7 +805,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     no_ranked_matches_pre: "Нет оценённых матчей для команды"
     no_ranked_matches_post: "! Сыграйте против нескольких противников и возвращайтесь сюда для оценки вашей игры."
     choose_opponent: "Выберите противника"
-   select_your_language: "Select your language!"
+    select_your_language: "Select your language!"
     tutorial_play: "Пройти обучение"
     tutorial_recommended: "Рекомендуется, если вы раньше никогда не играли"
     tutorial_skip: "Пропустить обучение"
