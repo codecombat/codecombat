@@ -76,7 +76,9 @@ module.exports = class ThangComponentEditView extends CocoView
       @addComponentsTreema = @$el.find('#add-component-column .treema').treema treemaOptions
       @addComponentsTreema.build()
       @$el.find('#add-component-column .treema-node').draggable({
-        revert: true 
+        revert: 'invalid' 
+        helper: 'clone'
+        appendTo: 'body'
         start: (e) ->
           # Hack to ensure dragged treema node is selected
           $(@).trigger('click') unless $(@).hasClass 'treema-selected'
@@ -191,8 +193,9 @@ module.exports = class ThangComponentEditView extends CocoView
     # reselect newly added child treema in the extantComponentsTreema
     for index, treema of @extantComponentsTreema.childrenTreemas
       if treema.component.id is id
-        treema.select()
-        @onSelectExtantComponent({}, [treema])
+        _.defer =>
+          treema.select()
+          @onSelectExtantComponent({}, [treema])
         return
 
   onAddComponentDoubleClicked: (e, treema) =>
@@ -260,7 +263,7 @@ class ComponentArrayNode extends TreemaArrayNode
 
 class ComponentNode extends TreemaObjectNode
   valueClass: 'treema-component'
-  addButtonTemplate: '<button type="button" class="add-button btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>'
+  addButtonTemplate: '<button type="button" class="add-button btn btn-default btn-xs"><span class="glyphicon glyphicon-plus"></span></button>'
   collection: false
 
   build: ->
