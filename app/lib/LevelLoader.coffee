@@ -183,7 +183,7 @@ module.exports = class LevelLoader extends CocoClass
 
   onWorldNecessityLoaded: (resource) ->
     index = @worldNecessities.indexOf(resource)
-    if @level.get('type') is 'hero' and resource.name is 'thang'
+    if (@level.loading or (@level.get('type') is 'hero')) and resource.name is 'thang'
       @loadDefaultComponentsForThangType(resource.model)
       @loadEquippedItemsInheritedFromThangType(resource.model)
       
