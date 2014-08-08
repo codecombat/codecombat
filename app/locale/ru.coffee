@@ -27,13 +27,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     hour: "час"
     hours: "часа(ов)"
     day: "день"
-   days: "дня"
+    days: "дня"
     week: "неделя"
-   weeks: "недел(ь)и"
+    weeks: "недел(ь)и"
     month: "месяц"
-   months: "месяца"
+    months: "месяца"
     year: "год"
-   years: "лет"
+    years: "лет"
    # Также может быть 2 года, но я не не уверен, могу ли я правильно скормить это вашему парсеру...
    # It also can be "2 года - 2 goda", but I do not know, can I feed it to your parser correctly...
 
