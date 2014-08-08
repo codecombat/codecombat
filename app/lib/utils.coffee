@@ -118,3 +118,15 @@ module.exports.grayscale = (imageData) ->
     v = 0.2126*r + 0.7152*g + 0.0722*b
     d[i] = d[i+1] = d[i+2] = v
   imageData
+
+# Deep compares l with r, with the exception that undefined values are considered equal to missing values
+# Very practical for comparing Mongoose documents where undefined is not allowed, instead fields get deleted
+module.exports.kindaEqual = compare = (l, r) ->
+  if _.isObject(l) and _.isObject(r)
+    for key in _.union Object.keys(l), Object.keys(r)
+      return false unless compare l[key], r[key]
+    return true
+  else if l is r
+    return true
+  else
+    return false
