@@ -6,8 +6,8 @@ block modal-body-content
   .tabbable.tabs-left
     - var submenus = ["inventory", "choose-hero", "save-load", "options", "guide", "multiplayer"]
     ul.nav.nav-tabs
-      for submenu in submenus
-        li
+      for submenu, index in submenus
+        li(class=index ? "" : "active")
           a(href='#' + submenu + '-view', data-toggle='tab')
             h2(data-i18n='game_menu.' + submenu.replace('-', '_') + '_tab')
             em(data-i18n='game_menu.' + submenu.replace('-', '_') + '_caption')

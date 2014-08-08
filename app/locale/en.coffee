@@ -467,6 +467,10 @@
     guide_caption: "Docs and tips"
     multiplayer_caption: "Play with friends!"
 
+  save_load:
+    granularity_saved_games: "Saved"
+    granularity_change_history: "History"
+
   keyboard_shortcuts:
     keyboard_shortcuts: "Keyboard Shortcuts"
     space: "Space"
