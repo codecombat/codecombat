@@ -38,9 +38,9 @@ AchievablePlugin = (schema, options) ->
         isRepeatable = achievement.get('proportionalTo')?
         alreadyAchieved = if isNew then false else LocalMongo.matchesQuery originalDocObj, query
         newlyAchieved = LocalMongo.matchesQuery(docObj, query)
-        log.debug 'isRepeatable: ' + isRepeatable
-        log.debug 'alreadyAchieved: ' +  alreadyAchieved
-        log.debug 'newlyAchieved: ' + newlyAchieved
+        #log.debug 'isRepeatable: ' + isRepeatable
+        #log.debug 'alreadyAchieved: ' +  alreadyAchieved
+        #log.debug 'newlyAchieved: ' + newlyAchieved
 
         userObjectID = doc.get(achievement.get('userField'))
         userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's
@@ -59,7 +59,7 @@ AchievablePlugin = (schema, options) ->
               log.error err if err?
 
           if isRepeatable
-            log.debug 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
+            #log.debug 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
             proportionalTo = achievement.get 'proportionalTo'
             originalAmount = if originalDocObj then util.getByPath(originalDocObj, proportionalTo) or 0 else 0
             newAmount = docObj[proportionalTo]
@@ -74,11 +74,11 @@ AchievablePlugin = (schema, options) ->
                 return log.debug err if err?
 
               earnedPoints = earned.earnedPoints
-              log.debug earnedPoints
+              #log.debug earnedPoints
               wrapUp()
 
           else # not alreadyAchieved
-            log.debug 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
+            #log.debug 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
             earned.earnedPoints = worth
             (new EarnedAchievement(earned)).save (err, doc) ->
               return log.error err if err?

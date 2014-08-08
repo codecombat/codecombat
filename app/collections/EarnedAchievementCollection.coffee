@@ -6,3 +6,4 @@ module.exports = class EarnedAchievementCollection extends CocoCollection
 
   initialize: (userID) ->
     @url = "/db/user/#{userID}/achievements"
+    super()

@@ -34,7 +34,6 @@ module.exports = class NewModelModal extends ModalView
     model
 
   onModelSubmitted: (e) ->
-    console.debug 'on model submitted'
     e.preventDefault()
     model = @makeNewModel()
     res = model.save()

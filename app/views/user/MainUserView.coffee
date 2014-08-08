@@ -22,7 +22,6 @@ module.exports = class MainUserView extends UserView
   getRenderData: ->
     context = super()
     if @levelSessions and @levelSessions.loaded
-      console.debug 'yep sessions loaded'
       singlePlayerSessions = []
       multiPlayerSessions = []
       languageCounts = {}
@@ -42,18 +41,14 @@ module.exports = class MainUserView extends UserView
       context.multiPlayerSessions = multiPlayerSessions
       context.favoriteLanguage = favoriteLanguage
     if @earnedAchievements and @earnedAchievements.loaded
-      console.debug 'earned achievements loaded'
       context.earnedAchievements = @earnedAchievements
     context
 
   onLoaded: ->
-    console.debug @earnedAchievements
-    console.debug @earnedAchievements?.loaded
-    if @user.loaded and not @earnedAchievements
+    if @user.loaded and not (@earnedAchievements or @levelSessions)
       @supermodel.resetProgress()
-      #@levelSessions = new LevelSessionsCollection @user.getSlugOrID()
+      @levelSessions = new LevelSessionsCollection @user.getSlugOrID()
       @earnedAchievements = new EarnedAchievementCollection @user.getSlugOrID()
-      #@supermodel.loadCollection @levelSessions, 'levelSessions'
+      @supermodel.loadCollection @levelSessions, 'levelSessions'
       @supermodel.loadCollection @earnedAchievements, 'earnedAchievements'
-
     super()

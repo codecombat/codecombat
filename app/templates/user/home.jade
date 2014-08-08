@@ -124,7 +124,7 @@ block append content
               each achievement in earnedAchievements.models
                 tr
                   td= achievement.get('achievementName')
-                  td= moment().format("MMMM Do YY", achievement.get('changed'))
+                  td= moment().format("MMMM Do YYYY", achievement.get('changed'))
                   if achievement.get('achievedAmount')
                     td= achievement.get('achievedAmount')
                   else
