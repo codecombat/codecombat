@@ -249,7 +249,7 @@ module.exports = class CocoView extends Backbone.View
 
   insertSubView: (view, elToReplace=null) ->
     key = view.id or (view.constructor.name+classCount++)
-    key = _.string.underscored(key)
+    key = _.string.underscored(key)  # handy for autocomplete in dev console
     @subviews[key].destroy() if key of @subviews
     elToReplace ?= @$el.find('#'+view.id)
     elToReplace.after(view.el).remove()

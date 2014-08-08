@@ -353,6 +353,7 @@
     grid: "Grid"
     customize_wizard: "Customize Wizard"
     home: "Home"
+    game_menu: "Game Menu"
     guide: "Guide"
     multiplayer: "Multiplayer"
     restart: "Restart"
@@ -451,6 +452,20 @@
     infinite_loop_try_again: "Try Again"
     infinite_loop_reset_level: "Reset Level"
     infinite_loop_comment_out: "Comment Out My Code"
+
+  game_menu:
+    inventory_tab: "Inventory"
+    choose_hero_tab: "Restart Level"
+    save_load_tab: "Save/Load"
+    options_tab: "Options"
+    guide_tab: "Guide"
+    multiplayer_tab: "Multiplayer"
+    inventory_caption: "Equip your hero"
+    choose_hero_caption: "Choose hero, language"
+    save_load_caption: "... and view history"
+    options_caption: "Music and other settings"
+    guide_caption: "Docs and tips"
+    multiplayer_caption: "Play with friends!"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Keyboard Shortcuts"

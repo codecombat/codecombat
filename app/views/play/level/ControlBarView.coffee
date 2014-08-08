@@ -4,6 +4,7 @@ template = require 'templates/play/level/control_bar'
 LevelGuideModal = require './modal/LevelGuideModal'
 MultiplayerModal = require './modal/MultiplayerModal'
 ReloadLevelModal = require './modal/ReloadLevelModal'
+GameMenuModal = require 'views/game-menu/GameMenuModal'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -27,6 +28,9 @@ module.exports = class ControlBarView extends CocoView
 
     'click #next-game-button': ->
       Backbone.Mediator.publish 'next-game-pressed'
+
+    'click #game-menu-button': ->
+      @showGameMenuModal()
 
     'click': -> Backbone.Mediator.publish 'tome:focus-editor'
 
@@ -85,3 +89,6 @@ module.exports = class ControlBarView extends CocoView
 
   showRestartModal: ->
     @openModalView(new ReloadLevelModal())
+
+  showGameMenuModal: ->
+    @openModalView new GameMenuModal level: @level, session: @session
