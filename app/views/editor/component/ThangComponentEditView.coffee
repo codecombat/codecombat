@@ -76,7 +76,9 @@ module.exports = class ThangComponentEditView extends CocoView
       @addComponentsTreema = @$el.find('#add-component-column .treema').treema treemaOptions
       @addComponentsTreema.build()
       @$el.find('#add-component-column .treema-node').draggable({
-        revert: true 
+        revert: 'invalid' 
+        helper: 'clone'
+        appendTo: 'body'
         start: (e) ->
           # Hack to ensure dragged treema node is selected
           $(@).trigger('click') unless $(@).hasClass 'treema-selected'
