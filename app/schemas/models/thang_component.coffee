@@ -3,7 +3,7 @@ c = require './../schemas'
 module.exports = ThangComponentSchema = c.object {
   title: 'Component'
   description: 'Configuration for a Component that this Thang uses.'
-  format: 'thang-component'
+  format: 'component-reference'
   required: ['original', 'majorVersion']
   'default':
     majorVersion: 0

@@ -1,0 +1,124 @@
+extends /templates/base
+block header
+  if thangType.loading
+    nav.navbar.navbar-default(role='navigation')#thang-editor-top-nav
+      .container-fluid
+        ul.nav.navbar-nav
+          li
+            a(href="/editor/thang")
+              span.glyphicon-home.glyphicon
+  else
+    nav.navbar.navbar-default(role='navigation')#thang-editor-top-nav
+      ul.nav.navbar-nav
+        li
+          a(href="/editor/thang")
+            span.glyphicon-home.glyphicon
+      ul.nav.navbar-nav.nav-tabs
+        li.active
+          a(href="#editor-thang-main-tab-view", data-toggle="tab") Main
+        li
+          a(href="#editor-thang-components-tab-view", data-toggle="tab") Components
+        li
+          a(href="#editor-thang-spritesheets-view", data-toggle="tab") Spritesheets
+        li
+          a(href="#editor-thang-colors-tab-view", data-toggle="tab")#color-tab Colors
+        li
+          a(href="#editor-thang-patches-view", data-toggle="tab")#patches-tab
+            span(data-i18n="resources.patches").spr Patches
+            - var patches = thangType.get('patches')
+            if patches && patches.length
+              span.badge= patches.length
+
+      .navbar-header
+        span.navbar-brand #{thangType.attributes.name}
+
+      ul.nav.navbar-nav.navbar-right
+        if authorized
+          li#save-button
+            a
+              span.glyphicon-floppy-disk.glyphicon
+        li.dropdown
+          a(data-toggle='dropdown')
+            span.glyphicon-chevron-down.glyphicon
+          ul.dropdown-menu
+            li.dropdown-header Actions
+            li(class=anonymous ? "disabled": "")
+              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
+            li.divider
+            li.dropdown-header Info
+            li#history-button
+              a(href='#', data-i18n="general.version_history") Version History
+            li.divider
+            li.dropdown-header Help
+            li
+              a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', data-i18n="editor.wiki", target="_blank") Wiki
+            li
+              a(href='http://www.hipchat.com/g3plnOKqa', data-i18n="editor.live_chat", target="_blank") Live Chat
+            li
+              a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum", target="_blank") Forum
+            li
+              a(data-toggle="coco-modal", data-target="modal/ContactModal", data-i18n="nav.contact") Email
+
+block outer_content
+  .outer-content
+    div.tab-content
+      div.tab-pane#editor-thang-colors-tab-view
+      div.tab-pane#editor-thang-main-tab-view.active
+        div#settings-col.well
+          img#portrait.img-thumbnail
+          div.file-controls
+            button(disabled=authorized === true ? undefined : "true").btn.btn-small.btn-info#upload-button
+              span.glyphicon.glyphicon-upload
+              span.spl Upload Animation
+            button(disabled=authorized === true ? undefined : "true").btn.btn-small.btn-danger#clear-button
+              span.glyphicon.glyphicon-remove
+              span.spl Clear Data
+            input#real-upload-button(type="file")
+          div#thang-type-treema
+          .clearfix
+        div#display-col.well
+          canvas#canvas(width="400", height="400")
+          select#animations-select.form-control
+            for animation in animations
+              option #{animation}
+          div
+            button.btn.btn-small.btn-primary#marker-button
+              i.icon-map-marker
+              span.spl Markers
+            button.btn.btn-small.btn-primary#end-button
+              i.icon-stop
+              span.spl Stop
+          div.slider-cell
+            | Rotation:
+            span.rotation-label
+            .selector#rotation-slider
+          div.slider-cell
+            | Scale:
+            span.scale-label
+            .selector#scale-slider
+          div.slider-cell
+            | Resolution:
+            span.resolution-label  4.0x
+            .selector#resolution-slider
+          div.slider-cell
+            | Health:
+            span.health-label  10hp
+            .selector#health-slider
+
+      div.tab-pane#editor-thang-components-tab-view
+        #thang-components-edit-view
+      div.tab-pane#editor-thang-spritesheets-view
+        div#spritesheets
+      div.tab-pane#editor-thang-patches-view
+        div.patches-view
+    div#error-view
+    .clearfix
+block footer
+
+
+
+
+
+
+
+

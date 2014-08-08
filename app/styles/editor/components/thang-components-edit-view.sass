@@ -19,7 +19,7 @@
 
   #extant-components-column
     left: 0
-    width: 20%
+    width: 300px
     
     .treema
       position: absolute
@@ -28,27 +28,24 @@
       right: 10px
       bottom: 0
       overflow: scroll
+      
+      .dependent
+        background-color: rgba(128, 64, 255, 0.10)
         
-  #add-component-column
-    right: 0
-    width: 20%
-
-    .treema
-      position: absolute
-      top: 75px
-      left: 10px
-      right: 0px
-      bottom: 0
-      overflow: scroll
-
-      .treema-row 
-        line-height: 24px
-        .add-button
-          margin-left: 10px 
-        
-  #component-config-column-view
+  #thang-components-config-column
     border-left: 1px solid black
-    border-right: 1px solid black
-    right: 20%
-    left: 20%
+    right: 0
+    left: 300px
+    min-width: 600px
+
+    h3
+      margin-left: 20px
+
+    #thang-component-configs
+      position: absolute
+      top: 80px
+      bottom: 0
+      right: 0
+      left: 20px
+      overflow: scroll
     

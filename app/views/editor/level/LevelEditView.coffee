@@ -20,6 +20,7 @@ ComponentDocsView = require 'views/docs/ComponentDocumentationView'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
+  className: 'editor'
   template: template
   cache: false
 
