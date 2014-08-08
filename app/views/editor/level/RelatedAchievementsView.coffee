@@ -1,8 +1,8 @@
 CocoView = require 'views/kinds/CocoView'
-template = require 'templates/editor/related-achievements'
+template = require 'templates/editor/level/related-achievements'
 RelatedAchievementsCollection = require 'collections/RelatedAchievementsCollection'
 Achievement = require 'models/Achievement'
-NewModelModal = require 'views/modal/NewModelModal'
+NewAchievementModal = require './modals/NewAchievementModal'
 app = require 'application'
 
 module.exports = class RelatedAchievementsView extends CocoView
@@ -15,7 +15,8 @@ module.exports = class RelatedAchievementsView extends CocoView
 
   constructor: (options) ->
     super options
-    @relatedID = options.relatedID
+    @level = options.level
+    @relatedID = @level.id
     @achievements = new RelatedAchievementsCollection @relatedID
     console.debug @achievements
     @supermodel.loadCollection @achievements, 'achievements'
@@ -31,14 +32,10 @@ module.exports = class RelatedAchievementsView extends CocoView
     c.relatedID = @relatedID
     c
 
-  render: ->
-    console.debug 'rendering achievements'
-    super()
-
   onNewAchievementSaved: (achievement) ->
     app.router.navigate('/editor/achievement/' + (achievement.get('slug') or achievement.id), {trigger: true})
 
   makeNewAchievement: ->
-    modal = new NewModelModal model: Achievement, modelLabel: 'Achievement', properties: related: @relatedID
-    modal.once 'success', @onNewAchievementSaved
+    modal = new NewAchievementModal model: Achievement, modelLabel: 'Achievement', level: @level
+    modal.once 'model-created', @onNewAchievementSaved
     @openModalView modal

@@ -71,21 +71,17 @@ class EarnedAchievementHandler extends Handler
 
                 isRepeatable = achievement.get('proportionalTo')?
                 model = mongoose.modelNameByCollection(achievement.get('collection'))
-                if not model?
-                  log.error "Model with collection '#{achievement.get 'collection'}' doesn't exist."
-                  return doneWithAchievement()
+                return doneWithAchievement new Error "Model with collection '#{achievement.get 'collection'}' doesn't exist." unless model?
 
                 finalQuery = _.clone achievement.get 'query'
                 finalQuery.$or = [{}, {}] # Allow both ObjectIDs or hex string IDs
                 finalQuery.$or[0][achievement.userField] = userID
                 finalQuery.$or[1][achievement.userField] = mongoose.Types.ObjectId userID
 
-                log.debug JSON.stringify finalQuery
-
                 model.findOne finalQuery, (err, something) ->
                   return doneWithAchievement() if _.isEmpty something
 
-                  log.debug "Matched an achievement: #{achievement.get 'name'} for #{user.get 'name'}"
+                  #log.debug "Matched an achievement: #{achievement.get 'name'} for #{user.get 'name'}"
 
                   earned =
                     user: userID
@@ -107,7 +103,7 @@ class EarnedAchievementHandler extends Handler
 
                   EarnedAchievement.update {achievement:earned.achievement, user:earned.user}, earned, {upsert: true}, (err) ->
                     doneWithAchievement err
-              ), saveUserPoints = ->
+              ), -> # Wrap up a user, save points
                 # Since some achievements cannot be recalculated it's important to deduct the old amount of exp
                 # and add the new amount, instead of just setting to the new amount
                 return doneWithUser() unless newTotalPoints

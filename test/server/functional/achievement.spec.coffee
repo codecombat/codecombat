@@ -7,6 +7,10 @@ unlockable =
   collection: 'level.sessions'
   query: "{\"level.original\":\"dungeon-arena\"}"
   userField: 'creator'
+  recalculable: true
+
+unlockable2 = _.clone unlockable
+unlockable2.name = 'This one is obsolete'
 
 repeatable =
   name: 'Simulated'
@@ -16,6 +20,7 @@ repeatable =
   query: "{\"simulatedBy\":{\"$gt\":0}}"
   userField: '_id'
   proportionalTo: 'simulatedBy'
+  recalculable: true
 
 diminishing =
   name: 'Simulated2'
@@ -27,11 +32,12 @@ diminishing =
   function:
     kind: 'logarithmic'
     parameters: {a: 1, b: .5, c: .5, d: 1}
+  recalculable: true
 
 url = getURL('/db/achievement')
 
 describe 'Achievement', ->
-  allowHeader = 'GET, POST, PUT, PATCH'
+  allowHeader = 'GET, POST, PUT, PATCH, DELETE'
 
   it 'preparing test: deleting all Achievements first', (done) ->
     clearModels [Achievement, EarnedAchievement, LevelSession, User], (err) ->
@@ -92,12 +98,18 @@ describe 'Achievement', ->
         expect(res.headers.allow).toBe(allowHeader)
         done()
 
-  it 'can\'t be requested with HTTP DEL method', (done) ->
-    loginJoe ->
-      request.del {uri: url + '/' + unlockable._id}, (err, res, body) ->
-        expect(res.statusCode).toBe(405)
-        expect(res.headers.allow).toBe(allowHeader)
-        done()
+  it 'allows admins to delete achievements using DELETE', (done) ->
+    loginAdmin ->
+      request.post {uri: url, json: unlockable2}, (err, res, body) ->
+        expect(res.statusCode).toBe(200)
+        unlockable2._id = body._id
+
+        request.del {uri: url + '/' + unlockable2._id}, (err, res, body) ->
+          expect(res.statusCode).toBe(204)
+
+          request.del {uri: url + '/' + unlockable2._id}, (err, res, body) ->
+            expect(res.statusCode).toBe(404)
+            done()
 
   it 'get schema', (done) ->
     request.get {uri: url + '/schema'}, (err, res, body) ->

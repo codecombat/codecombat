@@ -8,15 +8,15 @@ module.exports = class NewModelModal extends ModalView
   plain: false
 
   events:
-    'click button.new-model-submit': 'makeNewModel'
-    'submit form': 'makeNewModel'
-    'shown.bs.modal #new-model-modal': 'focusOnName'
+    'click button.new-model-submit': 'onModelSubmitted'
+    'submit form': 'onModelSubmitted'
 
   constructor: (options) ->
     super options
     @model = options.model
     @modelLabel = options.modelLabel
     @properties = options.properties
+    $('#name').ready @focusOnName
 
   getRenderData: ->
     c = super()
@@ -24,14 +24,19 @@ module.exports = class NewModelModal extends ModalView
     #c.newModelTitle = @newModelTitle
     c
 
-  makeNewModel: (e) ->
-    e.preventDefault()
-    name = @$el.find('#name').val()
+  makeNewModel: ->
     model = new @model
+    name = @$el.find('#name').val()
     model.set('name', name)
     if @model.schema.properties.permissions
       model.set 'permissions', [{access: 'owner', target: me.id}]
     model.set(key, prop) for key, prop of @properties if @properties?
+    model
+
+  onModelSubmitted: (e) ->
+    console.debug 'on model submitted'
+    e.preventDefault()
+    model = @makeNewModel()
     res = model.save()
     return unless res
 
@@ -43,6 +48,8 @@ module.exports = class NewModelModal extends ModalView
       #Backbone.Mediator.publish 'model-save-fail', model
     res.success =>
       @$el.modal('hide')
-      @trigger 'success', model
+      @trigger 'model-created', model
       #Backbone.Mediator.publish 'model-save-success', model
 
+  focusOnName: (e) ->
+    $('#name').focus() # TODO Why isn't this working anymore.. It does get called
