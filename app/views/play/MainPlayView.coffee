@@ -251,7 +251,7 @@ module.exports = class MainPlayView extends RootView
         description: 'Learn cluster analysis while leading armies into battle! - by Alexandru Caciulescu'
       }
       {
-        name: 'QuickSort the Spiral'
+        name: 'Quicksort the Spiral'
         difficulty: 3
         id: 'quicksort-the-spiral'
         image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
