@@ -391,30 +391,12 @@
     tome_cast_button_castable: "Cast Spell"
     tome_cast_button_casting: "Casting"
     tome_cast_button_cast: "Spell Cast"
-    tome_autocast_delay: "Autocast Delay"
     tome_select_spell: "Select a Spell"
     tome_select_a_thang: "Select Someone for "
     tome_available_spells: "Available Spells"
     hud_continue: "Continue (shift+space)"
     spell_saved: "Spell Saved"
     skip_tutorial: "Skip (esc)"
-    editor_config: "Editor Config"
-    editor_config_title: "Editor Configuration"
-    editor_config_level_language_label: "Language for This Level"
-    editor_config_level_language_description: "Define the programming language for this particular level."
-    editor_config_default_language_label: "Default Programming Language"
-    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
-    editor_config_keybindings_label: "Key Bindings"
-    editor_config_keybindings_default: "Default (Ace)"
-    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
-    editor_config_livecompletion_label: "Live Autocompletion"
-    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
-    editor_config_invisibles_label: "Show Invisibles"
-    editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
-    editor_config_indentguides_label: "Show Indent Guides"
-    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
-    editor_config_behaviors_label: "Smart Behaviors"
-    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
     keyboard_shortcuts: "Key Shortcuts"
     loading_ready: "Ready!"
     tip_insert_positions: "Shift+Click a point on the map to insert it into the spell editor."
@@ -424,7 +406,6 @@
     tip_open_source: "CodeCombat is 100% open source!"
     tip_beta_launch: "CodeCombat launched its beta in October, 2013."
     tip_js_beginning: "JavaScript is just the beginning."
-    tip_autocast_setting: "Adjust autocast settings by clicking the gear on the cast button."
     think_solution: "Think of the solution, not the problem."
     tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
     tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
@@ -466,12 +447,46 @@
     options_caption: "Configure settings"
     guide_caption: "Docs and tips"
     multiplayer_caption: "Play with friends!"
-    autorun: "Autorun"
-    autorun_description: "Control automatic code execution."
+
+  inventory:
+    temp: "Temp"
+
+  choose_hero:
+    temp: "Temp"
 
   save_load:
     granularity_saved_games: "Saved"
     granularity_change_history: "History"
+
+  options:
+    general_options: "General Options"
+    music_label: "Music"
+    music_description: "Turn background music on/off."
+    autorun_label: "Autorun"
+    autorun_description: "Control automatic code execution."
+    editor_config: "Editor Config"
+    editor_config_title: "Editor Configuration"
+    editor_config_level_language_label: "Language for This Level"
+    editor_config_level_language_description: "Define the programming language for this particular level."
+    editor_config_default_language_label: "Default Programming Language"
+    editor_config_default_language_description: "Define the programming language you want to code in when starting new levels."
+    editor_config_keybindings_label: "Key Bindings"
+    editor_config_keybindings_default: "Default (Ace)"
+    editor_config_keybindings_description: "Adds additional shortcuts known from the common editors."
+    editor_config_livecompletion_label: "Live Autocompletion"
+    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing."
+    editor_config_invisibles_label: "Show Invisibles"
+    editor_config_invisibles_description: "Displays invisibles such as spaces or tabs."
+    editor_config_indentguides_label: "Show Indent Guides"
+    editor_config_indentguides_description: "Displays vertical lines to see indentation better."
+    editor_config_behaviors_label: "Smart Behaviors"
+    editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
+
+  guide:
+    temp: "Temp"
+
+  multiplayer:
+    temp: "Temp"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Keyboard Shortcuts"

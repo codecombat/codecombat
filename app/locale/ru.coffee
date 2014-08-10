@@ -34,8 +34,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     months: "месяца"
     year: "год"
     years: "лет"
-   # Также может быть 2 года, но я не не уверен, могу ли я правильно скормить это вашему парсеру...
-   # It also can be "2 года - 2 goda", but I do not know, can I feed it to your parser correctly...
 
   modal:
     close: "Закрыть"
@@ -355,6 +353,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     grid: "Сетка"
     customize_wizard: "Настройки волшебника"
     home: "На главную"
+#    game_menu: "Game Menu"
     guide: "Руководство"
     multiplayer: "Мультиплеер"
     restart: "Перезапустить"
@@ -392,30 +391,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_cast_button_castable: "Читать заклинание"
     tome_cast_button_casting: "Заклинание читается"
     tome_cast_button_cast: "Заклинание прочитано"
-    tome_autocast_delay: "Задержка автоматического чтения"
     tome_select_spell: "Выбрать заклинание"
     tome_select_a_thang: "Выбрать кого-нибудь для "
     tome_available_spells: "Доступные заклинания"
     hud_continue: "Продолжить (Shift+Пробел)"
     spell_saved: "Заклинание сохранено"
     skip_tutorial: "Пропуск (Esc)"
-    editor_config: "Настройки редактора"
-    editor_config_title: "Настройки редактора"
-    editor_config_level_language_label: "Язык для этого уровня"
-    editor_config_level_language_description: "Выберите язык программирования для этого конкретного уровня."
-    editor_config_default_language_label: "Язык по умолчанию"
-    editor_config_default_language_description: "Выберите язык программирования который вы хотите использовать когда начинаете новый уровень."
-    editor_config_keybindings_label: "Сочетания клавиш"
-    editor_config_keybindings_default: "По умолчанию (Ace)"
-    editor_config_keybindings_description: "Добавляет дополнительные сочетания, известные из популярных редакторов."
-    editor_config_livecompletion_label: "Автозаполнение"
-    editor_config_livecompletion_description: "Отображение вариантов автозаполнения во время печати."
-    editor_config_invisibles_label: "Показывать непечатные символы"
-    editor_config_invisibles_description: "Отображение непечатных символов, таких как пробелы или табуляции."
-    editor_config_indentguides_label: "Показывать направляющие отступов"
-    editor_config_indentguides_description: "Отображение вертикальных линий для лучшего обзора отступов."
-    editor_config_behaviors_label: "Умное поведение"
-    editor_config_behaviors_description: "Автозавершать квадратные, фигурные скобки и кавычки."
     keyboard_shortcuts: "Горячие клавиши"
     loading_ready: "Готово!"
     tip_insert_positions: "Shift+Клик по карте вставит координаты в редактор заклинаний."
@@ -425,7 +406,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_open_source: "Исходный код CodeCombat открыт на 100%!"
     tip_beta_launch: "CodeCombat запустил бета-тестирование в октябре 2013 года."
     tip_js_beginning: "JavaScript это только начало."
-    tip_autocast_setting: "Изменяйте настройки авточтения заклинания, щёлкнув по шестерёнке на кнопке прочтения."
     think_solution: "Думайте о решении, а не о проблеме."
     tip_theory_practice: "В теории, между практикой и теорией нет разницы. Но на практике есть. - Yogi Berra"
     tip_error_free: "Есть два способа писать программы без ошибок; работает только третий. - Alan Perlis"
@@ -453,6 +433,60 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     infinite_loop_try_again: "Попробовать снова"
     infinite_loop_reset_level: "Сбросить уровень"
     infinite_loop_comment_out: "Закомментировать мой код"
+
+#  game_menu:
+#    inventory_tab: "Inventory"
+#    choose_hero_tab: "Restart Level"
+#    save_load_tab: "Save/Load"
+#    options_tab: "Options"
+#    guide_tab: "Guide"
+#    multiplayer_tab: "Multiplayer"
+#    inventory_caption: "Equip your hero"
+#    choose_hero_caption: "Choose hero, language"
+#    save_load_caption: "... and view history"
+#    options_caption: "Configure settings"
+#    guide_caption: "Docs and tips"
+#    multiplayer_caption: "Play with friends!"
+
+#  inventory:
+#    temp: "Temp"
+
+#  choose_hero:
+#    temp: "Temp"
+
+#  save_load:
+#    granularity_saved_games: "Saved"
+#    granularity_change_history: "History"
+
+  options:
+#    general_options: "General Options"
+#    music_label: "Music"
+#    music_description: "Turn background music on/off."
+#    autorun_label: "Autorun"
+#    autorun_description: "Control automatic code execution."
+    editor_config: "Настройки редактора"
+    editor_config_title: "Настройки редактора"
+    editor_config_level_language_label: "Язык для этого уровня"
+    editor_config_level_language_description: "Выберите язык программирования для этого конкретного уровня."
+    editor_config_default_language_label: "Язык по умолчанию"
+    editor_config_default_language_description: "Выберите язык программирования который вы хотите использовать когда начинаете новый уровень."
+    editor_config_keybindings_label: "Сочетания клавиш"
+    editor_config_keybindings_default: "По умолчанию (Ace)"
+    editor_config_keybindings_description: "Добавляет дополнительные сочетания, известные из популярных редакторов."
+    editor_config_livecompletion_label: "Автозаполнение"
+    editor_config_livecompletion_description: "Отображение вариантов автозаполнения во время печати."
+    editor_config_invisibles_label: "Показывать непечатные символы"
+    editor_config_invisibles_description: "Отображение непечатных символов, таких как пробелы или табуляции."
+    editor_config_indentguides_label: "Показывать направляющие отступов"
+    editor_config_indentguides_description: "Отображение вертикальных линий для лучшего обзора отступов."
+    editor_config_behaviors_label: "Умное поведение"
+    editor_config_behaviors_description: "Автозавершать квадратные, фигурные скобки и кавычки."
+
+#  guide:
+#    temp: "Temp"
+
+#  multiplayer:
+#    temp: "Temp"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Горячие клавиши"
