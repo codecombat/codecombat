@@ -463,9 +463,11 @@
     inventory_caption: "Equip your hero"
     choose_hero_caption: "Choose hero, language"
     save_load_caption: "... and view history"
-    options_caption: "Music and other settings"
+    options_caption: "Configure settings"
     guide_caption: "Docs and tips"
     multiplayer_caption: "Play with friends!"
+    autorun: "Autorun"
+    autorun_description: "Control automatic code execution."
 
   save_load:
     granularity_saved_games: "Saved"

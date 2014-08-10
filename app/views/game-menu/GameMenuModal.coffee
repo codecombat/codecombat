@@ -11,7 +11,7 @@ submenuViews = [
 
 module.exports = class GameMenuModal extends ModalView
   template: template
-  modalWidthPercent: 80
+  modalWidthPercent: 95
   id: 'game-menu-modal'
 
   events:
@@ -25,3 +25,7 @@ module.exports = class GameMenuModal extends ModalView
     super()
     @insertSubView new submenuView @options for submenuView in submenuViews
     @subviews.inventory_view.$el.addClass 'active'
+
+  onHidden: ->
+    subview.onHidden?() for subviewKey, subview of @subviews
+    me.patch()

@@ -3,7 +3,6 @@ request = require 'request'
 log = require 'winston'
 
 DELIGHTED_EMAIL_DELAY = 1 * 86400  # in seconds
-DELIGHTED_EMAIL_DELAY = 10
 
 module.exports.addDelightedUser = addDelightedUser = (user) ->
   return unless key = config.mail.delightedAPIKey
