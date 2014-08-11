@@ -22,7 +22,7 @@ module.exports = class Achievement extends CocoModel
     4: 'achievement-gold'
     5: 'achievement-diamond'
 
-  getNotifyStyle: -> Achievement.styleMapping[@get 'difficulty']
+  getStyle: -> Achievement.styleMapping[@get 'difficulty']
 
   @defaultImageURL: '/images/achievements/default.png'
 

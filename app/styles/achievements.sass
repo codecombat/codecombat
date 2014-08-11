@@ -1,12 +1,10 @@
 @import 'bootstrap/variables'
 
-.locked
-  // This used to be a grayscale filter but they're mad intensive to paint
-
 .achievement-body
+  position: relative
+
   .achievement-icon
     position: absolute
-    top: 0px
 
     .achievement-image
       width: 100%
@@ -88,8 +86,7 @@
         line-height: 1.3em
         max-height: 2.6em
 
-.notifyjs-achievement-wood-base, .notifyjs-achievement-stone-base, .notifyjs-achievement-silver-base,
-.notifyjs-achievement-gold-base, .notifyjs-achievement-diamond-base
+.achievement-popup
   padding: 20px 0px
   cursor: default
 
@@ -99,7 +96,7 @@
       width: 200px
       height: 200px
       left: -140px
-      top: 0px
+      top: -20px
 
       .achievement-image
         img
@@ -165,7 +162,7 @@
 .achievement-icon
   background-size: 100% 100% !important
 
-.notifyjs-achievement-wood-base, .achievement-wood
+.achievement-wood
   &.locked
     .achievement-icon
       background: url("/images/achievements/border_wood_locked.png") no-repeat
@@ -173,7 +170,7 @@
     .achievement-icon
       background: url("/images/achievements/border_wood.png") no-repeat
 
-.notifyjs-achievement-stone-base, .achievement-stone
+.achievement-stone
   &.locked
     .achievement-icon
       background: url("/images/achievements/border_stone_locked.png") no-repeat
@@ -181,7 +178,7 @@
     .achievement-icon
       background: url("/images/achievements/border_stone.png") no-repeat
 
-.notifyjs-achievement-silver-base, .achievement-silver
+.achievement-silver
   &.locked
     .achievement-icon
       background: url("/images/achievements/border_silver_locked.png") no-repeat
@@ -189,7 +186,7 @@
     .achievement-icon
       background: url("/images/achievements/border_silver.png") no-repeat
 
-.notifyjs-achievement-gold-base, .achievement-gold
+.achievement-gold
   &.locked
     .achievement-icon
       background: url("/images/achievements/border_gold_locked.png") no-repeat
@@ -197,7 +194,7 @@
     .achievement-icon
       background: url("/images/achievements/border_gold.png") no-repeat
 
-.notifyjs-achievement-diamond-base, .achievement-diamond
+.achievement-diamond
   &.locked
     .achievement-icon
       background: url("/images/achievements/border_diamond_locked.png") no-repeat
@@ -205,13 +202,13 @@
     .achievement-icon
       background: url("/images/achievements/border_diamond.png") no-repeat
 
-.exp-bar-accumulated
+.xp-bar-old
   background-color: #680080
 
-.exp-bar-new
+.xp-bar-new
   background-color: #0096ff
 
-.exp-bar-left
+.xp-bar-left
   background-color: #fffbfd
 
 .user-level
@@ -232,3 +229,9 @@
 
 .achievement-icon-small
   height: 18px
+
+// Achievement Popup
+.achievement-popup-container
+  position: fixed
+  right: 0px
+  bottom: 0px

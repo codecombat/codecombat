@@ -14,14 +14,14 @@ block append content
               - var title = achievement.get('name');
               - var description = achievement.get('description');
               - var locked = ! achievement.get('unlocked');
-              - var notifyClass = achievement.getNotifyStyle()
+              - var style = achievement.getStyle()
               - var imgURL = achievement.getImageURL();
               if locked
                 - var imgURL = achievement.getLockedImageURL();
               else
                 - var imgURL = achievement.getImageURL();
               .col-lg-4.col-xs-12
-                include ../achievement_notify
+                include ../achievements/achievement-popup
     else if activeLayout === 'table'
       .table-layout
         if earnedAchievements.length

@@ -1,0 +1,18 @@
+- var addedClass = style + (locked === true ? ' locked' : '')
+.clearfix.achievement-body(class=addedClass)
+  .achievement-icon
+    .achievement-image
+      img(src=imgURL)
+  .achievement-content
+    .achievement-title= title
+    p.achievement-description= description
+
+    if popup
+      .progress-wrapper
+        span.user-level.badge= level
+        .progress-bar-wrapper
+          .progress
+            .progress-bar.xp-bar-old(style="width:#{oldXPWidth}%" data-toggle="tooltip" data-placement="top" title="#{currentXP} XP in total")
+            .progress-bar.xp-bar-new(style="width:#{newXPWidth}%" data-toggle="tooltip" title="#{newXP} XP earned")
+            .progress-bar.xp-bar-left(style="width:#{leftXPWidth}%" data-toggle="tooltip" title="#{leftXP} XP until level #{nextLevel}")
+        .progress-bar-border

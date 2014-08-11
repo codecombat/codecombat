@@ -5,7 +5,6 @@ locale = require 'locale/locale'
 {me} = require 'lib/auth'
 Tracker = require 'lib/Tracker'
 CocoView = require 'views/kinds/CocoView'
-AchievementNotify = require '../../templates/achievement_notify'
 
 marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
@@ -40,11 +39,6 @@ Application = initialize: ->
   @facebookHandler = new FacebookHandler()
   @gplusHandler = new GPlusHandler()
   $(document).bind 'keydown', preventBackspace
-  $.notify.addStyle 'achievement-wood', html: $(AchievementNotify popup:true)
-  $.notify.addStyle 'achievement-stone', html: $(AchievementNotify popup:true)
-  $.notify.addStyle 'achievement-silver', html: $(AchievementNotify popup:true)
-  $.notify.addStyle 'achievement-gold', html: $(AchievementNotify popup:true)
-  $.notify.addStyle 'achievement-diamond', html: $(AchievementNotify popup:true)
   @linkedinHandler = new LinkedInHandler()
   preload(COMMON_FILES)
   $.i18n.init {

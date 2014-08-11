@@ -6,8 +6,7 @@ CocoView = require './CocoView'
 {logoutUser, me} = require('lib/auth')
 locale = require 'locale/locale'
 
-Achievement = require '../../models/Achievement'
-User = require '../../models/User'
+AchievementPopup = require 'views/achievements/AchievementPopup'
 utils = require 'lib/utils'
 
 # TODO remove
@@ -33,69 +32,8 @@ module.exports = class RootView extends CocoView
   subscriptions:
     'achievements:new': 'handleNewAchievements'
 
-  createNotifyData: (achievement, earnedAchievement) ->
-    currentLevel = me.level()
-    nextLevel = currentLevel + 1
-    currentLevelExp = User.expForLevel(currentLevel)
-    nextLevelExp = User.expForLevel(nextLevel)
-    totalExpNeeded = nextLevelExp - currentLevelExp
-    expFunction = achievement.getExpFunction()
-    currentExp = me.get('points')
-    if achievement.isRepeatable()
-      achievedExp = expFunction(earnedAchievement.get('previouslyAchievedAmount')) * achievement.get('worth') if achievement.isRepeatable()
-    else
-      achievedExp = achievement.get 'worth'
-    previousExp = currentExp - achievedExp
-    leveledUp = currentExp - achievedExp < currentLevelExp
-    #console.debug 'Leveled up' if leveledUp
-    alreadyAchievedPercentage = 100 * (previousExp - currentLevelExp) / totalExpNeeded
-    alreadyAchievedPercentage = 0 if alreadyAchievedPercentage < 0 # In case of level up
-    newlyAchievedPercentage = if leveledUp then 100 * (currentExp - currentLevelExp) / totalExpNeeded else  100 * achievedExp / totalExpNeeded
-
-    #console.debug "Current level is #{currentLevel} (#{currentLevelExp} xp), next level is #{nextLevel} (#{nextLevelExp} xp)."
-    #console.debug "Need a total of #{nextLevelExp - currentLevelExp}, already had #{previousExp} and just now earned #{achievedExp} totalling on #{currentExp}"
-
-    alreadyAchievedBar = $("<div class='progress-bar exp-bar-accumulated' style='width:#{alreadyAchievedPercentage}%'></div>")
-    newlyAchievedBar = $("<div data-toggle='tooltip' class='progress-bar exp-bar-new' style='width:#{newlyAchievedPercentage}%'></div>")
-    emptyBar = $("<div data-toggle='tooltip' class='progress-bar exp-bar-left' style='width:#{100 - newlyAchievedPercentage - alreadyAchievedPercentage}%'></div>")
-    progressBar = $('<div class="progress" data-toggle="tooltip"></div>').append(alreadyAchievedBar).append(newlyAchievedBar).append(emptyBar)
-
-    alreadyAchievedBar.tooltip(title: "#{currentExp} XP in total")
-    newlyAchievedBar.tooltip(title: "#{achievedExp} XP earned")
-    emptyBar.tooltip(title: "#{nextLevelExp - currentExp} XP until level #{nextLevel}")
-
-    barBorder = $('<img src="/images/achievements/bar_border.png" />')
-
-    data =
-      title: achievement.get('name')
-      image: $("<img src='#{achievement.getImageURL()}' />")
-      description: achievement.get('description')
-      progressBar: progressBar
-      earnedExp: "+ #{achievedExp} XP"
-      level: currentLevel
-      barBorder: barBorder
-
-    data
-
   showNewAchievement: (achievement, earnedAchievement) ->
-    data = @createNotifyData achievement, earnedAchievement
-    options =
-      autoHideDelay: 5000
-      elementPosition: 'top left'
-      globalPosition: 'bottom right'
-      showDuration: 0
-      style: achievement.getNotifyStyle()
-      autoHide: false
-      clickToHide: true
-
-    unless @timeout?
-      $.notify data, options
-      @timeout = 2000
-    else
-      setTimeout ->
-        $.notify data, options
-        @timeout += 2000
-      , @timeout
+    popup = new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 
   handleNewAchievements: (earnedAchievements) ->
     _.each earnedAchievements.models, (earnedAchievement) =>

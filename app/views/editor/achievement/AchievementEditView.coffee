@@ -1,6 +1,7 @@
 RootView = require 'views/kinds/RootView'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
+AchievementPopup = require 'views/achievements/AchievementPopup'
 ConfirmModal = require 'views/modal/ConfirmModal'
 errors = require 'lib/errors'
 app = require 'application'
@@ -60,7 +61,6 @@ module.exports = class AchievementEditView extends RootView
     @pushChangesToPreview()
 
   pushChangesToPreview: =>
-    $('.notifyjs-wrapper').trigger 'notify-hide'
 
     if @treema?
       for key, value of @treema.data
@@ -69,17 +69,8 @@ module.exports = class AchievementEditView extends RootView
     earned =
       earnedPoints: @achievement.get 'worth'
 
-    data = @createNotifyData @achievement, earned
-    options =
-      style: @achievement.getNotifyStyle()
-      autoHide: false
-      clickToHide: false
-      arrowShow: false
-      elementPosition: 'bottom center'
-      hideDuration: 0
-      showDuration: 0
+    popup = new AchievementPopup achievement: @achievement, earnedAchievement:earned, popup: false, container: $('#achievement-view')
 
-    $('#achievement-view-inner').notify data, options
 
   openSaveModal: ->
     'Maybe later' # TODO patch patch patch
