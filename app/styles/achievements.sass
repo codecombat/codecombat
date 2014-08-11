@@ -51,10 +51,6 @@
 
 // Specific to the user stats page
 #user-achievements-view
-  .row
-    //.col-lg-4, .col-xs-12
-      padding-right: 0px !important
-
   .achievement-body
     width: 335px
     height: 120px
@@ -63,7 +59,7 @@
     .achievement-icon
       width: 120px
       height: 120px
-      top: 0px
+      top: -10px
 
       .achievement-image
         img
@@ -88,7 +84,7 @@
 
 .achievement-popup
   padding: 20px 0px
-  cursor: default
+  position: relative
 
   .achievement-body
     .achievement-icon
@@ -132,16 +128,23 @@
         bottom: 48px
 
         .user-level
+          background-image: url("/images/achievements/level-bg.png")
+          color: white
+          width: 38px
+          height: 38px
+          line-height: 38px
           font-size: 20px
           position: absolute
           left: -15px
-          margin-top: -3px
-          box-shadow: 0 0 0 2px black, 0 0 0 4px lightgrey, 0 0 0 6px black
+          margin-top: -8px
+          vertical-align: middle
+          z-index: 1000
+          font-family: $font-family-base
 
         > .progress-bar-wrapper
           position: absolute
-          margin-left: 12px
-          width: 319px
+          margin-left: 17px
+          width: 314px
           height: 20px
           z-index: 2
 
@@ -211,11 +214,6 @@
 .xp-bar-left
   background-color: #fffbfd
 
-.user-level
-  z-index: 1000
-  box-shadow: 0 0 0 1px black, 0 0 0 3px lightgrey, 0 0 0 4px black
-  font-family: $font-family-base
-
 // Achievements page
 .achievement-category-title
   margin-left: 20px
@@ -235,3 +233,7 @@
   position: fixed
   right: 0px
   bottom: 0px
+
+.popup
+  cursor: default
+  left: 600px

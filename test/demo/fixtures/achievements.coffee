@@ -15,7 +15,6 @@ module.exports.Simulated = Simulated =
   _id: '53ba76249259823746b6b482'
   name: 'Simulated'
   description: 'Simulated Games.'
-  icon: '/images/achievements/cup-02.png'
   worth: 1
   collection: 'users'
   query: "{\"simulatedBy\":{\"$gt\":0}}"

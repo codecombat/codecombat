@@ -13,6 +13,7 @@ module.exports = class AchievementPopup extends CocoView
     @container = options.container or @getContainer()
     @popup = options.container
     @popup ?= true
+    @className += ' popup' if @popup
     super options
     console.debug 'Created an AchievementPopup', @$el
 
@@ -40,15 +41,6 @@ module.exports = class AchievementPopup extends CocoView
     #console.debug "Current level is #{currentLevel} (#{currentLevelExp} xp), next level is #{nextLevel} (#{nextLevelXP} xp)."
     #console.debug "Need a total of #{nextLevelXP - currentLevelExp}, already had #{previousXP} and just now earned #{achievedXP} totalling on #{currentXP}"
 
-    alreadyAchievedBar = $("<div class='progress-bar xp-bar-old' style='width:#{alreadyAchievedPercentage}%'></div>")
-    newlyAchievedBar = $("<div data-toggle='tooltip' class='progress-bar exp-bar-new' style='width:#{newlyAchievedPercentage}%'></div>")
-    emptyBar = $("<div data-toggle='tooltip' class='progress-bar exp-bar-left' style='width:#{100 - newlyAchievedPercentage - alreadyAchievedPercentage}%'></div>")
-    progressBar = $('<div class="progress" data-toggle="tooltip"></div>').append(alreadyAchievedBar).append(newlyAchievedBar).append(emptyBar)
-
-    alreadyAchievedBar.tooltip(title: "#{currentXP} XP in total")
-    newlyAchievedBar.tooltip(title: "#{achievedXP} XP earned")
-    emptyBar.tooltip(title: "#{nextLevelXP - currentXP} XP until level #{nextLevel}")
-
     data =
       title: @achievement.get('name')
       imgURL: @achievement.getImageURL()
@@ -71,7 +63,17 @@ module.exports = class AchievementPopup extends CocoView
   render: ->
     console.debug 'render achievement popup'
     super()
-    @container.append @$el
+    @container.prepend @$el
+    if @popup
+      @$el.animate
+        left: 0
+      @$el.on 'click', (e) =>
+        @$el.animate
+          left: 600
+        , =>
+          @$el.remove()
+          @destroy()
+
 
   getContainer: ->
     unless @container

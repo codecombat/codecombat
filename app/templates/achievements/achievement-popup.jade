@@ -9,10 +9,10 @@
 
     if popup
       .progress-wrapper
-        span.user-level.badge= level
+        span.user-level= level
         .progress-bar-wrapper
           .progress
             .progress-bar.xp-bar-old(style="width:#{oldXPWidth}%" data-toggle="tooltip" data-placement="top" title="#{currentXP} XP in total")
             .progress-bar.xp-bar-new(style="width:#{newXPWidth}%" data-toggle="tooltip" title="#{newXP} XP earned")
-            .progress-bar.xp-bar-left(style="width:#{leftXPWidth}%" data-toggle="tooltip" title="#{leftXP} XP until level #{nextLevel}")
+            .progress-bar.xp-bar-left(style="width:#{leftXPWidth}%" data-toggle="tooltip" title="#{leftXP} XP until level #{level+1}")
         .progress-bar-border

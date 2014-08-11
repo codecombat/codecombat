@@ -61,6 +61,7 @@ module.exports = class AchievementEditView extends RootView
     @pushChangesToPreview()
 
   pushChangesToPreview: =>
+    $('#achievement-view').empty()
 
     if @treema?
       for key, value of @treema.data
