@@ -182,7 +182,7 @@ module.exports = class SpriteBoss extends CocoClass
     # Add anything new, remove anything old, update everything current
     updateCache = false
     itemsJustEquipped = []
-    for thang in @world.thangs when thang.exists
+    for thang in @world.thangs when thang.exists and thang.pos
       if thang.equip and not thang.equipped
         thang.equip()  # Pretty hacky, since initialize may not be called
         itemsJustEquipped.push thang
