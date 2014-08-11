@@ -430,7 +430,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   game_menu:
     inventory_tab: "Inventário"
 #    choose_hero_tab: "Restart Level"
-    save_load_tab: "Guardar/Carregar"
+    save_load_tab: "Guarde/Carregue"
     options_tab: "Opções"
     guide_tab: "Guia"
     multiplayer_tab: "Multijogador"
