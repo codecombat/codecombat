@@ -27,8 +27,8 @@ block content
                 li.list-group-item(id="#{component.get('name')}#{doc.name}")
                   | #{doc.name}
                   ul.specialList
-                    if doc.description[language]
-                      li!=marked(doc.description[language])
+                    if doc.description[codeLanguage]
+                      li!=marked(doc.description[codeLanguage])
                     else
                       li!=marked(doc.description)
               li.panel-heading
