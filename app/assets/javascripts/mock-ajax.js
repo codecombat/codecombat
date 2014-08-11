@@ -263,6 +263,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     
     this.sendResponses = function(responseMap) {
       var urls = Object.keys(responseMap);
+      var success = true;
       for(var i in urls) {
         var url = urls[i];
         var responseBody = responseMap[url];
@@ -282,9 +283,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           urls = [];
           for(var k in allRequests) urls.push(allRequests[k].url);
           console.error('could not find response for', url, 'in', urls, allRequests);
+          success = false;
           continue;
         }
       }
+      return success;
     }
   }
 

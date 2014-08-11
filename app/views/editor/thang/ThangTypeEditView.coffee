@@ -81,8 +81,9 @@ module.exports = class ThangTypeEditView extends RootView
     options =
       components: @thangType.get('components') ? []
       supermodel: @supermodel
-      callback: @onComponentsChanged
+
     @thangComponentEditView = new ThangComponentsEditView options
+    @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
     @insertSubView @thangComponentEditView
 
   onComponentsChanged: (components) =>
