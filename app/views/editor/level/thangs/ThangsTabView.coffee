@@ -507,17 +507,16 @@ class ThangsNode extends TreemaNode.nodeMap.array
     return children
 
   getUndoDescription: ->
+    return '' unless @canUndo()
     trackedActions = @getTrackedActions()
     currentStateIndex = @getCurrentStateIndex()
-    if currentStateIndex then return @getTrackedActionDescription( trackedActions[currentStateIndex - 1] ) else return ''
+    return @getTrackedActionDescription( trackedActions[currentStateIndex - 1] )
 
   getRedoDescription: ->
+    return '' unless @canRedo()
     trackedActions = @getTrackedActions()
     currentStateIndex = @getCurrentStateIndex()
-    if currentStateIndex isnt trackedActions.length 
-      return @getTrackedActionDescription trackedActions[currentStateIndex]
-    else 
-      return ''
+    return @getTrackedActionDescription trackedActions[currentStateIndex]
 
   getTrackedActionDescription: (trackedAction) ->
     switch trackedAction.action

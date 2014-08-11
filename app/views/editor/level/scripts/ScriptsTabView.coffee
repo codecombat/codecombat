@@ -39,23 +39,27 @@ module.exports = class ScriptsTabView extends CocoView
 
   onScriptsChanged: (e) =>
     @level.set 'scripts', @scriptsTreema.data
-    lastAction = @scriptsTreema.trackedActions[@scriptsTreema.trackedActions.length - 1]
+    lastAction = @scriptsTreema.trackedActions[@scriptsTreema.getCurrentStateIndex() - 1]
     return unless lastAction
 
     if lastAction.action is 'insert' and lastAction.parentPath is '/'
       newScript = @scriptsTreema.get lastAction.path
       if newScript.id is undefined
+        @scriptsTreema.disableTracking()
         @scriptsTreema.set lastAction.path+'/id', 'Script-' + @scriptsTreema.data.length
+        @scriptsTreema.enableTracking()
         @scriptTreema.refreshDisplay()
 
     if lastAction.action is 'delete' and lastAction.parentPath[0] is '/'
       for key, treema of @scriptsTreema.childrenTreemas
         key = parseInt(key)
+        treema.disableTracking()
         if /Script-[0-9]*/.test treema.data.id
           existingKey = parseInt(treema.data.id.substr(7))
           if existingKey isnt key+1
             treema.set 'id', 'Script-' + (key+1)
-            
+        treema.enableTracking()
+
   onScriptSelected: (e, selected) =>
     selected = if selected.length > 1 then selected[0].getLastSelectedTreema() else selected[0]
     unless selected
@@ -103,10 +107,16 @@ module.exports = class ScriptsTabView extends CocoView
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)
 
   undo: ->
-    @scriptsTreema.undo() if @scriptTreema.undo() is undefined
+    if @scriptTreema.canUndo() then @scriptTreema.undo() else @scriptsTreema.undo()
   
   redo: ->
-    @scriptsTreema.redo() if @scriptTreema.redo() is undefined
+    if @scriptTreema.canRedo() then @scriptTreema.redo() else @scriptsTreema.redo()
+
+  showUndoDescription: ->
+    return
+
+  showRedoDescription: ->
+    return
 
 class ScriptNode extends TreemaObjectNode
   valueClass: 'treema-script'
