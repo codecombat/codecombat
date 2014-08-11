@@ -55,6 +55,18 @@ clusters = {
     'thangs': ['Dungeon Floor']
     'margin': -1
     }
+  'indoor_wall': {
+    'thangs': ['Indoor Wall']
+    'margin': 2
+    }
+  'indoor_floor': {
+    'thangs': ['Indoor Floor']
+    'margin': -1
+    }
+  'furniture': {
+    'thangs': ['Bookshelf', 'Table', 'Candle', 'Treasure Chest']
+    'margin': -1
+    }
 }
 
 presets = {
@@ -80,6 +92,30 @@ presets = {
         'height': [8, 16]
         'thickness': [2,2]
         'cluster': 'dungeon_wall'
+      }
+    }
+  }
+  'indoor': {
+    'type':'indoor'
+    'borders':'indoor_wall'
+    'borderNoise':0
+    'borderSize':4
+    'floors':'indoor_floor'
+    'decorations': {
+      'furniture': {
+        'num':[1,2]
+        'width': 15
+        'height': 15
+        'clusters': {
+          'furniture':[2,3]
+        }
+      }
+      'Room': {
+        'num': [1,1]
+        'width': [12, 16]
+        'height': [8, 16]
+        'thickness': [2,2]
+        'cluster': 'indoor_wall'
       }
     }
   }
