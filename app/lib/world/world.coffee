@@ -143,6 +143,7 @@ module.exports = class World
     @aborted = true
 
   loadFromLevel: (level, willSimulate=true) ->
+    @level = level
     @loadSystemsFromLevel level
     @loadThangsFromLevel level, willSimulate
     @loadScriptsFromLevel level

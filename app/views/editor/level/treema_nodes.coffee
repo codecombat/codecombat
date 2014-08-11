@@ -200,7 +200,7 @@ module.exports.ThangTypeNode = class ThangTypeNode extends TreemaNode.nodeMap.st
   constructor: (args...) ->
     super args...
     @thangType = _.find @settings.supermodel.getModels(ThangType), (m) => m.get('original') is @data if @data
-    console.log 'ThangTypeNode found ThangType', @thangType, 'for data', @data
+    #console.log 'ThangTypeNode found ThangType', @thangType, 'for data', @data
 
   buildValueForDisplay: (valEl) ->
     @buildValueForDisplaySimply(valEl, @thangType?.get('name') or 'None')
@@ -219,3 +219,12 @@ module.exports.ThangTypeNode = class ThangTypeNode extends TreemaNode.nodeMap.st
       @data = @thangType.get('original')
     else
       @data = null
+
+module.exports.ItemThangTypeNode = class ThangTypeNode extends ThangTypeNode
+  valueClass: 'treema-item-thang-type'
+  buildValueForEditing: (valEl) ->
+    super(valEl)
+    thangTypeNames = (m.get('name') for m in @settings.supermodel.getModels ThangType when m.get('kind') is 'Item')
+    input = valEl.find('input').autocomplete(source: thangTypeNames, minLength: 0, delay: 0, autoFocus: true)
+    input.val(@thangType?.get('name') or 'None')
+    valEl

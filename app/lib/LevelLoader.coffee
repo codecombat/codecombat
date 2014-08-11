@@ -73,13 +73,13 @@ module.exports = class LevelLoader extends CocoClass
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
       @opponentSession = @opponentSessionResource.model
       @listenToOnce @opponentSession, 'sync', @onSessionLoaded
-      
+
   onSessionLoaded: (session) ->
     session.url = -> '/db/level.session/' + @id
     if heroConfig = session.get('heroConfig')
       url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
-      
+
       for itemThangType in _.values(heroConfig.inventory)
         url = "/db/thang.type/#{itemThangType}/version?project=name,components"
         @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
@@ -148,21 +148,24 @@ module.exports = class LevelLoader extends CocoClass
       @supermodel.loadModel wizard, 'thang'
 
     @worldNecessities = @worldNecessities.concat worldNecessities
-    
+
   loadItemThangsEquippedByLevelThang: (levelThang) ->
     return unless levelThang.components
     for component in levelThang.components
       if component.original is LevelComponent.EquipsID and inventory = component.config?.inventory
         for itemThangType in _.values(inventory)
+          unless itemThangType
+            console.warn "Empty item in inventory for", levelThang
+            continue
           url = "/db/thang.type/#{itemThangType}/version?project=name,components"
           @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
-          
+
   onThangNamesLoaded: (thangNames) ->
     if @level.get('type') is 'hero'
       for thangType in thangNames.models
         @loadDefaultComponentsForThangType(thangType)
         @loadEquippedItemsInheritedFromThangType(thangType)
-          
+
   loadDefaultComponentsForThangType: (thangType) ->
     return unless components = thangType.get('components')
     for component in components
@@ -183,10 +186,10 @@ module.exports = class LevelLoader extends CocoClass
 
   onWorldNecessityLoaded: (resource) ->
     index = @worldNecessities.indexOf(resource)
-    if (@level.loading or (@level.get('type') is 'hero')) and resource.name is 'thang'
+    if (@level?.loading or (@level?.get('type') is 'hero')) and resource.name is 'thang'
       @loadDefaultComponentsForThangType(resource.model)
       @loadEquippedItemsInheritedFromThangType(resource.model)
-      
+
     return unless index >= 0
     @worldNecessities.splice(index, 1)
     @worldNecessities = (r for r in @worldNecessities when r?)

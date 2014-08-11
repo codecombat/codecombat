@@ -9,7 +9,7 @@ module.exports = class ThangComponentConfigView extends CocoView
   className: 'thang-component-config-view'
   template: template
   changed: false
-  
+
   events:
     'click .treema-shortened': -> console.log 'clicked treema root'
 
@@ -20,7 +20,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     @world = options.world
     @level = options.level
     @callback = options.callback
-    
+
   getRenderData: (context={}) ->
     context = super(context)
     context.component = @component.attributes
@@ -59,11 +59,12 @@ module.exports = class ThangComponentConfigView extends CocoView
         'seconds': nodes.SecondsNode
         'speed': nodes.SpeedNode
         'acceleration': nodes.AccelerationNode
+        'item-thang-type': nodes.ItemThangTypeNode
 
     @editThangTreema = @$el.find('.treema').treema treemaOptions
     @editThangTreema.build()
     @editThangTreema.open(2)
-    if _.isEqual(@config, {}) and not @editThangTreema.canAddChild()
+    if _.isEqual(@editThangTreema.data, {}) and not @editThangTreema.canAddChild()
       @$el.find('.panel-body').hide()
 
   onConfigEdited: =>

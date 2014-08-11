@@ -149,6 +149,7 @@ module.exports = class SpriteBoss extends CocoClass
       return false unless m.get('actions') or m.get('raster')
       return m.get('name') is thang.spriteName
     thangType ?= _.find @options.thangTypes, (m) -> return m.get('name') is thang.spriteName
+    return console.error "Couldn't find ThangType for", thang unless thangType
 
     options = @createSpriteOptions thang: thang
     options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else SPRITE_RESOLUTION_FACTOR
