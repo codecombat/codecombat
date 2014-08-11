@@ -8,6 +8,9 @@ module.exports = class ChooseHeroView extends CocoView
   className: 'tab-pane'
   template: template
 
+  events:
+    'click #restart-level-confirm-button': -> Backbone.Mediator.publish 'restart-level'
+
   getRenderData: (context={}) ->
     context = super(context)
     context
