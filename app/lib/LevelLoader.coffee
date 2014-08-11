@@ -77,11 +77,11 @@ module.exports = class LevelLoader extends CocoClass
   onSessionLoaded: (session) ->
     session.url = -> '/db/level.session/' + @id
     if heroConfig = session.get('heroConfig')
-      url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components"
+      url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
       for itemThangType in _.values(heroConfig.inventory)
-        url = "/db/thang.type/#{itemThangType}/version?project=name,components"
+        url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
         @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   # Supermodel (Level) Loading
@@ -157,7 +157,7 @@ module.exports = class LevelLoader extends CocoClass
           unless itemThangType
             console.warn "Empty item in inventory for", levelThang
             continue
-          url = "/db/thang.type/#{itemThangType}/version?project=name,components"
+          url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
           @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onThangNamesLoaded: (thangNames) ->
@@ -181,7 +181,7 @@ module.exports = class LevelLoader extends CocoClass
         inventory = equipsComponent.config?.inventory
         continue unless inventory
         for itemThangType in _.values inventory
-          url = "/db/thang.type/#{itemThangType}/version?project=name,components"
+          url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
           @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onWorldNecessityLoaded: (resource) ->
