@@ -100,7 +100,7 @@ module.exports = class LevelEditView extends RootView
       # Create a new Window with a blank LevelView
       scratchLevelID = @level.get('slug') + '?dev=true'
       scratchLevelID += "&team=#{team}" if team
-      if me.get('name') is 'Nick!'
+      if me.get('name') is 'Nick'
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
       else
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1024,height=560,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
