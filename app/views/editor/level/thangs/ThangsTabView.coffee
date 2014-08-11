@@ -485,6 +485,20 @@ module.exports = class ThangsTabView extends CocoView
   redo: (e) ->
     if not @editThangView then @thangsTreema.redo() else @editThangView.redo()
 
+  showUndoDescription: ->
+    if @editThangView 
+      @editThangView.showUndoDescription()
+    else
+      undoDescription = @thangsTreema.getUndoDescription()
+      titleText = $('#undo-button').attr('title', 'Undo ' + undoDescription + ' (Ctrl+Z)')
+
+  showRedoDescription: ->
+    if @editThangView 
+      @editThangView.showRedoDescription()
+    else
+      redoDescription = @thangsTreema.getRedoDescription()
+      titleText = $('#redo-button').attr('title', 'Redo ' + redoDescription + ' (Ctrl+Shift+Z)')
+
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
   getChildren: ->
@@ -492,6 +506,39 @@ class ThangsNode extends TreemaNode.nodeMap.array
     # TODO: add some filtering to only work with certain types of units at a time
     return children
 
+  getUndoDescription: ->
+    trackedActions = @getTrackedActions()
+    currentStateIndex = @getCurrentStateIndex()
+    if currentStateIndex then return @getTrackedActionDescription( trackedActions[currentStateIndex - 1] ) else return ''
+
+  getRedoDescription: ->
+    trackedActions = @getTrackedActions()
+    currentStateIndex = @getCurrentStateIndex()
+    if currentStateIndex isnt trackedActions.length 
+      return @getTrackedActionDescription trackedActions[currentStateIndex]
+    else 
+      return ''
+
+  getTrackedActionDescription: (trackedAction) ->
+    switch trackedAction.action
+      when 'insert'
+        trackedActionDescription = 'Add New Thang'
+
+      when 'delete'
+        trackedActionDescription = 'Delete Thang'
+
+      when 'edit'
+        path = trackedAction.path.split '/'
+        if path[path.length-1] is 'pos'
+          trackedActionDescription = 'Move Thang'
+        else
+          trackedActionDescription = 'Edit Thang'
+
+      else
+        trackedActionDescription = ''
+
+    trackedActionDescription
+    
 class ThangNode extends TreemaObjectNode
   valueClass: 'treema-thang'
   collection: false

@@ -32,7 +32,9 @@ module.exports = class LevelEditView extends RootView
     'click #fork-level-start-button': 'startForkingLevel'
     'click #level-history-button': 'showVersionHistory'
     'click #undo-button': 'onUndo'
+    'mouseenter #undo-button': 'showUndoDescription'
     'click #redo-button': 'onRedo'
+    'mouseenter #redo-button': 'showRedoDescription'
     'click #patches-tab': -> @patchesView.load()
     'click #components-tab': -> @subviews.editor_level_components_tab_view.refreshLevelThangsTreema @level.get('thangs')
     'click #level-patch-button': 'startPatchingLevel'
@@ -112,6 +114,12 @@ module.exports = class LevelEditView extends RootView
 
   onRedo: ->
     @getCurrentView()?.redo?()
+
+  showUndoDescription: ->
+    @getCurrentView()?.showUndoDescription()
+
+  showRedoDescription: ->
+    @getCurrentView()?.showRedoDescription()
 
   getCurrentView: ->
     tabText = _.string.underscored $('li.active')[0]?.textContent
