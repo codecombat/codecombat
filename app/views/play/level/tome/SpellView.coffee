@@ -3,6 +3,7 @@ template = require 'templates/play/level/tome/spell'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
 Range = ace.require('ace/range').Range
+UndoManager = ace.require('ace/undomanager').UndoManager
 Problem = require './Problem'
 SpellDebugView = require './SpellDebugView'
 SpellToolbarView = require './SpellToolbarView'
@@ -175,6 +176,7 @@ module.exports = class SpellView extends CocoView
 
   fillACE: ->
     @ace.setValue @spell.source
+    @aceSession.setUndoManager(new UndoManager())
     @ace.clearSelection()
 
   addZatannaSnippets: (e) ->
@@ -209,6 +211,7 @@ module.exports = class SpellView extends CocoView
     @loaded = false
     @previousSource = @ace.getValue()
     @ace.setValue('')
+    @aceSession.setUndoManager(new UndoManager())
     fireURL = 'https://codecombat.firebaseio.com/' + @spell.pathComponents.join('/')
     @fireRef = new Firebase fireURL
     firepadOptions = userId: me.id
@@ -223,6 +226,7 @@ module.exports = class SpellView extends CocoView
       @spell.source = firepadSource
     else
       @ace.setValue @previousSource
+      @aceSession.setUndoManager(new UndoManager())
       @ace.clearSelection()
     @onAllLoaded()
 
@@ -303,6 +307,7 @@ module.exports = class SpellView extends CocoView
       @firepad.setText source
     else
       @ace.setValue source
+      @aceSession.setUndoManager(new UndoManager())
     @eventsSuppressed = false
     try
       @ace.resize true  # hack: @ace may not have updated its text properly, so we force it to refresh
