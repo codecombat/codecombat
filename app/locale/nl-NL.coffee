@@ -355,7 +355,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     home: "Home"
 #    game_menu: "Game Menu"
     guide: "Handleiding"
-    multiplayer: "Multiplayer"
     restart: "Herstarten"
     goals: "Doelen"
 #    success: "Success!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_review: "Vertel ons meer!"
     victory_hour_of_code_done: "Ben Je Klaar?"
     victory_hour_of_code_done_yes: "Ja, ik ben klaar met mijn Hour of Code!"
-    multiplayer_title: "Multiplayer Instellingen"
-    multiplayer_link_description: "Geef deze url aan iemand om hem/haar te laten meedoen met jou."
-    multiplayer_hint_label: "Hint:"
-    multiplayer_hint: " Klik de link om alles te selecteren, druk dan op Apple-C of Ctrl-C om de link te kopiëren."
-    multiplayer_coming_soon: "Binnenkort komen er meer Multiplayermogelijkheden!"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Handleiding"
     tome_minion_spells: "Jouw Minions' Spreuken"
     tome_read_only_spells: "Read-Only Spreuken"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     infinite_loop_reset_level: "Level resetten"
     infinite_loop_comment_out: "Mijn code weg commentariëren"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "Multiplayer"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "Multiplayer Instellingen"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "Geef deze url aan iemand om hem/haar te laten meedoen met jou."
+    multiplayer_hint_label: "Hint:"
+    multiplayer_hint: " Klik de link om alles te selecteren, druk dan op Apple-C of Ctrl-C om de link te kopiëren."
+    multiplayer_coming_soon: "Binnenkort komen er meer Multiplayermogelijkheden!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  multiplayer_launch:
-    introducing_dungeon_arena: "Introductie van Dungeon Arena"
-    new_way: "17 maart, 2014: De nieuwe manier om te concurreren met code."
-    to_battle: "Naar het slagveld, ontwikkelaars!"
-    modern_day_sorcerer: "Kan jij programmeren? Dat is pas stoer. Jij bent een moderne tovenaar! Is het niet tijd dat je jouw magische krachten gebruikt voor het besturen van jou minions in het slagveld? En nee, we praten hier niet over robots."
-    arenas_are_here: "CodeCombat's kop aan kop multiplayer arena's zijn er."
-    ladder_explanation: "Kies jouw helden, betover jouw mensen of ogre legers, en beklim jouw weg naar de top in de ladder, door het verslagen van vriend en vijand. Daag nu je vrienden uit in de multiplayer programmeer arena's en verdien eeuwige roem. Indien je creatief bent, kan je zelfs"
-    fork_our_arenas: "onze arenas forken"
-    create_worlds: "en jouw eigen werelden creëren."
-    javascript_rusty: "Jouw JavaScript is een beetje roestig? Wees niet bang, er is een"
-    tutorial: "tutorial"
-    new_to_programming: ". Ben je net begonnen met programmeren? Speel dan eerst onze beginners campagne."
-    so_ready: "Ik ben hier zo klaar voor"
 
   loading_error:
     could_not_load: "Fout bij het laden van de server"

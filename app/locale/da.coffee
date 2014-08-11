@@ -355,7 +355,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     home: "Hjem"
 #    game_menu: "Game Menu"
     guide: "Guide"
-    multiplayer: "Flere spillere"
     restart: "Start forfra"
     goals: "Mål"
 #    success: "Success!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     victory_review: "Fortæl os mere!"
     victory_hour_of_code_done: "Er du færdig?"
     victory_hour_of_code_done_yes: "Ja, jeg er færdig med min Kodetime!"
-    multiplayer_title: "Flerspillerinstillinger"
-    multiplayer_link_description: "Del dette link med andre deltagere."
-    multiplayer_hint_label: "Tip:"
-    multiplayer_hint: " Klik på linket for markere alt; tryk derefter ⌘-C eller Ctrl-C tfr at kopiere linket."
-    multiplayer_coming_soon: "Yderligere flerspillermuligheder er på vej!"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Instruktioner"
 #    tome_minion_spells: "Your Minions' Spells"
 #    tome_read_only_spells: "Read-Only Spells"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    infinite_loop_reset_level: "Reset Level"
 #    infinite_loop_comment_out: "Comment Out My Code"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "Flere spillere"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "Flerspillerinstillinger"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "Del dette link med andre deltagere."
+    multiplayer_hint_label: "Tip:"
+    multiplayer_hint: " Klik på linket for markere alt; tryk derefter ⌘-C eller Ctrl-C tfr at kopiere linket."
+    multiplayer_coming_soon: "Yderligere flerspillermuligheder er på vej!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-#  multiplayer_launch:
-#    introducing_dungeon_arena: "Introducing Dungeon Arena"
-#    new_way: "The new way to compete with code."
-#    to_battle: "To Battle, Developers!"
-#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
-#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
-#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
-#    fork_our_arenas: "fork our arenas"
-#    create_worlds: "and create your own worlds."
-#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
-#    tutorial: "tutorial"
-#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
-#    so_ready: "I Am So Ready for This"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

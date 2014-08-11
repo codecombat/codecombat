@@ -355,7 +355,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     home: "Inicio"
 #    game_menu: "Game Menu"
     guide: "Guía"
-    multiplayer: "Multijugador"
     restart: "Reiniciar"
     goals: "Objetivos"
 #    success: "Success!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     victory_review: "¡Cuéntanos más!"
     victory_hour_of_code_done: "¿Ya terminaste?"
     victory_hour_of_code_done_yes: "Si, ¡He terminado con mi hora de código!"
-    multiplayer_title: "Ajustes de Multijugador"
-    multiplayer_link_description: "Pasa este enlace a alguien para que se una a ti."
-    multiplayer_hint_label: "Pista:"
-    multiplayer_hint: " Haz un click en el link para que se seleccione, después utiliza Ctrl-C o ⌘-C para copiar el link."
-    multiplayer_coming_soon: "¡Más opciones de Multijugador están por venir!"
-    multiplayer_sign_in_leaderboard: "Logueate o crea una cuentra para guardar tus resultados en la tabla de clasificación."
     guide_title: "Guía"
     tome_minion_spells: "Los hechizos de tus súbditos"
     tome_read_only_spells: "Hechizos de solo lectura"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     infinite_loop_reset_level: "Reiniciar nivel"
     infinite_loop_comment_out: "Comenta mi código"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "Multijugador"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "Ajustes de Multijugador"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "Pasa este enlace a alguien para que se una a ti."
+    multiplayer_hint_label: "Pista:"
+    multiplayer_hint: " Haz un click en el link para que se seleccione, después utiliza Ctrl-C o ⌘-C para copiar el link."
+    multiplayer_coming_soon: "¡Más opciones de Multijugador están por venir!"
+    multiplayer_sign_in_leaderboard: "Logueate o crea una cuentra para guardar tus resultados en la tabla de clasificación."
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Atajos de teclado"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  multiplayer_launch:
-    introducing_dungeon_arena: "Presentando Dungeon Arena"
-    new_way: "La nueva manera de competir con código."
-    to_battle: "Para luchar, Developers!"
-    modern_day_sorcerer: "¿Sabes escribir código? Eso es genial. ¡Eres un mago del mundo moderno! ¿No es hora de usar tus poderes mágicos de codificación para comandar a tus esbirros en épicos combates? Y no estamos hablando de robots."
-    arenas_are_here: "Las arenas multijugador de CodeCombat para combatir uno contra otro están aquí."
-    ladder_explanation: "Elige a tus heroes, hechiza a tus ejércitos orco o humano y escala a la cima de la clasificación pasando sobre los cuerpos derrotados de tus compañeros magos. Luego desafía a tus amigos en nuestras gloriosas y asíncronas arenas de multijugador. Si te sientes creativo, puedes incluso"
-    fork_our_arenas: "Bifurca nuestras arenas"
-    create_worlds: "y crea tus propios mundos."
-    javascript_rusty: "¿Tienes JavaScript un poco oxidado? No te preocupes, hay un"
-    tutorial: "tutorial"
-    new_to_programming: ". ¿Nuevo en el mundo de la programación? Dale caña a nuestra campaña para principiantes para aumentar tus habilidades."
-    so_ready: "Estoy muy listo para esto."
 
   loading_error:
     could_not_load: "Error al cargar desde el servidor."

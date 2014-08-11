@@ -355,7 +355,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     home: "Acasă"
 #    game_menu: "Game Menu"
     guide: "Ghid"
-    multiplayer: "Multiplayer"
     restart: "Restart"
     goals: "Obiective"
 #    success: "Success!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_review: "Spune-ne mai multe!"
     victory_hour_of_code_done: "Ai terminat?"
     victory_hour_of_code_done_yes: "Da, am terminat Hour of Code™!"
-    multiplayer_title: "Setări Multiplayer"
-    multiplayer_link_description: "Împărtășește acest link cu cei care vor să ți se alăture."
-    multiplayer_hint_label: "Hint:"
-    multiplayer_hint: " Apasă pe link pentru a selecta tot, apoi apasă ⌘-C sau Ctrl-C pentru a copia link-ul."
-    multiplayer_coming_soon: "Mai multe feature-uri multiplayer în curând!"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Ghid"
     tome_minion_spells: "Vrăjile Minion-ilor tăi"
     tome_read_only_spells: "Vrăji Read-Only"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    infinite_loop_reset_level: "Reset Level"
 #    infinite_loop_comment_out: "Comment Out My Code"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "Multiplayer"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "Setări Multiplayer"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "Împărtășește acest link cu cei care vor să ți se alăture."
+    multiplayer_hint_label: "Hint:"
+    multiplayer_hint: " Apasă pe link pentru a selecta tot, apoi apasă ⌘-C sau Ctrl-C pentru a copia link-ul."
+    multiplayer_coming_soon: "Mai multe feature-uri multiplayer în curând!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  multiplayer_launch:
-    introducing_dungeon_arena: "Prezentăm Dungeon Arena"
-    new_way: "Noul mod de a concura prin linii de cod."
-    to_battle: "La luptă, Developers!"
-    modern_day_sorcerer: "Știi să programezie? Tare. Ești un vrăjitor al noii ere! Nu crezi ca este timpul să îți folosești puterile de programare pentru a conduce în lupte epice minionii tăi? Și nu vorbim despre roboți aici."
-    arenas_are_here: "Arenele CodeCombat multiplayer 1v1 sunt aici."
-    ladder_explanation: "Alegeți eroii,vrăjește armatele de orci sau oameni, și croiește-ți drumul luptând și învingând alți Vrăjitori pentru a ajunge în topul clasamentului. Dacă te simți creativ poți chiar să"
-    fork_our_arenas: "să dai fork la arenele noastre"
-    create_worlds: "și să îți creezi propriile lumi."
-    javascript_rusty: "N-ai mai pus mâna pe JavaScript? Nicio problemă; există un"
-    tutorial: "tutorial"
-    new_to_programming: ". Nou in tainele programării? Încearcă campania de începători pentru ați dezolvata abilitățile."
-    so_ready: "Sunt atât de pregătit pentru asta!"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

@@ -355,7 +355,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    home: "Home"
 #    game_menu: "Game Menu"
 #    guide: "Guide"
-#    multiplayer: "Multiplayer"
 #    restart: "Restart"
 #    goals: "Goals"
 #    success: "Success!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    victory_review: "Tell us more!"
 #    victory_hour_of_code_done: "Are You Done?"
 #    victory_hour_of_code_done_yes: "Yes, I'm finished with my Hour of Code™!"
-#    multiplayer_title: "Multiplayer Settings"
-#    multiplayer_link_description: "Give this link to anyone to have them join you."
-#    multiplayer_hint_label: "Hint:"
-#    multiplayer_hint: " Click the link to select all, then press ⌘-C or Ctrl-C to copy the link."
-#    multiplayer_coming_soon: "More multiplayer features to come!"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 #    guide_title: "Guide"
 #    tome_minion_spells: "Your Minions' Spells"
 #    tome_read_only_spells: "Read-Only Spells"
@@ -486,7 +479,14 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    temp: "Temp"
 
 #  multiplayer:
-#    temp: "Temp"
+#    multiplayer_title: "Multiplayer Settings"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+#    multiplayer_link_description: "Give this link to anyone to have them join you."
+#    multiplayer_hint_label: "Hint:"
+#    multiplayer_hint: " Click the link to select all, then press ⌘-C or Ctrl-C to copy the link."
+#    multiplayer_coming_soon: "More multiplayer features to come!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-#  multiplayer_launch:
-#    introducing_dungeon_arena: "Introducing Dungeon Arena"
-#    new_way: "The new way to compete with code."
-#    to_battle: "To Battle, Developers!"
-#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
-#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
-#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
-#    fork_our_arenas: "fork our arenas"
-#    create_worlds: "and create your own worlds."
-#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
-#    tutorial: "tutorial"
-#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
-#    so_ready: "I Am So Ready for This"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

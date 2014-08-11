@@ -355,7 +355,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     home: "Início"
 #    game_menu: "Game Menu"
     guide: "Guia"
-    multiplayer: "Multijogador"
     restart: "Reiniciar"
     goals: "Objetivos"
     success: "Successo!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     victory_review: "Conte-nos mais!"
     victory_hour_of_code_done: "Terminou?"
     victory_hour_of_code_done_yes: "Sim, terminei a minha Hora de Código™!"
-    multiplayer_title: "Definições Multijogador"
-    multiplayer_link_description: "Dê esta ligação a alguém para se juntar a si."
-    multiplayer_hint_label: "Dica:"
-    multiplayer_hint: " Clique na ligação para selecionar tudo. Depois carregue em ⌘-C ou Ctrl-C para copiá-la."
-    multiplayer_coming_soon: "Mais funcionalidades multijogador em breve!"
-    multiplayer_sign_in_leaderboard: "Inicie sessão ou crie uma conta para ter a sua solução na tabela de classificação."
     guide_title: "Guia"
     tome_minion_spells: "Feitiços dos Seus Minions"
     tome_read_only_spells: "Feitiços Apenas de Leitura"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     infinite_loop_reset_level: "Reiniciar Nível"
 #    infinite_loop_comment_out: "Comment Out My Code"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "Multijogador"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "Definições Multijogador"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "Dê esta ligação a alguém para se juntar a si."
+    multiplayer_hint_label: "Dica:"
+    multiplayer_hint: " Clique na ligação para selecionar tudo. Depois carregue em ⌘-C ou Ctrl-C para copiá-la."
+    multiplayer_coming_soon: "Mais funcionalidades multijogador em breve!"
+    multiplayer_sign_in_leaderboard: "Inicie sessão ou crie uma conta para ter a sua solução na tabela de classificação."
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Atalhos de Teclado"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  multiplayer_launch:
-    introducing_dungeon_arena: "Introduzindo a Dungeon Arena"
-    new_way: "A nova forma de competir com código."
-    to_battle: "Para o Combate, Programadores!"
-    modern_day_sorcerer: "Sabe programar? Isso é demais! É um feiticeiro dos tempos modernos! Não estará na altura de usar os seus poderes mágicos de programação para comandar os seus minions em combates épicos? E não estamos a falar de robôs."
-    arenas_are_here: "As arenas multijogador do CodeCombat estão aqui."
-    ladder_explanation: "Escolha os seus heróis, enfeitice os seus exércitos de ogres ou de humanos e passe por cima de Feiticeiros derrotados para chegar ao topo da tabela classificativa - depois, compita contra os seus amigos nas nossas arenas de programação multijogador gloriosas. Se se sentir criativo, pode ainda"
-    fork_our_arenas: "bifurcar as nossas arenas"
-    create_worlds: "e criar os seus próprios mundos."
-    javascript_rusty: "O seu JavaScript está um pouco enferrujado? Não se preocupe; existe um"
-    tutorial: "tutorial"
-    new_to_programming: ". Novo na programação? Faça a nossa Campanha para Iniciantes para melhorar as suas capacidades."
-    so_ready: "Estou Mais Que Pronto Para Isto"
 
   loading_error:
     could_not_load: "Erro ao carregar do servidor"

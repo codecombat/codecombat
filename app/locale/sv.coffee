@@ -355,7 +355,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     home: "Hem"
 #    game_menu: "Game Menu"
     guide: "Guide"
-    multiplayer: "Flerspelareläge"
     restart: "Börja om"
     goals: "Mål"
 #    success: "Success!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     victory_review: "Berätta mer!"
     victory_hour_of_code_done: "Är du klar?"
     victory_hour_of_code_done_yes: "Ja, jag är klar med min Hour of Code!"
-    multiplayer_title: "Flerspelarinställningar"
-    multiplayer_link_description: "Dela den här länken med alla som du vill spela med."
-    multiplayer_hint_label: "Tips:"
-    multiplayer_hint: " Klicka på länken för att välja allt, tryck sedan på Cmd-C eller Ctrl-C för att kopiera länken."
-    multiplayer_coming_soon: "Fler flerspelarlägen kommer!"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Guide"
     tome_minion_spells: "Dina soldaters förmågor"
     tome_read_only_spells: "Skrivskyddade förmågor"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    infinite_loop_reset_level: "Reset Level"
 #    infinite_loop_comment_out: "Comment Out My Code"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "Flerspelareläge"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "Flerspelarinställningar"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "Dela den här länken med alla som du vill spela med."
+    multiplayer_hint_label: "Tips:"
+    multiplayer_hint: " Klicka på länken för att välja allt, tryck sedan på Cmd-C eller Ctrl-C för att kopiera länken."
+    multiplayer_coming_soon: "Fler flerspelarlägen kommer!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  multiplayer_launch:
-    introducing_dungeon_arena: "Introducerar grottarenan"
-    new_way: "Det nya sättet att tävla i kod."
-    to_battle: "Till slagfältet, utvecklare!"
-    modern_day_sorcerer: "Du vet hur man kodar? Det är coolt. Du är en modern trollkarl! Är det inte dags att du använde dina magiska kodarkrafter för att leda dina undersåtar i episka strider? Och vi snackar inte om robotar nu."
-    arenas_are_here: "CodeCombats flerspelararenor är här."
-    ladder_explanation: "Välj dina hjältar, förtrolla dina människo- eller orch-arméer och klättra över besegrade trollkarlar, för att nå toppen av stegen - och utmana sedan dina vänner i våra ärorika, asynkrona flerspelararenor. Om du känner dig kreativ kan du till och med"
-    fork_our_arenas: "förgrena våra arenor"
-    create_worlds: "och skapa dina egna världer."
-    javascript_rusty: "Är din JavaScript lite rostigt? Oroa dig inte, det finns en"
-    tutorial: "tutorial"
-    new_to_programming: ". Ny på programmering? Gå till vår nybörjarkampanj för att öva upp dina färdigheter."
-    so_ready: "Jag är så redo för det här."
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

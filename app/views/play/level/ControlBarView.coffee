@@ -2,7 +2,6 @@ CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/control_bar'
 
 LevelGuideModal = require './modal/LevelGuideModal'
-MultiplayerModal = require './modal/MultiplayerModal'
 ReloadLevelModal = require './modal/ReloadLevelModal'
 GameMenuModal = require 'views/game-menu/GameMenuModal'
 
@@ -14,10 +13,6 @@ module.exports = class ControlBarView extends CocoView
     'bus:player-states-changed': 'onPlayerStatesChanged'
 
   events:
-    'click #multiplayer-button': ->
-      window.tracker?.trackEvent 'Clicked Multiplayer', level: @level.get('name'), label: @level.get('name')
-      @showMultiplayerModal()
-
     'click #docs-button': ->
       window.tracker?.trackEvent 'Clicked Docs', level: @level.get('name'), label: @level.get('name')
       @showGuideModal()
@@ -84,11 +79,8 @@ module.exports = class ControlBarView extends CocoView
     clearInterval @guideHighlightInterval
     @guideHighlightInterval = null
 
-  showMultiplayerModal: ->
-    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level, ladderGame: @ladderGame))
-
   showRestartModal: ->
     @openModalView(new ReloadLevelModal())
 
   showGameMenuModal: ->
-    @openModalView new GameMenuModal level: @level, session: @session
+    @openModalView new GameMenuModal level: @level, session: @session, playableTeams: @playableTeams

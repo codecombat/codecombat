@@ -355,7 +355,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     home: "主页"
 #    game_menu: "Game Menu"
     guide: "指南"
-    multiplayer: "多人游戏"
     restart: "重新开始"
     goals: "目标"
 #    success: "Success!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_review: "给我们反馈！"
     victory_hour_of_code_done: "你完成了吗?"
     victory_hour_of_code_done_yes: "是的, 完成了!"
-    multiplayer_title: "多人游戏设置"
-    multiplayer_link_description: "把这个链接告诉小伙伴们，一起玩吧。"
-    multiplayer_hint_label: "提示："
-    multiplayer_hint: " 点击全选，然后按 Apple-C（苹果电脑）或 Ctrl-C 复制链接。"
-    multiplayer_coming_soon: "多人游戏的更多特性！"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "指南"
     tome_minion_spells: "助手的咒语"
     tome_read_only_spells: "只读的咒语"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     infinite_loop_reset_level: "重置等级"
     infinite_loop_comment_out: "为我的代码添加注释"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "多人游戏"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "多人游戏设置"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "把这个链接告诉小伙伴们，一起玩吧。"
+    multiplayer_hint_label: "提示："
+    multiplayer_hint: " 点击全选，然后按 Apple-C（苹果电脑）或 Ctrl-C 复制链接。"
+    multiplayer_coming_soon: "多人游戏的更多特性！"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  multiplayer_launch:
-    introducing_dungeon_arena: "介绍地下城竞技场"
-    new_way: "用代码竞技的新方式."
-    to_battle: "去战斗, 开发者们!"
-    modern_day_sorcerer: "你能编程? 这太牛了。 在这个时代你就是巫师! 还不快用你编码的魔力指挥你的手下投入壮烈的战斗中么? 我们说的可不是和机器战斗哦。"
-    arenas_are_here: "CodeCombat一个多人对抗的头脑竞技场."
-#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
-    fork_our_arenas: "派生我的竞技场"
-    create_worlds: "以及创造我自己的世界."
-    javascript_rusty: "对JavaScript有点生疏? 没关系，这里有一个"
-    tutorial: "教程"
-    new_to_programming: ". 编程新手? 参加我们的新手训练营来提高技能吧."
-    so_ready: "我准备好了!"
 
   loading_error:
     could_not_load: "载入失败"

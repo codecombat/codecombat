@@ -355,7 +355,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     home: "Início"
 #    game_menu: "Game Menu"
     guide: "Guia"
-    multiplayer: "Multiplayer"
     restart: "Reiniciar"
     goals: "Objetivos"
     success: "Sucesso!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
     victory_review: "Diga-nos mais!"
     victory_hour_of_code_done: "Terminou?"
     victory_hour_of_code_done_yes: "Sim, eu terminei minha Hora da Programação!"
-    multiplayer_title: "Configurações do Multiplayer"
-    multiplayer_link_description: "Passe este link para quem você quiser que se una à partida."
-    multiplayer_hint_label: "Dica:"
-    multiplayer_hint: " Clique no link para selecionar tudo, então dê Ctrl+C ou ⌘+C para copiar o link. "
-    multiplayer_coming_soon: "Mais novidades no multiplayer estão chegando!"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Guia"
     tome_minion_spells: "Magias dos seus subordinados"
     tome_read_only_spells: "Magias não editáveis"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    infinite_loop_reset_level: "Reset Level"
 #    infinite_loop_comment_out: "Comment Out My Code"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "Multiplayer"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "Configurações do Multiplayer"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "Passe este link para quem você quiser que se una à partida."
+    multiplayer_hint_label: "Dica:"
+    multiplayer_hint: " Clique no link para selecionar tudo, então dê Ctrl+C ou ⌘+C para copiar o link. "
+    multiplayer_coming_soon: "Mais novidades no multiplayer estão chegando!"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "português do Brasil", englishDescription: 
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  multiplayer_launch:
-    introducing_dungeon_arena: "Introduzindo a Dungeon Arena"
-    new_way: "O novo meio de competir com código."
-    to_battle: "Para a Batalha, Desenvolvedores!"
-    modern_day_sorcerer: "Você sabe como codificar? Isso é incrível. Você é um feiticeiro dos tempos modernos! Não é tempo de usar seus poderes mágicos de codificação para comandar seus lacaios em um combate épico? E não estamos falando de robôs aqui."
-    arenas_are_here: "As arenas de combatte um contra um do CodeCombat estão aqui."
-    ladder_explanation: "Escoha seus heróis, encante seus exércitos de humanos ou ogres, e abra seu caminho ao longo de companheiros derrotados para chegar ao topo das escadas, então desafie seus amigos em nossas gloriosas arenas de codificação assíncrona. Se você está se sentindo criativo, você pode até mesmo"
-    fork_our_arenas: "dar um fork em nossas arenas"
-    create_worlds: "e criar seus próprios mundos."
-    javascript_rusty: "está um pouco enferrujado em JavaScript? Não se preocupe; temos um"
-    tutorial: "tutorial"
-    new_to_programming: ". Novo à programação? Bata nossa campanha iniciante para aumentar de nível"
-    so_ready: "Eu Estou Tão Pronto Para Isso"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

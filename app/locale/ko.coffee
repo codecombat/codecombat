@@ -355,7 +355,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     home: "홈"
 #    game_menu: "Game Menu"
     guide: "가이드"
-    multiplayer: "멀티 플레이어"
     restart: "재시작"
     goals: "목표"
     success: "성공!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_review: "리뷰를 남겨주세요"
     victory_hour_of_code_done: "정말 종료합니까?"
     victory_hour_of_code_done_yes: "네 내 Hour of Code™ 완료했습니다!"
-    multiplayer_title: "멀티 플레이어 설정"
-    multiplayer_link_description: "당신에게 참여를 원하는 사람에게 이 링크를 주세요."
-    multiplayer_hint_label: "힌트:"
-    multiplayer_hint: " 모두 선택하려면 링크를 클릭하세요, 그리고 ⌘-C 또는 Ctrl-C 를 눌러서 링크를 복사하세요."
-    multiplayer_coming_soon: "곧 좀 더 다양한 멀티플레이어 모드가 업데이트 됩니다!"
-    multiplayer_sign_in_leaderboard: "로그인하시거나 계정을 만드시고 상위권 순위 차트에 이름을 올려보세요."
     guide_title: "가이드"
     tome_minion_spells: "미니언의 마법"
     tome_read_only_spells: "읽기 전용 마법"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     infinite_loop_reset_level: "레벨 리셋"
     infinite_loop_comment_out: "내 코드를 일시적 주석처리하기"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "멀티 플레이"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "멀티 플레이어 설정"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "당신에게 참여를 원하는 사람에게 이 링크를 주세요."
+    multiplayer_hint_label: "힌트:"
+    multiplayer_hint: " 모두 선택하려면 링크를 클릭하세요, 그리고 ⌘-C 또는 Ctrl-C 를 눌러서 링크를 복사하세요."
+    multiplayer_coming_soon: "곧 좀 더 다양한 멀티플레이어 모드가 업데이트 됩니다!"
+    multiplayer_sign_in_leaderboard: "로그인하시거나 계정을 만드시고 상위권 순위 차트에 이름을 올려보세요."
 
   keyboard_shortcuts:
     keyboard_shortcuts: "단축키"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
     license: "라이센스"
 #    oreilly: "ebook of your choice"
-
-#  multiplayer_launch:
-#    introducing_dungeon_arena: "Introducing Dungeon Arena"
-#    new_way: "The new way to compete with code."
-#    to_battle: "To Battle, Developers!"
-#    modern_day_sorcerer: "You know how to code? That's badass. You're a modern-day sorcerer! Isn't about time that you used your magic coding powers to command your minions in epic combat? And we're not talking robots here."
-#    arenas_are_here: "CodeCombat head-to-head multiplayer arenas are here."
-#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
-#    fork_our_arenas: "fork our arenas"
-#    create_worlds: "and create your own worlds."
-#    javascript_rusty: "JavaScript a bit rusty? Don't worry; there's a"
-#    tutorial: "tutorial"
-#    new_to_programming: ". New to programming? Hit our beginner campaign to skill up."
-#    so_ready: "I Am So Ready for This"
 
   loading_error:
     could_not_load: "서버로부터 로딩하는 데 문제가 발생했습니다."

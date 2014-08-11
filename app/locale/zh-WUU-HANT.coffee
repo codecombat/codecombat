@@ -355,7 +355,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     home: "主頁"
 #    game_menu: "Game Menu"
     guide: "指南"
-    multiplayer: "多人遊戲"
     restart: "轉來"
     goals: "目標"
 #    success: "Success!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     victory_review: "搭我裏反應！"
     victory_hour_of_code_done: "爾妝下落爻噃？"
     victory_hour_of_code_done_yes: "正是, 妝下落爻！"
-    multiplayer_title: "多人遊戲設定"
-    multiplayer_link_description: "畀箇個鏈接搭朋友家講，聚隊攪。"
-    multiplayer_hint_label: "提醒："
-    multiplayer_hint: " 點牢全選，再捺 Apple-C（蘋果電腦）要勿 Ctrl-C 複製鏈接。"
-    multiplayer_coming_soon: "多人遊戲還多特性！"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "指南"
     tome_minion_spells: "下手個咒語"
     tome_read_only_spells: "只讀個咒語"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     infinite_loop_reset_level: "轉定等級"
     infinite_loop_comment_out: "爲我個代碼加註解"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "多人遊戲"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "多人遊戲設定"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "畀箇個鏈接搭朋友家講，聚隊攪。"
+    multiplayer_hint_label: "提醒："
+    multiplayer_hint: " 點牢全選，再捺 Apple-C（蘋果電腦）要勿 Ctrl-C 複製鏈接。"
+    multiplayer_coming_soon: "多人遊戲還多特性！"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  multiplayer_launch:
-    introducing_dungeon_arena: "介紹地下城競技場"
-    new_way: "用代碼競技個新方式。"
-    to_battle: "趒去打仗，我等開發者！"
-    modern_day_sorcerer: "爾要得編程？老讚！箇時代爾佩是巫師！還弗快點用爾編碼個魔力指揮爾個下手參軍打仗啊？我裏講個勿是搭機器賭打何！"
-    arenas_are_here: "CodeCombat一個多人對打個頭腦競技場。"
-#    ladder_explanation: "Choose your heroes, enchant your human or ogre armies, and climb your way over defeated fellow Wizards to reach the top of the ladders–then challenge your friends in our glorious, asynchronous multiplayer coding arenas. If you're feeling creative, you can even"
-    fork_our_arenas: "派生我個競技場"
-    create_worlds: "還有造我自己個世界。"
-    javascript_rusty: "對JavaScript一粒打生？嘸較相干，箇搭有一個"
-    tutorial: "教程"
-    new_to_programming: "。編程新手？加進我裏新手訓練營裏來提高能力何。"
-    so_ready: "我準備起爻！"
 
   loading_error:
     could_not_load: "讀取失敗"

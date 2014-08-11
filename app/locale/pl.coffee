@@ -355,7 +355,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     home: "Strona główna"
 #    game_menu: "Game Menu"
     guide: "Przewodnik"
-    multiplayer: "Multiplayer"
     restart: "Zacznij od nowa"
     goals: "Cele"
 #    success: "Success!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
     victory_review: "Powiedz nam coś więcej!"
     victory_hour_of_code_done: "Skończyłeś już?"
     victory_hour_of_code_done_yes: "Tak, skończyłem moją Godzinę Kodu."
-    multiplayer_title: "Ustawienia multiplayer"
-    multiplayer_link_description: "Przekaż ten link, jeśli chcesz, by ktoś do ciebie dołączył."
-    multiplayer_hint_label: "Podpowiedź:"
-    multiplayer_hint: "Kliknij link by zaznaczyć wszystko, potem wciśnij Cmd-C lub Ctrl-C by skopiować ten link."
-    multiplayer_coming_soon: "Wkrótce więcej opcji multiplayer"
-#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
     guide_title: "Przewodnik"
     tome_minion_spells: "Czary twojego podopiecznego"
     tome_read_only_spells: "Czary tylko do odczytu"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    infinite_loop_reset_level: "Reset Level"
 #    infinite_loop_comment_out: "Comment Out My Code"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "Multiplayer"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "Ustawienia multiplayer"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "Przekaż ten link, jeśli chcesz, by ktoś do ciebie dołączył."
+    multiplayer_hint_label: "Podpowiedź:"
+    multiplayer_hint: "Kliknij link by zaznaczyć wszystko, potem wciśnij Cmd-C lub Ctrl-C by skopiować ten link."
+    multiplayer_coming_soon: "Wkrótce więcej opcji multiplayer"
+#    multiplayer_sign_in_leaderboard: "Sign in or create an account and get your solution on the leaderboard."
 
 #  keyboard_shortcuts:
 #    keyboard_shortcuts: "Keyboard Shortcuts"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "język polski", englishDescription: "Polish
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  multiplayer_launch:
-    introducing_dungeon_arena: "Oto Dungeon Arena"
-    new_way: "Nowy sposób, by współzawodniczyć dzięki programowaniu."
-    to_battle: "Do broni, developerzy!"
-    modern_day_sorcerer: "Wiesz, jak programować? Super. Jesteś współczesnym czarodziejem. Czy nie najwyższy czas, aby użyć swoich mocy, by dowodzić jednostkami w epickiej batalii? I nie mamy tutaj na myśli robotów."
-    arenas_are_here: "Areny wieloosobowych potyczek CodeCombat właśnie nastały."
-    ladder_explanation: "Wybierz swoich herosów, ulepsz swą armię ludzi lub ogrów i wespnij się po pokonanych Czarodziejach, by osiągnąć szczyty rankingów - wówczas, wyzwij swoich przyjaciół w naszych wspaniałych, asynchronicznych arenach programowania multiplayer. Jeśli czujesz w sobie moc twórczą, możesz nawet"
-    fork_our_arenas: "forkować nasze areny"
-    create_worlds: "i tworzyć swoje własne światy."
-    javascript_rusty: "JavaScript wyleciała ci z głowy? Nie martw się, czeka na ciebie"
-    tutorial: "samouczek"
-    new_to_programming: ". Jesteś nowy w świecie programowania? Zagraj w naszą kampanię dla początkujących, aby zyskać nowe umiejętności."
-    so_ready: "Już nie mogę się doczekać"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"

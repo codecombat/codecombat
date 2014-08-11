@@ -355,7 +355,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     home: "На главную"
 #    game_menu: "Game Menu"
     guide: "Руководство"
-    multiplayer: "Мультиплеер"
     restart: "Перезапустить"
     goals: "Цели"
     success: "Успешно!"
@@ -378,12 +377,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_review: "Расскажите нам больше!"
     victory_hour_of_code_done: "Вы закончили?"
     victory_hour_of_code_done_yes: "Да, я закончил мой Час Кода™!"
-    multiplayer_title: "Настройки мультиплеера"
-    multiplayer_link_description: "Дайте эту ссылку кому-нибудь, чтоб он присоединился к вам."
-    multiplayer_hint_label: "Подсказка: "
-    multiplayer_hint: "кликните на ссылку, чтобы выделить её, затем нажмите ⌘-С или Ctrl-C, чтобы скопировать."
-    multiplayer_coming_soon: "Больше возможностей мультиплеера на подходе!"
-    multiplayer_sign_in_leaderboard: "Войдите или создайте аккаунт, чтобы ваше решение оказалось в таблице лидеров."
     guide_title: "Руководство"
     tome_minion_spells: "Заклинания ваших миньонов"
     tome_read_only_spells: "Заклинания только для чтения"
@@ -434,13 +427,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     infinite_loop_reset_level: "Сбросить уровень"
     infinite_loop_comment_out: "Закомментировать мой код"
 
-#  game_menu:
+  game_menu:
 #    inventory_tab: "Inventory"
 #    choose_hero_tab: "Restart Level"
 #    save_load_tab: "Save/Load"
 #    options_tab: "Options"
 #    guide_tab: "Guide"
-#    multiplayer_tab: "Multiplayer"
+    multiplayer_tab: "Мультиплеер"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
@@ -485,8 +478,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #  guide:
 #    temp: "Temp"
 
-#  multiplayer:
-#    temp: "Temp"
+  multiplayer:
+    multiplayer_title: "Настройки мультиплеера"
+#    multiplayer_toggle: "Enable multiplayer"
+#    multiplayer_toggle_description: "Allow others to join your game."
+    multiplayer_link_description: "Дайте эту ссылку кому-нибудь, чтоб он присоединился к вам."
+    multiplayer_hint_label: "Подсказка: "
+    multiplayer_hint: "кликните на ссылку, чтобы выделить её, затем нажмите ⌘-С или Ctrl-C, чтобы скопировать."
+    multiplayer_coming_soon: "Больше возможностей мультиплеера на подходе!"
+    multiplayer_sign_in_leaderboard: "Войдите или создайте аккаунт, чтобы ваше решение оказалось в таблице лидеров."
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Горячие клавиши"
@@ -882,20 +882,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    one_month_discount: "discount, 30% off: choose either Rails or HTML"
 #    license: "license"
 #    oreilly: "ebook of your choice"
-
-  multiplayer_launch:
-    introducing_dungeon_arena: "Представляем Арену подземелья"
-    new_way: "Новый способ соревноваться с помощью кода."
-    to_battle: "В бой, разработчики!"
-    modern_day_sorcerer: "Вы знаете, как программировать? Это круто. Вы волшебник наших дней! Разве не время, чтобы вы использовали свои магические силы программирования для управления миньонами в эпичной битве? И мы не говорим здесь роботы."
-    arenas_are_here: "Мультиплеерные арены CodeCombat на равных уже здесь."
-    ladder_explanation: "Выбирайте своих героев, зачаровывайте свои армии людей или огров, и взберитесь через поверженных коллег-Волшебников на вершину ладдеров – затем бросьте вызов своим друзьям в наших славных, асинхронно-мультиплеерных аренах прогрммирования. Если вы ощущаете себя творческим, можете даже"
-    fork_our_arenas: "сделать модификации наших арен"
-    create_worlds: "и создавать свои собственные миры."
-    javascript_rusty: "Подзабыли JavaScript? Не беспокойтесь; есть"
-    tutorial: "обучение"
-    new_to_programming: ". Новичок в программировании? Пройдите нашу кампанию для новичков, чтобы повысить навык."
-    so_ready: "Я полностью готов(а) для этого"
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера"
