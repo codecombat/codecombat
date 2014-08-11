@@ -55,6 +55,10 @@ _.extend LevelSessionSchema.properties,
 
   screenshot:
     type: 'string'
+    
+  heroConfig: c.object {},
+    inventory: c.object()
+    thangType: c.objectId()
 
   state: c.object {},
     complete:

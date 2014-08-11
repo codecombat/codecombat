@@ -32,6 +32,7 @@ module.exports = class ProblemAlertView extends CocoView
   afterRender: ->
     super()
     @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
+    @$el.addClass('no-hint') unless @problem.aetherProblem.hint
     Backbone.Mediator.publish 'play-sound', trigger: 'error_appear', volume: 1.0
 
   onRemoveClicked: ->

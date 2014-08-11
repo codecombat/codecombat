@@ -1,10 +1,12 @@
-ModalView = require 'views/kinds/ModalView'
-template = require 'templates/play/level/modal/multiplayer'
+CocoView = require 'views/kinds/CocoView'
+template = require 'templates/game-menu/multiplayer-view'
 {me} = require 'lib/auth'
+ThangType = require 'models/ThangType'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 
-module.exports = class MultiplayerModal extends ModalView
-  id: 'level-multiplayer-modal'
+module.exports = class MultiplayerView extends CocoView
+  id: 'multiplayer-view'
+  className: 'tab-pane'
   template: template
 
   subscriptions:
@@ -16,16 +18,14 @@ module.exports = class MultiplayerModal extends ModalView
 
   constructor: (options) ->
     super(options)
-    @session = options.session
     @level = options.level
-    @listenTo(@session, 'change:multiplayer', @updateLinkSection)
+    @session = options.session
     @playableTeams = options.playableTeams
+    @listenTo @session, 'change:multiplayer', @updateLinkSection
 
   getRenderData: ->
     c = super()
-    c.joinLink = (document.location.href.replace(/\?.*/, '').replace('#', '') +
-      '?session=' +
-      @session.id)
+    c.joinLink = "#{document.location.href.replace(/\?.*/, '').replace('#', '')}?session=#{@session.id}"
     c.multiplayer = @session.get 'multiplayer'
     c.team = @session.get 'team'
     c.levelSlug = @level?.get 'slug'
@@ -58,6 +58,3 @@ module.exports = class MultiplayerModal extends ModalView
   onHidden: ->
     multiplayer = Boolean(@$el.find('#multiplayer').prop('checked'))
     @session.set('multiplayer', multiplayer)
-
-  destroy: ->
-    super()

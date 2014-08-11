@@ -86,6 +86,8 @@ module.exports = class CocoView extends Backbone.View
 
   render: ->
     return @ unless me
+    view.destroy() for id, view of @subviews
+    @subviews = {}
     super()
     return @template if _.isString(@template)
     @$el.html @template(@getRenderData())
@@ -248,17 +250,29 @@ module.exports = class CocoView extends Backbone.View
   # Subviews
 
   insertSubView: (view, elToReplace=null) ->
-    key = view.id or (view.constructor.name+classCount++)
-    key = _.string.underscored(key)
+    # used to insert views with ids
+    key = @makeSubViewKey(view)
     @subviews[key].destroy() if key of @subviews
     elToReplace ?= @$el.find('#'+view.id)
     elToReplace.after(view.el).remove()
-    view.parent = @
+    @registerSubView(view, key)
     view.render()
     view.afterInsert()
+    view
+
+  registerSubView: (view, key) ->
+    # used to register views which are custom inserted into the view,
+    # like views where you add multiple instances of them
+    key = @makeSubViewKey(view)
+    view.parent = @
     view.parentKey = key
     @subviews[key] = view
     view
+    
+  makeSubViewKey: (view) ->
+    key = view.id or (view.constructor.name+classCount++)
+    key = _.string.underscored(key)  # handy for autocomplete in dev console
+    key
 
   removeSubView: (view) ->
     view.$el.empty()

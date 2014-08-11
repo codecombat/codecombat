@@ -6,17 +6,18 @@ Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
 
 RootView = require 'views/kinds/RootView'
-ThangComponentEditView = require 'views/editor/component/ThangComponentEditView'
+ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangTypeVersionsModal = require './ThangTypeVersionsModal'
 ThangTypeColorsTabView = require './ThangTypeColorsTabView'
 PatchesView = require 'views/editor/PatchesView'
 SaveVersionModal = require 'views/modal/SaveVersionModal'
-template = require 'templates/editor/thang/edit'
+template = require 'templates/editor/thang/thang-type-edit-view'
 
 CENTER = {x: 200, y: 300}
 
 module.exports = class ThangTypeEditView extends RootView
-  id: 'editor-thang-type-edit-view'
+  id: 'thang-type-edit-view'
+  className: 'editor'
   template: template
   startsLoading: true
   resolution: 4
@@ -49,7 +50,6 @@ module.exports = class ThangTypeEditView extends RootView
     @thangType = @supermodel.loadModel(@thangType, 'thang').model
     @thangType.saveBackups = true
     @listenToOnce @thangType, 'sync', ->
-      console.log 'files for?', @thangType.id, @thangType.get 'name'
       @files = @supermodel.loadCollection(new DocumentFiles(@thangType), 'files').model
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
@@ -82,7 +82,7 @@ module.exports = class ThangTypeEditView extends RootView
       components: @thangType.get('components') ? []
       supermodel: @supermodel
       callback: @onComponentsChanged
-    @thangComponentEditView = new ThangComponentEditView options
+    @thangComponentEditView = new ThangComponentsEditView options
     @insertSubView @thangComponentEditView
 
   onComponentsChanged: (components) =>

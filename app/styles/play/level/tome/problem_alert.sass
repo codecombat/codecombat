@@ -3,17 +3,21 @@
 .problem-alert
   z-index: 10
   position: absolute
-  bottom: -120px
+  bottom: -135px
   left: 10px
   right: 10px
   background: transparent
   border: 0
-  padding: 7px 20px
+  padding: 0
   text-shadow: none
   color: white
   word-wrap: break-word
   border-image: url(/images/level/code_editor_error_background.png) 16 20 fill round
   border-width: 16px 20px
+
+  &.no-hint
+    // Since it's probably only one line, let's make it not look weird by being tiny.
+    padding: 7px
 
   .close
     @include opacity(0.80)
@@ -35,10 +39,6 @@
     
   &.alert-info
     border-image-source: url(/images/level/code_editor_info_background.png)
-        
-  &.alert-style
-    // Do we ever want to do this for style?
-    border-image-source: url(/images/level/code_editor_info_background.png)
 
 html.no-borderimage
   .problem-alert
@@ -52,8 +52,4 @@ html.no-borderimage
       background-image: url(/images/level/code_editor_warning_background.png)
       
     &.alert-info
-      background-image: url(/images/level/code_editor_info_background.png)
-          
-    &.alert-style
-      // Do we ever want to do this for style?
       background-image: url(/images/level/code_editor_info_background.png)

@@ -183,6 +183,14 @@ module.exports = class MainPlayView extends RootView
         description: 'Combat the armies of other Wizards in a strategic forest arena! (Fast computer required.)'
         levelPath: 'ladder'
       }
+      {
+        name: 'Sky Span (Testing)'
+        difficulty: 3
+        id: 'sky-span'
+        image: '/file/db/level/526ae95c1e5cd30000000008/zone_of_danger_icon.png'
+        description: 'Preview version of an upgraded Dungeon Arena. Help us with hero balance before release!'
+        levelPath: 'ladder'
+      }
     ]
 
     playerCreated = [
@@ -241,6 +249,13 @@ module.exports = class MainPlayView extends RootView
         id: 'k-means-cluster-wars'
         image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
         description: 'Learn cluster analysis while leading armies into battle! - by Alexandru Caciulescu'
+      }
+      {
+        name: 'Quicksort the Spiral'
+        difficulty: 3
+        id: 'quicksort-the-spiral'
+        image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
+        description: 'Learn Quicksort while sorting a spiral of ogres! - by Alexandru Caciulescu'
       }
       {
         name: 'Find the Spy'

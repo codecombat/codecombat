@@ -1,9 +1,6 @@
-#editor-level-view
-  &, #level-editor-top-nav
-    // min-width: 1024px
-  
-  a
-    font-family: helvetica, arial, sans serif
+.editor
+  h1, h2, h3, h4, h5, h6, a
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important
   
   position: absolute
   top: 0px
@@ -48,7 +45,7 @@
     border-radius: 0
   .navbar-right
     // not sure why bootstrap puts a big negative margin in, but this overrides it
-    margin-right: 10px
+    margin-right: 10px !important
     float: right
     
     .dropdown-menu
@@ -130,9 +127,7 @@
     margin-top: -10px
     padding-top: 10px
   
-  // keeps the editor tabs a certain height
-
-  #level-editor-tabs
+  #level-editor-tabs, &#thang-type-edit-view .tab-content
     position: absolute
     left: 15px
     right: 15px

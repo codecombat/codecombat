@@ -1,12 +1,12 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/level/thang/edit'
-ThangComponentEditView = require 'views/editor/component/ThangComponentEditView'
+ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangType = require 'models/ThangType'
 
 module.exports = class LevelThangEditView extends CocoView
   ###
   In the level editor, is the bar at the top when editing a single thang.
-  Everything below is part of the ThangComponentEditView, which is shared with the
+  Everything below is part of the ThangComponentsEditView, which is shared with the
   ThangType editor view.
   ###
 
@@ -43,7 +43,7 @@ module.exports = class LevelThangEditView extends CocoView
       world: @world
       callback: @onComponentsChanged
 
-    @thangComponentEditView = new ThangComponentEditView options
+    @thangComponentEditView = new ThangComponentsEditView options
     @insertSubView @thangComponentEditView
     thangTypeNames = (m.get('name') for m in @supermodel.getModels ThangType)
     input = @$el.find('#thang-type-link input').autocomplete(source: thangTypeNames, minLength: 0, delay: 0, autoFocus: true)
