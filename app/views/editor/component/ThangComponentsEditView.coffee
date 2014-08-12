@@ -7,11 +7,19 @@ LevelSystem = require 'models/LevelSystem'
 ComponentsCollection = require 'collections/ComponentsCollection'
 ThangComponentConfigView = require './ThangComponentConfigView'
 AddThangComponentsModal = require './AddThangComponentsModal'
+nodes = require '../level/treema_nodes'
+
+ThangType = require 'models/ThangType'
+CocoCollection = require 'collections/CocoCollection'
+
+class ThangTypeSearchCollection extends CocoCollection
+  url: '/db/thang.type?project=original,name,version,slug,kind,components'
+  model: ThangType
 
 module.exports = class ThangComponentsEditView extends CocoView
   id: 'thang-components-edit-view'
   template: template
-  
+
   events:
     'click #add-components-button': 'onAddComponentsButtonClicked'
 
@@ -23,7 +31,9 @@ module.exports = class ThangComponentsEditView extends CocoView
     @world = options.world
     @level = options.level
     @loadComponents(@components)
-    
+    # Need to grab the ThangTypes so that we can autocomplete items in inventory based on them.
+    @thangTypes = @supermodel.loadCollection(new ThangTypeSearchCollection(), 'thangs').model
+
   loadComponents: (components) ->
     for componentRef in components
       levelComponent = new LevelComponent(componentRef)
@@ -52,37 +62,49 @@ module.exports = class ThangComponentsEditView extends CocoView
       noSortable: true
       nodeClasses:
         'thang-components-array': ThangComponentsArrayNode
+        'point2d': nodes.WorldPointNode
+        'viewport': nodes.WorldViewportNode
+        'bounds': nodes.WorldBoundsNode
+        'radians': nodes.RadiansNode
+        'team': nodes.TeamNode
+        'superteam': nodes.SuperteamNode
+        'meters': nodes.MetersNode
+        'kilograms': nodes.KilogramsNode
+        'seconds': nodes.SecondsNode
+        'speed': nodes.SpeedNode
+        'acceleration': nodes.AccelerationNode
+        'item-thang-type': nodes.ItemThangTypeNode
 
     @componentsTreema = @$el.find('#thang-components-column .treema').treema treemaOptions
     @componentsTreema.build()
-    
+
   onComponentsTreemaChanged: =>
     return if @handlingChange
     @handlingChange = true
     componentMap = {}
     for component in @components
       componentMap[component.original] = component
-      
+
     newComponentsList = []
     for component in @componentsTreema.data
       newComponentsList.push(componentMap[component.original] or component)
     @components = newComponentsList
-      
+
     # update the components list here
     @onComponentsChanged()
     @handlingChange = false
-    
+
   onComponentsChanged: =>
     # happens whenever the list of components changed, one way or another
     # * if the treema gets changed
     # * if components are added externally, like by a modal
     # * if a dependency loads and is added to the list
-    
+
     if @components.length < @lastComponentLength
       @onComponentsRemoved()
     else
       @onComponentsAdded()
-    
+
   onComponentsRemoved: ->
     componentMap = {}
     for component in @components
@@ -108,7 +130,7 @@ module.exports = class ThangComponentsEditView extends CocoView
             removedSomething = true
         break if removedSomething
       break unless removedSomething
-          
+
     @components = _.values(componentMap)
 
     # Delete individual component config views that are no longer included.
@@ -122,7 +144,7 @@ module.exports = class ThangComponentsEditView extends CocoView
 
   updateComponentsList: ->
     @componentsTreema?.set('/', $.extend(true, [], @components))
-    
+
   onComponentsAdded: ->
     return unless @componentsTreema
     componentMap = {}
@@ -135,7 +157,7 @@ module.exports = class ThangComponentsEditView extends CocoView
       for componentRef in _.values(componentMap)
         componentModel = @supermodel.getModelByOriginalAndMajorVersion(
           LevelComponent, componentRef.original, componentRef.majorVersion)
-        for dependency in componentModel.get('dependencies') or []
+        for dependency in componentModel?.get('dependencies') or []
           if not componentMap[dependency.original]
             component = @supermodel.getModelByOriginalAndMajorVersion(
               LevelComponent, dependency.original, dependency.majorVersion)
@@ -153,7 +175,7 @@ module.exports = class ThangComponentsEditView extends CocoView
               componentMap[dependency.original] = dependency
               @components.push dependency
       break unless addedSomething
-              
+
 
     # Sort the component list, reorder the component config views
     @updateComponentsList()
@@ -200,11 +222,11 @@ module.exports = class ThangComponentsEditView extends CocoView
       if thangComponent.original is e.component.get('original')
         thangComponent.config = e.config
     @reportChanges()
-    
+
   onSelectComponent: (e, nodes) =>
     @componentsTreema.$el.find('.dependent').removeClass('dependent')
     return unless nodes.length is 1
-    
+
     # find dependent components
     dependents = {}
     dependents[nodes[0].data.original] = true
@@ -219,7 +241,7 @@ module.exports = class ThangComponentsEditView extends CocoView
           if dependents[dependency.original]
             dependents[otherComponentRef.original] = true
             componentsToCheck.push otherComponentRef.original
-        
+
     # highlight them
     for child in _.values(@componentsTreema.childrenTreemas)
       if dependents[child.data.original]
@@ -231,7 +253,7 @@ module.exports = class ThangComponentsEditView extends CocoView
       if subview.component.get('original') is nodes[0].data.original
         subview.$el[0].scrollIntoView()
         break
-        
+
   onComponentConfigChanged: (data) =>
     @updatingFromConfig = true
     @selectedRow.set '/config', data if data and @configView.changed and @configView.editing
@@ -245,10 +267,10 @@ module.exports = class ThangComponentsEditView extends CocoView
     return unless @level
     extantSystems =
       (@supermodel.getModelByOriginalAndMajorVersion LevelSystem, sn.original, sn.majorVersion).attributes.name.toLowerCase() for idx, sn of @level.get('systems')
-    
+
     componentModels = (@supermodel.getModelByOriginal(LevelComponent, c.original) for c in @components)
     componentSystems = (c.get('system') for c in componentModels when c)
-    
+
     for system in componentSystems
       if system not in extantSystems
         s = "Component requires system <strong>#{system}</strong> which is currently not included in this level."
@@ -275,7 +297,7 @@ module.exports = class ThangComponentsEditView extends CocoView
       @loadComponents(sparseComponents)
       @components = @components.concat(sparseComponents)
       @onComponentsChanged()
-      
+
 
 class ThangComponentsArrayNode extends TreemaArrayNode
   valueClass: 'treema-thang-components-array'
