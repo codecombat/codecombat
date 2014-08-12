@@ -322,7 +322,7 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelReloadFromData: (e) ->
     isReload = Boolean @world
-    @setLevel @level, e.supermodel
+    @setLevel e.level, e.supermodel
     if isReload
       @scriptManager.setScripts(e.level.get('scripts'))
       Backbone.Mediator.publish 'tome:cast-spell'  # a bit hacky
