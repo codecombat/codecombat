@@ -939,6 +939,8 @@
     no_singleplayer: "No Singleplayer games played yet."
     no_multiplayer: "No Multiplayer games played yet."
     no_achievements: "No Achievements earned yet."
+    favorite_prefix: "Favorite language is "
+    favorite_postfix: "."
 
   achievements:
     last_earned: "Last Earned"

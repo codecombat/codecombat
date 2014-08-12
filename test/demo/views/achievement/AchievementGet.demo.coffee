@@ -7,6 +7,7 @@ fixtures = require '../../fixtures/achievements'
 
 module.exports = ->
   me.set 'points', 48
+  me.set 'preferredLanguage', 'es'
 
   unlockableObj = fixtures.DungeonArenaStarted
   earnedUnlockableObj =

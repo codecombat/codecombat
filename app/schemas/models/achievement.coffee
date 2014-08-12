@@ -78,6 +78,10 @@ _.extend AchievementSchema.properties,
     default: {kind: 'linear', parameters: a: 1}
     required: ['kind', 'parameters']
     additionalProperties: false
+  i18n: c.object
+    format: 'i18n'
+    props: ['name', 'description']
+    description: 'Help translate this achievement'
 
 _.extend AchievementSchema, # Let's have these on the bottom
   # TODO We really need some required properties in my opinion but this makes creating new achievements impossible as it is now

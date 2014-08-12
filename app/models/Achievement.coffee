@@ -51,3 +51,7 @@ module.exports = class Achievement extends CocoModel
     defer
 
   getLockedImageURL: -> @lockedImageURL
+
+  i18nName: -> utils.i18n @attributes, 'name'
+
+  i18nDescription: -> utils.i18n @attributes, 'description'

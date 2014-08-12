@@ -10,8 +10,10 @@ block append content
           div.profile-info
             h3.name= user.get('name')
             if favoriteLanguage
-              div.extra-info Favorite language is
-                strong.spl.spr= favoriteLanguage
+              div.extra-info
+                span(data-i18n="user.favorite_prefix") Favorite language is
+                strong.favorite-language= favoriteLanguage
+                span(data-i18n="user.favorite_postfix") .
           .btn-group-vertical.profile-menu
             a.btn.btn-default(href="/user/#{user.getSlugOrID()}/profile")
               i.glyphicon.glyphicon-briefcase

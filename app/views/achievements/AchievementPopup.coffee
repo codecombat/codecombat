@@ -42,9 +42,9 @@ module.exports = class AchievementPopup extends CocoView
     #console.debug "Need a total of #{nextLevelXP - currentLevelExp}, already had #{previousXP} and just now earned #{achievedXP} totalling on #{currentXP}"
 
     data =
-      title: @achievement.get('name')
+      title: @achievement.i18nName()
       imgURL: @achievement.getImageURL()
-      description: @achievement.get('description')
+      description: @achievement.i18nDescription()
       level: currentLevel
       currentXP: currentXP
       newXP: achievedXP
@@ -74,7 +74,6 @@ module.exports = class AchievementPopup extends CocoView
         , =>
           @$el.remove()
           @destroy()
-
 
   getContainer: ->
     unless @container

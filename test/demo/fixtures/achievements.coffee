@@ -10,6 +10,9 @@ module.exports.DungeonArenaStarted = DungeonArenaStarted =
   collection: 'level.session'
   query: "{\"level.original\":\"dungeon-arena\"}"
   userField: 'creator'
+  i18n:
+    es:
+      name: 'Dungeon Arenos Started'
 
 module.exports.Simulated = Simulated =
   _id: '53ba76249259823746b6b482'
