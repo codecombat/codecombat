@@ -1,5 +1,5 @@
 CocoView = require 'views/kinds/CocoView'
-template = require 'templates/editor/level/thang/edit'
+template = require 'templates/editor/level/thang/level-thang-edit-view'
 ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangType = require 'models/ThangType'
 
@@ -10,7 +10,7 @@ module.exports = class LevelThangEditView extends CocoView
   ThangType editor view.
   ###
 
-  id: 'editor-level-thang-edit'
+  id: 'level-thang-edit-view'
   template: template
 
   events:
@@ -41,9 +41,9 @@ module.exports = class LevelThangEditView extends CocoView
       supermodel: @supermodel
       level: @level
       world: @world
-      callback: @onComponentsChanged
 
     @thangComponentEditView = new ThangComponentsEditView options
+    @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
     @insertSubView @thangComponentEditView
     thangTypeNames = (m.get('name') for m in @supermodel.getModels ThangType)
     input = @$el.find('#thang-type-link input').autocomplete(source: thangTypeNames, minLength: 0, delay: 0, autoFocus: true)

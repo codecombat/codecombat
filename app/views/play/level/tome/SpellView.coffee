@@ -3,6 +3,7 @@ template = require 'templates/play/level/tome/spell'
 {me} = require 'lib/auth'
 filters = require 'lib/image_filter'
 Range = ace.require('ace/range').Range
+UndoManager = ace.require('ace/undomanager').UndoManager
 Problem = require './Problem'
 SpellDebugView = require './SpellDebugView'
 SpellToolbarView = require './SpellToolbarView'
@@ -47,6 +48,7 @@ module.exports = class SpellView extends CocoView
     'tome:change-language': 'onChangeLanguage'
     'tome:change-config': 'onChangeEditorConfig'
     'tome:update-snippets': 'addZatannaSnippets'
+    'tome:insert-snippet': 'onInsertSnippet'
     'spell-beautify': 'onSpellBeautify'
 
   events:
@@ -174,6 +176,7 @@ module.exports = class SpellView extends CocoView
 
   fillACE: ->
     @ace.setValue @spell.source
+    @aceSession.setUndoManager(new UndoManager())
     @ace.clearSelection()
 
   addZatannaSnippets: (e) ->
@@ -208,6 +211,7 @@ module.exports = class SpellView extends CocoView
     @loaded = false
     @previousSource = @ace.getValue()
     @ace.setValue('')
+    @aceSession.setUndoManager(new UndoManager())
     fireURL = 'https://codecombat.firebaseio.com/' + @spell.pathComponents.join('/')
     @fireRef = new Firebase fireURL
     firepadOptions = userId: me.id
@@ -222,6 +226,7 @@ module.exports = class SpellView extends CocoView
       @spell.source = firepadSource
     else
       @ace.setValue @previousSource
+      @aceSession.setUndoManager(new UndoManager())
       @ace.clearSelection()
     @onAllLoaded()
 
@@ -302,6 +307,7 @@ module.exports = class SpellView extends CocoView
       @firepad.setText source
     else
       @ace.setValue source
+      @aceSession.setUndoManager(new UndoManager())
     @eventsSuppressed = false
     try
       @ace.resize true  # hack: @ace may not have updated its text properly, so we force it to refresh
@@ -660,6 +666,18 @@ module.exports = class SpellView extends CocoView
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault
+
+  onInsertSnippet: (e) ->
+    console.log 'doc', e.doc, e.formatted
+    snippetCode = null
+    if e.doc.snippets?[e.language]?.code
+      snippetCode = e.doc.snippets[e.language].code
+    else if (e.formatted.type isnt 'snippet') and e.formatted.shortName?
+      snippetCode = e.formatted.shortName
+    return unless snippetCode?
+    snippetManager = ace.require('ace/snippets').snippetManager
+    snippetManager.insertSnippet @ace, snippetCode
+    return
 
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>

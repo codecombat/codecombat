@@ -158,7 +158,7 @@ module.exports = class ThangsTabView extends CocoView
     oldHeight = $('#thangs-list').height()
     $('#thangs-list').height(oldHeight - thangsHeaderHeight)
     if data.thangs.length
-      @$el.find('#randomize-button').hide()    
+      @$el.find('#randomize-button').hide()
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
@@ -516,4 +516,4 @@ class ThangNode extends TreemaObjectNode
     @buildValueForDisplaySimply valEl, s
 
   onEnterPressed: ->
-    Backbone.Mediator.publish 'edit-level-thang', levelThang: @data.id
+    Backbone.Mediator.publish 'edit-level-thang', thangID: @data.id

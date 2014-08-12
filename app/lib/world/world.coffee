@@ -194,7 +194,7 @@ module.exports = class World
     try
       thang.addComponents components...
     catch e
-      console.error 'couldn\'t load components for', thangConfig.thangType, thangConfig.id, 'because', e, e.stack
+      console.error 'couldn\'t load components for', thangTypeOriginal, thangConfig.id, 'because', e.toString(), e.stack
     thang
 
   addThang: (thang) ->

@@ -48,6 +48,20 @@ module.exports = class OptionsView extends CocoView
 
   afterRender: ->
     super()
+    @volumeSlider = @$el.find('#option-volume').slider(animate: 'fast', min: 0, max: 1, step: 0.05)
+    @volumeSlider.slider('value', me.get('volume'))
+    @volumeSlider.on('slide', @onVolumeSliderChange)
+    @volumeSlider.on('slidechange', @onVolumeSliderChange)
+
+  destroy: ->
+    @volumeSlider?.slider?('destroy')
+    super()
+
+  onVolumeSliderChange: (e) =>
+    volume = @volumeSlider.slider('value')
+    me.set 'volume', volume
+    @$el.find('#option-volume-value').text (volume * 100).toFixed(0) + '%'
+    Backbone.Mediator.publish 'level-set-volume', volume: volume
 
   onHidden: ->
     if @playerName and @playerName isnt me.get('name')

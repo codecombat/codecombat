@@ -13,6 +13,7 @@ module.exports = class ChooseHeroView extends CocoView
 
   getRenderData: (context={}) ->
     context = super(context)
+    context.showDevBits = @options.showDevBits
     context
 
   afterRender: ->

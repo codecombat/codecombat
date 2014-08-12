@@ -261,7 +261,7 @@ module.exports = class LevelHUDView extends CocoView
       return null  # included in the bar
     context =
       prop: prop
-      hasIcon: prop in ['health', 'pos', 'target', 'inventory', 'gold', 'bountyGold', 'visualRange', 'attackDamage', 'attackRange', 'maxSpeed']
+      hasIcon: prop in ['health', 'pos', 'target', 'collectedThangIDs', 'gold', 'bountyGold', 'visualRange', 'attackDamage', 'attackRange', 'maxSpeed']
       hasBar: prop in ['health']
     $(prop_template(context))
 
