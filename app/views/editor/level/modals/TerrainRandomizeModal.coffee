@@ -77,6 +77,13 @@ presets = {
     'borderSize':4
     'floors':'dungeon_floor'
     'decorations': {
+      'Room': {
+        'num': [1,1]
+        'width': [12, 20]
+        'height': [8, 16]
+        'thickness': [2,2]
+        'cluster': 'dungeon_wall'
+      }
       'cave': {
         'num':[1,1]
         'width': 10
@@ -85,13 +92,6 @@ presets = {
           'cave':[1,1]
           'stone':[2,4]
         }
-      }
-      'Room': {
-        'num': [1,1]
-        'width': [12, 20]
-        'height': [8, 16]
-        'thickness': [2,2]
-        'cluster': 'dungeon_wall'
       }
     }
   }
@@ -102,20 +102,20 @@ presets = {
     'borderSize':4
     'floors':'indoor_floor'
     'decorations': {
+      'Room': {
+        'num': [1,1]
+        'width': [12, 20]
+        'height': [8, 16]
+        'thickness': [2,2]
+        'cluster': 'indoor_wall'
+      }
       'furniture': {
         'num':[1,2]
         'width': 15
         'height': 15
         'clusters': {
-          'furniture':[2,3]
+          'furniture':[1,3]
         }
-      }
-      'Room': {
-        'num': [1,1]
-        'width': [12, 16]
-        'height': [8, 16]
-        'thickness': [2,2]
-        'cluster': 'indoor_wall'
       }
     }
   }
@@ -298,16 +298,16 @@ module.exports = class TerrainRandomizeModal extends ModalView
         'height':sizeFactor * (room.height[0] + preset.borderSize * _.random(0, (room.height[1] - room.height[0])/preset.borderSize))
       }
       roomThickness = _.random(room.thickness[0], room.thickness[1])
-      rect.x = _.random(rect.width/2 + preset.borderSize * (roomThickness+1), presetSize.x - rect.width/2 - preset.borderSize * (roomThickness+1))
-      rect.y = _.random(rect.height/2 + preset.borderSize * (roomThickness+1), presetSize.y - rect.height/2 - preset.borderSize * (roomThickness+1))
+      rect.x = _.random(rect.width/2 + preset.borderSize * (roomThickness+1.5), presetSize.x - rect.width/2 - preset.borderSize * (roomThickness+1.5))
+      rect.y = _.random(rect.height/2 + preset.borderSize * (roomThickness+2.5), presetSize.y - rect.height/2 - preset.borderSize * (roomThickness+2.5))
       # Snap room walls to the wall grid.
       rect.x = Math.round((rect.x - preset.borderSize / 2) / preset.borderSize) * preset.borderSize + preset.borderSize / 2
       rect.y = Math.round((rect.y - preset.borderSize / 2) / preset.borderSize) * preset.borderSize + preset.borderSize / 2
       break if @addRect {
         'x': rect.x
         'y': rect.y
-        'width': rect.width + 2 * roomThickness * preset.borderSize
-        'height': rect.height + 2 * roomThickness * preset.borderSize
+        'width': rect.width + 2.5 * roomThickness * preset.borderSize
+        'height': rect.height + 2.5 * roomThickness * preset.borderSize
       }
 
     xRange = _.range(rect.x - rect.width/2 + preset.borderSize, rect.x + rect.width/2, preset.borderSize)
@@ -384,7 +384,7 @@ module.exports = class TerrainRandomizeModal extends ModalView
       @falseCount = 0
       return true
     for existingRect in @rects
-      if Math.abs(existingRect.x - rect.x) < rect.width/2 + existingRect.width/2 and Math.abs(existingRect.y - rect.y) < rect.height/2 + existingRect.height/2
+      if Math.abs(existingRect.x - rect.x) <= rect.width/2 + existingRect.width/2 and Math.abs(existingRect.y - rect.y) <= rect.height/2 + existingRect.height/2
         @falseCount++
         return false
     @rects.push rect
