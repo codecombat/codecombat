@@ -429,13 +429,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   game_menu:
     inventory_tab: "Inventário"
-#    choose_hero_tab: "Restart Level"
+    choose_hero_tab: "Reiniciar Nível"
     save_load_tab: "Guarde/Carregue"
     options_tab: "Opções"
     guide_tab: "Guia"
     multiplayer_tab: "Multijogador"
     inventory_caption: "Equipe o seu herói"
-#    choose_hero_caption: "Choose hero, language"
+    choose_hero_caption: "Escolha o herói, a linguagem"
     save_load_caption: "... e veja o histórico"
     options_caption: "Configure as definições"
     guide_caption: "Documentos e dicas"
