@@ -76,7 +76,7 @@ clusters = {
     'margin': -1
     }
   'furniture': {
-    'thangs': ['Bookshelf', 'Table', 'Candle', 'Treasure Chest']
+    'thangs': ['Bookshelf', 'Chair', 'Table', 'Candle', 'Treasure Chest']
     'margin': -1
     }
 }
@@ -135,7 +135,7 @@ presets = {
         'width': 15
         'height': 15
         'clusters': {
-          'furniture':[1,3]
+          'furniture':[2,4]
         }
       }
     }
