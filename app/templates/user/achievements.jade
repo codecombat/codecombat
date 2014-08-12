@@ -9,7 +9,7 @@ block append content
       .grid-layout
         each achievements, category in achievementsByCategory
           .row
-            h2.achievement-category-title=category.charAt(0).toUpperCase() + category.slice(1)
+            h2.achievement-category-title(data-i18n="category_#{category}")=category
             each achievement, index in achievements
               - var title = achievement.get('name');
               - var description = achievement.get('description');
@@ -27,10 +27,10 @@ block append content
         if earnedAchievements.length
           table.table
             tr
-              th Name
-              th Description
-              th Date
-              th Amount
+              th(data-i18n="general.name") Name
+              th(data-i18n="general.description") Description
+              th(data-i18n="general.date") Date
+              th(data-i18n="achievements.amount_achieved") Amount
               th XP
             each earnedAchievement in earnedAchievements.models
               - var achievement = earnedAchievement.get('achievement');
@@ -45,6 +45,6 @@ block append content
                 td= earnedAchievement.get('earnedPoints')
         else
           .panel#no-achievements
-            .panel-body No achievements earned yet.
+            .panel-body(data-i18n="user.no_achievements") No achievements earned yet.
     else
       div How did you even do that?

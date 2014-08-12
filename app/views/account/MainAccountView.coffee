@@ -1,5 +1,5 @@
 View = require 'views/kinds/RootView'
-template = require 'templates/account/home'
+template = require 'templates/account/account_home'
 {me} = require 'lib/auth'
 User = require 'models/User'
 AuthModalView = require 'views/modal/AuthModal'
@@ -7,7 +7,7 @@ RecentlyPlayedCollection = require 'collections/RecentlyPlayedCollection'
 ThangType = require 'models/ThangType'
 
 module.exports = class MainAccountView extends View
-  id: 'account-home-view'
+  id: 'account-home'
   template: template
 
   constructor: (options) ->
@@ -24,9 +24,11 @@ module.exports = class MainAccountView extends View
   getRenderData: ->
     c = super()
     c.subs = {}
-    c.subs[sub] = 1 for sub in c.me.getEnabledEmails()
-    c.hasEmailNotes = _.any c.me.getEnabledEmails(), (sub) -> sub.contains 'Notes'
-    c.hasEmailNews = _.any c.me.getEnabledEmails(), (sub) -> sub.contains 'News'
+    enabledEmails = c.me.getEnabledEmails()
+    c.subs[sub] = 1 for sub in enabledEmails
+    c.hasEmailNotes = _.any enabledEmails, (sub) -> sub.contains 'Notes'
+    c.hasEmailNews = _.any enabledEmails, (sub) -> sub.contains('News') and sub isnt 'generalNews'
+    c.hasGeneralNews = 'generalNews' in enabledEmails
     c.wizardSource = @wizardType.getPortraitSource colorConfig: me.get('wizard')?.colorConfig if @wizardType.loaded
     c.recentlyPlayed = @recentlyPlayed.models
     c

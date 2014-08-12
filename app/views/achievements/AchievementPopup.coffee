@@ -58,6 +58,7 @@ module.exports = class AchievementPopup extends CocoView
     _.extend c, @calculateData()
     c.style = @achievement.getStyle()
     c.popup = true
+    c.$ = $ # Allows the jade template to do i18n
     c
 
   render: ->

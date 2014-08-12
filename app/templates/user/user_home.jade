@@ -15,13 +15,13 @@ block append content
           .btn-group-vertical.profile-menu
             a.btn.btn-default(href="/user/#{user.getSlugOrID()}/profile")
               i.glyphicon.glyphicon-briefcase
-              span Job Profile
+              span(data-i18n="account_settings.job_profile") Job Profile
             a.btn.btn-default(href="/user/#{user.getSlugOrID()}/stats")
               i.glyphicon.glyphicon-certificate
-              span Stats
+              span(data-i18n="user.stats") Stats
             a.btn.btn-default.disabled(href="#")
               i.glyphicon.glyphicon-pencil
-              span Code
+              span(data-i18n="general.code") Code
         - var emails = user.get('emails')
         if emails
           ul.contributor-categories
@@ -32,41 +32,41 @@ block append content
               li.contributor-category
                 img.contributor-image(src="/images/pages/user/adventurer.png")
                 h4.contributor-title
-                  a(href="/contribute#adventurer") Adventurer
+                  a(href="/contribute#adventurer" data-i18n="classes.adventurer_title") Adventurer
             if emails.ambassadorNews
               li.contributor-category
                 img.contributor-image(src="/images/pages/user/ambassador.png")
                 h4.contributor-title
-                  a(href="/contribute#ambassador") Ambassador
+                  a(href="/contribute#ambassador" data-i18n="classes.ambassador_title") Ambassador
             if emails.archmageNews
               li.contributor-category
                 img.contributor-image(src="/images/pages/user/archmage.png")
                 h4.contributor-title
-                  a(href="/contribute#archmage") Archmage
+                  a(href="/contribute#archmage" data-i18n="classes.archmage_title") Archmage
             if emails.artisanNews
               li.contributor-category
                 img.contributor-image(src="/images/pages/user/artisan.png")
                 h4.contributor-title
-                  a(href="/contribute#artisan") Artisan
+                  a(href="/contribute#artisan" data-i18n="classes.artisan_title") Artisan
             if emails.scribeNews
               li.contributor-category
                 img.contributor-image(src="/images/pages/user/scribe.png")
                 h4.contributor-title
-                  a(href="/contribute#scribe") Scribe
+                  a(href="/contribute#scribe" data-i18n="classes.scribe_title") Scribe
 
       .right-column
         .panel.panel-default
           .panel-heading
-            h3.panel-title Singleplayer Levels
+            h3.panel-title(data-i18n="user.singleplayer_title") Singleplayer Levels
           if (!singlePlayerSessions)
             .panel-body
-              p Loading...
+              p(data-i18n="common.loading") Loading...
           else if (singlePlayerSessions.length)
             table.table
               tr
-                th.col-xs-4 Level
-                th.col-xs-4 Last Played
-                th.col-xs-4 Status
+                th.col-xs-4(data-i18n="resources.level") Level
+                th.col-xs-4(data-i18n="user.last_played") Last Played
+                th.col-xs-4(data-i18n="user.status") Status
               each session in singlePlayerSessions
                 if session.get('levelName')
                   tr
@@ -74,24 +74,24 @@ block append content
                       a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
                     td= moment(session.get('changed')).fromNow()
                     if session.get('state').complete === true
-                      td Completed
+                      td(data-i18n="user.status_completed") Completed
                     else
-                      td Unfinished
+                      td(data-i18n="user.status_unfinished") Unfinished
           else
             .panel-body
-              p No Singleplayer games played yet.
+              p(data-i18n="no_singleplayer") No Singleplayer games played yet.
         .panel.panel-default
           .panel-heading
-            h3.panel-title Multiplayer Levels
+            h3.panel-title(data-i18n="no_multiplayer") Multiplayer Levels
           if (!multiPlayerSessions)
             .panel-body
-              p Loading...
+              p(data-i18n="common.loading") Loading...
           else if (multiPlayerSessions.length)
             table.table
               tr
-                th.col-xs-4 Level
-                th.col-xs-4 Last Played
-                th.col-xs-4 Score
+                th.col-xs-4(data-i18n="resources.level") Level
+                th.col-xs-4(data-i18n="user.last_played") Last Played
+                th.col-xs-4(data-i18n="general.score") Score
               each session in multiPlayerSessions
                 tr
                   td
@@ -102,25 +102,25 @@ block append content
                   if session.get('totalScore')
                     td= session.get('totalScore') * 100
                   else
-                    td Unfinished
+                    td(data-i18n="user.status_unfinished") Unfinished
           else
             .panel-body
-              p No Multiplayer games played yet.
+              p(data-i18n="user.no_multiplayer") No Multiplayer games played yet.
         .panel.panel-default
           .panel-heading
-            h3.panel-title Achievements
+            h3.panel-title(data-i18n="user.achievements") Achievements
           if ! earnedAchievements
             .panel-body
-              p Loading...
+              p(data-i18n="common.loading") Loading...
           else if ! earnedAchievements.length
             .panel-body
-              p No achievements earned so far.
+              p(data-i18n="user.no_achievements") No achievements earned so far.
           else
             table.table
               tr
-                th.col-xs-4 Achievement
-                th.col-xs-4 Last Earned
-                th.col-xs-4 Amount
+                th.col-xs-4(data-i18n="achievements.achievement") Achievement
+                th.col-xs-4(data-i18n="achievements.last_earned") Last Earned
+                th.col-xs-4(data-i18n="achievements.amount_achieved") Amount
               each achievement in earnedAchievements.models
                 tr
                   td= achievement.get('achievementName')

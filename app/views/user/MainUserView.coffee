@@ -1,7 +1,7 @@
 UserView = require 'views/kinds/UserView'
 CocoCollection = require 'collections/CocoCollection'
 LevelSession = require 'models/LevelSession'
-template = require 'templates/user/home'
+template = require 'templates/user/user_home'
 {me} = require 'lib/auth'
 EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
 
@@ -13,7 +13,7 @@ class LevelSessionsCollection extends CocoCollection
     super()
 
 module.exports = class MainUserView extends UserView
-  id: 'user-home-view'
+  id: 'user-home'
   template: template
 
   constructor: (userID, options) ->

@@ -6,16 +6,16 @@ block modal-body-content
       label.control-label(for="name", data-i18n="general.name") Name
       input#name.form-control(name="name", type="text")
     .form-group
-      label.control-label(for="description") Description
+      label.control-label(for="description" data-i18n="general.description") Description
       input#description.form-control(name="description", type="text")
-    h4 Miscellaneous achievement keys
+    h4(data-i18n="editor.achievement_query_misc") Key achievement off of miscellanea
     .radio
       label
         input(type="checkbox", name="queryOptions" id="misc-level-completion" value="misc-level-completion")
-        span.spl Level Completion
+        span.spl(data-i18n="editor.level_completion") Level Completion
     - var goals = level.get('goals');
     if goals && goals.length
-      h4 Base achievement on goals?
+      h4(data-i18n="editor.achievement_query_goals") Key achievement off of level goals
       each goal in goals
         .radio
           label

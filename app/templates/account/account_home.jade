@@ -4,8 +4,9 @@ block content
   if !me.isAnonymous()
     .clearfix
       .col-sm-6.clearfix
-        h2 Account Settings
-          a.spl(href="settings")
+        h2
+          span(data-i18n="account_settings.title") Account Settings
+          a.spl(href="/account/settings")
             i.glyphicon.glyphicon-cog
         hr
         .row
@@ -14,15 +15,15 @@ block content
               .panel-heading
                 h3.panel-title
                   i.glyphicon.glyphicon-picture
-                  a(href="account/settings#picture") Picture
+                  a(href="account/settings#picture" data-i18n="account_settings.picture_tab") Picture
               .panel-body.text-center
-                img#picture(src="#{me.getPhotoURL(150)}" alt="")
+                img#picture(src="#{me.getPhotoURL(150)}" alt="Picture")
           .col-xs-6
             .panel.panel-default
               .panel-heading
                 h3.panel-title
                   i.glyphicon.glyphicon-user
-                  a(href="account/settings#wizard") Wizard
+                  a(href="account/settings#wizard" data-i18n="account_settings.wizard_tab") Wizard
               if (wizardSource)
               .panel-body.text-center
                 img(src="#{wizardSource}")
@@ -30,35 +31,37 @@ block content
           .panel-heading
             h3.panel-title
               i.glyphicon.glyphicon-user
-              a(href="account/settings#me") Me
+              a(href="account/settings#me" data-i18n="account_settings.me_tab") Me
           .panel-body
             table
               tr
-                th Name
-                td=me.get('name') || 'Anoner'
+                th(data-i18n="general.name") Name
+                td=me.displayName()
               tr
-                th Email
+                th(data-i18n="general.email") Email
                 td=me.get('email')
         .panel.panel-default.panel-emails
           .panel-heading
             h3.panel-title
               i.glyphicon.glyphicon-envelope
-              a(href="account/settings#emails") Emails
+              a(href="account/settings#emails" data-i18n="account_settings.emails_tab") Emails
           .panel-body
-            if !hasEmailNotes && !hasEmailNews
-              p No email subscriptions.
+            if !hasEmailNotes && !hasEmailNews && !hasGeneralNews
+              p(data-i18n="account_settings.email_subscriptions_none") No email subscriptions.
+            if hasGeneralNews
+              h4(data-i18n="account_settings.email_news") News
+              ul
+                li(data-i18n="account_settings.email_announcements") Announcements
             if hasEmailNotes
-              h4 Notifications
+              h4(data-i18n="account_settings.email_notifications") Notifications
               ul
                 if subs.anyNotes
                   li(data-i18n="account_settings.email_any_notes") Any Notifications
                 if subs.recruitNotes
                   li(data-i18n="account_settings.email_recruit_notes") Job Opportunities
             if hasEmailNews
-              h4 News
+              h4(data-i18n="account_settings.contributor_emails") Contributor Emails
               ul
-                if (subs.generalNews)
-                  li(data-i18n="account_settings.email_announcements") General
                 if (subs.archmageNews)
                   li
                     span(data-i18n="classes.archmage_title")
@@ -100,23 +103,23 @@ block content
           .panel-heading
             h3.panel-title
               i.glyphicon.glyphicon-wrench
-              a(href="account/settings#password") Password
+              a(href="account/settings#password" data-i18n="general.password") Password
         .panel.panel-default
           .panel-heading
             h3.panel-title
               i.glyphicon.glyphicon-briefcase
-              a(href="account/settings#job-profile") Job Profile
+              a(href="account/settings#job-profile" data-i18n="account_settings.job_profile") Job Profile
       .col-sm-6
-        h2 Recently Played
+        h2(data-i18n="user.recently_played") Recently Played
         hr
         if !recentlyPlayed
-          div Loading...
+          div(data-i18n="common.loading") Loading...
         else if recentlyPlayed.length
           table.table
             tr
-              th Level
-              th Last Played
-              th Status
+              th(data-i18n="resources.level") Level
+              th(data-i18n="user.last_played") Last Played
+              th(data-i18n="user.status") Status
             each session in recentlyPlayed
               if session.get('levelName')
                 tr
@@ -126,13 +129,13 @@ block content
                     a(href="/play/level/#{session.get('levelID') + posturl}")= session.get('levelName') + (session.get('team') ? ' (' + session.get('team') + ')' : '')
                   td= moment(session.get('changed')).fromNow()
                   if session.get('state').complete === true
-                    td Completed
+                    td(data-i18n="user.status_completed") Completed
                   else if ! session.isMultiplayer()
-                    td Unfinished
+                    td(data-i18n="user.status_unfinished") Unfinished
                   else
                     td
 
         else
           .panel.panel-default
             .panel-body
-              div No games played during the past two weeks.
+              div(data-i18n="account.no_recent_games") No games played during the past two weeks.

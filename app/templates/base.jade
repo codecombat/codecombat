@@ -43,20 +43,20 @@ body
                 span.caret
               ul.dropdown-menu(role="menu")
                 li.user-dropdown-header
-                  span.user-level.badge= me.level()
-                  a(href="/user/#{me.get('slug') || me.get('_id')}")
+                  span.user-level= me.level()
+                  a(href="/user/#{me.getSlugOrID()}")
                     img.img-circle(src="#{me.getPhotoURL()}" alt="")
-                  h3=me.get('name') || 'Anoner'
+                  h3=me.displayName()
                 li.user-dropdown-body
                   .col-xs-4.text-center
-                    a(href="/user/#{me.get('slug') || me.get('_id')}") Profile
+                    a(href="/user/#{me.getSlugOrID()}" data-i18n="nav.profile") Profile
                   .col-xs-4.text-center
-                    a(href="/user/#{me.get('slug') || me.get('_id')}/stats") Stats
+                    a(href="/user/#{me.getSlugOrID()}/stats" data-i18n="nav.stats") Stats
                   .col-xs-4.text-center
-                    a.disabled() Code
+                    a.disabled(data-i18n="nav.code") Code
                 li.user-dropdown-footer
                   .pull-left
-                    a.btn.btn-default.btn-flat(href="/account") Account
+                    a.btn.btn-default.btn-flat(href="/account" data-i18n="nav.account") Account
                   .pull-right
                     button#logout-button.btn.btn-default.btn-flat(data-i18n="login.log_out") Log Out
           else
