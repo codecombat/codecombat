@@ -107,20 +107,21 @@ _.extend LevelSessionSchema.properties,
         format: 'javascript'
 
   vcs:
-    title: 'Code VCS'
+    title: 'Version Control System for User Code'
     description: 'Stores past revisions of user code.'
     type: 'object'
     properties:
-      languageBarriers:
-        title: 'Language Barriers'
-        type: ''
+      workingRevision:
+        title: 'Current working revision'
+        description: 'The revision a user is currently working from. Uses the date as unique id for reference.'
+        type: 'date'
       revisions:
         title: 'Revisions'
         description: 'all revisions sorted by age in increasing order (newest to oldest)'
         type: 'array'
         items:
           title: "Revision"
-          description: 'The current revision including code/diff and metadata.'
+          description: 'One revision including code/diff and metadata.'
           type: 'object'
           oneOf: [
             {required:['code']}
@@ -134,10 +135,10 @@ _.extend LevelSessionSchema.properties,
             timestamp:
               title: 'Creation time.'
               description: "At what time this element has been created. It is the revision node's unique id at the same time"
-              type: 'string'
+              type: 'date'
             previous:
               title: 'Previous Item'
-              description: 'The timestamp (id) of the previous item or the language of the tree for the last item'
+              description: 'The timestamp (id) of the previous item'
               type: 'string'
             code:
               title: 'Code'
@@ -155,15 +156,14 @@ _.extend LevelSessionSchema.properties,
               additionalProperties:
                 type: 'object'
                 additionalProperties:
-                  type: 'string'
-                  format: 'javascript'
+                  type: 'array'
             newBranch:
               title: 'Start of Branch'
               description: 'Indicates if this node is the start of a new branch (diff line ends here)'
               type: 'boolean'
             codeLanguage:
               title: 'CodeLanguage'
-              description:  'The programming language used for this code. If this is empty, a previous item defines the language.'
+              description:  'The programming language used for this code. If this is empty, a previous item defines the language. Might be unused later.'
               type: 'string'
 
   codeLanguage:

@@ -88,9 +88,11 @@ expandFlattenedDelta = (delta, left, schema) ->
 
   delta
 
+JSONDiffer = null;  # TODO: Is there a shorthand for lazy variables in CoffeeScript? Don't have internet atm...
 module.exports.makeJSONDiffer = ->
+  return JSONDiffer if JSONDiffer?
   hasher = (obj) -> obj.name || obj.id || obj._id || JSON.stringify(_.keys(obj))
-  jsondiffpatch.create({objectHash: hasher})
+  JSONDiffer = jsondiffpatch.create({objectHash: hasher})
 
 module.exports.getConflicts = (headDeltas, pendingDeltas) ->
   # headDeltas and pendingDeltas should be lists of deltas returned by expandDelta

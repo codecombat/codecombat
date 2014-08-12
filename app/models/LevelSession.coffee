@@ -1,9 +1,11 @@
 CocoModel = require './CocoModel'
+deltasLib = require 'lib/deltas'
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
   @schema: require 'schemas/models/level_session'
   urlRoot: '/db/level.session'
+
 
   initialize: ->
     super()
@@ -11,13 +13,50 @@ module.exports = class LevelSession extends CocoModel
       state = @get('state') or {}
       state.scripts ?= {}
       @set 'state', state
+      vcs = @get('vcs') or {}
+      vcs.revisions ?= []
+      @set 'vcs', vcs
 
-  saveVersion: (previous, source) ->
-    #@get
-    prevCode = previous.generateCode()
+  revisionMap = null
+  getVCSRevisionMap: ->
+    return revisionMap if revisionMap?
+    revisionMap = {}
+    vcs = @get('vcs')
+    for revision in vcs.revisions
+      revisionMap[revision.timestamp] = revision
+    revisionMap
 
+  findRevision: (revisionTimestamp) ->
+    return @getVCSRevisionMap[revisionTimestamp]
 
-    #jsondiffpatch.diff(source, )
+  saveCodeRevision: (code, previous) ->
+    if typeof(previous) is Date
+      previous = findRevision()
+    vcs = @get('vcs')
+    current =
+      timestamp: new Date() #TODO Works? Needs this: (new Date()).toISOString()?
+      code: code
+      previous: previous.timestamp
+      newBranch: false
+      codeLanguage: 'javaScript' #TODO: Where can I get that from? :/
+
+    for revision in vcs.revisions
+    #TODO: GetCode
+
+    #TODO: Get previous miseriously?
+
+    if previous:
+      current.diff = jsondiffpatch.diff(current.code, previous.getCode()) if previous?
+      previous.code = null;
+
+    vcs = @get "vcs"
+    vcs.revisions.push current
+
+    @set "vcs", vcs
+    current.timestamp
+
+    @getVCSRevisionMap[current.timestamp] = current
+
     #TODO: Save delta to last source in list, set source to current source
 
   loadVersion: (language, timestamp) ->
@@ -46,8 +85,6 @@ module.exports = class LevelSession extends CocoModel
           needsLink[nextID].push node
       isLink[node.id] = node
 
-
-
   serializeVCS: (language) ->
     vcs = huh.language
       prevs = node.prevs
@@ -55,9 +92,6 @@ module.exports = class LevelSession extends CocoModel
       for prev in node.prevs
 
 
-
-
-###
 
   updatePermissions: ->
     permissions = @get 'permissions'

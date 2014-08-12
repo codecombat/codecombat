@@ -1,5 +1,5 @@
 #jQuery for node, reimplementated for compatibility purposes. Poorly.
-#Leaves out all the dome stuff but allows ajax.
+#Leaves out all the dom stuff but allows ajax.
 _ = require 'lodash'
 request = require 'request'
 Deferred = require 'JQDeferred'
