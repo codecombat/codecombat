@@ -192,36 +192,8 @@ module.exports = class MainPlayView extends RootView
         levelPath: 'ladder'
       }
     ]
-
-    playerCreated = [
-      {
-        name: 'Extra Extrapolation'
-        difficulty: 2
-        id: 'extra-extrapolation'
-        image: '/file/db/level/526bda3fe79aefde2a003e36/mobile_artillery_icon.png'
-        description: 'Predict your target\'s position for deadly aim. - by Sootn'
-      }
-      {
-        name: 'The Right Route'
-        difficulty: 1
-        id: 'the-right-route'
-        image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
-        description: 'Strike at the weak point in an array of enemies. - by Aftermath'
-      }
-      {
-        name: 'Sword Loop'
-        difficulty: 2
-        id: 'sword-loop'
-        image: '/file/db/level/525dc5589a0765e496000006/drink_me_icon.png'
-        description: 'Kill the ogres and save the peasants with for-loops. - by Prabh Simran Singh Baweja'
-      }
-      {
-        name: 'Coin Mania'
-        difficulty: 2
-        id: 'coin-mania'
-        image: '/file/db/level/529662dfe0df8f0000000007/grab_the_mushroom_icon.png'
-        description: 'Learn while-loops to grab coins and potions. - by Prabh Simran Singh Baweja'
-      }
+    
+    classicAlgorithms = [
       {
         name: 'Bubble Sort Bootcamp Battle'
         difficulty: 3
@@ -257,6 +229,37 @@ module.exports = class MainPlayView extends RootView
         image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
         description: 'Learn Quicksort while sorting a spiral of ogres! - by Alexandru Caciulescu'
       }
+    ]
+
+    playerCreated = [
+      {
+        name: 'Extra Extrapolation'
+        difficulty: 2
+        id: 'extra-extrapolation'
+        image: '/file/db/level/526bda3fe79aefde2a003e36/mobile_artillery_icon.png'
+        description: 'Predict your target\'s position for deadly aim. - by Sootn'
+      }
+      {
+        name: 'The Right Route'
+        difficulty: 1
+        id: 'the-right-route'
+        image: '/file/db/level/526fd3043c637ece50001bb2/the_herd_icon.png'
+        description: 'Strike at the weak point in an array of enemies. - by Aftermath'
+      }
+      {
+        name: 'Sword Loop'
+        difficulty: 2
+        id: 'sword-loop'
+        image: '/file/db/level/525dc5589a0765e496000006/drink_me_icon.png'
+        description: 'Kill the ogres and save the peasants with for-loops. - by Prabh Simran Singh Baweja'
+      }
+      {
+        name: 'Coin Mania'
+        difficulty: 2
+        id: 'coin-mania'
+        image: '/file/db/level/529662dfe0df8f0000000007/grab_the_mushroom_icon.png'
+        description: 'Learn while-loops to grab coins and potions. - by Prabh Simran Singh Baweja'
+      }
       {
         name: 'Find the Spy'
         difficulty: 2
@@ -291,6 +294,7 @@ module.exports = class MainPlayView extends RootView
       {id: 'beginner', name: 'Beginner Campaign', description: '... in which you learn the wizardry of programming.', levels: tutorials}
       {id: 'multiplayer', name: 'Multiplayer Arenas', description: '... in which you code head-to-head against other players.', levels: arenas}
       {id: 'dev', name: 'Random Harder Levels', description: '... in which you learn the interface while doing something a little harder.', levels: experienced}
+      {id: 'classic' ,name: 'Classic Algorithms', description: '... in which you learn the most popular algorithms in Computer Science.', levels: classicAlgorithms}
       {id: 'player_created', name: 'Player-Created', description: '... in which you battle against the creativity of your fellow <a href=\"/contribute#artisan\">Artisan Wizards</a>.', levels: playerCreated}
     ]
     context.levelStatusMap = @levelStatusMap
