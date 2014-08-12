@@ -39,6 +39,7 @@ module.exports = class SettingsTabView extends CocoView
       callbacks: {change: @onSettingsChanged}
       thangIDs: thangIDs
       nodeClasses:
+        object: SettingsNode
         thang: nodes.ThangNode
 
     @settingsTreema = @$el.find('#settings-treema').treema treemaOptions
@@ -59,3 +60,39 @@ module.exports = class SettingsTabView extends CocoView
 
   redo: ->
     @settingsTreema.redo()
+
+  showUndoDescription: ->
+    titleText = $('#undo-button').attr('title', 'Undo ' + @settingsTreema.getUndoDescription() + ' (Ctrl+Z)')
+
+  showRedoDescription: ->
+    titleText = $('#redo-button').attr('title', 'Redo ' + @settingsTreema.getRedoDescription() + ' (Ctrl+Shift+Z)')
+
+
+class SettingsNode extends TreemaObjectNode
+  getUndoDescription: ->
+    return '' unless @canUndo()
+    trackedActions = @getTrackedActions()
+    currentStateIndex = @getCurrentStateIndex()
+    return @getTrackedActionDescription( trackedActions[currentStateIndex - 1] )
+
+  getRedoDescription: ->
+    return '' unless @canRedo()
+    trackedActions = @getTrackedActions()
+    currentStateIndex = @getCurrentStateIndex()
+    return @getTrackedActionDescription trackedActions[currentStateIndex]
+
+  getTrackedActionDescription: (trackedAction) ->
+    switch trackedAction.action
+      when 'insert'
+        trackedActionDescription = 'Add New Setting'
+
+      when 'delete'
+        trackedActionDescription = 'Delete Setting'
+
+      when 'edit'
+        path = trackedAction.path.split '/'
+        trackedActionDescription = 'Edit Setting'
+
+      else
+        trackedActionDescription = ''
+    trackedActionDescription
