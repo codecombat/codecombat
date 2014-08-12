@@ -58,3 +58,4 @@ module.exports =
   hi: require './hi'             # मानक हिन्दी, Hindi
   ur: require './ur'             # اُردُو, Urdu
   ms: require './ms'             # Bahasa Melayu, Bahasa Malaysia
+  ca: require './ca'             # Català, Catalan
