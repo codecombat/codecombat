@@ -447,9 +447,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #  choose_hero:
 #    temp: "Temp"
 
-#  save_load:
+  save_load:
 #    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+    granularity_change_history: "Histórico"
 
   options:
     general_options: "Opções Gerais"
@@ -626,12 +626,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     hard: "Difícil"
     player: "Jogador"
 
-#  about:
-#    who_is_codecombat: "Who is CodeCombat?"
-#    why_codecombat: "Why CodeCombat?"
-#    who_description_prefix: "together started CodeCombat in 2013. We also created "
-#    who_description_suffix: "in 2008, growing it to the #1 web and iOS application for learning to write Chinese and Japanese characters."
-#    who_description_ending: "Now it's time to teach people to write code."
+  about:
+    who_is_codecombat: "Quem é o CodeCombat?"
+    why_codecombat: "Porquê o CodeCombat?"
+    who_description_prefix: "começaram juntos o CodeCombat em 2013. Também criaram o "
+    who_description_suffix: "em 2008, tornando-o a aplicação nº1 da web e iOS para aprender a escrever caracteteres Chineses e Japoneses."
+    who_description_ending: "Agora, está na altura de ensinar as pessoas a escrever código."
 #    why_paragraph_1: "When making Skritter, George didn't know how to program and was constantly frustrated by his inability to implement his ideas. Afterwards, he tried learning, but the lessons were too slow. His housemate, wanting to reskill and stop teaching, tried Codecademy, but \"got bored.\" Each week another friend started Codecademy, then dropped off. We realized it was the same problem we'd solved with Skritter: people learning a skill via slow, intensive lessons when what they need is fast, extensive practice. We know how to fix that."
 #    why_paragraph_2: "Need to learn to code? You don't need lessons. You need to write a lot of code and have a great time doing it."
 #    why_paragraph_3_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
