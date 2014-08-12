@@ -260,6 +260,35 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
       return matching_requests;
     };
+    
+    this.sendResponses = function(responseMap) {
+      var urls = Object.keys(responseMap);
+      var success = true;
+      for(var i in urls) {
+        var url = urls[i];
+        var responseBody = responseMap[url];
+        var responded = false;
+
+        var requests = jasmine.Ajax.requests.all();
+        for(var j in requests) {
+          var request = requests[j];
+          if(request.url.startsWith(url)) {
+            request.response({status: 200, responseText: JSON.stringify(responseBody)});
+            responded = true;
+            break;
+          }
+        }
+        if(!responded) {
+          var allRequests = jasmine.Ajax.requests.all();
+          urls = [];
+          for(var k in allRequests) urls.push(allRequests[k].url);
+          console.error('could not find response for', url, 'in', urls, allRequests);
+          success = false;
+          continue;
+        }
+      }
+      return success;
+    }
   }
 
   function RequestStub(url, stubData) {

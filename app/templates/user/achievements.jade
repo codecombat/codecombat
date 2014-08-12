@@ -2,8 +2,10 @@ extends /templates/kinds/user
 
 block append content
   .btn-group.pull-right
-    button#grid-layout-button.btn.btn-default(data-layout='grid', class=activeLayout==='grid' ? 'active' : '') Grid
-    button#table-layout-button.btn.btn-default(data-layout='table', class=activeLayout==='table' ? 'active' : '') Table
+    button#grid-layout-button.btn.btn-default(data-layout='grid', class=activeLayout==='grid' ? 'active' : '')
+      i.glyphicon.glyphicon-th
+    button#table-layout-button.btn.btn-default(data-layout='table', class=activeLayout==='table' ? 'active' : '')
+      i.glyphicon.glyphicon-th-list
   if achievementsByCategory
     if activeLayout === 'grid'
       .grid-layout

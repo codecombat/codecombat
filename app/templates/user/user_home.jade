@@ -6,7 +6,7 @@ block append content
     .row
       .left-column
         .profile-wrapper
-          img.picture(src="#{me.getPhotoURL(150)}" alt="")
+          img.picture(src="#{user.getPhotoURL(150)}" alt="")
           div.profile-info
             h3.name= user.get('name')
             if favoriteLanguage

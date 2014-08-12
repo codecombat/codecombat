@@ -12,8 +12,8 @@ config.mongo =
   host: process.env.COCO_MONGO_HOST or 'localhost'
   db: process.env.COCO_MONGO_DATABASE_NAME or 'coco'
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
-  
-config.redis = 
+
+config.redis =
   port: process.env.COCO_REDIS_PORT or 6379
   host: process.env.COCO_REDIS_HOST or 'localhost'
 
@@ -33,6 +33,7 @@ config.mail =
   mailchimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
   stackleadAPIKey: process.env.COCO_STACKLEAD_API_KEY or ''
+  delightedAPIKey: process.env.COCO_DELIGHTED_API_KEY or ''
   cronHandlerPublicIP: process.env.COCO_CRON_PUBLIC_IP or ''
   cronHandlerPrivateIP: process.env.COCO_CRON_PRIVATE_IP or ''
 

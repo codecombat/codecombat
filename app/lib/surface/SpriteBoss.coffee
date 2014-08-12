@@ -149,6 +149,7 @@ module.exports = class SpriteBoss extends CocoClass
       return false unless m.get('actions') or m.get('raster')
       return m.get('name') is thang.spriteName
     thangType ?= _.find @options.thangTypes, (m) -> return m.get('name') is thang.spriteName
+    return console.error "Couldn't find ThangType for", thang unless thangType
 
     options = @createSpriteOptions thang: thang
     options.resolutionFactor = if thangType.get('kind') is 'Floor' then 2 else SPRITE_RESOLUTION_FACTOR
@@ -180,7 +181,9 @@ module.exports = class SpriteBoss extends CocoClass
   adjustSpriteExistence: ->
     # Add anything new, remove anything old, update everything current
     updateCache = false
-    for thang in @world.thangs when thang.exists
+    itemsJustEquipped = []
+    for thang in @world.thangs when thang.exists and thang.pos
+      itemsJustEquipped = itemsJustEquipped.concat @equipNewItems thang
       if sprite = @sprites[thang.id]
         sprite.setThang thang  # make sure Sprite has latest Thang
       else
@@ -188,6 +191,7 @@ module.exports = class SpriteBoss extends CocoClass
         Backbone.Mediator.publish 'surface:new-thang-added', thang:thang, sprite:sprite
         updateCache = updateCache or sprite.imageObject.parent is @spriteLayers['Obstacle']
         sprite.playSounds()
+    item.modifyStats() for item in itemsJustEquipped
     for thangID, sprite of @sprites
       missing = not (sprite.notOfThisWorld or @world.thangMap[thangID]?.exists)
       isObstacle = sprite.imageObject.parent is @spriteLayers['Obstacle']
@@ -199,6 +203,21 @@ module.exports = class SpriteBoss extends CocoClass
     # mainly for handling selecting thangs from session when the thang is not always in existence
     if @willSelectThang and @sprites[@willSelectThang[0]]
       @selectThang @willSelectThang...
+
+  equipNewItems: (thang) ->
+    itemsJustEquipped = []
+    if thang.equip and not thang.equipped
+      thang.equip()  # Pretty hacky, but needed since initialize may not be called if we're not running Systems.
+      itemsJustEquipped.push thang
+    if thang.inventoryIDs
+      # Even hackier: these items were only created/equipped during simulation, so we reequip here.
+      for slot, itemID of thang.inventoryIDs
+        item = @world.getThangByID itemID
+        unless item.equipped
+          #console.log thang.id, 'equipping', item, 'in', thang.slot, 'Surface-side'
+          item.equip()
+          itemsJustEquipped.push item
+    return itemsJustEquipped
 
   cache: (update=false) ->
     return if @cached and not update

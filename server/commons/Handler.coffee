@@ -179,7 +179,9 @@ module.exports = class Handler
     ids = ids.split(',') if _.isString ids
     ids = _.uniq ids
 
-    project = {name:1, original:1}
+    # HACK: levels loading thang types need the components returned as well
+    # Need a way to specify a projection for a query.
+    project = {name:1, original:1, kind:1, components: 1}
     sort = {'version.major':-1, 'version.minor':-1}
 
     makeFunc = (id) =>
@@ -463,4 +465,3 @@ module.exports = class Handler
     projection = {}
     projection[field] = 0 for field in model.privateProperties
     projection
-

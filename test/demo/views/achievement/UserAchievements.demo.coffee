@@ -1,6 +1,6 @@
 Achievement = require 'models/Achievement'
 Achievements = require 'collections/AchievementCollection'
-UserAchievementsView = require 'views/user/achievements'
+UserAchievementsView = require 'views/user/AchievementsView'
 EarnedAchievement = require 'models/EarnedAchievement'
 EarnedAchievementCollection = require 'collections/EarnedAchievementCollection'
 
