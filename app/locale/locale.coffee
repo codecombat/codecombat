@@ -26,7 +26,7 @@ module.exports =
   ar: require './ar'             # العربية, Arabic
   pt: require './pt'             # português, Portuguese
   'pt-BR': require './pt-BR'     # português do Brasil, Portuguese (Brazil)
-  'pt-PT': require './pt-PT'     # Português europeu, Portuguese (Portugal)
+  'pt-PT': require './pt-PT'     # Português (Portugal), Portuguese (Portugal)
   pl: require './pl'             # język polski, Polish
   it: require './it'             # italiano, Italian
   tr: require './tr'             # Türkçe, Turkish
@@ -58,3 +58,4 @@ module.exports =
   hi: require './hi'             # मानक हिन्दी, Hindi
   ur: require './ur'             # اُردُو, Urdu
   ms: require './ms'             # Bahasa Melayu, Bahasa Malaysia
+  ca: require './ca'             # Català, Catalan
