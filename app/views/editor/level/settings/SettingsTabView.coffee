@@ -69,30 +69,4 @@ module.exports = class SettingsTabView extends CocoView
 
 
 class SettingsNode extends TreemaObjectNode
-  getUndoDescription: ->
-    return '' unless @canUndo()
-    trackedActions = @getTrackedActions()
-    currentStateIndex = @getCurrentStateIndex()
-    return @getTrackedActionDescription( trackedActions[currentStateIndex - 1] )
-
-  getRedoDescription: ->
-    return '' unless @canRedo()
-    trackedActions = @getTrackedActions()
-    currentStateIndex = @getCurrentStateIndex()
-    return @getTrackedActionDescription trackedActions[currentStateIndex]
-
-  getTrackedActionDescription: (trackedAction) ->
-    switch trackedAction.action
-      when 'insert'
-        trackedActionDescription = 'Add New Setting'
-
-      when 'delete'
-        trackedActionDescription = 'Delete Setting'
-
-      when 'edit'
-        path = trackedAction.path.split '/'
-        trackedActionDescription = 'Edit Setting'
-
-      else
-        trackedActionDescription = ''
-    trackedActionDescription
+  nodeDescription: 'Settings'

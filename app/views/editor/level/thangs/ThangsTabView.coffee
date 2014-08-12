@@ -501,42 +501,20 @@ module.exports = class ThangsTabView extends CocoView
 
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
+  nodeDescription: 'Thang'
+
+  getTrackedActionDescription: (trackedAction) ->
+    trackedActionDescription = super(trackedAction)
+    if trackedActionDescription is 'Edit ' + @nodeDescription
+      path = trackedAction.path.split '/'
+      if path[path.length-1] is 'pos'
+        trackedActionDescription = 'Move Thang'
+    trackedActionDescription
+
   getChildren: ->
     children = super(arguments...)
     # TODO: add some filtering to only work with certain types of units at a time
     return children
-
-  getUndoDescription: ->
-    return '' unless @canUndo()
-    trackedActions = @getTrackedActions()
-    currentStateIndex = @getCurrentStateIndex()
-    return @getTrackedActionDescription( trackedActions[currentStateIndex - 1] )
-
-  getRedoDescription: ->
-    return '' unless @canRedo()
-    trackedActions = @getTrackedActions()
-    currentStateIndex = @getCurrentStateIndex()
-    return @getTrackedActionDescription trackedActions[currentStateIndex]
-
-  getTrackedActionDescription: (trackedAction) ->
-    switch trackedAction.action
-      when 'insert'
-        trackedActionDescription = 'Add New Thang'
-
-      when 'delete'
-        trackedActionDescription = 'Delete Thang'
-
-      when 'edit'
-        path = trackedAction.path.split '/'
-        if path[path.length-1] is 'pos'
-          trackedActionDescription = 'Move Thang'
-        else
-          trackedActionDescription = 'Edit Thang'
-
-      else
-        trackedActionDescription = ''
-
-    trackedActionDescription
     
 class ThangNode extends TreemaObjectNode
   valueClass: 'treema-thang'

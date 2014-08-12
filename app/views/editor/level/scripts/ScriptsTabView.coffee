@@ -128,39 +128,12 @@ module.exports = class ScriptsTabView extends CocoView
     titleText = $('#redo-button').attr('title', 'Redo ' + redoDescription + ' (Ctrl+Shift+Z)')
 
 class ScriptsNode extends TreemaArrayNode
+  nodeDescription: 'Script'
   addNewChild: ->
     newTreema = super()
     if @callbacks.addChild
       @callbacks.addChild newTreema
     newTreema
-
-  getUndoDescription: ->
-    return '' unless @canUndo()
-    trackedActions = @getTrackedActions()
-    currentStateIndex = @getCurrentStateIndex()
-    return @getTrackedActionDescription( trackedActions[currentStateIndex - 1] )
-
-  getRedoDescription: ->
-    return '' unless @canRedo()
-    trackedActions = @getTrackedActions()
-    currentStateIndex = @getCurrentStateIndex()
-    return @getTrackedActionDescription trackedActions[currentStateIndex]
-
-  getTrackedActionDescription: (trackedAction) ->
-    switch trackedAction.action
-      when 'insert'
-        trackedActionDescription = 'Add New Script'
-
-      when 'delete'
-        trackedActionDescription = 'Delete Script'
-
-      when 'edit'
-        path = trackedAction.path.split '/'
-        trackedActionDescription = 'Edit Script'
-
-      else
-        trackedActionDescription = ''
-    trackedActionDescription
 
 class ScriptNode extends TreemaObjectNode
   valueClass: 'treema-script'
@@ -191,33 +164,7 @@ class ScriptNode extends TreemaObjectNode
     firstRow.select()
 
 class PropertiesNode extends TreemaObjectNode
-  getUndoDescription: ->
-    return '' unless @canUndo()
-    trackedActions = @getTrackedActions()
-    currentStateIndex = @getCurrentStateIndex()
-    return @getTrackedActionDescription( trackedActions[currentStateIndex - 1] )
-
-  getRedoDescription: ->
-    return '' unless @canRedo()
-    trackedActions = @getTrackedActions()
-    currentStateIndex = @getCurrentStateIndex()
-    return @getTrackedActionDescription trackedActions[currentStateIndex]
-
-  getTrackedActionDescription: (trackedAction) ->
-    switch trackedAction.action
-      when 'insert'
-        trackedActionDescription = 'Add New Script Property'
-
-      when 'delete'
-        trackedActionDescription = 'Delete Script Property'
-
-      when 'edit'
-        path = trackedAction.path.split '/'
-        trackedActionDescription = 'Edit Script Property'
-
-      else
-        trackedActionDescription = ''
-    trackedActionDescription
+  nodeDescription: 'Script Property'
 
 class EventPropsNode extends TreemaNode.nodeMap.string
   valueClass: 'treema-event-props'
