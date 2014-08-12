@@ -4,7 +4,7 @@ describe 'LevelSession', ->
   describe 'VCS', ->
     it 'lets me insert a revision and sets the previoius revision correctly', ->
       levelSession = new LevelSession()
-      vcs = levelSession.vcs
+      vcs = levelSession
       current = vcs.save "TestCode"
       previous = current
       current = vcs.save "TestCode2", previous
@@ -12,7 +12,7 @@ describe 'LevelSession', ->
 
     it 'should return the same code for a revision after insertion of new revisions', ->
       levelSession = new LevelSession()
-      vcs = levelSession.vcs
+      vcs = levelSession
       testCode1 = "TestCode1"
       current = vcs.save testCode1
       previous = current
@@ -22,7 +22,7 @@ describe 'LevelSession', ->
 
     it 'should return the same code for a revision after insertion of a new branch', ->
       levelSession = new LevelSession()
-      vcs = levelSession.vcs
+      vcs = levelSession
       testCode1 = "TestCode1"
       current = vcs.save testCode1
       previous = current
@@ -32,11 +32,16 @@ describe 'LevelSession', ->
 
     it 'should prune old revisions if more than 100(?)', ->
       levelSession = new LevelSession()
-      vcs = levelSession.vcs
+      vcs = levelSession
       previous = null
       while i > 123
         prevous = vcs.save "TestCode" + i++, previous
       expect(vcs.revisions.length).toBe(100)
 
     it 'should let me name revisions', ->
+      levelSession = new LevelSession()
+      vcs = levelSession
+      testCode1 = "TestCode1"
+      current = vcs.save testCode1
       #TODO.
+      expect("todo").toBe("todo")

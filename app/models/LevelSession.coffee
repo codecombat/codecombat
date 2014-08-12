@@ -6,16 +6,12 @@ module.exports = class LevelSession extends CocoModel
   @schema: require 'schemas/models/level_session'
   urlRoot: '/db/level.session'
 
-
   initialize: ->
     super()
     @on 'sync', (e) =>
       state = @get('state') or {}
       state.scripts ?= {}
       @set 'state', state
-      vcs = @get('vcs') or {}
-      vcs.revisions ?= []
-      @set 'vcs', vcs
 
   updatePermissions: ->
     permissions = @get 'permissions'
@@ -42,7 +38,7 @@ module.exports = class LevelSession extends CocoModel
       return true if c1[thang][spell] isnt c2[thang]?[spell]
     false
 
-  vcs:
+  #vcs:
     #TODO: CAN HAZ DIFFERENT LAZY LOAD?
 #    revisionMap = null
 #    getRevMap: ->
@@ -53,54 +49,58 @@ module.exports = class LevelSession extends CocoModel
 #        revisionMap[revision.timestamp] = revision
 #      revisionMap
 
-    getRevByTime: (revisionTimestamp) ->
-      for revision in vcs.revisions
-        if revision.timestamp is revisionTimestamp
-          return revision
-      throw new Exception "Revision not found: " + revisionTimestamp
+  getRevByTime: (revisionTimestamp) ->
+    for revision in @get('vcs').revisions
+      if revision.timestamp is revisionTimestamp
+        return revision
+    throw new Exception "Revision not found: " + revisionTimestamp
 
+  save: (code, previous) ->
+    previous = @getRevByTime(previous) if typeof(previous) is Date
 
-    save: (code, previous) ->
-      previous = getRevByTime(previous) if typeof(previous) is Date
-      vcs = @get('vcs')
-      current =
-        timestamp: new Date() #TODO Works? Needs this: (new Date()).toISOString()?
-        code: code
-        previous: previous.timestamp
-        newBranch: false
-        codeLanguage: 'javaScript' #TODO: Where can I get that from? :/
+    #TODO: Init in init instead...
+    vcs = @get('vcs') or {}
+    vcs.revisions ?= []
+    @set 'vcs', vcs
 
-      if previous:
-        current.diff = jsondiffpatch.diff(current.code, previous.getCode()) if previous?
-        previous.code = null;
+    current =
+      timestamp: new Date() #TODO Works? Needs this: (new Date()).toISOString()?
+      code: code
+      previous: previous?.timestamp
+      newBranch: false
+      codeLanguage: 'javaScript' #TODO: Where can I get that from? :/
 
-      vcs = @get "vcs"
-      vcs.revisions.push current
+    if previous?
+      current.diff = jsondiffpatch.diff(current.code, previous.getCode())
+      previous.code = null;
 
-      current.getNext = ->
-      timestamp = current.timestamp
-      for revision in vcs.revisions
-        return revision if revision.previous is timestamp
-      return null
+    vcs = @get "vcs"
+    vcs.revisions.push current
 
-      current.getCode = ->
-        return current?.code if current.code?
-        next = current.getNext()
-        return null unless next?
-        return jsondiffpatch.patch next.getCode(), next.diff
+    current.getNext = ->
+    timestamp = current.timestamp
+    for revision in vcs.revisions
+      return revision if revision.previous is timestamp
+    return null
 
-      @set "vcs", vcs
-      current.timestamp
+    current.getCode = ->
+      return current?.code if current.code?
+      next = current.getNext()
+      return null unless next?
+      return jsondiffpatch.patch next.getCode(), next.diff
+
+    @set "vcs", vcs
+    current
 
   #@getRevMap[current.timestamp] = current
 
       #TODO: Save delta to last source in list, set source to current source
 
     load: (revision) ->
-      if typeof(revision) is Date
-        revision = getRevByTime(revision)
+      revision = getRevByTime(revision) if typeof(revision) is Date
       code = revision.getCode()
-#
+      #TODO: I want to set this somewhere?
+###
 #    merge: (language, timestamp1, timestamp2) ->
 #      # TODO? Save a new version using the merged source of timestamp11 and timestamp2 if possible, else return false.
 #      throw new Exception "Merge is not yet implemented."
@@ -109,7 +109,7 @@ module.exports = class LevelSession extends CocoModel
 #      for node in @levelfoo.get('language')
 #        lookupTable[node.id] = node
 
-    ###deserializeVCS: (language) ->
+    #deserializeVCS: (language) ->
       # No need to walk the whole list here, could do it lazily.
       needsLink = {}
       isLink = {}
