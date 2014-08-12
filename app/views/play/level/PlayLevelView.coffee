@@ -55,6 +55,7 @@ module.exports = class PlayLevelView extends RootView
     'god:new-world-created': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
     'level-reload-from-data': 'onLevelReloadFromData'
+    'level-reload-thang-type': 'onLevelReloadThangType'
     'play-next-level': 'onPlayNextLevel'
     'edit-wizard-settings': 'showWizardSettingsModal'
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
@@ -321,10 +322,19 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelReloadFromData: (e) ->
     isReload = Boolean @world
-    @setLevel e.level, e.supermodel
+    @setLevel @level, e.supermodel
     if isReload
       @scriptManager.setScripts(e.level.get('scripts'))
       Backbone.Mediator.publish 'tome:cast-spell'  # a bit hacky
+
+  onLevelReloadThangType: (e) ->
+    tt = e.thangType
+    for url, model of @supermodel.models
+      if model.id is tt.id
+        for key, val of tt.attributes
+          model.attributes[key] = val
+        break
+    Backbone.Mediator.publish 'tome:cast-spell'
 
   onWindowResize: (s...) ->
     $('#pointer').css('opacity', 0.0)
