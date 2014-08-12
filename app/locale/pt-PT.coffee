@@ -857,7 +857,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     defeat_the: "Derrote o"
     tournament_ends: "O Torneio acaba"
     tournament_ended: "O Torneio acabou"
-    tournament_rules: "Reras do Torneio"
+    tournament_rules: "Regras do Torneio"
     tournament_blurb: "Escreva código, recolha ouro, construa exércitos, esmague inimigos, ganhe prémios e melhore a sua carreira no nosso torneio $40,000 Greed! Confira os detalhes"
     tournament_blurb_blog: "no nosso blog"
     rules: "Regras"
