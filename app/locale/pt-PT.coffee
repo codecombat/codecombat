@@ -429,13 +429,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   game_menu:
     inventory_tab: "Inventário"
-#    choose_hero_tab: "Restart Level"
+    choose_hero_tab: "Reiniciar Nível"
     save_load_tab: "Guarde/Carregue"
     options_tab: "Opções"
     guide_tab: "Guia"
     multiplayer_tab: "Multijogador"
     inventory_caption: "Equipe o seu herói"
-#    choose_hero_caption: "Choose hero, language"
+    choose_hero_caption: "Escolha o herói, a linguagem"
     save_load_caption: "... e veja o histórico"
     options_caption: "Configure as definições"
     guide_caption: "Documentos e dicas"
@@ -447,16 +447,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #  choose_hero:
 #    temp: "Temp"
 
-#  save_load:
+  save_load:
 #    granularity_saved_games: "Saved"
-#    granularity_change_history: "History"
+    granularity_change_history: "Histórico"
 
   options:
     general_options: "Opções Gerais"
     music_label: "Música"
     music_description: "Ative ou desative a música de fundo."
-#    autorun_label: "Autorun"
-#    autorun_description: "Control automatic code execution."
+    autorun_label: "Executar Automaticamente"
+    autorun_description: "Controlar a execução automática do código."
     editor_config: "Configurar Editor"
     editor_config_title: "Configurar Editor"
     editor_config_level_language_label: "Linguagem para Este Nível"
@@ -626,12 +626,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     hard: "Difícil"
     player: "Jogador"
 
-#  about:
-#    who_is_codecombat: "Who is CodeCombat?"
-#    why_codecombat: "Why CodeCombat?"
-#    who_description_prefix: "together started CodeCombat in 2013. We also created "
-#    who_description_suffix: "in 2008, growing it to the #1 web and iOS application for learning to write Chinese and Japanese characters."
-#    who_description_ending: "Now it's time to teach people to write code."
+  about:
+    who_is_codecombat: "Quem é o CodeCombat?"
+    why_codecombat: "Porquê o CodeCombat?"
+    who_description_prefix: "começaram juntos o CodeCombat em 2013. Também criaram o "
+    who_description_suffix: "em 2008, tornando-o a aplicação nº1 da web e iOS para aprender a escrever caracteteres Chineses e Japoneses."
+    who_description_ending: "Agora, está na altura de ensinar as pessoas a escrever código."
 #    why_paragraph_1: "When making Skritter, George didn't know how to program and was constantly frustrated by his inability to implement his ideas. Afterwards, he tried learning, but the lessons were too slow. His housemate, wanting to reskill and stop teaching, tried Codecademy, but \"got bored.\" Each week another friend started Codecademy, then dropped off. We realized it was the same problem we'd solved with Skritter: people learning a skill via slow, intensive lessons when what they need is fast, extensive practice. We know how to fix that."
 #    why_paragraph_2: "Need to learn to code? You don't need lessons. You need to write a lot of code and have a great time doing it."
 #    why_paragraph_3_prefix: "That's what programming is about. It's gotta be fun. Not fun like"
@@ -711,14 +711,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepencies between translations, the English document takes precedence."
 
   contribute:
-    page_title: "Contribuir"
-#    character_classes_title: "Character Classes"
-#    introduction_desc_intro: "We have high hopes for CodeCombat."
+#    page_title: "Contribuir"
+#    character_classes_title: "Classes de Personagens"
+#    introduction_desc_intro: "Temos esperanças elevadas para o CodeCombat."
 #    introduction_desc_pref: "We want to be where programmers of all stripes come to learn and play together, introduce others to the wonderful world of coding, and reflect the best parts of the community. We can't and don't want to do that alone; what makes projects like GitHub, Stack Overflow and Linux great are the people who use them and build on them. To that end, "
-#    introduction_desc_github_url: "CodeCombat is totally open source"
+#    introduction_desc_github_url: "o CodeCombat é totalmente open source"
 #    introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
-#    introduction_desc_ending: "We hope you'll join our party!"
-#    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Glen"
+#    introduction_desc_ending: "Esperemos que se junte a nós!"
+#    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy e Glen"
 #    alert_account_message_intro: "Hey there!"
 #    alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
 #    archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
@@ -787,7 +787,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    ambassador_join_note_desc: "One of our top priorities is to build multiplayer where players having difficulty solving levels can summon higher level wizards to help them. This will be a great way for ambassadors to do their thing. We'll keep you posted!"
     more_about_ambassador: "Aprenda Mais Sobre Tornar-se um Embaixador"
 #    ambassador_subscribe_desc: "Get emails on support updates and multiplayer developments."
-#    changes_auto_save: "Changes are saved automatically when you toggle checkboxes."
+    changes_auto_save: "As alterações são guardadas automaticamente quando clica nas caixas."
     diligent_scribes: "Os Nossos Dedicados Escrivões:"
     powerful_archmages: "Os Nossos Poderosos Arcomagos:"
     creative_artisans: "Os Nossos Creativos Artesãos:"
@@ -839,7 +839,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     no_ranked_matches_pre: "Sem jogos classificados pela equipa "
     no_ranked_matches_post: "! Joga contra alguns adversários e volta aqui para veres o teu jogo classificado."
     choose_opponent: "Escolhe um Adversário"
-#    select_your_language: "Select your language!"
+    select_your_language: "Selecione a sua linguagem!"
     tutorial_play: "Jogar Tutorial"
     tutorial_recommended: "Recomendado se nunca jogou antes"
     tutorial_skip: "Saltar Tutorial"
