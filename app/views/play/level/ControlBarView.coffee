@@ -2,8 +2,7 @@ CocoView = require 'views/kinds/CocoView'
 template = require 'templates/play/level/control_bar'
 
 LevelGuideModal = require './modal/LevelGuideModal'
-MultiplayerModal = require './modal/MultiplayerModal'
-ReloadLevelModal = require './modal/ReloadLevelModal'
+GameMenuModal = require 'views/game-menu/GameMenuModal'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -13,20 +12,15 @@ module.exports = class ControlBarView extends CocoView
     'bus:player-states-changed': 'onPlayerStatesChanged'
 
   events:
-    'click #multiplayer-button': ->
-      window.tracker?.trackEvent 'Clicked Multiplayer', level: @level.get('name'), label: @level.get('name')
-      @showMultiplayerModal()
-
     'click #docs-button': ->
       window.tracker?.trackEvent 'Clicked Docs', level: @level.get('name'), label: @level.get('name')
       @showGuideModal()
 
-    'click #restart-button': ->
-      window.tracker?.trackEvent 'Clicked Restart', level: @level.get('name'), label: @level.get('name')
-      @showRestartModal()
-
     'click #next-game-button': ->
       Backbone.Mediator.publish 'next-game-pressed'
+
+    'click #game-menu-button': ->
+      @showGameMenuModal()
 
     'click': -> Backbone.Mediator.publish 'tome:focus-editor'
 
@@ -80,8 +74,5 @@ module.exports = class ControlBarView extends CocoView
     clearInterval @guideHighlightInterval
     @guideHighlightInterval = null
 
-  showMultiplayerModal: ->
-    @openModalView(new MultiplayerModal(session: @session, playableTeams: @playableTeams, level: @level, ladderGame: @ladderGame))
-
-  showRestartModal: ->
-    @openModalView(new ReloadLevelModal())
+  showGameMenuModal: ->
+    @openModalView new GameMenuModal level: @level, session: @session, playableTeams: @playableTeams
