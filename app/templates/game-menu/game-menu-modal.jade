@@ -5,6 +5,11 @@ block modal-header
 block modal-body-content
   .tabbable.tabs-left
     - var submenus = ["inventory", "choose-hero", "save-load", "options", "guide", "multiplayer"]
+    - if (!showDevBits) {  // Not done yet.
+    -   submenus.splice(4, 1);
+    -   submenus.splice(2, 1);
+    -   submenus.splice(0, 1);
+    - }
     ul.nav.nav-tabs
       for submenu, index in submenus
         li(class=index ? "" : "active")
