@@ -18,7 +18,6 @@ module.exports = class RelatedAchievementsView extends CocoView
     @level = options.level
     @relatedID = @level.id
     @achievements = new RelatedAchievementsCollection @relatedID
-    console.debug @achievements
     @supermodel.loadCollection @achievements, 'achievements'
 
   onLoaded: ->

@@ -25,7 +25,7 @@ DEMO_URL_PREFIX = '/demo/'
 ###
 
 module.exports = DemoView = class DemoView extends RootView
-  id: "demo-view"
+  id: 'demo-view'
   template: template
 
   # INITIALIZE

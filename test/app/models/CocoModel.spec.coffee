@@ -92,9 +92,11 @@ describe 'CocoModel', ->
       request = jasmine.Ajax.requests.mostRecent()
       expect(request).toBeUndefined()
 
-  describe 'Achievement polling', ->
+  xdescribe 'Achievement polling', ->
     NewAchievementCollection = require 'collections/NewAchievementCollection'
     EarnedAchievement = require 'models/EarnedAchievement'
+    
+    # TODO: Figure out how to do debounce in tests so that this test doesn't need to use keepDoingUntil
 
     it 'achievements are polled upon saving a model', (done) ->
       #spyOn(CocoModel, 'pollAchievements')
