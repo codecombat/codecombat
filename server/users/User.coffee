@@ -113,6 +113,38 @@ UserSchema.statics.updateMailChimp = (doc, callback) ->
 
   mc?.lists.subscribe params, onSuccess, onFailure
 
+UserSchema.statics.statsMapping =
+  edits:
+    article: 'stats.articleEdits'
+    level: 'stats.levelEdits'
+    'level.component': 'stats.levelComponentEdits'
+    'level.system': 'stats.levelSystemEdits'
+    'thang.type': 'stats.thangTypeEdits'
+  translations:
+    article: 'stats.articleTranslationPatches'
+    level: 'stats.levelTranslationPatches'
+    'level.component': 'stats.levelComponentTranslationPatches'
+    'level.system': 'stats.levelSystemTranslationPatches'
+    'thang.type': 'stats.thangTypeTranslationPatches'
+  misc:
+    article: 'stats.articleMiscPatches'
+    level: 'stats.levelMiscPatches'
+    'level.component': 'stats.levelComponentMiscPatches'
+    'level.system': 'stats.levelSystemMiscPatches'
+    'thang.type': 'stats.thangTypeMiscPatches'
+    
+UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
+  id = mongoose.Types.ObjectId id if _.isString id
+  @findById id, (err, user) ->
+    log.error err if err?
+    err = new Error "Could't find user with id '#{id}'" unless user or err
+    return done err if err?
+    user.incrementStat statName, done, inc=1
+
+UserSchema.methods.incrementStat = (statName, done, inc=1) ->
+  @set statName, (@get(statName) or 0) + inc
+  @save (err) -> done?(err)
+
 UserSchema.statics.unconflictName = unconflictName = (name, done) ->
   User.findOne {slug: _.str.slugify(name)}, (err, otherUser) ->
     return done err if err?

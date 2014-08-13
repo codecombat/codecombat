@@ -49,10 +49,27 @@ PatchHandler = class PatchHandler extends Handler
         if newStatus is 'withdrawn'
           return @sendUnauthorizedError(res) unless req.user.get('_id').equals patch.get('creator')
 
+        patch.set 'status', newStatus
+
+        # Only increment statistics upon very first accept
+        if patch.isNewlyAccepted()
+          accepter = req.user.get 'id'
+          submitter = patch.get 'creator'
+          User.incrementStat accepter, 'stats.patchesAccepted'
+          # TODO maybe merge these increments together
+          if patch.isTranslationPatch()
+            User.incrementStat submitter, 'stats.totalTranslationPatches'
+            User.incrementStat submitter, User.statsMapping.translations[targetModel.modelName]
+          if patch.isMiscPatch()
+            User.incrementStat submitter, 'stats.totalMiscPatches'
+            User.incrementStat submitter, User.statsMapping.misc[targetModel.modelName]
+
+
         # these require callbacks
-        patch.update {$set: {status: newStatus}}, {}, ->
-        target.update {$pull: {patches: patch.get('_id')}}, {}, ->
-        @sendSuccess(res, null)
+        patch.save (err) =>
+          log.error err if err?
+          target.update {$pull:{patches:patch.get('_id')}}, {}, ->
+          @sendSuccess(res, null)
 
   onPostSuccess: (req, doc) ->
     log.error 'Error sending patch created: could not find the loaded target on the patch object.' unless doc.targetLoaded

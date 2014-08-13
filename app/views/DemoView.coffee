@@ -1,4 +1,4 @@
-CocoView = require 'views/kinds/CocoView'
+RootView = require 'views/kinds/RootView'
 ModalView = require 'views/kinds/ModalView'
 template = require 'templates/demo'
 requireUtils = require 'lib/requireUtils'
@@ -24,8 +24,8 @@ DEMO_URL_PREFIX = '/demo/'
 
 ###
 
-module.exports = DemoView = class DemoView extends CocoView
-  id: 'demo-view'
+module.exports = DemoView = class DemoView extends RootView
+  id: "demo-view"
   template: template
 
   # INITIALIZE

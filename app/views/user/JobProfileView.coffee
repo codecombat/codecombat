@@ -1,4 +1,4 @@
-RootView = require 'views/kinds/RootView'
+UserView = require 'views/kinds/UserView'
 template = require 'templates/account/profile'
 User = require 'models/User'
 LevelSession = require 'models/LevelSession'
@@ -26,7 +26,7 @@ adminContacts = [
   {id: '52a57252a89409700d0000d9', name: 'Ignore'}
 ]
 
-module.exports = class JobProfileView extends RootView
+module.exports = class JobProfileView extends UserView
   id: 'profile-view'
   template: template
   showBackground: false
@@ -54,8 +54,7 @@ module.exports = class JobProfileView extends RootView
     'change #admin-contact': 'onAdminContactChanged'
     'click .session-link': 'onSessionLinkPressed'
 
-  constructor: (options, @userID) ->
-    @userID ?= me.id
+  constructor: (userID, options) ->
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
     @onRemarkChanged = _.debounce @onRemarkChanged, 1000
     @authorizedWithLinkedIn = IN?.User?.isAuthorized()
@@ -64,32 +63,19 @@ module.exports = class JobProfileView extends RootView
     window.contractCallback = =>
       @authorizedWithLinkedIn = IN?.User?.isAuthorized()
       @render()
-    super options
-    if me.get('anonymous') is true
-      @render()
-      return
-    if User.isObjectID @userID
-      @finishInit()
-    else
-      $.ajax "/db/user/#{@userID}/nameToID", success: (@userID) =>
-        @finishInit() unless @destroyed
-        @render()
+    super options, userID
+
+  onUserLoaded: ->
+    @finishInit() unless @destroyed
+    super()
 
   finishInit: ->
     return unless @userID
     @uploadFilePath = "db/user/#{@userID}"
     @highlightedContainers = []
-    if @userID is me.id
-      @user = me
-    else if me.isAdmin() or 'employer' in me.get('permissions')
-      @user = User.getByID(@userID)
-      @user.fetch()
-      @listenTo @user, 'sync', =>
-        @render()
+    if me.isAdmin() or 'employer' in me.get('permissions')
       $.post "/db/user/#{me.id}/track/view_candidate"
       $.post "/db/user/#{@userID}/track/viewed_by_employer" unless me.isAdmin()
-    else
-      @user = User.getByID(@userID)
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@userID), 'candidate_sessions').model
     if me.isAdmin()
       # Mimicking how the VictoryModal fetches LevelFeedback
@@ -248,7 +234,7 @@ module.exports = class JobProfileView extends RootView
     jobProfile.name ?= (@user.get('firstName') + ' ' + @user.get('lastName')).trim() if @user?.get('firstName')
     context.profile = jobProfile
     context.user = @user
-    context.myProfile = @user?.id is context.me.id
+    context.myProfile = @isMe()
     context.allowedToViewJobProfile = @user and (me.isAdmin() or 'employer' in me.get('permissions') or (context.myProfile && !me.get('anonymous')))
     context.allowedToEditJobProfile = @user and (me.isAdmin() or (context.myProfile && !me.get('anonymous')))
     context.profileApproved = @user?.get 'jobProfileApproved'
@@ -289,7 +275,7 @@ module.exports = class JobProfileView extends RootView
       _.delay ->
         justSavedSection.removeClass 'just-saved', duration: 1500, easing: 'easeOutQuad'
       , 500
-    if me.isAdmin()
+    if me.isAdmin() and @user
       visibleSettings = ['history', 'tasks']
       data = _.pick (@remark.attributes), (value, key) -> key in visibleSettings
       data.history ?= []

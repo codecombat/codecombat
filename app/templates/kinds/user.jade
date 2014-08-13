@@ -1,0 +1,13 @@
+extends /templates/base
+
+// User pages might have some user page specific header, if not remove this
+block content
+  .clearfix
+    if user && viewName
+      ol.breadcrumb
+        li
+          a(href="/user/#{user.getSlugOrID()}") #{user.displayName()}
+        li.active
+          | #{viewName}
+    if !user || user.loading
+      | LOADING
