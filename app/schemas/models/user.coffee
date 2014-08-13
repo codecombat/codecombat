@@ -222,6 +222,33 @@ _.extend UserSchema.properties,
     
   points: {type: 'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
+  stats: c.object {additionalProperties: false},
+    gamesCompleted: c.int()
+    articleEdits: c.int()
+    levelEdits: c.int()
+    levelSystemEdits: c.int()
+    levelComponentEdits: c.int()
+    thangTypeEdits: c.int()
+    patchesSubmitted: c.int
+      description: 'Amount of patches submitted, not necessarily accepted'
+    patchesContributed: c.int
+      description: 'Amount of patches submitted and accepted'
+    patchesAccepted: c.int
+      description: 'Amount of patches accepted by the user as owner'
+    # The below patches only apply to those that actually got accepted
+    totalTranslationPatches: c.int()
+    totalMiscPatches: c.int()
+    articleTranslationPatches: c.int()
+    articleMiscPatches: c.int()
+    levelTranslationPatches: c.int()
+    levelMiscPatches: c.int()
+    levelComponentTranslationPatches: c.int()
+    levelComponentMiscPatches: c.int()
+    levelSystemTranslationPatches: c.int()
+    levelSystemMiscPatches: c.int()
+    thangTypeTranslationPatches: c.int()
+    thangTypeMiscPatches: c.int()
+
 
 c.extendBasicProperties UserSchema, 'user'
 

@@ -42,6 +42,7 @@
     "winston": "0.6.x",
     "passport": "0.1.x",
     "passport-local": "0.1.x",
+    "moment": "~2.5.0",
     "mongodb": "1.2.x",
     "mongoose": "3.8.x",
     "mongoose-text-search": "~0.0.2",

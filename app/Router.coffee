@@ -18,9 +18,10 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'about': go('AboutView')
     
-    'account/profile(/:userID)': go('account/JobProfileView')
+    'account': go('account/MainAccountView')
     'account/settings': go('account/AccountSettingsView')
     'account/unsubscribe': go('account/UnsubscribeView')
+    #'account/payment'
     
     'admin': go('admin/MainAdminView')
     'admin/candidates': go('admin/CandidatesView')
@@ -50,7 +51,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor': go('editor/MainEditorView')
 
     'editor/achievement': go('editor/achievement/AchievementSearchView')
-    'editor/achievement': go('editor/achievement/AchievementEditView')
+    'editor/achievement/:articleID': go('editor/achievement/AchievementEditView')
     'editor/article': go('editor/article/ArticleSearchView')
     'editor/article/preview': go('editor/article/ArticlePreviewView')
     'editor/article/:articleID': go('editor/article/ArticleEditView')
@@ -78,6 +79,11 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers': go('TeachersView')
     
     'test(/*subpath)': go('TestView')
+
+    'user/:slugOrID': go('user/MainUserView')
+    'user/:slugOrID/stats': go('user/AchievementsView')
+    'user/:slugOrID/profile': go('user/JobProfileView')
+    #'user/:slugOrID/code': go('user/CodeView')
 
     '*name': 'showNotFoundView'
 
