@@ -53,6 +53,8 @@ block header
           ul.dropdown-menu
             li.dropdown-header Actions
             li(class=anonymous ? "disabled": "")
+              a(data-i18n="common.fork")#fork-start-button Fork
+            li(class=anonymous ? "disabled": "")
               a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
             li.divider
             li.dropdown-header Info
