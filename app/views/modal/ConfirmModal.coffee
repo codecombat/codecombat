@@ -8,8 +8,8 @@ module.exports = class ConfirmModal extends ModalView
   closeOnConfirm: true
 
   events:
-    'click #decline-button': 'doDecline'
-    'click #confirm-button': 'doConfirm'
+    'click #decline-button': 'onDecline'
+    'click #confirm-button': 'onConfirm'
 
   constructor: (@renderData={}, options={}) ->
     super(options)
@@ -21,10 +21,6 @@ module.exports = class ConfirmModal extends ModalView
 
   setRenderData: (@renderData) ->
 
-  onDecline: (@decline) ->
+  onDecline: -> @trigger 'decline'
 
-  onConfirm: (@confirm) ->
-
-  doConfirm: -> @confirm() if @confirm
-
-  doDecline: -> @decline() if @decline
+  onConfirm: -> @trigger 'confirm'

@@ -12,9 +12,10 @@ ScriptsTabView = require './scripts/ScriptsTabView'
 ComponentsTabView = require './components/ComponentsTabView'
 SystemsTabView = require './systems/SystemsTabView'
 SaveLevelModal = require './modals/SaveLevelModal'
-LevelForkView = require './modals/ForkLevelModal'
+ForkModal = require 'views/editor/ForkModal'
 SaveVersionModal = require 'views/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
+RelatedAchievementsView = require 'views/editor/level/RelatedAchievementsView'
 VersionHistoryView = require './modals/LevelVersionsModal'
 ComponentDocsView = require 'views/docs/ComponentDocumentationView'
 
@@ -29,7 +30,7 @@ module.exports = class LevelEditView extends RootView
     'click .play-with-team-button': 'onPlayLevel'
     'click .play-with-team-parent': 'onPlayLevelTeamSelect'
     'click #commit-level-start-button': 'startCommittingLevel'
-    'click #fork-level-start-button': 'startForkingLevel'
+    'click #fork-start-button': 'startForking'
     'click #level-history-button': 'showVersionHistory'
     'click #undo-button': 'onUndo'
     'click #redo-button': 'onRedo'
@@ -75,7 +76,8 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
     @insertSubView new ComponentsTabView supermodel: @supermodel
     @insertSubView new SystemsTabView supermodel: @supermodel
-    @insertSubView new ComponentDocsView()
+    @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
+    @insertSubView new ComponentDocsView supermodel: @supermodel
 
     Backbone.Mediator.publish 'level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
@@ -128,9 +130,8 @@ module.exports = class LevelEditView extends RootView
     @openModalView new SaveLevelModal level: @level, supermodel: @supermodel
     Backbone.Mediator.publish 'level:view-switched', e
 
-  startForkingLevel: (e) ->
-    levelForkView = new LevelForkView level: @level
-    @openModalView levelForkView
+  startForking: (e) ->
+    @openModalView new ForkModal model: @level, editorPath: 'level'
     Backbone.Mediator.publish 'level:view-switched', e
 
   showVersionHistory: (e) ->

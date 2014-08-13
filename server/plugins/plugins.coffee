@@ -1,5 +1,6 @@
-mongoose = require 'mongoose'
-textSearch = require 'mongoose-text-search'
+mongoose = require('mongoose')
+textSearch = require('mongoose-text-search')
+log = require 'winston'
 
 module.exports.MigrationPlugin = (schema, migrations) ->
   # Property name migrations made EZ
@@ -259,6 +260,15 @@ module.exports.VersionedPlugin = (schema) ->
         done(null, new Model(newObject))
       )
     )
+
+  # Assume every save is a new version, hence an edit
+  schema.pre 'save', (next) ->
+    User = require '../users/User'  # Avoid mutual inclusion cycles
+    userID = @get('creator')?.toHexString()
+    return next() unless userID?
+
+    statName = User.statsMapping.edits[@constructor.modelName]
+    User.incrementStat userID, statName, next
 
 module.exports.SearchablePlugin = (schema, options) ->
   # this plugin must be added only after the others (specifically Versioned and Permissions)

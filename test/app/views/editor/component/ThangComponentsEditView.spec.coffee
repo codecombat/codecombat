@@ -25,17 +25,21 @@ componentC = new LevelComponent({
   name: 'C (depends on B)'
   dependencies: [{original:'B', majorVersion: 0}]
 })
+componentC.loaded = true
 
 describe 'ThangComponentsEditView', ->
   view = null
   
-  beforeEach ->
+  beforeEach (done) ->
     supermodel = new SuperModel()
     supermodel.registerModel(componentC)
     view = new ThangComponentEditView({ components: [], supermodel: supermodel })
-    view.render()
-    view.componentsTreema.set('/', [ { original: 'C', majorVersion: 0 }])
-    spyOn(window, 'noty')
+    jasmine.Ajax.requests.sendResponses { '/db/thang.type': [] }
+    _.delay ->
+      view.render()
+      view.componentsTreema.set('/', [ { original: 'C', majorVersion: 0 }])
+      spyOn(window, 'noty')
+      done()
 
   it 'loads dependencies when you add a component with the left side treema', ->
     success = jasmine.Ajax.requests.sendResponses(responses)

@@ -1,0 +1,26 @@
+
+button.btn.btn-primary#new-achievement-button(disabled=me.isAdmin() === true ? undefined : "true" data-i18n="editor.new_achievement_title") Create a New Achievement
+
+if achievements.loading
+  h2(data-i18n="common.loading") Loading...
+else if ! achievements.models.length
+  .panel
+    .panel-body
+      p(data-i18n="editor.no_achievements") No achievements added for this level yet.
+else
+  table.table.table-hover
+    thead
+      tr
+        th
+        th(data-i18n="general.name") Name
+        th(data-i18n="general.description") Description
+        th XP
+    tbody
+      each achievement in achievements.models
+        tr
+          td(style="width: 20px")
+            img.achievement-icon-small(src=achievement.getImageURL() alt="#{achievement.get('name') icon")
+          td
+            a(href="/editor/achievement/#{achievement.get('slug')}")= achievement.get('name')
+          td= achievement.get('description')
+          td= achievement.get('worth')

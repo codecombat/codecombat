@@ -38,7 +38,7 @@ module.exports.setup = (app) ->
       return handler.getByRelationship(req, res, parts[1..]...) if parts.length > 2
       return handler.getById(req, res, parts[1]) if req.route.method is 'get' and parts[1]?
       return handler.patch(req, res, parts[1]) if req.route.method is 'patch' and parts[1]?
-      handler[req.route.method](req, res)
+      handler[req.route.method](req, res, parts[1..]...)
     catch error
       log.error("Error trying db method #{req.route.method} route #{parts} from #{name}: #{error}")
       log.error(error)

@@ -36,3 +36,9 @@ module.exports = class LevelSession extends CocoModel
       spell = item[1]
       return true if c1[thang][spell] isnt c2[thang]?[spell]
     false
+
+  isMultiplayer: ->
+    @get('team')? # Only multiplayer level sessions have teams defined
+
+  completed: ->
+    @get('state')?.complete || false

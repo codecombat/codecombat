@@ -2,6 +2,9 @@ require '../common'
 
 describe '/db/patch', ->
   request = require 'request'
+  async = require 'async'
+  UserHandler = require '../../../server/users/user_handler'
+
   it 'clears the db first', (done) ->
     clearModels [User, Article, Patch], (err) ->
       throw err if err
@@ -110,10 +113,52 @@ describe '/db/patch', ->
               expect(article.get('status')).toBe 'accepted'
               done()
 
-  it 'does not allow the recipient to withdraw the pull request', (done) ->
-    statusURL = getURL("/db/patch/#{patches[0]._id}/status")
-    request.put {uri: statusURL, json: {status: 'withdrawn'}}, (err, res, body) ->
-      expect(res.statusCode).toBe(403)
-      Patch.findOne({}).exec (err, article) ->
-        expect(article.get('status')).toBe 'accepted'
+  it 'keeps track of amount of submitted and accepted patches', (done) ->
+    loginJoe (joe) ->
+      User.findById joe.get('_id'), (err, guy) ->
+        expect(err).toBeNull()
+        expect(guy.get 'stats.patchesSubmitted').toBe 1
+        expect(guy.get 'stats.patchesContributed').toBe 1
+        expect(guy.get 'stats.totalMiscPatches').toBe 1
+        expect(guy.get 'stats.articleMiscPatches').toBe 1
+        expect(guy.get 'stats.totalTranslationPatches').toBeUndefined()
         done()
+
+  it 'recalculates amount of submitted and accepted patches', (done) ->
+    loginJoe (joe) ->
+      User.findById joe.get('_id'), (err, joe) ->
+        expect(joe.get 'stats.patchesSubmitted').toBe 1
+        joe.update {$unset: stats: ''}, (err) ->
+          UserHandler.modelClass.findById joe.get('_id'), (err, joe) ->
+            expect(err).toBeNull()
+            expect(joe.get 'stats').toBeUndefined()
+            async.parallel [
+              (done) -> UserHandler.recalculateStats 'patchesContributed', done
+              (done) -> UserHandler.recalculateStats 'patchesSubmitted', done
+              (done) -> UserHandler.recalculateStats 'totalMiscPatches', done
+              (done) -> UserHandler.recalculateStats 'totalTranslationPatches', done
+              (done) -> UserHandler.recalculateStats 'articleMiscPatches', done
+            ], (err) ->
+              expect(err).toBeNull()
+              UserHandler.modelClass.findById joe.get('_id'), (err, joe) ->
+                expect(joe.get 'stats.patchesSubmitted').toBe 1
+                expect(joe.get 'stats.patchesContributed').toBe 1
+                expect(joe.get 'stats.totalMiscPatches').toBe 1
+                expect(joe.get 'stats.articleMiscPatches').toBe 1
+                expect(joe.get 'stats.totalTranslationPatches').toBeUndefined()
+                done()
+
+  it 'does not allow the recipient to withdraw the pull request', (done) ->
+    loginAdmin ->
+      statusURL = getURL("/db/patch/#{patches[0]._id}/status")
+      request.put {uri: statusURL, json: {status:'withdrawn'}}, (err, res, body) ->
+        expect(res.statusCode).toBe(403)
+        Patch.findOne({}).exec (err, article) ->
+          expect(article.get('status')).toBe 'accepted'
+          done()
+
+
+
+
+
+

@@ -80,7 +80,7 @@ module.exports = class Level extends CocoModel
       visit = (c) ->
         return if c in sorted
         lc = _.find levelComponents, {original: c.original}
-        console.error thang.id, 'couldn\'t find lc for', c, 'of', levelComponents unless lc
+        console.error thang.id or thang.name, 'couldn\'t find lc for', c, 'of', levelComponents unless lc
         return unless lc
         if lc.name is 'Programmable'
           # Programmable always comes last
@@ -88,7 +88,7 @@ module.exports = class Level extends CocoModel
         else
           for d in lc.dependencies or []
             c2 = _.find thang.components, {original: d.original}
-            console.error thang.id, 'couldn\'t find dependent Component', d.original, 'from', lc.name unless c2
+            console.error thang.id or thang.name, 'couldn\'t find dependent Component', d.original, 'from', lc.name unless c2
             visit c2 if c2
           if lc.name is 'Collides'
             allied = _.find levelComponents, {name: 'Allied'}

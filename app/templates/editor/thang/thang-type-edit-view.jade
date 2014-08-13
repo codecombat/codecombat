@@ -33,6 +33,16 @@ block header
         span.navbar-brand #{thangType.attributes.name}
 
       ul.nav.navbar-nav.navbar-right
+        li.dropdown
+          a(data-toggle='dropdown').play-with-level-parent
+            span.glyphicon-play.glyphicon
+          ul.dropdown-menu
+            li.dropdown-header Play Which Level?
+            li
+              for level in recentlyPlayedLevels
+                a.play-with-level-button(data-level=level)= level
+              input.play-with-level-input(placeholder="Type in a level name")
+      
         if authorized
           li#save-button
             a
@@ -42,6 +52,8 @@ block header
             span.glyphicon-chevron-down.glyphicon
           ul.dropdown-menu
             li.dropdown-header Actions
+            li(class=anonymous ? "disabled": "")
+              a(data-i18n="common.fork")#fork-start-button Fork
             li(class=anonymous ? "disabled": "")
               a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
             li.divider

@@ -101,6 +101,14 @@ _.extend LevelSessionSchema.properties,
                   type: 'object'
                 source:
                   type: 'string'
+    goalStates:
+      type: 'object'
+      description: 'Maps Goal ID on a goal state object'
+      additionalProperties:
+        title: 'Goal State'
+        type: 'object'
+        properties:
+          status: enum: ['failure', 'incomplete', 'success']
 
   code:
     type: 'object'
