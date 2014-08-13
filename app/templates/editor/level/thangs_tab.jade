@@ -15,6 +15,8 @@ button.navbar-toggle.toggle.btn-primary#thangs-palette-toggle(type="button", dat
       i.icon-globe
     button.btn.btn-primary(value="Doodad", title="Doodad")
       i.icon-leaf
+    button.btn.btn-primary(value="Item", title="Item")
+      i.icon-gift
     button.btn.btn-primary(value="Misc", title="Misc")
       i.icon-question-sign
   .editor-nano-container.nano
@@ -23,8 +25,7 @@ button.navbar-toggle.toggle.btn-primary#thangs-palette-toggle(type="button", dat
 .world-container.thangs-column
   h3(data-i18n="editor.level_tab_thangs_conditions") Starting Conditions
   #canvas-wrapper
-    #canvas-overlay
-      button.btn.btn-primary(id="randomize-button", data-toggle="coco-modal", data-target="editor/level/modals/TerrainRandomizeModal", data-i18n="editor.randomize", title="Randomize Terrain") Randomize
+    button.btn.btn-primary(id="randomize-button", data-toggle="coco-modal", data-target="editor/level/modals/TerrainRandomizeModal", data-i18n="editor.randomize", title="Randomize Terrain") Randomize
     ul.dropdown-menu#contextmenu
       li#delete
         a(data-i18n="editor.delete") Delete
@@ -35,4 +36,4 @@ button.navbar-toggle.toggle.btn-primary#thangs-palette-toggle(type="button", dat
     #canvas-top-gradient.gradient
 
 .add-thangs-palette.thangs-column#add-thangs-column
-#editor-level-thang-edit.secret
+#level-thang-edit-view.secret

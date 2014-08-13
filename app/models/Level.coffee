@@ -22,8 +22,35 @@ module.exports = class Level extends CocoModel
     o.systems = @sortSystems o.systems, systemModels
     @fillInDefaultSystemConfiguration o.systems
 
-    o.thangTypes = (original: tt.get('original'), name: tt.get('name') for tt in supermodel.getModels ThangType)
+    # Figure out ThangTypes' Components
+    o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType)
+    @sortThangComponents o.thangTypes, o.levelComponents
+    @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
+
     o
+
+  denormalize: (supermodel) ->
+    o = $.extend true, {}, @attributes
+    for levelThang in o.thangs
+      @denormalizeThang(levelThang, supermodel)
+    o
+
+  denormalizeThang: (levelThang, supermodel) ->
+    levelThang.components ?= []
+    thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
+    configs = {}
+    for thangComponent in levelThang.components
+      configs[thangComponent.original] = thangComponent
+
+    for defaultThangComponent in thangType.get('components')
+      if levelThangComponent = configs[defaultThangComponent.original]
+        # take the thang type default components and merge level-specific component config into it
+        copy = $.extend true, {}, defaultThangComponent.config
+        levelThangComponent.config = _.merge copy, levelThangComponent.config
+
+      else
+        # just add the component as is
+        levelThang.components.push $.extend true, {}, defaultThangComponent
 
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]
@@ -53,14 +80,15 @@ module.exports = class Level extends CocoModel
       visit = (c) ->
         return if c in sorted
         lc = _.find levelComponents, {original: c.original}
-        console.error thang.id, 'couldn\'t find lc for', c unless lc
+        console.error thang.id or thang.name, 'couldn\'t find lc for', c, 'of', levelComponents unless lc
+        return unless lc
         if lc.name is 'Programmable'
           # Programmable always comes last
           visit c2 for c2 in _.without thang.components, c
         else
           for d in lc.dependencies or []
             c2 = _.find thang.components, {original: d.original}
-            console.error thang.id, 'couldn\'t find dependent Component', d.original, 'from', lc.name unless c2
+            console.error thang.id or thang.name, 'couldn\'t find dependent Component', d.original, 'from', lc.name unless c2
             visit c2 if c2
           if lc.name is 'Collides'
             allied = _.find levelComponents, {name: 'Allied'}

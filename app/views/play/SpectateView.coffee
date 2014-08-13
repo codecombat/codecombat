@@ -239,7 +239,7 @@ module.exports = class SpectateLevelView extends RootView
     @insertSubView new HUDView {}
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, spectateGame: true}
-  #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick!'
+    #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick'
 
   afterInsert: ->
     super()

@@ -80,6 +80,7 @@ bin/mongo/
 
 # windows
 /SCOCODE.bat
+cocodb/
 
 # local settings
 login.coffee

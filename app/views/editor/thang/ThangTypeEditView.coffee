@@ -6,17 +6,19 @@ Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
 
 RootView = require 'views/kinds/RootView'
-ThangComponentEditView = require 'views/editor/component/ThangComponentEditView'
+ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangTypeVersionsModal = require './ThangTypeVersionsModal'
 ThangTypeColorsTabView = require './ThangTypeColorsTabView'
 PatchesView = require 'views/editor/PatchesView'
 SaveVersionModal = require 'views/modal/SaveVersionModal'
-template = require 'templates/editor/thang/edit'
+template = require 'templates/editor/thang/thang-type-edit-view'
+storage = require 'lib/storage'
 
 CENTER = {x: 200, y: 300}
 
 module.exports = class ThangTypeEditView extends RootView
-  id: 'editor-thang-type-edit-view'
+  id: 'thang-type-edit-view'
+  className: 'editor'
   template: template
   startsLoading: true
   resolution: 4
@@ -36,6 +38,9 @@ module.exports = class ThangTypeEditView extends RootView
     'click #history-button': 'showVersionHistory'
     'click #save-button': 'openSaveModal'
     'click #patches-tab': -> @patchesView.load()
+    'click .play-with-level-button': 'onPlayLevel'
+    'click .play-with-level-parent': 'onPlayLevelSelect'
+    'keyup .play-with-level-input': 'onPlayLevelKeyUp'
 
   subscriptions:
     'save-new-version': 'saveNewThangType'
@@ -49,7 +54,6 @@ module.exports = class ThangTypeEditView extends RootView
     @thangType = @supermodel.loadModel(@thangType, 'thang').model
     @thangType.saveBackups = true
     @listenToOnce @thangType, 'sync', ->
-      console.log 'files for?', @thangType.id, @thangType.get 'name'
       @files = @supermodel.loadCollection(new DocumentFiles(@thangType), 'files').model
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
@@ -58,6 +62,7 @@ module.exports = class ThangTypeEditView extends RootView
     context.thangType = @thangType
     context.animations = @getAnimationNames()
     context.authorized = not me.get('anonymous')
+    context.recentlyPlayedLevels = storage.load('recently-played-levels') ? ['items']
     context
 
   getAnimationNames: ->
@@ -81,8 +86,9 @@ module.exports = class ThangTypeEditView extends RootView
     options =
       components: @thangType.get('components') ? []
       supermodel: @supermodel
-      callback: @onComponentsChanged
-    @thangComponentEditView = new ThangComponentEditView options
+
+    @thangComponentEditView = new ThangComponentsEditView options
+    @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged
     @insertSubView @thangComponentEditView
 
   onComponentsChanged: (components) =>
@@ -406,6 +412,39 @@ module.exports = class ThangTypeEditView extends RootView
 
   openSaveModal: ->
     @openModalView(new SaveVersionModal({model: @thangType}))
+
+  onPlayLevelSelect: (e) ->
+    if @childWindow and not @childWindow.closed
+      # We already have a child window open, so we don't need to ask for a level; we'll use its existing level.
+      e.stopImmediatePropagation()
+      @onPlayLevel e
+    _.defer -> $('.play-with-level-input').focus()
+
+  onPlayLevelKeyUp: (e) ->
+    return unless e.keyCode is 13  # return
+    input = @$el.find('.play-with-level-input')
+    input.parents('.dropdown').find('.play-with-level-parent').dropdown('toggle')
+    level = _.string.slugify input.val()
+    return unless level
+    @onPlayLevel null, level
+    recentlyPlayedLevels = storage.load('recently-played-levels') ? []
+    recentlyPlayedLevels.push level
+    storage.save 'recently-played-levels', recentlyPlayedLevels
+
+  onPlayLevel: (e, level=null) ->
+    level ?= $(e.target).data('level')
+    level = _.string.slugify level
+    if @childWindow and not @childWindow.closed
+      # Reset the LevelView's world, but leave the rest of the state alone
+      @childWindow.Backbone.Mediator.publish 'level-reload-thang-type', thangType: @thangType
+    else
+      # Create a new Window with a blank LevelView
+      scratchLevelID = level + '?dev=true'
+      if me.get('name') is 'Nick'
+        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
+      else
+        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1024,height=560,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
+    @childWindow.focus()
 
   destroy: ->
     @camera?.destroy()

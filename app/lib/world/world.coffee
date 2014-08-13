@@ -12,6 +12,7 @@ Component = require 'lib/world/component'
 System = require 'lib/world/system'
 PROGRESS_UPDATE_INTERVAL = 200
 DESERIALIZATION_INTERVAL = 20
+ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 
 module.exports = class World
   @className: 'World'
@@ -143,6 +144,8 @@ module.exports = class World
     @aborted = true
 
   loadFromLevel: (level, willSimulate=true) ->
+    @levelComponents = level.levelComponents
+    @thangTypes = level.thangTypes
     @loadSystemsFromLevel level
     @loadThangsFromLevel level, willSimulate
     @loadScriptsFromLevel level
@@ -169,33 +172,37 @@ module.exports = class World
     @thangMap = {}
 
     # Load new Thangs
-    toAdd = []
-    for d in level.thangs
-      continue if d.thangType is 'Interface'  # ignore old Interface Thangs until we've migrated away
-      components = []
-      for component in d.components
-        componentModel = _.find level.levelComponents, (c) -> c.original is component.original and c.version.major is (component.majorVersion ? 0)
-        #console.log 'found model', componentModel, 'from', component, 'for', d.id, 'from existing components', level.levelComponents
-        componentClass = @loadClassFromCode componentModel.js, componentModel.name, 'component'
-        components.push [componentClass, component.config]
-        #console.log '---', d.id, "using db component class ---\n", componentClass, "\n--- from code ---\n", componentModel.js, '\n---'
-        #console.log '(found', componentModel, 'for id', component.original, 'from', level.levelComponents, ')'
-      thangType = d.thangType
-      thangTypeModel = _.find level.thangTypes, (t) -> t.original is thangType
-      thangType = thangTypeModel.name if thangTypeModel
-      thang = new Thang @, thangType, d.id
-      try
-        thang.addComponents components...
-      catch e
-        console.error 'couldn\'t load components for', d.thangType, d.id, 'because', e, e.stack, e.stackTrace
-      toAdd.push thang
-    @extraneousThangs = consolidateThangs toAdd if willSimulate  # combine walls, for example; serialize the leftovers later
-    for thang in toAdd
-      @thangs.unshift thang  # interactions happen in reverse order of specification/drawing
-      @setThang thang
-      @updateThangState thang
-      thang.updateRegistration()
+    toAdd = (@loadThangFromLevel thangConfig, level.levelComponents, level.thangTypes for thangConfig in level.thangs)
+    @extraneousThangs = consolidateThangs toAdd if willSimulate  # Combine walls, for example; serialize the leftovers later
+    @addThang thang for thang in toAdd
     null
+
+  loadThangFromLevel: (thangConfig, levelComponents, thangTypes, equipBy=null) ->
+    components = []
+    for component in thangConfig.components
+      componentModel = _.find levelComponents, (c) ->
+        c.original is component.original and c.version.major is (component.majorVersion ? 0)
+      componentClass = @loadClassFromCode componentModel.js, componentModel.name, 'component'
+      components.push [componentClass, component.config]
+      if equipBy and component.original is ITEM_ORIGINAL
+        component.config.ownerID = equipBy
+    thangTypeOriginal = thangConfig.thangType
+    thangTypeModel = _.find thangTypes, (t) -> t.original is thangTypeOriginal
+    return console.error thangConfig.id ? equipBy, 'could not find ThangType for', thangTypeOriginal unless thangTypeModel
+    thangTypeName = thangTypeModel.name
+    thang = new Thang @, thangTypeName, thangConfig.id
+    try
+      thang.addComponents components...
+    catch e
+      console.error 'couldn\'t load components for', thangTypeOriginal, thangConfig.id, 'because', e.toString(), e.stack
+    thang
+
+  addThang: (thang) ->
+    @thangs.unshift thang  # Interactions happen in reverse order of specification/drawing
+    @setThang thang
+    @updateThangState thang
+    thang.updateRegistration()
+    thang
 
   loadScriptsFromLevel: (level) ->
     @scriptNotes = []
@@ -217,15 +224,6 @@ module.exports = class World
     c.className = name
     c
 
-  add: (spriteName, id, components...) ->
-    thang = new Thang @, spriteName, id
-    @thangs.unshift thang  # interactions happen in reverse order of specification/drawing
-    @setThang thang
-    thang.addComponents components...
-    @updateThangState thang
-    thang.updateRegistration()
-    thang
-
   updateThangState: (thang) ->
     @frames[@frames.length-1].thangStateMap[thang.id] = thang.getState()
 
@@ -240,7 +238,7 @@ module.exports = class World
   calculateBounds: ->
     bounds = {left: 0, top: 0, right: 0, bottom: 0}
     hasLand = _.some @thangs, 'isLand'
-    for thang in @thangs when thang.isLand or not hasLand  # Look at Lands only
+    for thang in @thangs when thang.isLand or (not hasLand and thang.rectangle)  # Look at Lands only
       rect = thang.rectangle().axisAlignedBoundingBox()
       bounds.left = Math.min(bounds.left, rect.x - rect.width / 2)
       bounds.right = Math.max(bounds.right, rect.x + rect.width / 2)

@@ -7,6 +7,7 @@ log = require 'winston'
 plugins = require '../plugins/plugins'
 
 sendwithus = require '../sendwithus'
+delighted = require '../delighted'
 
 UserSchema = new mongoose.Schema({
   dateCreated:
@@ -134,7 +135,7 @@ UserSchema.methods.register = (done) ->
       address: @get 'email'
   sendwithus.api.send data, (err, result) ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
-
+  delighted.addDelightedUser @
 
 UserSchema.pre('save', (next) ->
   @set('emailLower', @get('email')?.toLowerCase())
