@@ -93,17 +93,35 @@ module.exports = class CoordinateDisplay extends createjs.Container
     #  -adjust the cache position
     # both can use the current orientation to do their work without knowing about the other
 
-    startPos =
-      x: -fullPointMarkerLength
-      y: -totalHeight + fullPointMarkerLength
-    posShift =
-      x: 0
-      y: contentHeight
+    if @isNearTopEdge()
+      verticalEdge = 
+        startPos: -fullPointMarkerLength
+        posShift: -contentHeight + 4
+    else
+      verticalEdge =
+        startPos: -totalHeight + fullPointMarkerLength
+        posShift: contentHeight
 
-    @orient startPos, posShift, totalHeight, totalWidth
+    if @isNearRightEdge()
+      horizontalEdge =
+        startPos: -totalWidth + fullPointMarkerLength
+        posShift: totalWidth
+    else
+      horizontalEdge =
+        startPos: -fullPointMarkerLength
+        posShift: 0
 
-  orient: (startPos, posShift, totalHeight, totalWidth) ->
-    @label.regY = @background.regY = posShift.y
+    @orient verticalEdge, horizontalEdge, totalHeight, totalWidth
+
+  isNearTopEdge: ->
+    @camera.distanceToTopEdge(@lastPos.y) <= 1
+
+  isNearRightEdge: ->
+    @camera.distanceToRightEdge(@lastPos.x) <= 4
+
+  orient: (verticalEdge, horizontalEdge, totalHeight, totalWidth) ->
+    @label.regY = @background.regY = verticalEdge.posShift
+    @label.regX = @background.regX = horizontalEdge.posShift
 
     @containerOverlay.graphics
       .clear()
@@ -111,10 +129,10 @@ module.exports = class CoordinateDisplay extends createjs.Container
       .drawRect(0, 0, totalWidth, totalHeight)
       .endFill()
       .beginFill('rgba(0,0,255,0.4)') # Cache position
-      .drawRect(startPos.x, startPos.y, totalWidth, totalHeight)
+      .drawRect(horizontalEdge.startPos, verticalEdge.startPos, totalWidth, totalHeight)
       .endFill()
 
-    #@cache orientationX, orientationY, totalWidth, totalHeight
+    #@cache horizontalEdge.startPos, verticalEdge.startPos, totalWidth, totalHeight
 
   updateCoordinates: (contentWidth, contentHeight, offset) ->
     # Center label horizontally and vertically
