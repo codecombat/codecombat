@@ -3,6 +3,7 @@ template = require 'templates/editor/level/scripts_tab'
 Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
+defaultScripts = require 'lib/DefaultScripts'
 
 module.exports = class ScriptsTabView extends CocoView
   id: 'editor-level-scripts-tab-view'
@@ -22,6 +23,8 @@ module.exports = class ScriptsTabView extends CocoView
     @level = e.level
     @dimensions = @level.dimensions()
     scripts = $.extend(true, [], @level.get('scripts') ? [])
+    if scripts.length is 0
+      scripts = $.extend(true, [], defaultScripts)
     treemaOptions =
       schema: Level.schema.properties.scripts
       data: scripts
