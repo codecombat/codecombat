@@ -107,26 +107,6 @@ module.exports = class ScriptsTabView extends CocoView
   onScriptChanged: =>
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)
 
-  undo: ->
-    if @scriptTreema.canUndo() then @scriptTreema.undo() else @scriptsTreema.undo()
-
-  redo: ->
-    if @scriptTreema.canRedo() then @scriptTreema.redo() else @scriptsTreema.redo()
-
-  showUndoDescription: ->
-    if @scriptTreema.canUndo()
-      undoDescription = @scriptTreema.getUndoDescription()
-    else 
-      undoDescription = @scriptsTreema.getUndoDescription()
-    titleText = $('#undo-button').attr('title', 'Undo ' + undoDescription + ' (Ctrl+Z)')
-
-  showRedoDescription: ->
-    if @scriptTreema.canRedo()
-      redoDescription = @scriptTreema.getRedoDescription()
-    else 
-      redoDescription = @scriptsTreema.getRedoDescription()
-    titleText = $('#redo-button').attr('title', 'Redo ' + redoDescription + ' (Ctrl+Shift+Z)')
-
 class ScriptsNode extends TreemaArrayNode
   nodeDescription: 'Script'
   addNewChild: ->

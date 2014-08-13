@@ -92,11 +92,3 @@ module.exports = class LevelThangEditView extends CocoView
   onComponentsChanged: (components) =>
     @thangData.components = components
     @saveThang()
-
-  undo: ->
-    return unless @thangComponentEditView
-    @thangComponentEditView.undo()
-
-  redo: ->
-    return unless @thangComponentEditView
-    @thangComponentEditView.redo()

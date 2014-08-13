@@ -55,18 +55,5 @@ module.exports = class SettingsTabView extends CocoView
       continue if @settingsTreema.data[key] is undefined
       @level.set key, @settingsTreema.data[key]
 
-  undo: ->
-    @settingsTreema.undo()
-
-  redo: ->
-    @settingsTreema.redo()
-
-  showUndoDescription: ->
-    titleText = $('#undo-button').attr('title', 'Undo ' + @settingsTreema.getUndoDescription() + ' (Ctrl+Z)')
-
-  showRedoDescription: ->
-    titleText = $('#redo-button').attr('title', 'Redo ' + @settingsTreema.getRedoDescription() + ' (Ctrl+Shift+Z)')
-
-
 class SettingsNode extends TreemaObjectNode
   nodeDescription: 'Settings'

@@ -71,10 +71,4 @@ module.exports = class ThangComponentConfigView extends CocoView
     @changed = true
     @trigger 'changed', { component: @component, config: @data() }
 
-  undo: ->
-    @editThangTreema.undo()
-
-  redo: ->
-    @editThangTreema.redo()
-
   data: -> @editThangTreema.data

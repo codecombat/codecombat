@@ -110,16 +110,18 @@ module.exports = class LevelEditView extends RootView
     @childWindow.focus()
 
   onUndo: ->
-    @getCurrentView()?.undo?()
+    TreemaNode.getLastTreemaWithFocus()?.undo()
 
   onRedo: ->
-    @getCurrentView()?.redo?()
+    TreemaNode.getLastTreemaWithFocus()?.redo()
 
   showUndoDescription: ->
-    @getCurrentView()?.showUndoDescription()
+    undoDescription = TreemaNode.getLastTreemaWithFocus().getUndoDescription()
+    @$el.find('#undo-button').attr('title', 'Undo ' + undoDescription + ' (Ctrl+Z)')
 
   showRedoDescription: ->
-    @getCurrentView()?.showRedoDescription()
+    redoDescription = TreemaNode.getLastTreemaWithFocus().getRedoDescription()
+    @$el.find('#redo-button').attr('title', 'Redo ' + redoDescription + ' (Ctrl+Shift+Z)')
 
   getCurrentView: ->
     tabText = _.string.underscored $('li.active')[0]?.textContent

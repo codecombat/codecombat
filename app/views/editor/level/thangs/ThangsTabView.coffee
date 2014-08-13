@@ -479,26 +479,6 @@ module.exports = class ThangsTabView extends CocoView
     $('#add-thangs-column').toggle()
     @onWindowResize e
 
-  undo: (e) ->
-    if not @editThangView then @thangsTreema.undo() else @editThangView.undo()
-
-  redo: (e) ->
-    if not @editThangView then @thangsTreema.redo() else @editThangView.redo()
-
-  showUndoDescription: ->
-    if @editThangView 
-      @editThangView.showUndoDescription()
-    else
-      undoDescription = @thangsTreema.getUndoDescription()
-      titleText = $('#undo-button').attr('title', 'Undo ' + undoDescription + ' (Ctrl+Z)')
-
-  showRedoDescription: ->
-    if @editThangView 
-      @editThangView.showRedoDescription()
-    else
-      redoDescription = @thangsTreema.getRedoDescription()
-      titleText = $('#redo-button').attr('title', 'Redo ' + redoDescription + ' (Ctrl+Shift+Z)')
-
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
   nodeDescription: 'Thang'
