@@ -48,6 +48,7 @@ module.exports = class ThangComponentConfigView extends CocoView
       teams: teams
       superteams: superteams
       nodeClasses:
+        object: ComponentConfigNode
         'point2d': nodes.WorldPointNode
         'viewport': nodes.WorldViewportNode
         'bounds': nodes.WorldBoundsNode
@@ -72,3 +73,6 @@ module.exports = class ThangComponentConfigView extends CocoView
     @trigger 'changed', { component: @component, config: @data() }
 
   data: -> @editThangTreema.data
+
+class ComponentConfigNode extends TreemaObjectNode
+  nodeDescription: 'Component Property'
