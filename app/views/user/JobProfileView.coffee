@@ -54,7 +54,7 @@ module.exports = class JobProfileView extends UserView
     'change #admin-contact': 'onAdminContactChanged'
     'click .session-link': 'onSessionLinkPressed'
 
-  constructor: (userID, options) ->
+  constructor: (options, userID) ->
     @onJobProfileNotesChanged = _.debounce @onJobProfileNotesChanged, 1000
     @onRemarkChanged = _.debounce @onRemarkChanged, 1000
     @authorizedWithLinkedIn = IN?.User?.isAuthorized()
@@ -63,7 +63,7 @@ module.exports = class JobProfileView extends UserView
     window.contractCallback = =>
       @authorizedWithLinkedIn = IN?.User?.isAuthorized()
       @render()
-    super options, userID
+    super userID, options
 
   onLoaded: ->
     @finishInit() unless @destroyed
@@ -530,7 +530,7 @@ module.exports = class JobProfileView extends UserView
       console.log 'Saved UserRemark', @remark, 'with response', response
 
   updateProgress: (highlightNext) ->
-    return unless @user?.loaded
+    return unless @user?.loaded and @sessions?.loaded
     completed = 0
     totalWeight = 0
     next = null
