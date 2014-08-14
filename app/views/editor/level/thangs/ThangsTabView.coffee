@@ -479,19 +479,23 @@ module.exports = class ThangsTabView extends CocoView
     $('#add-thangs-column').toggle()
     @onWindowResize e
 
-  undo: (e) ->
-    if not @editThangView then @thangsTreema.undo() else @editThangView.undo()
-
-  redo: (e) ->
-    if not @editThangView then @thangsTreema.redo() else @editThangView.redo()
-
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
+  nodeDescription: 'Thang'
+
+  getTrackedActionDescription: (trackedAction) ->
+    trackedActionDescription = super(trackedAction)
+    if trackedActionDescription is 'Edit ' + @nodeDescription
+      path = trackedAction.path.split '/'
+      if path[path.length-1] is 'pos'
+        trackedActionDescription = 'Move Thang'
+    trackedActionDescription
+
   getChildren: ->
     children = super(arguments...)
     # TODO: add some filtering to only work with certain types of units at a time
     return children
-
+    
 class ThangNode extends TreemaObjectNode
   valueClass: 'treema-thang'
   collection: false

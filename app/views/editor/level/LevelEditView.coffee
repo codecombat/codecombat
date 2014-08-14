@@ -33,7 +33,9 @@ module.exports = class LevelEditView extends RootView
     'click #fork-start-button': 'startForking'
     'click #level-history-button': 'showVersionHistory'
     'click #undo-button': 'onUndo'
+    'mouseenter #undo-button': 'showUndoDescription'
     'click #redo-button': 'onRedo'
+    'mouseenter #redo-button': 'showRedoDescription'
     'click #patches-tab': -> @patchesView.load()
     'click #components-tab': -> @subviews.editor_level_components_tab_view.refreshLevelThangsTreema @level.get('thangs')
     'click #level-patch-button': 'startPatchingLevel'
@@ -110,10 +112,18 @@ module.exports = class LevelEditView extends RootView
     @childWindow.focus()
 
   onUndo: ->
-    @getCurrentView()?.undo?()
+    TreemaNode.getLastTreemaWithFocus()?.undo()
 
   onRedo: ->
-    @getCurrentView()?.redo?()
+    TreemaNode.getLastTreemaWithFocus()?.redo()
+
+  showUndoDescription: ->
+    undoDescription = TreemaNode.getLastTreemaWithFocus().getUndoDescription()
+    @$el.find('#undo-button').attr('title', 'Undo ' + undoDescription + ' (Ctrl+Z)')
+
+  showRedoDescription: ->
+    redoDescription = TreemaNode.getLastTreemaWithFocus().getRedoDescription()
+    @$el.find('#redo-button').attr('title', 'Redo ' + redoDescription + ' (Ctrl+Shift+Z)')
 
   getCurrentView: ->
     tabText = _.string.underscored $('li.active')[0]?.textContent
