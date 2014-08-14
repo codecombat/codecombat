@@ -8,6 +8,7 @@ module.exports.handlers =
   'patch': 'patches/patch_handler'
   'thang_type': 'levels/thangs/thang_type_handler'
   'user': 'users/user_handler'
+  'user_code_problem': 'user_code_problems/user_code_problem_handler'
   'user_remark': 'users/remarks/user_remark_handler'
   'mail_sent': 'mail/sent/mail_sent_handler'
   'achievement': 'achievements/achievement_handler'

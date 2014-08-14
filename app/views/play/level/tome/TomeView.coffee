@@ -132,6 +132,7 @@ module.exports = class TomeView extends CocoView
             worker: @worker
             language: language
             spectateView: @options.spectateView
+            levelID: @options.levelID
 
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID

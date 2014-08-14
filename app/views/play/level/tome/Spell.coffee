@@ -19,6 +19,7 @@ module.exports = class Spell
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
+    @levelID = options.levelID
 
     p = options.programmableMethod
     @languages = p.languages ? {}
