@@ -8,8 +8,8 @@ module.exports = class Level extends CocoModel
   @schema: require 'schemas/models/level'
   urlRoot: '/db/level'
 
-  serialize: (supermodel) ->
-    o = @denormalize supermodel
+  serialize: (supermodel, session) ->
+    o = @denormalize supermodel, session
 
     # Figure out Components
     o.levelComponents = _.cloneDeep (lc.attributes for lc in supermodel.getModels LevelComponent)
@@ -28,23 +28,28 @@ module.exports = class Level extends CocoModel
 
     o
 
-  denormalize: (supermodel) ->
+  denormalize: (supermodel, session) ->
     o = $.extend true, {}, @attributes
     if @get('type') is 'hero'
       # TOOD: figure out if/when/how we are doing this for non-Hero levels that aren't expecting denormalization.
       for levelThang in o.thangs
-        @denormalizeThang(levelThang, supermodel)
+        @denormalizeThang(levelThang, supermodel, session)
     o
 
-  denormalizeThang: (levelThang, supermodel) ->
+  denormalizeThang: (levelThang, supermodel, session) ->
     levelThang.components ?= []
     thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
+
+    # Empty out placeholder Components and store their values if we're the hero placeholder.
+    placeholders = {}
+    if levelThang.id is 'Hero Placeholder'
+      for thangComponent in levelThang.components ? []
+        placeholders[thangComponent.original] = thangComponent
+      levelThang.components = []
+
     configs = {}
     for thangComponent in levelThang.components
       configs[thangComponent.original] = thangComponent
-    placeholders = {}
-    for thangComponent in levelThang.placeholderComponents ? []
-      placeholders[thangComponent.original] = thangComponent
 
     for defaultThangComponent in thangType.get('components')
       if levelThangComponent = configs[defaultThangComponent.original]
@@ -70,9 +75,9 @@ module.exports = class Level extends CocoModel
           copy = $.extend true, {}, placeholderConfig
           levelThangComponent.config = _.merge copy, levelThangComponent.config
 
-    if levelThang.inventory and equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
-      # inventory is assigned from the LevelSession in LevelLoader's populateHero
-      equips.config.inventory = $.extend true, {}, levelThang.inventory
+    if levelThang.id is 'Hero Placeholder' and equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
+      inventory = session?.get('heroConfig')?.inventory
+      equips.config.inventory = $.extend true, {}, inventory if inventory
 
 
   sortSystems: (levelSystems, systemModels) ->

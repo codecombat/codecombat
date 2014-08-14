@@ -156,11 +156,9 @@ module.exports = class LevelLoader extends CocoClass
     return if @inLevelEditor
     return unless @level.get('type') is 'hero' and hero = _.find @level.get('thangs'), id: 'Hero Placeholder'
     heroConfig = @session.get('heroConfig')
-    hero.thangType = heroConfig.thangType
-    hero.inventory = heroConfig.inventory  # Will take effect in Level's denormalizeThang
-    hero.placeholderComponents = hero.components  # Will be replaced in Level's denormalizeThang
-    hero.components = []
+    hero.thangType = heroConfig.thangType  # Will mutate the level, but we're okay showing the last-used Hero here
     #hero.id = ... ?  # What do we want to do about this?
+    # Actually, swapping out inventory and placeholder Components is done in Level's denormalizeThang
 
   loadItemThangsEquippedByLevelThang: (levelThang) ->
     return unless levelThang.components
@@ -333,7 +331,7 @@ module.exports = class LevelLoader extends CocoClass
     @initialized = true
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
-    serializedLevel = @level.serialize(@supermodel)
+    serializedLevel = @level.serialize(@supermodel, @session)
     @world.loadFromLevel serializedLevel, false
     console.log 'World has been initialized from level loader.'
 
