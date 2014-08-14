@@ -5,6 +5,8 @@ module.exports = class LevelComponent extends CocoModel
   @schema: require 'schemas/models/level_component'
   
   @EquipsID: '53e217d253457600003e3ebb'
+  @ItemID: '53e12043b82921000051cdf9'
+  @AttacksID: '524b7ba57fc0f6d519000016'
   urlRoot: '/db/level.component'
 
   set: (key, val, options) ->

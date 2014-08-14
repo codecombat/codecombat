@@ -1,5 +1,6 @@
 CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
+LevelComponent = require './LevelComponent'
 
 buildQueue = []
 
@@ -262,3 +263,55 @@ module.exports = class ThangType extends CocoModel
     @wizardType.url = -> url
     @wizardType.fetch()
     @wizardType
+
+  getPortraitURL: -> "/file/db/thang.type/#{@get('original')}/portrait.png"
+
+  # Item functions
+
+  getAllowedSlots: ->
+    itemComponentRef = _.find(
+      @get('components') or [],
+      (compRef) -> compRef.original is LevelComponent.ItemID)
+    return itemComponentRef?.config?.slots or []
+    
+  getFrontFacingStats: ->
+    stats = []
+    for component in @get('components') or []
+      continue unless config = component.config
+      if config.attackDamage
+        stats.push { name: 'Attack Damage', value: config.attackDamage }
+      if config.attackRange
+        stats.push { name: 'Attack Range', value: "#{config.attackRange}m" }
+      if config.cooldown
+        stats.push { name: 'Cooldown', value: "#{config.cooldown}s" }
+      if config.maxSpeed
+        stats.push { name: 'Speed', value: "#{config.maxSpeed}m/s" }
+      if config.maxAcceleration
+        stats.push { name: 'Acceleration', value: "#{config.maxAcceleration}m/s^2" }
+      if config.stats
+        for stat, value of config.stats
+          if value.factor
+            value = "x#{value.factor}"
+          if value.addend and value.addend > 0
+            value = "+#{value.addend}"
+          if value.addend and value.addend < 0
+            value = "#{value.addend}"
+          if value.setTo
+            value = "=#{value.setTo}"
+          if stat is 'maxHealth'
+            stats.push { name: 'Health', value: value }
+          if stat is 'healthReplenishRate'
+            stats.push { name: 'Regen', value: value }
+      if config.programmableProperties
+        props = config.programmableProperties
+        if props.length
+          stats.push { name: 'Allows', value: props.join(', ') }
+      if config.visualRange
+        value = config.visualRange
+        if value is 9001 then value is "Infinite"
+        stats.push { name: 'Visual Range', value: "#{value}m"}
+      if config.programmableSnippets
+        snippets = config.programmableSnippets
+        if snippets.length
+          stats.push { name: 'Snippets', value: snippets.join(', ') }
+    stats

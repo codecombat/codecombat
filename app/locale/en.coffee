@@ -944,6 +944,7 @@
     candidate_sessions: "Candidate Sessions"
     user_remark: "User Remark"
     versions: "Versions"
+    items: "Items"
 
   delta:
     added: "Added"
