@@ -54,7 +54,7 @@ module.exports =
   he: require './he'             # עברית, Hebrew
   lt: require './lt'             # lietuvių kalba, Lithuanian
   sr: require './sr'             # српски, Serbian
-  uk: require './uk'             # українська мова, Ukrainian
+  uk: require './uk'             # українська мова, Ukranian
   hi: require './hi'             # मानक हिन्दी, Hindi
   ur: require './ur'             # اُردُو, Urdu
   ms: require './ms'             # Bahasa Melayu, Bahasa Malaysia
