@@ -436,7 +436,7 @@ module.exports = class ThangsTabView extends CocoView
     else  # Mediator event
       window.thangsTreema = @thangsTreema
       thangData = @thangsTreema.get "id=#{e.thangID}"
-    @editThangView = new LevelThangEditView thangData: thangData, supermodel: @supermodel, level: @level, world: @world
+    @editThangView = new LevelThangEditView thangData: thangData, level: @level, world: @world
     @insertSubView @editThangView
     @$el.find('.thangs-column').hide()
     Backbone.Mediator.publish 'level:view-switched', e

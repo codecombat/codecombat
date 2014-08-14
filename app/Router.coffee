@@ -17,12 +17,13 @@ module.exports = class CocoRouter extends Backbone.Router
     '': go('HomeView')
 
     'about': go('AboutView')
-    
+
     'account': go('account/MainAccountView')
     'account/settings': go('account/AccountSettingsView')
     'account/unsubscribe': go('account/UnsubscribeView')
+    'account/profile': go('user/JobProfileView')  # legacy URL, sent in emails
     #'account/payment'
-    
+
     'admin': go('admin/MainAdminView')
     'admin/candidates': go('admin/CandidatesView')
     'admin/clas': go('admin/CLAsView')
@@ -35,7 +36,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'cla': go('CLAView')
     'community': go('CommunityView')
-    
+
     'contribute': go('contribute/MainContributeView')
     'contribute/adventurer': go('contribute/AdventurerView')
     'contribute/ambassador': go('contribute/AmbassadorView')
@@ -47,7 +48,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'db/*path': 'routeToServer'
     'demo(/*subpath)': go('DemoView')
     'docs/components': go('docs/ComponentDocumentationView')
-    
+
     'editor': go('editor/MainEditorView')
 
     'editor/achievement': go('editor/achievement/AchievementSearchView')
@@ -59,13 +60,13 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/level/:levelID': go('editor/level/LevelEditView')
     'editor/thang': go('editor/thang/ThangTypeSearchView')
     'editor/thang/:thangID': go('editor/thang/ThangTypeEditView')
-    
+
     'employers': go('EmployersView')
 
     'file/*path': 'routeToServer'
 
     'legal': go('LegalView')
-    
+
     'multiplayer': go('MultiplayerView')
 
     'play': go('play/MainPlayView')
@@ -77,7 +78,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'preview': go('HomeView')
 
     'teachers': go('TeachersView')
-    
+
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
