@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "українська мова", englishDescription: "Ukranian", translation:
+module.exports = nativeDescription: "українська мова", englishDescription: "Ukrainian", translation:
   common:
     loading: "Завантаження..."
     saving: "Збереження..."
