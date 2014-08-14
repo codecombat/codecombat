@@ -15,7 +15,6 @@ module.exports = class CocoRouter extends Backbone.Router
 
   routes:
     '': go('HomeView')
-    'items': go('game-menu/InventoryView')
 
     'about': go('AboutView')
 

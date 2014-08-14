@@ -1,17 +1,19 @@
 $selected-area-height: 150px
+@import "../bootstrap/mixins"
+
+//#inventory-view *
+  
 
 #inventory-view
   position: relative
   height: 600px
-  background-color: white
-  user-select: none
+  +user-select(none)
   
   h3
     margin: 0
   
   #equipped
-    padding: 10px
-    width: 74%
+    width: 75%
     position: absolute
     left: 0
     top: 0
@@ -24,7 +26,7 @@ $selected-area-height: 150px
     
     .panel
       text-align: center
-      width: 31%
+      width: 31.3%
       margin: 5px 2% 5px 0
       float: left
       cursor: pointer
@@ -42,29 +44,23 @@ $selected-area-height: 150px
       font-size: 12px
 
   #available-equipment
-    width: 24%
-    padding: 10px
+    width: 25%
     position: absolute
-    right: 1%
+    right: 0
     top: 0 
     bottom: $selected-area-height + 10
     overflow: scroll
-    user-select: none
     
     h3
       margin-bottom: 5px
-    
+      
   .list-group-item.active
     background-color: #e0f0f5
     
   .list-group-item.equipped
     display: none
     
-  .item-mixin
-    &.active
-      background-color: lightblue
-    .well
-      padding: 5px
+  .item-view
     cursor: pointer
     
   #selected-items
@@ -73,13 +69,17 @@ $selected-area-height: 150px
     left: 0
     right: 0
     bottom: 0
+    text-align: center
 
     #selected-equipped-item, #selected-available-item
+      text-align: left
       position: absolute
       bottom: 0
       top: 0
       overflow: scroll
       padding: 10px
+      height: 100%
+      width: 49%
       
       img
         width: 100px
@@ -90,8 +90,16 @@ $selected-area-height: 150px
       
     #selected-equipped-item
       left: 0
-      width: 48.5%
     
     #selected-available-item
-      right: 2%
-      width: 48.5%
+      right: 0
+
+  $swap-item-height: 40px
+    
+  #swap-button
+    position: relative
+    top: ($selected-area-height / 2) - ($swap-item-height / 2)
+    height: $swap-item-height
+    font-size: 24px
+    line-height: 24px
+    display: inline-block

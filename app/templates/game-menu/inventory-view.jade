@@ -16,7 +16,7 @@ div#equipped
   - }
     
 div#available-equipment
-  h3 Available
+  h3 Stash
   for item in items
     .list-group-item(class=item.classes, data-item-id=item.id)
       
@@ -25,3 +25,5 @@ div#selected-items
     .item-view-stub
   #selected-available-item.well
     .item-view-stub
+  button#swap-button.btn.btn-danger
+    span.glyphicon.glyphicon-transfer
