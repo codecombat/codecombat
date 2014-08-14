@@ -9,16 +9,16 @@ _.extend UserCodeProblemSchema.properties,
   creator: c.objectId(links: [{rel: 'extra', href: '/db/user/{($)}'}])
   created: c.date({title: 'Created', readOnly: true})
 
-  code: String
-  codeSnippet: String
-  errHint: String
-  errId: String
-  errLevel: String
-  errMessage: String
-  errRange: []
-  errType: String
-  language: String
-  levelID: String
+  code: {type: 'string'}
+  codeSnippet: {type: 'string'}
+  errHint: {type: 'string'}
+  errId: {type: 'string'}
+  errLevel: {type: 'string'}
+  errMessage: {type: 'string'}
+  errRange: {type: 'array'}
+  errType: {type: 'string'}
+  language: {type: 'string'}
+  levelID: {type: 'string'}
 
 c.extendBasicProperties UserCodeProblemSchema, 'user.code.problem'
 
