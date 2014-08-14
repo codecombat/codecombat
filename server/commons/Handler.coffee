@@ -55,8 +55,9 @@ module.exports = class Handler
 
   # sending functions
   sendUnauthorizedError: (res) -> errors.forbidden(res) #TODO: rename sendUnauthorizedError to sendForbiddenError
+  sendForbiddenError: (res) -> errors.forbidden(res)
   sendNotFoundError: (res, message) -> errors.notFound(res, message)
-  sendMethodNotAllowed: (res) -> errors.badMethod(res)
+  sendMethodNotAllowed: (res, message) -> errors.badMethod(res, @allowedMethods, message)
   sendBadInputError: (res, message) -> errors.badInput(res, message)
   sendDatabaseError: (res, err) ->
     return @sendError(res, err.code, err.response) if err.response and err.code
@@ -68,6 +69,18 @@ module.exports = class Handler
 
   sendSuccess: (res, message) ->
     res.send(message)
+    res.end()
+
+  sendCreated: (res, message) ->
+    res.send 201, message
+    res.end()
+
+  sendAccepted: (res, message) ->
+    res.send 202, message
+    res.end()
+
+  sendNoContent: (res) ->
+    res.send 204
     res.end()
 
   # generic handlers
@@ -442,9 +455,9 @@ module.exports = class Handler
       res.send dict
       res.end()
 
-  delete: (req, res) -> @sendMethodNotAllowed res, @allowedMethods, 'DELETE not allowed.'
+  delete: (req, res) -> @sendMethodNotAllowed res, 'DELETE not allowed.'
 
-  head: (req, res) -> @sendMethodNotAllowed res, @allowedMethods, 'HEAD not allowed.'
+  head: (req, res) -> @sendMethodNotAllowed res, 'HEAD not allowed.'
 
   # This is not a Mongoose user
   projectionForUser: (req, model, ownerID) ->

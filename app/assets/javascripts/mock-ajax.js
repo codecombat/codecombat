@@ -263,12 +263,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     
     this.sendResponses = function(responseMap) {
       var urls = Object.keys(responseMap);
+      var success = true;
       for(var i in urls) {
         var url = urls[i];
         var responseBody = responseMap[url];
         var responded = false;
 
-        var requests = jasmine.Ajax.requests.all();
+        var requests = jasmine.Ajax.requests.all().slice();
         for(var j in requests) {
           var request = requests[j];
           if(request.url.startsWith(url)) {
@@ -282,9 +283,11 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           urls = [];
           for(var k in allRequests) urls.push(allRequests[k].url);
           console.error('could not find response for', url, 'in', urls, allRequests);
+          success = false;
           continue;
         }
       }
+      return success;
     }
   }
 

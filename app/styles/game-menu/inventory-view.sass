@@ -1,3 +1,97 @@
+$selected-area-height: 150px
+
 #inventory-view
+  position: relative
+  height: 600px
+  background-color: white
+  user-select: none
+  
   h3
-    text-decoration: underline
+    margin: 0
+  
+  #equipped
+    padding: 10px
+    width: 74%
+    position: absolute
+    left: 0
+    top: 0
+    bottom: $selected-area-height + 10
+    right: 0
+    overflow: scroll
+    
+    .item-slot.disabled
+      opacity: 0.5
+    
+    .panel
+      text-align: center
+      width: 31%
+      margin: 5px 2% 5px 0
+      float: left
+      cursor: pointer
+      
+      .panel-heading
+        padding: 5px
+      
+    .panel-info .panel-body
+      background-color: #e0f0f5
+      
+    .panel-body
+      height: 50px
+      padding: 5px
+      overflow: scroll
+      font-size: 12px
+
+  #available-equipment
+    width: 24%
+    padding: 10px
+    position: absolute
+    right: 1%
+    top: 0 
+    bottom: $selected-area-height + 10
+    overflow: scroll
+    user-select: none
+    
+    h3
+      margin-bottom: 5px
+    
+  .list-group-item.active
+    background-color: #e0f0f5
+    
+  .list-group-item.equipped
+    display: none
+    
+  .item-mixin
+    &.active
+      background-color: lightblue
+    .well
+      padding: 5px
+    cursor: pointer
+    
+  #selected-items
+    position: absolute
+    height: $selected-area-height
+    left: 0
+    right: 0
+    bottom: 0
+
+    #selected-equipped-item, #selected-available-item
+      position: absolute
+      bottom: 0
+      top: 0
+      overflow: scroll
+      padding: 10px
+      
+      img
+        width: 100px
+        height: 100px
+        
+      .item-info
+        margin-left: 110px
+      
+    #selected-equipped-item
+      left: 0
+      width: 48.5%
+    
+    #selected-available-item
+      right: 2%
+      width: 48.5%

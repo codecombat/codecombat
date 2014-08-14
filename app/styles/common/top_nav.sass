@@ -1,4 +1,44 @@
 @import "../bootstrap/variables"
+@import "../bootstrap/mixins"
+
+// This is still very blocky. Browser reflows? Investigate why.
+.open > .dropdown-menu
+  animation-name: fadeAnimation
+  animation-duration: .7s
+  animation-iteration-count: 1
+  animation-timing-function: ease
+  animation-fill-mode: forwards
+  -webkit-animation-name: fadeAnimation
+  -webkit-animation-duration: .7s
+  -webkit-animation-iteration-count: 1
+  -webkit-animation-timing-function: ease
+  -webkit-animation-fill-mode: backwards
+  -moz-animation-name: fadeAnimation
+  -moz-animation-duration: .7s
+  -moz-animation-iteration-count: 1
+  -moz-animation-timing-function: ease
+  -moz-animation-fill-mode: forwards
+
+@keyframes fadeAnimation
+  from
+    opacity: 0
+    top: 120%
+  to
+    opacity: 1
+    top: 100%
+
+@-webkit-keyframes fadeAnimation
+  from
+    opacity: 0
+    top: 120%
+  to
+    opacity: 1
+    top: 100%
+
+a.disabled
+  color: #5b5855
+  text-decoration: none
+  cursor: default
 
 #top-nav
   a.navbar-brand
@@ -19,11 +59,65 @@
   .account-settings-image
     width: 18px
     height: 18px
+    margin-right: 5px
 
   .glyphicon-user
     font-size: 16px
+    margin-right: 5px
 
-  .nav.navbar-link-text, .nav.navbar-link-text > li > a
+  .dropdown
+    .dropdown-menu
+      left: auto
+      width: 280px
+      padding: 0px
+      border-radius: 0px
+      font-family: Bangers
+
+      > .user-dropdown-header
+        position: relative
+        background: #E4CF8C
+        height: 160px
+        padding: 10px
+        text-align: center
+        color: black
+        border-bottom: #32281e 1px solid
+        > a:hover
+          background-color: transparent
+        img
+          border: #e3be7a 8px solid
+          height: 98px // Includes the border
+          &:hover
+            box-shadow: 0 0 20px #e3be7a
+        > h3
+          margin-top: 10px
+          text-shadow: 2px 2px 3px white
+          color: #31281E
+        .user-level
+          position: absolute
+          top: 73px
+          right: 86px
+          color: gold
+          text-shadow: 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black
+
+      .user-dropdown-body
+        color: black
+        padding: 15px
+        letter-spacing: 1px
+        font: 15px 'Helvetica Neue', Helvetica, Arial, sans-serif
+        +clearfix()
+
+      .user-dropdown-footer
+        padding: 10px
+        margin-left: 0px
+        font-size: 14px
+        +clearfix()
+
+        .btn-flat
+          border: #ddd 1px solid
+          border-radius: 0px
+          margin: 0px
+
+  .nav.navbar-link-text > li > a
     font-weight: normal
     font-size: 25px
     letter-spacing: 2px
@@ -31,7 +125,7 @@
     &:hover
       color: #f8e413
 
-  .navbar-link-text a:hover
+  .navbar-link-text > li > a:hover
     background: darken($body-bg, 3%)
 
   .btn, .btn-group, .fancy-select
@@ -67,9 +161,6 @@
         top: 13px
       max-width: 140px
 
-  .nav
-    margin-bottom: 0
-    
   div.fancy-select
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
     div.trigger

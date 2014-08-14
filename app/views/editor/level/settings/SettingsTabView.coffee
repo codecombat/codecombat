@@ -39,6 +39,7 @@ module.exports = class SettingsTabView extends CocoView
       callbacks: {change: @onSettingsChanged}
       thangIDs: thangIDs
       nodeClasses:
+        object: SettingsNode
         thang: nodes.ThangNode
 
     @settingsTreema = @$el.find('#settings-treema').treema treemaOptions
@@ -54,8 +55,5 @@ module.exports = class SettingsTabView extends CocoView
       continue if @settingsTreema.data[key] is undefined
       @level.set key, @settingsTreema.data[key]
 
-  undo: ->
-    @settingsTreema.undo()
-
-  redo: ->
-    @settingsTreema.redo()
+class SettingsNode extends TreemaObjectNode
+  nodeDescription: 'Settings'

@@ -1,5 +1,5 @@
 CocoView = require 'views/kinds/CocoView'
-template = require 'templates/editor/components/thang-component-config-view'
+template = require 'templates/editor/component/thang-component-config-view'
 
 Level = require 'models/Level'
 LevelComponent = require 'models/LevelComponent'
@@ -48,6 +48,7 @@ module.exports = class ThangComponentConfigView extends CocoView
       teams: teams
       superteams: superteams
       nodeClasses:
+        object: ComponentConfigNode
         'point2d': nodes.WorldPointNode
         'viewport': nodes.WorldViewportNode
         'bounds': nodes.WorldBoundsNode
@@ -71,10 +72,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     @changed = true
     @trigger 'changed', { component: @component, config: @data() }
 
-  undo: ->
-    @editThangTreema.undo()
-
-  redo: ->
-    @editThangTreema.redo()
-
   data: -> @editThangTreema.data
+
+class ComponentConfigNode extends TreemaObjectNode
+  nodeDescription: 'Component Property'

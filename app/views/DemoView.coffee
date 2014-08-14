@@ -1,4 +1,5 @@
-CocoView = require 'views/kinds/CocoView'
+RootView = require 'views/kinds/RootView'
+ModalView = require 'views/kinds/ModalView'
 template = require 'templates/demo'
 requireUtils = require 'lib/requireUtils'
 
@@ -23,7 +24,7 @@ DEMO_URL_PREFIX = '/demo/'
 
 ###
 
-module.exports = DemoView = class DemoView extends CocoView
+module.exports = DemoView = class DemoView extends RootView
   id: 'demo-view'
   template: template
 
@@ -81,7 +82,10 @@ module.exports = DemoView = class DemoView extends CocoView
     jasmine.Ajax.install()
     view = demoFunc()
     return unless view
-    @$el.find('#demo-area').empty().append(view.$el)
+    if view instanceof ModalView
+      @openModalView(view)
+    else
+      @$el.find('#demo-area').empty().append(view.$el)
     view.afterInsert()
     # TODO, maybe handle root views differently than modal views differently than everything else?
 

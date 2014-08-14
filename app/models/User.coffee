@@ -9,13 +9,23 @@ module.exports = class User extends CocoModel
   urlRoot: '/db/user'
   notyErrors: false
 
+  defaults:
+    points: 0
+
   initialize: ->
     super()
     @migrateEmails()
 
+  onLoaded:  ->
+    CocoModel.pollAchievements() # Check for achievements on login
+    super arguments...
+
   isAdmin: ->
     permissions = @attributes['permissions'] or []
     return 'admin' in permissions
+
+  isAnonymous: ->
+    @get 'anonymous'
 
   displayName: ->
     @get('name') or 'Anoner'
@@ -32,46 +42,12 @@ module.exports = class User extends CocoModel
       return "/file/#{photoURL}#{prefix}s=#{size}"
     return "/db/user/#{@id}/avatar?s=#{size}&employerPageAvatar=#{useEmployerPageAvatar}"
 
-  @getByID = (id, properties, force) ->
-    {me} = require 'lib/auth'
-    return me if me.id is id
-    user = cache[id] or new module.exports({_id: id})
-    if force or not cache[id]
-      user.loading = true
-      user.fetch(
-        success: ->
-          user.loading = false
-          Backbone.Mediator.publish('user:fetched')
-          #user.trigger 'sync'   # needed?
-      )
-    cache[id] = user
-    user
+  getSlugOrID: -> @get('slug') or @get('_id')
+
   set: ->
     if arguments[0] is 'jobProfileApproved' and @get("jobProfileApproved") is false and not @get("jobProfileApprovedDate")
       @set "jobProfileApprovedDate", (new Date()).toISOString()
     super arguments...
-
-  # callbacks can be either success or error
-  @getByIDOrSlug: (idOrSlug, force, callbacks={}) ->
-    {me} = require 'lib/auth'
-    isID = util.isID idOrSlug
-    if me.id is idOrSlug or me.slug is idOrSlug
-      callbacks.success me if callbacks.success?
-      return me
-    cached = cache[idOrSlug]
-    user = cached or new @ _id: idOrSlug
-    if force or not cached
-      user.loading = true
-      user.fetch
-        success: ->
-          user.loading = false
-          Backbone.Mediator.publish 'user:fetched'
-          callbacks.success user if callbacks.success?
-        error: ->
-          user.loading = false
-          callbacks.error user if callbacks.error?
-    cache[idOrSlug] = user
-    user
 
   @getUnconflictedName: (name, done) ->
     $.ajax "/auth/name/#{name}",
@@ -111,19 +87,16 @@ module.exports = class User extends CocoModel
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
   a = 5
-  b = 40
+  b = 100
+  c = b
 
-  # y = a * ln(1/b * (x + b)) + 1
+  # y = a * ln(1/b * (x + c)) + 1
   @levelFromExp: (xp) ->
-    if xp > 0 then Math.floor(a * Math.log((1/b) * (xp + b))) + 1 else 1
+    if xp > 0 then Math.floor(a * Math.log((1/b) * (xp + c))) + 1 else 1
 
-  # x = (e^((y-1)/a) - 1) * b
+  # x = b * e^((y-1)/a) - c
   @expForLevel: (level) ->
-    Math.ceil((Math.exp((level - 1)/ a) - 1) * b)
+    if level > 1 then Math.ceil Math.exp((level - 1)/ a) * b - c else 0
 
   level: ->
     User.levelFromExp(@get('points'))
-
-  levelFromExp: (xp) -> User.levelFromExp(xp)
-
-  expForLevel: (level) -> User.expForLevel(level)
