@@ -1,7 +1,7 @@
 FacebookHandler = require 'lib/FacebookHandler'
 GPlusHandler = require 'lib/GPlusHandler'
 LinkedInHandler = require 'lib/LinkedInHandler'
-locale = require 'locale/locale'
+locale = require 'locale/locale'  # TODO: don't require all of these? Might be slow. (Haven't checked.)
 {me} = require 'lib/auth'
 Tracker = require 'lib/Tracker'
 CocoView = require 'views/kinds/CocoView'
