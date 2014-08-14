@@ -335,8 +335,8 @@ module.exports = class ThangsTabView extends CocoView
 
   adjustThangPos: (sprite, thang, pos) ->
     snap = sprite?.data?.snap or sprite?.thangType?.get('snap') or {x: 0.01, y: 0.01}  # Centimeter resolution by default
-    pos.x = Math.round((pos.x - thang.width / 2) / snap.x) * snap.x + thang.width / 2
-    pos.y = Math.round((pos.y - thang.height / 2) / snap.y) * snap.y + thang.height / 2
+    pos.x = Math.round((pos.x - (thang.width ? 1) / 2) / snap.x) * snap.x + (thang.width ? 1) / 2
+    pos.y = Math.round((pos.y - (thang.height ? 1) / 2) / snap.y) * snap.y + (thang.height ? 1) / 2
     pos.z = thang.depth / 2
     thang.pos = pos
     @surface.spriteBoss.update true  # Make sure Obstacle layer resets cache
