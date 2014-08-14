@@ -201,11 +201,10 @@ module.exports = class SpellView extends CocoView
             tabTrigger: doc.snippets[e.language].tab
           snippetEntries.push entry
 
-    # window.zatanna = @zatanna
+    # window.zatannaInstance = @zatanna
     # window.snippetEntries = snippetEntries
     lang = @editModes[e.language].substr 'ace/mode/'.length
     @zatanna.addSnippets snippetEntries, lang
-    window.aceEditor = @ace
 
   onMultiplayerChanged: ->
     if @session.get('multiplayer')
