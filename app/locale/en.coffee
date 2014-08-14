@@ -524,11 +524,16 @@
     clas: "CLAs"
 
   community:
-    level_editor: "Level Editor"
     main_title: "CodeCombat Community"
-    facebook: "Facebook"
-    twitter: "Twitter"
-    gplus: "Google+"
+    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
+    level_editor_prefix: "Use the CodeCombat"
+    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!"
+    thang_editor_prefix: "We call units within the game 'thangs'. Use the"
+    thang_editor_suffix: "to modify the CodeCombat source artwork. Allow units to throw projectiles, alter the direction of an animation, change a unit's hit points, or upload your own vector sprites."
+    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
+    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
+    find_us: "Find us on these sites"
+    contribute_to_the_project: "Contribute to the project"
 
   editor:
     main_title: "CodeCombat Editors"
