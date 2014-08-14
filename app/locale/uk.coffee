@@ -49,6 +49,9 @@ module.exports = nativeDescription: "українська мова", englishDesc
     blog: "Блог"
     forum: "Форум"
     account: "Акаунт"
+#    profile: "Profile"
+#    stats: "Stats"
+#    code: "Code"
     admin: "Адміністратор"
     home: "На головну"
     contribute: "Співпраця"
@@ -176,12 +179,14 @@ module.exports = nativeDescription: "українська мова", englishDesc
     new_password: "Новий пароль"
     new_password_verify: "Підтвердження паролю"
     email_subscriptions: "Email-підписки"
+#    email_subscriptions_none: "No Email Subscriptions."
     email_announcements: "Оголошення"
     email_announcements_description: "Отримувати електронні листи про останні новини CodeCombat."
     email_notifications: "Нотифікації"
 #    email_notifications_summary: "Controls for personalized, automatic email notifications related to your CodeCombat activity."
 #    email_any_notes: "Any Notifications"
 #    email_any_notes_description: "Disable to stop all activity notification emails."
+#    email_news: "News"
 #    email_recruit_notes: "Job Opportunities"
 #    email_recruit_notes_description: "If you play really well, we may contact you about getting you a (better) job."
     contributor_emails: "Підписки за класами учасників"
@@ -519,11 +524,16 @@ module.exports = nativeDescription: "українська мова", englishDesc
     clas: "CLAs"
 
   community:
-    level_editor: "Редактор рівнів"
     main_title: "Спільноти CodeCombat"
-    facebook: "Facebook"
-    twitter: "Twitter"
-    gplus: "Google+"
+#    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
+#    level_editor_prefix: "Use the CodeCombat"
+#    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!"
+#    thang_editor_prefix: "We call units within the game 'thangs'. Use the"
+#    thang_editor_suffix: "to modify the CodeCombat source artwork. Allow units to throw projectiles, alter the direction of an animation, change a unit's hit points, or upload your own vector sprites."
+#    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
+#    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
+#    find_us: "Find us on these sites"
+#    contribute_to_the_project: "Contribute to the project"
 
   editor:
     main_title: "Редактори CodeCombat"
@@ -591,6 +601,10 @@ module.exports = nativeDescription: "українська мова", englishDesc
     level_search_title: "Шукати рівні тут"
 #    achievement_search_title: "Search Achievements"
     read_only_warning2: "Примітка: Ви не можете зберегти ніякі зміни, оскільки Ви не зареєструвались."
+#    no_achievements: "No achievements have been added for this level yet."
+#    achievement_query_misc: "Key achievement off of miscellanea"
+#    achievement_query_goals: "Key achievement off of level goals"
+#    level_completion: "Level Completion"
 
   article:
     edit_btn_preview: "Анонс"
@@ -599,6 +613,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
   general:
     and: "та"
     name: "Ім’я"
+#    date: "Date"
     body: "Тіло"
     version: "Версія"
     commit_msg: "Доручити повідомлення"
@@ -647,7 +662,7 @@ module.exports = nativeDescription: "українська мова", englishDesc
     nick_description: "Чарівник програмування, ексцентричний маг мотивації та непересічний експериментатор. Нік здатен зробити будь-що, і він обрав зробити CodeCombat."
     jeremy_description: "Чарівник підтримки користувачів, тестер юзабіліті та організатор спільноти; ви ймовірно вже спілкувались з Джеремі."
     michael_description: "Програміст, адмін та загадковий технічний вундеркінд, Майкл - та людина, що утримує наші сервери онлайн."
-    glen_description: "Програміст та натхненний розробник ігор, що мріє зробити цей світ краще, створюючи дійсно значущі речі. Ніколи не вживає слова \"неможливо\". Дізнаватися нове - для нього найбільша насолода!"
+#    matt_description: "Bicyclist, Software Engineer, reader of heroic fantasy, connoisseur of peanut butter, sipper of coffee."
 
   legal:
     page_title: "Юридична інформація"
@@ -938,3 +953,38 @@ module.exports = nativeDescription: "українська мова", englishDesc
 #    text_diff: "Text Diff"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
 #    no_changes: "No Changes"
+
+#  user:
+#    stats: "Stats"
+#    singleplayer_title: "Singleplayer Levels"
+#    multiplayer_title: "Multiplayer Levels"
+#    achievements_title: "Achievements"
+#    last_played: "Last Played"
+#    status: "Status"
+#    status_completed: "Completed"
+#    status_unfinished: "Unfinished"
+#    no_singleplayer: "No Singleplayer games played yet."
+#    no_multiplayer: "No Multiplayer games played yet."
+#    no_achievements: "No Achievements earned yet."
+#    favorite_prefix: "Favorite language is "
+#    favorite_postfix: "."
+
+#  achievements:
+#    last_earned: "Last Earned"
+#    amount_achieved: "Amount"
+#    achievement: "Achievement"
+#    category_contributor: "Contributor"
+#    category_miscellaneous: "Miscellaneous"
+#    category_levels: "Levels"
+#    category_undefined: "Uncategorized"
+#    current_xp_prefix: ""
+#    current_xp_postfix: " in total"
+#    new_xp_prefix: ""
+#    new_xp_postfix: " earned"
+#    left_xp_prefix: ""
+#    left_xp_infix: " until level "
+#    left_xp_postfix: ""
+
+#  account:
+#    recently_played: "Recently Played"
+#    no_recent_games: "No games played during the past two weeks."
