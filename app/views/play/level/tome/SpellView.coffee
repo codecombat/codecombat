@@ -50,6 +50,7 @@ module.exports = class SpellView extends CocoView
     'tome:update-snippets': 'addZatannaSnippets'
     'tome:insert-snippet': 'onInsertSnippet'
     'spell-beautify': 'onSpellBeautify'
+    'script:state-changed': 'onScriptStateChange'
 
   events:
     'mouseout': 'onMouseOut'
@@ -124,10 +125,17 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
-      passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
-    # No easy way to selectively cancel shift+space, since we don't get access to the event.
-    # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
-      exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
+      # passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
+      # No easy way to selectively cancel shift+space, since we don't get access to the event.
+      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
+      exec: => 
+        if @scriptRunning
+          console.log '>>>> BOOM <<<<'
+          Backbone.Mediator.publish 'level:shift-space-pressed'
+        else 
+          console.log '>>>> BAEM <<<<'
+          @ace.insert ' '
+
     addCommand
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
@@ -197,6 +205,7 @@ module.exports = class SpellView extends CocoView
     # window.snippetEntries = snippetEntries
     lang = @editModes[e.language].substr 'ace/mode/'.length
     @zatanna.addSnippets snippetEntries, lang
+    window.aceEditor = @ace
 
   onMultiplayerChanged: ->
     if @session.get('multiplayer')
@@ -682,6 +691,9 @@ module.exports = class SpellView extends CocoView
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       @recompile() if hasChanged
+
+  onScriptStateChange: (e) ->
+    @scriptRunning = if e.currentScript is null then false else true
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick

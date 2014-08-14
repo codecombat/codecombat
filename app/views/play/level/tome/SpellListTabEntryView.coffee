@@ -95,9 +95,9 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     Backbone.Mediator.publish 'spell-beautify', spell: @spell
 
   onFullscreenClick: ->
-    $codearea = $('#code-area')
-    $codearea.css 'z-index', 20 unless $codearea.hasClass 'fullscreen-editor'
-    $('#code-area').toggleClass 'fullscreen-editor'
+    $codearea = $('html')
+    $('#code-area').css 'z-index', 20 unless $codearea.hasClass 'fullscreen-editor'
+    $('html').toggleClass 'fullscreen-editor'
     $('.fullscreen-code').toggleClass 'maximized'
 
   updateReloadButton: ->
@@ -151,7 +151,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
         break
     $codearea = $('#code-area')
     $codearea.on transitionListener, =>
-      $codearea.css 'z-index', 1 unless $codearea.hasClass 'fullscreen-editor'
+      $codearea.css 'z-index', 1 unless $('html').hasClass 'fullscreen-editor'
 
 
   destroy: ->
