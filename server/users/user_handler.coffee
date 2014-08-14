@@ -208,7 +208,7 @@ UserHandler = class UserHandler extends Handler
           @sendSuccess(res, {result: 'success'})
 
   avatar: (req, res, id) ->
-    @modelClass.findBySlugOrId(id).exec (err, document) =>
+    @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document
       photoURL = document?.get('photoURL')
@@ -232,7 +232,7 @@ UserHandler = class UserHandler extends Handler
 
   IDify: (idOrSlug, done) ->
     return done null, idOrSlug if Handler.isID idOrSlug
-    User.findBySlug idOrSlug, (err, user) -> done err, user?.get '_id'
+    User.getBySlug idOrSlug, (err, user) -> done err, user?.get '_id'
 
   getLevelSessions: (req, res, userIDOrSlug) ->
     @IDify userIDOrSlug, (err, userID) =>
@@ -391,21 +391,17 @@ UserHandler = class UserHandler extends Handler
   countEdits = (model, done) ->
     statKey = User.statsMapping.edits[model.modelName]
     return done(new Error 'Could not resolve statKey for model') unless statKey?
-    
-    total = 100000
-    User.count {anonymous:false}, (err, count) -> total = count
-    
-    stream = User.find({anonymous:false}).sort('_id').limit(10).stream()
-    numberRunning = 0
-    numberRan = 0
-    streamClosed = false
-    t0 = new Date().getTime()
-    
-    stream.on 'close', -> streamClosed = true
-    
-    stream.on 'data', (user) ->
-      numberRunning += 1
-      stream.pause() if numberRunning > 20
+    userStream = User.find().stream()
+    streamFinished = false
+    usersTotal = 0
+    usersFinished = 0
+    doneWithUser = (err) ->
+      log.error err if err?
+      ++usersFinished
+      done?() if streamFinished and usersFinished is usersTotal
+    userStream.on 'error', (err) -> log.error err
+    userStream.on 'close', -> streamFinished = true
+    userStream.on 'data',  (user) ->
       userObjectID = user.get('_id')
       userStringID = userObjectID.toHexString()
 
@@ -418,18 +414,7 @@ UserHandler = class UserHandler extends Handler
           update.$unset[statKey] = ''
         User.findByIdAndUpdate user.get('_id'), update, (err) ->
           log.error err if err?
-          numberRan += 1
-          pctDone = (100 * numberRan / total).toFixed(2)
-          console.log "Counted #{statKey} edits for user #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
-          numberRunning -= 1
-
-          if streamClosed and not numberRunning
-            t1 = new Date().getTime()
-            runningTime = ((t1-t0)/1000/60/60).toFixed(2)
-            console.log "we finished in #{runningTime} hours"
-            return done()
-
-          stream.resume()
+          doneWithUser()
 
   # I don't like leaking big variables, could remove this for readability
   # Meant for passing into MongoDB
@@ -454,62 +439,45 @@ UserHandler = class UserHandler extends Handler
       update[method][statName] = count or ''
       User.findByIdAndUpdate user.get('_id'), update, doneUpdatingUser
 
-    total = 100000
-    User.count {anonymous:false}, (err, count) -> total = count
-
-    userStream = User.find({anonymous:false}).sort('_id').stream()
-    numberRunning = 0
-    numberRan = 0
-    streamClosed = false
-    t0 = new Date().getTime()
-
-    userStream.on 'close', -> streamClosed = true
-
-    userStream.on 'data', (user) ->
-      numberRunning += 1
-      userStream.pause() if numberRunning > 8
+    userStream = User.find().stream()
+    streamFinished = false
+    usersTotal = 0
+    usersFinished = 0
+    doneWithUser = (err) ->
+      log.error err if err?
+      ++usersFinished
+      done?() if streamFinished and usersFinished is usersTotal
+    userStream.on 'error', (err) -> log.error err
+    userStream.on 'close', -> streamFinished = true
+    userStream.on 'data',  (user) ->
       userObjectID = user.get '_id'
       userStringID = userObjectID.toHexString()
       # Extend query with a patch ownership test
-      _.extend query, {creator: userObjectID}
+      _.extend query, {$or: [{creator: userObjectID}, {creator: userStringID}]}
 
       count = 0
-      patchStream = Patch.where(query).stream()
-      patchStream.on 'data', (doc) -> ++count if filter doc
-#      stream.on 'error', (err) ->
-#        updateUser user, count, doneWithUser
-#        log.error "Recalculating #{statName} for user #{user} stopped prematurely because of error"
-      patchStream.on 'close', ->
-        updateUser user, count, ->
-          numberRan += 1
-          numberRunning -= 1
-          pctDone = (100 * numberRan / total).toFixed(2)
-          console.log "Counted #{count} #{statName} for user #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
-          if streamClosed and not numberRunning
-            t1 = new Date().getTime()
-            runningTime = ((t1-t0)/1000/60/60).toFixed(2)
-            console.log "we finished in #{runningTime} hours"
-            return done()
-          userStream.resume()
-          
+      stream = Patch.where(query).stream()
+      stream.on 'data', (doc) -> ++count if filter doc
+      stream.on 'error', (err) ->
+        updateUser user, count, doneWithUser
+        log.error "Recalculating #{statName} for user #{user} stopped prematurely because of error"
+      stream.on 'close', ->
+        updateUser user, count, doneWithUser
 
   countPatchesByUsers = (query, statName, done) ->
     Patch = require '../patches/Patch'
 
-    total = 100000
-    User.count {anonymous:false}, (err, count) -> total = count
-
-    stream = User.find({anonymous:false}).sort('_id').stream()
-    numberRunning = 0
-    numberRan = 0
-    streamClosed = false
-    t0 = new Date().getTime()
-
-    stream.on 'close', -> streamClosed = true
-
-    stream.on 'data', (user) ->
-      numberRunning += 1
-      stream.pause() if numberRunning > 50
+    userStream = User.find().stream()
+    streamFinished = false
+    usersTotal = 0
+    usersFinished = 0
+    doneWithUser = (err) ->
+      log.error err if err?
+      ++usersFinished
+      done?() if streamFinished and usersFinished is usersTotal
+    userStream.on 'error', (err) -> log.error err
+    userStream.on 'close', -> streamFinished = true
+    userStream.on 'data',  (user) ->
       userObjectID = user.get '_id'
       userStringID = userObjectID.toHexString()
       # Extend query with a patch ownership test
@@ -520,53 +488,28 @@ UserHandler = class UserHandler extends Handler
         update = {}
         update[method] = {}
         update[method][statName] = count or ''
-        User.findByIdAndUpdate user.get('_id'), update, ->
-          numberRan += 1
-          numberRunning -= 1
-          pctDone = (100 * numberRan / total).toFixed(2)
-          console.log "Counted #{statName} patches for user #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
-          if streamClosed and not numberRunning
-            t1 = new Date().getTime()
-            runningTime = ((t1-t0)/1000/60/60).toFixed(2)
-            console.log "we finished in #{runningTime} hours"
-            return done()
-          stream.resume()
-
+        User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
   statRecalculators:
     gamesCompleted: (done) ->
       LevelSession = require '../levels/sessions/LevelSession'
 
-      total = 1000000
-      User.count {}, (err, count) -> total = count
-
-      stream = User.find().sort('_id').stream()
-      numberRunning = 0
-      numberRan = 0
-      streamClosed = false
-      t0 = new Date().getTime()
-
-      stream.on 'close', -> streamClosed = true
-    
-      stream.on 'data', (user) ->
-        numberRunning += 1
-        stream.pause() if numberRunning > 100
+      userStream = User.find().stream()
+      streamFinished = false
+      usersTotal = 0
+      usersFinished = 0
+      doneWithUser = (err) ->
+        log.error err if err?
+        ++usersFinished
+        done?() if streamFinished and usersFinished is usersTotal
+      userStream.on 'error', (err) -> log.error err
+      userStream.on 'close', -> streamFinished = true
+      userStream.on 'data',  (user) ->
         userID = user.get('_id').toHexString()
 
-        LevelSession.count {creator: userID, 'state.complete': true}, (err, count) ->
+        LevelSession.count {creator: userID, 'state.completed': true}, (err, count) ->
           update = if count then {$set: 'stats.gamesCompleted': count} else {$unset: 'stats.gamesCompleted': ''}
-          User.findByIdAndUpdate user.get('_id'), update, ->
-            numberRan += 1
-            numberRunning -= 1
-            pctDone = (100 * numberRan / total).toFixed(2)
-            console.log "Counted #{count} levels played for user #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
-            if streamClosed and not numberRunning
-              t1 = new Date().getTime()
-              runningTime = ((t1-t0)/1000/60/60).toFixed(2)
-              console.log "we finished in #{runningTime} hours"
-              return done()
-            stream.resume()
-            
+          User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
     articleEdits: (done) ->
       Article = require '../articles/Article'
