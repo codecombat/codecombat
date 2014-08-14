@@ -65,7 +65,7 @@ module.exports = class JobProfileView extends UserView
       @render()
     super options, userID
 
-  onUserLoaded: ->
+  onLoaded: ->
     @finishInit() unless @destroyed
     super()
 
@@ -275,7 +275,7 @@ module.exports = class JobProfileView extends UserView
       _.delay ->
         justSavedSection.removeClass 'just-saved', duration: 1500, easing: 'easeOutQuad'
       , 500
-    if me.isAdmin() and @user
+    if me.isAdmin() and @user and @remark
       visibleSettings = ['history', 'tasks']
       data = _.pick (@remark.attributes), (value, key) -> key in visibleSettings
       data.history ?= []
@@ -530,7 +530,7 @@ module.exports = class JobProfileView extends UserView
       console.log 'Saved UserRemark', @remark, 'with response', response
 
   updateProgress: (highlightNext) ->
-    return unless @user
+    return unless @user?.loaded
     completed = 0
     totalWeight = 0
     next = null

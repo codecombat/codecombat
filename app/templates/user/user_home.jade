@@ -75,7 +75,7 @@ block append content
                     td
                       a(href="/play/level/#{session.get('levelID')}")= session.get('levelName')
                     td= moment(session.get('changed')).fromNow()
-                    if session.get('state').complete === true
+                    if session.get('state') && session.get('state').complete === true
                       td(data-i18n="user.status_completed") Completed
                     else
                       td(data-i18n="user.status_unfinished") Unfinished

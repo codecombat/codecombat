@@ -9,6 +9,7 @@ module.exports = class UserView extends RootView
 
   constructor: (@userID, options) ->
     super options
+    @userID ?= me.id
     @listenTo @, 'userNotFound', @ifUserNotFound
     @fetchUser @userID
 
