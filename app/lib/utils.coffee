@@ -25,7 +25,7 @@ module.exports.normalizeFunc = (func_thing, object) ->
   if _.isString(func_thing)
     func = object[func_thing]
     if not func
-      console.error "Could not find method #{func_thing} in object #{@}"
+      console.error "Could not find method #{func_thing} in object", object
       return => null # always return a func, or Mediator will go boom
     func_thing = func
   return func_thing

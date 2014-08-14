@@ -58,8 +58,8 @@ module.exports = class ThangsTabView extends CocoView
     'delete, del, backspace': 'deleteSelectedExtantThang'
     'left': -> @moveAddThangSelection -1
     'right': -> @moveAddThangSelection 1
-    'ctrl+z': 'undo'
-    'ctrl+shift+z': 'redo'
+    'ctrl+z, ⌘+z': 'undo'
+    'ctrl+shift+z, ⌘+shift+z': 'redo'
 
   constructor: (options) ->
     super options
@@ -106,6 +106,11 @@ module.exports = class ThangsTabView extends CocoView
     else
       $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
 
+  undo: (e) ->
+    if not @editThangView then @thangsTreema.undo() else @editThangView.undo()
+
+  redo: (e) ->
+    if not @editThangView then @thangsTreema.redo() else @editThangView.redo()
 
   afterRender: ->
     super()
@@ -495,7 +500,7 @@ class ThangsNode extends TreemaNode.nodeMap.array
     children = super(arguments...)
     # TODO: add some filtering to only work with certain types of units at a time
     return children
-    
+
 class ThangNode extends TreemaObjectNode
   valueClass: 'treema-thang'
   collection: false
