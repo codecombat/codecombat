@@ -391,22 +391,30 @@ UserHandler = class UserHandler extends Handler
   countEdits = (model, done) ->
     statKey = User.statsMapping.edits[model.modelName]
     return done(new Error 'Could not resolve statKey for model') unless statKey?
-    User.find {}, (err, users) ->
-      async.eachSeries users, ((user, doneWithUser) ->
-        userObjectID = user.get('_id')
-        userStringID = userObjectID.toHexString()
+    userStream = User.find().stream()
+    streamFinished = false
+    usersTotal = 0
+    usersFinished = 0
+    doneWithUser = (err) ->
+      log.error err if err?
+      ++usersFinished
+      done?() if streamFinished and usersFinished is usersTotal
+    userStream.on 'error', (err) -> log.error err
+    userStream.on 'close', -> streamFinished = true
+    userStream.on 'data',  (user) ->
+      userObjectID = user.get('_id')
+      userStringID = userObjectID.toHexString()
 
-        model.count {$or: [creator: userObjectID, creator: userStringID]}, (err, count) ->
-          if count
-            update = $set: {}
-            update.$set[statKey] = count
-          else
-            update = $unset: {}
-            update.$unset[statKey] = ''
-          User.findByIdAndUpdate user.get('_id'), update, (err) ->
-            log.error err if err?
-            doneWithUser()
-      ), done
+      model.count {$or: [creator: userObjectID, creator: userStringID]}, (err, count) ->
+        if count
+          update = $set: {}
+          update.$set[statKey] = count
+        else
+          update = $unset: {}
+          update.$unset[statKey] = ''
+        User.findByIdAndUpdate user.get('_id'), update, (err) ->
+          log.error err if err?
+          doneWithUser()
 
   # I don't like leaking big variables, could remove this for readability
   # Meant for passing into MongoDB
@@ -431,53 +439,77 @@ UserHandler = class UserHandler extends Handler
       update[method][statName] = count or ''
       User.findByIdAndUpdate user.get('_id'), update, doneUpdatingUser
 
-    User.find {}, (err, users) ->
-      async.eachSeries users, ((user, doneWithUser) ->
-        userObjectID = user.get '_id'
-        userStringID = userObjectID.toHexString()
-        # Extend query with a patch ownership test
-        _.extend query, {$or: [{creator: userObjectID}, {creator: userStringID}]}
+    userStream = User.find().stream()
+    streamFinished = false
+    usersTotal = 0
+    usersFinished = 0
+    doneWithUser = (err) ->
+      log.error err if err?
+      ++usersFinished
+      done?() if streamFinished and usersFinished is usersTotal
+    userStream.on 'error', (err) -> log.error err
+    userStream.on 'close', -> streamFinished = true
+    userStream.on 'data',  (user) ->
+      userObjectID = user.get '_id'
+      userStringID = userObjectID.toHexString()
+      # Extend query with a patch ownership test
+      _.extend query, {$or: [{creator: userObjectID}, {creator: userStringID}]}
 
-        count = 0
-        stream = Patch.where(query).stream()
-        stream.on 'data', (doc) -> ++count if filter doc
-        stream.on 'error', (err) ->
-          updateUser user, count, doneWithUser
-          log.error "Recalculating #{statName} for user #{user} stopped prematurely because of error"
-        stream.on 'close', ->
-          updateUser user, count, doneWithUser
-      ), done
+      count = 0
+      stream = Patch.where(query).stream()
+      stream.on 'data', (doc) -> ++count if filter doc
+      stream.on 'error', (err) ->
+        updateUser user, count, doneWithUser
+        log.error "Recalculating #{statName} for user #{user} stopped prematurely because of error"
+      stream.on 'close', ->
+        updateUser user, count, doneWithUser
 
   countPatchesByUsers = (query, statName, done) ->
     Patch = require '../patches/Patch'
 
-    User.find {}, (err, users) ->
-      async.eachSeries users, ((user, doneWithUser) ->
-        userObjectID = user.get '_id'
-        userStringID = userObjectID.toHexString()
-        # Extend query with a patch ownership test
-        _.extend query, {$or: [{creator: userObjectID}, {creator: userStringID}]}
+    userStream = User.find().stream()
+    streamFinished = false
+    usersTotal = 0
+    usersFinished = 0
+    doneWithUser = (err) ->
+      log.error err if err?
+      ++usersFinished
+      done?() if streamFinished and usersFinished is usersTotal
+    userStream.on 'error', (err) -> log.error err
+    userStream.on 'close', -> streamFinished = true
+    userStream.on 'data',  (user) ->
+      userObjectID = user.get '_id'
+      userStringID = userObjectID.toHexString()
+      # Extend query with a patch ownership test
+      _.extend query, {$or: [{creator: userObjectID}, {creator: userStringID}]}
 
-        Patch.count query, (err, count) ->
-          method = if count then '$set' else '$unset'
-          update = {}
-          update[method] = {}
-          update[method][statName] = count or ''
-          User.findByIdAndUpdate user.get('_id'), update, doneWithUser
-      ), done
+      Patch.count query, (err, count) ->
+        method = if count then '$set' else '$unset'
+        update = {}
+        update[method] = {}
+        update[method][statName] = count or ''
+        User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
   statRecalculators:
     gamesCompleted: (done) ->
       LevelSession = require '../levels/sessions/LevelSession'
 
-      User.find {}, (err, users) ->
-        async.eachSeries users, ((user, doneWithUser) ->
-          userID = user.get('_id').toHexString()
+      userStream = User.find().stream()
+      streamFinished = false
+      usersTotal = 0
+      usersFinished = 0
+      doneWithUser = (err) ->
+        log.error err if err?
+        ++usersFinished
+        done?() if streamFinished and usersFinished is usersTotal
+      userStream.on 'error', (err) -> log.error err
+      userStream.on 'close', -> streamFinished = true
+      userStream.on 'data',  (user) ->
+        userID = user.get('_id').toHexString()
 
-          LevelSession.count {creator: userID, 'state.completed': true}, (err, count) ->
-            update = if count then {$set: 'stats.gamesCompleted': count} else {$unset: 'stats.gamesCompleted': ''}
-            User.findByIdAndUpdate user.get('_id'), update, doneWithUser
-        ), done
+        LevelSession.count {creator: userID, 'state.completed': true}, (err, count) ->
+          update = if count then {$set: 'stats.gamesCompleted': count} else {$unset: 'stats.gamesCompleted': ''}
+          User.findByIdAndUpdate user.get('_id'), update, doneWithUser
 
     articleEdits: (done) ->
       Article = require '../articles/Article'
