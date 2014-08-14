@@ -9,15 +9,14 @@ module.exports = class UserView extends RootView
 
   constructor: (@userID, options) ->
     super options
-    @userID ?= me.id
     @listenTo @, 'userNotFound', @ifUserNotFound
     @fetchUser @userID
 
-  fetchUser: (id) ->
+  fetchUser:  ->
     if @isMe()
       @user = me
       @onLoaded()
-    @user = new User _id: id
+    @user = new User _id: @userID
     @supermodel.loadModel @user, 'user'
 
   getRenderData: ->
@@ -29,7 +28,11 @@ module.exports = class UserView extends RootView
   isMe: -> @userID is me.id
 
   onLoaded: ->
+    @onUserLoaded @user if @user.loaded and not @userLoaded
     super()
+
+  onUserLoaded: ->
+    @userLoaded = true
 
   ifUserNotFound: ->
     console.warn 'user not found'

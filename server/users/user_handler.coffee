@@ -208,7 +208,7 @@ UserHandler = class UserHandler extends Handler
           @sendSuccess(res, {result: 'success'})
 
   avatar: (req, res, id) ->
-    @modelClass.findById(id).exec (err, document) =>
+    @modelClass.findBySlugOrId(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document
       photoURL = document?.get('photoURL')
@@ -232,7 +232,7 @@ UserHandler = class UserHandler extends Handler
 
   IDify: (idOrSlug, done) ->
     return done null, idOrSlug if Handler.isID idOrSlug
-    User.getBySlug idOrSlug, (err, user) -> done err, user?.get '_id'
+    User.findBySlug idOrSlug, (err, user) -> done err, user?.get '_id'
 
   getLevelSessions: (req, res, userIDOrSlug) ->
     @IDify userIDOrSlug, (err, userID) =>
