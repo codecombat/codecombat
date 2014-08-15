@@ -130,10 +130,8 @@ module.exports = class SpellView extends CocoView
       # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
       exec: => 
         if @scriptRunning
-          console.log '>>>> BOOM <<<<'
           Backbone.Mediator.publish 'level:shift-space-pressed'
         else 
-          console.log '>>>> BAEM <<<<'
           @ace.insert ' '
 
     addCommand
