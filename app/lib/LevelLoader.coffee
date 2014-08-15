@@ -153,6 +153,7 @@ module.exports = class LevelLoader extends CocoClass
     @worldNecessities = @worldNecessities.concat worldNecessities
 
   populateHero: ->
+    return
     return if @inLevelEditor
     return unless @level.get('type') is 'hero' and hero = _.find @level.get('thangs'), id: 'Hero Placeholder'
     heroConfig = @session.get('heroConfig')
@@ -218,6 +219,7 @@ module.exports = class LevelLoader extends CocoClass
 
     for thangTypeName in thangsToLoad
       thangType = nameModelMap[thangTypeName]
+      console.log 'found ThangType', thangType, 'for', thangTypeName, 'of nameModelMap', nameModelMap unless thangType
       continue if thangType.isFullyLoaded()
       thangType.fetch()
       thangType = @supermodel.loadModel(thangType, 'thang').model
