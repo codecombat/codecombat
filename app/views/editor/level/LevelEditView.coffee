@@ -79,7 +79,7 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new ComponentsTabView supermodel: @supermodel
     @insertSubView new SystemsTabView supermodel: @supermodel
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
-    @insertSubView new ComponentDocsView supermodel: @supermodel
+    @insertSubView new ComponentDocsView  # Don't give it the supermodel, it'll pollute it!
 
     Backbone.Mediator.publish 'level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')

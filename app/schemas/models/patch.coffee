@@ -6,6 +6,7 @@ PatchSchema = c.object({title: 'Patch', required: ['target', 'delta', 'commitMes
   delta: {title: 'Delta', type: ['array', 'object']}
   commitMessage: c.shortString({maxLength: 500, minLength: 1})
   creator: c.objectId(links: [{rel: 'extra', href: '/db/user/{($)}'}])
+  acceptor: c.objectId(links: [{rel: 'extra', href: '/db/user/{($)}'}])
   created: c.date({title: 'Created', readOnly: true})
   status: {enum: ['pending', 'accepted', 'rejected', 'withdrawn']}
 
