@@ -49,6 +49,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     blog: "Блог"
     forum: "Форум"
     account: "Аккаунт"
+#    profile: "Profile"
+#    stats: "Stats"
+#    code: "Code"
     admin: "Админ"
     home: "Домой"
     contribute: "Сотрудничество"
@@ -176,12 +179,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     new_password: "Новый пароль"
     new_password_verify: "Подтверждение пароля"
     email_subscriptions: "Email-подписки"
+#    email_subscriptions_none: "No Email Subscriptions."
     email_announcements: "Оповещения"
     email_announcements_description: "Получать email-оповещения о последних новостях CodeCombat."
     email_notifications: "Уведомления"
     email_notifications_summary: "Настройки автоматических email-уведомлений, основанных на вашей активности на CodeCombat."
     email_any_notes: "Все уведомления"
     email_any_notes_description: "Отключите, чтобы больше не получать извещения."
+#    email_news: "News"
     email_recruit_notes: "Возможности для работы"
     email_recruit_notes_description: "Если вы действительно хорошо играете, то мы можем связаться с вами для предложения (лучшей) работы."
     contributor_emails: "Рассылки по классам участников"
@@ -519,11 +524,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     clas: "ЛСС"
 
   community:
-    level_editor: "редактор уровней"
     main_title: "Сообщество CodeCombat"
-    facebook: "Facebook"
-    twitter: "Twitter"
-    gplus: "Google+"
+#    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
+#    level_editor_prefix: "Use the CodeCombat"
+#    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!"
+#    thang_editor_prefix: "We call units within the game 'thangs'. Use the"
+#    thang_editor_suffix: "to modify the CodeCombat source artwork. Allow units to throw projectiles, alter the direction of an animation, change a unit's hit points, or upload your own vector sprites."
+#    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
+#    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
+#    find_us: "Find us on these sites"
+#    contribute_to_the_project: "Contribute to the project"
 
   editor:
     main_title: "Редакторы CodeCombat"
@@ -591,6 +601,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_search_title: "Искать уровни"
     achievement_search_title: "Искать достижения"
     read_only_warning2: "Примечание: вы не можете сохранять любые правки здесь, потому что вы не авторизованы."
+#    no_achievements: "No achievements have been added for this level yet."
+#    achievement_query_misc: "Key achievement off of miscellanea"
+#    achievement_query_goals: "Key achievement off of level goals"
+#    level_completion: "Level Completion"
 
   article:
     edit_btn_preview: "Предпросмотр"
@@ -599,6 +613,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   general:
     and: "и"
     name: "Имя"
+#    date: "Date"
     body: "Содержание"
     version: "Версия"
     commit_msg: "Сопроводительное сообщение"
@@ -647,7 +662,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     nick_description: "Маг программирования, мудрец эксцентричного мотивирования и чудаковатый экспериментатор. Ник может всё и хочет построить CodeCombat."
     jeremy_description: "Маг клиентской поддержки, юзабилити-тестер, и организатор сообщества; вы наверняка уже говорили с Джереми."
     michael_description: "Программист, сисадмин и непризнанный технический гений, Михаэль является лицом, поддерживающим наши серверы в доступности."
-    glen_description: "Программист и страстный разработчик игр, с мотивацией сделать этот мир лучше путём разработки действительно значащих вещей. Слова \"невозможно\" нет в его словаре. Освоение новых навыков его развлечение!"
+#    matt_description: "Bicyclist, Software Engineer, reader of heroic fantasy, connoisseur of peanut butter, sipper of coffee."
 
   legal:
     page_title: "Юридическая информация"
@@ -938,3 +953,38 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     text_diff: "Разница"
 #    merge_conflict_with: "MERGE CONFLICT WITH"
     no_changes: "Нет изменений"
+
+#  user:
+#    stats: "Stats"
+#    singleplayer_title: "Singleplayer Levels"
+#    multiplayer_title: "Multiplayer Levels"
+#    achievements_title: "Achievements"
+#    last_played: "Last Played"
+#    status: "Status"
+#    status_completed: "Completed"
+#    status_unfinished: "Unfinished"
+#    no_singleplayer: "No Singleplayer games played yet."
+#    no_multiplayer: "No Multiplayer games played yet."
+#    no_achievements: "No Achievements earned yet."
+#    favorite_prefix: "Favorite language is "
+#    favorite_postfix: "."
+
+#  achievements:
+#    last_earned: "Last Earned"
+#    amount_achieved: "Amount"
+#    achievement: "Achievement"
+#    category_contributor: "Contributor"
+#    category_miscellaneous: "Miscellaneous"
+#    category_levels: "Levels"
+#    category_undefined: "Uncategorized"
+#    current_xp_prefix: ""
+#    current_xp_postfix: " in total"
+#    new_xp_prefix: ""
+#    new_xp_postfix: " earned"
+#    left_xp_prefix: ""
+#    left_xp_infix: " until level "
+#    left_xp_postfix: ""
+
+#  account:
+#    recently_played: "Recently Played"
+#    no_recent_games: "No games played during the past two weeks."

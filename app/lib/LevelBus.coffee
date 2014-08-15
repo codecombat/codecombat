@@ -1,6 +1,7 @@
 Bus = require './Bus'
 {me} = require 'lib/auth'
 LevelSession = require 'models/LevelSession'
+utils = require 'lib/utils'
 
 module.exports = class LevelBus extends Bus
 
@@ -22,6 +23,7 @@ module.exports = class LevelBus extends Bus
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
     'application:idle-changed': 'onIdleChanged'
+    'goal-manager:new-goal-states': 'onNewGoalStates'
 
   constructor: ->
     super(arguments...)
@@ -191,6 +193,14 @@ module.exports = class LevelBus extends Bus
     @session.set('state', state)
     @changedSessionProperties.state = true
     @saveSession()
+
+  onNewGoalStates: ({goalStates})->
+    state = @session.get 'state'
+    unless utils.kindaEqual state.goalStates, goalStates # Only save when goals really change
+      state.goalStates = goalStates
+      @session.set 'state', state
+      @changedSessionProperties.state = true
+      @saveSession()
 
   onPlayerJoined: (snapshot) =>
     super(arguments...)

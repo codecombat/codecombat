@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require './CocoClass'
 
 namesCache = {}
 

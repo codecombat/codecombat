@@ -19,6 +19,8 @@ me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ex
 # should just be string (Mongo ID), but sometimes mongoose turns them into objects representing those, so we are lenient
 me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)
 me.url = (ext) -> combine({type: 'string', format: 'url', pattern: urlPattern}, ext)
+me.int = (ext) -> combine {type: 'integer'}, ext
+me.float = (ext) -> combine {type: 'number'}, ext
 
 PointSchema = me.object {title: 'Point', description: 'An {x, y} coordinate point.', format: 'point2d', required: ['x', 'y']},
   x: {title: 'x', description: 'The x coordinate.', type: 'number', 'default': 15}

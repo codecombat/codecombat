@@ -1,5 +1,7 @@
-mongoose = require 'mongoose'
-textSearch = require 'mongoose-text-search'
+mongoose = require('mongoose')
+textSearch = require('mongoose-text-search')
+log = require 'winston'
+utils = require '../lib/utils'
 
 module.exports.MigrationPlugin = (schema, migrations) ->
   # Property name migrations made EZ
@@ -30,8 +32,12 @@ module.exports.NamedPlugin = (schema) ->
   schema.add({name: String, slug: String})
   schema.index({'slug': 1}, {unique: true, sparse: true, name: 'slug index'})
 
-  schema.statics.getBySlug = (slug, done) ->
+  schema.statics.findBySlug = (slug, done) ->
     @findOne {slug: slug}, done
+
+  schema.statics.findBySlugOrId = (slugOrID, done) ->
+    return @findById slugOrID, done if utils.isID slugOrID
+    @findOne {slug: slugOrID}, done
 
   schema.pre('save', (next) ->
     if schema.uses_coco_versions
@@ -259,6 +265,15 @@ module.exports.VersionedPlugin = (schema) ->
         done(null, new Model(newObject))
       )
     )
+
+  # Assume every save is a new version, hence an edit
+  schema.pre 'save', (next) ->
+    User = require '../users/User'  # Avoid mutual inclusion cycles
+    userID = @get('creator')?.toHexString()
+    return next() unless userID?
+
+    statName = User.statsMapping.edits[@constructor.modelName]
+    User.incrementStat userID, statName, next
 
 module.exports.SearchablePlugin = (schema, options) ->
   # this plugin must be added only after the others (specifically Versioned and Permissions)

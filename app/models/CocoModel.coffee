@@ -1,8 +1,6 @@
 storage = require 'lib/storage'
 deltasLib = require 'lib/deltas'
 
-NewAchievementCollection = require '../collections/NewAchievementCollection'
-
 class CocoModel extends Backbone.Model
   idAttribute: '_id'
   loaded: false
@@ -301,11 +299,13 @@ class CocoModel extends Backbone.Model
     return if _.isString @url then @url else @url()
 
   @pollAchievements: ->
+    NewAchievementCollection = require '../collections/NewAchievementCollection' # Nasty mutual inclusion if put on top
     achievements = new NewAchievementCollection
-    achievements.fetch(
+    achievements.fetch
       success: (collection) ->
         me.fetch (success: -> Backbone.Mediator.publish('achievements:new', collection)) unless _.isEmpty(collection.models)
-    )
+      error: ->
+        console.error 'Miserably failed to fetch unnotified achievements', arguments
 
 CocoModel.pollAchievements = _.debounce CocoModel.pollAchievements, 500
 

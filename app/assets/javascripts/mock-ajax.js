@@ -269,7 +269,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         var responseBody = responseMap[url];
         var responded = false;
 
-        var requests = jasmine.Ajax.requests.all();
+        var requests = jasmine.Ajax.requests.all().slice();
         for(var j in requests) {
           var request = requests[j];
           if(request.url.startsWith(url)) {

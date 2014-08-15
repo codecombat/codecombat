@@ -25,7 +25,7 @@ module.exports.normalizeFunc = (func_thing, object) ->
   if _.isString(func_thing)
     func = object[func_thing]
     if not func
-      console.error "Could not find method #{func_thing} in object #{@}"
+      console.error "Could not find method #{func_thing} in object", object
       return => null # always return a func, or Mediator will go boom
     func_thing = func
   return func_thing
@@ -70,6 +70,7 @@ module.exports.i18n = (say, target, language=me.lang(), fallback='en') ->
   null
 
 module.exports.getByPath = (target, path) ->
+  throw new Error 'Expected an object to match a query against, instead got null' unless target
   pieces = path.split('.')
   obj = target
   for piece in pieces
@@ -82,7 +83,7 @@ module.exports.isID = (id) -> _.isString(id) and id.length is 24 and id.match(/[
 module.exports.round = _.curry (digits, n) ->
   n = +n.toFixed(digits)
 
-positify = (func) -> (x) -> if x > 0 then func(x) else 0
+positify = (func) -> (params) -> (x) -> if x > 0 then func(params)(x) else 0
 
 # f(x) = ax + b
 createLinearFunc = (params) ->
@@ -100,3 +101,32 @@ module.exports.functionCreators =
   linear: positify(createLinearFunc)
   quadratic: positify(createQuadraticFunc)
   logarithmic: positify(createLogFunc)
+
+# Call done with true to satisfy the 'until' goal and stop repeating func
+module.exports.keepDoingUntil = (func, wait=100, totalWait=5000) ->
+  waitSoFar = 0
+  (done = (success) ->
+    if (waitSoFar += wait) <= totalWait and not success
+      _.delay (-> func done), wait) false
+
+module.exports.grayscale = (imageData) ->
+  d = imageData.data
+  for i in [0..d.length] by 4
+    r = d[i]
+    g = d[i+1]
+    b = d[i+2]
+    v = 0.2126*r + 0.7152*g + 0.0722*b
+    d[i] = d[i+1] = d[i+2] = v
+  imageData
+
+# Deep compares l with r, with the exception that undefined values are considered equal to missing values
+# Very practical for comparing Mongoose documents where undefined is not allowed, instead fields get deleted
+module.exports.kindaEqual = compare = (l, r) ->
+  if _.isObject(l) and _.isObject(r)
+    for key in _.union Object.keys(l), Object.keys(r)
+      return false unless compare l[key], r[key]
+    return true
+  else if l is r
+    return true
+  else
+    return false

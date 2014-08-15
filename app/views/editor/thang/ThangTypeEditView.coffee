@@ -10,6 +10,7 @@ ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditVie
 ThangTypeVersionsModal = require './ThangTypeVersionsModal'
 ThangTypeColorsTabView = require './ThangTypeColorsTabView'
 PatchesView = require 'views/editor/PatchesView'
+ForkModal = require 'views/editor/ForkModal'
 SaveVersionModal = require 'views/modal/SaveVersionModal'
 template = require 'templates/editor/thang/thang-type-edit-view'
 storage = require 'lib/storage'
@@ -36,6 +37,7 @@ module.exports = class ThangTypeEditView extends RootView
     'click #marker-button': 'toggleDots'
     'click #end-button': 'endAnimation'
     'click #history-button': 'showVersionHistory'
+    'click #fork-start-button': 'startForking'
     'click #save-button': 'openSaveModal'
     'click #patches-tab': -> @patchesView.load()
     'click .play-with-level-button': 'onPlayLevel'
@@ -406,12 +408,13 @@ module.exports = class ThangTypeEditView extends RootView
     @showingSelectedNode = false
 
   showVersionHistory: (e) ->
-    versionHistoryModal = new ThangTypeVersionsModal thangType: @thangType, @thangTypeID
-    @openModalView versionHistoryModal
-    Backbone.Mediator.publish 'level:view-switched', e
+    @openModalView new ThangTypeVersionsModal thangType: @thangType, @thangTypeID
 
   openSaveModal: ->
-    @openModalView(new SaveVersionModal({model: @thangType}))
+    @openModalView new SaveVersionModal model: @thangType
+
+  startForking: (e) ->
+    @openModalView new ForkModal model: @thangType, editorPath: 'thang'
 
   onPlayLevelSelect: (e) ->
     if @childWindow and not @childWindow.closed

@@ -47,34 +47,25 @@ block content
       .contributor-signup-anonymous
       .contributor-signup(data-contributor-class-id="translator", data-contributor-class-name="diplomat")
 
+
       h3(data-i18n="contribute.translating_diplomats")
         | Our Translating Diplomats:
 
       //#contributor-list
       // TODO: collect CodeCombat userids for these guys so we can include a tiled list
       ul.diplomats
-        li Turkish - Nazım Gediz Aydındoğmuş, cobaimelan, wakeup
-        li Brazilian Portuguese - Gutenberg Barros, Kieizroe, Matthew Burt, brunoporto, cassiocardoso
-        li Portugal Portuguese - Matthew Burt, ReiDuKuduro
-        li German - Dirk, faabsen, HiroP0, Anon, bkimminich
-        li Thai - Kamolchanok Jittrepit
-        li Vietnamese - An Nguyen Hoang Thien
-        li Dutch - Glen De Cauwsemaecker, Guido Zuidhof, Ruben Vereecken, Jasper D'haene
-        li Greek - Stergios
-        li Latin American Spanish - Jesús Ruppel, Matthew Burt, Mariano Luzza
-        li Spain Spanish - Matthew Burt, DanielRodriguezRivero, Anon, Pouyio
-        li French - Xeonarno, Elfisen, Armaldio, MartinDelille, pstweb, veritable, jaybi, xavismeh, Anon, Feugy
-        li Hungarian - ferpeter, csuvsaregal, atlantisguru, Anon
-        li Japanese - g1itch, kengos, treby
-        li Chinese - Adam23, spacepope, yangxuan8282, Cheng Zheng
-        li Polish - Anon, Kacper Ciepielewski
-        li Danish - Einar Rasmussen, sorsjen, Randi Hillerøe, Anon
-        li Slovak - Anon
-        li Persian - Reza Habibi (Rehb)
-        li Czech - vanous
-        li Russian - fess89, ser-storchak, Mr A, a1ip
-        li Ukrainian - fess89
-        li Italian - flauta
-        li Norwegian - bardeh
+        each stats, languageCode in languageStats
+          if !(languageCode.indexOf('-') != -1 && stats.completion < 0.02 && !stats.diplomats.length)
+            li
+              a(href=stats.githubURL)
+                span= stats.englishDescription
+                if stats.englishDescription != stats.nativeDescription
+                  span.spl.spr -
+                  span= stats.nativeDescription
+              if stats.diplomats.length
+                span.spl - #{stats.diplomats.join(', ')}
+              .progress
+                .progress-bar(style='width: ' + (100 * stats.completion) + '%')
+                  span(style=stats.completion < 0.06 ? 'color: black; text-shadow: 0px 1px 0px white' : '')= (100 * stats.completion).toFixed(1) + '%'
 
     div.clearfix
