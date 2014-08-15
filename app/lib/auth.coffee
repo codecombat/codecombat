@@ -19,7 +19,8 @@ module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) 
   user.notyErrors = false
   user.save({}, {
     error: (model, jqxhr, options) ->
-      error = parseServerError(jqxhr.responseText)
+      error = parseServerError(jqxhr
+      .responseText)
       property = error.property if error.property
       if jqxhr.status is 409 and property is 'name'
         anonUserObject = _.omit(userObject, 'name')

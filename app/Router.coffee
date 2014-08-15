@@ -63,6 +63,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'file/*path': 'routeToServer'
 
+    'github/*path': 'routeToServer'
+
     'legal': go('LegalView')
     
     'multiplayer': go('MultiplayerView')

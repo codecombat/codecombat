@@ -43,6 +43,7 @@ _.extend UserSchema.properties,
   photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}
 
   facebookID: c.shortString({title: 'Facebook ID'})
+  githubID: c.shortString({title: 'GitHub ID'})
   gplusID: c.shortString({title: 'G+ ID'})
 
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})
