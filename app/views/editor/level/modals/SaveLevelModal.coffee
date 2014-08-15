@@ -47,7 +47,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
 
   shouldSaveEntity: (m) ->
     return false unless m.hasWriteAccess()
-    if not m.get('system') and m.type() is 'LevelComponent'
+    if m.get('system') is 'ai' and m.get('name') is 'Jitters' and m.type() is 'LevelComponent'
       # Trying to debug the occasional phantom all-Components-must-be-saved bug
       console.log "Should we save", m.get('system'), m.get('name'), m, "? localChanges:", m.hasLocalChanges(), "version:", m.get('version'), 'isPublished:', m.isPublished(), 'collection:', m.collection
       return false
