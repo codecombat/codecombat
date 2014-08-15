@@ -29,7 +29,7 @@ AchievementSchema.methods.getExpFunction = ->
   parameters = @get('function')?.parameters or jsonschema.properties.function.default.parameters
   return utils.functionCreators[kind](parameters) if kind of utils.functionCreators
 
-AchievementSchema.methods.isRecalculable = -> @get('recalculable') is true
+AchievementSchema.methods.isRecalculable = -> @get('recalculable') isnt false
 
 AchievementSchema.statics.jsonschema = jsonschema
 AchievementSchema.statics.earnedAchievements = {}
