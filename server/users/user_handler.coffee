@@ -232,7 +232,7 @@ UserHandler = class UserHandler extends Handler
 
   IDify: (idOrSlug, done) ->
     return done null, idOrSlug if Handler.isID idOrSlug
-    User.getBySlug idOrSlug, (err, user) -> done err, user?.get '_id'
+    User.findBySlug idOrSlug, (err, user) -> done err, user?.get '_id'
 
   getLevelSessions: (req, res, userIDOrSlug) ->
     @IDify userIDOrSlug, (err, userID) =>
