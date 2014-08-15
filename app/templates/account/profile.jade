@@ -7,7 +7,7 @@ block content
         |Please 
         a.auth-button login 
         | to view this profile.
-  else
+  else if user.loaded
     if allowedToEditJobProfile
       .profile-control-bar
         if editing
@@ -486,8 +486,9 @@ block content
           span(data-i18n="account_profile.profile_for_prefix") Profile for 
           span= user.get('name') || "Anonymous Wizard"
           span(data-i18n="account_profile.profile_for_suffix")  
-  
-        img.profile-photo(src=user.getPhotoURL(256))
+
+        if user.loaded
+          img.profile-photo(src=user.getPhotoURL(256))
   
         p To see a private user profile, you may need to log in.
   

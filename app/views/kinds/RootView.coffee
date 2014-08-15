@@ -6,6 +6,7 @@ CocoView = require './CocoView'
 {logoutUser, me} = require('lib/auth')
 locale = require 'locale/locale'
 
+Achievement = require 'models/Achievement'
 AchievementPopup = require 'views/achievements/AchievementPopup'
 utils = require 'lib/utils'
 
@@ -19,7 +20,7 @@ filterKeyboardEvents = (allowedEvents, func) ->
 
 module.exports = class RootView extends CocoView
   showBackground: true
-  
+
   events:
     'click #logout-button': 'logoutAccount'
     'change .language-dropdown': 'onLanguageChanged'
@@ -71,7 +72,7 @@ module.exports = class RootView extends CocoView
     c = super()
     c.showBackground = @showBackground
     c
-  
+
   afterRender: ->
     super(arguments...)
     @chooseTab(location.hash.replace('#', '')) if location.hash

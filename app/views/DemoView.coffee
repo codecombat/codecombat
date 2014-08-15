@@ -87,6 +87,7 @@ module.exports = DemoView = class DemoView extends RootView
     else
       @$el.find('#demo-area').empty().append(view.$el)
     view.afterInsert()
+    window.currentDemoView = view
     # TODO, maybe handle root views differently than modal views differently than everything else?
 
   getAllDemoFiles: ->

@@ -31,7 +31,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
       projection = {}
       if req.query.project
         projection[field] = 1 for field in req.query.project.split(',')
-      ThangType.find({ 'kind': 'Item' }, projection).exec (err, documents) =>
+      ThangType.find({ 'kind': 'Item', slug: { $exists: true } }, projection).exec (err, documents) =>
         return @sendDatabaseError(res, err) if err
         documents = (@formatEntity(req, doc) for doc in documents)
         @sendSuccess(res, documents)

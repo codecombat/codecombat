@@ -50,6 +50,7 @@ module.exports = class SpellView extends CocoView
     'tome:update-snippets': 'addZatannaSnippets'
     'tome:insert-snippet': 'onInsertSnippet'
     'spell-beautify': 'onSpellBeautify'
+    'script:state-changed': 'onScriptStateChange'
 
   events:
     'mouseout': 'onMouseOut'
@@ -124,10 +125,15 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
-      passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
-    # No easy way to selectively cancel shift+space, since we don't get access to the event.
-    # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
-      exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
+      # passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
+      # No easy way to selectively cancel shift+space, since we don't get access to the event.
+      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
+      exec: => 
+        if @scriptRunning
+          Backbone.Mediator.publish 'level:shift-space-pressed'
+        else 
+          @ace.insert ' '
+
     addCommand
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
@@ -193,7 +199,7 @@ module.exports = class SpellView extends CocoView
             tabTrigger: doc.snippets[e.language].tab
           snippetEntries.push entry
 
-    # window.zatanna = @zatanna
+    # window.zatannaInstance = @zatanna
     # window.snippetEntries = snippetEntries
     lang = @editModes[e.language].substr 'ace/mode/'.length
     @zatanna.addSnippets snippetEntries, lang
@@ -414,7 +420,7 @@ module.exports = class SpellView extends CocoView
     for aetherProblem, problemIndex in aether.getAllProblems()
       continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
       seenProblemKeys[key] = true if key
-      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast
+      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast, @spell.levelID
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations
     @highlightCurrentLine aether.flow unless _.isEmpty aether.flow
@@ -682,6 +688,9 @@ module.exports = class SpellView extends CocoView
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       @recompile() if hasChanged
+
+  onScriptStateChange: (e) ->
+    @scriptRunning = if e.currentScript is null then false else true
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick

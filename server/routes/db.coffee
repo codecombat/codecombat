@@ -28,7 +28,7 @@ module.exports.setup = (app) ->
     return errors.unauthorized(res, 'Must have an identity to do anything with the db. Do you have cookies enabled?') unless req.user
 
     try
-      moduleName = module.replace '.', '_'
+      moduleName = module.replace new RegExp('\\.', 'g'), '_'
       name = handlers[moduleName]
       handler = require('../' + name)
       return handler.getLatestVersion(req, res, parts[1], parts[3]) if parts[2] is 'version'

@@ -58,8 +58,8 @@ module.exports = class ThangsTabView extends CocoView
     'delete, del, backspace': 'deleteSelectedExtantThang'
     'left': -> @moveAddThangSelection -1
     'right': -> @moveAddThangSelection 1
-    'ctrl+z': 'undo'
-    'ctrl+shift+z': 'redo'
+    'ctrl+z, ⌘+z': 'undo'
+    'ctrl+shift+z, ⌘+shift+z': 'redo'
 
   constructor: (options) ->
     super options
@@ -106,6 +106,11 @@ module.exports = class ThangsTabView extends CocoView
     else
       $('#thangs-list').height(oldHeight - thangsHeaderHeight - 80)
 
+  undo: (e) ->
+    if not @editThangView then @thangsTreema.undo() else @editThangView.undo()
+
+  redo: (e) ->
+    if not @editThangView then @thangsTreema.redo() else @editThangView.redo()
 
   afterRender: ->
     super()
@@ -330,8 +335,8 @@ module.exports = class ThangsTabView extends CocoView
 
   adjustThangPos: (sprite, thang, pos) ->
     snap = sprite?.data?.snap or sprite?.thangType?.get('snap') or {x: 0.01, y: 0.01}  # Centimeter resolution by default
-    pos.x = Math.round((pos.x - thang.width / 2) / snap.x) * snap.x + thang.width / 2
-    pos.y = Math.round((pos.y - thang.height / 2) / snap.y) * snap.y + thang.height / 2
+    pos.x = Math.round((pos.x - (thang.width ? 1) / 2) / snap.x) * snap.x + (thang.width ? 1) / 2
+    pos.y = Math.round((pos.y - (thang.height ? 1) / 2) / snap.y) * snap.y + (thang.height ? 1) / 2
     pos.z = thang.depth / 2
     thang.pos = pos
     @surface.spriteBoss.update true  # Make sure Obstacle layer resets cache
@@ -436,7 +441,7 @@ module.exports = class ThangsTabView extends CocoView
     else  # Mediator event
       window.thangsTreema = @thangsTreema
       thangData = @thangsTreema.get "id=#{e.thangID}"
-    @editThangView = new LevelThangEditView thangData: thangData, level: @level, world: @world
+    @editThangView = new LevelThangEditView thangData: thangData, level: @level, world: @world, supermodel: @supermodel  # supermodel needed for checkForMissingSystems
     @insertSubView @editThangView
     @$el.find('.thangs-column').hide()
     Backbone.Mediator.publish 'level:view-switched', e
@@ -479,14 +484,18 @@ module.exports = class ThangsTabView extends CocoView
     $('#add-thangs-column').toggle()
     @onWindowResize e
 
-  undo: (e) ->
-    if not @editThangView then @thangsTreema.undo() else @editThangView.undo()
-
-  redo: (e) ->
-    if not @editThangView then @thangsTreema.redo() else @editThangView.redo()
-
 class ThangsNode extends TreemaNode.nodeMap.array
   valueClass: 'treema-array-replacement'
+  nodeDescription: 'Thang'
+
+  getTrackedActionDescription: (trackedAction) ->
+    trackedActionDescription = super(trackedAction)
+    if trackedActionDescription is 'Edit ' + @nodeDescription
+      path = trackedAction.path.split '/'
+      if path[path.length-1] is 'pos'
+        trackedActionDescription = 'Move Thang'
+    trackedActionDescription
+
   getChildren: ->
     children = super(arguments...)
     # TODO: add some filtering to only work with certain types of units at a time

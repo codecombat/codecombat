@@ -1,6 +1,7 @@
 mongoose = require('mongoose')
 textSearch = require('mongoose-text-search')
 log = require 'winston'
+utils = require '../lib/utils'
 
 module.exports.MigrationPlugin = (schema, migrations) ->
   # Property name migrations made EZ
@@ -31,8 +32,12 @@ module.exports.NamedPlugin = (schema) ->
   schema.add({name: String, slug: String})
   schema.index({'slug': 1}, {unique: true, sparse: true, name: 'slug index'})
 
-  schema.statics.getBySlug = (slug, done) ->
+  schema.statics.findBySlug = (slug, done) ->
     @findOne {slug: slug}, done
+
+  schema.statics.findBySlugOrId = (slugOrID, done) ->
+    return @findById slugOrID, done if utils.isID slugOrID
+    @findOne {slug: slugOrID}, done
 
   schema.pre('save', (next) ->
     if schema.uses_coco_versions

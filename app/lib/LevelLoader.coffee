@@ -31,6 +31,7 @@ module.exports = class LevelLoader extends CocoClass
     @opponentSessionID = options.opponentSessionID
     @team = options.team
     @headless = options.headless
+    @inLevelEditor = options.inLevelEditor
     @spectateMode = options.spectateMode ? false
 
     @worldNecessities = []
@@ -83,6 +84,7 @@ module.exports = class LevelLoader extends CocoClass
       for itemThangType in _.values(heroConfig.inventory)
         url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
         @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
+    @populateHero() if @level?.loaded
 
   # Supermodel (Level) Loading
 
@@ -96,6 +98,7 @@ module.exports = class LevelLoader extends CocoClass
 
   onLevelLoaded: ->
     @populateLevel()
+    @populateHero() if @session?.loaded
 
   populateLevel: ->
     thangIDs = []
@@ -149,6 +152,14 @@ module.exports = class LevelLoader extends CocoClass
 
     @worldNecessities = @worldNecessities.concat worldNecessities
 
+  populateHero: ->
+    return if @inLevelEditor
+    return unless @level.get('type') is 'hero' and hero = _.find @level.get('thangs'), id: 'Hero Placeholder'
+    heroConfig = @session.get('heroConfig')
+    hero.thangType = heroConfig.thangType  # Will mutate the level, but we're okay showing the last-used Hero here
+    #hero.id = ... ?  # What do we want to do about this?
+    # Actually, swapping out inventory and placeholder Components is done in Level's denormalizeThang
+
   loadItemThangsEquippedByLevelThang: (levelThang) ->
     return unless levelThang.components
     for component in levelThang.components
@@ -178,7 +189,7 @@ module.exports = class LevelLoader extends CocoClass
         levelThang = $.extend true, {}, levelThang
         @level.denormalizeThang(levelThang, @supermodel)
         equipsComponent = _.find levelThang.components, {original: LevelComponent.EquipsID}
-        inventory = equipsComponent.config?.inventory
+        inventory = equipsComponent?.config?.inventory
         continue unless inventory
         for itemThangType in _.values inventory
           url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
@@ -320,7 +331,7 @@ module.exports = class LevelLoader extends CocoClass
     @initialized = true
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
-    serializedLevel = @level.serialize(@supermodel)
+    serializedLevel = @level.serialize(@supermodel, @session)
     @world.loadFromLevel serializedLevel, false
     console.log 'World has been initialized from level loader.'
 

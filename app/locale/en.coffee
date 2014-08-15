@@ -524,11 +524,16 @@
     clas: "CLAs"
 
   community:
-    level_editor: "Level Editor"
     main_title: "CodeCombat Community"
-    facebook: "Facebook"
-    twitter: "Twitter"
-    gplus: "Google+"
+    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!"
+    level_editor_prefix: "Use the CodeCombat"
+    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!"
+    thang_editor_prefix: "We call units within the game 'thangs'. Use the"
+    thang_editor_suffix: "to modify the CodeCombat source artwork. Allow units to throw projectiles, alter the direction of an animation, change a unit's hit points, or upload your own vector sprites."
+    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
+    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
+    find_us: "Find us on these sites"
+    contribute_to_the_project: "Contribute to the project"
 
   editor:
     main_title: "CodeCombat Editors"
@@ -657,7 +662,7 @@
     nick_description: "Programming wizard, eccentric motivation mage, and upside-down experimenter. Nick can do anything and chooses to build CodeCombat."
     jeremy_description: "Customer support mage, usability tester, and community organizer; you've probably already spoken with Jeremy."
     michael_description: "Programmer, sys-admin, and undergrad technical wunderkind, Michael is the person keeping our servers online."
-    glen_description: "Programmer and passionate game developer, with the motivation to make this world a better place, by developing things that matter. The word impossible can't be found in his dictionary. Learning new skills is his joy!"
+    matt_description: "Bicyclist, Software Engineer, reader of heroic fantasy, connoisseur of peanut butter, sipper of coffee."
 
   legal:
     page_title: "Legal"
@@ -728,7 +733,7 @@
     introduction_desc_github_url: "CodeCombat is totally open source"
     introduction_desc_suf: ", and we aim to provide as many ways as possible for you to take part and make this project as much yours as ours."
     introduction_desc_ending: "We hope you'll join our party!"
-    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Glen"
+    introduction_desc_signature: "- Nick, George, Scott, Michael, Jeremy and Matt"
     alert_account_message_intro: "Hey there!"
     alert_account_message: "To subscribe for class emails, you'll need to be logged in first."
     archmage_summary: "Interested in working on game graphics, user interface design, database and server organization, multiplayer networking, physics, sound, or game engine performance? Want to help build a game to help other people learn what you are good at? We have a lot to do and if you are an experienced programmer and want to develop for CodeCombat, this class is for you. We would love your help building the best programming game ever."
@@ -939,6 +944,7 @@
     candidate_sessions: "Candidate Sessions"
     user_remark: "User Remark"
     versions: "Versions"
+    items: "Items"
 
   delta:
     added: "Added"
