@@ -29,7 +29,15 @@ class EarnedAchievementHandler extends Handler
       achievementIDs = (thing for thing in callbackOrSlugsOrIDs when Handler.isID(thing))
     else # just a callback
       callback = callbackOrSlugsOrIDs
-    onFinished = -> callback arguments...
+    t0 = new Date().getTime()
+    total = 100000
+    User.count {anonymous:false}, (err, count) -> total = count
+
+    onFinished = ->
+      t1 = new Date().getTime()
+      runningTime = ((t1-t0)/1000/60/60).toFixed(2)
+      console.log "we finished in #{runningTime} hours"
+      callback arguments...
 
     filter = {}
     filter.$or = [
@@ -44,17 +52,23 @@ class EarnedAchievementHandler extends Handler
       log.info "Recalculating a total of #{achievements.length} achievements..."
 
       # Fetch every single user. This tends to get big so do it in a streaming fashion.
-      userStream = User.find().stream()
+      userStream = User.find().sort('_id').stream()
       streamFinished = false
       usersTotal = 0
       usersFinished = 0
+      numberRunning = 0
       doneWithUser = ->
         ++usersFinished
+        numberRunning -= 1
+        userStream.resume()
+
         onFinished?() if streamFinished and usersFinished is usersTotal
       userStream.on 'error', (err) -> log.error err
       userStream.on 'close', -> streamFinished = true
       userStream.on 'data',  (user) ->
         ++usersTotal
+        numberRunning += 1
+        userStream.pause() if numberRunning > 20
 
         # Keep track of a user's already achieved in order to set the notified values correctly
         userID = user.get('_id').toHexString()
@@ -113,12 +127,14 @@ class EarnedAchievementHandler extends Handler
             ), -> # Wrap up a user, save points
               # Since some achievements cannot be recalculated it's important to deduct the old amount of exp
               # and add the new amount, instead of just setting to the new amount
-              return doneWithUser() unless newTotalPoints
-              log.debug "Matched a total of #{newTotalPoints} new points"
-              log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
+              return doneWithUser(user) unless newTotalPoints
+#              log.debug "Matched a total of #{newTotalPoints} new points"
+#              log.debug "Incrementing score for these achievements with #{newTotalPoints - previousPoints}"
+              pctDone = (100 * usersFinished / total).toFixed(2)
+              console.log "Updated points to #{newTotalPoints}(+#{newTotalPoints - previousPoints}) for #{user.get('name') or '???'} (#{user.get('_id')}) (#{pctDone}%)"
               User.update {_id: userID}, {$inc: points: newTotalPoints - previousPoints}, {}, (err) ->
                 log.error err if err?
-                doneWithUser()
+                doneWithUser(user)
 
 
 module.exports = new EarnedAchievementHandler()
