@@ -30,3 +30,75 @@
   &.undefined
     color: rgb(197, 6, 11)
 
+.spell-palette-popover.popover
+  // Only those popovers which are our direct children (spell documentation)
+  max-width: 600px
+
+  &.pinned
+    left: auto !important
+    top: 50px !important
+    right: 45%
+    // bottom: 151px
+    @include user-select(text)
+    // Wish I could set max-width and max-height (and override Bootstrap's stuff)
+    // but without explicitly setting height, child overflow-y: scroll doesn't work
+    min-width: 45%
+    height: 60%
+
+    .arrow
+      display: none
+
+    .close
+      position: absolute
+      top: 5%
+      right: 5%
+      font-size: 28px
+      font-weight: bold
+      @include opacity(0.6)
+      text-shadow: 0 1px 0 white
+
+      &:hover
+        @include opacity(1)
+
+  padding: 10px 10px 30px 10px
+  border-image: url(/images/level/popover_background.png) 18 fill round
+  border-width: 15px
+  @include box-shadow(0 0 0 #000)
+
+  h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+
+  .popover-title
+    background-color: transparent
+    margin: 0 14px
+    padding: 8px 0
+    border-bottom-color: #ccc
+
+  .popover-content
+    max-height: 100%
+    overflow-y: auto
+    margin-right: 10px
+    img
+      float: right
+
+  &.top .arrow
+    bottom: -2%
+  &.bottom .arrow
+    top: -2%
+  &.left .arrow
+    right: 0%
+  &.right .arrow
+    left: -3%
+
+html.no-borderimage
+  .spell-palette-popover.popover
+    background: transparent url(/images/level/popover_background.png)
+    background-size: 100% 100%
+    border: 0
+
+html.fullscreen-editor
+  .spell-palette-popover.popover.pinned
+    min-width: 600px
+    bottom: inherit
+    right: 50%
+    margin-right: -300px

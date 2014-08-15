@@ -9,6 +9,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
   className: 'spell-palette-entry-view'
   template: template
   popoverPinned: false
+  overridePopoverTemplate: '<div class="popover spell-palette-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
 
   subscriptions:
     'surface:frame-changed': 'onFrameChanged'
@@ -41,8 +42,10 @@ module.exports = class SpellPaletteEntryView extends CocoView
       placement: 'top'
       trigger: 'manual'  # Hover, until they click, which will then pin it until unclick.
       content: @docFormatter.formatPopover()
-      container: '#tome-view'
+      container: 'body'
+      template: @overridePopoverTemplate
     )
+    window.element = @$el
     @$el.on 'show.bs.popover', =>
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
 
@@ -58,15 +61,15 @@ module.exports = class SpellPaletteEntryView extends CocoView
   togglePinned: ->
     if @popoverPinned
       @popoverPinned = false
-      @$el.add('#tome-view .popover').removeClass 'pinned'
-      $('#tome-view .popover .close').remove()
+      @$el.add('.spell-palette-popover.popover').removeClass 'pinned'
+      $('.spell-palette-popover.popover .close').remove()
       @$el.popover 'hide'
     else
       @popoverPinned = true
       @$el.popover 'show'
-      @$el.add('#tome-view .popover').addClass 'pinned'
+      @$el.add('.spell-palette-popover.popover').addClass 'pinned'
       x = $('<button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>')
-      $('#tome-view .popover').append x
+      $('.spell-palette-popover.popover').append x
       x.on 'click', @onClick
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
