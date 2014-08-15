@@ -179,14 +179,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     new_password: "Nova Palavra-passe"
     new_password_verify: "Verificar"
     email_subscriptions: "Subscrições de E-mail"
-#    email_subscriptions_none: "No Email Subscriptions."
+    email_subscriptions_none: "Sem Subscições de E-mail."
     email_announcements: "Anúncios"
     email_announcements_description: "Receba e-mails sobre as últimas novidades e desenvolvimentos no CodeCombat."
     email_notifications: "Notificações"
     email_notifications_summary: "Controle, de uma forma personalizada e automática, os e-mails de notificações relacionados com a sua atividade no CodeCombat."
     email_any_notes: "Quaisquer Notificações"
     email_any_notes_description: "Desative para parar de receber todos os e-mails de notificação de atividade."
-#    email_news: "News"
+    email_news: "Notícias"
     email_recruit_notes: "Oportunidades de Emprego"
     email_recruit_notes_description: "Se joga muito bem, podemos contactá-lo para lhe arranjar um (melhor) emprego."
     contributor_emails: "Subscrições de E-mail (Contribuintes)"
@@ -532,8 +532,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    thang_editor_suffix: "to modify the CodeCombat source artwork. Allow units to throw projectiles, alter the direction of an animation, change a unit's hit points, or upload your own vector sprites."
 #    article_editor_prefix: "See a mistake in some of our docs? Want to make some instructions for your own creations? Check out the"
 #    article_editor_suffix: "and help CodeCombat players get the most out of their playtime."
-#    find_us: "Find us on these sites"
-#    contribute_to_the_project: "Contribute to the project"
+    find_us: "Encontre-nos nestes sítios"
+    contribute_to_the_project: "Contribua para o projeto"
 
   editor:
     main_title: "Editores do CodeCombat"
@@ -549,7 +549,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     contact_us: "Contacte-nos!"
     hipchat_prefix: "Pode também encontrar-nos na nossa"
     hipchat_url: "sala HipChat."
-#    back: "Back"
+    back: "Voltar"
     revert: "Reverter"
     revert_models: "Reverter Modelos"
     pick_a_terrain: "Escolha Um Terreno"
@@ -601,10 +601,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     level_search_title: "Procurar Níveis Aqui"
     achievement_search_title: "Procurar Conquistas"
     read_only_warning2: "Nota: não pode guardar nenhuma edição feita aqui, porque não tem sessão iniciada."
-#    no_achievements: "No achievements have been added for this level yet."
+    no_achievements: "Ainda não foram adicionadas conquistas a este nível."
 #    achievement_query_misc: "Key achievement off of miscellanea"
 #    achievement_query_goals: "Key achievement off of level goals"
-#    level_completion: "Level Completion"
+    level_completion: "Completação do Nível"
 
   article:
     edit_btn_preview: "Pré-visualizar"
@@ -613,7 +613,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   general:
     and: "e"
     name: "Nome"
-#    date: "Date"
+    date: "Data"
     body: "Corpo"
     version: "Versão"
     commit_msg: "Enviar Mensagem"
@@ -662,7 +662,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     nick_description: "Feiticeiro da programção, mago da motivação excêntrico e experimentador de pernas para o ar. O Nick pode fazer qualquer coisa e escolhe construir o CodeCombat."
     jeremy_description: "Mago do suporte ao cliente, testador do uso e organizador da comunidade; provavelmente já falou com o Jeremy."
     michael_description: "Programador, administrador do sistema e técnico de graduação prodígio, o Michael é a pessoa que mantém os nossos servidores online."
-#    matt_description: "Bicyclist, Software Engineer, reader of heroic fantasy, connoisseur of peanut butter, sipper of coffee."
+    matt_description: "Ciclista, engenheiro de software, leitor de fantasia heróica, apreciador de manteiga de amendoim e de café."
 
   legal:
     page_title: "Legal"
