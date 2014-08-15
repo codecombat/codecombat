@@ -67,16 +67,17 @@ module.exports = class LevelLoader extends CocoClass
     session = new LevelSession().setURL url
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
-    @listenToOnce @session, 'sync', @onSessionLoaded
-
+    @listenToOnce @session, 'sync', ->
+      @session.url = -> '/db/level.session/' + @id
+      @loadDependenciesForSession(@session)
+    
     if @opponentSessionID
       opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
       @opponentSession = @opponentSessionResource.model
-      @listenToOnce @opponentSession, 'sync', @onSessionLoaded
-
-  onSessionLoaded: (session) ->
-    session.url = -> '/db/level.session/' + @id
+      @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
+      
+  loadDependenciesForSession: (session) ->
     if heroConfig = session.get('heroConfig')
       url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')

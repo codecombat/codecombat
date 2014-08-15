@@ -41,6 +41,8 @@ levelWithShamanWithSuperWand = {
 
 sessionWithTharinWithHelmet = { heroConfig: { thangType: 'tharin', inventory: { 'head': 'helmet' }}}
 
+sessionWithAnyaWithGloves = { heroConfig: { thangType: 'anya', inventory: { 'head': 'gloves' }}}
+
 # THANG TYPES
 
 thangTypeOgreWithPhysicalComponent = {
@@ -80,35 +82,56 @@ thangTypeWand = {
   }]
 }
 
+thangTypeAnyaWithJumpsComponent = {
+  name: 'Anya'
+  original: 'anya'
+  components: [{
+    original: 'jumps'
+    majorVersion: 0
+  }]
+}
+
 
 
 describe 'LevelLoader', ->
-  it 'loads hero and item thang types from heroConfig in the LevelSession', ->
-    new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
-    
-    responses = { 
-      '/db/level_session/id': sessionWithTharinWithHelmet 
-    }
-    
-    jasmine.Ajax.requests.sendResponses(responses)
-    requests = jasmine.Ajax.requests.all()
-    urls = (r.url for r in requests)
-    expect('/db/thang.type/helmet/version?project=name,components,original' in urls).toBeTruthy()
-    expect('/db/thang.type/tharin/version?project=name,components,original' in urls).toBeTruthy()
-    
-  it 'loads components for the hero in the heroConfig in the LevelSession', ->
-    new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
+  describe 'loadDependenciesForSession', ->
+    it 'loads hero and item thang types from heroConfig in the given session', ->
+      levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
+      session = new LevelSession(sessionWithAnyaWithGloves)
+      levelLoader.loadDependenciesForSession(session)
+      requests = jasmine.Ajax.requests.all()
+      urls = (r.url for r in requests)
+      expect('/db/thang.type/gloves/version?project=name,components,original' in urls).toBeTruthy()
+      expect('/db/thang.type/anya/version?project=name,components,original' in urls).toBeTruthy()
 
-    responses = {
-      '/db/level_session/id': sessionWithTharinWithHelmet
-      '/db/thang.type/tharin/version?project=name,components,original': thangTypeTharinWithHealsComponent
-    }
+    it 'loads components for the hero in the heroConfig in the given session', ->
+      levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
+      session = new LevelSession(sessionWithAnyaWithGloves)
+      levelLoader.loadDependenciesForSession(session)
+      responses = {
+        '/db/thang.type/anya/version?project=name,components,original': thangTypeAnyaWithJumpsComponent
+      }
+      jasmine.Ajax.requests.sendResponses(responses)
+      requests = jasmine.Ajax.requests.all()
+      urls = (r.url for r in requests)
+      expect('/db/level.component/jumps/version/0' in urls).toBeTruthy()
+      
+    it 'is idempotent', ->
+      levelLoader = new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
 
-    jasmine.Ajax.requests.sendResponses(responses)
-    requests = jasmine.Ajax.requests.all()
-    urls = (r.url for r in requests)
-    expect('/db/level.component/heals/version/0' in urls).toBeTruthy()
-  
+      # first load Tharin by the 'normal' session load
+      responses = { '/db/level_session/id': sessionWithTharinWithHelmet }
+      jasmine.Ajax.requests.sendResponses(responses)
+      numRequestsBefore = jasmine.Ajax.requests.count()
+
+      # then try to load Tharin some more
+      session = new LevelSession(sessionWithTharinWithHelmet)
+      levelLoader.loadDependenciesForSession(session)
+      levelLoader.loadDependenciesForSession(session)
+      levelLoader.loadDependenciesForSession(session)
+      numRequestsAfter = jasmine.Ajax.requests.count() 
+      expect(numRequestsBefore).toBe(numRequestsAfter)
+      
   it 'loads thangs for items that the level thangs have in their Equips component configs', ->
     new LevelLoader({supermodel:supermodel = new SuperModel(), sessionID: 'id', levelID: 'id'})
     
