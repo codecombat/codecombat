@@ -8,9 +8,8 @@
 deltasLib = require 'lib/deltas'
 
 class RevisionNode
-  nexts: []
-
   constructor: (options) ->
+    @nexts = []
     @timestamp = if options.timestamp then new Date(options.timestamp) else new Date()
     @previous = options.previous
     @code = options.code
@@ -61,7 +60,7 @@ module.exports = class VCS
         rev.setPrev @revify(rev.previous)
         if rev.nexts.length < 1
           @heads.push rev
-      @workingRev = @findRev serialized.workingRevision
+      @workingRev = @getRevByTime serialized.workingRevision
 
   getRevByTime: (revTimestamp) ->
     revTimestamp = new Date(revTimestamp) unless @isDate revTimestamp
@@ -73,9 +72,14 @@ module.exports = class VCS
   save: (code) ->
     previous = @workingRev
     @workingRev = new RevisionNode previous: previous, code: code
+    #TODO: How to add something to date? Don't like loops.
+    while @revMap[@workingRev.timestamp]? #timestamp must be unique.
+      @workingRev.timestamp = new Date()
+    @revMap[@workingRev.timestamp] = @workingRev
     @revs.push @workingRev
     @heads.push @workingRev
     @heads = _.remove @heads, previous #TODO: Test!
+    @prune # prune if max revision count is set
     @workingRev
 
   load: (revision) ->
@@ -97,13 +101,12 @@ module.exports = class VCS
     prev = rev.previous
     rev.nexts.forEach (nextRev) ->
       nextRev.setPrev prev
-    _.remove prev.nexts rev
+    prev.nexts = _.remove prev.nexts rev
     if rev in @heads
-      _.remove @heads, rev
+      @heads = _.remove @heads, rev
       @heads.push rev
-    unless pruned
-      @revs.remove rev
-      @revMap[rev.timestamp] = null
+    @revs.remove rev unless pruned
+    @revMap[rev.timestamp] = null
     if rev is @workingRev
       @workingRev = prev
 
@@ -114,7 +117,7 @@ module.exports = class VCS
     revCount = Math.min revCount, @maxRevCount if @maxRevCount
     return 0 if revCount >= @revs.length
     removed = []
-    @revs = _.compact(if revCount-- > 0 then rev else (removed.push rev; @revMap[rev.timestamp] = null) for rev in @revs)
+    @revs = _.compact(if revCount-- > 0 then rev else (removed.push rev; null) for rev in @revs)
     @remove(rev, true) for rev in removed
 
 
