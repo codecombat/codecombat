@@ -1,47 +1,52 @@
 LevelSession = require('models/LevelSession')
+VCS = require('lib/VCS')
 
 describe 'LevelSession', ->
   describe 'VCS', ->
     it 'lets me insert a revision and sets the previoius revision correctly', ->
       levelSession = new LevelSession()
-      vcs = levelSession
-      current = vcs.save "TestCode"
-      previous = current
-      current = vcs.save "TestCode2", previous
-      expect(current.previous).toBe(previous.timestamp)
+      levelSession.set 'code', "TestCode"
+      levelSession.set 'code', "TestCode2"
+      expect(levelSession.getWorkingRevision.previous.getCode()).toBe("TestCode")
 
     it 'should return the same code for a revision after insertion of new revisions', ->
       levelSession = new LevelSession()
-      vcs = levelSession
       testCode1 = "TestCode1"
-      current = vcs.save testCode1
-      previous = current
-      current vcs.save "TestCode2", previous
-      current = vcs.save "TestCode3", current
-      expect(vcs.getRevision(current.previous.previous).getCode()).toBe(testCode1)
+      levelSession.set 'code', testCode1
+      levelSession.set 'code', "TestCode2"
+      levelSession.set 'code', "TestCode3"
+      expect(levelSession.getWorkingRevision().previous.previous.getCode()).toBe(testCode1)
 
     it 'should return the same code for a revision after insertion of a new branch', ->
       levelSession = new LevelSession()
-      vcs = levelSession
       testCode1 = "TestCode1"
-      current = vcs.save testCode1
-      previous = current
-      current vcs.save "TestCode2", previous
-      current = vcs.save "TestCode3", previous
-      expect(vcs.load(current.previous).getCode()).toBe(testCode1)
+      levelSession.set 'code', testCode1
+      levelSession.set 'code', "TestCode2"
+      levelSession.loadRevision levelSession.getWorkingRevision().previous
+      levelSession.set 'code', "TestCode3"
+      expect(levelSession.getWorkingRevision().previous.getCode()).toBe(testCode1)
+
+    it 'should create a second head if a new branch is created', ->
+      levelSession = new LevelSession()
+      testCode1 = "TestCode1"
+      levelSession.set 'code', testCode1
+      levelSession.set 'code', "TestCode2"
+      levelSession.loadRevision levelSession.getWorkingRevision().previous
+      levelSession.set 'code', "TestCode3"
+      expect(levelSession.getHeadRevisions().length).toBe(2)
+
+    it 'should serialize and deserialize', ->
+      ls = new LevelSession()
+      testCode1 = "TestCode1"
+      ls.set 'code', testCode1
+      ls.set 'code', "TestCode2"
+      ls.loadRevision ls.getWorkingRevision().previous
+      ls.set 'code', "TestCode3"
+      vcs2 = new VCS null, ls.get 'vcs'
+      expect(vcs2.heads.length).toBe(ls.getHeadRevisions().length)
 
     it 'should prune old revisions if more than 100(?)', ->
       levelSession = new LevelSession()
-      vcs = levelSession
-      previous = null
       while i > 123
-        prevous = vcs.save "TestCode" + i++, previous
-      expect(vcs.revisions.length).toBe(100)
-
-    it 'should let me name revisions', ->
-      levelSession = new LevelSession()
-      vcs = levelSession
-      testCode1 = "TestCode1"
-      current = vcs.save testCode1
-      #TODO.
-      expect("todo").toBe("todo")
+        levelSession.set 'code', "TestCode" + i++
+      expect(levelSession.getRevisions.length).toBe(100)

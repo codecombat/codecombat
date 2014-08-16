@@ -28,6 +28,9 @@ module.exports = class LevelSession extends CocoModel
   getRevisions: ->
     @vcs.revs
 
+  getWorkingRevision: ->
+    @vcs.workingRev
+
   loadRevision: (revision) ->
     @vcs.load revision
     @set 'vcs', @vcs.serialize()
