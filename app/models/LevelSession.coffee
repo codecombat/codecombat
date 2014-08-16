@@ -5,12 +5,32 @@ module.exports = class LevelSession extends CocoModel
   @schema: require 'schemas/models/level_session'
   urlRoot: '/db/level.session'
 
+  maxRevCount: 100
+
   initialize: ->
     super()
     @on 'sync', (e) =>
       state = @get('state') or {}
       state.scripts ?= {}
       @set 'state', state
+      @vcs = new VCS @maxRevCount, @get('vcs')
+    @vcs = new VCS @maxRevCount
+
+  set: (key, value, options) ->
+    if key is 'code'
+      @vcs.save value
+      @set 'vcs', @vcs.serialize()
+    super(arguments...)
+
+  getRevisionHeads: ->
+    @vcs.heads
+
+  getRevisions: ->
+    @vcs.revs
+
+  loadRevision: (revision) ->
+    @vcs.load revision
+    @set 'vcs', @vcs.serialize()
 
   updatePermissions: ->
     permissions = @get 'permissions'
