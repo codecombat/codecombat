@@ -116,8 +116,8 @@ module.exports = class VCS
     return @prune @maxRevCount unless revCount
     revCount = Math.min revCount, @maxRevCount if @maxRevCount
     return 0 if revCount >= @revs.length
-    removed = []
-    @revs = _.compact(if revCount-- > 0 then rev else (removed.push rev; null) for rev in @revs)
+    removed = @revs.slice revCount, @revs.length
+    @revs = @revs.slice 0, revCount
     @remove(rev, true) for rev in removed
 
 
