@@ -30,7 +30,6 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @label.shadow = new createjs.Shadow('#000000', 1, 1, 0)
     @background.name = 'Coordinate Display Background'
     @pointMarker.name = 'Point Marker'
-    @containerOverlay = new createjs.Shape() # FOR TESTING - REMOVE BEFORE COMMIT
 
   onMouseOver: (e) -> @mouseInBounds = true
   onMouseOut: (e) -> @mouseInBounds = false
@@ -64,7 +63,6 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @removeChild @label
     @removeChild @background
     @removeChild @pointMarker
-    @removeChild @containerOverlay  # FOR TESTING - REMOVE BEFORE COMMIT
     @uncache()
 
   updateSize: ->
@@ -84,14 +82,6 @@ module.exports = class CoordinateDisplay extends createjs.Container
 
     totalWidth = contentWidth + contributionsToTotalSize.reduce (a, b) -> a + b
     totalHeight = contentHeight + contributionsToTotalSize.reduce (a, b) -> a + b
-
-    # Orientation
-    #find the current orientation and store it in an instance variable
-    # i.e.: topright, bottomright, bottomleft, topleft (default is topright)
-    #can be done separately:
-    #  -use regx and y to adjust label and background position
-    #  -adjust the cache position
-    # both can use the current orientation to do their work without knowing about the other
 
     if @isNearTopEdge()
       verticalEdge = 
@@ -122,17 +112,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
   orient: (verticalEdge, horizontalEdge, totalHeight, totalWidth) ->
     @label.regY = @background.regY = verticalEdge.posShift
     @label.regX = @background.regX = horizontalEdge.posShift
-
-    @containerOverlay.graphics
-      .clear()
-      .beginFill('rgba(255,0,0,0.4)') # Actual position
-      .drawRect(0, 0, totalWidth, totalHeight)
-      .endFill()
-      .beginFill('rgba(0,0,255,0.4)') # Cache position
-      .drawRect(horizontalEdge.startPos, verticalEdge.startPos, totalWidth, totalHeight)
-      .endFill()
-
-    #@cache horizontalEdge.startPos, verticalEdge.startPos, totalWidth, totalHeight
+    @cache horizontalEdge.startPos, verticalEdge.startPos, totalWidth, totalHeight
 
   updateCoordinates: (contentWidth, contentHeight, offset) ->
     # Center label horizontally and vertically
@@ -171,6 +151,5 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @addChild @background
     @addChild @label
     @addChild @pointMarker
-    @addChild @containerOverlay  # FOR TESTING - REMOVE BEFORE COMMIT
-    #@updateCache()
+    @updateCache()
     Backbone.Mediator.publish 'surface:coordinates-shown', {}
