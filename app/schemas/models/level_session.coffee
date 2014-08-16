@@ -173,10 +173,6 @@ _.extend LevelSessionSchema.properties,
               title: 'Start of Branch'
               description: 'Indicates if this node is the start of a new branch (diff line ends here)'
               type: 'boolean'
-            codeLanguage:
-              title: 'CodeLanguage'
-              description:  'The programming language used for this code. If this is empty, a previous item defines the language. Might be unused later.'
-              type: 'string'
 
   codeLanguage:
     type: 'string'
