@@ -32,6 +32,9 @@ module.exports = class LevelSession extends CocoModel
   getWorkingRevision: ->
     @vcs.workingRev
 
+  getRevision: (timestamp) ->
+    @vcs.getRevByTime timestamp
+
   loadRevision: (revision) ->
     @vcs.load revision
     @set 'vcs', @vcs.serialize()
