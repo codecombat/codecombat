@@ -5,8 +5,6 @@
 #Also removing old revisions is super easy, just remove them.
 #Workflow: Create VCS, Save, ... Change working rev using load, save again... serialize.
 
-deltasLib = require 'lib/deltas'
-
 class Revision
   constructor: (options) ->
     @nexts = []
@@ -18,10 +16,16 @@ class Revision
     if @previous? and @previous.constructor is Revision
       @setPrev @previous
 
-  setPrev: (@previous, deserializing=false) ->
+  setPrev: (@previous) ->
     @previous.nexts.push @
     @diff = jsondiffpatch.diff @getCode(), @previous.getCode()
     @previous.code = null
+
+  getCode: ->
+    return @code if @code?
+    next = _.find @nexts, "diff"
+    throw "Unrecoverable code in Revision node" unless next?
+    jsondiffpatch.patch next.getCode(), next.diff
 
   serialize: ->
     timestamp: @timestamp.toISOString()
@@ -30,24 +34,8 @@ class Revision
     code: @code
     diff: @diff
 
-  getCode: ->
-    return @code if @code?
-    next = _.find @nexts, "diff"
-    throw "Unrecoverable code in Revision node" unless next?
-    jsondiffpatch.patch next.getCode(), next.diff
 
 module.exports = class VCS
-
-
-  isDate: (obj) ->
-    obj.constructor is Date and obj.toString() isnt "Invalid Date"
-
-  revify: (revision) ->
-    # Returns a Revision object either from date-string, date or from a Revision object
-    revision = new Date(revision) if typeof(revision) is "string"
-    return @getRevByTime(revision) if @isDate revision
-    revision
-
   constructor: (@maxRevCount, serialized) ->
     @heads = []
     @revs = []
@@ -64,12 +52,18 @@ module.exports = class VCS
           @heads.push rev
       @workingRev = @getRevByTime serialized.workingRevision
 
+  isDate: (obj) ->
+    obj.constructor is Date and obj.toString() isnt "Invalid Date"
+
+  revify: (revision) ->
+    # Returns a Revision object either from date-string, date or from a Revision object
+    revision = new Date(revision) if typeof(revision) is "string"
+    return @getRevByTime(revision) if @isDate revision
+    revision
+
   getRevByTime: (revTimestamp) ->
     revTimestamp = new Date(revTimestamp) unless @isDate revTimestamp
     @revMap[revTimestamp]
-#    for rev in @revs
-#      return rev if rev.timestamp is revTimestamp
-#    throw new Exception "Revision not found: " + revTimestamp
 
   save: (code) ->
     previous = @workingRev
