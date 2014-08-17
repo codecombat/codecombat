@@ -49,6 +49,6 @@ describe 'LevelSession', ->
       levelSession = new LevelSession()
       i = 0
       while i < 123
-        console.log "[TEST] Inserting new CodeNode: TestCode" + i
+        #console.log "[TEST] Inserting new CodeNode: TestCode" + i
         levelSession.set 'code', "TestCode" + i++
       expect(levelSession.getRevisions().length).toBe(100)
