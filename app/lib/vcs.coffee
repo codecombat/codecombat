@@ -18,9 +18,9 @@ class Revision
     if @previous? and @previous.constructor is Revision
       @setPrev @previous
 
-  setPrev: (@previous) ->
-    @diff = jsondiffpatch.diff @previous.getCode(), @getCode()
+  setPrev: (@previous, deserializing=false) ->
     @previous.nexts.push @
+    @diff = jsondiffpatch.diff @getCode(), @previous.getCode()
     @previous.code = null
 
   serialize: ->
@@ -72,12 +72,12 @@ module.exports = class VCS
   save: (code) ->
     previous = @workingRev
     @workingRev = new Revision previous: previous, code: code
-    @workingRev.setSeconds(@workingRev.getSeconds() + 1) while @revMap[@workingRev.timestamp]? #timestamp seconds must be unique.
+    @workingRev.timestamp.setSeconds(@workingRev.timestamp.getSeconds() + 1) while @revMap[@workingRev.timestamp]? #timestamp seconds must be unique.
     @revMap[@workingRev.timestamp] = @workingRev
-    @revs.push @workingRev
+    @revs.unshift @workingRev #Insert at beginning as revs have to be in order of descending time for (de)serialization.
     @heads.push @workingRev
-    @heads = _.remove @heads, previous #TODO: Test!
-    @prune # prune if max revision count is set
+    @heads = _.remove @heads, previous
+    @prune() # prune if max revision count is set
     @workingRev
 
   load: (revision) ->
@@ -89,17 +89,14 @@ module.exports = class VCS
     @workingRev = revision
     revision.code
 
-  serialize: (language) ->
-    workingRevision: @workingRev.timestamp #.getISOTimestamp()
-    revisions: (rev.serialize for rev in @revs)
-
   remove: (rev, pruned=false) ->
     # removes one revision, unlinking it everywhere.
     rev = @revify rev
     prev = rev.previous
     rev.nexts.forEach (nextRev) ->
-      nextRev.setPrev prev
-    prev.nexts = _.remove prev.nexts rev
+      #nextRev.diff = null #No longer needed: It's the code to our revision.
+      nextRev.setPrev prev if prev?
+    prev?.nexts = _.remove prev.nexts, rev
     if rev in @heads
       @heads = _.remove @heads, rev
       @heads.push rev
@@ -118,6 +115,9 @@ module.exports = class VCS
     @revs = @revs.slice 0, revCount
     @remove(rev, true) for rev in removed
 
+  serialize: (language) ->
+    workingRevision: @workingRev.timestamp #.getISOTimestamp()
+    revisions: (rev.serialize() for rev in @revs)
 
 
 
