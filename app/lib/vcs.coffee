@@ -2,12 +2,12 @@
 #For now it can only add and remove stuff and set the working revision to an old version.
 #It's some kind of a reverse tree, meaning that every leaf/tip has the complete code and the difs work reverse.
 #While this introduces redundancy (every leaf has the complete code), it hopefully is a lot faster than the other way round.
-#Also removing old revisions is super easy, just remove them. :)
+#Also removing old revisions is super easy, just remove them.
 #Workflow: Create VCS, Save, ... Change working rev using load, save again... serialize.
 
 deltasLib = require 'lib/deltas'
 
-class RevisionNode
+class Revision
   constructor: (options) ->
     @nexts = []
     @timestamp = if options.timestamp then new Date(options.timestamp) else new Date()
@@ -15,8 +15,8 @@ class RevisionNode
     @code = options.code
     @diff = options.diff
     @saveName = options.saveName
-    if @previous? and @previous.constructor is RevisionNode
-      @insertPrev @previous
+    if @previous? and @previous.constructor is Revision
+      @setPrev @previous
 
   setPrev: (@previous) ->
     @diff = jsondiffpatch.diff @previous.getCode(), @getCode()
@@ -32,17 +32,17 @@ class RevisionNode
 
   getCode: ->
     return @code if @code?
-    next = _.find @nexts "diff"
-    throw new Exception("Unrecoverable code in RevisionNode") unless next?
+    next = _.find @nexts, "diff"
+    throw "Unrecoverable code in Revision node" unless next?
     jsondiffpatch.patch next.getCode(), next.diff
 
 module.exports = class VCS
   isDate: (obj) ->
-    obj.constructor is Date and obj.toString isnt "Invalid Date"
+    obj.constructor is Date and obj.toString() isnt "Invalid Date"
 
   revify: (revision) ->
-    # Returns a REvisionNode object either from date-string, date or from a RevisionNode
-    revision = new Date(revision) if typeof(revision) is string
+    # Returns a Revision object either from date-string, date or from a Revision object
+    revision = new Date(revision) if typeof(revision) is "string"
     return @getRevByTime(revision) if @isDate revision
     revision
 
@@ -57,7 +57,7 @@ module.exports = class VCS
         @revs.push rev
         @revMap[rev.timestamp] = rev
       for rev in @revs
-        rev.setPrev @revify(rev.previous)
+        rev.setPrev @revify(rev.previous) if rev.previous?
         if rev.nexts.length < 1
           @heads.push rev
       @workingRev = @getRevByTime serialized.workingRevision
@@ -71,10 +71,8 @@ module.exports = class VCS
 
   save: (code) ->
     previous = @workingRev
-    @workingRev = new RevisionNode previous: previous, code: code
-    #TODO: How to add something to date? Don't like loops.
-    while @revMap[@workingRev.timestamp]? #timestamp must be unique.
-      @workingRev.timestamp = new Date()
+    @workingRev = new Revision previous: previous, code: code
+    @workingRev.setSeconds(@workingRev.getSeconds() + 1) while @revMap[@workingRev.timestamp]? #timestamp seconds must be unique.
     @revMap[@workingRev.timestamp] = @workingRev
     @revs.push @workingRev
     @heads.push @workingRev
@@ -83,7 +81,7 @@ module.exports = class VCS
     @workingRev
 
   load: (revision) ->
-    revision = revify revision
+    revision = @revify revision
     # loads the code of a revision and sets this revision as current working revision
     revision = @getRevByTime(revision) if @isDate revision
     @workingRev.code = null if @workingRev.code? and @workingRev.nexts.lengt > 0  # Code no longer needs to be stored.
@@ -97,7 +95,7 @@ module.exports = class VCS
 
   remove: (rev, pruned=false) ->
     # removes one revision, unlinking it everywhere.
-    rev = revify rev
+    rev = @revify rev
     prev = rev.previous
     rev.nexts.forEach (nextRev) ->
       nextRev.setPrev prev

@@ -7,7 +7,7 @@ describe 'LevelSession', ->
       levelSession = new LevelSession()
       levelSession.set 'code', "TestCode"
       levelSession.set 'code', "TestCode2"
-      expect(levelSession.getWorkingRevision.previous.getCode()).toBe("TestCode")
+      expect(levelSession.getWorkingRevision().previous.getCode()).toBe("TestCode")
 
     it 'should return the same code for a revision after insertion of new revisions', ->
       levelSession = new LevelSession()
@@ -47,6 +47,8 @@ describe 'LevelSession', ->
 
     it 'should prune old revisions if more than 100(?)', ->
       levelSession = new LevelSession()
-      while i > 123
+      i = 0
+      while i < 123
+        console.log "[TEST] Inserting new CodeNode: TestCode" + i
         levelSession.set 'code', "TestCode" + i++
-      expect(levelSession.getRevisions.length).toBe(100)
+      expect(levelSession.getRevisions().length).toBe(100)

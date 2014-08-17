@@ -1,4 +1,5 @@
 CocoModel = require './CocoModel'
+VCS = require 'lib/VCS'
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
@@ -22,7 +23,7 @@ module.exports = class LevelSession extends CocoModel
       @set 'vcs', @vcs.serialize()
     super(arguments...)
 
-  getRevisionHeads: ->
+  getHeadRevisions: ->
     @vcs.heads
 
   getRevisions: ->
