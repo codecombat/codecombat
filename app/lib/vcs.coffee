@@ -37,6 +37,8 @@ class Revision
     jsondiffpatch.patch next.getCode(), next.diff
 
 module.exports = class VCS
+
+
   isDate: (obj) ->
     obj.constructor is Date and obj.toString() isnt "Invalid Date"
 
@@ -76,7 +78,7 @@ module.exports = class VCS
     @revMap[@workingRev.timestamp] = @workingRev
     @revs.unshift @workingRev #Insert at beginning as revs have to be in order of descending time for (de)serialization.
     @heads.push @workingRev
-    @heads = _.remove @heads, previous
+    @heads = _.without @heads, previous
     @prune() # prune if max revision count is set
     @workingRev
 
@@ -84,7 +86,7 @@ module.exports = class VCS
     revision = @revify revision
     # loads the code of a revision and sets this revision as current working revision
     revision = @getRevByTime(revision) if @isDate revision
-    @workingRev.code = null if @workingRev.code? and @workingRev.nexts.lengt > 0  # Code no longer needs to be stored.
+    @workingRev.code = null if @workingRev.code? and @workingRev.nexts.length > 0  # Code no longer needs to be stored.
     revision.code = revision.getCode() # Head should always have stored code to be speeeeedy.
     @workingRev = revision
     revision.code
@@ -96,9 +98,9 @@ module.exports = class VCS
     rev.nexts.forEach (nextRev) ->
       #nextRev.diff = null #No longer needed: It's the code to our revision.
       nextRev.setPrev prev if prev?
-    prev?.nexts = _.remove prev.nexts, rev
+    prev?.nexts = _.without prev.nexts, rev
     if rev in @heads
-      @heads = _.remove @heads, rev
+      @heads = _.without @heads, rev
       @heads.push rev
     @revs.remove rev unless pruned
     @revMap[rev.timestamp] = null
