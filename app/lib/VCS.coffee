@@ -53,7 +53,7 @@ module.exports = class VCS
     @revs = []
     @revMap = {}
 
-    if serialized?
+    if serialized?.revisions?
       for rev in serialized.revisions
         rev = new Revision rev
         @revs.push rev
