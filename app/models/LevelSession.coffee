@@ -16,12 +16,11 @@ module.exports = class LevelSession extends CocoModel
       @set 'state', state
       @vcs = new VCS @maxRevCount, @get('vcs')
     @vcs = new VCS @maxRevCount
+    @on "change:code", @saveCode
 
-  set: (key, value, options) ->
-    if key is 'code'
-      @vcs.save value
-      @set 'vcs', @vcs.serialize()
-    super(arguments...)
+  saveCode: ->
+    @vcs.save value
+    @set 'vcs', @vcs.serialize()
 
   getHeadRevisions: ->
     @vcs.heads
