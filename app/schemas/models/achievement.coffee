@@ -49,7 +49,7 @@ _.extend AchievementSchema.properties,
     default: 'Probably the coolest you\'ll ever get.'
   userField: c.shortString()
   related: c.objectId(description: 'Related entity')
-  icon: {type: 'string', format: 'image-file', title: 'Icon'}
+  icon: {type: 'string', format: 'image-file', title: 'Icon', description: 'Image should be a 100x100 transparent png.'}
   category:
     enum: ['level', 'ladder', 'contributor']
     description: 'For categorizing and display purposes'
