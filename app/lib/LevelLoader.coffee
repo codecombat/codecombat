@@ -229,7 +229,7 @@ module.exports = class LevelLoader extends CocoClass
       res.markLoading()
       @spriteSheetsToBuild.push res
 
-    @buildLoopInterval = setInterval @buildLoop, 5
+    @buildLoopInterval = setInterval @buildLoop, 5 if @spriteSheetsToBuild.length
 
   maybeLoadURL: (url, Model, resourceName) ->
     return if @supermodel.getModel(url)
