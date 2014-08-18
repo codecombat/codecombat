@@ -84,7 +84,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     totalHeight = contentHeight + contributionsToTotalSize.reduce (a, b) -> a + b
 
     if @isNearTopEdge()
-      verticalEdge = 
+      verticalEdge =
         startPos: -fullPointMarkerLength
         posShift: -contentHeight + 4
     else
@@ -104,10 +104,12 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @orient verticalEdge, horizontalEdge, totalHeight, totalWidth
 
   isNearTopEdge: ->
-    @camera.distanceToTopEdge(@lastPos.y) <= 1
+    yRatio = 1 - (@camera.worldViewport.y - @lastPos.y) / @camera.worldViewport.height
+    yRatio > 0.9
 
   isNearRightEdge: ->
-    @camera.distanceToRightEdge(@lastPos.x) <= 4
+    xRatio = (@lastPos.x - @camera.worldViewport.x) / @camera.worldViewport.width
+    xRatio > 0.85
 
   orient: (verticalEdge, horizontalEdge, totalHeight, totalWidth) ->
     @label.regY = @background.regY = verticalEdge.posShift
