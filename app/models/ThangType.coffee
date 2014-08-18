@@ -264,7 +264,10 @@ module.exports = class ThangType extends CocoModel
     @wizardType.fetch()
     @wizardType
 
-  getPortraitURL: -> "/file/db/thang.type/#{@get('original')}/portrait.png"
+  getPortraitURL: ->
+    if iconURL = @get('rasterIcon')
+      return "/file/#{iconURL}"
+    "/file/db/thang.type/#{@get('original')}/portrait.png"
 
   # Item functions
 
