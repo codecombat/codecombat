@@ -229,6 +229,13 @@ module.exports = class MainPlayView extends RootView
         image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
         description: 'Learn Quicksort while sorting a spiral of ogres! - by Alexandru Caciulescu'
       }
+      {
+        name: 'Minimax Tic-Tac-Toe'
+        difficulty: 4
+        id: 'minimax-tic-tac-toe'
+        image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
+        description: 'Learn how to make a game AI with the Minimax algorithm. - by Alexandru Caciulescu'
+      }
     ]
 
     playerCreated = [
