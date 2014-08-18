@@ -16,7 +16,7 @@ module.exports = class RelatedAchievementsView extends CocoView
   constructor: (options) ->
     super options
     @level = options.level
-    @relatedID = @level.id
+    @relatedID = @level.get('original')
     @achievements = new RelatedAchievementsCollection @relatedID
     @supermodel.loadCollection @achievements, 'achievements'
 

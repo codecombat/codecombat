@@ -67,16 +67,17 @@ module.exports = class LevelLoader extends CocoClass
     session = new LevelSession().setURL url
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
-    @listenToOnce @session, 'sync', @onSessionLoaded
-
+    @listenToOnce @session, 'sync', ->
+      @session.url = -> '/db/level.session/' + @id
+      @loadDependenciesForSession(@session)
+    
     if @opponentSessionID
       opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
       @opponentSession = @opponentSessionResource.model
-      @listenToOnce @opponentSession, 'sync', @onSessionLoaded
-
-  onSessionLoaded: (session) ->
-    session.url = -> '/db/level.session/' + @id
+      @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
+      
+  loadDependenciesForSession: (session) ->
     if heroConfig = session.get('heroConfig')
       url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
@@ -153,6 +154,7 @@ module.exports = class LevelLoader extends CocoClass
     @worldNecessities = @worldNecessities.concat worldNecessities
 
   populateHero: ->
+    return
     return if @inLevelEditor
     return unless @level.get('type') is 'hero' and hero = _.find @level.get('thangs'), id: 'Hero Placeholder'
     heroConfig = @session.get('heroConfig')
@@ -218,6 +220,7 @@ module.exports = class LevelLoader extends CocoClass
 
     for thangTypeName in thangsToLoad
       thangType = nameModelMap[thangTypeName]
+      console.log 'found ThangType', thangType, 'for', thangTypeName, 'of nameModelMap', nameModelMap unless thangType
       continue if thangType.isFullyLoaded()
       thangType.fetch()
       thangType = @supermodel.loadModel(thangType, 'thang').model
@@ -226,7 +229,7 @@ module.exports = class LevelLoader extends CocoClass
       res.markLoading()
       @spriteSheetsToBuild.push res
 
-    @buildLoopInterval = setInterval @buildLoop, 5
+    @buildLoopInterval = setInterval @buildLoop, 5 if @spriteSheetsToBuild.length
 
   maybeLoadURL: (url, Model, resourceName) ->
     return if @supermodel.getModel(url)

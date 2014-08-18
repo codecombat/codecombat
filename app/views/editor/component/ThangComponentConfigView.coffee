@@ -37,10 +37,14 @@ module.exports = class ThangComponentConfigView extends CocoView
     teams = _.filter(_.pluck(thangs, 'team'))
     superteams = _.filter(_.pluck(thangs, 'superteam'))
     superteams = _.union(teams, superteams)
+    config = $.extend true, {}, @config
+    schema = $.extend true, {}, @component.get('configSchema')
+    if @level?.get('type') is 'hero'
+      schema.required = []
     treemaOptions =
       supermodel: @supermodel
-      schema: @component.attributes.configSchema
-      data: _.cloneDeep @config
+      schema: schema
+      data: config
       callbacks: {change: @onConfigEdited}
       world: @world
       view: @

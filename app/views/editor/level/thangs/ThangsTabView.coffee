@@ -311,10 +311,14 @@ module.exports = class ThangsTabView extends CocoView
     else
       @addThangSprite = null
 
-  createEssentialComponents: ->
+  createEssentialComponents: (defaultComponents) ->
+    physicalConfig = {pos: {x: 10, y: 10, z: 1}}
+    if physicalOriginal = _.find(defaultComponents ? [], original: componentOriginals['physics.Physical'])
+      physicalConfig.pos.z = physicalOriginal.config.pos.z  # Get the z right
+    console.log physicalOriginal, defaultComponents, componentOriginals['physics.Physical'], physicalConfig
     [
       {original: componentOriginals['existence.Exists'], majorVersion: 0, config: {}}
-      {original: componentOriginals['physics.Physical'], majorVersion: 0, config: {pos: {x: 10, y: 10, z: 1}, width: 2, height: 2, depth: 2, shape: 'box'}}
+      {original: componentOriginals['physics.Physical'], majorVersion: 0, config: physicalConfig}
     ]
 
   createAddThang: ->
@@ -424,9 +428,11 @@ module.exports = class ThangsTabView extends CocoView
     if @cloneSourceThang
       components = _.cloneDeep @thangsTreema.get "id=#{@cloneSourceThang.id}/components"
       @selectAddThang null
+    else if @level.get('type') is 'hero'
+      components = []  # Load them all from default ThangType Components
     else
       components = _.cloneDeep thangType.get('components') ? []
-    components = @createEssentialComponents() unless components.length
+    components = @createEssentialComponents(thangType.get('components')) unless components.length
     physical = _.find components, (c) -> c.config?.pos?
     physical.config.pos = x: pos.x, y: pos.y, z: physical.config.pos.z if physical
     thang = thangType: thangType.get('original'), id: thangID, components: components

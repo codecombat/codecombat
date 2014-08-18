@@ -37,6 +37,7 @@ module.exports = class NewAchievementModal extends NewModelModal
       query = subQueries[0]
     else
       query = $or: subQueries
+    query['level.original'] = @level.get 'original'
     query
 
   makeNewModel: ->
@@ -50,5 +51,6 @@ module.exports = class NewAchievementModal extends NewModelModal
     achievement.set 'query', query
     achievement.set 'collection', 'level.sessions'
     achievement.set 'userField', 'creator'
+    achievement.set 'related', @level.get('original')
 
     achievement
