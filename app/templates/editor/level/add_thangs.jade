@@ -5,7 +5,6 @@ div.editor-nano-container.nano
     for group in groups
       h4= group.name
       for thangType in group.thangs
-        div.add-thang-palette-icon(data-thang-type=thangType.name)
-          - path = '/file/db/thang.type/'+thangType.original+'/portrait.png'
-          img(title="Add " + thangType.name, src=path, alt="")
+        div.add-thang-palette-icon(data-thang-type=thangType.get('name'))
+          img(title="Add " + thangType.get('name'), src=thangType.getPortraitURL(), alt="")
       div.clearfix

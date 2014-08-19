@@ -6,6 +6,7 @@ module.exports = class ThangTypeSearchView extends SearchView
   model: require 'models/ThangType'
   modelURL: '/db/thang.type'
   tableTemplate: require 'templates/editor/thang/table'
+  projection: ['original', 'name', 'version', 'description', 'slug', 'kind', 'rasterIcon']
 
   getRenderData: ->
     context = super()

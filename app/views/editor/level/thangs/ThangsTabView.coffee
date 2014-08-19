@@ -119,7 +119,7 @@ module.exports = class ThangsTabView extends CocoView
     $('#thangs-list').bind 'mousewheel', @preventBodyScrollingInThangList
     @$el.find('#extant-thangs-filter button:first').button('toggle')
     $(window).resize @onWindowResize
-    @addThangsView = @insertSubView new AddThangsView world: @world, supermodel: @supermodel
+    @addThangsView = @insertSubView new AddThangsView world: @world
     @buildInterface() # refactor to not have this trigger when this view re-renders?
     if @thangsTreema.data.length
       @$el.find('#canvas-overlay').css('display', 'none')

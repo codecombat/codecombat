@@ -874,6 +874,7 @@
     tournament_ended: "Tournament ended"
     tournament_rules: "Tournament Rules"
     tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
+    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
     tournament_blurb_blog: "on our blog"
     rules: "Rules"
     winners: "Winners"

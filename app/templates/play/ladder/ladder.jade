@@ -11,7 +11,6 @@ block content
   if level.get('name') == 'Greed'
     .tournament-blurb
       h2
-        //span(data-i18n="ladder.tournament_ends") Tournament ends
         span(data-i18n="ladder.tournament_ended") Tournament ended
         |  #{tournamentTimeLeft}
       p
@@ -46,6 +45,17 @@ block content
         a(href="http://aws.amazon.com/")
           img(src=base + "aws.png")
 
+  if level.get('name') == 'Criss-Cross'
+    .tournament-blurb
+      h2
+        span(data-i18n="ladder.tournament_ends") Tournament ends
+        |  #{tournamentTimeLeft}
+      p
+        span(data-i18n="ladder.tournament_blurb_criss_cross") Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details
+        |  
+        a(href="http://blog.codecombat.com/6-programming-languages-one-victor-codecombats-newest-tournament", data-i18n="ladder.tournament_blurb_blog") on our blog
+        | .
+          
   div#columns.row
     div.column.col-md-2
     for team in teams
@@ -73,8 +83,10 @@ block content
     if level.get('name') == 'Greed'
       li
         a(href="#prizes", data-toggle="tab", data-i18n="ladder_prizes.prizes") Prizes
+    if level.get('name') == 'Greed'
       li
         a(href="#rules", data-toggle="tab", data-i18n="ladder.rules") Rules
+    if level.get('name') == 'Greed' || (level.get('name') == 'Criss-Cross!!!')
       li
         a(href="#winners", data-toggle="tab", data-i18n="ladder.winners") Winners
 
@@ -651,6 +663,7 @@ block content
                       |  - $50
               td $50
   
+    if level.get('name') == 'Greed'
       .tab-pane.well#rules
         h1(data-i18n="ladder.tournament_rules") Tournament Rules
         h2 General
@@ -712,6 +725,7 @@ block content
           a(href="http://discourse.codecombat.com/") Discourse forum
           | .
   
+    if level.get('name') == 'Greed' || level.get('name') == 'Criss-Cross!!!'
       .tab-pane.well#winners
         h1(data-i18n="ladder.winners") Winners
   

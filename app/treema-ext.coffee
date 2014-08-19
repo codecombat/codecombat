@@ -20,20 +20,30 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
     super(arguments...)
     @schema.aceMode = 'ace/mode/markdown'
 
-  buildValueForEditing: (valEl) ->
+  initEditor: (valEl) ->
+    buttonRow = $('<div class="buttons"></div>')
+    valEl.append(buttonRow)
+    @addPreviewToggle(buttonRow)
+    @addImageUpload(buttonRow)
     super(valEl)
-    @editor.on('change', @onEditorChange)
-    @addImageUpload(valEl)
+    valEl.append($('<div class="preview"></div>'))
 
   addImageUpload: (valEl) ->
     return unless me.isAdmin()
     valEl.append(
-      $('<div></div>').append(
+      $('<div class="pick-image-button"></div>').append(
         $('<button>Pick Image</button>')
           .addClass('btn btn-sm btn-primary')
           .click(=> filepicker.pick @onFileChosen)
       )
     )
+    
+  addPreviewToggle: (valEl) ->
+    valEl.append($('<div class="toggle-preview-button"></div>').append(
+      $('<button>Toggle Preview</button>')
+      .addClass('btn btn-sm btn-primary')
+      .click(@togglePreview)
+    ))
 
   onFileChosen: (InkBlob) =>
     body =
@@ -49,14 +59,19 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   onFileUploaded: (e) =>
     @editor.insert "![#{e.metadata.name}](/file/#{@uploadingPath})"
 
-  onEditorChange: =>
-    @saveChanges()
-    @flushChanges()
-    @getRoot().broadcastChanges()
+  showingPreview: false
 
-  buildValueForDisplay: (valEl) ->
-    @editor?.destroy()
-    valEl.html(marked(@data))
+  togglePreview: =>
+    valEl = @getValEl()
+    if @showingPreview
+      valEl.find('.preview').hide()
+      valEl.find('.pick-image-button').show()
+      valEl.find('.ace_editor').show()
+    else
+      valEl.find('.preview').html(marked(@data)).show()
+      valEl.find('.pick-image-button').hide()
+      valEl.find('.ace_editor').hide()
+    @showingPreview = not @showingPreview
 
 class SoundFileTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-sound-file'
