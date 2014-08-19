@@ -52,13 +52,13 @@ module.exports = class LadderView extends RootView
     ctx.levelID = @levelID
     ctx.levelDescription = marked(@level.get('description')) if @level.get('description')
     ctx._ = _
-    ctx.tournamentTimeLeft = moment(new Date(1402444800000)).fromNow()
+    if tournamentDate = {greed: 1402444800000, 'criss-cross': 1410912000000}[@levelID]
+      ctx.tournamentTimeLeft = moment(new Date(tournamentDate)).fromNow()
     ctx.winners = require('views/play/ladder/tournament_results')[@levelID]
     ctx
 
   afterRender: ->
     super()
-    # console.debug 'gintau', 'ladder_view-afterRender', @supermodel.finished()
     return unless @supermodel.finished()
     @insertSubView(@ladderTab = new LadderTabView({}, @level, @sessions))
     @insertSubView(@myMatchesTab = new MyMatchesTabView({}, @level, @sessions))

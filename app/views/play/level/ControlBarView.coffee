@@ -54,6 +54,7 @@ module.exports = class ControlBarView extends CocoView
       c.homeLink = '/play/ladder/' + @level.get('slug').replace /\-tutorial$/, ''
     else
       c.homeLink = '/'
+    c.editorLink = "/editor/level/#{@level.get('slug')}"
     c
 
   afterRender: ->

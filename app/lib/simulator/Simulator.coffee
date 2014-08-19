@@ -56,8 +56,8 @@ module.exports = class Simulator extends CocoClass
 
   simulateSingleGame: ->
     return if @destroyed
-    @trigger 'statusUpdate', 'Simulating...'
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
+    @trigger 'statusUpdate', 'Simulating...'
     @setupGod()
     try
       @commenceSingleSimulation()
@@ -174,8 +174,8 @@ module.exports = class Simulator extends CocoClass
     return if @destroyed
     info = 'All resources loaded, simulating!'
     console.log info
-    @trigger 'statusUpdate', info, @task.getSessions()
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
+    @trigger 'statusUpdate', info, @task.getSessions()
     @setupGod()
 
     try
@@ -227,6 +227,7 @@ module.exports = class Simulator extends CocoClass
               @hd = new @memwatch.HeapDiff()
 
   onInfiniteLoop: ->
+    return if @destroyed
     console.warn 'Skipping infinitely looping game.'
     @trigger 'statusUpdate', "Infinite loop detected; grabbing a new game in #{@retryDelayInSeconds} seconds."
     _.delay @cleanupAndSimulateAnotherTask, @retryDelayInSeconds * 1000
@@ -240,7 +241,11 @@ module.exports = class Simulator extends CocoClass
       @sendResultsBackToServer taskResults
 
   sendResultsBackToServer: (results) ->
-    @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
+    status = 'Recording:'
+    for session in results.sessions
+      states = ['wins', if _.find(results.sessions, (s) -> s.metrics.rank is 0) then 'loses' else 'draws']
+      status += " #{session.name} #{states[session.metrics.rank]}"
+    @trigger 'statusUpdate', status
     console.log 'Sending result back to server:'
     console.log JSON.stringify results
 
