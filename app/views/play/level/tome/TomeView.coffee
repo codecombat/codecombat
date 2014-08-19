@@ -61,15 +61,16 @@ module.exports = class TomeView extends CocoView
     super()
     @worker = @createWorker()
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
-    if programmableThangs.length
-      @createSpells programmableThangs, programmableThangs[0].world  # Do before spellList, thangList, and castButton
-      @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
-      @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
-      @castButton = @insertSubView new CastButtonView spells: @spells, levelID: @options.levelID
-      @teamSpellMap = @generateTeamSpellMap(@spells)
-    else
+    @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
+    @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
+    @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
+    @castButton = @insertSubView new CastButtonView spells: @spells, levelID: @options.levelID
+    @teamSpellMap = @generateTeamSpellMap(@spells)
+    unless programmableThangs.length
       @cast()
-      console.warn 'Warning: There are no Programmable Thangs in this level, which makes it unplayable.'
+      warning = 'Warning: There are no Programmable Thangs in this level, which makes it unplayable.'
+      noty text: warning, layout: 'topCenter', type: 'warning', killer: false, timeout: 15000, dismissQueue: true, maxVisible: 3
+      console.warn warning
     delete @options.thangs
 
   onNewWorld: (e) ->
