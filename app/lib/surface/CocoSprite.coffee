@@ -403,7 +403,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
         zFactor = vz / Math.sqrt(vz * vz + vx * vx)
         rotation -= xFactor * zFactor * 45
     imageObject ?= @imageObject
-    return imageObject.rotation = rotation if not rotationType
+    return imageObject.rotation = rotation if rotationType is 'free' or not rotationType
     @updateIsometricRotation(rotation, imageObject)
 
   getRotation: ->
