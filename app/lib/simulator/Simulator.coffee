@@ -236,6 +236,7 @@ module.exports = class Simulator extends CocoClass
     _.delay @cleanupAndSimulateAnotherTask, @retryDelayInSeconds * 1000
 
   processResults: (simulationResults) ->
+    return console.error "Weird, we destroyed the Simulator before it processed results?" if @destroyed
     taskResults = @formTaskResultsObject simulationResults
     unless taskResults.taskID
       console.error "*** Error: taskResults has no taskID ***\ntaskResults:", taskResults

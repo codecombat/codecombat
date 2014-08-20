@@ -121,7 +121,7 @@ module.exports = class TomeView extends CocoView
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          skipProtectAPI = @getQueryVariable 'skip_protect_api', (@options.levelID in ['gridmancer'])
+          skipProtectAPI = @getQueryVariable 'skip_protect_api', (@options.levelID in ['gridmancer', 'minimax-tic-tac-toe'])
           spell = @spells[spellKey] = new Spell
             programmableMethod: method
             spellKey: spellKey
