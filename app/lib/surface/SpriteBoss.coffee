@@ -63,13 +63,14 @@ module.exports = class SpriteBoss extends CocoClass
 
   layerForChild: (child, sprite) ->
     unless child.layerPriority?
-      # TODO: make better system
-      child.layerPriority = 0 if sprite?.thang?.isSelectable
-      child.layerPriority = -40 if sprite?.thang?.isLand
+      if thang = sprite?.thang
+        child.layerPriority = thang.layerPriority
+        child.layerPriority ?= 0 if thang.isSelectable
+        child.layerPriority ?= -40 if thang.isLand
     return @spriteLayers['Default'] unless child.layerPriority
     layer = _.findLast @spriteLayers, (layer, name) ->
       layer.layerPriority <= child.layerPriority
-    #console.log 'layer for', child, 'is', (layer ? @spriteLayers['Default'])
+    layer ?= @spriteLayers['Land'] if child.layerPriority < -40
     layer ? @spriteLayers['Default']
 
   addSprite: (sprite, id=null, layer=null) ->

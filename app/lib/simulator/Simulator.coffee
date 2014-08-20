@@ -86,6 +86,7 @@ module.exports = class Simulator extends CocoClass
     @cleanupAndSimulateAnotherTask()
 
   processSingleGameResults: (simulationResults) ->
+    return console.error "Weird, we destroyed the Simulator before it processed results?" if @destroyed
     taskResults = @formTaskResultsObject simulationResults
     console.log 'Processing results:', taskResults
     humanSessionRank = taskResults.sessions[0].metrics.rank
