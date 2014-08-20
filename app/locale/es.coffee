@@ -3,7 +3,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
     loading: "Cargando..."
     saving: "Guardando..."
     sending: "Enviando..."
-     send: "Enviar..."
+    send: "Enviar..."
     cancel: "Cancelar"
     save: "Guardar"
 #    publish: "Publish"
@@ -21,7 +21,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 
 #  units:
     second: "Segundo"
-   seconds: "Segundos"
+    seconds: "Segundos"
 #    minute: "minute"
 #    minutes: "minutes"
 #    hour: "hour"
