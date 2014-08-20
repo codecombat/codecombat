@@ -404,7 +404,7 @@
     tip_open_source: "CodeCombat is 100% open source!"
     tip_beta_launch: "CodeCombat launched its beta in October, 2013."
     tip_js_beginning: "JavaScript is just the beginning."
-    think_solution: "Think of the solution, not the problem."
+    tip_think_solution: "Think of the solution, not the problem."
     tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
     tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
     tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
