@@ -111,7 +111,7 @@ module.exports = class Level extends CocoModel
       visit = (c) ->
         return if c in sorted
         lc = _.find levelComponents, {original: c.original}
-        console.error thang.id or thang.name, 'couldn\'t find lc for', c, 'of', levelComponents unless lc
+        #console.error thang.id or thang.name, 'couldn\'t find lc for', c, 'of', levelComponents unless lc  # STREAM: uncomment
         return unless lc
         if lc.name is 'Programmable'
           # Programmable always comes last

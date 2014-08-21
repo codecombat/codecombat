@@ -19,6 +19,7 @@ module.exports = class SpriteBoss extends CocoClass
     'level-lock-select': 'onSetLockSelect'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'
     'camera:dragged': 'onCameraDragged'
     'sprite:loaded': -> @update(true)
 

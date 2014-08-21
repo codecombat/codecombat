@@ -63,6 +63,7 @@ module.exports = Surface = class Surface extends CocoClass
     'level-set-surface-camera': 'onSetCamera'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
     'level-set-letterbox': 'onSetLetterbox'
     'application:idle-changed': 'onIdleChanged'
@@ -413,7 +414,7 @@ module.exports = Surface = class Surface extends CocoClass
     @surfaceLayer.addChild @cameraBorder = new CameraBorder bounds: @camera.bounds
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
     @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
-    @castingScreen ?= new CastingScreen camera: @camera, layer: @screenLayer
+    #@castingScreen ?= new CastingScreen camera: @camera, layer: @screenLayer  # Not needed with world streaming.
     @playbackOverScreen ?= new PlaybackOverScreen camera: @camera, layer: @screenLayer
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove

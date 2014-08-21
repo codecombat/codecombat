@@ -188,7 +188,7 @@ module.exports = class ThangType extends CocoModel
     portrait = if portrait then '(Portrait)' else ''
     name = _.string.rpad @get('name'), 20
     time = _.string.lpad '' + new Date().getTime() - startTime, 6
-    console.debug "Built sheet:  #{name} #{time}ms  #{kind}  #{portrait}"
+    #console.debug "Built sheet:  #{name} #{time}ms  #{kind}  #{portrait}"  # STREAM: uncomment
 
   spriteSheetKey: (options) ->
     colorConfigs = []
@@ -276,7 +276,7 @@ module.exports = class ThangType extends CocoModel
       @get('components') or [],
       (compRef) -> compRef.original is LevelComponent.ItemID)
     return itemComponentRef?.config?.slots or []
-    
+
   getFrontFacingStats: ->
     stats = []
     for component in @get('components') or []

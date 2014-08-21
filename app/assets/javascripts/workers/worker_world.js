@@ -300,7 +300,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
         Aether.replaceBuiltin("Math", Math);
-        replacedLoDash = _.runInContext(self);
+        var replacedLoDash = _.runInContext(self);
         for(var key in replacedLoDash)
           _[key] = replacedLoDash[key];
     }
@@ -358,11 +358,32 @@ self.runWorld = function runWorld(args) {
   }
   Math.random = self.world.rand.randf;  // so user code is predictable
   Aether.replaceBuiltin("Math", Math);
-  replacedLoDash = _.runInContext(self);
+  var replacedLoDash = _.runInContext(self);
   for(var key in replacedLoDash)
     _[key] = replacedLoDash[key];
   self.postMessage({type: 'start-load-frames'});
   self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
+};
+
+self.serializeFramesSoFar = function serializeFramesSoFar() {
+  if(!self.world) return console.error("hmm, no world when we went to serialize some frames?");
+  var goalStates = self.goalManager.getGoalStates();
+  var transferableSupported = self.transferableSupported();
+  var serialized = self.world.serializeFramesSoFar();
+  if(!serialized) {
+    console.log("Tried to serialize some frames, but none have been simulated since last time; still at", self.world.framesSerializedSoFar);
+    return;
+  }
+  try {
+    var message = {type: 'some-frames-serialized', serialized: serialized.serializedWorld, goalStates: goalStates, startFrame: serialized.startFrame, endFrame: serialized.endFrame};
+    if(transferableSupported)
+      self.postMessage(message, serialized.transferableObjects);
+    else
+      self.postMessage(message);
+  }
+  catch(error) {
+    console.log("World delivery error:", error.toString() + "\n" + error.stack || error.stackTrace);
+  }
 };
 
 self.onWorldLoaded = function onWorldLoaded() {
@@ -384,7 +405,7 @@ self.onWorldLoaded = function onWorldLoaded() {
   var t2 = new Date();
   //console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
   try {
-    var message = {type: 'new-world', serialized: serialized.serializedWorld, goalStates: goalStates};
+    var message = {type: 'new-world', serialized: serialized.serializedWorld, goalStates: goalStates, startFrame: serialized.startFrame, endFrame: serialized.endFrame};
     if(transferableSupported)
       self.postMessage(message, serialized.transferableObjects);
     else

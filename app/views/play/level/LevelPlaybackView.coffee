@@ -22,6 +22,7 @@ module.exports = class LevelPlaybackView extends CocoView
     'level-toggle-grid': 'onToggleGrid'
     'surface:frame-changed': 'onFrameChanged'
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'  # Maybe?
     'level-set-letterbox': 'onSetLetterbox'
     'tome:cast-spells': 'onCastSpells'
 
@@ -329,7 +330,9 @@ module.exports = class LevelPlaybackView extends CocoView
     return if @shouldIgnore()
     Backbone.Mediator.publish 'level-set-time', ratio: ratio, scrubDuration: duration
 
-  shouldIgnore: -> return @disabled or @casting or false
+  shouldIgnore: ->
+    #return @disabled or @casting or false  # STREAM: figure this out
+    return false
 
   onTogglePlay: (e) ->
     e?.preventDefault()

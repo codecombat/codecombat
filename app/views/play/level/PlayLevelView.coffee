@@ -53,6 +53,7 @@ module.exports = class PlayLevelView extends RootView
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
     'level-reload-from-data': 'onLevelReloadFromData'
     'level-reload-thang-type': 'onLevelReloadThangType'

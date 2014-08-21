@@ -10,7 +10,7 @@ WorldScriptNote = require './world_script_note'
 {now, consolidateThangs, typedArraySupport} = require './world_utils'
 Component = require 'lib/world/component'
 System = require 'lib/world/system'
-PROGRESS_UPDATE_INTERVAL = 200
+PROGRESS_UPDATE_INTERVAL = 100
 DESERIALIZATION_INTERVAL = 20
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 
@@ -21,11 +21,13 @@ module.exports = class World
   preloading: false  # Whether we are just preloading a world in case we soon cast it
   debugging: false  # Whether we are just rerunning to debug a world we've already cast
   headless: false  # Whether we are just simulating for goal states instead of all serialized results
+  framesSerializedSoFar: 0
   apiProperties: ['age', 'dt']
   constructor: (@userCodeMap, classMap) ->
     # classMap is needed for deserializing Worlds, Thangs, and other classes
     @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang, Ellipse: Ellipse, LineSegment: LineSegment}
     Thang.resetThangIDs()
+    @aRandomID = Math.random()
 
     @userCodeMap ?= {}
     @thangs = []
@@ -66,7 +68,6 @@ module.exports = class World
     @thangMap[thang.id] = thang
 
   thangDialogueSounds: ->
-    if @frames.length < @totalFrames then throw new Error('World should be over before grabbing dialogue')
     [sounds, seen] = [[], {}]
     for frame in @frames
       for thangID, state of frame.thangStateMap
@@ -287,9 +288,17 @@ module.exports = class World
   addTrackedProperties: (props...) ->
     @trackedProperties = (@trackedProperties ? []).concat props
 
-  serialize: ->
+  serializeFramesSoFar: ->
+    return null if @frames.length is @framesSerializedSoFar
+    serialized = @serialize @framesSerializedSoFar, @frames.length
+    @framesSerializedSoFar = @frames.length
+    serialized
+
+  serialize: (startFrame=0, endFrame=null) ->
     # Code hotspot; optimize it
-    if @frames.length < @totalFrames then throw new Error('World Should Be Over Before Serialization')
+    if not endFrame? and @frames.length < @totalFrames then throw new Error('World Should Be Over Before Serialization')
+    endFrame ?= @totalFrames
+    console.log "... world serializing frames from", startFrame, "to", endFrame
     [transferableObjects, nontransferableObjects] = [0, 0]
     o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
@@ -305,19 +314,20 @@ module.exports = class World
     o.trackedPropertiesPerThangKeys = []
     o.trackedPropertiesPerThangTypes = []
     trackedPropertiesPerThangValues = []  # We won't send these, just the offsets and the storage buffer
-    o.trackedPropertiesPerThangValuesOffsets = []  # Needed to reconstruct ArrayBufferViews on other end, since Firefox has bugs transfering those: https://bugzilla.mozilla.org/show_bug.cgi?id=841904 and https://bugzilla.mozilla.org/show_bug.cgi?id=861925
+    o.trackedPropertiesPerThangValuesOffsets = []  # Needed to reconstruct ArrayBufferViews on other end, since Firefox has bugs transfering those: https://bugzilla.mozilla.org/show_bug.cgi?id=841904 and https://bugzilla.mozilla.org/show_bug.cgi?id=861925  # Actually, as of January 2014, it should be fixed.
     transferableStorageBytesNeeded = 0
-    nFrames = @frames.length
+    nFrames = endFrame - startFrame
+    streaming = nFrames < @totalFrames
     for thang in @thangs
       # Don't serialize empty trackedProperties for stateless Thangs which haven't changed (like obstacles).
       # Check both, since sometimes people mark stateless Thangs but don't change them, and those should still be tracked, and the inverse doesn't work on the other end (we'll just think it doesn't exist then).
-      continue if thang.stateless and not _.some(thang.trackedPropertiesUsed, Boolean)
+      continue if thang.stateless and not _.some(thang.trackedPropertiesUsed, Boolean) and not streaming
       o.trackedPropertiesThangIDs.push thang.id
       trackedPropertiesIndices = []
       trackedPropertiesKeys = []
       trackedPropertiesTypes = []
       for used, propIndex in thang.trackedPropertiesUsed
-        continue unless used
+        continue unless used or streaming
         trackedPropertiesIndices.push propIndex
         trackedPropertiesKeys.push thang.trackedPropertiesKeys[propIndex]
         trackedPropertiesTypes.push thang.trackedPropertiesTypes[propIndex]
@@ -357,8 +367,8 @@ module.exports = class World
 
     t1 = now()
     o.frameHashes = []
-    for frame, frameIndex in @frames
-      o.frameHashes.push frame.serialize(frameIndex, o.trackedPropertiesThangIDs, o.trackedPropertiesPerThangIndices, o.trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, o.specialValuesToKeys, o.specialKeysToValues)
+    for frameIndex in [startFrame ... endFrame]
+      o.frameHashes.push @frames[frameIndex].serialize(frameIndex, o.trackedPropertiesThangIDs, o.trackedPropertiesPerThangIndices, o.trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, o.specialValuesToKeys, o.specialKeysToValues)
     t2 = now()
 
     unless typedArraySupport
@@ -368,28 +378,29 @@ module.exports = class World
           flattened.push value
       o.storageBuffer = flattened
 
-    #console.log 'Allocating memory:', (t1 - t0).toFixed(0), 'ms; assigning values:', (t2 - t1).toFixed(0), 'ms, so', ((t2 - t1) / @frames.length).toFixed(3), 'ms per frame'
+    #console.log 'Allocating memory:', (t1 - t0).toFixed(0), 'ms; assigning values:', (t2 - t1).toFixed(0), 'ms, so', ((t2 - t1) / nFrames).toFixed(3), 'ms per frame for', nFrames, 'frames'
     #console.log 'Got', transferableObjects, 'transferable objects and', nontransferableObjects, 'nontransferable; stored', transferableStorageBytesNeeded, 'bytes transferably'
 
     o.thangs = (t.serialize() for t in @thangs.concat(@extraneousThangs ? []))
     o.scriptNotes = (sn.serialize() for sn in @scriptNotes)
     if o.scriptNotes.length > 200
       console.log 'Whoa, serializing a lot of WorldScriptNotes here:', o.scriptNotes.length
-    {serializedWorld: o, transferableObjects: [o.storageBuffer]}
+    {serializedWorld: o, transferableObjects: [o.storageBuffer], startFrame: startFrame, endFrame: endFrame}
 
-  @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback) ->
+  @deserialize: (o, classMap, oldSerializedWorldFrames, finishedWorldCallback, startFrame, endFrame, streamingWorld) ->
     # Code hotspot; optimize it
     #console.log 'Deserializing', o, 'length', JSON.stringify(o).length
     #console.log JSON.stringify(o)
     #console.log 'Got special keys and values:', o.specialValuesToKeys, o.specialKeysToValues
     perf = {}
     perf.t0 = now()
-    w = new World o.userCodeMap, classMap
+    nFrames = endFrame - startFrame
+    w = streamingWorld ? new World o.userCodeMap, classMap
     [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory]
     w[prop] = val for prop, val of o.trackedProperties
 
     perf.t1 = now()
-    w.thangs = (Thang.deserialize(thang, w, classMap) for thang in o.thangs)
+    w.thangs = (Thang.deserialize(thang, w, classMap) for thang in o.thangs)  # TODO: just do the new ones?
     w.setThang thang for thang in w.thangs
     w.scriptNotes = (WorldScriptNote.deserialize(sn, w, classMap) for sn in o.scriptNotes)
     perf.t2 = now()
@@ -400,7 +411,7 @@ module.exports = class World
       o.trackedPropertiesPerThangValues.push (trackedPropertiesValues = [])
       trackedPropertiesValuesOffsets = o.trackedPropertiesPerThangValuesOffsets[thangIndex]
       for type, propIndex in trackedPropertyTypes
-        storage = ThangState.createArrayForType(type, o.totalFrames, o.storageBuffer, trackedPropertiesValuesOffsets[propIndex])[0]
+        storage = ThangState.createArrayForType(type, nFrames, o.storageBuffer, trackedPropertiesValuesOffsets[propIndex])[0]
         unless typedArraySupport
           # This could be more efficient
           i = trackedPropertiesValuesOffsets[propIndex]
@@ -409,26 +420,30 @@ module.exports = class World
     perf.t3 = now()
 
     perf.batches = 0
-    w.frames = []
-    _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf
+    w.frames = [] unless streamingWorld
+    clearTimeout @deserializationTimeout if @deserializationTimeout
+    @deserializationTimeout = _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf, startFrame, endFrame
 
   # Spread deserialization out across multiple calls so the interface stays responsive
-  @deserializeSomeFrames: (o, w, finishedWorldCallback, perf) =>
+  @deserializeSomeFrames: (o, w, finishedWorldCallback, perf, startFrame, endFrame) =>
     ++perf.batches
     startTime = now()
-    for frameIndex in [w.frames.length ... o.totalFrames]
+    for frameIndex in [w.frames.length ... endFrame]
       w.frames.push WorldFrame.deserialize(w, frameIndex, o.trackedPropertiesThangIDs, o.trackedPropertiesThangs, o.trackedPropertiesPerThangKeys, o.trackedPropertiesPerThangTypes, o.trackedPropertiesPerThangValues, o.specialKeysToValues, o.frameHashes[frameIndex])
       if (now() - startTime) > DESERIALIZATION_INTERVAL
-        _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf
+        console.log "  Deserialization not finished, let's do it again soon. Have:", w.frames.length, ", wanted from", startFrame, "to", endFrame
+        @deserializationTimeout = _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf, startFrame, endFrame
         return
-    @finishDeserializing w, finishedWorldCallback, perf
+    @deserializationTimeout = null
+    @finishDeserializing w, finishedWorldCallback, perf, startFrame, endFrame
 
-  @finishDeserializing: (w, finishedWorldCallback, perf) ->
+  @finishDeserializing: (w, finishedWorldCallback, perf, startFrame, endFrame) ->
     perf.t4 = now()
+    nFrames = endFrame - startFrame
     w.ended = true
-    w.getFrame(w.totalFrames - 1).restoreState()
+    w.getFrame(endFrame - 1).restoreState()
     perf.t5 = now()
-    console.log 'Deserialization:', (perf.t5 - perf.t0).toFixed(0) + 'ms (' + ((perf.t5 - perf.t0) / w.frames.length).toFixed(3) + 'ms per frame).', perf.batches, 'batches.'
+    console.log 'Deserialization:', (perf.t5 - perf.t0).toFixed(0) + 'ms (' + ((perf.t5 - perf.t0) / nFrames).toFixed(3) + 'ms per frame).', perf.batches, 'batches.'
     if false
       console.log '  Deserializing--constructing new World:', (perf.t1 - perf.t0).toFixed(2) + 'ms'
       console.log '  Deserializing--Thangs and ScriptNotes:', (perf.t2 - perf.t1).toFixed(2) + 'ms'

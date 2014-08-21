@@ -67,6 +67,8 @@ module.exports = class Angel extends CocoClass
       # We pay attention to certain progress indicators as the world loads.
       when 'world-load-progress-changed'
         Backbone.Mediator.publish 'god:world-load-progress-changed', event.data
+        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializingStreamingFrames
+          @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
       when 'console-log'
         @log event.data.args...
       when 'user-code-problem'
@@ -80,9 +82,16 @@ module.exports = class Angel extends CocoClass
         else
           @fireWorker()
 
+      # We have some of the frames serialized, so let's send the partially simulated world to the Surface.
+      when 'some-frames-serialized'
+        console.log "angel received some frames", event.data.serialized, "with goals", event.data.goalStates, "and streaming into world", @shared.streamingWorld
+        @deserializingStreamingFrames = true
+        @beholdWorld event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame, @shared.streamingWorld
+
       # Either the world finished simulating successfully, or we abort the worker.
       when 'new-world'
-        @beholdWorld event.data.serialized, event.data.goalStates
+        console.log "angel received alll frames", event.data.serialized
+        @beholdWorld event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame
       when 'abort'
         @say 'Aborted.', event.data
         clearTimeout @abortTimeout
@@ -99,26 +108,33 @@ module.exports = class Angel extends CocoClass
     Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates
     @finishWork() if @shared.headless
 
-  beholdWorld: (serialized, goalStates) ->
+  beholdWorld: (serialized, goalStates, startFrame, endFrame, streamingWorld) ->
     return if @aborting
     # Toggle BOX2D_ENABLED during deserialization so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment.
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates)
+    World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), startFrame, endFrame, streamingWorld
     window.BOX2D_ENABLED = true
     @shared.lastSerializedWorldFrames = serialized.frames
 
   finishBeholdingWorld: (goalStates) -> (world) =>
     return if @aborting
-    world.findFirstChangedFrame @shared.world
-    @shared.world = world
-    errorCount = (t for t in @shared.world.thangs when t.errorsOut).length
-    Backbone.Mediator.publish 'god:new-world-created', world: world, firstWorld: @shared.firstWorld, errorCount: errorCount, goalStates: goalStates, team: me.team
-    for scriptNote in @shared.world.scriptNotes
-      Backbone.Mediator.publish scriptNote.channel, scriptNote.event
-    @shared.goalManager?.world = world
-    @finishWork()
+    finished = world.frames.length is world.totalFrames
+    if finished
+      world.findFirstChangedFrame @shared.world
+      @shared.world = world
+      Backbone.Mediator.publish 'god:new-world-created', world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team if @shared.firstWorld
+      for scriptNote in @shared.world.scriptNotes
+        Backbone.Mediator.publish scriptNote.channel, scriptNote.event
+      @shared.goalManager?.world = world
+      @finishWork()
+    else
+      @shared.streamingWorld = world
+      #Backbone.Mediator.publish 'god:new-world-created', world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team
+      #Backbone.Mediator.publish 'god:streaming-world-updated', world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team
+      @deserializingStreamingFrames = false
 
   finishWork: ->
+    @shared.streamingWorld = null
     @shared.firstWorld = false
     @running = false
     _.remove @shared.busyAngels, @
@@ -127,6 +143,7 @@ module.exports = class Angel extends CocoClass
   finalizePreload: ->
     @say 'Finalize preload.'
     @worker.postMessage func: 'finalizePreload'
+    @work.preload = false
 
   infinitelyLooped: =>
     @say 'On infinitely looped! Aborting?', @aborting

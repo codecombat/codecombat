@@ -128,10 +128,10 @@ module.exports = class SpellView extends CocoView
       # passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
       # No easy way to selectively cancel shift+space, since we don't get access to the event.
       # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
-      exec: => 
+      exec: =>
         if @scriptRunning
           Backbone.Mediator.publish 'level:shift-space-pressed'
-        else 
+        else
           @ace.insert ' '
 
     addCommand
