@@ -110,8 +110,8 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
     letterbox: {type: 'boolean', title: 'Letterbox', description: 'Turn letterbox mode on or off. Disables surface and playback controls.'}
 
   goals: c.object {title: 'Goals (Old)', description: 'Deprecated. Goals added here have no effect. Add goals in the level settings instead.'},
-    add: c.array {title: 'Add', description: 'Deprecated. Goals added here have no effect. Add goals in the level settings instead.'}, GoalSchema
-    remove: c.array {title: 'Remove', description: 'Deprecated. Goals removed here have no effect. Adjust goals in the level settings instead.'}, GoalSchema
+    add: c.array {title: 'Add', description: 'Deprecated. Goals added here have no effect. Add goals in the level settings instead.'}, {}
+    remove: c.array {title: 'Remove', description: 'Deprecated. Goals removed here have no effect. Adjust goals in the level settings instead.'}, {}
 
   playback: c.object {title: 'Playback', description: 'Control the playback of the level.'},
     playing: {type: 'boolean', title: 'Set Playing', description: 'Set whether playback is playing or paused.'}
