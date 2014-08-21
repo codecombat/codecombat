@@ -56,7 +56,8 @@ module.exports = class SaveLevelModal extends SaveVersionModal
     # Sometimes we have two versions: one in a search collection and one with a URL. We only save changes to the latter.
     false
 
-  commitLevel: ->
+  commitLevel: (e) ->
+    e.preventDefault()
     modelsToSave = []
     formsToSave = []
     for form in @$el.find('form')
