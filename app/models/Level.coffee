@@ -13,7 +13,7 @@ module.exports = class Level extends CocoModel
 
     # Figure out Components
     o.levelComponents = _.cloneDeep (lc.attributes for lc in supermodel.getModels LevelComponent)
-    @sortThangComponents o.thangs, o.levelComponents
+    @sortThangComponents o.thangs, o.levelComponents, 'Level Thang'
     @fillInDefaultComponentConfiguration o.thangs, o.levelComponents
 
     # Figure out Systems
@@ -23,7 +23,7 @@ module.exports = class Level extends CocoModel
 
     # Figure out ThangTypes' Components
     o.thangTypes = (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')) for tt in supermodel.getModels ThangType)
-    @sortThangComponents o.thangTypes, o.levelComponents
+    @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
 
     o
@@ -54,7 +54,7 @@ module.exports = class Level extends CocoModel
     for thangComponent in levelThang.components
       configs[thangComponent.original] = thangComponent
 
-    for defaultThangComponent in thangType.get('components')
+    for defaultThangComponent in thangType.get('components') or []
       if levelThangComponent = configs[defaultThangComponent.original]
         # Take the ThangType default Components and merge level-specific Component config into it
         copy = $.extend true, {}, defaultThangComponent.config
@@ -98,7 +98,7 @@ module.exports = class Level extends CocoModel
     visit system for system in levelSystems
     sorted
 
-  sortThangComponents: (thangs, levelComponents) ->
+  sortThangComponents: (thangs, levelComponents, parentType) ->
     # Here we have to sort the Components by their dependencies.
     # It's a bit tricky though, because we don't have either soft dependencies or priority levels.
     # Example: Programmable must come last, since it has to override any Component-provided methods that any other Component might have created. Can't enumerate all soft dependencies.
@@ -119,7 +119,10 @@ module.exports = class Level extends CocoModel
         else
           for d in lc.dependencies or []
             c2 = _.find thang.components, {original: d.original}
-            console.error thang.id or thang.name, 'couldn\'t find dependent Component', d.original, 'from', lc.name unless c2
+            unless c2
+              dependent = _.find levelComponents, {original: d.original}
+              dependent = dependent?.name or d.original
+              console.error parentType, thang.id or thang.name, 'does not have dependent Component', dependent, 'from', lc.name
             visit c2 if c2
           if lc.name is 'Collides'
             allied = _.find levelComponents, {name: 'Allied'}
