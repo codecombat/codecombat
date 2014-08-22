@@ -85,7 +85,7 @@ module.exports = class Thang
           throw new Error "Two types were specified for trackable property #{prop}: #{oldType} and #{type}."
 
   keepTrackedProperty: (prop) ->
-    # Hmm; can we do this faster?
+    # Wish we could do this faster, but I can't think of how.
     propIndex = @trackedPropertiesKeys.indexOf prop
     if propIndex isnt -1
       @trackedPropertiesUsed[propIndex] = true
@@ -147,6 +147,8 @@ module.exports = class Thang
     for trackedFinalProperty in @trackedFinalProperties ? []
       # TODO: take some (but not all) of serialize logic from ThangState to handle other types
       o.finalState[trackedFinalProperty] = @[trackedFinalProperty]
+    # Since we might keep tracked properties later during streaming, we need to know which we think are unused.
+    o.unusedTrackedPropertyKeys = (@trackedPropertiesKeys[propIndex] for used, propIndex in @trackedPropertiesUsed when not used)
     o
 
   @deserialize: (o, world, classMap) ->
@@ -154,6 +156,8 @@ module.exports = class Thang
     for [componentClassName, componentConfig] in o.components
       componentClass = classMap[componentClassName]
       t.addComponents [componentClass, componentConfig]
+    t.unusedTrackedPropertyKeys = o.unusedTrackedPropertyKeys
+    t.unusedTrackedPropertyValues = (t[prop] for prop in o.unusedTrackedPropertyKeys)
     for prop, val of o.finalState
       # TODO: take some (but not all) of deserialize logic from ThangState to handle other types
       t[prop] = val

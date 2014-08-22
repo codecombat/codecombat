@@ -378,7 +378,7 @@ module.exports = Surface = class Surface extends CocoClass
       ffScrubDuration = 1000 * ffToTime / ffSpeed
       ffScrubDuration = Math.min(ffScrubDuration, ffInterval)
       ffFactor = ffInterval / ffScrubDuration
-      if ffFactor > 2
+      if ffFactor > 1.5
         createjs.Tween.removeTweens(@)
         @scrubbingTo = null
         @fastForwarding = true

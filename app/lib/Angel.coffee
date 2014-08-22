@@ -64,16 +64,6 @@ module.exports = class Angel extends CocoClass
         clearTimeout @condemnTimeout
         @beholdGoalStates event.data.goalStates  # Work ends here if we're headless.
 
-      # We pay attention to certain progress indicators as the world loads.
-      when 'world-load-progress-changed'
-        Backbone.Mediator.publish 'god:world-load-progress-changed', event.data
-        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializingStreamingFrames or @shared.firstWorld
-          @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
-      when 'console-log'
-        @log event.data.args...
-      when 'user-code-problem'
-        Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
-
       # We have to abort like an infinite loop if we see one of these; they're not really recoverable
       when 'non-user-code-problem'
         Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem
@@ -82,16 +72,7 @@ module.exports = class Angel extends CocoClass
         else
           @fireWorker()
 
-      # We have some of the frames serialized, so let's send the partially simulated world to the Surface.
-      when 'some-frames-serialized'
-        #console.log "angel received some frames", event.data.serialized, "with goals", event.data.goalStates, "and streaming into world", @shared.streamingWorld
-        @deserializingStreamingFrames = true
-        @beholdWorld event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame, @shared.streamingWorld
-
-      # Either the world finished simulating successfully, or we abort the worker.
-      when 'new-world'
-        #console.log "angel received alll frames", event.data.serialized, "and have streaming world", @shared.streamingWorld
-        @beholdWorld event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame, @shared.streamingWorld
+      # If it didn't finish simulating successfully, or we abort the worker.
       when 'abort'
         @say 'Aborted.', event.data
         clearTimeout @abortTimeout
@@ -99,6 +80,23 @@ module.exports = class Angel extends CocoClass
         @running = false
         _.remove @shared.busyAngels, @
         @doWork()
+
+      # We pay attention to certain progress indicators as the world loads.
+      when 'console-log'
+        @log event.data.args...
+      when 'user-code-problem'
+        Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
+      when 'world-load-progress-changed'
+        Backbone.Mediator.publish 'god:world-load-progress-changed', event.data
+        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or @shared.firstWorld
+          @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
+
+      # We have some or all of the frames serialized, so let's send the (partially?) simulated world to the Surface.
+      when 'some-frames-serialized', 'new-world'
+        deserializationArgs = [event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame, @shared.streamingWorld]
+        @deserializationQueue.push deserializationArgs
+        if @deserializationQueue.length is 1
+          @beholdWorld deserializationArgs...
 
       else
         @log 'Received unsupported message:', event.data
@@ -131,12 +129,14 @@ module.exports = class Angel extends CocoClass
       @shared.goalManager?.world = world
       @finishWork()
     else
-      @deserializingStreamingFrames = false
+      @deserializationQueue.shift()  # Finished with this deserialization.
+      if deserializationArgs = @deserializationQueue[0]  # Start another?
+        @beholdWorld deserializationArgs...
 
   finishWork: ->
     @shared.streamingWorld = null
     @shared.firstWorld = false
-    @deserializingStreamingFrames = false
+    @deserializationQueue = []
     @running = false
     _.remove @shared.busyAngels, @
     @doWork()
@@ -163,6 +163,7 @@ module.exports = class Angel extends CocoClass
       @say 'Running world...'
       @running = true
       @shared.busyAngels.push @
+      @deserializationQueue = []
       @worker.postMessage func: 'runWorld', args: @work
       clearTimeout @purgatoryTimer
       @say 'Infinite loop timer started at interval of', @infiniteLoopIntervalDuration

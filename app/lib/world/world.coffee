@@ -11,7 +11,7 @@ WorldScriptNote = require './world_script_note'
 Component = require 'lib/world/component'
 System = require 'lib/world/system'
 PROGRESS_UPDATE_INTERVAL = 100
-DESERIALIZATION_INTERVAL = 20
+DESERIALIZATION_INTERVAL = 10
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 
 module.exports = class World
@@ -291,7 +291,7 @@ module.exports = class World
     # Code hotspot; optimize it
     startFrame = @framesSerializedSoFar
     endFrame = @frames.length
-    console.log "... world serializing frames from", startFrame, "to", endFrame
+    #console.log "... world serializing frames from", startFrame, "to", endFrame
     [transferableObjects, nontransferableObjects] = [0, 0]
     o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
@@ -307,20 +307,21 @@ module.exports = class World
     o.trackedPropertiesPerThangKeys = []
     o.trackedPropertiesPerThangTypes = []
     trackedPropertiesPerThangValues = []  # We won't send these, just the offsets and the storage buffer
-    o.trackedPropertiesPerThangValuesOffsets = []  # Needed to reconstruct ArrayBufferViews on other end, since Firefox has bugs transfering those: https://bugzilla.mozilla.org/show_bug.cgi?id=841904 and https://bugzilla.mozilla.org/show_bug.cgi?id=861925  # Actually, as of January 2014, it should be fixed.
+    o.trackedPropertiesPerThangValuesOffsets = []  # Needed to reconstruct ArrayBufferViews on other end, since Firefox has bugs transfering those: https://bugzilla.mozilla.org/show_bug.cgi?id=841904 and https://bugzilla.mozilla.org/show_bug.cgi?id=861925  # Actually, as of January 2014, it should be fixed. So we could try to undo the workaround.
     transferableStorageBytesNeeded = 0
     nFrames = endFrame - startFrame
     streaming = nFrames < @totalFrames
     for thang in @thangs
       # Don't serialize empty trackedProperties for stateless Thangs which haven't changed (like obstacles).
-      # Check both, since sometimes people mark stateless Thangs but don't change them, and those should still be tracked, and the inverse doesn't work on the other end (we'll just think it doesn't exist then).
-      continue if thang.stateless and not _.some(thang.trackedPropertiesUsed, Boolean) and not streaming
+      # Check both, since sometimes people mark stateless Thangs but then change them, and those should still be tracked, and the inverse doesn't work on the other end (we'll just think it doesn't exist then).
+      # If streaming the world, a thang marked stateless that actually change will get messed up. I think.
+      continue if thang.stateless and not _.some(thang.trackedPropertiesUsed, Boolean)
       o.trackedPropertiesThangIDs.push thang.id
       trackedPropertiesIndices = []
       trackedPropertiesKeys = []
       trackedPropertiesTypes = []
       for used, propIndex in thang.trackedPropertiesUsed
-        continue unless used# or streaming
+        continue unless used
         trackedPropertiesIndices.push propIndex
         trackedPropertiesKeys.push thang.trackedPropertiesKeys[propIndex]
         trackedPropertiesTypes.push thang.trackedPropertiesTypes[propIndex]
@@ -418,6 +419,7 @@ module.exports = class World
     perf.t3 = now()
 
     perf.batches = 0
+    perf.framesCPUTime = 0
     w.frames = [] unless streamingWorld
     clearTimeout @deserializationTimeout if @deserializationTimeout
     @deserializationTimeout = _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf, startFrame, endFrame
@@ -428,26 +430,27 @@ module.exports = class World
     startTime = now()
     for frameIndex in [w.frames.length ... endFrame]
       w.frames.push WorldFrame.deserialize(w, frameIndex - startFrame, o.trackedPropertiesThangIDs, o.trackedPropertiesThangs, o.trackedPropertiesPerThangKeys, o.trackedPropertiesPerThangTypes, o.trackedPropertiesPerThangValues, o.specialKeysToValues, o.frameHashes[frameIndex - startFrame], w.dt * frameIndex)
-      if (now() - startTime) > DESERIALIZATION_INTERVAL
-        console.log "  Deserialization not finished, let's do it again soon. Have:", w.frames.length, ", wanted from", startFrame, "to", endFrame
+      elapsed = now() - startTime
+      if elapsed > DESERIALIZATION_INTERVAL and frameIndex < endFrame - 1
+        #console.log "  Deserialization not finished, let's do it again soon. Have:", w.frames.length, ", wanted from", startFrame, "to", endFrame
+        perf.framesCPUTime += elapsed
         @deserializationTimeout = _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf, startFrame, endFrame
         return
     @deserializationTimeout = null
+    perf.framesCPUTime += elapsed
     @finishDeserializing w, finishedWorldCallback, perf, startFrame, endFrame
 
   @finishDeserializing: (w, finishedWorldCallback, perf, startFrame, endFrame) ->
     perf.t4 = now()
-    nFrames = endFrame - startFrame
     w.ended = true
-    w.getFrame(endFrame - 1).restoreState()
-    perf.t5 = now()
-    console.log 'Deserialization:', (perf.t5 - perf.t0).toFixed(0) + 'ms (' + ((perf.t5 - perf.t0) / nFrames).toFixed(3) + 'ms per frame).', perf.batches, 'batches.'
+    nFrames = endFrame - startFrame
+    totalCPUTime = perf.t3 - perf.t0 + perf.framesCPUTime
+    console.log 'Deserialization:', totalCPUTime.toFixed(0) + 'ms (' + (totalCPUTime / nFrames).toFixed(3) + 'ms per frame).', perf.batches, 'batches. Did', startFrame, 'to', endFrame, 'in', (perf.t4 - perf.t0).toFixed(0) + 'ms wall clock time.'
     if false
       console.log '  Deserializing--constructing new World:', (perf.t1 - perf.t0).toFixed(2) + 'ms'
       console.log '  Deserializing--Thangs and ScriptNotes:', (perf.t2 - perf.t1).toFixed(2) + 'ms'
       console.log '  Deserializing--reallocating memory:', (perf.t3 - perf.t2).toFixed(2) + 'ms'
-      console.log '  Deserializing--WorldFrames:', (perf.t4 - perf.t3).toFixed(2) + 'ms'
-      console.log '  Deserializing--restoring last WorldFrame:', (perf.t5 - perf.t4).toFixed(2) + 'ms'
+      console.log '  Deserializing--WorldFrames:', (perf.t4 - perf.t3).toFixed(2) + 'ms wall clock time,', (perf.framesCPUTime).toFixed(2) + 'ms CPU time'
     finishedWorldCallback w
 
   findFirstChangedFrame: (oldWorld) ->
@@ -456,10 +459,11 @@ module.exports = class World
       oldFrame = oldWorld.frames[i]
       break unless oldFrame and ((newFrame.hash is oldFrame.hash) or not newFrame.hash? or not oldFrame.hash?)  # undefined gets in there when streaming at the last frame of each batch for some reason
     firstChangedFrame = i
-    if @frames[i]
-      console.log 'First changed frame is', firstChangedFrame, 'with hash', @frames[i].hash, 'compared to', oldWorld.frames[i]?.hash
-    else
-      console.log 'No frames were changed out of all', @frames.length
+    if @frames.length is @totalFrames
+      if @frames[i]
+        console.log 'First changed frame is', firstChangedFrame, 'with hash', @frames[i].hash, 'compared to', oldWorld.frames[i]?.hash
+      else
+        console.log 'No frames were changed out of all', @frames.length
     firstChangedFrame
 
   pointsForThang: (thangID, frameStart=0, frameEnd=null, camera=null, resolution=4) ->
