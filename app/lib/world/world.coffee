@@ -321,13 +321,13 @@ module.exports = class World
     for thang in @thangs
       # Don't serialize empty trackedProperties for stateless Thangs which haven't changed (like obstacles).
       # Check both, since sometimes people mark stateless Thangs but don't change them, and those should still be tracked, and the inverse doesn't work on the other end (we'll just think it doesn't exist then).
-      continue if thang.stateless and not _.some(thang.trackedPropertiesUsed, Boolean) and not streaming
+      continue if thang.stateless and not _.some(thang.trackedPropertiesUsed, Boolean)# and not streaming
       o.trackedPropertiesThangIDs.push thang.id
       trackedPropertiesIndices = []
       trackedPropertiesKeys = []
       trackedPropertiesTypes = []
       for used, propIndex in thang.trackedPropertiesUsed
-        continue unless used or streaming
+        continue unless used# or streaming
         trackedPropertiesIndices.push propIndex
         trackedPropertiesKeys.push thang.trackedPropertiesKeys[propIndex]
         trackedPropertiesTypes.push thang.trackedPropertiesTypes[propIndex]
@@ -368,7 +368,7 @@ module.exports = class World
     t1 = now()
     o.frameHashes = []
     for frameIndex in [startFrame ... endFrame]
-      o.frameHashes.push @frames[frameIndex].serialize(frameIndex, o.trackedPropertiesThangIDs, o.trackedPropertiesPerThangIndices, o.trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, o.specialValuesToKeys, o.specialKeysToValues)
+      o.frameHashes.push @frames[frameIndex].serialize(frameIndex - startFrame, o.trackedPropertiesThangIDs, o.trackedPropertiesPerThangIndices, o.trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, o.specialValuesToKeys, o.specialKeysToValues)
     t2 = now()
 
     unless typedArraySupport
@@ -400,8 +400,13 @@ module.exports = class World
     w[prop] = val for prop, val of o.trackedProperties
 
     perf.t1 = now()
-    w.thangs = (Thang.deserialize(thang, w, classMap) for thang in o.thangs)  # TODO: just do the new ones?
-    w.setThang thang for thang in w.thangs
+    if w.thangs.length
+      for thang in o.thangs when not w.thangMap[thang.id]
+        w.thangs.push Thang.deserialize(thang, w, classMap)
+        w.setThang thang
+    else
+      w.thangs = (Thang.deserialize(thang, w, classMap) for thang in o.thangs)
+      w.setThang thang for thang in w.thangs
     w.scriptNotes = (WorldScriptNote.deserialize(sn, w, classMap) for sn in o.scriptNotes)
     perf.t2 = now()
 
@@ -429,7 +434,7 @@ module.exports = class World
     ++perf.batches
     startTime = now()
     for frameIndex in [w.frames.length ... endFrame]
-      w.frames.push WorldFrame.deserialize(w, frameIndex, o.trackedPropertiesThangIDs, o.trackedPropertiesThangs, o.trackedPropertiesPerThangKeys, o.trackedPropertiesPerThangTypes, o.trackedPropertiesPerThangValues, o.specialKeysToValues, o.frameHashes[frameIndex])
+      w.frames.push WorldFrame.deserialize(w, frameIndex - startFrame, o.trackedPropertiesThangIDs, o.trackedPropertiesThangs, o.trackedPropertiesPerThangKeys, o.trackedPropertiesPerThangTypes, o.trackedPropertiesPerThangValues, o.specialKeysToValues, o.frameHashes[frameIndex - startFrame], w.dt * frameIndex)
       if (now() - startTime) > DESERIALIZATION_INTERVAL
         console.log "  Deserialization not finished, let's do it again soon. Have:", w.frames.length, ", wanted from", startFrame, "to", endFrame
         @deserializationTimeout = _.delay @deserializeSomeFrames, 1, o, w, finishedWorldCallback, perf, startFrame, endFrame

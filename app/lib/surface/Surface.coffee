@@ -608,6 +608,7 @@ module.exports = Surface = class Surface extends CocoClass
     if current - Math.floor(current) > 0.01
       next = Math.ceil current
       ratio = current % 1
+      console.log "trying to restore partial state between", current, next, "of frames", @world.frames.length, "frames" unless @world.frames[next]
       @world.frames[next].restorePartialState ratio if next > 1
     frame.clearEvents() if parseInt(@currentFrame) is parseInt(@lastFrame)
     @spriteBoss.updateSounds() if parseInt(@currentFrame) isnt parseInt(@lastFrame)

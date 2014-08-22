@@ -130,7 +130,7 @@ module.exports = class Angel extends CocoClass
     else
       @shared.streamingWorld = world
       #Backbone.Mediator.publish 'god:new-world-created', world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team
-      #Backbone.Mediator.publish 'god:streaming-world-updated', world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team
+      Backbone.Mediator.publish 'god:streaming-world-updated', world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team
       @deserializingStreamingFrames = false
 
   finishWork: ->
