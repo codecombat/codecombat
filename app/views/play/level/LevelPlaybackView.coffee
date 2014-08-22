@@ -114,6 +114,15 @@ module.exports = class LevelPlaybackView extends CocoView
     ua = navigator.userAgent.toLowerCase()
     if /safari/.test(ua) and not /chrome/.test(ua)
       @$el.find('.toggle-fullscreen').hide()
+    @timePopup ?= new HoverPopup
+    t = $.i18n.t
+    @second = t 'units.second'
+    @seconds = t 'units.seconds'
+    @minute = t 'units.minute'
+    @minutes = t 'units.minutes'
+    @goto = t 'play_level.time_goto'
+    @current = t 'play_level.time_current'
+    @total = t 'play_level.time_total'
 
   updatePopupContent: ->
     @timePopup?.updateContent "<h2>#{@timeToString @newTime}</h2>#{@formatTime(@current, @currentTime)}<br/>#{@formatTime(@total, @totalTime)}"
@@ -150,23 +159,16 @@ module.exports = class LevelPlaybackView extends CocoView
     @barWidth = $('.progress', @$el).width()
 
   onNewWorld: (e) ->
-    @totalTime = e.world.frames.length * e.world.dt
-    pct = parseInt(100 * e.world.frames.length / e.world.maxTotalFrames) + '%'
+    @updateBarWidth e.world.frames.length, e.world.maxTotalFrames, e.world.dt
+
+  updateBarWidth: (loadedFrameCount, maxTotalFrames, dt) ->
+    @totalTime = loadedFrameCount * dt
+    pct = parseInt(100 * loadedFrameCount / maxTotalFrames) + '%'
     @barWidth = $('.progress', @$el).css('width', pct).show().width()
     $('.scrubber .progress', @$el).slider('enable', true)
     @newTime = 0
     @currentTime = 0
-
-    @timePopup ?= new HoverPopup
-
-    t = $.i18n.t
-    @second = t 'units.second'
-    @seconds = t 'units.seconds'
-    @minute = t 'units.minute'
-    @minutes = t 'units.minutes'
-    @goto = t 'play_level.time_goto'
-    @current = t 'play_level.time_current'
-    @total = t 'play_level.time_total'
+    @lastLoadedFrameCount = loadedFrameCount
 
   onToggleDebug: ->
     return if @shouldIgnore()
@@ -249,7 +251,7 @@ module.exports = class LevelPlaybackView extends CocoView
       # @currentTime = @totalTime if Math.abs(@totalTime - @currentTime) < 0.04
       @updatePopupContent() if @timePopup?.shown
 
-      @updateProgress(e.progress)
+      @updateProgress(e.progress, e.world)
       @updatePlayButton(e.progress)
     @lastProgress = e.progress
 
@@ -271,7 +273,9 @@ module.exports = class LevelPlaybackView extends CocoView
     if @timePopup and Math.abs(@currentTime - @newTime) < 1 and not @timePopup.shown
       @timePopup.show()
 
-  updateProgress: (progress) ->
+  updateProgress: (progress, world) ->
+    if world.frames.length isnt @lastLoadedFrameCount
+      @updateBarWidth world.frames.length, world.maxTotalFrames, world.dt
     $('.scrubber .progress-bar', @$el).css('width', "#{progress * 100}%")
 
   updatePlayButton: (progress) ->
@@ -293,7 +297,6 @@ module.exports = class LevelPlaybackView extends CocoView
 
   hookUpScrubber: ->
     @sliderIncrements = 500  # max slider width before we skip pixels
-    @clickingSlider = false  # whether the mouse has been pressed down without moving
     @$progressScrubber.slider(
       max: @sliderIncrements
       animate: 'slow'

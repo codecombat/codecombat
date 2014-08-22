@@ -97,12 +97,13 @@
       background-image: none
       border-radius: 0
       border: 0
+      //@include transition(width .2s linear)  // can't do this because handle then jitters
 
       &.disabled
         cursor: default
 
       .progress-bar
-        @include transition(width .0s linear)
+        @include transition(width 0s linear)
         position: relative
         pointer-events: none
         // Remove gradient background in favor of solid fill

@@ -357,7 +357,7 @@ module.exports = Surface = class Surface extends CocoClass
     @casting = true
     @setPlayingCalled = false  # Don't overwrite playing settings if they changed by, say, scripts.
     @frameBeforeCast = @currentFrame
-    @currentFrame = 0
+    @setProgress 0
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
