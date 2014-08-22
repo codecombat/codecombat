@@ -246,7 +246,7 @@ module.exports = Surface = class Surface extends CocoClass
   getCurrentFrame: ->
     return Math.max(0, Math.min(Math.floor(@currentFrame), @world.frames.length - 1))
 
-  getProgress: -> @currentFrame / @world.totalFrames
+  getProgress: -> @currentFrame / @world.frames.length
 
   onLevelRestarted: (e) ->
     @setProgress 0, 0

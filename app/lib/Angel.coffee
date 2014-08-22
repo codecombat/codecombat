@@ -93,7 +93,7 @@ module.exports = class Angel extends CocoClass
 
       # We have some or all of the frames serialized, so let's send the (partially?) simulated world to the Surface.
       when 'some-frames-serialized', 'new-world'
-        deserializationArgs = [event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame, @shared.streamingWorld]
+        deserializationArgs = [event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame, @streamingWorld]
         @deserializationQueue.push deserializationArgs
         if @deserializationQueue.length is 1
           @beholdWorld deserializationArgs...
@@ -116,7 +116,7 @@ module.exports = class Angel extends CocoClass
 
   finishBeholdingWorld: (goalStates) -> (world) =>
     return if @aborting
-    @shared.streamingWorld = world
+    @streamingWorld = world
     finished = world.frames.length is world.totalFrames
     firstChangedFrame = world.findFirstChangedFrame @shared.world
     eventType = if finished then 'god:new-world-created' else 'god:streaming-world-updated'
@@ -134,7 +134,7 @@ module.exports = class Angel extends CocoClass
         @beholdWorld deserializationArgs...
 
   finishWork: ->
-    @shared.streamingWorld = null
+    @streamingWorld = null
     @shared.firstWorld = false
     @deserializationQueue = []
     @running = false
@@ -177,6 +177,8 @@ module.exports = class Angel extends CocoClass
     @say 'Aborting...'
     @running = false
     @work = null
+    @streamingWorld = null
+    @deserializationQueue = null
     _.remove @shared.busyAngels, @
     @abortTimeout = _.delay @fireWorker, @abortTimeoutDuration
     @aborting = true

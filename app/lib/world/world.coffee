@@ -94,7 +94,7 @@ module.exports = class World
     else
       frameToLoadUntil = @totalFrames
     i = @frames.length
-    while i < frameToLoadUntil
+    while i < frameToLoadUntil and i < @totalFrames
       if @debugging
         for thang in @thangs when thang.isProgrammable
           userCode = @userCodeMap[thang.id] ? {}
@@ -291,7 +291,7 @@ module.exports = class World
     # Code hotspot; optimize it
     startFrame = @framesSerializedSoFar
     endFrame = @frames.length
-    #console.log "... world serializing frames from", startFrame, "to", endFrame
+    #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
     [transferableObjects, nontransferableObjects] = [0, 0]
     o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []

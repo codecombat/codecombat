@@ -150,8 +150,7 @@ module.exports = class LevelPlaybackView extends CocoView
     @barWidth = $('.progress', @$el).width()
 
   onNewWorld: (e) ->
-    @totalLoadedTime = e.world.frames.length * e.world.dt
-    @totalTime = e.world.totalFrames * e.world.dt
+    @totalTime = e.world.frames.length * e.world.dt
     pct = parseInt(100 * e.world.frames.length / e.world.maxTotalFrames) + '%'
     @barWidth = $('.progress', @$el).css('width', pct).show().width()
     $('.scrubber .progress', @$el).slider('enable', true)
@@ -273,7 +272,7 @@ module.exports = class LevelPlaybackView extends CocoView
       @timePopup.show()
 
   updateProgress: (progress) ->
-    $('.scrubber .progress-bar', @$el).css('width', "#{progress * 100 * @totalTime / @totalLoadedTime}%")
+    $('.scrubber .progress-bar', @$el).css('width', "#{progress * 100}%")
 
   updatePlayButton: (progress) ->
     if progress >= 0.99 and @lastProgress < 0.99

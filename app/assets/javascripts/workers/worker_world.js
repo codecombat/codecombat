@@ -366,7 +366,7 @@ self.runWorld = function runWorld(args) {
 };
 
 self.serializeFramesSoFar = function serializeFramesSoFar() {
-  if(!self.world) return console.error("hmm, no world when we went to serialize some frames?");
+  if(!self.world) return;  // We probably got this message late, after delivering the world.
   if(self.world.framesSerializedSoFar == self.world.frames.length) return;
   self.onWorldLoaded();
   self.world.framesSerializedSoFar = self.world.frames.length;
