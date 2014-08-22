@@ -512,9 +512,9 @@ class ThangNode extends TreemaObjectNode
   collection: false
   @thangNameMap: {}
   @thangKindMap: {}
-  buildValueForDisplay: (valEl) ->
-    pos = _.find(@data.components, (c) -> c.config?.pos?)?.config.pos  # TODO: hack
-    s = "#{@data.thangType}"
+  buildValueForDisplay: (valEl, data) ->
+    pos = _.find(data.components, (c) -> c.config?.pos?)?.config.pos  # TODO: hack
+    s = "#{data.thangType}"
     if isObjectID s
       unless name = ThangNode.thangNameMap[s]
         thangType = _.find @settings.supermodel.getModels(ThangType), (m) -> m.get('original') is s and m.get('kind')
@@ -523,7 +523,7 @@ class ThangNode extends TreemaObjectNode
       kind = ThangNode.thangKindMap[s]
       @$el.addClass "treema-#{kind}"
       s = name
-    s += ' - ' + @data.id if @data.id isnt s
+    s += ' - ' + data.id if data.id isnt s
     if pos
       s += " (#{Math.round(pos.x)}, #{Math.round(pos.y)})"
     else
@@ -531,4 +531,4 @@ class ThangNode extends TreemaObjectNode
     @buildValueForDisplaySimply valEl, s
 
   onEnterPressed: ->
-    Backbone.Mediator.publish 'edit-level-thang', thangID: @data.id
+    Backbone.Mediator.publish 'edit-level-thang', thangID: @getData().id

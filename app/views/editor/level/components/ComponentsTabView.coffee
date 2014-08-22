@@ -81,15 +81,16 @@ module.exports = class ComponentsTabView extends CocoView
 class LevelComponentNode extends TreemaObjectNode
   valueClass: 'treema-level-component'
   collection: false
-  buildValueForDisplay: (valEl) ->
-    count = if @data.count is 1 then @data.thangs[0] else ((if @data.count >= 100 then '100+' else @data.count) + ' Thangs')
-    if @data.original.match ':'
-      name = 'Old: ' + @data.original.replace('systems/', '')
+  buildValueForDisplay: (valEl, data) ->
+    count = if data.count is 1 then data.thangs[0] else ((if data.count >= 100 then '100+' else data.count) + ' Thangs')
+    if data.original.match ':'
+      name = 'Old: ' + data.original.replace('systems/', '')
     else
       comp = _.find @settings.supermodel.getModels(LevelComponent), (m) =>
-        m.get('original') is @data.original and m.get('version').major is @data.majorVersion
+        m.get('original') is data.original and m.get('version').major is data.majorVersion
       name = "#{comp.get('system')}.#{comp.get('name')} v#{comp.get('version').major}"
     @buildValueForDisplaySimply valEl, "#{name} (#{count})"
 
   onEnterPressed: ->
-    Backbone.Mediator.publish 'edit-level-component', original: @data.original, majorVersion: @data.majorVersion
+    data = @getData()
+    Backbone.Mediator.publish 'edit-level-component', original: data.original, majorVersion: data.majorVersion

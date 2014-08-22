@@ -5,13 +5,14 @@ locale = require 'locale/locale'
 
 class DateTimeTreema extends TreemaNode.nodeMap.string
   valueClass: 'treema-date-time'
-  buildValueForDisplay: (el) -> el.text(moment(@data).format('llll'))
+  buildValueForDisplay: (el, data) -> el.text(moment(data).format('llll'))
   buildValueForEditing: (valEl) ->
     @buildValueForEditingSimply valEl, null, 'date'
 
 class VersionTreema extends TreemaNode
   valueClass: 'treema-version'
-  buildValueForDisplay: (valEl) -> @buildValueForDisplaySimply(valEl, "#{@data.major}.#{@data.minor}")
+  buildValueForDisplay: (valEl, data) ->
+    @buildValueForDisplaySimply(valEl, "#{data.major}.#{data.minor}")
 
 class LiveEditingMarkup extends TreemaNode.nodeMap.ace
   valueClass: 'treema-markdown treema-multiline treema-ace'
@@ -85,7 +86,7 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
   getFiles: ->
     @settings[@soundCollection]?.models or []
 
-  buildValueForDisplay: (valEl) ->
+  buildValueForDisplay: (valEl, data) ->
     mimetype = "audio/#{@keyForParent}"
     pickButton = $('<a class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-upload"></span></a>')
       .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
@@ -116,17 +117,17 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
         .text(filename)
       menu.append(li)
     menu.click (e) =>
-      @data = $(e.target).data('fullPath') or @data
+      @data = $(e.target).data('fullPath') or data
       @reset()
     dropdown.append(menu)
 
     valEl.append(pickButton)
-    if @data
+    if data
       valEl.append(playButton)
       valEl.append(stopButton)
     valEl.append(dropdown) # if files.length and @canEdit()
-    if @data
-      path = @data.split('/')
+    if data
+      path = data.split('/')
       name = path[path.length-1]
       valEl.append($('<span></span>').text(name))
 
@@ -136,7 +137,7 @@ class SoundFileTreema extends TreemaNode.nodeMap.string
     @refreshDisplay()
 
   playFile: =>
-    @src = "/file/#{@data}"
+    @src = "/file/#{@getData()}"
 
     if @instance
       @instance.play()
@@ -183,14 +184,14 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
     return if $(e.target).closest('.btn').length
     super(arguments...)
 
-  buildValueForDisplay: (valEl) ->
+  buildValueForDisplay: (valEl, data) ->
     mimetype = 'image/*'
     pickButton = $('<a class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-upload"></span> Upload Picture</a>')
       .click(=> filepicker.pick {mimetypes:[mimetype]}, @onFileChosen)
 
     valEl.append(pickButton)
-    if @data
-      valEl.append $('<img />').attr('src', "/file/#{@data}")
+    if data
+      valEl.append $('<img />').attr('src', "/file/#{data}")
 
   onFileChosen: (InkBlob) =>
     if not @settings.filePath
@@ -226,8 +227,8 @@ class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
     (key for key in _.keys(codeLanguages) when not @data[key]?)
 
 class CodeLanguageTreema extends TreemaNode.nodeMap.string
-  buildValueForEditing: (valEl) ->
-    super(valEl)
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
     valEl.find('input').autocomplete(source: _.keys(codeLanguages), minLength: 0, delay: 0, autoFocus: true)
     valEl
 
@@ -236,8 +237,8 @@ class CodeTreema extends TreemaNode.nodeMap.ace
     super(arguments...)
     @schema.aceTabSize = 4
 
-  buildValueForEditing: (valEl) ->
-    super(valEl)
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
     if not @schema.aceMode and mode = codeLanguages[@keyForParent]
       @editor.getSession().setMode mode
     valEl
@@ -307,15 +308,15 @@ class LatestVersionReferenceNode extends TreemaNode
     @url = "/db/#{parts[1]}"
     @model = require('models/' + _.string.classify(parts[1]))
 
-  buildValueForDisplay: (valEl) ->
-    val = if @data then @formatDocument(@data) else 'None'
+  buildValueForDisplay: (valEl, data) ->
+    val = if data then @formatDocument(data) else 'None'
     @buildValueForDisplaySimply(valEl, val)
 
-  buildValueForEditing: (valEl) ->
+  buildValueForEditing: (valEl, data) ->
     valEl.html(@searchValueTemplate)
     input = valEl.find('input')
     input.focus().keyup @search
-    input.attr('placeholder', @formatDocument(@data)) if @data
+    input.attr('placeholder', @formatDocument(data)) if data
     
   buildSearchURL: (term) -> "#{@url}?term=#{term}&project=true"
 
@@ -357,7 +358,7 @@ class LatestVersionReferenceNode extends TreemaNode
   formatDocument: (docOrModel) ->
     return @modelToString(docOrModel) if docOrModel instanceof CocoModel
     return 'Unknown' unless @settings.supermodel?
-    m = CocoModel.getReferencedModel(@data, @schema)
+    m = CocoModel.getReferencedModel(@getData(), @schema)
     urlGoingFor = m.url()
     m = @settings.supermodel.getModel(urlGoingFor)
     if @instance and not m
@@ -386,9 +387,6 @@ class LatestVersionReferenceNode extends TreemaNode
     return super(arguments...) unless @isEditing()
     e.preventDefault()
     @navigateSearch(-1)
-
-  onDeletePressed: (e) ->
-    super(arguments...)
 
   navigateSearch: (offset) ->
     selected = @getSelectedResultEl()

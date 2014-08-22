@@ -134,23 +134,25 @@ class LevelSystemNode extends TreemaObjectNode
     @collection = @system?.attributes?.configSchema?.properties?
 
   grabDBComponent: ->
-    unless _.isString @data.original
+    data = @getData()
+    unless _.isString data.original
       return alert('Press the "Add System" button at the bottom instead of the "+". Sorry.')
-    @system = @settings.supermodel.getModelByOriginalAndMajorVersion(LevelSystem, @data.original, @data.majorVersion)
-    console.error 'Couldn\'t find system for', @data.original, @data.majorVersion, 'from models', @settings.supermodel.models unless @system
+    @system = @settings.supermodel.getModelByOriginalAndMajorVersion(LevelSystem, data.original, data.majorVersion)
+    console.error 'Couldn\'t find system for', data.original, data.majorVersion, 'from models', @settings.supermodel.models unless @system
 
   getChildSchema: (key) ->
     return @system.attributes.configSchema if key is 'config'
     return super(key)
 
-  buildValueForDisplay: (valEl) ->
-    return super valEl unless @data.original and @system
+  buildValueForDisplay: (valEl, data) ->
+    return super valEl unless data.original and @system
     name = "#{@system.get('name')} v#{@system.get('version').major}"
     @buildValueForDisplaySimply valEl, "#{name}"
 
   onEnterPressed: (e) ->
     super e
-    Backbone.Mediator.publish 'edit-level-system', original: @data.original, majorVersion: @data.majorVersion
+    data = @getData()
+    Backbone.Mediator.publish 'edit-level-system', original: data.original, majorVersion: data.majorVersion
 
   open: (depth) ->
     super depth
@@ -161,5 +163,4 @@ class LevelSystemNode extends TreemaObjectNode
 
 class LevelSystemConfigurationNode extends TreemaObjectNode
   valueClass: 'treema-level-system-configuration'
-  buildValueForDisplay: (valEl) ->
-    return
+  buildValueForDisplay: -> return

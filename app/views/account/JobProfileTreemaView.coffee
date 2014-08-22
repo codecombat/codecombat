@@ -107,25 +107,25 @@ JobProfileTreemaView.commonCities = commonCities = ['Tokyo', 'Jakarta', 'Seoul',
 autoFocus = true  # Not working right now, possibly a Treema bower thing.
 
 class SkillTagNode extends TreemaNode.nodeMap.string
-  buildValueForEditing: (valEl) ->
-    super(valEl)
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
     valEl.find('input').autocomplete(source: commonSkills, minLength: 1, delay: 0, autoFocus: autoFocus)
     valEl
 
 class LinkNameNode extends TreemaNode.nodeMap.string
-  buildValueForEditing: (valEl) ->
-    super(valEl)
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
     valEl.find('input').autocomplete(source: commonLinkNames, minLength: 0, delay: 0, autoFocus: autoFocus)
     valEl
 
 class CityNode extends TreemaNode.nodeMap.string
-  buildValueForEditing: (valEl) ->
-    super(valEl)
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
     valEl.find('input').autocomplete(source: commonCities, minLength: 1, delay: 0, autoFocus: autoFocus)
     valEl
 
 class CountryNode extends TreemaNode.nodeMap.string
-  buildValueForEditing: (valEl) ->
-    super(valEl)
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
     valEl.find('input').autocomplete(source: commonCountries, minLength: 1, delay: 0, autoFocus: autoFocus)
     valEl
