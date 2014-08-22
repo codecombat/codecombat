@@ -25,6 +25,7 @@ module.exports = class ThangComponentsEditView extends CocoView
 
   constructor: (options) ->
     super options
+    @originalsLoaded = {}
     @components = options.components or []
     @components = $.extend true, [], @components # just to be sure
     @lastComponentLength = @components.length
@@ -36,6 +37,10 @@ module.exports = class ThangComponentsEditView extends CocoView
 
   loadComponents: (components) ->
     for componentRef in components
+      # just to handle if ever somehow the same component is loaded twice, through bad data and alike
+      continue if @originalsLoaded[componentRef.original]
+      @originalsLoaded[componentRef.original] = componentRef.original
+
       levelComponent = new LevelComponent(componentRef)
       url = "/db/level.component/#{componentRef.original}/version/#{componentRef.majorVersion}"
       levelComponent.setURL(url)
@@ -143,7 +148,9 @@ module.exports = class ThangComponentsEditView extends CocoView
     @reportChanges()
 
   updateComponentsList: ->
-    @componentsTreema?.set('/', $.extend(true, [], @components))
+    # Before I was setting the data to the existing treema but then we had some
+    # nasty sorting/callback bugs. This is less efficient, but it's also less bug prone.
+    @buildComponentsTreema()
 
   onComponentsAdded: ->
     return unless @componentsTreema
@@ -157,11 +164,14 @@ module.exports = class ThangComponentsEditView extends CocoView
       for componentRef in _.values(componentMap)
         componentModel = @supermodel.getModelByOriginalAndMajorVersion(
           LevelComponent, componentRef.original, componentRef.majorVersion)
+        if not componentModel?.loaded
+          @loadComponents([componentRef])
+          continue
         for dependency in componentModel?.get('dependencies') or []
           if not componentMap[dependency.original]
             component = @supermodel.getModelByOriginalAndMajorVersion(
               LevelComponent, dependency.original, dependency.majorVersion)
-            if not component
+            if not component?.loaded
               @loadComponents([dependency])
               # will run onComponentsAdded once more when the model loads
             else
@@ -204,7 +214,7 @@ module.exports = class ThangComponentsEditView extends CocoView
 
   makeThangComponentConfigView: (thangComponent) ->
     component = @supermodel.getModelByOriginal(LevelComponent, thangComponent.original)
-    return unless component
+    return unless component?.loaded
     config = thangComponent.config ? {}
     configView = new ThangComponentConfigView({
       supermodel: @supermodel
