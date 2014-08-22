@@ -205,10 +205,11 @@ module.exports = Surface = class Surface extends CocoClass
 
     @scrubbingTo = Math.min(Math.round(progress * @world.totalFrames), @world.totalFrames)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
+    ease = if @fastForwarding then createjs.Ease.linear else createjs.Ease.sineInOut
     if scrubDuration
       t = createjs.Tween
         .get(@)
-        .to({currentFrame: @scrubbingTo}, scrubDuration, createjs.Ease.sineInOut)
+        .to({currentFrame: @scrubbingTo}, scrubDuration, ease)
         .call(onTweenEnd)
       t.addEventListener('change', @onFramesScrubbed)
     else
@@ -354,48 +355,36 @@ module.exports = Surface = class Surface extends CocoClass
     return if e.preload
     @setPaused false if @ended
     @casting = true
-    @wasPlayingWhenCastingBegan = @playing
-    Backbone.Mediator.publish 'level-set-playing', {playing: false}
-    @setPlayingCalled = false # don't overwrite playing settings if they changed by, say, scripts
-
-    if @coordinateDisplay?
-      @surfaceTextLayer.removeChild @coordinateDisplay
-      @coordinateDisplay.destroy()
-
-    createjs.Tween.removeTweens(@surfaceLayer)
-    createjs.Tween.get(@surfaceLayer).to({alpha: 0.9}, 1000, createjs.Ease.getPowOut(4.0))
+    @setPlayingCalled = false  # Don't overwrite playing settings if they changed by, say, scripts.
+    @frameBeforeCast = @currentFrame
+    @currentFrame = 0
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
     @casting = false
-    if @ended and not @wasPlayingWhenCastingBegan
-      @setPaused true
-    else
-      @spriteBoss.play()
+    @spriteBoss.play()
 
     # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
     # so only run it after the first world is created.
-    Backbone.Mediator.publish 'level-set-playing', {playing: @wasPlayingWhenCastingBegan} unless event.firstWorld or @setPlayingCalled
+    Backbone.Mediator.publish 'level-set-playing', {playing: true} unless event.firstWorld or @setPlayingCalled
 
-    fastForwardTo = null
-    if @playing
-      fastForwardTo = Math.min event.world.firstChangedFrame, @currentFrame
-      @currentFrame = 0
-
-    createjs.Tween.removeTweens(@surfaceLayer)
-    f = =>
-      @setWorld event.world
-      @onFrameChanged(true)
-      if fastForwardTo and @playing
-        fastForwardToRatio = fastForwardTo / @world.totalFrames
-        fastForwardToTime = fastForwardTo * @world.dt
-        fastForwardSpeed = Math.max 4, fastForwardToTime / 3
-        @setProgress fastForwardToRatio, 1000 * fastForwardToTime / fastForwardSpeed
+    @setWorld event.world
+    @onFrameChanged(true)
+    if @playing and ffToFrame = Math.min event.firstChangedFrame, @frameBeforeCast, event.world.frames.length
+      ffToRatio = ffToFrame / @world.totalFrames
+      ffToTime = ffToFrame * @world.dt
+      ffSpeed = Math.max 4, ffToTime / 3
+      ffInterval = 1000 * (ffToFrame - @currentFrame) / @options.frameRate
+      ffScrubDuration = 1000 * ffToTime / ffSpeed
+      ffScrubDuration = Math.min(ffScrubDuration, ffInterval)
+      ffFactor = ffInterval / ffScrubDuration
+      if ffFactor > 2
+        createjs.Tween.removeTweens(@)
+        @scrubbingTo = null
         @fastForwarding = true
-    createjs.Tween.get(@surfaceLayer)
-      .to({alpha: 0.0}, 50)
-      .call(f)
-      .to({alpha: 1.0}, 2000, createjs.Ease.getPowOut(2.0))
+        @setProgress ffToRatio, ffScrubDuration
+      else
+        createjs.Tween.removeTweens(@)
 
   # initialization
 
@@ -414,7 +403,7 @@ module.exports = Surface = class Surface extends CocoClass
     @surfaceLayer.addChild @cameraBorder = new CameraBorder bounds: @camera.bounds
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
     @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
-    #@castingScreen ?= new CastingScreen camera: @camera, layer: @screenLayer  # Not needed with world streaming.
+    #@castingScreen ?= new CastingScreen camera: @camera, layer: @screenLayer  # STREAM: Not needed with world streaming.
     @playbackOverScreen ?= new PlaybackOverScreen camera: @camera, layer: @screenLayer
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
@@ -616,7 +605,7 @@ module.exports = Surface = class Surface extends CocoClass
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState
     @camera.updateZoom()
-    @spriteBoss.update frameChanged unless @casting
+    @spriteBoss.update frameChanged
     @dimmer?.setSprites @spriteBoss.sprites
 
   drawCurrentFrame: (e) ->

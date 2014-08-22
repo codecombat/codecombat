@@ -27,7 +27,6 @@ module.exports = class World
     # classMap is needed for deserializing Worlds, Thangs, and other classes
     @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang, Ellipse: Ellipse, LineSegment: LineSegment}
     Thang.resetThangIDs()
-    @aRandomID = Math.random()
 
     @userCodeMap ?= {}
     @thangs = []
@@ -288,16 +287,10 @@ module.exports = class World
   addTrackedProperties: (props...) ->
     @trackedProperties = (@trackedProperties ? []).concat props
 
-  serializeFramesSoFar: ->
-    return null if @frames.length is @framesSerializedSoFar
-    serialized = @serialize @framesSerializedSoFar, @frames.length
-    @framesSerializedSoFar = @frames.length
-    serialized
-
-  serialize: (startFrame=0, endFrame=null) ->
+  serialize: ->
     # Code hotspot; optimize it
-    if not endFrame? and @frames.length < @totalFrames then throw new Error('World Should Be Over Before Serialization')
-    endFrame ?= @totalFrames
+    startFrame = @framesSerializedSoFar
+    endFrame = @frames.length
     console.log "... world serializing frames from", startFrame, "to", endFrame
     [transferableObjects, nontransferableObjects] = [0, 0]
     o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}}
@@ -321,7 +314,7 @@ module.exports = class World
     for thang in @thangs
       # Don't serialize empty trackedProperties for stateless Thangs which haven't changed (like obstacles).
       # Check both, since sometimes people mark stateless Thangs but don't change them, and those should still be tracked, and the inverse doesn't work on the other end (we'll just think it doesn't exist then).
-      continue if thang.stateless and not _.some(thang.trackedPropertiesUsed, Boolean)# and not streaming
+      continue if thang.stateless and not _.some(thang.trackedPropertiesUsed, Boolean) and not streaming
       o.trackedPropertiesThangIDs.push thang.id
       trackedPropertiesIndices = []
       trackedPropertiesKeys = []
@@ -401,8 +394,8 @@ module.exports = class World
 
     perf.t1 = now()
     if w.thangs.length
-      for thang in o.thangs when not w.thangMap[thang.id]
-        w.thangs.push Thang.deserialize(thang, w, classMap)
+      for thangConfig in o.thangs when not w.thangMap[thangConfig.id]
+        w.thangs.push thang = Thang.deserialize(thangConfig, w, classMap)
         w.setThang thang
     else
       w.thangs = (Thang.deserialize(thang, w, classMap) for thang in o.thangs)
@@ -458,16 +451,16 @@ module.exports = class World
     finishedWorldCallback w
 
   findFirstChangedFrame: (oldWorld) ->
-    return @firstChangedFrame = 0 unless oldWorld
+    return 0 unless oldWorld
     for newFrame, i in @frames
       oldFrame = oldWorld.frames[i]
-      break unless oldFrame and newFrame.hash is oldFrame.hash
-    @firstChangedFrame = i
+      break unless oldFrame and ((newFrame.hash is oldFrame.hash) or not newFrame.hash? or not oldFrame.hash?)  # undefined gets in there when streaming at the last frame of each batch for some reason
+    firstChangedFrame = i
     if @frames[i]
-      console.log 'First changed frame is', @firstChangedFrame, 'with hash', @frames[i].hash, 'compared to', oldWorld.frames[i]?.hash
+      console.log 'First changed frame is', firstChangedFrame, 'with hash', @frames[i].hash, 'compared to', oldWorld.frames[i]?.hash
     else
       console.log 'No frames were changed out of all', @frames.length
-    @firstChangedFrame
+    firstChangedFrame
 
   pointsForThang: (thangID, frameStart=0, frameEnd=null, camera=null, resolution=4) ->
     # Optimized

@@ -47,6 +47,7 @@ module.exports = class ThangState
       value = @specialKeysToValues[specialKey]
     else if type is 'Thang'
       specialKey = storage[@frameIndex]
+      console.error "couldn't find world from thang", @thang, "for", @specialKeysToValues[specialKey] unless @thang.world
       value = @thang.world.getThangByID @specialKeysToValues[specialKey]
     else if type is 'array'
       specialKey = storage[@frameIndex]
@@ -164,6 +165,7 @@ module.exports = class ThangState
     # Optimize like no tomorrow--most performance-sensitive part of the whole app, called once per WorldFrame per Thang per trackedProperty, blocking the UI
     ts = new ThangState
     ts.thang = thang
+    console.error "couldn't find thang!", @ unless thang
     ts.frameIndex = frameIndex
     ts.trackedPropertyKeys = trackedPropertyKeys
     ts.trackedPropertyTypes = trackedPropertyTypes

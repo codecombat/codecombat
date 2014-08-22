@@ -67,7 +67,7 @@ module.exports = class Angel extends CocoClass
       # We pay attention to certain progress indicators as the world loads.
       when 'world-load-progress-changed'
         Backbone.Mediator.publish 'god:world-load-progress-changed', event.data
-        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializingStreamingFrames
+        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializingStreamingFrames or @shared.firstWorld
           @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
       when 'console-log'
         @log event.data.args...
@@ -84,14 +84,14 @@ module.exports = class Angel extends CocoClass
 
       # We have some of the frames serialized, so let's send the partially simulated world to the Surface.
       when 'some-frames-serialized'
-        console.log "angel received some frames", event.data.serialized, "with goals", event.data.goalStates, "and streaming into world", @shared.streamingWorld
+        #console.log "angel received some frames", event.data.serialized, "with goals", event.data.goalStates, "and streaming into world", @shared.streamingWorld
         @deserializingStreamingFrames = true
         @beholdWorld event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame, @shared.streamingWorld
 
       # Either the world finished simulating successfully, or we abort the worker.
       when 'new-world'
-        console.log "angel received alll frames", event.data.serialized
-        @beholdWorld event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame
+        #console.log "angel received alll frames", event.data.serialized, "and have streaming world", @shared.streamingWorld
+        @beholdWorld event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame, @shared.streamingWorld
       when 'abort'
         @say 'Aborted.', event.data
         clearTimeout @abortTimeout
@@ -118,24 +118,25 @@ module.exports = class Angel extends CocoClass
 
   finishBeholdingWorld: (goalStates) -> (world) =>
     return if @aborting
+    @shared.streamingWorld = world
     finished = world.frames.length is world.totalFrames
+    firstChangedFrame = world.findFirstChangedFrame @shared.world
+    eventType = if finished then 'god:new-world-created' else 'god:streaming-world-updated'
     if finished
-      world.findFirstChangedFrame @shared.world
       @shared.world = world
-      Backbone.Mediator.publish 'god:new-world-created', world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team if @shared.firstWorld
+    Backbone.Mediator.publish eventType, world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team, firstChangedFrame: firstChangedFrame
+    if finished
       for scriptNote in @shared.world.scriptNotes
         Backbone.Mediator.publish scriptNote.channel, scriptNote.event
       @shared.goalManager?.world = world
       @finishWork()
     else
-      @shared.streamingWorld = world
-      #Backbone.Mediator.publish 'god:new-world-created', world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team
-      Backbone.Mediator.publish 'god:streaming-world-updated', world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team
       @deserializingStreamingFrames = false
 
   finishWork: ->
     @shared.streamingWorld = null
     @shared.firstWorld = false
+    @deserializingStreamingFrames = false
     @running = false
     _.remove @shared.busyAngels, @
     @doWork()

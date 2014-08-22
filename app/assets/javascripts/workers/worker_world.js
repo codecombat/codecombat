@@ -367,29 +367,18 @@ self.runWorld = function runWorld(args) {
 
 self.serializeFramesSoFar = function serializeFramesSoFar() {
   if(!self.world) return console.error("hmm, no world when we went to serialize some frames?");
-  var goalStates = self.goalManager.getGoalStates();
-  var transferableSupported = self.transferableSupported();
-  var serialized = self.world.serializeFramesSoFar();
-  if(!serialized) {
-    console.log("Tried to serialize some frames, but none have been simulated since last time; still at", self.world.framesSerializedSoFar);
-    return;
-  }
-  try {
-    var message = {type: 'some-frames-serialized', serialized: serialized.serializedWorld, goalStates: goalStates, startFrame: serialized.startFrame, endFrame: serialized.endFrame};
-    if(transferableSupported)
-      self.postMessage(message, serialized.transferableObjects);
-    else
-      self.postMessage(message);
-  }
-  catch(error) {
-    console.log("World delivery error:", error.toString() + "\n" + error.stack || error.stackTrace);
-  }
+  if(self.world.framesSerializedSoFar == self.world.frames.length) return;
+  self.onWorldLoaded();
+  self.world.framesSerializedSoFar = self.world.frames.length;
 };
 
 self.onWorldLoaded = function onWorldLoaded() {
-  self.goalManager.worldGenerationEnded();
+  if(self.world.framesSerializedSoFar == self.world.frames.length) return;
+  if(self.world.ended)
+    self.goalManager.worldGenerationEnded();
   var goalStates = self.goalManager.getGoalStates();
-  self.postMessage({type: 'end-load-frames', goalStates: goalStates});
+  if(self.world.ended)
+    self.postMessage({type: 'end-load-frames', goalStates: goalStates});
   var t1 = new Date();
   var diff = t1 - self.t0;
   if (self.world.headless)
@@ -402,10 +391,12 @@ self.onWorldLoaded = function onWorldLoaded() {
   catch(error) {
     console.log("World serialization error:", error.toString() + "\n" + error.stack || error.stackTrace);
   }
+
   var t2 = new Date();
   //console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
+  var messageType = self.world.ended ? 'new-world' : 'some-frames-serialized';
   try {
-    var message = {type: 'new-world', serialized: serialized.serializedWorld, goalStates: goalStates, startFrame: serialized.startFrame, endFrame: serialized.endFrame};
+    var message = {type: messageType, serialized: serialized.serializedWorld, goalStates: goalStates, startFrame: serialized.startFrame, endFrame: serialized.endFrame};
     if(transferableSupported)
       self.postMessage(message, serialized.transferableObjects);
     else
@@ -414,11 +405,14 @@ self.onWorldLoaded = function onWorldLoaded() {
   catch(error) {
     console.log("World delivery error:", error.toString() + "\n" + error.stack || error.stackTrace);
   }
-  var t3 = new Date();
-  console.log("And it was so: (" + (diff / self.world.totalFrames).toFixed(3) + "ms per frame,", self.world.totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
-  self.world.goalManager.destroy();
-  self.world.destroy();
-  self.world = null;
+
+  if(self.world.ended) {
+    var t3 = new Date();
+    console.log("And it was so: (" + (diff / self.world.totalFrames).toFixed(3) + "ms per frame,", self.world.totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
+    self.world.goalManager.destroy();
+    self.world.destroy();
+    self.world = null;
+  }
 };
 
 self.onWorldError = function onWorldError(error) {

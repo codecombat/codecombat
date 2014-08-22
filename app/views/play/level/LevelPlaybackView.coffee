@@ -24,7 +24,6 @@ module.exports = class LevelPlaybackView extends CocoView
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'  # Maybe?
     'level-set-letterbox': 'onSetLetterbox'
-    'tome:cast-spells': 'onCastSpells'
 
   events:
     'click #debug-toggle': 'onToggleDebug'
@@ -151,10 +150,10 @@ module.exports = class LevelPlaybackView extends CocoView
     @barWidth = $('.progress', @$el).width()
 
   onNewWorld: (e) ->
-    @totalTime = e.world.totalFrames / e.world.frameRate
-    pct = parseInt(100 * e.world.totalFrames / e.world.maxTotalFrames) + '%'
+    @totalLoadedTime = e.world.frames.length * e.world.dt
+    @totalTime = e.world.totalFrames * e.world.dt
+    pct = parseInt(100 * e.world.frames.length / e.world.maxTotalFrames) + '%'
     @barWidth = $('.progress', @$el).css('width', pct).show().width()
-    @casting = false
     $('.scrubber .progress', @$el).slider('enable', true)
     @newTime = 0
     @currentTime = 0
@@ -188,11 +187,6 @@ module.exports = class LevelPlaybackView extends CocoView
 
   onViewKeyboardShortcuts: ->
     @openModalView new KeyboardShortcutsModal()
-
-  onCastSpells: (e) ->
-    return if e.preload
-    @casting = true
-    @$progressScrubber.slider('disable', true)
 
   onDisableControls: (e) ->
     if not e.controls or 'playback' in e.controls
@@ -279,7 +273,7 @@ module.exports = class LevelPlaybackView extends CocoView
       @timePopup.show()
 
   updateProgress: (progress) ->
-    $('.scrubber .progress-bar', @$el).css('width', "#{progress*100}%")
+    $('.scrubber .progress-bar', @$el).css('width', "#{progress * 100 * @totalTime / @totalLoadedTime}%")
 
   updatePlayButton: (progress) ->
     if progress >= 0.99 and @lastProgress < 0.99
@@ -330,9 +324,7 @@ module.exports = class LevelPlaybackView extends CocoView
     return if @shouldIgnore()
     Backbone.Mediator.publish 'level-set-time', ratio: ratio, scrubDuration: duration
 
-  shouldIgnore: ->
-    #return @disabled or @casting or false  # STREAM: figure this out
-    return false
+  shouldIgnore: -> return @disabled
 
   onTogglePlay: (e) ->
     e?.preventDefault()
