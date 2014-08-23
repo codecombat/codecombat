@@ -18,7 +18,8 @@ module.exports = class ForkModal extends ModalView
     @model = options.model
     @modelClass = @model.constructor
 
-  forkModel: ->
+  forkModel: (e) ->
+    e.preventDefault()
     @showLoading()
     forms.clearFormAlerts(@$el)
     newModel = new @modelClass($.extend(true, {}, @model.attributes))

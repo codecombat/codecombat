@@ -119,7 +119,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     $(image.image).one 'load', => @updateScale?()
     @configureMouse()
     @imageObject.sprite = @
-    @imageObject.layerPriority = @thangType.get 'layerPriority'
+    @imageObject.layerPriority = @thang?.layerPriority ? @thangType.get 'layerPriority'
     @imageObject.name = @thang?.spriteName or @thangType.get 'name'
     reg = @getOffset 'registration'
     @imageObject.regX = -reg.x
@@ -138,6 +138,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if parent = @imageObject?.parent
       parent.removeChild @imageObject
       parent.addChild newImageObject
+      parent.updateLayerOrder()
     @imageObject = newImageObject
 
   buildFromSpriteSheet: (spriteSheet) ->
@@ -151,7 +152,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @configureMouse()
     # TODO: generalize this later?
     @imageObject.sprite = @
-    @imageObject.layerPriority = @thangType.get 'layerPriority'
+    @imageObject.layerPriority = @thang?.layerPriority ? @thangType.get 'layerPriority'
     @imageObject.name = @thang?.spriteName or @thangType.get 'name'
     @imageObject.on 'animationend', @playNextAction
     @finishSetup()

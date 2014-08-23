@@ -67,6 +67,7 @@ module.exports = class SpriteBoss extends CocoClass
         child.layerPriority = thang.layerPriority
         child.layerPriority ?= 0 if thang.isSelectable
         child.layerPriority ?= -40 if thang.isLand
+    child.layerPriority ?= 0
     return @spriteLayers['Default'] unless child.layerPriority
     layer = _.findLast @spriteLayers, (layer, name) ->
       layer.layerPriority <= child.layerPriority
@@ -78,6 +79,7 @@ module.exports = class SpriteBoss extends CocoClass
     console.error 'Sprite collision! Already have:', id if @sprites[id]
     @sprites[id] = sprite
     @spriteArray.push sprite
+    sprite.imageObject.layerPriority ?= sprite.thang?.layerPriority
     layer ?= @spriteLayers['Obstacle'] if sprite.thang?.spriteName.search(/(dungeon|indoor).wall/i) isnt -1
     layer ?= @layerForChild sprite.imageObject, sprite
     layer.addChild sprite.imageObject

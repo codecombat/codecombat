@@ -404,7 +404,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_open_source: "CodeCombat 是 100% 开源的!"
     tip_beta_launch: "CodeCombat 开始于 2013的10月份."
     tip_js_beginning: "JavaScript 仅仅只是个开始."
-    think_solution: "思考解决方法, 而不是问题."
+    tip_think_solution: "思考解决方法, 而不是问题."
     tip_theory_practice: "在理论研究中，理论和实践之间是没有区别的。但在实践中，它们是有区别的。 - Yogi Berra"
     tip_error_free: "有两种方式可以写出没有错误的程序；但是只有第三种方式能让程序达到预期的效果。 - Alan Perlis"
     tip_debugging_program: "如果说调试是清除Bug的过程，那么编码就是放置Bug的过程。- Edsger W. Dijkstra"
@@ -874,6 +874,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    tournament_ended: "Tournament ended"
 #    tournament_rules: "Tournament Rules"
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
+#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_blog: "on our blog"
 #    rules: "Rules"
 #    winners: "Winners"
@@ -944,6 +945,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    versions: "Versions"
+#    items: "Items"
 
 #  delta:
 #    added: "Added"
