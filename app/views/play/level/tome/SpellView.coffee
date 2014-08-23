@@ -305,11 +305,14 @@ module.exports = class SpellView extends CocoView
 
   recompile: (cast=true, realTime=false) ->
     @setRecompileNeeded false
-    return if @spell.source is @getSource()
-    @spell.transpile @getSource()
-    @updateAether true, false
-    @cast(false, realTime) if cast
-    @notifySpellChanged()
+    hasChanged = @spell.source isnt @getSource()
+    if hasChanged
+      @spell.transpile @getSource()
+      @updateAether true, false
+    if cast and (hasChanged or realTime)
+      @cast(false, realTime)
+    if hasChanged
+      @notifySpellChanged()
 
   updateACEText: (source) ->
     @eventsSuppressed = true

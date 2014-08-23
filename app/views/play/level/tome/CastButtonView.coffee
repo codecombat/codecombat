@@ -8,7 +8,7 @@ module.exports = class CastButtonView extends CocoView
 
   events:
     'click .cast-button': 'onCastButtonClick'
-    'click .autocast-delays a': 'onCastOptionsClick'
+    'click .cast-real-time-button': 'onCastRealTimeButtonClick'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
@@ -22,10 +22,12 @@ module.exports = class CastButtonView extends CocoView
     @levelID = options.levelID
     @castShortcut = '⇧↵'
     @castShortcutVerbose = 'Shift+Enter'
+    @castRealTimeShortcutVerbose = 'Ctrl+Shift+Enter'
 
   getRenderData: (context={}) ->
     context = super context
     context.castShortcutVerbose = @castShortcutVerbose
+    context.castRealTimeShortcutVerbose = @castRealTimeShortcutVerbose
     context
 
   afterRender: ->
@@ -34,16 +36,19 @@ module.exports = class CastButtonView extends CocoView
     @castButtonGroup = $('.cast-button-group', @$el)
     @castOptions = $('.autocast-delays', @$el)
     delay = me.get('autocastDelay')
-    delay ?= 5000
-    unless @levelID in ['rescue-mission', 'grab-the-mushroom', 'drink-me', 'its-a-trap', 'break-the-prison', 'taunt', 'cowardly-taunt', 'commanding-followers', 'mobile-artillery']
-      delay = 90019001
+    delay ?= 90019001
     @setAutocastDelay delay
 
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
 
   onCastButtonClick: (e) ->
+    console.log "cas fast yo"
     Backbone.Mediator.publish 'tome:manual-cast', {}
+
+  onCastRealTimeButtonClick: (e) ->
+    console.log "cas real time yo"
+    Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
 
   onCastOptionsClick: (e) =>
     Backbone.Mediator.publish 'tome:focus-editor'
