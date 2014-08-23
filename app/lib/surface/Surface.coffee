@@ -189,12 +189,12 @@ module.exports = Surface = class Surface extends CocoClass
   setProgress: (progress, scrubDuration=500) ->
     progress = Math.max(Math.min(progress, 1), 0.0)
 
+    @fastForwardingToFrame = null
     @scrubbing = true
     onTweenEnd = =>
       @scrubbingTo = null
       @scrubbing = false
       @scrubbingPlaybackSpeed = null
-      @fastForwarding = false
 
     if @scrubbingTo?
       # cut to the chase for existing tween
@@ -203,11 +203,10 @@ module.exports = Surface = class Surface extends CocoClass
 
     @scrubbingTo = Math.min(Math.round(progress * @world.frames.length), @world.frames.length)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
-    ease = if @fastForwarding then createjs.Ease.linear else createjs.Ease.sineInOut
     if scrubDuration
       t = createjs.Tween
         .get(@)
-        .to({currentFrame: @scrubbingTo}, scrubDuration, ease)
+        .to({currentFrame: @scrubbingTo}, scrubDuration, createjs.Ease.sineInOut)
         .call(onTweenEnd)
       t.addEventListener('change', @onFramesScrubbed)
     else
@@ -286,8 +285,8 @@ module.exports = Surface = class Surface extends CocoClass
     @setPlayingCalled = true
     if @playing and @currentFrame >= (@world.totalFrames - 5)
       @currentFrame = 0
-    if @fastForwarding and not @playing
-      @setProgress @currentFrame / @world.frames.length
+    if @fastForwardingToFrame and not @playing
+      @fastForwardingToFrame = null
 
   onSetTime: (e) ->
     toFrame = @currentFrame
@@ -368,21 +367,9 @@ module.exports = Surface = class Surface extends CocoClass
 
     @setWorld event.world
     @onFrameChanged(true)
-    if @playing and ffToFrame = Math.min event.firstChangedFrame, @frameBeforeCast, event.world.frames.length
-      ffToRatio = ffToFrame / @world.frames.length
-      ffToTime = ffToFrame * @world.dt
-      ffSpeed = Math.max 4, ffToTime / 3
-      ffInterval = 1000 * (ffToFrame - @currentFrame) / @options.frameRate
-      ffScrubDuration = 1000 * ffToTime / ffSpeed
-      ffScrubDuration = Math.min(ffScrubDuration, ffInterval)
-      ffFactor = ffInterval / ffScrubDuration
-      if ffFactor > 1.5
-        createjs.Tween.removeTweens(@)
-        @scrubbingTo = null
-        @fastForwarding = true
-        @setProgress ffToRatio, ffScrubDuration
-      else
-        createjs.Tween.removeTweens(@)
+    if @playing and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, event.world.frames.length)) and ffToFrame > @currentFrame
+      @fastForwardingToFrame = ffToFrame
+      @fastForwardingSpeed = Math.max 4, 4 * 90 / (@world.maxTotalFrames * @world.dt)
 
   # initialization
 
@@ -563,7 +550,12 @@ module.exports = Surface = class Surface extends CocoClass
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
       frameAdvanced = (@playing and @currentFrame < lastFrame) or @totalFramesDrawn < 2
       if frameAdvanced and @playing
-        @currentFrame += @world.frameRate / @options.frameRate
+        advanceBy = @world.frameRate / @options.frameRate
+        if @fastForwardingToFrame and @currentFrame < @fastForwardingToFrame - advanceBy
+          advanceBy = Math.min(@currentFrame + advanceBy * @fastForwardingSpeed, @fastForwardingToFrame) - @currentFrame
+        else if @fastForwardingToFrame
+          @fastForwardingToFrame = @fastForwardingSpeed = null
+        @currentFrame += advanceBy
         @currentFrame = Math.min @currentFrame, lastFrame
       newWorldFrame = Math.floor @currentFrame
       worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
