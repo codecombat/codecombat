@@ -15,14 +15,6 @@ UserSchema = new mongoose.Schema({
     'default': Date.now
 }, {strict: false})
 
-UserSchema.pre('init', (next) ->
-  return next() unless jsonschema.properties?
-  for prop, sch of jsonschema.properties
-    continue if prop is 'emails' # defaults may change, so don't carry them over just yet
-    @set(prop, sch.default) if sch.default?
-  next()
-)
-
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
 )

@@ -135,6 +135,7 @@ module.exports = class Level extends CocoModel
         visit comp
       thang.components = sorted
 
+  # TODO DEFAULTS
   fillInDefaultComponentConfiguration: (thangs, levelComponents) ->
     for thang in thangs
       for component in thang.components or []

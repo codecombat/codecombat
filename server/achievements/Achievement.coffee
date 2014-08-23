@@ -25,6 +25,7 @@ AchievementSchema.methods.stringifyQuery = ->
   @set('query', JSON.stringify(@get('query'))) if typeof @get('query') != 'string'
 
 AchievementSchema.methods.getExpFunction = ->
+  # TODO DEFAULTS
   kind = @get('function')?.kind or jsonschema.properties.function.default.kind
   parameters = @get('function')?.parameters or jsonschema.properties.function.default.parameters
   return utils.functionCreators[kind](parameters) if kind of utils.functionCreators

@@ -161,7 +161,7 @@ UserHandler = class UserHandler extends Handler
   post: (req, res) ->
     return @sendBadInputError(res, 'No input.') if _.isEmpty(req.body)
     return @sendBadInputError(res, 'Must have an anonymous user to post with.') unless req.user
-    return @sendBadInputError(res, 'Existing users cannot create new ones.') unless req.user.get('anonymous')
+    return @sendBadInputError(res, 'Existing users cannot create new ones.') if req.user.get('anonymous') is false
     req.body._id = req.user._id if req.user.get('anonymous')
     @put(req, res)
 

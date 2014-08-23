@@ -9,15 +9,12 @@ class CocoModel extends Backbone.Model
   notyErrors: true
   @schema: null
 
-  getMe: -> @me or @me = require('lib/auth').me
-
   initialize: (attributes, options) ->
     super(arguments...)
     options ?= {}
     @setProjection options.project
     if not @constructor.className
       console.error("#{@} needs a className set.")
-    @addSchemaDefaults()
     @on 'sync', @onLoaded, @
     @on 'error', @onError, @
     @on 'add', @onLoaded, @
@@ -45,13 +42,30 @@ class CocoModel extends Backbone.Model
     @loadFromBackup()
 
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
-
+    
+  attributesWithDefaults: undefined
+    
+  get: (attribute, withDefault=false) ->
+    if withDefault
+      if @attributesWithDefaults is undefined then @buildAttributesWithDefaults()
+      return @attributesWithDefaults[attribute]
+    else
+      super(attribute)
+      
   set: ->
+    delete @attributesWithDefaults
     inFlux = @loading or not @loaded
     @markToRevert() unless inFlux or @_revertAttributes
     res = super(arguments...)
     @saveBackup() if @saveBackups and (not inFlux) and @hasLocalChanges()
     res
+
+  buildAttributesWithDefaults: ->
+    t0 = new Date()
+    clone = $.extend true, {}, @attributes
+    TreemaNode.utils.populateDefaults(clone, @schema())
+    @attributesWithDefaults = clone
+    console.debug "Populated defaults for #{@attributes.name or @type()} in #{new Date() - t0}ms"
 
   loadFromBackup: ->
     return unless @saveBackups
@@ -161,28 +175,12 @@ class CocoModel extends Backbone.Model
     if @isPublished() then throw new Error('Can\'t publish what\'s already-published. Can\'t kill what\'s already dead.')
     @set 'permissions', (@get('permissions') or []).concat({access: 'read', target: 'public'})
 
-  addSchemaDefaults: ->
-    return if @addedSchemaDefaults
-    @addedSchemaDefaults = true
-    for prop, defaultValue of @constructor.schema.default or {}
-      continue if @get(prop)?
-      #console.log 'setting', prop, 'to', defaultValue, 'from attributes.default'
-      @set prop, defaultValue
-    for prop, sch of @constructor.schema.properties or {}
-      continue if @get(prop)?
-      continue if prop is 'emails' # hack, defaults are handled through User.coffee's email-specific methods.
-      #console.log 'setting', prop, 'to', sch.default, 'from sch.default' if sch.default?
-      @set prop, sch.default if sch.default?
-    if @loaded
-      @loadFromBackup()
-
   @isObjectID: (s) ->
     s.length is 24 and s.match(/[a-f0-9]/gi)?.length is 24
 
   hasReadAccess: (actor) ->
     # actor is a User object
-
-    actor ?= @getMe()
+    actor ?= me
     return true if actor.isAdmin()
     if @get('permissions')?
       for permission in @get('permissions')
@@ -193,8 +191,7 @@ class CocoModel extends Backbone.Model
 
   hasWriteAccess: (actor) ->
     # actor is a User object
-
-    actor ?= @getMe()
+    actor ?= me
     return true if actor.isAdmin()
     if @get('permissions')?
       for permission in @get('permissions')
