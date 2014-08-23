@@ -116,7 +116,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   setWorld: (@world) ->
     @worldLoaded = true
-    lastFrame = Math.min(@getCurrentFrame(), @world.totalFrames - 1)
+    lastFrame = Math.min(@getCurrentFrame(), @world.frames.length - 1)
     @world.getFrame(lastFrame).restoreState() unless @options.choosing
     @spriteBoss.world = @world
 
@@ -203,7 +203,7 @@ module.exports = Surface = class Surface extends CocoClass
       createjs.Tween.removeTweens(@)
       @currentFrame = @scrubbingTo
 
-    @scrubbingTo = Math.min(Math.round(progress * @world.totalFrames), @world.totalFrames)
+    @scrubbingTo = Math.min(Math.round(progress * @world.frames.length), @world.frames.length)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     ease = if @fastForwarding then createjs.Ease.linear else createjs.Ease.sineInOut
     if scrubDuration
@@ -289,25 +289,25 @@ module.exports = Surface = class Surface extends CocoClass
     if @playing and @currentFrame >= (@world.totalFrames - 5)
       @currentFrame = 0
     if @fastForwarding and not @playing
-      @setProgress @currentFrame / @world.totalFrames
+      @setProgress @currentFrame / @world.frames.length
 
   onSetTime: (e) ->
     toFrame = @currentFrame
     if e.time?
-      @worldLifespan = @world.totalFrames / @world.frameRate
+      @worldLifespan = @world.frames.length / @world.frameRate
       e.ratio = e.time / @worldLifespan
     if e.ratio?
-      toFrame = @world.totalFrames * e.ratio
+      toFrame = @world.frames.length * e.ratio
     if e.frameOffset
       toFrame += e.frameOffset
     if e.ratioOffset
-      toFrame += @world.totalFrames * e.ratioOffset
+      toFrame += @world.frames.length * e.ratioOffset
     unless _.isNumber(toFrame) and not _.isNaN(toFrame)
       return console.error('set-time event', e, 'produced invalid target frame', toFrame)
-    @setProgress(toFrame / @world.totalFrames, e.scrubDuration)
+    @setProgress(toFrame / @world.frames.length, e.scrubDuration)
 
   onFrameChanged: (force) ->
-    @currentFrame = Math.min(@currentFrame, @world.totalFrames)
+    @currentFrame = Math.min(@currentFrame, @world.frames.length)
     @debugDisplay?.updateFrame @currentFrame
     return if @currentFrame is @lastFrame and not force
     progress = @getProgress()
@@ -319,7 +319,7 @@ module.exports = Surface = class Surface extends CocoClass
       world: @world
     )
 
-    if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames - 1
+    if @lastFrame < @world.frames.length and @currentFrame >= @world.totalFrames - 1
       @ended = true
       @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended'
@@ -371,7 +371,7 @@ module.exports = Surface = class Surface extends CocoClass
     @setWorld event.world
     @onFrameChanged(true)
     if @playing and ffToFrame = Math.min event.firstChangedFrame, @frameBeforeCast, event.world.frames.length
-      ffToRatio = ffToFrame / @world.totalFrames
+      ffToRatio = ffToFrame / @world.frames.length
       ffToTime = ffToFrame * @world.dt
       ffSpeed = Math.max 4, ffToTime / 3
       ffInterval = 1000 * (ffToFrame - @currentFrame) / @options.frameRate
@@ -559,7 +559,7 @@ module.exports = Surface = class Surface extends CocoClass
     # seems to be a bug where only one object can register with the Ticker...
     oldFrame = @currentFrame
     oldWorldFrame = Math.floor oldFrame
-    lastFrame = @world.totalFrames - 1
+    lastFrame = @world.frames.length - 1
     while true
       Dropper.tick()
       @trailmaster.tick() if @trailmaster
@@ -593,11 +593,10 @@ module.exports = Surface = class Surface extends CocoClass
   restoreWorldState: ->
     frame = @world.getFrame(@getCurrentFrame())
     frame.restoreState()
-    current = Math.max(0, Math.min(@currentFrame, @world.totalFrames - 1))
-    if current - Math.floor(current) > 0.01
+    current = Math.max(0, Math.min(@currentFrame, @world.frames.length - 1))
+    if current - Math.floor(current) > 0.01 and Math.ceil(current) < @world.frames.length - 1
       next = Math.ceil current
       ratio = current % 1
-      console.log "trying to restore partial state between", current, next, "of frames", @world.frames.length, "frames" unless @world.frames[next]
       @world.frames[next].restorePartialState ratio if next > 1
     frame.clearEvents() if parseInt(@currentFrame) is parseInt(@lastFrame)
     @spriteBoss.updateSounds() if parseInt(@currentFrame) isnt parseInt(@lastFrame)
