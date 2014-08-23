@@ -404,7 +404,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_open_source: "A CodeCombat 100%-osan nyitott forráskódu."
 #    tip_beta_launch: "CodeCombat launched its beta in October, 2013."
     tip_js_beginning: "JavaScript csak a kezdet."
-    think_solution: "A megoldásra gondolj, ne a problémára!"
+    tip_think_solution: "A megoldásra gondolj, ne a problémára!"
     tip_theory_practice: "Elméletben nincs különbség elmélet és gyakorlat között. A gyakorlatban viszont van. - Yogi Berra"
     tip_error_free: "Két módon lehet hibátlan programot írni. De csak a harmadik működik. - Alan Perlis"
 #    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
@@ -874,6 +874,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    tournament_ended: "Tournament ended"
 #    tournament_rules: "Tournament Rules"
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
+#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_blog: "on our blog"
 #    rules: "Rules"
 #    winners: "Winners"
@@ -944,6 +945,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    versions: "Versions"
+#    items: "Items"
 
 #  delta:
 #    added: "Added"

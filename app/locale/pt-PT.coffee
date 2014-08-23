@@ -404,7 +404,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tip_open_source: "O CodeCombat é 100% open source!"
     tip_beta_launch: "O CodeCombat lançou o seu beta em outubro de 2013."
     tip_js_beginning: "O JavaScript é apenas o começo."
-    think_solution: "Pense na solução, não no problema."
+    tip_think_solution: "Pense na solução, não no problema."
     tip_theory_practice: "Teoricamente, não há diferença entre a teoria e a prática. Mas na prática, há. - Yogi Berra"
     tip_error_free: "Há duas formas de escrever programas sem erros; apenas a terceira funciona. - Alan Perlis"
     tip_debugging_program: "Se depurar é o processo de remover erros, então programar deve ser o processo de os adicionar. - Edsger W. Dijkstra"
@@ -874,6 +874,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tournament_ended: "O Torneio acabou"
     tournament_rules: "Regras do Torneio"
     tournament_blurb: "Escreva código, recolha ouro, construa exércitos, esmague inimigos, ganhe prémios e melhore a sua carreira no nosso torneio $40,000 Greed! Confira os detalhes"
+#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
     tournament_blurb_blog: "no nosso blog"
     rules: "Regras"
     winners: "Vencedores"
@@ -944,6 +945,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     candidate_sessions: "Sessões de Candidatos"
     user_remark: "Observação do Utilizador"
     versions: "Versões"
+#    items: "Items"
 
   delta:
     added: "Adicionados/as"

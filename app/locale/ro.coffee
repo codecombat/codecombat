@@ -404,7 +404,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tip_open_source: "CodeCombat este 100% open source!"
     tip_beta_launch: "CodeCombat a fost lansat beta in Octombrie 2013."
     tip_js_beginning: "JavaScript este doar începutul."
-    think_solution: "Gândește-te la soluție, nu la problemă."
+    tip_think_solution: "Gândește-te la soluție, nu la problemă."
     tip_theory_practice: "Teoretic nu este nici o diferență înte teorie și practică. Dar practic este. - Yogi Berra"
     tip_error_free: "Există doar două metode de a scrie un program fără erori; numai a treia funcționează. - Alan Perlis"
     tip_debugging_program: "Dacă a face debuggin este procesul de a scoate bug-uri, atunci a programa este procesul de a introduce bug-uri. - Edsger W. Dijkstra"
@@ -874,6 +874,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    tournament_ended: "Tournament ended"
 #    tournament_rules: "Tournament Rules"
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
+#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_blog: "on our blog"
 #    rules: "Rules"
 #    winners: "Winners"
@@ -944,6 +945,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    versions: "Versions"
+#    items: "Items"
 
 #  delta:
 #    added: "Added"

@@ -404,7 +404,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     tip_open_source: "CodeCombat 是 百分百 開源個!"
     tip_beta_launch: "CodeCombat 從 2013年10月起。"
     tip_js_beginning: "JavaScript 只是起個頭。"
-    think_solution: "思考解決方法，勿是問題。"
+    tip_think_solution: "思考解決方法，勿是問題。"
     tip_theory_practice: "來理論研究裏向，理論搭實踐弗分個。不過徠實踐裏頭，渠裏是有分個。 - Yogi Berra"
     tip_error_free: "有兩種方式寫得出嘸錯個程序；不過佩只第三種方式好讓程序達到预期個效果。 - Alan Perlis"
     tip_debugging_program: "空是講調試是清理Bug個過程，箇勿編碼佩是囥Bug個過程。- Edsger W. Dijkstra"
@@ -874,6 +874,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    tournament_ended: "Tournament ended"
 #    tournament_rules: "Tournament Rules"
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
+#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_blog: "on our blog"
 #    rules: "Rules"
 #    winners: "Winners"
@@ -944,6 +945,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    versions: "Versions"
+#    items: "Items"
 
 #  delta:
 #    added: "Added"
