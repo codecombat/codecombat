@@ -19,7 +19,7 @@ module.exports = nativeDescription: "español", englishDescription: "Spanish", t
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 
-#  units:
+  units:
     second: "Segundo"
     seconds: "Segundos"
 #    minute: "minute"
