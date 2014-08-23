@@ -67,6 +67,8 @@ module.exports = Surface = class Surface extends CocoClass
     'level-set-letterbox': 'onSetLetterbox'
     'application:idle-changed': 'onIdleChanged'
     'camera:zoom-updated': 'onZoomUpdated'
+    'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
+    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -82,7 +84,7 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.extend(@options, givenOptions) if givenOptions
     @initEasel()
     @initAudio()
-    @onResize = _.debounce @onResize, 500
+    @onResize = _.debounce @onResize, 250
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
@@ -367,7 +369,8 @@ module.exports = Surface = class Surface extends CocoClass
 
     @setWorld event.world
     @onFrameChanged(true)
-    if @playing and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, event.world.frames.length)) and ffToFrame > @currentFrame
+    fastForwardBuffer = 2  # Make sure that real-time playback doesn't need to buffer more than this many seconds.
+    if @playing and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, event.world.frames.length)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
       @fastForwardingToFrame = ffToFrame
       @fastForwardingSpeed = Math.max 4, 4 * 90 / (@world.maxTotalFrames * @world.dt)
 
@@ -402,8 +405,17 @@ module.exports = Surface = class Surface extends CocoClass
   onResize: (e) =>
     oldWidth = parseInt @canvas.attr('width'), 10
     oldHeight = parseInt @canvas.attr('height'), 10
-    newWidth = @canvas.width()
-    newHeight = @canvas.height()
+    aspectRatio = oldWidth / oldHeight
+    pageWidth = $('#page-container').width() - 17  # 17px nano scroll bar
+    if @realTime
+      pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
+      newWidth = Math.min pageWidth, pageHeight * aspectRatio
+      newHeight = newWidth / aspectRatio
+    else
+      newWidth = 0.55 * pageWidth
+      newHeight = newWidth / aspectRatio
+    @canvas.width newWidth
+    @canvas.height newHeight
     return unless newWidth > 0 and newHeight > 0
     #if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
     #  newWidth = Math.min 924, newWidth
@@ -599,6 +611,15 @@ module.exports = Surface = class Surface extends CocoClass
   drawCurrentFrame: (e) ->
     ++@totalFramesDrawn
     @stage.update e
+
+  # Real-time playback
+  onRealTimePlaybackStarted: (e) ->
+    @realTime = true
+    @onResize()
+
+  onRealTimePlaybackEnded: (e) ->
+    @realTime = false
+    @onResize()
 
   # paths - TODO: move to SpriteBoss? but only update on frame drawing instead of on every frame update?
 

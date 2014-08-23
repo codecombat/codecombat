@@ -64,6 +64,8 @@ module.exports = class PlayLevelView extends RootView
     'level:set-team': 'setTeam'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
+    'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
+    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -512,6 +514,15 @@ module.exports = class PlayLevelView extends RootView
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
+
+  # Real-time playback
+  onRealTimePlaybackStarted: (e) ->
+    @$el.addClass 'real-time'
+    @onWindowResize()
+
+  onRealTimePlaybackEnded: (e) ->
+    @$el.removeClass 'real-time'
+    @onWindowResize()
 
   destroy: ->
     @levelLoader?.destroy()

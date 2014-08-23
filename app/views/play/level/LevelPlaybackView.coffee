@@ -24,6 +24,7 @@ module.exports = class LevelPlaybackView extends CocoView
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'  # Maybe?
     'level-set-letterbox': 'onSetLetterbox'
+    'tome:cast-spells': 'onTomeCast'
 
   events:
     'click #debug-toggle': 'onToggleDebug'
@@ -151,9 +152,18 @@ module.exports = class LevelPlaybackView extends CocoView
     @$el.find('#music-button').toggleClass('music-on', me.get('music'))
 
   onSetLetterbox: (e) ->
-    buttons = @$el.find '#play-button, .scrubber-handle'
-    buttons.css 'visibility', if e.on then 'hidden' else 'visible'
+    @togglePlaybackControls !e.on
     @disabled = e.on
+
+  togglePlaybackControls: (to) ->
+    buttons = @$el.find '#play-button, .scrubber-handle'
+    buttons.css 'visibility', if to then 'visible' else 'hidden'
+
+  onTomeCast: (e) ->
+    return unless e.realTime
+    @realTime = true
+    @togglePlaybackControls false
+    Backbone.Mediator.publish 'playback:real-time-playback-started', {}
 
   onWindowResize: (s...) =>
     @barWidth = $('.progress', @$el).width()
@@ -276,11 +286,16 @@ module.exports = class LevelPlaybackView extends CocoView
   updateProgress: (progress, world) ->
     if world.frames.length isnt @lastLoadedFrameCount
       @updateBarWidth world.frames.length, world.maxTotalFrames, world.dt
+    @worldCompletelyLoaded = world.frames.length is world.totalFrames
     $('.scrubber .progress-bar', @$el).css('width', "#{progress * 100}%")
 
   updatePlayButton: (progress) ->
-    if progress >= 0.99 and @lastProgress < 0.99
+    if @worldCompletelyLoaded and progress >= 0.99 and @lastProgress < 0.99
       $('#play-button').removeClass('playing').removeClass('paused').addClass('ended')
+      if @realTime
+        @realTime = false
+        @togglePlaybackControls true
+        Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
     if progress < 0.99 and @lastProgress >= 0.99
       b = $('#play-button').removeClass('ended')
       if @playing then b.addClass('playing') else b.addClass('paused')
@@ -326,7 +341,7 @@ module.exports = class LevelPlaybackView extends CocoView
     return if @shouldIgnore()
     Backbone.Mediator.publish 'level-set-time', ratio: ratio, scrubDuration: duration
 
-  shouldIgnore: -> return @disabled
+  shouldIgnore: -> return @disabled or @realTime
 
   onTogglePlay: (e) ->
     e?.preventDefault()

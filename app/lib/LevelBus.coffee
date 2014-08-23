@@ -196,7 +196,8 @@ module.exports = class LevelBus extends Bus
 
   onNewGoalStates: ({goalStates})->
     state = @session.get 'state'
-    unless utils.kindaEqual state.goalStates, goalStates # Only save when goals really change
+    unless utils.kindaEqual state.goalStates, goalStates  # Only save when goals really change
+      # TODO: this log doesn't capture when null-status goals are being set during world streaming. Where can they be coming from?
       return console.error("Somehow trying to save null goal states!", goalStates) if _.find(goalStates, (gs) -> not gs.status)
       state.goalStates = goalStates
       @session.set 'state', state

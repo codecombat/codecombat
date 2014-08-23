@@ -105,6 +105,14 @@ module.exports =
   'playback:manually-scrubbed':
     {} # TODO schema
 
+  'playback:real-time-playback-started':
+    type: 'object'
+    additionalProperties: false
+
+  'playback:real-time-playback-ended':
+    type: 'object'
+    additionalProperties: false
+
   'change:editor-config':
     {} # TODO schema
 
