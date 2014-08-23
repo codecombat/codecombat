@@ -38,15 +38,20 @@ c.extendNamedProperties AchievementSchema
 c.extendBasicProperties AchievementSchema, 'achievement'
 c.extendSearchableProperties AchievementSchema
 
+AchievementSchema.default =
+  worth: 10
+  description: 'Probably the coolest you\'ll ever get.'
+  difficulty: 1
+  recalculable: true
+  function: {}
+
 _.extend AchievementSchema.properties,
   query:
     #type:'object'
     $ref: '#/definitions/' + MongoFindQuerySchema.id
   worth: c.float
-    default: 10
   collection: {type: 'string'}
-  description: c.shortString
-    default: 'Probably the coolest you\'ll ever get.'
+  description: c.shortString()
   userField: c.shortString()
   related: c.objectId(description: 'Related entity')
   icon: {type: 'string', format: 'image-file', title: 'Icon', description: 'Image should be a 100x100 transparent png.'}
@@ -55,27 +60,26 @@ _.extend AchievementSchema.properties,
     description: 'For categorizing and display purposes'
   difficulty: c.int
     description: 'The higher the more difficult'
-    default: 1
   proportionalTo:
     type: 'string'
     description: 'For repeatables only. Denotes the field a repeatable achievement needs for its calculations'
   recalculable:
     type: 'boolean'
     description: 'Needs to be set to true before it is elligible for recalculation.'
-    default: true
   function:
     type: 'object'
     description: 'Function that gives total experience for X amount achieved'
     properties:
-      kind: {enum: ['linear', 'logarithmic', 'quadratic'], default: 'linear'}
+      kind: {enum: ['linear', 'logarithmic', 'quadratic'] }
       parameters:
         type: 'object'
+        default: { a: 1, b: 1, c: 1 }
         properties:
-          a: {type: 'number', default: 1}
-          b: {type: 'number', default: 1}
-          c: {type: 'number', default: 1}
+          a: {type: 'number' }
+          b: {type: 'number' }
+          c: {type: 'number' }
         additionalProperties: true
-    default: {kind: 'linear', parameters: a: 1}
+    default: {kind: 'linear', parameters: {}}
     required: ['kind', 'parameters']
     additionalProperties: false
   i18n: c.object

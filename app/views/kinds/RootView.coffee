@@ -89,7 +89,7 @@ module.exports = class RootView extends CocoView
     if $select.hasClass('fancified')
       $select.parent().find('.options, .trigger').remove()
       $select.unwrap().removeClass('fancified')
-    preferred = me.lang()
+    preferred = me.get('preferredLanguage', true)
     codes = _.keys(locale)
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->

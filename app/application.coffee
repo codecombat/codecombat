@@ -42,7 +42,7 @@ Application = initialize: ->
   @linkedinHandler = new LinkedInHandler()
   preload(COMMON_FILES)
   $.i18n.init {
-    lng: me?.lang() ? 'en'
+    lng: me.get('preferredLanguage', true)
     fallbackLng: 'en'
     resStore: locale
     #debug: true

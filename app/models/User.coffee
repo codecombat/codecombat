@@ -19,7 +19,6 @@ module.exports = class User extends CocoModel
 
   isAnonymous: -> @get('anonymous', true)
   displayName: -> @get('name', true)
-  lang: -> @get('preferredLanguage', true)
 
   getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
     photoURL = if useJobProfilePhoto then @get('jobProfile')?.photoURL else null

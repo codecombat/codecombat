@@ -11,7 +11,7 @@ side = {title: 'Side', description: 'A side.', type: 'string', 'enum': ['left', 
 thang = {title: 'Thang', description: 'The name of a Thang.', type: 'string', maxLength: 30, format: 'thang'}
 
 eventPrereqValueTypes = ['boolean', 'integer', 'number', 'null', 'string'] # not 'object' or 'array'
-EventPrereqSchema = c.object {title: 'Event Prerequisite', format: 'event-prereq', description: 'Script requires that the value of some property on the event triggering it to meet some prerequisite.', 'default': {eventProps: []}, required: ['eventProps']},
+EventPrereqSchema = c.object {title: 'Event Prerequisite', format: 'event-prereq', description: 'Script requires that the value of some property on the event triggering it to meet some prerequisite.', required: ['eventProps']},
   eventProps: c.array {'default': ['thang'], format: 'event-value-chain', maxItems: 10, title: 'Event Property', description: 'A chain of keys in the event, like "thang.pos.x" to access event.thang.pos.x.'}, c.shortString(title: 'Property', description: 'A key in the event property key chain.')
   equalTo: c.object {type: eventPrereqValueTypes, title: '==', description: 'Script requires the event\'s property chain value to be equal to this value.'}
   notEqualTo: c.object {type: eventPrereqValueTypes, title: '!=', description: 'Script requires the event\'s property chain value to *not* be equal to this value.'}
@@ -30,7 +30,7 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
   id: c.shortString(title: 'ID', description: 'Unique identifier for this goal, like \"defeat-dragons\".', pattern: '^[a-z0-9-]+$')  # unique somehow?
   worldEndsAfter: {title: 'World Ends After', description: 'When included, ends the world this many seconds after this goal succeeds or fails.', type: 'number', minimum: 0, exclusiveMinimum: true, maximum: 300, default: 3}
   howMany: {title: 'How Many', description: 'When included, require only this many of the listed goal targets instead of all of them.', type: 'integer', minimum: 1}
-  hiddenGoal: {title: 'Hidden', description: 'Hidden goals don\'t show up in the goals area for the player until they\'re failed. (Usually they\'re obvious, like "don\'t die".)', 'type': 'boolean', default: false}
+  hiddenGoal: {title: 'Hidden', description: 'Hidden goals don\'t show up in the goals area for the player until they\'re failed. (Usually they\'re obvious, like "don\'t die".)', 'type': 'boolean' }
   team: c.shortString(title: 'Team', description: 'Name of the team this goal is for, if it is not for all of the playable teams.')
   killThangs: c.array {title: 'Kill Thangs', description: 'A list of Thang IDs the player should kill, or team names.', uniqueItems: true, minItems: 1, 'default': ['ogres']}, thang
   saveThangs: c.array {title: 'Save Thangs', description: 'A list of Thang IDs the player should save, or team names', uniqueItems: true, minItems: 1, 'default': ['humans']}, thang
@@ -70,26 +70,26 @@ ResponseSchema = c.object {title: 'Dialogue Button', description: 'A button to b
   buttonClass: c.shortString(title: 'Button Class', description: 'CSS class that will be added to the button, like "btn-primary".')
   i18n: {type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this button'}
 
-PointSchema = c.object {title: 'Point', description: 'An {x, y} coordinate point.', format: 'point2d', required: ['x', 'y']},
-  x: {title: 'x', description: 'The x coordinate.', type: 'number', 'default': 15}
-  y: {title: 'y', description: 'The y coordinate.', type: 'number', 'default': 20}
+PointSchema = c.object {title: 'Point', description: 'An {x, y} coordinate point.', format: 'point2d', default: { x:15, y:20 }},
+  x: {title: 'x', description: 'The x coordinate.', type: 'number'}
+  y: {title: 'y', description: 'The y coordinate.', type: 'number'}
 
 SpriteCommandSchema = c.object {title: 'Thang Command', description: 'Make a target Thang move or say something, or select/deselect it.', required: ['id'], default: {id: 'Captain Anya'}},
   id: thang
   select: {title: 'Select', description: 'Select or deselect this Thang.', type: 'boolean'}
-  say: c.object {title: 'Say', description: 'Make this Thang say a message.', required: ['text']},
+  say: c.object {title: 'Say', description: 'Make this Thang say a message.', required: ['text'], default: { mood: 'explain' }},
     blurb: c.shortString(title: 'Blurb', description: 'A very short message to display above this Thang\'s head. Plain text.', maxLength: 50)
-    mood: c.shortString(title: 'Mood', description: 'The mood with which the Thang speaks.', 'enum': ['explain', 'debrief', 'congrats', 'attack', 'joke', 'tip', 'alarm'], 'default': 'explain')
+    mood: c.shortString(title: 'Mood', description: 'The mood with which the Thang speaks.', 'enum': ['explain', 'debrief', 'congrats', 'attack', 'joke', 'tip', 'alarm'])
     text: {title: 'Text', description: 'A short message to display in the dialogue area. Markdown okay.', type: 'string', maxLength: 400}
-    sound: c.object {title: 'Sound', description: 'A dialogue sound file to accompany the message.', required: ['mp3', 'ogg']},
+    sound: c.object {title: 'Sound', description: 'A dialogue sound file to accompany the message.', required: ['mp3', 'ogg'] },
       mp3: c.shortString(title: 'MP3', format: 'sound-file')
       ogg: c.shortString(title: 'OGG', format: 'sound-file')
-      preload: {title: 'Preload', description: 'Whether to load this sound file before the level can begin (typically for the first dialogue of a level).', type: 'boolean', 'default': false}
+      preload: {title: 'Preload', description: 'Whether to load this sound file before the level can begin (typically for the first dialogue of a level).', type: 'boolean' }
     responses: c.array {title: 'Buttons', description: 'An array of buttons to include with the dialogue, with which the user can respond.'}, ResponseSchema
     i18n: {type: 'object', format: 'i18n', props: ['blurb', 'text'], description: 'Help translate this message'}
-  move: c.object {title: 'Move', description: 'Tell the Thang to move.', required: ['target'], default: {target: {x: 20, y: 20}, duration: 500}},
-    target: _.extend _.cloneDeep(PointSchema), {title: 'Target', description: 'Target point to which the Thang will move.'}
-    duration: {title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, default: 500, format: 'milliseconds'}
+  move: c.object {title: 'Move', description: 'Tell the Thang to move.', required: ['target'], default: {target: {}, duration: 500}},
+    target: _.extend _.cloneDeep(PointSchema), {title: 'Target', description: 'Target point to which the Thang will move.', default: {x: 20, y: 20}}
+    duration: {title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, format: 'milliseconds'}
 
 NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes that should be sent out as a result of this script triggering.', displayProperty: 'name'},
   name: {title: 'Name', description: 'Short name describing the script, like \"Anya greets the player\", for your convenience.', type: 'string'}
@@ -116,7 +116,7 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
   playback: c.object {title: 'Playback', description: 'Control the playback of the level.'},
     playing: {type: 'boolean', title: 'Set Playing', description: 'Set whether playback is playing or paused.'}
     scrub: c.object {title: 'Scrub', description: 'Scrub the level playback time to a certain point.', default: {offset: 2, duration: 1000, toRatio: 0.5}},
-      offset: {type: 'integer', title: 'Offset', description: 'Number of frames by which to adjust the scrub target time.', default: 2}
+      offset: {type: 'integer', title: 'Offset', description: 'Number of frames by which to adjust the scrub target time.'}
       duration: {type: 'integer', title: 'Duration', description: 'Number of milliseconds over which to scrub time.', minimum: 0, format: 'milliseconds'}
       toRatio: {type: 'number', title: 'To Progress Ratio', description: 'Set playback time to a target playback progress ratio.', minimum: 0, maximum: 1}
       toTime: {type: 'number', title: 'To Time', description: 'Set playback time to a target playback point, in seconds.', minimum: 0}
@@ -156,7 +156,7 @@ ScriptSchema = c.object {
   id: c.shortString(title: 'ID', description: 'A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.')  # uniqueness?
   channel: c.shortString(title: 'Event', format: 'event-channel', description: 'Event channel this script might trigger for, like "world:won".')
   eventPrereqs: c.array {title: 'Event Checks', description: 'Logical checks on the event for this script to trigger.', format: 'event-prereqs'}, EventPrereqSchema
-  repeats: {title: 'Repeats', description: 'Whether this script can trigger more than once during a level.', enum: [true, false, 'session'], 'default': false}
+  repeats: {title: 'Repeats', description: 'Whether this script can trigger more than once during a level.', enum: [true, false, 'session']}
   scriptPrereqs: c.array {title: 'Happens After', description: 'Scripts that need to fire first.'},
     c.shortString(title: 'ID', description: 'A unique ID of a script.')
   notAfter: c.array {title: 'Not After', description: 'Do not run this script if any of these scripts have run.'},
@@ -189,7 +189,7 @@ LevelSystemSchema = c.object {
 },
   original: c.objectId(title: 'Original', description: 'A reference to the original System being configured.', format: 'hidden')
   config: c.object {title: 'Configuration', description: 'System-specific configuration properties.', additionalProperties: true, format: 'level-system-configuration'}
-  majorVersion: {title: 'Major Version', description: 'Which major version of the System is being used.', type: 'integer', minimum: 0, default: 0, format: 'hidden'}
+  majorVersion: {title: 'Major Version', description: 'Which major version of the System is being used.', type: 'integer', minimum: 0, format: 'hidden'}
 
 GeneralArticleSchema = c.object {
   title: 'Article'
@@ -211,16 +211,18 @@ LevelSchema = c.object {
   'default':
     name: 'Ineffable Wizardry'
     description: 'This level is indescribably flarmy.'
-    documentation: {specificArticles: [], generalArticles: []}
+    documentation: {}
     scripts: []
     thangs: []
+    systems: []
+    victory: {}
 }
 c.extendNamedProperties LevelSchema  # let's have the name be the first property
 _.extend LevelSchema.properties,
-  description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, 'default': 'This level is indescribably flarmy!', format: 'markdown'}
+  description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown'}
   documentation: c.object {title: 'Documentation', description: 'Documentation articles relating to this level.', required: ['specificArticles', 'generalArticles'], 'default': {specificArticles: [], generalArticles: []}},
-    specificArticles: c.array {title: 'Specific Articles', description: 'Specific documentation articles that live only in this level.', uniqueItems: true, 'default': []}, SpecificArticleSchema
-    generalArticles: c.array {title: 'General Articles', description: 'General documentation articles that can be linked from multiple levels.', uniqueItems: true, 'default': []}, GeneralArticleSchema
+    specificArticles: c.array {title: 'Specific Articles', description: 'Specific documentation articles that live only in this level.', uniqueItems: true }, SpecificArticleSchema
+    generalArticles: c.array {title: 'General Articles', description: 'General documentation articles that can be linked from multiple levels.', uniqueItems: true}, GeneralArticleSchema
   background: c.objectId({format: 'hidden'})
   nextLevel: {
     type: 'object',
@@ -230,10 +232,13 @@ _.extend LevelSchema.properties,
     description: 'Reference to the next level players will play after beating this one.'
   }
   employerDescription: { type:'string', format: 'markdown', title: 'Employer Description' }
-  scripts: c.array {title: 'Scripts', description: 'An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.', 'default': []}, ScriptSchema
-  thangs: c.array {title: 'Thangs', description: 'An array of Thangs that make up the level.', 'default': []}, LevelThangSchema
-  systems: c.array {title: 'Systems', description: 'Levels are configured by changing the Systems attached to them.', uniqueItems: true, default: []}, LevelSystemSchema  # TODO: uniqueness should be based on 'original', not whole thing
-  victory: c.object {title: 'Victory Screen', default: {}, properties: {'body': {type: 'string', format: 'markdown', title: 'Body Text', description: 'Inserted into the Victory Modal once this level is complete. Tell the player they did a good job and what they accomplished!'}, i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this victory message'}}}
+  scripts: c.array {title: 'Scripts', description: 'An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.'}, ScriptSchema
+  thangs: c.array {title: 'Thangs', description: 'An array of Thangs that make up the level.' }, LevelThangSchema
+  systems: c.array {title: 'Systems', description: 'Levels are configured by changing the Systems attached to them.', uniqueItems: true }, LevelSystemSchema  # TODO: uniqueness should be based on 'original', not whole thing
+  victory: c.object {title: 'Victory Screen'}, {
+    body: {type: 'string', format: 'markdown', title: 'Body Text', description: 'Inserted into the Victory Modal once this level is complete. Tell the player they did a good job and what they accomplished!'},
+    i18n: {type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this victory message'}
+  }
   i18n: {type: 'object', format: 'i18n', props: ['name', 'description'], description: 'Help translate this level'}
   icon: {type: 'string', format: 'image-file', title: 'Icon'}
   banner: {type: 'string', format: 'image-file', title: 'Banner'}

@@ -3,6 +3,9 @@ c = require './../schemas'
 module.exports =
   EarnedAchievementSchema =
     type: 'object'
+    default:
+      previouslyAchievedAmount: 0
+      
     properties:
       user: c.objectId
         links:
@@ -26,5 +29,5 @@ module.exports =
       changed: type: 'date'
       achievedAmount: type: 'number'
       earnedPoints: type: 'number'
-      previouslyAchievedAmount: {type: 'number', default: 0}
+      previouslyAchievedAmount: {type: 'number'}
       notified: type: 'boolean'
