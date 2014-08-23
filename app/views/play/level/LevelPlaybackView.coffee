@@ -37,7 +37,7 @@ module.exports = class LevelPlaybackView extends CocoView
     'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
-    'click': -> Backbone.Mediator.publish 'tome:focus-editor'
+    'click': -> Backbone.Mediator.publish 'tome:focus-editor' unless @realTime
     'mouseenter #timeProgress': 'onProgressEnter'
     'mouseleave #timeProgress': 'onProgressLeave'
     'mousemove #timeProgress': 'onProgressHover'
@@ -316,15 +316,18 @@ module.exports = class LevelPlaybackView extends CocoView
       max: @sliderIncrements
       animate: 'slow'
       slide: (event, ui) =>
+        return if @shouldIgnore()
         @scrubTo ui.value / @sliderIncrements
         @slideCount += 1
 
       start: (event, ui) =>
+        return if @shouldIgnore()
         @slideCount = 0
         @wasPlaying = @playing
         Backbone.Mediator.publish 'level-set-playing', {playing: false}
 
       stop: (event, ui) =>
+        return if @shouldIgnore()
         @actualProgress = ui.value / @sliderIncrements
         Backbone.Mediator.publish 'playback:manually-scrubbed', ratio: @actualProgress
         Backbone.Mediator.publish 'level-set-playing', {playing: @wasPlaying}
