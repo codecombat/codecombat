@@ -404,7 +404,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tip_open_source: "CodeCombat est 100% open source!"
     tip_beta_launch: "La beta de CodeCombat a été lancée en Octobre 2013"
     tip_js_beginning: "JavaScript n'est que le commencement."
-    think_solution: "Reflechissez a propos de la solution et non du problème."
+    tip_think_solution: "Reflechissez a propos de la solution et non du problème."
     tip_theory_practice: "En théorie, il n'y a pas de différence entre la théorie et la pratique. Mais en pratique il y en a. - Yogi Berra"
 #    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
     tip_debugging_program: "Si débugger est l'art de corriger les bugs, alors programmer est l'art d'en créer. . - Edsger W. Dijkstra"
@@ -874,6 +874,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    tournament_ended: "Tournament ended"
     tournament_rules: "Règles du tournoi"
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
+#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
     tournament_blurb_blog: "Sur notre blog"
 #    rules: "Rules"
 #    winners: "Winners"
@@ -944,6 +945,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    versions: "Versions"
+#    items: "Items"
 
   delta:
     added: "Ajouté"

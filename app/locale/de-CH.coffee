@@ -404,7 +404,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     tip_open_source: "CodeCombat isch 100% Open Source!"
     tip_beta_launch: "D CodeCombat Beta isch im Oktober 2013 online gange."
     tip_js_beginning: "JavaScript isch nur de Afang."
-    think_solution: "Denk über d Lösig noh, nid über s Problem."
+    tip_think_solution: "Denk über d Lösig noh, nid über s Problem."
     tip_theory_practice: "Theoretisch gits kein Unterschied zwüsche Theorie und Praxis. Praktisch aber scho. - Yogi Berra"
     tip_error_free: "Es git zwei Arte zum fehlerfreii Programm schriibe; nur di dritt funktioniert. - Alan Perils"
     tip_debugging_program: "Wenn Debugging de Prozess isch, mit dem mehr Bugs entfernt, denn mues Programmiere de sii, mit dem mer sie dri tuet. - Edsger W. Dijkstra"
@@ -874,6 +874,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    tournament_ended: "Tournament ended"
 #    tournament_rules: "Tournament Rules"
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
+#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_blog: "on our blog"
 #    rules: "Rules"
 #    winners: "Winners"
@@ -944,6 +945,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    versions: "Versions"
+#    items: "Items"
 
 #  delta:
 #    added: "Added"

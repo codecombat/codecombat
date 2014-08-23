@@ -404,7 +404,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_open_source: "CodeCombat is 100% open source!"
     tip_beta_launch: "CodeCombat lanceerde zijn beta versie in Oktober, 2013."
     tip_js_beginning: "JavaScript is nog maar het begin."
-    think_solution: "Denk aan de oplossing, niet aan het probleem"
+    tip_think_solution: "Denk aan de oplossing, niet aan het probleem."
     tip_theory_practice: "In theorie is er geen verschil tussen de theorie en de praktijk; in de praktijk is er wel een verschil. - Yogi Berra"
     tip_error_free: "Er zijn twee manieren om fout-vrije code te schrijven, maar enkele de derde manier werkt. - Alan Perlis"
     tip_debugging_program: "Als debuggen het proces is om bugs te verwijderen, dan moet programmeren het proces zijn om ze erin te stoppen. - Edsger W. Dijkstra"
@@ -874,6 +874,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    tournament_ended: "Tournament ended"
 #    tournament_rules: "Tournament Rules"
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
+#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_blog: "on our blog"
 #    rules: "Rules"
 #    winners: "Winners"
@@ -944,6 +945,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    versions: "Versions"
+#    items: "Items"
 
 #  delta:
 #    added: "Added"

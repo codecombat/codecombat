@@ -404,7 +404,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_open_source: "Исходный код CodeCombat открыт на 100%!"
     tip_beta_launch: "CodeCombat запустил бета-тестирование в октябре 2013 года."
     tip_js_beginning: "JavaScript это только начало."
-    think_solution: "Думайте о решении, а не о проблеме."
+    tip_think_solution: "Думайте о решении, а не о проблеме."
     tip_theory_practice: "В теории, между практикой и теорией нет разницы. Но на практике есть. - Yogi Berra"
     tip_error_free: "Есть два способа писать программы без ошибок; работает только третий. - Alan Perlis"
     tip_debugging_program: "Если отладка это процесс удаления багов, то программирование должно быть процессом их добавления. - Edsger W. Dijkstra"
@@ -874,6 +874,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tournament_ended: "Турнир закончился"
     tournament_rules: "Правила турнира"
     tournament_blurb: "Пишите код, собирайте золото, стройте армию, крушите противников, получайте призы и улучшайте вашу карьеру в нашем \"$40,000 турнире жадности\"! Узнайте больше"
+#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
     tournament_blurb_blog: "в нашем блоге"
     rules: "Правила"
     winners: "Победители"
@@ -944,6 +945,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    candidate_sessions: "Candidate Sessions"
     user_remark: "Пользовательские поправки"
     versions: "Версии"
+#    items: "Items"
 
   delta:
     added: "Добавлено"

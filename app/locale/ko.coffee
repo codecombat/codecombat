@@ -404,7 +404,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tip_open_source: "코드 컴뱃은 100% 오픈 소스 기반입니다!"
     tip_beta_launch: "코드 컴뱃은 2013년 10월에 베타 서비스를 출시했습니다."
     tip_js_beginning: "JavaScript는 단지 시작일 뿐입니다."
-    think_solution: "해결 방법을 고민해보세요, 문제를 고민하지 말구요."
+    tip_think_solution: "해결 방법을 고민해보세요, 문제를 고민하지 말구요"
 #    tip_theory_practice: "In theory, there is no difference between theory and practice. But in practice, there is. - Yogi Berra"
 #    tip_error_free: "There are two ways to write error-free programs; only the third one works. - Alan Perlis"
 #    tip_debugging_program: "If debugging is the process of removing bugs, then programming must be the process of putting them in. - Edsger W. Dijkstra"
@@ -874,6 +874,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    tournament_ended: "Tournament ended"
 #    tournament_rules: "Tournament Rules"
 #    tournament_blurb: "Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details"
+#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
 #    tournament_blurb_blog: "on our blog"
     rules: "규칙"
     winners: "승리자"
@@ -944,6 +945,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
 #    versions: "Versions"
+#    items: "Items"
 
 #  delta:
 #    added: "Added"
