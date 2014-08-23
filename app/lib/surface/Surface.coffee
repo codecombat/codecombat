@@ -8,7 +8,6 @@ CameraBorder = require './CameraBorder'
 Layer = require './Layer'
 Letterbox = require './Letterbox'
 Dimmer = require './Dimmer'
-CastingScreen = require './CastingScreen'
 PlaybackOverScreen = require './PlaybackOverScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
@@ -97,7 +96,6 @@ module.exports = Surface = class Surface extends CocoClass
     @spriteBoss.destroy()
     @chooser?.destroy()
     @dimmer?.destroy()
-    @castingScreen?.destroy()
     @playbackOverScreen?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
@@ -403,7 +401,6 @@ module.exports = Surface = class Surface extends CocoClass
     @surfaceLayer.addChild @cameraBorder = new CameraBorder bounds: @camera.bounds
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
     @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
-    #@castingScreen ?= new CastingScreen camera: @camera, layer: @screenLayer  # STREAM: Not needed with world streaming.
     @playbackOverScreen ?= new PlaybackOverScreen camera: @camera, layer: @screenLayer
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove

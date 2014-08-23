@@ -197,6 +197,7 @@ module.exports = class LevelBus extends Bus
   onNewGoalStates: ({goalStates})->
     state = @session.get 'state'
     unless utils.kindaEqual state.goalStates, goalStates # Only save when goals really change
+      return console.error("Somehow trying to save null goal states!", goalStates) if _.find(goalStates, (gs) -> not gs.status)
       state.goalStates = goalStates
       @session.set 'state', state
       @changedSessionProperties.state = true

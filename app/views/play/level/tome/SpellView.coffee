@@ -115,6 +115,10 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Shift-Enter|Ctrl-Enter', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter'}
       exec: -> Backbone.Mediator.publish 'tome:manual-cast', {}
     addCommand
+      name: 'run-code-real-time'
+      bindKey: {win: 'Ctrl-Shift-Enter', mac: 'Command-Shift-Enter|Ctrl-Shift-Enter'}
+      exec: -> Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
+    addCommand
       name: 'no-op'
       bindKey: {win: 'Ctrl-S', mac: 'Command-S|Ctrl-S'}
       exec: ->  # just prevent page save call
@@ -269,8 +273,8 @@ module.exports = class SpellView extends CocoView
     # @addZatannaSnippets()
     @highlightCurrentLine()
 
-  cast: (preload=false) ->
-    Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload
+  cast: (preload=false, realTime=false) ->
+    Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload, realTime: realTime
 
   notifySpellChanged: =>
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
@@ -285,7 +289,7 @@ module.exports = class SpellView extends CocoView
 
   onManualCast: (e) ->
     cast = @$el.parent().length
-    @recompile cast
+    @recompile cast, e.realTime
     @focus() if cast
 
   onCodeReload: (e) ->
@@ -299,12 +303,12 @@ module.exports = class SpellView extends CocoView
   recompileIfNeeded: =>
     @recompile() if @recompileNeeded
 
-  recompile: (cast=true) ->
+  recompile: (cast=true, realTime=false) ->
     @setRecompileNeeded false
     return if @spell.source is @getSource()
     @spell.transpile @getSource()
     @updateAether true, false
-    @cast() if cast
+    @cast(false, realTime) if cast
     @notifySpellChanged()
 
   updateACEText: (source) ->
@@ -472,7 +476,7 @@ module.exports = class SpellView extends CocoView
   onSessionWillSave: (e) ->
     return unless @spellHasChanged
     setTimeout(=>
-      unless @spellHasChanged
+      unless @destroyed or @spellHasChanged
         @$el.find('.save-status').finish().show().fadeOut(2000)
     , 1000)
     @spellHasChanged = false

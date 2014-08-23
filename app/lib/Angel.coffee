@@ -12,6 +12,9 @@ module.exports = class Angel extends CocoClass
   infiniteLoopTimeoutDuration: 7500  # wait this long for a response when checking
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
 
+  subscriptions:
+    'self-wizard:target-changed': 'onSelfWizardTargetChanged'
+
   constructor: (@shared) ->
     super()
     @say 'Got my wings.'
@@ -204,6 +207,11 @@ module.exports = class Angel extends CocoClass
     @worker = new Worker @shared.workerCode
     @worker.addEventListener 'message', @onWorkerMessage
     @worker.creationTime = new Date()
+
+  onSelfWizardTargetChanged: (e) ->
+    return unless @running and @work.realTime
+    targetPos = e.sender.targetPos
+    @worker.postMessage func: 'updateFlags', args: [{type: 'wizard', targetPos: targetPos}]
 
 
   #### Synchronous code for running worlds on main thread (profiling / IE9) ####

@@ -12,6 +12,8 @@ Component = require 'lib/world/component'
 System = require 'lib/world/system'
 PROGRESS_UPDATE_INTERVAL = 100
 DESERIALIZATION_INTERVAL = 10
+REAL_TIME_BUFFER_MIN = 2 * PROGRESS_UPDATE_INTERVAL
+REAL_TIME_BUFFER_MAX = 5 * PROGRESS_UPDATE_INTERVAL
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 
 module.exports = class World
@@ -89,6 +91,8 @@ module.exports = class World
       console.log 'Warning: loadFrames called on empty World (no thangs).'
     t1 = now()
     @t0 ?= t1
+    @worldLoadStartTime ?= t1
+    @lastRealTimeUpdate ?= 0
     if loadUntilFrame
       frameToLoadUntil = loadUntilFrame + 1
     else
@@ -112,8 +116,16 @@ module.exports = class World
           return unless errorCallback error  # errorCallback tells us whether the error is recoverable
         @unhandledRuntimeErrors = []
       t2 = now()
-      if t2 - t1 > PROGRESS_UPDATE_INTERVAL
-        loadProgressCallback? i / @totalFrames unless @preloading
+      if @realTime
+        shouldUpdateProgress = @shouldUpdateRealTimePlayback t2
+        shouldDelayRealTimeSimulation = not shouldUpdateProgress and @shouldDelayRealTimeSimulation t2
+      else
+        shouldUpdateProgress = t2 - t1 > PROGRESS_UPDATE_INTERVAL
+        shouldDelayRealTimeSimulation = false
+      if shouldUpdateProgress or shouldDelayRealTimeSimulation
+        if shouldUpdateProgress
+          @lastRealTimeUpdate = i * @dt if @realTime
+          loadProgressCallback? i / @totalFrames unless @preloading
         t1 = t2
         if t2 - @t0 > 1000
           console.log '  Loaded', i, 'of', @totalFrames, '(+' + (t2 - @t0).toFixed(0) + 'ms)'
@@ -127,7 +139,8 @@ module.exports = class World
         if skipDeferredLoading
           continueFn()
         else
-          setTimeout(continueFn, 0)
+          delay = if shouldDelayRealTimeSimulation then PROGRESS_UPDATE_INTERVAL else 0
+          setTimeout(continueFn, delay)
         return
     unless @debugging
       @ended = true
@@ -136,12 +149,28 @@ module.exports = class World
       loadProgressCallback? 1
       loadedCallback()
 
+  shouldDelayRealTimeSimulation: (t) ->
+    return false unless @realTime
+    timeSinceStart = t - @worldLoadStartTime
+    timeLoaded = @frames.length * @dt * 1000
+    timeBuffered = timeLoaded - timeSinceStart
+    timeBuffered > REAL_TIME_BUFFER_MAX
+
+  shouldUpdateRealTimePlayback: (t) ->
+    return false unless @realTime
+    timeSinceStart = t - @worldLoadStartTime
+    remainingBuffer = @lastRealTimeUpdate * 1000 - timeSinceStart
+    remainingBuffer < REAL_TIME_BUFFER_MIN
+
   finalizePreload: (loadedCallback) ->
     @preloading = false
     loadedCallback() if @ended
 
   abort: ->
     @aborted = true
+
+  updateFlags: (@flags) ->
+    console.log "updated flags", @flags
 
   loadFromLevel: (level, willSimulate=true) ->
     @levelComponents = level.levelComponents

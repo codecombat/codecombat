@@ -346,6 +346,7 @@ self.runWorld = function runWorld(args) {
       self.world.loadFromLevel(args.level, true);
     self.world.preloading = args.preload;
     self.world.headless = args.headless;
+    self.world.realTime = args.realTime;
     self.goalManager = new GoalManager(self.world);
     self.goalManager.setGoals(args.goals);
     self.goalManager.setCode(args.userCodeMap);
@@ -456,6 +457,11 @@ self.reportIn = function reportIn() {
 
 self.finalizePreload = function finalizePreload() {
   self.world.finalizePreload(self.onWorldLoaded);
+};
+
+self.updateFlags = function updateFlags(flags) {
+  if(!self.world || self.world.framesSerializedSoFar == self.world.frames.length) return;
+  self.world.updateFlags(flags);
 };
 
 self.addEventListener('message', function(event) {

@@ -152,10 +152,10 @@ module.exports = class TomeView extends CocoView
   onCastSpell: (e) ->
     # A single spell is cast.
     # Hmm; do we need to make sure other spells are all cast here?
-    @cast e?.preload
+    @cast e?.preload, e?.realTime
 
-  cast: (preload=false) ->
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload
+  cast: (preload=false, realTime=false) ->
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime
 
   onToggleSpellList: (e) ->
     @spellList.rerenderEntries()
