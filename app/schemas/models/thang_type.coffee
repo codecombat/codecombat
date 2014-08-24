@@ -101,7 +101,7 @@ ActionSchema = c.object {},
 SoundSchema = c.sound({delay: {type: 'number'}})
 
 _.extend ThangTypeSchema.properties,
-  raw: c.object {title: 'Raw Vector Data'},
+  raw: c.object {title: 'Raw Vector Data', default: {shapes: {}, containers: {}, animations: {}}},
     shapes: c.object {title: 'Shapes', additionalProperties: ShapeObjectSchema}
     containers: c.object {title: 'Containers', additionalProperties: ContainerObjectSchema}
     animations: c.object {title: 'Animations', additionalProperties: RawAnimationObjectSchema}
@@ -131,18 +131,21 @@ _.extend ThangTypeSchema.properties,
       type: 'array'
       format: 'thang-color-group'
       items: {type: 'string'}
-  snap: c.object {title: 'Snap', description: 'In the level editor, snap positioning to these intervals.', required: ['x', 'y']},
+  snap: c.object {title: 'Snap', description: 'In the level editor, snap positioning to these intervals.', required: ['x', 'y'], default: {x: 4, y: 4}},
     x:
       title: 'Snap X'
       type: 'number'
       description: 'Snap to this many meters in the x-direction.'
-      default: 4
     y:
       title: 'Snap Y'
       type: 'number'
       description: 'Snap to this many meters in the y-direction.'
-      default: 4
   components: c.array {title: 'Components', description: 'Thangs are configured by changing the Components attached to them.', uniqueItems: true, format: 'thang-components-array'}, ThangComponentSchema  # TODO: uniqueness should be based on 'original', not whole thing
+
+ThangTypeSchema.required = ['kind']
+
+ThangTypeSchema.deafult = 
+  raw: {}
 
 ThangTypeSchema.definitions =
   action: ActionSchema
