@@ -209,6 +209,7 @@ module.exports = class TomeView extends CocoView
 
   spellFor: (thang, spellName) ->
     return null unless thang?.isProgrammable
+    return unless @thangSpells[thang.id]  # Probably in streaming mode, where we don't update until it's done.
     selectedThangSpells = (@spells[spellKey] for spellKey in @thangSpells[thang.id])
     if spellName
       spell = _.find selectedThangSpells, {name: spellName}

@@ -78,6 +78,10 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
 
   loadDependenciesForSession: (session) ->
+    return if @levelID is 'sky-span'  # TODO
+    # TODO: I think this runs afoul of https://github.com/codecombat/codecombat/issues/1108
+    # TODO: this shouldn't happen when it's not a hero level, but we don't have level loaded yet,
+    # and the sessions are being created with default hero config regardless of whether it's a hero level.
     if heroConfig = session.get('heroConfig')
       url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')

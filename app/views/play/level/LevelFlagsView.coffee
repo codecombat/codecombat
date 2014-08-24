@@ -38,6 +38,7 @@ module.exports = class LevelFlagsView extends CocoView
 
   onRealTimePlaybackEnded: (e) ->
     @realTime = false
+    @onFlagSelected color: null
     @$el.hide()
 
   onFlagSelected: (e) ->
