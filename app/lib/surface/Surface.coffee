@@ -69,6 +69,7 @@ module.exports = Surface = class Surface extends CocoClass
     'camera:zoom-updated': 'onZoomUpdated'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    #'god:world-load-progress-changed': -> console.log 'it is actually', @world.age
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -123,7 +124,7 @@ module.exports = Surface = class Surface extends CocoClass
     @showLevel()
     @updateState true if @loaded
     # TODO: synchronize both ways of choosing whether to show coords (@world via UI System or @options via World Select modal)
-    if @world.showCoordinates and @options.coords
+    if @world.showCoordinates and @options.coords and not @coordinateDisplay
       @coordinateDisplay = new CoordinateDisplay camera: @camera
       @surfaceTextLayer.addChild @coordinateDisplay
     @onFrameChanged()
@@ -369,10 +370,19 @@ module.exports = Surface = class Surface extends CocoClass
 
     @setWorld event.world
     @onFrameChanged(true)
-    fastForwardBuffer = 2  # Make sure that real-time playback doesn't need to buffer more than this many seconds.
-    if @playing and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, event.world.frames.length)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
+    fastForwardBuffer = 2
+    if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
       @fastForwardingToFrame = ffToFrame
       @fastForwardingSpeed = Math.max 4, 4 * 90 / (@world.maxTotalFrames * @world.dt)
+    else if @realTime
+      lag = (@world.frames.length - 1) * @world.dt - @world.age
+      intendedLag = @world.realTimeBufferMax + @world.dt
+      if lag > intendedLag * 1.2
+        @fastForwardingToFrame = @world.frames.length - @world.realTimeBufferMax * @world.frameRate
+        @fastForwardingSpeed = lag / intendedLag
+      else
+        @fastForwardingToFrame = @fastForwardingSpeed = null
+      #console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
 
   # initialization
 

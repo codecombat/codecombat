@@ -460,7 +460,7 @@ self.finalizePreload = function finalizePreload() {
 };
 
 self.addFlagEvent = function addFlagEvent(flagEvent) {
-  if(!self.world || self.world.framesSerializedSoFar == self.world.frames.length) return;
+  if(!self.world) return;
   self.world.addFlagEvent(flagEvent);
 };
 

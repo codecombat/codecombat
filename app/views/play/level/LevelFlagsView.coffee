@@ -48,7 +48,7 @@ module.exports = class LevelFlagsView extends CocoView
   onStageMouseDown: (e) ->
     return unless @flagColor and @realTime
     pos = x: e.worldPos.x, y: e.worldPos.y
-    flag = player: me.id, team: me.team, color: @flagColor, pos: pos, time: @world.dt * @world.frames.length + 1, active: true
+    flag = player: me.id, team: me.team, color: @flagColor, pos: pos, time: @world.dt * @world.frames.length, active: true
     @flags[@flagColor] = flag
     @flagHistory.push flag
     Backbone.Mediator.publish 'level:flag-updated', flag
@@ -57,7 +57,7 @@ module.exports = class LevelFlagsView extends CocoView
   removeFlag: (e) ->
     delete @flags[e.color]
     console.log e.color, 'deleted'
-    flag = player: me.id, team: me.team, color: e.color, time: @world.dt * @world.frames.length + 1, active: false
+    flag = player: me.id, team: me.team, color: e.color, time: @world.dt * @world.frames.length, active: false
     @flagHistory.push flag
     Backbone.Mediator.publish 'level:flag-updated', flag
 

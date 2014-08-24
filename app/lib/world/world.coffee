@@ -13,7 +13,8 @@ System = require 'lib/world/system'
 PROGRESS_UPDATE_INTERVAL = 100
 DESERIALIZATION_INTERVAL = 10
 REAL_TIME_BUFFER_MIN = 2 * PROGRESS_UPDATE_INTERVAL
-REAL_TIME_BUFFER_MAX = 5 * PROGRESS_UPDATE_INTERVAL
+REAL_TIME_BUFFER_MAX = 3 * PROGRESS_UPDATE_INTERVAL
+REAL_TIME_BUFFERED_WAIT_INTERVAL = 0.5 * PROGRESS_UPDATE_INTERVAL
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 
 module.exports = class World
@@ -25,6 +26,7 @@ module.exports = class World
   headless: false  # Whether we are just simulating for goal states instead of all serialized results
   framesSerializedSoFar: 0
   apiProperties: ['age', 'dt']
+  realTimeBufferMax: REAL_TIME_BUFFER_MAX / 1000
   constructor: (@userCodeMap, classMap) ->
     # classMap is needed for deserializing Worlds, Thangs, and other classes
     @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang, Ellipse: Ellipse, LineSegment: LineSegment}
@@ -100,6 +102,35 @@ module.exports = class World
       frameToLoadUntil = @totalFrames
     i = @frames.length
     while i < frameToLoadUntil and i < @totalFrames
+      t2 = now()
+      if @realTime
+        shouldUpdateProgress = @shouldUpdateRealTimePlayback t2
+        shouldDelayRealTimeSimulation = not shouldUpdateProgress and @shouldDelayRealTimeSimulation t2
+      else
+        shouldUpdateProgress = t2 - t1 > PROGRESS_UPDATE_INTERVAL
+        shouldDelayRealTimeSimulation = false
+      if shouldUpdateProgress or shouldDelayRealTimeSimulation
+        if shouldUpdateProgress
+          @lastRealTimeUpdate = i * @dt if @realTime
+          #console.log 'we think it is now', (t2 - @worldLoadStartTime) / 1000, 'so delivering', @lastRealTimeUpdate
+          loadProgressCallback? i / @totalFrames unless @preloading
+        t1 = t2
+        if t2 - @t0 > 1000
+          console.log '  Loaded', i, 'of', @totalFrames, '(+' + (t2 - @t0).toFixed(0) + 'ms)' unless @realTime
+          @t0 = t2
+        continueFn = =>
+          return if @destroyed
+          if loadUntilFrame
+            @loadFrames(loadedCallback,errorCallback,loadProgressCallback, skipDeferredLoading, loadUntilFrame)
+          else
+            @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading)
+        if skipDeferredLoading
+          continueFn()
+        else
+          delay = if shouldDelayRealTimeSimulation then REAL_TIME_BUFFERED_WAIT_INTERVAL else 0
+          setTimeout(continueFn, delay)
+        return
+
       if @debugging
         for thang in @thangs when thang.isProgrammable
           userCode = @userCodeMap[thang.id] ? {}
@@ -116,33 +147,7 @@ module.exports = class World
         for error in (@unhandledRuntimeErrors ? [])
           return unless errorCallback error  # errorCallback tells us whether the error is recoverable
         @unhandledRuntimeErrors = []
-      t2 = now()
-      if @realTime
-        shouldUpdateProgress = @shouldUpdateRealTimePlayback t2
-        shouldDelayRealTimeSimulation = not shouldUpdateProgress and @shouldDelayRealTimeSimulation t2
-      else
-        shouldUpdateProgress = t2 - t1 > PROGRESS_UPDATE_INTERVAL
-        shouldDelayRealTimeSimulation = false
-      if shouldUpdateProgress or shouldDelayRealTimeSimulation
-        if shouldUpdateProgress
-          @lastRealTimeUpdate = i * @dt if @realTime
-          loadProgressCallback? i / @totalFrames unless @preloading
-        t1 = t2
-        if t2 - @t0 > 1000
-          console.log '  Loaded', i, 'of', @totalFrames, '(+' + (t2 - @t0).toFixed(0) + 'ms)'
-          @t0 = t2
-        continueFn = =>
-          return if @destroyed
-          if loadUntilFrame
-            @loadFrames(loadedCallback,errorCallback,loadProgressCallback, skipDeferredLoading, loadUntilFrame)
-          else
-            @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading)
-        if skipDeferredLoading
-          continueFn()
-        else
-          delay = if shouldDelayRealTimeSimulation then PROGRESS_UPDATE_INTERVAL else 0
-          setTimeout(continueFn, delay)
-        return
+
     unless @debugging
       @ended = true
       system.finish @thangs for system in @systems
@@ -159,6 +164,8 @@ module.exports = class World
 
   shouldUpdateRealTimePlayback: (t) ->
     return false unless @realTime
+    return false if @frames.length * @dt is @lastRealTimeUpdate
+    timeLoaded = @frames.length * @dt * 1000
     timeSinceStart = t - @worldLoadStartTime
     remainingBuffer = @lastRealTimeUpdate * 1000 - timeSinceStart
     remainingBuffer < REAL_TIME_BUFFER_MIN
@@ -475,7 +482,7 @@ module.exports = class World
     w.ended = true
     nFrames = endFrame - startFrame
     totalCPUTime = perf.t3 - perf.t0 + perf.framesCPUTime
-    console.log 'Deserialization:', totalCPUTime.toFixed(0) + 'ms (' + (totalCPUTime / nFrames).toFixed(3) + 'ms per frame).', perf.batches, 'batches. Did', startFrame, 'to', endFrame, 'in', (perf.t4 - perf.t0).toFixed(0) + 'ms wall clock time.'
+    #console.log 'Deserialization:', totalCPUTime.toFixed(0) + 'ms (' + (totalCPUTime / nFrames).toFixed(3) + 'ms per frame).', perf.batches, 'batches. Did', startFrame, 'to', endFrame, 'in', (perf.t4 - perf.t0).toFixed(0) + 'ms wall clock time.'
     if false
       console.log '  Deserializing--constructing new World:', (perf.t1 - perf.t0).toFixed(2) + 'ms'
       console.log '  Deserializing--Thangs and ScriptNotes:', (perf.t2 - perf.t1).toFixed(2) + 'ms'

@@ -152,6 +152,7 @@ module.exports = class LevelPlaybackView extends CocoView
     @$el.find('#music-button').toggleClass('music-on', me.get('music'))
 
   onSetLetterbox: (e) ->
+    return if @realTime
     @togglePlaybackControls !e.on
     @disabled = e.on
 
@@ -211,6 +212,7 @@ module.exports = class LevelPlaybackView extends CocoView
     $('#volume-button', @$el).removeClass('disabled')
 
   onEnableControls: (e) ->
+    return if @realTime
     if not e.controls or 'playback' in e.controls
       @disabled = false
       $('button', @$el).removeClass('disabled')
