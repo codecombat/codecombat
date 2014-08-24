@@ -36,6 +36,7 @@ module.exports = class World
     @systems = []
     @systemMap = {}
     @scriptNotes = []
+    @flagHistory = []
     @rand = new Rand 0  # Existence System may change this seed
     @frames = [new WorldFrame(@, 0)]
 
@@ -169,8 +170,8 @@ module.exports = class World
   abort: ->
     @aborted = true
 
-  updateFlags: (@flags) ->
-    console.log "updated flags", @flags
+  addFlagEvent: (flagEvent) ->
+    @flagHistory.push flagEvent
 
   loadFromLevel: (level, willSimulate=true) ->
     @levelComponents = level.levelComponents

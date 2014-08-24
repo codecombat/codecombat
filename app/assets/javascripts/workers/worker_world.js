@@ -459,9 +459,9 @@ self.finalizePreload = function finalizePreload() {
   self.world.finalizePreload(self.onWorldLoaded);
 };
 
-self.updateFlags = function updateFlags(flags) {
+self.addFlagEvent = function addFlagEvent(flagEvent) {
   if(!self.world || self.world.framesSerializedSoFar == self.world.frames.length) return;
-  self.world.updateFlags(flags);
+  self.world.addFlagEvent(flagEvent);
 };
 
 self.addEventListener('message', function(event) {

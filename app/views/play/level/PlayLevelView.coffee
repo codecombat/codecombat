@@ -72,6 +72,9 @@ module.exports = class PlayLevelView extends RootView
 
   shortcuts:
     'ctrl+s': 'onCtrlS'
+    'r': -> Backbone.Mediator.publish 'level:flag-selected', color: 'red'
+    'g': -> Backbone.Mediator.publish 'level:flag-selected', color: 'green'
+    'b': -> Backbone.Mediator.publish 'level:flag-selected', color: 'blue'
 
   # Initial Setup #############################################################
 
@@ -517,7 +520,7 @@ module.exports = class PlayLevelView extends RootView
 
   # Real-time playback
   onRealTimePlaybackStarted: (e) ->
-    @$el.addClass 'real-time'
+    @$el.addClass('real-time').focus()
     @onWindowResize()
 
   onRealTimePlaybackEnded: (e) ->

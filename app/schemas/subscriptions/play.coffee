@@ -57,6 +57,39 @@ module.exports =
   'level:victory-hidden':
     {} # TODO schema
 
+  'level:flag-selected':
+    type: 'object'
+    additionalProperties: false
+    properties:
+      color:
+        type: 'string'
+        enum: ['red', 'green', 'blue']
+
+  'level:flag-updated':
+    type: 'object'
+    additionalProperties: false
+    required: ['player', 'color', 'time', 'active']
+    properties:
+      player:
+        type: 'string'
+      team:
+        type: 'string'
+      color:
+        type: 'string'
+        enum: ['red', 'green', 'blue']
+      time:
+        type: 'number'
+        minimum: 0
+      active:
+        type: 'boolean'
+      targetPos:
+        type: 'object'
+        additionalProperties: false
+        required: ['x', 'y']
+        properties:
+          x: {type: 'number'}
+          y: {type: 'number'}
+
   'next-game-pressed':
     {} # TODO schema
 

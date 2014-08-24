@@ -69,6 +69,7 @@ module.exports = Surface = class Surface extends CocoClass
     'camera:zoom-updated': 'onZoomUpdated'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'level:flag-selected': 'onFlagSelected'
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -526,7 +527,9 @@ module.exports = Surface = class Surface extends CocoClass
   onMouseDown: (e) =>
     return if @disabled
     onBackground = not @stage.hitTest e.stageX, e.stageY
-    Backbone.Mediator.publish 'surface:stage-mouse-down', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
+    event = onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
+    Backbone.Mediator.publish 'surface:stage-mouse-down', event
+    @placeFlag event if @realTime
 
   onMouseUp: (e) =>
     return if @disabled
@@ -616,10 +619,35 @@ module.exports = Surface = class Surface extends CocoClass
   onRealTimePlaybackStarted: (e) ->
     @realTime = true
     @onResize()
+    @spriteBoss.selfWizardSprite?.imageObject.visible = false
+    @flags = {}
+    @flagHistory = []
 
   onRealTimePlaybackEnded: (e) ->
     @realTime = false
     @onResize()
+    @spriteBoss.selfWizardSprite?.imageObject.visible = true
+
+  onFlagSelected: (e) ->
+    @canvas.addClass("flag-selected")
+    @flagColor = e.color
+
+  placeFlag: (e) ->
+    return unless @flagColor
+    wop = @camera.screenToWorld x: e.x, y: e.y
+    targetPos = x: wop.x, y: wop.y
+    flag = player: me.id, team: me.team, color: @flagColor, targetPos: targetPos, time: @world.dt * @world.frames.length + 1, active: true
+    @flags[@flagColor] = flag
+    @flagHistory.push flag
+    Backbone.Mediator.publish 'level:flag-updated', flag
+    console.log 'trying to place flag at', @world.dt * @currentFrame, 'and think it will happen by', flag.time
+
+  removeFlag: (e) ->
+    delete @flags[e.color]
+    console.log e.color, 'deleted'
+    flag = player: me.id, team: me.team, color: e.color, time: @world.dt * @world.frames.length + 1, active: false
+    @flagHistory.push flag
+    Backbone.Mediator.publish 'level:flag-updated', flag
 
   # paths - TODO: move to SpriteBoss? but only update on frame drawing instead of on every frame update?
 

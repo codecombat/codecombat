@@ -43,11 +43,9 @@ module.exports = class CastButtonView extends CocoView
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
 
   onCastButtonClick: (e) ->
-    console.log "cas fast yo"
     Backbone.Mediator.publish 'tome:manual-cast', {}
 
   onCastRealTimeButtonClick: (e) ->
-    console.log "cas real time yo"
     Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
 
   onCastOptionsClick: (e) =>

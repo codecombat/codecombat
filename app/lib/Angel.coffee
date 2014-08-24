@@ -13,7 +13,7 @@ module.exports = class Angel extends CocoClass
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
 
   subscriptions:
-    'self-wizard:target-changed': 'onSelfWizardTargetChanged'
+    'level:flag-updated': 'onFlagEvent'
 
   constructor: (@shared) ->
     super()
@@ -208,10 +208,9 @@ module.exports = class Angel extends CocoClass
     @worker.addEventListener 'message', @onWorkerMessage
     @worker.creationTime = new Date()
 
-  onSelfWizardTargetChanged: (e) ->
+  onFlagEvent: (e) ->
     return unless @running and @work.realTime
-    targetPos = e.sender.targetPos
-    @worker.postMessage func: 'updateFlags', args: [{type: 'wizard', targetPos: targetPos}]
+    @worker.postMessage func: 'addFlagEvent', args: e
 
 
   #### Synchronous code for running worlds on main thread (profiling / IE9) ####
