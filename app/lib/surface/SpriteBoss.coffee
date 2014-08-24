@@ -113,7 +113,7 @@ module.exports = class SpriteBoss extends CocoClass
     sprite = @createWizardSprite thangID: opponent.id, name: opponent.name, codeLanguage: opponent.codeLanguage
     if not opponent.levelSlug or opponent.levelSlug is 'brawlwood'
       sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
-    else if opponent.levelSlug is 'dungeon-arena'
+    else if opponent.levelSlug in ['dungeon-arena', 'sky-span']
       sprite.targetPos = if opponent.team is 'ogres' then {x: 72, y: 39} else {x: 9, y: 39}
     else if opponent.levelSlug is 'criss-cross'
       sprite.targetPos = if opponent.team is 'ogres' then {x: 50, y: 12} else {x: 0, y: 40}

@@ -168,7 +168,16 @@ module.exports = class Thang
 
   getSpriteOptions: ->
     colorConfigs = @world?.getTeamColors() or {}
-    options = {}
-    if @team and colorConfigs[@team]
-      options.colorConfig = {team: colorConfigs[@team]}
+    options = {colorConfig: {}}
+    if @team and teamColor = colorConfigs[@team]
+      options.colorConfig.team = teamColor
+    if @color and color = @grabColorConfig @color
+      options.colorConfig.color = color
     options
+
+  grabColorConfig: (color) ->
+    {
+      green: {hue: 0.33, saturation: 0.5, lightness: 0.5}
+      black: {hue: 0, saturation: 0, lightness: 0.25}
+      violet: {hue: 0.83, saturation: 0.5, lightness: 0.5}
+    }[color]

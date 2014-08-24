@@ -70,13 +70,13 @@ module.exports = class LevelLoader extends CocoClass
     @listenToOnce @session, 'sync', ->
       @session.url = -> '/db/level.session/' + @id
       @loadDependenciesForSession(@session)
-    
+
     if @opponentSessionID
       opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
       @opponentSession = @opponentSessionResource.model
       @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
-      
+
   loadDependenciesForSession: (session) ->
     if heroConfig = session.get('heroConfig')
       url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
@@ -107,7 +107,8 @@ module.exports = class LevelLoader extends CocoClass
     systemVersions = []
     articleVersions = []
 
-    for thang in @level.get('thangs') or []
+    flagThang = thangType: '53fa25f25bc220000052c2be', id: 'Placeholder Flag', components: []
+    for thang in (@level.get('thangs') or []).concat [flagThang]
       thangIDs.push thang.thangType
       @loadItemThangsEquippedByLevelThang(thang)
       for comp in thang.components or []

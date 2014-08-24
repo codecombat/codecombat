@@ -25,6 +25,7 @@ module.exports = class LevelPlaybackView extends CocoView
     'god:streaming-world-updated': 'onNewWorld'  # Maybe?
     'level-set-letterbox': 'onSetLetterbox'
     'tome:cast-spells': 'onTomeCast'
+    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
 
   events:
     'click #debug-toggle': 'onToggleDebug'
@@ -288,19 +289,24 @@ module.exports = class LevelPlaybackView extends CocoView
   updateProgress: (progress, world) ->
     if world.frames.length isnt @lastLoadedFrameCount
       @updateBarWidth world.frames.length, world.maxTotalFrames, world.dt
+    wasLoaded = @worldCompletelyLoaded
     @worldCompletelyLoaded = world.frames.length is world.totalFrames
+    if @realTime and @worldCompletelyLoaded and not wasLoaded
+      Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
     $('.scrubber .progress-bar', @$el).css('width', "#{progress * 100}%")
 
   updatePlayButton: (progress) ->
     if @worldCompletelyLoaded and progress >= 0.99 and @lastProgress < 0.99
       $('#play-button').removeClass('playing').removeClass('paused').addClass('ended')
-      if @realTime
-        @realTime = false
-        @togglePlaybackControls true
-        Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
+      Backbone.Mediator.publish 'playback:real-time-playback-ended', {} if @realTime
     if progress < 0.99 and @lastProgress >= 0.99
       b = $('#play-button').removeClass('ended')
       if @playing then b.addClass('playing') else b.addClass('paused')
+
+  onRealTimePlaybackEnded: (e) ->
+    return unless @realTime
+    @realTime = false
+    @togglePlaybackControls true
 
   onSetDebug: (e) ->
     flag = $('#debug-toggle i.icon-ok')
