@@ -874,7 +874,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     tournament_ended: "O Torneio acabou"
     tournament_rules: "Regras do Torneio"
     tournament_blurb: "Escreva código, recolha ouro, construa exércitos, esmague inimigos, ganhe prémios e melhore a sua carreira no nosso torneio $40,000 Greed! Confira os detalhes"
-#    tournament_blurb_criss_cross: "Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details"
+    tournament_blurb_criss_cross: "Ganhe ofertas, construa caminhos, supere os adversários, apanhe gemas e melhore a sua carreira no nosso torneio Criss-Cross! Confira os detalhes"
     tournament_blurb_blog: "no nosso blog"
     rules: "Regras"
     winners: "Vencedores"
@@ -945,7 +945,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     candidate_sessions: "Sessões de Candidatos"
     user_remark: "Observação do Utilizador"
     versions: "Versões"
-#    items: "Items"
+    items: "Itens"
 
   delta:
     added: "Adicionados/as"
