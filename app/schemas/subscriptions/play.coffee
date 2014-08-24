@@ -61,9 +61,9 @@ module.exports =
     type: 'object'
     additionalProperties: false
     properties:
-      color:
+      color:  # omitted if we've deselected
         type: 'string'
-        enum: ['red', 'green', 'blue']
+        enum: ['green', 'black', 'violet']
 
   'level:flag-updated':
     type: 'object'
@@ -76,13 +76,13 @@ module.exports =
         type: 'string'
       color:
         type: 'string'
-        enum: ['red', 'green', 'blue']
+        enum: ['green', 'black', 'violet']
       time:
         type: 'number'
         minimum: 0
       active:
         type: 'boolean'
-      targetPos:
+      pos:
         type: 'object'
         additionalProperties: false
         required: ['x', 'y']

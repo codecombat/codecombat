@@ -58,6 +58,10 @@ module.exports = class WizardSprite extends IndieSprite
       name += " (#{@options.codeLanguage})"  # TODO: move on second line, capitalize properly
     super name
 
+  toggle: (to) ->
+    @imageObject?.visible = to
+    @labels.name?[if to then 'show' else 'hide']()
+
   onPlayerStatesChanged: (e) ->
     for playerID, state of e.states
       continue unless playerID is @thang.id

@@ -29,6 +29,7 @@ HUDView = require './LevelHUDView'
 ControlBarView = require './ControlBarView'
 LevelPlaybackView = require './LevelPlaybackView'
 GoalsView = require './LevelGoalsView'
+LevelFlagsView = require './LevelFlagsView'
 GoldView = require './LevelGoldView'
 VictoryModal = require './modal/VictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
@@ -72,9 +73,6 @@ module.exports = class PlayLevelView extends RootView
 
   shortcuts:
     'ctrl+s': 'onCtrlS'
-    'r': -> Backbone.Mediator.publish 'level:flag-selected', color: 'red'
-    'g': -> Backbone.Mediator.publish 'level:flag-selected', color: 'green'
-    'b': -> Backbone.Mediator.publish 'level:flag-selected', color: 'blue'
 
   # Initial Setup #############################################################
 
@@ -238,6 +236,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel
     @insertSubView new LevelPlaybackView session: @session
     @insertSubView new GoalsView {}
+    @insertSubView new LevelFlagsView world: @world
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
