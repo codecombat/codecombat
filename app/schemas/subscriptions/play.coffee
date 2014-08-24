@@ -57,13 +57,21 @@ module.exports =
   'level:victory-hidden':
     {} # TODO schema
 
-  'level:flag-selected':
+  'level:flag-color-selected':
     type: 'object'
     additionalProperties: false
     properties:
-      color:  # omitted if we've deselected
+      color:
         type: 'string'
         enum: ['green', 'black', 'violet']
+        description: 'The flag color to place next, or omitted/null if deselected.'
+      pos:
+        type: 'object'
+        additionalProperties: false
+        required: ['x', 'y']
+        properties:
+          x: {type: 'number'}
+          y: {type: 'number'}
 
   'level:flag-updated':
     type: 'object'

@@ -12,6 +12,7 @@ module.exports = class LevelFlagsView extends CocoView
     'surface:stage-mouse-down': 'onStageMouseDown'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
+    'surface:remove-flag': 'onRemoveFlag'
 
   events:
     'click .green-flag': -> @onFlagSelected color: 'green', source: 'button'
@@ -23,6 +24,7 @@ module.exports = class LevelFlagsView extends CocoView
     'b': -> @onFlagSelected color: 'black', source: 'shortcut'
     'v': -> @onFlagSelected color: 'violet', source: 'shortcut'
     'esc': -> @onFlagSelected color: null, source: 'shortcut'
+    'delete, del, backspace': 'onDeletePressed'
 
   constructor: (options) ->
     super options
@@ -39,9 +41,10 @@ module.exports = class LevelFlagsView extends CocoView
     @$el.hide()
 
   onFlagSelected: (e) ->
+    return if @flagColor is e.color
     color = if e.source is 'button' and e.color is @flagColor then null else e.color
     @flagColor = color
-    Backbone.Mediator.publish 'level:flag-selected', color: color
+    Backbone.Mediator.publish 'level:flag-color-selected', color: color
     @$el.find('.flag-button').removeClass('active')
     @$el.find(".#{color}-flag").addClass('active') if color
 
@@ -52,14 +55,19 @@ module.exports = class LevelFlagsView extends CocoView
     @flags[@flagColor] = flag
     @flagHistory.push flag
     Backbone.Mediator.publish 'level:flag-updated', flag
-    console.log 'trying to place flag at', @world.age, 'and think it will happen by', flag.time
+    #console.log 'trying to place flag at', @world.age, 'and think it will happen by', flag.time
 
-  removeFlag: (e) ->
+  onDeletePressed: (e) ->
+    return unless @realTime
+    Backbone.Mediator.publish 'surface:remove-selected-flag', {}
+    @onFlagSelected color: null, source: 'shortcut'
+
+  onRemoveFlag: (e) ->
     delete @flags[e.color]
-    console.log e.color, 'deleted'
     flag = player: me.id, team: me.team, color: e.color, time: @world.dt * @world.frames.length, active: false
     @flagHistory.push flag
     Backbone.Mediator.publish 'level:flag-updated', flag
+    #console.log e.color, 'deleted at time', flag.time
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name

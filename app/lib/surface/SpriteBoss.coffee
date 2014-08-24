@@ -3,6 +3,7 @@ CocoClass = require 'lib/CocoClass'
 Layer = require './Layer'
 IndieSprite = require 'lib/surface/IndieSprite'
 WizardSprite = require 'lib/surface/WizardSprite'
+FlagSprite = require 'lib/surface/FlagSprite'
 CocoSprite = require 'lib/surface/CocoSprite'
 Mark = require './Mark'
 Grid = require 'lib/world/Grid'
@@ -22,6 +23,10 @@ module.exports = class SpriteBoss extends CocoClass
     'god:streaming-world-updated': 'onNewWorld'
     'camera:dragged': 'onCameraDragged'
     'sprite:loaded': -> @update(true)
+    'level:flag-color-selected': 'onFlagColorSelected'
+    'level:flag-updated': 'onFlagUpdated'
+    'surface:flag-appeared': 'onFlagAppeared'
+    'surface:remove-selected-flag': 'onRemoveSelectedFlag'
 
   constructor: (@options) ->
     super()
@@ -37,6 +42,7 @@ module.exports = class SpriteBoss extends CocoClass
     @selfWizardSprite = null
     @createLayers()
     @spriteSheetCache = {}
+    @pendingFlags = []
 
   destroy: ->
     @removeSprite sprite for thangID, sprite of @sprites
@@ -315,6 +321,39 @@ module.exports = class SpriteBoss extends CocoClass
         Backbone.Mediator.publish 'thang-began-talking', thang: sprite?.thang
         instance.addEventListener 'complete', ->
           Backbone.Mediator.publish 'thang-finished-talking', thang: sprite?.thang
+
+  onFlagColorSelected: (e) ->
+    @removeSprite @flagCursorSprite if @flagCursorSprite
+    @flagCursorSprite = null
+    return unless e.color
+    @flagCursorSprite = new FlagSprite @thangTypeFor('Flag'), @createSpriteOptions(thangID: 'Flag Cursor', color: e.color, team: me.team, isCursor: true, pos: e.pos)
+    @addSprite @flagCursorSprite, @flagCursorSprite.thang.id, @spriteLayers['Floating']
+
+  onFlagUpdated: (e) ->
+    return unless e.active
+    pendingFlag = new FlagSprite @thangTypeFor('Flag'), @createSpriteOptions(thangID: 'Pending Flag ' + Math.random(), color: e.color, team: me.team, isCursor: false, pos: e.pos)
+    @addSprite pendingFlag, pendingFlag.thang.id, @spriteLayers['Floating']
+    @pendingFlags.push pendingFlag
+
+  onFlagAppeared: (e) ->
+    # Remove the pending flag that matches this one's color/team/position, and any color/team matches placed earlier.
+    t1 = e.sprite.thang
+    pending = (@pendingFlags ? []).slice()
+    foundExactMatch = false
+    for i in [pending.length - 1 .. 0] by -1
+      pendingFlag = pending[i]
+      t2 = pendingFlag.thang
+      matchedType = t1.color is t2.color and t1.team is t2.team
+      matched = matchedType and (foundExactMatch or Math.abs(t1.pos.x - t2.pos.x) < 0.00001 and Math.abs(t1.pos.y - t2.pos.y) < 0.00001)
+      if matched
+        foundExactMatch = true
+        @pendingFlags.splice(i, 1)
+        @removeSprite pendingFlag
+    null
+
+  onRemoveSelectedFlag: (e) ->
+    return unless @selectedSprite and @selectedSprite.thangType.get('name') is 'Flag' and @selectedSprite.thang.team is me.team
+    Backbone.Mediator.publish 'surface:remove-flag', color: @selectedSprite.thang.color
 
   # Marks
 

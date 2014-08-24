@@ -320,6 +320,8 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     [@imageObject.x, @imageObject.y] = [sup.x, sup.y]
     @lastPos = p1.copy?() or _.clone(p1)
     @hasMoved = true
+    if @thangType.get('name') is 'Flag' and not @notOfThisWorld
+      _.defer => Backbone.Mediator.publish 'surface:flag-appeared', sprite: @
 
   updateBaseScale: ->
     scale = 1

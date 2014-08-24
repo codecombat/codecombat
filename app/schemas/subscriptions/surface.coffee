@@ -94,3 +94,15 @@ module.exports =  # /app/lib/surface
 
   'echo-all-wizard-sprites':
     {} # TODO schema
+
+  'surface:flag-appeared':
+    type: 'object'
+    additionalProperties: false
+    required: ['sprite']
+    properties:
+      sprite:
+        type: 'object'
+
+  'surface:remove-selected-flag':
+    type: 'object'
+    additionalProperties: false

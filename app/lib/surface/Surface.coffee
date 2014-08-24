@@ -69,6 +69,7 @@ module.exports = Surface = class Surface extends CocoClass
     'camera:zoom-updated': 'onZoomUpdated'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'level:flag-color-selected': 'onFlagColorSelected'
     #'god:world-load-progress-changed': -> console.log 'it is actually', @world.age
 
   shortcuts:
@@ -634,10 +635,11 @@ module.exports = Surface = class Surface extends CocoClass
     @realTime = false
     @onResize()
     @spriteBoss.selfWizardSprite?.toggle true
-    @canvas.removeClass 'flag-selected'
+    @canvas.removeClass 'flag-color-selected'
 
-  onFlagSelected: (e) ->
-    @canvas.toggleClass 'flag-selected', Boolean(e.color)
+  onFlagColorSelected: (e) ->
+    @canvas.toggleClass 'flag-color-selected', Boolean(e.color)
+    e.pos = @camera.screenToWorld @mouseScreenPos if @mouseScreenPos
 
   # paths - TODO: move to SpriteBoss? but only update on frame drawing instead of on every frame update?
 

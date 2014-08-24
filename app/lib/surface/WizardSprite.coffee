@@ -1,5 +1,4 @@
 IndieSprite = require 'lib/surface/IndieSprite'
-Camera = require './Camera'
 {me} = require 'lib/auth'
 
 module.exports = class WizardSprite extends IndieSprite
@@ -38,8 +37,8 @@ module.exports = class WizardSprite extends IndieSprite
     else if options.name
       @setNameLabel options.name
 
-  makeIndieThang: (thangType, thangID, pos) ->
-    thang = super thangType, thangID, pos
+  makeIndieThang: (thangType, options) ->
+    thang = super thangType, options
     thang.isSelectable = false
     thang.bobHeight = 0.75
     thang.bobTime = 2
