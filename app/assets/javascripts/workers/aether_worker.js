@@ -2,7 +2,7 @@ var window = self;
 var Global = self;
 
 importScripts("/javascripts/lodash.js", "/javascripts/aether.js");
-console.log("Aether Tome worker has finished importing scripts.");
+//console.log("Aether Tome worker has finished importing scripts.");
 var aethers = {};
 
 var createAether = function (spellKey, options) 

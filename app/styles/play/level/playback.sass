@@ -97,6 +97,8 @@
       background-image: none
       border-radius: 0
       border: 0
+      // Can't do this transition because handle then jitters, but would be good for streaming.
+      //@include transition(width .2s linear)
 
       &.disabled
         cursor: default

@@ -3,6 +3,7 @@ CocoClass = require 'lib/CocoClass'
 Layer = require './Layer'
 IndieSprite = require 'lib/surface/IndieSprite'
 WizardSprite = require 'lib/surface/WizardSprite'
+FlagSprite = require 'lib/surface/FlagSprite'
 CocoSprite = require 'lib/surface/CocoSprite'
 Mark = require './Mark'
 Grid = require 'lib/world/Grid'
@@ -19,8 +20,13 @@ module.exports = class SpriteBoss extends CocoClass
     'level-lock-select': 'onSetLockSelect'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'
     'camera:dragged': 'onCameraDragged'
     'sprite:loaded': -> @update(true)
+    'level:flag-color-selected': 'onFlagColorSelected'
+    'level:flag-updated': 'onFlagUpdated'
+    'surface:flag-appeared': 'onFlagAppeared'
+    'surface:remove-selected-flag': 'onRemoveSelectedFlag'
 
   constructor: (@options) ->
     super()
@@ -36,6 +42,7 @@ module.exports = class SpriteBoss extends CocoClass
     @selfWizardSprite = null
     @createLayers()
     @spriteSheetCache = {}
+    @pendingFlags = []
 
   destroy: ->
     @removeSprite sprite for thangID, sprite of @sprites
@@ -112,7 +119,7 @@ module.exports = class SpriteBoss extends CocoClass
     sprite = @createWizardSprite thangID: opponent.id, name: opponent.name, codeLanguage: opponent.codeLanguage
     if not opponent.levelSlug or opponent.levelSlug is 'brawlwood'
       sprite.targetPos = if opponent.team is 'ogres' then {x: 52, y: 52} else {x: 28, y: 28}
-    else if opponent.levelSlug is 'dungeon-arena'
+    else if opponent.levelSlug in ['dungeon-arena', 'sky-span']
       sprite.targetPos = if opponent.team is 'ogres' then {x: 72, y: 39} else {x: 9, y: 39}
     else if opponent.levelSlug is 'criss-cross'
       sprite.targetPos = if opponent.team is 'ogres' then {x: 50, y: 12} else {x: 0, y: 40}
@@ -276,6 +283,7 @@ module.exports = class SpriteBoss extends CocoClass
     return @dragged = 0 if @dragged > 3
     @dragged = 0
     sprite = if e.sprite?.thang?.isSelectable then e.sprite else null
+    return if @flagCursorSprite and sprite?.thangType.get('name') is 'Flag'
     @selectSprite e, sprite
 
   onStageMouseDown: (e) ->
@@ -314,6 +322,45 @@ module.exports = class SpriteBoss extends CocoClass
         Backbone.Mediator.publish 'thang-began-talking', thang: sprite?.thang
         instance.addEventListener 'complete', ->
           Backbone.Mediator.publish 'thang-finished-talking', thang: sprite?.thang
+
+  onFlagColorSelected: (e) ->
+    @removeSprite @flagCursorSprite if @flagCursorSprite
+    @flagCursorSprite = null
+    for flagSprite in @spriteArray when flagSprite.thangType.get('name') is 'Flag'
+      flagSprite.imageObject.cursor = if e.color then 'crosshair' else 'pointer'
+    return unless e.color
+    @flagCursorSprite = new FlagSprite @thangTypeFor('Flag'), @createSpriteOptions(thangID: 'Flag Cursor', color: e.color, team: me.team, isCursor: true, pos: e.pos)
+    @addSprite @flagCursorSprite, @flagCursorSprite.thang.id, @spriteLayers['Floating']
+
+  onFlagUpdated: (e) ->
+    return unless e.active
+    pendingFlag = new FlagSprite @thangTypeFor('Flag'), @createSpriteOptions(thangID: 'Pending Flag ' + Math.random(), color: e.color, team: me.team, isCursor: false, pos: e.pos)
+    @addSprite pendingFlag, pendingFlag.thang.id, @spriteLayers['Floating']
+    @pendingFlags.push pendingFlag
+
+  onFlagAppeared: (e) ->
+    # Remove the pending flag that matches this one's color/team/position, and any color/team matches placed earlier.
+    t1 = e.sprite.thang
+    pending = (@pendingFlags ? []).slice()
+    foundExactMatch = false
+    for i in [pending.length - 1 .. 0] by -1
+      pendingFlag = pending[i]
+      t2 = pendingFlag.thang
+      matchedType = t1.color is t2.color and t1.team is t2.team
+      matched = matchedType and (foundExactMatch or Math.abs(t1.pos.x - t2.pos.x) < 0.00001 and Math.abs(t1.pos.y - t2.pos.y) < 0.00001)
+      if matched
+        foundExactMatch = true
+        @pendingFlags.splice(i, 1)
+        @removeSprite pendingFlag
+    e.sprite.imageObject.cursor = if @flagCursorSprite then 'crosshair' else 'pointer'
+    null
+
+  onRemoveSelectedFlag: (e) ->
+    # Remove the selected sprite if it's a flag, or any flag of the given color if a color is given.
+    flagSprite = _.find [@selectedSprite].concat(@spriteArray), (sprite) ->
+      sprite and sprite.thangType.get('name') is 'Flag' and sprite.thang.team is me.team and (sprite.thang.color is e.color or not e.color) and not sprite.notOfThisWorld
+    return unless flagSprite
+    Backbone.Mediator.publish 'surface:remove-flag', color: flagSprite.thang.color
 
   # Marks
 

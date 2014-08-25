@@ -70,6 +70,8 @@ module.exports = class LevelHUDView extends CocoView
     @thang = e.world.thangMap[@thang.id] if @thang
     if hadThang and not @thang
       @setThang null, null
+    else if @thang
+      @createActions()  # Make sure it updates its actions.
 
   setThang: (thang, thangType) ->
     unless @speaker

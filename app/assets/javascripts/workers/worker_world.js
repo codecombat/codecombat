@@ -300,7 +300,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
         Aether.replaceBuiltin("Math", Math);
-        replacedLoDash = _.runInContext(self);
+        var replacedLoDash = _.runInContext(self);
         for(var key in replacedLoDash)
           _[key] = replacedLoDash[key];
     }
@@ -346,6 +346,7 @@ self.runWorld = function runWorld(args) {
       self.world.loadFromLevel(args.level, true);
     self.world.preloading = args.preload;
     self.world.headless = args.headless;
+    self.world.realTime = args.realTime;
     self.goalManager = new GoalManager(self.world);
     self.goalManager.setGoals(args.goals);
     self.goalManager.setCode(args.userCodeMap);
@@ -358,17 +359,27 @@ self.runWorld = function runWorld(args) {
   }
   Math.random = self.world.rand.randf;  // so user code is predictable
   Aether.replaceBuiltin("Math", Math);
-  replacedLoDash = _.runInContext(self);
+  var replacedLoDash = _.runInContext(self);
   for(var key in replacedLoDash)
     _[key] = replacedLoDash[key];
   self.postMessage({type: 'start-load-frames'});
   self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
 };
 
+self.serializeFramesSoFar = function serializeFramesSoFar() {
+  if(!self.world) return;  // We probably got this message late, after delivering the world.
+  if(self.world.framesSerializedSoFar == self.world.frames.length) return;
+  self.onWorldLoaded();
+  self.world.framesSerializedSoFar = self.world.frames.length;
+};
+
 self.onWorldLoaded = function onWorldLoaded() {
-  self.goalManager.worldGenerationEnded();
+  if(self.world.framesSerializedSoFar == self.world.frames.length) return;
+  if(self.world.ended)
+    self.goalManager.worldGenerationEnded();
   var goalStates = self.goalManager.getGoalStates();
-  self.postMessage({type: 'end-load-frames', goalStates: goalStates});
+  if(self.world.ended)
+    self.postMessage({type: 'end-load-frames', goalStates: goalStates});
   var t1 = new Date();
   var diff = t1 - self.t0;
   if (self.world.headless)
@@ -381,10 +392,12 @@ self.onWorldLoaded = function onWorldLoaded() {
   catch(error) {
     console.log("World serialization error:", error.toString() + "\n" + error.stack || error.stackTrace);
   }
+
   var t2 = new Date();
   //console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
+  var messageType = self.world.ended ? 'new-world' : 'some-frames-serialized';
   try {
-    var message = {type: 'new-world', serialized: serialized.serializedWorld, goalStates: goalStates};
+    var message = {type: messageType, serialized: serialized.serializedWorld, goalStates: goalStates, startFrame: serialized.startFrame, endFrame: serialized.endFrame};
     if(transferableSupported)
       self.postMessage(message, serialized.transferableObjects);
     else
@@ -393,11 +406,14 @@ self.onWorldLoaded = function onWorldLoaded() {
   catch(error) {
     console.log("World delivery error:", error.toString() + "\n" + error.stack || error.stackTrace);
   }
-  var t3 = new Date();
-  console.log("And it was so: (" + (diff / self.world.totalFrames).toFixed(3) + "ms per frame,", self.world.totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
-  self.world.goalManager.destroy();
-  self.world.destroy();
-  self.world = null;
+
+  if(self.world.ended) {
+    var t3 = new Date();
+    console.log("And it was so: (" + (diff / self.world.totalFrames).toFixed(3) + "ms per frame,", self.world.totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
+    self.world.goalManager.destroy();
+    self.world.destroy();
+    self.world = null;
+  }
 };
 
 self.onWorldError = function onWorldError(error) {
@@ -441,6 +457,11 @@ self.reportIn = function reportIn() {
 
 self.finalizePreload = function finalizePreload() {
   self.world.finalizePreload(self.onWorldLoaded);
+};
+
+self.addFlagEvent = function addFlagEvent(flagEvent) {
+  if(!self.world) return;
+  self.world.addFlagEvent(flagEvent);
 };
 
 self.addEventListener('message', function(event) {

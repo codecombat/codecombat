@@ -8,7 +8,7 @@ module.exports = class CastButtonView extends CocoView
 
   events:
     'click .cast-button': 'onCastButtonClick'
-    'click .autocast-delays a': 'onCastOptionsClick'
+    'click .cast-real-time-button': 'onCastRealTimeButtonClick'
 
   subscriptions:
     'tome:spell-changed': 'onSpellChanged'
@@ -21,11 +21,15 @@ module.exports = class CastButtonView extends CocoView
     @spells = options.spells
     @levelID = options.levelID
     @castShortcut = '⇧↵'
-    @castShortcutVerbose = 'Shift+Enter'
 
   getRenderData: (context={}) ->
     context = super context
-    context.castShortcutVerbose = @castShortcutVerbose
+    shift = $.i18n.t 'keyboard_shortcuts.shift'
+    enter = $.i18n.t 'keyboard_shortcuts.enter'
+    castShortcutVerbose = "#{shift}+#{enter}"
+    castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + castShortcutVerbose
+    context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.cast_spell')
+    context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
     context
 
   afterRender: ->
@@ -34,9 +38,7 @@ module.exports = class CastButtonView extends CocoView
     @castButtonGroup = $('.cast-button-group', @$el)
     @castOptions = $('.autocast-delays', @$el)
     delay = me.get('autocastDelay')
-    delay ?= 5000
-    unless @levelID in ['rescue-mission', 'grab-the-mushroom', 'drink-me', 'its-a-trap', 'break-the-prison', 'taunt', 'cowardly-taunt', 'commanding-followers', 'mobile-artillery']
-      delay = 90019001
+    delay ?= 90019001
     @setAutocastDelay delay
 
   attachTo: (spellView) ->
@@ -44,6 +46,9 @@ module.exports = class CastButtonView extends CocoView
 
   onCastButtonClick: (e) ->
     Backbone.Mediator.publish 'tome:manual-cast', {}
+
+  onCastRealTimeButtonClick: (e) ->
+    Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
 
   onCastOptionsClick: (e) =>
     Backbone.Mediator.publish 'tome:focus-editor'
@@ -98,6 +103,6 @@ module.exports = class CastButtonView extends CocoView
     @autocastDelay = delay = parseInt delay
     me.set('autocastDelay', delay)
     me.patch()
-    spell.view.setAutocastDelay delay for spellKey, spell of @spells
+    spell.view?.setAutocastDelay delay for spellKey, spell of @spells
     @castOptions.find('a').each ->
       $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)

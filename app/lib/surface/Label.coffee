@@ -37,6 +37,8 @@ module.exports = class Label extends CocoClass
   build: ->
     @layer.removeChild @background if @background
     @layer.removeChild @label if @label
+    @label = null
+    @background = null
     return unless @text  # null or '' should both be skipped
     o = @buildLabelOptions()
     @layer.addChild @label = @buildLabel o
@@ -52,6 +54,17 @@ module.exports = class Label extends CocoClass
     @label.x = @background.x = @sprite.imageObject.x + offset.x
     @label.y = @background.y = @sprite.imageObject.y + offset.y
     null
+
+  show: ->
+    return unless @label
+    @layer.addChild @label
+    @layer.addChild @background
+    @layer.updateLayerOrder()
+
+  hide: ->
+    return unless @label
+    @layer.removeChild @background
+    @layer.removeChild @label
 
   buildLabelOptions: ->
     o = {}

@@ -197,8 +197,9 @@ module.exports = class LadderTabView extends CocoView
 
     formatCount = d3.format(',.0')
 
-    x = d3.scale.linear().domain([-3000, 6000]).range([0, width])
-
+    minX = Math.floor(Math.min(histogramData...) / 1000) * 1000
+    maxX = Math.ceil(Math.max(histogramData...) / 1000) * 1000
+    x = d3.scale.linear().domain([minX, maxX]).range([0, width])
     data = d3.layout.histogram().bins(x.ticks(20))(histogramData)
     y = d3.scale.linear().domain([0, d3.max(data, (d) -> d.y)]).range([height, 10])
 

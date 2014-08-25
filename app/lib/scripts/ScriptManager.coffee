@@ -269,6 +269,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @publishNote(note)
 
   publishNote: (note) ->
+    Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
     Backbone.Mediator.publish(note.channel, note.event)
 
   # ENDING NOTES

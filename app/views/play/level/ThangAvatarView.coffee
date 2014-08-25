@@ -70,7 +70,7 @@ module.exports = class ThangAvatarView extends CocoView
     @setProblems myProblems.length, worstLevel
 
   onNewWorld: (e) ->
-    @options.thang = @thang = e.world.thangMap[@thang.id] if @thang
+    @options.thang = @thang = e.world.thangMap[@thang.id] if @thang and e.world.thangMap[@thang.id]
 
   destroy: ->
     super()
