@@ -82,7 +82,9 @@
       height: 40px
 
     .cast-button
-      width: 100%
+      width: 80%
+      width: -webkit-calc(100% - 40px)
+      width: calc(100% - 40px)
       border-top-left-radius: 6px
       border-bottom-left-radius: 6px
 
@@ -92,3 +94,8 @@
         font-size: 14px
       @media screen and (max-width: 1024px)
         font-size: 12px
+
+    .cast-real-time-button
+      width: 20%
+      width: -webkit-calc(40px)
+      width: calc(40px)

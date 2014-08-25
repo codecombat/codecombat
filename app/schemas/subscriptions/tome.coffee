@@ -11,10 +11,11 @@ module.exports =
         type: "object"
       preload:
         type: "boolean"
+      realTime:
+        type: "boolean"
     required: []
     additionalProperties: false
 
-  # TODO do we really need both 'cast-spell' and 'cast-spells'?
   "tome:cast-spells":
     title: "Cast Spells"
     $schema: "http://json-schema.org/draft-04/schema#"
@@ -25,6 +26,8 @@ module.exports =
         type: "object"
       preload:
         type: "boolean"
+      realTime:
+        type: "boolean"
     required: []
     additionalProperties: false
 
@@ -33,7 +36,9 @@ module.exports =
     $schema: "http://json-schema.org/draft-04/schema#"
     description: "Published when you wish to manually recast all spells"
     type: "object"
-    properties: {}
+    properties:
+      realTime:
+        type: "boolean"
     required: []
     additionalProperties: false
 

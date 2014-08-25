@@ -12,6 +12,9 @@ module.exports = class Angel extends CocoClass
   infiniteLoopTimeoutDuration: 7500  # wait this long for a response when checking
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
 
+  subscriptions:
+    'level:flag-updated': 'onFlagEvent'
+
   constructor: (@shared) ->
     super()
     @say 'Got my wings.'
@@ -64,14 +67,6 @@ module.exports = class Angel extends CocoClass
         clearTimeout @condemnTimeout
         @beholdGoalStates event.data.goalStates  # Work ends here if we're headless.
 
-      # We pay attention to certain progress indicators as the world loads.
-      when 'world-load-progress-changed'
-        Backbone.Mediator.publish 'god:world-load-progress-changed', event.data
-      when 'console-log'
-        @log event.data.args...
-      when 'user-code-problem'
-        Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
-
       # We have to abort like an infinite loop if we see one of these; they're not really recoverable
       when 'non-user-code-problem'
         Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem
@@ -80,9 +75,7 @@ module.exports = class Angel extends CocoClass
         else
           @fireWorker()
 
-      # Either the world finished simulating successfully, or we abort the worker.
-      when 'new-world'
-        @beholdWorld event.data.serialized, event.data.goalStates
+      # If it didn't finish simulating successfully, or we abort the worker.
       when 'abort'
         @say 'Aborted.', event.data
         clearTimeout @abortTimeout
@@ -90,6 +83,23 @@ module.exports = class Angel extends CocoClass
         @running = false
         _.remove @shared.busyAngels, @
         @doWork()
+
+      # We pay attention to certain progress indicators as the world loads.
+      when 'console-log'
+        @log event.data.args...
+      when 'user-code-problem'
+        Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
+      when 'world-load-progress-changed'
+        Backbone.Mediator.publish 'god:world-load-progress-changed', event.data
+        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or @shared.firstWorld
+          @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
+
+      # We have some or all of the frames serialized, so let's send the (partially?) simulated world to the Surface.
+      when 'some-frames-serialized', 'new-world'
+        deserializationArgs = [event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame, @streamingWorld]
+        @deserializationQueue.push deserializationArgs
+        if @deserializationQueue.length is 1
+          @beholdWorld deserializationArgs...
 
       else
         @log 'Received unsupported message:', event.data
@@ -99,27 +109,37 @@ module.exports = class Angel extends CocoClass
     Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates
     @finishWork() if @shared.headless
 
-  beholdWorld: (serialized, goalStates) ->
+  beholdWorld: (serialized, goalStates, startFrame, endFrame, streamingWorld) ->
     return if @aborting
     # Toggle BOX2D_ENABLED during deserialization so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment.
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates)
+    World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), startFrame, endFrame, streamingWorld
     window.BOX2D_ENABLED = true
     @shared.lastSerializedWorldFrames = serialized.frames
 
   finishBeholdingWorld: (goalStates) -> (world) =>
     return if @aborting
-    world.findFirstChangedFrame @shared.world
-    @shared.world = world
-    errorCount = (t for t in @shared.world.thangs when t.errorsOut).length
-    Backbone.Mediator.publish 'god:new-world-created', world: world, firstWorld: @shared.firstWorld, errorCount: errorCount, goalStates: goalStates, team: me.team
-    for scriptNote in @shared.world.scriptNotes
-      Backbone.Mediator.publish scriptNote.channel, scriptNote.event
-    @shared.goalManager?.world = world
-    @finishWork()
+    @streamingWorld = world
+    finished = world.frames.length is world.totalFrames
+    firstChangedFrame = world.findFirstChangedFrame @shared.world
+    eventType = if finished then 'god:new-world-created' else 'god:streaming-world-updated'
+    if finished
+      @shared.world = world
+    Backbone.Mediator.publish eventType, world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team, firstChangedFrame: firstChangedFrame
+    if finished
+      for scriptNote in @shared.world.scriptNotes
+        Backbone.Mediator.publish scriptNote.channel, scriptNote.event
+      @shared.goalManager?.world = world
+      @finishWork()
+    else
+      @deserializationQueue.shift()  # Finished with this deserialization.
+      if deserializationArgs = @deserializationQueue[0]  # Start another?
+        @beholdWorld deserializationArgs...
 
   finishWork: ->
+    @streamingWorld = null
     @shared.firstWorld = false
+    @deserializationQueue = []
     @running = false
     _.remove @shared.busyAngels, @
     @doWork()
@@ -127,6 +147,7 @@ module.exports = class Angel extends CocoClass
   finalizePreload: ->
     @say 'Finalize preload.'
     @worker.postMessage func: 'finalizePreload'
+    @work.preload = false
 
   infinitelyLooped: =>
     @say 'On infinitely looped! Aborting?', @aborting
@@ -145,6 +166,7 @@ module.exports = class Angel extends CocoClass
       @say 'Running world...'
       @running = true
       @shared.busyAngels.push @
+      @deserializationQueue = []
       @worker.postMessage func: 'runWorld', args: @work
       clearTimeout @purgatoryTimer
       @say 'Infinite loop timer started at interval of', @infiniteLoopIntervalDuration
@@ -158,6 +180,8 @@ module.exports = class Angel extends CocoClass
     @say 'Aborting...'
     @running = false
     @work = null
+    @streamingWorld = null
+    @deserializationQueue = null
     _.remove @shared.busyAngels, @
     @abortTimeout = _.delay @fireWorker, @abortTimeoutDuration
     @aborting = true
@@ -183,6 +207,10 @@ module.exports = class Angel extends CocoClass
     @worker = new Worker @shared.workerCode
     @worker.addEventListener 'message', @onWorkerMessage
     @worker.creationTime = new Date()
+
+  onFlagEvent: (e) ->
+    return unless @running and @work.realTime
+    @worker.postMessage func: 'addFlagEvent', args: e
 
 
   #### Synchronous code for running worlds on main thread (profiling / IE9) ####

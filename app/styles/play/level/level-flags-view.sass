@@ -1,0 +1,29 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/mixins"
+
+#level-flags-view
+  display: none
+  position: absolute
+  top: 42px
+  left: 1%
+  @include transition(box-shadow .2s linear)
+  @include user-select(none)
+  padding: 4px
+  background: transparent url(/images/level/gold_background.png) no-repeat
+  background-size: 100% 100%
+  border-radius: 4px
+
+  &:hover
+    box-shadow: 2px 2px 2px black
+
+  .flag-button
+    margin: 3px
+    font-size: 14px
+
+    &.green-flag
+      color: darkgreen
+    &.black-flag
+      color: black
+    &.violet-flag
+      color: violet
+

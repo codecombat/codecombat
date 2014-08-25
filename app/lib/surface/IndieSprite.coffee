@@ -1,8 +1,5 @@
-{me} = require('lib/auth')
 Thang = require 'lib/world/thang'
-Vector = require 'lib/world/vector'
 CocoSprite = require 'lib/surface/CocoSprite'
-Camera = require './Camera'
 
 module.exports = IndieSprite = class IndieSprite extends CocoSprite
   notOfThisWorld: true
@@ -11,16 +8,16 @@ module.exports = IndieSprite = class IndieSprite extends CocoSprite
     'note-group-ended': 'onNoteGroupEnded'
 
   constructor: (thangType, options) ->
-    options.thang = @makeIndieThang thangType, options.thangID, options.pos
+    options.thang = @makeIndieThang thangType, options
     super thangType, options
     @shadow = @thang
 
-  makeIndieThang: (thangType, thangID, pos) ->
-    @thang = thang = new Thang null, thangType.get('name'), thangID
+  makeIndieThang: (thangType, options) ->
+    @thang = thang = new Thang null, thangType.get('name'), options.thangID
     # Build needed results of what used to be Exists, Physical, Acts, and Selectable Components
     thang.exists = true
     thang.width = thang.height = thang.depth = 4
-    thang.pos = pos ? @defaultPos()
+    thang.pos = options.pos ? @defaultPos()
     thang.pos.z = thang.depth / 2
     thang.shape = 'ellipsoid'
     thang.rotation = 0
