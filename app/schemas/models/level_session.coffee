@@ -135,10 +135,6 @@ _.extend LevelSessionSchema.properties,
           title: "Revision"
           description: 'One revision including code/diff and metadata.'
           type: 'object'
-          oneOf: [
-            {required:['code']}
-            {required:['diff']}
-          ]
           properties:
             saveName:
               title: 'Save Name (TAG)'

@@ -8,17 +8,24 @@ module.exports = class LevelSession extends CocoModel
 
   maxRevCount: 100
 
+  onManualCast: ->
+    @saveCode null, @get 'code'
+
+  subscriptions:
+    'tome:manual-cast': 'onManualCast' # User explicitly clicked.
+
   initialize: ->
     super()
+    @saveCodeDebounced = _.debounce @saveCode, 60000
     @on 'sync', (e) =>
       state = @get('state') or {}
       state.scripts ?= {}
       @set 'state', state
       @vcs = new VCS @maxRevCount, @get('vcs')
     @vcs = new VCS @maxRevCount
-    @on "change:code", @saveCode
+    @on "change:code", @saveCodeDebounced
 
-  saveCode: ->
+  saveCode: (obj, value) ->
     @vcs.save value
     @set 'vcs', @vcs.serialize()
 
@@ -62,6 +69,10 @@ module.exports = class LevelSession extends CocoModel
       spell = item[1]
       return true if c1[thang][spell] isnt c2[thang]?[spell]
     false
+
+  save: (attrs, options) ->
+    super(attrs, options)
+    @vcs = new VCS @maxRevCount, @get('vcs')
 
   isMultiplayer: ->
     @get('team')? # Only multiplayer level sessions have teams defined

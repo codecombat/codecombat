@@ -10,7 +10,7 @@ class Revision
     @nexts = []
     @timestamp = if options.timestamp then new Date(options.timestamp) else new Date()
     @previous = options.previous
-    @code = options.code
+    @code = _.cloneDeep options.code
     @diff = options.diff
     @saveName = options.saveName
     if @previous? and @previous.constructor is Revision
@@ -30,8 +30,8 @@ class Revision
   serialize: ->
     timestamp: @timestamp.toISOString()
     saveName: @saveName
-    previous: @previous?.timestamp
-    code: @code
+    previous: @previous?.timestamp.toISOString()
+    code: @code if code?
     diff: @diff
 
 
@@ -68,6 +68,10 @@ module.exports = class VCS
   save: (code) ->
     previous = @workingRev
     @workingRev = new Revision previous: previous, code: code
+    if previous? and not @workingRev.diff?
+      # Nothing new to store. Drop unnecessary node.
+      console.log "Same code stored twice to VCS"
+      return @workingRev = previous
     @workingRev.timestamp.setSeconds(@workingRev.timestamp.getSeconds() + 1) while @revMap[@workingRev.timestamp]? #timestamp seconds must be unique.
     @revMap[@workingRev.timestamp] = @workingRev
     @revs.unshift @workingRev #Insert at beginning as revs have to be in order of descending time for (de)serialization.
@@ -112,7 +116,7 @@ module.exports = class VCS
     @remove(rev, true) for rev in removed
 
   serialize: (language) ->
-    workingRevision: @workingRev.timestamp #.getISOTimestamp()
+    workingRevision: @workingRev?.timestamp.toISOString()
     revisions: (rev.serialize() for rev in @revs)
 
 
