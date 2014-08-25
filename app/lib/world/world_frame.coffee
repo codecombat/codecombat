@@ -60,9 +60,9 @@ module.exports = class WorldFrame
         thangState.serialize(frameIndex, trackedPropertiesPerThangIndices[thangIndex], trackedPropertiesPerThangTypes[thangIndex], trackedPropertiesPerThangValues[thangIndex], specialValuesToKeys, specialKeysToValues)
     @hash
 
-  @deserialize: (world, frameIndex, trackedPropertiesThangIDs, trackedPropertiesThangs, trackedPropertiesPerThangKeys, trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, specialKeysToValues, hash) ->
+  @deserialize: (world, frameIndex, trackedPropertiesThangIDs, trackedPropertiesThangs, trackedPropertiesPerThangKeys, trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, specialKeysToValues, hash, age) ->
     # Optimize
-    wf = new WorldFrame null, world.dt * frameIndex
+    wf = new WorldFrame null, age
     wf.world = world
     wf.hash = hash
     for thangID, thangIndex in trackedPropertiesThangIDs

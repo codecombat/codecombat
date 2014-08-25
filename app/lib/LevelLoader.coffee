@@ -70,14 +70,18 @@ module.exports = class LevelLoader extends CocoClass
     @listenToOnce @session, 'sync', ->
       @session.url = -> '/db/level.session/' + @id
       @loadDependenciesForSession(@session)
-    
+
     if @opponentSessionID
       opponentSession = new LevelSession().setURL "/db/level_session/#{@opponentSessionID}"
       @opponentSessionResource = @supermodel.loadModel(opponentSession, 'opponent_session')
       @opponentSession = @opponentSessionResource.model
       @listenToOnce @opponentSession, 'sync', @loadDependenciesForSession
-      
+
   loadDependenciesForSession: (session) ->
+    return if @levelID is 'sky-span'  # TODO
+    # TODO: I think this runs afoul of https://github.com/codecombat/codecombat/issues/1108
+    # TODO: this shouldn't happen when it's not a hero level, but we don't have level loaded yet,
+    # and the sessions are being created with default hero config regardless of whether it's a hero level.
     if heroConfig = session.get('heroConfig')
       url = "/db/thang.type/#{heroConfig.thangType}/version?project=name,components,original"
       @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
@@ -107,7 +111,8 @@ module.exports = class LevelLoader extends CocoClass
     systemVersions = []
     articleVersions = []
 
-    for thang in @level.get('thangs') or []
+    flagThang = thangType: '53fa25f25bc220000052c2be', id: 'Placeholder Flag', components: []
+    for thang in (@level.get('thangs') or []).concat [flagThang]
       thangIDs.push thang.thangType
       @loadItemThangsEquippedByLevelThang(thang)
       for comp in thang.components or []

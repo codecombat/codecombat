@@ -11,5 +11,8 @@ module.exports =
   'god:new-world-created':
     {} # TODO schema
 
+  'god:streaming-world-updated':
+    {} # TODO schema
+
   'god:world-load-progress-changed':
     {} # TODO schema

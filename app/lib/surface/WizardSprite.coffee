@@ -1,5 +1,4 @@
 IndieSprite = require 'lib/surface/IndieSprite'
-Camera = require './Camera'
 {me} = require 'lib/auth'
 
 module.exports = class WizardSprite extends IndieSprite
@@ -35,12 +34,11 @@ module.exports = class WizardSprite extends IndieSprite
     @targetPos = @thang.pos
     if @isSelf
       @setNameLabel me.displayName()
-      @setColorHue me.get('wizardColor1')
     else if options.name
       @setNameLabel options.name
 
-  makeIndieThang: (thangType, thangID, pos) ->
-    thang = super thangType, thangID, pos
+  makeIndieThang: (thangType, options) ->
+    thang = super thangType, options
     thang.isSelectable = false
     thang.bobHeight = 0.75
     thang.bobTime = 2
@@ -59,6 +57,11 @@ module.exports = class WizardSprite extends IndieSprite
       name += " (#{@options.codeLanguage})"  # TODO: move on second line, capitalize properly
     super name
 
+  toggle: (to) ->
+    @imageObject?.visible = to
+    label[if to then 'show' else 'hide']() for name, label of @labels
+    mark.mark?.visible = to for name, mark of @marks
+
   onPlayerStatesChanged: (e) ->
     for playerID, state of e.states
       continue unless playerID is @thang.id
@@ -66,7 +69,6 @@ module.exports = class WizardSprite extends IndieSprite
       continue if playerID is me.id  # ignore changes for self wizard sprite
       @setNameLabel state.name
       continue unless state.wizard?
-      @setColorHue state.wizard.wizardColor1
       if targetID = state.wizard.targetSprite
         return console.warn 'Wizard Sprite couldn\'t find target sprite', targetID unless targetID of @options.sprites
         @setTarget @options.sprites[targetID]
@@ -91,17 +93,13 @@ module.exports = class WizardSprite extends IndieSprite
     @imageObject.scaleX = @imageObject.scaleY = @imageObject.alpha = 0
     createjs.Tween.get(@imageObject)
       .to({scaleX: 1, scaleY: 1, alpha: 1}, 1000, createjs.Ease.getPowInOut(2.2))
+    @labels.name?.show()
 
   animateOut: (callback) ->
     tween = createjs.Tween.get(@imageObject)
       .to({scaleX: 0, scaleY: 0, alpha: 0}, 1000, createjs.Ease.getPowInOut(2.2))
     tween.call(callback) if callback
-
-  setColorHue: (newColorHue) ->
-    # TODO: is this needed any more?
-    return if @colorHue is newColorHue
-    @colorHue = newColorHue
-    #@updateColorFilters()
+    @labels.name?.hide()
 
   setEditing: (@editing) ->
     if @editing

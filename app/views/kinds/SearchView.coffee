@@ -83,5 +83,5 @@ module.exports = class SearchView extends RootView
 
   newModel: (e) ->
     modal = new NewModelModal model: @model, modelLabel: @modelLabel
-    modal.once 'success', @onNewModelSaved
+    modal.once 'model-created', @onNewModelSaved
     @openModalView modal

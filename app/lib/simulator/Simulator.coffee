@@ -184,7 +184,7 @@ module.exports = class Simulator extends CocoClass
     try
       @commenceSimulationAndSetupCallback()
     catch err
-      console.error 'There was an error in simulation:', err, "-- trying again in #{@retryDelayInSeconds} seconds"
+      console.error 'There was an error in simulation:', err, err.stack, "-- trying again in #{@retryDelayInSeconds} seconds"
       @simulateAnotherTaskAfterDelay()
 
   assignWorldAndLevelFromLevelLoaderAndDestroyIt: ->

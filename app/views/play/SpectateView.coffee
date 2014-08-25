@@ -55,6 +55,7 @@ module.exports = class SpectateLevelView extends RootView
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:set-team': 'setTeam'
     'god:new-world-created': 'loadSoundsForWorld'
+    'god:streaming-world-updated': 'loadSoundsForWorld'
     'next-game-pressed': 'onNextGamePressed'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'

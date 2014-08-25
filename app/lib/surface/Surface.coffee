@@ -8,7 +8,6 @@ CameraBorder = require './CameraBorder'
 Layer = require './Layer'
 Letterbox = require './Letterbox'
 Dimmer = require './Dimmer'
-CastingScreen = require './CastingScreen'
 PlaybackOverScreen = require './PlaybackOverScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
@@ -63,10 +62,15 @@ module.exports = Surface = class Surface extends CocoClass
     'level-set-surface-camera': 'onSetCamera'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
     'level-set-letterbox': 'onSetLetterbox'
     'application:idle-changed': 'onIdleChanged'
     'camera:zoom-updated': 'onZoomUpdated'
+    'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
+    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'level:flag-color-selected': 'onFlagColorSelected'
+    #'god:world-load-progress-changed': -> console.log 'it is actually', @world.age
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -82,7 +86,7 @@ module.exports = Surface = class Surface extends CocoClass
     @options = _.extend(@options, givenOptions) if givenOptions
     @initEasel()
     @initAudio()
-    @onResize = _.debounce @onResize, 500
+    @onResize = _.debounce @onResize, 250
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
@@ -96,7 +100,6 @@ module.exports = Surface = class Surface extends CocoClass
     @spriteBoss.destroy()
     @chooser?.destroy()
     @dimmer?.destroy()
-    @castingScreen?.destroy()
     @playbackOverScreen?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
@@ -115,14 +118,14 @@ module.exports = Surface = class Surface extends CocoClass
 
   setWorld: (@world) ->
     @worldLoaded = true
-    lastFrame = Math.min(@getCurrentFrame(), @world.totalFrames - 1)
+    lastFrame = Math.min(@getCurrentFrame(), @world.frames.length - 1)
     @world.getFrame(lastFrame).restoreState() unless @options.choosing
     @spriteBoss.world = @world
 
     @showLevel()
     @updateState true if @loaded
     # TODO: synchronize both ways of choosing whether to show coords (@world via UI System or @options via World Select modal)
-    if @world.showCoordinates and @options.coords
+    if @world.showCoordinates and @options.coords and not @coordinateDisplay
       @coordinateDisplay = new CoordinateDisplay camera: @camera
       @surfaceTextLayer.addChild @coordinateDisplay
     @onFrameChanged()
@@ -190,19 +193,19 @@ module.exports = Surface = class Surface extends CocoClass
   setProgress: (progress, scrubDuration=500) ->
     progress = Math.max(Math.min(progress, 1), 0.0)
 
+    @fastForwardingToFrame = null
     @scrubbing = true
     onTweenEnd = =>
       @scrubbingTo = null
       @scrubbing = false
       @scrubbingPlaybackSpeed = null
-      @fastForwarding = false
 
     if @scrubbingTo?
       # cut to the chase for existing tween
       createjs.Tween.removeTweens(@)
       @currentFrame = @scrubbingTo
 
-    @scrubbingTo = Math.min(Math.round(progress * @world.totalFrames), @world.totalFrames)
+    @scrubbingTo = Math.min(Math.round(progress * @world.frames.length), @world.frames.length)
     @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
     if scrubDuration
       t = createjs.Tween
@@ -244,7 +247,7 @@ module.exports = Surface = class Surface extends CocoClass
   getCurrentFrame: ->
     return Math.max(0, Math.min(Math.floor(@currentFrame), @world.frames.length - 1))
 
-  getProgress: -> @currentFrame / @world.totalFrames
+  getProgress: -> @currentFrame / @world.frames.length
 
   onLevelRestarted: (e) ->
     @setProgress 0, 0
@@ -286,26 +289,26 @@ module.exports = Surface = class Surface extends CocoClass
     @setPlayingCalled = true
     if @playing and @currentFrame >= (@world.totalFrames - 5)
       @currentFrame = 0
-    if @fastForwarding and not @playing
-      @setProgress @currentFrame / @world.totalFrames
+    if @fastForwardingToFrame and not @playing
+      @fastForwardingToFrame = null
 
   onSetTime: (e) ->
     toFrame = @currentFrame
     if e.time?
-      @worldLifespan = @world.totalFrames / @world.frameRate
+      @worldLifespan = @world.frames.length / @world.frameRate
       e.ratio = e.time / @worldLifespan
     if e.ratio?
-      toFrame = @world.totalFrames * e.ratio
+      toFrame = @world.frames.length * e.ratio
     if e.frameOffset
       toFrame += e.frameOffset
     if e.ratioOffset
-      toFrame += @world.totalFrames * e.ratioOffset
+      toFrame += @world.frames.length * e.ratioOffset
     unless _.isNumber(toFrame) and not _.isNaN(toFrame)
       return console.error('set-time event', e, 'produced invalid target frame', toFrame)
-    @setProgress(toFrame / @world.totalFrames, e.scrubDuration)
+    @setProgress(toFrame / @world.frames.length, e.scrubDuration)
 
   onFrameChanged: (force) ->
-    @currentFrame = Math.min(@currentFrame, @world.totalFrames)
+    @currentFrame = Math.min(@currentFrame, @world.frames.length)
     @debugDisplay?.updateFrame @currentFrame
     return if @currentFrame is @lastFrame and not force
     progress = @getProgress()
@@ -317,7 +320,7 @@ module.exports = Surface = class Surface extends CocoClass
       world: @world
     )
 
-    if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames - 1
+    if @lastFrame < @world.frames.length and @currentFrame >= @world.totalFrames - 1
       @ended = true
       @setPaused true
       Backbone.Mediator.publish 'surface:playback-ended'
@@ -353,48 +356,34 @@ module.exports = Surface = class Surface extends CocoClass
     return if e.preload
     @setPaused false if @ended
     @casting = true
-    @wasPlayingWhenCastingBegan = @playing
-    Backbone.Mediator.publish 'level-set-playing', {playing: false}
-    @setPlayingCalled = false # don't overwrite playing settings if they changed by, say, scripts
-
-    if @coordinateDisplay?
-      @surfaceTextLayer.removeChild @coordinateDisplay
-      @coordinateDisplay.destroy()
-
-    createjs.Tween.removeTweens(@surfaceLayer)
-    createjs.Tween.get(@surfaceLayer).to({alpha: 0.9}, 1000, createjs.Ease.getPowOut(4.0))
+    @setPlayingCalled = false  # Don't overwrite playing settings if they changed by, say, scripts.
+    @frameBeforeCast = @currentFrame
+    @setProgress 0
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
     @casting = false
-    if @ended and not @wasPlayingWhenCastingBegan
-      @setPaused true
-    else
-      @spriteBoss.play()
+    @spriteBoss.play()
 
     # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
     # so only run it after the first world is created.
-    Backbone.Mediator.publish 'level-set-playing', {playing: @wasPlayingWhenCastingBegan} unless event.firstWorld or @setPlayingCalled
+    Backbone.Mediator.publish 'level-set-playing', {playing: true} unless event.firstWorld or @setPlayingCalled
 
-    fastForwardTo = null
-    if @playing
-      fastForwardTo = Math.min event.world.firstChangedFrame, @currentFrame
-      @currentFrame = 0
-
-    createjs.Tween.removeTweens(@surfaceLayer)
-    f = =>
-      @setWorld event.world
-      @onFrameChanged(true)
-      if fastForwardTo and @playing
-        fastForwardToRatio = fastForwardTo / @world.totalFrames
-        fastForwardToTime = fastForwardTo * @world.dt
-        fastForwardSpeed = Math.max 4, fastForwardToTime / 3
-        @setProgress fastForwardToRatio, 1000 * fastForwardToTime / fastForwardSpeed
-        @fastForwarding = true
-    createjs.Tween.get(@surfaceLayer)
-      .to({alpha: 0.0}, 50)
-      .call(f)
-      .to({alpha: 1.0}, 2000, createjs.Ease.getPowOut(2.0))
+    @setWorld event.world
+    @onFrameChanged(true)
+    fastForwardBuffer = 2
+    if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
+      @fastForwardingToFrame = ffToFrame
+      @fastForwardingSpeed = Math.max 4, 4 * 90 / (@world.maxTotalFrames * @world.dt)
+    else if @realTime
+      lag = (@world.frames.length - 1) * @world.dt - @world.age
+      intendedLag = @world.realTimeBufferMax + @world.dt
+      if lag > intendedLag * 1.2
+        @fastForwardingToFrame = @world.frames.length - @world.realTimeBufferMax * @world.frameRate
+        @fastForwardingSpeed = lag / intendedLag
+      else
+        @fastForwardingToFrame = @fastForwardingSpeed = null
+      #console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
 
   # initialization
 
@@ -413,7 +402,6 @@ module.exports = Surface = class Surface extends CocoClass
     @surfaceLayer.addChild @cameraBorder = new CameraBorder bounds: @camera.bounds
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
     @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
-    @castingScreen ?= new CastingScreen camera: @camera, layer: @screenLayer
     @playbackOverScreen ?= new PlaybackOverScreen camera: @camera, layer: @screenLayer
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
@@ -428,8 +416,17 @@ module.exports = Surface = class Surface extends CocoClass
   onResize: (e) =>
     oldWidth = parseInt @canvas.attr('width'), 10
     oldHeight = parseInt @canvas.attr('height'), 10
-    newWidth = @canvas.width()
-    newHeight = @canvas.height()
+    aspectRatio = oldWidth / oldHeight
+    pageWidth = $('#page-container').width() - 17  # 17px nano scroll bar
+    if @realTime
+      pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
+      newWidth = Math.min pageWidth, pageHeight * aspectRatio
+      newHeight = newWidth / aspectRatio
+    else
+      newWidth = 0.55 * pageWidth
+      newHeight = newWidth / aspectRatio
+    @canvas.width newWidth
+    @canvas.height newHeight
     return unless newWidth > 0 and newHeight > 0
     #if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
     #  newWidth = Math.min 924, newWidth
@@ -540,7 +537,9 @@ module.exports = Surface = class Surface extends CocoClass
   onMouseDown: (e) =>
     return if @disabled
     onBackground = not @stage.hitTest e.stageX, e.stageY
-    Backbone.Mediator.publish 'surface:stage-mouse-down', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
+    worldPos = @camera.screenToWorld x: e.stageX, y: e.stageY
+    event = onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: worldPos
+    Backbone.Mediator.publish 'surface:stage-mouse-down', event
 
   onMouseUp: (e) =>
     return if @disabled
@@ -569,14 +568,19 @@ module.exports = Surface = class Surface extends CocoClass
     # seems to be a bug where only one object can register with the Ticker...
     oldFrame = @currentFrame
     oldWorldFrame = Math.floor oldFrame
-    lastFrame = @world.totalFrames - 1
+    lastFrame = @world.frames.length - 1
     while true
       Dropper.tick()
       @trailmaster.tick() if @trailmaster
       # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
       frameAdvanced = (@playing and @currentFrame < lastFrame) or @totalFramesDrawn < 2
       if frameAdvanced and @playing
-        @currentFrame += @world.frameRate / @options.frameRate
+        advanceBy = @world.frameRate / @options.frameRate
+        if @fastForwardingToFrame and @currentFrame < @fastForwardingToFrame - advanceBy
+          advanceBy = Math.min(@currentFrame + advanceBy * @fastForwardingSpeed, @fastForwardingToFrame) - @currentFrame
+        else if @fastForwardingToFrame
+          @fastForwardingToFrame = @fastForwardingSpeed = null
+        @currentFrame += advanceBy
         @currentFrame = Math.min @currentFrame, lastFrame
       newWorldFrame = Math.floor @currentFrame
       worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
@@ -603,8 +607,8 @@ module.exports = Surface = class Surface extends CocoClass
   restoreWorldState: ->
     frame = @world.getFrame(@getCurrentFrame())
     frame.restoreState()
-    current = Math.max(0, Math.min(@currentFrame, @world.totalFrames - 1))
-    if current - Math.floor(current) > 0.01
+    current = Math.max(0, Math.min(@currentFrame, @world.frames.length - 1))
+    if current - Math.floor(current) > 0.01 and Math.ceil(current) < @world.frames.length - 1
       next = Math.ceil current
       ratio = current % 1
       @world.frames[next].restorePartialState ratio if next > 1
@@ -614,12 +618,28 @@ module.exports = Surface = class Surface extends CocoClass
   updateState: (frameChanged) ->
     # world state must have been restored in @restoreWorldState
     @camera.updateZoom()
-    @spriteBoss.update frameChanged unless @casting
+    @spriteBoss.update frameChanged
     @dimmer?.setSprites @spriteBoss.sprites
 
   drawCurrentFrame: (e) ->
     ++@totalFramesDrawn
     @stage.update e
+
+  # Real-time playback
+  onRealTimePlaybackStarted: (e) ->
+    @realTime = true
+    @onResize()
+    @spriteBoss.selfWizardSprite?.toggle false
+
+  onRealTimePlaybackEnded: (e) ->
+    @realTime = false
+    @onResize()
+    @spriteBoss.selfWizardSprite?.toggle true
+    @canvas.removeClass 'flag-color-selected'
+
+  onFlagColorSelected: (e) ->
+    @canvas.toggleClass 'flag-color-selected', Boolean(e.color)
+    e.pos = @camera.screenToWorld @mouseScreenPos if @mouseScreenPos
 
   # paths - TODO: move to SpriteBoss? but only update on frame drawing instead of on every frame update?
 

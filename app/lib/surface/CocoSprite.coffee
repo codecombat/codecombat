@@ -320,6 +320,9 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     [@imageObject.x, @imageObject.y] = [sup.x, sup.y]
     @lastPos = p1.copy?() or _.clone(p1)
     @hasMoved = true
+    if @thangType.get('name') is 'Flag' and not @notOfThisWorld
+      # Let the pending flags know we're here (but not this call stack, they need to delete themselves, and we may be iterating sprites).
+      _.defer => Backbone.Mediator.publish 'surface:flag-appeared', sprite: @
 
   updateBaseScale: ->
     scale = 1
@@ -519,7 +522,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     @letterboxOn = e.on
 
   onMouseEvent: (e, ourEventName) ->
-    return if @letterboxOn
+    return if @letterboxOn or not @imageObject
     p = @imageObject
     p = p.parent while p.parent
     newEvent = sprite: @, thang: @thang, originalEvent: e, canvas:p.canvas
