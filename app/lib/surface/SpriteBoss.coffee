@@ -283,6 +283,7 @@ module.exports = class SpriteBoss extends CocoClass
     return @dragged = 0 if @dragged > 3
     @dragged = 0
     sprite = if e.sprite?.thang?.isSelectable then e.sprite else null
+    return if @flagCursorSprite and sprite?.thangType.get('name') is 'Flag'
     @selectSprite e, sprite
 
   onStageMouseDown: (e) ->
@@ -325,6 +326,8 @@ module.exports = class SpriteBoss extends CocoClass
   onFlagColorSelected: (e) ->
     @removeSprite @flagCursorSprite if @flagCursorSprite
     @flagCursorSprite = null
+    for flagSprite in @spriteArray when flagSprite.thangType.get('name') is 'Flag'
+      flagSprite.imageObject.cursor = if e.color then 'crosshair' else 'pointer'
     return unless e.color
     @flagCursorSprite = new FlagSprite @thangTypeFor('Flag'), @createSpriteOptions(thangID: 'Flag Cursor', color: e.color, team: me.team, isCursor: true, pos: e.pos)
     @addSprite @flagCursorSprite, @flagCursorSprite.thang.id, @spriteLayers['Floating']
@@ -349,11 +352,15 @@ module.exports = class SpriteBoss extends CocoClass
         foundExactMatch = true
         @pendingFlags.splice(i, 1)
         @removeSprite pendingFlag
+    e.sprite.imageObject.cursor = if @flagCursorSprite then 'crosshair' else 'pointer'
     null
 
   onRemoveSelectedFlag: (e) ->
-    return unless @selectedSprite and @selectedSprite.thangType.get('name') is 'Flag' and @selectedSprite.thang.team is me.team
-    Backbone.Mediator.publish 'surface:remove-flag', color: @selectedSprite.thang.color
+    # Remove the selected sprite if it's a flag, or any flag of the given color if a color is given.
+    flagSprite = _.find [@selectedSprite].concat(@spriteArray), (sprite) ->
+      sprite and sprite.thangType.get('name') is 'Flag' and sprite.thang.team is me.team and (sprite.thang.color is e.color or not e.color) and not sprite.notOfThisWorld
+    return unless flagSprite
+    Backbone.Mediator.publish 'surface:remove-flag', color: flagSprite.thang.color
 
   # Marks
 
