@@ -22,7 +22,24 @@ describe 'CocoModel', ->
       b.fetch()
       request = jasmine.Ajax.requests.mostRecent()
       expect(decodeURIComponent(request.url).indexOf('project=number,object')).toBeGreaterThan(-1)
-  
+
+    it 'can update its projection', ->
+      baseURL = '/db/bland/test?filter-creator=Mojambo&project=number,object&ignore-evil=false'
+      unprojectedURL = baseURL.replace /&project=number,object/, ''
+      b = new BlandClass({})
+      b.setURL baseURL
+      expect(b.getURL()).toBe baseURL
+      b.setProjection ['number', 'object']
+      expect(b.getURL()).toBe baseURL
+      b.setProjection ['number']
+      expect(b.getURL()).toBe baseURL.replace /,object/, ''
+      b.setProjection []
+      expect(b.getURL()).toBe unprojectedURL
+      b.setProjection null
+      expect(b.getURL()).toBe unprojectedURL
+      b.setProjection ['object', 'number']
+      expect(b.getURL()).toBe unprojectedURL + '&project=object,number'
+
   describe 'save', ->
 
     it 'saves to db/<urlRoot>', ->
@@ -95,7 +112,7 @@ describe 'CocoModel', ->
   xdescribe 'Achievement polling', ->
     NewAchievementCollection = require 'collections/NewAchievementCollection'
     EarnedAchievement = require 'models/EarnedAchievement'
-    
+
     # TODO: Figure out how to do debounce in tests so that this test doesn't need to use keepDoingUntil
 
     it 'achievements are polled upon saving a model', (done) ->
@@ -133,4 +150,3 @@ describe 'CocoModel', ->
           else return ready false
 
           request.response {status:200, responseText: JSON.stringify me}
-
