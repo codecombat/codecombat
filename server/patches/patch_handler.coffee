@@ -53,9 +53,10 @@ PatchHandler = class PatchHandler extends Handler
 
         # Only increment statistics upon very first accept
         if patch.isNewlyAccepted()
-          accepter = req.user.get 'id'
+          patch.set 'acceptor', req.user.get('id')
+          acceptor = req.user.get 'id'
           submitter = patch.get 'creator'
-          User.incrementStat accepter, 'stats.patchesAccepted'
+          User.incrementStat acceptor, 'stats.patchesAccepted'
           # TODO maybe merge these increments together
           if patch.isTranslationPatch()
             User.incrementStat submitter, 'stats.totalTranslationPatches'

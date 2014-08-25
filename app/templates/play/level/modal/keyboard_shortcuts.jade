@@ -9,6 +9,10 @@ block modal-body-content
       code ⇧+#{enter}
     dd(data-i18n="keyboard_shortcuts.cast_spell") Cast current spell.
   dl.dl-horizontal
+    dt(title=ctrlName + "+Shift+" + enter)
+      code #{ctrl}+⇧+#{enter}
+    dd(data-i18n="keyboard_shortcuts.run_real_time") Run in real time.
+  dl.dl-horizontal
     dt(title="Shift+" + space)
       code ⇧+#{space}
     dd(data-i18n="keyboard_shortcuts.continue_script") Continue past current script.

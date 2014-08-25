@@ -50,6 +50,7 @@ module.exports = class SpellView extends CocoView
     'tome:update-snippets': 'addZatannaSnippets'
     'tome:insert-snippet': 'onInsertSnippet'
     'spell-beautify': 'onSpellBeautify'
+    'script:state-changed': 'onScriptStateChange'
 
   events:
     'mouseout': 'onMouseOut'
@@ -114,6 +115,10 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Shift-Enter|Ctrl-Enter', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter'}
       exec: -> Backbone.Mediator.publish 'tome:manual-cast', {}
     addCommand
+      name: 'run-code-real-time'
+      bindKey: {win: 'Ctrl-Shift-Enter', mac: 'Command-Shift-Enter|Ctrl-Shift-Enter'}
+      exec: -> Backbone.Mediator.publish 'tome:manual-cast', {realTime: true}
+    addCommand
       name: 'no-op'
       bindKey: {win: 'Ctrl-S', mac: 'Command-S|Ctrl-S'}
       exec: ->  # just prevent page save call
@@ -124,10 +129,15 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
-      passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
-    # No easy way to selectively cancel shift+space, since we don't get access to the event.
-    # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
-      exec: -> Backbone.Mediator.publish 'level:shift-space-pressed'
+      # passEvent: true  # https://github.com/ajaxorg/ace/blob/master/lib/ace/keyboard/keybinding.js#L114
+      # No easy way to selectively cancel shift+space, since we don't get access to the event.
+      # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
+      exec: =>
+        if @scriptRunning
+          Backbone.Mediator.publish 'level:shift-space-pressed'
+        else
+          @ace.insert ' '
+
     addCommand
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
@@ -193,7 +203,7 @@ module.exports = class SpellView extends CocoView
             tabTrigger: doc.snippets[e.language].tab
           snippetEntries.push entry
 
-    # window.zatanna = @zatanna
+    # window.zatannaInstance = @zatanna
     # window.snippetEntries = snippetEntries
     lang = @editModes[e.language].substr 'ace/mode/'.length
     @zatanna.addSnippets snippetEntries, lang
@@ -263,8 +273,8 @@ module.exports = class SpellView extends CocoView
     # @addZatannaSnippets()
     @highlightCurrentLine()
 
-  cast: (preload=false) ->
-    Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload
+  cast: (preload=false, realTime=false) ->
+    Backbone.Mediator.publish 'tome:cast-spell', spell: @spell, thang: @thang, preload: preload, realTime: realTime
 
   notifySpellChanged: =>
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
@@ -279,7 +289,7 @@ module.exports = class SpellView extends CocoView
 
   onManualCast: (e) ->
     cast = @$el.parent().length
-    @recompile cast
+    @recompile cast, e.realTime
     @focus() if cast
 
   onCodeReload: (e) ->
@@ -293,13 +303,16 @@ module.exports = class SpellView extends CocoView
   recompileIfNeeded: =>
     @recompile() if @recompileNeeded
 
-  recompile: (cast=true) ->
+  recompile: (cast=true, realTime=false) ->
     @setRecompileNeeded false
-    return if @spell.source is @getSource()
-    @spell.transpile @getSource()
-    @updateAether true, false
-    @cast() if cast
-    @notifySpellChanged()
+    hasChanged = @spell.source isnt @getSource()
+    if hasChanged
+      @spell.transpile @getSource()
+      @updateAether true, false
+    if cast and (hasChanged or realTime)
+      @cast(false, realTime)
+    if hasChanged
+      @notifySpellChanged()
 
   updateACEText: (source) ->
     @eventsSuppressed = true
@@ -414,7 +427,7 @@ module.exports = class SpellView extends CocoView
     for aetherProblem, problemIndex in aether.getAllProblems()
       continue if key = aetherProblem.userInfo?.key and key of seenProblemKeys
       seenProblemKeys[key] = true if key
-      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast
+      @problems.push problem = new Problem aether, aetherProblem, @ace, isCast and problemIndex is 0, isCast, @spell.levelID
       annotations.push problem.annotation if problem.annotation
     @aceSession.setAnnotations annotations
     @highlightCurrentLine aether.flow unless _.isEmpty aether.flow
@@ -466,7 +479,7 @@ module.exports = class SpellView extends CocoView
   onSessionWillSave: (e) ->
     return unless @spellHasChanged
     setTimeout(=>
-      unless @spellHasChanged
+      unless @destroyed or @spellHasChanged
         @$el.find('.save-status').finish().show().fadeOut(2000)
     , 1000)
     @spellHasChanged = false
@@ -504,7 +517,7 @@ module.exports = class SpellView extends CocoView
       spellThang.castAether = aether
       spellThang.aether = @spell.createAether thang
     #console.log thangID, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
-    @spell.transpile()
+    @spell.transpile()  # TODO: is there any way we can avoid doing this if it hasn't changed? Causes a slight hang.
     @updateAether false, false
 
   # --------------------------------------------------------------------------------------------------
@@ -682,6 +695,9 @@ module.exports = class SpellView extends CocoView
   dismiss: ->
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       @recompile() if hasChanged
+
+  onScriptStateChange: (e) ->
+    @scriptRunning = if e.currentScript is null then false else true
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick

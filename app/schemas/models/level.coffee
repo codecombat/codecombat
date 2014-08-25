@@ -27,7 +27,7 @@ EventPrereqSchema = c.object {title: 'Event Prerequisite', format: 'event-prereq
 GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can accomplish.', required: ['name', 'id']},
   name: c.shortString(title: 'Name', description: 'Name of the goal that the player will see, like \"Defeat eighteen dragons\".')
   i18n: {type: 'object', format: 'i18n', props: ['name'], description: 'Help translate this goal'}
-  id: c.shortString(title: 'ID', description: 'Unique identifier for this goal, like \"defeat-dragons\".')  # unique somehow?
+  id: c.shortString(title: 'ID', description: 'Unique identifier for this goal, like \"defeat-dragons\".', pattern: '^[a-z0-9-]+$')  # unique somehow?
   worldEndsAfter: {title: 'World Ends After', description: 'When included, ends the world this many seconds after this goal succeeds or fails.', type: 'number', minimum: 0, exclusiveMinimum: true, maximum: 300, default: 3}
   howMany: {title: 'How Many', description: 'When included, require only this many of the listed goal targets instead of all of them.', type: 'integer', minimum: 1}
   hiddenGoal: {title: 'Hidden', description: 'Hidden goals don\'t show up in the goals area for the player until they\'re failed. (Usually they\'re obvious, like "don\'t die".)', 'type': 'boolean', default: false}
@@ -110,8 +110,8 @@ NoteGroupSchema = c.object {title: 'Note Group', description: 'A group of notes 
     letterbox: {type: 'boolean', title: 'Letterbox', description: 'Turn letterbox mode on or off. Disables surface and playback controls.'}
 
   goals: c.object {title: 'Goals (Old)', description: 'Deprecated. Goals added here have no effect. Add goals in the level settings instead.'},
-    add: c.array {title: 'Add', description: 'Deprecated. Goals added here have no effect. Add goals in the level settings instead.'}, GoalSchema
-    remove: c.array {title: 'Remove', description: 'Deprecated. Goals removed here have no effect. Adjust goals in the level settings instead.'}, GoalSchema
+    add: c.array {title: 'Add', description: 'Deprecated. Goals added here have no effect. Add goals in the level settings instead.'}, {}
+    remove: c.array {title: 'Remove', description: 'Deprecated. Goals removed here have no effect. Adjust goals in the level settings instead.'}, {}
 
   playback: c.object {title: 'Playback', description: 'Control the playback of the level.'},
     playing: {type: 'boolean', title: 'Set Playing', description: 'Set whether playback is playing or paused.'}

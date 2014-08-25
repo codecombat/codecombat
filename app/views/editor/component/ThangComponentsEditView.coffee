@@ -12,8 +12,8 @@ nodes = require '../level/treema_nodes'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
 
-class ThangTypeSearchCollection extends CocoCollection
-  url: '/db/thang.type?project=original,name,version,slug,kind,components'
+class ItemThangTypeSearchCollection extends CocoCollection
+  url: '/db/thang.type?view=items&project=original,name,version,slug,kind,components'
   model: ThangType
 
 module.exports = class ThangComponentsEditView extends CocoView
@@ -32,7 +32,7 @@ module.exports = class ThangComponentsEditView extends CocoView
     @level = options.level
     @loadComponents(@components)
     # Need to grab the ThangTypes so that we can autocomplete items in inventory based on them.
-    @thangTypes = @supermodel.loadCollection(new ThangTypeSearchCollection(), 'thangs').model
+    @itemThangTypes = @supermodel.loadCollection(new ItemThangTypeSearchCollection(), 'thangs').model
 
   loadComponents: (components) ->
     for componentRef in components

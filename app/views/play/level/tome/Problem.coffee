@@ -1,20 +1,23 @@
 ProblemAlertView = require './ProblemAlertView'
 Range = ace.require('ace/range').Range
+UserCodeProblem = require 'models/UserCodeProblem'
 
 module.exports = class Problem
   annotation: null
   alertView: null
   markerRange: null
-  constructor: (@aether, @aetherProblem, @ace, withAlert=false, withRange=false) ->
+  constructor: (@aether, @aetherProblem, @ace, withAlert=false, isCast=false, @levelID) ->
     @buildAnnotation()
     @buildAlertView() if withAlert
-    @buildMarkerRange() if withRange
+    @buildMarkerRange() if isCast
+    @saveUserCodeProblem() if isCast
 
   destroy: ->
     unless @alertView?.destroyed
       @alertView?.$el?.remove()
       @alertView?.destroy()
     @removeMarkerRange()
+    @userCodeProblem.off() if @userCodeProblem
 
   buildAnnotation: ->
     return unless @aetherProblem.range
@@ -46,3 +49,21 @@ module.exports = class Problem
     @ace.getSession().removeMarker @markerRange.id
     @markerRange.start.detach()
     @markerRange.end.detach()
+
+  saveUserCodeProblem: () ->
+    @userCodeProblem = new UserCodeProblem()
+    @userCodeProblem.set 'code', @aether.raw
+    if @aetherProblem.range
+      rawLines = @aether.raw.split '\n'
+      errorLines = rawLines.slice @aetherProblem.range[0].row, @aetherProblem.range[1].row + 1
+      @userCodeProblem.set 'codeSnippet', errorLines.join '\n'
+    @userCodeProblem.set 'errHint', @aetherProblem.hint if @aetherProblem.hint
+    @userCodeProblem.set 'errId', @aetherProblem.id if @aetherProblem.id
+    @userCodeProblem.set 'errLevel', @aetherProblem.level if @aetherProblem.level
+    @userCodeProblem.set 'errMessage', @aetherProblem.message if @aetherProblem.message
+    @userCodeProblem.set 'errRange', @aetherProblem.range if @aetherProblem.range
+    @userCodeProblem.set 'errType', @aetherProblem.type if @aetherProblem.type
+    @userCodeProblem.set 'language', @aether.language.id if @aether.language?.id
+    @userCodeProblem.set 'levelID', @levelID if @levelID
+    @userCodeProblem.save()
+    null

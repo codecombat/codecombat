@@ -55,10 +55,13 @@ _.extend LevelSessionSchema.properties,
 
   screenshot:
     type: 'string'
-    
-  heroConfig: c.object {},
-    inventory: c.object()
-    thangType: c.objectId()
+
+  heroConfig: c.object {description: 'Which hero the player is using, equipped with what inventory.'},
+    inventory:
+      type: 'object'
+      description: 'The inventory of the hero: slots to item ThangTypes.'
+      additionalProperties: c.objectId(description: 'An item ThangType.')
+    thangType: c.objectId(links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type')
 
   state: c.object {},
     complete:

@@ -31,11 +31,25 @@ module.exports = class LadderHomeView extends RootView
     context = super(context)
     arenas = [
       {
+        name: 'Criss-Cross'
+        difficulty: 5
+        id: 'criss-cross'
+        image: '/file/db/level/5391f3d519dc22b8082159b2/banner2.png'
+        description: 'Participate in a bidding war with opponents to reach the other side!'
+      }
+      {
         name: 'Greed'
         difficulty: 4
         id: 'greed'
         image: '/file/db/level/53558b5a9914f5a90d7ccddb/greed_banner.jpg'
         description: 'Liked Dungeon Arena and Gold Rush? Put them together in this economic arena!'
+      }
+      {
+        name: 'Sky Span (Testing)'
+        difficulty: 3
+        id: 'sky-span'
+        image: '/file/db/level/53c80fce0ddbef000084c667/sky-Span-banner.jpg'
+        description: 'Preview version of an upgraded Dungeon Arena. Help us with hero balance before release!'
       }
       {
         name: 'Dungeon Arena'

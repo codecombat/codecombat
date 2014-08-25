@@ -111,6 +111,7 @@ describe '/db/patch', ->
             expect(res.statusCode).toBe(200)
             Patch.findOne({}).exec (err, article) ->
               expect(article.get('status')).toBe 'accepted'
+              expect(article.get('acceptor')).toBeDefined()
               done()
 
   it 'keeps track of amount of submitted and accepted patches', (done) ->

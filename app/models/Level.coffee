@@ -8,9 +8,8 @@ module.exports = class Level extends CocoModel
   @schema: require 'schemas/models/level'
   urlRoot: '/db/level'
 
-  serialize: (supermodel) ->
-    # o = _.cloneDeep @attributes  # slow in level editor when there are hundreds of Thangs
-    o = $.extend true, {}, @attributes
+  serialize: (supermodel, session) ->
+    o = @denormalize supermodel, session
 
     # Figure out Components
     o.levelComponents = _.cloneDeep (lc.attributes for lc in supermodel.getModels LevelComponent)
@@ -29,28 +28,60 @@ module.exports = class Level extends CocoModel
 
     o
 
-  denormalize: (supermodel) ->
+  denormalize: (supermodel, session) ->
     o = $.extend true, {}, @attributes
-    for levelThang in o.thangs
-      @denormalizeThang(levelThang, supermodel)
+    if @get('type') is 'hero'
+      # TOOD: figure out if/when/how we are doing this for non-Hero levels that aren't expecting denormalization.
+      for levelThang in o.thangs
+        @denormalizeThang(levelThang, supermodel, session)
     o
 
-  denormalizeThang: (levelThang, supermodel) ->
+  denormalizeThang: (levelThang, supermodel, session) ->
     levelThang.components ?= []
     thangType = supermodel.getModelByOriginal(ThangType, levelThang.thangType)
+
+    # Empty out placeholder Components and store their values if we're the hero placeholder.
+    placeholders = {}
+    if levelThang.id is 'Hero Placeholder'
+      for thangComponent in levelThang.components ? []
+        placeholders[thangComponent.original] = thangComponent
+      levelThang.components = []
+      heroThangType = session?.get('heroConfig')?.thangType
+      console.log "got thang type", heroThangType
+      levelThang.thangType = heroThangType if heroThangType
+
     configs = {}
     for thangComponent in levelThang.components
       configs[thangComponent.original] = thangComponent
 
     for defaultThangComponent in thangType.get('components')
       if levelThangComponent = configs[defaultThangComponent.original]
-        # take the thang type default components and merge level-specific component config into it
+        # Take the ThangType default Components and merge level-specific Component config into it
         copy = $.extend true, {}, defaultThangComponent.config
         levelThangComponent.config = _.merge copy, levelThangComponent.config
 
       else
-        # just add the component as is
-        levelThang.components.push $.extend true, {}, defaultThangComponent
+        # Just add the Component as is
+        levelThangComponent = $.extend true, {}, defaultThangComponent
+        levelThang.components.push levelThangComponent
+
+      if placeholderComponent = placeholders[defaultThangComponent.original]
+        placeholderConfig = placeholderComponent.config ? {}
+        if placeholderConfig.pos  # Pull in Physical pos x and y
+          levelThangComponent.config.pos ?= {}
+          levelThangComponent.config.pos.x = placeholderConfig.pos.x
+          levelThangComponent.config.pos.y = placeholderConfig.pos.y
+        else if placeholderConfig.team  # Pull in Allied team
+          levelThangComponent.config.team = placeholderConfig.team
+        else if placeholderConfig.programmableMethods
+          # Take the ThangType default Programmable and merge level-specific Component config into it
+          copy = $.extend true, {}, placeholderConfig
+          levelThangComponent.config = _.merge copy, levelThangComponent.config
+
+    if levelThang.id is 'Hero Placeholder' and equips = _.find levelThang.components, {original: LevelComponent.EquipsID}
+      inventory = session?.get('heroConfig')?.inventory
+      equips.config.inventory = $.extend true, {}, inventory if inventory
+
 
   sortSystems: (levelSystems, systemModels) ->
     [sorted, originalsSeen] = [[], {}]

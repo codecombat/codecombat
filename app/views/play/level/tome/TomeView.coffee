@@ -61,15 +61,16 @@ module.exports = class TomeView extends CocoView
     super()
     @worker = @createWorker()
     programmableThangs = _.filter @options.thangs, 'isProgrammable'
-    if programmableThangs.length
-      @createSpells programmableThangs, programmableThangs[0].world  # Do before spellList, thangList, and castButton
-      @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
-      @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
-      @castButton = @insertSubView new CastButtonView spells: @spells, levelID: @options.levelID
-      @teamSpellMap = @generateTeamSpellMap(@spells)
-    else
+    @createSpells programmableThangs, programmableThangs[0]?.world  # Do before spellList, thangList, and castButton
+    @spellList = @insertSubView new SpellListView spells: @spells, supermodel: @supermodel
+    @thangList = @insertSubView new ThangListView spells: @spells, thangs: @options.thangs, supermodel: @supermodel
+    @castButton = @insertSubView new CastButtonView spells: @spells, levelID: @options.levelID
+    @teamSpellMap = @generateTeamSpellMap(@spells)
+    unless programmableThangs.length
       @cast()
-      console.warn 'Warning: There are no Programmable Thangs in this level, which makes it unplayable.'
+      warning = 'Warning: There are no Programmable Thangs in this level, which makes it unplayable.'
+      noty text: warning, layout: 'topCenter', type: 'warning', killer: false, timeout: 15000, dismissQueue: true, maxVisible: 3
+      console.warn warning
     delete @options.thangs
 
   onNewWorld: (e) ->
@@ -120,7 +121,7 @@ module.exports = class TomeView extends CocoView
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
         unless method.cloneOf
-          skipProtectAPI = @getQueryVariable 'skip_protect_api', (@options.levelID in ['gridmancer'])
+          skipProtectAPI = @getQueryVariable 'skip_protect_api', (@options.levelID in ['gridmancer', 'minimax-tic-tac-toe'])
           spell = @spells[spellKey] = new Spell
             programmableMethod: method
             spellKey: spellKey
@@ -132,6 +133,7 @@ module.exports = class TomeView extends CocoView
             worker: @worker
             language: language
             spectateView: @options.spectateView
+            levelID: @options.levelID
 
     for thangID, spellKeys of @thangSpells
       thang = world.getThangByID thangID
@@ -140,6 +142,9 @@ module.exports = class TomeView extends CocoView
       else
         delete @thangSpells[thangID]
         spell.removeThangID thangID for spell in @spells
+    for spellKey, spell of @spells when not spell.canRead()  # Make sure these get transpiled (they have no views).
+      spell.transpile()
+      spell.loaded = true
     null
 
   onSpellLoaded: (e) ->
@@ -150,10 +155,10 @@ module.exports = class TomeView extends CocoView
   onCastSpell: (e) ->
     # A single spell is cast.
     # Hmm; do we need to make sure other spells are all cast here?
-    @cast e?.preload
+    @cast e?.preload, e?.realTime
 
-  cast: (preload=false) ->
-    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload
+  cast: (preload=false, realTime=false) ->
+    Backbone.Mediator.publish 'tome:cast-spells', spells: @spells, preload: preload, realTime: realTime
 
   onToggleSpellList: (e) ->
     @spellList.rerenderEntries()
@@ -207,6 +212,7 @@ module.exports = class TomeView extends CocoView
 
   spellFor: (thang, spellName) ->
     return null unless thang?.isProgrammable
+    return unless @thangSpells[thang.id]  # Probably in streaming mode, where we don't update until it's done.
     selectedThangSpells = (@spells[spellKey] for spellKey in @thangSpells[thang.id])
     if spellName
       spell = _.find selectedThangSpells, {name: spellName}

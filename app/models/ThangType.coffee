@@ -63,6 +63,7 @@ module.exports = class ThangType extends CocoModel
     options = _.clone options
     options.resolutionFactor ?= SPRITE_RESOLUTION_FACTOR
     options.async ?= false
+    options.thang = null  # Don't hold onto any bad Thang references.
     options
 
   buildSpriteSheet: (options) ->
@@ -264,7 +265,10 @@ module.exports = class ThangType extends CocoModel
     @wizardType.fetch()
     @wizardType
 
-  getPortraitURL: -> "/file/db/thang.type/#{@get('original')}/portrait.png"
+  getPortraitURL: ->
+    if iconURL = @get('rasterIcon')
+      return "/file/#{iconURL}"
+    "/file/db/thang.type/#{@get('original')}/portrait.png"
 
   # Item functions
 
@@ -273,7 +277,7 @@ module.exports = class ThangType extends CocoModel
       @get('components') or [],
       (compRef) -> compRef.original is LevelComponent.ItemID)
     return itemComponentRef?.config?.slots or []
-    
+
   getFrontFacingStats: ->
     stats = []
     for component in @get('components') or []

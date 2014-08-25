@@ -55,6 +55,7 @@ module.exports = class SpectateLevelView extends RootView
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:set-team': 'setTeam'
     'god:new-world-created': 'loadSoundsForWorld'
+    'god:streaming-world-updated': 'loadSoundsForWorld'
     'next-game-pressed': 'onNextGamePressed'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
@@ -90,7 +91,7 @@ module.exports = class SpectateLevelView extends RootView
     application.router.navigate "/play?not_found=#{@levelID}", {trigger: true}
 
   setLevel: (@level, @supermodel) ->
-    serializedLevel = @level.serialize @supermodel
+    serializedLevel = @level.serialize @supermodel, @session
     @god?.setLevel serializedLevel
     if @world
       @world.loadFromLevel serializedLevel, false
@@ -155,7 +156,7 @@ module.exports = class SpectateLevelView extends RootView
     #at this point, all requisite data is loaded, and sessions are not denormalized
     team = @world.teamForPlayer(0)
     @loadOpponentTeam(team)
-    @god.setLevel @level.serialize @supermodel
+    @god.setLevel @level.serialize @supermodel, @session
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
     @setTeam team

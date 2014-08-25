@@ -112,7 +112,7 @@ _.extend ThangTypeSchema.properties,
     say: c.object {format: 'slug-props', additionalProperties: {$ref: '#/definitions/sound'}},
       defaultSimlish: c.array({}, {$ref: '#/definitions/sound'})
       swearingSimlish: c.array({}, {$ref: '#/definitions/sound'})
-  rotationType: {title: 'Rotation', type: 'string', enum: ['isometric', 'fixed']}
+  rotationType: {title: 'Rotation', type: 'string', enum: ['isometric', 'fixed', 'free']}
   matchWorldDimensions: {title: 'Match World Dimensions', type: 'boolean'}
   shadow: {title: 'Shadow Diameter', type: 'number', format: 'meters', description: 'Shadow diameter in meters'}
   layerPriority:
@@ -124,6 +124,7 @@ _.extend ThangTypeSchema.properties,
     type: 'number'
   positions: PositionsSchema
   raster: {type: 'string', format: 'image-file', title: 'Raster Image'}
+  rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }
   colorGroups: c.object
     title: 'Color Groups'
     additionalProperties:

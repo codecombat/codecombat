@@ -47,7 +47,7 @@ module.exports = class LevelEditView extends RootView
     super options
     @supermodel.shouldSaveBackups = (model) ->
       model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, inLevelEditor: true
     @level = @levelLoader.level
     @files = new DocumentFiles(@levelLoader.level)
     @supermodel.loadCollection(@files, 'file_names')
@@ -79,7 +79,7 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new ComponentsTabView supermodel: @supermodel
     @insertSubView new SystemsTabView supermodel: @supermodel
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
-    @insertSubView new ComponentDocsView supermodel: @supermodel
+    @insertSubView new ComponentDocsView  # Don't give it the supermodel, it'll pollute it!
 
     Backbone.Mediator.publish 'level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')

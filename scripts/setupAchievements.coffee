@@ -31,7 +31,7 @@ unlockableAchievements =
     worth: 10
     collection: 'users'
     userField: '_id'
-    category: 'miscellaneous'
+    category: 'misc'
     difficulty: 1
     recalculable: true
 
@@ -42,7 +42,7 @@ unlockableAchievements =
     worth: 20
     collection: 'users'
     userField: '_id'
-    category: 'levels'
+    category: 'level'
     difficulty: 1
     recalculable: true
 
@@ -53,7 +53,7 @@ unlockableAchievements =
     worth: 50
     collection: 'users'
     userField: '_id'
-    category: 'levels'
+    category: 'level'
     difficulty: 2
     recalculable: true
 
@@ -64,7 +64,7 @@ unlockableAchievements =
     worth: 500
     collection: 'users'
     userField: '_id'
-    category: 'levels'
+    category: 'level'
     difficulty: 3
     recalculable: true
 
@@ -189,7 +189,7 @@ repeatableAchievements =
     worth: 1
     collection: 'users'
     userField: '_id'
-    category: 'miscellaneous'
+    category: 'ladder'
     difficulty: 1
     proportionalTo: 'simulatedBy'
     function:

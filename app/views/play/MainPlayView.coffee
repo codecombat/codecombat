@@ -143,14 +143,14 @@ module.exports = class MainPlayView extends RootView
     ]
 
     arenas = [
-      #{
-      #  name: 'Criss-Cross'
-      #  difficulty: 4
-      #  id: 'criss-cross'
-      #  image: '/file/db/level/528aea2d7f37fc4e0700016b/its_a_trap_icon.png'
-      #  description: 'Participate in a bidding war with opponents to reach the other side!'
-      #  levelPath: 'ladder'
-      #}
+      {
+        name: 'Criss-Cross'
+        difficulty: 5
+        id: 'criss-cross'
+        image: '/file/db/level/528aea2d7f37fc4e0700016b/its_a_trap_icon.png'
+        description: 'Participate in a bidding war with opponents to reach the other side!'
+        levelPath: 'ladder'
+      }
       {
         name: 'Greed'
         difficulty: 4
@@ -192,7 +192,7 @@ module.exports = class MainPlayView extends RootView
         levelPath: 'ladder'
       }
     ]
-    
+
     classicAlgorithms = [
       {
         name: 'Bubble Sort Bootcamp Battle'
@@ -228,6 +228,13 @@ module.exports = class MainPlayView extends RootView
         id: 'quicksort-the-spiral'
         image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
         description: 'Learn Quicksort while sorting a spiral of ogres! - by Alexandru Caciulescu'
+      }
+      {
+        name: 'Minimax Tic-Tac-Toe'
+        difficulty: 4
+        id: 'minimax-tic-tac-toe'
+        image: '/file/db/level/525ef8ef06e1ab0962000003/commanding_followers_icon.png'
+        description: 'Learn how to make a game AI with the Minimax algorithm. - by Alexandru Caciulescu'
       }
     ]
 

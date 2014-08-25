@@ -53,9 +53,9 @@ module.exports = class God extends CocoClass
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
   onTomeCast: (e) ->
-    @createWorld e.spells, e.preload
+    @createWorld e.spells, e.preload, e.realTime
 
-  createWorld: (spells, preload=false) ->
+  createWorld: (spells, preload=false, realTime=false) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
 
@@ -84,12 +84,14 @@ module.exports = class God extends CocoClass
       headless: @angelsShare.headless
       preload: preload
       synchronous: not Worker?  # Profiling world simulation is easier on main thread, or we are IE9.
+      realTime: realTime
     angel.workIfIdle() for angel in @angelsShare.angels
 
   getUserCodeMap: (spells) ->
     userCodeMap = {}
     for spellKey, spell of spells
       for thangID, spellThang of spell.thangs
+        continue if spellThang.thang?.programmableMethods[spell.name].cloneOf
         (userCodeMap[thangID] ?= {})[spell.name] = spellThang.aether.serialize()
     userCodeMap
 

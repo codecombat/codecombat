@@ -29,6 +29,7 @@ HUDView = require './LevelHUDView'
 ControlBarView = require './ControlBarView'
 LevelPlaybackView = require './LevelPlaybackView'
 GoalsView = require './LevelGoalsView'
+LevelFlagsView = require './LevelFlagsView'
 GoldView = require './LevelGoldView'
 VictoryModal = require './modal/VictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
@@ -53,6 +54,7 @@ module.exports = class PlayLevelView extends RootView
     'level-disable-controls': 'onDisableControls'
     'level-enable-controls': 'onEnableControls'
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
     'level-reload-from-data': 'onLevelReloadFromData'
     'level-reload-thang-type': 'onLevelReloadThangType'
@@ -63,6 +65,8 @@ module.exports = class PlayLevelView extends RootView
     'level:set-team': 'setTeam'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
+    'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
+    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -104,7 +108,7 @@ module.exports = class PlayLevelView extends RootView
     @supermodel.collections = givenSupermodel.collections
     @supermodel.shouldSaveBackups = givenSupermodel.shouldSaveBackups
 
-    serializedLevel = @level.serialize @supermodel
+    serializedLevel = @level.serialize @supermodel, @session
     @god?.setLevel serializedLevel
     if @world
       @world.loadFromLevel serializedLevel, false
@@ -213,7 +217,7 @@ module.exports = class PlayLevelView extends RootView
       @session.set 'multiplayer', false
 
   setupGod: ->
-    @god.setLevel @level.serialize @supermodel
+    @god.setLevel @level.serialize @supermodel, @session
     @god.setLevelSessionIDs if @otherSession then [@session.id, @otherSession.id] else [@session.id]
     @god.setWorldClassMap @world.classMap
 
@@ -232,6 +236,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel
     @insertSubView new LevelPlaybackView session: @session
     @insertSubView new GoalsView {}
+    @insertSubView new LevelFlagsView world: @world
     @insertSubView new GoldView {}
     @insertSubView new HUDView {}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
@@ -507,10 +512,24 @@ module.exports = class PlayLevelView extends RootView
     @world = e.world
     @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
-    for [spriteName, message] in @world.thangDialogueSounds()
+    startFrame = @lastWorldFramesLoaded ? 0
+    if @world.frames.length is @world.totalFrames  # Finished loading
+      @lastWorldFramesLoaded = 0
+    else
+      @lastWorldFramesLoaded = @world.frames.length
+    for [spriteName, message] in @world.thangDialogueSounds startFrame
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
+
+  # Real-time playback
+  onRealTimePlaybackStarted: (e) ->
+    @$el.addClass('real-time').focus()
+    @onWindowResize()
+
+  onRealTimePlaybackEnded: (e) ->
+    @$el.removeClass 'real-time'
+    @onWindowResize()
 
   destroy: ->
     @levelLoader?.destroy()

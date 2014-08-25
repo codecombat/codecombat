@@ -21,6 +21,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'colorGroups'
     'kind'
     'raster'
+    'rasterIcon'
   ]
 
   hasAccess: (req) ->

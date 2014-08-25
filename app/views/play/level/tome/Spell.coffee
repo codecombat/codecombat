@@ -19,6 +19,7 @@ module.exports = class Spell
     @supermodel = options.supermodel
     @skipProtectAPI = options.skipProtectAPI
     @worker = options.worker
+    @levelID = options.levelID
 
     p = options.programmableMethod
     @languages = p.languages ? {}
@@ -39,16 +40,17 @@ module.exports = class Spell
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
       @source = sessionSource
     @thangs = {}
-    @view = new SpellView {spell: @, session: @session, worker: @worker}
-    @view.render()  # Get it ready and code loaded in advance
-    @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, language: @language
-    @tabView.render()
+    if @canRead()  # We can avoid creating these views if we'll never use them.
+      @view = new SpellView {spell: @, session: @session, worker: @worker}
+      @view.render()  # Get it ready and code loaded in advance
+      @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, language: @language
+      @tabView.render()
     @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 
   destroy: ->
-    @view.destroy()
-    @tabView.destroy()
+    @view?.destroy()
+    @tabView?.destroy()
     @thangs = null
     @worker = null
 
@@ -71,7 +73,7 @@ module.exports = class Spell
     (team ? me.team) in @permissions.readwrite
 
   getSource: ->
-    @view.getSource()
+    @view?.getSource() ? @source
 
   transpile: (source) ->
     if source

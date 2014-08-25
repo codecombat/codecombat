@@ -1,5 +1,20 @@
 @import 'bootstrap/variables'
 
+// absolutes
+$icon-margin-scale: 0.7
+
+// control relative size
+$overall-scale: 0.7
+$bar-width: 340px
+$bar-height: 30px
+$icon-size: 200px
+$icon-image-size: 130px
+$content-width: 450px
+$content-height: 160px
+
+// just on user achievement list page
+$user-achievements-scale: 0.8
+
 .achievement-body
   position: relative
 
@@ -10,12 +25,14 @@
       width: 100%
       height: 100%
       img
+        border-radius: 25%
         position: absolute
         margin: auto
         top: 0
         left: 0
         right: 0
         bottom: 0
+        width: $overall-scale * $icon-image-size
 
   &.locked
     .achievement-content
@@ -36,7 +53,7 @@
       max-height: 2em
       overflow: hidden
       text-overflow: ellipsis
-
+      font-size: 18px
 
     > .achievement-description
       white-space: initial
@@ -57,15 +74,13 @@
     margin: 10px 0px
 
     .achievement-icon
-      width: 120px
-      height: 120px
-      top: -10px
+      width: $overall-scale * $icon-size * $user-achievements-scale
+      height: $overall-scale * $icon-size * $user-achievements-scale
+      top: -5px
 
       .achievement-image
         img
-          -moz-transform: scale(0.6)
-          -webkit-transform: scale(0.6)
-          transform: scale(0.6)
+          width: $overall-scale * $user-achievements-scale * $icon-image-size
 
     .achievement-content
       margin-left: 60px
@@ -83,16 +98,16 @@
         max-height: 2.6em
 
 .achievement-popup
-  padding: 20px 0px
+  padding: $overall-scale * 20px 0px
   position: relative
 
   .achievement-body
     .achievement-icon
       z-index: 1000
-      width: 200px
-      height: 200px
-      left: -140px
-      top: -20px
+      width: $overall-scale * $icon-size
+      height: $overall-scale * $icon-size
+      left: $overall-scale * (-$icon-margin-scale * $icon-size)
+      top: $overall-scale * -20px
 
       .achievement-image
         img
@@ -106,53 +121,53 @@
     .achievement-content
       background-image: url("/images/achievements/achievement_background.png")
       position: relative
-      width: 450px
-      height: 160px
-      padding: 24px 30px 20px 60px
+      width: $overall-scale * $content-width
+      height: $overall-scale * $content-height
+      padding: $overall-scale * 24px $overall-scale * 30px $overall-scale * 20px $overall-scale * 60px
 
       .achievement-title
         font-family: Bangers
-        font-size: 28px
-        padding-left: -50px
+        font-size: $overall-scale * 28px
+        padding-left: $overall-scale * -50px
 
       .achievement-description
-        font-size: 15px
+        font-size: $overall-scale * 16px
         line-height: 1.3em
         max-height: 2.6em
         margin-top: auto
         margin-bottom: 0px !important
 
       .progress-wrapper
-        margin-left: 20px
+        margin-left: $overall-scale * 20px
         position: absolute
-        bottom: 48px
+        bottom: $overall-scale * 48px
 
         .user-level
-          font-size: 20px
+          font-size: $overall-scale * 20px
           color: white
           position: absolute
-          left: -15px
-          margin-top: -8px
+          left: $overall-scale * -15px
+          margin-top: $overall-scale * -8px
           vertical-align: middle
           z-index: 1000
 
         > .progress-bar-wrapper
           position: absolute
-          margin-left: 17px
-          width: 314px
-          height: 20px
+          margin-left: $overall-scale * 17px
+          width: $overall-scale * ($bar-width - (2 * 5px) - 17px)
+          height: $overall-scale * ($bar-height - (2 * 5px))
           z-index: 2
 
           > .progress
-            margin-top: 5px
-            border-radius: 50px
-            height: 14px
+            margin-top: $overall-scale * 5px
+            border-radius: $overall-scale * 50px
+            height: $overall-scale * 14px
 
         > .progress-bar-border
           position: absolute
-          width: 340px
-          height: 30px
-          margin-top: -2px
+          width: $overall-scale * $bar-width
+          height: $overall-scale * $bar-height
+          margin-top: $overall-scale * -2px
           background: url("/images/achievements/bar_border.png") no-repeat
           background-size: 100% 100%
           z-index: 1
@@ -236,8 +251,9 @@
 
 .user-level
   background-image: url("/images/achievements/level-bg.png")
-  width: 38px
-  height: 38px
-  line-height: 38px
-  font-size: 20px
+  background-size: 100% 100%
+  width: $overall-scale * 38px
+  height: $overall-scale * 38px
+  line-height: $overall-scale * 38px
+  font-size: $overall-scale * 20px
   font-family: $font-family-base

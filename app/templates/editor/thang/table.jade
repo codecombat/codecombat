@@ -12,14 +12,13 @@ table.table
     th(data-i18n="general.description") Description
     th(data-i18n="general.version") Version
   
-  for data in documents 
-    - data = data.attributes;
+  for thang in documents 
     tr
       td
-        - path = '/file/db/thang.type/'+data.original+'/portrait.png'
-        img(title="Add " + data.name, src=path, alt="").portrait
+        img(title="Add " + thang.get('name'), src=thang.getPortraitURL(), alt="").portrait
       td
-        a(href="/editor/thang/#{data.slug || data._id}")
-          | #{data.name}
-      td.body-row #{data.description}
-      td #{data.version.major}.#{data.version.minor}
+        a(href="/editor/thang/#{thang.get('slug') || thang.id}")
+          | #{thang.get('name')}
+      td.body-row #{thang.get('description')}
+      - var version = thang.get('version')
+      td #{version.major}.#{version.minor}

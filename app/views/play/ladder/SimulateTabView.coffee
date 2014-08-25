@@ -18,9 +18,6 @@ module.exports = class SimulateTabView extends CocoView
     @simulatorsLeaderboardDataRes = @supermodel.addModelResource(@simulatorsLeaderboardData, 'top_simulators')
     @simulatorsLeaderboardDataRes.load()
 
-    @simulator = new Simulator()
-    @listenTo(@simulator, 'statusUpdate', @updateSimulationStatus)
-
   onLoaded: ->
     super()
     @render()
@@ -42,7 +39,21 @@ module.exports = class SimulateTabView extends CocoView
     application.tracker?.trackEvent 'Simulate Button Click', {}
     $('#simulate-button').prop 'disabled', true
     $('#simulate-button').text 'Simulating...'
+    @simulateNextGame()
 
+  simulateNextGame: ->
+    unless @simulator
+      @simulator = new Simulator()
+      @listenTo @simulator, 'statusUpdate', @updateSimulationStatus
+      # Work around simulator getting super slow on Chrome
+      fetchAndSimulateTaskOriginal = @simulator.fetchAndSimulateTask
+      @simulator.fetchAndSimulateTask = =>
+        if @simulator.simulatedByYou >= 5
+          @simulator.destroy()
+          @simulator = null
+          @simulateNextGame()
+        else
+          fetchAndSimulateTaskOriginal.apply @simulator
     @simulator.fetchAndSimulateTask()
 
   refresh: ->
@@ -51,20 +62,23 @@ module.exports = class SimulateTabView extends CocoView
     $.ajax '/queue/messagesInQueueCount', {success}
 
   updateSimulationStatus: (simulationStatus, sessions) ->
+    if simulationStatus is 'Fetching simulation data!'
+      @simulationMatchDescription = ''
+      @simulationSpectateLink = ''
     @simulationStatus = simulationStatus
     try
       if sessions?
-        #TODO: Fetch names from Redis, the creatorName is denormalized
-        creatorNames = (session.creatorName for session in sessions)
-        @simulationStatus = 'Simulating game between '
-        for index in [0...creatorNames.length]
-          unless creatorNames[index]
-            creatorNames[index] = 'Anonymous'
-          @simulationStatus += (if index != 0 then ' and ' else '') + creatorNames[index]
-        @simulationStatus += '...'
+        @simulationMatchDescription = ''
+        @simulationSpectateLink = "/play/spectate/#{@simulator.level.get('slug')}?"
+        for session, index in sessions
+          # TODO: Fetch names from Redis, the creatorName is denormalized
+          @simulationMatchDescription += "#{if index then ' vs ' else ''}#{session.creatorName or 'Anonymous'} (#{sessions[index].team})"
+          @simulationSpectateLink += "session-#{if index then 'two' else 'one'}=#{session.sessionID}"
+        @simulationMatchDescription += " on #{@simulator.level.get('name')}"
     catch e
       console.log "There was a problem with the named simulation status: #{e}"
-    $('#simulation-status-text').text @simulationStatus
+    link = if @simulationSpectateLink then "<a href=#{@simulationSpectateLink}>#{_.string.escapeHTML(@simulationMatchDescription)}</a>" else ''
+    $('#simulation-status-text').html "<h3>#{@simulationStatus}</h3>#{link}"
 
   resimulateAllSessions: ->
     postData =
@@ -81,7 +95,7 @@ module.exports = class SimulateTabView extends CocoView
 
   destroy: ->
     clearInterval @refreshInterval
-    @simulator.destroy()
+    @simulator?.destroy()
     super()
 
 class SimulatorsLeaderboardData extends CocoClass
