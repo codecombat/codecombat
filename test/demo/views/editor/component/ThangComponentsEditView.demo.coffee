@@ -4,7 +4,7 @@ responses =
   '/db/level.component/A/version/0': { 
     system: 'System'
     original: 'A'
-    majorVersion: 0
+    version: { major: 0, minor: 0 }
     name: 'A'
     configSchema: { type: 'object', properties: { propA: { type: 'number' }, propB: { type: 'string' }} }
     
@@ -12,17 +12,18 @@ responses =
   '/db/level.component/B/version/0': { 
     system: 'System'
     original: 'B'
-    majorVersion: 0
+    version: { major: 0, minor: 0 }
     name: 'B (depends on A)'
     dependencies: [{original:'A', majorVersion: 0}] 
   }
   '/db/level.component/C/version/0': { 
     system: 'System'
     original: 'C'
-    majorVersion: 0
+    version: { major: 0, minor: 0 }
     name: 'C (depends on B)'
     dependencies: [{original:'B', majorVersion: 0}]
   }
+  '/db/thang.type': []
 
 module.exports = ->
   view = new ThangComponentEditView({
