@@ -59,7 +59,8 @@ module.exports = class WizardSprite extends IndieSprite
 
   toggle: (to) ->
     @imageObject?.visible = to
-    @labels.name?[if to then 'show' else 'hide']()
+    label[if to then 'show' else 'hide']() for name, label of @labels
+    mark.mark?.visible = to for name, mark of @marks
 
   onPlayerStatesChanged: (e) ->
     for playerID, state of e.states

@@ -71,9 +71,11 @@ module.exports = class World
         @thangs[i] = thang
     @thangMap[thang.id] = thang
 
-  thangDialogueSounds: ->
+  thangDialogueSounds: (startFrame=0) ->
+    return [] unless startFrame < @frames.length
     [sounds, seen] = [[], {}]
-    for frame in @frames
+    for frameIndex in [startFrame ... @frames.length]
+      frame = @frames[frameIndex]
       for thangID, state of frame.thangStateMap
         continue unless state.thang.say and sayMessage = state.getStateForProp 'sayMessage'
         soundKey = state.thang.spriteName + ':' + sayMessage
@@ -90,64 +92,30 @@ module.exports = class World
 
   loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) ->
     return if @aborted
-    unless @thangs.length
-      console.log 'Warning: loadFrames called on empty World (no thangs).'
+    console.log 'Warning: loadFrames called on empty World (no thangs).' unless @thangs.length
     t1 = now()
     @t0 ?= t1
     @worldLoadStartTime ?= t1
     @lastRealTimeUpdate ?= 0
-    if loadUntilFrame
-      frameToLoadUntil = loadUntilFrame + 1
-    else
-      frameToLoadUntil = @totalFrames
+    continueLaterFn = =>
+      @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
+    frameToLoadUntil = if loadUntilFrame then loadUntilFrame + 1 else @totalFrames  # Might stop early if debugging.
     i = @frames.length
     while i < frameToLoadUntil and i < @totalFrames
-      t2 = now()
-      if @realTime
-        shouldUpdateProgress = @shouldUpdateRealTimePlayback t2
-        shouldDelayRealTimeSimulation = not shouldUpdateProgress and @shouldDelayRealTimeSimulation t2
-      else
-        shouldUpdateProgress = t2 - t1 > PROGRESS_UPDATE_INTERVAL
-        shouldDelayRealTimeSimulation = false
-      if shouldUpdateProgress or shouldDelayRealTimeSimulation
-        if shouldUpdateProgress
-          @lastRealTimeUpdate = i * @dt if @realTime
-          #console.log 'we think it is now', (t2 - @worldLoadStartTime) / 1000, 'so delivering', @lastRealTimeUpdate
-          loadProgressCallback? i / @totalFrames unless @preloading
-        t1 = t2
-        if t2 - @t0 > 1000
-          console.log '  Loaded', i, 'of', @totalFrames, '(+' + (t2 - @t0).toFixed(0) + 'ms)' unless @realTime
-          @t0 = t2
-        continueFn = =>
-          return if @destroyed
-          if loadUntilFrame
-            @loadFrames(loadedCallback,errorCallback,loadProgressCallback, skipDeferredLoading, loadUntilFrame)
-          else
-            @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading)
-        if skipDeferredLoading
-          continueFn()
-        else
-          delay = if shouldDelayRealTimeSimulation then REAL_TIME_BUFFERED_WAIT_INTERVAL else 0
-          setTimeout(continueFn, delay)
-        return
-
-      if @debugging
-        for thang in @thangs when thang.isProgrammable
-          userCode = @userCodeMap[thang.id] ? {}
-          for methodName, aether of userCode
-            framesToLoadFlowBefore = if methodName is 'plan' or methodName is 'makeBid' then 200 else 1  # Adjust if plan() is taking even longer
-            aether._shouldSkipFlow = i < loadUntilFrame - framesToLoadFlowBefore
+      return unless @shouldContinueLoading t1, loadProgressCallback, skipDeferredLoading, continueLaterFn
+      @adjustFlowSettings loadUntilFrame if @debugging
       try
         @getFrame(i)
-        ++i  # increment this after we have succeeded in getting the frame, otherwise we'll have to do that frame again
+        ++i  # Increment this after we have succeeded in getting the frame, otherwise we'll have to do that frame again
       catch error
-        # Not an Aether.errors.UserCodeError; maybe we can't recover
-        @addError error
+        @addError error  # Not an Aether.errors.UserCodeError; maybe we can't recover
       unless @preloading or @debugging
         for error in (@unhandledRuntimeErrors ? [])
           return unless errorCallback error  # errorCallback tells us whether the error is recoverable
         @unhandledRuntimeErrors = []
+    @finishLoadingFrames loadProgressCallback, loadedCallback
 
+  finishLoadingFrames: (loadProgressCallback, loadedCallback) ->
     unless @debugging
       @ended = true
       system.finish @thangs for system in @systems
@@ -169,6 +137,38 @@ module.exports = class World
     timeSinceStart = t - @worldLoadStartTime
     remainingBuffer = @lastRealTimeUpdate * 1000 - timeSinceStart
     remainingBuffer < REAL_TIME_BUFFER_MIN
+
+  shouldContinueLoading: (t1, loadProgressCallback, skipDeferredLoading, continueLaterFn) ->
+    t2 = now()
+    if @realTime
+      shouldUpdateProgress = @shouldUpdateRealTimePlayback t2
+      shouldDelayRealTimeSimulation = not shouldUpdateProgress and @shouldDelayRealTimeSimulation t2
+    else
+      shouldUpdateProgress = t2 - t1 > PROGRESS_UPDATE_INTERVAL
+      shouldDelayRealTimeSimulation = false
+    return true unless shouldUpdateProgress or shouldDelayRealTimeSimulation
+    # Stop loading frames for now; continue in a moment.
+    if shouldUpdateProgress
+      @lastRealTimeUpdate = @frames.length * @dt if @realTime
+      #console.log 'we think it is now', (t2 - @worldLoadStartTime) / 1000, 'so delivering', @lastRealTimeUpdate
+      loadProgressCallback? @frames.length / @totalFrames unless @preloading
+    t1 = t2
+    if t2 - @t0 > 1000
+      console.log '  Loaded', @frames.length, 'of', @totalFrames, '(+' + (t2 - @t0).toFixed(0) + 'ms)' unless @realTime
+      @t0 = t2
+    if skipDeferredLoading
+      continueLaterFn()
+    else
+      delay = if shouldDelayRealTimeSimulation then REAL_TIME_BUFFERED_WAIT_INTERVAL else 0
+      setTimeout continueLaterFn, delay
+    false
+
+  adjustFlowSettings: (loadUntilFrame) ->
+    for thang in @thangs when thang.isProgrammable
+      userCode = @userCodeMap[thang.id] ? {}
+      for methodName, aether of userCode
+        framesToLoadFlowBefore = if methodName is 'plan' or methodName is 'makeBid' then 200 else 1  # Adjust if plan() is taking even longer
+        aether._shouldSkipFlow = @frames.length < loadUntilFrame - framesToLoadFlowBefore
 
   finalizePreload: (loadedCallback) ->
     @preloading = false

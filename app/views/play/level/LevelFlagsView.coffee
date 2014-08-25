@@ -37,12 +37,13 @@ module.exports = class LevelFlagsView extends CocoView
     @flagHistory = []
 
   onRealTimePlaybackEnded: (e) ->
-    @realTime = false
     @onFlagSelected color: null
+    @realTime = false
     @$el.hide()
 
   onFlagSelected: (e) ->
-    return if @flagColor is e.color
+    return unless @realTime
+    return if @flagColor is e.color and e.source is 'shortcut'
     color = if e.source is 'button' and e.color is @flagColor then null else e.color
     @flagColor = color
     Backbone.Mediator.publish 'level:flag-color-selected', color: color
@@ -72,4 +73,4 @@ module.exports = class LevelFlagsView extends CocoView
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
-    @world = event.world
+    @world = @options.world = event.world

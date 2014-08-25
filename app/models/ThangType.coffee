@@ -63,6 +63,7 @@ module.exports = class ThangType extends CocoModel
     options = _.clone options
     options.resolutionFactor ?= SPRITE_RESOLUTION_FACTOR
     options.async ?= false
+    options.thang = null  # Don't hold onto any bad Thang references.
     options
 
   buildSpriteSheet: (options) ->
@@ -188,7 +189,7 @@ module.exports = class ThangType extends CocoModel
     portrait = if portrait then '(Portrait)' else ''
     name = _.string.rpad @get('name'), 20
     time = _.string.lpad '' + new Date().getTime() - startTime, 6
-    #console.debug "Built sheet:  #{name} #{time}ms  #{kind}  #{portrait}"  # STREAM: uncomment
+    console.debug "Built sheet:  #{name} #{time}ms  #{kind}  #{portrait}"
 
   spriteSheetKey: (options) ->
     colorConfigs = []

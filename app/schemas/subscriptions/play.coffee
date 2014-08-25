@@ -62,9 +62,10 @@ module.exports =
     additionalProperties: false
     properties:
       color:
-        type: 'string'
-        enum: ['green', 'black', 'violet']
-        description: 'The flag color to place next, or omitted/null if deselected.'
+        oneOf: [
+          {type: 'null'}
+          {type: 'string', enum: ['green', 'black', 'violet'], description: 'The flag color to place next, or omitted/null if deselected.'}
+        ]
       pos:
         type: 'object'
         additionalProperties: false

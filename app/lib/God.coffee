@@ -91,7 +91,7 @@ module.exports = class God extends CocoClass
     userCodeMap = {}
     for spellKey, spell of spells
       for thangID, spellThang of spell.thangs
-        continue if spellThang.thang.programmableMethods[spell.name].cloneOf
+        continue if spellThang.thang?.programmableMethods[spell.name].cloneOf
         (userCodeMap[thangID] ?= {})[spell.name] = spellThang.aether.serialize()
     userCodeMap
 

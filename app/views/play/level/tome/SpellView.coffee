@@ -517,7 +517,7 @@ module.exports = class SpellView extends CocoView
       spellThang.castAether = aether
       spellThang.aether = @spell.createAether thang
     #console.log thangID, @spell.spellKey, 'ran', aether.metrics.callsExecuted, 'times over', aether.metrics.statementsExecuted, 'statements, with max recursion depth', aether.metrics.maxDepth, 'and full flow/metrics', aether.metrics, aether.flow
-    @spell.transpile()
+    @spell.transpile()  # TODO: is there any way we can avoid doing this if it hasn't changed? Causes a slight hang.
     @updateAether false, false
 
   # --------------------------------------------------------------------------------------------------

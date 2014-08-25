@@ -21,13 +21,15 @@ module.exports = class CastButtonView extends CocoView
     @spells = options.spells
     @levelID = options.levelID
     @castShortcut = '⇧↵'
-    @castShortcutVerbose = 'Shift+Enter'
-    @castRealTimeShortcutVerbose = 'Ctrl+Shift+Enter'
 
   getRenderData: (context={}) ->
     context = super context
-    context.castShortcutVerbose = @castShortcutVerbose
-    context.castRealTimeShortcutVerbose = @castRealTimeShortcutVerbose
+    shift = $.i18n.t 'keyboard_shortcuts.shift'
+    enter = $.i18n.t 'keyboard_shortcuts.enter'
+    castShortcutVerbose = "#{shift}+#{enter}"
+    castRealTimeShortcutVerbose = (if @isMac() then 'Cmd' else 'Ctrl') + '+' + castShortcutVerbose
+    context.castVerbose = castShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.cast_spell')
+    context.castRealTimeVerbose = castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
     context
 
   afterRender: ->
@@ -101,6 +103,6 @@ module.exports = class CastButtonView extends CocoView
     @autocastDelay = delay = parseInt delay
     me.set('autocastDelay', delay)
     me.patch()
-    spell.view.setAutocastDelay delay for spellKey, spell of @spells
+    spell.view?.setAutocastDelay delay for spellKey, spell of @spells
     @castOptions.find('a').each ->
       $(@).toggleClass('selected', parseInt($(@).attr('data-delay')) is delay)

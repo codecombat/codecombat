@@ -22,7 +22,7 @@ module.exports = class LevelPlaybackView extends CocoView
     'level-toggle-grid': 'onToggleGrid'
     'surface:frame-changed': 'onFrameChanged'
     'god:new-world-created': 'onNewWorld'
-    'god:streaming-world-updated': 'onNewWorld'  # Maybe?
+    'god:streaming-world-updated': 'onNewWorld'
     'level-set-letterbox': 'onSetLetterbox'
     'tome:cast-spells': 'onTomeCast'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'

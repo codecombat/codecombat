@@ -40,10 +40,13 @@ module.exports = class Spell
     if @permissions.readwrite.length and sessionSource = @session.getSourceFor(@spellKey)
       @source = sessionSource
     @thangs = {}
-    @view = new SpellView {spell: @, session: @session, worker: @worker}
-    @view.render()  # Get it ready and code loaded in advance
-    @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, language: @language
-    @tabView.render()
+    if true  # @canRead()  # Surely we could avoid creating these if we'll never use them? TODO
+      @view = new SpellView {spell: @, session: @session, worker: @worker}
+      @view.render()  # Get it ready and code loaded in advance
+      @tabView = new SpellListTabEntryView spell: @, supermodel: @supermodel, language: @language
+      @tabView.render()
+    #else
+    #  @spell.loaded = true
     @team = @permissions.readwrite[0] ? 'common'
     Backbone.Mediator.publish 'tome:spell-created', spell: @
 

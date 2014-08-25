@@ -512,7 +512,12 @@ module.exports = class PlayLevelView extends RootView
     @world = e.world
     @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
-    for [spriteName, message] in @world.thangDialogueSounds()
+    startFrame = @lastWorldFramesLoaded ? 0
+    if @world.frames.length is @world.totalFrames  # Finished loading
+      @lastWorldFramesLoaded = 0
+    else
+      @lastWorldFramesLoaded = @world.frames.length
+    for [spriteName, message] in @world.thangDialogueSounds startFrame
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
