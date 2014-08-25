@@ -37,7 +37,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
           .click(=> filepicker.pick @onFileChosen)
       )
     )
-    
+
   addPreviewToggle: (valEl) ->
     valEl.append($('<div class="toggle-preview-button"></div>').append(
       $('<button>Toggle Preview</button>')
@@ -223,7 +223,7 @@ codeLanguages =
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
-    (key for key in _.keys(codeLanguages) when not @data[key]?)
+    (key for key in _.keys(codeLanguages) when not @data[key]? and not (key is 'javascript' and @schema.skipJavaScript))
 
 class CodeLanguageTreema extends TreemaNode.nodeMap.string
   buildValueForEditing: (valEl) ->
@@ -316,7 +316,7 @@ class LatestVersionReferenceNode extends TreemaNode
     input = valEl.find('input')
     input.focus().keyup @search
     input.attr('placeholder', @formatDocument(@data)) if @data
-    
+
   buildSearchURL: (term) -> "#{@url}?term=#{term}&project=true"
 
   search: =>
@@ -351,7 +351,7 @@ class LatestVersionReferenceNode extends TreemaNode
 
   getSearchResultsEl: -> @getValEl().find('.treema-search-results')
   getSelectedResultEl: -> @getValEl().find('.treema-search-selected')
-  
+
   modelToString: (model) -> model.get('name')
 
   formatDocument: (docOrModel) ->
@@ -411,7 +411,7 @@ class LatestVersionReferenceNode extends TreemaNode
     return if @data?
     selected = @getSelectedResultEl()
     return not selected.length
-    
+
 class LevelComponentReferenceNode extends LatestVersionReferenceNode
   # HACK: this list of properties is needed by the thang components edit view and config views.
   # need a better way to specify this, or keep the search models from bleeding into those
