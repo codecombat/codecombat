@@ -81,10 +81,10 @@ block append content
                       td(data-i18n="user.status_unfinished") Unfinished
           else
             .panel-body
-              p(data-i18n="no_singleplayer") No Singleplayer games played yet.
+              p(data-i18n="user.no_singleplayer") No Singleplayer games played yet.
         .panel.panel-default
           .panel-heading
-            h3.panel-title(data-i18n="no_multiplayer") Multiplayer Levels
+            h3.panel-title(data-i18n="user.multiplayer_title") Multiplayer Levels
           if (!multiPlayerSessions)
             .panel-body
               p(data-i18n="common.loading") Loading...
@@ -110,7 +110,7 @@ block append content
               p(data-i18n="user.no_multiplayer") No Multiplayer games played yet.
         .panel.panel-default
           .panel-heading
-            h3.panel-title(data-i18n="user.achievements") Achievements
+            h3.panel-title(data-i18n="user.achievements_title") Achievements
           if ! earnedAchievements
             .panel-body
               p(data-i18n="common.loading") Loading...
