@@ -359,8 +359,8 @@ class LatestVersionReferenceNode extends TreemaNode
     return @modelToString(docOrModel) if docOrModel instanceof CocoModel
     return 'Unknown' unless @settings.supermodel?
     m = CocoModel.getReferencedModel(@getData(), @schema)
-    urlGoingFor = m.url()
-    m = @settings.supermodel.getModel(urlGoingFor)
+    data = @getData()
+    m = @settings.supermodel.getModelByOriginalAndMajorVersion(m.constructor, data.original, data.majorVersion)
     if @instance and not m
       m = @instance
       m.url = -> urlGoingFor

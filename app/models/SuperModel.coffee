@@ -90,7 +90,8 @@ module.exports = class SuperModel extends Backbone.Model
 
   getModelByOriginalAndMajorVersion: (ModelClass, original, majorVersion=0) ->
     _.find @models, (m) ->
-      m.get('original') is original and m.get('version').major is majorVersion and m.constructor.className is ModelClass.className
+      return unless v = m.get('version')
+      m.get('original') is original and v.major is majorVersion and m.constructor.className is ModelClass.className
 
   getModels: (ModelClass) ->
     # can't use instanceof. SuperModel gets passed between windows, and one window

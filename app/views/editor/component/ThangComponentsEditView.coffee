@@ -362,8 +362,8 @@ class ThangComponentsObjectNode extends TreemaObjectNode
     return 0 if not (a or b)
     return 1 if not b
     return -1 if not a
-    return 1 if a.attributes.system > b.attributes.system
-    return -1 if a.attributes.system < b.attributes.system
-    return 1 if a.name > b.name
-    return -1 if a.name < b.name
+    return 1 if a.get('system') > b.get('system')
+    return -1 if a.get('system') < b.get('system')
+    return 1 if a.get('name') > b.get('name')
+    return -1 if a.get('name') < b.get('name')
     return 0
