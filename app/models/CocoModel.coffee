@@ -156,6 +156,7 @@ class CocoModel extends Backbone.Model
       @_revertAttributes = $.extend(true, {}, @attributes)
 
   revert: ->
+    @clear({silent: true})
     @set(@_revertAttributes, {silent: true}) if @_revertAttributes
     @clearBackup()
 

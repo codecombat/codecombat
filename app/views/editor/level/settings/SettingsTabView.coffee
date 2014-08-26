@@ -29,6 +29,7 @@ module.exports = class SettingsTabView extends CocoView
     schema = _.cloneDeep Level.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
+    schema.default = _.pick schema.default, (value, key) => key in @editableSettings
     thangIDs = @getThangIDs()
     treemaOptions =
       filePath: "db/level/#{@level.get('original')}"
