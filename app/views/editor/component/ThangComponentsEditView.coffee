@@ -348,6 +348,8 @@ module.exports = class ThangComponentsEditView extends CocoView
 
 
 class ThangComponentsObjectNode extends TreemaObjectNode
+  addNewChild: -> @addNewChildForKey('') # HACK to get the object adding to act more like adding to an array
+  
   getChildren: ->
     children = super(arguments...)
     children.sort(@sortFunction)
