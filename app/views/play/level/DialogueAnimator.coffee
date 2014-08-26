@@ -7,6 +7,9 @@ module.exports = class DialogueAnimator
   constructor: (html, @jqueryElement) ->
     d = $('<div></div>').html(html)
     @childrenToAdd = _.map(d[0].childNodes, (e) -> return e)
+    @t0 = new Date()
+    @charsAdded = 0
+    @charsPerSecond = 50
 
   tick: ->
     if not @charsToAdd and not @childAnimator
@@ -26,19 +29,28 @@ module.exports = class DialogueAnimator
     nextElem = @childrenToAdd[0]
     @childrenToAdd = @childrenToAdd[1..]
     if nextElem.nodeName is '#text'
-      @charsToAdd = _.string.chars(nextElem.nodeValue)
+      @charsToAdd = nextElem.nodeValue
     else
       value = nextElem.innerHTML
       newElem = $(nextElem).html('')
       @jqueryElement.append(newElem)
       if value
+        @charsAdded += @childAnimator.getCharsAdded() if @childAnimator
         @childAnimator = new DialogueAnimator(value, newElem)
 
   addSingleChar: ->
-    @jqueryElement.html(@jqueryElement.html() + @charsToAdd[0])
-    @charsToAdd = @charsToAdd[1..]
+    elapsed = (new Date()) - @t0
+    nAdded = @getCharsAdded()
+    nToHaveBeenAdded = Math.round @charsPerSecond * elapsed / 1000
+    nToAdd = Math.min nToHaveBeenAdded - nAdded, @charsToAdd.length
+    @jqueryElement.html(@jqueryElement.html() + @charsToAdd.slice(0, nToAdd))
+    @charsToAdd = @charsToAdd.slice(nToAdd)
     if @charsToAdd.length is 0
       @charsToAdd = null
+    @charsAdded += nToAdd
+
+  getCharsAdded: ->
+    @charsAdded + (@childAnimator?.charsAdded ? 0)
 
   done: ->
     return false if @childrenToAdd.length > 0
