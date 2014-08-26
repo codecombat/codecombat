@@ -60,7 +60,6 @@ module.exports = class SuperModel extends Backbone.Model
       @addCollection collection
       onCollectionSynced = (c) ->
         if collection.url is c.url
-          console.debug 'Registering collection', url, c
           @registerCollection c
         else
           console.warn 'Sync triggered for collection', c
