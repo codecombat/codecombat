@@ -11,7 +11,9 @@ module.exports = class CoordinateDisplay extends createjs.Container
     super()
     @initialize()
     @camera = options.camera
-    console.error 'CoordinateDisplay needs camera.' unless @camera
+    @layer = options.layer
+    console.error @toString(), 'needs a camera.' unless @camera
+    console.error @toString(), 'needs a layer.' unless @layer
     @build()
     @show = _.debounce @show, 125
     Backbone.Mediator.subscribe(channel, @[func], @) for channel, func of @subscriptions
@@ -20,6 +22,8 @@ module.exports = class CoordinateDisplay extends createjs.Container
     Backbone.Mediator.unsubscribe(channel, @[func], @) for channel, func of @subscriptions
     @show = null
     @destroyed = true
+
+  toString: -> '<CoordinateDisplay>'
 
   build: ->
     @mouseEnabled = @mouseChildren = false
@@ -30,6 +34,7 @@ module.exports = class CoordinateDisplay extends createjs.Container
     @label.shadow = new createjs.Shadow('#000000', 1, 1, 0)
     @background.name = 'Coordinate Display Background'
     @pointMarker.name = 'Point Marker'
+    @layer.addChild @
 
   onMouseOver: (e) -> @mouseInBounds = true
   onMouseOut: (e) -> @mouseInBounds = false
