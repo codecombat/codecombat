@@ -27,7 +27,7 @@ class LiveEditingMarkup extends TreemaNode.nodeMap.ace
     @addPreviewToggle(buttonRow)
     @addImageUpload(buttonRow)
     super(valEl)
-    valEl.append($('<div class="preview"></div>'))
+    valEl.append($('<div class="preview"></div>').hide())
 
   addImageUpload: (valEl) ->
     return unless me.isAdmin()
