@@ -14,6 +14,7 @@ module.exports = class Angel extends CocoClass
 
   subscriptions:
     'level:flag-updated': 'onFlagEvent'
+    'playback:stop-real-time-playback': 'onStopRealTimePlayback'
 
   constructor: (@shared) ->
     super()
@@ -212,6 +213,10 @@ module.exports = class Angel extends CocoClass
     return unless @running and @work.realTime
     @worker.postMessage func: 'addFlagEvent', args: e
 
+  onStopRealTimePlayback: (e) ->
+    return unless @running and @work.realTime
+    @work.realTime = false
+    @worker.postMessage func: 'stopRealTimePlayback'
 
   #### Synchronous code for running worlds on main thread (profiling / IE9) ####
   simulateSync: (work) =>

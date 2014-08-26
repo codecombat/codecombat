@@ -65,7 +65,7 @@ module.exports = class God extends CocoClass
       isPreloading = angel.running and angel.work.preload and _.isEqual angel.work.userCodeMap, userCodeMap, (a, b) ->
         return a.raw is b.raw if a?.raw? and b?.raw?
         undefined  # Let default equality test suffice.
-      if not hadPreloader and isPreloading
+      if not hadPreloader and isPreloading and not realTime
         angel.finalizePreload()
         hadPreloader = true
       else if preload and angel.running and not angel.work.preload

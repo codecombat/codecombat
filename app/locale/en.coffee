@@ -358,6 +358,7 @@
     grid: "Grid"
     customize_wizard: "Customize Wizard"
     home: "Home"
+    stop: "Stop"
     game_menu: "Game Menu"
     guide: "Guide"
     restart: "Restart"
