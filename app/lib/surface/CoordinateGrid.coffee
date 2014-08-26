@@ -3,7 +3,6 @@ CocoClass = require 'lib/CocoClass'
 module.exports = class CoordinateGrid extends CocoClass
   subscriptions:
     'level-toggle-grid': 'onToggleGrid'
-    'level-set-grid': 'onSetGrid'
 
   shortcuts:
     'ctrl+g, ⌘+g': 'onToggleGrid'
@@ -69,7 +68,6 @@ module.exports = class CoordinateGrid extends CocoClass
         t.alpha = 0.75
         @labels.push t
       wop.y += gridSize
-      console.log wop.y, wopEnd.y, gridSize
       if wopEnd.y < wop.y <= wopEnd.y - gridSize / 2
         wop.y = wopEnd.y
     @gridShape.graphics.endStroke()
@@ -91,12 +89,6 @@ module.exports = class CoordinateGrid extends CocoClass
     @gridContainer?.parent?
 
   onToggleGrid: (e) ->
-    # TODO: figure out a better way of managing grid / debug so it's not split across PlaybackView and Surface
     e?.preventDefault?()
     if @gridShowing() then @hideGrid() else @showGrid()
-    flag = $('#grid-toggle i.icon-ok')
-    flag.toggleClass 'invisible', not @gridShowing()
-
-  onSetGrid: (e) ->
-    if e.grid then @showGrid() else @hideGrid()
 
