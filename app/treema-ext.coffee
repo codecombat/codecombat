@@ -416,7 +416,7 @@ class LevelComponentReferenceNode extends LatestVersionReferenceNode
   # supermodels.
   buildSearchURL: (term) -> "#{@url}?term=#{term}&project=name,system,original,version,dependencies,configSchema,description"
   modelToString: (model) -> model.get('system') + '.' + model.get('name')
-  canEdit: -> not @data.original # only allow editing if the row's data hasn't been set yet
+  canEdit: -> not @getData().original # only allow editing if the row's data hasn't been set yet
 
 LatestVersionReferenceNode.prototype.search = _.debounce(LatestVersionReferenceNode.prototype.search, 200)
 

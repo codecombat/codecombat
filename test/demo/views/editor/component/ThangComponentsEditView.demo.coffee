@@ -1,4 +1,5 @@
 ThangComponentEditView = require('views/editor/component/ThangComponentsEditView')
+ThangType = require 'models/ThangType'
 
 responses = 
   '/db/level.component/A/version/0': { 
@@ -6,8 +7,13 @@ responses =
     original: 'A'
     version: { major: 0, minor: 0 }
     name: 'A'
-    configSchema: { type: 'object', properties: { propA: { type: 'number' }, propB: { type: 'string' }} }
-    
+    configSchema: { 
+      type: 'object' 
+      properties: { 
+        propA: { type: 'number' }
+        propB: { type: 'string' }
+      } 
+    }
   }
   '/db/level.component/B/version/0': { 
     system: 'System'
@@ -22,6 +28,16 @@ responses =
     version: { major: 0, minor: 0 }
     name: 'C (depends on B)'
     dependencies: [{original:'B', majorVersion: 0}]
+    configSchema: {
+      type: 'object'
+      default: { propC: 'Default property from component config' }
+    }
+  }
+  '/db/level.component/D/version/0': {
+    system: 'System'
+    original: 'D'
+    version: { major: 0, minor: 0 }
+    name: 'D (comes from ThangType components)'
   }
   '/db/thang.type': []
 
@@ -32,6 +48,12 @@ module.exports = ->
       { original: 'B', majorVersion: 0 }
       { original: 'C', majorVersion: 0 }
     ]
+    thangType: new ThangType({
+      components: [
+        { original: 'C', majorVersion: 0, config: {propD: 'Default property from thang type component.'} }
+        { original: 'D', majorVersion: 0 }
+      ]
+    })
   })
   
   view.render()

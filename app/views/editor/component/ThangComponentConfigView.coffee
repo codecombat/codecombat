@@ -17,6 +17,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     super options
     @component = options.component
     @config = options.config or {}
+    @additionalDefaults = options.additionalDefaults
     @world = options.world
     @level = options.level
     @callback = options.callback
@@ -25,11 +26,17 @@ module.exports = class ThangComponentConfigView extends CocoView
     context = super(context)
     context.component = @component.attributes
     context.configProperties = []
+    context.isDefaultComponent = @isDefaultComponent
     context
 
   afterRender: ->
     super()
     @buildTreema()
+
+  setIsDefaultComponent: (isDefaultComponent) ->
+    changed = @isDefaultComponent isnt isDefaultComponent
+    @isDefaultComponent = isDefaultComponent
+    @render() if changed
 
   buildTreema: ->
     thangs = if @level? then @level.get('thangs') else []
@@ -39,6 +46,9 @@ module.exports = class ThangComponentConfigView extends CocoView
     superteams = _.union(teams, superteams)
     config = $.extend true, {}, @config
     schema = $.extend true, {}, @component.get('configSchema')
+    schema.default ?= {}
+    _.merge schema.default, @additionalDefaults if @additionalDefaults
+    
     if @level?.get('type') is 'hero'
       schema.required = []
     treemaOptions =

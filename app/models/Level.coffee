@@ -95,7 +95,7 @@ module.exports = class Level extends CocoModel
       #console.log 'sorted systems adding', systemModel.name
       sorted.push {model: systemModel, config: _.cloneDeep system.config}
       originalsSeen[system.original] = true
-    visit system for system in levelSystems
+    visit system for system in levelSystems ? []
     sorted
 
   sortThangComponents: (thangs, levelComponents, parentType) ->
@@ -106,7 +106,7 @@ module.exports = class Level extends CocoModel
     # Decision? Just special case the sort logic in here until we have more examples than these two and decide how best to handle most of the cases then, since we don't really know the whole of the problem yet.
     # TODO: anything that depends on Programmable will break right now.
 
-    for thang in thangs
+    for thang in thangs ? []
       sorted = []
       visit = (c) ->
         return if c in sorted
@@ -137,7 +137,7 @@ module.exports = class Level extends CocoModel
 
   # TODO DEFAULTS
   fillInDefaultComponentConfiguration: (thangs, levelComponents) ->
-    for thang in thangs
+    for thang in thangs ? []
       for component in thang.components or []
         continue unless lc = _.find levelComponents, {original: component.original}
         component.config ?= {}

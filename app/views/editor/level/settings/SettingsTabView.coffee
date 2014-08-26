@@ -47,7 +47,7 @@ module.exports = class SettingsTabView extends CocoView
     @settingsTreema.open()
 
   getThangIDs: ->
-    (t.id for t in @level.get('thangs') when t.id isnt 'Interface')
+    (t.id for t in @level.get('thangs') ? [] when t.id isnt 'Interface')
 
   onSettingsChanged: (e) =>
     $('.level-title').text @settingsTreema.data.name

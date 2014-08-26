@@ -1,5 +1,5 @@
 .panel.panel-default
-  .panel-heading
+  .panel-heading(class=isDefaultComponent ? "is-default-component" : "")
     em #{component.system}.
     strong.panel-title.spr= component.name
     span#description.text-muted= component.description

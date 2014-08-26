@@ -28,13 +28,18 @@ module.exports = class ThangComponentsEditView extends CocoView
     @originalsLoaded = {}
     @components = options.components or []
     @components = $.extend true, [], @components # just to be sure
+    @setThangType options.thangType
     @lastComponentLength = @components.length
     @world = options.world
     @level = options.level
     @loadComponents(@components)
     # Need to grab the ThangTypes so that we can autocomplete items in inventory based on them.
     @itemThangTypes = @supermodel.loadCollection(new ItemThangTypeSearchCollection(), 'thangs').model
-
+    
+  setThangType: (@thangType) ->
+    return unless componentRefs = @thangType?.get('components')
+    @loadComponents(componentRefs)
+    
   loadComponents: (components) ->
     for componentRef in components
       # just to handle if ever somehow the same component is loaded twice, through bad data and alike
@@ -59,26 +64,20 @@ module.exports = class ThangComponentsEditView extends CocoView
     @addThangComponentConfigViews()
 
   buildComponentsTreema: ->
+    components = _.zipObject((c.original for c in @components), @components)
+    defaultValue = undefined
+    if thangTypeComponents = @thangType?.get('components', true)
+      defaultValue = _.zipObject((c.original for c in thangTypeComponents), thangTypeComponents)
+
     treemaOptions =
       supermodel: @supermodel
-      schema: Level.schema.properties.thangs.items.properties.components
-      data: $.extend true, [], @components
+      schema: {
+        type: 'object'
+        default: defaultValue
+        additionalProperties: Level.schema.properties.thangs.items.properties.components.items
+      }, 
+      data: $.extend true, {}, components
       callbacks: {select: @onSelectComponent, change: @onComponentsTreemaChanged}
-      noSortable: true
-      nodeClasses:
-        'thang-components-array': ThangComponentsArrayNode
-        'point2d': nodes.WorldPointNode
-        'viewport': nodes.WorldViewportNode
-        'bounds': nodes.WorldBoundsNode
-        'radians': nodes.RadiansNode
-        'team': nodes.TeamNode
-        'superteam': nodes.SuperteamNode
-        'meters': nodes.MetersNode
-        'kilograms': nodes.KilogramsNode
-        'seconds': nodes.SecondsNode
-        'speed': nodes.SpeedNode
-        'acceleration': nodes.AccelerationNode
-        'item-thang-type': nodes.ItemThangTypeNode
 
     @componentsTreema = @$el.find('#thang-components-column .treema').treema treemaOptions
     @componentsTreema.build()
@@ -91,7 +90,7 @@ module.exports = class ThangComponentsEditView extends CocoView
       componentMap[component.original] = component
 
     newComponentsList = []
-    for component in @componentsTreema.data
+    for component in _.values(@componentsTreema.data)
       newComponentsList.push(componentMap[component.original] or component)
     @components = newComponentsList
 
@@ -204,12 +203,26 @@ module.exports = class ThangComponentsEditView extends CocoView
     # Put back config views into the DOM based on the component list ordering,
     # adding and registering new ones as needed.
     configsEl = @$el.find('#thang-component-configs')
-    for componentRef in @componentsTreema.data
+
+    componentRefs = _.merge {}, @componentsTreema.data
+    if thangTypeComponents = @thangType?.get('components')
+      thangComponentRefs = _.zipObject((c.original for c in thangTypeComponents), thangTypeComponents)
+      for thangTypeComponent in thangTypeComponents
+        if componentRef = componentRefs[thangTypeComponent.original]
+          componentRef.additionalDefaults = thangTypeComponent.config
+        else
+          modifiedRef = _.merge {}, thangTypeComponent
+          modifiedRef.additionalDefaults = modifiedRef.config
+          delete modifiedRef.additionalDefaults
+          componentRefs[thangTypeComponent.original] = modifiedRef
+
+    for componentRef in _.values(componentRefs)
       subview = componentConfigViews[componentRef.original]
       if not subview
         subview = @makeThangComponentConfigView(componentRef)
         continue unless subview
         @registerSubView(subview)
+      subview.setIsDefaultComponent(not @componentsTreema.data[componentRef.original])
       configsEl.append(subview.$el)
 
   makeThangComponentConfigView: (thangComponent) ->
@@ -222,15 +235,29 @@ module.exports = class ThangComponentsEditView extends CocoView
       world: @world
       config: config
       component: component
+      additionalDefaults: thangComponent.additionalDefaults
     })
     configView.render()
     @listenTo configView, 'changed', @onConfigChanged
     configView
 
   onConfigChanged: (e) ->
+    foundComponent = false
     for thangComponent in @components
       if thangComponent.original is e.component.get('original')
         thangComponent.config = e.config
+        foundComponent = true
+        break
+        
+    if not foundComponent
+      @components.push({
+        original: e.component.get('original')
+        majorVersion: e.component.get('version').major
+        config: e.config
+      })
+      @onComponentsChanged()
+      
+    @updateComponentsList()
     @reportChanges()
 
   onSelectComponent: (e, nodes) =>
@@ -239,28 +266,28 @@ module.exports = class ThangComponentsEditView extends CocoView
 
     # find dependent components
     dependents = {}
-    dependents[nodes[0].data.original] = true
-    componentsToCheck = [nodes[0].data.original]
+    dependents[nodes[0].getData().original] = true
+    componentsToCheck = [nodes[0].getData().original]
     while componentsToCheck.length
       componentOriginal = componentsToCheck.pop()
       for otherComponentRef in @components
         continue if otherComponentRef.original is componentOriginal
         continue if dependents[otherComponentRef.original]
         otherComponent = @supermodel.getModelByOriginal(LevelComponent, otherComponentRef.original)
-        for dependency in otherComponent.get('dependencies')
+        for dependency in otherComponent.get('dependencies', true)
           if dependents[dependency.original]
             dependents[otherComponentRef.original] = true
             componentsToCheck.push otherComponentRef.original
 
     # highlight them
     for child in _.values(@componentsTreema.childrenTreemas)
-      if dependents[child.data.original]
+      if dependents[child.getData().original]
         child.$el.addClass('dependent')
 
     # scroll to the config
     for subview in _.values(@subviews)
       continue unless subview instanceof ThangComponentConfigView
-      if subview.component.get('original') is nodes[0].data.original
+      if subview.component.get('original') is nodes[0].getData().original
         subview.$el[0].scrollIntoView()
         break
 

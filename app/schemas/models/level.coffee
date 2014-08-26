@@ -207,7 +207,7 @@ GeneralArticleSchema = c.object {
 LevelSchema = c.object {
   title: 'Level'
   description: 'A spectacular level which will delight and educate its stalwart players with the sorcery of coding.'
-  required: ['name', 'description', 'scripts', 'thangs', 'documentation']
+  required: ['name']
   'default':
     name: 'Ineffable Wizardry'
     description: 'This level is indescribably flarmy.'
