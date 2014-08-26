@@ -167,7 +167,7 @@ module.exports = class Thang
     {CN: @constructor.className, id: @id}
 
   getSpriteOptions: ->
-    colorConfigs = @world?.getTeamColors() or {}
+    colorConfigs = @teamColors or @world?.getTeamColors() or {}
     options = {colorConfig: {}}
     if @team and teamColor = colorConfigs[@team]
       options.colorConfig.team = teamColor

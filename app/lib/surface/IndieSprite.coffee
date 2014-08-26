@@ -26,6 +26,8 @@ module.exports = IndieSprite = class IndieSprite extends CocoSprite
     thang.getActionName = -> thang.action
     thang.acts = true
     thang.isSelectable = true
+    thang.team = options.team
+    thang.teamColors = options.teamColors
     thang
 
   onNoteGroupStarted: => @scriptRunning = true
