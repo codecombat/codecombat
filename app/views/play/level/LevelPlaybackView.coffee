@@ -26,6 +26,7 @@ module.exports = class LevelPlaybackView extends CocoView
     'level-set-letterbox': 'onSetLetterbox'
     'tome:cast-spells': 'onTomeCast'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'playback:stop-real-time-playback': 'onStopRealTimePlayback'
 
   events:
     'click #debug-toggle': 'onToggleDebug'
@@ -34,11 +35,11 @@ module.exports = class LevelPlaybackView extends CocoView
     'click #edit-editor-config': 'onEditEditorConfig'
     'click #view-keyboard-shortcuts': 'onViewKeyboardShortcuts'
     'click #music-button': 'onToggleMusic'
-    'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in') unless @shouldIgnore()
-    'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out') unless @shouldIgnore()
+    'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in', {}) unless @shouldIgnore()
+    'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out', {}) unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
-    'click': -> Backbone.Mediator.publish 'tome:focus-editor' unless @realTime
+    'click': -> Backbone.Mediator.publish 'tome:focus-editor', {} unless @realTime
     'mouseenter #timeProgress': 'onProgressEnter'
     'mouseleave #timeProgress': 'onProgressLeave'
     'mousemove #timeProgress': 'onProgressHover'
@@ -307,6 +308,9 @@ module.exports = class LevelPlaybackView extends CocoView
     return unless @realTime
     @realTime = false
     @togglePlaybackControls true
+
+  onStopRealTimePlayback: (e) ->
+    Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
 
   onSetDebug: (e) ->
     flag = $('#debug-toggle i.icon-ok')

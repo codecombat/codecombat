@@ -47,7 +47,6 @@ module.exports = class Level extends CocoModel
         placeholders[thangComponent.original] = thangComponent
       levelThang.components = []
       heroThangType = session?.get('heroConfig')?.thangType
-      console.log "got thang type", heroThangType
       levelThang.thangType = heroThangType if heroThangType
 
     configs = {}

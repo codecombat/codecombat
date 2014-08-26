@@ -43,8 +43,7 @@ module.exports = class LevelFlagsView extends CocoView
 
   onFlagSelected: (e) ->
     return unless @realTime
-    return if @flagColor is e.color and e.source is 'shortcut'
-    color = if e.source is 'button' and e.color is @flagColor then null else e.color
+    color = if e.color is @flagColor then null else e.color
     @flagColor = color
     Backbone.Mediator.publish 'level:flag-color-selected', color: color
     @$el.find('.flag-button').removeClass('active')
@@ -62,7 +61,6 @@ module.exports = class LevelFlagsView extends CocoView
   onDeletePressed: (e) ->
     return unless @realTime
     Backbone.Mediator.publish 'surface:remove-selected-flag', {}
-    @onFlagSelected color: null, source: 'shortcut'
 
   onRemoveFlag: (e) ->
     delete @flags[e.color]

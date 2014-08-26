@@ -16,13 +16,13 @@ module.exports = class ControlBarView extends CocoView
       window.tracker?.trackEvent 'Clicked Docs', level: @level.get('name'), label: @level.get('name')
       @showGuideModal()
 
-    'click #next-game-button': ->
-      Backbone.Mediator.publish 'next-game-pressed'
+    'click #next-game-button': -> Backbone.Mediator.publish 'next-game-pressed', {}
 
-    'click #game-menu-button': ->
-      @showGameMenuModal()
+    'click #game-menu-button': 'showGameMenuModal'
 
-    'click': -> Backbone.Mediator.publish 'tome:focus-editor'
+    'click #stop-real-time-playback-button': -> Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
+
+    'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
 
   constructor: (options) ->
     @worldName = options.worldName

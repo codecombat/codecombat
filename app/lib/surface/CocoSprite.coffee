@@ -82,6 +82,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     if @thangType.isFullyLoaded()
       @setupSprite()
     else
+      @thangType.setProjection null
       @thangType.fetch() unless @thangType.loading
       @listenToOnce(@thangType, 'sync', @setupSprite)
 
