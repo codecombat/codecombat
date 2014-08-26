@@ -464,6 +464,11 @@ self.addFlagEvent = function addFlagEvent(flagEvent) {
   self.world.addFlagEvent(flagEvent);
 };
 
+self.stopRealTimePlayback = function stopRealTimePlayback() {
+  if(!self.world) return;
+  self.world.realTime = false;
+};
+
 self.addEventListener('message', function(event) {
   self[event.data.func](event.data.args);
 });

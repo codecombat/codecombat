@@ -8,6 +8,7 @@ CameraBorder = require './CameraBorder'
 Layer = require './Layer'
 Letterbox = require './Letterbox'
 Dimmer = require './Dimmer'
+CountdownScreen = require './CountdownScreen'
 PlaybackOverScreen = require './PlaybackOverScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
@@ -100,6 +101,7 @@ module.exports = Surface = class Surface extends CocoClass
     @spriteBoss.destroy()
     @chooser?.destroy()
     @dimmer?.destroy()
+    @countdownScreen?.destroy()
     @playbackOverScreen?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
@@ -402,6 +404,7 @@ module.exports = Surface = class Surface extends CocoClass
     @surfaceLayer.addChild @cameraBorder = new CameraBorder bounds: @camera.bounds
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
     @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
+    @countdownScreen ?= new CountdownScreen camera: @camera, layer: @screenLayer
     @playbackOverScreen ?= new PlaybackOverScreen camera: @camera, layer: @screenLayer
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
@@ -414,6 +417,7 @@ module.exports = Surface = class Surface extends CocoClass
     @onResize()
 
   onResize: (e) =>
+    return if @destroyed
     oldWidth = parseInt @canvas.attr('width'), 10
     oldHeight = parseInt @canvas.attr('height'), 10
     aspectRatio = oldWidth / oldHeight
@@ -630,6 +634,7 @@ module.exports = Surface = class Surface extends CocoClass
     @realTime = true
     @onResize()
     @spriteBoss.selfWizardSprite?.toggle false
+    @playing = false  # Will start when countdown is done.
 
   onRealTimePlaybackEnded: (e) ->
     @realTime = false

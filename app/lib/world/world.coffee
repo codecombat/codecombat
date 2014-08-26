@@ -15,6 +15,7 @@ DESERIALIZATION_INTERVAL = 10
 REAL_TIME_BUFFER_MIN = 2 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_BUFFER_MAX = 3 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_BUFFERED_WAIT_INTERVAL = 0.5 * PROGRESS_UPDATE_INTERVAL
+REAL_TIME_COUNTDOWN_DELAY = 3000  # match CountdownScreen
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 
 module.exports = class World
@@ -93,12 +94,14 @@ module.exports = class World
   loadFrames: (loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) ->
     return if @aborted
     console.log 'Warning: loadFrames called on empty World (no thangs).' unless @thangs.length
+    continueLaterFn = =>
+      @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
+    if @realTime and not @countdownFinished
+      return setTimeout @finishCountdown(continueLaterFn), REAL_TIME_COUNTDOWN_DELAY
     t1 = now()
     @t0 ?= t1
     @worldLoadStartTime ?= t1
     @lastRealTimeUpdate ?= 0
-    continueLaterFn = =>
-      @loadFrames(loadedCallback, errorCallback, loadProgressCallback, skipDeferredLoading, loadUntilFrame) unless @destroyed
     frameToLoadUntil = if loadUntilFrame then loadUntilFrame + 1 else @totalFrames  # Might stop early if debugging.
     i = @frames.length
     while i < frameToLoadUntil and i < @totalFrames
@@ -122,6 +125,11 @@ module.exports = class World
     unless @preloading
       loadProgressCallback? 1
       loadedCallback()
+
+  finishCountdown: (continueLaterFn) -> =>
+    return if @destroyed
+    @countdownFinished = true
+    continueLaterFn()
 
   shouldDelayRealTimeSimulation: (t) ->
     return false unless @realTime

@@ -147,6 +147,10 @@ module.exports =
   'playback:manually-scrubbed':
     {} # TODO schema
 
+  'playback:stop-real-time-playback':
+    type: 'object'
+    additionalProperties: false
+
   'playback:real-time-playback-started':
     type: 'object'
     additionalProperties: false
