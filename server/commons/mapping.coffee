@@ -22,6 +22,7 @@ module.exports.routes =
     'routes/db'
     'routes/file'
     'routes/folder'
+    'routes/github'
     'routes/languages'
     'routes/mail'
     'routes/sprites'

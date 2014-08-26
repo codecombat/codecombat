@@ -1,6 +1,7 @@
 FacebookHandler = require 'lib/FacebookHandler'
 GPlusHandler = require 'lib/GPlusHandler'
 LinkedInHandler = require 'lib/LinkedInHandler'
+GitHubHandler = require 'lib/GitHubHandler'
 locale = require 'locale/locale'  # TODO: don't require all of these? Might be slow. (Haven't checked.)
 {me} = require 'lib/auth'
 Tracker = require 'lib/Tracker'
@@ -35,9 +36,11 @@ preload = (arrayOfImages) ->
 
 Application = initialize: ->
   Router = require('Router')
+  @isProduction = -> document.location.href.search('codecombat.com') isnt -1
   @tracker = new Tracker()
   @facebookHandler = new FacebookHandler()
   @gplusHandler = new GPlusHandler()
+  @githubHandler = new GitHubHandler()
   $(document).bind 'keydown', preventBackspace
   @linkedinHandler = new LinkedInHandler()
   preload(COMMON_FILES)
