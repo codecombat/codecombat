@@ -14,6 +14,7 @@ module.exports = class AuthModal extends ModalView
     # login buttons
     'click #switch-to-signup-button': 'onSignupInstead'
     'click #signup-confirm-age': 'checkAge'
+    'click #github-login-button': 'onGitHubLoginClicked'
     'submit': 'onSubmitForm' # handles both submit buttons
     'keyup #name': 'onNameChange'
 
@@ -101,3 +102,6 @@ module.exports = class AuthModal extends ModalView
       else
         @suggestedName = newName
         forms.setErrorToProperty @$el, 'name', "That name is taken! How about #{newName}?", true
+
+  onGitHubLoginClicked: ->
+    Backbone.Mediator.publish 'github-login'
