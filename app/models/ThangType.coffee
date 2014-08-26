@@ -13,8 +13,6 @@ module.exports = class ThangType extends CocoModel
   initialize: ->
     super()
     @building = {}
-    @setDefaults()
-    @on 'sync', @setDefaults
     @spriteSheets = {}
 
     ## Testing memory clearing
@@ -23,9 +21,6 @@ module.exports = class ThangType extends CocoModel
     #  @unset 'raw'
     #  @_previousAttributes.raw = null
     #setTimeout f, 40000
-
-  setDefaults: ->
-    @resetRawData() unless @get('raw')
 
   resetRawData: ->
     @set('raw', {shapes: {}, containers: {}, animations: {}})
