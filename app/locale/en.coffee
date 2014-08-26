@@ -45,7 +45,7 @@
   nav:
     play: "Levels"
     community: "Community"
-
+    editor: "Editor"
     blog: "Blog"
     forum: "Forum"
     account: "Account"
