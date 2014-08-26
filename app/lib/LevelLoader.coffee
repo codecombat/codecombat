@@ -31,7 +31,6 @@ module.exports = class LevelLoader extends CocoClass
     @opponentSessionID = options.opponentSessionID
     @team = options.team
     @headless = options.headless
-    @inLevelEditor = options.inLevelEditor
     @spectateMode = options.spectateMode ? false
 
     @worldNecessities = []
@@ -89,8 +88,6 @@ module.exports = class LevelLoader extends CocoClass
       for itemThangType in _.values(heroConfig.inventory)
         url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
         @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
-    @populateHero() if @level?.loaded
-
   # Supermodel (Level) Loading
 
   loadLevel: ->
@@ -103,7 +100,6 @@ module.exports = class LevelLoader extends CocoClass
 
   onLevelLoaded: ->
     @populateLevel()
-    @populateHero() if @session?.loaded
 
   populateLevel: ->
     thangIDs = []
@@ -157,15 +153,6 @@ module.exports = class LevelLoader extends CocoClass
       @supermodel.loadModel wizard, 'thang'
 
     @worldNecessities = @worldNecessities.concat worldNecessities
-
-  populateHero: ->
-    return
-    return if @inLevelEditor
-    return unless @level.get('type') is 'hero' and hero = _.find @level.get('thangs'), id: 'Hero Placeholder'
-    heroConfig = @session.get('heroConfig')
-    hero.thangType = heroConfig.thangType  # Will mutate the level, but we're okay showing the last-used Hero here
-    #hero.id = ... ?  # What do we want to do about this?
-    # Actually, swapping out inventory and placeholder Components is done in Level's denormalizeThang
 
   loadItemThangsEquippedByLevelThang: (levelThang) ->
     return unless levelThang.components
@@ -225,8 +212,7 @@ module.exports = class LevelLoader extends CocoClass
 
     for thangTypeName in thangsToLoad
       thangType = nameModelMap[thangTypeName]
-      console.log 'found ThangType', thangType, 'for', thangTypeName, 'of nameModelMap', nameModelMap unless thangType
-      continue if thangType.isFullyLoaded()
+      continue if not thangType or thangType.isFullyLoaded()
       thangType.fetch()
       thangType = @supermodel.loadModel(thangType, 'thang').model
       res = @supermodel.addSomethingResource 'sprite_sheet', 5

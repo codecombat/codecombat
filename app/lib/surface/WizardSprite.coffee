@@ -83,7 +83,7 @@ module.exports = class WizardSprite extends IndieSprite
     @options.colorConfig = $.extend(true, {}, newColorConfig)
     if shouldUpdate
       @setupSprite()
-      @playAction(@currentAction)
+      @playAction(@currentAction) if @currentAction
 
   onSpriteSelected: (e) ->
     return unless @isSelf
