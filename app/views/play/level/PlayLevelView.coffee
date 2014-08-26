@@ -466,6 +466,7 @@ module.exports = class PlayLevelView extends RootView
     pointer = $('#pointer')
     pointer.css('transition', 'all 0.6s ease-out')
     pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)")
+    Backbone.Mediator.publish 'play-sound', trigger: 'dom_highlight', volume: 0.75
     setTimeout((=>
       pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)").css('transition', 'all 0.4s ease-in')), 800)
 
