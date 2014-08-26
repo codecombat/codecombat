@@ -1,5 +1,6 @@
 CocoView = require 'views/kinds/CocoView'
 template = require 'templates/editor/level/components_tab'
+ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 LevelComponentEditView = require './LevelComponentEditView'
 LevelComponentNewView = require './NewLevelComponentModal'
@@ -27,7 +28,15 @@ module.exports = class ComponentsTabView extends CocoView
   refreshLevelThangsTreema: (thangsData) ->
     presentComponents = {}
     for thang in thangsData
+      componentMap = {}
+      thangType = @supermodel.getModelByOriginal ThangType, thang.thangType
+      for component in thangType.get('components') ? []
+        componentMap[component.original] = component
+        
       for component in thang.components
+        componentMap[component.original] = component
+
+      for component in _.values(componentMap)
         haveThisComponent = (presentComponents[component.original + '.' + (component.majorVersion ? 0)] ?= [])
         haveThisComponent.push thang.id if haveThisComponent.length < 100  # for performance when adding many Thangs
     return if _.isEqual presentComponents, @presentComponents
