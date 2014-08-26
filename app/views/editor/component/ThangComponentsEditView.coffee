@@ -78,6 +78,8 @@ module.exports = class ThangComponentsEditView extends CocoView
       }, 
       data: $.extend true, {}, components
       callbacks: {select: @onSelectComponent, change: @onComponentsTreemaChanged}
+      nodeClasses:
+        'object': ThangComponentsObjectNode
 
     @componentsTreema = @$el.find('#thang-components-column .treema').treema treemaOptions
     @componentsTreema.build()
@@ -345,11 +347,14 @@ module.exports = class ThangComponentsEditView extends CocoView
       @onComponentsChanged()
 
 
-class ThangComponentsArrayNode extends TreemaArrayNode
-  valueClass: 'treema-thang-components-array'
-  sort: true
-
+class ThangComponentsObjectNode extends TreemaObjectNode
+  getChildren: ->
+    children = super(arguments...)
+    children.sort(@sortFunction)
+  
   sortFunction: (a, b) =>
+    a = a.value ? a.defaultData
+    b = b.value ? b.defaultData
     a = @settings.supermodel.getModelByOriginalAndMajorVersion(LevelComponent, a.original, a.majorVersion)
     b = @settings.supermodel.getModelByOriginalAndMajorVersion(LevelComponent, b.original, b.majorVersion)
     return 0 if not (a or b)

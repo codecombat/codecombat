@@ -44,9 +44,9 @@ responses =
 module.exports = ->
   view = new ThangComponentEditView({
     components: [
-      { original: 'A', majorVersion: 0, config: {propA: 1, propB: 'string'} }
       { original: 'B', majorVersion: 0 }
       { original: 'C', majorVersion: 0 }
+      { original: 'A', majorVersion: 0, config: {propA: 1, propB: 'string'} }
     ]
     thangType: new ThangType({
       components: [
