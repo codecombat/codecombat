@@ -49,6 +49,7 @@ module.exports = class LevelComponentEditView extends CocoView
     schema = _.cloneDeep LevelComponent.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
+    schema.default = _.pick schema.default, (value, key) => key in @editableSettings
 
     treemaOptions =
       supermodel: @supermodel
