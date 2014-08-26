@@ -119,7 +119,8 @@ module.exports = class SuperModel extends Backbone.Model
     for model, i in collection.models
       cachedModel = @getModelByURL(model.getURL())
       if cachedModel
-        collection.models[i] = cachedModel
+        clone = $.extend true, {}, model.attributes
+        cachedModel.set(clone, {silent: true})
       else
         @registerModel(model)
     collection
