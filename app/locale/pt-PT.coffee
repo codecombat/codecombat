@@ -632,7 +632,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     when: "Quando"
     opponent: "Adversário"
     rank: "Classificação"
-    score: "Resultado"
+    score: "Pontuação"
     win: "Vitória"
     loss: "Derrota"
     tie: "Empate"
