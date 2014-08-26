@@ -29,9 +29,6 @@ module.exports =
   'level-set-debug':
     {} # TODO schema
 
-  'level-set-grid':
-    {} # TODO schema
-
   'level:restarted':
     {} # TODO schema
 

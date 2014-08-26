@@ -25,19 +25,19 @@ phoneScreenFilter =
   title: 'Phone screened'
   type: 'boolean'
   description: 'Whether the candidate has been phone screened.'
-schoolFilter = 
+schoolFilter =
   title: 'School'
   type: 'string'
   enum: ['Top School', 'Other']
-locationFilter = 
+locationFilter =
   title: 'Location'
   type: 'string'
   enum: ['Bay Area', 'New York', 'Other US', 'International']
-roleFilter = 
+roleFilter =
   title: 'Role'
   type: 'string'
   enum: ['Web Developer', 'Software Developer', 'Mobile Developer']
-seniorityFilter = 
+seniorityFilter =
   title: 'Seniority'
   type: 'string'
   enum: ['College Student', 'Recent Grad', 'Junior', 'Senior']
@@ -45,7 +45,12 @@ visa = c.shortString
   title: 'US Work Status'
   description: 'Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)'
   enum: ['Authorized to work in the US', 'Need visa sponsorship']
+<<<<<<< HEAD
   
+=======
+  default: 'Authorized to work in the US'
+
+>>>>>>> master
 _.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
   firstName: c.shortString({title: 'First Name'})
@@ -56,7 +61,7 @@ _.extend UserSchema.properties,
   photoURL: {type: 'string', format: 'image-file', title: 'Profile Picture', description: 'Upload a 256x256px or larger image to serve as your profile picture.'}
 
   facebookID: c.shortString({title: 'Facebook ID'})
-  githubID: c.shortString({title: 'GitHub ID'})
+  githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
 
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})
@@ -200,7 +205,7 @@ _.extend UserSchema.properties,
     phoneScreenFilter:
       title: 'Phone screen filter values'
       type: 'array'
-      items: 
+      items:
         type: 'boolean'
     schoolFilter:
       title: 'School filter values'
@@ -208,32 +213,32 @@ _.extend UserSchema.properties,
       items:
         type: schoolFilter.type
         enum: schoolFilter.enum
-    locationFilter: 
+    locationFilter:
       title: 'Location filter values'
       type: 'array'
       items:
         type: locationFilter.type
         enum: locationFilter.enum
-    roleFilter: 
+    roleFilter:
       title: 'Role filter values'
       type: 'array'
       items:
         type: roleFilter.type
         enum: roleFilter.enum
-    seniorityFilter: 
+    seniorityFilter:
       title: 'Seniority filter values'
       type: 'array'
       items:
         type: roleFilter.type
         enum: seniorityFilter.enum
-    visa: 
+    visa:
       title: 'Visa filter values'
       type: 'array'
       items:
         type: visa.type
         enum: visa.enum
   })
-    
+
   points: {type: 'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
   stats: c.object {additionalProperties: false},

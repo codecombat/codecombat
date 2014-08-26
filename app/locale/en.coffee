@@ -355,7 +355,6 @@
 
   play_level:
     done: "Done"
-    grid: "Grid"
     customize_wizard: "Customize Wizard"
     home: "Home"
     stop: "Stop"

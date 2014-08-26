@@ -89,8 +89,10 @@ class AudioPlayer extends CocoClass
 
   playSound: (name, volume=1, delay=0, pos=null) ->
     audioOptions = {volume: (me.get('volume') ? 1) * volume, delay: delay}
-    unless @camera is null or pos is null
-      audioOptions = @applyPanning audioOptions, pos
+    filename = if _.string.startsWith(name, '/file/') then name else '/file/' + name
+    unless (filename of cache) and createjs.Sound.loadComplete filename
+      @soundsToPlayWhenLoaded[name] = audioOptions.volume
+    audioOptions = @applyPanning audioOptions, pos if @camera and pos
     instance = createjs.Sound.play name, audioOptions
     instance
 

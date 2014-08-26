@@ -111,7 +111,7 @@ module.exports = class SpriteBoss extends CocoClass
     unless thangType = @thangTypeFor indieSprite.thangType
       console.warn "Need to convert #{indieSprite.id}'s ThangType #{indieSprite.thangType} to a ThangType reference. Until then, #{indieSprite.id} won't show up."
       return
-    sprite = new IndieSprite thangType, @createSpriteOptions {thangID: indieSprite.id, pos: indieSprite.pos, sprites: @sprites, colorConfig: indieSprite.colorConfig}
+    sprite = new IndieSprite thangType, @createSpriteOptions {thangID: indieSprite.id, pos: indieSprite.pos, sprites: @sprites, team: indieSprite.team, teamColors: @world.getTeamColors()}
     @addSprite sprite, sprite.thang.id
 
   createOpponentWizard: (opponent) ->

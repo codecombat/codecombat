@@ -56,6 +56,10 @@ module.exports = class AddThangsView extends CocoView
 
   afterRender: ->
     super()
+    @buildAddThangPopovers()
+
+  buildAddThangPopovers: ->
+    @$el.find('#thangs-list .add-thang-palette-icon').tooltip(container: 'body', animation: false)
 
   runSearch: (e) =>
     if e?.which is 27

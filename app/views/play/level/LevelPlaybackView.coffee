@@ -18,8 +18,6 @@ module.exports = class LevelPlaybackView extends CocoView
     'level-scrub-back': 'onScrubBack'
     'level-set-volume': 'onSetVolume'
     'level-set-debug': 'onSetDebug'
-    'level-set-grid': 'onSetGrid'
-    'level-toggle-grid': 'onToggleGrid'
     'surface:frame-changed': 'onFrameChanged'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
@@ -30,7 +28,6 @@ module.exports = class LevelPlaybackView extends CocoView
 
   events:
     'click #debug-toggle': 'onToggleDebug'
-    'click #grid-toggle': 'onToggleGrid'
     'click #edit-wizard-settings': 'onEditWizardSettings'
     'click #edit-editor-config': 'onEditEditorConfig'
     'click #view-keyboard-shortcuts': 'onViewKeyboardShortcuts'
@@ -188,11 +185,6 @@ module.exports = class LevelPlaybackView extends CocoView
     flag = $('#debug-toggle i.icon-ok')
     Backbone.Mediator.publish('level-set-debug', {debug: flag.hasClass('invisible')})
 
-  onToggleGrid: ->
-    return if @shouldIgnore()
-    flag = $('#grid-toggle i.icon-ok')
-    Backbone.Mediator.publish('level-set-grid', {grid: flag.hasClass('invisible')})
-
   onEditWizardSettings: ->
     Backbone.Mediator.publish 'edit-wizard-settings'
 
@@ -315,10 +307,6 @@ module.exports = class LevelPlaybackView extends CocoView
   onSetDebug: (e) ->
     flag = $('#debug-toggle i.icon-ok')
     flag.toggleClass 'invisible', not e.debug
-
-  onSetGrid: (e) ->
-    flag = $('#grid-toggle i.icon-ok')
-    flag.toggleClass 'invisible', not e.grid
 
   # to refactor
 

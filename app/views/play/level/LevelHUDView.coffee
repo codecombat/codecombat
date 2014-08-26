@@ -197,7 +197,7 @@ module.exports = class LevelHUDView extends CocoView
       @lastResponses = null
     @bubble.append($("<h3>#{@speaker ? 'Captain Anya'}</h3>"))
     @animator = new DialogueAnimator(message, @bubble)
-    @messageInterval = setInterval(@addMoreMessage, 20)
+    @messageInterval = setInterval(@addMoreMessage, 1000 / 30)  # 30 FPS
 
   addMoreMessage: =>
     if @animator.done()
