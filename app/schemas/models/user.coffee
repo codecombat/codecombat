@@ -45,12 +45,7 @@ visa = c.shortString
   title: 'US Work Status'
   description: 'Are you authorized to work in the US, or do you need visa sponsorship? (If you live in Canada or Australia, mark authorized.)'
   enum: ['Authorized to work in the US', 'Need visa sponsorship']
-<<<<<<< HEAD
   
-=======
-  default: 'Authorized to work in the US'
-
->>>>>>> master
 _.extend UserSchema.properties,
   email: c.shortString({title: 'Email', format: 'email'})
   firstName: c.shortString({title: 'First Name'})
