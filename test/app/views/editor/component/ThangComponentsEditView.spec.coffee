@@ -52,14 +52,12 @@ describe 'ThangComponentsEditView', ->
    
   # TODO: Figure out why this is breaking karma but not always
   it 'adds dependencies to its components list', ->
-#    jasmine.Ajax.requests.sendResponses(responses)
     componentOriginals = (c.original for c in view.components)
     expect('A' in componentOriginals).toBeTruthy()
     expect('B' in componentOriginals).toBeTruthy()
     expect('C' in componentOriginals).toBeTruthy()
     
   it 'removes components that are dependent on a removed component', ->
-#    jasmine.Ajax.requests.sendResponses(responses)
     view.components = (c for c in view.components when c.original isnt 'A')
     view.onComponentsChanged()
     expect(view.components.length).toBe(0)

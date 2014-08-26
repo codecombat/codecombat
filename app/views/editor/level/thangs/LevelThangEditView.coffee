@@ -36,11 +36,13 @@ module.exports = class LevelThangEditView extends CocoView
   onLoaded: -> @render()
   afterRender: ->
     super()
+    thangType = @supermodel.getModelByOriginal(ThangType, @thangData.thangType)
     options =
       components: @thangData.components
       supermodel: @supermodel
       level: @level
       world: @world
+      thangType: thangType
 
     @thangComponentEditView = new ThangComponentsEditView options
     @listenTo @thangComponentEditView, 'components-changed', @onComponentsChanged

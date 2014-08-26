@@ -114,6 +114,11 @@ module.exports = class ThangComponentsEditView extends CocoView
     for component in @components
       componentMap[component.original] = component
 
+    thangComponentMap = {}
+    if thangTypeComponents = @thangType?.get('components')
+      for thangTypeComponent in thangTypeComponents
+        thangComponentMap[thangTypeComponent.original] = thangTypeComponent
+
     # Deleting components missing dependencies.
     while true
       removedSomething = false
@@ -121,7 +126,7 @@ module.exports = class ThangComponentsEditView extends CocoView
         componentModel = @supermodel.getModelByOriginalAndMajorVersion(
           LevelComponent, componentRef.original, componentRef.majorVersion)
         for dependency in componentModel.get('dependencies') or []
-          if not componentMap[dependency.original]
+          unless (componentMap[dependency.original] or thangComponentMap[dependency.original])
             delete componentMap[componentRef.original]
             component = @supermodel.getModelByOriginal(
               LevelComponent, componentRef.original)
@@ -140,7 +145,7 @@ module.exports = class ThangComponentsEditView extends CocoView
     # Delete individual component config views that are no longer included.
     for subview in _.values(@subviews)
       continue unless subview instanceof ThangComponentConfigView
-      if not componentMap[subview.component.get('original')]
+      unless (componentMap[subview.component.get('original')] or thangComponentMap[subview.component.get('original')])
         @removeSubView(subview)
 
     @updateComponentsList()
@@ -156,6 +161,10 @@ module.exports = class ThangComponentsEditView extends CocoView
     componentMap = {}
     for component in @components
       componentMap[component.original] = component
+
+    if thangTypeComponents = @thangType?.get('components')
+      for thangTypeComponent in thangTypeComponents
+        componentMap[thangTypeComponent.original] = thangTypeComponent
 
     # Go through the map, adding missing dependencies.
     while true
@@ -213,7 +222,7 @@ module.exports = class ThangComponentsEditView extends CocoView
         else
           modifiedRef = _.merge {}, thangTypeComponent
           modifiedRef.additionalDefaults = modifiedRef.config
-          delete modifiedRef.additionalDefaults
+          delete modifiedRef.config
           componentRefs[thangTypeComponent.original] = modifiedRef
 
     for componentRef in _.values(componentRefs)
@@ -255,7 +264,12 @@ module.exports = class ThangComponentsEditView extends CocoView
         majorVersion: e.component.get('version').major
         config: e.config
       })
-      @onComponentsChanged()
+
+      for subview in _.values(@subviews)
+        continue unless subview instanceof ThangComponentConfigView
+        if subview.component.get('original') is e.component.get('original')
+          _.defer -> subview.setIsDefaultComponent(false)
+          break
       
     @updateComponentsList()
     @reportChanges()
@@ -290,11 +304,6 @@ module.exports = class ThangComponentsEditView extends CocoView
       if subview.component.get('original') is nodes[0].getData().original
         subview.$el[0].scrollIntoView()
         break
-
-  onComponentConfigChanged: (data) =>
-    @updatingFromConfig = true
-    @selectedRow.set '/config', data if data and @configView.changed and @configView.editing
-    @updatingFromConfig = false
 
   onChangeExtantComponents: =>
     @buildAddComponentTreema()

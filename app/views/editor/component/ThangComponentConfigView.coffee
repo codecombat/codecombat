@@ -10,9 +10,6 @@ module.exports = class ThangComponentConfigView extends CocoView
   template: template
   changed: false
 
-  events:
-    'click .treema-shortened': -> console.log 'clicked treema root'
-
   constructor: (options) ->
     super options
     @component = options.component
@@ -35,6 +32,7 @@ module.exports = class ThangComponentConfigView extends CocoView
 
   setIsDefaultComponent: (isDefaultComponent) ->
     changed = @isDefaultComponent isnt isDefaultComponent
+    if isDefaultComponent then @config = undefined
     @isDefaultComponent = isDefaultComponent
     @render() if changed
 
@@ -44,7 +42,6 @@ module.exports = class ThangComponentConfigView extends CocoView
     teams = _.filter(_.pluck(thangs, 'team'))
     superteams = _.filter(_.pluck(thangs, 'superteam'))
     superteams = _.union(teams, superteams)
-    config = $.extend true, {}, @config
     schema = $.extend true, {}, @component.get('configSchema')
     schema.default ?= {}
     _.merge schema.default, @additionalDefaults if @additionalDefaults
@@ -54,7 +51,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     treemaOptions =
       supermodel: @supermodel
       schema: schema
-      data: config
+      data: @config
       callbacks: {change: @onConfigEdited}
       world: @world
       view: @
@@ -83,6 +80,7 @@ module.exports = class ThangComponentConfigView extends CocoView
       @$el.find('.panel-body').hide()
 
   onConfigEdited: =>
+    @config = @editThangTreema.data
     @changed = true
     @trigger 'changed', { component: @component, config: @data() }
 

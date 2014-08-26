@@ -50,8 +50,8 @@ module.exports = ->
     ]
     thangType: new ThangType({
       components: [
-        { original: 'C', majorVersion: 0, config: {propD: 'Default property from thang type component.'} }
-        { original: 'D', majorVersion: 0 }
+        { original: 'A', majorVersion: 0, config: {propD: 'Default property from thang type component.'} }
+        { original: 'D', majorVersion: 0, config: {prop1: 'one', prop2: 'two'} }
       ]
     })
   })
