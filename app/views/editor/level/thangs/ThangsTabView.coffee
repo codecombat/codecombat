@@ -28,7 +28,6 @@ module.exports = class ThangsTabView extends CocoView
   id: 'editor-level-thangs-tab-view'
   className: 'tab-pane active'
   template: thangs_template
-  startsLoading: true
 
   subscriptions:
     'surface:sprite-selected': 'onExtantThangSelected'

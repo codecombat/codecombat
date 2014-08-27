@@ -18,7 +18,7 @@ module.exports = class EmployersListView extends RootView
 
   constructor: (options) ->
     super options
-    @getEmployers()
+    @employers = @supermodel.loadCollection(new EmployersCollection(), 'employers').model
 
   afterRender: ->
     super()
@@ -29,12 +29,6 @@ module.exports = class EmployersListView extends RootView
     ctx.employers = @employers.models
     ctx.moment = moment
     ctx
-
-  getEmployers: ->
-    @employers = new EmployersCollection()
-    @employers.fetch()
-    # Re-render when we have fetched them, but don't wait and show a progress bar while loading.
-    @listenToOnce @employers, 'all', => @render()
 
   sortTable: ->
     # http://mottie.github.io/tablesorter/docs/example-widget-bootstrap-theme.html

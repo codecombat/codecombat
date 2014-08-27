@@ -23,7 +23,12 @@ module.exports = class CandidatesView extends RootView
 
   constructor: (options) ->
     super options
-    @getCandidates()
+    @candidates = @supermodel.loadCollection(new CandidatesCollection(), 'candidates').model
+    @remarks = @supermodel.loadCollection(new UserRemarksCollection(), 'user_remarks').model
+
+  onLoaded: ->
+    super()
+    @setUpScrolling()
 
   afterRender: ->
     super()
@@ -51,17 +56,7 @@ module.exports = class CandidatesView extends RootView
     userPermissions = me.get('permissions') ? []
     _.contains userPermissions, "employer"
 
-  getCandidates: ->
-    @candidates = new CandidatesCollection()
-    @candidates.fetch()
-    @remarks = new UserRemarksCollection()
-    @remarks.fetch()
-    # Re-render when we have fetched them, but don't wait and show a progress bar while loading.
-    @listenToOnce @candidates, 'all', @renderCandidatesAndSetupScrolling
-    @listenToOnce @remarks, 'all', @renderCandidatesAndSetupScrolling
-
-  renderCandidatesAndSetupScrolling: =>
-    @render()
+  setUpScrolling: ->
     $(".nano").nanoScroller()
     if window.history?.state?.lastViewedCandidateID
       $(".nano").nanoScroller({scrollTo:$("#" + window.history.state.lastViewedCandidateID)})

@@ -907,6 +907,7 @@
     unknown: "Unknown error."
 
   resources:
+    sessions: "Sessions"
     your_sessions: "Your Sessions"
     level: "Level"
     social_network_apis: "Social Network APIs"
@@ -922,6 +923,7 @@
     patched_model: "Source Document"
     model: "Model"
     system: "System"
+    systems: "Systems"
     component: "Component"
     components: "Components"
     thang: "Thang"
@@ -936,10 +938,16 @@
     source_document: "Source Document"
     document: "Document"
     sprite_sheet: "Sprite Sheet"
+    employers: "Employers"
+    candidates: "Candidates"
     candidate_sessions: "Candidate Sessions"
     user_remark: "User Remark"
+    user_remarks: "User Remarks"
     versions: "Versions"
     items: "Items"
+    wizard: "Wizard"
+    achievement: "Achievement"
+    clas: "CLAs"
 
   delta:
     added: "Added"

@@ -41,7 +41,6 @@ module.exports = class PlayLevelView extends RootView
   template: template
   cache: false
   shortcutsEnabled: true
-  startsLoading: true
   isEditorPreview: false
 
   subscriptions:

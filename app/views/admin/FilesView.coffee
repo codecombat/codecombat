@@ -33,7 +33,6 @@ module.exports = class FilesView extends RootView
   currentFolder: -> @$el.find('#folder-select').val()
 
   loadFiles: ->
-    console.log 'trying to load', "/file/#{@currentFolder()}/"
     $.ajax
       url: "/file/#{@currentFolder()}/"
       success: @onLoadedFiles

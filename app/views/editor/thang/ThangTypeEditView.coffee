@@ -21,7 +21,6 @@ module.exports = class ThangTypeEditView extends RootView
   id: 'thang-type-edit-view'
   className: 'editor'
   template: template
-  startsLoading: true
   resolution: 4
   scale: 3
   mockThang:

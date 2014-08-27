@@ -14,7 +14,6 @@ module.exports = class AddThangsView extends CocoView
   id: 'add-thangs-column'
   className: 'add-thangs-palette thangs-column'
   template: add_thangs_template
-  startsLoading: false
 
   events:
     'keyup input#thang-search': 'runSearch'
