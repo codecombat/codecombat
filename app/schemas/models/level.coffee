@@ -65,7 +65,7 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
 
 ResponseSchema = c.object {title: 'Dialogue Button', description: 'A button to be shown to the user with the dialogue.', required: ['text']},
   text: {title: 'Title', description: 'The text that will be on the button', 'default': 'Okay', type: 'string', maxLength: 30}
-  channel: c.shortString(title: 'Channel', format: 'event-channel', description: 'Channel that this event will be broadcast over, like "level-set-playing".')
+  channel: c.shortString(title: 'Channel', format: 'event-channel', description: 'Channel that this event will be broadcast over, like "level:set-playing".')
   event: {type: 'object', title: 'Event', description: 'Event that will be broadcast when this button is pressed, like {playing: true}.'}
   buttonClass: c.shortString(title: 'Button Class', description: 'CSS class that will be added to the button, like "btn-primary".')
   i18n: {type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this button'}

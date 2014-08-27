@@ -18,8 +18,7 @@ module.exports = class MainPlayView extends RootView
   constructor: (options) ->
     super options
     @levelStatusMap = {}
-    @sessions = new LevelSessionsCollection()
-    @sessions.fetch()
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', null, 0).model
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
 
   onSessionsLoaded: (e) ->
@@ -29,8 +28,6 @@ module.exports = class MainPlayView extends RootView
 
   getRenderData: (context={}) ->
     context = super(context)
-    context.home = true
-    context.notFound = @getQueryVariable 'not_found'
     tutorials = [
       {
         name: 'Rescue Mission'

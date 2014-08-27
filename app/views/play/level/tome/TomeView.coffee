@@ -168,7 +168,7 @@ module.exports = class TomeView extends CocoView
     @spellList.$el.hide()
 
   onClick: (e) ->
-    Backbone.Mediator.publish 'tome:focus-editor' unless $(e.target).parents('.popover').length
+    Backbone.Mediator.publish 'tome:focus-editor', {} unless $(e.target).parents('.popover').length
 
   clearSpellView: ->
     @spellView?.dismiss()

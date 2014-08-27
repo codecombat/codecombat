@@ -17,7 +17,7 @@ module.exports = class SettingsTabView extends CocoView
   ]
 
   subscriptions:
-    'level-loaded': 'onLevelLoaded'
+    'editor:level-loaded': 'onLevelLoaded'
 
   constructor: (options) ->
     super options

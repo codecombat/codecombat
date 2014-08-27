@@ -11,23 +11,22 @@ module.exports = class ThangTypeColorsTabView extends CocoView
   offset: 0
 
   constructor: (@thangType, options) ->
-    @listenToOnce(@thangType, 'sync', @tryToBuild)
-    # @listenToOnce(@thangType.schema(), 'sync', @tryToBuild)
+    super options
+    @supermodel.loadModel @thangType, 'thang'
     @colorConfig = {hue: 0, saturation: 0.5, lightness: 0.5}
     @spriteBuilder = new SpriteBuilder(@thangType)
     f = =>
       @offset++
       @updateMovieClip()
     @interval = setInterval f, 1000
-    super options
 
   destroy: ->
     clearInterval @interval
     super()
 
-  onLoaded: -> @render()
   afterRender: ->
     super()
+    return unless @supermodel.finished()
     @createShapeButtons()
     @initStage()
     @initSliders()

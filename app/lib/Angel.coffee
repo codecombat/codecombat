@@ -91,7 +91,7 @@ module.exports = class Angel extends CocoClass
       when 'user-code-problem'
         Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
       when 'world-load-progress-changed'
-        Backbone.Mediator.publish 'god:world-load-progress-changed', event.data
+        Backbone.Mediator.publish 'god:world-load-progress-changed', progress: event.data.progress
         unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or @shared.firstWorld
           @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
 

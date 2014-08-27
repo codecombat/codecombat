@@ -14,10 +14,9 @@ userPropsToSave =
 
 module.exports = FacebookHandler = class FacebookHandler extends CocoClass
   subscriptions:
-    'facebook-logged-in':'onFacebookLogin'
-    'facebook-logged-out': 'onFacebookLogout'
+    'auth:logged-in-with-facebook': 'onFacebookLoggedIn'
 
-  onFacebookLogin: (e) =>
+  onFacebookLoggedIn: (e) ->
     # user is logged in also when the page first loads, so check to see
     # if we really need to do the lookup
     return if not me
@@ -29,9 +28,6 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
         doIt = true
         break
     FB.api('/me', @onReceiveMeInfo) if doIt
-
-  onFacebookLogout: (e) =>
-    console.warn('On facebook logout not implemented.')
 
   onReceiveMeInfo: (r) =>
     unless r.email
@@ -45,7 +41,7 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
     me.set('email', r.email) if r.email
     me.set('facebookID', r.id) if r.id
 
-    Backbone.Mediator.publish('logging-in-with-facebook')
+    Backbone.Mediator.publish 'auth:logging-in-with-facebook', {}
     window.tracker?.trackEvent 'Facebook Login'
     window.tracker?.identify()
     me.patch({

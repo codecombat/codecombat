@@ -9,7 +9,7 @@ module.exports = class MusicPlayer extends CocoClass
   standingBy: null
 
   subscriptions:
-    'level-play-music': 'onPlayMusic'
+    'music-player:play-music': 'onPlayMusic'
     'audio-player:loaded': 'onAudioLoaded'
 
   constructor: ->

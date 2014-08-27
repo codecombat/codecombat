@@ -13,11 +13,10 @@ module.exports = class SystemsTabView extends CocoView
   className: 'tab-pane'
 
   subscriptions:
-    'level-system-added': 'onLevelSystemAdded'
-    'edit-level-system': 'editLevelSystem'
-    'level-system-edited': 'onLevelSystemEdited'
-    'level-system-editing-ended': 'onLevelSystemEditingEnded'
-    'level-loaded': 'onLevelLoaded'
+    'editor:level-system-added': 'onLevelSystemAdded'
+    'editor:edit-level-system': 'editLevelSystem'
+    'editor:level-system-editing-ended': 'onLevelSystemEditingEnded'
+    'editor:level-loaded': 'onLevelLoaded'
 
   events:
     'click #add-system-button': 'addLevelSystem'
@@ -91,17 +90,14 @@ module.exports = class SystemsTabView extends CocoView
 
   addLevelSystem: (e) ->
     @openModalView new AddLevelSystemModal supermodel: @supermodel, extantSystems: _.cloneDeep @systemsTreema.data
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   createNewLevelSystem: (e) ->
     @openModalView new NewLevelSystemModal supermodel: @supermodel
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   editLevelSystem: (e) ->
     @levelSystemEditView = @insertSubView new LevelSystemEditView(original: e.original, majorVersion: e.majorVersion, supermodel: @supermodel)
-
-  onLevelSystemEdited: (e) ->
-    Backbone.Mediator.publish 'level-systems-changed', systemsData: @systemsTreema.data
 
   onLevelSystemEditingEnded: (e) ->
     @removeSubView @levelSystemEditView
@@ -150,7 +146,7 @@ class LevelSystemNode extends TreemaObjectNode
 
   onEnterPressed: (e) ->
     super e
-    Backbone.Mediator.publish 'edit-level-system', original: @data.original, majorVersion: @data.majorVersion
+    Backbone.Mediator.publish 'editor:edit-level-system', original: @data.original, majorVersion: @data.majorVersion
 
   open: (depth) ->
     super depth

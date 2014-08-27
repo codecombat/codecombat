@@ -19,8 +19,8 @@ module.exports = class AuthModal extends ModalView
     'keyup #name': 'onNameChange'
 
   subscriptions:
-    'server-error': 'onServerError'
-    'logging-in-with-facebook': 'onLoggingInWithFacebook'
+    'errors:server-error': 'onServerError'
+    'auth:logging-in-with-facebook': 'onLoggingInWithFacebook'
 
   constructor: (options) ->
     @onNameChange = _.debounce @checkNameExists, 500
@@ -39,7 +39,7 @@ module.exports = class AuthModal extends ModalView
     c.onEmployersPage = Backbone.history.fragment is "employers"
     c.me = me
     c
-    
+
   afterInsert: ->
     super()
     _.delay application.router.renderLoginButtons, 500
@@ -104,4 +104,4 @@ module.exports = class AuthModal extends ModalView
         forms.setErrorToProperty @$el, 'name', "That name is taken! How about #{newName}?", true
 
   onGitHubLoginClicked: ->
-    Backbone.Mediator.publish 'github-login'
+    Backbone.Mediator.publish 'auth:log-in-with-github', {}

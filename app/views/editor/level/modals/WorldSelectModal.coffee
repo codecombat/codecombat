@@ -10,8 +10,8 @@ module.exports = class WorldSelectModal extends ModalView
   cache: false
 
   subscriptions:
-    'choose-region': 'selectionMade'
-    'choose-point': 'selectionMade'
+    'surface:choose-region': 'selectionMade'
+    'surface:choose-point': 'selectionMade'
 
   events:
     'click #done-button': 'done'

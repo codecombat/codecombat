@@ -12,6 +12,7 @@ CountdownScreen = require './CountdownScreen'
 PlaybackOverScreen = require './PlaybackOverScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
+CoordinateGrid = require './CoordinateGrid'
 SpriteBoss = require './SpriteBoss'
 PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
@@ -24,7 +25,7 @@ module.exports = Surface = class Surface extends CocoClass
   surfaceLayer: null
   surfaceTextLayer: null
   screenLayer: null
-  gridLayer: null  # TODO: maybe
+  gridLayer: null
 
   spriteBoss: null
 
@@ -51,21 +52,19 @@ module.exports = Surface = class Surface extends CocoClass
     frameRate: 30  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
 
   subscriptions:
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
-    'level-set-playing': 'onSetPlaying'
-    'level-set-debug': 'onSetDebug'
-    'level-toggle-debug': 'onToggleDebug'
-    'level-set-grid': 'onSetGrid'
-    'level-toggle-grid': 'onToggleGrid'
-    'level-toggle-pathfinding': 'onTogglePathFinding'
-    'level-set-time': 'onSetTime'
-    'level-set-surface-camera': 'onSetCamera'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
+    'level:set-playing': 'onSetPlaying'
+    'level:set-debug': 'onSetDebug'
+    'level:toggle-debug': 'onToggleDebug'
+    'level:toggle-pathfinding': 'onTogglePathFinding'
+    'level:set-time': 'onSetTime'
+    'camera:set-camera': 'onSetCamera'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
-    'level-set-letterbox': 'onSetLetterbox'
+    'level:set-letterbox': 'onSetLetterbox'
     'application:idle-changed': 'onIdleChanged'
     'camera:zoom-updated': 'onZoomUpdated'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
@@ -75,7 +74,6 @@ module.exports = Surface = class Surface extends CocoClass
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
-    'ctrl+g, ⌘+g': 'onToggleGrid'
     'ctrl+o, ⌘+o': 'onTogglePathFinding'
 
   # external functions
@@ -103,6 +101,8 @@ module.exports = Surface = class Surface extends CocoClass
     @dimmer?.destroy()
     @countdownScreen?.destroy()
     @playbackOverScreen?.destroy()
+    @coordinateDisplay?.destroy()
+    @coordinateGrid?.destroy()
     @stage.clear()
     @musicPlayer?.destroy()
     @stage.removeAllChildren()
@@ -126,12 +126,8 @@ module.exports = Surface = class Surface extends CocoClass
 
     @showLevel()
     @updateState true if @loaded
-    # TODO: synchronize both ways of choosing whether to show coords (@world via UI System or @options via World Select modal)
-    if @world.showCoordinates and @options.coords and not @coordinateDisplay
-      @coordinateDisplay = new CoordinateDisplay camera: @camera
-      @surfaceTextLayer.addChild @coordinateDisplay
     @onFrameChanged()
-    Backbone.Mediator.publish 'surface:world-set-up'
+    Backbone.Mediator.publish 'surface:world-set-up', {world: @world}
 
   onTogglePathFinding: (e) ->
     e?.preventDefault?()
@@ -315,7 +311,6 @@ module.exports = Surface = class Surface extends CocoClass
     return if @currentFrame is @lastFrame and not force
     progress = @getProgress()
     Backbone.Mediator.publish('surface:frame-changed',
-      type: 'frame-changed'
       selectedThang: @spriteBoss.selectedSprite?.thang
       progress: progress
       frame: @currentFrame
@@ -325,11 +320,11 @@ module.exports = Surface = class Surface extends CocoClass
     if @lastFrame < @world.frames.length and @currentFrame >= @world.totalFrames - 1
       @ended = true
       @setPaused true
-      Backbone.Mediator.publish 'surface:playback-ended'
+      Backbone.Mediator.publish 'surface:playback-ended', {}
     else if @currentFrame < @world.totalFrames and @ended
       @ended = false
       @setPaused false
-      Backbone.Mediator.publish 'surface:playback-restarted'
+      Backbone.Mediator.publish 'surface:playback-restarted', {}
 
     @lastFrame = @currentFrame
 
@@ -364,12 +359,15 @@ module.exports = Surface = class Surface extends CocoClass
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name
+    @onStreamingWorldUpdated event
+
+  onStreamingWorldUpdated: (event) ->
     @casting = false
     @spriteBoss.play()
 
     # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
     # so only run it after the first world is created.
-    Backbone.Mediator.publish 'level-set-playing', {playing: true} unless event.firstWorld or @setPlayingCalled
+    Backbone.Mediator.publish 'level:set-playing', {playing: true} unless event.firstWorld or @setPlayingCalled
 
     @setWorld event.world
     @onFrameChanged(true)
@@ -390,22 +388,21 @@ module.exports = Surface = class Surface extends CocoClass
   # initialization
 
   initEasel: ->
-    # takes DOM objects, not jQuery objects
-    @stage = new createjs.Stage(@canvas[0])
+    @stage = new createjs.Stage(@canvas[0])  # Takes DOM objects, not jQuery objects.
     canvasWidth = parseInt @canvas.attr('width'), 10
     canvasHeight = parseInt @canvas.attr('height'), 10
-    @camera?.destroy()
-    @camera = new Camera @canvas
-    AudioPlayer.camera = @camera
+    @camera = AudioPlayer.camera = new Camera @canvas
     @layers.push @surfaceLayer = new Layer name: 'Surface', layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
     @layers.push @surfaceTextLayer = new Layer name: 'Surface Text', layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
-    @layers.push @screenLayer = new Layer name: 'Screen', layerPriority: 2, transform: Layer.TRANSFORM_SCREEN, camera: @camera
+    @layers.push @gridLayer = new Layer name: 'Grid', layerPriority: 2, transform: Layer.TRANSFORM_SURFACE, camera: @camera
+    @layers.push @screenLayer = new Layer name: 'Screen', layerPriority: 3, transform: Layer.TRANSFORM_SCREEN, camera: @camera
     @stage.addChild @layers...
     @surfaceLayer.addChild @cameraBorder = new CameraBorder bounds: @camera.bounds
     @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
     @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
-    @countdownScreen ?= new CountdownScreen camera: @camera, layer: @screenLayer
-    @playbackOverScreen ?= new PlaybackOverScreen camera: @camera, layer: @screenLayer
+    @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer
+    @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer
+    @initCoordinates()
     @stage.enableMouseOver(10)
     @stage.addEventListener 'stagemousemove', @onMouseMove
     @stage.addEventListener 'stagemousedown', @onMouseDown
@@ -415,6 +412,11 @@ module.exports = Surface = class Surface extends CocoClass
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
     createjs.Ticker.setFPS @options.frameRate
     @onResize()
+
+  initCoordinates: ->
+    @coordinateGrid ?= new CoordinateGrid {camera: @camera, layer: @gridLayer, textLayer: @surfaceTextLayer}, @world.size()
+    @coordinateGrid.showGrid() if @world.showGrid or @options.grid
+    @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if @world.showCoordinates or @options.coords
 
   onResize: (e) =>
     return if @destroyed
@@ -447,12 +449,10 @@ module.exports = Surface = class Surface extends CocoClass
     @loaded = true
     @spriteBoss.createMarks()
     @spriteBoss.createIndieSprites @world.indieSprites, @options.wizards
-    Backbone.Mediator.publish 'registrar-echo-states'
     @updateState true
     @drawCurrentFrame()
-    @showGrid() if @options.grid  # TODO: pay attention to world grid setting (which we only know when world simulates)
     createjs.Ticker.addEventListener 'tick', @tick
-    Backbone.Mediator.publish 'level:started'
+    Backbone.Mediator.publish 'level:started', {}
 
   createOpponentWizard: (opponent) ->
     @spriteBoss.createOpponentWizard opponent
@@ -460,70 +460,9 @@ module.exports = Surface = class Surface extends CocoClass
   initAudio: ->
     @musicPlayer = new MusicPlayer()
 
-  # grid; should probably refactor into separate class
-
-  showGrid: ->
-    return if @gridShowing()
-    unless @gridLayer
-      @gridLayer = new createjs.Container()
-      @gridShape = new createjs.Shape()
-      @gridLayer.addChild @gridShape
-      @gridLayer.z = 90019001
-      @gridLayer.mouseEnabled = false
-      @gridShape.alpha = 0.125
-      @gridShape.graphics.beginStroke 'blue'
-      gridSize = Math.round(@world.size()[0] / 20)
-      unless gridSize > 0.1
-        return console.error 'Grid size is', gridSize, 'so we can\'t draw a grid.'
-      wopStart = x: 0, y: 0
-      wopEnd = x: @world.size()[0], y: @world.size()[1]
-      supStart = @camera.worldToSurface wopStart
-      supEnd = @camera.worldToSurface wopEnd
-      wop = x: wopStart.x, y: wopStart.y
-      while wop.x < wopEnd.x
-        sup = @camera.worldToSurface wop
-        @gridShape.graphics.mt(sup.x, supStart.y).lt(sup.x, supEnd.y)
-        t = new createjs.Text(wop.x.toFixed(0), '16px Arial', 'blue')
-        t.x = sup.x - t.getMeasuredWidth() / 2
-        t.y = supStart.y - 10 - t.getMeasuredHeight() / 2
-        t.alpha = 0.75
-        @gridLayer.addChild t
-        wop.x += gridSize
-      while wop.y < wopEnd.y
-        sup = @camera.worldToSurface wop
-        @gridShape.graphics.mt(supStart.x, sup.y).lt(supEnd.x, sup.y)
-        t = new createjs.Text(wop.y.toFixed(0), '16px Arial', 'blue')
-        t.x = 10 - t.getMeasuredWidth() / 2
-        t.y = sup.y - t.getMeasuredHeight() / 2
-        t.alpha = 0.75
-        @gridLayer.addChild t
-        wop.y += gridSize
-      @gridShape.graphics.endStroke()
-      bounds = @gridLayer.getBounds()
-      return unless bounds?.width and bounds.height
-      @gridLayer.cache bounds.x, bounds.y, bounds.width, bounds.height
-    @surfaceLayer.addChild @gridLayer
-
-  hideGrid: ->
-    return unless @gridShowing()
-    @gridLayer.parent.removeChild @gridLayer
-
-  gridShowing: ->
-    @gridLayer?.parent?
-
-  onToggleGrid: (e) ->
-    # TODO: figure out a better way of managing grid / debug so it's not split across PlaybackView and Surface
-    e?.preventDefault?()
-    if @gridShowing() then @hideGrid() else @showGrid()
-    flag = $('#grid-toggle i.icon-ok')
-    flag.toggleClass 'invisible', not @gridShowing()
-
-  onSetGrid: (e) ->
-    if e.grid then @showGrid() else @hideGrid()
-
   onToggleDebug: (e) ->
     e?.preventDefault?()
-    Backbone.Mediator.publish 'level-set-debug', {debug: not @debug}
+    Backbone.Mediator.publish 'level:set-debug', {debug: not @debug}
 
   onSetDebug: (e) ->
     return if e.debug is @debug
@@ -547,6 +486,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onMouseUp: (e) =>
     return if @disabled
+    console.log 'yo on mouse up', e
     onBackground = not @stage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-up', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
 

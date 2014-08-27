@@ -64,7 +64,6 @@ module.exports = class LevelComponentEditView extends CocoView
     # Make sure it validates first?
     for key, value of @componentSettingsTreema.data
       @levelComponent.set key, value unless key is 'js' # will compile code if needed
-    Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
     null
 
   buildConfigSchemaTreema: ->
@@ -82,7 +81,6 @@ module.exports = class LevelComponentEditView extends CocoView
 
   onConfigSchemaEdited: =>
     @levelComponent.set 'configSchema', @configSchemaTreema.data
-    Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
 
   buildCodeEditor: ->
     @editor?.destroy()
@@ -100,21 +98,20 @@ module.exports = class LevelComponentEditView extends CocoView
   onEditorChange: =>
     return if @destroyed
     @levelComponent.set 'code', @editor.getValue()
-    Backbone.Mediator.publish 'level-component-edited', levelComponent: @levelComponent
     null
 
   endEditing: (e) ->
-    Backbone.Mediator.publish 'level-component-editing-ended', levelComponent: @levelComponent
+    Backbone.Mediator.publish 'editor:level-component-editing-ended', component: @levelComponent
     null
 
   showVersionHistory: (e) ->
     componentVersionsModal = new ComponentVersionsModal {}, @levelComponent.id
     @openModalView componentVersionsModal
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   startPatchingComponent: (e) ->
     @openModalView new SaveVersionModal({model: @levelComponent})
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   toggleWatchComponent: ->
     button = @$el.find('#component-watch-button')

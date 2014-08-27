@@ -216,7 +216,7 @@ module.exports = class Mark extends CocoClass
   onLoadedThangType: ->
     @build()
     @toggle(@toggleTo) if @toggleTo?
-    Backbone.Mediator.publish 'sprite:loaded'
+    Backbone.Mediator.publish 'sprite:loaded', {sprite: @}
 
   update: (pos=null) ->
     return false unless @on and @mark

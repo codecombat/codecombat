@@ -1,9 +1,9 @@
 module.exports = initializeGoogle = ->
   window.onGPlusLoaded = ->
-    Backbone.Mediator.publish 'gapi-loaded'
+    Backbone.Mediator.publish 'auth:gplus-api-loaded', {}
     return
   window.signinCallback = (authResult) ->
-    Backbone.Mediator.publish 'gplus-logged-in', authResult if authResult['access_token']
+    Backbone.Mediator.publish 'auth:logged-in-with-gplus', authResult if authResult.access_token
     return
   (->
     po = document.createElement('script')

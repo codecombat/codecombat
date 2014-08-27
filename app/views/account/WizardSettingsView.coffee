@@ -8,7 +8,6 @@ SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 module.exports = class WizardSettingsView extends CocoView
   id: 'wizard-settings-view'
   template: template
-  startsLoading: true
 
   events:
     'click .color-group': (e) ->
@@ -27,13 +26,11 @@ module.exports = class WizardSettingsView extends CocoView
 
   loadWizard: ->
     @wizardThangType = new ThangType()
-    @wizardThangType.url = -> '/db/thang.type/wizard'
-    @wizardThangType.fetch()
-    @listenToOnce(@wizardThangType, 'sync', @initCanvas)
+    @wizardThangType.setURL '/db/thang.type/wizard'
+    @supermodel.loadModel @wizardThangType, 'wizard'
 
-  initCanvas: ->
-    @startsLoading = false
-    @render()
+  onLoaded: ->
+    super()
     @spriteBuilder = new SpriteBuilder(@wizardThangType)
     @initStage()
 
@@ -56,7 +53,7 @@ module.exports = class WizardSettingsView extends CocoView
     c
 
   afterRender: ->
-    return if @startsLoading
+    return unless @supermodel.finished()
     wizardSettings = me.get('wizard') or {}
     wizardSettings.colorConfig ?= {}
 

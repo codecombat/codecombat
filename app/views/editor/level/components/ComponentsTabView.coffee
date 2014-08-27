@@ -14,9 +14,7 @@ module.exports = class ComponentsTabView extends CocoView
   className: 'tab-pane'
 
   subscriptions:
-    'edit-level-component': 'editLevelComponent'
-    'level-component-edited': 'onLevelComponentEdited'
-    'level-component-editing-ended': 'onLevelComponentEditingEnded'
+    'editor:level-component-editing-ended': 'onLevelComponentEditingEnded'
 
   events:
     'click #create-new-component-button': 'createNewLevelComponent'
@@ -66,13 +64,10 @@ module.exports = class ComponentsTabView extends CocoView
   createNewLevelComponent: (e) ->
     levelComponentNewView = new LevelComponentNewView supermodel: @supermodel
     @openModalView levelComponentNewView
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   editLevelComponent: (e) ->
     @levelComponentEditView = @insertSubView new LevelComponentEditView(original: e.original, majorVersion: e.majorVersion, supermodel: @supermodel)
-
-  onLevelComponentEdited: (e) ->
-    Backbone.Mediator.publish 'level-components-changed', {}
 
   onLevelComponentEditingEnded: (e) ->
     @removeSubView @levelComponentEditView
@@ -90,6 +85,3 @@ class LevelComponentNode extends TreemaObjectNode
         m.get('original') is @data.original and m.get('version').major is @data.majorVersion
       name = "#{comp.get('system')}.#{comp.get('name')} v#{comp.get('version').major}"
     @buildValueForDisplaySimply valEl, "#{name} (#{count})"
-
-  onEnterPressed: ->
-    Backbone.Mediator.publish 'edit-level-component', original: @data.original, majorVersion: @data.majorVersion

@@ -16,10 +16,9 @@ module.exports = class WizardSprite extends IndieSprite
 
   subscriptions:
     'bus:player-states-changed': 'onPlayerStatesChanged'
-    'me:synced': 'onMeSynced'
+    'auth:me-synced': 'onMeSynced'
     'surface:sprite-selected': 'onSpriteSelected'
-    'echo-self-wizard-sprite': 'onEchoSelfWizardSprite'
-    'echo-all-wizard-sprites': 'onEchoAllWizardSprites'
+    'sprite:echo-all-wizard-sprites': 'onEchoAllWizardSprites'
 
   shortcuts:
     'up': 'onMoveKey'
@@ -36,6 +35,7 @@ module.exports = class WizardSprite extends IndieSprite
       @setNameLabel me.displayName()
     else if options.name
       @setNameLabel options.name
+    Backbone.Mediator.publish 'self-wizard:created', sprite: @
 
   makeIndieThang: (thangType, options) ->
     thang = super thangType, options
@@ -112,7 +112,6 @@ module.exports = class WizardSprite extends IndieSprite
     @targetPos = @getPosFromTarget(@targetSprite or targetPos)
     @endMoveTween()
 
-  onEchoSelfWizardSprite: (e) -> e.payload = @ if @isSelf
   onEchoAllWizardSprites: (e) -> e.payload.push @
   defaultPos: -> x: 35, y: 24, z: @thang.depth / 2 + @thang.bobHeight
   move: (pos, duration) -> @setTarget(pos, duration)
@@ -132,7 +131,7 @@ module.exports = class WizardSprite extends IndieSprite
     @targetPos = @boundWizard targetPos
     @beginMoveTween(duration, isLinear)
     @shoveOtherWizards()
-    Backbone.Mediator.publish('self-wizard:target-changed', {sender: @}) if @isSelf
+    Backbone.Mediator.publish('self-wizard:target-changed', {sprite: @}) if @isSelf
 
   boundWizard: (target) ->
     # Passed an {x, y} in world coordinates, returns {x, y} within world bounds
@@ -179,7 +178,7 @@ module.exports = class WizardSprite extends IndieSprite
   shoveOtherWizards: (removeMe) ->
     return unless @targetSprite
     allWizards = []
-    Backbone.Mediator.publish('echo-all-wizard-sprites', {payload: allWizards})
+    Backbone.Mediator.publish 'sprite:echo-all-wizard-sprites', payload: allWizards
     allOfUs = (wizard for wizard in allWizards when wizard.targetSprite is @targetSprite)
     allOfUs = (wizard for wizard in allOfUs when wizard isnt @) if removeMe
 
@@ -271,4 +270,4 @@ module.exports = class WizardSprite extends IndieSprite
     position = {x: @targetPos.x + x, y: @targetPos.y + y}
     @setTarget(position, interval, true)
     @updatePosition()
-    Backbone.Mediator.publish 'camera-zoom-to', position, interval
+    Backbone.Mediator.publish 'camera:zoom-to', pos: position, duration: interval

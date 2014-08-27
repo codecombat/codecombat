@@ -56,13 +56,10 @@ module.exports = class LevelThangEditView extends CocoView
 
   saveThang: (e) ->
     # Make sure it validates first?
-    event =
-      thangData: @thangData
-      id: @oldID
-    Backbone.Mediator.publish 'level-thang-edited', event
+    Backbone.Mediator.publish 'editor:level-thang-edited', thangData: @thangData, thangID: @oldID
 
   navigateToAllThangs: ->
-    Backbone.Mediator.publish 'level-thang-done-editing'
+    Backbone.Mediator.publish 'editor:level-thang-done-editing', {}
 
   toggleNameEdit: ->
     link = @$el.find '#thang-name-link'

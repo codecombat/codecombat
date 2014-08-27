@@ -18,7 +18,7 @@ module.exports = class RecoverModal extends ModalView
     'keydown input': 'recoverAccount'
 
   subscriptions:
-    'server-error': 'onServerError'
+    'errors:server-error': 'onServerError'
 
   onServerError: (e) -> # TODO: work error handling into a separate forms system
     @disableModalInProgress(@$el)

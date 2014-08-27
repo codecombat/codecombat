@@ -19,23 +19,14 @@ module.exports = class AddLevelSystemModal extends ModalView
   constructor: (options) ->
     super options
     @extantSystems = options.extantSystems ? []
-
-  render: ->
-    if not @systems
-      @systems = @supermodel.getCollection new LevelSystemSearchCollection()
-    unless @systems.loaded
-      @listenToOnce(@systems, 'sync', @onSystemsSync)
-      @systems.fetch()
-    super() # do afterRender at the end
+    @systems = @supermodel.loadCollection(new LevelSystemSearchCollection(), 'systems').model
 
   afterRender: ->
     super()
-    return @showLoading() unless @systems?.loaded
-    @hideLoading()
+    return unless @supermodel.finished()
     @renderAvailableSystems()
 
   renderAvailableSystems: ->
-    return unless @systems
     ul = @$el.find('ul.available-systems-list').empty()
     systems = (m.attributes for m in @systems.models)
     _.remove systems, (system) =>
@@ -43,10 +34,6 @@ module.exports = class AddLevelSystemModal extends ModalView
     systems = _.sortBy systems, 'name'
     for system in systems
       ul.append $(availableSystemTemplate(system: system))
-
-  onSystemsSync: ->
-    @supermodel.addCollection @systems
-    @render()
 
   onAddSystem: (e) ->
     id = $(e.currentTarget).data('system-id')

@@ -28,22 +28,21 @@ module.exports = class ThangsTabView extends CocoView
   id: 'editor-level-thangs-tab-view'
   className: 'tab-pane active'
   template: thangs_template
-  startsLoading: true
 
   subscriptions:
     'surface:sprite-selected': 'onExtantThangSelected'
     'surface:mouse-moved': 'onSurfaceMouseMoved'
     'surface:mouse-over': 'onSurfaceMouseOver'
     'surface:mouse-out': 'onSurfaceMouseOut'
-    'edit-level-thang': 'editThang'
-    'level-thang-edited': 'onLevelThangEdited'
-    'level-thang-done-editing': 'onLevelThangDoneEditing'
-    'level:view-switched': 'onViewSwitched'
+    'editor:edit-level-thang': 'editThang'
+    'editor:level-thang-edited': 'onLevelThangEdited'
+    'editor:level-thang-done-editing': 'onLevelThangDoneEditing'
+    'editor:view-switched': 'onViewSwitched'
     'sprite:dragged': 'onSpriteDragged'
     'sprite:mouse-up': 'onSpriteMouseUp'
     'sprite:double-clicked': 'onSpriteDoubleClicked'
     'surface:stage-mouse-up': 'onStageMouseUp'
-    'randomize:terrain-generated': 'onRandomizeTerrain'
+    'editor:random-terrain-generated': 'onRandomTerrainGenerated'
 
   events:
     'click #extant-thangs-filter button': 'onFilterExtantThangs'
@@ -233,7 +232,7 @@ module.exports = class ThangsTabView extends CocoView
     return unless e.thang
     @editThang thangID: e.thang.id
 
-  onRandomizeTerrain: (e) ->
+  onRandomTerrainGenerated: (e) ->
     @thangsBatch = []
     nonRandomThangs = (thang for thang in @thangsTreema.get('') when not /Random/.test thang.id)
     @thangsTreema.set '', nonRandomThangs
@@ -403,7 +402,6 @@ module.exports = class ThangsTabView extends CocoView
     thang.isSelectable = not thang.isLand for thang in @world.thangs  # let us select walls and such
     @surface?.setWorld @world
     @selectAddThangType @addThangType, @cloneSourceThang if @addThangType  # make another addThang sprite, since the World just refreshed
-    Backbone.Mediator.publish 'level-thangs-changed', thangsData: @thangsTreema.data
     null
 
   onTreemaThangSelected: (e, selectedTreemas) =>
@@ -450,13 +448,13 @@ module.exports = class ThangsTabView extends CocoView
     @editThangView = new LevelThangEditView thangData: thangData, level: @level, world: @world, supermodel: @supermodel  # supermodel needed for checkForMissingSystems
     @insertSubView @editThangView
     @$el.find('.thangs-column').hide()
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   onLevelThangEdited: (e) ->
     newThang = e.thangData
-    @thangsTreema.set "id=#{e.id}", newThang
+    @thangsTreema.set "id=#{e.thangID}", newThang
 
-  onLevelThangDoneEditing: ->
+  onLevelThangDoneEditing: (e) ->
     @removeSubView @editThangView
     @editThangView = null
     @onThangsChanged()
@@ -531,4 +529,4 @@ class ThangNode extends TreemaObjectNode
     @buildValueForDisplaySimply valEl, s
 
   onEnterPressed: ->
-    Backbone.Mediator.publish 'edit-level-thang', thangID: @data.id
+    Backbone.Mediator.publish 'editor:edit-level-thang', thangID: @data.id

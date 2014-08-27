@@ -18,8 +18,7 @@ module.exports = class LadderHomeView extends RootView
   constructor: (options) ->
     super options
     @levelStatusMap = {}
-    @sessions = new LevelSessionsCollection()
-    @sessions.fetch()
+    @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', null, 0).model
     @listenToOnce @sessions, 'sync', @onSessionsLoaded
 
   onSessionsLoaded: (e) ->

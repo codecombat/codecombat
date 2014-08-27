@@ -1,78 +1,43 @@
+c = require 'schemas/schemas'
+
 module.exports =
-  'save-new-version':
-    title: 'Save New Version'
-    $schema: 'http://json-schema.org/draft-04/schema#'
-    description: 'Published when a version gets saved'
-    type: 'object'
-    properties:
-      major:
-        type: 'boolean'
-      commitMessage:
-        type: 'string'
-    required: ['major', 'commitMessage']
-    additionalProperties: false
+  'editor:save-new-version': c.object {title: 'Save New Version', description: 'Published when a version gets saved', required: ['major', 'commitMessage']},
+    major: {type: 'boolean'}
+    commitMessage: {type: 'string'}
 
-  # TODO all these events starting with 'level:' should have 'editor' in their name
-  # to avoid confusion with level play events
+  'editor:view-switched': c.object {title: 'Level View Switched', description: 'Published whenever the view switches'}
 
-  'level:view-switched':
-    title: 'Level View Switched'
-    $schema: 'http://json-schema.org/draft-04/schema#'
-    description: 'Published whenever the view switches'
-    $ref: 'jQueryEvent'
+  'editor:level-component-editing-ended': c.object {required: ['component']},
+    component: {type: 'object'}
 
-  'level-components-changed':
-    {} # TODO schema
+  'editor:edit-level-system': c.object {required: ['original', 'majorVersion']},
+    original: {type: 'string'}
+    majorVersion: {type: 'integer', minimum: 0}
 
-  'edit-level-component':
-    {} # TODO schema
+  'editor:level-system-added': c.object {required: ['system']},
+    system: {type: 'object'}
 
-  'level-component-edited':
-    {} # TODO schema
+  'editor:level-system-editing-ended': c.object {required: ['system']},
+    system: {type: 'object'}
 
-  'level-component-editing-ended':
-    {} # TODO schema
+  'editor:edit-level-thang': c.object {required: ['thangID']},
+    thangID: {type: 'string'}
 
-  'level-systems-changed':
-    {} # TODO schema
+  'editor:level-thang-edited': c.object {required: ['thangID', 'thangData']},
+    thangID: {type: 'string'}
+    thangData: {type: 'object'}
 
-  'edit-level-system':
-    {} # TODO schema
+  'editor:level-thang-done-editing': c.object {}
 
-  'level-system-added':
-    {} # TODO schema
+  'editor:level-loaded': c.object {required: ['level']},
+    level: {type: 'object'}
 
-  'level-system-edited':
-    {} # TODO schema
+  'level:reload-from-data': c.object {required: ['level', 'supermodel']},
+    level: {type: 'object'}
+    supermodel: {type: 'object'}
 
-  'level-system-editing-ended':
-    {} # TODO schema
+  'level:reload-thang-type': c.object {required: ['thangType']},
+    thangType: {type: 'object'}
 
-  'level-thangs-changed':
-    title: 'Level Thangs Changed'
-    $schema: 'http://json-schema.org/draft-04/schema#'
-    description: 'Published when a Thang changes'
-    type: 'object'
-    properties:
-      thangsData:
-        type: 'array'
-    required: ['thangsData']
-    additionalProperties: false
-
-  'edit-level-thang':
-    {} # TODO schema
-
-  'level-thang-edited':
-    {} # TODO schema
-
-  'level-thang-done-editing':
-    {} # TODO schema
-
-  'level-loaded':
-    {} # TODO schema
-
-  'level-reload-from-data':
-    {} # TODO schema
-
-  'save-new-version':
-    {} # TODO schema
+  'editor:random-terrain-generated': c.object {required: ['thangs']},
+    thangs: c.array {}, {type: 'object'}

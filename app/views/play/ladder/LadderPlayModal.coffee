@@ -9,7 +9,6 @@ module.exports = class LadderPlayModal extends ModalView
   id: 'ladder-play-modal'
   template: template
   closeButton: true
-  startsLoading: true
   @shownTutorialButton: false
   tutorialLevelExists: null
 
@@ -60,11 +59,13 @@ module.exports = class LadderPlayModal extends ModalView
         challenger.opponentWizard = @nameMap[challenger.opponentID]?.wizard or {}
       @checkWizardLoaded()
 
-    $.ajax('/db/user/-/names', {
+    userNamesRequest = @supermodel.addRequestResource 'user_names', {
+      url: '/db/user/-/names'
       data: {ids: ids, wizard: true}
-      type: 'POST'
+      method: 'POST'
       success: success
-    })
+    }, 0
+    userNamesRequest.load()
 
   # PART 3: Make sure wizard is loaded
 
@@ -76,7 +77,6 @@ module.exports = class LadderPlayModal extends ModalView
   finishRendering: ->
     @checkTutorialLevelExists (exists) =>
       @tutorialLevelExists = exists
-      @startsLoading = false
       @render()
       @maybeShowTutorialButtons()
 

@@ -52,7 +52,7 @@ module.exports = class LevelGuideModal extends ModalView
 
   afterInsert: ->
     super()
-    Backbone.Mediator.publish 'level:docs-shown'
+    Backbone.Mediator.publish 'level:docs-shown', {}
 
   onHidden: ->
-    Backbone.Mediator.publish 'level:docs-hidden'
+    Backbone.Mediator.publish 'level:docs-hidden', {}

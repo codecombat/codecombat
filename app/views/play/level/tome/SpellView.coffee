@@ -31,8 +31,8 @@ module.exports = class SpellView extends CocoView
     'emacs': 'ace/keyboard/emacs'
 
   subscriptions:
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
     'surface:coordinate-selected': 'onCoordinateSelected'
     'god:new-world-created': 'onNewWorld'
@@ -42,14 +42,14 @@ module.exports = class SpellView extends CocoView
     'tome:reload-code': 'onCodeReload'
     'tome:spell-changed': 'onSpellChanged'
     'level:session-will-save': 'onSessionWillSave'
-    'modal-closed': 'focus'
+    'modal:closed': 'focus'
     'tome:focus-editor': 'focus'
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
     'tome:change-language': 'onChangeLanguage'
     'tome:change-config': 'onChangeEditorConfig'
     'tome:update-snippets': 'addZatannaSnippets'
     'tome:insert-snippet': 'onInsertSnippet'
-    'spell-beautify': 'onSpellBeautify'
+    'tome:spell-beautify': 'onSpellBeautify'
     'script:state-changed': 'onScriptStateChange'
 
   events:
@@ -125,7 +125,7 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'toggle-playing'
       bindKey: {win: 'Ctrl-P', mac: 'Command-P|Ctrl-P'}
-      exec: -> Backbone.Mediator.publish 'level-toggle-playing'
+      exec: -> Backbone.Mediator.publish 'level:toggle-playing', {}
     addCommand
       name: 'end-current-script'
       bindKey: {win: 'Shift-Space', mac: 'Shift-Space'}
@@ -134,46 +134,46 @@ module.exports = class SpellView extends CocoView
       # Maybe we could temporarily set ourselves to read-only if we somehow know that a script is active?
       exec: =>
         if @scriptRunning
-          Backbone.Mediator.publish 'level:shift-space-pressed'
+          Backbone.Mediator.publish 'level:shift-space-pressed', {}
         else
           @ace.insert ' '
 
     addCommand
       name: 'end-all-scripts'
       bindKey: {win: 'Escape', mac: 'Escape'}
-      exec: -> Backbone.Mediator.publish 'level:escape-pressed'
+      exec: -> Backbone.Mediator.publish 'level:escape-pressed', {}
     addCommand
       name: 'toggle-grid'
       bindKey: {win: 'Ctrl-G', mac: 'Command-G|Ctrl-G'}
-      exec: -> Backbone.Mediator.publish 'level-toggle-grid'
+      exec: -> Backbone.Mediator.publish 'level:toggle-grid', {}
     addCommand
       name: 'toggle-debug'
       bindKey: {win: 'Ctrl-\\', mac: 'Command-\\|Ctrl-\\'}
-      exec: -> Backbone.Mediator.publish 'level-toggle-debug'
+      exec: -> Backbone.Mediator.publish 'level:toggle-debug', {}
     addCommand
       name: 'toggle-pathfinding'
       bindKey: {win: 'Ctrl-O', mac: 'Command-O|Ctrl-O'}
-      exec: -> Backbone.Mediator.publish 'level-toggle-pathfinding'
+      exec: -> Backbone.Mediator.publish 'level:toggle-pathfinding', {}
     addCommand
       name: 'level-scrub-forward'
       bindKey: {win: 'Ctrl-]', mac: 'Command-]|Ctrl-]'}
-      exec: -> Backbone.Mediator.publish 'level-scrub-forward'
+      exec: -> Backbone.Mediator.publish 'level:scrub-forward', {}
     addCommand
       name: 'level-scrub-back'
       bindKey: {win: 'Ctrl-[', mac: 'Command-[|Ctrl-]'}
-      exec: -> Backbone.Mediator.publish 'level-scrub-back'
+      exec: -> Backbone.Mediator.publish 'level:scrub-back', {}
     addCommand
       name: 'spell-step-forward'
       bindKey: {win: 'Ctrl-Alt-]', mac: 'Command-Alt-]|Ctrl-Alt-]'}
-      exec: -> Backbone.Mediator.publish 'spell-step-forward'
+      exec: -> Backbone.Mediator.publish 'tome:spell-step-forward', {}
     addCommand
       name: 'spell-step-backward'
       bindKey: {win: 'Ctrl-Alt-[', mac: 'Command-Alt-[|Ctrl-Alt-]'}
-      exec: -> Backbone.Mediator.publish 'spell-step-backward'
+      exec: -> Backbone.Mediator.publish 'tome:spell-step-backward', {}
     addCommand
       name: 'spell-beautify'
       bindKey: {win: 'Ctrl-Shift-B', mac: 'Command-Shift-B|Ctrl-Shift-B'}
-      exec: -> Backbone.Mediator.publish 'spell-beautify'
+      exec: -> Backbone.Mediator.publish 'tome:spell-beautify', {}
     addCommand
       name: 'prevent-line-jump'
       bindKey: {win: 'Ctrl-L', mac: 'Command-L'}
@@ -182,7 +182,7 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'open-fullscreen-editor'
       bindKey: {win: 'Alt-Shift-F', mac: 'Ctrl-Shift-F'}
-      exec: -> Backbone.Mediator.publish 'tome:fullscreen-view'
+      exec: -> Backbone.Mediator.publish 'tome:fullscreen-view', {}
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -281,11 +281,11 @@ module.exports = class SpellView extends CocoView
 
   notifyEditingEnded: =>
     return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
-    Backbone.Mediator.publish('tome:editing-ended')
+    Backbone.Mediator.publish 'tome:editing-ended', {}
 
   notifyEditingBegan: =>
     return if @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
-    Backbone.Mediator.publish('tome:editing-began')
+    Backbone.Mediator.publish 'tome:editing-began', {}
 
   onManualCast: (e) ->
     cast = @$el.parent().length

@@ -19,11 +19,7 @@ module.exports = Bus = class Bus extends CocoClass
     Bus.activeBuses[@docName] = @
 
   subscriptions:
-    'level-bus-echo-states': 'onEchoStates'
-    'me:synced': 'onMeSynced'
-
-  onEchoStates: ->
-    @notifyStateChanges()
+    'auth:me-synced': 'onMeSynced'
 
   connect: ->
     Backbone.Mediator.publish 'bus:connecting', {bus: @}
@@ -99,7 +95,7 @@ module.exports = Bus = class Bus extends CocoClass
     @onPlayerJoined(snapshot) if player.connected and not wasConnected
     Backbone.Mediator.publish('bus:player-states-changed', {states: @players, bus: @})
 
-  onMeSynced: =>
+  onMeSynced: ->
     @myConnection?.child('name').set(me.get('name'))
 
   countPlayers: -> _.size(@players)

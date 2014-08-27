@@ -36,8 +36,8 @@ module.exports = class RootView extends CocoView
   showNewAchievement: (achievement, earnedAchievement) ->
     popup = new AchievementPopup achievement: achievement, earnedAchievement: earnedAchievement
 
-  handleNewAchievements: (earnedAchievements) ->
-    _.each earnedAchievements.models, (earnedAchievement) =>
+  handleNewAchievements: (e) ->
+    _.each e.earnedAchievements.models, (earnedAchievement) =>
       achievement = new Achievement(_id: earnedAchievement.get('achievement'))
       achievement.fetch
         success: (achievement) => @showNewAchievement(achievement, earnedAchievement)

@@ -14,7 +14,6 @@ module.exports = class AddThangsView extends CocoView
   id: 'add-thangs-column'
   className: 'add-thangs-palette thangs-column'
   template: add_thangs_template
-  startsLoading: false
 
   events:
     'keyup input#thang-search': 'runSearch'
@@ -56,6 +55,10 @@ module.exports = class AddThangsView extends CocoView
 
   afterRender: ->
     super()
+    @buildAddThangPopovers()
+
+  buildAddThangPopovers: ->
+    @$el.find('#thangs-list .add-thang-palette-icon').tooltip(container: 'body', animation: false)
 
   runSearch: (e) =>
     if e?.which is 27

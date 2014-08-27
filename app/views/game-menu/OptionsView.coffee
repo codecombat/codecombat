@@ -61,7 +61,7 @@ module.exports = class OptionsView extends CocoView
     volume = @volumeSlider.slider('value')
     me.set 'volume', volume
     @$el.find('#option-volume-value').text (volume * 100).toFixed(0) + '%'
-    Backbone.Mediator.publish 'level-set-volume', volume: volume
+    Backbone.Mediator.publish 'level:set-volume', volume: volume
 
   onHidden: ->
     if @playerName and @playerName isnt me.get('name')
@@ -72,7 +72,7 @@ module.exports = class OptionsView extends CocoView
     @aceConfig.behaviors = @$el.find('#option-behaviors').prop('checked')
     @aceConfig.liveCompletion = @$el.find('#option-live-completion').prop('checked')
     me.set 'aceConfig', @aceConfig
-    Backbone.Mediator.publish 'tome:change-config'
+    Backbone.Mediator.publish 'tome:change-config', {}
 
   updateMusic: ->
     me.set 'music', @$el.find('#option-music').prop('checked')

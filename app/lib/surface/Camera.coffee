@@ -40,9 +40,9 @@ module.exports = class Camera extends CocoClass
   # INIT
 
   subscriptions:
-    'camera-zoom-in': 'onZoomIn'
-    'camera-zoom-out': 'onZoomOut'
-    'camera-zoom-to': 'onZoomTo'
+    'camera:zoom-in': 'onZoomIn'
+    'camera:zoom-out': 'onZoomOut'
+    'camera:zoom-to': 'onZoomTo'
     'level:restarted': 'onLevelRestarted'
     'surface:mouse-scrolled': 'onMouseScrolled'
     'sprite:mouse-down': 'onMouseDown'
@@ -187,7 +187,7 @@ module.exports = class Camera extends CocoClass
       y: target.y + (@lastPos.y - e.originalEvent.rawY) / @zoom
     @zoomTo newPos, @zoom, 0
     @lastPos = {x: e.originalEvent.rawX, y: e.originalEvent.rawY}
-    Backbone.Mediator.publish 'camera:dragged'
+    Backbone.Mediator.publish 'camera:dragged', {}
 
   onLevelRestarted: ->
     @setBounds(@firstBounds, false)
@@ -322,5 +322,5 @@ module.exports = class Camera extends CocoClass
     createjs.Tween.removeTweens @
     super()
 
-  onZoomTo: (pos, time) ->
-    @zoomTo @worldToSurface(pos), @zoom, time
+  onZoomTo: (e) ->
+    @zoomTo @worldToSurface(e.pos), @zoom, e.duration

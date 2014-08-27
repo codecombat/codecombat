@@ -72,7 +72,7 @@ module.exports = class LevelEditView extends RootView
     super()
     return unless @supermodel.finished()
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
-      Backbone.Mediator.publish 'level:view-switched', e
+      Backbone.Mediator.publish 'editor:view-switched', {}
     @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
     @insertSubView new SettingsTabView supermodel: @supermodel
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
@@ -81,7 +81,7 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new RelatedAchievementsView supermodel: @supermodel, level: @level
     @insertSubView new ComponentDocsView  # Don't give it the supermodel, it'll pollute it!
 
-    Backbone.Mediator.publish 'level-loaded', level: @level
+    Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
     @listenTo @patchesView, 'accepted-patch', -> location.reload()
@@ -96,7 +96,7 @@ module.exports = class LevelEditView extends RootView
   onPlayLevel: (e) ->
     team = $(e.target).data('team')
     sendLevel = =>
-      @childWindow.Backbone.Mediator.publish 'level-reload-from-data', level: @level, supermodel: @supermodel
+      @childWindow.Backbone.Mediator.publish 'level:reload-from-data', level: @level, supermodel: @supermodel
     if @childWindow and not @childWindow.closed
       # Reset the LevelView's world, but leave the rest of the state alone
       sendLevel()
@@ -134,20 +134,20 @@ module.exports = class LevelEditView extends RootView
 
   startPatchingLevel: (e) ->
     @openModalView new SaveVersionModal({model: @level})
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   startCommittingLevel: (e) ->
     @openModalView new SaveLevelModal level: @level, supermodel: @supermodel
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   startForking: (e) ->
     @openModalView new ForkModal model: @level, editorPath: 'level'
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   showVersionHistory: (e) ->
     versionHistoryView = new VersionHistoryView level: @level, @levelID
     @openModalView versionHistoryView
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   toggleWatchLevel: ->
     button = @$el.find('#level-watch-button')

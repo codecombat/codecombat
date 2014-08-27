@@ -57,11 +57,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
   currentAction: null  # related action that is right now playing
 
   subscriptions:
-    'level-sprite-dialogue': 'onDialogue'
-    'level-sprite-clear-dialogue': 'onClearDialogue'
-    'level-set-letterbox': 'onSetLetterbox'
+    'level:sprite-dialogue': 'onDialogue'
+    'level:sprite-clear-dialogue': 'onClearDialogue'
+    'level:set-letterbox': 'onSetLetterbox'
     'surface:ticked': 'onSurfaceTicked'
-    'level-sprite-move': 'onMove'
+    'sprite:move': 'onMove'
 
   constructor: (@thangType, options) ->
     super()
@@ -519,14 +519,11 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       @imageObject.on 'pressmove', @onMouseEvent, @, false, 'sprite:dragged'
       @imageObject.on 'pressup',   @onMouseEvent, @, false, 'sprite:mouse-up'
 
-  onSetLetterbox: (e) ->
-    @letterboxOn = e.on
-
   onMouseEvent: (e, ourEventName) ->
     return if @letterboxOn or not @imageObject
     p = @imageObject
     p = p.parent while p.parent
-    newEvent = sprite: @, thang: @thang, originalEvent: e, canvas:p.canvas
+    newEvent = sprite: @, thang: @thang, originalEvent: e, canvas: p.canvas
     @trigger ourEventName, newEvent
     Backbone.Mediator.publish ourEventName, newEvent
 
@@ -678,15 +675,18 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     label = @addLabel 'dialogue', Label.STYLE_DIALOGUE
     label.setText e.blurb or '...'
     sound = e.sound ? AudioPlayer.soundForDialogue e.message, @thangType.get 'soundTriggers'
-    @instance?.stop()
-    if @instance = @playSound sound, false
-      @instance.addEventListener 'complete', -> Backbone.Mediator.publish 'dialogue-sound-completed'
+    @dialogueSoundInstance?.stop()
+    if @dialogueSoundInstance = @playSound sound, false
+      @dialogueSoundInstance.addEventListener 'complete', -> Backbone.Mediator.publish 'sprite:dialogue-sound-completed', {}
     @notifySpeechUpdated e
 
   onClearDialogue: (e) ->
     @labels.dialogue?.setText null
-    @instance?.stop()
+    @dialogueSoundInstance?.stop()
     @notifySpeechUpdated {}
+
+  onSetLetterbox: (e) ->
+    @letterboxOn = e.on
 
   setNameLabel: (name) ->
     label = @addLabel 'name', Label.STYLE_NAME
@@ -733,6 +733,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
     return null unless sound
     delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.getFPS() else 0
     name = AudioPlayer.nameForSoundReference sound
+    AudioPlayer.preloadSoundReference sound
     instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
     #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', instance
     instance
@@ -749,7 +750,7 @@ module.exports = CocoSprite = class CocoSprite extends CocoClass
       distance = @thang.pos.distance target.pos
       offset = Math.max(target.width, target.height, 2) / 2 + 3
       pos = Vector.add(@thang.pos, heading.multiply(distance - offset))
-    Backbone.Mediator.publish 'level-sprite-clear-dialogue', {}
+    Backbone.Mediator.publish 'level:sprite-clear-dialogue', {}
     @onClearDialogue()
     args = [pos]
     args.push(e.duration) if e.duration?

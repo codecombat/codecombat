@@ -17,7 +17,6 @@ class VersionsViewCollection extends CocoCollection
 
 module.exports = class VersionsModal extends ModalView
   template: template
-  startsLoading: true
   plain: true
   modalWidthPercent: 80
 

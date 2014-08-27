@@ -5,6 +5,12 @@ block modal-header-content
 
 block modal-body-content
   
+  h4.language-selection(data-i18n="ladder.select_your_language") Select your language!
+  .form-group.select-group
+    select#tome-language(name="language")
+      for option in languages
+        option(value=option.id selected=(language === option.id))= option.name
+
   div#noob-view.secret
     a(href="/play/level/#{levelID}-tutorial").btn.btn-success.btn-block.btn-lg
       p
@@ -18,11 +24,6 @@ block modal-body-content
         strong(data-i18n="ladder.tutorial_not_sure") Not sure what's going on?
         |  
         a(href="/play/level/#{levelID}-tutorial", data-i18n="ladder.tutorial_play_first") Play the tutorial first.
-    h4.language-selection(data-i18n="ladder.select_your_language") Select your language!
-    .form-group.select-group
-      select#tome-language(name="language")
-        for option in languages
-          option(value=option.id selected=(language === option.id))= option.name
     a(href="/play/level/#{levelID}?team=#{teamID}")
       div.play-option
         img(src=myPortrait).my-icon.only-one

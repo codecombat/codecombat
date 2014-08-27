@@ -8,7 +8,6 @@ LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 module.exports = class MyMatchesTabView extends CocoView
   id: 'my-matches-tab-view'
   template: require 'templates/play/ladder/my_matches_tab'
-  startsLoading: true
 
   constructor: (options, @level, @sessions) ->
     super(options)
@@ -31,7 +30,7 @@ module.exports = class MyMatchesTabView extends CocoView
           continue
         ids.push id unless @nameMap[id]
 
-    return @finishRendering() unless ids.length
+    return unless ids.length
 
     success = (nameMap) =>
       return if @destroyed
@@ -39,17 +38,15 @@ module.exports = class MyMatchesTabView extends CocoView
         for match in session.get('matches') or []
           opponent = match.opponents[0]
           @nameMap[opponent.userID] ?= nameMap[opponent.userID]?.name ? '<bad match data>'
-      @finishRendering()
+      @render() if @supermodel.finished()
 
-    $.ajax('/db/user/-/names', {
+    userNamesRequest = @supermodel.addRequestResource 'user_names', {
+      url: '/db/user/-/names'
       data: {ids: ids}
-      type: 'POST'
+      method: 'POST'
       success: success
-    })
-
-  finishRendering: ->
-    @startsLoading = false
-    @render()
+    }, 0
+    userNamesRequest.load()
 
   getRenderData: ->
     ctx = super()
@@ -64,7 +61,7 @@ module.exports = class MyMatchesTabView extends CocoView
       state = 'tie' if match.metrics.rank is opponent.metrics.rank
       fresh = match.date > (new Date(new Date() - 20 * 1000)).toISOString()
       if fresh
-        Backbone.Mediator.publish 'play-sound', trigger: 'chat_received'
+        Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'chat_received'
       {
         state: state
         opponentName: @nameMap[opponent.userID]
@@ -91,7 +88,7 @@ module.exports = class MyMatchesTabView extends CocoView
         team.scoreHistory = scoreHistory
 
       if not team.isRanking and @previouslyRankingTeams[team.id]
-        Backbone.Mediator.publish 'play-sound', trigger: 'cast-end'
+        Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'cast-end'
       @previouslyRankingTeams[team.id] = team.isRanking
 
     ctx

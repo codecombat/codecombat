@@ -2,7 +2,7 @@ Backbone.Mediator.setValidationEnabled false
 app = require 'application'
 
 channelSchemas =
-  'app': require './schemas/subscriptions/app'
+  'auth': require './schemas/subscriptions/auth'
   'bus': require './schemas/subscriptions/bus'
   'editor': require './schemas/subscriptions/editor'
   'errors': require './schemas/subscriptions/errors'
@@ -10,8 +10,8 @@ channelSchemas =
   'play': require './schemas/subscriptions/play'
   'surface': require './schemas/subscriptions/surface'
   'tome': require './schemas/subscriptions/tome'
-  'user': require './schemas/subscriptions/user'
-  'world': require './schemas/subscriptions/world'
+  'god': require './schemas/subscriptions/god'
+  'scripts': require './schemas/subscriptions/scripts'
 
 definitionSchemas =
   'bus': require './schemas/definitions/bus'

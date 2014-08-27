@@ -11,7 +11,7 @@ module.exports = class ScriptsTabView extends CocoView
   className: 'tab-pane'
 
   subscriptions:
-    'level-loaded': 'onLevelLoaded'
+    'editor:level-loaded': 'onLevelLoaded'
 
   constructor: (options) ->
     super options
@@ -133,7 +133,7 @@ class ScriptNode extends TreemaObjectNode
   onDeletePressed: (e) ->
     returnVal = super(e)
     if @callbacks.removeChild
-      @callbacks.removeChild() 
+      @callbacks.removeChild()
     returnVal
 
   onRightArrowPressed: ->
@@ -159,7 +159,7 @@ class EventPropsNode extends TreemaNode.nodeMap.string
     joined = '(unset)' if not joined.length
     @buildValueForDisplaySimply valEl, joined
 
-  buildValueForEditing: (valEl) -> 
+  buildValueForEditing: (valEl) ->
     super(valEl)
     channel = @getRoot().data.channel
     channelSchema = Backbone.Mediator.channelSchemas[channel]
