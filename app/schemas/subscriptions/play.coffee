@@ -140,7 +140,7 @@ module.exports =
               {type: 'integer', minimum: 0}
               {type: 'string', enum: ['end']}
             ]
-          team: {type: ['null', 'string']}
+          team: {type: ['null', 'string', 'undefined']}
     goals: c.array {},
       {type: 'object'}
     overallStatus:

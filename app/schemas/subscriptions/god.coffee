@@ -16,7 +16,7 @@ goalStatesSchema =
           {type: 'integer', minimum: 0}
           {type: 'string', enum: ['end']}
         ]
-      team: {type: ['null', 'string']}
+      team: {type: ['null', 'string', 'undefined']}
 
 worldUpdatedEventSchema = c.object {required: ['world', 'firstWorld', 'goalStates', 'team', 'firstChangedFrame']},
   world: {type: 'object'}
