@@ -125,7 +125,8 @@ module.exports = class LevelBus extends Bus
     @changedSessionProperties.teamSpells = true
     @session.set({'teamSpells': @teamSpellMap})
     @saveSession()
-    if spellTeam is me.team or spellTeam is 'common'
+    if spellTeam is me.team or (e.spell.otherSession and spellTeam isnt e.spell.otherSession.get('team'))
+      # https://github.com/codecombat/codecombat/issues/81
       @onSpellChanged e  # Save the new spell to the session, too.
 
   onScriptStateChanged: (e) ->
