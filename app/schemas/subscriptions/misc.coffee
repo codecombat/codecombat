@@ -1,23 +1,29 @@
+c = require 'schemas/schemas'
+
 module.exports =
-  'audio-played:loaded':
-    {} # TODO schema
+  'application:idle-changed': c.object {},
+    idle: {type: 'boolean'}
 
-  # TODO location is debatable
-  'note-group-started':
-    {} # TODO schema
+  'audio-player:loaded': c.object {required: ['sender']},
+    sender: {type: 'object'}
 
-  'note-group-ended':
-    {} # TODO schema
+  'audio-player:play-sound': c.object {required: ['trigger']},
+    trigger: {type: 'string'}
+    volume: {type: 'number', minimum: 0, maximum: 1}
 
-  'modal-opened':
-    {} # TODO schema
+  'music-player:play-music': c.object {required: ['play']},
+    play: {type: 'boolean'}
+    file: {type: 'string'}
 
-  'modal-closed':
-    {} # TODO schema
+  'modal:opened': c.object {}
 
-  # TODO I propose prepending 'modal:'
-  'save-new-version':
-    {} # TODO schema
+  'modal:closed': c.object {}
 
-  'router:navigate':
-    {} # TODO schema
+  'router:navigate': c.object {required: ['route']},
+    route: {type: 'string'}
+    view: {type: 'object'}
+    viewClass: {type: 'object'}
+    viewArgs: {type: 'array'}
+
+  'achievements:new': c.object {required: 'earnedAchievements'},
+    earnedAchievements: {type: 'object'}

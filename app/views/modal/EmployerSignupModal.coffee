@@ -11,8 +11,8 @@ module.exports = class EmployerSignupModal extends ModalView
   closeButton: true
 
   subscriptions:
-    'server-error': 'onServerError'
-    'linkedin-loaded': 'onLinkedInLoaded'
+    'errors:server-error': 'onServerError'
+    'auth:linkedin-api-loaded': 'onLinkedInLoaded'
     'created-user-without-reload': 'createdAccount'
 
   events:

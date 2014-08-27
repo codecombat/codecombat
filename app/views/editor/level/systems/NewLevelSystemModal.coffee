@@ -32,5 +32,5 @@ module.exports = class NewLevelSystemModal extends ModalView
       forms.applyErrorsToForm(@$el, JSON.parse(res.responseText))
     res.success =>
       @supermodel.registerModel system
-      Backbone.Mediator.publish 'edit-level-system', original: system.get('_id'), majorVersion: 0
+      Backbone.Mediator.publish 'editor:edit-level-system', original: system.get('_id'), majorVersion: 0
       @hide()

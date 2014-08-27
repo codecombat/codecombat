@@ -127,7 +127,7 @@ module.exports = class God extends CocoClass
       when 'debug-value-return'
         Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized
       when 'debug-world-load-progress-changed'
-        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', event.data
+        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', progress: event.data.progress
 
   onNewWorldCreated: (e) ->
     @currentUserCodeMap = @filterUserCodeMapWhenFromWorld e.world.userCodeMap

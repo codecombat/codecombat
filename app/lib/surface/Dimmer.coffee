@@ -2,9 +2,9 @@ CocoClass = require 'lib/CocoClass'
 
 module.exports = class Dimmer extends CocoClass
   subscriptions:
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
-    'level-highlight-sprites': 'onHighlightSprites'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
+    'sprite:highlight-sprites': 'onHighlightSprites'
     'sprite:speech-updated': 'onSpriteSpeechUpdated'
     'surface:frame-changed': 'onFrameChanged'
     'camera:zoom-updated': 'onZoomUpdated'

@@ -10,8 +10,8 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   id: 'spell-list-tab-entry-view'
 
   subscriptions:
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
     'tome:spell-loaded': 'onSpellLoaded'
     'tome:spell-changed': 'onSpellChanged'
     'god:new-world-created': 'onNewWorld'
@@ -84,7 +84,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   onDropdownClick: (e) ->
     return unless @controlsEnabled
-    Backbone.Mediator.publish 'tome:toggle-spell-list'
+    Backbone.Mediator.publish 'tome:toggle-spell-list', {}
 
   onCodeReload: ->
     return unless @controlsEnabled
@@ -92,7 +92,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   onBeautifyClick: ->
     return unless @controlsEnabled
-    Backbone.Mediator.publish 'spell-beautify', spell: @spell
+    Backbone.Mediator.publish 'tome:spell-beautify', spell: @spell
 
   onFullscreenClick: ->
     $codearea = $('html')
@@ -140,7 +140,7 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
   attachTransitionEventListener: =>
     transitionListener = ''
     testEl = document.createElement 'fakeelement'
-    transitions = 
+    transitions =
       'transition':'transitionend'
       'OTransition':'oTransitionEnd'
       'MozTransition':'transitionend'

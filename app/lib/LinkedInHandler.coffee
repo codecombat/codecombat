@@ -9,7 +9,7 @@ module.exports = LinkedInHandler = class LinkedInHandler extends CocoClass
     super()
 
   subscriptions:
-    'linkedin-loaded': 'onLinkedInLoaded'
+    'auth:linkedin-api-loaded': 'onLinkedInLoaded'
 
   onLinkedInLoaded: (e) ->
     IN.Event.on IN, 'auth', @onLinkedInAuth

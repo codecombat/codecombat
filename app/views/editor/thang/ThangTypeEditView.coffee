@@ -44,7 +44,7 @@ module.exports = class ThangTypeEditView extends RootView
     'keyup .play-with-level-input': 'onPlayLevelKeyUp'
 
   subscriptions:
-    'save-new-version': 'saveNewThangType'
+    'editor:save-new-version': 'saveNewThangType'
 
   # init / render
 
@@ -438,7 +438,7 @@ module.exports = class ThangTypeEditView extends RootView
     level = _.string.slugify level
     if @childWindow and not @childWindow.closed
       # Reset the LevelView's world, but leave the rest of the state alone
-      @childWindow.Backbone.Mediator.publish 'level-reload-thang-type', thangType: @thangType
+      @childWindow.Backbone.Mediator.publish 'level:reload-thang-type', thangType: @thangType
     else
       # Create a new Window with a blank LevelView
       scratchLevelID = level + '?dev=true'

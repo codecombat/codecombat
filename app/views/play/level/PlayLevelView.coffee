@@ -44,24 +44,23 @@ module.exports = class PlayLevelView extends RootView
   isEditorPreview: false
 
   subscriptions:
-    'level-set-volume': (e) -> createjs.Sound.setVolume(e.volume)
-    'level-show-victory': 'onShowVictory'
-    'restart-level': 'onRestartLevel'
-    'level-highlight-dom': 'onHighlightDom'
-    'end-level-highlight-dom': 'onEndHighlight'
-    'level-focus-dom': 'onFocusDom'
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
+    'level:set-volume': (e) -> createjs.Sound.setVolume(e.volume)
+    'level:show-victory': 'onShowVictory'
+    'level:restart': 'onRestartLevel'
+    'level:highlight-dom': 'onHighlightDom'
+    'level:end-highlight-dom': 'onEndHighlight'
+    'level:focus-dom': 'onFocusDom'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
-    'level-reload-from-data': 'onLevelReloadFromData'
-    'level-reload-thang-type': 'onLevelReloadThangType'
-    'play-next-level': 'onPlayNextLevel'
-    'edit-wizard-settings': 'showWizardSettingsModal'
+    'level:reload-from-data': 'onLevelReloadFromData'
+    'level:reload-thang-type': 'onLevelReloadThangType'
+    'level:play-next-level': 'onPlayNextLevel'
+    'level:edit-wizard-settings': 'showWizardSettingsModal'
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
     'level:session-will-save': 'onSessionWillSave'
-    'level:set-team': 'setTeam'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
@@ -143,13 +142,13 @@ module.exports = class PlayLevelView extends RootView
       supermodel: @supermodel
       firstOnly: true
     @openModalView(new LevelGuideModal(options), true)
-    onGuideOpened = ->
+    onGuideOpened = (e) ->
       @guideOpenTime = new Date()
-    onGuideClosed = ->
+    onGuideClosed = (e) ->
       application.tracker?.trackTiming new Date() - @guideOpenTime, 'Intro Guide Time', @levelID, @levelID, 100
       @onLevelStarted()
-    Backbone.Mediator.subscribeOnce 'modal-opened', onGuideOpened, @
-    Backbone.Mediator.subscribeOnce 'modal-closed', onGuideClosed, @
+    Backbone.Mediator.subscribeOnce 'modal:opened', onGuideOpened, @
+    Backbone.Mediator.subscribeOnce 'modal:closed', onGuideClosed, @
     return true
 
   getRenderData: ->
@@ -224,7 +223,7 @@ module.exports = class PlayLevelView extends RootView
     team = team?.team unless _.isString team
     team ?= 'humans'
     me.team = team
-    Backbone.Mediator.publish 'level:team-set', team: team
+    Backbone.Mediator.publish 'level:team-set', team: team  # Needed for scripts
     @team = team
 
   initGoalManager: ->
@@ -241,12 +240,12 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams}
-    #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick'
+    #Backbone.Mediator.publish('level:set-debug', debug: true) if me.displayName() is 'Nick'
 
   initVolume: ->
     volume = me.get('volume')
     volume = 1.0 unless volume?
-    Backbone.Mediator.publish 'level-set-volume', volume: volume
+    Backbone.Mediator.publish 'level:set-volume', volume: volume
 
   initScriptManager: ->
     @scriptManager = new ScriptManager({scripts: @world.scripts or [], view: @, session: @session})
@@ -289,7 +288,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @surface?
     @loadingView.showReady()
     if window.currentModal and not window.currentModal.destroyed
-      return Backbone.Mediator.subscribeOnce 'modal-closed', @onLevelStarted, @
+      return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface.showLevel()
     if @otherSession
       # TODO: colorize name and cloud by team, colorize wizard by user's color config
@@ -312,12 +311,12 @@ module.exports = class PlayLevelView extends RootView
     @alreadyLoadedState = true
     state = @originalSessionState
     if state.frame and @level.get('type') isnt 'ladder'  # https://github.com/codecombat/codecombat/issues/714
-      Backbone.Mediator.publish 'level-set-time', { time: 0, frameOffset: state.frame }
+      Backbone.Mediator.publish 'level:set-time', time: 0, frameOffset: state.frame
     if state.selected
       # TODO: Should also restore selected spell here by saving spellName
-      Backbone.Mediator.publish 'level-select-sprite', { thangID: state.selected, spellName: null }
+      Backbone.Mediator.publish 'level:select-sprite', thangID: state.selected, spellName: null
     if state.playing?
-      Backbone.Mediator.publish 'level-set-playing', { playing: state.playing }
+      Backbone.Mediator.publish 'level:set-playing', playing: state.playing
 
   # callbacks
 
@@ -377,7 +376,7 @@ module.exports = class PlayLevelView extends RootView
 
   onRestartLevel: ->
     @tome.reloadAllCode()
-    Backbone.Mediator.publish 'level:restarted'
+    Backbone.Mediator.publish 'level:restarted', {}
     $('#level-done-button', @$el).hide()
     application.tracker?.trackEvent 'Confirmed Restart', level: @level.get('name'), label: @level.get('name')
 
@@ -421,7 +420,6 @@ module.exports = class PlayLevelView extends RootView
     return if not offset
     target_left = offset.left + dom.outerWidth() * 0.5
     target_top = offset.top + dom.outerHeight() * 0.5
-    body = $('#level-view')
 
     if e.sides
       if 'left' in e.sides then target_left = offset.left
@@ -430,15 +428,15 @@ module.exports = class PlayLevelView extends RootView
       if 'bottom' in e.sides then target_top = offset.top + dom.outerHeight()
     else
       # aim to hit the side if the target is entirely on one side of the screen
-      if offset.left > body.outerWidth()*0.5
+      if offset.left > @$el.outerWidth()*0.5
         target_left = offset.left
-      else if offset.left + dom.outerWidth() < body.outerWidth()*0.5
+      else if offset.left + dom.outerWidth() < @$el.outerWidth()*0.5
         target_left = offset.left + dom.outerWidth()
 
       # aim to hit the bottom or top if the target is entirely on the top or bottom of the screen
-      if offset.top > body.outerWidth()*0.5
+      if offset.top > @$el.outerWidth()*0.5
         target_top = offset.top
-      else if  offset.top + dom.outerHeight() < body.outerHeight()*0.5
+      else if  offset.top + dom.outerHeight() < @$el.outerHeight()*0.5
         target_top = offset.top + dom.outerHeight()
 
     if e.offset
@@ -446,7 +444,7 @@ module.exports = class PlayLevelView extends RootView
       target_top += e.offset.y
 
     @pointerRadialDistance = -47 # - Math.sqrt(Math.pow(dom.outerHeight()*0.5, 2), Math.pow(dom.outerWidth()*0.5))
-    @pointerRotation = e.rotation ? Math.atan2(body.outerWidth()*0.5 - target_left, target_top - body.outerHeight()*0.5)
+    @pointerRotation = e.rotation ? Math.atan2(@$el.outerWidth()*0.5 - target_left, target_top - @$el.outerHeight()*0.5)
     pointer = $('#pointer')
     pointer
       .css('opacity', 1.0)
@@ -465,7 +463,7 @@ module.exports = class PlayLevelView extends RootView
     pointer = $('#pointer')
     pointer.css('transition', 'all 0.6s ease-out')
     pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)")
-    Backbone.Mediator.publish 'play-sound', trigger: 'dom_highlight', volume: 0.75
+    Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'dom_highlight', volume: 0.75
     setTimeout((=>
       pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)").css('transition', 'all 0.4s ease-in')), 800)
 

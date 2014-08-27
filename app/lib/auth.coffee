@@ -12,7 +12,7 @@ init = ->
     me.set 'testGroupNumber', Math.floor(Math.random() * 256)
     me.patch()
 
-  Backbone.listenTo(me, 'sync', -> Backbone.Mediator.publish('me:synced', {me: me}))
+  Backbone.listenTo me, 'sync', -> Backbone.Mediator.publish('auth:me-synced', me: me)
 
 module.exports.createUser = (userObject, failure=backboneFailure, nextURL=null) ->
   user = new User(userObject)
@@ -57,7 +57,7 @@ onSetVolume = (e) ->
   me.set('volume', e.volume)
   me.save()
 
-Backbone.Mediator.subscribe('level-set-volume', onSetVolume, module.exports)
+Backbone.Mediator.subscribe('level:set-volume', onSetVolume, module.exports)
 
 trackFirstArrival = ->
   # will have to filter out users who log in with existing accounts separately

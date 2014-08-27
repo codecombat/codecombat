@@ -4,8 +4,8 @@ CocoSprite = require 'lib/surface/CocoSprite'
 module.exports = IndieSprite = class IndieSprite extends CocoSprite
   notOfThisWorld: true
   subscriptions:
-    'note-group-started': 'onNoteGroupStarted'
-    'note-group-ended': 'onNoteGroupEnded'
+    'script:note-group-started': 'onNoteGroupStarted'
+    'script:note-group-ended': 'onNoteGroupEnded'
 
   constructor: (thangType, options) ->
     options.thang = @makeIndieThang thangType, options

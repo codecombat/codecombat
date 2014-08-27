@@ -27,7 +27,7 @@ module.exports = class RegionChooser extends CocoClass
 
   onMouseUp: (e) =>
     return unless @firstPoint
-    Backbone.Mediator.publish 'choose-region', points: [@firstPoint, @secondPoint]
+    Backbone.Mediator.publish 'surface:choose-region', points: [@firstPoint, @secondPoint]
     @firstPoint = null
     @secondPoint = null
     @options.camera.dragDisabled = false

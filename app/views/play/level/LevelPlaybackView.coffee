@@ -10,18 +10,18 @@ module.exports = class LevelPlaybackView extends CocoView
   template: template
 
   subscriptions:
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
-    'level-set-playing': 'onSetPlaying'
-    'level-toggle-playing': 'onTogglePlay'
-    'level-scrub-forward': 'onScrubForward'
-    'level-scrub-back': 'onScrubBack'
-    'level-set-volume': 'onSetVolume'
-    'level-set-debug': 'onSetDebug'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
+    'level:set-playing': 'onSetPlaying'
+    'level:toggle-playing': 'onTogglePlay'
+    'level:scrub-forward': 'onScrubForward'
+    'level:scrub-back': 'onScrubBack'
+    'level:set-volume': 'onSetVolume'
+    'level:set-debug': 'onSetDebug'
     'surface:frame-changed': 'onFrameChanged'
     'god:new-world-created': 'onNewWorld'
     'god:streaming-world-updated': 'onNewWorld'
-    'level-set-letterbox': 'onSetLetterbox'
+    'level:set-letterbox': 'onSetLetterbox'
     'tome:cast-spells': 'onTomeCast'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'playback:stop-real-time-playback': 'onStopRealTimePlayback'
@@ -32,8 +32,8 @@ module.exports = class LevelPlaybackView extends CocoView
     'click #edit-editor-config': 'onEditEditorConfig'
     'click #view-keyboard-shortcuts': 'onViewKeyboardShortcuts'
     'click #music-button': 'onToggleMusic'
-    'click #zoom-in-button': -> Backbone.Mediator.publish('camera-zoom-in', {}) unless @shouldIgnore()
-    'click #zoom-out-button': -> Backbone.Mediator.publish('camera-zoom-out', {}) unless @shouldIgnore()
+    'click #zoom-in-button': -> Backbone.Mediator.publish 'camera:zoom-in', {} unless @shouldIgnore()
+    'click #zoom-out-button': -> Backbone.Mediator.publish 'camera:zoom-out', {} unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {} unless @realTime
@@ -183,10 +183,10 @@ module.exports = class LevelPlaybackView extends CocoView
   onToggleDebug: ->
     return if @shouldIgnore()
     flag = $('#debug-toggle i.icon-ok')
-    Backbone.Mediator.publish('level-set-debug', {debug: flag.hasClass('invisible')})
+    Backbone.Mediator.publish('level:set-debug', {debug: flag.hasClass('invisible')})
 
   onEditWizardSettings: ->
-    Backbone.Mediator.publish 'edit-wizard-settings'
+    Backbone.Mediator.publish 'level:edit-wizard-settings', {}
 
   onEditEditorConfig: ->
     @openModalView new EditorConfigModal session: @options.session
@@ -236,7 +236,7 @@ module.exports = class LevelPlaybackView extends CocoView
   onScrub: (e, options) ->
     e?.preventDefault()
     options.scrubDuration = 500
-    Backbone.Mediator.publish('level-set-time', options)
+    Backbone.Mediator.publish('level:set-time', options)
 
   onScrubForward: (e) ->
     @onScrub e, ratioOffset: 0.05
@@ -324,16 +324,16 @@ module.exports = class LevelPlaybackView extends CocoView
         return if @shouldIgnore()
         @slideCount = 0
         @wasPlaying = @playing
-        Backbone.Mediator.publish 'level-set-playing', {playing: false}
+        Backbone.Mediator.publish 'level:set-playing', {playing: false}
 
       stop: (event, ui) =>
         return if @shouldIgnore()
         @actualProgress = ui.value / @sliderIncrements
-        Backbone.Mediator.publish 'playback:manually-scrubbed', ratio: @actualProgress
-        Backbone.Mediator.publish 'level-set-playing', {playing: @wasPlaying}
+        Backbone.Mediator.publish 'playback:manually-scrubbed', ratio: @actualProgress  # For scripts
+        Backbone.Mediator.publish 'level:set-playing', {playing: @wasPlaying}
         if @slideCount < 3
           @wasPlaying = false
-          Backbone.Mediator.publish 'level-set-playing', {playing: false}
+          Backbone.Mediator.publish 'level:set-playing', {playing: false}
           @$el.find('.scrubber-handle').effect('bounce', {times: 2})
     )
 
@@ -342,7 +342,7 @@ module.exports = class LevelPlaybackView extends CocoView
 
   scrubTo: (ratio, duration=0) ->
     return if @shouldIgnore()
-    Backbone.Mediator.publish 'level-set-time', ratio: ratio, scrubDuration: duration
+    Backbone.Mediator.publish 'level:set-time', ratio: ratio, scrubDuration: duration
 
   shouldIgnore: -> return @disabled or @realTime
 
@@ -351,7 +351,7 @@ module.exports = class LevelPlaybackView extends CocoView
     return if @shouldIgnore()
     button = $('#play-button')
     willPlay = button.hasClass('paused') or button.hasClass('ended')
-    Backbone.Mediator.publish 'level-set-playing', playing: willPlay
+    Backbone.Mediator.publish 'level:set-playing', playing: willPlay
     $(document.activeElement).blur()
 
   onToggleVolume: (e) ->
@@ -364,7 +364,7 @@ module.exports = class LevelPlaybackView extends CocoView
         break
       else if i is classes.length - 1  # no oldClass
         newI = 2
-    Backbone.Mediator.publish 'level-set-volume', volume: volumes[newI]
+    Backbone.Mediator.publish 'level:set-volume', volume: volumes[newI]
     $(document.activeElement).blur()
 
   onToggleMusic: (e) ->

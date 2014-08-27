@@ -10,7 +10,7 @@ module.exports = class CocoRouter extends Backbone.Router
   initialize: ->
     # http://nerds.airbnb.com/how-to-add-google-analytics-page-tracking-to-57536
     @bind 'route', @_trackPageView
-    Backbone.Mediator.subscribe 'gapi-loaded', @onGPlusAPILoaded, @
+    Backbone.Mediator.subscribe 'auth:gplus-api-loaded', @onGPlusAPILoaded, @
     Backbone.Mediator.subscribe 'router:navigate', @onNavigate, @
 
   routes:

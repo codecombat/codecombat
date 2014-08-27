@@ -15,7 +15,7 @@ module.exports = class ArticleEditView extends RootView
     'click #save-button': 'openSaveModal'
 
   subscriptions:
-    'save-new-version': 'saveNewArticle'
+    'editor:save-new-version': 'saveNewArticle'
 
   constructor: (options, @articleID) ->
     super options
@@ -98,4 +98,4 @@ module.exports = class ArticleEditView extends RootView
   showVersionHistory: (e) ->
     versionHistoryView = new VersionHistoryView article: @article, @articleID
     @openModalView versionHistoryView
-    Backbone.Mediator.publish 'level:view-switched', e
+    Backbone.Mediator.publish 'editor:view-switched', {}

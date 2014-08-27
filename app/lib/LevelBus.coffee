@@ -11,6 +11,7 @@ module.exports = class LevelBus extends Bus
 
   subscriptions:
     'self-wizard:target-changed': 'onSelfWizardTargetChanged'
+    'self-wizard:created': 'onSelfWizardCreated'
     'tome:editing-began': 'onEditingBegan'
     'tome:editing-ended': 'onEditingEnded'
     'script:state-changed': 'onScriptStateChanged'
@@ -18,8 +19,8 @@ module.exports = class LevelBus extends Bus
     'script:reset': 'onScriptReset'
     'surface:frame-changed': 'onFrameChanged'
     'surface:sprite-selected': 'onSpriteSelected'
-    'level-set-playing': 'onSetPlaying'
-    'level-show-victory': 'onVictory'
+    'level:set-playing': 'onSetPlaying'
+    'level:show-victory': 'onVictory'
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-created': 'onSpellCreated'
     'application:idle-changed': 'onIdleChanged'
@@ -51,10 +52,12 @@ module.exports = class LevelBus extends Bus
     return true unless @session?.get('multiplayer')
     super()
 
-  onSelfWizardTargetChanged: =>
-    wizardSprite = @getSelfWizard()
-    @wizardRef?.child('targetPos').set(wizardSprite?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(wizardSprite?.targetSprite?.thang.id or null)
+  onSelfWizardCreated: (e) ->
+    @selfWizardSprite = e.sprite
+
+  onSelfWizardTargetChanged: (e) ->
+    @wizardRef?.child('targetPos').set(@selfWizardSprite?.targetPos or null)
+    @wizardRef?.child('targetSprite').set(@selfWizardSprite?.targetSprite?.thang.id or null)
 
   onMeSynced: =>
     super()
@@ -63,9 +66,8 @@ module.exports = class LevelBus extends Bus
   join: ->
     super()
     @wizardRef = @myConnection.child('wizard')
-    wizardSprite = @getSelfWizard()
-    @wizardRef?.child('targetPos').set(wizardSprite?.targetPos or null)
-    @wizardRef?.child('targetSprite').set(wizardSprite?.targetSprite?.thang.id or null)
+    @wizardRef?.child('targetPos').set(@selfWizardSprite?.targetPos or null)
+    @wizardRef?.child('targetSprite').set(@selfWizardSprite?.targetSprite?.thang.id or null)
     @wizardRef?.child('wizardColor1').set(me.get('wizardColor1') or 0.0)
 
   disconnect: ->
@@ -80,11 +82,6 @@ module.exports = class LevelBus extends Bus
     @myConnection.child('connected')
     @fireRef.remove()
     @onDisconnect.cancel(-> callback?())
-
-  getSelfWizard: ->
-    e = {}
-    Backbone.Mediator.publish('echo-self-wizard-sprite', e)
-    return e.payload
 
   # UPDATING FIREBASE AND SESSION
 

@@ -102,15 +102,15 @@ module.exports = class SpellDebugView extends CocoView
     @thang = thangAndSpellObject.thang
     @spell = thangAndSpellObject.spell
 
-  handleDebugValue: (returnObject) ->
+  handleDebugValue: (e) ->
+    {key, value} = e
     @workerIsSimulating = false
-    {key, value} = returnObject
     @updateCache(@thang.id, @spell.name, key.split('.'), @lastFrameRequested, value)
     if @variableChain and not key is @variableChain.join('.') then return
     @setTooltipKeyAndValue(key, value)
 
-  handleWorldLoadProgressChanged: (data) ->
-    @progress = data.progress
+  handleWorldLoadProgressChanged: (e) ->
+    @progress = e.progress
 
   afterRender: ->
     super()

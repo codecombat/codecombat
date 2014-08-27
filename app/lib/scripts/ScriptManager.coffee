@@ -1,6 +1,3 @@
-# * search for how various places handle or call 'end-current-script' event
-
-
 CocoClass = require 'lib/CocoClass'
 CocoView = require 'views/kinds/CocoView'
 {scriptMatchesEventPrereqs} = require './../world/script_event_prereqs'
@@ -10,8 +7,6 @@ allScriptModules.push(require './SpriteScriptModule')
 allScriptModules.push(require './DOMScriptModule')
 allScriptModules.push(require './SurfaceScriptModule')
 allScriptModules.push(require './PlaybackScriptModule')
-GoalScriptsModule = require './GoalsScriptModule'
-allScriptModules.push(GoalScriptsModule)
 allScriptModules.push(require './SoundScriptModule')
 
 
@@ -32,16 +27,15 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
   originalScripts: [] # use these later when you want to revert to an original state
 
   subscriptions:
-    'end-current-script': 'onEndNoteGroup'
-    'end-all-scripts': 'onEndAll'
+    'script:end-current-script': 'onEndNoteGroup'
     'level:started': -> @setWorldLoading(false)
     'level:restarted': 'onLevelRestarted'
     'level:shift-space-pressed': 'onEndNoteGroup'
     'level:escape-pressed': 'onEndAll'
 
   shortcuts:
-    '⇧+space, space, enter': -> Backbone.Mediator.publish 'level:shift-space-pressed'
-    'escape': -> Backbone.Mediator.publish 'level:escape-pressed'
+    '⇧+space, space, enter': -> Backbone.Mediator.publish 'level:shift-space-pressed', {}
+    'escape': -> Backbone.Mediator.publish 'level:escape-pressed', {}
 
   # SETUP / TEARDOWN
 
@@ -94,13 +88,14 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       scriptStates: scriptStates
       timeSinceLastScriptEnded: (if @lastScriptEnded then now - @lastScriptEnded else 0) / 1000
 
-    Backbone.Mediator.publish 'script-manager:tick', stateEvent
+    Backbone.Mediator.publish 'script:tick', stateEvent  # Is this even needed?
 
   loadFromSession: ->
     # load the queue with note groups to skip through
     @addEndedScriptsFromSession()
     @addPartiallyEndedScriptFromSession()
-    @fireGoalNotesEarly()
+    for noteGroup in @noteGroupQueue
+      @processNoteGroup(noteGroup)
 
   addPartiallyEndedScriptFromSession: ->
     scripts = @session.get('state').scripts
@@ -132,14 +127,6 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       return unless noteChain
       noteGroup.skipMe = true for noteGroup in noteChain
       @addNoteChain(noteChain, false)
-
-  fireGoalNotesEarly: ->
-    for noteGroup in @noteGroupQueue
-      @processNoteGroup(noteGroup)
-      for module in noteGroup.modules
-        if module instanceof GoalScriptsModule
-          notes = module.skipNotes()
-          @processNote(note, noteGroup) for note in notes
 
   setWorldLoading: (@worldLoading) ->
     @run() unless @worldLoading
@@ -238,7 +225,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     if nextNoteGroup.script.duration
       f = => @onNoteGroupTimeout? nextNoteGroup
       setTimeout(f, nextNoteGroup.script.duration)
-    Backbone.Mediator.publish('note-group-started')
+    Backbone.Mediator.publish 'script:note-group-started', {}
 
   skipAhead: ->
     return if @worldLoading
@@ -270,7 +257,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   publishNote: (note) ->
     Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
-    Backbone.Mediator.publish(note.channel, note.event)
+    Backbone.Mediator.publish note.channel, note.event ? {}
 
   # ENDING NOTES
 
@@ -279,7 +266,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @endAll({force:true})
     @initProperties()
     @resetThings()
-    Backbone.Mediator.publish 'script:reset'
+    Backbone.Mediator.publish 'script:reset', {}
     @quiet = false
     @run()
 
@@ -298,7 +285,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     clearTimeout(timeout) for timeout in @currentTimeouts
     for module in @currentNoteGroup.modules
       @processNote(note, @currentNoteGroup) for note in module.endNotes()
-    Backbone.Mediator.publish 'note-group-ended' unless @quiet
+    Backbone.Mediator.publish 'script:note-group-ended' unless @quiet
     @scriptInProgress = false
     @trackScriptCompletionsFromNoteGroup(@currentNoteGroup)
     @currentNoteGroup = null
@@ -307,8 +294,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       @resetThings()
     @ending = false
 
-  onEndAll: ->
-    # press escape
+  onEndAll: (e) ->
+    # Escape was pressed.
     @endAll()
 
   endAll: (options) ->
@@ -341,8 +328,8 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @run()
 
   resetThings: ->
-    Backbone.Mediator.publish 'level-enable-controls', {}
-    Backbone.Mediator.publish 'level-set-letterbox', { on: false }
+    Backbone.Mediator.publish 'level:enable-controls', {}
+    Backbone.Mediator.publish 'level:set-letterbox', { on: false }
 
   trackScriptCompletionsFromNoteGroup: (noteGroup) ->
     return unless noteGroup.isLast

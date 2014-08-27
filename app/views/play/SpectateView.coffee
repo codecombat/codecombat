@@ -37,38 +37,21 @@ module.exports = class SpectateLevelView extends RootView
   id: 'spectate-level-view'
   template: template
   cache: false
-  shortcutsEnabled: true
   isEditorPreview: false
 
   subscriptions:
-    'level-set-volume': (e) -> createjs.Sound.setVolume(e.volume)
-    'level-highlight-dom': 'onHighlightDom'
-    'end-level-highlight-dom': 'onEndHighlight'
-    'level-focus-dom': 'onFocusDom'
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
+    'level:set-volume': (e) -> createjs.Sound.setVolume(e.volume)
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'
     'god:infinite-loop': 'onInfiniteLoop'
-    'level-reload-from-data': 'onLevelReloadFromData'
-    'play-next-level': 'onPlayNextLevel'
     'surface:world-set-up': 'onSurfaceSetUpNewWorld'
-    'level:set-team': 'setTeam'
-    'god:new-world-created': 'loadSoundsForWorld'
-    'god:streaming-world-updated': 'loadSoundsForWorld'
-    'next-game-pressed': 'onNextGamePressed'
+    'level:next-game-pressed': 'onNextGamePressed'
     'level:started': 'onLevelStarted'
     'level:loading-view-unveiled': 'onLoadingViewUnveiled'
-
-  events:
-    'click #level-done-button': 'onDonePressed'
-
-  shortcuts:
-    'ctrl+s': 'onCtrlS'
 
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
     super options
-    $(window).on('resize', @onWindowResize)
 
     @sessionOne = @getQueryVariable 'session-one'
     @sessionTwo = @getQueryVariable 'session-two'
@@ -207,142 +190,15 @@ module.exports = class SpectateLevelView extends RootView
     @insertSubView new HUDView {}
     worldName = utils.i18n @level.attributes, 'name'
     @controlBar = @insertSubView new ControlBarView {worldName: worldName, session: @session, level: @level, supermodel: @supermodel, playableTeams: @world.playableTeams, spectateGame: true}
-    #Backbone.Mediator.publish('level-set-debug', debug: true) if me.displayName() is 'Nick'
-
-  afterInsert: ->
-    super()
 
   # callbacks
-
-  onCtrlS: (e) ->
-    e.preventDefault()
-
-  onLevelReloadFromData: (e) ->
-    isReload = Boolean @world
-    @setLevel e.level, e.supermodel
-    if isReload
-      @scriptManager.setScripts(e.level.get('scripts'))
-      Backbone.Mediator.publish 'tome:cast-spell'  # a bit hacky
-
-  onWindowResize: (s...) ->
-    $('#pointer').css('opacity', 0.0)
-
-  onDisableControls: (e) ->
-    return if e.controls and not ('level' in e.controls)
-    @shortcutsEnabled = false
-    @wasFocusedOn = document.activeElement
-    $('body').focus()
-
-  onEnableControls: (e) ->
-    return if e.controls? and not ('level' in e.controls)
-    @shortcutsEnabled = true
-    $(@wasFocusedOn).focus() if @wasFocusedOn
-    @wasFocusedOn = null
-
-  onDonePressed: -> return
-
-
-  onNewWorld: (e) ->
-    @world = e.world
 
   onInfiniteLoop: (e) ->
     return unless e.firstWorld
     @openModalView new InfiniteLoopModal()
     window.tracker?.trackEvent 'Saw Initial Infinite Loop', level: @world.name, label: @world.name
 
-  onPlayNextLevel: ->
-    nextLevel = @getNextLevel()
-    nextLevelID = nextLevel.get('slug') or nextLevel.id
-    url = "/play/level/#{nextLevelID}"
-    Backbone.Mediator.publish 'router:navigate', {
-      route: url,
-      viewClass: PlayLevelView,
-      viewArgs: [{supermodel:@supermodel}, nextLevelID]}
-
-  getNextLevel: ->
-    nextLevelOriginal = @level.get('nextLevel')?.original
-    levels = @supermodel.getModels(Level)
-    return l for l in levels when l.get('original') is nextLevelOriginal
-
-  onHighlightDom: (e) ->
-    if e.delay
-      delay = e.delay
-      delete e.delay
-      @pointerInterval = _.delay((=> @onHighlightDom e), delay)
-      return
-    @addPointer()
-    selector = e.selector + ':visible'
-    dom = $(selector)
-    return if parseFloat(dom.css('opacity')) is 0.0
-    offset = dom.offset()
-    return if not offset
-    target_left = offset.left + dom.outerWidth() * 0.5
-    target_top = offset.top + dom.outerHeight() * 0.5
-    body = $('#level-view')
-
-    if e.sides
-      if 'left' in e.sides then target_left = offset.left
-      if 'right' in e.sides then target_left = offset.left + dom.outerWidth()
-      if 'top' in e.sides then target_top = offset.top
-      if 'bottom' in e.sides then target_top = offset.top + dom.outerHeight()
-    else
-      # aim to hit the side if the target is entirely on one side of the screen
-      if offset.left > body.outerWidth()*0.5
-        target_left = offset.left
-      else if offset.left + dom.outerWidth() < body.outerWidth()*0.5
-        target_left = offset.left + dom.outerWidth()
-
-      # aim to hit the bottom or top if the target is entirely on the top or bottom of the screen
-      if offset.top > body.outerWidth()*0.5
-        target_top = offset.top
-      else if  offset.top + dom.outerHeight() < body.outerHeight()*0.5
-        target_top = offset.top + dom.outerHeight()
-
-    if e.offset
-      target_left += e.offset.x
-      target_top += e.offset.y
-
-    @pointerRadialDistance = -47 # - Math.sqrt(Math.pow(dom.outerHeight()*0.5, 2), Math.pow(dom.outerWidth()*0.5))
-    @pointerRotation = e.rotation ? Math.atan2(body.outerWidth()*0.5 - target_left, target_top - body.outerHeight()*0.5)
-    pointer = $('#pointer')
-    pointer
-    .css('opacity', 1.0)
-    .css('transition', 'none')
-    .css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)")
-    .css('top', target_top - 50)
-    .css('left', target_left - 50)
-    setTimeout((=>
-      @animatePointer()
-      clearInterval(@pointerInterval)
-      @pointerInterval = setInterval(@animatePointer, 1200)
-    ), 1)
-
-  animatePointer: ->
-    pointer = $('#pointer')
-    pointer.css('transition', 'all 0.6s ease-out')
-    pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance-50}px)")
-    setTimeout((=>
-      pointer.css('transform', "rotate(#{@pointerRotation}rad) translate(-3px, #{@pointerRadialDistance}px)").css('transition', 'all 0.4s ease-in')), 800)
-
-  onFocusDom: (e) -> $(e.selector).focus()
-
-  onEndHighlight: ->
-    $('#pointer').css('opacity', 0.0)
-    clearInterval(@pointerInterval)
-
-  onMultiplayerChanged: (e) ->
-    if @session.get('multiplayer')
-      @bus.connect()
-    else
-      @bus.removeFirebaseData =>
-        @bus.disconnect()
-
   # initialization
-
-  addPointer: ->
-    p = $('#pointer')
-    return if p.length
-    @$el.append($('<img src="/images/level/pointer.png" id="pointer">'))
 
   initSurface: ->
     surfaceCanvas = $('canvas#surface', @$el)
@@ -372,14 +228,14 @@ module.exports = class SpectateLevelView extends RootView
   initVolume: ->
     volume = me.get('volume')
     volume = 1.0 unless volume?
-    Backbone.Mediator.publish 'level-set-volume', volume: volume
+    Backbone.Mediator.publish 'level:set-volume', volume: volume
 
   onSurfaceSetUpNewWorld: ->
     return if @alreadyLoadedState
     @alreadyLoadedState = true
     state = @originalSessionState
     if state.playing?
-      Backbone.Mediator.publish 'level-set-playing', { playing: state.playing }
+      Backbone.Mediator.publish 'level:set-playing', playing: state.playing
 
   register: -> return
 
@@ -400,17 +256,22 @@ module.exports = class SpectateLevelView extends RootView
 
   # Dynamic sound loading
 
-  loadSoundsForWorld: (e) ->
+  onNewWorld: (e) ->
     return if @headless
-    world = e.world
+    scripts = @world.scripts  # Since these worlds don't have scripts, preserve them.
+    @world = e.world
     thangTypes = @supermodel.getModels(ThangType)
-    for [spriteName, message] in world.thangDialogueSounds()
+    startFrame = @lastWorldFramesLoaded ? 0
+    if @world.frames.length is @world.totalFrames  # Finished loading
+      @lastWorldFramesLoaded = 0
+    else
+      @lastWorldFramesLoaded = @world.frames.length
+    for [spriteName, message] in @world.thangDialogueSounds startFrame
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
 
   onNextGamePressed: (e) ->
-    console.log 'You want to see the next game!'
     @fetchRandomSessionPair (err, data) =>
       if err? then return console.log "There was an error fetching the random session pair: #{data}"
       @sessionOne = data[0]._id
@@ -445,10 +306,8 @@ module.exports = class SpectateLevelView extends RootView
     @levelLoader?.destroy()
     @surface?.destroy()
     @god?.destroy()
-    $(window).off('resize', @onWindowResize)
     @goalManager?.destroy()
     @scriptManager?.destroy()
     delete window.world # not sure where this is set, but this is one way to clean it up
-    clearInterval(@pointerInterval)
     console.profileEnd?() if PROFILE_ME
     super()

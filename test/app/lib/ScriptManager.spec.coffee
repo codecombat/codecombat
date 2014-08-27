@@ -108,7 +108,7 @@ describe('ScriptManager', ->
     expect(gotCnnEvent[1]).toBe(1)
     expect(gotCbsEvent).toBeNull()
     expect(sm.scriptInProgress).toBe(true)
-    runs(-> Backbone.Mediator.publish('end-current-script'))
+    runs(-> Backbone.Mediator.publish('script:end-current-script'))
     f = -> gotCbsEvent?
     waitsFor(f, 'The next event should have been published', 20)
     f = ->
@@ -144,7 +144,7 @@ describe('ScriptManager', ->
     expect(gotCbsEvent).toBeNull() # channel2 needs to be triggered again
     Backbone.Mediator.publish('channel2')
     expect(gotCbsEvent).toBeNull() # channel1 is still waiting for user confirmation
-    Backbone.Mediator.publish('end-current-script')
+    Backbone.Mediator.publish('script:end-current-script')
     expect(gotCbsEvent[1]).toBe(2) # and finally the second script is fired
     sm.destroy()
     Backbone.Mediator.unsubscribe('cnn', f, @)

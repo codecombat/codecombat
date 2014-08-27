@@ -7,8 +7,8 @@ module.exports = class SpellToolbarView extends CocoView
   progressHoverDelay: 500
 
   subscriptions:
-    'spell-step-backward': 'onStepBackward'
-    'spell-step-forward': 'onStepForward'
+    'tome:spell-step-backward': 'onStepBackward'
+    'tome:spell-step-forward': 'onStepForward'
 
   events:
     'mousemove .spell-progress': 'onProgressHover'
@@ -100,7 +100,7 @@ module.exports = class SpellToolbarView extends CocoView
     @maintainIndexScrub = true
     clearTimeout @maintainIndexScrubTimeout if @maintainIndexScrubTimeout
     @maintainIndexScrubTimeout = _.delay (=> @maintainIndexScrub = false), 500
-    Backbone.Mediator.publish 'level-set-time', time: @statementTime, scrubDuration: 500
+    Backbone.Mediator.publish 'level:set-time', time: @statementTime, scrubDuration: 500
 
   updateScroll: ->
     return unless statementStart = @callState?.statements?[@statementIndex]?.range[0]

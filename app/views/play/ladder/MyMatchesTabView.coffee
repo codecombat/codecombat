@@ -61,7 +61,7 @@ module.exports = class MyMatchesTabView extends CocoView
       state = 'tie' if match.metrics.rank is opponent.metrics.rank
       fresh = match.date > (new Date(new Date() - 20 * 1000)).toISOString()
       if fresh
-        Backbone.Mediator.publish 'play-sound', trigger: 'chat_received'
+        Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'chat_received'
       {
         state: state
         opponentName: @nameMap[opponent.userID]
@@ -88,7 +88,7 @@ module.exports = class MyMatchesTabView extends CocoView
         team.scoreHistory = scoreHistory
 
       if not team.isRanking and @previouslyRankingTeams[team.id]
-        Backbone.Mediator.publish 'play-sound', trigger: 'cast-end'
+        Backbone.Mediator.publish 'audio-player:play-sound', trigger: 'cast-end'
       @previouslyRankingTeams[team.id] = team.isRanking
 
     ctx
