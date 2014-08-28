@@ -210,6 +210,11 @@ class CocoModel extends Backbone.Model
 
     return false
 
+  getOwner: ->
+    return null unless permissions = @get 'permissions'
+    ownerPermission = _.find permissions, access: 'owner'
+    ownerPermission?.target
+
   getDelta: ->
     differ = deltasLib.makeJSONDiffer()
     differ.diff @_revertAttributes, @attributes

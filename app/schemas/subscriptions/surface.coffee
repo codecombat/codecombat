@@ -66,6 +66,7 @@ module.exports =  # /app/lib/surface
   'surface:coordinate-selected': c.object {required: ['x', 'y']},
     x: {type: 'number'}
     y: {type: 'number'}
+    z: {type: 'number'}
 
   'surface:coordinates-shown': c.object {}
 

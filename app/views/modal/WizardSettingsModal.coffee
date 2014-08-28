@@ -50,10 +50,11 @@ module.exports = class WizardSettingsModal extends ModalView
     res.error =>
       errors = JSON.parse(res.responseText)
       console.warn 'Got errors saving user:', errors
+      return if @destroyed
       forms.applyErrorsToForm(@$el, errors)
       @disableModalInProgress(@$el)
 
     res.success (model, response, options) =>
-      @hide()
+      @hide() unless @destroyed
 
     @enableModalInProgress(@$el)

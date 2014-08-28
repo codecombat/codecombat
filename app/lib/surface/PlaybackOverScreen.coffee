@@ -15,7 +15,6 @@ module.exports = class PlaybackOverScreen extends CocoClass
   build: ->
     @dimLayer = new createjs.Container()
     @dimLayer.mouseEnabled = @dimLayer.mouseChildren = false
-    @dimLayer.layerIndex = -12
     @dimLayer.addChild @dimScreen = new createjs.Shape()
     @dimScreen.graphics.beginFill('rgba(0,0,0,0.4)').rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
     @dimLayer.cache 0, 0, @camera.canvasWidth, @camera.canvasHeight
