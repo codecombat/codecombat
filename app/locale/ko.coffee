@@ -126,6 +126,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     level_difficulty: "난이도: "
     play_as: "Play As "
     spectate: "관중모드"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "코드컴뱃에 전할 말"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   play_level:
     done: "완료"
-    grid: "그리드"
     customize_wizard: "사용자 정의 마법사"
     home: "홈"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
+#    maximize_editor: "Maximize/minimize code editor."
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     unknown: "알 수 없는 에러 발생"
 
   resources:
+#    sessions: "Sessions"
 #    your_sessions: "Your Sessions"
     level: "레벨"
 #    social_network_apis: "Social Network APIs"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    patched_model: "Source Document"
 #    model: "Model"
     system: "시스템"
+#    systems: "Systems"
 #    component: "Component"
 #    components: "Components"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    source_document: "Source Document"
 #    document: "Document"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
+#    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
 #  delta:
 #    added: "Added"

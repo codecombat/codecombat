@@ -126,6 +126,8 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     level_difficulty: "Schwierigkeit: "
     play_as: "Spiele als "
     spectate: "Zuschauen"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "Kontaktiere CodeCombat"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 
   play_level:
     done: "Fertig"
-    grid: "Raster"
     customize_wizard: "Bearbeite den Zauberer"
     home: "Startseite"
 #    stop: "Stop"
@@ -435,17 +436,17 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 
 #  game_menu:
 #    inventory_tab: "Inventory"
-    choose_hero_tab: "Level neustarten"
-    save_load_tab: "Speichere/Lade"
-    options_tab: "Optionen"
+#    choose_hero_tab: "Restart Level"
+#    save_load_tab: "Save/Load"
+#    options_tab: "Options"
 #    guide_tab: "Guide"
-    multiplayer_tab: "Mehrspieler"
+#    multiplayer_tab: "Multiplayer"
 #    inventory_caption: "Equip your hero"
 #    choose_hero_caption: "Choose hero, language"
 #    save_load_caption: "... and view history"
-    options_caption: "Konfiguriere Einstellungen"
+#    options_caption: "Configure settings"
 #    guide_caption: "Docs and tips"
-    multiplayer_caption: "Spiele mit Freunden!"
+#    multiplayer_caption: "Play with friends!"
 
 #  inventory:
 #    temp: "Temp"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
+#    maximize_editor: "Maximize/minimize code editor."
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
     unknown: "Unbekannter Fehler."
 
   resources:
+#    sessions: "Sessions"
     your_sessions: "Meine Sessions"
     level: "Level"
     social_network_apis: "Social Network APIs"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    patched_model: "Source Document"
     model: "Model"
     system: "System"
+#    systems: "Systems"
     component: "Komponente"
     components: "Komponenten"
     thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 #    source_document: "Source Document"
     document: "Dokument"
     sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
     candidate_sessions: "Kandidat-Sessions"
     user_remark: "Benutzerkommentar"
+#    user_remarks: "User Remarks"
     versions: "Versionen"
     items: "Gegenstände"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
   delta:
     added: "hinzugefügt"
@@ -953,10 +964,10 @@ module.exports = nativeDescription: "Deutsch", englishDescription: "German", tra
 
 #  user:
 #    stats: "Stats"
-    singleplayer_title: "Einzelspieler Levels"
-    multiplayer_title: "Mehrspieler Levels"
+#    singleplayer_title: "Singleplayer Levels"
+#    multiplayer_title: "Multiplayer Levels"
 #    achievements_title: "Achievements"
-    last_played: "Zuletzt gespielt"
+#    last_played: "Last Played"
 #    status: "Status"
 #    status_completed: "Completed"
 #    status_unfinished: "Unfinished"

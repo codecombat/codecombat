@@ -126,6 +126,8 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     level_difficulty: "Dificultad: "
     play_as: "Jugar Como "
     spectate: "Observar"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "Contacta a CodeCombat"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 
   play_level:
     done: "Listo"
-    grid: "Cuadricula"
     customize_wizard: "Personalizar Hechicero"
     home: "Inicio"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
+#    maximize_editor: "Maximize/minimize code editor."
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
     unknown: "Error desconocido."
 
   resources:
+#    sessions: "Sessions"
     your_sessions: "Tus sesiones"
     level: "Nivel"
     social_network_apis: "APIs de Redes Sociales"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    patched_model: "Source Document"
     model: "Modelo"
 #    system: "System"
+#    systems: "Systems"
 #    component: "Component"
 #    components: "Components"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "español (América Latina)", englishDescrip
 #    source_document: "Source Document"
 #    document: "Document"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
+#    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
 #  delta:
 #    added: "Added"

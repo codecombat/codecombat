@@ -126,6 +126,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     level_difficulty: "Dificuldade: "
     play_as: "Jogar Como"
     spectate: "Espectar"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "Contacte o CodeCombat"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   play_level:
     done: "Concluir"
-    grid: "Grelha"
     customize_wizard: "Personalizar Feiticeiro"
     home: "Início"
     stop: "Parar"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     toggle_grid: "Ativar/desativar a sobreposição da grelha."
     toggle_pathfinding: "Ativar/desativar a sobreposição do encontrador de caminho."
     beautify: "Embelezar o código ao estandardizar a formatação."
+#    maximize_editor: "Maximize/minimize code editor."
     move_wizard: "Mover o seu Feiticeiro pelo nível."
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     unknown: "Erro desconhecido."
 
   resources:
+#    sessions: "Sessions"
     your_sessions: "As Suas Sessões"
     level: "Nível"
     social_network_apis: "APIs das Redes Sociais"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     patched_model: "Documento Fonte"
     model: "Modelo"
     system: "Sistema"
+#    systems: "Systems"
     component: "Componente"
     components: "Componentes"
     thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     source_document: "Documento Fonte"
     document: "Documento"
     sprite_sheet: "Folha de Sprite"
+#    employers: "Employers"
+#    candidates: "Candidates"
     candidate_sessions: "Sessões de Candidatos"
     user_remark: "Observação do Utilizador"
+#    user_remarks: "User Remarks"
     versions: "Versões"
     items: "Itens"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
   delta:
     added: "Adicionados/as"

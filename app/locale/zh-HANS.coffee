@@ -126,6 +126,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     level_difficulty: "难度："
     play_as: "Play As"
     spectate: "旁观他人的游戏"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "联系我们"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   play_level:
     done: "完成"
-    grid: "格子"
     customize_wizard: "自定义向导"
     home: "主页"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "利用标准编码格式美化你的代码。"
+#    maximize_editor: "Maximize/minimize code editor."
     move_wizard: "在关卡中移动你的巫师角色。"
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unknown: "未知错误."
 
   resources:
+#    sessions: "Sessions"
 #    your_sessions: "Your Sessions"
     level: "等级"
     social_network_apis: "社交网络 APIs"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    patched_model: "Source Document"
 #    model: "Model"
 #    system: "System"
+#    systems: "Systems"
 #    component: "Component"
 #    components: "Components"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    source_document: "Source Document"
 #    document: "Document"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
+#    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
 #  delta:
 #    added: "Added"

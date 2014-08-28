@@ -126,6 +126,8 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     level_difficulty: "Schwierigkeit: "
     play_as: "Spiel als"
     spectate: "Zueluege"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "CodeCombat kontaktiere"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 
   play_level:
     done: "Fertig"
-    grid: "Gitter"
     customize_wizard: "Zauberer apasse"
     home: "Home"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
     toggle_grid: "Gitter ischalte/usschalte."
     toggle_pathfinding: "Wegfinder ischalte/usschalte."
     beautify: "Mach din Code schöner, indem du sini Formatierig standartisiersch."
+#    maximize_editor: "Maximize/minimize code editor."
     move_wizard: "Beweg din Zauberer durs Level."
 
 #  admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    unknown: "Unknown error."
 
 #  resources:
+#    sessions: "Sessions"
 #    your_sessions: "Your Sessions"
 #    level: "Level"
 #    social_network_apis: "Social Network APIs"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    patched_model: "Source Document"
 #    model: "Model"
 #    system: "System"
+#    systems: "Systems"
 #    component: "Component"
 #    components: "Components"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "Deutsch (Schweiz)", englishDescription: "Ge
 #    source_document: "Source Document"
 #    document: "Document"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
+#    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
 #  delta:
 #    added: "Added"
