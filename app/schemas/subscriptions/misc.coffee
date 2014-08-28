@@ -22,7 +22,7 @@ module.exports =
   'router:navigate': c.object {required: ['route']},
     route: {type: 'string'}
     view: {type: 'object'}
-    viewClass: {type: 'object'}
+    viewClass: {type: 'function'}
     viewArgs: {type: 'array'}
 
   'achievements:new': c.object {required: 'earnedAchievements'},

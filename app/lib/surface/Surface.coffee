@@ -424,7 +424,7 @@ module.exports = Surface = class Surface extends CocoClass
     oldHeight = parseInt @canvas.attr('height'), 10
     aspectRatio = oldWidth / oldHeight
     pageWidth = $('#page-container').width() - 17  # 17px nano scroll bar
-    if @realTime
+    if @realTime or @options.spectateGame
       pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio
