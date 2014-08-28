@@ -1,5 +1,7 @@
 WorldSelectModal = require './modals/WorldSelectModal'
 ThangType = require '/models/ThangType'
+LevelComponent = require 'models/LevelComponent'
+CocoCollection = require 'collections/CocoCollection'
 
 makeButton = -> $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>')
 shorten = (f) -> parseFloat(f.toFixed(1))
@@ -221,11 +223,63 @@ module.exports.ThangTypeNode = class ThangTypeNode extends TreemaNode.nodeMap.st
     else
       @data = null
 
-module.exports.ItemThangTypeNode = class ThangTypeNode extends ThangTypeNode
+module.exports.ItemThangTypeNode = ItemThangTypeNode = class ItemThangTypeNode extends TreemaNode.nodeMap.string
   valueClass: 'treema-item-thang-type'
+  @items: null
+  @itemsCollection: null
+
+  constructor: ->
+    super(arguments...)
+    @getItems() 
+    unless ItemThangTypeNode.itemsCollection.loaded
+      ItemThangTypeNode.itemsCollection.once('sync', @refreshDisplay, @)
+     
   buildValueForDisplay: (valEl, data) ->
-    super(valEl, data)
-    thangTypeNames = (m.get('name') for m in @settings.supermodel.getModels ThangType when m.get('kind') is 'Item')
-    input = valEl.find('input').autocomplete(source: thangTypeNames, minLength: 0, delay: 0, autoFocus: true)
-    input.val(@thangType?.get('name') or 'None')
+    @buildValueForDisplaySimply(valEl, @getCurrentItem() or '')
     valEl
+    
+  buildValueForEditing: (valEl, data) ->
+    super(valEl, data)
+    if ItemThangTypeNode.items
+      source = (item.name for item in ItemThangTypeNode.items when @keyForParent in item.slots)
+      input = valEl.find('input').autocomplete(source: source, minLength: 0, delay: 0, autoFocus: true)
+    input.val(@getCurrentItem() or '')
+    valEl
+    
+  getCurrentItem: ->
+    window.itemData = @getData()
+    window.items = ItemThangTypeNode.items
+    return null unless ItemThangTypeNode.items
+    original = @getData()
+    return null unless original
+    item = _.find ItemThangTypeNode.items, { original: original }
+    item?.name or '...'
+    
+  getItems: ->
+    return if ItemThangTypeNode.itemsCollection
+    ItemThangTypeNode.itemsCollection = new CocoCollection([], {
+      url: '/db/thang.type'
+      project:['name', 'components', 'original']
+      model: ThangType
+    })
+    res = ItemThangTypeNode.itemsCollection.fetch()
+    ItemThangTypeNode.itemsCollection.once 'sync', => @processItems(ItemThangTypeNode.itemsCollection)
+    
+  processItems: (itemCollection) ->
+    ItemThangTypeNode.items = []
+    for itemThang in itemCollection.models
+      itemComponent = _.find itemThang.get('components'), {original: LevelComponent.ItemID}
+      continue unless itemComponent
+      slots = itemComponent.config?.slots
+      continue unless slots?.length
+      ItemThangTypeNode.items.push {
+        name: itemThang.get('name')
+        original: itemThang.get('original')
+        slots: slots
+      }
+
+  saveChanges: ->
+    thangTypeName = @$el.find('input').val()
+    item = _.find(ItemThangTypeNode.items, {name: thangTypeName})
+    return @remove() unless item
+    @data = item.original

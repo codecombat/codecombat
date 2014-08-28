@@ -33,8 +33,6 @@ module.exports = class ThangComponentsEditView extends CocoView
     @world = options.world
     @level = options.level
     @loadComponents(@components)
-    # Need to grab the ThangTypes so that we can autocomplete items in inventory based on them.
-    @itemThangTypes = @supermodel.loadCollection(new ItemThangTypeSearchCollection(), 'thangs').model
     
   setThangType: (@thangType) ->
     return unless componentRefs = @thangType?.get('components')
