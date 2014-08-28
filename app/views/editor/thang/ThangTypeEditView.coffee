@@ -56,6 +56,7 @@ module.exports = class ThangTypeEditView extends RootView
     @thangType.saveBackups = true
     @listenToOnce @thangType, 'sync', ->
       @files = @supermodel.loadCollection(new DocumentFiles(@thangType), 'files').model
+      @updateFileSize()
     @refreshAnimation = _.debounce @refreshAnimation, 500
 
   getRenderData: (context={}) ->
@@ -64,6 +65,7 @@ module.exports = class ThangTypeEditView extends RootView
     context.animations = @getAnimationNames()
     context.authorized = not me.get('anonymous')
     context.recentlyPlayedLevels = storage.load('recently-played-levels') ? ['items']
+    context.fileSizeString = @fileSizeString
     context
 
   getAnimationNames: ->
@@ -197,6 +199,16 @@ module.exports = class ThangTypeEditView extends RootView
     @treema.set('raw', @thangType.get('raw'))
     @updateSelectBox()
     @refreshAnimation()
+    @updateFileSize()
+
+  updateFileSize: ->
+    file = JSON.stringify(@thangType.attributes)
+    compressed = LZString.compress(file)
+    size = (file.length / 1024).toFixed(1) + "KB"
+    compressedSize = (compressed.length / 1024).toFixed(1) + "KB"
+    gzipCompressedSize = compressedSize * 1.65  # just based on comparing ogre barracks
+    @fileSizeString = "Size: #{size} (~#{compressedSize} gzipped)"
+    @$el.find('#thang-type-file-size').text @fileSizeString
 
   # animation select
 
