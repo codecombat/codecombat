@@ -6,6 +6,7 @@ module.exports = class ArticleSearchView extends SearchView
   model: require 'models/Article'
   modelURL: '/db/article'
   tableTemplate: require 'templates/editor/article/table'
+  page: 'article'
 
   getRenderData: ->
     context = super()

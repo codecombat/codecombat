@@ -6,6 +6,7 @@ module.exports = class LevelSearchView extends SearchView
   model: require 'models/Level'
   modelURL: '/db/level'
   tableTemplate: require 'templates/editor/level/table'
+  page: 'editor'
 
   getRenderData: ->
     context = super()

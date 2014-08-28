@@ -1,10 +1,11 @@
 table.table
-  tr
-    th(colspan=3)
-      span(data-i18n="general.results")
-        | Results
-      span
-        |: #{documents.length}
+  block tableResultsHeader
+    tr
+      th(colspan=3)
+        span(data-i18n="general.results")
+          | Results
+        span
+          |: #{documents.length}
 
   block tableHeader
     tr
@@ -13,9 +14,9 @@ table.table
       th(data-i18n="general.version") Version
 
   block tableBody
-    for data in documents
-      - data = data.attributes;
-      tr
+    for document in documents
+      - var data = document.attributes;
+      tr(class=document.getOwner() == me.id ? 'mine' : '')
         td
           a(href="/editor/#{page}/#{data.slug || data._id}")
             | #{data.name}
