@@ -373,6 +373,11 @@ module.exports = class SpriteBoss extends CocoClass
     @updateTarget()
     return unless @selectionMark
     @selectedSprite = null if @selectedSprite and (@selectedSprite.destroyed or not @selectedSprite.thang)
+    # The selection mark should be on the ground layer, unless we're not a normal sprite (like a wall), in which case we'll place it higher so we can see it.
+    if @selectedSprite and @selectedSprite.imageObject.parent isnt @spriteLayers.Default
+      @selectionMark.setLayer @spriteLayers.Default
+    else if @selectedSprite
+      @selectionMark.setLayer @spriteLayers.Ground
     @selectionMark.toggle @selectedSprite?
     @selectionMark.setSprite @selectedSprite
     @selectionMark.update()
