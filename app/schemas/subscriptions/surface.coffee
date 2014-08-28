@@ -143,11 +143,11 @@ module.exports =  # /app/lib/surface
 
   'surface:stage-mouse-up': c.object {required: ['onBackground', 'originalEvent']},
     onBackground: {type: 'boolean'}
-    x: {type: 'number'}
-    y: {type: 'number'}
+    x: {type: ['number', 'undefined']}
+    y: {type: ['number', 'undefined']}
     originalEvent: {type: 'object'}
 
-  'surface:mouse-scrolled': c.object {required: ['deltaX', 'deltaY', 'screenPos', 'canvas']},
+  'surface:mouse-scrolled': c.object {required: ['deltaX', 'deltaY', 'canvas']},
     deltaX: {type: 'number'}
     deltaY: {type: 'number'}
     screenPos: c.object {required: ['x', 'y']},

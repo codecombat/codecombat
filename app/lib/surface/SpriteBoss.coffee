@@ -224,7 +224,7 @@ module.exports = class SpriteBoss extends CocoClass
       for slot, itemID of thang.inventoryIDs
         item = @world.getThangByID itemID
         unless item.equipped
-          #console.log thang.id, 'equipping', item, 'in', thang.slot, 'Surface-side'
+          console.log thang.id, 'equipping', item, 'in', thang.slot, 'Surface-side, but it cannot equip?' unless item.equip
           item.equip()
           itemsJustEquipped.push item
     return itemsJustEquipped

@@ -496,8 +496,8 @@ module.exports = Surface = class Surface extends CocoClass
     event =
       deltaX: e.deltaX
       deltaY: e.deltaY
-      screenPos: @mouseScreenPos
       canvas: @canvas
+    event.screenPos = @mouseScreenPos if @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
   hookUpChooseControls: ->
