@@ -37,6 +37,7 @@ module.exports =
   'level:set-time': c.object {},
     time: {type: 'number', minimum: 0}
     ratio: {type: 'number', minimum: 0, maximum: 1}
+    ratioOffset: {type: 'number'}
     frameOffset: {type: 'integer'}
     scrubDuration: {type: 'integer', minimum: 0}
 
