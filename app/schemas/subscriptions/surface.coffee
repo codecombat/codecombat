@@ -38,7 +38,7 @@ module.exports =  # /app/lib/surface
 
   'sprite:speech-updated': c.object {required: ['sprite', 'thang']},
     sprite: {type: 'object'}
-    thang: {type: 'object'}
+    thang: {type: ['object', 'null']}
     blurb: {type: ['string', 'null']}
     message: {type: 'string'}
     mood: {type: 'string'}

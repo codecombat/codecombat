@@ -126,6 +126,8 @@
     level_difficulty: "Difficulty: "
     play_as: "Play As"
     spectate: "Spectate"
+    players: "players"
+    hours_played: "hours played"
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -949,6 +951,7 @@
     wizard: "Wizard"
     achievement: "Achievement"
     clas: "CLAs"
+    play_counts: "Play Counts"
 
   delta:
     added: "Added"
