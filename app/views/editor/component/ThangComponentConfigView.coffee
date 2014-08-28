@@ -15,6 +15,7 @@ module.exports = class ThangComponentConfigView extends CocoView
     @component = options.component
     @config = options.config or {}
     @additionalDefaults = options.additionalDefaults
+    @isDefaultComponent = false
     @world = options.world
     @level = options.level
     @callback = options.callback
@@ -86,9 +87,9 @@ module.exports = class ThangComponentConfigView extends CocoView
 
   onConfigEdited: =>
     return if @handlingChange
-    @config = @editThangTreema.data
+    @config = @data()
     @changed = true
-    @trigger 'changed', { component: @component, config: @data() }
+    @trigger 'changed', { component: @component, config: @config }
 
   data: -> @editThangTreema.data
 
