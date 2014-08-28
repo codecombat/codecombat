@@ -126,6 +126,8 @@
     level_difficulty: "Difficulty: "
     play_as: "Play As"
     spectate: "Spectate"
+    players: "players"
+    hours_played: "hours played"
 
   contact:
     contact_us: "Contact CodeCombat"
@@ -511,6 +513,7 @@
     toggle_grid: "Toggle grid overlay."
     toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Beautify your code by standardizing its formatting."
+    maximize_editor: "Maximize/minimize code editor."
     move_wizard: "Move your Wizard around the level."
 
   admin:
@@ -948,6 +951,7 @@
     wizard: "Wizard"
     achievement: "Achievement"
     clas: "CLAs"
+    play_counts: "Play Counts"
 
   delta:
     added: "Added"

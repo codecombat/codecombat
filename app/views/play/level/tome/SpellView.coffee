@@ -50,6 +50,7 @@ module.exports = class SpellView extends CocoView
     'tome:update-snippets': 'addZatannaSnippets'
     'tome:insert-snippet': 'onInsertSnippet'
     'tome:spell-beautify': 'onSpellBeautify'
+    'tome:maximize-toggled': 'onMaximizeToggled'
     'script:state-changed': 'onScriptStateChange'
 
   events:
@@ -181,8 +182,8 @@ module.exports = class SpellView extends CocoView
       exec: ->  # just prevent default ACE go-to-line alert
     addCommand
       name: 'open-fullscreen-editor'
-      bindKey: {win: 'Alt-Shift-F', mac: 'Ctrl-Shift-F'}
-      exec: -> Backbone.Mediator.publish 'tome:fullscreen-view', {}
+      bindKey: {win: 'Ctrl-Shift-M', mac: 'Command-Shift-M|Ctrl-Shift-M'}
+      exec: -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
 
   fillACE: ->
     @ace.setValue @spell.source
@@ -664,6 +665,9 @@ module.exports = class SpellView extends CocoView
     ugly = @getSource()
     pretty = @spellThang.aether.beautify ugly
     @ace.setValue pretty
+
+  onMaximizeToggled: (e) ->
+    @ace.resize true
 
   onChangeEditorConfig: (e) ->
     aceConfig = me.get('aceConfig') ? {}

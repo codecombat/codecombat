@@ -16,7 +16,7 @@ goalStatesSchema =
           {type: 'integer', minimum: 0}
           {type: 'string', enum: ['end']}
         ]
-      team: {type: ['null', 'string']}
+      team: {type: ['null', 'string', 'undefined']}
 
 worldUpdatedEventSchema = c.object {required: ['world', 'firstWorld', 'goalStates', 'team', 'firstChangedFrame']},
   world: {type: 'object'}
@@ -50,4 +50,4 @@ module.exports =
 
   'god:debug-value-return': c.object {required: ['key']},
     key: {type: 'string'}
-    value: {type: 'any'}
+    value: {type: ['any', 'undefined']}

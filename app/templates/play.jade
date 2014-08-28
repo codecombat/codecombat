@@ -28,4 +28,11 @@ block content
                 span(data-i18n="play.level_difficulty") Difficulty: 
                 each i in Array(level.difficulty)
                   i.icon-star
+                - var playCount = levelPlayCountMap[level.id]
+                if playCount
+                  div
+                    span.spr #{playCount.sessions}
+                    span(data-i18n="play.players") players
+                    span.spr , #{Math.round(playCount.playtime / 3600)}
+                    span(data-i18n="play.hours_played") hours played
 

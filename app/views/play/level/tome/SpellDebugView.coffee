@@ -171,7 +171,7 @@ module.exports = class SpellDebugView extends CocoView
     @frameRate = e.world.frameRate
 
   onFrameChanged: (data) ->
-    @currentFrame = data.frame
+    @currentFrame = Math.round(data.frame)
     @frameRate = data.world.frameRate
 
   onSpellChangedCalculation: (data) ->

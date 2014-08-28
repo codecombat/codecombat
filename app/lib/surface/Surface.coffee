@@ -486,7 +486,6 @@ module.exports = Surface = class Surface extends CocoClass
 
   onMouseUp: (e) =>
     return if @disabled
-    console.log 'yo on mouse up', e
     onBackground = not @stage.hitTest e.stageX, e.stageY
     Backbone.Mediator.publish 'surface:stage-mouse-up', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
 
@@ -497,8 +496,8 @@ module.exports = Surface = class Surface extends CocoClass
     event =
       deltaX: e.deltaX
       deltaY: e.deltaY
-      screenPos: @mouseScreenPos
       canvas: @canvas
+    event.screenPos = @mouseScreenPos if @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
 
   hookUpChooseControls: ->

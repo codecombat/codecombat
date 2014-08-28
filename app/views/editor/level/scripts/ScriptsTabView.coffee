@@ -12,6 +12,7 @@ module.exports = class ScriptsTabView extends CocoView
 
   subscriptions:
     'editor:level-loaded': 'onLevelLoaded'
+    'editor:thangs-edited': 'onThangsEdited'
 
   constructor: (options) ->
     super options
@@ -53,7 +54,7 @@ module.exports = class ScriptsTabView extends CocoView
       @selectedScriptPath = null
       return
 
-    thangIDs = @getThangIDs()
+    @thangIDs = @getThangIDs()
     treemaOptions =
       world: @world
       filePath: "db/level/#{@level.get('original')}"
@@ -61,7 +62,7 @@ module.exports = class ScriptsTabView extends CocoView
       view: @
       schema: Level.schema.properties.scripts.items
       data: selected.data
-      thangIDs: thangIDs
+      thangIDs: @thangIDs
       dimensions: @dimensions
       supermodel: @supermodel
       readOnly: me.get('anonymous')
@@ -88,7 +89,7 @@ module.exports = class ScriptsTabView extends CocoView
     @selectedScriptPath = newPath
 
   getThangIDs: ->
-    (t.id for t in @level.get('thangs') when t.id isnt 'Interface')
+    (t.id for t in @level.get('thangs'))
 
   onNewScriptAdded: (scriptNode) =>
     return unless scriptNode
@@ -109,6 +110,11 @@ module.exports = class ScriptsTabView extends CocoView
 
   onScriptChanged: =>
     @scriptsTreema.set(@selectedScriptPath, @scriptTreema.data)
+
+  onThangsEdited: (e) ->
+    # Update in-place so existing Treema nodes refer to the same array.
+    @thangIDs.splice(0, @thangIDs.length, @getThangIDs()...)
+
 
 class ScriptsNode extends TreemaArrayNode
   nodeDescription: 'Script'

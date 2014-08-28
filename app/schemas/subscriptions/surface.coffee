@@ -38,19 +38,19 @@ module.exports =  # /app/lib/surface
 
   'sprite:speech-updated': c.object {required: ['sprite', 'thang']},
     sprite: {type: 'object'}
-    thang: {type: 'object'}
-    blurb: {type: 'string'}
+    thang: {type: ['object', 'null']}
+    blurb: {type: ['string', 'null']}
     message: {type: 'string'}
     mood: {type: 'string'}
-    responses: {type: 'array'}
+    responses: {type: ['array', 'null', 'undefined']}
     spriteID: {type: 'string'}
     sound: {type: ['null', 'undefined', 'object']}
 
   'level:sprite-dialogue': c.object {required: ['spriteID', 'message']},
-    blurb: {type: 'string'}
+    blurb: {type: ['string', 'null']}
     message: {type: 'string'}
     mood: {type: 'string'}
-    responses: {type: 'array'}
+    responses: {type: ['array', 'null', 'undefined']}
     spriteID: {type: 'string'}
     sound: {type: ['null', 'undefined', 'object']}
 
@@ -141,13 +141,13 @@ module.exports =  # /app/lib/surface
     originalEvent: {type: 'object'}
     worldPos: {type: ['object', 'null', 'undefined']}
 
-  'surface:stage-mouse-up': c.object {required: ['onBackground', 'x', 'y', 'originalEvent']},
+  'surface:stage-mouse-up': c.object {required: ['onBackground', 'originalEvent']},
     onBackground: {type: 'boolean'}
-    x: {type: 'number'}
-    y: {type: 'number'}
+    x: {type: ['number', 'undefined']}
+    y: {type: ['number', 'undefined']}
     originalEvent: {type: 'object'}
 
-  'surface:mouse-scrolled': c.object {required: ['deltaX', 'deltaY', 'screenPos', 'canvas']},
+  'surface:mouse-scrolled': c.object {required: ['deltaX', 'deltaY', 'canvas']},
     deltaX: {type: 'number'}
     deltaY: {type: 'number'}
     screenPos: c.object {required: ['x', 'y']},

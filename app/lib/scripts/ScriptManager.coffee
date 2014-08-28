@@ -88,7 +88,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       scriptStates: scriptStates
       timeSinceLastScriptEnded: (if @lastScriptEnded then now - @lastScriptEnded else 0) / 1000
 
-    Backbone.Mediator.publish 'script:tick', stateEvent  # Is this even needed?
+    Backbone.Mediator.publish 'script:tick', stateEvent  # Used to trigger level scripts.
 
   loadFromSession: ->
     # load the queue with note groups to skip through

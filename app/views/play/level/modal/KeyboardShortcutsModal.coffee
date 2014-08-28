@@ -14,4 +14,5 @@ module.exports = class KeyboardShortcutsModal extends ModalView
     c.enter = $.i18n.t 'keyboard_shortcuts.enter'
     c.space = $.i18n.t 'keyboard_shortcuts.space'
     c.escapeKey = $.i18n.t 'keyboard_shortcuts.escape'
+    c.shift = $.i18n.t 'keyboard_shortcuts.shift'
     c

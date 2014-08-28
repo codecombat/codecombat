@@ -29,6 +29,9 @@ module.exports =
 
   'editor:level-thang-done-editing': c.object {}
 
+  'editor:thangs-edited': c.object {required: ['thangs']},
+    thangs: c.array {}, {type: 'object'}
+
   'editor:level-loaded': c.object {required: ['level']},
     level: {type: 'object'}
 
