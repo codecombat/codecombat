@@ -31,7 +31,7 @@ module.exports = class LevelHUDView extends CocoView
     @$el.addClass 'no-selection'
 
   onClick: (e) ->
-    Backbone.Mediator.publish 'tome:focus-editor' unless $(e.target).parents('.thang-props').length
+    Backbone.Mediator.publish 'tome:focus-editor', {} unless $(e.target).parents('.thang-props').length
 
   onFrameChanged: (e) ->
     @timeProgress = e.progress
@@ -207,10 +207,10 @@ module.exports = class LevelHUDView extends CocoView
       if @lastResponses
         buttons = $('.enter button')
         for response, i in @lastResponses
-          f = (r) => => setTimeout((-> Backbone.Mediator.publish(r.channel, r.event)), 10)
+          f = (r) => => setTimeout((-> Backbone.Mediator.publish(r.channel, r.event or {})), 10)
           $(buttons[i]).click(f(response))
       else
-        $('.enter', @bubble).click(-> Backbone.Mediator.publish('script:end-current-script'))
+        $('.enter', @bubble).click(-> Backbone.Mediator.publish('script:end-current-script', {}))
       return
     @animator.tick()
 
@@ -221,7 +221,7 @@ module.exports = class LevelHUDView extends CocoView
     # If we decide that always having the last one fire is bad, we should make it smarter.
     return unless @lastResponses?.length
     r = @lastResponses[@lastResponses.length - 1]
-    _.delay (-> Backbone.Mediator.publish(r.channel, r.event)), 10
+    _.delay (-> Backbone.Mediator.publish(r.channel, r.event or {})), 10
 
   onEscapePressed: (e) ->
     @escapePressed = true

@@ -18,6 +18,7 @@ module.exports = class SettingsTabView extends CocoView
 
   subscriptions:
     'editor:level-loaded': 'onLevelLoaded'
+    'editor:thangs-edited': 'onThangsEdited'
 
   constructor: (options) ->
     super options
@@ -29,7 +30,7 @@ module.exports = class SettingsTabView extends CocoView
     schema = _.cloneDeep Level.schema
     schema.properties = _.pick schema.properties, (value, key) => key in @editableSettings
     schema.required = _.intersection schema.required, @editableSettings
-    thangIDs = @getThangIDs()
+    @thangIDs = @getThangIDs()
     treemaOptions =
       filePath: "db/level/#{@level.get('original')}"
       supermodel: @supermodel
@@ -37,7 +38,7 @@ module.exports = class SettingsTabView extends CocoView
       data: data
       readOnly: me.get('anonymous')
       callbacks: {change: @onSettingsChanged}
-      thangIDs: thangIDs
+      thangIDs: @thangIDs
       nodeClasses:
         object: SettingsNode
         thang: nodes.ThangNode
@@ -47,13 +48,18 @@ module.exports = class SettingsTabView extends CocoView
     @settingsTreema.open()
 
   getThangIDs: ->
-    (t.id for t in @level.get('thangs') when t.id isnt 'Interface')
+    (t.id for t in @level.get('thangs'))
 
   onSettingsChanged: (e) =>
     $('.level-title').text @settingsTreema.data.name
     for key in @editableSettings
       continue if @settingsTreema.data[key] is undefined
       @level.set key, @settingsTreema.data[key]
+
+  onThangsEdited: (e) ->
+    # Update in-place so existing Treema nodes refer to the same array.
+    @thangIDs.splice(0, @thangIDs.length, @getThangIDs()...)
+
 
 class SettingsNode extends TreemaObjectNode
   nodeDescription: 'Settings'

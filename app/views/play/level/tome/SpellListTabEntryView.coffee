@@ -16,13 +16,13 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     'tome:spell-changed': 'onSpellChanged'
     'god:new-world-created': 'onNewWorld'
     'tome:spell-changed-language': 'onSpellChangedLanguage'
-    'tome:fullscreen-view': 'onFullscreenClick'
+    'tome:toggle-maximize': 'onToggleMaximize'
 
   events:
     'click .spell-list-button': 'onDropdownClick'
     'click .reload-code': 'onCodeReload'
     'click .beautify-code': 'onBeautifyClick'
-    'click .fullscreen-code': 'onFullscreenClick'
+    'click .fullscreen-code': 'onToggleMaximize'
 
   constructor: (options) ->
     super options
@@ -98,11 +98,12 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:spell-beautify', spell: @spell
 
-  onFullscreenClick: (e) ->
+  onToggleMaximize: (e) ->
     $codearea = $('html')
     $('#code-area').css 'z-index', 20 unless $codearea.hasClass 'fullscreen-editor'
     $('html').toggleClass 'fullscreen-editor'
     $('.fullscreen-code').toggleClass 'maximized'
+    Backbone.Mediator.publish 'tome:maximize-toggled', {}
 
   updateReloadButton: ->
     changed = @spell.hasChanged null, @spell.getSource()

@@ -68,7 +68,7 @@ module.exports = class PlayLevelView extends RootView
 
   events:
     'click #level-done-button': 'onDonePressed'
-    'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:fullscreen-view', {}
+    'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
 
   shortcuts:
     'ctrl+s': 'onCtrlS'

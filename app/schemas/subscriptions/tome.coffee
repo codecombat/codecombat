@@ -1,7 +1,7 @@
 c = require 'schemas/schemas'
 
 module.exports =
-  'tome:cast-spell': c.object {title: 'Cast Spell', description: 'Published when a spell is cast', required: ['spell', 'thang', 'preload', 'realTime']},
+  'tome:cast-spell': c.object {title: 'Cast Spell', description: 'Published when a spell is cast', required: []},
     spell: {type: 'object'}
     thang: {type: 'object'}
     preload: {type: 'boolean'}
@@ -106,4 +106,6 @@ module.exports =
 
   'tome:focus-editor': c.object {title: 'Focus Editor', description: 'Published whenever we want to give focus back to the editor'}
 
-  'tome:fullscreen-view': c.object {title: 'Fullscreen View', description: 'Published when we want to make the Tome take up most of the screen'}
+  'tome:toggle-maximize': c.object {title: 'Toggle Maximize', description: 'Published when we want to make the Tome take up most of the screen'}
+
+  'tome:maximize-toggled': c.object {title: 'Maximize Toggled', description: 'Published when the Tome has changed maximize/minimize state.'}
