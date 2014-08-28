@@ -73,7 +73,7 @@ body.is-playing
     right: 0
     top: 0px
     bottom: 0
-    transition: width 0.5s ease-in-out
+    @include transition(width 0.5s ease-in-out, right 0.5s ease-in-out)
     
   #pointer
     position: absolute
@@ -186,9 +186,25 @@ body.is-playing
         color: white
         text-decoration: underline
 
+  #fullscreen-editor-background-screen
+    background-color: black
+    opacity: 0.5
+    cursor: pointer
+    display: none
+    position: absolute
+    left: 0
+    right: 0
+    bottom: 0
+    top: 0
+    z-index: 19
+
 html.fullscreen-editor
   #level-view
+    #fullscreen-editor-background-screen
+      display: block
+
     #code-area
       position: fixed
-      width: 100%
+      width: 95%
       height: 100%
+      right: 0

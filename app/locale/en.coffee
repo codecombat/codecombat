@@ -511,6 +511,7 @@
     toggle_grid: "Toggle grid overlay."
     toggle_pathfinding: "Toggle pathfinding overlay."
     beautify: "Beautify your code by standardizing its formatting."
+    maximize_editor: "Maximize/minimize code editor."
     move_wizard: "Move your Wizard around the level."
 
   admin:

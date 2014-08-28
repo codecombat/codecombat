@@ -29,6 +29,10 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
 
   getRenderData: (context={}) ->
     context = super context
+    ctrl = if @isMac() then 'Cmd' else 'Ctrl'
+    shift = $.i18n.t 'keyboard_shortcuts.shift'
+    context.beautifyShortcutVerbose = "#{ctrl}+#{shift}+B: #{$.i18n.t 'keyboard_shortcuts.beautify'}"
+    context.maximizeShortcutVerbose = "#{ctrl}+#{shift}+M: #{$.i18n.t 'keyboard_shortcuts.maximize_editor'}"
     context
 
   afterRender: ->
@@ -86,15 +90,15 @@ module.exports = class SpellListTabEntryView extends SpellListEntryView
     return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:toggle-spell-list', {}
 
-  onCodeReload: ->
+  onCodeReload: (e) ->
     return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:reload-code', spell: @spell
 
-  onBeautifyClick: ->
+  onBeautifyClick: (e) ->
     return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:spell-beautify', spell: @spell
 
-  onFullscreenClick: ->
+  onFullscreenClick: (e) ->
     $codearea = $('html')
     $('#code-area').css 'z-index', 20 unless $codearea.hasClass 'fullscreen-editor'
     $('html').toggleClass 'fullscreen-editor'

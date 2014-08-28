@@ -50,4 +50,4 @@ module.exports =
 
   'god:debug-value-return': c.object {required: ['key']},
     key: {type: 'string'}
-    value: {type: 'any'}
+    value: {type: ['any', 'undefined']}

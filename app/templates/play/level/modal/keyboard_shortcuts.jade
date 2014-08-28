@@ -5,15 +5,15 @@ block modal-header-content
 
 block modal-body-content
   dl.dl-horizontal
-    dt(title="Shift+" + enter)
+    dt(title=shift + "+" + enter)
       code ⇧+#{enter}
     dd(data-i18n="keyboard_shortcuts.cast_spell") Cast current spell.
   dl.dl-horizontal
-    dt(title=ctrlName + "+Shift+" + enter)
+    dt(title=ctrlName + "+" + shift + "+" + enter)
       code #{ctrl}+⇧+#{enter}
     dd(data-i18n="keyboard_shortcuts.run_real_time") Run in real time.
   dl.dl-horizontal
-    dt(title="Shift+" + space)
+    dt(title=shift + "+" + space)
       code ⇧+#{space}
     dd(data-i18n="keyboard_shortcuts.continue_script") Continue past current script.
   dl.dl-horizontal
@@ -55,9 +55,13 @@ block modal-body-content
       code #{ctrl}+O
     dd(data-i18n="keyboard_shortcuts.toggle_pathfinding") Toggle pathfinding overlay.
   dl.dl-horizontal
-    dt(title=ctrlName + "+Shift+B")
+    dt(title=ctrlName + "+" + shift + "+B")
       code #{ctrl}+⇧+B
     dd(data-i18n="keyboard_shortcuts.beautify") Beautify your code by standardizing its formatting.
+  dl.dl-horizontal
+    dt(title=ctrlName + "+" + shift + "+M")
+      code #{ctrl}+⇧+M
+    dd(data-i18n="keyboard_shortcuts.maximize_editor") Maximize/minimize code editor.
   dl.dl-horizontal
     dt(title="Arrow keys")
       code ←
