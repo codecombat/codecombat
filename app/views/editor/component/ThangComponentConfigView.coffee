@@ -29,6 +29,11 @@ module.exports = class ThangComponentConfigView extends CocoView
   afterRender: ->
     super()
     @buildTreema()
+    
+  setConfig: (config) ->
+    @handlingChange = true
+    @editThangTreema.set('/', config)
+    @handlingChange = false
 
   setIsDefaultComponent: (isDefaultComponent) ->
     changed = @isDefaultComponent isnt isDefaultComponent
@@ -80,6 +85,7 @@ module.exports = class ThangComponentConfigView extends CocoView
       @$el.find('.panel-body').hide()
 
   onConfigEdited: =>
+    return if @handlingChange
     @config = @editThangTreema.data
     @changed = true
     @trigger 'changed', { component: @component, config: @data() }

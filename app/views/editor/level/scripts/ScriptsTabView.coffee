@@ -88,7 +88,7 @@ module.exports = class ScriptsTabView extends CocoView
     @selectedScriptPath = newPath
 
   getThangIDs: ->
-    (t.id for t in @level.get('thangs') when t.id isnt 'Interface')
+    (t.id for t in @level.get('thangs') ? [] when t.id isnt 'Interface')
 
   onNewScriptAdded: (scriptNode) =>
     return unless scriptNode

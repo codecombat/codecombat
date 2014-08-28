@@ -108,8 +108,7 @@ module.exports = class ThangComponentsEditView extends CocoView
 
     if @components.length < @lastComponentLength
       @onComponentsRemoved()
-    else
-      @onComponentsAdded()
+    @onComponentsAdded()
 
   onComponentsRemoved: ->
     componentMap = {}
