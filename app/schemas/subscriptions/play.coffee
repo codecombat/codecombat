@@ -107,7 +107,7 @@ module.exports =
 
   'level:highlight-dom': c.object {required: ['selector']},
     selector: {type: 'string'}
-    delay: {type: 'number'}
+    delay: {type: ['number', 'null', 'undefined']}
     sides: {type: 'array', items: {'enum': ['left', 'right', 'top', 'bottom']}}
     offset: {type: 'object'}
     rotation: {type: 'number'}
