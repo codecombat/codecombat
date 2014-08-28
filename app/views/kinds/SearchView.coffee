@@ -7,10 +7,18 @@ class SearchCollection extends Backbone.Collection
   initialize: (modelURL, @model, @term, @projection) ->
     @url = "#{modelURL}?project="
     if @projection? and not (@projection == [])
-      @url += projection[0]
-      @url += ',' + projected for projected in projection[1..]
+      @url += 'created,permissions'
+      @url += ',' + projected for projected in projection
     else @url += 'true'
     @url += "&term=#{term}" if @term
+
+  comparator: (a, b) ->
+    score = 0
+    score -= 9001900190019001 if a.getOwner() is me.id
+    score += 9001900190019001 if b.getOwner() is me.id
+    score -= new Date(a.get 'created')
+    score -= -(new Date(b.get 'created'))
+    if score < 0 then -1 else (if score > 0 then 1 else 0)
 
 module.exports = class SearchView extends RootView
   template: template
@@ -67,8 +75,9 @@ module.exports = class SearchView extends RootView
 
   onSearchChange: ->
     @hideLoading()
+    @collection.sort()
     documents = @collection.models
-    table = $(@tableTemplate(documents:documents))
+    table = $(@tableTemplate(documents: documents, me: me, page: @page))
     @$el.find('table').replaceWith(table)
     @$el.find('table').i18n()
 
