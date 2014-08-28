@@ -134,30 +134,17 @@ module.exports = class Level extends CocoModel
         visit comp
       thang.components = sorted
 
-  # TODO DEFAULTS
   fillInDefaultComponentConfiguration: (thangs, levelComponents) ->
     for thang in thangs ? []
       for component in thang.components or []
         continue unless lc = _.find levelComponents, {original: component.original}
         component.config ?= {}
-        @walkDefaults component.config, lc.configSchema.properties
+        TreemaNode.utils.populateDefaults(component.config, lc.configSchema)
 
   fillInDefaultSystemConfiguration: (levelSystems) ->
     for system in levelSystems ? []
       system.config ?= {}
-      @walkDefaults system.config, system.model.configSchema.properties
-
-  walkDefaults: (config, properties) ->
-    return unless properties
-    for prop, schema of properties
-      if schema.default? and config[prop] is undefined
-        #console.log 'Setting default of', config, 'for', prop, 'to', schema.default
-        config[prop] = schema.default
-      if schema.type is 'object' and config[prop]
-        @walkDefaults config[prop], schema.properties
-      else if schema.type is 'array' and config[prop]
-        for item in config[prop] or []
-          @walkDefaults item, schema.items
+      TreemaNode.utils.populateDefaults(system.config, system.model.configSchema)
 
   dimensions: ->
     width = 0
