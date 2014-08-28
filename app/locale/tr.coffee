@@ -126,6 +126,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     level_difficulty: "Zorluk: "
     play_as: "Olarak Oyna"
     spectate: "İzleyici olarak katıl"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "CodeCombat ile İletişim"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 
   play_level:
     done: "Tamamdır"
-    grid: "Harita Bölmeleri"
     customize_wizard: "Sihirbazı Düzenle"
     home: "Anasayfa"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
+#    maximize_editor: "Maximize/minimize code editor."
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     unknown: "Bilinmeyen hata."
 
   resources:
+#    sessions: "Sessions"
     your_sessions: "Oturumlarınız"
     level: "Seviye"
     social_network_apis: "Sosyal Ağ API'leri"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    patched_model: "Source Document"
 #    model: "Model"
 #    system: "System"
+#    systems: "Systems"
 #    component: "Component"
 #    components: "Components"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
 #    source_document: "Source Document"
 #    document: "Document"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
+#    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
 #  delta:
 #    added: "Added"

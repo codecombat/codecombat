@@ -102,13 +102,14 @@ module.exports =  # /app/lib/surface
 
   'sprite:highlight-sprites': c.object {},
     thangIDs: c.array {}, {type: 'string'}
-    delay: {type: 'number'}
+    delay: {type: ['number', 'null', 'undefined']}
 
   'sprite:move': c.object {required: ['spriteID', 'pos']},
     spriteID: {type: 'string'}
     pos: c.object {required: ['x', 'y']},
       x: {type: 'number'}
       y: {type: 'number'}
+      z: {type: 'number'}
     duration: {type: 'number', minimum: 0}
 
   'sprite:mouse-down': spriteMouseEventSchema

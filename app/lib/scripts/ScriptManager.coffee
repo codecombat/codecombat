@@ -271,7 +271,6 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @run()
 
   onEndNoteGroup: (e) ->
-    e?.preventDefault()
     # press enter
     return unless @currentNoteGroup?.script.skippable
     @endNoteGroup()
@@ -285,7 +284,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     clearTimeout(timeout) for timeout in @currentTimeouts
     for module in @currentNoteGroup.modules
       @processNote(note, @currentNoteGroup) for note in module.endNotes()
-    Backbone.Mediator.publish 'script:note-group-ended' unless @quiet
+    Backbone.Mediator.publish 'script:note-group-ended', {} unless @quiet
     @scriptInProgress = false
     @trackScriptCompletionsFromNoteGroup(@currentNoteGroup)
     @currentNoteGroup = null

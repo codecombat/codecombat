@@ -126,6 +126,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_difficulty: "Сложность: "
     play_as: "Играть за "
     spectate: "Наблюдать"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "Связаться с CodeCombat"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   play_level:
     done: "Готово"
-    grid: "Сетка"
     customize_wizard: "Настройки волшебника"
     home: "На главную"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     toggle_grid: "Включить наложение сетки."
     toggle_pathfinding: "Включить путевой оверлей.."
     beautify: "Приукрасьте свой код стандартизацией его форматирования."
+#    maximize_editor: "Maximize/minimize code editor."
     move_wizard: "Перемещайте своего Волшебника по уровню."
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unknown: "Неизвестная ошибка."
 
   resources:
+#    sessions: "Sessions"
     your_sessions: "Ваши сессии"
     level: "Уровень"
     social_network_apis: "API социальных сетей"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     patched_model: "Исходный документ"
     model: "Модель"
     system: "Система"
+#    systems: "Systems"
     component: "Компонент"
     components: "Компоненты"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     source_document: "Исходный документ"
     document: "Документ"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
     user_remark: "Пользовательские поправки"
+#    user_remarks: "User Remarks"
     versions: "Версии"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
   delta:
     added: "Добавлено"

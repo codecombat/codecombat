@@ -126,6 +126,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     level_difficulty: "難度："
     play_as: "Play As"
     spectate: "望別人攪遊戲"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "搭我裏聯繫"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 
   play_level:
     done: "妝下落"
-    grid: "格子"
     customize_wizard: "自設定獻路人"
     home: "主頁"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
+#    maximize_editor: "Maximize/minimize code editor."
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
     unknown: "弗識錯誤。"
 
   resources:
+#    sessions: "Sessions"
 #    your_sessions: "Your Sessions"
     level: "等級"
     social_network_apis: "社交網絡 APIs"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    patched_model: "Source Document"
 #    model: "Model"
 #    system: "System"
+#    systems: "Systems"
 #    component: "Component"
 #    components: "Components"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    source_document: "Source Document"
 #    document: "Document"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
+#    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
 #  delta:
 #    added: "Added"

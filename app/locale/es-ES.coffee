@@ -126,6 +126,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     level_difficulty: "Dificultad: "
     play_as: "Jugar como"
     spectate: "Observar"
+#    players: "players"
+#    hours_played: "hours played"
 
   contact:
     contact_us: "Contacta con CodeCombat"
@@ -355,7 +357,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 
   play_level:
     done: "Hecho"
-    grid: "Cuadrícula"
     customize_wizard: "Personalizar Mago"
     home: "Inicio"
 #    stop: "Stop"
@@ -512,6 +513,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    toggle_grid: "Toggle grid overlay."
 #    toggle_pathfinding: "Toggle pathfinding overlay."
 #    beautify: "Beautify your code by standardizing its formatting."
+#    maximize_editor: "Maximize/minimize code editor."
 #    move_wizard: "Move your Wizard around the level."
 
   admin:
@@ -908,6 +910,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     unknown: "Error desconocido."
 
   resources:
+#    sessions: "Sessions"
     your_sessions: "Tus sesiones"
     level: "Nivel"
     social_network_apis: "APIs de redes sociales"
@@ -923,6 +926,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    patched_model: "Source Document"
     model: "Modelo"
     system: "Sistema"
+#    systems: "Systems"
     component: "Componente"
     components: "Componentes"
 #    thang: "Thang"
@@ -937,10 +941,17 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     source_document: "Documento fuente"
 #    document: "Document"
 #    sprite_sheet: "Sprite Sheet"
+#    employers: "Employers"
+#    candidates: "Candidates"
 #    candidate_sessions: "Candidate Sessions"
 #    user_remark: "User Remark"
+#    user_remarks: "User Remarks"
 #    versions: "Versions"
 #    items: "Items"
+#    wizard: "Wizard"
+#    achievement: "Achievement"
+#    clas: "CLAs"
+#    play_counts: "Play Counts"
 
   delta:
     added: "Añadido"

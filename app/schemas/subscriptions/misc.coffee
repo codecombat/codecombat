@@ -27,3 +27,7 @@ module.exports =
 
   'achievements:new': c.object {required: 'earnedAchievements'},
     earnedAchievements: {type: 'object'}
+
+  'ladder:game-submitted': c.object {required: ['session', 'level']},
+    session: {type: 'object'}
+    level: {type: 'object'}
