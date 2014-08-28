@@ -86,7 +86,7 @@ module.exports = class ThangComponentConfigView extends CocoView
       @$el.find('.panel-body').hide()
 
   onConfigEdited: =>
-    return if @handlingChange
+    return if @destroyed or @handlingChange
     @config = @data()
     @changed = true
     @trigger 'changed', { component: @component, config: @config }

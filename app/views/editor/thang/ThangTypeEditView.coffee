@@ -69,7 +69,7 @@ module.exports = class ThangTypeEditView extends RootView
     context
 
   getAnimationNames: ->
-    raw = _.keys(@thangType.get('raw').animations)
+    raw = _.keys(@thangType.get('raw', true).animations)
     raw = ("raw:#{name}" for name in raw)
     main = _.keys(@thangType.get('actions') or {})
     main.concat(raw)

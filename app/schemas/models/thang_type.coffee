@@ -144,7 +144,7 @@ _.extend ThangTypeSchema.properties,
 
 ThangTypeSchema.required = ['kind']
 
-ThangTypeSchema.deafult = 
+ThangTypeSchema.default = 
   raw: {}
 
 ThangTypeSchema.definitions =
