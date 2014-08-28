@@ -155,21 +155,22 @@ module.exports = class LevelLoader extends CocoClass
     @worldNecessities = @worldNecessities.concat worldNecessities
 
   loadItemThangsEquippedByLevelThang: (levelThang) ->
-    return unless levelThang.components
-    for component in levelThang.components
-      if component.original is LevelComponent.EquipsID and inventory = component.config?.inventory
-        for itemThangType in _.values(inventory)
-          unless itemThangType
-            console.warn "Empty item in inventory for", levelThang
-            continue
-          url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
-          @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
+    @loadItemThangsFromComponentList levelThang.components
+
+  loadItemThangsEquippedByThangType: (thangType) ->
+    @loadItemThangsFromComponentList thangType.get('components')
+
+  loadItemThangsFromComponentList: (components) ->
+    equipsThangComponent = _.find components, (c) -> c.original is LevelComponent.EquipsID
+    inventory = equipsThangComponent?.config?.inventory
+    for itemThangType in _.values inventory
+      url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
+      @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
 
   onThangNamesLoaded: (thangNames) ->
-    if @level.get('type') is 'hero'
-      for thangType in thangNames.models
-        @loadDefaultComponentsForThangType(thangType)
-        @loadEquippedItemsInheritedFromThangType(thangType)
+    for thangType in thangNames.models
+      @loadDefaultComponentsForThangType(thangType)
+      @loadItemThangsEquippedByThangType(thangType)
 
   loadDefaultComponentsForThangType: (thangType) ->
     return unless components = thangType.get('components')
@@ -177,23 +178,11 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level.component/#{component.original}/version/#{component.majorVersion}"
       @worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
 
-  loadEquippedItemsInheritedFromThangType: (thangType) ->
-    for levelThang in @level.get('thangs') or []
-      if levelThang.thangType is thangType.get('original')
-        levelThang = $.extend true, {}, levelThang
-        @level.denormalizeThang(levelThang, @supermodel)
-        equipsComponent = _.find levelThang.components, {original: LevelComponent.EquipsID}
-        inventory = equipsComponent?.config?.inventory
-        continue unless inventory
-        for itemThangType in _.values inventory
-          url = "/db/thang.type/#{itemThangType}/version?project=name,components,original"
-          @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
-
   onWorldNecessityLoaded: (resource) ->
     index = @worldNecessities.indexOf(resource)
-    if (@level?.loading or (@level?.get('type') is 'hero')) and resource.name is 'thang'
+    if resource.name is 'thang'
       @loadDefaultComponentsForThangType(resource.model)
-      @loadEquippedItemsInheritedFromThangType(resource.model)
+      @loadItemThangsEquippedByThangType(resource.model)
 
     return unless index >= 0
     @worldNecessities.splice(index, 1)

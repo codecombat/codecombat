@@ -7,7 +7,6 @@ LevelLoader = require 'lib/LevelLoader'
 # LEVELS
 
 levelWithOgreWithMace = {
-  type: 'hero'
   thangs: [{
     thangType: 'ogre'
     components: [{
@@ -19,14 +18,12 @@ levelWithOgreWithMace = {
 }
 
 levelWithShaman = {
-  type: 'hero'
   thangs: [{
     thangType: 'shaman'
   }]
 }
 
 levelWithShamanWithSuperWand = {
-  type: 'hero'
   thangs: [{
     thangType: 'shaman'
     components: [{
@@ -180,15 +177,3 @@ describe 'LevelLoader', ->
     requests = jasmine.Ajax.requests.all()
     urls = (r.url for r in requests)
     expect('/db/level.component/poisons/version/0' in urls).toBeTruthy()
-    
-  it 'does not load item thang types from thang type equips component configs which are overriden by level thang equips component configs', ->
-    new LevelLoader({supermodel:new SuperModel(), sessionID: 'id', levelID: 'id'})
-
-    responses =
-      '/db/level/id': levelWithShamanWithSuperWand
-      '/db/thang.type/names': [thangTypeShamanWithWandEquipped]
-
-    jasmine.Ajax.requests.sendResponses(responses)
-    requests = jasmine.Ajax.requests.all()
-    urls = (r.url for r in requests)
-    expect('/db/thang.type/wand/version?project=name,components,original' in urls).toBeFalsy()
