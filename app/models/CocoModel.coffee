@@ -72,7 +72,10 @@ class CocoModel extends Backbone.Model
   buildAttributesWithDefaults: ->
     t0 = new Date()
     clone = $.extend true, {}, @attributes
-    TreemaNode.utils.populateDefaults(clone, @schema())
+    thisTV4 = tv4.freshApi()
+    thisTV4.addSchema('#', @schema())
+    thisTV4.addSchema('metaschema', require('schemas/metaschema'))
+    TreemaNode.utils.populateDefaults(clone, @schema(), thisTV4)
     @attributesWithDefaults = clone
     console.debug "Populated defaults for #{@attributes.name or @type()} in #{new Date() - t0}ms"
 
