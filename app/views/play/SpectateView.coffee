@@ -221,7 +221,6 @@ module.exports = class SpectateLevelView extends RootView
     else
       console.log 'World scripts don\'t exist!'
       nonVictoryPlaybackScripts = []
-    console.log nonVictoryPlaybackScripts
     @scriptManager = new ScriptManager({scripts: nonVictoryPlaybackScripts, view:@, session: @session})
     @scriptManager.loadFromSession()
 
