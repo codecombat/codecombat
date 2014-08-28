@@ -207,7 +207,8 @@ module.exports = class LevelHUDView extends CocoView
       if @lastResponses
         buttons = $('.enter button')
         for response, i in @lastResponses
-          f = (r) => => setTimeout((-> Backbone.Mediator.publish(r.channel, r.event or {})), 10)
+          channel = response.channel.replace 'level-set-playing', 'level:set-playing'  # Easier than migrating all those victory buttons.
+          f = (r) => => setTimeout((-> Backbone.Mediator.publish(channel, r.event or {})), 10)
           $(buttons[i]).click(f(response))
       else
         $('.enter', @bubble).click(-> Backbone.Mediator.publish('script:end-current-script', {}))
@@ -221,7 +222,8 @@ module.exports = class LevelHUDView extends CocoView
     # If we decide that always having the last one fire is bad, we should make it smarter.
     return unless @lastResponses?.length
     r = @lastResponses[@lastResponses.length - 1]
-    _.delay (-> Backbone.Mediator.publish(r.channel, r.event or {})), 10
+    channel = r.channel.replace 'level-set-playing', 'level:set-playing'
+    _.delay (-> Backbone.Mediator.publish(channel, r.event or {})), 10
 
   onEscapePressed: (e) ->
     @escapePressed = true
